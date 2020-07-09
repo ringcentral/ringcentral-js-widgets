@@ -1,4 +1,7 @@
-import { createEnum } from '../lib/Enum';
+import {
+  ObjectMap,
+  ObjectMapKey,
+} from '@ringcentral-integration/core/lib/ObjectMap';
 
 /**
  * @typedef {Object} ModuleActionTypes
@@ -7,11 +10,14 @@ import { createEnum } from '../lib/Enum';
  * @property {String} reset
  * @property {String} resetSuccess
  */
-export const moduleActionTypes = createEnum([
+export const moduleActionTypes = ObjectMap.fromKeys([
   'init',
   'initSuccess',
   'reset',
   'resetSuccess',
 ]);
 
-export type ModuleActionTypes = Record<keyof typeof moduleActionTypes, string>;
+export type ModuleActionTypes = Record<
+  ObjectMapKey<typeof moduleActionTypes>,
+  string
+>;

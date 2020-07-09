@@ -22,7 +22,7 @@ export default {
   done: "完成",
   update: "更新",
   conferenceSettingsTitle: "{brand} 电话会议设置",
-  videoSettingsTitle: "{brand} 会议设置",
+  videoSettingsTitle: "{brand} Meetings 设置",
   password: "密码",
   failedToRetrieveMeeting: "网络连接中断。请删除此会议，然后再重试。",
   meetingSettingsTitle: "{brand} 会议 - 设置",

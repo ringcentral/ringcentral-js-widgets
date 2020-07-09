@@ -54,7 +54,7 @@ class EvSettingsUI extends RcUIModuleV2<DepsModules> implements SettingsUI {
 
   getUIFunctions(): EvSettingsUIFunctions {
     return {
-      onLogout: () => this._modules.auth.logout(),
+      onLogout: () => this._modules.evAuth.logout(),
     };
   }
 }

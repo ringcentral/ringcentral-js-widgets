@@ -3,9 +3,9 @@ import { Module } from 'ringcentral-integration/lib/di';
 import proxify from 'ringcentral-integration/lib/proxy/proxify';
 import ensureExist from 'ringcentral-integration/lib/ensureExist';
 import moduleStatuses from 'ringcentral-integration/enums/moduleStatuses';
-import { prefixEnum } from 'ringcentral-integration/lib/Enum';
-import baseMessageTypes from '../AdapterCore/baseMessageTypes';
-import baseActionTypes from './baseActionTypes';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
+import { baseMessageTypes } from '../AdapterCore/baseMessageTypes';
+import { baseActionTypes } from './baseActionTypes';
 import getDefaultGlobalStorageReducer from './getDefaultGlobalStorageReducer';
 import IframeMessageTransport from '../IframeMessageTransport';
 
@@ -34,7 +34,7 @@ export default class AdapterModuleCoreBase extends RcModule {
       ...options,
     });
 
-    this._messageTypes = prefixEnum({ enumMap: messageTypes, prefix });
+    this._messageTypes = ObjectMap.prefixValues(messageTypes, prefix);
     this._locale = ensureExist.call(this, locale, 'locale');
     this._messageTransport = ensureExist.call(
       this,

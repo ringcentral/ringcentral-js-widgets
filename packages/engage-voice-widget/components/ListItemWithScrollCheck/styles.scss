@@ -4,7 +4,7 @@ div.listItem.listItem {
   font-size: 14px;
   justify-content: space-between;
 
-  padding: 17px 12px;
+  padding: 17px $lightning-page-space;
   [sf-classic] & {
     padding-left: $classic-page-space;
     padding-right: $classic-page-space;

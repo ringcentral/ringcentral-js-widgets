@@ -1,5 +1,5 @@
+import { LoginTypes } from '../enums';
 import { EvAvailableSkillProfile } from '../lib/EvClient';
-import { I18n } from './Common.interface';
 
 export interface SkillProfile {
   label: string;
@@ -29,7 +29,7 @@ export interface EvSessionConfigUIProps {
 export interface EvSessionConfigUIFunctions {
   navigateToInboundQueuesPage(): void;
   setSkillProfileId: (skillProfile: string) => void;
-  setLoginType: (loginType: string) => void;
+  setLoginType: (loginType: LoginTypes) => void;
   setExtensionNumber: (extensionNumber: string) => void;
   setTakingCall: (takingCall: boolean) => void;
   setAutoAnswer: (autoAnswer: boolean) => void;

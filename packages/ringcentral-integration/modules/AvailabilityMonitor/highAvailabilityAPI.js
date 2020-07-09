@@ -1,5 +1,4 @@
-import HashMap from '../../lib/HashMap';
-import availability from './availabilityStatus';
+import { availability } from './availabilityStatus';
 
 // TODO: Store as JSON, and can be requested from backend server
 

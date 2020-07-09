@@ -1,6 +1,8 @@
-import React from 'react';
 import PropTypes from 'prop-types';
+import { contains } from 'ramda';
+import React from 'react';
 import authMessages from 'ringcentral-integration/modules/Auth/authMessages';
+
 import i18n from './i18n';
 
 export default function AuthAlert(props) {
@@ -16,6 +18,10 @@ AuthAlert.propTypes = {
 };
 
 AuthAlert.handleMessage = ({ message }) =>
-  message === authMessages.accessDenied ||
-  message === authMessages.internalError ||
-  message === authMessages.sessionExpired;
+  contains(message, [
+    authMessages.accessDenied,
+    authMessages.internalError,
+    authMessages.sessionExpired,
+    authMessages.beforeLogoutError,
+    authMessages.logoutError,
+  ]);

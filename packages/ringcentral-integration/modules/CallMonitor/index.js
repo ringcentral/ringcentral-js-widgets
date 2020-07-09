@@ -92,8 +92,8 @@ export default class CallMonitor extends RcModule {
     });
     this._call = call;
     this._conferenceCall = conferenceCall;
-    this._accountInfo = this::ensureExist(accountInfo, 'accountInfo');
-    this._presence = this::ensureExist(presence, 'presence');
+    this._accountInfo = ensureExist.call(this, accountInfo, 'accountInfo');
+    this._presence = ensureExist.call(this, presence, 'presence');
     this._contactMatcher = contactMatcher;
     this._activityMatcher = activityMatcher;
     this._tabManager = tabManager;
@@ -101,7 +101,7 @@ export default class CallMonitor extends RcModule {
     this._onNewCall = onNewCall;
     this._onCallUpdated = onCallUpdated;
     this._onCallEnded = onCallEnded;
-    this._storage = this::ensureExist(storage, 'storage');
+    this._storage = ensureExist.call(this, storage, 'storage');
     this._callMatchedKey = 'callMatched';
     this._onRinging = onRinging;
     // change _onRinging hook to array lsit

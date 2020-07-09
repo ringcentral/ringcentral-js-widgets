@@ -1,3 +1,8 @@
-import Enum from '../../lib/Enum';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 
-export default new Enum(['HIGH', 'LIMITED'], 'availability');
+export const availability = ObjectMap.prefixKeys(
+  ['HIGH', 'LIMITED'],
+  'availability',
+);
+
+export default availability;

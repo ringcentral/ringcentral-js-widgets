@@ -36,7 +36,8 @@ export default class BlockedNumber extends DataFetcher {
       cleanOnReset: true,
     });
 
-    this._rolesAndPermissions = this::ensureExist(
+    this._rolesAndPermissions = ensureExist.call(
+      this,
       rolesAndPermissions,
       'rolesAndPermissions',
     );

@@ -1,11 +1,11 @@
-import Enum from 'ringcentral-integration/lib/Enum';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 import { moduleActionTypes } from 'ringcentral-integration/enums/moduleActionTypes';
-import proxyActionTypes from 'ringcentral-integration/enums/proxyActionTypes';
+import { proxyActionTypes } from 'ringcentral-integration/enums/proxyActionTypes';
 
-export default new Enum(
+export const baseActionTypes = ObjectMap.prefixKeys(
   [
-    ...Object.keys(moduleActionTypes),
-    ...Object.keys(proxyActionTypes),
+    ...ObjectMap.keys(moduleActionTypes),
+    ...ObjectMap.keys(proxyActionTypes),
     'syncClosed',
     'syncMinimized',
     'syncSize',
@@ -15,3 +15,5 @@ export default new Enum(
   ],
   'adapterModuleCore',
 );
+
+export default baseActionTypes;

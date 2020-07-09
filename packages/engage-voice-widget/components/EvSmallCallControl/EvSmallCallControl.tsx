@@ -13,16 +13,18 @@ import { ActiveCallButton, ActiveCallButtonProps } from './components';
 export type EvSmallCallControlProps = ActiveCallButtonProps &
   SmallCallControlProps & {
     isOnActive?: boolean;
+    showMuteButton?: boolean;
   };
 
 export const EvSmallCallControl: FunctionComponent<EvSmallCallControlProps> = ({
   isOnActive,
+  showMuteButton,
   ...rest
 }) => {
   return (
     <SmallCallControl {...rest}>
       <HoldCallButton {...rest} />
-      <MuteCallButton {...rest} />
+      {showMuteButton && <MuteCallButton {...rest} />}
       <TransferCallButton {...rest} />
       {isOnActive ? <ActiveCallButton {...rest} /> : <HandUpButton {...rest} />}
     </SmallCallControl>
@@ -33,4 +35,5 @@ EvSmallCallControl.defaultProps = {
   ...ActiveCallButton.defaultProps,
   ...SmallCallControl.defaultProps,
   isOnActive: false,
+  showMuteButton: false,
 };

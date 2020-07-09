@@ -7,9 +7,11 @@
     "build": "yarn gulp build",
     "gulp": "gulp --require @ringcentral-integration/babel-settings/lib/register.js",
     "export-locale": "yarn gulp export-locale",
+    "export-locale-full": "yarn gulp export-locale-full",
     "import-locale": "yarn gulp import-locale",
     "release": "yarn gulp release",
-    "eslint": "eslint --quiet ."
+    "eslint": "eslint --quiet .",
+    "test": "jest"
   },
   "repository": {
     "type": "git",

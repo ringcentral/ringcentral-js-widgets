@@ -94,7 +94,7 @@ class EvSessionConfigUI
 
   @action
   setIsLoading(isLoading: boolean) {
-    this.state.isLoading = isLoading;
+    this.isLoading = isLoading;
   }
 
   onInit() {

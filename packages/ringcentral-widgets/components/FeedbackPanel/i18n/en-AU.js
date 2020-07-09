@@ -1,5 +1,5 @@
 export default {
-  feedbackHeader: "Submit Feedback",
+  feedbackHeader: "Submit feedback",
   back: "Back",
   revert: "Revert",
   instruction: "Your feedback is valuable to us. If you have problems using the app, want to request a feature or report a bug, we're more than happy to help.",

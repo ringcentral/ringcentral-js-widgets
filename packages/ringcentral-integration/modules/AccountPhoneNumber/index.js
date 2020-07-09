@@ -67,12 +67,14 @@ export default class AccountPhoneNumber extends DataFetcher {
       client,
       getDataReducer,
       fetchFunction: async () =>
-        (await fetchList((params) =>
-          client
-            .account()
-            .phoneNumber()
-            .list(params),
-        )).map(simplifyPhoneNumber),
+        (
+          await fetchList((params) =>
+            client
+              .account()
+              .phoneNumber()
+              .list(params),
+          )
+        ).map(simplifyPhoneNumber),
       readyCheckFn: () => this._rolesAndPermissions.ready,
       ...options,
     });
@@ -80,7 +82,8 @@ export default class AccountPhoneNumber extends DataFetcher {
       'AccountPhoneNumber module is deprecated, please use CompanyContacts instead.',
     );
 
-    this._rolesAndPermissions = this::ensureExist(
+    this._rolesAndPermissions = ensureExist.call(
+      this,
       rolesAndPermissions,
       'rolesAndPermissions',
     );

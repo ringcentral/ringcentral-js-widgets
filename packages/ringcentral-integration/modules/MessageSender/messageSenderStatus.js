@@ -1,3 +1,8 @@
-import Enum from '../../lib/Enum';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 
-export default new Enum(['idle', 'sending', 'validating'], 'messageSender');
+export const messageSenderStatus = ObjectMap.prefixKeys(
+  ['idle', 'sending', 'validating'],
+  'messageSender',
+);
+
+export default messageSenderStatus;

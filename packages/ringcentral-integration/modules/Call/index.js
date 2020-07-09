@@ -12,9 +12,9 @@ import getCallReducer, {
   getLastRecipientReducer,
 } from './getCallReducer';
 
-import callStatus from './callStatus';
+import { callStatus } from './callStatus';
 import callErrors from './callErrors';
-import ringoutErrors from '../Ringout/ringoutErrors';
+import { ringoutErrors } from '../Ringout/ringoutErrors';
 import validateNumbers from '../../lib/validateNumbers';
 
 const TO_NUMBER = 'toNumber';
@@ -79,20 +79,30 @@ export default class Call extends RcModule {
 
     this._brand = brand;
 
-    this._alert = this::ensureExist(alert, 'alert');
-    this._storage = this::ensureExist(storage, 'storage');
+    this._alert = ensureExist.call(this, alert, 'alert');
+    this._storage = ensureExist.call(this, storage, 'storage');
     this._storageKey = 'callData';
     this._reducer = getCallReducer(this.actionTypes);
-    this._callingSettings = this::ensureExist(
+    this._callingSettings = ensureExist.call(
+      this,
       callingSettings,
       'callingSettings',
     );
-    this._ringout = this::ensureExist(ringout, 'ringout');
-    this._softphone = this::ensureExist(softphone, 'softphone');
+    this._ringout = ensureExist.call(this, ringout, 'ringout');
+    this._softphone = ensureExist.call(this, softphone, 'softphone');
     this._webphone = webphone;
-    this._numberValidate = this::ensureExist(numberValidate, 'numberValidate');
-    this._regionSettings = this::ensureExist(regionSettings, 'regionSettings');
-    this._rolesAndPermissions = this::ensureExist(
+    this._numberValidate = ensureExist.call(
+      this,
+      numberValidate,
+      'numberValidate',
+    );
+    this._regionSettings = ensureExist.call(
+      this,
+      regionSettings,
+      'regionSettings',
+    );
+    this._rolesAndPermissions = ensureExist.call(
+      this,
       rolesAndPermissions,
       'rolesAndPermissions',
     );
@@ -179,15 +189,14 @@ export default class Call extends RcModule {
 
   async _processCall() {
     const oldCallSettingMode = this._callSettingMode;
-    if (
-      this._callingSettings.callingMode !== oldCallSettingMode &&
-      this._webphone
-    ) {
+    if (this._callingSettings.callingMode !== oldCallSettingMode) {
       this._callSettingMode = this._callingSettings.callingMode;
-      if (oldCallSettingMode === callingModes.webphone) {
-        this._webphone.disconnect();
-      } else if (this._callSettingMode === callingModes.webphone) {
-        await this._webphone.connect();
+      if (this._webphone) {
+        if (oldCallSettingMode === callingModes.webphone) {
+          this._webphone.disconnect();
+        } else if (this._callSettingMode === callingModes.webphone) {
+          await this._webphone.connect();
+        }
       }
     }
   }
@@ -492,7 +501,8 @@ export default class Call extends RcModule {
     let session;
     switch (callingMode) {
       case callingModes.softphone:
-        session = this._softphone.makeCall(toNumber);
+      case callingModes.jupiter:
+        session = this._softphone.makeCall(toNumber, callingMode);
         break;
       case callingModes.ringout:
         session = await this._ringout.makeCall({

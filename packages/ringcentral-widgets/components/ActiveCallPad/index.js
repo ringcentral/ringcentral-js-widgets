@@ -45,8 +45,8 @@ class ActiveCallPad extends Component {
     super(props);
     this.moreButton = createRef();
     this.dropdown = createRef();
-    this.onClick = this::this.onClick;
-    this.toggleMore = this::this.toggleMore;
+    this.onClick = this.onClick.bind(this);
+    this.toggleMore = this.toggleMore.bind(this);
     this.state = {
       expandMore: props.expandMore,
       moreButton: this.moreButton && this.moreButton.current,
@@ -102,7 +102,7 @@ class ActiveCallPad extends Component {
     let showUpdate = false;
 
     for (const p in nextProps) {
-      if (nextProps::Object.prototype.hasOwnProperty(p)) {
+      if (Object.prototype.hasOwnProperty.call(nextProps, p)) {
         const val = nextProps[p];
 
         if (val !== this.props[p] && typeof val !== 'function') {

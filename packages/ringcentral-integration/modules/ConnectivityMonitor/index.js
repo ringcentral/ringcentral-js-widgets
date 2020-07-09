@@ -49,7 +49,7 @@ export default class ConnectivityMonitor extends RcModule {
       ...options,
       actionTypes,
     });
-    this._client = this::ensureExist(client, 'client');
+    this._client = ensureExist.call(this, client, 'client');
     this._environment = environment;
     this._timeToRetry = timeToRetry;
     this._heartBeatInterval = heartBeatInterval;
@@ -58,9 +58,9 @@ export default class ConnectivityMonitor extends RcModule {
     this._lastEnvironmentCounter = 0;
 
     // auto bind this
-    this._requestSuccessHandler = this::this._requestSuccessHandler;
-    this._requestErrorHandler = this::this._requestErrorHandler;
-    this._networkErrorHandler = this::this._networkErrorHandler;
+    this._requestSuccessHandler = this._requestSuccessHandler.bind(this);
+    this._requestErrorHandler = this._requestErrorHandler.bind(this);
+    this._networkErrorHandler = this._networkErrorHandler.bind(this);
 
     this._checkConnectionFunc = async () => {
       try {

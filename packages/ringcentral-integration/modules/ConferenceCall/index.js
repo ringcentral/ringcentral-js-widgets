@@ -94,20 +94,23 @@ export default class ConferenceCall extends RcModule {
       actionTypes,
     });
     this._eventEmitter = new EventEmitter();
-    this._auth = this::ensureExist(auth, 'auth');
-    this._alert = this::ensureExist(alert, 'alert');
-    this._call = this::ensureExist(call, 'call');
+    this._auth = ensureExist.call(this, auth, 'auth');
+    this._alert = ensureExist.call(this, alert, 'alert');
+    this._call = ensureExist.call(this, call, 'call');
     this._availabilityMonitor = availabilityMonitor;
-    this._callingSettings = this::ensureExist(
+    this._callingSettings = ensureExist.call(
+      this,
       callingSettings,
       'callingSettings',
     );
-    this._client = this::ensureExist(client, 'client');
+    this._client = ensureExist.call(this, client, 'client');
+
     // in order to run the integeration test, we need it to be optional
     this._webphone = webphone;
     this._connectivityMonitor = connectivityMonitor;
     this._contactMatcher = contactMatcher;
-    this._rolesAndPermissions = this::ensureExist(
+    this._rolesAndPermissions = ensureExist.call(
+      this,
       rolesAndPermissions,
       'rolesAndPermissions',
     );
@@ -824,8 +827,8 @@ export default class ConferenceCall extends RcModule {
 
       if (
         !propagate ||
-        (!this._availabilityMonitor ||
-          !this._availabilityMonitor.checkIfHAError(e))
+        !this._availabilityMonitor ||
+          !this._availabilityMonitor.checkIfHAError(e)
       ) {
         this._alert.warning({
           message: conferenceCallErrors.makeConferenceFailed,

@@ -1,7 +1,7 @@
 import { DEFAULT_LOCALE } from '@ringcentral-integration/i18n';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 import { combineReducers } from 'redux';
 import RcModule from '../../lib/RcModule';
-import Enum from '../../lib/Enum';
 import { moduleActionTypes } from '../../enums/moduleActionTypes';
 import proxify from '../../lib/proxy/proxify';
 import { Module } from '../../lib/di';
@@ -39,8 +39,12 @@ export default class LocaleSettings extends RcModule {
     super({
       ...options,
     });
-    this._globalStorage = this::ensureExist(globalStorage, 'globalStorage');
-    this._locale = this::ensureExist(locale, 'locale');
+    this._globalStorage = ensureExist.call(
+      this,
+      globalStorage,
+      'globalStorage',
+    );
+    this._locale = ensureExist.call(this, locale, 'locale');
     this._supportedLocales = supportedLocales;
     this._storageKey = 'localeSettingsData';
     this._globalStorage.registerReducer({
@@ -50,8 +54,8 @@ export default class LocaleSettings extends RcModule {
   }
 
   get _actionTypes() {
-    return new Enum(
-      [...Object.keys(moduleActionTypes), 'saveLocale'],
+    return ObjectMap.prefixKeys(
+      [...ObjectMap.keys(moduleActionTypes), 'saveLocale'],
       'localeSettings',
     );
   }

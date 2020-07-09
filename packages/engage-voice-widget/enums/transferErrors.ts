@@ -1,6 +1,6 @@
-import { createEnum } from 'ringcentral-integration/lib/Enum';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 
-export const transferErrors = createEnum([
+export const transferErrors = ObjectMap.fromKeys([
   'TYPE_ERROR',
   'AGENT_ID_ERROR',
   'CONTACT_ID_ERROR',

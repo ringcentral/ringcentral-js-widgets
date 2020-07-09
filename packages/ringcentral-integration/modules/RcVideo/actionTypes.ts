@@ -1,11 +1,14 @@
-import { createEnum } from '../../lib/Enum';
-import { moduleActionTypes } from '../../enums/moduleActionTypes';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
+import {
+  moduleActionTypes,
+  ModuleActionTypes,
+} from '../../enums/moduleActionTypes';
 
-export default createEnum(
+export default ObjectMap.prefixKeys(
   [
+    ...ObjectMap.keys(moduleActionTypes),
     'updateMeetingSettings',
     'saveAsDefaultSetting',
-    'saveLastVideoSetting',
     'initCreating',
     'created',
     'resetCreating', // for Office...TODO:
@@ -13,15 +16,15 @@ export default createEnum(
     'updated',
     'resetUpdating',
     'savePersonalMeeting',
+    'updateMeetingPreferences',
+    'saveMeetingPreferencesState',
   ],
   'RcVideo',
-  moduleActionTypes,
 );
 
-export interface RcVideoActionTypes {
+export interface RcVideoActionTypes extends ModuleActionTypes {
   updateMeetingSettings: string;
   saveAsDefaultSetting: string;
-  saveLastVideoSetting: string;
   initSuccess: string;
   initCreating: string;
   created: string;
@@ -30,4 +33,6 @@ export interface RcVideoActionTypes {
   updated: string;
   resetUpdating: string;
   savePersonalMeeting: string;
+  updateMeetingPreferences: string;
+  saveMeetingPreferencesState: string;
 }

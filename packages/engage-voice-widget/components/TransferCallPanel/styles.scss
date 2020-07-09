@@ -26,17 +26,13 @@
   }
 }
 
-.backHeader {
-  @include backHeaderWrapper();
-}
-
 .modalTitle {
   font-size: 18px;
   font-weight: 500;
-  color: rgb(33, 33, 33);;
+  color: rgb(33, 33, 33);
   padding: 16px 14px 12px 14px;
 }
 
 .nonePointerEvent {
-  pointer-events: none
+  pointer-events: none;
 }

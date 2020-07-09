@@ -4,6 +4,7 @@ import {
   RcUIModuleV2,
   state,
   storage,
+  createSelector,
 } from '@ringcentral-integration/core';
 import { Module } from 'ringcentral-integration/lib/di';
 
@@ -28,6 +29,7 @@ type EvDialerUIState = RcModuleState<EvDialerUI, State>;
     'EvCallMonitor',
     'EvWorkingState',
     'EvSessionConfig',
+    'EvIntegratedSoftphone',
     'Environment',
     { dep: 'EvDialerUIOptions', optional: true },
   ],
@@ -45,6 +47,7 @@ class EvDialerUI extends RcUIModuleV2<DepsModules, EvDialerUIState>
     evCallMonitor,
     evWorkingState,
     evSessionConfig,
+    evIntegratedSoftphone,
     enableCache = true,
     environment,
   }) {
@@ -60,6 +63,7 @@ class EvDialerUI extends RcUIModuleV2<DepsModules, EvDialerUIState>
         evCallMonitor,
         evWorkingState,
         evSessionConfig,
+        evIntegratedSoftphone,
         environment,
       },
       enableCache,
@@ -77,13 +81,21 @@ class EvDialerUI extends RcUIModuleV2<DepsModules, EvDialerUIState>
 
   @action
   setToNumber(value: string) {
-    this.state.toNumber = value;
+    this.toNumber = value;
   }
 
   @action
   setLatestDialoutNumber() {
-    this.state.latestDialoutNumber = this.toNumber;
+    this.latestDialoutNumber = this.toNumber;
   }
+
+  dialButtonDisabled = createSelector(
+    () => this._modules.evCall.dialoutStatus,
+    () => this._modules.evIntegratedSoftphone.connectingAlertId,
+    (dialoutStatus, connectingAlertId): boolean => {
+      return dialoutStatus === 'dialing' || !!connectingAlertId;
+    },
+  );
 
   checkOnCall() {
     // onCall or not yet disposed call, it should navigate to the `activityCallLog/:id` router.
@@ -96,11 +108,7 @@ class EvDialerUI extends RcUIModuleV2<DepsModules, EvDialerUIState>
     if (call) {
       id = this._modules.evClient.encodeUii(call.session);
     }
-    if (
-      id &&
-      (!this._modules.evSessionConfig.tabManagerEnabled ||
-        this._modules.evSessionConfig.isConfigSuccessByLocal)
-    ) {
+    if (id && this._modules.evSessionConfig.isConfigTab) {
       this._modules.routerInteraction.push(`/activityCallLog/${id}`);
     }
   }
@@ -112,6 +120,7 @@ class EvDialerUI extends RcUIModuleV2<DepsModules, EvDialerUIState>
       size: this._modules.environment.isWide ? 'medium' : 'small',
       dialoutStatus: this._modules.evCall.dialoutStatus,
       hasDialer: this._modules.evAuth.agentPermissions.allowManualCalls,
+      dialButtonDisabled: this.dialButtonDisabled(),
     };
   }
 

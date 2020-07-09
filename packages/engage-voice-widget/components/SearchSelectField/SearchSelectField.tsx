@@ -58,6 +58,12 @@ export const SearchSelectField: FunctionComponent<SearchSelectFieldProps> = ({
         currentLocale={currentLocale}
         open={currentOpen}
         selectListBasicClassName={styles.selectListBasic}
+        classes={{
+          searchInput: styles.searchInput,
+          noResult: styles.noResult,
+          placeholder: styles.placeholder,
+        }}
+        rightIcon={<div className={styles.fillRight} />}
         backHeaderClassName={styles.backHeader}
         renderListView={(options: any[], type, filter, scrollCheck) => {
           return (

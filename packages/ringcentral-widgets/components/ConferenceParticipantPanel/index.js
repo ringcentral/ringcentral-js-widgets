@@ -17,9 +17,9 @@ class ParticipantsContainer extends Component {
       detail: null,
     };
     this.formatPrticipants(props);
-    this.onRemoveBtnClick = this::this.onRemoveBtnClick;
-    this.onCancel = this::this.onCancel;
-    this.onCancelNoAfter = this::this.onCancelNoAfter;
+    this.onRemoveBtnClick = this.onRemoveBtnClick.bind(this);
+    this.onCancel = this.onCancel.bind(this);
+    this.onCancelNoAfter = this.onCancelNoAfter.bind(this);
   }
 
   formatPrticipants(props = this.props) {
@@ -43,6 +43,7 @@ class ParticipantsContainer extends Component {
     this.onCancelNoAfter();
     this.props.afterOnCancel();
   }
+
   // onCancel without track
   onCancelNoAfter() {
     this.setState({

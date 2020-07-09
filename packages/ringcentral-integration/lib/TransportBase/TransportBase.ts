@@ -1,6 +1,6 @@
 import EventEmitter from 'events';
 
-import { createEnum } from '../Enum';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 
 export interface TransportBaseProps {
   name: string;
@@ -22,7 +22,7 @@ export default class TransportBase extends EventEmitter {
     this._timeout = timeout;
 
     this._events = {
-      ...createEnum(
+      ...ObjectMap.prefixKeys(
         ['request', 'response', 'push', 'timeout'],
         `${prefix ? `${prefix}-` : ''}${name}`,
       ),

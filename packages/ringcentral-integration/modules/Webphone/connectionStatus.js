@@ -1,6 +1,6 @@
-import Enum from '../../lib/Enum';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 
-export default new Enum(
+export const connectionStatus = ObjectMap.prefixKeys(
   [
     'connecting', // status by first 3 connect
     'connected', // registered
@@ -14,3 +14,5 @@ export default new Enum(
   ],
   'connectionStatus',
 );
+
+export default connectionStatus;

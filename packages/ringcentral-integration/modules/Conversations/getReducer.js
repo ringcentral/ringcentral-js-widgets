@@ -34,11 +34,11 @@ export function getTypeFilterReducer(types) {
 export function getOldConversationsReducer(types) {
   return (state = [], { type, records, conversationId }) => {
     switch (type) {
-      case types.fetchOldConverstaionsSuccess:
+      case types.fetchOldConversationsSuccess:
         return [].concat(state).concat(records.map(normalizeRecord));
       case types.deleteConversation:
         return state.filter((c) => c.conversationId !== conversationId);
-      case types.cleanOldConversatioans:
+      case types.cleanOldConversations:
       case types.resetSuccess:
       case types.updateTypeFilter:
       case types.initSuccess:
@@ -52,10 +52,10 @@ export function getOldConversationsReducer(types) {
 export function getFetchConversationsStatusReducer(types) {
   return (state = status.idle, { type }) => {
     switch (type) {
-      case types.fetchOldConverstaions:
+      case types.fetchOldConversations:
         return status.fetching;
-      case types.fetchOldConverstaionsSuccess:
-      case types.fetchOldConverstaionsError:
+      case types.fetchOldConversationsSuccess:
+      case types.fetchOldConversationsError:
       case types.resetSuccess:
       case types.updateTypeFilter:
       case types.initSuccess:
@@ -71,7 +71,7 @@ export function getCurrentPageReducer(types) {
     switch (type) {
       case types.increaseCurrentPage:
         return state + 1;
-      case types.fetchOldConverstaionsSuccess:
+      case types.fetchOldConversationsSuccess:
         return isIncreaseCurrentPage ? state + 1 : state;
       case types.updateTypeFilter:
       case types.resetSuccess:

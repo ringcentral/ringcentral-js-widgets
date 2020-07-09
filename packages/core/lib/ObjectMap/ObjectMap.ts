@@ -3,6 +3,7 @@ import { find } from 'ramda';
 const sDefinition = Symbol('definition');
 const RUNTIME = {
   usingFactory: false,
+  prefixCache: new Map(),
 };
 
 function factory<T>(
@@ -13,7 +14,7 @@ function factory<T>(
   const baseFunction = descriptor.value;
   return {
     ...descriptor,
-    value(this: ThisType<T>, ...args) {
+    value(this: ThisType<T>, ...args: any) {
       RUNTIME.usingFactory = true;
       const result = baseFunction.call(this, ...args);
       RUNTIME.usingFactory = false;
@@ -22,13 +23,13 @@ function factory<T>(
   };
 }
 
-export type ObjectMapKey<D> = D extends ObjectMap<infer K, infer V, infer T> &
-  infer T
+export type ObjectMapKey<D> = D extends ObjectMap<infer D, infer K, infer V> &
+  infer D
   ? K
   : never;
 
-export type ObjectMapValue<D> = D extends ObjectMap<infer K, infer V, infer T> &
-  infer T
+export type ObjectMapValue<D> = D extends ObjectMap<infer D, infer K, infer V> &
+  infer D
   ? V
   : never;
 
@@ -37,13 +38,13 @@ export function prefixString(str: string, prefix: string = ''): string {
 }
 
 export class ObjectMap<
-  K extends keyof T,
-  V extends T[K],
-  T extends Record<string | number, any>
+  D extends Record<string | number, any>,
+  K extends keyof D,
+  V extends D[K]
 > {
   private readonly [sDefinition] = new Map();
 
-  constructor(definition: T) {
+  constructor(definition: D) {
     if (!RUNTIME.usingFactory) {
       throw TypeError(
         'Instantiating ObjectMap with `new ObjectMap(definition)` is not recommended. ' +
@@ -67,42 +68,39 @@ export class ObjectMap<
 
   @factory
   static fromObject<
-    K extends keyof T,
-    V extends T[K],
-    T extends Record<string | number, any>
-  >(definition: T) {
-    return new ObjectMap(definition) as ObjectMap<K, V, T> & T;
+    D extends Record<string | number, any>,
+    K extends keyof D,
+    V extends D[K]
+  >(definition: D) {
+    return new ObjectMap(definition) as ObjectMap<D, K, V> & D;
   }
 
   @factory
-  static fromKeys<T extends string>(keys: T[]) {
-    const definition = {} as Record<T, T>;
+  static fromKeys<K extends string>(keys: K[]) {
+    const definition = {} as Record<K, K>;
     for (const key of keys) {
       definition[key] = key;
     }
-    return new ObjectMap(definition) as ObjectMap<T, T, { [K in T]: K }> &
-      { [K in T]: K };
+    return new ObjectMap(definition) as ObjectMap<{ [V in K]: V }, K, K> &
+      { [V in K]: V };
   }
 
   @factory
-  static prefixKeys<T extends string, K extends T>(
-    keys: K[],
-    prefix: string = '',
-  ) {
+  static prefixKeys<K extends string>(keys: K[], prefix: string = '') {
     const definition = {} as Record<K, string>;
     for (const key of keys) {
       definition[key] = prefixString(key, prefix);
     }
     return new ObjectMap(definition) as ObjectMap<
+      { [V in K]: string },
       K,
-      string,
-      { [V in K]: string }
+      string
     > &
       { [V in K]: string };
   }
 
-  static getKey<K extends keyof T, V extends T[K], T>(
-    instance: ObjectMap<K, V, T> & T,
+  static getKey<D, K extends keyof D, V extends D[K]>(
+    instance: ObjectMap<D, K, V> & D,
     value: V,
   ): K {
     const [key = null] =
@@ -111,48 +109,75 @@ export class ObjectMap<
     return key;
   }
 
-  static entries<K extends keyof T, V extends T[K], T>(
-    instance: ObjectMap<K, V, T> & T,
+  static entries<D, K extends keyof D, V extends D[K]>(
+    instance: ObjectMap<D, K, V> & D,
   ): IterableIterator<[K, V]> {
     return instance[sDefinition].entries();
   }
 
-  static size<K extends keyof T, V extends T[K], T>(
-    instance: ObjectMap<K, V, T> & T,
+  static size<K extends keyof D, V extends D[K], D>(
+    instance: ObjectMap<D, K, V> & D,
   ): number {
     return instance[sDefinition].size;
   }
 
-  static has<K extends keyof T, V extends T[K], T>(
-    instance: ObjectMap<K, V, T> & T,
+  static has<K extends keyof D, V extends D[K], D>(
+    instance: ObjectMap<D, K, V> & D,
     key: K,
   ): boolean {
     return instance[sDefinition].has(key);
   }
 
-  static hasValue<K extends keyof T, V extends T[K], T>(
-    instance: ObjectMap<K, V, T> & T,
+  static hasValue<D, K extends keyof D, V extends D[K]>(
+    instance: ObjectMap<D, K, V> & D,
     value: V,
   ): boolean {
     return !!ObjectMap.getKey(instance, value);
   }
 
-  static keys<K extends keyof T, V extends T[K], T>(
-    instance: ObjectMap<K, V, T> & T,
+  static keys<D, K extends keyof D, V extends D[K]>(
+    instance: ObjectMap<D, K, V> & D,
   ): IterableIterator<K> {
     return instance[sDefinition].keys();
   }
 
-  static values<K extends keyof T, V extends T[K], T>(
-    instance: ObjectMap<K, V, T> & T,
+  static values<D, K extends keyof D, V extends D[K]>(
+    instance: ObjectMap<D, K, V> & D,
   ): IterableIterator<V> {
     return instance[sDefinition].values();
   }
 
-  static forEach<K extends keyof T, V extends T[K], T>(
-    fn: (value: V, key: K, map: ObjectMap<K, V, T> & T) => void,
-    instance: ObjectMap<K, V, T> & T,
+  static forEach<D, K extends keyof D, V extends D[K]>(
+    fn: (value: V, key: K, map: ObjectMap<D, K, V> & D) => void,
+    instance: ObjectMap<D, K, V> & D,
   ): void {
     return instance[sDefinition].forEach((v, k) => fn(v, k, instance));
+  }
+
+  static prefixValues<
+    D extends Record<K, string>,
+    K extends keyof D,
+    V extends D[K]
+  >(instance: ObjectMap<D, K, V> & D, prefix = '') {
+    if (prefix === '') {
+      return instance;
+    }
+    if (!RUNTIME.prefixCache.has(prefix)) {
+      RUNTIME.prefixCache.set(prefix, new Map());
+    }
+    if (!RUNTIME.prefixCache.get(prefix).has(instance)) {
+      const definition = {} as Record<K, string>;
+      ObjectMap.forEach((value, key) => {
+        definition[key] = prefixString(value, prefix);
+      }, instance);
+      const prefixedInstance = ObjectMap.fromObject(definition);
+      RUNTIME.prefixCache.get(prefix).set(instance, prefixedInstance);
+    }
+    return RUNTIME.prefixCache.get(prefix).get(instance) as ObjectMap<
+      { [V in K]: string },
+      K,
+      string
+    > &
+      { [V in K]: string };
   }
 }

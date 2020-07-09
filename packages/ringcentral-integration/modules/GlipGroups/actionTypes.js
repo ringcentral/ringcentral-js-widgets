@@ -1,9 +1,9 @@
-import Enum from '../../lib/Enum';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 import { moduleActionTypes } from '../../enums/moduleActionTypes';
 
-export default new Enum(
+export const actionTypes = ObjectMap.prefixKeys(
   [
-    ...Object.keys(moduleActionTypes),
+    ...ObjectMap.keys(moduleActionTypes),
     'fetch',
     'fetchSuccess',
     'fetchError',
@@ -14,3 +14,5 @@ export default new Enum(
   ],
   'glipGroups',
 );
+
+export default actionTypes;

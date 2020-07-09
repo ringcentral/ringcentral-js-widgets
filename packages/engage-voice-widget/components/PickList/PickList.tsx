@@ -1,10 +1,8 @@
 import {
-  combineProps,
   RcLineSelect,
   RcLineSelectProps,
   RcMenuItem,
 } from '@ringcentral-integration/rcui';
-import classNames from 'classnames';
 import React, { FunctionComponent, ReactNode } from 'react';
 
 import styles from './styles.scss';

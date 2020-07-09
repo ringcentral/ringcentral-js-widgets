@@ -261,4 +261,8 @@ export default class RolesAndPermissions extends DataFetcher {
   get hasConferenceCallPermission() {
     return this.callingEnabled && this.webphoneEnabled;
   }
+
+  get hasMeetingsPermission() {
+    return !!(this.permissions && this.permissions.Meetings);
+  }
 }

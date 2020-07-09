@@ -1,13 +1,13 @@
 import messageTypes from 'ringcentral-integration/enums/messageTypes';
 export default {
   addLog: "Log",
-  editLog: "Edit Log",
-  viewDetails: "View Details",
-  addEntity: "Create New",
+  editLog: "Edit log",
+  viewDetails: "View details",
+  addEntity: "Create new",
   call: "Call",
   text: "Text",
   conversation: "Conversation",
-  groupConversation: "Group Conversation",
+  groupConversation: "Group conversation",
   voiceMessage: "Voice message",
   [messageTypes.voiceMail]: "Voicemail",
   [messageTypes.fax]: "Fax",

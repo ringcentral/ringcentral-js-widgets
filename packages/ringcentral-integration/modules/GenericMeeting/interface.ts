@@ -106,6 +106,7 @@ export interface IGenericMeeting {
   defaultSetting: any;
   isScheduling: boolean;
   showSaveAsDefault: boolean;
+  isPreferencesChanged: boolean;
   brandName: string;
   status: object;
 
@@ -150,6 +151,8 @@ export interface IGenericMeeting {
     },
     opener?: Window,
   ): Promise<Maybe<Meeting>>;
+
+  getMeetingServiceInfo?: () => Promise<ServiceInfo>;
 
   /**
    * hook

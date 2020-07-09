@@ -141,7 +141,7 @@ async function clickMergeButtonIn(wrapper, phone, pageName) {
   wrapper.update();
 }
 
-describe('Merge Call Flow: Conference Call Ctrl -> click Merge -> on hold list', () => {
+describe.skip('Merge Call Flow: Conference Call Ctrl -> click Merge -> on hold list', () => {
   test('RCINT-8377 Active Conference Call when merged(onheld outbound + active conference):', async () => {
     const { wrapper, phone } = await initPhoneWrapper();
     await makeCall(phone);

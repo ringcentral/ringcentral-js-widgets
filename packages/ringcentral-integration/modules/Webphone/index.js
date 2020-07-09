@@ -3,6 +3,7 @@ import EventEmitter from 'events';
 import RingCentralWebphone from 'ringcentral-web-phone';
 import defaultIncomingAudio from 'ringcentral-web-phone/audio/incoming.ogg';
 import defaultOutgoingAudio from 'ringcentral-web-phone/audio/outgoing.ogg';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 
 import { Module } from '../../lib/di';
 import RcModule from '../../lib/RcModule';
@@ -20,7 +21,6 @@ import ensureExist from '../../lib/ensureExist';
 import proxify from '../../lib/proxy/proxify';
 import { selector } from '../../lib/selector';
 import validateNumbers from '../../lib/validateNumbers';
-import Enum from '../../lib/Enum';
 
 import {
   isBrowserSupport,
@@ -50,9 +50,13 @@ const AUTO_RETRIES_DELAY = [
 const INACTIVE_SLEEP_DELAY = 1000;
 const INCOMING_CALL_INVALID_STATE_ERROR_CODE = 2;
 
-const extendedControlStatus = new Enum(['pending', 'playing', 'stopped']);
+const extendedControlStatus = ObjectMap.fromKeys([
+  'pending',
+  'playing',
+  'stopped',
+]);
 
-const EVENTS = new Enum([
+const EVENTS = ObjectMap.fromKeys([
   'callRing',
   'callStart',
   'callEnd',
@@ -171,14 +175,23 @@ export default class Webphone extends RcModule {
     this._appVersion = appVersion;
     this._alert = alert;
     this._webphoneLogLevel = webphoneLogLevel;
-    this._auth = this::ensureExist(auth, 'auth');
-    this._client = this::ensureExist(client, 'client');
-    this._rolesAndPermissions = this::ensureExist(
+    this._auth = ensureExist.call(this, auth, 'auth');
+    this._client = ensureExist.call(this, client, 'client');
+    this._rolesAndPermissions = ensureExist.call(
+      this,
       rolesAndPermissions,
       'rolesAndPermissions',
     );
-    this._numberValidate = this::ensureExist(numberValidate, 'numberValidate');
-    this._audioSettings = this::ensureExist(audioSettings, 'audioSettings');
+    this._numberValidate = ensureExist.call(
+      this,
+      numberValidate,
+      'numberValidate',
+    );
+    this._audioSettings = ensureExist.call(
+      this,
+      audioSettings,
+      'audioSettings',
+    );
     this._storage = storage;
 
     this._availabilityMonitor = availabilityMonitor;
@@ -726,6 +739,18 @@ export default class Webphone extends RcModule {
       this._connectTimeout = null;
       this._connect();
     }, this._getConnectTimeoutTtl());
+  }
+
+  _releaseVideoElementsOnSessionsEmpty() {
+    if (this.videoElementPrepared && this.sessions.length === 0) {
+      // Pause video elements to release system Video Wake Lock RCINT-15582
+      if (!this._remoteVideo.paused) {
+        this._remoteVideo.pause();
+      }
+      if (!this._localVideo.paused) {
+        this._localVideo.pause();
+      }
+    }
   }
 
   _reconnectWebphoneIfNecessaryOnSessionsEmpty() {
@@ -1753,6 +1778,7 @@ export default class Webphone extends RcModule {
       this.activeSession,
       this.ringSession,
     );
+    this._releaseVideoElementsOnSessionsEmpty();
     this._reconnectWebphoneIfNecessaryOnSessionsEmpty();
     this._makeWebphoneInactiveOnSessionsEmpty();
   }

@@ -4,6 +4,7 @@ import {
   RcModuleV2,
   state,
   storage,
+  createSelector,
 } from '@ringcentral-integration/core';
 import { Module } from 'ringcentral-integration/lib/di';
 
@@ -25,6 +26,7 @@ type EvRequeueCallState = RcModuleState<EvRequeueCall, State>;
   name: 'EvRequeueCall',
   deps: [
     'EvClient',
+    'EvCall',
     'Storage',
     'ActiveCallControl',
     'EvAuth',
@@ -38,6 +40,7 @@ class EvRequeueCall extends RcModuleV2<DepsModules, EvRequeueCallState>
     evClient,
     storage,
     activeCallControl,
+    evCall,
     evAuth,
     alert,
     enableCache = true,
@@ -47,6 +50,7 @@ class EvRequeueCall extends RcModuleV2<DepsModules, EvRequeueCallState>
         evClient,
         storage,
         activeCallControl,
+        evCall,
         evAuth,
         alert,
       },
@@ -71,6 +75,27 @@ class EvRequeueCall extends RcModuleV2<DepsModules, EvRequeueCallState>
   @state
   requeuing: boolean = false;
 
+  getAllowRequeueCall = createSelector(
+    () => this._modules.evCall.getCurrentCall(),
+    (currentCall) => {
+      let result = true;
+      if (currentCall && !currentCall.endedCall) {
+        if (!currentCall.allowRequeue) {
+          result = false;
+        } else if (
+          !this._modules.evAuth.agentPermissions.allowCrossQueueRequeue &&
+          currentCall.callType === 'OUTBOUND' &&
+          currentCall.requeueType === 'ADVANCED'
+        ) {
+          result = false;
+        } else if (!this._hasRequeueQueues(currentCall)) {
+          result = false;
+        }
+      }
+      return result;
+    },
+  );
+
   @action
   setStatus({
     selectedQueueGroupId,
@@ -78,11 +103,11 @@ class EvRequeueCall extends RcModuleV2<DepsModules, EvRequeueCallState>
     stayOnCall,
     requeuing,
   }: EvRequeueCallStatus) {
-    this.state.selectedQueueGroupId =
+    this.selectedQueueGroupId =
       selectedQueueGroupId ?? this.selectedQueueGroupId;
-    this.state.selectedGateId = selectedGateId ?? this.selectedGateId;
-    this.state.stayOnCall = stayOnCall ?? this.stayOnCall;
-    this.state.requeuing = requeuing ?? this.requeuing;
+    this.selectedGateId = selectedGateId ?? this.selectedGateId;
+    this.stayOnCall = stayOnCall ?? this.stayOnCall;
+    this.requeuing = requeuing ?? this.requeuing;
   }
 
   async requeueCall() {
@@ -115,24 +140,6 @@ class EvRequeueCall extends RcModuleV2<DepsModules, EvRequeueCallState>
       this.setStatus({ requeuing: false });
       this._modules.alert.dismiss(loadingId);
     }
-  }
-
-  checkAllowRequeue(currentCall: EvCallData) {
-    let result = true;
-    if (!currentCall.endedCall) {
-      if (!currentCall.allowRequeue) {
-        result = false;
-      } else if (
-        !this._modules.evAuth.agentPermissions.allowCrossQueueRequeue &&
-        currentCall.callType === 'OUTBOUND' &&
-        currentCall.requeueType === 'ADVANCED'
-      ) {
-        result = false;
-      } else if (!this._hasRequeueQueues(currentCall)) {
-        result = false;
-      }
-    }
-    return result;
   }
 
   private _hasRequeueQueues(currentCall: EvCallData) {

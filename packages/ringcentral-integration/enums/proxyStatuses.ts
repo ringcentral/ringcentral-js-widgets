@@ -1,3 +1,3 @@
-import { createEnum } from '../lib/Enum';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 
-export default createEnum(['pending', 'initializing', 'ready'], 'module');
+export default ObjectMap.prefixKeys(['pending', 'initializing', 'ready'], 'module');

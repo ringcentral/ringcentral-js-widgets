@@ -1,7 +1,11 @@
 export default {
   sendVoicemail: 'Send to voicemail',
   transferFailedContent:
-    'Reason for failure here (ex: Please take call off ‘Hold’ to continue.)',
+    'Routing failed. The person is not accepting the call at this time.',
+  transferRejectedContent:
+    'The transfer was rejected by the agent. How would you like to proceed?',
+  transferCancelContent: 'Request Cancelled.',
+  transferTimeOutContent: 'Time Out Waiting For Agent.',
   selectOtherAgents: 'Try another agent',
   incomingTransferTitle: 'Incoming direct transfer',
   incomingTransferContent:

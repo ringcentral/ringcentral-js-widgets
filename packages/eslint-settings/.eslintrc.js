@@ -78,6 +78,7 @@ module.exports = {
         peerDependencies: true,
       },
     ],
+    'no-unused-expressions': 0,
     'import/no-unresolved': 1,
     'import/prefer-default-export': 0,
     'jsx-a11y/label-has-for': 0, // allow implicit label for input implementation
@@ -198,7 +199,6 @@ module.exports = {
         'no-unused-vars': 0,
         '@typescript-eslint/no-unused-vars': 1,
         'import/export': 0,
-        'no-unused-expressions': 0,
       },
     },
   ],

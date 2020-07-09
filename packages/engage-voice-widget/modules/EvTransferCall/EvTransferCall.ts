@@ -11,32 +11,39 @@ import { alpha3ToAlpha2 } from 'i18n-iso-countries';
 import { Module } from 'ringcentral-integration/lib/di';
 import callErrors from 'ringcentral-integration/modules/Call/callErrors';
 
-import { messageTypes } from '../../enums';
-import { directTransferNotificationTypes } from '../../enums/directTransferNotificationTypes';
-import { directTransferStatues } from '../../enums/directTransferStatues';
-import { directTransferTypes } from '../../enums/directTransferTypes';
-import { transferErrors } from '../../enums/transferErrors';
-import { transferEvents } from '../../enums/transferEvents';
-import { TransferStatus, transferStatuses } from '../../enums/transferStatuses';
-import { transferSuccesses } from '../../enums/transferSuccesses';
-import { EvTransferType, transferTypes } from '../../enums/transferTypes';
+import {
+  DirectTransferNotificationTypes,
+  directTransferNotificationTypes,
+  directTransferStatues,
+  directTransferTypes,
+  EvTransferType,
+  messageTypes,
+  transferErrors,
+  transferEvents,
+  TransferStatus,
+  transferStatuses,
+  transferSuccesses,
+  transferTypes,
+} from '../../enums';
 import { Handler } from '../../interfaces/Common.interface';
-import { EvCallData } from '../../interfaces/EvData.interface';
+import { EvTransferViewPhoneBookItem } from '../../interfaces/EvTransferCallUI.interface';
 import { AsyncEventEmitter } from '../../lib/asyncEventEmitter';
 import { checkCountryCode } from '../../lib/checkCountryCode';
 import {
   EvDirectAgentListItem,
   EvReceivedTransferCall,
 } from '../../lib/EvClient';
+import { EvDirectAgentTransferCall } from '../../lib/EvClient/enums';
 import { EvCallbackTypes } from '../../lib/EvClient/enums/callbackTypes';
 import { EvTypeError } from '../../lib/EvTypeError';
 import { parseNumber } from '../../lib/parseNumber';
 import {
   DepsModules,
+  EvTransferFailHandler,
   InternalTransferCallbacks,
   State,
   TransferCall,
-} from './EvTransferCall.inerface';
+} from './EvTransferCall.interface';
 import i18n from './i18n';
 
 type EvTransferCallState = RcModuleState<EvTransferCall, State>;
@@ -51,6 +58,7 @@ type EvTransferCallState = RcModuleState<EvTransferCall, State>;
     'EvWorkingState',
     'Storage',
     'Modal',
+    'EvAuth',
     'Locale',
     'Alert',
     'EvSessionConfig',
@@ -80,6 +88,7 @@ class EvTransferCall extends RcModuleV2<DepsModules, EvTransferCallState>
     modal,
     locale,
     alert,
+    evAuth,
     evSessionConfig,
     enableCache = true,
   }) {
@@ -94,6 +103,7 @@ class EvTransferCall extends RcModuleV2<DepsModules, EvTransferCallState>
         modal,
         locale,
         alert,
+        evAuth,
         evSessionConfig,
       },
       enableCache,
@@ -166,46 +176,73 @@ class EvTransferCall extends RcModuleV2<DepsModules, EvTransferCallState>
 
   getTransferPhoneBook = createSelector(
     () => this._modules.evCall.getCurrentCall(),
-    (currentCall) =>
-      currentCall.transferPhoneBook?.map((item) => {
-        let _parsedDestination: string;
-        try {
-          _parsedDestination = format({
-            phoneNumber: item.destination,
-            countryCode: alpha3ToAlpha2(item.countryId),
-            type: formatTypes.e164,
-          });
-        } catch (e) {
-          //
-        }
-        return {
-          ...item,
-          _parsedDestination,
-        };
-      }) || [],
+    () => this._modules.evAuth.getAvailableCountries(),
+    (currentCall, transferCountryOptions) => {
+      return (
+        currentCall?.transferPhoneBook?.reduce<EvTransferViewPhoneBookItem[]>(
+          (prev, bookItem) => {
+            const { countryId, destination, name } = bookItem;
+            const country = transferCountryOptions.find(
+              (country) => country.countryId === countryId,
+            );
+
+            if (typeof country === 'undefined' || country === null) {
+              return prev;
+            }
+
+            let parsedDestination = '';
+
+            try {
+              parsedDestination = format({
+                phoneNumber: destination,
+                countryCode: alpha3ToAlpha2(countryId),
+                type: formatTypes.e164,
+              });
+            } catch (e) {
+              //
+            }
+
+            const countryName =
+              country.countryId !== 'USA'
+                ? country.countryName || country.countryId
+                : '';
+            const phoneBookName = `${name} ${countryName}`;
+
+            prev.push({
+              ...bookItem,
+              phoneBookName,
+              parsedDestination,
+            });
+
+            return prev;
+          },
+          [],
+        ) || []
+      );
+    },
   );
 
   @action
   setReceivedCall(data) {
-    this.state.receivedCall = data;
+    this.receivedCall = data;
   }
 
   @action
   setCancelableTransfer(cancelable) {
-    this.state.isTransferCancelable = cancelable;
+    this.isTransferCancelable = cancelable;
   }
 
   @action
   resetTransferStatus() {
-    this.state.receivedCall = null;
-    this.state.transferType = transferTypes.phoneBook;
-    this.state.transferAgentId = null;
-    this.state.transferAgentList = [];
-    this.state.transferPhoneBookSelectedIndex = null;
-    this.state.transferRecipientNumber = '';
-    this.state.transferRecipientCountryId = 'USA';
-    this.state.stayOnCall = true;
-    this.state.isTransferCancelable = false;
+    this.receivedCall = null;
+    this.transferType = transferTypes.phoneBook;
+    this.transferAgentId = null;
+    this.transferAgentList = [];
+    this.transferPhoneBookSelectedIndex = null;
+    this.transferRecipientNumber = '';
+    this.transferRecipientCountryId = 'USA';
+    this.stayOnCall = true;
+    this.isTransferCancelable = false;
     this._sendVoiceMailModalId = null;
     this._incomingTransferCallModalId = null;
     this._transferDest = null;
@@ -213,17 +250,17 @@ class EvTransferCall extends RcModuleV2<DepsModules, EvTransferCallState>
 
   @action
   changeStayOnCall(value: boolean) {
-    this.state.stayOnCall = !value;
+    this.stayOnCall = !value;
   }
 
   @action
   changeRecipientCountryId(countryId) {
-    this.state.transferRecipientCountryId = countryId;
+    this.transferRecipientCountryId = countryId;
   }
 
   @action
   changeTransferType(type) {
-    this.state.transferType = type;
+    this.transferType = type;
   }
 
   @action
@@ -232,29 +269,29 @@ class EvTransferCall extends RcModuleV2<DepsModules, EvTransferCallState>
       ({ agentId }) => agentId === this.transferAgentId,
     );
     if (!currentAgent) {
-      this.state.transferAgentId = null;
+      this.transferAgentId = null;
     }
-    this.state.transferAgentList = data;
+    this.transferAgentList = data;
   }
 
   @action
   changeRecipientNumber(phoneNumber) {
-    this.state.transferRecipientNumber = phoneNumber;
+    this.transferRecipientNumber = phoneNumber;
   }
 
   @action
   changeTransferPhoneBookSelected(index) {
-    this.state.transferPhoneBookSelectedIndex = index;
+    this.transferPhoneBookSelectedIndex = index;
   }
 
   @action
   changeTransferAgentId(agentId) {
-    this.state.transferAgentId = agentId;
+    this.transferAgentId = agentId;
   }
 
   @action
   setTransferStatus(transferStatus) {
-    this.state.transferStatus = transferStatus;
+    this.transferStatus = transferStatus;
   }
 
   getTransferAgentAvailable = createSelector(
@@ -267,7 +304,7 @@ class EvTransferCall extends RcModuleV2<DepsModules, EvTransferCallState>
   );
 
   onInit() {
-    if (!this._modules.evSessionConfig.isConfigSuccessByLocal) {
+    if (!this._modules.evSessionConfig.isConfigTab) {
       this.setTransferStatus(transferStatuses.idle);
     }
   }
@@ -309,6 +346,12 @@ class EvTransferCall extends RcModuleV2<DepsModules, EvTransferCallState>
       },
     );
 
+    const needCloseNotificationTypes: DirectTransferNotificationTypes[] = [
+      directTransferNotificationTypes.CANCELLED,
+      directTransferNotificationTypes.VOICEMAIL,
+      directTransferNotificationTypes.MISSED,
+    ];
+
     this._modules.evSubscription.subscribe(
       EvCallbackTypes.DIRECT_AGENT_TRANSFER_NOTIF,
       (data) => {
@@ -320,7 +363,7 @@ class EvTransferCall extends RcModuleV2<DepsModules, EvTransferCallState>
           }
         }
 
-        if (data.status === directTransferNotificationTypes.CANCELLED) {
+        if (needCloseNotificationTypes.includes(data.status)) {
           this.closeModals();
 
           this.setReceivedCall(null);
@@ -349,14 +392,19 @@ class EvTransferCall extends RcModuleV2<DepsModules, EvTransferCallState>
       });
     });
 
-    this.onTransferError(({ message }) => {
+    this.onTransferError((data) => {
       this.closeLoadingNotification();
 
-      if (this.isInternalTransfer) {
-        this._showSendVoiceMailModal();
-      } else if (message !== 'Transfer CANCELED') {
-        this._modules.alert.danger({ message: transferErrors.TRANSFER_ERROR });
+      // if that is cancel transfer from user do nothing.
+      if (data.type === directTransferTypes.CANCEL) {
+        return;
       }
+
+      if (this.isInternalTransfer) {
+        return this._showSendVoiceMailModal(data);
+      }
+
+      this._modules.alert.danger({ message: transferErrors.TRANSFER_ERROR });
     });
 
     // End transfer message will come after success and error.
@@ -398,7 +446,7 @@ class EvTransferCall extends RcModuleV2<DepsModules, EvTransferCallState>
     }
   }
 
-  onTransferError(handler: Handler) {
+  onTransferError(handler: EvTransferFailHandler) {
     if (typeof handler === 'function') {
       this._eventEmitter.on(transferEvents.ERROR, handler);
     }
@@ -648,12 +696,15 @@ class EvTransferCall extends RcModuleV2<DepsModules, EvTransferCallState>
     }
   }
 
-  checkAllowTransfer(currentCall: EvCallData) {
-    return currentCall.allowTransfer && !currentCall.endedCall;
-  }
+  getAllowTransferCall = createSelector(
+    () => this._modules.evCall.getCurrentCall(),
+    (currentCall) => {
+      return currentCall?.allowTransfer && !currentCall.endedCall;
+    },
+  );
 
   async warmTransferCall({ dialDest, countryId }) {
-    if (countryId !== 'USA') {
+    if (countryId !== 'USA' && countryId !== 'CAN') {
       if (this.allowManualInternationalTransfer) {
         this._transferDest = dialDest;
         await this.evClient.warmTransferIntlCall({
@@ -667,14 +718,12 @@ class EvTransferCall extends RcModuleV2<DepsModules, EvTransferCallState>
       }
     } else {
       this._transferDest = dialDest;
-      // TODO: remove the temporary regression debugging log
-      console.log('[warmTransferCall]');
       await this.evClient.warmTransferCall({ dialDest });
     }
   }
 
   async coldTransferCall({ dialDest, countryId }) {
-    if (countryId !== 'USA') {
+    if (countryId !== 'USA' && countryId !== 'CAN') {
       if (this.allowManualInternationalTransfer) {
         await this.evClient.coldTransferIntlCall({
           dialDest,
@@ -692,48 +741,50 @@ class EvTransferCall extends RcModuleV2<DepsModules, EvTransferCallState>
     this.cancelTemplate = templates;
   }
 
-  private _showSendVoiceMailModal() {
+  private _showSendVoiceMailModal(data: EvDirectAgentTransferCall) {
+    const { currentLocale } = this._modules.locale;
+
+    const content = this.getErrorContent(data);
+
     this._sendVoiceMailModalId = this._modules.modal.confirm({
-      title: i18n.getString(
-        'transferModalTitle',
-        this._modules.locale.currentLocale,
-      ),
-      okText: i18n.getString(
-        'sendVoicemail',
-        this._modules.locale.currentLocale,
-      ),
-      content: i18n.getString(
-        'transferFailedContent',
-        this._modules.locale.currentLocale,
-      ),
-      cancelText: i18n.getString(
-        'selectOtherAgents',
-        this._modules.locale.currentLocale,
-      ),
+      title: i18n.getString('transferModalTitle', currentLocale),
+      okText: i18n.getString('sendVoicemail', currentLocale),
+      content: i18n.getString(content, currentLocale),
+      cancelText: i18n.getString('selectOtherAgents', currentLocale),
       onOK: () => {
         this.sendVoicemailToAgent();
       },
     });
   }
 
+  private getErrorContent(data: EvDirectAgentTransferCall) {
+    if (data.status === 'FAILED') {
+      // ? that is from ev backend message.
+      if (data.message.includes('Routing')) {
+        return 'transferFailedContent';
+      }
+      return 'transferTimeOutContent';
+    }
+
+    if (data.status === 'REJECTED') {
+      return 'transferRejectedContent';
+    }
+
+    if (data.type === 'CANCEL') {
+      return 'transferCancelContent';
+    }
+
+    return 'transferFailedContent';
+  }
+
   private _showIncomingTransferCallModal() {
+    const { currentLocale } = this._modules.locale;
+
     this._incomingTransferCallModalId = this._modules.modal.confirm({
-      title: i18n.getString(
-        'incomingTransferTitle',
-        this._modules.locale.currentLocale,
-      ),
-      content: i18n.getString(
-        'incomingTransferContent',
-        this._modules.locale.currentLocale,
-      ),
-      okText: i18n.getString(
-        'acceptIncomingTransfer',
-        this._modules.locale.currentLocale,
-      ),
-      cancelText: i18n.getString(
-        'ignoreIncomingTransfer',
-        this._modules.locale.currentLocale,
-      ),
+      title: i18n.getString('incomingTransferTitle', currentLocale),
+      content: i18n.getString('incomingTransferContent', currentLocale),
+      okText: i18n.getString('acceptIncomingTransfer', currentLocale),
+      cancelText: i18n.getString('ignoreIncomingTransfer', currentLocale),
       onOK: () => {
         this.acceptTransferCall();
       },

@@ -22,6 +22,7 @@ export type BasicCallInfoProps = {
   callInfos?: CallInfoProps[];
   callControlRef?: MutableRefObject<HTMLElement>;
   classes?: { panel?: string };
+  onCopySuccess?: (name: string) => void;
 } & Pick<ShinyBarProps, 'status'> &
   Pick<BasicCallInfoMainProps, 'isInbound' | 'subject' | 'followInfos'>;
 
@@ -34,6 +35,8 @@ export const BasicCallInfo: FunctionComponent<BasicCallInfoProps> = ({
   classes: { panel: panelClass },
   status,
   callControlRef,
+  onCopySuccess,
+  currentLocale,
 }) => {
   const [open, setOpen] = useState(false);
   const [panelHeight, setPanelHeight] = useState('100%');
@@ -44,6 +47,14 @@ export const BasicCallInfo: FunctionComponent<BasicCallInfoProps> = ({
       setPanelHeight(`calc(100% - ${callControlRef.current.clientHeight}px)`);
     }
   }, [callControlRef, status]);
+
+  // when ringing state change, close that info view
+  useEffect(() => {
+    if (open && !isRinging) {
+      toggleOpen();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isRinging]);
 
   return (
     <>
@@ -94,8 +105,14 @@ export const BasicCallInfo: FunctionComponent<BasicCallInfoProps> = ({
               subject={subject}
               isInbound={isInbound}
               followInfos={followInfos}
+              className={open && styles.infoMain}
             />
-            <CallInfoList callInfos={callInfos} className={styles.infoList} />
+            <CallInfoList
+              callInfos={callInfos}
+              className={styles.infoList}
+              onCopySuccess={onCopySuccess}
+              currentLocale={currentLocale}
+            />
           </main>
         </div>
       </AnimationPanel>

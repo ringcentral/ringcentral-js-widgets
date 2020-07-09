@@ -1,7 +1,7 @@
 export default {
-  schedule: "會議 排程",
+  schedule: "排程會議",
   prompt: "請授權 RingCentral 存取您的帳戶資訊。",
-  saveAsDefault: "儲存為預設"
+  saveAsDefault: "儲存為預設值"
 };
 
 // @key: @#@"schedule"@#@ @source: @#@"Schedule Meeting"@#@

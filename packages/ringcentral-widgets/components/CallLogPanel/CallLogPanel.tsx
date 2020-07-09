@@ -39,6 +39,12 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
     contactSearch: null,
     showFoundFromServer: false,
     isSearching: false,
+    logNotification: {
+      showNotification: false,
+      call: null,
+      logName: null,
+      notificationIsExpand: false,
+    },
   };
 
   editSectionRef = React.createRef<HTMLDivElement>();
@@ -212,7 +218,8 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
       useNewNotification,
       showNotiLogButton,
     } = this.props;
-    if (!currentNotificationIdentify) {
+    const { showNotification } = logNotification;
+    if (!showNotification) {
       return null;
     }
     if (useNewNotification) {

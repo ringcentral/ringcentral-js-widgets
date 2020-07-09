@@ -14,6 +14,7 @@ type Props = {
   onClick?: () => any;
   hidden?: boolean;
   showSaveAsDefault?: boolean;
+  disableSaveAsDefault?: boolean;
   disabled?: boolean;
   update?: (any) => any;
   showLaunchMeetingBtn?: boolean;
@@ -27,6 +28,7 @@ export class MeetingScheduleButton extends React.Component<Props, {}> {
     disabled: false,
     currentLocale: undefined,
     showSaveAsDefault: false,
+    disableSaveAsDefault: false,
     update() {},
     showLaunchMeetingBtn: false,
     launchMeeting() {},
@@ -51,6 +53,7 @@ export class MeetingScheduleButton extends React.Component<Props, {}> {
       meeting,
       currentLocale,
       showSaveAsDefault,
+      disableSaveAsDefault,
       update,
       showLaunchMeetingBtn,
       onClick,
@@ -74,6 +77,7 @@ export class MeetingScheduleButton extends React.Component<Props, {}> {
           <CheckBox
             dataSign="saveAsDefault"
             checked={meeting.saveAsDefault}
+            disabled={disableSaveAsDefault}
             onChecked={() =>
               update({
                 ...meeting,

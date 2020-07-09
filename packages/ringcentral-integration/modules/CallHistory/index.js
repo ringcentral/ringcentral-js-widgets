@@ -61,8 +61,8 @@ export default class CallHistory extends RcModule {
     super({
       ...options,
     });
-    this._accountInfo = this::ensureExist(accountInfo, 'accountInfo');
-    this._callLog = this::ensureExist(callLog, 'callLog');
+    this._accountInfo = ensureExist.call(this, accountInfo, 'accountInfo');
+    this._callLog = ensureExist.call(this, callLog, 'callLog');
     this._storage = storage;
     this._activityMatcher = activityMatcher;
     this._contactMatcher = contactMatcher;
@@ -277,6 +277,7 @@ export default class CallHistory extends RcModule {
       type: this.actionTypes.clickToSMS,
     });
   }
+
   // for track click to call in call history
   @proxify
   onClickToCall() {

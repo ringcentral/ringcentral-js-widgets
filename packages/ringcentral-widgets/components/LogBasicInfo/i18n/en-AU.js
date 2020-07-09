@@ -38,12 +38,12 @@ export default {
   [callResults.restrictedNumber]: "Restricted number",
   [callResults.wrongNumber]: "Wrong number",
   [callResults.stopped]: "Stopped",
-  [callResults.suspendedAccount]: "Suspended Account",
+  [callResults.suspendedAccount]: "Suspended account",
   [callResults.hangUp]: "Hung up",
   [callResults.HangUp]: "Hung up",
   [callResults.abandoned]: "Abandoned",
   [callResults.declined]: "Declined",
-  [callResults.faxReceipt]: "Fax Receipt",
+  [callResults.faxReceipt]: "Fax receipt",
   [callResults.disconnected]: "Disconnected"
 };
 

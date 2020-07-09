@@ -1,3 +1,5 @@
-import Enum from '../../lib/Enum';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 
-export default new Enum(['host', 'participant']);
+export const conferenceRole = ObjectMap.fromKeys(['host', 'participant']);
+
+export default conferenceRole;

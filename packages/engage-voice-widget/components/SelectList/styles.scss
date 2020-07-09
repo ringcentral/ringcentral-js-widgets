@@ -1,0 +1,44 @@
+@import '../../scss/variables.scss';
+
+@mixin space($space) {
+  margin-left: $space !important;
+  margin-right: $space !important;
+}
+
+.searchInput,
+.noResult {
+  @include space($lightning-page-space);
+  font-size: 14px !important;
+
+  [sf-classic] & {
+    @include space($classic-page-space);
+    font-size: 12px !important;
+  }
+}
+
+.placeholder {
+  [sf-classic] & {
+    top: 9px !important;
+  }
+}
+
+.noResult {
+  font-size: 14px;
+  color: rgb(158, 158, 158);
+
+  [sf-classic] & {
+    font-size: 11px;
+  }
+}
+
+.fillRight {
+  width: 42px;
+
+  [sf-classic] & {
+    width: 32px;
+  }
+}
+
+.backHeader {
+  @include backHeaderWrapper();
+}

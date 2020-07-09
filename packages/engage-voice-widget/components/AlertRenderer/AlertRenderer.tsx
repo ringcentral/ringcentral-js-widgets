@@ -8,6 +8,7 @@ import EvRequeueCallAlert from './EvRequeueCallAlert';
 import EvSessionConfigAlert from './EvSessionConfigAlert';
 import EvTransferCallAlert from './EvTransferCallAlert';
 import EvWorkingStateAlert from './EvWorkingStateAlert';
+import EvCallInfoAlert from './EvCallInfoAlert';
 
 export function getAlertRenderer() {
   return (message) => {
@@ -34,6 +35,9 @@ export function getAlertRenderer() {
     }
     if (EvIntegratedSoftphoneAlert.handleMessage(message)) {
       return (props) => <EvIntegratedSoftphoneAlert {...props} />;
+    }
+    if (EvCallInfoAlert.handleMessage(message)) {
+      return (props) => <EvCallInfoAlert {...props} />;
     }
 
     /**

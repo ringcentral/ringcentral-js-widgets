@@ -12,6 +12,8 @@ import styles from './styles.scss';
 const GenericMeetingPanel: React.ComponentType<GenericMeetingPanelProps> = (
   props,
 ) => {
+  const [topicRef, setTopicRef] = useState(null);
+
   const { showCustom, CustomPanel } = props;
   if (showCustom) {
     return CustomPanel as JSX.Element;
@@ -33,6 +35,7 @@ const GenericMeetingPanel: React.ComponentType<GenericMeetingPanelProps> = (
     onOK,
     init,
     showSaveAsDefault,
+    disableSaveAsDefault,
     updateMeetingSettings,
     validatePasswordSettings,
     isRCM,
@@ -46,15 +49,12 @@ const GenericMeetingPanel: React.ComponentType<GenericMeetingPanelProps> = (
     schedule,
     brandName,
     personalMeetingId,
+    showSpinner,
   } = props;
 
-  if (!isRCM && !isRCV) {
+  if (showSpinner) {
     return <SpinnerOverlay />;
   }
-
-  // TODO: fix lint issue here
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const [topicRef, setTopicRef] = useState(null);
 
   return (
     <div className={styles.wrapper}>
@@ -121,6 +121,7 @@ const GenericMeetingPanel: React.ComponentType<GenericMeetingPanelProps> = (
           }}
           update={updateMeetingSettings}
           showSaveAsDefault={showSaveAsDefault}
+          disableSaveAsDefault={disableSaveAsDefault}
           launchMeeting={launchMeeting}
           showLaunchMeetingBtn={showLaunchMeetingBtn}
           appCode={appCode}
@@ -144,11 +145,13 @@ GenericMeetingPanel.defaultProps = {
   onOK: undefined,
   scheduleButton: undefined,
   showSaveAsDefault: true,
+  disableSaveAsDefault: false,
   showCustom: false,
   showLaunchMeetingBtn: false,
   appCode: '',
   scheduleButtonLabel: '',
   personalMeetingId: undefined,
+  showSpinner: false,
 };
 
 export { GenericMeetingPanel };

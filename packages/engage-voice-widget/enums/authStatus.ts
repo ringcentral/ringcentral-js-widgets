@@ -1,3 +1,6 @@
-import { createEnum } from 'ringcentral-integration/lib/Enum';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 
-export const authStatus = createEnum(['LOGIN_SUCCESS', 'LOGOUT_BEFORE']);
+export const authStatus = ObjectMap.prefixKeys(
+  ['LOGIN_SUCCESS', 'LOGOUT_BEFORE', 'LOGOUT_AFTER', 'BEFORE_LOGOUT_COMPLETE'],
+  'auth',
+);

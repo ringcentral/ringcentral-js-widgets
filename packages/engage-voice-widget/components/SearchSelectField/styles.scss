@@ -1,8 +1,5 @@
 @import '../../scss/variables.scss';
-
-.backHeader {
-  @include backHeaderWrapper();
-}
+@import '../SelectList/styles.scss';
 
 .selectListBasic {
   height: calc(100% - #{$working-state-height});

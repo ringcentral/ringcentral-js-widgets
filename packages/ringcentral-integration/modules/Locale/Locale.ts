@@ -1,4 +1,5 @@
 import formatMessage from 'format-message';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 import { combineReducers } from 'redux';
 import I18n, {
   DEFAULT_LOCALE,
@@ -15,9 +16,8 @@ import {
 import getModuleStatusReducer from '../../lib/getModuleStatusReducer';
 import getProxyStatusReducer from '../../lib/getProxyStatusReducer';
 import detectBrowserLocale from '../../lib/detectBrowserLocale';
-import Enum from '../../lib/Enum';
 import { moduleActionTypes } from '../../enums/moduleActionTypes';
-import proxyActionTypes from '../../enums/proxyActionTypes';
+import { proxyActionTypes } from '../../enums/proxyActionTypes';
 
 /**
  * @class
@@ -54,10 +54,10 @@ export default class Locale extends RcModule {
   }
 
   get _actionTypes() {
-    return new Enum(
+    return ObjectMap.prefixKeys(
       [
-        ...Object.keys(moduleActionTypes),
-        ...Object.keys(proxyActionTypes),
+        ...ObjectMap.keys(moduleActionTypes),
+        ...ObjectMap.keys(proxyActionTypes),
         'setLocale',
         'setLocaleSuccess',
         'setLocaleError',

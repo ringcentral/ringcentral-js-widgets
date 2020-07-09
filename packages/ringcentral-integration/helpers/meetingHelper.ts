@@ -1,3 +1,4 @@
+import { pick } from 'ramda';
 import format, {
   formatTypes,
 } from '@ringcentral-integration/phone-number/lib/format';
@@ -31,6 +32,13 @@ const MeetingType = {
   SCHEDULED_RECURRING: 'ScheduledRecurring',
   INSTANT: 'Instant',
 };
+
+function isRecurringMeeting(meetingType) {
+  return (
+    meetingType === MeetingType.RECURRING ||
+    meetingType === MeetingType.SCHEDULED_RECURRING
+  );
+}
 
 function getMeetingSettings({
   extensionName,
@@ -92,6 +100,31 @@ function getInitializedStartTime(): number {
   return startTime;
 }
 
+const preferencesMembers = [
+  'allowJoinBeforeHost',
+  'startHostVideo',
+  'startParticipantsVideo',
+  '_requireMeetingPassword',
+];
+
+function prunePreferencesObject(meeting) {
+  const preferences = pick(preferencesMembers, meeting);
+  return preferences;
+}
+
+function comparePreferences(preferences, meeting): boolean {
+  let preferencesChanged = false;
+  if (preferences && meeting) {
+    for (const key in preferences) {
+      if (preferences[key] !== meeting[key]) {
+        preferencesChanged = true;
+        break;
+      }
+    }
+  }
+  return preferencesChanged;
+}
+
 export {
   getMobileDialingNumberTpl,
   getPhoneDialingNumberTpl,
@@ -100,4 +133,7 @@ export {
   getMeetingSettings,
   getDefaultMeetingSettings,
   getInitializedStartTime,
+  prunePreferencesObject,
+  comparePreferences,
+  isRecurringMeeting,
 };

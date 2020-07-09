@@ -36,3 +36,31 @@ export interface RcVideoAPI {
   meetingPassword: string;
   expiresIn: number;
 }
+
+export interface RcVPreferencesGET {
+  join_before_host: boolean;
+  password_scheduled: boolean;
+  password_instant: boolean;
+  // join_video_off: boolean;
+  // join_audio_mute: boolean;
+}
+
+export type RcVPreferencesPATCH = Partial<RcVPreferencesGET>;
+
+export interface RcVDialInNumberGET {
+  phoneNumbers: Array<{
+    phoneNumber: string;
+    country: {
+      name: string;
+      isoCode: string;
+      callingCode: string;
+    };
+    default: boolean;
+    location: string;
+  }>;
+}
+
+export type RcVPreferences = Pick<
+  RcVMeetingModel,
+  'isMeetingSecret' | 'allowJoinBeforeHost' // | 'muteVideo' | 'muteAudio'
+>;

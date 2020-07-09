@@ -1,6 +1,6 @@
-import Enum from 'ringcentral-integration/lib/Enum';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 
-export default new Enum(
+export const connectivityTypes = ObjectMap.prefixKeys(
   [
     'networkLoss',
     'offline',
@@ -11,3 +11,5 @@ export default new Enum(
   ],
   'connectivityTypes',
 );
+
+export default connectivityTypes;

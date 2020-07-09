@@ -2,9 +2,9 @@ import chai, { expect } from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import sinon from 'sinon';
 import { createStore } from 'redux';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 import DataMatcher from './index';
-import { prefixEnum } from '../Enum';
-import baseActionTypes from './baseActionTypes';
+import { baseActionTypes } from './baseActionTypes';
 import moduleStatuses from '../../enums/moduleStatuses';
 import sleep from '../sleep';
 
@@ -12,7 +12,7 @@ chai.use(chaiAsPromised);
 
 describe('DataMatcher', () => {
   describe('constructor', () => {
-    it('should throw if instancized without a "name" property', () => {
+    it('should throw if instantiated without a "name" property', () => {
       expect(() => new DataMatcher()).to.throw();
       expect(
         () =>
@@ -35,11 +35,16 @@ describe('DataMatcher', () => {
       const instance = new DataMatcher({
         name: 'foo',
       });
-      expect(instance.actionTypes).to.equal(
-        prefixEnum({
-          base: baseActionTypes,
-          prefix: 'foo',
-        }),
+      console.error(JSON.stringify(instance.actionTypes, null, 2));
+      console.error(
+        JSON.stringify(
+          ObjectMap.prefixKeys([...ObjectMap.keys(baseActionTypes)], 'foo'),
+          null,
+          2,
+        ),
+      );
+      expect(instance.actionTypes).to.deep.equal(
+        ObjectMap.prefixKeys([...ObjectMap.keys(baseActionTypes)], 'foo'),
       );
     });
     it('should prefix baseActionTypes according to "name" and prefix', () => {
@@ -47,14 +52,11 @@ describe('DataMatcher', () => {
         name: 'foo',
         prefix: 'bar',
       });
-      expect(instance.actionTypes).to.equal(
-        prefixEnum({
-          base: prefixEnum({
-            base: baseActionTypes,
-            prefix: 'foo',
-          }),
-          prefix: 'bar',
-        }),
+      expect(instance.actionTypes).to.deep.equal(
+        ObjectMap.prefixValues(
+          ObjectMap.prefixKeys([...ObjectMap.keys(baseActionTypes)], 'foo'),
+          'bar',
+        ),
       );
     });
     it('should register dataReducer to storage if storage is found', () => {
@@ -228,7 +230,7 @@ describe('DataMatcher', () => {
               name: 'foo',
               storage: {
                 ready: storageReady,
-                registerReducer: () => {},
+                registerReducer() {},
               },
             });
             sinon.stub(sInstance, 'pending', {
@@ -273,7 +275,7 @@ describe('DataMatcher', () => {
               name: 'foo',
               storage: {
                 ready: storageReady,
-                registerReducer: () => {},
+                registerReducer() {},
               },
             });
             sinon.stub(sInstance, 'ready', {
@@ -343,12 +345,12 @@ describe('DataMatcher', () => {
       });
       instance.addSearchProvider({
         name: 'search1',
-        searchFn: () => {},
+        searchFn() {},
         readyCheckFn: () => false,
       });
       instance.addSearchProvider({
         name: 'search2',
-        searchFn: () => {},
+        searchFn() {},
         readyCheckFn: () => true,
       });
       expect(instance.searchProvidersReady).to.equal(false);
@@ -359,12 +361,12 @@ describe('DataMatcher', () => {
       });
       instance.addSearchProvider({
         name: 'search1',
-        searchFn: () => {},
+        searchFn() {},
         readyCheckFn: () => true,
       });
       instance.addSearchProvider({
         name: 'search2',
-        searchFn: () => {},
+        searchFn() {},
         readyCheckFn: () => true,
       });
       expect(instance.searchProvidersReady).to.equal(true);
@@ -420,7 +422,7 @@ describe('DataMatcher', () => {
     it('should return data from storage if storage is available', () => {
       const data = {};
       const storage = {
-        registerReducer: () => {},
+        registerReducer() {},
         getItem: sinon.stub().callsFake(() => data),
       };
       const instance = new DataMatcher({
@@ -434,7 +436,7 @@ describe('DataMatcher', () => {
       const instance = new DataMatcher({
         name: 'foo',
         storage: {
-          registerReducer: () => {},
+          registerReducer() {},
           getItem: sinon.stub(),
         },
       });
@@ -451,7 +453,7 @@ describe('DataMatcher', () => {
       instance._store = createStore(instance.reducer);
       instance.addSearchProvider({
         name: 'bar',
-        searchFn: async ({ queries }) => {
+        async searchFn({ queries }) {
           const output = {};
           await Promise.all(
             queries.map(async (query, idx) => {
@@ -487,7 +489,7 @@ describe('DataMatcher', () => {
       instance._store = createStore(instance.reducer);
       instance.addSearchProvider({
         name: 'bar',
-        searchFn: async ({ queries }) => {
+        async searchFn({ queries }) {
           const output = {};
           await Promise.all(
             queries.map(async (query, idx) => {
@@ -516,7 +518,7 @@ describe('DataMatcher', () => {
       instance._store = createStore(instance.reducer);
       instance.addSearchProvider({
         name: 'bar',
-        searchFn: async ({ queries }) => {
+        async searchFn({ queries }) {
           const output = {};
           await Promise.all(
             queries.map(async (query, idx) => {
@@ -535,7 +537,7 @@ describe('DataMatcher', () => {
         name: 'bar',
         queries,
       });
-      queries.forEach((query) => {
+      queries.forEach(() => {
         expect(instance._matchPromises.has('bar')).to.equal(false);
       });
     });
@@ -546,7 +548,7 @@ describe('DataMatcher', () => {
       instance._store = createStore(instance.reducer);
       instance.addSearchProvider({
         name: 'bar',
-        searchFn: async ({ queries }) => {
+        async searchFn({ queries }) {
           const output = {};
           await Promise.all(
             queries.map(async (query, idx) => {
@@ -569,7 +571,7 @@ describe('DataMatcher', () => {
       } catch (error) {
         /* falls through */
       }
-      queries.forEach((query) => {
+      queries.forEach(() => {
         expect(instance._matchPromises.has('bar')).to.equal(false);
       });
     });
@@ -583,7 +585,7 @@ describe('DataMatcher', () => {
       instance._store = createStore(instance.reducer);
       instance.addSearchProvider({
         name: 'bar',
-        searchFn: async ({ queries }) => {
+        async searchFn({ queries }) {
           const output = {};
           await Promise.all(
             queries.map(async (query, idx) => {
@@ -612,7 +614,7 @@ describe('DataMatcher', () => {
       instance._store = createStore(instance.reducer);
       instance.addSearchProvider({
         name: 'bar',
-        searchFn: async ({ queries }) => {
+        async searchFn({ queries }) {
           const output = {};
           await Promise.all(
             queries.map(async (query, idx) => {
@@ -640,7 +642,7 @@ describe('DataMatcher', () => {
       instance._store = createStore(instance.reducer);
       instance.addSearchProvider({
         name: 'bar',
-        searchFn: async ({ queries }) => {
+        async searchFn({ queries }) {
           const output = {};
           await Promise.all(
             queries.map(async (query, idx) => {
@@ -674,7 +676,7 @@ describe('DataMatcher', () => {
       instance._store = createStore(instance.reducer);
       instance.addSearchProvider({
         name: 'bar',
-        searchFn: async ({ queries }) => {
+        async searchFn({ queries }) {
           const output = {};
           await Promise.all(
             queries.map(async (query, idx) => {
@@ -706,7 +708,7 @@ describe('DataMatcher', () => {
       instance._store = createStore(instance.reducer);
       instance.addSearchProvider({
         name: 'bar',
-        searchFn: async ({ queries }) => {
+        async searchFn({ queries }) {
           const output = {};
           await Promise.all(
             queries.map(async (query, idx) => {
@@ -740,7 +742,7 @@ describe('DataMatcher', () => {
       instance._store = createStore(instance.reducer);
       instance.addSearchProvider({
         name: 'bar',
-        searchFn: async ({ queries }) => {
+        async searchFn({ queries }) {
           const output = {};
           await Promise.all(
             queries.map(async (query, idx) => {
@@ -766,7 +768,7 @@ describe('DataMatcher', () => {
       });
       sinon.assert.calledTwice(instance._fetchMatchResult);
     });
-    it('should queue queries when a query is already occuring', async () => {
+    it('should queue queries when a query is already occurring', async () => {
       const instance = new DataMatcher({
         name: 'foo',
         noMatchTtl: 20,
@@ -774,7 +776,7 @@ describe('DataMatcher', () => {
       instance._store = createStore(instance.reducer);
       instance.addSearchProvider({
         name: 'bar',
-        searchFn: async ({ queries }) => {
+        async searchFn({ queries }) {
           const output = {};
           await Promise.all(
             queries.map(async (query, idx) => {
@@ -868,7 +870,7 @@ describe('DataMatcher', () => {
       instance._store = createStore(instance.reducer);
       instance.addSearchProvider({
         name: 'bar',
-        searchFn: async ({ queries }) => {
+        async searchFn({ queries }) {
           const output = {};
           await Promise.all(
             queries.map(async (query, idx) => {
@@ -882,7 +884,7 @@ describe('DataMatcher', () => {
       });
       instance.addSearchProvider({
         name: 'baz',
-        searchFn: async ({ queries }) => {
+        async searchFn({ queries }) {
           const output = {};
           await Promise.all(
             queries.map(async (query, idx) => {

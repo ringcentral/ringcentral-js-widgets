@@ -21,7 +21,6 @@ $lightning-list-item-height: 40px;
 $classic-list-item-height: 44px;
 
 @mixin bottom-border() {
-  z-index: 10;
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
 }
 

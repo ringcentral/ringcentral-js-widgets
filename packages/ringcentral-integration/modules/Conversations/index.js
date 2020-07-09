@@ -8,7 +8,7 @@ import messageTypes from '../../enums/messageTypes';
 import cleanNumber from '../../lib/cleanNumber';
 import isBlank from '../../lib/isBlank';
 import { selector } from '../../lib/selector';
-import messageSenderMessages from '../MessageSender/messageSenderMessages';
+import { messageSenderMessages } from '../MessageSender/messageSenderMessages';
 
 import {
   getNumbersFromMessage,
@@ -24,9 +24,9 @@ import {
   messageIsUnread,
 } from '../../lib/messageHelper';
 
-import actionTypes from './actionTypes';
+import { actionTypes } from './actionTypes';
 import getReducer from './getReducer';
-import status from './status';
+import { status } from './status';
 
 function mergeMessages(messages, oldMessages) {
   const tmp = {};
@@ -126,13 +126,22 @@ export default class Conversations extends RcModule {
       ...options,
       actionTypes,
     });
-    this._auth = this::ensureExist(auth, 'auth');
-    this._alert = this::ensureExist(alert, 'alert');
-    this._client = this::ensureExist(client, 'client');
-    this._messageSender = this::ensureExist(messageSender, 'messageSender');
-    this._extensionInfo = this::ensureExist(extensionInfo, 'extensionInfo');
-    this._messageStore = this::ensureExist(messageStore, 'messageStore');
-    this._rolesAndPermissions = this::ensureExist(
+    this._auth = ensureExist.call(this, auth, 'auth');
+    this._alert = ensureExist.call(this, alert, 'alert');
+    this._client = ensureExist.call(this, client, 'client');
+    this._messageSender = ensureExist.call(
+      this,
+      messageSender,
+      'messageSender',
+    );
+    this._extensionInfo = ensureExist.call(
+      this,
+      extensionInfo,
+      'extensionInfo',
+    );
+    this._messageStore = ensureExist.call(this, messageStore, 'messageStore');
+    this._rolesAndPermissions = ensureExist.call(
+      this,
       rolesAndPermissions,
       'rolesAndPermissions',
     );
@@ -196,7 +205,7 @@ export default class Conversations extends RcModule {
       this._lastConversaionList = this._messageStore.allConversations;
       if (this.oldConversations.length) {
         this.store.dispatch({
-          type: this.actionTypes.cleanOldConversatioans,
+          type: this.actionTypes.cleanOldConversations,
         });
         this._olderDataExsited = true;
       }
@@ -296,7 +305,7 @@ export default class Conversations extends RcModule {
       return;
     }
     this.store.dispatch({
-      type: this.actionTypes.fetchOldConverstaions,
+      type: this.actionTypes.fetchOldConversations,
     });
     let dateFrom = new Date();
     dateFrom.setDate(dateFrom.getDate() - this._daySpan);
@@ -335,7 +344,7 @@ export default class Conversations extends RcModule {
           this._perPage * this.currentPage <
             recordsLength + this.filteredConversations.length;
         this.store.dispatch({
-          type: this.actionTypes.fetchOldConverstaionsSuccess,
+          type: this.actionTypes.fetchOldConversationsSuccess,
           records,
           isIncreaseCurrentPage,
         });
@@ -343,7 +352,7 @@ export default class Conversations extends RcModule {
     } catch (e) {
       if (typeFilter === this.typeFilter && currentPage === this.currentPage) {
         this.store.dispatch({
-          type: this.actionTypes.fetchOldConverstaionsError,
+          type: this.actionTypes.fetchOldConversationsError,
         });
       }
     }

@@ -45,7 +45,7 @@ export default class Conference extends DataFetcher {
     storage,
     rolesAndPermissions,
     availabilityMonitor,
-    showSaveAsDefault,
+    showSaveAsDefault = false,
     extensionInfo,
     locale,
     ...options
@@ -239,6 +239,6 @@ export default class Conference extends DataFetcher {
   }
 
   get showSaveAsDefault() {
-    return this._showSaveAsDefault || false;
+    return this._showSaveAsDefault;
   }
 }

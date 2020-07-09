@@ -1,12 +1,16 @@
 import React from 'react';
-import { RcThemeProvider } from '@ringcentral-integration/rcui';
+import {
+  RcThemeProvider,
+  RcExpansionPanelSummary,
+  RcExpansionPanel,
+} from '@ringcentral-integration/rcui';
 import { mount } from 'enzyme';
 import {
   ActivityCallLogPanel,
   ActivityCallLogPanelProps,
 } from './ActivityCallLogPanel';
 import i18n from '../SmallCallControl/i18n';
-import { EvCallData, EvCurrentLog } from '../../interfaces';
+import { EvCallData, EvCurrentLog, EvIvrData } from '../../interfaces';
 
 let wrapper;
 const currentLocale = 'en-US';
@@ -25,6 +29,11 @@ const defaultCurrentLog: EvCurrentLog = {
     to: { name: 'Amy liu', phoneNumber: '6508651234' },
   },
 } as any;
+const defaultIVRAlertData: EvIvrData[] = [
+  { subject: 'I am subject 1', body: 'I am body 1' },
+  { subject: 'I am subject 2', body: 'I am body 2' },
+  { subject: 'I am subject 3', body: 'I am body 3' },
+];
 
 function setup(
   {
@@ -56,7 +65,10 @@ function setup(
       allowRequeueCall = true,
     } = {},
     isOnActive = false,
+    disableInternalTransfer = false,
     onActive = () => {},
+    showMuteButton = false,
+    ivrAlertData = defaultIVRAlertData,
   }: Partial<ActivityCallLogPanelProps> = {} as any,
 ) {
   return mount(
@@ -91,6 +103,10 @@ function setup(
         isOnActive={isOnActive}
         onActive={onActive}
         goBack={() => {}}
+        disableInternalTransfer={disableInternalTransfer}
+        showMuteButton={showMuteButton}
+        ivrAlertData={ivrAlertData}
+        onCopySuccess={() => {}}
       />
     </RcThemeProvider>,
   );
@@ -119,7 +135,12 @@ const getControlButton = (type) => {
     click: () => isExist && button.find('button').simulate('click'),
     title: isExist && button.find('CircleIconButton').prop('title'),
     isActive: isExist && button.find('button').hasClass('buttonActive'),
-    isDisabled: isExist && button.find('button').prop('disabled'),
+    isDisabled:
+      isExist &&
+      !!button
+        .find('button')
+        .render()
+        .attr('disabled'),
   };
 };
 
@@ -219,6 +240,24 @@ describe('<ActivityCallLogPanel />', async () => {
     expect(onHold).toBeCalled();
   });
 
+  [
+    {
+      isIntegratedSoftphone: true,
+      muteCallButtonNumber: 1,
+    },
+    {
+      isIntegratedSoftphone: false,
+      muteCallButtonNumber: 0,
+    },
+  ].map(({ isIntegratedSoftphone, muteCallButtonNumber }) =>
+    it(`When the call is IntegratedSoftphone is ${isIntegratedSoftphone}, can see ${muteCallButtonNumber} mute button`, () => {
+      wrapper = setup({ showMuteButton: isIntegratedSoftphone });
+      expect(wrapper.find('MuteCallButton').find('button').length).toBe(
+        muteCallButtonNumber,
+      );
+    }),
+  );
+
   it('When call is OnMute, MuteCallButton should display and work correctly', () => {
     const onMute = jest.fn();
     const onUnmute = jest.fn();
@@ -228,6 +267,7 @@ describe('<ActivityCallLogPanel />', async () => {
       onMute,
       onUnmute,
       isOnMute: true,
+      showMuteButton: true,
     });
     const muteButton = getControlButton('MuteCallButton');
     muteButton.click();
@@ -247,6 +287,7 @@ describe('<ActivityCallLogPanel />', async () => {
       onMute,
       onUnmute,
       isOnMute: false,
+      showMuteButton: true,
     });
     const muteButton = getControlButton('MuteCallButton');
     muteButton.click();
@@ -395,6 +436,7 @@ describe('<ActivityCallLogPanel />', async () => {
         saveStatus: 'submit',
         [disableControl]: true,
         isOnActive: disableControl === 'disableActive',
+        showMuteButton: true,
       });
       expect(
         wrapper
@@ -404,4 +446,88 @@ describe('<ActivityCallLogPanel />', async () => {
       ).toBe(true);
     }),
   );
+
+  [
+    { ivrAlertData: [] },
+    {
+      ivrAlertData: [{ subject: 'I am subject 1', body: 'I am body 1' }],
+      subject: 'I am subject 1',
+    },
+    {
+      ivrAlertData: [
+        { subject: 'I am subject 1', body: 'I am body 1' },
+        { subject: 'I am subject 2', body: 'I am body 2' },
+      ],
+      subject: 'I am subject 1 +1',
+    },
+    {
+      ivrAlertData: [
+        { subject: 'I am subject 1', body: 'I am body 1' },
+        { subject: 'I am subject 2', body: 'I am body 2' },
+        { subject: 'I am subject 3', body: 'I am body 3' },
+      ],
+      subject: 'I am subject 1 +2',
+    },
+  ].map(({ ivrAlertData, subject }) => {
+    it(`Verify ivr panel display of ${subject}`, () => {
+      wrapper = setup({ ivrAlertData });
+      if (ivrAlertData.length === 0) {
+        expect(wrapper.find('.ivrPanel').exists()).toBeFalsy();
+      } else {
+        const item = wrapper.find('.item');
+        for (let i = 0; i < ivrAlertData.length; i++) {
+          if (i !== 0) {
+            expect(
+              item
+                .at(i)
+                .find('.subject')
+                .text(),
+            ).toBe(ivrAlertData[i].subject);
+            expect(
+              item
+                .at(i)
+                .find('.body')
+                .text(),
+            ).toBe(ivrAlertData[i].body);
+          } else {
+            expect(
+              item
+                .at(0)
+                .find('.body')
+                .text(),
+            ).toBe(ivrAlertData[0].body);
+          }
+        }
+        expect(wrapper.find(RcExpansionPanelSummary).text()).toBe(subject);
+      }
+    });
+
+    it('When the call is end, ivr panel should be shrunk', () => {
+      wrapper = setup({
+        status: 'active',
+      });
+      wrapper
+        .find(RcExpansionPanelSummary)
+        .find('RcIcon')
+        .simulate('click');
+      wrapper.update();
+      expect(
+        wrapper
+          .find(RcExpansionPanel)
+          .find('.expanded')
+          .exists(),
+      ).toBeTruthy();
+      wrapper = setup({
+        status: 'callEnd',
+      });
+      wrapper.update();
+      expect(
+        wrapper
+          .find(RcExpansionPanel)
+          .find('.expanded')
+          .exists(),
+      ).toBeFalsy();
+    });
+    return null;
+  });
 });

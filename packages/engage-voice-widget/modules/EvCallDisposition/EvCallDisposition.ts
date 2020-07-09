@@ -78,17 +78,17 @@ class EvCallDisposition extends RcModuleV2<DepsModules, EvCallDispositionState>
 
   @action
   changeDisposition(id, data) {
-    this.state.callsMapping[id] = data;
+    this.callsMapping[id] = data;
   }
 
   @action
   removeDisposition(id) {
-    delete this.state.callsMapping[id];
+    delete this.callsMapping[id];
   }
 
   @action
   changeDispositionState(id, disposed) {
-    this.state.dispositionStateMapping[id] = { disposed };
+    this.dispositionStateMapping[id] = { disposed };
   }
 
   disposeCall(id: string) {

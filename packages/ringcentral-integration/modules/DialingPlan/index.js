@@ -27,14 +27,16 @@ export default class DialingPlan extends DataFetcher {
       client,
       polling: true,
       fetchFunction: async () =>
-        (await fetchList(async (params) => {
-          const platform = client.service.platform();
-          const response = await platform.get(
-            '/account/~/dialing-plan',
-            params,
-          );
-          return response.json();
-        })).map((p) => ({
+        (
+          await fetchList(async (params) => {
+            const platform = client.service.platform();
+            const response = await platform.get(
+              '/account/~/dialing-plan',
+              params,
+            );
+            return response.json();
+          })
+        ).map((p) => ({
           id: p.id,
           isoCode: p.isoCode,
           callingCode: p.callingCode,
@@ -43,7 +45,8 @@ export default class DialingPlan extends DataFetcher {
       ...options,
     });
 
-    this._rolesAndPermissions = this::ensureExist(
+    this._rolesAndPermissions = ensureExist.call(
+      this,
       rolesAndPermissions,
       'rolesAndPermissions',
     );

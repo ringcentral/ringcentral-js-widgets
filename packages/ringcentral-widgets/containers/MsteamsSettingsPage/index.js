@@ -5,16 +5,18 @@ import { withPhone } from '../../lib/phoneContext';
 function mapToProps(
   _,
   {
-    phone: { locale, brand },
-    showAudioSetting,
-    showVideoSetting,
+    phone: {
+      locale,
+      brand,
+      rolesAndPermissions: { callingEnabled, hasMeetingsPermission },
+    },
     audioTakeOverEnabled,
     videoTakeOverEnabled,
   },
 ) {
   return {
-    showAudioSetting,
-    showVideoSetting,
+    showAudioSetting: callingEnabled,
+    showVideoSetting: hasMeetingsPermission,
     audioTakeOverEnabled,
     videoTakeOverEnabled,
     brandName: brand.name,
@@ -40,10 +42,7 @@ function mapToFunctions(
 }
 
 const MsteamsSettingsPage = withPhone(
-  connect(
-    mapToProps,
-    mapToFunctions,
-  )(MsteamsSettings),
+  connect(mapToProps, mapToFunctions)(MsteamsSettings),
 );
 
 export { mapToFunctions, mapToProps, MsteamsSettingsPage as default };

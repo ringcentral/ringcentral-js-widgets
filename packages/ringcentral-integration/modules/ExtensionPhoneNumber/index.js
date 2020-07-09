@@ -50,7 +50,8 @@ export default class ExtensionPhoneNumber extends DataFetcher {
       ...options,
     });
 
-    this._rolesAndPermissions = this::ensureExist(
+    this._rolesAndPermissions = ensureExist.call(
+      this,
       rolesAndPermissions,
       'rolesAndPermissions',
     );

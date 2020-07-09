@@ -1,8 +1,8 @@
 import background from '../../lib/background';
 import RcModule from '../../lib/RcModule';
 import { Module } from '../../lib/di';
-import actionTypes from './actionTypes';
-import callStatus from './callStatus';
+import { actionTypes } from './actionTypes';
+import { callStatus } from './callStatus';
 import getRecentCallsReducer from './getRecentCallsReducer';
 import getDateFrom from '../../lib/getDateFrom';
 import ensureExist from '../../lib/ensureExist';
@@ -27,8 +27,8 @@ export default class RecentCalls extends RcModule {
       actionTypes,
       ...options,
     });
-    this._client = this::ensureExist(client, 'client');
-    this._callHistory = this::ensureExist(callHistory, 'callHistory');
+    this._client = ensureExist.call(this, client, 'client');
+    this._callHistory = ensureExist.call(this, callHistory, 'callHistory');
     this._reducer = getRecentCallsReducer(this.actionTypes);
   }
 
@@ -177,18 +177,16 @@ export default class RecentCalls extends RcModule {
       (acc, { phoneType, phoneNumber }) => {
         phoneNumber = phoneNumber.replace('+', '');
         if (phoneType === 'extension') {
-          const promise = this._fetchCallLogList(
-            Object.assign({}, params, {
-              extensionNumber: phoneNumber,
-            }),
-          );
+          const promise = this._fetchCallLogList({
+            ...params,
+            extensionNumber: phoneNumber,
+          });
           return acc.concat(promise);
         }
-        const promise = this._fetchCallLogList(
-          Object.assign({}, params, {
-            phoneNumber,
-          }),
-        );
+        const promise = this._fetchCallLogList({
+          ...params,
+          phoneNumber,
+        });
         return acc.concat(promise);
       },
       [],

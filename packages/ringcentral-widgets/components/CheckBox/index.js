@@ -13,6 +13,7 @@ function CheckBox({
   dataSign,
   type,
   checked,
+  disabled,
   onChecked,
   children,
   ...props
@@ -56,19 +57,25 @@ function CheckBox({
       );
     }
     case 'checkbox': {
+      const checkboxWrapperClassNames = classnames(
+        styles.checkboxWrapper,
+        disabled ? styles.wrapperDisabled : '',
+        className,
+      );
       const checkboxClassName = classnames(
         styles.checkbox,
         checked ? styles.checked : '',
-      );
-      const checkboxWrapperClassNames = classnames(
-        styles.checkboxWrapper,
-        className,
+        disabled ? styles.checkboxDisabled : '',
       );
       return (
         <div
           className={checkboxWrapperClassNames}
           data-sign={dataSign}
-          onClick={() => onChecked && onChecked(!checked)}
+          onClick={() => {
+            if (!disabled && onChecked) {
+              onChecked(!checked);
+            }
+          }}
         >
           <div className={checkboxClassName}>✓</div>
           {children}
@@ -91,6 +98,7 @@ CheckBox.propTypes = {
   type: PropTypes.string,
   onChecked: PropTypes.func,
   checked: PropTypes.bool,
+  disabled: PropTypes.bool,
 };
 
 CheckBox.defaultProps = {
@@ -104,6 +112,7 @@ CheckBox.defaultProps = {
   data: [],
   selected: null,
   checked: false,
+  disabled: false,
 };
 
 export default CheckBox;

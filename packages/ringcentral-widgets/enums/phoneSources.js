@@ -1,6 +1,6 @@
-import Enum from 'ringcentral-integration/lib/Enum';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 
-export default new Enum([
+export const phoneSources = ObjectMap.fromKeys([
   'account',
   'contact',
   'lead',
@@ -8,3 +8,5 @@ export default new Enum([
   'systemUser',
   'rcContact',
 ]);
+
+export default phoneSources;

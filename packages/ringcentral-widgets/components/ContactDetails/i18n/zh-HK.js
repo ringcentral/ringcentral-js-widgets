@@ -14,9 +14,9 @@ export default {
   call: "通話",
   text: "簡訊",
   [presenceStatus.available]: "線上",
-  [presenceStatus.offline]: "隱形",
+  [presenceStatus.offline]: "隱藏",
   [presenceStatus.busy]: "忙碌",
-  [dndStatus.doNotAcceptAnyCalls]: "勿打擾",
+  [dndStatus.doNotAcceptAnyCalls]: "請勿打擾",
   notActivated: "非使用中",
   company: "公司",
   jobTitle: "職稱"

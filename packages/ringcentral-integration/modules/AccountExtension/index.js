@@ -81,13 +81,15 @@ export default class AccountExtension extends DataFetcher {
         this._subscriptionHandleFn(message);
       },
       fetchFunction: async () =>
-        (await fetchList((params) => {
-          const fetchRet = this._client
-            .account()
-            .extension()
-            .list(params);
-          return fetchRet;
-        }))
+        (
+          await fetchList((params) => {
+            const fetchRet = this._client
+              .account()
+              .extension()
+              .list(params);
+            return fetchRet;
+          })
+        )
           .filter((ext) => this._extensionFilter(ext))
           .map(simplifyExtensionData),
       readyCheckFn: () => this._rolesAndPermissions.ready,
@@ -98,7 +100,8 @@ export default class AccountExtension extends DataFetcher {
 
     this._checkStatus = checkStatus;
     this._typeList = typeList;
-    this._rolesAndPermissions = this::ensureExist(
+    this._rolesAndPermissions = ensureExist.call(
+      this,
       rolesAndPermissions,
       'rolesAndPermissions',
     );

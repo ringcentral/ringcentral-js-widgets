@@ -1,15 +1,13 @@
-import { ModalTemplate } from 'ringcentral-widgets/modules/Modal/Modal.interface';
-
 import { EvTransferType } from '../enums';
 import {
   EvAvailableCountry,
-  EvDirectAgentListItem,
-  EvTransferPhoneBookItem,
   EvAvailableRequeueQueue,
+  EvDirectAgentListItem,
   EvGate,
+  EvTransferPhoneBookItem,
 } from '../lib/EvClient';
 
-export type TextField = {
+export type TextFieldModel = {
   label?: string;
   placeholder?: string;
   value?: string;
@@ -21,7 +19,7 @@ export type TextField = {
 export type EvTransferOption = {
   type: string;
   label: string;
-  textFields: TextField[];
+  textFields: TextFieldModel[];
 };
 
 export interface EvTransferCallUIProps {
@@ -30,8 +28,8 @@ export interface EvTransferCallUIProps {
   transferOptions: EvTransferOption[];
   isStayOnCall: boolean;
   selectedTransferType: EvTransferType;
-  textFields: TextField[];
-  transferPhoneBook: EvTransferPhoneBookItem[];
+  textFields: TextFieldModel[];
+  transferPhoneBook: EvTransferViewPhoneBookItem[];
   transferAgentList: EvDirectAgentListItem[];
   transferAgentListUpdateTTL: number;
   transferRecipientCountryId: string;
@@ -49,8 +47,6 @@ export interface EvTransferCallUIProps {
   queueGroups: EvAvailableRequeueQueue[];
   selectedQueueGroup: EvAvailableRequeueQueue;
   selectedGate: EvGate;
-  gateDisabled: boolean;
-  selectQueueGroupDisabled: boolean;
 }
 
 export interface EvTransferCallUIFunctions {
@@ -63,8 +59,8 @@ export interface EvTransferCallUIFunctions {
   changeRecipientNumber(recipientNumber: string): void;
   changeTransferPhoneBookSelected(index: number): void;
   changeRecipientCountryId(countryId: string): void;
-  searchAgent(option: EvDirectAgentListItem, text: string): void;
-  searchPhoneBook(option: EvTransferPhoneBookItem, text: string): void;
+  searchAgent(option: EvDirectAgentListItem, text: string): boolean;
+  searchPhoneBook(option: EvTransferViewPhoneBookItem, text: string): boolean;
   transferCall(): void;
   setCancelTemplate(templates: React.ReactNode): void;
   cancelTransfer(): void;
@@ -78,6 +74,11 @@ export interface EvTransferCallUIFunctions {
   searchGate(option: EvGate, text: string): boolean;
   submitSelection(queueId: string): void;
 }
+
+export type EvTransferViewPhoneBookItem = {
+  phoneBookName: string;
+  parsedDestination: string;
+} & EvTransferPhoneBookItem;
 
 export interface GoToRequeueGroupDetailPageParams {
   groupId: string;

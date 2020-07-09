@@ -1,4 +1,9 @@
-import Enum from '../../lib/Enum';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 import { moduleActionTypes } from '../../enums/moduleActionTypes';
 
-export default new Enum([...Object.keys(moduleActionTypes)], 'numberValidate');
+export const numberValidateActionTypes = ObjectMap.prefixKeys(
+  [...ObjectMap.keys(moduleActionTypes)],
+  'numberValidate',
+);
+
+export default numberValidateActionTypes;

@@ -35,7 +35,7 @@ export default class Auth extends RcModule {
   _locale: any;
   _tabManager: any;
   _environment: any;
-  _beforeLogoutHandlers: Set<() => any>;
+  _beforeLogoutHandlers: Set<Function>;
   _afterLoggedInHandlers: Set<() => any>;
   _proxyFrame: any;
   _proxyFrameLoaded: boolean;
@@ -402,6 +402,7 @@ export default class Auth extends RcModule {
         }
       }
     } catch (error) {
+      console.error(error);
       this._alert.danger({
         message: authMessages.beforeLogoutError,
         payload: error,
@@ -423,9 +424,9 @@ export default class Auth extends RcModule {
   /**
    * @function
    * @param {Function} handler
-   * @returns {Function}
+   * @returns {Function} return that delete handler event, call that will delete that event
    */
-  addBeforeLogoutHandler(handler) {
+  addBeforeLogoutHandler(handler: Function): Function {
     this._beforeLogoutHandlers.add(handler);
     return () => {
       this.removeBeforeLogoutHandler(handler);
@@ -436,7 +437,7 @@ export default class Auth extends RcModule {
    * @function
    * @param {Function} handler
    */
-  removeBeforeLogoutHandler(handler) {
+  removeBeforeLogoutHandler(handler: Function) {
     this._beforeLogoutHandlers.delete(handler);
   }
 

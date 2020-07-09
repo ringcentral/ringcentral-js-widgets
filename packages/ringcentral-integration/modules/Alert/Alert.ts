@@ -49,7 +49,11 @@ export type AlertLevel = {
 @Module({
   deps: [{ dep: 'AlertOptions', optional: true }],
 })
-export default class Alert extends RcModule<typeof actionTypes> {
+export default class Alert extends RcModule<
+  Record<string, any>,
+  typeof actionTypes
+> {
+  // TODO: add state interface
   private _ttl: number;
   /**
    * @constructor

@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 import Pollable from '../Pollable';
 import { Library } from '../di';
 import {
@@ -9,9 +10,7 @@ import {
 import moduleStatuses from '../../enums/moduleStatuses';
 import proxify from '../proxy/proxify';
 import ensureExist from '../ensureExist';
-import Enum from '../Enum';
 import { moduleActionTypes } from '../../enums/moduleActionTypes';
-import { actionTypeGenerator } from '../actionTypeGenerator';
 
 const DEFAULT_TTL = 30 * 60 * 1000;
 const DEFAULT_RETRY = 62 * 1000;
@@ -103,10 +102,12 @@ export default class DataFetcher extends Pollable {
   }
 
   get _actionTypes() {
-    return new Enum(
+    return ObjectMap.prefixKeys(
       [
-        ...Object.keys(moduleActionTypes),
-        ...actionTypeGenerator('fetch'),
+        ...ObjectMap.keys(moduleActionTypes),
+        'fetch',
+        'fetchSuccess',
+        'fetchError',
         'retry',
       ],
       this._name,

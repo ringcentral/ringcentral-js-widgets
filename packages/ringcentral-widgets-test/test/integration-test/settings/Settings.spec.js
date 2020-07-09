@@ -48,7 +48,7 @@ describe('settings panel', () => {
     window.authData = null; // set it to null will trigger login
   });
 
-  test('change presence status', async () => {
+  test.skip('change presence status', async () => {
     const wrapper = await setupWrapper();
     let panel = wrapper.find(SettingsPanel).first();
     let presenceSettingSection = panel.find(PresenceSettingSection).first();

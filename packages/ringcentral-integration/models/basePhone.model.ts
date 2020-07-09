@@ -1,8 +1,12 @@
-import { EvManualDialSettingsUI } from '../../../packages/engage-voice-widget/modules/EvManualDialSettingsUI';
 import AlertUI from '../../ringcentral-widgets/modules/AlertUI';
+import { Beforeunload } from '../../ringcentral-widgets/modules/Beforeunload';
+import { Block } from '../../ringcentral-widgets/modules/Block';
+import { BlockUI } from '../../ringcentral-widgets/modules/BlockUI';
 import ConnectivityBadgeUI from '../../ringcentral-widgets/modules/ConnectivityBadgeUI';
 import ConnectivityManager from '../../ringcentral-widgets/modules/ConnectivityManager';
 import LoginUI from '../../ringcentral-widgets/modules/LoginUI';
+import { Modal } from '../../ringcentral-widgets/modules/Modal';
+import { ModalUI } from '../../ringcentral-widgets/modules/ModalUI';
 import OAuth from '../../ringcentral-widgets/modules/ProxyFrameOAuth';
 import RegionSettingsUI from '../../ringcentral-widgets/modules/RegionSettingsUI';
 import RouterInteraction from '../../ringcentral-widgets/modules/RouterInteraction';
@@ -25,10 +29,13 @@ import RegionSettings from '../modules/RegionSettings';
 import RolesAndPermissions from '../modules/RolesAndPermissions';
 import Storage from '../modules/Storage';
 import Subscription from '../modules/Subscription';
+import TabManager from '../modules/TabManager';
 
 export interface BasePhone {
   alert: Alert;
   auth: Auth;
+  modal: Modal;
+  block: Block;
   brand: Brand;
   accountInfo: AccountInfo;
   connectivityMonitor: ConnectivityMonitor;
@@ -53,5 +60,8 @@ export interface BasePhone {
   loginUI: LoginUI;
   alertUI: AlertUI;
   regionSettingsUI: RegionSettingsUI;
-  evManualDialSettingsUI: EvManualDialSettingsUI;
+  modalUI: ModalUI;
+  blockUI: BlockUI;
+  tabManager?: TabManager;
+  beforeunload: Beforeunload;
 }

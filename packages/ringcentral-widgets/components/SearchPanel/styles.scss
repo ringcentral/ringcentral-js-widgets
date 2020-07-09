@@ -1,0 +1,32 @@
+@import '~ringcentral-widgets/lib/commonStyles/variable.scss';
+
+.root {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  h4 {
+    font-size: 12px;
+    color: #757575;
+  }
+  .searchInput {
+    margin: 12px 16px;
+    position: relative;
+    font-size: 14px;
+    .placeholder {
+      position: absolute;
+      top: 7px;
+      left: 38px;
+      z-index: 1;
+      height: 100%;
+      width: calc(100% - 41px - 16px);
+      color: #bfbfbf;
+      pointer-events: none;
+      @include text-ellipsis;
+    }
+  }
+  .searchResults {
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+}

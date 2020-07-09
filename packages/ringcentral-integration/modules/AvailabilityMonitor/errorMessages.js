@@ -1,3 +1,8 @@
-import Enum from '../../lib/Enum';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 
-export default new Enum(['serviceLimited'], 'limitedErrorMessages');
+export const errorMessages = ObjectMap.prefixKeys(
+  ['serviceLimited'],
+  'limitedErrorMessages',
+);
+
+export default errorMessages;

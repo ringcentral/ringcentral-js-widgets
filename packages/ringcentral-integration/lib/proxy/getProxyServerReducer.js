@@ -1,12 +1,12 @@
-import { prefixEnum } from '../Enum';
-import baseActionTypes from './baseActionTypes';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
+import { baseActionTypes } from './baseActionTypes';
 
 export default function getProxyServerReducer({
   moduleReducer,
   transport,
   prefix,
 }) {
-  const actionTypes = prefixEnum({ enumMap: baseActionTypes, prefix });
+  const actionTypes = ObjectMap.prefixValues(baseActionTypes, prefix);
   return (
     state = {
       target: moduleReducer(undefined, {

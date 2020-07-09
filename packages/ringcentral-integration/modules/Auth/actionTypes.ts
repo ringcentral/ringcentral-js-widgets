@@ -1,8 +1,9 @@
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 import { moduleActionTypes } from '../../enums/moduleActionTypes';
-import { createEnum } from '../../lib/Enum';
 
-export default createEnum(
+export default ObjectMap.prefixKeys(
   [
+    ...ObjectMap.keys(moduleActionTypes),
     'login',
     'loginSuccess',
     'loginError',
@@ -17,5 +18,4 @@ export default createEnum(
     'tabSync',
   ],
   'authActionTypes',
-  moduleActionTypes,
 );

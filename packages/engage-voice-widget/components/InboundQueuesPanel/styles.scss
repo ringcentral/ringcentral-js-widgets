@@ -1,69 +1,57 @@
 @import '../../scss/variables.scss';
 
-.bottomBar {
-  position: fixed;
-  bottom: 0px;
-  left: 0px;
-  right: 0px;
+.container {
+  @include flex_column;
+  height: 100%;
+}
+
+.footer {
   @include bottom-border();
   background-color: #fff;
-  padding: 0 16px 20px;
+  padding: 0 $lightning-page-space 20px;
+
   .selected {
-    padding: 19px 0 17px;
+    padding: 16px 0;
     display: flex;
     justify-content: space-between;
+
     label {
       height: 20px;
     }
+
     .selectedTips {
       display: inline-block;
       font-size: 14px;
       color: rgba(0, 0, 0, 0.87);
     }
   }
+
   [sf-classic] & {
-    padding: 16px 12px 12px;
+    padding: 16px $classic-page-space 12px;
     .selected {
       display: block;
       padding: 0;
       label {
-        padding-bottom: 16px;
         padding-left: 4px;
       }
       .selectedTips {
-        padding-bottom: 12px;
+        padding: 16px 0;
       }
     }
   }
 }
 
-.listContainer {
-  padding-bottom: 16px;
-}
+.checkbox {
+  width: 100%;
+  flex: 1 1 auto;
+  height: 33px;
+  margin-right: 0;
 
-.selectListBasic {
-  main {
-    margin-bottom: 102px;
-    [sf-classic] & {
-      margin-bottom: 112px;
-    }
-  }
-  .backHeader {
-    @include backHeaderWrapper();
+  [sf-classic] & {
+    height: 27px;
   }
 
-  .checkbox {
-    width: 100%;
-    flex: 1 1 auto;
-    height: 33px;
-    margin-right: 0;
-
-    [sf-classic] & {
-      height: 27px;
-    }
-
-    .label {
-      @include text-ellipsis;
-    }
+  .label {
+    @include text-ellipsis;
   }
 }

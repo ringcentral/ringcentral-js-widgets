@@ -1,9 +1,9 @@
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 import RcModule from '../RcModule';
 import { Library } from '../di';
-import { prefixEnum } from '../Enum';
 import ensureExist from '../ensureExist';
 
-import baseActionTypes from './baseActionTypes';
+import { baseActionTypes } from './baseActionTypes';
 import getDefaultReducer from './getDefaultReducer';
 import proxify from '../proxy/proxify';
 import { selector } from '../selector';
@@ -50,7 +50,10 @@ export default class LoggerBase extends RcModule {
    */
   constructor({
     name,
-    actionTypes = prefixEnum({ base: baseActionTypes, prefix: name }),
+    actionTypes = ObjectMap.prefixKeys(
+      [...ObjectMap.keys(baseActionTypes)],
+      name,
+    ),
     getReducer = getDefaultReducer,
     identityFunction = defaultIdentityFunction,
     logFunction,
@@ -61,13 +64,15 @@ export default class LoggerBase extends RcModule {
       ...options,
       actionTypes,
     });
-    this._name = this::ensureExist(name, 'name');
-    this._identityFunction = this::ensureExist(
+    this._name = ensureExist.call(this, name, 'name');
+    this._identityFunction = ensureExist.call(
+      this,
       identityFunction,
       'identityFunction',
     );
-    this._logFunction = this::ensureExist(logFunction, 'logFunction');
-    this._readyCheckFunction = this::ensureExist(
+    this._logFunction = ensureExist.call(this, logFunction, 'logFunction');
+    this._readyCheckFunction = ensureExist.call(
+      this,
       readyCheckFunction,
       'readyCheckFunction',
     );

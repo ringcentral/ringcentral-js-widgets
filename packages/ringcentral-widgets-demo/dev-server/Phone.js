@@ -13,7 +13,7 @@ import AddressBook from 'ringcentral-integration/modules/AddressBook';
 import Alert from 'ringcentral-integration/modules/Alert';
 import Auth from 'ringcentral-integration/modules/Auth';
 import Brand from 'ringcentral-integration/modules/Brand';
-import Call from 'ringcentral-integration/modules/Call';
+import { Call } from 'ringcentral-integration/modules/CallV2';
 import CallingSettings from 'ringcentral-integration/modules/CallingSettings';
 import CallCtrlUI from 'ringcentral-widgets/modules/CallCtrlUI';
 import Contacts from 'ringcentral-integration/modules/Contacts';
@@ -56,6 +56,7 @@ import AudioSettings from 'ringcentral-integration/modules/AudioSettings';
 import Meeting from 'ringcentral-integration/modules/Meeting';
 import LocaleSettings from 'ringcentral-integration/modules/LocaleSettings';
 import ContactMatcher from 'ringcentral-integration/modules/ContactMatcher';
+import { Analytics } from 'ringcentral-integration/modules/Analytics';
 import Feedback from 'ringcentral-integration/modules/Feedback';
 import UserGuide from 'ringcentral-integration/modules/UserGuide';
 import SleepDetector from 'ringcentral-integration/modules/SleepDetector';
@@ -266,6 +267,17 @@ const history =
       provide: 'RouterInteractionOptions',
       useValue: {
         history,
+      },
+      spread: true,
+    },
+    {
+      provide: 'Analytics',
+      useClass: Analytics,
+    },
+    {
+      provide: 'AnalyticsOptions',
+      useValue: {
+        useLog: true,
       },
       spread: true,
     },
@@ -516,7 +528,7 @@ export default class BasePhone extends RcModule {
           const showMessages = rolesAndPermissions.hasReadMessagesPermission;
           const showConference =
             rolesAndPermissions.permissions.OrganizeConference;
-          const showMeeting = rolesAndPermissions.permissions.Meetings;
+          const showMeeting = rolesAndPermissions.hasMeetingsPermission;
           if (showDialPad) {
             this.routerInteraction.push('/dialer');
           } else if (showCalls) {

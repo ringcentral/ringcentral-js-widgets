@@ -16,7 +16,7 @@ export class ModalUI extends RcUIModuleV2<DepsModules> {
     });
   }
 
-  getUIProps(props: GetModalUIProps) {
+  getUIProps(props?: GetModalUIProps) {
     return {
       modals: this._modules.modal.getModals(),
       ...props,

@@ -1,7 +1,7 @@
 export default {
   unmute: "Unmute",
   mute: "Mute",
-  keypad: "Keypad",
+  keypad: "Dialpad",
   hold: "Hold",
   onHold: "On Hold",
   park: "Park",
@@ -10,7 +10,7 @@ export default {
   add: "Add",
   transfer: "Transfer",
   flip: "Flip",
-  more: "Call Actions",
+  more: "Call actions",
   mergeToConference: "Merge"
 };
 

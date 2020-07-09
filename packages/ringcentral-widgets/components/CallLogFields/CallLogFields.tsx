@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import React, { Component } from 'react';
 
 import { bindDebounce } from '../../lib/bindDebounce';
@@ -18,6 +19,7 @@ export default class CallLogFields extends Component<CallLogFieldsProps, {}> {
     subjectDropdownsTracker: undefined,
     startAdornmentRender: () => null,
     contactSearch: undefined,
+    classes: {},
   };
 
   debounce = bindDebounce(this, DEFAULT_INPUT_SAVE_TIMEOUT);
@@ -51,12 +53,14 @@ export default class CallLogFields extends Component<CallLogFieldsProps, {}> {
   };
 
   render() {
-    const { currentLog } = this.props;
+    const { currentLog, classes } = this.props;
     if (!currentLog.task) {
       return null;
     }
     return (
-      <div className={styles.callLogFieldsSection}>{this.renderFields()}</div>
+      <div className={classNames(styles.callLogFieldsSection, classes.root)}>
+        {this.renderFields()}
+      </div>
     );
   }
 }

@@ -1,6 +1,6 @@
 import { RcOutlineTextField } from '@ringcentral-integration/rcui';
 import searchSvg from '@ringcentral-integration/rcui/icons/icon-search.svg';
-import classnames from 'classnames';
+import classNames from 'classnames';
 import formatMessage from 'format-message';
 import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
 
@@ -37,6 +37,11 @@ export type SelectListBasicProps = {
   selectListBasicClassName?: string;
   backHeaderClassName?: string;
   listContainerClassName?: string;
+  classes?: {
+    searchInput?: string;
+    noResult?: string;
+    placeholder?: string;
+  };
   onBackClick?: () => any;
   contactSearch?: (arg: {
     searchString: string;
@@ -72,6 +77,7 @@ const SelectListBasic: FunctionComponent<SelectListBasicProps> = ({
   selectListBasicClassName,
   backHeaderClassName,
   listContainerClassName,
+  classes,
   onBackClick,
   contactSearch,
   field,
@@ -80,18 +86,24 @@ const SelectListBasic: FunctionComponent<SelectListBasicProps> = ({
   foundFromServerEntities,
   appName,
   isSearching,
-  showSearchFromServerHint,
-  setShowSearchFromServerHint,
 }) => {
   const [filter, setFilter] = useState(null);
+  const [showSearchFromServerHint, setShowSearchFromServerHint] = useState(
+    false,
+  );
   const scrollElmRef = useRef();
   const matchElmRef = useRef();
 
   // When open change clear filter
   useEffect(() => {
     setFilter(null);
+    setShowSearchFromServerHint(true);
   }, [open]);
-
+  useEffect(() => {
+    if (isSearching) {
+      setShowSearchFromServerHint(false);
+    }
+  }, [isSearching]);
   const hasSearch = searchOption && filter;
   const matchOptions = hasSearch
     ? options.filter((option) => searchOption(option, filter))
@@ -110,12 +122,6 @@ const SelectListBasic: FunctionComponent<SelectListBasicProps> = ({
     options.length + otherOptions.length + associatedOptions.length === 0;
   const backHeaderOnclick = () => {
     setOpen(false);
-    if (
-      showFoundFromServer &&
-      typeof setShowSearchFromServerHint === 'function'
-    ) {
-      setShowSearchFromServerHint(false);
-    }
     if (onBackClick) {
       return onBackClick();
     }
@@ -136,10 +142,9 @@ const SelectListBasic: FunctionComponent<SelectListBasicProps> = ({
   const loading = (
     <p className={styles.loading}>{i18n.getString('loading', currentLocale)}</p>
   );
-  const notFoundFromServer =
-    !isSearching && !showSearchFromServerHint
-      ? notResultFoundFromServer
-      : foundFromServerHint;
+  const notFoundFromServer = showSearchFromServerHint
+    ? foundFromServerHint
+    : notResultFoundFromServer;
   const showLoading = isSearching ? loading : notFoundFromServer;
   return (
     <AnimationPanel open={open} className={selectListBasicClassName}>
@@ -157,9 +162,16 @@ const SelectListBasic: FunctionComponent<SelectListBasicProps> = ({
               title={placeholder}
               enterDelay={TOOLTIP_DEFAULT_DELAY_TIME}
             >
-              <div className={styles.search}>
+              <div className={classNames(styles.search, classes.searchInput)}>
                 {!filter && (
-                  <span className={styles.placeholder}>{placeholder}</span>
+                  <span
+                    className={classNames(
+                      styles.placeholder,
+                      classes.placeholder,
+                    )}
+                  >
+                    {placeholder}
+                  </span>
                 )}
                 <RcOutlineTextField
                   size="small"
@@ -175,29 +187,17 @@ const SelectListBasic: FunctionComponent<SelectListBasicProps> = ({
                   }}
                   onKeyDown={(key) => {
                     // Press enter to search contacts from server
-                    if (
-                      showFoundFromServer &&
-                      contactSearch &&
-                      typeof contactSearch === 'function'
-                    ) {
-                      if (
-                        key &&
-                        key.keyCode === 13 &&
-                        filter &&
-                        filter.length
-                      ) {
+                    if ((key && key.keyCode !== 13) || !showFoundFromServer)
+                      return;
+                    if (contactSearch && typeof contactSearch === 'function') {
+                      const searchString = filter
+                        ? filter.replace(/\s/g, '')
+                        : '';
+                      if (searchString.length) {
                         contactSearch({
-                          searchString: filter,
+                          searchString,
                           fromField: field,
                         });
-                        if (
-                          setShowSearchFromServerHint &&
-                          typeof setShowSearchFromServerHint === 'function' &&
-                          filter &&
-                          filter.length > 1
-                        ) {
-                          setShowSearchFromServerHint(false);
-                        }
                       }
                     }
                   }}
@@ -205,7 +205,7 @@ const SelectListBasic: FunctionComponent<SelectListBasicProps> = ({
               </div>
             </Tooltip>
             <div
-              className={classnames(
+              className={classNames(
                 styles.listContainer,
                 listContainerClassName,
               )}
@@ -283,7 +283,13 @@ const SelectListBasic: FunctionComponent<SelectListBasicProps> = ({
                   )}
                 </>
               ) : (
-                <div className={classnames(styles.search, styles.text)}>
+                <div
+                  className={classNames(
+                    styles.search,
+                    styles.text,
+                    classes.noResult,
+                  )}
+                >
                   {`${i18n.getString(
                     'noResultFoundFor',
                     currentLocale,
@@ -311,6 +317,7 @@ SelectListBasic.defaultProps = {
   selectListBasicClassName: null,
   backHeaderClassName: null,
   listContainerClassName: null,
+  classes: {},
   onBackClick: undefined,
   matchedTitle: null,
   otherTitle: null,

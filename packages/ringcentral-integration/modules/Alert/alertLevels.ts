@@ -1,6 +1,6 @@
-import { createEnum } from '../../lib/Enum';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 
-const AlertLevel = createEnum(['success', 'danger', 'warning', 'info']);
+const AlertLevel = ObjectMap.fromKeys(['success', 'danger', 'warning', 'info']);
 
 export type AlertLevelType = keyof typeof AlertLevel;
 

@@ -5,8 +5,8 @@ import {
 } from 'ringcentral-widgets/components/CallLogPanel';
 
 import { EvSmallCallControlProps } from '../components/EvSmallCallControl';
-import { EvCallData } from './EvData.interface';
 import { EvTransferType } from '../enums';
+import { EvCallData, EvIvrData } from './EvData.interface';
 
 type CallLogPanelCurrentLog = CallLogPanelProps['currentLog'];
 
@@ -20,14 +20,6 @@ export type EvCurrentLog = CallLogPanelCurrentLog & {
   task: EvCallLogTask;
 };
 
-export interface CurrentCallControlPermission {
-  allowHangupCall?: boolean;
-  allowRequeueCall?: boolean;
-  allowTransferCall?: boolean;
-  allowHoldCall?: boolean;
-  allowMuteCall?: boolean;
-}
-
 export type EvActivityCallUIProps = {
   currentLog: EvCurrentLog;
   /** The subject for call log info */
@@ -40,8 +32,15 @@ export type EvActivityCallUIProps = {
   disableDispose: boolean;
   saveStatus: 'saved' | 'saving' | 'submit';
   smallCallControlSize: 'medium' | 'small';
-  currentCallControlPermission: CurrentCallControlPermission;
+  currentCallControlPermission: {
+    allowHangupCall?: boolean;
+    allowRequeueCall?: boolean;
+    allowTransferCall?: boolean;
+    allowHoldCall?: boolean;
+  };
   disableInternalTransfer: boolean;
+  showMuteButton: boolean;
+  ivrAlertData: EvIvrData[];
 } & Pick<
   CallLogPanelProps,
   'currentLocale' | 'showSmallCallControl' | 'isWide'
@@ -63,6 +62,7 @@ export type EvActivityCallUIFunctions = {
   disposeCall: () => Promise<void>;
   goToRequeueCallPage(): void;
   goToTransferCallPage(type: EvTransferType): void;
+  onCopySuccess: (name: string) => void;
 } & Pick<CallLogPanelProps, 'goBack' | 'onUpdateCallLog' | 'onSaveCallLog'> &
   Pick<
     EvSmallCallControlProps,

@@ -1,6 +1,6 @@
-import { createHashMap } from '../lib/HashMap';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 
-export default createHashMap({
+export const callResults = ObjectMap.fromObject({
   IPPhoneOffline: 'IP Phone offline',
   abandoned: 'Abandoned',
   account: 'Account',
@@ -43,4 +43,6 @@ export default createHashMap({
   faxReceipt: 'Fax Receipt',
   suspendedAccount: 'Suspended Account',
   disconnected: 'Disconnected',
-});
+} as const);
+
+export default callResults;

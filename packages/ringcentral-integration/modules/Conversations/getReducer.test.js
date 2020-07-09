@@ -141,10 +141,10 @@ describe('Conversations :: getOldConversationsReducer', () => {
       const originalState = {};
       expect(reducer(originalState, { type: 'foo' })).to.equal(originalState);
     });
-    it('should return new array with new record on fetchOldConverstaionsSuccess', () => {
+    it('should return new array with new record on fetchOldConversationsSuccess', () => {
       expect(
         reducer([{}], {
-          type: actionTypes.fetchOldConverstaionsSuccess,
+          type: actionTypes.fetchOldConversationsSuccess,
           records: [record],
         }).length,
       ).to.equal(2);
@@ -159,7 +159,7 @@ describe('Conversations :: getOldConversationsReducer', () => {
     });
     it('should return [] on resetSuccess and initSuccess', () => {
       [
-        actionTypes.cleanOldConversatioans,
+        actionTypes.cleanOldConversations,
         actionTypes.resetSuccess,
         actionTypes.updateTypeFilter,
         actionTypes.updateTypeFilter,
@@ -190,17 +190,17 @@ describe('Conversations :: getFetchConversationsStatusReducer', () => {
       const originalState = {};
       expect(reducer(originalState, { type: 'foo' })).to.equal(originalState);
     });
-    it('should return fetching on fetchOldConverstaions', () => {
+    it('should return fetching on fetchOldConversations', () => {
       expect(
         reducer('foo', {
-          type: actionTypes.fetchOldConverstaions,
+          type: actionTypes.fetchOldConversations,
         }),
       ).to.equal(status.fetching);
     });
     it('should return idle on resetSuccess', () => {
       [
-        actionTypes.fetchOldConverstaionsSuccess,
-        actionTypes.fetchOldConverstaionsError,
+        actionTypes.fetchOldConversationsSuccess,
+        actionTypes.fetchOldConversationsError,
         actionTypes.resetSuccess,
         actionTypes.updateTypeFilter,
         actionTypes.initSuccess,
@@ -240,18 +240,18 @@ describe('Conversations :: getCurrentPageReducer', () => {
         ).to.equal(3);
       });
     });
-    it('should increase page when isIncreaseCurrentPage parameter is true when fetchOldConverstaionsSuccess', () => {
+    it('should increase page when isIncreaseCurrentPage parameter is true when fetchOldConversationsSuccess', () => {
       expect(
         reducer(2, {
-          type: actionTypes.fetchOldConverstaionsSuccess,
+          type: actionTypes.fetchOldConversationsSuccess,
           isIncreaseCurrentPage: true,
         }),
       ).to.equal(3);
     });
-    it('should not increase page when isIncreaseCurrentPage parameter is false when fetchOldConverstaionsSuccess', () => {
+    it('should not increase page when isIncreaseCurrentPage parameter is false when fetchOldConversationsSuccess', () => {
       expect(
         reducer(2, {
-          type: actionTypes.fetchOldConverstaionsSuccess,
+          type: actionTypes.fetchOldConversationsSuccess,
           isIncreaseCurrentPage: false,
         }),
       ).to.equal(2);

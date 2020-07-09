@@ -216,7 +216,7 @@ export default class RegionSettings extends RcModule {
     const homeCountry = this.availableCountries.find(
       (country) => country.isoCode === this.countryCode,
     );
-    const homeCountryId = (homeCountry && homeCountry.callingCode) || '1';
+    const homeCountryId = (homeCountry && homeCountry.id) || '1';
     return homeCountryId;
   }
 }

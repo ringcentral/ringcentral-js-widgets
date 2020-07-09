@@ -1,3 +1,8 @@
-import Enum from '../../lib/Enum';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 
-export default new Enum(['idle', 'requesting'], 'conferenceCall');
+export const conferenceCallStatus = ObjectMap.prefixKeys(
+  ['idle', 'requesting'],
+  'conferenceCall',
+);
+
+export default conferenceCallStatus;

@@ -1,8 +1,8 @@
 import messageSenderMessages from 'ringcentral-integration/modules/MessageSender/messageSenderMessages';
 export default {
-  [messageSenderMessages.sendSuccess]: "Send Success.",
+  [messageSenderMessages.sendSuccess]: "Sending success.",
   [messageSenderMessages.sendError]: "Something went wrong with sending the message.",
-  [messageSenderMessages.numberValidateError]: "Phone Number Validation Error.",
+  [messageSenderMessages.numberValidateError]: "Phone number validation error.",
   [messageSenderMessages.textEmpty]: "Please enter the text to be sent.",
   [messageSenderMessages.noPermission]: "You do not have permission to send messages.",
   [messageSenderMessages.senderEmpty]: "You must select a number from your phone numbers to send",
@@ -17,13 +17,13 @@ export default {
   [messageSenderMessages.internalError]: "Cannot connect due to internal errors. Please try again later.",
   [messageSenderMessages.notAnExtension]: "The extension number does not exist.",
   [messageSenderMessages.networkError]: "Cannot connect due to network issues. Please try again later.",
-  [messageSenderMessages.senderNumberInvalid]: "A valid Phone Number is required to send text message to recipients outside your company. Please contact your Administrator to add a direct number to your account.",
+  [messageSenderMessages.senderNumberInvalid]: "A valid phone number is required to send text message to recipients outside your company. Please contact your Administrator to add a direct number to your account.",
   [messageSenderMessages.notSmsToExtension]: "Cannot send to an extension number with main phone number. If you want to sent to a extension number, please just enter the extension number.",
   [messageSenderMessages.internationalSMSNotSupported]: "Sending an SMS to an international phone number is not supported.",
   [messageSenderMessages.noInternalSMSPermission]: "You don't have permission to send messages. Please contact your {brand} account administrator to upgrade.",
   [messageSenderMessages.noSMSPermission]: "You don't have permission to send messages to recipients outside your organisation.",
   areaCode: "area code",
-  [messageSenderMessages.sending]: "Message being sent… It may take a couple of minutes to complete."
+  [messageSenderMessages.sending]: "Message is being sent. It may take a couple of minutes to complete."
 };
 
 // @key: @#@"[messageSenderMessages.sendSuccess]"@#@ @source: @#@"Send Success."@#@

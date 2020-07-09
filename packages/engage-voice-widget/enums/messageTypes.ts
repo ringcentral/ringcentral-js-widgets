@@ -1,6 +1,6 @@
-import { createEnum } from 'ringcentral-integration/lib/Enum';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 
-export const messageTypes = createEnum([
+export const messageTypes = ObjectMap.fromKeys([
   'OPEN_SOCKET',
   'AGENT_LOGIN',
   'AGENT_LOGOUT',
@@ -26,13 +26,17 @@ export const messageTypes = createEnum([
   'NO_SUPPORT_COUNTRY',
   'FAILED_TO_CALL',
   'INVALID_NUMBER',
+  'COPY_UII_SUCCESS',
   // login fail reason
   'EXISTING_LOGIN_FOUND',
   'EXISTING_LOGIN_ENGAGED',
+  'FORCE_LOGOUT',
   // Presence error
   'OFFHOOK_INIT_ERROR',
   'OFFHOOK_TERM_ERROR',
   'ADD_SESSION_ERROR',
   'DROP_SESSION_ERROR',
   'HOLD_ERROR',
+  // auth
+  'LOGOUT_FAIL_WITH_CALL_CONNECTED',
 ]);

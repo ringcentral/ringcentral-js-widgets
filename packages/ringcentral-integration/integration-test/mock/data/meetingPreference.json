@@ -1,0 +1,20 @@
+[
+  {
+    "canModifyAccess": false,
+    "id": "join_audio_mute",
+    "readOnly": false,
+    "value": false
+  },
+  {
+    "canModifyAccess": false,
+    "id": "password_scheduled",
+    "readOnly": false,
+    "value": true
+  },
+  {
+    "canModifyAccess": false,
+    "id": "password_instant",
+    "readOnly": false,
+    "value": true
+  }
+]

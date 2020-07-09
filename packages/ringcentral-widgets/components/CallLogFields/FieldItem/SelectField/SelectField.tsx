@@ -5,8 +5,6 @@ import {
 } from '@ringcentral-integration/rcui';
 import React, { FunctionComponent } from 'react';
 
-import styles from './styles.scss';
-
 export type SelectFieldProps = {
   options: {
     label: any;
@@ -24,7 +22,7 @@ export const SelectField: FunctionComponent<SelectFieldProps> = ({
       {options.map((item, i) => (
         <RcMenuItem
           key={i}
-          value={`${item.value}`}
+          value={!item.value ? undefined : `${item.value}`}
           data-sign={`option${i}`}
           disabled={item.disabled}
         >

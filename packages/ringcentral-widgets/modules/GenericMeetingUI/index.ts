@@ -50,6 +50,7 @@ export default class GenericMeetingUI extends RcUIModule {
     timePickerSize,
   }) {
     const invalidPassowrd =
+      this._genericMeeting.ready &&
       this._genericMeeting.isRCV &&
       this._genericMeeting.meeting &&
       this._genericMeeting.meeting.isMeetingSecret &&
@@ -57,26 +58,44 @@ export default class GenericMeetingUI extends RcUIModule {
     return {
       datePickerSize,
       timePickerSize,
-      meeting: this._genericMeeting.meeting || {},
+      meeting:
+        (this._genericMeeting.ready && this._genericMeeting.meeting) || {},
       currentLocale: this._locale.currentLocale,
-      disabled:
+      disabled: !!(
         disabled ||
         invalidPassowrd ||
-        this._genericMeeting.isScheduling ||
-        !this._connectivityMonitor.connectivity ||
-        (this._rateLimiter && this._rateLimiter.throttling),
+        (this._genericMeeting.ready && this._genericMeeting.isScheduling) ||
+        (this._connectivityMonitor &&
+          !this._connectivityMonitor.connectivity) ||
+        (this._rateLimiter && this._rateLimiter.throttling)
+      ),
       showWhen,
       showDuration,
       showRecurringMeeting,
       openNewWindow,
-      showSaveAsDefault: this._genericMeeting.showSaveAsDefault,
+      showSaveAsDefault:
+        this._genericMeeting.ready && this._genericMeeting.showSaveAsDefault,
+      // Need to add this back when we back to this ticket
+      // https://jira.ringcentral.com/browse/RCINT-15031
+      // disableSaveAsDefault:
+      //   this._genericMeeting.ready &&
+      //   !this._genericMeeting.isPreferencesChanged,
+      disableSaveAsDefault: false,
       isRCM: this._genericMeeting.isRCM,
       isRCV: this._genericMeeting.isRCV,
       scheduleButton,
       brandName: this._brand.name,
       personalMeetingId:
+        this._genericMeeting.ready &&
         this._genericMeeting.personalMeeting &&
         this._genericMeeting.personalMeeting.shortId,
+      showSpinner: !!(
+        !this._locale.ready ||
+        !this._genericMeeting.ready ||
+        (!this._genericMeeting.isRCM && !this._genericMeeting.isRCV) ||
+        (this._connectivityMonitor && !this._connectivityMonitor.ready) ||
+        (this._rateLimiter && !this._rateLimiter.ready)
+      ),
     };
   }
 

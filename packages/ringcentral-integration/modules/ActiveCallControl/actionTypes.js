@@ -1,13 +1,9 @@
-import Enum from '../../lib/Enum';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 import { moduleActionTypes } from '../../enums/moduleActionTypes';
 
-function getActionSet(action) {
-  return [action, `${action}Success`, `${action}Error`];
-}
-
-export default new Enum(
+export const actionTypes = ObjectMap.prefixKeys(
   [
-    ...Object.keys(moduleActionTypes),
+    ...ObjectMap.keys(moduleActionTypes),
     'updateActiveSessions',
     'updateActiveSessionStatus',
     'removeActiveSession',
@@ -17,14 +13,32 @@ export default new Enum(
     'startRecord',
     'stopRecord',
     'recordFail',
-    ...getActionSet('mute'),
-    ...getActionSet('unmute'),
-    ...getActionSet('hold'),
-    ...getActionSet('unhold'),
-    ...getActionSet('transfer'),
-    ...getActionSet('reject'),
-    ...getActionSet('hangUp'),
-    ...getActionSet('flip'),
+    'mute',
+    'muteSuccess',
+    'muteError',
+    'unmute',
+    'unmuteSuccess',
+    'unmuteError',
+    'hold',
+    'holdSuccess',
+    'holdError',
+    'unhold',
+    'unholdSuccess',
+    'unholdError',
+    'transfer',
+    'transferSuccess',
+    'transferError',
+    'reject',
+    'rejectSuccess',
+    'rejectError',
+    'hangUp',
+    'hangUpSuccess',
+    'hangUpError',
+    'flip',
+    'flipSuccess',
+    'flipError',
   ],
   'activeCallControlStore',
 );
+
+export default actionTypes;

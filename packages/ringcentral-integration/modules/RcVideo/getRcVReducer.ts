@@ -58,21 +58,34 @@ export function getPersonalMeetingReducer(types: RcVideoActionTypes) {
   };
 }
 
-export function getLastVideoStorageReducer(types: RcVideoActionTypes) {
-  return (state = {}, { type, meeting = null }) => {
+export function getRcVideoPreferencesReducer(types: RcVideoActionTypes) {
+  return (state = {}, { type, preferences }) => {
     switch (type) {
-      case types.saveLastVideoSetting:
-        return { ...state, ...meeting };
+      case types.updateMeetingPreferences:
+        return preferences;
       default:
         return state;
     }
   };
 }
 
-export default (types, reducers) =>
+export function getRcVideoPreferencesStateReducer(types: RcVideoActionTypes) {
+  return (state = false, { type, isPreferencesChanged }): boolean => {
+    switch (type) {
+      case types.saveMeetingPreferencesState:
+        return isPreferencesChanged;
+      default:
+        return state;
+    }
+  };
+}
+
+export default (types: RcVideoActionTypes, reducers) =>
   combineReducers({
     ...reducers,
     meeting: getRcVideoInfoReducer(types),
     status: getModuleStatusReducer(types),
     creatingStatus: getRcVideoCreatingStatusReducer(types),
+    preferences: getRcVideoPreferencesReducer(types),
+    isPreferencesChanged: getRcVideoPreferencesStateReducer(types),
   });

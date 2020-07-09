@@ -18,16 +18,21 @@ type EvSettingsState = RcModuleState<EvSettings, State>;
     'EvClient',
     'EvAuth',
     'EvSessionConfig',
+    'Beforeunload',
     'Storage',
     { dep: 'EvSettingsOptions', optional: true },
   ],
 })
 class EvSettings extends RcModuleV2<DepsModules, EvSettingsState>
   implements Settings {
+  private _beforeunloadHandler = () =>
+    this._modules.evSessionConfig.shouldBlockBrowser;
+
   constructor({
     evClient,
     evAuth,
     evSessionConfig,
+    beforeunload,
     storage,
     enableCache = true,
   }) {
@@ -36,6 +41,7 @@ class EvSettings extends RcModuleV2<DepsModules, EvSettingsState>
         evClient,
         evAuth,
         evSessionConfig,
+        beforeunload,
         storage,
       },
       enableCache,
@@ -77,55 +83,65 @@ class EvSettings extends RcModuleV2<DepsModules, EvSettingsState>
 
   @action
   setConfig(config) {
-    this.state.config = config;
+    this.config = config;
   }
 
   @action
   setIsManualOffhook(isManualOffhook: boolean) {
-    this.state.isManualOffhook = isManualOffhook;
+    this.isManualOffhook = isManualOffhook;
   }
 
   @action
   setOffhook(status: boolean) {
-    this.state.isOffhook = status;
+    this.isOffhook = status;
+    this._checkBeforeunload();
   }
 
   @action
   setOffhooking(offhooking: boolean) {
-    this.state.isOffhooking = offhooking;
+    this.isOffhooking = offhooking;
   }
 
   @action
-  offhookInitHandle() {
-    this.state.isOffhooking = false;
-    this.state.isOffhook = true;
+  setOffhookInit() {
+    this.isOffhooking = false;
+    this.isOffhook = true;
+    this._checkBeforeunload();
   }
 
   @action
-  offhookTermHandle() {
-    this.state.isOffhooking = false;
-    this.state.isOffhook = false;
-    this.state.isManualOffhook = false;
+  setOffhookTerm() {
+    this.isOffhooking = false;
+    this.isOffhook = false;
+    this.isManualOffhook = false;
+    this._checkBeforeunload();
   }
 
   onInit() {
     if (
       this._modules.evAuth.isFreshLogin ||
-      (this._modules.evSessionConfig.tabManagerEnabled &&
-        !this._modules.evSessionConfig.isConfigSuccessByLocal)
+      !this._modules.evSessionConfig.isConfigTab
     ) {
-      this.offhookTermHandle();
+      this.setOffhookTerm();
     }
   }
 
   offHook() {
     this.setOffhooking(true);
-    if (this.state.isOffhook) {
+    if (this.isOffhook) {
       this.setIsManualOffhook(false);
       this._modules.evClient.offhookTerm();
     } else {
       this.setIsManualOffhook(true);
       this._modules.evClient.offhookInit();
+    }
+  }
+
+  private _checkBeforeunload() {
+    if (this.isOffhook) {
+      this._modules.beforeunload.add(this._beforeunloadHandler);
+    } else {
+      this._modules.beforeunload.remove(this._beforeunloadHandler);
     }
   }
 }

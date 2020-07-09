@@ -46,7 +46,8 @@ export default class NumberValidate extends RcModule {
     });
     this._brand = brand;
     this._client = client;
-    this._companyContacts = this::ensureExist(
+    this._companyContacts = ensureExist.call(
+      this,
       companyContacts,
       'companyContacts',
     );
@@ -100,6 +101,7 @@ export default class NumberValidate extends RcModule {
     });
   }
 
+  @proxify
   isNoToNumber(input) {
     if (isBlank(input)) {
       return true;
@@ -115,6 +117,7 @@ export default class NumberValidate extends RcModule {
     return false;
   }
 
+  @proxify
   isNoAreaCode(input) {
     const { hasPlus, phoneNumber, isServiceNumber } = parse({
       input,
@@ -176,6 +179,7 @@ export default class NumberValidate extends RcModule {
     return validatedNumbers;
   }
 
+  @proxify
   validateFormat(phoneNumbers) {
     const errors = [];
     phoneNumbers.map((phoneNumber) => {

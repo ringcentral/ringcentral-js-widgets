@@ -1,6 +1,8 @@
-import Enum from '../../lib/Enum';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 
-export default new Enum(
+export const regionSettingsMessages = ObjectMap.prefixKeys(
   ['saveSuccess', 'dialingPlansChanged', 'areaCodeInvalid'],
   'regionSettingsMessages',
 );
+
+export default regionSettingsMessages;

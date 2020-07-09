@@ -67,21 +67,23 @@ export default class ActiveCallControl extends Pollable {
     if (!disableCache) {
       this._storage = storage;
     }
-    this._subscription = this::ensureExist(subscription, 'subscription');
-    this._connectivityMonitor = this::ensureExist(
+    this._subscription = ensureExist.call(this, subscription, 'subscription');
+    this._connectivityMonitor = ensureExist.call(
+      this,
       connectivityMonitor,
       'connectivityMonitor',
     );
-    this._rolesAndPermissions = this::ensureExist(
+    this._rolesAndPermissions = ensureExist.call(
+      this,
       rolesAndPermissions,
       'rolesAndPermissions',
     );
     this._availabilityMonitor = availabilityMonitor;
-    this._callMonitor = this::ensureExist(callMonitor, 'callMonitor');
+    this._callMonitor = ensureExist.call(this, callMonitor, 'callMonitor');
     this._tabManager = tabManager;
     this._ttl = ttl;
     this._timeToRetry = timeToRetry;
-    this._auth = this::ensureExist(auth, 'auth');
+    this._auth = ensureExist.call(this, auth, 'auth');
     this._promise = null;
     this._lastSubscriptionMessage = null;
     this._storageKey = storageKey;
@@ -230,6 +232,7 @@ export default class ActiveCallControl extends Pollable {
         this._newSessionHandler(session);
       });
     } catch (error) {
+      console.log('sync data error:', error);
       throw error;
     }
   }
@@ -446,6 +449,7 @@ export default class ActiveCallControl extends Pollable {
         activeSession,
       });
     } catch (error) {
+      console.log('stop record error:', error);
       throw error;
     }
   }

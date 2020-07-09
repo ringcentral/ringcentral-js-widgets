@@ -1,4 +1,6 @@
 import Storage from 'ringcentral-integration/modules/Storage';
+import { Beforeunload } from 'ringcentral-widgets/modules/Beforeunload';
+
 import { EvClient } from '../../lib/EvClient';
 import { EvAuth } from '../EvAuth';
 import { EvSessionConfig } from '../EvSessionConfig';
@@ -17,6 +19,7 @@ export interface DepsModules {
   evAuth: EvAuth;
   evSessionConfig: EvSessionConfig;
   storage: Storage;
+  beforeunload: Beforeunload;
 }
 export interface Settings extends State {
   setConfig(config: Config): void;

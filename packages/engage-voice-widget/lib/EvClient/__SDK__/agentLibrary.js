@@ -1,8 +1,8 @@
+/* eslint-disable */
 import SIP from 'sip.js';
 
-const localStorage = window.localStorage;
-
 (function() {
+  'use strict';
   /**
    * @fileoverview CFSimpleSip
    */
@@ -11,7 +11,7 @@ const localStorage = window.localStorage;
    * @class CFSimpleSip
    */
 
-  const C = {
+  var C = {
     STATUS_NULL: 0,
     STATUS_NEW: 1,
     STATUS_CONNECTING: 2,
@@ -22,7 +22,7 @@ const localStorage = window.localStorage;
   /*
    * @param {Object} options
    */
-  const CFSimpleSip = function(options) {
+  var CFSimpleSip = function(options) {
     /*
      *  {
      *    media: {
@@ -63,9 +63,9 @@ const localStorage = window.localStorage;
     this.options = options;
 
     // https://stackoverflow.com/questions/7944460/detect-safari-browser
-    const browserUa = window.navigator.userAgent.toLowerCase();
-    let isSafari = false;
-    let isFirefox = false;
+    var browserUa = window.navigator.userAgent.toLowerCase();
+    var isSafari = false;
+    var isFirefox = false;
     if (browserUa.indexOf('safari') > -1 && browserUa.indexOf('chrome') < 0) {
       isSafari = true;
     } else if (
@@ -74,7 +74,7 @@ const localStorage = window.localStorage;
     ) {
       isFirefox = true;
     }
-    const sessionDescriptionHandlerFactoryOptions = {};
+    var sessionDescriptionHandlerFactoryOptions = {};
     if (isSafari) {
       sessionDescriptionHandlerFactoryOptions.modifiers = [
         SIP.Web.Modifiers.stripG722,
@@ -99,11 +99,11 @@ const localStorage = window.localStorage;
       password: this.options.ua.password,
       displayName: this.options.ua.displayName,
       // Undocumented "Advanced" Options
-      userAgentString: `${SIP.C.USER_AGENT};${browserUa}`,
+      userAgentString: SIP.C.USER_AGENT + ';' + browserUa,
       // Fixed Options
       register: true,
       registerExpires: this.options.ua.registerExpires || 600,
-      sessionDescriptionHandlerFactoryOptions,
+      sessionDescriptionHandlerFactoryOptions: sessionDescriptionHandlerFactoryOptions,
       transportOptions: {
         traceSip: this.options.ua.traceSip,
         wsServers: this.options.ua.wsServers,
@@ -244,8 +244,9 @@ const localStorage = window.localStorage;
     }
     if (this.state !== C.STATUS_CONNECTED) {
       return this.session.cancel();
+    } else {
+      return this.session.bye();
     }
-    return this.session.bye();
   };
 
   CFSimpleSip.prototype.hold = function() {
@@ -293,7 +294,7 @@ const localStorage = window.localStorage;
       this.logger.warn('An active call is required to send a DTMF tone');
       return;
     }
-    this.logger.log(`Sending DTMF tone: ${tone}`);
+    this.logger.log('Sending DTMF tone: ' + tone);
     this.session.dtmf(tone);
   };
 
@@ -319,13 +320,13 @@ const localStorage = window.localStorage;
 
   CFSimpleSip.prototype.setupRemoteMedia = function() {
     // If there is a video track, it will attach the video and audio to the same element
-    const pc = this.session.sessionDescriptionHandler.peerConnection;
-    let remoteStream;
+    var pc = this.session.sessionDescriptionHandler.peerConnection;
+    var remoteStream;
 
     if (pc.getReceivers) {
       remoteStream = new window.window.MediaStream();
       pc.getReceivers().forEach(function(receiver) {
-        const track = receiver.track;
+        var track = receiver.track;
         if (track) {
           remoteStream.addTrack(track);
         }
@@ -356,12 +357,12 @@ const localStorage = window.localStorage;
       this.options.media.local &&
       this.options.media.local.video
     ) {
-      const pc = this.session.sessionDescriptionHandler.peerConnection;
-      let localStream;
+      var pc = this.session.sessionDescriptionHandler.peerConnection;
+      var localStream;
       if (pc.getSenders) {
         localStream = new window.window.MediaStream();
         pc.getSenders().forEach(function(sender) {
-          const track = sender.track;
+          var track = sender.track;
           if (track && track.kind === 'video') {
             localStream.addTrack(track);
           }
@@ -406,7 +407,7 @@ const localStorage = window.localStorage;
   };
 
   CFSimpleSip.prototype.toggleMute = function(mute) {
-    const pc = this.session.sessionDescriptionHandler.peerConnection;
+    var pc = this.session.sessionDescriptionHandler.peerConnection;
     if (pc.getSenders) {
       pc.getSenders().forEach(function(sender) {
         if (sender.track) {
@@ -499,7 +500,7 @@ export default (function() {
    */
 
   return function(global) {
-    const AddSessionNotification = function() {};
+    var AddSessionNotification = function() {};
 
     /*
      * This class is responsible for handling "ADD-SESSION" packets from IntelliQueue.  This is used by
@@ -522,10 +523,10 @@ export default (function() {
      *  }
      */
     AddSessionNotification.prototype.processResponse = function(notification) {
-      const formattedResponse = utils.buildDefaultResponse(notification);
-      const model = UIModel.getInstance();
-      const notif = notification.ui_notification;
-      const sessionAgentId = utils.getText(notif, 'agent_id');
+      var formattedResponse = utils.buildDefaultResponse(notification);
+      var model = UIModel.getInstance();
+      var notif = notification.ui_notification;
+      var sessionAgentId = utils.getText(notif, 'agent_id');
 
       if (utils.getText(notif, 'session_type') === 'AGENT') {
         model.incrementTotalCalls();
@@ -541,17 +542,17 @@ export default (function() {
       }
 
       // Check to see if we have a transfer leg here, if so, register it
-      const sessionType = utils.getText(notif, 'session_type');
-      const allowControl = utils.getText(notif, 'allow_control');
-      const sessionId = utils.getText(notif, 'session_id');
-      const uii = utils.getText(notif, 'uii');
-      const isMonitoring = model.currentCall.isMonitoring;
-      const monitoringType = model.currentCall.monitoringType;
+      var sessionType = utils.getText(notif, 'session_type'),
+        allowControl = utils.getText(notif, 'allow_control'),
+        sessionId = utils.getText(notif, 'session_id'),
+        uii = utils.getText(notif, 'uii'),
+        isMonitoring = model.currentCall.isMonitoring,
+        monitoringType = model.currentCall.monitoringType;
 
-      const isBargeInMonitor = isMonitoring && monitoringType === 'FULL';
-      const notCurrentAgent = sessionAgentId !== model.agentSettings.agentId;
-      const notSessionOne = sessionId !== '1';
-      let shouldTrackSession = false;
+      var isBargeInMonitor = isMonitoring && monitoringType === 'FULL',
+        notCurrentAgent = sessionAgentId !== model.agentSettings.agentId,
+        notSessionOne = sessionId !== '1',
+        shouldTrackSession = false;
 
       if (notSessionOne && notCurrentAgent) {
         if (isBargeInMonitor) {
@@ -564,16 +565,16 @@ export default (function() {
       }
 
       if (shouldTrackSession) {
-        let destination = utils.getText(notif, 'phone');
+        var destination = utils.getText(notif, 'phone');
 
         if (sessionType === 'AGENT' || sessionAgentId !== '') {
           destination = utils.getText(notif, 'agent_name');
         }
 
         model.transferSessions[sessionId] = {
-          sessionId,
-          destination,
-          uii,
+          sessionId: sessionId,
+          destination: destination,
+          uii: uii,
         };
       }
 
@@ -597,7 +598,7 @@ export default (function() {
       return formattedResponse;
     };
 
-    const AdminDebugEmailNotification = function() {};
+    var AdminDebugEmailNotification = function() {};
 
     /*
      * This class is responsible for handling "AGENT-DEBUG-EMAIL" packets from IntelliQueue
@@ -619,8 +620,8 @@ export default (function() {
     AdminDebugEmailNotification.prototype.processResponse = function(
       notification,
     ) {
-      const formattedResponse = utils.buildDefaultResponse(notification);
-      const notif = notification.ui_notification;
+      var formattedResponse = utils.buildDefaultResponse(notification);
+      var notif = notification.ui_notification;
 
       formattedResponse.status = 'OK';
       formattedResponse.message = 'Received AGENT-DEBUG-EMAIL notification';
@@ -630,7 +631,7 @@ export default (function() {
       return formattedResponse;
     };
 
-    const DialGroupChangeNotification = function() {};
+    var DialGroupChangeNotification = function() {};
 
     /*
      * This class is responsible for handling a DIAL_GROUP_CHANGE notification.
@@ -650,11 +651,11 @@ export default (function() {
     DialGroupChangeNotification.prototype.processResponse = function(
       notification,
     ) {
-      // Modify loginRequest with new DialGroupId
-      const model = UIModel.getInstance();
-      const notif = notification.ui_notification;
-      const origLoginType = model.loginRequest.loginType;
-      const newDgId = utils.getText(notif, 'dial_group_id');
+      //Modify loginRequest with new DialGroupId
+      var model = UIModel.getInstance();
+      var notif = notification.ui_notification;
+      var origLoginType = model.loginRequest.loginType;
+      var newDgId = utils.getText(notif, 'dial_group_id');
 
       model.dialGroupChangeNotification = notification;
 
@@ -676,9 +677,9 @@ export default (function() {
 
       UIModel.getInstance().loginRequest.dialGroupId = newDgId;
 
-      const formattedResponse = {
+      var formattedResponse = {
         message: 'Dial Group Updated Successfully.',
-        detail: `Dial Group changed to [${newDgId}].`,
+        detail: 'Dial Group changed to [' + newDgId + '].',
         dialGroupId: utils.getText(notif, 'dial_group_id'),
         dialGroupName: utils.getText(notif, 'dialGroupName'), // camel case from server for some reason :/
         dialGroupDesc: utils.getText(notif, 'dial_group_desc'),
@@ -688,7 +689,7 @@ export default (function() {
       return formattedResponse;
     };
 
-    const DialGroupChangePendingNotification = function() {};
+    var DialGroupChangePendingNotification = function() {};
 
     /*
      * This class is responsible for handling a DIAL_GROUP_CHANGE_PENDING notification.
@@ -707,8 +708,8 @@ export default (function() {
     DialGroupChangePendingNotification.prototype.processResponse = function(
       notification,
     ) {
-      const model = UIModel.getInstance();
-      const notif = notification.ui_notification;
+      var model = UIModel.getInstance();
+      var notif = notification.ui_notification;
       model.agentSettings.pendingDialGroupChange = parseInt(
         utils.getText(notif, 'dial_group_id'),
         10,
@@ -722,7 +723,7 @@ export default (function() {
         model.agentSettings.updateDGFromAdminUI = false;
       }
 
-      const formattedResponse = {
+      var formattedResponse = {
         message: 'Dial Group Change Pending notification received.',
         detail:
           'DialGroup switch for existing session pending until active call ends.',
@@ -734,7 +735,7 @@ export default (function() {
       return formattedResponse;
     };
 
-    const DirectAgentTransferNotification = function() {};
+    var DirectAgentTransferNotification = function() {};
 
     /*
      * This class is responsible for handling a DIRECT-AGENT-ROUTE notification.
@@ -761,8 +762,8 @@ export default (function() {
     DirectAgentTransferNotification.prototype.processResponse = function(
       notification,
     ) {
-      const formattedResponse = utils.buildDefaultResponse(notification);
-      const notif = notification.ui_notification;
+      var formattedResponse = utils.buildDefaultResponse(notification);
+      var notif = notification.ui_notification;
 
       formattedResponse.message = 'Received DIRECT-AGENT-ROUTE notification';
       formattedResponse.status = utils.getText(notif, 'status');
@@ -778,7 +779,7 @@ export default (function() {
       return formattedResponse;
     };
 
-    const DropSessionNotification = function() {};
+    var DropSessionNotification = function() {};
 
     /*
      * This class handles the DROP-SESSION packet from IQ. It doesn't really do anything
@@ -795,18 +796,18 @@ export default (function() {
      *  }
      */
     DropSessionNotification.prototype.processResponse = function(notification) {
-      const formattedResponse = utils.buildDefaultResponse(notification);
-      const notif = notification.ui_notification;
+      var formattedResponse = utils.buildDefaultResponse(notification);
+      var notif = notification.ui_notification;
 
-      const sessionId = utils.getText(notif, 'session_id');
-      const transfer = UIModel.getInstance().transferSessions[sessionId];
+      var sessionId = utils.getText(notif, 'session_id');
+      var transfer = UIModel.getInstance().transferSessions[sessionId];
 
       // Check to see if we just disconnected a transfer session
       // If so, we need to remove the session from our map
       if (transfer) {
         utils.logMessage(
           LOG_LEVELS.DEBUG,
-          `Transfer to ${transfer.destination} has terminated`,
+          'Transfer to ' + transfer.destination + ' has terminated',
           '',
         );
         delete UIModel.getInstance().transferSessions[sessionId];
@@ -821,7 +822,7 @@ export default (function() {
       return formattedResponse;
     };
 
-    const EarlyUiiNotification = function() {};
+    var EarlyUiiNotification = function() {};
 
     /*
      * This class is responsible for handling "EARLY_UII" packets from IntelliQueue.
@@ -837,8 +838,8 @@ export default (function() {
      *  }
      */
     EarlyUiiNotification.prototype.processResponse = function(notification) {
-      const formattedResponse = utils.buildDefaultResponse(notification);
-      const notif = notification.ui_notification;
+      var formattedResponse = utils.buildDefaultResponse(notification);
+      var notif = notification.ui_notification;
 
       formattedResponse.message = 'Received EARLY_UII notification';
       formattedResponse.status = 'OK';
@@ -848,7 +849,7 @@ export default (function() {
       return formattedResponse;
     };
 
-    const EndCallNotification = function(libInstance) {
+    var EndCallNotification = function(libInstance) {
       this.libInstance = libInstance;
     };
 
@@ -875,8 +876,8 @@ export default (function() {
      * }
      */
     EndCallNotification.prototype.processResponse = function(notification) {
-      const model = UIModel.getInstance();
-      const notif = notification.ui_notification;
+      var model = UIModel.getInstance();
+      var notif = notification.ui_notification;
       model.endCallNotification = notification;
 
       // add callDuration, termParty, and termReason to the current call packet
@@ -927,7 +928,7 @@ export default (function() {
         model.pingIntervalId = setInterval(utils.sendPingCallMessage, 30000);
       }
 
-      const formattedResponse = {
+      var formattedResponse = {
         message: 'End Call Notification Received.',
         detail: '',
         uii: utils.getText(notif, 'uii'),
@@ -944,7 +945,7 @@ export default (function() {
       return formattedResponse;
     };
 
-    const GatesChangeNotification = function() {};
+    var GatesChangeNotification = function() {};
 
     /*
      * This class is responsible for handling a gates change notification
@@ -959,24 +960,24 @@ export default (function() {
      * }
      */
     GatesChangeNotification.prototype.processResponse = function(notification) {
-      const model = UIModel.getInstance();
-      const notif = notification.ui_notification;
-      const newAssignedGates = [];
-      const availableQueues = model.inboundSettings.availableQueues;
-      let assignedGateIds = utils.getText(notif, 'gate_ids');
+      var model = UIModel.getInstance();
+      var notif = notification.ui_notification;
+      var newAssignedGates = [];
+      var availableQueues = model.inboundSettings.availableQueues;
+      var assignedGateIds = utils.getText(notif, 'gate_ids');
       if (assignedGateIds !== '') {
         assignedGateIds = assignedGateIds.split(',');
       }
 
-      for (let a = 0; a < assignedGateIds.length; a++) {
+      for (var a = 0; a < assignedGateIds.length; a++) {
         // find gate in avail list
-        const id = assignedGateIds[a];
-        const foundGate = utils.findObjById(availableQueues, id, 'gateId');
+        var id = assignedGateIds[a];
+        var foundGate = utils.findObjById(availableQueues, id, 'gateId');
         if (foundGate) {
           newAssignedGates.push(foundGate);
         } else {
           // gate not in assigned list, add stub
-          const gate = {
+          var gate = {
             gateId: id,
             gateName: '',
             gateDesc: '',
@@ -991,7 +992,7 @@ export default (function() {
         JSON.stringify(newAssignedGates),
       );
 
-      const formattedResponse = {
+      var formattedResponse = {
         agentId: utils.getText(notif, 'agent_id'),
         message: 'Gates Change notification received.',
         queues: newAssignedGates,
@@ -1000,7 +1001,7 @@ export default (function() {
       return formattedResponse;
     };
 
-    const GenericNotification = function() {};
+    var GenericNotification = function() {};
 
     /*
      * This class is responsible for handling a generic notification
@@ -1017,7 +1018,7 @@ export default (function() {
      * }
      */
     GenericNotification.prototype.processResponse = function(notification) {
-      const formattedResponse = utils.buildDefaultResponse(notification);
+      var formattedResponse = utils.buildDefaultResponse(notification);
 
       // add message and detail if present
       formattedResponse.messageCode = utils.getText(
@@ -1028,7 +1029,7 @@ export default (function() {
       return formattedResponse;
     };
 
-    const NewCallNotification = function() {};
+    var NewCallNotification = function() {};
 
     /*
      * This class processes a "NEW-CALL" packet received from Intelliqueue. It will determine
@@ -1131,11 +1132,11 @@ export default (function() {
      *  }
      */
     NewCallNotification.prototype.processResponse = function(notification) {
-      const model = UIModel.getInstance();
-      const notif = notification.ui_notification;
+      var model = UIModel.getInstance();
+      var notif = notification.ui_notification;
 
       // set up new call obj
-      const newCall = {
+      var newCall = {
         uii: utils.getText(notif, 'uii'),
         agentId: utils.getText(notif, 'agent_id'),
         dialDest: utils.getText(notif, 'dial_dest'),
@@ -1232,15 +1233,15 @@ export default (function() {
           }
         }
       } catch (e) {
-        console.warn(`error parsing new call lead extra data: ${e}`);
+        console.warn('error parsing new call lead extra data: ' + e);
       }
 
       if (newCall.baggage) {
         // process custom labels correctly
         newCall.baggage.customLabels = {};
-        const notifLabels = notif.baggage.custom_labels;
+        var notifLabels = notif.baggage['custom_labels'];
         for (var key in notifLabels) {
-          let result = '';
+          var result = '';
           if (notifLabels && notifLabels[key] && notifLabels[key]['#text']) {
             result = notifLabels[key]['#text'];
           }
@@ -1251,12 +1252,12 @@ export default (function() {
 
       // set saved script response if present
       try {
-        const savedModel = JSON.parse(notif.script_result['#text']).model;
-        const results = {};
-        const keys = Object.keys(savedModel);
-        for (let idx = 0; idx < keys.length; idx++) {
+        var savedModel = JSON.parse(notif.script_result['#text']).model;
+        var results = {};
+        var keys = Object.keys(savedModel);
+        for (var idx = 0; idx < keys.length; idx++) {
           var key = keys[idx];
-          const value = savedModel[key].value;
+          var value = savedModel[key].value;
           results[key] = value;
         }
         newCall.scriptResponse = results;
@@ -1292,11 +1293,11 @@ export default (function() {
         newCall.outdialDispositions.dispositions
       ) {
         for (
-          let d = 0;
+          var d = 0;
           d < newCall.outdialDispositions.dispositions.length;
           d++
         ) {
-          const disp = newCall.outdialDispositions.dispositions[d];
+          var disp = newCall.outdialDispositions.dispositions[d];
           disp.isComplete = disp.isComplete === '1';
           disp.requireNote = disp.requireNote === '1';
           disp.saveSurvey = disp.saveSurvey === '1';
@@ -1332,11 +1333,11 @@ export default (function() {
     };
 
     function buildCallTokenMap(notif, newCall) {
-      const model = UIModel.getInstance();
-      const tokens = newCall.baggage || {}; // seed with baggage values
+      var model = UIModel.getInstance();
+      var tokens = newCall.baggage || {}; // seed with baggage values
       if (notif.baggage && notif.baggage.generic_key_value_pairs) {
-        let keyValuePairs = [];
-        const keyValuePairsStr = utils.getText(
+        var keyValuePairs = [];
+        var keyValuePairsStr = utils.getText(
           notif.baggage,
           'generic_key_value_pairs',
         );
@@ -1348,34 +1349,34 @@ export default (function() {
           );
         }
 
-        for (const keyValue in keyValuePairs) {
+        for (var keyValue in keyValuePairs) {
           tokens[keyValue] = keyValuePairs[keyValue];
         }
       }
 
-      tokens.ani = newCall.ani;
-      tokens.dnis = newCall.dnis;
-      tokens.uii = newCall.uii;
+      tokens['ani'] = newCall.ani;
+      tokens['dnis'] = newCall.dnis;
+      tokens['uii'] = newCall.uii;
 
       try {
         if (newCall.queue.number) {
-          tokens.sourceId = newCall.queue.number || '';
-          tokens.sourceName = newCall.queue.name || '';
-          tokens.sourceDesc = newCall.queue.description || '';
+          tokens['sourceId'] = newCall.queue.number || '';
+          tokens['sourceName'] = newCall.queue.name || '';
+          tokens['sourceDesc'] = newCall.queue.description || '';
 
           if (
             newCall.queue.isCampaign === '1' ||
             newCall.queue.isCampaign === true
           ) {
-            tokens.sourceType = 'OUTBOUND';
+            tokens['sourceType'] = 'OUTBOUND';
           } else {
-            tokens.sourceType = 'INBOUND';
+            tokens['sourceType'] = 'INBOUND';
           }
         } else {
-          tokens.sourceId = '0';
-          tokens.sourceType = 'MANUAL';
-          tokens.sourceName = '';
-          tokens.sourceDesc = '';
+          tokens['sourceId'] = '0';
+          tokens['sourceType'] = 'MANUAL';
+          tokens['sourceName'] = '';
+          tokens['sourceDesc'] = '';
         }
       } catch (any) {
         console.error(
@@ -1385,12 +1386,12 @@ export default (function() {
       }
 
       try {
-        tokens.agentFirstName = model.agentSettings.firstName;
-        tokens.agentLastName = model.agentSettings.lastName;
-        tokens.agentExternalId = model.agentSettings.externalAgentId;
-        tokens.agentType = model.agentSettings.agentType;
-        tokens.agentEmail = model.agentSettings.email;
-        tokens.agentUserName = model.agentSettings.username;
+        tokens['agentFirstName'] = model.agentSettings.firstName;
+        tokens['agentLastName'] = model.agentSettings.lastName;
+        tokens['agentExternalId'] = model.agentSettings.externalAgentId;
+        tokens['agentType'] = model.agentSettings.agentType;
+        tokens['agentEmail'] = model.agentSettings.email;
+        tokens['agentUserName'] = model.agentSettings.username;
       } catch (any) {
         console.error(
           'There was an error parsing tokens for agent info. ',
@@ -1408,7 +1409,7 @@ export default (function() {
       return false;
     }
 
-    const PendingChatDispNotification = function() {};
+    var PendingChatDispNotification = function() {};
 
     /*
      * This class is responsible for handling a generic notification
@@ -1426,7 +1427,7 @@ export default (function() {
     PendingChatDispNotification.prototype.processResponse = function(
       notification,
     ) {
-      const formattedResponse = {};
+      var formattedResponse = {};
       formattedResponse.agentId = utils.getText(
         notification.ui_notification,
         'agent_id',
@@ -1441,7 +1442,7 @@ export default (function() {
       return formattedResponse;
     };
 
-    const PendingDispNotification = function() {};
+    var PendingDispNotification = function() {};
 
     /*
      * This class is responsible for handling a generic notification
@@ -1456,7 +1457,7 @@ export default (function() {
      * }
      */
     PendingDispNotification.prototype.processResponse = function(notification) {
-      const formattedResponse = {};
+      var formattedResponse = {};
       formattedResponse.agentId = utils.getText(
         notification.ui_notification,
         'agent_id',
@@ -1469,7 +1470,7 @@ export default (function() {
       return formattedResponse;
     };
 
-    const PreviewLeadStateNotification = function() {};
+    var PreviewLeadStateNotification = function() {};
 
     /*
      * This class is responsible for processing the lead state packet
@@ -1492,11 +1493,11 @@ export default (function() {
     PreviewLeadStateNotification.prototype.processResponse = function(
       notification,
     ) {
-      const notif = notification.ui_notification;
+      var notif = notification.ui_notification;
 
       UIModel.getInstance().agentSettings.onManualOutdial = true;
 
-      const response = {
+      var response = {
         callType: notif['@call_type'],
         messageId: notif['@message_id'],
         requestId: utils.getText(notif, 'request_id'),
@@ -1507,7 +1508,7 @@ export default (function() {
       return response;
     };
 
-    const ReverseMatchNotification = function() {};
+    var ReverseMatchNotification = function() {};
 
     /*
      * This class is responsible for processing a REVERSE_MATCH packet from IQ. It
@@ -1533,25 +1534,25 @@ export default (function() {
     ReverseMatchNotification.prototype.processResponse = function(
       notification,
     ) {
-      const notif = notification.ui_notification;
-      const model = UIModel.getInstance();
+      var notif = notification.ui_notification;
+      var model = UIModel.getInstance();
 
-      model.tokens.first_name = utils.getText(notif, 'first_name');
-      model.tokens.mid_name = utils.getText(notif, 'mid_name');
-      model.tokens.last_name = utils.getText(notif, 'last_name');
-      model.tokens.address1 = utils.getText(notif, 'address1');
-      model.tokens.address2 = utils.getText(notif, 'address2');
-      model.tokens.suffix = utils.getText(notif, 'suffix');
-      model.tokens.title = utils.getText(notif, 'title');
-      model.tokens.city = utils.getText(notif, 'city');
-      model.tokens.state = utils.getText(notif, 'state');
-      model.tokens.zip = utils.getText(notif, 'zip');
-      model.tokens.business_name = utils.getText(notif, 'business_name');
+      model.tokens['first_name'] = utils.getText(notif, 'first_name');
+      model.tokens['mid_name'] = utils.getText(notif, 'mid_name');
+      model.tokens['last_name'] = utils.getText(notif, 'last_name');
+      model.tokens['address1'] = utils.getText(notif, 'address1');
+      model.tokens['address2'] = utils.getText(notif, 'address2');
+      model.tokens['suffix'] = utils.getText(notif, 'suffix');
+      model.tokens['title'] = utils.getText(notif, 'title');
+      model.tokens['city'] = utils.getText(notif, 'city');
+      model.tokens['state'] = utils.getText(notif, 'state');
+      model.tokens['zip'] = utils.getText(notif, 'zip');
+      model.tokens['business_name'] = utils.getText(notif, 'business_name');
 
       return model.tokens;
     };
 
-    const TcpaSafeLeadStateNotification = function() {};
+    var TcpaSafeLeadStateNotification = function() {};
 
     /*
      * This class is responsible for processing the lead state packet
@@ -1573,9 +1574,9 @@ export default (function() {
     TcpaSafeLeadStateNotification.prototype.processResponse = function(
       notification,
     ) {
-      const notif = notification.ui_notification;
+      var notif = notification.ui_notification;
 
-      const response = {
+      var response = {
         callType: notif['@call_type'],
         messageId: notif['@message_id'],
         requestId: utils.getText(notif, 'request_id'),
@@ -1586,7 +1587,7 @@ export default (function() {
       return response;
     };
 
-    const AckRequest = function(audioType, agentId, uii, monitorAgentId) {
+    var AckRequest = function(audioType, agentId, uii, monitorAgentId) {
       this.audioType = audioType || 'FULL';
       this.agentId = agentId;
       this.uii = uii;
@@ -1611,8 +1612,8 @@ export default (function() {
      * }
      */
     AckRequest.prototype.processResponse = function(response) {
-      const resp = response.ui_response;
-      const formattedResponse = utils.buildDefaultResponse(response);
+      var resp = response.ui_response;
+      var formattedResponse = utils.buildDefaultResponse(response);
 
       formattedResponse.type = utils.getText(resp, 'type');
 
@@ -1621,7 +1622,7 @@ export default (function() {
       } else {
         utils.logMessage(
           LOG_LEVELS.WARN,
-          `${formattedResponse.message}: ${formattedResponse.detail}`,
+          formattedResponse.message + ': ' + formattedResponse.detail,
           response,
         );
       }
@@ -1629,7 +1630,7 @@ export default (function() {
       return formattedResponse;
     };
 
-    const AgentStateRequest = function(agentState, agentAuxState) {
+    var AgentStateRequest = function(agentState, agentAuxState) {
       if (
         agentState.toUpperCase() == 'ON-BREAK' &&
         UIModel.getInstance().onCall == true
@@ -1643,7 +1644,7 @@ export default (function() {
     };
 
     AgentStateRequest.prototype.formatJSON = function() {
-      const msg = {
+      var msg = {
         ui_request: {
           '@destination': 'IQ',
           '@type': MESSAGE_TYPES.AGENT_STATE,
@@ -1684,16 +1685,16 @@ export default (function() {
      * }
      */
     AgentStateRequest.prototype.processResponse = function(response) {
-      const resp = response.ui_response;
-      const status = utils.getText(resp, 'status');
-      const prevState = utils.getText(resp, 'prev_state');
-      const currState = utils.getText(resp, 'current_state');
-      const prevAuxState = utils.getText(resp, 'prev_aux_state');
-      const currAuxState = utils.getText(resp, 'agent_aux_state');
-      const model = UIModel.getInstance();
+      var resp = response.ui_response;
+      var status = utils.getText(resp, 'status');
+      var prevState = utils.getText(resp, 'prev_state');
+      var currState = utils.getText(resp, 'current_state');
+      var prevAuxState = utils.getText(resp, 'prev_aux_state');
+      var currAuxState = utils.getText(resp, 'agent_aux_state');
+      var model = UIModel.getInstance();
 
       // add message and detail if present
-      const formattedResponse = utils.buildDefaultResponse(response);
+      var formattedResponse = utils.buildDefaultResponse(response);
 
       formattedResponse.agentId = response.ui_response.agent_id['#text'] || '';
       formattedResponse.previousState = prevState;
@@ -1702,8 +1703,8 @@ export default (function() {
       formattedResponse.currentAuxState = currAuxState;
 
       if (status == 'OK') {
-        let prevStateStr = prevState;
-        let currStateStr = currState;
+        var prevStateStr = prevState;
+        var currStateStr = currState;
 
         if (prevAuxState.length > 0) {
           prevStateStr = prevAuxState;
@@ -1723,14 +1724,15 @@ export default (function() {
         }
 
         // log message response
-        const message = `Unable to change agent state. ${formattedResponse.detail}`;
+        var message =
+          'Unable to change agent state. ' + formattedResponse.detail;
         utils.logMessage(LOG_LEVELS.WARN, message, response);
       }
 
       return formattedResponse;
     };
 
-    const AuthenticateRequest = function(config) {
+    var AuthenticateRequest = function(config) {
       this.username = config.username;
       this.password = config.password;
       this.platformId = config.platformId;
@@ -1785,7 +1787,7 @@ export default (function() {
      * }
      */
     AuthenticateRequest.prototype.processResponse = function(response) {
-      const model = UIModel.getInstance();
+      var model = UIModel.getInstance();
       model.authenticatePacket = response; // raw response packet
       model.authenticateRequest.accessToken = response.accessToken; // TODO - dlb - store in local storage
       model.authenticateRequest.refreshToken = response.refreshToken;
@@ -1799,9 +1801,9 @@ export default (function() {
     };
 
     function _buildHttpRequest(authType, path, queryParams) {
-      const model = UIModel.getInstance();
-      const baseUrl = model.authHost + model.baseAuthUri;
-      const params = {
+      var model = UIModel.getInstance();
+      var baseUrl = model.authHost + model.baseAuthUri;
+      var params = {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -1810,14 +1812,17 @@ export default (function() {
       switch (authType) {
         case AUTHENTICATE_TYPES.USERNAME_PASSWORD:
         case AUTHENTICATE_TYPES.RC_TOKEN:
-          params.queryParams = queryParams;
-          var errorMsg = `Error on agent authenticate POST to engage-auth. URL: ${baseUrl}${path}`;
+          params['queryParams'] = queryParams;
+          var errorMsg =
+            'Error on agent authenticate POST to engage-auth. URL: ' +
+            baseUrl +
+            path;
           new HttpService(baseUrl).httpPost(path, params).then(
             function(response) {
               try {
                 response = JSON.parse(response.response);
 
-                const authenticateResponse = UIModel.getInstance().authenticateRequest.processResponse(
+                var authenticateResponse = UIModel.getInstance().authenticateRequest.processResponse(
                   response,
                 );
                 utils.fireCallback(
@@ -1830,9 +1835,10 @@ export default (function() {
               }
             },
             function(err) {
-              const errResponse = {
+              var errResponse = {
                 type: 'Authenticate Error',
                 message: errorMsg,
+                err: err,
               };
               utils.logMessage(LOG_LEVELS.WARN, errorMsg, err);
               utils.fireCallback(
@@ -1844,16 +1850,21 @@ export default (function() {
           );
           break;
         case AUTHENTICATE_TYPES.ENGAGE_TOKEN:
-          var errMsg = `Error on agent authenticate GET to engage-auth. URL: ${baseUrl}${path}`;
-          params.headers.Authorization = `Bearer ${utils.toString(
-            UIModel.getInstance().authenticateRequest.engageAccessToken,
-          )}`;
+          var errMsg =
+            'Error on agent authenticate GET to engage-auth. URL: ' +
+            baseUrl +
+            path;
+          params.headers['Authorization'] =
+            'Bearer ' +
+            utils.toString(
+              UIModel.getInstance().authenticateRequest.engageAccessToken,
+            );
           new HttpService(baseUrl).httpGet(path, params).then(
             function(response) {
               try {
                 response = JSON.parse(response.response);
 
-                const authenticateResponse = UIModel.getInstance().authenticateRequest.processResponse(
+                var authenticateResponse = UIModel.getInstance().authenticateRequest.processResponse(
                   response,
                 );
                 utils.fireCallback(
@@ -1878,7 +1889,7 @@ export default (function() {
       }
     }
 
-    const BargeInRequest = function(audioType, agentId, uii, monitorAgentId) {
+    var BargeInRequest = function(audioType, agentId, uii, monitorAgentId) {
       this.audioType = audioType || 'FULL';
       this.agentId = agentId;
       this.uii = uii;
@@ -1900,8 +1911,8 @@ export default (function() {
      * }
      */
     BargeInRequest.prototype.formatJSON = function() {
-      const model = UIModel.getInstance();
-      const msg = {
+      var model = UIModel.getInstance();
+      var msg = {
         ui_request: {
           '@destination': 'IQ',
           '@type': MESSAGE_TYPES.BARGE_IN,
@@ -1941,8 +1952,8 @@ export default (function() {
      * }
      */
     BargeInRequest.prototype.processResponse = function(response) {
-      const resp = response.ui_response;
-      const formattedResponse = utils.buildDefaultResponse(response);
+      var resp = response.ui_response;
+      var formattedResponse = utils.buildDefaultResponse(response);
 
       formattedResponse.agentId = utils.getText(resp, 'agent_id');
       formattedResponse.uii = utils.getText(resp, 'uii');
@@ -1952,7 +1963,8 @@ export default (function() {
       } else {
         utils.logMessage(
           LOG_LEVELS.WARN,
-          `There was an error processing the Barge-In request. ${formattedResponse.detail}`,
+          'There was an error processing the Barge-In request. ' +
+            formattedResponse.detail,
           response,
         );
       }
@@ -1960,7 +1972,7 @@ export default (function() {
       return formattedResponse;
     };
 
-    const CallNotesRequest = function(notes) {
+    var CallNotesRequest = function(notes) {
       this.notes = notes;
     };
 
@@ -1968,8 +1980,8 @@ export default (function() {
      * This event is responsible for allowing an agent to tag a call with notes
      */
     CallNotesRequest.prototype.formatJSON = function() {
-      const model = UIModel.getInstance();
-      const msg = {
+      var model = UIModel.getInstance();
+      var msg = {
         ui_request: {
           '@destination': 'IQ',
           '@message_id': utils.getMessageId(),
@@ -2003,7 +2015,7 @@ export default (function() {
      * }
      */
     CallNotesRequest.prototype.processResponse = function(response) {
-      const formattedResponse = utils.buildDefaultResponse(response);
+      var formattedResponse = utils.buildDefaultResponse(response);
 
       if (formattedResponse.status === 'OK') {
         formattedResponse.message = 'Call notes have been updated.';
@@ -2016,13 +2028,13 @@ export default (function() {
       return formattedResponse;
     };
 
-    const CallbackCancelRequest = function(leadId, agentId) {
+    var CallbackCancelRequest = function(leadId, agentId) {
       this.agentId = agentId || UIModel.getInstance().agentSettings.agentId;
       this.leadId = leadId;
     };
 
     CallbackCancelRequest.prototype.formatJSON = function() {
-      const msg = {
+      var msg = {
         ui_request: {
           '@destination': 'IQ',
           '@type': MESSAGE_TYPES.CALLBACK_CANCEL,
@@ -2042,12 +2054,12 @@ export default (function() {
 
     // NOTE: cancel callback response sent as a generic notification message
 
-    const CallbacksPendingRequest = function(agentId) {
+    var CallbacksPendingRequest = function(agentId) {
       this.agentId = agentId || UIModel.getInstance().agentSettings.agentId;
     };
 
     CallbacksPendingRequest.prototype.formatJSON = function() {
-      const msg = {
+      var msg = {
         ui_request: {
           '@destination': 'IQ',
           '@type': MESSAGE_TYPES.CALLBACK_PENDING,
@@ -2100,14 +2112,14 @@ export default (function() {
      * }
      */
     CallbacksPendingRequest.prototype.processResponse = function(response) {
-      let leadsRaw = response.ui_response.lead;
-      const leads = [];
+      var leadsRaw = response.ui_response.lead;
+      var leads = [];
       if (!Array.isArray(leadsRaw)) {
         leadsRaw = [leadsRaw];
       }
 
-      for (let l = 0; l < leadsRaw.length; l++) {
-        const leadRaw = leadsRaw[l];
+      for (var l = 0; l < leadsRaw.length; l++) {
+        var leadRaw = leadsRaw[l];
         if (leadRaw == null) {
           continue;
         }
@@ -2123,7 +2135,7 @@ export default (function() {
     };
 
     function parseLead(leadRaw) {
-      const lead = {
+      var lead = {
         auxData1: leadRaw['@aux_data1'],
         auxData2: leadRaw['@aux_data2'],
         auxData3: leadRaw['@aux_data3'],
@@ -2156,13 +2168,13 @@ export default (function() {
      * E.g. in the lead search form for manual passes
      *
      */
-    const CampaignDispositionsRequest = function(campaignId) {
+    var CampaignDispositionsRequest = function(campaignId) {
       this.agentId = UIModel.getInstance().agentSettings.agentId;
       this.campaignId = campaignId;
     };
 
     CampaignDispositionsRequest.prototype.formatJSON = function() {
-      const msg = {
+      var msg = {
         ui_request: {
           '@destination': 'IQ',
           '@type': MESSAGE_TYPES.CAMPAIGN_DISPOSITIONS,
@@ -2199,9 +2211,9 @@ export default (function() {
      * }
      */
     CampaignDispositionsRequest.prototype.processResponse = function(response) {
-      const resp = response.ui_response;
-      const model = UIModel.getInstance();
-      const dispositions = utils.processResponseCollection(
+      var resp = response.ui_response;
+      var model = UIModel.getInstance();
+      var dispositions = utils.processResponseCollection(
         resp,
         'outdial_dispositions',
         'disposition',
@@ -2212,12 +2224,12 @@ export default (function() {
       return dispositions;
     };
 
-    const ChatStateRequest = function(chatState) {
+    var ChatStateRequest = function(chatState) {
       this.chatState = (chatState && chatState.toUpperCase()) || '';
     };
 
     ChatStateRequest.prototype.formatJSON = function() {
-      const msg = {
+      var msg = {
         ui_request: {
           '@destination': 'IQ',
           '@type': MESSAGE_TYPES.CHAT_STATE,
@@ -2252,14 +2264,14 @@ export default (function() {
      * }
      */
     ChatStateRequest.prototype.processResponse = function(response) {
-      const resp = response.ui_response;
-      const status = utils.getText(resp, 'status');
-      const prevState = utils.getText(resp, 'prev_state');
-      const currState = utils.getText(resp, 'current_state');
-      const model = UIModel.getInstance();
+      var resp = response.ui_response;
+      var status = utils.getText(resp, 'status');
+      var prevState = utils.getText(resp, 'prev_state');
+      var currState = utils.getText(resp, 'current_state');
+      var model = UIModel.getInstance();
 
       // add message and detail if present
-      const formattedResponse = utils.buildDefaultResponse(response);
+      var formattedResponse = utils.buildDefaultResponse(response);
 
       formattedResponse.agentId = response.ui_response.agent_id['#text'] || '';
       formattedResponse.previousState = prevState;
@@ -2275,19 +2287,15 @@ export default (function() {
         }
 
         // log message response
-        const message = `Unable to change chat state. ${formattedResponse.detail}`;
+        var message =
+          'Unable to change chat state. ' + formattedResponse.detail;
         utils.logMessage(LOG_LEVELS.WARN, message, response);
       }
 
       return formattedResponse;
     };
 
-    const XferColdRequest = function(
-      dialDest,
-      callerId,
-      sipHeaders,
-      countryId,
-    ) {
+    var XferColdRequest = function(dialDest, callerId, sipHeaders, countryId) {
       this.dialDest = dialDest;
       this.callerId = callerId || '';
       this.sipHeaders = sipHeaders || [];
@@ -2295,16 +2303,16 @@ export default (function() {
     };
 
     XferColdRequest.prototype.formatJSON = function() {
-      const fields = [];
-      for (let i = 0; i < this.sipHeaders.length; i++) {
-        const fieldObj = this.sipHeaders[i];
+      var fields = [];
+      for (var i = 0; i < this.sipHeaders.length; i++) {
+        var fieldObj = this.sipHeaders[i];
         fields.push({
           '@name': utils.toString(fieldObj.name),
           '@value': utils.toString(fieldObj.value),
         });
       }
 
-      const msg = {
+      var msg = {
         ui_request: {
           '@destination': 'IQ',
           '@type': MESSAGE_TYPES.XFER_COLD,
@@ -2350,8 +2358,8 @@ export default (function() {
      * }
      */
     XferColdRequest.prototype.processResponse = function(response) {
-      const resp = response.ui_response;
-      const formattedResponse = utils.buildDefaultResponse(response);
+      var resp = response.ui_response;
+      var formattedResponse = utils.buildDefaultResponse(response);
 
       formattedResponse.agentId = utils.getText(resp, 'agent_id');
       formattedResponse.uii = utils.getText(resp, 'uii');
@@ -2361,22 +2369,26 @@ export default (function() {
       if (formattedResponse.status === 'OK') {
       } else {
         // log message response
-        const message = `There was an error processing the Cold Xfer request. ${formattedResponse.message} : ${formattedResponse.detail}`;
+        var message =
+          'There was an error processing the Cold Xfer request. ' +
+          formattedResponse.message +
+          ' : ' +
+          formattedResponse.detail;
         utils.logMessage(LOG_LEVELS.WARN, message, response);
       }
 
       return formattedResponse;
     };
 
-    const DirectAgentTransfer = function(targetAgentId, transferType, uii) {
+    var DirectAgentTransfer = function(targetAgentId, transferType, uii) {
       this.targetAgentId = targetAgentId;
       this.transferType = transferType;
       this.uii = uii || UIModel.getInstance().currentCall.uii;
     };
 
     DirectAgentTransfer.prototype.formatJSON = function() {
-      const model = UIModel.getInstance();
-      const msg = {
+      var model = UIModel.getInstance();
+      var msg = {
         ui_request: {
           '@destination': 'IQ',
           '@type': MESSAGE_TYPES.DIRECT_AGENT_TRANSFER,
@@ -2414,23 +2426,27 @@ export default (function() {
      * }
      */
     DirectAgentTransfer.prototype.processResponse = function(response) {
-      const resp = response.ui_response;
-      const formattedResponse = utils.buildDefaultResponse(response);
+      var resp = response.ui_response;
+      var formattedResponse = utils.buildDefaultResponse(response);
       formattedResponse.type = utils.getText(resp, 'type');
 
       if (formattedResponse.status !== 'OK') {
         // log message response
-        const message = `There was an error processing the Direct Agent Transfer request. ${formattedResponse.message} : ${formattedResponse.detail}`;
+        var message =
+          'There was an error processing the Direct Agent Transfer request. ' +
+          formattedResponse.message +
+          ' : ' +
+          formattedResponse.detail;
         utils.logMessage(LOG_LEVELS.WARN, message, response);
       }
 
       return formattedResponse;
     };
 
-    const DirectAgentTransferList = function() {};
+    var DirectAgentTransferList = function() {};
 
     DirectAgentTransferList.prototype.formatJSON = function() {
-      const msg = {
+      var msg = {
         ui_request: {
           '@destination': 'IQ',
           '@type': MESSAGE_TYPES.DIRECT_AGENT_TRANSFER_LIST,
@@ -2487,7 +2503,7 @@ export default (function() {
      *  }
      */
     DirectAgentTransferList.prototype.processResponse = function(response) {
-      const formattedResponse = utils.buildDefaultResponse(response);
+      var formattedResponse = utils.buildDefaultResponse(response);
       formattedResponse.agents = utils.processResponseCollection(
         response,
         'ui_response',
@@ -2496,14 +2512,18 @@ export default (function() {
 
       if (formattedResponse.status !== 'OK') {
         // log message response
-        const message = `There was an error processing the Direct Agent Transfer List request. ${formattedResponse.message} : ${formattedResponse.detail}`;
+        var message =
+          'There was an error processing the Direct Agent Transfer List request. ' +
+          formattedResponse.message +
+          ' : ' +
+          formattedResponse.detail;
         utils.logMessage(LOG_LEVELS.WARN, message, response);
       }
 
       return formattedResponse;
     };
 
-    const DispositionRequest = function(
+    var DispositionRequest = function(
       uii,
       dispId,
       notes,
@@ -2573,8 +2593,8 @@ export default (function() {
      * }
      */
     DispositionRequest.prototype.formatJSON = function() {
-      const model = UIModel.getInstance();
-      const msg = {
+      var model = UIModel.getInstance();
+      var msg = {
         ui_request: {
           '@destination': 'IQ',
           '@message_id': utils.getMessageId(),
@@ -2636,24 +2656,24 @@ export default (function() {
        * }
        */
       if (this.survey !== null) {
-        const response = [];
-        const keys = Object.keys(this.survey);
-        for (let i = 0; i < keys.length; i++) {
-          const key = keys[i];
-          const obj = {
+        var response = [];
+        var keys = Object.keys(this.survey);
+        for (var i = 0; i < keys.length; i++) {
+          var key = keys[i];
+          var obj = {
             '@extern_id': key,
             '@lead_update_column': utils.toString(this.survey[key].leadField),
             '#text': utils.toString(this.survey[key].value),
           };
           response.push(obj);
         }
-        msg.ui_request.survey = { response };
+        msg.ui_request.survey = { response: response };
       }
 
       return JSON.stringify(msg);
     };
 
-    const DispositionManualPassRequest = function(
+    var DispositionManualPassRequest = function(
       dispId,
       notes,
       callback,
@@ -2695,8 +2715,8 @@ export default (function() {
      * }
      */
     DispositionManualPassRequest.prototype.formatJSON = function() {
-      const model = UIModel.getInstance();
-      const msg = {
+      var model = UIModel.getInstance();
+      var msg = {
         ui_request: {
           '@destination': 'IQ',
           '@message_id': utils.getMessageId(),
@@ -2740,14 +2760,14 @@ export default (function() {
       return JSON.stringify(msg);
     };
 
-    const ExtensionPresenceRequest = function() {};
+    var ExtensionPresenceRequest = function() {};
 
     ExtensionPresenceRequest.prototype.getExtensionPresenceInfo = function(
       extensionIds,
     ) {
       UIModel.getInstance().ExtensionPresenceRequest = this;
       _getExtensionPresenceInfo('rcdirectory/getExtensionPresenceStatus', {
-        extensionIds,
+        extensionIds: extensionIds,
       });
     };
 
@@ -2757,26 +2777,31 @@ export default (function() {
     };
 
     function _getExtensionPresenceInfo(path, queryParams) {
-      const model = UIModel.getInstance();
-      const baseUrl = model.authHost + model.baseApiUri;
-      const engageAccessToken = `Bearer ${utils.toString(
-        UIModel.getInstance().authenticateRequest.engageAccessToken,
-      )}`;
-      const params = {
+      var model = UIModel.getInstance();
+      var baseUrl = model.authHost + model.baseApiUri;
+      var engageAccessToken =
+        'Bearer ' +
+        utils.toString(
+          UIModel.getInstance().authenticateRequest.engageAccessToken,
+        );
+      var params = {
         headers: {
           'Content-Type': 'application/json',
         },
       };
 
-      params.headers.Authorization = engageAccessToken;
-      params.queryParams = queryParams;
-      const errorMsg = `Error while fetching extension presence response. URL: ${baseUrl}${path}`;
+      params.headers['Authorization'] = engageAccessToken;
+      params['queryParams'] = queryParams;
+      var errorMsg =
+        'Error while fetching extension presence response. URL: ' +
+        baseUrl +
+        path;
 
       new HttpService(baseUrl).httpGet(path, params).then(
         function(response) {
           try {
             response = JSON.parse(response.response);
-            const extensionPresenceResponse = UIModel.getInstance().extensionPresenceRequest.processResponse(
+            var extensionPresenceResponse = UIModel.getInstance().extensionPresenceRequest.processResponse(
               response,
             );
             utils.fireCallback(
@@ -2789,7 +2814,7 @@ export default (function() {
           }
         },
         function(err) {
-          const errResponse = {
+          var errResponse = {
             type: 'Error while fetching extension presence response.',
             message: errorMsg,
           };
@@ -2805,13 +2830,13 @@ export default (function() {
       );
     }
 
-    const HangupRequest = function(sessionId, resetPendingDisp) {
+    var HangupRequest = function(sessionId, resetPendingDisp) {
       this.sessionId = sessionId || null;
       this.resetPendingDisp = resetPendingDisp || false;
     };
 
     HangupRequest.prototype.formatJSON = function() {
-      const msg = {
+      var msg = {
         ui_request: {
           '@destination': 'IQ',
           '@type': MESSAGE_TYPES.HANGUP,
@@ -2841,7 +2866,7 @@ export default (function() {
       return JSON.stringify(msg);
     };
 
-    const HoldRequest = function(holdState, sessionId) {
+    var HoldRequest = function(holdState, sessionId) {
       this.holdState = holdState;
       this.sessionId = sessionId || '1';
     };
@@ -2860,8 +2885,8 @@ export default (function() {
      * }
      */
     HoldRequest.prototype.formatJSON = function() {
-      const model = UIModel.getInstance();
-      const msg = {
+      var model = UIModel.getInstance();
+      var msg = {
         ui_request: {
           '@destination': 'IQ',
           '@type': MESSAGE_TYPES.HOLD,
@@ -2905,9 +2930,9 @@ export default (function() {
      * }
      */
     HoldRequest.prototype.processResponse = function(response) {
-      const resp = response.ui_response;
-      const formattedResponse = utils.buildDefaultResponse(response);
-      let currUII = '';
+      var resp = response.ui_response;
+      var formattedResponse = utils.buildDefaultResponse(response);
+      var currUII = '';
       if (UIModel.getInstance().currentCall.uii) {
         currUII = UIModel.getInstance().currentCall.uii;
       }
@@ -2920,11 +2945,12 @@ export default (function() {
         // make sure we are talking about the same call
         if (formattedResponse.uii === currUII) {
           if (formattedResponse.message === '') {
-            formattedResponse.message = `Broadcasting new hold state of ${formattedResponse.holdState}`;
+            formattedResponse.message =
+              'Broadcasting new hold state of ' + formattedResponse.holdState;
           }
           utils.logMessage(
             LOG_LEVELS.DEBUG,
-            `Broadcasting new hold state of ${formattedResponse.holdState}`,
+            'Broadcasting new hold state of ' + formattedResponse.holdState,
             response,
           );
         } else {
@@ -2936,18 +2962,20 @@ export default (function() {
         }
       } else {
         if (formattedResponse.message === '') {
-          formattedResponse.message = `Error processing HOLD request. ${+formattedResponse.message}\n${
-            formattedResponse.detail
-          }`;
+          formattedResponse.message =
+            'Error processing HOLD request. ' +
+            +formattedResponse.message +
+            '\n' +
+            formattedResponse.detail;
         }
         utils.logMessage(
           LOG_LEVELS.WARN,
-          `Error processing HOLD request. ${formattedResponse.detail}`,
+          'Error processing HOLD request. ' + formattedResponse.detail,
           response,
         );
       }
 
-      const model = UIModel.getInstance();
+      var model = UIModel.getInstance();
       if (
         formattedResponse.sessionId !== '1' &&
         model.transferSessions[formattedResponse.sessionId]
@@ -2960,7 +2988,7 @@ export default (function() {
       return formattedResponse;
     };
 
-    const LeadHistoryRequest = function(leadId) {
+    var LeadHistoryRequest = function(leadId) {
       this.leadId = leadId;
     };
 
@@ -2976,8 +3004,8 @@ export default (function() {
      * }
      */
     LeadHistoryRequest.prototype.formatJSON = function() {
-      const model = UIModel.getInstance();
-      const msg = {
+      var model = UIModel.getInstance();
+      var msg = {
         ui_request: {
           '@destination': 'IQ',
           '@type': MESSAGE_TYPES.LEAD_HISTORY,
@@ -3049,12 +3077,12 @@ export default (function() {
      * }
      */
     LeadHistoryRequest.prototype.processResponse = function(response) {
-      const resp = response.ui_response;
-      const histResponse = {
+      var resp = response.ui_response;
+      var histResponse = {
         leadId: resp['@lead_id'],
       };
 
-      let history = utils.processResponseCollection(
+      var history = utils.processResponseCollection(
         response,
         'ui_response',
         'previous_dial',
@@ -3069,7 +3097,7 @@ export default (function() {
       return histResponse;
     };
 
-    const LeadInsertRequest = function(dataObj) {
+    var LeadInsertRequest = function(dataObj) {
       // handle boolean value conversion
       if (dataObj.agent_reserved && dataObj.agent_reserved === true) {
         dataObj.agent_reserved = '1';
@@ -3119,8 +3147,8 @@ export default (function() {
      * }
      */
     LeadInsertRequest.prototype.formatJSON = function() {
-      const model = UIModel.getInstance();
-      const msg = {
+      var model = UIModel.getInstance();
+      var msg = {
         ui_request: {
           '@destination': 'IQ',
           '@type': MESSAGE_TYPES.LEAD_INSERT,
@@ -3215,15 +3243,15 @@ export default (function() {
      * }
      */
     LeadInsertRequest.prototype.processResponse = function(response) {
-      const resp = response.ui_response;
-      const formattedResponse = utils.buildDefaultResponse(response);
+      var resp = response.ui_response;
+      var formattedResponse = utils.buildDefaultResponse(response);
 
       formattedResponse.message = resp.msg['#text'];
 
       return formattedResponse;
     };
 
-    const LeadUpdateRequest = function(leadId, leadPhone, baggage) {
+    var LeadUpdateRequest = function(leadId, leadPhone, baggage) {
       this.leadId = leadId;
       this.leadPhone = leadPhone;
       this.baggage = baggage;
@@ -3267,7 +3295,7 @@ export default (function() {
     LeadUpdateRequest.prototype.formatJSON = function() {
       // make sure required baggage fields are present
       this.baggage = _formatBaggage(this.baggage);
-      const msg = {
+      var msg = {
         ui_request: {
           '@destination': 'IQ',
           '@type': MESSAGE_TYPES.LEAD_UPDATE,
@@ -3303,8 +3331,8 @@ export default (function() {
      * }
      */
     LeadUpdateRequest.prototype.processResponse = function(response) {
-      const resp = response.ui_response;
-      const formattedResponse = utils.buildDefaultResponse(response);
+      var resp = response.ui_response;
+      var formattedResponse = utils.buildDefaultResponse(response);
 
       formattedResponse.message = resp.msg['#text'];
 
@@ -3312,7 +3340,7 @@ export default (function() {
     };
 
     var _formatBaggage = function(baggage) {
-      const bag = {};
+      var bag = {};
       bag.first_name = { '#text': baggage.first_name || '' };
       bag.mid_name = { '#text': baggage.mid_name || '' };
       bag.last_name = { '#text': baggage.last_name || '' };
@@ -3335,7 +3363,7 @@ export default (function() {
       return bag;
     };
 
-    const LoginRequest = function(
+    var LoginRequest = function(
       dialDest,
       queueIds,
       chatIds,
@@ -3355,7 +3383,7 @@ export default (function() {
       this.isForce = isForce;
 
       // Remove any ids agent doesn't have access to
-      const model = UIModel.getInstance();
+      var model = UIModel.getInstance();
       this.queueIds = utils.checkExistingIds(
         model.inboundSettings.availableQueues,
         this.queueIds,
@@ -3402,14 +3430,16 @@ export default (function() {
       if (!utils.validateDest(this.dialDest)) {
         utils.logMessage(
           LOG_LEVELS.WARN,
-          `dialDest [${this.dialDest}] must be a valid sip or 10-digit DID`,
+          'dialDest [' +
+            this.dialDest +
+            '] must be a valid sip or 10-digit DID',
           '',
         );
       }
     };
 
     LoginRequest.prototype.formatJSON = function() {
-      const msg = {
+      var msg = {
         ui_request: {
           '@destination': 'IQ',
           '@type': MESSAGE_TYPES.LOGIN,
@@ -3459,7 +3489,7 @@ export default (function() {
       };
 
       // add arrays
-      const queueIds = [];
+      var queueIds = [];
       for (var i = 0; i < this.queueIds.length; i++) {
         if (this.queueIds[i] !== '') {
           queueIds.push({ '#text': utils.toString(this.queueIds[i]) });
@@ -3471,7 +3501,7 @@ export default (function() {
         msg.ui_request.gates = {};
       }
 
-      const chatIds = [];
+      var chatIds = [];
       for (var i = 0; i < this.chatIds.length; i++) {
         if (this.chatIds[i] !== '') {
           chatIds.push({ '#text': utils.toString(this.chatIds[i]) });
@@ -3514,13 +3544,13 @@ export default (function() {
      * }
      */
     LoginRequest.prototype.processResponse = function(response) {
-      const resp = response.ui_response;
-      const status = utils.getText(resp, 'status');
-      const detail = utils.getText(resp, 'detail');
-      const model = UIModel.getInstance();
-      let message = '';
-      const formattedResponse = utils.buildDefaultResponse(response);
-      const Lib = UIModel.getInstance().libraryInstance;
+      var resp = response.ui_response;
+      var status = utils.getText(resp, 'status');
+      var detail = utils.getText(resp, 'detail');
+      var model = UIModel.getInstance();
+      var message = '';
+      var formattedResponse = utils.buildDefaultResponse(response);
+      var Lib = UIModel.getInstance().libraryInstance;
 
       if (detail === 'Logon Session Configuration Updated!') {
         // this is an update login packet
@@ -3562,98 +3592,106 @@ export default (function() {
           setGateSettings(response);
           setChatQueueSettings(response);
           setSkillProfileSettings(response);
-        } else if (model.agentSettings.updateLoginMode) {
-          model.agentSettings.dialDest = utils.getText(resp, 'dial_dest');
-          model.agentSettings.loginType = utils.getText(resp, 'login_type');
-          model.agentSettings.accountId = utils.getText(resp, 'account_id');
-
-          // This was an update login request
-          model.agentSettings.updateLoginMode = false;
-
-          // reset to false before updating dial group settings
-          model.agentPermissions.allowLeadSearch = false;
-          model.agentPermissions.requireFetchedLeadsCalled = false;
-          model.agentPermissions.allowPreviewLeadFilters = false;
-
-          // Set collection values
-          setDialGroupSettings(response);
-          setGateSettings(response);
-          setChatQueueSettings(response);
-          setSkillProfileSettings(response);
         } else {
-          // this was a reconnect
-          message = 'Processed a Layer 2 Reconnect Successfully';
+          if (model.agentSettings.updateLoginMode) {
+            model.agentSettings.dialDest = utils.getText(resp, 'dial_dest');
+            model.agentSettings.loginType = utils.getText(resp, 'login_type');
+            model.agentSettings.accountId = utils.getText(resp, 'account_id');
 
-          model.connectionSettings.isOnCall = utils.getText(resp, 'is_on_call');
-          model.connectionSettings.activeCallUii = utils.getText(
-            resp,
-            'active_call_uii',
-          );
-          model.connectionSettings.isPendingDisp = utils.getText(
-            resp,
-            'is_pending_disp',
-          );
+            // This was an update login request
+            model.agentSettings.updateLoginMode = false;
 
-          if (model.connectionSettings.isOnCall === false) {
-            if (model.currentCall.uii) {
-              const mockEndCallPacket = {
-                ui_notification: {
-                  '@message_id': '',
-                  '@type': 'END-CALL',
-                  uii: { '#text': model.currentCall.uii },
-                  term_reason: { '#text': 'SOCKET-DISCONNECT' },
-                },
-              };
+            // reset to false before updating dial group settings
+            model.agentPermissions.allowLeadSearch = false;
+            model.agentPermissions.requireFetchedLeadsCalled = false;
+            model.agentPermissions.allowPreviewLeadFilters = false;
 
-              utils.processNotification(Lib, mockEndCallPacket);
-            }
-
-            if (model.agentSettings.isOffhook) {
-              const offHookTermPacket = {
-                ui_notification: {
-                  agent_id: {
-                    '#text': UIModel.getInstance().agentSettings.agentId,
-                  },
-                  '@type': 'OFF-HOOK-TERM',
-                  '@message_id': '',
-                },
-              };
-
-              const agentProcessOffhookCallback = utils.processNotification(
-                Lib,
-                offHookTermPacket,
-              );
-              Lib.offhookTerm(agentProcessOffhookCallback);
-            }
-          } else if (
-            model.connectionSettings.isOnCall &&
-            (model.currentCall.uii !== model.connectionSettings.activeCallUii ||
-              Lib.waitingForAddSession === true)
-          ) {
-            // if the agent does not know it is on a call, but IQ thinks it is on a call
-            // normally in the case of disconnect during transition
-
-            model.currentCall.uii = model.connectionSettings.activeCallUii;
-            model.currentCall.pendingDisp = false;
-            Lib.hangup(1, true);
+            // Set collection values
+            setDialGroupSettings(response);
+            setGateSettings(response);
+            setChatQueueSettings(response);
+            setSkillProfileSettings(response);
           } else {
-            // agent still is on call and there are transferSessions, verify no transferSession were drop
-            const activeAgentUiSessions = Lib.getTransferSessions();
-            const activeAgentSessions = response.ui_response.active_call_sessions.call_session_id.map(
-              function(sessionObj) {
-                return sessionObj['#text'];
-              },
+            // this was a reconnect
+            message = 'Processed a Layer 2 Reconnect Successfully';
+
+            model.connectionSettings.isOnCall = utils.getText(
+              resp,
+              'is_on_call',
+            );
+            model.connectionSettings.activeCallUii = utils.getText(
+              resp,
+              'active_call_uii',
+            );
+            model.connectionSettings.isPendingDisp = utils.getText(
+              resp,
+              'is_pending_disp',
             );
 
-            for (const transferSession in activeAgentUiSessions) {
-              if (activeAgentSessions.indexOf(transferSession) === -1) {
-                // if the active ui session is no longer active, we need to tell the ui
-                delete UIModel.getInstance().transferSessions[transferSession];
+            if (model.connectionSettings.isOnCall === false) {
+              if (model.currentCall.uii) {
+                var mockEndCallPacket = {
+                  ui_notification: {
+                    '@message_id': '',
+                    '@type': 'END-CALL',
+                    uii: { '#text': model.currentCall.uii },
+                    term_reason: { '#text': 'SOCKET-DISCONNECT' },
+                  },
+                };
+
+                utils.processNotification(Lib, mockEndCallPacket);
+              }
+
+              if (model.agentSettings.isOffhook) {
+                var offHookTermPacket = {
+                  ui_notification: {
+                    agent_id: {
+                      '#text': UIModel.getInstance().agentSettings.agentId,
+                    },
+                    '@type': 'OFF-HOOK-TERM',
+                    '@message_id': '',
+                  },
+                };
+
+                var agentProcessOffhookCallback = utils.processNotification(
+                  Lib,
+                  offHookTermPacket,
+                );
+                Lib.offhookTerm(agentProcessOffhookCallback);
+              }
+            } else if (
+              model.connectionSettings.isOnCall &&
+              (model.currentCall.uii !==
+                model.connectionSettings.activeCallUii ||
+                Lib.waitingForAddSession === true)
+            ) {
+              //if the agent does not know it is on a call, but IQ thinks it is on a call
+              //normally in the case of disconnect during transition
+
+              model.currentCall.uii = model.connectionSettings.activeCallUii;
+              model.currentCall.pendingDisp = false;
+              Lib.hangup(1, true);
+            } else {
+              //agent still is on call and there are transferSessions, verify no transferSession were drop
+              var activeAgentUiSessions = Lib.getTransferSessions();
+              var activeAgentSessions = response.ui_response.active_call_sessions.call_session_id.map(
+                function(sessionObj) {
+                  return sessionObj['#text'];
+                },
+              );
+
+              for (var transferSession in activeAgentUiSessions) {
+                if (activeAgentSessions.indexOf(transferSession) === -1) {
+                  //if the active ui session is no longer active, we need to tell the ui
+                  delete UIModel.getInstance().transferSessions[
+                    transferSession
+                  ];
+                }
               }
             }
-          }
 
-          utils.logMessage(LOG_LEVELS.INFO, message, response);
+            utils.logMessage(LOG_LEVELS.INFO, message, response);
+          }
         }
 
         // always update guid and agent login hashcode if found
@@ -3684,11 +3722,11 @@ export default (function() {
     };
 
     function setDialGroupSettings(response) {
-      const model = UIModel.getInstance();
-      const outdialGroups = model.outboundSettings.availableOutdialGroups;
+      var model = UIModel.getInstance();
+      var outdialGroups = model.outboundSettings.availableOutdialGroups;
       model.outboundSettings.outdialGroup = {}; // reset
-      for (let g = 0; g < outdialGroups.length; g++) {
-        const group = outdialGroups[g];
+      for (var g = 0; g < outdialGroups.length; g++) {
+        var group = outdialGroups[g];
         if (
           group.dialGroupId === response.ui_response.outdial_group_id['#text']
         ) {
@@ -3709,12 +3747,12 @@ export default (function() {
     }
 
     function setSkillProfileSettings(response) {
-      const model = UIModel.getInstance();
+      var model = UIModel.getInstance();
       model.inboundSettings.skillProfile = {};
-      const skillProfiles = model.inboundSettings.availableSkillProfiles;
-      for (let s = 0; s < skillProfiles.length; s++) {
-        const profile = skillProfiles[s];
-        const responseId = utils.getText(
+      var skillProfiles = model.inboundSettings.availableSkillProfiles;
+      for (var s = 0; s < skillProfiles.length; s++) {
+        var profile = skillProfiles[s];
+        var responseId = utils.getText(
           response.ui_response,
           'skill_profile_id',
         );
@@ -3727,23 +3765,23 @@ export default (function() {
     }
 
     function setGateSettings(response) {
-      const model = UIModel.getInstance();
-      const gates = model.inboundSettings.availableQueues;
-      const selectedGateIds = [];
-      const selectedGates = [];
-      let gateIds = response.ui_response.gates.gate_id || [];
+      var model = UIModel.getInstance();
+      var gates = model.inboundSettings.availableQueues;
+      var selectedGateIds = [];
+      var selectedGates = [];
+      var gateIds = response.ui_response.gates.gate_id || [];
 
       if (!Array.isArray(gateIds)) {
         gateIds = [gateIds];
       }
 
-      for (let s = 0; s < gateIds.length; s++) {
-        const obj = gateIds[s];
+      for (var s = 0; s < gateIds.length; s++) {
+        var obj = gateIds[s];
         selectedGateIds.push(obj['#text']);
       }
 
-      for (let gIdx = 0; gIdx < gates.length; gIdx++) {
-        const gate = gates[gIdx];
+      for (var gIdx = 0; gIdx < gates.length; gIdx++) {
+        var gate = gates[gIdx];
         if (selectedGateIds.indexOf(gate.gateId) > -1) {
           selectedGates.push(gate);
         }
@@ -3753,24 +3791,24 @@ export default (function() {
     }
 
     function setChatQueueSettings(response) {
-      const model = UIModel.getInstance();
-      const chatQueues = model.chatSettings.availableChatQueues;
-      const selectedChatQueueIds = [];
-      const selectedChatQueues = [];
-      const cQueues = response.ui_response.chat_queues || {};
-      let chatQueueIds = cQueues.chat_queue_id || [];
+      var model = UIModel.getInstance();
+      var chatQueues = model.chatSettings.availableChatQueues;
+      var selectedChatQueueIds = [];
+      var selectedChatQueues = [];
+      var cQueues = response.ui_response.chat_queues || {};
+      var chatQueueIds = cQueues.chat_queue_id || [];
 
       if (!Array.isArray(chatQueueIds)) {
         chatQueueIds = [chatQueueIds];
       }
 
-      for (let c = 0; c < chatQueueIds.length; c++) {
-        const obj = chatQueueIds[c];
+      for (var c = 0; c < chatQueueIds.length; c++) {
+        var obj = chatQueueIds[c];
         selectedChatQueueIds.push(obj['#text']);
       }
 
-      for (let cIdx = 0; cIdx < chatQueues.length; cIdx++) {
-        const chatQueue = chatQueues[cIdx];
+      for (var cIdx = 0; cIdx < chatQueues.length; cIdx++) {
+        var chatQueue = chatQueues[cIdx];
         if (selectedChatQueueIds.indexOf(chatQueue.chatQueueId) > -1) {
           selectedChatQueues.push(chatQueue);
         }
@@ -3781,10 +3819,10 @@ export default (function() {
       ); // copy array
     }
 
-    const LoginPhase1Request = function() {};
+    var LoginPhase1Request = function() {};
 
     LoginPhase1Request.prototype.formatJSON = function() {
-      const msg = {
+      var msg = {
         ui_request: {
           '@destination': 'IQ',
           '@type': MESSAGE_TYPES.LOGIN_PHASE_1,
@@ -3937,10 +3975,10 @@ export default (function() {
      * }
      */
     LoginPhase1Request.prototype.processResponse = function(response) {
-      const resp = response.ui_response;
-      const status = utils.getText(resp, 'status');
-      const model = UIModel.getInstance();
-      const formattedResponse = utils.buildDefaultResponse(response);
+      var resp = response.ui_response;
+      var status = utils.getText(resp, 'status');
+      var model = UIModel.getInstance();
+      var formattedResponse = utils.buildDefaultResponse(response);
 
       if (status === 'OK') {
         if (!model.applicationSettings.isLoggedInIS) {
@@ -3952,10 +3990,10 @@ export default (function() {
             utils.getText(resp, 'tcpa_safe_mode') === '1';
           model.applicationSettings.pciEnabled =
             utils.getText(resp, 'pci_enabled') === '1';
-          model.chatSettings.alias = `${utils.getText(
-            resp,
-            'first_name',
-          )} ${utils.getText(resp, 'last_name')}`;
+          model.chatSettings.alias =
+            utils.getText(resp, 'first_name') +
+            ' ' +
+            utils.getText(resp, 'last_name');
 
           model.agentSettings.loginDTS = new Date();
           model.agentSettings.maxBreakTime = utils.getText(
@@ -4132,14 +4170,14 @@ export default (function() {
             'campaign',
           );
 
-          const dialGroups = utils.processResponseCollection(
+          var dialGroups = utils.processResponseCollection(
             response.ui_response,
             'outdial_groups',
             'group',
           );
           // set boolean values
-          for (let dg = 0; dg < dialGroups.length; dg++) {
-            const group = dialGroups[dg];
+          for (var dg = 0; dg < dialGroups.length; dg++) {
+            var group = dialGroups[dg];
             group.allowLeadSearch = group.allowLeadSearch === 'YES';
             group.allowPreviewLeadFilters =
               group.allowPreviewLeadFilters === '1';
@@ -4168,8 +4206,8 @@ export default (function() {
     };
 
     function _processCampaigns(response) {
-      const campaigns = [];
-      let campaignsRaw = null;
+      var campaigns = [];
+      var campaignsRaw = null;
 
       if (typeof response.ui_response.campaigns.campaign !== 'undefined') {
         campaignsRaw = response.ui_response.campaigns.campaign;
@@ -4180,7 +4218,7 @@ export default (function() {
           campaignsRaw = [campaignsRaw];
         }
 
-        for (let c = 0; c < campaignsRaw.length; c++) {
+        for (var c = 0; c < campaignsRaw.length; c++) {
           campaigns.push(_processCampaign(campaignsRaw[c]));
         }
       }
@@ -4190,30 +4228,30 @@ export default (function() {
 
     function _processCampaign(campaignRaw) {
       // single campaign object
-      const campaignId = campaignRaw['@campaign_id'];
-      const allowLeadUpdates = campaignRaw['@allow_lead_updates']; // 0 = no update, 1 = allow phone update, 2 = don't allow phone update
+      var campaignId = campaignRaw['@campaign_id'];
+      var allowLeadUpdates = campaignRaw['@allow_lead_updates']; // 0 = no update, 1 = allow phone update, 2 = don't allow phone update
       UIModel.getInstance().agentPermissions.allowLeadUpdatesByCampaign[
         campaignId
       ] = allowLeadUpdates;
 
-      const customLabels = campaignRaw.custom_labels;
-      const labelArray = [];
+      var customLabels = campaignRaw['custom_labels'];
+      var labelArray = [];
 
-      for (const p in customLabels) {
-        const label = p.replace(/@/, ''); // remove leading '@'
-        const obj = {};
+      for (var p in customLabels) {
+        var label = p.replace(/@/, ''); // remove leading '@'
+        var obj = {};
         obj[label] = customLabels[p];
 
         labelArray.push(obj);
       }
 
       return {
-        campaignId,
+        campaignId: campaignId,
         campaignName: campaignRaw['@campaign_name'],
         surveyId: campaignRaw['@survey_id'],
         surveyName: campaignRaw['@survey_name'],
         customLabels: labelArray,
-        allowLeadUpdates,
+        allowLeadUpdates: allowLeadUpdates,
       };
     }
 
@@ -4242,21 +4280,21 @@ export default (function() {
      *
      *
      *      This function will format the dnis list and put them back on chatSettings.availableChatQueues
-     * */
+     **/
     function _processChatQueueDnis(chatSettings, response) {
-      const queues = chatSettings.availableChatQueues;
-      let rawQueues = response.ui_response.login_chat_queues.chat_queue;
+      var queues = chatSettings.availableChatQueues;
+      var rawQueues = response.ui_response.login_chat_queues.chat_queue;
 
       if (!Array.isArray(rawQueues)) {
         rawQueues = [rawQueues];
       }
 
-      for (let i = 0; i < queues.length; i++) {
-        const queue = queues[i];
+      for (var i = 0; i < queues.length; i++) {
+        var queue = queues[i];
 
-        let rawQueue = {};
-        for (let j = 0; j < rawQueues.length; j++) {
-          const rq = rawQueues[j];
+        var rawQueue = {};
+        for (var j = 0; j < rawQueues.length; j++) {
+          var rq = rawQueues[j];
           if (rq['@chat_queue_id'] === queue.chatQueueId) {
             rawQueue = rq;
             break;
@@ -4276,13 +4314,13 @@ export default (function() {
       }
     }
 
-    const LogoutRequest = function(agentId, message) {
+    var LogoutRequest = function(agentId, message) {
       this.agentId = agentId;
       this.message = message || '';
     };
 
     LogoutRequest.prototype.formatJSON = function() {
-      const msg = {
+      var msg = {
         ui_request: {
           '@destination': 'IQ',
           '@type': MESSAGE_TYPES.LOGOUT,
@@ -4301,22 +4339,22 @@ export default (function() {
     };
 
     LogoutRequest.prototype.processResponse = function(notification) {
-      const formattedResponse = utils.buildDefaultResponse(notification);
+      var formattedResponse = utils.buildDefaultResponse(notification);
 
       return formattedResponse;
     };
-    const MultiSocketRequest = function() {};
+    var MultiSocketRequest = function() {};
 
     MultiSocketRequest.prototype.formatJSON = function() {
-      const model = UIModel.getInstance();
-      const msg = {
+      var model = UIModel.getInstance();
+      var msg = {
         ui_request: {
           '@destination': 'IQ',
           '@type': MESSAGE_TYPES.LOGIN_MULTISOCKET,
           '@message_id': utils.getMessageId(),
           response_to: '',
           agent_id: {
-            '#text': JSON.parse(model.dataStore.get('agent_id')), // fetch agent_id and hash_code from browser's local storage
+            '#text': JSON.parse(model.dataStore.get('agent_id')), //fetch agent_id and hash_code from browser's local storage
           },
           hash_code: {
             '#text': JSON.parse(model.dataStore.get('hash_code')),
@@ -4335,10 +4373,10 @@ export default (function() {
       return JSON.stringify(msg);
     };
 
-    const OffhookInitRequest = function() {};
+    var OffhookInitRequest = function() {};
 
     OffhookInitRequest.prototype.formatJSON = function() {
-      const msg = {
+      var msg = {
         ui_request: {
           '@destination': 'IQ',
           '@type': MESSAGE_TYPES.OFFHOOK_INIT,
@@ -4373,11 +4411,11 @@ export default (function() {
      * }
      */
     OffhookInitRequest.prototype.processResponse = function(response) {
-      const status = response.ui_response.status['#text'];
-      const formattedResponse = utils.buildDefaultResponse(response);
+      var status = response.ui_response.status['#text'];
+      var formattedResponse = utils.buildDefaultResponse(response);
 
       if (status === 'OK') {
-        const isMonitoring = utils.getText(response.ui_response, 'monitoring');
+        var isMonitoring = utils.getText(response.ui_response, 'monitoring');
         UIModel.getInstance().offhookInitPacket = response;
         UIModel.getInstance().agentSettings.isOffhook = true;
         UIModel.getInstance().agentSettings.isMonitoring = isMonitoring;
@@ -4391,7 +4429,7 @@ export default (function() {
         }
         utils.logMessage(
           LOG_LEVELS.WARN,
-          `${formattedResponse.message} ${formattedResponse.detail}`,
+          formattedResponse.message + ' ' + formattedResponse.detail,
           response,
         );
       }
@@ -4399,10 +4437,10 @@ export default (function() {
       return formattedResponse;
     };
 
-    const OffhookTermRequest = function() {};
+    var OffhookTermRequest = function() {};
 
     OffhookTermRequest.prototype.formatJSON = function() {
-      const msg = {
+      var msg = {
         ui_request: {
           '@destination': 'IQ',
           '@type': MESSAGE_TYPES.OFFHOOK_TERM,
@@ -4432,27 +4470,27 @@ export default (function() {
      * }
      */
     OffhookTermRequest.prototype.processResponse = function(data) {
-      const notif = data.ui_notification;
-      const monitoring = utils.getText(notif, 'monitoring') === '1';
-      const model = UIModel.getInstance();
+      var notif = data.ui_notification;
+      var monitoring = utils.getText(notif, 'monitoring') === '1';
+      var model = UIModel.getInstance();
 
       model.agentSettings.wasMonitoring = monitoring;
       model.offhookTermPacket = data;
       model.agentSettings.isOffhook = false;
       model.agentSettings.isMonitoring = false;
 
-      const formattedResponse = {
+      var formattedResponse = {
         status: 'OK',
         agentId: utils.getText(notif, 'agent_id'),
         startDts: utils.getText(notif, 'start_dts'),
         endDts: utils.getText(notif, 'end_dts'),
-        monitoring,
+        monitoring: monitoring,
       };
 
       return formattedResponse;
     };
 
-    const OneToOneOutdialRequest = function(
+    var OneToOneOutdialRequest = function(
       destination,
       callerId,
       ringTime,
@@ -4467,7 +4505,7 @@ export default (function() {
     };
 
     OneToOneOutdialRequest.prototype.formatJSON = function() {
-      const msg = {
+      var msg = {
         ui_request: {
           '@destination': 'IQ',
           '@type': MESSAGE_TYPES.ONE_TO_ONE_OUTDIAL,
@@ -4499,7 +4537,7 @@ export default (function() {
       return JSON.stringify(msg);
     };
 
-    const OneToOneOutdialCancelRequest = function(uii) {
+    var OneToOneOutdialCancelRequest = function(uii) {
       this.uii = uii;
     };
 
@@ -4508,7 +4546,7 @@ export default (function() {
      * an in-progress outbound call.
      */
     OneToOneOutdialCancelRequest.prototype.formatJSON = function() {
-      const msg = {
+      var msg = {
         ui_request: {
           '@destination': 'IQ',
           '@type': MESSAGE_TYPES.ONE_TO_ONE_OUTDIAL_CANCEL,
@@ -4528,7 +4566,7 @@ export default (function() {
       return JSON.stringify(msg);
     };
 
-    const PauseRecordRequest = function(record) {
+    var PauseRecordRequest = function(record) {
       this.record = record;
     };
 
@@ -4546,15 +4584,15 @@ export default (function() {
      * }
      */
     PauseRecordRequest.prototype.formatJSON = function() {
-      const model = UIModel.getInstance();
-      let pauseTime = '10';
+      var model = UIModel.getInstance();
+      var pauseTime = '10';
       if (
         model.currentCall.agentRecording &&
         model.currentCall.agentRecording.pause
       ) {
         pauseTime = model.currentCall.agentRecording.pause;
       }
-      const msg = {
+      var msg = {
         ui_request: {
           '@destination': 'IQ',
           '@type': MESSAGE_TYPES.PAUSE_RECORD,
@@ -4595,9 +4633,9 @@ export default (function() {
      * }
      */
     PauseRecordRequest.prototype.processResponse = function(response) {
-      const resp = response.ui_response;
-      const formattedResponse = utils.buildDefaultResponse(response);
-      let currUII = '';
+      var resp = response.ui_response;
+      var formattedResponse = utils.buildDefaultResponse(response);
+      var currUII = '';
       if (UIModel.getInstance().currentCall.uii) {
         currUII = UIModel.getInstance().currentCall.uii;
       }
@@ -4610,11 +4648,12 @@ export default (function() {
         // make sure we are talking about the same call
         if (formattedResponse.uii === currUII) {
           if (formattedResponse.message === '') {
-            formattedResponse.message = `Broadcasting new record state of ${formattedResponse.state}`;
+            formattedResponse.message =
+              'Broadcasting new record state of ' + formattedResponse.state;
           }
           utils.logMessage(
             LOG_LEVELS.DEBUG,
-            `Broadcasting new record state of ${formattedResponse.state}`,
+            'Broadcasting new record state of ' + formattedResponse.state,
             response,
           );
         } else {
@@ -4626,7 +4665,11 @@ export default (function() {
         }
       } else {
         if (formattedResponse.message === '') {
-          formattedResponse.message = `Error processing PAUSE-RECORD request.${formattedResponse.message}\n${formattedResponse.detail}`;
+          formattedResponse.message =
+            'Error processing PAUSE-RECORD request.' +
+            formattedResponse.message +
+            '\n' +
+            formattedResponse.detail;
         }
         utils.logMessage(LOG_LEVELS.WARN, formattedResponse.message, response);
       }
@@ -4634,10 +4677,10 @@ export default (function() {
       return formattedResponse;
     };
 
-    const PingCallRequest = function() {};
+    var PingCallRequest = function() {};
 
     PingCallRequest.prototype.formatJSON = function() {
-      const msg = {
+      var msg = {
         ui_request: {
           '@destination': 'IQ',
           '@type': MESSAGE_TYPES.PING_CALL,
@@ -4655,7 +4698,7 @@ export default (function() {
       return JSON.stringify(msg);
     };
 
-    const PreviewDialRequest = function(
+    var PreviewDialRequest = function(
       action,
       searchFields,
       requestId,
@@ -4675,13 +4718,13 @@ export default (function() {
      * ];
      */
     PreviewDialRequest.prototype.formatJSON = function() {
-      const fields = {};
-      for (let i = 0; i < this.searchFields.length; i++) {
-        const fieldObj = this.searchFields[i];
+      var fields = {};
+      for (var i = 0; i < this.searchFields.length; i++) {
+        var fieldObj = this.searchFields[i];
         fields[fieldObj.key] = { '#text': utils.toString(fieldObj.value) };
       }
 
-      const msg = {
+      var msg = {
         ui_request: {
           '@destination': 'IQ',
           '@type': MESSAGE_TYPES.PREVIEW_DIAL,
@@ -4739,9 +4782,9 @@ export default (function() {
      * }
      */
     PreviewDialRequest.prototype.processResponse = function(notification) {
-      const notif = notification.dialer_request;
-      const model = UIModel.getInstance();
-      const leads = utils.processResponseCollection(
+      var notif = notification.dialer_request;
+      var model = UIModel.getInstance();
+      var leads = utils.processResponseCollection(
         notif,
         'destinations',
         'lead',
@@ -4762,7 +4805,7 @@ export default (function() {
 
         // parse extra data correctly
         try {
-          let notifLead = notif.destinations.lead[l];
+          var notifLead = notif.destinations.lead[l];
 
           if (notifLead.extra_data) {
             // if this lead doesn't match the current lead, find it from the notification
@@ -4774,23 +4817,23 @@ export default (function() {
 
             delete lead.extraDatas;
             lead.extraData = {};
-            for (const key in notifLead.extra_data) {
+            for (var key in notifLead.extra_data) {
               lead.extraData[key] = notifLead.extra_data[key]['#text'];
             }
           }
         } catch (e) {
-          console.warn(`error parsing lead extra data: ${e}`);
+          console.warn('error parsing lead extra data: ' + e);
         }
       }
 
-      const formattedResponse = {
+      var formattedResponse = {
         action: notif['@action'],
         callbacks: notif['@callbacks'] === 'TRUE',
         dialGroupId: utils.getText(notif, 'dial_group_id'),
         accountId: utils.getText(notif, 'account_id'),
         agentId: utils.getText(notif, 'agent_id'),
         isInsert: utils.getText(notif, 'is_insert'),
-        leads,
+        leads: leads,
       };
 
       if (notif['@callbacks'] === 'TRUE') {
@@ -4800,7 +4843,7 @@ export default (function() {
           notification,
         );
         // clear callbacks??
-        // model.callbacks = [];
+        //model.callbacks = [];
         for (var l = 0; l < leads.length; l++) {
           var lead = leads[l];
           model.callbacks.push(lead);
@@ -4812,7 +4855,7 @@ export default (function() {
       return formattedResponse;
     };
 
-    const RecordRequest = function(record) {
+    var RecordRequest = function(record) {
       this.record = record;
     };
 
@@ -4829,8 +4872,8 @@ export default (function() {
      * }
      */
     RecordRequest.prototype.formatJSON = function() {
-      const model = UIModel.getInstance();
-      const msg = {
+      var model = UIModel.getInstance();
+      var msg = {
         ui_request: {
           '@destination': 'IQ',
           '@type': MESSAGE_TYPES.RECORD,
@@ -4867,9 +4910,9 @@ export default (function() {
      * }
      */
     RecordRequest.prototype.processResponse = function(response) {
-      const resp = response.ui_response;
-      const formattedResponse = utils.buildDefaultResponse(response);
-      let currUII = '';
+      var resp = response.ui_response;
+      var formattedResponse = utils.buildDefaultResponse(response);
+      var currUII = '';
       if (UIModel.getInstance().currentCall.uii) {
         currUII = UIModel.getInstance().currentCall.uii;
       }
@@ -4881,7 +4924,8 @@ export default (function() {
         // make sure we are talking about the same call
         if (formattedResponse.uii === currUII) {
           if (formattedResponse.message === '') {
-            formattedResponse.message = `Broadcasting new record state of ${formattedResponse.state}`;
+            formattedResponse.message =
+              'Broadcasting new record state of ' + formattedResponse.state;
           }
           utils.logMessage(
             LOG_LEVELS.DEBUG,
@@ -4897,7 +4941,11 @@ export default (function() {
         }
       } else {
         if (formattedResponse.message === '') {
-          formattedResponse.message = `Error processing RECORD request.${formattedResponse.message}\n${formattedResponse.detail}`;
+          formattedResponse.message =
+            'Error processing RECORD request.' +
+            formattedResponse.message +
+            '\n' +
+            formattedResponse.detail;
         }
         utils.logMessage(LOG_LEVELS.WARN, formattedResponse.message, response);
       }
@@ -4905,14 +4953,14 @@ export default (function() {
       return formattedResponse;
     };
 
-    const RequeueRequest = function(queueId, skillId, maintain) {
+    var RequeueRequest = function(queueId, skillId, maintain) {
       this.queueId = queueId;
       this.skillId = skillId;
       this.maintain = maintain;
     };
 
     RequeueRequest.prototype.formatJSON = function() {
-      const msg = {
+      var msg = {
         ui_request: {
           '@destination': 'IQ',
           '@type': MESSAGE_TYPES.REQUEUE,
@@ -4957,8 +5005,8 @@ export default (function() {
      * }
      */
     RequeueRequest.prototype.processResponse = function(response) {
-      const resp = response.ui_response;
-      const formattedResponse = utils.buildDefaultResponse(response);
+      var resp = response.ui_response;
+      var formattedResponse = utils.buildDefaultResponse(response);
 
       formattedResponse.agentId = utils.getText(resp, 'agent_id');
       formattedResponse.uii = utils.getText(resp, 'uii');
@@ -4966,14 +5014,16 @@ export default (function() {
 
       if (formattedResponse.status === 'OK') {
       } else {
-        const message = `There was an error processing the requeue request. ${formattedResponse.detail}`;
+        var message =
+          'There was an error processing the requeue request. ' +
+          formattedResponse.detail;
         utils.logMessage(LOG_LEVELS.WARN, message, response);
       }
 
       return formattedResponse;
     };
 
-    const ScriptConfigRequest = function(scriptId, version) {
+    var ScriptConfigRequest = function(scriptId, version) {
       this.scriptId = scriptId;
       this.version = version || null;
     };
@@ -4982,7 +5032,7 @@ export default (function() {
      * This event is responsible for requesting a script object
      */
     ScriptConfigRequest.prototype.formatJSON = function() {
-      const msg = {
+      var msg = {
         ui_request: {
           '@destination': 'IQ',
           '@message_id': utils.getMessageId(),
@@ -5018,8 +5068,8 @@ export default (function() {
      * }
      */
     ScriptConfigRequest.prototype.processResponse = function(response) {
-      const resp = response.ui_response;
-      const formattedResponse = utils.buildDefaultResponse(response);
+      var resp = response.ui_response;
+      var formattedResponse = utils.buildDefaultResponse(response);
 
       if (formattedResponse.status === 'true') {
         formattedResponse.status = true;
@@ -5038,7 +5088,7 @@ export default (function() {
       return formattedResponse;
     };
 
-    const ScriptResultRequest = function(uii, scriptId, jsonResult) {
+    var ScriptResultRequest = function(uii, scriptId, jsonResult) {
       this.uii = uii;
       this.scriptId = scriptId;
       this.jsonResult = jsonResult;
@@ -5048,7 +5098,7 @@ export default (function() {
      * This event is responsible for sending the script result object
      */
     ScriptResultRequest.prototype.formatJSON = function() {
-      const msg = {
+      var msg = {
         ui_request: {
           '@destination': 'IQ',
           '@message_id': utils.getMessageId(),
@@ -5074,7 +5124,7 @@ export default (function() {
       return JSON.stringify(msg);
     };
 
-    const SearchDirectoryRequest = function() {};
+    var SearchDirectoryRequest = function() {};
 
     SearchDirectoryRequest.prototype.searchDirectory = function(searchString) {
       UIModel.getInstance().searchDirectoryRequest = this;
@@ -5087,27 +5137,29 @@ export default (function() {
     };
 
     function _searchDirectory(path, searchString) {
-      const model = UIModel.getInstance();
-      const accountId = model.agentSettings.accountId; // subAccountId
-      const baseUrl = model.authHost + model.baseApiUri;
-      const engageAccessToken = `Bearer ${utils.toString(
-        UIModel.getInstance().authenticateRequest.engageAccessToken,
-      )}`;
-      const params = {
+      var model = UIModel.getInstance();
+      var accountId = model.agentSettings.accountId; //subAccountId
+      var baseUrl = model.authHost + model.baseApiUri;
+      var engageAccessToken =
+        'Bearer ' +
+        utils.toString(
+          UIModel.getInstance().authenticateRequest.engageAccessToken,
+        );
+      var params = {
         headers: {
           'Content-Type': 'application/json',
         },
         queryParams: {},
       };
-      params.headers.Authorization = engageAccessToken;
-      params.queryParams.searchString = searchString;
-      params.queryParams.accountId = accountId;
-      const errorMsg = `Error on request to search Directory: ${baseUrl}${path}`;
+      params.headers['Authorization'] = engageAccessToken;
+      params.queryParams['searchString'] = searchString;
+      params.queryParams['accountId'] = accountId;
+      var errorMsg = 'Error on request to search Directory: ' + baseUrl + path;
       new HttpService(baseUrl).httpGet(path, params).then(
         function(response) {
           try {
             response = JSON.parse(response.response);
-            const searchDirResponse = UIModel.getInstance().searchDirectoryRequest.processResponse(
+            var searchDirResponse = UIModel.getInstance().searchDirectoryRequest.processResponse(
               response,
             );
             utils.fireCallback(
@@ -5120,7 +5172,7 @@ export default (function() {
           }
         },
         function(err) {
-          const errResponse = {
+          var errResponse = {
             type: 'Error retrieving directory list',
             message: errorMsg,
           };
@@ -5136,7 +5188,7 @@ export default (function() {
       );
     }
 
-    const StatsRequest = function() {};
+    var StatsRequest = function() {};
 
     /*
      * { "ui_request": {
@@ -5147,7 +5199,7 @@ export default (function() {
      * }
      */
     StatsRequest.prototype.formatJSON = function() {
-      const msg = {
+      var msg = {
         ui_request: {
           '@destination': 'IS',
           '@type': MESSAGE_TYPES.STATS,
@@ -5159,12 +5211,7 @@ export default (function() {
       return JSON.stringify(msg);
     };
 
-    const TcpaSafeRequest = function(
-      action,
-      searchFields,
-      requestId,
-      leadPhone,
-    ) {
+    var TcpaSafeRequest = function(action, searchFields, requestId, leadPhone) {
       this.agentId = UIModel.getInstance().agentSettings.agentId;
       this.searchFields = searchFields || [];
       this.requestId = requestId || '';
@@ -5179,13 +5226,13 @@ export default (function() {
      * ];
      */
     TcpaSafeRequest.prototype.formatJSON = function() {
-      const fields = {};
-      for (let i = 0; i < this.searchFields.length; i++) {
-        const fieldObj = this.searchFields[i];
+      var fields = {};
+      for (var i = 0; i < this.searchFields.length; i++) {
+        var fieldObj = this.searchFields[i];
         fields[fieldObj.key] = { '#text': utils.toString(fieldObj.value) };
       }
 
-      const msg = {
+      var msg = {
         ui_request: {
           '@destination': 'IQ',
           '@type': MESSAGE_TYPES.TCPA_SAFE,
@@ -5244,9 +5291,9 @@ export default (function() {
      *
      */
     TcpaSafeRequest.prototype.processResponse = function(notification) {
-      const notif = notification.dialer_request;
-      const model = UIModel.getInstance();
-      const leads = utils.processResponseCollection(
+      var notif = notification.dialer_request;
+      var model = UIModel.getInstance();
+      var leads = utils.processResponseCollection(
         notif,
         'destinations',
         'lead',
@@ -5261,7 +5308,7 @@ export default (function() {
 
         // parse extra data correctly
         try {
-          let notifLead = notif.destinations.lead[l];
+          var notifLead = notif.destinations.lead[l];
 
           if (notifLead.extra_data) {
             // if this lead doesn't match the current lead, find it from the notification
@@ -5273,30 +5320,30 @@ export default (function() {
 
             delete lead.extraDatas;
             lead.extraData = {};
-            for (const key in notifLead.extra_data) {
+            for (var key in notifLead.extra_data) {
               lead.extraData[key] = notifLead.extra_data[key]['#text'];
             }
           }
         } catch (e) {
-          console.warn(`error parsing lead extra data: ${e}`);
+          console.warn('error parsing lead extra data: ' + e);
         }
       }
 
-      const formattedResponse = {
+      var formattedResponse = {
         action: notif['@action'],
         callbacks: notif['@callbacks'] === 'TRUE',
         dialGroupId: utils.getText(notif, 'dial_group_id'),
         accountId: utils.getText(notif, 'account_id'),
         agentId: utils.getText(notif, 'agent_id'),
         isInsert: utils.getText(notif, 'is_insert'),
-        leads,
+        leads: leads,
       };
 
       if (notif['@callbacks'] === 'TRUE') {
-        const message = "New CALLBACK packet request rec'd from dialer";
+        var message = "New CALLBACK packet request rec'd from dialer";
         utils.logMessage(LOG_LEVELS.INFO, message, notification);
         // clear callbacks??
-        // model.callbacks = [];
+        //model.callbacks = [];
         for (var l = 0; l < leads.length; l++) {
           var lead = leads[l];
           model.callbacks.push(lead);
@@ -5308,7 +5355,7 @@ export default (function() {
       return formattedResponse;
     };
 
-    const UpdateDialDestinationRequest = function(dialDest, isSoftphoneError) {
+    var UpdateDialDestinationRequest = function(dialDest, isSoftphoneError) {
       this.dialDest = dialDest;
       this.isSoftphoneError = isSoftphoneError || false;
     };
@@ -5326,7 +5373,7 @@ export default (function() {
      * }
      */
     UpdateDialDestinationRequest.prototype.formatJSON = function() {
-      const msg = {
+      var msg = {
         ui_request: {
           '@destination': 'IQ',
           '@type': MESSAGE_TYPES.UPDATE_DIAL_DESTINATION,
@@ -5351,12 +5398,7 @@ export default (function() {
       return JSON.stringify(msg);
     };
 
-    const XferWarmRequest = function(
-      dialDest,
-      callerId,
-      sipHeaders,
-      countryId,
-    ) {
+    var XferWarmRequest = function(dialDest, callerId, sipHeaders, countryId) {
       this.dialDest = dialDest;
       this.callerId = callerId || '';
       this.sipHeaders = sipHeaders || [];
@@ -5364,16 +5406,16 @@ export default (function() {
     };
 
     XferWarmRequest.prototype.formatJSON = function() {
-      const fields = [];
-      for (let i = 0; i < this.sipHeaders.length; i++) {
-        const fieldObj = this.sipHeaders[i];
+      var fields = [];
+      for (var i = 0; i < this.sipHeaders.length; i++) {
+        var fieldObj = this.sipHeaders[i];
         fields.push({
           '@name': utils.toString(fieldObj.name),
           '@value': utils.toString(fieldObj.value),
         });
       }
 
-      const msg = {
+      var msg = {
         ui_request: {
           '@destination': 'IQ',
           '@type': MESSAGE_TYPES.XFER_WARM,
@@ -5432,8 +5474,8 @@ export default (function() {
      * }
      */
     XferWarmRequest.prototype.processResponse = function(response) {
-      const resp = response.ui_response;
-      const formattedResponse = utils.buildDefaultResponse(response);
+      var resp = response.ui_response;
+      var formattedResponse = utils.buildDefaultResponse(response);
 
       formattedResponse.agentId = utils.getText(resp, 'agent_id');
       formattedResponse.uii = utils.getText(resp, 'uii');
@@ -5443,13 +5485,18 @@ export default (function() {
       if (formattedResponse.status === 'OK') {
         utils.logMessage(
           LOG_LEVELS.DEBUG,
-          `Warm Xfer to ${formattedResponse.dialDest} processed successfully.`,
+          'Warm Xfer to ' +
+            formattedResponse.dialDest +
+            ' processed successfully.',
           response,
         );
       } else {
         utils.logMessage(
           LOG_LEVELS.WARN,
-          `There was an error processing the Warm Xfer request. ${formattedResponse.message}\n${formattedResponse.detail}`,
+          'There was an error processing the Warm Xfer request. ' +
+            formattedResponse.message +
+            '\n' +
+            formattedResponse.detail,
           response,
         );
       }
@@ -5457,12 +5504,12 @@ export default (function() {
       return formattedResponse;
     };
 
-    const XferWarmCancelRequest = function(dialDest) {
+    var XferWarmCancelRequest = function(dialDest) {
       this.dialDest = dialDest;
     };
 
     XferWarmCancelRequest.prototype.formatJSON = function() {
-      const msg = {
+      var msg = {
         ui_request: {
           '@destination': 'IQ',
           '@type': MESSAGE_TYPES.XFER_WARM_CANCEL,
@@ -5483,7 +5530,7 @@ export default (function() {
       return JSON.stringify(msg);
     };
 
-    const WebRTCRequest = function() {};
+    var WebRTCRequest = function() {};
 
     WebRTCRequest.prototype.getSipRegistrationInfo = function() {
       UIModel.getInstance().WebRTCRequest = this;
@@ -5521,33 +5568,36 @@ export default (function() {
      * }
      * */
     WebRTCRequest.prototype.processResponse = function(response) {
-      const softphoneSettings = UIModel.getInstance().softphoneSettings;
+      var softphoneSettings = UIModel.getInstance().softphoneSettings;
       softphoneSettings.sipInfo = response.sipInfo;
 
       return softphoneSettings.sipInfo;
     };
 
     function _getSipRegistrationInfo(path, queryParams) {
-      const model = UIModel.getInstance();
-      const baseUrl = model.authHost + model.baseApiUri;
-      const engageAccessToken = `Bearer ${utils.toString(
-        UIModel.getInstance().authenticateRequest.engageAccessToken,
-      )}`;
-      const params = {
+      var model = UIModel.getInstance();
+      var baseUrl = model.authHost + model.baseApiUri;
+      var engageAccessToken =
+        'Bearer ' +
+        utils.toString(
+          UIModel.getInstance().authenticateRequest.engageAccessToken,
+        );
+      var params = {
         headers: {
           'Content-Type': 'application/json',
         },
       };
 
-      params.headers.Authorization = engageAccessToken;
-      params.queryParams = queryParams;
-      const errorMsg = `Error on request get to sip registration info. URL: ${baseUrl}${path}`;
+      params.headers['Authorization'] = engageAccessToken;
+      params['queryParams'] = queryParams;
+      var errorMsg =
+        'Error on request get to sip registration info. URL: ' + baseUrl + path;
 
       new HttpService(baseUrl).httpGet(path, params).then(
         function(response) {
           try {
             response = JSON.parse(response.response);
-            const webRTCResponse = UIModel.getInstance().WebRTCRequest.processResponse(
+            var webRTCResponse = UIModel.getInstance().WebRTCRequest.processResponse(
               response,
             );
             utils.fireCallback(
@@ -5560,7 +5610,7 @@ export default (function() {
           }
         },
         function(err) {
-          const errResponse = {
+          var errResponse = {
             type: 'Error retrieving sip registration information',
             message: errorMsg,
           };
@@ -5575,7 +5625,7 @@ export default (function() {
         },
       );
     }
-    const ChatAgentEndRequest = function(agentId, uii) {
+    var ChatAgentEndRequest = function(agentId, uii) {
       this.uii = uii;
       this.agentId = agentId;
     };
@@ -5601,7 +5651,7 @@ export default (function() {
     */
 
     ChatAgentEndRequest.prototype.formatJSON = function() {
-      const msg = {
+      var msg = {
         ui_request: {
           '@destination': 'IQ',
           '@type': MESSAGE_TYPES.CHAT_AGENT_END,
@@ -5617,7 +5667,7 @@ export default (function() {
       return JSON.stringify(msg);
     };
 
-    const ChatAliasRequest = function(alias) {
+    var ChatAliasRequest = function(alias) {
       this.alias = alias;
     };
 
@@ -5634,7 +5684,7 @@ export default (function() {
      * }
      */
     ChatAliasRequest.prototype.formatJSON = function() {
-      const msg = {
+      var msg = {
         ui_request: {
           '@destination': 'IS',
           '@type': MESSAGE_TYPES.CHAT_ALIAS,
@@ -5649,7 +5699,7 @@ export default (function() {
       return JSON.stringify(msg);
     };
 
-    const ChatDispositionRequest = function(
+    var ChatDispositionRequest = function(
       uii,
       agentId,
       dispositionId,
@@ -5706,7 +5756,7 @@ export default (function() {
      * }
      */
     ChatDispositionRequest.prototype.formatJSON = function() {
-      const msg = {
+      var msg = {
         ui_request: {
           '@destination': 'IQ',
           '@type': MESSAGE_TYPES.CHAT_DISPOSITION,
@@ -5742,23 +5792,23 @@ export default (function() {
        * }
        */
       if (this.survey !== null) {
-        const response = [];
-        const keys = Object.keys(this.survey);
-        for (let i = 0; i < keys.length; i++) {
-          const key = keys[i];
-          const obj = {
+        var response = [];
+        var keys = Object.keys(this.survey);
+        for (var i = 0; i < keys.length; i++) {
+          var key = keys[i];
+          var obj = {
             '@extern_id': key,
             '#text': utils.toString(this.survey[key].value),
           };
           response.push(obj);
         }
-        msg.ui_request.survey = { response };
+        msg.ui_request.survey = { response: response };
       }
 
       return JSON.stringify(msg);
     };
 
-    const ChatListRequest = function(agentId, monitorAgentId) {
+    var ChatListRequest = function(agentId, monitorAgentId) {
       this.agentId = agentId;
       this.monitorAgentId = monitorAgentId;
     };
@@ -5779,7 +5829,7 @@ export default (function() {
      */
 
     ChatListRequest.prototype.formatJSON = function() {
-      const msg = {
+      var msg = {
         ui_request: {
           '@destination': 'IQ',
           '@type': MESSAGE_TYPES.CHAT_LIST,
@@ -5814,8 +5864,8 @@ export default (function() {
      */
 
     ChatListRequest.prototype.processResponse = function(response) {
-      const notif = response.ui_response;
-      const model = UIModel.getInstance();
+      var notif = response.ui_response;
+      var model = UIModel.getInstance();
       model.chatListResponse = response;
 
       return {
@@ -5832,7 +5882,7 @@ export default (function() {
       };
     };
 
-    const ChatMessageRequest = function(uii, agentId, message, whisper) {
+    var ChatMessageRequest = function(uii, agentId, message, whisper) {
       this.uii = uii;
       this.agentId = agentId;
       this.message = message;
@@ -5856,7 +5906,7 @@ export default (function() {
      * }
      */
     ChatMessageRequest.prototype.formatJSON = function() {
-      const msg = {
+      var msg = {
         ui_request: {
           '@destination': 'IQ',
           '@type': MESSAGE_TYPES.CHAT_MESSAGE,
@@ -5900,10 +5950,10 @@ export default (function() {
      */
 
     ChatMessageRequest.prototype.processResponse = function(response) {
-      const resp = response.ui_notification;
-      const dts = utils.getText(resp, 'dts').trim();
-      const dtsDate = new Date(dts.replace(' ', 'T'));
-      const formattedResponse = {
+      var resp = response.ui_notification;
+      var dts = utils.getText(resp, 'dts').trim();
+      var dtsDate = new Date(dts.replace(' ', 'T'));
+      var formattedResponse = {
         uii: utils.getText(resp, 'uii'),
         accountId: utils.getText(resp, 'account_id'),
         from: utils.getText(resp, 'from'),
@@ -5928,7 +5978,7 @@ export default (function() {
       return formattedResponse;
     };
 
-    const ChatPresentedResponseRequest = function(
+    var ChatPresentedResponseRequest = function(
       uii,
       messageId,
       response,
@@ -5946,7 +5996,7 @@ export default (function() {
      * either ACCEPT or REJECT for presented chat.
      * {"ui_request":{
      *      "@destination":"IQ",
-     *      "@type":"CHAT-PRESENTED",
+     *      "@type":"CHAT-PRESENTED-RESPONSE",
      *      "@message_id":"",
      *      "@response_to":"",
      *      "uii":{"#text":""},
@@ -5957,7 +6007,9 @@ export default (function() {
      * }
      */
     ChatPresentedResponseRequest.prototype.formatJSON = function() {
-      const msg = {
+      //TODO-TASK add operation id to response (generated in SDK)
+
+      var msg = {
         ui_request: {
           '@destination': 'IQ',
           '@type': MESSAGE_TYPES.CHAT_PRESENTED_RESPONSE,
@@ -5981,7 +6033,7 @@ export default (function() {
       return JSON.stringify(msg);
     };
 
-    const ChatRequeueRequest = function(
+    var ChatRequeueRequest = function(
       uii,
       agentId,
       chatQueueId,
@@ -6012,7 +6064,7 @@ export default (function() {
      * }
      */
     ChatRequeueRequest.prototype.formatJSON = function() {
-      const msg = {
+      var msg = {
         ui_request: {
           '@destination': 'IQ',
           '@type': MESSAGE_TYPES.CHAT_REQUEUE,
@@ -6039,7 +6091,7 @@ export default (function() {
       return JSON.stringify(msg);
     };
 
-    const ChatRoomRequest = function(
+    var ChatRoomRequest = function(
       action,
       roomType,
       roomId,
@@ -6085,7 +6137,7 @@ export default (function() {
      *
      */
     ChatRoomRequest.prototype.formatJSON = function() {
-      const msg = {
+      var msg = {
         ui_request: {
           '@destination': 'IS',
           '@type': MESSAGE_TYPES.CHAT_ROOM,
@@ -6110,7 +6162,7 @@ export default (function() {
       return JSON.stringify(msg);
     };
 
-    const ChatRoomStateRequest = function() {};
+    var ChatRoomStateRequest = function() {};
 
     /*
      * This class is responsible for processing CHAT-ROOM-STATE packets received
@@ -6128,8 +6180,8 @@ export default (function() {
      * }
      */
     ChatRoomStateRequest.prototype.processResponse = function(response) {
-      const resp = response.ui_request;
-      const formattedResponse = {
+      var resp = response.ui_request;
+      var formattedResponse = {
         roomId: utils.getText(resp, 'room_id'),
         agentId: utils.getText(resp, 'agent_id'),
         chatAlias: utils.getText(resp, 'chat_alias'),
@@ -6138,13 +6190,14 @@ export default (function() {
 
       utils.logMessage(
         LOG_LEVELS.DEBUG,
-        `Chat-Room-State update packet received for room #${formattedResponse.roomId}`,
+        'Chat-Room-State update packet received for room #' +
+          formattedResponse.roomId,
         response,
       );
       return formattedResponse;
     };
 
-    const ChatSendRequest = function(roomId, message) {
+    var ChatSendRequest = function(roomId, message) {
       this.roomId = roomId;
       this.message = message;
     };
@@ -6164,7 +6217,7 @@ export default (function() {
      * }
      */
     ChatSendRequest.prototype.formatJSON = function() {
-      const msg = {
+      var msg = {
         ui_request: {
           '@destination': 'IS',
           '@type': MESSAGE_TYPES.CHAT_SEND,
@@ -6216,8 +6269,8 @@ export default (function() {
      */
 
     ChatSendRequest.prototype.processResponse = function(response) {
-      const resp = response.ui_request;
-      const formattedResponse = {
+      var resp = response.ui_request;
+      var formattedResponse = {
         roomType: utils.getText(resp, 'room_type'),
         roomId: utils.getText(resp, 'room_id'),
         message: utils.getText(resp, 'message'),
@@ -6236,7 +6289,7 @@ export default (function() {
       return formattedResponse;
     };
 
-    const ChatTypingRequest = function(uii, message) {
+    var ChatTypingRequest = function(uii, message) {
       this.uii = uii;
       this.message = message;
     };
@@ -6257,7 +6310,7 @@ export default (function() {
      * }
      */
     ChatTypingRequest.prototype.formatJSON = function() {
-      const msg = {
+      var msg = {
         ui_request: {
           '@destination': 'IQ',
           '@type': MESSAGE_TYPES.CHAT_TYPING,
@@ -6278,7 +6331,7 @@ export default (function() {
       return JSON.stringify(msg);
     };
 
-    const LeaveChatRequest = function(uii, agentId, sessionId) {
+    var LeaveChatRequest = function(uii, agentId, sessionId) {
       this.uii = uii;
       this.agentId = agentId;
       this.sessionId = sessionId;
@@ -6300,7 +6353,7 @@ export default (function() {
      * }
      */
     LeaveChatRequest.prototype.formatJSON = function() {
-      const msg = {
+      var msg = {
         ui_request: {
           '@destination': 'IQ',
           '@type': MESSAGE_TYPES.LEAVE_CHAT,
@@ -6321,7 +6374,7 @@ export default (function() {
       return JSON.stringify(msg);
     };
 
-    const ChatManualSmsRequest = function(
+    var ChatManualSmsRequest = function(
       agentId,
       chatQueueId,
       ani,
@@ -6353,7 +6406,7 @@ export default (function() {
      * }
      */
     ChatManualSmsRequest.prototype.formatJSON = function() {
-      const msg = {
+      var msg = {
         ui_request: {
           '@destination': 'IQ',
           '@type': MESSAGE_TYPES.CHAT_MANUAL_SMS,
@@ -6380,7 +6433,7 @@ export default (function() {
       return JSON.stringify(msg);
     };
 
-    const MonitorChatRequest = function(monitorAgentId) {
+    var MonitorChatRequest = function(monitorAgentId) {
       this.monitorAgentId = monitorAgentId;
     };
 
@@ -6399,7 +6452,7 @@ export default (function() {
      * }
      */
     MonitorChatRequest.prototype.formatJSON = function() {
-      const msg = {
+      var msg = {
         ui_request: {
           '@destination': 'IQ',
           '@type': MESSAGE_TYPES.MONITOR_CHAT,
@@ -6417,7 +6470,7 @@ export default (function() {
       return JSON.stringify(msg);
     };
 
-    const StopMonitorChatRequest = function(monitorAgentId) {
+    var StopMonitorChatRequest = function(monitorAgentId) {
       this.monitorAgentId = monitorAgentId || '';
     };
 
@@ -6436,7 +6489,7 @@ export default (function() {
      * }
      */
     StopMonitorChatRequest.prototype.formatJSON = function() {
-      const msg = {
+      var msg = {
         ui_request: {
           '@destination': 'IQ',
           '@type': MESSAGE_TYPES.STOP_MONITOR_CHAT,
@@ -6466,12 +6519,12 @@ export default (function() {
      * }
      */
     StopMonitorChatRequest.prototype.processResponse = function(data) {
-      const notif = data.ui_notification;
+      var notif = data.ui_notification;
 
       return { monitoredAgentId: utils.getText(notif, 'monitored_agent_id') };
     };
 
-    const SupervisorListRequest = function() {};
+    var SupervisorListRequest = function() {};
 
     /*
      * This class is responsible for creating a packet to request a list of
@@ -6488,7 +6541,7 @@ export default (function() {
      * }
      */
     SupervisorListRequest.prototype.formatJSON = function() {
-      const msg = {
+      var msg = {
         ui_request: {
           '@destination': 'IS',
           '@type': MESSAGE_TYPES.SUPERVISOR_LIST,
@@ -6523,16 +6576,16 @@ export default (function() {
      */
 
     SupervisorListRequest.prototype.processResponse = function(response) {
-      const model = UIModel.getInstance();
-      const tempList = utils.processResponseCollection(
+      var model = UIModel.getInstance();
+      var tempList = utils.processResponseCollection(
         response,
         'ui_response',
         'supervisor',
       );
-      const supervisors = [];
+      var supervisors = [];
 
-      for (let i = 0; i < tempList.length; i++) {
-        const sup = tempList[i];
+      for (var i = 0; i < tempList.length; i++) {
+        var sup = tempList[i];
         supervisors.push({
           agentId: sup.id,
           firstName: sup.fname,
@@ -6551,7 +6604,7 @@ export default (function() {
       return model.supervisors;
     };
 
-    const ChatClientReconnectNotification = function() {};
+    var ChatClientReconnectNotification = function() {};
 
     /*
      * External Chat:
@@ -6574,7 +6627,7 @@ export default (function() {
     ChatClientReconnectNotification.prototype.processResponse = function(
       notification,
     ) {
-      const notif = notification.ui_notification;
+      var notif = notification.ui_notification;
 
       return {
         message: 'Received CHAT-CLIENT-RECONNECT notification',
@@ -6585,7 +6638,7 @@ export default (function() {
       };
     };
 
-    const AddChatSessionNotification = function() {};
+    var AddChatSessionNotification = function() {};
 
     /*
      * This class is responsible for handling "ADD-CHAT-SESSION" packets from IntelliQueue.
@@ -6606,8 +6659,8 @@ export default (function() {
     AddChatSessionNotification.prototype.processResponse = function(
       notification,
     ) {
-      const notif = notification.ui_notification;
-      const formattedResponse = utils.buildDefaultResponse(notification);
+      var notif = notification.ui_notification;
+      var formattedResponse = utils.buildDefaultResponse(notification);
 
       formattedResponse.status = 'OK';
       formattedResponse.message = 'Received ADD-CHAT-SESSION notification';
@@ -6624,7 +6677,7 @@ export default (function() {
       return formattedResponse;
     };
 
-    const ChatActiveNotification = function() {};
+    var ChatActiveNotification = function() {};
 
     /*
      * External Chat:
@@ -6644,7 +6697,7 @@ export default (function() {
      *  }
      */
     ChatActiveNotification.prototype.processResponse = function(notification) {
-      const notif = notification.ui_notification;
+      var notif = notification.ui_notification;
 
       return {
         message: 'Received CHAT-ACTIVE notification',
@@ -6655,7 +6708,7 @@ export default (function() {
       };
     };
 
-    const ChatCancelledNotification = function() {};
+    var ChatCancelledNotification = function() {};
 
     /*
      * External Chat:
@@ -6677,7 +6730,7 @@ export default (function() {
     ChatCancelledNotification.prototype.processResponse = function(
       notification,
     ) {
-      const notif = notification.ui_notification;
+      var notif = notification.ui_notification;
 
       return {
         message: 'Received CHAT-CANCELLED notification',
@@ -6688,7 +6741,7 @@ export default (function() {
       };
     };
 
-    const ChatInactiveNotification = function() {};
+    var ChatInactiveNotification = function() {};
 
     /*
      * External Chat:
@@ -6711,7 +6764,7 @@ export default (function() {
     ChatInactiveNotification.prototype.processResponse = function(
       notification,
     ) {
-      const notif = notification.ui_notification;
+      var notif = notification.ui_notification;
 
       return {
         message: 'Received CHAT-INACTIVE notification',
@@ -6723,7 +6776,7 @@ export default (function() {
       };
     };
 
-    const ChatPresentedNotification = function() {};
+    var ChatPresentedNotification = function() {};
 
     /*
      * External Chat:
@@ -6737,6 +6790,7 @@ export default (function() {
      *          "@type":"CHAT-PRESENTED",
      *          "@destination":"IQ",
      *          "@response_to":"",
+     *          "task_id":{"#text":"123"}, // only applicable for Engage Digital tasks
      *          "chat_queue_id":{"#text":"3"},
      *          "chat_queue_name":{"#text":"Support Chat"},
      *          "account_id":{"#text":"99999999"},
@@ -6749,7 +6803,9 @@ export default (function() {
     ChatPresentedNotification.prototype.processResponse = function(
       notification,
     ) {
-      const notif = notification.ui_notification;
+      var notif = notification.ui_notification;
+
+      // TODO-TASK add operation id
 
       return {
         message: 'Received CHAT-PRESENTED notification',
@@ -6758,13 +6814,14 @@ export default (function() {
         accountId: utils.getText(notif, 'account_id'),
         uii: utils.getText(notif, 'uii'),
         channelType: utils.getText(notif, 'channel_type'),
+        taskId: utils.getText(notif, 'task_id'),
         chatQueueId: utils.getText(notif, 'chat_queue_id'),
         chatQueueName: utils.getText(notif, 'chat_queue_name'),
         allowAccept: utils.getText(notif, 'allow_accept'),
       };
     };
 
-    const ChatTypingNotification = function() {};
+    var ChatTypingNotification = function() {};
 
     /*
      * External Chat:
@@ -6787,7 +6844,7 @@ export default (function() {
      *  }
      */
     ChatTypingNotification.prototype.processResponse = function(notification) {
-      const notif = notification.ui_notification;
+      var notif = notification.ui_notification;
 
       return {
         message: 'Received CHAT-TYPING notification',
@@ -6801,7 +6858,136 @@ export default (function() {
       };
     };
 
-    const NewChatNotification = function() {};
+    var LoadMediaNotification = function() {};
+
+    /*
+     * Engage Digital Chat:
+     * This class is responsible for handling "LOAD-MEDIA" packets from IntelliQueue.
+     *
+     *  {
+     *      "ui_notification":{
+     *          "@message_id":"IQ10012016081611595000289",
+     *          "@type":"LOAD-MEDIA",
+     *          "@destination":"IQ",
+     *          "@response_to":"",
+     *          "uii":{"#text":"201608161200240139000000000120"},
+     *          "task_id":{"#text":""}
+     *          "operation_id":{"#text":""}
+     *          "account_id":{"#text":"99999999"},
+     *          "session_id":{"#text":"2"},
+     *          "agent_id":{"#text":"1180958"},
+     *          "queue_dts":{"#text":""},
+     *          "queue_time":{"#text":""},
+     *          "chat_queue_id":{"#text":""},
+     *          "chat_queue_name":{"#text":""},
+     *          "chat_requeue_type" : {"#text":""}
+     *          "channel_type":{"#text":"ENGAGE-DIGITAL"},
+     *          "idle_timeout":{"#text":""},
+     *          "chat_dispositions":{
+     *              "disposition":[
+     *                  { "@disposition_id":"2", "@is_success":"true", "@is_complete":"false", "@is_default"="0", "@email_template_id":"1", "#text":"Complete"},
+     *                  { "@disposition_id":"3", "@is_success":"true", "@is_complete":"false", "@is_default"="0", "#text":"Requeue"}
+     *              ]
+     *          },
+     *          "chat_requeue_shortcuts" :{
+     *              shortcut : [
+     *                {@chat_requeue_shortcut_id:"3", @name:"test", @rank:"1",@requeue_chat_queue_id:"74",@skill_id:""}
+     *              ]
+     *          }
+     *      }
+     *  }
+     */
+    LoadMediaNotification.prototype.processResponse = function(notification) {
+      var notif = notification.ui_notification;
+
+      var dts = utils.getText(notif, 'queue_dts');
+      dts = new Date(dts.replace(' ', 'T'));
+
+      // set up new task obj
+      var newTask = {
+        uii: utils.getText(notif, 'uii'),
+        taskId: utils.getText(notif, 'task_id'),
+        operationId: utils.getText(notif, 'operation_id'),
+        accountId: utils.getText(notif, 'account_id'),
+        sessionId: utils.getText(notif, 'session_id'),
+        agentId: utils.getText(notif, 'agent_id'),
+        queueDts: dts,
+        queueTime: utils.getText(notif, 'queue_time'),
+        chatQueueId: utils.getText(notif, 'chat_queue_id'),
+        chatQueueName: utils.getText(notif, 'chat_queue_name'),
+        chatRequeueType: utils.getText(notif, 'chat_requeue_type'),
+        channelType: utils.getText(notif, 'channel_type'),
+        idleTimeout: utils.getText(notif, 'idle_timeout'),
+      };
+
+      newTask.requeueShortcuts = utils.processResponseCollection(
+        notification,
+        'ui_notification',
+        'chat_requeue_shortcuts',
+        'shortcut',
+      )[0];
+      newTask.chatDispositions = utils.processResponseCollection(
+        notification,
+        'ui_notification',
+        'chat_dispositions',
+        'disposition',
+      )[0];
+
+      if (newTask.chatDispositions && newTask.chatDispositions.disposition) {
+        newTask.chatDispositions.dispositions = [newTask.chatDispositions];
+      } else {
+        newTask.chatDispositions = newTask.chatDispositions.dispositions;
+      }
+
+      // convert numbers to boolean
+      if (newTask.chatDispositions) {
+        for (var d = 0; d < newTask.chatDispositions.length; d++) {
+          var disp = newTask.chatDispositions[d];
+          disp.isComplete = disp.isComplete === '1';
+          disp.isSuccess = disp.isSuccess === '1';
+          disp.isDefault = disp.isDefault === '1';
+        }
+      }
+
+      // Build token map
+      newTask.baggage = buildTaskTokenMap(newTask);
+
+      return newTask;
+    };
+
+    function buildTaskTokenMap(newTask) {
+      var tokens = {};
+      var model = UIModel.getInstance();
+
+      try {
+        tokens['chatQueueId'] = newTask.chatQueueId;
+        tokens['chatQueueName'] = newTask.chatQueueName;
+        tokens['uii'] = newTask.uii;
+      } catch (any) {
+        console.error(
+          'There was an error parsing chat tokens for basic chat info. ',
+          any,
+        );
+      }
+
+      try {
+        tokens['agentFirstName'] = model.agentSettings.firstName;
+        tokens['agentLastName'] = model.agentSettings.lastName;
+        tokens['agentExternalId'] = model.agentSettings.externalAgentId;
+        tokens['agentType'] = model.agentSettings.agentType;
+        tokens['agentEmail'] = model.agentSettings.email;
+        tokens['agentUserName'] = model.agentSettings.username;
+      } catch (any) {
+        console.error(
+          'There was an error parsing chat tokens for agent info. ',
+          any,
+        );
+      }
+
+      return tokens;
+    }
+
+    var NewChatNotification = function() {};
 
     /*
      * External Chat:
@@ -6832,13 +7018,6 @@ export default (function() {
      *          "idle_timeout":{"#text":""},
      *          "is_monitoring":{#text":"TRUE"|"FALSE"},
      *          "monitored_agent_id":{"#text":"123"| ""} <-- only populated if is_monitoring == TRUE
-     *          "requeue_shortcuts":{
-     *              "requeue_shortcut":{
-     *                  "@chat_queue_id":"2",
-     *                  "@name":"test queue",
-     *                  "@skill_id":""
-     *              }
-     *          },
      *          "chat_dispositions":{
      *              "disposition":[
      *                  { "@disposition_id":"2", "@is_success":"true", "@is_complete":"false", "@is_default"="0", "@email_template_id":"1", "#text":"Complete"},
@@ -6862,13 +7041,13 @@ export default (function() {
      *  }
      */
     NewChatNotification.prototype.processResponse = function(notification) {
-      const notif = notification.ui_notification;
+      var notif = notification.ui_notification;
 
-      let dts = utils.getText(notif, 'queue_dts');
+      var dts = utils.getText(notif, 'queue_dts');
       dts = new Date(dts.replace(' ', 'T'));
 
-      // set up new call obj
-      const newChat = {
+      // set up new chat obj
+      var newChat = {
         uii: utils.getText(notif, 'uii'),
         accountId: utils.getText(notif, 'account_id'),
         sessionId: utils.getText(notif, 'session_id'),
@@ -6941,8 +7120,8 @@ export default (function() {
 
       // convert numbers to boolean
       if (newChat.chatDispositions) {
-        for (let d = 0; d < newChat.chatDispositions.length; d++) {
-          const disp = newChat.chatDispositions[d];
+        for (var d = 0; d < newChat.chatDispositions.length; d++) {
+          var disp = newChat.chatDispositions[d];
           disp.isComplete = disp.isComplete === '1';
           disp.isSuccess = disp.isSuccess === '1';
           disp.isDefault = disp.isDefault === '1';
@@ -6951,8 +7130,8 @@ export default (function() {
 
       // convert dates
       if (newChat.transcript) {
-        for (let t = 0; t < newChat.transcript.length; t++) {
-          const msg = newChat.transcript[t];
+        for (var t = 0; t < newChat.transcript.length; t++) {
+          var msg = newChat.transcript[t];
           if (msg.dts) {
             msg.dts = new Date(msg.dts.replace(' ', 'T'));
           }
@@ -6966,11 +7145,11 @@ export default (function() {
     };
 
     function buildChatTokenMap(notif, newChat) {
-      const tokens = {};
-      const model = UIModel.getInstance();
+      var tokens = {};
+      var model = UIModel.getInstance();
 
       if (newChat.preChatData) {
-        for (const prop in newChat.preChatData) {
+        for (var prop in newChat.preChatData) {
           if (newChat.preChatData.hasOwnProperty(prop)) {
             tokens[prop] = newChat.preChatData[prop];
           }
@@ -6978,11 +7157,11 @@ export default (function() {
       }
 
       try {
-        tokens.chatQueueId = newChat.chatQueueId;
-        tokens.chatQueueName = newChat.chatQueueName;
-        tokens.ani = newChat.ani;
-        tokens.dnis = newChat.dnis;
-        tokens.uii = newChat.uii;
+        tokens['chatQueueId'] = newChat.chatQueueId;
+        tokens['chatQueueName'] = newChat.chatQueueName;
+        tokens['ani'] = newChat.ani;
+        tokens['dnis'] = newChat.dnis;
+        tokens['uii'] = newChat.uii;
       } catch (any) {
         console.error(
           'There was an error parsing chat tokens for basic chat info. ',
@@ -6991,12 +7170,12 @@ export default (function() {
       }
 
       try {
-        tokens.agentFirstName = model.agentSettings.firstName;
-        tokens.agentLastName = model.agentSettings.lastName;
-        tokens.agentExternalId = model.agentSettings.externalAgentId;
-        tokens.agentType = model.agentSettings.agentType;
-        tokens.agentEmail = model.agentSettings.email;
-        tokens.agentUserName = model.agentSettings.username;
+        tokens['agentFirstName'] = model.agentSettings.firstName;
+        tokens['agentLastName'] = model.agentSettings.lastName;
+        tokens['agentExternalId'] = model.agentSettings.externalAgentId;
+        tokens['agentType'] = model.agentSettings.agentType;
+        tokens['agentEmail'] = model.agentSettings.email;
+        tokens['agentUserName'] = model.agentSettings.username;
       } catch (any) {
         console.error(
           'There was an error parsing chat tokens for agent info. ',
@@ -7007,7 +7186,7 @@ export default (function() {
       return tokens;
     }
 
-    const AgentStats = function() {};
+    var AgentStats = function() {};
 
     /*
      * This class is responsible for handling an Agent Stats packet rec'd from IntelliServices.
@@ -7047,15 +7226,15 @@ export default (function() {
       }
      */
     AgentStats.prototype.processResponse = function(stats) {
-      let resp = stats.ui_stats.agent;
-      const agentStats = [];
+      var resp = stats.ui_stats.agent;
+      var agentStats = [];
 
       if (!Array.isArray(resp)) {
         resp = [resp];
       }
 
       try {
-        for (let i = 0; i < resp.length; i++) {
+        for (var i = 0; i < resp.length; i++) {
           agentStats.push({
             agentLoginType: resp[i]['@alt'],
             agentType: resp[i]['@atype'],
@@ -7091,7 +7270,7 @@ export default (function() {
       return agentStats;
     };
 
-    const AgentDailyStats = function() {};
+    var AgentDailyStats = function() {};
 
     /*
      * This class is responsible for handling an Agent Daily Stats packet rec'd from IntelliServices.
@@ -7113,8 +7292,8 @@ export default (function() {
      * }
      */
     AgentDailyStats.prototype.processResponse = function(stats) {
-      const model = UIModel.getInstance().agentDailyStats;
-      const resp = stats.ui_stats;
+      var model = UIModel.getInstance().agentDailyStats;
+      var resp = stats.ui_stats;
 
       model.agentId = utils.getText(resp, 'agent_id');
       model.totalLoginSessions = utils.getText(resp, 'total_login_sessions');
@@ -7139,7 +7318,7 @@ export default (function() {
       return model;
     };
 
-    const CampaignStats = function() {};
+    var CampaignStats = function() {};
 
     /*
      * This class is responsible for handling a Campaign Stats packet rec'd from IntelliServices.
@@ -7179,20 +7358,20 @@ export default (function() {
      * }
      */
     CampaignStats.prototype.processResponse = function(stats) {
-      const resp = stats.ui_stats;
-      const totals = utils.processResponseCollection(
+      var resp = stats.ui_stats;
+      var totals = utils.processResponseCollection(
         stats,
         'ui_stats',
         'totals',
       )[0];
-      const campaigns = [];
-      let campRaw = null;
+      var campaigns = [];
+      var campRaw = null;
 
       if (!Array.isArray(resp.campaign)) {
         resp.campaign = [resp.campaign];
       }
 
-      for (let c = 0; c < resp.campaign.length; c++) {
+      for (var c = 0; c < resp.campaign.length; c++) {
         campRaw = resp.campaign[c];
 
         if (campRaw == null) {
@@ -7221,10 +7400,10 @@ export default (function() {
         });
       }
 
-      const campaignStats = {
+      var campaignStats = {
         type: resp['@type'],
-        campaigns,
-        totals,
+        campaigns: campaigns,
+        totals: totals,
       };
 
       UIModel.getInstance().campaignStats = campaignStats;
@@ -7232,7 +7411,7 @@ export default (function() {
       return campaignStats;
     };
 
-    const ChatQueueStats = function() {};
+    var ChatQueueStats = function() {};
 
     /*
      * This class is responsible for handling an Chat Stats packet rec'd from IntelliServices.
@@ -7300,22 +7479,22 @@ export default (function() {
      *}
      */
     ChatQueueStats.prototype.processResponse = function(stats) {
-      const resp = stats.ui_stats;
-      const totals = utils.processResponseCollection(
+      var resp = stats.ui_stats;
+      var totals = utils.processResponseCollection(
         stats,
         'ui_stats',
         'totals',
       )[0];
-      const chatQueues = utils.processResponseCollection(
+      var chatQueues = utils.processResponseCollection(
         stats,
         'ui_stats',
         'chatQueue',
       );
 
-      const chatQueueStats = {
+      var chatQueueStats = {
         type: resp['@type'],
-        chatQueues,
-        totals,
+        chatQueues: chatQueues,
+        totals: totals,
       };
 
       UIModel.getInstance().chatQueueStats = chatQueueStats;
@@ -7323,7 +7502,7 @@ export default (function() {
       return chatQueueStats;
     };
 
-    const QueueStats = function() {};
+    var QueueStats = function() {};
 
     /*
      * This class is responsible for handling an Queue Stats packet rec'd from IntelliServices.
@@ -7361,20 +7540,20 @@ export default (function() {
      * }
      */
     QueueStats.prototype.processResponse = function(stats) {
-      const resp = stats.ui_stats;
-      const totals = utils.processResponseCollection(
+      var resp = stats.ui_stats;
+      var totals = utils.processResponseCollection(
         stats,
         'ui_stats',
         'totals',
       )[0];
-      const queues = [];
-      let gateRaw = {};
+      var queues = [];
+      var gateRaw = {};
 
       if (!Array.isArray(resp.gate)) {
         resp.gate = [resp.gate];
       }
 
-      for (let c = 0; c < resp.gate.length; c++) {
+      for (var c = 0; c < resp.gate.length; c++) {
         gateRaw = resp.gate[c];
         if (gateRaw == null) {
           continue;
@@ -7410,10 +7589,10 @@ export default (function() {
         });
       }
 
-      const queueStats = {
+      var queueStats = {
         type: resp['@type'],
-        queues,
-        totals,
+        queues: queues,
+        totals: totals,
       };
 
       UIModel.getInstance().queueStats = queueStats;
@@ -7422,17 +7601,17 @@ export default (function() {
     };
 
     var UIModel = (function() {
-      let instance;
+      var instance;
 
       function init() {
         // Singleton
 
         // Private methods and variables here //
-        // function privateMethod(){
+        //function privateMethod(){
         //    console.log( "I am private" );
-        // }
+        //}
         //
-        // var privateVariable = "I'm also private";
+        //var privateVariable = "I'm also private";
 
         // Public methods and variables
         return {
@@ -7459,7 +7638,7 @@ export default (function() {
           supervisorListRequest: null,
           chatRoomStateRequest: new ChatRoomStateRequest(),
 
-          // multi-socket
+          //multi-socket
           multiSocketRequest: new MultiSocketRequest(),
           dataStore: new LocalStorageService('agentSDK'),
 
@@ -7474,6 +7653,7 @@ export default (function() {
           chatTypingNotification: new ChatTypingNotification(),
           chatTypingRequest: null,
           newChatNotification: new NewChatNotification(),
+          loadMediaNotification: new LoadMediaNotification(),
           chatClientReconnectNotification: new ChatClientReconnectNotification(),
 
           // request instances
@@ -7570,7 +7750,7 @@ export default (function() {
           agentSettings: {
             accountId: null, // account agent belongs to
             agentId: 0,
-            agentPassword: '', // agent Password
+            agentPassword: '', //agent Password
             agentType: 'AGENT', // AGENT | SUPERVISOR
             altDefaultLoginDest: '',
             availableAgentStates: [],
@@ -7694,7 +7874,7 @@ export default (function() {
             sipPassword: '', // password for sip softphone registration
             sipDialDest: '', // dialDest used for softphone connection
             attemptingSoftphoneReconnect: false, // set to true when attempting to rotate softphone registrar and reconnect
-            // manualSoftphoneReconnect: false     // set to true when agent triggered registrar rotation
+            //manualSoftphoneReconnect: false     // set to true when agent triggered registrar rotation
           },
 
           // Filtered Directory
@@ -7706,7 +7886,7 @@ export default (function() {
           extensionPresenceResponse: [],
 
           // Public methods
-          incrementTotalCalls() {
+          incrementTotalCalls: function() {
             this.agentSettings.totalCalls = this.agentSettings.totalCalls + 1;
           },
         };
@@ -7715,14 +7895,14 @@ export default (function() {
       return {
         // Get the Singleton instance if one exists
         // or create one if it doesn't
-        getInstance() {
+        getInstance: function() {
           if (!instance) {
             instance = init();
           }
           return instance;
         },
 
-        resetInstance() {
+        resetInstance: function() {
           instance = null;
         },
       };
@@ -7732,29 +7912,40 @@ export default (function() {
       if (!window.localStorage) {
         console.log('Browser does not support HTML5 Web Storage');
       }
-      this.prefix = `${name}:`;
+      this.prefix = name + ':';
     };
     LocalStorageService.prototype.save = function(key, value) {
-      if (!key || !value) {
+      // TODO: that window.localStorage is add by ringcentral-integration
+      if (!window.localStorage || !key || !value) {
         console.log('Missing parameters key or value on add');
         return false;
       }
-      localStorage.setItem(this.prefix + key, JSON.stringify(value));
+      window.localStorage.setItem(this.prefix + key, JSON.stringify(value));
     };
     LocalStorageService.prototype.get = function(key) {
-      if (!key || !localStorage.getItem(this.prefix + key)) {
+      // TODO: that window.localStorage is add by ringcentral-integration
+      if (
+        !window.localStorage ||
+        !key ||
+        !window.localStorage.getItem(this.prefix + key)
+      ) {
         console.log('Missing parameter key on retrieve');
         return false;
       }
-      return localStorage.getItem(this.prefix + key);
+      return window.localStorage.getItem(this.prefix + key);
     };
 
     LocalStorageService.prototype.remove = function(key) {
-      if (!key || !localStorage.getItem(this.prefix + key)) {
+      // TODO: that window.localStorage is add by ringcentral-integration
+      if (
+        !window.localStorage ||
+        !key ||
+        !window.localStorage.getItem(this.prefix + key)
+      ) {
         console.log('Missing parameter key on remove');
         return false;
       }
-      localStorage.removeItem(this.prefix + key);
+      window.localStorage.removeItem(this.prefix + key);
     };
     // --------------------------
     // BroadcastChannelHelper.js
@@ -7769,20 +7960,20 @@ export default (function() {
 
       // Registers the request / response channels
       //
-      init() {
+      init: function() {
         if (this.requestChannel != null) {
           return;
         }
 
-        const self = this;
+        var self = this;
         this.requestChannel = new BroadcastChannel('ev-multisocket-request');
         this.responseChannel = new BroadcastChannel('ev-multisocket-response');
 
         // Listen for requests coming from the requestChannel
         //
         this.requestChannel.onmessage = function(e) {
-          const type = e.data.type;
-          const messageId = e.data.messageId;
+          var type = e.data.type;
+          var messageId = e.data.messageId;
 
           switch (type) {
             case 'currentCall':
@@ -7794,7 +7985,7 @@ export default (function() {
         // Listen for requests coming from the responseChannel
         //
         this.responseChannel.onmessage = function(e) {
-          const type = e.data.type;
+          var type = e.data.type;
 
           switch (type) {
             case 'currentCall':
@@ -7803,7 +7994,7 @@ export default (function() {
         };
       },
 
-      destroy() {
+      destroy: function() {
         if (this.requestChannel == null) {
           return;
         }
@@ -7827,7 +8018,7 @@ export default (function() {
       // a response is retrieved, it will be handled in the "processCurrentCall" method, and returned
       // back to the original callback function
       //
-      requestCurrentCall(fn) {
+      requestCurrentCall: function(fn) {
         this.currentCallMessageId = Math.random();
         this.currentCallRequestCallback = fn;
 
@@ -7839,11 +8030,11 @@ export default (function() {
 
       // Any instance that has knowledge of the current call can respond to the request
       //
-      _sendCurrentCall(messageId) {
+      _sendCurrentCall: function(messageId) {
         if (UIModel.getInstance().currentCall != null) {
-          const obj = {
+          var obj = {
             type: 'currentCall',
-            messageId,
+            messageId: messageId,
             data: UIModel.getInstance().currentCall,
           };
 
@@ -7854,7 +8045,7 @@ export default (function() {
       // When a current call response is received, every tab will try to process it.  Only the original
       // requestor will be able to process it successfully.
       //
-      _processCurrentCallResponse(data, messageId) {
+      _processCurrentCallResponse: function(data, messageId) {
         if (this.currentCallMessageId === messageId) {
           // Set the current call model
           UIModel.getInstance().currentCall = data;
@@ -7876,7 +8067,7 @@ export default (function() {
       this.encodeURIComponent = window.encodeURIComponent;
       this.apiBase = apiBase || 'http://localhost:81';
 
-      const that = this;
+      var that = this;
 
       /**
        * Makes a GET request to Engage Auth.
@@ -7887,10 +8078,10 @@ export default (function() {
        */
       this.httpGet = function(path, config) {
         return new Promise(function(resolve, reject) {
-          const req = new that.XMLHttpRequest();
-          let queryParams = '';
+          var req = new that.XMLHttpRequest();
+          var queryParams = '';
           if (config.queryParams) {
-            queryParams = `?${_getUriEncodedParams(config.queryParams)}`;
+            queryParams = '?' + _getUriEncodedParams(config.queryParams);
           }
           req.open('GET', that.apiBase + path + queryParams);
           _addHeaders(config, req);
@@ -7908,10 +8099,10 @@ export default (function() {
        */
       this.httpPost = function(path, config) {
         return new Promise(function(resolve, reject) {
-          const req = new that.XMLHttpRequest();
-          let queryParams = '';
+          var req = new that.XMLHttpRequest();
+          var queryParams = '';
           if (config.queryParams) {
-            queryParams = `?${_getUriEncodedParams(config.queryParams)}`;
+            queryParams = '?' + _getUriEncodedParams(config.queryParams);
           }
           req.open('POST', that.apiBase + path + queryParams);
           _addHeaders(config, req);
@@ -7940,13 +8131,13 @@ export default (function() {
           return;
         }
 
-        const headers = config.headers;
+        var headers = config.headers;
 
         if (!_isObj(headers)) {
           return;
         }
 
-        for (const key in headers) {
+        for (var key in headers) {
           req.setRequestHeader(key, headers[key]);
         }
       }
@@ -7985,14 +8176,16 @@ export default (function() {
        * to "application/json", it encodes the payload as JSON. Otherwise, we assume that the payload should be x-www-form-urlencoded.
        */
       function _getUriEncodedBody(config) {
-        const contentType =
+        var contentType =
           config && config.headers && config.headers['Content-Type'];
-        let body = (config && config.body) || '';
+        var body = (config && config.body) || '';
 
         if (contentType === 'application/json') {
           body = JSON.stringify(body);
-        } else if (_isObj(body)) {
-          body = _getUriEncodedParams(body);
+        } else {
+          if (_isObj(body)) {
+            body = _getUriEncodedParams(body);
+          }
         }
 
         return body;
@@ -8005,9 +8198,9 @@ export default (function() {
 
         return Object.keys(params)
           .map(function(key) {
-            return `${encodeURIComponent(
-              key,
-            )}=${encodeURIComponent(params[key])}`;
+            return (
+              encodeURIComponent(key) + '=' + encodeURIComponent(params[key])
+            );
           })
           .join('&');
       }
@@ -8017,12 +8210,12 @@ export default (function() {
       this.instance = instance;
       this.data = data;
 
-      const that = this;
+      var that = this;
 
       this.setupAddSessionCallback = function() {
-        const sessionUii = utils.getText(data.ui_notification, 'uii');
-        const sessionId = utils.getText(data.ui_notification, 'session_id');
-        const call = UIModel.getInstance().currentCall;
+        var sessionUii = utils.getText(data.ui_notification, 'uii'),
+          sessionId = utils.getText(data.ui_notification, 'session_id'),
+          call = UIModel.getInstance().currentCall;
 
         if (call.uii === sessionUii) {
           // we already have a new call packet for this session
@@ -8038,20 +8231,21 @@ export default (function() {
       };
 
       this.processSessionsForCall = function() {
-        const uii = UIModel.getInstance().currentCall.uii;
-        const delayedSessions = UIModel.getInstance().pendingNewCallSessions[
-          uii
-        ];
+        var uii = UIModel.getInstance().currentCall.uii,
+          delayedSessions = UIModel.getInstance().pendingNewCallSessions[uii];
 
         if (delayedSessions && Object.keys(delayedSessions).length > 0) {
           // we have delayed sessions to process
-          for (const sessionId in delayedSessions) {
+          for (var sessionId in delayedSessions) {
             if (delayedSessions.hasOwnProperty(sessionId)) {
-              const session = delayedSessions[sessionId];
+              var session = delayedSessions[sessionId];
               _delayedAddSessionCallback(session.instance, session.data);
             } else {
               console.error(
-                `error processing sessions for uii: ${uii} session: ${sessionId}`,
+                'error processing sessions for uii: ' +
+                  uii +
+                  ' session: ' +
+                  sessionId,
               );
             }
           }
@@ -8061,47 +8255,45 @@ export default (function() {
       };
 
       function _delayedAddSessionCallback(instance, data) {
-        const addSessionNotif = new AddSessionNotification();
-        const addResponse = addSessionNotif.processResponse(data);
+        var addSessionNotif = new AddSessionNotification();
+        var addResponse = addSessionNotif.processResponse(data);
         utils.fireCallback(instance, CALLBACK_TYPES.ADD_SESSION, addResponse);
       }
     }
 
     var utils = {
-      logMessage(logLevel, message, data) {
-        const instance = UIModel.getInstance().libraryInstance;
+      logMessage: function(logLevel, message, data) {
+        var instance = UIModel.getInstance().libraryInstance;
         if (instance._db) {
           try {
-            const transaction = instance._db.transaction(
-              ['logger'],
-              'readwrite',
-            );
-            const store = transaction.objectStore('logger');
+            var transaction = instance._db.transaction(['logger'], 'readwrite');
+            var store = transaction.objectStore('logger');
 
-            const record = {
-              logLevel,
-              message,
+            var record = {
+              logLevel: logLevel,
+              message: message,
               dts: new Date(),
-              data,
+              data: data,
             };
 
-            const request = store.add(record);
+            var request = store.add(record);
           } catch (err) {
-            console.error(`Error adding log message: ${err}`);
+            console.error('Error adding log message: ' + err);
           }
         } else {
-          // console.log("AgentLibrary: indexedDb not available");
+          //console.log("AgentLibrary: indexedDb not available");
         }
       },
 
-      sendMessage(instance, msg) {
-        const msgObj = JSON.parse(msg);
+      sendMessage: function(instance, msg) {
+        var msgObj = JSON.parse(msg);
 
         if (instance.socket && instance.socket.readyState === 1) {
           // add message id to request map, then send message
-          const type = msgObj.ui_request['@type'];
-          const destination = msgObj.ui_request['@destination'];
-          const message = `Sending ${type} request message to ${destination}`;
+          var type = msgObj.ui_request['@type'];
+          var destination = msgObj.ui_request['@destination'];
+          var message =
+            'Sending ' + type + ' request message to ' + destination;
           instance._requests.push({
             id: msgObj.ui_request['@message_id'],
             type: msgObj.ui_request['@type'],
@@ -8122,16 +8314,17 @@ export default (function() {
           }
         } else {
           // add message to queue if socket is not open.
-          instance._queuedMsgs.push({ dts: new Date(), msg });
+          instance._queuedMsgs.push({ dts: new Date(), msg: msg });
         }
       },
 
-      processResponse(instance, response) {
-        const type = response.ui_response['@type'];
-        const messageId = response.ui_response['@message_id'];
-        const dest =
+      processResponse: function(instance, response) {
+        var type = response.ui_response['@type'];
+        var messageId = response.ui_response['@message_id'];
+        var dest =
           messageId === '' || !messageId ? 'IS' : messageId.slice(0, 2);
-        const message = `Received ${type.toUpperCase()} response message from ${dest}`;
+        var message =
+          'Received ' + type.toUpperCase() + ' response message from ' + dest;
 
         // log message response
         utils.logMessage(LOG_LEVELS.INFO, message, response);
@@ -8165,7 +8358,7 @@ export default (function() {
             var request = utils.findRequestById(instance, responseTo);
             if (request) {
               // found corresponding request, fire registered callback for type
-              const audioState = request.msg.audio_state['#text'];
+              var audioState = request.msg.audio_state['#text'];
               if (audioState === 'MUTE') {
                 utils.fireCallback(
                   instance,
@@ -8369,11 +8562,15 @@ export default (function() {
         }
       },
 
-      processNotification(instance, data) {
+      processNotification: function(instance, data) {
         var type = data.ui_notification['@type'];
-        const messageId = data.ui_notification['@message_id'];
-        const dest = messageId === '' ? 'IS' : messageId.slice(0, 2);
-        const message = `Received ${type.toUpperCase()} notification message from ${dest}`;
+        var messageId = data.ui_notification['@message_id'];
+        var dest = messageId === '' ? 'IS' : messageId.slice(0, 2);
+        var message =
+          'Received ' +
+          type.toUpperCase() +
+          ' notification message from ' +
+          dest;
 
         // log message response
         utils.logMessage(LOG_LEVELS.INFO, message, data);
@@ -8444,7 +8641,7 @@ export default (function() {
             if (request) {
               // found corresponding request, fire registered callback for type
               var type = request.type;
-              const callbackFnName = utils.findCallbackBasedOnMessageType(type);
+              var callbackFnName = utils.findCallbackBasedOnMessageType(type);
 
               if (callbackFnName) {
                 if (type === MESSAGE_TYPES.CALLBACK_CANCEL) {
@@ -8659,6 +8856,15 @@ export default (function() {
               emailNotifResp,
             );
             break;
+          case MESSAGE_TYPES.CHAT_LOAD_MEDIA:
+            var loadMediaNotif = new LoadMediaNotification();
+            var loadMediaResp = loadMediaNotif.processResponse(data);
+            utils.fireCallback(
+              instance,
+              CALLBACK_TYPES.CHAT_LOAD_MEDIA_NOTIF,
+              loadMediaResp,
+            );
+            break;
           case MESSAGE_TYPES.LOGOUT:
             var logoutNotification = new LogoutRequest();
             var logoutNotifResponse = logoutNotification.processResponse(data);
@@ -8668,28 +8874,37 @@ export default (function() {
               logoutNotifResponse,
             );
             var model = UIModel.getInstance();
-            model.dataStore.remove('agent_id'); // remove agent_id and hash_code from local storage
+
+            //remove agent_id and hash_code from local storage
+            model.dataStore.remove('agent_id');
             model.dataStore.remove('hash_code');
-            var instance = model.libraryInstance;
+
+            // set login flag here in case notification initiated externally
+            // and not in response to agent logout request
             model.agentSettings.isLoggedIn = false;
+
             instance.closeSocket();
             break;
           case MESSAGE_TYPES.MONITOR_CHAT:
-            // TODO: do this
+            //TODO: do this
 
             break;
           case MESSAGE_TYPES.LEAVE_CHAT:
-            // TODO: do this
+            //TODO: do this
 
             break;
         }
       },
 
-      processDialerResponse(instance, response) {
-        const type = response.dialer_request['@type'];
-        const messageId = response.dialer_request['@message_id'];
-        const dest = messageId === '' ? 'IS' : messageId.slice(0, 2);
-        const message = `Received ${type.toUpperCase()} dialer response message from ${dest}`;
+      processDialerResponse: function(instance, response) {
+        var type = response.dialer_request['@type'];
+        var messageId = response.dialer_request['@message_id'];
+        var dest = messageId === '' ? 'IS' : messageId.slice(0, 2);
+        var message =
+          'Received ' +
+          type.toUpperCase() +
+          ' dialer response message from ' +
+          dest;
 
         // log message response
         utils.logMessage(LOG_LEVELS.INFO, message, response);
@@ -8736,8 +8951,8 @@ export default (function() {
         }
       },
 
-      processRequest(instance, message) {
-        const type = message.ui_request['@type'];
+      processRequest: function(instance, message) {
+        var type = message.ui_request['@type'];
 
         // Fire callback function
         switch (type.toUpperCase()) {
@@ -8760,9 +8975,10 @@ export default (function() {
         }
       },
 
-      processStats(instance, data) {
-        const type = data.ui_stats['@type'];
-        const message = `Received ${type.toUpperCase()} response message from IS`;
+      processStats: function(instance, data) {
+        var type = data.ui_stats['@type'];
+        var message =
+          'Received ' + type.toUpperCase() + ' response message from IS';
 
         // Fire callback function
         switch (type.toUpperCase()) {
@@ -8933,25 +9149,31 @@ export default (function() {
        *   }
        */
 
-      processResponseCollection(response, groupProp, itemProp, textName) {
+      processResponseCollection: function(
+        response,
+        groupProp,
+        itemProp,
+        textName,
+      ) {
         textName = textName || 'text';
 
         if (
           response[groupProp] &&
           typeof response[groupProp][itemProp] !== 'undefined'
         ) {
-          const itemsRaw = response[groupProp][itemProp];
+          var itemsRaw = response[groupProp][itemProp];
           return this._processItems(itemsRaw, textName);
+        } else {
+          return [];
         }
-        return [];
       },
 
-      escapeSoftphoneUsername(str) {
+      escapeSoftphoneUsername: function(str) {
         return str && str.replace(/[@]/g, '_at_');
       },
 
-      _processItems(itemsRaw, textName) {
-        const result = [];
+      _processItems: function(itemsRaw, textName) {
+        var result = [];
         if (typeof itemsRaw === 'undefined' || itemsRaw === null) {
           return result;
         }
@@ -8960,14 +9182,14 @@ export default (function() {
           itemsRaw = [itemsRaw];
         }
 
-        for (let i = 0; i < itemsRaw.length; i++) {
+        for (var i = 0; i < itemsRaw.length; i++) {
           result.push(this._processItem(itemsRaw[i], textName));
         }
 
         return result;
       },
 
-      _processItem(itemRaw, textName) {
+      _processItem: function(itemRaw, textName) {
         /*
          * Be sure that the item we are processing is not a #text node only, where the "texName" is also "text". If this
          * is the case, it means there's a default value that needs to get converted and isn't going to be mapped to a custom
@@ -8983,11 +9205,11 @@ export default (function() {
 
         // Convert the raw item to a new item, with keys and values processed below
         //
-        const item = {};
-        for (const key in itemRaw) {
-          let formattedKey = this._convertToFormattedKey(key, textName);
+        var item = {};
+        for (var key in itemRaw) {
+          var formattedKey = this._convertToFormattedKey(key, textName);
 
-          const value = itemRaw[key];
+          var value = itemRaw[key];
 
           // If we aren't an object, set the value and continue to next key
           if (typeof value !== 'object') {
@@ -9023,8 +9245,8 @@ export default (function() {
         return item;
       },
 
-      _convertToFormattedKey(key, textName) {
-        let formattedKey;
+      _convertToFormattedKey: function(key, textName) {
+        var formattedKey;
         if (key.match(/^#/)) {
           // dealing with text property
           formattedKey = textName;
@@ -9039,15 +9261,15 @@ export default (function() {
         return formattedKey;
       },
 
-      _convertKeyForCollection(formattedKey) {
+      _convertKeyForCollection: function(formattedKey) {
         if (formattedKey.substr(formattedKey.length - 1) !== 's') {
-          return `${formattedKey}s`;
+          return formattedKey + 's';
         }
 
         return formattedKey;
       },
 
-      _tryConvertValueToBoolean(value) {
+      _tryConvertValueToBoolean: function(value) {
         if (value === null) {
           return null;
         }
@@ -9055,14 +9277,14 @@ export default (function() {
         // can't convert 0 | 1 to boolean since some are counters
         if (value.toUpperCase() === 'TRUE') {
           return true;
-        }
-        if (value.toUpperCase() === 'FALSE') {
+        } else if (value.toUpperCase() === 'FALSE') {
           return false;
+        } else {
+          return value;
         }
-        return value;
       },
 
-      fireCallback(instance, type, response) {
+      fireCallback: function(instance, type, response) {
         response = response || '';
         if (
           typeof type !== 'undefined' &&
@@ -9072,36 +9294,49 @@ export default (function() {
         }
       },
 
-      setCallback(instance, type, callback) {
+      setCallback: function(instance, type, callback) {
         if (typeof type !== 'undefined' && typeof callback !== 'undefined') {
           instance.callbacks[type] = callback;
         }
       },
 
-      getMessageId() {
+      getMessageId: function() {
         function s4() {
           return Math.floor((1 + Math.random()) * 0x10000)
             .toString(16)
             .substring(1);
         }
 
-        return `${s4() + s4()}-${s4()}-${s4()}-${s4()}-${s4()}${s4()}${s4()}`;
+        return (
+          s4() +
+          s4() +
+          '-' +
+          s4() +
+          '-' +
+          s4() +
+          '-' +
+          s4() +
+          '-' +
+          s4() +
+          s4() +
+          s4()
+        );
       },
 
       // check whether the given array of ids exist in the given array of objects
       // if not available, remove the id
       // returns the clean list of acceptable ids
-      checkExistingIds(objArray, idArray, idProperty) {
-        const availIds = [];
-        const removeIds = [];
+      checkExistingIds: function(objArray, idArray, idProperty) {
+        var availIds = [];
+        var removeIds = [];
 
         // get list of available ids
-        for (let o = 0; o < objArray.length; o++) {
+        for (var o = 0; o < objArray.length; o++) {
           availIds.push(parseInt(objArray[o][idProperty], 10));
         }
 
         // go through selected ids and mark unfound ones for removal
-        for (let i = 0; i < idArray.length; i++) {
+        for (var i = 0; i < idArray.length; i++) {
           if (availIds.indexOf(parseInt(idArray[i], 10)) === -1) {
             // selected id not found in available list, mark for removal
             removeIds.push(parseInt(idArray[i], 10));
@@ -9109,7 +9344,7 @@ export default (function() {
         }
 
         // remove marked ids
-        for (let r = idArray.length - 1; r >= 0; r--) {
+        for (var r = idArray.length - 1; r >= 0; r--) {
           if (removeIds.indexOf(parseInt(idArray[r], 10)) > -1) {
             // remove
             idArray.splice(r, 1);
@@ -9120,9 +9355,9 @@ export default (function() {
       },
 
       // find an object by given id in an array of objects
-      findObjById(objArray, id, propName) {
-        for (let o = 0; o < objArray.length; o++) {
-          const obj = objArray[o];
+      findObjById: function(objArray, id, propName) {
+        for (var o = 0; o < objArray.length; o++) {
+          var obj = objArray[o];
           if (obj[propName] === id) {
             return obj;
           }
@@ -9132,9 +9367,9 @@ export default (function() {
       },
 
       // check whether agent dialDest is either a 10-digit number or valid sip
-      validateDest(dialDest) {
-        let isValid = false;
-        const isNum = /^\d+$/.test(dialDest);
+      validateDest: function(dialDest) {
+        var isValid = false;
+        var isNum = /^\d+$/.test(dialDest);
         if (isNum && dialDest.length === 10) {
           // is a 10-digit number
           isValid = true;
@@ -9151,9 +9386,9 @@ export default (function() {
 
       // pass in MESSAGE_TYPE string (e.g. "CANCEL-CALLBACK"),
       // return corresponding CALLBACK_TYPE function name string (e.g. "callbackCancelResponse")
-      findCallbackBasedOnMessageType(messageType) {
-        let callbackFnName = '';
-        for (const key in MESSAGE_TYPES) {
+      findCallbackBasedOnMessageType: function(messageType) {
+        var callbackFnName = '';
+        for (var key in MESSAGE_TYPES) {
           if (MESSAGE_TYPES[key] === messageType) {
             callbackFnName = CALLBACK_TYPES[key];
           }
@@ -9163,13 +9398,13 @@ export default (function() {
 
       // add message, detail, and status values to the formattedResponse
       // returned from each request processResponse method
-      buildDefaultResponse(response) {
-        let message = '';
-        let detail = '';
-        let status = '';
-        let msg = '';
-        let det = '';
-        let stat = '';
+      buildDefaultResponse: function(response) {
+        var message = '';
+        var detail = '';
+        var status = '';
+        var msg = '';
+        var det = '';
+        var stat = '';
 
         // add message and detail if present
         if (response.ui_response) {
@@ -9193,64 +9428,71 @@ export default (function() {
         }
 
         return {
-          message,
-          detail,
-          status,
+          message: message,
+          detail: detail,
+          status: status,
         };
       },
 
-      toString(val) {
+      toString: function(val) {
         if (val) {
           return val.toString();
+        } else {
+          return '';
         }
-        return '';
       },
 
       // safely check if property exists and return empty string
       // instead of undefined if it doesn't exist
       // convert "TRUE" | "FALSE" to boolean
-      getText(obj, prop) {
-        const o = obj[prop];
+      getText: function(obj, prop) {
+        var o = obj[prop];
         if (o && o['#text']) {
           if (o['#text'].toUpperCase() === 'TRUE') {
             return true;
-          }
-          if (o['#text'].toUpperCase() === 'FALSE') {
+          } else if (o['#text'].toUpperCase() === 'FALSE') {
             return false;
+          } else {
+            return o['#text'] || '';
           }
-          return o['#text'] || '';
+        } else {
+          return '';
         }
-        return '';
       },
 
       // safely check if property exists and return empty string
       // instead of undefined if it doesn't exist
       // convert "TRUE" | "FALSE" to boolean
-      getAttribute(obj, prop) {
-        const o = obj[prop];
+      getAttribute: function(obj, prop) {
+        var o = obj[prop];
         if (o && o[prop]) {
           if (o[prop].toUpperCase() === 'TRUE') {
             return true;
-          }
-          if (o[prop].toUpperCase() === 'FALSE') {
+          } else if (o[prop].toUpperCase() === 'FALSE') {
             return false;
+          } else {
+            return o[prop] || '';
           }
-          return o[prop] || '';
+        } else {
+          return '';
         }
-        return '';
       },
 
       // Parses a string of key value pairs and returns an Array of KeyValue objects.
       // @param str The string of keyvalue pairs to parse
       // @param outerDelimiter The delimiter that separates each keyValue pair
       // @param innerDelimiter The delimiter that separates each key from its value
-      parseKeyValuePairsFromString(str, outerDelimiter, innerDelimiter) {
+      parseKeyValuePairsFromString: function(
+        str,
+        outerDelimiter,
+        innerDelimiter,
+      ) {
         if (!str) {
           return [];
         }
 
-        const arr = str.split(outerDelimiter).reduce(function(dict, pair) {
-          const keyValue = pair.split(innerDelimiter);
+        var arr = str.split(outerDelimiter).reduce(function(dict, pair) {
+          var keyValue = pair.split(innerDelimiter);
           dict[keyValue[0]] = keyValue[1];
           return dict;
         }, {});
@@ -9259,9 +9501,9 @@ export default (function() {
       },
 
       // Finds a request by responseTo id
-      findRequestById(instance, id) {
-        let request = null;
-        for (let i = 0; i < instance._requests.length; i++) {
+      findRequestById: function(instance, id) {
+        var request = null;
+        for (var i = 0; i < instance._requests.length; i++) {
           if (instance._requests[i].id === id) {
             request = instance._requests[i];
             break;
@@ -9273,12 +9515,12 @@ export default (function() {
       // called every 30 seconds letting intelliQueue know
       // not to archive the call so dispositions and other call
       // clean up actions can happen
-      sendPingCallMessage() {
+      sendPingCallMessage: function() {
         UIModel.getInstance().pingCallRequest = new PingCallRequest();
-        const msg = UIModel.getInstance().pingCallRequest.formatJSON();
-        const msgObj = JSON.parse(msg);
-        const agentId = utils.getText(msgObj.ui_request, 'agent_id');
-        const uii = utils.getText(msgObj.ui_request, 'uii');
+        var msg = UIModel.getInstance().pingCallRequest.formatJSON();
+        var msgObj = JSON.parse(msg);
+        var agentId = utils.getText(msgObj.ui_request, 'agent_id');
+        var uii = utils.getText(msgObj.ui_request, 'uii');
         if (agentId === '' || uii === '') {
           utils.logMessage(
             LOG_LEVELS.WARN,
@@ -9291,16 +9533,16 @@ export default (function() {
       },
 
       // called every 5 seconds to request stats from IntelliServices
-      sendStatsRequestMessage() {
+      sendStatsRequestMessage: function() {
         UIModel.getInstance().statsRequest = new StatsRequest();
-        const msg = UIModel.getInstance().statsRequest.formatJSON();
+        var msg = UIModel.getInstance().statsRequest.formatJSON();
         utils.sendMessage(UIModel.getInstance().libraryInstance, msg);
       },
 
       // called every 20 seconds to ping IntelliSocket whent stats are disabled
-      sendPingRequestMessage() {
-        const msg = 'BEAT';
-        const instance = UIModel.getInstance().libraryInstance;
+      sendPingRequestMessage: function() {
+        var msg = 'BEAT';
+        var instance = UIModel.getInstance().libraryInstance;
         if (instance.socket && instance.socket.readyState === 1) {
           instance.socket.send('BEAT');
         }
@@ -9310,48 +9552,50 @@ export default (function() {
       // if we have received agent daily stats
       // start incrementing various data points since not all
       // data is incremented when we want on the IntelliServices side
-      onAgentDailyStats() {
+      onAgentDailyStats: function() {
         if (Object.keys(UIModel.getInstance().agentDailyStats).length !== 0) {
-          const agentSettings = UIModel.getInstance().agentSettings;
-          const stats = UIModel.getInstance().agentDailyStats;
+          var agentSettings = UIModel.getInstance().agentSettings,
+            stats = UIModel.getInstance().agentDailyStats;
 
-          const curLoginTime = stats.totalLoginTime;
+          var curLoginTime = stats.totalLoginTime;
           stats.totalLoginTime = Number(curLoginTime) + 1;
 
           if (agentSettings.isOffhook) {
-            const curOffhookTime = stats.totalOffhookTime;
+            var curOffhookTime = stats.totalOffhookTime;
             stats.totalOffhookTime = Number(curOffhookTime) + 1;
           }
 
           if (agentSettings.currentState == 'ENGAGED') {
-            const curTalkTime = stats.totalTalkTime;
+            var curTalkTime = stats.totalTalkTime;
             stats.totalTalkTime = Number(curTalkTime) + 1;
 
-            const curCallTime = stats.currCallTime;
+            var curCallTime = stats.currCallTime;
             stats.currCallTime = Number(curCallTime) + 1;
           }
         }
       },
 
       // called in loginAgent if 'integrated' dial destination passed in
-      getDialDestination() {
-        const model = UIModel.getInstance();
-        const softphoneSettings = model.softphoneSettings;
-        const dialDestType = model.applicationSettings.dialDestType;
+      getDialDestination: function() {
+        var model = UIModel.getInstance();
+        var softphoneSettings = model.softphoneSettings;
+        var dialDestType = model.applicationSettings.dialDestType;
 
-        let dialDest = '';
+        var dialDest = '';
 
         // default to the first server in the array
         if (softphoneSettings.sipInfo.length > 0) {
-          const currentServer = softphoneSettings.sipInfo[0];
+          var currentServer = softphoneSettings.sipInfo[0];
           if (dialDestType === 'LEGACY_SOFTPHONE') {
-            dialDest = `sip:${utils.escapeSoftphoneUsername(
-              currentServer.username,
-            )}@${currentServer.domain}`;
+            dialDest =
+              'sip:' +
+              utils.escapeSoftphoneUsername(currentServer.username) +
+              '@' +
+              currentServer.domain;
           } else if (dialDestType === 'RC_SOFTPHONE') {
-            dialDest = `${utils.escapeSoftphoneUsername(
-              currentServer.username,
-            )}@RC_SOFTPHONE`;
+            dialDest =
+              utils.escapeSoftphoneUsername(currentServer.username) +
+              '@RC_SOFTPHONE';
           }
         }
 
@@ -9359,12 +9603,11 @@ export default (function() {
       },
 
       // get valid access token based on agentId and login hash code
-      refreshAccessToken() {
-        const model = UIModel.getInstance();
-        const baseUrl = model.authHost + model.baseAuthUri;
-        const errorMsg =
-          'Error in opening WebSocket on retrieving access token';
-        const params = {
+      refreshAccessToken: function() {
+        var model = UIModel.getInstance();
+        var baseUrl = model.authHost + model.baseAuthUri;
+        var errorMsg = 'Error in opening WebSocket on retrieving access token';
+        var params = {
           queryParams: {
             loginHashcode: model.connectionSettings.hashCode,
             agentId: model.agentSettings.agentId,
@@ -9383,7 +9626,7 @@ export default (function() {
             }
           },
           function(err) {
-            const errResponse = {
+            var errResponse = {
               type: 'refreshAccessToken Error',
               message: errorMsg,
             };
@@ -9395,7 +9638,7 @@ export default (function() {
 
     // CONSTANTS
 
-    /* jshint esnext: true */
+    /*jshint esnext: true */
     const LOG_LEVELS = {
       DEBUG: 'debug',
       STATS: 'stats',
@@ -9429,6 +9672,7 @@ export default (function() {
       CHAT_CLIENT_RECONNECT: 'chatClientReconnectNotification',
       CHAT_INACTIVE: 'chatInactiveNotification', // external chat
       CHAT_LIST: 'chatListResponse', // external chat
+      CHAT_LOAD_MEDIA: 'chatLoadMediaResponse', // engage digital task
       CHAT_MESSAGE: 'chatMessageNotification', // external chat
       CHAT_NEW: 'chatNewNotification', // external chat
       CHAT_PRESENTED: 'chatPresentedNotification', // external chat
@@ -9533,6 +9777,7 @@ export default (function() {
       CHAT_SEND: 'CHAT', // internal chat
       CHAT_STATE: 'CHAT-STATE', // external chat
       CHAT_TYPING: 'CHAT-TYPING', // external chat
+      CHAT_LOAD_MEDIA: 'LOAD-MEDIA', // engage digital task
       DIAL_GROUP_CHANGE: 'DIAL_GROUP_CHANGE',
       DIAL_GROUP_CHANGE_PENDING: 'DIAL_GROUP_CHANGE_PENDING',
       DIRECT_AGENT_ROUTE: 'DIRECT-AGENT-ROUTE',
@@ -9609,6 +9854,8 @@ export default (function() {
      * require.js, this is the global Object.
      */
     function initAgentLibraryCore(context) {
+      'use strict';
+
       /**
          * This is the constructor for the Library Object. Note that the constructor is also being
          * attached to the context that the library was loaded in.
@@ -9631,7 +9878,7 @@ export default (function() {
                }
           });
          */
-      const AgentLibrary = (context.AgentLibrary = function(config) {
+      var AgentLibrary = (context.AgentLibrary = function(config) {
         config = config || {};
 
         // define properties
@@ -9736,7 +9983,7 @@ export default (function() {
        * @type {object}
        */
       AgentLibrary.prototype.setCallbacks = function(callbackMap) {
-        for (const property in callbackMap) {
+        for (var property in callbackMap) {
           this.callbacks[property] = callbackMap[property];
         }
       };
@@ -9783,9 +10030,9 @@ export default (function() {
        * @memberof AgentLibrary.Core
        */
 
-      // //////////////////////////
+      ////////////////////////////
       // requests and responses //
-      // //////////////////////////
+      ////////////////////////////
       /**
        * Get outgoing Authenticate Request object
        * @memberof AgentLibrary.Core.Requests
@@ -10169,9 +10416,9 @@ export default (function() {
        * @namespace Notifications
        * @memberof AgentLibrary.Core
        */
-      // /////////////////
+      ///////////////////
       // notifications //
-      // /////////////////
+      ///////////////////
       /**
        * Get Dial Group Change notification class
        * @memberof AgentLibrary.Core.Notifications
@@ -10300,14 +10547,22 @@ export default (function() {
       AgentLibrary.prototype.getNewChatNotification = function() {
         return UIModel.getInstance().newChatNotification;
       };
+      /**
+       * Get Load Media notification class
+       * @memberof AgentLibrary.Core.Notifications
+       * @returns {object}
+       */
+      AgentLibrary.prototype.getLoadMediaNotification = function() {
+        return UIModel.getInstance().loadMediaNotification;
+      };
 
       /**
        * @namespace Settings
        * @memberof AgentLibrary.Core
        */
-      // ////////////////////
+      //////////////////////
       // settings objects //
-      // ////////////////////
+      //////////////////////
       /**
        * Get Application Settings object containing the current state of application related data
        * @memberof AgentLibrary.Core.Settings
@@ -10389,9 +10644,9 @@ export default (function() {
        * @namespace Stats
        * @memberof AgentLibrary.Core
        */
-      // /////////////////
+      ///////////////////
       // stats objects //
-      // /////////////////
+      ///////////////////
 
       /**
        * Get the Agent stats object containing the current state of agent stats
@@ -10461,9 +10716,9 @@ export default (function() {
         return UIModel.getInstance().extensionPresenceRequest;
       };
 
-      /** ********************
+      /**********************
        *  PRIVATE FUNCTIONS *
-       ********************* */
+       **********************/
 
       AgentLibrary.prototype._utils = utils;
 
@@ -10477,14 +10732,15 @@ export default (function() {
     }
 
     function initAgentLibrarySocket(context) {
-      const AgentLibrary = context.AgentLibrary;
+      'use strict';
+      var AgentLibrary = context.AgentLibrary;
 
       AgentLibrary.prototype.openSocket = function(agentId, callback) {
-        const instance = this;
+        var instance = this;
         utils.setCallback(instance, CALLBACK_TYPES.OPEN_SOCKET, callback);
         if ('WebSocket' in context) {
           if (!instance.socket) {
-            const model = UIModel.getInstance();
+            var model = UIModel.getInstance();
 
             model.agentSettings.agentId = agentId; // set agentId here since id is in scope
 
@@ -10497,6 +10753,7 @@ export default (function() {
             }
           }
         } else {
+          console.error('WebSocket NOT supported by your Browser');
           utils.logMessage(
             LOG_LEVELS.WARN,
             'WebSocket NOT supported by your Browser',
@@ -10512,24 +10769,24 @@ export default (function() {
       // when socket is successfully opened, check to see if there are any queued messaged
       // and if so, send them.
       AgentLibrary.prototype.socketOpened = function() {
-        const instance = this;
-        const currDts = new Date();
-        const threeMins = 3 * 60 * 1000; // milliseconds
-        let queuedMsg;
+        var instance = this;
+        var currDts = new Date();
+        var threeMins = 3 * 60 * 1000; // milliseconds
+        var queuedMsg;
 
         // get agent configuration information - "phase 1 login"
         UIModel.getInstance().loginPhase1Request = new LoginPhase1Request();
-        const msg = UIModel.getInstance().loginPhase1Request.formatJSON();
+        var msg = UIModel.getInstance().loginPhase1Request.formatJSON();
         utils.sendMessage(this, msg);
 
         // if this is a reconnect, we need to re-authenticate with IntelliServices & IntelliQueue
         if (instance._isReconnect) {
           instance._isReconnect = false;
           // Add IntelliQueue reconnect
-          const loginRequest = JSON.parse(
+          var loginRequest = JSON.parse(
             UIModel.getInstance().loginRequest.formatJSON(),
           );
-          const hashCode = UIModel.getInstance().connectionSettings.hashCode;
+          var hashCode = UIModel.getInstance().connectionSettings.hashCode;
           loginRequest.ui_request.hash_code = {
             '#text': hashCode,
           };
@@ -10544,7 +10801,7 @@ export default (function() {
             msg: JSON.stringify(loginRequest),
           });
         }
-        for (let idx = 0; idx < instance._queuedMsgs.length; idx++) {
+        for (var idx = 0; idx < instance._queuedMsgs.length; idx++) {
           queuedMsg = instance._queuedMsgs[idx];
           if (currDts.getTime() - queuedMsg.dts.getTime() < threeMins) {
             // message queued less than 3 mins ago, send
@@ -10569,12 +10826,12 @@ export default (function() {
 
       // build WebSocket destination based on current agentId and access token
       function _buildSocketDest() {
-        const model = UIModel.getInstance();
-        let socketDest = model.applicationSettings.socketDest;
+        var model = UIModel.getInstance();
+        var socketDest = model.applicationSettings.socketDest;
         socketDest = model.socketProtocol + model.authenticateRequest.socketUrl;
-        socketDest += `:${model.authenticateRequest.socketPort}`;
-        socketDest += `?access_token=${model.authenticateRequest.accessToken}`;
-        socketDest += `&agent_id=${model.agentSettings.agentId}`;
+        socketDest += ':' + model.authenticateRequest.socketPort;
+        socketDest += '?access_token=' + model.authenticateRequest.accessToken;
+        socketDest += '&agent_id=' + model.agentSettings.agentId;
 
         model.applicationSettings.socketDest = socketDest; // seems redundant, but needed to update value on model
         return socketDest;
@@ -10582,10 +10839,10 @@ export default (function() {
 
       // connect socket, setup socket event listeners
       function _initSocket(instance) {
-        const socketDest = UIModel.getInstance().applicationSettings.socketDest;
+        var socketDest = UIModel.getInstance().applicationSettings.socketDest;
         utils.logMessage(
           LOG_LEVELS.DEBUG,
-          `Attempting to open socket connection to ${socketDest}`,
+          'Attempting to open socket connection to ' + socketDest,
           '',
         );
 
@@ -10611,7 +10868,7 @@ export default (function() {
 
         instance.socket.onmessage = function(evt) {
           if (evt.data !== 'BOP') {
-            const data = JSON.parse(evt.data);
+            var data = JSON.parse(evt.data);
             if (data.ui_response) {
               utils.processResponse(instance, data);
             } else if (data.ui_notification) {
@@ -10660,11 +10917,10 @@ export default (function() {
 
       // get valid access token based on agentId and login hash code
       function _getNewAccessToken(instance) {
-        const model = UIModel.getInstance();
-        const baseUrl = model.authHost + model.baseAuthUri;
-        const errorMsg =
-          'Error in opening WebSocket on retrieving access token';
-        const params = {
+        var model = UIModel.getInstance();
+        var baseUrl = model.authHost + model.baseAuthUri;
+        var errorMsg = 'Error in opening WebSocket on retrieving access token';
+        var params = {
           queryParams: {
             loginHashcode: model.connectionSettings.hashCode,
             agentId: model.agentSettings.agentId,
@@ -10685,7 +10941,7 @@ export default (function() {
             }
           },
           function(err) {
-            const errResponse = {
+            var errResponse = {
               type: 'WebSocket Error',
               message: errorMsg,
             };
@@ -10701,7 +10957,9 @@ export default (function() {
        * @memberof AgentLibrary
        */
 
-      const AgentLibrary = context.AgentLibrary;
+      'use strict';
+
+      var AgentLibrary = context.AgentLibrary;
 
       /**
        * Sends authenticate request to Engage Auth. Can either pass in 3 params of username, password, and platformId or
@@ -10719,9 +10977,9 @@ export default (function() {
         callback,
       ) {
         UIModel.getInstance().authenticateRequest = new AuthenticateRequest({
-          username,
-          password,
-          platformId,
+          username: username,
+          password: password,
+          platformId: platformId,
           authType: AUTHENTICATE_TYPES.USERNAME_PASSWORD,
         });
         UIModel.getInstance().authenticateRequest.sendHttpRequest();
@@ -10742,8 +11000,8 @@ export default (function() {
         callback,
       ) {
         UIModel.getInstance().authenticateRequest = new AuthenticateRequest({
-          rcAccessToken,
-          tokenType,
+          rcAccessToken: rcAccessToken,
+          tokenType: tokenType,
           authType: AUTHENTICATE_TYPES.RC_TOKEN,
         });
         UIModel.getInstance().authenticateRequest.sendHttpRequest();
@@ -10762,7 +11020,7 @@ export default (function() {
         callback,
       ) {
         UIModel.getInstance().authenticateRequest = new AuthenticateRequest({
-          engageAccessToken,
+          engageAccessToken: engageAccessToken,
           authType: AUTHENTICATE_TYPES.ENGAGE_TOKEN,
         });
         UIModel.getInstance().authenticateRequest.sendHttpRequest();
@@ -10777,7 +11035,7 @@ export default (function() {
        */
       AgentLibrary.prototype.getAgentConfig = function(callback) {
         UIModel.getInstance().loginPhase1Request = new LoginPhase1Request();
-        const msg = UIModel.getInstance().loginPhase1Request.formatJSON();
+        var msg = UIModel.getInstance().loginPhase1Request.formatJSON();
 
         utils.setCallback(this, CALLBACK_TYPES.LOGIN_PHASE_1, callback);
         utils.sendMessage(this, msg);
@@ -10790,7 +11048,7 @@ export default (function() {
        * @param {function} [callback=null] Callback function when web rtc info response received
        */
       AgentLibrary.prototype.getWebRtcInfo = function(callback) {
-        const model = UIModel.getInstance();
+        var model = UIModel.getInstance();
         model.webRTCRequest = new WebRTCRequest();
         model.webRTCRequest.getSipRegistrationInfo();
 
@@ -10819,17 +11077,17 @@ export default (function() {
         isForce,
         callback,
       ) {
-        const model = UIModel.getInstance();
-        const config = {
-          dialDest,
-          queueIds,
-          chatIds,
-          skillProfileId,
-          dialGroupId,
-          updateFromAdminUI,
-          isForce,
+        var model = UIModel.getInstance();
+        var config = {
+          dialDest: dialDest,
+          queueIds: queueIds,
+          chatIds: chatIds,
+          skillProfileId: skillProfileId,
+          dialGroupId: dialGroupId,
+          updateFromAdminUI: updateFromAdminUI,
+          isForce: isForce,
         };
-        const instance = this;
+        var instance = this;
 
         // if dialDest is set to `integrated`, we are doing an integrated softphone
         // and need to get SIP credentials
@@ -10872,7 +11130,7 @@ export default (function() {
           config.updateFromAdminUI,
           config.isForce,
         );
-        const msg = UIModel.getInstance().loginRequest.formatJSON();
+        var msg = UIModel.getInstance().loginRequest.formatJSON();
 
         utils.setCallback(instance, CALLBACK_TYPES.LOGIN, callback);
         utils.sendMessage(instance, msg);
@@ -10883,9 +11141,9 @@ export default (function() {
        * @param {function} [callback=null] Callback function when multisocket response received.
        */
       AgentLibrary.prototype.multiLoginRequest = function(callback) {
-        const model = UIModel.getInstance();
+        var model = UIModel.getInstance();
         model.multiSocketRequest = new MultiSocketRequest();
-        const msg = model.multiSocketRequest.formatJSON();
+        var msg = model.multiSocketRequest.formatJSON();
         if (
           model.dataStore.get('agent_id') &&
           model.dataStore.get('hash_code')
@@ -10904,11 +11162,11 @@ export default (function() {
        * @param {function} [callback=null] Callback function when logoutAgent response received.
        */
       AgentLibrary.prototype.logoutAgent = function(agentId, callback) {
-        const model = UIModel.getInstance();
+        var model = UIModel.getInstance();
         if (model.agentSettings.isLoggedIn) {
           model.agentSettings.isLoggedIn = false;
           model.logoutRequest = new LogoutRequest(agentId);
-          const msg = model.logoutRequest.formatJSON();
+          var msg = model.logoutRequest.formatJSON();
 
           // socket closed in callback function
           utils.setCallback(this, CALLBACK_TYPES.LOGOUT, callback);
@@ -10928,17 +11186,17 @@ export default (function() {
         requestMessage,
         callback,
       ) {
-        const isSupervisor =
+        var isSupervisor =
           UIModel.getInstance().agentSettings.agentType === 'SUPERVISOR';
         if (isSupervisor) {
-          // This is a supervisor request to log an agent out. Create the
-          // logout packet and then send the packet to IntelliQueue.
+          //This is a supervisor request to log an agent out. Create the
+          //logout packet and then send the packet to IntelliQueue.
           UIModel.getInstance().logoutRequest = new LogoutRequest(
             agentToLogout,
             requestMessage,
           );
           utils.setCallback(this, CALLBACK_TYPES.LOGOUT, callback);
-          const msg = UIModel.getInstance().logoutRequest.formatJSON();
+          var msg = UIModel.getInstance().logoutRequest.formatJSON();
           utils.sendMessage(this, msg);
         }
       };
@@ -10960,7 +11218,7 @@ export default (function() {
           agentState,
           agentAuxState,
         );
-        const msg = UIModel.getInstance().agentStateRequest.formatJSON();
+        var msg = UIModel.getInstance().agentStateRequest.formatJSON();
 
         utils.setCallback(this, CALLBACK_TYPES.AGENT_STATE, callback);
         utils.sendMessage(this, msg);
@@ -10973,7 +11231,7 @@ export default (function() {
        */
       AgentLibrary.prototype.offhookInit = function(callback) {
         UIModel.getInstance().offhookInitRequest = new OffhookInitRequest();
-        const msg = UIModel.getInstance().offhookInitRequest.formatJSON();
+        var msg = UIModel.getInstance().offhookInitRequest.formatJSON();
 
         utils.setCallback(this, CALLBACK_TYPES.OFFHOOK_INIT, callback);
         utils.sendMessage(this, msg);
@@ -10986,7 +11244,7 @@ export default (function() {
        */
       AgentLibrary.prototype.offhookTerm = function(callback) {
         UIModel.getInstance().offhookTermRequest = new OffhookTermRequest();
-        const msg = UIModel.getInstance().offhookTermRequest.formatJSON();
+        var msg = UIModel.getInstance().offhookTermRequest.formatJSON();
 
         utils.setCallback(this, CALLBACK_TYPES.OFFHOOK_TERM, callback);
         utils.sendMessage(this, msg);
@@ -11002,7 +11260,7 @@ export default (function() {
         UIModel.getInstance().callbacksPendingRequest = new CallbacksPendingRequest(
           agentId,
         );
-        const msg = UIModel.getInstance().callbacksPendingRequest.formatJSON();
+        var msg = UIModel.getInstance().callbacksPendingRequest.formatJSON();
 
         utils.setCallback(this, CALLBACK_TYPES.CALLBACK_PENDING, callback);
         utils.sendMessage(this, msg);
@@ -11024,7 +11282,7 @@ export default (function() {
           leadId,
           agentId,
         );
-        const msg = UIModel.getInstance().callbackCancelRequest.formatJSON();
+        var msg = UIModel.getInstance().callbackCancelRequest.formatJSON();
 
         utils.setCallback(this, CALLBACK_TYPES.CALLBACK_CANCEL, callback);
         utils.sendMessage(this, msg);
@@ -11085,7 +11343,7 @@ export default (function() {
           dialDest,
           isSoftphoneError,
         );
-        const msg = UIModel.getInstance().updateDialDestinationRequest.formatJSON();
+        var msg = UIModel.getInstance().updateDialDestinationRequest.formatJSON();
 
         utils.sendMessage(this, msg);
       };
@@ -11099,7 +11357,7 @@ export default (function() {
         searchString,
         callback,
       ) {
-        const model = UIModel.getInstance();
+        var model = UIModel.getInstance();
 
         model.searchDirectoryRequest = new SearchDirectoryRequest(searchString);
         model.searchDirectoryRequest.searchDirectory(searchString);
@@ -11123,7 +11381,7 @@ export default (function() {
         extensionIds,
         callback,
       ) {
-        const model = UIModel.getInstance();
+        var model = UIModel.getInstance();
         model.extensionPresenceRequest = new ExtensionPresenceRequest(
           extensionIds,
         );
@@ -11138,7 +11396,9 @@ export default (function() {
        * @memberof AgentLibrary
        */
 
-      const AgentLibrary = context.AgentLibrary;
+      'use strict';
+
+      var AgentLibrary = context.AgentLibrary;
 
       /**
        * Barge in on a call, can hear all parties and be heard by all
@@ -11160,7 +11420,7 @@ export default (function() {
           uii,
           monitorAgentId,
         );
-        const msg = UIModel.getInstance().bargeInRequest.formatJSON();
+        var msg = UIModel.getInstance().bargeInRequest.formatJSON();
 
         utils.setCallback(this, CALLBACK_TYPES.BARGE_IN, callback);
         utils.sendMessage(this, msg);
@@ -11186,7 +11446,7 @@ export default (function() {
           uii,
           monitorAgentId,
         );
-        const msg = UIModel.getInstance().bargeInRequest.formatJSON();
+        var msg = UIModel.getInstance().bargeInRequest.formatJSON();
 
         utils.setCallback(this, CALLBACK_TYPES.COACH_CALL, callback);
         utils.sendMessage(this, msg);
@@ -11211,7 +11471,7 @@ export default (function() {
           callerId,
           sipHeaders,
         );
-        const msg = UIModel.getInstance().coldXferRequest.formatJSON();
+        var msg = UIModel.getInstance().coldXferRequest.formatJSON();
 
         utils.setCallback(this, CALLBACK_TYPES.XFER_COLD, callback);
         utils.sendMessage(this, msg);
@@ -11239,7 +11499,7 @@ export default (function() {
           sipHeaders,
           countryId,
         );
-        const msg = UIModel.getInstance().coldXferRequest.formatJSON();
+        var msg = UIModel.getInstance().coldXferRequest.formatJSON();
 
         utils.setCallback(this, CALLBACK_TYPES.XFER_COLD, callback);
         utils.sendMessage(this, msg);
@@ -11272,7 +11532,7 @@ export default (function() {
         leadId,
         requestId,
       ) {
-        const model = UIModel.getInstance();
+        var model = UIModel.getInstance();
         model.dispositionRequest = new DispositionRequest(
           uii,
           dispId,
@@ -11285,7 +11545,7 @@ export default (function() {
           leadId,
           requestId,
         );
-        const msg = model.dispositionRequest.formatJSON();
+        var msg = model.dispositionRequest.formatJSON();
         utils.sendMessage(this, msg);
 
         // cancel ping call timer
@@ -11324,7 +11584,7 @@ export default (function() {
           requestId,
           externId,
         );
-        const msg = UIModel.getInstance().dispositionManualPassRequest.formatJSON();
+        var msg = UIModel.getInstance().dispositionManualPassRequest.formatJSON();
         utils.sendMessage(this, msg);
       };
 
@@ -11341,7 +11601,7 @@ export default (function() {
         UIModel.getInstance().campaignDispositionsRequest = new CampaignDispositionsRequest(
           campaignId,
         );
-        const msg = UIModel.getInstance().campaignDispositionsRequest.formatJSON();
+        var msg = UIModel.getInstance().campaignDispositionsRequest.formatJSON();
 
         utils.setCallback(this, CALLBACK_TYPES.CAMPAIGN_DISPOSITIONS, callback);
         utils.sendMessage(this, msg);
@@ -11358,7 +11618,7 @@ export default (function() {
           sessionId,
           resetPendingDisp,
         );
-        const msg = UIModel.getInstance().hangupRequest.formatJSON();
+        var msg = UIModel.getInstance().hangupRequest.formatJSON();
         utils.sendMessage(this, msg);
       };
 
@@ -11370,7 +11630,7 @@ export default (function() {
        */
       AgentLibrary.prototype.hold = function(holdState, callback) {
         UIModel.getInstance().holdRequest = new HoldRequest(holdState);
-        const msg = UIModel.getInstance().holdRequest.formatJSON();
+        var msg = UIModel.getInstance().holdRequest.formatJSON();
 
         utils.setCallback(this, CALLBACK_TYPES.HOLD, callback);
         utils.sendMessage(this, msg);
@@ -11392,7 +11652,7 @@ export default (function() {
           holdState,
           sessionId,
         );
-        const msg = UIModel.getInstance().holdRequest.formatJSON();
+        var msg = UIModel.getInstance().holdRequest.formatJSON();
 
         utils.setCallback(this, CALLBACK_TYPES.HOLD, callback);
         utils.sendMessage(this, msg);
@@ -11421,7 +11681,7 @@ export default (function() {
           countryId,
           queueId,
         );
-        const msg = UIModel.getInstance().oneToOneOutdialRequest.formatJSON();
+        var msg = UIModel.getInstance().oneToOneOutdialRequest.formatJSON();
         utils.sendMessage(this, msg);
       };
 
@@ -11434,7 +11694,7 @@ export default (function() {
         UIModel.getInstance().oneToOneOutdialCancelRequest = new OneToOneOutdialCancelRequest(
           uii,
         );
-        const msg = UIModel.getInstance().oneToOneOutdialCancelRequest.formatJSON();
+        var msg = UIModel.getInstance().oneToOneOutdialCancelRequest.formatJSON();
         utils.sendMessage(this, msg);
       };
 
@@ -11448,7 +11708,7 @@ export default (function() {
         UIModel.getInstance().pauseRecordRequest = new PauseRecordRequest(
           record,
         );
-        const msg = UIModel.getInstance().pauseRecordRequest.formatJSON();
+        var msg = UIModel.getInstance().pauseRecordRequest.formatJSON();
 
         utils.setCallback(this, CALLBACK_TYPES.PAUSE_RECORD, callback);
         utils.sendMessage(this, msg);
@@ -11468,7 +11728,7 @@ export default (function() {
           requestId,
           leadPhone,
         );
-        const msg = UIModel.getInstance().previewDialRequest.formatJSON();
+        var msg = UIModel.getInstance().previewDialRequest.formatJSON();
         utils.sendMessage(this, msg);
       };
 
@@ -11485,7 +11745,7 @@ export default (function() {
           searchFields,
           '',
         );
-        const msg = UIModel.getInstance().previewDialRequest.formatJSON();
+        var msg = UIModel.getInstance().previewDialRequest.formatJSON();
 
         utils.setCallback(this, CALLBACK_TYPES.PREVIEW_FETCH, callback);
         utils.sendMessage(this, msg);
@@ -11504,7 +11764,7 @@ export default (function() {
           searchFields,
           '',
         );
-        const msg = UIModel.getInstance().previewDialRequest.formatJSON();
+        var msg = UIModel.getInstance().previewDialRequest.formatJSON();
 
         utils.setCallback(this, CALLBACK_TYPES.LEAD_SEARCH, callback);
         utils.sendMessage(this, msg);
@@ -11518,7 +11778,7 @@ export default (function() {
        */
       AgentLibrary.prototype.setCallNotes = function(notes, callback) {
         UIModel.getInstance().callNotesRequest = new CallNotesRequest(notes);
-        const msg = UIModel.getInstance().callNotesRequest.formatJSON();
+        var msg = UIModel.getInstance().callNotesRequest.formatJSON();
 
         utils.setCallback(this, CALLBACK_TYPES.CALL_NOTES, callback);
         utils.sendMessage(this, msg);
@@ -11544,7 +11804,7 @@ export default (function() {
           uii,
           monitorAgentId,
         );
-        const msg = UIModel.getInstance().bargeInRequest.formatJSON();
+        var msg = UIModel.getInstance().bargeInRequest.formatJSON();
 
         utils.setCallback(this, CALLBACK_TYPES.SILENT_MONITOR, callback);
         utils.sendMessage(this, msg);
@@ -11558,7 +11818,7 @@ export default (function() {
        */
       AgentLibrary.prototype.record = function(record, callback) {
         UIModel.getInstance().recordRequest = new RecordRequest(record);
-        const msg = UIModel.getInstance().recordRequest.formatJSON();
+        var msg = UIModel.getInstance().recordRequest.formatJSON();
 
         utils.setCallback(this, CALLBACK_TYPES.RECORD, callback);
         utils.sendMessage(this, msg);
@@ -11583,7 +11843,7 @@ export default (function() {
           skillId,
           maintain,
         );
-        const msg = UIModel.getInstance().requeueRequest.formatJSON();
+        var msg = UIModel.getInstance().requeueRequest.formatJSON();
 
         utils.setCallback(this, CALLBACK_TYPES.REQUEUE, callback);
         utils.sendMessage(this, msg);
@@ -11603,7 +11863,7 @@ export default (function() {
           requestId,
           leadPhone,
         );
-        const msg = UIModel.getInstance().tcpaSafeRequest.formatJSON();
+        var msg = UIModel.getInstance().tcpaSafeRequest.formatJSON();
         utils.sendMessage(this, msg);
       };
 
@@ -11620,7 +11880,7 @@ export default (function() {
           searchFields,
           '',
         );
-        const msg = UIModel.getInstance().tcpaSafeRequest.formatJSON();
+        var msg = UIModel.getInstance().tcpaSafeRequest.formatJSON();
 
         utils.setCallback(this, CALLBACK_TYPES.SAFE_MODE_FETCH, callback);
         utils.sendMessage(this, msg);
@@ -11642,7 +11902,7 @@ export default (function() {
           searchFields,
           '',
         );
-        const msg = UIModel.getInstance().tcpaSafeRequest.formatJSON();
+        var msg = UIModel.getInstance().tcpaSafeRequest.formatJSON();
 
         utils.setCallback(this, CALLBACK_TYPES.SAFE_MODE_SEARCH, callback);
         utils.sendMessage(this, msg);
@@ -11670,7 +11930,7 @@ export default (function() {
           sipHeaders,
           countryId,
         );
-        const msg = UIModel.getInstance().warmXferRequest.formatJSON();
+        var msg = UIModel.getInstance().warmXferRequest.formatJSON();
 
         utils.setCallback(this, CALLBACK_TYPES.XFER_WARM, callback);
         utils.sendMessage(this, msg);
@@ -11695,7 +11955,7 @@ export default (function() {
           callerId,
           sipHeaders,
         );
-        const msg = UIModel.getInstance().warmXferRequest.formatJSON();
+        var msg = UIModel.getInstance().warmXferRequest.formatJSON();
 
         utils.setCallback(this, CALLBACK_TYPES.XFER_WARM, callback);
         utils.sendMessage(this, msg);
@@ -11710,7 +11970,7 @@ export default (function() {
         UIModel.getInstance().warmXferCancelRequest = new XferWarmCancelRequest(
           dialDest,
         );
-        const msg = UIModel.getInstance().warmXferCancelRequest.formatJSON();
+        var msg = UIModel.getInstance().warmXferCancelRequest.formatJSON();
         utils.sendMessage(this, msg);
       };
 
@@ -11736,7 +11996,7 @@ export default (function() {
           sipHeaders,
           countryId,
         );
-        const msg = UIModel.getInstance().warmXferRequest.formatJSON();
+        var msg = UIModel.getInstance().warmXferRequest.formatJSON();
         utils.setCallback(this, CALLBACK_TYPES.XFER_WARM, callback);
         utils.sendMessage(this, msg);
       };
@@ -11763,7 +12023,7 @@ export default (function() {
           sipHeaders,
           countryId,
         );
-        const msg = UIModel.getInstance().coldXferRequest.formatJSON();
+        var msg = UIModel.getInstance().coldXferRequest.formatJSON();
         utils.setCallback(this, CALLBACK_TYPES.XFER_COLD, callback);
         utils.sendMessage(this, msg);
       };
@@ -11777,19 +12037,20 @@ export default (function() {
        * @param {function} [callback=null] Callback function when warm transfer response received
        */
       AgentLibrary.prototype.getScript = function(scriptId, version, callback) {
-        const model = UIModel.getInstance();
-        const script = model.scriptSettings.loadedScripts[scriptId];
+        var model = UIModel.getInstance();
+        var script = model.scriptSettings.loadedScripts[scriptId];
         utils.setCallback(this, CALLBACK_TYPES.SCRIPT_CONFIG, callback);
 
         if (script && script.version === version) {
           // return from memory
-          const savedScript = UIModel.getInstance().scriptSettings
-            .loadedScripts[scriptId];
+          var savedScript = UIModel.getInstance().scriptSettings.loadedScripts[
+            scriptId
+          ];
           callback(savedScript);
         } else {
           // load script
           model.scriptConfigRequest = new ScriptConfigRequest(scriptId);
-          const msg = UIModel.getInstance().scriptConfigRequest.formatJSON();
+          var msg = UIModel.getInstance().scriptConfigRequest.formatJSON();
           utils.sendMessage(this, msg);
         }
       };
@@ -11811,7 +12072,7 @@ export default (function() {
           scriptId,
           jsonResult,
         );
-        const msg = UIModel.getInstance().scriptResultRequest.formatJSON();
+        var msg = UIModel.getInstance().scriptResultRequest.formatJSON();
         utils.sendMessage(this, msg);
       };
 
@@ -11821,7 +12082,7 @@ export default (function() {
        */
       AgentLibrary.prototype.directAgentXferList = function(callback) {
         UIModel.getInstance().directAgentTransferListRequest = new DirectAgentTransferList();
-        const msg = UIModel.getInstance().directAgentTransferListRequest.formatJSON();
+        var msg = UIModel.getInstance().directAgentTransferListRequest.formatJSON();
 
         utils.setCallback(
           this,
@@ -11841,7 +12102,7 @@ export default (function() {
           targetAgentId,
           'WARM',
         );
-        const msg = UIModel.getInstance().directAgentTransferRequest.formatJSON();
+        var msg = UIModel.getInstance().directAgentTransferRequest.formatJSON();
         utils.sendMessage(this, msg);
       };
 
@@ -11856,7 +12117,7 @@ export default (function() {
           targetAgentId,
           'COLD',
         );
-        const msg = UIModel.getInstance().directAgentTransferRequest.formatJSON();
+        var msg = UIModel.getInstance().directAgentTransferRequest.formatJSON();
         utils.sendMessage(this, msg);
       };
 
@@ -11870,7 +12131,7 @@ export default (function() {
           targetAgentId,
           'CANCEL',
         );
-        const msg = UIModel.getInstance().directAgentTransferRequest.formatJSON();
+        var msg = UIModel.getInstance().directAgentTransferRequest.formatJSON();
         utils.sendMessage(this, msg);
       };
 
@@ -11886,7 +12147,7 @@ export default (function() {
           targetAgentId,
           'VOICEMAIL',
         );
-        const msg = UIModel.getInstance().directAgentTransferRequest.formatJSON();
+        var msg = UIModel.getInstance().directAgentTransferRequest.formatJSON();
         utils.sendMessage(this, msg);
       };
 
@@ -11902,7 +12163,7 @@ export default (function() {
           'REJECT',
           uii,
         );
-        const msg = UIModel.getInstance().directAgentTransferRequest.formatJSON();
+        var msg = UIModel.getInstance().directAgentTransferRequest.formatJSON();
         utils.sendMessage(this, msg);
       };
     }
@@ -11913,7 +12174,9 @@ export default (function() {
        * @memberof AgentLibrary
        */
 
-      const AgentLibrary = context.AgentLibrary;
+      'use strict';
+
+      var AgentLibrary = context.AgentLibrary;
 
       /**
        * Get the history for a given lead
@@ -11925,7 +12188,7 @@ export default (function() {
         UIModel.getInstance().leadHistoryRequest = new LeadHistoryRequest(
           leadId,
         );
-        const msg = UIModel.getInstance().leadHistoryRequest.formatJSON();
+        var msg = UIModel.getInstance().leadHistoryRequest.formatJSON();
 
         utils.setCallback(this, CALLBACK_TYPES.LEAD_HISTORY, callback);
         utils.sendMessage(this, msg);
@@ -11941,7 +12204,7 @@ export default (function() {
         UIModel.getInstance().leadInsertRequest = new LeadInsertRequest(
           dataObj,
         );
-        const msg = UIModel.getInstance().leadInsertRequest.formatJSON();
+        var msg = UIModel.getInstance().leadInsertRequest.formatJSON();
 
         utils.setCallback(this, CALLBACK_TYPES.LEAD_INSERT, callback);
         utils.sendMessage(this, msg);
@@ -11966,7 +12229,7 @@ export default (function() {
           leadPhone,
           baggage,
         );
-        const msg = UIModel.getInstance().leadUpdateRequest.formatJSON();
+        var msg = UIModel.getInstance().leadUpdateRequest.formatJSON();
 
         utils.setCallback(this, CALLBACK_TYPES.LEAD_UPDATE, callback);
         utils.sendMessage(this, msg);
@@ -11979,16 +12242,19 @@ export default (function() {
        * @memberof AgentLibrary
        */
 
-      const AgentLibrary = context.AgentLibrary;
+      'use strict';
+
+      var AgentLibrary = context.AgentLibrary;
 
       /**
        * Set the agent chat alias
        * @memberof AgentLibrary.Chat
        * @param {string} alias The alias string to be used for agent chat messages
+       * @deprecated
        */
       AgentLibrary.prototype.setChatAlias = function(alias) {
         UIModel.getInstance().chatAliasRequest = new ChatAliasRequest(alias);
-        const msg = UIModel.getInstance().chatAliasRequest.formatJSON();
+        var msg = UIModel.getInstance().chatAliasRequest.formatJSON();
 
         utils.sendMessage(this, msg);
       };
@@ -11997,7 +12263,8 @@ export default (function() {
        * Request to enter/exit a public chat room
        * @memberof AgentLibrary.Chat
        * @param {string} action "ENTER" | "EXIT"
-       * @param {integer} roomId Chat room id
+       * @param {number} roomId Chat room id
+       * @deprecated
        */
       AgentLibrary.prototype.publicChatRoom = function(action, roomId) {
         UIModel.getInstance().chatRoomRequest = new ChatRoomRequest(
@@ -12005,7 +12272,7 @@ export default (function() {
           'PUBLIC',
           roomId,
         );
-        const msg = UIModel.getInstance().chatRoomRequest.formatJSON();
+        var msg = UIModel.getInstance().chatRoomRequest.formatJSON();
 
         utils.sendMessage(this, msg);
       };
@@ -12014,9 +12281,10 @@ export default (function() {
        * Request to enter/exit a private chat room
        * @memberof AgentLibrary.Chat
        * @param {string} action "ENTER" | "EXIT"
-       * @param {integer} roomId Chat room id
-       * @param {integer} agentOne Id for the logged in agent
-       * @param {integer} agentTwo Id for the agent or supervisor the logged in agent is chatting with
+       * @param {number} roomId Chat room id
+       * @param {number} agentOne Id for the logged in agent
+       * @param {number} agentTwo Id for the agent or supervisor the logged in agent is chatting with
+       * @deprecated
        */
       AgentLibrary.prototype.privateChatRoom = function(
         action,
@@ -12031,7 +12299,7 @@ export default (function() {
           agentOne,
           agentTwo,
         );
-        const msg = UIModel.getInstance().chatRoomRequest.formatJSON();
+        var msg = UIModel.getInstance().chatRoomRequest.formatJSON();
 
         utils.sendMessage(this, msg);
       };
@@ -12039,16 +12307,17 @@ export default (function() {
       /**
        * Send a chat message to the given room
        * @memberof AgentLibrary.Chat
-       * @param {integer} roomId Id for chat room
+       * @param {number} roomId Id for chat room
        * @param {string} message The message to be sent
        * @param {function} [callback=null] Callback function when chat message received
+       * @deprecated
        */
       AgentLibrary.prototype.sendChat = function(roomId, message, callback) {
         UIModel.getInstance().chatSendRequest = new ChatSendRequest(
           roomId,
           message,
         );
-        const msg = UIModel.getInstance().chatSendRequest.formatJSON();
+        var msg = UIModel.getInstance().chatSendRequest.formatJSON();
 
         utils.setCallback(this, CALLBACK_TYPES.CHAT, callback);
         utils.sendMessage(this, msg);
@@ -12058,10 +12327,11 @@ export default (function() {
        * Get list of supervisors for logged in agent
        * @memberof AgentLibrary.Chat
        * @param {function} [callback=null] Callback function when chat message received
+       * @deprecated
        */
       AgentLibrary.prototype.getSupervisors = function(callback) {
         UIModel.getInstance().supervisorListRequest = new SupervisorListRequest();
-        const msg = UIModel.getInstance().supervisorListRequest.formatJSON();
+        var msg = UIModel.getInstance().supervisorListRequest.formatJSON();
 
         utils.setCallback(this, CALLBACK_TYPES.SUPERVISOR_LIST, callback);
         utils.sendMessage(this, msg);
@@ -12071,6 +12341,7 @@ export default (function() {
        * Send accept/decline response when a chat is presented to an agent
        * @memberof AgentLibrary.Chat
        * @param {string} uii Unique identifier for the chat session
+       * @param {string} messageId Id tied to chat presented notification which this response is connected to.
        * @param {string} response ACCEPT|REJECT response
        * @param {string} responseReason Agent reason for Reject
        */
@@ -12086,7 +12357,7 @@ export default (function() {
           response,
           responseReason,
         );
-        const msg = UIModel.getInstance().chatPresentedRequest.formatJSON();
+        var msg = UIModel.getInstance().chatPresentedRequest.formatJSON();
         utils.sendMessage(this, msg);
       };
 
@@ -12104,7 +12375,7 @@ export default (function() {
           message,
           false,
         );
-        const msg = UIModel.getInstance().chatMessageRequest.formatJSON();
+        var msg = UIModel.getInstance().chatMessageRequest.formatJSON();
         utils.sendMessage(this, msg);
       };
 
@@ -12122,7 +12393,7 @@ export default (function() {
           message,
           true,
         );
-        const msg = UIModel.getInstance().chatMessageRequest.formatJSON();
+        var msg = UIModel.getInstance().chatMessageRequest.formatJSON();
         utils.sendMessage(this, msg);
       };
 
@@ -12135,6 +12406,7 @@ export default (function() {
        * @param {string} [notes=""] Agent notes
        * @param {boolean} sendAcknowlegement Whether or not to fire callback
        * @param {object} [script=null] Script data associated with the chat session
+       * @param {number} sessionId Id for chat session
        */
       AgentLibrary.prototype.chatDisposition = function(
         uii,
@@ -12154,7 +12426,7 @@ export default (function() {
           script,
           sessionId,
         );
-        const msg = UIModel.getInstance().chatDispositionRequest.formatJSON();
+        var msg = UIModel.getInstance().chatDispositionRequest.formatJSON();
         utils.sendMessage(this, msg);
       };
 
@@ -12181,7 +12453,7 @@ export default (function() {
           skillId,
           maintainAgent,
         );
-        const msg = UIModel.getInstance().chatRequeueRequest.formatJSON();
+        var msg = UIModel.getInstance().chatRequeueRequest.formatJSON();
         utils.sendMessage(this, msg);
       };
 
@@ -12196,7 +12468,7 @@ export default (function() {
           uii,
           message,
         );
-        const msg = UIModel.getInstance().chatTypingRequest.formatJSON();
+        var msg = UIModel.getInstance().chatTypingRequest.formatJSON();
         utils.sendMessage(this, msg);
       };
 
@@ -12209,7 +12481,7 @@ export default (function() {
         UIModel.getInstance().monitorChatRequest = new MonitorChatRequest(
           monitorAgentId,
         );
-        const msg = UIModel.getInstance().monitorChatRequest.formatJSON();
+        var msg = UIModel.getInstance().monitorChatRequest.formatJSON();
         utils.sendMessage(this, msg);
       };
 
@@ -12224,7 +12496,7 @@ export default (function() {
         UIModel.getInstance().stopMonitorChatRequest = new StopMonitorChatRequest(
           monitorAgentId,
         );
-        const msg = UIModel.getInstance().stopMonitorChatRequest.formatJSON();
+        var msg = UIModel.getInstance().stopMonitorChatRequest.formatJSON();
         utils.sendMessage(this, msg);
       };
 
@@ -12234,7 +12506,7 @@ export default (function() {
        */
       AgentLibrary.prototype.stopMonitoringAllAgentChats = function() {
         UIModel.getInstance().stopMonitorChatRequest = new StopMonitorChatRequest();
-        const msg = UIModel.getInstance().stopMonitorChatRequest.formatJSON();
+        var msg = UIModel.getInstance().stopMonitorChatRequest.formatJSON();
         utils.sendMessage(this, msg);
       };
 
@@ -12251,7 +12523,7 @@ export default (function() {
           agentId,
           sessionId,
         );
-        const msg = UIModel.getInstance().leaveChatRequest.formatJSON();
+        var msg = UIModel.getInstance().leaveChatRequest.formatJSON();
         utils.sendMessage(this, msg);
       };
 
@@ -12271,7 +12543,7 @@ export default (function() {
           agentId,
           monitorAgentId,
         );
-        const msg = UIModel.getInstance().chatListRequest.formatJSON();
+        var msg = UIModel.getInstance().chatListRequest.formatJSON();
 
         utils.setCallback(this, CALLBACK_TYPES.CHAT_LIST, callback);
         utils.sendMessage(this, msg);
@@ -12289,7 +12561,7 @@ export default (function() {
           agentId,
           uii,
         );
-        const msg = UIModel.getInstance().chatAgentEnd.formatJSON();
+        var msg = UIModel.getInstance().chatAgentEnd.formatJSON();
         utils.sendMessage(this, msg);
       };
 
@@ -12304,7 +12576,7 @@ export default (function() {
         UIModel.getInstance().chatStateRequest = new ChatStateRequest(
           chatState,
         );
-        const msg = UIModel.getInstance().chatStateRequest.formatJSON();
+        var msg = UIModel.getInstance().chatStateRequest.formatJSON();
 
         utils.setCallback(this, CALLBACK_TYPES.CHAT_STATE, callback);
         utils.sendMessage(this, msg);
@@ -12334,20 +12606,22 @@ export default (function() {
           dnis,
           message,
         );
-        const msg = UIModel.getInstance().chatManualSms.formatJSON();
+        var msg = UIModel.getInstance().chatManualSms.formatJSON();
         utils.sendMessage(this, msg);
       };
     }
 
     function initAgentLibraryLogger(context) {
-      const AgentLibrary = context.AgentLibrary;
+      'use strict';
+
+      var AgentLibrary = context.AgentLibrary;
 
       AgentLibrary.prototype.openLogger = function() {
-        const instance = this;
+        var instance = this;
 
         if ('indexedDB' in context) {
           // Open database
-          const dbRequest = indexedDB.open('AgentLibraryLogging', 6); // version number
+          var dbRequest = indexedDB.open('AgentLibraryLogging', 6); // version number
 
           dbRequest.onerror = function(event) {
             console.error('Error requesting DB access');
@@ -12356,13 +12630,13 @@ export default (function() {
           dbRequest.onsuccess = function(event) {
             instance._db = event.target.result;
 
-            // prune items older than 2 days
+            //prune items older than 2 days
             instance.purgeLog(instance._db, 'logger');
 
             instance._db.onerror = function(event) {
               // Generic error handler for all errors targeted at this database requests
               console.error(
-                `AgentLibrary: Database error - ${event.target.errorCode}`,
+                'AgentLibrary: Database error - ' + event.target.errorCode,
               );
             };
 
@@ -12377,7 +12651,7 @@ export default (function() {
 
             // Create an objectStore to hold log information. Key path should be unique
             if (!instance._db.objectStoreNames.contains('logger')) {
-              const objectStore = instance._db.createObjectStore('logger', {
+              var objectStore = instance._db.createObjectStore('logger', {
                 autoIncrement: true,
               });
 
@@ -12388,8 +12662,8 @@ export default (function() {
               objectStore.createIndex('dts', 'dts', { unique: false });
 
               // index for logLevel and date range
-              const name = 'levelAndDate';
-              const keyPath = ['logLevel', 'dts'];
+              var name = 'levelAndDate';
+              var keyPath = ['logLevel', 'dts'];
               objectStore.createIndex(name, keyPath, { unique: false });
             }
           };
@@ -12405,19 +12679,19 @@ export default (function() {
        * @memberof AgentLibrary
        */
       AgentLibrary.prototype.purgeLog = function(db, store) {
-        const instance = this;
+        var instance = this;
 
         if (db) {
           try {
-            const transaction = db.transaction([store], 'readwrite');
-            const objectStore = transaction.objectStore(store);
-            const dateIndex = objectStore.index('dts');
-            const endDate = new Date();
+            var transaction = db.transaction([store], 'readwrite');
+            var objectStore = transaction.objectStore(store);
+            var dateIndex = objectStore.index('dts');
+            var endDate = new Date();
             endDate.setDate(endDate.getDate() - 2); // two days ago
 
-            const range = IDBKeyRange.upperBound(endDate);
+            var range = IDBKeyRange.upperBound(endDate);
             dateIndex.openCursor(range).onsuccess = function(event) {
-              const cursor = event.target.result;
+              var cursor = event.target.result;
               if (cursor) {
                 objectStore.delete(cursor.primaryKey);
                 cursor.continue();
@@ -12434,10 +12708,10 @@ export default (function() {
        * @memberof AgentLibrary
        */
       AgentLibrary.prototype.clearLog = function(db) {
-        const transaction = db.transaction(['logger'], 'readwrite');
-        const objectStore = transaction.objectStore('logger');
+        var transaction = db.transaction(['logger'], 'readwrite');
+        var objectStore = transaction.objectStore('logger');
 
-        const objectStoreRequest = objectStore.clear();
+        var objectStoreRequest = objectStore.clear();
 
         objectStoreRequest.onsuccess = function(event) {
           console.log('AgentLibrary: logger database cleared');
@@ -12446,7 +12720,7 @@ export default (function() {
 
       AgentLibrary.prototype.deleteDB = function(dbName) {
         dbName = dbName || 'AgentLibraryLogging';
-        const DBDeleteRequest = indexedDB.deleteDatabase(dbName);
+        var DBDeleteRequest = indexedDB.deleteDatabase(dbName);
 
         DBDeleteRequest.onerror = function(event) {
           console.log('Error deleting database.', dbName);
@@ -12465,13 +12739,13 @@ export default (function() {
         callback,
       ) {
         logLevel = logLevel || '';
-        const instance = this;
-        const transaction = instance._db.transaction(['logger'], 'readonly');
-        const objStore = transaction.objectStore('logger');
-        let index = null;
-        let cursor = null;
-        let range = null;
-        const limit = maxRows || 100;
+        var instance = this;
+        var transaction = instance._db.transaction(['logger'], 'readonly');
+        var objStore = transaction.objectStore('logger');
+        var index = null,
+          cursor = null,
+          range = null,
+          limit = maxRows || 100;
         utils.setCallback(instance, CALLBACK_TYPES.LOG_RESULTS, callback);
 
         if (
@@ -12481,8 +12755,8 @@ export default (function() {
         ) {
           // looking for specific log level type
           if (startDate && endDate) {
-            const lowerBound = [logLevel.toLowerCase(), startDate];
-            const upperBound = [logLevel.toLowerCase(), endDate];
+            var lowerBound = [logLevel.toLowerCase(), startDate];
+            var upperBound = [logLevel.toLowerCase(), endDate];
             range = IDBKeyRange.bound(lowerBound, upperBound);
           } else if (startDate) {
             range = IDBKeyRange.lowerBound([logLevel.toLowerCase(), startDate]);
@@ -12492,14 +12766,14 @@ export default (function() {
 
           if (range !== null) {
             // with the provided date range
-            const levelAndDateReturn = [];
-            let idxLevelAndDate = 0;
+            var levelAndDateReturn = [];
+            var idxLevelAndDate = 0;
             index = objStore.index('levelAndDate');
             index.openCursor(range, 'prev').onsuccess = function(event) {
               cursor = event.target.result;
               if (cursor && idxLevelAndDate < limit) {
                 levelAndDateReturn.push(cursor.value);
-                idxLevelAndDate += 1;
+                idxLevelAndDate = idxLevelAndDate + 1;
                 cursor.continue();
               } else {
                 utils.fireCallback(
@@ -12511,14 +12785,14 @@ export default (function() {
             };
           } else {
             // no date range specified, return all within log level
-            const logLevelReturn = [];
-            let idxLogLevel = 0;
+            var logLevelReturn = [];
+            var idxLogLevel = 0;
             index = objStore.index('logLevel');
             index.openCursor(logLevel, 'prev').onsuccess = function(event) {
               cursor = event.target.result;
               if (cursor && idxLogLevel < limit) {
                 logLevelReturn.push(cursor.value);
-                idxLogLevel += 1;
+                idxLogLevel = idxLogLevel + 1;
                 cursor.continue();
               } else {
                 utils.fireCallback(
@@ -12541,8 +12815,8 @@ export default (function() {
 
           if (range !== null) {
             // with the provided date range
-            const dtsNoStatsReturn = [];
-            let idxDTSNoStats = 0;
+            var dtsNoStatsReturn = [];
+            var idxDTSNoStats = 0;
             index = objStore.index('dts');
 
             index.openCursor(range, 'prev').onsuccess = function(event) {
@@ -12550,7 +12824,7 @@ export default (function() {
               if (cursor && idxDTSNoStats < limit) {
                 if (cursor.value.logLevel !== 'stats') {
                   dtsNoStatsReturn.push(cursor.value);
-                  idxDTSNoStats += 1;
+                  idxDTSNoStats = idxDTSNoStats + 1;
                 }
                 cursor.continue();
               } else {
@@ -12563,14 +12837,14 @@ export default (function() {
             };
           } else {
             // no date range specified, return all records
-            const noStatsReturn = [];
-            let idxNoStats = 0;
+            var noStatsReturn = [];
+            var idxNoStats = 0;
             objStore.openCursor().onsuccess = function(event) {
               cursor = event.target.result;
               if (cursor && idxNoStats < limit) {
                 if (cursor.value.logLevel !== 'stats') {
                   noStatsReturn.push(cursor.value);
-                  idxNoStats += 1;
+                  idxNoStats = idxNoStats + 1;
                 }
                 cursor.continue();
               } else {
@@ -12594,15 +12868,15 @@ export default (function() {
 
           if (range !== null) {
             // with the provided date range
-            const dtsReturn = [];
-            let idxDTS = 0;
+            var dtsReturn = [];
+            var idxDTS = 0;
             index = objStore.index('dts');
 
             index.openCursor(range, 'prev').onsuccess = function(event) {
               cursor = event.target.result;
               if (cursor && idxDTS < limit) {
                 dtsReturn.push(cursor.value);
-                idxDTS += 1;
+                idxDTS = idxDTS + 1;
                 cursor.continue();
               } else {
                 utils.fireCallback(
@@ -12614,13 +12888,13 @@ export default (function() {
             };
           } else {
             // no date range specified, return all records
-            const allValsReturn = [];
-            let idxAll = 0;
+            var allValsReturn = [];
+            var idxAll = 0;
             objStore.openCursor().onsuccess = function(event) {
               cursor = event.target.result;
               if (cursor && idxAll < limit) {
                 allValsReturn.push(cursor.value);
-                idxAll += 1;
+                idxAll = idxAll + 1;
                 cursor.continue();
               } else {
                 utils.fireCallback(
@@ -12643,7 +12917,9 @@ export default (function() {
        * @memberof AgentLibrary
        */
 
-      const AgentLibrary = context.AgentLibrary;
+      'use strict';
+
+      var AgentLibrary = context.AgentLibrary;
 
       /**
        * Method to request call details from other tabs using the broadcast channel, for multisocket
@@ -12653,13 +12929,15 @@ export default (function() {
       };
     }
     function initAgentLibraryConsoleLogger(context) {
-      const AgentLibrary = context.AgentLibrary;
+      'use strict';
+
+      var AgentLibrary = context.AgentLibrary;
 
       AgentLibrary.prototype.openConsoleLogger = function() {
-        const instance = this;
+        var instance = this;
 
         if ('indexedDB' in context) {
-          const dbRequest = indexedDB.open('AgentLibraryConsoleLogging', 1);
+          var dbRequest = indexedDB.open('AgentLibraryConsoleLogging', 1);
 
           dbRequest.onerror = function(event) {
             console.error('Error requesting DB access');
@@ -12668,13 +12946,13 @@ export default (function() {
           dbRequest.onsuccess = function(event) {
             instance._consoleDb = event.target.result;
 
-            // prune items older than 2 days
+            //prune items older than 2 days
             instance.purgeLog(instance._consoleDb, 'consoleLogger');
 
             instance._consoleDb.onerror = function(event) {
               // Generic error handler for all errors targeted at this database requests
               console.error(
-                `AgentLibrary: Database error - ${event.target.errorCode}`,
+                'AgentLibrary: Database error - ' + event.target.errorCode,
               );
             };
 
@@ -12693,7 +12971,7 @@ export default (function() {
             if (
               !instance._consoleDb.objectStoreNames.contains('consoleLogger')
             ) {
-              const objectStore = instance._consoleDb.createObjectStore(
+              var objectStore = instance._consoleDb.createObjectStore(
                 'consoleLogger',
                 { autoIncrement: true },
               );
@@ -12704,8 +12982,8 @@ export default (function() {
               objectStore.createIndex('agentId', 'agentId', { unique: false });
 
               // index for type and agent id
-              const name = 'typeAndAgent';
-              const keyPath = ['type', 'agentId'];
+              var name = 'typeAndAgent';
+              var keyPath = ['type', 'agentId'];
               objectStore.createIndex(name, keyPath, { unique: false });
             }
 
@@ -12719,17 +12997,17 @@ export default (function() {
       };
 
       AgentLibrary.prototype.getConsoleLogRecords = function(type, callback) {
-        const agentId = UIModel.getInstance().agentSettings.agentId; // only return records for this agent id
-        const instance = this;
-        const transaction = instance._consoleDb.transaction(
+        var agentId = UIModel.getInstance().agentSettings.agentId; // only return records for this agent id
+        var instance = this;
+        var transaction = instance._consoleDb.transaction(
           ['consoleLogger'],
           'readonly',
         );
-        const objStore = transaction.objectStore('consoleLogger');
-        let index = null;
-        let cursor = null;
-        let range = null;
-        const limit = 5000;
+        var objStore = transaction.objectStore('consoleLogger');
+        var index = null,
+          cursor = null,
+          range = null,
+          limit = 5000;
 
         utils.setCallback(
           instance,
@@ -12737,7 +13015,7 @@ export default (function() {
           callback,
         );
 
-        const result = [];
+        var result = [];
         if (type) {
           // everything with this type
           index = objStore.index('typeAndAgent');
@@ -12747,7 +13025,7 @@ export default (function() {
           range = IDBKeyRange.only(agentId);
         }
 
-        let count = 0;
+        var count = 0;
         index.openCursor(range, 'prev').onsuccess = function(event) {
           cursor = event.target.result;
           if (cursor && count < limit) {
@@ -12766,9 +13044,9 @@ export default (function() {
 
       function _overrideConsole() {
         // override the window.console functions, process as normal then save to the local db
-        const browserConsole = { ...window.console };
+        var browserConsole = Object.assign({}, window.console);
         (function(defaultConsole) {
-          let instance;
+          var instance;
           if (
             UIModel &&
             UIModel.getInstance() &&
@@ -12780,53 +13058,59 @@ export default (function() {
             instance = new AgentLibrary();
           }
 
-          const agentSettings = UIModel.getInstance().agentSettings;
+          var agentSettings = UIModel.getInstance().agentSettings;
 
-          function _getRecord(type, text) {
-            if (typeof text === 'function') {
-              text = text.toString();
-            } else if (typeof text === 'object') {
-              try {
-                text = JSON.stringify(text);
-              } catch (e) {}
+          function _getRecord(type, args) {
+            var result = [];
+            for (var i = 0; i < args.length; i++) {
+              var arg = args[i];
+              if (typeof arg === 'function') {
+                result.push(arg.toString());
+              } else if (typeof arg === 'object') {
+                try {
+                  result.push(JSON.stringify(arg));
+                } catch (e) {}
+              } else {
+                result.push(arg);
+              }
             }
 
             return {
-              type,
-              message: text,
+              type: type,
+              message: result.join(' '),
               dts: new Date(),
               agentId: agentSettings.agentId,
-              agentName: `${agentSettings.firstName} ${agentSettings.lastName}`,
+              agentName: agentSettings.firstName + ' ' + agentSettings.lastName,
             };
           }
 
-          function _saveRecord(type, text) {
+          function _saveRecord(type, args) {
             if (instance._consoleDb) {
-              const transaction = instance._consoleDb.transaction(
+              var transaction = instance._consoleDb.transaction(
                 ['consoleLogger'],
                 'readwrite',
               );
-              const store = transaction.objectStore('consoleLogger');
+              var store = transaction.objectStore('consoleLogger');
 
-              store.add(_getRecord(type, text));
+              store.add(_getRecord(type, args));
             }
           }
 
-          window.console.log = function(text) {
-            defaultConsole.log(text);
-            _saveRecord('LOG', text);
+          window.console.log = function() {
+            defaultConsole.log.apply(this, arguments);
+            _saveRecord('LOG', arguments);
           };
-          window.console.info = function(text) {
-            defaultConsole.info(text);
-            _saveRecord('INFO', text);
+          window.console.info = function() {
+            defaultConsole.info.apply(this, arguments);
+            _saveRecord('INFO', arguments);
           };
-          window.console.warn = function(text) {
-            defaultConsole.warn(text);
-            _saveRecord('WARN', text);
+          window.console.warn = function() {
+            defaultConsole.warn.apply(this, arguments);
+            _saveRecord('WARN', arguments);
           };
-          window.console.error = function(text) {
-            defaultConsole.error(text);
-            _saveRecord('ERROR', text);
+          window.console.error = function() {
+            defaultConsole.error.apply(this, arguments);
+            _saveRecord('ERROR', arguments);
           };
         })(browserConsole);
       }
@@ -12838,11 +13122,13 @@ export default (function() {
        * @memberof AgentLibrary
        */
 
-      const AgentLibrary = context.AgentLibrary;
+      'use strict';
 
-      // ////////////////////
+      var AgentLibrary = context.AgentLibrary;
+
+      //////////////////////
       // PUBLIC FUNCTIONS //
-      // ////////////////////
+      //////////////////////
       /* These functions are available externally to agent-js or other parent apps */
 
       /**
@@ -12850,8 +13136,8 @@ export default (function() {
        * @memberof AgentLibrary.Softphone
        */
       AgentLibrary.prototype.sipInit = function() {
-        const model = UIModel.getInstance();
-        const softphoneSettings = model.softphoneSettings;
+        var model = UIModel.getInstance();
+        var softphoneSettings = model.softphoneSettings;
 
         // if webRtc settings not yet set, do so now
         if (
@@ -12864,7 +13150,7 @@ export default (function() {
         }
 
         if (softphoneSettings.wsServers.length > 0) {
-          const webRtc = new CFSimpleSip(_getSipConfig());
+          var webRtc = new CFSimpleSip(_getSipConfig());
 
           // callbacks
           webRtc.on('connected', _connected);
@@ -12888,11 +13174,51 @@ export default (function() {
       };
 
       /**
+       * clear webRtc settings, hangup, unregister
+       * @memberof AgentLibrary.Softphone
+       * @returns boolean - success state
+       */
+      AgentLibrary.prototype.sipTerminate = function() {
+        var model = UIModel.getInstance();
+        var webRtc = model.softphoneSettings.webRtc;
+        if (webRtc && webRtc.ua) {
+          var opts = {
+            all: true,
+          };
+          model.libraryInstance.offhookTerm(); // TODO - dlb - set up callback with agent-js??
+          webRtc.hangup();
+          webRtc.ua.unregister(opts);
+
+          webRtc.removeAllListeners('connected');
+          webRtc.removeAllListeners('ended');
+          webRtc.removeAllListeners('registered');
+          webRtc.removeAllListeners('unregistered');
+          webRtc.removeAllListeners('registrationFailed');
+          webRtc.removeAllListeners('ringing');
+          webRtc.removeAllListeners('mute');
+          webRtc.removeAllListeners('unmute');
+
+          webRtc.ua.stop();
+          webRtc = null;
+          model.softphoneSettings.webRtc = webRtc; // set back on model
+          model.softphoneSettings.isRegistered = false;
+          model.softphoneSettings.muteActive = false;
+          model.softphoneSettings.registerPending = null;
+          model.softphoneSettings.uri = '';
+
+          return true;
+        }
+
+        console.warn('sipTerminate: sip rtc settings or ua missing', webRtc);
+        return false;
+      };
+
+      /**
        * Sends a session.accept response to a SIP invite event.
        * @memberof AgentLibrary.Softphone
        */
       AgentLibrary.prototype.sipAnswer = function() {
-        const webRtc = UIModel.getInstance().softphoneSettings.webRtc;
+        var webRtc = UIModel.getInstance().softphoneSettings.webRtc;
         if (webRtc) {
           webRtc.answer();
         }
@@ -12903,7 +13229,7 @@ export default (function() {
        * @memberof AgentLibrary.Softphone
        */
       AgentLibrary.prototype.sipReject = function() {
-        const webRtc = UIModel.getInstance().softphoneSettings.webRtc;
+        var webRtc = UIModel.getInstance().softphoneSettings.webRtc;
         if (webRtc && webRtc.reject) {
           webRtc.reject();
         }
@@ -12914,8 +13240,8 @@ export default (function() {
        * @memberof AgentLibrary.Softphone
        */
       AgentLibrary.prototype.sipRegister = function() {
-        const model = UIModel.getInstance();
-        const webRtc = model.softphoneSettings.webRtc;
+        var model = UIModel.getInstance();
+        var webRtc = model.softphoneSettings.webRtc;
 
         try {
           // enable microphone access notification if not already done
@@ -12935,7 +13261,7 @@ export default (function() {
             model.libraryInstance.sipHangUp();
           }
         } catch (e) {
-          console.error(`sip reg error:${e}`);
+          console.error('sip reg error:' + e);
         }
       };
 
@@ -12944,7 +13270,7 @@ export default (function() {
        * @memberof AgentLibrary.Softphone
        */
       AgentLibrary.prototype.sipHangUp = function() {
-        const webRtc = UIModel.getInstance().softphoneSettings.webRtc;
+        var webRtc = UIModel.getInstance().softphoneSettings.webRtc;
         if (webRtc && webRtc.hangup) {
           webRtc.hangup();
         }
@@ -12956,7 +13282,7 @@ export default (function() {
        * @param {string} dtmf The dtmf tone to send
        */
       AgentLibrary.prototype.sipSendDTMF = function(dtmf) {
-        const webRtc = UIModel.getInstance().softphoneSettings.webRtc;
+        var webRtc = UIModel.getInstance().softphoneSettings.webRtc;
         if (webRtc) {
           webRtc.sendDTMF(dtmf);
         }
@@ -12968,9 +13294,9 @@ export default (function() {
        * @param {boolean} state The dtmf tone to send
        */
       AgentLibrary.prototype.sipToggleMute = function(state) {
-        const softphoneSettings = UIModel.getInstance().softphoneSettings;
-        const webRtc = softphoneSettings.webRtc;
-        const muteActive = softphoneSettings.muteActive;
+        var softphoneSettings = UIModel.getInstance().softphoneSettings;
+        var webRtc = softphoneSettings.webRtc;
+        var muteActive = softphoneSettings.muteActive;
 
         if (webRtc) {
           if (muteActive || state === false) {
@@ -12995,7 +13321,7 @@ export default (function() {
         maintainOffhook,
         autoStartOffhook,
       ) {
-        const model = UIModel.getInstance();
+        var model = UIModel.getInstance();
 
         if (typeof autoStartOffhook === 'undefined') {
           autoStartOffhook = true;
@@ -13027,13 +13353,13 @@ export default (function() {
       };
 
       AgentLibrary.prototype.resetSoftphoneSession = function(offhookParams) {
-        const model = UIModel.getInstance();
-        const softphoneSettings = model.softphoneSettings;
+        var model = UIModel.getInstance();
+        var softphoneSettings = model.softphoneSettings;
         if (
           softphoneSettings.isRegistered &&
           !softphoneSettings.attemptingSoftphoneReconnect
         ) {
-          _reset(); // clear current SIP.js object
+          model.libraryInstance.sipTerminate(); // clear current SIP.js object
           _rotateWebRtcServer();
           SoftphoneService.setupWebRtcServer();
 
@@ -13049,15 +13375,15 @@ export default (function() {
         }
       };
 
-      // //////////////////////
+      ////////////////////////
       // INTERNAL FUNCTIONS //
-      // //////////////////////
+      ////////////////////////
       /* These functions are globally available to the AgentSDK app */
 
       var SoftphoneService = {
-        setupWebRtcServer() {
-          const model = UIModel.getInstance();
-          const softphoneSettings = model.softphoneSettings;
+        setupWebRtcServer: function() {
+          var model = UIModel.getInstance();
+          var softphoneSettings = model.softphoneSettings;
 
           // webRtcServerInfo format for Legacy
           // [
@@ -13081,26 +13407,24 @@ export default (function() {
           //        "outboundProxy": "webphone-sip-cfintams.lab.nordigy.ru:8083"
           //    }
           // ]
-          const sipInfo = _getCurrentWebRtcServerInfo();
+          var sipInfo = _getCurrentWebRtcServerInfo();
           if (sipInfo !== null) {
-            const username = sipInfo.username.toLowerCase();
-            const webRtcServer = `${sipInfo.transport.toLowerCase()}://${
-              sipInfo.outboundProxy
-            }`; // e.g. "wss://aws87-f06-ccw01.vacd.biz:8089/freeswitch";
+            var username = sipInfo.username.toLowerCase();
+            var webRtcServer =
+              sipInfo.transport.toLowerCase() + '://' + sipInfo.outboundProxy; // e.g. "wss://aws87-f06-ccw01.vacd.biz:8089/freeswitch";
 
-            softphoneSettings.uri = `${utils.escapeSoftphoneUsername(
-              username,
-            )}@${sipInfo.domain}`;
+            softphoneSettings.uri =
+              utils.escapeSoftphoneUsername(username) + '@' + sipInfo.domain;
             softphoneSettings.wsServers = [webRtcServer];
             softphoneSettings.displayName = username;
             softphoneSettings.authorizationUser = sipInfo.authorizationId;
 
             softphoneSettings.sipPassword = sipInfo.password;
-            softphoneSettings.sipDialDest = `sip:${softphoneSettings.uri}`;
+            softphoneSettings.sipDialDest = 'sip:' + softphoneSettings.uri;
 
             return {
-              webRtcServer,
-              username,
+              webRtcServer: webRtcServer,
+              username: username,
               password: softphoneSettings.sipPassword,
               domain: sipInfo.domain || null,
               dialDest: softphoneSettings.sipDialDest || null,
@@ -13113,43 +13437,43 @@ export default (function() {
         },
       };
 
-      // /////////////////////
+      ///////////////////////
       // PRIVATE FUNCTIONS //
-      // /////////////////////
+      ///////////////////////
       /* These functions are just used within this softphoneService.js file */
 
       function _getSipConfig() {
-        const remoteAudioElement = document.getElementById('remoteAudio'); // audio node on index.html
-        const model = UIModel.getInstance();
-        const softphoneSettings = model.softphoneSettings;
-        const config = {
-          media: {
-            remote: {
-              audio: remoteAudioElement,
+        var remoteAudioElement = document.getElementById('remoteAudio'), // audio node on index.html
+          model = UIModel.getInstance(),
+          softphoneSettings = model.softphoneSettings,
+          config = {
+            media: {
+              remote: {
+                audio: remoteAudioElement,
+              },
             },
-          },
-          ua: {
-            displayName: utils.escapeSoftphoneUsername(
-              softphoneSettings.displayName,
-            ),
-            authorizationUser: utils.escapeSoftphoneUsername(
-              softphoneSettings.authorizationUser,
-            ),
-            password: softphoneSettings.sipPassword,
-            uri: softphoneSettings.uri,
-            wsServers: softphoneSettings.wsServers,
-            traceSip: true,
-            registerExpires: 60,
-            userAgentString: navigator.userAgent,
-          },
-        };
+            ua: {
+              displayName: utils.escapeSoftphoneUsername(
+                softphoneSettings.displayName,
+              ),
+              authorizationUser: utils.escapeSoftphoneUsername(
+                softphoneSettings.authorizationUser,
+              ),
+              password: softphoneSettings.sipPassword,
+              uri: softphoneSettings.uri,
+              wsServers: softphoneSettings.wsServers,
+              traceSip: true,
+              registerExpires: 60,
+              userAgentString: navigator.userAgent,
+            },
+          };
         return config;
       }
 
       function _handleNoRegisterResponse() {
         // registration timeout reached, rotate registrar
-        const model = UIModel.getInstance();
-        const softphoneSettings = model.softphoneSettings;
+        var model = UIModel.getInstance();
+        var softphoneSettings = model.softphoneSettings;
 
         // we want to force a registrar refresh
         softphoneSettings.isRegistered = true;
@@ -13166,8 +13490,8 @@ export default (function() {
       }
 
       function _rotateWebRtcServer() {
-        const softphoneSettings = UIModel.getInstance().softphoneSettings;
-        const sipInfo = softphoneSettings.sipInfo;
+        var softphoneSettings = UIModel.getInstance().softphoneSettings;
+        var sipInfo = softphoneSettings.sipInfo;
         if (sipInfo.length > 1) {
           sipInfo.push(sipInfo.shift());
           softphoneSettings.attemptingSoftphoneReconnect = true;
@@ -13175,53 +13499,22 @@ export default (function() {
       }
 
       function _updateOHFlags(maintainOffhook, autoStartOffhook) {
-        const softphoneSettings = UIModel.getInstance().softphoneSettings;
+        var softphoneSettings = UIModel.getInstance().softphoneSettings;
         softphoneSettings.maintainOH = maintainOffhook;
         softphoneSettings.autoStartOH = autoStartOffhook;
       }
 
       function _getCurrentWebRtcServerInfo() {
-        const softphoneSettings = UIModel.getInstance().softphoneSettings;
+        var softphoneSettings = UIModel.getInstance().softphoneSettings;
         return softphoneSettings.sipInfo != null &&
           softphoneSettings.sipInfo.length > 0
           ? softphoneSettings.sipInfo[0]
           : null;
       }
 
-      // clear webRtc settings, hangup, unregister
-      function _reset() {
-        const model = UIModel.getInstance();
-        let webRtc = model.softphoneSettings.webRtc;
-        if (webRtc && webRtc.ua) {
-          const opts = {
-            all: true,
-          };
-          model.libraryInstance.offhookTerm(); // TODO - dlb - set up callback with agent-js??
-          webRtc.hangup();
-          webRtc.ua.unregister(opts);
-
-          webRtc.removeAllListeners('connected');
-          webRtc.removeAllListeners('ended');
-          webRtc.removeAllListeners('registered');
-          webRtc.removeAllListeners('unregistered');
-          webRtc.removeAllListeners('registrationFailed');
-          webRtc.removeAllListeners('ringing');
-          webRtc.removeAllListeners('mute');
-          webRtc.removeAllListeners('unmute');
-
-          webRtc.ua.stop();
-          webRtc = null;
-          model.softphoneSettings.webRtc = webRtc; // set back on model
-          model.softphoneSettings.isRegistered = false;
-          model.softphoneSettings.muteActive = false;
-          model.softphoneSettings.registerPending = null;
-          model.softphoneSettings.uri = '';
-        }
-      }
-
-      // /////////////////////////////
+      ///////////////////////////////
       // SIP JS CALLBACK FUNCTIONS //
-      // /////////////////////////////
+      ///////////////////////////////
       /* These functions bubble up SIP callbacks to the UI */
 
       function _connected() {
@@ -13242,7 +13535,7 @@ export default (function() {
       }
 
       function _registered() {
-        const model = UIModel.getInstance();
+        var model = UIModel.getInstance();
         _registerHasResponse();
         model.softphoneSettings.isRegistered = true;
 
@@ -13259,7 +13552,7 @@ export default (function() {
           );
 
           // notify agent of change
-          const responseObj = {
+          var responseObj = {
             message: 'SIP dial destination changed',
             dialDest: model.agentSettings.dialDest,
             maintainOH: model.softphoneSettings.maintainOH,
@@ -13291,17 +13584,18 @@ export default (function() {
       }
 
       function _unregistered() {
-        const model = UIModel.getInstance();
+        var model = UIModel.getInstance();
         _registerHasResponse();
         model.softphoneSettings.isRegistered = false;
-        _reset();
+        model.libraryInstance.sipTerminate();
         model.libraryInstance.sipInit();
       }
 
       function _registrationFailed() {
+        var model = UIModel.getInstance();
         _registerHasResponse();
-        UIModel.getInstance().softphoneSettings.isRegistered = false;
-        _reset();
+        model.softphoneSettings.isRegistered = false;
+        model.libraryInstance.sipTerminate();
       }
 
       function _ringing(notif) {
@@ -13320,7 +13614,8 @@ export default (function() {
         UIModel.getInstance().softphoneSettings.muteActive = false;
       }
     }
-    const initAgentLibrary = function(context) {
+
+    var initAgentLibrary = function(context) {
       initAgentLibraryCore(context);
       initAgentLibrarySocket(context);
       initAgentLibraryAgent(context);
@@ -13334,7 +13629,6 @@ export default (function() {
 
       return context.AgentLibrary;
     };
-
     return initAgentLibrary(this);
   }.call(this, this);
 }.call(window));

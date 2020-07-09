@@ -65,7 +65,7 @@ class EvManualDialSettingsUI extends RcUIModuleV2<DepsModules>
     () => this.getQueue(),
     () => this.getCountry(),
     () => this._modules.evAuth.getAvailableCountries(),
-    () => this._modules.evCall.ringTime,
+    () => this._modules.evCall.formGroup.dialoutRingTime,
     () => this._modules.evCall.ringTimeLimit,
     () => this._modules.evAuth.agentPermissions.allowManualOutboundGates,
     () => this._modules.evAuth.agentPermissions.allowManualIntlCalls,

@@ -1,3 +1,8 @@
-import Enum from 'ringcentral-integration/lib/Enum';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 
-export default new Enum(['accessDenied', 'internalError'], 'oAuthMessages');
+export const oAuthMessages = ObjectMap.prefixKeys(
+  ['accessDenied', 'internalError'],
+  'oAuthMessages',
+);
+
+export default oAuthMessages;

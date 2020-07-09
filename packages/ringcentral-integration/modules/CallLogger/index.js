@@ -65,10 +65,15 @@ export default class CallLogger extends LoggerBase {
       getDataReducer,
       identityFunction: callIdentityFunction,
     });
-    this._storage = this::ensureExist(storage, 'storage');
-    this._callMonitor = this::ensureExist(callMonitor, 'callMonitor');
-    this._contactMatcher = this::ensureExist(contactMatcher, 'contactMatcher');
-    this._activityMatcher = this::ensureExist(
+    this._storage = ensureExist.call(this, storage, 'storage');
+    this._callMonitor = ensureExist.call(this, callMonitor, 'callMonitor');
+    this._contactMatcher = ensureExist.call(
+      this,
+      contactMatcher,
+      'contactMatcher',
+    );
+    this._activityMatcher = ensureExist.call(
+      this,
       activityMatcher,
       'activityMatcher',
     );
@@ -123,7 +128,7 @@ export default class CallLogger extends LoggerBase {
 
   async _ensureActive() {
     const isActive =
-      !this._tabManager || (await this._tabManager.ensureActive());
+      !this._tabManager || (await this._tabManager.checkIsMain());
     return isActive;
   }
 
@@ -141,7 +146,7 @@ export default class CallLogger extends LoggerBase {
       ...options,
       call: {
         ...call,
-        duration: call::Object.prototype.hasOwnProperty('duration')
+        duration: Object.prototype.hasOwnProperty.call(call, 'duration')
           ? call.duration
           : Math.round((Date.now() - call.startTime) / 1000),
         result: call.result || call.telephonyStatus,
@@ -155,7 +160,7 @@ export default class CallLogger extends LoggerBase {
     await this.log({
       call: {
         ...call,
-        duration: call::Object.prototype.hasOwnProperty('duration')
+        duration: Object.prototype.hasOwnProperty.call(call, 'duration')
           ? call.duration
           : Math.round((Date.now() - call.startTime) / 1000),
         result: call.result || call.telephonyStatus,

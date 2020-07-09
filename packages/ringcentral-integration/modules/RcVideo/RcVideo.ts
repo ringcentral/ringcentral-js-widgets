@@ -11,7 +11,6 @@ import { getInitializedStartTime } from '../../helpers/meetingHelper';
 import actionTypes, { RcVideoActionTypes } from './actionTypes';
 import getRcVReducer, {
   getDefaultVideoSettingReducer,
-  getLastVideoStorageReducer,
   getPersonalMeetingReducer,
 } from './getRcVReducer';
 
@@ -23,8 +22,18 @@ import {
   pruneMeetingObject,
   DEFAULT_JBH,
   RcVideoTypes,
+  transformPreferences,
+  reversePreferences,
+  comparePreferences,
+  RCV_PREFERENCES_API_KEYS,
 } from './videoHelper';
-import { RcVMeetingModel } from '../../models/rcv.model';
+import {
+  RcVMeetingModel,
+  RcVPreferencesGET,
+  RcVPreferencesPATCH,
+  RcVPreferences,
+  RcVDialInNumberGET,
+} from '../../models/rcv.model';
 
 import createStatus from './createStatus';
 
@@ -46,23 +55,22 @@ function migrateJBH(setting) {
     'ExtensionInfo',
     'Brand',
     'Storage',
-    { dep: 'Conference', optional: true },
     { dep: 'RcVideoOptions', optional: true },
     { dep: 'AvailabilityMonitor', optional: true },
   ],
 })
-export class RcVideo extends RcModule<RcVideoActionTypes> {
+export class RcVideo extends RcModule<Record<string, any>, RcVideoActionTypes> {
+  // TODO: add state interface
   private _alert: any;
   private _client: Client;
   private _defaultVideoSettingKey: string;
-  private _lastVideoSettingKey: string;
   private _personalMeetingKey: string;
   private _extensionInfo: any;
-  private _conference: any;
   private _brand: any;
   private _storage: any;
   private _availabilityMonitor: any;
   private _showSaveAsDefault: boolean;
+  private _isInstantMeeting: boolean;
   private _fetchPersonMeetingTimeout: any;
   private _enablePersonalMeeting: boolean;
 
@@ -71,13 +79,13 @@ export class RcVideo extends RcModule<RcVideoActionTypes> {
   constructor({
     alert,
     client,
-    showSaveAsDefault,
     extensionInfo,
     brand,
     storage,
     reducers,
-    conference,
     availabilityMonitor,
+    showSaveAsDefault = false,
+    isInstantMeeting = false,
     enablePersonalMeeting = false,
     ...options
   }) {
@@ -90,23 +98,17 @@ export class RcVideo extends RcModule<RcVideoActionTypes> {
     this._extensionInfo = extensionInfo;
     this._brand = brand;
     this._storage = storage;
-    this._conference = conference;
     this._reducer = getRcVReducer(this.actionTypes, reducers);
     this._showSaveAsDefault = showSaveAsDefault;
+    this._isInstantMeeting = isInstantMeeting;
     this._availabilityMonitor = availabilityMonitor;
     this._defaultVideoSettingKey = 'defaultVideoSetting';
-    this._lastVideoSettingKey = 'lastVideoSetting';
     this._personalMeetingKey = 'personalMeeting';
     this._enablePersonalMeeting = enablePersonalMeeting;
     if (this._showSaveAsDefault) {
       this._storage.registerReducer({
         key: this._defaultVideoSettingKey,
         reducer: getDefaultVideoSettingReducer(this.actionTypes),
-      });
-    } else {
-      this._storage.registerReducer({
-        key: this._lastVideoSettingKey,
-        reducer: getLastVideoStorageReducer(this.actionTypes),
       });
     }
     if (this._enablePersonalMeeting) {
@@ -121,9 +123,9 @@ export class RcVideo extends RcModule<RcVideoActionTypes> {
     this.store.subscribe(() => this._onStateChange());
   }
 
-  _onStateChange() {
+  async _onStateChange() {
     if (this._shouldInit()) {
-      this._init();
+      await this._init();
     } else if (this._shouldReset()) {
       this._reset();
     }
@@ -163,7 +165,7 @@ export class RcVideo extends RcModule<RcVideoActionTypes> {
       await this._initPersonalMeeting();
     }
 
-    this._initMeeting();
+    await this._initMeeting();
 
     this.store.dispatch({
       type: this.actionTypes.initSuccess,
@@ -175,22 +177,28 @@ export class RcVideo extends RcModule<RcVideoActionTypes> {
    * also load meeting setting from previous one.
    */
   @background
-  init() {
+  async init() {
     console.log('init meeting');
-    this._initMeeting();
+    await this._initMeeting();
   }
 
   @proxify
-  reload() {
-    this._initMeeting();
+  async reload() {
+    await this._initMeeting();
   }
 
-  private _initMeeting() {
+  private async _initMeeting() {
+    const preferences = await this._getPreferences();
+    // TODO Remove the next line after rcv implement ui to manage password_instant
+    preferences.password_instant = false;
+    this.store.dispatch({
+      type: this.actionTypes.updateMeetingPreferences,
+      preferences,
+    });
     this.updateMeetingSettings({
       ...this.defaultVideoSetting,
       meetingPassword: generateRandomPassword(10),
-      // generated random password is valid
-      isMeetingPasswordValid: true,
+      isMeetingPasswordValid: true, // generated random password is valid
     });
   }
 
@@ -245,30 +253,6 @@ export class RcVideo extends RcModule<RcVideoActionTypes> {
     });
   }
 
-  saveLastVideoSetting(meeting) {
-    const {
-      allowJoinBeforeHost,
-      muteAudio,
-      muteVideo,
-      isMeetingSecret,
-    } = meeting;
-    const setting: {
-      allowJoinBeforeHostV2: boolean;
-      muteAudio: boolean;
-      muteVideo: boolean;
-      isMeetingSecret: boolean;
-    } = {
-      allowJoinBeforeHostV2: allowJoinBeforeHost,
-      muteAudio,
-      muteVideo,
-      isMeetingSecret,
-    };
-    this.store.dispatch({
-      type: this.actionTypes.saveLastVideoSetting,
-      meeting: setting,
-    });
-  }
-
   validatePasswordSettings(password: string, isSecret: boolean): boolean {
     return validatePasswordSettings(password, isSecret);
   }
@@ -278,7 +262,10 @@ export class RcVideo extends RcModule<RcVideoActionTypes> {
   }
 
   @proxify
-  async createMeeting(meeting, { isAlertSuccess = true } = {}) {
+  async createMeeting(
+    meeting: RcVMeetingModel,
+    { isAlertSuccess = true } = {},
+  ) {
     if (this.isScheduling) return (this.createMeeting as any)._promise;
     try {
       this.store.dispatch({
@@ -300,9 +287,19 @@ export class RcVideo extends RcModule<RcVideoActionTypes> {
         meeting,
       });
 
-      this.saveLastVideoSetting(meeting);
-      this.updateMeetingSettings({ ...meeting, saveAsDefault: false });
-      this._initMeeting();
+      this.updateMeetingSettings({
+        ...meeting,
+        saveAsDefault: false,
+      });
+
+      // After Create
+      const dialInNumber = await this._getDialinNumbers();
+      // sync preferences changes to rcv backend
+      if (meeting.saveAsDefault) {
+        await this.savePreferencesChanges(meeting as RcVPreferences);
+      }
+      // this will also fetch preference from rcv backend
+      await this._initMeeting();
 
       if (isAlertSuccess) {
         setTimeout(() => {
@@ -314,7 +311,7 @@ export class RcVideo extends RcModule<RcVideoActionTypes> {
 
       const meetingResponse = {
         extensionInfo: this._extensionInfo.info,
-        dialInNumber: this._conference && this._conference.dialInNumber,
+        dialInNumber,
         meeting: { ...meeting, ...meetingResult.json() },
       };
 
@@ -339,6 +336,84 @@ export class RcVideo extends RcModule<RcVideoActionTypes> {
       expiresIn: 86400,
       type: RcVideoTypes.call,
     });
+  }
+
+  private async _getDialinNumbers(): Promise<string> {
+    const result = await this._client.service
+      .platform()
+      .get('/rcvideo/v1/dial-in-numbers');
+    const { phoneNumbers } = result.json() as RcVDialInNumberGET;
+    if (Array.isArray(phoneNumbers)) {
+      const defaultPhoneNumber = phoneNumbers.find((obj) => obj.default);
+      if (defaultPhoneNumber) {
+        return defaultPhoneNumber.phoneNumber;
+      }
+    }
+    return null;
+  }
+
+  private async _getPreferences(): Promise<RcVPreferencesGET> {
+    const result = await this._client.service
+      .platform()
+      .get('/rcvideo/v1/account/~/extension/~/preferences', {
+        id: RCV_PREFERENCES_API_KEYS,
+      });
+    return result.json().reduce((acc, { id, value }) => {
+      return { ...acc, [id]: value };
+    }, {});
+  }
+
+  updatePreference(preferences: RcVPreferencesPATCH) {
+    this.store.dispatch({
+      type: this.actionTypes.updateMeetingPreferences,
+      preferences,
+    });
+  }
+
+  private async _saveSinglePreference(
+    preferenceId: keyof RcVPreferencesGET,
+    value: boolean,
+  ): Promise<void> {
+    return this._client.service.platform().send({
+      method: 'PATCH',
+      url: `/rcvideo/v1/account/~/extension/~/preferences/${preferenceId}`,
+      body: { value },
+    });
+  }
+
+  /**
+   * Determined the different between client and server, then save them to the server.
+   * @param preferences preference fileds in meeting object
+   * @param isOverwrite if true, dispatch updateMeetingPreferences on success
+   */
+  async savePreferencesChanges(
+    preferences: RcVPreferences,
+    isOverwrite = false,
+  ): Promise<void> {
+    const preferencesPayload = reversePreferences(
+      preferences,
+      this._isInstantMeeting,
+    );
+    type PreferenceEntries = [keyof RcVPreferencesGET, boolean];
+    const dirtyPreferences = Object.entries(preferencesPayload).filter(
+      (kvPairs): kvPairs is PreferenceEntries => {
+        const [preferenceId, newValue] = kvPairs as PreferenceEntries;
+        const oldValue = this.preferences[preferenceId];
+        return newValue !== oldValue;
+      },
+    );
+    try {
+      await Promise.all(
+        dirtyPreferences.map(([preferenceId, newValue]: PreferenceEntries) => {
+          return this._saveSinglePreference(preferenceId, newValue);
+        }),
+      );
+      if (isOverwrite) {
+        this.updatePreference(preferencesPayload);
+      }
+    } catch (e) {
+      console.error(e);
+    }
   }
 
   @proxify
@@ -369,6 +444,12 @@ export class RcVideo extends RcModule<RcVideoActionTypes> {
         body: meeting,
       });
 
+      // After Update
+      const dialInNumber = await this._getDialinNumbers();
+      if (meeting.saveAsDefault) {
+        await this.savePreferencesChanges(meeting as RcVPreferences, true);
+      }
+
       if (isAlertSuccess) {
         setTimeout(() => {
           this._alert.info({
@@ -379,7 +460,7 @@ export class RcVideo extends RcModule<RcVideoActionTypes> {
       const newMeeting = meetingResult.json();
       const meetingResponse = {
         extensionInfo: this._extensionInfo.info,
-        dialInNumber: this._conference && this._conference.dialInNumber,
+        dialInNumber,
         meeting: { ...meeting, ...newMeeting },
       };
       if (this.personalMeeting && newMeeting.id === this.personalMeeting.id) {
@@ -401,6 +482,18 @@ export class RcVideo extends RcModule<RcVideoActionTypes> {
       type: this.actionTypes.updateMeetingSettings,
       meeting,
       patch,
+    });
+    this._comparePreferences();
+  }
+
+  private _comparePreferences() {
+    const { preferences, meeting } = this;
+    this.store.dispatch({
+      type: this.actionTypes.saveMeetingPreferencesState,
+      isPreferencesChanged: comparePreferences(
+        transformPreferences(preferences, this._isInstantMeeting),
+        meeting,
+      ),
     });
   }
 
@@ -445,19 +538,27 @@ export class RcVideo extends RcModule<RcVideoActionTypes> {
     return this.state.status;
   }
 
+  // preferences directly from backend
+  get preferences(): RcVPreferencesGET {
+    return this.state.preferences;
+  }
+
   @selector
   defaultVideoSetting: any = [
     () => this.initialVideoSetting,
     () => {
       const savedSetting = this._showSaveAsDefault
         ? this.savedDefaultVideoSetting
-        : this.lastVideoSetting;
+        : {};
       return savedSetting;
     },
-    (initialSetting, savedSetting) => {
+    () => this._isInstantMeeting,
+    () => this.preferences,
+    (initialSetting, savedSetting, isInstantMeeting, preferences) => {
       return {
         ...initialSetting,
         ...savedSetting,
+        ...transformPreferences(preferences, isInstantMeeting),
       };
     },
   ];
@@ -482,17 +583,16 @@ export class RcVideo extends RcModule<RcVideoActionTypes> {
     return migrateJBH(setting);
   }
 
-  get lastVideoSetting() {
-    const setting = this._storage.getItem(this._lastVideoSettingKey);
-    return migrateJBH(setting);
-  }
-
   get isScheduling() {
     return this.state.creatingStatus === createStatus.creating;
   }
 
   get showSaveAsDefault() {
-    return !!this._showSaveAsDefault;
+    return this._showSaveAsDefault;
+  }
+
+  get isPreferencesChanged() {
+    return this.state.isPreferencesChanged;
   }
 
   get personalMeeting() {

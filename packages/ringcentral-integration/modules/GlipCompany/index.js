@@ -34,7 +34,8 @@ export default class GlipCompany extends DataFetcher {
       cleanOnReset: true,
       ...options,
     });
-    this._rolesAndPermissions = this::ensureExist(
+    this._rolesAndPermissions = ensureExist.call(
+      this,
       rolesAndPermissions,
       'rolesAndPermissions',
     );

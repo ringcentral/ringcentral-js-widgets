@@ -15,6 +15,7 @@ interface RcVScheduleButtonProps {
   onClick: () => any;
   brand: string;
   showSaveAsDefault: boolean;
+  disableSaveAsDefault: boolean;
   update: (args: any) => any;
   buttonLabel: string;
 }
@@ -33,6 +34,7 @@ export const RcVScheduleButton: React.FunctionComponent<RcVScheduleButtonProps> 
     onClick,
     currentLocale,
     showSaveAsDefault,
+    disableSaveAsDefault,
     update,
     buttonLabel,
   } = props;
@@ -51,6 +53,7 @@ export const RcVScheduleButton: React.FunctionComponent<RcVScheduleButtonProps> 
           label={i18n.getString('saveAsDefault', currentLocale)}
           data-sign="saveAsDefault"
           checked={meeting.saveAsDefault}
+          disabled={disableSaveAsDefault}
           onChange={() => {
             update({
               ...meeting,

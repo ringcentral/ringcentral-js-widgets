@@ -1,3 +1,9 @@
-import Enum from '../../lib/Enum';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 
-export default new Enum(['answered', 'gone', 'disconnected']);
+export const partyStatusCode = ObjectMap.fromKeys([
+  'answered',
+  'gone',
+  'disconnected',
+]);
+
+export default partyStatusCode;

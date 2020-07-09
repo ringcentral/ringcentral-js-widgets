@@ -1,7 +1,7 @@
-import { createHashMap } from '../lib/HashMap';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 
-export const presenceStatus = createHashMap({
+export const presenceStatus = ObjectMap.fromObject({
   offline: 'Offline',
   busy: 'Busy',
   available: 'Available',
-});
+} as const);

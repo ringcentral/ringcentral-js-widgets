@@ -1,6 +1,8 @@
-import { createHashMap } from '../lib/HashMap';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 
-export default createHashMap({
+export const messageDirection = ObjectMap.fromObject({
   inbound: 'Inbound',
   outbound: 'Outbound',
-});
+} as const);
+
+export default messageDirection;

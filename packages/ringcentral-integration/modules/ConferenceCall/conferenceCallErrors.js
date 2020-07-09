@@ -1,6 +1,6 @@
-import Enum from '../../lib/Enum';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 
-export default new Enum(
+export const conferenceCallErrors = ObjectMap.prefixKeys(
   [
     'internalServerError',
     'conferenceForbidden',
@@ -16,3 +16,5 @@ export default new Enum(
   ],
   'conferenceCall',
 );
+
+export default conferenceCallErrors;

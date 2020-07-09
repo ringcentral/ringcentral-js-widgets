@@ -38,6 +38,22 @@ import {
 const TooltipBaseComp =
   typeof TooltipBase === 'function' ? TooltipBase : TooltipBase.default;
 
+const checkIsRcBrand = (brand) =>
+  brand &&
+  typeof brand === 'string' &&
+  brand.toLowerCase().indexOf('ringcentral') !== -1;
+
+const getJupiterAppName = (brand) => {
+  const isRcBrand = checkIsRcBrand(brand);
+  if (isRcBrand) return `${brand} App`;
+  return brand;
+};
+
+const getSoftphoneAppName = (brand) => {
+  const isRcBrand = checkIsRcBrand(brand);
+  if (isRcBrand) return `${brand} Phone`;
+  return brand;
+};
 interface CallWithProps {
   callWithOptions: string[];
   disabled: boolean;
@@ -61,15 +77,25 @@ const Tooltip: FunctionComponent<TooltipProps> = ({
   const keys = [`${callWith}Tooltip`];
   if (
     callWith !== callingOptions.browser &&
-    callWith !== callingOptions.softphone
+    callWith !== callingOptions.softphone &&
+    callWith !== callingOptions.jupiter
   ) {
     keys.push(`${callWith}Tooltip1`);
+  }
+  let appName = brand;
+  if (callWith === callingOptions.jupiter) {
+    appName = getJupiterAppName(brand);
+  }
+  if (callWith === callingOptions.softphone) {
+    appName = getSoftphoneAppName(brand);
   }
   const overlay = (
     <div>
       {keys.map((key) => (
         <div key={key}>
-          {formatMessage(i18n.getString(key, currentLocale), { brand })}
+          {formatMessage(i18n.getString(key, currentLocale), {
+            brand: appName,
+          })}
         </div>
       ))}
     </div>
@@ -99,13 +125,22 @@ const CallWithSettings: FunctionComponent<CallWithProps> = ({
   brand,
 }) => {
   const tooltipContainerRef = useRef(null);
-  const optionRenderer = (option) =>
-    formatMessage(i18n.getString(option, currentLocale), {
+  const optionRenderer = (option) => {
+    let appName = brand;
+    if (option === callingOptions.softphone) {
+      appName = getSoftphoneAppName(brand);
+    }
+    if (option === callingOptions.jupiter) {
+      appName = getJupiterAppName(brand);
+    }
+    return formatMessage(i18n.getString(option, currentLocale), {
       brand:
         option === callingOptions.myphone
           ? brand.replace(/\sPhone$/, '')
-          : brand,
+          : appName,
     });
+  };
+
   return (
     <InputField
       label={
@@ -168,7 +203,8 @@ const RingoutSettings: FunctionComponent<RingoutSettingsProps> = ({
 }) => {
   if (
     callWith !== callingOptions.softphone &&
-    callWith !== callingOptions.browser
+    callWith !== callingOptions.browser &&
+    callWith !== callingOptions.jupiter
   ) {
     return (
       <div>

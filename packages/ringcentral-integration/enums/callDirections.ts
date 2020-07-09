@@ -1,8 +1,8 @@
-import { createHashMap } from '../lib/HashMap';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 
-const callDirection = createHashMap({
+export const callDirection = ObjectMap.fromObject({
   inbound: 'Inbound',
   outbound: 'Outbound',
-});
+} as const);
 
 export default callDirection;

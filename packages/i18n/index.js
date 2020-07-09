@@ -61,13 +61,13 @@ export default class I18n {
   _getString(key, locale) {
     if (
       this._cache[locale] &&
-      this._cache[locale]::Object.prototype.hasOwnProperty(key)
+      Object.prototype.hasOwnProperty.call(this._cache[locale], key)
     ) {
       return this._cache[locale][key];
     }
     if (
       this._cache[RUNTIME.defaultLocale] &&
-      this._cache[RUNTIME.defaultLocale]::Object.prototype.hasOwnProperty(key)
+      Object.prototype.hasOwnProperty.call(this._cache[RUNTIME.defaultLocale], key)
     ) {
       return this._cache[RUNTIME.defaultLocale][key];
     }

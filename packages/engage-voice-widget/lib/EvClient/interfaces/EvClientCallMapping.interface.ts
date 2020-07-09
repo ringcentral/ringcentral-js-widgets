@@ -99,7 +99,7 @@ export interface EvClientCallMapping {
   sipRingingNotification: {
     message: string;
     // This type from sip.js => IncomingRequest
-    data: { request: { from: string; friendlyName: string } };
+    data: { request: { from: { displayName: string }; friendlyName: string } };
   };
   sipSwitchRegistrarNotification: any;
   sipUnmuteResponse: any;

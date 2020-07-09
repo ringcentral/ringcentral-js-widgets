@@ -6,6 +6,8 @@ export type EvDialerUIProps = {
   toNumber: string;
   size: RcFabIconButtonProps['size'];
   dialoutStatus: DialoutStatusesType;
+  /** DialPad call button disabled state */
+  dialButtonDisabled: boolean;
   currentLocale: string;
   hasDialer: boolean;
 };

@@ -1,15 +1,14 @@
-import { createEnum } from '../../lib/Enum';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 import {
   moduleActionTypes,
   ModuleActionTypes,
 } from '../../enums/moduleActionTypes';
 
-export const analyticsAcionTypes = createEnum(
-  ['clear'],
-  'analyticsAcionTypes',
-  moduleActionTypes,
+export const analyticsActionTypes = ObjectMap.prefixKeys(
+  [...ObjectMap.keys(moduleActionTypes), 'clear'],
+  'analyticsActionTypes',
 );
 
-export interface AnalyticsAcionTypes extends ModuleActionTypes {
+export interface AnalyticsActionTypes extends ModuleActionTypes {
   clear: string;
 }

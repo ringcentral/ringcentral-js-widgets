@@ -24,7 +24,7 @@ class CallCtrlContainer extends Component {
       addDisabled,
     };
 
-    this.onLastMergingCallEnded = this::this.onLastMergingCallEnded;
+    this.onLastMergingCallEnded = this.onLastMergingCallEnded.bind(this);
 
     this.onSelectMatcherName = (option) => {
       const nameMatches = this.props.nameMatches || [];

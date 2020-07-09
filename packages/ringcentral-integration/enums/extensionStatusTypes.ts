@@ -1,18 +1,7 @@
-import { createHashMap } from '../lib/HashMap';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 
-/**
- * @typedef ExtensionStatusTypes
- * @type {object}
- * @property {string} enabled
- * @property {string} notActivated
- * @property {string} disabled
- */
-
-/**
- * @type {ExtensionStatusTypes}
- */
-export const extensionStatusTypes = createHashMap({
+export const extensionStatusTypes = ObjectMap.fromObject({
   enabled: 'Enabled',
   notActivated: 'NotActivated',
   disabled: 'Disabled',
-});
+} as const);

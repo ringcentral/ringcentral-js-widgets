@@ -49,19 +49,19 @@ export default class AvailabilityMonitor extends RcModule {
     });
 
     this._enabled = enabled;
-    this._client = this::ensureExist(client, 'client');
+    this._client = ensureExist.call(this, client, 'client');
     this._environment = environment;
     this._lastEnvironmentCounter = 0;
     this._healthRetryTime = HEALTH_CHECK_INTERVAL;
     this._reducer = getAvailabilityModeReducer(this.actionTypes);
 
     // auto bind this
-    this._beforeRequestHandler = this::this._beforeRequestHandler;
-    this._requestErrorHandler = this::this._requestErrorHandler;
-    this._refreshErrorHandler = this::this._refreshErrorHandler;
-    this._refreshSuccessHandler = this::this._refreshSuccessHandler;
-    this._switchToNormalMode = this::this._switchToNormalMode;
-    this._switchToVoIPOnlyMode = this::this._switchToVoIPOnlyMode;
+    this._beforeRequestHandler = this._beforeRequestHandler.bind(this);
+    this._requestErrorHandler = this._requestErrorHandler.bind(this);
+    this._refreshErrorHandler = this._refreshErrorHandler.bind(this);
+    this._refreshSuccessHandler = this._refreshSuccessHandler.bind(this);
+    this._switchToNormalMode = this._switchToNormalMode.bind(this);
+    this._switchToVoIPOnlyMode = this._switchToVoIPOnlyMode.bind(this);
     this._randomTime = DEFAULT_TIME;
     this._limitedTimeout = null;
     this._normalTimeout = null;

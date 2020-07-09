@@ -27,6 +27,7 @@ const MeetingPanel: React.FunctionComponent<MeetingProps> = (props) => {
     onOK,
     init,
     showSaveAsDefault,
+    disableSaveAsDefault,
     launchMeeting,
   } = props;
 
@@ -70,6 +71,7 @@ const MeetingPanel: React.FunctionComponent<MeetingProps> = (props) => {
           }}
           update={update}
           showSaveAsDefault={showSaveAsDefault}
+          disableSaveAsDefault={disableSaveAsDefault}
           launchMeeting={launchMeeting}
         />
       )}
@@ -86,6 +88,7 @@ interface ScheduleButtonProps {
   onClick: () => void;
   update: () => any;
   showSaveAsDefault: boolean;
+  disableSaveAsDefault: boolean;
 }
 
 interface MeetingProps {
@@ -107,6 +110,7 @@ interface MeetingProps {
   audioOptionToggle?: boolean;
   onOK?: () => any;
   showSaveAsDefault?: boolean;
+  disableSaveAsDefault?: boolean;
   launchMeeting?: () => any;
 }
 
@@ -125,6 +129,7 @@ MeetingPanel.defaultProps = {
   onOK: undefined,
   scheduleButton: undefined,
   showSaveAsDefault: false,
+  disableSaveAsDefault: false,
   launchMeeting: undefined,
 };
 

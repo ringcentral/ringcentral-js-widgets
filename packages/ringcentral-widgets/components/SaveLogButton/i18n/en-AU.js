@@ -1,5 +1,5 @@
 export default {
-  createLog: "Create Log",
+  createLog: "Create log",
   creating: "Creating",
   save: "Save",
   saving: "Saving",

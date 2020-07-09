@@ -12,6 +12,8 @@ yarn add @ringcentral-integration/core
 
  The decorator `storage` depends on `Storage` Module, And  The decorator `globalStorage` depends on `GlobalStorage` Module.
 
+> If you use `@computed(callback)`, you should make sure that the return value of its callback function is an Array of dependency collections.
+
 For example:
 
 ```js
@@ -19,6 +21,7 @@ import {
   RcModuleV2,
   state,
   action,
+  computed,
 } from '@ringcentral-integration/core';
 
 class Auth extends RcModuleV2 {
@@ -27,7 +30,12 @@ class Auth extends RcModuleV2 {
 
   @action
   changeConnection(connected) {
-    this.state.connected = connected;
+    this.connected = connected;
+  }
+
+  @computed(({ connected }: Auth) => [connected])
+  get permissions() {
+      return { writeable: this.connected, readable: true };
   }
 }
 ```
@@ -124,36 +132,7 @@ class Auth extends RcModuleV2 {
 
   @action
   changeConnection(connected) {
-    this.state.connected = connected;
-  }
-}
-```
-
-### Harmony with old RcModule
-
-Handle `initialize` and `constructor` with `RcModuleV2`.
-
-```js
-class Phone extends RcModule {
-  constructor(params) {
-    super(params);
-    // ...omit
-    for (const [key, value] of Object.entries(params)) {
-      if (value instanceof RcModuleV2) {
-        value.parentModule = this;
-        value.__key__ = key;
-      }
-    }
-    // ...omit
-  }
-
-  initialize() {
-    // ...omit
-    for (const value of Object.values(this)) {
-      if (value instanceof RcModuleV2) {
-        value.initModule();
-      }
-    }
+    this.connected = connected;
   }
 }
 ```
