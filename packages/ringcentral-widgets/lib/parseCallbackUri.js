@@ -11,11 +11,12 @@ export default function parseCallbackUri(callbackUri) {
   const hashObject = hash ? qs.parse(hash.replace(/^#/, '')) : {};
   if (query.error || hashObject.error) {
     const error = new Error(query.error || hashObject.error);
+    // eslint-disable-next-line guard-for-in
     for (const key in query) {
-      if (query::Object.prototype.hasOwnProperty(key)) {
+      if (Object.prototype.hasOwnProperty.call(query, key)) {
         error[key] = query[key];
       }
-      if (hashObject::Object.prototype.hasOwnProperty(key)) {
+      if (Object.prototype.hasOwnProperty.call(hashObject, key)) {
         error[key] = query[key];
       }
     }

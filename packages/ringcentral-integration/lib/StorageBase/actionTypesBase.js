@@ -1,9 +1,11 @@
-import Enum from '../../lib/Enum';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 
-export default new Enum([
+export const actionTypesBase = ObjectMap.fromKeys([
   'init',
   'initSuccess',
   'reset',
   'resetSuccess',
   'sync',
 ]);
+
+export default actionTypesBase;

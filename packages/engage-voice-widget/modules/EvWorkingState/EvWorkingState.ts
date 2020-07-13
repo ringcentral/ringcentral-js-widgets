@@ -12,6 +12,7 @@ import {
   agentStateTypes,
   defaultAgentStatesTexts,
   messageTypes,
+  tabManagerEvents,
 } from '../../enums';
 import { EvAgentState, EvAvailableAgentState } from '../../lib/EvClient';
 import { EvCallbackTypes } from '../../lib/EvClient/enums/callbackTypes';
@@ -37,6 +38,7 @@ type EvWorkingStateState = RcModuleState<EvWorkingState, State>;
     'Alert',
     'Storage',
     'EvSessionConfig',
+    'TabManager',
     { dep: 'EvWorkingStateOptions', optional: true },
   ],
 })
@@ -53,6 +55,7 @@ class EvWorkingState extends RcModuleV2<DepsModules, EvWorkingStateState>
     storage,
     alert,
     evSessionConfig,
+    tabManager,
     enableCache = true,
   }) {
     super({
@@ -65,6 +68,7 @@ class EvWorkingState extends RcModuleV2<DepsModules, EvWorkingStateState>
         storage,
         alert,
         evSessionConfig,
+        tabManager,
       },
       enableCache,
       storageKey: 'EvWorkingState',
@@ -72,17 +76,26 @@ class EvWorkingState extends RcModuleV2<DepsModules, EvWorkingStateState>
     this._modules.evSessionConfig.onTriggerConfig.push(() => {
       const { agentConfig } = this._modules.evAuth.agent;
       if (agentConfig?.agentSettings?.initLoginState) {
+        // if that tab is not activity, that wi
         this._modules.evClient.setAgentState(
           agentConfig.agentSettings.initLoginState,
           agentConfig.agentSettings.initLoginStateLabel,
         );
       }
+
+      if (this.tabManagerEnabled) {
+        this._modules.tabManager.send(tabManagerEvents.RESET_WORKING_STATE);
+      }
       this.resetWorkingState();
     });
 
     this._modules.evSessionConfig.onConfigSuccess.push(() => {
-      this._hasSetInitialState = this._modules.evSessionConfig.isConfigSuccessByLocal;
+      this._hasSetInitialState = this._modules.evSessionConfig.isConfigTab;
     });
+  }
+
+  get tabManagerEnabled() {
+    return this._modules.tabManager?._tabbie.enabled;
   }
 
   @storage
@@ -144,9 +157,9 @@ class EvWorkingState extends RcModuleV2<DepsModules, EvWorkingStateState>
 
   @action
   setAgentState(agentState: EvAgentState) {
-    this.state.agentState = agentState;
+    this.agentState = agentState;
     if (agentState.agentState !== agentStateTypes.breakAfterCall) {
-      this.state.time = Date.now();
+      this.time = Date.now();
     }
   }
 
@@ -154,23 +167,18 @@ class EvWorkingState extends RcModuleV2<DepsModules, EvWorkingStateState>
   setIsPendingDisposition(
     isPendingDisposition: EvWorkingStateState['isPendingDisposition'],
   ) {
-    this.state.isPendingDisposition = isPendingDisposition;
-  }
-
-  @action
-  setSettingsNow() {
-    this.state.time = Date.now();
+    this.isPendingDisposition = isPendingDisposition;
   }
 
   @action
   resetWorkingState() {
-    this.state.time = Date.now();
-    this.state.isPendingDisposition = false;
+    this.time = Date.now();
+    this.isPendingDisposition = false;
   }
 
   @action
   setTime(time: number) {
-    this.state.time = time;
+    this.time = time;
   }
 
   onInitOnce() {
@@ -180,7 +188,7 @@ class EvWorkingState extends RcModuleV2<DepsModules, EvWorkingStateState>
         // login with multi-tabs and skip the first agent notification for reset timer.
         if (
           !this._hasSetInitialState ||
-          this.agentState.agentState !== currentAuxState
+          this.agentState.agentState !== currentState
         ) {
           this.setAgentState({
             agentState: currentState,
@@ -192,30 +200,46 @@ class EvWorkingState extends RcModuleV2<DepsModules, EvWorkingStateState>
     );
   }
 
+  async onStateChange() {
+    if (
+      this.ready &&
+      this.tabManagerEnabled &&
+      this._modules.tabManager.ready
+    ) {
+      const { event } = this._modules.tabManager;
+      if (event) {
+        switch (event.name) {
+          case tabManagerEvents.RESET_WORKING_STATE:
+            this.resetWorkingState();
+            break;
+          default:
+            break;
+        }
+      }
+    }
+  }
+
   changeWorkingState({ agentState, agentAuxState }: EvAgentState) {
     const isOnCall =
       [agentStateTypes.transition, agentStateTypes.engaged].indexOf(
         this.agentState.agentState,
       ) > -1 || this._modules.presence.getCalls().length > 0;
 
-    if (isOnCall) {
-      if (agentState === agentStateTypes.onBreak) {
-        return this._modules.evClient.setAgentState(agentState, agentAuxState);
-      }
-      this._modules.alert.danger({
+    if (isOnCall && agentState !== agentStateTypes.onBreak) {
+      return this._modules.alert.danger({
         message: messageTypes.INVALID_STATE_CHANGE,
         allowDuplicates: false,
         ttl: 0,
       });
-      return;
     }
 
     this._modules.evClient.setAgentState(agentState, agentAuxState);
   }
 
   setWorkingStateWorking() {
-    if (this.getWorkingAgentState()) {
-      this.changeWorkingState(this.getWorkingAgentState());
+    const state = this.getWorkingAgentState();
+    if (state) {
+      this.changeWorkingState(state);
     }
   }
 

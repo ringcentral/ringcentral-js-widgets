@@ -39,15 +39,13 @@ function setup({
   );
 }
 
-afterEach(async () => {
-  wrapper.unmount();
-});
-
 const getGroupItems = () =>
   wrapper
     .find('[data-sign="searchResult"]')
     .at(0)
-    .find('ListItemWithScrollCheck');
+    .find('RcList')
+    .at(0)
+    .find('RcListItem');;
 
 const getSearchInput = () =>
   wrapper

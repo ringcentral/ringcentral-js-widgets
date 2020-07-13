@@ -1,5 +1,5 @@
 import { sort, reduce, filter, addIndex } from 'ramda';
-import Enum from './Enum';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 import phoneTypes from '../enums/phoneTypes';
 import { PhoneNumberModel } from '../models/PhoneNumber.model';
 
@@ -30,7 +30,7 @@ export const phoneTypeOrderMap = Object.freeze(
 );
 
 export const filterByPhoneTypes = filter<PhoneNumberModel>((item) =>
-  Enum.hasValue(phoneTypes, item.phoneType),
+  ObjectMap.hasValue(phoneTypes, item.phoneType),
 );
 
 export const sortByPhoneTypes = sort<PhoneNumberModel>(

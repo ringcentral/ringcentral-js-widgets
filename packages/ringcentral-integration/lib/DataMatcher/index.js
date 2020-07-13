@@ -1,9 +1,9 @@
 import { all, filter, forEach } from 'ramda';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 import RcModule from '../RcModule';
 import { Library } from '../di';
-import { prefixEnum } from '../Enum';
 import moduleStatuses from '../../enums/moduleStatuses';
-import baseActionTypes from './baseActionTypes';
+import { baseActionTypes } from './baseActionTypes';
 import getDefaultReducer from './getDefaultReducer';
 import getDefaultDataReducer from './getDefaultDataReducer';
 import proxify from '../proxy/proxify';
@@ -34,7 +34,10 @@ export default class DataMatcher extends RcModule {
     ttl = DEFAULT_TTL,
     noMatchTtl = DEFAULT_NO_MATCH_TTL,
     disableCache = false,
-    actionTypes = prefixEnum({ base: baseActionTypes, prefix: name }),
+    actionTypes = ObjectMap.prefixKeys(
+      [...ObjectMap.keys(baseActionTypes)],
+      name,
+    ),
     storageKey = `${name}Data`,
     getReducer = getDefaultReducer,
     getDataReducer = getDefaultDataReducer,

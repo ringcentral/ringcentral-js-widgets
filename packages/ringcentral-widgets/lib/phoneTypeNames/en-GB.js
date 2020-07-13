@@ -1,11 +1,11 @@
 import phoneTypes from '../../enums/phoneTypes';
 export default {
-  [phoneTypes.business]: "Business Phone",
+  [phoneTypes.business]: "Business phone",
   [phoneTypes.extension]: "Extension number",
   [phoneTypes.home]: "Home number",
-  [phoneTypes.mobile]: "Mobile Phone",
+  [phoneTypes.mobile]: "Mobile phone",
   [phoneTypes.phone]: "Phone",
-  [phoneTypes.unknown]: "Unknown Phone Type",
+  [phoneTypes.unknown]: "Unknown phone type",
   [phoneTypes.company]: "Company number",
   [phoneTypes.direct]: "Direct number",
   [phoneTypes.fax]: "Fax",

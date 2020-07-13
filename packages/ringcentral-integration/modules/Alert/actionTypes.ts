@@ -1,8 +1,13 @@
-import { createEnum } from '../../lib/Enum';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 import { moduleActionTypes } from '../../enums/moduleActionTypes';
 
-export default createEnum(
-  ['alert', 'dismiss', 'dismissAll', 'update'],
+export default ObjectMap.prefixKeys(
+  [
+    ...ObjectMap.keys(moduleActionTypes),
+    'alert',
+    'dismiss',
+    'dismissAll',
+    'update',
+  ],
   'alert',
-  moduleActionTypes,
 );

@@ -1,12 +1,12 @@
 import Alert from 'ringcentral-integration/modules/Alert';
 import ConnectivityMonitor from 'ringcentral-integration/modules/ConnectivityMonitor';
-import Environment from 'ringcentral-integration/modules/Environment';
 import Locale from 'ringcentral-integration/modules/Locale';
 import RateLimiter from 'ringcentral-integration/modules/RateLimiter';
 import Storage from 'ringcentral-integration/modules/Storage';
 import TabManager from 'ringcentral-integration/modules/TabManager';
 import RouterInteraction from 'ringcentral-widgets/modules/RouterInteraction';
 
+import { EvEnvironment } from '../../interfaces/Environment.interface';
 import { EvActiveCallControl } from '../EvActiveCallControl';
 import { EvCall } from '../EvCall';
 import { EvCallDisposition } from '../EvCallDisposition';
@@ -16,7 +16,7 @@ import { EvRequeueCall } from '../EvRequeueCall';
 import { EvSessionConfig } from '../EvSessionConfig';
 import { EvTransferCall } from '../EvTransferCall';
 import { EvWorkingState } from '../EvWorkingState';
-import { EvEnvironment } from '../../interfaces/Environment.interface';
+import { EvAuth } from '../EvAuth';
 
 export interface State {
   saveStatus: string;
@@ -42,7 +42,8 @@ export interface DepsModules {
   rateLimiter: RateLimiter;
   environment: EvEnvironment;
   storage: Storage;
-  tabManager: TabManager;
+  tabManager?: TabManager;
+  evAuth: EvAuth;
 }
 
 export interface ActivityCallUI extends State {

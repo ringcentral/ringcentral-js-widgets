@@ -1,2 +1,2 @@
 export * from './EvTransferCall';
-export * from './EvTransferCall.inerface';
+export * from './EvTransferCall.interface';

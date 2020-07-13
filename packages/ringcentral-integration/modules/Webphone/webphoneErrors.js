@@ -1,6 +1,6 @@
-import Enum from '../../lib/Enum';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 
-export default new Enum(
+export const webphoneErrors = ObjectMap.prefixKeys(
   [
     'connectFailed',
     'connected',
@@ -27,3 +27,5 @@ export default new Enum(
   ],
   'webphone',
 );
+
+export default webphoneErrors;

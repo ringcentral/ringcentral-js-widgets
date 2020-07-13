@@ -74,7 +74,7 @@ export function getConversationListReducer(types) {
           };
         });
         return newState
-          .filter((c) => !!c)
+          .filter((c) => !!c && typeof c.creationTime === 'number')
           .sort(messageHelper.sortByCreationTime);
       case types.deleteConversation:
         return state.filter((c) => c.id !== conversationId);

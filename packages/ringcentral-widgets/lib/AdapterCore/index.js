@@ -1,11 +1,11 @@
 import classnames from 'classnames';
-import { prefixEnum } from 'ringcentral-integration/lib/Enum';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 import ensureExist from 'ringcentral-integration/lib/ensureExist';
 import debounce from 'ringcentral-integration/lib/debounce';
 import { presenceStatus } from 'ringcentral-integration/enums/presenceStatus.enum';
 import dndStatus from 'ringcentral-integration/modules/Presence/dndStatus';
 import formatDuration from '../formatDuration';
-import baseMessageTypes from './baseMessageTypes';
+import { baseMessageTypes } from './baseMessageTypes';
 
 const SANDBOX_ATTRIBUTE_VALUE = [
   'allow-same-origin',
@@ -40,8 +40,8 @@ export default class AdapterCore {
     defaultPadding = 15,
   }) {
     this._prefix = prefix;
-    this._messageTypes = prefixEnum({ enumMap: messageTypes, prefix });
-    this._container = this::ensureExist(container, 'container');
+    this._messageTypes = ObjectMap.prefixValues(messageTypes, prefix);
+    this._container = ensureExist.call(this, container, 'container');
     this._root = root;
     this._styles = styles;
     this._defaultDirection = defaultDirection;

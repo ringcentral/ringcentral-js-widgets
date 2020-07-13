@@ -1,6 +1,8 @@
-import Enum from '../../lib/Enum';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 
-export default new Enum(
+export const permissionsMessages = ObjectMap.prefixKeys(
   ['invalidTier', 'insufficientPrivilege'],
   'permissionsMessages',
 );
+
+export default permissionsMessages;

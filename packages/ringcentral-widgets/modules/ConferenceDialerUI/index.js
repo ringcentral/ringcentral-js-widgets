@@ -1,6 +1,6 @@
 import { Module } from 'ringcentral-integration/lib/di';
 import proxify from 'ringcentral-integration/lib/proxy/proxify';
-import Enum from 'ringcentral-integration/lib/Enum';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 
 import DialerUI from '../DialerUI';
 import getReducer from './getReducer';
@@ -26,8 +26,8 @@ export default class ConferenceDialerUI extends DialerUI {
   }
 
   get _actionTypes() {
-    return new Enum(
-      [...Object.keys(super._actionTypes), 'setLastSessionId'],
+    return ObjectMap.prefixKeys(
+      [...ObjectMap.keys(super._actionTypes), 'setLastSessionId'],
       'conferenceDialerUI',
     );
   }

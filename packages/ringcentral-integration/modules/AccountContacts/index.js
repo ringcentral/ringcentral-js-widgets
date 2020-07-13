@@ -53,8 +53,9 @@ export default class AccountContacts extends RcModule {
       ...options,
       actionTypes,
     });
-    this._client = this::ensureExist(client, 'client');
-    this._companyContacts = this::ensureExist(
+    this._client = ensureExist.call(this, client, 'client');
+    this._companyContacts = ensureExist.call(
+      this,
       companyContacts,
       'companyContacts',
     );

@@ -1,6 +1,6 @@
-import Enum from '../../lib/Enum';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 
-export default new Enum(
+export const messageSenderMessages = ObjectMap.prefixKeys(
   [
     'sendSuccess',
     'sendError',
@@ -27,3 +27,5 @@ export default new Enum(
   ],
   'message-sender-msg',
 );
+
+export default messageSenderMessages;

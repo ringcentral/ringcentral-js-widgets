@@ -10,4 +10,6 @@ export default {
   [messageTypes.CONNECT_TIMEOUT]: 'Authorization timeout. Please retry later.',
   [messageTypes.OPEN_SOCKET_ERROR]: 'Connect socket error. Please retry later.',
   [messageTypes.EXISTING_LOGIN_ENGAGED]: 'Existing login engaged',
+  [messageTypes.FORCE_LOGOUT]:
+    'Your logon session has been terminated',
 };

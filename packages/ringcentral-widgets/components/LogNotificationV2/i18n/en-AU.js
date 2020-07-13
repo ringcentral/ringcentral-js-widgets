@@ -3,7 +3,7 @@ export default {
   save: "Save and new",
   discard: "Discard and new",
   hangup: "Hang up",
-  reject: "To Voicemail"
+  reject: "To voicemail"
 };
 
 // @key: @#@"log"@#@ @source: @#@"Log"@#@

@@ -1,0 +1,6 @@
+{
+  "extends": "../../eslint-settings/.eslintrc.js",
+  "rules": {
+    "import/no-extraneous-dependencies": 0
+  }
+}

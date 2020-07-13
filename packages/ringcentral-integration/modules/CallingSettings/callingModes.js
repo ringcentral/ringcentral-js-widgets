@@ -1,10 +1,11 @@
-import { createEnum } from '../../lib/Enum';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 
-export default createEnum(
+export default ObjectMap.prefixKeys(
   [
-    'softphone', // desktop
+    'softphone', // ringcentral phone
     'ringout', // branding rc..
     'webphone', // webrtc
+    'jupiter', // ringcentral(jupiter)
   ],
   'callingModes',
 );

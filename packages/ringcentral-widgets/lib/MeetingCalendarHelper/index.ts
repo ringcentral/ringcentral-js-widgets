@@ -199,11 +199,13 @@ function getBaseRcvTpl(
     meetingContent.push(
       i18n.getString('rcvInviteMeetingContentDial', currentLocale),
     );
+    if (isMeetingSecret && meetingPasswordPSTN) {
+      meetingContent.push(
+        getRcvPstnPasswordTpl(meetingPasswordPSTN, currentLocale),
+      );
+    }
   }
   meetingContent.push(`${i18n.getString('rcvTeleconference', currentLocale)}`);
-  const passwordPstnTpl = isMeetingSecret
-    ? getRcvPstnPasswordTpl(meetingPasswordPSTN, currentLocale)
-    : '';
   const passwordTpl = isMeetingSecret
     ? getRcvPasswordTpl(meetingPassword, currentLocale)
     : '';
@@ -216,7 +218,6 @@ function getBaseRcvTpl(
       brandName,
       joinUri,
       passwordTpl,
-      passwordPstnTpl,
       smartphones: `${dialInNumber},,${pinNumber}#`,
       dialNumber: dialInNumber,
       pinNumber: formatMeetingId(pinNumber),

@@ -1,7 +1,9 @@
-import Enum from '../../lib/Enum';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 import { moduleActionTypes } from '../../enums/moduleActionTypes';
 
-export default new Enum(
-  [...Object.keys(moduleActionTypes), 'updatePage'],
+export const actionTypes = ObjectMap.prefixKeys(
+  [...ObjectMap.keys(moduleActionTypes), 'updatePage'],
   'quickAccess',
 );
+
+export default actionTypes;

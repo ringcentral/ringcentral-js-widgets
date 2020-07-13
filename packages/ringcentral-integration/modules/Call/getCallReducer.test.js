@@ -1,13 +1,11 @@
 import { expect } from 'chai';
-import getModuleStatusReducer from '../../lib/getModuleStatusReducer';
 import getCallReducer, {
   getCallStatusReducer,
-  getToNumberReducer,
   getLastPhoneNumberReducer,
 } from './getCallReducer';
 
 import actionTypes from './actionTypes';
-import callStatus from './callStatus';
+import { callStatus } from './callStatus';
 
 describe('Call ::', () => {
   it('getCallReducer should be a function', () => {

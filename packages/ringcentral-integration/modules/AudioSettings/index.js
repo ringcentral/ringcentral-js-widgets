@@ -42,10 +42,11 @@ export default class AudioSettings extends RcModule {
       ...options,
       actionTypes,
     });
-    this._storage = this::ensureExist(storage, 'storage');
-    this._auth = this::ensureExist(auth, 'auth');
-    this._alert = this::ensureExist(alert, 'alert');
-    this._rolesAndPermissions = this::ensureExist(
+    this._storage = ensureExist.call(this, storage, 'storage');
+    this._auth = ensureExist.call(this, auth, 'auth');
+    this._alert = ensureExist.call(this, alert, 'alert');
+    this._rolesAndPermissions = ensureExist.call(
+      this,
       rolesAndPermissions,
       'rolesAndPermissions',
     );

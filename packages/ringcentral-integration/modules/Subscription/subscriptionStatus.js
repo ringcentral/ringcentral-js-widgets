@@ -1,6 +1,8 @@
-import Enum from '../../lib/Enum';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 
-export default new Enum(
+export const subscriptionStatus = ObjectMap.prefixKeys(
   ['subscribing', 'subscribed', 'unsubscribing', 'notSubscribed'],
   'subscriptionStatus',
 );
+
+export default subscriptionStatus;

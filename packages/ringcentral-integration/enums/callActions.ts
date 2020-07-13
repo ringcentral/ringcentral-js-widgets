@@ -1,6 +1,6 @@
-import { createHashMap } from '../lib/HashMap';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 
-export default createHashMap({
+export const callActions = ObjectMap.fromObject({
   '411Info': '411 Info',
   acceptCall: 'Accept Call',
   callReturn: 'Call Return',
@@ -22,4 +22,6 @@ export default createHashMap({
   transfer: 'Transfer',
   unknown: 'Unknown',
   voIPCall: 'VoIP Call',
-});
+} as const);
+
+export default callActions;

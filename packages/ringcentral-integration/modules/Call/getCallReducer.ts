@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 import getModuleStatusReducer from '../../lib/getModuleStatusReducer';
-import callStatus from './callStatus';
+import { callStatus } from './callStatus';
 
 export function getCallStatusReducer(types) {
   return (state = callStatus.idle, { type }) => {

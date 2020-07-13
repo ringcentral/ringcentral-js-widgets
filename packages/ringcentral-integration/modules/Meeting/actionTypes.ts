@@ -1,11 +1,12 @@
-import { createEnum } from '../../lib/Enum';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 import {
   moduleActionTypes,
   ModuleActionTypes,
 } from '../../enums/moduleActionTypes';
 
-export default createEnum(
+export default ObjectMap.prefixKeys(
   [
+    ...ObjectMap.keys(moduleActionTypes),
     // Local meeting related
     'updateMeeting',
     'clearMeeting',
@@ -18,9 +19,10 @@ export default createEnum(
     'updated',
     'resetUpdating',
     'saveAsDefaultSetting',
+    'updateMeetingPreferences',
+    'saveMeetingPreferencesState',
   ],
   'meeting',
-  moduleActionTypes,
 );
 
 export interface MeetingActionTypes extends ModuleActionTypes {
@@ -33,4 +35,6 @@ export interface MeetingActionTypes extends ModuleActionTypes {
   updated: string;
   resetUpdating: string;
   saveAsDefaultSetting: string;
+  updateMeetingPreferences: string;
+  saveMeetingPreferencesState: string;
 }

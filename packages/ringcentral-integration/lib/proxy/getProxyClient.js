@@ -27,11 +27,11 @@ export default function getProxyClient(
       //   getState: () => this.state.target,
       //   getProxyState: () => this.state.proxy,
       // });
-      this._transport = this::ensureExist(transport, 'transport');
+      this._transport = ensureExist.call(this, transport, 'transport');
       this._setTransport(this._target);
       for (const subModule in this._target) {
         if (
-          this._target::Object.prototype.hasOwnProperty(subModule) &&
+          Object.prototype.hasOwnProperty.call(this._target, subModule) &&
           verifyModuleFunc(this._target[subModule])
         ) {
           Object.defineProperty(this, subModule, {
@@ -58,7 +58,7 @@ export default function getProxyClient(
       target._suppressInit = true;
       for (const subModule in target) {
         if (
-          target::Object.prototype.hasOwnProperty(subModule) &&
+          Object.prototype.hasOwnProperty.call(target, subModule) &&
           verifyModuleFunc(target[subModule])
         ) {
           target[subModule]._transport = this._transport;
@@ -85,6 +85,7 @@ export default function getProxyClient(
       }
       this._syncPromise = null;
     }
+
     sync() {
       if (!this._syncPromise) {
         this._syncPromise = this._sync();
@@ -102,7 +103,7 @@ export default function getProxyClient(
       }
       for (const subModule in target) {
         if (
-          target::Object.prototype.hasOwnProperty(subModule) &&
+          Object.prototype.hasOwnProperty.call(target, subModule) &&
           verifyModuleFunc(target[subModule]) &&
           typeof target[subModule].initializeProxy === 'function' &&
           !target[subModule]._proxyInitialized
@@ -112,6 +113,7 @@ export default function getProxyClient(
         }
       }
     }
+
     async initialize() {
       // initialize the instance before sync to avoid history object from
       // becoming out of sync

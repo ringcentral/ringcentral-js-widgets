@@ -22,6 +22,7 @@ export interface ScheduleButtonProps {
   onClick: () => void;
   update: (any) => any;
   showSaveAsDefault: boolean;
+  disableSaveAsDefault: boolean;
   launchMeeting: () => any;
   showLaunchMeetingBtn: boolean;
   scheduleButtonLabel: string;
@@ -33,6 +34,7 @@ export interface CommonProps {
   scheduleButton?: React.FunctionComponent<ScheduleButtonProps>;
   invite?: (meeting: any, opener: any) => any;
   showSaveAsDefault?: boolean;
+  disableSaveAsDefault?: boolean;
   openNewWindow?: boolean;
   currentLocale: string;
   disabled?: boolean;
@@ -51,6 +53,7 @@ export interface VideoPanelProps extends CommonProps {
 }
 
 export interface MeetingPanelProps extends CommonProps {
+  showSpinner: boolean;
   showWhen?: boolean;
   showDuration?: boolean;
   audioOptionToggle?: boolean;

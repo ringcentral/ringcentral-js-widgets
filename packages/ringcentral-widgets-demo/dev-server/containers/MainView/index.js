@@ -185,7 +185,7 @@ function mapToProps(
     conference.data &&
     rolesAndPermissions.permissions.OrganizeConference;
   const showMeeting =
-    rolesAndPermissions.ready && rolesAndPermissions.permissions.Meetings;
+    rolesAndPermissions.ready && rolesAndPermissions.hasMeetingsPermission;
   const currentLocale = locale.currentLocale;
   const conferenceCallEquipped = !!conferenceCall;
   const tabs = getTabs({

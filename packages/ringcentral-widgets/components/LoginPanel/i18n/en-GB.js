@@ -1,6 +1,6 @@
 export default {
-  loginButton: "Sign In",
-  signupButton: "New user? Sign Up",
+  loginButton: "Sign in",
+  signupButton: "New user? Sign up",
   version: "Version"
 };
 

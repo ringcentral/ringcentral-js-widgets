@@ -1,8 +1,5 @@
 import { RcModulePhoneType } from '@ringcentral-integration/core';
 import { BasePhone } from 'ringcentral-integration/models/basePhone.model';
-import TabManager from 'ringcentral-integration/modules/TabManager';
-import { Modal } from 'ringcentral-widgets/modules/Modal';
-import { ModalUI } from 'ringcentral-widgets/modules/ModalUI';
 import LoginUI from 'ringcentral-widgets/modules/LoginUI';
 
 import { EvClient } from '../lib/EvClient';
@@ -30,22 +27,20 @@ import { MainViewUI } from '../modules/MainViewUI';
 
 // TODO: separed UI and nomal module that should just pick getUIProps, getUIFunctions in test environment.
 export type EvPhoneUI = {
+  LoginUI: LoginUI;
+  mainViewUI: MainViewUI;
   evInboundQueuesUI: EvInboundQueuesUI;
   evSessionConfigUI: EvSessionConfigUI;
-  LoginUI: LoginUI;
   evActivityCallUI: EvActivityCallUI;
-  mainViewUI: MainViewUI;
   evDialerUI: EvDialerUI;
   evTransferCallUI: EvTransferCallUI;
   evActiveCallListUI: EvActiveCallListUI;
   evSettingsUI: EvSettingsUI;
   evManualDialSettingsUI: EvManualDialSettingsUI;
-  modalUI: ModalUI;
 };
 
 export type EvPhone = RcModulePhoneType<
   {
-    modal: Modal;
     activeCallControl: EvActiveCallControl;
     evAuth: EvAuth;
     evCall: EvCall;
@@ -58,7 +53,6 @@ export type EvPhone = RcModulePhoneType<
     evTransferCall: EvTransferCall;
     presence: EvPresence;
     evClient: EvClient;
-    tabManager?: TabManager;
     evIntegratedSoftphone: EvIntegratedSoftphone;
   } & EvPhoneUI
 > &

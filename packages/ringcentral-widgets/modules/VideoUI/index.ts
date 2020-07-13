@@ -5,8 +5,6 @@ import { RcVMeetingModel } from 'ringcentral-integration/models/rcv.model';
 
 import RcUIModule from '../../lib/RcUIModule';
 
-
-
 @Module({
   name: 'VideoUI',
   deps: ['RcVideo', 'Locale', 'RateLimiter', 'ConnectivityMonitor', 'Brand'],
@@ -40,6 +38,7 @@ export default class VideoUI extends RcUIModule {
       currentLocale: this._locale.currentLocale,
       meeting: this._rcVideo.meeting,
       showSaveAsDefault: this._rcVideo.showSaveAsDefault,
+      disableSaveAsDefault: !this._rcVideo.isPreferencesChanged,
       brandName: this._brand.name,
       disabled:
         this._rcVideo.isScheduling ||

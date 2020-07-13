@@ -50,13 +50,14 @@ export default class GlipPosts extends RcModule {
     });
     this._reducer = getReducer(this.actionTypes);
 
-    this._client = this::ensureExist(client, 'client');
-    this._auth = this::ensureExist(auth, 'auth');
-    this._rolesAndPermissions = this::ensureExist(
+    this._client = ensureExist.call(this, client, 'client');
+    this._auth = ensureExist.call(this, auth, 'auth');
+    this._rolesAndPermissions = ensureExist.call(
+      this,
       rolesAndPermissions,
       'rolesAndPermissions',
     );
-    this._subscription = this::ensureExist(subscription, 'subscription');
+    this._subscription = ensureExist.call(this, subscription, 'subscription');
     this._fetchPromises = {};
     this._lastMessage = null;
     this._loadTtl = loadTtl;

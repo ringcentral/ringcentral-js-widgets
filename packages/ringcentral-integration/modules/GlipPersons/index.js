@@ -46,12 +46,13 @@ export default class GlipPersons extends RcModule {
       actionTypes,
     });
 
-    this._rolesAndPermissions = this::ensureExist(
+    this._rolesAndPermissions = ensureExist.call(
+      this,
       rolesAndPermissions,
       'rolesAndPermissions',
     );
-    this._client = this::ensureExist(client, 'client');
-    this._auth = this::ensureExist(auth, 'auth');
+    this._client = ensureExist.call(this, client, 'client');
+    this._auth = ensureExist.call(this, auth, 'auth');
     this._tabManager = tabManager;
     this._storage = storage;
 

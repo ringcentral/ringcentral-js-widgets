@@ -1,9 +1,9 @@
-import Enum from '../../lib/Enum';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 import { moduleActionTypes } from '../../enums/moduleActionTypes';
 
-export default new Enum(
+export const messageSenderActionTypes = ObjectMap.prefixKeys(
   [
-    ...Object.keys(moduleActionTypes),
+    ...ObjectMap.keys(moduleActionTypes),
     'send',
     'sendOver',
     'sendError',
@@ -13,3 +13,5 @@ export default new Enum(
   ],
   'messageSender',
 );
+
+export default messageSenderActionTypes;

@@ -18,6 +18,9 @@ export type CallLogFieldsProps = {
   showFoundFromServer: boolean;
   editSectionScrollBy?: (top: number) => void;
   fieldSize: RcDatePickerProps['size'];
+  classes?: {
+    root?: string;
+  };
 };
 
 export interface FieldOption {
@@ -31,6 +34,8 @@ export interface FieldOption {
   searchOptionFinder?: (option: any, text: string) => boolean;
   shouldShowAssociatedSection?: (currentLog: CallLog) => boolean;
   rightIconRender?: (item: any) => ReactElementLike;
+  onBackClick?: () => void;
+  backHeaderClassName?: string;
   shouldDisable?: (task?: Task) => boolean;
   disableReason?: ReactNode | string;
   getValue?: (item: any) => any;

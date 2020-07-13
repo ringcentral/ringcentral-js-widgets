@@ -1,9 +1,9 @@
-import Enum from 'ringcentral-integration/lib/Enum';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 import { moduleActionTypes } from 'ringcentral-integration/enums/moduleActionTypes';
 
-export default new Enum(
+export const actionTypes = ObjectMap.prefixKeys(
   [
-    ...Object.keys(moduleActionTypes),
+    ...ObjectMap.keys(moduleActionTypes),
     'update',
     'saving',
     'saveSuccess',
@@ -18,3 +18,5 @@ export default new Enum(
   ],
   'callLogSection',
 );
+
+export default actionTypes;

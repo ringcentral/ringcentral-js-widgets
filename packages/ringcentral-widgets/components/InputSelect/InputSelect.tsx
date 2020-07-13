@@ -20,6 +20,7 @@ type InputSelectProps = {
   onSave?: (...args: any[]) => any;
   timeout?: number;
   onSelectOption?: (...args: any[]) => any;
+  label?: string;
 };
 type InputSelectState = {
   subject: any;
@@ -52,7 +53,7 @@ export default class InputSelect extends Component<
     };
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     this.checkPropsUpdate(nextProps, 'subject');
   }
 
@@ -91,7 +92,7 @@ export default class InputSelect extends Component<
   };
 
   render() {
-    const { subjectPicklist, required } = this.props;
+    const { subjectPicklist, required, label } = this.props;
     const { subject = '' } = this.state;
     const hasError = required && subject.trim() === '';
     return (
@@ -102,7 +103,7 @@ export default class InputSelect extends Component<
         }}
       >
         <RcTextField
-          label="Subject"
+          label={label || 'Subject'}
           data-sign="subject"
           title={subject}
           fullWidth
@@ -133,7 +134,8 @@ export default class InputSelect extends Component<
     const { onChange, onSave, timeout } = this.props;
     this.setState({ subject }, () => {
       this.debounce(() => {
-        onChange(this.state.subject).then(() => {
+        const { subject } = this.state;
+        onChange(subject).then(() => {
           this.debounce(() => onSave(), timeout - time);
         });
       }, time);
@@ -147,7 +149,8 @@ export default class InputSelect extends Component<
         if (onSelectOption) {
           onSelectOption();
         }
-        onChange(this.state.subject).then(() => onSave());
+        const { subject } = this.state;
+        onChange(subject).then(() => onSave());
       }, 0);
     });
     this.toggleDropDownList();

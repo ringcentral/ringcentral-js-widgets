@@ -1,10 +1,10 @@
 import {
   action,
+  createSelector,
   RcModuleState,
   RcModuleV2,
   state,
   storage,
-  createSelector,
 } from '@ringcentral-integration/core';
 import { Module } from 'ringcentral-integration/lib/di';
 import callErrors from 'ringcentral-integration/modules/Call/callErrors';
@@ -109,10 +109,7 @@ class EvCall extends RcModuleV2<DepsModules, EvCallState> implements Call {
   formGroup: State['formGroup'] = DEFAULT_OUTBOUND_SETTING;
 
   get ringTime() {
-    // Consider that the `dialoutRingTime` may be empty string(not null).
-    return this.formGroup.dialoutRingTime === null
-      ? +this._modules.evAuth.outboundManualDefaultRingtime
-      : this.formGroup.dialoutRingTime;
+    return this.dialoutRingTime;
   }
 
   get queueId() {
@@ -146,23 +143,31 @@ class EvCall extends RcModuleV2<DepsModules, EvCallState> implements Call {
 
   @action
   setFormGroup(data: Partial<State['formGroup']>) {
-    this.state.formGroup = { ...this.state.formGroup, ...data };
+    this.formGroup = { ...this.formGroup, ...data };
   }
 
   @action
   saveForm() {
-    this.state.dialoutCallerId = this.formGroup.dialoutCallerId;
-    this.state.dialoutQueueId = this.formGroup.dialoutQueueId;
-    this.state.dialoutCountryId = this.formGroup.dialoutCountryId;
-    this.state.dialoutRingTime = this.formGroup.dialoutRingTime;
+    this.dialoutCallerId = this.formGroup.dialoutCallerId;
+    this.dialoutQueueId = this.formGroup.dialoutQueueId;
+    this.dialoutCountryId = this.formGroup.dialoutCountryId;
+    this.dialoutRingTime = this.formGroup.dialoutRingTime;
   }
 
   @action
   resetOutBoundDialSetting() {
-    this.state.dialoutCallerId = DEFAULT_OUTBOUND_SETTING.dialoutCallerId;
-    this.state.dialoutQueueId = DEFAULT_OUTBOUND_SETTING.dialoutQueueId;
-    this.state.dialoutCountryId = DEFAULT_OUTBOUND_SETTING.dialoutCountryId;
-    this.state.dialoutRingTime = DEFAULT_OUTBOUND_SETTING.dialoutRingTime;
+    this.dialoutCallerId = DEFAULT_OUTBOUND_SETTING.dialoutCallerId;
+    this.dialoutQueueId = DEFAULT_OUTBOUND_SETTING.dialoutQueueId;
+    this.dialoutCountryId = DEFAULT_OUTBOUND_SETTING.dialoutCountryId;
+    this.dialoutRingTime = DEFAULT_OUTBOUND_SETTING.dialoutRingTime;
+    const defaultRingtime = parseInt(
+      this._modules.evAuth.outboundManualDefaultRingtime,
+      10,
+    );
+    if (!Number.isNaN(defaultRingtime)) {
+      this.formGroup.dialoutRingTime = defaultRingtime;
+      this.dialoutRingTime = defaultRingtime;
+    }
   }
 
   resetForm() {
@@ -201,9 +206,15 @@ class EvCall extends RcModuleV2<DepsModules, EvCallState> implements Call {
   }
 
   async dialout(phoneNumber: string) {
-    if (this._modules.evSessionConfig.isIntegrated) {
+    if (this._modules.evSessionConfig.isIntegratedSoftphone) {
+      const integratedSoftphone = this._modules.evIntegratedSoftphone;
       try {
-        await this._modules.evIntegratedSoftphone.askAudioPermission();
+        if (integratedSoftphone.isWebRTCTabAlive) {
+          await integratedSoftphone.askAudioPermission(false);
+        } else {
+          await this._modules.evSessionConfig.configureAgent();
+          await integratedSoftphone.onceRegistered();
+        }
       } catch (error) {
         return;
       }
@@ -309,6 +320,7 @@ class EvCall extends RcModuleV2<DepsModules, EvCallState> implements Call {
       if (!this._modules.evSettings.isManualOffhook) {
         this._modules.evClient.offhookTerm();
       }
+
       this.setPhonedIdle();
       throw e;
     }
@@ -327,6 +339,10 @@ class EvCall extends RcModuleV2<DepsModules, EvCallState> implements Call {
         },
       );
     });
+  }
+
+  get isInbound() {
+    return this.getCurrentCall()?.callType === 'INBOUND';
   }
 }
 

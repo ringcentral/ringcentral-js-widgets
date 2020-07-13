@@ -1,3 +1,8 @@
-import Enum from '../../lib/Enum';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 
-export default new Enum(['rateLimitReached'], 'rateLimiterErrorMessages');
+export const errorMessages = ObjectMap.prefixKeys(
+  ['rateLimitReached'],
+  'rateLimiterErrorMessages',
+);
+
+export default errorMessages;

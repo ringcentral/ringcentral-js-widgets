@@ -140,7 +140,8 @@ export default class CompanyContacts extends DataFetcher {
         }),
       });
     }
-    this._rolesAndPermissions = this::ensureExist(
+    this._rolesAndPermissions = ensureExist.call(
+      this,
       rolesAndPermissions,
       'rolesAndPermissions',
     );

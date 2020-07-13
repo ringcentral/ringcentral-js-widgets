@@ -9,7 +9,7 @@ export function bindFunctionTo(self) {
   while (proto !== Object.prototype) {
     Object.getOwnPropertyNames(proto).forEach((key) => {
       if (typeof self[key] === 'function' && self[key]._autoBind) {
-        self[key] = self::self[key];
+        self[key] = self[key].bind(self);
       }
     });
     proto = Object.getPrototypeOf(proto);

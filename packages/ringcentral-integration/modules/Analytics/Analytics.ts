@@ -3,7 +3,7 @@ import { Module } from '../../lib/di';
 import sleep from '../../lib/sleep';
 import saveBlob from '../../lib/saveBlob';
 import moduleStatuses from '../../enums/moduleStatuses';
-import { analyticsAcionTypes, AnalyticsAcionTypes } from './actionTypes';
+import { analyticsActionTypes, AnalyticsActionTypes } from './actionTypes';
 import getAnalyticsReducer from './getAnalyticsReducer';
 
 import { Segment } from '../../lib/Analytics';
@@ -114,7 +114,11 @@ export const tracking = track(DEFAULT_TAG_NAME);
     { dep: 'RcVideo', optional: true },
   ],
 })
-export class Analytics extends RcModule<AnalyticsAcionTypes> {
+export class Analytics extends RcModule<
+  Record<string, any>,
+  AnalyticsActionTypes
+> {
+  // TODO: add state interface
   private _analyticsKey: string;
   private _appName: string;
   private _appVersion: string;
@@ -184,7 +188,7 @@ export class Analytics extends RcModule<AnalyticsAcionTypes> {
   }) {
     super({
       ...options,
-      actionTypes: analyticsAcionTypes,
+      actionTypes: analyticsActionTypes,
     });
 
     // config

@@ -19,7 +19,9 @@ export default function getter(
       if (!this[WRAPPER][property]) {
         const targetSymbol = Symbol(`${property}-target`);
 
-        this[targetSymbol] = initializer ? this::initializer() : value || get;
+        this[targetSymbol] = initializer
+          ? initializer.call(this)
+          : value || get;
 
         this[WRAPPER][property] =
           typeof this[targetSymbol] === 'function'

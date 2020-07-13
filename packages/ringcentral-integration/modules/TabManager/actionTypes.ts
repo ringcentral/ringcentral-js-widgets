@@ -1,8 +1,7 @@
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 import { moduleActionTypes } from '../../enums/moduleActionTypes';
-import { createEnum } from '../../lib/Enum';
 
-export default createEnum(
-  ['mainTabIdChanged', 'event'],
+export default ObjectMap.prefixKeys(
+  [...ObjectMap.keys(moduleActionTypes), 'mainTabIdChanged', 'event'],
   'tabManager',
-  moduleActionTypes,
 );

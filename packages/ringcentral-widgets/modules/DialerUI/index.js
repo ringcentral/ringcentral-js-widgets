@@ -1,7 +1,7 @@
 import { Module } from 'ringcentral-integration/lib/di';
 import proxify from 'ringcentral-integration/lib/proxy/proxify';
 import callErrors from 'ringcentral-integration/modules/Call/callErrors';
-import Enum from 'ringcentral-integration/lib/Enum';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 import formatNumber from 'ringcentral-integration/lib/formatNumber';
 import { selector } from 'ringcentral-integration/lib/selector';
 import RcUIModule from '../../lib/RcUIModule';
@@ -58,7 +58,7 @@ export default class DialerUI extends RcUIModule {
   }
 
   get _actionTypes() {
-    return new Enum(
+    return ObjectMap.prefixKeys(
       [
         'setToNumberField',
         'clearToNumberField',

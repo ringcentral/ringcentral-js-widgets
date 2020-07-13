@@ -1,6 +1,5 @@
 import Module from 'ringcentral-integration/lib/di/decorators/module';
 import formatNumber from 'ringcentral-integration/lib/formatNumber';
-import detect from '@ringcentral-integration/phone-number/lib/detect';
 
 import RcUIModule from '../../lib/RcUIModule';
 
@@ -131,21 +130,19 @@ export default class ComposeTextUI extends RcUIModule {
       },
       formatPhone: formatContactPhone,
       formatContactPhone,
-      detectPhoneNumbers(input) {
-        const detectedNumbers = detect({
-          input,
-          countryCode: regionSettings.countryCode,
-          areaCode: regionSettings.areaCode,
+      async detectPhoneNumbers(input) {
+        const promises = input.split(/,\s*/g).map(async (item) => {
+          const isValid = await composeText.validatePhoneNumber(item);
+          return isValid ? item : undefined;
         });
-        if (detectedNumbers.length) {
-          detectedNumbers.forEach((item) => {
-            composeText.addToNumber({
-              phoneNumber: item.phoneNumber,
-            });
+        const results = await Promise.all(promises);
+        const detectedNumbers = results.filter((item) => !!item);
+        detectedNumbers.forEach((phoneNumber) => {
+          composeText.addToNumber({
+            phoneNumber,
           });
-          return true;
-        }
-        return false;
+        });
+        return detectedNumbers.length > 0;
       },
       searchContact: (searchString) =>
         contactSearch.debouncedSearch({ searchString }),

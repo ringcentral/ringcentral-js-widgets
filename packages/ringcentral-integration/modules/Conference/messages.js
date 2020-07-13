@@ -1,6 +1,8 @@
-import Enum from '../../lib/Enum';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 
-export default new Enum(
-  ['requireAditionalNumbers', 'scheduledSuccess'],
+export const messages = ObjectMap.prefixKeys(
+  ['requireAdditionalNumbers', 'scheduledSuccess'],
   'conference-msg',
 );
+
+export default messages;

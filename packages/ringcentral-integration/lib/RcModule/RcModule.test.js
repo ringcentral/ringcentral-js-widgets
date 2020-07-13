@@ -1,8 +1,8 @@
 import { expect } from 'chai';
 import { createStore, combineReducers } from 'redux';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 import uuid from 'uuid';
-import RcModule from './';
-import Enum, { prefixEnum } from '../Enum';
+import RcModule from '.';
 
 describe('RcModule', () => {
   it('should be a constructor function', () => {
@@ -16,11 +16,12 @@ describe('RcModule', () => {
   describe('constructor parameters', () => {
     describe('getState', () => {
       it('should be a function', () => {
-        expect(() => {
-          const module = new RcModule({
-            getState: {},
-          });
-        }).to.throw('The `getState` options property must be of type function');
+        expect(
+          () =>
+            new RcModule({
+              getState: {},
+            }),
+        ).to.throw('The `getState` options property must be of type function');
       });
     });
   });
@@ -28,24 +29,26 @@ describe('RcModule', () => {
     it('should be null-like or string', () => {
       const prefixes = [{}, 3, true, []];
       prefixes.forEach((p) => {
-        expect(() => {
-          const module = new RcModule({
-            prefix: p,
-          });
-        }).to.throw(
+        expect(
+          () =>
+            new RcModule({
+              prefix: p,
+            }),
+        ).to.throw(
           'The `prefix` options property must be null, undefined, or a string',
         );
       });
-      expect(() => {
-        const module = new RcModule({
-          prefix: 'string',
-        });
-      }).to.not.throw();
+      expect(
+        () =>
+          new RcModule({
+            prefix: 'string',
+          }),
+      ).to.not.throw();
     });
   });
   describe('actionType', () => {
     it('should be put to `actionTypes` instance property if present', () => {
-      const actionTypes = new Enum(['actionTypeA', 'actionTypeB']);
+      const actionTypes = ObjectMap.fromKeys(['actionTypeA', 'actionTypeB']);
       const module = new RcModule({
         actionTypes,
       });
@@ -61,13 +64,13 @@ describe('RcModule', () => {
         });
         it('should should be prefixed if prefix is set', () => {
           const prefix = uuid.v4();
-          const actionTypes = new Enum(['action1', 'action2']);
+          const actionTypes = ObjectMap.fromKeys(['action1', 'action2']);
           const module = new RcModule({
             prefix,
             actionTypes,
           });
           expect(module.actionTypes).to.deep.equal(
-            prefixEnum({ enumMap: actionTypes, prefix }),
+            ObjectMap.prefixValues(actionTypes, prefix),
           );
         });
       });
@@ -106,7 +109,7 @@ describe('RcModule', () => {
         });
       });
       describe('state', () => {
-        const REDUCER = Symbol();
+        const REDUCER = Symbol('reducer');
         class Test extends RcModule {
           constructor(options) {
             super(options);
@@ -121,6 +124,7 @@ describe('RcModule', () => {
               }
             };
           }
+
           get reducer() {
             return this[REDUCER];
           }
@@ -158,7 +162,7 @@ describe('RcModule', () => {
         });
       });
       describe('modulePath', () => {
-        const REDUCER = Symbol();
+        const REDUCER = Symbol('reducer');
         class RootModule extends RcModule {
           constructor(options) {
             super(options);
@@ -173,6 +177,7 @@ describe('RcModule', () => {
               sub: this.subModule.reducer,
             });
           }
+
           get reducer() {
             return this[REDUCER];
           }
@@ -220,6 +225,7 @@ describe('RcModule', () => {
             super(...args);
             this.addModule('sub', new RcModule());
           }
+
           hello() {
             console.log('check');
           }
@@ -235,6 +241,7 @@ describe('RcModule', () => {
             super(...args);
             this.addModule('sub', new RcModule());
           }
+
           hello() {
             console.log('check');
           }
@@ -300,36 +307,6 @@ describe('RcModule', () => {
         module.addModule('sub2', subModule);
         expect(module.sub2).to.equal(subModule);
         expect(module.sub2.modulePath).to.equal('root.sub');
-      });
-    });
-    describe('selector', () => {
-      it('should be a function', () => {
-        const module = new RcModule();
-        expect(module.addSelector).to.be.a('function');
-      });
-      it('add selector functions to selectors object', () => {
-        const module = new RcModule();
-        module.addSelector('test', () => 'test');
-        expect(module.getSelector('test')).to.be.a('function');
-      });
-      it('throws when attempting to add selectors of the same name', () => {
-        const module = new RcModule();
-        module.addSelector('test', () => 'test');
-        expect(() => module.addSelector('test', () => 'test2')).to.throw(
-          "Selector 'test' already exists...",
-        );
-      });
-      it('should use reselect for output caching', () => {
-        const module = new RcModule();
-        module.addSelector('test', () => 'test');
-        module.addSelector(
-          'cachedMessage',
-          module.getSelector('test'),
-          (message) => ({ message }),
-        );
-        expect(module.getSelector('cachedMessage')()).to.equal(
-          module.getSelector('cachedMessage')(),
-        );
       });
     });
   });

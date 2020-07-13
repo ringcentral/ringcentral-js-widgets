@@ -1,9 +1,9 @@
-import Enum from '../../lib/Enum';
-import baseActionTypes from '../../lib/DataFetcher/baseActionTypes';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
+import { baseActionTypes } from '../../lib/DataFetcher/baseActionTypes';
 
-export default new Enum(
+export const actionTypes = ObjectMap.prefixKeys(
   [
-    ...Object.keys(baseActionTypes),
+    ...ObjectMap.keys(baseActionTypes),
     'updateDialInNumber',
     'updateAdditionalNumbers',
     'updateSaveCurrentSettings',
@@ -12,3 +12,5 @@ export default new Enum(
   ],
   'conference',
 );
+
+export default actionTypes;

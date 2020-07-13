@@ -112,9 +112,9 @@ export default class ComposeText extends RcModule {
   _shouldHandleRecipient() {
     return (
       this.ready &&
-      (!!this._contactSearch &&
-        this._contactSearch.ready &&
-        this._contactSearch.searchResult.length > 0) &&
+      !!this._contactSearch &&
+      this._contactSearch.ready &&
+      this._contactSearch.searchResult.length > 0 &&
       this._contactSearch.searchResult !== this._lastContactSearchResult
     );
   }
@@ -180,6 +180,7 @@ export default class ComposeText extends RcModule {
     return true;
   }
 
+  @proxify
   _validateIsOnlyPager(phoneNumber) {
     if (
       phoneNumber.length >= 7 &&
@@ -189,6 +190,15 @@ export default class ComposeText extends RcModule {
       return true;
     }
     return false;
+  }
+
+  @proxify
+  validatePhoneNumber(phoneNumber) {
+    if (this._validateIsOnlyPager(phoneNumber)) {
+      return false;
+    }
+    const validateResult = this._numberValidate.validateFormat([phoneNumber]);
+    return !!validateResult.result;
   }
 
   @proxify

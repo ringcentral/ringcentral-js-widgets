@@ -1,6 +1,6 @@
 export default {
-  conferenceCall: "Conference Call",
-  onHold: "On Hold",
+  conferenceCall: "Conference call",
+  onHold: "On hold",
   unknown: "Unknown",
   disconnected: "Disconnected",
   loading: "Loading...",

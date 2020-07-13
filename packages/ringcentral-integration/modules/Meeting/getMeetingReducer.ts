@@ -32,7 +32,7 @@ export function getMeetingSchedulingStatusReducer(types: MeetingActionTypes) {
   };
 }
 
-export function getMeetingUpdatingStatusReducer(types) {
+export function getMeetingUpdatingStatusReducer(types: MeetingActionTypes) {
   return (state = [], { type, meetingId }) => {
     switch (type) {
       case types.initUpdating:
@@ -52,7 +52,7 @@ export function getMeetingUpdatingStatusReducer(types) {
   };
 }
 
-export function getMeetingStorageReducer(types) {
+export function getMeetingStorageReducer(types: MeetingActionTypes) {
   return (state = {}, { type, meeting = null }) => {
     switch (type) {
       case types.scheduled:
@@ -71,7 +71,7 @@ export function getMeetingStorageReducer(types) {
   };
 }
 
-export function getDefaultMeetingSettingReducer(types) {
+export function getDefaultMeetingSettingReducer(types: MeetingActionTypes) {
   return (state = {}, { type, meeting = null }) => {
     switch (type) {
       case types.saveAsDefaultSetting: {
@@ -93,11 +93,35 @@ export function getDefaultMeetingSettingReducer(types) {
   };
 }
 
-export default (types, reducers) =>
+export function getMeetingPreferencesReducer(types: MeetingActionTypes) {
+  return (state = {}, { type, preferences }) => {
+    switch (type) {
+      case types.updateMeetingPreferences:
+        return preferences;
+      default:
+        return state;
+    }
+  };
+}
+
+export function getMeetingPreferencesStateReducer(types: MeetingActionTypes) {
+  return (state = false, { type, isPreferencesChanged }): boolean => {
+    switch (type) {
+      case types.saveMeetingPreferencesState:
+        return isPreferencesChanged;
+      default:
+        return state;
+    }
+  };
+}
+
+export default (types: MeetingActionTypes, reducers) =>
   combineReducers({
     ...reducers,
     status: getModuleStatusReducer(types),
     meeting: getMeetingInfoReducer(types),
     schedulingStatus: getMeetingSchedulingStatusReducer(types),
     updatingStatus: getMeetingUpdatingStatusReducer(types),
+    preferences: getMeetingPreferencesReducer(types),
+    isPreferencesChanged: getMeetingPreferencesStateReducer(types),
   });

@@ -1,3 +1,3 @@
-import { createEnum } from '../lib/Enum';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 
-export default createEnum(['unknown', 'contacts', 'conference'], 'calleeTypes');
+export default ObjectMap.prefixKeys(['unknown', 'contacts', 'conference'], 'calleeTypes');

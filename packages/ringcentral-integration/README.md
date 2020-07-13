@@ -221,7 +221,7 @@ Get what you want from state.
     this._store = store;
     for (const subModule in this) {
       if (
-        this:: Object.prototype.hasOwnProperty(subModule) &&
+        Object.prototype.hasOwnProperty.call(this, subModule) &&
           this[subModule] instanceof RcModule
       ) {
         this[subModule]._setStore(store);
@@ -253,7 +253,7 @@ Get what you want from state.
 
     for (const subModule in this) {
       if (
-        this:: Object.prototype.hasOwnProperty(subModule) &&
+        Object.prototype.hasOwnProperty.call(this, subModule) &&
           this[subModule] instanceof RcModule
       ) {
         this[subModule]._initModule();
@@ -299,18 +299,25 @@ phone.setStore(store);
 ```
 
 ### Action
-Actions are defined in Enum, which will be discussed in next section.
+Actions are defined with ObjectMap class, which will be discussed in next section.
 ```javascript
-export default new Enum([
-  ...Object.keys(moduleActionTypes),
+export const ObjectMap.prefixKeys([
+  ...ObjectMap.keys(moduleActionTypes),
   'alert',
   'dismiss',
   'dismissAll',
 ], 'alert');
 ```
 
-After initilized with `Enum`, it will be an `map`. It's key are just those *string*: `alert`, `dismiss` and `dismissAll`, but values are `alert-alert`, `alert-dismiss`, `alert-dismissAll`.
-All start with prefix *alert*.
+The prefixKeys function is a factory function to create ObjectMap instances. The instance will have the object shape of:
+```javascript
+{
+    alert: 'alert-alert',
+    dismiss: 'alert-dismiss',
+    dismissAll: 'alert-dismissAll',
+    [key in moduleActionTypes]: `alert-${moduleActionTypes[key]}`,
+}
+```
 
 You can use it like:
 ```javascript
@@ -338,34 +345,64 @@ Please notice `getMessagesReducer` is a high order function. It will return a fu
 
 Every module has its needed actions defined within the module with `Enum`.
 
-### Enum
-This is simple, just take the code:
-```javascript
-// How it's called
-export default new Enum([
-  'alert',
-  'dismiss',
-  'dismissAll',
-], 'alert');
+### ObjectMap
 
-// Enum defination
-export default class Enum extends HashMap {
-  constructor(values = [], prefix = '') {
-    const definition = {};
-    values.forEach((value) => {
-      definition[value] = prefix !== '' ? `${prefix}-${value}` : value;
-    });
-    super(definition);
-  }
+ObjectMap is a class representation of a read-only dictionary implemented with an object mapping. There are several uses of ObjectMaps:
+
+1. Define a lookup table with an object definition:
+```typescript
+const table = ObjectMap.fromObject({
+  foo: 'bar',
+  alpha: 1,
+  beta: 2,
+  isObject: true,
+} as const);
+// with as const in typescript, the instance will clearly show the correct key-value relationship in its shape
+```
+
+2. Define a set of values by using the value as the key:
+```typescript
+const callResults = ObjectMap.fromKeys([
+  'hangUp',
+  'missed',
+  'voicemail',
+  'completed',
+]);
+/* The shape of the object would be as the following, with complete key-value shape in the typescript typing system.
+{
+    hangUp: 'hangUp',
+    missed: 'missed',
+    voicemail: 'voicemail',
+    completed: 'completed',
 }
+*/
 ```
-The array parameter values are key, and values are prefix (the second parameter) and values.
-```js
-values.forEach((value) => {
-  definition[value] = prefix !== '' ? `${prefix}-${value}` : value;
-});
+
+3. Prefix a set of values:
+```typescript
+const actionTypes = ObjectMap.prefixKeys([
+    'init',
+    'initSuccess',
+    'reset',
+    'resetSuccess'
+], 'authModule');
+/* The shape of the object would be the following:
+{
+    init: 'authModule-init',
+    initSuccess: 'authModule-initSuccess',
+    reset: 'authModule-reset',
+    resetSuccess: 'authModule-resetSuccess',
+}
+
+However, in the typing system, the shape of the object is:
+{
+    init: string;
+    initSuccess: string;
+    reset: string;
+    resetSuccess: string;
+}
+
 ```
-Code is clear!
 
 ### DI
 1. Module decorator ==> registerModule

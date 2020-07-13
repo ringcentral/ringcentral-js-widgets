@@ -1,3 +1,8 @@
-import { createEnum } from '../lib/Enum';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 
-export default createEnum(['proxyInit', 'proxyInitSuccess']);
+export const proxyActionTypes = ObjectMap.fromKeys([
+  'proxyInit',
+  'proxyInitSuccess',
+]);
+
+export default proxyActionTypes;

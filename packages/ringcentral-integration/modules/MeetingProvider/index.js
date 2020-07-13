@@ -29,6 +29,7 @@ export default class MeetingProvider extends DataFetcher {
 
   async _subscriptionHandleFn(message) {
     if (message?.body?.hints?.includes(subscriptionHints.videoConfiguration)) {
+      // https://jira.ringcentral.com/browse/ENV-67087
       // the video configuration api may return the old value
       // when we try to query immediately right after got the push notification
       // here we wait for seconds as a workaround to solve the issue

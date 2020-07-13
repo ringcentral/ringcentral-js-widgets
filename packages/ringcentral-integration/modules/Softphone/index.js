@@ -6,7 +6,7 @@ import moduleStatuses from '../../enums/moduleStatuses';
 import actionTypes from './actionTypes';
 import getSoftphoneReducer from './getSoftphoneReducer';
 import proxify from '../../lib/proxy/proxify';
-
+import callingModes from '../CallingSettings/callingModes';
 /**
  * @class
  * @description Softphone module to call softphone
@@ -69,16 +69,48 @@ export default class Softphone extends RcModule {
     }
   }
 
+  // currently we only have RingCentral App(rc brand)'s universal link
+  get jupiterUniversalLink() {
+    switch (this._brand.id) {
+      case '3420': // ATT
+        return null;
+      case '7710': // BT
+        return null;
+      case '7310': // TELUS
+        return null;
+      default:
+        return 'https://app.ringcentral.com/r/';
+    }
+  }
+
+  // currently we only have RingCentral App(rc brand)'s protocol
+  get jupiterProtocol() {
+    switch (this._brand.id) {
+      case '3420': // ATT
+        return null;
+      case '7710': // BT
+        return null;
+      case '7310': // TELUS
+        return null;
+      default:
+        return 'rcapp';
+    }
+  }
+
   @proxify
-  async makeCall(phoneNumber) {
+  async makeCall(phoneNumber, callingMode) {
     this.store.dispatch({
       type: this.actionTypes.startToConnect,
       phoneNumber,
     });
 
     const cmd = `call?number=${encodeURIComponent(phoneNumber)}`;
-    const uri = `${this.protocol}://${cmd}`;
-
+    let uri = `${this.protocol}://${cmd}`;
+    const isCallWithJupiter =
+      callingMode && callingMode === callingModes.jupiter;
+    if (isCallWithJupiter) {
+      uri = `${this.jupiterProtocol}://r/call?number=${phoneNumber}`;
+    }
     if (this._callHandler) {
       this._callHandler({
         protocol: this.protocol,
@@ -100,7 +132,6 @@ export default class Softphone extends RcModule {
     } else {
       const frame = document.createElement('iframe');
       frame.style.display = 'none';
-
       document.body.appendChild(frame);
       await sleep(100);
       frame.contentWindow.location.href = uri;

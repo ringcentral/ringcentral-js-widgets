@@ -72,20 +72,34 @@ export default class ConversationLogger extends LoggerBase {
       actionTypes,
       identityFunction: conversationLogIdentityFunction,
     });
-    this._auth = this::ensureExist(auth, 'auth');
-    this._contactMatcher = this::ensureExist(contactMatcher, 'contactMatcher');
-    this._conversationMatcher = this::ensureExist(
+    this._auth = ensureExist.call(this, auth, 'auth');
+    this._contactMatcher = ensureExist.call(
+      this,
+      contactMatcher,
+      'contactMatcher',
+    );
+    this._conversationMatcher = ensureExist.call(
+      this,
       conversationMatcher,
       'conversationMatcher',
     );
-    this._dateTimeFormat = this::ensureExist(dateTimeFormat, 'dateTimeFormat');
-    this._extensionInfo = this::ensureExist(extensionInfo, 'extensionInfo');
-    this._messageStore = this::ensureExist(messageStore, 'messageStore');
-    this._rolesAndPermissions = this::ensureExist(
+    this._dateTimeFormat = ensureExist.call(
+      this,
+      dateTimeFormat,
+      'dateTimeFormat',
+    );
+    this._extensionInfo = ensureExist.call(
+      this,
+      extensionInfo,
+      'extensionInfo',
+    );
+    this._messageStore = ensureExist.call(this, messageStore, 'messageStore');
+    this._rolesAndPermissions = ensureExist.call(
+      this,
       rolesAndPermissions,
       'rolesAndPermissions',
     );
-    this._storage = this::ensureExist(storage, 'storage');
+    this._storage = ensureExist.call(this, storage, 'storage');
     this._tabManager = tabManager;
     this._isLoggedContact = isLoggedContact;
     this._formatDateTime = formatDateTime;

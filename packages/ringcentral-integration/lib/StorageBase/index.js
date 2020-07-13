@@ -1,11 +1,10 @@
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 import RcModule from '../RcModule';
 import { Library } from '../di';
-import { prefixEnum } from '../Enum';
 import SynchronizedStorage from '../SynchronizedStorage';
 
-import actionTypesBase from './actionTypesBase';
+import { actionTypesBase } from './actionTypesBase';
 import moduleStatuses from '../../enums/moduleStatuses';
-
 import getStorageReducer from './getStorageReducer';
 
 /**
@@ -19,7 +18,10 @@ import getStorageReducer from './getStorageReducer';
 export default class StorageBase extends RcModule {
   constructor({
     name,
-    actionTypes = prefixEnum({ enumMap: actionTypesBase, prefix: name }),
+    actionTypes = ObjectMap.prefixKeys(
+      [...ObjectMap.keys(actionTypesBase)],
+      name,
+    ),
     StorageProvider = SynchronizedStorage,
     ...options
   }) {

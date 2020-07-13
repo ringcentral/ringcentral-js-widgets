@@ -1,33 +1,37 @@
 import {
   action,
+  createSelector,
   RcModuleState,
   RcModuleV2,
   state,
   storage,
-  createSelector,
 } from '@ringcentral-integration/core';
 import { format, parse } from '@ringcentral-integration/phone-number';
 import { Module } from 'ringcentral-integration/lib/di';
 
-import { dropDownOptions, loginTypes, messageTypes } from '../../enums';
+import {
+  dropDownOptions,
+  LoginTypes,
+  loginTypes,
+  messageTypes,
+  tabManagerEvents,
+} from '../../enums';
 import {
   EvAvailableSkillProfile,
   EvConfigureAgentOptions,
-  EvMessageRes,
 } from '../../lib/EvClient';
+import { HeartBeat } from '../../lib/heartBeat';
 import { DepsModules, SessionConfig, State } from './EvSessionConfig.interface';
 import i18n from './i18n';
 
 const ACCEPTABLE_LOGIN_TYPES = [
+  loginTypes.integratedSoftphone,
   loginTypes.RC_PHONE,
   loginTypes.externalPhone,
-  // TODO: Temporarily remove
-  // loginTypes.integratedSoftphone,
 ];
-const DEFAULT_LOGIN_TYPE = loginTypes.RC_PHONE;
+const DEFAULT_LOGIN_TYPE = loginTypes.integratedSoftphone;
 
 const NONE = dropDownOptions.None;
-const AGENT_CONFIG_SUCCESS_EVENT = 'AgentConfigSuccess';
 
 type EvSessionConfigState = RcModuleState<EvSessionConfig, State>;
 
@@ -49,25 +53,24 @@ type EvSessionConfigState = RcModuleState<EvSessionConfig, State>;
 })
 class EvSessionConfig extends RcModuleV2<DepsModules, EvSessionConfigState>
   implements SessionConfig {
-  public onConfigSuccess: Function[] = [];
+  isForceLogin = false;
 
-  public onTriggerConfig: Function[] = [];
+  onConfigSuccess: Function[] = [];
 
-  private _lastConfigSuccess = false;
+  onTriggerConfig: Function[] = [];
 
-  private _configSuccessKey?: string;
+  clearCalls?: () => void;
 
-  private _configuringKey?: string;
+  private _heartBeat: HeartBeat;
 
-  private _heartBeatIntervalTime?: number;
+  get isConfigTab() {
+    return !this.tabManagerEnabled || this._heartBeat?.isSuccessByLocal;
+  }
 
-  private _heartBeatIntervalId = {
-    success: null,
-    configuring: null,
-  };
-
-  // for multiple tab using
-  private _configureAgentPromise: Promise<EvMessageRes>;
+  get shouldBlockBrowser() {
+    // when there is not integrated softphone and not has multiple tabs
+    return !this.isIntegratedSoftphone && !this.hasMultipleTabs;
+  }
 
   constructor({
     evClient,
@@ -97,19 +100,22 @@ class EvSessionConfig extends RcModuleV2<DepsModules, EvSessionConfigState>
       enableCache,
       storageKey: 'EvSessionConfig',
     });
-    this._modules.auth.addBeforeLogoutHandler(() => {
+
+    this._modules.evAuth.beforeAgentLogout(() => {
       this.resetAllConfig();
     });
+
     if (this.tabManagerEnabled) {
-      this._configSuccessKey = `${this._modules.tabManager._tabbie._prefix}configSuccess`;
-      this._configuringKey = `${this._modules.tabManager._tabbie._prefix}configuring`;
-      this._heartBeatIntervalTime = heartBeatInterval;
+      this._heartBeat = new HeartBeat(
+        `${this._modules.tabManager._tabbie.prefix}sessionConfig`,
+        heartBeatInterval,
+      );
     }
   }
 
   @storage
   @state
-  selectedSkillProfileId = NONE;
+  selectedSkillProfileId: string = NONE;
 
   @storage
   @state
@@ -117,7 +123,7 @@ class EvSessionConfig extends RcModuleV2<DepsModules, EvSessionConfigState>
 
   @storage
   @state
-  loginType = DEFAULT_LOGIN_TYPE;
+  loginType: LoginTypes = DEFAULT_LOGIN_TYPE;
 
   @storage
   @state
@@ -142,20 +148,20 @@ class EvSessionConfig extends RcModuleV2<DepsModules, EvSessionConfigState>
     return this.loginType === loginTypes.externalPhone;
   }
 
-  get isIntegrated() {
+  get isIntegratedSoftphone() {
     return this.loginType === loginTypes.integratedSoftphone;
-  }
-
-  get isConfigSuccessByLocal() {
-    return this._getConfigStatusByLocal(this._configSuccessKey);
-  }
-
-  get isConfiguringByLocal() {
-    return this._getConfigStatusByLocal(this._configuringKey);
   }
 
   get localStorage() {
     return window?.localStorage;
+  }
+
+  get tabManagerEnabled() {
+    return this._modules.tabManager?._tabbie.enabled;
+  }
+
+  get hasMultipleTabs() {
+    return this._modules.tabManager?.hasMultipleTabs;
   }
 
   getLoginTypeList = createSelector(
@@ -191,7 +197,7 @@ class EvSessionConfig extends RcModuleV2<DepsModules, EvSessionConfigState>
   getDefaultSkillProfile = createSelector(
     () => this.getSkillProfileList(),
     (skillProfileList) => {
-      const defaultSkill = this.pickSkillProfile(skillProfileList);
+      const defaultSkill = this._pickSkillProfile(skillProfileList);
       return defaultSkill ? defaultSkill.profileId : NONE;
     },
   );
@@ -206,7 +212,7 @@ class EvSessionConfig extends RcModuleV2<DepsModules, EvSessionConfigState>
         inboundSettings: { availableSkillProfiles = [] },
       } = agentConfig;
 
-      const defaultSkill = this.pickSkillProfile(availableSkillProfiles);
+      const defaultSkill = this._pickSkillProfile(availableSkillProfiles);
 
       if (!defaultSkill && availableSkillProfiles.length > 0) {
         availableSkillProfiles.unshift({
@@ -221,84 +227,135 @@ class EvSessionConfig extends RcModuleV2<DepsModules, EvSessionConfigState>
 
   @action
   resetAllConfig() {
-    this.state.selectedInboundQueueIds = [];
-    this.state.selectedSkillProfileId = NONE;
-    this.state.loginType = DEFAULT_LOGIN_TYPE;
-    this.state.extensionNumber = '';
-    this.state.takingCall = true;
-    this.state.autoAnswer = false;
-    this.state.configSuccess = false;
-    this.state.configured = false;
-    this._lastConfigSuccess = false;
+    this.selectedInboundQueueIds = [];
+    this.selectedSkillProfileId = NONE;
+    this.loginType = DEFAULT_LOGIN_TYPE;
+    this.extensionNumber = '';
+    this.takingCall = true;
+    this.autoAnswer = false;
+    this.configSuccess = false;
+    this.configured = false;
   }
 
   @action
   setConfigSuccess(status: boolean) {
-    this.state.configSuccess = status;
-    this.state.configured = status;
+    if (status) {
+      this._onConfigureAgentSuccess();
+    }
+
+    this.configSuccess = status;
+    this.configured = status;
   }
 
   @action
-  setLoginType(type: string) {
-    this.state.loginType = type;
+  setLoginType(type: LoginTypes) {
+    this.loginType = type;
   }
 
   @action
   setSkillProfileId(skillProfileId: string) {
-    this.state.selectedSkillProfileId = skillProfileId;
+    this.selectedSkillProfileId = skillProfileId;
   }
 
   @action
   setInboundQueueIds(ids: string[]) {
-    this.state.selectedInboundQueueIds = ids;
+    this.selectedInboundQueueIds = ids;
   }
 
   @action
   setExtensionNumber(extensionNumber: string) {
-    this.state.extensionNumber = extensionNumber;
+    this.extensionNumber = extensionNumber;
   }
 
   @action
   setTakingCall(takingCall: boolean) {
-    this.state.takingCall = takingCall;
+    this.takingCall = takingCall;
   }
 
   @action
-  setAutoAnswer(autoAnswer) {
-    this.state.autoAnswer = autoAnswer;
+  setAutoAnswer(autoAnswer: boolean) {
+    this.autoAnswer = autoAnswer;
   }
 
   @action
-  setConfig(skillProfileId: string, selectedInboundQueueIds: string[]) {
-    this.state.loginType = DEFAULT_LOGIN_TYPE;
-    this.state.extensionNumber = '';
-    this.state.takingCall = true;
-    this.state.autoAnswer = false;
-    this.state.configSuccess = false;
-    this.state.configured = false;
-    this._lastConfigSuccess = false;
+  setConfig({
+    selectedSkillProfileId,
+    selectedInboundQueueIds,
+  }: Pick<
+    EvSessionConfigState,
+    'selectedSkillProfileId' | 'selectedInboundQueueIds'
+  >) {
+    this.loginType = DEFAULT_LOGIN_TYPE;
+    this.extensionNumber = '';
+    this.takingCall = true;
+    this.autoAnswer = false;
+    this.configSuccess = false;
+    this.configured = false;
 
-    this.state.selectedSkillProfileId = skillProfileId;
-    this.state.selectedInboundQueueIds = selectedInboundQueueIds;
+    this.selectedSkillProfileId = selectedSkillProfileId;
+    this.selectedInboundQueueIds = selectedInboundQueueIds;
   }
 
-  setFreshConfig() {
-    this.setConfig(
-      this.getDefaultSkillProfile(),
-      this.getInboundQueues().map((inboundQueue) => inboundQueue.gateId)
+  _shouldInit() {
+    return (
+      super._shouldInit() &&
+      this._modules.auth.loggedIn &&
+      this._modules.evAuth.connected
     );
   }
 
+  onInitOnce() {
+    this._modules.evAuth.beforeAgentLogout(() => {
+      this.setConfigSuccess(false);
+      this._heartBeat?.destroy();
+    });
+  }
+
+  async onStateChange() {
+    if (
+      this.ready &&
+      this.tabManagerEnabled &&
+      this._modules.tabManager.ready
+    ) {
+      await this._checkTabManagerEvent();
+    }
+  }
+
+  private async _checkTabManagerEvent() {
+    const { event } = this._modules.tabManager;
+    if (event) {
+      // const data = event.args[0];
+      switch (event.name) {
+        case tabManagerEvents.AGENT_CONFIG_SUCCESS:
+          await this._multiLoginRequest();
+          break;
+        default:
+          break;
+      }
+    }
+  }
+
+  _shouldReset() {
+    return super._shouldReset() && !this._modules.auth.loggedIn;
+  }
+
+  setFreshConfig() {
+    this._clearCalls();
+
+    this.setConfig({
+      selectedSkillProfileId: this.getDefaultSkillProfile(),
+      selectedInboundQueueIds: this.getInboundQueues().map(
+        (inboundQueue) => inboundQueue.gateId,
+      ),
+    });
+  }
+
   afterLogin() {
-    // handle setting
-    if (this._modules.auth.isFreshLogin) {
-      this.setFreshConfig();
-    } else {
-      // check current skill is in list of skillList
+    // if that is not first login set SessionConfig data again
+    if (!this._modules.auth.isFreshLogin) {
       const checkSelectIsInList = this.getSkillProfileList().some(
         (profile) => profile.profileId === this.selectedSkillProfileId,
       );
-
       if (!checkSelectIsInList) {
         this.setSkillProfileId(this.getDefaultSkillProfile());
       }
@@ -321,49 +378,14 @@ class EvSessionConfig extends RcModuleV2<DepsModules, EvSessionConfigState>
     }
   }
 
-  _shouldInit() {
-    return (
-      super._shouldInit() &&
-      this._modules.auth.loggedIn &&
-      this._modules.evAuth.connected
-    );
-  }
-
-  _shouldReset() {
-    return super._shouldReset() && !this._modules.auth.loggedIn;
-  }
-
-  async getSessionConfig() {
-    await this._modules.evClient.getAgentConfig();
-  }
-
-  pickSkillProfile(skillProfileList: EvAvailableSkillProfile[]) {
-    return skillProfileList.find((item) => item.isDefault === '1');
-  }
-
-  async autoConfigureAgent() {
-    const isConfiguringByLocal = this.isConfiguringByLocal;
-    if (this.tabManagerEnabled && !isConfiguringByLocal) {
-      this._heartBeatOnConfiguring();
-    }
-    if (this.isConfigSuccessByLocal) {
-      try {
-        await this._modules.evClient.multiLoginRequest();
-        this.setConfigSuccess(true);
-        if (this.tabManagerEnabled) {
-          this._heartBeatOnConfigSuccess();
-        }
-        return;
-      } catch (e) {
-        console.log(e);
-      }
-    } else if (!this.tabManagerEnabled || !isConfiguringByLocal) {
-      await this.configureAgent();
-    }
-  }
-
-  async configureAgent() {
+  /**
+   * config agent in session config page
+   * @param triggerEvent is that should trigger event, default is true
+   */
+  async configureAgent(triggerEvent: boolean = true) {
     const config = this._checkFieldsResult();
+
+    this._clearCalls();
 
     let result = await this._connectEvServer(config);
 
@@ -371,9 +393,8 @@ class EvSessionConfig extends RcModuleV2<DepsModules, EvSessionConfigState>
       // Session timeout
       // this will occur when stay in session config page for long time
       if (result.data.status !== 'SUCCESS') {
-        this._modules.evClient.closeSocket();
-        this._modules.evClient.onInit();
-        await this._modules.evAuth.loginAgent();
+        await this._modules.evAuth.newReconnect(false);
+
         result = await this._connectEvServer(config);
       }
 
@@ -397,79 +418,56 @@ class EvSessionConfig extends RcModuleV2<DepsModules, EvSessionConfigState>
         throw new Error(message);
       }
 
-      this._onTriggerAgentConfig();
-
-      if (this.hasMultipleTabs) {
-        this._modules.tabManager.send(AGENT_CONFIG_SUCCESS_EVENT, true);
+      if (triggerEvent) {
+        this._onTriggerAgentConfig();
+        this._sendTabManager(tabManagerEvents.AGENT_CONFIG_SUCCESS);
       }
     }
-    this.setConfigSuccess(true);
+    if (triggerEvent) {
+      this.setConfigSuccess(true);
+    }
 
     if (this.tabManagerEnabled) {
-      this._heartBeatOnConfigSuccess();
+      this._heartBeat.heartBeatOnSuccess();
     }
   }
 
-  private _heartBeatOnConfigSuccess() {
-    if (typeof this._heartBeatIntervalId.success === 'number') return;
+  async autoConfigureAgent() {
+    if (this.tabManagerEnabled) {
+      const isConfiguringByLocal = this._heartBeat.isWorkingByLocal;
 
-    this._heartBeatIntervalId.success = setInterval(() => {
-      this.localStorage.setItem(this._configSuccessKey, Date.now().toString());
-    }, this._heartBeatIntervalTime);
-  }
+      if (!isConfiguringByLocal) {
+        this._heartBeat.heartBeatOnWorking();
+      }
 
-  private _heartBeatOnConfiguring() {
-    if (typeof this._heartBeatIntervalId.configuring === 'number') return;
-
-    this.localStorage.setItem(this._configuringKey, Date.now().toString());
-
-    this._heartBeatIntervalId.configuring = setInterval(() => {
-      this.localStorage.setItem(this._configuringKey, Date.now().toString());
-    }, this._heartBeatIntervalTime);
-  }
-
-  private _getConfigStatusByLocal(statusKey: string) {
-    return (
-      this.localStorage &&
-      Date.now() - Number(this.localStorage.getItem(statusKey)) <
-        this._heartBeatIntervalTime * 2 - 100
-    );
-  }
-
-  onReset() {
-    this._lastConfigSuccess = false;
-    this.setConfigSuccess(false);
-    clearInterval(this._heartBeatIntervalId.success);
-    this._heartBeatIntervalId.success = null;
-    clearInterval(this._heartBeatIntervalId.configuring);
-    this._heartBeatIntervalId.configuring = null;
-  }
-
-  async onStateChange() {
-    if (this.configSuccess && this._lastConfigSuccess !== this.configSuccess) {
-      this._lastConfigSuccess = this.configSuccess;
-      this._onConfigureAgentSuccess();
+      if (this._heartBeat.isSuccessByLocal) {
+        await this._multiLoginRequest();
+      } else if (!isConfiguringByLocal) {
+        await this.configureAgent();
+      }
+    } else {
+      await this.configureAgent();
     }
-    if (
-      this.ready &&
-      this.tabManagerEnabled &&
-      this._modules.tabManager.ready &&
-      this._modules.tabManager.event &&
-      this._modules.tabManager.event.name === AGENT_CONFIG_SUCCESS_EVENT &&
-      this._modules.tabManager.event.args[0]
-    ) {
-      await this._configureAgentPromise;
+  }
+
+  private async _multiLoginRequest() {
+    if (this.configSuccess) {
+      return;
+    }
+    try {
       await this._modules.evClient.multiLoginRequest();
+
       this.setConfigSuccess(true);
-      this._heartBeatOnConfigSuccess();
-      this._closeModal();
+
+      this._heartBeat.heartBeatOnSuccess();
+      return;
+    } catch (e) {
+      console.log(e);
     }
   }
 
-  private _closeModal() {
-    this._modules.modal.modalIds.forEach((id) => {
-      this._modules.modal.close(id);
-    });
+  private _pickSkillProfile(skillProfileList: EvAvailableSkillProfile[]) {
+    return skillProfileList.find((item) => item.isDefault === '1');
   }
 
   private _onConfigureAgentSuccess() {
@@ -493,10 +491,13 @@ class EvSessionConfig extends RcModuleV2<DepsModules, EvSessionConfigState>
   }
 
   private async _connectEvServer(config: EvConfigureAgentOptions) {
-    this._configureAgentPromise = this._modules.evClient.configureAgent(config);
-    let result = await this._configureAgentPromise;
-    if (result.data.status === messageTypes.EXISTING_LOGIN_FOUND) {
+    let result = await this._modules.evClient.configureAgent(config);
+
+    const { status } = result.data;
+
+    if (status === messageTypes.EXISTING_LOGIN_FOUND) {
       const { currentLocale } = this._modules.locale;
+
       // TODO: think about sync up in all tabs?
       const modalId = await this._modules.modal.confirmSync({
         title: i18n.getString('multipleLoginsTitle', currentLocale),
@@ -508,13 +509,15 @@ class EvSessionConfig extends RcModuleV2<DepsModules, EvSessionConfigState>
             ...config,
             isForce: true,
           });
+          this.isForceLogin = true;
         },
       });
 
       if (!modalId) {
-        throw new Error(result.data.status);
+        this.isForceLogin = false;
+        throw new Error(status);
       }
-    } else if (result.data.status === messageTypes.EXISTING_LOGIN_ENGAGED) {
+    } else if (status === messageTypes.EXISTING_LOGIN_ENGAGED) {
       this._modules.alert.danger({
         message: messageTypes.EXISTING_LOGIN_ENGAGED,
         ttl: 0,
@@ -524,14 +527,6 @@ class EvSessionConfig extends RcModuleV2<DepsModules, EvSessionConfigState>
     }
 
     return result;
-  }
-
-  get hasMultipleTabs() {
-    return this.tabManagerEnabled && this._modules.tabManager.hasMultipleTabs;
-  }
-
-  get tabManagerEnabled() {
-    return this._modules.tabManager?._tabbie.enabled;
   }
 
   private _checkFieldsResult(): EvConfigureAgentOptions {
@@ -584,6 +579,16 @@ class EvSessionConfig extends RcModuleV2<DepsModules, EvSessionConfigState>
       case loginTypes.RC_PHONE:
       default:
         return 'RC_PHONE';
+    }
+  }
+
+  private _sendTabManager(event: string, value?: any) {
+    this._modules.tabManager?.send(event, value);
+  }
+
+  private _clearCalls() {
+    if (typeof this.clearCalls === 'function') {
+      this.clearCalls();
     }
   }
 }

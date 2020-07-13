@@ -7,7 +7,7 @@ import {
 } from '../lib/EvClient/interfaces';
 
 export type EvCallData = EvBaseCall & {
-  contactMatches?: EvContactMatcheItem[];
+  contactMatches?: EvContactMatchItem[];
   matchedContacts?: any;
   endedCall?: EvEndedCall;
   session?: EvAddSessionNotification;
@@ -26,7 +26,7 @@ export type EvCallData = EvBaseCall & {
   objectType: string;
 };
 
-export interface EvContactMatcheItem {
+export interface EvContactMatchItem {
   id: string;
   type: SalesforceEntityType;
   name: string;
@@ -35,4 +35,8 @@ export interface EvContactMatcheItem {
 export interface EvEvRequeueCallGate {
   gateId: string;
   gateGroupId: string;
+}
+export interface EvIvrData {
+  subject: string;
+  body: string;
 }

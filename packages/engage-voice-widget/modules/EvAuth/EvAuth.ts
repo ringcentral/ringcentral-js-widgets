@@ -1,15 +1,16 @@
 import {
   action,
+  createSelector,
   RcModuleState,
   RcModuleV2,
   state,
   storage,
-  createSelector,
 } from '@ringcentral-integration/core';
 import format from '@ringcentral-integration/phone-number/lib/format';
-import { Module } from 'ringcentral-integration/lib/di';
 import EventEmitter from 'events';
-import { messageTypes, authStatus } from '../../enums';
+import { Module } from 'ringcentral-integration/lib/di';
+
+import { authStatus, messageTypes, tabManagerEvents } from '../../enums';
 import { EvAgentInfo } from '../../lib/EvClient';
 import { EvCallbackTypes } from '../../lib/EvClient/enums';
 import { sortByName } from '../../lib/sortByName';
@@ -25,26 +26,40 @@ type EvAuthState = RcModuleState<EvAuth, State>;
     'EvClient',
     'Auth',
     'Storage',
+    'Block',
     'Alert',
     'Locale',
     'RouterInteraction',
     'EvSubscription',
+    'TabManager',
     { dep: 'EvAuthOptions', optional: true },
   ],
 })
 class EvAuth extends RcModuleV2<DepsModules, EvAuthState> implements Auth {
   public connecting?: boolean;
 
-  public disconnecting?: boolean;
-
   private _eventEmitter = new EventEmitter();
+
+  public canUserLogoutFn: () => Promise<boolean> = async () => true;
+
+  private _logout = () => {
+    return this._modules.auth.logout({ dismissAllAlert: false });
+  };
+
+  private _logoutByOtherTab = false;
+
+  get tabManagerEnabled() {
+    return this._modules.tabManager?._tabbie.enabled;
+  }
 
   constructor({
     auth,
     alert,
+    block,
     locale,
     storage,
     evClient,
+    tabManager,
     evSubscription,
     routerInteraction,
     enableCache = true,
@@ -53,9 +68,11 @@ class EvAuth extends RcModuleV2<DepsModules, EvAuthState> implements Auth {
       modules: {
         auth,
         alert,
+        block,
         locale,
         storage,
         evClient,
+        tabManager,
         evSubscription,
         routerInteraction,
       },
@@ -108,7 +125,11 @@ class EvAuth extends RcModuleV2<DepsModules, EvAuthState> implements Auth {
     return this.agentSettings.autoAnswerCalls;
   }
 
-  private _getAvailableQueues = createSelector(
+  get availableQueues() {
+    return this.getAvailableQueues();
+  }
+
+  getAvailableQueues = createSelector(
     () => this.inboundSettings.availableQueues,
     (availableQueues) => [
       {
@@ -118,10 +139,6 @@ class EvAuth extends RcModuleV2<DepsModules, EvAuthState> implements Auth {
       ...sortByName(availableQueues, 'gateName'),
     ],
   );
-
-  get availableQueues() {
-    return this._getAvailableQueues();
-  }
 
   getAvailableRequeueQueues = createSelector(
     () => this.inboundSettings.availableRequeueQueues,
@@ -177,82 +194,110 @@ class EvAuth extends RcModuleV2<DepsModules, EvAuthState> implements Auth {
 
   @action
   setConnectionData({ connected, agent }: State) {
-    this.state.agent = agent;
-    this.state.connected = connected;
+    this.agent = agent;
+    this.connected = connected;
+  }
+
+  _shouldInit() {
+    return super._shouldInit() && this._modules.auth.loggedIn && this.connected;
   }
 
   onInitOnce() {
-    this._modules.evSubscription.subscribe(
-      EvCallbackTypes.LOGOUT,
-      async (data) => {
-        // TODO: check it about `data.message === 'OK'`?
-        // wait for fixing `LOGOUT` event missing issue about EV multiple socket
-        this._modules.auth.logout();
-      },
-    );
+    this._modules.evSubscription.subscribe(EvCallbackTypes.LOGOUT, async () => {
+      this._emitLogout();
+
+      // if that is logout by same browser that will only trigger emit
+      // if there is logout by other browser, that need redirect to home page,
+      if (!this._logoutByOtherTab) {
+        this._modules.alert.info({
+          message: messageTypes.FORCE_LOGOUT,
+        });
+
+        this._logoutByOtherTab = false;
+
+        this.newReconnect();
+      }
+    });
   }
 
-  onLogout(callback: () => void) {
+  async onStateChange() {
+    if (
+      this.ready &&
+      this.tabManagerEnabled &&
+      this._modules.tabManager.ready
+    ) {
+      this._checkTabManagerEvent();
+    }
+
+    if (this._modules.auth.loggedIn && !this.connected && !this.connecting) {
+      this.connecting = true;
+      // when login make sure the _logoutByOtherTab is false
+      this._logoutByOtherTab = false;
+
+      await this._loginAgent();
+      this.connecting = false;
+    }
+  }
+
+  async logout() {
+    if (!(await this.canUserLogoutFn())) {
+      return;
+    }
+
+    this._emitLogout();
+
+    const agentId = this.agentId;
+
+    if (this.tabManagerEnabled) {
+      this._modules.tabManager.send(tabManagerEvents.LOGOUT);
+    }
+
+    await this._modules.block.next(this._logout);
+
+    const logoutAgentResponse = await this.logoutAgent(agentId);
+
+    // TODO: error handle when logout fail
+    // TODO: when failed need tell other tab not logout => this._modules.tabManager.send(tabManagerEvents.LOGOUT);
+    if (!logoutAgentResponse.message || logoutAgentResponse.message !== 'OK') {
+      console.log('logoutAgent failed');
+      return;
+    }
+
+    this.setConnectionData({ connected: false, agent: {} });
+  }
+
+  logoutAgent(agentId: string = this.agentId) {
+    return this._modules.evClient.logoutAgent(agentId);
+  }
+
+  beforeAgentLogout(callback: () => void) {
     this._eventEmitter.on(authStatus.LOGOUT_BEFORE, callback);
   }
 
-  private _onLogout() {
-    this._eventEmitter.emit(authStatus.LOGOUT_BEFORE);
+  newReconnect(isBlock: boolean = true) {
+    this._modules.evClient.closeSocket();
+    if (isBlock) {
+      this._modules.routerInteraction.push('/sessionConfig');
+      return this._modules.block.next(this._loginAgent);
+    }
+
+    return this._loginAgent();
   }
 
-  async disconnect(agentId: string) {
-    this._onLogout();
-    // ensure that multi-tabs update state effect.
-    if (!agentId) {
-      console.log('agentId does not exist');
-      return;
-    }
+  private _loginAgent = async () => {
     try {
-      const logoutAgentResponse = await this._modules.evClient.logoutAgent(
-        agentId,
+      this._modules.evClient.initSDK();
+
+      const agent = await this._modules.evClient.loginAgent(
+        this._modules.auth.accessToken,
+        'Bearer',
       );
-      if (
-        !logoutAgentResponse.message ||
-        logoutAgentResponse.message !== 'OK'
-      ) {
-        // TODO: error handle
-        console.log('logoutAgent failed');
-        return;
-      }
-      this.setConnectionData({ connected: false, agent: {} });
-      // create a new AgentSDK instance
-      this._modules.evClient.onInit();
-    } catch (error) {
-      // TODO: error handle
-      console.error('disconnect failed');
-    }
-  }
+      this.setConnectionData({
+        connected: true,
+        agent,
+      });
 
-  async loginAgent() {
-    const agent = await this._modules.evClient.loginAgent(
-      this._modules.auth.accessToken,
-      'Bearer',
-    );
-
-    this.setConnectionData({
-      connected: true,
-      agent,
-    });
-
-    this._onLoginSuccess(agent);
-  }
-
-  onLoginSuccess(callback: (agent: EvAgentInfo) => void) {
-    this._eventEmitter.on(authStatus.LOGIN_SUCCESS, callback);
-  }
-
-  private _onLoginSuccess(agent: EvAgentInfo) {
-    this._eventEmitter.emit(authStatus.LOGIN_SUCCESS, agent);
-  }
-
-  async connect() {
-    try {
-      await this.loginAgent();
+      this._eventEmitter.emit(authStatus.LOGIN_SUCCESS, agent);
     } catch (error) {
       switch (error.type) {
         case messageTypes.NO_AGENT:
@@ -273,29 +318,30 @@ class EvAuth extends RcModuleV2<DepsModules, EvAuthState> implements Auth {
             message: messageTypes.CONNECT_ERROR,
           });
       }
-      await this._modules.auth.logout({ dismissAllAlert: false });
+      await this._logout();
     }
+  };
+
+  onLoginSuccess(callback: (agent: EvAgentInfo) => void) {
+    this._eventEmitter.on(authStatus.LOGIN_SUCCESS, callback);
   }
 
-  _shouldInit() {
-    return super._shouldInit() && this._modules.auth.loggedIn && this.connected;
-  }
-
-  async onStateChange() {
-    if (this._modules.auth.loggedIn && !this.connected && !this.connecting) {
-      this.connecting = true;
-      try {
-        await this.connect();
-      } catch (e) {
-        console.error(e);
+  private _checkTabManagerEvent() {
+    const { event } = this._modules.tabManager;
+    if (event) {
+      // const data = event.args[0];
+      switch (event.name) {
+        case tabManagerEvents.LOGOUT:
+          this._logoutByOtherTab = true;
+          break;
+        default:
+          break;
       }
-      this.connecting = false;
     }
-    if (!this._modules.auth.loggedIn && this.connected && !this.disconnecting) {
-      this.disconnecting = true;
-      await this.disconnect(this.agentId);
-      this.disconnecting = false;
-    }
+  }
+
+  private _emitLogout() {
+    this._eventEmitter.emit(authStatus.LOGOUT_BEFORE);
   }
 }
 

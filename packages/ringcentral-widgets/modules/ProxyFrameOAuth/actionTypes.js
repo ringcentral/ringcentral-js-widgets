@@ -1,7 +1,9 @@
-import Enum from 'ringcentral-integration/lib/Enum';
-import baseActionTypes from '../../lib/OAuthBase/baseActionTypes';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
+import { baseActionTypes } from '../../lib/OAuthBase/baseActionTypes';
 
-export default new Enum(
-  [...Object.keys(baseActionTypes), 'setupProxy', 'proxyRetry'],
+export const actionTypes = ObjectMap.prefixKeys(
+  [...ObjectMap.keys(baseActionTypes), 'setupProxy', 'proxyRetry'],
   'proxyFrameOAuth',
 );
+
+export default actionTypes;

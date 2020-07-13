@@ -13,6 +13,7 @@ export * from './messageTypes';
 export * from './requeueEvents';
 export * from './sfSearchTypes';
 export * from './softphoneEvents';
+export * from './tabManagerEvents';
 export * from './transferErrors';
 export * from './transferEvents';
 export * from './transferStatuses';

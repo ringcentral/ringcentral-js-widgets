@@ -5,6 +5,10 @@ import FormattedMessage from '../../FormattedMessage';
 
 import i18n from './i18n';
 
+const checkIsRcBrand = (brand) =>
+  brand &&
+  typeof brand === 'string' &&
+  brand.toLowerCase().indexOf('ringcentral') !== -1;
 function CallingSettingsAlert({
   message: { message },
   currentLocale,
@@ -16,13 +20,28 @@ function CallingSettingsAlert({
     case callingSettingsMessages.saveSuccessWithSoftphone:
     case callingSettingsMessages.webphonePermissionRemoved:
     case callingSettingsMessages.emergencyCallingNotAvailable:
+    case callingSettingsMessages.saveSuccessWithJupiter: {
+      let appName = brand;
+      const isRcBrand = checkIsRcBrand(brand);
+      if (
+        isRcBrand &&
+        message === callingSettingsMessages.saveSuccessWithSoftphone
+      ) {
+        appName = `${brand} Phone`;
+      }
+      if (
+        isRcBrand &&
+        message === callingSettingsMessages.saveSuccessWithJupiter
+      ) {
+        appName = `${brand} App`;
+      }
       return (
         <FormattedMessage
           message={i18n.getString(message)}
-          values={{ brand }}
+          values={{ brand: appName }}
         />
       );
-
+    }
     case callingSettingsMessages.permissionChanged:
     case callingSettingsMessages.phoneNumberChanged: {
       const link = onCallingSettingsLinkClick ? (
@@ -65,6 +84,7 @@ CallingSettingsAlert.handleMessage = ({ message }) =>
   message === callingSettingsMessages.permissionChanged ||
   message === callingSettingsMessages.webphonePermissionRemoved ||
   message === callingSettingsMessages.phoneNumberChanged ||
-  message === callingSettingsMessages.emergencyCallingNotAvailable;
+  message === callingSettingsMessages.emergencyCallingNotAvailable ||
+  message === callingSettingsMessages.saveSuccessWithJupiter;
 
 export default CallingSettingsAlert;

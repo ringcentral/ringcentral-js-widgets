@@ -25,7 +25,6 @@ type ModalState = RcModuleState<Modal, State>;
   deps: [],
 })
 export class Modal extends RcModuleV2<DepsModules, ModalState> {
-  @storage
   @state
   modalIds: string[] = [];
 
@@ -35,30 +34,27 @@ export class Modal extends RcModuleV2<DepsModules, ModalState> {
   getModals = createSelector(
     () => this.modalIds,
     () => this.modalMapping,
-    (modalIds, modalMapping: ModalMappingType) =>
-      modalIds.map((id) => modalMapping[id]),
+    (modalIds, modalMapping) => modalIds.map((id) => modalMapping[id]),
   );
 
   @action
   private _setListItem(id: string, data: ModalItem) {
     if (data.open) {
-      this.state.modalIds.push(id);
+      this.modalIds.push(id);
     }
-    this.state.modalMapping[id] = data;
+    this.modalMapping[id] = data;
+  }
+
+  @action
+  private _removeListItem(id: string) {
+    this.modalIds = this.modalIds.filter((modalId) => modalId !== id);
+    delete this.modalMapping[id];
   }
 
   private _close(id: string) {
     if (this.modalMapping[id]) {
       this._setListItem(id, { ...this.modalMapping[id], open: false });
     }
-  }
-
-  @action
-  private _removeListItem(id: string) {
-    this.state.modalIds = this.state.modalIds.filter(
-      (modalId) => modalId !== id,
-    );
-    delete this.state.modalMapping[id];
   }
 
   alert(props: AlertModalProps) {

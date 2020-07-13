@@ -61,6 +61,7 @@ export default class CallingSettings extends RcModule {
     callerId,
     emergencyCallAvailable = false,
     defaultRingoutPrompt,
+    showCallWithJupiter = true,
     ...options
   }) {
     super({
@@ -89,6 +90,7 @@ export default class CallingSettings extends RcModule {
     });
 
     this._reducer = getCallingSettingsReducer(this.actionTypes);
+    this._showCallWithJupiter = showCallWithJupiter;
   }
 
   initialize() {
@@ -346,6 +348,17 @@ export default class CallingSettings extends RcModule {
       if (this._webphone && webphoneEnabled) {
         callWithOptions.push(callingOptions.browser);
       }
+      // only rc brand support call with RingCentral App
+      if (
+        this._brand &&
+        (this._brand.code === 'rc' ||
+          (this._brand.brandConfig &&
+            this._brand.brandConfig.brandCode === 'rc')) &&
+        this._showCallWithJupiter
+      ) {
+        callWithOptions.push(callingOptions.jupiter);
+      }
+
       callWithOptions.push(callingOptions.softphone);
       if (ringoutEnabled) {
         callWithOptions.push(callingOptions.myphone);
@@ -437,6 +450,10 @@ export default class CallingSettings extends RcModule {
       if (this.callWith === callingOptions.softphone) {
         this._alert.info({
           message: callingSettingsMessages.saveSuccessWithSoftphone,
+        });
+      } else if (this.callWith === callingOptions.jupiter) {
+        this._alert.info({
+          message: callingSettingsMessages.saveSuccessWithJupiter,
         });
       } else {
         this._alert.info({

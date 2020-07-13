@@ -1,3 +1,8 @@
-import Enum from '../../lib/Enum';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 
-export default new Enum(['loading', 'loaded'], 'recentCallStatus');
+export const callStatus = ObjectMap.prefixKeys(
+  ['loading', 'loaded'],
+  'recentCallStatus',
+);
+
+export default callStatus;

@@ -1,6 +1,6 @@
-import Enum from '../../lib/Enum';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 
-export default new Enum(
+export const callingSettingsMessages = ObjectMap.prefixKeys(
   [
     'saveSuccess',
     'saveSuccessWithSoftphone',
@@ -8,6 +8,9 @@ export default new Enum(
     'phoneNumberChanged',
     'webphonePermissionRemoved',
     'emergencyCallingNotAvailable',
+    'saveSuccessWithJupiter',
   ],
   'callingSettingsMessages',
 );
+
+export default callingSettingsMessages;

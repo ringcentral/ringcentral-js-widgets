@@ -1,7 +1,9 @@
-import { createHashMap } from '../lib/HashMap';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 
-export default createHashMap({
+export const availabilityTypes = ObjectMap.fromObject({
   alive: 'Alive',
   deleted: 'Deleted',
   purged: 'Purged',
-});
+} as const);
+
+export default availabilityTypes;

@@ -1,3 +1,8 @@
-import Enum from '../../lib/Enum';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 
-export default new Enum(['startToConnect', 'connectComplete'], 'softphone');
+export const actionTypes = ObjectMap.prefixKeys(
+  ['startToConnect', 'connectComplete'],
+  'softphone',
+);
+
+export default actionTypes;

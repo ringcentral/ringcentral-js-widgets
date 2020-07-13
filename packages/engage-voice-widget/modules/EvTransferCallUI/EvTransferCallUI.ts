@@ -1,17 +1,15 @@
-import { RcUIModuleV2, createSelector } from '@ringcentral-integration/core';
+import { createSelector, RcUIModuleV2 } from '@ringcentral-integration/core';
 import { Module } from 'ringcentral-integration/lib/di';
 
 import { transferTypes } from '../../enums/transferTypes';
 import {
   EvTransferCallUIFunctions,
   EvTransferCallUIProps,
-  TextField,
+  EvTransferOption,
+  EvTransferViewPhoneBookItem,
   GoToRequeueGroupDetailPageParams,
 } from '../../interfaces/EvTransferCallUI.interface';
-import {
-  EvDirectAgentListItem,
-  EvTransferPhoneBookItem,
-} from '../../lib/EvClient';
+import { EvDirectAgentListItem } from '../../lib/EvClient';
 import { DepsModules, TransferCallUI } from './EvTransferCallUI.interface';
 import i18n from './i18n';
 import { getInternalTransferName } from './util';
@@ -79,7 +77,7 @@ class EvTransferCallUI extends RcUIModuleV2<DepsModules>
     return (
       this._modules.evRequeueCall.requeuing ||
       !this._modules.evRequeueCall.selectedGateId ||
-      !!this._modules.evCall.getCurrentCall().endedCall
+      !!this._modules.evCall.getCurrentCall()?.endedCall
     );
   }
 
@@ -147,9 +145,7 @@ class EvTransferCallUI extends RcUIModuleV2<DepsModules>
   }
 
   private _searchQueue(fromText: string, text: string) {
-    return (
-      fromText && text && fromText.toLowerCase().includes(text.toLowerCase())
-    );
+    return fromText?.toLowerCase().includes(text.toLowerCase());
   }
 
   private _submitSelection(queueId: string) {
@@ -183,6 +179,10 @@ class EvTransferCallUI extends RcUIModuleV2<DepsModules>
     () => this.getSelectedGate(),
     () => this.callId,
     () => this._modules.evRequeueCall.selectedQueueGroupId,
+    () => this._modules.evRequeueCall.getAllowRequeueCall(),
+    () => this._modules.evTransferCall.getAllowTransferCall(),
+    () => this.selectQueueGroupDisabled,
+    () => this.gateDisabled,
     (
       currentLocale,
       allowInternalTransfer,
@@ -191,13 +191,16 @@ class EvTransferCallUI extends RcUIModuleV2<DepsModules>
       selectedGate,
       callId,
       selectedQueueGroupId,
-    ) => {
+      allowRequeueCall,
+      allowTransferCall,
+      selectQueueGroupDisabled,
+      gateDisabled,
+    ): EvTransferOption[] => {
       const number = this.evTransferCall.getNumber() || '';
       const currentRouteUrl = `/activityCallLog/${callId}/transferCall`;
-      const noTransferType = !this.evTransferCall.transferType;
-      const noSelectedQueueGroup = !selectedQueueGroup;
+
       return [
-        ...(allowInternalTransfer
+        ...(allowTransferCall && allowInternalTransfer
           ? [
               {
                 type: transferTypes.internal,
@@ -211,84 +214,90 @@ class EvTransferCallUI extends RcUIModuleV2<DepsModules>
                       currentLocale,
                     ),
                     value: selectedCallRecipient,
-                    disabled: noTransferType,
-                    readonly: noTransferType,
                   },
                 ],
               },
             ]
           : []),
-        {
-          type: transferTypes.phoneBook,
-          label: i18n.getString(transferTypes.phoneBook, currentLocale),
-          textFields: [
-            {
-              router: `${currentRouteUrl}/phoneBook`,
-              label: i18n.getString('callRecipientName', currentLocale),
-              placeholder: i18n.getString(
-                'callRecipientNamePlaceholder',
-                currentLocale,
-              ),
-              value: selectedCallRecipient,
-              disabled: noTransferType,
-              readonly: noTransferType,
-            },
-            {
-              label: i18n.getString('callRecipientNumber', currentLocale),
-              placeholder: i18n.getString(
-                'callRecipientNumberPlaceholder',
-                currentLocale,
-              ),
-              value: number,
-              readonly: true,
-            },
-          ],
-        },
-        {
-          type: transferTypes.queue,
-          label: i18n.getString(transferTypes.queue, currentLocale),
-          textFields: [
-            {
-              router: `${currentRouteUrl}/queueGroup`,
-              label: i18n.getString('queueGroup', currentLocale),
-              placeholder: i18n.getString(
-                'callRecipientNamePlaceholder',
-                currentLocale,
-              ),
-              value: selectedQueueGroup?.groupName,
-              disabled: noTransferType,
-              readonly: noTransferType,
-            },
-            {
-              router: `${currentRouteUrl}/queueGroup/${selectedQueueGroupId}`,
-              label: i18n.getString('queueDetail', currentLocale),
-              placeholder: i18n.getString(
-                'callRecipientNamePlaceholder',
-                currentLocale,
-              ),
-              value: selectedGate?.gateName,
-              disabled: noTransferType || noSelectedQueueGroup,
-              readonly: noTransferType || noSelectedQueueGroup,
-            },
-          ],
-        },
-        {
-          type: transferTypes.manualEntry,
-          label: i18n.getString(transferTypes.manualEntry, currentLocale),
-          textFields: [
-            {
-              router: `${currentRouteUrl}/manualEntry`,
-              label: i18n.getString('phoneNumber', currentLocale),
-              placeholder: i18n.getString(
-                'enterThePhoneNumberPlaceholder',
-                currentLocale,
-              ),
-              value: selectedCallRecipient,
-              disabled: noTransferType,
-              readonly: noTransferType,
-            },
-          ],
-        },
+        ...(allowTransferCall
+          ? [
+              {
+                type: transferTypes.phoneBook,
+                label: i18n.getString(transferTypes.phoneBook, currentLocale),
+                textFields: [
+                  {
+                    router: `${currentRouteUrl}/phoneBook`,
+                    label: i18n.getString('callRecipientName', currentLocale),
+                    placeholder: i18n.getString(
+                      'callRecipientNamePlaceholder',
+                      currentLocale,
+                    ),
+                    value: selectedCallRecipient,
+                  },
+                  {
+                    label: i18n.getString('callRecipientNumber', currentLocale),
+                    placeholder: i18n.getString(
+                      'callRecipientNumberPlaceholder',
+                      currentLocale,
+                    ),
+                    value: number,
+                    readonly: true,
+                  },
+                ],
+              },
+            ]
+          : []),
+        ...(allowRequeueCall
+          ? [
+              {
+                type: transferTypes.queue,
+                label: i18n.getString(transferTypes.queue, currentLocale),
+                textFields: [
+                  {
+                    router: `${currentRouteUrl}/queueGroup`,
+                    label: i18n.getString('queueGroup', currentLocale),
+                    placeholder: i18n.getString(
+                      'callRecipientNamePlaceholder',
+                      currentLocale,
+                    ),
+                    value: selectedQueueGroup?.groupName,
+                    disabled: selectQueueGroupDisabled,
+                    readonly: selectQueueGroupDisabled,
+                  },
+                  {
+                    router: `${currentRouteUrl}/queueGroup/${selectedQueueGroupId}`,
+                    label: i18n.getString('queueDetail', currentLocale),
+                    placeholder: i18n.getString(
+                      'callRecipientNamePlaceholder',
+                      currentLocale,
+                    ),
+                    value: selectedGate?.gateName,
+                    disabled: gateDisabled,
+                    readonly: gateDisabled,
+                  },
+                ],
+              },
+            ]
+          : []),
+        ...(allowTransferCall
+          ? [
+              {
+                type: transferTypes.manualEntry,
+                label: i18n.getString(transferTypes.manualEntry, currentLocale),
+                textFields: [
+                  {
+                    router: `${currentRouteUrl}/manualEntry`,
+                    label: i18n.getString('phoneNumber', currentLocale),
+                    placeholder: i18n.getString(
+                      'enterThePhoneNumberPlaceholder',
+                      currentLocale,
+                    ),
+                    value: selectedCallRecipient,
+                  },
+                ],
+              },
+            ]
+          : []),
       ];
     },
   );
@@ -382,14 +391,12 @@ class EvTransferCallUI extends RcUIModuleV2<DepsModules>
   getTextFields = createSelector(
     () => this.getTransferOptions(),
     () => this.evTransferCall.transferType,
-    (
-      transferOptions: EvTransferCallUIProps['transferOptions'],
-      transferType: string,
-    ): TextField[] => {
-      const { textFields } = transferOptions.find(
+    (transferOptions, transferType) => {
+      const transferOption = transferOptions.find(
         ({ type }) => type === transferType,
       );
-      return textFields;
+
+      return transferOption ? transferOption.textFields : [];
     },
   );
 
@@ -425,6 +432,7 @@ class EvTransferCallUI extends RcUIModuleV2<DepsModules>
     const name = (`${firstName}${lastName}` || options.username)
       .replace(blankRegex, '')
       .toLowerCase();
+
     const keywords = text
       .toLowerCase()
       .trim()
@@ -436,11 +444,19 @@ class EvTransferCallUI extends RcUIModuleV2<DepsModules>
     );
   }
 
-  protected _searchPhoneBook(option: EvTransferPhoneBookItem, text: string) {
+  protected _searchPhoneBook(
+    {
+      phoneBookName,
+      destination,
+      parsedDestination,
+    }: EvTransferViewPhoneBookItem,
+    text: string,
+  ) {
+    const searchText = text.toLowerCase();
     return (
-      (text && option.name?.toLowerCase().includes(text.toLowerCase())) ||
-      option.destination?.includes(text) || // TODO: think about `trim`?
-      (option._parsedDestination && option._parsedDestination.includes(text))
+      phoneBookName?.toLowerCase().includes(searchText) ||
+      destination?.includes(searchText) ||
+      parsedDestination?.includes(searchText)
     );
   }
 
@@ -505,9 +521,6 @@ class EvTransferCallUI extends RcUIModuleV2<DepsModules>
       // selected object
       selectedQueueGroup: this.getSelectedQueueGroup(),
       selectedGate: this.getSelectedGate(),
-      // disabled
-      gateDisabled: this.gateDisabled,
-      selectQueueGroupDisabled: this.selectQueueGroupDisabled,
     };
   }
 

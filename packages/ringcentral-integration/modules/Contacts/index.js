@@ -38,7 +38,7 @@ export default class Contacts extends RcModule {
       ...options,
       actionTypes,
     });
-    this._auth = this::ensureExist(auth, 'auth');
+    this._auth = ensureExist.call(this, auth, 'auth');
     this._reducer = getContactsReducer(this.actionTypes);
     this._contactSources = new Map();
     this._sourcesLastStatus = new Map();

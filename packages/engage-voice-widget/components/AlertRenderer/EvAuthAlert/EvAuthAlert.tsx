@@ -26,4 +26,5 @@ EvAuthAlert.handleMessage = ({ message }: { message: string }) =>
     messageTypes.CONNECT_TIMEOUT,
     messageTypes.OPEN_SOCKET_ERROR,
     messageTypes.EXISTING_LOGIN_ENGAGED,
+    messageTypes.FORCE_LOGOUT,
   ]);

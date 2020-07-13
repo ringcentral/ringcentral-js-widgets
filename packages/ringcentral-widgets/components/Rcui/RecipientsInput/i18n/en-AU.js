@@ -1,5 +1,5 @@
 export default {
-  dialPlaceholder: "Enter Name or Number"
+  dialPlaceholder: "Enter name or number"
 };
 
 // @key: @#@"dialPlaceholder"@#@ @source: @#@"Enter Name or Number"@#@

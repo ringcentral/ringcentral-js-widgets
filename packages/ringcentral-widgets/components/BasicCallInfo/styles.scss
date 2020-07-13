@@ -17,6 +17,10 @@ $classic-page-space: 12px;
 
   header {
     margin: 4px 0 0 8px;
+    [sf-classic] & {
+      position: absolute;
+      margin: 12px 0 0 4px;
+    }
   }
   main {
     overflow: auto;
@@ -28,7 +32,6 @@ $classic-page-space: 12px;
   overflow: hidden;
   position: relative;
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.15);
-  margin-bottom: 6px;
 }
 
 .root {
@@ -41,17 +44,12 @@ $classic-page-space: 12px;
   }
 }
 
-.root,
-.infoList {
+.root {
   padding: 0 $lightning-page-space;
 
   [sf-classic] & {
     padding: 0 $classic-page-space;
   }
-}
-
-.infoList {
-  margin: 8px 0;
 }
 
 .bottom {
@@ -70,6 +68,16 @@ $classic-page-space: 12px;
   flex: 1 1 auto;
 }
 
+.infoList {
+  padding: 0px !important;
+}
+
+.infoMain {
+  [sf-classic] & {
+    padding-left: 36px !important;
+  }
+}
+
 .rightIcon {
   align-self: flex-start;
   margin-top: 8px;
@@ -77,4 +85,9 @@ $classic-page-space: 12px;
   [sf-classic] & {
     transform: translateX(12px);
   }
+}
+
+.content {
+  align-items: start;
+  flex-direction: column;
 }

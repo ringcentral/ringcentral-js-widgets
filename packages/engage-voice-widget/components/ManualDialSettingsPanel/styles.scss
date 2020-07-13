@@ -9,10 +9,6 @@
   }
 }
 
-.backHeader {
-  @include backHeaderWrapper();
-}
-
 .footer {
   margin: 20px $lightning-page-space;
   [sf-classic] & {

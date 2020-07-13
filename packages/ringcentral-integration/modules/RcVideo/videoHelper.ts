@@ -5,6 +5,9 @@ import {
   RcVMeetingModel,
   RcvGSuiteMeetingModel,
   RcVideoAPI,
+  RcVPreferencesGET,
+  RcVPreferences,
+  RcVPreferencesPATCH,
 } from '../../models/rcv.model';
 
 /* TODO: this meetingProviderTypes is only used for calender-addon
@@ -23,6 +26,29 @@ const RcVideoTypes: RcVideoTypesProps = {
 
 const RCV_PASSWORD_REGEX = /^[A-Za-z0-9]{1,10}$/;
 const DEFAULT_JBH = false;
+const RCV_CREATE_API_KEYS: Array<keyof RcVideoAPI> = [
+  'name',
+  'type',
+  'allowJoinBeforeHost',
+  'muteAudio',
+  'muteVideo',
+  'isMeetingSecret',
+  'meetingPassword',
+  'expiresIn',
+];
+const RCV_PREFERENCES_API_KEYS: Array<keyof RcVPreferencesGET> = [
+  'join_before_host',
+  // 'join_video_off',
+  // 'join_audio_mute',
+  'password_scheduled',
+  'password_instant',
+];
+const RCV_PREFERENCES_KEYS: Array<keyof RcVPreferences> = [
+  'isMeetingSecret',
+  'allowJoinBeforeHost',
+  // 'muteVideo',
+  // 'muteAudio'
+];
 
 /* RCINT-14566
  * Exclude characters that are hard to visually differentiate ["0", "o", "O", "I", "l"]
@@ -121,22 +147,65 @@ function getTopic(extensionName: string, brandName: string) {
   return `${extensionName}'s ${brandName} Meeting`;
 }
 
-const rcVideoApiPayload: Array<keyof RcVideoAPI> = [
-  'name',
-  'type',
-  'allowJoinBeforeHost',
-  'muteAudio',
-  'muteVideo',
-  'isMeetingSecret',
-  'meetingPassword',
-  'expiresIn',
-];
-
 /**
  * Remove client side properties before sending to RCV API
  */
 function pruneMeetingObject(meeting: RcVMeetingModel): RcVideoAPI {
-  return pick(rcVideoApiPayload, meeting);
+  return pick(RCV_CREATE_API_KEYS, meeting);
+}
+
+function transformPreferences(
+  preferences: RcVPreferencesGET,
+  isInstantMeeting = false,
+): RcVPreferences {
+  return {
+    isMeetingSecret: isInstantMeeting
+      ? preferences.password_instant
+      : preferences.password_scheduled,
+    allowJoinBeforeHost: preferences.join_before_host,
+    // muteVideo: preferences.join_video_off,
+    // muteAudio: preferences.join_audio_mute,
+  };
+}
+
+function reversePreferences(
+  preferences: RcVPreferences,
+  isInstantMeeting = false,
+): RcVPreferencesPATCH {
+  const result = {
+    join_before_host: preferences.allowJoinBeforeHost,
+    // join_video_off: preferences.muteVideo,
+    // join_audio_mute: preferences.muteAudio,
+  } as RcVPreferencesPATCH;
+  if (isInstantMeeting) {
+    result.password_instant = preferences.isMeetingSecret;
+  } else {
+    result.password_scheduled = preferences.isMeetingSecret;
+  }
+  return result;
+}
+
+/**
+ * Reserve only preferences fields
+ */
+function prunePreferencesObject(meeting: RcVMeetingModel): RcVPreferences {
+  return pick(RCV_PREFERENCES_KEYS, meeting);
+}
+
+function comparePreferences(
+  preferences: RcVPreferences,
+  meeting: RcVMeetingModel,
+): boolean {
+  let preferencesChanged = false;
+  if (preferences && meeting) {
+    for (const key in preferences) {
+      if (preferences[key] !== meeting[key]) {
+        preferencesChanged = true;
+        break;
+      }
+    }
+  }
+  return preferencesChanged;
 }
 
 // TODO: will remove this when google app script could support export seperately
@@ -144,6 +213,7 @@ function pruneMeetingObject(meeting: RcVMeetingModel): RcVideoAPI {
 export {
   DEFAULT_JBH,
   RCV_PASSWORD_REGEX,
+  RCV_PREFERENCES_API_KEYS,
   RcVideoTypes,
   meetingProviderTypes,
   getDefaultChars,
@@ -154,4 +224,8 @@ export {
   getDefaultVideoSettings,
   getTopic,
   pruneMeetingObject,
+  transformPreferences,
+  reversePreferences,
+  prunePreferencesObject,
+  comparePreferences,
 };

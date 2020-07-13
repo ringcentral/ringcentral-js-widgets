@@ -1,0 +1,24 @@
+$lightning-page-space: 16px;
+$classic-page-space: 12px;
+
+.listItem {
+  padding: 0px $lightning-page-space !important;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  height: 56px;
+  &:hover {
+    .copyBtn{
+      visibility: visible;
+    }
+  }
+  [sf-classic] & {
+    padding-left: 36px !important;
+  }
+}
+
+.copyBtn {
+  cursor: pointer;
+  visibility: hidden;
+  margin-left: 6px;
+}

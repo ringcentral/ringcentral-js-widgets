@@ -1,9 +1,9 @@
-import { createEnum } from '../../lib/Enum';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 import { moduleActionTypes } from '../../enums/moduleActionTypes';
 
-export default createEnum(
+export default ObjectMap.prefixKeys(
   [
-    ...Object.keys(moduleActionTypes),
+    ...ObjectMap.keys(moduleActionTypes),
     'toNumberChanged',
     'toNumberMatched',
     'cleanToNumberEntities',

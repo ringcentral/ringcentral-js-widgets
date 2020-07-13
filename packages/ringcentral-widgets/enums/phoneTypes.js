@@ -1,7 +1,7 @@
-import Enum from 'ringcentral-integration/lib/Enum';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 
 // FIXME: delete this after syncing up
-export default new Enum([
+export const phoneTypes = ObjectMap.fromKeys([
   'business',
   'extension',
   'home',
@@ -13,3 +13,5 @@ export default new Enum([
   'fax',
   'other',
 ]);
+
+export default phoneTypes;

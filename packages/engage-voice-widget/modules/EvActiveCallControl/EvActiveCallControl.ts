@@ -1,11 +1,11 @@
 import { RcModuleV2 } from '@ringcentral-integration/core';
 import { Module } from 'ringcentral-integration/lib/di';
 
+import { tabManagerEvents } from '../../enums';
 import {
   ActiveCallControl,
   DepsModules,
 } from './EvActiveCallControl.interface';
-import { loginTypes } from '../../enums';
 
 @Module({
   name: 'EvActiveCallControl',
@@ -14,48 +14,45 @@ import { loginTypes } from '../../enums';
     'EvSettings',
     'Presence',
     'EvIntegratedSoftphone',
+    'EvSessionConfig',
+    { dep: 'TabManager', optional: true },
     { dep: 'EvActiveCallControlOptions', optional: true },
   ],
 })
 class EvActiveCallControl extends RcModuleV2<DepsModules>
   implements ActiveCallControl {
-  get isIntegratedSoftphone() {
-    return (
-      this._modules.evSettings.loginType === loginTypes.integratedSoftphone
-    );
+  get tabManagerEnabled() {
+    return this._modules.tabManager?._tabbie.enabled;
   }
 
   constructor({
     evClient,
     presence,
     evSettings,
+    tabManager,
     evIntegratedSoftphone,
+    evSessionConfig,
     ...options
   }) {
     super({
       modules: {
         evClient,
         evSettings,
+        tabManager,
         presence,
         evIntegratedSoftphone,
+        evSessionConfig,
       },
       ...options,
     });
   }
 
   mute() {
-    console.log('mute');
-
-    if (this.isIntegratedSoftphone) {
-      this._modules.evIntegratedSoftphone.sipToggleMute(true);
-    }
+    this._sipToggleMute(true);
   }
 
   unmute() {
-    console.log('unmute');
-    if (this.isIntegratedSoftphone) {
-      this._modules.evIntegratedSoftphone.sipToggleMute(false);
-    }
+    this._sipToggleMute(false);
   }
 
   hangUp(sessionId: string) {
@@ -67,11 +64,11 @@ class EvActiveCallControl extends RcModuleV2<DepsModules>
   }
 
   hold() {
-    this.changeOnHoldState(true);
+    this._changeOnHoldState(true);
   }
 
   unhold() {
-    this.changeOnHoldState(false);
+    this._changeOnHoldState(false);
   }
 
   hangupSession({ sessionId }) {
@@ -87,8 +84,17 @@ class EvActiveCallControl extends RcModuleV2<DepsModules>
     return this._modules.presence.callsMapping[id];
   }
 
-  private changeOnHoldState(state: boolean) {
+  private _changeOnHoldState(state: boolean) {
     this._modules.evClient.hold(state);
+  }
+
+  private _sipToggleMute(state: boolean) {
+    if (this._modules.evSessionConfig.isIntegratedSoftphone) {
+      if (this.tabManagerEnabled) {
+        this._modules.tabManager.send(tabManagerEvents.MUTE, state);
+      }
+      this._modules.evIntegratedSoftphone.sipToggleMute(state);
+    }
   }
 }
 

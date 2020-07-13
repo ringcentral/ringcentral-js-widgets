@@ -27,4 +27,5 @@ EvCallAlert.handleMessage = ({ message }: { message: string }) =>
     messageTypes.ADD_SESSION_ERROR,
     messageTypes.DROP_SESSION_ERROR,
     messageTypes.HOLD_ERROR,
+    messageTypes.LOGOUT_FAIL_WITH_CALL_CONNECTED,
   ]);

@@ -1,3 +1,3 @@
-import { createEnum } from 'ringcentral-integration/lib/Enum';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 
-export const dropDownOptions = createEnum(['None']);
+export const dropDownOptions = ObjectMap.fromKeys(['None']);

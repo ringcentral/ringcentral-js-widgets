@@ -6,6 +6,7 @@ import { EvClient } from '../../lib/EvClient';
 import { EvAuth } from '../EvAuth';
 import { EvCall } from '../EvCall';
 import { EvCallMonitor } from '../EvCallMonitor';
+import { EvIntegratedSoftphone } from '../EvIntegratedSoftphone';
 import { EvSessionConfig } from '../EvSessionConfig';
 import { EvSettings } from '../EvSettings';
 import { EvWorkingState } from '../EvWorkingState';
@@ -25,6 +26,7 @@ export interface DepsModules {
   evCallMonitor: EvCallMonitor;
   evWorkingState: EvWorkingState;
   evSessionConfig: EvSessionConfig;
+  evIntegratedSoftphone: EvIntegratedSoftphone;
   environment: EvEnvironment;
 }
 

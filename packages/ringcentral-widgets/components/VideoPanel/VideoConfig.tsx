@@ -465,7 +465,9 @@ const InnerTopic: React.FunctionComponent<{
 
 export const Topic = React.memo(
   InnerTopic,
-  (prevProps, nextProps) => prevProps.name === nextProps.name,
+  (prevProps, nextProps) =>
+    prevProps.name === nextProps.name &&
+    prevProps.currentLocale === nextProps.currentLocale,
 );
 
 VideoConfig.defaultProps = {

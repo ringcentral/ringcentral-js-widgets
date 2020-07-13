@@ -4,7 +4,7 @@ export default {
   hangup: "Hang up",
   reject: "Reject",
   hold: "Hold",
-  onHold: "On Hold",
+  onHold: "On hold",
   transfer: "Transfer"
 };
 

@@ -1,10 +1,10 @@
-import * as R from 'ramda';
+import { find, isEmpty, reduce } from 'ramda';
 import moment from 'moment';
 import {
   isValidNumber,
   isSameLocalNumber,
 } from '@ringcentral-integration/phone-number';
-import HashMap from './HashMap';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap'
 import callActions from '../enums/callActions';
 import callDirections from '../enums/callDirections';
 import callResults from '../enums/callResults';
@@ -29,17 +29,24 @@ export function isRingingInboundCall(call) {
   return isRinging(call) && isInbound(call);
 }
 
-const callResultsToMissedMap = HashMap.fromSet({
-  set: Object.keys(callResults).map((key) => callResults[key]),
-  getValue: (result) =>
-    [
-      callResults.missed,
-      callResults.hangUp,
-      callResults.busy,
-      callResults.voicemail,
-      callResults.rejected,
-    ].indexOf(result) > -1,
-});
+const callResultsToMissedMap = ObjectMap.fromObject(
+  reduce(
+    (result, key) => {
+      result[callResults[key]] = !!find((item) => item === callResults[key], [
+        callResults.missed,
+        callResults.hangUp,
+        // callResults.HangUp,
+        callResults.busy,
+        callResults.voicemail,
+        callResults.rejected,
+      ]);
+      return result;
+    },
+    {},
+    Object.keys(callResults),
+  ),
+);
+
 export function isMissed(call = {}) {
   return !!callResultsToMissedMap[call.result];
 }
@@ -262,7 +269,7 @@ export function getPhoneNumberMatches(call = {}) {
     toMatches,
     fromMatches,
   } = call;
-  if (R.isEmpty(call)) {
+  if (isEmpty(call)) {
     return {};
   }
   const isOutboundCall = isOutbound(call);

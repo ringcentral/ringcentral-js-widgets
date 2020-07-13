@@ -1,7 +1,7 @@
 export default {
   from: "From",
   to: "To",
-  enterNameOrNumber: "Enter Number or Name",
+  enterNameOrNumber: "Enter number or name...",
   typeMessage: "Type message...",
   send: "Send"
 };

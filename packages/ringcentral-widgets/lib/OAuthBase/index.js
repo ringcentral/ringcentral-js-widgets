@@ -1,5 +1,5 @@
 import RcModule from 'ringcentral-integration/lib/RcModule';
-import { prefixEnum } from 'ringcentral-integration/lib/Enum';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 import { Module } from 'ringcentral-integration/lib/di';
 import ensureExist from 'ringcentral-integration/lib/ensureExist';
 import proxify from 'ringcentral-integration/lib/proxy/proxify';
@@ -9,7 +9,7 @@ import qs from 'qs';
 import url from 'url';
 
 import parseCallbackUri from '../parseCallbackUri';
-import baseActionTypes from './baseActionTypes';
+import { baseActionTypes } from './baseActionTypes';
 import getOAuthBaseReducer from './getOAuthBaseReducer';
 
 const DEFAULT_UI_OPTIONS = ['hide_remember_me', 'hide_tos'];
@@ -36,18 +36,21 @@ export default class OAuthBase extends RcModule {
     super({
       ...options,
     });
-    this._alert = this::ensureExist(alert, 'alert');
-    this._auth = this::ensureExist(auth, 'auth');
-    this._brand = this::ensureExist(brand, 'brand');
-    this._locale = this::ensureExist(locale, 'locale');
+    this._alert = ensureExist.call(this, alert, 'alert');
+    this._auth = ensureExist.call(this, auth, 'auth');
+    this._brand = ensureExist.call(this, brand, 'brand');
+    this._locale = ensureExist.call(this, locale, 'locale');
     this._tabManager = tabManager;
-    this._redirectUri = this::ensureExist(redirectUri, 'redirectUri');
+    this._redirectUri = ensureExist.call(this, redirectUri, 'redirectUri');
     this._reducer = getOAuthBaseReducer(this.actionTypes);
     this._extralUIOptions = extralUIOptions;
   }
 
   get _actionTypes() {
-    return prefixEnum({ enumMap: baseActionTypes, prefix: this.name });
+    return ObjectMap.prefixKeys(
+      [...ObjectMap.keys(baseActionTypes)],
+      this.name,
+    );
   }
 
   @required

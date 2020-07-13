@@ -2,6 +2,8 @@ import Alert from 'ringcentral-integration/modules/Alert';
 import RcAuth from 'ringcentral-integration/modules/Auth';
 import Locale from 'ringcentral-integration/modules/Locale';
 import Storage from 'ringcentral-integration/modules/Storage';
+import TabManager from 'ringcentral-integration/modules/TabManager';
+import { Block } from 'ringcentral-widgets/modules/Block';
 import RouterInteraction from 'ringcentral-widgets/modules/RouterInteraction';
 
 import { EvAgent, EvAgentConfig, EvClient } from '../../lib/EvClient';
@@ -24,7 +26,9 @@ export interface DepsModules {
   routerInteraction: RouterInteraction;
   evClient: EvClient;
   auth: RcAuth;
+  block: Block;
   evSubscription: EvSubscription;
+  tabManager?: TabManager;
 }
 
 export interface State {

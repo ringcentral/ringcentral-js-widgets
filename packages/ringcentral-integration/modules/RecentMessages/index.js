@@ -29,8 +29,8 @@ export default class RecentMessages extends RcModule {
       actionTypes,
       ...options,
     });
-    this._client = this::ensureExist(client, 'client');
-    this._messageStore = this::ensureExist(messageStore, 'messageStore');
+    this._client = ensureExist.call(this, client, 'client');
+    this._messageStore = ensureExist.call(this, messageStore, 'messageStore');
     this._reducer = getRecentMessagesReducer(this.actionTypes);
     this._prevMessageStoreTimestamp = null;
   }

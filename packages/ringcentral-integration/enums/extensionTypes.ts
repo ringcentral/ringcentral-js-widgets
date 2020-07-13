@@ -1,28 +1,6 @@
-import { createHashMap } from '../lib/HashMap';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 
-/**
- * @typedef ExtensionTypes
- * @type {object}
- * @property {string} announcement
- * @property {string} applicationExtension
- * @property {string} bot
- * @property {string} department
- * @property {string} digitalUser
- * @property {string} faxUser
- * @property {string} ivrMenu
- * @property {string} limited
- * @property {string} pagingOnly
- * @property {string} parkLocation
- * @property {string} sharedLinesGroup
- * @property {string} user
- * @property {string} virtualUser
- * @property {string} voicemail
- */
-
-/**
- * @type {ExtensionTypes}
- */
-const extensionTypes = createHashMap({
+export const extensionTypes = ObjectMap.fromObject({
   announcement: 'Announcement',
   applicationExtension: 'ApplicationExtension',
   bot: 'Bot',
@@ -37,6 +15,6 @@ const extensionTypes = createHashMap({
   user: 'User',
   virtualUser: 'VirtualUser',
   voicemail: 'Voicemail',
-});
+} as const);
 
 export default extensionTypes;

@@ -3,8 +3,8 @@ import dndStatus from 'ringcentral-integration/modules/Presence/dndStatus';
 export default {
   [presenceStatus.available]: "線上",
   [presenceStatus.busy]: "忙碌",
-  [presenceStatus.offline]: "隱形",
-  [dndStatus.doNotAcceptAnyCalls]: "勿打擾"
+  [presenceStatus.offline]: "隱藏",
+  [dndStatus.doNotAcceptAnyCalls]: "請勿打擾"
 };
 
 // @key: @#@"[presenceStatus.available]"@#@ @source: @#@"Available"@#@

@@ -5,8 +5,10 @@ import { Tooltip } from '../../Rcui/Tooltip';
 import { TOOLTIP_DEFAULT_DELAY_TIME } from '../../../lib/toolTipDelayTime';
 
 export interface CallInfoProps {
+  attr?: string;
   name: string;
   content: string;
+  enableCopy?: boolean;
 }
 export const CallInfo: React.FunctionComponent<CallInfoProps> = ({
   name,

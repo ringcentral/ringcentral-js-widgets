@@ -1,8 +1,8 @@
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
+
 import DataFetcher from '../../lib/DataFetcher';
 import { Module } from '../../lib/di';
 import { selector } from '../../lib/selector';
-import Enum from '../../lib/Enum';
-import { actionTypeGenerator } from '../../lib/actionTypeGenerator';
 import { isEnded, removeInboundRingOutLegs } from '../../lib/callLogHelpers';
 import debounce from '../../lib/debounce';
 
@@ -45,9 +45,9 @@ export default class Presence extends DataFetcher {
         const endpoint = this._detailed
           ? subscriptionFilters.detailedPresence
           : subscriptionFilters.presence;
-        const data = (await this._client.service
-          .platform()
-          .get(endpoint)).json();
+        const data = (
+          await this._client.service.platform().get(endpoint)
+        ).json();
         return data;
       },
       subscriptionFilters: [
@@ -86,11 +86,13 @@ export default class Presence extends DataFetcher {
         this._rolesAndPermissions.ready && this._connectivityMonitor.ready,
     });
     this._detailed = true;
-    this._connectivityMonitor = this::ensureExist(
+    this._connectivityMonitor = ensureExist.call(
+      this,
       connectivityMonitor,
       'connectivityMonitor',
     );
-    this._rolesAndPermissions = this::ensureExist(
+    this._rolesAndPermissions = ensureExist.call(
+      this,
       rolesAndPermissions,
       'rolesAndPermissions',
     );
@@ -105,10 +107,12 @@ export default class Presence extends DataFetcher {
   }
 
   get _actionTypes() {
-    return new Enum(
+    return ObjectMap.prefixKeys(
       [
-        ...Object.keys(super._actionTypes),
-        ...actionTypeGenerator('update'),
+        ...ObjectMap.keys(super._actionTypes),
+        'update',
+        'updateSuccess',
+        'updateError',
         'notification',
       ],
       this._name,

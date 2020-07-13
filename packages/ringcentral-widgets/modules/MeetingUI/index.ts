@@ -46,6 +46,10 @@ export default class MeetingUI extends RcUIModule {
       showRecurringMeeting,
       openNewWindow,
       showSaveAsDefault: this._meeting.showSaveAsDefault,
+      // Need to add this back when we back to this ticket
+      // https://jira.ringcentral.com/browse/RCINT-15031
+      // disableSaveAsDefault: !this._meeting.isPreferencesChanged,
+      disableSaveAsDefault: false,
     };
   }
 

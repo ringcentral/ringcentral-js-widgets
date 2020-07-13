@@ -7,6 +7,7 @@ import {
 } from '../../interfaces/EvActiveCallListUI.interface';
 import { EvCallData } from '../../interfaces/EvData.interface';
 import { ActiveCallListUI, DepsModules } from './EvActiveCallListUI.interface';
+import { transferTypes } from '../../enums/transferTypes';
 
 @Module({
   name: 'EvActiveCallListUI',
@@ -16,6 +17,10 @@ import { ActiveCallListUI, DepsModules } from './EvActiveCallListUI.interface';
     'EvCall',
     'ActiveCallControl',
     'EvCallMonitor',
+    'EvIntegratedSoftphone',
+    'EvAuth',
+    'EvClient',
+    'EvSessionConfig',
     { dep: 'EvActiveCallListUIOptions', optional: true },
   ],
 })
@@ -31,6 +36,10 @@ class EvActiveCallListUI extends RcUIModuleV2<DepsModules>
     evCall,
     activeCallControl,
     evCallMonitor,
+    evIntegratedSoftphone,
+    evAuth,
+    evClient,
+    evSessionConfig,
   }) {
     super({
       modules: {
@@ -39,6 +48,10 @@ class EvActiveCallListUI extends RcUIModuleV2<DepsModules>
         evCall,
         activeCallControl,
         evCallMonitor,
+        evIntegratedSoftphone,
+        evAuth,
+        evClient,
+        evSessionConfig,
       },
     });
   }
@@ -48,13 +61,18 @@ class EvActiveCallListUI extends RcUIModuleV2<DepsModules>
     () => this._modules.evCallMonitor.callIds,
     () => this._modules.evCallMonitor.otherCallIds,
     () => this._modules.evCallMonitor.getCallsMapping(),
-    (callId, callIds, otherCallIds, callsMapping) => {
-      return this._modules.evCallMonitor.getActiveCallList(
+    () => this._modules.evAuth.agentId,
+    (callId, callIds, otherCallIds, callsMapping, agentId) => {
+      const callList = this._modules.evCallMonitor.getActiveCallList(
         callIds,
         otherCallIds,
         callsMapping,
         callId,
       );
+      if (callList[1]?.session?.agentId !== agentId) {
+        console.error('agent id is wrong');
+      }
+      return callList;
     },
   );
 
@@ -83,6 +101,10 @@ class EvActiveCallListUI extends RcUIModuleV2<DepsModules>
     return {
       currentLocale: this._modules.locale.currentLocale,
       callList: this.getCallList(),
+      isOnMute: this._modules.evIntegratedSoftphone.muteActive,
+      showMuteButton: this._modules.evSessionConfig.isIntegratedSoftphone,
+      userName: this._modules.evClient.agentSettings?.username,
+      isInbound: this._modules.evCall.isInbound,
     };
   }
 
@@ -94,6 +116,8 @@ class EvActiveCallListUI extends RcUIModuleV2<DepsModules>
       onHangup: (call) => this.onHangup(call),
       onHold: (call) => this.onHold(call),
       onUnHold: (call) => this.onUnHold(call),
+      onMute: () => this._modules.activeCallControl.mute(),
+      onUnmute: () => this._modules.activeCallControl.unmute(),
     };
   }
 }

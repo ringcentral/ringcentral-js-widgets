@@ -131,7 +131,7 @@ class EvClient extends RcModuleV2<{}, EvClientState> {
 
   @action
   setStatus(status: string) {
-    this.state.status = status;
+    this.status = status;
   }
 
   setEnv(authHost: string) {
@@ -141,7 +141,8 @@ class EvClient extends RcModuleV2<{}, EvClientState> {
     }
   }
 
-  onInit() {
+  initSDK() {
+    console.log('initSDK');
     const { _Sdk: Sdk } = this;
     this._sdk = new Sdk({
       callbacks: {
@@ -408,6 +409,7 @@ class EvClient extends RcModuleV2<{}, EvClientState> {
   logoutAgent(agentId: string) {
     return new Promise<EvLogoutAgentResponse>((resolve) => {
       this._sdk.logoutAgent(agentId, (result) => {
+        console.log(result);
         resolve(result);
       });
     });
@@ -612,7 +614,7 @@ class EvClient extends RcModuleV2<{}, EvClientState> {
     try {
       await raceTimeout(this._multiLoginRequest());
     } catch (error) {
-      throw new Error('30s timeout');
+      throw new Error('_multiLoginRequest fail or 30s timeout');
     }
   }
 
@@ -629,6 +631,10 @@ class EvClient extends RcModuleV2<{}, EvClientState> {
 
   sipRegister() {
     this._sdk.sipRegister();
+  }
+
+  sipTerminate() {
+    this._sdk.sipTerminate();
   }
 
   sipHangUp() {

@@ -1,10 +1,10 @@
 import {
   action,
+  createSelector,
   RcModuleState,
   RcModuleV2,
   state,
   storage,
-  createSelector,
 } from '@ringcentral-integration/core';
 import EventEmitter from 'events';
 import { Module } from 'ringcentral-integration/lib/di';
@@ -43,6 +43,7 @@ type EvPresenceState = RcModuleState<EvPresence, State>;
     'Storage',
     'EvSettings',
     'EvSessionConfig',
+    'Beforeunload',
     'Alert',
     { dep: 'PresenceOptions', optional: true },
   ],
@@ -61,6 +62,7 @@ class EvPresence extends RcModuleV2<DepsModules, EvPresenceState>
     evSettings,
     evSessionConfig,
     alert,
+    beforeunload,
     enableCache = true,
   }) {
     super({
@@ -72,10 +74,14 @@ class EvPresence extends RcModuleV2<DepsModules, EvPresenceState>
         evSettings,
         evSessionConfig,
         alert,
+        beforeunload,
       },
       enableCache,
       storageKey: 'EvPresence',
     });
+    this._modules.evSessionConfig.clearCalls = () => {
+      this.clearCalls();
+    };
   }
 
   // temporary code for test screen pop sf object when inbound call
@@ -86,7 +92,7 @@ class EvPresence extends RcModuleV2<DepsModules, EvPresenceState>
   // temporary code for test screen pop sf object when inbound call
   @action
   setRecordId(recordId: string) {
-    this.state.recordId = recordId;
+    this.recordId = recordId;
   }
 
   // temporary code for test screen pop sf object when inbound call
@@ -97,7 +103,7 @@ class EvPresence extends RcModuleV2<DepsModules, EvPresenceState>
   // temporary code for test screen pop sf object when inbound call
   @action
   setCaseId(caseId: string) {
-    this.state.caseId = caseId;
+    this.caseId = caseId;
   }
 
   // temporary code for test screen pop sf object when inbound call
@@ -108,7 +114,7 @@ class EvPresence extends RcModuleV2<DepsModules, EvPresenceState>
   // temporary code for test screen pop sf object when inbound call
   @action
   setObjectValue(objectValue: string) {
-    this.state.objectValue = objectValue;
+    this.objectValue = objectValue;
   }
 
   // temporary code for test screen pop sf object when inbound call
@@ -119,7 +125,7 @@ class EvPresence extends RcModuleV2<DepsModules, EvPresenceState>
   // temporary code for test screen pop sf object when inbound call
   @action
   setObjectType(objectType: string) {
-    this.state.objectType = objectType;
+    this.objectType = objectType;
   }
 
   @storage
@@ -168,17 +174,17 @@ class EvPresence extends RcModuleV2<DepsModules, EvPresenceState>
   @action
   addNewCall(call: EvBaseCall) {
     // note: rawCallsMapping‘s index is raw call uii.
-    this.state.rawCallsMapping[call.uii] = {
+    this.rawCallsMapping[call.uii] = {
       ...call,
       // input timezone in second arg if EV reponse has timezone propoty
       // default timezone is 'America/New_York'
       timestamp: getTimeStamp(call.queueDts),
       gate: this._getCurrentGateData(call),
       // temporary code for test screen pop sf object when inbound call
-      recordId: this.state.recordId,
-      caseId: this.state.caseId,
-      objectValue: this.state.objectValue,
-      objectType: this.state.objectType,
+      recordId: this.recordId,
+      caseId: this.caseId,
+      objectValue: this.objectValue,
+      objectType: this.objectType,
     };
   }
 
@@ -187,19 +193,19 @@ class EvPresence extends RcModuleV2<DepsModules, EvPresenceState>
     const id = this._getCallEncodeId(session);
     if (session.agentId === this._modules.evAuth.agentId) {
       // related to current agent session
-      const index = this.state.callIds.indexOf(id);
+      const index = this.callIds.indexOf(id);
       if (index === -1) {
-        this.state.callIds.unshift(id);
+        this.callIds.unshift(id);
       }
     } else {
       // other session without current agent
-      const index = this.state.otherCallIds.indexOf(id);
+      const index = this.otherCallIds.indexOf(id);
       if (index === -1) {
-        this.state.otherCallIds.unshift(id);
+        this.otherCallIds.unshift(id);
       }
     }
 
-    this.state.callsMapping[id] = {
+    this.callsMapping[id] = {
       ...this.rawCallsMapping[session.uii],
       session,
     };
@@ -208,73 +214,66 @@ class EvPresence extends RcModuleV2<DepsModules, EvPresenceState>
   @action
   dropSession(dropSession: EvDropSessionNotification) {
     const id = this._getCallEncodeId(dropSession);
-    this.state.otherCallIds = this.state.otherCallIds.filter(
-      (callId) => callId !== id,
-    );
+    this.otherCallIds = this.otherCallIds.filter((callId) => callId !== id);
   }
 
   @action
   removeEndedCall(endedCall: EvEndedCall) {
     const id = this._getCallEncodeId(endedCall);
     // remove current agent session call with uii.
-    this.state.callIds = this.state.callIds.filter((callId) => callId !== id);
+    this.callIds = this.callIds.filter((callId) => callId !== id);
     // remove other call session with uii.
-    this.state.otherCallIds = this.state.otherCallIds.filter(
+    this.otherCallIds = this.otherCallIds.filter(
       (callId) => !callId.includes(endedCall.uii),
     );
 
     // add call with id (encodeUii({ uii, sessionId }))
     const callLogsIndex = this.callLogsIds.indexOf(id);
     if (callLogsIndex === -1) {
-      this.state.callLogsIds.unshift(id);
+      this.callLogsIds.unshift(id);
     }
     if (this.callsMapping[id]) {
-      this.state.callsMapping[id].endedCall = endedCall;
+      this.callsMapping[id].endedCall = endedCall;
     }
   }
 
   @action
   setCallHoldStatus(res: EvHoldResponse) {
     const id = this._getCallEncodeId(res);
-    this.state.callsMapping[id].isHold = res.holdState;
+    this.callsMapping[id].isHold = res.holdState;
   }
 
   @action
   clearCalls() {
-    this.state.callIds = [];
-    this.state.otherCallIds = [];
+    this.callIds = [];
+    this.otherCallIds = [];
   }
 
   @action
   setDialoutStatus(status: DialoutStatusesType) {
-    if (this.state.dialoutStatus !== status) {
-      this.state.dialoutStatus = status;
+    if (this.dialoutStatus !== status) {
+      this.dialoutStatus = status;
     }
   }
 
   onInitOnce() {
+    this._modules.evSessionConfig.onConfigSuccess.push(() => {
+      const calls = this.getCalls();
+
+      if (calls.length === 0) {
+        this.setDialoutStatus(dialoutStatuses.idle);
+      }
+    });
+
     this._bindSubscription();
   }
 
-  onInit() {
-    if (!this._modules.evSessionConfig.isConfigSuccessByLocal) {
-      this.clearCalls();
-    }
-
-    if (
-      this.getCalls().length === 0 &&
-      this.dialoutStatus !== dialoutStatuses.idle
-    ) {
-      this.setDialoutStatus(dialoutStatuses.idle);
-    }
+  setOffhookInit() {
+    this._modules.evSettings.setOffhookInit();
   }
 
-  offhookInit() {
-    this._modules.evSettings.offhookInitHandle();
-  }
-
-  offhookTerm() {
-    this._modules.evSettings.offhookTermHandle();
+  setOffhookTerm() {
+    this._modules.evSettings.setOffhookTerm();
   }
 
   private _bindSubscription() {
@@ -283,13 +282,13 @@ class EvPresence extends RcModuleV2<DepsModules, EvPresenceState>
       (data: EvOffhookInitResponse) => {
         this.evPresenceEvents.emit(EvCallbackTypes.OFFHOOK_INIT, data);
         if (data.status === 'OK') {
-          this.offhookInit();
+          this.setOffhookInit();
           // when that is reject integrated softphone, we not alert error
         } else if (this.showOffHookInitError) {
           this._modules.alert.danger({
             message: messageTypes.OFFHOOK_INIT_ERROR,
           });
-          this._modules.evSettings.offhookTermHandle();
+          this.setOffhookTerm();
           this.showOffHookInitError = true;
         }
       },
@@ -298,7 +297,7 @@ class EvPresence extends RcModuleV2<DepsModules, EvPresenceState>
       EvCallbackTypes.OFFHOOK_TERM,
       (data: EvOffhookTermResponse) => {
         if (data.status === 'OK') {
-          this.offhookTerm();
+          this.setOffhookTerm();
         } else {
           this._modules.alert.danger({
             message: messageTypes.OFFHOOK_TERM_ERROR,

@@ -1,6 +1,6 @@
-import { createEnum } from 'usm/lib/utils/enum';
+import { ObjectMap } from '../lib/ObjectMap';
 
-export const moduleStatuses = createEnum(
+export const moduleStatuses = ObjectMap.prefixKeys(
   ['pending', 'initializing', 'ready', 'resetting'],
   'module',
 );

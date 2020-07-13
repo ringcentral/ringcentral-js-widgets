@@ -1,3 +1,8 @@
-import Enum from '../../lib/Enum';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 
-export default new Enum(['idle', 'connecting'], 'softphone');
+export const softphoneStatus = ObjectMap.prefixKeys(
+  ['idle', 'connecting'],
+  'softphone',
+);
+
+export default softphoneStatus;

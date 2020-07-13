@@ -13,6 +13,7 @@ export const VideoPanel: React.FunctionComponent<VideoPanelProps> = ({
   currentLocale,
   onOK,
   showSaveAsDefault,
+  disableSaveAsDefault,
   disabled,
   openNewWindow,
   invite,
@@ -69,6 +70,7 @@ export const VideoPanel: React.FunctionComponent<VideoPanelProps> = ({
           }}
           update={updateMeetingSettings}
           showSaveAsDefault={showSaveAsDefault}
+          disableSaveAsDefault={disableSaveAsDefault}
         />
       ) : null}
     </div>
@@ -85,7 +87,8 @@ interface VideoPanelProps {
   onOK: any;
   onClick: any;
   update: any;
-  showSaveAsDefault: any;
+  showSaveAsDefault: boolean;
+  disableSaveAsDefault: boolean;
   scheduleButton: any;
   openNewWindow: any;
   invite: any;

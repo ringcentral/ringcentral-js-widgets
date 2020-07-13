@@ -11,12 +11,15 @@ class MockBuilder {
   constructor({ input }) {
     this.input = input;
   }
+
   async run() {
-    await this::localeLoader(this.input);
+    await localeLoader.call(this, this.input);
   }
+
   get context() {
     return testFolder;
   }
+
   async() {
     return (_, newContent) => {
       this.output = newContent;

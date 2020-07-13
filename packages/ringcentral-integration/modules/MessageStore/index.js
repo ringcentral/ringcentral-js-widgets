@@ -102,11 +102,12 @@ export default class MessageStore extends Pollable {
       actionTypes,
     });
 
-    this._auth = this::ensureExist(auth, 'auth');
-    this._alert = this::ensureExist(alert, 'alert');
-    this._client = this::ensureExist(client, 'client');
-    this._subscription = this::ensureExist(subscription, 'subscription');
-    this._rolesAndPermissions = this::ensureExist(
+    this._auth = ensureExist.call(this, auth, 'auth');
+    this._alert = ensureExist.call(this, alert, 'alert');
+    this._client = ensureExist.call(this, client, 'client');
+    this._subscription = ensureExist.call(this, subscription, 'subscription');
+    this._rolesAndPermissions = ensureExist.call(
+      this,
       rolesAndPermissions,
       'rolesAndPermissions',
     );
@@ -211,7 +212,8 @@ export default class MessageStore extends Pollable {
 
   _isDataReady() {
     return (
-      this.status === moduleStatuses.initializing && this.syncInfo !== null
+      this.status === moduleStatuses.initializing &&
+      (!this._hasPermission || this.syncInfo !== null)
     );
   }
 
@@ -219,7 +221,9 @@ export default class MessageStore extends Pollable {
     this.store.dispatch({
       type: this.actionTypes.init,
     });
-    if (!this._hasPermission) return;
+    if (!this._hasPermission) {
+      return;
+    }
     if (this._shouldFetch()) {
       try {
         await this.fetchData();

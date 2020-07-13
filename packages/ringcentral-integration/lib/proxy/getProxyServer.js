@@ -21,7 +21,7 @@ export default function getProxyServer(
       this._target._getState = () => this.state.target;
       for (const subModule in this._target) {
         if (
-          this._target::Object.prototype.hasOwnProperty(subModule) &&
+          Object.prototype.hasOwnProperty.call(this._target, subModule) &&
           verifyModuleFunc(this._target[subModule])
         ) {
           Object.defineProperty(this, subModule, {
@@ -34,7 +34,7 @@ export default function getProxyServer(
         }
       }
 
-      this._transport = this::ensureExist(transport, 'transport');
+      this._transport = ensureExist.call(this, transport, 'transport');
       this._reducer = getProxyServerReducer({
         moduleReducer: this._target.reducer,
         transport,

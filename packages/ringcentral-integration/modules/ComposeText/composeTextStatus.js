@@ -1,3 +1,8 @@
-import Enum from '../../lib/Enum';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 
-export default new Enum(['idle', 'sending'], 'composeText');
+export const composeTextStatus = ObjectMap.prefixKeys(
+  ['idle', 'sending'],
+  'composeText',
+);
+
+export default composeTextStatus;

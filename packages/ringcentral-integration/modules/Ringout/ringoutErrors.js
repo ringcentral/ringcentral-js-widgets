@@ -1,6 +1,8 @@
-import Enum from '../../lib/Enum';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 
-export default new Enum(
+export const ringoutErrors = ObjectMap.prefixKeys(
   ['pollingFailed', 'pollingCancelled', 'firstLegConnectFailed'],
   'ringoutErrors',
 );
+
+export default ringoutErrors;

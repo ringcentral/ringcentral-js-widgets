@@ -1,10 +1,18 @@
-import BaseModule, { state, action } from 'usm-redux';
-import { combineReducers, Reducer } from 'redux';
+import {
+  combineReducers,
+  Reducer,
+  ReducersMapObject,
+  Action,
+  AnyAction,
+} from 'redux';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import Storage from 'ringcentral-integration/modules/Storage';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import GlobalStorage from 'ringcentral-integration/modules/GlobalStorage';
+import BaseModule, { state, action } from '../usm-redux';
 import { moduleStatuses } from '../../enums/moduleStatuses';
+import { Store } from '../usm/core/module';
+import { Properties } from '../usm/utils/flatten';
 
 // TODO: `_getProxyState`.
 
@@ -50,12 +58,17 @@ interface RcModuleV2 {
   _globalStorageSubKeys: string[];
 }
 
+type ReducersMap = ReducersMapObject<
+  any,
+  Action & { states: Record<string, any> }
+>;
+
 class RcModuleV2<
   T extends { storage?: Storage; globalStorage?: GlobalStorage } & Record<
     string,
     any
   > = {},
-  S = {}
+  S extends Record<string, any> = {}
 > extends BaseModule<T> {
   __$$state$$__: any;
   /**
@@ -78,6 +91,8 @@ class RcModuleV2<
   public __key__?: string;
   public storageKey: string;
   public _modulePath?: string;
+  public _initialized = false;
+  public _suppressInit?: boolean;
 
   constructor(...args: any[]) {
     super(...args);
@@ -86,12 +101,16 @@ class RcModuleV2<
       // TODO replace new way for `storageKey` definition
       this.storageKey = args[0].storageKey;
       const reducer = combineReducers(
-        this._storageSubKeys.reduce((reducerMap, key) => {
+        this._storageSubKeys.reduce((reducerMap: ReducersMap, key) => {
           reducerMap[key] = (
             state = this._initialValue[key],
             { type, states },
           ) => {
-            if (type && type.indexOf(this.actionTypes[key]) > -1) {
+            if (
+              type &&
+              type.indexOf((this.actionTypes as Record<string, string>)[key]) >
+                -1
+            ) {
               return states[key];
             }
             return state;
@@ -103,30 +122,37 @@ class RcModuleV2<
         key: this.storageKey,
         reducer,
       });
-      const properties = this._storageSubKeys.reduce((propertiesMap, key) => {
-        propertiesMap[key] = {
-          enumerable: true,
-          configurable: true,
-          get() {
-            return this.enableStorage &&
-              this._modules.storage.getItem(this.storageKey)
-              ? this._modules.storage.getItem(this.storageKey)[key]
-              : this.state[key];
-          },
-        };
-        return propertiesMap;
-      }, {});
+      const properties = this._storageSubKeys.reduce(
+        (propertiesMap: Record<string, PropertyDescriptor>, key) => {
+          propertiesMap[key] = {
+            enumerable: true,
+            configurable: true,
+            get(this: BaseModule) {
+              return this.state[key];
+            },
+            set(this: BaseModule, value: unknown) {
+              this.state[key] = value;
+            },
+          };
+          return propertiesMap;
+        },
+        {},
+      );
       Object.defineProperties(this, properties);
     }
     if (this.enableGlobalStorage) {
       this.storageKey = args[0].storageKey;
       const reducer = combineReducers(
-        this._globalStorageSubKeys.reduce((reducerMap, key) => {
+        this._globalStorageSubKeys.reduce((reducerMap: ReducersMap, key) => {
           reducerMap[key] = (
             state = this._initialValue[key],
             { type, states },
           ) => {
-            if (type && type.indexOf(this.actionTypes[key]) > -1) {
+            if (
+              type &&
+              type.indexOf((this.actionTypes as Record<string, string>)[key]) >
+                -1
+            ) {
               return states[key];
             }
             return state;
@@ -139,15 +165,15 @@ class RcModuleV2<
         reducer,
       });
       const properties = this._globalStorageSubKeys.reduce(
-        (propertiesMap, key) => {
+        (propertiesMap: Record<string, PropertyDescriptor>, key) => {
           propertiesMap[key] = {
             enumerable: true,
             configurable: true,
-            get() {
-              return this.enableGlobalStorage &&
-                this._modules.globalStorage.getItem(this.storageKey)
-                ? this._modules.globalStorage.getItem(this.storageKey)[key]
-                : this.state[key];
+            get(this: BaseModule) {
+              return this.state[key];
+            },
+            set(this: BaseModule, value: unknown) {
+              this.state[key] = value;
             },
           };
           return propertiesMap;
@@ -167,7 +193,7 @@ class RcModuleV2<
    * @param name module key
    * @param module RcModule
    */
-  addModule(name, module) {
+  addModule(name: string, module: unknown) {
     if (Object.prototype.hasOwnProperty.call(this, name)) {
       throw new Error(`Property '${name}' already exists...`);
     }
@@ -177,8 +203,8 @@ class RcModuleV2<
       },
       enumerable: true,
     });
-    if (this[name]._modulePath === 'root') {
-      this[name]._modulePath = `${this.modulePath}.${name}`;
+    if ((this as any)[name]._modulePath === 'root') {
+      (this as any)[name]._modulePath = `${this.modulePath}.${name}`;
     }
   }
 
@@ -229,19 +255,22 @@ class RcModuleV2<
   public getReducers(actionTypes: any) {
     const reducers = super.getReducers(actionTypes);
     if (!this.enableStorage && !this.enableGlobalStorage) return reducers;
-    return Object.entries(reducers).reduce((reducers, [key, reducer]) => {
-      if (
-        (!Array.isArray(this._storageSubKeys) ||
-          this._storageSubKeys.indexOf(key) === -1 ||
-          !this.enableStorage) &&
-        (!Array.isArray(this._globalStorageSubKeys) ||
-          this._globalStorageSubKeys.indexOf(key) === -1 ||
-          !this.enableGlobalStorage)
-      ) {
-        reducers[key] = reducer;
-      }
-      return reducers;
-    }, {});
+    return Object.entries(reducers).reduce(
+      (reducers: Properties<Reducer<any, AnyAction>>, [key, reducer]) => {
+        if (
+          (!Array.isArray(this._storageSubKeys) ||
+            this._storageSubKeys.indexOf(key) === -1 ||
+            !this.enableStorage) &&
+          (!Array.isArray(this._globalStorageSubKeys) ||
+            this._globalStorageSubKeys.indexOf(key) === -1 ||
+            !this.enableGlobalStorage)
+        ) {
+          reducers[key] = reducer;
+        }
+        return reducers;
+      },
+      {},
+    );
   }
 
   public get state(): S & { __status__: string } {
@@ -249,7 +278,9 @@ class RcModuleV2<
       return this.__$$state$$__;
     }
     if (!this.enableStorage && !this.enableGlobalStorage) {
-      return this._getState() || {};
+      return {
+        ...this._getState(),
+      };
     }
     return {
       ...this._getState(),
@@ -330,8 +361,8 @@ class RcModuleV2<
     const modules = this._modules || {};
     const areAllReady =
       modules &&
-      Object.values(modules).filter((module: any) => !module.ready).length ===
-        0;
+      Object.values(modules).filter((module: any) => module && !module.ready)
+        .length === 0;
     return areAllReady && this.pending;
   }
 
@@ -339,12 +370,20 @@ class RcModuleV2<
     const modules = this._modules || {};
     const areNotReady =
       modules &&
-      Object.values(modules).filter((module: any) => !module.ready).length > 0;
+      Object.values(modules).filter((module: any) => module && !module.ready)
+        .length > 0;
     return areNotReady && this.ready;
   }
 
   get _store() {
     return this.parentModule.store;
+  }
+
+  protected _setStore(store: Store) {
+    // Compatibility about Factory ModuleV1 and ModuleV2
+    this.parentModule = {
+      store,
+    } as RcModuleV2;
   }
 
   get reducer() {
@@ -355,8 +394,12 @@ class RcModuleV2<
     return this.reducer;
   }
 
-  _getState() {
-    return (this.parentModule as any)._getState()[this.__key__];
+  _getState(): S & { __status__: string } {
+    return (this.parentModule as RcModuleV2)._getState
+      ? ((this.parentModule as RcModuleV2)._getState() as Record<string, any>)[
+          this.__key__
+        ]
+      : this.parentModule.store.getState();
   }
 
   get __name__() {

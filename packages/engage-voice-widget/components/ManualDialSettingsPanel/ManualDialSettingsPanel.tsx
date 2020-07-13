@@ -1,6 +1,5 @@
 import { RcButton, RcTextField } from '@ringcentral-integration/rcui';
 import React, { FunctionComponent, useEffect } from 'react';
-import BackHeader from 'ringcentral-widgets/components/BackHeaderV2';
 
 import {
   EvManualDialSettingsUIFunctions,
@@ -11,6 +10,7 @@ import { ListItemWithScrollCheck } from '../ListItemWithScrollCheck';
 import { SearchSelectField } from '../SearchSelectField';
 import ManualDialSettingsPanelI18n from './i18n';
 import styles from './styles.scss';
+import { BackHeader } from '../SelectList';
 
 export type ManualDialSettingsPanelProps = EvManualDialSettingsUIProps &
   EvManualDialSettingsUIFunctions;
@@ -33,7 +33,6 @@ export const ManualDialSettingsPanel: FunctionComponent<ManualDialSettingsPanelP
         currentLocale={currentLocale}
         title={i18n.getString('manualDialSettings', currentLocale)}
         onBackClick={goBack}
-        className={styles.backHeader}
       />
       <div className={styles.container}>
         {settingFields.map(

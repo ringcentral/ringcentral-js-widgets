@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { isFunction } from 'ringcentral-integration/lib/di/utils/is_type';
-import Enum from 'ringcentral-integration/lib/Enum';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 
 import styles from './styles.scss';
 
-const POSITION = new Enum(['top', 'left']);
+const POSITION = ObjectMap.fromKeys(['top', 'left']);
 
 const TAIL_HEIGHT = Math.sqrt(10 ** 2 * 2);
 
@@ -89,8 +89,8 @@ const TRANSITION_END_EVT_NAME = transitionEnd();
 class Tooltip extends Component {
   constructor(props) {
     super(props);
-    this.onResize = this::this.checkPosition;
-    this.onTransitionEnd = this::this.onTransitionEnd;
+    this.onResize = this.checkPosition.bind(this);
+    this.onTransitionEnd = this.onTransitionEnd.bind(this);
 
     this.state = {
       cachedPositioning: null,
@@ -215,7 +215,7 @@ class Tooltip extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.triggerElm !== this.props.triggerElm) {
       this.restorePositioning();
       this.recordPositioning(nextProps.triggerElm);

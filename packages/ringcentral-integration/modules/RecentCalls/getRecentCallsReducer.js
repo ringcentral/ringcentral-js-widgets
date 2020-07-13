@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 import getModuleStatusReducer from '../../lib/getModuleStatusReducer';
-import callStatus from './callStatus';
+import { callStatus } from './callStatus';
 
 export function getCallsReducer(types) {
   return (state = {}, { type, contact, calls, sessionId }) => {
@@ -10,7 +10,8 @@ export function getCallsReducer(types) {
         ...state,
         [sessionId ? `${contactId}-${sessionId}` : contactId]: calls,
       };
-    } else if (type === types.loadReset) {
+    }
+    if (type === types.loadReset) {
       const {
         [sessionId ? `${contactId}-${sessionId}` : contactId]: _,
         ...rest

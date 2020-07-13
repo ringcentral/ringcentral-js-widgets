@@ -1,3 +1,5 @@
+import { DirectTransferNotificationTypes } from '../../../enums';
+
 export type EvTokenType = 'Bearer';
 export type EvOkFail = 'OK' | 'FAILURE';
 export type EvSessionType = 'AGENT' | 'OUTBOUND' | 'INBOUND';
@@ -54,7 +56,6 @@ export interface EvTransferPhoneBookItem {
   name: string;
   destination: string;
   countryId: string;
-  _parsedDestination?: string;
 }
 
 export interface EvLead {
@@ -81,16 +82,16 @@ export interface EvBaggage {
   agentType: string;
   agentEmail: string;
   agentUserName: string;
-  evSfIvrCaseId: string;
-  evSfIvrRecordId: string;
-  evSfIvrObjectValue: string;
-  evSfIvrObjectType: string;
+  IVR_CRM_CASE_ID: string;
+  IVR_CRM_RECORD_ID: string;
+  IVR_CRM_OBJECT_VALUE: string;
+  IVR_CRM_OBJECT_TYPE: string;
 }
 
 export interface EvReceivedTransferCall {
   message: string;
   detail: string;
-  status: string;
+  status: DirectTransferNotificationTypes;
   agentId: string;
   uii: string;
   ani: string;

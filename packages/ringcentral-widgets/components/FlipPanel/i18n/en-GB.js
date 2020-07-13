@@ -1,7 +1,7 @@
 export default {
-  flipHeader: "Flip Call to...",
+  flipHeader: "Flip call to...",
   flip: "Flip",
-  complete: "Complete Flip"
+  complete: "Complete flip"
 };
 
 // @key: @#@"flipHeader"@#@ @source: @#@"Flip Call to..."@#@

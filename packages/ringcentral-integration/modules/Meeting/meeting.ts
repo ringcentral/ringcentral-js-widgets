@@ -7,6 +7,8 @@ import {
   getInitializedStartTime,
   getMobileDialingNumberTpl,
   getPhoneDialingNumberTpl,
+  prunePreferencesObject,
+  comparePreferences,
   MeetingType,
   UTC_TIMEZONE_ID,
 } from '../../helpers/meetingHelper';
@@ -35,7 +37,8 @@ import scheduleStatus from './scheduleStatus';
     { dep: 'MeetingOptions', optional: true },
   ],
 })
-export class Meeting extends RcModule<MeetingActionTypes> {
+export class Meeting extends RcModule<Record<string, any>, MeetingActionTypes> {
+  // TODO: add state interface
   public _alert: any;
   public _client: Client;
   private _extensionInfo: any;
@@ -43,7 +46,8 @@ export class Meeting extends RcModule<MeetingActionTypes> {
   private _availabilityMonitor: any;
   private _lastMeetingSettingKey: any;
   private _defaultMeetingSettingKey: any;
-  public _showSaveAsDefault: any;
+  private _showSaveAsDefault: boolean;
+
   constructor({
     alert,
     client,
@@ -51,7 +55,7 @@ export class Meeting extends RcModule<MeetingActionTypes> {
     storage,
     availabilityMonitor,
     reducers,
-    showSaveAsDefault,
+    showSaveAsDefault = false,
     ...options
   }) {
     super({
@@ -145,6 +149,7 @@ export class Meeting extends RcModule<MeetingActionTypes> {
 
   private _initMeeting() {
     this.update(this.defaultMeetingSetting);
+    this._updatePreferences();
   }
 
   @proxify
@@ -152,6 +157,22 @@ export class Meeting extends RcModule<MeetingActionTypes> {
     this.store.dispatch({
       type: this.actionTypes.updateMeeting,
       meeting,
+    });
+    this._comparePreferences();
+  }
+
+  private _updatePreferences() {
+    this.store.dispatch({
+      type: this.actionTypes.updateMeetingPreferences,
+      preferences: prunePreferencesObject(this.meeting),
+    });
+  }
+
+  private _comparePreferences() {
+    const { preferences, meeting } = this;
+    this.store.dispatch({
+      type: this.actionTypes.saveMeetingPreferencesState,
+      isPreferencesChanged: comparePreferences(preferences, meeting),
     });
   }
 
@@ -220,6 +241,16 @@ export class Meeting extends RcModule<MeetingActionTypes> {
     } finally {
       delete (this.schedule as any)._promise;
     }
+  }
+
+  @proxify
+  async getMeetingServiceInfo() {
+    return this._client
+      .account()
+      .extension()
+      .meeting()
+      .serviceInfo()
+      .get();
   }
 
   @proxify
@@ -301,7 +332,8 @@ export class Meeting extends RcModule<MeetingActionTypes> {
         type: this.actionTypes.resetUpdating,
         meetingId,
       });
-      return this._errorHandle(errors);
+      this._errorHandle(errors);
+      return null;
     } finally {
       delete (this.updateMeeting as any)._promise;
     }
@@ -465,6 +497,10 @@ export class Meeting extends RcModule<MeetingActionTypes> {
     return this.state.status;
   }
 
+  get preferences() {
+    return this.state.preferences;
+  }
+
   @selector
   defaultMeetingSetting: any = [
     () => this.initialMeetingSetting,
@@ -501,7 +537,11 @@ export class Meeting extends RcModule<MeetingActionTypes> {
   }
 
   get showSaveAsDefault() {
-    return !!this._showSaveAsDefault;
+    return this._showSaveAsDefault;
+  }
+
+  get isPreferencesChanged() {
+    return this.state.isPreferencesChanged;
   }
 }
 

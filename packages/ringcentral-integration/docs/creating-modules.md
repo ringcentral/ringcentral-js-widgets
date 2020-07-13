@@ -2,8 +2,8 @@
 
 All integration modules are based on RcModule base class. Which is deeply tied to redux. Here we'll use the Call module as an example to walk through the basics of module creation. Please note that the code shown here may not be the latest implementation of Call module.
 
-Typical Folder Structure
----
+## Typical Folder Structure
+
 ```
     Call/
         - index.js => where the module class is written
@@ -15,25 +15,27 @@ Typical Folder Structure
         - index.test.js => where the unit test of index file is written
 ```
 
-Define Actions
----
+## Define Actions
 
-Here we defined all the redux action types for the module by using the Enum helper class.
+Here we defined all the redux action types for the module by using the ObjectMap class.
 
-And we defined the module status related action types in moduleActionTypes enums.
+And we defined the module status related action types in moduleActionTypes ObjectMap.
 
 ```javascript
-import Enum from '../../lib/Enum';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 import { moduleActionTypes } from '../../enums/moduleActionTypes';
 
-export default new Enum([
-  ...Object.keys(moduleActionTypes),
-  'connect',
-  'connectSuccess',
-  'connectError',
-], 'callActionTypes'); // prefix the actions with the module name
+export const callActionTypes = ObjectMap.prefixKeys(
+    [
+        ...ObjectMap.keys(moduleActionTypes),
+        'connect',
+        'connectSuccess',
+        'connectError',
+    ],
+    'callActionTypes',
+); // prefix the actions with the module name
 
-/* the result is similar to:
+/* The shape of the object is:
 {
     init: 'callActionTypes-init',
     initSuccess: 'callActionTypes-initSuccess',
@@ -43,12 +45,21 @@ export default new Enum([
     connectSuccess: 'callActionTypes-connectSuccess',
     connectError: 'callActionTypes-connectError',
 }
-*/
 
+But in the typing system, the shape is represented as:
+{
+    init: string;
+    initSuccess: string;
+    reset: string;
+    resetSuccess: string;
+    connect: string;
+    connectSuccess: string;
+    connectError: string;
+}
+*/
 ```
 
-Define Reducers
----
+## Define Reducers
 
 Reducers are the core of redux. It is what defines an redux application. In the modules design, we are not ruling the possibility of running multiple instances of phones in the same application. Therefore all the reducers needs to support prefixed actions.
 
@@ -58,34 +69,32 @@ import getModuleStatusReducer from '../../lib/getModuleStatusReducer';
 import callStatus from './callStatus';
 
 export function getCallStatusReducer(types) {
-  return (state = callStatus.idle, { type }) => {
-    switch (type) {
-      case types.connect:
-        return callStatus.connecting;
+    return (state = callStatus.idle, { type }) => {
+        switch (type) {
+            case types.connect:
+                return callStatus.connecting;
 
-      case types.connectSuccess:
-      case types.connectError:
-        return callStatus.idle;
+            case types.connectSuccess:
+            case types.connectError:
+                return callStatus.idle;
 
-      default:
-        return state;
-    }
-  };
+            default:
+                return state;
+        }
+    };
 }
 
 export default function getCallReducer(types) {
-  return combineReducers({
-    status: getModuleStatusReducer(types),
-    callStatus: getCallStatusReducer(types),
-  });
+    return combineReducers({
+        status: getModuleStatusReducer(types),
+        callStatus: getCallStatusReducer(types),
+    });
 }
 ```
 
 The bottom line is that we should treat the state object as immutable object, even though it is not implemented as an immutable object.
 
-
-The Module Definition
----
+## The Module Definition
 
 Here we extend the RcModule class to create the Call module. There are some key points in module creation.
 
@@ -95,111 +104,100 @@ import callingModes from '../CallingSettings/callingModes';
 import moduleStatuses from '../../enums/moduleStatuses';
 import proxify from '../../lib/proxy/proxify';
 import callActionTypes from './actionTypes';
-import getCallReducer, {
-  getLastCallNumberReducer,
-} from './getCallReducer';
+import getCallReducer, { getLastCallNumberReducer } from './getCallReducer';
 
 import callStatus from './callStatus';
 import callErrors from './callErrors';
 import ringoutErrors from '../Ringout/ringoutErrors';
 
-
 export default class Call extends RcModule {
-  constructor({
-    alert,
-    client,
-    storage,
-    ...options
-  }) {
-    super({
-      ...options,
-      actionTypes: callActionTypes,
-      // remember to pass action definitions into super
-      // RcModule will automatically bind the prefixed result as this.actionTypes
-    });
-    this._alert = alert;
-    this._client = client;
-    this._storage = storage;
-    this._storageKey = 'lastCallNumber';
-    // set reducers to this._reducer, this is required by RcModule
-    this._reducer = getCallReducer(this.actionTypes);
+    constructor({ alert, client, storage, ...options }) {
+        super({
+            ...options,
+            actionTypes: callActionTypes,
+            // remember to pass action definitions into super
+            // RcModule will automatically bind the prefixed result as this.actionTypes
+        });
+        this._alert = alert;
+        this._client = client;
+        this._storage = storage;
+        this._storageKey = 'lastCallNumber';
+        // set reducers to this._reducer, this is required by RcModule
+        this._reducer = getCallReducer(this.actionTypes);
 
-    // bind lastCallNumber state to storage
-    this._storage.registerReducer({
-      key: this._storageKey,
-      reducer: getLastCallNumberReducer(this.actionTypes),
-    });
-  }
-
-  initialize() {
-    // subscribe state change.
-    this.store.subscribe(() => this._onStateChange());
-  }
-
-  async _onStateChange() {
-    // update status on state change.
-    if (
-      this._alert.ready &&
-      this._storage.ready &&
-      this._client.ready &&
-      this.pending
-    ) {
-      this.store.dispatch({
-        type: this.actionTypes.init,
-      });
-      await this._initCallModule();
-      this.store.dispatch({
-        type: this.actionTypes.initSuccess,
-      });
-    } else if (
-      (
-        !this._alert.ready ||
-        !this._storage.ready ||
-        !this._client.ready
-      ) &&
-      this.ready
-    ) {
-      this.store.dispatch({
-        type: this.actionTypes.resetSuccess,
-      });
+        // bind lastCallNumber state to storage
+        this._storage.registerReducer({
+            key: this._storageKey,
+            reducer: getLastCallNumberReducer(this.actionTypes),
+        });
     }
-  }
 
-  // get last call number from storage
-  get lastCallNumber() {
-    return this._storage.getItem(this._storageKey) || '';
-  }
+    initialize() {
+        // subscribe state change.
+        this.store.subscribe(() => this._onStateChange());
+    }
 
-  // The proxify decorator will be explained in the proxy guide.
-  @proxify
-  async onCall() {
-    // do something on call
-  }
+    async _onStateChange() {
+        // update status on state change.
+        if (
+            this._alert.ready &&
+            this._storage.ready &&
+            this._client.ready &&
+            this.pending
+        ) {
+            this.store.dispatch({
+                type: this.actionTypes.init,
+            });
+            await this._initCallModule();
+            this.store.dispatch({
+                type: this.actionTypes.initSuccess,
+            });
+        } else if (
+            (!this._alert.ready ||
+                !this._storage.ready ||
+                !this._client.ready) &&
+            this.ready
+        ) {
+            this.store.dispatch({
+                type: this.actionTypes.resetSuccess,
+            });
+        }
+    }
 
-  // Simple getters to state looks like this.
-  // Getters can also include some business logic such as filtering or sorting results.
-  // Getters should not modify the state however.
-  get status() {
-    return this.state.status;
-  }
+    // get last call number from storage
+    get lastCallNumber() {
+        return this._storage.getItem(this._storageKey) || '';
+    }
 
-  get ready() {
-    return this.state.status === moduleStatuses.ready;
-  }
+    // The proxify decorator will be explained in the proxy guide.
+    @proxify
+    async onCall() {
+        // do something on call
+    }
 
-  get pending() {
-    return this.state.status === moduleStatuses.pending;
-  }
+    // Simple getters to state looks like this.
+    // Getters can also include some business logic such as filtering or sorting results.
+    // Getters should not modify the state however.
+    get status() {
+        return this.state.status;
+    }
 
-  // Provide getters to the callStatus state
-  get callStatus() {
-    return this.state.callStatus;
-  }
+    get ready() {
+        return this.state.status === moduleStatuses.ready;
+    }
+
+    get pending() {
+        return this.state.status === moduleStatuses.pending;
+    }
+
+    // Provide getters to the callStatus state
+    get callStatus() {
+        return this.state.callStatus;
+    }
 }
 ```
 
-Using Modules
----
+## Using Modules
 
 Let's go through some demo code to see how modules are used.
 
@@ -297,7 +295,6 @@ if (typeof window !== 'undefined') {
 
 ```
 
-Further Reading
----
+## Further Reading
 
-- [Local Development](local-development.md)
+-   [Local Development](local-development.md)

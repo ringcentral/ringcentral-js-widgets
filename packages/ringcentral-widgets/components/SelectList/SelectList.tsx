@@ -32,6 +32,8 @@ export type SelectListProps = {
   backHeaderClassName?: string;
   contactSearch?: (...args: any[]) => any;
   appName?: string;
+  autoClose?: boolean;
+  onBackClick: () => void;
 } & Pick<
   ListViewProps,
   'options' | 'valueFunction' | 'renderFunction' | 'startAdornment' | 'onChange'
@@ -47,24 +49,23 @@ export const SelectList: FunctionComponent<SelectListProps> = (props) => {
     appName,
     children,
     disabled,
+    onChange,
+    autoClose,
     otherTitle,
+    onBackClick,
     matchedTitle,
     currentLocale,
-    associatedTitle,
-    value: sourceValue,
-    backHeaderClassName,
-    foundFromServerTitle,
-    showFoundFromServer,
-    onChange,
     valueFunction,
     renderFunction,
     startAdornment,
+    associatedTitle,
+    value: sourceValue,
+    backHeaderClassName,
     onSelectViewVisible,
+    foundFromServerTitle,
   } = props;
   const [open, setOpen] = useState(false);
-  const [showSearchFromServerHint, setShowSearchFromServerHint] = useState(
-    true,
-  );
+
   useEffect(() => {
     onSelectViewVisible(open, field);
   }, [field, onSelectViewVisible, open]);
@@ -78,6 +79,11 @@ export const SelectList: FunctionComponent<SelectListProps> = (props) => {
           (document.activeElement as HTMLInputElement).blur();
         }
         onChange(value);
+        // auto close select section after selected a value
+        if (autoClose) {
+          setOpen(false);
+          onBackClick();
+        }
       }}
       renderFunction={renderFunction}
       valueFunction={valueFunction}
@@ -99,9 +105,6 @@ export const SelectList: FunctionComponent<SelectListProps> = (props) => {
             return;
           }
           setOpen(true);
-          if (showFoundFromServer) {
-            setShowSearchFromServerHint(true);
-          }
         }}
       >
         {children}
@@ -123,8 +126,6 @@ export const SelectList: FunctionComponent<SelectListProps> = (props) => {
         open={open}
         setOpen={setOpen}
         backHeaderClassName={backHeaderClassName}
-        showSearchFromServerHint={showSearchFromServerHint}
-        setShowSearchFromServerHint={setShowSearchFromServerHint}
       />
     </div>
   );
@@ -151,4 +152,6 @@ SelectList.defaultProps = {
   showFoundFromServer: false,
   foundFromServerTitle: null,
   foundFromServerEntities: [],
+  autoClose: true,
+  onBackClick() {},
 };

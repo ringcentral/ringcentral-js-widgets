@@ -3,9 +3,10 @@ import Auth from 'ringcentral-integration/modules/Auth';
 import Locale from 'ringcentral-integration/modules/Locale';
 import RegionSettings from 'ringcentral-integration/modules/RegionSettings';
 import Storage from 'ringcentral-integration/modules/Storage';
-import { Modal } from 'ringcentral-widgets/modules/Modal';
 import TabManager from 'ringcentral-integration/modules/TabManager';
+import { Modal } from 'ringcentral-widgets/modules/Modal';
 
+import { LoginTypes } from '../../enums';
 import { EvClient } from '../../lib/EvClient';
 import { EvAuth } from '../EvAuth';
 
@@ -33,7 +34,7 @@ export interface State {
 }
 
 export interface SessionConfig extends State {
-  setLoginType(loginType: string): void;
+  setLoginType(loginType: LoginTypes): void;
   setInboundQueueIds(ids: string[]): void;
   setSkillProfileId(skillProfile: string): void;
   setExtensionNumber(extensionNumber: string): void;

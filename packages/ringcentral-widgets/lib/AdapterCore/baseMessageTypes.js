@@ -1,6 +1,6 @@
-import Enum from 'ringcentral-integration/lib/Enum';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 
-export default new Enum([
+export const baseMessageTypes = ObjectMap.fromKeys([
   'syncClosed',
   'syncMinimized',
   'syncSize',
@@ -19,3 +19,5 @@ export default new Enum([
   'navigateToCurrentCall',
   'navigateToViewCalls',
 ]);
+
+export default baseMessageTypes;

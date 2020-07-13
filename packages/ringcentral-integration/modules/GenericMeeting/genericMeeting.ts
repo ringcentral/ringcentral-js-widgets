@@ -93,7 +93,10 @@ export class GenericMeeting extends RcModule implements IGenericMeeting {
     if (this.isRCM) {
       result = await this._meeting.schedule(meeting, config, opener);
     } else if (this.isRCV) {
-      result = await this._rcVideo.createMeeting(meeting, config);
+      result = await this._rcVideo.createMeeting(
+        meeting as RcVMeetingModel,
+        config,
+      );
     } else {
       console.error('Unknown meeting provider, please check module runtime');
       return;
@@ -117,6 +120,15 @@ export class GenericMeeting extends RcModule implements IGenericMeeting {
   @proxify
   async getMeeting(meetingId: string) {
     return this._meetingModule && this._meetingModule.getMeeting(meetingId);
+  }
+
+  @proxify
+  async getMeetingServiceInfo() {
+    return (
+      this._meetingModule &&
+      this._meetingModule.getMeetingServiceInfo &&
+      this._meetingModule.getMeetingServiceInfo()
+    );
   }
 
   @proxify
@@ -204,7 +216,7 @@ export class GenericMeeting extends RcModule implements IGenericMeeting {
     return this._extensionInfo.info;
   }
 
-  private get _meetingModule() {
+  protected get _meetingModule() {
     if (this.isRCM) {
       return this._meeting;
     }
@@ -236,6 +248,10 @@ export class GenericMeeting extends RcModule implements IGenericMeeting {
 
   get showSaveAsDefault() {
     return !!(this._meetingModule && this._meetingModule.showSaveAsDefault);
+  }
+
+  get isPreferencesChanged() {
+    return !!(this._meetingModule && this._meetingModule.isPreferencesChanged);
   }
 
   get brandName() {

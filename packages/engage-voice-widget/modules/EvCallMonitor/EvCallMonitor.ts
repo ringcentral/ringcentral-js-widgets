@@ -12,19 +12,22 @@ import { CallMonitor, DepsModules } from './EvCallMonitor.interface';
   deps: [
     'Presence',
     'EvClient',
+    'Beforeunload',
     'EvSessionConfig',
+    'EvIntegratedSoftphone',
     { dep: 'ContactMatcher', optional: true },
     { dep: 'ActivityMatcher', optional: true },
   ],
 })
 class EvCallMonitor extends RcModuleV2<DepsModules> implements CallMonitor {
-  private _oldCalls: EvCallData[];
+  handleActivityMatch: () => void;
 
-  private _onCallEndedHooks: Set<() => void>;
+  private _oldCalls: EvCallData[] = [];
+  private _onCallEndedHooks: Set<() => void> = new Set();
+  private _onCallRingHooks: Set<() => void> = new Set();
 
-  private _onCallRingHooks: Set<() => void>;
-
-  public handleActivityMatch: () => void;
+  private _beforeunloadHandler = () =>
+    this._modules.evSessionConfig.shouldBlockBrowser;
 
   constructor({
     presence,
@@ -32,6 +35,8 @@ class EvCallMonitor extends RcModuleV2<DepsModules> implements CallMonitor {
     evSessionConfig,
     contactMatcher,
     activityMatcher,
+    beforeunload,
+    evIntegratedSoftphone,
   }) {
     super({
       modules: {
@@ -40,16 +45,16 @@ class EvCallMonitor extends RcModuleV2<DepsModules> implements CallMonitor {
         evSessionConfig,
         contactMatcher,
         activityMatcher,
+        beforeunload,
+        evIntegratedSoftphone,
       },
     });
-    this._oldCalls = [];
-    this._onCallRingHooks = new Set();
-    this._onCallEndedHooks = new Set();
     if (this._modules.contactMatcher) {
       this._modules.contactMatcher.addQuerySource({
         getQueriesFn: () => this.getUniqueIdentifies(),
         readyCheckFn: () => this._modules.presence.ready,
       });
+
       this.addCallRingHook(async () => {
         const call = this.getCallsMapping()[this.callIds[0]];
         const contactMatchIdentify = contactMatchIdentifyEncode({
@@ -118,29 +123,32 @@ class EvCallMonitor extends RcModuleV2<DepsModules> implements CallMonitor {
     () => this.contactMatches,
     () => this.activityMatches,
     (callsDataMapping, contactMatches, activityMatches) => {
-      return Object.entries(callsDataMapping).reduce((mapping, [key, call]) => {
-        const contactMatchIdentify = contactMatchIdentifyEncode({
-          phoneNumber: call.ani,
-          callType: call.callType.toLowerCase(),
-        });
-        const id = call.session ? this.getCallId(call.session) : null;
-        const { agentFirstName, agentLastName } = call.baggage || {};
-        const agentName =
-          agentFirstName && agentLastName
-            ? `${agentFirstName} ${agentLastName}`
-            : null;
-        return {
-          ...mapping,
-          [key]: {
-            ...call,
-            agentName,
-            // TODO confirm about using `toMatches` & `fromMatches`?
-            contactMatches: contactMatches[contactMatchIdentify] || [],
-            activityMatches:
-              id && activityMatches[id] ? activityMatches[id] : [],
-          } as EvCallData,
-        };
-      }, {});
+      return Object.entries(callsDataMapping).reduce<Mapping<EvCallData>>(
+        (mapping, [key, call]) => {
+          const contactMatchIdentify = contactMatchIdentifyEncode({
+            phoneNumber: call.ani,
+            callType: call.callType.toLowerCase(),
+          });
+          const id = call.session ? this.getCallId(call.session) : null;
+          const { agentFirstName, agentLastName } = call.baggage || {};
+          const agentName =
+            agentFirstName && agentLastName
+              ? `${agentFirstName} ${agentLastName}`
+              : null;
+          return {
+            ...mapping,
+            [key]: {
+              ...call,
+              agentName,
+              // TODO confirm about using `toMatches` & `fromMatches`?
+              contactMatches: contactMatches[contactMatchIdentify] || [],
+              activityMatches:
+                id && activityMatches[id] ? activityMatches[id] : [],
+            } as EvCallData,
+          };
+        },
+        {},
+      );
     },
   );
 
@@ -149,15 +157,27 @@ class EvCallMonitor extends RcModuleV2<DepsModules> implements CallMonitor {
     (calls) => makeCallsUniqueIdentifies(calls),
   );
 
+  getMainCall(uii: string) {
+    const id = this._modules.evClient.getMainId(uii);
+    return this._modules.presence.callsMapping[id];
+  }
+
   onStateChange() {
-    if (this.calls.length > this._oldCalls.length) {
-      this._oldCalls = this.calls;
-      if (this.calls.length > 0 && this.calls[0]) {
-        this.onCallRing();
+    if (this._modules.evSessionConfig.configSuccess) {
+      if (this.calls.length > this._oldCalls.length) {
+        const currentCall = this.calls[0];
+        const mainCall = this.getMainCall(currentCall.uii);
+
+        if (currentCall && mainCall) {
+          this._oldCalls = this.calls;
+          this._onCallRing();
+        } else {
+          this._modules.presence.clearCalls();
+        }
+      } else if (this.calls.length < this._oldCalls.length) {
+        this._oldCalls = this.calls;
+        this._onCallEnded();
       }
-    } else if (this.calls.length < this._oldCalls.length) {
-      this._oldCalls = this.calls;
-      this.onCallEnded();
     }
   }
 
@@ -190,46 +210,38 @@ class EvCallMonitor extends RcModuleV2<DepsModules> implements CallMonitor {
     });
   }
 
-  private beforeunloadHandler = (event: BeforeUnloadEvent) => {
-    if (this._modules.evSessionConfig.hasMultipleTabs) {
-      // Guarantee the browser unload by removing the returnValue property of the event
-      delete event.returnValue;
-    } else {
-      event.preventDefault();
-      event.returnValue = '';
-    }
-  };
+  addCallRingHook(callback: () => any) {
+    this._onCallRingHooks.add(callback);
+    return this;
+  }
 
-  private async onCallRing() {
-    window.addEventListener('beforeunload', this.beforeunloadHandler);
+  removeCallRingHook(callback: () => any) {
+    this._onCallRingHooks.delete(callback);
+  }
+
+  addCallEndedHook(callback: () => any) {
+    this._onCallEndedHooks.add(callback);
+    return this;
+  }
+
+  removeCallEndedHook(callback: () => any) {
+    this._onCallEndedHooks.delete(callback);
+  }
+
+  private async _onCallRing() {
+    this._modules.beforeunload.add(this._beforeunloadHandler);
+
     for (const hook of this._onCallRingHooks) {
       await hook();
     }
   }
 
-  private async onCallEnded() {
-    window.removeEventListener('beforeunload', this.beforeunloadHandler);
+  private async _onCallEnded() {
+    this._modules.beforeunload.remove(this._beforeunloadHandler);
+
     for (const hook of this._onCallEndedHooks) {
       await hook();
     }
-  }
-
-  public addCallRingHook(callback: () => any) {
-    this._onCallRingHooks.add(callback);
-    return this;
-  }
-
-  public removeCallRingHook(callback: () => any) {
-    this._onCallRingHooks.delete(callback);
-  }
-
-  public addCallEndedHook(callback: () => any) {
-    this._onCallEndedHooks.add(callback);
-    return this;
-  }
-
-  public removeCallEndedHook(callback: () => any) {
-    this._onCallEndedHooks.delete(callback);
   }
 }
 

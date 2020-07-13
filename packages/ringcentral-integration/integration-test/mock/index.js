@@ -26,6 +26,7 @@ import deviceBody from './data/device.json';
 import conferencingBody from './data/conferencing.json';
 import activeCallsBody from './data/activeCalls.json';
 import meetingBody from './data/meeting';
+import meetingPreferenceBody from './data/meetingPreference';
 import serviceInfoBody from './data/serviceInfo';
 import conferenceCallBody from './data/conferenceCall';
 import numberParseBody from './data/numberParse';
@@ -96,7 +97,7 @@ export function mockApi({
     },
     {
       method,
-      times: isOnce ? 1 : 20000,
+      times: isOnce ? 1 : 20,
     },
   );
 }
@@ -113,7 +114,7 @@ export function authentication() {
       refresh_token_expires_in: 60480,
       scope: 'SMS RCM Foo Boo',
       expireTime: new Date().getTime() + 3600000,
-      owner_id: '23231231',
+      owner_id: '23231231"',
       endpoint_id: '3213213131',
     },
   });
@@ -124,9 +125,6 @@ export function logout() {
     method: 'POST',
     path: '/restapi/oauth/revoke',
     isOnce: false,
-    body: {
-      message: 'OK',
-    },
   });
 }
 
@@ -641,6 +639,25 @@ export function meeting(mockResponse = {}) {
   });
 }
 
+export function meetingPreference() {
+  // ! Don't change the order of this, or it wouldn't match
+  const PREFERENCE_ID_LIST = [
+    'join_before_host',
+    // 'join_video_off',
+    // 'join_audio_mute',
+    'password_scheduled',
+    'password_instant',
+  ];
+  mockApi({
+    method: 'GET',
+    url: `${mockServer}/rcvideo/v1/account/~/extension/~/preferences?id=${PREFERENCE_ID_LIST.join(
+      '&id=',
+    )}`,
+    body: meetingPreferenceBody,
+    isOnce: false,
+  });
+}
+
 export function serviceInfo(mockResponse = {}) {
   mockApi({
     method: 'GET',
@@ -773,4 +790,5 @@ export function mockForLogin({
   if (mockVideoConfiguration) {
     videoConfiguration();
   }
+  meetingPreference();
 }

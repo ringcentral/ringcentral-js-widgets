@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { Router, Route } from 'react-router';
 
 import PhoneProvider from 'ringcentral-widgets/lib/PhoneProvider';
-import CallingSettingsPage from 'ringcentral-widgets/containers/CallingSettingsPage';
+
 import RegionSettingsPage from 'ringcentral-widgets/containers/RegionSettingsPage';
 
 import SettingsPage from 'ringcentral-widgets/containers/SettingsPage';

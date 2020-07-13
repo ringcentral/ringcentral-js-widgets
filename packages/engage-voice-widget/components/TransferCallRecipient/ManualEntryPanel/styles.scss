@@ -1,0 +1,17 @@
+@import '../../../scss/variables.scss';
+
+.actionContainer {
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
+  flex: 1 1 auto;
+}
+
+.button {
+  margin: 0 $lightning-page-space 20px;
+  width: 100%;
+
+  [sf-classic] & {
+    margin: 0 $classic-page-space 16px;
+  }
+}

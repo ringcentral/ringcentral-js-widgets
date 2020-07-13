@@ -406,7 +406,7 @@ export default class BasePhone extends RcModule {
   //           const showComposeText = rolesAndPermissions.hasComposeTextPermission;
   //           const showMessages = rolesAndPermissions.hasReadMessagesPermission;
   //           const showConference = rolesAndPermissions.permissions.OrganizeConference;
-  //           const showMeeting = rolesAndPermissions.permissions.Meetings;
+  //           const showMeeting = rolesAndPermissions.hasMeetingsPermission;
   //           if (showDialPad) {
   //             this.routerInteraction.push('/dialer');
   //           } else if (showCalls) {

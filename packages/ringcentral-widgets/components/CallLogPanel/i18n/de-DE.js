@@ -1,5 +1,5 @@
 export default {
-  createCallLog: "Anrufliste erstellen"
+  createCallLog: "Anrufliste anlegen"
 };
 
 // @key: @#@"createCallLog"@#@ @source: @#@"Create call log"@#@

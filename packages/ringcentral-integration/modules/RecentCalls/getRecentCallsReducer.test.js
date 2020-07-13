@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { getCallsReducer, getCallStatusReducer } from './getRecentCallsReducer';
-import actionTypes from './actionTypes';
-import callStatus from './callStatus';
+import { actionTypes } from './actionTypes';
+import { callStatus } from './callStatus';
 
 describe('RecentCalls :: getCallsReducer', () => {
   it('getCallsReducer should be a function', () => {
@@ -11,7 +11,7 @@ describe('RecentCalls :: getCallsReducer', () => {
     expect(getCallsReducer()).to.be.a('function');
   });
 
-  describe('callsreducer', () => {
+  describe('callsReducer', () => {
     const reducer = getCallsReducer(actionTypes);
     it('should have initial state of empty object', () => {
       expect(reducer(undefined, {})).to.deep.equal({});
