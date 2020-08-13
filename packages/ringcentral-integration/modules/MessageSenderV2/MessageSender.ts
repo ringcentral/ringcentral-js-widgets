@@ -192,7 +192,7 @@ export class MessageSender extends RcModuleV2<Deps> {
         }
         numbers.push(number.subAddress);
       } else {
-        numbers.push(number.e164);
+        numbers.push(number.availableExtension || number.e164);
       }
     }
     result.result = true;
