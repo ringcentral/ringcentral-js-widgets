@@ -13,7 +13,7 @@ import RecipientsInput from 'ringcentral-widgets/components/RecipientsInput';
 import ContactDropdownList from 'ringcentral-widgets/components/ContactDropdownList';
 import updateConferenceCallBody from 'ringcentral-integration/integration-test/mock/data/updateConference';
 import DropdownSelect from 'ringcentral-widgets/components/DropdownSelect';
-import { initPhoneWrapper, timeout } from '../shared';
+import { initPhoneWrapper, timeout, tearDownWrapper } from '../shared';
 import {
   CONFERENCE_SESSION_ID,
   makeCall,
@@ -140,6 +140,7 @@ describe('Simplified Call Control Page:', () => {
     expect(buttons.at(5).text()).toEqual('Call Actions');
     const handupButton = wrapper.find('.stopButtonGroup').find(CircleButton);
     expect(handupButton.props().className).toEqual('stopButton');
+    await tearDownWrapper(wrapper);
   });
 });
 
@@ -171,6 +172,7 @@ describe('RCI-1071: simplified call control page #3', () => {
     expect(callAvatarB.props().avatarUrl).toBeNull();
     expect(mergeInfo.find('.callee_name_active').text()).toEqual(contactA.name);
     expect(mergeInfo.find(DurationCounter)).toHaveLength(1);
+    await tearDownWrapper(wrapper);
   });
   test('#2 Contact A hangs up the call', async () => {
     const { wrapper, phone } = await initPhoneWrapper({
@@ -205,6 +207,7 @@ describe('RCI-1071: simplified call control page #3', () => {
     expect(callAvatarB.props().avatarUrl).toBeNull();
     expect(mergeInfo.find('.callee_name_active').text()).toEqual(contactA.name);
     expect(mergeInfo.find(DurationCounter)).toHaveLength(1);
+    await tearDownWrapper(wrapper);
   });
   test('#3 && #4 user makes a conference call then make an outbound call, then hangup', async () => {
     const { wrapper, phone } = await initPhoneWrapper();
@@ -252,6 +255,7 @@ describe('RCI-1071: simplified call control page #3', () => {
     // phone.webphone._updateSessions();
 
     // expect(mergeInfo.find('.callee_status').text()).toEqual('Disconnected');
+    await tearDownWrapper(wrapper);
   });
 });
 
@@ -275,6 +279,7 @@ describe('RCI-1710156: Call control add call flow', () => {
     expect(activeCallButtons.at(3).props().title).toEqual('Merge');
     const hangupBtn = wrapper.find('.stopButtonGroup').find(CircleButton);
     expect(hangupBtn.props().className).toEqual('stopButton');
+    await tearDownWrapper(wrapper);
   });
 });
 
@@ -286,6 +291,7 @@ describe('RCI-1710156: Call control add call flow #6&#7', () => {
     wrapper.update();
     const calling = wrapper.find(DropdownSelect);
     expect(calling.props().disabled).toBe(true);
+    await tearDownWrapper(wrapper);
   });
 });
 
@@ -342,6 +348,7 @@ describe('RCI-1710156: Call control add call flow', () => {
     const dropdownList = wrapper.find(ContactDropdownList);
     expect(dropdownList.props().visibility).toBe(true);
     expect(dropdownList.props().items[0].name).toEqual('Something1 New1');
+    await tearDownWrapper(wrapper);
     // #4 TODO
   });
 });

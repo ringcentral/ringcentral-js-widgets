@@ -17,7 +17,7 @@ import {
   mockPresencePubnub,
   CONFERENCE_SESSION_ID,
 } from '../../support/callHelper';
-import { initPhoneWrapper, timeout } from '../shared';
+import { initPhoneWrapper, timeout, tearDownWrapper } from '../shared';
 import deviceBody from './data/device';
 
 beforeEach(async () => {
@@ -174,6 +174,7 @@ describe.skip('Merge Call Flow: Conference Call Ctrl -> click Merge -> on hold l
       .at(2);
     expect(holdButton.find('.buttonTitle').text()).toEqual('Hold');
     expect(wrapper.find(ConferenceInfo)).toHaveLength(1);
+    await tearDownWrapper(wrapper);
   });
   test('RCINT-8377 Active Conference Call when merged(onheld outbound + onheld conference):', async () => {
     const { wrapper, phone } = await initPhoneWrapper();
@@ -221,6 +222,7 @@ describe.skip('Merge Call Flow: Conference Call Ctrl -> click Merge -> on hold l
       .at(2);
     expect(holdButton.find('.buttonTitle').text()).toEqual('Hold');
     expect(wrapper.find(ConferenceInfo)).toHaveLength(1);
+    await tearDownWrapper(wrapper);
   });
 });
 
@@ -275,6 +277,7 @@ describe('Merge Call Flow: Conference Call Ctrl -> click Merge -> dialer', () =>
       .at(2);
     expect(holdButton.find('.buttonTitle').text()).toEqual('Hold');
     expect(wrapper.find(ConferenceInfo)).toHaveLength(1);
+    await tearDownWrapper(wrapper);
   });
   test('RCINT-8377 Active Conference Call when merged(active outbound + onheld conference):', async () => {
     const { wrapper, phone } = await initPhoneWrapper();
@@ -310,6 +313,7 @@ describe('Merge Call Flow: Conference Call Ctrl -> click Merge -> dialer', () =>
       .at(2);
     expect(holdButton.find('.buttonTitle').text()).toEqual('Hold');
     expect(wrapper.find(ConferenceInfo)).toHaveLength(1);
+    await tearDownWrapper(wrapper);
   });
 });
 
@@ -346,6 +350,7 @@ describe('Merge Call Flow: Normal Call Ctrl -> click Merge -> popup', () => {
       .at(2);
     expect(holdButton.find('.buttonTitle').text()).toEqual('Hold');
     expect(wrapper.find(ConferenceInfo)).toHaveLength(1);
+    await tearDownWrapper(wrapper);
   });
   test('RCINT-8377 Active Conference Call when merged(active outbound + onheld conference):', async () => {
     const { wrapper, phone } = await initPhoneWrapper();
@@ -363,6 +368,7 @@ describe('Merge Call Flow: Normal Call Ctrl -> click Merge -> popup', () => {
       .at(2);
     expect(holdButton.find('.buttonTitle').text()).toEqual('Hold');
     expect(wrapper.find(ConferenceInfo)).toHaveLength(1);
+    await tearDownWrapper(wrapper);
   });
 });
 
@@ -400,6 +406,7 @@ describe('Add Call Flow: Normal Call Ctrl -> click Add -> dialer', () => {
       .at(2);
     expect(holdButton.find('.buttonTitle').text()).toEqual('Hold');
     expect(wrapper.find(ConferenceInfo)).toHaveLength(1);
+    await tearDownWrapper(wrapper);
   });
   test('RCINT-8377 Active Conference Call when merged(onheld outbound + onheld outbound)-1', async () => {
     const { wrapper, phone } = await initPhoneWrapper();
@@ -451,6 +458,7 @@ describe('Add Call Flow: Normal Call Ctrl -> click Add -> dialer', () => {
       .at(2);
     expect(holdButton.find('.buttonTitle').text()).toEqual('Hold');
     expect(wrapper.find(ConferenceInfo)).toHaveLength(1);
+    await tearDownWrapper(wrapper);
   });
 });
 
@@ -485,6 +493,7 @@ describe('Add Call Flow: Normal Call Ctrl -> click Add -> on hold list', () => {
       .at(2);
     expect(holdButton.find('.buttonTitle').text()).toEqual('Hold');
     expect(wrapper.find(ConferenceInfo)).toHaveLength(1);
+    await tearDownWrapper(wrapper);
   });
   test('RCINT-8377 Active Conference Call when merged(onheld outbound + onheld outbound)-2', async () => {
     const { wrapper, phone } = await initPhoneWrapper();
@@ -533,5 +542,6 @@ describe('Add Call Flow: Normal Call Ctrl -> click Add -> on hold list', () => {
       .at(2);
     expect(holdButton.find('.buttonTitle').text()).toEqual('Hold');
     expect(wrapper.find(ConferenceInfo)).toHaveLength(1);
+    await tearDownWrapper(wrapper);
   });
 });
