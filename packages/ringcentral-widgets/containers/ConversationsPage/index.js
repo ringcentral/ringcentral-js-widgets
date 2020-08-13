@@ -200,7 +200,7 @@ export function mapToFunctions(
     goToComposeText: () => routerInteraction.push(composeTextRoute),
     updateTypeFilter: (type) => conversations.updateTypeFilter(type),
     deleteMessage(conversationId) {
-      conversations.deleteCoversation(conversationId);
+      conversations.deleteConversation(conversationId);
     },
     previewFaxMessages(uri, conversationId) {
       if (!previewFaxMessages) {

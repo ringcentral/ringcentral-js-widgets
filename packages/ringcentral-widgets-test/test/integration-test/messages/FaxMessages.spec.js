@@ -30,6 +30,9 @@ describe('fax messages', () => {
   beforeEach(async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 64000;
   });
+  afterEach(async () => {
+    await tearDownWrapper(wrapper);
+  });
   describe('fax messages list', () => {
     test('initial state', async () => {
       wrapper = await getWrapper();
@@ -40,7 +43,6 @@ describe('fax messages', () => {
       panel = wrapper.find(ConversationsPanel).first();
       expect(panel).toBeDefined();
       expect(panel.props()).toBeDefined();
-      tearDownWrapper(wrapper);
     });
     test('when have no fax permission should not show fax sub tab', async () => {
       wrapper = await getWrapper();
@@ -59,7 +61,6 @@ describe('fax messages', () => {
         .props()
         .tabs.filter((tab) => tab.path === messageTypes.fax);
       expect(faxTabs.length).toEqual(0);
-      tearDownWrapper(wrapper);
     });
     test('when have fax permission should show fax sub tab', async () => {
       wrapper = await getWrapper();
@@ -79,7 +80,6 @@ describe('fax messages', () => {
         .props()
         .tabs.filter((tab) => tab.path === messageTypes.fax);
       expect(faxTabs.length).toEqual(1);
-      tearDownWrapper(wrapper);
     });
     test('when fax message sent before today should display date', async () => {
       wrapper = await getWrapper({ shouldMockForLogin: false });
@@ -101,14 +101,14 @@ describe('fax messages', () => {
           },
         ],
       });
-      Object.defineProperty(phone.tabManager, 'active', {
-        value: true,
-      });
+      // Object.defineProperty(phone.tabManager, 'active', {
+      //   value: true,
+      // });
       await ensureLogin(phone.auth, {
         username: 'test',
         password: 'test',
       });
-
+      await waitUntil(() => phone.conversations.ready, 100, 10000);
       wrapper.setProps({ phone });
       wrapper.update();
       navigationBar = wrapper.find(NavigationBar).first();
@@ -127,7 +127,6 @@ describe('fax messages', () => {
       expect(messageItem.find('.creationTime').text()).toMatch(
         /\d{1,2}\/\d{1,2}\/\d{4}/g,
       );
-      tearDownWrapper(wrapper);
     });
     test('when fax message sent in today should display time', async () => {
       wrapper = await getWrapper({ shouldMockForLogin: false });
@@ -145,13 +144,14 @@ describe('fax messages', () => {
           },
         ],
       });
-      Object.defineProperty(phone.tabManager, 'active', {
-        value: true,
-      });
+      // Object.defineProperty(phone.tabManager, 'active', {
+      //   value: true,
+      // });
       await ensureLogin(phone.auth, {
         username: 'test',
         password: 'test',
       });
+      await waitUntil(() => phone.conversations.ready, 100, 10000);
       wrapper.setProps({ phone });
       navigationBar = wrapper.find(NavigationBar).first();
       await navigationBar.props().goTo('/messages');
@@ -167,7 +167,6 @@ describe('fax messages', () => {
         .find(MessageItem)
         .at(0);
       expect(messageItem.find('.creationTime').text()).toMatch(/\d\d:\d\d/g);
-      tearDownWrapper(wrapper);
     });
     test('when fax message is received should show received direction', async () => {
       wrapper = await getWrapper({ shouldMockForLogin: false });
@@ -191,13 +190,14 @@ describe('fax messages', () => {
           },
         ],
       });
-      Object.defineProperty(phone.tabManager, 'active', {
-        value: true,
-      });
+      // Object.defineProperty(phone.tabManager, 'active', {
+      //   value: true,
+      // });
       await ensureLogin(phone.auth, {
         username: 'test',
         password: 'test',
       });
+      await waitUntil(() => phone.conversations.ready, 100, 10000);
       wrapper.setProps({ phone });
       navigationBar = wrapper.find(NavigationBar).first();
       await navigationBar.props().goTo('/messages');
@@ -213,7 +213,6 @@ describe('fax messages', () => {
         .find(MessageItem)
         .at(0);
       expect(messageItem.find('.details').text()).toMatch(/^Fax received/g);
-      tearDownWrapper(wrapper);
     });
     test('when fax message is sent should show show sent direction', async () => {
       wrapper = await getWrapper({ shouldMockForLogin: false });
@@ -237,13 +236,14 @@ describe('fax messages', () => {
           },
         ],
       });
-      Object.defineProperty(phone.tabManager, 'active', {
-        value: true,
-      });
+      // Object.defineProperty(phone.tabManager, 'active', {
+      //   value: true,
+      // });
       await ensureLogin(phone.auth, {
         username: 'test',
         password: 'test',
       });
+      await waitUntil(() => phone.conversations.ready, 100, 10000);
       wrapper.setProps({ phone });
       navigationBar = wrapper.find(NavigationBar).first();
       await navigationBar.props().goTo('/messages');
@@ -259,16 +259,15 @@ describe('fax messages', () => {
         .find(MessageItem)
         .at(0);
       expect(messageItem.find('.details').text()).toMatch(/^Fax sent/g);
-      tearDownWrapper(wrapper);
     });
     test('when authorize should display google contact in fax list', async () => {
       mock.restore();
       // mock.subscription();
       wrapper = await getWrapper({ shouldMockForLogin: false });
       phone = wrapper.props().phone;
-      Object.defineProperty(phone.tabManager, 'active', {
-        value: true,
-      });
+      // Object.defineProperty(phone.tabManager, 'active', {
+      //   value: true,
+      // });
       Object.defineProperty(phone.contactMatcher, 'dataMapping', {
         value: {
           '+12345678': [
@@ -327,6 +326,7 @@ describe('fax messages', () => {
         username: 'test',
         password: 'test',
       });
+      await waitUntil(() => phone.conversations.ready, 100, 10000);
       wrapper.setProps({ phone });
       wrapper.update();
       navigationBar = wrapper.find(NavigationBar).first();
@@ -349,7 +349,6 @@ describe('fax messages', () => {
           .at(0)
           .text(),
       ).toMatch(/^test user$/g);
-      tearDownWrapper(wrapper);
     });
   });
   describe('fax messages unread count', () => {
@@ -364,14 +363,14 @@ describe('fax messages', () => {
         readStatus: 'Read',
         direction: 'Inbound',
       });
-      Object.defineProperty(phone.tabManager, 'active', {
-        value: true,
-      });
+      // Object.defineProperty(phone.tabManager, 'active', {
+      //   value: true,
+      // });
       await ensureLogin(phone.auth, {
         username: 'test',
         password: 'test',
       });
-
+      await waitUntil(() => phone.conversations.ready, 100, 10000);
       wrapper.setProps({ phone });
       wrapper.update();
       navigationBar = wrapper.find(NavigationBar).first();
@@ -391,7 +390,6 @@ describe('fax messages', () => {
         .find('.active')
         .find('.notice');
       expect(notice.length).toEqual(0);
-      tearDownWrapper(wrapper);
     });
     test('should show 3 unread count displayed on fax tab when there are 3 unread fax', async () => {
       wrapper = await getWrapper({ shouldMockForLogin: false });
@@ -404,14 +402,14 @@ describe('fax messages', () => {
         readStatus: 'Unread',
         direction: 'Inbound',
       });
-      Object.defineProperty(phone.tabManager, 'active', {
-        value: true,
-      });
+      // Object.defineProperty(phone.tabManager, 'active', {
+      //   value: true,
+      // });
       await ensureLogin(phone.auth, {
         username: 'test',
         password: 'test',
       });
-
+      await waitUntil(() => phone.conversations.ready, 100, 10000);
       wrapper.setProps({ phone });
       wrapper.update();
       navigationBar = wrapper.find(NavigationBar).first();
@@ -430,7 +428,6 @@ describe('fax messages', () => {
         .find('.notice')
         .at(0);
       expect(notice.text()).toEqual('3');
-      tearDownWrapper(wrapper);
     });
     test('should show 99 unread count displayed on fax tab when there are 99 unread fax', async () => {
       wrapper = await getWrapper({ shouldMockForLogin: false });
@@ -443,14 +440,14 @@ describe('fax messages', () => {
         readStatus: 'Unread',
         direction: 'Inbound',
       });
-      Object.defineProperty(phone.tabManager, 'active', {
-        value: true,
-      });
+      // Object.defineProperty(phone.tabManager, 'active', {
+      //   value: true,
+      // });
       await ensureLogin(phone.auth, {
         username: 'test',
         password: 'test',
       });
-
+      await waitUntil(() => phone.conversations.ready, 100, 10000);
       wrapper.setProps({ phone });
       wrapper.update();
       navigationBar = wrapper.find(NavigationBar).first();
@@ -471,7 +468,6 @@ describe('fax messages', () => {
         .find('.notice')
         .at(0);
       expect(notice.text()).toEqual('99');
-      tearDownWrapper(wrapper);
     });
     test('should show 99+ unread count displayed on fax tab when there are 100 unread fax', async () => {
       wrapper = await getWrapper();
@@ -488,7 +484,7 @@ describe('fax messages', () => {
         username: 'test',
         password: 'test',
       });
-
+      await waitUntil(() => phone.conversations.ready, 100, 10000);
       wrapper.setProps({ phone });
       wrapper.update();
       navigationBar = wrapper.find(NavigationBar).first();
@@ -507,7 +503,6 @@ describe('fax messages', () => {
         .find('.notices')
         .at(0);
       expect(notice.text()).toEqual('99+');
-      tearDownWrapper(wrapper);
     });
     test('when click to view unread message the unread count displayed with fax tab should reduce from 1 to null', async () => {
       wrapper = await getWrapper({ shouldMockForLogin: false });
@@ -520,14 +515,14 @@ describe('fax messages', () => {
         readStatus: 'Unread',
         direction: 'Inbound',
       });
-      Object.defineProperty(phone.tabManager, 'active', {
-        value: true,
-      });
+      // Object.defineProperty(phone.tabManager, 'active', {
+      //   value: true,
+      // });
       await ensureLogin(phone.auth, {
         username: 'test',
         password: 'test',
       });
-
+      await waitUntil(() => phone.conversations.ready, 100, 10000);
       wrapper.setProps({ phone });
       wrapper.update();
       navigationBar = wrapper.find(NavigationBar).first();
@@ -563,7 +558,6 @@ describe('fax messages', () => {
         .find('.active')
         .find('.notice');
       expect(notice.length).toEqual(0);
-      tearDownWrapper(wrapper);
     });
     test('when mark as unread the unread count displayed with fax tab should add from null to 1', async () => {
       wrapper = await getWrapper({ shouldMockForLogin: false });
@@ -576,9 +570,9 @@ describe('fax messages', () => {
         readStatus: 'Read',
         direction: 'Inbound',
       });
-      Object.defineProperty(phone.tabManager, 'active', {
-        value: true,
-      });
+      // Object.defineProperty(phone.tabManager, 'active', {
+      //   value: true,
+      // });
       Object.defineProperty(phone.rolesAndPermissions, 'readFaxPermissions', {
         value: true,
       });
@@ -586,10 +580,10 @@ describe('fax messages', () => {
         username: 'test',
         password: 'test',
       });
-
-      Object.defineProperty(phone.contactMatcher, 'ready', {
-        value: true,
-      });
+      await waitUntil(() => phone.conversations.ready, 100, 10000);
+      // Object.defineProperty(phone.contactMatcher, 'ready', {
+      //   value: true,
+      // });
       wrapper.setProps({ phone });
       wrapper.update();
       navigationBar = wrapper.find(NavigationBar).first();
@@ -627,7 +621,6 @@ describe('fax messages', () => {
         .find('.active')
         .find('.notice');
       expect(notice.at(0).text()).toEqual('1');
-      tearDownWrapper(wrapper);
     });
     test('when mark as read unread message the unread count displayed with fax tab should reduce from 99+ to 99', async () => {
       wrapper = await getWrapper({ shouldMockForLogin: false });
@@ -640,14 +633,14 @@ describe('fax messages', () => {
         readStatus: 'Unread',
         direction: 'Inbound',
       });
-      Object.defineProperty(phone.tabManager, 'active', {
-        value: true,
-      });
+      // Object.defineProperty(phone.tabManager, 'active', {
+      //   value: true,
+      // });
       await ensureLogin(phone.auth, {
         username: 'test',
         password: 'test',
       });
-
+      await waitUntil(() => phone.conversations.ready, 100, 10000);
       await timeout(100);
       mockUpdateMessageStatusApi({
         id: 1,
@@ -692,7 +685,6 @@ describe('fax messages', () => {
         .find('.active')
         .find('.notice');
       expect(notice.at(0).text()).toEqual('99');
-      tearDownWrapper(wrapper);
     });
     test('when mark as unread a read message the unread count displayed with fax tab should add from 99 to 99+', async () => {
       wrapper = await getWrapper({ shouldMockForLogin: false });
@@ -706,14 +698,14 @@ describe('fax messages', () => {
         direction: 'Inbound',
       });
 
-      Object.defineProperty(phone.tabManager, 'active', {
-        value: true,
-      });
+      // Object.defineProperty(phone.tabManager, 'active', {
+      //   value: true,
+      // });
       await ensureLogin(phone.auth, {
         username: 'test',
         password: 'test',
       });
-      await timeout(100);
+      await waitUntil(() => phone.conversations.ready, 100, 10000);
       mockUpdateMessageStatusApi({
         id: 1,
         readStatus: 'Read',
@@ -769,7 +761,6 @@ describe('fax messages', () => {
         .find('.active')
         .find('.notices');
       expect(notice.at(0).text()).toEqual('99+');
-      tearDownWrapper(wrapper);
     });
   });
   describe('fax messages action', () => {
@@ -782,13 +773,15 @@ describe('fax messages', () => {
       wrapper.update();
       panel = wrapper.find(ConversationsPanel).first();
       phone = wrapper.props().phone;
-      Object.defineProperty(phone.tabManager, 'active', {
-        value: true,
-      });
+      // Object.defineProperty(phone.tabManager, 'active', {
+      //   value: true,
+      // });
       mock.restore();
       mock.subscription();
     });
-    afterEach(() => tearDownWrapper(wrapper));
+    afterEach(async () => {
+      mock.logout();
+    });
     test('should have preview btn', async () => {
       mockGenerateMessageApi({
         count: 1,
@@ -797,7 +790,7 @@ describe('fax messages', () => {
         direction: 'Outbound',
       });
       await phone.subscription.subscribe(
-        ['/account/~/extension/~/message-sync'],
+        ['/restapi/v1.0/account/~/extension/~/message-sync'],
         10,
       );
       await timeout(100);
@@ -818,9 +811,9 @@ describe('fax messages', () => {
       ).toEqual('View');
     });
     test('should have download btn', async () => {
-      Object.defineProperty(phone.tabManager, 'active', {
-        value: true,
-      });
+      // Object.defineProperty(phone.tabManager, 'active', {
+      //   value: true,
+      // });
       mockGenerateMessageApi({
         count: 1,
         messageType: 'Fax',
@@ -828,7 +821,7 @@ describe('fax messages', () => {
         direction: 'Outbound',
       });
       await phone.subscription.subscribe(
-        ['/account/~/extension/~/message-sync'],
+        ['/restapi/v1.0/account/~/extension/~/message-sync'],
         10,
       );
       await timeout(100);
@@ -849,7 +842,7 @@ describe('fax messages', () => {
         direction: 'Inbound',
       });
       await phone.subscription.subscribe(
-        ['/account/~/extension/~/message-sync'],
+        ['/restapi/v1.0/account/~/extension/~/message-sync'],
         10,
       );
       await timeout(100);
@@ -875,7 +868,7 @@ describe('fax messages', () => {
         direction: 'Inbound',
       });
       await phone.subscription.subscribe(
-        ['/account/~/extension/~/message-sync'],
+        ['/restapi/v1.0/account/~/extension/~/message-sync'],
         10,
       );
       await timeout(100);
@@ -901,7 +894,7 @@ describe('fax messages', () => {
         direction: 'Outbound',
       });
       await phone.subscription.subscribe(
-        ['/account/~/extension/~/message-sync'],
+        ['/restapi/v1.0/account/~/extension/~/message-sync'],
         10,
       );
       await timeout(100);
@@ -923,7 +916,7 @@ describe('fax messages', () => {
         direction: 'Outbound',
       });
       await phone.subscription.subscribe(
-        ['/account/~/extension/~/message-sync'],
+        ['/restapi/v1.0/account/~/extension/~/message-sync'],
         10,
       );
       await timeout(100);

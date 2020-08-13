@@ -1,7 +1,6 @@
 import {
   action,
-  createSelector,
-  RcModuleState,
+  computed,
   RcModuleV2,
   state,
   storage,
@@ -29,10 +28,8 @@ import {
   EvOffhookInitResponse,
   EvOffhookTermResponse,
 } from '../../lib/EvClient/interfaces';
-import { DepsModules, Presence, State } from './EvPresence.interface';
+import { Deps, Presence } from './EvPresence.interface';
 import { getTimeStamp } from './helper';
-
-type EvPresenceState = RcModuleState<EvPresence, State>;
 
 @Module({
   name: 'EvPresence',
@@ -42,44 +39,23 @@ type EvPresenceState = RcModuleState<EvPresence, State>;
     'EvAuth',
     'Storage',
     'EvSettings',
-    'EvSessionConfig',
-    'Beforeunload',
+    'EvAgentSession',
     'Alert',
     { dep: 'PresenceOptions', optional: true },
   ],
 })
-class EvPresence extends RcModuleV2<DepsModules, EvPresenceState>
-  implements Presence {
+class EvPresence extends RcModuleV2<Deps> implements Presence {
   evPresenceEvents = new EventEmitter();
 
   showOffHookInitError = true;
 
-  constructor({
-    evSubscription,
-    evClient,
-    storage,
-    evAuth,
-    evSettings,
-    evSessionConfig,
-    alert,
-    beforeunload,
-    enableCache = true,
-  }) {
+  constructor(deps: Deps) {
     super({
-      modules: {
-        evSubscription,
-        evClient,
-        evAuth,
-        storage,
-        evSettings,
-        evSessionConfig,
-        alert,
-        beforeunload,
-      },
-      enableCache,
+      deps,
+      enableCache: true,
       storageKey: 'EvPresence',
     });
-    this._modules.evSessionConfig.clearCalls = () => {
+    this._deps.evAgentSession.clearCalls = () => {
       this.clearCalls();
     };
   }
@@ -152,28 +128,26 @@ class EvPresence extends RcModuleV2<DepsModules, EvPresenceState>
   @state
   dialoutStatus: DialoutStatusesType = dialoutStatuses.idle;
 
-  getCalls = createSelector(
-    () => this.callIds,
-    () => this.callsMapping,
-    (callIds, callsMapping) =>
-      callIds.map((id) => callsMapping[id]).filter((call) => !!call),
-  );
+  @computed((that: EvPresence) => [that.callIds, that.callsMapping])
+  get calls() {
+    return this.callIds
+      .map((id) => this.callsMapping[id])
+      .filter((call) => !!call);
+  }
 
-  getOtherCalls = createSelector(
-    () => this.otherCallIds,
-    () => this.callsMapping,
-    (otherCallIds, callsMapping) => otherCallIds.map((id) => callsMapping[id]),
-  );
+  @computed((that: EvPresence) => [that.otherCallIds, that.callsMapping])
+  get otherCalls() {
+    return this.otherCallIds.map((id) => this.callsMapping[id]);
+  }
 
-  getCallLogs = createSelector(
-    () => this.callLogsIds,
-    () => this.callsMapping,
-    (callLogsIds, callsMapping) => callLogsIds.map((id) => callsMapping[id]),
-  );
+  @computed((that: EvPresence) => [that.callLogsIds, that.callsMapping])
+  get callLogs() {
+    return this.callLogsIds.map((id) => this.callsMapping[id]);
+  }
 
   @action
   addNewCall(call: EvBaseCall) {
-    // note: rawCallsMapping‘s index is raw call uii.
+    // note: rawCallsMapping index is raw call uii.
     this.rawCallsMapping[call.uii] = {
       ...call,
       // input timezone in second arg if EV reponse has timezone propoty
@@ -191,7 +165,7 @@ class EvPresence extends RcModuleV2<DepsModules, EvPresenceState>
   @action
   addNewSession(session: EvAddSessionNotification) {
     const id = this._getCallEncodeId(session);
-    if (session.agentId === this._modules.evAuth.agentId) {
+    if (session.agentId === this._deps.evAuth.agentId) {
       // related to current agent session
       const index = this.callIds.indexOf(id);
       if (index === -1) {
@@ -257,10 +231,8 @@ class EvPresence extends RcModuleV2<DepsModules, EvPresenceState>
   }
 
   onInitOnce() {
-    this._modules.evSessionConfig.onConfigSuccess.push(() => {
-      const calls = this.getCalls();
-
-      if (calls.length === 0) {
+    this._deps.evAgentSession.onConfigSuccess.push(() => {
+      if (this.calls.length === 0) {
         this.setDialoutStatus(dialoutStatuses.idle);
       }
     });
@@ -269,15 +241,15 @@ class EvPresence extends RcModuleV2<DepsModules, EvPresenceState>
   }
 
   setOffhookInit() {
-    this._modules.evSettings.setOffhookInit();
+    this._deps.evSettings.setOffhookInit();
   }
 
   setOffhookTerm() {
-    this._modules.evSettings.setOffhookTerm();
+    this._deps.evSettings.setOffhookTerm();
   }
 
   private _bindSubscription() {
-    this._modules.evSubscription.subscribe(
+    this._deps.evSubscription.subscribe(
       EvCallbackTypes.OFFHOOK_INIT,
       (data: EvOffhookInitResponse) => {
         this.evPresenceEvents.emit(EvCallbackTypes.OFFHOOK_INIT, data);
@@ -285,7 +257,7 @@ class EvPresence extends RcModuleV2<DepsModules, EvPresenceState>
           this.setOffhookInit();
           // when that is reject integrated softphone, we not alert error
         } else if (this.showOffHookInitError) {
-          this._modules.alert.danger({
+          this._deps.alert.danger({
             message: messageTypes.OFFHOOK_INIT_ERROR,
           });
           this.setOffhookTerm();
@@ -293,62 +265,59 @@ class EvPresence extends RcModuleV2<DepsModules, EvPresenceState>
         }
       },
     );
-    this._modules.evSubscription.subscribe(
+    this._deps.evSubscription.subscribe(
       EvCallbackTypes.OFFHOOK_TERM,
       (data: EvOffhookTermResponse) => {
         if (data.status === 'OK') {
           this.setOffhookTerm();
         } else {
-          this._modules.alert.danger({
+          this._deps.alert.danger({
             message: messageTypes.OFFHOOK_TERM_ERROR,
           });
           console.error(data);
         }
       },
     );
-    this._modules.evSubscription.subscribe(
-      EvCallbackTypes.ADD_SESSION,
-      (data) => {
-        if (data.status === 'OK') {
-          this.addNewSession(data);
-        } else {
-          this._modules.alert.danger({
-            message: messageTypes.ADD_SESSION_ERROR,
-          });
-        }
-      },
-    );
-    this._modules.evSubscription.subscribe(
+    this._deps.evSubscription.subscribe(EvCallbackTypes.ADD_SESSION, (data) => {
+      if (data.status === 'OK') {
+        this.addNewSession(data);
+      } else {
+        this._deps.alert.danger({
+          message: messageTypes.ADD_SESSION_ERROR,
+        });
+      }
+    });
+    this._deps.evSubscription.subscribe(
       EvCallbackTypes.DROP_SESSION,
       (data) => {
         if (data.status === 'OK') {
           this.dropSession(data);
         } else {
-          this._modules.alert.danger({
+          this._deps.alert.danger({
             message: messageTypes.DROP_SESSION_ERROR,
           });
         }
       },
     );
-    this._modules.evSubscription.subscribe(EvCallbackTypes.HOLD, (data) => {
+    this._deps.evSubscription.subscribe(EvCallbackTypes.HOLD, (data) => {
       if (data.status === 'OK') {
         this.setCallHoldStatus(data);
       } else {
-        this._modules.alert.danger({
+        this._deps.alert.danger({
           message: messageTypes.HOLD_ERROR,
         });
       }
     });
 
-    this._modules.evSubscription.subscribe(EvCallbackTypes.NEW_CALL, (data) => {
+    this._deps.evSubscription.subscribe(EvCallbackTypes.NEW_CALL, (data) => {
       this.addNewCall(data);
     });
 
-    this._modules.evSubscription.subscribe(EvCallbackTypes.END_CALL, (data) => {
+    this._deps.evSubscription.subscribe(EvCallbackTypes.END_CALL, (data) => {
       const id = this._getCallEncodeId(data);
       if (!this.callsMapping[id]) return;
-      if (!this._modules.evSettings.isManualOffhook) {
-        this._modules.evClient.offhookTerm();
+      if (!this._deps.evSettings.isManualOffhook) {
+        this._deps.evClient.offhookTerm();
       }
       this.removeEndedCall(data);
     });
@@ -356,11 +325,11 @@ class EvPresence extends RcModuleV2<DepsModules, EvPresenceState>
 
   private _getCurrentGateData(call: Partial<EvCallData>): EvEvRequeueCallGate {
     const currentGateId = call.queue.number;
-    const currentQueueGroup = this._modules.evAuth
-      .getAvailableRequeueQueues()
-      .find(({ gates }) => {
+    const currentQueueGroup = this._deps.evAuth.availableRequeueQueues.find(
+      ({ gates }) => {
         return gates.some(({ gateId }) => gateId === currentGateId);
-      });
+      },
+    );
     return {
       gateId: currentGateId,
       gateGroupId: currentQueueGroup?.gateGroupId,
@@ -371,7 +340,7 @@ class EvPresence extends RcModuleV2<DepsModules, EvPresenceState>
     uii,
     sessionId,
   }: Partial<EvAddSessionNotification>) {
-    return this._modules.evClient.encodeUii({ sessionId, uii });
+    return this._deps.evClient.encodeUii({ sessionId, uii });
   }
 }
 

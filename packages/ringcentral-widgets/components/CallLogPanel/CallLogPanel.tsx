@@ -73,7 +73,11 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
   };
 
   renderLogSection() {
-    const { currentLog, renderEditLogSection } = this.props;
+    const {
+      currentLog,
+      renderEditLogSection,
+      classes: { editSection },
+    } = this.props;
     if (!currentLog) return null;
     const { showSpinner } = this.props;
     if (currentLog.showSpinner || showSpinner) {
@@ -83,15 +87,18 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
       <>
         {this.renderLogNotification()}
         {this.renderLogBasicInfo()}
-        <div ref={this.editSectionRef} className={styles.editSection}>
+        <div
+          ref={this.editSectionRef}
+          className={classnames(styles.editSection, editSection)}
+        >
           {renderEditLogSection && this.getEditLogSection()}
         </div>
-        {this.genCallControlButtons()}
+        {this.getCallControlButtons()}
       </>
     );
   }
 
-  genCallControlButtons() {
+  getCallControlButtons() {
     const {
       currentLog,
       classes: { callLogCallControl = null },
@@ -101,8 +108,8 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
       showSmallCallControl,
     } = this.props;
     const { call } = currentLog;
-    const { telephonyStatus, result, telephonySessionId } = call;
-    const status = telephonyStatus || result;
+    const { result, telephonySessionId, webphoneSession } = call;
+    const isCurrentDeviceCall = !!webphoneSession;
     // if `result` is exist, call has been disconnect
     // 'showSmallCallControl || isActive' can be replaced with 'showSmallCallControl'
     // which include showSmallCallControl permission and isActive judgement(eg: canShowSmallCallControl && isActive) on UI module in the future
@@ -115,7 +122,11 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
           className={classnames(styles.callControlRoot, callLogCallControl)}
         >
           {renderCallLogCallControl &&
-            renderCallLogCallControl(status, telephonySessionId, isWide)}
+            renderCallLogCallControl(
+              telephonySessionId,
+              isWide,
+              isCurrentDeviceCall,
+            )}
         </div>
       );
     }
@@ -165,6 +176,7 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
       formatPhone,
       dateTimeFormatter,
       renderBasicInfo,
+      classes: { logBasicInfo },
     } = this.props;
     if (renderBasicInfo) {
       return renderBasicInfo({ formatPhone, dateTimeFormatter, currentLog });
@@ -177,6 +189,7 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
         currentLocale={currentLocale}
         formatPhone={formatPhone}
         dateTimeFormatter={dateTimeFormatter}
+        className={logBasicInfo}
       />
     );
   }
@@ -269,7 +282,7 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
     const {
       currentIdentify,
       currentLocale,
-      classes: { root },
+      classes: { root, backHeader },
       refs: { root: rootRef },
       backIcon,
       header,
@@ -294,7 +307,7 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
             isWide={isWide}
             rightIcon={this.genSaveLogButtonV2()}
             title={i18n.getString('createCallLog', currentLocale)}
-            className={styles.header}
+            className={classnames(styles.header, backHeader)}
             onBackClick={() => this.goBack()}
           />
         )}

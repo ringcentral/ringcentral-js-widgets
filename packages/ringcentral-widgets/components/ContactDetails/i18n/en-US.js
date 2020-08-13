@@ -21,4 +21,5 @@ export default {
   notActivated: 'Inactive',
   company: 'Company',
   jobTitle: 'Title',
+  site: 'Site'
 };

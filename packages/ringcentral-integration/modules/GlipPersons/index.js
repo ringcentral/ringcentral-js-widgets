@@ -211,11 +211,11 @@ export default class GlipPersons extends RcModule {
     const ids = personIds.join(',');
     const multipartResponse = await batchGetApi({
       platform: this._client.service.platform(),
-      url: `/glip/persons/${ids}`,
+      url: `/restapi/v1.0/glip/persons/${ids}`,
     });
-    const responses = multipartResponse
-      .filter((r) => r.ok())
-      .map((x) => x.json());
+    const responses = await Promise.all(
+      multipartResponse.filter((r) => r.ok).map((x) => x.json()),
+    );
     return responses;
   }
 

@@ -1,12 +1,13 @@
 import Alert from 'ringcentral-integration/modules/Alert';
-import Auth from 'ringcentral-integration/modules/Auth';
+import { Auth } from 'ringcentral-integration/modules/AuthV2';
 import Storage from 'ringcentral-integration/modules/Storage';
 import TabManager from 'ringcentral-integration/modules/TabManager';
 
 import { EvAgentState, EvClient } from '../../lib/EvClient';
+import { EvAgentSession } from '../EvAgentSession';
 import { EvAuth } from '../EvAuth';
+import { EvCallMonitor } from '../EvCallMonitor';
 import { EvPresence } from '../EvPresence';
-import { EvSessionConfig } from '../EvSessionConfig';
 import { EvSubscription } from '../EvSubscription';
 
 export interface State {
@@ -15,16 +16,22 @@ export interface State {
   isPendingDisposition: boolean;
 }
 
-export interface DepsModules {
+export interface EvWorkingStateOptions {
+  //
+}
+
+export interface Deps {
   auth: Auth;
   evAuth: EvAuth;
-  evSessionConfig: EvSessionConfig;
+  evAgentSession: EvAgentSession;
   evSubscription: EvSubscription;
+  evCallMonitor: EvCallMonitor;
   evClient: EvClient;
   presence: EvPresence;
   storage: Storage;
   alert: Alert;
   tabManager?: TabManager;
+  evWorkingStateOptions?: EvWorkingStateOptions;
 }
 
 export interface WorkingState extends State {

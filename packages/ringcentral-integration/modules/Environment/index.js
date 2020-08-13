@@ -1,4 +1,4 @@
-import SDK from 'ringcentral';
+import { SDK } from '@ringcentral/sdk';
 import RcModule from '../../lib/RcModule';
 import { Module } from '../../lib/di';
 import moduleStatuses from '../../enums/moduleStatuses';

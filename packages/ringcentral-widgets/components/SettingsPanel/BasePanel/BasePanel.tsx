@@ -2,7 +2,7 @@ import classnames from 'classnames';
 import React, { FunctionComponent, ReactNode } from 'react';
 
 import Panel from '../../Panel';
-import SpinnerOverlay from '../../SpinnerOverlay';
+import { SpinnerOverlay } from '../../SpinnerOverlay';
 import Eula from '../../Eula';
 import { Footer, FooterProps } from '../SettingItems/Footer';
 import { Header, HeaderProps } from '../SettingItems/Header';

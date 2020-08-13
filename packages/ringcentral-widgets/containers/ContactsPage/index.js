@@ -1,8 +1,9 @@
+import { path } from 'ramda';
 import { connect } from 'react-redux';
 import ContactsView from '../../components/ContactsView';
 import { withPhone } from '../../lib/phoneContext';
 
-function mapToProps(_, { phone: { locale, contacts } }) {
+function mapToProps(_, { phone: { locale, contacts, extensionInfo } }) {
   return {
     currentLocale: locale.currentLocale,
     contactSourceNames: contacts.sourceNames || [],
@@ -10,6 +11,8 @@ function mapToProps(_, { phone: { locale, contacts } }) {
     searchSource: contacts.sourceFilter,
     searchString: contacts.searchFilter,
     showSpinner: !(locale.ready && contacts.ready),
+    currentSiteCode: extensionInfo?.site?.code ?? '',
+    isMultipleSiteEnabled: extensionInfo?.isMultipleSiteEnabled ?? false,
   };
 }
 
@@ -52,10 +55,7 @@ function mapToFunctions(
 }
 
 const ContactsPage = withPhone(
-  connect(
-    mapToProps,
-    mapToFunctions,
-  )(ContactsView),
+  connect(mapToProps, mapToFunctions)(ContactsView),
 );
 
 export default ContactsPage;

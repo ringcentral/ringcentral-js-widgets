@@ -61,3 +61,21 @@ $classic-list-item-height: 44px;
 @mixin selectList() {
   height: 53px !important;
 }
+
+@mixin pageSpace($type: 'margin') {
+  @if $type == 'margin' {
+    margin-left: $lightning-page-space;
+    margin-right: $lightning-page-space;
+    [sf-classic] & {
+      margin-left: $classic-page-space;
+      margin-right: $classic-page-space;
+    }
+  } @else {
+    padding-left: $lightning-page-space;
+    padding-right: $lightning-page-space;
+    [sf-classic] & {
+      padding-left: $classic-page-space;
+      padding-right: $classic-page-space;
+    }
+  }
+}

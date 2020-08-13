@@ -1,5 +1,5 @@
 import Alert from 'ringcentral-integration/modules/Alert';
-import Auth from 'ringcentral-integration/modules/Auth';
+import { Auth } from 'ringcentral-integration/modules/AuthV2';
 import Locale from 'ringcentral-integration/modules/Locale';
 import Storage from 'ringcentral-integration/modules/Storage';
 import TabManager from 'ringcentral-integration/modules/TabManager';
@@ -9,9 +9,9 @@ import { Modal } from 'ringcentral-widgets/modules/Modal';
 import RouterInteraction from 'ringcentral-widgets/modules/RouterInteraction';
 
 import { EvClient } from '../../lib/EvClient';
+import { EvAgentSession } from '../EvAgentSession';
 import { EvAuth } from '../EvAuth';
 import { EvPresence } from '../EvPresence';
-import { EvSessionConfig } from '../EvSessionConfig';
 import { EvSettings } from '../EvSettings';
 import { EvSubscription } from '../EvSubscription';
 
@@ -24,10 +24,14 @@ export interface State {
   sipRegistering: boolean;
 }
 
-export interface DepsModules {
+export interface EvIntegratedSoftphoneOptions {
+  heartBeatInterval?: number;
+}
+
+export interface Deps {
   routerInteraction: RouterInteraction;
   locale: Locale;
-  evSessionConfig: EvSessionConfig;
+  evAgentSession: EvAgentSession;
   evSubscription: EvSubscription;
   beforeunload: Beforeunload;
   evSettings: EvSettings;
@@ -40,6 +44,7 @@ export interface DepsModules {
   evAuth: EvAuth;
   auth: Auth;
   tabManager?: TabManager;
+  evIntegratedSoftphoneOptions?: EvIntegratedSoftphoneOptions;
 }
 
 export interface IntegratedSoftphone extends State {

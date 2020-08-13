@@ -11,7 +11,11 @@ export interface State {
   //
 }
 
-export interface DepsModules {
+export interface EvTransferCallUIOptions {
+  //
+}
+
+export interface Deps {
   locale: Locale;
   routerInteraction: RouterInteraction;
   evTransferCall: EvTransferCall;
@@ -19,6 +23,7 @@ export interface DepsModules {
   evCall: EvCall;
   evRequeueCall: EvRequeueCall;
   environment: EvEnvironment;
+  evTransferCallUIOptions?: EvTransferCallUIOptions;
 }
 
 export interface TransferCallUI extends State {

@@ -71,6 +71,7 @@ export default class RegionSettings extends RcModule {
 
     this._processedPlans = null;
   }
+
   initialize() {
     this.store.subscribe(async () => {
       if (
@@ -89,7 +90,12 @@ export default class RegionSettings extends RcModule {
         this.store.dispatch({
           type: this.actionTypes.initSuccess,
         });
-      } else if (!this._storage.ready && this.ready) {
+      } else if (
+        (!this._storage.ready ||
+          !this._dialingPlan.ready ||
+          !this._extensionInfo.ready) &&
+        this.ready
+      ) {
         this.store.dispatch({
           type: this.actionTypes.resetSuccess,
         });

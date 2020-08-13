@@ -36,7 +36,7 @@ const base = {
       },
       {
         test: /\.svg/,
-        exclude: /node_modules(\/|\\)(?!(ringcentral-widgets))|font/,
+        exclude: /font/,
         use: [
           'babel-loader',
           {
@@ -55,13 +55,8 @@ const base = {
         ],
       },
       {
-        test: /\.png|\.jpg|\.gif|\.svg/,
-        use:
-          'url-loader?limit=20000&publicPath=./&name=images/[name]_[hash].[ext]',
-        exclude: [
-          /assets(\/|\\)images(\/|\\).+\.svg/,
-          /dev-server(\/|\\).+\.svg/,
-        ],
+        test: /\.png|\.jpg|\.gif|fonts(\/|\\).*\.svg/,
+        use: 'url-loader?limit=20000&name=images/[name]_[hash].[ext]',
       },
       {
         test: /\.sass|\.scss/,

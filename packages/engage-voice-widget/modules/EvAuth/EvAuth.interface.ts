@@ -1,25 +1,19 @@
 import Alert from 'ringcentral-integration/modules/Alert';
-import RcAuth from 'ringcentral-integration/modules/Auth';
+import { Auth as RcAuth } from 'ringcentral-integration/modules/AuthV2';
 import Locale from 'ringcentral-integration/modules/Locale';
 import Storage from 'ringcentral-integration/modules/Storage';
 import TabManager from 'ringcentral-integration/modules/TabManager';
 import { Block } from 'ringcentral-widgets/modules/Block';
 import RouterInteraction from 'ringcentral-widgets/modules/RouterInteraction';
 
-import { EvAgent, EvAgentConfig, EvClient } from '../../lib/EvClient';
+import { EvAgentData, EvClient } from '../../lib/EvClient';
 import { EvSubscription } from '../EvSubscription';
 
-export interface EvAuthData {
-  agentConfig?: EvAgentConfig;
-  data?: {
-    agents: EvAgent[];
-    inboundSettings: {
-      availableQueues: any[];
-    };
-  };
+export interface EvAuthOptions {
+  //
 }
 
-export interface DepsModules {
+export interface Deps {
   locale: Locale;
   storage: Storage;
   alert: Alert;
@@ -29,11 +23,12 @@ export interface DepsModules {
   block: Block;
   evSubscription: EvSubscription;
   tabManager?: TabManager;
+  evAuthOptions?: EvAuthOptions;
 }
 
 export interface State {
   connected: boolean;
-  agent: EvAuthData;
+  agent: EvAgentData;
 }
 
 export interface Auth extends State {

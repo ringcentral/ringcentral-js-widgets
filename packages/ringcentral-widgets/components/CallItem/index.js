@@ -124,7 +124,7 @@ export default class CallItem extends Component {
     }, 10);
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { call, extended } = this.props;
     if (
       !this._userSelection &&
@@ -428,6 +428,7 @@ export default class CallItem extends Component {
         ? renderExtraButton(this.props.call)
         : undefined;
     const menuExtended = this.props.extended || this.state.extended;
+    const selectedMatchContactType = this.getSelectedContact()?.type ?? '';
 
     return (
       <div className={styles.root} onClick={this.toggleExtended}>
@@ -493,6 +494,7 @@ export default class CallItem extends Component {
           onCreateEntity={onCreateContact && this.createSelectedContact}
           createEntityTypes={createEntityTypes}
           hasEntity={!!contactMatches.length}
+          selectedMatchContactType={selectedMatchContactType}
           onClickToDial={onClickToDial && this.clickToDial}
           onClickToSms={
             readTextPermission
@@ -528,6 +530,11 @@ CallItem.propTypes = {
   renderIndex: PropTypes.number,
   extended: PropTypes.bool,
   call: PropTypes.shape({
+    result: PropTypes.string,
+    duration: PropTypes.number,
+    offset: PropTypes.number,
+    type: PropTypes.string,
+    toName: PropTypes.string,
     direction: PropTypes.string.isRequired,
     telephonyStatus: PropTypes.string,
     startTime: PropTypes.number.isRequired,

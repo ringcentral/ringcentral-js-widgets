@@ -3,7 +3,7 @@ import chevronLeftSvg from '@ringcentral-integration/rcui/icons/icon-chevron_lef
 import classnames from 'classnames';
 import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
 
-import { TOOLTIP_DEFAULT_DELAY_TIME } from '../../lib/toolTipDelayTime';
+import { TOOLTIP_LONG_DELAY_TIME } from '../../lib/toolTipDelayTime';
 import { Tooltip } from '../Rcui/Tooltip';
 import styles from './styles.scss';
 
@@ -54,7 +54,7 @@ const BackHeader: FunctionComponent<BackHeaderProps> = ({
       />
       <div className={styles.title}>
         {title ? (
-          <Tooltip title={title} enterDelay={TOOLTIP_DEFAULT_DELAY_TIME}>
+          <Tooltip title={title} enterDelay={TOOLTIP_LONG_DELAY_TIME}>
             <span style={{ maxWidth: isClassic ? maxWidth : null }}>
               {title}
             </span>

@@ -22,8 +22,8 @@ export function extractUrl({ url }) {
 
 /** Check if this damn error is HA error. */
 export function isHAError(error) {
-  const status = pathOr(-1, ['apiResponse', '_response', 'status'], error);
-  const errors = pathOr([], ['apiResponse', '_json', 'errors'], error);
+  const status = pathOr(-1, ['response', 'status'], error);
+  const errors = pathOr([], ['response', '_json', 'errors'], error);
 
   let errorCodeIn = false;
   for (const e of errors) {
@@ -39,7 +39,7 @@ export function isHAError(error) {
     // Result from temp error code, expecially for `presence`.
     const resErrorCode = pathOr(
       null,
-      ['apiResponse', '_json', 'errorCode'],
+      ['response', '_json', 'errorCode'],
       error,
     );
     validHAError = resErrorCode === TMP_HA_ERROR_CODE;

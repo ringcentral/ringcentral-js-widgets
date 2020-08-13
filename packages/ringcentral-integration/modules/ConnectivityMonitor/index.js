@@ -119,7 +119,7 @@ export default class ConnectivityMonitor extends RcModule {
     )
       return;
 
-    if (!error.apiResponse || !error.apiResponse._response) {
+    if (!error.response) {
       if (this.connectivity) {
         this.store.dispatch({
           type: this.actionTypes.connectFail,
@@ -142,7 +142,7 @@ export default class ConnectivityMonitor extends RcModule {
     if (this._unbindHandlers) {
       this._unbindHandlers();
     }
-    const client = this._client.service.platform().client();
+    const client = this._client.service.client();
     client.on(client.events.requestSuccess, this._requestSuccessHandler);
     client.on(client.events.requestError, this._requestErrorHandler);
     if (typeof window !== 'undefined') {

@@ -115,13 +115,72 @@ export function getMeetingPreferencesStateReducer(types: MeetingActionTypes) {
   };
 }
 
+export function getUserSettingsReducer(types: MeetingActionTypes) {
+  return (state = {}, { type, userSettings }) => {
+    switch (type) {
+      case types.updateUserSettings:
+        return userSettings;
+      default:
+        return state;
+    }
+  };
+}
+
+export function getLockedSettingsReducer(types: MeetingActionTypes) {
+  return (state = {}, { type, lockedSettings }) => {
+    switch (type) {
+      case types.updateLockedSettings:
+        return lockedSettings;
+      default:
+        return state;
+    }
+  };
+}
+
+export function getPersonalMeetingReducer(types: MeetingActionTypes) {
+  return (state = null, { type, meeting = null }) => {
+    switch (type) {
+      case types.updatePersonalMeeting:
+        return meeting;
+      default:
+        return state;
+    }
+  };
+}
+
+export function getAssistedUsersReducer(types: MeetingActionTypes) {
+  return (state = [], { type, assistedUsers = [] }) => {
+    switch (type) {
+      case types.updateAssistedUsers:
+        return assistedUsers;
+      default:
+        return state;
+    }
+  };
+}
+
+export function getScheduleForUserReducer(types: MeetingActionTypes) {
+  return (state = null, { type, user = {} }) => {
+    switch (type) {
+      case types.updateScheduleForUser:
+        return user;
+      default:
+        return state;
+    }
+  };
+}
+
 export default (types: MeetingActionTypes, reducers) =>
   combineReducers({
     ...reducers,
     status: getModuleStatusReducer(types),
     meeting: getMeetingInfoReducer(types),
+    assistedUsers: getAssistedUsersReducer(types),
     schedulingStatus: getMeetingSchedulingStatusReducer(types),
     updatingStatus: getMeetingUpdatingStatusReducer(types),
     preferences: getMeetingPreferencesReducer(types),
     isPreferencesChanged: getMeetingPreferencesStateReducer(types),
+    userSettings: getUserSettingsReducer(types),
+    lockedSettings: getLockedSettingsReducer(types),
+    scheduleForUser: getScheduleForUserReducer(types),
   });

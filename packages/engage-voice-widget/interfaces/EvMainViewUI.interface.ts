@@ -20,6 +20,7 @@ export interface EvMainViewUIProps {
   offhookState: EvOffhookState;
   isOffhook: boolean;
   isWide: boolean;
+  hideOffHookBtn: boolean;
 }
 
 export interface EvMainViewUIFunctions {

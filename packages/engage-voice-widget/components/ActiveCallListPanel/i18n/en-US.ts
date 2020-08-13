@@ -4,5 +4,5 @@ export default {
   everyone: 'Everyone',
   caller: 'Caller',
   callee: 'Callee',
-  unKnown: 'unKnown',
+  unKnown: 'Unknown',
 };

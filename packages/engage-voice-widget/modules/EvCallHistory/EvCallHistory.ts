@@ -1,11 +1,11 @@
-import { RcModuleV2, createSelector } from '@ringcentral-integration/core';
+import { computed, RcModuleV2 } from '@ringcentral-integration/core';
 import { Module } from 'ringcentral-integration/lib/di';
 
 import { directTransferNotificationTypes } from '../../enums/directTransferNotificationTypes';
 import { makeCallsUniqueIdentifies } from '../../lib/callUniqueIdentifies';
 import { contactMatchIdentifyEncode } from '../../lib/contactMatchIdentify';
 import { EvCallbackTypes } from '../../lib/EvClient/enums/callbackTypes';
-import { CallHistory, DepsModules } from './EvCallHistory.interface';
+import { CallHistory, Deps } from './EvCallHistory.interface';
 
 @Module({
   name: 'EvCallHistory',
@@ -16,91 +16,76 @@ import { CallHistory, DepsModules } from './EvCallHistory.interface';
     { dep: 'ActivityMatcher', optional: true },
   ],
 })
-class EvCallHistory extends RcModuleV2<DepsModules> implements CallHistory {
-  constructor({
-    evCallMonitor,
-    evSubscription,
-    contactMatcher,
-    activityMatcher,
-  }) {
+class EvCallHistory extends RcModuleV2<Deps> implements CallHistory {
+  constructor(deps: Deps) {
     super({
-      modules: {
-        evCallMonitor,
-        evSubscription,
-        contactMatcher,
-        activityMatcher,
-      },
+      deps,
     });
-    if (this._modules.contactMatcher) {
-      this._modules.contactMatcher.addQuerySource({
-        getQueriesFn: () => this.getUniqueIdentifies(),
-        readyCheckFn: () => this._modules.evCallMonitor.ready,
-      });
-    }
-
-    if (this._modules.activityMatcher) {
-      this._modules.activityMatcher.addQuerySource({
-        getQueriesFn: () => this.callLogsIds,
-        readyCheckFn: () => this._modules.evCallMonitor.ready,
-      });
-    }
+    this._deps.contactMatcher?.addQuerySource({
+      getQueriesFn: () => this.uniqueIdentifies,
+      readyCheckFn: () => this._deps.evCallMonitor.ready,
+    });
+    this._deps.activityMatcher?.addQuerySource({
+      getQueriesFn: () => this.callLogsIds,
+      readyCheckFn: () => this._deps.evCallMonitor.ready,
+    });
   }
 
-  get contactMatches() {
-    return this._modules.contactMatcher.dataMapping || {};
+  // TODO: dataMapping type
+  get contactMatches(): any {
+    return this._deps.contactMatcher.dataMapping || {};
   }
 
   get activityMatches() {
-    return this._modules.activityMatcher.dataMapping || {};
+    return this._deps.activityMatcher.dataMapping || {};
   }
 
   get rawCalls() {
-    return this._modules.evCallMonitor.callLogs;
+    return this._deps.evCallMonitor.callLogs;
   }
 
   get callLogsIds() {
-    return this._modules.evCallMonitor.callLogsIds;
+    return this._deps.evCallMonitor.callLogsIds;
   }
 
   get callsMapping() {
-    return this._modules.evCallMonitor.getCallsMapping();
+    return this._deps.evCallMonitor.callsMapping;
   }
 
-  getCalls = createSelector(
-    () => this.rawCalls,
-    () => this.contactMatches,
-    () => this.activityMatches,
-    (calls, contactMatches, activityMatches) => {
-      return calls.map((call) => {
-        const contactMatchIdentify = contactMatchIdentifyEncode({
-          phoneNumber: call.ani,
-          callType: call.callType.toLowerCase(),
-        });
-        const id = this._modules.evCallMonitor.getCallId(call.session);
-        return {
-          ...call,
-          // TODO confirm about using `toMatches` & `fromMatches`?
-          contactMatches: contactMatches[contactMatchIdentify] || [],
-          activityMatches: activityMatches[id] || [],
-        };
+  @computed((that: EvCallHistory) => [
+    that.rawCalls,
+    that.contactMatches,
+    that.activityMatches,
+  ])
+  get calls() {
+    return this.rawCalls.map((call) => {
+      const contactMatchIdentify = contactMatchIdentifyEncode({
+        phoneNumber: call.ani,
+        callType: call.callType,
       });
-    },
-  );
+      const id = this._deps.evCallMonitor.getCallId(call.session);
 
-  getLastEndedCall = createSelector(
-    () => this.getCalls(),
-    (calls) => {
-      return calls.length > 0 ? calls[0] : null;
-    },
-  );
+      return {
+        ...call,
+        // TODO confirm about using `toMatches` & `fromMatches`?
+        contactMatches: this.contactMatches[contactMatchIdentify] || [],
+        activityMatches: this.activityMatches[id] || [],
+      };
+    });
+  }
 
-  getUniqueIdentifies = createSelector(
-    () => this.rawCalls,
-    (calls) => makeCallsUniqueIdentifies(calls),
-  );
+  @computed((that: EvCallHistory) => [that.calls])
+  get lastEndedCall() {
+    return this.calls.length > 0 ? this.calls[0] : null;
+  }
+
+  @computed((that: EvCallHistory) => [that.rawCalls])
+  get uniqueIdentifies() {
+    return makeCallsUniqueIdentifies(this.rawCalls);
+  }
 
   onInitOnce() {
-    this._modules.evSubscription.subscribe(
+    this._deps.evSubscription.subscribe(
       EvCallbackTypes.DIRECT_AGENT_TRANSFER_NOTIF,
       (data) => {
         if (data.status === directTransferNotificationTypes.VOICEMAIL) {

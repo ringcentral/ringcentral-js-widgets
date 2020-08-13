@@ -57,6 +57,16 @@ export function getPersonalMeetingReducer(types: RcVideoActionTypes) {
     }
   };
 }
+export function getRcVideoMeetingLockReducer(types: RcVideoActionTypes) {
+  return (state = {}, { type, meetingSettingLock }) => {
+    switch (type) {
+      case types.updateMeetingSettingLock:
+        return meetingSettingLock;
+      default:
+        return state;
+    }
+  };
+}
 
 export function getRcVideoPreferencesReducer(types: RcVideoActionTypes) {
   return (state = {}, { type, preferences }) => {
@@ -88,4 +98,5 @@ export default (types: RcVideoActionTypes, reducers) =>
     creatingStatus: getRcVideoCreatingStatusReducer(types),
     preferences: getRcVideoPreferencesReducer(types),
     isPreferencesChanged: getRcVideoPreferencesStateReducer(types),
+    meetingSettingLock: getRcVideoMeetingLockReducer(types),
   });

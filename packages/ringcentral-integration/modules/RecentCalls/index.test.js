@@ -16,6 +16,10 @@ describe('RecentCalls Unit Test', () => {
       callHistory: {
         ready: true,
       },
+      auth: {
+        ready: true,
+        loggedIn: true,
+      },
     });
     recentCalls._store = store;
   });
@@ -25,6 +29,7 @@ describe('RecentCalls Unit Test', () => {
       expect(() => {
         recentCalls = new RecentCalls({
           callHistory: {},
+          auth: {},
         });
       }).to.throw();
     });
@@ -32,6 +37,7 @@ describe('RecentCalls Unit Test', () => {
       expect(() => {
         recentCalls = new RecentCalls({
           client: {},
+          auth: {},
         });
       }).to.throw();
     });
@@ -43,6 +49,10 @@ describe('RecentCalls Unit Test', () => {
         client: {},
         callHistory: {
           ready: true,
+        },
+        auth: {
+          ready: true,
+          loggedIn: true,
         },
       });
       recentCalls._store = store;
@@ -62,6 +72,10 @@ describe('RecentCalls Unit Test', () => {
         callHistory: {
           ready: true,
         },
+        auth: {
+          ready: true,
+          loggedIn: true,
+        },
       });
       recentCalls._store = store;
       const spy = sinon.spy(store, 'dispatch');
@@ -80,6 +94,9 @@ describe('RecentCalls Unit Test', () => {
         callHistory: {
           ready: false,
         },
+        auth: {
+          loggedIn: false,
+        },
       });
       recentCalls._store = store;
       const spy = sinon.spy(store, 'dispatch');
@@ -97,6 +114,10 @@ describe('RecentCalls Unit Test', () => {
         client: {},
         callHistory: {
           ready: false,
+        },
+        auth: {
+          ready: true,
+          loggedIn: false,
         },
       });
       recentCalls._store = store;

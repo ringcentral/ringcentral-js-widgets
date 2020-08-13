@@ -16,8 +16,9 @@ afterEach(async () => {
   wrapper.setProps({ phone: originalPhone });
   wrapper.update();
 });
-
-describe('dynamic setting page', () => {
+// TODO: refactor to UT for SettingsUI module
+describe.skip('dynamic setting page', () => {
+  // TODO: consider removing this page since the definition of "normal" is vague and can change
   test('setting page should be normal when has permissions', async () => {
     const phone = wrapper.props().phone;
     Object.defineProperty(phone.rolesAndPermissions, 'callingEnabled', {

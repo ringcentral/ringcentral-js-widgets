@@ -11,7 +11,7 @@ import getReducer, { getDataReducer, getTimestampReducer } from './getReducer';
 import actionTypes from './actionTypes';
 
 const glipGroupRegExp = /glip\/groups$/;
-const subscriptionFilter = '/glip/groups';
+const subscriptionFilter = '/restapi/v1.0/glip/groups';
 
 const DEFAULT_PER_PAGE = 20;
 const DEFAULT_TTL = 30 * 60 * 1000;

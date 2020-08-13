@@ -9,7 +9,7 @@ import arrowUpSvg from '@ringcentral-integration/rcui/icons/icon-arrow-up.svg';
 import classNames from 'classnames';
 import React, { FunctionComponent, useState } from 'react';
 import { Tooltip } from 'ringcentral-widgets/components/Rcui/Tooltip';
-import { TOOLTIP_DEFAULT_DELAY_TIME } from 'ringcentral-widgets/lib/toolTipDelayTime';
+import { TOOLTIP_LONG_DELAY_TIME } from 'ringcentral-widgets/lib/toolTipDelayTime';
 
 import { EvCustomAvailableAgentState } from '../../../../interfaces/EvMainViewUI.interface';
 import styles from './styles.scss';
@@ -23,6 +23,9 @@ export interface WorkingStateButtonProps {
   disabled: boolean;
   timerText: string;
   isWide: boolean;
+  classes?: {
+    paper?: string;
+  };
 }
 
 export const WorkingStateButton: FunctionComponent<WorkingStateButtonProps> = ({
@@ -33,6 +36,7 @@ export const WorkingStateButton: FunctionComponent<WorkingStateButtonProps> = ({
   onChange,
   disabled,
   timerText,
+  classes,
 }) => {
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -55,7 +59,7 @@ export const WorkingStateButton: FunctionComponent<WorkingStateButtonProps> = ({
       >
         <RcButtonBase disabled={disabled} className={styles.fullWidth}>
           <div className={styles.stateDot} />
-          <Tooltip title={label} enterDelay={TOOLTIP_DEFAULT_DELAY_TIME}>
+          <Tooltip title={label} enterDelay={TOOLTIP_LONG_DELAY_TIME}>
             <div className={styles.stateName} data-sign="stateName">
               {label}
             </div>
@@ -71,7 +75,7 @@ export const WorkingStateButton: FunctionComponent<WorkingStateButtonProps> = ({
       </div>
       <RcMenu
         PaperProps={{ style: { maxHeight: 280 } }}
-        classes={{ paper: styles.paper }}
+        classes={{ paper: classes.paper }}
         anchorEl={anchorEl}
         open={menuOpened}
         onClose={handleClose}
@@ -104,4 +108,6 @@ export const WorkingStateButton: FunctionComponent<WorkingStateButtonProps> = ({
   );
 };
 
-export default WorkingStateButton;
+WorkingStateButton.defaultProps = {
+  classes: {},
+};

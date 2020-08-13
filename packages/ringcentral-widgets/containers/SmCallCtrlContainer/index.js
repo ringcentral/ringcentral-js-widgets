@@ -74,8 +74,5 @@ SmCallCtrlContainer.defaultProps = {
   currentSession: undefined,
 };
 export default withPhone(
-  connect(
-    mapToProps,
-    mapToFunctions,
-  )(SmCallCtrlContainer),
+  connect(mapToProps, mapToFunctions)(SmCallCtrlContainer),
 );

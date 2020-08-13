@@ -106,9 +106,10 @@ describe('Offline = VoIP Only mode + Webphone Unavailable', () => {
     wrapper = await getWrapper();
     phone = wrapper.props().phone;
     phone.availabilityMonitor._client.service.platform().emit('refreshError', {
-      mesage: 'none',
-      apiResponse: { _response: { status: 500 } },
+      message: 'none',
+      response: { status: 500 },
     });
+    await timeout(10);
     wrapper.update();
     badge = wrapper.find(ConnectivityBadge);
     expect(badge.text()).toEqual('VoIP Only');

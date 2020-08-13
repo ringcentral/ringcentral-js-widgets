@@ -1,5 +1,5 @@
-import SDK from 'ringcentral';
-import RingCentralClient from 'ringcentral-client';
+import { SDK } from '@ringcentral/sdk';
+import { RingCentralClient } from '../../../lib/RingCentralClient';
 
 import { ModuleFactory } from '../../../lib/di';
 import RcModule from '../../../lib/RcModule';
@@ -44,7 +44,6 @@ import ConferenceCall from '../../../modules/ConferenceCall';
 import QuickAccess from '../../../modules/QuickAccess';
 import ActiveCallControl from '../../../modules/ActiveCallControl';
 
-import ActiveCalls from '../../../modules/ActiveCalls';
 import Presence from '../../../modules/Presence';
 import CallLog from '../../../modules/CallLog';
 import CallMonitor from '../../../modules/CallMonitor';
@@ -99,7 +98,6 @@ import BlockedNumber from '../../../modules/BlockedNumber';
     { provide: 'CallingSettings', useClass: CallingSettings },
     { provide: 'Call', useClass: Call },
     { provide: 'Subscription', useClass: Subscription },
-    { provide: 'ActiveCalls', useClass: ActiveCalls },
     { provide: 'Presence', useClass: Presence },
     { provide: 'MessageSender', useClass: MessageSender },
     { provide: 'ComposeText', useClass: ComposeText },

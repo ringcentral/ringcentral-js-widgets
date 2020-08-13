@@ -35,7 +35,7 @@ describe('usm: single module create', () => {
     const todoList = TodoList.create();
     expect(todoList.ready).toBeFalsy();
     setTimeout(() => {
-      expect(todoList.ready).toBeTruthy();
+      expect(todoList.ready).toBe(true);
     });
   });
   test('check create a instance & bootstrap', async () => {
@@ -45,7 +45,7 @@ describe('usm: single module create', () => {
     expect(todoList.ready).toBeFalsy();
     expect(todoList.list.length).toEqual(1);
     await new Promise((resolve) => setTimeout(resolve));
-    expect(todoList.ready).toBeTruthy();
+    expect(todoList.ready).toBe(true);
     expect(todoList.list.length).toEqual(2);
   });
 });
@@ -61,8 +61,8 @@ describe('usm: parent-child set modules', () => {
     });
     expect(index.ready).toBeFalsy();
     await new Promise((resolve) => setTimeout(resolve));
-    expect(todoList.ready).toBeTruthy();
-    expect(index.ready).toBeTruthy();
+    expect(todoList.ready).toBe(true);
+    expect(index.ready).toBe(true);
   });
   test('check `create` function for deep sub-modules', async () => {
     class TodoList extends Module {
@@ -105,10 +105,10 @@ describe('usm: parent-child set modules', () => {
     expect(home._modules.index._modules.todoList.list.length).toEqual(1);
     await new Promise((resolve) => setTimeout(resolve));
     expect(home._modules.index._modules.todoList.list.length).toEqual(2);
-    expect(todoList.ready).toBeTruthy();
-    expect(index.ready).toBeTruthy();
-    expect(home.ready).toBeTruthy();
-    expect(other.ready).toBeTruthy();
+    expect(todoList.ready).toBe(true);
+    expect(index.ready).toBe(true);
+    expect(home.ready).toBe(true);
+    expect(other.ready).toBe(true);
   });
 
   test('check non-module', async () => {
@@ -121,8 +121,8 @@ describe('usm: parent-child set modules', () => {
       },
     });
     await new Promise((resolve) => setTimeout(resolve));
-    expect(index.ready).toBeTruthy();
-    expect(index._modules.indexOptions.foobar).toBeTruthy();
+    expect(index.ready).toBe(true);
+    expect(index._modules.indexOptions.foobar).toBe(true);
   });
 });
 

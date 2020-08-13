@@ -5,12 +5,13 @@ import { selector } from '../../lib/selector';
 import { Module } from '../../lib/di';
 import Pollable from '../../lib/Pollable';
 import moduleStatuses from '../../enums/moduleStatuses';
+import subscriptionFilters from '../../enums/subscriptionFilters';
 import callErrors from '../Call/callErrors';
 import ensureExist from '../../lib/ensureExist';
 import actionTypes from './actionTypes';
 import getActiveCallControlReducer from './getActiveCallControlReducer';
 import getDataReducer from './getDataReducer';
-import { normalizeSession, confictError } from './helpers';
+import { normalizeSession, conflictError } from './helpers';
 import callControlError from './callControlError';
 
 const DEFAULT_TTL = 30 * 60 * 1000;
@@ -18,7 +19,7 @@ const DEFAULT_TIME_TO_RETRY = 62 * 1000;
 const DEFAULT_BUSY_TIMEOUT = 3 * 1000;
 const telephonySessionsEndPoint = /\/telephony\/sessions$/;
 const storageKey = 'activeCallControl';
-const subscribeEvent = '/account/~/extension/~/telephony/sessions';
+const subscribeEvent = subscriptionFilters.telephonySessions;
 
 @Module({
   deps: [
@@ -365,13 +366,16 @@ export default class ActiveCallControl extends Pollable {
         type: this.actionTypes.muteSuccess,
       });
     } catch (error) {
-      if (confictError(error)) {
+      if (error.response && !error.response._text) {
+        error.response._text = await error.response.clone().text();
+      }
+      if (conflictError(error)) {
         this._alert.warning({
           message: callControlError.muteConflictError,
         });
       } else if (
         !this._availabilityMonitor ||
-        !this._availabilityMonitor.checkIfHAError(error)
+        !(await this._availabilityMonitor.checkIfHAError(error))
       ) {
         this._alert.warning({ message: callControlError.generalError });
       }
@@ -395,13 +399,16 @@ export default class ActiveCallControl extends Pollable {
         type: this.actionTypes.unmuteSuccess,
       });
     } catch (error) {
-      if (confictError(error)) {
+      if (error.response && !error.response._text) {
+        error.response._text = await error.response.clone().text();
+      }
+      if (conflictError(error)) {
         this._alert.warning({
           message: callControlError.unMuteConflictError,
         });
       } else if (
         !this._availabilityMonitor ||
-        !this._availabilityMonitor.checkIfHAError(error)
+        !(await this._availabilityMonitor.checkIfHAError(error))
       ) {
         this._alert.warning({ message: callControlError.generalError });
       }
@@ -473,7 +480,7 @@ export default class ActiveCallControl extends Pollable {
     } catch (error) {
       if (
         !this._availabilityMonitor ||
-        !this._availabilityMonitor.checkIfHAError(error)
+        !(await this._availabilityMonitor.checkIfHAError(error))
       ) {
         this._alert.warning({ message: callControlError.generalError });
       }
@@ -500,7 +507,7 @@ export default class ActiveCallControl extends Pollable {
     } catch (error) {
       if (
         !this._availabilityMonitor ||
-        !this._availabilityMonitor.checkIfHAError(error)
+        !(await this._availabilityMonitor.checkIfHAError(error))
       ) {
         this._alert.warning({ message: callControlError.generalError });
       }
@@ -524,13 +531,16 @@ export default class ActiveCallControl extends Pollable {
         type: this.actionTypes.holdSuccess,
       });
     } catch (error) {
-      if (confictError(error)) {
+      if (error.response && !error.response._text) {
+        error.response._text = await error.response.clone().text();
+      }
+      if (conflictError(error)) {
         this._alert.warning({
           message: callControlError.holdConflictError,
         });
       } else if (
         !this._availabilityMonitor ||
-        !this._availabilityMonitor.checkIfHAError(error)
+        !(await this._availabilityMonitor.checkIfHAError(error))
       ) {
         this._alert.warning({ message: callControlError.generalError });
       }
@@ -555,13 +565,16 @@ export default class ActiveCallControl extends Pollable {
         type: this.actionTypes.unholdSuccess,
       });
     } catch (error) {
-      if (confictError(error)) {
+      if (error.response && !error.response._text) {
+        error.response._text = await error.response.clone().text();
+      }
+      if (conflictError(error)) {
         this._alert.warning({
           message: callControlError.unHoldConflictError,
         });
       } else if (
         !this._availabilityMonitor ||
-        !this._availabilityMonitor.checkIfHAError(error)
+        !(await this._availabilityMonitor.checkIfHAError(error))
       ) {
         this._alert.warning({
           message: callControlError.generalError,
@@ -586,19 +599,21 @@ export default class ActiveCallControl extends Pollable {
         transferNumber,
       ]);
       if (!validatedResult.result) {
-        validatedResult.errors.forEach((error) => {
-          if (
-            !this._availabilityMonitor ||
-            !this._availabilityMonitor.checkIfHAError(error)
-          ) {
-            this._alert.warning({
-              message: callErrors[error.type],
-              payload: {
-                phoneNumber: error.phoneNumber,
-              },
-            });
-          }
-        });
+        await Promise.all(
+          validatedResult.errors.map(async (error) => {
+            if (
+              !this._availabilityMonitor ||
+              !(await this._availabilityMonitor.checkIfHAError(error))
+            ) {
+              this._alert.warning({
+                message: callErrors[error.type],
+                payload: {
+                  phoneNumber: error.phoneNumber,
+                },
+              });
+            }
+          }),
+        );
         this.store.dispatch({
           type: this.actionTypes.transferError,
         });
@@ -620,7 +635,7 @@ export default class ActiveCallControl extends Pollable {
     } catch (error) {
       if (
         !this._availabilityMonitor ||
-        !this._availabilityMonitor.checkIfHAError(error)
+        !(await this._availabilityMonitor.checkIfHAError(error))
       ) {
         this._alert.warning({ message: callControlError.generalError });
       }

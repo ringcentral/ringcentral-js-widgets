@@ -1,4 +1,4 @@
-import { createSelectorWithArray } from './utils';
+import { createSelectorWithArray } from '../utils';
 import { RcModuleV2 } from '../RcModule/RcModule';
 /**
  * **Description:**
@@ -23,11 +23,9 @@ import { RcModuleV2 } from '../RcModule/RcModule';
  * }
  * ```
  */
-export const computed = (depsCallback: (instance: any) => any[]) => (
-  target: object,
-  key: string,
-  descriptor: TypedPropertyDescriptor<any>,
-) => {
+export const computed = <T extends RcModuleV2>(
+  depsCallback: (instance: T) => any[],
+) => (target: T, key: string, descriptor: TypedPropertyDescriptor<any>) => {
   if (process.env.NODE_ENV !== 'production') {
     if (typeof descriptor.get !== 'function') {
       throw new Error(`'@computed' should decorate a getter.`);
@@ -39,19 +37,19 @@ export const computed = (depsCallback: (instance: any) => any[]) => (
     }
   }
   const depsCallbackSelector = createSelectorWithArray(
-    (that: RcModuleV2) => [that._store.getState(), that.state],
+    (that: T) => [that._store.getState()],
     // eslint-disable-next-line func-names
-    function(this: RcModuleV2) {
+    function(this: T) {
       return depsCallback(this);
     },
   );
   const selector = createSelectorWithArray(
-    (that: RcModuleV2) => depsCallbackSelector.call(that),
+    (that: T) => depsCallbackSelector.call(that),
     descriptor.get!,
   );
   return {
     ...descriptor,
-    get(this: RcModuleV2) {
+    get(this: T) {
       return selector.call(this);
     },
   };

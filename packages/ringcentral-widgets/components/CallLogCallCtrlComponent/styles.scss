@@ -1,6 +1,8 @@
 @import '../../lib/commonStyles/colors.scss';
 @import '../../lib/commonStyles/fonts.scss';
 $width: 41px;
+$smallActionWidth: 16px;
+$smallIconColor: #9ca1a7;
 
 .root {
   width: 100%;
@@ -63,5 +65,45 @@ $width: 41px;
   }
   path {
     fill: #ffffff;
+  }
+}
+
+.moreActionItem {
+  display: flex;
+  align-items: center;
+  vertical-align: middle;
+  height: 32px;
+  width: 160px;
+  .actionText {
+    margin-left: 6px;
+  }
+}
+
+.smallDialpad {
+  z-index: -1;
+  border-radius: 4px 4px 0px 0px;
+  box-shadow: 0px -2px 10px 0px rgba(101, 82, 82, 0.12);
+}
+
+.dialpadIconActive {
+  circle {
+    fill: $rc-blue;
+  }
+  svg > g > path {
+    fill: white;
+  }
+}
+
+.moreActionIcon {
+  box-sizing: border-box;
+
+  path {
+    fill: $smallIconColor;
+  }
+}
+
+.holdActive {
+  path {
+    fill: $primary-color;
   }
 }

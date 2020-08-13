@@ -2,6 +2,7 @@ import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import messageTypes from 'ringcentral-integration/enums/messageTypes';
+import { extensionTypes } from 'ringcentral-integration/enums/extensionTypes';
 
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import DeleteMessageIcon from '../../assets/images/DeleteMessageIcon.svg';
@@ -370,6 +371,7 @@ export default class ActionMenuList extends Component {
       externalViewEntity,
       externalHasEntity,
       disableClickToSms,
+      selectedMatchContactType,
     } = this.props;
     const { deleteModalVisible, disableDelete } = this.state;
     const logButton = onLog ? (
@@ -384,6 +386,7 @@ export default class ActionMenuList extends Component {
         editTitle={editLogTitle}
       />
     ) : null;
+    const isIvrContact = selectedMatchContactType === extensionTypes.ivrMenu;
 
     let entityButton;
     if (externalViewEntity) {
@@ -410,7 +413,7 @@ export default class ActionMenuList extends Component {
       } else {
         entityButton = null;
       }
-    } else if (hasEntity && onViewEntity) {
+    } else if (hasEntity && onViewEntity && !isIvrContact) {
       entityButton = (
         <EntityButton
           className={styles.button}
@@ -583,6 +586,7 @@ ActionMenuList.propTypes = {
   externalHasEntity: PropTypes.bool,
   disableClickToSms: PropTypes.bool,
   onFaxDownload: PropTypes.func,
+  selectedMatchContactType: PropTypes.string,
 };
 ActionMenuList.defaultProps = {
   className: undefined,
@@ -621,4 +625,5 @@ ActionMenuList.defaultProps = {
   externalHasEntity: undefined,
   disableClickToSms: false,
   onFaxDownload: undefined,
+  selectedMatchContactType: '',
 };

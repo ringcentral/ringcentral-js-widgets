@@ -5,5 +5,3 @@ export const actionTypes = ObjectMap.prefixKeys(
   [...ObjectMap.keys(moduleActionTypes)],
   'GenericMeeting',
 );
-
-export default actionTypes;

@@ -49,6 +49,7 @@ const MainViewPanel: FunctionComponent<MainViewPanelProps> = ({
   offhook,
   isWide,
   isOffhooking,
+  hideOffHookBtn,
 }) => {
   const tabs: TabPropTypes[] = [
     {
@@ -139,16 +140,19 @@ const MainViewPanel: FunctionComponent<MainViewPanelProps> = ({
           agentStates={agentStates}
           disabled={disabled}
           isWide={isWide}
+          hideOffHookBtn={hideOffHookBtn}
         />
-        <div
-          className={classNames([
-            styles.offHookState,
-            isOffHookDisable ? styles.disabled : styles.enabled,
-          ])}
-          onClick={isOffHookDisable ? null : offhook}
-        >
-          {offHookIcon}
-        </div>
+        {!hideOffHookBtn && (
+          <div
+            className={classNames([
+              styles.offHookState,
+              isOffHookDisable ? styles.disabled : styles.enabled,
+            ])}
+            onClick={isOffHookDisable ? null : offhook}
+          >
+            {offHookIcon}
+          </div>
+        )}
       </div>
       {children}
     </TabNavigationView>

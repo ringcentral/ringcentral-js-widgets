@@ -4,5 +4,3 @@ export const callStatus = ObjectMap.prefixKeys(
   ['idle', 'connecting'],
   'callStatus',
 );
-
-export default callStatus;

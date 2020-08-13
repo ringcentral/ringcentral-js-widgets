@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styles from './styles.scss';
 import NavigationBar from '../NavigationBar';
-import SpinnerOverlay from '../SpinnerOverlay';
+import { SpinnerOverlay } from '../SpinnerOverlay';
 import RecentActivityNavigationButton from '../RecentActivityNavigationButton';
 
 export default class RecentActivityView extends PureComponent {

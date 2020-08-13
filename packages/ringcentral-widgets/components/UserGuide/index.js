@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { Transition, CSSTransition } from 'react-transition-group';
-import SpinnerOverlay from '../SpinnerOverlay';
+import { SpinnerOverlay } from '../SpinnerOverlay';
 import { Button } from '../Button';
 import styles from './styles.scss';
 import i18n from './i18n';

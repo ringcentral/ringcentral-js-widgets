@@ -23,6 +23,8 @@ export const messageTypes = ObjectMap.fromKeys([
   'INVALID_PHONE_NUMBER',
   'AGENT_CONFIG_ERROR',
   'AGENT_CONFIG_DETAIL_ERROR',
+  'UPDATE_AGENT_ERROR',
+  'UPDATE_AGENT_SUCCESS',
   'NO_SUPPORT_COUNTRY',
   'FAILED_TO_CALL',
   'INVALID_NUMBER',
@@ -40,3 +42,5 @@ export const messageTypes = ObjectMap.fromKeys([
   // auth
   'LOGOUT_FAIL_WITH_CALL_CONNECTED',
 ]);
+
+export type MessageTypes = keyof typeof messageTypes;

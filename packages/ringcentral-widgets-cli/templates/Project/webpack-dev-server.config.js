@@ -10,8 +10,8 @@ const buildPath = path.resolve(__dirname, 'src');
 dotenv.config();
 
 const apiConfig = {
-  appKey: process.env.RINGCENTRAL_CLIENT_ID,
-  appSecret: process.env.RINGCENTRAL_CLIENT_SECRET,
+  clientId: process.env.RINGCENTRAL_CLIENT_ID,
+  clientSecret: process.env.RINGCENTRAL_CLIENT_SECRET,
   server: process.env.RINGCENTRAL_SERVER_URL,
   redirectUri: process.env.REDIRECT_URI,
 };

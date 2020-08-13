@@ -1,5 +1,6 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 
+import classNames from 'classnames';
 import {
   EvMainViewUIFunctions,
   EvMainViewUIProps,
@@ -15,11 +16,11 @@ type WorkingStateSelectProps = Pick<
   | 'getTimerText'
   | 'currentStateIndex'
   | 'getStateColor'
-  | 'handleWithIntervalTime'
   | 'stateText'
   | 'time'
   | 'disabled'
   | 'isWide'
+  | 'hideOffHookBtn'
 >;
 
 const WorkingStateSelect: FunctionComponent<WorkingStateSelectProps> = ({
@@ -33,6 +34,7 @@ const WorkingStateSelect: FunctionComponent<WorkingStateSelectProps> = ({
   changeWorkingState,
   disabled,
   isWide,
+  hideOffHookBtn,
 }) => {
   const [intervalTime, setIntervalTime] = useState(Date.now() - time);
   const stateColor = getStateColor(intervalTime);
@@ -59,6 +61,9 @@ const WorkingStateSelect: FunctionComponent<WorkingStateSelectProps> = ({
         disabled={disabled}
         isWide={isWide}
         timerText={getTimerText(intervalTime)}
+        classes={{
+          paper: classNames(styles.paper, hideOffHookBtn && styles.wider),
+        }}
       />
     </div>
   );

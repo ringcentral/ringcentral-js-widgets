@@ -19,7 +19,7 @@ export default {
   pages: "ページ",
   preview: "表示",
   download: "ダウンロード",
-  imageAttachment: "添付ファイル：1個の画像"
+  imageAttachment: "添付ファイル：{count}個の画像"
 };
 
 // @key: @#@"addLog"@#@ @source: @#@"Log"@#@

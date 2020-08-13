@@ -1,13 +1,13 @@
 {
   "name": "@ringcentral-integration/core",
-  "version": "0.11.0",
+  "version": "0.12.0",
   "description": "The foundation package for RingCentral Integration products.",
   "main": "index.js",
   "directories": {
     "lib": "lib"
   },
   "scripts": {
-    "test": "yarn jest",
+    "test": "cross-env NODE_ENV=ci yarn jest",
     "build": "yarn gulp build",
     "gulp": "gulp --require @ringcentral-integration/babel-settings/lib/register.js",
     "release": "yarn gulp release"
@@ -24,17 +24,15 @@
   "license": "MIT",
   "devDependencies": {
     "@ringcentral-integration/babel-settings": "*",
-    "babel-jest": "^24.8.0",
-    "babel-preset-crius": "^1.0.0-alpha.2",
-    "crius-test": "^1.0.0-alpha.12",
+    "@ringcentral-integration/test-utils": "*",
     "fs-extra": "^8.1.0",
     "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
     "gulp-sourcemaps": "^2.6.5"
   },
   "dependencies": {
-    "ramda": "^0.26.1",
     "immer": "^3.1.1",
+    "ramda": "^0.26.1",
     "redux": "^4.0.4",
     "reselect": "^2.5.4"
   }

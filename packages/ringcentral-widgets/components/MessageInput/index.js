@@ -1,5 +1,9 @@
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 import React, { Component } from 'react';
+import attachmentSvg from '@ringcentral-integration/rcui/icons/icon-attachment.svg';
+import removeSvg from '@ringcentral-integration/rcui/icons/icon-close.svg';
+import { RcIconButton } from '@ringcentral-integration/rcui';
 
 import i18n from './i18n';
 import styles from './styles.scss';
@@ -19,6 +23,10 @@ export default class MessageInput extends Component {
     onChange: PropTypes.func,
     onHeightChange: PropTypes.func,
     inputExpandable: PropTypes.bool,
+    supportAttachment: PropTypes.bool,
+    attachments: PropTypes.array,
+    addAttachment: PropTypes.func,
+    removeAttachment: PropTypes.func,
   };
 
   static defaultProps = {
@@ -30,6 +38,10 @@ export default class MessageInput extends Component {
     maxHeight: 300,
     maxLength: 5000,
     inputExpandable: true,
+    supportAttachment: false,
+    attachments: [],
+    addAttachment: undefined,
+    removeAttachment: undefined,
   };
 
   constructor(props, context) {
@@ -39,6 +51,7 @@ export default class MessageInput extends Component {
       height: props.minHeight,
     };
     this._lastValueChange = 0;
+    this._fileInputRef = React.createRef()
   }
 
   componentWillReceiveProps(nextProps) {
@@ -135,12 +148,56 @@ export default class MessageInput extends Component {
     }
   };
 
+  onAttachmentIconClick = () => {
+    this._fileInputRef.current.click();
+  };
+
+  onSelectAttachment = ({ currentTarget }) => {
+    if (currentTarget.files.length === 0) {
+      return;
+    }
+    const { addAttachment } = this.props;
+    const file = currentTarget.files[0];
+    addAttachment({
+      name: file.name,
+      size: file.size,
+      file,
+    });
+  };
+
   render() {
-    const { currentLocale, disabled, maxLength } = this.props;
+    const {
+      currentLocale,
+      disabled,
+      maxLength,
+      supportAttachment,
+      attachments,
+      removeAttachment,
+    } = this.props;
     const { value, height } = this.state;
     const inputHeight = height - UIHeightOffset;
     return (
-      <div className={styles.root}>
+      <div
+        className={classnames(
+          styles.root,
+          supportAttachment && styles.supportAttachment,
+        )}
+      >
+        <div className={styles.attachmentIcon}>
+          <RcIconButton
+            variant="round"
+            size="small"
+            symbol={attachmentSvg}
+            onClick={this.onAttachmentIconClick}
+          />
+          <input
+            type="file"
+            accept="image/*"
+            style={{ display: 'none' }}
+            ref={this._fileInputRef}
+            onChange={this.onSelectAttachment}
+          />
+        </div>
         <div className={styles.textField}>
           <textarea
             data-sign="messageInput"
@@ -166,6 +223,28 @@ export default class MessageInput extends Component {
             className={styles.sendButton}
             disabled={disabled}
           />
+        </div>
+        <div className={styles.attachments}>
+          {attachments.map((attachment) => {
+            return (
+              <div
+                className={styles.attachmentItem}
+                key={attachment.name}
+                title={attachment.name}
+              >
+                {attachment.name}
+                <div className={styles.attachmentRemoveIcon}>
+                  <RcIconButton
+                    size="small"
+                    symbol={removeSvg}
+                    onClick={() => {
+                      removeAttachment(attachment);
+                    }}
+                  />
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     );

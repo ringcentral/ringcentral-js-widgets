@@ -1,5 +1,6 @@
 import EventEmitter from 'events';
 import uuid from 'uuid';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 
 const HEART_BEAT_INTERVAL = 1000;
 // heartbeat older than HEART_BEAT_EXPIRE will be gc'ed
@@ -8,6 +9,7 @@ const HEART_BEAT_INTERVAL = 1000;
 const HEART_BEAT_EXPIRE = 3000;
 const GC_INTERVAL = 5000;
 
+const TabbieEvents = ObjectMap.fromKeys(['mainTabIdChanged', 'event']);
 /**
  * @class
  * @description The base active tab and cross tab event handling class.
@@ -32,6 +34,10 @@ export class Tabbie {
   private _gcInterval: number;
   private _heartBeatIntervalId: NodeJS.Timeout;
   private _gcIntervalId: NodeJS.Timeout;
+
+  get events() {
+    return TabbieEvents;
+  }
 
   get mainTabId() {
     return localStorage.getItem(this._mainTabKey);
@@ -123,7 +129,10 @@ export class Tabbie {
       if (key === this._mainTabKey) {
         // use the newest main tab id from localhost instead of from the event
         // to avoid race conditions
-        this._emitter.emit('mainTabIdChanged', await this.getMainTabId());
+        this._emitter.emit(
+          this.events.mainTabIdChanged,
+          await this.getMainTabId(),
+        );
       } else if (
         this._heartBeatRegExp.test(key) &&
         (!newValue || newValue === '')
@@ -136,7 +145,7 @@ export class Tabbie {
         const [id, event, ...args] = payload;
         if (id !== this.id) {
           // ie fires storage event on original
-          this._emitter.emit('event', event, ...args);
+          this._emitter.emit(this.events.event, event, ...args);
         }
       }
     });
@@ -168,7 +177,7 @@ export class Tabbie {
     const mainTabId = this.mainTabId;
     if (mainTabId) return mainTabId;
     return new Promise<string>((resolve) => {
-      this._emitter.once('mainTabIdChanged', resolve);
+      this._emitter.once(this.events.mainTabIdChanged, resolve);
     });
   }
 
@@ -243,7 +252,7 @@ export class Tabbie {
 
   private _setAsMainTab() {
     localStorage.setItem(this._mainTabKey, this.id);
-    this._emitter.emit('mainTabIdChanged', this.id);
+    this._emitter.emit(this.events.mainTabIdChanged, this.id);
   }
 
   private _setAsVisibleTab = () => {

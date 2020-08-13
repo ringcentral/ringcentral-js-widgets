@@ -1,4 +1,5 @@
 import mask from 'json-mask';
+import { path } from 'ramda';
 import { Module } from '../../lib/di';
 import { selector } from '../../lib/selector';
 import DataFetcher from '../../lib/DataFetcher';
@@ -16,6 +17,7 @@ const DEFAULT_MASK = [
   'permissions',
   'profileImage',
   'departments',
+  'site',
   `regionalSettings(${[
     'timezone(id,name,bias)',
     'homeCountry(id,isoCode,callingCode)',
@@ -67,6 +69,7 @@ export default class ExtensionInfo extends DataFetcher {
    * @constructor
    * @param {Object} params - params object
    * @param {Client} params.client - client module instance
+   * @param {ExtensionInfoOptions} params.isMultipleSiteEnable - extension info options: Is multiple site enabled
    */
   constructor({
     client,
@@ -74,6 +77,7 @@ export default class ExtensionInfo extends DataFetcher {
     timeToRetry = DEFAULT_TIME_TO_RETRY,
     polling = true,
     alert,
+    extensionInfoOptions,
     ...options
   }) {
     super({
@@ -106,10 +110,15 @@ export default class ExtensionInfo extends DataFetcher {
       ...options,
     });
     this._alert = alert;
+    this._extensionInfoOptions = extensionInfoOptions;
   }
 
   get _name() {
     return 'extensionInfo';
+  }
+
+  get isMultipleSiteEnabled() {
+    return this._extensionInfoOptions?.isMultipleSiteEnabled ?? false;
   }
 
   async _subscriptionHandleFn(message) {
@@ -154,6 +163,24 @@ export default class ExtensionInfo extends DataFetcher {
   get departments() {
     return this.info.departments;
   }
+
+  @selector
+  site = [
+    () => this.info,
+    (info) => {
+      if (!this.isMultipleSiteEnabled) {
+        return null;
+      }
+      const isEnabled = path(['SiteCodes', 'enabled'], this.serviceFeatures);
+      if (!isEnabled) {
+        return null;
+      }
+      if (!info.site) {
+        console.warn('site code enabled, but cannot retrieve site info');
+      }
+      return info.site || null;
+    },
+  ];
 
   get isCallQueueMember() {
     return (

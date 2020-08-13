@@ -1,3 +1,3 @@
 /* global jest */
 // jest.setup.js
-jest.setTimeout(50000);
+jest.setTimeout(100000);

@@ -1,52 +1,45 @@
-import SDK from 'ringcentral';
-import RingCentralClient from 'ringcentral-client';
+import url from 'url';
+import { SDK } from '@ringcentral/sdk';
+// import RingCentralClient from 'ringcentral-client';
+import { RingCentralClient } from 'ringcentral-integration/lib/RingCentralClient';
 
 import { ModuleFactory } from 'ringcentral-integration/lib/di';
 import RcModule from 'ringcentral-integration/lib/RcModule';
 
 import callDirections from 'ringcentral-integration/enums/callDirections';
-import callingOptions from 'ringcentral-integration/modules/CallingSettings/callingOptions';
-import AccountContacts from 'ringcentral-integration/modules/AccountContacts';
-import CompanyContacts from 'ringcentral-integration/modules/CompanyContacts';
-import AccountInfo from 'ringcentral-integration/modules/AccountInfo';
+import { callingOptions } from 'ringcentral-integration/modules/CallingSettingsV2/callingOptions';
+import { AccountContacts } from 'ringcentral-integration/modules/AccountContactsV2';
+import { CompanyContacts } from 'ringcentral-integration/modules/CompanyContactsV2';
 import AddressBook from 'ringcentral-integration/modules/AddressBook';
-import Alert from 'ringcentral-integration/modules/Alert';
-import Auth from 'ringcentral-integration/modules/Auth';
-import Brand from 'ringcentral-integration/modules/Brand';
-import { Call } from 'ringcentral-integration/modules/CallV2';
-import CallingSettings from 'ringcentral-integration/modules/CallingSettings';
+import { Alert } from 'ringcentral-integration/modules/AlertV2';
+import { Brand } from 'ringcentral-integration/modules/BrandV2';
 import CallCtrlUI from 'ringcentral-widgets/modules/CallCtrlUI';
 import Contacts from 'ringcentral-integration/modules/Contacts';
 import ConnectivityMonitor from 'ringcentral-integration/modules/ConnectivityMonitor';
-import DialingPlan from 'ringcentral-integration/modules/DialingPlan';
-import ExtensionDevice from 'ringcentral-integration/modules/ExtensionDevice';
+import { DialingPlan } from 'ringcentral-integration/modules/DialingPlanV2';
+import { ExtensionDevice } from 'ringcentral-integration/modules/ExtensionDeviceV2';
 import Environment from 'ringcentral-integration/modules/Environment';
-import ExtensionInfo from 'ringcentral-integration/modules/ExtensionInfo';
-import ExtensionPhoneNumber from 'ringcentral-integration/modules/ExtensionPhoneNumber';
-import ForwardingNumber from 'ringcentral-integration/modules/ForwardingNumber';
+import { ExtensionPhoneNumber } from 'ringcentral-integration/modules/ExtensionPhoneNumberV2';
+
+import { ForwardingNumber } from 'ringcentral-integration/modules/ForwardingNumberV2';
 import GlobalStorage from 'ringcentral-integration/modules/GlobalStorage';
 import Locale from 'ringcentral-integration/modules/Locale';
 import RateLimiter from 'ringcentral-integration/modules/RateLimiter';
 import RegionSettings from 'ringcentral-integration/modules/RegionSettings';
 import Ringout from 'ringcentral-integration/modules/Ringout';
 import Webphone from 'ringcentral-integration/modules/Webphone';
-import RolesAndPermissions from 'ringcentral-integration/modules/RolesAndPermissions';
 import Softphone from 'ringcentral-integration/modules/Softphone';
 import Storage from 'ringcentral-integration/modules/Storage';
 import Subscription from 'ringcentral-integration/modules/Subscription';
-import TabManager from 'ringcentral-integration/modules/TabManager';
+// import TabManager from 'ringcentral-integration/modules/TabManager';
+import { TabManager } from 'ringcentral-integration/modules/TabManagerV2';
 import NumberValidate from 'ringcentral-integration/modules/NumberValidate';
-import MessageSender from 'ringcentral-integration/modules/MessageSender';
-import ComposeText from 'ringcentral-integration/modules/ComposeText';
 import MessageStore from 'ringcentral-integration/modules/MessageStore';
-import Conversations from 'ringcentral-integration/modules/Conversations';
 import ContactSearch from 'ringcentral-integration/modules/ContactSearch';
 import DateTimeFormat from 'ringcentral-integration/modules/DateTimeFormat';
 import Conference from 'ringcentral-integration/modules/Conference';
 import ConferenceCall from 'ringcentral-integration/modules/ConferenceCall';
 import QuickAccess from 'ringcentral-integration/modules/QuickAccess';
-import ActiveCallControl from 'ringcentral-integration/modules/ActiveCallControl';
-import Presence from 'ringcentral-integration/modules/Presence';
 import CallLog from 'ringcentral-integration/modules/CallLog';
 import CallMonitor from 'ringcentral-integration/modules/CallMonitor';
 import CallHistory from 'ringcentral-integration/modules/CallHistory';
@@ -59,7 +52,7 @@ import ContactMatcher from 'ringcentral-integration/modules/ContactMatcher';
 import { Analytics } from 'ringcentral-integration/modules/Analytics';
 import Feedback from 'ringcentral-integration/modules/Feedback';
 import UserGuide from 'ringcentral-integration/modules/UserGuide';
-import SleepDetector from 'ringcentral-integration/modules/SleepDetector';
+import { SleepDetector } from 'ringcentral-integration/modules/SleepDetectorV2';
 
 import RouterInteraction from 'ringcentral-widgets/modules/RouterInteraction';
 import DialerUI from 'ringcentral-widgets/modules/DialerUI';
@@ -81,7 +74,7 @@ import normalizeNumber from 'ringcentral-integration/lib/normalizeNumber';
 import hasActiveCalls from 'ringcentral-widgets/lib/hasActiveCalls';
 import ringoutStatus from 'ringcentral-integration/modules/Ringout/ringoutStatus';
 import softphoneStatus from 'ringcentral-integration/modules/Softphone/softphoneStatus';
-import callingModes from 'ringcentral-integration/modules/CallingSettings/callingModes';
+import { callingModes } from 'ringcentral-integration/modules/CallingSettingsV2/callingModes';
 import AvailabilityMonitor from 'ringcentral-integration/modules/AvailabilityMonitor';
 import ActiveCallsUI from 'ringcentral-widgets/modules/ActiveCallsUI';
 import SettingsUI from 'ringcentral-widgets/modules/SettingsUI';
@@ -92,9 +85,25 @@ import { hashHistory } from 'react-router';
 import AlertUI from 'ringcentral-widgets/modules/AlertUI';
 import FlipUI from 'ringcentral-widgets/modules/FlipUI';
 import TransferUI from 'ringcentral-widgets/modules/TransferUI';
-import { CallerId } from 'ringcentral-integration/modules/CallerId';
 import 'ringcentral-integration/lib/TabFreezePrevention';
 import LocalForageStorage from 'ringcentral-integration/lib/LocalForageStorage';
+import { DataFetcherV2 } from 'ringcentral-integration/modules/DataFetcherV2';
+import { ExtensionInfo } from 'ringcentral-integration/modules/ExtensionInfoV2';
+import { ExtensionFeatures } from 'ringcentral-integration/modules/ExtensionFeaturesV2';
+import { RolesAndPermissions } from 'ringcentral-integration/modules/RolesAndPermissionsV2';
+import { AccountInfo } from 'ringcentral-integration/modules/AccountInfoV2';
+import { Call } from 'ringcentral-integration/modules/CallV2';
+import { ActiveCallControl } from 'ringcentral-integration/modules/ActiveCallControlV2';
+import { Auth } from 'ringcentral-integration/modules/AuthV2';
+import { MessageSender } from 'ringcentral-integration/modules/MessageSenderV2';
+import { ComposeText } from 'ringcentral-integration/modules/ComposeTextV2';
+import { CallingSettings } from 'ringcentral-integration/modules/CallingSettingsV2';
+import { CallerId } from 'ringcentral-integration/modules/CallerIdV2';
+import { BlockedNumber } from 'ringcentral-integration/modules/BlockedNumberV2';
+import { Presence } from 'ringcentral-integration/modules/PresenceV2';
+import { ActiveCalls } from 'ringcentral-integration/modules/ActiveCallsV2';
+import { VideoConfiguration } from 'ringcentral-integration/modules/VideoConfiguration';
+import { Conversations } from 'ringcentral-integration/modules/ConversationsV2';
 
 const history =
   global.process &&
@@ -105,6 +114,7 @@ const history =
 @ModuleFactory({
   providers: [
     { provide: 'Alert', useClass: Alert },
+    { provide: 'ActiveCalls', useClass: ActiveCalls },
     { provide: 'AlertUI', useClass: AlertUI },
     { provide: 'RegionSettingsUI', useClass: RegionSettingsUI },
     { provide: 'Brand', useClass: Brand },
@@ -118,6 +128,7 @@ const history =
     { provide: 'Auth', useClass: Auth },
     { provide: 'OAuth', useClass: OAuth },
     { provide: 'SleepDetector', useClass: SleepDetector },
+    { provide: 'DataFetcherV2', useClass: DataFetcherV2 },
     // {
     //   provide: 'OAuthOptions',
     //   useValue: {
@@ -140,6 +151,7 @@ const history =
     { provide: 'AccountInfo', useClass: AccountInfo },
     { provide: 'ExtensionDevice', useClass: ExtensionDevice },
     { provide: 'ExtensionInfo', useClass: ExtensionInfo },
+    { provide: 'ExtensionFeatures', useClass: ExtensionFeatures },
     { provide: 'RolesAndPermissions', useClass: RolesAndPermissions },
     { provide: 'DialingPlan', useClass: DialingPlan },
     { provide: 'ExtensionPhoneNumber', useClass: ExtensionPhoneNumber },
@@ -184,6 +196,7 @@ const history =
     { provide: 'RecentMessages', useClass: RecentMessages },
     { provide: 'RecentCalls', useClass: RecentCalls },
     { provide: 'Meeting', useClass: Meeting },
+    { provide: 'MeetingProvider', useClass: VideoConfiguration },
     { provide: 'Webphone', useClass: Webphone },
     { provide: 'ContactSearch', useClass: ContactSearch },
     { provide: 'CallMonitor', useClass: CallMonitor },
@@ -206,6 +219,7 @@ const history =
     { provide: 'Feedback', useClass: Feedback },
     { provide: 'UserGuide', useClass: UserGuide },
     { provide: 'ActiveCallControl', useClass: ActiveCallControl },
+    { provide: 'BlockedNumber', useClass: BlockedNumber },
     {
       provide: 'StorageOptions',
       useValue: {
@@ -229,7 +243,6 @@ const history =
         enableLoadOldMessages: true,
         showMMSAttachment: true,
       },
-      spread: true,
     },
     { provide: 'ConferenceCall', useClass: ConferenceCall },
     { provide: 'AvailabilityMonitor', useClass: AvailabilityMonitor },
@@ -257,13 +270,6 @@ const history =
       spread: true,
     },
     {
-      provide: 'CompanyContactsOptions',
-      useValue: {
-        polling: true,
-      },
-      spread: true,
-    },
-    {
       provide: 'RouterInteractionOptions',
       useValue: {
         history,
@@ -281,6 +287,7 @@ const history =
       },
       spread: true,
     },
+    { provide: 'AuthOptions', useValue: { usePKCE: true } },
   ],
 })
 export default class BasePhone extends RcModule {
@@ -595,6 +602,9 @@ export function createPhone({
           appVersion: 'N/A',
           cachePrefix: `sdk-${prefix}`,
           clearCacheOnRefreshError: false,
+          clientId: apiConfig.clientId || apiConfig.appKey,
+          clientSecret: apiConfig.clientSecret || apiConfig.appSecret,
+          redirectUri: url.resolve(window.location.href, './redirect.html'),
         },
       },
       {
@@ -611,15 +621,26 @@ export function createPhone({
         spread: true,
       },
       {
+        // for Brand (V1) deprecated
         provide: 'BrandOptions',
         spread: true,
         useValue: brandConfig,
       },
       {
+        // for BrandV2
+        provide: 'BrandConfig',
+        useValue: brandConfig,
+      },
+      {
+        // for BrandV2
+        provide: 'Prefix',
+        useValue: prefix,
+      },
+      {
         provide: 'WebphoneOptions',
         spread: true,
         useValue: {
-          appKey: apiConfig.appKey,
+          appKey: apiConfig.clientId || apiConfig.appKey,
           appName: brandConfig.appName,
           appVersion: version,
           webphoneLogLevel: 3,

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import messageTypes from 'ringcentral-integration/enums/messageTypes';
 import { Header } from '../Header';
-import SpinnerOverlay from '../SpinnerOverlay';
+import { SpinnerOverlay } from '../SpinnerOverlay';
 import MessageTabButton from '../MessageTabButton';
 import NavigationBar from '../NavigationBar';
 import SearchInput from '../SearchInput';

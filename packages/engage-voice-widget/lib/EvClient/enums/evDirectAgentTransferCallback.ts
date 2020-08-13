@@ -1,13 +1,5 @@
-import { DirectTransferTypes } from '../../../enums/directTransferTypes';
-import { DirectTransferStatues } from '../../../enums/directTransferStatues';
-
-export type EvDirectAgentTransferCall = {
-  message: string;
-  detail: string;
-  status: DirectTransferStatues;
-  type: DirectTransferTypes;
-};
+import { EvDirectAgentTransferResponse } from '../interfaces';
 
 export type EvDirectAgentTransferCallback = (
-  data: EvDirectAgentTransferCall,
+  data: EvDirectAgentTransferResponse,
 ) => void;

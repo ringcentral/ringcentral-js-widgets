@@ -24,6 +24,7 @@ export type EvCallData = EvBaseCall & {
   objectValue: string;
   /** temporary code for test screen pop sf object when inbound call */
   objectType: string;
+  ivrString: string;
 };
 
 export interface EvContactMatchItem {

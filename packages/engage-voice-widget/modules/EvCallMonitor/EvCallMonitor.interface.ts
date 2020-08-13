@@ -3,22 +3,22 @@ import ContactMatcher from 'ringcentral-integration/modules/ContactMatcher';
 import { Beforeunload } from 'ringcentral-widgets/modules/Beforeunload';
 
 import { EvClient } from '../../lib/EvClient';
+import { EvAgentSession } from '../EvAgentSession';
 import { EvIntegratedSoftphone } from '../EvIntegratedSoftphone';
 import { EvPresence } from '../EvPresence';
-import { EvSessionConfig } from '../EvSessionConfig';
 
 export interface State {
   //
 }
 
-export interface DepsModules {
+export interface Deps {
   presence: EvPresence;
-  contactMatcher: ContactMatcher;
-  activityMatcher: ActivityMatcher;
   evClient: EvClient;
-  evSessionConfig: EvSessionConfig;
+  evAgentSession: EvAgentSession;
   evIntegratedSoftphone: EvIntegratedSoftphone;
   beforeunload: Beforeunload;
+  contactMatcher?: ContactMatcher;
+  activityMatcher?: ActivityMatcher;
 }
 
 export interface CallMonitor extends State {

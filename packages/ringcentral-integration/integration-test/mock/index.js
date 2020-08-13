@@ -1,50 +1,56 @@
+import { SDK } from '@ringcentral/sdk';
 import fetchMock from 'fetch-mock';
-import RingCentral from 'ringcentral';
-
-import dialingPlanBody from './data/dialingPlan';
-import extensionBody from './data/extensionInfo';
-import extensionListBody from './data/extension';
-import extensionsListBody from './data/extensions';
-import accountBody from './data/accountInfo';
-import subscriptionBody from './data/subscription';
-import apiInfoBody from './data/apiInfo';
-import messageSyncBody from './data/messageSync';
-import authzProfileBody from './data/authzProfile';
-import blockedNumberBody from './data/blockedNumber';
-import forwardingNumberBody from './data/forwardingNumber';
-import phoneNumberBody from './data/phoneNumber';
-import accountPhoneNumberBody from './data/accountPhoneNumber';
-import presenceBody from './data/presence.json';
-import numberParserBody from './data/numberParser.json';
-import smsBody from './data/sms.json';
-import ringOutBody from './data/ringOut.json';
+import { RCV_PREFERENCES_API_KEYS } from '../../modules/RcVideo/videoHelper';
+import accountBody from './data/accountInfo.json';
+import accountPhoneNumberBody from './data/accountPhoneNumber.json';
+import activeCallsBody from './data/activeCalls.json';
+import addressBookBody from './data/addressBook.json';
+import apiInfoBody from './data/apiInfo.json';
+import authzProfileBody from './data/authzProfile.json';
+import blockedNumberBody from './data/blockedNumber.json';
+import callerIdBody from './data/callerId.json';
+import callLogBody from './data/callLog.json';
+import conferenceCallBody from './data/conferenceCall.json';
+import conferenceCallBringInBody from './data/conferenceCallBringIn.json';
+import conferencingBody from './data/conferencing.json';
+import deviceBody from './data/device.json';
+import dialingPlanBody from './data/dialingPlan.json';
+import extensionListBody from './data/extension.json';
+import extensionBody from './data/extensionInfo.json';
+import extensionsListBody from './data/extensions.json';
+import fetchDLBody from './data/fetchDL.json';
+import fetchDLWithNoRecordBody from './data/fetchDLWithNoRecord.json';
+import forwardingNumberBody from './data/forwardingNumber.json';
+import lockedSettingsBody from './data/lockedSettings.json';
+import meetingBody from './data/meeting.json';
+import meetingInvitationBody from './data/meetingInvitation.json';
+import assistedUsersBody from './data/assistedUsers.json';
+import meetingProviderRcmBody from './data/meetingProviderRcm.json';
+import meetingProviderRcvBody from './data/meetingProviderRcv.json';
 import messageItemBody from './data/messageItem.json';
 import messageListBody from './data/messageList.json';
-import addressBookBody from './data/addressBook.json';
-import callLogBody from './data/callLog.json';
-import deviceBody from './data/device.json';
-import conferencingBody from './data/conferencing.json';
-import activeCallsBody from './data/activeCalls.json';
-import meetingBody from './data/meeting';
-import meetingPreferenceBody from './data/meetingPreference';
-import serviceInfoBody from './data/serviceInfo';
-import conferenceCallBody from './data/conferenceCall';
-import numberParseBody from './data/numberParse';
-import conferenceCallBringInBody from './data/conferenceCallBringIn';
-import updateConferenceCallBody from './data/updateConference';
-import sipProvisionBody from './data/sipProvision';
-import fetchDLBody from './data/fetchDL';
-import fetchDLWithNoRecordBody from './data/fetchDLWithNoRecord';
+import messageSyncBody from './data/messageSync.json';
+import numberParseBody from './data/numberParse.json';
+import numberParserBody from './data/numberParser.json';
+import phoneNumberBody from './data/phoneNumber.json';
+import presenceBody from './data/presence.json';
+import ringOutBody from './data/ringOut.json';
+import serviceInfoBody from './data/serviceInfo.json';
+import sipProvisionBody from './data/sipProvision.json';
+import smsBody from './data/sms.json';
+import subscriptionBody from './data/subscription.json';
+import timezoneBody from './data/timezone.json';
+import updateConferenceCallBody from './data/updateConference.json';
+import userSettingsBody from './data/userSettings.json';
 import videoConfigurationBody from './data/videoConfiguration.json';
-import meetingProviderBody from './data/meetingProvider.json';
-import callerIdBody from './data/callerId.json';
+import meetingPreferenceBody from './data/videoPreference.json';
+import featuresBody from './data/features.json';
 
 export const mockServer = 'http://whatever';
 export function createSDK(options = {}) {
   const opts = {
-    ...options,
-    appKey: 'test key',
-    appSecret: 'test secret',
+    clientId: 'test key',
+    clientSecret: 'test secret',
     server: mockServer,
     Request: fetchMock.constructor.Request,
     Response: fetchMock.constructor.Response,
@@ -53,8 +59,10 @@ export function createSDK(options = {}) {
     refreshDelayMs: 1,
     redirectUri: 'http://foo',
     cachePrefix: 'sdkPrefix',
+    clearCacheOnRefreshError: false,
+    ...options,
   };
-  return new RingCentral(opts);
+  return new SDK(opts);
 }
 
 export function mockApi({
@@ -453,6 +461,36 @@ export function callLog(mockResponse = {}) {
   });
 }
 
+export function userSettings(mockResponse = {}) {
+  mockApi({
+    method: 'GET',
+    url: `${mockServer}/restapi/v1.0/account/~/extension/~/meeting/user-settings`,
+    body: {
+      ...userSettingsBody,
+      ...mockResponse,
+    },
+  });
+}
+
+export function lockedSettings(mockResponse = {}) {
+  mockApi({
+    method: 'GET',
+    url: `${mockServer}/restapi/v1.0/account/~/meeting/locked-settings`,
+    body: {
+      ...lockedSettingsBody,
+      ...mockResponse,
+    },
+  });
+}
+
+export function assistedUsers(mockResponse = {}) {
+  mockApi({
+    method: 'GET',
+    url: `${mockServer}/restapi/v1.0/account/~/extension/~/meetings-configuration/assisted`,
+    body: mockResponse || assistedUsersBody,
+  });
+}
+
 export function device(mockResponse = {}, isOnce = true) {
   mockApi({
     url: `begin:${mockServer}/restapi/v1.0/account/~/extension/~/device`,
@@ -600,8 +638,8 @@ export function mockLimited({ method = 'GET', path, url, headers }) {
   });
 }
 
-export function mockClient(client) {
-  client.service = createSDK({});
+export function mockClient(client, options = {}) {
+  client.service = createSDK(options);
 }
 
 export function ringOut(mockResponse = {}) {
@@ -627,7 +665,7 @@ export function ringOutUpdate(mockResponse = {}) {
   });
 }
 
-export function meeting(mockResponse = {}) {
+export function meeting(mockResponse = {}, extra = {}) {
   mockApi({
     method: 'POST',
     url: `${mockServer}/restapi/v1.0/account/~/extension/~/meeting`,
@@ -636,23 +674,45 @@ export function meeting(mockResponse = {}) {
       ...mockResponse,
     },
     isOnce: false,
+    ...extra,
   });
 }
 
-export function meetingPreference() {
-  // ! Don't change the order of this, or it wouldn't match
-  const PREFERENCE_ID_LIST = [
-    'join_before_host',
-    // 'join_video_off',
-    // 'join_audio_mute',
-    'password_scheduled',
-    'password_instant',
-  ];
+export function meetingInvitation(meetingId = null, mockResponse = {}) {
+  const id = meetingId || meetingBody.id;
   mockApi({
     method: 'GET',
-    url: `${mockServer}/rcvideo/v1/account/~/extension/~/preferences?id=${PREFERENCE_ID_LIST.join(
-      '&id=',
-    )}`,
+    url: `${mockServer}/restapi/v1.0/account/~/extension/~/meeting/${id}/invitation`,
+    body: {
+      ...meetingInvitationBody,
+      ...mockResponse,
+    },
+    isOnce: false,
+  });
+}
+
+export function meetingInfo(
+  meetingId = null,
+  mockResponse = {},
+  isOnce = false,
+) {
+  const id = meetingId || meetingBody.id;
+  mockApi({
+    method: 'GET',
+    url: `${mockServer}/restapi/v1.0/account/~/extension/~/meeting/${id}`,
+    body: {
+      ...meetingBody,
+      ...mockResponse,
+    },
+    isOnce,
+  });
+}
+
+export function videoPreference() {
+  const query = `id=${RCV_PREFERENCES_API_KEYS.join('&id=')}`;
+  mockApi({
+    method: 'GET',
+    url: `${mockServer}/rcvideo/v1/account/~/extension/~/preferences?${query}`,
     body: meetingPreferenceBody,
     isOnce: false,
   });
@@ -675,11 +735,18 @@ export function meetingProvider(mockResponse = {}) {
     method: 'GET',
     url: `${mockServer}/restapi/v1.0/account/~/extension/~/video-configuration`,
     body: {
-      ...meetingProviderBody,
       ...mockResponse,
     },
     isOnce: false,
   });
+}
+
+export function meetingProviderRcm() {
+  meetingProvider(meetingProviderRcmBody);
+}
+
+export function meetingProviderRcv() {
+  meetingProvider(meetingProviderRcvBody);
 }
 
 export function recentActivity(mockResponse = {}, isOnce = false) {
@@ -724,6 +791,31 @@ export function callerId(mockResponse = {}, isOnce = false) {
   });
 }
 
+export function features(mockResponse = {}, isOnce = false) {
+  mockApi({
+    method: 'GET',
+    url: new RegExp(
+      `${mockServer}/restapi/v1.0/account/~/extension/~/features`,
+    ),
+    body: {
+      ...featuresBody,
+      ...mockResponse,
+    },
+  });
+}
+
+export function timezone(mockResponse = {}) {
+  mockApi({
+    method: 'GET',
+    url: `${mockServer}/restapi/v1.0/dictionary/timezone`,
+    body: {
+      ...timezoneBody,
+      ...mockResponse,
+    },
+    isOnce: false,
+  });
+}
+
 export function mockForLogin({
   mockAuthzProfile = true,
   mockExtensionInfo = true,
@@ -736,6 +828,7 @@ export function mockForLogin({
   mockRecentActivity = true,
   mockMessageSyncOnce = false,
   mockVideoConfiguration = true,
+  mockUserSetting = true,
   ...params
 } = {}) {
   authentication();
@@ -790,5 +883,11 @@ export function mockForLogin({
   if (mockVideoConfiguration) {
     videoConfiguration();
   }
-  meetingPreference();
+  videoPreference();
+  if (mockUserSetting) {
+    userSettings(params.userSettingsData);
+  }
+  lockedSettings(params.lockedSettingsData);
+  features(params.featuresData);
+  assistedUsers(params.mockAssistedUsers);
 }

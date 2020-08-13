@@ -1,0 +1,27 @@
+{
+  "recording" : {
+    "localRecording" : true,
+    "cloudRecording" : false,
+    "recordSpeakerView" : false,
+    "recordGalleryView" : false,
+    "recordAudioFile" : false,
+    "saveChatText" : false,
+    "showTimestamp" : false,
+    "autoRecording" : "none",
+    "autoDeleteCmr" : false
+  },
+  "scheduleMeeting" : {
+    "pstnPasswordProtected" : false,
+    "requirePasswordForSchedulingNewMeetings" : false,
+    "requirePasswordForScheduledMeetings" : false,
+    "requirePasswordForInstantMeetings" : true,
+    "requirePasswordForPmiMeetings" : "jbh_only",
+    "pmiPassword" : "621415",
+    "startHostVideo" : false,
+    "startParticipantsVideo" : false,
+    "audioOptions" : [ "Phone", "ComputerAudio" ],
+    "allowJoinBeforeHost" : false,
+    "usePmiForScheduledMeetings" : false,
+    "usePmiForInstantMeetings" : false
+  }
+}

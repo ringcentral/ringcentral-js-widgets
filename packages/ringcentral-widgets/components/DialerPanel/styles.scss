@@ -53,6 +53,9 @@ $dial_input_height: 10%;
 .dialPad {
   height: 62.5%;
   margin-top: 14.5%;
+  [sf-lightning] & {
+    margin-top: 4.5%;
+  }
 }
 
 .callBtnRow {

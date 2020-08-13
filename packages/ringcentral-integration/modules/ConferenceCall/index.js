@@ -156,10 +156,10 @@ export default class ConferenceCall extends RcModule {
     try {
       const rawResponse = await this._client.service
         .platform()
-        .get(`/account/~/telephony/sessions/${id}`);
-      const response = rawResponse.json();
+        .get(`/restapi/v1.0/account/~/telephony/sessions/${id}`);
+      const response = await rawResponse.json();
       const storedconference = this.state.conferences[response.id];
-      const conference = Object.assign({}, storedconference.conference);
+      const conference = { ...storedconference.conference };
       conference.parties = response.parties;
       const { sessionId } = storedconference;
       this.store.dispatch({
@@ -201,7 +201,7 @@ export default class ConferenceCall extends RcModule {
           // Help server to do the GC, and we don't care the whether it's successful or not
           this._client.service
             .platform()
-            .delete(`/account/~/telephony/sessions/${id}`);
+            .delete(`/restapi/v1.0/account/~/telephony/sessions/${id}`);
           this.store.dispatch({
             type: this.actionTypes.terminateConferenceSucceeded,
             conference: conferenceData.conference,
@@ -214,7 +214,7 @@ export default class ConferenceCall extends RcModule {
       } else {
         await this._client.service
           .platform()
-          .delete(`/account/~/telephony/sessions/${id}`);
+          .delete(`/restapi/v1.0/account/~/telephony/sessions/${id}`);
         this.store.dispatch({
           type: this.actionTypes.terminateConferenceSucceeded,
           conference: conferenceData.conference,
@@ -223,7 +223,7 @@ export default class ConferenceCall extends RcModule {
     } catch (e) {
       if (
         !this._availabilityMonitor ||
-        !this._availabilityMonitor.checkIfHAError(e)
+        !(await this._availabilityMonitor.checkIfHAError(e))
       ) {
         this._alert.warning({
           message: conferenceCallErrors.terminateConferenceFailed,
@@ -279,7 +279,7 @@ export default class ConferenceCall extends RcModule {
       await this._client.service
         .platform()
         .post(
-          `/account/~/telephony/sessions/${id}/parties/bring-in`,
+          `/restapi/v1.0/account/~/telephony/sessions/${id}/parties/bring-in`,
           webphoneSession.partyData,
         );
       const newConference = await this.updateConferenceStatus(id);
@@ -328,7 +328,9 @@ export default class ConferenceCall extends RcModule {
     try {
       await this._client.service
         .platform()
-        .delete(`/account/~/telephony/sessions/${id}/parties/${partyId}`);
+        .delete(
+          `/restapi/v1.0/account/~/telephony/sessions/${id}/parties/${partyId}`,
+        );
       await this.updateConferenceStatus(id);
       this.store.dispatch({
         type: this.actionTypes.removeFromConferenceSucceeded,
@@ -337,7 +339,7 @@ export default class ConferenceCall extends RcModule {
     } catch (e) {
       if (
         !this._availabilityMonitor ||
-        !this._availabilityMonitor.checkIfHAError(e)
+        !(await this._availabilityMonitor.checkIfHAError(e))
       ) {
         this._alert.warning({
           message: conferenceCallErrors.removeFromConferenceFailed,
@@ -498,7 +500,7 @@ export default class ConferenceCall extends RcModule {
 
         if (
           !this._availabilityMonitor ||
-          !this._availabilityMonitor.checkIfHAError(e)
+          !(await this._availabilityMonitor.checkIfHAError(e))
         ) {
           this._alert.warning({
             message: conferenceCallErrors.bringInFailed,
@@ -791,8 +793,8 @@ export default class ConferenceCall extends RcModule {
       // TODO: replace with SDK function chaining calls
       const rawResponse = await this._client.service
         .platform()
-        .post('/account/~/telephony/conference', {});
-      const response = rawResponse.json();
+        .post('/restapi/v1.0/account/~/telephony/conference', {});
+      const response = await rawResponse.json();
       const conference = response.session;
       const phoneNumber = conference.voiceCallToken;
       // whether to mutate the session to mark the conference?
@@ -828,7 +830,7 @@ export default class ConferenceCall extends RcModule {
       if (
         !propagate ||
         !this._availabilityMonitor ||
-          !this._availabilityMonitor.checkIfHAError(e)
+        !(await this._availabilityMonitor.checkIfHAError(e))
       ) {
         this._alert.warning({
           message: conferenceCallErrors.makeConferenceFailed,

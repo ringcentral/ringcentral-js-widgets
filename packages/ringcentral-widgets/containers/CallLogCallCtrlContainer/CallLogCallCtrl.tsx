@@ -7,13 +7,16 @@ export type CurrentSession = {
   isOnHold: boolean;
   callStatus: string;
   direction: any;
+  recordStatus: string;
 };
 
 export interface CallLogCallCtrlProps {
+  isWebphone: boolean;
   currentLocale?: string;
   currentSession?: CurrentSession;
   telephonySessionId?: string;
   isWide?: boolean;
+  isCurrentDeviceCall?: boolean;
   disableLinks?: boolean;
   transferRef?: React.RefObject<HTMLSpanElement>;
   isOnTransfer?: boolean;
@@ -24,6 +27,9 @@ export interface CallLogCallCtrlProps {
   onHold: (telephonySessionId: string) => any;
   onUnHold: (telephonySessionId: string) => any;
   onTransfer: (telephonySessionId: string) => any;
+  startRecord: (telephonySessionId: string) => any;
+  stopRecord: (telephonySessionId: string) => any;
+  sendDTMF: (dtmfValue: string, telephonySessionId: string) => void;
 }
 
 export const CallLogCallCtrl: FunctionComponent<CallLogCallCtrlProps> = (
@@ -37,6 +43,9 @@ export const CallLogCallCtrl: FunctionComponent<CallLogCallCtrlProps> = (
     currentSession,
     transferRef,
     isOnTransfer,
+    isCurrentDeviceCall,
+    isWebphone,
+    sendDTMF,
   } = props;
   if (!currentSession) {
     return null;
@@ -50,15 +59,21 @@ export const CallLogCallCtrl: FunctionComponent<CallLogCallCtrlProps> = (
       onTransfer={() => props.onTransfer(telephonySessionId)}
       onHold={async () => props.onHold(telephonySessionId)}
       onUnHold={async () => props.onUnHold(telephonySessionId)}
+      startRecord={async () => props.startRecord(telephonySessionId)}
+      stopRecord={async () => props.stopRecord(telephonySessionId)}
       isOnMute={currentSession.isOnMute}
       isOnHold={currentSession.isOnHold}
       callStatus={currentSession.callStatus}
       callDirection={currentSession.direction}
+      recordStatus={currentSession.recordStatus}
       currentLocale={currentLocale}
       disableLinks={disableLinks}
       isWide={isWide}
       transferRef={transferRef}
       isOnTransfer={isOnTransfer}
+      isWebphone={isWebphone}
+      isCurrentDeviceCall={isCurrentDeviceCall}
+      sendDTMF={async (dtmfValue) => sendDTMF(dtmfValue, telephonySessionId)}
     />
   );
 };

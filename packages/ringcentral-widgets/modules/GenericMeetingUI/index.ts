@@ -1,6 +1,6 @@
 import { Module } from 'ringcentral-integration/lib/di';
-import Brand from 'ringcentral-integration/modules/Brand';
 import { RcVMeetingModel } from 'ringcentral-integration/models/rcv.model';
+import Brand from 'ringcentral-integration/modules/Brand';
 
 import RcUIModule from '../../lib/RcUIModule';
 
@@ -41,6 +41,7 @@ export default class GenericMeetingUI extends RcUIModule {
 
   getUIProps({
     disabled,
+    showTopic,
     showWhen,
     showDuration,
     openNewWindow,
@@ -51,16 +52,27 @@ export default class GenericMeetingUI extends RcUIModule {
   }) {
     const invalidPassowrd =
       this._genericMeeting.ready &&
-      this._genericMeeting.isRCV &&
       this._genericMeeting.meeting &&
-      this._genericMeeting.meeting.isMeetingSecret &&
-      !this._genericMeeting.meeting.isMeetingPasswordValid;
+      (this._genericMeeting.isRCV || this._genericMeeting.isRCM) &&
+      !this._genericMeeting.validatePasswordSettings(
+        this._genericMeeting.meeting.password,
+        this._genericMeeting.isRCV
+          ? this._genericMeeting.meeting.isMeetingSecret
+          : this._genericMeeting.meeting._requireMeetingPassword,
+      );
+    const meeting =
+      (this._genericMeeting.ready && this._genericMeeting.meeting) || {};
     return {
+      meeting,
       datePickerSize,
       timePickerSize,
-      meeting:
-        (this._genericMeeting.ready && this._genericMeeting.meeting) || {},
       currentLocale: this._locale.currentLocale,
+      assistedUsers:
+        (this._genericMeeting.ready && this._genericMeeting.assistedUsers) ||
+        [],
+      scheduleForUser: this._genericMeeting.ready
+        ? this._genericMeeting.scheduleForUser
+        : null,
       disabled: !!(
         disabled ||
         invalidPassowrd ||
@@ -69,9 +81,11 @@ export default class GenericMeetingUI extends RcUIModule {
           !this._connectivityMonitor.connectivity) ||
         (this._rateLimiter && this._rateLimiter.throttling)
       ),
+      showTopic,
       showWhen,
       showDuration,
-      showRecurringMeeting,
+      showRecurringMeeting:
+        !meeting.usePersonalMeetingId && showRecurringMeeting,
       openNewWindow,
       showSaveAsDefault:
         this._genericMeeting.ready && this._genericMeeting.showSaveAsDefault,
@@ -93,6 +107,7 @@ export default class GenericMeetingUI extends RcUIModule {
         !this._locale.ready ||
         !this._genericMeeting.ready ||
         (!this._genericMeeting.isRCM && !this._genericMeeting.isRCV) ||
+        !this._genericMeeting.meeting ||
         (this._connectivityMonitor && !this._connectivityMonitor.ready) ||
         (this._rateLimiter && !this._rateLimiter.ready)
       ),
@@ -102,6 +117,10 @@ export default class GenericMeetingUI extends RcUIModule {
   getUIFunctions(props?: any) {
     const { schedule } = props;
     return {
+      switchUsePersonalMeetingId: (usePersonalMeetingId: boolean) =>
+        this._genericMeeting.switchUsePersonalMeetingId(usePersonalMeetingId),
+      updateScheduleFor: (userExtensionId: string) =>
+        this._genericMeeting.updateScheduleFor(userExtensionId),
       // TODO: any is reserved for RcM
       updateMeetingSettings: (value: RcVMeetingModel | any) =>
         this._genericMeeting.updateMeetingSettings(value),

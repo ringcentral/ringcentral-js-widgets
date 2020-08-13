@@ -20,11 +20,11 @@ export default class Brand extends RcModule {
    */
   constructor({
     id,
+    code,
     name,
     fullName,
     appName,
     application,
-    code,
     brandConfig,
     ...options
   }) {
@@ -32,17 +32,14 @@ export default class Brand extends RcModule {
     this._reducer = (
       state = {
         id,
+        code,
         name,
         fullName,
         appName,
         application,
-        code,
         brandConfig,
       },
     ) => state;
-  }
-  get _actionTypes() {
-    /* no action types */
   }
 
   _onStateChange() {
@@ -53,6 +50,12 @@ export default class Brand extends RcModule {
     return this.state.id;
   }
 
+  // att | bt | rc | telus
+  get code() {
+    return this.state.code;
+  }
+
+  // short name
   get name() {
     return this.state.name;
   }
@@ -67,10 +70,6 @@ export default class Brand extends RcModule {
 
   get appName() {
     return this.state.appName;
-  }
-
-  get code() {
-    return this.state.code;
   }
 
   // eslint-disable-next-line class-methods-use-this

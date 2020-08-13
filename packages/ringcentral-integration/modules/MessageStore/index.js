@@ -6,6 +6,7 @@ import sleep from '../../lib/sleep';
 import proxify from '../../lib/proxy/proxify';
 import moduleStatuses from '../../enums/moduleStatuses';
 import syncTypes from '../../enums/syncTypes';
+import subscriptionFilters from '../../enums/subscriptionFilters';
 import * as messageHelper from '../../lib/messageHelper';
 import { batchPutApi } from '../../lib/batchApiHelper';
 
@@ -236,7 +237,7 @@ export default class MessageStore extends Pollable {
     } else {
       this._retry();
     }
-    this._subscription.subscribe('/account/~/extension/~/message-store');
+    this._subscription.subscribe(subscriptionFilters.messageStore);
   }
 
   _shouldFetch() {
@@ -578,7 +579,7 @@ export default class MessageStore extends Pollable {
     const platform = this._client.service.platform();
     const responses = await batchPutApi({
       platform,
-      url: `/account/~/extension/~/message-store/${ids}`,
+      url: `/restapi/v1.0/account/~/extension/~/message-store/${ids}`,
       body,
     });
     return responses;
@@ -624,11 +625,14 @@ export default class MessageStore extends Pollable {
 
       const body = leftIds.map(() => ({ body: { readStatus: status } }));
       const responses = await this._batchUpdateMessagesApi(leftIds, body);
-      responses.forEach((res) => {
-        if (res.response().status === 200) {
-          results.push(res.json());
-        }
-      });
+      await Promise.all(
+        responses.map(async (res) => {
+          if (res.status === 200) {
+            const result = await res.json();
+            results.push(result);
+          }
+        }),
+      );
 
       const { ownerId } = this._auth;
       if (allMessageIds.length > (index + 1) * UPDATE_MESSAGE_ONCE_COUNT) {
@@ -694,7 +698,7 @@ export default class MessageStore extends Pollable {
 
       if (
         !this._availabilityMonitor ||
-        !this._availabilityMonitor.checkIfHAError(error)
+        !(await this._availabilityMonitor.checkIfHAError(error))
       ) {
         this._alert.warning({ message: messageStoreErrors.readFailed });
       }
@@ -726,7 +730,7 @@ export default class MessageStore extends Pollable {
 
       if (
         !this._availabilityMonitor ||
-        !this._availabilityMonitor.checkIfHAError(error)
+        !(await this._availabilityMonitor.checkIfHAError(error))
       ) {
         this._alert.warning({ message: messageStoreErrors.unreadFailed });
       }
@@ -761,7 +765,7 @@ export default class MessageStore extends Pollable {
 
       if (
         !this._availabilityMonitor ||
-        !this._availabilityMonitor.checkIfHAError(error)
+        !(await this._availabilityMonitor.checkIfHAError(error))
       ) {
         this._alert.warning({ message: messageStoreErrors.deleteFailed });
       }
@@ -790,7 +794,7 @@ export default class MessageStore extends Pollable {
 
       if (
         !this._availabilityMonitor ||
-        !this._availabilityMonitor.checkIfHAError(error)
+        !(await this._availabilityMonitor.checkIfHAError(error))
       ) {
         this._alert.warning({ message: messageStoreErrors.deleteFailed });
       }

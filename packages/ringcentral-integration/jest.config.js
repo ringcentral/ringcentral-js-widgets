@@ -1,7 +1,6 @@
-module.exports = {
-  roots: ['<rootDir>/test'],
-  transform: {
-    '^.+\\.(js|jsx|ts|tsx)$':
-      '@ringcentral-integration/babel-settings/lib/crius.js',
-  },
-};
+const merge = require('@ringcentral-integration/test-utils/lib/merge');
+const baseConfig = require('@ringcentral-integration/test-utils/config/jest.config');
+
+module.exports = merge(baseConfig, {
+  // add additional jest config
+});

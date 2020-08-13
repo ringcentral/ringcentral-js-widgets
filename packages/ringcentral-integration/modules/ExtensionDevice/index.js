@@ -21,13 +21,15 @@ export default class ExtensionDevice extends DataFetcher {
     super({
       client,
       fetchFunction: async () =>
-        (await fetchList((params) =>
-          client
-            .account()
-            .extension()
-            .device()
-            .list(params),
-        )).map((device) => ({
+        (
+          await fetchList((params) =>
+            client
+              .account()
+              .extension()
+              .device()
+              .list(params),
+          )
+        ).map((device) => ({
           ...removeUri(device),
           extension: removeUri(device.extension),
         })),
@@ -41,7 +43,7 @@ export default class ExtensionDevice extends DataFetcher {
   }
 
   @selector
-  devices = [() => this.data, (data) => data || {}];
+  devices = [() => this.data, (data) => data || []];
 
   @selector
   phoneLines = [

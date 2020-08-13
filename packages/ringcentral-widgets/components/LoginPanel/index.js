@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import styles from './styles.scss';
 import i18n from './i18n';
-import SpinnerOverlay from '../SpinnerOverlay';
+import { SpinnerOverlay } from '../SpinnerOverlay';
 
 export default function LoginPanel({
   className,

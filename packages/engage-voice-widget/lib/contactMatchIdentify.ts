@@ -1,19 +1,24 @@
-interface ContactMatchQuery {
+interface ContactMatchQuery<T> {
   phoneNumber: string;
-  callType: string;
+  callType: T;
 }
+
+type CallTypeRaw = 'INBOUND' | 'OUTBOUND' | 'INTERNAL';
+
+type CallType = 'inbound' | 'outbound' | 'internal';
 
 const separator = '_';
 
 export const contactMatchIdentifyEncode = ({
   phoneNumber,
   callType,
-}: ContactMatchQuery) =>
+}: ContactMatchQuery<CallTypeRaw>) =>
   `${phoneNumber}${separator}${callType}`.toLocaleLowerCase();
 
-export const contactMatchIdentifyDecode = (
-  identify: string,
-): ContactMatchQuery => {
-  const [phoneNumber, callType] = identify.split(separator);
+export const contactMatchIdentifyDecode = (identify: string) => {
+  const [phoneNumber, callType] = identify.split(separator) as [
+    ContactMatchQuery<CallType>['phoneNumber'],
+    ContactMatchQuery<CallType>['callType'],
+  ];
   return { phoneNumber, callType };
 };

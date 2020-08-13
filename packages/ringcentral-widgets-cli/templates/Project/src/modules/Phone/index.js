@@ -1,5 +1,5 @@
-import SDK from 'ringcentral';
-import RingCentralClient from 'ringcentral-client';
+import { SDK } from '@ringcentral/sdk';
+import { RingCentralClient } from 'ringcentral-integration/lib/RingCentralClient';
 
 import { ModuleFactory } from 'ringcentral-integration/lib/di';
 import RcModule from 'ringcentral-integration/lib/RcModule';

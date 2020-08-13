@@ -1,8 +1,7 @@
 import { RcModuleV2 } from '../RcModule';
 
-export abstract class RcUIModuleV2<T = {}, K = {}> extends RcModuleV2<T, K> {
+export abstract class RcUIModuleV2<T = {}> extends RcModuleV2<T> {
   abstract getUIProps(...args: any[]): Record<string, any>;
-  abstract getUIFunctions(
-    ...args: any[]
-  ): Record<string, (...args: any[]) => any>;
+
+  abstract getUIFunctions(...args: any[]): any;
 }

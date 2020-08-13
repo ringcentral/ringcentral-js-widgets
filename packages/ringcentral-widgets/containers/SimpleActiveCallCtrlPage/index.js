@@ -20,7 +20,7 @@ import { pickFallBackInfo } from './utils';
 function mapToProps(
   _,
   {
-    phone: { activeCallControl, regionSettings, locale, brand },
+    phone: { activeCallControl, regionSettings, locale, brand, analytics },
     params,
     renderContactName,
   },
@@ -69,6 +69,7 @@ function mapToProps(
     brand: brand.fullName,
     activeCallControl,
     controlBusy: activeCallControl.busy,
+    analytics,
   };
 }
 
@@ -105,8 +106,10 @@ class ActiveCallControlPanel extends Component {
     this.onHold = () => this.props.activeCallControl.hold(this.props.sessionId);
     this.onUnhold = () =>
       this.props.activeCallControl.unhold(this.props.sessionId);
-    this.onHangup = () =>
+    this.onHangup = () => {
       this.props.activeCallControl.hangUp(this.props.sessionId);
+      this.props.analytics.track('Call Control: Hang up/Small call control');
+    };
 
     this.formatPhone = (phoneNumber) =>
       formatNumber({
@@ -132,11 +135,12 @@ class ActiveCallControlPanel extends Component {
   componentDidMount() {
     this.loadActCall();
   }
+
   loadActCall() {
     this.props.setActiveSessionId(this.props.sessionId);
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (!nextProps.activeSession) {
       this.props.onBackButtonClick();
     }
@@ -199,6 +203,7 @@ ActiveCallControlPanel.propTypes = {
   onTransfer: PropTypes.func.isRequired,
   controlBusy: PropTypes.bool,
   actions: PropTypes.array,
+  analytics: PropTypes.object,
 };
 
 ActiveCallControlPanel.defaultProps = {
@@ -213,11 +218,9 @@ ActiveCallControlPanel.defaultProps = {
   showContactDisplayPlaceholder: false,
   controlBusy: false,
   actions: [muteCtrl, transferCtrl, holdCtrl],
+  analytics: {},
 };
 
 export default withPhone(
-  connect(
-    mapToProps,
-    mapToFunctions,
-  )(ActiveCallControlPanel),
+  connect(mapToProps, mapToFunctions)(ActiveCallControlPanel),
 );

@@ -5,7 +5,6 @@ import { BasicCallInfo } from 'ringcentral-widgets/components/BasicCallInfo';
 import CallLogPanel, {
   CallLogPanelProps,
 } from 'ringcentral-widgets/components/CallLogPanel';
-import SaveLogButton from 'ringcentral-widgets/components/SaveLogButton';
 
 import { transferTypes } from '../../enums';
 import {
@@ -14,9 +13,9 @@ import {
 } from '../../interfaces/EvActivityCallUI.interface';
 import { EvSmallCallControl } from '../EvSmallCallControl';
 import i18n from './i18n';
+import { IvrInfo } from './IvrInfo';
 import styles from './styles.scss';
 import { EditLogSection, getButtonText } from './utils';
-import { IvrInfo } from './IvrInfo';
 
 export type ActivityCallLogPanelProps = EvActivityCallUIProps &
   EvActivityCallUIFunctions &

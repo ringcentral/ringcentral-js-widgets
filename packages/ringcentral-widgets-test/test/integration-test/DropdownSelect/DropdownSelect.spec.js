@@ -2,112 +2,160 @@ import { mount, shallow } from 'enzyme';
 import React from 'react';
 import DropdownSelect from 'ringcentral-widgets/components/DropdownSelect';
 
-const Opportunity = [
-  {
-    Name: 'test1',
-    Phone: '6501234567',
-    Id: '0031N00001QSvbuQLead',
-  },
-  {
-    Name: 'test2',
-    Phone: '6501234567',
-    Id: '0031N00001QSvbuQADOpportunity',
-  },
-];
+const Options = ['123', '456', '789']
+const OptionsWithLabel = [{label:'aaa',value:'123'}, {label:'bbb',value:'456'}, {label:'ccc',value:'789'}]
 
 function typingText(wrapper, textContent) {
-  const event = new Event('input');
-  Object.defineProperty(event, 'target', {
-    get() {
-      return { textContent };
-    },
-  });
-  wrapper
-    .find('span')
-    .at(0)
-    .instance()
-    .dispatchEvent(event);
+  wrapper.find('input').simulate('change', { target: { value: textContent } });
 }
 
 beforeEach(async () => {});
 
-describe('<DropdownSelect />', () => {
-  const searchHandler = jest.fn();
-  const onChangeHandler = jest.fn();
-
+describe('<DropdownSelect /> basic use', () => {
+  const onChangeHandler = (val) => wrapper.setProps({ value: val });
   const wrapper = mount(
     <DropdownSelect
-      options={Opportunity}
-      searchOption={searchHandler}
+      options={Options}
       onChange={onChangeHandler}
-      value={Opportunity[0]}
+      value={Options[0]}
       dropdownAlign="left"
       titleEnabled
-      renderValue={(value) => {
-        if (value) {
-          return value.Name;
-        }
-        return '[None]';
-      }}
-      renderFunction={(item) => {
-        if (item !== null) {
-          return item.Name;
-        }
-        return '[None]';
-      }}
-    />,
+    />
   );
 
-  it('click dropdownList and the menu should be opend', () => {
+  it('render a span element to display selected value', () => {
+    expect(wrapper.find('span[data-sign="selectedItem"]').exists());
+  });
+
+  it('click dropdownList and the menu should be opened', () => {
     const button = wrapper.find('[type="button"]').at(0);
     button.simulate('click');
-
     expect(wrapper.state('open')).toEqual(true);
   });
 
-  it('check the contenteditable has be add', () => {
-    expect(
-      wrapper
-        .find('[data-sign="selectedItem"]')
-        .render()
-        .attr().contenteditable,
-    ).toBe('true');
-  });
-
-  it('typing text, the filter should change.', () => {
-    const nextInput = 't1';
-    typingText(wrapper, nextInput);
-    expect(wrapper.state('filter')).toEqual(nextInput);
-  });
-
-  it('filter options should be called', () => {
-    expect(searchHandler).toHaveBeenCalled();
-  });
-
-  it('set filter method and typing text in field, the options should be filter with condition.', () => {
-    wrapper.setProps({
-      searchOption: (option, text) => option.Name.includes(text),
-    });
-
-    const nextInput = 't1';
-    typingText(wrapper, nextInput);
-
+  it('when click the option, the value should be change', () => {
     const dropdownList = wrapper.find('.dropdownItem');
-    const dropdownListTexts = dropdownList.map((item) => item.text());
-
-    expect(dropdownListTexts).toEqual(['test1']);
-  });
-
-  it('when click the filter option, the value should be change', () => {
-    const dropdownList = wrapper.find('.dropdownItem');
-
-    const selected = dropdownList.at(0);
+    const selected = dropdownList.at(1);
     selected.simulate('click');
-
-    expect(onChangeHandler).toHaveBeenCalled();
     expect(wrapper.find('[data-sign="selectedItem"]').text()).toEqual(
       selected.text(),
     );
     expect(wrapper.state('open')).toEqual(false);
   });
+
+});
+
+describe('<DropdownSelect /> with searchOption', () => {
+  const searchHandler = (option, text) => option.includes(text);
+  const onChangeHandler = (val) => wrapper.setProps({ value: val });
+  const wrapper = mount(
+    <DropdownSelect
+      options={Options}
+      searchOption={searchHandler}
+      onChange={onChangeHandler}
+      value={Options[0]}
+      dropdownAlign="left"
+      titleEnabled
+    />
+  );
+
+  it('render an input element to display selected value', () => {
+    expect(wrapper.find('input[data-sign="selectedItem"]').exists());
+  });
+
+  it('open the dropdown, saveContent should equal to the current selected value.', () => {
+    const button = wrapper.find('[type="button"]').at(0);
+    button.simulate('click');
+    expect(wrapper.instance()['saveContent']).toEqual('123');
+  });
+
+  it('typing text, the filter should change.', () => {
+    const nextInput = '1';
+    typingText(wrapper, nextInput);
+    expect(wrapper.state('filter')).toEqual(nextInput);
+  });
+
+  it('typing text in field, the options should be filter with condition.', () => {
+    const nextInput = '4';
+    typingText(wrapper, nextInput);
+    const dropdownList = wrapper.find('.dropdownItem');
+    const dropdownListTexts = dropdownList.map((item) => item.text());
+    expect(dropdownListTexts).toEqual(['456']);
+  });
+
+});
+
+describe('<DropdownSelect /> with customInputEnabled', () => {
+  const onChangeHandler = (val) => wrapper.setProps({ value: val });
+  const wrapper = mount(
+    <DropdownSelect
+      options={Options}
+      onChange={onChangeHandler}
+      value={Options[0]}
+      dropdownAlign="left"
+      titleEnabled
+      customInputEnabled
+    />
+  );
+
+  it('render an input element to display selected value', () => {
+    expect(wrapper.find('input[data-sign="selectedItem"]').exists());
+  });
+
+  it('typing text in field, the value props should be updated and equal to input value.', () => {
+    const nextInput = '333';
+    typingText(wrapper, nextInput);
+    expect(wrapper.props().value).toEqual('333');
+  });
+
+  it('the filter state should not change since the searchOption was not be set.', () => {
+    expect(wrapper.state('filter')).toBeNull();
+  });
+
+});
+
+describe('<DropdownSelect /> with optionsWithLabel', () => {
+  const onChangeHandler = (val) => wrapper.setProps({ value: val });
+  const wrapper = mount(
+    <DropdownSelect
+      options={OptionsWithLabel}
+      onChange={onChangeHandler}
+      value={OptionsWithLabel[0].value}
+      dropdownAlign="left"
+      titleEnabled
+      optionsWithLabel
+      customInputEnabled
+    />
+  );
+
+  it('render an input element to display selected value, and it will contain the "inputWithLabel" class', () => {
+    expect(wrapper.find('input.inputWithLabel[data-sign="selectedItem"]').exists());
+  });
+
+  it('render a selected option label', () => {
+    expect(wrapper.find('span.selectedOptionLabel').exists());
+  });
+
+  it('click dropdownList and the input element should have an "active" class, and the label should have a "selectedOptionLabelHide" class', () => {
+    const button = wrapper.find('[type="button"]').at(0);
+    button.simulate('click');
+    expect(wrapper.find('input.inputWithLabel.active').exists());
+    expect(wrapper.find('span.selectedOptionLabelHide').exists());
+  });
+
+  it('the options should be rendered with a pair of label and value', () => {
+    expect(wrapper.find('span.optionLabel')).toHaveLength(3);
+    expect(wrapper.find('span.optionValue')).toHaveLength(3);
+  });
+
+  it('when click the option, the value should be change', () => {
+    const dropdownList = wrapper.find('.dropdownItem');
+    const selected = dropdownList.at(1);
+    selected.simulate('click');
+    expect(wrapper.find('[data-sign="selectedItem"]').props().value).toEqual(
+      OptionsWithLabel[1].value,
+    );
+    expect(wrapper.state('open')).toEqual(false);
+  });
+
 });

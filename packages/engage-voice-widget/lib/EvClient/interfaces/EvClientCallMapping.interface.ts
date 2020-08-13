@@ -1,8 +1,10 @@
 import {
+  EvACKResponse,
   EvAddSessionNotification,
   EvAgentConfig,
   EvAgentStateResponse,
   EvBaseCall,
+  EvDirectAgentTransferResponse,
   EvDropSessionNotification,
   EvEndedCall,
   EvHoldResponse,
@@ -10,10 +12,8 @@ import {
   EvReceivedTransferCall,
 } from './EvSdkResponse.interface';
 
-// TODO: link with `SdkResponse.interface`
-
 export interface EvClientCallMapping {
-  acknowledgeResponse: any;
+  acknowledgeResponse: EvACKResponse;
   addSessionNotification: EvAddSessionNotification;
   agentDebugEmailNotification: any;
   agentStateResponse: EvAgentStateResponse;
@@ -42,7 +42,7 @@ export interface EvClientCallMapping {
   configureResponse: any;
   dialGroupChangeNotification: any;
   dialGroupChangePendingNotification: any;
-  directAgentTransferResponse: any;
+  directAgentTransferResponse: EvDirectAgentTransferResponse;
   directAgentTransferListResponse: any;
   directAgentTransferNotification: EvReceivedTransferCall;
   dropSessionNotification: EvDropSessionNotification;

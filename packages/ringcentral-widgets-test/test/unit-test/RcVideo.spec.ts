@@ -9,6 +9,9 @@ const mockPreferences = {
   join_before_host: false,
   password_scheduled: true,
   password_instant: true,
+  guest_join: false,
+  join_authenticated_from_account_only: 'anyone_signed_into_rc',
+  screen_sharing_host_only: 'all',
 };
 
 beforeEach(() => {
@@ -16,10 +19,13 @@ beforeEach(() => {
 });
 
 describe.each`
-  isMeetingSecret | allowJoinBeforeHost | expected
-  ${true}         | ${false}            | ${0}
-  ${true}         | ${true}             | ${1}
-  ${false}        | ${true}             | ${2}
+  isMeetingSecret | allowJoinBeforeHost | isOnlyAuthUserJoin | isOnlyCoworkersJoin | allowScreenSharing | expected
+  ${true}         | ${false}            | ${false}           | ${false}            | ${true}            | ${0}
+  ${true}         | ${true}             | ${false}           | ${false}            | ${true}            | ${1}
+  ${false}        | ${true}             | ${false}           | ${false}            | ${true}            | ${2}
+  ${false}        | ${true}             | ${true}            | ${false}            | ${true}            | ${3}
+  ${false}        | ${true}             | ${true}            | ${true}             | ${true}            | ${4}
+  ${false}        | ${true}             | ${true}            | ${true}             | ${false}           | ${5}
 `(
   'RCV Preferences',
   ({
@@ -27,6 +33,9 @@ describe.each`
     allowJoinBeforeHost,
     // muteVideo,
     // muteAudio,
+    isOnlyAuthUserJoin,
+    isOnlyCoworkersJoin,
+    allowScreenSharing,
     expected,
   }) => {
     test(`${expected} preference changes should be detected and saved to backend`, async () => {
@@ -46,6 +55,9 @@ describe.each`
         allowJoinBeforeHost,
         // muteVideo,
         // muteAudio,
+        isOnlyAuthUserJoin,
+        isOnlyCoworkersJoin,
+        allowScreenSharing,
       });
       expect(mockSaveSinglePreference).toBeCalledTimes(expected);
     });

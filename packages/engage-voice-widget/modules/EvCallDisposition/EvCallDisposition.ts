@@ -3,19 +3,15 @@ import {
   RcModuleV2,
   state,
   storage,
-  RcModuleState,
 } from '@ringcentral-integration/core';
 import { Module } from 'ringcentral-integration/lib/di';
 
 import {
   CallDisposition,
-  DepsModules,
-  State,
-  EvDispositionStateMapping,
+  Deps,
   EvCallDispositionMapping,
+  EvDispositionStateMapping,
 } from './EvCallDisposition.interface';
-
-type EvCallDispositionState = RcModuleState<EvCallDisposition, State>;
 
 @Module({
   name: 'EvCallDisposition',
@@ -24,43 +20,27 @@ type EvCallDispositionState = RcModuleState<EvCallDisposition, State>;
     'EvCallMonitor',
     'EvCallHistory',
     'EvClient',
+    'EvAgentScript',
     { dep: 'ContactMatcher', optional: true },
     { dep: 'ActivityMatcher', optional: true },
     { dep: 'EvCallDispositionOptions', optional: true },
   ],
 })
-class EvCallDisposition extends RcModuleV2<DepsModules, EvCallDispositionState>
-  implements CallDisposition {
-  constructor({
-    evCallMonitor,
-    evCallHistory,
-    contactMatcher,
-    activityMatcher,
-    storage,
-    evClient,
-    enableCache = true,
-  }) {
+class EvCallDisposition extends RcModuleV2<Deps> implements CallDisposition {
+  constructor(deps: Deps) {
     super({
-      modules: {
-        storage,
-        evCallMonitor,
-        evCallHistory,
-        contactMatcher,
-        activityMatcher,
-        evClient,
-      },
-      enableCache,
+      deps,
+      enableCache: true,
       storageKey: 'EvCallDisposition',
     });
-    // TODO: when init need check, if still have call calling
-    this._modules.evCallMonitor.addCallRingHook(() => {
-      const [call] = this._modules.evCallMonitor.calls;
+
+    this._deps.evCallMonitor.onCallRing((call) => {
       if (call?.outdialDispositions) {
         const disposition = call.outdialDispositions.dispositions.find(
           ({ isDefault }) => isDefault,
         );
-        const id = this._modules.evCallMonitor.getCallId(call.session);
-        this.changeDisposition(id, {
+        const id = this._deps.evCallMonitor.getCallId(call.session);
+        this.setDisposition(id, {
           dispositionId: disposition ? disposition.dispositionId : null,
           notes: '',
         });
@@ -77,33 +57,40 @@ class EvCallDisposition extends RcModuleV2<DepsModules, EvCallDispositionState>
   dispositionStateMapping: EvDispositionStateMapping = {};
 
   @action
-  changeDisposition(id, data) {
+  setDisposition(id: string, data: EvCallDispositionMapping[string]) {
     this.callsMapping[id] = data;
   }
 
   @action
-  removeDisposition(id) {
+  removeDisposition(id: string) {
     delete this.callsMapping[id];
   }
 
   @action
-  changeDispositionState(id, disposed) {
-    this.dispositionStateMapping[id] = { disposed };
+  setDispositionState(id: string, disposed: EvDispositionStateMapping[string]) {
+    this.dispositionStateMapping[id] = disposed;
   }
 
-  disposeCall(id: string) {
-    const call = this._modules.evCallHistory.callsMapping[id];
+  async disposeCall(id: string) {
+    const call = this._deps.evCallHistory.callsMapping[id];
     const callDisposition = this.callsMapping[id];
     const isDisposed =
       this.dispositionStateMapping[id] &&
       this.dispositionStateMapping[id].disposed;
     if (!call.outdialDispositions || isDisposed) return;
-    this._modules.evClient.dispositionCall({
+
+    this._deps.evClient.dispositionCall({
       uii: call.uii,
       dispId: callDisposition.dispositionId,
       notes: callDisposition.notes,
     });
-    this.changeDispositionState(id, { disposed: true });
+
+    const { evAgentScript } = this._deps;
+    if (evAgentScript.isAgentScript && call.scriptId) {
+      await evAgentScript.saveScriptResult(call);
+    }
+
+    this.setDispositionState(id, { disposed: true });
   }
 }
 

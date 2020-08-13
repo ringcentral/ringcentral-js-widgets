@@ -38,7 +38,7 @@
   },
   "jest": {
     "transform": {
-      "^.+\\.js$": "@ringcentral-integration/babel-settings/lib/jestTransform.js"
+      "^.+\\.(j|t)sx?$": "@ringcentral-integration/babel-settings/lib/jestTransform.js"
     },
     "reporters": [ "default", "jest-junit" ]
   },

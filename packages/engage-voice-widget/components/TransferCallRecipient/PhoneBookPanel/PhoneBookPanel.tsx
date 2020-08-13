@@ -1,13 +1,13 @@
 import classNames from 'classnames';
 import React, { FunctionComponent } from 'react';
 import { Tooltip } from 'ringcentral-widgets/components/Rcui/Tooltip';
-import { TOOLTIP_DEFAULT_DELAY_TIME } from 'ringcentral-widgets/lib/toolTipDelayTime';
+import { TOOLTIP_LONG_DELAY_TIME } from 'ringcentral-widgets/lib/toolTipDelayTime';
 
 import {
   EvTransferCallUIFunctions,
   EvTransferCallUIProps,
 } from '../../../interfaces';
-import { FormattedNumber } from '../../FormattedNumber';
+import { formatPhoneNumber } from '../../../lib/FormatPhoneNumber';
 import { ListItem, SelectList } from '../../SelectList';
 import transferCallI18n from '../i18n';
 import transferCallStyles from '../styles.scss';
@@ -61,7 +61,7 @@ const PhoneBookPanel: FunctionComponent<PhoneBookPanelProps> = ({
               <p className={styles.phoneBookName}>
                 <Tooltip
                   title={phoneBookName}
-                  enterDelay={TOOLTIP_DEFAULT_DELAY_TIME}
+                  enterDelay={TOOLTIP_LONG_DELAY_TIME}
                 >
                   <span className={transferCallStyles.ellipsis}>
                     {phoneBookName}
@@ -69,7 +69,10 @@ const PhoneBookPanel: FunctionComponent<PhoneBookPanelProps> = ({
                 </Tooltip>
               </p>
               <p className={classNames(styles.phoneBookDest, styles.ellipsis)}>
-                <FormattedNumber phoneNumber={destination} />
+                {formatPhoneNumber({
+                  phoneNumber: destination,
+                  currentLocale,
+                })}
               </p>
             </div>
           </ListItem>

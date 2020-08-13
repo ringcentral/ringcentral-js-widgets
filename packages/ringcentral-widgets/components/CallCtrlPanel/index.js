@@ -4,7 +4,7 @@ import callCtrlLayouts from '../../enums/callCtrlLayouts';
 import ActiveCallDialPad from '../ActiveCallDialPad';
 import ActiveCallPanel from '../ActiveCallPanel';
 import ConfirmMergeModal from '../ConfirmMergeModal';
-import SpinnerOverlay from '../SpinnerOverlay';
+import { SpinnerOverlay } from '../SpinnerOverlay';
 
 class CallCtrlPanel extends Component {
   constructor(props) {

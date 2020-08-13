@@ -5,7 +5,7 @@ import classnames from 'classnames';
 import debounce from 'ringcentral-integration/lib/debounce';
 import Panel from '../Panel';
 import SearchInput from '../SearchInput';
-import SpinnerOverlay from '../SpinnerOverlay';
+import { SpinnerOverlay } from '../SpinnerOverlay';
 
 import ContactList from '../ContactList';
 import ContactItem from '../ContactItem';
@@ -86,6 +86,7 @@ export default class ContactsView extends Component {
       });
     };
   }
+
   calculateContentSize = () => {
     if (
       this.contentWrapper &&
@@ -103,6 +104,7 @@ export default class ContactsView extends Component {
       contentWidth: 0,
     };
   };
+
   componentDidMount() {
     this._mounted = true;
     if (typeof this.props.onVisitPage === 'function') {
@@ -118,7 +120,7 @@ export default class ContactsView extends Component {
     window.addEventListener('resize', this.onResize);
   }
 
-  componentWillUpdate(nextProps, nextState) {
+  UNSAFE_componentWillUpdate(nextProps, nextState) {
     if (nextProps.searchString !== this.props.searchString) {
       nextState.searchString = nextProps.searchString;
     }
@@ -158,6 +160,7 @@ export default class ContactsView extends Component {
       searchSource,
     });
   };
+
   onResize = debounce(() => {
     if (this._mounted) {
       this.setState({
@@ -216,6 +219,8 @@ export default class ContactsView extends Component {
       sourceNodeRenderer,
       onRefresh,
       children,
+      currentSiteCode,
+      isMultipleSiteEnabled,
     } = this.props;
 
     const showRefresh = typeof onRefresh === 'function';
@@ -260,6 +265,8 @@ export default class ContactsView extends Component {
               getAvatarUrl={getAvatarUrl}
               getPresence={getPresence}
               onItemSelect={onItemSelect}
+              currentSiteCode={currentSiteCode}
+              isMultipleSiteEnabled={isMultipleSiteEnabled}
               sourceNodeRenderer={sourceNodeRenderer}
               width={this.state.contentWidth}
               height={this.state.contentHeight}
@@ -286,6 +293,8 @@ ContactsView.propTypes = {
   getAvatarUrl: PropTypes.func.isRequired,
   getPresence: PropTypes.func.isRequired,
   showSpinner: PropTypes.bool.isRequired,
+  currentSiteCode: PropTypes.string,
+  isMultipleSiteEnabled: PropTypes.bool,
   searchSource: PropTypes.string,
   searchString: PropTypes.string,
   onItemSelect: PropTypes.func,
@@ -307,4 +316,6 @@ ContactsView.defaultProps = {
   onVisitPage: undefined,
   children: undefined,
   onRefresh: undefined,
+  currentSiteCode: '',
+  isMultipleSiteEnabled: false,
 };

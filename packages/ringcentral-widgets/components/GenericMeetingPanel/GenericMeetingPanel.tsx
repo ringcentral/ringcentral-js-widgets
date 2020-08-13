@@ -1,6 +1,6 @@
 import sleep from 'ringcentral-integration/lib/sleep';
 import React, { useState } from 'react';
-import SpinnerOverlay from '../SpinnerOverlay';
+import { SpinnerOverlay } from '../SpinnerOverlay';
 import MeetingConfigs from '../MeetingConfigs';
 import isSafari from '../../lib/isSafari';
 
@@ -8,6 +8,8 @@ import { VideoConfig, Topic } from '../VideoPanel/VideoConfig';
 
 import { GenericMeetingPanelProps } from './interface';
 import styles from './styles.scss';
+import { RcMMeetingModel } from '../../../ringcentral-integration/modules/Meeting';
+import { RcVMeetingModel } from '../../../ringcentral-integration/models/rcv.model';
 
 const GenericMeetingPanel: React.ComponentType<GenericMeetingPanelProps> = (
   props,
@@ -25,6 +27,7 @@ const GenericMeetingPanel: React.ComponentType<GenericMeetingPanelProps> = (
     currentLocale,
     scheduleButton: ScheduleButton,
     recipientsSection,
+    showTopic,
     showWhen,
     showDuration,
     showRecurringMeeting,
@@ -50,6 +53,7 @@ const GenericMeetingPanel: React.ComponentType<GenericMeetingPanelProps> = (
     brandName,
     personalMeetingId,
     showSpinner,
+    switchUsePersonalMeetingId,
   } = props;
 
   if (showSpinner) {
@@ -61,27 +65,30 @@ const GenericMeetingPanel: React.ComponentType<GenericMeetingPanelProps> = (
       {isRCM && (
         <MeetingConfigs
           update={updateMeetingSettings}
+          switchUsePersonalMeetingId={switchUsePersonalMeetingId}
           init={init}
-          meeting={meeting}
+          meeting={meeting as RcMMeetingModel}
           disabled={disabled}
           currentLocale={currentLocale}
           recipientsSection={recipientsSection}
           showWhen={showWhen}
+          showTopic={showTopic}
           showDuration={showDuration}
           showRecurringMeeting={showRecurringMeeting}
-          openNewWindow={openNewWindow}
           meetingOptionToggle={meetingOptionToggle}
           passwordPlaceholderEnable={passwordPlaceholderEnable}
           audioOptionToggle={audioOptionToggle}
+          personalMeetingId={personalMeetingId}
         />
       )}
       {isRCV && (
         <VideoConfig
           currentLocale={currentLocale}
-          meeting={meeting}
+          meeting={meeting as RcVMeetingModel}
           updateMeetingSettings={updateMeetingSettings}
           validatePasswordSettings={validatePasswordSettings}
           recipientsSection={recipientsSection}
+          showTopic={showTopic}
           showWhen={showWhen}
           showDuration={showDuration}
           init={init}
@@ -136,6 +143,7 @@ GenericMeetingPanel.defaultProps = {
   launchMeeting() {},
   disabled: false,
   showWhen: true,
+  showTopic: true,
   showDuration: true,
   showRecurringMeeting: true,
   openNewWindow: true,

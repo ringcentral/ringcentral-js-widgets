@@ -1,10 +1,9 @@
 import {
   action,
-  RcModuleState,
+  computed,
   RcUIModuleV2,
   state,
   storage,
-  createSelector,
 } from '@ringcentral-integration/core';
 import { Module } from 'ringcentral-integration/lib/di';
 
@@ -12,9 +11,7 @@ import {
   EvDialerUIFunctions,
   EvDialerUIProps,
 } from '../../interfaces/EvDialerUI.interface';
-import { DepsModules, DialerUI, State } from './EvDialerUI.interface';
-
-type EvDialerUIState = RcModuleState<EvDialerUI, State>;
+import { Deps, DialerUI } from './EvDialerUI.interface';
 
 @Module({
   name: 'EvDialerUI',
@@ -28,45 +25,17 @@ type EvDialerUIState = RcModuleState<EvDialerUI, State>;
     'EvClient',
     'EvCallMonitor',
     'EvWorkingState',
-    'EvSessionConfig',
+    'EvAgentSession',
     'EvIntegratedSoftphone',
     'Environment',
     { dep: 'EvDialerUIOptions', optional: true },
   ],
 })
-class EvDialerUI extends RcUIModuleV2<DepsModules, EvDialerUIState>
-  implements DialerUI {
-  constructor({
-    evCall,
-    locale,
-    storage,
-    evAuth,
-    routerInteraction,
-    evSettings,
-    evClient,
-    evCallMonitor,
-    evWorkingState,
-    evSessionConfig,
-    evIntegratedSoftphone,
-    enableCache = true,
-    environment,
-  }) {
+class EvDialerUI extends RcUIModuleV2<Deps> implements DialerUI {
+  constructor(deps: Deps) {
     super({
-      modules: {
-        evCall,
-        locale,
-        storage,
-        evAuth,
-        routerInteraction,
-        evSettings,
-        evClient,
-        evCallMonitor,
-        evWorkingState,
-        evSessionConfig,
-        evIntegratedSoftphone,
-        environment,
-      },
-      enableCache,
+      deps,
+      enableCache: true,
       storageKey: 'EvDialerUI',
     });
   }
@@ -89,38 +58,41 @@ class EvDialerUI extends RcUIModuleV2<DepsModules, EvDialerUIState>
     this.latestDialoutNumber = this.toNumber;
   }
 
-  dialButtonDisabled = createSelector(
-    () => this._modules.evCall.dialoutStatus,
-    () => this._modules.evIntegratedSoftphone.connectingAlertId,
-    (dialoutStatus, connectingAlertId): boolean => {
-      return dialoutStatus === 'dialing' || !!connectingAlertId;
-    },
-  );
+  @computed((that: EvDialerUI) => [
+    that._deps.evCall.dialoutStatus,
+    that._deps.evIntegratedSoftphone.connectingAlertId,
+  ])
+  get dialButtonDisabled() {
+    return (
+      this._deps.evCall.dialoutStatus === 'dialing' ||
+      !!this._deps.evIntegratedSoftphone.connectingAlertId
+    );
+  }
 
   checkOnCall() {
     // onCall or not yet disposed call, it should navigate to the `activityCallLog/:id` router.
-    const [call] = this._modules.evCallMonitor.calls;
-    const { isPendingDisposition } = this._modules.evWorkingState;
+    const [call] = this._deps.evCallMonitor.calls;
+    const { isPendingDisposition } = this._deps.evWorkingState;
     let id: string;
     if (isPendingDisposition) {
-      id = this._modules.evCallMonitor.callLogsIds[0];
+      id = this._deps.evCallMonitor.callLogsIds[0];
     }
     if (call) {
-      id = this._modules.evClient.encodeUii(call.session);
+      id = this._deps.evClient.encodeUii(call.session);
     }
-    if (id && this._modules.evSessionConfig.isConfigTab) {
-      this._modules.routerInteraction.push(`/activityCallLog/${id}`);
+    if (id && this._deps.evAgentSession.isConfigTab) {
+      this._deps.routerInteraction.push(`/activityCallLog/${id}`);
     }
   }
 
   getUIProps(): EvDialerUIProps {
     return {
       toNumber: this.toNumber,
-      currentLocale: this._modules.locale.currentLocale,
-      size: this._modules.environment.isWide ? 'medium' : 'small',
-      dialoutStatus: this._modules.evCall.dialoutStatus,
-      hasDialer: this._modules.evAuth.agentPermissions.allowManualCalls,
-      dialButtonDisabled: this.dialButtonDisabled(),
+      currentLocale: this._deps.locale.currentLocale,
+      size: this._deps.environment.isWide ? 'medium' : 'small',
+      dialoutStatus: this._deps.evCall.dialoutStatus,
+      hasDialer: this._deps.evAuth.agentPermissions.allowManualCalls,
+      dialButtonDisabled: this.dialButtonDisabled,
     };
   }
 
@@ -130,18 +102,18 @@ class EvDialerUI extends RcUIModuleV2<DepsModules, EvDialerUIState>
       dialout: async () => {
         if (this.toNumber) {
           this.setLatestDialoutNumber();
-          await this._modules.evCall.dialout(this.toNumber);
+          await this._deps.evCall.dialout(this.toNumber);
         } else {
           this.setToNumber(this.latestDialoutNumber);
         }
       },
       goToManualDialSettings: () => {
-        this._modules.routerInteraction.push('/manualDialSettings');
+        this._deps.routerInteraction.push('/manualDialSettings');
       },
       checkOnCall: () => this.checkOnCall(),
       hangup: () => {
-        if (!this._modules.evSettings.isManualOffhook) {
-          this._modules.evClient.offhookTerm();
+        if (!this._deps.evSettings.isManualOffhook) {
+          this._deps.evClient.offhookTerm();
         }
       },
     };

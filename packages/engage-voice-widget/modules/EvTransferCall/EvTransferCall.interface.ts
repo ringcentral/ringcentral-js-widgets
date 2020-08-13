@@ -7,16 +7,14 @@ import { DirectTransferTypes } from '../../enums/directTransferTypes';
 import {
   EvClient,
   EvDirectAgentListItem,
+  EvDirectAgentTransferResponse,
   EvReceivedTransferCall,
 } from '../../lib/EvClient';
-import {
-  EvDirectAgentTransferCall,
-  EvDirectAgentTransferCallback,
-} from '../../lib/EvClient/enums/evDirectAgentTransferCallback';
+import { EvDirectAgentTransferCallback } from '../../lib/EvClient/enums/evDirectAgentTransferCallback';
+import { EvAgentSession } from '../EvAgentSession';
 import { EvAuth } from '../EvAuth';
 import { EvCall } from '../EvCall';
 import { EvCallMonitor } from '../EvCallMonitor';
-import { EvSessionConfig } from '../EvSessionConfig';
 import { EvSubscription } from '../EvSubscription';
 import { EvWorkingState } from '../EvWorkingState';
 
@@ -24,7 +22,7 @@ export type InternalTransferCallbacks = Partial<
   Record<DirectTransferTypes, EvDirectAgentTransferCallback>
 >;
 
-export type EvTransferFailHandler = (e: EvDirectAgentTransferCall) => void;
+export type EvTransferFailHandler = (e: EvDirectAgentTransferResponse) => void;
 
 export interface State {
   /**
@@ -67,7 +65,11 @@ export interface State {
   transferRecipientCountryId: string;
 }
 
-export interface DepsModules {
+export interface EvTransferCallOptions {
+  //
+}
+
+export interface Deps {
   evClient: EvClient;
   evCallMonitor: EvCallMonitor;
   evCall: EvCall;
@@ -78,7 +80,8 @@ export interface DepsModules {
   locale: Locale;
   alert: Alert;
   evAuth: EvAuth;
-  evSessionConfig: EvSessionConfig;
+  evAgentSession: EvAgentSession;
+  evTransferCallOptions?: EvTransferCallOptions;
 }
 
 export interface TransferCall extends State {

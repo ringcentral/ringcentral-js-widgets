@@ -12,20 +12,28 @@ export function Message({
   direction,
   sender,
   subjectRenderer: SubjectRenderer,
-  mmsAttachment,
+  mmsAttachments,
 }) {
-  let content;
+  let subjectNode;
   if (subject && !isBlank(subject)) {
-    content = SubjectRenderer ? <SubjectRenderer subject={subject} /> : subject;
-  } else if (mmsAttachment && mmsAttachment.contentType.indexOf('image') > -1) {
-    content = (
-      <img
-        src={mmsAttachment.uri}
-        alt="attactment"
-        className={styles.picture}
-      />
+    subjectNode = SubjectRenderer ? (
+      <SubjectRenderer subject={subject} />
+    ) : (
+      subject
     );
   }
+  const imageAttachments = mmsAttachments
+    .filter((m) => m.contentType.indexOf('image') > -1)
+    .map((attachment) => {
+      return (
+        <img
+          key={attachment.id}
+          src={attachment.uri}
+          alt={`attachment${attachment.id}`}
+          className={styles.picture}
+        />
+      );
+    });
   return (
     <div data-sign="message" className={styles.message}>
       {time ? <div className={styles.time}>{time}</div> : null}
@@ -39,7 +47,8 @@ export function Message({
           subject && subject.length > 500 && styles.big,
         )}
       >
-        {content}
+        {subjectNode}
+        {imageAttachments}
       </div>
       <div className={styles.clear} />
     </div>
@@ -52,7 +61,7 @@ Message.propTypes = {
   time: PropTypes.string,
   sender: PropTypes.string,
   subjectRenderer: PropTypes.func,
-  mmsAttachment: PropTypes.object,
+  mmsAttachments: PropTypes.array,
 };
 
 Message.defaultProps = {
@@ -60,7 +69,7 @@ Message.defaultProps = {
   sender: undefined,
   time: undefined,
   subjectRenderer: undefined,
-  mmsAttachment: null,
+  mmsAttachments: [],
 };
 
 class ConversationMessageList extends Component {
@@ -147,7 +156,7 @@ class ConversationMessageList extends Component {
           direction={message.direction}
           subject={message.subject}
           subjectRenderer={messageSubjectRenderer}
-          mmsAttachment={message.mmsAttachment}
+          mmsAttachments={message.mmsAttachments}
         />
       );
     });
@@ -180,7 +189,7 @@ ConversationMessageList.propTypes = {
       id: PropTypes.number,
       direction: PropTypes.string,
       subject: PropTypes.string,
-      mmsAttachment: PropTypes.object,
+      mmsAttachments: PropTypes.array,
     }),
   ).isRequired,
   className: PropTypes.string,

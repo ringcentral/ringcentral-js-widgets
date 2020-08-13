@@ -32,7 +32,7 @@ export class CallingSettingsUI extends RcUIModule {
     locale,
     webphone,
     routerInteraction,
-    locationSearchable,
+    locationSearchable = true,
     ringtoneSettings = false,
     ...options
   }) {
@@ -62,14 +62,16 @@ export class CallingSettingsUI extends RcUIModule {
 
   getUIProps(): CallingSettingsPanelUIProps {
     return {
-      brand: this._brand.fullName,
+      brandCode: this._brand.code,
+      brandName: this._brand.name,
       currentLocale: this._locale.currentLocale,
       callWithOptions: this._callingSettings.callWithOptions,
       callWith: this._callingSettings.callWith,
       myLocation: this._callingSettings.myLocation,
       ringoutPrompt: this._callingSettings.ringoutPrompt,
       defaultRingoutPrompt: this._callingSettings.defaultRingoutPrompt,
-      availableNumbers: this._callingSettings.availableNumbers,
+      availableNumbersWithLabel: this._callingSettings
+        .availableNumbersWithLabel,
       disabled: !!(this._webphone && this._webphone.sessions.length > 0),
       showSpinner: this.showSpinner,
       locationSearchable: this.locationSearchable,
@@ -93,6 +95,7 @@ export class CallingSettingsUI extends RcUIModule {
         callWith,
         myLocation,
         ringoutPrompt,
+        isCustomLocation,
         incomingAudio,
         incomingAudioFile,
         outgoingAudio,
@@ -103,6 +106,7 @@ export class CallingSettingsUI extends RcUIModule {
             callWith,
             myLocation,
             ringoutPrompt,
+            isCustomLocation,
           },
           true,
         );

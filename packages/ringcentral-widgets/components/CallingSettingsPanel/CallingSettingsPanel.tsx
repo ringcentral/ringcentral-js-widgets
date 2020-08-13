@@ -20,7 +20,7 @@ import InfoIcon from '../../assets/images/Info.svg';
 import styles from './styles.scss';
 import i18n from './i18n';
 
-import SpinnerOverlay from '../SpinnerOverlay';
+import { SpinnerOverlay } from '../SpinnerOverlay';
 import BackHeader from '../BackHeader';
 import Panel from '../Panel';
 import Switch from '../Switch';
@@ -38,38 +38,69 @@ import {
 const TooltipBaseComp =
   typeof TooltipBase === 'function' ? TooltipBase : TooltipBase.default;
 
-const checkIsRcBrand = (brand) =>
-  brand &&
-  typeof brand === 'string' &&
-  brand.toLowerCase().indexOf('ringcentral') !== -1;
+function isRcBrand(brandCode: string): boolean {
+  return brandCode === 'rc';
+}
 
-const getJupiterAppName = (brand) => {
-  const isRcBrand = checkIsRcBrand(brand);
-  if (isRcBrand) return `${brand} App`;
-  return brand;
-};
+export function getJupiterAppName(
+  brandCode: string,
+  brandName: string,
+  currentLocale: string,
+): string {
+  return isRcBrand(brandCode)
+    ? `${brandName} App`
+    : formatMessage(i18n.getString(callingOptions.jupiter, currentLocale), {
+        brand: brandName,
+      });
+}
 
-const getSoftphoneAppName = (brand) => {
-  const isRcBrand = checkIsRcBrand(brand);
-  if (isRcBrand) return `${brand} Phone`;
-  return brand;
-};
+export function getSoftphoneAppName(
+  brandCode: string,
+  brandName: string,
+  currentLocale: string,
+): string {
+  return isRcBrand(brandCode)
+    ? `${brandName} Phone`
+    : formatMessage(i18n.getString(callingOptions.softphone, currentLocale), {
+        brand: brandName,
+      });
+}
+
+export function getCallingOptionName(
+  callingOption: string,
+  brandCode: string,
+  brandName: string,
+  currentLocale: string,
+) {
+  if (callingOption === callingOptions.softphone) {
+    return getSoftphoneAppName(brandCode, brandName, currentLocale);
+  }
+  if (callingOption === callingOptions.jupiter) {
+    return getJupiterAppName(brandCode, brandName, currentLocale);
+  }
+  return i18n.getString(callingOption, currentLocale);
+}
+
 interface CallWithProps {
+  brandCode: string;
+  brandName: string;
+  currentLocale: string;
   callWithOptions: string[];
   disabled: boolean;
-  brand: string;
   callWith: string;
   onCallWithChange: (newCallWith: string) => void;
 }
 interface TooltipProps {
-  brand: string;
+  brandCode: string;
+  brandName: string;
   callWith: string;
   currentLocale: string;
   tooltipContainerRef: MutableRefObject<ReactNode>;
 }
 
 const Tooltip: FunctionComponent<TooltipProps> = ({
-  brand,
+  brandCode,
+  brandName,
   callWith,
   currentLocale,
   tooltipContainerRef,
@@ -82,19 +113,18 @@ const Tooltip: FunctionComponent<TooltipProps> = ({
   ) {
     keys.push(`${callWith}Tooltip1`);
   }
-  let appName = brand;
-  if (callWith === callingOptions.jupiter) {
-    appName = getJupiterAppName(brand);
-  }
-  if (callWith === callingOptions.softphone) {
-    appName = getSoftphoneAppName(brand);
-  }
+  const optionName = getCallingOptionName(
+    callWith,
+    brandCode,
+    brandName,
+    currentLocale,
+  );
   const overlay = (
     <div>
       {keys.map((key) => (
         <div key={key}>
           {formatMessage(i18n.getString(key, currentLocale), {
-            brand: appName,
+            brand: optionName,
           })}
         </div>
       ))}
@@ -117,28 +147,24 @@ const Tooltip: FunctionComponent<TooltipProps> = ({
 };
 
 const CallWithSettings: FunctionComponent<CallWithProps> = ({
+  brandCode,
+  brandName,
   callWith,
   callWithOptions,
   currentLocale,
   disabled,
   onCallWithChange,
-  brand,
 }) => {
   const tooltipContainerRef = useRef(null);
-  const optionRenderer = (option) => {
-    let appName = brand;
-    if (option === callingOptions.softphone) {
-      appName = getSoftphoneAppName(brand);
-    }
-    if (option === callingOptions.jupiter) {
-      appName = getJupiterAppName(brand);
-    }
-    return formatMessage(i18n.getString(option, currentLocale), {
-      brand:
-        option === callingOptions.myphone
-          ? brand.replace(/\sPhone$/, '')
-          : appName,
-    });
+
+  const optionRenderer = (option: string) => {
+    const optionName = getCallingOptionName(
+      option,
+      brandCode,
+      brandName,
+      currentLocale,
+    );
+    return optionName;
   };
 
   return (
@@ -148,7 +174,8 @@ const CallWithSettings: FunctionComponent<CallWithProps> = ({
           {i18n.getString('makeCallsWith', currentLocale)}
           <Tooltip
             {...{
-              brand,
+              brandCode,
+              brandName,
               callWith,
               currentLocale,
               tooltipContainerRef,
@@ -179,7 +206,7 @@ const CallWithSettings: FunctionComponent<CallWithProps> = ({
 interface RingoutSettingsProps {
   currentLocale: string;
   callWith: string;
-  availableNumbers: any;
+  availableNumbersWithLabel: { label: string; value: string }[];
   locationSearchable: boolean;
   myLocation: string;
   onMyLocationChange: (newMyLocation: string) => void;
@@ -192,7 +219,7 @@ interface RingoutSettingsProps {
 const RingoutSettings: FunctionComponent<RingoutSettingsProps> = ({
   currentLocale,
   callWith,
-  availableNumbers,
+  availableNumbersWithLabel,
   locationSearchable,
   myLocation,
   onMyLocationChange,
@@ -215,20 +242,23 @@ const RingoutSettings: FunctionComponent<RingoutSettingsProps> = ({
           dataSign="myLocation"
           label={i18n.getString('myLocationLabel', currentLocale)}
         >
-          {availableNumbers[callWith] ? (
+          {availableNumbersWithLabel ? (
             <DropdownSelect
               className={classnames(styles.select, styles.locationSelect)}
               value={myLocation}
               onChange={onMyLocationChange}
               searchOption={
                 locationSearchable
-                  ? (option, text) => option.includes(text)
+                  ? (option: string, text: string) => option.includes(text)
                   : null
               }
-              options={availableNumbers[callWith]}
+              options={availableNumbersWithLabel}
               disabled={disabled}
               dropdownAlign="left"
               titleEnabled
+              customInputEnabled
+              optionsWithLabel
+              customInputLimit={30}
             />
           ) : (
             <TextInput
@@ -258,8 +288,9 @@ const RingoutSettings: FunctionComponent<RingoutSettingsProps> = ({
 };
 
 const CallingSettings: FunctionComponent<CallingSettingsProps> = ({
-  availableNumbers,
-  brand,
+  brandCode,
+  brandName,
+  availableNumbersWithLabel,
   callWith,
   callWithOptions,
   currentLocale,
@@ -312,7 +343,8 @@ const CallingSettings: FunctionComponent<CallingSettingsProps> = ({
     <>
       <CallWithSettings
         {...{
-          brand,
+          brandCode,
+          brandName,
           callWith: callWithState,
           callWithOptions,
           currentLocale,
@@ -323,7 +355,7 @@ const CallingSettings: FunctionComponent<CallingSettingsProps> = ({
               setMyLocationState(myLocation);
               setRingoutPromptState(ringoutPrompt);
             } else {
-              setMyLocationState(availableNumbers[newCallWith]?.[0] || '');
+              setMyLocationState(availableNumbersWithLabel?.[0]?.value || '');
               setRingoutPromptState(defaultRingoutPrompt);
             }
           },
@@ -333,7 +365,7 @@ const CallingSettings: FunctionComponent<CallingSettingsProps> = ({
         {...{
           currentLocale,
           callWith: callWithState,
-          availableNumbers,
+          availableNumbersWithLabel,
           locationSearchable,
           myLocation: myLocationState,
           onMyLocationChange: setMyLocationState,
@@ -384,6 +416,9 @@ const CallingSettings: FunctionComponent<CallingSettingsProps> = ({
               callWith: callWithState,
               myLocation: myLocationState,
               ringoutPrompt: ringoutPromptState,
+              isCustomLocation: !availableNumbersWithLabel.find(
+                (item) => item.value === myLocationState,
+              ),
               incomingAudio: incomingAudioState,
               incomingAudioFile: incomingAudioFileState,
               outgoingAudio: outgoingAudioState,
@@ -391,13 +426,14 @@ const CallingSettings: FunctionComponent<CallingSettingsProps> = ({
             });
           },
           disabled:
-            callWithState === callWith &&
-            myLocationState === myLocation &&
-            ringoutPromptState === ringoutPrompt &&
-            incomingAudioState === incomingAudio &&
-            incomingAudioFileState === incomingAudioFile &&
-            outgoingAudioState === outgoingAudio &&
-            outgoingAudioFileState === outgoingAudioFile,
+            (callWithState === callWith &&
+              myLocationState === myLocation &&
+              ringoutPromptState === ringoutPrompt &&
+              incomingAudioState === incomingAudio &&
+              incomingAudioFileState === incomingAudioFile &&
+              outgoingAudioState === outgoingAudio &&
+              outgoingAudioFileState === outgoingAudioFile) ||
+            (callWithState === callingOptions.ringout && !myLocationState),
         }}
       />
     </>

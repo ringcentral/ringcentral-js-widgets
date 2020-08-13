@@ -36,7 +36,7 @@ export class Beforeunload extends RcModuleV2 {
 
   constructor() {
     super({
-      modules: {},
+      deps: {},
     });
   }
 

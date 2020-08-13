@@ -7,7 +7,7 @@ import { EvCallMonitor } from '../EvCallMonitor/EvCallMonitor';
 import { EvSettings } from '../EvSettings';
 import { EvWorkingState } from '../EvWorkingState';
 
-export interface DepsModules {
+export interface Deps {
   environment: EvEnvironment;
   evAuth: EvAuth;
   evCallMonitor: EvCallMonitor;

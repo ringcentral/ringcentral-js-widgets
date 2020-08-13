@@ -1,3 +1,4 @@
 export * from './RcModule';
 export * from './RcUIModule';
-export * from './selector';
+export * from './computed';
+export * from './subscribe';

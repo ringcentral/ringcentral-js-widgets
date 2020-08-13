@@ -1,36 +1,31 @@
 import {
   action,
-  createSelector,
-  RcModuleState,
+  computed,
   RcModuleV2,
   state,
 } from '@ringcentral-integration/core';
 import { Module } from 'ringcentral-integration/lib/di';
 import uuid from 'uuid';
 
-import { BlockItem, DepsModules, IBlock, State } from './Block.interface';
+import { BlockItem, DepsModules, IBlock } from './Block.interface';
 
 type ModalMappingType = Record<string, BlockItem>;
-
-type BlockState = RcModuleState<Block, State>;
 
 @Module({
   name: 'Block',
   deps: [{ dep: 'BlockOptions', optional: true }],
 })
-export class Block extends RcModuleV2<DepsModules, BlockState>
-  implements IBlock {
+export class Block extends RcModuleV2<DepsModules> implements IBlock {
   @state
   blockIds: string[] = [];
 
   @state
   blockMapping: ModalMappingType = {};
 
-  getBlocks = createSelector(
-    () => this.blockIds,
-    () => this.blockMapping,
-    (blockIds, blockMapping) => blockIds.map((id) => blockMapping[id]),
-  );
+  @computed((that: Block) => [that.blockIds, that.blockMapping])
+  get blocks() {
+    return this.blockIds.map((id) => this.blockMapping[id]);
+  }
 
   @action
   private _setListItem(id: string, data: BlockItem) {

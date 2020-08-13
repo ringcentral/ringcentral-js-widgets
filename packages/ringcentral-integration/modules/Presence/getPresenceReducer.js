@@ -98,7 +98,7 @@ export function getUserStatusReducer(types) {
   };
 }
 
-const removeIntermediateCall = reduce((result, activeCall) => {
+export const removeIntermediateCall = reduce((result, activeCall) => {
   if (
     !isIntermediateCall(activeCall) &&
     !find(
@@ -190,5 +190,6 @@ export function getDataReducer(types) {
     meetingStatus: getMeetingStatusReducer(types),
     activeCalls: getActiveCallsReducer(types),
     lastDndStatus: getLastNotDisturbDndStatusReducer(types),
+    sequence: getSequenceReducer(types),
   });
 }

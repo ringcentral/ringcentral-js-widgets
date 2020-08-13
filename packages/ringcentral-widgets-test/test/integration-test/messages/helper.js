@@ -4,10 +4,10 @@ import subscriptionBody from 'ringcentral-integration/integration-test/mock/data
 import pubnubMsg from 'ringcentral-integration/integration-test/mock/data/pubnub.json';
 import * as mock from 'ringcentral-integration/integration-test/mock';
 import { timeout } from '../shared';
-import * as MockedPubNub from '../../__mocks__/pubnub.js';
+import { getLastPubnub } from '../../__mocks__/pubnub';
 
 export async function mockPubnub() {
-  const pubnub = MockedPubNub.getLastPubnub();
+  const pubnub = getLastPubnub();
   const encrypted = pubnub._realPubnub.encrypt(
     JSON.stringify({
       ...pubnubMsg,

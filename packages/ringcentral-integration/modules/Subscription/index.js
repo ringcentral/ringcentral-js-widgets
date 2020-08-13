@@ -1,4 +1,6 @@
 import { equals, map } from 'ramda';
+import { Subscriptions } from '@ringcentral/subscriptions';
+
 import RcModule from '../../lib/RcModule';
 import { Module } from '../../lib/di';
 import loginStatus from '../Auth/loginStatus';
@@ -136,12 +138,14 @@ export default class Subscription extends RcModule {
   }
 
   _createSubscription() {
-    this._subscription = this._client.service.createSubscription();
+    const sdk = this._client.service;
+    const subscriptions = new Subscriptions({ sdk });
+    this._subscription = subscriptions.createSubscription();
     if (this.cachedSubscription) {
       try {
         this._subscription.setSubscription(this.cachedSubscription);
       } catch (error) {
-        this._subscription = this._client.service.createSubscription();
+        this._subscription = subscriptions.createSubscription();
       }
     }
     this._subscription.on(this._subscription.events.notification, (message) => {
@@ -238,7 +242,7 @@ export default class Subscription extends RcModule {
   }
 
   @proxify
-  async subscribe(events = [], delay) {
+  async subscribe(events = [], delay = 2000) {
     if (this.ready) {
       const oldFilters = this.filters;
       this.store.dispatch({

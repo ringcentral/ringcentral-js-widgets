@@ -1,4 +1,4 @@
-import { waitUntilNotNull } from './WaitUtil';
+import { waitUntilEqual } from './WaitUtil';
 
 export function containsErrorMessage(errorArray, errorMessageString) {
   return errorArray.find((element) => {
@@ -10,8 +10,15 @@ export function containsErrorMessage(errorArray, errorMessageString) {
 }
 
 export async function ensureLogin(auth, account) {
-  await auth.login({
+  await waitUntilEqual(() => auth.ready, 'Auth ready', true, 60);
+  const waitLoginSuccess = new Promise((resolve) => {
+    const cleanFunc = auth.addAfterLoggedInHandler(() => {
+      cleanFunc();
+      resolve();
+    });
+  });
+  auth.login({
     ...account,
   });
-  return waitUntilNotNull(() => auth.ownerId, 'Login Success', 6);
+  await waitLoginSuccess;
 }

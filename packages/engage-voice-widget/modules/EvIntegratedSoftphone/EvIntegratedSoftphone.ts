@@ -1,6 +1,5 @@
 import {
   action,
-  RcModuleState,
   RcModuleV2,
   state,
   storage,
@@ -19,11 +18,7 @@ import { EvCallbackTypes } from '../../lib/EvClient/enums';
 import { HeartBeat } from '../../lib/heartBeat';
 import { raceTimeout } from '../../lib/time';
 import { audios } from './audios';
-import {
-  DepsModules,
-  IntegratedSoftphone,
-  State,
-} from './EvIntegratedSoftphone.interface';
+import { Deps, IntegratedSoftphone } from './EvIntegratedSoftphone.interface';
 import i18n from './i18n';
 import { runInActivityWebRTCTab } from './runInActivityWebRTCTab.decorator';
 
@@ -32,14 +27,12 @@ const RECONNECT_DEBOUNCE_TIME = SECOND * 5;
 const RECONNECT_DEBOUNCE_TIME_WHEN_CONNECTED = SECOND * 15;
 const SIP_MAX_CONNECTING_TIME = SECOND * 30;
 
-type EvIntegratedSoftphoneState = RcModuleState<EvIntegratedSoftphone, State>;
-
 @Module({
   name: 'EvIntegratedSoftphone',
   deps: [
     'Locale',
     'RouterInteraction',
-    'EvSessionConfig',
+    'EvAgentSession',
     'EvSubscription',
     'Beforeunload',
     'EvSettings',
@@ -55,8 +48,7 @@ type EvIntegratedSoftphoneState = RcModuleState<EvIntegratedSoftphone, State>;
     { dep: 'EvIntegratedSoftphoneOptions', optional: true },
   ],
 })
-class EvIntegratedSoftphone
-  extends RcModuleV2<DepsModules, EvIntegratedSoftphoneState>
+class EvIntegratedSoftphone extends RcModuleV2<Deps>
   implements IntegratedSoftphone {
   autoAnswerCheckFn: () => boolean;
 
@@ -82,13 +74,12 @@ class EvIntegratedSoftphone
   private _isCloseWhenCallConnected = false;
 
   get tabManagerEnabled() {
-    return this._modules.tabManager?._tabbie.enabled;
+    return this._deps.tabManager?._tabbie.enabled;
   }
 
   get isWebRTCTab() {
     return (
-      !this.tabManagerEnabled ||
-      this.webRTCTabId === this._modules.tabManager.id
+      !this.tabManagerEnabled || this.webRTCTabId === this._deps.tabManager.id
     );
   }
 
@@ -96,54 +87,21 @@ class EvIntegratedSoftphone
     return (
       !this.tabManagerEnabled ||
       (this.webRTCTabId &&
-        this._modules.tabManager.checkTabAliveById(this.webRTCTabId))
+        this._deps.tabManager.checkTabAliveById(this.webRTCTabId))
     );
   }
 
-  constructor({
-    locale,
-    routerInteraction,
-    evSessionConfig,
-    evSubscription,
-    evSettings,
-    evClient,
-    storage,
-    presence,
-    modal,
-    block,
-    alert,
-    evAuth,
-    auth,
-    tabManager,
-    beforeunload,
-    heartBeatInterval = 1000,
-    enableCache = true,
-  }) {
+  constructor(deps: Deps) {
     super({
-      modules: {
-        locale,
-        routerInteraction,
-        evSessionConfig,
-        evSubscription,
-        evSettings,
-        evClient,
-        storage,
-        presence,
-        modal,
-        block,
-        alert,
-        evAuth,
-        auth,
-        tabManager,
-        beforeunload,
-      },
-      enableCache,
+      deps,
+      enableCache: true,
       storageKey: 'EvIntegratedSoftphone',
     });
-
+    const heartBeatInterval =
+      this._deps.evIntegratedSoftphoneOptions?.heartBeatInterval ?? 1000;
     if (this.tabManagerEnabled) {
       this._heartBeat = new HeartBeat(
-        `${this._modules.tabManager._tabbie.prefix}webRTCConnect`,
+        `${this._deps.tabManager._tabbie.prefix}webRTCConnect`,
         heartBeatInterval,
       );
       this._heartBeatIntervalTime = heartBeatInterval;
@@ -175,7 +133,7 @@ class EvIntegratedSoftphone
   // @action
   // sipSendDTMF(dtmf: string) {
   // this.dtmfString += dtmf;
-  // this._modules.evClient.sipSendDTMF(dtmf);
+  // this._deps.evClient.sipSendDTMF(dtmf);
   // }
 
   @action
@@ -224,25 +182,25 @@ class EvIntegratedSoftphone
       this._bindCheckWebRTCInterval();
     }
 
-    this._modules.evSessionConfig.onTriggerConfig.push(async () => {
+    this._deps.evAgentSession.onTriggerConfig.push(async () => {
       if (
-        this._modules.evSessionConfig.isIntegratedSoftphone &&
+        this._deps.evAgentSession.isIntegratedSoftphone &&
         !this.isWebRTCTabAlive
       ) {
         await this.connectWebRTC();
       }
     });
 
-    this._modules.evAuth.beforeAgentLogout(() => {
+    this._deps.evAuth.beforeAgentLogout(() => {
       this._closeWebRTCConnectingMask();
       this.resetSip();
       this._clearWebRTCInterval();
       this._heartBeat?.destroy();
 
-      this._modules.evClient.sipTerminate();
+      this._deps.evClient.sipTerminate();
     });
 
-    this._modules.beforeunload.onAfterUnload(() => {
+    this._deps.beforeunload.onAfterUnload(() => {
       this._sendTabManager(tabManagerEvents.CLOSE_WHEN_CALL_CONNECTED);
     });
   }
@@ -255,8 +213,8 @@ class EvIntegratedSoftphone
   }
 
   private _bindCheckWebRTCInterval() {
-    this._modules.evSessionConfig.onConfigSuccess.push(() => {
-      if (this._modules.evSessionConfig.isIntegratedSoftphone) {
+    this._deps.evAgentSession.onConfigSuccess.push(() => {
+      if (this._deps.evAgentSession.isIntegratedSoftphone) {
         // when config success, if that webRTC tab is alive set sip register success to true
         if (this.isWebRTCTabAlive) {
           this.setSipRegisterSuccess(true);
@@ -268,11 +226,12 @@ class EvIntegratedSoftphone
           // if that is registering or is that connected tab, remove that interval to check
           if (this.sipRegistering || this.isWebRTCTab) {
             this._clearWebRTCInterval();
+            return;
           }
 
           if (
-            this._modules.evAuth.connected &&
-            this._modules.evSessionConfig.configSuccess &&
+            this._deps.evAuth.connected &&
+            this._deps.evAgentSession.configSuccess &&
             !this.isWebRTCTabAlive &&
             !this._heartBeat.isWorkingByLocal &&
             !this._heartBeat.isSuccessByLocal
@@ -285,9 +244,9 @@ class EvIntegratedSoftphone
             this.setWebRTCTabId(null);
 
             try {
-              await this._modules.block.next(async () => {
+              await this._deps.block.next(async () => {
                 console.log('!!!configureAgent');
-                await this._modules.evSessionConfig.configureAgent(false);
+                await this._deps.evAgentSession.configureAgent(false);
               });
             } catch (error) {
               console.error('re config fail', error);
@@ -307,24 +266,20 @@ class EvIntegratedSoftphone
   }
 
   private _emitRegistrationFailed() {
-    this._modules.evSubscription.emit(
+    this._deps.evSubscription.emit(
       EvCallbackTypes.SIP_REGISTRATION_FAILED,
       null,
     );
   }
 
   async onStateChange() {
-    if (
-      this.ready &&
-      this.tabManagerEnabled &&
-      this._modules.tabManager.ready
-    ) {
+    if (this.ready && this.tabManagerEnabled && this._deps.tabManager.ready) {
       this._checkTabManagerEvent();
     }
   }
 
   private _checkTabManagerEvent() {
-    const { event } = this._modules.tabManager;
+    const { event } = this._deps.tabManager;
     if (event) {
       const data = event.args[0];
       switch (event.name) {
@@ -349,7 +304,7 @@ class EvIntegratedSoftphone
           break;
         case tabManagerEvents.SIP_RINGING_MODAL:
           // that event call from modal ok or cancel, that auto close modal
-          this._modules.modal.close(this._answerModalId);
+          this._deps.modal.close(this._answerModalId);
           if (data) {
             this.answerCall();
           } else {
@@ -366,7 +321,7 @@ class EvIntegratedSoftphone
           this.setSipRegisterSuccess(false);
           break;
         case tabManagerEvents.SIP_REGISTRATION_FAILED:
-          this._alertRegistrationFailed();
+          this._handleRegistrationFailed();
           break;
         case tabManagerEvents.SIP_CONNECTED:
           this._sipConnected();
@@ -374,7 +329,7 @@ class EvIntegratedSoftphone
         case tabManagerEvents.SIP_ENDED:
           this._sipEnded();
           // When sip end need reset Dialout Status to idle
-          this._modules.presence.setDialoutStatus(dialoutStatuses.idle);
+          this._deps.presence.setDialoutStatus(dialoutStatuses.idle);
           break;
         case tabManagerEvents.MUTE:
           this.sipToggleMute(data);
@@ -389,7 +344,7 @@ class EvIntegratedSoftphone
   }
 
   sipToggleMute(state: boolean) {
-    this._modules.evClient.sipToggleMute(state);
+    this._deps.evClient.sipToggleMute(state);
   }
 
   onRinging(callback: () => void) {
@@ -415,7 +370,7 @@ class EvIntegratedSoftphone
         audio: true,
       });
     } catch (error) {
-      this._modules.alert.danger({
+      this._deps.alert.danger({
         message: EvSoftphoneEvents.AUDIO_STREAM_REJECTED,
         backdrop: true,
         ttl: 0,
@@ -455,22 +410,19 @@ class EvIntegratedSoftphone
   }
 
   private _bindingIntegratedSoftphone() {
-    this._modules.evSubscription.subscribe(
-      EvCallbackTypes.SIP_REGISTERED,
-      () => {
-        // That will call several times when reconnected.
-        console.log('!!!!!!!SIP_REGISTERED');
-        if (!this.sipRegisterSuccess) {
-          this._setWebRTCTabId();
-          this._heartBeat.heartBeatOnSuccess();
+    this._deps.evSubscription.subscribe(EvCallbackTypes.SIP_REGISTERED, () => {
+      // That will call several times when reconnected.
+      console.log('!!!!!!!SIP_REGISTERED');
+      if (!this.sipRegisterSuccess) {
+        this._setWebRTCTabId();
+        this._heartBeat.heartBeatOnSuccess();
 
-          this._sendTabManager(tabManagerEvents.SIP_REGISTERED);
-          this._sipRegistered();
-        }
-      },
-    );
+        this._sendTabManager(tabManagerEvents.SIP_REGISTERED);
+        this._sipRegistered();
+      }
+    });
 
-    this._modules.evSubscription.subscribe(
+    this._deps.evSubscription.subscribe(
       EvCallbackTypes.SIP_UNREGISTERED,
       () => {
         console.log('!!!!!!!SIP_UNREGISTERED');
@@ -481,18 +433,18 @@ class EvIntegratedSoftphone
       },
     );
 
-    this._modules.evSubscription.subscribe(
+    this._deps.evSubscription.subscribe(
       EvCallbackTypes.SIP_REGISTRATION_FAILED,
       () => {
         console.log('!!!!!!!SIP_REGISTRATION_FAILED');
         this.setSipRegistering(false);
 
         this._sendTabManager(tabManagerEvents.SIP_REGISTRATION_FAILED);
-        this._alertRegistrationFailed();
+        this._handleRegistrationFailed();
       },
     );
 
-    this._modules.evSubscription.subscribe(
+    this._deps.evSubscription.subscribe(
       EvCallbackTypes.SIP_RINGING,
       (ringingCall) => {
         console.log('!!!!!!!SIP_RINGING');
@@ -509,32 +461,29 @@ class EvIntegratedSoftphone
       },
     );
 
-    this._modules.evSubscription.subscribe(
-      EvCallbackTypes.SIP_CONNECTED,
-      () => {
-        this._modules.beforeunload.add(this._beforeunloadHandler);
+    this._deps.evSubscription.subscribe(EvCallbackTypes.SIP_CONNECTED, () => {
+      this._deps.beforeunload.add(this._beforeunloadHandler);
 
-        console.info('!!!!!!!SIP_CONNECTED');
-        this._sendTabManager(tabManagerEvents.SIP_CONNECTED);
-        this._sipConnected();
-      },
-    );
+      console.info('!!!!!!!SIP_CONNECTED');
+      this._sendTabManager(tabManagerEvents.SIP_CONNECTED);
+      this._sipConnected();
+    });
 
-    this._modules.evSubscription.subscribe(EvCallbackTypes.SIP_ENDED, () => {
+    this._deps.evSubscription.subscribe(EvCallbackTypes.SIP_ENDED, () => {
       console.info('!!!!!!!SIP_ENDED');
-      this._modules.beforeunload.remove(this._beforeunloadHandler);
+      this._deps.beforeunload.remove(this._beforeunloadHandler);
 
       this._sendTabManager(tabManagerEvents.SIP_ENDED);
       this._sipEnded();
     });
 
-    this._modules.evSubscription.subscribe(EvCallbackTypes.SIP_MUTE, () => {
+    this._deps.evSubscription.subscribe(EvCallbackTypes.SIP_MUTE, () => {
       console.info('!!!!!!!SIP_MUTE');
       this._sendTabManager(tabManagerEvents.MUTE_STATE_CHANGE, true);
       this.setMuteActive(true);
     });
 
-    this._modules.evSubscription.subscribe(EvCallbackTypes.SIP_UNMUTE, () => {
+    this._deps.evSubscription.subscribe(EvCallbackTypes.SIP_UNMUTE, () => {
       console.info('!!!!!!!SIP_UNMUTE');
       this._sendTabManager(tabManagerEvents.MUTE_STATE_CHANGE, false);
       this.setMuteActive(false);
@@ -543,7 +492,7 @@ class EvIntegratedSoftphone
     // TODO: that is update session config related feature
     // triggered by agentSDK if dial destination is changed on softphone registration
     // pass in autoStartOH, maintainOH and dial destination, needed for reconnect logic
-    // this._modules.evSubscription.subscribe(
+    // this._deps.evSubscription.subscribe(
     // EvCallbackTypes.SIP_DIAL_DEST_CHANGED,
     // (data) => {
     // console.info('!!!!!!!SIP_DIAL_DEST_CHANGED');
@@ -570,7 +519,7 @@ class EvIntegratedSoftphone
 
   private _sipEnded() {
     this._closeRingingModal();
-    this._modules.evSettings.setOffhook(false);
+    this._deps.evSettings.setOffhook(false);
   }
 
   private _sipRegistered() {
@@ -578,22 +527,23 @@ class EvIntegratedSoftphone
     this._eventEmitter.emit(EvSoftphoneEvents.REGISTERED);
   }
 
-  private _alertRegistrationFailed() {
-    this._modules.evClient.sipTerminate();
-    this._modules.evAuth.newReconnect();
+  private _handleRegistrationFailed() {
+    this._deps.evClient.sipTerminate();
+    this._deps.evAuth.newReconnect();
 
     this.setSipRegisterSuccess(false);
     this._closeWebRTCConnectingMask();
-    this._modules.alert.danger({
+    this._deps.alert.danger({
       message: EvCallbackTypes.SIP_REGISTRATION_FAILED,
       backdrop: true,
       ttl: 0,
       allowDuplicates: false,
     });
+    this._deps.routerInteraction.push('/sessionConfig');
   }
 
   private _sipConnected() {
-    this._modules.evSettings.setOffhook(true);
+    this._deps.evSettings.setOffhook(true);
     // When connected reset all controller state
     this.resetController();
   }
@@ -601,7 +551,7 @@ class EvIntegratedSoftphone
   private _showWebRTCConnectingMask() {
     this._closeWebRTCConnectingMask();
     this.setConnectingAlertId(
-      this._modules.alert.info({
+      this._deps.alert.info({
         message: this._isCloseWhenCallConnected
           ? tabManagerEvents.SIP_RECONNECTING_WHEN_CALL_CONNECTED
           : tabManagerEvents.SIP_CONNECTING,
@@ -612,7 +562,7 @@ class EvIntegratedSoftphone
 
   private _closeWebRTCConnectingMask() {
     if (this.connectingAlertId) {
-      this._modules.alert.dismiss(this.connectingAlertId);
+      this._deps.alert.dismiss(this.connectingAlertId);
 
       this.setConnectingAlertId(null);
     }
@@ -620,7 +570,7 @@ class EvIntegratedSoftphone
 
   private _showAskAudioPermissionMask() {
     this._closeAskAudioPermissionMask();
-    this._audioPermissionAlertId = this._modules.alert.info({
+    this._audioPermissionAlertId = this._deps.alert.info({
       message: tabManagerEvents.ASK_AUDIO_PERMISSION,
       loading: true,
       backdrop: true,
@@ -629,7 +579,7 @@ class EvIntegratedSoftphone
 
   private _closeAskAudioPermissionMask() {
     if (this._audioPermissionAlertId) {
-      this._modules.alert.dismiss(this._audioPermissionAlertId);
+      this._deps.alert.dismiss(this._audioPermissionAlertId);
       this._audioPermissionAlertId = null;
     }
   }
@@ -642,9 +592,9 @@ class EvIntegratedSoftphone
 
     this._playAudioLoop('ringtone');
 
-    const { currentLocale } = this._modules.locale;
+    const { currentLocale } = this._deps.locale;
 
-    this._answerModalId = this._modules.modal.confirm({
+    this._answerModalId = this._deps.modal.confirm({
       title: i18n.getString('inviteModalTitle', currentLocale),
       content: formatMessage(
         i18n.getString('inviteModalContent', currentLocale),
@@ -673,8 +623,8 @@ class EvIntegratedSoftphone
   private rejectCall() {
     this._resetRingingModal();
     // when reject not show init fail
-    this._modules.presence.showOffHookInitError = false;
-    this._modules.evClient.sipReject();
+    this._deps.presence.showOffHookInitError = false;
+    this._deps.evClient.sipReject();
     this._eventEmitter.emit(EvSoftphoneEvents.CALL_REJECTED);
   }
 
@@ -690,11 +640,11 @@ class EvIntegratedSoftphone
   private _closeRingingModal() {
     // if there is modal there, mean another cancel this call
     if (this._answerModalId) {
-      this._modules.alert.info({
+      this._deps.alert.info({
         message: EvSoftphoneEvents.CALL_REJECTED,
         ttl: 0,
       });
-      this._modules.modal.close(this._answerModalId);
+      this._deps.modal.close(this._answerModalId);
       this._answerModalId = null;
       this._stopAudio();
     }
@@ -708,7 +658,7 @@ class EvIntegratedSoftphone
       this._showWebRTCConnectingMask();
 
       // When that is force login is also need delay to reconnect server
-      if (this._isReconnected || this._modules.evSessionConfig.isForceLogin) {
+      if (this._isReconnected || this._deps.evAgentSession.isForceLogin) {
         await sleep(
           this._isCloseWhenCallConnected
             ? RECONNECT_DEBOUNCE_TIME_WHEN_CONNECTED
@@ -725,8 +675,8 @@ class EvIntegratedSoftphone
   }
 
   private async _connectedWebRTC() {
-    this._modules.evClient.sipInit();
-    this._modules.evClient.sipRegister();
+    this._deps.evClient.sipInit();
+    this._deps.evClient.sipRegister();
 
     try {
       await this.onceRegistered();
@@ -743,7 +693,7 @@ class EvIntegratedSoftphone
 
   private _setWebRTCTabId() {
     if (this.tabManagerEnabled) {
-      const { id } = this._modules.tabManager;
+      const { id } = this._deps.tabManager;
 
       this._sendTabManager(tabManagerEvents.SET_WEB_RTC_TAB_ID, id);
       this.setWebRTCTabId(id);
@@ -757,7 +707,7 @@ class EvIntegratedSoftphone
   }
 
   private _sipAnswer() {
-    this._modules.evClient.sipAnswer();
+    this._deps.evClient.sipAnswer();
   }
 
   private _initAudio() {
@@ -785,7 +735,7 @@ class EvIntegratedSoftphone
   }
 
   private _sendTabManager(event: string, value?: any) {
-    this._modules.tabManager?.send(event, value);
+    this._deps.tabManager?.send(event, value);
   }
 }
 

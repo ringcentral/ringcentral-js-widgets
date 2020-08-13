@@ -9,7 +9,7 @@ import BackHeader from '../BackHeaderV2';
 import { Tooltip } from '../Rcui/Tooltip';
 import i18n from './i18n';
 import styles from './styles.scss';
-import { TOOLTIP_DEFAULT_DELAY_TIME } from '../../lib/toolTipDelayTime';
+import { TOOLTIP_LONG_DELAY_TIME } from '../../lib/toolTipDelayTime';
 
 export type SelectListBasicProps = {
   title: string;
@@ -158,10 +158,7 @@ const SelectListBasic: FunctionComponent<SelectListBasicProps> = ({
             className={backHeaderClassName}
           />
           <main className={styles.main} data-sign="selectList">
-            <Tooltip
-              title={placeholder}
-              enterDelay={TOOLTIP_DEFAULT_DELAY_TIME}
-            >
+            <Tooltip title={placeholder} enterDelay={TOOLTIP_LONG_DELAY_TIME}>
               <div className={classNames(styles.search, classes.searchInput)}>
                 {!filter && (
                   <span

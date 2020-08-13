@@ -6,17 +6,17 @@ import { EvClient } from '../lib/EvClient';
 import { EvActiveCallControl } from '../modules/EvActiveCallControl';
 import { EvActiveCallListUI } from '../modules/EvActiveCallListUI';
 import { EvActivityCallUI } from '../modules/EvActivityCallUI';
+import { EvAgentScript } from '../modules/EvAgentScript';
+import { EvAgentSession } from '../modules/EvAgentSession';
+import { EvAgentSessionUI } from '../modules/EvAgentSessionUI';
 import { EvAuth } from '../modules/EvAuth';
 import { EvCall } from '../modules/EvCall';
 import { EvCallMonitor } from '../modules/EvCallMonitor';
 import { EvDialerUI } from '../modules/EvDialerUI';
-import { EvInboundQueuesUI } from '../modules/EvInboundQueuesUI';
 import { EvIntegratedSoftphone } from '../modules/EvIntegratedSoftphone';
 import { EvManualDialSettingsUI } from '../modules/EvManualDialSettingsUI';
 import { EvPresence } from '../modules/EvPresence';
 import { EvRequeueCall } from '../modules/EvRequeueCall';
-import { EvSessionConfig } from '../modules/EvSessionConfig';
-import { EvSessionConfigUI } from '../modules/EvSessionConfigUI';
 import { EvSettings } from '../modules/EvSettings';
 import { EvSettingsUI } from '../modules/EvSettingsUI';
 import { EvSubscription } from '../modules/EvSubscription';
@@ -29,8 +29,7 @@ import { MainViewUI } from '../modules/MainViewUI';
 export type EvPhoneUI = {
   LoginUI: LoginUI;
   mainViewUI: MainViewUI;
-  evInboundQueuesUI: EvInboundQueuesUI;
-  evSessionConfigUI: EvSessionConfigUI;
+  evAgentSessionUI: EvAgentSessionUI;
   evActivityCallUI: EvActivityCallUI;
   evDialerUI: EvDialerUI;
   evTransferCallUI: EvTransferCallUI;
@@ -45,7 +44,7 @@ export type EvPhone = RcModulePhoneType<
     evAuth: EvAuth;
     evCall: EvCall;
     evCallMonitor: EvCallMonitor;
-    evSessionConfig: EvSessionConfig;
+    evAgentSession: EvAgentSession;
     evSettings: EvSettings;
     evSubscription: EvSubscription;
     evWorkingState: EvWorkingState;
@@ -54,6 +53,7 @@ export type EvPhone = RcModulePhoneType<
     presence: EvPresence;
     evClient: EvClient;
     evIntegratedSoftphone: EvIntegratedSoftphone;
+    evAgentScript: EvAgentScript;
   } & EvPhoneUI
 > &
   BasePhone;

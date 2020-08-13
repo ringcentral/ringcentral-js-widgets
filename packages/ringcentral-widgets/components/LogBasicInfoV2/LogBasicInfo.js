@@ -42,6 +42,7 @@ export default function LogBasicInfo(props) {
     disableLinks,
     dateTimeFormatter,
     isWide,
+    className,
   } = props;
   if (!call) return null;
   const {
@@ -92,6 +93,7 @@ export default function LogBasicInfo(props) {
         styles.root,
         !isWide && styles.classic,
         styles[infoStatus],
+        className,
       )}
     >
       <ShinyBar
@@ -149,6 +151,7 @@ LogBasicInfo.propTypes = {
   disableLinks: PropTypes.bool,
   dateTimeFormatter: PropTypes.func.isRequired,
   isWide: PropTypes.bool,
+  className: PropTypes.string,
 };
 
 LogBasicInfo.defaultProps = {
@@ -158,4 +161,5 @@ LogBasicInfo.defaultProps = {
   disableLinks: false,
   isWide: true,
   currentLocale: 'en',
+  className: null,
 };

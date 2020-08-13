@@ -10,7 +10,7 @@ const DEFAULT_MAX_LISTENERS = 30;
 
 export const EVENTS = ObjectMap.fromKeys(['heartbeat', 'detected']);
 
-export interface ISleepDetectionProps {
+export interface SleepDetectionOptions {
   detectionInterval?: number;
   detectionThreshold?: number;
   startImmediately?: boolean;
@@ -28,7 +28,7 @@ export class SleepDetection {
     detectionThreshold = DEFAULT_THRESHOLD,
     maxListeners = DEFAULT_MAX_LISTENERS,
     startImmediately = true,
-  }: ISleepDetectionProps = {}) {
+  }: SleepDetectionOptions = {}) {
     this._detectionInterval = detectionInterval;
     this._detectionThreshold = detectionThreshold;
     this._emitter.setMaxListeners(maxListeners);
@@ -41,11 +41,11 @@ export class SleepDetection {
     return EVENTS;
   }
 
-  on(event: ObjectMapValue<typeof EVENTS>, handler: (...args: any[]) => void) {
+  on(event: ObjectMapValue<typeof EVENTS>, handler: (...args: any[]) => any) {
     this._emitter.on(event, handler);
   }
 
-  off(event: ObjectMapValue<typeof EVENTS>, handler: (...args: any[]) => void) {
+  off(event: ObjectMapValue<typeof EVENTS>, handler: (...args: any[]) => any) {
     this._emitter.off(event, handler);
   }
 

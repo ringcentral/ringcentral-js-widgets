@@ -11,7 +11,7 @@ export class CallerId extends DataFetcher {
       fetchFunction: async () => {
         const resp = await this._client.service
           .platform()
-          .get('/account/~/extension/~/caller-id');
+          .get('/restapi/v1.0/account/~/extension/~/caller-id');
         return resp.json();
       },
       ...options,

@@ -10,27 +10,10 @@ import {
 import { Module } from '../../lib/di';
 import callingModes from '../CallingSettings/callingModes';
 import proxify from '../../lib/proxy/proxify';
-import {
-  DepModules,
-  ToNumberMatched,
-  Recipient,
-  DepOptions,
-} from './Call.interface';
-
-import Alert from '../Alert';
-import Storage from '../Storage';
-import Brand from '../Brand';
-import Softphone from '../Softphone';
-import Ringout from '../Ringout';
-import NumberValidate from '../NumberValidate';
-import RegionSettings from '../RegionSettings';
-import CallingSettings from '../CallingSettings';
-import RolesAndPermissions from '../RolesAndPermissions';
-import Webphone from '../Webphone';
-import AvailabilityMonitor from '../AvailabilityMonitor';
+import { Deps, ToNumberMatched, Recipient } from './Call.interface';
 
 import { callStatus } from './callStatus';
-import callErrors from './callErrors';
+import { callErrors } from './callErrors';
 import { ringoutErrors } from '../Ringout/ringoutErrors';
 import validateNumbers from '../../lib/validateNumbers';
 
@@ -59,22 +42,9 @@ const ANONYMOUS = 'anonymous';
     { dep: 'CallOptions', optional: true },
   ],
 })
-export class Call extends RcModuleV2<DepModules> {
-  _alert: Alert;
-  _storage: Storage;
-  _brand: Brand;
-  _softphone: Softphone;
-  _ringout: Ringout;
-  _numberValidate: NumberValidate;
-  _regionSettings: RegionSettings;
-  _callingSettings: CallingSettings;
-  _rolesAndPermissions: RolesAndPermissions;
-  _webphone?: Webphone;
-  _availabilityMonitor?: AvailabilityMonitor;
-
+export class Call extends RcModuleV2<Deps> {
   _internationalCheck: boolean;
   _permissionCheck: boolean;
-
   _callSettingMode: string = null;
 
   /**
@@ -91,51 +61,15 @@ export class Call extends RcModuleV2<DepModules> {
    * @param {NumberValidate} params.numberValidate - numberValidate module instance
    * @param {RegionSettings} params.regionSettings - regionSettings module instance
    */
-  constructor({
-    alert,
-    brand,
-    storage,
-    callingSettings,
-    softphone,
-    ringout,
-    webphone,
-    numberValidate,
-    regionSettings,
-    rolesAndPermissions,
-    availabilityMonitor,
-    callOptions = {},
-  }: DepOptions) {
+  constructor(deps: Deps) {
     super({
-      modules: {
-        alert,
-        brand,
-        storage,
-        callingSettings,
-        softphone,
-        ringout,
-        webphone,
-        numberValidate,
-        regionSettings,
-        rolesAndPermissions,
-        availabilityMonitor,
-      },
+      deps,
       enableCache: true,
       storageKey: 'callData',
     });
-    this._brand = this._modules.brand;
-    this._alert = this._modules.alert;
-    this._storage = this._modules.storage;
-    this._callingSettings = this._modules.callingSettings;
-    this._ringout = this._modules.ringout;
-    this._softphone = this._modules.softphone;
-    this._webphone = this._modules.webphone;
-    this._numberValidate = this._modules.numberValidate;
-    this._regionSettings = this._modules.regionSettings;
-    this._rolesAndPermissions = this._modules.rolesAndPermissions;
-    this._availabilityMonitor = availabilityMonitor;
-
-    this._internationalCheck = callOptions.internationalCheck ?? true;
-    this._permissionCheck = callOptions.permissionCheck ?? true;
+    this._internationalCheck =
+      this._deps.callOptions?.internationalCheck ?? true;
+    this._permissionCheck = this._deps.callOptions?.permissionCheck ?? true;
   }
 
   @state
@@ -205,30 +139,36 @@ export class Call extends RcModuleV2<DepModules> {
   }
 
   async _initCallModule() {
-    this._callSettingMode = this._callingSettings.callingMode;
-    if (this._callSettingMode === callingModes.webphone && this._webphone) {
-      await this._webphone.connect();
+    this._callSettingMode = this._deps.callingSettings.callingMode;
+    if (
+      this._callSettingMode === callingModes.webphone &&
+      this._deps.webphone
+    ) {
+      await this._deps.webphone.connect();
     }
   }
 
   _resetCallModule() {
-    this._callSettingMode = this._callingSettings.callingMode;
-    if (this._callSettingMode === callingModes.webphone && this._webphone) {
-      this._webphone.disconnect();
+    this._callSettingMode = this._deps.callingSettings.callingMode;
+    if (
+      this._callSettingMode === callingModes.webphone &&
+      this._deps.webphone
+    ) {
+      this._deps.webphone.disconnect();
     }
   }
 
   async _processCall() {
     const oldCallSettingMode = this._callSettingMode;
     if (
-      this._callingSettings.callingMode !== oldCallSettingMode &&
-      this._webphone
+      this._deps.callingSettings.callingMode !== oldCallSettingMode &&
+      this._deps.webphone
     ) {
-      this._callSettingMode = this._callingSettings.callingMode;
+      this._callSettingMode = this._deps.callingSettings.callingMode;
       if (oldCallSettingMode === callingModes.webphone) {
-        this._webphone.disconnect();
+        this._deps.webphone.disconnect();
       } else if (this._callSettingMode === callingModes.webphone) {
-        await this._webphone.connect();
+        await this._deps.webphone.connect();
       }
     }
   }
@@ -259,7 +199,7 @@ export class Call extends RcModuleV2<DepModules> {
         (recipient && (recipient.phoneNumber || recipient.extension)) ||
         phoneNumber;
       if (!toNumber || `${toNumber}`.trim().length === 0) {
-        this._alert.warning({
+        this._deps.alert.warning({
           message: callErrors.noToNumber,
         });
       } else {
@@ -297,28 +237,28 @@ export class Call extends RcModuleV2<DepModules> {
         } catch (error) {
           if (!error.message && error.type && (callErrors as any)[error.type]) {
             // validate format error
-            this._alert.warning({
+            this._deps.alert.warning({
               message: (callErrors as any)[error.type],
               payload: {
                 phoneNumber: error.phoneNumber,
               },
             });
           } else if (error.message === ringoutErrors.firstLegConnectFailed) {
-            this._alert.warning({
+            this._deps.alert.warning({
               message: callErrors.connectFailed,
               payload: error,
             });
           } else if (error.message === 'Failed to fetch') {
-            this._alert.danger({
+            this._deps.alert.danger({
               message: callErrors.networkError,
               payload: error,
             });
           } else if (error.message !== 'Refresh token has expired') {
             if (
-              !this._availabilityMonitor ||
-              !this._availabilityMonitor.checkIfHAError(error)
+              !this._deps.availabilityMonitor ||
+              !this._deps.availabilityMonitor.checkIfHAError(error)
             ) {
-              this._alert.danger({
+              this._deps.alert.danger({
                 message: callErrors.internalError,
                 payload: error,
               });
@@ -343,12 +283,12 @@ export class Call extends RcModuleV2<DepModules> {
     isConference: boolean;
   }) {
     const isWebphone =
-      this._callingSettings.callingMode === callingModes.webphone;
+      this._deps.callingSettings.callingMode === callingModes.webphone;
     const theFromNumber =
       fromNumber ||
       (isWebphone
-        ? this._callingSettings.fromNumber
-        : this._callingSettings.myLocation);
+        ? this._deps.callingSettings.fromNumber
+        : this._deps.callingSettings.myLocation);
 
     if (isWebphone && (theFromNumber === null || theFromNumber === '')) {
       return null;
@@ -381,8 +321,8 @@ export class Call extends RcModuleV2<DepModules> {
       const numbers = waitingValidateNumbers.map((x) => x.number);
       const validatedResult = validateNumbers(
         numbers,
-        this._regionSettings,
-        this._brand.id,
+        this._deps.regionSettings,
+        this._deps.brand.id,
       );
       const toNumberIndex = waitingValidateNumbers.findIndex(
         (x) => x.type === TO_NUMBER,
@@ -413,12 +353,12 @@ export class Call extends RcModuleV2<DepModules> {
     isConference: boolean;
   }) {
     const isWebphone =
-      this._callingSettings.callingMode === callingModes.webphone;
+      this._deps.callingSettings.callingMode === callingModes.webphone;
     const theFromNumber =
       fromNumber ||
       (isWebphone
-        ? this._callingSettings.fromNumber
-        : this._callingSettings.myLocation);
+        ? this._deps.callingSettings.fromNumber
+        : this._deps.callingSettings.myLocation);
 
     if (isWebphone && (theFromNumber === null || theFromNumber === '')) {
       return null;
@@ -448,12 +388,12 @@ export class Call extends RcModuleV2<DepModules> {
     let parsedFromNumber;
     if (waitingValidateNumbers.length) {
       const numbers = waitingValidateNumbers.map((x) => x.number);
-      const validatedResult = await this._numberValidate.validateNumbers(
+      const validatedResult = await this._deps.numberValidate.validateNumbers(
         numbers,
       );
       if (!validatedResult.result) {
         validatedResult.errors.forEach((error) => {
-          // this._alert.warning({
+          // this._deps.alert.warning({
           //   message: callErrors[error.type],
           //   payload: {
           //     phoneNumber: error.phoneNumber
@@ -478,7 +418,7 @@ export class Call extends RcModuleV2<DepModules> {
         parsedToNumber &&
         parsedToNumber.international &&
         // TODO: fix `rolesAndPermissions` module type
-        !(this._rolesAndPermissions.permissions as any).InternationalCalls
+        !(this._deps.rolesAndPermissions.permissions as any).InternationalCalls
       ) {
         const error = {
           phoneNumber: parsedToNumber.originalString,
@@ -525,7 +465,7 @@ export class Call extends RcModuleV2<DepModules> {
   async _makeCall({
     toNumber,
     fromNumber,
-    callingMode = this._callingSettings.callingMode,
+    callingMode = this._deps.callingSettings.callingMode,
     extendedControls = [],
   }: {
     toNumber: string;
@@ -533,24 +473,24 @@ export class Call extends RcModuleV2<DepModules> {
     callingMode?: string;
     extendedControls?: string[];
   }) {
-    const homeCountryId = this._regionSettings.homeCountryId;
+    const homeCountryId = this._deps.regionSettings.homeCountryId;
     let session;
     switch (callingMode) {
       case callingModes.softphone:
       case callingModes.jupiter:
-        session = this._softphone.makeCall(toNumber, callingMode);
+        session = this._deps.softphone.makeCall(toNumber, callingMode);
         break;
       case callingModes.ringout:
-        session = await this._ringout.makeCall({
+        session = await this._deps.ringout.makeCall({
           fromNumber,
           toNumber: toNumber && toNumber.split('*')[0], // remove extension number in ringout mode
-          prompt: this._callingSettings.ringoutPrompt,
+          prompt: this._deps.callingSettings.ringoutPrompt,
         });
         break;
       case callingModes.webphone:
-        if (this._webphone) {
+        if (this._deps.webphone) {
           // TODO: fix `webphone` module type
-          session = (await this._webphone.makeCall({
+          session = (await this._deps.webphone.makeCall({
             fromNumber,
             toNumber,
             homeCountryId,

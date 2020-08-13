@@ -1,6 +1,6 @@
 {
   "name": "@ringcentral-integration/engage-voice-widgets",
-  "version": "0.0.1",
+  "version": "0.12.0",
   "description": "RingCentral Engage Voice Integration Widget Library",
   "main": "index.js",
   "directories": {
@@ -32,10 +32,20 @@
   },
   "author": "RingCentral Integrations Team",
   "license": "MIT",
+  "peerDependencies": {
+    "@ringcentral-integration/core": "^0.12.0",
+    "@ringcentral-integration/phone-number": "^1.0.4",
+    "@ringcentral-integration/rcui": "^0.12.0",
+    "ringcentral-integration": "^0.12.0",
+    "ringcentral-widgets": "^0.12.0"
+  },
   "devDependencies": {
     "@ringcentral-integration/babel-settings": "*",
     "@ringcentral-integration/locale-loader": "*",
     "@ringcentral-integration/locale-settings": "*",
+    "@ringcentral-integration/core": "*",
+    "@ringcentral-integration/phone-number": "*",
+    "@ringcentral-integration/rcui": "*",
     "enzyme-adapter-react-16": "^1.15.1",
     "crius-test": "^1.0.0-alpha.13",
     "execa": "^1.0.0",
@@ -45,12 +55,11 @@
     "gulp-babel": "^8.0.0",
     "gulp-istanbul": "^1.1.1",
     "gulp-sourcemaps": "^2.6.5",
-    "jest-html-reporters": "1.2.0"
+    "jest-html-reporters": "1.2.0",
+    "ringcentral-integration": "*",
+    "ringcentral-widgets": "*"
   },
   "dependencies": {
-    "@ringcentral-integration/core": "^0.11.0",
-    "@ringcentral-integration/phone-number": "^1.0.4",
-    "@ringcentral-integration/rcui": "^0.1.0",
     "classnames": "^2.2.6",
     "i18n-iso-countries": "^4.3.1",
     "moment": "^2.24.0",
@@ -62,8 +71,6 @@
     "react-redux": "^5.1.1",
     "react-router": "^3.0.0",
     "redux": "^4.0.4",
-    "ringcentral-integration": "^0.11.0",
-    "ringcentral-widgets": "^0.11.0",
     "sip.js": "0.11.6",
     "format-message": "^5.1.2"
   },
@@ -90,6 +97,7 @@
     ],
     "reporters": [
       "default",
+      "jest-junit",
       "jest-html-reporters"
     ]
   },

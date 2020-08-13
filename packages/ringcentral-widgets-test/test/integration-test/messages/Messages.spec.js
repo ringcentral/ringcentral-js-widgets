@@ -10,20 +10,25 @@ import { Button } from 'ringcentral-widgets/components/Button';
 import Spinner from 'ringcentral-widgets/components/Spinner';
 import * as mock from 'ringcentral-integration/integration-test/mock';
 
-import { getWrapper, timeout } from '../shared';
+import { getWrapper, timeout, tearDownWrapper } from '../shared';
 
 let wrapper = null;
 let panel = null;
-beforeEach(async () => {
-  jasmine.DEFAULT_TIMEOUT_INTERVAL = 64000;
-  wrapper = await getWrapper();
-  const navigationBar = wrapper.find(NavigationBar).first();
-  await navigationBar.props().goTo('/messages');
-  wrapper.update();
-  panel = wrapper.find(ConversationsPanel).first();
-});
 
 describe('messages', () => {
+  beforeEach(async () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 64000;
+    wrapper = await getWrapper();
+    const navigationBar = wrapper.find(NavigationBar).first();
+    await navigationBar.props().goTo('/messages');
+    wrapper.update();
+    panel = wrapper.find(ConversationsPanel).first();
+  });
+
+  afterEach(async () => {
+    await tearDownWrapper(wrapper);
+  });
+
   test('initial state', () => {
     expect(panel).toBeDefined();
     expect(panel.props()).toBeDefined();

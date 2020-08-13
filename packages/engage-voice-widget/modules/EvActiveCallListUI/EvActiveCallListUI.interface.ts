@@ -1,28 +1,33 @@
 import Locale from 'ringcentral-integration/modules/Locale';
 import RouterInteraction from 'ringcentral-widgets/modules/RouterInteraction';
 
+import { EvClient } from '../../lib/EvClient';
 import { EvActiveCallControl } from '../EvActiveCallControl';
+import { EvAgentSession } from '../EvAgentSession';
+import { EvAuth } from '../EvAuth';
 import { EvCall } from '../EvCall';
 import { EvCallMonitor } from '../EvCallMonitor';
 import { EvIntegratedSoftphone } from '../EvIntegratedSoftphone';
-import { EvSessionConfig } from '../EvSessionConfig';
-import { EvAuth } from '../EvAuth';
-import { EvClient } from '../../lib/EvClient';
 
 interface State {
   //
 }
 
-export interface DepsModules {
+export interface EvActiveCallListUIOptions {
+  //
+}
+
+export interface Deps {
   routerInteraction: RouterInteraction;
   locale: Locale;
   activeCallControl: EvActiveCallControl;
   evCallMonitor: EvCallMonitor;
   evCall: EvCall;
   evIntegratedSoftphone: EvIntegratedSoftphone;
-  evSessionConfig: EvSessionConfig;
+  evAgentSession: EvAgentSession;
   evAuth: EvAuth;
   evClient: EvClient;
+  evActiveCallListUIOptions?: EvActiveCallListUIOptions;
 }
 
 export interface ActiveCallListUI extends State {

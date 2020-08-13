@@ -73,9 +73,14 @@ export default class SettingsUI extends RcUIModule {
     showQuickAccess = false,
     params,
   }) {
-    let loginNumber = '';
+    let loginNumber = brand.name;
     const loggedIn = auth.loginStatus === loginStatus.loggedIn;
-    if (loggedIn && accountInfo.ready && extensionInfo.ready) {
+    if (
+      loggedIn &&
+      accountInfo.ready &&
+      extensionInfo.ready &&
+      accountInfo.mainCompanyNumber
+    ) {
       // If no extensionNumber, extensionNumber field needs to be omitted
       const extensionNumber =
         extensionInfo.extensionNumber && extensionInfo.extensionNumber !== '0'
@@ -112,7 +117,7 @@ export default class SettingsUI extends RcUIModule {
       showAudio: showAudio && rolesAndPermissions.callingEnabled,
       showRegion:
         loggedIn &&
-        brand.id === '1210' &&
+        brand.code === 'rc' &&
         regionSettings.showReginSetting &&
         rolesAndPermissions.callingEnabled &&
         showRegion,

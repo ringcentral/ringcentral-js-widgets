@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { formatSameSiteExtension } from '../../../phone-number/lib/format';
 
 import PlaceholderImage from '../PlaceholderImage';
 import PresenceStatusIcon from '../PresenceStatusIcon';
@@ -112,7 +113,12 @@ export default class ContactItem extends PureComponent {
     if (this.state.loading) {
       return <div className={styles.root} />;
     }
-    const { contact, currentLocale } = this.props;
+    const {
+      contact,
+      currentLocale,
+      currentSiteCode,
+      isMultipleSiteEnabled,
+    } = this.props;
     const {
       name,
       extensionNumber,
@@ -120,6 +126,15 @@ export default class ContactItem extends PureComponent {
       profileImageUrl,
       contactStatus,
     } = contact;
+
+    let displayingNumber = extensionNumber;
+
+    if (isMultipleSiteEnabled) {
+      displayingNumber = formatSameSiteExtension({
+        currentSiteCode,
+        extension: extensionNumber,
+      });
+    }
 
     const { sourceNodeRenderer } = this.props;
     const sourceNode = sourceNodeRenderer({ sourceType: type });
@@ -143,8 +158,8 @@ export default class ContactItem extends PureComponent {
           {this.renderPresence(this.props.contact)}
         </div>
         {this.renderMiddle(contact, currentLocale)}
-        <div className={styles.phoneNumber} title={extensionNumber}>
-          {extensionNumber}
+        <div className={styles.phoneNumber} title={displayingNumber}>
+          {displayingNumber}
         </div>
       </div>
     );
@@ -153,6 +168,8 @@ export default class ContactItem extends PureComponent {
 
 ContactItem.propTypes = {
   currentLocale: PropTypes.string.isRequired,
+  currentSiteCode: PropTypes.string,
+  isMultipleSiteEnabled: PropTypes.bool,
   contact: PropTypes.shape({
     id: PropTypes.string,
     type: PropTypes.string,
@@ -171,5 +188,7 @@ ContactItem.propTypes = {
 
 ContactItem.defaultProps = {
   onSelect: undefined,
+  currentSiteCode: '',
+  isMultipleSiteEnabled: false,
   sourceNodeRenderer: () => null,
 };

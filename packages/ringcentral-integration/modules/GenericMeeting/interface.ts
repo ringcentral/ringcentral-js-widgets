@@ -1,5 +1,6 @@
 import { meetingProviderTypesProps } from '../MeetingProvider/interface';
 import { RcVMeetingModel } from '../../models/rcv.model';
+import { MeetingAssistedUser } from '../Meeting';
 
 export type ExtensionInfo = {
   contact: object;
@@ -109,6 +110,8 @@ export interface IGenericMeeting {
   isPreferencesChanged: boolean;
   brandName: string;
   status: object;
+  assistedUsers: MeetingAssistedUser[];
+  scheduleForUser: MeetingAssistedUser;
 
   initialize(): void;
 

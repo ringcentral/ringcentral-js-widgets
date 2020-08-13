@@ -1,18 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import callingSettingsMessages from 'ringcentral-integration/modules/CallingSettings/callingSettingsMessages';
+import {
+  getJupiterAppName,
+  getSoftphoneAppName,
+} from '../../CallingSettingsPanel';
 import FormattedMessage from '../../FormattedMessage';
 
 import i18n from './i18n';
 
-const checkIsRcBrand = (brand) =>
-  brand &&
-  typeof brand === 'string' &&
-  brand.toLowerCase().indexOf('ringcentral') !== -1;
 function CallingSettingsAlert({
   message: { message },
   currentLocale,
-  brand,
+  brandCode,
+  brandName,
   onCallingSettingsLinkClick,
 }) {
   switch (message) {
@@ -21,19 +22,11 @@ function CallingSettingsAlert({
     case callingSettingsMessages.webphonePermissionRemoved:
     case callingSettingsMessages.emergencyCallingNotAvailable:
     case callingSettingsMessages.saveSuccessWithJupiter: {
-      let appName = brand;
-      const isRcBrand = checkIsRcBrand(brand);
-      if (
-        isRcBrand &&
-        message === callingSettingsMessages.saveSuccessWithSoftphone
-      ) {
-        appName = `${brand} Phone`;
-      }
-      if (
-        isRcBrand &&
-        message === callingSettingsMessages.saveSuccessWithJupiter
-      ) {
-        appName = `${brand} App`;
+      let appName = brandName;
+      if (message === callingSettingsMessages.saveSuccessWithJupiter) {
+        appName = getJupiterAppName(brandCode, brandName, currentLocale);
+      } else if (message === callingSettingsMessages.saveSuccessWithSoftphone) {
+        appName = getSoftphoneAppName(brandCode, brandName, currentLocale);
       }
       return (
         <FormattedMessage
@@ -72,7 +65,8 @@ CallingSettingsAlert.propTypes = {
     message: PropTypes.string.isRequired,
   }).isRequired,
   currentLocale: PropTypes.string.isRequired,
-  brand: PropTypes.string.isRequired,
+  brandCode: PropTypes.string.isRequired,
+  brandName: PropTypes.string.isRequired,
   onCallingSettingsLinkClick: PropTypes.func,
 };
 CallingSettingsAlert.defaultProps = {

@@ -4,7 +4,7 @@ import formatNumber from 'ringcentral-integration/lib/formatNumber';
 import React from 'react';
 import {
   CallLogUIInterface,
-  DepsModules,
+  Deps,
   CallLogUIProps,
   CallLogUIFunctions,
 } from './CallLogUI.interface';
@@ -28,40 +28,14 @@ import CallLogCallCtrlContainer from '../../containers/CallLogCallCtrlContainer'
     { dep: 'CallLogUIOptions', optional: true },
   ],
 })
-class CallLogUI<T extends DepsModules> extends RcUIModuleV2<T>
+class CallLogUI<T = {}> extends RcUIModuleV2<Deps & T>
   implements CallLogUIInterface {
-  constructor({
-    locale,
-    callLogger,
-    rateLimiter,
-    regionSettings,
-    dateTimeFormat,
-    callLogSection,
-    routerInteraction,
-    activeCallControl,
-    environmentOptions,
-    rolesAndPermissions,
-    connectivityMonitor,
-    // child modules
-    modules = {},
-    ...props
-  }) {
+  constructor({ deps = {}, ...options }: Deps & { deps: Record<string, any> }) {
     super({
-      modules: {
-        locale,
-        callLogger,
-        rateLimiter,
-        regionSettings,
-        dateTimeFormat,
-        callLogSection,
-        routerInteraction,
-        activeCallControl,
-        environmentOptions,
-        rolesAndPermissions,
-        connectivityMonitor,
-        ...modules,
+      deps: {
+        ...options,
+        ...deps,
       },
-      ...props,
     });
   }
 
@@ -78,7 +52,7 @@ class CallLogUI<T extends DepsModules> extends RcUIModuleV2<T>
       environmentOptions,
       rolesAndPermissions,
       connectivityMonitor,
-    } = this._modules;
+    } = this._deps;
     const { currentNotificationIdentify, currentIdentify } = callLogSection;
     const isInTransferPage =
       routerInteraction.currentPath.match('^/transfer/') !== null;
@@ -95,10 +69,6 @@ class CallLogUI<T extends DepsModules> extends RcUIModuleV2<T>
       ),
       isInTransferPage,
       disableLinks: !connectivityMonitor.connectivity || rateLimiter.throttling,
-      isWide:
-        environmentOptions &&
-        environmentOptions.app &&
-        environmentOptions.app.isLightning,
       currentIdentify,
       // notification props
       currentNotificationIdentify,
@@ -116,7 +86,7 @@ class CallLogUI<T extends DepsModules> extends RcUIModuleV2<T>
       callLogSection,
       locale,
       activeCallControl,
-    } = this._modules;
+    } = this._deps;
     return {
       formatPhone: (phoneNumber: string) =>
         formatNumber({
@@ -125,10 +95,15 @@ class CallLogUI<T extends DepsModules> extends RcUIModuleV2<T>
           countryCode: regionSettings.countryCode,
         }) || 'Unknown',
       goBack: () => callLogSection.closeLogSection(),
-      renderCallLogCallControl: (status, currentTelephonySessionId, isWide) => (
+      renderCallLogCallControl: (
+        currentTelephonySessionId,
+        isWide,
+        isCurrentDeviceCall,
+      ) => (
         <CallLogCallCtrlContainer
           currentLocale={locale.currentLocale}
           telephonySessionId={currentTelephonySessionId}
+          isCurrentDeviceCall={isCurrentDeviceCall}
           isWide={isWide}
         />
       ),

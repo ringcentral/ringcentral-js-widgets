@@ -144,7 +144,7 @@ export default class Conference extends DataFetcher {
     } catch (error) {
       if (
         !this._availabilityMonitor ||
-        !this._availabilityMonitor.checkIfHAError(error)
+        !(await this._availabilityMonitor.checkIfHAError(error))
       ) {
         this._alert.warning({ message: callControlError.generalError });
       }

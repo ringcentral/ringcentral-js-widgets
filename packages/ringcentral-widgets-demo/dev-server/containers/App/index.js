@@ -225,7 +225,10 @@ export default function App({ phone, icon }) {
                   />
                 )}
               />
-              <Route path="/composeText" component={ComposeTextPage} />
+              <Route
+                path="/composeText"
+                component={() => <ComposeTextPage supportAttachment />}
+              />
               <Route
                 path="/conversations/:conversationId"
                 component={(routerProps) => (
@@ -237,6 +240,7 @@ export default function App({ phone, icon }) {
                     showContactDisplayPlaceholder={false}
                     sourceIcons={sourceIcons}
                     showGroupNumberName
+                    supportAttachment
                   />
                 )}
               />

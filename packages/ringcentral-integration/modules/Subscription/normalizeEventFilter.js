@@ -1,4 +1,4 @@
-const apiUrlPrefixRegex = /^\/restapi\/v[\d]\.[\d]/;
+// const apiUrlPrefixRegex = /^\/restapi\/v[\d]\.[\d]/;
 const accountRegex = /\/account\/[\d]+/;
 const extensionRegex = /\/extension\/[\d]+/;
 const totalActiveCallsRegex = /&totalActiveCalls/;
@@ -11,7 +11,6 @@ const totalActiveCallsRegex = /&totalActiveCalls/;
  */
 export function normalizeEventFilter(filter = '') {
   return filter
-    .replace(apiUrlPrefixRegex, '')
     .replace(accountRegex, '/account/~')
     .replace(extensionRegex, '/extension/~')
     .replace(totalActiveCallsRegex, '');

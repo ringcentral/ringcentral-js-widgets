@@ -11,8 +11,9 @@ const FETCH_DELAY = 1000;
 const DEFAULT_TTL = 5 * 60 * 1000;
 
 /**
+ * @deprecated Presence module with detailed mode also maintains an active calls list
  * @class
- * @description Active calls list manaing module
+ * @description Active calls list managing module
  */
 @Module({
   deps: [
@@ -61,6 +62,9 @@ export default class ActiveCalls extends DataFetcher {
             .list(params),
         ),
     });
+    console.warn(
+      'ActiveCalls module is deprecated, please use Presence module with detailed mode',
+    );
     this._fetchDelay = fetchDelay;
     this._rolesAndPermissions = rolesAndPermissions;
   }

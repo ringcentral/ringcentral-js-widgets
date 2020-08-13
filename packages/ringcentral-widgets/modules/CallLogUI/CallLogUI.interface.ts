@@ -12,7 +12,11 @@ import { CallLogPanelProps } from '../../components/CallLogPanel';
 
 export interface State {}
 
-export interface DepsModules {
+export interface CallLogUIOptions {
+  //
+}
+
+export interface Deps {
   locale: Locale;
   callLogger: CallLogger;
   rateLimiter: RateLimiter;
@@ -21,6 +25,7 @@ export interface DepsModules {
   callLogSection: CallLogSection;
   routerInteraction: RouterInteraction;
   activeCallControl: ActiveCallControl;
+  // TODO: more to Environment based on RcModuleV2
   environmentOptions: {
     app: {
       isLightning: boolean;
@@ -30,11 +35,12 @@ export interface DepsModules {
   };
   rolesAndPermissions: RolesAndPermissions;
   connectivityMonitor: ConnectivityMonitor;
+  callLogUIOptions: CallLogUIOptions;
 }
 
 export interface CallLogUIInterface extends State {
-  getUIProps();
-  getUIFunctions();
+  getUIProps(): CallLogUIProps;
+  getUIFunctions(): CallLogUIFunctions;
 }
 
 export type CallLogUIProps = Partial<CallLogPanelProps>;

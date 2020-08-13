@@ -9,7 +9,6 @@
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.15);
   @include flex_height($header-height);
   position: relative;
-
   &.classic {
     .back {
       margin-left: 6px;

@@ -1,7 +1,0 @@
-{
-  "extends": "../tsconfig.json",
-  "include": ["test/**/*", "typings/**/*"],
-  "compilerOptions": {
-    "reactNamespace": "JSX"
-  }
-}

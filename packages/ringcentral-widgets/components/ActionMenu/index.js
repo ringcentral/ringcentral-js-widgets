@@ -39,6 +39,7 @@ export default class ActionMenu extends Component {
       externalHasEntity,
       disableClickToSms,
       withAnimation,
+      selectedMatchContactType,
     } = this.props;
     return (
       <div ref={reference}>
@@ -56,6 +57,7 @@ export default class ActionMenu extends Component {
             isLogged={isLogged}
             isLogging={isLogging}
             isCreating={isCreating}
+            selectedMatchContactType={selectedMatchContactType}
             onViewEntity={onViewEntity}
             onCreateEntity={onCreateEntity}
             createEntityTypes={createEntityTypes}
@@ -126,6 +128,7 @@ ActionMenu.propTypes = {
   externalHasEntity: PropTypes.bool,
   disableClickToSms: PropTypes.bool,
   withAnimation: PropTypes.bool,
+  selectedMatchContactType: PropTypes.string,
 };
 ActionMenu.defaultProps = {
   extended: undefined,
@@ -163,4 +166,5 @@ ActionMenu.defaultProps = {
   externalHasEntity: undefined,
   disableClickToSms: false,
   withAnimation: true,
+  selectedMatchContactType: '',
 };

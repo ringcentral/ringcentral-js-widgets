@@ -6,4 +6,10 @@ export default {
   hold: 'Hold',
   onHold: 'On Hold',
   transfer: 'Transfer',
+  more: 'More',
+  stopRecord: 'Stop Recording',
+  record: 'Record',
+  showKeypad: 'Keypad',
+  hideKeypad: 'Hide Keypad',
+  unHold: 'Unhold',
 };

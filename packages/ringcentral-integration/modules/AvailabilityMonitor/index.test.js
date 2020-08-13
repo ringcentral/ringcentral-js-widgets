@@ -251,25 +251,25 @@ describe('AvailabilityMonitor unit test', () => {
       availabilityMonitor._requestErrorHandler();
       sinon.assert.notCalled(availabilityMonitor._switchToLimitedMode);
     });
-    it('should not switch to limited availability mode when error.apiResponse is undefined', () => {
+    it('should not switch to limited availability mode when error.response is undefined', () => {
       sinon.stub(availabilityMonitor, '_switchToLimitedMode');
       sinon.stub(availabilityMonitor, 'isLimitedAvailabilityMode').value(false);
-      availabilityMonitor._requestErrorHandler({ apiResponse: undefined });
+      availabilityMonitor._requestErrorHandler({ response: undefined });
       sinon.assert.notCalled(availabilityMonitor._switchToLimitedMode);
     });
-    it('should not switch to limited availability mode when error.apiResponse._response is undefined', () => {
+    it('should not switch to limited availability mode when error.response._response is undefined', () => {
       sinon.stub(availabilityMonitor, '_switchToLimitedMode');
       sinon.stub(availabilityMonitor, 'isLimitedAvailabilityMode').value(false);
       availabilityMonitor._requestErrorHandler({
-        apiResponse: { _response: undefined, _json: {} },
+        response: { _json: {} },
       });
       sinon.assert.notCalled(availabilityMonitor._switchToLimitedMode);
     });
-    it('should not switch to limited availability mode when error.apiResponse._json is undefined', () => {
+    it('should not switch to limited availability mode when error.response._json is undefined', () => {
       sinon.stub(availabilityMonitor, '_switchToLimitedMode');
       sinon.stub(availabilityMonitor, 'isLimitedAvailabilityMode').value(false);
       availabilityMonitor._requestErrorHandler({
-        apiResponse: { _response: {}, _json: undefined },
+        response: { _json: undefined },
       });
       sinon.assert.notCalled(availabilityMonitor._switchToLimitedMode);
     });
@@ -277,9 +277,9 @@ describe('AvailabilityMonitor unit test', () => {
       sinon.stub(availabilityMonitor, '_switchToLimitedMode');
       sinon.stub(availabilityMonitor, 'isLimitedAvailabilityMode').value(false);
       availabilityMonitor._requestErrorHandler({
-        apiResponse: {
+        response: {
+          status: 500,
           _json: {
-            status: 500,
             errorCode: 'CMN-211',
           },
         },
@@ -290,7 +290,7 @@ describe('AvailabilityMonitor unit test', () => {
       sinon.stub(availabilityMonitor, '_switchToLimitedMode');
       sinon.stub(availabilityMonitor, 'isLimitedAvailabilityMode').value(false);
       availabilityMonitor._requestErrorHandler({
-        apiResponse: {
+        response: {
           _json: {
             status: 503,
             errorCode: 'CMN-210',
@@ -303,14 +303,12 @@ describe('AvailabilityMonitor unit test', () => {
       sinon.stub(availabilityMonitor, '_switchToLimitedMode');
       sinon.stub(availabilityMonitor, 'isLimitedAvailabilityMode').value(false);
       availabilityMonitor._requestErrorHandler({
-        apiResponse: {
+        response: {
+          status: 503,
           _json: {
             errors: [
               { errorCode: 'CMN-211', message: 'Service is overloaded...' },
             ],
-          },
-          _response: {
-            status: 503,
           },
         },
       });

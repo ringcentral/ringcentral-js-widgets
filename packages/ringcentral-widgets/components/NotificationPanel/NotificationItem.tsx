@@ -123,6 +123,8 @@ export const NotificationItem: FunctionComponent<NotificationItemProps> = memo(
           />
         )}
         <RcSnackbarContent
+          data-sign="notification"
+          data-sign-type={type}
           type={type}
           size="small"
           fullWidth

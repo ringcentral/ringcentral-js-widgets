@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import formatMessage from 'format-message';
 import messageTypes from 'ringcentral-integration/enums/messageTypes';
+import { extensionTypes } from 'ringcentral-integration/enums/extensionTypes';
 import messageDirection from 'ringcentral-integration/enums/messageDirection';
 import parseNumber from 'ringcentral-integration/lib/parseNumber';
 import {
@@ -97,7 +99,7 @@ export default class MessageItem extends Component {
     this._mounted = true;
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (
       !this._userSelection &&
       (nextProps.conversation.conversationMatches !==
@@ -335,10 +337,15 @@ export default class MessageItem extends Component {
     const { conversation, currentLocale } = this.props;
     if (messageIsTextMessage(conversation)) {
       if (
-        conversation.mmsAttachment &&
-        conversation.mmsAttachment.contentType.indexOf('image') > -1
+        conversation.mmsAttachments &&
+        conversation.mmsAttachments.length > 0
       ) {
-        return i18n.getString('imageAttachment', currentLocale);
+        const count = conversation.mmsAttachments.filter(
+          (m) => m.contentType.indexOf('image') > -1,
+        ).length;
+        return formatMessage(i18n.getString('imageAttachment', currentLocale), {
+          count,
+        });
       }
       return conversation.subject;
     }
@@ -577,7 +584,9 @@ export default class MessageItem extends Component {
             onCreateEntity={onCreateContact && this.createSelectedContact}
             createEntityTypes={createEntityTypes}
             hasEntity={
-              correspondents.length === 1 && !!correspondentMatches.length
+              correspondents.length === 1 &&
+              !!correspondentMatches.length &&
+              (this.getSelectedContact()?.type ?? '') !== extensionTypes.ivrMenu
             }
             onClickToDial={
               !isFax ? onClickToDial && this.clickToDial : undefined
@@ -631,6 +640,16 @@ MessageItem.propTypes = {
   conversation: PropTypes.shape({
     conversationId: PropTypes.string.isRequired,
     isLogging: PropTypes.bool,
+    creationTime: PropTypes.number,
+    direction: PropTypes.string,
+    faxPageCount: PropTypes.number,
+    voicemailAttachment: PropTypes.shape({
+      duration: PropTypes.number,
+      uri: PropTypes.string,
+    }),
+    faxAttachment: PropTypes.shape({
+      uri: PropTypes.string,
+    }),
     correspondents: PropTypes.arrayOf(
       PropTypes.shape({
         name: PropTypes.string,
@@ -652,6 +671,8 @@ MessageItem.propTypes = {
     unreadCounts: PropTypes.number.isRequired,
     type: PropTypes.string.isRequired,
     uri: PropTypes.string,
+    mmsAttachments: PropTypes.any,
+    subject: PropTypes.string,
   }).isRequired,
   areaCode: PropTypes.string.isRequired,
   brand: PropTypes.string.isRequired,

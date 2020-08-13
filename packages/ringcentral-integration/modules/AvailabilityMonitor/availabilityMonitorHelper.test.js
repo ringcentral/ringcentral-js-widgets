@@ -35,12 +35,10 @@ describe('availabilityMonitorHelper', () => {
     it('Test HA error, return true when HA Status & HA Code are all OK', () => {
       const errorCode = 'CMN-211';
       const error = {
-        apiResponse: {
+        response: {
+          status: 503,
           _json: {
             errors: [{ errorCode, message: 'Service is overloaded...' }],
-          },
-          _response: {
-            status: 503,
           },
         },
       };
@@ -54,12 +52,10 @@ describe('availabilityMonitorHelper', () => {
       const haErrorStatus = 503;
 
       const error = {
-        apiResponse: {
+        response: {
+          status: haErrorStatus,
           _json: {
             errors: [{ errorCode, message: 'Service is overloaded...' }],
-          },
-          _response: {
-            status: haErrorStatus,
           },
         },
       };
@@ -73,12 +69,10 @@ describe('availabilityMonitorHelper', () => {
       const haErrorStatus = 503;
 
       const error = {
-        apiResponse: {
+        response: {
+          status: haErrorStatus,
           _json: {
             errors: [{ errorCode, message: 'Service is overloaded...' }],
-          },
-          _response: {
-            status: haErrorStatus,
           },
         },
       };
@@ -92,12 +86,10 @@ describe('availabilityMonitorHelper', () => {
       const haErrorStatus = 200;
 
       const error = {
-        apiResponse: {
+        response: {
+          status: haErrorStatus,
           _json: {
             errors: [{ errorCode, message: 'Service is overloaded...' }],
-          },
-          _response: {
-            status: haErrorStatus,
           },
         },
       };

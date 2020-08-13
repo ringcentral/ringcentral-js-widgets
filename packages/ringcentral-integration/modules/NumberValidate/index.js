@@ -1,13 +1,14 @@
 import { parse } from '@ringcentral-integration/phone-number';
 import RcModule from '../../lib/RcModule';
 import { Module } from '../../lib/di';
+import { isExtensionExist, isAnExtension } from '../../lib/contactHelper';
 import isBlank from '../../lib/isBlank';
 import moduleStatuses from '../../enums/moduleStatuses';
 import normalizeNumber from '../../lib/normalizeNumber';
 import proxify from '../../lib/proxy/proxify';
 import ensureExist from '../../lib/ensureExist';
 
-import numberValidateActionTypes from './numberValidateActionTypes';
+import { numberValidateActionTypes } from './numberValidateActionTypes';
 import getNumberValidateReducer from './getNumberValidateReducer';
 
 /**
@@ -20,6 +21,7 @@ import getNumberValidateReducer from './getNumberValidateReducer';
     'Client',
     'RegionSettings',
     'AccountInfo',
+    { dep: 'ExtensionInfo', optional: true },
     { dep: 'CompanyContacts' },
   ],
 })
@@ -38,6 +40,7 @@ export default class NumberValidate extends RcModule {
     companyContacts,
     regionSettings,
     accountInfo,
+    extensionInfo,
     ...options
   }) {
     super({
@@ -54,6 +57,7 @@ export default class NumberValidate extends RcModule {
 
     this._regionSettings = regionSettings;
     this._accountInfo = accountInfo;
+    this._extensionInfo = extensionInfo;
     this._reducer = getNumberValidateReducer(this.actionTypes);
   }
 
@@ -145,6 +149,37 @@ export default class NumberValidate extends RcModule {
     return false;
   }
 
+  /**
+   * TODO: Currently we don't have clearly defined business rule on
+   * what extension numbers are considered available for dialing.
+   * @param {*} extensionNumber
+   * @returns {String} extensionNumber | null
+   */
+  getAvailableExtension(extensionNumber) {
+    if (!isAnExtension(extensionNumber)) {
+      return null;
+    }
+    const { filteredContacts, ivrContacts } = this._companyContacts;
+    const contacts = filteredContacts.concat(ivrContacts);
+    return (
+      contacts.find((item) =>
+        isExtensionExist({
+          extensionNumber,
+          extensionFromContacts: item.extensionNumber,
+          options: {
+            isMultipleSiteEnabled:
+              this._extensionInfo?.isMultipleSiteEnabled ?? false,
+            site: this._extensionInfo?.site ?? null,
+          },
+        }),
+      )?.extensionNumber ?? null
+    );
+  }
+
+  isAvailableExtension(extensionNumber) {
+    return !!this.getAvailableExtension(extensionNumber);
+  }
+
   isNotAnExtension(extensionNumber) {
     if (
       extensionNumber &&
@@ -211,14 +246,19 @@ export default class NumberValidate extends RcModule {
         });
         return null;
       }
-      if (this.isNotAnExtension(phoneNumber.originalString)) {
+      const number = phoneNumber.originalString;
+      const availableExtension = this.getAvailableExtension(number);
+
+      if (isAnExtension(number) && !availableExtension) {
         errors.push({
           phoneNumber: phoneNumber.originalString,
           type: 'notAnExtension',
         });
         return null;
       }
-      validatedPhoneNumbers.push(phoneNumber);
+
+      const extensionObj = availableExtension ? { availableExtension } : {};
+      validatedPhoneNumbers.push({ ...phoneNumber, ...extensionObj });
       return null;
     });
     return {

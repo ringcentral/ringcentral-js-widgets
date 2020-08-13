@@ -15,15 +15,15 @@ export type MessageTransportPayload<T = any, K = {}> = {
 } & K;
 
 const DEFAULT_DEVICE = {
-  addReceiver(receiveMessage, { useCapture = false } = {}) {
+  addReceiver(receiveMessage: any, { useCapture = false } = {}) {
     window.addEventListener('message', receiveMessage, useCapture);
   },
-  createEmitter(sendTarget) {
+  createEmitter(sendTarget: Window) {
     // Always specify an exact target origin, not *,
     // when you use postMessage to send data to other windows.
     // A malicious site can change the location of the window without your knowledge,
     // and therefore it can intercept the data sent using postMessage.
-    return (message, { targetOrigin = '*', callback } = {} as any) => {
+    return (message: string, { targetOrigin = '*', callback } = {} as any) => {
       sendTarget.postMessage(message, targetOrigin);
       if (typeof callback === 'function') callback();
     };
@@ -79,7 +79,7 @@ export default class MessageTransport extends TransportBase {
     this._addReceiver(this._onMessage.bind(this));
   }
 
-  _onMessage = (event) => {
+  _onMessage = (event: MessageEvent) => {
     // TODO: confirm if the message is from iframe
     if (this._origin && event.origin !== this._origin) {
       return;

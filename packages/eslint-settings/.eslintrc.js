@@ -144,7 +144,7 @@ module.exports = {
   },
   overrides: [
     {
-      files: ['*.test.js', '*.spec.js'],
+      files: ['*.test.js', '*.spec.js', '**/test/**/*.js', '**/test/**/*.ts'],
       env: {
         jest: true,
         jasmine: true,
@@ -194,7 +194,6 @@ module.exports = {
         'no-useless-constructor': 'off',
         'no-unused-vars': 0,
         '@typescript-eslint/no-useless-constructor': 2,
-        '@typescript-eslint/no-unused-vars': 2,
         'object-shorthand': [2, 'always'],
         'no-unused-vars': 0,
         '@typescript-eslint/no-unused-vars': 1,

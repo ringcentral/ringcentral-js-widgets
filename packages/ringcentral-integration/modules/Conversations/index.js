@@ -17,7 +17,7 @@ import {
   messageIsVoicemail,
   getVoicemailAttachment,
   getFaxAttachment,
-  getMMSAttachment,
+  getMMSAttachments,
   messageIsFax,
   getMyNumberFromMessage,
   getRecipientNumbersFromMessage,
@@ -162,7 +162,7 @@ export default class Conversations extends RcModule {
     this._lastConversaionList = [];
 
     this._messageSender.on(
-      this._messageSender.actionTypes.send,
+      this._messageSender.events.send,
       ({ toNumbers }) => {
         this.addEntities(toNumbers);
       },
@@ -550,7 +550,7 @@ export default class Conversations extends RcModule {
   }
 
   @proxify
-  async deleteCoversation(conversationId) {
+  async deleteConversation(conversationId) {
     if (!conversationId) {
       return;
     }
@@ -565,7 +565,7 @@ export default class Conversations extends RcModule {
       return;
     }
     if (messageIsTextMessage(conversation)) {
-      await this._messageStore.deleteCoversation(conversationId);
+      await this._messageStore.deleteConversation(conversationId);
       return;
     }
     try {
@@ -646,7 +646,7 @@ export default class Conversations extends RcModule {
   ];
 
   @selector
-  formatedConversations = [
+  formattedConversations = [
     () => this.typeFilteredConversations,
     () => this._extensionInfo.extensionNumber,
     () => this._contactMatcher && this._contactMatcher.dataMapping,
@@ -700,13 +700,9 @@ export default class Conversations extends RcModule {
         if (typeof unreadCounts === 'undefined') {
           unreadCounts = messageIsUnread(message) ? 1 : 0;
         }
-        let mmsAttachment = null;
-        if (
-          messageIsTextMessage(message) &&
-          isBlank(message.subject) &&
-          this._showMMSAttachment
-        ) {
-          mmsAttachment = getMMSAttachment(message);
+        let mmsAttachments = [];
+        if (messageIsTextMessage(message) && this._showMMSAttachment) {
+          mmsAttachments = getMMSAttachments(message, accessToken);
         }
         return {
           ...message,
@@ -720,7 +716,7 @@ export default class Conversations extends RcModule {
           conversationMatches,
           voicemailAttachment,
           faxAttachment,
-          mmsAttachment,
+          mmsAttachments,
           lastMatchedCorrespondentEntity:
             (this._conversationLogger &&
               this._conversationLogger.getLastMatchedCorrespondentEntity(
@@ -733,7 +729,7 @@ export default class Conversations extends RcModule {
 
   @selector
   filteredConversations = [
-    () => this.formatedConversations,
+    () => this.formattedConversations,
     () => this.effectiveSearchString,
     (conversations, effectiveSearchString) => {
       if (effectiveSearchString === '') {
@@ -861,10 +857,10 @@ export default class Conversations extends RcModule {
         if (!this._showMMSAttachment) {
           return m;
         }
-        const mmsAttachment = getMMSAttachment(m, accessToken);
+        const mmsAttachments = getMMSAttachments(m, accessToken);
         return {
           ...m,
-          mmsAttachment,
+          mmsAttachments,
         };
       });
       const { correspondents = [] } = getNumbersFromMessage({

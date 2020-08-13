@@ -22,6 +22,13 @@ export function getMyLocationReducer(types) {
   };
 }
 
+export function getIsCustomLocationReducer(types) {
+  return (state = false, { type, isCustomLocation = state }) => {
+    if (type === types.setData) return isCustomLocation;
+    return state;
+  };
+}
+
 export function getTimestampReducer(types) {
   return (state = null, { type, timestamp = state }) => {
     if (type === types.setData) return timestamp;
@@ -53,6 +60,7 @@ export function getCallingSettingsStorageReducer(types) {
     callWith: getCallWithReducer(types),
     ringoutPrompt: getRingoutPromptReducer(types),
     myLocation: getMyLocationReducer(types),
+    isCustomLocation: getIsCustomLocationReducer(types),
     fromNumber: getFromNumberReducer(types),
     timestamp: getTimestampReducer(types),
   });

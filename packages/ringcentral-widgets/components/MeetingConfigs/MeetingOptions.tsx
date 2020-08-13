@@ -14,9 +14,11 @@ interface MeetingOptionsProps {
   that: any;
   meetingOptionToggle: boolean;
   passwordPlaceholderEnable: boolean;
+  disabled: boolean;
 }
 
 const MeetingOptions: FunctionComponent<MeetingOptionsProps> = ({
+  disabled,
   currentLocale,
   meeting,
   update,
@@ -44,6 +46,7 @@ const MeetingOptions: FunctionComponent<MeetingOptionsProps> = ({
             {i18n.getString('requirePassword', currentLocale)}
           </span>
           <Switch
+            disable={disabled}
             checked={meeting._requireMeetingPassword || !!meeting.password}
             onChange={(_requireMeetingPassword) => {
               if (_requireMeetingPassword) {
@@ -67,6 +70,7 @@ const MeetingOptions: FunctionComponent<MeetingOptionsProps> = ({
             </div>
             <input
               type="text"
+              disabled={disabled}
               placeholder={passwordPlaceholder}
               className={styles.password}
               ref={(ref) => {
@@ -82,6 +86,7 @@ const MeetingOptions: FunctionComponent<MeetingOptionsProps> = ({
                 }
               }}
               data-sign="requirePasswordInput"
+              spellCheck={false}
             />
           </div>
         ) : null}
@@ -90,6 +95,7 @@ const MeetingOptions: FunctionComponent<MeetingOptionsProps> = ({
             {i18n.getString('enableJoinBeforeHost', currentLocale)}
           </span>
           <Switch
+            disable={disabled}
             checked={meeting.allowJoinBeforeHost}
             onChange={(allowJoinBeforeHost) => {
               update({

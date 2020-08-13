@@ -1,32 +1,29 @@
-import { createSelector, RcUIModuleV2 } from '@ringcentral-integration/core';
+import { computed, RcUIModuleV2 } from '@ringcentral-integration/core';
 import { Module } from 'ringcentral-integration/lib/di';
 
 import { BlockItem } from '../Block';
-import { DepsModules, GetBlockUIProps } from './BlockUI.interface';
+import { Deps, GetBlockUIProps } from './BlockUI.interface';
 
 @Module({
   name: 'BlockUI',
   deps: ['Block'],
 })
-export class BlockUI extends RcUIModuleV2<DepsModules> {
-  getBlock = createSelector(
-    () => this._modules.block.getBlocks(),
-    (blocks): BlockItem => {
-      return blocks.length > 0 ? blocks[0] : null;
-    },
-  );
+export class BlockUI extends RcUIModuleV2<Deps> {
+  @computed((that: BlockUI) => [that._deps.block.blocks])
+  get block(): BlockItem {
+    const { blocks } = this._deps.block;
+    return blocks.length > 0 ? blocks[0] : null;
+  }
 
-  constructor({ block }) {
+  constructor(deps: Deps) {
     super({
-      modules: {
-        block,
-      },
+      deps,
     });
   }
 
   getUIProps(props: GetBlockUIProps) {
     return {
-      block: this.getBlock(),
+      block: this.block,
       ...props,
     };
   }

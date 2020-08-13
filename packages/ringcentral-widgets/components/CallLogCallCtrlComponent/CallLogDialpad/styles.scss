@@ -1,0 +1,94 @@
+@import '../../../lib/commonStyles/colors';
+@import '../../../lib/commonStyles/full-size';
+@import '../../../lib/commonStyles/fonts';
+
+$input-height: 26px;
+$input-margin-top: 40px;
+$input-margin-bottom: 12px;
+$keypad-container: 232px;
+$dialpad-height-classic: 429px;
+$input-margin-top-classic: 71px;
+$input-margin-bottom-classic: 29px;
+$keypad-container-classic: 208px;
+$keypad-container-margin-bottom-classic: 95px;
+$dialpad-height: $input-height + $input-margin-bottom + $input-margin-top +
+  $keypad-container;
+$dialpad-height-classic: $input-height + $input-margin-bottom-classic +
+  $input-margin-top-classic + $keypad-container-classic +
+  $keypad-container-margin-bottom-classic;
+@keyframes DialpadRollOut {
+  0% {
+    height: 0;
+    opacity: 0;
+  }
+  100% {
+    height: $dialpad-height;
+    opacity: 1;
+  }
+}
+@keyframes DialpadRollOutClassic {
+  0% {
+    height: 0;
+    opacity: 0;
+  }
+  100% {
+    height: $dialpad-height-classic;
+    opacity: 1;
+  }
+}
+.root {
+  box-sizing: border-box;
+  position: fixed;
+  bottom: 60px;
+  background-color: white;
+  left: 0;
+  padding: 0 31px;
+  animation-name: DialpadRollOut;
+  animation-duration: 0.2s;
+  animation-timing-function: ease-in-out;
+  &.classic {
+    padding: 0 12px;
+    animation-name: DialpadRollOutClassic;
+  }
+}
+
+.dialInput {
+  height: $input-height;
+  box-sizing: border-box;
+  border: 0px;
+  margin: $input-margin-top auto $input-margin-bottom auto;
+  width: calc(100% - 34px);
+  border-bottom: 1px solid rgba(33, 33, 33, 0.25);
+  input {
+    @include secondary-font;
+    box-sizing: content-box;
+    text-align: center;
+    padding: 0;
+    outline: 0;
+    height: 100%;
+    width: 100%;
+    background-color: transparent;
+    border: none;
+    font-size: 15px;
+    color: $lightblack;
+  }
+  .input::-ms-clear {
+    display: none;
+  }
+  &.classic {
+    margin: $input-margin-top-classic auto $input-margin-bottom-classic auto;
+  }
+}
+.closeBtn {
+  text-align: right;
+  position: absolute;
+  right: 15px;
+  top: 15px;
+}
+.keypadContainer {
+  height: $keypad-container;
+  &.classic {
+    height: $keypad-container-classic;
+    margin-bottom: $keypad-container-margin-bottom-classic;
+  }
+}
