@@ -7,6 +7,8 @@ export class RingCentralCall {
     // do nothing
   }
 
+  setWebphone() {}
+
   get sessions() {
     return [];
   }
