@@ -224,11 +224,6 @@ export class DataFetcherV2 extends RcModuleV2<Deps> {
   protected async _tryInitializeSource<T>(
     source: DataSource<T>,
   ): Promise<void> {
-    if (!source.permissionCheckFunction()) {
-      this._setData(source, null, 0);
-      this._setSourceStatus(source, sourceStatus.ready);
-      return;
-    }
     if (this.getSourceStatus(source) === sourceStatus.pending) {
       this._setSourceStatus(source, sourceStatus.initializing);
       if (this._shouldFetch(source)) {
@@ -269,22 +264,44 @@ export class DataFetcherV2 extends RcModuleV2<Deps> {
         }
         const status = this.getSourceStatus(source);
         const readyCheck = this.ready && source.readyCheckFunction();
-        if (
-          readyCheck &&
-          (status === sourceStatus.pending ||
-            status === sourceStatus.initializing)
-        ) {
-          this._tryInitializeSource(source);
-        } else if (status === sourceStatus.ready && !readyCheck) {
+        const permissionCheck = readyCheck && source.permissionCheckFunction();
+        if (readyCheck) {
+          if (
+            status === sourceStatus.pending ||
+            status === sourceStatus.initializing
+          ) {
+            // if user has no permission to fetch data, bypass the initialization process
+            if (!permissionCheck) {
+              this._setSourceStatus(source, sourceStatus.ready);
+              this._setData(source, null, 0);
+            } else {
+              this._tryInitializeSource(source);
+            }
+          } else if (status === sourceStatus.ready) {
+            if (
+              !permissionCheck &&
+              this.getData(source) !== null &&
+              this.getTimestamp(source) !== null
+            ) {
+              // no permission but has data, set data to null
+              // use 0 for timestamp so we know this is on purpose
+              this._setData(source, null, 0);
+            } else if (
+              permissionCheck &&
+              this.getData(source) === null &&
+              this.getTimestamp(source) === 0 &&
+              !this._promises.get(source.key)
+            ) {
+              // if the data set to null due to permission before
+              // but now there is permission, then fetch data
+              this.fetchData(source);
+            }
+          }
+        } else if (status === sourceStatus.ready) {
           this._setSourceStatus(source, sourceStatus.pending);
           if (source.cleanOnReset) {
             this._setData(source, null, null);
           }
-        } else if (
-          status === sourceStatus.ready &&
-          !source.permissionCheckFunction()
-        ) {
-          this._setData(source, null, null);
         }
       }, Array.from(this._sources));
     }
