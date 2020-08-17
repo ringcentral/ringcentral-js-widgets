@@ -106,16 +106,15 @@ describe('Exit from VoIP Only Mode to Normal Mode', () => {
       'Sorry, something went wrong on our end, but we are working hard to fix it. You can still make calls, but other functions are currently limited.',
     );
 
-    Object.defineProperty(phone.availabilityMonitor, '_randomTime', {
-      value: 0.01,
-    });
+    phone.availabilityMonitor._randomTime = 0.0001;
     HAMocks.checkStatus();
     await phone.availabilityMonitor._healthCheck();
-    await timeout(600);
+    await timeout(1000);
     wrapper.update();
 
     expect(wrapper.find(ConnectivityBadge).text()).not.toEqual('VoIP Only');
     const connectivityAlert2 = wrapper.find(ConnectivityAlert);
+    console.error(connectivityAlert2.debug());
     expect(connectivityAlert2.exists()).toBeFalsy();
   });
 });

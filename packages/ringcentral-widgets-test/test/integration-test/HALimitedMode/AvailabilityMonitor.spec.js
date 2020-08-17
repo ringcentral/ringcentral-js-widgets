@@ -6,7 +6,7 @@ import PresenceSettingSection from 'ringcentral-widgets/components/PresenceSetti
 import PresenceItem from 'ringcentral-widgets/components/PresenceItem';
 import ConnectivityBadge from 'ringcentral-widgets/components/ConnectivityBadge';
 
-import { initPhoneWrapper, timeout } from '../shared';
+import { initPhoneWrapper, timeout, tearDownWrapper } from '../shared';
 import { HAMocks } from './mockLimited';
 
 const MAX_PRESENCE_OPTIONS = 4;
@@ -91,6 +91,7 @@ describe('From `Normal Mode` to `Limited Mode`', () => {
       </div>,
     );
     expect(contains).toBe(true);
+    await tearDownWrapper(wrapper);
   });
 
   test('Turns into `Limited Mode` when change presence', async () => {
@@ -127,6 +128,7 @@ describe('From `Normal Mode` to `Limited Mode`', () => {
     } catch (err) {
       console.log('Error in change presence');
     }
+    await tearDownWrapper(wrapper);
   });
 
   test('Does not show `Limited Mode` badge or alert message when app is in `WebRTC Unavailable Mode`.', async () => {
@@ -151,6 +153,7 @@ describe('From `Normal Mode` to `Limited Mode`', () => {
     expect(wrapper.find(ConnectivityBadge).text()).toEqual(
       'Web Phone Unavailable',
     );
+    await tearDownWrapper(wrapper);
   });
 
   test('If response headers contains `Retry-After`, use this value as status check interval', async () => {
@@ -183,5 +186,6 @@ describe('From `Normal Mode` to `Limited Mode`', () => {
     wrapper.update();
 
     expect(wrapper.find(ConnectivityBadge).text()).toEqual('');
+    await tearDownWrapper(wrapper);
   });
 });

@@ -1,9 +1,9 @@
 import telephonyStatuses from 'ringcentral-integration/enums/telephonyStatus';
 import * as mock from 'ringcentral-integration/integration-test/mock';
+import { waitUntilEqual } from 'ringcentral-integration/integration-test/utils/WaitUtil';
 
 import deviceBody from './data/device';
 
-import { timeout } from '../shared';
 import {
   makeCall,
   getInboundCall,
@@ -23,7 +23,17 @@ function mockCallProcedure(func) {
       ['/restapi/v1.0/account/~/extension/~/presence'],
       10,
     );
-    await timeout(100);
+    await waitUntilEqual(
+      () =>
+        !!(
+          phone.subscription._subscription &&
+          phone.subscription._subscription._pubnub
+        ),
+      'subscription',
+      true,
+      5,
+      10,
+    );
     await mockPresencePubnub(activeCallsBody);
   };
 }
@@ -117,6 +127,16 @@ export async function mockActiveCallPanelData(
     ['/restapi/v1.0/account/~/extension/~/presence'],
     10,
   );
-  await timeout(100);
+  await waitUntilEqual(
+    () =>
+      !!(
+        phone.subscription._subscription &&
+        phone.subscription._subscription._pubnub
+      ),
+    'subscription',
+    true,
+    5,
+    10,
+  );
   await mockPresencePubnub(activeCalls);
 }

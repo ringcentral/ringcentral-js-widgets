@@ -11,6 +11,7 @@ import BackHeader from 'ringcentral-widgets/components/BackHeader';
 import BackButton from 'ringcentral-widgets/components/BackButton';
 import RecipientsInput from 'ringcentral-widgets/components/RecipientsInput';
 import ContactDropdownList from 'ringcentral-widgets/components/ContactDropdownList';
+import { waitUntilEqual } from 'ringcentral-integration/integration-test/utils/WaitUtil';
 import updateConferenceCallBody from 'ringcentral-integration/integration-test/mock/data/updateConference';
 import DropdownSelect from 'ringcentral-widgets/components/DropdownSelect';
 import { initPhoneWrapper, timeout, tearDownWrapper } from '../shared';
@@ -39,6 +40,17 @@ async function call(phone, wrapper, phoneNumber) {
 }
 
 async function mockSub(phone) {
+  await waitUntilEqual(
+    () =>
+      !!(
+        phone.subscription._subscription &&
+        phone.subscription._subscription._pubnub
+      ),
+    'subscription',
+    true,
+    5,
+    10,
+  );
   const activeCallsBody = mockActiveCalls(phone.webphone.sessions, []);
   mock.activeCalls(activeCallsBody);
   await phone.subscription.subscribe(

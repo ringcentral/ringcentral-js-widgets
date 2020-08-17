@@ -8,7 +8,8 @@ import ActiveCallsPanel from 'ringcentral-widgets/components/ActiveCallsPanel';
 import MultiCallAnswerButton from 'ringcentral-widgets/components/MultiCallAnswerButton';
 import ActiveCallPad from 'ringcentral-widgets/components/ActiveCallPad';
 import ActiveCallButton from 'ringcentral-widgets/components/ActiveCallButton';
-import { timeout, initPhoneWrapper } from '../shared';
+import { timeout, initPhoneWrapper, tearDownWrapper } from '../shared';
+
 import { mockActiveCallPanelData } from './helper';
 import { makeCall, getInboundCall } from '../../support/callHelper';
 
@@ -60,6 +61,7 @@ describe('Incoming Call Control Page from All Calls', () => {
     phone.routerInteraction.push('/calls');
     wrapper.update();
     await checkIncomingPopup(wrapper, phone);
+    await tearDownWrapper(wrapper);
   });
   test(`when user at call ctrl page, with the a incoming call, if user reject this incoming call,
   app should stay at original page`, async () => {
@@ -106,6 +108,7 @@ describe('Incoming Call Control Page from All Calls', () => {
     expect(phone.routerInteraction.currentPath).toEqual('/calls');
     wrapper.update();
     await checkIncomingPopup(wrapper, phone);
+    await tearDownWrapper(wrapper);
   });
   test(`Multiple incoming calls auto goes to all calls page, then click one of
    the call item can see the incoming call popup again`, async () => {
@@ -154,5 +157,6 @@ describe('Incoming Call Control Page from All Calls', () => {
     await timeout(100);
     wrapper.update();
     expect(wrapper.find(IncomingCallPanel)).toHaveLength(1);
+    await tearDownWrapper(wrapper);
   });
 });
