@@ -115,8 +115,9 @@ var presenceRegExp = /\/presence\?detailedTelephonyState=true/;
 var FETCH_DELAY = 1000;
 var DEFAULT_TTL = 5 * 60 * 1000;
 /**
+ * @deprecated Presence module with detailed mode also maintains an active calls list
  * @class
- * @description Active calls list manaing module
+ * @description Active calls list managing module
  */
 
 var ActiveCalls = (_dec = (0, _di.Module)({
@@ -224,6 +225,7 @@ var ActiveCalls = (_dec = (0, _di.Module)({
 
     _initializerDefineProperty(_this, "calls", _descriptor, _assertThisInitialized(_this));
 
+    console.warn('ActiveCalls module is deprecated, please use Presence module with detailed mode');
     _this._fetchDelay = fetchDelay;
     _this._rolesAndPermissions = rolesAndPermissions;
     return _this;

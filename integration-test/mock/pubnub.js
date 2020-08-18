@@ -1,11 +1,5 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.getLastPubnub = getLastPubnub;
-exports.MockedPubNub = void 0;
-
 require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.is-array");
@@ -30,9 +24,7 @@ require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.array.for-each");
 
-var _pubnub = _interopRequireDefault(require("pubnub"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+require("core-js/modules/es6.date.to-iso-string");
 
 function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
 
@@ -46,7 +38,11 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-var pubnubs = [];
+var RealPubnub = jest.requireActual('pubnub');
+
+var subscriptionBody = require('./data/subscription.json');
+
+var pubnubCache = [];
 
 var MockedPubNub = /*#__PURE__*/function () {
   function MockedPubNub(_ref) {
@@ -55,14 +51,14 @@ var MockedPubNub = /*#__PURE__*/function () {
     _classCallCheck(this, MockedPubNub);
 
     this._subscribeKey = subscribeKey;
-    this._realPubnub = new _pubnub["default"]({
+    this._realPubnub = new RealPubnub({
       subscribeKey: subscribeKey
     });
     this.encrypt = this._realPubnub.encrypt;
     this.decrypt = this._realPubnub.decrypt;
     this._channels = [];
     this._listeners = [];
-    pubnubs.push(this);
+    pubnubCache.push(this);
   }
 
   _createClass(MockedPubNub, [{
@@ -87,6 +83,9 @@ var MockedPubNub = /*#__PURE__*/function () {
     value: function removeAllListeners() {
       this._listeners = [];
     }
+  }, {
+    key: "unsubscribeAll",
+    value: function unsubscribeAll() {}
   }, {
     key: "destroy",
     value: function destroy() {
@@ -114,8 +113,56 @@ var MockedPubNub = /*#__PURE__*/function () {
       }
     }
   }, {
+    key: "mockCallMessage",
+    value: function mockCallMessage(activeCallsBody) {
+      var encrypted = this._realPubnub.encrypt(JSON.stringify({
+        uuid: '1088719898803550582-8036702296129764',
+        event: '/restapi/v1.0/account/160746006/extension/160751006/presence?detailedTelephonyState=true&sipData=true',
+        timestamp: new Date().toISOString(),
+        subscriptionId: '24dcfdcf-e7d0-4930-9edb-555ec11843b9',
+        body: {
+          allowSeeMyPresence: true,
+          dndStatus: 'TakeAllCalls',
+          extensionId: 160751006,
+          meetingsStatus: 'Disconnected',
+          pickUpCallsOnHold: false,
+          presenceStatus: 'Busy',
+          ringOnMonitoredCall: false,
+          sequence: 368997,
+          telephonyStatus: 'OnHold',
+          userStatus: 'Available',
+          activeCalls: activeCallsBody,
+          totalActiveCalls: activeCallsBody.length
+        }
+      }), subscriptionBody.deliveryMode.encryptionKey, {
+        encryptKey: false,
+        keyEncoding: 'base64',
+        keyLength: 128,
+        mode: 'ecb'
+      });
+
+      this.mockMessage(encrypted);
+    }
+  }, {
     key: "mockMessage",
     value: function mockMessage(msg) {
+      var pubnubMsg = {
+        channel: this._channels[0],
+        subscription: undefined,
+        actualChannel: null,
+        subscribedChannel: this._channels[0],
+        timetoken: '14933652238078468',
+        publisher: undefined,
+        message: msg
+      };
+
+      this._listeners.forEach(function (l) {
+        return l.message(pubnubMsg);
+      });
+    }
+  }, {
+    key: "mockPresence",
+    value: function mockPresence(msg) {
       var pubnubMsg = {
         channel: this._channels[0],
         subscription: undefined,
@@ -135,21 +182,12 @@ var MockedPubNub = /*#__PURE__*/function () {
   return MockedPubNub;
 }();
 
-exports.MockedPubNub = MockedPubNub;
-MockedPubNub.OPERATIONS = _pubnub["default"].OPERATIONS;
-MockedPubNub.CATEGORIES = _pubnub["default"].CATEGORIES;
+MockedPubNub.OPERATIONS = RealPubnub.OPERATIONS;
+MockedPubNub.CATEGORIES = RealPubnub.CATEGORIES;
 
-function getLastPubnub() {
-  return pubnubs[pubnubs.length - 1];
-}
+MockedPubNub.getLastPubnub = function getLastPubnub() {
+  return pubnubCache[pubnubCache.length - 1];
+};
 
-function mockPubnub() {
-  var id = require.resolve('pubnub');
-
-  if (require.cache[id]) {
-    require.cache[id].exports = MockedPubNub;
-  }
-}
-
-mockPubnub();
+module.exports = MockedPubNub;
 //# sourceMappingURL=pubnub.js.map

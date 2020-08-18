@@ -181,7 +181,7 @@ var ExtensionFeatures = (_dec = (0, _di.Module)({
               switch (_context2.prev = _context2.next) {
                 case 0:
                   _context2.next = 2;
-                  return client.service.platform().get('/account/~/extension/~/features');
+                  return client.service.platform().get('/restapi/v1.0/account/~/extension/~/features');
 
                 case 2:
                   res = _context2.sent;

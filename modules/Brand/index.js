@@ -96,13 +96,13 @@ _dec = (0, _di.Module)({
     var _this;
 
     var id = _ref.id,
+        code = _ref.code,
         name = _ref.name,
         fullName = _ref.fullName,
         appName = _ref.appName,
         application = _ref.application,
-        code = _ref.code,
         brandConfig = _ref.brandConfig,
-        options = _objectWithoutProperties(_ref, ["id", "name", "fullName", "appName", "application", "code", "brandConfig"]);
+        options = _objectWithoutProperties(_ref, ["id", "code", "name", "fullName", "appName", "application", "brandConfig"]);
 
     _classCallCheck(this, Brand);
 
@@ -111,11 +111,11 @@ _dec = (0, _di.Module)({
     _this._reducer = function () {
       var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
         id: id,
+        code: code,
         name: name,
         fullName: fullName,
         appName: appName,
         application: application,
-        code: code,
         brandConfig: brandConfig
       };
       return state;
@@ -130,15 +130,17 @@ _dec = (0, _di.Module)({
       /* do nothing */
     }
   }, {
-    key: "_actionTypes",
-    get: function get() {
-      /* no action types */
-    }
-  }, {
     key: "id",
     get: function get() {
       return this.state.id;
-    }
+    } // att | bt | rc | telus
+
+  }, {
+    key: "code",
+    get: function get() {
+      return this.state.code;
+    } // short name
+
   }, {
     key: "name",
     get: function get() {
@@ -158,11 +160,6 @@ _dec = (0, _di.Module)({
     key: "appName",
     get: function get() {
       return this.state.appName;
-    }
-  }, {
-    key: "code",
-    get: function get() {
-      return this.state.code;
     } // eslint-disable-next-line class-methods-use-this
 
   }, {

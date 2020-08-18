@@ -53,6 +53,8 @@ require("core-js/modules/es6.array.for-each");
 
 var _jsonMask = _interopRequireDefault(require("json-mask"));
 
+var _ramda = require("ramda");
+
 var _di = require("../../lib/di");
 
 var _selector = require("../../lib/selector");
@@ -65,7 +67,7 @@ var _subscriptionFilters = _interopRequireDefault(require("../../enums/subscript
 
 var _permissionsMessages = _interopRequireDefault(require("../RolesAndPermissions/permissionsMessages"));
 
-var _dec, _class, _class2, _descriptor, _descriptor2, _temp;
+var _dec, _class, _class2, _descriptor, _descriptor2, _descriptor3, _temp;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -111,7 +113,7 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
 
 function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and runs after the decorators transform.'); }
 
-var DEFAULT_MASK = ['id', 'extensionNumber', 'contact(*)', 'name', 'type', 'status', 'permissions', 'profileImage', 'departments', "regionalSettings(".concat(['timezone(id,name,bias)', 'homeCountry(id,isoCode,callingCode)', 'language(localeCode)', 'formattingLocale(localeCode)', 'timeFormat'].join(','), ")")].join(',');
+var DEFAULT_MASK = ['id', 'extensionNumber', 'contact(*)', 'name', 'type', 'status', 'permissions', 'profileImage', 'departments', 'site', "regionalSettings(".concat(['timezone(id,name,bias)', 'homeCountry(id,isoCode,callingCode)', 'language(localeCode)', 'formattingLocale(localeCode)', 'timeFormat'].join(','), ")")].join(',');
 var DEFAULT_COUNTRY = {
   id: '1',
   isoCode: 'US',
@@ -160,6 +162,7 @@ var ExtensionInfo = (_dec = (0, _di.Module)({
    * @constructor
    * @param {Object} params - params object
    * @param {Client} params.client - client module instance
+   * @param {ExtensionInfoOptions} params.isMultipleSiteEnable - extension info options: Is multiple site enabled
    */
   function ExtensionInfo(_ref) {
     var _this;
@@ -172,7 +175,8 @@ var ExtensionInfo = (_dec = (0, _di.Module)({
         _ref$polling = _ref.polling,
         polling = _ref$polling === void 0 ? true : _ref$polling,
         alert = _ref.alert,
-        options = _objectWithoutProperties(_ref, ["client", "ttl", "timeToRetry", "polling", "alert"]);
+        extensionInfoOptions = _ref.extensionInfoOptions,
+        options = _objectWithoutProperties(_ref, ["client", "ttl", "timeToRetry", "polling", "alert", "extensionInfoOptions"]);
 
     _classCallCheck(this, ExtensionInfo);
 
@@ -273,7 +277,10 @@ var ExtensionInfo = (_dec = (0, _di.Module)({
 
     _initializerDefineProperty(_this, "serviceFeatures", _descriptor2, _assertThisInitialized(_this));
 
+    _initializerDefineProperty(_this, "site", _descriptor3, _assertThisInitialized(_this));
+
     _this._alert = alert;
+    _this._extensionInfoOptions = extensionInfoOptions;
     return _this;
   }
 
@@ -311,6 +318,13 @@ var ExtensionInfo = (_dec = (0, _di.Module)({
     key: "_name",
     get: function get() {
       return 'extensionInfo';
+    }
+  }, {
+    key: "isMultipleSiteEnabled",
+    get: function get() {
+      var _this$_extensionInfoO, _this$_extensionInfoO2;
+
+      return (_this$_extensionInfoO = (_this$_extensionInfoO2 = this._extensionInfoOptions) === null || _this$_extensionInfoO2 === void 0 ? void 0 : _this$_extensionInfoO2.isMultipleSiteEnabled) !== null && _this$_extensionInfoO !== void 0 ? _this$_extensionInfoO : false;
     }
   }, {
     key: "id",
@@ -364,6 +378,33 @@ var ExtensionInfo = (_dec = (0, _di.Module)({
       return _this3.info;
     }, function (info) {
       return info.serviceFeatures || {};
+    }];
+  }
+}), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, "site", [_selector.selector], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: function initializer() {
+    var _this4 = this;
+
+    return [function () {
+      return _this4.info;
+    }, function (info) {
+      if (!_this4.isMultipleSiteEnabled) {
+        return null;
+      }
+
+      var isEnabled = (0, _ramda.path)(['SiteCodes', 'enabled'], _this4.serviceFeatures);
+
+      if (!isEnabled) {
+        return null;
+      }
+
+      if (!info.site) {
+        console.warn('site code enabled, but cannot retrieve site info');
+      }
+
+      return info.site || null;
     }];
   }
 })), _class2)) || _class);

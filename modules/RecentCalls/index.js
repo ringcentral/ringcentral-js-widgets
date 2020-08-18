@@ -41,8 +41,6 @@ require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.for-each");
 
-require("core-js/modules/es6.object.assign");
-
 require("core-js/modules/es6.regexp.replace");
 
 require("core-js/modules/es6.array.find");
@@ -61,9 +59,9 @@ var _RcModule2 = _interopRequireDefault(require("../../lib/RcModule"));
 
 var _di = require("../../lib/di");
 
-var _actionTypes = _interopRequireDefault(require("./actionTypes"));
+var _actionTypes = require("./actionTypes");
 
-var _callStatus = _interopRequireDefault(require("./callStatus"));
+var _callStatus = require("./callStatus");
 
 var _getRecentCallsReducer = _interopRequireDefault(require("./getRecentCallsReducer"));
 
@@ -121,7 +119,7 @@ var RecentCalls = (
  * @description Retrieve all recent calls related to a specified contact.
  */
 _dec = (0, _di.Module)({
-  deps: ['Client', 'CallHistory']
+  deps: ['Client', 'Auth', 'CallHistory']
 }), _dec(_class = (_class2 = /*#__PURE__*/function (_RcModule) {
   _inherits(RecentCalls, _RcModule);
 
@@ -134,21 +132,21 @@ _dec = (0, _di.Module)({
    * @param {Client} params.client - client module instance
    */
   function RecentCalls(_ref) {
-    var _context;
-
     var _this;
 
     var client = _ref.client,
+        auth = _ref.auth,
         callHistory = _ref.callHistory,
-        options = _objectWithoutProperties(_ref, ["client", "callHistory"]);
+        options = _objectWithoutProperties(_ref, ["client", "auth", "callHistory"]);
 
     _classCallCheck(this, RecentCalls);
 
     _this = _super.call(this, _objectSpread({
-      actionTypes: _actionTypes["default"]
+      actionTypes: _actionTypes.actionTypes
     }, options));
-    _this._client = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, client, 'client');
-    _this._callHistory = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, callHistory, 'callHistory');
+    _this._client = _ensureExist["default"].call(_assertThisInitialized(_this), client, 'client');
+    _this._auth = _ensureExist["default"].call(_assertThisInitialized(_this), auth, 'auth');
+    _this._callHistory = _ensureExist["default"].call(_assertThisInitialized(_this), callHistory, 'callHistory');
     _this._reducer = (0, _getRecentCallsReducer["default"])(_this.actionTypes);
     return _this;
   }
@@ -165,11 +163,11 @@ _dec = (0, _di.Module)({
   }, {
     key: "_onStateChange",
     value: function _onStateChange() {
-      if (this.pending && this._callHistory.ready) {
+      if (this.pending && this._callHistory.ready && this._auth.loggedIn) {
         this.store.dispatch({
           type: this.actionTypes.initSuccess
         });
-      } else if (this.ready && !this._callHistory.ready) {
+      } else if (this.ready && !this._callHistory.ready && !this._auth.loggedIn) {
         this.store.dispatch({
           type: this.actionTypes.resetSuccess
         });
@@ -181,38 +179,38 @@ _dec = (0, _di.Module)({
       var _getCalls = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(_ref2) {
         var currentContact, _ref2$sessionId, sessionId, contactId, calls;
 
-        return regeneratorRuntime.wrap(function _callee$(_context2) {
+        return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context.prev = _context.next) {
               case 0:
                 currentContact = _ref2.currentContact, _ref2$sessionId = _ref2.sessionId, sessionId = _ref2$sessionId === void 0 ? null : _ref2$sessionId;
 
                 if (currentContact) {
-                  _context2.next = 3;
+                  _context.next = 3;
                   break;
                 }
 
-                return _context2.abrupt("return");
+                return _context.abrupt("return");
 
               case 3:
                 contactId = String(currentContact && currentContact.id); // if (this.calls[currentContact.id]) {
 
                 if (!this.calls[sessionId ? "".concat(contactId, "-").concat(sessionId) : contactId]) {
-                  _context2.next = 6;
+                  _context.next = 6;
                   break;
                 }
 
-                return _context2.abrupt("return");
+                return _context.abrupt("return");
 
               case 6:
                 this.store.dispatch({
                   type: this.actionTypes.initLoad
                 });
-                _context2.next = 9;
+                _context.next = 9;
                 return this._getRecentCalls(currentContact, this._callHistory.calls);
 
               case 9:
-                calls = _context2.sent;
+                calls = _context.sent;
                 this.store.dispatch({
                   type: this.actionTypes.loadSuccess,
                   calls: calls,
@@ -222,7 +220,7 @@ _dec = (0, _di.Module)({
 
               case 11:
               case "end":
-                return _context2.stop();
+                return _context.stop();
             }
           }
         }, _callee, this);
@@ -266,9 +264,9 @@ _dec = (0, _di.Module)({
             dateFrom,
             recentCalls,
             _args2 = arguments;
-        return regeneratorRuntime.wrap(function _callee2$(_context3) {
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context2.prev = _context2.next) {
               case 0:
                 calls = _args2.length > 1 && _args2[1] !== undefined ? _args2[1] : [];
                 daySpan = _args2.length > 2 && _args2[2] !== undefined ? _args2[2] : 60;
@@ -278,24 +276,24 @@ _dec = (0, _di.Module)({
                 // we need to search for calls on server.
 
                 if (!(recentCalls.length < length)) {
-                  _context3.next = 9;
+                  _context2.next = 9;
                   break;
                 }
 
-                _context3.next = 8;
+                _context2.next = 8;
                 return this._fetchRemoteRecentCalls(currentContact, dateFrom.toISOString(), length);
 
               case 8:
-                recentCalls = _context3.sent;
+                recentCalls = _context2.sent;
 
               case 9:
                 recentCalls.sort(this._sortByTime);
                 recentCalls = this._dedup(recentCalls);
-                return _context3.abrupt("return", recentCalls.length > length ? recentCalls.slice(0, length) : recentCalls);
+                return _context2.abrupt("return", recentCalls.length > length ? recentCalls.slice(0, length) : recentCalls);
 
               case 12:
               case "end":
-                return _context3.stop();
+                return _context2.stop();
             }
           }
         }, _callee2, this);
@@ -368,14 +366,14 @@ _dec = (0, _di.Module)({
         phoneNumber = phoneNumber.replace('+', '');
 
         if (phoneType === 'extension') {
-          var _promise = _this4._fetchCallLogList(Object.assign({}, params, {
+          var _promise = _this4._fetchCallLogList(_objectSpread(_objectSpread({}, params), {}, {
             extensionNumber: phoneNumber
           }));
 
           return acc.concat(_promise);
         }
 
-        var promise = _this4._fetchCallLogList(Object.assign({}, params, {
+        var promise = _this4._fetchCallLogList(_objectSpread(_objectSpread({}, params), {}, {
           phoneNumber: phoneNumber
         }));
 
@@ -388,15 +386,36 @@ _dec = (0, _di.Module)({
     value: function _fetchCallLogList(params) {
       var _this5 = this;
 
-      return function () {
-        return _this5._client.account().extension().callLog().list(params);
-      };
+      return /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                if (_this5._auth.loggedIn) {
+                  _context3.next = 2;
+                  break;
+                }
+
+                return _context3.abrupt("return", {
+                  records: []
+                });
+
+              case 2:
+                return _context3.abrupt("return", _this5._client.account().extension().callLog().list(params));
+
+              case 3:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
+      }));
     }
   }, {
     key: "_flattenToRecords",
     value: function _flattenToRecords(items) {
-      return items.reduce(function (acc, _ref8) {
-        var records = _ref8.records;
+      return items.reduce(function (acc, _ref9) {
+        var records = _ref9.records;
         return acc.concat(records);
       }, []);
     } // Sort by time in descending order
@@ -424,7 +443,7 @@ _dec = (0, _di.Module)({
   }, {
     key: "isCallsLoaded",
     get: function get() {
-      return this.state.callStatus === _callStatus["default"].loaded;
+      return this.state.callStatus === _callStatus.callStatus.loaded;
     }
   }, {
     key: "status",

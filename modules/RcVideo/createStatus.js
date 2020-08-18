@@ -7,9 +7,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 
-var _Enum = require("../../lib/Enum");
+var _ObjectMap = require("@ringcentral-integration/core/lib/ObjectMap");
 
-var _default = (0, _Enum.createEnum)(['creating', 'created', 'idle'], 'videoCreatingStatus');
+var _default = _ObjectMap.ObjectMap.prefixKeys(['creating', 'created', 'idle'], 'videoCreatingStatus');
 
 exports["default"] = _default;
 //# sourceMappingURL=createStatus.js.map

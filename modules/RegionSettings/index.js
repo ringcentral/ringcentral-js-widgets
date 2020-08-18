@@ -228,7 +228,7 @@ _dec = (0, _di.Module)({
                 break;
 
               case 9:
-                if (!(!_this2._storage.ready && _this2.ready)) {
+                if (!((!_this2._storage.ready || !_this2._dialingPlan.ready || !_this2._extensionInfo.ready) && _this2.ready)) {
                   _context.next = 13;
                   break;
                 }
@@ -424,7 +424,7 @@ _dec = (0, _di.Module)({
       var homeCountry = this.availableCountries.find(function (country) {
         return country.isoCode === _this4.countryCode;
       });
-      var homeCountryId = homeCountry && homeCountry.callingCode || '1';
+      var homeCountryId = homeCountry && homeCountry.id || '1';
       return homeCountryId;
     }
   }]);

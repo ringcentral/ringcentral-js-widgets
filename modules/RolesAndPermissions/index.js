@@ -437,6 +437,11 @@ var RolesAndPermissions = (_dec = (0, _di.Module)({
     get: function get() {
       return this.callingEnabled && this.webphoneEnabled;
     }
+  }, {
+    key: "hasMeetingsPermission",
+    get: function get() {
+      return !!(this.permissions && this.permissions.Meetings);
+    }
   }]);
 
   return RolesAndPermissions;

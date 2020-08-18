@@ -7,12 +7,13 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.presenceStatus = void 0;
 
-var _HashMap = require("../lib/HashMap");
+var _ObjectMap = require("@ringcentral-integration/core/lib/ObjectMap");
 
-var presenceStatus = (0, _HashMap.createHashMap)({
+var presenceStatus = _ObjectMap.ObjectMap.fromObject({
   offline: 'Offline',
   busy: 'Busy',
   available: 'Available'
 });
+
 exports.presenceStatus = presenceStatus;
 //# sourceMappingURL=presenceStatus.enum.js.map

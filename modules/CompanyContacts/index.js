@@ -23,8 +23,6 @@ require("core-js/modules/es6.object.define-properties");
 
 require("core-js/modules/es7.object.get-own-property-descriptors");
 
-require("core-js/modules/es6.array.filter");
-
 require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.array.index-of");
@@ -53,6 +51,10 @@ require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.for-each");
 
+require("core-js/modules/es6.array.filter");
+
+require("core-js/modules/es6.array.map");
+
 require("core-js/modules/es6.date.now");
 
 require("regenerator-runtime/runtime");
@@ -73,7 +75,7 @@ var _ensureExist = _interopRequireDefault(require("../../lib/ensureExist"));
 
 var _selector = require("../../lib/selector");
 
-var _actionTypes = _interopRequireDefault(require("./actionTypes"));
+var _actionTypes = require("./actionTypes");
 
 var _getReducers = require("./getReducers");
 
@@ -81,9 +83,11 @@ var _subscriptionFilters = _interopRequireDefault(require("../../enums/subscript
 
 var _extensionTypes = _interopRequireDefault(require("../../enums/extensionTypes"));
 
+var _phoneTypes = _interopRequireDefault(require("../../enums/phoneTypes"));
+
 var _extensionStatusTypes = require("../../enums/extensionStatusTypes");
 
-var _dec, _class, _class2, _descriptor, _descriptor2, _temp;
+var _dec, _class, _class2, _descriptor, _descriptor2, _descriptor3, _temp;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -174,8 +178,6 @@ var CompanyContacts = (_dec = (0, _di.Module)({
    * @param {Number} params.ttl - local cache timestamp, default 24 hours
    */
   function CompanyContacts(_ref) {
-    var _context2;
-
     var _this;
 
     var client = _ref.client,
@@ -288,7 +290,9 @@ var CompanyContacts = (_dec = (0, _di.Module)({
 
     _initializerDefineProperty(_this, "_extensionFilter", _descriptor, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "filteredContacts", _descriptor2, _assertThisInitialized(_this));
+    _initializerDefineProperty(_this, "ivrContacts", _descriptor2, _assertThisInitialized(_this));
+
+    _initializerDefineProperty(_this, "filteredContacts", _descriptor3, _assertThisInitialized(_this));
 
     _this._allowSettings = allowSettings;
 
@@ -306,7 +310,7 @@ var CompanyContacts = (_dec = (0, _di.Module)({
       });
     }
 
-    _this._rolesAndPermissions = (_context2 = _assertThisInitialized(_this), _ensureExist["default"]).call(_context2, rolesAndPermissions, 'rolesAndPermissions');
+    _this._rolesAndPermissions = _ensureExist["default"].call(_assertThisInitialized(_this), rolesAndPermissions, 'rolesAndPermissions');
     return _this;
   }
 
@@ -315,13 +319,13 @@ var CompanyContacts = (_dec = (0, _di.Module)({
     value: function () {
       var _processContact2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(_ref2) {
         var eventType, oldEtag, newEtag, contact;
-        return regeneratorRuntime.wrap(function _callee2$(_context3) {
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context2.prev = _context2.next) {
               case 0:
                 eventType = _ref2.eventType, oldEtag = _ref2.oldEtag, newEtag = _ref2.newEtag, contact = _objectWithoutProperties(_ref2, ["eventType", "oldEtag", "newEtag"]);
-                _context3.t0 = eventType;
-                _context3.next = _context3.t0 === 'Create' ? 4 : _context3.t0 === 'Update' ? 4 : _context3.t0 === 'Delete' ? 6 : 8;
+                _context2.t0 = eventType;
+                _context2.next = _context2.t0 === 'Create' ? 4 : _context2.t0 === 'Update' ? 4 : _context2.t0 === 'Delete' ? 6 : 8;
                 break;
 
               case 4:
@@ -330,7 +334,7 @@ var CompanyContacts = (_dec = (0, _di.Module)({
                   contact: contact,
                   timestamp: Date.now()
                 });
-                return _context3.abrupt("break", 8);
+                return _context2.abrupt("break", 8);
 
               case 6:
                 this.store.dispatch({
@@ -338,11 +342,11 @@ var CompanyContacts = (_dec = (0, _di.Module)({
                   contact: contact,
                   timestamp: Date.now()
                 });
-                return _context3.abrupt("break", 8);
+                return _context2.abrupt("break", 8);
 
               case 8:
               case "end":
-                return _context3.stop();
+                return _context2.stop();
             }
           }
         }, _callee2, this);
@@ -355,6 +359,7 @@ var CompanyContacts = (_dec = (0, _di.Module)({
       return _processContact;
     }()
     /**
+     * @deprecated consider using numberValidate module's isAvailableExtension
      * TODO: Currently we don't have clearly defined business rule on
      * what extension numbers are considered available for dialing.
      * @param {String} extensionNumber
@@ -366,7 +371,7 @@ var CompanyContacts = (_dec = (0, _di.Module)({
     value: function isAvailableExtension(extensionNumber) {
       return !!(0, _ramda.find)(function (item) {
         return item.extensionNumber === extensionNumber;
-      }, this.filteredContacts);
+      }, this.filteredContacts.concat(this.ivrContacts));
     }
   }, {
     key: "_name",
@@ -376,7 +381,7 @@ var CompanyContacts = (_dec = (0, _di.Module)({
   }, {
     key: "_actionTypes",
     get: function get() {
-      return _actionTypes["default"];
+      return _actionTypes.actionTypes;
     }
   }, {
     key: "_hasPermission",
@@ -441,7 +446,7 @@ var CompanyContacts = (_dec = (0, _di.Module)({
       });
     }];
   }
-}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, "filteredContacts", [_selector.selector], {
+}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, "ivrContacts", [_selector.selector], {
   configurable: true,
   enumerable: true,
   writable: true,
@@ -450,8 +455,39 @@ var CompanyContacts = (_dec = (0, _di.Module)({
 
     return [function () {
       return _this3.data;
+    }, function (data) {
+      return data.filter(function (item) {
+        return item.type === _extensionTypes["default"].ivrMenu;
+      }).map(function (item) {
+        var phoneNumber = {
+          phoneType: _phoneTypes["default"].extension,
+          phoneNumber: item.extensionNumber
+        };
+        var phoneNumbers = [];
+
+        if (!item.phoneNumbers) {
+          phoneNumbers = [phoneNumber];
+        } else {
+          phoneNumbers = item.phoneNumbers.concat([phoneNumber]);
+        }
+
+        return _objectSpread(_objectSpread({}, item), {}, {
+          phoneNumbers: phoneNumbers
+        });
+      });
+    }];
+  }
+}), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, "filteredContacts", [_selector.selector], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: function initializer() {
+    var _this4 = this;
+
+    return [function () {
+      return _this4.data;
     }, function () {
-      return _this3._extensionFilter;
+      return _this4._extensionFilter;
     }, function (data, extensionFilter) {
       return extensionFilter(data);
     }];

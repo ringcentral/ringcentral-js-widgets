@@ -5,11 +5,11 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = void 0;
+exports["default"] = exports.messageTypes = void 0;
 
-var _HashMap = require("../lib/HashMap");
+var _ObjectMap = require("@ringcentral-integration/core/lib/ObjectMap");
 
-var messageTypes = (0, _HashMap.createHashMap)({
+var messageTypes = _ObjectMap.ObjectMap.fromObject({
   all: 'All',
   fax: 'Fax',
   sms: 'SMS',
@@ -17,6 +17,8 @@ var messageTypes = (0, _HashMap.createHashMap)({
   pager: 'Pager',
   text: 'Text'
 });
+
+exports.messageTypes = messageTypes;
 var _default = messageTypes;
 exports["default"] = _default;
 //# sourceMappingURL=messageTypes.js.map

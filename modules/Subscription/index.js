@@ -57,6 +57,8 @@ require("regenerator-runtime/runtime");
 
 var _ramda = require("ramda");
 
+var _subscriptions = require("@ringcentral/subscriptions");
+
 var _RcModule2 = _interopRequireDefault(require("../../lib/RcModule"));
 
 var _di = require("../../lib/di");
@@ -281,13 +283,17 @@ var Subscription = (_dec = (0, _di.Module)({
     value: function _createSubscription() {
       var _this4 = this;
 
-      this._subscription = this._client.service.createSubscription();
+      var sdk = this._client.service;
+      var subscriptions = new _subscriptions.Subscriptions({
+        sdk: sdk
+      });
+      this._subscription = subscriptions.createSubscription();
 
       if (this.cachedSubscription) {
         try {
           this._subscription.setSubscription(this.cachedSubscription);
         } catch (error) {
-          this._subscription = this._client.service.createSubscription();
+          this._subscription = subscriptions.createSubscription();
         }
       }
 
@@ -405,7 +411,7 @@ var Subscription = (_dec = (0, _di.Module)({
             switch (_context4.prev = _context4.next) {
               case 0:
                 events = _args4.length > 0 && _args4[0] !== undefined ? _args4[0] : [];
-                delay = _args4.length > 1 ? _args4[1] : undefined;
+                delay = _args4.length > 1 && _args4[1] !== undefined ? _args4[1] : 2000;
 
                 if (!this.ready) {
                   _context4.next = 8;

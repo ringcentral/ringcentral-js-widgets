@@ -5,13 +5,13 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = void 0;
+exports["default"] = exports.conferenceCallErrors = void 0;
 
-var _Enum = _interopRequireDefault(require("../../lib/Enum"));
+var _ObjectMap = require("@ringcentral-integration/core/lib/ObjectMap");
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+var conferenceCallErrors = _ObjectMap.ObjectMap.prefixKeys(['internalServerError', 'conferenceForbidden', 'conferenceBadRequest', 'conferenceNotFound', 'conferenceConflict', 'modeError', 'makeConferenceFailed', 'bringInFailed', 'removeFromConferenceFailed', 'terminateConferenceFailed', 'callIsRecording'], 'conferenceCall');
 
-var _default = new _Enum["default"](['internalServerError', 'conferenceForbidden', 'conferenceBadRequest', 'conferenceNotFound', 'conferenceConflict', 'modeError', 'makeConferenceFailed', 'bringInFailed', 'removeFromConferenceFailed', 'terminateConferenceFailed', 'callIsRecording'], 'conferenceCall');
-
+exports.conferenceCallErrors = conferenceCallErrors;
+var _default = conferenceCallErrors;
 exports["default"] = _default;
 //# sourceMappingURL=conferenceCallErrors.js.map

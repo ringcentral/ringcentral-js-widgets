@@ -8,6 +8,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.getCallWithReducer = getCallWithReducer;
 exports.getRingoutPromptReducer = getRingoutPromptReducer;
 exports.getMyLocationReducer = getMyLocationReducer;
+exports.getIsCustomLocationReducer = getIsCustomLocationReducer;
 exports.getTimestampReducer = getTimestampReducer;
 exports.getFromNumberReducer = getFromNumberReducer;
 exports.getCallingSettingsReducer = getCallingSettingsReducer;
@@ -61,14 +62,28 @@ function getMyLocationReducer(types) {
   };
 }
 
+function getIsCustomLocationReducer(types) {
+  return function () {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+
+    var _ref4 = arguments.length > 1 ? arguments[1] : undefined,
+        type = _ref4.type,
+        _ref4$isCustomLocatio = _ref4.isCustomLocation,
+        isCustomLocation = _ref4$isCustomLocatio === void 0 ? state : _ref4$isCustomLocatio;
+
+    if (type === types.setData) return isCustomLocation;
+    return state;
+  };
+}
+
 function getTimestampReducer(types) {
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
 
-    var _ref4 = arguments.length > 1 ? arguments[1] : undefined,
-        type = _ref4.type,
-        _ref4$timestamp = _ref4.timestamp,
-        timestamp = _ref4$timestamp === void 0 ? state : _ref4$timestamp;
+    var _ref5 = arguments.length > 1 ? arguments[1] : undefined,
+        type = _ref5.type,
+        _ref5$timestamp = _ref5.timestamp,
+        timestamp = _ref5$timestamp === void 0 ? state : _ref5$timestamp;
 
     if (type === types.setData) return timestamp;
     return state;
@@ -79,9 +94,9 @@ function getFromNumberReducer(types) {
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
 
-    var _ref5 = arguments.length > 1 ? arguments[1] : undefined,
-        type = _ref5.type,
-        number = _ref5.number;
+    var _ref6 = arguments.length > 1 ? arguments[1] : undefined,
+        type = _ref6.type,
+        number = _ref6.number;
 
     switch (type) {
       case types.updateFromNumber:
@@ -107,6 +122,7 @@ function getCallingSettingsStorageReducer(types) {
     callWith: getCallWithReducer(types),
     ringoutPrompt: getRingoutPromptReducer(types),
     myLocation: getMyLocationReducer(types),
+    isCustomLocation: getIsCustomLocationReducer(types),
     fromNumber: getFromNumberReducer(types),
     timestamp: getTimestampReducer(types)
   });

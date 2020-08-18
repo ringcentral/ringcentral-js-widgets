@@ -5,11 +5,11 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = void 0;
+exports["default"] = exports.subscriptionHints = void 0;
 
-var _HashMap = require("../lib/HashMap");
+var _ObjectMap = require("@ringcentral-integration/core/lib/ObjectMap");
 
-var _default = (0, _HashMap.createHashMap)({
+var subscriptionHints = _ObjectMap.ObjectMap.fromObject({
   limits: 'Limits',
   features: 'Features',
   accountStatus: 'AccountStatus',
@@ -22,5 +22,7 @@ var _default = (0, _HashMap.createHashMap)({
   videoConfiguration: 'VideoConfiguration'
 });
 
+exports.subscriptionHints = subscriptionHints;
+var _default = subscriptionHints;
 exports["default"] = _default;
 //# sourceMappingURL=subscriptionHints.js.map

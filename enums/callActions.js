@@ -5,11 +5,11 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = void 0;
+exports["default"] = exports.callActions = void 0;
 
-var _HashMap = require("../lib/HashMap");
+var _ObjectMap = require("@ringcentral-integration/core/lib/ObjectMap");
 
-var _default = (0, _HashMap.createHashMap)({
+var callActions = _ObjectMap.ObjectMap.fromObject({
   '411Info': '411 Info',
   acceptCall: 'Accept Call',
   callReturn: 'Call Return',
@@ -33,5 +33,7 @@ var _default = (0, _HashMap.createHashMap)({
   voIPCall: 'VoIP Call'
 });
 
+exports.callActions = callActions;
+var _default = callActions;
 exports["default"] = _default;
 //# sourceMappingURL=callActions.js.map

@@ -5,11 +5,13 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = void 0;
+exports["default"] = exports.callStatus = void 0;
 
-var _Enum = require("../../lib/Enum");
+var _ObjectMap = require("@ringcentral-integration/core/lib/ObjectMap");
 
-var _default = (0, _Enum.createEnum)(['idle', 'connecting'], 'callStatus');
+var callStatus = _ObjectMap.ObjectMap.prefixKeys(['idle', 'connecting'], 'callStatus');
 
+exports.callStatus = callStatus;
+var _default = callStatus;
 exports["default"] = _default;
 //# sourceMappingURL=callStatus.js.map

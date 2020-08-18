@@ -11,13 +11,9 @@ require("core-js/modules/es6.array.is-array");
 
 require("core-js/modules/es7.symbol.async-iterator");
 
-require("core-js/modules/es6.string.iterator");
-
 require("core-js/modules/es6.array.from");
 
 require("core-js/modules/es6.function.name");
-
-require("core-js/modules/es6.promise");
 
 require("core-js/modules/es6.object.define-properties");
 
@@ -40,6 +36,10 @@ require("core-js/modules/es6.object.set-prototype-of");
 require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.array.filter");
+
+require("core-js/modules/es6.promise");
+
+require("core-js/modules/es6.string.iterator");
 
 require("core-js/modules/es6.array.map");
 
@@ -80,6 +80,8 @@ var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
 var _moduleStatuses = _interopRequireDefault(require("../../enums/moduleStatuses"));
 
 var _syncTypes = _interopRequireDefault(require("../../enums/syncTypes"));
+
+var _subscriptionFilters = _interopRequireDefault(require("../../enums/subscriptionFilters"));
 
 var messageHelper = _interopRequireWildcard(require("../../lib/messageHelper"));
 
@@ -227,8 +229,6 @@ var MessageStore = (_dec = (0, _di.Module)({
   var _super = _createSuper(MessageStore);
 
   function MessageStore(_ref2) {
-    var _context;
-
     var _this;
 
     var auth = _ref2.auth,
@@ -283,11 +283,11 @@ var MessageStore = (_dec = (0, _di.Module)({
 
     _initializerDefineProperty(_this, "unreadCounts", _descriptor8, _assertThisInitialized(_this));
 
-    _this._auth = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, auth, 'auth');
-    _this._alert = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, alert, 'alert');
-    _this._client = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, client, 'client');
-    _this._subscription = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, subscription, 'subscription');
-    _this._rolesAndPermissions = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, rolesAndPermissions, 'rolesAndPermissions');
+    _this._auth = _ensureExist["default"].call(_assertThisInitialized(_this), auth, 'auth');
+    _this._alert = _ensureExist["default"].call(_assertThisInitialized(_this), alert, 'alert');
+    _this._client = _ensureExist["default"].call(_assertThisInitialized(_this), client, 'client');
+    _this._subscription = _ensureExist["default"].call(_assertThisInitialized(_this), subscription, 'subscription');
+    _this._rolesAndPermissions = _ensureExist["default"].call(_assertThisInitialized(_this), rolesAndPermissions, 'rolesAndPermissions');
 
     if (!disableCache) {
       _this._storage = storage;
@@ -341,20 +341,20 @@ var MessageStore = (_dec = (0, _di.Module)({
     key: "_onStateChange",
     value: function () {
       var _onStateChange2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-        return regeneratorRuntime.wrap(function _callee$(_context2) {
+        return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context.prev = _context.next) {
               case 0:
                 if (!this._shouldInit()) {
-                  _context2.next = 5;
+                  _context.next = 5;
                   break;
                 }
 
-                _context2.next = 3;
+                _context.next = 3;
                 return this._init();
 
               case 3:
-                _context2.next = 6;
+                _context.next = 6;
                 break;
 
               case 5:
@@ -388,7 +388,7 @@ var MessageStore = (_dec = (0, _di.Module)({
 
               case 6:
               case "end":
-                return _context2.stop();
+                return _context.stop();
             }
           }
         }, _callee, this);
@@ -413,50 +413,50 @@ var MessageStore = (_dec = (0, _di.Module)({
   }, {
     key: "_isDataReady",
     value: function _isDataReady() {
-      return this.status === _moduleStatuses["default"].initializing && this.syncInfo !== null;
+      return this.status === _moduleStatuses["default"].initializing && (!this._hasPermission || this.syncInfo !== null);
     }
   }, {
     key: "_init",
     value: function () {
       var _init2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
-        return regeneratorRuntime.wrap(function _callee2$(_context3) {
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context2.prev = _context2.next) {
               case 0:
                 this.store.dispatch({
                   type: this.actionTypes.init
                 });
 
                 if (this._hasPermission) {
-                  _context3.next = 3;
+                  _context2.next = 3;
                   break;
                 }
 
-                return _context3.abrupt("return");
+                return _context2.abrupt("return");
 
               case 3:
                 if (!this._shouldFetch()) {
-                  _context3.next = 15;
+                  _context2.next = 15;
                   break;
                 }
 
-                _context3.prev = 4;
-                _context3.next = 7;
+                _context2.prev = 4;
+                _context2.next = 7;
                 return this.fetchData();
 
               case 7:
-                _context3.next = 13;
+                _context2.next = 13;
                 break;
 
               case 9:
-                _context3.prev = 9;
-                _context3.t0 = _context3["catch"](4);
-                console.error('fetchData error:', _context3.t0);
+                _context2.prev = 9;
+                _context2.t0 = _context2["catch"](4);
+                console.error('fetchData error:', _context2.t0);
 
                 this._retry();
 
               case 13:
-                _context3.next = 16;
+                _context2.next = 16;
                 break;
 
               case 15:
@@ -467,11 +467,11 @@ var MessageStore = (_dec = (0, _di.Module)({
                 }
 
               case 16:
-                this._subscription.subscribe('/account/~/extension/~/message-store');
+                this._subscription.subscribe(_subscriptionFilters["default"].messageStore);
 
               case 17:
               case "end":
-                return _context3.stop();
+                return _context2.stop();
             }
           }
         }, _callee2, this, [[4, 9]]);
@@ -522,9 +522,9 @@ var MessageStore = (_dec = (0, _di.Module)({
       var _syncFunction2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(_ref3) {
         var recordCount, conversationLoadLength, dateFrom, dateTo, syncToken, _ref3$receivedRecords, receivedRecordsLength, params, _yield$this$_client$a, records, syncInfo, olderDateTo, olderRecordResult;
 
-        return regeneratorRuntime.wrap(function _callee3$(_context4) {
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context3.prev = _context3.next) {
               case 0:
                 recordCount = _ref3.recordCount, conversationLoadLength = _ref3.conversationLoadLength, dateFrom = _ref3.dateFrom, dateTo = _ref3.dateTo, syncToken = _ref3.syncToken, _ref3$receivedRecords = _ref3.receivedRecordsLength, receivedRecordsLength = _ref3$receivedRecords === void 0 ? 0 : _ref3$receivedRecords;
                 params = getSyncParams({
@@ -534,32 +534,32 @@ var MessageStore = (_dec = (0, _di.Module)({
                   dateTo: dateTo,
                   syncToken: syncToken
                 });
-                _context4.next = 4;
+                _context3.next = 4;
                 return this._client.account().extension().messageSync().list(params);
 
               case 4:
-                _yield$this$_client$a = _context4.sent;
+                _yield$this$_client$a = _context3.sent;
                 records = _yield$this$_client$a.records;
                 syncInfo = _yield$this$_client$a.syncInfo;
                 receivedRecordsLength += records.length;
 
                 if (!(!syncInfo.olderRecordsExist || receivedRecordsLength >= recordCount)) {
-                  _context4.next = 10;
+                  _context3.next = 10;
                   break;
                 }
 
-                return _context4.abrupt("return", {
+                return _context3.abrupt("return", {
                   records: records,
                   syncInfo: syncInfo
                 });
 
               case 10:
-                _context4.next = 12;
+                _context3.next = 12;
                 return (0, _sleep["default"])(500);
 
               case 12:
                 olderDateTo = new Date(records[records.length - 1].creationTime);
-                _context4.next = 15;
+                _context3.next = 15;
                 return this._syncFunction({
                   conversationLoadLength: conversationLoadLength,
                   dateFrom: dateFrom,
@@ -567,15 +567,15 @@ var MessageStore = (_dec = (0, _di.Module)({
                 });
 
               case 15:
-                olderRecordResult = _context4.sent;
-                return _context4.abrupt("return", {
+                olderRecordResult = _context3.sent;
+                return _context3.abrupt("return", {
                   records: records.concat(olderRecordResult.records),
                   syncInfo: syncInfo
                 });
 
               case 17:
               case "end":
-                return _context4.stop();
+                return _context3.stop();
             }
           }
         }, _callee3, this);
@@ -619,22 +619,22 @@ var MessageStore = (_dec = (0, _di.Module)({
             actionType,
             _args4 = arguments;
 
-        return regeneratorRuntime.wrap(function _callee4$(_context5) {
+        return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
-            switch (_context5.prev = _context5.next) {
+            switch (_context4.prev = _context4.next) {
               case 0:
                 _ref5 = _args4.length > 0 && _args4[0] !== undefined ? _args4[0] : {}, dateTo = _ref5.dateTo, _ref5$conversationsLo = _ref5.conversationsLoadLength, conversationsLoadLength = _ref5$conversationsLo === void 0 ? this._conversationsLoadLength : _ref5$conversationsLo, _ref5$conversationLoa = _ref5.conversationLoadLength, conversationLoadLength = _ref5$conversationLoa === void 0 ? this._conversationLoadLength : _ref5$conversationLoa, _ref5$passive = _ref5.passive, passive = _ref5$passive === void 0 ? false : _ref5$passive;
                 this.store.dispatch({
                   type: this.actionTypes.conversationsSync
                 });
                 ownerId = this._auth.ownerId;
-                _context5.prev = 3;
+                _context4.prev = 3;
                 dateFrom = new Date();
                 dateFrom.setDate(dateFrom.getDate() - this._daySpan);
                 syncToken = dateTo ? null : this.syncInfo && this.syncInfo.syncToken;
                 recordCount = conversationsLoadLength * conversationLoadLength;
-                _context5.prev = 8;
-                _context5.next = 11;
+                _context4.prev = 8;
+                _context4.next = 11;
                 return this._syncFunction({
                   recordCount: recordCount,
                   conversationLoadLength: conversationLoadLength,
@@ -644,20 +644,20 @@ var MessageStore = (_dec = (0, _di.Module)({
                 });
 
               case 11:
-                data = _context5.sent;
-                _context5.next = 24;
+                data = _context4.sent;
+                _context4.next = 24;
                 break;
 
               case 14:
-                _context5.prev = 14;
-                _context5.t0 = _context5["catch"](8);
+                _context4.prev = 14;
+                _context4.t0 = _context4["catch"](8);
 
-                if (!(_context5.t0 && (_context5.t0.message === 'Parameter [syncToken] value is invalid' || _context5.t0.message === 'Parameter [syncToken] is invalid'))) {
-                  _context5.next = 23;
+                if (!(_context4.t0 && (_context4.t0.message === 'Parameter [syncToken] value is invalid' || _context4.t0.message === 'Parameter [syncToken] is invalid'))) {
+                  _context4.next = 23;
                   break;
                 }
 
-                _context5.next = 19;
+                _context4.next = 19;
                 return this._syncFunction({
                   recordCount: recordCount,
                   conversationLoadLength: conversationLoadLength,
@@ -667,13 +667,13 @@ var MessageStore = (_dec = (0, _di.Module)({
                 });
 
               case 19:
-                data = _context5.sent;
+                data = _context4.sent;
                 syncToken = null;
-                _context5.next = 24;
+                _context4.next = 24;
                 break;
 
               case 23:
-                throw _context5.t0;
+                throw _context4.t0;
 
               case 24:
                 if (this._auth.ownerId === ownerId) {
@@ -695,28 +695,28 @@ var MessageStore = (_dec = (0, _di.Module)({
                   }
                 }
 
-                _context5.next = 33;
+                _context4.next = 33;
                 break;
 
               case 27:
-                _context5.prev = 27;
-                _context5.t1 = _context5["catch"](3);
+                _context4.prev = 27;
+                _context4.t1 = _context4["catch"](3);
 
                 if (!(this._auth.ownerId === ownerId)) {
-                  _context5.next = 33;
+                  _context4.next = 33;
                   break;
                 }
 
-                console.error(_context5.t1);
+                console.error(_context4.t1);
                 this.store.dispatch({
                   type: this.actionTypes.conversationsSyncError,
-                  error: _context5.t1
+                  error: _context4.t1
                 });
-                throw _context5.t1;
+                throw _context4.t1;
 
               case 33:
               case "end":
-                return _context5.stop();
+                return _context4.stop();
             }
           }
         }, _callee4, this, [[3, 27], [8, 14]]);
@@ -740,13 +740,13 @@ var MessageStore = (_dec = (0, _di.Module)({
             passive,
             _args5 = arguments;
 
-        return regeneratorRuntime.wrap(function _callee5$(_context6) {
+        return regeneratorRuntime.wrap(function _callee5$(_context5) {
           while (1) {
-            switch (_context6.prev = _context6.next) {
+            switch (_context5.prev = _context5.next) {
               case 0:
                 _ref6 = _args5.length > 0 && _args5[0] !== undefined ? _args5[0] : {}, dateTo = _ref6.dateTo, conversationsLoadLength = _ref6.conversationsLoadLength, conversationLoadLength = _ref6.conversationLoadLength, _ref6$passive = _ref6.passive, passive = _ref6$passive === void 0 ? false : _ref6$passive;
-                _context6.prev = 1;
-                _context6.next = 4;
+                _context5.prev = 1;
+                _context5.next = 4;
                 return this._syncData({
                   dateTo: dateTo,
                   conversationsLoadLength: conversationsLoadLength,
@@ -760,12 +760,12 @@ var MessageStore = (_dec = (0, _di.Module)({
                 }
 
                 this._promise = null;
-                _context6.next = 13;
+                _context5.next = 13;
                 break;
 
               case 8:
-                _context6.prev = 8;
-                _context6.t0 = _context6["catch"](1);
+                _context5.prev = 8;
+                _context5.t0 = _context5["catch"](1);
                 this._promise = null;
 
                 if (this._polling) {
@@ -774,11 +774,11 @@ var MessageStore = (_dec = (0, _di.Module)({
                   this._retry();
                 }
 
-                throw _context6.t0;
+                throw _context5.t0;
 
               case 13:
               case "end":
-                return _context6.stop();
+                return _context5.stop();
             }
           }
         }, _callee5, this, [[1, 8]]);
@@ -824,9 +824,9 @@ var MessageStore = (_dec = (0, _di.Module)({
             passive,
             _args6 = arguments;
 
-        return regeneratorRuntime.wrap(function _callee6$(_context7) {
+        return regeneratorRuntime.wrap(function _callee6$(_context6) {
           while (1) {
-            switch (_context7.prev = _context7.next) {
+            switch (_context6.prev = _context6.next) {
               case 0:
                 _ref7 = _args6.length > 0 && _args6[0] !== undefined ? _args6[0] : {}, _ref7$passive = _ref7.passive, passive = _ref7$passive === void 0 ? false : _ref7$passive;
 
@@ -836,12 +836,12 @@ var MessageStore = (_dec = (0, _di.Module)({
                   });
                 }
 
-                _context7.next = 4;
+                _context6.next = 4;
                 return this._promise;
 
               case 4:
               case "end":
-                return _context7.stop();
+                return _context6.stop();
             }
           }
         }, _callee6, this);
@@ -940,9 +940,9 @@ var MessageStore = (_dec = (0, _di.Module)({
     key: "pushMessages",
     value: function () {
       var _pushMessages = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7(records) {
-        return regeneratorRuntime.wrap(function _callee7$(_context8) {
+        return regeneratorRuntime.wrap(function _callee7$(_context7) {
           while (1) {
-            switch (_context8.prev = _context8.next) {
+            switch (_context7.prev = _context7.next) {
               case 0:
                 this.store.dispatch({
                   type: this.actionTypes.updateMessages,
@@ -951,7 +951,7 @@ var MessageStore = (_dec = (0, _di.Module)({
 
               case 1:
               case "end":
-                return _context8.stop();
+                return _context7.stop();
             }
           }
         }, _callee7, this);
@@ -973,23 +973,23 @@ var MessageStore = (_dec = (0, _di.Module)({
     value: function () {
       var _updateMessageApi2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8(messageId, status) {
         var body, updateRequest;
-        return regeneratorRuntime.wrap(function _callee8$(_context9) {
+        return regeneratorRuntime.wrap(function _callee8$(_context8) {
           while (1) {
-            switch (_context9.prev = _context9.next) {
+            switch (_context8.prev = _context8.next) {
               case 0:
                 body = {
                   readStatus: status
                 };
-                _context9.next = 3;
+                _context8.next = 3;
                 return this._client.account().extension().messageStore(messageId).put(body);
 
               case 3:
-                updateRequest = _context9.sent;
-                return _context9.abrupt("return", updateRequest);
+                updateRequest = _context8.sent;
+                return _context8.abrupt("return", updateRequest);
 
               case 5:
               case "end":
-                return _context9.stop();
+                return _context8.stop();
             }
           }
         }, _callee8, this);
@@ -1006,20 +1006,20 @@ var MessageStore = (_dec = (0, _di.Module)({
     value: function () {
       var _deleteMessageApi = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9(messageId) {
         var response;
-        return regeneratorRuntime.wrap(function _callee9$(_context10) {
+        return regeneratorRuntime.wrap(function _callee9$(_context9) {
           while (1) {
-            switch (_context10.prev = _context10.next) {
+            switch (_context9.prev = _context9.next) {
               case 0:
-                _context10.next = 2;
+                _context9.next = 2;
                 return this._client.account().extension().messageStore(messageId)["delete"]();
 
               case 2:
-                response = _context10.sent;
-                return _context10.abrupt("return", response);
+                response = _context9.sent;
+                return _context9.abrupt("return", response);
 
               case 4:
               case "end":
-                return _context10.stop();
+                return _context9.stop();
             }
           }
         }, _callee9, this);
@@ -1064,34 +1064,34 @@ var MessageStore = (_dec = (0, _di.Module)({
     value: function () {
       var _batchUpdateMessagesApi2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10(messageIds, body) {
         var ids, platform, responses;
-        return regeneratorRuntime.wrap(function _callee10$(_context11) {
+        return regeneratorRuntime.wrap(function _callee10$(_context10) {
           while (1) {
-            switch (_context11.prev = _context11.next) {
+            switch (_context10.prev = _context10.next) {
               case 0:
                 if (!(!messageIds || messageIds.length === 0)) {
-                  _context11.next = 2;
+                  _context10.next = 2;
                   break;
                 }
 
-                return _context11.abrupt("return");
+                return _context10.abrupt("return");
 
               case 2:
                 ids = decodeURIComponent(messageIds.join(','));
                 platform = this._client.service.platform();
-                _context11.next = 6;
+                _context10.next = 6;
                 return (0, _batchApiHelper.batchPutApi)({
                   platform: platform,
-                  url: "/account/~/extension/~/message-store/".concat(ids),
+                  url: "/restapi/v1.0/account/~/extension/~/message-store/".concat(ids),
                   body: body
                 });
 
               case 6:
-                responses = _context11.sent;
-                return _context11.abrupt("return", responses);
+                responses = _context10.sent;
+                return _context10.abrupt("return", responses);
 
               case 8:
               case "end":
-                return _context11.stop();
+                return _context10.stop();
             }
           }
         }, _callee10, this);
@@ -1117,9 +1117,9 @@ var MessageStore = (_dec = (0, _di.Module)({
   }, {
     key: "_updateMessagesApi",
     value: function () {
-      var _updateMessagesApi2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee11(messageIds, status) {
+      var _updateMessagesApi2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee12(messageIds, status) {
         var allMessageIds, results, index, nextLength, result, leftIds, body, responses, ownerId;
-        return regeneratorRuntime.wrap(function _callee11$(_context12) {
+        return regeneratorRuntime.wrap(function _callee12$(_context12) {
           while (1) {
             switch (_context12.prev = _context12.next) {
               case 0:
@@ -1172,50 +1172,80 @@ var MessageStore = (_dec = (0, _di.Module)({
 
               case 16:
                 responses = _context12.sent;
-                responses.forEach(function (res) {
-                  if (res.response().status === 200) {
-                    results.push(res.json());
-                  }
-                });
+                _context12.next = 19;
+                return Promise.all(responses.map( /*#__PURE__*/function () {
+                  var _ref9 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee11(res) {
+                    var _result;
+
+                    return regeneratorRuntime.wrap(function _callee11$(_context11) {
+                      while (1) {
+                        switch (_context11.prev = _context11.next) {
+                          case 0:
+                            if (!(res.status === 200)) {
+                              _context11.next = 5;
+                              break;
+                            }
+
+                            _context11.next = 3;
+                            return res.json();
+
+                          case 3:
+                            _result = _context11.sent;
+                            results.push(_result);
+
+                          case 5:
+                          case "end":
+                            return _context11.stop();
+                        }
+                      }
+                    }, _callee11);
+                  }));
+
+                  return function (_x10) {
+                    return _ref9.apply(this, arguments);
+                  };
+                }()));
+
+              case 19:
                 ownerId = this._auth.ownerId;
 
                 if (!(allMessageIds.length > (index + 1) * UPDATE_MESSAGE_ONCE_COUNT)) {
-                  _context12.next = 26;
+                  _context12.next = 27;
                   break;
                 }
 
-                _context12.next = 22;
+                _context12.next = 23;
                 return (0, _sleep["default"])(1300);
 
-              case 22:
+              case 23:
                 if (!(ownerId !== this._auth.ownerId)) {
-                  _context12.next = 24;
+                  _context12.next = 25;
                   break;
                 }
 
                 return _context12.abrupt("return", []);
 
-              case 24:
-                _context12.next = 27;
+              case 25:
+                _context12.next = 28;
                 break;
 
-              case 26:
-                return _context12.abrupt("break", 30);
-
               case 27:
+                return _context12.abrupt("break", 31);
+
+              case 28:
                 index++;
                 _context12.next = 5;
                 break;
 
-              case 30:
+              case 31:
                 return _context12.abrupt("return", results);
 
-              case 31:
+              case 32:
               case "end":
                 return _context12.stop();
             }
           }
-        }, _callee11, this);
+        }, _callee12, this);
       }));
 
       function _updateMessagesApi(_x8, _x9) {
@@ -1235,8 +1265,8 @@ var MessageStore = (_dec = (0, _di.Module)({
   }, {
     key: "readMessages",
     value: function () {
-      var _readMessages = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee12(conversationId) {
-        return regeneratorRuntime.wrap(function _callee12$(_context13) {
+      var _readMessages = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee13(conversationId) {
+        return regeneratorRuntime.wrap(function _callee13$(_context13) {
           while (1) {
             switch (_context13.prev = _context13.next) {
               case 0:
@@ -1247,10 +1277,10 @@ var MessageStore = (_dec = (0, _di.Module)({
                 return _context13.stop();
             }
           }
-        }, _callee12, this);
+        }, _callee13, this);
       }));
 
-      function readMessages(_x10) {
+      function readMessages(_x11) {
         return _readMessages.apply(this, arguments);
       }
 
@@ -1259,9 +1289,9 @@ var MessageStore = (_dec = (0, _di.Module)({
   }, {
     key: "_setConversationAsRead",
     value: function () {
-      var _setConversationAsRead2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee13(conversationId) {
+      var _setConversationAsRead2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee14(conversationId) {
         var messageList, unreadMessageIds, ownerId, updatedMessages;
-        return regeneratorRuntime.wrap(function _callee13$(_context14) {
+        return regeneratorRuntime.wrap(function _callee14$(_context14) {
           while (1) {
             switch (_context14.prev = _context14.next) {
               case 0:
@@ -1307,32 +1337,48 @@ var MessageStore = (_dec = (0, _di.Module)({
                   type: this.actionTypes.updateMessages,
                   records: updatedMessages
                 });
-                _context14.next = 20;
+                _context14.next = 26;
                 break;
 
               case 16:
                 _context14.prev = 16;
                 _context14.t0 = _context14["catch"](6);
                 console.error(_context14.t0);
+                _context14.t1 = !this._availabilityMonitor;
 
-                if (!this._availabilityMonitor || !this._availabilityMonitor.checkIfHAError(_context14.t0)) {
-                  this._alert.warning({
-                    message: _errors["default"].readFailed
-                  });
+                if (_context14.t1) {
+                  _context14.next = 24;
+                  break;
                 }
 
-              case 20:
+                _context14.next = 23;
+                return this._availabilityMonitor.checkIfHAError(_context14.t0);
+
+              case 23:
+                _context14.t1 = !_context14.sent;
+
+              case 24:
+                if (!_context14.t1) {
+                  _context14.next = 26;
+                  break;
+                }
+
+                this._alert.warning({
+                  message: _errors["default"].readFailed
+                });
+
+              case 26:
                 return _context14.abrupt("return", null);
 
-              case 21:
+              case 27:
               case "end":
                 return _context14.stop();
             }
           }
-        }, _callee13, this, [[6, 16]]);
+        }, _callee14, this, [[6, 16]]);
       }));
 
-      function _setConversationAsRead(_x11) {
+      function _setConversationAsRead(_x12) {
         return _setConversationAsRead2.apply(this, arguments);
       }
 
@@ -1349,9 +1395,9 @@ var MessageStore = (_dec = (0, _di.Module)({
   }, {
     key: "unreadMessage",
     value: function () {
-      var _unreadMessage = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee14(messageId) {
+      var _unreadMessage = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee15(messageId) {
         var message;
-        return regeneratorRuntime.wrap(function _callee14$(_context15) {
+        return regeneratorRuntime.wrap(function _callee15$(_context15) {
           while (1) {
             switch (_context15.prev = _context15.next) {
               case 0:
@@ -1369,29 +1415,45 @@ var MessageStore = (_dec = (0, _di.Module)({
                   type: this.actionTypes.updateMessages,
                   records: [message]
                 });
-                _context15.next = 12;
+                _context15.next = 18;
                 break;
 
               case 8:
                 _context15.prev = 8;
                 _context15.t0 = _context15["catch"](1);
                 console.error(_context15.t0);
+                _context15.t1 = !this._availabilityMonitor;
 
-                if (!this._availabilityMonitor || !this._availabilityMonitor.checkIfHAError(_context15.t0)) {
-                  this._alert.warning({
-                    message: _errors["default"].unreadFailed
-                  });
+                if (_context15.t1) {
+                  _context15.next = 16;
+                  break;
                 }
 
-              case 12:
+                _context15.next = 15;
+                return this._availabilityMonitor.checkIfHAError(_context15.t0);
+
+              case 15:
+                _context15.t1 = !_context15.sent;
+
+              case 16:
+                if (!_context15.t1) {
+                  _context15.next = 18;
+                  break;
+                }
+
+                this._alert.warning({
+                  message: _errors["default"].unreadFailed
+                });
+
+              case 18:
               case "end":
                 return _context15.stop();
             }
           }
-        }, _callee14, this, [[1, 8]]);
+        }, _callee15, this, [[1, 8]]);
       }));
 
-      function unreadMessage(_x12) {
+      function unreadMessage(_x13) {
         return _unreadMessage.apply(this, arguments);
       }
 
@@ -1400,8 +1462,8 @@ var MessageStore = (_dec = (0, _di.Module)({
   }, {
     key: "onUnmarkMessages",
     value: function () {
-      var _onUnmarkMessages = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee15() {
-        return regeneratorRuntime.wrap(function _callee15$(_context16) {
+      var _onUnmarkMessages = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee16() {
+        return regeneratorRuntime.wrap(function _callee16$(_context16) {
           while (1) {
             switch (_context16.prev = _context16.next) {
               case 0:
@@ -1414,7 +1476,7 @@ var MessageStore = (_dec = (0, _di.Module)({
                 return _context16.stop();
             }
           }
-        }, _callee15, this);
+        }, _callee16, this);
       }));
 
       function onUnmarkMessages() {
@@ -1426,9 +1488,9 @@ var MessageStore = (_dec = (0, _di.Module)({
   }, {
     key: "deleteConversationMessages",
     value: function () {
-      var _deleteConversationMessages = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee16(conversationId) {
+      var _deleteConversationMessages = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee17(conversationId) {
         var messageList, messageId;
-        return regeneratorRuntime.wrap(function _callee16$(_context17) {
+        return regeneratorRuntime.wrap(function _callee17$(_context17) {
           while (1) {
             switch (_context17.prev = _context17.next) {
               case 0:
@@ -1462,29 +1524,45 @@ var MessageStore = (_dec = (0, _di.Module)({
                   type: this.actionTypes.deleteConversation,
                   conversationId: conversationId
                 });
-                _context17.next = 16;
+                _context17.next = 22;
                 break;
 
               case 12:
                 _context17.prev = 12;
                 _context17.t0 = _context17["catch"](6);
                 console.error(_context17.t0);
+                _context17.t1 = !this._availabilityMonitor;
 
-                if (!this._availabilityMonitor || !this._availabilityMonitor.checkIfHAError(_context17.t0)) {
-                  this._alert.warning({
-                    message: _errors["default"].deleteFailed
-                  });
+                if (_context17.t1) {
+                  _context17.next = 20;
+                  break;
                 }
 
-              case 16:
+                _context17.next = 19;
+                return this._availabilityMonitor.checkIfHAError(_context17.t0);
+
+              case 19:
+                _context17.t1 = !_context17.sent;
+
+              case 20:
+                if (!_context17.t1) {
+                  _context17.next = 22;
+                  break;
+                }
+
+                this._alert.warning({
+                  message: _errors["default"].deleteFailed
+                });
+
+              case 22:
               case "end":
                 return _context17.stop();
             }
           }
-        }, _callee16, this, [[6, 12]]);
+        }, _callee17, this, [[6, 12]]);
       }));
 
-      function deleteConversationMessages(_x13) {
+      function deleteConversationMessages(_x14) {
         return _deleteConversationMessages.apply(this, arguments);
       }
 
@@ -1493,8 +1571,8 @@ var MessageStore = (_dec = (0, _di.Module)({
   }, {
     key: "deleteConversation",
     value: function () {
-      var _deleteConversation = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee17(conversationId) {
-        return regeneratorRuntime.wrap(function _callee17$(_context18) {
+      var _deleteConversation = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee18(conversationId) {
+        return regeneratorRuntime.wrap(function _callee18$(_context18) {
           while (1) {
             switch (_context18.prev = _context18.next) {
               case 0:
@@ -1517,29 +1595,45 @@ var MessageStore = (_dec = (0, _di.Module)({
                   type: this.actionTypes.deleteConversation,
                   conversationId: conversationId
                 });
-                _context18.next = 12;
+                _context18.next = 18;
                 break;
 
               case 8:
                 _context18.prev = 8;
                 _context18.t0 = _context18["catch"](2);
                 console.error(_context18.t0);
+                _context18.t1 = !this._availabilityMonitor;
 
-                if (!this._availabilityMonitor || !this._availabilityMonitor.checkIfHAError(_context18.t0)) {
-                  this._alert.warning({
-                    message: _errors["default"].deleteFailed
-                  });
+                if (_context18.t1) {
+                  _context18.next = 16;
+                  break;
                 }
 
-              case 12:
+                _context18.next = 15;
+                return this._availabilityMonitor.checkIfHAError(_context18.t0);
+
+              case 15:
+                _context18.t1 = !_context18.sent;
+
+              case 16:
+                if (!_context18.t1) {
+                  _context18.next = 18;
+                  break;
+                }
+
+                this._alert.warning({
+                  message: _errors["default"].deleteFailed
+                });
+
+              case 18:
               case "end":
                 return _context18.stop();
             }
           }
-        }, _callee17, this, [[2, 8]]);
+        }, _callee18, this, [[2, 8]]);
       }));
 
-      function deleteConversation(_x14) {
+      function deleteConversation(_x15) {
         return _deleteConversation.apply(this, arguments);
       }
 
@@ -1556,9 +1650,9 @@ var MessageStore = (_dec = (0, _di.Module)({
 
   }, {
     key: "onClickToCall",
-    value: function onClickToCall(_ref9) {
-      var _ref9$fromType = _ref9.fromType,
-          fromType = _ref9$fromType === void 0 ? '' : _ref9$fromType;
+    value: function onClickToCall(_ref10) {
+      var _ref10$fromType = _ref10.fromType,
+          fromType = _ref10$fromType === void 0 ? '' : _ref10$fromType;
       this.store.dispatch({
         type: this.actionTypes.clickToCall,
         fromType: fromType

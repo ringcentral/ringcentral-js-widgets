@@ -1,0 +1,1 @@
+{"version":3,"sources":["modules/ForwardingNumberV2/index.ts"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;AAAA;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;;AACA;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA","sourcesContent":["export * from './ForwardingNumber';\nexport * from './ForwardingNumber.interface';\n"],"file":"index.js"}

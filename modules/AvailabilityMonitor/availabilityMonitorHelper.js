@@ -71,8 +71,8 @@ function extractUrl(_ref) {
 
 
 function isHAError(error) {
-  var status = (0, _ramda.pathOr)(-1, ['apiResponse', '_response', 'status'], error);
-  var errors = (0, _ramda.pathOr)([], ['apiResponse', '_json', 'errors'], error);
+  var status = (0, _ramda.pathOr)(-1, ['response', 'status'], error);
+  var errors = (0, _ramda.pathOr)([], ['response', '_json', 'errors'], error);
   var errorCodeIn = false;
 
   var _iterator = _createForOfIteratorHelper(errors),
@@ -98,7 +98,7 @@ function isHAError(error) {
 
   if (!validHAError) {
     // Result from temp error code, expecially for `presence`.
-    var resErrorCode = (0, _ramda.pathOr)(null, ['apiResponse', '_json', 'errorCode'], error);
+    var resErrorCode = (0, _ramda.pathOr)(null, ['response', '_json', 'errorCode'], error);
     validHAError = resErrorCode === TMP_HA_ERROR_CODE;
   }
 

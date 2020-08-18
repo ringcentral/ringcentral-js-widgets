@@ -26,9 +26,14 @@ exports.getPhoneDialingNumberTpl = getPhoneDialingNumberTpl;
 exports.getMeetingSettings = getMeetingSettings;
 exports.getDefaultMeetingSettings = getDefaultMeetingSettings;
 exports.getInitializedStartTime = getInitializedStartTime;
+exports.prunePreferencesObject = prunePreferencesObject;
+exports.comparePreferences = comparePreferences;
+exports.isRecurringMeeting = isRecurringMeeting;
 exports.MeetingType = exports.UTC_TIMEZONE_ID = void 0;
 
 require("core-js/modules/es6.array.map");
+
+var _ramda = require("ramda");
 
 var _format = _interopRequireWildcard(require("@ringcentral-integration/phone-number/lib/format"));
 
@@ -41,7 +46,7 @@ function getMobileDialingNumberTpl(dialInNumbers, meetingId) {
     var phoneNumber = _ref.phoneNumber,
         _ref$location = _ref.location,
         location = _ref$location === void 0 ? '' : _ref$location;
-    return "".concat(phoneNumber, ",,").concat(meetingId, "# (").concat(location, ")");
+    return location ? "".concat(phoneNumber, ",,").concat(meetingId, "# (").concat(location, ")") : "".concat(phoneNumber, ",,").concat(meetingId, "#");
   }).join('\n    ');
 }
 
@@ -56,7 +61,7 @@ function getPhoneDialingNumberTpl(dialInNumbers) {
       countryCode: country.isoCode,
       type: _format.formatTypes.international
     });
-    return "".concat(filterFormattedNumber, " (").concat(location, ")");
+    return location ? "".concat(filterFormattedNumber, " (").concat(location, ")") : "".concat(filterFormattedNumber);
   }).join('\n    ');
 }
 
@@ -66,9 +71,14 @@ var MeetingType = {
   SCHEDULED: 'Scheduled',
   RECURRING: 'Recurring',
   SCHEDULED_RECURRING: 'ScheduledRecurring',
-  INSTANT: 'Instant'
+  INSTANT: 'Instant',
+  PMI: 'PMI'
 };
 exports.MeetingType = MeetingType;
+
+function isRecurringMeeting(meetingType) {
+  return meetingType === MeetingType.RECURRING || meetingType === MeetingType.SCHEDULED_RECURRING;
+}
 
 function getMeetingSettings(_ref3) {
   var extensionName = _ref3.extensionName,
@@ -99,7 +109,7 @@ function getMeetingSettings(_ref3) {
 } // Basic default meeting type information
 
 
-function getDefaultMeetingSettings(extensionName, startTime) {
+function getDefaultMeetingSettings(extensionName, startTime, extensionId) {
   return {
     topic: "".concat(extensionName, "'s Meeting"),
     meetingType: MeetingType.SCHEDULED,
@@ -112,12 +122,13 @@ function getDefaultMeetingSettings(extensionName, startTime) {
       }
     },
     host: {
-      id: null
+      id: extensionId !== null && extensionId !== void 0 ? extensionId : null
     },
     allowJoinBeforeHost: false,
     startHostVideo: false,
     startParticipantsVideo: false,
     audioOptions: ['Phone', 'ComputerAudio'],
+    usePersonalMeetingId: false,
     _requireMeetingPassword: false,
     _showDate: false,
     _showTime: false,
@@ -129,5 +140,27 @@ function getInitializedStartTime() {
   var now = new Date();
   var startTime = now.setHours(now.getHours() + 1, 0, 0, 0);
   return startTime;
+}
+
+var preferencesMembers = ['allowJoinBeforeHost', 'startHostVideo', 'startParticipantsVideo', '_requireMeetingPassword'];
+
+function prunePreferencesObject(meeting) {
+  var preferences = (0, _ramda.pick)(preferencesMembers, meeting);
+  return preferences;
+}
+
+function comparePreferences(preferences, meeting) {
+  var preferencesChanged = false;
+
+  if (preferences && meeting) {
+    for (var key in preferences) {
+      if (preferences[key] !== meeting[key]) {
+        preferencesChanged = true;
+        break;
+      }
+    }
+  }
+
+  return preferencesChanged;
 }
 //# sourceMappingURL=meetingHelper.js.map

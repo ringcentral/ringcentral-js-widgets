@@ -5,7 +5,7 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = void 0;
+exports["default"] = exports.actionTypes = void 0;
 
 require("core-js/modules/es6.function.name");
 
@@ -29,13 +29,9 @@ require("core-js/modules/es6.array.iterator");
 
 require("core-js/modules/es6.object.to-string");
 
-require("core-js/modules/es6.object.keys");
-
-var _Enum = _interopRequireDefault(require("../../lib/Enum"));
+var _ObjectMap = require("@ringcentral-integration/core/lib/ObjectMap");
 
 var _moduleActionTypes = require("../../enums/moduleActionTypes");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
@@ -49,11 +45,9 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToAr
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-function getActionSet(action) {
-  return [action, "".concat(action, "Success"), "".concat(action, "Error")];
-}
+var actionTypes = _ObjectMap.ObjectMap.prefixKeys([].concat(_toConsumableArray(_ObjectMap.ObjectMap.keys(_moduleActionTypes.moduleActionTypes)), ['updateActiveSessions', 'updateActiveSessionStatus', 'removeActiveSession', 'updateSessions', 'resetSuccess', 'setActiveSessionId', 'startRecord', 'stopRecord', 'recordFail', 'mute', 'muteSuccess', 'muteError', 'unmute', 'unmuteSuccess', 'unmuteError', 'hold', 'holdSuccess', 'holdError', 'unhold', 'unholdSuccess', 'unholdError', 'transfer', 'transferSuccess', 'transferError', 'reject', 'rejectSuccess', 'rejectError', 'hangUp', 'hangUpSuccess', 'hangUpError', 'flip', 'flipSuccess', 'flipError']), 'activeCallControlStore');
 
-var _default = new _Enum["default"]([].concat(_toConsumableArray(Object.keys(_moduleActionTypes.moduleActionTypes)), ['updateActiveSessions', 'updateActiveSessionStatus', 'removeActiveSession', 'updateSessions', 'resetSuccess', 'setActiveSessionId', 'startRecord', 'stopRecord', 'recordFail'], _toConsumableArray(getActionSet('mute')), _toConsumableArray(getActionSet('unmute')), _toConsumableArray(getActionSet('hold')), _toConsumableArray(getActionSet('unhold')), _toConsumableArray(getActionSet('transfer')), _toConsumableArray(getActionSet('reject')), _toConsumableArray(getActionSet('hangUp')), _toConsumableArray(getActionSet('flip'))), 'activeCallControlStore');
-
+exports.actionTypes = actionTypes;
+var _default = actionTypes;
 exports["default"] = _default;
 //# sourceMappingURL=actionTypes.js.map

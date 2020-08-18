@@ -193,7 +193,7 @@ _dec = (0, _di.Module)({
     return [function () {
       return _this2.data;
     }, function (data) {
-      return data || {};
+      return data || [];
     }];
   }
 }), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, "phoneLines", [_selector.selector], {

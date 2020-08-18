@@ -8,6 +8,13 @@ exports.getMeetingSchedulingStatusReducer = getMeetingSchedulingStatusReducer;
 exports.getMeetingUpdatingStatusReducer = getMeetingUpdatingStatusReducer;
 exports.getMeetingStorageReducer = getMeetingStorageReducer;
 exports.getDefaultMeetingSettingReducer = getDefaultMeetingSettingReducer;
+exports.getMeetingPreferencesReducer = getMeetingPreferencesReducer;
+exports.getMeetingPreferencesStateReducer = getMeetingPreferencesStateReducer;
+exports.getUserSettingsReducer = getUserSettingsReducer;
+exports.getLockedSettingsReducer = getLockedSettingsReducer;
+exports.getPersonalMeetingReducer = getPersonalMeetingReducer;
+exports.getAssistedUsersReducer = getAssistedUsersReducer;
+exports.getScheduleForUserReducer = getScheduleForUserReducer;
 exports["default"] = void 0;
 
 require("core-js/modules/es6.object.define-properties");
@@ -198,12 +205,147 @@ function getDefaultMeetingSettingReducer(types) {
   };
 }
 
+function getMeetingPreferencesReducer(types) {
+  return function () {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+    var _ref6 = arguments.length > 1 ? arguments[1] : undefined,
+        type = _ref6.type,
+        preferences = _ref6.preferences;
+
+    switch (type) {
+      case types.updateMeetingPreferences:
+        return preferences;
+
+      default:
+        return state;
+    }
+  };
+}
+
+function getMeetingPreferencesStateReducer(types) {
+  return function () {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+
+    var _ref7 = arguments.length > 1 ? arguments[1] : undefined,
+        type = _ref7.type,
+        isPreferencesChanged = _ref7.isPreferencesChanged;
+
+    switch (type) {
+      case types.saveMeetingPreferencesState:
+        return isPreferencesChanged;
+
+      default:
+        return state;
+    }
+  };
+}
+
+function getUserSettingsReducer(types) {
+  return function () {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+    var _ref8 = arguments.length > 1 ? arguments[1] : undefined,
+        type = _ref8.type,
+        userSettings = _ref8.userSettings;
+
+    switch (type) {
+      case types.updateUserSettings:
+        return userSettings;
+
+      default:
+        return state;
+    }
+  };
+}
+
+function getLockedSettingsReducer(types) {
+  return function () {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+    var _ref9 = arguments.length > 1 ? arguments[1] : undefined,
+        type = _ref9.type,
+        lockedSettings = _ref9.lockedSettings;
+
+    switch (type) {
+      case types.updateLockedSettings:
+        return lockedSettings;
+
+      default:
+        return state;
+    }
+  };
+}
+
+function getPersonalMeetingReducer(types) {
+  return function () {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+
+    var _ref10 = arguments.length > 1 ? arguments[1] : undefined,
+        type = _ref10.type,
+        _ref10$meeting = _ref10.meeting,
+        meeting = _ref10$meeting === void 0 ? null : _ref10$meeting;
+
+    switch (type) {
+      case types.updatePersonalMeeting:
+        return meeting;
+
+      default:
+        return state;
+    }
+  };
+}
+
+function getAssistedUsersReducer(types) {
+  return function () {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+
+    var _ref11 = arguments.length > 1 ? arguments[1] : undefined,
+        type = _ref11.type,
+        _ref11$assistedUsers = _ref11.assistedUsers,
+        assistedUsers = _ref11$assistedUsers === void 0 ? [] : _ref11$assistedUsers;
+
+    switch (type) {
+      case types.updateAssistedUsers:
+        return assistedUsers;
+
+      default:
+        return state;
+    }
+  };
+}
+
+function getScheduleForUserReducer(types) {
+  return function () {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+
+    var _ref12 = arguments.length > 1 ? arguments[1] : undefined,
+        type = _ref12.type,
+        _ref12$user = _ref12.user,
+        user = _ref12$user === void 0 ? {} : _ref12$user;
+
+    switch (type) {
+      case types.updateScheduleForUser:
+        return user;
+
+      default:
+        return state;
+    }
+  };
+}
+
 var _default = function _default(types, reducers) {
   return (0, _redux.combineReducers)(_objectSpread(_objectSpread({}, reducers), {}, {
     status: (0, _getModuleStatusReducer["default"])(types),
     meeting: getMeetingInfoReducer(types),
+    assistedUsers: getAssistedUsersReducer(types),
     schedulingStatus: getMeetingSchedulingStatusReducer(types),
-    updatingStatus: getMeetingUpdatingStatusReducer(types)
+    updatingStatus: getMeetingUpdatingStatusReducer(types),
+    preferences: getMeetingPreferencesReducer(types),
+    isPreferencesChanged: getMeetingPreferencesStateReducer(types),
+    userSettings: getUserSettingsReducer(types),
+    lockedSettings: getLockedSettingsReducer(types),
+    scheduleForUser: getScheduleForUserReducer(types)
   }));
 };
 

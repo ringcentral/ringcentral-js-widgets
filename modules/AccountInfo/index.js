@@ -125,13 +125,12 @@ _dec = (0, _di.Module)({
   var _super = _createSuper(AccountInfo);
 
   /**
+   * @deprecated Please evaluate and use AccountInfoV2
    * @constructor
    * @param {Object} params - params object
    * @param {Client} params.client - client module instance
    */
   function AccountInfo(_ref) {
-    var _context2;
-
     var _this;
 
     var client = _ref.client,
@@ -176,7 +175,8 @@ _dec = (0, _di.Module)({
 
     _initializerDefineProperty(_this, "servicePlan", _descriptor3, _assertThisInitialized(_this));
 
-    _this._rolesAndPermissions = (_context2 = _assertThisInitialized(_this), _ensureExist["default"]).call(_context2, rolesAndPermissions, 'rolesAndPermissions');
+    console.warn('AccountInfo is deprecated, please evaluate and transition to use AccountInfoV2');
+    _this._rolesAndPermissions = _ensureExist["default"].call(_assertThisInitialized(_this), rolesAndPermissions, 'rolesAndPermissions');
     _this._alert = alert;
     return _this;
   }
@@ -185,20 +185,20 @@ _dec = (0, _di.Module)({
     key: "_onStateChange",
     value: function () {
       var _onStateChange2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
-        return regeneratorRuntime.wrap(function _callee2$(_context3) {
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context2.prev = _context2.next) {
               case 0:
-                _context3.next = 2;
+                _context2.next = 2;
                 return _get(_getPrototypeOf(AccountInfo.prototype), "_onStateChange", this).call(this);
 
               case 2:
                 if (!(this._auth.loginStatus === _loginStatus["default"].loggedIn && this.ready && !this._hasPermission)) {
-                  _context3.next = 6;
+                  _context2.next = 6;
                   break;
                 }
 
-                _context3.next = 5;
+                _context2.next = 5;
                 return this._auth.logout();
 
               case 5:
@@ -211,7 +211,7 @@ _dec = (0, _di.Module)({
 
               case 6:
               case "end":
-                return _context3.stop();
+                return _context2.stop();
             }
           }
         }, _callee2, this);
@@ -242,6 +242,11 @@ _dec = (0, _di.Module)({
     key: "countryCode",
     get: function get() {
       return this.country && this.country.isoCode || 'US';
+    }
+  }, {
+    key: "regionalSettings",
+    get: function get() {
+      return this.data.regionalSettings;
     }
   }, {
     key: "mainCompanyNumber",

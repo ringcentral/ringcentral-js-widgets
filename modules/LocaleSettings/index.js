@@ -41,6 +41,8 @@ require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.array.reduce");
 
+require("core-js/modules/es6.object.keys");
+
 require("core-js/modules/es6.array.for-each");
 
 require("core-js/modules/es6.array.sort");
@@ -51,17 +53,15 @@ require("core-js/modules/es6.array.iterator");
 
 require("core-js/modules/es6.object.to-string");
 
-require("core-js/modules/es6.object.keys");
-
 require("regenerator-runtime/runtime");
 
 var _i18n = require("@ringcentral-integration/i18n");
 
+var _ObjectMap = require("@ringcentral-integration/core/lib/ObjectMap");
+
 var _redux = require("redux");
 
 var _RcModule2 = _interopRequireDefault(require("../../lib/RcModule"));
-
-var _Enum = _interopRequireDefault(require("../../lib/Enum"));
 
 var _moduleActionTypes = require("../../enums/moduleActionTypes");
 
@@ -159,8 +159,6 @@ _dec = (0, _di.Module)({
    * @param {String} params.defaultLocale - default 'en-US'
    */
   function LocaleSettings() {
-    var _context;
-
     var _this;
 
     var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
@@ -177,8 +175,8 @@ _dec = (0, _di.Module)({
 
     _initializerDefineProperty(_this, "supportedLocales", _descriptor, _assertThisInitialized(_this));
 
-    _this._globalStorage = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, globalStorage, 'globalStorage');
-    _this._locale = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, locale, 'locale');
+    _this._globalStorage = _ensureExist["default"].call(_assertThisInitialized(_this), globalStorage, 'globalStorage');
+    _this._locale = _ensureExist["default"].call(_assertThisInitialized(_this), locale, 'locale');
     _this._supportedLocales = supportedLocales;
     _this._storageKey = 'localeSettingsData';
 
@@ -194,12 +192,12 @@ _dec = (0, _di.Module)({
     key: "_onStateChange",
     value: function () {
       var _onStateChange2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-        return regeneratorRuntime.wrap(function _callee$(_context2) {
+        return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context.prev = _context.next) {
               case 0:
                 if (!(this.pending && this._globalStorage.ready && this._locale.ready)) {
-                  _context2.next = 10;
+                  _context.next = 10;
                   break;
                 }
 
@@ -208,21 +206,21 @@ _dec = (0, _di.Module)({
                 });
 
                 if (this.savedLocale) {
-                  _context2.next = 6;
+                  _context.next = 6;
                   break;
                 }
 
                 this.saveLocale(this._locale.currentLocale);
-                _context2.next = 9;
+                _context.next = 9;
                 break;
 
               case 6:
                 if (!(this.savedLocale !== this._locale.currentLocale)) {
-                  _context2.next = 9;
+                  _context.next = 9;
                   break;
                 }
 
-                _context2.next = 9;
+                _context.next = 9;
                 return this._locale.setLocale(this.savedLocale);
 
               case 9:
@@ -232,7 +230,7 @@ _dec = (0, _di.Module)({
 
               case 10:
               case "end":
-                return _context2.stop();
+                return _context.stop();
             }
           }
         }, _callee, this);
@@ -248,11 +246,11 @@ _dec = (0, _di.Module)({
     key: "saveLocale",
     value: function () {
       var _saveLocale = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(locale) {
-        return regeneratorRuntime.wrap(function _callee2$(_context3) {
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context2.prev = _context2.next) {
               case 0:
-                _context3.next = 2;
+                _context2.next = 2;
                 return this._locale.setLocale(locale);
 
               case 2:
@@ -263,7 +261,7 @@ _dec = (0, _di.Module)({
 
               case 3:
               case "end":
-                return _context3.stop();
+                return _context2.stop();
             }
           }
         }, _callee2, this);
@@ -278,7 +276,7 @@ _dec = (0, _di.Module)({
   }, {
     key: "_actionTypes",
     get: function get() {
-      return new _Enum["default"]([].concat(_toConsumableArray(Object.keys(_moduleActionTypes.moduleActionTypes)), ['saveLocale']), 'localeSettings');
+      return _ObjectMap.ObjectMap.prefixKeys([].concat(_toConsumableArray(_ObjectMap.ObjectMap.keys(_moduleActionTypes.moduleActionTypes)), ['saveLocale']), 'localeSettings');
     }
   }, {
     key: "reducer",

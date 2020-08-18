@@ -47,11 +47,15 @@ require("core-js/modules/es6.array.map");
 
 require("regenerator-runtime/runtime");
 
+require("core-js/modules/es6.array.find");
+
 var _phoneNumber = require("@ringcentral-integration/phone-number");
 
 var _RcModule2 = _interopRequireDefault(require("../../lib/RcModule"));
 
 var _di = require("../../lib/di");
+
+var _contactHelper = require("../../lib/contactHelper");
 
 var _isBlank = _interopRequireDefault(require("../../lib/isBlank"));
 
@@ -63,7 +67,7 @@ var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
 
 var _ensureExist = _interopRequireDefault(require("../../lib/ensureExist"));
 
-var _numberValidateActionTypes = _interopRequireDefault(require("./numberValidateActionTypes"));
+var _numberValidateActionTypes = require("./numberValidateActionTypes");
 
 var _getNumberValidateReducer = _interopRequireDefault(require("./getNumberValidateReducer"));
 
@@ -116,6 +120,9 @@ var NumberValidate = (
  */
 _dec = (0, _di.Module)({
   deps: ['Brand', 'Client', 'RegionSettings', 'AccountInfo', {
+    dep: 'ExtensionInfo',
+    optional: true
+  }, {
     dep: 'CompanyContacts'
   }]
 }), _dec(_class = (_class2 = /*#__PURE__*/function (_RcModule) {
@@ -132,8 +139,6 @@ _dec = (0, _di.Module)({
    * @param {AccountInfo} params.accountInfo - accountInfo module instance
    */
   function NumberValidate(_ref) {
-    var _context;
-
     var _this;
 
     var brand = _ref.brand,
@@ -141,18 +146,20 @@ _dec = (0, _di.Module)({
         companyContacts = _ref.companyContacts,
         regionSettings = _ref.regionSettings,
         accountInfo = _ref.accountInfo,
-        options = _objectWithoutProperties(_ref, ["brand", "client", "companyContacts", "regionSettings", "accountInfo"]);
+        extensionInfo = _ref.extensionInfo,
+        options = _objectWithoutProperties(_ref, ["brand", "client", "companyContacts", "regionSettings", "accountInfo", "extensionInfo"]);
 
     _classCallCheck(this, NumberValidate);
 
     _this = _super.call(this, _objectSpread(_objectSpread({}, options), {}, {
-      actionTypes: _numberValidateActionTypes["default"]
+      actionTypes: _numberValidateActionTypes.numberValidateActionTypes
     }));
     _this._brand = brand;
     _this._client = client;
-    _this._companyContacts = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, companyContacts, 'companyContacts');
+    _this._companyContacts = _ensureExist["default"].call(_assertThisInitialized(_this), companyContacts, 'companyContacts');
     _this._regionSettings = regionSettings;
     _this._accountInfo = accountInfo;
+    _this._extensionInfo = extensionInfo;
     _this._reducer = (0, _getNumberValidateReducer["default"])(_this.actionTypes);
     return _this;
   }
@@ -251,6 +258,46 @@ _dec = (0, _di.Module)({
 
       return false;
     }
+    /**
+     * TODO: Currently we don't have clearly defined business rule on
+     * what extension numbers are considered available for dialing.
+     * @param {*} extensionNumber
+     * @returns {String} extensionNumber | null
+     */
+
+  }, {
+    key: "getAvailableExtension",
+    value: function getAvailableExtension(extensionNumber) {
+      var _contacts$find$extens,
+          _contacts$find,
+          _this3 = this;
+
+      if (!(0, _contactHelper.isAnExtension)(extensionNumber)) {
+        return null;
+      }
+
+      var _this$_companyContact = this._companyContacts,
+          filteredContacts = _this$_companyContact.filteredContacts,
+          ivrContacts = _this$_companyContact.ivrContacts;
+      var contacts = filteredContacts.concat(ivrContacts);
+      return (_contacts$find$extens = (_contacts$find = contacts.find(function (item) {
+        var _this3$_extensionInfo, _this3$_extensionInfo2, _this3$_extensionInfo3, _this3$_extensionInfo4;
+
+        return (0, _contactHelper.isExtensionExist)({
+          extensionNumber: extensionNumber,
+          extensionFromContacts: item.extensionNumber,
+          options: {
+            isMultipleSiteEnabled: (_this3$_extensionInfo = (_this3$_extensionInfo2 = _this3._extensionInfo) === null || _this3$_extensionInfo2 === void 0 ? void 0 : _this3$_extensionInfo2.isMultipleSiteEnabled) !== null && _this3$_extensionInfo !== void 0 ? _this3$_extensionInfo : false,
+            site: (_this3$_extensionInfo3 = (_this3$_extensionInfo4 = _this3._extensionInfo) === null || _this3$_extensionInfo4 === void 0 ? void 0 : _this3$_extensionInfo4.site) !== null && _this3$_extensionInfo3 !== void 0 ? _this3$_extensionInfo3 : null
+          }
+        });
+      })) === null || _contacts$find === void 0 ? void 0 : _contacts$find.extensionNumber) !== null && _contacts$find$extens !== void 0 ? _contacts$find$extens : null;
+    }
+  }, {
+    key: "isAvailableExtension",
+    value: function isAvailableExtension(extensionNumber) {
+      return !!this.getAvailableExtension(extensionNumber);
+    }
   }, {
     key: "isNotAnExtension",
     value: function isNotAnExtension(extensionNumber) {
@@ -283,30 +330,30 @@ _dec = (0, _di.Module)({
     value: function () {
       var _validateNumbers = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(phoneNumbers) {
         var validateResult, validatedNumbers;
-        return regeneratorRuntime.wrap(function _callee$(_context2) {
+        return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context.prev = _context.next) {
               case 0:
                 validateResult = this.validateFormat(phoneNumbers);
 
                 if (validateResult.result) {
-                  _context2.next = 3;
+                  _context.next = 3;
                   break;
                 }
 
-                return _context2.abrupt("return", validateResult);
+                return _context.abrupt("return", validateResult);
 
               case 3:
-                _context2.next = 5;
+                _context.next = 5;
                 return this.validateWithNumberParser(phoneNumbers);
 
               case 5:
-                validatedNumbers = _context2.sent;
-                return _context2.abrupt("return", validatedNumbers);
+                validatedNumbers = _context.sent;
+                return _context.abrupt("return", validatedNumbers);
 
               case 7:
               case "end":
-                return _context2.stop();
+                return _context.stop();
             }
           }
         }, _callee, this);
@@ -321,11 +368,11 @@ _dec = (0, _di.Module)({
   }, {
     key: "validateFormat",
     value: function validateFormat(phoneNumbers) {
-      var _this3 = this;
+      var _this4 = this;
 
       var errors = [];
       phoneNumbers.map(function (phoneNumber) {
-        if (_this3.isNoToNumber(phoneNumber)) {
+        if (_this4.isNoToNumber(phoneNumber)) {
           errors.push({
             phoneNumber: phoneNumber,
             type: 'noToNumber'
@@ -333,7 +380,7 @@ _dec = (0, _di.Module)({
           return null;
         }
 
-        if (_this3.isNoAreaCode(phoneNumber)) {
+        if (_this4.isNoAreaCode(phoneNumber)) {
           errors.push({
             phoneNumber: phoneNumber,
             type: 'noAreaCode'
@@ -351,22 +398,22 @@ _dec = (0, _di.Module)({
     key: "validateWithNumberParser",
     value: function () {
       var _validateWithNumberParser = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(phoneNumbers) {
-        var _this4 = this;
+        var _this5 = this;
 
         var pasedNumers, errors, validatedPhoneNumbers;
-        return regeneratorRuntime.wrap(function _callee2$(_context3) {
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context2.prev = _context2.next) {
               case 0:
-                _context3.next = 2;
+                _context2.next = 2;
                 return this._numberParser(phoneNumbers);
 
               case 2:
-                pasedNumers = _context3.sent;
+                pasedNumers = _context2.sent;
                 errors = [];
                 validatedPhoneNumbers = [];
                 pasedNumers.map(function (phoneNumber) {
-                  if (_this4._isSpecial(phoneNumber)) {
+                  if (_this5._isSpecial(phoneNumber)) {
                     errors.push({
                       phoneNumber: phoneNumber.originalString,
                       type: 'specialNumber'
@@ -374,7 +421,11 @@ _dec = (0, _di.Module)({
                     return null;
                   }
 
-                  if (_this4.isNotAnExtension(phoneNumber.originalString)) {
+                  var number = phoneNumber.originalString;
+
+                  var availableExtension = _this5.getAvailableExtension(number);
+
+                  if ((0, _contactHelper.isAnExtension)(number) && !availableExtension) {
                     errors.push({
                       phoneNumber: phoneNumber.originalString,
                       type: 'notAnExtension'
@@ -382,10 +433,13 @@ _dec = (0, _di.Module)({
                     return null;
                   }
 
-                  validatedPhoneNumbers.push(phoneNumber);
+                  var extensionObj = availableExtension ? {
+                    availableExtension: availableExtension
+                  } : {};
+                  validatedPhoneNumbers.push(_objectSpread(_objectSpread({}, phoneNumber), extensionObj));
                   return null;
                 });
-                return _context3.abrupt("return", {
+                return _context2.abrupt("return", {
                   result: errors.length === 0,
                   numbers: validatedPhoneNumbers,
                   errors: errors
@@ -393,7 +447,7 @@ _dec = (0, _di.Module)({
 
               case 7:
               case "end":
-                return _context3.stop();
+                return _context2.stop();
             }
           }
         }, _callee2, this);
@@ -411,9 +465,9 @@ _dec = (0, _di.Module)({
       var _numberParser2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(phoneNumbers) {
         var _this$_regionSettings3, countryCode, areaCode, homeCountry, normalizedNumbers, response;
 
-        return regeneratorRuntime.wrap(function _callee3$(_context4) {
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context3.prev = _context3.next) {
               case 0:
                 _this$_regionSettings3 = this._regionSettings, countryCode = _this$_regionSettings3.countryCode, areaCode = _this$_regionSettings3.areaCode;
                 homeCountry = countryCode ? {
@@ -426,12 +480,12 @@ _dec = (0, _di.Module)({
                     areaCode: areaCode
                   });
                 });
-                _context4.next = 5;
+                _context3.next = 5;
                 return this._numberParserApi(normalizedNumbers, homeCountry);
 
               case 5:
-                response = _context4.sent;
-                return _context4.abrupt("return", response.phoneNumbers.map(function (phoneNumber) {
+                response = _context3.sent;
+                return _context3.abrupt("return", response.phoneNumbers.map(function (phoneNumber) {
                   return _objectSpread(_objectSpread({}, phoneNumber), {}, {
                     international: !!phoneNumber.country && phoneNumber.country.callingCode !== response.homeCountry.callingCode
                   });
@@ -439,7 +493,7 @@ _dec = (0, _di.Module)({
 
               case 7:
               case "end":
-                return _context4.stop();
+                return _context3.stop();
             }
           }
         }, _callee3, this);
@@ -456,22 +510,22 @@ _dec = (0, _di.Module)({
     value: function () {
       var _numberParserApi2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(originalStrings, homeCountry) {
         var response;
-        return regeneratorRuntime.wrap(function _callee4$(_context5) {
+        return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
-            switch (_context5.prev = _context5.next) {
+            switch (_context4.prev = _context4.next) {
               case 0:
-                _context5.next = 2;
+                _context4.next = 2;
                 return this._client.numberParser().parse().post({
                   originalStrings: originalStrings
                 }, homeCountry);
 
               case 2:
-                response = _context5.sent;
-                return _context5.abrupt("return", response);
+                response = _context4.sent;
+                return _context4.abrupt("return", response);
 
               case 4:
               case "end":
-                return _context5.stop();
+                return _context4.stop();
             }
           }
         }, _callee4, this);
@@ -496,6 +550,6 @@ _dec = (0, _di.Module)({
   }]);
 
   return NumberValidate;
-}(_RcModule2["default"]), (_applyDecoratedDescriptor(_class2.prototype, "validateNumbers", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "validateNumbers"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "validateWithNumberParser", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "validateWithNumberParser"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_numberParser", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_numberParser"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_numberParserApi", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_numberParserApi"), _class2.prototype)), _class2)) || _class);
+}(_RcModule2["default"]), (_applyDecoratedDescriptor(_class2.prototype, "isNoToNumber", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "isNoToNumber"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "isNoAreaCode", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "isNoAreaCode"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "validateNumbers", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "validateNumbers"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "validateFormat", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "validateFormat"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "validateWithNumberParser", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "validateWithNumberParser"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_numberParser", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_numberParser"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_numberParserApi", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_numberParserApi"), _class2.prototype)), _class2)) || _class);
 exports["default"] = NumberValidate;
 //# sourceMappingURL=index.js.map

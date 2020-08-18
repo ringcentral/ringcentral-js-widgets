@@ -1,0 +1,137 @@
+"use strict";
+
+require("core-js/modules/es6.object.define-property");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.isHangUp = isHangUp;
+exports.isRejectCode = isRejectCode;
+exports.isOnRecording = isOnRecording;
+exports.getSessionsParty = getSessionsParty;
+exports.normalizeSession = normalizeSession;
+exports.conflictError = conflictError;
+
+require("regenerator-runtime/runtime");
+
+require("core-js/modules/es6.promise");
+
+require("core-js/modules/es6.object.to-string");
+
+require("core-js/modules/es6.function.name");
+
+require("core-js/modules/es6.array.find");
+
+var _recordStatus = _interopRequireDefault(require("../Webphone/recordStatus"));
+
+var _callResults = _interopRequireDefault(require("../../enums/callResults"));
+
+var _callDirections = _interopRequireDefault(require("../../enums/callDirections"));
+
+var _activeCallControlStatus = _interopRequireDefault(require("../../enums/activeCallControlStatus"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function isHangUp(code) {
+  return code === _callResults["default"].disconnected;
+}
+
+function isRejectCode(_ref) {
+  var direction = _ref.direction,
+      code = _ref.code;
+  return direction === _callDirections["default"].inbound && (code === _activeCallControlStatus["default"].setUp || code === _activeCallControlStatus["default"].proceeding);
+}
+
+function isOnRecording(recordings) {
+  if (!recordings || recordings.length === 0) {
+    return false;
+  }
+
+  var recording = recordings[0];
+  return recording.active;
+}
+
+function getSessionsParty(session) {
+  var extensionId = session.extensionId;
+  return session.parties.find(function (p) {
+    return p.extensionId === extensionId;
+  });
+} // TODO: add call type in callMonitor module
+
+
+function normalizeSession(_ref2) {
+  var session = _ref2.session,
+      call = _ref2.call;
+  var party = getSessionsParty(session);
+  var partyId = party.id,
+      direction = party.direction,
+      from = party.from,
+      to = party.to,
+      status = party.status,
+      recordings = party.recordings,
+      muted = party.muted;
+  var startTime = call.startTime,
+      sessionId = call.sessionId;
+  var formatValue = {
+    telephonySessionId: session.id,
+    partyId: partyId,
+    direction: direction,
+    from: from === null || from === void 0 ? void 0 : from.phoneNumber,
+    fromNumber: from === null || from === void 0 ? void 0 : from.phoneNumber,
+    fromUserName: from === null || from === void 0 ? void 0 : from.name,
+    to: to === null || to === void 0 ? void 0 : to.phoneNumber,
+    toNumber: to === null || to === void 0 ? void 0 : to.phoneNumber,
+    toUserName: to === null || to === void 0 ? void 0 : to.name,
+    id: session.id,
+    sessionId: sessionId,
+    callStatus: call === null || call === void 0 ? void 0 : call.telephonyStatus,
+    startTime: startTime,
+    creationTime: startTime,
+    isOnMute: muted,
+    isForwarded: false,
+    isOnFlip: false,
+    isOnHold: status.code === _activeCallControlStatus["default"].hold,
+    isOnTransfer: false,
+    isReplied: false,
+    isToVoicemail: false,
+    lastHoldingTime: 0,
+    minimized: false,
+    recordStatus: isOnRecording(recordings) ? _recordStatus["default"].recording : _recordStatus["default"].idle,
+    removed: false,
+    isReject: isRejectCode({
+      direction: direction,
+      code: status.code
+    })
+  };
+  return formatValue;
+}
+
+function conflictError(_x) {
+  return _conflictError.apply(this, arguments);
+}
+
+function _conflictError() {
+  _conflictError = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(error) {
+    var conflictErrRgx, conflictMsgRgx;
+    return regeneratorRuntime.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            conflictErrRgx = /409/g;
+            conflictMsgRgx = /Incorrect State/g;
+            return _context.abrupt("return", !!(conflictErrRgx.test(error.message) && conflictMsgRgx.test(error.errorCode)));
+
+          case 3:
+          case "end":
+            return _context.stop();
+        }
+      }
+    }, _callee);
+  }));
+  return _conflictError.apply(this, arguments);
+}
+//# sourceMappingURL=helpers.js.map

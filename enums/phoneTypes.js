@@ -7,9 +7,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 
-var _Enum = require("../lib/Enum");
+var _ObjectMap = require("@ringcentral-integration/core/lib/ObjectMap");
 
-var _default = (0, _Enum.createEnum)(['business', 'extension', 'home', 'mobile', 'phone', 'unknown', 'company', 'direct', 'fax', 'other']);
+var _default = _ObjectMap.ObjectMap.fromKeys(['business', 'extension', 'home', 'mobile', 'phone', 'unknown', 'company', 'direct', 'fax', 'other']);
 
 exports["default"] = _default;
 //# sourceMappingURL=phoneTypes.js.map

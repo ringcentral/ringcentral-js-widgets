@@ -5,13 +5,11 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = void 0;
+exports["default"] = exports.connectionStatus = void 0;
 
-var _Enum = _interopRequireDefault(require("../../lib/Enum"));
+var _ObjectMap = require("@ringcentral-integration/core/lib/ObjectMap");
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-var _default = new _Enum["default"](['connecting', // status by first 3 connect
+var connectionStatus = _ObjectMap.ObjectMap.prefixKeys(['connecting', // status by first 3 connect
 'connected', // registered
 'reconnecting', //  status after last connect failed
 'disconnecting', // status by user disconnect
@@ -22,5 +20,7 @@ var _default = new _Enum["default"](['connecting', // status by first 3 connect
 'inactive' // status when disconnected for inactive
 ], 'connectionStatus');
 
+exports.connectionStatus = connectionStatus;
+var _default = connectionStatus;
 exports["default"] = _default;
 //# sourceMappingURL=connectionStatus.js.map

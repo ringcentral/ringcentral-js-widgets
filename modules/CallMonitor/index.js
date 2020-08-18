@@ -201,8 +201,6 @@ _dec = (0, _di.Module)({
    * @param {Function} params.onCallEnded - function on call ended
    */
   function CallMonitor(_ref) {
-    var _context;
-
     var _this;
 
     var call = _ref.call,
@@ -256,8 +254,8 @@ _dec = (0, _di.Module)({
 
     _this._call = call;
     _this._conferenceCall = conferenceCall;
-    _this._accountInfo = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, accountInfo, 'accountInfo');
-    _this._presence = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, presence, 'presence');
+    _this._accountInfo = _ensureExist["default"].call(_assertThisInitialized(_this), accountInfo, 'accountInfo');
+    _this._presence = _ensureExist["default"].call(_assertThisInitialized(_this), presence, 'presence');
     _this._contactMatcher = contactMatcher;
     _this._activityMatcher = activityMatcher;
     _this._tabManager = tabManager;
@@ -265,7 +263,7 @@ _dec = (0, _di.Module)({
     _this._onNewCall = onNewCall;
     _this._onCallUpdated = onCallUpdated;
     _this._onCallEnded = onCallEnded;
-    _this._storage = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, storage, 'storage');
+    _this._storage = _ensureExist["default"].call(_assertThisInitialized(_this), storage, 'storage');
     _this._callMatchedKey = 'callMatched';
     _this._onRinging = onRinging; // change _onRinging hook to array lsit
 
@@ -314,9 +312,9 @@ _dec = (0, _di.Module)({
         var _this2 = this;
 
         var uniqueNumbers, newNumbers, sessionIds, newSessions, oldCalls, entities;
-        return regeneratorRuntime.wrap(function _callee$(_context2) {
+        return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context.prev = _context.next) {
               case 0:
                 if ((!this._call || this._call.ready) && (!this._conferenceCall || this._conferenceCall.ready) && this._accountInfo.ready && this._presence.ready && (!this._contactMatcher || this._contactMatcher.ready) && (!this._activityMatcher || this._activityMatcher.ready) && (!this._tabManager || this._tabManager.ready) && this._storage.ready && this.pending) {
                   this.store.dispatch({
@@ -451,7 +449,7 @@ _dec = (0, _di.Module)({
 
               case 1:
               case "end":
-                return _context2.stop();
+                return _context.stop();
             }
           }
         }, _callee, this);

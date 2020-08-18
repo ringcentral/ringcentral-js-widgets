@@ -43,6 +43,8 @@ require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.array.reduce");
 
+require("core-js/modules/es6.object.keys");
+
 require("core-js/modules/es6.array.for-each");
 
 require("core-js/modules/web.dom.iterable");
@@ -51,11 +53,11 @@ require("core-js/modules/es6.array.iterator");
 
 require("core-js/modules/es6.object.to-string");
 
-require("core-js/modules/es6.object.keys");
-
 require("regenerator-runtime/runtime");
 
 var _formatMessage = _interopRequireDefault(require("format-message"));
+
+var _ObjectMap = require("@ringcentral-integration/core/lib/ObjectMap");
 
 var _redux = require("redux");
 
@@ -75,11 +77,9 @@ var _getProxyStatusReducer = _interopRequireDefault(require("../../lib/getProxyS
 
 var _detectBrowserLocale = _interopRequireDefault(require("../../lib/detectBrowserLocale"));
 
-var _Enum = _interopRequireDefault(require("../../lib/Enum"));
-
 var _moduleActionTypes = require("../../enums/moduleActionTypes");
 
-var _proxyActionTypes = _interopRequireDefault(require("../../enums/proxyActionTypes"));
+var _proxyActionTypes = require("../../enums/proxyActionTypes");
 
 var _dec, _class, _class2, _temp;
 
@@ -444,7 +444,7 @@ _dec = (0, _di.Module)({
   }, {
     key: "_actionTypes",
     get: function get() {
-      return new _Enum["default"]([].concat(_toConsumableArray(Object.keys(_moduleActionTypes.moduleActionTypes)), _toConsumableArray(Object.keys(_proxyActionTypes["default"])), ['setLocale', 'setLocaleSuccess', 'setLocaleError', 'syncProxyLocale', 'toggleDebugMode']), 'locale');
+      return _ObjectMap.ObjectMap.prefixKeys([].concat(_toConsumableArray(_ObjectMap.ObjectMap.keys(_moduleActionTypes.moduleActionTypes)), _toConsumableArray(_ObjectMap.ObjectMap.keys(_proxyActionTypes.proxyActionTypes)), ['setLocale', 'setLocaleSuccess', 'setLocaleError', 'syncProxyLocale', 'toggleDebugMode']), 'locale');
     }
   }, {
     key: "reducer",

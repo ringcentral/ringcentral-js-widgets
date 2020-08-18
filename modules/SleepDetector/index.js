@@ -29,7 +29,7 @@ var _RcModule2 = _interopRequireDefault(require("../../lib/RcModule"));
 
 var _moduleStatuses = _interopRequireDefault(require("../../enums/moduleStatuses"));
 
-var _SleepDetector = require("../../lib/SleepDetector");
+var _SleepDetection = require("../../lib/SleepDetection");
 
 var _dec, _class;
 
@@ -57,7 +57,6 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
-var MAX_LISTENERS = 30;
 var SleepDetector = (_dec = (0, _di.Module)({
   name: 'SleepDetector',
   deps: [{
@@ -73,21 +72,15 @@ var SleepDetector = (_dec = (0, _di.Module)({
     var _this;
 
     var detectionInterval = _ref.detectionInterval,
-        detectionThreshold = _ref.detectionThreshold,
-        _ref$maxListeners = _ref.maxListeners,
-        maxListeners = _ref$maxListeners === void 0 ? MAX_LISTENERS : _ref$maxListeners;
+        detectionThreshold = _ref.detectionThreshold;
 
     _classCallCheck(this, SleepDetector);
 
     _this = _super.call(this);
-    _this._detector = new _SleepDetector.SleepDetector({
+    _this._detector = new _SleepDetection.SleepDetection({
       detectionInterval: detectionInterval,
       detectionThreshold: detectionThreshold
-    }); // It is very normal to have more than 10 listeners, since all DataFetcher classes
-    // will listen to the sleep detected event.
-
-    _this._detector.setMaxListeners(maxListeners);
-
+    });
     return _this;
   }
 
@@ -103,12 +96,12 @@ var SleepDetector = (_dec = (0, _di.Module)({
     value: function off() {
       var _this$_detector2;
 
-      (_this$_detector2 = this._detector).on.apply(_this$_detector2, arguments);
+      (_this$_detector2 = this._detector).off.apply(_this$_detector2, arguments);
     }
   }, {
     key: "events",
     get: function get() {
-      return _SleepDetector.SleepDetectorEvents;
+      return this._detector.events;
     }
   }, {
     key: "status",

@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.string.iterator");
-
 require("core-js/modules/es6.weak-map");
 
 Object.defineProperty(exports, "__esModule", {
@@ -10,8 +8,6 @@ Object.defineProperty(exports, "__esModule", {
 exports["default"] = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
-
-require("core-js/modules/es6.promise");
 
 require("core-js/modules/es6.object.define-properties");
 
@@ -35,17 +31,21 @@ require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.array.reduce");
 
+require("core-js/modules/es6.object.keys");
+
+require("core-js/modules/es6.array.filter");
+
+require("core-js/modules/es6.array.map");
+
+require("core-js/modules/es6.promise");
+
 require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
 
 require("core-js/modules/es6.object.to-string");
 
-require("core-js/modules/es6.object.keys");
-
-require("core-js/modules/es6.array.filter");
-
-require("core-js/modules/es6.array.map");
+require("core-js/modules/es6.string.iterator");
 
 require("core-js/modules/es6.array.for-each");
 
@@ -143,8 +143,6 @@ var GlipPersons = (_dec = (0, _di.Module)({
    * @param {TabManager} params.tabManager - tabManager module instance
    */
   function GlipPersons(_ref) {
-    var _context;
-
     var _this;
 
     var client = _ref.client,
@@ -161,9 +159,9 @@ var GlipPersons = (_dec = (0, _di.Module)({
     _this = _super.call(this, _objectSpread(_objectSpread({}, options), {}, {
       actionTypes: _actionTypes["default"]
     }));
-    _this._rolesAndPermissions = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, rolesAndPermissions, 'rolesAndPermissions');
-    _this._client = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, client, 'client');
-    _this._auth = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, auth, 'auth');
+    _this._rolesAndPermissions = _ensureExist["default"].call(_assertThisInitialized(_this), rolesAndPermissions, 'rolesAndPermissions');
+    _this._client = _ensureExist["default"].call(_assertThisInitialized(_this), client, 'client');
+    _this._auth = _ensureExist["default"].call(_assertThisInitialized(_this), auth, 'auth');
     _this._tabManager = tabManager;
     _this._storage = storage;
     _this._fetchingIds = {};
@@ -199,12 +197,12 @@ var GlipPersons = (_dec = (0, _di.Module)({
     key: "_onStateChange",
     value: function () {
       var _onStateChange2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-        return regeneratorRuntime.wrap(function _callee$(_context2) {
+        return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context.prev = _context.next) {
               case 0:
                 if (!this._shouldInit()) {
-                  _context2.next = 10;
+                  _context.next = 10;
                   break;
                 }
 
@@ -219,21 +217,21 @@ var GlipPersons = (_dec = (0, _di.Module)({
                 }
 
                 if (this._hasPermission) {
-                  _context2.next = 5;
+                  _context.next = 5;
                   break;
                 }
 
-                return _context2.abrupt("return");
+                return _context.abrupt("return");
 
               case 5:
-                _context2.next = 7;
+                _context.next = 7;
                 return this.loadMe();
 
               case 7:
                 this.store.dispatch({
                   type: this.actionTypes.initSuccess
                 });
-                _context2.next = 11;
+                _context.next = 11;
                 break;
 
               case 10:
@@ -245,7 +243,7 @@ var GlipPersons = (_dec = (0, _di.Module)({
 
               case 11:
               case "end":
-                return _context2.stop();
+                return _context.stop();
             }
           }
         }, _callee, this);
@@ -271,16 +269,16 @@ var GlipPersons = (_dec = (0, _di.Module)({
     key: "loadMe",
     value: function () {
       var _loadMe = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
-        return regeneratorRuntime.wrap(function _callee2$(_context3) {
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context2.prev = _context2.next) {
               case 0:
-                _context3.next = 2;
+                _context2.next = 2;
                 return this.loadPerson(this._auth.ownerId);
 
               case 2:
               case "end":
-                return _context3.stop();
+                return _context2.stop();
             }
           }
         }, _callee2, this);
@@ -297,36 +295,36 @@ var GlipPersons = (_dec = (0, _di.Module)({
     value: function () {
       var _loadPerson = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(id) {
         var person;
-        return regeneratorRuntime.wrap(function _callee3$(_context4) {
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context3.prev = _context3.next) {
               case 0:
-                _context4.prev = 0;
+                _context3.prev = 0;
                 this.store.dispatch({
                   type: this.actionTypes.fetch
                 });
-                _context4.next = 4;
+                _context3.next = 4;
                 return this._client.glip().persons(id).get();
 
               case 4:
-                person = _context4.sent;
+                person = _context3.sent;
                 this.store.dispatch({
                   type: this.actionTypes.fetchSuccess,
                   person: person
                 });
-                _context4.next = 11;
+                _context3.next = 11;
                 break;
 
               case 8:
-                _context4.prev = 8;
-                _context4.t0 = _context4["catch"](0);
+                _context3.prev = 8;
+                _context3.t0 = _context3["catch"](0);
                 this.store.dispatch({
                   type: this.actionTypes.fetchError
                 });
 
               case 11:
               case "end":
-                return _context4.stop();
+                return _context3.stop();
             }
           }
         }, _callee3, this, [[0, 8]]);
@@ -345,24 +343,24 @@ var GlipPersons = (_dec = (0, _di.Module)({
         var _this3 = this;
 
         var ownerId, newPersonIds, ids, persons, lastIds;
-        return regeneratorRuntime.wrap(function _callee4$(_context5) {
+        return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
-            switch (_context5.prev = _context5.next) {
+            switch (_context4.prev = _context4.next) {
               case 0:
                 if (this._auth.loggedIn) {
-                  _context5.next = 2;
+                  _context4.next = 2;
                   break;
                 }
 
-                return _context5.abrupt("return");
+                return _context4.abrupt("return");
 
               case 2:
                 if (personIds) {
-                  _context5.next = 4;
+                  _context4.next = 4;
                   break;
                 }
 
-                return _context5.abrupt("return");
+                return _context4.abrupt("return");
 
               case 4:
                 ownerId = this._auth.ownerId;
@@ -374,26 +372,26 @@ var GlipPersons = (_dec = (0, _di.Module)({
                 });
 
                 if (!(newPersonIds.length === 0)) {
-                  _context5.next = 9;
+                  _context4.next = 9;
                   break;
                 }
 
-                return _context5.abrupt("return");
+                return _context4.abrupt("return");
 
               case 9:
                 ids = newPersonIds.slice(0, MaximumBatchGetPersons);
                 ids.forEach(function (id) {
                   _this3._fetchingIds[id] = 1;
                 });
-                _context5.prev = 11;
+                _context4.prev = 11;
                 this.store.dispatch({
                   type: this.actionTypes.fetch
                 });
-                _context5.next = 15;
+                _context4.next = 15;
                 return this._batchGetPersons(ids);
 
               case 15:
-                persons = _context5.sent;
+                persons = _context4.sent;
                 this.store.dispatch({
                   type: this.actionTypes.batchFetchSuccess,
                   persons: persons
@@ -401,12 +399,12 @@ var GlipPersons = (_dec = (0, _di.Module)({
                 ids.forEach(function (id) {
                   delete _this3._fetchingIds[id];
                 });
-                _context5.next = 24;
+                _context4.next = 24;
                 break;
 
               case 20:
-                _context5.prev = 20;
-                _context5.t0 = _context5["catch"](11);
+                _context4.prev = 20;
+                _context4.t0 = _context4["catch"](11);
                 this.store.dispatch({
                   type: this.actionTypes.fetchError
                 });
@@ -416,30 +414,30 @@ var GlipPersons = (_dec = (0, _di.Module)({
 
               case 24:
                 if (!(ownerId !== this._auth.ownerId)) {
-                  _context5.next = 26;
+                  _context4.next = 26;
                   break;
                 }
 
-                return _context5.abrupt("return");
+                return _context4.abrupt("return");
 
               case 26:
                 lastIds = newPersonIds.slice(MaximumBatchGetPersons);
 
                 if (!(lastIds.length > 0)) {
-                  _context5.next = 32;
+                  _context4.next = 32;
                   break;
                 }
 
-                _context5.next = 30;
+                _context4.next = 30;
                 return (0, _sleep["default"])(this._batchFetchDelay);
 
               case 30:
-                _context5.next = 32;
+                _context4.next = 32;
                 return this.loadPersons(lastIds);
 
               case 32:
               case "end":
-                return _context5.stop();
+                return _context4.stop();
             }
           }
         }, _callee4, this, [[11, 20]]);
@@ -456,50 +454,54 @@ var GlipPersons = (_dec = (0, _di.Module)({
     value: function () {
       var _batchGetPersons2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(personIds) {
         var response, ids, multipartResponse, responses;
-        return regeneratorRuntime.wrap(function _callee5$(_context6) {
+        return regeneratorRuntime.wrap(function _callee5$(_context5) {
           while (1) {
-            switch (_context6.prev = _context6.next) {
+            switch (_context5.prev = _context5.next) {
               case 0:
                 if (!(!personIds || personIds.length === 0)) {
-                  _context6.next = 2;
+                  _context5.next = 2;
                   break;
                 }
 
-                return _context6.abrupt("return", []);
+                return _context5.abrupt("return", []);
 
               case 2:
                 if (!(personIds.length === 1)) {
-                  _context6.next = 7;
+                  _context5.next = 7;
                   break;
                 }
 
-                _context6.next = 5;
+                _context5.next = 5;
                 return this._client.glip().persons(personIds[0]).get();
 
               case 5:
-                response = _context6.sent;
-                return _context6.abrupt("return", [response]);
+                response = _context5.sent;
+                return _context5.abrupt("return", [response]);
 
               case 7:
                 ids = personIds.join(',');
-                _context6.next = 10;
+                _context5.next = 10;
                 return (0, _batchApiHelper.batchGetApi)({
                   platform: this._client.service.platform(),
-                  url: "/glip/persons/".concat(ids)
+                  url: "/restapi/v1.0/glip/persons/".concat(ids)
                 });
 
               case 10:
-                multipartResponse = _context6.sent;
-                responses = multipartResponse.filter(function (r) {
-                  return r.ok();
+                multipartResponse = _context5.sent;
+                _context5.next = 13;
+                return Promise.all(multipartResponse.filter(function (r) {
+                  return r.ok;
                 }).map(function (x) {
                   return x.json();
-                });
-                return _context6.abrupt("return", responses);
+                }));
 
               case 13:
+                responses = _context5.sent;
+                return _context5.abrupt("return", responses);
+
+              case 15:
               case "end":
-                return _context6.stop();
+                return _context5.stop();
             }
           }
         }, _callee5, this);

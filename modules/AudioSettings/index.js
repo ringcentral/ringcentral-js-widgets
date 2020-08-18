@@ -145,8 +145,6 @@ var AudioSettings = (_dec = (0, _di.Module)({
   var _super = _createSuper(AudioSettings);
 
   function AudioSettings(_ref) {
-    var _context;
-
     var _this;
 
     var auth = _ref.auth,
@@ -165,10 +163,10 @@ var AudioSettings = (_dec = (0, _di.Module)({
 
     _initializerDefineProperty(_this, "availableInputDevices", _descriptor2, _assertThisInitialized(_this));
 
-    _this._storage = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, storage, 'storage');
-    _this._auth = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, auth, 'auth');
-    _this._alert = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, alert, 'alert');
-    _this._rolesAndPermissions = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, rolesAndPermissions, 'rolesAndPermissions');
+    _this._storage = _ensureExist["default"].call(_assertThisInitialized(_this), storage, 'storage');
+    _this._auth = _ensureExist["default"].call(_assertThisInitialized(_this), auth, 'auth');
+    _this._alert = _ensureExist["default"].call(_assertThisInitialized(_this), alert, 'alert');
+    _this._rolesAndPermissions = _ensureExist["default"].call(_assertThisInitialized(_this), rolesAndPermissions, 'rolesAndPermissions');
     _this._storageKey = 'audioSettings';
 
     _this._storage.registerReducer({
@@ -205,9 +203,9 @@ var AudioSettings = (_dec = (0, _di.Module)({
     key: "markAutoPrompted",
     value: function () {
       var _markAutoPrompted = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-        return regeneratorRuntime.wrap(function _callee$(_context2) {
+        return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context.prev = _context.next) {
               case 0:
                 this.store.dispatch({
                   type: this.actionTypes.autoPrompted
@@ -215,7 +213,7 @@ var AudioSettings = (_dec = (0, _di.Module)({
 
               case 1:
               case "end":
-                return _context2.stop();
+                return _context.stop();
             }
           }
         }, _callee, this);
@@ -256,12 +254,12 @@ var AudioSettings = (_dec = (0, _di.Module)({
     key: "_onStateChange",
     value: function () {
       var _onStateChange2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
-        return regeneratorRuntime.wrap(function _callee2$(_context3) {
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context2.prev = _context2.next) {
               case 0:
                 if (!this._shouldInit()) {
-                  _context3.next = 8;
+                  _context2.next = 8;
                   break;
                 }
 
@@ -270,18 +268,18 @@ var AudioSettings = (_dec = (0, _di.Module)({
                 });
 
                 if (!this.supportDevices) {
-                  _context3.next = 5;
+                  _context2.next = 5;
                   break;
                 }
 
-                _context3.next = 5;
+                _context2.next = 5;
                 return this._checkDevices();
 
               case 5:
                 this.store.dispatch({
                   type: this.actionTypes.initSuccess
                 });
-                _context3.next = 9;
+                _context2.next = 9;
                 break;
 
               case 8:
@@ -296,7 +294,7 @@ var AudioSettings = (_dec = (0, _di.Module)({
 
               case 9:
               case "end":
-                return _context3.stop();
+                return _context2.stop();
             }
           }
         }, _callee2, this);
@@ -313,15 +311,15 @@ var AudioSettings = (_dec = (0, _di.Module)({
     value: function () {
       var _checkDevices2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
         var devices;
-        return regeneratorRuntime.wrap(function _callee3$(_context4) {
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context3.prev = _context3.next) {
               case 0:
-                _context4.next = 2;
+                _context3.next = 2;
                 return navigator.mediaDevices.enumerateDevices();
 
               case 2:
-                devices = _context4.sent;
+                devices = _context3.sent;
                 this.store.dispatch({
                   type: this.actionTypes.setAvailableDevices,
                   // TODO formatting for devices info instances and replace JSON APIs.
@@ -332,7 +330,7 @@ var AudioSettings = (_dec = (0, _di.Module)({
 
               case 4:
               case "end":
-                return _context4.stop();
+                return _context3.stop();
             }
           }
         }, _callee3, this);
@@ -349,19 +347,19 @@ var AudioSettings = (_dec = (0, _di.Module)({
     value: function () {
       var _getUserMedia = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
         var stream;
-        return regeneratorRuntime.wrap(function _callee4$(_context5) {
+        return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
-            switch (_context5.prev = _context5.next) {
+            switch (_context4.prev = _context4.next) {
               case 0:
                 if (navigator.mediaDevices.getUserMedia) {
-                  _context5.next = 2;
+                  _context4.next = 2;
                   break;
                 }
 
-                return _context5.abrupt("return");
+                return _context4.abrupt("return");
 
               case 2:
-                _context5.prev = 2;
+                _context4.prev = 2;
 
                 if (!this._getUserMediaPromise) {
                   this._getUserMediaPromise = navigator.mediaDevices.getUserMedia({
@@ -369,13 +367,13 @@ var AudioSettings = (_dec = (0, _di.Module)({
                   });
                 }
 
-                _context5.next = 6;
+                _context4.next = 6;
                 return this._getUserMediaPromise;
 
               case 6:
-                stream = _context5.sent;
+                stream = _context4.sent;
                 this._getUserMediaPromise = null;
-                _context5.next = 10;
+                _context4.next = 10;
                 return this._onGetUserMediaSuccess();
 
               case 10:
@@ -387,18 +385,18 @@ var AudioSettings = (_dec = (0, _di.Module)({
                   stream.stop();
                 }
 
-                _context5.next = 17;
+                _context4.next = 17;
                 break;
 
               case 13:
-                _context5.prev = 13;
-                _context5.t0 = _context5["catch"](2);
+                _context4.prev = 13;
+                _context4.t0 = _context4["catch"](2);
                 this._getUserMediaPromise = null;
-                this.onGetUserMediaError(_context5.t0);
+                this.onGetUserMediaError(_context4.t0);
 
               case 17:
               case "end":
-                return _context5.stop();
+                return _context4.stop();
             }
           }
         }, _callee4, this, [[2, 13]]);
@@ -415,9 +413,9 @@ var AudioSettings = (_dec = (0, _di.Module)({
     value: function () {
       var _onGetUserMediaSuccess2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
         var userMediaAlert;
-        return regeneratorRuntime.wrap(function _callee5$(_context6) {
+        return regeneratorRuntime.wrap(function _callee5$(_context5) {
           while (1) {
-            switch (_context6.prev = _context6.next) {
+            switch (_context5.prev = _context5.next) {
               case 0:
                 userMediaAlert = (0, _ramda.find)(function (item) {
                   return item.message === _audioSettingsErrors["default"].userMediaPermission;
@@ -430,12 +428,12 @@ var AudioSettings = (_dec = (0, _di.Module)({
                 this.store.dispatch({
                   type: this.actionTypes.getUserMediaSuccess
                 });
-                _context6.next = 5;
+                _context5.next = 5;
                 return this._checkDevices();
 
               case 5:
               case "end":
-                return _context6.stop();
+                return _context5.stop();
             }
           }
         }, _callee5, this);
@@ -451,9 +449,9 @@ var AudioSettings = (_dec = (0, _di.Module)({
     key: "onGetUserMediaError",
     value: function () {
       var _onGetUserMediaError = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(error) {
-        return regeneratorRuntime.wrap(function _callee6$(_context7) {
+        return regeneratorRuntime.wrap(function _callee6$(_context6) {
           while (1) {
-            switch (_context7.prev = _context7.next) {
+            switch (_context6.prev = _context6.next) {
               case 0:
                 this.store.dispatch({
                   type: this.actionTypes.getUserMediaError,
@@ -467,7 +465,7 @@ var AudioSettings = (_dec = (0, _di.Module)({
 
               case 2:
               case "end":
-                return _context7.stop();
+                return _context6.stop();
             }
           }
         }, _callee6, this);
@@ -483,9 +481,9 @@ var AudioSettings = (_dec = (0, _di.Module)({
     key: "showAlert",
     value: function () {
       var _showAlert = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
-        return regeneratorRuntime.wrap(function _callee7$(_context8) {
+        return regeneratorRuntime.wrap(function _callee7$(_context7) {
           while (1) {
-            switch (_context8.prev = _context8.next) {
+            switch (_context7.prev = _context7.next) {
               case 0:
                 if (!this.userMedia) {
                   this._alert.danger({
@@ -497,7 +495,7 @@ var AudioSettings = (_dec = (0, _di.Module)({
 
               case 1:
               case "end":
-                return _context8.stop();
+                return _context7.stop();
             }
           }
         }, _callee7, this);
@@ -515,9 +513,9 @@ var AudioSettings = (_dec = (0, _di.Module)({
       var _setData = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8(_ref2) {
         var _ref2$dialButtonVolum, dialButtonVolume, _ref2$dialButtonMuted, dialButtonMuted, _ref2$ringtoneVolume, ringtoneVolume, _ref2$ringtoneMuted, ringtoneMuted, _ref2$callVolume, callVolume, _ref2$outputDeviceId, outputDeviceId, _ref2$inputDeviceId, inputDeviceId;
 
-        return regeneratorRuntime.wrap(function _callee8$(_context9) {
+        return regeneratorRuntime.wrap(function _callee8$(_context8) {
           while (1) {
-            switch (_context9.prev = _context9.next) {
+            switch (_context8.prev = _context8.next) {
               case 0:
                 _ref2$dialButtonVolum = _ref2.dialButtonVolume, dialButtonVolume = _ref2$dialButtonVolum === void 0 ? this.dialButtonVolume : _ref2$dialButtonVolum, _ref2$dialButtonMuted = _ref2.dialButtonMuted, dialButtonMuted = _ref2$dialButtonMuted === void 0 ? this.dialButtonMuted : _ref2$dialButtonMuted, _ref2$ringtoneVolume = _ref2.ringtoneVolume, ringtoneVolume = _ref2$ringtoneVolume === void 0 ? this.ringtoneVolume : _ref2$ringtoneVolume, _ref2$ringtoneMuted = _ref2.ringtoneMuted, ringtoneMuted = _ref2$ringtoneMuted === void 0 ? this.ringtoneMuted : _ref2$ringtoneMuted, _ref2$callVolume = _ref2.callVolume, callVolume = _ref2$callVolume === void 0 ? this.callVolume : _ref2$callVolume, _ref2$outputDeviceId = _ref2.outputDeviceId, outputDeviceId = _ref2$outputDeviceId === void 0 ? this.outputDeviceId : _ref2$outputDeviceId, _ref2$inputDeviceId = _ref2.inputDeviceId, inputDeviceId = _ref2$inputDeviceId === void 0 ? this.inputDeviceId : _ref2$inputDeviceId;
                 this.store.dispatch({
@@ -533,7 +531,7 @@ var AudioSettings = (_dec = (0, _di.Module)({
 
               case 2:
               case "end":
-                return _context9.stop();
+                return _context8.stop();
             }
           }
         }, _callee8, this);

@@ -18,13 +18,14 @@ function mapOptionToMode(callWith) {
     case _callingOptions["default"].softphone:
       return _callingModes["default"].softphone;
 
-    case _callingOptions["default"].myphone:
-    case _callingOptions["default"].otherphone:
-    case _callingOptions["default"].customphone:
+    case _callingOptions["default"].ringout:
       return _callingModes["default"].ringout;
 
     case _callingOptions["default"].browser:
       return _callingModes["default"].webphone;
+
+    case _callingOptions["default"].jupiter:
+      return _callingModes["default"].jupiter;
 
     default:
       return _callingModes["default"].softphone;

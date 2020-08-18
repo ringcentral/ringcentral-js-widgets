@@ -61,6 +61,8 @@ var _getSoftphoneReducer = _interopRequireDefault(require("./getSoftphoneReducer
 
 var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
 
+var _callingModes = _interopRequireDefault(require("../CallingSettings/callingModes"));
+
 var _dec, _class, _class2;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -166,8 +168,8 @@ _dec = (0, _di.Module)({
   }, {
     key: "makeCall",
     value: function () {
-      var _makeCall = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(phoneNumber) {
-        var cmd, uri, frame;
+      var _makeCall = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(phoneNumber, callingMode) {
+        var cmd, uri, isCallWithJupiter, frame;
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -178,9 +180,14 @@ _dec = (0, _di.Module)({
                 });
                 cmd = "call?number=".concat(encodeURIComponent(phoneNumber));
                 uri = "".concat(this.protocol, "://").concat(cmd);
+                isCallWithJupiter = callingMode && callingMode === _callingModes["default"].jupiter;
+
+                if (isCallWithJupiter) {
+                  uri = "".concat(this.jupiterProtocol, "://r/call?number=").concat(phoneNumber);
+                }
 
                 if (!this._callHandler) {
-                  _context.next = 7;
+                  _context.next = 9;
                   break;
                 }
 
@@ -190,12 +197,12 @@ _dec = (0, _di.Module)({
                   phoneNumber: phoneNumber
                 });
 
-                _context.next = 28;
+                _context.next = 30;
                 break;
 
-              case 7:
+              case 9:
                 if (!(this._extensionMode || this.detectPlatform() !== 'desktop')) {
-                  _context.next = 11;
+                  _context.next = 13;
                   break;
                 }
 
@@ -204,63 +211,63 @@ _dec = (0, _di.Module)({
                  * 2. Use window.open in non-desktop platforms
                  */
                 window.open(uri);
-                _context.next = 28;
+                _context.next = 30;
                 break;
 
-              case 11:
+              case 13:
                 if (!window.navigator.msLaunchUri) {
-                  _context.next = 15;
+                  _context.next = 17;
                   break;
                 }
 
                 // to support ie to start the service
                 window.navigator.msLaunchUri(uri);
-                _context.next = 28;
+                _context.next = 30;
                 break;
 
-              case 15:
+              case 17:
                 if (!(window.ActiveXObject || 'ActiveXObject' in window)) {
-                  _context.next = 19;
+                  _context.next = 21;
                   break;
                 }
 
                 // to support ie on Windows < 8
                 window.open(uri);
-                _context.next = 28;
+                _context.next = 30;
                 break;
 
-              case 19:
+              case 21:
                 frame = document.createElement('iframe');
                 frame.style.display = 'none';
                 document.body.appendChild(frame);
-                _context.next = 24;
+                _context.next = 26;
                 return (0, _sleep["default"])(100);
 
-              case 24:
+              case 26:
                 frame.contentWindow.location.href = uri;
-                _context.next = 27;
+                _context.next = 29;
                 return (0, _sleep["default"])(300);
 
-              case 27:
+              case 29:
                 document.body.removeChild(frame);
 
-              case 28:
+              case 30:
                 if (!this._contactMatcher) {
-                  _context.next = 31;
+                  _context.next = 33;
                   break;
                 }
 
-                _context.next = 31;
+                _context.next = 33;
                 return this._contactMatcher.forceMatchNumber({
                   phoneNumber: phoneNumber
                 });
 
-              case 31:
+              case 33:
                 this.store.dispatch({
                   type: this.actionTypes.connectComplete
                 });
 
-              case 32:
+              case 34:
               case "end":
                 return _context.stop();
             }
@@ -268,7 +275,7 @@ _dec = (0, _di.Module)({
         }, _callee, this);
       }));
 
-      function makeCall(_x) {
+      function makeCall(_x, _x2) {
         return _makeCall.apply(this, arguments);
       }
 
@@ -293,6 +300,48 @@ _dec = (0, _di.Module)({
 
         default:
           return 'rcmobile';
+      }
+    } // currently we only have RingCentral App(rc brand)'s universal link
+
+  }, {
+    key: "jupiterUniversalLink",
+    get: function get() {
+      switch (this._brand.id) {
+        case '3420':
+          // ATT
+          return null;
+
+        case '7710':
+          // BT
+          return null;
+
+        case '7310':
+          // TELUS
+          return null;
+
+        default:
+          return 'https://app.ringcentral.com/r/';
+      }
+    } // currently we only have RingCentral App(rc brand)'s protocol
+
+  }, {
+    key: "jupiterProtocol",
+    get: function get() {
+      switch (this._brand.id) {
+        case '3420':
+          // ATT
+          return null;
+
+        case '7710':
+          // BT
+          return null;
+
+        case '7310':
+          // TELUS
+          return null;
+
+        default:
+          return 'rcapp';
       }
     }
   }, {

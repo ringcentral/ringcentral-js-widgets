@@ -11,7 +11,12 @@ exports.getVideoSettings = getVideoSettings;
 exports.getDefaultVideoSettings = getDefaultVideoSettings;
 exports.getTopic = getTopic;
 exports.pruneMeetingObject = pruneMeetingObject;
-exports.meetingProviderTypes = exports.RcVideoTypes = exports.RCV_PASSWORD_REGEX = exports.DEFAULT_JBH = void 0;
+exports.transformPreferences = transformPreferences;
+exports.reversePreferences = reversePreferences;
+exports.prunePreferencesObject = prunePreferencesObject;
+exports.comparePreferences = comparePreferences;
+exports.transformMeetingSettingLock = transformMeetingSettingLock;
+exports.meetingProviderTypes = exports.RcVideoTypes = exports.RCV_PREFERENCES_API_KEYS = exports.RCV_PASSWORD_REGEX = void 0;
 
 require("core-js/modules/es6.object.define-properties");
 
@@ -67,12 +72,17 @@ var RcVideoTypes = {
 exports.RcVideoTypes = RcVideoTypes;
 var RCV_PASSWORD_REGEX = /^[A-Za-z0-9]{1,10}$/;
 exports.RCV_PASSWORD_REGEX = RCV_PASSWORD_REGEX;
-var DEFAULT_JBH = false;
+var RCV_CREATE_API_KEYS = ['name', 'type', 'allowJoinBeforeHost', 'muteAudio', 'muteVideo', 'isMeetingSecret', 'meetingPassword', 'expiresIn', 'isOnlyAuthUserJoin', 'isOnlyCoworkersJoin', 'allowScreenSharing'];
+var RCV_PREFERENCES_API_KEYS = ['join_before_host', // 'join_video_off',
+// 'join_audio_mute',
+'password_scheduled', 'password_instant', 'guest_join', 'join_authenticated_from_account_only', 'screen_sharing_host_only'];
+exports.RCV_PREFERENCES_API_KEYS = RCV_PREFERENCES_API_KEYS;
+var RCV_PREFERENCES_KEYS = ['isMeetingSecret', 'allowJoinBeforeHost' // 'muteVideo',
+// 'muteAudio'
+];
 /* RCINT-14566
  * Exclude characters that are hard to visually differentiate ["0", "o", "O", "I", "l"]
  */
-
-exports.DEFAULT_JBH = DEFAULT_JBH;
 
 function getDefaultChars() {
   var DEFAULT_PASSWORD_CHARSET = 'abcdefghijkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ123456789';
@@ -141,20 +151,30 @@ function getDefaultVideoSettings(_ref) {
   var topic = _ref.topic,
       startTime = _ref.startTime;
   return {
+    // api fields
     name: topic,
     type: RcVideoTypes.meeting,
-    startTime: startTime,
-    duration: 60,
-    allowJoinBeforeHost: DEFAULT_JBH,
+    expiresIn: 31536000,
+    allowJoinBeforeHost: false,
     muteAudio: false,
     muteVideo: false,
-    expiresIn: 31536000,
-    saveAsDefault: false,
     isMeetingSecret: true,
     meetingPassword: '',
+    isOnlyAuthUserJoin: false,
+    isOnlyCoworkersJoin: false,
+    allowScreenSharing: true,
+    settingLock: {
+      allowJoinBeforeHost: false,
+      isMeetingSecret: false,
+      isOnlyAuthUserJoin: false,
+      allowScreenSharing: false
+    },
+    // ui fields
+    startTime: startTime,
+    duration: 60,
+    saveAsDefault: false,
     isMeetingPasswordValid: false,
-    usePersonalMeetingId: false,
-    personalMeetingId: ''
+    usePersonalMeetingId: false
   };
 }
 
@@ -165,14 +185,79 @@ function getTopic(extensionName, brandName) {
 
   return "".concat(extensionName, "'s ").concat(brandName, " Meeting");
 }
-
-var rcVideoApiPayload = ['name', 'type', 'allowJoinBeforeHost', 'muteAudio', 'muteVideo', 'isMeetingSecret', 'meetingPassword', 'expiresIn'];
 /**
  * Remove client side properties before sending to RCV API
  */
 
+
 function pruneMeetingObject(meeting) {
-  return (0, _ramda.pick)(rcVideoApiPayload, meeting);
+  return (0, _ramda.pick)(RCV_CREATE_API_KEYS, meeting);
+}
+
+function transformPreferences(preferences) {
+  var isInstantMeeting = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+  return {
+    isMeetingSecret: isInstantMeeting ? preferences.password_instant : preferences.password_scheduled,
+    allowJoinBeforeHost: preferences.join_before_host,
+    // muteVideo: preferences.join_video_off,
+    // muteAudio: preferences.join_audio_mute,
+    isOnlyAuthUserJoin: preferences.guest_join,
+    isOnlyCoworkersJoin: preferences.join_authenticated_from_account_only === 'only_co_workers',
+    allowScreenSharing: preferences.screen_sharing_host_only === 'all'
+  };
+}
+
+function transformMeetingSettingLock(meetingSettingLock) {
+  var isInstantMeeting = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+  return {
+    isMeetingSecret: isInstantMeeting ? meetingSettingLock.password_instant : meetingSettingLock.password_scheduled,
+    allowJoinBeforeHost: meetingSettingLock.join_before_host,
+    isOnlyAuthUserJoin: meetingSettingLock.guest_join,
+    allowScreenSharing: meetingSettingLock.screen_sharing_host_only
+  };
+}
+
+function reversePreferences(preferences) {
+  var isInstantMeeting = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+  var result = {
+    join_before_host: preferences.allowJoinBeforeHost,
+    // join_video_off: preferences.muteVideo,
+    // join_audio_mute: preferences.muteAudio,
+    guest_join: preferences.isOnlyAuthUserJoin,
+    join_authenticated_from_account_only: preferences.isOnlyCoworkersJoin ? 'only_co_workers' : 'anyone_signed_into_rc',
+    screen_sharing_host_only: preferences.allowScreenSharing ? 'all' : 'host'
+  };
+
+  if (isInstantMeeting) {
+    result.password_instant = preferences.isMeetingSecret;
+  } else {
+    result.password_scheduled = preferences.isMeetingSecret;
+  }
+
+  return result;
+}
+/**
+ * Reserve only preferences fields
+ */
+
+
+function prunePreferencesObject(meeting) {
+  return (0, _ramda.pick)(RCV_PREFERENCES_KEYS, meeting);
+}
+
+function comparePreferences(preferences, meeting) {
+  var preferencesChanged = false;
+
+  if (preferences && meeting) {
+    for (var key in preferences) {
+      if (preferences[key] !== meeting[key]) {
+        preferencesChanged = true;
+        break;
+      }
+    }
+  }
+
+  return preferencesChanged;
 } // TODO: will remove this when google app script could support export seperately
 // export together because google app script not fully support export
 //# sourceMappingURL=videoHelper.js.map

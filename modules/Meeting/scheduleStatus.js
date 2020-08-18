@@ -7,9 +7,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 
-var _Enum = require("../../lib/Enum");
+var _ObjectMap = require("@ringcentral-integration/core/lib/ObjectMap");
 
-var _default = (0, _Enum.createEnum)(['idle', 'scheduling', 'scheduled'], 'meetingScheduleStatus');
+var _default = _ObjectMap.ObjectMap.prefixKeys(['idle', 'scheduling', 'scheduled'], 'meetingScheduleStatus');
 
 exports["default"] = _default;
 //# sourceMappingURL=scheduleStatus.js.map

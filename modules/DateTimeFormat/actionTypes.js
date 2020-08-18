@@ -5,7 +5,7 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = void 0;
+exports["default"] = exports.actionTypes = void 0;
 
 require("core-js/modules/es6.function.name");
 
@@ -29,15 +29,11 @@ require("core-js/modules/es6.array.iterator");
 
 require("core-js/modules/es6.object.to-string");
 
-require("core-js/modules/es6.object.keys");
-
-var _Enum = _interopRequireDefault(require("../../lib/Enum"));
+var _ObjectMap = require("@ringcentral-integration/core/lib/ObjectMap");
 
 var _moduleActionTypes = require("../../enums/moduleActionTypes");
 
-var _proxyActionTypes = _interopRequireDefault(require("../../enums/proxyActionTypes"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+var _proxyActionTypes = require("../../enums/proxyActionTypes");
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
@@ -51,7 +47,9 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToAr
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-var _default = new _Enum["default"]([].concat(_toConsumableArray(Object.keys(_moduleActionTypes.moduleActionTypes)), _toConsumableArray(Object.keys(_proxyActionTypes["default"]))), 'dateTimeFormat');
+var actionTypes = _ObjectMap.ObjectMap.prefixKeys([].concat(_toConsumableArray(_ObjectMap.ObjectMap.keys(_moduleActionTypes.moduleActionTypes)), _toConsumableArray(_ObjectMap.ObjectMap.keys(_proxyActionTypes.proxyActionTypes))), 'dateTimeFormat');
 
+exports.actionTypes = actionTypes;
+var _default = actionTypes;
 exports["default"] = _default;
 //# sourceMappingURL=actionTypes.js.map

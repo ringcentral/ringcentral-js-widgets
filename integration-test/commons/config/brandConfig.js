@@ -11,24 +11,27 @@ exports.TelusBrandConfig = TelusBrandConfig;
 
 function RCBrandConfig() {
   return {
-    brandId: '1210',
-    brandName: 'RingCentral',
+    id: '1210',
+    code: 'rc',
+    name: 'RingCentral',
     appName: 'RingCentral for Dynamics'
   };
 }
 
 function ATTBrandConfig() {
   return {
-    brandId: '3420',
-    brandName: 'Office@Hand',
+    id: '3420',
+    code: 'att',
+    name: 'Office@Hand',
     appName: 'Office@Hand for Dynamics'
   };
 }
 
 function TelusBrandConfig() {
   return {
-    brandId: '7310',
-    brandName: 'TELUS Business Connect',
+    id: '7310',
+    code: 'telus',
+    name: 'TELUS Business Connect',
     appName: 'TELUS Business Connect for Dynamics'
   };
 }

@@ -31,6 +31,9 @@ exports.numberParser = numberParser;
 exports.sms = sms;
 exports.addressBook = addressBook;
 exports.callLog = callLog;
+exports.userSettings = userSettings;
+exports.lockedSettings = lockedSettings;
+exports.assistedUsers = assistedUsers;
 exports.device = device;
 exports.conferencing = conferencing;
 exports.numberParse = numberParse;
@@ -49,11 +52,18 @@ exports.mockClient = mockClient;
 exports.ringOut = ringOut;
 exports.ringOutUpdate = ringOutUpdate;
 exports.meeting = meeting;
+exports.meetingInvitation = meetingInvitation;
+exports.meetingInfo = meetingInfo;
+exports.videoPreference = videoPreference;
 exports.serviceInfo = serviceInfo;
 exports.meetingProvider = meetingProvider;
+exports.meetingProviderRcm = meetingProviderRcm;
+exports.meetingProviderRcv = meetingProviderRcv;
 exports.recentActivity = recentActivity;
 exports.videoConfiguration = videoConfiguration;
 exports.callerId = callerId;
+exports.features = features;
+exports.timezone = timezone;
 exports.mockForLogin = mockForLogin;
 exports.mockServer = void 0;
 
@@ -87,81 +97,99 @@ require("core-js/modules/es6.date.to-iso-string");
 
 require("core-js/modules/es6.function.bind");
 
+var _sdk = require("@ringcentral/sdk");
+
 var _fetchMock = _interopRequireDefault(require("fetch-mock"));
 
-var _ringcentral = _interopRequireDefault(require("ringcentral"));
+var _videoHelper = require("../../modules/RcVideo/videoHelper");
 
-var _dialingPlan = _interopRequireDefault(require("./data/dialingPlan"));
+var _accountInfo = _interopRequireDefault(require("./data/accountInfo.json"));
 
-var _extensionInfo = _interopRequireDefault(require("./data/extensionInfo"));
+var _accountPhoneNumber = _interopRequireDefault(require("./data/accountPhoneNumber.json"));
 
-var _extension = _interopRequireDefault(require("./data/extension"));
+var _activeCalls = _interopRequireDefault(require("./data/activeCalls.json"));
 
-var _extensions = _interopRequireDefault(require("./data/extensions"));
+var _addressBook = _interopRequireDefault(require("./data/addressBook.json"));
 
-var _accountInfo = _interopRequireDefault(require("./data/accountInfo"));
+var _apiInfo = _interopRequireDefault(require("./data/apiInfo.json"));
 
-var _subscription = _interopRequireDefault(require("./data/subscription"));
+var _authzProfile = _interopRequireDefault(require("./data/authzProfile.json"));
 
-var _apiInfo = _interopRequireDefault(require("./data/apiInfo"));
+var _blockedNumber = _interopRequireDefault(require("./data/blockedNumber.json"));
 
-var _messageSync = _interopRequireDefault(require("./data/messageSync"));
+var _callerId = _interopRequireDefault(require("./data/callerId.json"));
 
-var _authzProfile = _interopRequireDefault(require("./data/authzProfile"));
+var _callLog = _interopRequireDefault(require("./data/callLog.json"));
 
-var _blockedNumber = _interopRequireDefault(require("./data/blockedNumber"));
+var _conferenceCall = _interopRequireDefault(require("./data/conferenceCall.json"));
 
-var _forwardingNumber = _interopRequireDefault(require("./data/forwardingNumber"));
+var _conferenceCallBringIn = _interopRequireDefault(require("./data/conferenceCallBringIn.json"));
 
-var _phoneNumber = _interopRequireDefault(require("./data/phoneNumber"));
+var _conferencing = _interopRequireDefault(require("./data/conferencing.json"));
 
-var _accountPhoneNumber = _interopRequireDefault(require("./data/accountPhoneNumber"));
+var _device = _interopRequireDefault(require("./data/device.json"));
 
-var _presence = _interopRequireDefault(require("./data/presence.json"));
+var _dialingPlan = _interopRequireDefault(require("./data/dialingPlan.json"));
 
-var _numberParser = _interopRequireDefault(require("./data/numberParser.json"));
+var _extension = _interopRequireDefault(require("./data/extension.json"));
 
-var _sms = _interopRequireDefault(require("./data/sms.json"));
+var _extensionInfo = _interopRequireDefault(require("./data/extensionInfo.json"));
 
-var _ringOut = _interopRequireDefault(require("./data/ringOut.json"));
+var _extensions = _interopRequireDefault(require("./data/extensions.json"));
+
+var _fetchDL = _interopRequireDefault(require("./data/fetchDL.json"));
+
+var _fetchDLWithNoRecord = _interopRequireDefault(require("./data/fetchDLWithNoRecord.json"));
+
+var _forwardingNumber = _interopRequireDefault(require("./data/forwardingNumber.json"));
+
+var _lockedSettings = _interopRequireDefault(require("./data/lockedSettings.json"));
+
+var _meeting = _interopRequireDefault(require("./data/meeting.json"));
+
+var _meetingInvitation = _interopRequireDefault(require("./data/meetingInvitation.json"));
+
+var _assistedUsers = _interopRequireDefault(require("./data/assistedUsers.json"));
+
+var _meetingProviderRcm = _interopRequireDefault(require("./data/meetingProviderRcm.json"));
+
+var _meetingProviderRcv = _interopRequireDefault(require("./data/meetingProviderRcv.json"));
 
 var _messageItem = _interopRequireDefault(require("./data/messageItem.json"));
 
 var _messageList = _interopRequireDefault(require("./data/messageList.json"));
 
-var _addressBook = _interopRequireDefault(require("./data/addressBook.json"));
+var _messageSync = _interopRequireDefault(require("./data/messageSync.json"));
 
-var _callLog = _interopRequireDefault(require("./data/callLog.json"));
+var _numberParse = _interopRequireDefault(require("./data/numberParse.json"));
 
-var _device = _interopRequireDefault(require("./data/device.json"));
+var _numberParser = _interopRequireDefault(require("./data/numberParser.json"));
 
-var _conferencing = _interopRequireDefault(require("./data/conferencing.json"));
+var _phoneNumber = _interopRequireDefault(require("./data/phoneNumber.json"));
 
-var _activeCalls = _interopRequireDefault(require("./data/activeCalls.json"));
+var _presence = _interopRequireDefault(require("./data/presence.json"));
 
-var _meeting = _interopRequireDefault(require("./data/meeting"));
+var _ringOut = _interopRequireDefault(require("./data/ringOut.json"));
 
-var _serviceInfo = _interopRequireDefault(require("./data/serviceInfo"));
+var _serviceInfo = _interopRequireDefault(require("./data/serviceInfo.json"));
 
-var _conferenceCall = _interopRequireDefault(require("./data/conferenceCall"));
+var _sipProvision = _interopRequireDefault(require("./data/sipProvision.json"));
 
-var _numberParse = _interopRequireDefault(require("./data/numberParse"));
+var _sms = _interopRequireDefault(require("./data/sms.json"));
 
-var _conferenceCallBringIn = _interopRequireDefault(require("./data/conferenceCallBringIn"));
+var _subscription = _interopRequireDefault(require("./data/subscription.json"));
 
-var _updateConference = _interopRequireDefault(require("./data/updateConference"));
+var _timezone = _interopRequireDefault(require("./data/timezone.json"));
 
-var _sipProvision = _interopRequireDefault(require("./data/sipProvision"));
+var _updateConference = _interopRequireDefault(require("./data/updateConference.json"));
 
-var _fetchDL = _interopRequireDefault(require("./data/fetchDL"));
-
-var _fetchDLWithNoRecord = _interopRequireDefault(require("./data/fetchDLWithNoRecord"));
+var _userSettings = _interopRequireDefault(require("./data/userSettings.json"));
 
 var _videoConfiguration = _interopRequireDefault(require("./data/videoConfiguration.json"));
 
-var _meetingProvider = _interopRequireDefault(require("./data/meetingProvider.json"));
+var _videoPreference = _interopRequireDefault(require("./data/videoPreference.json"));
 
-var _callerId = _interopRequireDefault(require("./data/callerId.json"));
+var _features = _interopRequireDefault(require("./data/features.json"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -181,9 +209,9 @@ exports.mockServer = mockServer;
 function createSDK() {
   var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
-  var opts = _objectSpread(_objectSpread({}, options), {}, {
-    appKey: 'test key',
-    appSecret: 'test secret',
+  var opts = _objectSpread({
+    clientId: 'test key',
+    clientSecret: 'test secret',
     server: mockServer,
     Request: _fetchMock["default"].constructor.Request,
     Response: _fetchMock["default"].constructor.Response,
@@ -191,10 +219,11 @@ function createSDK() {
     fetch: _fetchMock["default"].fetchMock.bind(_fetchMock["default"]),
     refreshDelayMs: 1,
     redirectUri: 'http://foo',
-    cachePrefix: 'sdkPrefix'
-  });
+    cachePrefix: 'sdkPrefix',
+    clearCacheOnRefreshError: false
+  }, options);
 
-  return new _ringcentral["default"](opts);
+  return new _sdk.SDK(opts);
 }
 
 function mockApi(_ref) {
@@ -241,7 +270,7 @@ function mockApi(_ref) {
     sendAsJson: false
   }, {
     method: method,
-    times: isOnce ? 1 : 20000
+    times: isOnce ? 1 : 20
   });
 }
 
@@ -257,7 +286,7 @@ function authentication() {
       refresh_token_expires_in: 60480,
       scope: 'SMS RCM Foo Boo',
       expireTime: new Date().getTime() + 3600000,
-      owner_id: '23231231',
+      owner_id: '23231231"',
       endpoint_id: '3213213131'
     }
   });
@@ -267,10 +296,7 @@ function logout() {
   mockApi({
     method: 'POST',
     path: '/restapi/oauth/revoke',
-    isOnce: false,
-    body: {
-      message: 'OK'
-    }
+    isOnce: false
   });
 }
 
@@ -549,6 +575,33 @@ function callLog() {
   });
 }
 
+function userSettings() {
+  var mockResponse = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  mockApi({
+    method: 'GET',
+    url: "".concat(mockServer, "/restapi/v1.0/account/~/extension/~/meeting/user-settings"),
+    body: _objectSpread(_objectSpread({}, _userSettings["default"]), mockResponse)
+  });
+}
+
+function lockedSettings() {
+  var mockResponse = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  mockApi({
+    method: 'GET',
+    url: "".concat(mockServer, "/restapi/v1.0/account/~/meeting/locked-settings"),
+    body: _objectSpread(_objectSpread({}, _lockedSettings["default"]), mockResponse)
+  });
+}
+
+function assistedUsers() {
+  var mockResponse = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  mockApi({
+    method: 'GET',
+    url: "".concat(mockServer, "/restapi/v1.0/account/~/extension/~/meetings-configuration/assisted"),
+    body: mockResponse || _assistedUsers["default"]
+  });
+}
+
 function device() {
   var mockResponse = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
   var isOnce = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
@@ -695,7 +748,8 @@ function mockLimited(_ref3) {
 }
 
 function mockClient(client) {
-  client.service = createSDK({});
+  var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  client.service = createSDK(options);
 }
 
 function ringOut() {
@@ -719,10 +773,46 @@ function ringOutUpdate() {
 
 function meeting() {
   var mockResponse = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  mockApi({
+  var extra = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  mockApi(_objectSpread({
     method: 'POST',
     url: "".concat(mockServer, "/restapi/v1.0/account/~/extension/~/meeting"),
     body: _objectSpread(_objectSpread({}, _meeting["default"]), mockResponse),
+    isOnce: false
+  }, extra));
+}
+
+function meetingInvitation() {
+  var meetingId = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+  var mockResponse = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  var id = meetingId || _meeting["default"].id;
+  mockApi({
+    method: 'GET',
+    url: "".concat(mockServer, "/restapi/v1.0/account/~/extension/~/meeting/").concat(id, "/invitation"),
+    body: _objectSpread(_objectSpread({}, _meetingInvitation["default"]), mockResponse),
+    isOnce: false
+  });
+}
+
+function meetingInfo() {
+  var meetingId = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+  var mockResponse = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  var isOnce = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+  var id = meetingId || _meeting["default"].id;
+  mockApi({
+    method: 'GET',
+    url: "".concat(mockServer, "/restapi/v1.0/account/~/extension/~/meeting/").concat(id),
+    body: _objectSpread(_objectSpread({}, _meeting["default"]), mockResponse),
+    isOnce: isOnce
+  });
+}
+
+function videoPreference() {
+  var query = "id=".concat(_videoHelper.RCV_PREFERENCES_API_KEYS.join('&id='));
+  mockApi({
+    method: 'GET',
+    url: "".concat(mockServer, "/rcvideo/v1/account/~/extension/~/preferences?").concat(query),
+    body: _videoPreference["default"],
     isOnce: false
   });
 }
@@ -742,9 +832,17 @@ function meetingProvider() {
   mockApi({
     method: 'GET',
     url: "".concat(mockServer, "/restapi/v1.0/account/~/extension/~/video-configuration"),
-    body: _objectSpread(_objectSpread({}, _meetingProvider["default"]), mockResponse),
+    body: _objectSpread({}, mockResponse),
     isOnce: false
   });
+}
+
+function meetingProviderRcm() {
+  meetingProvider(_meetingProviderRcm["default"]);
+}
+
+function meetingProviderRcv() {
+  meetingProvider(_meetingProviderRcv["default"]);
 }
 
 function recentActivity() {
@@ -780,6 +878,26 @@ function callerId() {
   });
 }
 
+function features() {
+  var mockResponse = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var isOnce = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+  mockApi({
+    method: 'GET',
+    url: new RegExp("".concat(mockServer, "/restapi/v1.0/account/~/extension/~/features")),
+    body: _objectSpread(_objectSpread({}, _features["default"]), mockResponse)
+  });
+}
+
+function timezone() {
+  var mockResponse = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  mockApi({
+    method: 'GET',
+    url: "".concat(mockServer, "/restapi/v1.0/dictionary/timezone"),
+    body: _objectSpread(_objectSpread({}, _timezone["default"]), mockResponse),
+    isOnce: false
+  });
+}
+
 function mockForLogin() {
   var _ref4 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
@@ -805,7 +923,9 @@ function mockForLogin() {
       mockMessageSyncOnce = _ref4$mockMessageSync2 === void 0 ? false : _ref4$mockMessageSync2,
       _ref4$mockVideoConfig = _ref4.mockVideoConfiguration,
       mockVideoConfiguration = _ref4$mockVideoConfig === void 0 ? true : _ref4$mockVideoConfig,
-      params = _objectWithoutProperties(_ref4, ["mockAuthzProfile", "mockExtensionInfo", "mockForwardingNumber", "mockMessageSync", "mockConferencing", "mockActiveCalls", "mockUpdateConference", "mockNumberParser", "mockRecentActivity", "mockMessageSyncOnce", "mockVideoConfiguration"]);
+      _ref4$mockUserSetting = _ref4.mockUserSetting,
+      mockUserSetting = _ref4$mockUserSetting === void 0 ? true : _ref4$mockUserSetting,
+      params = _objectWithoutProperties(_ref4, ["mockAuthzProfile", "mockExtensionInfo", "mockForwardingNumber", "mockMessageSync", "mockConferencing", "mockActiveCalls", "mockUpdateConference", "mockNumberParser", "mockRecentActivity", "mockMessageSyncOnce", "mockVideoConfiguration", "mockUserSetting"]);
 
   authentication();
   logout();
@@ -872,5 +992,15 @@ function mockForLogin() {
   if (mockVideoConfiguration) {
     videoConfiguration();
   }
+
+  videoPreference();
+
+  if (mockUserSetting) {
+    userSettings(params.userSettingsData);
+  }
+
+  lockedSettings(params.lockedSettingsData);
+  features(params.featuresData);
+  assistedUsers(params.mockAssistedUsers);
 }
 //# sourceMappingURL=index.js.map

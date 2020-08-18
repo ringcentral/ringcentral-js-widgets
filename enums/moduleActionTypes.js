@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.moduleActionTypes = void 0;
 
-var _Enum = require("../lib/Enum");
+var _ObjectMap = require("@ringcentral-integration/core/lib/ObjectMap");
 
 /**
  * @typedef {Object} ModuleActionTypes
@@ -16,6 +16,7 @@ var _Enum = require("../lib/Enum");
  * @property {String} reset
  * @property {String} resetSuccess
  */
-var moduleActionTypes = (0, _Enum.createEnum)(['init', 'initSuccess', 'reset', 'resetSuccess']);
+var moduleActionTypes = _ObjectMap.ObjectMap.fromKeys(['init', 'initSuccess', 'reset', 'resetSuccess']);
+
 exports.moduleActionTypes = moduleActionTypes;
 //# sourceMappingURL=moduleActionTypes.js.map

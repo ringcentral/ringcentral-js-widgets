@@ -29,7 +29,7 @@ function _getMeetingProvider() {
         switch (_context.prev = _context.next) {
           case 0:
             _context.next = 2;
-            return client.service.platform().get('/account/~/extension/~/video-configuration');
+            return client.service.platform().get('/restapi/v1.0/account/~/extension/~/video-configuration');
 
           case 2:
             res = _context.sent;

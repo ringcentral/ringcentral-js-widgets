@@ -7,23 +7,13 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.extensionStatusTypes = void 0;
 
-var _HashMap = require("../lib/HashMap");
+var _ObjectMap = require("@ringcentral-integration/core/lib/ObjectMap");
 
-/**
- * @typedef ExtensionStatusTypes
- * @type {object}
- * @property {string} enabled
- * @property {string} notActivated
- * @property {string} disabled
- */
-
-/**
- * @type {ExtensionStatusTypes}
- */
-var extensionStatusTypes = (0, _HashMap.createHashMap)({
+var extensionStatusTypes = _ObjectMap.ObjectMap.fromObject({
   enabled: 'Enabled',
   notActivated: 'NotActivated',
   disabled: 'Disabled'
 });
+
 exports.extensionStatusTypes = extensionStatusTypes;
 //# sourceMappingURL=extensionStatusTypes.js.map

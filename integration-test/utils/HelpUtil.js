@@ -60,19 +60,28 @@ function ensureLogin(_x, _x2) {
 
 function _ensureLogin() {
   _ensureLogin = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(auth, account) {
+    var waitLoginSuccess;
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
             _context.next = 2;
-            return auth.login(_objectSpread({}, account));
+            return (0, _WaitUtil.waitUntilEqual)(function () {
+              return auth.ready;
+            }, 'Auth ready', true, 60);
 
           case 2:
-            return _context.abrupt("return", (0, _WaitUtil.waitUntilNotNull)(function () {
-              return auth.ownerId;
-            }, 'Login Success', 6));
+            waitLoginSuccess = new Promise(function (resolve) {
+              var cleanFunc = auth.addAfterLoggedInHandler(function () {
+                cleanFunc();
+                resolve();
+              });
+            });
+            auth.login(_objectSpread({}, account));
+            _context.next = 6;
+            return waitLoginSuccess;
 
-          case 3:
+          case 6:
           case "end":
             return _context.stop();
         }

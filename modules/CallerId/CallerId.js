@@ -121,7 +121,7 @@ var CallerId = (_dec = (0, _di.Module)({
               switch (_context.prev = _context.next) {
                 case 0:
                   _context.next = 2;
-                  return _this._client.service.platform().get('/account/~/extension/~/caller-id');
+                  return _this._client.service.platform().get('/restapi/v1.0/account/~/extension/~/caller-id');
 
                 case 2:
                   resp = _context.sent;

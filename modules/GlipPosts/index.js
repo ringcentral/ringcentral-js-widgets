@@ -119,7 +119,7 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
 
 var glipPostsRegExp = /glip\/posts$/;
 var glipGroupRegExp = /glip\/groups$/;
-var subscriptionFilter = '/glip/posts';
+var subscriptionFilter = '/restapi/v1.0/glip/posts';
 var DEFAULT_LOAD_TTL = 30 * 60 * 1000;
 var GlipPosts = (_dec = (0, _di.Module)({
   deps: ['Client', 'Auth', 'Subscription', 'Storage', 'RolesAndPermissions', {
@@ -140,8 +140,6 @@ var GlipPosts = (_dec = (0, _di.Module)({
    * @param {Subscription} params.subscription - subscription module instance
    */
   function GlipPosts(_ref) {
-    var _context;
-
     var _this;
 
     var client = _ref.client,
@@ -159,10 +157,10 @@ var GlipPosts = (_dec = (0, _di.Module)({
       actionTypes: _actionTypes["default"]
     }));
     _this._reducer = (0, _getReducer["default"])(_this.actionTypes);
-    _this._client = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, client, 'client');
-    _this._auth = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, auth, 'auth');
-    _this._rolesAndPermissions = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, rolesAndPermissions, 'rolesAndPermissions');
-    _this._subscription = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, subscription, 'subscription');
+    _this._client = _ensureExist["default"].call(_assertThisInitialized(_this), client, 'client');
+    _this._auth = _ensureExist["default"].call(_assertThisInitialized(_this), auth, 'auth');
+    _this._rolesAndPermissions = _ensureExist["default"].call(_assertThisInitialized(_this), rolesAndPermissions, 'rolesAndPermissions');
+    _this._subscription = _ensureExist["default"].call(_assertThisInitialized(_this), subscription, 'subscription');
     _this._fetchPromises = {};
     _this._lastMessage = null;
     _this._loadTtl = loadTtl;
@@ -198,12 +196,12 @@ var GlipPosts = (_dec = (0, _di.Module)({
     key: "_onStateChange",
     value: function () {
       var _onStateChange2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-        return regeneratorRuntime.wrap(function _callee$(_context2) {
+        return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context.prev = _context.next) {
               case 0:
                 if (!this._shouldInit()) {
-                  _context2.next = 8;
+                  _context.next = 8;
                   break;
                 }
 
@@ -212,11 +210,11 @@ var GlipPosts = (_dec = (0, _di.Module)({
                 });
 
                 if (this._hasPermission) {
-                  _context2.next = 4;
+                  _context.next = 4;
                   break;
                 }
 
-                return _context2.abrupt("return");
+                return _context.abrupt("return");
 
               case 4:
                 this.store.dispatch({
@@ -225,7 +223,7 @@ var GlipPosts = (_dec = (0, _di.Module)({
 
                 this._subscription.subscribe(subscriptionFilter);
 
-                _context2.next = 9;
+                _context.next = 9;
                 break;
 
               case 8:
@@ -240,7 +238,7 @@ var GlipPosts = (_dec = (0, _di.Module)({
 
               case 9:
               case "end":
-                return _context2.stop();
+                return _context.stop();
             }
           }
         }, _callee, this);
@@ -309,28 +307,28 @@ var GlipPosts = (_dec = (0, _di.Module)({
             lastPosts,
             fetchTime,
             _args2 = arguments;
-        return regeneratorRuntime.wrap(function _callee2$(_context3) {
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context2.prev = _context2.next) {
               case 0:
                 recordCount = _args2.length > 1 && _args2[1] !== undefined ? _args2[1] : 20;
                 lastPosts = this.postsMap[groupId];
                 fetchTime = this.fetchTimeMap[groupId];
 
                 if (!(lastPosts && fetchTime && Date.now() - fetchTime < this._loadTtl)) {
-                  _context3.next = 5;
+                  _context2.next = 5;
                   break;
                 }
 
-                return _context3.abrupt("return");
+                return _context2.abrupt("return");
 
               case 5:
-                _context3.next = 7;
+                _context2.next = 7;
                 return this.fetchPosts(groupId, recordCount);
 
               case 7:
               case "end":
-                return _context3.stop();
+                return _context2.stop();
             }
           }
         }, _callee2, this);
@@ -352,29 +350,29 @@ var GlipPosts = (_dec = (0, _di.Module)({
             pageToken,
             promise,
             _args4 = arguments;
-        return regeneratorRuntime.wrap(function _callee4$(_context5) {
+        return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
-            switch (_context5.prev = _context5.next) {
+            switch (_context4.prev = _context4.next) {
               case 0:
                 recordCount = _args4.length > 1 && _args4[1] !== undefined ? _args4[1] : 20;
                 pageToken = _args4.length > 2 ? _args4[2] : undefined;
 
                 if (groupId) {
-                  _context5.next = 4;
+                  _context4.next = 4;
                   break;
                 }
 
-                return _context5.abrupt("return");
+                return _context4.abrupt("return");
 
               case 4:
                 if (!this._fetchPromises[groupId]) {
                   this._fetchPromises[groupId] = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
                     var params, response;
-                    return regeneratorRuntime.wrap(function _callee3$(_context4) {
+                    return regeneratorRuntime.wrap(function _callee3$(_context3) {
                       while (1) {
-                        switch (_context4.prev = _context4.next) {
+                        switch (_context3.prev = _context3.next) {
                           case 0:
-                            _context4.prev = 0;
+                            _context3.prev = 0;
 
                             _this3.store.dispatch({
                               type: _this3.actionTypes.fetch
@@ -388,11 +386,11 @@ var GlipPosts = (_dec = (0, _di.Module)({
                               params.pageToken = pageToken;
                             }
 
-                            _context4.next = 6;
+                            _context3.next = 6;
                             return _this3._client.glip().groups(groupId).posts().list(params);
 
                           case 6:
-                            response = _context4.sent;
+                            response = _context3.sent;
 
                             _this3.store.dispatch({
                               type: _this3.actionTypes.fetchSuccess,
@@ -402,12 +400,12 @@ var GlipPosts = (_dec = (0, _di.Module)({
                               navigation: response.navigation
                             });
 
-                            _context4.next = 13;
+                            _context3.next = 13;
                             break;
 
                           case 10:
-                            _context4.prev = 10;
-                            _context4.t0 = _context4["catch"](0);
+                            _context3.prev = 10;
+                            _context3.t0 = _context3["catch"](0);
 
                             _this3.store.dispatch({
                               type: _this3.actionTypes.fetchError
@@ -418,7 +416,7 @@ var GlipPosts = (_dec = (0, _di.Module)({
 
                           case 14:
                           case "end":
-                            return _context4.stop();
+                            return _context3.stop();
                         }
                       }
                     }, _callee3, null, [[0, 10]]);
@@ -426,12 +424,12 @@ var GlipPosts = (_dec = (0, _di.Module)({
                 }
 
                 promise = this._fetchPromises[groupId];
-                _context5.next = 8;
+                _context4.next = 8;
                 return promise;
 
               case 8:
               case "end":
-                return _context5.stop();
+                return _context4.stop();
             }
           }
         }, _callee4, this);
@@ -448,27 +446,27 @@ var GlipPosts = (_dec = (0, _di.Module)({
     value: function () {
       var _loadNextPage = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(groupId, recordCount) {
         var pageInfo, pageToken;
-        return regeneratorRuntime.wrap(function _callee5$(_context6) {
+        return regeneratorRuntime.wrap(function _callee5$(_context5) {
           while (1) {
-            switch (_context6.prev = _context6.next) {
+            switch (_context5.prev = _context5.next) {
               case 0:
                 pageInfo = this.pageInfos[groupId];
                 pageToken = pageInfo && pageInfo.prevPageToken;
 
                 if (pageToken) {
-                  _context6.next = 4;
+                  _context5.next = 4;
                   break;
                 }
 
-                return _context6.abrupt("return");
+                return _context5.abrupt("return");
 
               case 4:
-                _context6.next = 6;
+                _context5.next = 6;
                 return this.fetchPosts(groupId, recordCount, pageToken);
 
               case 6:
               case "end":
-                return _context6.stop();
+                return _context5.stop();
             }
           }
         }, _callee5, this);
@@ -485,20 +483,20 @@ var GlipPosts = (_dec = (0, _di.Module)({
     value: function () {
       var _create = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(_ref3) {
         var groupId, text, mentions, fakeId, fakeRecord, record;
-        return regeneratorRuntime.wrap(function _callee6$(_context7) {
+        return regeneratorRuntime.wrap(function _callee6$(_context6) {
           while (1) {
-            switch (_context7.prev = _context7.next) {
+            switch (_context6.prev = _context6.next) {
               case 0:
                 groupId = _ref3.groupId;
                 text = this.postInputs[groupId] && this.postInputs[groupId].text;
                 mentions = this.postInputs[groupId] && this.postInputs[groupId].mentions;
 
                 if (!((0, _isBlank["default"])(text) || !groupId)) {
-                  _context7.next = 5;
+                  _context6.next = 5;
                   break;
                 }
 
-                return _context7.abrupt("return");
+                return _context6.abrupt("return");
 
               case 5:
                 if (mentions && mentions.length > 0) {
@@ -521,7 +519,7 @@ var GlipPosts = (_dec = (0, _di.Module)({
                   text: text,
                   type: 'TextMessage'
                 };
-                _context7.prev = 8;
+                _context6.prev = 8;
                 this.store.dispatch({
                   type: this.actionTypes.create,
                   groupId: groupId,
@@ -532,25 +530,25 @@ var GlipPosts = (_dec = (0, _di.Module)({
                   groupId: groupId,
                   mentions: []
                 });
-                _context7.next = 13;
+                _context6.next = 13;
                 return this._client.glip().groups(groupId).posts().post({
                   text: text
                 });
 
               case 13:
-                record = _context7.sent;
+                record = _context6.sent;
                 this.store.dispatch({
                   type: this.actionTypes.createSuccess,
                   groupId: groupId,
                   record: record,
                   oldRecordId: fakeId
                 });
-                _context7.next = 22;
+                _context6.next = 22;
                 break;
 
               case 17:
-                _context7.prev = 17;
-                _context7.t0 = _context7["catch"](8);
+                _context6.prev = 17;
+                _context6.t0 = _context6["catch"](8);
                 fakeRecord.sendStatus = _status["default"].createError;
                 this.store.dispatch({
                   type: this.actionTypes.createError,
@@ -566,7 +564,7 @@ var GlipPosts = (_dec = (0, _di.Module)({
 
               case 22:
               case "end":
-                return _context7.stop();
+                return _context6.stop();
             }
           }
         }, _callee6, this, [[8, 17]]);
@@ -583,16 +581,16 @@ var GlipPosts = (_dec = (0, _di.Module)({
     value: function () {
       var _sendFile = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7(_ref4) {
         var fileName, groupId, rawFile, platform, body, response;
-        return regeneratorRuntime.wrap(function _callee7$(_context8) {
+        return regeneratorRuntime.wrap(function _callee7$(_context7) {
           while (1) {
-            switch (_context8.prev = _context8.next) {
+            switch (_context7.prev = _context7.next) {
               case 0:
                 fileName = _ref4.fileName, groupId = _ref4.groupId, rawFile = _ref4.rawFile;
-                _context8.prev = 1;
+                _context7.prev = 1;
                 platform = this._client.service.platform();
                 body = rawFile;
-                _context8.next = 6;
-                return platform.post('/glip/files', body, {
+                _context7.next = 6;
+                return platform.post('/restapi/v1.0/glip/files', body, {
                   groupId: groupId,
                   name: fileName
                 }, {
@@ -602,20 +600,20 @@ var GlipPosts = (_dec = (0, _di.Module)({
                 });
 
               case 6:
-                response = _context8.sent;
-                return _context8.abrupt("return", response.json());
+                response = _context7.sent;
+                return _context7.abrupt("return", response.json());
 
               case 10:
-                _context8.prev = 10;
-                _context8.t0 = _context8["catch"](1);
-                console.error(_context8.t0);
+                _context7.prev = 10;
+                _context7.t0 = _context7["catch"](1);
+                console.error(_context7.t0);
 
               case 13:
-                return _context8.abrupt("return", null);
+                return _context7.abrupt("return", null);
 
               case 14:
               case "end":
-                return _context8.stop();
+                return _context7.stop();
             }
           }
         }, _callee7, this, [[1, 10]]);

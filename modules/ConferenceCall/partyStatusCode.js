@@ -5,13 +5,13 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = void 0;
+exports["default"] = exports.partyStatusCode = void 0;
 
-var _Enum = _interopRequireDefault(require("../../lib/Enum"));
+var _ObjectMap = require("@ringcentral-integration/core/lib/ObjectMap");
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+var partyStatusCode = _ObjectMap.ObjectMap.fromKeys(['answered', 'gone', 'disconnected']);
 
-var _default = new _Enum["default"](['answered', 'gone', 'disconnected']);
-
+exports.partyStatusCode = partyStatusCode;
+var _default = partyStatusCode;
 exports["default"] = _default;
 //# sourceMappingURL=partyStatusCode.js.map

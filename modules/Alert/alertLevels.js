@@ -7,9 +7,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 
-var _Enum = require("../../lib/Enum");
+var _ObjectMap = require("@ringcentral-integration/core/lib/ObjectMap");
 
-var AlertLevel = (0, _Enum.createEnum)(['success', 'danger', 'warning', 'info']);
+var AlertLevel = _ObjectMap.ObjectMap.fromKeys(['success', 'danger', 'warning', 'info']);
+
 var _default = AlertLevel;
 exports["default"] = _default;
 //# sourceMappingURL=alertLevels.js.map

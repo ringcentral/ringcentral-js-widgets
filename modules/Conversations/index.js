@@ -75,19 +75,17 @@ var _messageTypes = _interopRequireDefault(require("../../enums/messageTypes"));
 
 var _cleanNumber = _interopRequireDefault(require("../../lib/cleanNumber"));
 
-var _isBlank = _interopRequireDefault(require("../../lib/isBlank"));
-
 var _selector = require("../../lib/selector");
 
-var _messageSenderMessages = _interopRequireDefault(require("../MessageSender/messageSenderMessages"));
+var _messageSenderMessages = require("../MessageSender/messageSenderMessages");
 
 var _messageHelper = require("../../lib/messageHelper");
 
-var _actionTypes = _interopRequireDefault(require("./actionTypes"));
+var _actionTypes = require("./actionTypes");
 
 var _getReducer = _interopRequireDefault(require("./getReducer"));
 
-var _status = _interopRequireDefault(require("./status"));
+var _status = require("./status");
 
 var _dec, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7, _descriptor8, _descriptor9, _descriptor10, _descriptor11, _temp;
 
@@ -215,8 +213,6 @@ var Conversations = (_dec = (0, _di.Module)({
   var _super = _createSuper(Conversations);
 
   function Conversations(_ref) {
-    var _context;
-
     var _this;
 
     var alert = _ref.alert,
@@ -242,7 +238,7 @@ var Conversations = (_dec = (0, _di.Module)({
     _classCallCheck(this, Conversations);
 
     _this = _super.call(this, _objectSpread(_objectSpread({}, options), {}, {
-      actionTypes: _actionTypes["default"]
+      actionTypes: _actionTypes.actionTypes
     }));
 
     _initializerDefineProperty(_this, "allConversations", _descriptor, _assertThisInitialized(_this));
@@ -255,7 +251,7 @@ var Conversations = (_dec = (0, _di.Module)({
 
     _initializerDefineProperty(_this, "typeFilteredConversations", _descriptor5, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "formatedConversations", _descriptor6, _assertThisInitialized(_this));
+    _initializerDefineProperty(_this, "formattedConversations", _descriptor6, _assertThisInitialized(_this));
 
     _initializerDefineProperty(_this, "filteredConversations", _descriptor7, _assertThisInitialized(_this));
 
@@ -267,13 +263,13 @@ var Conversations = (_dec = (0, _di.Module)({
 
     _initializerDefineProperty(_this, "messageText", _descriptor11, _assertThisInitialized(_this));
 
-    _this._auth = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, auth, 'auth');
-    _this._alert = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, alert, 'alert');
-    _this._client = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, client, 'client');
-    _this._messageSender = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, messageSender, 'messageSender');
-    _this._extensionInfo = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, extensionInfo, 'extensionInfo');
-    _this._messageStore = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, messageStore, 'messageStore');
-    _this._rolesAndPermissions = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, rolesAndPermissions, 'rolesAndPermissions');
+    _this._auth = _ensureExist["default"].call(_assertThisInitialized(_this), auth, 'auth');
+    _this._alert = _ensureExist["default"].call(_assertThisInitialized(_this), alert, 'alert');
+    _this._client = _ensureExist["default"].call(_assertThisInitialized(_this), client, 'client');
+    _this._messageSender = _ensureExist["default"].call(_assertThisInitialized(_this), messageSender, 'messageSender');
+    _this._extensionInfo = _ensureExist["default"].call(_assertThisInitialized(_this), extensionInfo, 'extensionInfo');
+    _this._messageStore = _ensureExist["default"].call(_assertThisInitialized(_this), messageStore, 'messageStore');
+    _this._rolesAndPermissions = _ensureExist["default"].call(_assertThisInitialized(_this), rolesAndPermissions, 'rolesAndPermissions');
     _this._contactMatcher = contactMatcher;
     _this._conversationLogger = conversationLogger;
     _this._regionSettings = regionSettings;
@@ -288,7 +284,7 @@ var Conversations = (_dec = (0, _di.Module)({
     _this._showMMSAttachment = showMMSAttachment;
     _this._lastConversaionList = [];
 
-    _this._messageSender.on(_this._messageSender.actionTypes.send, function (_ref2) {
+    _this._messageSender.on(_this._messageSender.events.send, function (_ref2) {
       var toNumbers = _ref2.toNumbers;
 
       _this.addEntities(toNumbers);
@@ -338,7 +334,7 @@ var Conversations = (_dec = (0, _di.Module)({
 
         if (this.oldConversations.length) {
           this.store.dispatch({
-            type: this.actionTypes.cleanOldConversatioans
+            type: this.actionTypes.cleanOldConversations
           });
           this._olderDataExsited = true;
         }
@@ -390,9 +386,9 @@ var Conversations = (_dec = (0, _di.Module)({
     key: "updateSearchInput",
     value: function () {
       var _updateSearchInput = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(input) {
-        return regeneratorRuntime.wrap(function _callee$(_context2) {
+        return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context.prev = _context.next) {
               case 0:
                 this.store.dispatch({
                   type: this.actionTypes.updateSearchInput,
@@ -401,7 +397,7 @@ var Conversations = (_dec = (0, _di.Module)({
 
               case 1:
               case "end":
-                return _context2.stop();
+                return _context.stop();
             }
           }
         }, _callee, this);
@@ -417,16 +413,16 @@ var Conversations = (_dec = (0, _di.Module)({
     key: "updateTypeFilter",
     value: function () {
       var _updateTypeFilter = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(type) {
-        return regeneratorRuntime.wrap(function _callee2$(_context3) {
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context2.prev = _context2.next) {
               case 0:
                 if (!(this.typeFilter === type)) {
-                  _context3.next = 2;
+                  _context2.next = 2;
                   break;
                 }
 
-                return _context3.abrupt("return");
+                return _context2.abrupt("return");
 
               case 2:
                 this.store.dispatch({
@@ -442,7 +438,7 @@ var Conversations = (_dec = (0, _di.Module)({
 
               case 6:
               case "end":
-                return _context3.stop();
+                return _context2.stop();
             }
           }
         }, _callee2, this);
@@ -460,28 +456,28 @@ var Conversations = (_dec = (0, _di.Module)({
       var _fetchOldConversations = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
         var dateFrom, dateTo, typeFilter, currentPage, params, _yield$this$_client$a, records, recordsLength, isIncreaseCurrentPage;
 
-        return regeneratorRuntime.wrap(function _callee3$(_context4) {
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context3.prev = _context3.next) {
               case 0:
                 if (this._olderDataExsited) {
-                  _context4.next = 2;
+                  _context3.next = 2;
                   break;
                 }
 
-                return _context4.abrupt("return");
+                return _context3.abrupt("return");
 
               case 2:
                 if (!this.loadingOldConversations) {
-                  _context4.next = 4;
+                  _context3.next = 4;
                   break;
                 }
 
-                return _context4.abrupt("return");
+                return _context3.abrupt("return");
 
               case 4:
                 this.store.dispatch({
-                  type: this.actionTypes.fetchOldConverstaions
+                  type: this.actionTypes.fetchOldConversations
                 });
                 dateFrom = new Date();
                 dateFrom.setDate(dateFrom.getDate() - this._daySpan);
@@ -506,12 +502,12 @@ var Conversations = (_dec = (0, _di.Module)({
                   params.messageType = typeFilter;
                 }
 
-                _context4.prev = 13;
-                _context4.next = 16;
+                _context3.prev = 13;
+                _context3.next = 16;
                 return this._client.account().extension().messageStore().list(params);
 
               case 16:
-                _yield$this$_client$a = _context4.sent;
+                _yield$this$_client$a = _context3.sent;
                 records = _yield$this$_client$a.records;
                 recordsLength = records.length;
                 this._olderDataExsited = recordsLength === this._perPage;
@@ -519,28 +515,28 @@ var Conversations = (_dec = (0, _di.Module)({
                 if (typeFilter === this.typeFilter && currentPage === this.currentPage) {
                   isIncreaseCurrentPage = recordsLength && this._perPage * this.currentPage < recordsLength + this.filteredConversations.length;
                   this.store.dispatch({
-                    type: this.actionTypes.fetchOldConverstaionsSuccess,
+                    type: this.actionTypes.fetchOldConversationsSuccess,
                     records: records,
                     isIncreaseCurrentPage: isIncreaseCurrentPage
                   });
                 }
 
-                _context4.next = 26;
+                _context3.next = 26;
                 break;
 
               case 23:
-                _context4.prev = 23;
-                _context4.t0 = _context4["catch"](13);
+                _context3.prev = 23;
+                _context3.t0 = _context3["catch"](13);
 
                 if (typeFilter === this.typeFilter && currentPage === this.currentPage) {
                   this.store.dispatch({
-                    type: this.actionTypes.fetchOldConverstaionsError
+                    type: this.actionTypes.fetchOldConversationsError
                   });
                 }
 
               case 26:
               case "end":
-                return _context4.stop();
+                return _context3.stop();
             }
           }
         }, _callee3, this, [[13, 23]]);
@@ -557,45 +553,45 @@ var Conversations = (_dec = (0, _di.Module)({
     value: function () {
       var _loadNextPage = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
         var currentPage;
-        return regeneratorRuntime.wrap(function _callee4$(_context5) {
+        return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
-            switch (_context5.prev = _context5.next) {
+            switch (_context4.prev = _context4.next) {
               case 0:
                 currentPage = this.currentPage;
 
                 if (!(currentPage * this._perPage < this.filteredConversations.length)) {
-                  _context5.next = 4;
+                  _context4.next = 4;
                   break;
                 }
 
                 this.store.dispatch({
                   type: this.actionTypes.increaseCurrentPage
                 });
-                return _context5.abrupt("return");
+                return _context4.abrupt("return");
 
               case 4:
                 if (!(this.effectiveSearchString !== '')) {
-                  _context5.next = 6;
+                  _context4.next = 6;
                   break;
                 }
 
-                return _context5.abrupt("return");
+                return _context4.abrupt("return");
 
               case 6:
                 if (!(!this._enableLoadOldMessages || !this._hasPermission)) {
-                  _context5.next = 8;
+                  _context4.next = 8;
                   break;
                 }
 
-                return _context5.abrupt("return");
+                return _context4.abrupt("return");
 
               case 8:
-                _context5.next = 10;
+                _context4.next = 10;
                 return this.fetchOldConversations();
 
               case 10:
               case "end":
-                return _context5.stop();
+                return _context4.stop();
             }
           }
         }, _callee4, this);
@@ -611,9 +607,9 @@ var Conversations = (_dec = (0, _di.Module)({
     key: "resetCurrentPage",
     value: function () {
       var _resetCurrentPage = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
-        return regeneratorRuntime.wrap(function _callee5$(_context6) {
+        return regeneratorRuntime.wrap(function _callee5$(_context5) {
           while (1) {
-            switch (_context6.prev = _context6.next) {
+            switch (_context5.prev = _context5.next) {
               case 0:
                 this.store.dispatch({
                   type: this.actionTypes.resetCurrentPage
@@ -621,7 +617,7 @@ var Conversations = (_dec = (0, _di.Module)({
 
               case 1:
               case "end":
-                return _context6.stop();
+                return _context5.stop();
             }
           }
         }, _callee5, this);
@@ -637,16 +633,16 @@ var Conversations = (_dec = (0, _di.Module)({
     key: "loadConversation",
     value: function () {
       var _loadConversation = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(conversationId) {
-        return regeneratorRuntime.wrap(function _callee6$(_context7) {
+        return regeneratorRuntime.wrap(function _callee6$(_context6) {
           while (1) {
-            switch (_context7.prev = _context7.next) {
+            switch (_context6.prev = _context6.next) {
               case 0:
                 if (!(conversationId === this.currentConversationId)) {
-                  _context7.next = 2;
+                  _context6.next = 2;
                   break;
                 }
 
-                return _context7.abrupt("return");
+                return _context6.abrupt("return");
 
               case 2:
                 this.store.dispatch({
@@ -656,7 +652,7 @@ var Conversations = (_dec = (0, _di.Module)({
 
               case 3:
               case "end":
-                return _context7.stop();
+                return _context6.stop();
             }
           }
         }, _callee6, this);
@@ -672,9 +668,9 @@ var Conversations = (_dec = (0, _di.Module)({
     key: "unloadConversation",
     value: function () {
       var _unloadConversation = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
-        return regeneratorRuntime.wrap(function _callee7$(_context8) {
+        return regeneratorRuntime.wrap(function _callee7$(_context7) {
           while (1) {
-            switch (_context8.prev = _context8.next) {
+            switch (_context7.prev = _context7.next) {
               case 0:
                 this.store.dispatch({
                   type: this.actionTypes.updateCurrentConversationId,
@@ -684,7 +680,7 @@ var Conversations = (_dec = (0, _di.Module)({
 
               case 2:
               case "end":
-                return _context8.stop();
+                return _context7.stop();
             }
           }
         }, _callee7, this);
@@ -710,50 +706,50 @@ var Conversations = (_dec = (0, _di.Module)({
             records,
             _args8 = arguments;
 
-        return regeneratorRuntime.wrap(function _callee8$(_context9) {
+        return regeneratorRuntime.wrap(function _callee8$(_context8) {
           while (1) {
-            switch (_context9.prev = _context9.next) {
+            switch (_context8.prev = _context8.next) {
               case 0:
                 perPage = _args8.length > 0 && _args8[0] !== undefined ? _args8[0] : this._perPage;
 
                 if (this._enableLoadOldMessages) {
-                  _context9.next = 3;
+                  _context8.next = 3;
                   break;
                 }
 
-                return _context9.abrupt("return");
+                return _context8.abrupt("return");
 
               case 3:
                 if (this._hasPermission) {
-                  _context9.next = 5;
+                  _context8.next = 5;
                   break;
                 }
 
-                return _context9.abrupt("return");
+                return _context8.abrupt("return");
 
               case 5:
                 if (this._olderMessagesExsited) {
-                  _context9.next = 7;
+                  _context8.next = 7;
                   break;
                 }
 
-                return _context9.abrupt("return");
+                return _context8.abrupt("return");
 
               case 7:
                 if (!this.loadingOldMessages) {
-                  _context9.next = 9;
+                  _context8.next = 9;
                   break;
                 }
 
-                return _context9.abrupt("return");
+                return _context8.abrupt("return");
 
               case 9:
                 if (this.currentConversationId) {
-                  _context9.next = 11;
+                  _context8.next = 11;
                   break;
                 }
 
-                return _context9.abrupt("return");
+                return _context8.abrupt("return");
 
               case 11:
                 this.store.dispatch({
@@ -775,12 +771,12 @@ var Conversations = (_dec = (0, _di.Module)({
                   dateFrom: dateFrom.toISOString(),
                   dateTo: dateTo.toISOString()
                 };
-                _context9.prev = 19;
-                _context9.next = 22;
+                _context8.prev = 19;
+                _context8.next = 22;
                 return this._client.account().extension().messageStore().list(params);
 
               case 22:
-                _yield$this$_client$a2 = _context9.sent;
+                _yield$this$_client$a2 = _context8.sent;
                 records = _yield$this$_client$a2.records;
                 this._olderMessagesExsited = records.length === perPage;
 
@@ -791,12 +787,12 @@ var Conversations = (_dec = (0, _di.Module)({
                   });
                 }
 
-                _context9.next = 31;
+                _context8.next = 31;
                 break;
 
               case 28:
-                _context9.prev = 28;
-                _context9.t0 = _context9["catch"](19);
+                _context8.prev = 28;
+                _context8.t0 = _context8["catch"](19);
 
                 if (conversationId === this.currentConversationId) {
                   this.store.dispatch({
@@ -806,7 +802,7 @@ var Conversations = (_dec = (0, _di.Module)({
 
               case 31:
               case "end":
-                return _context9.stop();
+                return _context8.stop();
             }
           }
         }, _callee8, this, [[19, 28]]);
@@ -822,7 +818,7 @@ var Conversations = (_dec = (0, _di.Module)({
     key: "_alertWarning",
     value: function _alertWarning(message) {
       if (message) {
-        var ttlConfig = message !== _messageSenderMessages["default"].noAreaCode ? {
+        var ttlConfig = message !== _messageSenderMessages.messageSenderMessages.noAreaCode ? {
           ttl: 0
         } : null;
 
@@ -839,19 +835,19 @@ var Conversations = (_dec = (0, _di.Module)({
     key: "updateMessageText",
     value: function () {
       var _updateMessageText = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9(text) {
-        return regeneratorRuntime.wrap(function _callee9$(_context10) {
+        return regeneratorRuntime.wrap(function _callee9$(_context9) {
           while (1) {
-            switch (_context10.prev = _context10.next) {
+            switch (_context9.prev = _context9.next) {
               case 0:
                 if (!(text.length > 1000)) {
-                  _context10.next = 2;
+                  _context9.next = 2;
                   break;
                 }
 
-                return _context10.abrupt("return", this._alertWarning(_messageSenderMessages["default"].textTooLong));
+                return _context9.abrupt("return", this._alertWarning(_messageSenderMessages.messageSenderMessages.textTooLong));
 
               case 2:
-                return _context10.abrupt("return", this.store.dispatch({
+                return _context9.abrupt("return", this.store.dispatch({
                   type: this.actionTypes.updateMessageText,
                   text: text,
                   conversationId: this.currentConversationId
@@ -859,7 +855,7 @@ var Conversations = (_dec = (0, _di.Module)({
 
               case 3:
               case "end":
-                return _context10.stop();
+                return _context9.stop();
             }
           }
         }, _callee9, this);
@@ -876,15 +872,15 @@ var Conversations = (_dec = (0, _di.Module)({
     value: function () {
       var _replyToReceivers = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10(text) {
         var responses;
-        return regeneratorRuntime.wrap(function _callee10$(_context11) {
+        return regeneratorRuntime.wrap(function _callee10$(_context10) {
           while (1) {
-            switch (_context11.prev = _context11.next) {
+            switch (_context10.prev = _context10.next) {
               case 0:
                 this.store.dispatch({
                   type: this.actionTypes.reply
                 });
-                _context11.prev = 1;
-                _context11.next = 4;
+                _context10.prev = 1;
+                _context10.next = 4;
                 return this._messageSender.send({
                   fromNumber: this._getFromNumber(),
                   toNumbers: this._getToNumbers(),
@@ -893,10 +889,10 @@ var Conversations = (_dec = (0, _di.Module)({
                 });
 
               case 4:
-                responses = _context11.sent;
+                responses = _context10.sent;
 
                 if (!(responses && responses[0])) {
-                  _context11.next = 10;
+                  _context10.next = 10;
                   break;
                 }
 
@@ -909,24 +905,24 @@ var Conversations = (_dec = (0, _di.Module)({
                   type: this.actionTypes.removeMessageText,
                   conversationId: this.currentConversationId
                 });
-                return _context11.abrupt("return", responses[0]);
+                return _context10.abrupt("return", responses[0]);
 
               case 10:
                 this._onReplyError();
 
-                return _context11.abrupt("return", null);
+                return _context10.abrupt("return", null);
 
               case 14:
-                _context11.prev = 14;
-                _context11.t0 = _context11["catch"](1);
+                _context10.prev = 14;
+                _context10.t0 = _context10["catch"](1);
 
-                this._onReplyError(_context11.t0);
+                this._onReplyError(_context10.t0);
 
-                throw _context11.t0;
+                throw _context10.t0;
 
               case 18:
               case "end":
-                return _context11.stop();
+                return _context10.stop();
             }
           }
         }, _callee10, this, [[1, 14]]);
@@ -978,32 +974,32 @@ var Conversations = (_dec = (0, _di.Module)({
       });
     }
   }, {
-    key: "deleteCoversation",
+    key: "deleteConversation",
     value: function () {
-      var _deleteCoversation = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee11(conversationId) {
+      var _deleteConversation = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee11(conversationId) {
         var conversation;
-        return regeneratorRuntime.wrap(function _callee11$(_context12) {
+        return regeneratorRuntime.wrap(function _callee11$(_context11) {
           while (1) {
-            switch (_context12.prev = _context12.next) {
+            switch (_context11.prev = _context11.next) {
               case 0:
                 if (conversationId) {
-                  _context12.next = 2;
+                  _context11.next = 2;
                   break;
                 }
 
-                return _context12.abrupt("return");
+                return _context11.abrupt("return");
 
               case 2:
                 if (!this._messageStore.conversationStore[conversationId]) {
-                  _context12.next = 6;
+                  _context11.next = 6;
                   break;
                 }
 
-                _context12.next = 5;
+                _context11.next = 5;
                 return this._messageStore.deleteConversationMessages(conversationId);
 
               case 5:
-                return _context12.abrupt("return");
+                return _context11.abrupt("return");
 
               case 6:
                 conversation = this.allConversations.find(function (c) {
@@ -1011,27 +1007,27 @@ var Conversations = (_dec = (0, _di.Module)({
                 });
 
                 if (conversation) {
-                  _context12.next = 9;
+                  _context11.next = 9;
                   break;
                 }
 
-                return _context12.abrupt("return");
+                return _context11.abrupt("return");
 
               case 9:
                 if (!(0, _messageHelper.messageIsTextMessage)(conversation)) {
-                  _context12.next = 13;
+                  _context11.next = 13;
                   break;
                 }
 
-                _context12.next = 12;
-                return this._messageStore.deleteCoversation(conversationId);
+                _context11.next = 12;
+                return this._messageStore.deleteConversation(conversationId);
 
               case 12:
-                return _context12.abrupt("return");
+                return _context11.abrupt("return");
 
               case 13:
-                _context12.prev = 13;
-                _context12.next = 16;
+                _context11.prev = 13;
+                _context11.next = 16;
                 return this._messageStore.deleteMessageApi(conversationId);
 
               case 16:
@@ -1039,27 +1035,27 @@ var Conversations = (_dec = (0, _di.Module)({
                   type: this.actionTypes.deleteConversation,
                   conversationId: conversationId
                 });
-                _context12.next = 22;
+                _context11.next = 22;
                 break;
 
               case 19:
-                _context12.prev = 19;
-                _context12.t0 = _context12["catch"](13);
-                console.error(_context12.t0);
+                _context11.prev = 19;
+                _context11.t0 = _context11["catch"](13);
+                console.error(_context11.t0);
 
               case 22:
               case "end":
-                return _context12.stop();
+                return _context11.stop();
             }
           }
         }, _callee11, this, [[13, 19]]);
       }));
 
-      function deleteCoversation(_x6) {
-        return _deleteCoversation.apply(this, arguments);
+      function deleteConversation(_x6) {
+        return _deleteConversation.apply(this, arguments);
       }
 
-      return deleteCoversation;
+      return deleteConversation;
     }()
   }, {
     key: "addEntities",
@@ -1179,17 +1175,17 @@ var Conversations = (_dec = (0, _di.Module)({
   }, {
     key: "loadingOldConversations",
     get: function get() {
-      return this.fetchConversationsStatus === _status["default"].fetching;
+      return this.fetchConversationsStatus === _status.status.fetching;
     }
   }, {
     key: "loadingOldMessages",
     get: function get() {
-      return this.fetchMessagesStatus === _status["default"].fetching;
+      return this.fetchMessagesStatus === _status.status.fetching;
     }
   }, {
     key: "pushing",
     get: function get() {
-      return this.state.conversationStatus === _status["default"].pushing;
+      return this.state.conversationStatus === _status.status.pushing;
     }
   }, {
     key: "_hasPermission",
@@ -1209,7 +1205,7 @@ var Conversations = (_dec = (0, _di.Module)({
   }]);
 
   return Conversations;
-}(_RcModule2["default"]), _temp), (_applyDecoratedDescriptor(_class2.prototype, "updateSearchInput", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "updateSearchInput"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateTypeFilter", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "updateTypeFilter"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "fetchOldConversations", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "fetchOldConversations"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "loadNextPage", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "loadNextPage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "resetCurrentPage", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "resetCurrentPage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "loadConversation", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "loadConversation"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "unloadConversation", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "unloadConversation"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "fetchOldMessages", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "fetchOldMessages"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateMessageText", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "updateMessageText"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "replyToReceivers", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "replyToReceivers"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "deleteCoversation", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "deleteCoversation"), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, "allConversations", [_selector.selector], {
+}(_RcModule2["default"]), _temp), (_applyDecoratedDescriptor(_class2.prototype, "updateSearchInput", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "updateSearchInput"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateTypeFilter", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "updateTypeFilter"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "fetchOldConversations", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "fetchOldConversations"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "loadNextPage", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "loadNextPage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "resetCurrentPage", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "resetCurrentPage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "loadConversation", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "loadConversation"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "unloadConversation", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "unloadConversation"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "fetchOldMessages", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "fetchOldMessages"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateMessageText", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "updateMessageText"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "replyToReceivers", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "replyToReceivers"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "deleteConversation", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "deleteConversation"), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, "allConversations", [_selector.selector], {
   configurable: true,
   enumerable: true,
   writable: true,
@@ -1310,7 +1306,7 @@ var Conversations = (_dec = (0, _di.Module)({
       }
     }];
   }
-}), _descriptor6 = _applyDecoratedDescriptor(_class2.prototype, "formatedConversations", [_selector.selector], {
+}), _descriptor6 = _applyDecoratedDescriptor(_class2.prototype, "formattedConversations", [_selector.selector], {
   configurable: true,
   enumerable: true,
   writable: true,
@@ -1369,10 +1365,10 @@ var Conversations = (_dec = (0, _di.Module)({
           unreadCounts = (0, _messageHelper.messageIsUnread)(message) ? 1 : 0;
         }
 
-        var mmsAttachment = null;
+        var mmsAttachments = [];
 
-        if ((0, _messageHelper.messageIsTextMessage)(message) && (0, _isBlank["default"])(message.subject) && _this9._showMMSAttachment) {
-          mmsAttachment = (0, _messageHelper.getMMSAttachment)(message);
+        if ((0, _messageHelper.messageIsTextMessage)(message) && _this9._showMMSAttachment) {
+          mmsAttachments = (0, _messageHelper.getMMSAttachments)(message, accessToken);
         }
 
         return _objectSpread(_objectSpread({}, message), {}, {
@@ -1386,7 +1382,7 @@ var Conversations = (_dec = (0, _di.Module)({
           conversationMatches: conversationMatches,
           voicemailAttachment: voicemailAttachment,
           faxAttachment: faxAttachment,
-          mmsAttachment: mmsAttachment,
+          mmsAttachments: mmsAttachments,
           lastMatchedCorrespondentEntity: _this9._conversationLogger && _this9._conversationLogger.getLastMatchedCorrespondentEntity(message) || null
         });
       });
@@ -1400,7 +1396,7 @@ var Conversations = (_dec = (0, _di.Module)({
     var _this10 = this;
 
     return [function () {
-      return _this10.formatedConversations;
+      return _this10.formattedConversations;
     }, function () {
       return _this10.effectiveSearchString;
     }, function (conversations, effectiveSearchString) {
@@ -1536,9 +1532,9 @@ var Conversations = (_dec = (0, _di.Module)({
           return m;
         }
 
-        var mmsAttachment = (0, _messageHelper.getMMSAttachment)(m, accessToken);
+        var mmsAttachments = (0, _messageHelper.getMMSAttachments)(m, accessToken);
         return _objectSpread(_objectSpread({}, m), {}, {
-          mmsAttachment: mmsAttachment
+          mmsAttachments: mmsAttachments
         });
       });
 

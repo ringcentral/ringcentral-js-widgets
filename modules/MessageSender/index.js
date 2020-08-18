@@ -73,13 +73,13 @@ var _isBlank = _interopRequireDefault(require("../../lib/isBlank"));
 
 var _moduleStatuses = _interopRequireDefault(require("../../enums/moduleStatuses"));
 
-var _messageSenderActionTypes = _interopRequireDefault(require("./messageSenderActionTypes"));
+var _messageSenderActionTypes = require("./messageSenderActionTypes");
 
 var _getMessageSenderReducer = _interopRequireDefault(require("./getMessageSenderReducer"));
 
-var _messageSenderStatus = _interopRequireDefault(require("./messageSenderStatus"));
+var _messageSenderStatus = require("./messageSenderStatus");
 
-var _messageSenderMessages = _interopRequireDefault(require("./messageSenderMessages"));
+var _messageSenderMessages = require("./messageSenderMessages");
 
 var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
 
@@ -178,7 +178,7 @@ var MessageSender = (_dec = (0, _di.Module)({
     _classCallCheck(this, MessageSender);
 
     _this = _super.call(this, _objectSpread(_objectSpread({}, options), {}, {
-      actionTypes: _messageSenderActionTypes["default"]
+      actionTypes: _messageSenderActionTypes.messageSenderActionTypes
     }));
     _this._alert = alert;
     _this._client = client;
@@ -251,19 +251,19 @@ var MessageSender = (_dec = (0, _di.Module)({
     key: "_validateText",
     value: function _validateText(text, multipart) {
       if ((0, _isBlank["default"])(text)) {
-        this._alertWarning(_messageSenderMessages["default"].textEmpty);
+        this._alertWarning(_messageSenderMessages.messageSenderMessages.textEmpty);
 
         return false;
       }
 
       if (!multipart && text.length > MessageMaxLength) {
-        this._alertWarning(_messageSenderMessages["default"].textTooLong);
+        this._alertWarning(_messageSenderMessages.messageSenderMessages.textTooLong);
 
         return false;
       }
 
       if (multipart && text.length > MultipartMessageMaxLength) {
-        this._alertWarning(_messageSenderMessages["default"].multipartTextTooLong);
+        this._alertWarning(_messageSenderMessages.messageSenderMessages.multipartTextTooLong);
 
         return false;
       }
@@ -274,7 +274,7 @@ var MessageSender = (_dec = (0, _di.Module)({
     key: "_validateToNumbersIsEmpty",
     value: function _validateToNumbersIsEmpty(toNumbers) {
       if (toNumbers.length === 0) {
-        this._alertWarning(_messageSenderMessages["default"].recipientsEmpty);
+        this._alertWarning(_messageSenderMessages.messageSenderMessages.recipientsEmpty);
 
         return true;
       }
@@ -309,7 +309,7 @@ var MessageSender = (_dec = (0, _di.Module)({
           type: this.actionTypes.validateError
         });
 
-        this._alertWarning(_messageSenderMessages["default"].senderNumberInvalid);
+        this._alertWarning(_messageSenderMessages.messageSenderMessages.senderNumberInvalid);
       }
 
       return validateResult;
@@ -320,10 +320,10 @@ var MessageSender = (_dec = (0, _di.Module)({
       var _this3 = this;
 
       errors.forEach(function (error) {
-        var message = _messageSenderMessages["default"][error.type];
+        var message = _messageSenderMessages.messageSenderMessages[error.type];
 
         if (!_this3._alertWarning(message)) {
-          _this3._alertWarning(_messageSenderMessages["default"].recipientNumberInvalids);
+          _this3._alertWarning(_messageSenderMessages.messageSenderMessages.recipientNumberInvalids);
         }
       });
     }
@@ -398,7 +398,7 @@ var MessageSender = (_dec = (0, _di.Module)({
                   break;
                 }
 
-                this._alertWarning(_messageSenderMessages["default"].notAnExtension);
+                this._alertWarning(_messageSenderMessages.messageSenderMessages.notAnExtension);
 
                 this.store.dispatch({
                   type: this.actionTypes.validateError
@@ -411,7 +411,7 @@ var MessageSender = (_dec = (0, _di.Module)({
                 break;
 
               case 26:
-                numbers.push(number.e164);
+                numbers.push(number.availableExtension || number.e164);
 
               case 27:
                 _context.next = 16;
@@ -703,13 +703,14 @@ var MessageSender = (_dec = (0, _di.Module)({
                   type: this.actionTypes.sendError,
                   error: 'error'
                 });
+                _context2.next = 93;
+                return this._onSendError(_context2.t3);
 
-                this._onSendError(_context2.t3);
-
+              case 93:
                 console.debug('sendComposeText e ', _context2.t3);
                 throw _context2.t3;
 
-              case 94:
+              case 95:
               case "end":
                 return _context2.stop();
             }
@@ -814,49 +815,103 @@ var MessageSender = (_dec = (0, _di.Module)({
     }()
   }, {
     key: "_onSendError",
-    value: function _onSendError(error) {
-      var _this4 = this;
+    value: function () {
+      var _onSendError2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(error) {
+        var _this4 = this;
 
-      var errResp = error.apiResponse;
+        var errResp;
+        return regeneratorRuntime.wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                errResp = error.response;
 
-      if (errResp && errResp.response && !errResp.response.ok && errResp._json && (errResp._json.errorCode === 'InvalidParameter' || errResp._json.errorCode === 'InternationalProhibited' || errResp._json.errorCode === 'CMN-408')) {
-        errResp._json.errors.map(function (err) {
-          if ((err.errorCode === 'CMN-101' || err.errorCode === 'CMN-102' || err.errorCode === 'CMN-414') && err.parameterName.startsWith('to')) {
-            // 101 : "Parameter [to.extensionNumber] value is invalid"
-            // 101 : "Parameter [to.phoneNumber] value is invalid"
-            // 102 : "Resource for parameter [to] is not found"
-            _this4._alertWarning(_messageSenderMessages["default"].recipientNumberInvalids);
+                if (!errResp) {
+                  _context5.next = 5;
+                  break;
+                }
 
-            return null;
+                _context5.next = 4;
+                return errResp.clone().json();
+
+              case 4:
+                errResp._json = _context5.sent;
+
+              case 5:
+                if (!(errResp && !errResp.ok && errResp._json && (errResp._json.errorCode === 'InvalidParameter' || errResp._json.errorCode === 'InternationalProhibited' || errResp._json.errorCode === 'CMN-408'))) {
+                  _context5.next = 8;
+                  break;
+                }
+
+                errResp._json.errors.map(function (err) {
+                  if ((err.errorCode === 'CMN-101' || err.errorCode === 'CMN-102' || err.errorCode === 'CMN-414') && err.parameterName.startsWith('to')) {
+                    // 101 : "Parameter [to.extensionNumber] value is invalid"
+                    // 101 : "Parameter [to.phoneNumber] value is invalid"
+                    // 102 : "Resource for parameter [to] is not found"
+                    _this4._alertWarning(_messageSenderMessages.messageSenderMessages.recipientNumberInvalids);
+
+                    return null;
+                  }
+
+                  if (err.errorCode === 'MSG-246') {
+                    // MSG-246 : "Sending SMS from/to extension numbers is not available"
+                    _this4._alertWarning(_messageSenderMessages.messageSenderMessages.notSmsToExtension);
+                  }
+
+                  if (err.errorCode === 'MSG-240') {
+                    // MSG-240 : "International SMS is not supported"
+                    _this4._alertWarning(_messageSenderMessages.messageSenderMessages.internationalSMSNotSupported);
+                  }
+
+                  if (err.errorCode === 'CMN-408') {
+                    // MSG-240 : "In order to call this API endpoint, user needs to have [InternalSMS] permission for requested resource."
+                    _this4._alertWarning(_messageSenderMessages.messageSenderMessages.noInternalSMSPermission);
+                  }
+
+                  return null;
+                });
+
+                return _context5.abrupt("return");
+
+              case 8:
+                _context5.t0 = this._availabilityMonitor;
+
+                if (!_context5.t0) {
+                  _context5.next = 13;
+                  break;
+                }
+
+                _context5.next = 12;
+                return this._availabilityMonitor.checkIfHAError(error);
+
+              case 12:
+                _context5.t0 = _context5.sent;
+
+              case 13:
+                if (!_context5.t0) {
+                  _context5.next = 15;
+                  break;
+                }
+
+                return _context5.abrupt("return", null);
+
+              case 15:
+                this._alertWarning(_messageSenderMessages.messageSenderMessages.sendError);
+
+              case 16:
+              case "end":
+                return _context5.stop();
+            }
           }
+        }, _callee5, this);
+      }));
 
-          if (err.errorCode === 'MSG-246') {
-            // MSG-246 : "Sending SMS from/to extension numbers is not available"
-            _this4._alertWarning(_messageSenderMessages["default"].notSmsToExtension);
-          }
-
-          if (err.errorCode === 'MSG-240') {
-            // MSG-240 : "International SMS is not supported"
-            _this4._alertWarning(_messageSenderMessages["default"].internationalSMSNotSupported);
-          }
-
-          if (err.errorCode === 'CMN-408') {
-            // MSG-240 : "In order to call this API endpoint, user needs to have [InternalSMS] permission for requested resource."
-            _this4._alertWarning(_messageSenderMessages["default"].noInternalSMSPermission);
-          }
-
-          return null;
-        });
-
-        return;
+      function _onSendError(_x5) {
+        return _onSendError2.apply(this, arguments);
       }
 
-      if (this._availabilityMonitor && this._availabilityMonitor.checkIfHAError(error)) {
-        return null;
-      }
-
-      this._alertWarning(_messageSenderMessages["default"].sendError);
-    }
+      return _onSendError;
+    }()
   }, {
     key: "on",
     value: function on(event, handler) {
@@ -880,12 +935,17 @@ var MessageSender = (_dec = (0, _di.Module)({
   }, {
     key: "idle",
     get: function get() {
-      return this.sendStatus === _messageSenderStatus["default"].idle;
+      return this.sendStatus === _messageSenderStatus.messageSenderStatus.idle;
     }
   }, {
     key: "senderNumbersList",
     get: function get() {
       return this._extensionPhoneNumber.smsSenderNumbers;
+    }
+  }, {
+    key: "events",
+    get: function get() {
+      return this.actionTypes;
     }
   }]);
 

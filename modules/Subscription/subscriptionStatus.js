@@ -5,13 +5,13 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = void 0;
+exports["default"] = exports.subscriptionStatus = void 0;
 
-var _Enum = _interopRequireDefault(require("../../lib/Enum"));
+var _ObjectMap = require("@ringcentral-integration/core/lib/ObjectMap");
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+var subscriptionStatus = _ObjectMap.ObjectMap.prefixKeys(['subscribing', 'subscribed', 'unsubscribing', 'notSubscribed'], 'subscriptionStatus');
 
-var _default = new _Enum["default"](['subscribing', 'subscribed', 'unsubscribing', 'notSubscribed'], 'subscriptionStatus');
-
+exports.subscriptionStatus = subscriptionStatus;
+var _default = subscriptionStatus;
 exports["default"] = _default;
 //# sourceMappingURL=subscriptionStatus.js.map

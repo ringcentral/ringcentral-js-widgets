@@ -35,7 +35,7 @@ var _redux = require("redux");
 
 var _getModuleStatusReducer = _interopRequireDefault(require("../../lib/getModuleStatusReducer"));
 
-var _callStatus = _interopRequireDefault(require("./callStatus"));
+var _callStatus = require("./callStatus");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -53,18 +53,18 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
 function getCallStatusReducer(types) {
   return function () {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _callStatus["default"].idle;
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _callStatus.callStatus.idle;
 
     var _ref = arguments.length > 1 ? arguments[1] : undefined,
         type = _ref.type;
 
     switch (type) {
       case types.connect:
-        return _callStatus["default"].connecting;
+        return _callStatus.callStatus.connecting;
 
       case types.connectSuccess:
       case types.connectError:
-        return _callStatus["default"].idle;
+        return _callStatus.callStatus.idle;
 
       default:
         return state;

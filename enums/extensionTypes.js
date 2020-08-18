@@ -5,33 +5,11 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = void 0;
+exports["default"] = exports.extensionTypes = void 0;
 
-var _HashMap = require("../lib/HashMap");
+var _ObjectMap = require("@ringcentral-integration/core/lib/ObjectMap");
 
-/**
- * @typedef ExtensionTypes
- * @type {object}
- * @property {string} announcement
- * @property {string} applicationExtension
- * @property {string} bot
- * @property {string} department
- * @property {string} digitalUser
- * @property {string} faxUser
- * @property {string} ivrMenu
- * @property {string} limited
- * @property {string} pagingOnly
- * @property {string} parkLocation
- * @property {string} sharedLinesGroup
- * @property {string} user
- * @property {string} virtualUser
- * @property {string} voicemail
- */
-
-/**
- * @type {ExtensionTypes}
- */
-var extensionTypes = (0, _HashMap.createHashMap)({
+var extensionTypes = _ObjectMap.ObjectMap.fromObject({
   announcement: 'Announcement',
   applicationExtension: 'ApplicationExtension',
   bot: 'Bot',
@@ -42,11 +20,15 @@ var extensionTypes = (0, _HashMap.createHashMap)({
   limited: 'Limited',
   pagingOnly: 'PagingOnly',
   parkLocation: 'ParkLocation',
+  room: 'Room',
   sharedLinesGroup: 'SharedLinesGroup',
+  site: 'Site',
   user: 'User',
   virtualUser: 'VirtualUser',
   voicemail: 'Voicemail'
 });
+
+exports.extensionTypes = extensionTypes;
 var _default = extensionTypes;
 exports["default"] = _default;
 //# sourceMappingURL=extensionTypes.js.map

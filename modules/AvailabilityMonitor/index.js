@@ -47,8 +47,6 @@ require("core-js/modules/es6.number.constructor");
 
 require("core-js/modules/es6.number.is-nan");
 
-require("core-js/modules/es6.array.is-array");
-
 require("core-js/modules/es6.function.bind");
 
 var _ramda = require("ramda");
@@ -144,8 +142,6 @@ var AvailabilityMonitor = (_dec = (0, _di.Module)({
    * @param {Environment} params.environment - environment module instance
    */
   function AvailabilityMonitor(_ref) {
-    var _context;
-
     var _this;
 
     var alert = _ref.alert,
@@ -162,18 +158,18 @@ var AvailabilityMonitor = (_dec = (0, _di.Module)({
       enabled: enabled
     }, options));
     _this._enabled = enabled;
-    _this._client = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, client, 'client');
+    _this._client = _ensureExist["default"].call(_assertThisInitialized(_this), client, 'client');
     _this._environment = environment;
     _this._lastEnvironmentCounter = 0;
     _this._healthRetryTime = HEALTH_CHECK_INTERVAL;
     _this._reducer = (0, _availabilityMonitorReducer["default"])(_this.actionTypes); // auto bind this
 
-    _this._beforeRequestHandler = (_context = _assertThisInitialized(_this), _this._beforeRequestHandler).bind(_context);
-    _this._requestErrorHandler = (_context = _assertThisInitialized(_this), _this._requestErrorHandler).bind(_context);
-    _this._refreshErrorHandler = (_context = _assertThisInitialized(_this), _this._refreshErrorHandler).bind(_context);
-    _this._refreshSuccessHandler = (_context = _assertThisInitialized(_this), _this._refreshSuccessHandler).bind(_context);
-    _this._switchToNormalMode = (_context = _assertThisInitialized(_this), _this._switchToNormalMode).bind(_context);
-    _this._switchToVoIPOnlyMode = (_context = _assertThisInitialized(_this), _this._switchToVoIPOnlyMode).bind(_context);
+    _this._beforeRequestHandler = _this._beforeRequestHandler.bind(_assertThisInitialized(_this));
+    _this._requestErrorHandler = _this._requestErrorHandler.bind(_assertThisInitialized(_this));
+    _this._refreshErrorHandler = _this._refreshErrorHandler.bind(_assertThisInitialized(_this));
+    _this._refreshSuccessHandler = _this._refreshSuccessHandler.bind(_assertThisInitialized(_this));
+    _this._switchToNormalMode = _this._switchToNormalMode.bind(_assertThisInitialized(_this));
+    _this._switchToVoIPOnlyMode = _this._switchToVoIPOnlyMode.bind(_assertThisInitialized(_this));
     _this._randomTime = DEFAULT_TIME;
     _this._limitedTimeout = null;
     _this._normalTimeout = null;
@@ -227,7 +223,7 @@ var AvailabilityMonitor = (_dec = (0, _di.Module)({
         this._unbindHandlers();
       }
 
-      var client = this._client.service.platform().client();
+      var client = this._client.service.client();
 
       var platform = this._client.service.platform(); // TODO: in other modules, when they catch error first check if app is in HA mode.
 
@@ -279,7 +275,7 @@ var AvailabilityMonitor = (_dec = (0, _di.Module)({
       throw new Error(_errorMessages["default"].serviceLimited);
     }
     /**
-     * Retrieve retry after value from repsonse headers
+     * Retrieve retry after value from response headers
      * @param {*} headers
      */
 
@@ -288,12 +284,6 @@ var AvailabilityMonitor = (_dec = (0, _di.Module)({
     value: function _retrieveRetryAfter(headers) {
       try {
         var retryAfter = parseFloat(headers.get('Retry-After') || -1);
-
-        if (retryAfter < 0) {
-          var h = (0, _ramda.pathOr)({}, ['_headers', 'retry-after'], headers) || -1;
-          retryAfter = Array.isArray(h) ? parseFloat(h[0]) : -1; // retryAfter = h['retry-after'] || -1;
-        }
-
         return Number.isNaN(retryAfter) ? -1 : retryAfter;
       } catch (error) {
         return -1;
@@ -309,55 +299,126 @@ var AvailabilityMonitor = (_dec = (0, _di.Module)({
 
   }, {
     key: "_requestErrorHandler",
-    value: function _requestErrorHandler(error) {
-      var requestUrl = (0, _ramda.pathOr)('', ['apiResponse', '_request', 'url'], error);
-      var extractedUrl = (0, _availabilityMonitorHelper.extractUrl)({
-        url: requestUrl
-      }); // If app is in Limited Mode and staus API met a status which is not 200 nor 503
+    value: function () {
+      var _requestErrorHandler2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(error) {
+        var requestUrl, extractedUrl, headers, retryAfter;
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                if (!(error.response && !error.response._json)) {
+                  _context.next = 4;
+                  break;
+                }
 
-      if (this.isLimitedAvailabilityMode && extractedUrl === STATUS_END_POINT && !(0, _availabilityMonitorHelper.isHAError)(error)) {
-        if (!this.hasLimitedStatusError) {
-          this.store.dispatch({
-            type: this.actionTypes.limitedModeStatusError
-          });
-        }
+                _context.next = 3;
+                return error.response.clone().json();
 
-        return;
+              case 3:
+                error.response._json = _context.sent;
+
+              case 4:
+                requestUrl = (0, _ramda.pathOr)('', ['request', 'url'], error);
+                extractedUrl = (0, _availabilityMonitorHelper.extractUrl)({
+                  url: requestUrl
+                }); // If app is in Limited Mode and staus API met a status which is not 200 nor 503
+
+                if (!(this.isLimitedAvailabilityMode && extractedUrl === STATUS_END_POINT && !(0, _availabilityMonitorHelper.isHAError)(error))) {
+                  _context.next = 9;
+                  break;
+                }
+
+                if (!this.hasLimitedStatusError) {
+                  this.store.dispatch({
+                    type: this.actionTypes.limitedModeStatusError
+                  });
+                }
+
+                return _context.abrupt("return");
+
+              case 9:
+                if (!(!(0, _availabilityMonitorHelper.isHAError)(error) || !this._enabled)) {
+                  _context.next = 11;
+                  break;
+                }
+
+                return _context.abrupt("return");
+
+              case 11:
+                headers = (0, _ramda.pathOr)({}, ['response', 'headers'], error);
+                retryAfter = this._retrieveRetryAfter(headers);
+
+                if (retryAfter > 0) {
+                  // Retry-After unit is secons, make it mili-secons
+                  this._healthRetryTime = retryAfter * 1000;
+                } else {
+                  this._healthRetryTime = HEALTH_CHECK_INTERVAL;
+                }
+
+                this._switchToLimitedMode();
+
+                this._retry();
+
+              case 16:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function _requestErrorHandler(_x) {
+        return _requestErrorHandler2.apply(this, arguments);
       }
 
-      if (!(0, _availabilityMonitorHelper.isHAError)(error) || !this._enabled) {
-        return;
-      }
-
-      var headers = (0, _ramda.pathOr)({}, ['apiResponse', '_response', 'headers'], error);
-
-      var retryAfter = this._retrieveRetryAfter(headers);
-
-      if (retryAfter > 0) {
-        // Retry-After unit is secons, make it mili-secons
-        this._healthRetryTime = retryAfter * 1000;
-      } else {
-        this._healthRetryTime = HEALTH_CHECK_INTERVAL;
-      }
-
-      this._switchToLimitedMode();
-
-      this._retry();
-    }
+      return _requestErrorHandler;
+    }()
   }, {
     key: "_refreshErrorHandler",
-    value: function _refreshErrorHandler(error) {
-      var isOffline = (0, _validateIsOffline["default"])(error.message);
+    value: function () {
+      var _refreshErrorHandler2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(error) {
+        var isOffline, platform, RES_STATUS, refreshTokenValid;
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                isOffline = (0, _validateIsOffline["default"])(error.message);
+                platform = this._client.service.platform();
+                RES_STATUS = error.response && error.response.status || null;
+                _context2.t0 = isOffline || RES_STATUS >= 500;
 
-      var platform = this._client.service.platform();
+                if (!_context2.t0) {
+                  _context2.next = 8;
+                  break;
+                }
 
-      var RES_STATUS = error.apiResponse && error.apiResponse._response && error.apiResponse._response.status || null;
-      var refreshTokenValid = (isOffline || RES_STATUS >= 500) && platform.auth().refreshTokenValid();
+                _context2.next = 7;
+                return platform.auth().refreshTokenValid();
 
-      if (refreshTokenValid) {
-        this._switchToVoIPOnlyMode();
+              case 7:
+                _context2.t0 = _context2.sent;
+
+              case 8:
+                refreshTokenValid = _context2.t0;
+
+                if (refreshTokenValid) {
+                  this._switchToVoIPOnlyMode();
+                }
+
+              case 10:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function _refreshErrorHandler(_x2) {
+        return _refreshErrorHandler2.apply(this, arguments);
       }
-    }
+
+      return _refreshErrorHandler;
+    }()
   }, {
     key: "_refreshSuccessHandler",
     value: function _refreshSuccessHandler() {
@@ -426,27 +487,27 @@ var AvailabilityMonitor = (_dec = (0, _di.Module)({
   }, {
     key: "_getStatus",
     value: function () {
-      var _getStatus2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+      var _getStatus2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
         var res;
-        return regeneratorRuntime.wrap(function _callee$(_context2) {
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context3.prev = _context3.next) {
               case 0:
-                _context2.next = 2;
-                return this._client.service.platform().get('/status', null, {
+                _context3.next = 2;
+                return this._client.service.platform().get('/restapi/v1.0/status', null, {
                   skipAuthCheck: true
                 });
 
               case 2:
-                res = _context2.sent;
-                return _context2.abrupt("return", res && res.response());
+                res = _context3.sent;
+                return _context3.abrupt("return", res);
 
               case 4:
               case "end":
-                return _context2.stop();
+                return _context3.stop();
             }
           }
-        }, _callee, this);
+        }, _callee3, this);
       }));
 
       function _getStatus() {
@@ -477,37 +538,37 @@ var AvailabilityMonitor = (_dec = (0, _di.Module)({
   }, {
     key: "_healthCheck",
     value: function () {
-      var _healthCheck2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+      var _healthCheck2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
         var _this5 = this;
 
         var response;
-        return regeneratorRuntime.wrap(function _callee2$(_context3) {
+        return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context4.prev = _context4.next) {
               case 0:
-                _context3.prev = 0;
-                _context3.next = 3;
+                _context4.prev = 0;
+                _context4.next = 3;
                 return this._getStatus();
 
               case 3:
-                response = _context3.sent;
+                response = _context4.sent;
 
                 if (!(!response || response.status !== 200)) {
-                  _context3.next = 6;
+                  _context4.next = 6;
                   break;
                 }
 
-                return _context3.abrupt("return");
+                return _context4.abrupt("return");
 
               case 6:
-                _context3.next = 12;
+                _context4.next = 12;
                 break;
 
               case 8:
-                _context3.prev = 8;
-                _context3.t0 = _context3["catch"](0);
+                _context4.prev = 8;
+                _context4.t0 = _context4["catch"](0);
                 console.error('error from request of /restapi/v1.0/status.');
-                return _context3.abrupt("return");
+                return _context4.abrupt("return");
 
               case 12:
                 this._randomTime = this._randomTime || (0, _availabilityMonitorHelper.generateRandomNumber)(); // Generate random seconds (1 ~ 121)
@@ -520,10 +581,10 @@ var AvailabilityMonitor = (_dec = (0, _di.Module)({
 
               case 14:
               case "end":
-                return _context3.stop();
+                return _context4.stop();
             }
           }
-        }, _callee2, this, [[0, 8]]);
+        }, _callee4, this, [[0, 8]]);
       }));
 
       function _healthCheck() {
@@ -539,28 +600,28 @@ var AvailabilityMonitor = (_dec = (0, _di.Module)({
   }, {
     key: "healthCheck",
     value: function () {
-      var _healthCheck3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
+      var _healthCheck3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
         var _this6 = this;
 
-        return regeneratorRuntime.wrap(function _callee4$(_context5) {
+        return regeneratorRuntime.wrap(function _callee6$(_context6) {
           while (1) {
-            switch (_context5.prev = _context5.next) {
+            switch (_context6.prev = _context6.next) {
               case 0:
                 if (!this._throttledHealthCheck) {
-                  this._throttledHealthCheck = (0, _throttle["default"])( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
-                    return regeneratorRuntime.wrap(function _callee3$(_context4) {
+                  this._throttledHealthCheck = (0, _throttle["default"])( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
+                    return regeneratorRuntime.wrap(function _callee5$(_context5) {
                       while (1) {
-                        switch (_context4.prev = _context4.next) {
+                        switch (_context5.prev = _context5.next) {
                           case 0:
-                            _context4.next = 2;
+                            _context5.next = 2;
                             return _this6._healthCheck();
 
                           case 2:
                           case "end":
-                            return _context4.stop();
+                            return _context5.stop();
                         }
                       }
-                    }, _callee3);
+                    }, _callee5);
                   })));
                 }
 
@@ -568,10 +629,10 @@ var AvailabilityMonitor = (_dec = (0, _di.Module)({
 
               case 2:
               case "end":
-                return _context5.stop();
+                return _context6.stop();
             }
           }
-        }, _callee4, this);
+        }, _callee6, this);
       }));
 
       function healthCheck() {
@@ -587,10 +648,43 @@ var AvailabilityMonitor = (_dec = (0, _di.Module)({
 
   }, {
     key: "checkIfHAError",
-    value: function checkIfHAError(error) {
-      var errMessage = (0, _ramda.pathOr)(null, ['message'], error);
-      return (0, _availabilityMonitorHelper.isHAError)(error) || errMessage === _errorMessages["default"].serviceLimited;
-    }
+    value: function () {
+      var _checkIfHAError = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7(error) {
+        var errMessage;
+        return regeneratorRuntime.wrap(function _callee7$(_context7) {
+          while (1) {
+            switch (_context7.prev = _context7.next) {
+              case 0:
+                errMessage = (0, _ramda.pathOr)(null, ['message'], error);
+
+                if (!error.response) {
+                  _context7.next = 5;
+                  break;
+                }
+
+                _context7.next = 4;
+                return error.response.clone().json();
+
+              case 4:
+                error.response._json = _context7.sent;
+
+              case 5:
+                return _context7.abrupt("return", (0, _availabilityMonitorHelper.isHAError)(error) || errMessage === _errorMessages["default"].serviceLimited);
+
+              case 6:
+              case "end":
+                return _context7.stop();
+            }
+          }
+        }, _callee7);
+      }));
+
+      function checkIfHAError(_x3) {
+        return _checkIfHAError.apply(this, arguments);
+      }
+
+      return checkIfHAError;
+    }()
   }, {
     key: "status",
     get: function get() {

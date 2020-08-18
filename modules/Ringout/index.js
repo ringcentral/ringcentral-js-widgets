@@ -340,7 +340,7 @@ var Ringout = (_dec = (0, _di.Module)({
                 _context3.prev = 0;
                 _context3.next = 3;
                 return this._client.account().extension().ringOut(ringoutId).get()["catch"](function (error) {
-                  if (error && error.apiResponse && error.apiResponse._response && error.apiResponse._response.status === 404) {
+                  if (error && error.response && error.response.status === 404) {
                     callStatus = 'Success';
                   }
                 });

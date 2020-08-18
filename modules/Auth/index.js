@@ -179,7 +179,9 @@ var Auth = (_dec = (0, _di.Module)({
         locale = _ref.locale,
         tabManager = _ref.tabManager,
         environment = _ref.environment,
-        options = _objectWithoutProperties(_ref, ["client", "alert", "brand", "locale", "tabManager", "environment"]);
+        _ref$usePKCE = _ref.usePKCE,
+        usePKCE = _ref$usePKCE === void 0 ? false : _ref$usePKCE,
+        options = _objectWithoutProperties(_ref, ["client", "alert", "brand", "locale", "tabManager", "environment", "usePKCE"]);
 
     _classCallCheck(this, Auth);
 
@@ -200,6 +202,7 @@ var Auth = (_dec = (0, _di.Module)({
     _this._lastEnvironmentCounter = void 0;
     _this._proxyUri = void 0;
     _this._redirectUri = void 0;
+    _this._usePKCE = void 0;
     _this._client = (0, _ensureExist["default"])(client, 'client');
     _this._alert = (0, _ensureExist["default"])(alert, 'alert');
     _this._brand = (0, _ensureExist["default"])(brand, 'brand');
@@ -207,6 +210,7 @@ var Auth = (_dec = (0, _di.Module)({
     _this._tabManager = tabManager;
     _this._environment = environment;
     _this._reducer = (0, _getAuthReducer["default"])(_this.actionTypes);
+    _this._usePKCE = usePKCE;
     _this._beforeLogoutHandlers = new Set();
     _this._afterLoggedInHandlers = new Set();
     _this._proxyFrame = null;
@@ -227,8 +231,8 @@ var Auth = (_dec = (0, _di.Module)({
 
       var client = this._client.service._client;
 
-      var onRequestError = function onRequestError(apiResponse) {
-        if (apiResponse instanceof Error && apiResponse.message === 'Token revoked') {
+      var onRequestError = function onRequestError(error) {
+        if (error instanceof Error && error.message === 'Token revoked') {
           _this2.logout();
         }
       };
@@ -241,10 +245,19 @@ var Auth = (_dec = (0, _di.Module)({
             while (1) {
               switch (_context.prev = _context.next) {
                 case 0:
-                  _this2.store.dispatch({
-                    type: _this2.actionTypes.loginSuccess,
-                    token: platform.auth().data()
-                  });
+                  _context.t0 = _this2.store;
+                  _context.t1 = _this2.actionTypes.loginSuccess;
+                  _context.next = 4;
+                  return platform.auth().data();
+
+                case 4:
+                  _context.t2 = _context.sent;
+                  _context.t3 = {
+                    type: _context.t1,
+                    token: _context.t2
+                  };
+
+                  _context.t0.dispatch.call(_context.t0, _context.t3);
 
                   handlers = _toConsumableArray(_this2._afterLoggedInHandlers);
                   _iterator = _createForOfIteratorHelper(handlers);
@@ -260,7 +273,7 @@ var Auth = (_dec = (0, _di.Module)({
                     _iterator.f();
                   }
 
-                case 4:
+                case 10:
                 case "end":
                   return _context.stop();
               }
@@ -302,36 +315,112 @@ var Auth = (_dec = (0, _di.Module)({
         }
       };
 
-      var onRefreshSuccess = function onRefreshSuccess() {
-        _this2.store.dispatch({
-          type: _this2.actionTypes.refreshSuccess,
-          token: platform.auth().data()
-        });
-      };
+      var onRefreshSuccess = /*#__PURE__*/function () {
+        var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+          return regeneratorRuntime.wrap(function _callee2$(_context2) {
+            while (1) {
+              switch (_context2.prev = _context2.next) {
+                case 0:
+                  _context2.t0 = _this2.store;
+                  _context2.t1 = _this2.actionTypes.refreshSuccess;
+                  _context2.next = 4;
+                  return platform.auth().data();
 
-      var onRefreshError = function onRefreshError(error) {
-        // user is still considered logged in if the refreshToken is still valid
-        var isOffline = (0, _validateIsOffline["default"])(error.message);
-        var res_status = error.apiResponse && error.apiResponse._response && error.apiResponse._response.status || null;
-        var refreshTokenValid = (isOffline || res_status >= 500) && platform.auth().refreshTokenValid();
+                case 4:
+                  _context2.t2 = _context2.sent;
+                  _context2.t3 = {
+                    type: _context2.t1,
+                    token: _context2.t2
+                  };
 
-        _this2.store.dispatch({
-          type: _this2.actionTypes.refreshError,
-          error: error,
-          refreshTokenValid: refreshTokenValid
-        });
+                  _context2.t0.dispatch.call(_context2.t0, _context2.t3);
 
-        if (!refreshTokenValid && platform.auth().data().access_token !== '') {
-          _this2._alert.danger({
-            message: _authMessages["default"].sessionExpired,
-            payload: error,
-            ttl: 0
-          }); // clean the cache so the error doesn't show again
+                case 7:
+                case "end":
+                  return _context2.stop();
+              }
+            }
+          }, _callee2);
+        }));
+
+        return function onRefreshSuccess() {
+          return _ref3.apply(this, arguments);
+        };
+      }();
+
+      var onRefreshError = /*#__PURE__*/function () {
+        var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(error) {
+          var isOffline, resStatus, refreshTokenValid;
+          return regeneratorRuntime.wrap(function _callee3$(_context3) {
+            while (1) {
+              switch (_context3.prev = _context3.next) {
+                case 0:
+                  // user is still considered logged in if the refreshToken is still valid
+                  isOffline = (0, _validateIsOffline["default"])(error.message);
+                  resStatus = error.response && error.response.status || null;
+                  _context3.t0 = isOffline || resStatus >= 500;
+
+                  if (!_context3.t0) {
+                    _context3.next = 7;
+                    break;
+                  }
+
+                  _context3.next = 6;
+                  return platform.auth().refreshTokenValid();
+
+                case 6:
+                  _context3.t0 = _context3.sent;
+
+                case 7:
+                  refreshTokenValid = _context3.t0;
+
+                  _this2.store.dispatch({
+                    type: _this2.actionTypes.refreshError,
+                    error: error,
+                    refreshTokenValid: refreshTokenValid
+                  });
+
+                  _context3.t1 = !refreshTokenValid;
+
+                  if (!_context3.t1) {
+                    _context3.next = 15;
+                    break;
+                  }
+
+                  _context3.next = 13;
+                  return platform.auth().data();
+
+                case 13:
+                  _context3.t2 = _context3.sent.access_token;
+                  _context3.t1 = _context3.t2 !== '';
+
+                case 15:
+                  if (!_context3.t1) {
+                    _context3.next = 18;
+                    break;
+                  }
+
+                  _this2._alert.danger({
+                    message: _authMessages["default"].sessionExpired,
+                    payload: error,
+                    ttl: 0
+                  }); // clean the cache so the error doesn't show again
 
 
-          platform._cache.clean();
-        }
-      };
+                  platform._cache.clean();
+
+                case 18:
+                case "end":
+                  return _context3.stop();
+              }
+            }
+          }, _callee3);
+        }));
+
+        return function onRefreshError(_x) {
+          return _ref4.apply(this, arguments);
+        };
+      }();
 
       platform.addListener(platform.events.loginSuccess, onLoginSuccess);
       platform.addListener(platform.events.loginError, onLoginError);
@@ -357,14 +446,14 @@ var Auth = (_dec = (0, _di.Module)({
       var _this3 = this;
 
       var loggedIn;
-      this.store.subscribe( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+      this.store.subscribe( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
         var platform;
-        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+        return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context4.prev = _context4.next) {
               case 0:
                 if (!(_this3.status === _moduleStatuses["default"].pending && _this3._locale.ready && (!_this3._tabManager || _this3._tabManager.ready) && (!_this3._environment || _this3._environment.ready))) {
-                  _context2.next = 8;
+                  _context4.next = 20;
                   break;
                 }
 
@@ -373,50 +462,113 @@ var Auth = (_dec = (0, _di.Module)({
                 });
 
                 platform = _this3._client.service.platform();
-                _context2.next = 5;
+                _context4.next = 5;
                 return platform.loggedIn();
 
               case 5:
-                loggedIn = _context2.sent;
+                loggedIn = _context4.sent;
 
                 _this3._bindEvents();
 
-                _this3.store.dispatch({
-                  type: _this3.actionTypes.initSuccess,
-                  loggedIn: loggedIn,
-                  token: loggedIn ? platform.auth().data() : null
-                });
+                _context4.t0 = _this3.store;
+                _context4.t1 = _this3.actionTypes.initSuccess;
+                _context4.t2 = loggedIn;
 
-              case 8:
-                if (_this3._tabManager && _this3._tabManager.ready && _this3.ready) {
-                  if (loggedIn && _this3.loginStatus === _loginStatus["default"].notLoggedIn || !loggedIn && _this3.loginStatus === _loginStatus["default"].loggedIn) {
-                    loggedIn = !loggedIn;
-
-                    _this3._tabManager.send(LoginStatusChangeEvent, loggedIn);
-                  } else if (_this3._tabManager.event && _this3._tabManager.event.name === LoginStatusChangeEvent && _this3._tabManager.event.args[0] !== loggedIn) {
-                    /* eslint { "prefer-destructuring": 0 } */
-                    loggedIn = _this3._tabManager.event.args[0];
-
-                    _this3.store.dispatch({
-                      type: _this3.actionTypes.tabSync,
-                      loggedIn: loggedIn,
-                      token: loggedIn ? _this3._client.service.platform().auth().data() : null
-                    });
-                  }
+                if (!loggedIn) {
+                  _context4.next = 16;
+                  break;
                 }
 
+                _context4.next = 13;
+                return platform.auth().data();
+
+              case 13:
+                _context4.t3 = _context4.sent;
+                _context4.next = 17;
+                break;
+
+              case 16:
+                _context4.t3 = null;
+
+              case 17:
+                _context4.t4 = _context4.t3;
+                _context4.t5 = {
+                  type: _context4.t1,
+                  loggedIn: _context4.t2,
+                  token: _context4.t4
+                };
+
+                _context4.t0.dispatch.call(_context4.t0, _context4.t5);
+
+              case 20:
+                if (!(_this3._tabManager && _this3._tabManager.ready && _this3.ready)) {
+                  _context4.next = 41;
+                  break;
+                }
+
+                if (!(loggedIn && _this3.loginStatus === _loginStatus["default"].notLoggedIn || !loggedIn && _this3.loginStatus === _loginStatus["default"].loggedIn)) {
+                  _context4.next = 26;
+                  break;
+                }
+
+                loggedIn = !loggedIn;
+
+                _this3._tabManager.send(LoginStatusChangeEvent, loggedIn);
+
+                _context4.next = 41;
+                break;
+
+              case 26:
+                if (!(_this3._tabManager.event && _this3._tabManager.event.name === LoginStatusChangeEvent && _this3._tabManager.event.args[0] !== loggedIn)) {
+                  _context4.next = 41;
+                  break;
+                }
+
+                /* eslint { "prefer-destructuring": 0 } */
+                loggedIn = _this3._tabManager.event.args[0];
+                _context4.t6 = _this3.store;
+                _context4.t7 = _this3.actionTypes.tabSync;
+                _context4.t8 = loggedIn;
+
+                if (!loggedIn) {
+                  _context4.next = 37;
+                  break;
+                }
+
+                _context4.next = 34;
+                return _this3._client.service.platform().auth().data();
+
+              case 34:
+                _context4.t9 = _context4.sent;
+                _context4.next = 38;
+                break;
+
+              case 37:
+                _context4.t9 = null;
+
+              case 38:
+                _context4.t10 = _context4.t9;
+                _context4.t11 = {
+                  type: _context4.t7,
+                  loggedIn: _context4.t8,
+                  token: _context4.t10
+                };
+
+                _context4.t6.dispatch.call(_context4.t6, _context4.t11);
+
+              case 41:
                 if (_this3.ready && _this3._environment && _this3._environment.changeCounter !== _this3._lastEnvironmentCounter) {
                   _this3._lastEnvironmentCounter = _this3._environment.changeCounter;
 
                   _this3._bindEvents();
                 }
 
-              case 10:
+              case 42:
               case "end":
-                return _context2.stop();
+                return _context4.stop();
             }
           }
-        }, _callee2);
+        }, _callee4);
       })));
     }
   }, {
@@ -434,23 +586,24 @@ var Auth = (_dec = (0, _di.Module)({
      * @description Login either with username/password or with authorization code
      */
     value: function () {
-      var _login = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(_ref4) {
+      var _login = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(_ref6) {
         var username, password, extension, remember, code, redirectUri, accessToken, expiresIn, endpointId, tokenType, scope, ownerId, extensionData;
-        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+        return regeneratorRuntime.wrap(function _callee5$(_context5) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context5.prev = _context5.next) {
               case 0:
-                username = _ref4.username, password = _ref4.password, extension = _ref4.extension, remember = _ref4.remember, code = _ref4.code, redirectUri = _ref4.redirectUri, accessToken = _ref4.accessToken, expiresIn = _ref4.expiresIn, endpointId = _ref4.endpointId, tokenType = _ref4.tokenType, scope = _ref4.scope;
+                username = _ref6.username, password = _ref6.password, extension = _ref6.extension, remember = _ref6.remember, code = _ref6.code, redirectUri = _ref6.redirectUri, accessToken = _ref6.accessToken, expiresIn = _ref6.expiresIn, endpointId = _ref6.endpointId, tokenType = _ref6.tokenType, scope = _ref6.scope;
                 this.store.dispatch({
                   type: this.actionTypes.login
                 });
 
                 if (!accessToken) {
-                  _context3.next = 8;
+                  _context5.next = 9;
                   break;
                 }
 
-                this._client.service.platform().auth().setData({
+                _context5.next = 5;
+                return this._client.service.platform().auth().setData({
                   token_type: tokenType,
                   access_token: accessToken,
                   expires_in: expiresIn,
@@ -458,15 +611,21 @@ var Auth = (_dec = (0, _di.Module)({
                   scope: scope
                 });
 
-                _context3.next = 6;
+              case 5:
+                _context5.next = 7;
                 return this._client.account().extension().get();
 
-              case 6:
-                extensionData = _context3.sent;
+              case 7:
+                extensionData = _context5.sent;
                 ownerId = extensionData.id;
 
-              case 8:
-                return _context3.abrupt("return", this._client.service.platform().login({
+              case 9:
+                // TODO: support to set redirectUri in js sdk v4 login function
+                if (!this._client.service.platform()._redirectUri) {
+                  this._client.service.platform()._redirectUri = redirectUri;
+                }
+
+                return _context5.abrupt("return", this._client.service.platform().login({
                   username: username,
                   password: password,
                   extension: extension,
@@ -480,15 +639,15 @@ var Auth = (_dec = (0, _di.Module)({
                   owner_id: ownerId
                 }));
 
-              case 9:
+              case 11:
               case "end":
-                return _context3.stop();
+                return _context5.stop();
             }
           }
-        }, _callee3, this);
+        }, _callee5, this);
       }));
 
-      function login(_x) {
+      function login(_x2) {
         return _login.apply(this, arguments);
       }
 
@@ -506,22 +665,29 @@ var Auth = (_dec = (0, _di.Module)({
 
   }, {
     key: "getLoginUrl",
-    value: function getLoginUrl(_ref5) {
-      var redirectUri = _ref5.redirectUri,
-          state = _ref5.state,
-          brandId = _ref5.brandId,
-          display = _ref5.display,
-          prompt = _ref5.prompt,
-          force = _ref5.force,
-          _ref5$implicit = _ref5.implicit,
-          implicit = _ref5$implicit === void 0 ? false : _ref5$implicit;
+    value: function getLoginUrl(_ref7) {
+      var redirectUri = _ref7.redirectUri,
+          state = _ref7.state,
+          brandId = _ref7.brandId,
+          display = _ref7.display,
+          prompt = _ref7.prompt,
+          force = _ref7.force,
+          _ref7$implicit = _ref7.implicit,
+          implicit = _ref7$implicit === void 0 ? false : _ref7$implicit;
+
+      // TODO: support to set redirectUri in js sdk v4 login function
+      if (!this._client.service.platform()._redirectUri) {
+        this._client.service.platform()._redirectUri = redirectUri;
+      }
+
       return "".concat(this._client.service.platform().loginUrl({
         redirectUri: redirectUri,
         state: state,
         brandId: brandId,
         display: display,
         prompt: prompt,
-        implicit: implicit
+        implicit: implicit,
+        usePKCE: this.usePKCE
       })).concat(force ? '&force' : '');
     }
     /**
@@ -533,24 +699,24 @@ var Auth = (_dec = (0, _di.Module)({
   }, {
     key: "logout",
     value: function () {
-      var _logout = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
+      var _logout = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
         var _this4 = this;
 
-        var _ref6,
-            _ref6$dismissAllAlert,
+        var _ref8,
+            _ref8$dismissAllAlert,
             dismissAllAlert,
             handlers,
             _iterator2,
             _step2,
             _loop,
             _ret,
-            _args6 = arguments;
+            _args8 = arguments;
 
-        return regeneratorRuntime.wrap(function _callee5$(_context6) {
+        return regeneratorRuntime.wrap(function _callee7$(_context8) {
           while (1) {
-            switch (_context6.prev = _context6.next) {
+            switch (_context8.prev = _context8.next) {
               case 0:
-                _ref6 = _args6.length > 0 && _args6[0] !== undefined ? _args6[0] : {}, _ref6$dismissAllAlert = _ref6.dismissAllAlert, dismissAllAlert = _ref6$dismissAllAlert === void 0 ? true : _ref6$dismissAllAlert;
+                _ref8 = _args8.length > 0 && _args8[0] !== undefined ? _args8[0] : {}, _ref8$dismissAllAlert = _ref8.dismissAllAlert, dismissAllAlert = _ref8$dismissAllAlert === void 0 ? true : _ref8$dismissAllAlert;
 
                 if (dismissAllAlert) {
                   this._alert.dismissAll();
@@ -560,42 +726,42 @@ var Auth = (_dec = (0, _di.Module)({
                   type: this.actionTypes.beforeLogout
                 });
                 handlers = _toConsumableArray(this._beforeLogoutHandlers);
-                _context6.prev = 4;
+                _context8.prev = 4;
 
                 if (this._tabManager && this._tabManager.ready) {
                   this._tabManager.send(LoginStatusChangeEvent, false);
                 }
 
                 _iterator2 = _createForOfIteratorHelper(handlers);
-                _context6.prev = 7;
+                _context8.prev = 7;
                 _loop = /*#__PURE__*/regeneratorRuntime.mark(function _loop() {
                   var handler, result;
-                  return regeneratorRuntime.wrap(function _loop$(_context5) {
+                  return regeneratorRuntime.wrap(function _loop$(_context7) {
                     while (1) {
-                      switch (_context5.prev = _context5.next) {
+                      switch (_context7.prev = _context7.next) {
                         case 0:
                           handler = _step2.value;
-                          _context5.next = 3;
-                          return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
-                            return regeneratorRuntime.wrap(function _callee4$(_context4) {
+                          _context7.next = 3;
+                          return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
+                            return regeneratorRuntime.wrap(function _callee6$(_context6) {
                               while (1) {
-                                switch (_context4.prev = _context4.next) {
+                                switch (_context6.prev = _context6.next) {
                                   case 0:
-                                    return _context4.abrupt("return", handler());
+                                    return _context6.abrupt("return", handler());
 
                                   case 1:
                                   case "end":
-                                    return _context4.stop();
+                                    return _context6.stop();
                                 }
                               }
-                            }, _callee4);
+                            }, _callee6);
                           }))();
 
                         case 3:
-                          result = _context5.sent;
+                          result = _context7.sent;
 
                           if (!result) {
-                            _context5.next = 8;
+                            _context7.next = 8;
                             break;
                           }
 
@@ -607,13 +773,13 @@ var Auth = (_dec = (0, _di.Module)({
                             _this4._tabManager.send(LoginStatusChangeEvent, true);
                           }
 
-                          return _context5.abrupt("return", {
+                          return _context7.abrupt("return", {
                             v: Promise.reject(result)
                           });
 
                         case 8:
                         case "end":
-                          return _context5.stop();
+                          return _context7.stop();
                       }
                     }
                   }, _loop);
@@ -623,63 +789,64 @@ var Auth = (_dec = (0, _di.Module)({
 
               case 10:
                 if ((_step2 = _iterator2.n()).done) {
-                  _context6.next = 17;
+                  _context8.next = 17;
                   break;
                 }
 
-                return _context6.delegateYield(_loop(), "t0", 12);
+                return _context8.delegateYield(_loop(), "t0", 12);
 
               case 12:
-                _ret = _context6.t0;
+                _ret = _context8.t0;
 
                 if (!(_typeof(_ret) === "object")) {
-                  _context6.next = 15;
+                  _context8.next = 15;
                   break;
                 }
 
-                return _context6.abrupt("return", _ret.v);
+                return _context8.abrupt("return", _ret.v);
 
               case 15:
-                _context6.next = 10;
+                _context8.next = 10;
                 break;
 
               case 17:
-                _context6.next = 22;
+                _context8.next = 22;
                 break;
 
               case 19:
-                _context6.prev = 19;
-                _context6.t1 = _context6["catch"](7);
+                _context8.prev = 19;
+                _context8.t1 = _context8["catch"](7);
 
-                _iterator2.e(_context6.t1);
+                _iterator2.e(_context8.t1);
 
               case 22:
-                _context6.prev = 22;
+                _context8.prev = 22;
 
                 _iterator2.f();
 
-                return _context6.finish(22);
+                return _context8.finish(22);
 
               case 25:
-                _context6.next = 30;
+                _context8.next = 31;
                 break;
 
               case 27:
-                _context6.prev = 27;
-                _context6.t2 = _context6["catch"](4);
+                _context8.prev = 27;
+                _context8.t2 = _context8["catch"](4);
+                console.error(_context8.t2);
 
                 this._alert.danger({
                   message: _authMessages["default"].beforeLogoutError,
-                  payload: _context6.t2
+                  payload: _context8.t2
                 });
 
-              case 30:
+              case 31:
                 this.store.dispatch({
                   type: this.actionTypes.logout
                 });
 
                 if (!this.isImplicit) {
-                  _context6.next = 35;
+                  _context8.next = 36;
                   break;
                 }
 
@@ -688,17 +855,17 @@ var Auth = (_dec = (0, _di.Module)({
                 this.store.dispatch({
                   type: this.actionTypes.logoutSuccess
                 });
-                return _context6.abrupt("return", null);
-
-              case 35:
-                return _context6.abrupt("return", this._client.service.platform().logout());
+                return _context8.abrupt("return", null);
 
               case 36:
+                return _context8.abrupt("return", this._client.service.platform().logout());
+
+              case 37:
               case "end":
-                return _context6.stop();
+                return _context8.stop();
             }
           }
-        }, _callee5, this, [[4, 27], [7, 19, 22, 25]]);
+        }, _callee7, this, [[4, 27], [7, 19, 22, 25]]);
       }));
 
       function logout() {
@@ -710,7 +877,7 @@ var Auth = (_dec = (0, _di.Module)({
     /**
      * @function
      * @param {Function} handler
-     * @returns {Function}
+     * @returns {Function} return that delete handler event, call that will delete that event
      */
 
   }, {
@@ -748,27 +915,27 @@ var Auth = (_dec = (0, _di.Module)({
   }, {
     key: "refreshImplicitToken",
     value: function () {
-      var _refreshImplicitToken = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(_ref8) {
+      var _refreshImplicitToken = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8(_ref10) {
         var tokenType, accessToken, expiresIn, endpointId, extensionData, ownerId, platform, newAuthData;
-        return regeneratorRuntime.wrap(function _callee6$(_context7) {
+        return regeneratorRuntime.wrap(function _callee8$(_context9) {
           while (1) {
-            switch (_context7.prev = _context7.next) {
+            switch (_context9.prev = _context9.next) {
               case 0:
-                tokenType = _ref8.tokenType, accessToken = _ref8.accessToken, expiresIn = _ref8.expiresIn, endpointId = _ref8.endpointId;
-                _context7.prev = 1;
-                _context7.next = 4;
+                tokenType = _ref10.tokenType, accessToken = _ref10.accessToken, expiresIn = _ref10.expiresIn, endpointId = _ref10.endpointId;
+                _context9.prev = 1;
+                _context9.next = 4;
                 return this._client.account().extension().get();
 
               case 4:
-                extensionData = _context7.sent;
+                extensionData = _context9.sent;
                 ownerId = String(extensionData.id);
 
                 if (!(ownerId !== String(this.ownerId))) {
-                  _context7.next = 8;
+                  _context9.next = 8;
                   break;
                 }
 
-                return _context7.abrupt("return");
+                return _context9.abrupt("return");
 
               case 8:
                 platform = this._client.service.platform();
@@ -781,23 +948,23 @@ var Auth = (_dec = (0, _di.Module)({
                 };
                 platform.auth().setData(newAuthData);
                 platform.emit(platform.events.refreshSuccess, newAuthData);
-                _context7.next = 17;
+                _context9.next = 17;
                 break;
 
               case 14:
-                _context7.prev = 14;
-                _context7.t0 = _context7["catch"](1);
-                console.error('refreshImplicitToken error:', _context7.t0);
+                _context9.prev = 14;
+                _context9.t0 = _context9["catch"](1);
+                console.error('refreshImplicitToken error:', _context9.t0);
 
               case 17:
               case "end":
-                return _context7.stop();
+                return _context9.stop();
             }
           }
-        }, _callee6, this, [[1, 14]]);
+        }, _callee8, this, [[1, 14]]);
       }));
 
-      function refreshImplicitToken(_x2) {
+      function refreshImplicitToken(_x3) {
         return _refreshImplicitToken.apply(this, arguments);
       }
 
@@ -806,23 +973,23 @@ var Auth = (_dec = (0, _di.Module)({
   }, {
     key: "checkIsLoggedIn",
     value: function () {
-      var _checkIsLoggedIn = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
-        return regeneratorRuntime.wrap(function _callee7$(_context8) {
+      var _checkIsLoggedIn = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9() {
+        return regeneratorRuntime.wrap(function _callee9$(_context10) {
           while (1) {
-            switch (_context8.prev = _context8.next) {
+            switch (_context10.prev = _context10.next) {
               case 0:
-                _context8.next = 2;
+                _context10.next = 2;
                 return this._client.service.platform().loggedIn();
 
               case 2:
-                return _context8.abrupt("return", this.state.loginStatus === _loginStatus["default"].loggedIn);
+                return _context10.abrupt("return", this.state.loginStatus === _loginStatus["default"].loggedIn);
 
               case 3:
               case "end":
-                return _context8.stop();
+                return _context10.stop();
             }
           }
-        }, _callee7, this);
+        }, _callee9, this);
       }));
 
       function checkIsLoggedIn() {
@@ -894,7 +1061,12 @@ var Auth = (_dec = (0, _di.Module)({
   }, {
     key: "isImplicit",
     get: function get() {
-      return !(this._client.service.platform()._appSecret && this._client.service.platform()._appSecret.length > 0);
+      return !(this.usePKCE || this._client.service.platform()._clientSecret && this._client.service.platform()._clientSecret.length > 0);
+    }
+  }, {
+    key: "usePKCE",
+    get: function get() {
+      return this._usePKCE;
     }
   }]);
 

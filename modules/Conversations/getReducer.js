@@ -140,7 +140,7 @@ function getOldConversationsReducer(types) {
         conversationId = _ref3.conversationId;
 
     switch (type) {
-      case types.fetchOldConverstaionsSuccess:
+      case types.fetchOldConversationsSuccess:
         return [].concat(state).concat(records.map(_messageHelper.normalizeRecord));
 
       case types.deleteConversation:
@@ -148,7 +148,7 @@ function getOldConversationsReducer(types) {
           return c.conversationId !== conversationId;
         });
 
-      case types.cleanOldConversatioans:
+      case types.cleanOldConversations:
       case types.resetSuccess:
       case types.updateTypeFilter:
       case types.initSuccess:
@@ -168,11 +168,11 @@ function getFetchConversationsStatusReducer(types) {
         type = _ref4.type;
 
     switch (type) {
-      case types.fetchOldConverstaions:
+      case types.fetchOldConversations:
         return _status["default"].fetching;
 
-      case types.fetchOldConverstaionsSuccess:
-      case types.fetchOldConverstaionsError:
+      case types.fetchOldConversationsSuccess:
+      case types.fetchOldConversationsError:
       case types.resetSuccess:
       case types.updateTypeFilter:
       case types.initSuccess:
@@ -196,7 +196,7 @@ function getCurrentPageReducer(types) {
       case types.increaseCurrentPage:
         return state + 1;
 
-      case types.fetchOldConverstaionsSuccess:
+      case types.fetchOldConversationsSuccess:
         return isIncreaseCurrentPage ? state + 1 : state;
 
       case types.updateTypeFilter:

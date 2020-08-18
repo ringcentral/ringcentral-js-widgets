@@ -5,13 +5,13 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = void 0;
+exports["default"] = exports.messages = void 0;
 
-var _Enum = _interopRequireDefault(require("../../lib/Enum"));
+var _ObjectMap = require("@ringcentral-integration/core/lib/ObjectMap");
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+var messages = _ObjectMap.ObjectMap.prefixKeys(['requireAdditionalNumbers', 'scheduledSuccess'], 'conference-msg');
 
-var _default = new _Enum["default"](['requireAditionalNumbers', 'scheduledSuccess'], 'conference-msg');
-
+exports.messages = messages;
+var _default = messages;
 exports["default"] = _default;
 //# sourceMappingURL=messages.js.map

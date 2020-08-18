@@ -39,7 +39,7 @@ var _redux = require("redux");
 
 var _getModuleStatusReducer = _interopRequireDefault(require("../../lib/getModuleStatusReducer"));
 
-var _callStatus = _interopRequireDefault(require("./callStatus"));
+var _callStatus = require("./callStatus");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -73,7 +73,9 @@ function getCallsReducer(types) {
 
     if (type === types.loadSuccess) {
       return _objectSpread(_objectSpread({}, state), {}, _defineProperty({}, sessionId ? "".concat(contactId, "-").concat(sessionId) : contactId, calls));
-    } else if (type === types.loadReset) {
+    }
+
+    if (type === types.loadReset) {
       var _ref2 = sessionId ? "".concat(contactId, "-").concat(sessionId) : contactId,
           _ = state[_ref2],
           rest = _objectWithoutProperties(state, [_ref2].map(_toPropertyKey));
@@ -94,11 +96,11 @@ function getCallStatusReducer(types) {
 
     switch (type) {
       case types.initLoad:
-        return _callStatus["default"].loading;
+        return _callStatus.callStatus.loading;
 
       case types.loadReset:
       case types.loadSuccess:
-        return _callStatus["default"].loaded;
+        return _callStatus.callStatus.loaded;
 
       default:
         return state;

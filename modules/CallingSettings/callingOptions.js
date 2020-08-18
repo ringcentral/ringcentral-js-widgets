@@ -7,13 +7,12 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 
-var _Enum = require("../../lib/Enum");
+var _ObjectMap = require("@ringcentral-integration/core/lib/ObjectMap");
 
-var _default = (0, _Enum.createEnum)(['softphone', // desktop
-'myphone', // ringout branding rc..
-'otherphone', // ringout
-'customphone', // ringout
-'browser' // webphone
+var _default = _ObjectMap.ObjectMap.prefixKeys(['softphone', // RingCentral phone
+'ringout', // ringout
+'browser', // webphone
+'jupiter' // RingCentral(jupiter)
 ], 'callingOptions');
 
 exports["default"] = _default;

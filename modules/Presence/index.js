@@ -41,6 +41,8 @@ require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.array.reduce");
 
+require("core-js/modules/es6.object.keys");
+
 require("core-js/modules/es6.array.for-each");
 
 require("core-js/modules/es6.array.map");
@@ -53,21 +55,17 @@ require("core-js/modules/es6.array.iterator");
 
 require("core-js/modules/es6.object.to-string");
 
-require("core-js/modules/es6.object.keys");
-
 require("core-js/modules/es6.date.now");
 
 require("regenerator-runtime/runtime");
+
+var _ObjectMap = require("@ringcentral-integration/core/lib/ObjectMap");
 
 var _DataFetcher2 = _interopRequireDefault(require("../../lib/DataFetcher"));
 
 var _di = require("../../lib/di");
 
 var _selector = require("../../lib/selector");
-
-var _Enum = _interopRequireDefault(require("../../lib/Enum"));
-
-var _actionTypeGenerator = require("../../lib/actionTypeGenerator");
 
 var _callLogHelpers = require("../../lib/callLogHelpers");
 
@@ -163,8 +161,6 @@ var Presence = (_dec = (0, _di.Module)({
   var _super = _createSuper(Presence);
 
   function Presence(_ref) {
-    var _context2;
-
     var _this;
 
     var _ref$detailed = _ref.detailed,
@@ -190,7 +186,7 @@ var Presence = (_dec = (0, _di.Module)({
       getDataReducer: _getPresenceReducer.getDataReducer,
       fetchFunction: function () {
         var _fetchFunction = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-          var endpoint, data;
+          var endpoint, response;
           return regeneratorRuntime.wrap(function _callee$(_context) {
             while (1) {
               switch (_context.prev = _context.next) {
@@ -200,8 +196,8 @@ var Presence = (_dec = (0, _di.Module)({
                   return _this._client.service.platform().get(endpoint);
 
                 case 3:
-                  data = _context.sent.json();
-                  return _context.abrupt("return", data);
+                  response = _context.sent;
+                  return _context.abrupt("return", response.json());
 
                 case 5:
                 case "end":
@@ -265,8 +261,8 @@ var Presence = (_dec = (0, _di.Module)({
     _initializerDefineProperty(_this, "sessionIdList", _descriptor3, _assertThisInitialized(_this));
 
     _this._detailed = true;
-    _this._connectivityMonitor = (_context2 = _assertThisInitialized(_this), _ensureExist["default"]).call(_context2, connectivityMonitor, 'connectivityMonitor');
-    _this._rolesAndPermissions = (_context2 = _assertThisInitialized(_this), _ensureExist["default"]).call(_context2, rolesAndPermissions, 'rolesAndPermissions');
+    _this._connectivityMonitor = _ensureExist["default"].call(_assertThisInitialized(_this), connectivityMonitor, 'connectivityMonitor');
+    _this._rolesAndPermissions = _ensureExist["default"].call(_assertThisInitialized(_this), rolesAndPermissions, 'rolesAndPermissions');
     _this._fetchRemainingCalls = (0, _debounce["default"])(function () {
       return _this.fetchData();
     }, fetchRemainingDelay);
@@ -277,9 +273,9 @@ var Presence = (_dec = (0, _di.Module)({
     key: "_onStateChange",
     value: function () {
       var _onStateChange2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
-        return regeneratorRuntime.wrap(function _callee2$(_context3) {
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context2.prev = _context2.next) {
               case 0:
                 if (this._shouldInit()) {
                   this._connectivity = this._connectivityMonitor.connectivity;
@@ -297,7 +293,7 @@ var Presence = (_dec = (0, _di.Module)({
 
               case 3:
               case "end":
-                return _context3.stop();
+                return _context2.stop();
             }
           }
         }, _callee2, this);
@@ -314,27 +310,31 @@ var Presence = (_dec = (0, _di.Module)({
     value: function () {
       var _update2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(params) {
         var ownerId, platform, response, data;
-        return regeneratorRuntime.wrap(function _callee3$(_context4) {
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context3.prev = _context3.next) {
               case 0:
                 if (this._rolesAndPermissions.hasEditPresencePermission) {
-                  _context4.next = 2;
+                  _context3.next = 2;
                   break;
                 }
 
-                return _context4.abrupt("return");
+                return _context3.abrupt("return");
 
               case 2:
-                _context4.prev = 2;
+                _context3.prev = 2;
                 ownerId = this._auth.ownerId;
                 platform = this._client.service.platform();
-                _context4.next = 7;
-                return platform.put('/account/~/extension/~/presence', params);
+                _context3.next = 7;
+                return platform.put('/restapi/v1.0/account/~/extension/~/presence', params);
 
               case 7:
-                response = _context4.sent;
-                data = response.json();
+                response = _context3.sent;
+                _context3.next = 10;
+                return response.json();
+
+              case 10:
+                data = _context3.sent;
 
                 if (ownerId === this._auth.ownerId) {
                   this.store.dispatch({
@@ -344,24 +344,24 @@ var Presence = (_dec = (0, _di.Module)({
                   });
                 }
 
-                _context4.next = 16;
+                _context3.next = 18;
                 break;
 
-              case 12:
-                _context4.prev = 12;
-                _context4.t0 = _context4["catch"](2);
+              case 14:
+                _context3.prev = 14;
+                _context3.t0 = _context3["catch"](2);
                 this.store.dispatch({
                   type: this.actionTypes.updateError,
-                  error: _context4.t0
+                  error: _context3.t0
                 });
-                throw _context4.t0;
+                throw _context3.t0;
 
-              case 16:
+              case 18:
               case "end":
-                return _context4.stop();
+                return _context3.stop();
             }
           }
-        }, _callee3, this, [[2, 12]]);
+        }, _callee3, this, [[2, 14]]);
       }));
 
       function _update(_x) {
@@ -389,25 +389,25 @@ var Presence = (_dec = (0, _di.Module)({
     value: function () {
       var _setAvailable = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
         var params;
-        return regeneratorRuntime.wrap(function _callee4$(_context5) {
+        return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
-            switch (_context5.prev = _context5.next) {
+            switch (_context4.prev = _context4.next) {
               case 0:
                 if (!(this.userStatus === _presenceStatus.presenceStatus.available && this.dndStatus !== _dndStatus["default"].doNotAcceptAnyCalls)) {
-                  _context5.next = 2;
+                  _context4.next = 2;
                   break;
                 }
 
-                return _context5.abrupt("return");
+                return _context4.abrupt("return");
 
               case 2:
                 params = this._getUpdateStatusParams(_presenceStatus.presenceStatus.available);
-                _context5.next = 5;
+                _context4.next = 5;
                 return this._update(params);
 
               case 5:
               case "end":
-                return _context5.stop();
+                return _context4.stop();
             }
           }
         }, _callee4, this);
@@ -424,25 +424,25 @@ var Presence = (_dec = (0, _di.Module)({
     value: function () {
       var _setBusy = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
         var params;
-        return regeneratorRuntime.wrap(function _callee5$(_context6) {
+        return regeneratorRuntime.wrap(function _callee5$(_context5) {
           while (1) {
-            switch (_context6.prev = _context6.next) {
+            switch (_context5.prev = _context5.next) {
               case 0:
                 if (!(this.userStatus === _presenceStatus.presenceStatus.busy && this.dndStatus !== _dndStatus["default"].doNotAcceptAnyCalls)) {
-                  _context6.next = 2;
+                  _context5.next = 2;
                   break;
                 }
 
-                return _context6.abrupt("return");
+                return _context5.abrupt("return");
 
               case 2:
                 params = this._getUpdateStatusParams(_presenceStatus.presenceStatus.busy);
-                _context6.next = 5;
+                _context5.next = 5;
                 return this._update(params);
 
               case 5:
               case "end":
-                return _context6.stop();
+                return _context5.stop();
             }
           }
         }, _callee5, this);
@@ -459,27 +459,27 @@ var Presence = (_dec = (0, _di.Module)({
     value: function () {
       var _setDoNotDisturb = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
         var params;
-        return regeneratorRuntime.wrap(function _callee6$(_context7) {
+        return regeneratorRuntime.wrap(function _callee6$(_context6) {
           while (1) {
-            switch (_context7.prev = _context7.next) {
+            switch (_context6.prev = _context6.next) {
               case 0:
                 if (!(this.dndStatus === _dndStatus["default"].doNotAcceptAnyCalls)) {
-                  _context7.next = 2;
+                  _context6.next = 2;
                   break;
                 }
 
-                return _context7.abrupt("return");
+                return _context6.abrupt("return");
 
               case 2:
                 params = {
                   dndStatus: _dndStatus["default"].doNotAcceptAnyCalls
                 };
-                _context7.next = 5;
+                _context6.next = 5;
                 return this._update(params);
 
               case 5:
               case "end":
-                return _context7.stop();
+                return _context6.stop();
             }
           }
         }, _callee6, this);
@@ -496,25 +496,25 @@ var Presence = (_dec = (0, _di.Module)({
     value: function () {
       var _setInvisible = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
         var params;
-        return regeneratorRuntime.wrap(function _callee7$(_context8) {
+        return regeneratorRuntime.wrap(function _callee7$(_context7) {
           while (1) {
-            switch (_context8.prev = _context8.next) {
+            switch (_context7.prev = _context7.next) {
               case 0:
                 if (!(this.userStatus === _presenceStatus.presenceStatus.offline && this.dndStatus !== _dndStatus["default"].doNotAcceptAnyCalls)) {
-                  _context8.next = 2;
+                  _context7.next = 2;
                   break;
                 }
 
-                return _context8.abrupt("return");
+                return _context7.abrupt("return");
 
               case 2:
                 params = this._getUpdateStatusParams(_presenceStatus.presenceStatus.offline);
-                _context8.next = 5;
+                _context7.next = 5;
                 return this._update(params);
 
               case 5:
               case "end":
-                return _context8.stop();
+                return _context7.stop();
             }
           }
         }, _callee7, this);
@@ -530,52 +530,52 @@ var Presence = (_dec = (0, _di.Module)({
     key: "setPresence",
     value: function () {
       var _setPresence = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8(presenceData) {
-        return regeneratorRuntime.wrap(function _callee8$(_context9) {
+        return regeneratorRuntime.wrap(function _callee8$(_context8) {
           while (1) {
-            switch (_context9.prev = _context9.next) {
+            switch (_context8.prev = _context8.next) {
               case 0:
-                _context9.t0 = presenceData;
-                _context9.next = _context9.t0 === _presenceStatus.presenceStatus.available ? 3 : _context9.t0 === _presenceStatus.presenceStatus.busy ? 6 : _context9.t0 === _dndStatus["default"].doNotAcceptAnyCalls ? 9 : _context9.t0 === _presenceStatus.presenceStatus.offline ? 12 : 15;
+                _context8.t0 = presenceData;
+                _context8.next = _context8.t0 === _presenceStatus.presenceStatus.available ? 3 : _context8.t0 === _presenceStatus.presenceStatus.busy ? 6 : _context8.t0 === _dndStatus["default"].doNotAcceptAnyCalls ? 9 : _context8.t0 === _presenceStatus.presenceStatus.offline ? 12 : 15;
                 break;
 
               case 3:
-                _context9.next = 5;
+                _context8.next = 5;
                 return this.setAvailable();
 
               case 5:
-                return _context9.abrupt("break", 18);
+                return _context8.abrupt("break", 18);
 
               case 6:
-                _context9.next = 8;
+                _context8.next = 8;
                 return this.setBusy();
 
               case 8:
-                return _context9.abrupt("break", 18);
+                return _context8.abrupt("break", 18);
 
               case 9:
-                _context9.next = 11;
+                _context8.next = 11;
                 return this.setDoNotDisturb();
 
               case 11:
-                return _context9.abrupt("break", 18);
+                return _context8.abrupt("break", 18);
 
               case 12:
-                _context9.next = 14;
+                _context8.next = 14;
                 return this.setInvisible();
 
               case 14:
-                return _context9.abrupt("break", 18);
+                return _context8.abrupt("break", 18);
 
               case 15:
-                _context9.next = 17;
+                _context8.next = 17;
                 return this.setAvailable();
 
               case 17:
-                return _context9.abrupt("break", 18);
+                return _context8.abrupt("break", 18);
 
               case 18:
               case "end":
-                return _context9.stop();
+                return _context8.stop();
             }
           }
         }, _callee8, this);
@@ -592,9 +592,9 @@ var Presence = (_dec = (0, _di.Module)({
     value: function () {
       var _toggleAcceptCallQueueCalls = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9() {
         var params;
-        return regeneratorRuntime.wrap(function _callee9$(_context10) {
+        return regeneratorRuntime.wrap(function _callee9$(_context9) {
           while (1) {
-            switch (_context10.prev = _context10.next) {
+            switch (_context9.prev = _context9.next) {
               case 0:
                 params = {
                   userStatus: this.userStatus
@@ -607,16 +607,16 @@ var Presence = (_dec = (0, _di.Module)({
                 }
 
                 if (!params.dndStatus) {
-                  _context10.next = 5;
+                  _context9.next = 5;
                   break;
                 }
 
-                _context10.next = 5;
+                _context9.next = 5;
                 return this._update(params);
 
               case 5:
               case "end":
-                return _context10.stop();
+                return _context9.stop();
             }
           }
         }, _callee9, this);
@@ -643,7 +643,7 @@ var Presence = (_dec = (0, _di.Module)({
   }, {
     key: "_actionTypes",
     get: function get() {
-      return new _Enum["default"]([].concat(_toConsumableArray(Object.keys(_get(_getPrototypeOf(Presence.prototype), "_actionTypes", this))), _toConsumableArray((0, _actionTypeGenerator.actionTypeGenerator)('update')), ['notification']), this._name);
+      return _ObjectMap.ObjectMap.prefixKeys([].concat(_toConsumableArray(_ObjectMap.ObjectMap.keys(_get(_getPrototypeOf(Presence.prototype), "_actionTypes", this))), ['update', 'updateSuccess', 'updateError', 'notification']), this._name);
     }
   }, {
     key: "data",

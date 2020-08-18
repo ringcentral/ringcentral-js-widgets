@@ -8,7 +8,7 @@ exports.isRejectCode = isRejectCode;
 exports.isOnRecording = isOnRecording;
 exports.getSessionsParty = getSessionsParty;
 exports.normalizeSession = normalizeSession;
-exports.confictError = confictError;
+exports.conflictError = conflictError;
 
 require("core-js/modules/es6.object.define-properties");
 
@@ -93,12 +93,12 @@ function normalizeSession(_ref2) {
     telephonySessionId: session.id,
     partyId: partyId,
     direction: direction,
-    from: from && from.phoneNumber,
-    fromNumber: from && from.phoneNumber,
-    fromUserName: from && from.name,
-    to: to && to.phoneNumber,
-    toNumber: to && to.phoneNumber,
-    toUserName: to && to.name,
+    from: from === null || from === void 0 ? void 0 : from.phoneNumber,
+    fromNumber: from === null || from === void 0 ? void 0 : from.phoneNumber,
+    fromUserName: from === null || from === void 0 ? void 0 : from.name,
+    to: to === null || to === void 0 ? void 0 : to.phoneNumber,
+    toNumber: to === null || to === void 0 ? void 0 : to.phoneNumber,
+    toUserName: to === null || to === void 0 ? void 0 : to.name,
     id: session.id,
     sessionId: sessionId,
     callStatus: call.telephonyStatus,
@@ -123,9 +123,11 @@ function normalizeSession(_ref2) {
   return _objectSpread({}, formatValue);
 }
 
-function confictError(error) {
+function conflictError(_ref3) {
+  var message = _ref3.message,
+      response = _ref3.response;
   var conflictErrRgx = /409/g;
   var conflictMsgRgx = /Incorrect State/g;
-  return conflictErrRgx.test(error.message) && conflictMsgRgx.test(error.apiResponse._text);
+  return conflictErrRgx.test(message) && conflictMsgRgx.test(response && response._text);
 }
 //# sourceMappingURL=helpers.js.map

@@ -29,9 +29,7 @@ require("core-js/modules/es6.array.iterator");
 
 require("core-js/modules/es6.object.to-string");
 
-require("core-js/modules/es6.object.keys");
-
-var _Enum = require("../../lib/Enum");
+var _ObjectMap = require("@ringcentral-integration/core/lib/ObjectMap");
 
 var _moduleActionTypes = require("../../enums/moduleActionTypes");
 
@@ -47,7 +45,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToAr
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-var _default = (0, _Enum.createEnum)([].concat(_toConsumableArray(Object.keys(_moduleActionTypes.moduleActionTypes)), ['toNumberChanged', 'toNumberMatched', 'cleanToNumberEntities', 'updateFromNumber', 'connect', 'connectSuccess', 'connectError']), 'callActionTypes');
+var _default = _ObjectMap.ObjectMap.prefixKeys([].concat(_toConsumableArray(_ObjectMap.ObjectMap.keys(_moduleActionTypes.moduleActionTypes)), ['toNumberChanged', 'toNumberMatched', 'cleanToNumberEntities', 'updateFromNumber', 'connect', 'connectSuccess', 'connectError']), 'callActionTypes');
 
 exports["default"] = _default;
 //# sourceMappingURL=actionTypes.js.map

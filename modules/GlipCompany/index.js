@@ -122,8 +122,6 @@ _dec = (0, _di.Module)({
    * @param {Client} params.client - client module instance
    */
   function GlipCompany(_ref) {
-    var _context2;
-
     var _this;
 
     var client = _ref.client,
@@ -170,7 +168,7 @@ _dec = (0, _di.Module)({
 
     _initializerDefineProperty(_this, "info", _descriptor, _assertThisInitialized(_this));
 
-    _this._rolesAndPermissions = (_context2 = _assertThisInitialized(_this), _ensureExist["default"]).call(_context2, rolesAndPermissions, 'rolesAndPermissions');
+    _this._rolesAndPermissions = _ensureExist["default"].call(_assertThisInitialized(_this), rolesAndPermissions, 'rolesAndPermissions');
     return _this;
   }
 

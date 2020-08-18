@@ -114,6 +114,8 @@ _dec = (0, _di.Module)({
 
   var _super = _createSuper(Alert);
 
+  // TODO: add state interface
+
   /**
    * @constructor
    * @param {Object} params - params object

@@ -172,8 +172,6 @@ var CallLogger = (_dec = (0, _di.Module)({
    * @param {ContactMatcher} params.contactMatcher - contactMatcher module instance
    */
   function CallLogger(_ref) {
-    var _context;
-
     var _this;
 
     var storage = _ref.storage,
@@ -196,10 +194,10 @@ var CallLogger = (_dec = (0, _di.Module)({
 
     _initializerDefineProperty(_this, "transferredCallsMap", _descriptor, _assertThisInitialized(_this));
 
-    _this._storage = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, storage, 'storage');
-    _this._callMonitor = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, callMonitor, 'callMonitor');
-    _this._contactMatcher = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, contactMatcher, 'contactMatcher');
-    _this._activityMatcher = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, activityMatcher, 'activityMatcher');
+    _this._storage = _ensureExist["default"].call(_assertThisInitialized(_this), storage, 'storage');
+    _this._callMonitor = _ensureExist["default"].call(_assertThisInitialized(_this), callMonitor, 'callMonitor');
+    _this._contactMatcher = _ensureExist["default"].call(_assertThisInitialized(_this), contactMatcher, 'contactMatcher');
+    _this._activityMatcher = _ensureExist["default"].call(_assertThisInitialized(_this), activityMatcher, 'activityMatcher');
     _this._callHistory = callHistory;
     _this._tabManager = tabManager;
     _this._storageKey = "".concat(_this._name, "Data");
@@ -236,18 +234,18 @@ var CallLogger = (_dec = (0, _di.Module)({
     value: function () {
       var _log = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(_ref2) {
         var call, options;
-        return regeneratorRuntime.wrap(function _callee$(_context2) {
+        return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context.prev = _context.next) {
               case 0:
                 call = _ref2.call, options = _objectWithoutProperties(_ref2, ["call"]);
-                return _context2.abrupt("return", _get(_getPrototypeOf(CallLogger.prototype), "log", this).call(this, _objectSpread({
+                return _context.abrupt("return", _get(_getPrototypeOf(CallLogger.prototype), "log", this).call(this, _objectSpread({
                   item: call
                 }, options)));
 
               case 2:
               case "end":
-                return _context2.stop();
+                return _context.stop();
             }
           }
         }, _callee, this);
@@ -264,30 +262,30 @@ var CallLogger = (_dec = (0, _di.Module)({
     value: function () {
       var _ensureActive2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
         var isActive;
-        return regeneratorRuntime.wrap(function _callee2$(_context3) {
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context2.prev = _context2.next) {
               case 0:
-                _context3.t0 = !this._tabManager;
+                _context2.t0 = !this._tabManager;
 
-                if (_context3.t0) {
-                  _context3.next = 5;
+                if (_context2.t0) {
+                  _context2.next = 5;
                   break;
                 }
 
-                _context3.next = 4;
-                return this._tabManager.ensureActive();
+                _context2.next = 4;
+                return this._tabManager.checkIsMain();
 
               case 4:
-                _context3.t0 = _context3.sent;
+                _context2.t0 = _context2.sent;
 
               case 5:
-                isActive = _context3.t0;
-                return _context3.abrupt("return", isActive);
+                isActive = _context2.t0;
+                return _context2.abrupt("return", isActive);
 
               case 7:
               case "end":
-                return _context3.stop();
+                return _context2.stop();
             }
           }
         }, _callee2, this);
@@ -304,20 +302,20 @@ var CallLogger = (_dec = (0, _di.Module)({
     value: function () {
       var _shouldLogNewCall2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(call) {
         var isActive;
-        return regeneratorRuntime.wrap(function _callee3$(_context4) {
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context3.prev = _context3.next) {
               case 0:
-                _context4.next = 2;
+                _context3.next = 2;
                 return this._ensureActive();
 
               case 2:
-                isActive = _context4.sent;
-                return _context4.abrupt("return", isActive && this.autoLog && (this.logOnRinging || !(0, _callLogHelpers.isRinging)(call)));
+                isActive = _context3.sent;
+                return _context3.abrupt("return", isActive && this.autoLog && (this.logOnRinging || !(0, _callLogHelpers.isRinging)(call)));
 
               case 4:
               case "end":
-                return _context4.stop();
+                return _context3.stop();
             }
           }
         }, _callee3, this);
@@ -334,15 +332,15 @@ var CallLogger = (_dec = (0, _di.Module)({
     value: function () {
       var _logCall = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(_ref3) {
         var call, contact, options, inbound, fromEntity, toEntity;
-        return regeneratorRuntime.wrap(function _callee4$(_context5) {
+        return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
-            switch (_context5.prev = _context5.next) {
+            switch (_context4.prev = _context4.next) {
               case 0:
                 call = _ref3.call, contact = _ref3.contact, options = _objectWithoutProperties(_ref3, ["call", "contact"]);
                 inbound = (0, _callLogHelpers.isInbound)(call);
                 fromEntity = inbound && contact || null;
                 toEntity = !inbound && contact || null;
-                _context5.next = 6;
+                _context4.next = 6;
                 return this.log(_objectSpread(_objectSpread({}, options), {}, {
                   call: _objectSpread(_objectSpread({}, call), {}, {
                     duration: Object.prototype.hasOwnProperty.call(call, 'duration') ? call.duration : Math.round((Date.now() - call.startTime) / 1000),
@@ -354,7 +352,7 @@ var CallLogger = (_dec = (0, _di.Module)({
 
               case 6:
               case "end":
-                return _context5.stop();
+                return _context4.stop();
             }
           }
         }, _callee4, this);
@@ -371,12 +369,21 @@ var CallLogger = (_dec = (0, _di.Module)({
     value: function () {
       var _autoLogCall2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(_ref4) {
         var call, fromEntity, toEntity, triggerType;
-        return regeneratorRuntime.wrap(function _callee5$(_context6) {
+        return regeneratorRuntime.wrap(function _callee5$(_context5) {
           while (1) {
-            switch (_context6.prev = _context6.next) {
+            switch (_context5.prev = _context5.next) {
               case 0:
                 call = _ref4.call, fromEntity = _ref4.fromEntity, toEntity = _ref4.toEntity, triggerType = _ref4.triggerType;
-                _context6.next = 3;
+
+                if (this.ready) {
+                  _context5.next = 3;
+                  break;
+                }
+
+                return _context5.abrupt("return");
+
+              case 3:
+                _context5.next = 5;
                 return this.log({
                   call: _objectSpread(_objectSpread({}, call), {}, {
                     duration: Object.prototype.hasOwnProperty.call(call, 'duration') ? call.duration : Math.round((Date.now() - call.startTime) / 1000),
@@ -387,9 +394,9 @@ var CallLogger = (_dec = (0, _di.Module)({
                   triggerType: triggerType
                 });
 
-              case 3:
+              case 5:
               case "end":
-                return _context6.stop();
+                return _context5.stop();
             }
           }
         }, _callee5, this);
@@ -427,29 +434,29 @@ var CallLogger = (_dec = (0, _di.Module)({
     value: function () {
       var _onNewCall2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(call, triggerType) {
         var toNumberEntity, fromMatches, toMatches, fromEntity, toEntity;
-        return regeneratorRuntime.wrap(function _callee6$(_context7) {
+        return regeneratorRuntime.wrap(function _callee6$(_context6) {
           while (1) {
-            switch (_context7.prev = _context7.next) {
+            switch (_context6.prev = _context6.next) {
               case 0:
-                _context7.next = 2;
+                _context6.next = 2;
                 return this._shouldLogNewCall(call);
 
               case 2:
-                if (!_context7.sent) {
-                  _context7.next = 20;
+                if (!_context6.sent) {
+                  _context6.next = 20;
                   break;
                 }
 
-                _context7.next = 5;
+                _context6.next = 5;
                 return this._activityMatcher.triggerMatch();
 
               case 5:
                 if (!(this._activityMatcherCheck(call.sessionId) && this._customMatcherCheck(call.sessionId))) {
-                  _context7.next = 18;
+                  _context6.next = 18;
                   break;
                 }
 
-                _context7.next = 8;
+                _context6.next = 8;
                 return this._contactMatcher.triggerMatch();
 
               case 8:
@@ -468,7 +475,7 @@ var CallLogger = (_dec = (0, _di.Module)({
                   });
                 }
 
-                _context7.next = 16;
+                _context6.next = 16;
                 return this._autoLogCall({
                   call: call,
                   fromEntity: fromEntity,
@@ -477,11 +484,11 @@ var CallLogger = (_dec = (0, _di.Module)({
                 });
 
               case 16:
-                _context7.next = 20;
+                _context6.next = 20;
                 break;
 
               case 18:
-                _context7.next = 20;
+                _context6.next = 20;
                 return this._autoLogCall({
                   call: call,
                   triggerType: triggerType
@@ -489,7 +496,7 @@ var CallLogger = (_dec = (0, _di.Module)({
 
               case 20:
               case "end":
-                return _context7.stop();
+                return _context6.stop();
             }
           }
         }, _callee6, this);
@@ -506,42 +513,42 @@ var CallLogger = (_dec = (0, _di.Module)({
     value: function () {
       var _shouldLogUpdatedCall2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7(call) {
         var isActive, activityMatches;
-        return regeneratorRuntime.wrap(function _callee7$(_context8) {
+        return regeneratorRuntime.wrap(function _callee7$(_context7) {
           while (1) {
-            switch (_context8.prev = _context8.next) {
+            switch (_context7.prev = _context7.next) {
               case 0:
-                _context8.next = 2;
+                _context7.next = 2;
                 return this._ensureActive();
 
               case 2:
-                isActive = _context8.sent;
+                isActive = _context7.sent;
 
                 if (!(isActive && (this.logOnRinging || !(0, _callLogHelpers.isRinging)(call)))) {
-                  _context8.next = 10;
+                  _context7.next = 10;
                   break;
                 }
 
                 if (!this.autoLog) {
-                  _context8.next = 6;
+                  _context7.next = 6;
                   break;
                 }
 
-                return _context8.abrupt("return", true);
+                return _context7.abrupt("return", true);
 
               case 6:
-                _context8.next = 8;
+                _context7.next = 8;
                 return this._activityMatcher.triggerMatch();
 
               case 8:
                 activityMatches = this._activityMatcher.dataMapping[call.sessionId] || [];
-                return _context8.abrupt("return", activityMatches.length > 0);
+                return _context7.abrupt("return", activityMatches.length > 0);
 
               case 10:
-                return _context8.abrupt("return", false);
+                return _context7.abrupt("return", false);
 
               case 11:
               case "end":
-                return _context8.stop();
+                return _context7.stop();
             }
           }
         }, _callee7, this);
@@ -557,20 +564,20 @@ var CallLogger = (_dec = (0, _di.Module)({
     key: "_onCallUpdated",
     value: function () {
       var _onCallUpdated2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8(call, triggerType) {
-        return regeneratorRuntime.wrap(function _callee8$(_context9) {
+        return regeneratorRuntime.wrap(function _callee8$(_context8) {
           while (1) {
-            switch (_context9.prev = _context9.next) {
+            switch (_context8.prev = _context8.next) {
               case 0:
-                _context9.next = 2;
+                _context8.next = 2;
                 return this._shouldLogUpdatedCall(call);
 
               case 2:
-                if (!_context9.sent) {
-                  _context9.next = 5;
+                if (!_context8.sent) {
+                  _context8.next = 5;
                   break;
                 }
 
-                _context9.next = 5;
+                _context8.next = 5;
                 return this._autoLogCall({
                   call: call,
                   triggerType: triggerType
@@ -578,7 +585,7 @@ var CallLogger = (_dec = (0, _di.Module)({
 
               case 5:
               case "end":
-                return _context9.stop();
+                return _context8.stop();
             }
           }
         }, _callee8, this);
@@ -672,11 +679,11 @@ var CallLogger = (_dec = (0, _di.Module)({
     key: "_onStateChange",
     value: function () {
       var _onStateChange2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9() {
-        return regeneratorRuntime.wrap(function _callee9$(_context10) {
+        return regeneratorRuntime.wrap(function _callee9$(_context9) {
           while (1) {
-            switch (_context10.prev = _context10.next) {
+            switch (_context9.prev = _context9.next) {
               case 0:
-                _context10.next = 2;
+                _context9.next = 2;
                 return _get(_getPrototypeOf(CallLogger.prototype), "_onStateChange", this).call(this);
 
               case 2:
@@ -684,7 +691,7 @@ var CallLogger = (_dec = (0, _di.Module)({
 
               case 3:
               case "end":
-                return _context10.stop();
+                return _context9.stop();
             }
           }
         }, _callee9, this);
@@ -700,9 +707,9 @@ var CallLogger = (_dec = (0, _di.Module)({
     key: "setAutoLog",
     value: function () {
       var _setAutoLog = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10(autoLog) {
-        return regeneratorRuntime.wrap(function _callee10$(_context11) {
+        return regeneratorRuntime.wrap(function _callee10$(_context10) {
           while (1) {
-            switch (_context11.prev = _context11.next) {
+            switch (_context10.prev = _context10.next) {
               case 0:
                 if (this.ready && autoLog !== this.autoLog) {
                   this.store.dispatch({
@@ -713,7 +720,7 @@ var CallLogger = (_dec = (0, _di.Module)({
 
               case 1:
               case "end":
-                return _context11.stop();
+                return _context10.stop();
             }
           }
         }, _callee10, this);
@@ -729,9 +736,9 @@ var CallLogger = (_dec = (0, _di.Module)({
     key: "setLogOnRinging",
     value: function () {
       var _setLogOnRinging = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee11(logOnRinging) {
-        return regeneratorRuntime.wrap(function _callee11$(_context12) {
+        return regeneratorRuntime.wrap(function _callee11$(_context11) {
           while (1) {
-            switch (_context12.prev = _context12.next) {
+            switch (_context11.prev = _context11.next) {
               case 0:
                 if (this.ready && logOnRinging !== this.logOnRinging) {
                   this.store.dispatch({
@@ -742,7 +749,7 @@ var CallLogger = (_dec = (0, _di.Module)({
 
               case 1:
               case "end":
-                return _context12.stop();
+                return _context11.stop();
             }
           }
         }, _callee11, this);

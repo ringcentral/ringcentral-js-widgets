@@ -5,13 +5,13 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = void 0;
+exports["default"] = exports.errorMessages = void 0;
 
-var _Enum = _interopRequireDefault(require("../../lib/Enum"));
+var _ObjectMap = require("@ringcentral-integration/core/lib/ObjectMap");
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+var errorMessages = _ObjectMap.ObjectMap.prefixKeys(['serviceLimited'], 'limitedErrorMessages');
 
-var _default = new _Enum["default"](['serviceLimited'], 'limitedErrorMessages');
-
+exports.errorMessages = errorMessages;
+var _default = errorMessages;
 exports["default"] = _default;
 //# sourceMappingURL=errorMessages.js.map

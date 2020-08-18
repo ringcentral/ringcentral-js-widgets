@@ -144,8 +144,6 @@ _dec = (0, _di.Module)({
    * @param {Client} params.client - client module instance
    */
   function RecentMessages(_ref) {
-    var _context;
-
     var _this;
 
     var client = _ref.client,
@@ -160,8 +158,8 @@ _dec = (0, _di.Module)({
 
     _initializerDefineProperty(_this, "unreadMessageCounts", _descriptor, _assertThisInitialized(_this));
 
-    _this._client = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, client, 'client');
-    _this._messageStore = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, messageStore, 'messageStore');
+    _this._client = _ensureExist["default"].call(_assertThisInitialized(_this), client, 'client');
+    _this._messageStore = _ensureExist["default"].call(_assertThisInitialized(_this), messageStore, 'messageStore');
     _this._reducer = (0, _getRecentMessagesReducer["default"])(_this.actionTypes);
     _this._prevMessageStoreTimestamp = null;
     return _this;
@@ -212,39 +210,39 @@ _dec = (0, _di.Module)({
       var _getMessages = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(_ref2) {
         var currentContact, _ref2$sessionId, sessionId, _ref2$fromLocal, fromLocal, _ref2$forceUpdate, forceUpdate, contactId, messages;
 
-        return regeneratorRuntime.wrap(function _callee$(_context2) {
+        return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context.prev = _context.next) {
               case 0:
                 currentContact = _ref2.currentContact, _ref2$sessionId = _ref2.sessionId, sessionId = _ref2$sessionId === void 0 ? null : _ref2$sessionId, _ref2$fromLocal = _ref2.fromLocal, fromLocal = _ref2$fromLocal === void 0 ? false : _ref2$fromLocal, _ref2$forceUpdate = _ref2.forceUpdate, forceUpdate = _ref2$forceUpdate === void 0 ? false : _ref2$forceUpdate;
 
                 if (currentContact) {
-                  _context2.next = 3;
+                  _context.next = 3;
                   break;
                 }
 
-                return _context2.abrupt("return");
+                return _context.abrupt("return");
 
               case 3:
                 contactId = currentContact.id;
 
                 if (!(!forceUpdate && !!this.messages[sessionId ? "".concat(contactId, "-").concat(sessionId) : contactId])) {
-                  _context2.next = 6;
+                  _context.next = 6;
                   break;
                 }
 
-                return _context2.abrupt("return");
+                return _context.abrupt("return");
 
               case 6:
                 this._prevMessageStoreTimestamp = this._messageStore.updatedTimestamp;
                 this.store.dispatch({
                   type: this.actionTypes.initLoad
                 });
-                _context2.next = 10;
+                _context.next = 10;
                 return this._getRecentMessages(currentContact, this._messageStore.textConversations, fromLocal);
 
               case 10:
-                messages = _context2.sent;
+                messages = _context.sent;
                 this.store.dispatch({
                   type: this.actionTypes.loadSuccess,
                   messages: messages,
@@ -254,7 +252,7 @@ _dec = (0, _di.Module)({
 
               case 12:
               case "end":
-                return _context2.stop();
+                return _context.stop();
             }
           }
         }, _callee, this);
@@ -301,9 +299,9 @@ _dec = (0, _di.Module)({
             recentMessages,
             dateTo,
             _args2 = arguments;
-        return regeneratorRuntime.wrap(function _callee2$(_context3) {
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context2.prev = _context2.next) {
               case 0:
                 conversations = _args2.length > 1 && _args2[1] !== undefined ? _args2[1] : [];
                 fromLocal = _args2.length > 2 ? _args2[2] : undefined;
@@ -314,34 +312,34 @@ _dec = (0, _di.Module)({
                 // we need to search for messages on server.
 
                 if (!(!fromLocal && recentMessages.length < length)) {
-                  _context3.next = 19;
+                  _context2.next = 19;
                   break;
                 }
 
                 dateTo = recentMessages.length > 0 ? new Date(recentMessages[recentMessages.length - 1].creationTime) : undefined;
-                _context3.prev = 8;
-                _context3.t0 = recentMessages;
-                _context3.next = 12;
+                _context2.prev = 8;
+                _context2.t0 = recentMessages;
+                _context2.next = 12;
                 return this._fetchRemoteRecentMessages(currentContact, dateFrom.toISOString(), dateTo && dateTo.toISOString(), length);
 
               case 12:
-                _context3.t1 = _context3.sent;
-                recentMessages = _context3.t0.concat.call(_context3.t0, _context3.t1);
-                _context3.next = 19;
+                _context2.t1 = _context2.sent;
+                recentMessages = _context2.t0.concat.call(_context2.t0, _context2.t1);
+                _context2.next = 19;
                 break;
 
               case 16:
-                _context3.prev = 16;
-                _context3.t2 = _context3["catch"](8);
-                console.error(_context3.t2);
+                _context2.prev = 16;
+                _context2.t2 = _context2["catch"](8);
+                console.error(_context2.t2);
 
               case 19:
                 recentMessages = this._dedup(recentMessages);
-                return _context3.abrupt("return", recentMessages.length > length ? recentMessages.slice(0, length) : recentMessages);
+                return _context2.abrupt("return", recentMessages.length > length ? recentMessages.slice(0, length) : recentMessages);
 
               case 21:
               case "end":
-                return _context3.stop();
+                return _context2.stop();
             }
           }
         }, _callee2, this, [[8, 16]]);

@@ -38,9 +38,9 @@ require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.object.define-property");
 
-var _ringcentral = _interopRequireDefault(require("ringcentral"));
+var _sdk = require("@ringcentral/sdk");
 
-var _ringcentralClient = _interopRequireDefault(require("ringcentral-client"));
+var _RingCentralClient = require("../../../lib/RingCentralClient");
 
 var _di = require("../../../lib/di");
 
@@ -124,8 +124,6 @@ var _QuickAccess = _interopRequireDefault(require("../../../modules/QuickAccess"
 
 var _ActiveCallControl = _interopRequireDefault(require("../../../modules/ActiveCallControl"));
 
-var _ActiveCalls = _interopRequireDefault(require("../../../modules/ActiveCalls"));
-
 var _Presence = _interopRequireDefault(require("../../../modules/Presence"));
 
 var _CallLog = _interopRequireDefault(require("../../../modules/CallLog"));
@@ -191,7 +189,7 @@ var BasePhone = (_dec2 = (0, _di.ModuleFactory)({
     provide: 'Client',
     useFactory: function useFactory(_ref2) {
       var sdkConfig = _ref2.sdkConfig;
-      return new _ringcentralClient["default"](new _ringcentral["default"](sdkConfig));
+      return new _RingCentralClient.RingCentralClient(new _sdk.SDK(sdkConfig));
     },
     deps: [{
       dep: 'SdkConfig',
@@ -281,9 +279,6 @@ var BasePhone = (_dec2 = (0, _di.ModuleFactory)({
   }, {
     provide: 'Subscription',
     useClass: _Subscription["default"]
-  }, {
-    provide: 'ActiveCalls',
-    useClass: _ActiveCalls["default"]
   }, {
     provide: 'Presence',
     useClass: _Presence["default"]
@@ -625,7 +620,7 @@ var BasePhone = (_dec2 = (0, _di.ModuleFactory)({
     //           const showComposeText = rolesAndPermissions.hasComposeTextPermission;
     //           const showMessages = rolesAndPermissions.hasReadMessagesPermission;
     //           const showConference = rolesAndPermissions.permissions.OrganizeConference;
-    //           const showMeeting = rolesAndPermissions.permissions.Meetings;
+    //           const showMeeting = rolesAndPermissions.hasMeetingsPermission;
     //           if (showDialPad) {
     //             this.routerInteraction.push('/dialer');
     //           } else if (showCalls) {

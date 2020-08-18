@@ -5,17 +5,21 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = void 0;
+exports["default"] = exports.subscriptionFilters = void 0;
 
-var _HashMap = require("../lib/HashMap");
+var _ObjectMap = require("@ringcentral-integration/core/lib/ObjectMap");
 
-var _default = (0, _HashMap.createHashMap)({
-  presence: '/account/~/extension/~/presence',
-  detailedPresence: '/account/~/extension/~/presence?detailedTelephonyState=true&sipData=true&totalActiveCalls',
-  extensionInfo: '/account/~/extension/~',
-  accountExtension: '/account/~/extension',
-  companyContacts: '/account/~/directory/contacts'
+var subscriptionFilters = _ObjectMap.ObjectMap.fromObject({
+  presence: '/restapi/v1.0/account/~/extension/~/presence',
+  detailedPresence: '/restapi/v1.0/account/~/extension/~/presence?detailedTelephonyState=true&sipData=true&totalActiveCalls',
+  extensionInfo: '/restapi/v1.0/account/~/extension/~',
+  accountExtension: '/restapi/v1.0/account/~/extension',
+  companyContacts: '/restapi/v1.0/account/~/directory/contacts',
+  messageStore: '/restapi/v1.0/account/~/extension/~/message-store',
+  telephonySessions: '/restapi/v1.0/account/~/extension/~/telephony/sessions'
 });
 
+exports.subscriptionFilters = subscriptionFilters;
+var _default = subscriptionFilters;
 exports["default"] = _default;
 //# sourceMappingURL=subscriptionFilters.js.map

@@ -19,7 +19,7 @@ var _exportNames = {};
 Object.defineProperty(exports, "default", {
   enumerable: true,
   get: function get() {
-    return _genericMeeting.GenericMeeting;
+    return _GenericMeetingModule.GenericMeeting;
   }
 });
 
@@ -36,5 +36,5 @@ Object.keys(_interface).forEach(function (key) {
   });
 });
 
-var _genericMeeting = require("./genericMeeting");
+var _GenericMeetingModule = require("./GenericMeetingModule");
 //# sourceMappingURL=index.js.map

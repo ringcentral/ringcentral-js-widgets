@@ -5,13 +5,13 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = void 0;
+exports["default"] = exports.conferenceRole = void 0;
 
-var _Enum = _interopRequireDefault(require("../../lib/Enum"));
+var _ObjectMap = require("@ringcentral-integration/core/lib/ObjectMap");
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+var conferenceRole = _ObjectMap.ObjectMap.fromKeys(['host', 'participant']);
 
-var _default = new _Enum["default"](['host', 'participant']);
-
+exports.conferenceRole = conferenceRole;
+var _default = conferenceRole;
 exports["default"] = _default;
 //# sourceMappingURL=conferenceRole.js.map

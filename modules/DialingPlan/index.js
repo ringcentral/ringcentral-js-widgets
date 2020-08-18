@@ -126,8 +126,6 @@ _dec = (0, _di.Module)({
    * @param {Client} params.client - client module instance
    */
   function DialingPlan(_ref) {
-    var _context3;
-
     var _this;
 
     var client = _ref.client,
@@ -155,7 +153,7 @@ _dec = (0, _di.Module)({
                             case 0:
                               platform = client.service.platform();
                               _context.next = 3;
-                              return platform.get('/account/~/dialing-plan', params);
+                              return platform.get('/restapi/v1.0/account/~/dialing-plan', params);
 
                             case 3:
                               response = _context.sent;
@@ -204,7 +202,7 @@ _dec = (0, _di.Module)({
 
     _initializerDefineProperty(_this, "plans", _descriptor, _assertThisInitialized(_this));
 
-    _this._rolesAndPermissions = (_context3 = _assertThisInitialized(_this), _ensureExist["default"]).call(_context3, rolesAndPermissions, 'rolesAndPermissions');
+    _this._rolesAndPermissions = _ensureExist["default"].call(_assertThisInitialized(_this), rolesAndPermissions, 'rolesAndPermissions');
     return _this;
   }
 

@@ -155,8 +155,6 @@ var Contacts = (_dec = (0, _di.Module)({
    * @param {Auth} params.auth - auth module instance
    */
   function Contacts(_ref) {
-    var _context;
-
     var _this;
 
     var auth = _ref.auth,
@@ -178,7 +176,7 @@ var Contacts = (_dec = (0, _di.Module)({
 
     _initializerDefineProperty(_this, "filteredContacts", _descriptor4, _assertThisInitialized(_this));
 
-    _this._auth = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, auth, 'auth');
+    _this._auth = _ensureExist["default"].call(_assertThisInitialized(_this), auth, 'auth');
     _this._reducer = (0, _getContactsReducer["default"])(_this.actionTypes);
     _this._contactSources = new Map();
     _this._sourcesLastStatus = new Map();
@@ -374,31 +372,31 @@ var Contacts = (_dec = (0, _di.Module)({
             source,
             result,
             _args = arguments;
-        return regeneratorRuntime.wrap(function _callee$(_context2) {
+        return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context.prev = _context.next) {
               case 0:
                 useCache = _args.length > 1 && _args[1] !== undefined ? _args[1] : true;
                 source = this._contactSources.get(contact && contact.type);
 
                 if (!(source && source.getProfileImage)) {
-                  _context2.next = 7;
+                  _context.next = 7;
                   break;
                 }
 
-                _context2.next = 5;
+                _context.next = 5;
                 return source.getProfileImage(contact, useCache);
 
               case 5:
-                result = _context2.sent;
-                return _context2.abrupt("return", result);
+                result = _context.sent;
+                return _context.abrupt("return", result);
 
               case 7:
-                return _context2.abrupt("return", null);
+                return _context.abrupt("return", null);
 
               case 8:
               case "end":
-                return _context2.stop();
+                return _context.stop();
             }
           }
         }, _callee, this);
@@ -418,31 +416,31 @@ var Contacts = (_dec = (0, _di.Module)({
             source,
             result,
             _args2 = arguments;
-        return regeneratorRuntime.wrap(function _callee2$(_context3) {
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context2.prev = _context2.next) {
               case 0:
                 useCache = _args2.length > 1 && _args2[1] !== undefined ? _args2[1] : true;
                 source = this._contactSources.get(contact && contact.type);
 
                 if (!(source && source.getPresence)) {
-                  _context3.next = 7;
+                  _context2.next = 7;
                   break;
                 }
 
-                _context3.next = 5;
+                _context2.next = 5;
                 return source.getPresence(contact, useCache);
 
               case 5:
-                result = _context3.sent;
-                return _context3.abrupt("return", result);
+                result = _context2.sent;
+                return _context2.abrupt("return", result);
 
               case 7:
-                return _context3.abrupt("return", null);
+                return _context2.abrupt("return", null);
 
               case 8:
               case "end":
-                return _context3.stop();
+                return _context2.stop();
             }
           }
         }, _callee2, this);
@@ -464,15 +462,15 @@ var Contacts = (_dec = (0, _di.Module)({
             source,
             _args3 = arguments;
 
-        return regeneratorRuntime.wrap(function _callee3$(_context4) {
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context3.prev = _context3.next) {
               case 0:
                 _i3 = 0, _Array$from3 = Array.from(this._contactSources.keys());
 
               case 1:
                 if (!(_i3 < _Array$from3.length)) {
-                  _context4.next = 10;
+                  _context3.next = 10;
                   break;
                 }
 
@@ -480,21 +478,21 @@ var Contacts = (_dec = (0, _di.Module)({
                 source = this._contactSources.get(sourceName);
 
                 if (!(typeof source.sync === 'function')) {
-                  _context4.next = 7;
+                  _context3.next = 7;
                   break;
                 }
 
-                _context4.next = 7;
+                _context3.next = 7;
                 return source.sync.apply(source, _args3);
 
               case 7:
                 _i3++;
-                _context4.next = 1;
+                _context3.next = 1;
                 break;
 
               case 10:
               case "end":
-                return _context4.stop();
+                return _context3.stop();
             }
           }
         }, _callee3, this);

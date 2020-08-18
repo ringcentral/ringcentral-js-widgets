@@ -149,7 +149,7 @@ function getConversationListReducer(types) {
           };
         });
         return newState.filter(function (c) {
-          return !!c;
+          return !!c && typeof c.creationTime === 'number';
         }).sort(messageHelper.sortByCreationTime);
 
       case types.deleteConversation:

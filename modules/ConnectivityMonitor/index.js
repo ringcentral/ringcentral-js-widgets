@@ -164,8 +164,6 @@ var ConnectivityMonitor = (_dec = (0, _di.Module)({
    * @param {Function} params.checkConnectionFunc - function to check network
    */
   function ConnectivityMonitor(_ref) {
-    var _context2;
-
     var _this;
 
     var client = _ref.client,
@@ -183,7 +181,7 @@ var ConnectivityMonitor = (_dec = (0, _di.Module)({
     _this = _super.call(this, _objectSpread(_objectSpread({}, options), {}, {
       actionTypes: _actionTypes["default"]
     }));
-    _this._client = (_context2 = _assertThisInitialized(_this), _ensureExist["default"]).call(_context2, client, 'client');
+    _this._client = _ensureExist["default"].call(_assertThisInitialized(_this), client, 'client');
     _this._environment = environment;
     _this._timeToRetry = timeToRetry;
     _this._heartBeatInterval = heartBeatInterval;
@@ -191,33 +189,33 @@ var ConnectivityMonitor = (_dec = (0, _di.Module)({
     _this._retryTimeoutId = null;
     _this._lastEnvironmentCounter = 0; // auto bind this
 
-    _this._requestSuccessHandler = (_context2 = _assertThisInitialized(_this), _this._requestSuccessHandler).bind(_context2);
-    _this._requestErrorHandler = (_context2 = _assertThisInitialized(_this), _this._requestErrorHandler).bind(_context2);
-    _this._networkErrorHandler = (_context2 = _assertThisInitialized(_this), _this._networkErrorHandler).bind(_context2);
+    _this._requestSuccessHandler = _this._requestSuccessHandler.bind(_assertThisInitialized(_this));
+    _this._requestErrorHandler = _this._requestErrorHandler.bind(_assertThisInitialized(_this));
+    _this._networkErrorHandler = _this._networkErrorHandler.bind(_assertThisInitialized(_this));
     _this._checkConnectionFunc = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
-      return regeneratorRuntime.wrap(function _callee2$(_context3) {
+      return regeneratorRuntime.wrap(function _callee2$(_context2) {
         while (1) {
-          switch (_context3.prev = _context3.next) {
+          switch (_context2.prev = _context2.next) {
             case 0:
-              _context3.prev = 0;
-              _context3.next = 3;
+              _context2.prev = 0;
+              _context2.next = 3;
               return checkConnectionFunc();
 
             case 3:
               _this._requestSuccessHandler();
 
-              _context3.next = 9;
+              _context2.next = 9;
               break;
 
             case 6:
-              _context3.prev = 6;
-              _context3.t0 = _context3["catch"](0);
+              _context2.prev = 6;
+              _context2.t0 = _context2["catch"](0);
 
-              _this._requestErrorHandler(_context3.t0);
+              _this._requestErrorHandler(_context2.t0);
 
             case 9:
             case "end":
-              return _context3.stop();
+              return _context2.stop();
           }
         }
       }, _callee2, null, [[0, 6]]);
@@ -277,7 +275,7 @@ var ConnectivityMonitor = (_dec = (0, _di.Module)({
     value: function _requestErrorHandler(error) {
       if (error.message && (error.message === _errorMessages["default"].rateLimitReached || error.message === _errorMessages2["default"].serviceLimited)) return;
 
-      if (!error.apiResponse || !error.apiResponse._response) {
+      if (!error.response) {
         if (this.connectivity) {
           this.store.dispatch({
             type: this.actionTypes.connectFail
@@ -307,7 +305,7 @@ var ConnectivityMonitor = (_dec = (0, _di.Module)({
         this._unbindHandlers();
       }
 
-      var client = this._client.service.platform().client();
+      var client = this._client.service.client();
 
       client.on(client.events.requestSuccess, this._requestSuccessHandler);
       client.on(client.events.requestError, this._requestErrorHandler);
@@ -331,25 +329,25 @@ var ConnectivityMonitor = (_dec = (0, _di.Module)({
     key: "_checkConnection",
     value: function () {
       var _checkConnection2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
-        return regeneratorRuntime.wrap(function _callee3$(_context4) {
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context3.prev = _context3.next) {
               case 0:
-                _context4.prev = 0;
-                _context4.next = 3;
+                _context3.prev = 0;
+                _context3.next = 3;
                 return this._checkConnectionFunc();
 
               case 3:
-                _context4.next = 7;
+                _context3.next = 7;
                 break;
 
               case 5:
-                _context4.prev = 5;
-                _context4.t0 = _context4["catch"](0);
+                _context3.prev = 5;
+                _context3.t0 = _context3["catch"](0);
 
               case 7:
               case "end":
-                return _context4.stop();
+                return _context3.stop();
             }
           }
         }, _callee3, this, [[0, 5]]);

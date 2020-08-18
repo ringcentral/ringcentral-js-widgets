@@ -7,9 +7,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 
-var _Enum = require("../../lib/Enum");
+var _ObjectMap = require("@ringcentral-integration/core/lib/ObjectMap");
 
-var _default = (0, _Enum.createEnum)(['invalidMeetingInfo', 'emptyTopic', 'noPassword', 'durationIncorrect', 'insufficientPermissions', 'scheduledSuccess', 'updatedSuccess', 'internalError'], 'meetingStatus');
+var _default = _ObjectMap.ObjectMap.prefixKeys(['invalidMeetingInfo', 'emptyTopic', 'noPassword', 'durationIncorrect', 'insufficientPermissions', 'scheduledSuccess', 'updatedSuccess', 'internalError', 'meetingIsDeleted'], 'meetingStatus');
 
 exports["default"] = _default;
 //# sourceMappingURL=meetingStatus.js.map

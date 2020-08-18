@@ -147,7 +147,8 @@ var Conference = (_dec = (0, _di.Module)({
         storage = _ref.storage,
         rolesAndPermissions = _ref.rolesAndPermissions,
         availabilityMonitor = _ref.availabilityMonitor,
-        showSaveAsDefault = _ref.showSaveAsDefault,
+        _ref$showSaveAsDefaul = _ref.showSaveAsDefault,
+        showSaveAsDefault = _ref$showSaveAsDefaul === void 0 ? false : _ref$showSaveAsDefaul,
         extensionInfo = _ref.extensionInfo,
         locale = _ref.locale,
         options = _objectWithoutProperties(_ref, ["alert", "client", "regionSettings", "storage", "rolesAndPermissions", "availabilityMonitor", "showSaveAsDefault", "extensionInfo", "locale"]);
@@ -292,16 +293,33 @@ var Conference = (_dec = (0, _di.Module)({
               case 8:
                 _context3.prev = 8;
                 _context3.t0 = _context3["catch"](0);
+                _context3.t1 = !this._availabilityMonitor;
 
-                if (!this._availabilityMonitor || !this._availabilityMonitor.checkIfHAError(_context3.t0)) {
-                  this._alert.warning({
-                    message: _callControlError["default"].generalError
-                  });
+                if (_context3.t1) {
+                  _context3.next = 15;
+                  break;
                 }
 
+                _context3.next = 14;
+                return this._availabilityMonitor.checkIfHAError(_context3.t0);
+
+              case 14:
+                _context3.t1 = !_context3.sent;
+
+              case 15:
+                if (!_context3.t1) {
+                  _context3.next = 17;
+                  break;
+                }
+
+                this._alert.warning({
+                  message: _callControlError["default"].generalError
+                });
+
+              case 17:
                 return _context3.abrupt("return", null);
 
-              case 12:
+              case 18:
               case "end":
                 return _context3.stop();
             }
@@ -415,7 +433,7 @@ var Conference = (_dec = (0, _di.Module)({
   }, {
     key: "showSaveAsDefault",
     get: function get() {
-      return this._showSaveAsDefault || false;
+      return this._showSaveAsDefault;
     }
   }]);
 

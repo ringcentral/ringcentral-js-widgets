@@ -34,6 +34,10 @@ require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.object.keys");
 
+require("core-js/modules/es7.array.includes");
+
+require("core-js/modules/es6.string.includes");
+
 require("core-js/modules/es6.array.find");
 
 require("core-js/modules/es6.array.index-of");
@@ -215,12 +219,22 @@ var Analytics = (_dec = (0, _di.Module)({
   }, {
     dep: 'RcVideo',
     optional: true
+  }, {
+    dep: 'CallLogSection',
+    optional: true
+  }, {
+    dep: 'ActiveCallControl',
+    optional: true
+  }, {
+    dep: 'DialerUI',
+    optional: true
   }]
 }), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcModule) {
   _inherits(Analytics, _RcModule);
 
   var _super = _createSuper(Analytics);
 
+  // TODO: add state interface
   function Analytics(_ref) {
     var _this;
 
@@ -248,16 +262,20 @@ var Analytics = (_dec = (0, _di.Module)({
         locale = _ref.locale,
         meeting = _ref.meeting,
         rcVideo = _ref.rcVideo,
+        dialerUI = _ref.dialerUI,
         _ref$useLog = _ref.useLog,
         useLog = _ref$useLog === void 0 ? false : _ref$useLog,
         _ref$lingerThreshold = _ref.lingerThreshold,
         lingerThreshold = _ref$lingerThreshold === void 0 ? 1000 : _ref$lingerThreshold,
-        options = _objectWithoutProperties(_ref, ["analyticsKey", "appName", "appVersion", "brandCode", "adapter", "auth", "call", "callingSettings", "accountInfo", "extensionInfo", "rolesAndPermissions", "callHistory", "callMonitor", "conference", "conferenceCall", "contactDetailsUI", "messageSender", "messageStore", "routerInteraction", "userGuide", "webphone", "locale", "meeting", "rcVideo", "useLog", "lingerThreshold"]);
+        callLogSection = _ref.callLogSection,
+        activeCallControl = _ref.activeCallControl,
+        options = _objectWithoutProperties(_ref, ["analyticsKey", "appName", "appVersion", "brandCode", "adapter", "auth", "call", "callingSettings", "accountInfo", "extensionInfo", "rolesAndPermissions", "callHistory", "callMonitor", "conference", "conferenceCall", "contactDetailsUI", "messageSender", "messageStore", "routerInteraction", "userGuide", "webphone", "locale", "meeting", "rcVideo", "dialerUI", "useLog", "lingerThreshold", "callLogSection", "activeCallControl"]);
 
     _classCallCheck(this, Analytics);
 
+    // TODO: fix type from new modules based on RcModulesV2
     _this = _super.call(this, _objectSpread(_objectSpread({}, options), {}, {
-      actionTypes: _actionTypes.analyticsAcionTypes
+      actionTypes: _actionTypes.analyticsActionTypes
     })); // config
 
     _this._analyticsKey = void 0;
@@ -284,6 +302,7 @@ var Analytics = (_dec = (0, _di.Module)({
     _this._locale = void 0;
     _this._meeting = void 0;
     _this._rcVideo = void 0;
+    _this._dialerUI = void 0;
     _this._segment = void 0;
     _this._trackList = void 0;
     _this._useLog = void 0;
@@ -291,6 +310,8 @@ var Analytics = (_dec = (0, _di.Module)({
     _this._lingerThreshold = void 0;
     _this._lingerTimeout = null;
     _this._promise = void 0;
+    _this._callLogSection = void 0;
+    _this._activeCallControl = void 0;
     _this._analyticsKey = analyticsKey;
     _this._appName = appName;
     _this._appVersion = appVersion;
@@ -315,7 +336,10 @@ var Analytics = (_dec = (0, _di.Module)({
     _this._webphone = webphone;
     _this._locale = locale;
     _this._meeting = meeting;
-    _this._rcVideo = rcVideo; // init
+    _this._rcVideo = rcVideo;
+    _this._callLogSection = callLogSection;
+    _this._activeCallControl = activeCallControl;
+    _this._dialerUI = dialerUI; // init
 
     _this._reducer = (0, _getAnalyticsReducer["default"])(_this.actionTypes);
     _this._segment = (0, _Analytics.Segment)();
@@ -1099,6 +1123,141 @@ var Analytics = (_dec = (0, _di.Module)({
       }
     }
   }, {
+    key: "_viewCallLogPage",
+    value: function _viewCallLogPage(action) {
+      var _this$_callLogSection;
+
+      if (((_this$_callLogSection = this._callLogSection) === null || _this$_callLogSection === void 0 ? void 0 : _this$_callLogSection.actionTypes.showLogSection) === action.type) {
+        this.track('Call Log: View/Call log page');
+      }
+    }
+  }, {
+    key: "_notificationClickLog",
+    value: function _notificationClickLog(action) {
+      var _this$_callLogSection2;
+
+      if (((_this$_callLogSection2 = this._callLogSection) === null || _this$_callLogSection2 === void 0 ? void 0 : _this$_callLogSection2.actionTypes.expandNotification) === action.type) {
+        this.track('Call Log: Click call log/Notification');
+      }
+    }
+  }, {
+    key: "_muteOnSimpleCallControl",
+    value: function _muteOnSimpleCallControl(action) {
+      var _this$_activeCallCont, _this$_routerInteract3;
+
+      if (((_this$_activeCallCont = this._activeCallControl) === null || _this$_activeCallCont === void 0 ? void 0 : _this$_activeCallCont.actionTypes.mute) === action.type && ((_this$_routerInteract3 = this._routerInteraction) === null || _this$_routerInteract3 === void 0 ? void 0 : _this$_routerInteract3.currentPath.includes('/simplifycallctrl'))) {
+        this.track('Call Control: Mute/Small call control');
+      }
+    }
+  }, {
+    key: "_unmuteOnSimpleCallControl",
+    value: function _unmuteOnSimpleCallControl(action) {
+      var _this$_activeCallCont2, _this$_routerInteract4;
+
+      if (((_this$_activeCallCont2 = this._activeCallControl) === null || _this$_activeCallCont2 === void 0 ? void 0 : _this$_activeCallCont2.actionTypes.unmute) === action.type && ((_this$_routerInteract4 = this._routerInteraction) === null || _this$_routerInteract4 === void 0 ? void 0 : _this$_routerInteract4.currentPath.includes('/simplifycallctrl'))) {
+        this.track('Call Control: Unmute/Small call control');
+      }
+    }
+  }, {
+    key: "_holdOnSimpleCallControl",
+    value: function _holdOnSimpleCallControl(action) {
+      var _this$_activeCallCont3, _this$_routerInteract5;
+
+      if (((_this$_activeCallCont3 = this._activeCallControl) === null || _this$_activeCallCont3 === void 0 ? void 0 : _this$_activeCallCont3.actionTypes.hold) === action.type && ((_this$_routerInteract5 = this._routerInteraction) === null || _this$_routerInteract5 === void 0 ? void 0 : _this$_routerInteract5.currentPath.includes('/simplifycallctrl'))) {
+        this.track('Call Control: Hold/Small call control');
+      }
+    }
+  }, {
+    key: "_unholdOnSimpleCallControl",
+    value: function _unholdOnSimpleCallControl(action) {
+      var _this$_activeCallCont4, _this$_routerInteract6;
+
+      if (((_this$_activeCallCont4 = this._activeCallControl) === null || _this$_activeCallCont4 === void 0 ? void 0 : _this$_activeCallCont4.actionTypes.unhold) === action.type && ((_this$_routerInteract6 = this._routerInteraction) === null || _this$_routerInteract6 === void 0 ? void 0 : _this$_routerInteract6.currentPath.includes('/simplifycallctrl'))) {
+        this.track('Call Control: Unhold/Small call control');
+      }
+    }
+  }, {
+    key: "_confirmTransfer",
+    value: function _confirmTransfer(action) {
+      var _this$_activeCallCont5;
+
+      if (((_this$_activeCallCont5 = this._activeCallControl) === null || _this$_activeCallCont5 === void 0 ? void 0 : _this$_activeCallCont5.actionTypes.transfer) === action.type) {
+        this.track('Call Control: Cold transfer/Transfer page');
+      }
+    }
+  }, {
+    key: "_muteOnCallLogPage",
+    value: function _muteOnCallLogPage(action) {
+      var _this$_callLogSection3, _this$_activeCallCont6;
+
+      if (((_this$_callLogSection3 = this._callLogSection) === null || _this$_callLogSection3 === void 0 ? void 0 : _this$_callLogSection3.show) && ((_this$_activeCallCont6 = this._activeCallControl) === null || _this$_activeCallCont6 === void 0 ? void 0 : _this$_activeCallCont6.actionTypes.mute) === action.type) {
+        this.track('Call Control: Mute/Call log page');
+      }
+    }
+  }, {
+    key: "_unmuteOnCallLogPage",
+    value: function _unmuteOnCallLogPage(action) {
+      var _this$_callLogSection4, _this$_activeCallCont7;
+
+      if (((_this$_callLogSection4 = this._callLogSection) === null || _this$_callLogSection4 === void 0 ? void 0 : _this$_callLogSection4.show) && ((_this$_activeCallCont7 = this._activeCallControl) === null || _this$_activeCallCont7 === void 0 ? void 0 : _this$_activeCallCont7.actionTypes.unmute) === action.type) {
+        this.track('Call Control: Unmute/Call log page');
+      }
+    }
+  }, {
+    key: "_holdOnCallLogPage",
+    value: function _holdOnCallLogPage(action) {
+      var _this$_callLogSection5, _this$_activeCallCont8;
+
+      if (((_this$_callLogSection5 = this._callLogSection) === null || _this$_callLogSection5 === void 0 ? void 0 : _this$_callLogSection5.show) && ((_this$_activeCallCont8 = this._activeCallControl) === null || _this$_activeCallCont8 === void 0 ? void 0 : _this$_activeCallCont8.actionTypes.hold) === action.type) {
+        this.track('Call Control: Hold/Call log page');
+      }
+    }
+  }, {
+    key: "_unholdOnCallLogPage",
+    value: function _unholdOnCallLogPage(action) {
+      var _this$_callLogSection6, _this$_activeCallCont9;
+
+      if (((_this$_callLogSection6 = this._callLogSection) === null || _this$_callLogSection6 === void 0 ? void 0 : _this$_callLogSection6.show) && ((_this$_activeCallCont9 = this._activeCallControl) === null || _this$_activeCallCont9 === void 0 ? void 0 : _this$_activeCallCont9.actionTypes.unhold) === action.type) {
+        this.track('Call Control: Unhold/Call log page');
+      }
+    }
+  }, {
+    key: "_hangupOnCallLogPage",
+    value: function _hangupOnCallLogPage(action) {
+      var _this$_callLogSection7, _this$_activeCallCont10;
+
+      if (((_this$_callLogSection7 = this._callLogSection) === null || _this$_callLogSection7 === void 0 ? void 0 : _this$_callLogSection7.show) && ((_this$_activeCallCont10 = this._activeCallControl) === null || _this$_activeCallCont10 === void 0 ? void 0 : _this$_activeCallCont10.actionTypes.hangUp) === action.type) {
+        this.track('Call Control: Hang up/Call log page');
+      }
+    }
+  }, {
+    key: "_smsHistoryPlaceRingOutCall",
+    value: function _smsHistoryPlaceRingOutCall(action) {
+      var _this$_messageStore6;
+
+      if (((_this$_messageStore6 = this._messageStore) === null || _this$_messageStore6 === void 0 ? void 0 : _this$_messageStore6.actionTypes.clickToCall) === action.type && this._callingSettings.callingMode === _callingModes["default"].ringout) {
+        this.track('Call: Place RingOut call/SMS history');
+      }
+    }
+  }, {
+    key: "_callHistoryPlaceRingOutCall",
+    value: function _callHistoryPlaceRingOutCall(action) {
+      var _this$_callHistory3;
+
+      if (((_this$_callHistory3 = this._callHistory) === null || _this$_callHistory3 === void 0 ? void 0 : _this$_callHistory3.actionTypes.clickToCall) === action.type && this._callingSettings.callingMode === _callingModes["default"].ringout) {
+        this.track('Call: Place RingOut call/Call history');
+      }
+    }
+  }, {
+    key: "_dialerPlaceRingOutCall",
+    value: function _dialerPlaceRingOutCall(action) {
+      var _this$_dialerUI, _action$phoneNumber;
+
+      if (((_this$_dialerUI = this._dialerUI) === null || _this$_dialerUI === void 0 ? void 0 : _this$_dialerUI.actionTypes.call) === action.type && ((_action$phoneNumber = action.phoneNumber) === null || _action$phoneNumber === void 0 ? void 0 : _action$phoneNumber.length) > 0 && this._callingSettings.callingMode === _callingModes["default"].ringout) {
+        this.track('Call: Place RingOut call/Dialer');
+      }
+    }
+  }, {
     key: "trackList",
     get: function get() {
       return this._trackList;
@@ -1145,6 +1304,6 @@ var Analytics = (_dec = (0, _di.Module)({
   }]);
 
   return Analytics;
-}(_RcModule2["default"]), _temp), (_applyDecoratedDescriptor(_class2.prototype, "_authentication", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_authentication"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_logout", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_logout"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_accountInfoReady", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_accountInfoReady"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_callAttempt", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_callAttempt"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_callConnected", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_callConnected"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_webRTCRegistration", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_webRTCRegistration"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_smsAttempt", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_smsAttempt"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_smsSentOver", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_smsSentOver"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_smsSentError", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_smsSentError"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_logCall", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_logCall"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_logSMS", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_logSMS"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_clickToDial", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_clickToDial"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_clickToDialPlaceRingOutCall", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_clickToDialPlaceRingOutCall"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_clickToSMS", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_clickToSMS"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_viewEntity", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_viewEntity"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_createEntity", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_createEntity"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_editCallLog", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_editCallLog"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_editSMSLog", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_editSMSLog"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_navigate", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_navigate"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_inboundCall", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_inboundCall"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_coldTransfer", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_coldTransfer"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_textClickToDial", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_textClickToDial"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_voicemailClickToDial", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_voicemailClickToDial"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_voicemailClickToSMS", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_voicemailClickToSMS"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_voicemailDelete", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_voicemailDelete"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_voicemailFlag", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_voicemailFlag"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_contactDetailClickToDial", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_contactDetailClickToDial"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_contactDetailClickToSMS", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_contactDetailClickToSMS"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_callHistoryClickToDial", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_callHistoryClickToDial"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_callHistoryClickToSMS", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_callHistoryClickToSMS"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_conferenceInviteWithText", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_conferenceInviteWithText"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_conferenceAddDialInNumber", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_conferenceAddDialInNumber"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_conferenceJoinAsHost", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_conferenceJoinAsHost"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_showWhatsNew", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_showWhatsNew"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_allCallsClickHold", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_allCallsClickHold"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_allCallsClickHangup", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_allCallsClickHangup"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_allCallsCallItemClick", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_allCallsCallItemClick"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_callControlClickAdd", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_callControlClickAdd"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_callControlClickMerge", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_callControlClickMerge"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_mergeCallControlClickMerge", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_mergeCallControlClickMerge"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_mergeCallControlClickHangup", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_mergeCallControlClickHangup"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_inboundCallConnectedTrack", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_inboundCallConnectedTrack"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_outboundCallConnectedTrack", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_outboundCallConnectedTrack"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_callsOnHoldClickAdd", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_callsOnHoldClickAdd"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_callsOnHoldClickMerge", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_callsOnHoldClickMerge"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_confirmMergeClickClose", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_confirmMergeClickClose"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_confirmMergeClickMerge", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_confirmMergeClickMerge"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_removeParticipantClickRemove", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_removeParticipantClickRemove"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_removeParticipantClickCancel", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_removeParticipantClickCancel"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_participantListClickHangup", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_participantListClickHangup"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_callControlClickParticipantArea", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_callControlClickParticipantArea"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_callsOnHoldClickHangup", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_callsOnHoldClickHangup"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_schedule", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_schedule"), _class2.prototype)), _class2)) || _class);
+}(_RcModule2["default"]), _temp), (_applyDecoratedDescriptor(_class2.prototype, "_authentication", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_authentication"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_logout", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_logout"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_accountInfoReady", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_accountInfoReady"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_callAttempt", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_callAttempt"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_callConnected", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_callConnected"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_webRTCRegistration", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_webRTCRegistration"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_smsAttempt", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_smsAttempt"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_smsSentOver", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_smsSentOver"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_smsSentError", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_smsSentError"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_logCall", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_logCall"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_logSMS", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_logSMS"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_clickToDial", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_clickToDial"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_clickToDialPlaceRingOutCall", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_clickToDialPlaceRingOutCall"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_clickToSMS", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_clickToSMS"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_viewEntity", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_viewEntity"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_createEntity", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_createEntity"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_editCallLog", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_editCallLog"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_editSMSLog", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_editSMSLog"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_navigate", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_navigate"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_inboundCall", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_inboundCall"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_coldTransfer", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_coldTransfer"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_textClickToDial", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_textClickToDial"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_voicemailClickToDial", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_voicemailClickToDial"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_voicemailClickToSMS", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_voicemailClickToSMS"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_voicemailDelete", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_voicemailDelete"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_voicemailFlag", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_voicemailFlag"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_contactDetailClickToDial", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_contactDetailClickToDial"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_contactDetailClickToSMS", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_contactDetailClickToSMS"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_callHistoryClickToDial", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_callHistoryClickToDial"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_callHistoryClickToSMS", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_callHistoryClickToSMS"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_conferenceInviteWithText", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_conferenceInviteWithText"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_conferenceAddDialInNumber", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_conferenceAddDialInNumber"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_conferenceJoinAsHost", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_conferenceJoinAsHost"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_showWhatsNew", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_showWhatsNew"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_allCallsClickHold", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_allCallsClickHold"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_allCallsClickHangup", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_allCallsClickHangup"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_allCallsCallItemClick", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_allCallsCallItemClick"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_callControlClickAdd", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_callControlClickAdd"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_callControlClickMerge", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_callControlClickMerge"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_mergeCallControlClickMerge", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_mergeCallControlClickMerge"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_mergeCallControlClickHangup", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_mergeCallControlClickHangup"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_inboundCallConnectedTrack", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_inboundCallConnectedTrack"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_outboundCallConnectedTrack", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_outboundCallConnectedTrack"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_callsOnHoldClickAdd", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_callsOnHoldClickAdd"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_callsOnHoldClickMerge", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_callsOnHoldClickMerge"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_confirmMergeClickClose", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_confirmMergeClickClose"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_confirmMergeClickMerge", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_confirmMergeClickMerge"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_removeParticipantClickRemove", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_removeParticipantClickRemove"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_removeParticipantClickCancel", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_removeParticipantClickCancel"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_participantListClickHangup", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_participantListClickHangup"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_callControlClickParticipantArea", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_callControlClickParticipantArea"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_callsOnHoldClickHangup", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_callsOnHoldClickHangup"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_schedule", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_schedule"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_viewCallLogPage", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_viewCallLogPage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_notificationClickLog", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_notificationClickLog"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_muteOnSimpleCallControl", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_muteOnSimpleCallControl"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_unmuteOnSimpleCallControl", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_unmuteOnSimpleCallControl"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_holdOnSimpleCallControl", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_holdOnSimpleCallControl"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_unholdOnSimpleCallControl", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_unholdOnSimpleCallControl"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_confirmTransfer", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_confirmTransfer"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_muteOnCallLogPage", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_muteOnCallLogPage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_unmuteOnCallLogPage", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_unmuteOnCallLogPage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_holdOnCallLogPage", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_holdOnCallLogPage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_unholdOnCallLogPage", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_unholdOnCallLogPage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_hangupOnCallLogPage", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_hangupOnCallLogPage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_smsHistoryPlaceRingOutCall", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_smsHistoryPlaceRingOutCall"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_callHistoryPlaceRingOutCall", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_callHistoryPlaceRingOutCall"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_dialerPlaceRingOutCall", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_dialerPlaceRingOutCall"), _class2.prototype)), _class2)) || _class);
 exports.Analytics = Analytics;
 //# sourceMappingURL=Analytics.js.map

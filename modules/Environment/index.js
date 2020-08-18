@@ -49,7 +49,7 @@ require("core-js/modules/es6.array.for-each");
 
 require("regenerator-runtime/runtime");
 
-var _ringcentral = _interopRequireDefault(require("ringcentral"));
+var _sdk = require("@ringcentral/sdk");
 
 var _RcModule2 = _interopRequireDefault(require("../../lib/RcModule"));
 
@@ -158,7 +158,7 @@ _dec = (0, _di.Module)({
       key: _this._serverStorageKey,
       reducer: (0, _getEnvironmentReducer.getServerReducer)({
         types: _this.actionTypes,
-        defaultServer: _ringcentral["default"].server.sandbox
+        defaultServer: _sdk.SDK.server.sandbox
       })
     });
 
@@ -207,7 +207,7 @@ _dec = (0, _di.Module)({
     key: "_initClientService",
     value: function _initClientService() {
       if (this.enabled) {
-        this._client.service = new _ringcentral["default"](_objectSpread(_objectSpread({}, this._sdkConfig), {}, {
+        this._client.service = new _sdk.SDK(_objectSpread(_objectSpread({}, this._sdkConfig), {}, {
           server: this.server
         }));
       }
@@ -221,7 +221,7 @@ _dec = (0, _di.Module)({
         newConfig.server = server;
       }
 
-      this._client.service = new _ringcentral["default"](newConfig);
+      this._client.service = new _sdk.SDK(newConfig);
     }
   }, {
     key: "setData",

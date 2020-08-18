@@ -1,0 +1,1 @@
+{"version":3,"sources":["integration-test/setup.js"],"names":["global","window"],"mappings":";;AAAAA,MAAM,CAACC,MAAP,GAAgB,EAAhB","sourcesContent":["global.window = {};\n"],"file":"setup.js"}

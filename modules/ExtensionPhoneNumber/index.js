@@ -138,8 +138,6 @@ _dec = (0, _di.Module)({
    * @param {Client} params.client - client module instance
    */
   function ExtensionPhoneNumber(_ref) {
-    var _context3;
-
     var _this;
 
     var client = _ref.client,
@@ -224,7 +222,7 @@ _dec = (0, _di.Module)({
 
     _initializerDefineProperty(_this, "smsSenderNumbers", _descriptor6, _assertThisInitialized(_this));
 
-    _this._rolesAndPermissions = (_context3 = _assertThisInitialized(_this), _ensureExist["default"]).call(_context3, rolesAndPermissions, 'rolesAndPermissions');
+    _this._rolesAndPermissions = _ensureExist["default"].call(_assertThisInitialized(_this), rolesAndPermissions, 'rolesAndPermissions');
     return _this;
   }
 
@@ -232,21 +230,21 @@ _dec = (0, _di.Module)({
     key: "_subscriptionHandleFn",
     value: function () {
       var _subscriptionHandleFn2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(message) {
-        return regeneratorRuntime.wrap(function _callee3$(_context4) {
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context3.prev = _context3.next) {
               case 0:
                 if (!(message && message.body && message.body.hints && message.body.hints.includes(_subscriptionHints["default"].companyNumbers))) {
-                  _context4.next = 3;
+                  _context3.next = 3;
                   break;
                 }
 
-                _context4.next = 3;
+                _context3.next = 3;
                 return this.fetchData();
 
               case 3:
               case "end":
-                return _context4.stop();
+                return _context3.stop();
             }
           }
         }, _callee3, this);

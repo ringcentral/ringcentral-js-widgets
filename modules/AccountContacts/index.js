@@ -65,15 +65,15 @@ var _isBlank = _interopRequireDefault(require("../../lib/isBlank"));
 
 var _ensureExist = _interopRequireDefault(require("../../lib/ensureExist"));
 
-var _contactHelper = require("../../lib/contactHelper");
-
 var _batchApiHelper = require("../../lib/batchApiHelper");
+
+var _contactHelper = require("../../lib/contactHelper");
 
 var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
 
 var _selector = require("../../lib/selector");
 
-var _actionTypes = _interopRequireDefault(require("./actionTypes"));
+var _actionTypes = require("./actionTypes");
 
 var _getReducer = _interopRequireDefault(require("./getReducer"));
 
@@ -143,6 +143,9 @@ var AccountContacts = (_dec = (0, _di.Module)({
   }, {
     dep: 'AccountContactsOptions',
     optional: true
+  }, {
+    dep: 'ExtensionInfo',
+    optional: true
   }]
 }), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcModule) {
   _inherits(AccountContacts, _RcModule);
@@ -154,6 +157,7 @@ var AccountContacts = (_dec = (0, _di.Module)({
    * @param {Object} params - params object
    * @param {Client} params.client - client module instance
    * @param {CompanyContacts} params.companyContacts - companyContacts module instance
+   * @param {ExtensionInfo} params.extensionInfo - current user extension info
    * @param {Number} params.ttl - timestamp of local cache, default 30 mins
    * @param {Number} params.avatarTtl - timestamp of avatar local cache, default 2 hour
    * @param {Number} params.presenceTtl - timestamp of presence local cache, default 10 mins
@@ -161,12 +165,11 @@ var AccountContacts = (_dec = (0, _di.Module)({
    * @param {Number} params.avatarQueryInterval - interval of query avatar, default 2 seconds
    */
   function AccountContacts(_ref) {
-    var _context;
-
     var _this;
 
     var client = _ref.client,
         companyContacts = _ref.companyContacts,
+        extensionInfo = _ref.extensionInfo,
         _ref$ttl = _ref.ttl,
         ttl = _ref$ttl === void 0 ? DEFAULT_TTL : _ref$ttl,
         _ref$avatarTtl = _ref.avatarTtl,
@@ -175,18 +178,19 @@ var AccountContacts = (_dec = (0, _di.Module)({
         presenceTtl = _ref$presenceTtl === void 0 ? DEFAULT_PRESENCETTL : _ref$presenceTtl,
         _ref$avatarQueryInter = _ref.avatarQueryInterval,
         avatarQueryInterval = _ref$avatarQueryInter === void 0 ? DEFAULT_AVATARQUERYINTERVAL : _ref$avatarQueryInter,
-        options = _objectWithoutProperties(_ref, ["client", "companyContacts", "ttl", "avatarTtl", "presenceTtl", "avatarQueryInterval"]);
+        options = _objectWithoutProperties(_ref, ["client", "companyContacts", "extensionInfo", "ttl", "avatarTtl", "presenceTtl", "avatarQueryInterval"]);
 
     _classCallCheck(this, AccountContacts);
 
     _this = _super.call(this, _objectSpread(_objectSpread({}, options), {}, {
-      actionTypes: _actionTypes["default"]
+      actionTypes: _actionTypes.actionTypes
     }));
 
     _initializerDefineProperty(_this, "directoryContacts", _descriptor, _assertThisInitialized(_this));
 
-    _this._client = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, client, 'client');
-    _this._companyContacts = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, companyContacts, 'companyContacts');
+    _this._client = _ensureExist["default"].call(_assertThisInitialized(_this), client, 'client');
+    _this._companyContacts = _ensureExist["default"].call(_assertThisInitialized(_this), companyContacts, 'companyContacts');
+    _this._extensionInfo = extensionInfo;
     _this._ttl = ttl;
     _this._avatarTtl = avatarTtl;
     _this._presenceTtl = presenceTtl;
@@ -238,65 +242,65 @@ var AccountContacts = (_dec = (0, _di.Module)({
             imageUrl,
             response,
             _args = arguments;
-        return regeneratorRuntime.wrap(function _callee$(_context2) {
+        return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context.prev = _context.next) {
               case 0:
                 useCache = _args.length > 1 && _args[1] !== undefined ? _args[1] : true;
 
                 if (!(!contact || !contact.id || contact.type !== 'company' || !contact.hasProfileImage)) {
-                  _context2.next = 3;
+                  _context.next = 3;
                   break;
                 }
 
-                return _context2.abrupt("return", null);
+                return _context.abrupt("return", null);
 
               case 3:
                 imageId = contact.id;
 
                 if (!(useCache && this.profileImages[imageId] && Date.now() - this.profileImages[imageId].timestamp < this._avatarTtl)) {
-                  _context2.next = 7;
+                  _context.next = 7;
                   break;
                 }
 
                 image = this.profileImages[imageId].imageUrl;
-                return _context2.abrupt("return", image);
+                return _context.abrupt("return", image);
 
               case 7:
                 imageUrl = null;
-                _context2.prev = 8;
-                _context2.next = 11;
+                _context.prev = 8;
+                _context.next = 11;
                 return this._client.account(contact.account.id).extension(contact.id).profileImage('195x195').get();
 
               case 11:
-                response = _context2.sent;
-                _context2.t0 = URL;
-                _context2.next = 15;
+                response = _context.sent;
+                _context.t0 = URL;
+                _context.next = 15;
                 return response._response.blob();
 
               case 15:
-                _context2.t1 = _context2.sent;
-                imageUrl = _context2.t0.createObjectURL.call(_context2.t0, _context2.t1);
+                _context.t1 = _context.sent;
+                imageUrl = _context.t0.createObjectURL.call(_context.t0, _context.t1);
                 this.store.dispatch({
                   type: this.actionTypes.fetchImageSuccess,
                   imageId: imageId,
                   imageUrl: imageUrl,
                   ttl: this._avatarTtl
                 });
-                _context2.next = 23;
+                _context.next = 23;
                 break;
 
               case 20:
-                _context2.prev = 20;
-                _context2.t2 = _context2["catch"](8);
-                console.error(_context2.t2);
+                _context.prev = 20;
+                _context.t2 = _context["catch"](8);
+                console.error(_context.t2);
 
               case 23:
-                return _context2.abrupt("return", imageUrl);
+                return _context.abrupt("return", imageUrl);
 
               case 24:
               case "end":
-                return _context2.stop();
+                return _context.stop();
             }
           }
         }, _callee, this, [[8, 20]]);
@@ -357,10 +361,20 @@ var AccountContacts = (_dec = (0, _di.Module)({
   }, {
     key: "matchPhoneNumber",
     value: function matchPhoneNumber(phoneNumber) {
+      var _this$_extensionInfo = this._extensionInfo,
+          isMultipleSiteEnabled = _this$_extensionInfo.isMultipleSiteEnabled,
+          site = _this$_extensionInfo.site;
       return (0, _contactHelper.getMatchContacts)({
-        contacts: this.contacts,
+        contacts: this.contacts.concat(this._companyContacts.ivrContacts),
         phoneNumber: phoneNumber,
-        entityType: 'rcContact'
+        entityType: 'rcContact',
+        findContact: (0, _contactHelper.getFindContact)({
+          phoneNumber: phoneNumber,
+          options: {
+            isMultipleSiteEnabled: isMultipleSiteEnabled,
+            site: site
+          }
+        })
       });
     }
   }, {
@@ -368,18 +382,18 @@ var AccountContacts = (_dec = (0, _di.Module)({
     value: function () {
       var _processQueryPresences2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(getPresenceContexts) {
         var contacts, responses, presenceMap;
-        return regeneratorRuntime.wrap(function _callee2$(_context3) {
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context2.prev = _context2.next) {
               case 0:
                 contacts = getPresenceContexts.map(function (x) {
                   return x.contact;
                 });
-                _context3.next = 3;
+                _context2.next = 3;
                 return this._batchQueryPresences(contacts);
 
               case 3:
-                responses = _context3.sent;
+                responses = _context2.sent;
                 presenceMap = {};
                 getPresenceContexts.forEach(function (ctx) {
                   var response = responses[ctx.contact.id];
@@ -410,7 +424,7 @@ var AccountContacts = (_dec = (0, _di.Module)({
 
               case 7:
               case "end":
-                return _context3.stop();
+                return _context2.stop();
             }
           }
         }, _callee2, this);
@@ -425,11 +439,11 @@ var AccountContacts = (_dec = (0, _di.Module)({
   }, {
     key: "_batchQueryPresences",
     value: function () {
-      var _batchQueryPresences2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(contacts) {
+      var _batchQueryPresences2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(contacts) {
         var _this4 = this;
 
         var presenceSet, accountExtensionMap, batchResponses;
-        return regeneratorRuntime.wrap(function _callee4$(_context5) {
+        return regeneratorRuntime.wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
@@ -445,50 +459,69 @@ var AccountContacts = (_dec = (0, _di.Module)({
                 }, {}, contacts);
                 _context5.next = 5;
                 return Promise.all((0, _ramda.map)( /*#__PURE__*/function () {
-                  var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(accountId) {
+                  var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(accountId) {
                     var ids;
-                    return regeneratorRuntime.wrap(function _callee3$(_context4) {
+                    return regeneratorRuntime.wrap(function _callee4$(_context4) {
                       while (1) {
                         switch (_context4.prev = _context4.next) {
                           case 0:
                             if (!(accountExtensionMap[accountId].length > 1)) {
-                              _context4.next = 8;
+                              _context4.next = 10;
                               break;
                             }
 
                             ids = (0, _ramda.join)(',', accountExtensionMap[accountId]); // extract json data now so the data appears in the same format
                             // as single requests
 
-                            _context4.t0 = _ramda.map;
+                            _context4.t0 = Promise;
+                            _context4.t1 = _ramda.map;
 
-                            _context4.t1 = function (resp) {
-                              return resp.json();
-                            };
+                            _context4.t2 = /*#__PURE__*/function () {
+                              var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(resp) {
+                                return regeneratorRuntime.wrap(function _callee3$(_context3) {
+                                  while (1) {
+                                    switch (_context3.prev = _context3.next) {
+                                      case 0:
+                                        return _context3.abrupt("return", resp.json());
 
-                            _context4.next = 6;
+                                      case 1:
+                                      case "end":
+                                        return _context3.stop();
+                                    }
+                                  }
+                                }, _callee3);
+                              }));
+
+                              return function (_x5) {
+                                return _ref3.apply(this, arguments);
+                              };
+                            }();
+
+                            _context4.next = 7;
                             return (0, _batchApiHelper.batchGetApi)({
                               platform: _this4._client.service.platform(),
-                              url: "/account/".concat(accountId, "/extension/").concat(ids, "/presence")
+                              url: "/restapi/v1.0/account/".concat(accountId, "/extension/").concat(ids, "/presence")
                             });
 
-                          case 6:
-                            _context4.t2 = _context4.sent;
-                            return _context4.abrupt("return", (0, _context4.t0)(_context4.t1, _context4.t2));
-
-                          case 8:
-                            _context4.next = 10;
-                            return _this4._client.account(accountId).extension(accountExtensionMap[accountId][0]).presence().get();
+                          case 7:
+                            _context4.t3 = _context4.sent;
+                            _context4.t4 = (0, _context4.t1)(_context4.t2, _context4.t3);
+                            return _context4.abrupt("return", _context4.t0.all.call(_context4.t0, _context4.t4));
 
                           case 10:
-                            _context4.t3 = _context4.sent;
-                            return _context4.abrupt("return", [_context4.t3]);
+                            _context4.next = 12;
+                            return _this4._client.account(accountId).extension(accountExtensionMap[accountId][0]).presence().get();
 
                           case 12:
+                            _context4.t5 = _context4.sent;
+                            return _context4.abrupt("return", [_context4.t5]);
+
+                          case 14:
                           case "end":
                             return _context4.stop();
                         }
                       }
-                    }, _callee3);
+                    }, _callee4);
                   }));
 
                   return function (_x4) {
@@ -525,7 +558,7 @@ var AccountContacts = (_dec = (0, _di.Module)({
                 return _context5.stop();
             }
           }
-        }, _callee4, null, [[1, 9]]);
+        }, _callee5, null, [[1, 9]]);
       }));
 
       function _batchQueryPresences(_x3) {

@@ -9,7 +9,7 @@ exports.normalizeEventFilter = normalizeEventFilter;
 
 require("core-js/modules/es6.regexp.replace");
 
-var apiUrlPrefixRegex = /^\/restapi\/v[\d]\.[\d]/;
+// const apiUrlPrefixRegex = /^\/restapi\/v[\d]\.[\d]/;
 var accountRegex = /\/account\/[\d]+/;
 var extensionRegex = /\/extension\/[\d]+/;
 var totalActiveCallsRegex = /&totalActiveCalls/;
@@ -22,6 +22,6 @@ var totalActiveCallsRegex = /&totalActiveCalls/;
 
 function normalizeEventFilter() {
   var filter = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
-  return filter.replace(apiUrlPrefixRegex, '').replace(accountRegex, '/account/~').replace(extensionRegex, '/extension/~').replace(totalActiveCallsRegex, '');
+  return filter.replace(accountRegex, '/account/~').replace(extensionRegex, '/extension/~').replace(totalActiveCallsRegex, '');
 }
 //# sourceMappingURL=normalizeEventFilter.js.map

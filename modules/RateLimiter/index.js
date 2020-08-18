@@ -51,7 +51,9 @@ require("regenerator-runtime/runtime");
 
 require("core-js/modules/es6.date.now");
 
-var _ramda = require("ramda");
+require("core-js/modules/es6.number.constructor");
+
+require("core-js/modules/es6.number.parse-int");
 
 var _RcModule2 = _interopRequireDefault(require("../../lib/RcModule"));
 
@@ -173,9 +175,20 @@ var RateLimiter = (_dec = (0, _di.Module)({
       }
     };
 
-    _this._requestErrorHandler = function (apiResponse) {
-      if (!(apiResponse instanceof Error) || apiResponse.message !== 'Request rate exceeded') {
+    _this._requestErrorHandler = function (error) {
+      if (!(error instanceof Error) || error.message !== 'Request rate exceeded') {
         return;
+      } // Get `retry-after` from response headers first
+
+
+      _this._throttleDuration = DEFAULT_THROTTLE_DURATION;
+
+      if (error.response) {
+        var retryAfter = error.response.headers.get('retry-after');
+
+        if (retryAfter) {
+          _this._throttleDuration = 1000 * Number.parseInt(retryAfter, 10);
+        }
       }
 
       var wasThrottling = _this.throttling;
@@ -187,10 +200,8 @@ var RateLimiter = (_dec = (0, _di.Module)({
 
       if (!wasThrottling) {
         _this.showAlert();
-      } // Get `retry-after` from response headers first
+      }
 
-
-      _this._throttleDuration = (0, _ramda.pathOr)(DEFAULT_THROTTLE_DURATION, ['apiResponse', '_response', 'headers', 'retry-after'], apiResponse);
       setTimeout(_this._checkTimestamp, _this._throttleDuration);
     };
 
@@ -291,7 +302,7 @@ var RateLimiter = (_dec = (0, _di.Module)({
         this._unbindHandlers();
       }
 
-      var client = this._client.service.platform().client(); // TODO: Bind the `rateLimitError` event instead
+      var client = this._client.service.client(); // TODO: Bind the `rateLimitError` event instead
 
 
       client.on(client.events.requestError, this._requestErrorHandler);

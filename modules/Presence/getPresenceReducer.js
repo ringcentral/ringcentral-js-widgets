@@ -16,6 +16,7 @@ exports.getActiveCallsReducer = getActiveCallsReducer;
 exports.getTelephonyStatusReducer = getTelephonyStatusReducer;
 exports.getSequenceReducer = getSequenceReducer;
 exports.getDataReducer = getDataReducer;
+exports.removeIntermediateCall = void 0;
 
 require("core-js/modules/es6.object.define-properties");
 
@@ -211,6 +212,7 @@ var removeIntermediateCall = (0, _ramda.reduce)(function (result, activeCall) {
 
   return result;
 });
+exports.removeIntermediateCall = removeIntermediateCall;
 
 function getActiveCallsReducer(types) {
   return function () {
@@ -322,7 +324,8 @@ function getDataReducer(types) {
     telephonyStatus: getTelephonyStatusReducer(types),
     meetingStatus: getMeetingStatusReducer(types),
     activeCalls: getActiveCallsReducer(types),
-    lastDndStatus: getLastNotDisturbDndStatusReducer(types)
+    lastDndStatus: getLastNotDisturbDndStatusReducer(types),
+    sequence: getSequenceReducer(types)
   });
 }
 //# sourceMappingURL=getPresenceReducer.js.map

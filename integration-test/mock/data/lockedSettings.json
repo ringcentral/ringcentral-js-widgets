@@ -1,0 +1,20 @@
+{
+  "scheduleMeeting" : {
+    "startHostVideo" : false,
+    "startParticipantVideo" : false,
+    "audioOptions" : false,
+    "allowJoinBeforeHost" : false,
+    "requirePasswordForSchedulingNewMeetings" : false,
+    "requirePasswordForInstantMeetings" : false,
+    "requirePasswordForPmiMeetings" : false
+  },
+  "recording" : {
+    "localRecording" : false,
+    "cloudRecording" : false,
+    "autoRecording" : false,
+    "cloudRecordingDownload" : false,
+    "hostDeleteCloudRecording" : false,
+    "accountUserAccessRecording" : false,
+    "autoDeleteCmr" : false
+  }
+}

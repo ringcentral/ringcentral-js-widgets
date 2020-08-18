@@ -929,7 +929,7 @@ var CallLog = (_dec = (0, _di.Module)({
         // And the results about `to` and `from` in platform APIs call log sync response is opposite.
         // This is a temporary solution.
         var isOutBoundCompanyNumber = call.from && call.from.phoneNumber && _this4.mainCompanyNumbers.indexOf(call.from.phoneNumber) > -1;
-        var isOutBoundFromSelfExtNumber = call.from && call.from.extensionNumber && call.from.extensionNumber === _this4._extensionInfo.data.extensionNumber;
+        var isOutBoundFromSelfExtNumber = call.from && call.from.extensionNumber && call.from.extensionNumber === _this4._extensionInfo.info.extensionNumber;
 
         if ((0, _callLogHelpers.isOutbound)(call) && (call.action === _callActions["default"].ringOutWeb || call.action === _callActions["default"].ringOutPC || call.action === _callActions["default"].ringOutMobile) && !isOutBoundCompanyNumber && !isOutBoundFromSelfExtNumber) {
           return _objectSpread(_objectSpread({}, call), {}, {

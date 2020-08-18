@@ -5,13 +5,13 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = void 0;
+exports["default"] = exports.sessionStatus = void 0;
 
-var _Enum = _interopRequireDefault(require("../../lib/Enum"));
+var _ObjectMap = require("@ringcentral-integration/core/lib/ObjectMap");
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+var sessionStatus = _ObjectMap.ObjectMap.prefixKeys(['connecting', 'connected', 'onHold', 'onMute', 'replaced', 'finished'], 'webphone-session');
 
-var _default = new _Enum["default"](['connecting', 'connected', 'onHold', 'onMute', 'replaced', 'finished'], 'webphone-session');
-
+exports.sessionStatus = sessionStatus;
+var _default = sessionStatus;
 exports["default"] = _default;
 //# sourceMappingURL=sessionStatus.js.map

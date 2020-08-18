@@ -45,8 +45,6 @@ require("core-js/modules/es6.regexp.to-string");
 
 require("core-js/modules/es6.date.to-string");
 
-require("core-js/modules/es6.object.assign");
-
 require("regenerator-runtime/runtime");
 
 require("core-js/modules/web.dom.iterable");
@@ -210,8 +208,6 @@ var ConferenceCall = (_dec = (0, _di.Module)({
    * @param {Client} params.client - client module instance
    */
   function ConferenceCall(_ref) {
-    var _context;
-
     var _this;
 
     var auth = _ref.auth,
@@ -243,17 +239,17 @@ var ConferenceCall = (_dec = (0, _di.Module)({
     _initializerDefineProperty(_this, "partyProfiles", _descriptor2, _assertThisInitialized(_this));
 
     _this._eventEmitter = new _events["default"]();
-    _this._auth = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, auth, 'auth');
-    _this._alert = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, alert, 'alert');
-    _this._call = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, call, 'call');
+    _this._auth = _ensureExist["default"].call(_assertThisInitialized(_this), auth, 'auth');
+    _this._alert = _ensureExist["default"].call(_assertThisInitialized(_this), alert, 'alert');
+    _this._call = _ensureExist["default"].call(_assertThisInitialized(_this), call, 'call');
     _this._availabilityMonitor = availabilityMonitor;
-    _this._callingSettings = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, callingSettings, 'callingSettings');
-    _this._client = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, client, 'client'); // in order to run the integeration test, we need it to be optional
+    _this._callingSettings = _ensureExist["default"].call(_assertThisInitialized(_this), callingSettings, 'callingSettings');
+    _this._client = _ensureExist["default"].call(_assertThisInitialized(_this), client, 'client'); // in order to run the integeration test, we need it to be optional
 
     _this._webphone = webphone;
     _this._connectivityMonitor = connectivityMonitor;
     _this._contactMatcher = contactMatcher;
-    _this._rolesAndPermissions = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, rolesAndPermissions, 'rolesAndPermissions'); // we need the constructed actions
+    _this._rolesAndPermissions = _ensureExist["default"].call(_assertThisInitialized(_this), rolesAndPermissions, 'rolesAndPermissions'); // we need the constructed actions
 
     _this._reducer = (0, _getConferenceCallReducer["default"])(_this.actionTypes);
     _this._ttl = DEFAULT_TTL;
@@ -297,23 +293,27 @@ var ConferenceCall = (_dec = (0, _di.Module)({
     value: function () {
       var _updateConferenceStatus = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(id) {
         var rawResponse, response, storedconference, conference, sessionId;
-        return regeneratorRuntime.wrap(function _callee$(_context2) {
+        return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context.prev = _context.next) {
               case 0:
                 this.store.dispatch({
                   type: this.actionTypes.updateConference,
                   conference: this.state.conferences[id]
                 });
-                _context2.prev = 1;
-                _context2.next = 4;
-                return this._client.service.platform().get("/account/~/telephony/sessions/".concat(id));
+                _context.prev = 1;
+                _context.next = 4;
+                return this._client.service.platform().get("/restapi/v1.0/account/~/telephony/sessions/".concat(id));
 
               case 4:
-                rawResponse = _context2.sent;
-                response = rawResponse.json();
+                rawResponse = _context.sent;
+                _context.next = 7;
+                return rawResponse.json();
+
+              case 7:
+                response = _context.sent;
                 storedconference = this.state.conferences[response.id];
-                conference = Object.assign({}, storedconference.conference);
+                conference = _objectSpread({}, storedconference.conference);
                 conference.parties = response.parties;
                 sessionId = storedconference.sessionId;
                 this.store.dispatch({
@@ -321,31 +321,31 @@ var ConferenceCall = (_dec = (0, _di.Module)({
                   conference: conference,
                   sessionId: sessionId
                 });
-                _context2.next = 17;
+                _context.next = 19;
                 break;
 
-              case 13:
-                _context2.prev = 13;
-                _context2.t0 = _context2["catch"](1);
+              case 15:
+                _context.prev = 15;
+                _context.t0 = _context["catch"](1);
                 // TODO: alert
                 this.store.dispatch({
                   type: this.actionTypes.updateConferenceFailed,
                   conference: this.state.conferences[id],
-                  message: _context2.t0.toString()
+                  message: _context.t0.toString()
                 }); // need to propagate to out side try...catch block
 
-                throw _context2.t0;
+                throw _context.t0;
 
-              case 17:
-                _context2.prev = 17;
-                return _context2.abrupt("return", this.state.conferences[id]);
+              case 19:
+                _context.prev = 19;
+                return _context.abrupt("return", this.state.conferences[id]);
 
-              case 20:
+              case 22:
               case "end":
-                return _context2.stop();
+                return _context.stop();
             }
           }
-        }, _callee, this, [[1, 13, 17, 20]]);
+        }, _callee, this, [[1, 15, 19, 22]]);
       }));
 
       function updateConferenceStatus(_x) {
@@ -364,19 +364,19 @@ var ConferenceCall = (_dec = (0, _di.Module)({
     value: function () {
       var _terminateConference = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(id) {
         var conferenceData;
-        return regeneratorRuntime.wrap(function _callee2$(_context3) {
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context2.prev = _context2.next) {
               case 0:
                 this.store.dispatch({
                   type: this.actionTypes.terminateConference,
                   conference: this.state.conferences[id]
                 });
                 conferenceData = this.conferences[id];
-                _context3.prev = 2;
+                _context2.prev = 2;
 
                 if (!this._webphone) {
-                  _context3.next = 7;
+                  _context2.next = 7;
                   break;
                 }
 
@@ -384,7 +384,7 @@ var ConferenceCall = (_dec = (0, _di.Module)({
                   this._webphone.hangup(conferenceData.sessionId); // Help server to do the GC, and we don't care the whether it's successful or not
 
 
-                  this._client.service.platform()["delete"]("/account/~/telephony/sessions/".concat(id));
+                  this._client.service.platform()["delete"]("/restapi/v1.0/account/~/telephony/sessions/".concat(id));
 
                   this.store.dispatch({
                     type: this.actionTypes.terminateConferenceSucceeded,
@@ -396,12 +396,12 @@ var ConferenceCall = (_dec = (0, _di.Module)({
                   });
                 }
 
-                _context3.next = 10;
+                _context2.next = 10;
                 break;
 
               case 7:
-                _context3.next = 9;
-                return this._client.service.platform()["delete"]("/account/~/telephony/sessions/".concat(id));
+                _context2.next = 9;
+                return this._client.service.platform()["delete"]("/restapi/v1.0/account/~/telephony/sessions/".concat(id));
 
               case 9:
                 this.store.dispatch({
@@ -410,34 +410,51 @@ var ConferenceCall = (_dec = (0, _di.Module)({
                 });
 
               case 10:
-                _context3.next = 16;
+                _context2.next = 22;
                 break;
 
               case 12:
-                _context3.prev = 12;
-                _context3.t0 = _context3["catch"](2);
+                _context2.prev = 12;
+                _context2.t0 = _context2["catch"](2);
+                _context2.t1 = !this._availabilityMonitor;
 
-                if (!this._availabilityMonitor || !this._availabilityMonitor.checkIfHAError(_context3.t0)) {
-                  this._alert.warning({
-                    message: _conferenceCallErrors["default"].terminateConferenceFailed
-                  });
+                if (_context2.t1) {
+                  _context2.next = 19;
+                  break;
                 }
 
-                this.store.dispatch({
-                  type: this.actionTypes.terminateConferenceFailed,
-                  message: _context3.t0.toString()
-                });
+                _context2.next = 18;
+                return this._availabilityMonitor.checkIfHAError(_context2.t0);
 
-              case 16:
-                _context3.prev = 16;
-                return _context3.abrupt("return", conferenceData);
+              case 18:
+                _context2.t1 = !_context2.sent;
 
               case 19:
+                if (!_context2.t1) {
+                  _context2.next = 21;
+                  break;
+                }
+
+                this._alert.warning({
+                  message: _conferenceCallErrors["default"].terminateConferenceFailed
+                });
+
+              case 21:
+                this.store.dispatch({
+                  type: this.actionTypes.terminateConferenceFailed,
+                  message: _context2.t0.toString()
+                });
+
+              case 22:
+                _context2.prev = 22;
+                return _context2.abrupt("return", conferenceData);
+
+              case 25:
               case "end":
-                return _context3.stop();
+                return _context2.stop();
             }
           }
-        }, _callee2, this, [[2, 12, 16, 19]]);
+        }, _callee2, this, [[2, 12, 22, 25]]);
       }));
 
       function terminateConference(_x2) {
@@ -470,15 +487,15 @@ var ConferenceCall = (_dec = (0, _di.Module)({
             newParties,
             _args3 = arguments;
 
-        return regeneratorRuntime.wrap(function _callee3$(_context4) {
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context3.prev = _context3.next) {
               case 0:
                 propagete = _args3.length > 2 && _args3[2] !== undefined ? _args3[2] : false;
                 conferenceState = this.state.conferences[id];
 
                 if (!(!conferenceState || !this.ready || !webphoneSession || this.isOverload(id) || !this._connectivityMonitor.connectivity)) {
-                  _context4.next = 5;
+                  _context3.next = 5;
                   break;
                 }
 
@@ -487,7 +504,7 @@ var ConferenceCall = (_dec = (0, _di.Module)({
                   ttl: 0
                 });
 
-                return _context4.abrupt("return", null);
+                return _context3.abrupt("return", null);
 
               case 5:
                 sessionId = conferenceState.sessionId;
@@ -497,17 +514,17 @@ var ConferenceCall = (_dec = (0, _di.Module)({
                   conference: conference,
                   sessionId: sessionId
                 });
-                _context4.prev = 8;
+                _context3.prev = 8;
                 partyProfile = this._getProfile(webphoneSession.id);
-                _context4.next = 12;
-                return this._client.service.platform().post("/account/~/telephony/sessions/".concat(id, "/parties/bring-in"), webphoneSession.partyData);
+                _context3.next = 12;
+                return this._client.service.platform().post("/restapi/v1.0/account/~/telephony/sessions/".concat(id, "/parties/bring-in"), webphoneSession.partyData);
 
               case 12:
-                _context4.next = 14;
+                _context3.next = 14;
                 return this.updateConferenceStatus(id);
 
               case 14:
-                newConference = _context4.sent;
+                newConference = _context3.sent;
                 conference = newConference.conference;
 
                 if (partyProfile) {
@@ -522,29 +539,29 @@ var ConferenceCall = (_dec = (0, _di.Module)({
                   sessionId: sessionId,
                   partyProfile: partyProfile
                 });
-                return _context4.abrupt("return", id);
+                return _context3.abrupt("return", id);
 
               case 21:
-                _context4.prev = 21;
-                _context4.t0 = _context4["catch"](8);
+                _context3.prev = 21;
+                _context3.t0 = _context3["catch"](8);
                 this.store.dispatch({
                   type: this.actionTypes.bringInConferenceFailed,
-                  message: _context4.t0.toString()
+                  message: _context3.t0.toString()
                 });
 
                 if (propagete) {
-                  _context4.next = 26;
+                  _context3.next = 26;
                   break;
                 }
 
-                return _context4.abrupt("return", null);
+                return _context3.abrupt("return", null);
 
               case 26:
-                throw _context4.t0;
+                throw _context3.t0;
 
               case 27:
               case "end":
-                return _context4.stop();
+                return _context3.stop();
             }
           }
         }, _callee3, this, [[8, 21]]);
@@ -566,20 +583,20 @@ var ConferenceCall = (_dec = (0, _di.Module)({
     key: "removeFromConference",
     value: function () {
       var _removeFromConference = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(id, partyId) {
-        return regeneratorRuntime.wrap(function _callee4$(_context5) {
+        return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
-            switch (_context5.prev = _context5.next) {
+            switch (_context4.prev = _context4.next) {
               case 0:
                 this.store.dispatch({
                   type: this.actionTypes.removeFromConference,
                   conference: this.state.conferences[id]
                 });
-                _context5.prev = 1;
-                _context5.next = 4;
-                return this._client.service.platform()["delete"]("/account/~/telephony/sessions/".concat(id, "/parties/").concat(partyId));
+                _context4.prev = 1;
+                _context4.next = 4;
+                return this._client.service.platform()["delete"]("/restapi/v1.0/account/~/telephony/sessions/".concat(id, "/parties/").concat(partyId));
 
               case 4:
-                _context5.next = 6;
+                _context4.next = 6;
                 return this.updateConferenceStatus(id);
 
               case 6:
@@ -587,34 +604,51 @@ var ConferenceCall = (_dec = (0, _di.Module)({
                   type: this.actionTypes.removeFromConferenceSucceeded,
                   conference: this.state.conferences[id]
                 });
-                _context5.next = 13;
+                _context4.next = 19;
                 break;
 
               case 9:
-                _context5.prev = 9;
-                _context5.t0 = _context5["catch"](1);
+                _context4.prev = 9;
+                _context4.t0 = _context4["catch"](1);
+                _context4.t1 = !this._availabilityMonitor;
 
-                if (!this._availabilityMonitor || !this._availabilityMonitor.checkIfHAError(_context5.t0)) {
-                  this._alert.warning({
-                    message: _conferenceCallErrors["default"].removeFromConferenceFailed
-                  });
+                if (_context4.t1) {
+                  _context4.next = 16;
+                  break;
                 }
 
-                this.store.dispatch({
-                  type: this.actionTypes.removeFromConferenceFailed,
-                  message: _context5.t0.toString()
-                });
+                _context4.next = 15;
+                return this._availabilityMonitor.checkIfHAError(_context4.t0);
 
-              case 13:
-                _context5.prev = 13;
-                return _context5.abrupt("return", this.state.conferences[id]);
+              case 15:
+                _context4.t1 = !_context4.sent;
 
               case 16:
+                if (!_context4.t1) {
+                  _context4.next = 18;
+                  break;
+                }
+
+                this._alert.warning({
+                  message: _conferenceCallErrors["default"].removeFromConferenceFailed
+                });
+
+              case 18:
+                this.store.dispatch({
+                  type: this.actionTypes.removeFromConferenceFailed,
+                  message: _context4.t0.toString()
+                });
+
+              case 19:
+                _context4.prev = 19;
+                return _context4.abrupt("return", this.state.conferences[id]);
+
+              case 22:
               case "end":
-                return _context5.stop();
+                return _context4.stop();
             }
           }
-        }, _callee4, this, [[1, 9, 13, 16]]);
+        }, _callee4, this, [[1, 9, 19, 22]]);
       }));
 
       function removeFromConference(_x5, _x6) {
@@ -634,14 +668,14 @@ var ConferenceCall = (_dec = (0, _di.Module)({
         var propagate,
             conference,
             _args5 = arguments;
-        return regeneratorRuntime.wrap(function _callee5$(_context6) {
+        return regeneratorRuntime.wrap(function _callee5$(_context5) {
           while (1) {
-            switch (_context6.prev = _context6.next) {
+            switch (_context5.prev = _context5.next) {
               case 0:
                 propagate = _args5.length > 0 && _args5[0] !== undefined ? _args5[0] : false;
 
                 if (!(!this.ready || !this._connectivityMonitor.connectivity)) {
-                  _context6.next = 4;
+                  _context5.next = 4;
                   break;
                 }
 
@@ -650,11 +684,11 @@ var ConferenceCall = (_dec = (0, _di.Module)({
                   ttl: 0
                 });
 
-                return _context6.abrupt("return", null);
+                return _context5.abrupt("return", null);
 
               case 4:
                 if (this._checkPermission()) {
-                  _context6.next = 7;
+                  _context5.next = 7;
                   break;
                 }
 
@@ -665,11 +699,11 @@ var ConferenceCall = (_dec = (0, _di.Module)({
                   });
                 }
 
-                return _context6.abrupt("return", null);
+                return _context5.abrupt("return", null);
 
               case 7:
                 if (!(!this._callingSettings.callingMode === _callingModes["default"].webphone)) {
-                  _context6.next = 10;
+                  _context5.next = 10;
                   break;
                 }
 
@@ -680,19 +714,19 @@ var ConferenceCall = (_dec = (0, _di.Module)({
                   });
                 }
 
-                return _context6.abrupt("return", null);
+                return _context5.abrupt("return", null);
 
               case 10:
-                _context6.next = 12;
+                _context5.next = 12;
                 return this._makeConference(propagate);
 
               case 12:
-                conference = _context6.sent;
-                return _context6.abrupt("return", conference);
+                conference = _context5.sent;
+                return _context5.abrupt("return", conference);
 
               case 14:
               case "end":
-                return _context6.stop();
+                return _context5.stop();
             }
           }
         }, _callee5, this);
@@ -733,9 +767,9 @@ var ConferenceCall = (_dec = (0, _di.Module)({
             pSips,
             conferenceState,
             _args6 = arguments;
-        return regeneratorRuntime.wrap(function _callee6$(_context7) {
+        return regeneratorRuntime.wrap(function _callee6$(_context6) {
           while (1) {
-            switch (_context7.prev = _context7.next) {
+            switch (_context6.prev = _context6.next) {
               case 0:
                 webphoneSessions = _args6.length > 0 && _args6[0] !== undefined ? _args6[0] : [];
                 webphoneSessions = webphoneSessions.filter(function (session) {
@@ -745,7 +779,7 @@ var ConferenceCall = (_dec = (0, _di.Module)({
                 });
 
                 if (webphoneSessions.length) {
-                  _context7.next = 5;
+                  _context6.next = 5;
                   break;
                 }
 
@@ -753,7 +787,7 @@ var ConferenceCall = (_dec = (0, _di.Module)({
                   message: _conferenceCallErrors["default"].bringInFailed
                 });
 
-                return _context7.abrupt("return");
+                return _context6.abrupt("return");
 
               case 5:
                 this.store.dispatch({
@@ -762,7 +796,7 @@ var ConferenceCall = (_dec = (0, _di.Module)({
                 conferenceId = null;
 
                 if (!this._webphone) {
-                  _context7.next = 17;
+                  _context6.next = 17;
                   break;
                 }
 
@@ -793,7 +827,7 @@ var ConferenceCall = (_dec = (0, _di.Module)({
                   });
                   return p;
                 });
-                _context7.next = 14;
+                _context6.next = 14;
                 return Promise.all([this._mergeToConference(webphoneSessions)].concat(_toConsumableArray(pSips))).then(function () {
                   _this3.store.dispatch({
                     type: _this3.actionTypes.mergeSucceeded
@@ -825,28 +859,28 @@ var ConferenceCall = (_dec = (0, _di.Module)({
               case 14:
                 this._webphone.clearSessionCaching();
 
-                _context7.next = 31;
+                _context6.next = 37;
                 break;
 
               case 17:
-                _context7.prev = 17;
-                _context7.next = 20;
+                _context6.prev = 17;
+                _context6.next = 20;
                 return this._mergeToConference(webphoneSessions);
 
               case 20:
-                conferenceId = _context7.sent;
+                conferenceId = _context6.sent;
                 this.store.dispatch({
                   type: this.actionTypes.mergeSucceeded
                 });
 
                 this._eventEmitter.emit(this.actionTypes.mergeSucceeded);
 
-                _context7.next = 30;
+                _context6.next = 36;
                 break;
 
               case 25:
-                _context7.prev = 25;
-                _context7.t0 = _context7["catch"](17);
+                _context6.prev = 25;
+                _context6.t0 = _context6["catch"](17);
                 conferenceState = Object.values(this.conferences)[0];
                 /**
                  * if create conference successfully but failed to bring-in,
@@ -857,22 +891,39 @@ var ConferenceCall = (_dec = (0, _di.Module)({
                   this.terminateConference(conferenceState.conference.id);
                 }
 
-                if (!this._availabilityMonitor || !this._availabilityMonitor.checkIfHAError(_context7.t0)) {
-                  this._alert.warning({
-                    message: _conferenceCallErrors["default"].bringInFailed
-                  });
+                _context6.t1 = !this._availabilityMonitor;
+
+                if (_context6.t1) {
+                  _context6.next = 34;
+                  break;
                 }
 
-              case 30:
+                _context6.next = 33;
+                return this._availabilityMonitor.checkIfHAError(_context6.t0);
+
+              case 33:
+                _context6.t1 = !_context6.sent;
+
+              case 34:
+                if (!_context6.t1) {
+                  _context6.next = 36;
+                  break;
+                }
+
+                this._alert.warning({
+                  message: _conferenceCallErrors["default"].bringInFailed
+                });
+
+              case 36:
                 if (!sipInstances || conferenceId === null) {
                   this.store.dispatch({
                     type: this.actionTypes.mergeFailed
                   });
                 }
 
-              case 31:
+              case 37:
               case "end":
-                return _context7.stop();
+                return _context6.stop();
             }
           }
         }, _callee6, this, [[17, 25]]);
@@ -975,28 +1026,28 @@ var ConferenceCall = (_dec = (0, _di.Module)({
       var _startPollingConferenceStatus = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8(id) {
         var _this4 = this;
 
-        return regeneratorRuntime.wrap(function _callee8$(_context9) {
+        return regeneratorRuntime.wrap(function _callee8$(_context8) {
           while (1) {
-            switch (_context9.prev = _context9.next) {
+            switch (_context8.prev = _context8.next) {
               case 0:
                 if (!(this._timers[id] || !this._pulling)) {
-                  _context9.next = 2;
+                  _context8.next = 2;
                   break;
                 }
 
-                return _context9.abrupt("return");
+                return _context8.abrupt("return");
 
               case 2:
-                _context9.next = 4;
+                _context8.next = 4;
                 return this.updateConferenceStatus(id);
 
               case 4:
                 this._timers[id] = setTimeout( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
-                  return regeneratorRuntime.wrap(function _callee7$(_context8) {
+                  return regeneratorRuntime.wrap(function _callee7$(_context7) {
                     while (1) {
-                      switch (_context8.prev = _context8.next) {
+                      switch (_context7.prev = _context7.next) {
                         case 0:
-                          _context8.next = 2;
+                          _context7.next = 2;
                           return _this4.updateConferenceStatus(id);
 
                         case 2:
@@ -1008,7 +1059,7 @@ var ConferenceCall = (_dec = (0, _di.Module)({
 
                         case 4:
                         case "end":
-                          return _context8.stop();
+                          return _context7.stop();
                       }
                     }
                   }, _callee7);
@@ -1016,7 +1067,7 @@ var ConferenceCall = (_dec = (0, _di.Module)({
 
               case 5:
               case "end":
-                return _context9.stop();
+                return _context8.stop();
             }
           }
         }, _callee8, this);
@@ -1108,9 +1159,9 @@ var ConferenceCall = (_dec = (0, _di.Module)({
     key: "_onStateChange",
     value: function () {
       var _onStateChange2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9() {
-        return regeneratorRuntime.wrap(function _callee9$(_context10) {
+        return regeneratorRuntime.wrap(function _callee9$(_context9) {
           while (1) {
-            switch (_context10.prev = _context10.next) {
+            switch (_context9.prev = _context9.next) {
               case 0:
                 if (this._shouldInit()) {
                   this._init();
@@ -1120,7 +1171,7 @@ var ConferenceCall = (_dec = (0, _di.Module)({
 
               case 1:
               case "end":
-                return _context10.stop();
+                return _context9.stop();
             }
           }
         }, _callee9, this);
@@ -1201,15 +1252,15 @@ var ConferenceCall = (_dec = (0, _di.Module)({
             confereceAccepted,
             _args10 = arguments;
 
-        return regeneratorRuntime.wrap(function _callee10$(_context11) {
+        return regeneratorRuntime.wrap(function _callee10$(_context10) {
           while (1) {
-            switch (_context11.prev = _context11.next) {
+            switch (_context10.prev = _context10.next) {
               case 0:
                 webphoneSessions = _args10.length > 0 && _args10[0] !== undefined ? _args10[0] : [];
                 conferenceState = Object.values(this.conferences)[0];
 
                 if (!conferenceState) {
-                  _context11.next = 26;
+                  _context10.next = 26;
                   break;
                 }
 
@@ -1217,44 +1268,44 @@ var ConferenceCall = (_dec = (0, _di.Module)({
                 this.stopPollingConferenceStatus(conferenceId); // for the sake of participants ordering, we can't concurrently bring in the participants
 
                 _iterator = _createForOfIteratorHelper(webphoneSessions);
-                _context11.prev = 6;
+                _context10.prev = 6;
 
                 _iterator.s();
 
               case 8:
                 if ((_step = _iterator.n()).done) {
-                  _context11.next = 14;
+                  _context10.next = 14;
                   break;
                 }
 
                 webphoneSession = _step.value;
-                _context11.next = 12;
+                _context10.next = 12;
                 return this.bringInToConference(conferenceId, webphoneSession, true);
 
               case 12:
-                _context11.next = 8;
+                _context10.next = 8;
                 break;
 
               case 14:
-                _context11.next = 19;
+                _context10.next = 19;
                 break;
 
               case 16:
-                _context11.prev = 16;
-                _context11.t0 = _context11["catch"](6);
+                _context10.prev = 16;
+                _context10.t0 = _context10["catch"](6);
 
-                _iterator.e(_context11.t0);
+                _iterator.e(_context10.t0);
 
               case 19:
-                _context11.prev = 19;
+                _context10.prev = 19;
 
                 _iterator.f();
 
-                return _context11.finish(19);
+                return _context10.finish(19);
 
               case 22:
                 if (this.conferences[conferenceId].profiles.length) {
-                  _context11.next = 24;
+                  _context10.next = 24;
                   break;
                 }
 
@@ -1262,17 +1313,17 @@ var ConferenceCall = (_dec = (0, _di.Module)({
 
               case 24:
                 this.startPollingConferenceStatus(conferenceId);
-                return _context11.abrupt("return", conferenceId);
+                return _context10.abrupt("return", conferenceId);
 
               case 26:
-                _context11.next = 28;
+                _context10.next = 28;
                 return this.makeConference(true);
 
               case 28:
-                _yield$this$makeConfe = _context11.sent;
+                _yield$this$makeConfe = _context10.sent;
                 id = _yield$this$makeConfe.id;
                 confereceAccepted = false;
-                _context11.next = 33;
+                _context10.next = 33;
                 return Promise.race([new Promise(function (resolve, reject) {
                   var sipSession = _this6._webphone._sessions.get(_this6.conferences[id].sessionId);
 
@@ -1299,15 +1350,15 @@ var ConferenceCall = (_dec = (0, _di.Module)({
                 })]);
 
               case 33:
-                _context11.next = 35;
+                _context10.next = 35;
                 return this._mergeToConference(webphoneSessions);
 
               case 35:
-                return _context11.abrupt("return", id);
+                return _context10.abrupt("return", id);
 
               case 36:
               case "end":
-                return _context11.stop();
+                return _context10.stop();
             }
           }
         }, _callee10, this, [[6, 16, 19, 22]]);
@@ -1330,33 +1381,37 @@ var ConferenceCall = (_dec = (0, _di.Module)({
             phoneNumber,
             session,
             _args11 = arguments;
-        return regeneratorRuntime.wrap(function _callee11$(_context12) {
+        return regeneratorRuntime.wrap(function _callee11$(_context11) {
           while (1) {
-            switch (_context12.prev = _context12.next) {
+            switch (_context11.prev = _context11.next) {
               case 0:
                 propagate = _args11.length > 0 && _args11[0] !== undefined ? _args11[0] : false;
-                _context12.prev = 1;
+                _context11.prev = 1;
                 this.store.dispatch({
                   type: this.actionTypes.makeConference
                 }); // TODO: replace with SDK function chaining calls
 
-                _context12.next = 5;
-                return this._client.service.platform().post('/account/~/telephony/conference', {});
+                _context11.next = 5;
+                return this._client.service.platform().post('/restapi/v1.0/account/~/telephony/conference', {});
 
               case 5:
-                rawResponse = _context12.sent;
-                response = rawResponse.json();
+                rawResponse = _context11.sent;
+                _context11.next = 8;
+                return rawResponse.json();
+
+              case 8:
+                response = _context11.sent;
                 conference = response.session;
                 phoneNumber = conference.voiceCallToken; // whether to mutate the session to mark the conference?
 
-                _context12.next = 11;
+                _context11.next = 13;
                 return this._call.call({
                   phoneNumber: phoneNumber,
                   isConference: true
                 });
 
-              case 11:
-                session = _context12.sent;
+              case 13:
+                session = _context11.sent;
 
                 if (_typeof(session) === 'object' && Object.prototype.toString.call(session.on).toLowerCase() === '[object function]') {
                   this._hookConference(conference, session);
@@ -1373,18 +1428,31 @@ var ConferenceCall = (_dec = (0, _di.Module)({
                   });
                 }
 
-                return _context12.abrupt("return", conference);
+                return _context11.abrupt("return", conference);
 
-              case 16:
-                _context12.prev = 16;
-                _context12.t0 = _context12["catch"](1);
+              case 18:
+                _context11.prev = 18;
+                _context11.t0 = _context11["catch"](1);
                 this.store.dispatch({
                   type: this.actionTypes.makeConferenceFailed,
-                  message: _context12.t0.toString()
+                  message: _context11.t0.toString()
                 });
+                _context11.t1 = !propagate || !this._availabilityMonitor;
 
-                if (!(!propagate || !this._availabilityMonitor || !this._availabilityMonitor.checkIfHAError(_context12.t0))) {
-                  _context12.next = 22;
+                if (_context11.t1) {
+                  _context11.next = 26;
+                  break;
+                }
+
+                _context11.next = 25;
+                return this._availabilityMonitor.checkIfHAError(_context11.t0);
+
+              case 25:
+                _context11.t1 = !_context11.sent;
+
+              case 26:
+                if (!_context11.t1) {
+                  _context11.next = 29;
                   break;
                 }
 
@@ -1392,17 +1460,17 @@ var ConferenceCall = (_dec = (0, _di.Module)({
                   message: _conferenceCallErrors["default"].makeConferenceFailed
                 });
 
-                return _context12.abrupt("return", null);
+                return _context11.abrupt("return", null);
 
-              case 22:
-                throw _context12.t0;
+              case 29:
+                throw _context11.t0;
 
-              case 23:
+              case 30:
               case "end":
-                return _context12.stop();
+                return _context11.stop();
             }
           }
-        }, _callee11, this, [[1, 16]]);
+        }, _callee11, this, [[1, 18]]);
       }));
 
       function _makeConference() {
@@ -1456,9 +1524,9 @@ var ConferenceCall = (_dec = (0, _di.Module)({
 
         var sessionId, sessionIdToMergeWith, session, sessionToMergeWith, webphoneSessions, _i, _webphoneSessions, _session, conferenceState, conferenceSession;
 
-        return regeneratorRuntime.wrap(function _callee12$(_context13) {
+        return regeneratorRuntime.wrap(function _callee12$(_context12) {
           while (1) {
-            switch (_context13.prev = _context13.next) {
+            switch (_context12.prev = _context12.next) {
               case 0:
                 sessionId = _ref5.sessionId, sessionIdToMergeWith = _ref5.sessionIdToMergeWith;
                 session = (0, _ramda.find)(function (x) {
@@ -1472,29 +1540,29 @@ var ConferenceCall = (_dec = (0, _di.Module)({
 
               case 5:
                 if (!(_i < _webphoneSessions.length)) {
-                  _context13.next = 12;
+                  _context12.next = 12;
                   break;
                 }
 
                 _session = _webphoneSessions[_i];
 
                 if (this.validateCallRecording(_session)) {
-                  _context13.next = 9;
+                  _context12.next = 9;
                   break;
                 }
 
-                return _context13.abrupt("return", null);
+                return _context12.abrupt("return", null);
 
               case 9:
                 _i++;
-                _context13.next = 5;
+                _context12.next = 5;
                 break;
 
               case 12:
                 conferenceState = Object.values(this.conferences)[0];
 
                 if (!conferenceState) {
-                  _context13.next = 17;
+                  _context12.next = 17;
                   break;
                 }
 
@@ -1503,21 +1571,21 @@ var ConferenceCall = (_dec = (0, _di.Module)({
                 }, this._webphone.sessions);
 
                 if (this.validateCallRecording(conferenceSession)) {
-                  _context13.next = 17;
+                  _context12.next = 17;
                   break;
                 }
 
-                return _context13.abrupt("return", null);
+                return _context12.abrupt("return", null);
 
               case 17:
-                return _context13.abrupt("return", {
+                return _context12.abrupt("return", {
                   session: session,
                   sessionToMergeWith: sessionToMergeWith
                 });
 
               case 18:
               case "end":
-                return _context13.stop();
+                return _context12.stop();
             }
           }
         }, _callee12, this);
@@ -1534,31 +1602,31 @@ var ConferenceCall = (_dec = (0, _di.Module)({
     value: function () {
       var _mergeSessions = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee13(_ref6) {
         var session, sessionToMergeWith, webphoneSessions, conferenceData, currentConferenceSession, isCurrentConferenceOnhold;
-        return regeneratorRuntime.wrap(function _callee13$(_context14) {
+        return regeneratorRuntime.wrap(function _callee13$(_context13) {
           while (1) {
-            switch (_context14.prev = _context14.next) {
+            switch (_context13.prev = _context13.next) {
               case 0:
                 session = _ref6.session, sessionToMergeWith = _ref6.sessionToMergeWith;
                 this.setMergeParty({
                   toSessionId: session.id
                 });
                 webphoneSessions = sessionToMergeWith ? [sessionToMergeWith, session] : [session];
-                _context14.next = 5;
+                _context13.next = 5;
                 return this.mergeToConference(webphoneSessions);
 
               case 5:
                 conferenceData = Object.values(this.conferences)[0];
 
                 if (conferenceData) {
-                  _context14.next = 10;
+                  _context13.next = 10;
                   break;
                 }
 
-                _context14.next = 9;
+                _context13.next = 9;
                 return this._webphone.resume(session.id);
 
               case 9:
-                return _context14.abrupt("return", null);
+                return _context13.abrupt("return", null);
 
               case 10:
                 currentConferenceSession = (0, _ramda.find)(function (x) {
@@ -1570,11 +1638,11 @@ var ConferenceCall = (_dec = (0, _di.Module)({
                   this._webphone.resume(conferenceData.sessionId);
                 }
 
-                return _context14.abrupt("return", conferenceData);
+                return _context13.abrupt("return", conferenceData);
 
               case 14:
               case "end":
-                return _context14.stop();
+                return _context13.stop();
             }
           }
         }, _callee13, this);

@@ -190,8 +190,6 @@ _dec = (0, _di.Module)({
    * @param {ContactMatcher} params.contactMatcher - contactMatcher module instance
    */
   function CallHistory(_ref) {
-    var _context;
-
     var _this;
 
     var accountInfo = _ref.accountInfo,
@@ -218,8 +216,8 @@ _dec = (0, _di.Module)({
 
     _initializerDefineProperty(_this, "sessionIds", _descriptor5, _assertThisInitialized(_this));
 
-    _this._accountInfo = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, accountInfo, 'accountInfo');
-    _this._callLog = (_context = _assertThisInitialized(_this), _ensureExist["default"]).call(_context, callLog, 'callLog');
+    _this._accountInfo = _ensureExist["default"].call(_assertThisInitialized(_this), accountInfo, 'accountInfo');
+    _this._callLog = _ensureExist["default"].call(_assertThisInitialized(_this), callLog, 'callLog');
     _this._storage = storage;
     _this._activityMatcher = activityMatcher;
     _this._contactMatcher = contactMatcher;
@@ -280,9 +278,9 @@ _dec = (0, _di.Module)({
     key: "_onStateChange",
     value: function () {
       var _onStateChange2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-        return regeneratorRuntime.wrap(function _callee$(_context2) {
+        return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context.prev = _context.next) {
               case 0:
                 if (this._shouldInit()) {
                   this._initModuleStatus();
@@ -294,7 +292,7 @@ _dec = (0, _di.Module)({
 
               case 1:
               case "end":
-                return _context2.stop();
+                return _context.stop();
             }
           }
         }, _callee, this);
