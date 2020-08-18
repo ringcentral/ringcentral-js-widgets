@@ -423,10 +423,11 @@ export class Meeting extends RcModule<Record<string, any>, MeetingActionTypes> {
       requirePasswordForPmiMeetings: lockedRequirePasswordForPmiMeetings,
     } = this.scheduleLockedSettings;
 
-    if (requirePasswordForPmiMeetings === PMIRequirePassword.JBH_ONLY) {
-      if (lockedRequirePasswordForPmiMeetings) {
-        processedMeeting._lockRequireMeetingPassword = allowJoinBeforeHost;
-      }
+    if (
+      lockedRequirePasswordForPmiMeetings &&
+      requirePasswordForPmiMeetings === PMIRequirePassword.JBH_ONLY
+    ) {
+      processedMeeting._lockRequireMeetingPassword = allowJoinBeforeHost;
       if (allowJoinBeforeHost) {
         processedMeeting._requireMeetingPassword = true;
       }
@@ -437,8 +438,11 @@ export class Meeting extends RcModule<Record<string, any>, MeetingActionTypes> {
 
   @proxify
   private async fetchPersonalMeeting(): Promise<MeetingInfoResponse> {
-    const serviceInfo = await this.getMeetingServiceInfo();
-    const personalMeetingId = serviceInfo.externalUserInfo.personalMeetingId;
+    let personalMeetingId = this.personalMeeting && this.personalMeeting.id;
+    if (!personalMeetingId) {
+      const serviceInfo = await this.getMeetingServiceInfo();
+      personalMeetingId = serviceInfo.externalUserInfo.personalMeetingId;
+    }
     const meetingInfoResponse = await this.getMeeting(personalMeetingId);
     return meetingInfoResponse;
   }
