@@ -1,5 +1,6 @@
 import React, { DOMAttributes, FunctionComponent } from 'react';
 
+import classNames from 'classnames';
 import { CallIcon } from '../CallIcon';
 import { CallSubject } from '../CallSubject';
 import { FollowInfo } from '../FollowInfo';
@@ -10,6 +11,7 @@ export type BasicCallInfoMainProps = {
   subject: string;
   isInbound: boolean;
   followInfos?: string[];
+  className?: string;
 };
 export const BasicCallInfoMain: FunctionComponent<BasicCallInfoMainProps> = ({
   onClick,
@@ -17,9 +19,10 @@ export const BasicCallInfoMain: FunctionComponent<BasicCallInfoMainProps> = ({
   isInbound,
   subject,
   followInfos,
+  className,
 }) => {
   return (
-    <div onClick={onClick} className={styles.root}>
+    <div onClick={onClick} className={classNames(styles.root, className)}>
       <CallIcon isInbound={isInbound} />
       <div className={styles.mainInfo}>
         <CallSubject subject={subject} />

@@ -77,25 +77,30 @@ function mapToProps(_, _ref) {
       enableContactFallback = _ref$enableContactFal === void 0 ? false : _ref$enableContactFal,
       _ref$showGroupNumberN = _ref.showGroupNumberName,
       showGroupNumberName = _ref$showGroupNumberN === void 0 ? false : _ref$showGroupNumberN,
+      _ref$supportAttachmen = _ref.supportAttachment,
+      supportAttachment = _ref$supportAttachmen === void 0 ? false : _ref$supportAttachmen,
       _ref$perPage = _ref.perPage,
       perPage = _ref$perPage === void 0 ? 20 : _ref$perPage,
       inputExpandable = _ref.inputExpandable;
   var disableLinks = rateLimiter.isThrottling || !connectivityMonitor.connectivity;
   var showSpinner = !(dateTimeFormat.ready && (!contactMatcher || contactMatcher.ready) && regionSettings.ready && conversations.ready && rateLimiter.ready && connectivityMonitor.ready && (!conversationLogger || conversationLogger.ready));
   var currentConversation = conversations.currentConversation;
+  var hasInputContent = conversations.messageText.length > 0 || conversations.attachments && conversations.attachments.length > 0;
   return {
     brand: brand.fullName,
     enableContactFallback: enableContactFallback,
     showGroupNumberName: showGroupNumberName,
+    supportAttachment: supportAttachment,
     currentLocale: locale.currentLocale,
     conversationId: params.conversationId,
-    sendButtonDisabled: conversations.pushing || disableLinks || conversations.messageText.length === 0 || showSpinner,
+    sendButtonDisabled: conversations.pushing || disableLinks || !hasInputContent || showSpinner,
     areaCode: regionSettings.areaCode,
     countryCode: regionSettings.countryCode,
     showSpinner: showSpinner,
     recipients: currentConversation.recipients,
     messages: currentConversation.messages,
     messageText: conversations.messageText,
+    attachments: conversations.attachments,
     conversation: currentConversation,
     disableLinks: disableLinks,
     autoLog: !!(conversationLogger && conversationLogger.autoLog),
@@ -175,6 +180,12 @@ function mapToFunctions(_, _ref2) {
     },
     updateMessageText: function updateMessageText(text) {
       return conversations.updateMessageText(text);
+    },
+    addAttachment: function addAttachment(attachment) {
+      return conversations.addAttachment(attachment);
+    },
+    removeAttachment: function removeAttachment(attachment) {
+      return conversations.removeAttachment(attachment);
     },
     dateTimeFormatter: dateTimeFormatter,
     formatPhone: function formatPhone(phoneNumber) {

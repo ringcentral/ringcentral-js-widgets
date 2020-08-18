@@ -9,6 +9,8 @@ exports.AlertRenderer = AlertRenderer;
 
 require("core-js/modules/es6.object.assign");
 
+require("core-js/modules/es6.function.name");
+
 var _react = _interopRequireDefault(require("react"));
 
 var _AudioSettingsAlert = _interopRequireDefault(require("./AudioSettingsAlert"));
@@ -86,7 +88,8 @@ routerInteraction) {
     if (_CallingSettingsAlert["default"].handleMessage(message)) {
       return function (props) {
         return /*#__PURE__*/_react["default"].createElement(_CallingSettingsAlert["default"], _extends({}, props, {
-          brand: brand.fullName,
+          brandCode: brand.code,
+          brandName: brand.name,
           onCallingSettingsLinkClick: onCallingSettingsLinkClick
         }));
       };

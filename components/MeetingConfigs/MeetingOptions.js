@@ -48,7 +48,8 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 var MeetingOptions = function MeetingOptions(_ref) {
-  var currentLocale = _ref.currentLocale,
+  var disabled = _ref.disabled,
+      currentLocale = _ref.currentLocale,
       meeting = _ref.meeting,
       update = _ref.update,
       that = _ref.that,
@@ -69,6 +70,7 @@ var MeetingOptions = function MeetingOptions(_ref) {
   }, /*#__PURE__*/_react["default"].createElement("span", {
     className: (0, _classnames["default"])(_styles["default"].labelLight, _styles["default"].defaultShrink)
   }, _i18n["default"].getString('requirePassword', currentLocale)), /*#__PURE__*/_react["default"].createElement(_Switch["default"], {
+    disable: disabled,
     checked: meeting._requireMeetingPassword || !!meeting.password,
     onChange: function onChange(_requireMeetingPassword) {
       if (_requireMeetingPassword) {
@@ -89,6 +91,7 @@ var MeetingOptions = function MeetingOptions(_ref) {
     className: _styles["default"].labelLight
   }, _i18n["default"].getString('password', currentLocale)), /*#__PURE__*/_react["default"].createElement("input", {
     type: "text",
+    disabled: disabled,
     placeholder: passwordPlaceholder,
     className: _styles["default"].password,
     ref: function ref(_ref3) {
@@ -104,12 +107,14 @@ var MeetingOptions = function MeetingOptions(_ref) {
         }));
       }
     },
-    "data-sign": "requirePasswordInput"
+    "data-sign": "requirePasswordInput",
+    spellCheck: false
   })) : null, /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])(_styles["default"].spaceBetween, _styles["default"].fixTopMargin)
   }, /*#__PURE__*/_react["default"].createElement("span", {
     className: (0, _classnames["default"])(_styles["default"].labelLight, _styles["default"].defaultShrink)
   }, _i18n["default"].getString('enableJoinBeforeHost', currentLocale)), /*#__PURE__*/_react["default"].createElement(_Switch["default"], {
+    disable: disabled,
     checked: meeting.allowJoinBeforeHost,
     onChange: function onChange(allowJoinBeforeHost) {
       update(_objectSpread(_objectSpread({}, meeting), {}, {

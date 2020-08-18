@@ -43,7 +43,7 @@ var _messageTypes = _interopRequireDefault(require("ringcentral-integration/enum
 
 var _Header = require("../Header");
 
-var _SpinnerOverlay = _interopRequireDefault(require("../SpinnerOverlay"));
+var _SpinnerOverlay = require("../SpinnerOverlay");
 
 var _MessageTabButton = _interopRequireDefault(require("../MessageTabButton"));
 
@@ -238,7 +238,7 @@ var ConversationsPanel = /*#__PURE__*/function (_Component) {
           onFaxDownload = _this$props.onFaxDownload;
 
       if (showSpinner) {
-        return /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay["default"], null);
+        return /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay.SpinnerOverlay, null);
       }
 
       var placeholder = onSearchInputChange && searchInput.length > 0 ? _i18n["default"].getString('noSearchResults', currentLocale) : _i18n["default"].getString('noMessages', currentLocale);

@@ -43,7 +43,7 @@ var _ActiveCallPanel = _interopRequireDefault(require("../ActiveCallPanel"));
 
 var _ConfirmMergeModal = _interopRequireDefault(require("../ConfirmMergeModal"));
 
-var _SpinnerOverlay = _interopRequireDefault(require("../SpinnerOverlay"));
+var _SpinnerOverlay = require("../SpinnerOverlay");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -290,7 +290,7 @@ var CallCtrlPanel = /*#__PURE__*/function (_Component) {
         actions: actions,
         controlBusy: controlBusy,
         callQueueName: callQueueName
-      }, children, showSpinner ? /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay["default"], null) : null, layout === _callCtrlLayouts["default"].normalCtrl ? /*#__PURE__*/_react["default"].createElement(_ConfirmMergeModal["default"], {
+      }, children, showSpinner ? /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay.SpinnerOverlay, null) : null, layout === _callCtrlLayouts["default"].normalCtrl ? /*#__PURE__*/_react["default"].createElement(_ConfirmMergeModal["default"], {
         currentLocale: currentLocale,
         show: isShowMergeConfirm,
         onMerge: this.confirmMerge,

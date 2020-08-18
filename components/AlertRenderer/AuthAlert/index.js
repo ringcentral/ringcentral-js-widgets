@@ -7,9 +7,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = AuthAlert;
 
-var _react = _interopRequireDefault(require("react"));
-
 var _propTypes = _interopRequireDefault(require("prop-types"));
+
+var _ramda = require("ramda");
+
+var _react = _interopRequireDefault(require("react"));
 
 var _authMessages = _interopRequireDefault(require("ringcentral-integration/modules/Auth/authMessages"));
 
@@ -32,6 +34,6 @@ AuthAlert.propTypes = {
 
 AuthAlert.handleMessage = function (_ref) {
   var message = _ref.message;
-  return message === _authMessages["default"].accessDenied || message === _authMessages["default"].internalError || message === _authMessages["default"].sessionExpired;
+  return (0, _ramda.contains)(message, [_authMessages["default"].accessDenied, _authMessages["default"].internalError, _authMessages["default"].sessionExpired, _authMessages["default"].beforeLogoutError, _authMessages["default"].logoutError]);
 };
 //# sourceMappingURL=index.js.map

@@ -8,17 +8,17 @@ Object.defineProperty(exports, "__esModule", {
 exports["default"] = void 0;
 var _default = {
   logging: "Logging...",
-  logCall: "Log Call",
-  editLog: "Edit Log",
+  logCall: "Log call",
+  editLog: "Edit log",
   select: "Select matching",
-  OnHold: "On Hold",
+  OnHold: "On hold",
   Ringing: "Ringing",
-  CallConnected: "Call Connected",
-  unknownUser: "Unknown User",
+  CallConnected: "Call connected",
+  unknownUser: "Unknown user",
   unknownNumber: "Anonymous",
   unavailable: "Unavailable",
-  viewDetails: "View Details",
-  conferenceCall: "Conference Call"
+  viewDetails: "View details",
+  conferenceCall: "Conference call"
 }; // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
 // @key: @#@"logCall"@#@ @source: @#@"Log Call"@#@
 // @key: @#@"editLog"@#@ @source: @#@"Edit Log"@#@

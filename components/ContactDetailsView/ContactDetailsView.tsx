@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import SpinnerOverlay from '../SpinnerOverlay';
+import { SpinnerOverlay } from '../SpinnerOverlay';
 import BackHeader from '../BackHeader';
 import Panel from '../Panel';
 
@@ -11,13 +11,13 @@ import {
   ContactDetailsViewProps,
 } from './ContactDetailsView.interface';
 
-export const ContactDetailsView: FunctionComponent<
-  ContactDetailsViewFunctionProps & ContactDetailsViewProps
-> = ({
+export const ContactDetailsView: FunctionComponent<ContactDetailsViewFunctionProps &
+  ContactDetailsViewProps> = ({
   //
   children,
   contact,
   currentLocale,
+  isMultipleSiteEnabled,
   isClickToDialEnabled,
   isCallButtonDisabled,
   isClickToTextEnabled,
@@ -41,6 +41,7 @@ export const ContactDetailsView: FunctionComponent<
       contact={contact}
       onClickToSMS={onClickToSMS}
       onClickToDial={onClickToDial}
+      isMultipleSiteEnabled={isMultipleSiteEnabled}
       isClickToDialEnabled={isClickToDialEnabled}
       isCallButtonDisabled={isCallButtonDisabled}
       isClickToTextEnabled={isClickToTextEnabled}

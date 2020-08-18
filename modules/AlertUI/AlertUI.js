@@ -45,7 +45,7 @@ var _AlertRenderer = require("../../components/AlertRenderer");
 
 var _RcUIModule2 = _interopRequireDefault(require("../../lib/RcUIModule"));
 
-var _dec, _class;
+var _dec, _class, _temp;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -84,42 +84,61 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 var AlertUI = (_dec = (0, _di.Module)({
   name: 'AlertUI',
   deps: ['Brand', 'Alert', 'Locale', 'RouterInteraction', 'RateLimiter']
-}), _dec(_class = /*#__PURE__*/function (_RcUIModule) {
+}), _dec(_class = (_temp = /*#__PURE__*/function (_RcUIModule) {
   _inherits(AlertUI, _RcUIModule);
 
   var _super = _createSuper(AlertUI);
 
-  function AlertUI() {
+  function AlertUI(_ref) {
+    var _this;
+
+    var locale = _ref.locale,
+        brand = _ref.brand,
+        alert = _ref.alert,
+        routerInteraction = _ref.routerInteraction,
+        rateLimiter = _ref.rateLimiter,
+        options = _objectWithoutProperties(_ref, ["locale", "brand", "alert", "routerInteraction", "rateLimiter"]);
+
     _classCallCheck(this, AlertUI);
 
-    return _super.apply(this, arguments);
+    _this = _super.call(this, _objectSpread({
+      locale: locale,
+      brand: brand,
+      alert: alert,
+      routerInteraction: routerInteraction,
+      rateLimiter: rateLimiter
+    }, options));
+    _this._locale = void 0;
+    _this._brand = void 0;
+    _this._alert = void 0;
+    _this._routerInteraction = void 0;
+    _this._rateLimiter = void 0;
+    _this._locale = locale;
+    _this._brand = brand;
+    _this._alert = alert;
+    _this._routerInteraction = routerInteraction;
+    _this._rateLimiter = rateLimiter;
+    return _this;
   }
 
   _createClass(AlertUI, [{
     key: "getUIProps",
-    value: function getUIProps(_ref) {
-      var _ref$phone = _ref.phone,
-          locale = _ref$phone.locale,
-          brand = _ref$phone.brand,
-          alert = _ref$phone.alert;
+    value: function getUIProps() {
       return {
-        currentLocale: locale.currentLocale,
-        messages: alert.messages,
-        brand: brand.fullName
+        currentLocale: this._locale.currentLocale,
+        messages: this._alert.messages,
+        brand: this._brand.fullName
       };
     }
   }, {
     key: "getUIFunctions",
     value: function getUIFunctions(_ref2) {
-      var _ref2$phone = _ref2.phone,
-          alert = _ref2$phone.alert,
-          brand = _ref2$phone.brand,
-          routerInteraction = _ref2$phone.routerInteraction,
-          rateLimiter = _ref2$phone.rateLimiter,
-          getAdditionalRenderer = _ref2.getAdditionalRenderer,
+      var _this2 = this;
+
+      var getAdditionalRenderer = _ref2.getAdditionalRenderer,
           regionSettingsUrl = _ref2.regionSettingsUrl,
           callingSettingsUrl = _ref2.callingSettingsUrl,
-          rest = _objectWithoutProperties(_ref2, ["phone", "getAdditionalRenderer", "regionSettingsUrl", "callingSettingsUrl"]);
+          rest = _objectWithoutProperties(_ref2, ["getAdditionalRenderer", "regionSettingsUrl", "callingSettingsUrl"]);
 
       return _objectSpread({
         getRenderer: function getRenderer(messageObject) {
@@ -128,16 +147,16 @@ var AlertUI = (_dec = (0, _di.Module)({
             if (renderer) return renderer;
           }
 
-          return (0, _AlertRenderer.AlertRenderer)(alert, brand, rateLimiter, routerInteraction, regionSettingsUrl, callingSettingsUrl)(messageObject);
+          return (0, _AlertRenderer.AlertRenderer)(_this2._alert, _this2._brand, _this2._rateLimiter, _this2._routerInteraction, regionSettingsUrl, callingSettingsUrl)(messageObject);
         },
         dismiss: function dismiss(id) {
-          return alert.dismiss(id);
+          return _this2._alert.dismiss(id);
         }
       }, rest);
     }
   }]);
 
   return AlertUI;
-}(_RcUIModule2["default"])) || _class);
+}(_RcUIModule2["default"]), _temp)) || _class);
 exports["default"] = AlertUI;
 //# sourceMappingURL=AlertUI.js.map

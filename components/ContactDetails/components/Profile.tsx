@@ -79,16 +79,18 @@ const Name: FunctionComponent<NameProps> = ({ presence, inactive, name }) => {
 export interface ProfileProps extends sourceNodeRenderer {
   contact: ContactModel;
   currentLocale: string;
+  isMultipleSiteEnabled: boolean;
 }
 
 export const Profile: FunctionComponent<ProfileProps> = ({
-  contact: { name, presence, profileImageUrl, status, type },
+  contact: { name, presence, profileImageUrl, status, site, type },
   sourceNodeRenderer,
   currentLocale,
+  isMultipleSiteEnabled,
 }) => {
   const inactive = status === extensionStatusTypes.notActivated;
   return (
-    <div className={styles.profile}>
+    <section className={styles.profile} aria-label="profile">
       <div className={styles.profileWrapper}>
         <Avatar
           name={name}
@@ -105,7 +107,15 @@ export const Profile: FunctionComponent<ProfileProps> = ({
           />
         </div>
       </div>
-    </div>
+      {isMultipleSiteEnabled && site?.name && (
+        <div className={styles.site} aria-label={`Site: ${site.name}`}>
+          <span className={styles.label}>
+            {i18n.getString('site', currentLocale)}
+          </span>
+          <span className={styles.content}>{site.name}</span>
+        </div>
+      )}
+    </section>
   );
 };
 Profile.defaultProps = {

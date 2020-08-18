@@ -17,19 +17,33 @@ require("core-js/modules/es6.regexp.to-string");
 
 require("core-js/modules/es6.date.to-string");
 
-require("core-js/modules/es6.object.to-string");
-
 require("core-js/modules/es6.reflect.construct");
 
 require("core-js/modules/es6.object.set-prototype-of");
 
 require("core-js/modules/es6.array.for-each");
 
+require("core-js/modules/es6.array.filter");
+
+require("core-js/modules/es6.promise");
+
+require("core-js/modules/web.dom.iterable");
+
+require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.object.to-string");
+
+require("core-js/modules/es6.string.iterator");
+
+require("core-js/modules/es6.regexp.split");
+
+require("core-js/modules/es6.array.map");
+
+require("regenerator-runtime/runtime");
+
 var _module = _interopRequireDefault(require("ringcentral-integration/lib/di/decorators/module"));
 
 var _formatNumber = _interopRequireDefault(require("ringcentral-integration/lib/formatNumber"));
-
-var _detect = _interopRequireDefault(require("@ringcentral-integration/phone-number/lib/detect"));
 
 var _RcUIModule2 = _interopRequireDefault(require("../../lib/RcUIModule"));
 
@@ -38,6 +52,10 @@ var _dec, _class;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -85,11 +103,13 @@ var ComposeTextUI = (_dec = (0, _module["default"])({
           rateLimiter = _ref$phone.rateLimiter,
           rolesAndPermissions = _ref$phone.rolesAndPermissions,
           contactSearch = _ref$phone.contactSearch,
-          inputExpandable = _ref.inputExpandable;
+          inputExpandable = _ref.inputExpandable,
+          supportAttachment = _ref.supportAttachment;
+      var isContentEmpty = composeText.messageText.length === 0 && (!composeText.attachments || composeText.attachments.length === 0);
       return {
         brand: brand.fullName,
         currentLocale: locale.currentLocale,
-        sendButtonDisabled: !(composeText.ready && messageSender.idle) || composeText.messageText.length === 0 || composeText.toNumbers.length === 0 && composeText.typingToNumber.length === 0 || !connectivityMonitor.connectivity || rateLimiter.throttling,
+        sendButtonDisabled: !(composeText.ready && messageSender.idle) || isContentEmpty || composeText.toNumbers.length === 0 && composeText.typingToNumber.length === 0 || !connectivityMonitor.connectivity || rateLimiter.throttling,
         senderNumbers: messageSender.senderNumbersList,
         senderNumber: composeText.senderNumber,
         typingToNumber: composeText.typingToNumber,
@@ -98,7 +118,9 @@ var ComposeTextUI = (_dec = (0, _module["default"])({
         outboundSMS: rolesAndPermissions.permissions.OutboundSMS,
         searchContactList: contactSearch.sortedResult,
         showSpinner: !(composeText.ready && locale.ready && messageSender.ready && rolesAndPermissions.ready && contactSearch.ready),
-        inputExpandable: inputExpandable
+        inputExpandable: inputExpandable,
+        attachments: composeText.attachments,
+        supportAttachment: supportAttachment
       };
     }
   }, {
@@ -174,30 +196,68 @@ var ComposeTextUI = (_dec = (0, _module["default"])({
         formatPhone: formatContactPhone,
         formatContactPhone: formatContactPhone,
         detectPhoneNumbers: function detectPhoneNumbers(input) {
-          var detectedNumbers = (0, _detect["default"])({
-            input: input,
-            countryCode: regionSettings.countryCode,
-            areaCode: regionSettings.areaCode
-          });
+          return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+            var promises, results, detectedNumbers;
+            return regeneratorRuntime.wrap(function _callee2$(_context2) {
+              while (1) {
+                switch (_context2.prev = _context2.next) {
+                  case 0:
+                    promises = input.split(/,\s*/g).map( /*#__PURE__*/function () {
+                      var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(item) {
+                        var isValid;
+                        return regeneratorRuntime.wrap(function _callee$(_context) {
+                          while (1) {
+                            switch (_context.prev = _context.next) {
+                              case 0:
+                                _context.next = 2;
+                                return composeText.validatePhoneNumber(item);
 
-          if (detectedNumbers.length) {
-            detectedNumbers.forEach(function (item) {
-              composeText.addToNumber({
-                phoneNumber: item.phoneNumber
-              });
-            });
-            return true;
-          }
+                              case 2:
+                                isValid = _context.sent;
+                                return _context.abrupt("return", isValid ? item : undefined);
 
-          return false;
+                              case 4:
+                              case "end":
+                                return _context.stop();
+                            }
+                          }
+                        }, _callee);
+                      }));
+
+                      return function (_x) {
+                        return _ref3.apply(this, arguments);
+                      };
+                    }());
+                    _context2.next = 3;
+                    return Promise.all(promises);
+
+                  case 3:
+                    results = _context2.sent;
+                    detectedNumbers = results.filter(function (item) {
+                      return !!item;
+                    });
+                    detectedNumbers.forEach(function (phoneNumber) {
+                      composeText.addToNumber({
+                        phoneNumber: phoneNumber
+                      });
+                    });
+                    return _context2.abrupt("return", detectedNumbers.length > 0);
+
+                  case 7:
+                  case "end":
+                    return _context2.stop();
+                }
+              }
+            }, _callee2);
+          }))();
         },
         searchContact: function searchContact(searchString) {
           return contactSearch.debouncedSearch({
             searchString: searchString
           });
         },
-        updateSenderNumber: function updateSenderNumber(_ref3) {
-          var phoneNumber = _ref3.phoneNumber;
+        updateSenderNumber: function updateSenderNumber(_ref4) {
+          var phoneNumber = _ref4.phoneNumber;
           return composeText.updateSenderNumber(phoneNumber);
         },
         updateTypingToNumber: function updateTypingToNumber() {
@@ -218,7 +278,13 @@ var ComposeTextUI = (_dec = (0, _module["default"])({
         phoneTypeRenderer: phoneTypeRenderer,
         phoneSourceNameRenderer: phoneSourceNameRenderer,
         recipientsContactInfoRenderer: recipientsContactInfoRenderer,
-        recipientsContactPhoneRenderer: recipientsContactPhoneRenderer
+        recipientsContactPhoneRenderer: recipientsContactPhoneRenderer,
+        addAttachment: function addAttachment() {
+          return composeText.addAttachment.apply(composeText, arguments);
+        },
+        removeAttachment: function removeAttachment() {
+          return composeText.removeAttachment.apply(composeText, arguments);
+        }
       };
     }
   }]);

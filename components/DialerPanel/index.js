@@ -37,7 +37,7 @@ var _RecipientsInputV = require("../RecipientsInputV2");
 
 var _FromField = _interopRequireDefault(require("../FromField"));
 
-var _SpinnerOverlay = _interopRequireDefault(require("../SpinnerOverlay"));
+var _SpinnerOverlay = require("../SpinnerOverlay");
 
 var _CircleButton = _interopRequireDefault(require("../CircleButton"));
 
@@ -165,7 +165,7 @@ function DialerPanel(_ref) {
     disabled: callButtonDisabled,
     icon: _Answer["default"],
     showBorder: false
-  })))), showSpinner ? /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay["default"], null) : null, children);
+  })))), showSpinner ? /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay.SpinnerOverlay, null) : null, children);
 }
 
 DialerPanel.propTypes = {

@@ -131,7 +131,8 @@ var CallLogPanel = /*#__PURE__*/function (_Component) {
     value: function renderLogSection() {
       var _this$props = this.props,
           currentLog = _this$props.currentLog,
-          renderEditLogSection = _this$props.renderEditLogSection;
+          renderEditLogSection = _this$props.renderEditLogSection,
+          editSection = _this$props.classes.editSection;
       if (!currentLog) return null;
       var showSpinner = this.props.showSpinner;
 
@@ -143,12 +144,12 @@ var CallLogPanel = /*#__PURE__*/function (_Component) {
 
       return /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, this.renderLogNotification(), this.renderLogBasicInfo(), /*#__PURE__*/_react["default"].createElement("div", {
         ref: this.editSectionRef,
-        className: _styles["default"].editSection
-      }, renderEditLogSection && this.getEditLogSection()), this.genCallControlButtons());
+        className: (0, _classnames["default"])(_styles["default"].editSection, editSection)
+      }, renderEditLogSection && this.getEditLogSection()), this.getCallControlButtons());
     }
   }, {
-    key: "genCallControlButtons",
-    value: function genCallControlButtons() {
+    key: "getCallControlButtons",
+    value: function getCallControlButtons() {
       var _this$props2 = this.props,
           currentLog = _this$props2.currentLog,
           _this$props2$classes$ = _this$props2.classes.callLogCallControl,
@@ -158,10 +159,10 @@ var CallLogPanel = /*#__PURE__*/function (_Component) {
           isWide = _this$props2.isWide,
           showSmallCallControl = _this$props2.showSmallCallControl;
       var call = currentLog.call;
-      var telephonyStatus = call.telephonyStatus,
-          result = call.result,
-          telephonySessionId = call.telephonySessionId;
-      var status = telephonyStatus || result; // if `result` is exist, call has been disconnect
+      var result = call.result,
+          telephonySessionId = call.telephonySessionId,
+          webphoneSession = call.webphoneSession;
+      var isCurrentDeviceCall = !!webphoneSession; // if `result` is exist, call has been disconnect
       // 'showSmallCallControl || isActive' can be replaced with 'showSmallCallControl'
       // which include showSmallCallControl permission and isActive judgement(eg: canShowSmallCallControl && isActive) on UI module in the future
       // Then we can remove the logic from component to UI module like 'engage-voice-widget/modules/EvActivityCallUI/EvActivityCallUI'
@@ -172,7 +173,7 @@ var CallLogPanel = /*#__PURE__*/function (_Component) {
         return /*#__PURE__*/_react["default"].createElement("div", {
           ref: callLogCallControlRef,
           className: (0, _classnames["default"])(_styles["default"].callControlRoot, callLogCallControl)
-        }, renderCallLogCallControl && renderCallLogCallControl(status, telephonySessionId, isWide));
+        }, renderCallLogCallControl && renderCallLogCallControl(telephonySessionId, isWide, isCurrentDeviceCall));
       }
 
       return null;
@@ -221,7 +222,8 @@ var CallLogPanel = /*#__PURE__*/function (_Component) {
           currentLocale = _this$props4.currentLocale,
           formatPhone = _this$props4.formatPhone,
           dateTimeFormatter = _this$props4.dateTimeFormatter,
-          renderBasicInfo = _this$props4.renderBasicInfo;
+          renderBasicInfo = _this$props4.renderBasicInfo,
+          logBasicInfo = _this$props4.classes.logBasicInfo;
 
       if (renderBasicInfo) {
         return renderBasicInfo({
@@ -237,7 +239,8 @@ var CallLogPanel = /*#__PURE__*/function (_Component) {
         currentLog: currentLog,
         currentLocale: currentLocale,
         formatPhone: formatPhone,
-        dateTimeFormatter: dateTimeFormatter
+        dateTimeFormatter: dateTimeFormatter,
+        className: logBasicInfo
       });
     }
   }, {
@@ -278,8 +281,9 @@ var CallLogPanel = /*#__PURE__*/function (_Component) {
           disableLinks = _this$props6.disableLinks,
           useNewNotification = _this$props6.useNewNotification,
           showNotiLogButton = _this$props6.showNotiLogButton;
+      var showNotification = logNotification.showNotification;
 
-      if (!currentNotificationIdentify) {
+      if (!showNotification) {
         return null;
       }
 
@@ -331,7 +335,9 @@ var CallLogPanel = /*#__PURE__*/function (_Component) {
       var _this$props7 = this.props,
           currentIdentify = _this$props7.currentIdentify,
           currentLocale = _this$props7.currentLocale,
-          root = _this$props7.classes.root,
+          _this$props7$classes = _this$props7.classes,
+          root = _this$props7$classes.root,
+          backHeader = _this$props7$classes.backHeader,
           rootRef = _this$props7.refs.root,
           backIcon = _this$props7.backIcon,
           header = _this$props7.header,
@@ -348,7 +354,7 @@ var CallLogPanel = /*#__PURE__*/function (_Component) {
         isWide: isWide,
         rightIcon: this.genSaveLogButtonV2(),
         title: _i18n["default"].getString('createCallLog', currentLocale),
-        className: _styles["default"].header,
+        className: (0, _classnames["default"])(_styles["default"].header, backHeader),
         onBackClick: function onBackClick() {
           return _this2.goBack();
         }
@@ -385,6 +391,12 @@ CallLogPanel.defaultProps = {
   useNewNotification: false,
   contactSearch: null,
   showFoundFromServer: false,
-  isSearching: false
+  isSearching: false,
+  logNotification: {
+    showNotification: false,
+    call: null,
+    logName: null,
+    notificationIsExpand: false
+  }
 };
 //# sourceMappingURL=CallLogPanel.js.map

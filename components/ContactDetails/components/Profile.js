@@ -76,12 +76,15 @@ var Profile = function Profile(_ref3) {
       presence = _ref3$contact.presence,
       profileImageUrl = _ref3$contact.profileImageUrl,
       status = _ref3$contact.status,
+      site = _ref3$contact.site,
       type = _ref3$contact.type,
       sourceNodeRenderer = _ref3.sourceNodeRenderer,
-      currentLocale = _ref3.currentLocale;
+      currentLocale = _ref3.currentLocale,
+      isMultipleSiteEnabled = _ref3.isMultipleSiteEnabled;
   var inactive = status === _extensionStatusTypes.extensionStatusTypes.notActivated;
-  return /*#__PURE__*/_react["default"].createElement("div", {
-    className: _styles["default"].profile
+  return /*#__PURE__*/_react["default"].createElement("section", {
+    className: _styles["default"].profile,
+    "aria-label": "profile"
   }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].profileWrapper
   }, /*#__PURE__*/_react["default"].createElement(_Avatar.Avatar, {
@@ -101,7 +104,14 @@ var Profile = function Profile(_ref3) {
     inactive: inactive,
     presence: presence,
     currentLocale: currentLocale
-  }))));
+  }))), isMultipleSiteEnabled && (site === null || site === void 0 ? void 0 : site.name) && /*#__PURE__*/_react["default"].createElement("div", {
+    className: _styles["default"].site,
+    "aria-label": "Site: ".concat(site.name)
+  }, /*#__PURE__*/_react["default"].createElement("span", {
+    className: _styles["default"].label
+  }, _i18n["default"].getString('site', currentLocale)), /*#__PURE__*/_react["default"].createElement("span", {
+    className: _styles["default"].content
+  }, site.name)));
 };
 
 exports.Profile = Profile;

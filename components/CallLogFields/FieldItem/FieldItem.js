@@ -184,7 +184,9 @@ var FieldItem = /*#__PURE__*/function (_Component) {
           disableReason = _referenceFieldOption3 === void 0 ? '' : _referenceFieldOption3,
           currentOptionFinder = referenceFieldOption.currentOptionFinder,
           _searchOptionFinder = referenceFieldOption.searchOptionFinder,
-          foundFromServerEntityGetter = referenceFieldOption.foundFromServerEntityGetter;
+          foundFromServerEntityGetter = referenceFieldOption.foundFromServerEntityGetter,
+          onBackClick = referenceFieldOption.onBackClick,
+          backHeaderClassName = referenceFieldOption.backHeaderClassName;
       var matchedEntities = matchedEntitiesGetter(currentLog);
       var otherEntities = otherEntitiesGetter(currentLog);
       var foundFromServerEntities = typeof foundFromServerEntityGetter === 'function' ? foundFromServerEntityGetter(currentLog) : [];
@@ -198,6 +200,8 @@ var FieldItem = /*#__PURE__*/function (_Component) {
       var rightIcon = rightIconRender ? rightIconRender(phoneNumber) : undefined;
       var currentValue = getLabel(currentOption, matchedEntities.length, currentLog) || '';
       return /*#__PURE__*/_react["default"].createElement(_FullSelectField.FullSelectField, _extends({}, _this.props, {
+        backHeaderClassName: backHeaderClassName,
+        onBackClick: onBackClick,
         title: title,
         rightIcon: rightIcon,
         placeholder: metadata.placeholder,
@@ -355,12 +359,15 @@ var FieldItem = /*#__PURE__*/function (_Component) {
           subjectDropdownsTracker = _this$props6.subjectDropdownsTracker,
           timeout = _this$props6.timeout;
       var _this$props7 = _this.props,
-          required = _this$props7.fieldOption.required,
+          _this$props7$fieldOpt = _this$props7.fieldOption,
+          required = _this$props7$fieldOpt.required,
+          label = _this$props7$fieldOpt.label,
           onSave = _this$props7.onSave;
       return /*#__PURE__*/_react["default"].createElement(_InputSelect["default"], {
         required: required,
         subjectPicklist: subjectPicklist,
         subject: task.subject || '',
+        label: label,
         onChange: _this.onInputSelectChange('subject'),
         onSelectOption: subjectDropdownsTracker,
         onSave: onSave,

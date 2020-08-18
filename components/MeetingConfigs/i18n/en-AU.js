@@ -24,11 +24,11 @@ var _default = {
   password: "Password",
   enableJoinBeforeHost: "Enable joining before host",
   telephonyOnly: "Telephony only",
-  hostVideoOn: "Host Video On",
-  participantVideoOn: "Participant Video On",
+  hostVideoOn: "Host video on",
+  participantVideoOn: "Participant video on",
   recurringEvery: "Every",
-  recurrenceType: "Recurrence Type",
-  recurrenceEndDate: "End Date",
+  recurrenceType: "Recurrence type",
+  recurrenceEndDate: "End date",
   currentLocale: "Day(s)"
 }; // @key: @#@"topic"@#@ @source: @#@"Topic"@#@
 // @key: @#@"when"@#@ @source: @#@"When"@#@

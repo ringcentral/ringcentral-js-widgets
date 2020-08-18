@@ -3,22 +3,34 @@ import 'react-widgets/dist/css/react-widgets.css';
 import Moment from 'moment';
 import React, { Component } from 'react';
 import momentLocalizer from 'react-widgets-moment';
+import {
+  isRecurringMeeting,
+  MeetingTypeV,
+  RcMMeetingModel,
+  MeetingType,
+} from 'ringcentral-integration/modules/Meeting';
 
 import i18n from './i18n';
+import { MeetingDate } from './MeetingDate';
 import { MeetingDuration as Duration } from './MeetingDuration';
+import { MeetingIdSection } from './MeetingIdSection';
 import { MeetingOptions } from './MeetingOptions';
+import { Topic } from './MeetingTopic';
 import { RecurringOptions as RecurringMeeting } from './RecurringOptions';
 import styles from './styles.scss';
-import { Topic } from './MeetingTopic';
 import { AudioOptions, Video } from './VideoAudioOptions';
-import { MeetingDate } from './MeetingDate';
 
 interface MeetingConfigsProps {
+  disabled: boolean;
+  openNewWindow: boolean;
+  personalMeetingId: string;
+  switchUsePersonalMeetingId: (usePersonalMeetingId: boolean) => any;
   update: (...args: any[]) => any;
   init: (...args: any[]) => any;
-  meeting: object;
+  meeting: RcMMeetingModel;
   currentLocale: string;
   recipientsSection?: React.ReactNode;
+  showTopic?: boolean;
   showWhen?: boolean;
   showDuration?: boolean;
   showRecurringMeeting?: boolean;
@@ -28,9 +40,17 @@ interface MeetingConfigsProps {
   useTimePicker?: boolean;
 }
 
-class MeetingConfig extends Component<MeetingConfigsProps, {}> {
+interface MeetingConfigsState {
+  isChangePmiConfirmed: boolean;
+}
+
+class MeetingConfig extends Component<
+  MeetingConfigsProps,
+  MeetingConfigsState
+> {
   static defaultProps = {
     recipientsSection: undefined,
+    showTopic: true,
     showWhen: true,
     showDuration: true,
     showRecurringMeeting: true,
@@ -40,23 +60,33 @@ class MeetingConfig extends Component<MeetingConfigsProps, {}> {
     useTimePicker: false,
   };
 
-  constructor(...args) {
-    super(...args);
-    this.props.init();
-    this.state = {};
-    Moment.locale(this.props.currentLocale);
+  hours: any;
+  minutes: any;
+  topic: any;
 
+  constructor(args: MeetingConfigsProps) {
+    super(args);
+    const { init, currentLocale } = this.props;
+    init();
+    this.state = {
+      isChangePmiConfirmed: false,
+    };
+    Moment.locale(currentLocale);
     momentLocalizer();
   }
 
   componentDidMount() {
+    const { meeting, showWhen } = this.props;
     setTimeout(() => {
-      this.displayFormat(this.props.meeting.schedule.startTime);
+      if (showWhen) {
+        this.displayFormat(meeting.schedule.startTime);
+      }
     });
   }
 
-  displayFormat(startTime) {
-    const isAMPM = this.props.useTimePicker ? 'hh' : 'HH';
+  displayFormat(startTime: Date) {
+    const { useTimePicker } = this.props;
+    const isAMPM = useTimePicker ? 'hh' : 'HH';
     if (this.hours) {
       this.hours.value = Moment(startTime).format(isAMPM);
     }
@@ -65,8 +95,9 @@ class MeetingConfig extends Component<MeetingConfigsProps, {}> {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (this.props.meeting.topic !== nextProps.meeting.topic) {
+  UNSAFE_componentWillReceiveProps(nextProps: MeetingConfigsProps) {
+    const { meeting } = this.props;
+    if (meeting.topic !== nextProps.meeting.topic) {
       setTimeout(() => {
         if (!this.topic) return;
         const selectionStart = this.topic.selectionStart;
@@ -76,21 +107,26 @@ class MeetingConfig extends Component<MeetingConfigsProps, {}> {
       });
     }
     if (
-      this.props.meeting.schedule &&
+      meeting.schedule &&
       nextProps.meeting.schedule &&
-      this.props.meeting.schedule.startTime !==
-        nextProps.meeting.schedule.startTime
+      meeting.schedule.startTime !== nextProps.meeting.schedule.startTime
     ) {
       this.displayFormat(nextProps.meeting.schedule.startTime);
     }
   }
 
+  handlePmiConfirmed = (isChangePmiConfirmed: boolean) => {
+    this.setState({ isChangePmiConfirmed });
+  };
+
   render() {
+    const { isChangePmiConfirmed } = this.state;
     const {
       update,
       meeting,
       currentLocale,
       recipientsSection,
+      showTopic,
       showWhen,
       showDuration,
       showRecurringMeeting,
@@ -98,10 +134,17 @@ class MeetingConfig extends Component<MeetingConfigsProps, {}> {
       passwordPlaceholderEnable,
       audioOptionToggle,
       useTimePicker,
+      personalMeetingId,
+      switchUsePersonalMeetingId,
     } = this.props;
+
+    const isOptionDisabled =
+      meeting.usePersonalMeetingId && !isChangePmiConfirmed;
+
     if (!Object.keys(meeting).length) {
       return null;
     }
+
     const onToggle = (type) => {
       const isToggle = !this[`${type}Blur`];
       if (isToggle) {
@@ -113,9 +156,7 @@ class MeetingConfig extends Component<MeetingConfigsProps, {}> {
         }
       }
     };
-    const isRecurring =
-      meeting.meetingType === 'Recurring' ||
-      meeting.meetingType === 'ScheduledRecurring';
+    const isRecurring = isRecurringMeeting(meeting.meetingType);
     const telephonyOnly = i18n.getString('telephonyOnly', currentLocale);
     const voIPOnly = i18n.getString('voIPOnly', currentLocale);
     const both = i18n.getString('both', currentLocale);
@@ -137,18 +178,31 @@ class MeetingConfig extends Component<MeetingConfigsProps, {}> {
     if (
       meeting.schedule &&
       meeting.schedule.startTime &&
-      new Date(meeting.schedule.startTime) < +new Date()
+      +new Date(meeting.schedule.startTime) < +new Date()
     ) {
       minTime = { min: new Date() };
     }
+
     return (
       <div className={styles.scroll}>
-        <Topic
-          that={this}
-          meeting={meeting}
-          update={update}
-          currentLocale={currentLocale}
-        />
+        {showTopic ? (
+          <Topic
+            that={this}
+            meeting={meeting}
+            update={update}
+            currentLocale={currentLocale}
+          />
+        ) : null}
+        {personalMeetingId ? (
+          <MeetingIdSection
+            personalMeetingId={personalMeetingId}
+            currentLocale={currentLocale}
+            meeting={meeting}
+            switchUsePersonalMeetingId={switchUsePersonalMeetingId}
+            handlePmiConfirmed={this.handlePmiConfirmed}
+            isChangePmiConfirmed={isChangePmiConfirmed}
+          />
+        ) : null}
         {recipientsSection}
         {showWhen ? (
           <MeetingDate
@@ -182,6 +236,7 @@ class MeetingConfig extends Component<MeetingConfigsProps, {}> {
           currentLocale={currentLocale}
           meeting={meeting}
           update={update}
+          disabled={isOptionDisabled}
         />
         <AudioOptions
           data={AUDIO_OPTIONS}
@@ -189,6 +244,7 @@ class MeetingConfig extends Component<MeetingConfigsProps, {}> {
           meeting={meeting}
           update={update}
           audioOptionToggle={audioOptionToggle}
+          disabled={isOptionDisabled}
         />
         <MeetingOptions
           currentLocale={currentLocale}
@@ -197,6 +253,7 @@ class MeetingConfig extends Component<MeetingConfigsProps, {}> {
           update={update}
           meetingOptionToggle={meetingOptionToggle}
           passwordPlaceholderEnable={passwordPlaceholderEnable}
+          disabled={isOptionDisabled}
         />
       </div>
     );

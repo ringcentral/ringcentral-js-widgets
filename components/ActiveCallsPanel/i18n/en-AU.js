@@ -8,14 +8,14 @@ Object.defineProperty(exports, "__esModule", {
 exports["default"] = void 0;
 var _default = {
   noActiveCalls: "No active calls",
-  currentCall: "Current Call",
-  ringCall: "Ringing Call",
-  onHoldCall: "Call on Hold",
+  currentCall: "Current call",
+  ringCall: "Ringing call",
+  onHoldCall: "Call on hold",
   otherDeviceCall: "Ongoing calls on my other devices",
   confirmation: "Confirmation",
   confirmMergeToConference: "Add to conference call?",
   mergeToConference: "Merge",
-  conferenceCall: "Conference Call"
+  conferenceCall: "Conference call"
 }; // @key: @#@"noActiveCalls"@#@ @source: @#@"No active calls"@#@
 // @key: @#@"currentCall"@#@ @source: @#@"Current Call"@#@
 // @key: @#@"ringCall"@#@ @source: @#@"Ringing Call"@#@

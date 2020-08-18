@@ -29,7 +29,13 @@ var _default = {
   recurringEvery: 'Every',
   recurrenceType: 'Recurrence Type',
   recurrenceEndDate: 'End Date',
-  currentLocale: 'Day(s)'
+  currentLocale: 'Day(s)',
+  meetingId: 'Meeting ID',
+  generateAutomatically: 'Generate Automatically',
+  usePmi: 'Personal Meeting ID (PMI): {meetingId}',
+  pmiChangeConfirm: 'If you want to make changes for your personal meeting, ',
+  changePmiSettings: 'change PMI settings',
+  pmiSettingChangeAlert: 'If you change the settings and schedule this meeting, all of meetings with Personal Meeting ID will use the same latest settings.'
 };
 exports["default"] = _default;
 //# sourceMappingURL=en-US.js.map

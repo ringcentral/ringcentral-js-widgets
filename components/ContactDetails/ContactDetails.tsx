@@ -23,6 +23,7 @@ interface ContactDetailsProps
   currentLocale: string;
   contact: ContactModel;
   disableLinks: boolean;
+  isMultipleSiteEnabled: boolean;
   isCallButtonDisabled: boolean;
   isClickToDialEnabled: boolean;
   isClickToTextEnabled: boolean;
@@ -35,6 +36,7 @@ export const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
   currentLocale,
   onClickMailTo,
   disableLinks,
+  isMultipleSiteEnabled,
   isCallButtonDisabled,
   isClickToDialEnabled,
   isClickToTextEnabled,
@@ -46,11 +48,12 @@ export const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
   sourceNodeRenderer,
 }) => {
   return (
-    <div className={styles.root}>
+    <div className={styles.root} role="main">
       <Profile
         contact={contact}
         sourceNodeRenderer={sourceNodeRenderer}
         currentLocale={currentLocale}
+        isMultipleSiteEnabled={isMultipleSiteEnabled}
       />
       <CompanyInfo
         company={contact.company}
@@ -64,6 +67,7 @@ export const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
         isClickToDialEnabled={isClickToDialEnabled}
         isCallButtonDisabled={isCallButtonDisabled}
         isClickToTextEnabled={isClickToTextEnabled}
+        isMultipleSiteEnabled={isMultipleSiteEnabled}
         formatNumber={formatNumber}
         internalSmsPermission={internalSmsPermission}
         onClickToDial={onClickToDial}

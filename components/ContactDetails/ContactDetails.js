@@ -26,6 +26,7 @@ var ContactDetails = function ContactDetails(_ref) {
       currentLocale = _ref.currentLocale,
       onClickMailTo = _ref.onClickMailTo,
       disableLinks = _ref.disableLinks,
+      isMultipleSiteEnabled = _ref.isMultipleSiteEnabled,
       isCallButtonDisabled = _ref.isCallButtonDisabled,
       isClickToDialEnabled = _ref.isClickToDialEnabled,
       isClickToTextEnabled = _ref.isClickToTextEnabled,
@@ -36,11 +37,13 @@ var ContactDetails = function ContactDetails(_ref) {
       outboundSmsPermission = _ref.outboundSmsPermission,
       sourceNodeRenderer = _ref.sourceNodeRenderer;
   return /*#__PURE__*/_react["default"].createElement("div", {
-    className: _styles["default"].root
+    className: _styles["default"].root,
+    role: "main"
   }, /*#__PURE__*/_react["default"].createElement(_Profile.Profile, {
     contact: contact,
     sourceNodeRenderer: sourceNodeRenderer,
-    currentLocale: currentLocale
+    currentLocale: currentLocale,
+    isMultipleSiteEnabled: isMultipleSiteEnabled
   }), /*#__PURE__*/_react["default"].createElement(_CompanyInfo.CompanyInfo, {
     company: contact.company,
     currentLocale: currentLocale,
@@ -52,6 +55,7 @@ var ContactDetails = function ContactDetails(_ref) {
     isClickToDialEnabled: isClickToDialEnabled,
     isCallButtonDisabled: isCallButtonDisabled,
     isClickToTextEnabled: isClickToTextEnabled,
+    isMultipleSiteEnabled: isMultipleSiteEnabled,
     formatNumber: formatNumber,
     internalSmsPermission: internalSmsPermission,
     onClickToDial: onClickToDial,

@@ -134,7 +134,8 @@ var InputSelect = /*#__PURE__*/function (_Component) {
             onSelectOption();
           }
 
-          onChange(_this.state.subject).then(function () {
+          var subject = _this.state.subject;
+          onChange(subject).then(function () {
             return onSave();
           });
         }, 0);
@@ -174,8 +175,8 @@ var InputSelect = /*#__PURE__*/function (_Component) {
   }
 
   _createClass(InputSelect, [{
-    key: "componentWillReceiveProps",
-    value: function componentWillReceiveProps(nextProps) {
+    key: "UNSAFE_componentWillReceiveProps",
+    value: function UNSAFE_componentWillReceiveProps(nextProps) {
       this.checkPropsUpdate(nextProps, 'subject');
     }
   }, {
@@ -190,7 +191,8 @@ var InputSelect = /*#__PURE__*/function (_Component) {
 
       var _this$props2 = this.props,
           subjectPicklist = _this$props2.subjectPicklist,
-          required = _this$props2.required;
+          required = _this$props2.required,
+          label = _this$props2.label;
       var _this$state$subject = this.state.subject,
           subject = _this$state$subject === void 0 ? '' : _this$state$subject;
       var hasError = required && subject.trim() === '';
@@ -200,7 +202,7 @@ var InputSelect = /*#__PURE__*/function (_Component) {
           _this2.wrapper = _ref;
         }
       }, /*#__PURE__*/_react["default"].createElement(_rcui.RcTextField, {
-        label: "Subject",
+        label: label || 'Subject',
         "data-sign": "subject",
         title: subject,
         fullWidth: true,
@@ -236,7 +238,8 @@ var InputSelect = /*#__PURE__*/function (_Component) {
         subject: subject
       }, function () {
         _this3.debounce(function () {
-          onChange(_this3.state.subject).then(function () {
+          var subject = _this3.state.subject;
+          onChange(subject).then(function () {
             _this3.debounce(function () {
               return onSave();
             }, timeout - time);

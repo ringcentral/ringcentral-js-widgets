@@ -19,6 +19,9 @@ interface CallLogPanelConfig {
 type CallLogPanelGroup<T> = {
   root?: T;
   callLogCallControl?: T;
+  backHeader?: T;
+  logBasicInfo?: T;
+  editSection?: T;
 };
 
 export interface CallLogPanelProps extends CallLogPanelConfig {
@@ -67,9 +70,9 @@ export interface CallLogPanelProps extends CallLogPanelConfig {
   ) => JSX.Element;
 
   renderCallLogCallControl?: (
-    status: boolean,
     telephonySessionId: string,
     isWide: boolean,
+    isCurrentDeviceCall: boolean,
   ) => JSX.Element;
 
   backIcon?: RcIconProps['symbol'];

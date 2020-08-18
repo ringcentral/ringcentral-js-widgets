@@ -1,1 +1,1 @@
-{"version":3,"sources":["lib/toolTipDelayTime.ts"],"names":["TOOLTIP_DEFAULT_DELAY_TIME"],"mappings":";;;;;;;;AAAA;AACO,IAAMA,0BAA0B,GAAG,IAAnC","sourcesContent":["// the delay time of text tooltip\nexport const TOOLTIP_DEFAULT_DELAY_TIME = 1000;\n"],"file":"toolTipDelayTime.js"}
+{"version":3,"sources":["lib/toolTipDelayTime.ts"],"names":["TOOLTIP_LONG_DELAY_TIME"],"mappings":";;;;;;;;AAAA;AACO,IAAMA,uBAAuB,GAAG,IAAhC","sourcesContent":["// the delay time of text tooltip\nexport const TOOLTIP_LONG_DELAY_TIME = 1000;\n"],"file":"toolTipDelayTime.js"}

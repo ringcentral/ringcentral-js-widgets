@@ -77,29 +77,25 @@ var SelectList = function SelectList(props) {
       appName = props.appName,
       children = props.children,
       disabled = props.disabled,
+      _onChange = props.onChange,
+      autoClose = props.autoClose,
       otherTitle = props.otherTitle,
+      onBackClick = props.onBackClick,
       matchedTitle = props.matchedTitle,
       currentLocale = props.currentLocale,
-      associatedTitle = props.associatedTitle,
-      sourceValue = props.value,
-      backHeaderClassName = props.backHeaderClassName,
-      foundFromServerTitle = props.foundFromServerTitle,
-      showFoundFromServer = props.showFoundFromServer,
-      _onChange = props.onChange,
       valueFunction = props.valueFunction,
       renderFunction = props.renderFunction,
       startAdornment = props.startAdornment,
-      onSelectViewVisible = props.onSelectViewVisible;
+      associatedTitle = props.associatedTitle,
+      sourceValue = props.value,
+      backHeaderClassName = props.backHeaderClassName,
+      onSelectViewVisible = props.onSelectViewVisible,
+      foundFromServerTitle = props.foundFromServerTitle;
 
   var _useState = (0, _react.useState)(false),
       _useState2 = _slicedToArray(_useState, 2),
       open = _useState2[0],
       setOpen = _useState2[1];
-
-  var _useState3 = (0, _react.useState)(true),
-      _useState4 = _slicedToArray(_useState3, 2),
-      showSearchFromServerHint = _useState4[0],
-      setShowSearchFromServerHint = _useState4[1];
 
   (0, _react.useEffect)(function () {
     onSelectViewVisible(open, field);
@@ -115,7 +111,13 @@ var SelectList = function SelectList(props) {
           document.activeElement.blur();
         }
 
-        _onChange(value);
+        _onChange(value); // auto close select section after selected a value
+
+
+        if (autoClose) {
+          setOpen(false);
+          onBackClick();
+        }
       },
       renderFunction: renderFunction,
       valueFunction: valueFunction,
@@ -140,10 +142,6 @@ var SelectList = function SelectList(props) {
       }
 
       setOpen(true);
-
-      if (showFoundFromServer) {
-        setShowSearchFromServerHint(true);
-      }
     }
   }, children), /*#__PURE__*/_react["default"].createElement(SelectListBasicWithScrollCheck, _extends({}, props, {
     matchedTitle: matchedTitle || _i18n["default"].getString('matched', currentLocale),
@@ -155,9 +153,7 @@ var SelectList = function SelectList(props) {
     renderListView: renderListView,
     open: open,
     setOpen: setOpen,
-    backHeaderClassName: backHeaderClassName,
-    showSearchFromServerHint: showSearchFromServerHint,
-    setShowSearchFromServerHint: setShowSearchFromServerHint
+    backHeaderClassName: backHeaderClassName
   })));
 };
 
@@ -183,6 +179,8 @@ SelectList.defaultProps = {
   appName: null,
   showFoundFromServer: false,
   foundFromServerTitle: null,
-  foundFromServerEntities: []
+  foundFromServerEntities: [],
+  autoClose: true,
+  onBackClick: function onBackClick() {}
 };
 //# sourceMappingURL=SelectList.js.map

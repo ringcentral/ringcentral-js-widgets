@@ -9,6 +9,8 @@ exports.BasicCallInfoMain = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
+var _classnames = _interopRequireDefault(require("classnames"));
+
 var _CallIcon = require("../CallIcon");
 
 var _CallSubject = require("../CallSubject");
@@ -24,10 +26,11 @@ var BasicCallInfoMain = function BasicCallInfoMain(_ref) {
       children = _ref.children,
       isInbound = _ref.isInbound,
       subject = _ref.subject,
-      followInfos = _ref.followInfos;
+      followInfos = _ref.followInfos,
+      className = _ref.className;
   return /*#__PURE__*/_react["default"].createElement("div", {
     onClick: onClick,
-    className: _styles["default"].root
+    className: (0, _classnames["default"])(_styles["default"].root, className)
   }, /*#__PURE__*/_react["default"].createElement(_CallIcon.CallIcon, {
     isInbound: isInbound
   }), /*#__PURE__*/_react["default"].createElement("div", {

@@ -13,7 +13,13 @@ var _default = {
   reject: 'Reject',
   hold: 'Hold',
   onHold: 'On Hold',
-  transfer: 'Transfer'
+  transfer: 'Transfer',
+  more: 'More',
+  stopRecord: 'Stop Recording',
+  record: 'Record',
+  showKeypad: 'Keypad',
+  hideKeypad: 'Hide Keypad',
+  unHold: 'Unhold'
 };
 exports["default"] = _default;
 //# sourceMappingURL=en-US.js.map

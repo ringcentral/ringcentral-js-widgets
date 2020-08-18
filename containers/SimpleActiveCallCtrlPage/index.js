@@ -89,6 +89,7 @@ function mapToProps(_, _ref) {
       regionSettings = _ref$phone.regionSettings,
       locale = _ref$phone.locale,
       brand = _ref$phone.brand,
+      analytics = _ref$phone.analytics,
       params = _ref.params,
       renderContactName = _ref.renderContactName;
   var sessionId = params.sessionId;
@@ -130,7 +131,8 @@ function mapToProps(_, _ref) {
     fallBackName: fallBackName,
     brand: brand.fullName,
     activeCallControl: activeCallControl,
-    controlBusy: activeCallControl.busy
+    controlBusy: activeCallControl.busy,
+    analytics: analytics
   };
 }
 
@@ -187,7 +189,9 @@ var ActiveCallControlPanel = /*#__PURE__*/function (_Component) {
     };
 
     _this.onHangup = function () {
-      return _this.props.activeCallControl.hangUp(_this.props.sessionId);
+      _this.props.activeCallControl.hangUp(_this.props.sessionId);
+
+      _this.props.analytics.track('Call Control: Hang up/Small call control');
     };
 
     _this.formatPhone = function (phoneNumber) {
@@ -227,8 +231,8 @@ var ActiveCallControlPanel = /*#__PURE__*/function (_Component) {
       this.props.setActiveSessionId(this.props.sessionId);
     }
   }, {
-    key: "componentWillReceiveProps",
-    value: function componentWillReceiveProps(nextProps) {
+    key: "UNSAFE_componentWillReceiveProps",
+    value: function UNSAFE_componentWillReceiveProps(nextProps) {
       if (!nextProps.activeSession) {
         this.props.onBackButtonClick();
       }
@@ -292,7 +296,8 @@ ActiveCallControlPanel.propTypes = {
   brand: _propTypes["default"].string.isRequired,
   onTransfer: _propTypes["default"].func.isRequired,
   controlBusy: _propTypes["default"].bool,
-  actions: _propTypes["default"].array
+  actions: _propTypes["default"].array,
+  analytics: _propTypes["default"].object
 };
 ActiveCallControlPanel.defaultProps = {
   setActiveSessionId: function setActiveSessionId() {},
@@ -305,7 +310,8 @@ ActiveCallControlPanel.defaultProps = {
   phoneNumber: '',
   showContactDisplayPlaceholder: false,
   controlBusy: false,
-  actions: [muteCtrl, transferCtrl, holdCtrl]
+  actions: [muteCtrl, transferCtrl, holdCtrl],
+  analytics: {}
 };
 
 var _default = (0, _withPhone["default"])((0, _reactRedux.connect)(mapToProps, mapToFunctions)(ActiveCallControlPanel));

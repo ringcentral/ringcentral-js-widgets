@@ -114,7 +114,8 @@ var ActionMenu = /*#__PURE__*/function (_Component) {
           externalViewEntity = _this$props.externalViewEntity,
           externalHasEntity = _this$props.externalHasEntity,
           disableClickToSms = _this$props.disableClickToSms,
-          withAnimation = _this$props.withAnimation;
+          withAnimation = _this$props.withAnimation,
+          selectedMatchContactType = _this$props.selectedMatchContactType;
       return /*#__PURE__*/_react["default"].createElement("div", {
         ref: reference
       }, /*#__PURE__*/_react["default"].createElement(_SlideMenu["default"], {
@@ -130,6 +131,7 @@ var ActionMenu = /*#__PURE__*/function (_Component) {
         isLogged: isLogged,
         isLogging: isLogging,
         isCreating: isCreating,
+        selectedMatchContactType: selectedMatchContactType,
         onViewEntity: onViewEntity,
         onCreateEntity: onCreateEntity,
         createEntityTypes: createEntityTypes,
@@ -200,7 +202,8 @@ ActionMenu.propTypes = {
   externalViewEntity: _propTypes["default"].func,
   externalHasEntity: _propTypes["default"].bool,
   disableClickToSms: _propTypes["default"].bool,
-  withAnimation: _propTypes["default"].bool
+  withAnimation: _propTypes["default"].bool,
+  selectedMatchContactType: _propTypes["default"].string
 };
 ActionMenu.defaultProps = {
   extended: undefined,
@@ -237,6 +240,7 @@ ActionMenu.defaultProps = {
   externalViewEntity: undefined,
   externalHasEntity: undefined,
   disableClickToSms: false,
-  withAnimation: true
+  withAnimation: true,
+  selectedMatchContactType: ''
 };
 //# sourceMappingURL=index.js.map

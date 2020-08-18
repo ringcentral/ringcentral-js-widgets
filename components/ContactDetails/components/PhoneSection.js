@@ -56,39 +56,45 @@ var PhoneListItem = function PhoneListItem(_ref2) {
       isClickToDialEnabled = _ref2.isClickToDialEnabled,
       isCallButtonDisabled = _ref2.isCallButtonDisabled,
       isClickToTextEnabled = _ref2.isClickToTextEnabled,
+      isMultipleSiteEnabled = _ref2.isMultipleSiteEnabled,
       onClickToDial = _ref2.onClickToDial,
       onClickToSMS = _ref2.onClickToSMS,
       outboundSmsPermission = _ref2.outboundSmsPermission,
       phoneNumber = _ref2.phoneNumber,
       rawPhoneNumber = _ref2.rawPhoneNumber,
       phoneType = _ref2.phoneType;
-  var formattedNumber = rawPhoneNumber || formatNumber(phoneNumber);
-  var showCallButton = !(!isClickToDialEnabled || phoneType === _phoneTypes["default"].fax);
+  var formattedNumber = formatNumber(phoneNumber); // User will see, for example: (650) 123-4567
+
+  var displayedPhoneNumber = rawPhoneNumber || formattedNumber; // User will use, for example: +16501234567
+  // In multi-site feature, "user will see" and "user will use" are the same
+
+  var usedPhoneNumber = isMultipleSiteEnabled ? formattedNumber : phoneNumber;
+  var showCallButton = isClickToDialEnabled && phoneType !== _phoneTypes["default"].fax;
   var showTextButton = !(!isClickToTextEnabled || phoneType === _phoneTypes["default"].fax || phoneType === _phoneTypes["default"].extension && !internalSmsPermission || phoneType !== _phoneTypes["default"].extension && !outboundSmsPermission);
   return /*#__PURE__*/_react["default"].createElement("li", null, /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])(_styles["default"].text, _styles["default"].number)
   }, /*#__PURE__*/_react["default"].createElement("span", {
     "data-sign": "contactNumber",
-    title: phoneNumber
-  }, formattedNumber)), /*#__PURE__*/_react["default"].createElement("div", {
+    title: usedPhoneNumber
+  }, displayedPhoneNumber)), /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].menu
   }, showCallButton ? /*#__PURE__*/_react["default"].createElement("button", {
     type: "button",
     className: (0, _classnames["default"])(isCallButtonDisabled && _styles["default"].disabled),
-    title: "".concat(_i18n["default"].getString('call', currentLocale), " ").concat(phoneNumber),
+    title: "".concat(_i18n["default"].getString('call', currentLocale), " ").concat(usedPhoneNumber),
     disabled: isCallButtonDisabled,
     onClick: function onClick() {
-      return onClickToDial(contact, phoneNumber);
+      return onClickToDial(contact, usedPhoneNumber);
     }
   }, /*#__PURE__*/_react["default"].createElement("i", {
     className: _DynamicsFont["default"].call
   })) : null, showTextButton ? /*#__PURE__*/_react["default"].createElement("button", {
     type: "button",
     className: (0, _classnames["default"])(disableLinks && _styles["default"].disabled),
-    title: "".concat(_i18n["default"].getString('text', currentLocale), " ").concat(phoneNumber),
+    title: "".concat(_i18n["default"].getString('text', currentLocale), " ").concat(usedPhoneNumber),
     disabled: disableLinks,
     onClick: function onClick() {
-      return onClickToSMS(contact, phoneNumber);
+      return onClickToSMS(contact, usedPhoneNumber);
     }
   }, /*#__PURE__*/_react["default"].createElement("i", {
     className: _DynamicsFont["default"].composeText
@@ -102,6 +108,7 @@ var PhoneSection = function PhoneSection(_ref3) {
       isClickToDialEnabled = _ref3.isClickToDialEnabled,
       isCallButtonDisabled = _ref3.isCallButtonDisabled,
       isClickToTextEnabled = _ref3.isClickToTextEnabled,
+      isMultipleSiteEnabled = _ref3.isMultipleSiteEnabled,
       formatNumber = _ref3.formatNumber,
       internalSmsPermission = _ref3.internalSmsPermission,
       onClickToDial = _ref3.onClickToDial,
@@ -122,8 +129,9 @@ var PhoneSection = function PhoneSection(_ref3) {
       map: {},
       lastType: null
     }, sortedPhoneNumbers).map;
-    return /*#__PURE__*/_react["default"].createElement("div", {
-      className: (0, _classnames["default"])(_styles["default"].section, _styles["default"].contacts)
+    return /*#__PURE__*/_react["default"].createElement("section", {
+      className: (0, _classnames["default"])(_styles["default"].section, _styles["default"].contacts),
+      "aria-label": "phone"
     }, (0, _ramda.map)(function (phoneType) {
       return /*#__PURE__*/_react["default"].createElement(PhoneList, {
         key: phoneType,
@@ -142,6 +150,7 @@ var PhoneSection = function PhoneSection(_ref3) {
           isClickToDialEnabled: isClickToDialEnabled,
           isCallButtonDisabled: isCallButtonDisabled,
           isClickToTextEnabled: isClickToTextEnabled,
+          isMultipleSiteEnabled: isMultipleSiteEnabled,
           disableLinks: disableLinks,
           internalSmsPermission: internalSmsPermission,
           onClickToDial: onClickToDial,

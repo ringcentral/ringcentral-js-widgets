@@ -13,7 +13,7 @@ var _react = _interopRequireDefault(require("react"));
 
 var _Panel = _interopRequireDefault(require("../../Panel"));
 
-var _SpinnerOverlay = _interopRequireDefault(require("../../SpinnerOverlay"));
+var _SpinnerOverlay = require("../../SpinnerOverlay");
 
 var _Eula = _interopRequireDefault(require("../../Eula"));
 
@@ -39,7 +39,7 @@ var BasePanel = function BasePanel(_ref) {
       versionContainer = _ref.versionContainer;
 
   if (showSpinner) {
-    return /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay["default"], null);
+    return /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay.SpinnerOverlay, null);
   }
 
   return /*#__PURE__*/_react["default"].createElement("div", {

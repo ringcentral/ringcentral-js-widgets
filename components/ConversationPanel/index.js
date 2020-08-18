@@ -49,7 +49,7 @@ var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _DynamicsFont = _interopRequireDefault(require("../../assets/DynamicsFont/DynamicsFont.scss"));
 
-var _SpinnerOverlay = _interopRequireDefault(require("../SpinnerOverlay"));
+var _SpinnerOverlay = require("../SpinnerOverlay");
 
 var _ConversationMessageList = _interopRequireDefault(require("../ConversationMessageList"));
 
@@ -106,7 +106,7 @@ var ConversationPanel = /*#__PURE__*/function (_Component) {
     _this = _super.call(this, props);
 
     _this.onSend = function () {
-      _this.props.replyToReceivers(_this.props.messageText);
+      _this.props.replyToReceivers(_this.props.messageText, _this.props.attachments);
     };
 
     _this.onInputHeightChange = function (value) {
@@ -322,7 +322,7 @@ var ConversationPanel = /*#__PURE__*/function (_Component) {
       if (!this.state.loaded) {
         return /*#__PURE__*/_react["default"].createElement("div", {
           className: _styles["default"].root
-        }, /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay["default"], null));
+        }, /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay.SpinnerOverlay, null));
       }
 
       var conversationBody = null;
@@ -409,7 +409,11 @@ var ConversationPanel = /*#__PURE__*/function (_Component) {
         currentLocale: this.props.currentLocale,
         onSend: this.onSend,
         onHeightChange: this.onInputHeightChange,
-        inputExpandable: this.props.inputExpandable
+        inputExpandable: this.props.inputExpandable,
+        attachments: this.props.attachments,
+        supportAttachment: this.props.supportAttachment,
+        addAttachment: this.props.addAttachment,
+        removeAttachment: this.props.removeAttachment
       }));
     }
   }]);
@@ -455,7 +459,14 @@ ConversationPanel.propTypes = {
   loadConversation: _propTypes["default"].func,
   renderExtraButton: _propTypes["default"].func,
   loadingNextPage: _propTypes["default"].bool,
-  inputExpandable: _propTypes["default"].bool
+  inputExpandable: _propTypes["default"].bool,
+  attachments: _propTypes["default"].arrayOf(_propTypes["default"].shape({
+    size: _propTypes["default"].number,
+    name: _propTypes["default"].string
+  })),
+  supportAttachment: _propTypes["default"].bool,
+  addAttachment: _propTypes["default"].func,
+  removeAttachment: _propTypes["default"].func
 };
 ConversationPanel.defaultProps = {
   disableLinks: false,
@@ -478,7 +489,15 @@ ConversationPanel.defaultProps = {
   },
   renderExtraButton: undefined,
   loadingNextPage: false,
-  inputExpandable: undefined
+  inputExpandable: undefined,
+  attachments: [],
+  supportAttachment: false,
+  addAttachment: function addAttachment() {
+    return null;
+  },
+  removeAttachment: function removeAttachment() {
+    return null;
+  }
 };
 var _default = ConversationPanel;
 exports["default"] = _default;

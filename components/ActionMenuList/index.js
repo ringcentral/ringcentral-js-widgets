@@ -49,6 +49,8 @@ var _react = _interopRequireWildcard(require("react"));
 
 var _messageTypes = _interopRequireDefault(require("ringcentral-integration/enums/messageTypes"));
 
+var _extensionTypes = require("ringcentral-integration/enums/extensionTypes");
+
 var _DynamicsFont = _interopRequireDefault(require("../../assets/DynamicsFont/DynamicsFont.scss"));
 
 var _DeleteMessageIcon = _interopRequireDefault(require("../../assets/images/DeleteMessageIcon.svg"));
@@ -492,7 +494,8 @@ var ActionMenuList = /*#__PURE__*/function (_Component) {
           faxAttachment = _this$props3.faxAttachment,
           externalViewEntity = _this$props3.externalViewEntity,
           externalHasEntity = _this$props3.externalHasEntity,
-          disableClickToSms = _this$props3.disableClickToSms;
+          disableClickToSms = _this$props3.disableClickToSms,
+          selectedMatchContactType = _this$props3.selectedMatchContactType;
       var _this$state = this.state,
           deleteModalVisible = _this$state.deleteModalVisible,
           disableDelete = _this$state.disableDelete;
@@ -506,6 +509,7 @@ var ActionMenuList = /*#__PURE__*/function (_Component) {
         addTitle: addLogTitle,
         editTitle: editLogTitle
       }) : null;
+      var isIvrContact = selectedMatchContactType === _extensionTypes.extensionTypes.ivrMenu;
       var entityButton;
 
       if (externalViewEntity) {
@@ -528,7 +532,7 @@ var ActionMenuList = /*#__PURE__*/function (_Component) {
         } else {
           entityButton = null;
         }
-      } else if (hasEntity && onViewEntity) {
+      } else if (hasEntity && onViewEntity && !isIvrContact) {
         entityButton = /*#__PURE__*/_react["default"].createElement(_EntityButton["default"], {
           className: _styles["default"].button,
           onViewEntity: onViewEntity,
@@ -660,7 +664,8 @@ ActionMenuList.propTypes = {
   externalViewEntity: _propTypes["default"].func,
   externalHasEntity: _propTypes["default"].bool,
   disableClickToSms: _propTypes["default"].bool,
-  onFaxDownload: _propTypes["default"].func
+  onFaxDownload: _propTypes["default"].func,
+  selectedMatchContactType: _propTypes["default"].string
 };
 ActionMenuList.defaultProps = {
   className: undefined,
@@ -698,6 +703,7 @@ ActionMenuList.defaultProps = {
   externalViewEntity: undefined,
   externalHasEntity: undefined,
   disableClickToSms: false,
-  onFaxDownload: undefined
+  onFaxDownload: undefined,
+  selectedMatchContactType: ''
 };
 //# sourceMappingURL=index.js.map

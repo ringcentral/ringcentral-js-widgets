@@ -37,6 +37,8 @@ require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.for-each");
 
+require("core-js/modules/es6.array.map");
+
 require("regenerator-runtime/runtime");
 
 require("core-js/modules/es6.promise");
@@ -45,15 +47,13 @@ require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.array.filter");
 
-require("core-js/modules/es6.array.map");
-
 var _core = require("@ringcentral-integration/core");
 
 var _di = require("ringcentral-integration/lib/di");
 
 var _uuid = _interopRequireDefault(require("uuid"));
 
-var _dec, _class, _class2, _descriptor, _descriptor2, _temp;
+var _dec, _dec2, _class, _class2, _descriptor, _descriptor2, _temp;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -102,6 +102,8 @@ function _initializerWarningHelper(descriptor, context) { throw new Error('Decor
 var Modal = (_dec = (0, _di.Module)({
   name: 'Modal',
   deps: []
+}), _dec2 = (0, _core.computed)(function (that) {
+  return [that.modalIds, that.modalMapping];
 }), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcModuleV) {
   _inherits(Modal, _RcModuleV);
 
@@ -122,15 +124,6 @@ var Modal = (_dec = (0, _di.Module)({
 
     _initializerDefineProperty(_this, "modalMapping", _descriptor2, _assertThisInitialized(_this));
 
-    _this.getModals = (0, _core.createSelector)(function () {
-      return _this.modalIds;
-    }, function () {
-      return _this.modalMapping;
-    }, function (modalIds, modalMapping) {
-      return modalIds.map(function (id) {
-        return modalMapping[id];
-      });
-    });
     return _this;
   }
 
@@ -138,10 +131,18 @@ var Modal = (_dec = (0, _di.Module)({
     key: "_setListItem",
     value: function _setListItem(id, data) {
       if (data.open) {
-        this.state.modalIds.push(id);
+        this.modalIds.push(id);
       }
 
-      this.state.modalMapping[id] = data;
+      this.modalMapping[id] = data;
+    }
+  }, {
+    key: "_removeListItem",
+    value: function _removeListItem(id) {
+      this.modalIds = this.modalIds.filter(function (modalId) {
+        return modalId !== id;
+      });
+      delete this.modalMapping[id];
     }
   }, {
     key: "_close",
@@ -151,14 +152,6 @@ var Modal = (_dec = (0, _di.Module)({
           open: false
         }));
       }
-    }
-  }, {
-    key: "_removeListItem",
-    value: function _removeListItem(id) {
-      this.state.modalIds = this.state.modalIds.filter(function (modalId) {
-        return modalId !== id;
-      });
-      delete this.state.modalMapping[id];
     }
   }, {
     key: "alert",
@@ -315,10 +308,19 @@ var Modal = (_dec = (0, _di.Module)({
     value: function _getId() {
       return _uuid["default"].v4();
     }
+  }, {
+    key: "modals",
+    get: function get() {
+      var _this6 = this;
+
+      return this.modalIds.map(function (id) {
+        return _this6.modalMapping[id];
+      });
+    }
   }]);
 
   return Modal;
-}(_core.RcModuleV2), _temp), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "modalIds", [_core.storage, _core.state], {
+}(_core.RcModuleV2), _temp), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "modalIds", [_core.state], {
   configurable: true,
   enumerable: true,
   writable: true,
@@ -332,6 +334,6 @@ var Modal = (_dec = (0, _di.Module)({
   initializer: function initializer() {
     return {};
   }
-}), _applyDecoratedDescriptor(_class2.prototype, "_setListItem", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setListItem"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_removeListItem", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_removeListItem"), _class2.prototype)), _class2)) || _class);
+}), _applyDecoratedDescriptor(_class2.prototype, "modals", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "modals"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_setListItem", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setListItem"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_removeListItem", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_removeListItem"), _class2.prototype)), _class2)) || _class);
 exports.Modal = Modal;
 //# sourceMappingURL=Modal.js.map

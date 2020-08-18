@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/CopyButton/index.tsx"],"names":["CopyButton"],"mappings":";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAAA;;AAGA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;;;;;;eADeA,sB","sourcesContent":["import CopyButton from './CopyButton';\n\nexport default CopyButton;\nexport * from './CopyButton';\n"],"file":"index.js"}

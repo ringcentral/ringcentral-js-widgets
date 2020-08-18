@@ -41,21 +41,25 @@ var _react = _interopRequireWildcard(require("react"));
 
 var _reactWidgetsMoment = _interopRequireDefault(require("react-widgets-moment"));
 
+var _Meeting = require("ringcentral-integration/modules/Meeting");
+
 var _i18n = _interopRequireDefault(require("./i18n"));
+
+var _MeetingDate = require("./MeetingDate");
 
 var _MeetingDuration = require("./MeetingDuration");
 
+var _MeetingIdSection = require("./MeetingIdSection");
+
 var _MeetingOptions = require("./MeetingOptions");
+
+var _MeetingTopic = require("./MeetingTopic");
 
 var _RecurringOptions = require("./RecurringOptions");
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
-var _MeetingTopic = require("./MeetingTopic");
-
 var _VideoAudioOptions = require("./VideoAudioOptions");
-
-var _MeetingDate = require("./MeetingDate");
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
@@ -90,22 +94,31 @@ var MeetingConfig = /*#__PURE__*/function (_Component) {
 
   var _super = _createSuper(MeetingConfig);
 
-  function MeetingConfig() {
+  function MeetingConfig(args) {
     var _this;
 
     _classCallCheck(this, MeetingConfig);
 
-    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
+    _this = _super.call(this, args);
+    _this.hours = void 0;
+    _this.minutes = void 0;
+    _this.topic = void 0;
 
-    _this = _super.call.apply(_super, [this].concat(args));
+    _this.handlePmiConfirmed = function (isChangePmiConfirmed) {
+      _this.setState({
+        isChangePmiConfirmed: isChangePmiConfirmed
+      });
+    };
 
-    _this.props.init();
+    var _this$props = _this.props,
+        init = _this$props.init,
+        currentLocale = _this$props.currentLocale;
+    init();
+    _this.state = {
+      isChangePmiConfirmed: false
+    };
 
-    _this.state = {};
-
-    _moment["default"].locale(_this.props.currentLocale);
+    _moment["default"].locale(currentLocale);
 
     (0, _reactWidgetsMoment["default"])();
     return _this;
@@ -116,14 +129,20 @@ var MeetingConfig = /*#__PURE__*/function (_Component) {
     value: function componentDidMount() {
       var _this2 = this;
 
+      var _this$props2 = this.props,
+          meeting = _this$props2.meeting,
+          showWhen = _this$props2.showWhen;
       setTimeout(function () {
-        _this2.displayFormat(_this2.props.meeting.schedule.startTime);
+        if (showWhen) {
+          _this2.displayFormat(meeting.schedule.startTime);
+        }
       });
     }
   }, {
     key: "displayFormat",
     value: function displayFormat(startTime) {
-      var isAMPM = this.props.useTimePicker ? 'hh' : 'HH';
+      var useTimePicker = this.props.useTimePicker;
+      var isAMPM = useTimePicker ? 'hh' : 'HH';
 
       if (this.hours) {
         this.hours.value = (0, _moment["default"])(startTime).format(isAMPM);
@@ -134,11 +153,13 @@ var MeetingConfig = /*#__PURE__*/function (_Component) {
       }
     }
   }, {
-    key: "componentWillReceiveProps",
-    value: function componentWillReceiveProps(nextProps) {
+    key: "UNSAFE_componentWillReceiveProps",
+    value: function UNSAFE_componentWillReceiveProps(nextProps) {
       var _this3 = this;
 
-      if (this.props.meeting.topic !== nextProps.meeting.topic) {
+      var meeting = this.props.meeting;
+
+      if (meeting.topic !== nextProps.meeting.topic) {
         setTimeout(function () {
           if (!_this3.topic) return;
           var selectionStart = _this3.topic.selectionStart;
@@ -149,7 +170,7 @@ var MeetingConfig = /*#__PURE__*/function (_Component) {
         });
       }
 
-      if (this.props.meeting.schedule && nextProps.meeting.schedule && this.props.meeting.schedule.startTime !== nextProps.meeting.schedule.startTime) {
+      if (meeting.schedule && nextProps.meeting.schedule && meeting.schedule.startTime !== nextProps.meeting.schedule.startTime) {
         this.displayFormat(nextProps.meeting.schedule.startTime);
       }
     }
@@ -158,18 +179,23 @@ var MeetingConfig = /*#__PURE__*/function (_Component) {
     value: function render() {
       var _this4 = this;
 
-      var _this$props = this.props,
-          update = _this$props.update,
-          meeting = _this$props.meeting,
-          currentLocale = _this$props.currentLocale,
-          recipientsSection = _this$props.recipientsSection,
-          showWhen = _this$props.showWhen,
-          showDuration = _this$props.showDuration,
-          showRecurringMeeting = _this$props.showRecurringMeeting,
-          meetingOptionToggle = _this$props.meetingOptionToggle,
-          passwordPlaceholderEnable = _this$props.passwordPlaceholderEnable,
-          audioOptionToggle = _this$props.audioOptionToggle,
-          useTimePicker = _this$props.useTimePicker;
+      var isChangePmiConfirmed = this.state.isChangePmiConfirmed;
+      var _this$props3 = this.props,
+          update = _this$props3.update,
+          meeting = _this$props3.meeting,
+          currentLocale = _this$props3.currentLocale,
+          recipientsSection = _this$props3.recipientsSection,
+          showTopic = _this$props3.showTopic,
+          showWhen = _this$props3.showWhen,
+          showDuration = _this$props3.showDuration,
+          showRecurringMeeting = _this$props3.showRecurringMeeting,
+          meetingOptionToggle = _this$props3.meetingOptionToggle,
+          passwordPlaceholderEnable = _this$props3.passwordPlaceholderEnable,
+          audioOptionToggle = _this$props3.audioOptionToggle,
+          useTimePicker = _this$props3.useTimePicker,
+          personalMeetingId = _this$props3.personalMeetingId,
+          switchUsePersonalMeetingId = _this$props3.switchUsePersonalMeetingId;
+      var isOptionDisabled = meeting.usePersonalMeetingId && !isChangePmiConfirmed;
 
       if (!Object.keys(meeting).length) {
         return null;
@@ -189,7 +215,7 @@ var MeetingConfig = /*#__PURE__*/function (_Component) {
         }
       };
 
-      var isRecurring = meeting.meetingType === 'Recurring' || meeting.meetingType === 'ScheduledRecurring';
+      var isRecurring = (0, _Meeting.isRecurringMeeting)(meeting.meetingType);
 
       var telephonyOnly = _i18n["default"].getString('telephonyOnly', currentLocale);
 
@@ -209,7 +235,7 @@ var MeetingConfig = /*#__PURE__*/function (_Component) {
       }];
       var minTime = {};
 
-      if (meeting.schedule && meeting.schedule.startTime && new Date(meeting.schedule.startTime) < +new Date()) {
+      if (meeting.schedule && meeting.schedule.startTime && +new Date(meeting.schedule.startTime) < +new Date()) {
         minTime = {
           min: new Date()
         };
@@ -217,12 +243,19 @@ var MeetingConfig = /*#__PURE__*/function (_Component) {
 
       return /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].scroll
-      }, /*#__PURE__*/_react["default"].createElement(_MeetingTopic.Topic, {
+      }, showTopic ? /*#__PURE__*/_react["default"].createElement(_MeetingTopic.Topic, {
         that: this,
         meeting: meeting,
         update: update,
         currentLocale: currentLocale
-      }), recipientsSection, showWhen ? /*#__PURE__*/_react["default"].createElement(_MeetingDate.MeetingDate, {
+      }) : null, personalMeetingId ? /*#__PURE__*/_react["default"].createElement(_MeetingIdSection.MeetingIdSection, {
+        personalMeetingId: personalMeetingId,
+        currentLocale: currentLocale,
+        meeting: meeting,
+        switchUsePersonalMeetingId: switchUsePersonalMeetingId,
+        handlePmiConfirmed: this.handlePmiConfirmed,
+        isChangePmiConfirmed: isChangePmiConfirmed
+      }) : null, recipientsSection, showWhen ? /*#__PURE__*/_react["default"].createElement(_MeetingDate.MeetingDate, {
         isRecurring: isRecurring,
         currentLocale: currentLocale,
         meeting: meeting,
@@ -244,20 +277,23 @@ var MeetingConfig = /*#__PURE__*/function (_Component) {
       }) : null, /*#__PURE__*/_react["default"].createElement(_VideoAudioOptions.Video, {
         currentLocale: currentLocale,
         meeting: meeting,
-        update: update
+        update: update,
+        disabled: isOptionDisabled
       }), /*#__PURE__*/_react["default"].createElement(_VideoAudioOptions.AudioOptions, {
         data: AUDIO_OPTIONS,
         currentLocale: currentLocale,
         meeting: meeting,
         update: update,
-        audioOptionToggle: audioOptionToggle
+        audioOptionToggle: audioOptionToggle,
+        disabled: isOptionDisabled
       }), /*#__PURE__*/_react["default"].createElement(_MeetingOptions.MeetingOptions, {
         currentLocale: currentLocale,
         meeting: meeting,
         that: this,
         update: update,
         meetingOptionToggle: meetingOptionToggle,
-        passwordPlaceholderEnable: passwordPlaceholderEnable
+        passwordPlaceholderEnable: passwordPlaceholderEnable,
+        disabled: isOptionDisabled
       }));
     }
   }]);
@@ -267,6 +303,7 @@ var MeetingConfig = /*#__PURE__*/function (_Component) {
 
 MeetingConfig.defaultProps = {
   recipientsSection: undefined,
+  showTopic: true,
   showWhen: true,
   showDuration: true,
   showRecurringMeeting: true,

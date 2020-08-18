@@ -37,7 +37,7 @@ var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
-var _SpinnerOverlay = _interopRequireDefault(require("../SpinnerOverlay"));
+var _SpinnerOverlay = require("../SpinnerOverlay");
 
 var _ActiveCallList = _interopRequireDefault(require("../ActiveCallList"));
 
@@ -294,7 +294,7 @@ var ActiveCallsPanel = /*#__PURE__*/function (_Component) {
           className: (0, _classnames["default"])(_styles["default"].root, className)
         }, /*#__PURE__*/_react["default"].createElement("p", {
           className: _styles["default"].noCalls
-        }, _i18n["default"].getString('noActiveCalls', currentLocale)), logSection, showSpinner ? /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay["default"], {
+        }, _i18n["default"].getString('noActiveCalls', currentLocale)), logSection, showSpinner ? /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay.SpinnerOverlay, {
           className: _styles["default"].spinner
         }) : null);
       }
@@ -308,7 +308,7 @@ var ActiveCallsPanel = /*#__PURE__*/function (_Component) {
         ref: function ref(target) {
           _this.container = target;
         }
-      }, this.getCallList(activeRingCalls, _i18n["default"].getString('ringCall', currentLocale)), this.getCallList(activeCurrentCalls, _i18n["default"].getString('currentCall', currentLocale)), this.getCallList(activeOnHoldCalls, _i18n["default"].getString('onHoldCall', currentLocale)), otherDevice), logSection, showSpinner ? /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay["default"], {
+      }, this.getCallList(activeRingCalls, _i18n["default"].getString('ringCall', currentLocale)), this.getCallList(activeCurrentCalls, _i18n["default"].getString('currentCall', currentLocale)), this.getCallList(activeOnHoldCalls, _i18n["default"].getString('onHoldCall', currentLocale)), otherDevice), logSection, showSpinner ? /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay.SpinnerOverlay, {
         className: _styles["default"].spinner
       }) : null);
     }

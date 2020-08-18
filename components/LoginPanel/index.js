@@ -17,7 +17,7 @@ var _styles = _interopRequireDefault(require("./styles.scss"));
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
-var _SpinnerOverlay = _interopRequireDefault(require("../SpinnerOverlay"));
+var _SpinnerOverlay = require("../SpinnerOverlay");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -33,7 +33,7 @@ function LoginPanel(_ref) {
       showSignUp = _ref.showSignUp,
       onSignUpButtonClick = _ref.onSignUpButtonClick,
       customStyles = _ref.customStyles;
-  var spinner = showSpinner ? /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay["default"], customSpinner ? {
+  var spinner = showSpinner ? /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay.SpinnerOverlay, customSpinner ? {
     custom: customSpinner
   } : {}) : null;
   var versionDisplay = version ? /*#__PURE__*/_react["default"].createElement("div", {

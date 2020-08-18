@@ -178,11 +178,15 @@ var ContactList = /*#__PURE__*/function (_Component) {
           getAvatarUrl = _this$props.getAvatarUrl,
           getPresence = _this$props.getPresence,
           onItemSelect = _this$props.onItemSelect,
-          sourceNodeRenderer = _this$props.sourceNodeRenderer;
+          sourceNodeRenderer = _this$props.sourceNodeRenderer,
+          currentSiteCode = _this$props.currentSiteCode,
+          isMultipleSiteEnabled = _this$props.isMultipleSiteEnabled;
       return /*#__PURE__*/_react["default"].createElement("div", {
         key: "".concat(rowData.type, "-").concat(rowData.id)
       }, /*#__PURE__*/_react["default"].createElement(_ContactItem["default"], {
         currentLocale: currentLocale,
+        currentSiteCode: currentSiteCode,
+        isMultipleSiteEnabled: isMultipleSiteEnabled,
         contact: rowData,
         getAvatarUrl: getAvatarUrl,
         getPresence: getPresence,
@@ -340,6 +344,8 @@ ContactList.propTypes = {
     contacts: _propTypes["default"].arrayOf(_ContactItem["default"].propTypes.contact).isRequired
   })).isRequired,
   getAvatarUrl: _propTypes["default"].func.isRequired,
+  currentSiteCode: _propTypes["default"].string,
+  isMultipleSiteEnabled: _propTypes["default"].bool,
   getPresence: _propTypes["default"].func.isRequired,
   onItemSelect: _propTypes["default"].func,
   sourceNodeRenderer: _propTypes["default"].func,
@@ -348,6 +354,8 @@ ContactList.propTypes = {
 };
 ContactList.defaultProps = {
   onItemSelect: undefined,
-  sourceNodeRenderer: undefined
+  sourceNodeRenderer: undefined,
+  currentSiteCode: '',
+  isMultipleSiteEnabled: false
 };
 //# sourceMappingURL=index.js.map

@@ -36,7 +36,7 @@ const Footer: FunctionComponent<FooterProps> = ({
     </div>
   );
   return (
-    <React.Fragment>
+    <>
       <section className={styles.section}>
         <Line noBorder>
           <EulaRenderer
@@ -63,7 +63,7 @@ const Footer: FunctionComponent<FooterProps> = ({
         </IconLine>
       </section>
       {versionArea}
-    </React.Fragment>
+    </>
   );
 };
 

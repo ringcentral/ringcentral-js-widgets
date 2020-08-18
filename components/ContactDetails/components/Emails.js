@@ -39,8 +39,9 @@ var Emails = function Emails(_ref) {
         }
       }, email));
     }, emails);
-    return /*#__PURE__*/_react["default"].createElement("div", {
-      className: (0, _classnames["default"])(_styles["default"].section, _styles["default"].email)
+    return /*#__PURE__*/_react["default"].createElement("section", {
+      className: (0, _classnames["default"])(_styles["default"].section, _styles["default"].email),
+      "aria-label": "email"
     }, /*#__PURE__*/_react["default"].createElement("div", {
       className: _styles["default"].label
     }, /*#__PURE__*/_react["default"].createElement("span", null, _i18n["default"].getString('emailLabel', currentLocale))), /*#__PURE__*/_react["default"].createElement("ul", {

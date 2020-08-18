@@ -43,6 +43,8 @@ require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.array.reduce");
 
+require("core-js/modules/es6.object.keys");
+
 require("core-js/modules/es6.array.for-each");
 
 require("core-js/modules/web.dom.iterable");
@@ -51,15 +53,13 @@ require("core-js/modules/es6.array.iterator");
 
 require("core-js/modules/es6.object.to-string");
 
-require("core-js/modules/es6.object.keys");
-
 require("regenerator-runtime/runtime");
 
 var _di = require("ringcentral-integration/lib/di");
 
 var _proxify = _interopRequireDefault(require("ringcentral-integration/lib/proxy/proxify"));
 
-var _Enum = _interopRequireDefault(require("ringcentral-integration/lib/Enum"));
+var _ObjectMap = require("@ringcentral-integration/core/lib/ObjectMap");
 
 var _DialerUI2 = _interopRequireDefault(require("../DialerUI"));
 
@@ -226,7 +226,7 @@ var ConferenceDialerUI = (_dec = (0, _di.Module)({
   }, {
     key: "_actionTypes",
     get: function get() {
-      return new _Enum["default"]([].concat(_toConsumableArray(Object.keys(_get(_getPrototypeOf(ConferenceDialerUI.prototype), "_actionTypes", this))), ['setLastSessionId']), 'conferenceDialerUI');
+      return _ObjectMap.ObjectMap.prefixKeys([].concat(_toConsumableArray(_ObjectMap.ObjectMap.keys(_get(_getPrototypeOf(ConferenceDialerUI.prototype), "_actionTypes", this))), ['setLastSessionId']), 'conferenceDialerUI');
     }
   }, {
     key: "lastSessionId",

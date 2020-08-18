@@ -33,7 +33,7 @@ var _Header = require("../Header");
 
 var _Panel = _interopRequireDefault(require("../Panel"));
 
-var _SpinnerOverlay = _interopRequireDefault(require("../SpinnerOverlay"));
+var _SpinnerOverlay = require("../SpinnerOverlay");
 
 var _CallList = _interopRequireDefault(require("../CallList"));
 
@@ -228,7 +228,7 @@ var CallsPanel = /*#__PURE__*/function (_React$PureComponent) {
         phoneTypeRenderer: phoneTypeRenderer,
         phoneSourceNameRenderer: phoneSourceNameRenderer
       });
-      var content = showSpinner ? /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay["default"], null) : callsListView;
+      var content = showSpinner ? /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay.SpinnerOverlay, null) : callsListView;
       return /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].root,
         ref: this._listWrapper

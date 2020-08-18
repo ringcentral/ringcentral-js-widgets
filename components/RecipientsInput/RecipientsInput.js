@@ -17,6 +17,8 @@ require("core-js/modules/es7.symbol.async-iterator");
 
 require("core-js/modules/es6.symbol");
 
+require("core-js/modules/es6.promise");
+
 require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.object.create");
@@ -31,9 +33,11 @@ require("core-js/modules/es6.reflect.construct");
 
 require("core-js/modules/es6.object.set-prototype-of");
 
+require("core-js/modules/es6.function.name");
+
 require("core-js/modules/es6.regexp.replace");
 
-require("core-js/modules/es6.function.name");
+require("regenerator-runtime/runtime");
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
@@ -58,6 +62,10 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -128,15 +136,49 @@ var RecipientsInput = /*#__PURE__*/function (_Component) {
       }
     };
 
-    _this.onPaste = function (ev) {
-      if (_this.props.detectPhoneNumbers && ev.clipboardData && ev.clipboardData.getData) {
-        var pastedText = ev.clipboardData.getData('text/plain');
+    _this.onPaste = /*#__PURE__*/function () {
+      var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(ev) {
+        var pastedText, result, currentVal, newVal;
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                if (!(_this.props.detectPhoneNumbers && ev.clipboardData && ev.clipboardData.getData)) {
+                  _context.next = 8;
+                  break;
+                }
 
-        if (_this.props.detectPhoneNumbers(pastedText)) {
-          ev.preventDefault();
-        }
-      }
-    };
+                ev.preventDefault();
+                pastedText = ev.clipboardData.getData('text/plain');
+                _context.next = 5;
+                return _this.props.detectPhoneNumbers(pastedText);
+
+              case 5:
+                result = _context.sent;
+                currentVal = _this.state.value || '';
+
+                if (!result) {
+                  newVal = "".concat(currentVal).concat(pastedText.replace(/\n/g, ' '));
+
+                  _this.setState({
+                    value: newVal
+                  }, function () {
+                    _this.props.onChange(newVal);
+                  });
+                }
+
+              case 8:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }));
+
+      return function (_x) {
+        return _ref.apply(this, arguments);
+      };
+    }();
 
     _this.onClean = function () {
       _this.setState({
@@ -289,8 +331,8 @@ var RecipientsInput = /*#__PURE__*/function (_Component) {
   }
 
   _createClass(RecipientsInput, [{
-    key: "componentWillReceiveProps",
-    value: function componentWillReceiveProps(nextProps) {
+    key: "UNSAFE_componentWillReceiveProps",
+    value: function UNSAFE_componentWillReceiveProps(nextProps) {
       var _this2 = this;
 
       if (nextProps.value !== undefined && nextProps.value !== this.props.value && nextProps.value !== this.state.value) {

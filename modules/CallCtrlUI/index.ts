@@ -16,12 +16,13 @@ import RcUIModule from '../../lib/RcUIModule';
     'RegionSettings',
     'Brand',
     'ContactSearch',
-    'ConferenceCall',
     'CallingSettings',
     'RolesAndPermissions',
     'ConnectivityManager',
     'ForwardingNumber',
     'CallMonitor',
+    'ExtensionInfo',
+    { dep: 'ConferenceCall', optional: true },
     { dep: 'RouterInteraction', optional: true },
   ],
 })
@@ -40,6 +41,7 @@ export default class CallCtrlUI extends RcUIModule {
     forwardingNumber,
     callMonitor,
     routerInteraction,
+    extensionInfo,
     ...options
   }) {
     super({ ...options });
@@ -56,6 +58,7 @@ export default class CallCtrlUI extends RcUIModule {
     this._forwardingNumber = forwardingNumber;
     this._callMonitor = callMonitor;
     this._routerInteraction = routerInteraction;
+    this._extensionInfo = extensionInfo;
   }
 
   getUIProps({ params, children, showCallQueueName = false }) {
@@ -118,11 +121,11 @@ export default class CallCtrlUI extends RcUIModule {
       const { fromSessionId } = this._conferenceCall.mergingPair;
       if (
         !isInboundCall &&
-        (fromSessionId &&
-          fromSessionId !== currentSession.id &&
-          lastCallInfo &&
-          lastCallInfo.status &&
-          lastCallInfo.status !== sessionStatus.finished)
+        fromSessionId &&
+        fromSessionId !== currentSession.id &&
+        lastCallInfo &&
+        lastCallInfo.status &&
+        lastCallInfo.status !== sessionStatus.finished
       ) {
         // for mergeCtrl page, we don't show any children (container) component.
         children = null;
@@ -197,7 +200,9 @@ export default class CallCtrlUI extends RcUIModule {
         if (
           !isOnConference &&
           !isInboundCall &&
-          (fromSession && fromSessionId !== session.id && lastCallInfo) &&
+          fromSession &&
+          fromSessionId !== session.id &&
+          lastCallInfo &&
           (session.callStatus !== sessionStatus.onHold ||
             (session.callStatus === sessionStatus.onHold &&
               session.id === activeSessionId))
@@ -213,6 +218,8 @@ export default class CallCtrlUI extends RcUIModule {
           phoneNumber,
           areaCode: this._regionSettings.areaCode,
           countryCode: this._regionSettings.countryCode,
+          siteCode: this._extensionInfo?.site?.code ?? '',
+          isMultipleSiteEnabled: this._extensionInfo.isMultipleSiteEnabled,
         }),
       onHangup: (sessionId, layout) => {
         this._webphone.hangup(sessionId);

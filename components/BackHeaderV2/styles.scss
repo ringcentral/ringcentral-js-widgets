@@ -9,10 +9,10 @@
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.15);
   @include flex_height($header-height);
   position: relative;
-
   &.classic {
     .back {
       margin-left: 6px;
+      flex-shrink: 0;
     }
     .title {
       font-size: 12px;
@@ -22,10 +22,10 @@
   .back {
     z-index: 1;
     margin-left: 10px;
+    flex-shrink: 0;
   }
 
   .title {
-    position: absolute;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -34,6 +34,7 @@
     width: 100%;
     height: 100%;
     font-weight: 500;
+    overflow: hidden;
     span {
       @include text-ellipsis;
     }
@@ -43,4 +44,8 @@
 .iconRotate {
   cursor: pointer;
   transform: rotate(90deg);
+}
+
+.rightIcon {
+  flex-shrink: 0;
 }

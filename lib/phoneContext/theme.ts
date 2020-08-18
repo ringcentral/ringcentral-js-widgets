@@ -17,7 +17,7 @@ export const getBrandTheme = (brand: string = 'rc'): RcThemeInput => ({
     primary: {
       main: {
         rc: '#0684bd',
-        bt: '#00528E',
+        bt: '#5514B4',
         att: '#067AB4',
         telus: '#57a708',
       }[brand],

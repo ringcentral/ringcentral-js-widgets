@@ -32,6 +32,6 @@ ConferenceAlert.propTypes = {
 
 ConferenceAlert.handleMessage = function (_ref) {
   var message = _ref.message;
-  return message === _messages["default"].requireAditionalNumbers || message === _messages["default"].scheduledSuccess;
+  return message === _messages["default"].requireAdditionalNumbers || message === _messages["default"].scheduledSuccess;
 };
 //# sourceMappingURL=index.js.map

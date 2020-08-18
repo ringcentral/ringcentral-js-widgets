@@ -41,6 +41,8 @@ var _react = _interopRequireWildcard(require("react"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
+var _format = require("../../../phone-number/lib/format");
+
 var _PlaceholderImage = _interopRequireDefault(require("../PlaceholderImage"));
 
 var _PresenceStatusIcon = _interopRequireDefault(require("../PresenceStatusIcon"));
@@ -212,12 +214,23 @@ var ContactItem = /*#__PURE__*/function (_PureComponent) {
 
       var _this$props = this.props,
           contact = _this$props.contact,
-          currentLocale = _this$props.currentLocale;
+          currentLocale = _this$props.currentLocale,
+          currentSiteCode = _this$props.currentSiteCode,
+          isMultipleSiteEnabled = _this$props.isMultipleSiteEnabled;
       var name = contact.name,
           extensionNumber = contact.extensionNumber,
           type = contact.type,
           profileImageUrl = contact.profileImageUrl,
           contactStatus = contact.contactStatus;
+      var displayingNumber = extensionNumber;
+
+      if (isMultipleSiteEnabled) {
+        displayingNumber = (0, _format.formatSameSiteExtension)({
+          currentSiteCode: currentSiteCode,
+          extension: extensionNumber
+        });
+      }
+
       var sourceNodeRenderer = this.props.sourceNodeRenderer;
       var sourceNode = sourceNodeRenderer({
         sourceType: type
@@ -238,8 +251,8 @@ var ContactItem = /*#__PURE__*/function (_PureComponent) {
         className: _styles["default"].sourceNodeContainer
       }, sourceNode) : null, this.renderPresence(this.props.contact)), this.renderMiddle(contact, currentLocale), /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].phoneNumber,
-        title: extensionNumber
-      }, extensionNumber));
+        title: displayingNumber
+      }, displayingNumber));
     }
   }]);
 
@@ -249,6 +262,8 @@ var ContactItem = /*#__PURE__*/function (_PureComponent) {
 exports["default"] = ContactItem;
 ContactItem.propTypes = {
   currentLocale: _propTypes["default"].string.isRequired,
+  currentSiteCode: _propTypes["default"].string,
+  isMultipleSiteEnabled: _propTypes["default"].bool,
   contact: _propTypes["default"].shape({
     id: _propTypes["default"].string,
     type: _propTypes["default"].string,
@@ -266,6 +281,8 @@ ContactItem.propTypes = {
 };
 ContactItem.defaultProps = {
   onSelect: undefined,
+  currentSiteCode: '',
+  isMultipleSiteEnabled: false,
   sourceNodeRenderer: function sourceNodeRenderer() {
     return null;
   }

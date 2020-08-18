@@ -61,7 +61,7 @@ var _proxify = _interopRequireDefault(require("ringcentral-integration/lib/proxy
 
 var _callErrors = _interopRequireDefault(require("ringcentral-integration/modules/Call/callErrors"));
 
-var _Enum = _interopRequireDefault(require("ringcentral-integration/lib/Enum"));
+var _ObjectMap = require("@ringcentral-integration/core/lib/ObjectMap");
 
 var _formatNumber = _interopRequireDefault(require("ringcentral-integration/lib/formatNumber"));
 
@@ -549,7 +549,7 @@ var DialerUI = (_dec = (0, _di.Module)({
   }, {
     key: "_actionTypes",
     get: function get() {
-      return new _Enum["default"](['setToNumberField', 'clearToNumberField', 'setRecipient', 'clearRecipient', 'loadLastCallState', 'call', 'callError', 'callSuccess'], 'dialerUI');
+      return _ObjectMap.ObjectMap.prefixKeys(['setToNumberField', 'clearToNumberField', 'setRecipient', 'clearRecipient', 'loadLastCallState', 'call', 'callError', 'callSuccess'], 'dialerUI');
     }
   }, {
     key: "toNumberField",

@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  dialPlaceholder: "Enter Name or Number"
+  dialPlaceholder: "Enter name or number"
 }; // @key: @#@"dialPlaceholder"@#@ @source: @#@"Enter Name or Number"@#@
 
 exports["default"] = _default;

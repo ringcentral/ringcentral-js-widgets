@@ -47,7 +47,7 @@ var _classnames = _interopRequireDefault(require("classnames"));
 
 var _reactTransitionGroup = require("react-transition-group");
 
-var _SpinnerOverlay = _interopRequireDefault(require("../SpinnerOverlay"));
+var _SpinnerOverlay = require("../SpinnerOverlay");
 
 var _Button = require("../Button");
 
@@ -286,7 +286,7 @@ var UserGuide = /*#__PURE__*/function (_React$Component) {
       if (!this.props.guides || this.props.guides.length === 0 || !this.state.entered) return null;
 
       if (this.props.showSpinner) {
-        return /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay["default"], null);
+        return /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay.SpinnerOverlay, null);
       }
 
       var view = this.getCarouselView();

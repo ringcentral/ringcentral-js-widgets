@@ -5,13 +5,13 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = void 0;
+exports["default"] = exports.phoneSources = void 0;
 
-var _Enum = _interopRequireDefault(require("ringcentral-integration/lib/Enum"));
+var _ObjectMap = require("@ringcentral-integration/core/lib/ObjectMap");
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+var phoneSources = _ObjectMap.ObjectMap.fromKeys(['account', 'contact', 'lead', 'opportunity', 'systemUser', 'rcContact']);
 
-var _default = new _Enum["default"](['account', 'contact', 'lead', 'opportunity', 'systemUser', 'rcContact']);
-
+exports.phoneSources = phoneSources;
+var _default = phoneSources;
 exports["default"] = _default;
 //# sourceMappingURL=phoneSources.js.map

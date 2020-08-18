@@ -38,7 +38,7 @@ var SelectField = function SelectField(_ref) {
   return /*#__PURE__*/_react["default"].createElement(_rcui.RcLineSelect, rest, options.map(function (item, i) {
     return /*#__PURE__*/_react["default"].createElement(_rcui.RcMenuItem, {
       key: i,
-      value: "".concat(item.value),
+      value: !item.value ? undefined : "".concat(item.value),
       "data-sign": "option".concat(i),
       disabled: item.disabled
     }, item.label);

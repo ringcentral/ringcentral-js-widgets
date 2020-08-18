@@ -49,7 +49,7 @@ require("core-js/modules/es6.array.find");
 
 var _di = require("ringcentral-integration/lib/di");
 
-var _Enum = require("ringcentral-integration/lib/Enum");
+var _ObjectMap = require("@ringcentral-integration/core/lib/ObjectMap");
 
 var _phoneNumber = require("@ringcentral-integration/phone-number");
 
@@ -105,7 +105,7 @@ var DEFAULT_DIALER_ROUTE = '/dialer';
 var DEFAULT_COMPOSETEXT_ROUTE = '/composeText';
 var ContactDetailsUI = (_dec = (0, _di.Module)({
   name: 'ContactDetailsUI',
-  deps: ['RouterInteraction', 'ContactSearch', 'Contacts', 'RolesAndPermissions', 'RateLimiter', 'RegionSettings', 'ConnectivityManager', 'Call', 'DialerUI', 'ComposeText', 'Brand', 'Locale', 'CallingSettings', {
+  deps: ['RouterInteraction', 'ContactSearch', 'Contacts', 'ExtensionInfo', 'RolesAndPermissions', 'RateLimiter', 'RegionSettings', 'ConnectivityManager', 'Call', 'DialerUI', 'ComposeText', 'Brand', 'Locale', 'CallingSettings', {
     dep: 'ContactDetailsUIOptions',
     optional: true
   }]
@@ -131,11 +131,12 @@ var ContactDetailsUI = (_dec = (0, _di.Module)({
         brand = _ref.brand,
         locale = _ref.locale,
         callingSettings = _ref.callingSettings,
+        extensionInfo = _ref.extensionInfo,
         _ref$composeTextRoute = _ref.composeTextRoute,
         composeTextRoute = _ref$composeTextRoute === void 0 ? DEFAULT_COMPOSETEXT_ROUTE : _ref$composeTextRoute,
         _ref$dialerRoute = _ref.dialerRoute,
         dialerRoute = _ref$dialerRoute === void 0 ? DEFAULT_DIALER_ROUTE : _ref$dialerRoute,
-        options = _objectWithoutProperties(_ref, ["routerInteraction", "contactSearch", "contacts", "rolesAndPermissions", "rateLimiter", "regionSettings", "connectivityManager", "call", "dialerUI", "composeText", "brand", "locale", "callingSettings", "composeTextRoute", "dialerRoute"]);
+        options = _objectWithoutProperties(_ref, ["routerInteraction", "contactSearch", "contacts", "rolesAndPermissions", "rateLimiter", "regionSettings", "connectivityManager", "call", "dialerUI", "composeText", "brand", "locale", "callingSettings", "extensionInfo", "composeTextRoute", "dialerRoute"]);
 
     _classCallCheck(this, ContactDetailsUI);
 
@@ -157,6 +158,7 @@ var ContactDetailsUI = (_dec = (0, _di.Module)({
     _this._routerInteraction = routerInteraction;
     _this._contactSearch = contactSearch;
     _this._contacts = contacts;
+    _this._extensionInfo = extensionInfo;
     _this._rolesAndPermissions = rolesAndPermissions;
     _this._rateLimiter = rateLimiter;
     _this._regionSettings = regionSettings;
@@ -287,6 +289,8 @@ var ContactDetailsUI = (_dec = (0, _di.Module)({
   }, {
     key: "getUIProps",
     value: function getUIProps(_ref4) {
+      var _this$_extensionInfo$;
+
       var _ref4$params = _ref4.params,
           contactId = _ref4$params.contactId,
           contactType = _ref4$params.contactType;
@@ -296,6 +300,7 @@ var ContactDetailsUI = (_dec = (0, _di.Module)({
           id: contactId,
           type: contactType
         }),
+        isMultipleSiteEnabled: (_this$_extensionInfo$ = this._extensionInfo.isMultipleSiteEnabled) !== null && _this$_extensionInfo$ !== void 0 ? _this$_extensionInfo$ : false,
         isClickToDialEnabled: !!(this._dialerUI && this._rolesAndPermissions.callingEnabled),
         isCallButtonDisabled: !!(this._connectivityManager.isOfflineMode || this._connectivityManager.isWebphoneUnavailableMode || this._connectivityManager.isWebphoneInitializing || this._rateLimiter.throttling),
         isClickToTextEnabled: !!this._composeText,
@@ -312,17 +317,33 @@ var ContactDetailsUI = (_dec = (0, _di.Module)({
 
       return {
         formatNumber: function formatNumber(phoneNumber) {
+          var _this2$_extensionInfo;
+
           // if the cleaned phone number is not a E164 format
           // we will show it directly, doesn't format it.
           var cleanedNumber = (0, _phoneNumber.parseIncompletePhoneNumber)(phoneNumber.toString());
           var isE164Number = (0, _phoneNumber.isE164)(cleanedNumber);
 
           if (isE164Number) {
-            var formatedNumber = (0, _formatNumber2["default"])({
+            var formattedNumber = (0, _formatNumber2["default"])({
               phoneNumber: phoneNumber,
               countryCode: _this2._regionSettings.countryCode
             });
-            return formatedNumber;
+            return formattedNumber;
+          } // if multi-site is enabled then we will try to remove site code with same site
+
+
+          if (_this2._extensionInfo.isMultipleSiteEnabled && ((_this2$_extensionInfo = _this2._extensionInfo.site) === null || _this2$_extensionInfo === void 0 ? void 0 : _this2$_extensionInfo.code)) {
+            var _this2$_extensionInfo2;
+
+            var _formattedNumber = (0, _formatNumber2["default"])({
+              phoneNumber: phoneNumber,
+              countryCode: _this2._regionSettings.countryCode,
+              siteCode: (_this2$_extensionInfo2 = _this2._extensionInfo.site) === null || _this2$_extensionInfo2 === void 0 ? void 0 : _this2$_extensionInfo2.code,
+              isMultipleSiteEnabled: _this2._extensionInfo.isMultipleSiteEnabled
+            });
+
+            return _formattedNumber;
           }
 
           return phoneNumber;
@@ -341,7 +362,7 @@ var ContactDetailsUI = (_dec = (0, _di.Module)({
   }, {
     key: "_actionTypes",
     get: function get() {
-      return (0, _Enum.createEnum)([//
+      return _ObjectMap.ObjectMap.prefixKeys([//
       'clickToSMS', 'clickToCall'], 'contactDetails');
     }
   }]);

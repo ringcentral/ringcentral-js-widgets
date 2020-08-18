@@ -19,8 +19,6 @@ require("core-js/modules/es7.object.get-own-property-descriptors");
 
 require("core-js/modules/es6.array.for-each");
 
-require("core-js/modules/es6.array.filter");
-
 require("core-js/modules/es6.symbol");
 
 require("core-js/modules/web.dom.iterable");
@@ -45,6 +43,8 @@ require("core-js/modules/es6.object.set-prototype-of");
 
 require("core-js/modules/es6.array.index-of");
 
+require("core-js/modules/es6.array.filter");
+
 require("regenerator-runtime/runtime");
 
 require("core-js/modules/es6.function.name");
@@ -61,7 +61,11 @@ var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
+var _formatMessage = _interopRequireDefault(require("format-message"));
+
 var _messageTypes = _interopRequireDefault(require("ringcentral-integration/enums/messageTypes"));
+
+var _extensionTypes = require("ringcentral-integration/enums/extensionTypes");
 
 var _messageDirection = _interopRequireDefault(require("ringcentral-integration/enums/messageDirection"));
 
@@ -374,8 +378,8 @@ var MessageItem = /*#__PURE__*/function (_Component) {
       this._mounted = true;
     }
   }, {
-    key: "componentWillReceiveProps",
-    value: function componentWillReceiveProps(nextProps) {
+    key: "UNSAFE_componentWillReceiveProps",
+    value: function UNSAFE_componentWillReceiveProps(nextProps) {
       if (!this._userSelection && (nextProps.conversation.conversationMatches !== this.props.conversation.conversationMatches || nextProps.conversation.correspondentMatches !== this.props.conversation.correspondentMatches)) {
         this.setState({
           selected: this.getInitialContactIndex(nextProps)
@@ -548,8 +552,13 @@ var MessageItem = /*#__PURE__*/function (_Component) {
           currentLocale = _this$props2.currentLocale;
 
       if ((0, _messageHelper.messageIsTextMessage)(conversation)) {
-        if (conversation.mmsAttachment && conversation.mmsAttachment.contentType.indexOf('image') > -1) {
-          return _i18n["default"].getString('imageAttachment', currentLocale);
+        if (conversation.mmsAttachments && conversation.mmsAttachments.length > 0) {
+          var count = conversation.mmsAttachments.filter(function (m) {
+            return m.contentType.indexOf('image') > -1;
+          }).length;
+          return (0, _formatMessage["default"])(_i18n["default"].getString('imageAttachment', currentLocale), {
+            count: count
+          });
         }
 
         return conversation.subject;
@@ -587,7 +596,9 @@ var MessageItem = /*#__PURE__*/function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this2 = this;
+      var _this2 = this,
+          _this$getSelectedCont,
+          _this$getSelectedCont2;
 
       var _this$props3 = this.props,
           areaCode = _this$props3.areaCode,
@@ -732,7 +743,7 @@ var MessageItem = /*#__PURE__*/function (_Component) {
         onViewEntity: onViewContact && this.viewSelectedContact,
         onCreateEntity: onCreateContact && this.createSelectedContact,
         createEntityTypes: createEntityTypes,
-        hasEntity: correspondents.length === 1 && !!correspondentMatches.length,
+        hasEntity: correspondents.length === 1 && !!correspondentMatches.length && ((_this$getSelectedCont = (_this$getSelectedCont2 = this.getSelectedContact()) === null || _this$getSelectedCont2 === void 0 ? void 0 : _this$getSelectedCont2.type) !== null && _this$getSelectedCont !== void 0 ? _this$getSelectedCont : '') !== _extensionTypes.extensionTypes.ivrMenu,
         onClickToDial: !isFax ? onClickToDial && this.clickToDial : undefined,
         onClickToSms: isVoicemail ? onClickToSms && this.onClickToSms : undefined,
         disableClickToSms: disableClickToSms,
@@ -774,6 +785,16 @@ MessageItem.propTypes = {
   conversation: _propTypes["default"].shape({
     conversationId: _propTypes["default"].string.isRequired,
     isLogging: _propTypes["default"].bool,
+    creationTime: _propTypes["default"].number,
+    direction: _propTypes["default"].string,
+    faxPageCount: _propTypes["default"].number,
+    voicemailAttachment: _propTypes["default"].shape({
+      duration: _propTypes["default"].number,
+      uri: _propTypes["default"].string
+    }),
+    faxAttachment: _propTypes["default"].shape({
+      uri: _propTypes["default"].string
+    }),
     correspondents: _propTypes["default"].arrayOf(_propTypes["default"].shape({
       name: _propTypes["default"].string,
       phoneNumber: _propTypes["default"].string,
@@ -788,7 +809,9 @@ MessageItem.propTypes = {
     })),
     unreadCounts: _propTypes["default"].number.isRequired,
     type: _propTypes["default"].string.isRequired,
-    uri: _propTypes["default"].string
+    uri: _propTypes["default"].string,
+    mmsAttachments: _propTypes["default"].any,
+    subject: _propTypes["default"].string
   }).isRequired,
   areaCode: _propTypes["default"].string.isRequired,
   brand: _propTypes["default"].string.isRequired,

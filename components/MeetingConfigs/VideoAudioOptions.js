@@ -56,7 +56,8 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 var Video = function Video(_ref) {
-  var currentLocale = _ref.currentLocale,
+  var disabled = _ref.disabled,
+      currentLocale = _ref.currentLocale,
       meeting = _ref.meeting,
       update = _ref.update;
   return /*#__PURE__*/_react["default"].createElement(_MeetingSection["default"], {
@@ -71,6 +72,7 @@ var Video = function Video(_ref) {
   }, /*#__PURE__*/_react["default"].createElement("span", {
     className: _styles["default"].labelLight
   }, _i18n["default"].getString('host', currentLocale)), /*#__PURE__*/_react["default"].createElement(_Switch["default"], {
+    disable: disabled,
     checked: meeting.startHostVideo,
     onChange: function onChange(startHostVideo) {
       update(_objectSpread(_objectSpread({}, meeting), {}, {
@@ -83,6 +85,7 @@ var Video = function Video(_ref) {
   }, /*#__PURE__*/_react["default"].createElement("span", {
     className: _styles["default"].labelLight
   }, _i18n["default"].getString('participants', currentLocale)), /*#__PURE__*/_react["default"].createElement(_Switch["default"], {
+    disable: disabled,
     checked: meeting.startParticipantsVideo,
     onChange: function onChange(startParticipantsVideo) {
       update(_objectSpread(_objectSpread({}, meeting), {}, {
@@ -96,10 +99,12 @@ var Video = function Video(_ref) {
 exports.Video = Video;
 
 var AudioOptionsCheckbox = function AudioOptionsCheckbox(_ref2) {
-  var update = _ref2.update,
+  var disabled = _ref2.disabled,
+      update = _ref2.update,
       meeting = _ref2.meeting,
       data = _ref2.data;
   return /*#__PURE__*/_react["default"].createElement(_CheckBox["default"], {
+    disabled: disabled,
     onSelect: function onSelect(_ref3) {
       var key = _ref3.key;
       var audioOptions = key.split('_');
@@ -117,10 +122,12 @@ var AudioOptionsCheckbox = function AudioOptionsCheckbox(_ref2) {
 exports.AudioOptionsCheckbox = AudioOptionsCheckbox;
 
 var AudioOptionsDropdown = function AudioOptionsDropdown(_ref4) {
-  var update = _ref4.update,
+  var disabled = _ref4.disabled,
+      update = _ref4.update,
       meeting = _ref4.meeting,
       data = _ref4.data;
   return /*#__PURE__*/_react["default"].createElement(_DropdownSelect["default"], {
+    disabled: disabled,
     className: (0, _classnames["default"])(_styles["default"].dropdownSelect),
     iconClassNßame: _styles["default"].dropdownIcon,
     value: meeting.audioOptions.join('_'),
@@ -153,16 +160,19 @@ var AudioOptionsDropdown = function AudioOptionsDropdown(_ref4) {
 exports.AudioOptionsDropdown = AudioOptionsDropdown;
 
 var AudioOptions = function AudioOptions(_ref6) {
-  var currentLocale = _ref6.currentLocale,
+  var disabled = _ref6.disabled,
+      currentLocale = _ref6.currentLocale,
       update = _ref6.update,
       meeting = _ref6.meeting,
       data = _ref6.data,
       audioOptionToggle = _ref6.audioOptionToggle;
   var audioOptions = audioOptionToggle ? /*#__PURE__*/_react["default"].createElement(AudioOptionsDropdown, {
+    disabled: disabled,
     update: update,
     meeting: meeting,
     data: data
   }) : /*#__PURE__*/_react["default"].createElement(AudioOptionsCheckbox, {
+    disabled: disabled,
     update: update,
     meeting: meeting,
     data: data

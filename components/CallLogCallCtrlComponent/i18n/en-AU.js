@@ -12,7 +12,7 @@ var _default = {
   hangup: "Hang up",
   reject: "Reject",
   hold: "Hold",
-  onHold: "On Hold",
+  onHold: "On hold",
   transfer: "Transfer"
 }; // @key: @#@"mute"@#@ @source: @#@"Mute"@#@
 // @key: @#@"unmute"@#@ @source: @#@"Unmute"@#@

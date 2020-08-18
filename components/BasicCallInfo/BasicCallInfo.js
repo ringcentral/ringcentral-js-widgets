@@ -79,7 +79,9 @@ var BasicCallInfo = function BasicCallInfo(_ref) {
       callInfos = _ref.callInfos,
       panelClass = _ref.classes.panel,
       status = _ref.status,
-      callControlRef = _ref.callControlRef;
+      callControlRef = _ref.callControlRef,
+      onCopySuccess = _ref.onCopySuccess,
+      currentLocale = _ref.currentLocale;
 
   var _useState = (0, _react.useState)(false),
       _useState2 = _slicedToArray(_useState, 2),
@@ -99,7 +101,14 @@ var BasicCallInfo = function BasicCallInfo(_ref) {
     if (callControlRef.current) {
       setPanelHeight("calc(100% - ".concat(callControlRef.current.clientHeight, "px)"));
     }
-  }, [callControlRef, status]);
+  }, [callControlRef, status]); // when ringing state change, close that info view
+
+  (0, _react.useEffect)(function () {
+    if (open && !isRinging) {
+      toggleOpen();
+    } // eslint-disable-next-line react-hooks/exhaustive-deps
+
+  }, [isRinging]);
   return /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement("div", {
     "data-sign": "basicCallInfo",
     className: _styles["default"].container
@@ -138,10 +147,13 @@ var BasicCallInfo = function BasicCallInfo(_ref) {
   })), /*#__PURE__*/_react["default"].createElement("main", null, /*#__PURE__*/_react["default"].createElement(_BasicCallInfoMain.BasicCallInfoMain, {
     subject: subject,
     isInbound: isInbound,
-    followInfos: followInfos
+    followInfos: followInfos,
+    className: open && _styles["default"].infoMain
   }), /*#__PURE__*/_react["default"].createElement(_CallInfoList.CallInfoList, {
     callInfos: callInfos,
-    className: _styles["default"].infoList
+    className: _styles["default"].infoList,
+    onCopySuccess: onCopySuccess,
+    currentLocale: currentLocale
   })))));
 };
 

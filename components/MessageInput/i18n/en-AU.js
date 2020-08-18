@@ -9,7 +9,7 @@ exports["default"] = void 0;
 var _default = {
   from: "From",
   to: "To",
-  enterNameOrNumber: "Enter Number or Name",
+  enterNameOrNumber: "Enter number or name...",
   typeMessage: "Type message...",
   send: "Send"
 }; // @key: @#@"from"@#@ @source: @#@"From"@#@

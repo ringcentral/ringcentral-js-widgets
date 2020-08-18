@@ -33,7 +33,7 @@ var _classnames = _interopRequireDefault(require("classnames"));
 
 var _debounce = _interopRequireDefault(require("ringcentral-integration/lib/debounce"));
 
-var _SpinnerOverlay = _interopRequireDefault(require("../SpinnerOverlay"));
+var _SpinnerOverlay = require("../SpinnerOverlay");
 
 var _ActiveCallItem = _interopRequireDefault(require("../ActiveCallItem"));
 
@@ -453,7 +453,7 @@ var CallsListPanel = /*#__PURE__*/function (_React$PureComponent) {
           contentHeight = _this$state.contentHeight;
 
       if (showSpinner) {
-        return /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay["default"], null);
+        return /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay.SpinnerOverlay, null);
       }
 
       var isShowMessageIcon = readTextPermission && !!onClickToSms;
@@ -582,7 +582,7 @@ var CallsListPanel = /*#__PURE__*/function (_React$PureComponent) {
         });
       };
 
-      var historyCall = showSpinner ? /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay["default"], null) : /*#__PURE__*/_react["default"].createElement("div", {
+      var historyCall = showSpinner ? /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay.SpinnerOverlay, null) : /*#__PURE__*/_react["default"].createElement("div", {
         className: (0, _classnames["default"])(_styles["default"].list, className)
       }, !onlyHistory && /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].listTitle

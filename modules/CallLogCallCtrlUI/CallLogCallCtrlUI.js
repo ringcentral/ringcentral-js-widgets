@@ -43,6 +43,8 @@ require("core-js/modules/es6.function.bind");
 
 var _di = require("ringcentral-integration/lib/di");
 
+var _callingModes = _interopRequireDefault(require("ringcentral-integration/modules/CallingSettings/callingModes"));
+
 var _RcUIModule2 = _interopRequireDefault(require("../../lib/RcUIModule"));
 
 var _dec, _class, _temp;
@@ -83,7 +85,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 var CallLogCallCtrlUI = (_dec = (0, _di.Module)({
   name: 'CallLogCallCtrlUI',
-  deps: ['ActiveCallControl', 'ConnectivityMonitor', 'RateLimiter', 'RouterInteraction']
+  deps: ['ActiveCallControl', 'ConnectivityMonitor', 'RateLimiter', 'RouterInteraction', 'CallingSettings']
 }), _dec(_class = (_temp = /*#__PURE__*/function (_RcUIModule) {
   _inherits(CallLogCallCtrlUI, _RcUIModule);
 
@@ -96,7 +98,8 @@ var CallLogCallCtrlUI = (_dec = (0, _di.Module)({
         connectivityMonitor = _ref.connectivityMonitor,
         rateLimiter = _ref.rateLimiter,
         routerInteraction = _ref.routerInteraction,
-        options = _objectWithoutProperties(_ref, ["activeCallControl", "connectivityMonitor", "rateLimiter", "routerInteraction"]);
+        callingSettings = _ref.callingSettings,
+        options = _objectWithoutProperties(_ref, ["activeCallControl", "connectivityMonitor", "rateLimiter", "routerInteraction", "callingSettings"]);
 
     _classCallCheck(this, CallLogCallCtrlUI);
 
@@ -105,6 +108,7 @@ var CallLogCallCtrlUI = (_dec = (0, _di.Module)({
     _this._connectivityMonitor = void 0;
     _this._rateLimiter = void 0;
     _this._routerInteraction = void 0;
+    _this._callingSettings = void 0;
 
     _this.onTransfer = function (telephonySessionId) {
       return _this._routerInteraction.push("/transfer/".concat(telephonySessionId, "/active"));
@@ -114,6 +118,7 @@ var CallLogCallCtrlUI = (_dec = (0, _di.Module)({
     _this._connectivityMonitor = connectivityMonitor;
     _this._rateLimiter = rateLimiter;
     _this._routerInteraction = routerInteraction;
+    _this._callingSettings = callingSettings;
     return _this;
   }
 
@@ -121,10 +126,12 @@ var CallLogCallCtrlUI = (_dec = (0, _di.Module)({
     key: "getUIProps",
     value: function getUIProps(_ref2) {
       var telephonySessionId = _ref2.telephonySessionId;
+      var isWebphone = this._callingSettings.callingMode === _callingModes["default"].webphone;
 
       var currentSession = this._activeCallControl.getActiveSession(telephonySessionId);
 
       return {
+        isWebphone: isWebphone,
         currentSession: currentSession,
         disableLinks: !this._connectivityMonitor.connectivity || this._rateLimiter.throttling,
         telephonySessionId: telephonySessionId
@@ -133,6 +140,8 @@ var CallLogCallCtrlUI = (_dec = (0, _di.Module)({
   }, {
     key: "getUIFunctions",
     value: function getUIFunctions() {
+      var _this2 = this;
+
       return {
         mute: this._activeCallControl.mute.bind(this._activeCallControl),
         unmute: this._activeCallControl.unmute.bind(this._activeCallControl),
@@ -140,7 +149,12 @@ var CallLogCallCtrlUI = (_dec = (0, _di.Module)({
         reject: this._activeCallControl.reject.bind(this._activeCallControl),
         onHold: this._activeCallControl.hold.bind(this._activeCallControl),
         onUnHold: this._activeCallControl.unhold.bind(this._activeCallControl),
-        onTransfer: this.onTransfer
+        startRecord: this._activeCallControl.startRecord.bind(this._activeCallControl),
+        stopRecord: this._activeCallControl.stopRecord.bind(this._activeCallControl),
+        onTransfer: this.onTransfer,
+        sendDTMF: function sendDTMF(dtmfValue, telephonySessionId) {
+          return _this2._activeCallControl.sendDTMF(dtmfValue, telephonySessionId);
+        }
       };
     }
   }]);

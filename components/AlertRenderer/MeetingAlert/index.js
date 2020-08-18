@@ -49,7 +49,10 @@ function MeetingAlert(_ref) {
 MeetingAlert.propTypes = {
   currentLocale: _propTypes["default"].string.isRequired,
   message: _propTypes["default"].shape({
-    message: _propTypes["default"].string.isRequired
+    message: _propTypes["default"].string.isRequired,
+    payload: _propTypes["default"].shape({
+      permissionName: _propTypes["default"].string
+    })
   }).isRequired,
   application: _propTypes["default"].string
 };
@@ -59,6 +62,6 @@ MeetingAlert.defaultProps = {
 
 MeetingAlert.handleMessage = function (_ref2) {
   var message = _ref2.message;
-  return message === _meetingStatus["default"].emptyTopic || message === _meetingStatus["default"].noPassword || message === _meetingStatus["default"].insufficientPermissions || message === _meetingStatus["default"].scheduledSuccess || message === _meetingStatus["default"].updatedSuccess || message === _meetingStatus["default"].internalError;
+  return message === _meetingStatus["default"].emptyTopic || message === _meetingStatus["default"].noPassword || message === _meetingStatus["default"].insufficientPermissions || message === _meetingStatus["default"].scheduledSuccess || message === _meetingStatus["default"].updatedSuccess || message === _meetingStatus["default"].meetingIsDeleted || message === _meetingStatus["default"].internalError;
 };
 //# sourceMappingURL=index.js.map

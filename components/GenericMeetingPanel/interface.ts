@@ -3,16 +3,7 @@
 //   RcTimePickerSize,
 // } from '@ringcentral-integration/rcui';
 import { RcVMeetingModel } from 'ringcentral-integration/models/rcv.model';
-
-export interface RcMMeetingModel {
-  name: string;
-  startTime: Date;
-  duration: number;
-  allowJoinBeforeHost: boolean;
-  muteAudio: boolean;
-  muteVideo: boolean;
-  saveAsDefault: boolean;
-}
+import { RcMMeetingModel } from 'ringcentral-integration/modules/Meeting';
 
 export interface ScheduleButtonProps {
   currentLocale: string;
@@ -22,6 +13,7 @@ export interface ScheduleButtonProps {
   onClick: () => void;
   update: (any) => any;
   showSaveAsDefault: boolean;
+  disableSaveAsDefault: boolean;
   launchMeeting: () => any;
   showLaunchMeetingBtn: boolean;
   scheduleButtonLabel: string;
@@ -33,6 +25,7 @@ export interface CommonProps {
   scheduleButton?: React.FunctionComponent<ScheduleButtonProps>;
   invite?: (meeting: any, opener: any) => any;
   showSaveAsDefault?: boolean;
+  disableSaveAsDefault?: boolean;
   openNewWindow?: boolean;
   currentLocale: string;
   disabled?: boolean;
@@ -51,6 +44,7 @@ export interface VideoPanelProps extends CommonProps {
 }
 
 export interface MeetingPanelProps extends CommonProps {
+  showSpinner: boolean;
   showWhen?: boolean;
   showDuration?: boolean;
   audioOptionToggle?: boolean;
@@ -74,6 +68,7 @@ export interface GenericMeetingPanelProps
   CustomPanel?: React.ReactNode;
   brandName: string;
   personalMeetingId?: string;
+  switchUsePersonalMeetingId?: (usePersonalMeetingId: boolean) => void;
 }
 
 export interface GenericMeetingPanelState {}

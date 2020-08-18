@@ -45,7 +45,7 @@ var _classnames = _interopRequireDefault(require("classnames"));
 
 var _callLogHelpers = require("ringcentral-integration/lib/callLogHelpers");
 
-var _SpinnerOverlay = _interopRequireDefault(require("../SpinnerOverlay"));
+var _SpinnerOverlay = require("../SpinnerOverlay");
 
 var _Button = require("../Button");
 
@@ -279,7 +279,7 @@ var LogSection = /*#__PURE__*/function (_Component) {
       var showSpinner = currentLog.showSpinner;
 
       if (showSpinner) {
-        return /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay["default"], {
+        return /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay.SpinnerOverlay, {
           className: _styles["default"].spinner
         });
       }

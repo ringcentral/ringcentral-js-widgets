@@ -7,12 +7,12 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  currentCall: "Current Call",
-  viewCalls: "View Calls",
-  incomingCall: "{numberOf} Incoming Call",
-  incomingCalls: "{numberOf} Incoming Calls",
-  callOnHold: "{numberOf} Call On Hold",
-  callsOnHold: "{numberOf} Calls On Hold"
+  currentCall: "Current call",
+  viewCalls: "View calls",
+  incomingCall: "{numberOf} incoming call",
+  incomingCalls: "{numberOf} incoming calls",
+  callOnHold: "{numberOf} call on hold",
+  callsOnHold: "{numberOf} calls on hold"
 }; // @key: @#@"currentCall"@#@ @source: @#@"Current Call"@#@
 // @key: @#@"viewCalls"@#@ @source: @#@"View Calls"@#@
 // @key: @#@"incomingCall"@#@ @source: @#@"{numberOf} Incoming Call"@#@

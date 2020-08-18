@@ -9,7 +9,7 @@ exports["default"] = void 0;
 var _default = {
   hide: "Hide",
   end: "End",
-  keypad: "Keypad"
+  keypad: "Dialpad"
 }; // @key: @#@"hide"@#@ @source: @#@"Hide"@#@
 // @key: @#@"end"@#@ @source: @#@"End"@#@
 // @key: @#@"keypad"@#@ @source: @#@"Keypad"@#@

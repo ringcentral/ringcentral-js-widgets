@@ -95,8 +95,6 @@ var CallCtrlContainer = /*#__PURE__*/function (_Component) {
   var _super = _createSuper(CallCtrlContainer);
 
   function CallCtrlContainer(props) {
-    var _context;
-
     var _this;
 
     _classCallCheck(this, CallCtrlContainer);
@@ -115,7 +113,7 @@ var CallCtrlContainer = /*#__PURE__*/function (_Component) {
       mergeDisabled: mergeDisabled,
       addDisabled: addDisabled
     };
-    _this.onLastMergingCallEnded = (_context = _assertThisInitialized(_this), _this.onLastMergingCallEnded).bind(_context);
+    _this.onLastMergingCallEnded = _this.onLastMergingCallEnded.bind(_assertThisInitialized(_this));
 
     _this.onSelectMatcherName = function (option) {
       var nameMatches = _this.props.nameMatches || [];
@@ -251,16 +249,16 @@ var CallCtrlContainer = /*#__PURE__*/function (_Component) {
     key: "onLastMergingCallEnded",
     value: function () {
       var _onLastMergingCallEnded = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-        return regeneratorRuntime.wrap(function _callee$(_context2) {
+        return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context.prev = _context.next) {
               case 0:
                 if (!this._mounted) {
-                  _context2.next = 5;
+                  _context.next = 5;
                   break;
                 }
 
-                _context2.next = 3;
+                _context.next = 3;
                 return (0, _sleep["default"])(2000);
 
               case 3:
@@ -276,7 +274,7 @@ var CallCtrlContainer = /*#__PURE__*/function (_Component) {
 
               case 5:
               case "end":
-                return _context2.stop();
+                return _context.stop();
             }
           }
         }, _callee, this);

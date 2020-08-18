@@ -61,7 +61,7 @@ var _Panel = _interopRequireDefault(require("../Panel"));
 
 var _SearchInput = _interopRequireDefault(require("../SearchInput"));
 
-var _SpinnerOverlay = _interopRequireDefault(require("../SpinnerOverlay"));
+var _SpinnerOverlay = require("../SpinnerOverlay");
 
 var _ContactList = _interopRequireDefault(require("../ContactList"));
 
@@ -305,8 +305,8 @@ var ContactsView = /*#__PURE__*/function (_Component) {
       window.addEventListener('resize', this.onResize);
     }
   }, {
-    key: "componentWillUpdate",
-    value: function componentWillUpdate(nextProps, nextState) {
+    key: "UNSAFE_componentWillUpdate",
+    value: function UNSAFE_componentWillUpdate(nextProps, nextState) {
       if (nextProps.searchString !== this.props.searchString) {
         nextState.searchString = nextProps.searchString;
       }
@@ -372,7 +372,9 @@ var ContactsView = /*#__PURE__*/function (_Component) {
           Filter = _this$props.contactSourceFilterRenderer,
           sourceNodeRenderer = _this$props.sourceNodeRenderer,
           onRefresh = _this$props.onRefresh,
-          children = _this$props.children;
+          children = _this$props.children,
+          currentSiteCode = _this$props.currentSiteCode,
+          isMultipleSiteEnabled = _this$props.isMultipleSiteEnabled;
       var showRefresh = typeof onRefresh === 'function';
       var refreshButton = showRefresh ? /*#__PURE__*/_react["default"].createElement(RefreshContacts, {
         className: _styles["default"].actionButton,
@@ -410,10 +412,12 @@ var ContactsView = /*#__PURE__*/function (_Component) {
         getAvatarUrl: getAvatarUrl,
         getPresence: getPresence,
         onItemSelect: onItemSelect,
+        currentSiteCode: currentSiteCode,
+        isMultipleSiteEnabled: isMultipleSiteEnabled,
         sourceNodeRenderer: sourceNodeRenderer,
         width: this.state.contentWidth,
         height: this.state.contentHeight
-      }))), showSpinner ? /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay["default"], {
+      }))), showSpinner ? /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay.SpinnerOverlay, {
         className: _styles["default"].spinner
       }) : null, children);
     }
@@ -434,6 +438,8 @@ ContactsView.propTypes = {
   getAvatarUrl: _propTypes["default"].func.isRequired,
   getPresence: _propTypes["default"].func.isRequired,
   showSpinner: _propTypes["default"].bool.isRequired,
+  currentSiteCode: _propTypes["default"].string,
+  isMultipleSiteEnabled: _propTypes["default"].bool,
   searchSource: _propTypes["default"].string,
   searchString: _propTypes["default"].string,
   onItemSelect: _propTypes["default"].func,
@@ -453,6 +459,8 @@ ContactsView.defaultProps = {
   sourceNodeRenderer: undefined,
   onVisitPage: undefined,
   children: undefined,
-  onRefresh: undefined
+  onRefresh: undefined,
+  currentSiteCode: '',
+  isMultipleSiteEnabled: false
 };
 //# sourceMappingURL=index.js.map

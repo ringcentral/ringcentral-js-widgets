@@ -82,6 +82,8 @@ export class FieldItem extends Component<FieldItemProps, {}> {
       currentOptionFinder,
       searchOptionFinder: _searchOptionFinder,
       foundFromServerEntityGetter,
+      onBackClick,
+      backHeaderClassName,
     } = referenceFieldOption;
     const matchedEntities = matchedEntitiesGetter(currentLog);
     const otherEntities = otherEntitiesGetter(currentLog);
@@ -118,6 +120,8 @@ export class FieldItem extends Component<FieldItemProps, {}> {
     return (
       <FullSelectField
         {...this.props}
+        backHeaderClassName={backHeaderClassName}
+        onBackClick={onBackClick}
         title={title}
         rightIcon={rightIcon}
         placeholder={metadata.placeholder}
@@ -223,7 +227,7 @@ export class FieldItem extends Component<FieldItemProps, {}> {
       timeout,
     } = this.props;
     const {
-      fieldOption: { required },
+      fieldOption: { required, label },
       onSave,
     } = this.props;
     return (
@@ -231,6 +235,7 @@ export class FieldItem extends Component<FieldItemProps, {}> {
         required={required}
         subjectPicklist={subjectPicklist}
         subject={task.subject || ''}
+        label={label}
         onChange={this.onInputSelectChange('subject')}
         onSelectOption={subjectDropdownsTracker}
         onSave={onSave}

@@ -66,7 +66,8 @@ function LogBasicInfo(props) {
       dataSign = props.dataSign,
       disableLinks = props.disableLinks,
       dateTimeFormatter = props.dateTimeFormatter,
-      isWide = props.isWide;
+      isWide = props.isWide,
+      className = props.className;
   if (!call) return null;
   var direction = call.direction,
       to = call.to,
@@ -104,7 +105,7 @@ function LogBasicInfo(props) {
   var infoStatus = getInfoStatus(status);
   return /*#__PURE__*/_react["default"].createElement("div", {
     "data-sign": "logSection",
-    className: (0, _classnames["default"])(_styles["default"].root, !isWide && _styles["default"].classic, _styles["default"][infoStatus])
+    className: (0, _classnames["default"])(_styles["default"].root, !isWide && _styles["default"].classic, _styles["default"][infoStatus], className)
   }, /*#__PURE__*/_react["default"].createElement(_ShinyBar.ShinyBar, {
     className: _styles["default"].top,
     isRinging: isRinging,
@@ -147,7 +148,8 @@ LogBasicInfo.propTypes = {
   dataSign: _propTypes["default"].string,
   disableLinks: _propTypes["default"].bool,
   dateTimeFormatter: _propTypes["default"].func.isRequired,
-  isWide: _propTypes["default"].bool
+  isWide: _propTypes["default"].bool,
+  className: _propTypes["default"].string
 };
 LogBasicInfo.defaultProps = {
   formatPhone: function formatPhone(value) {
@@ -157,6 +159,7 @@ LogBasicInfo.defaultProps = {
   dataSign: undefined,
   disableLinks: false,
   isWide: true,
-  currentLocale: 'en'
+  currentLocale: 'en',
+  className: null
 };
 //# sourceMappingURL=LogBasicInfo.js.map

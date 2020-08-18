@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/SearchPanel/i18n/en-US.ts"],"names":["noResultFoundFor","search"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,gBAAgB,EAAE,qBADL;AAEbC,EAAAA,MAAM,EAAE;AAFK,C","sourcesContent":["export default {\n  noResultFoundFor: 'No result found for',\n  search: 'Search',\n};\n"],"file":"en-US.js"}

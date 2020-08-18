@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  createLog: "Create Log",
+  createLog: "Create log",
   creating: "Creating",
   save: "Save",
   saving: "Saving",

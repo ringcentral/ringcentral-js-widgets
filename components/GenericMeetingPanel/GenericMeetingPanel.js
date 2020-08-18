@@ -51,7 +51,7 @@ var _sleep = _interopRequireDefault(require("ringcentral-integration/lib/sleep")
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _SpinnerOverlay = _interopRequireDefault(require("../SpinnerOverlay"));
+var _SpinnerOverlay = require("../SpinnerOverlay");
 
 var _MeetingConfigs = _interopRequireDefault(require("../MeetingConfigs"));
 
@@ -90,6 +90,11 @@ function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 var GenericMeetingPanel = function GenericMeetingPanel(props) {
+  var _useState = (0, _react.useState)(null),
+      _useState2 = _slicedToArray(_useState, 2),
+      topicRef = _useState2[0],
+      setTopicRef = _useState2[1];
+
   var showCustom = props.showCustom,
       CustomPanel = props.CustomPanel;
 
@@ -102,6 +107,7 @@ var GenericMeetingPanel = function GenericMeetingPanel(props) {
       currentLocale = props.currentLocale,
       ScheduleButton = props.scheduleButton,
       recipientsSection = props.recipientsSection,
+      showTopic = props.showTopic,
       showWhen = props.showWhen,
       showDuration = props.showDuration,
       showRecurringMeeting = props.showRecurringMeeting,
@@ -112,6 +118,7 @@ var GenericMeetingPanel = function GenericMeetingPanel(props) {
       onOK = props.onOK,
       init = props.init,
       showSaveAsDefault = props.showSaveAsDefault,
+      disableSaveAsDefault = props.disableSaveAsDefault,
       updateMeetingSettings = props.updateMeetingSettings,
       validatePasswordSettings = props.validatePasswordSettings,
       isRCM = props.isRCM,
@@ -124,41 +131,39 @@ var GenericMeetingPanel = function GenericMeetingPanel(props) {
       appCode = props.appCode,
       schedule = props.schedule,
       brandName = props.brandName,
-      personalMeetingId = props.personalMeetingId;
+      personalMeetingId = props.personalMeetingId,
+      showSpinner = props.showSpinner,
+      switchUsePersonalMeetingId = props.switchUsePersonalMeetingId;
 
-  if (!isRCM && !isRCV) {
-    return /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay["default"], null);
-  } // TODO: fix lint issue here
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-
-
-  var _useState = (0, _react.useState)(null),
-      _useState2 = _slicedToArray(_useState, 2),
-      topicRef = _useState2[0],
-      setTopicRef = _useState2[1];
+  if (showSpinner) {
+    return /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay.SpinnerOverlay, null);
+  }
 
   return /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].wrapper
   }, isRCM && /*#__PURE__*/_react["default"].createElement(_MeetingConfigs["default"], {
     update: updateMeetingSettings,
+    switchUsePersonalMeetingId: switchUsePersonalMeetingId,
     init: init,
     meeting: meeting,
     disabled: disabled,
     currentLocale: currentLocale,
     recipientsSection: recipientsSection,
     showWhen: showWhen,
+    showTopic: showTopic,
     showDuration: showDuration,
     showRecurringMeeting: showRecurringMeeting,
-    openNewWindow: openNewWindow,
     meetingOptionToggle: meetingOptionToggle,
     passwordPlaceholderEnable: passwordPlaceholderEnable,
-    audioOptionToggle: audioOptionToggle
+    audioOptionToggle: audioOptionToggle,
+    personalMeetingId: personalMeetingId
   }), isRCV && /*#__PURE__*/_react["default"].createElement(_VideoConfig.VideoConfig, {
     currentLocale: currentLocale,
     meeting: meeting,
     updateMeetingSettings: updateMeetingSettings,
     validatePasswordSettings: validatePasswordSettings,
     recipientsSection: recipientsSection,
+    showTopic: showTopic,
     showWhen: showWhen,
     showDuration: showDuration,
     init: init,
@@ -211,6 +216,7 @@ var GenericMeetingPanel = function GenericMeetingPanel(props) {
     })),
     update: updateMeetingSettings,
     showSaveAsDefault: showSaveAsDefault,
+    disableSaveAsDefault: disableSaveAsDefault,
     launchMeeting: launchMeeting,
     showLaunchMeetingBtn: showLaunchMeetingBtn,
     appCode: appCode,
@@ -223,6 +229,7 @@ GenericMeetingPanel.defaultProps = {
   launchMeeting: function launchMeeting() {},
   disabled: false,
   showWhen: true,
+  showTopic: true,
   showDuration: true,
   showRecurringMeeting: true,
   openNewWindow: true,
@@ -232,10 +239,12 @@ GenericMeetingPanel.defaultProps = {
   onOK: undefined,
   scheduleButton: undefined,
   showSaveAsDefault: true,
+  disableSaveAsDefault: false,
   showCustom: false,
   showLaunchMeetingBtn: false,
   appCode: '',
   scheduleButtonLabel: '',
-  personalMeetingId: undefined
+  personalMeetingId: undefined,
+  showSpinner: false
 };
 //# sourceMappingURL=GenericMeetingPanel.js.map

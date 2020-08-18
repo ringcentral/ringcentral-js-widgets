@@ -31,11 +31,23 @@ require("core-js/modules/es6.reflect.construct");
 
 require("core-js/modules/es6.object.set-prototype-of");
 
+require("core-js/modules/es6.array.map");
+
+require("core-js/modules/es6.function.name");
+
 require("core-js/modules/es6.date.now");
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
+var _classnames = _interopRequireDefault(require("classnames"));
+
 var _react = _interopRequireWildcard(require("react"));
+
+var _iconAttachment = _interopRequireDefault(require("@ringcentral-integration/rcui/icons/icon-attachment.svg"));
+
+var _iconClose = _interopRequireDefault(require("@ringcentral-integration/rcui/icons/icon-close.svg"));
+
+var _rcui = require("@ringcentral-integration/rcui");
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
@@ -117,11 +129,32 @@ var MessageInput = /*#__PURE__*/function (_Component) {
       }
     };
 
+    _this.onAttachmentIconClick = function () {
+      _this._fileInputRef.current.click();
+    };
+
+    _this.onSelectAttachment = function (_ref) {
+      var currentTarget = _ref.currentTarget;
+
+      if (currentTarget.files.length === 0) {
+        return;
+      }
+
+      var addAttachment = _this.props.addAttachment;
+      var file = currentTarget.files[0];
+      addAttachment({
+        name: file.name,
+        size: file.size,
+        file: file
+      });
+    };
+
     _this.state = {
       value: props.value,
       height: props.minHeight
     };
     _this._lastValueChange = 0;
+    _this._fileInputRef = /*#__PURE__*/_react["default"].createRef();
     return _this;
   }
 
@@ -204,14 +237,32 @@ var MessageInput = /*#__PURE__*/function (_Component) {
       var _this$props2 = this.props,
           currentLocale = _this$props2.currentLocale,
           disabled = _this$props2.disabled,
-          maxLength = _this$props2.maxLength;
+          maxLength = _this$props2.maxLength,
+          supportAttachment = _this$props2.supportAttachment,
+          attachments = _this$props2.attachments,
+          removeAttachment = _this$props2.removeAttachment;
       var _this$state = this.state,
           value = _this$state.value,
           height = _this$state.height;
       var inputHeight = height - UIHeightOffset;
       return /*#__PURE__*/_react["default"].createElement("div", {
-        className: _styles["default"].root
+        className: (0, _classnames["default"])(_styles["default"].root, supportAttachment && _styles["default"].supportAttachment)
       }, /*#__PURE__*/_react["default"].createElement("div", {
+        className: _styles["default"].attachmentIcon
+      }, /*#__PURE__*/_react["default"].createElement(_rcui.RcIconButton, {
+        variant: "round",
+        size: "small",
+        symbol: _iconAttachment["default"],
+        onClick: this.onAttachmentIconClick
+      }), /*#__PURE__*/_react["default"].createElement("input", {
+        type: "file",
+        accept: "image/*",
+        style: {
+          display: 'none'
+        },
+        ref: this._fileInputRef,
+        onChange: this.onSelectAttachment
+      })), /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].textField
       }, /*#__PURE__*/_react["default"].createElement("textarea", {
         "data-sign": "messageInput",
@@ -235,6 +286,22 @@ var MessageInput = /*#__PURE__*/function (_Component) {
         onClick: this.onSend,
         className: _styles["default"].sendButton,
         disabled: disabled
+      })), /*#__PURE__*/_react["default"].createElement("div", {
+        className: _styles["default"].attachments
+      }, attachments.map(function (attachment) {
+        return /*#__PURE__*/_react["default"].createElement("div", {
+          className: _styles["default"].attachmentItem,
+          key: attachment.name,
+          title: attachment.name
+        }, attachment.name, /*#__PURE__*/_react["default"].createElement("div", {
+          className: _styles["default"].attachmentRemoveIcon
+        }, /*#__PURE__*/_react["default"].createElement(_rcui.RcIconButton, {
+          size: "small",
+          symbol: _iconClose["default"],
+          onClick: function onClick() {
+            removeAttachment(attachment);
+          }
+        })));
       })));
     }
   }]);
@@ -253,7 +320,11 @@ MessageInput.propTypes = {
   onSend: _propTypes["default"].func,
   onChange: _propTypes["default"].func,
   onHeightChange: _propTypes["default"].func,
-  inputExpandable: _propTypes["default"].bool
+  inputExpandable: _propTypes["default"].bool,
+  supportAttachment: _propTypes["default"].bool,
+  attachments: _propTypes["default"].array,
+  addAttachment: _propTypes["default"].func,
+  removeAttachment: _propTypes["default"].func
 };
 MessageInput.defaultProps = {
   disabled: false,
@@ -263,6 +334,10 @@ MessageInput.defaultProps = {
   minHeight: 63,
   maxHeight: 300,
   maxLength: 5000,
-  inputExpandable: true
+  inputExpandable: true,
+  supportAttachment: false,
+  attachments: [],
+  addAttachment: undefined,
+  removeAttachment: undefined
 };
 //# sourceMappingURL=index.js.map

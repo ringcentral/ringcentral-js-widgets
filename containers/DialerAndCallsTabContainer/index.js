@@ -49,7 +49,7 @@ var _hasActiveCalls = _interopRequireDefault(require("../../lib/hasActiveCalls")
 
 var _TabContentPanel = _interopRequireDefault(require("../../components/TabContentPanel"));
 
-var _SpinnerOverlay = _interopRequireDefault(require("../../components/SpinnerOverlay"));
+var _SpinnerOverlay = require("../../components/SpinnerOverlay");
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
@@ -122,7 +122,7 @@ var TabContentView = /*#__PURE__*/function (_Component) {
     key: "render",
     value: function render() {
       if (this.props.showSpinner) {
-        return /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay["default"], null);
+        return /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay.SpinnerOverlay, null);
       }
 
       return /*#__PURE__*/_react["default"].createElement(_TabContentPanel["default"], _extends({}, this.props, {

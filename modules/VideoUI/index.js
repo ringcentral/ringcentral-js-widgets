@@ -131,6 +131,7 @@ var VideoUI = (_dec = (0, _di.Module)({
         currentLocale: this._locale.currentLocale,
         meeting: this._rcVideo.meeting,
         showSaveAsDefault: this._rcVideo.showSaveAsDefault,
+        disableSaveAsDefault: !this._rcVideo.isPreferencesChanged,
         brandName: this._brand.name,
         disabled: this._rcVideo.isScheduling || disabled || !this._connectivityMonitor.connectivity || this._rateLimiter && this._rateLimiter.throttling
       };

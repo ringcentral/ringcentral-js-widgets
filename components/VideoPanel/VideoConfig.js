@@ -49,15 +49,17 @@ require("core-js/modules/es6.array.map");
 
 var _rcui = require("@ringcentral-integration/rcui");
 
-var _iconArrow_down = _interopRequireDefault(require("@ringcentral-integration/rcui/icons/icon-arrow_down.svg"));
+var _iconDate_border = _interopRequireDefault(require("@ringcentral-integration/rcui/icons/icon-date_border.svg"));
 
-var _iconEventNew = _interopRequireDefault(require("@ringcentral-integration/rcui/icons/icon-event-new.svg"));
+var _iconTime_border = _interopRequireDefault(require("@ringcentral-integration/rcui/icons/icon-time_border.svg"));
 
 var _ramda = require("ramda");
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _reactHooks = require("../../lib/reactHooks");
+var _reactHooks = require("../../react-hooks");
+
+var _VideoSettingsGroup = require("./VideoSettingsGroup");
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
@@ -173,12 +175,20 @@ var VideoConfig = function VideoConfig(props) {
   var startTime = (0, _react.useMemo)(function () {
     return new Date(meeting.startTime);
   }, [meeting.startTime]);
-  var meetingSettingsPanelExpandable = false;
+  var authUserTypeValue = meeting.isOnlyCoworkersJoin ? 'signedInCoWorkers' : 'signedInUsers';
+
+  var _useState3 = (0, _react.useState)(authUserTypeValue),
+      _useState4 = _slicedToArray(_useState3, 2),
+      authUserType = _useState4[0],
+      setAuthUserType = _useState4[1];
+
+  (0, _react.useEffect)(function () {
+    setAuthUserType(authUserTypeValue);
+  }, [authUserTypeValue]);
+  var settingsGroupExpandable = false;
   return /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].videoConfig
   }, /*#__PURE__*/_react["default"].createElement("div", {
-    className: _styles["default"].title
-  }, /*#__PURE__*/_react["default"].createElement("h2", null, _i18n["default"].getString('schedule', currentLocale))), /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].meetingContent
   }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].meetingSection
@@ -201,8 +211,8 @@ var VideoConfig = function VideoConfig(props) {
     InputProps: {
       endAdornment: /*#__PURE__*/_react["default"].createElement(_rcui.RcIconButton, {
         variant: "round",
-        size: "small",
-        symbol: _iconEventNew["default"]
+        size: "medium",
+        symbol: _iconDate_border["default"]
       })
     }
   })) : null, showWhen ? /*#__PURE__*/_react["default"].createElement("div", {
@@ -221,8 +231,8 @@ var VideoConfig = function VideoConfig(props) {
     InputProps: {
       endAdornment: /*#__PURE__*/_react["default"].createElement(_rcui.RcIconButton, {
         variant: "round",
-        size: "small",
-        symbol: _iconEventNew["default"]
+        size: "medium",
+        symbol: _iconTime_border["default"]
       })
     }
   })) : null, showDuration ? /*#__PURE__*/_react["default"].createElement("div", {
@@ -279,34 +289,15 @@ var VideoConfig = function VideoConfig(props) {
     }, item !== null ? item.text : 'defaultValue');
   })))) : null, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].meetingSettings
-  }, /*#__PURE__*/_react["default"].createElement(_rcui.RcExpansionPanel, {
-    classes: {
-      root: _styles["default"].expansionPanel,
-      expanded: _styles["default"].expansionPanelExpanded
-    },
-    defaultExpanded: true,
-    disabled: !meetingSettingsPanelExpandable
-  }, /*#__PURE__*/_react["default"].createElement(_rcui.RcExpansionPanelSummary, {
-    classes: {
-      root: _styles["default"].expansionPanelSummary,
-      content: _styles["default"].expansionPanelSummaryContent,
-      disabled: meetingSettingsPanelExpandable ? null : _styles["default"].expansionPanelSummaryDisabled
-    },
-    expandIcon: meetingSettingsPanelExpandable ? /*#__PURE__*/_react["default"].createElement(_rcui.RcIconButton, {
-      variant: "round",
-      symbol: _iconArrow_down["default"]
-    }) : null,
-    "data-sign": "expansionSummary"
-  }, _i18n["default"].getString(isRCBrand ? 'rcMeetingSettings' : 'meetingSettings', currentLocale)), /*#__PURE__*/_react["default"].createElement(_rcui.RcExpansionPanelDetails, {
-    classes: {
-      root: _styles["default"].expansionPanelDetails
-    },
-    "date-sign": "expansionDetails"
+  }, /*#__PURE__*/_react["default"].createElement(_VideoSettingsGroup.VideoSettingsGroup, {
+    dateSign: "settingsPanel",
+    expandable: settingsGroupExpandable,
+    summary: _i18n["default"].getString(isRCBrand ? 'rcMeetingSettings' : 'meetingSettings', currentLocale)
   }, /*#__PURE__*/_react["default"].createElement(_rcui.RcFormGroup, {
     classes: {
       root: _styles["default"].toggleGroup
     }
-  }, personalMeetingId ? /*#__PURE__*/_react["default"].createElement(_rcui.RcSwitch, {
+  }, personalMeetingId ? /*#__PURE__*/_react["default"].createElement(_rcui.RcCheckbox, {
     "data-sign": "usePersonalMeetingId",
     checked: meeting.usePersonalMeetingId,
     onChange: function onChange() {
@@ -317,13 +308,60 @@ var VideoConfig = function VideoConfig(props) {
     label: /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("div", null, _i18n["default"].getString('usePersonalMeetingId', currentLocale)), /*#__PURE__*/_react["default"].createElement("div", {
       className: _styles["default"].personMeetingInfo
     }, personalMeetingId)),
+    classes: {
+      root: _styles["default"].checkInputWrapper
+    },
     formControlLabelProps: {
       classes: {
         root: _styles["default"].labelPlacementStart
       },
       labelPlacement: 'start'
     }
-  }) : null, /*#__PURE__*/_react["default"].createElement(_rcui.RcSwitch, {
+  }) : null, /*#__PURE__*/_react["default"].createElement(_rcui.RcCheckbox, {
+    "data-sign": "muteAudio",
+    checked: meeting.muteAudio,
+    onChange: function onChange() {
+      updateMeetingSettings({
+        muteAudio: !meeting.muteAudio
+      });
+    },
+    label: _i18n["default"].getString('muteAudio', currentLocale),
+    classes: {
+      root: _styles["default"].checkInputWrapper
+    },
+    formControlLabelProps: {
+      classes: {
+        root: _styles["default"].labelPlacementStart
+      },
+      labelPlacement: 'start'
+    }
+  }), /*#__PURE__*/_react["default"].createElement(_rcui.RcCheckbox, {
+    "data-sign": "turnOffCamera",
+    checked: meeting.muteVideo,
+    onChange: function onChange() {
+      updateMeetingSettings({
+        muteVideo: !meeting.muteVideo
+      });
+    },
+    label: _i18n["default"].getString('turnOffCamera', currentLocale),
+    classes: {
+      root: _styles["default"].checkInputWrapper
+    },
+    formControlLabelProps: {
+      classes: {
+        root: _styles["default"].labelPlacementStart
+      },
+      labelPlacement: 'start'
+    }
+  }))), /*#__PURE__*/_react["default"].createElement(_VideoSettingsGroup.VideoSettingsGroup, {
+    dateSign: "securityPanel",
+    expandable: settingsGroupExpandable,
+    summary: _i18n["default"].getString('meetingSettingsSecurity', currentLocale)
+  }, /*#__PURE__*/_react["default"].createElement(_rcui.RcFormGroup, {
+    classes: {
+      root: _styles["default"].toggleGroup
+    }
+  }, /*#__PURE__*/_react["default"].createElement(_rcui.RcCheckbox, {
     "data-sign": "requirePassword",
     checked: meeting.isMeetingSecret,
     onChange: function onChange() {
@@ -333,6 +371,9 @@ var VideoConfig = function VideoConfig(props) {
       });
     },
     label: _i18n["default"].getString('requirePassword', currentLocale),
+    classes: {
+      root: _styles["default"].checkInputWrapper
+    },
     formControlLabelProps: {
       classes: {
         root: _styles["default"].labelPlacementStart
@@ -347,7 +388,8 @@ var VideoConfig = function VideoConfig(props) {
     placeholder: _i18n["default"].getString('setPassword', currentLocale),
     "data-sign": "password",
     fullWidth: true,
-    clearBtn: false,
+    clearBtn: true,
+    spellCheck: false,
     value: meetingPassword,
     inputProps: {
       maxLength: 255
@@ -359,7 +401,7 @@ var VideoConfig = function VideoConfig(props) {
         setMeetingPassword(password);
       }
     }
-  })) : null, /*#__PURE__*/_react["default"].createElement(_rcui.RcSwitch, {
+  })) : null, /*#__PURE__*/_react["default"].createElement(_rcui.RcCheckbox, {
     "data-sign": "allowJoinBeforeHost",
     checked: meeting.allowJoinBeforeHost,
     onChange: function onChange() {
@@ -368,43 +410,70 @@ var VideoConfig = function VideoConfig(props) {
       });
     },
     label: _i18n["default"].getString('joinBeforeHost', currentLocale),
+    classes: {
+      root: _styles["default"].checkInputWrapper
+    },
     formControlLabelProps: {
       classes: {
         root: _styles["default"].labelPlacementStart
       },
       labelPlacement: 'start'
     }
-  }), /*#__PURE__*/_react["default"].createElement(_rcui.RcSwitch, {
-    "data-sign": "muteAudio",
-    checked: meeting.muteAudio,
-    onChange: function onChange() {
+  }), /*#__PURE__*/_react["default"].createElement(_rcui.RcCheckbox, {
+    "data-sign": "isOnlyAuthUserJoin",
+    checked: meeting.isOnlyAuthUserJoin,
+    onChange: function onChange(ev, checked) {
       updateMeetingSettings({
-        muteAudio: !meeting.muteAudio
+        isOnlyAuthUserJoin: checked,
+        isOnlyCoworkersJoin: checked ? meeting.isOnlyCoworkersJoin : false
       });
     },
-    label: _i18n["default"].getString('muteAudio', currentLocale),
+    label: _i18n["default"].getString('onlyAuthUserJoin', currentLocale),
+    classes: {
+      root: _styles["default"].checkInputWrapper
+    },
     formControlLabelProps: {
       classes: {
         root: _styles["default"].labelPlacementStart
       },
       labelPlacement: 'start'
     }
-  }), /*#__PURE__*/_react["default"].createElement(_rcui.RcSwitch, {
-    "data-sign": "turnOffCamera",
-    checked: meeting.muteVideo,
-    onChange: function onChange() {
+  }), meeting.isOnlyAuthUserJoin ? /*#__PURE__*/_react["default"].createElement("div", {
+    className: _styles["default"].authUserType
+  }, /*#__PURE__*/_react["default"].createElement(_rcui.RcBoxSelect, {
+    className: _styles["default"].boxSelect,
+    isFullWidth: true,
+    automationId: "authUserType",
+    onChange: function onChange(e) {
+      setAuthUserType(e.target.value);
       updateMeetingSettings({
-        muteVideo: !meeting.muteVideo
+        isOnlyCoworkersJoin: e.target.value === 'signedInCoWorkers'
       });
     },
-    label: _i18n["default"].getString('turnOffCamera', currentLocale),
+    value: authUserType
+  }, /*#__PURE__*/_react["default"].createElement(_rcui.RcMenuItem, {
+    value: "signedInUsers"
+  }, _i18n["default"].getString('signedInUsers', currentLocale)), /*#__PURE__*/_react["default"].createElement(_rcui.RcMenuItem, {
+    value: "signedInCoWorkers"
+  }, _i18n["default"].getString('signedInCoWorkers', currentLocale)))) : null, /*#__PURE__*/_react["default"].createElement(_rcui.RcCheckbox, {
+    "data-sign": "limitScreenSharing",
+    checked: !meeting.allowScreenSharing,
+    onChange: function onChange() {
+      updateMeetingSettings({
+        allowScreenSharing: !meeting.allowScreenSharing
+      });
+    },
+    label: _i18n["default"].getString('limitScreenSharing', currentLocale),
+    classes: {
+      root: _styles["default"].checkInputWrapper
+    },
     formControlLabelProps: {
       classes: {
         root: _styles["default"].labelPlacementStart
       },
       labelPlacement: 'start'
     }
-  })))))));
+  }))))));
 };
 
 exports.VideoConfig = VideoConfig;
@@ -415,10 +484,10 @@ var InnerTopic = function InnerTopic(_ref) {
       setTopicRef = _ref.setTopicRef,
       updateMeetingTopic = _ref.updateMeetingTopic;
 
-  var _useState3 = (0, _react.useState)(name),
-      _useState4 = _slicedToArray(_useState3, 2),
-      topic = _useState4[0],
-      setTopic = _useState4[1];
+  var _useState5 = (0, _react.useState)(name),
+      _useState6 = _slicedToArray(_useState5, 2),
+      topic = _useState6[0],
+      setTopic = _useState6[1];
 
   var topicRef = (0, _react.useRef)();
   (0, _react.useEffect)(function () {
@@ -449,12 +518,13 @@ var InnerTopic = function InnerTopic(_ref) {
 };
 
 var Topic = /*#__PURE__*/_react["default"].memo(InnerTopic, function (prevProps, nextProps) {
-  return prevProps.name === nextProps.name;
+  return prevProps.name === nextProps.name && prevProps.currentLocale === nextProps.currentLocale;
 });
 
 exports.Topic = Topic;
 VideoConfig.defaultProps = {
   recipientsSection: undefined,
+  showTopic: true,
   showWhen: true,
   showDuration: true,
   personalMeetingId: undefined,

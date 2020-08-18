@@ -79,15 +79,11 @@ var ModalUI = (_dec = (0, _di.Module)({
 
   var _super = _createSuper(ModalUI);
 
-  function ModalUI(_ref) {
-    var modal = _ref.modal;
-
+  function ModalUI(deps) {
     _classCallCheck(this, ModalUI);
 
     return _super.call(this, {
-      modules: {
-        modal: modal
-      }
+      deps: deps
     });
   }
 
@@ -95,7 +91,7 @@ var ModalUI = (_dec = (0, _di.Module)({
     key: "getUIProps",
     value: function getUIProps(props) {
       return _objectSpread({
-        modals: this._modules.modal.getModals()
+        modals: this._deps.modal.modals
       }, props);
     }
   }, {

@@ -298,7 +298,7 @@ function mapToFunctions(_, _ref2) {
       return conversations.updateTypeFilter(type);
     },
     deleteMessage: function deleteMessage(conversationId) {
-      conversations.deleteCoversation(conversationId);
+      conversations.deleteConversation(conversationId);
     },
     previewFaxMessages: function previewFaxMessages(uri, conversationId) {
       if (!_previewFaxMessages) {

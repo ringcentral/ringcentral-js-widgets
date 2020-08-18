@@ -141,8 +141,6 @@ var ActiveCallPad = /*#__PURE__*/function (_Component) {
   var _super = _createSuper(ActiveCallPad);
 
   function ActiveCallPad(props) {
-    var _context;
-
     var _this;
 
     _classCallCheck(this, ActiveCallPad);
@@ -150,8 +148,8 @@ var ActiveCallPad = /*#__PURE__*/function (_Component) {
     _this = _super.call(this, props);
     _this.moreButton = /*#__PURE__*/(0, _react.createRef)();
     _this.dropdown = /*#__PURE__*/(0, _react.createRef)();
-    _this.onClick = (_context = _assertThisInitialized(_this), _this.onClick).bind(_context);
-    _this.toggleMore = (_context = _assertThisInitialized(_this), _this.toggleMore).bind(_context);
+    _this.onClick = _this.onClick.bind(_assertThisInitialized(_this));
+    _this.toggleMore = _this.toggleMore.bind(_assertThisInitialized(_this));
     _this.state = {
       expandMore: props.expandMore,
       moreButton: _this.moreButton && _this.moreButton.current

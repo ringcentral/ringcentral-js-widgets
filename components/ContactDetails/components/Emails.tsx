@@ -33,12 +33,15 @@ export const Emails: FunctionComponent<EmailsProps> = ({
       emails,
     );
     return (
-      <div className={classnames(styles.section, styles.email)}>
+      <section
+        className={classnames(styles.section, styles.email)}
+        aria-label="email"
+      >
         <div className={styles.label}>
           <span>{i18n.getString('emailLabel', currentLocale)}</span>
         </div>
         <ul className={styles.content}>{emailList}</ul>
-      </div>
+      </section>
     );
   }
   return null;

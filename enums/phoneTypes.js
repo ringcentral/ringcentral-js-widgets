@@ -5,14 +5,14 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = void 0;
+exports["default"] = exports.phoneTypes = void 0;
 
-var _Enum = _interopRequireDefault(require("ringcentral-integration/lib/Enum"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+var _ObjectMap = require("@ringcentral-integration/core/lib/ObjectMap");
 
 // FIXME: delete this after syncing up
-var _default = new _Enum["default"](['business', 'extension', 'home', 'mobile', 'phone', 'unknown', 'company', 'direct', 'fax', 'other']);
+var phoneTypes = _ObjectMap.ObjectMap.fromKeys(['business', 'extension', 'home', 'mobile', 'phone', 'unknown', 'company', 'direct', 'fax', 'other']);
 
+exports.phoneTypes = phoneTypes;
+var _default = phoneTypes;
 exports["default"] = _default;
 //# sourceMappingURL=phoneTypes.js.map

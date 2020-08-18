@@ -127,6 +127,7 @@ var GenericMeetingUI = (_dec = (0, _di.Module)({
     key: "getUIProps",
     value: function getUIProps(_ref2) {
       var disabled = _ref2.disabled,
+          showTopic = _ref2.showTopic,
           showWhen = _ref2.showWhen,
           showDuration = _ref2.showDuration,
           openNewWindow = _ref2.openNewWindow,
@@ -134,23 +135,34 @@ var GenericMeetingUI = (_dec = (0, _di.Module)({
           scheduleButton = _ref2.scheduleButton,
           datePickerSize = _ref2.datePickerSize,
           timePickerSize = _ref2.timePickerSize;
-      var invalidPassowrd = this._genericMeeting.isRCV && this._genericMeeting.meeting && this._genericMeeting.meeting.isMeetingSecret && !this._genericMeeting.meeting.isMeetingPasswordValid;
+      var invalidPassowrd = this._genericMeeting.ready && this._genericMeeting.meeting && (this._genericMeeting.isRCV || this._genericMeeting.isRCM) && !this._genericMeeting.validatePasswordSettings(this._genericMeeting.meeting.password, this._genericMeeting.isRCV ? this._genericMeeting.meeting.isMeetingSecret : this._genericMeeting.meeting._requireMeetingPassword);
+      var meeting = this._genericMeeting.ready && this._genericMeeting.meeting || {};
       return {
+        meeting: meeting,
         datePickerSize: datePickerSize,
         timePickerSize: timePickerSize,
-        meeting: this._genericMeeting.meeting || {},
         currentLocale: this._locale.currentLocale,
-        disabled: disabled || invalidPassowrd || this._genericMeeting.isScheduling || !this._connectivityMonitor.connectivity || this._rateLimiter && this._rateLimiter.throttling,
+        assistedUsers: this._genericMeeting.ready && this._genericMeeting.assistedUsers || [],
+        scheduleForUser: this._genericMeeting.ready ? this._genericMeeting.scheduleForUser : null,
+        disabled: !!(disabled || invalidPassowrd || this._genericMeeting.ready && this._genericMeeting.isScheduling || this._connectivityMonitor && !this._connectivityMonitor.connectivity || this._rateLimiter && this._rateLimiter.throttling),
+        showTopic: showTopic,
         showWhen: showWhen,
         showDuration: showDuration,
-        showRecurringMeeting: showRecurringMeeting,
+        showRecurringMeeting: !meeting.usePersonalMeetingId && showRecurringMeeting,
         openNewWindow: openNewWindow,
-        showSaveAsDefault: this._genericMeeting.showSaveAsDefault,
+        showSaveAsDefault: this._genericMeeting.ready && this._genericMeeting.showSaveAsDefault,
+        // Need to add this back when we back to this ticket
+        // https://jira.ringcentral.com/browse/RCINT-15031
+        // disableSaveAsDefault:
+        //   this._genericMeeting.ready &&
+        //   !this._genericMeeting.isPreferencesChanged,
+        disableSaveAsDefault: false,
         isRCM: this._genericMeeting.isRCM,
         isRCV: this._genericMeeting.isRCV,
         scheduleButton: scheduleButton,
         brandName: this._brand.name,
-        personalMeetingId: this._genericMeeting.personalMeeting && this._genericMeeting.personalMeeting.shortId
+        personalMeetingId: this._genericMeeting.ready && this._genericMeeting.personalMeeting && this._genericMeeting.personalMeeting.shortId,
+        showSpinner: !!(!this._locale.ready || !this._genericMeeting.ready || !this._genericMeeting.isRCM && !this._genericMeeting.isRCV || !this._genericMeeting.meeting || this._connectivityMonitor && !this._connectivityMonitor.ready || this._rateLimiter && !this._rateLimiter.ready)
       };
     }
   }, {
@@ -160,6 +172,12 @@ var GenericMeetingUI = (_dec = (0, _di.Module)({
 
       var _schedule = props.schedule;
       return {
+        switchUsePersonalMeetingId: function switchUsePersonalMeetingId(usePersonalMeetingId) {
+          return _this2._genericMeeting.switchUsePersonalMeetingId(usePersonalMeetingId);
+        },
+        updateScheduleFor: function updateScheduleFor(userExtensionId) {
+          return _this2._genericMeeting.updateScheduleFor(userExtensionId);
+        },
         // TODO: any is reserved for RcM
         updateMeetingSettings: function updateMeetingSettings(value) {
           return _this2._genericMeeting.updateMeetingSettings(value);

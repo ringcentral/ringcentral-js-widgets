@@ -30,7 +30,10 @@ var CallLogCallCtrl = function CallLogCallCtrl(props) {
       isWide = props.isWide,
       currentSession = props.currentSession,
       transferRef = props.transferRef,
-      isOnTransfer = props.isOnTransfer;
+      isOnTransfer = props.isOnTransfer,
+      isCurrentDeviceCall = props.isCurrentDeviceCall,
+      isWebphone = props.isWebphone,
+      sendDTMF = props.sendDTMF;
 
   if (!currentSession) {
     return null;
@@ -124,15 +127,66 @@ var CallLogCallCtrl = function CallLogCallCtrl(props) {
         }
       }, _callee6);
     })),
+    startRecord: /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
+      return regeneratorRuntime.wrap(function _callee7$(_context7) {
+        while (1) {
+          switch (_context7.prev = _context7.next) {
+            case 0:
+              return _context7.abrupt("return", props.startRecord(telephonySessionId));
+
+            case 1:
+            case "end":
+              return _context7.stop();
+          }
+        }
+      }, _callee7);
+    })),
+    stopRecord: /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8() {
+      return regeneratorRuntime.wrap(function _callee8$(_context8) {
+        while (1) {
+          switch (_context8.prev = _context8.next) {
+            case 0:
+              return _context8.abrupt("return", props.stopRecord(telephonySessionId));
+
+            case 1:
+            case "end":
+              return _context8.stop();
+          }
+        }
+      }, _callee8);
+    })),
     isOnMute: currentSession.isOnMute,
     isOnHold: currentSession.isOnHold,
     callStatus: currentSession.callStatus,
     callDirection: currentSession.direction,
+    recordStatus: currentSession.recordStatus,
     currentLocale: currentLocale,
     disableLinks: disableLinks,
     isWide: isWide,
     transferRef: transferRef,
-    isOnTransfer: isOnTransfer
+    isOnTransfer: isOnTransfer,
+    isWebphone: isWebphone,
+    isCurrentDeviceCall: isCurrentDeviceCall,
+    sendDTMF: /*#__PURE__*/function () {
+      var _ref9 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9(dtmfValue) {
+        return regeneratorRuntime.wrap(function _callee9$(_context9) {
+          while (1) {
+            switch (_context9.prev = _context9.next) {
+              case 0:
+                return _context9.abrupt("return", sendDTMF(dtmfValue, telephonySessionId));
+
+              case 1:
+              case "end":
+                return _context9.stop();
+            }
+          }
+        }, _callee9);
+      }));
+
+      return function (_x) {
+        return _ref9.apply(this, arguments);
+      };
+    }()
   });
 };
 

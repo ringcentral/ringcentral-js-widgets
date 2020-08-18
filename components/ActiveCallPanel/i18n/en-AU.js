@@ -7,8 +7,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  conferenceCall: "Conference Call",
-  onHold: "On Hold",
+  conferenceCall: "Conference call",
+  onHold: "On hold",
   unknown: "Unknown",
   disconnected: "Disconnected",
   loading: "Loading...",

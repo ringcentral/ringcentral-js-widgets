@@ -99,55 +99,32 @@ var CallLogUI = (_dec = (0, _di.Module)({
   var _super = _createSuper(CallLogUI);
 
   function CallLogUI(_ref) {
-    var locale = _ref.locale,
-        callLogger = _ref.callLogger,
-        rateLimiter = _ref.rateLimiter,
-        regionSettings = _ref.regionSettings,
-        dateTimeFormat = _ref.dateTimeFormat,
-        callLogSection = _ref.callLogSection,
-        routerInteraction = _ref.routerInteraction,
-        activeCallControl = _ref.activeCallControl,
-        environmentOptions = _ref.environmentOptions,
-        rolesAndPermissions = _ref.rolesAndPermissions,
-        connectivityMonitor = _ref.connectivityMonitor,
-        _ref$modules = _ref.modules,
-        modules = _ref$modules === void 0 ? {} : _ref$modules,
-        props = _objectWithoutProperties(_ref, ["locale", "callLogger", "rateLimiter", "regionSettings", "dateTimeFormat", "callLogSection", "routerInteraction", "activeCallControl", "environmentOptions", "rolesAndPermissions", "connectivityMonitor", "modules"]);
+    var _ref$deps = _ref.deps,
+        deps = _ref$deps === void 0 ? {} : _ref$deps,
+        options = _objectWithoutProperties(_ref, ["deps"]);
 
     _classCallCheck(this, CallLogUI);
 
-    return _super.call(this, _objectSpread({
-      modules: _objectSpread({
-        locale: locale,
-        callLogger: callLogger,
-        rateLimiter: rateLimiter,
-        regionSettings: regionSettings,
-        dateTimeFormat: dateTimeFormat,
-        callLogSection: callLogSection,
-        routerInteraction: routerInteraction,
-        activeCallControl: activeCallControl,
-        environmentOptions: environmentOptions,
-        rolesAndPermissions: rolesAndPermissions,
-        connectivityMonitor: connectivityMonitor
-      }, modules)
-    }, props));
+    return _super.call(this, {
+      deps: _objectSpread(_objectSpread({}, options), deps)
+    });
   }
 
   _createClass(CallLogUI, [{
     key: "getUIProps",
     value: function getUIProps() {
-      var _this$_modules = this._modules,
-          locale = _this$_modules.locale,
-          callLogger = _this$_modules.callLogger,
-          rateLimiter = _this$_modules.rateLimiter,
-          regionSettings = _this$_modules.regionSettings,
-          dateTimeFormat = _this$_modules.dateTimeFormat,
-          callLogSection = _this$_modules.callLogSection,
-          routerInteraction = _this$_modules.routerInteraction,
-          activeCallControl = _this$_modules.activeCallControl,
-          environmentOptions = _this$_modules.environmentOptions,
-          rolesAndPermissions = _this$_modules.rolesAndPermissions,
-          connectivityMonitor = _this$_modules.connectivityMonitor;
+      var _this$_deps = this._deps,
+          locale = _this$_deps.locale,
+          callLogger = _this$_deps.callLogger,
+          rateLimiter = _this$_deps.rateLimiter,
+          regionSettings = _this$_deps.regionSettings,
+          dateTimeFormat = _this$_deps.dateTimeFormat,
+          callLogSection = _this$_deps.callLogSection,
+          routerInteraction = _this$_deps.routerInteraction,
+          activeCallControl = _this$_deps.activeCallControl,
+          environmentOptions = _this$_deps.environmentOptions,
+          rolesAndPermissions = _this$_deps.rolesAndPermissions,
+          connectivityMonitor = _this$_deps.connectivityMonitor;
       var currentNotificationIdentify = callLogSection.currentNotificationIdentify,
           currentIdentify = callLogSection.currentIdentify;
       var isInTransferPage = routerInteraction.currentPath.match('^/transfer/') !== null;
@@ -157,7 +134,6 @@ var CallLogUI = (_dec = (0, _di.Module)({
         showSpinner: !(locale.ready && regionSettings.ready && dateTimeFormat.ready && (!rolesAndPermissions || rolesAndPermissions.ready) && (!callLogger || callLogger.ready)),
         isInTransferPage: isInTransferPage,
         disableLinks: !connectivityMonitor.connectivity || rateLimiter.throttling,
-        isWide: environmentOptions && environmentOptions.app && environmentOptions.app.isLightning,
         currentIdentify: currentIdentify,
         // notification props
         currentNotificationIdentify: currentNotificationIdentify,
@@ -167,11 +143,11 @@ var CallLogUI = (_dec = (0, _di.Module)({
   }, {
     key: "getUIFunctions",
     value: function getUIFunctions() {
-      var _this$_modules2 = this._modules,
-          regionSettings = _this$_modules2.regionSettings,
-          callLogSection = _this$_modules2.callLogSection,
-          locale = _this$_modules2.locale,
-          activeCallControl = _this$_modules2.activeCallControl;
+      var _this$_deps2 = this._deps,
+          regionSettings = _this$_deps2.regionSettings,
+          callLogSection = _this$_deps2.callLogSection,
+          locale = _this$_deps2.locale,
+          activeCallControl = _this$_deps2.activeCallControl;
       return {
         formatPhone: function formatPhone(phoneNumber) {
           return (0, _formatNumber["default"])({
@@ -183,10 +159,11 @@ var CallLogUI = (_dec = (0, _di.Module)({
         goBack: function goBack() {
           return callLogSection.closeLogSection();
         },
-        renderCallLogCallControl: function renderCallLogCallControl(status, currentTelephonySessionId, isWide) {
+        renderCallLogCallControl: function renderCallLogCallControl(currentTelephonySessionId, isWide, isCurrentDeviceCall) {
           return /*#__PURE__*/_react["default"].createElement(_CallLogCallCtrlContainer["default"], {
             currentLocale: locale.currentLocale,
             telephonySessionId: currentTelephonySessionId,
+            isCurrentDeviceCall: isCurrentDeviceCall,
             isWide: isWide
           });
         },

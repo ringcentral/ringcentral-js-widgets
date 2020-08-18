@@ -9,7 +9,7 @@ exports["default"] = void 0;
 var _default = {
   createLog: "Créer un journal",
   creating: "Création",
-  save: "Enregistrer",
+  save: "Enreg.",
   saving: "Enregistrement",
   saved: "Enregistré",
   creatingFailed: "La création a échoué.",

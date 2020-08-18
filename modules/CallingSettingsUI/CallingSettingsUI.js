@@ -39,6 +39,8 @@ require("core-js/modules/es6.reflect.construct");
 
 require("core-js/modules/es6.object.set-prototype-of");
 
+require("core-js/modules/es6.function.name");
+
 var _di = require("ringcentral-integration/lib/di");
 
 var _callingOptions = _interopRequireDefault(require("ringcentral-integration/modules/CallingSettings/callingOptions"));
@@ -103,7 +105,8 @@ var CallingSettingsUI = (_dec = (0, _di.Module)({
         locale = _ref.locale,
         webphone = _ref.webphone,
         routerInteraction = _ref.routerInteraction,
-        locationSearchable = _ref.locationSearchable,
+        _ref$locationSearchab = _ref.locationSearchable,
+        locationSearchable = _ref$locationSearchab === void 0 ? true : _ref$locationSearchab,
         _ref$ringtoneSettings = _ref.ringtoneSettings,
         ringtoneSettings = _ref$ringtoneSettings === void 0 ? false : _ref$ringtoneSettings,
         options = _objectWithoutProperties(_ref, ["callingSettings", "brand", "locale", "webphone", "routerInteraction", "locationSearchable", "ringtoneSettings"]);
@@ -134,14 +137,15 @@ var CallingSettingsUI = (_dec = (0, _di.Module)({
       var _this$_webphone, _this$_webphone2, _this$_webphone3, _this$_webphone4, _this$_webphone5, _this$_webphone6, _this$_webphone7, _this$_webphone8;
 
       return {
-        brand: this._brand.fullName,
+        brandCode: this._brand.code,
+        brandName: this._brand.name,
         currentLocale: this._locale.currentLocale,
         callWithOptions: this._callingSettings.callWithOptions,
         callWith: this._callingSettings.callWith,
         myLocation: this._callingSettings.myLocation,
         ringoutPrompt: this._callingSettings.ringoutPrompt,
         defaultRingoutPrompt: this._callingSettings.defaultRingoutPrompt,
-        availableNumbers: this._callingSettings.availableNumbers,
+        availableNumbersWithLabel: this._callingSettings.availableNumbersWithLabel,
         disabled: !!(this._webphone && this._webphone.sessions.length > 0),
         showSpinner: this.showSpinner,
         locationSearchable: this.locationSearchable,
@@ -169,6 +173,7 @@ var CallingSettingsUI = (_dec = (0, _di.Module)({
           var callWith = _ref2.callWith,
               myLocation = _ref2.myLocation,
               ringoutPrompt = _ref2.ringoutPrompt,
+              isCustomLocation = _ref2.isCustomLocation,
               incomingAudio = _ref2.incomingAudio,
               incomingAudioFile = _ref2.incomingAudioFile,
               outgoingAudio = _ref2.outgoingAudio,
@@ -177,7 +182,8 @@ var CallingSettingsUI = (_dec = (0, _di.Module)({
           _this2._callingSettings.setData({
             callWith: callWith,
             myLocation: myLocation,
-            ringoutPrompt: ringoutPrompt
+            ringoutPrompt: ringoutPrompt,
+            isCustomLocation: isCustomLocation
           }, true);
 
           if (_this2._webphone && callWith === _callingOptions["default"].browser) {

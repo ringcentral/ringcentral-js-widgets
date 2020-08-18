@@ -23,13 +23,14 @@ function mapToProps(_, _ref) {
   var _ref$phone = _ref.phone,
       locale = _ref$phone.locale,
       brand = _ref$phone.brand,
-      showAudioSetting = _ref.showAudioSetting,
-      showVideoSetting = _ref.showVideoSetting,
+      _ref$phone$rolesAndPe = _ref$phone.rolesAndPermissions,
+      callingEnabled = _ref$phone$rolesAndPe.callingEnabled,
+      hasMeetingsPermission = _ref$phone$rolesAndPe.hasMeetingsPermission,
       audioTakeOverEnabled = _ref.audioTakeOverEnabled,
       videoTakeOverEnabled = _ref.videoTakeOverEnabled;
   return {
-    showAudioSetting: showAudioSetting,
-    showVideoSetting: showVideoSetting,
+    showAudioSetting: callingEnabled,
+    showVideoSetting: hasMeetingsPermission,
     audioTakeOverEnabled: audioTakeOverEnabled,
     videoTakeOverEnabled: videoTakeOverEnabled,
     brandName: brand.name,

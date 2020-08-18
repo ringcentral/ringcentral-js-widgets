@@ -32,7 +32,7 @@ var CallInfo = function CallInfo(_ref) {
     className: _styles["default"].flexFill
   }), /*#__PURE__*/_react["default"].createElement(_Tooltip.Tooltip, {
     title: content,
-    enterDelay: _toolTipDelayTime.TOOLTIP_DEFAULT_DELAY_TIME
+    enterDelay: _toolTipDelayTime.TOOLTIP_LONG_DELAY_TIME
   }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].content
   }, content)));

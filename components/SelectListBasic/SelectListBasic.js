@@ -33,6 +33,8 @@ require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.array.is-array");
 
+require("core-js/modules/es6.regexp.replace");
+
 require("core-js/modules/es6.regexp.search");
 
 require("core-js/modules/es6.array.filter");
@@ -97,6 +99,7 @@ var SelectListBasic = function SelectListBasic(_ref) {
       selectListBasicClassName = _ref.selectListBasicClassName,
       backHeaderClassName = _ref.backHeaderClassName,
       listContainerClassName = _ref.listContainerClassName,
+      classes = _ref.classes,
       onBackClick = _ref.onBackClick,
       contactSearch = _ref.contactSearch,
       field = _ref.field,
@@ -104,21 +107,30 @@ var SelectListBasic = function SelectListBasic(_ref) {
       showFoundFromServer = _ref.showFoundFromServer,
       foundFromServerEntities = _ref.foundFromServerEntities,
       appName = _ref.appName,
-      isSearching = _ref.isSearching,
-      showSearchFromServerHint = _ref.showSearchFromServerHint,
-      setShowSearchFromServerHint = _ref.setShowSearchFromServerHint;
+      isSearching = _ref.isSearching;
 
   var _useState = (0, _react.useState)(null),
       _useState2 = _slicedToArray(_useState, 2),
       filter = _useState2[0],
       setFilter = _useState2[1];
 
+  var _useState3 = (0, _react.useState)(false),
+      _useState4 = _slicedToArray(_useState3, 2),
+      showSearchFromServerHint = _useState4[0],
+      setShowSearchFromServerHint = _useState4[1];
+
   var scrollElmRef = (0, _react.useRef)();
   var matchElmRef = (0, _react.useRef)(); // When open change clear filter
 
   (0, _react.useEffect)(function () {
     setFilter(null);
+    setShowSearchFromServerHint(true);
   }, [open]);
+  (0, _react.useEffect)(function () {
+    if (isSearching) {
+      setShowSearchFromServerHint(false);
+    }
+  }, [isSearching]);
   var hasSearch = searchOption && filter;
   var matchOptions = hasSearch ? options.filter(function (option) {
     return searchOption(option, filter);
@@ -133,10 +145,6 @@ var SelectListBasic = function SelectListBasic(_ref) {
 
   var backHeaderOnclick = function backHeaderOnclick() {
     setOpen(false);
-
-    if (showFoundFromServer && typeof setShowSearchFromServerHint === 'function') {
-      setShowSearchFromServerHint(false);
-    }
 
     if (onBackClick) {
       return onBackClick();
@@ -157,7 +165,7 @@ var SelectListBasic = function SelectListBasic(_ref) {
     className: _styles["default"].loading
   }, _i18n["default"].getString('loading', currentLocale));
 
-  var notFoundFromServer = !isSearching && !showSearchFromServerHint ? notResultFoundFromServer : foundFromServerHint;
+  var notFoundFromServer = showSearchFromServerHint ? foundFromServerHint : notResultFoundFromServer;
   var showLoading = isSearching ? loading : notFoundFromServer;
   return /*#__PURE__*/_react["default"].createElement(_AnimationPanel.AnimationPanel, {
     open: open,
@@ -173,11 +181,11 @@ var SelectListBasic = function SelectListBasic(_ref) {
     "data-sign": "selectList"
   }, /*#__PURE__*/_react["default"].createElement(_Tooltip.Tooltip, {
     title: placeholder,
-    enterDelay: _toolTipDelayTime.TOOLTIP_DEFAULT_DELAY_TIME
+    enterDelay: _toolTipDelayTime.TOOLTIP_LONG_DELAY_TIME
   }, /*#__PURE__*/_react["default"].createElement("div", {
-    className: _styles["default"].search
+    className: (0, _classnames["default"])(_styles["default"].search, classes.searchInput)
   }, !filter && /*#__PURE__*/_react["default"].createElement("span", {
-    className: _styles["default"].placeholder
+    className: (0, _classnames["default"])(_styles["default"].placeholder, classes.placeholder)
   }, placeholder), /*#__PURE__*/_react["default"].createElement(_rcui.RcOutlineTextField, {
     size: "small",
     radiusType: "circle",
@@ -192,16 +200,16 @@ var SelectListBasic = function SelectListBasic(_ref) {
     },
     onKeyDown: function onKeyDown(key) {
       // Press enter to search contacts from server
-      if (showFoundFromServer && contactSearch && typeof contactSearch === 'function') {
-        if (key && key.keyCode === 13 && filter && filter.length) {
+      if (key && key.keyCode !== 13 || !showFoundFromServer) return;
+
+      if (contactSearch && typeof contactSearch === 'function') {
+        var searchString = filter ? filter.replace(/\s/g, '') : '';
+
+        if (searchString.length) {
           contactSearch({
-            searchString: filter,
+            searchString: searchString,
             fromField: field
           });
-
-          if (setShowSearchFromServerHint && typeof setShowSearchFromServerHint === 'function' && filter && filter.length > 1) {
-            setShowSearchFromServerHint(false);
-          }
         }
       }
     }
@@ -235,7 +243,7 @@ var SelectListBasic = function SelectListBasic(_ref) {
   }, foundFromServerTitle, " (", foundFromServerEntities.length, ")"), foundFromServerEntities && foundFromServerEntities.length > 0 ? renderListView(foundFromServerEntities, 'custom', filter, function (elm, type) {
     return scrollCheck(scrollElmRef, matchElmRef, elm, type);
   }) : showLoading)) : /*#__PURE__*/_react["default"].createElement("div", {
-    className: (0, _classnames["default"])(_styles["default"].search, _styles["default"].text)
+    className: (0, _classnames["default"])(_styles["default"].search, _styles["default"].text, classes.noResult)
   }, "".concat(_i18n["default"].getString('noResultFoundFor', currentLocale), " \"").concat(filter, "\""))))) : null);
 };
 
@@ -256,6 +264,7 @@ SelectListBasic.defaultProps = {
   selectListBasicClassName: null,
   backHeaderClassName: null,
   listContainerClassName: null,
+  classes: {},
   onBackClick: undefined,
   matchedTitle: null,
   otherTitle: null,

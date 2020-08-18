@@ -113,6 +113,7 @@ var MeetingScheduleButton = /*#__PURE__*/function (_React$Component) {
           meeting = _this$props.meeting,
           currentLocale = _this$props.currentLocale,
           showSaveAsDefault = _this$props.showSaveAsDefault,
+          disableSaveAsDefault = _this$props.disableSaveAsDefault,
           update = _this$props.update,
           showLaunchMeetingBtn = _this$props.showLaunchMeetingBtn,
           onClick = _this$props.onClick,
@@ -126,6 +127,7 @@ var MeetingScheduleButton = /*#__PURE__*/function (_React$Component) {
       }, this.getI18nPromptString()) : null, showSaveAsDefault ? /*#__PURE__*/_react["default"].createElement(_CheckBox["default"], {
         dataSign: "saveAsDefault",
         checked: meeting.saveAsDefault,
+        disabled: disableSaveAsDefault,
         onChecked: function onChecked() {
           return update(_objectSpread(_objectSpread({}, meeting), {}, {
             saveAsDefault: !meeting.saveAsDefault
@@ -157,6 +159,7 @@ MeetingScheduleButton.defaultProps = {
   disabled: false,
   currentLocale: undefined,
   showSaveAsDefault: false,
+  disableSaveAsDefault: false,
   update: function update() {},
   showLaunchMeetingBtn: false,
   launchMeeting: function launchMeeting() {},

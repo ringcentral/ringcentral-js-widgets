@@ -10,6 +10,7 @@ import {
 export interface ContactDetailsViewProps {
   currentLocale: string;
   contact: ContactModel;
+  isMultipleSiteEnabled: boolean;
   isClickToDialEnabled: boolean;
   isCallButtonDisabled: boolean;
   isClickToTextEnabled: boolean;

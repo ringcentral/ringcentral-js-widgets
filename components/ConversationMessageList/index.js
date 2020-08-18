@@ -36,13 +36,15 @@ require("core-js/modules/es6.object.set-prototype-of");
 
 require("core-js/modules/es6.function.name");
 
-require("core-js/modules/es6.array.map");
-
 require("regenerator-runtime/runtime");
 
 require("core-js/modules/es6.string.big");
 
 require("core-js/modules/es6.array.index-of");
+
+require("core-js/modules/es6.array.filter");
+
+require("core-js/modules/es6.array.map");
 
 var _react = _interopRequireWildcard(require("react"));
 
@@ -94,21 +96,25 @@ function Message(_ref) {
       direction = _ref.direction,
       sender = _ref.sender,
       SubjectRenderer = _ref.subjectRenderer,
-      mmsAttachment = _ref.mmsAttachment;
-  var content;
+      mmsAttachments = _ref.mmsAttachments;
+  var subjectNode;
 
   if (subject && !(0, _isBlank["default"])(subject)) {
-    content = SubjectRenderer ? /*#__PURE__*/_react["default"].createElement(SubjectRenderer, {
+    subjectNode = SubjectRenderer ? /*#__PURE__*/_react["default"].createElement(SubjectRenderer, {
       subject: subject
     }) : subject;
-  } else if (mmsAttachment && mmsAttachment.contentType.indexOf('image') > -1) {
-    content = /*#__PURE__*/_react["default"].createElement("img", {
-      src: mmsAttachment.uri,
-      alt: "attactment",
-      className: _styles["default"].picture
-    });
   }
 
+  var imageAttachments = mmsAttachments.filter(function (m) {
+    return m.contentType.indexOf('image') > -1;
+  }).map(function (attachment) {
+    return /*#__PURE__*/_react["default"].createElement("img", {
+      key: attachment.id,
+      src: attachment.uri,
+      alt: "attachment".concat(attachment.id),
+      className: _styles["default"].picture
+    });
+  });
   return /*#__PURE__*/_react["default"].createElement("div", {
     "data-sign": "message",
     className: _styles["default"].message
@@ -118,7 +124,7 @@ function Message(_ref) {
     className: _styles["default"].sender
   }, sender) : null, /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])(_styles["default"].messageBody, direction === 'Outbound' ? _styles["default"].outbound : _styles["default"].inbound, subject && subject.length > 500 && _styles["default"].big)
-  }, content), /*#__PURE__*/_react["default"].createElement("div", {
+  }, subjectNode, imageAttachments), /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].clear
   }));
 }
@@ -129,14 +135,14 @@ Message.propTypes = {
   time: _propTypes["default"].string,
   sender: _propTypes["default"].string,
   subjectRenderer: _propTypes["default"].func,
-  mmsAttachment: _propTypes["default"].object
+  mmsAttachments: _propTypes["default"].array
 };
 Message.defaultProps = {
   subject: '',
   sender: undefined,
   time: undefined,
   subjectRenderer: undefined,
-  mmsAttachment: null
+  mmsAttachments: []
 };
 
 var ConversationMessageList = /*#__PURE__*/function (_Component) {
@@ -252,7 +258,7 @@ var ConversationMessageList = /*#__PURE__*/function (_Component) {
           direction: message.direction,
           subject: message.subject,
           subjectRenderer: messageSubjectRenderer,
-          mmsAttachment: message.mmsAttachment
+          mmsAttachments: message.mmsAttachments
         });
       });
       var loading = loadingNextPage ? /*#__PURE__*/_react["default"].createElement("div", {
@@ -281,7 +287,7 @@ ConversationMessageList.propTypes = {
     id: _propTypes["default"].number,
     direction: _propTypes["default"].string,
     subject: _propTypes["default"].string,
-    mmsAttachment: _propTypes["default"].object
+    mmsAttachments: _propTypes["default"].array
   })).isRequired,
   className: _propTypes["default"].string,
   showSender: _propTypes["default"].bool,

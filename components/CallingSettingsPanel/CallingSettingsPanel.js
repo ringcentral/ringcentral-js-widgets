@@ -7,6 +7,9 @@ require("core-js/modules/es6.weak-map");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.getJupiterAppName = getJupiterAppName;
+exports.getSoftphoneAppName = getSoftphoneAppName;
+exports.getCallingOptionName = getCallingOptionName;
 exports.CallingSettingsPanel = void 0;
 
 require("core-js/modules/es6.object.define-properties");
@@ -45,11 +48,11 @@ require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.array.is-array");
 
+require("core-js/modules/es6.array.find");
+
 require("core-js/modules/es7.array.includes");
 
 require("core-js/modules/es6.string.includes");
-
-require("core-js/modules/es6.regexp.replace");
 
 require("core-js/modules/es6.array.map");
 
@@ -71,7 +74,7 @@ var _styles = _interopRequireDefault(require("./styles.scss"));
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
-var _SpinnerOverlay = _interopRequireDefault(require("../SpinnerOverlay"));
+var _SpinnerOverlay = require("../SpinnerOverlay");
 
 var _BackHeader = _interopRequireDefault(require("../BackHeader"));
 
@@ -121,22 +124,53 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 var TooltipBaseComp = typeof _rcTooltip["default"] === 'function' ? _rcTooltip["default"] : _rcTooltip["default"]["default"];
 
+function isRcBrand(brandCode) {
+  return brandCode === 'rc';
+}
+
+function getJupiterAppName(brandCode, brandName, currentLocale) {
+  return isRcBrand(brandCode) ? "".concat(brandName, " App") : (0, _formatMessage["default"])(_i18n["default"].getString(_callingOptions["default"].jupiter, currentLocale), {
+    brand: brandName
+  });
+}
+
+function getSoftphoneAppName(brandCode, brandName, currentLocale) {
+  return isRcBrand(brandCode) ? "".concat(brandName, " Phone") : (0, _formatMessage["default"])(_i18n["default"].getString(_callingOptions["default"].softphone, currentLocale), {
+    brand: brandName
+  });
+}
+
+function getCallingOptionName(callingOption, brandCode, brandName, currentLocale) {
+  if (callingOption === _callingOptions["default"].softphone) {
+    return getSoftphoneAppName(brandCode, brandName, currentLocale);
+  }
+
+  if (callingOption === _callingOptions["default"].jupiter) {
+    return getJupiterAppName(brandCode, brandName, currentLocale);
+  }
+
+  return _i18n["default"].getString(callingOption, currentLocale);
+}
+
 var Tooltip = function Tooltip(_ref) {
-  var brand = _ref.brand,
+  var brandCode = _ref.brandCode,
+      brandName = _ref.brandName,
       callWith = _ref.callWith,
       currentLocale = _ref.currentLocale,
       tooltipContainerRef = _ref.tooltipContainerRef;
   var keys = ["".concat(callWith, "Tooltip")];
 
-  if (callWith !== _callingOptions["default"].browser && callWith !== _callingOptions["default"].softphone) {
+  if (callWith !== _callingOptions["default"].browser && callWith !== _callingOptions["default"].softphone && callWith !== _callingOptions["default"].jupiter) {
     keys.push("".concat(callWith, "Tooltip1"));
   }
+
+  var optionName = getCallingOptionName(callWith, brandCode, brandName, currentLocale);
 
   var overlay = /*#__PURE__*/_react["default"].createElement("div", null, keys.map(function (key) {
     return /*#__PURE__*/_react["default"].createElement("div", {
       key: key
     }, (0, _formatMessage["default"])(_i18n["default"].getString(key, currentLocale), {
-      brand: brand
+      brand: optionName
     }));
   }));
 
@@ -161,23 +195,24 @@ var Tooltip = function Tooltip(_ref) {
 };
 
 var CallWithSettings = function CallWithSettings(_ref2) {
-  var callWith = _ref2.callWith,
+  var brandCode = _ref2.brandCode,
+      brandName = _ref2.brandName,
+      callWith = _ref2.callWith,
       callWithOptions = _ref2.callWithOptions,
       currentLocale = _ref2.currentLocale,
       disabled = _ref2.disabled,
-      onCallWithChange = _ref2.onCallWithChange,
-      brand = _ref2.brand;
+      onCallWithChange = _ref2.onCallWithChange;
   var tooltipContainerRef = (0, _react.useRef)(null);
 
   var optionRenderer = function optionRenderer(option) {
-    return (0, _formatMessage["default"])(_i18n["default"].getString(option, currentLocale), {
-      brand: option === _callingOptions["default"].myphone ? brand.replace(/\sPhone$/, '') : brand
-    });
+    var optionName = getCallingOptionName(option, brandCode, brandName, currentLocale);
+    return optionName;
   };
 
   return /*#__PURE__*/_react["default"].createElement(_InputField["default"], {
     label: /*#__PURE__*/_react["default"].createElement("span", null, _i18n["default"].getString('makeCallsWith', currentLocale), /*#__PURE__*/_react["default"].createElement(Tooltip, {
-      brand: brand,
+      brandCode: brandCode,
+      brandName: brandName,
       callWith: callWith,
       currentLocale: currentLocale,
       tooltipContainerRef: tooltipContainerRef
@@ -203,7 +238,7 @@ var CallWithSettings = function CallWithSettings(_ref2) {
 var RingoutSettings = function RingoutSettings(_ref3) {
   var currentLocale = _ref3.currentLocale,
       callWith = _ref3.callWith,
-      availableNumbers = _ref3.availableNumbers,
+      availableNumbersWithLabel = _ref3.availableNumbersWithLabel,
       locationSearchable = _ref3.locationSearchable,
       myLocation = _ref3.myLocation,
       onMyLocationChange = _ref3.onMyLocationChange,
@@ -212,23 +247,26 @@ var RingoutSettings = function RingoutSettings(_ref3) {
       ringoutPrompt = _ref3.ringoutPrompt,
       onRingoutPromptChange = _ref3.onRingoutPromptChange;
 
-  if (callWith !== _callingOptions["default"].softphone && callWith !== _callingOptions["default"].browser) {
+  if (callWith !== _callingOptions["default"].softphone && callWith !== _callingOptions["default"].browser && callWith !== _callingOptions["default"].jupiter) {
     return /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("div", {
       className: _styles["default"].ringoutHint
     }, _i18n["default"].getString('ringoutHint', currentLocale)), /*#__PURE__*/_react["default"].createElement(_InputField["default"], {
       dataSign: "myLocation",
       label: _i18n["default"].getString('myLocationLabel', currentLocale)
-    }, availableNumbers[callWith] ? /*#__PURE__*/_react["default"].createElement(_DropdownSelect["default"], {
+    }, availableNumbersWithLabel ? /*#__PURE__*/_react["default"].createElement(_DropdownSelect["default"], {
       className: (0, _classnames["default"])(_styles["default"].select, _styles["default"].locationSelect),
       value: myLocation,
       onChange: onMyLocationChange,
       searchOption: locationSearchable ? function (option, text) {
         return option.includes(text);
       } : null,
-      options: availableNumbers[callWith],
+      options: availableNumbersWithLabel,
       disabled: disabled,
       dropdownAlign: "left",
-      titleEnabled: true
+      titleEnabled: true,
+      customInputEnabled: true,
+      optionsWithLabel: true,
+      customInputLimit: 30
     }) : /*#__PURE__*/_react["default"].createElement(_TextInput["default"], {
       dataSign: "myLocationInput",
       value: myLocation,
@@ -248,8 +286,9 @@ var RingoutSettings = function RingoutSettings(_ref3) {
 };
 
 var CallingSettings = function CallingSettings(_ref4) {
-  var availableNumbers = _ref4.availableNumbers,
-      brand = _ref4.brand,
+  var brandCode = _ref4.brandCode,
+      brandName = _ref4.brandName,
+      availableNumbersWithLabel = _ref4.availableNumbersWithLabel,
       callWith = _ref4.callWith,
       callWithOptions = _ref4.callWithOptions,
       currentLocale = _ref4.currentLocale,
@@ -318,7 +357,8 @@ var CallingSettings = function CallingSettings(_ref4) {
     setOutgoingAudioFileState(outgoingAudioFile);
   }, [callWith, myLocation, ringoutPrompt, incomingAudio, incomingAudioFile, outgoingAudio, outgoingAudioFile]);
   return /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement(CallWithSettings, {
-    brand: brand,
+    brandCode: brandCode,
+    brandName: brandName,
     callWith: callWithState,
     callWithOptions: callWithOptions,
     currentLocale: currentLocale,
@@ -330,16 +370,16 @@ var CallingSettings = function CallingSettings(_ref4) {
         setMyLocationState(myLocation);
         setRingoutPromptState(ringoutPrompt);
       } else {
-        var _availableNumbers$new;
+        var _availableNumbersWith;
 
-        setMyLocationState(((_availableNumbers$new = availableNumbers[newCallWith]) === null || _availableNumbers$new === void 0 ? void 0 : _availableNumbers$new[0]) || '');
+        setMyLocationState((availableNumbersWithLabel === null || availableNumbersWithLabel === void 0 ? void 0 : (_availableNumbersWith = availableNumbersWithLabel[0]) === null || _availableNumbersWith === void 0 ? void 0 : _availableNumbersWith.value) || '');
         setRingoutPromptState(defaultRingoutPrompt);
       }
     }
   }), /*#__PURE__*/_react["default"].createElement(RingoutSettings, {
     currentLocale: currentLocale,
     callWith: callWithState,
-    availableNumbers: availableNumbers,
+    availableNumbersWithLabel: availableNumbersWithLabel,
     locationSearchable: locationSearchable,
     myLocation: myLocationState,
     onMyLocationChange: setMyLocationState,
@@ -388,13 +428,16 @@ var CallingSettings = function CallingSettings(_ref4) {
         callWith: callWithState,
         myLocation: myLocationState,
         ringoutPrompt: ringoutPromptState,
+        isCustomLocation: !availableNumbersWithLabel.find(function (item) {
+          return item.value === myLocationState;
+        }),
         incomingAudio: incomingAudioState,
         incomingAudioFile: incomingAudioFileState,
         outgoingAudio: outgoingAudioState,
         outgoingAudioFile: outgoingAudioFileState
       });
     },
-    disabled: callWithState === callWith && myLocationState === myLocation && ringoutPromptState === ringoutPrompt && incomingAudioState === incomingAudio && incomingAudioFileState === incomingAudioFile && outgoingAudioState === outgoingAudio && outgoingAudioFileState === outgoingAudioFile
+    disabled: callWithState === callWith && myLocationState === myLocation && ringoutPromptState === ringoutPrompt && incomingAudioState === incomingAudio && incomingAudioFileState === incomingAudioFile && outgoingAudioState === outgoingAudio && outgoingAudioFileState === outgoingAudioFile || callWithState === _callingOptions["default"].ringout && !myLocationState
   }));
 };
 
@@ -406,7 +449,7 @@ var CallingSettingsPanel = function CallingSettingsPanel(_ref8) {
       showSpinner = _ref8$showSpinner === void 0 ? false : _ref8$showSpinner,
       props = _objectWithoutProperties(_ref8, ["className", "onBackButtonClick", "currentLocale", "showSpinner"]);
 
-  var content = showSpinner ? /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay["default"], null) : /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement(CallingSettings, _objectSpread(_objectSpread({}, props), {}, {
+  var content = showSpinner ? /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay.SpinnerOverlay, null) : /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement(CallingSettings, _objectSpread(_objectSpread({}, props), {}, {
     currentLocale: currentLocale
   })));
   return /*#__PURE__*/_react["default"].createElement("div", {

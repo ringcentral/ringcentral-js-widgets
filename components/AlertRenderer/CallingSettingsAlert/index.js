@@ -13,6 +13,8 @@ var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _callingSettingsMessages = _interopRequireDefault(require("ringcentral-integration/modules/CallingSettings/callingSettingsMessages"));
 
+var _CallingSettingsPanel = require("../../CallingSettingsPanel");
+
 var _FormattedMessage = _interopRequireDefault(require("../../FormattedMessage"));
 
 var _i18n = _interopRequireDefault(require("./i18n"));
@@ -22,7 +24,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 function CallingSettingsAlert(_ref) {
   var message = _ref.message.message,
       currentLocale = _ref.currentLocale,
-      brand = _ref.brand,
+      brandCode = _ref.brandCode,
+      brandName = _ref.brandName,
       onCallingSettingsLinkClick = _ref.onCallingSettingsLinkClick;
 
   switch (message) {
@@ -30,12 +33,23 @@ function CallingSettingsAlert(_ref) {
     case _callingSettingsMessages["default"].saveSuccessWithSoftphone:
     case _callingSettingsMessages["default"].webphonePermissionRemoved:
     case _callingSettingsMessages["default"].emergencyCallingNotAvailable:
-      return /*#__PURE__*/_react["default"].createElement(_FormattedMessage["default"], {
-        message: _i18n["default"].getString(message),
-        values: {
-          brand: brand
+    case _callingSettingsMessages["default"].saveSuccessWithJupiter:
+      {
+        var appName = brandName;
+
+        if (message === _callingSettingsMessages["default"].saveSuccessWithJupiter) {
+          appName = (0, _CallingSettingsPanel.getJupiterAppName)(brandCode, brandName, currentLocale);
+        } else if (message === _callingSettingsMessages["default"].saveSuccessWithSoftphone) {
+          appName = (0, _CallingSettingsPanel.getSoftphoneAppName)(brandCode, brandName, currentLocale);
         }
-      });
+
+        return /*#__PURE__*/_react["default"].createElement(_FormattedMessage["default"], {
+          message: _i18n["default"].getString(message),
+          values: {
+            brand: appName
+          }
+        });
+      }
 
     case _callingSettingsMessages["default"].permissionChanged:
     case _callingSettingsMessages["default"].phoneNumberChanged:
@@ -64,7 +78,8 @@ CallingSettingsAlert.propTypes = {
     message: _propTypes["default"].string.isRequired
   }).isRequired,
   currentLocale: _propTypes["default"].string.isRequired,
-  brand: _propTypes["default"].string.isRequired,
+  brandCode: _propTypes["default"].string.isRequired,
+  brandName: _propTypes["default"].string.isRequired,
   onCallingSettingsLinkClick: _propTypes["default"].func
 };
 CallingSettingsAlert.defaultProps = {
@@ -73,7 +88,7 @@ CallingSettingsAlert.defaultProps = {
 
 CallingSettingsAlert.handleMessage = function (_ref2) {
   var message = _ref2.message;
-  return message === _callingSettingsMessages["default"].saveSuccess || message === _callingSettingsMessages["default"].saveSuccessWithSoftphone || message === _callingSettingsMessages["default"].permissionChanged || message === _callingSettingsMessages["default"].webphonePermissionRemoved || message === _callingSettingsMessages["default"].phoneNumberChanged || message === _callingSettingsMessages["default"].emergencyCallingNotAvailable;
+  return message === _callingSettingsMessages["default"].saveSuccess || message === _callingSettingsMessages["default"].saveSuccessWithSoftphone || message === _callingSettingsMessages["default"].permissionChanged || message === _callingSettingsMessages["default"].webphonePermissionRemoved || message === _callingSettingsMessages["default"].phoneNumberChanged || message === _callingSettingsMessages["default"].emergencyCallingNotAvailable || message === _callingSettingsMessages["default"].saveSuccessWithJupiter;
 };
 
 var _default = CallingSettingsAlert;

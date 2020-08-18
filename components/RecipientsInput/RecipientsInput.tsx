@@ -193,15 +193,21 @@ class RecipientsInput extends Component<
     }
   };
 
-  onPaste = (ev: ClipboardEvent) => {
+  onPaste = async (ev: ClipboardEvent) => {
     if (
       this.props.detectPhoneNumbers &&
       ev.clipboardData &&
       ev.clipboardData.getData
     ) {
+      ev.preventDefault();
       const pastedText = ev.clipboardData.getData('text/plain');
-      if (this.props.detectPhoneNumbers(pastedText)) {
-        ev.preventDefault();
+      const result = await this.props.detectPhoneNumbers(pastedText);
+      const currentVal = this.state.value || '';
+      if (!result) {
+        const newVal = `${currentVal}${pastedText.replace(/\n/g, ' ')}`;
+        this.setState({ value: newVal }, () => {
+          this.props.onChange(newVal);
+        });
       }
     }
   };
@@ -211,7 +217,7 @@ class RecipientsInput extends Component<
     this.props.onClean();
   };
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (
       nextProps.value !== undefined &&
       nextProps.value !== this.props.value &&

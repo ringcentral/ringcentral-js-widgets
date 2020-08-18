@@ -49,7 +49,7 @@ var _styles = _interopRequireDefault(require("./styles.scss"));
 
 var _NavigationBar = _interopRequireDefault(require("../NavigationBar"));
 
-var _SpinnerOverlay = _interopRequireDefault(require("../SpinnerOverlay"));
+var _SpinnerOverlay = require("../SpinnerOverlay");
 
 var _RecentActivityNavigationButton = _interopRequireDefault(require("../RecentActivityNavigationButton"));
 
@@ -168,7 +168,7 @@ var RecentActivityView = /*#__PURE__*/function (_PureComponent) {
     key: "render",
     value: function render() {
       var showSpinner = this.props.showSpinner;
-      if (showSpinner) return /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay["default"], null);
+      if (showSpinner) return /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay.SpinnerOverlay, null);
       var props = {
         currentPath: this.state.currentTab,
         goTo: this.onTabChanged,

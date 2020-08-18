@@ -105,7 +105,10 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 var CallCtrlUI = (_dec = (0, _di.Module)({
   name: 'CallCtrlUI',
-  deps: ['Webphone', 'Locale', 'ContactMatcher', 'RegionSettings', 'Brand', 'ContactSearch', 'ConferenceCall', 'CallingSettings', 'RolesAndPermissions', 'ConnectivityManager', 'ForwardingNumber', 'CallMonitor', {
+  deps: ['Webphone', 'Locale', 'ContactMatcher', 'RegionSettings', 'Brand', 'ContactSearch', 'CallingSettings', 'RolesAndPermissions', 'ConnectivityManager', 'ForwardingNumber', 'CallMonitor', 'ExtensionInfo', {
+    dep: 'ConferenceCall',
+    optional: true
+  }, {
     dep: 'RouterInteraction',
     optional: true
   }]
@@ -130,7 +133,8 @@ var CallCtrlUI = (_dec = (0, _di.Module)({
         forwardingNumber = _ref.forwardingNumber,
         callMonitor = _ref.callMonitor,
         routerInteraction = _ref.routerInteraction,
-        options = _objectWithoutProperties(_ref, ["webphone", "locale", "contactMatcher", "regionSettings", "brand", "contactSearch", "conferenceCall", "callingSettings", "rolesAndPermissions", "connectivityManager", "forwardingNumber", "callMonitor", "routerInteraction"]);
+        extensionInfo = _ref.extensionInfo,
+        options = _objectWithoutProperties(_ref, ["webphone", "locale", "contactMatcher", "regionSettings", "brand", "contactSearch", "conferenceCall", "callingSettings", "rolesAndPermissions", "connectivityManager", "forwardingNumber", "callMonitor", "routerInteraction", "extensionInfo"]);
 
     _classCallCheck(this, CallCtrlUI);
 
@@ -148,6 +152,7 @@ var CallCtrlUI = (_dec = (0, _di.Module)({
     _this._forwardingNumber = forwardingNumber;
     _this._callMonitor = callMonitor;
     _this._routerInteraction = routerInteraction;
+    _this._extensionInfo = extensionInfo;
     return _this;
   }
 
@@ -270,10 +275,14 @@ var CallCtrlUI = (_dec = (0, _di.Module)({
           return layout;
         },
         formatPhone: function formatPhone(phoneNumber) {
+          var _this2$_extensionInfo, _this2$_extensionInfo2, _this2$_extensionInfo3;
+
           return (0, _formatNumber["default"])({
             phoneNumber: phoneNumber,
             areaCode: _this2._regionSettings.areaCode,
-            countryCode: _this2._regionSettings.countryCode
+            countryCode: _this2._regionSettings.countryCode,
+            siteCode: (_this2$_extensionInfo = (_this2$_extensionInfo2 = _this2._extensionInfo) === null || _this2$_extensionInfo2 === void 0 ? void 0 : (_this2$_extensionInfo3 = _this2$_extensionInfo2.site) === null || _this2$_extensionInfo3 === void 0 ? void 0 : _this2$_extensionInfo3.code) !== null && _this2$_extensionInfo !== void 0 ? _this2$_extensionInfo : '',
+            isMultipleSiteEnabled: _this2._extensionInfo.isMultipleSiteEnabled
           });
         },
         onHangup: function onHangup(sessionId, layout) {

@@ -9,7 +9,7 @@ exports.ContactDetailsView = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
-var _SpinnerOverlay = _interopRequireDefault(require("../SpinnerOverlay"));
+var _SpinnerOverlay = require("../SpinnerOverlay");
 
 var _BackHeader = _interopRequireDefault(require("../BackHeader"));
 
@@ -27,6 +27,7 @@ var ContactDetailsView = function ContactDetailsView(_ref) {
   var children = _ref.children,
       contact = _ref.contact,
       currentLocale = _ref.currentLocale,
+      isMultipleSiteEnabled = _ref.isMultipleSiteEnabled,
       isClickToDialEnabled = _ref.isClickToDialEnabled,
       isCallButtonDisabled = _ref.isCallButtonDisabled,
       isClickToTextEnabled = _ref.isClickToTextEnabled,
@@ -41,11 +42,12 @@ var ContactDetailsView = function ContactDetailsView(_ref) {
       showSpinner = _ref.showSpinner,
       sourceNodeRenderer = _ref.sourceNodeRenderer;
   if (!contact) return null;
-  var content = showSpinner ? /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay["default"], null) : /*#__PURE__*/_react["default"].createElement(_ContactDetails.ContactDetails, {
+  var content = showSpinner ? /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay.SpinnerOverlay, null) : /*#__PURE__*/_react["default"].createElement(_ContactDetails.ContactDetails, {
     currentLocale: currentLocale,
     contact: contact,
     onClickToSMS: onClickToSMS,
     onClickToDial: onClickToDial,
+    isMultipleSiteEnabled: isMultipleSiteEnabled,
     isClickToDialEnabled: isClickToDialEnabled,
     isCallButtonDisabled: isCallButtonDisabled,
     isClickToTextEnabled: isClickToTextEnabled,

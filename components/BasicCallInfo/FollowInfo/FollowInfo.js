@@ -34,7 +34,7 @@ var FollowInfo = function FollowInfo(_ref) {
       key: i
     }, /*#__PURE__*/_react["default"].createElement(_Tooltip.Tooltip, {
       title: info,
-      enterDelay: _toolTipDelayTime.TOOLTIP_DEFAULT_DELAY_TIME
+      enterDelay: _toolTipDelayTime.TOOLTIP_LONG_DELAY_TIME
     }, /*#__PURE__*/_react["default"].createElement("span", {
       className: _styles["default"].followItem
     }, info)), /*#__PURE__*/_react["default"].createElement("span", {

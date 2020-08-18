@@ -59,9 +59,10 @@ function CheckBox(_ref) {
       dataSign = _ref.dataSign,
       type = _ref.type,
       checked = _ref.checked,
+      disabled = _ref.disabled,
       onChecked = _ref.onChecked,
       children = _ref.children,
-      props = _objectWithoutProperties(_ref, ["data", "selected", "onSelect", "valueField", "textField", "className", "dataSign", "type", "checked", "onChecked", "children"]);
+      props = _objectWithoutProperties(_ref, ["data", "selected", "onSelect", "valueField", "textField", "className", "dataSign", "type", "checked", "disabled", "onChecked", "children"]);
 
   var isListObject = !!(textField && valueField);
 
@@ -76,7 +77,7 @@ function CheckBox(_ref) {
           var checkStyle = isSelected ? _styles["default"].selectedCheckButton : null;
 
           var onClick = function onClick() {
-            return onSelect(item);
+            return disabled ? undefined : onSelect(item);
           };
 
           var extraInfo = typeof item.renderExtraInfo === 'function' && isSelected ? item.renderExtraInfo(_objectSpread({}, props)) : null;
@@ -85,7 +86,7 @@ function CheckBox(_ref) {
             "data-sign": isSelected ? 'selectedItem' : undefined
           }, /*#__PURE__*/_react["default"].createElement("div", {
             onClick: onClick,
-            className: (0, _classnames["default"])(_styles["default"].item, item && item.disabled ? _styles["default"].disabled : null)
+            className: (0, _classnames["default"])(_styles["default"].item, disabled || item && item.disabled ? _styles["default"].disabled : null)
           }, /*#__PURE__*/_react["default"].createElement("div", {
             className: (0, _classnames["default"])(_styles["default"].checkButton, checkStyle)
           }), /*#__PURE__*/_react["default"].createElement("div", {
@@ -97,17 +98,19 @@ function CheckBox(_ref) {
 
     case 'checkbox':
       {
-        var checkboxClassName = (0, _classnames["default"])(_styles["default"].checkbox, checked ? _styles["default"].checked : '');
-        var checkboxWrapperClassNames = (0, _classnames["default"])(_styles["default"].checkboxWrapper, className);
+        var checkboxWrapperClassNames = (0, _classnames["default"])(_styles["default"].checkboxWrapper, disabled ? _styles["default"].wrapperDisabled : '', className);
+        var checkboxClassName = (0, _classnames["default"])(_styles["default"].checkbox, checked ? _styles["default"].checked : '', disabled ? _styles["default"].checkboxDisabled : '');
         return /*#__PURE__*/_react["default"].createElement("div", {
           className: checkboxWrapperClassNames,
           "data-sign": dataSign,
           onClick: function onClick() {
-            return onChecked && onChecked(!checked);
+            if (!disabled && onChecked) {
+              onChecked(!checked);
+            }
           }
         }, /*#__PURE__*/_react["default"].createElement("div", {
           className: checkboxClassName
-        }, "\u2713"), children);
+        }, checked && '✓'), children);
       }
 
     default:
@@ -125,7 +128,8 @@ CheckBox.propTypes = {
   dataSign: _propTypes["default"].string,
   type: _propTypes["default"].string,
   onChecked: _propTypes["default"].func,
-  checked: _propTypes["default"].bool
+  checked: _propTypes["default"].bool,
+  disabled: _propTypes["default"].bool
 };
 CheckBox.defaultProps = {
   textField: null,
@@ -137,7 +141,8 @@ CheckBox.defaultProps = {
   onSelect: function onSelect() {},
   data: [],
   selected: null,
-  checked: false
+  checked: false,
+  disabled: false
 };
 var _default = CheckBox;
 exports["default"] = _default;

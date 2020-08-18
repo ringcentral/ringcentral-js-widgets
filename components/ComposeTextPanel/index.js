@@ -47,7 +47,7 @@ var _styles = _interopRequireDefault(require("./styles.scss"));
 
 var _RecipientsInput = _interopRequireDefault(require("../RecipientsInput"));
 
-var _SpinnerOverlay = _interopRequireDefault(require("../SpinnerOverlay"));
+var _SpinnerOverlay = require("../SpinnerOverlay");
 
 var _NoSenderAlert = _interopRequireDefault(require("./NoSenderAlert"));
 
@@ -183,7 +183,7 @@ var ComposeTextPanel = /*#__PURE__*/function (_Component) {
     value: function render() {
       return /*#__PURE__*/_react["default"].createElement("div", {
         className: (0, _classnames["default"])(_styles["default"].root, this.props.className)
-      }, this.props.showSpinner ? /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay["default"], null) : null, /*#__PURE__*/_react["default"].createElement(_NoSenderAlert["default"], {
+      }, this.props.showSpinner ? /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay.SpinnerOverlay, null) : null, /*#__PURE__*/_react["default"].createElement(_NoSenderAlert["default"], {
         currentLocale: this.props.currentLocale,
         showAlert: this.showAlert(),
         brand: this.props.brand
@@ -223,7 +223,11 @@ var ComposeTextPanel = /*#__PURE__*/function (_Component) {
         disabled: this.props.sendButtonDisabled,
         currentLocale: this.props.currentLocale,
         onSend: this.props.send,
-        inputExpandable: this.props.inputExpandable
+        inputExpandable: this.props.inputExpandable,
+        attachments: this.props.attachments,
+        supportAttachment: this.props.supportAttachment,
+        addAttachment: this.props.addAttachment,
+        removeAttachment: this.props.removeAttachment
       }));
     }
   }]);
@@ -270,7 +274,14 @@ ComposeTextPanel.propTypes = {
   recipientsContactInfoRenderer: _propTypes["default"].func,
   recipientsContactPhoneRenderer: _propTypes["default"].func,
   autoFocus: _propTypes["default"].bool,
-  inputExpandable: _propTypes["default"].bool
+  inputExpandable: _propTypes["default"].bool,
+  supportAttachment: _propTypes["default"].bool,
+  attachments: _propTypes["default"].arrayOf(_propTypes["default"].shape({
+    name: _propTypes["default"].string.isRequired,
+    size: _propTypes["default"].number.isRequired
+  })),
+  addAttachment: _propTypes["default"].func,
+  removeAttachment: _propTypes["default"].func
 };
 ComposeTextPanel.defaultProps = {
   brand: 'RingCentral',
@@ -285,7 +296,11 @@ ComposeTextPanel.defaultProps = {
   recipientsContactInfoRenderer: undefined,
   recipientsContactPhoneRenderer: undefined,
   autoFocus: false,
-  inputExpandable: undefined
+  inputExpandable: undefined,
+  supportAttachment: false,
+  attachments: undefined,
+  addAttachment: undefined,
+  removeAttachment: undefined
 };
 var _default = ComposeTextPanel;
 exports["default"] = _default;

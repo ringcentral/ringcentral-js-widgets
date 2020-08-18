@@ -97,6 +97,8 @@ var NotificationItem = /*#__PURE__*/(0, _react.memo)(function (_ref) {
     style: animationStyle,
     onClick: onBackdropClick
   }), /*#__PURE__*/_react["default"].createElement(_rcui.RcSnackbarContent, {
+    "data-sign": "notification",
+    "data-sign-type": type,
     type: type,
     size: "small",
     fullWidth: true,

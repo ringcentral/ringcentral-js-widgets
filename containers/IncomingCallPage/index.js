@@ -205,8 +205,8 @@ var IncomingCallPage = /*#__PURE__*/function (_Component) {
       this._updateAvatarAndMatchIndex(this.props);
     }
   }, {
-    key: "componentWillReceiveProps",
-    value: function componentWillReceiveProps(nextProps) {
+    key: "UNSAFE_componentWillReceiveProps",
+    value: function UNSAFE_componentWillReceiveProps(nextProps) {
       if (this.props.session.id !== nextProps.session.id) {
         this._updateAvatarAndMatchIndex(nextProps);
       }
@@ -327,8 +327,11 @@ IncomingCallPage.propTypes = {
     isOnRecord: _propTypes["default"].bool,
     to: _propTypes["default"].string,
     from: _propTypes["default"].string,
-    contactMatch: _propTypes["default"].object
+    contactMatch: _propTypes["default"].object,
+    minimized: _propTypes["default"].bool,
+    callQueueName: _propTypes["default"].any
   }).isRequired,
+  showCallQueueName: _propTypes["default"].any,
   currentLocale: _propTypes["default"].string.isRequired,
   toggleMinimized: _propTypes["default"].func.isRequired,
   answer: _propTypes["default"].func.isRequired,
@@ -360,7 +363,8 @@ IncomingCallPage.defaultProps = {
   activeSessionId: null,
   sourceIcons: undefined,
   phoneTypeRenderer: undefined,
-  phoneSourceNameRenderer: undefined
+  phoneSourceNameRenderer: undefined,
+  showCallQueueName: null
 };
 
 function mapToProps(_, _ref3) {
@@ -404,6 +408,7 @@ function mapToFunctions(_, _ref4) {
       webphone = _ref4$phone.webphone,
       regionSettings = _ref4$phone.regionSettings,
       contactSearch = _ref4$phone.contactSearch,
+      extensionInfo = _ref4$phone.extensionInfo,
       conferenceCall = _ref4$phone.conferenceCall,
       _ref4$getAvatarUrl = _ref4.getAvatarUrl,
       getAvatarUrl = _ref4$getAvatarUrl === void 0 ? function () {
@@ -411,10 +416,14 @@ function mapToFunctions(_, _ref4) {
   } : _ref4$getAvatarUrl;
   return {
     formatPhone: function formatPhone(phoneNumber) {
+      var _extensionInfo$site$c, _extensionInfo$site, _extensionInfo$isMult;
+
       return (0, _formatNumber["default"])({
         phoneNumber: phoneNumber,
         areaCode: regionSettings.areaCode,
-        countryCode: regionSettings.countryCode
+        countryCode: regionSettings.countryCode,
+        siteCode: (_extensionInfo$site$c = extensionInfo === null || extensionInfo === void 0 ? void 0 : (_extensionInfo$site = extensionInfo.site) === null || _extensionInfo$site === void 0 ? void 0 : _extensionInfo$site.code) !== null && _extensionInfo$site$c !== void 0 ? _extensionInfo$site$c : '',
+        isMultipleSiteEnabled: (_extensionInfo$isMult = extensionInfo === null || extensionInfo === void 0 ? void 0 : extensionInfo.isMultipleSiteEnabled) !== null && _extensionInfo$isMult !== void 0 ? _extensionInfo$isMult : false
       });
     },
     answer: function answer(sessionId) {

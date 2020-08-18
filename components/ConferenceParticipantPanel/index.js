@@ -89,8 +89,6 @@ var ParticipantsContainer = /*#__PURE__*/function (_Component) {
   var _super = _createSuper(ParticipantsContainer);
 
   function ParticipantsContainer(props) {
-    var _context;
-
     var _this;
 
     _classCallCheck(this, ParticipantsContainer);
@@ -103,9 +101,9 @@ var ParticipantsContainer = /*#__PURE__*/function (_Component) {
 
     _this.formatPrticipants(props);
 
-    _this.onRemoveBtnClick = (_context = _assertThisInitialized(_this), _this.onRemoveBtnClick).bind(_context);
-    _this.onCancel = (_context = _assertThisInitialized(_this), _this.onCancel).bind(_context);
-    _this.onCancelNoAfter = (_context = _assertThisInitialized(_this), _this.onCancelNoAfter).bind(_context);
+    _this.onRemoveBtnClick = _this.onRemoveBtnClick.bind(_assertThisInitialized(_this));
+    _this.onCancel = _this.onCancel.bind(_assertThisInitialized(_this));
+    _this.onCancelNoAfter = _this.onCancelNoAfter.bind(_assertThisInitialized(_this));
     return _this;
   }
 

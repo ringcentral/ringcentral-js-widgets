@@ -50,6 +50,7 @@ var MeetingPanel = function MeetingPanel(props) {
       onOK = props.onOK,
       init = props.init,
       showSaveAsDefault = props.showSaveAsDefault,
+      disableSaveAsDefault = props.disableSaveAsDefault,
       launchMeeting = props.launchMeeting;
   return /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].meetingPanel
@@ -106,6 +107,7 @@ var MeetingPanel = function MeetingPanel(props) {
     })),
     update: update,
     showSaveAsDefault: showSaveAsDefault,
+    disableSaveAsDefault: disableSaveAsDefault,
     launchMeeting: launchMeeting
   }));
 };
@@ -125,6 +127,7 @@ MeetingPanel.defaultProps = {
   onOK: undefined,
   scheduleButton: undefined,
   showSaveAsDefault: false,
+  disableSaveAsDefault: false,
   launchMeeting: undefined
 };
 var _default = MeetingPanel;

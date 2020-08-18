@@ -125,16 +125,33 @@ $rowHeight: 50px;
 .profileWrapper {
   position: relative;
   width: 100%;
-  height: $rowHeight;
   vertical-align: middle;
-  padding-right: 6px;
+  display: flex;
+}
+
+.site {
+  display: flex;
+  padding-top: 15px;
+  font-size: 13px;
+  .label {
+    flex: 1;
+    color: #797979;
+  }
+  .content {
+    overflow: hidden;
+    flex: 4;
+    padding-left: 5px;
+  }
 }
 
 .avatar {
-  position: absolute;
-  display: inline-block;
+  display: flex;
   width: 45px;
   height: 45px;
+  min-width: 45px;
+  padding-right: 8px;
+  padding-bottom: 5px;
+  position: relative;
 
   .avatarImage {
     @include reset;
@@ -153,12 +170,12 @@ $rowHeight: 50px;
     position: absolute;
     overflow: hidden;
     background: #fff;
-    padding: 1px;
+    padding: 2px;
     width: 16px;
     height: 16px;
-    border-radius: 7px;
+    border-radius: 10px;
     top: -2px;
-    right: -2px;
+    right: 2px;
   }
 }
 
@@ -170,17 +187,19 @@ $rowHeight: 50px;
 }
 
 .name.withoutPresence {
-  margin-top: 12px;
+  margin-top: -5px;
 }
 
 .info {
-  margin-left: 60px;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding-left: 5px;
 }
 
 .status {
   position: relative;
-  margin-top: 10px;
   .presence {
     overflow: hidden;
     width: 10px;

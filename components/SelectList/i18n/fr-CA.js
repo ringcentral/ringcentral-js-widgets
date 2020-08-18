@@ -9,10 +9,12 @@ exports["default"] = void 0;
 var _default = {
   matched: "Correspondant",
   other: "Autre",
-  associated: "Associé"
+  associated: "Associé",
+  foundFromServer: "Résultats à partir de {appName}"
 }; // @key: @#@"matched"@#@ @source: @#@"Matched"@#@
 // @key: @#@"other"@#@ @source: @#@"Other"@#@
 // @key: @#@"associated"@#@ @source: @#@"Associated"@#@
+// @key: @#@"foundFromServer"@#@ @source: @#@"Founds from {appName}"@#@
 
 exports["default"] = _default;
 //# sourceMappingURL=fr-CA.js.map

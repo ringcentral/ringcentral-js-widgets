@@ -403,8 +403,8 @@ var CallItem = /*#__PURE__*/function (_Component) {
       }, 10);
     }
   }, {
-    key: "componentWillReceiveProps",
-    value: function componentWillReceiveProps(nextProps) {
+    key: "UNSAFE_componentWillReceiveProps",
+    value: function UNSAFE_componentWillReceiveProps(nextProps) {
       var _this$props3 = this.props,
           call = _this$props3.call,
           extended = _this$props3.extended;
@@ -546,7 +546,9 @@ var CallItem = /*#__PURE__*/function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this3 = this;
+      var _this$getSelectedCont,
+          _this$getSelectedCont2,
+          _this3 = this;
 
       if (this.state.loading) {
         return /*#__PURE__*/_react["default"].createElement("div", {
@@ -635,6 +637,7 @@ var CallItem = /*#__PURE__*/function (_Component) {
       var contactName = typeof renderContactName === 'function' ? renderContactName(this.props.call) : undefined;
       var extraButton = typeof renderExtraButton === 'function' ? renderExtraButton(this.props.call) : undefined;
       var menuExtended = this.props.extended || this.state.extended;
+      var selectedMatchContactType = (_this$getSelectedCont = (_this$getSelectedCont2 = this.getSelectedContact()) === null || _this$getSelectedCont2 === void 0 ? void 0 : _this$getSelectedCont2.type) !== null && _this$getSelectedCont !== void 0 ? _this$getSelectedCont : '';
       return /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].root,
         onClick: this.toggleExtended
@@ -689,6 +692,7 @@ var CallItem = /*#__PURE__*/function (_Component) {
         onCreateEntity: onCreateContact && this.createSelectedContact,
         createEntityTypes: createEntityTypes,
         hasEntity: !!contactMatches.length,
+        selectedMatchContactType: selectedMatchContactType,
         onClickToDial: onClickToDial && this.clickToDial,
         onClickToSms: readTextPermission ? function () {
           return _this3.clickToSms({
@@ -725,6 +729,11 @@ CallItem.propTypes = {
   renderIndex: _propTypes["default"].number,
   extended: _propTypes["default"].bool,
   call: _propTypes["default"].shape({
+    result: _propTypes["default"].string,
+    duration: _propTypes["default"].number,
+    offset: _propTypes["default"].number,
+    type: _propTypes["default"].string,
+    toName: _propTypes["default"].string,
     direction: _propTypes["default"].string.isRequired,
     telephonyStatus: _propTypes["default"].string,
     startTime: _propTypes["default"].number.isRequired,

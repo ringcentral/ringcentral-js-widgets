@@ -92,6 +92,7 @@ var VideoPanel = function VideoPanel(_ref) {
       currentLocale = _ref.currentLocale,
       onOK = _ref.onOK,
       showSaveAsDefault = _ref.showSaveAsDefault,
+      disableSaveAsDefault = _ref.disableSaveAsDefault,
       disabled = _ref.disabled,
       openNewWindow = _ref.openNewWindow,
       invite = _ref.invite,
@@ -164,7 +165,8 @@ var VideoPanel = function VideoPanel(_ref) {
       }, _callee);
     })),
     update: updateMeetingSettings,
-    showSaveAsDefault: showSaveAsDefault
+    showSaveAsDefault: showSaveAsDefault,
+    disableSaveAsDefault: disableSaveAsDefault
   }) : null);
 };
 

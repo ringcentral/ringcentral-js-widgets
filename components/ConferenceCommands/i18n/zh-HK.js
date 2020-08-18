@@ -15,13 +15,13 @@ var _default = {
   starSharp4Title: "功能表",
   starSharp4Body: "收聽按鍵音指令清單",
   starSharp5Title: "設定聆聽模式",
-  starSharp5Body: "按 1 次：將來電者靜音 - 來電者可以按 *、#、6 來取消靜音\n按 2 次：將來電者靜音 - 僅聆聽。沒有取消靜音選項\n按 3 次：將來電者取消靜音 - 再次開啟線路",
+  starSharp5Body: "按 1 次：靜音電者 - 來電者可以按 *、#、6 來取消靜音\n按 2 次：靜音來電者 - 僅聆聽。沒有取消靜音選項\n按 3 次：取消來電者靜音 - 再次開啟線路",
   starSharp6Title: "靜音主持人線路",
   starSharp6Body: "按一次以「靜音」\n再按一次以「取消靜音」",
   starSharp7Title: "保證通話",
   starSharp7Body: "按一次以「封鎖」所有來電者\n再按一次以「開啟」通話",
-  starSharp8Title: "進入或退出通話時聽聲音",
-  starSharp8Body: "按 1 次：「關閉」聲音\n按 2 次：進入聲「開啟」離開聲「關閉」\n按 3 次：進入聲「關閉」離開聲「開啟」\n按 4 次：開啟聲音",
+  starSharp8Title: "進入或退出通話時聽到聲音",
+  starSharp8Body: "按 1 次：關閉聲音\n按 2 次：進入聲開啟，離開聲關閉\n按 3 次：進入聲關閉，離開聲開啟\n按 4 次：開啟聲音",
   star9Title: "錄製您的會議",
   star9Body: "按一次以「開始」錄製\n再按一次以「停止」錄製"
 }; // @key: @#@"title"@#@ @source: @#@"Conference Commands"@#@

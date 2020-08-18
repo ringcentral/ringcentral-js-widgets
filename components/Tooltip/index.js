@@ -53,7 +53,7 @@ var _classnames = _interopRequireDefault(require("classnames"));
 
 var _is_type = require("ringcentral-integration/lib/di/utils/is_type");
 
-var _Enum = _interopRequireDefault(require("ringcentral-integration/lib/Enum"));
+var _ObjectMap = require("@ringcentral-integration/core/lib/ObjectMap");
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
@@ -91,7 +91,8 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
-var POSITION = new _Enum["default"](['top', 'left']);
+var POSITION = _ObjectMap.ObjectMap.fromKeys(['top', 'left']);
+
 var TAIL_HEIGHT = Math.sqrt(Math.pow(10, 2) * 2);
 
 var getDimensions = function getDimensions(element) {
@@ -179,15 +180,13 @@ var Tooltip = /*#__PURE__*/function (_Component) {
   var _super = _createSuper(Tooltip);
 
   function Tooltip(props) {
-    var _context;
-
     var _this;
 
     _classCallCheck(this, Tooltip);
 
     _this = _super.call(this, props);
-    _this.onResize = (_context = _assertThisInitialized(_this), _this.checkPosition).bind(_context);
-    _this.onTransitionEnd = (_context = _assertThisInitialized(_this), _this.onTransitionEnd).bind(_context);
+    _this.onResize = _this.checkPosition.bind(_assertThisInitialized(_this));
+    _this.onTransitionEnd = _this.onTransitionEnd.bind(_assertThisInitialized(_this));
     _this.state = {
       cachedPositioning: null,
       visibility: null,
@@ -317,8 +316,8 @@ var Tooltip = /*#__PURE__*/function (_Component) {
       }
     }
   }, {
-    key: "componentWillReceiveProps",
-    value: function componentWillReceiveProps(nextProps) {
+    key: "UNSAFE_componentWillReceiveProps",
+    value: function UNSAFE_componentWillReceiveProps(nextProps) {
       if (nextProps.triggerElm !== this.props.triggerElm) {
         this.restorePositioning();
         this.recordPositioning(nextProps.triggerElm);

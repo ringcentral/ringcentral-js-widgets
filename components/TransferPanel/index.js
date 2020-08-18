@@ -90,6 +90,10 @@ var TransferPanel = /*#__PURE__*/function (_PureComponent) {
     _this = _super.call(this, props);
 
     _this.onButtonOutput = function (key) {
+      _this.setState({
+        isLastInputFromDialpad: true
+      });
+
       if (_this.state.recipient) {
         return;
       }
@@ -108,6 +112,7 @@ var TransferPanel = /*#__PURE__*/function (_PureComponent) {
 
     _this.onToNumberChange = function (toNumber) {
       _this.setState({
+        isLastInputFromDialpad: false,
         toNumber: toNumber
       });
     };
@@ -133,7 +138,8 @@ var TransferPanel = /*#__PURE__*/function (_PureComponent) {
 
     _this.state = {
       toNumber: '',
-      recipient: null
+      recipient: null,
+      isLastInputFromDialpad: false
     };
     return _this;
   }
@@ -202,6 +208,7 @@ var TransferPanel = /*#__PURE__*/function (_PureComponent) {
         phoneSourceNameRenderer: phoneSourceNameRenderer,
         contactInfoRenderer: recipientsContactInfoRenderer,
         contactPhoneRenderer: recipientsContactPhoneRenderer,
+        isLastInputFromDialpad: this.state.isLastInputFromDialpad,
         titleEnabled: true,
         autoFocus: autoFocus
       }), /*#__PURE__*/_react["default"].createElement("div", {

@@ -27,6 +27,8 @@ require("core-js/modules/es6.object.set-prototype-of");
 
 require("regenerator-runtime/runtime");
 
+require("core-js/modules/es6.function.name");
+
 var _di = require("ringcentral-integration/lib/di");
 
 var _formatNumber = _interopRequireDefault(require("ringcentral-integration/lib/formatNumber"));
@@ -134,10 +136,10 @@ var SettingsUI = (_dec = (0, _di.Module)({
           _ref$showQuickAccess = _ref.showQuickAccess,
           showQuickAccess = _ref$showQuickAccess === void 0 ? false : _ref$showQuickAccess,
           params = _ref.params;
-      var loginNumber = '';
+      var loginNumber = brand.name;
       var loggedIn = auth.loginStatus === _loginStatus["default"].loggedIn;
 
-      if (loggedIn && accountInfo.ready && extensionInfo.ready) {
+      if (loggedIn && accountInfo.ready && extensionInfo.ready && accountInfo.mainCompanyNumber) {
         // If no extensionNumber, extensionNumber field needs to be omitted
         var extensionNumber = extensionInfo.extensionNumber && extensionInfo.extensionNumber !== '0' ? extensionInfo.extensionNumber : null;
         var phoneNumber = [accountInfo.mainCompanyNumber, extensionNumber].join('*');
@@ -156,7 +158,7 @@ var SettingsUI = (_dec = (0, _di.Module)({
         showSpinner: !(accountInfo.ready && auth.ready && loggedIn && extensionInfo.ready && locale.ready && regionSettings.ready && (!callingSettings || callingSettings.ready) && rolesAndPermissions.ready && (!presence || presence.ready) && (!localeSettings || localeSettings.ready)),
         showCalling: showCalling && callingSettings && rolesAndPermissions.callingEnabled,
         showAudio: showAudio && rolesAndPermissions.callingEnabled,
-        showRegion: loggedIn && brand.id === '1210' && regionSettings.showReginSetting && rolesAndPermissions.callingEnabled && showRegion,
+        showRegion: loggedIn && brand.code === 'rc' && regionSettings.showReginSetting && rolesAndPermissions.callingEnabled && showRegion,
         currentLocale: locale.currentLocale,
         brandId: brand.id,
         ringoutEnabled: rolesAndPermissions.ringoutEnabled,

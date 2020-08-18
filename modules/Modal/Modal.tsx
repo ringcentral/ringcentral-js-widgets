@@ -1,10 +1,8 @@
 import {
   action,
-  createSelector,
-  RcModuleState,
+  computed,
   RcModuleV2,
   state,
-  storage,
 } from '@ringcentral-integration/core';
 import { Module } from 'ringcentral-integration/lib/di';
 import uuid from 'uuid';
@@ -15,50 +13,42 @@ import {
   DepsModules,
   ModalItem,
   ModalMappingType,
-  State,
 } from './Modal.interface';
-
-type ModalState = RcModuleState<Modal, State>;
 
 @Module({
   name: 'Modal',
   deps: [],
 })
-export class Modal extends RcModuleV2<DepsModules, ModalState> {
-  @storage
+export class Modal extends RcModuleV2<DepsModules> {
   @state
   modalIds: string[] = [];
 
   @state
   modalMapping: ModalMappingType = {};
 
-  getModals = createSelector(
-    () => this.modalIds,
-    () => this.modalMapping,
-    (modalIds, modalMapping: ModalMappingType) =>
-      modalIds.map((id) => modalMapping[id]),
-  );
+  @computed((that: Modal) => [that.modalIds, that.modalMapping])
+  get modals() {
+    return this.modalIds.map((id) => this.modalMapping[id]);
+  }
 
   @action
   private _setListItem(id: string, data: ModalItem) {
     if (data.open) {
-      this.state.modalIds.push(id);
+      this.modalIds.push(id);
     }
-    this.state.modalMapping[id] = data;
+    this.modalMapping[id] = data;
+  }
+
+  @action
+  private _removeListItem(id: string) {
+    this.modalIds = this.modalIds.filter((modalId) => modalId !== id);
+    delete this.modalMapping[id];
   }
 
   private _close(id: string) {
     if (this.modalMapping[id]) {
       this._setListItem(id, { ...this.modalMapping[id], open: false });
     }
-  }
-
-  @action
-  private _removeListItem(id: string) {
-    this.state.modalIds = this.state.modalIds.filter(
-      (modalId) => modalId !== id,
-    );
-    delete this.state.modalMapping[id];
   }
 
   alert(props: AlertModalProps) {

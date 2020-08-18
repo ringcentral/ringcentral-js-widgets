@@ -26,16 +26,21 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function mapToProps(_, _ref) {
+  var _extensionInfo$site$c, _extensionInfo$site, _extensionInfo$isMult;
+
   var _ref$phone = _ref.phone,
       locale = _ref$phone.locale,
-      contacts = _ref$phone.contacts;
+      contacts = _ref$phone.contacts,
+      extensionInfo = _ref$phone.extensionInfo;
   return {
     currentLocale: locale.currentLocale,
     contactSourceNames: contacts.sourceNames || [],
     contactGroups: contacts.contactGroups || [],
     searchSource: contacts.sourceFilter,
     searchString: contacts.searchFilter,
-    showSpinner: !(locale.ready && contacts.ready)
+    showSpinner: !(locale.ready && contacts.ready),
+    currentSiteCode: (_extensionInfo$site$c = extensionInfo === null || extensionInfo === void 0 ? void 0 : (_extensionInfo$site = extensionInfo.site) === null || _extensionInfo$site === void 0 ? void 0 : _extensionInfo$site.code) !== null && _extensionInfo$site$c !== void 0 ? _extensionInfo$site$c : '',
+    isMultipleSiteEnabled: (_extensionInfo$isMult = extensionInfo === null || extensionInfo === void 0 ? void 0 : extensionInfo.isMultipleSiteEnabled) !== null && _extensionInfo$isMult !== void 0 ? _extensionInfo$isMult : false
   };
 }
 
