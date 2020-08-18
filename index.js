@@ -93,50 +93,50 @@ function _setLocale() {
   _setLocale = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(locale) {
     var _iterator, _step, i;
 
-    return regeneratorRuntime.wrap(function _callee4$(_context5) {
+    return regeneratorRuntime.wrap(function _callee4$(_context4) {
       while (1) {
-        switch (_context5.prev = _context5.next) {
+        switch (_context4.prev = _context4.next) {
           case 0:
             RUNTIME.locale = locale;
             _iterator = _createForOfIteratorHelper(RUNTIME.instances);
-            _context5.prev = 2;
+            _context4.prev = 2;
 
             _iterator.s();
 
           case 4:
             if ((_step = _iterator.n()).done) {
-              _context5.next = 10;
+              _context4.next = 10;
               break;
             }
 
             i = _step.value;
-            _context5.next = 8;
+            _context4.next = 8;
             return i.load();
 
           case 8:
-            _context5.next = 4;
+            _context4.next = 4;
             break;
 
           case 10:
-            _context5.next = 15;
+            _context4.next = 15;
             break;
 
           case 12:
-            _context5.prev = 12;
-            _context5.t0 = _context5["catch"](2);
+            _context4.prev = 12;
+            _context4.t0 = _context4["catch"](2);
 
-            _iterator.e(_context5.t0);
+            _iterator.e(_context4.t0);
 
           case 15:
-            _context5.prev = 15;
+            _context4.prev = 15;
 
             _iterator.f();
 
-            return _context5.finish(15);
+            return _context4.finish(15);
 
           case 18:
           case "end":
-            return _context5.stop();
+            return _context4.stop();
         }
       }
     }, _callee4, null, [[2, 12, 15, 18]]);
@@ -258,13 +258,11 @@ var I18n = /*#__PURE__*/function () {
   }, {
     key: "_getString",
     value: function _getString(key, locale) {
-      var _context4;
-
-      if (this._cache[locale] && (_context4 = this._cache[locale], Object.prototype.hasOwnProperty).call(_context4, key)) {
+      if (this._cache[locale] && Object.prototype.hasOwnProperty.call(this._cache[locale], key)) {
         return this._cache[locale][key];
       }
 
-      if (this._cache[RUNTIME.defaultLocale] && (_context4 = this._cache[RUNTIME.defaultLocale], Object.prototype.hasOwnProperty).call(_context4, key)) {
+      if (this._cache[RUNTIME.defaultLocale] && Object.prototype.hasOwnProperty.call(this._cache[RUNTIME.defaultLocale], key)) {
         return this._cache[RUNTIME.defaultLocale][key];
       }
 
