@@ -19,7 +19,7 @@ const getMockModule = () => ({
         telephonyStatus: 'NoCall',
         userStatus: 'Available',
       },
-      timestamp: 1597504099637,
+      timestamp: Date.now(),
     },
     '3927803004': {
       presence: {
@@ -43,7 +43,7 @@ const getMockModule = () => ({
   profileImages: {
     '1': {
       imageUrl: 'http://foo',
-      timestamp: 1597504925833,
+      timestamp: Date.now(),
     },
     '2': {
       imageUrl: 'http://bar',
