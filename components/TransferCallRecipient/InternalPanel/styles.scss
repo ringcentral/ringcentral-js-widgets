@@ -1,0 +1,45 @@
+@import '../../../scss/variables.scss';
+
+$green: #5fb95c;
+$gray: #c7c7c7;
+$dot-width: 8px;
+
+.dot {
+  height: $dot-width;
+  width: $dot-width;
+  min-width: $dot-width; // for adjacent dom over hidden
+  border-radius: $dot-width / 2;
+  margin-right: 9px;
+}
+
+.available {
+  background-color: $green;
+}
+
+.unavailable {
+  background-color: $gray;
+}
+
+.agentItem {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  overflow: hidden;
+}
+
+.content {
+  display: flex;
+  flex: 1 1 auto;
+  width: 0;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.agentName {
+  flex-grow: 1;
+}
+
+.statusText {
+  font-size: 10px;
+  flex-shrink: 0;
+}

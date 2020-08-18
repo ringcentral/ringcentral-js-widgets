@@ -1,8 +1,10 @@
-import ContactMatcher from 'ringcentral-integration/modules/ContactMatcher';
 import ActivityMatcher from 'ringcentral-integration/modules/ActivityMatcher';
-import { EvCallMonitor } from '../EvCallMonitor';
-import { EvCallHistory } from '../EvCallHistory';
+import ContactMatcher from 'ringcentral-integration/modules/ContactMatcher';
+
 import { EvClient } from '../../lib/EvClient';
+import { EvAgentScript } from '../EvAgentScript';
+import { EvCallHistory } from '../EvCallHistory';
+import { EvCallMonitor } from '../EvCallMonitor';
 
 export interface EvCallDispositionItem {
   dispositionId: string;
@@ -26,12 +28,18 @@ export interface State {
   dispositionStateMapping: EvDispositionStateMapping;
 }
 
-export interface DepsModules {
+export interface EvCallDispositionOptions {
+  //
+}
+
+export interface Deps {
   evCallMonitor: EvCallMonitor;
   evCallHistory: EvCallHistory;
   contactMatcher: ContactMatcher;
   activityMatcher: ActivityMatcher;
+  evAgentScript: EvAgentScript;
   evClient: EvClient;
+  evCallDispositionOptions?: EvCallDispositionOptions;
 }
 
 export interface CallDisposition extends State {

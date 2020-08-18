@@ -37,6 +37,8 @@ require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.for-each");
 
+require("core-js/modules/es6.array.map");
+
 require("core-js/modules/es6.array.some");
 
 require("core-js/modules/es6.array.find");
@@ -45,11 +47,9 @@ require("core-js/modules/es7.array.includes");
 
 require("core-js/modules/es6.string.includes");
 
-require("core-js/modules/es6.array.index-of");
-
-require("core-js/modules/es6.array.map");
-
 require("core-js/modules/es6.array.filter");
+
+require("core-js/modules/es6.array.index-of");
 
 var _core = require("@ringcentral-integration/core");
 
@@ -63,7 +63,7 @@ var _callbackTypes = require("../../lib/EvClient/enums/callbackTypes");
 
 var _helper = require("./helper");
 
-var _dec, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7, _descriptor8, _descriptor9, _descriptor10, _temp;
+var _dec, _dec2, _dec3, _dec4, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7, _descriptor8, _descriptor9, _descriptor10, _temp;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -103,41 +103,29 @@ function _initializerWarningHelper(descriptor, context) { throw new Error('Decor
 
 var EvPresence = (_dec = (0, _di.Module)({
   name: 'EvPresence',
-  deps: ['EvSubscription', 'EvClient', 'EvAuth', 'Storage', 'EvSettings', 'EvSessionConfig', 'Alert', {
+  deps: ['EvSubscription', 'EvClient', 'EvAuth', 'Storage', 'EvSettings', 'EvAgentSession', 'Alert', {
     dep: 'PresenceOptions',
     optional: true
   }]
+}), _dec2 = (0, _core.computed)(function (that) {
+  return [that.callIds, that.callsMapping];
+}), _dec3 = (0, _core.computed)(function (that) {
+  return [that.otherCallIds, that.callsMapping];
+}), _dec4 = (0, _core.computed)(function (that) {
+  return [that.callLogsIds, that.callsMapping];
 }), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcModuleV) {
   _inherits(EvPresence, _RcModuleV);
 
   var _super = _createSuper(EvPresence);
 
-  function EvPresence(_ref) {
+  function EvPresence(deps) {
     var _this;
-
-    var evSubscription = _ref.evSubscription,
-        evClient = _ref.evClient,
-        storage = _ref.storage,
-        evAuth = _ref.evAuth,
-        evSettings = _ref.evSettings,
-        evSessionConfig = _ref.evSessionConfig,
-        alert = _ref.alert,
-        _ref$enableCache = _ref.enableCache,
-        enableCache = _ref$enableCache === void 0 ? true : _ref$enableCache;
 
     _classCallCheck(this, EvPresence);
 
     _this = _super.call(this, {
-      modules: {
-        evSubscription: evSubscription,
-        evClient: evClient,
-        evAuth: evAuth,
-        storage: storage,
-        evSettings: evSettings,
-        evSessionConfig: evSessionConfig,
-        alert: alert
-      },
-      enableCache: enableCache,
+      deps: deps,
+      enableCache: true,
       storageKey: 'EvPresence'
     });
     _this.evPresenceEvents = new _events["default"]();
@@ -163,35 +151,10 @@ var EvPresence = (_dec = (0, _di.Module)({
 
     _initializerDefineProperty(_this, "dialoutStatus", _descriptor10, _assertThisInitialized(_this));
 
-    _this.getCalls = (0, _core.createSelector)(function () {
-      return _this.callIds;
-    }, function () {
-      return _this.callsMapping;
-    }, function (callIds, callsMapping) {
-      return callIds.map(function (id) {
-        return callsMapping[id];
-      }).filter(function (call) {
-        return !!call;
-      });
-    });
-    _this.getOtherCalls = (0, _core.createSelector)(function () {
-      return _this.otherCallIds;
-    }, function () {
-      return _this.callsMapping;
-    }, function (otherCallIds, callsMapping) {
-      return otherCallIds.map(function (id) {
-        return callsMapping[id];
-      });
-    });
-    _this.getCallLogs = (0, _core.createSelector)(function () {
-      return _this.callLogsIds;
-    }, function () {
-      return _this.callsMapping;
-    }, function (callLogsIds, callsMapping) {
-      return callLogsIds.map(function (id) {
-        return callsMapping[id];
-      });
-    });
+    _this._deps.evAgentSession.clearCalls = function () {
+      _this.clearCalls();
+    };
+
     return _this;
   } // temporary code for test screen pop sf object when inbound call
 
@@ -200,43 +163,43 @@ var EvPresence = (_dec = (0, _di.Module)({
     key: "setRecordId",
     // temporary code for test screen pop sf object when inbound call
     value: function setRecordId(recordId) {
-      this.state.recordId = recordId;
+      this.recordId = recordId;
     } // temporary code for test screen pop sf object when inbound call
 
   }, {
     key: "setCaseId",
     // temporary code for test screen pop sf object when inbound call
     value: function setCaseId(caseId) {
-      this.state.caseId = caseId;
+      this.caseId = caseId;
     } // temporary code for test screen pop sf object when inbound call
 
   }, {
     key: "setObjectValue",
     // temporary code for test screen pop sf object when inbound call
     value: function setObjectValue(objectValue) {
-      this.state.objectValue = objectValue;
+      this.objectValue = objectValue;
     } // temporary code for test screen pop sf object when inbound call
 
   }, {
     key: "setObjectType",
     // temporary code for test screen pop sf object when inbound call
     value: function setObjectType(objectType) {
-      this.state.objectType = objectType;
+      this.objectType = objectType;
     }
   }, {
     key: "addNewCall",
     value: function addNewCall(call) {
-      // note: rawCallsMapping‘s index is raw call uii.
-      this.state.rawCallsMapping[call.uii] = _objectSpread(_objectSpread({}, call), {}, {
+      // note: rawCallsMapping index is raw call uii.
+      this.rawCallsMapping[call.uii] = _objectSpread(_objectSpread({}, call), {}, {
         // input timezone in second arg if EV reponse has timezone propoty
         // default timezone is 'America/New_York'
         timestamp: (0, _helper.getTimeStamp)(call.queueDts),
         gate: this._getCurrentGateData(call),
         // temporary code for test screen pop sf object when inbound call
-        recordId: this.state.recordId,
-        caseId: this.state.caseId,
-        objectValue: this.state.objectValue,
-        objectType: this.state.objectType
+        recordId: this.recordId,
+        caseId: this.caseId,
+        objectValue: this.objectValue,
+        objectType: this.objectType
       });
     }
   }, {
@@ -244,23 +207,23 @@ var EvPresence = (_dec = (0, _di.Module)({
     value: function addNewSession(session) {
       var id = this._getCallEncodeId(session);
 
-      if (session.agentId === this._modules.evAuth.agentId) {
+      if (session.agentId === this._deps.evAuth.agentId) {
         // related to current agent session
-        var index = this.state.callIds.indexOf(id);
+        var index = this.callIds.indexOf(id);
 
         if (index === -1) {
-          this.state.callIds.unshift(id);
+          this.callIds.unshift(id);
         }
       } else {
         // other session without current agent
-        var _index = this.state.otherCallIds.indexOf(id);
+        var _index = this.otherCallIds.indexOf(id);
 
         if (_index === -1) {
-          this.state.otherCallIds.unshift(id);
+          this.otherCallIds.unshift(id);
         }
       }
 
-      this.state.callsMapping[id] = _objectSpread(_objectSpread({}, this.rawCallsMapping[session.uii]), {}, {
+      this.callsMapping[id] = _objectSpread(_objectSpread({}, this.rawCallsMapping[session.uii]), {}, {
         session: session
       });
     }
@@ -269,7 +232,7 @@ var EvPresence = (_dec = (0, _di.Module)({
     value: function dropSession(_dropSession) {
       var id = this._getCallEncodeId(_dropSession);
 
-      this.state.otherCallIds = this.state.otherCallIds.filter(function (callId) {
+      this.otherCallIds = this.otherCallIds.filter(function (callId) {
         return callId !== id;
       });
     }
@@ -279,22 +242,22 @@ var EvPresence = (_dec = (0, _di.Module)({
       var id = this._getCallEncodeId(endedCall); // remove current agent session call with uii.
 
 
-      this.state.callIds = this.state.callIds.filter(function (callId) {
+      this.callIds = this.callIds.filter(function (callId) {
         return callId !== id;
       }); // remove other call session with uii.
 
-      this.state.otherCallIds = this.state.otherCallIds.filter(function (callId) {
+      this.otherCallIds = this.otherCallIds.filter(function (callId) {
         return !callId.includes(endedCall.uii);
       }); // add call with id (encodeUii({ uii, sessionId }))
 
       var callLogsIndex = this.callLogsIds.indexOf(id);
 
       if (callLogsIndex === -1) {
-        this.state.callLogsIds.unshift(id);
+        this.callLogsIds.unshift(id);
       }
 
       if (this.callsMapping[id]) {
-        this.state.callsMapping[id].endedCall = endedCall;
+        this.callsMapping[id].endedCall = endedCall;
       }
     }
   }, {
@@ -302,74 +265,71 @@ var EvPresence = (_dec = (0, _di.Module)({
     value: function setCallHoldStatus(res) {
       var id = this._getCallEncodeId(res);
 
-      this.state.callsMapping[id].isHold = res.holdState;
+      this.callsMapping[id].isHold = res.holdState;
     }
   }, {
     key: "clearCalls",
     value: function clearCalls() {
-      this.state.callIds = [];
-      this.state.otherCallIds = [];
+      this.callIds = [];
+      this.otherCallIds = [];
     }
   }, {
     key: "setDialoutStatus",
     value: function setDialoutStatus(status) {
-      if (this.state.dialoutStatus !== status) {
-        this.state.dialoutStatus = status;
+      if (this.dialoutStatus !== status) {
+        this.dialoutStatus = status;
       }
     }
   }, {
     key: "onInitOnce",
     value: function onInitOnce() {
+      var _this2 = this;
+
+      this._deps.evAgentSession.onConfigSuccess.push(function () {
+        if (_this2.calls.length === 0) {
+          _this2.setDialoutStatus(_enums.dialoutStatuses.idle);
+        }
+      });
+
       this._bindSubscription();
     }
   }, {
-    key: "onInit",
-    value: function onInit() {
-      if (!this._modules.evSessionConfig.isConfigSuccessByLocal) {
-        this.clearCalls();
-      }
-
-      if (this.getCalls().length === 0 && this.dialoutStatus !== _enums.dialoutStatuses.idle) {
-        this.setDialoutStatus(_enums.dialoutStatuses.idle);
-      }
+    key: "setOffhookInit",
+    value: function setOffhookInit() {
+      this._deps.evSettings.setOffhookInit();
     }
   }, {
-    key: "offhookInit",
-    value: function offhookInit() {
-      this._modules.evSettings.offhookInitHandle();
-    }
-  }, {
-    key: "offhookTerm",
-    value: function offhookTerm() {
-      this._modules.evSettings.offhookTermHandle();
+    key: "setOffhookTerm",
+    value: function setOffhookTerm() {
+      this._deps.evSettings.setOffhookTerm();
     }
   }, {
     key: "_bindSubscription",
     value: function _bindSubscription() {
-      var _this2 = this;
+      var _this3 = this;
 
-      this._modules.evSubscription.subscribe(_callbackTypes.EvCallbackTypes.OFFHOOK_INIT, function (data) {
-        _this2.evPresenceEvents.emit(_callbackTypes.EvCallbackTypes.OFFHOOK_INIT, data);
+      this._deps.evSubscription.subscribe(_callbackTypes.EvCallbackTypes.OFFHOOK_INIT, function (data) {
+        _this3.evPresenceEvents.emit(_callbackTypes.EvCallbackTypes.OFFHOOK_INIT, data);
 
         if (data.status === 'OK') {
-          _this2.offhookInit(); // when that is reject integrated softphone, we not alert error
+          _this3.setOffhookInit(); // when that is reject integrated softphone, we not alert error
 
-        } else if (_this2.showOffHookInitError) {
-          _this2._modules.alert.danger({
+        } else if (_this3.showOffHookInitError) {
+          _this3._deps.alert.danger({
             message: _enums.messageTypes.OFFHOOK_INIT_ERROR
           });
 
-          _this2._modules.evSettings.offhookTermHandle();
+          _this3.setOffhookTerm();
 
-          _this2.showOffHookInitError = true;
+          _this3.showOffHookInitError = true;
         }
       });
 
-      this._modules.evSubscription.subscribe(_callbackTypes.EvCallbackTypes.OFFHOOK_TERM, function (data) {
+      this._deps.evSubscription.subscribe(_callbackTypes.EvCallbackTypes.OFFHOOK_TERM, function (data) {
         if (data.status === 'OK') {
-          _this2.offhookTerm();
+          _this3.setOffhookTerm();
         } else {
-          _this2._modules.alert.danger({
+          _this3._deps.alert.danger({
             message: _enums.messageTypes.OFFHOOK_TERM_ERROR
           });
 
@@ -377,50 +337,50 @@ var EvPresence = (_dec = (0, _di.Module)({
         }
       });
 
-      this._modules.evSubscription.subscribe(_callbackTypes.EvCallbackTypes.ADD_SESSION, function (data) {
+      this._deps.evSubscription.subscribe(_callbackTypes.EvCallbackTypes.ADD_SESSION, function (data) {
         if (data.status === 'OK') {
-          _this2.addNewSession(data);
+          _this3.addNewSession(data);
         } else {
-          _this2._modules.alert.danger({
+          _this3._deps.alert.danger({
             message: _enums.messageTypes.ADD_SESSION_ERROR
           });
         }
       });
 
-      this._modules.evSubscription.subscribe(_callbackTypes.EvCallbackTypes.DROP_SESSION, function (data) {
+      this._deps.evSubscription.subscribe(_callbackTypes.EvCallbackTypes.DROP_SESSION, function (data) {
         if (data.status === 'OK') {
-          _this2.dropSession(data);
+          _this3.dropSession(data);
         } else {
-          _this2._modules.alert.danger({
+          _this3._deps.alert.danger({
             message: _enums.messageTypes.DROP_SESSION_ERROR
           });
         }
       });
 
-      this._modules.evSubscription.subscribe(_callbackTypes.EvCallbackTypes.HOLD, function (data) {
+      this._deps.evSubscription.subscribe(_callbackTypes.EvCallbackTypes.HOLD, function (data) {
         if (data.status === 'OK') {
-          _this2.setCallHoldStatus(data);
+          _this3.setCallHoldStatus(data);
         } else {
-          _this2._modules.alert.danger({
+          _this3._deps.alert.danger({
             message: _enums.messageTypes.HOLD_ERROR
           });
         }
       });
 
-      this._modules.evSubscription.subscribe(_callbackTypes.EvCallbackTypes.NEW_CALL, function (data) {
-        _this2.addNewCall(data);
+      this._deps.evSubscription.subscribe(_callbackTypes.EvCallbackTypes.NEW_CALL, function (data) {
+        _this3.addNewCall(data);
       });
 
-      this._modules.evSubscription.subscribe(_callbackTypes.EvCallbackTypes.END_CALL, function (data) {
-        var id = _this2._getCallEncodeId(data);
+      this._deps.evSubscription.subscribe(_callbackTypes.EvCallbackTypes.END_CALL, function (data) {
+        var id = _this3._getCallEncodeId(data);
 
-        if (!_this2.callsMapping[id]) return;
+        if (!_this3.callsMapping[id]) return;
 
-        if (!_this2._modules.evSettings.isManualOffhook) {
-          _this2._modules.evClient.offhookTerm();
+        if (!_this3._deps.evSettings.isManualOffhook) {
+          _this3._deps.evClient.offhookTerm();
         }
 
-        _this2.removeEndedCall(data);
+        _this3.removeEndedCall(data);
       });
     }
   }, {
@@ -428,10 +388,10 @@ var EvPresence = (_dec = (0, _di.Module)({
     value: function _getCurrentGateData(call) {
       var currentGateId = call.queue.number;
 
-      var currentQueueGroup = this._modules.evAuth.getAvailableRequeueQueues().find(function (_ref2) {
-        var gates = _ref2.gates;
-        return gates.some(function (_ref3) {
-          var gateId = _ref3.gateId;
+      var currentQueueGroup = this._deps.evAuth.availableRequeueQueues.find(function (_ref) {
+        var gates = _ref.gates;
+        return gates.some(function (_ref2) {
+          var gateId = _ref2.gateId;
           return gateId === currentGateId;
         });
       });
@@ -443,12 +403,41 @@ var EvPresence = (_dec = (0, _di.Module)({
     }
   }, {
     key: "_getCallEncodeId",
-    value: function _getCallEncodeId(_ref4) {
-      var uii = _ref4.uii,
-          sessionId = _ref4.sessionId;
-      return this._modules.evClient.encodeUii({
+    value: function _getCallEncodeId(_ref3) {
+      var uii = _ref3.uii,
+          sessionId = _ref3.sessionId;
+      return this._deps.evClient.encodeUii({
         sessionId: sessionId,
         uii: uii
+      });
+    }
+  }, {
+    key: "calls",
+    get: function get() {
+      var _this4 = this;
+
+      return this.callIds.map(function (id) {
+        return _this4.callsMapping[id];
+      }).filter(function (call) {
+        return !!call;
+      });
+    }
+  }, {
+    key: "otherCalls",
+    get: function get() {
+      var _this5 = this;
+
+      return this.otherCallIds.map(function (id) {
+        return _this5.callsMapping[id];
+      });
+    }
+  }, {
+    key: "callLogs",
+    get: function get() {
+      var _this6 = this;
+
+      return this.callLogsIds.map(function (id) {
+        return _this6.callsMapping[id];
       });
     }
   }]);
@@ -524,6 +513,6 @@ var EvPresence = (_dec = (0, _di.Module)({
   initializer: function initializer() {
     return _enums.dialoutStatuses.idle;
   }
-}), _applyDecoratedDescriptor(_class2.prototype, "addNewCall", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "addNewCall"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "addNewSession", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "addNewSession"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "dropSession", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "dropSession"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "removeEndedCall", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "removeEndedCall"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setCallHoldStatus", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setCallHoldStatus"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "clearCalls", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "clearCalls"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setDialoutStatus", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setDialoutStatus"), _class2.prototype)), _class2)) || _class);
+}), _applyDecoratedDescriptor(_class2.prototype, "calls", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "calls"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "otherCalls", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "otherCalls"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "callLogs", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "callLogs"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "addNewCall", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "addNewCall"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "addNewSession", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "addNewSession"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "dropSession", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "dropSession"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "removeEndedCall", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "removeEndedCall"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setCallHoldStatus", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setCallHoldStatus"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "clearCalls", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "clearCalls"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setDialoutStatus", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setDialoutStatus"), _class2.prototype)), _class2)) || _class);
 exports.EvPresence = EvPresence;
 //# sourceMappingURL=EvPresence.js.map

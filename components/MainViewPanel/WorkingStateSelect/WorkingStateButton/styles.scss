@@ -23,13 +23,6 @@ $green-light: #edf5fb;
   pointer-events: auto !important;
 }
 
-div.paper {
-  top: 74px !important;
-  min-width: calc(100% - 60px);
-  [sf-classic] & {
-    margin-left: -8px;
-  }
-}
 
 .stateName {
   flex-grow: 1;

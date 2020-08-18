@@ -33,15 +33,13 @@ require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.array.is-array");
 
-require("core-js/modules/es6.array.map");
-
 var _rcui = require("@ringcentral-integration/rcui");
 
 var _formatMessage = _interopRequireDefault(require("format-message"));
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _SelectListBasic = require("ringcentral-widgets/components/SelectListBasic");
+var _SelectList = require("../SelectList");
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
@@ -87,49 +85,47 @@ var InboundQueuesPanel = function InboundQueuesPanel(_ref) {
   var allAssign = isAllAssign(assignedInboundQueues, inboundQueuesState);
   var severalAssign = isSeveralAssign(assignedInboundQueues, inboundQueuesState);
 
-  var renderListView = function renderListView(inboundQueues) {
-    return inboundQueues.length ? /*#__PURE__*/_react["default"].createElement(_rcui.RcList, null, inboundQueues.map(function (_ref2, index) {
-      var gateName = _ref2.gateName,
-          gateId = _ref2.gateId,
-          checked = _ref2.checked;
-      return /*#__PURE__*/_react["default"].createElement(_rcui.RcListItem, {
-        key: index,
-        title: gateName,
-        button: true,
-        singleLine: true,
-        size: "small",
-        onClick: function onClick(e) {
-          e.preventDefault();
-          checkBoxOnChange(gateId, inboundQueuesState, setInboundQueuesState);
+  var renderListView = function renderListView(_ref2) {
+    var option = _ref2.option,
+        index = _ref2.index;
+    var gateName = option.gateName,
+        gateId = option.gateId,
+        checked = option.checked;
+    return /*#__PURE__*/_react["default"].createElement(_rcui.RcListItem, {
+      key: index,
+      title: gateName,
+      button: true,
+      singleLine: true,
+      size: "small",
+      onClick: function onClick(e) {
+        e.preventDefault();
+        checkBoxOnChange(gateId, inboundQueuesState, setInboundQueuesState);
+      }
+    }, /*#__PURE__*/_react["default"].createElement(_rcui.RcCheckbox, {
+      color: "primary",
+      formControlLabelProps: {
+        classes: {
+          root: _styles["default"].checkbox,
+          label: _styles["default"].label
         }
-      }, /*#__PURE__*/_react["default"].createElement(_rcui.RcCheckbox, {
-        color: "primary",
-        formControlLabelProps: {
-          classes: {
-            root: _styles["default"].checkbox,
-            label: _styles["default"].label
-          }
-        },
-        label: gateName,
-        checked: checked
-      }));
-    })) : null;
+      },
+      label: gateName,
+      checked: checked
+    }));
   };
 
-  return /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement(_SelectListBasic.SelectListBasic, {
+  return /*#__PURE__*/_react["default"].createElement("div", {
+    className: _styles["default"].root
+  }, /*#__PURE__*/_react["default"].createElement(_SelectList.SelectList, {
     title: _i18n["default"].getString('inboundQueues', currentLocale),
     placeholder: _i18n["default"].getString('search', currentLocale),
     options: inboundQueuesState,
     searchOption: searchOption,
     currentLocale: currentLocale,
-    renderListView: renderListView,
-    selectListBasicClassName: _styles["default"].selectListBasic,
-    backHeaderClassName: _styles["default"].backHeader,
-    listContainerClassName: _styles["default"].listContainer,
-    open: true,
+    renderListItem: renderListView,
     onBackClick: goBack
   }), /*#__PURE__*/_react["default"].createElement("div", {
-    className: _styles["default"].bottomBar
+    className: _styles["default"].footer
   }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].selected
   }, /*#__PURE__*/_react["default"].createElement(_rcui.RcCheckbox, {
@@ -150,7 +146,7 @@ var InboundQueuesPanel = function InboundQueuesPanel(_ref) {
   }))), /*#__PURE__*/_react["default"].createElement(_rcui.RcButton, {
     "data-sign": "update",
     onClick: function onClick() {
-      return submitInboundQueues(assignedInboundQueues);
+      return submitInboundQueues(assignedInboundQueues, goBack);
     },
     size: "medium",
     fullWidth: true

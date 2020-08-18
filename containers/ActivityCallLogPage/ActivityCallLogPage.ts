@@ -1,9 +1,12 @@
-import { ActivityCallLogPanel } from '../../components/ActivityCallLogPanel';
+import {
+  ActivityCallLogPanel,
+  ActivityCallLogPanelProps,
+} from '../../components/ActivityCallLogPanel';
 import { connectModule } from '../../lib/connectModule';
 
-export interface ActivityCallLogPageProps {
+export type ActivityCallLogPageProps = {
   id: string;
-}
+} & Pick<ActivityCallLogPanelProps, 'startAdornmentRender'>;
 
 export const ActivityCallLogPage = connectModule<ActivityCallLogPageProps>(
   (phone) => phone.evActivityCallUI,

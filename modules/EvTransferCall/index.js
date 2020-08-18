@@ -28,7 +28,7 @@ Object.keys(_EvTransferCall).forEach(function (key) {
   });
 });
 
-var _EvTransferCall2 = require("./EvTransferCall.inerface");
+var _EvTransferCall2 = require("./EvTransferCall.interface");
 
 Object.keys(_EvTransferCall2).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;

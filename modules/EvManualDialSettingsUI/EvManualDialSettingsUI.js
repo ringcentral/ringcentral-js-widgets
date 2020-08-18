@@ -9,13 +9,7 @@ require("core-js/modules/es6.object.define-properties");
 
 require("core-js/modules/es7.object.get-own-property-descriptors");
 
-require("core-js/modules/es6.array.for-each");
-
 require("core-js/modules/es6.array.filter");
-
-require("core-js/modules/es6.array.iterator");
-
-require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.function.name");
 
@@ -23,15 +17,11 @@ require("core-js/modules/es6.string.iterator");
 
 require("core-js/modules/es6.array.from");
 
-require("core-js/modules/web.dom.iterable");
-
 require("core-js/modules/es7.symbol.async-iterator");
 
 require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.array.is-array");
-
-require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.object.create");
 
@@ -39,17 +29,29 @@ require("core-js/modules/es6.regexp.to-string");
 
 require("core-js/modules/es6.date.to-string");
 
-require("core-js/modules/es6.object.to-string");
-
 require("core-js/modules/es6.reflect.construct");
 
 require("core-js/modules/es6.object.set-prototype-of");
 
+require("core-js/modules/es6.object.define-property");
+
+require("core-js/modules/es6.array.reduce");
+
+require("core-js/modules/web.dom.iterable");
+
+require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.object.to-string");
+
+require("core-js/modules/es6.object.keys");
+
+require("core-js/modules/es6.array.for-each");
+
+require("core-js/modules/es6.array.find");
+
 require("core-js/modules/es7.array.includes");
 
 require("core-js/modules/es6.string.includes");
-
-require("core-js/modules/es6.array.find");
 
 var _core = require("@ringcentral-integration/core");
 
@@ -57,7 +59,7 @@ var _di = require("ringcentral-integration/lib/di");
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
-var _dec, _class, _temp;
+var _dec, _dec2, _dec3, _dec4, _dec5, _class, _class2, _temp;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -101,178 +103,33 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
+
 var EvManualDialSettingsUI = (_dec = (0, _di.Module)({
   name: 'EvManualDialSettingsUI',
   deps: ['Locale', 'RouterInteraction', 'EvCall', 'EvAuth']
-}), _dec(_class = (_temp = /*#__PURE__*/function (_RcUIModuleV) {
+}), _dec2 = (0, _core.computed)(function (that) {
+  return [that._deps.evAuth.callerIds, that._deps.evCall.formGroup.dialoutCallerId];
+}), _dec3 = (0, _core.computed)(function (that) {
+  return [that._deps.evAuth.availableQueues, that._deps.evCall.formGroup.dialoutQueueId];
+}), _dec4 = (0, _core.computed)(function (that) {
+  return [that._deps.evAuth.availableCountries, that._deps.evCall.formGroup.dialoutCountryId];
+}), _dec5 = (0, _core.computed)(function (that) {
+  return [that.queue, that.country, that.callerId, that._deps.evCall.formGroup.dialoutRingTime, that._deps.evCall.ringTimeLimit, that._deps.evAuth.callerIds, that._deps.evAuth.availableQueues, that._deps.evAuth.availableCountries, that._deps.evAuth.agentPermissions.allowManualOutboundGates, that._deps.evAuth.agentPermissions.allowManualIntlCalls, that._deps.locale.currentLocale];
+}), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcUIModuleV) {
   _inherits(EvManualDialSettingsUI, _RcUIModuleV);
 
   var _super = _createSuper(EvManualDialSettingsUI);
 
-  function EvManualDialSettingsUI(_ref) {
+  function EvManualDialSettingsUI(deps) {
     var _this;
-
-    var locale = _ref.locale,
-        routerInteraction = _ref.routerInteraction,
-        evCall = _ref.evCall,
-        evAuth = _ref.evAuth;
 
     _classCallCheck(this, EvManualDialSettingsUI);
 
     _this = _super.call(this, {
-      modules: {
-        locale: locale,
-        routerInteraction: routerInteraction,
-        evCall: evCall,
-        evAuth: evAuth
-      }
+      deps: deps
     });
     _this._renderProps = void 0;
-    _this.getCallerId = (0, _core.createSelector)(function () {
-      return _this._modules.evCall.formGroup.dialoutCallerId;
-    }, function () {
-      return _this._modules.evAuth.getCallerIds();
-    }, function (callerId, callerIds) {
-      return callerIds.find(function (_ref2) {
-        var number = _ref2.number;
-        return number === callerId;
-      });
-    });
-    _this.getQueue = (0, _core.createSelector)(function () {
-      return _this._modules.evCall.formGroup.dialoutQueueId;
-    }, function () {
-      return _this._modules.evAuth.availableQueues;
-    }, function (queueId, availableQueues) {
-      return availableQueues.find(function (queue) {
-        return queue.gateId === queueId;
-      });
-    });
-    _this.getCountry = (0, _core.createSelector)(function () {
-      return _this._modules.evCall.formGroup.dialoutCountryId;
-    }, function () {
-      return _this._modules.evAuth.getAvailableCountries();
-    }, function (countryId, countries) {
-      return countries.find(function (country) {
-        return country.countryId === countryId;
-      });
-    });
-    _this.getSettingFields = (0, _core.createSelector)(function () {
-      return _this.getCallerId();
-    }, function () {
-      return _this._modules.evAuth.getCallerIds();
-    }, function () {
-      return _this._modules.evAuth.availableQueues;
-    }, function () {
-      return _this.getQueue();
-    }, function () {
-      return _this.getCountry();
-    }, function () {
-      return _this._modules.evAuth.getAvailableCountries();
-    }, function () {
-      return _this._modules.evCall.ringTime;
-    }, function () {
-      return _this._modules.evCall.ringTimeLimit;
-    }, function () {
-      return _this._modules.evAuth.agentPermissions.allowManualOutboundGates;
-    }, function () {
-      return _this._modules.evAuth.agentPermissions.allowManualIntlCalls;
-    }, function (callerId, callerIds, availableQueues, queue, country, availableCountries, ringTime, ringTimeLimit, allowManualOutboundGates, allowManualIntlCalls) {
-      return [{
-        dataSign: 'callerId',
-        value: callerId.number,
-        onChange: function onChange(dialoutCallerId) {
-          if (_this._validate(dialoutCallerId)) {
-            _this._modules.evCall.setFormGroup({
-              dialoutCallerId: dialoutCallerId
-            });
-          }
-        },
-        select: {
-          label: _i18n["default"].getString('callerId', _this._modules.locale.currentLocale),
-          required: true,
-          options: callerIds,
-          getItemValue: function getItemValue(value) {
-            return value.number;
-          },
-          itemRenderer: _this._renderProps.renderCallerIdLabel,
-          renderValue: callerId.description,
-          searchOption: function searchOption(value, text) {
-            return _this._searchMethod("".concat(value.description, " ").concat(value.number), text);
-          }
-        }
-      }].concat(_toConsumableArray(allowManualOutboundGates ? [{
-        dataSign: 'queue',
-        value: queue.gateId,
-        onChange: function onChange(dialoutQueueId) {
-          if (_this._validate(dialoutQueueId)) {
-            _this._modules.evCall.setFormGroup({
-              dialoutQueueId: dialoutQueueId
-            });
-          }
-        },
-        select: {
-          label: _i18n["default"].getString('queue', _this._modules.locale.currentLocale),
-          required: true,
-          options: availableQueues,
-          renderValue: queue.gateName,
-          itemRenderer: function itemRenderer(value) {
-            return _this._renderProps.renderQueueLabel(_objectSpread(_objectSpread({}, value), {}, {
-              currentLocale: _this._modules.locale.currentLocale
-            }));
-          },
-          getItemValue: function getItemValue(value) {
-            return value.gateId;
-          },
-          searchOption: function searchOption(value, text) {
-            return _this._searchMethod("".concat(value.gateName, " ").concat(value.gateId), text);
-          }
-        }
-      }] : []), _toConsumableArray(allowManualIntlCalls ? [{
-        dataSign: 'country',
-        value: country.countryId,
-        onChange: function onChange(dialoutCountryId) {
-          if (_this._validate(dialoutCountryId)) {
-            _this._modules.evCall.setFormGroup({
-              dialoutCountryId: dialoutCountryId
-            });
-          }
-        },
-        select: {
-          label: _i18n["default"].getString('country', _this._modules.locale.currentLocale),
-          required: true,
-          options: availableCountries,
-          renderValue: "".concat(country.countryName, " (").concat(country.countryId, ")"),
-          getItemValue: function getItemValue(value) {
-            return value.countryId;
-          },
-          itemRenderer: function itemRenderer(_ref3) {
-            var countryId = _ref3.countryId,
-                countryName = _ref3.countryName;
-            return "".concat(countryName, " (").concat(countryId, ")");
-          },
-          searchOption: function searchOption(value, text) {
-            return _this._searchMethod("".concat(value.countryName, "(").concat(value.countryId, ")"), text);
-          }
-        }
-      }] : []), [{
-        dataSign: 'ringTime',
-        value: ringTime,
-        onChange: function onChange(dialoutRingTime) {
-          _this._modules.evCall.setFormGroup({
-            dialoutRingTime: dialoutRingTime
-          });
-        },
-        onBlur: function onBlur() {
-          _this._modules.evCall.checkDialoutRingTime();
-        },
-        input: _objectSpread({
-          type: 'number',
-          label: _i18n["default"].getString('ringTime', _this._modules.locale.currentLocale),
-          required: true,
-          placeholder: _i18n["default"].getString('ringTime', _this._modules.locale.currentLocale)
-        }, ringTimeLimit)
-      }]);
-    });
     return _this;
   }
 
@@ -284,7 +141,7 @@ var EvManualDialSettingsUI = (_dec = (0, _di.Module)({
   }, {
     key: "_navigateToDialer",
     value: function _navigateToDialer() {
-      this._modules.routerInteraction.push('/dialer');
+      this._deps.routerInteraction.push('/dialer');
     }
   }, {
     key: "_searchMethod",
@@ -297,8 +154,8 @@ var EvManualDialSettingsUI = (_dec = (0, _di.Module)({
       var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
       this._renderProps = props;
       return {
-        currentLocale: this._modules.locale.currentLocale,
-        settingFields: this.getSettingFields()
+        currentLocale: this._deps.locale.currentLocale,
+        settingFields: this.settingFields
       };
     }
   }, {
@@ -308,21 +165,150 @@ var EvManualDialSettingsUI = (_dec = (0, _di.Module)({
 
       return {
         init: function init() {
-          _this2._modules.evCall.resetForm();
+          _this2._deps.evCall.resetForm();
         },
         goBack: function goBack() {
           return _this2._navigateToDialer();
         },
         save: function save() {
-          _this2._modules.evCall.saveForm();
+          _this2._deps.evCall.saveForm();
 
           _this2._navigateToDialer();
         }
       };
     }
+  }, {
+    key: "callerId",
+    get: function get() {
+      var _this3 = this;
+
+      return this._deps.evAuth.callerIds.find(function (_ref) {
+        var number = _ref.number;
+        return number === _this3._deps.evCall.formGroup.dialoutCallerId;
+      });
+    }
+  }, {
+    key: "queue",
+    get: function get() {
+      var _this4 = this;
+
+      return this._deps.evAuth.availableQueues.find(function (queue) {
+        return queue.gateId === _this4._deps.evCall.formGroup.dialoutQueueId;
+      });
+    }
+  }, {
+    key: "country",
+    get: function get() {
+      var _this5 = this;
+
+      return this._deps.evAuth.availableCountries.find(function (country) {
+        return country.countryId === _this5._deps.evCall.formGroup.dialoutCountryId;
+      });
+    }
+  }, {
+    key: "settingFields",
+    get: function get() {
+      var _this6 = this;
+
+      return [{
+        dataSign: 'callerId',
+        value: this.callerId.number,
+        onChange: function onChange(dialoutCallerId) {
+          if (_this6._validate(dialoutCallerId)) {
+            _this6._deps.evCall.setFormGroup({
+              dialoutCallerId: dialoutCallerId
+            });
+          }
+        },
+        select: {
+          label: _i18n["default"].getString('callerId', this._deps.locale.currentLocale),
+          required: true,
+          options: this._deps.evAuth.callerIds,
+          getItemValue: function getItemValue(value) {
+            return value.number;
+          },
+          itemRenderer: this._renderProps.renderCallerIdLabel,
+          renderValue: this.callerId.description,
+          searchOption: function searchOption(value, text) {
+            return _this6._searchMethod("".concat(value.description, " ").concat(value.number), text);
+          }
+        }
+      }].concat(_toConsumableArray(this._deps.evAuth.agentPermissions.allowManualOutboundGates ? [{
+        dataSign: 'queue',
+        value: this.queue.gateId,
+        onChange: function onChange(dialoutQueueId) {
+          if (_this6._validate(dialoutQueueId)) {
+            _this6._deps.evCall.setFormGroup({
+              dialoutQueueId: dialoutQueueId
+            });
+          }
+        },
+        select: {
+          label: _i18n["default"].getString('queue', this._deps.locale.currentLocale),
+          required: true,
+          options: this._deps.evAuth.availableQueues,
+          renderValue: this.queue.gateName,
+          itemRenderer: function itemRenderer(value) {
+            return _this6._renderProps.renderQueueLabel(_objectSpread(_objectSpread({}, value), {}, {
+              currentLocale: _this6._deps.locale.currentLocale
+            }));
+          },
+          getItemValue: function getItemValue(value) {
+            return value.gateId;
+          },
+          searchOption: function searchOption(value, text) {
+            return _this6._searchMethod("".concat(value.gateName, " ").concat(value.gateId), text);
+          }
+        }
+      }] : []), _toConsumableArray(this._deps.evAuth.agentPermissions.allowManualIntlCalls ? [{
+        dataSign: 'country',
+        value: this.country.countryId,
+        onChange: function onChange(dialoutCountryId) {
+          if (_this6._validate(dialoutCountryId)) {
+            _this6._deps.evCall.setFormGroup({
+              dialoutCountryId: dialoutCountryId
+            });
+          }
+        },
+        select: {
+          label: _i18n["default"].getString('country', this._deps.locale.currentLocale),
+          required: true,
+          options: this._deps.evAuth.availableCountries,
+          renderValue: "".concat(this.country.countryName, " (").concat(this.country.countryId, ")"),
+          getItemValue: function getItemValue(value) {
+            return value.countryId;
+          },
+          itemRenderer: function itemRenderer(_ref2) {
+            var countryId = _ref2.countryId,
+                countryName = _ref2.countryName;
+            return "".concat(countryName, " (").concat(countryId, ")");
+          },
+          searchOption: function searchOption(value, text) {
+            return _this6._searchMethod("".concat(value.countryName, "(").concat(value.countryId, ")"), text);
+          }
+        }
+      }] : []), [{
+        dataSign: 'ringTime',
+        value: this._deps.evCall.formGroup.dialoutRingTime,
+        onChange: function onChange(dialoutRingTime) {
+          _this6._deps.evCall.setFormGroup({
+            dialoutRingTime: dialoutRingTime
+          });
+        },
+        onBlur: function onBlur() {
+          _this6._deps.evCall.checkDialoutRingTime();
+        },
+        input: _objectSpread({
+          type: 'number',
+          label: _i18n["default"].getString('ringTime', this._deps.locale.currentLocale),
+          required: true,
+          placeholder: _i18n["default"].getString('ringTime', this._deps.locale.currentLocale)
+        }, this._deps.evCall.ringTimeLimit)
+      }]);
+    }
   }]);
 
   return EvManualDialSettingsUI;
-}(_core.RcUIModuleV2), _temp)) || _class);
+}(_core.RcUIModuleV2), _temp), (_applyDecoratedDescriptor(_class2.prototype, "callerId", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "callerId"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "queue", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "queue"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "country", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "country"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "settingFields", [_dec5], Object.getOwnPropertyDescriptor(_class2.prototype, "settingFields"), _class2.prototype)), _class2)) || _class);
 exports.EvManualDialSettingsUI = EvManualDialSettingsUI;
 //# sourceMappingURL=EvManualDialSettingsUI.js.map

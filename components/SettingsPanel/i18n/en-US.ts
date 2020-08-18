@@ -6,4 +6,6 @@ export default {
   connecting: 'Connecting',
   disconnected: 'Disconnected',
   disconnecting: 'Disconnecting',
+  sessionInfo: 'Session info',
+  editSession: 'Edit Session',
 };

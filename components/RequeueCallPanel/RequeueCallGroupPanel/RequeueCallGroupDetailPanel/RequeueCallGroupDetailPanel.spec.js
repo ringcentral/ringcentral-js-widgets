@@ -75,31 +75,17 @@ var getSearchInput = function getSearchInput() {
 };
 
 var getDetailItems = function getDetailItems() {
-  return wrapper.find('RcList').at(0).find('ListItemWithScrollCheck');
+  return wrapper.find('RcList').at(0).find('RcListItem');
 };
 
 var getSubmitButton = function getSubmitButton() {
   return wrapper.find('RcButton[data-sign="select-group-item"]').at(0).find('button');
 };
 
-afterEach( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+describe('<RequeueCallGroupPanel />', /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
   return regeneratorRuntime.wrap(function _callee$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
-        case 0:
-          wrapper.unmount();
-
-        case 1:
-        case "end":
-          return _context.stop();
-      }
-    }
-  }, _callee);
-})));
-describe('<RequeueCallGroupPanel />', /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
-  return regeneratorRuntime.wrap(function _callee2$(_context2) {
-    while (1) {
-      switch (_context2.prev = _context2.next) {
         case 0:
           it('Can display selected Queue Group Name and all the Queues', function () {
             wrapper = setup({});
@@ -136,7 +122,7 @@ describe('<RequeueCallGroupPanel />', /*#__PURE__*/_asyncToGenerator( /*#__PURE_
             var selectedGateId = defalutSelectedQueueGroup.gates[selectedGateIndex].gateId;
             expect(submitSelection).toBeCalledWith(selectedGateId);
           });
-          it("When user select no queue, the Select Button should be disabled and submitSelection shouldn' be called", function () {
+          it("When user select no queue, the Select Button should be disabled and submitSelection shouldn't be called", function () {
             var selectedGateIndex = -1;
             var submitSelection = jest.fn(function () {});
             wrapper = setup({
@@ -174,9 +160,9 @@ describe('<RequeueCallGroupPanel />', /*#__PURE__*/_asyncToGenerator( /*#__PURE_
 
         case 7:
         case "end":
-          return _context2.stop();
+          return _context.stop();
       }
     }
-  }, _callee2);
+  }, _callee);
 })));
 //# sourceMappingURL=RequeueCallGroupDetailPanel.spec.js.map

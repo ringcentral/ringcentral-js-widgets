@@ -1,6 +1,6 @@
-import { createEnum } from 'ringcentral-integration/lib/Enum';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 
-export const transferEvents = createEnum(
+export const transferEvents = ObjectMap.prefixKeys(
   ['START', 'SUCCESS', 'END', 'ERROR'],
   'transfer',
 );

@@ -47,13 +47,15 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
 
 var EvSmallCallControl = function EvSmallCallControl(_ref) {
   var isOnActive = _ref.isOnActive,
-      rest = _objectWithoutProperties(_ref, ["isOnActive"]);
+      showMuteButton = _ref.showMuteButton,
+      rest = _objectWithoutProperties(_ref, ["isOnActive", "showMuteButton"]);
 
-  return /*#__PURE__*/_react["default"].createElement(_SmallCallControl.SmallCallControl, rest, /*#__PURE__*/_react["default"].createElement(_SmallCallControl.HoldCallButton, rest), /*#__PURE__*/_react["default"].createElement(_SmallCallControl.MuteCallButton, rest), /*#__PURE__*/_react["default"].createElement(_SmallCallControl.TransferCallButton, rest), isOnActive ? /*#__PURE__*/_react["default"].createElement(_components.ActiveCallButton, rest) : /*#__PURE__*/_react["default"].createElement(_SmallCallControl.HandUpButton, rest));
+  return /*#__PURE__*/_react["default"].createElement(_SmallCallControl.SmallCallControl, rest, /*#__PURE__*/_react["default"].createElement(_SmallCallControl.HoldCallButton, rest), showMuteButton && /*#__PURE__*/_react["default"].createElement(_SmallCallControl.MuteCallButton, rest), /*#__PURE__*/_react["default"].createElement(_SmallCallControl.TransferCallButton, rest), isOnActive ? /*#__PURE__*/_react["default"].createElement(_components.ActiveCallButton, rest) : /*#__PURE__*/_react["default"].createElement(_SmallCallControl.HandUpButton, rest));
 };
 
 exports.EvSmallCallControl = EvSmallCallControl;
 EvSmallCallControl.defaultProps = _objectSpread(_objectSpread(_objectSpread({}, _components.ActiveCallButton.defaultProps), _SmallCallControl.SmallCallControl.defaultProps), {}, {
-  isOnActive: false
+  isOnActive: false,
+  showMuteButton: false
 });
 //# sourceMappingURL=EvSmallCallControl.js.map

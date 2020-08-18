@@ -4,9 +4,9 @@ require("core-js/modules/es6.promise");
 
 require("core-js/modules/es6.object.to-string");
 
-require("core-js/modules/es6.array.find");
-
 require("regenerator-runtime/runtime");
+
+require("core-js/modules/es6.array.find");
 
 require("core-js/modules/es7.array.includes");
 
@@ -67,33 +67,20 @@ function setup() {
   })));
 }
 
-afterEach( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-  return regeneratorRuntime.wrap(function _callee$(_context) {
-    while (1) {
-      switch (_context.prev = _context.next) {
-        case 0:
-          wrapper.unmount();
-
-        case 1:
-        case "end":
-          return _context.stop();
-      }
-    }
-  }, _callee);
-})));
-
 var getGroupItems = function getGroupItems() {
-  return wrapper.find('[data-sign="searchResult"]').at(0).find('ListItemWithScrollCheck');
+  return wrapper.find('[data-sign="searchResult"]').at(0).find('RcList').at(0).find('RcListItem');
 };
+
+;
 
 var getSearchInput = function getSearchInput() {
   return wrapper.find('RcOutlineTextField').at(0).find('input');
 };
 
-describe('<RequeueCallGroupPanel />', /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
-  return regeneratorRuntime.wrap(function _callee2$(_context2) {
+describe('<RequeueCallGroupPanel />', /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+  return regeneratorRuntime.wrap(function _callee$(_context) {
     while (1) {
-      switch (_context2.prev = _context2.next) {
+      switch (_context.prev = _context.next) {
         case 0:
           it('Has no available Requeue Group', function () {
             wrapper = setup({
@@ -156,9 +143,9 @@ describe('<RequeueCallGroupPanel />', /*#__PURE__*/_asyncToGenerator( /*#__PURE_
 
         case 7:
         case "end":
-          return _context2.stop();
+          return _context.stop();
       }
     }
-  }, _callee2);
+  }, _callee);
 })));
 //# sourceMappingURL=RequeueCallGroupPanel.spec.js.map

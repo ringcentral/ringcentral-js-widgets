@@ -1,11 +1,12 @@
 import { RcModuleV2 } from '@ringcentral-integration/core';
 import { Module } from 'ringcentral-integration/lib/di';
 
+import { tabManagerEvents } from '../../enums';
 import {
-  ActiveCallControl,
-  DepsModules,
-} from './EvActiveCallControl.interface';
-import { loginTypes } from '../../enums';
+  EvClientHandUpParams,
+  EvClientHoldSessionParams,
+} from '../../lib/EvClient';
+import { ActiveCallControl, Deps } from './EvActiveCallControl.interface';
 
 @Module({
   name: 'EvActiveCallControl',
@@ -14,52 +15,33 @@ import { loginTypes } from '../../enums';
     'EvSettings',
     'Presence',
     'EvIntegratedSoftphone',
+    'EvAgentSession',
+    { dep: 'TabManager', optional: true },
     { dep: 'EvActiveCallControlOptions', optional: true },
   ],
 })
-class EvActiveCallControl extends RcModuleV2<DepsModules>
+class EvActiveCallControl extends RcModuleV2<Deps>
   implements ActiveCallControl {
-  get isIntegratedSoftphone() {
-    return (
-      this._modules.evSettings.loginType === loginTypes.integratedSoftphone
-    );
+  get tabManagerEnabled() {
+    return this._deps.tabManager?._tabbie.enabled;
   }
 
-  constructor({
-    evClient,
-    presence,
-    evSettings,
-    evIntegratedSoftphone,
-    ...options
-  }) {
+  constructor(deps: Deps) {
     super({
-      modules: {
-        evClient,
-        evSettings,
-        presence,
-        evIntegratedSoftphone,
-      },
-      ...options,
+      deps,
     });
   }
 
   mute() {
-    console.log('mute');
-
-    if (this.isIntegratedSoftphone) {
-      this._modules.evIntegratedSoftphone.sipToggleMute(true);
-    }
+    this._sipToggleMute(true);
   }
 
   unmute() {
-    console.log('unmute');
-    if (this.isIntegratedSoftphone) {
-      this._modules.evIntegratedSoftphone.sipToggleMute(false);
-    }
+    this._sipToggleMute(false);
   }
 
   hangUp(sessionId: string) {
-    this._modules.evClient.hangup({ sessionId });
+    this._deps.evClient.hangup({ sessionId });
   }
 
   reject() {
@@ -67,28 +49,37 @@ class EvActiveCallControl extends RcModuleV2<DepsModules>
   }
 
   hold() {
-    this.changeOnHoldState(true);
+    this._changeOnHoldState(true);
   }
 
   unhold() {
-    this.changeOnHoldState(false);
+    this._changeOnHoldState(false);
   }
 
-  hangupSession({ sessionId }) {
-    this._modules.evClient.hangup({ sessionId });
+  hangupSession({ sessionId }: EvClientHandUpParams) {
+    this._deps.evClient.hangup({ sessionId });
   }
 
-  holdSession({ sessionId, state }) {
-    this._modules.evClient.holdSession({ state, sessionId });
+  holdSession({ sessionId, state }: EvClientHoldSessionParams) {
+    this._deps.evClient.holdSession({ state, sessionId });
   }
 
   getMainCall(uii: string) {
-    const id = this._modules.evClient.getMainId(uii);
-    return this._modules.presence.callsMapping[id];
+    const id = this._deps.evClient.getMainId(uii);
+    return this._deps.presence.callsMapping[id];
   }
 
-  private changeOnHoldState(state: boolean) {
-    this._modules.evClient.hold(state);
+  private _changeOnHoldState(state: boolean) {
+    this._deps.evClient.hold(state);
+  }
+
+  private _sipToggleMute(state: boolean) {
+    if (this._deps.evAgentSession.isIntegratedSoftphone) {
+      if (this.tabManagerEnabled) {
+        this._deps.tabManager.send(tabManagerEvents.MUTE, state);
+      }
+      this._deps.evIntegratedSoftphone.sipToggleMute(state);
+    }
   }
 }
 

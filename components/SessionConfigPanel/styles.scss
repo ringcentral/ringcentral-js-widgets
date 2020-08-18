@@ -1,32 +1,20 @@
 @import '../../scss/variables.scss';
 
-div.customSelect {
-  & input {
-    @include textOverflowEllipsis();
+.root {
+  @include pageSpace();
+
+  height: 100%;
+  .svgStyle {
+    display: block;
+    margin: 0 auto;
   }
-}
 
-.wrapperStyle {
-  position: inherit;
-  padding: 18px 0;
-}
-.svgStyle {
-  display: block;
-  margin: 0 auto;
-}
-
-.container {
-  padding: 0 $lightning-page-space;
-
-  [sf-classic] & {
-    padding: 0 $classic-page-space;
+  .wrapperStyle {
+    position: inherit;
+    padding: 20px 0;
   }
-}
 
-.button {
-  margin-top: 4px;
-}
-
-.takingCall {
-  margin-top: 6px;
+  button.button {
+    margin-top: 4px;
+  }
 }

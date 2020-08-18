@@ -31,6 +31,8 @@ var _CallLogFields = _interopRequireDefault(require("ringcentral-widgets/compone
 
 var _i18n = _interopRequireDefault(require("../i18n"));
 
+var _styles = _interopRequireDefault(require("./styles.scss"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -38,6 +40,12 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+var rightIconRender = function rightIconRender() {
+  return /*#__PURE__*/_react["default"].createElement("div", {
+    className: _styles["default"].fillRight
+  });
+};
 
 var _getReferenceFieldOptions = function _getReferenceFieldOptions(currentLocale) {
   var getNameLabel = function getNameLabel() {
@@ -159,7 +167,9 @@ var _getReferenceFieldOptions = function _getReferenceFieldOptions(currentLocale
       otherEntitiesGetter: function otherEntitiesGetter(_ref6) {
         var name = _ref6.navigateToEntities.name;
         return name;
-      }
+      },
+      rightIconRender: rightIconRender,
+      backHeaderClassName: _styles["default"].backHeader
     },
     whatid: {
       getLabel: getRelatedToLabel,
@@ -181,7 +191,9 @@ var _getReferenceFieldOptions = function _getReferenceFieldOptions(currentLocale
       otherEntitiesGetter: function otherEntitiesGetter(_ref8) {
         var relatedTo = _ref8.navigateToEntities.relatedTo;
         return relatedTo;
-      }
+      },
+      rightIconRender: rightIconRender,
+      backHeaderClassName: _styles["default"].backHeader
     }
   };
 };
@@ -202,7 +214,10 @@ var EditLogSection = function EditLogSection(_ref9) {
     currentLog: currentLog,
     currentLocale: currentLocale,
     startAdornmentRender: startAdornmentRender,
-    editSectionScrollBy: editSectionScrollBy
+    editSectionScrollBy: editSectionScrollBy,
+    classes: {
+      root: _styles["default"].root
+    }
   });
 };
 

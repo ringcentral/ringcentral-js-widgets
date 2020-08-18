@@ -13,7 +13,7 @@ var _requeueEvents$FAILUR;
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-var _default = (_requeueEvents$FAILUR = {}, _defineProperty(_requeueEvents$FAILUR, _enums.requeueEvents.FAILURE, 'Call queue transfer fail'), _defineProperty(_requeueEvents$FAILUR, _enums.requeueEvents.START, 'Call queue transfer in progress'), _defineProperty(_requeueEvents$FAILUR, _enums.requeueEvents.SUCCESS, 'Call queue transfer completed'), _requeueEvents$FAILUR);
+var _default = (_requeueEvents$FAILUR = {}, _defineProperty(_requeueEvents$FAILUR, _enums.requeueEvents.FAILURE, 'Call queue transfer is failed'), _defineProperty(_requeueEvents$FAILUR, _enums.requeueEvents.START, 'Call queue transfer in progress'), _defineProperty(_requeueEvents$FAILUR, _enums.requeueEvents.SUCCESS, 'Call queue transfer is completed'), _requeueEvents$FAILUR);
 
 exports["default"] = _default;
 //# sourceMappingURL=en-US.js.map

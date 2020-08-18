@@ -61,6 +61,7 @@ var DialerPanel = function DialerPanel(_ref) {
       goToManualDialSettings = _ref.goToManualDialSettings,
       checkOnCall = _ref.checkOnCall,
       dialoutStatus = _ref.dialoutStatus,
+      dialButtonDisabled = _ref.dialButtonDisabled,
       hangup = _ref.hangup;
   (0, _react.useEffect)(function () {
     if (hasDialer) {
@@ -73,7 +74,6 @@ var DialerPanel = function DialerPanel(_ref) {
     return null;
   }
 
-  var isDialing = dialoutStatus === 'dialing';
   var isIdle = dialoutStatus === 'idle';
   var isCallConnected = dialoutStatus === 'callConnected';
   var color = dialoutStatusMapping[dialoutStatus] || dialoutStatusMapping.idle;
@@ -87,7 +87,7 @@ var DialerPanel = function DialerPanel(_ref) {
     "data-icon": isIdle ? 'answer' : 'hand-up',
     symbol: isIdle ? _iconPhone["default"] : _iconHandUp["default"],
     "data-sign": "callButton",
-    disabled: isDialing,
+    disabled: dialButtonDisabled,
     onClick: function onClick() {
       if (isIdle) {
         dialout();

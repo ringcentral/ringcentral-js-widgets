@@ -1,3 +1,9 @@
+import {
+  DirectTransferNotificationTypes,
+  DirectTransferStatues,
+  DirectTransferTypes,
+} from '../../../enums';
+
 export type EvTokenType = 'Bearer';
 export type EvOkFail = 'OK' | 'FAILURE';
 export type EvSessionType = 'AGENT' | 'OUTBOUND' | 'INBOUND';
@@ -31,11 +37,19 @@ export type EvBaseCall = {
   outdialDispositions: EvOutdialDispositions;
   requeueShortcuts: any[];
   baggage: EvBaggage;
-  scriptResponse: EvScriptResponse;
+  scriptResponse: {};
   lead: EvLead;
   // sessionId: string;
   transferPhoneBook: EvTransferPhoneBookItem[];
 };
+
+export interface EvACKResponse {
+  message: string;
+  detail: string;
+  uii: string;
+  status: EvOkFail;
+  type: string;
+}
 
 export interface EvEndedCall {
   message: string;
@@ -54,17 +68,22 @@ export interface EvTransferPhoneBookItem {
   name: string;
   destination: string;
   countryId: string;
-  _parsedDestination?: string;
 }
 
 export interface EvLead {
   leadPhone: string;
   showLeadInfo: string;
-  extraData: EvScriptResponse;
+  extraData: {};
 }
 
 export interface EvScriptResponse {
-  //
+  message: string;
+  detail: string;
+  status: boolean;
+  scriptId: string;
+  scriptName?: string;
+  version: string;
+  json: string; // format as: EvScriptResponseJSON
 }
 
 export interface EvBaggage {
@@ -81,16 +100,22 @@ export interface EvBaggage {
   agentType: string;
   agentEmail: string;
   agentUserName: string;
-  evSfIvrCaseId: string;
-  evSfIvrRecordId: string;
-  evSfIvrObjectValue: string;
-  evSfIvrObjectType: string;
+  ivrCrmCaseId: string;
+  ivrCrmRecordId: string;
+  ivrCrmObjectValue: string;
+  ivrCrmObjectType: string;
+  ivrAlertSubject_1: string;
+  ivrAlertBody_1: string;
+  ivrAlertSubject_2: string;
+  ivrAlertBody_2: string;
+  ivrAlertSubject_3: string;
+  ivrAlertBody_3: string;
 }
 
 export interface EvReceivedTransferCall {
   message: string;
   detail: string;
-  status: string;
+  status: DirectTransferNotificationTypes;
   agentId: string;
   uii: string;
   ani: string;
@@ -131,14 +156,16 @@ export interface EvDisposition {
   disposition: string;
 }
 
-export type EvClientParams = {
-  evClientOptions: {
-    options: EvAgentOptions;
-    callbacks?: {
-      closeResponse: () => void;
-      openResponse: (response: EvOpenSocketResult) => void;
-    };
+export interface EvClientOptions {
+  options: EvAgentOptions;
+  callbacks?: {
+    closeResponse: () => void;
+    openResponse: (response: EvOpenSocketResult) => void;
   };
+}
+
+export type Deps = {
+  evClientOptions: EvClientOptions;
 };
 
 export interface EvHoldResponse {
@@ -192,9 +219,11 @@ export interface EvOpenSocketResult {
 
 export interface EvAgentInfo {
   type: string;
-  data: EvAuthenticateAgentWithRcAccessTokenRes & {
-    inboundSettings: EvInboundSettings;
-  };
+  data: EvAgentData;
+}
+
+export interface EvAgentData {
+  authenticateResponse: EvAuthenticateAgentWithRcAccessTokenRes;
   agentConfig: EvAgentConfig;
 }
 
@@ -269,7 +298,7 @@ export interface EvInboundSettings {
   availableQueues: EvAvailableQueue[];
   availableSkillProfiles: EvAvailableSkillProfile[];
   queues: any[];
-  skillProfile: EvAllowLeadUpdatesByCampaign;
+  skillProfile: EvAvailableSkillProfile;
   availableRequeueQueues: EvAvailableRequeueQueue[];
 }
 
@@ -520,6 +549,13 @@ export interface EvDirectAgentListResponse {
   agents: EvDirectAgentListItem[];
 }
 
+export type EvDirectAgentTransferResponse = {
+  message: string;
+  detail: string;
+  status: DirectTransferStatues;
+  type: DirectTransferTypes;
+};
+
 export interface EvTransferCallResponse {
   agentId: string;
   uii: string;
@@ -583,4 +619,16 @@ export interface EvAgentStateResponse {
   currentState: string;
   previousAuxState: string;
   currentAuxState: string;
+}
+
+export interface EvAgentScriptResult {
+  call: EvBaseCall;
+  lead: {};
+  model: EvAgentScriptResultModel;
+  renderFormValid: boolean;
+  scriptComplete: boolean;
+}
+
+export interface EvAgentScriptResultModel {
+  [callId: string]: { value: any; leadField: string };
 }

@@ -1,14 +1,14 @@
-import Storage from 'ringcentral-integration/modules/Storage';
 import Alert from 'ringcentral-integration/modules/Alert';
+import Storage from 'ringcentral-integration/modules/Storage';
 import { Mapping } from 'ringcentral-widgets/typings';
 
+import { DialoutStatusesType } from '../../enums';
 import { EvCallData } from '../../interfaces/EvData.interface';
 import { EvClient } from '../../lib/EvClient';
+import { EvAgentSession } from '../EvAgentSession';
 import { EvAuth } from '../EvAuth';
-import { EvSubscription } from '../EvSubscription';
 import { EvSettings } from '../EvSettings';
-import { EvSessionConfig } from '../EvSessionConfig';
-import { DialoutStatusesType } from '../../enums';
+import { EvSubscription } from '../EvSubscription';
 
 export interface State {
   /** current agent ongoing session calls list with callId (encodeUii({ uii, sessionId })) */
@@ -41,14 +41,19 @@ export interface State {
   objectType: string;
 }
 
-export interface DepsModules {
+export interface PresenceOptions {
+  //
+}
+
+export interface Deps {
   evSubscription: EvSubscription;
   evClient: EvClient;
   evAuth: EvAuth;
   storage: Storage;
   evSettings: EvSettings;
-  evSessionConfig: EvSessionConfig;
+  evAgentSession: EvAgentSession;
   alert: Alert;
+  presenceOptions?: PresenceOptions;
 }
 
 export interface Presence extends State {

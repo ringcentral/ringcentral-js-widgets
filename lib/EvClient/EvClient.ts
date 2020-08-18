@@ -1,9 +1,4 @@
-import {
-  action,
-  RcModuleState,
-  RcModuleV2,
-  state,
-} from '@ringcentral-integration/core';
+import { action, RcModuleV2, state } from '@ringcentral-integration/core';
 // eslint-disable-next-line import/no-unresolved
 import AgentLibrary from '@SDK';
 import EventEmitter from 'events';
@@ -12,17 +7,21 @@ import sleep from 'ringcentral-integration/lib/sleep';
 
 import { messageTypes } from '../../enums';
 import { EvTypeError } from '../EvTypeError';
-import { evStatus } from './enums';
+import { raceTimeout } from '../time';
+import { EvMessageTypes, evStatus } from './enums';
 import { EvCallbackTypes } from './enums/callbackTypes';
 import {
+  Deps,
+  EvACKResponse,
   EvAddSessionNotification,
   EvAgentConfig,
   EvAgentInfo,
   EvAgentOptions,
+  EvAgentScriptResult,
+  EvAuthenticateAgentWithEngageAccessTokenRes,
   EvAuthenticateAgentWithRcAccessTokenRes,
   EvBaseCall,
   EvClientCallMapping,
-  EvClientParams,
   EvColdTransferCallResponse,
   EvColdTransferIntlCallResponse,
   EvConfigureAgentOptions,
@@ -34,16 +33,11 @@ import {
   EvOpenSocketResult,
   EvRequeueCallResponse,
   EvRequeueOption,
+  EvScriptResponse,
   EvTokenType,
   EvWarmTransferCallResponse,
   EvWarmTransferIntlCallResponse,
-  EvAuthenticateAgentWithEngageAccessTokenRes,
 } from './interfaces';
-import { raceTimeout } from '../time';
-
-interface State {
-  status: string;
-}
 
 type ListenerType = typeof EvCallbackTypes['OPEN_SOCKET' | 'CLOSE_SOCKET'];
 
@@ -52,13 +46,36 @@ type Listener<
   U extends EvClientCallMapping = EvClientCallMapping
 > = (res: U[T]) => void;
 
-type EvClientState = RcModuleState<EvClient, State>;
+export type EvClientTransferParams = {
+  dialDest: string;
+  callerId?: string;
+  sipHeaders?: string[];
+  countryId?: string;
+};
+
+export type EvClientHandUpParams = {
+  sessionId: string;
+  resetPendingDisp?: boolean;
+};
+
+export type EvClientHoldSessionParams = {
+  state: boolean;
+  sessionId: string;
+};
+
+export type EvClientManualOutdialParams = {
+  destination: string;
+  callerId: string;
+  ringTime: number;
+  queueId: string;
+  countryId: string;
+};
 
 @Module({
   name: 'EvClient',
-  deps: [{ dep: 'EvClientOptions', optional: true, spread: true }],
+  deps: ['EvClientOptions'],
 })
-class EvClient extends RcModuleV2<{}, EvClientState> {
+class EvClient extends RcModuleV2<Deps> {
   /** SDK instance */
   private _sdk: any;
 
@@ -79,10 +96,13 @@ class EvClient extends RcModuleV2<{}, EvClientState> {
   @state
   status: string = evStatus.START;
 
-  constructor({ evClientOptions: { options, callbacks } }: EvClientParams) {
-    super();
-    this._options = options;
-    const { closeResponse, openResponse } = callbacks;
+  constructor(deps: Deps) {
+    super({ deps });
+    this._options = this._deps.evClientOptions.options;
+    const {
+      closeResponse,
+      openResponse,
+    } = this._deps.evClientOptions.callbacks;
     this._onOpen = (res) => {
       this.setStatus(evStatus.CONNECTED);
       openResponse(res);
@@ -99,7 +119,7 @@ class EvClient extends RcModuleV2<{}, EvClientState> {
     if (window.localStorage) {
       const authHost = window.localStorage.getItem('__authHost__');
       if (authHost) {
-        options.authHost = authHost;
+        this._options.authHost = authHost;
       }
     }
   }
@@ -131,7 +151,7 @@ class EvClient extends RcModuleV2<{}, EvClientState> {
 
   @action
   setStatus(status: string) {
-    this.state.status = status;
+    this.status = status;
   }
 
   setEnv(authHost: string) {
@@ -141,13 +161,17 @@ class EvClient extends RcModuleV2<{}, EvClientState> {
     }
   }
 
-  onInit() {
+  initSDK() {
+    console.log('initSDK');
     const { _Sdk: Sdk } = this;
     this._sdk = new Sdk({
       callbacks: {
         ...this._callbacks,
-        closeResponse: this._onClose,
-        openResponse: this._onOpen,
+        [EvCallbackTypes.CLOSE_SOCKET]: this._onClose,
+        [EvCallbackTypes.OPEN_SOCKET]: this._onOpen,
+        [EvCallbackTypes.ACK]: (res: EvACKResponse) => {
+          this._eventEmitter.emit(EvCallbackTypes.ACK, res);
+        },
       },
       ...this._options,
     });
@@ -219,12 +243,11 @@ class EvClient extends RcModuleV2<{}, EvClientState> {
     requestId,
     externId,
   }: EvDispositionManualPassOptions) {
-    // TODO: Promise type
-    return new Promise((resolve) => {
+    return new Promise<EvDispositionManualPassOptions>((resolve) => {
       this._sdk.dispositionManualPass(
         dispId,
         notes,
-        (response) => {
+        (response: EvDispositionManualPassOptions) => {
           resolve(response);
         },
         callbackDTS,
@@ -297,7 +320,7 @@ class EvClient extends RcModuleV2<{}, EvClientState> {
 
   getAgentConfig() {
     return new Promise<EvAgentConfig>((resolve) => {
-      this._sdk.getAgentConfig((res) => {
+      this._sdk.getAgentConfig((res: EvAgentConfig) => {
         resolve(res);
       });
     });
@@ -372,49 +395,38 @@ class EvClient extends RcModuleV2<{}, EvClientState> {
     return {
       type: messageTypes.AGENT_LOGIN,
       data: {
-        ...authenticateResponse,
-        inboundSettings: (agentConfig && agentConfig.inboundSettings) || {
-          availableQueues: [],
-          availableSkillProfiles: [],
-          queues: [],
-          skillProfile: {},
-          availableRequeueQueues: [],
-        },
-      },
-      agentConfig: {
-        ...agentConfig,
-        agentSettings: {
-          ...agentConfig.agentSettings,
-          autoAnswerCalls: agentConfig.agentPermissions.defaultAutoAnswerOn,
-        },
+        authenticateResponse,
+        agentConfig,
       },
     };
   }
 
+  /**
+   * That closeSocket will auto reconnected by agent SDK
+   */
   closeSocket() {
     this._sdk.closeSocket();
   }
 
-  hangup({
-    sessionId,
-    resetPendingDisp = false,
-  }: {
-    sessionId: string;
-    resetPendingDisp?: boolean;
-  }) {
+  hangup({ sessionId, resetPendingDisp = false }: EvClientHandUpParams) {
     return this._sdk.hangup(sessionId, resetPendingDisp);
   }
 
   logoutAgent(agentId: string) {
     return new Promise<EvLogoutAgentResponse>((resolve) => {
-      this._sdk.logoutAgent(agentId, (result) => {
+      this._sdk.logoutAgent(agentId, (result: EvLogoutAgentResponse) => {
         resolve(result);
       });
     });
   }
 
-  // TODO: type
-  manualOutdial({ destination, callerId, ringTime, countryId, queueId }) {
+  manualOutdial({
+    destination,
+    callerId,
+    ringTime,
+    countryId,
+    queueId,
+  }: EvClientManualOutdialParams) {
     return this._sdk.manualOutdial(
       destination,
       callerId,
@@ -438,51 +450,21 @@ class EvClient extends RcModuleV2<{}, EvClientState> {
     this._sdk.hold(holdState);
   }
 
-  // TODO: type
-  holdSession({ state, sessionId }) {
+  holdSession({ state, sessionId }: EvClientHoldSessionParams) {
     this._sdk.holdSession(state, sessionId);
   }
 
-  // TODO: type
-  coldTransferCall({ dialDest, callerId = '', sipHeaders = [] }) {
-    return new Promise<EvColdTransferCallResponse>((resolve, reject) => {
-      this._sdk.coldXfer(dialDest, callerId, sipHeaders, (data) => {
-        if (data.status === 'OK') {
-          resolve(data);
-        } else {
-          reject(data);
-        }
-      });
-    });
-  }
-
-  // TODO: type
-  warmTransferCall({ dialDest, callerId = '', sipHeaders = [] }) {
-    return new Promise<EvWarmTransferCallResponse>((resolve, reject) => {
-      this._sdk.warmXfer(dialDest, callerId, sipHeaders, (data) => {
-        if (data.status === 'OK') {
-          resolve(data);
-        } else {
-          reject(data);
-        }
-      });
-    });
-  }
-
-  // TODO: type
-  coldTransferIntlCall({
+  coldTransferCall({
     dialDest,
     callerId = '',
     sipHeaders = [],
-    countryId = '',
-  }) {
-    return new Promise<EvColdTransferIntlCallResponse>((resolve, reject) => {
-      this._sdk.internationalColdXfer(
+  }: EvClientTransferParams) {
+    return new Promise<EvColdTransferCallResponse>((resolve, reject) => {
+      this._sdk.coldXfer(
         dialDest,
         callerId,
         sipHeaders,
-        countryId,
-        (data) => {
+        (data: EvColdTransferCallResponse) => {
           if (data.status === 'OK') {
             resolve(data);
           } else {
@@ -493,20 +475,63 @@ class EvClient extends RcModuleV2<{}, EvClientState> {
     });
   }
 
-  // TODO: type
+  warmTransferCall({
+    dialDest,
+    callerId = '',
+    sipHeaders = [],
+  }: EvClientTransferParams) {
+    return new Promise<EvWarmTransferCallResponse>((resolve, reject) => {
+      this._sdk.warmXfer(
+        dialDest,
+        callerId,
+        sipHeaders,
+        (data: EvWarmTransferCallResponse) => {
+          if (data.status === 'OK') {
+            resolve(data);
+          } else {
+            reject(data);
+          }
+        },
+      );
+    });
+  }
+
+  coldTransferIntlCall({
+    dialDest,
+    callerId = '',
+    sipHeaders = [],
+    countryId = '',
+  }: EvClientTransferParams) {
+    return new Promise<EvColdTransferIntlCallResponse>((resolve, reject) => {
+      this._sdk.internationalColdXfer(
+        dialDest,
+        callerId,
+        sipHeaders,
+        countryId,
+        (data: EvColdTransferIntlCallResponse) => {
+          if (data.status === 'OK') {
+            resolve(data);
+          } else {
+            reject(data);
+          }
+        },
+      );
+    });
+  }
+
   warmTransferIntlCall({
     dialDest,
     callerId = '',
     sipHeaders = [],
     countryId = '',
-  }) {
+  }: EvClientTransferParams) {
     return new Promise<EvWarmTransferIntlCallResponse>((resolve, reject) => {
       this._sdk.internationalWarmXfer(
         dialDest,
         callerId,
         sipHeaders,
         countryId,
-        (data) => {
+        (data: EvWarmTransferIntlCallResponse) => {
           if (data.status === 'OK') {
             resolve(data);
           } else {
@@ -518,25 +543,29 @@ class EvClient extends RcModuleV2<{}, EvClientState> {
   }
 
   cancelWarmTransferCall(dialDest: string) {
-    // TODO callback
     this._sdk.warmXferCancel(dialDest);
   }
 
   requeueCall({ queueId, skillId = '', maintain = false }: EvRequeueOption) {
     return new Promise<EvRequeueCallResponse>((resolve, reject) => {
-      this._sdk.requeueCall(queueId, skillId, maintain, (data) => {
-        if (data.status === 'OK') {
-          resolve(data);
-        } else {
-          reject(data);
-        }
-      });
+      this._sdk.requeueCall(
+        queueId,
+        skillId,
+        maintain,
+        (data: EvRequeueCallResponse) => {
+          if (data.status === 'OK') {
+            resolve(data);
+          } else {
+            reject(data);
+          }
+        },
+      );
     });
   }
 
   fetchDirectAgentList() {
     return new Promise<EvDirectAgentListResponse>((resolve) => {
-      this._sdk.directAgentXferList((data) => {
+      this._sdk.directAgentXferList((data: EvDirectAgentListResponse) => {
         resolve(data);
       });
     });
@@ -581,10 +610,6 @@ class EvClient extends RcModuleV2<{}, EvClientState> {
     this._sdk.cancelDirectAgentXfer(targetAgentId);
   }
 
-  get agentSettings() {
-    return this._sdk.getAgentSettings();
-  }
-
   setAgentState(agentState: string, agentAuxState: string) {
     return this._sdk.setAgentState(agentState, agentAuxState);
   }
@@ -612,7 +637,7 @@ class EvClient extends RcModuleV2<{}, EvClientState> {
     try {
       await raceTimeout(this._multiLoginRequest());
     } catch (error) {
-      throw new Error('30s timeout');
+      throw new Error('_multiLoginRequest fail or 30s timeout');
     }
   }
 
@@ -631,6 +656,10 @@ class EvClient extends RcModuleV2<{}, EvClientState> {
     this._sdk.sipRegister();
   }
 
+  sipTerminate() {
+    this._sdk.sipTerminate();
+  }
+
   sipHangUp() {
     this._sdk.sipHangUp();
   }
@@ -645,6 +674,51 @@ class EvClient extends RcModuleV2<{}, EvClientState> {
 
   sipToggleMute(state: boolean) {
     this._sdk.sipToggleMute(state);
+  }
+
+  /**
+   * AgentScript related method
+   */
+  getScript(scriptId: string, version: string) {
+    return new Promise<EvScriptResponse>((resolve, reject) => {
+      this._sdk.getScript(scriptId, version, (res: EvScriptResponse) => {
+        if (res.status) {
+          resolve(res);
+        }
+      });
+    });
+  }
+
+  async saveScriptResult(
+    uii: string,
+    scriptId: string,
+    jsonResult: EvAgentScriptResult,
+  ) {
+    let fn: (e: EvACKResponse) => void;
+
+    const res = await raceTimeout(
+      new Promise<EvACKResponse>((resolve) => {
+        this._sdk.saveScriptResult(uii, scriptId, jsonResult);
+
+        fn = (e: EvACKResponse) => {
+          if (e.type === EvMessageTypes.SCRIPT_RESULT) {
+            resolve(e);
+            this._eventEmitter.removeListener(EvCallbackTypes.ACK, fn);
+          }
+        };
+        this._eventEmitter.on(EvCallbackTypes.ACK, fn);
+      }),
+      {
+        timeout: 5 * 1000,
+        callback: () => null,
+      },
+    );
+
+    if (!res) {
+      this._eventEmitter.removeListener(EvCallbackTypes.ACK, fn);
+      throw new Error('saveScriptResult fail');
+    }
+    return res;
   }
 }
 

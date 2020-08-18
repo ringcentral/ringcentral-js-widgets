@@ -43,6 +43,10 @@ require("core-js/modules/es6.object.to-string");
 
 require("regenerator-runtime/runtime");
 
+require("core-js/modules/es6.number.constructor");
+
+require("core-js/modules/es6.number.is-nan");
+
 var _core = require("@ringcentral-integration/core");
 
 var _di = require("ringcentral-integration/lib/di");
@@ -59,7 +63,9 @@ var _callbackTypes = require("../../lib/EvClient/enums/callbackTypes");
 
 var _parseNumber = require("../../lib/parseNumber");
 
-var _dec, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _temp;
+var _trackEvents = require("../../lib/trackEvents");
+
+var _dec, _dec2, _dec3, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _temp;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -109,53 +115,29 @@ var DEFAULT_OUTBOUND_SETTING = {
 };
 var EvCall = (_dec = (0, _di.Module)({
   name: 'EvCall',
-  deps: ['Alert', 'EvAuth', 'Storage', 'EvClient', 'Presence', 'EvSettings', 'EvCallMonitor', 'EvSubscription', 'EvSessionConfig', 'EvIntegratedSoftphone', {
+  deps: ['Alert', 'EvAuth', 'Storage', 'EvClient', 'Presence', 'EvSettings', 'EvCallMonitor', 'EvSubscription', 'EvAgentSession', 'EvIntegratedSoftphone', {
     dep: 'TabManager',
     optional: true
   }, {
     dep: 'EvCallOptions',
     optional: true
   }]
-}), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcModuleV) {
+}), _dec2 = (0, _core.computed)(function (that) {
+  return [that.activityCallId, that._deps.evCallMonitor.callsMapping];
+}), _dec3 = (0, _core.track)(_trackEvents.trackEvents.outbound), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcModuleV) {
   _inherits(EvCall, _RcModuleV);
 
   var _super = _createSuper(EvCall);
 
   /** this id is get from route, set from EvActivityCallUI */
-  function EvCall(_ref) {
+  function EvCall(deps) {
     var _this;
-
-    var alert = _ref.alert,
-        evAuth = _ref.evAuth,
-        storage = _ref.storage,
-        evClient = _ref.evClient,
-        presence = _ref.presence,
-        evSettings = _ref.evSettings,
-        tabManager = _ref.tabManager,
-        evCallMonitor = _ref.evCallMonitor,
-        evSubscription = _ref.evSubscription,
-        evSessionConfig = _ref.evSessionConfig,
-        evIntegratedSoftphone = _ref.evIntegratedSoftphone,
-        _ref$enableCache = _ref.enableCache,
-        enableCache = _ref$enableCache === void 0 ? true : _ref$enableCache;
 
     _classCallCheck(this, EvCall);
 
     _this = _super.call(this, {
-      modules: {
-        alert: alert,
-        evAuth: evAuth,
-        storage: storage,
-        evClient: evClient,
-        presence: presence,
-        evSettings: evSettings,
-        tabManager: tabManager,
-        evCallMonitor: evCallMonitor,
-        evSubscription: evSubscription,
-        evSessionConfig: evSessionConfig,
-        evIntegratedSoftphone: evIntegratedSoftphone
-      },
-      enableCache: enableCache,
+      deps: deps,
+      enableCache: true,
       storageKey: 'EvCall'
     });
     _this.activityCallId = void 0;
@@ -174,37 +156,35 @@ var EvCall = (_dec = (0, _di.Module)({
 
     _initializerDefineProperty(_this, "formGroup", _descriptor5, _assertThisInitialized(_this));
 
-    _this.getCurrentCall = (0, _core.createSelector)(function () {
-      return _this.activityCallId;
-    }, function () {
-      return _this._modules.evCallMonitor.getCallsMapping();
-    }, function (id, callsMapping) {
-      var call = callsMapping[id];
-      return id && call ? call : null;
-    });
     return _this;
   }
 
   _createClass(EvCall, [{
     key: "setFormGroup",
     value: function setFormGroup(data) {
-      this.state.formGroup = _objectSpread(_objectSpread({}, this.state.formGroup), data);
+      this.formGroup = _objectSpread(_objectSpread({}, this.formGroup), data);
     }
   }, {
     key: "saveForm",
     value: function saveForm() {
-      this.state.dialoutCallerId = this.formGroup.dialoutCallerId;
-      this.state.dialoutQueueId = this.formGroup.dialoutQueueId;
-      this.state.dialoutCountryId = this.formGroup.dialoutCountryId;
-      this.state.dialoutRingTime = this.formGroup.dialoutRingTime;
+      this.dialoutCallerId = this.formGroup.dialoutCallerId;
+      this.dialoutQueueId = this.formGroup.dialoutQueueId;
+      this.dialoutCountryId = this.formGroup.dialoutCountryId;
+      this.dialoutRingTime = this.formGroup.dialoutRingTime;
     }
   }, {
     key: "resetOutBoundDialSetting",
     value: function resetOutBoundDialSetting() {
-      this.state.dialoutCallerId = DEFAULT_OUTBOUND_SETTING.dialoutCallerId;
-      this.state.dialoutQueueId = DEFAULT_OUTBOUND_SETTING.dialoutQueueId;
-      this.state.dialoutCountryId = DEFAULT_OUTBOUND_SETTING.dialoutCountryId;
-      this.state.dialoutRingTime = DEFAULT_OUTBOUND_SETTING.dialoutRingTime;
+      this.dialoutCallerId = DEFAULT_OUTBOUND_SETTING.dialoutCallerId;
+      this.dialoutQueueId = DEFAULT_OUTBOUND_SETTING.dialoutQueueId;
+      this.dialoutCountryId = DEFAULT_OUTBOUND_SETTING.dialoutCountryId;
+      this.dialoutRingTime = DEFAULT_OUTBOUND_SETTING.dialoutRingTime;
+      var defaultRingtime = parseInt(this._deps.evAuth.outboundManualDefaultRingtime, 10);
+
+      if (!Number.isNaN(defaultRingtime)) {
+        this.formGroup.dialoutRingTime = defaultRingtime;
+        this.dialoutRingTime = defaultRingtime;
+      }
     }
   }, {
     key: "resetForm",
@@ -221,26 +201,30 @@ var EvCall = (_dec = (0, _di.Module)({
     value: function onInitOnce() {
       var _this2 = this;
 
-      this._modules.evSubscription.subscribe(_callbackTypes.EvCallbackTypes.TCPA_SAFE_LEAD_STATE, function (data) {
+      this._deps.evCallMonitor.onCallEnded(function () {
+        _this2.setDialoutStatus(_dialoutStatus.dialoutStatuses.idle);
+      });
+
+      this._deps.evSubscription.subscribe(_callbackTypes.EvCallbackTypes.TCPA_SAFE_LEAD_STATE, function (data) {
         if (data.leadState === 'BUSY') {
           // TCPA_SAFE_LEAD_STATE -> BUSY
           // TODO alert message info about busy call.
-          if (!_this2._modules.evSettings.isManualOffhook && _this2._isTabActive) {
-            _this2._modules.evClient.offhookTerm();
+          if (!_this2._deps.evSettings.isManualOffhook && _this2._isTabActive) {
+            _this2._deps.evClient.offhookTerm();
           }
 
           _this2.setPhonedIdle();
         }
       });
 
-      this._modules.evSubscription.subscribe(_callbackTypes.EvCallbackTypes.OFFHOOK_TERM, function () {
+      this._deps.evSubscription.subscribe(_callbackTypes.EvCallbackTypes.OFFHOOK_TERM, function () {
         _this2.setPhonedIdle();
       });
     }
   }, {
     key: "onInit",
     value: function onInit() {
-      if (this._modules.evAuth.isFreshLogin) {
+      if (this._deps.evAuth.isFreshLogin) {
         this.resetOutBoundDialSetting();
       }
     }
@@ -248,55 +232,74 @@ var EvCall = (_dec = (0, _di.Module)({
     key: "dialout",
     value: function () {
       var _dialout = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(phoneNumber) {
-        var toNumber;
+        var integratedSoftphone, destination;
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                if (!this._modules.evSessionConfig.isIntegrated) {
-                  _context.next = 9;
+                if (!this._deps.evAgentSession.isIntegratedSoftphone) {
+                  _context.next = 17;
                   break;
                 }
 
-                _context.prev = 1;
-                _context.next = 4;
-                return this._modules.evIntegratedSoftphone.askAudioPermission();
+                integratedSoftphone = this._deps.evIntegratedSoftphone;
+                _context.prev = 2;
 
-              case 4:
-                _context.next = 9;
-                break;
+                if (!integratedSoftphone.isWebRTCTabAlive) {
+                  _context.next = 8;
+                  break;
+                }
+
+                _context.next = 6;
+                return integratedSoftphone.askAudioPermission(false);
 
               case 6:
-                _context.prev = 6;
-                _context.t0 = _context["catch"](1);
+                _context.next = 12;
+                break;
+
+              case 8:
+                _context.next = 10;
+                return this._deps.evAgentSession.configureAgent();
+
+              case 10:
+                _context.next = 12;
+                return integratedSoftphone.onceRegistered();
+
+              case 12:
+                _context.next = 17;
+                break;
+
+              case 14:
+                _context.prev = 14;
+                _context.t0 = _context["catch"](2);
                 return _context.abrupt("return");
 
-              case 9:
-                toNumber = this._checkAndParseNumber(phoneNumber);
+              case 17:
+                destination = this._checkAndParseNumber(phoneNumber);
 
-                if (!toNumber) {
-                  _context.next = 14;
+                if (!destination) {
+                  _context.next = 22;
                   break;
                 }
 
-                _context.next = 13;
+                _context.next = 21;
                 return this._manualOutdial({
-                  toNumber: toNumber,
+                  destination: destination,
                   callerId: this.callerId,
                   countryId: this.countryId,
                   queueId: this.queueId,
                   ringTime: this.ringTime
                 });
 
-              case 13:
+              case 21:
                 this.setDialoutStatus(_dialoutStatus.dialoutStatuses.callConnected);
 
-              case 14:
+              case 22:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, this, [[1, 6]]);
+        }, _callee, this, [[2, 14]]);
       }));
 
       function dialout(_x) {
@@ -319,7 +322,7 @@ var EvCall = (_dec = (0, _di.Module)({
   }, {
     key: "setDialoutStatus",
     value: function setDialoutStatus(status) {
-      this._modules.presence.setDialoutStatus(status);
+      this._deps.presence.setDialoutStatus(status);
     }
   }, {
     key: "setPhonedIdle",
@@ -342,7 +345,7 @@ var EvCall = (_dec = (0, _di.Module)({
 
         switch (error.type) {
           case _enums.messageTypes.NO_SUPPORT_COUNTRY:
-            this._modules.alert.danger({
+            this._deps.alert.danger({
               message: _enums.messageTypes.NO_SUPPORT_COUNTRY,
               ttl: 0
             });
@@ -350,7 +353,7 @@ var EvCall = (_dec = (0, _di.Module)({
             return null;
 
           default:
-            this._modules.alert.danger({
+            this._deps.alert.danger({
               message: _callErrors["default"].noToNumber
             });
 
@@ -361,14 +364,14 @@ var EvCall = (_dec = (0, _di.Module)({
   }, {
     key: "_manualOutdial",
     value: function () {
-      var _manualOutdial2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(_ref2) {
-        var _ref2$callerId, callerId, toNumber, _ref2$ringTime, ringTime, _ref2$queueId, queueId, _ref2$countryId, countryId, offhookInitResult, getOffhookInitResult;
+      var _manualOutdial2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(_ref) {
+        var _ref$callerId, callerId, destination, _ref$ringTime, ringTime, _ref$queueId, queueId, _ref$countryId, countryId, offhookInitResult, getOffhookInitResult;
 
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                _ref2$callerId = _ref2.callerId, callerId = _ref2$callerId === void 0 ? '' : _ref2$callerId, toNumber = _ref2.toNumber, _ref2$ringTime = _ref2.ringTime, ringTime = _ref2$ringTime === void 0 ? DEFAULT_OUTBOUND_SETTING.dialoutRingTime : _ref2$ringTime, _ref2$queueId = _ref2.queueId, queueId = _ref2$queueId === void 0 ? '' : _ref2$queueId, _ref2$countryId = _ref2.countryId, countryId = _ref2$countryId === void 0 ? 'USA' : _ref2$countryId;
+                _ref$callerId = _ref.callerId, callerId = _ref$callerId === void 0 ? '' : _ref$callerId, destination = _ref.destination, _ref$ringTime = _ref.ringTime, ringTime = _ref$ringTime === void 0 ? DEFAULT_OUTBOUND_SETTING.dialoutRingTime : _ref$ringTime, _ref$queueId = _ref.queueId, queueId = _ref$queueId === void 0 ? '' : _ref$queueId, _ref$countryId = _ref.countryId, countryId = _ref$countryId === void 0 ? 'USA' : _ref$countryId;
 
                 if (this.dialoutStatus !== _dialoutStatus.dialoutStatuses.dialing) {
                   this.setPhonedDialing();
@@ -376,7 +379,7 @@ var EvCall = (_dec = (0, _di.Module)({
 
                 _context2.prev = 2;
 
-                if (this._modules.evSettings.isOffhook) {
+                if (this._deps.evSettings.isOffhook) {
                   _context2.next = 9;
                   break;
                 }
@@ -384,7 +387,7 @@ var EvCall = (_dec = (0, _di.Module)({
                 // bind init hook first, and then call offhookInit
                 getOffhookInitResult = this._getOffhookInitResult();
 
-                this._modules.evClient.offhookInit();
+                this._deps.evClient.offhookInit();
 
                 _context2.next = 8;
                 return getOffhookInitResult;
@@ -393,16 +396,16 @@ var EvCall = (_dec = (0, _di.Module)({
                 offhookInitResult = _context2.sent;
 
               case 9:
-                if (!(this._modules.evSettings.isOffhook || offhookInitResult && offhookInitResult.status === 'OK')) {
+                if (!(this._deps.evSettings.isOffhook || offhookInitResult && offhookInitResult.status === 'OK')) {
                   _context2.next = 14;
                   break;
                 }
 
                 _context2.next = 12;
-                return this._modules.evClient.manualOutdial({
+                return this._deps.evClient.manualOutdial({
                   callerId: callerId,
                   countryId: countryId,
-                  destination: toNumber,
+                  destination: destination,
                   queueId: queueId,
                   ringTime: ringTime
                 });
@@ -422,8 +425,8 @@ var EvCall = (_dec = (0, _di.Module)({
                 _context2.prev = 17;
                 _context2.t0 = _context2["catch"](2);
 
-                if (!this._modules.evSettings.isManualOffhook) {
-                  this._modules.evClient.offhookTerm();
+                if (!this._deps.evSettings.isManualOffhook) {
+                  this._deps.evClient.offhookTerm();
                 }
 
                 this.setPhonedIdle();
@@ -449,7 +452,7 @@ var EvCall = (_dec = (0, _di.Module)({
       var _this3 = this;
 
       return new Promise(function (resolve, reject) {
-        _this3._modules.presence.evPresenceEvents.once(_callbackTypes.EvCallbackTypes.OFFHOOK_INIT, function (data) {
+        _this3._deps.presence.evPresenceEvents.once(_callbackTypes.EvCallbackTypes.OFFHOOK_INIT, function (data) {
           if (data.status === 'OK') {
             resolve(data);
           } else {
@@ -461,8 +464,7 @@ var EvCall = (_dec = (0, _di.Module)({
   }, {
     key: "ringTime",
     get: function get() {
-      // Consider that the `dialoutRingTime` may be empty string(not null).
-      return this.formGroup.dialoutRingTime === null ? +this._modules.evAuth.outboundManualDefaultRingtime : this.formGroup.dialoutRingTime;
+      return this.dialoutRingTime;
     }
   }, {
     key: "queueId",
@@ -482,12 +484,25 @@ var EvCall = (_dec = (0, _di.Module)({
   }, {
     key: "dialoutStatus",
     get: function get() {
-      return this._modules.presence.dialoutStatus;
+      return this._deps.presence.dialoutStatus;
     }
   }, {
     key: "_isTabActive",
     get: function get() {
-      return !this._modules.tabManager || this._modules.tabManager.active;
+      return !this._deps.tabManager || this._deps.tabManager.active;
+    }
+  }, {
+    key: "currentCall",
+    get: function get() {
+      var call = this._deps.evCallMonitor.callsMapping[this.activityCallId];
+      return this.activityCallId && call ? call : null;
+    }
+  }, {
+    key: "isInbound",
+    get: function get() {
+      var _this$currentCall;
+
+      return ((_this$currentCall = this.currentCall) === null || _this$currentCall === void 0 ? void 0 : _this$currentCall.callType) === 'INBOUND';
     }
   }]);
 
@@ -527,6 +542,6 @@ var EvCall = (_dec = (0, _di.Module)({
   initializer: function initializer() {
     return DEFAULT_OUTBOUND_SETTING;
   }
-}), _applyDecoratedDescriptor(_class2.prototype, "setFormGroup", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setFormGroup"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "saveForm", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "saveForm"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "resetOutBoundDialSetting", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "resetOutBoundDialSetting"), _class2.prototype)), _class2)) || _class);
+}), _applyDecoratedDescriptor(_class2.prototype, "currentCall", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "currentCall"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setFormGroup", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setFormGroup"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "saveForm", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "saveForm"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "resetOutBoundDialSetting", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "resetOutBoundDialSetting"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "dialout", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "dialout"), _class2.prototype)), _class2)) || _class);
 exports.EvCall = EvCall;
 //# sourceMappingURL=EvCall.js.map

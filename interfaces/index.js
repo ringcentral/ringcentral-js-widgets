@@ -88,18 +88,6 @@ Object.keys(_EvHoldData).forEach(function (key) {
   });
 });
 
-var _EvInboundQueuesUI = require("./EvInboundQueuesUI.interface");
-
-Object.keys(_EvInboundQueuesUI).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function get() {
-      return _EvInboundQueuesUI[key];
-    }
-  });
-});
-
 var _EvMainViewUI = require("./EvMainViewUI.interface");
 
 Object.keys(_EvMainViewUI).forEach(function (key) {
@@ -124,14 +112,14 @@ Object.keys(_EvManualDialSettingsUI).forEach(function (key) {
   });
 });
 
-var _EvSessionConfigUI = require("./EvSessionConfigUI.interface");
+var _EvAgentSessionUI = require("./EvAgentSessionUI.interface");
 
-Object.keys(_EvSessionConfigUI).forEach(function (key) {
+Object.keys(_EvAgentSessionUI).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {
-      return _EvSessionConfigUI[key];
+      return _EvAgentSessionUI[key];
     }
   });
 });

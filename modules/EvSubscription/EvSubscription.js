@@ -66,17 +66,13 @@ var EvSubscription = (_dec = (0, _di.Module)({
 
   var _super = _createSuper(EvSubscription);
 
-  function EvSubscription(_ref) {
+  function EvSubscription(deps) {
     var _this;
-
-    var evClient = _ref.evClient;
 
     _classCallCheck(this, EvSubscription);
 
     _this = _super.call(this, {
-      modules: {
-        evClient: evClient
-      }
+      deps: deps
     });
     _this.eventEmitters = new _events["default"]();
     return _this;
@@ -92,8 +88,8 @@ var EvSubscription = (_dec = (0, _di.Module)({
     value: function subscribe(event, listener) {
       var _this2 = this;
 
-      if (!this._modules.evClient.getEventCallback(event)) {
-        this._modules.evClient.on(event, function () {
+      if (!this._deps.evClient.getEventCallback(event)) {
+        this._deps.evClient.on(event, function () {
           var _this2$eventEmitters;
 
           for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
@@ -105,6 +101,11 @@ var EvSubscription = (_dec = (0, _di.Module)({
       }
 
       this.eventEmitters.on(event, listener);
+    }
+  }, {
+    key: "once",
+    value: function once(event, listener) {
+      this.eventEmitters.once(event, listener);
     }
   }]);
 

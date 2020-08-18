@@ -49,13 +49,13 @@ var _BasicCallInfo = require("ringcentral-widgets/components/BasicCallInfo");
 
 var _CallLogPanel = _interopRequireDefault(require("ringcentral-widgets/components/CallLogPanel"));
 
-var _SaveLogButton = _interopRequireDefault(require("ringcentral-widgets/components/SaveLogButton"));
-
 var _enums = require("../../enums");
 
 var _EvSmallCallControl = require("../EvSmallCallControl");
 
 var _i18n = _interopRequireDefault(require("./i18n"));
+
+var _IvrInfo = require("./IvrInfo");
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
@@ -118,7 +118,10 @@ var ActivityCallLogPanel = function ActivityCallLogPanel(_ref) {
       isOnActive = _ref.isOnActive,
       onActive = _ref.onActive,
       isWide = _ref.isWide,
-      rest = _objectWithoutProperties(_ref, ["currentLocale", "currentLog", "basicInfo", "isInbound", "disposeCall", "status", "saveStatus", "goToRequeueCallPage", "goToTransferCallPage", "onMute", "onUnmute", "onHangup", "onReject", "onHold", "onUnHold", "isOnMute", "isOnHold", "smallCallControlSize", "isInComingCall", "currentCallControlPermission", "disableDispose", "disableTransfer", "disableInternalTransfer", "disableHold", "disableHangup", "disableMute", "disableActive", "isOnActive", "onActive", "isWide"]);
+      showMuteButton = _ref.showMuteButton,
+      ivrAlertData = _ref.ivrAlertData,
+      onCopySuccess = _ref.onCopySuccess,
+      rest = _objectWithoutProperties(_ref, ["currentLocale", "currentLog", "basicInfo", "isInbound", "disposeCall", "status", "saveStatus", "goToRequeueCallPage", "goToTransferCallPage", "onMute", "onUnmute", "onHangup", "onReject", "onHold", "onUnHold", "isOnMute", "isOnHold", "smallCallControlSize", "isInComingCall", "currentCallControlPermission", "disableDispose", "disableTransfer", "disableInternalTransfer", "disableHold", "disableHangup", "disableMute", "disableActive", "isOnActive", "onActive", "isWide", "showMuteButton", "ivrAlertData", "onCopySuccess"]);
 
   var transferRef = (0, _react.useRef)(null);
 
@@ -127,22 +130,15 @@ var ActivityCallLogPanel = function ActivityCallLogPanel(_ref) {
       transferEl = _useState2[0],
       setTransferRef = _useState2[1];
 
-  var _useState3 = (0, _react.useState)(false),
-      _useState4 = _slicedToArray(_useState3, 2),
-      isOnTransfer = _useState4[0],
-      setOnTransfer = _useState4[1];
-
   var isActivity = status === 'active';
   var isCallEnd = status === 'callEnd';
   var isLoading = saveStatus === 'saving';
 
   var onTransfer = function onTransfer() {
-    setOnTransfer(true);
     setTransferRef(transferRef.current);
   };
 
   var handleTransferClose = function handleTransferClose() {
-    setOnTransfer(false);
     setTransferRef(null);
   };
 
@@ -163,12 +159,9 @@ var ActivityCallLogPanel = function ActivityCallLogPanel(_ref) {
     isInTransferPage: false // TODO: that need refactor CallLogPanel and then can remove that
     ,
     currentIdentify: "123",
-    renderSaveLogButton: function renderSaveLogButton(props) {
-      return /*#__PURE__*/_react["default"].createElement(_SaveLogButton["default"], props);
-    },
     renderEditLogSection: _utils.EditLogSection,
     renderBasicInfo: function renderBasicInfo() {
-      return /*#__PURE__*/_react["default"].createElement(_BasicCallInfo.BasicCallInfo, {
+      return /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement(_BasicCallInfo.BasicCallInfo, {
         status: status,
         currentLocale: currentLocale,
         isInbound: isInbound,
@@ -177,12 +170,17 @@ var ActivityCallLogPanel = function ActivityCallLogPanel(_ref) {
         followInfos: basicInfo.followInfos,
         callInfos: basicInfo.callInfos,
         callControlRef: callControlRef,
+        onCopySuccess: onCopySuccess,
         classes: {
           panel: isCallEnd && _styles["default"].noneShadow
         }
-      });
+      }), (ivrAlertData === null || ivrAlertData === void 0 ? void 0 : ivrAlertData.length) > 0 && /*#__PURE__*/_react["default"].createElement(_IvrInfo.IvrInfo, {
+        isCallEnd: isCallEnd,
+        ivrAlertData: ivrAlertData
+      }));
     },
     renderCallLogCallControl: function renderCallLogCallControl() {
+      var isOnTransfer = Boolean(transferEl);
       return isCallEnd ? /*#__PURE__*/_react["default"].createElement(_rcui.RcButton, {
         "data-sign": "submit",
         size: "large",
@@ -197,7 +195,7 @@ var ActivityCallLogPanel = function ActivityCallLogPanel(_ref) {
           paper: _styles["default"].paper
         },
         anchorEl: transferEl,
-        open: Boolean(transferEl),
+        open: isOnTransfer,
         onClose: handleTransferClose,
         "data-sign": "transferMenu"
       }, /*#__PURE__*/_react["default"].createElement(_rcui.RcMenuItem, {
@@ -245,7 +243,8 @@ var ActivityCallLogPanel = function ActivityCallLogPanel(_ref) {
         disableHangup: disableHangup,
         disableMute: disableMute,
         disableActive: disableActive,
-        isOnActive: isOnActive
+        isOnActive: isOnActive,
+        showMuteButton: showMuteButton
       }));
     }
   }));

@@ -1,6 +1,4 @@
-import { RcList } from '@ringcentral-integration/rcui';
 import React, { FunctionComponent } from 'react';
-import { SelectListBasicWithScrollCheck } from 'ringcentral-widgets/components/SelectList';
 import { CustomArrowButton } from 'ringcentral-widgets/components/Rcui/CustomArrowButton';
 
 import {
@@ -8,9 +6,8 @@ import {
   EvTransferCallUIProps,
 } from '../../../interfaces';
 import { EvAvailableRequeueQueue } from '../../../lib/EvClient';
-import { ListItemWithScrollCheck } from '../../ListItemWithScrollCheck';
+import { SelectList, ListItem } from '../../SelectList';
 import i18n from './i18n';
-import styles from './styles.scss';
 
 export type RequeueCallGroupPanelProps = Partial<
   EvTransferCallUIProps & EvTransferCallUIFunctions
@@ -24,46 +21,34 @@ export const RequeueCallGroupPanel: FunctionComponent<RequeueCallGroupPanelProps
   goToRequeueGroupDetailPage,
 }) => {
   return (
-    <SelectListBasicWithScrollCheck
-      listContainerClassName={styles.listContainer}
-      backHeaderClassName={styles.backHeader}
-      selectListBasicClassName={styles.selectListBasic}
-      title={i18n.getString('queueGroup', currentLocale)}
-      placeholder={i18n.getString('search', currentLocale)}
-      options={queueGroups}
-      renderListView={(
-        queueGroups: EvAvailableRequeueQueue[],
-        type,
-        filter,
-        scrollCheck,
-      ) => {
-        return queueGroups.length ? (
-          <RcList>
-            {queueGroups.map((queueGroup, i) => {
-              return (
-                <ListItemWithScrollCheck
-                  onClick={() =>
-                    goToRequeueGroupDetailPage({
-                      groupId: queueGroup.gateGroupId,
-                    })
-                  }
-                  className={styles.item}
-                  selected={queueGroup.gateGroupId === selectedQueueGroupId}
-                  key={i}
-                  scrollCheck={scrollCheck}
-                >
-                  {queueGroup.groupName}
-                  <CustomArrowButton />
-                </ListItemWithScrollCheck>
-              );
-            })}
-          </RcList>
-        ) : null;
-      }}
-      onBackClick={goToRequeueCallPage}
+    <SelectList
       searchOption={searchGroup}
       currentLocale={currentLocale}
-      open
+      onBackClick={goToRequeueCallPage}
+      title={i18n.getString('queueGroup', currentLocale)}
+      options={queueGroups}
+      renderListItem={({
+        option,
+        index,
+      }: {
+        option: EvAvailableRequeueQueue;
+        index: number;
+      }) => {
+        return (
+          <ListItem
+            onClick={() =>
+              goToRequeueGroupDetailPage({
+                groupId: option.gateGroupId,
+              })
+            }
+            selected={option.gateGroupId === selectedQueueGroupId}
+            key={index}
+          >
+            {option.groupName}
+            <CustomArrowButton />
+          </ListItem>
+        );
+      }}
     />
   );
 };

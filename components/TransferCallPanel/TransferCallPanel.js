@@ -31,11 +31,11 @@ var _iconDialer = _interopRequireDefault(require("@ringcentral-integration/rcui/
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _BackHeaderV = _interopRequireDefault(require("ringcentral-widgets/components/BackHeaderV2"));
-
 var _CustomArrowButton = require("ringcentral-widgets/components/Rcui/CustomArrowButton");
 
 var _PickList = require("../PickList");
+
+var _SelectList = require("../SelectList");
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
@@ -72,17 +72,17 @@ var TransferCallPanel = function TransferCallPanel(_ref) {
     }, _i18n["default"].getString('cancel', currentLocale)));
   }, []);
   var endAdornment = (0, _react.useCallback)(function (disabled) {
-    return selectedTransferType === 'manualEntry' ? /*#__PURE__*/_react["default"].createElement(_rcui.RcIcon, {
+    return selectedTransferType === 'manualEntry' ? /*#__PURE__*/_react["default"].createElement(_rcui.RcIconButton, {
       size: "medium",
       color: ['primary', 'main'],
+      variant: "plain",
       symbol: _iconDialer["default"]
     }) : /*#__PURE__*/_react["default"].createElement(_CustomArrowButton.CustomArrowButton, {
       disabled: disabled
     });
   }, [selectedTransferType]);
-  return /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement(_BackHeaderV["default"], {
+  return /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement(_SelectList.BackHeader, {
     currentLocale: currentLocale,
-    className: _styles["default"].backHeader,
     title: _i18n["default"].getString('transfer', currentLocale),
     onBackClick: goBack
   }), /*#__PURE__*/_react["default"].createElement("div", {

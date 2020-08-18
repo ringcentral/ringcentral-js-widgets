@@ -45,7 +45,7 @@ var _enums = require("../../enums");
 
 var _EvTypeError = require("../../lib/EvTypeError");
 
-var _dec, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _temp;
+var _dec, _dec2, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _temp;
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -81,37 +81,25 @@ function _initializerWarningHelper(descriptor, context) { throw new Error('Decor
 
 var EvRequeueCall = (_dec = (0, _di.Module)({
   name: 'EvRequeueCall',
-  deps: ['EvClient', 'Storage', 'ActiveCallControl', 'EvAuth', 'Alert', {
+  deps: ['EvClient', 'EvCall', 'Storage', 'ActiveCallControl', 'EvAuth', 'Alert', {
     dep: 'EvRequeueCallOptions',
     optional: true
   }]
+}), _dec2 = (0, _core.computed)(function (that) {
+  return [that._deps.evCall.currentCall, that._deps.evAuth.agentPermissions.allowCrossQueueRequeue];
 }), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcModuleV) {
   _inherits(EvRequeueCall, _RcModuleV);
 
   var _super = _createSuper(EvRequeueCall);
 
-  function EvRequeueCall(_ref) {
+  function EvRequeueCall(deps) {
     var _this;
-
-    var evClient = _ref.evClient,
-        storage = _ref.storage,
-        activeCallControl = _ref.activeCallControl,
-        evAuth = _ref.evAuth,
-        alert = _ref.alert,
-        _ref$enableCache = _ref.enableCache,
-        enableCache = _ref$enableCache === void 0 ? true : _ref$enableCache;
 
     _classCallCheck(this, EvRequeueCall);
 
     _this = _super.call(this, {
-      modules: {
-        evClient: evClient,
-        storage: storage,
-        activeCallControl: activeCallControl,
-        evAuth: evAuth,
-        alert: alert
-      },
-      enableCache: enableCache,
+      deps: deps,
+      enableCache: true,
       storageKey: 'EvRequeueCall'
     });
 
@@ -128,15 +116,15 @@ var EvRequeueCall = (_dec = (0, _di.Module)({
 
   _createClass(EvRequeueCall, [{
     key: "setStatus",
-    value: function setStatus(_ref2) {
-      var selectedQueueGroupId = _ref2.selectedQueueGroupId,
-          selectedGateId = _ref2.selectedGateId,
-          stayOnCall = _ref2.stayOnCall,
-          requeuing = _ref2.requeuing;
-      this.state.selectedQueueGroupId = selectedQueueGroupId !== null && selectedQueueGroupId !== void 0 ? selectedQueueGroupId : this.selectedQueueGroupId;
-      this.state.selectedGateId = selectedGateId !== null && selectedGateId !== void 0 ? selectedGateId : this.selectedGateId;
-      this.state.stayOnCall = stayOnCall !== null && stayOnCall !== void 0 ? stayOnCall : this.stayOnCall;
-      this.state.requeuing = requeuing !== null && requeuing !== void 0 ? requeuing : this.requeuing;
+    value: function setStatus(_ref) {
+      var selectedQueueGroupId = _ref.selectedQueueGroupId,
+          selectedGateId = _ref.selectedGateId,
+          stayOnCall = _ref.stayOnCall,
+          requeuing = _ref.requeuing;
+      this.selectedQueueGroupId = selectedQueueGroupId !== null && selectedQueueGroupId !== void 0 ? selectedQueueGroupId : this.selectedQueueGroupId;
+      this.selectedGateId = selectedGateId !== null && selectedGateId !== void 0 ? selectedGateId : this.selectedGateId;
+      this.stayOnCall = stayOnCall !== null && stayOnCall !== void 0 ? stayOnCall : this.stayOnCall;
+      this.requeuing = requeuing !== null && requeuing !== void 0 ? requeuing : this.requeuing;
     }
   }, {
     key: "requeueCall",
@@ -151,12 +139,12 @@ var EvRequeueCall = (_dec = (0, _di.Module)({
                 this.setStatus({
                   requeuing: true
                 });
-                loadingId = this._modules.alert.info({
+                loadingId = this._deps.alert.info({
                   message: _enums.requeueEvents.START,
                   loading: true
                 });
                 _context.next = 5;
-                return this._modules.evClient.requeueCall({
+                return this._deps.evClient.requeueCall({
                   maintain: this.stayOnCall,
                   queueId: this.selectedGateId
                 });
@@ -180,10 +168,10 @@ var EvRequeueCall = (_dec = (0, _di.Module)({
                 }
 
                 _context.next = 11;
-                return this._modules.activeCallControl.hold();
+                return this._deps.activeCallControl.hold();
 
               case 11:
-                this._modules.alert.success({
+                this._deps.alert.success({
                   message: _enums.requeueEvents.SUCCESS
                 });
 
@@ -194,7 +182,7 @@ var EvRequeueCall = (_dec = (0, _di.Module)({
                 _context.prev = 14;
                 _context.t0 = _context["catch"](0);
 
-                this._modules.alert.danger({
+                this._deps.alert.danger({
                   message: _enums.requeueEvents.FAILURE
                 });
 
@@ -208,7 +196,7 @@ var EvRequeueCall = (_dec = (0, _di.Module)({
                   requeuing: false
                 });
 
-                this._modules.alert.dismiss(loadingId);
+                this._deps.alert.dismiss(loadingId);
 
                 return _context.finish(18);
 
@@ -227,33 +215,34 @@ var EvRequeueCall = (_dec = (0, _di.Module)({
       return requeueCall;
     }()
   }, {
-    key: "checkAllowRequeue",
-    value: function checkAllowRequeue(currentCall) {
-      var result = true;
-
-      if (!currentCall.endedCall) {
-        if (!currentCall.allowRequeue) {
-          result = false;
-        } else if (!this._modules.evAuth.agentPermissions.allowCrossQueueRequeue && currentCall.callType === 'OUTBOUND' && currentCall.requeueType === 'ADVANCED') {
-          result = false;
-        } else if (!this._hasRequeueQueues(currentCall)) {
-          result = false;
-        }
-      }
-
-      return result;
-    }
-  }, {
     key: "_hasRequeueQueues",
     value: function _hasRequeueQueues(currentCall) {
       var result = false;
 
       if (currentCall.requeueType === 'ADVANCED') {
-        var queues = this._modules.evAuth.availableQueues;
+        var queues = this._deps.evAuth.availableQueues;
         result = queues && queues.length > 0;
       } else {
         var shortcuts = currentCall.requeueShortcuts;
         result = shortcuts && shortcuts.length > 0;
+      }
+
+      return result;
+    }
+  }, {
+    key: "allowRequeueCall",
+    get: function get() {
+      var currentCall = this._deps.evCall.currentCall;
+      var result = true;
+
+      if (currentCall && !currentCall.endedCall) {
+        if (!currentCall.allowRequeue) {
+          result = false;
+        } else if (!this._deps.evAuth.agentPermissions.allowCrossQueueRequeue && currentCall.callType === 'OUTBOUND' && currentCall.requeueType === 'ADVANCED') {
+          result = false;
+        } else if (!this._hasRequeueQueues(currentCall)) {
+          result = false;
+        }
       }
 
       return result;
@@ -289,6 +278,6 @@ var EvRequeueCall = (_dec = (0, _di.Module)({
   initializer: function initializer() {
     return false;
   }
-}), _applyDecoratedDescriptor(_class2.prototype, "setStatus", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setStatus"), _class2.prototype)), _class2)) || _class);
+}), _applyDecoratedDescriptor(_class2.prototype, "allowRequeueCall", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "allowRequeueCall"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setStatus", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setStatus"), _class2.prototype)), _class2)) || _class);
 exports.EvRequeueCall = EvRequeueCall;
 //# sourceMappingURL=EvRequeueCall.js.map

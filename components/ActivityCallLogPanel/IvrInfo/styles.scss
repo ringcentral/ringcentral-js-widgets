@@ -1,0 +1,134 @@
+@import '../../../scss/variables.scss';
+
+$lightning-root-height: 70px;
+$classic-root-height: 90px;
+
+$lightning-content-width: 224px;
+$classic-content-width: 144px;
+
+$root-elm-height: 32px;
+
+@mixin space() {
+  padding: 0 $lightning-page-space;
+
+  [sf-classic] & {
+    padding: 0 $classic-page-space;
+  }
+}
+
+.ivrPanel {
+  position: relative;
+}
+
+.remain {
+  height: $root-elm-height;
+  display: block;
+}
+
+.container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  width: 100%;
+}
+
+div.panelRoot.panelRoot.panelRoot {
+  overflow: auto;
+  margin: 0;
+  @include bottom-border();
+
+  font-size: 14px;
+
+  max-height: 285px;
+  [sf-classic] & {
+    max-height: 325px;
+  }
+}
+
+.endCall {
+  max-height: 278px !important;
+  [sf-classic] & {
+    max-height: 300px !important;
+  }
+}
+
+.summaryRoot.summaryRoot {
+  min-height: $root-elm-height !important;
+  align-items: start !important;
+  font-weight: bold;
+  justify-content: space-between;
+  @include space();
+}
+
+.expanded {
+  box-shadow: none;
+  .summaryRoot.summaryRoot {
+    min-height: auto !important;
+  }
+  .ivrMainSubject,
+  .subject,
+  .body {
+    display: inline-block;
+    /* For Firefox */
+    white-space: pre-wrap !important;
+    word-break: break-word !important;
+    /* For Chrome and IE */
+    word-wrap: break-word !important;
+  }
+  .count {
+    display: none;
+  }
+}
+
+.summaryContent {
+  justify-content: space-between;
+  margin: 0 !important;
+  padding: 0 !important;
+
+  width: $lightning-content-width;
+  padding-top: 7.5px !important;
+  [sf-classic] & {
+    width: $classic-content-width;
+  }
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  width: 224px;
+  [sf-classic] & {
+    width: 144px;
+  }
+  & + .item {
+    margin-top: 20px;
+  }
+  &:last-child {
+    margin-bottom: 20px;
+  }
+}
+
+.subject {
+  display: flex;
+  font-weight: bold;
+}
+
+.body {
+  display: flex;
+  padding: 4px 0 0 0;
+  color: rgb(97, 97, 97);
+}
+
+.ivrMainSubject {
+  @include text-ellipsis;
+  width: $lightning-content-width;
+  [sf-classic] & {
+    width: $classic-content-width;
+  }
+}
+
+.detailsRoot.detailsRoot.detailsRoot {
+  flex-direction: column;
+  border-top: 0 !important;
+  @include space();
+}

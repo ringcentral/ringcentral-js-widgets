@@ -7,15 +7,27 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.SessionConfigPanel = void 0;
 
+require("core-js/modules/es6.object.assign");
+
+require("core-js/modules/es6.symbol");
+
+require("core-js/modules/es6.array.index-of");
+
+require("core-js/modules/web.dom.iterable");
+
+require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.object.to-string");
+
+require("core-js/modules/es6.object.keys");
+
 var _rcui = require("@ringcentral-integration/rcui");
 
 var _react = _interopRequireDefault(require("react"));
 
-var _CustomArrowButton = require("ringcentral-widgets/components/Rcui/CustomArrowButton");
-
 var _EvLoginHeader = require("../EvLoginHeader");
 
-var _PickList = require("../PickList");
+var _BasicSessionPanel = require("../BasicSessionPanel");
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
@@ -23,94 +35,36 @@ var _styles = _interopRequireDefault(require("./styles.scss"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-/* eslint-disable react/jsx-no-duplicate-props */
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
 var SessionConfigPanel = function SessionConfigPanel(_ref) {
   var currentLocale = _ref.currentLocale,
-      selectedSkillProfileId = _ref.selectedSkillProfileId,
-      skillProfileList = _ref.skillProfileList,
-      setSkillProfileId = _ref.setSkillProfileId,
-      loginTypeList = _ref.loginTypeList,
-      loginType = _ref.loginType,
-      setLoginType = _ref.setLoginType,
-      extensionNumber = _ref.extensionNumber,
-      setExtensionNumber = _ref.setExtensionNumber,
-      takingCall = _ref.takingCall,
-      setTakingCall = _ref.setTakingCall,
-      autoAnswer = _ref.autoAnswer,
-      setAutoAnswer = _ref.setAutoAnswer,
       setConfigure = _ref.setConfigure,
-      children = _ref.children,
-      inboundQueuesFieldText = _ref.inboundQueuesFieldText,
       isLoading = _ref.isLoading,
-      isExtensionNumber = _ref.isExtensionNumber,
-      navigateToInboundQueuesPage = _ref.navigateToInboundQueuesPage;
-  return /*#__PURE__*/_react["default"].createElement("main", {
-    className: _styles["default"].container
+      rest = _objectWithoutProperties(_ref, ["currentLocale", "setConfigure", "isLoading"]);
+
+  return /*#__PURE__*/_react["default"].createElement("div", {
+    className: _styles["default"].root
   }, /*#__PURE__*/_react["default"].createElement(_EvLoginHeader.EvLoginHeader, {
     wrapperStyle: _styles["default"].wrapperStyle,
     svgStyle: _styles["default"].svgStyle
-  }), /*#__PURE__*/_react["default"].createElement(_rcui.RcTextField, {
-    "data-sign": "inboundQueues",
-    label: _i18n["default"].getString('inboundQueues', currentLocale),
-    title: inboundQueuesFieldText,
-    value: inboundQueuesFieldText,
-    fullWidth: true,
-    classes: {
-      root: _styles["default"].customSelect
-    },
-    InputProps: {
-      readOnly: true,
-      endAdornment: /*#__PURE__*/_react["default"].createElement(_CustomArrowButton.CustomArrowButton, null)
-    },
-    clearBtn: false,
-    onClick: navigateToInboundQueuesPage
-  }), skillProfileList.length > 0 && /*#__PURE__*/_react["default"].createElement(_PickList.PickList, {
-    "data-sign": "skillProfile",
-    options: skillProfileList,
-    label: _i18n["default"].getString('skillProfile', currentLocale),
-    value: selectedSkillProfileId,
-    optionValueKey: "profileId",
-    optionLabelKey: "profileName",
-    onChange: function onChange(e) {
-      setSkillProfileId(e);
-    }
-  }), /*#__PURE__*/_react["default"].createElement(_PickList.PickList, {
-    "data-sign": "loginType",
-    options: loginTypeList,
-    label: _i18n["default"].getString('voiceConnection', currentLocale),
-    value: loginType,
-    onChange: function onChange(e) {
-      setLoginType(e);
-    }
-  }), isExtensionNumber && /*#__PURE__*/_react["default"].createElement(_rcui.RcTextField, {
-    "data-sign": "extensionNumber",
-    label: _i18n["default"].getString('extensionNumber', currentLocale),
-    fullWidth: true,
-    value: extensionNumber,
-    placeholder: _i18n["default"].getString('enterYourPhoneNumber', currentLocale),
-    inputProps: {
-      maxLength: 255
-    },
-    clearBtn: false,
-    classes: {
-      root: _styles["default"].customSelect
-    },
-    onChange: function onChange(_ref2) {
-      var value = _ref2.target.value;
-      setExtensionNumber(value);
-    }
-  }), /*#__PURE__*/_react["default"].createElement("div", {
-    className: _styles["default"].button
-  }, /*#__PURE__*/_react["default"].createElement(_rcui.RcButton, {
+  }), /*#__PURE__*/_react["default"].createElement(_BasicSessionPanel.BasicSessionPanel, _extends({}, rest, {
+    currentLocale: currentLocale
+  })), /*#__PURE__*/_react["default"].createElement(_rcui.RcButton, {
     "data-sign": "setConfigure",
     fullWidth: true,
     disabled: isLoading,
     loading: isLoading,
     size: "medium",
-    onClick: function onClick() {
-      setConfigure();
+    onClick: setConfigure,
+    classes: {
+      root: _styles["default"].button
     }
-  }, _i18n["default"].getString('continue', currentLocale))), children);
+  }, _i18n["default"].getString('continue', currentLocale)));
 };
 
 exports.SessionConfigPanel = SessionConfigPanel;

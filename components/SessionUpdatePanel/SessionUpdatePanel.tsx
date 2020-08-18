@@ -1,0 +1,72 @@
+import { RcButton } from '@ringcentral-integration/rcui';
+import React, { FunctionComponent } from 'react';
+
+import {
+  EvAgentSessionUIProps,
+  EvAgentSessionUIFunctions,
+} from '../../interfaces/EvAgentSessionUI.interface';
+import {
+  BasicSessionPanel,
+  BasicSessionPanelProps,
+} from '../BasicSessionPanel';
+import { BackHeader } from '../SelectList';
+import i18n from './i18n';
+import styles from './styles.scss';
+
+export type SessionUpdatePanelProps = BasicSessionPanelProps &
+  Pick<
+    EvAgentSessionUIProps & EvAgentSessionUIFunctions,
+    | 'goToSettingsPageWhetherSessionChanged'
+    | 'resetFormGroup'
+    | 'onSaveUpdate'
+    | 'voiceConnectionChanged'
+    | 'isWide'
+  >;
+
+export const SessionUpdatePanel: FunctionComponent<SessionUpdatePanelProps> = ({
+  currentLocale,
+  goToSettingsPageWhetherSessionChanged,
+  onSaveUpdate,
+  voiceConnectionChanged,
+  isWide,
+  ...rest
+}) => {
+  return (
+    <div className={styles.root}>
+      <BackHeader
+        currentLocale={currentLocale}
+        title={i18n.getString('editSession', currentLocale)}
+        onBackClick={goToSettingsPageWhetherSessionChanged}
+      />
+      <div className={styles.container}>
+        <BasicSessionPanel
+          {...rest}
+          currentLocale={currentLocale}
+          classes={{ root: styles.basicSessionPanel }}
+          showWarning={voiceConnectionChanged}
+          isWide={isWide}
+        />
+        <RcButton
+          data-sign="saveUpdate"
+          fullWidth
+          size="medium"
+          onClick={onSaveUpdate}
+          classes={{
+            root: styles.saveUpdateButton,
+          }}
+        >
+          {i18n.getString('saveUpdate', currentLocale)}
+        </RcButton>
+        <RcButton
+          data-sign="cancel"
+          fullWidth
+          size="medium"
+          onClick={goToSettingsPageWhetherSessionChanged}
+          variant="outlined"
+        >
+          {i18n.getString('cancel', currentLocale)}
+        </RcButton>
+      </div>
+    </div>
+  );
+};

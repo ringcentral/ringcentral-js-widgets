@@ -7,8 +7,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.transferErrors = void 0;
 
-var _Enum = require("ringcentral-integration/lib/Enum");
+var _ObjectMap = require("@ringcentral-integration/core/lib/ObjectMap");
 
-var transferErrors = (0, _Enum.createEnum)(['TYPE_ERROR', 'AGENT_ID_ERROR', 'CONTACT_ID_ERROR', 'RECIPIENT_NUMBER_ERROR', 'TRANSFER_ERROR', 'SEND_VOICEMAIL_ERROR']);
+var transferErrors = _ObjectMap.ObjectMap.fromKeys(['TYPE_ERROR', 'AGENT_ID_ERROR', 'CONTACT_ID_ERROR', 'RECIPIENT_NUMBER_ERROR', 'TRANSFER_ERROR', 'SEND_VOICEMAIL_ERROR']);
+
 exports.transferErrors = transferErrors;
 //# sourceMappingURL=transferErrors.js.map

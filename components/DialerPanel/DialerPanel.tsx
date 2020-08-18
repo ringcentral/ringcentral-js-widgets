@@ -30,6 +30,7 @@ const DialerPanel: FunctionComponent<DialerPanelProps> = ({
   goToManualDialSettings,
   checkOnCall,
   dialoutStatus,
+  dialButtonDisabled,
   hangup,
 }) => {
   useEffect(() => {
@@ -42,7 +43,6 @@ const DialerPanel: FunctionComponent<DialerPanelProps> = ({
   if (!hasDialer) {
     return null;
   }
-  const isDialing = dialoutStatus === 'dialing';
   const isIdle = dialoutStatus === 'idle';
   const isCallConnected = dialoutStatus === 'callConnected';
 
@@ -63,7 +63,7 @@ const DialerPanel: FunctionComponent<DialerPanelProps> = ({
         data-icon={isIdle ? 'answer' : 'hand-up'}
         symbol={isIdle ? phoneSvg : handUpSvg}
         data-sign="callButton"
-        disabled={isDialing}
+        disabled={dialButtonDisabled}
         onClick={() => {
           if (isIdle) {
             dialout();

@@ -13,7 +13,9 @@ var _default = {
   connected: 'Connected',
   connecting: 'Connecting',
   disconnected: 'Disconnected',
-  disconnecting: 'Disconnecting'
+  disconnecting: 'Disconnecting',
+  sessionInfo: 'Session info',
+  editSession: 'Edit Session'
 };
 exports["default"] = _default;
 //# sourceMappingURL=en-US.js.map

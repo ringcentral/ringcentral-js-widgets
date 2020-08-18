@@ -28,7 +28,7 @@ Object.keys(_EvRequeueCall).forEach(function (key) {
   });
 });
 
-var _EvRequeueCall2 = require("./EvRequeueCall.inerface");
+var _EvRequeueCall2 = require("./EvRequeueCall.interface");
 
 Object.keys(_EvRequeueCall2).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;

@@ -37,7 +37,7 @@ var _core = require("@ringcentral-integration/core");
 
 var _di = require("ringcentral-integration/lib/di");
 
-var _dec, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _temp;
+var _dec, _dec2, _class, _class2, _descriptor, _descriptor2, _descriptor3, _temp;
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -69,37 +69,31 @@ function _initializerWarningHelper(descriptor, context) { throw new Error('Decor
 
 var EvSettings = (_dec = (0, _di.Module)({
   name: 'EvSettings',
-  deps: ['EvClient', 'EvAuth', 'EvSessionConfig', 'Storage', {
+  deps: ['EvClient', 'EvAuth', 'EvAgentSession', 'Beforeunload', 'Storage', {
     dep: 'EvSettingsOptions',
     optional: true
   }]
+}), _dec2 = (0, _core.computed)(function (that) {
+  return [that.isOffhooking, that.isOffhook];
 }), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcModuleV) {
   _inherits(EvSettings, _RcModuleV);
 
   var _super = _createSuper(EvSettings);
 
-  function EvSettings(_ref) {
+  function EvSettings(deps) {
     var _this;
-
-    var evClient = _ref.evClient,
-        evAuth = _ref.evAuth,
-        evSessionConfig = _ref.evSessionConfig,
-        storage = _ref.storage,
-        _ref$enableCache = _ref.enableCache,
-        enableCache = _ref$enableCache === void 0 ? true : _ref$enableCache;
 
     _classCallCheck(this, EvSettings);
 
     _this = _super.call(this, {
-      modules: {
-        evClient: evClient,
-        evAuth: evAuth,
-        evSessionConfig: evSessionConfig,
-        storage: storage
-      },
-      enableCache: enableCache,
+      deps: deps,
+      enableCache: true,
       storageKey: 'EvSettings'
     });
+
+    _this._beforeunloadHandler = function () {
+      return _this._deps.evAgentSession.shouldBlockBrowser;
+    };
 
     _initializerDefineProperty(_this, "isOffhook", _descriptor, _assertThisInitialized(_this));
 
@@ -107,60 +101,48 @@ var EvSettings = (_dec = (0, _di.Module)({
 
     _initializerDefineProperty(_this, "isOffhooking", _descriptor3, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "config", _descriptor4, _assertThisInitialized(_this));
-
-    _this.getOffhookState = (0, _core.createSelector)(function () {
-      return _this.isOffhooking;
-    }, function () {
-      return _this.isOffhook;
-    }, function (isOffhooking, isOffhook) {
-      if (isOffhooking) {
-        return isOffhook ? 'disconnecting' : 'connecting';
-      }
-
-      return isOffhook ? 'connected' : 'disconnected';
-    });
     return _this;
   }
 
   _createClass(EvSettings, [{
-    key: "setConfig",
-    value: function setConfig(config) {
-      this.state.config = config;
-    }
-  }, {
     key: "setIsManualOffhook",
     value: function setIsManualOffhook(isManualOffhook) {
-      this.state.isManualOffhook = isManualOffhook;
+      this.isManualOffhook = isManualOffhook;
     }
   }, {
     key: "setOffhook",
     value: function setOffhook(status) {
-      this.state.isOffhook = status;
+      this.isOffhook = status;
+
+      this._checkBeforeunload();
     }
   }, {
     key: "setOffhooking",
     value: function setOffhooking(offhooking) {
-      this.state.isOffhooking = offhooking;
+      this.isOffhooking = offhooking;
     }
   }, {
-    key: "offhookInitHandle",
-    value: function offhookInitHandle() {
-      this.state.isOffhooking = false;
-      this.state.isOffhook = true;
+    key: "setOffhookInit",
+    value: function setOffhookInit() {
+      this.isOffhooking = false;
+      this.isOffhook = true;
+
+      this._checkBeforeunload();
     }
   }, {
-    key: "offhookTermHandle",
-    value: function offhookTermHandle() {
-      this.state.isOffhooking = false;
-      this.state.isOffhook = false;
-      this.state.isManualOffhook = false;
+    key: "setOffhookTerm",
+    value: function setOffhookTerm() {
+      this.isOffhooking = false;
+      this.isOffhook = false;
+      this.isManualOffhook = false;
+
+      this._checkBeforeunload();
     }
   }, {
     key: "onInit",
     value: function onInit() {
-      if (this._modules.evAuth.isFreshLogin || this._modules.evSessionConfig.tabManagerEnabled && !this._modules.evSessionConfig.isConfigSuccessByLocal) {
-        this.offhookTermHandle();
+      if (this._deps.evAuth.isFreshLogin || !this._deps.evAgentSession.isConfigTab) {
+        this.setOffhookTerm();
       }
     }
   }, {
@@ -168,20 +150,38 @@ var EvSettings = (_dec = (0, _di.Module)({
     value: function offHook() {
       this.setOffhooking(true);
 
-      if (this.state.isOffhook) {
+      if (this.isOffhook) {
         this.setIsManualOffhook(false);
 
-        this._modules.evClient.offhookTerm();
+        this._deps.evClient.offhookTerm();
       } else {
         this.setIsManualOffhook(true);
 
-        this._modules.evClient.offhookInit();
+        this._deps.evClient.offhookInit();
+      }
+    }
+  }, {
+    key: "_checkBeforeunload",
+    value: function _checkBeforeunload() {
+      if (this.isOffhook) {
+        this._deps.beforeunload.add(this._beforeunloadHandler);
+      } else {
+        this._deps.beforeunload.remove(this._beforeunloadHandler);
       }
     }
   }, {
     key: "loginType",
     get: function get() {
-      return this._modules.evSessionConfig.loginType;
+      return this._deps.evAgentSession.loginType;
+    }
+  }, {
+    key: "offhookState",
+    get: function get() {
+      if (this.isOffhooking) {
+        return this.isOffhook ? 'disconnecting' : 'connecting';
+      }
+
+      return this.isOffhook ? 'connected' : 'disconnected';
     }
   }]);
 
@@ -207,13 +207,6 @@ var EvSettings = (_dec = (0, _di.Module)({
   initializer: function initializer() {
     return false;
   }
-}), _descriptor4 = _applyDecoratedDescriptor(_class2.prototype, "config", [_core.storage, _core.state], {
-  configurable: true,
-  enumerable: true,
-  writable: true,
-  initializer: function initializer() {
-    return {};
-  }
-}), _applyDecoratedDescriptor(_class2.prototype, "setConfig", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setConfig"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setIsManualOffhook", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setIsManualOffhook"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setOffhook", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setOffhook"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setOffhooking", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setOffhooking"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "offhookInitHandle", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "offhookInitHandle"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "offhookTermHandle", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "offhookTermHandle"), _class2.prototype)), _class2)) || _class);
+}), _applyDecoratedDescriptor(_class2.prototype, "offhookState", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "offhookState"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setIsManualOffhook", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setIsManualOffhook"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setOffhook", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setOffhook"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setOffhooking", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setOffhooking"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setOffhookInit", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setOffhookInit"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setOffhookTerm", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setOffhookTerm"), _class2.prototype)), _class2)) || _class);
 exports.EvSettings = EvSettings;
 //# sourceMappingURL=EvSettings.js.map

@@ -1,6 +1,6 @@
-import { createEnum } from 'ringcentral-integration/lib/Enum';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 
-export const EvSoftphoneEvents = createEnum(
+export const EvSoftphoneEvents = ObjectMap.prefixKeys(
   [
     'REGISTERED',
     'NEW_CALL',

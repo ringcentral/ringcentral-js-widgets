@@ -6,9 +6,14 @@ import { CallLogFieldsProps } from 'ringcentral-widgets/components/CallLogFields
 import { CallLogPanelProps } from 'ringcentral-widgets/components/CallLogPanel';
 
 import i18n from '../i18n';
+import styles from './styles.scss';
+
+const rightIconRender = () => {
+  return <div className={styles.fillRight} />;
+};
 
 const _getReferenceFieldOptions = (
-  currentLocale,
+  currentLocale: string,
 ): CallLogFieldsProps['referenceFieldOptions'] => {
   const getNameLabel = (item: any = {}, length) => {
     const { id, name, type } = item;
@@ -79,6 +84,8 @@ const _getReferenceFieldOptions = (
       currentOptionFinder: (task) => (item) => item.id === task.whoid,
       matchedEntitiesGetter: ({ nameEntities }) => nameEntities,
       otherEntitiesGetter: ({ navigateToEntities: { name } }) => name,
+      rightIconRender,
+      backHeaderClassName: styles.backHeader,
     },
     whatid: {
       getLabel: getRelatedToLabel,
@@ -91,6 +98,8 @@ const _getReferenceFieldOptions = (
       currentOptionFinder: (task) => (item) => item.id === task.whatid,
       matchedEntitiesGetter: ({ relatedToEntities }) => relatedToEntities,
       otherEntitiesGetter: ({ navigateToEntities: { relatedTo } }) => relatedTo,
+      rightIconRender,
+      backHeaderClassName: styles.backHeader,
     },
   };
 };
@@ -114,6 +123,9 @@ export const EditLogSection: CallLogPanelProps['renderEditLogSection'] = ({
       currentLocale={currentLocale}
       startAdornmentRender={startAdornmentRender}
       editSectionScrollBy={editSectionScrollBy}
+      classes={{
+        root: styles.root,
+      }}
     />
   );
 };

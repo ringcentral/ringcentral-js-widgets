@@ -39,6 +39,8 @@ require("core-js/modules/es6.date.now");
 
 var _react = _interopRequireWildcard(require("react"));
 
+var _classnames = _interopRequireDefault(require("classnames"));
+
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
 var _WorkingStateButton = require("./WorkingStateButton");
@@ -71,7 +73,8 @@ var WorkingStateSelect = function WorkingStateSelect(_ref) {
       getTimerText = _ref.getTimerText,
       changeWorkingState = _ref.changeWorkingState,
       disabled = _ref.disabled,
-      isWide = _ref.isWide;
+      isWide = _ref.isWide,
+      hideOffHookBtn = _ref.hideOffHookBtn;
 
   var _useState = (0, _react.useState)(Date.now() - time),
       _useState2 = _slicedToArray(_useState, 2),
@@ -102,7 +105,10 @@ var WorkingStateSelect = function WorkingStateSelect(_ref) {
     color: stateColor,
     disabled: disabled,
     isWide: isWide,
-    timerText: getTimerText(intervalTime)
+    timerText: getTimerText(intervalTime),
+    classes: {
+      paper: (0, _classnames["default"])(_styles["default"].paper, hideOffHookBtn && _styles["default"].wider)
+    }
   }));
 };
 

@@ -7,8 +7,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.dropDownOptions = void 0;
 
-var _Enum = require("ringcentral-integration/lib/Enum");
+var _ObjectMap = require("@ringcentral-integration/core/lib/ObjectMap");
 
-var dropDownOptions = (0, _Enum.createEnum)(['None']);
+var dropDownOptions = _ObjectMap.ObjectMap.fromKeys(['None']);
+
 exports.dropDownOptions = dropDownOptions;
 //# sourceMappingURL=dropDownOptions.js.map

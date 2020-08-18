@@ -49,7 +49,7 @@ var _core = require("@ringcentral-integration/core");
 
 var _di = require("ringcentral-integration/lib/di");
 
-var _dec, _class, _class2, _descriptor, _descriptor2, _temp;
+var _dec, _dec2, _class, _class2, _descriptor, _descriptor2, _temp;
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -97,49 +97,25 @@ function _initializerWarningHelper(descriptor, context) { throw new Error('Decor
 
 var EvDialerUI = (_dec = (0, _di.Module)({
   name: 'EvDialerUI',
-  deps: ['EvCall', 'Locale', 'Storage', 'EvAuth', 'RouterInteraction', 'EvSettings', 'EvClient', 'EvCallMonitor', 'EvWorkingState', 'EvSessionConfig', 'Environment', {
+  deps: ['EvCall', 'Locale', 'Storage', 'EvAuth', 'RouterInteraction', 'EvSettings', 'EvClient', 'EvCallMonitor', 'EvWorkingState', 'EvAgentSession', 'EvIntegratedSoftphone', 'Environment', {
     dep: 'EvDialerUIOptions',
     optional: true
   }]
+}), _dec2 = (0, _core.computed)(function (that) {
+  return [that._deps.evCall.dialoutStatus, that._deps.evIntegratedSoftphone.connectingAlertId];
 }), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcUIModuleV) {
   _inherits(EvDialerUI, _RcUIModuleV);
 
   var _super = _createSuper(EvDialerUI);
 
-  function EvDialerUI(_ref) {
+  function EvDialerUI(deps) {
     var _this;
-
-    var evCall = _ref.evCall,
-        locale = _ref.locale,
-        storage = _ref.storage,
-        evAuth = _ref.evAuth,
-        routerInteraction = _ref.routerInteraction,
-        evSettings = _ref.evSettings,
-        evClient = _ref.evClient,
-        evCallMonitor = _ref.evCallMonitor,
-        evWorkingState = _ref.evWorkingState,
-        evSessionConfig = _ref.evSessionConfig,
-        _ref$enableCache = _ref.enableCache,
-        enableCache = _ref$enableCache === void 0 ? true : _ref$enableCache,
-        environment = _ref.environment;
 
     _classCallCheck(this, EvDialerUI);
 
     _this = _super.call(this, {
-      modules: {
-        evCall: evCall,
-        locale: locale,
-        storage: storage,
-        evAuth: evAuth,
-        routerInteraction: routerInteraction,
-        evSettings: evSettings,
-        evClient: evClient,
-        evCallMonitor: evCallMonitor,
-        evWorkingState: evWorkingState,
-        evSessionConfig: evSessionConfig,
-        environment: environment
-      },
-      enableCache: enableCache,
+      deps: deps,
+      enableCache: true,
       storageKey: 'EvDialerUI'
     });
 
@@ -153,33 +129,33 @@ var EvDialerUI = (_dec = (0, _di.Module)({
   _createClass(EvDialerUI, [{
     key: "setToNumber",
     value: function setToNumber(value) {
-      this.state.toNumber = value;
+      this.toNumber = value;
     }
   }, {
     key: "setLatestDialoutNumber",
     value: function setLatestDialoutNumber() {
-      this.state.latestDialoutNumber = this.toNumber;
+      this.latestDialoutNumber = this.toNumber;
     }
   }, {
     key: "checkOnCall",
     value: function checkOnCall() {
       // onCall or not yet disposed call, it should navigate to the `activityCallLog/:id` router.
-      var _this$_modules$evCall = _slicedToArray(this._modules.evCallMonitor.calls, 1),
-          call = _this$_modules$evCall[0];
+      var _this$_deps$evCallMon = _slicedToArray(this._deps.evCallMonitor.calls, 1),
+          call = _this$_deps$evCallMon[0];
 
-      var isPendingDisposition = this._modules.evWorkingState.isPendingDisposition;
+      var isPendingDisposition = this._deps.evWorkingState.isPendingDisposition;
       var id;
 
       if (isPendingDisposition) {
-        id = this._modules.evCallMonitor.callLogsIds[0];
+        id = this._deps.evCallMonitor.callLogsIds[0];
       }
 
       if (call) {
-        id = this._modules.evClient.encodeUii(call.session);
+        id = this._deps.evClient.encodeUii(call.session);
       }
 
-      if (id && (!this._modules.evSessionConfig.tabManagerEnabled || this._modules.evSessionConfig.isConfigSuccessByLocal)) {
-        this._modules.routerInteraction.push("/activityCallLog/".concat(id));
+      if (id && this._deps.evAgentSession.isConfigTab) {
+        this._deps.routerInteraction.push("/activityCallLog/".concat(id));
       }
     }
   }, {
@@ -187,10 +163,11 @@ var EvDialerUI = (_dec = (0, _di.Module)({
     value: function getUIProps() {
       return {
         toNumber: this.toNumber,
-        currentLocale: this._modules.locale.currentLocale,
-        size: this._modules.environment.isWide ? 'medium' : 'small',
-        dialoutStatus: this._modules.evCall.dialoutStatus,
-        hasDialer: this._modules.evAuth.agentPermissions.allowManualCalls
+        currentLocale: this._deps.locale.currentLocale,
+        size: this._deps.environment.isWide ? 'medium' : 'small',
+        dialoutStatus: this._deps.evCall.dialoutStatus,
+        hasDialer: this._deps.evAuth.agentPermissions.allowManualCalls,
+        dialButtonDisabled: this.dialButtonDisabled
       };
     }
   }, {
@@ -216,7 +193,7 @@ var EvDialerUI = (_dec = (0, _di.Module)({
                     _this2.setLatestDialoutNumber();
 
                     _context.next = 4;
-                    return _this2._modules.evCall.dialout(_this2.toNumber);
+                    return _this2._deps.evCall.dialout(_this2.toNumber);
 
                   case 4:
                     _context.next = 7;
@@ -240,17 +217,22 @@ var EvDialerUI = (_dec = (0, _di.Module)({
           return dialout;
         }(),
         goToManualDialSettings: function goToManualDialSettings() {
-          _this2._modules.routerInteraction.push('/manualDialSettings');
+          _this2._deps.routerInteraction.push('/manualDialSettings');
         },
         checkOnCall: function checkOnCall() {
           return _this2.checkOnCall();
         },
         hangup: function hangup() {
-          if (!_this2._modules.evSettings.isManualOffhook) {
-            _this2._modules.evClient.offhookTerm();
+          if (!_this2._deps.evSettings.isManualOffhook) {
+            _this2._deps.evClient.offhookTerm();
           }
         }
       };
+    }
+  }, {
+    key: "dialButtonDisabled",
+    get: function get() {
+      return this._deps.evCall.dialoutStatus === 'dialing' || !!this._deps.evIntegratedSoftphone.connectingAlertId;
     }
   }]);
 
@@ -269,6 +251,6 @@ var EvDialerUI = (_dec = (0, _di.Module)({
   initializer: function initializer() {
     return '';
   }
-}), _applyDecoratedDescriptor(_class2.prototype, "setToNumber", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setToNumber"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setLatestDialoutNumber", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setLatestDialoutNumber"), _class2.prototype)), _class2)) || _class);
+}), _applyDecoratedDescriptor(_class2.prototype, "setToNumber", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setToNumber"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setLatestDialoutNumber", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setLatestDialoutNumber"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "dialButtonDisabled", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "dialButtonDisabled"), _class2.prototype)), _class2)) || _class);
 exports.EvDialerUI = EvDialerUI;
 //# sourceMappingURL=EvDialerUI.js.map

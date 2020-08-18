@@ -7,8 +7,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.authStatus = void 0;
 
-var _Enum = require("ringcentral-integration/lib/Enum");
+var _ObjectMap = require("@ringcentral-integration/core/lib/ObjectMap");
 
-var authStatus = (0, _Enum.createEnum)(['LOGIN_SUCCESS', 'LOGOUT_BEFORE']);
+var authStatus = _ObjectMap.ObjectMap.prefixKeys(['LOGIN_SUCCESS', 'LOGOUT_BEFORE', 'LOGOUT_AFTER', 'BEFORE_LOGOUT_COMPLETE'], 'auth');
+
 exports.authStatus = authStatus;
 //# sourceMappingURL=authStatus.js.map

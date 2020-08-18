@@ -1,25 +1,34 @@
 import {
   RcButton,
   RcCheckbox,
-  RcList,
   RcListItem,
 } from '@ringcentral-integration/rcui';
 import formatMessage from 'format-message';
 import React, { FunctionComponent, useState } from 'react';
-import { SelectListBasic } from 'ringcentral-widgets/components/SelectListBasic';
 
 import {
   AvailableQueue,
-  EvInboundQueuesUIFunctions,
-  EvInboundQueuesUIProps,
+  EvAgentSessionUIFunctions,
+  EvAgentSessionUIProps,
 } from '../../interfaces';
+import { SelectList } from '../SelectList';
 import i18n from './i18n';
 import styles from './styles.scss';
 
-export type InboundQueuesProps = EvInboundQueuesUIProps &
-  EvInboundQueuesUIFunctions;
+export type InboundQueuesPanelProps = { goBack: () => void } & Pick<
+  EvAgentSessionUIFunctions & EvAgentSessionUIProps,
+  | 'searchOption'
+  | 'submitInboundQueues'
+  | 'getAssignedInboundQueues'
+  | 'isSeveralAssign'
+  | 'isAllAssign'
+  | 'checkBoxOnChange'
+  | 'allCheckBoxOnChange'
+  | 'currentLocale'
+  | 'inboundQueues'
+>;
 
-const InboundQueuesPanel: FunctionComponent<InboundQueuesProps> = ({
+const InboundQueuesPanel: FunctionComponent<InboundQueuesPanelProps> = ({
   searchOption,
   currentLocale,
   inboundQueues: inboundQueueSource,
@@ -43,59 +52,53 @@ const InboundQueuesPanel: FunctionComponent<InboundQueuesProps> = ({
     inboundQueuesState,
   );
 
-  const renderListView = (inboundQueues: AvailableQueue[]) =>
-    inboundQueues.length ? (
-      <RcList>
-        {inboundQueues.map(({ gateName, gateId, checked }, index) => {
-          return (
-            <RcListItem
-              key={index}
-              title={gateName}
-              button
-              singleLine
-              size="small"
-              onClick={(e) => {
-                e.preventDefault();
-                checkBoxOnChange(
-                  gateId,
-                  inboundQueuesState,
-                  setInboundQueuesState,
-                );
-              }}
-            >
-              <RcCheckbox
-                color="primary"
-                formControlLabelProps={{
-                  classes: {
-                    root: styles.checkbox,
-                    label: styles.label,
-                  },
-                }}
-                label={gateName}
-                checked={checked}
-              />
-            </RcListItem>
-          );
-        })}
-      </RcList>
-    ) : null;
+  const renderListView = ({
+    option,
+    index,
+  }: {
+    option: AvailableQueue;
+    index: number;
+  }) => {
+    const { gateName, gateId, checked } = option;
+    return (
+      <RcListItem
+        key={index}
+        title={gateName}
+        button
+        singleLine
+        size="small"
+        onClick={(e) => {
+          e.preventDefault();
+          checkBoxOnChange(gateId, inboundQueuesState, setInboundQueuesState);
+        }}
+      >
+        <RcCheckbox
+          color="primary"
+          formControlLabelProps={{
+            classes: {
+              root: styles.checkbox,
+              label: styles.label,
+            },
+          }}
+          label={gateName}
+          checked={checked}
+        />
+      </RcListItem>
+    );
+  };
 
   return (
-    <>
-      <SelectListBasic
+    <div className={styles.root}>
+      <SelectList
         title={i18n.getString('inboundQueues', currentLocale)}
         placeholder={i18n.getString('search', currentLocale)}
         options={inboundQueuesState}
         searchOption={searchOption}
         currentLocale={currentLocale}
-        renderListView={renderListView}
-        selectListBasicClassName={styles.selectListBasic}
-        backHeaderClassName={styles.backHeader}
-        listContainerClassName={styles.listContainer}
-        open
+        renderListItem={renderListView}
         onBackClick={goBack}
       />
-      <div className={styles.bottomBar}>
+      <div className={styles.footer}>
         <div className={styles.selected}>
           <RcCheckbox
             color="primary"
@@ -120,14 +123,14 @@ const InboundQueuesPanel: FunctionComponent<InboundQueuesProps> = ({
         </div>
         <RcButton
           data-sign="update"
-          onClick={() => submitInboundQueues(assignedInboundQueues)}
+          onClick={() => submitInboundQueues(assignedInboundQueues, goBack)}
           size="medium"
           fullWidth
         >
           {i18n.getString('update', currentLocale)}
         </RcButton>
       </div>
-    </>
+    </div>
   );
 };
 

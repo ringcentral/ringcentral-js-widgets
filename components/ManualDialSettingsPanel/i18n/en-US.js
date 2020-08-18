@@ -10,7 +10,7 @@ var _default = {
   manualDialSettings: 'Manual dial settings',
   queueID: 'Queue ID',
   save: 'Save',
-  second: 'Second'
+  second: 'Seconds'
 };
 exports["default"] = _default;
 //# sourceMappingURL=en-US.js.map

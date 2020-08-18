@@ -49,13 +49,16 @@ function setup() {
       _ref$hangup = _ref.hangup,
       hangup = _ref$hangup === void 0 ? function () {} : _ref$hangup,
       _ref$checkOnCall = _ref.checkOnCall,
-      checkOnCall = _ref$checkOnCall === void 0 ? function () {} : _ref$checkOnCall;
+      checkOnCall = _ref$checkOnCall === void 0 ? function () {} : _ref$checkOnCall,
+      _ref$dialButtonDisabl = _ref.dialButtonDisabled,
+      dialButtonDisabled = _ref$dialButtonDisabl === void 0 ? false : _ref$dialButtonDisabl;
 
   return (0, _enzyme.mount)( /*#__PURE__*/_react["default"].createElement(_rcui.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_DialerPanel.DialerPanel, {
     currentLocale: currentLocale,
     dialout: dialout,
     toNumber: toNumber,
     size: size,
+    dialButtonDisabled: dialButtonDisabled,
     hasDialer: hasDialer,
     setToNumber: setToNumber,
     goToManualDialSettings: goToManualDialSettings,
@@ -118,7 +121,6 @@ describe('<DialerPanel />', /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regener
               expect(recipientsInput.prop('value')).toBe(toNumber);
               expect(callButton.prop('color').join(',')).toBe(['semantic', 'positive'].join(','));
               expect(callButton.prop('data-icon')).toBe('answer');
-              expect(callButton.prop('disabled')).toBe(false);
               callButton.simulate('click');
               expect(dialout).toBeCalled();
             });
@@ -151,6 +153,20 @@ describe('<DialerPanel />', /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regener
               }
             }, _callee2);
           })));
+          it('dialButtonDisabled can set dial button disable attribute', function () {
+            var getDialButtonDisabled = function getDialButtonDisabled() {
+              return getCallButton().render().attr('disabled');
+            };
+
+            wrapper = setup({
+              dialButtonDisabled: true
+            });
+            expect(getDialButtonDisabled()).toBe('disabled');
+            wrapper = setup({
+              dialButtonDisabled: false
+            });
+            expect(getDialButtonDisabled()).toBe(undefined);
+          });
           it('Click Delete Button', /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
             var toNumber, setToNumber, deleteButton;
             return regeneratorRuntime.wrap(function _callee3$(_context3) {
@@ -256,12 +272,11 @@ describe('<DialerPanel />', /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regener
                       dialoutStatus: dialoutStatus
                     });
                     callButton = getCallButton();
-                    expect(callButton.prop('disabled')).toBe(true);
                     expect(callButton.prop('data-icon')).toBe('hand-up');
                     callButton.simulate('click');
                     expect(dialout).not.toBeCalled();
 
-                  case 9:
+                  case 8:
                   case "end":
                     return _context7.stop();
                 }
@@ -285,13 +300,12 @@ describe('<DialerPanel />', /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regener
                       dialoutStatus: dialoutStatus
                     });
                     callButton = getCallButton();
-                    expect(callButton.prop('disabled')).toBe(false);
                     expect(callButton.prop('data-icon')).toBe('hand-up');
                     callButton.simulate('click');
                     expect(dialout).not.toBeCalled();
                     expect(hangup).toBeCalled();
 
-                  case 11:
+                  case 10:
                   case "end":
                     return _context8.stop();
                 }
@@ -358,7 +372,7 @@ describe('<DialerPanel />', /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regener
             }, _callee10);
           })));
 
-        case 10:
+        case 11:
         case "end":
           return _context11.stop();
       }

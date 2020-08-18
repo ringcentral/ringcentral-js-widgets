@@ -1,5 +1,4 @@
 import React, { FunctionComponent } from 'react';
-import BackHeader from 'ringcentral-widgets/components/BackHeaderV2';
 import classNames from 'classnames';
 
 import {
@@ -9,67 +8,127 @@ import {
 import {
   HandUpButton,
   HoldCallButton,
+  MuteCallButton,
 } from '../SmallCallControl';
 import i18n from './i18n';
 import styles from './styles.scss';
+import { formatPhoneNumber } from '../../lib/FormatPhoneNumber';
+import { BackHeader } from '../SelectList';
 
 export type ActiveCallListPanelProps = EvActiveCallListUIProps &
   EvActiveCallListUIFunctions;
 
 const ActiveCallListPanel: FunctionComponent<ActiveCallListPanelProps> = ({
   currentLocale,
-  goBack,
+  isOnMute,
+  showMuteButton,
   callList,
+  goBack,
   onHangup,
   onUnHold,
   onHold,
+  onMute,
+  onUnmute,
+  userName,
+  isInbound,
 }) => {
-  return (
-    <>
-      <BackHeader
-        currentLocale={currentLocale}
-        title={i18n.getString('activeCall', currentLocale)}
-        onBackClick={goBack}
-        className={styles.backHeader}
-      />
-      <div className={styles.list} data-sign="callList">
-        {callList.map((callItem, key) => {
-          const index = key > 1 ? 2 : key;
-          const infos = [
-            <span className={styles.emphasisCallInfo}>
-              {i18n.getString('everyone', currentLocale)}
-            </span>,
-            <span
-              className={classNames(styles.emphasisCallInfo, styles.children)}
-            >
-              {i18n.getString('justMe', currentLocale)}
-            </span>,
-            <div className={classNames(styles.otherCallInfo, styles.children)}>
-              <span className={styles.name}>
-                {callItem.session.transferSessions?.[callItem.session.sessionId]
-                  ?.destination ?? null}
-              </span>
-              {/* TODO: add phoneFormat in ev native render logic */}
-              <span className={styles.phoneNumber} />
-            </div>,
-          ];
+  const callListRender = () => {
+    if (callList.length < 2) return null;
+    const [everyoneCaller, ownCall, ...transferCalls] = callList;
+    return (
+      <>
+        <div className={styles.item} data-sign="callItem">
+          <span className={styles.emphasisCallInfo}>
+            {i18n.getString('everyone', currentLocale)}
+          </span>
+          <div className={styles.controlButtons}>
+            <HandUpButton
+              currentLocale={currentLocale}
+              onHangup={() => onHangup(everyoneCaller)}
+              className={styles.button}
+              size="small"
+            />
+          </div>
+        </div>
+        <div className={styles.item} data-sign="callItem">
+          <span className={classNames(styles.otherCallInfo, styles.children)}>
+            {formatPhoneNumber({
+              phoneNumber: everyoneCaller.session.phone,
+              currentLocale,
+            })}
+            {`(${i18n.getString(
+              isInbound ? 'caller' : 'callee',
+              currentLocale,
+            )})`}
+          </span>
+          <div className={styles.controlButtons}>
+            <HoldCallButton
+              currentLocale={currentLocale}
+              isOnHold={everyoneCaller.isHold}
+              onUnHold={() => onUnHold(everyoneCaller)}
+              onHold={() => onHold(everyoneCaller)}
+              className={styles.button}
+              size="small"
+            />
+            <HandUpButton
+              currentLocale={currentLocale}
+              onHangup={() => onHangup(everyoneCaller)}
+              className={styles.button}
+              size="small"
+            />
+          </div>
+        </div>
+        <div className={styles.item} data-sign="callItem">
+          <span
+            className={classNames(styles.emphasisCallInfo, styles.children)}
+          >
+            {`${ownCall.agentName || userName || ''}(${i18n.getString(
+              'me',
+              currentLocale,
+            )})`}
+          </span>
+          <div className={styles.controlButtons}>
+            {showMuteButton && (
+              <MuteCallButton
+                isOnMute={isOnMute}
+                onMute={onMute}
+                onUnmute={onUnmute}
+                currentLocale={currentLocale}
+                className={styles.button}
+                size="small"
+              />
+            )}
+            <HandUpButton
+              currentLocale={currentLocale}
+              onHangup={() => onHangup(ownCall)}
+              className={styles.button}
+              size="small"
+            />
+          </div>
+        </div>
+        {transferCalls.map((callItem, key) => {
+          const destination =
+            callItem.session.transferSessions?.[callItem.session.sessionId]
+              ?.destination;
           return (
             <div className={styles.item} data-sign="callItem" key={key}>
-              <div className={styles.info}>{infos[index]}</div>
+              <span
+                className={classNames(styles.otherCallInfo, styles.children)}
+              >
+                {formatPhoneNumber({
+                  phoneNumber: destination,
+                  currentLocale,
+                })}
+              </span>
               <div className={styles.controlButtons}>
-                <div className={classNames(styles.button, styles.hide)} />
-                {key > 0 ? (
-                  <HoldCallButton
-                    currentLocale={currentLocale}
-                    isOnHold={callItem.isHold}
-                    onUnHold={() => onUnHold(callItem)}
-                    onHold={() => onHold(callItem)}
-                    className={styles.button}
-                    size="small"
-                  />
-                ) : (
-                  <div className={classNames(styles.button, styles.hide)} />
-                )}
+                <HoldCallButton
+                  currentLocale={currentLocale}
+                  isOnHold={callItem.isHold}
+                  onUnHold={() => onUnHold(callItem)}
+                  onHold={() => onHold(callItem)}
+                  className={styles.button}
+                  size="small"
+                />
                 <HandUpButton
                   currentLocale={currentLocale}
                   onHangup={() => onHangup(callItem)}
@@ -80,6 +139,19 @@ const ActiveCallListPanel: FunctionComponent<ActiveCallListPanelProps> = ({
             </div>
           );
         })}
+      </>
+    );
+  };
+
+  return (
+    <>
+      <BackHeader
+        currentLocale={currentLocale}
+        title={i18n.getString('activeCall', currentLocale)}
+        onBackClick={goBack}
+      />
+      <div className={styles.list} data-sign="callList">
+        {callListRender()}
       </div>
     </>
   );

@@ -1,76 +1,68 @@
-import { RcModuleV2, createSelector } from '@ringcentral-integration/core';
+import { computed, RcModuleV2 } from '@ringcentral-integration/core';
+import { EventEmitter } from 'events';
 import { Module } from 'ringcentral-integration/lib/di';
 import { Mapping } from 'ringcentral-widgets/typings';
+
+import { callStatus } from '../../enums';
 import { EvCallData } from '../../interfaces/EvData.interface';
 import { makeCallsUniqueIdentifies } from '../../lib/callUniqueIdentifies';
 import { contactMatchIdentifyEncode } from '../../lib/contactMatchIdentify';
 import { EvAddSessionNotification } from '../../lib/EvClient/interfaces';
-import { CallMonitor, DepsModules } from './EvCallMonitor.interface';
+import { CallMonitor, Deps } from './EvCallMonitor.interface';
 
 @Module({
   name: 'EvCallMonitor',
   deps: [
     'Presence',
     'EvClient',
-    'EvSessionConfig',
+    'Beforeunload',
+    'EvAgentSession',
+    'EvIntegratedSoftphone',
     { dep: 'ContactMatcher', optional: true },
     { dep: 'ActivityMatcher', optional: true },
   ],
 })
-class EvCallMonitor extends RcModuleV2<DepsModules> implements CallMonitor {
-  private _oldCalls: EvCallData[];
+class EvCallMonitor extends RcModuleV2<Deps> implements CallMonitor {
+  handleActivityMatch: () => void;
 
-  private _onCallEndedHooks: Set<() => void>;
+  private _eventEmitter = new EventEmitter();
+  private _oldCalls: EvCallData[] = [];
 
-  private _onCallRingHooks: Set<() => void>;
+  private _beforeunloadHandler = () =>
+    this._deps.evAgentSession.shouldBlockBrowser;
 
-  public handleActivityMatch: () => void;
-
-  constructor({
-    presence,
-    evClient,
-    evSessionConfig,
-    contactMatcher,
-    activityMatcher,
-  }) {
+  constructor(deps: Deps) {
     super({
-      modules: {
-        presence,
-        evClient,
-        evSessionConfig,
-        contactMatcher,
-        activityMatcher,
-      },
+      deps,
     });
-    this._oldCalls = [];
-    this._onCallRingHooks = new Set();
-    this._onCallEndedHooks = new Set();
-    if (this._modules.contactMatcher) {
-      this._modules.contactMatcher.addQuerySource({
-        getQueriesFn: () => this.getUniqueIdentifies(),
-        readyCheckFn: () => this._modules.presence.ready,
-      });
-      this.addCallRingHook(async () => {
-        const call = this.getCallsMapping()[this.callIds[0]];
-        const contactMatchIdentify = contactMatchIdentifyEncode({
-          phoneNumber: call.ani,
-          callType: call.callType.toLowerCase(),
+
+    this.onCallRing(async ({ ani, callType }) => {
+      this._deps.beforeunload.add(this._beforeunloadHandler);
+
+      if (this._deps.contactMatcher) {
+        this._deps.contactMatcher.addQuerySource({
+          getQueriesFn: () => this.uniqueIdentifies,
+          readyCheckFn: () => this._deps.presence.ready,
         });
-        await this._modules.contactMatcher.forceMatchNumber({
+        const contactMatchIdentify = contactMatchIdentifyEncode({
+          phoneNumber: ani,
+          callType,
+        });
+        await this._deps.contactMatcher.forceMatchNumber({
           phoneNumber: contactMatchIdentify,
         });
         if (this.handleActivityMatch) {
           this.handleActivityMatch();
         }
-      });
-    }
+      }
+    }).onCallEnded(() => {
+      this._deps.beforeunload.remove(this._beforeunloadHandler);
+    });
 
-    if (this._modules.activityMatcher) {
-      this._modules.activityMatcher.addQuerySource({
-        getQueriesFn: () => this.callIds,
-        readyCheckFn: () => this._modules.presence.ready,
-      });
-    }
+    this._deps.activityMatcher?.addQuerySource({
+      getQueriesFn: () => this.callIds,
+      readyCheckFn: () => this._deps.presence.ready,
+    });
   }
 
   get isOnCall() {
@@ -78,50 +70,54 @@ class EvCallMonitor extends RcModuleV2<DepsModules> implements CallMonitor {
   }
 
   get calls() {
-    return this._modules.presence.getCalls() || [];
+    return this._deps.presence.calls || [];
   }
 
   get otherCalls() {
-    return this._modules.presence.getOtherCalls() || [];
+    return this._deps.presence.otherCalls || [];
   }
 
   get callLogs() {
-    return this._modules.presence.getCallLogs() || [];
+    return this._deps.presence.callLogs || [];
   }
 
   get callIds() {
-    return this._modules.presence.callIds || [];
+    return this._deps.presence.callIds || [];
   }
 
   get otherCallIds() {
-    return this._modules.presence.otherCallIds || [];
+    return this._deps.presence.otherCallIds || [];
   }
 
   get callLogsIds() {
-    return this._modules.presence.callLogsIds || [];
+    return this._deps.presence.callLogsIds || [];
   }
 
   get callsDataMapping() {
-    return this._modules.presence.callsMapping || {};
+    return this._deps.presence.callsMapping || {};
   }
 
   get contactMatches(): Mapping<any[]> {
-    return (this._modules.contactMatcher.dataMapping as any) || {};
+    return (this._deps.contactMatcher.dataMapping as any) || {};
   }
 
   get activityMatches() {
-    return this._modules.activityMatcher.dataMapping || {};
+    return this._deps.activityMatcher.dataMapping || {};
   }
 
-  getCallsMapping = createSelector(
-    () => this.callsDataMapping,
-    () => this.contactMatches,
-    () => this.activityMatches,
-    (callsDataMapping, contactMatches, activityMatches) => {
-      return Object.entries(callsDataMapping).reduce((mapping, [key, call]) => {
+  @computed((that: EvCallMonitor) => [
+    that.callsDataMapping,
+    that.contactMatches,
+    that.activityMatches,
+  ])
+  get callsMapping() {
+    const { callsDataMapping, contactMatches, activityMatches } = this;
+
+    return Object.entries(callsDataMapping).reduce<Mapping<EvCallData>>(
+      (mapping, [key, call]) => {
         const contactMatchIdentify = contactMatchIdentifyEncode({
           phoneNumber: call.ani,
-          callType: call.callType.toLowerCase(),
+          callType: call.callType,
         });
         const id = call.session ? this.getCallId(call.session) : null;
         const { agentFirstName, agentLastName } = call.baggage || {};
@@ -140,29 +136,45 @@ class EvCallMonitor extends RcModuleV2<DepsModules> implements CallMonitor {
               id && activityMatches[id] ? activityMatches[id] : [],
           } as EvCallData,
         };
-      }, {});
-    },
-  );
+      },
+      {},
+    );
+  }
 
-  getUniqueIdentifies = createSelector(
-    () => this.calls,
-    (calls) => makeCallsUniqueIdentifies(calls),
-  );
+  @computed((that: EvCallMonitor) => [that.calls])
+  get uniqueIdentifies() {
+    return makeCallsUniqueIdentifies(this.calls);
+  }
+
+  getMainCall(uii: string) {
+    const id = this._deps.evClient.getMainId(uii);
+    return this._deps.presence.callsMapping[id];
+  }
 
   onStateChange() {
-    if (this.calls.length > this._oldCalls.length) {
-      this._oldCalls = this.calls;
-      if (this.calls.length > 0 && this.calls[0]) {
-        this.onCallRing();
+    if (this._deps.evAgentSession.configSuccess) {
+      if (this.calls.length > this._oldCalls.length) {
+        const currentCall = this.calls[0];
+        const mainCall = this.getMainCall(currentCall.uii);
+
+        if (currentCall && mainCall) {
+          this._oldCalls = this.calls;
+
+          this._eventEmitter.emit(callStatus.RINGING, currentCall);
+        } else {
+          this._deps.presence.clearCalls();
+        }
+      } else if (this.calls.length < this._oldCalls.length) {
+        const call = this._oldCalls[0];
+        this._oldCalls = this.calls;
+
+        this._eventEmitter.emit(callStatus.ENDED, call);
       }
-    } else if (this.calls.length < this._oldCalls.length) {
-      this._oldCalls = this.calls;
-      this.onCallEnded();
     }
   }
 
   getCallId({ uii, sessionId }: Partial<EvAddSessionNotification>) {
-    return this._modules.evClient.encodeUii({ uii, sessionId });
+    return this._deps.evClient.encodeUii({ uii, sessionId });
   }
 
   getActiveCallList(
@@ -171,8 +183,8 @@ class EvCallMonitor extends RcModuleV2<DepsModules> implements CallMonitor {
     callsMapping: Mapping<EvCallData>,
     id: string,
   ) {
-    const uii = this._modules.evClient.decodeUii(id);
-    const mainUii = this._modules.evClient.getMainId(uii);
+    const uii = this._deps.evClient.decodeUii(id);
+    const mainUii = this._deps.evClient.getMainId(uii);
     if (!otherCallIds.includes(mainUii) || !callIds.includes(id)) return [];
     const currentOtherCallIds = otherCallIds.filter(
       (id) => id.includes(uii) && id !== mainUii,
@@ -184,52 +196,24 @@ class EvCallMonitor extends RcModuleV2<DepsModules> implements CallMonitor {
   updateActivityMatches({ forceMatch = false } = {}) {
     // it's async function
     // TODO: fix type in DataMatcher
-    return this._modules.activityMatcher.match({
-      queries: this._modules.activityMatcher._getQueries(),
+    return this._deps.activityMatcher.match({
+      queries: this._deps.activityMatcher._getQueries(),
       ignoreCache: forceMatch,
     });
   }
 
-  private beforeunloadHandler = (event: BeforeUnloadEvent) => {
-    if (this._modules.evSessionConfig.hasMultipleTabs) {
-      // Guarantee the browser unload by removing the returnValue property of the event
-      delete event.returnValue;
-    } else {
-      event.preventDefault();
-      event.returnValue = '';
-    }
-  };
-
-  private async onCallRing() {
-    window.addEventListener('beforeunload', this.beforeunloadHandler);
-    for (const hook of this._onCallRingHooks) {
-      await hook();
-    }
-  }
-
-  private async onCallEnded() {
-    window.removeEventListener('beforeunload', this.beforeunloadHandler);
-    for (const hook of this._onCallEndedHooks) {
-      await hook();
-    }
-  }
-
-  public addCallRingHook(callback: () => any) {
-    this._onCallRingHooks.add(callback);
+  onCallRing(callback: (currentCall?: EvCallData) => any) {
+    this._eventEmitter.on(callStatus.RINGING, (currentCall) =>
+      callback(currentCall),
+    );
     return this;
   }
 
-  public removeCallRingHook(callback: () => any) {
-    this._onCallRingHooks.delete(callback);
-  }
-
-  public addCallEndedHook(callback: () => any) {
-    this._onCallEndedHooks.add(callback);
+  onCallEnded(callback: (currentCall?: EvCallData) => any) {
+    this._eventEmitter.on(callStatus.ENDED, (currentCall) =>
+      callback(currentCall),
+    );
     return this;
-  }
-
-  public removeCallEndedHook(callback: () => any) {
-    this._onCallEndedHooks.delete(callback);
   }
 }
 

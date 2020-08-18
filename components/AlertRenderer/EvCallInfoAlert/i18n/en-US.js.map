@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/AlertRenderer/EvCallInfoAlert/i18n/en-US.ts"],"names":["messageTypes","COPY_UII_SUCCESS"],"mappings":";;;;;;;;;AAAA;;;;mCAGGA,2BAAaC,gB,EAAmB,gB","sourcesContent":["import { messageTypes } from '../../../../enums/messageTypes';\n\nexport default {\n  [messageTypes.COPY_UII_SUCCESS]: 'Call ID copied',\n};\n"],"file":"en-US.js"}

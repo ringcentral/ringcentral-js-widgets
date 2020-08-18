@@ -29,12 +29,12 @@ var currentLocale = 'en-US';
 var defaultTransferOptions = [{
   type: _transferTypes.transferTypes.phoneBook,
   label: _i18n["default"].getString(_transferTypes.transferTypes.phoneBook, currentLocale),
-  router: "/activityCallLog/123456789/transferCall/phoneBook",
   textFields: [{
     label: _i18n["default"].getString('callRecipientName', currentLocale),
     placeholder: _i18n["default"].getString('callRecipientNamePlaceholder', currentLocale),
     value: '',
-    disabled: false
+    disabled: false,
+    router: "/activityCallLog/123456789/transferCall/phoneBook"
   }, {
     label: _i18n["default"].getString('callRecipientNumber', currentLocale),
     placeholder: _i18n["default"].getString('callRecipientNumberPlaceholder', currentLocale),
@@ -44,20 +44,20 @@ var defaultTransferOptions = [{
 }, {
   type: _transferTypes.transferTypes.manualEntry,
   label: _i18n["default"].getString(_transferTypes.transferTypes.manualEntry, currentLocale),
-  router: "/activityCallLog/123456789/transferCall/manualEntry",
   textFields: [{
     label: _i18n["default"].getString('phoneNumber', currentLocale),
     placeholder: _i18n["default"].getString('enterThePhoneNumberPlaceholder', currentLocale),
+    router: "/activityCallLog/123456789/transferCall/manualEntry",
     value: '',
     disabled: false
   }]
 }, {
   type: _transferTypes.transferTypes.internal,
   label: _i18n["default"].getString(_transferTypes.transferTypes.internal, currentLocale),
-  router: "/activityCallLog/123456789/transferCall/internal",
   textFields: [{
     label: _i18n["default"].getString('callRecipientName', currentLocale),
     placeholder: _i18n["default"].getString('callRecipientNamePlaceholder', currentLocale),
+    router: "/activityCallLog/123456789/transferCall/internal",
     value: '',
     disabled: false
   }]
@@ -188,14 +188,16 @@ exports.UTUserClickCallRecipientCases = UTUserClickCallRecipientCases;
 
 var UTUserClickCallRecipient = function UTUserClickCallRecipient(_ref4) {
   var selectedTransferType = _ref4.selectedTransferType;
-  var clickCallRecipient = jest.fn(function () {});
+  var clickCallRecipient = jest.fn();
+  var textFields = defaultTextFields;
+  var selectIndex = 0;
   var wrapper = setup({
     clickCallRecipient: clickCallRecipient,
-    selectedTransferType: selectedTransferType
+    textFields: textFields
   });
-  var callRecipient = wrapper.find('RcTextField[data-sign="callRecipient0"]');
+  var callRecipient = wrapper.find("RcTextField[data-sign=\"callRecipient".concat(selectIndex, "\"]"));
   callRecipient.find('input').at(0).simulate('click');
-  expect(clickCallRecipient).toBeCalledWith(selectedTransferType);
+  expect(clickCallRecipient).toBeCalledWith(defaultTextFields[selectIndex].router);
 };
 
 exports.UTUserClickCallRecipient = UTUserClickCallRecipient;

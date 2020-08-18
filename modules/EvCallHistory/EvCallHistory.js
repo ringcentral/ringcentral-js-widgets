@@ -11,19 +11,9 @@ require("core-js/modules/es6.object.define-properties");
 
 require("core-js/modules/es7.object.get-own-property-descriptors");
 
-require("core-js/modules/es6.array.for-each");
-
 require("core-js/modules/es6.array.filter");
 
 require("core-js/modules/es6.symbol");
-
-require("core-js/modules/web.dom.iterable");
-
-require("core-js/modules/es6.array.iterator");
-
-require("core-js/modules/es6.object.keys");
-
-require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.object.create");
 
@@ -31,11 +21,23 @@ require("core-js/modules/es6.regexp.to-string");
 
 require("core-js/modules/es6.date.to-string");
 
-require("core-js/modules/es6.object.to-string");
-
 require("core-js/modules/es6.reflect.construct");
 
 require("core-js/modules/es6.object.set-prototype-of");
+
+require("core-js/modules/es6.object.define-property");
+
+require("core-js/modules/es6.array.reduce");
+
+require("core-js/modules/web.dom.iterable");
+
+require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.object.to-string");
+
+require("core-js/modules/es6.object.keys");
+
+require("core-js/modules/es6.array.for-each");
 
 require("core-js/modules/es6.array.map");
 
@@ -51,7 +53,7 @@ var _contactMatchIdentify = require("../../lib/contactMatchIdentify");
 
 var _callbackTypes = require("../../lib/EvClient/enums/callbackTypes");
 
-var _dec, _class, _temp;
+var _dec, _dec2, _dec3, _dec4, _class, _class2;
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -81,6 +83,8 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
+
 var EvCallHistory = (_dec = (0, _di.Module)({
   name: 'EvCallHistory',
   deps: ['EvCallMonitor', 'EvSubscription', {
@@ -90,91 +94,51 @@ var EvCallHistory = (_dec = (0, _di.Module)({
     dep: 'ActivityMatcher',
     optional: true
   }]
-}), _dec(_class = (_temp = /*#__PURE__*/function (_RcModuleV) {
+}), _dec2 = (0, _core.computed)(function (that) {
+  return [that.rawCalls, that.contactMatches, that.activityMatches];
+}), _dec3 = (0, _core.computed)(function (that) {
+  return [that.calls];
+}), _dec4 = (0, _core.computed)(function (that) {
+  return [that.rawCalls];
+}), _dec(_class = (_class2 = /*#__PURE__*/function (_RcModuleV) {
   _inherits(EvCallHistory, _RcModuleV);
 
   var _super = _createSuper(EvCallHistory);
 
-  function EvCallHistory(_ref) {
-    var _this;
+  function EvCallHistory(deps) {
+    var _this$_deps$contactMa, _this$_deps$activityM;
 
-    var evCallMonitor = _ref.evCallMonitor,
-        evSubscription = _ref.evSubscription,
-        contactMatcher = _ref.contactMatcher,
-        activityMatcher = _ref.activityMatcher;
+    var _this;
 
     _classCallCheck(this, EvCallHistory);
 
     _this = _super.call(this, {
-      modules: {
-        evCallMonitor: evCallMonitor,
-        evSubscription: evSubscription,
-        contactMatcher: contactMatcher,
-        activityMatcher: activityMatcher
+      deps: deps
+    });
+    (_this$_deps$contactMa = _this._deps.contactMatcher) === null || _this$_deps$contactMa === void 0 ? void 0 : _this$_deps$contactMa.addQuerySource({
+      getQueriesFn: function getQueriesFn() {
+        return _this.uniqueIdentifies;
+      },
+      readyCheckFn: function readyCheckFn() {
+        return _this._deps.evCallMonitor.ready;
       }
     });
-    _this.getCalls = (0, _core.createSelector)(function () {
-      return _this.rawCalls;
-    }, function () {
-      return _this.contactMatches;
-    }, function () {
-      return _this.activityMatches;
-    }, function (calls, contactMatches, activityMatches) {
-      return calls.map(function (call) {
-        var contactMatchIdentify = (0, _contactMatchIdentify.contactMatchIdentifyEncode)({
-          phoneNumber: call.ani,
-          callType: call.callType.toLowerCase()
-        });
-
-        var id = _this._modules.evCallMonitor.getCallId(call.session);
-
-        return _objectSpread(_objectSpread({}, call), {}, {
-          // TODO confirm about using `toMatches` & `fromMatches`?
-          contactMatches: contactMatches[contactMatchIdentify] || [],
-          activityMatches: activityMatches[id] || []
-        });
-      });
+    (_this$_deps$activityM = _this._deps.activityMatcher) === null || _this$_deps$activityM === void 0 ? void 0 : _this$_deps$activityM.addQuerySource({
+      getQueriesFn: function getQueriesFn() {
+        return _this.callLogsIds;
+      },
+      readyCheckFn: function readyCheckFn() {
+        return _this._deps.evCallMonitor.ready;
+      }
     });
-    _this.getLastEndedCall = (0, _core.createSelector)(function () {
-      return _this.getCalls();
-    }, function (calls) {
-      return calls.length > 0 ? calls[0] : null;
-    });
-    _this.getUniqueIdentifies = (0, _core.createSelector)(function () {
-      return _this.rawCalls;
-    }, function (calls) {
-      return (0, _callUniqueIdentifies.makeCallsUniqueIdentifies)(calls);
-    });
-
-    if (_this._modules.contactMatcher) {
-      _this._modules.contactMatcher.addQuerySource({
-        getQueriesFn: function getQueriesFn() {
-          return _this.getUniqueIdentifies();
-        },
-        readyCheckFn: function readyCheckFn() {
-          return _this._modules.evCallMonitor.ready;
-        }
-      });
-    }
-
-    if (_this._modules.activityMatcher) {
-      _this._modules.activityMatcher.addQuerySource({
-        getQueriesFn: function getQueriesFn() {
-          return _this.callLogsIds;
-        },
-        readyCheckFn: function readyCheckFn() {
-          return _this._modules.evCallMonitor.ready;
-        }
-      });
-    }
-
     return _this;
-  }
+  } // TODO: dataMapping type
+
 
   _createClass(EvCallHistory, [{
     key: "onInitOnce",
     value: function onInitOnce() {
-      this._modules.evSubscription.subscribe(_callbackTypes.EvCallbackTypes.DIRECT_AGENT_TRANSFER_NOTIF, function (data) {
+      this._deps.evSubscription.subscribe(_callbackTypes.EvCallbackTypes.DIRECT_AGENT_TRANSFER_NOTIF, function (data) {
         if (data.status === _directTransferNotificationTypes.directTransferNotificationTypes.VOICEMAIL) {// TODO add `data` for list and alert message about 'Direct Transfer: data.ani, Click to view call detail.'
         }
       });
@@ -182,31 +146,61 @@ var EvCallHistory = (_dec = (0, _di.Module)({
   }, {
     key: "contactMatches",
     get: function get() {
-      return this._modules.contactMatcher.dataMapping || {};
+      return this._deps.contactMatcher.dataMapping || {};
     }
   }, {
     key: "activityMatches",
     get: function get() {
-      return this._modules.activityMatcher.dataMapping || {};
+      return this._deps.activityMatcher.dataMapping || {};
     }
   }, {
     key: "rawCalls",
     get: function get() {
-      return this._modules.evCallMonitor.callLogs;
+      return this._deps.evCallMonitor.callLogs;
     }
   }, {
     key: "callLogsIds",
     get: function get() {
-      return this._modules.evCallMonitor.callLogsIds;
+      return this._deps.evCallMonitor.callLogsIds;
     }
   }, {
     key: "callsMapping",
     get: function get() {
-      return this._modules.evCallMonitor.getCallsMapping();
+      return this._deps.evCallMonitor.callsMapping;
+    }
+  }, {
+    key: "calls",
+    get: function get() {
+      var _this2 = this;
+
+      return this.rawCalls.map(function (call) {
+        var contactMatchIdentify = (0, _contactMatchIdentify.contactMatchIdentifyEncode)({
+          phoneNumber: call.ani,
+          callType: call.callType
+        });
+
+        var id = _this2._deps.evCallMonitor.getCallId(call.session);
+
+        return _objectSpread(_objectSpread({}, call), {}, {
+          // TODO confirm about using `toMatches` & `fromMatches`?
+          contactMatches: _this2.contactMatches[contactMatchIdentify] || [],
+          activityMatches: _this2.activityMatches[id] || []
+        });
+      });
+    }
+  }, {
+    key: "lastEndedCall",
+    get: function get() {
+      return this.calls.length > 0 ? this.calls[0] : null;
+    }
+  }, {
+    key: "uniqueIdentifies",
+    get: function get() {
+      return (0, _callUniqueIdentifies.makeCallsUniqueIdentifies)(this.rawCalls);
     }
   }]);
 
   return EvCallHistory;
-}(_core.RcModuleV2), _temp)) || _class);
+}(_core.RcModuleV2), (_applyDecoratedDescriptor(_class2.prototype, "calls", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "calls"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "lastEndedCall", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "lastEndedCall"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "uniqueIdentifies", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "uniqueIdentifies"), _class2.prototype)), _class2)) || _class);
 exports.EvCallHistory = EvCallHistory;
 //# sourceMappingURL=EvCallHistory.js.map

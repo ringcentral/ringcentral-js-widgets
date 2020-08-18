@@ -52,16 +52,13 @@ const getDetailItems = () =>
   wrapper
     .find('RcList')
     .at(0)
-    .find('ListItemWithScrollCheck');
+    .find('RcListItem');
+
 const getSubmitButton = () =>
   wrapper
     .find('RcButton[data-sign="select-group-item"]')
     .at(0)
     .find('button');
-
-afterEach(async () => {
-  wrapper.unmount();
-});
 
 describe('<RequeueCallGroupPanel />', async () => {
   it('Can display selected Queue Group Name and all the Queues', () => {
@@ -72,7 +69,6 @@ describe('<RequeueCallGroupPanel />', async () => {
         .at(0)
         .prop('title'),
     ).toBe(defalutSelectedQueueGroup.groupName);
-
     expect(getDetailItems().length).toBe(3);
   });
 
@@ -127,7 +123,7 @@ describe('<RequeueCallGroupPanel />', async () => {
     expect(submitSelection).toBeCalledWith(selectedGateId);
   });
 
-  it("When user select no queue, the Select Button should be disabled and submitSelection shouldn' be called", () => {
+  it("When user select no queue, the Select Button should be disabled and submitSelection shouldn't be called", () => {
     const selectedGateIndex = -1;
     const submitSelection = jest.fn(() => {});
     wrapper = setup({ submitSelection, selectedGateIndex });

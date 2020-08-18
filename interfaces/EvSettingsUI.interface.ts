@@ -4,11 +4,23 @@ export type EvOffhookState =
   | 'connecting'
   | 'disconnecting';
 
+interface SessionInfoItem {
+  label: string;
+  value: string;
+}
+
+export type SessionInfo = SessionInfoItem[];
+
 export interface EvSettingsUIProps {
   currentLocale: string;
   version: string;
+  agentName: string;
+  userName: string;
+  sessionInfo: SessionInfo;
+  showEditSessionButton: boolean;
 }
 
 export interface EvSettingsUIFunctions {
   onLogout(): Promise<any>;
+  goToSessionUpdatePage(): void;
 }

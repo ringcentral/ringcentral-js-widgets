@@ -9,7 +9,8 @@ exports.directTransferStatues = void 0;
 var directTransferStatues = {
   ACCEPTED: 'ACCEPTED',
   REJECTED: 'REJECTED',
-  SUCCEEDED: 'SUCCEEDED'
+  SUCCEEDED: 'SUCCEEDED',
+  FAILED: 'FAILED'
 };
 exports.directTransferStatues = directTransferStatues;
 //# sourceMappingURL=directTransferStatues.js.map

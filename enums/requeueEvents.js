@@ -7,8 +7,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.requeueEvents = void 0;
 
-var _Enum = require("ringcentral-integration/lib/Enum");
+var _ObjectMap = require("@ringcentral-integration/core/lib/ObjectMap");
 
-var requeueEvents = (0, _Enum.createEnum)(['START', 'SUCCESS', 'FAILURE'], 'requeue');
+var requeueEvents = _ObjectMap.ObjectMap.prefixKeys(['START', 'SUCCESS', 'FAILURE'], 'requeue');
+
 exports.requeueEvents = requeueEvents;
 //# sourceMappingURL=requeueEvents.js.map

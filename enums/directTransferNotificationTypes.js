@@ -7,6 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.directTransferNotificationTypes = void 0;
 var directTransferNotificationTypes = {
+  MISSED: 'MISSED',
   CANCELLED: 'CANCELLED',
   PENDING: 'PENDING',
   VOICEMAIL: 'VOICEMAIL'

@@ -1,18 +1,16 @@
-import { RcUIModuleV2, createSelector } from '@ringcentral-integration/core';
+import { computed, RcUIModuleV2 } from '@ringcentral-integration/core';
 import { Module } from 'ringcentral-integration/lib/di';
 
-import { transferTypes } from '../../enums/transferTypes';
+import { EvTransferType, transferTypes } from '../../enums/transferTypes';
 import {
   EvTransferCallUIFunctions,
   EvTransferCallUIProps,
-  TextField,
+  EvTransferOption,
+  EvTransferViewPhoneBookItem,
   GoToRequeueGroupDetailPageParams,
 } from '../../interfaces/EvTransferCallUI.interface';
-import {
-  EvDirectAgentListItem,
-  EvTransferPhoneBookItem,
-} from '../../lib/EvClient';
-import { DepsModules, TransferCallUI } from './EvTransferCallUI.interface';
+import { EvDirectAgentListItem } from '../../lib/EvClient';
+import { Deps, TransferCallUI } from './EvTransferCallUI.interface';
 import i18n from './i18n';
 import { getInternalTransferName } from './util';
 
@@ -29,34 +27,17 @@ import { getInternalTransferName } from './util';
     { dep: 'EvTransferCallUIOptions', optional: true },
   ],
 })
-class EvTransferCallUI extends RcUIModuleV2<DepsModules>
-  implements TransferCallUI {
+class EvTransferCallUI extends RcUIModuleV2<Deps> implements TransferCallUI {
   routerQueueGroupId: string;
 
-  constructor({
-    locale,
-    routerInteraction,
-    evCall,
-    evTransferCall,
-    evAuth,
-    environment,
-    evRequeueCall,
-  }) {
+  constructor(deps: Deps) {
     super({
-      modules: {
-        locale,
-        routerInteraction,
-        evCall,
-        evTransferCall,
-        evAuth,
-        environment,
-        evRequeueCall,
-      },
+      deps,
     });
     this.evTransferCall.onTransferSuccess(() => {
       if (
         /^\/activityCallLog\/.+\/transferCall$/.test(
-          this._modules.routerInteraction.currentPath,
+          this._deps.routerInteraction.currentPath,
         )
       ) {
         this.goToActivityCallLogPage();
@@ -65,61 +46,66 @@ class EvTransferCallUI extends RcUIModuleV2<DepsModules>
   }
 
   get selectQueueGroupDisabled() {
-    return !this._modules.evAuth.agentPermissions.allowCrossQueueRequeue;
+    return !this._deps.evAuth.agentPermissions.allowCrossQueueRequeue;
   }
 
-  get gateDisabled() {
+  get disabled() {
     return !(
-      this._modules.evRequeueCall.selectedQueueGroupId &&
-      this._modules.evAuth.agentPermissions.allowCrossQueueRequeue
+      this._deps.evRequeueCall.selectedQueueGroupId &&
+      this._deps.evAuth.agentPermissions.allowCrossQueueRequeue
     );
   }
 
   get requeueCallDisabled() {
     return (
-      this._modules.evRequeueCall.requeuing ||
-      !this._modules.evRequeueCall.selectedGateId ||
-      !!this._modules.evCall.getCurrentCall().endedCall
+      this._deps.evRequeueCall.requeuing ||
+      !this._deps.evRequeueCall.selectedGateId ||
+      !!this._deps.evCall.currentCall?.endedCall
     );
   }
 
-  getSelectedQueueGroup = createSelector(
-    () =>
-      this._modules.evAuth.agent.agentConfig.inboundSettings
-        .availableRequeueQueues,
-    () => this._modules.evRequeueCall.selectedQueueGroupId,
-    () => this.routerQueueGroupId,
-    (availableRequeueQueue, selectedQueueGroupId, routerQueueGroupId) => {
-      const queueGroupId = routerQueueGroupId || selectedQueueGroupId;
-      if (
-        queueGroupId &&
-        availableRequeueQueue &&
-        availableRequeueQueue.length > 0
-      ) {
-        return availableRequeueQueue.find(
-          (queue) => queue.gateGroupId === queueGroupId,
-        );
-      }
-      return null;
-    },
-  );
+  @computed((that: EvTransferCallUI) => [
+    that._deps.evAuth.agent.agentConfig.inboundSettings.availableRequeueQueues,
+    that._deps.evRequeueCall.selectedQueueGroupId,
+    that.routerQueueGroupId,
+  ])
+  get selectedQueueGroup() {
+    const queueGroupId =
+      this.routerQueueGroupId || this._deps.evRequeueCall.selectedQueueGroupId;
 
-  getSelectedGate = createSelector(
-    () => this.getSelectedQueueGroup(),
-    () => this._modules.evRequeueCall.selectedGateId,
-    (selectedQueueGroup, selectedGateId) => {
-      if (selectedQueueGroup && selectedGateId) {
-        const { gates } = selectedQueueGroup;
-        if (gates && gates.length > 0) {
-          return gates.find((queue) => queue.gateId === selectedGateId);
-        }
+    const {
+      availableRequeueQueues,
+    } = this._deps.evAuth.agent.agentConfig.inboundSettings;
+    if (
+      queueGroupId &&
+      availableRequeueQueues &&
+      availableRequeueQueues.length > 0
+    ) {
+      return availableRequeueQueues.find(
+        (queue) => queue.gateGroupId === queueGroupId,
+      );
+    }
+    return null;
+  }
+
+  @computed((that: EvTransferCallUI) => [
+    that.selectedQueueGroup,
+    that._deps.evRequeueCall.selectedGateId,
+  ])
+  get selectedGate() {
+    const { selectedGateId } = this._deps.evRequeueCall;
+
+    if (this.selectedQueueGroup && selectedGateId) {
+      const { gates } = this.selectedQueueGroup;
+      if (gates && gates.length > 0) {
+        return gates.find((queue) => queue.gateId === selectedGateId);
       }
-      return null;
-    },
-  );
+    }
+    return null;
+  }
 
   goToActivityCallLogPage = () => {
-    this._modules.routerInteraction.push(`/activityCallLog/${this.callId}`);
+    this._deps.routerInteraction.push(`/activityCallLog/${this.callId}`);
   };
 
   goToRequeueCallPage = () => {
@@ -135,25 +121,23 @@ class EvTransferCallUI extends RcUIModuleV2<DepsModules>
     groupId,
     isCheckDisable,
   }: GoToRequeueGroupDetailPageParams) => {
-    if (isCheckDisable && this.gateDisabled) return;
+    if (isCheckDisable && this.disabled) return;
 
     this._redirectRequeueCall(`/queueGroup/${groupId}`);
   };
 
   private _redirectRequeueCall(url: string = '') {
-    this._modules.routerInteraction.push(
+    this._deps.routerInteraction.push(
       `/activityCallLog/${this.callId}/transferCall${url}`,
     );
   }
 
   private _searchQueue(fromText: string, text: string) {
-    return (
-      fromText && text && fromText.toLowerCase().includes(text.toLowerCase())
-    );
+    return fromText?.toLowerCase().includes(text.toLowerCase());
   }
 
   private _submitSelection(queueId: string) {
-    this._modules.evRequeueCall.setStatus({
+    this._deps.evRequeueCall.setStatus({
       selectedQueueGroupId: this.routerQueueGroupId,
       selectedGateId: queueId,
     });
@@ -162,253 +146,251 @@ class EvTransferCallUI extends RcUIModuleV2<DepsModules>
 
   private async _submitRequeueCall() {
     if (!this.requeueCallDisabled) {
-      await this._modules.evRequeueCall.requeueCall();
+      await this._deps.evRequeueCall.requeueCall();
       this.goToActivityCallLogPage();
     }
   }
 
   get callId() {
-    return this._modules.evCall.activityCallId;
+    return this._deps.evCall.activityCallId;
   }
 
   get evTransferCall() {
-    return this._modules.evTransferCall;
+    return this._deps.evTransferCall;
   }
 
-  getTransferOptions = createSelector(
-    () => this._modules.locale.currentLocale,
-    () => this.evTransferCall.allowInternalTransfer,
-    () => this.getSelectedCallRecipient(),
-    () => this.getSelectedQueueGroup(),
-    () => this.getSelectedGate(),
-    () => this.callId,
-    () => this._modules.evRequeueCall.selectedQueueGroupId,
-    (
-      currentLocale,
-      allowInternalTransfer,
-      selectedCallRecipient,
-      selectedQueueGroup,
-      selectedGate,
-      callId,
-      selectedQueueGroupId,
-    ) => {
-      const number = this.evTransferCall.getNumber() || '';
-      const currentRouteUrl = `/activityCallLog/${callId}/transferCall`;
-      const noTransferType = !this.evTransferCall.transferType;
-      const noSelectedQueueGroup = !selectedQueueGroup;
-      return [
-        ...(allowInternalTransfer
-          ? [
-              {
-                type: transferTypes.internal,
-                label: i18n.getString(transferTypes.internal, currentLocale),
-                textFields: [
-                  {
-                    router: `${currentRouteUrl}/internal`,
-                    label: i18n.getString('callRecipientName', currentLocale),
-                    placeholder: i18n.getString(
-                      'callRecipientNamePlaceholder',
-                      currentLocale,
-                    ),
-                    value: selectedCallRecipient,
-                    disabled: noTransferType,
-                    readonly: noTransferType,
-                  },
-                ],
-              },
-            ]
-          : []),
-        {
-          type: transferTypes.phoneBook,
-          label: i18n.getString(transferTypes.phoneBook, currentLocale),
-          textFields: [
+  @computed((that: EvTransferCallUI) => [
+    that._deps.locale.currentLocale,
+    that._deps.evRequeueCall.selectedQueueGroupId,
+    that._deps.evRequeueCall.allowRequeueCall,
+    that._deps.evTransferCall.allowTransferCall,
+    that.evTransferCall.allowInternalTransfer,
+    that.selectedCallRecipient,
+    that.selectedQueueGroup,
+    that.selectedGate,
+    that.callId,
+    that.selectQueueGroupDisabled,
+    that.disabled,
+  ])
+  get transferOptions(): EvTransferOption[] {
+    const number = this.evTransferCall.getNumber() || '';
+    const currentRouteUrl = `/activityCallLog/${this.callId}/transferCall`;
+
+    const { currentLocale } = this._deps.locale;
+
+    return [
+      ...(this._deps.evTransferCall.allowTransferCall &&
+      this.evTransferCall.allowInternalTransfer
+        ? [
             {
-              router: `${currentRouteUrl}/phoneBook`,
-              label: i18n.getString('callRecipientName', currentLocale),
-              placeholder: i18n.getString(
-                'callRecipientNamePlaceholder',
-                currentLocale,
-              ),
-              value: selectedCallRecipient,
-              disabled: noTransferType,
-              readonly: noTransferType,
+              type: transferTypes.internal,
+              label: i18n.getString(transferTypes.internal, currentLocale),
+              textFields: [
+                {
+                  router: `${currentRouteUrl}/internal`,
+                  label: i18n.getString('callRecipientName', currentLocale),
+                  placeholder: i18n.getString(
+                    'callRecipientNamePlaceholder',
+                    currentLocale,
+                  ),
+                  value: this.selectedCallRecipient,
+                },
+              ],
             },
+          ]
+        : []),
+      ...(this._deps.evTransferCall.allowTransferCall
+        ? [
             {
-              label: i18n.getString('callRecipientNumber', currentLocale),
-              placeholder: i18n.getString(
-                'callRecipientNumberPlaceholder',
-                currentLocale,
-              ),
-              value: number,
-              readonly: true,
+              type: transferTypes.phoneBook,
+              label: i18n.getString(transferTypes.phoneBook, currentLocale),
+              textFields: [
+                {
+                  router: `${currentRouteUrl}/phoneBook`,
+                  label: i18n.getString('callRecipientName', currentLocale),
+                  placeholder: i18n.getString(
+                    'callRecipientNamePlaceholder',
+                    currentLocale,
+                  ),
+                  value: this.selectedCallRecipient,
+                },
+                {
+                  label: i18n.getString('callRecipientNumber', currentLocale),
+                  placeholder: i18n.getString(
+                    'callRecipientNumberPlaceholder',
+                    currentLocale,
+                  ),
+                  value: number,
+                  readonly: true,
+                },
+              ],
             },
-          ],
-        },
-        {
-          type: transferTypes.queue,
-          label: i18n.getString(transferTypes.queue, currentLocale),
-          textFields: [
+          ]
+        : []),
+      ...(this._deps.evRequeueCall.allowRequeueCall
+        ? [
             {
-              router: `${currentRouteUrl}/queueGroup`,
-              label: i18n.getString('queueGroup', currentLocale),
-              placeholder: i18n.getString(
-                'callRecipientNamePlaceholder',
-                currentLocale,
-              ),
-              value: selectedQueueGroup?.groupName,
-              disabled: noTransferType,
-              readonly: noTransferType,
+              type: transferTypes.queue,
+              label: i18n.getString(transferTypes.queue, currentLocale),
+              textFields: [
+                {
+                  router: `${currentRouteUrl}/queueGroup`,
+                  label: i18n.getString('queueGroup', currentLocale),
+                  placeholder: i18n.getString(
+                    'callRecipientNamePlaceholder',
+                    currentLocale,
+                  ),
+                  value: this.selectedQueueGroup?.groupName,
+                  disabled: this.selectQueueGroupDisabled,
+                  readonly: this.selectQueueGroupDisabled,
+                },
+                {
+                  router: `${currentRouteUrl}/queueGroup/${this._deps.evRequeueCall.selectedQueueGroupId}`,
+                  label: i18n.getString('queueDetail', currentLocale),
+                  placeholder: i18n.getString(
+                    'callRecipientNamePlaceholder',
+                    currentLocale,
+                  ),
+                  value: this.selectedGate?.gateName,
+                  disabled: this.disabled,
+                  readonly: this.disabled,
+                },
+              ],
             },
+          ]
+        : []),
+      ...(this._deps.evTransferCall.allowTransferCall
+        ? [
             {
-              router: `${currentRouteUrl}/queueGroup/${selectedQueueGroupId}`,
-              label: i18n.getString('queueDetail', currentLocale),
-              placeholder: i18n.getString(
-                'callRecipientNamePlaceholder',
-                currentLocale,
-              ),
-              value: selectedGate?.gateName,
-              disabled: noTransferType || noSelectedQueueGroup,
-              readonly: noTransferType || noSelectedQueueGroup,
+              type: transferTypes.manualEntry,
+              label: i18n.getString(transferTypes.manualEntry, currentLocale),
+              textFields: [
+                {
+                  router: `${currentRouteUrl}/manualEntry`,
+                  label: i18n.getString('phoneNumber', currentLocale),
+                  placeholder: i18n.getString(
+                    'enterThePhoneNumberPlaceholder',
+                    currentLocale,
+                  ),
+                  value: this.selectedCallRecipient,
+                },
+              ],
             },
-          ],
-        },
-        {
-          type: transferTypes.manualEntry,
-          label: i18n.getString(transferTypes.manualEntry, currentLocale),
-          textFields: [
-            {
-              router: `${currentRouteUrl}/manualEntry`,
-              label: i18n.getString('phoneNumber', currentLocale),
-              placeholder: i18n.getString(
-                'enterThePhoneNumberPlaceholder',
-                currentLocale,
-              ),
-              value: selectedCallRecipient,
-              disabled: noTransferType,
-              readonly: noTransferType,
-            },
-          ],
-        },
-      ];
-    },
-  );
+          ]
+        : []),
+    ];
+  }
 
   get isQueueTransfer() {
     return this.evTransferCall.transferType === transferTypes.queue;
   }
 
-  getSelectedCallRecipient = createSelector(
-    () => this.evTransferCall.transferType,
-    () => this.evTransferCall.transferAgentList,
-    () => this.evTransferCall.transferAgentId,
-    () => this.evTransferCall.getTransferPhoneBook(),
-    () => this.evTransferCall.transferPhoneBookSelectedIndex,
-    () => this.evTransferCall.transferRecipientNumber,
-    () => this.evTransferCall.transferRecipientCountryId,
-    () => this._modules.evAuth.getAvailableCountries(),
-    (
+  @computed((that: EvTransferCallUI) => [
+    that.evTransferCall.transferType,
+    that.evTransferCall.transferAgentList,
+    that.evTransferCall.transferAgentId,
+    that.evTransferCall.transferPhoneBook,
+    that.evTransferCall.transferPhoneBookSelectedIndex,
+    that.evTransferCall.transferRecipientNumber,
+    that.evTransferCall.transferRecipientCountryId,
+    that._deps.evAuth.availableCountries,
+  ])
+  get selectedCallRecipient() {
+    const {
       transferType,
       transferAgentList,
       transferAgentId,
       transferPhoneBook,
-      transferPhoneBookSelected,
+      transferPhoneBookSelectedIndex,
       transferRecipientNumber,
       transferRecipientCountryId,
-      availableCountries,
-    ) => {
-      if (transferType === transferTypes.internal && transferAgentId) {
-        const selectedAgent = transferAgentList.find(
-          ({ agentId }) => agentId === transferAgentId,
-        );
-        return selectedAgent ? getInternalTransferName(selectedAgent) : '';
+    } = this.evTransferCall;
+
+    const { availableCountries } = this._deps.evAuth;
+
+    if (transferType === transferTypes.internal && transferAgentId) {
+      const selectedAgent = transferAgentList.find(
+        ({ agentId }) => agentId === transferAgentId,
+      );
+      return selectedAgent ? getInternalTransferName(selectedAgent) : '';
+    }
+    if (
+      transferType === transferTypes.phoneBook &&
+      typeof transferPhoneBookSelectedIndex !== 'undefined' &&
+      transferPhoneBookSelectedIndex !== null
+    ) {
+      const phoneBook = transferPhoneBook[transferPhoneBookSelectedIndex];
+      if (phoneBook.countryId === 'USA') {
+        return phoneBook.name;
       }
-      if (
-        transferType === transferTypes.phoneBook &&
-        typeof transferPhoneBookSelected !== 'undefined' &&
-        transferPhoneBookSelected !== null
-      ) {
-        const phoneBook = transferPhoneBook[transferPhoneBookSelected];
-        if (phoneBook.countryId === 'USA') {
-          return phoneBook.name;
-        }
-        const country = availableCountries.find(
-          ({ countryId }) => countryId === phoneBook.countryId,
-        );
-        if (country) {
-          return `${phoneBook.name} (${country.countryName ||
-            country.countryId})`;
-        }
-        return `${phoneBook.name} (${phoneBook.countryId})`;
-      }
-      if (
-        transferType === transferTypes.manualEntry &&
-        transferRecipientNumber
-      ) {
-        if (transferRecipientCountryId === 'USA') {
-          return `${transferRecipientNumber}`;
-        }
-        const country = availableCountries.find(
-          ({ countryId }) => countryId === transferRecipientCountryId,
-        );
-        return `${transferRecipientNumber} (${country.countryName ||
+      const country = availableCountries.find(
+        ({ countryId }) => countryId === phoneBook.countryId,
+      );
+      if (country) {
+        return `${phoneBook.name} (${country.countryName ||
           country.countryId})`;
       }
-      return '';
-    },
-  );
-
-  getTransferCallDisabled = createSelector(
-    () => this.isQueueTransfer,
-    () => this._modules.evCall.getCurrentCall(),
-    () => this.getSelectedCallRecipient(),
-    () => this.evTransferCall.transferring,
-    () => this.requeueCallDisabled,
-    (
-      isQueueTransfer,
-      { endedCall, allowTransfer },
-      selectedCallRecipient,
-      transferring,
-      requeueCallDisabled,
-    ) => {
-      return isQueueTransfer
-        ? requeueCallDisabled
-        : !allowTransfer ||
-            !selectedCallRecipient ||
-            !!endedCall ||
-            transferring;
-    },
-  );
-
-  getTextFields = createSelector(
-    () => this.getTransferOptions(),
-    () => this.evTransferCall.transferType,
-    (
-      transferOptions: EvTransferCallUIProps['transferOptions'],
-      transferType: string,
-    ): TextField[] => {
-      const { textFields } = transferOptions.find(
-        ({ type }) => type === transferType,
+      return `${phoneBook.name} (${phoneBook.countryId})`;
+    }
+    if (transferType === transferTypes.manualEntry && transferRecipientNumber) {
+      if (transferRecipientCountryId === 'USA') {
+        return `${transferRecipientNumber}`;
+      }
+      const country = availableCountries.find(
+        ({ countryId }) => countryId === transferRecipientCountryId,
       );
-      return textFields;
-    },
-  );
+      return `${transferRecipientNumber} (${country.countryName ||
+        country.countryId})`;
+    }
+    return '';
+  }
+
+  @computed((that: EvTransferCallUI) => [
+    that.isQueueTransfer,
+    that._deps.evCall.currentCall,
+    that.selectedCallRecipient,
+    that.evTransferCall.transferring,
+    that.requeueCallDisabled,
+  ])
+  get transferCallDisabled() {
+    const { endedCall, allowTransfer } = this._deps.evCall.currentCall;
+
+    return this.isQueueTransfer
+      ? this.requeueCallDisabled
+      : !allowTransfer ||
+          !this.selectedCallRecipient ||
+          !!endedCall ||
+          this.evTransferCall.transferring;
+  }
+
+  @computed((that: EvTransferCallUI) => [
+    that.transferOptions,
+    that.evTransferCall.transferType,
+  ])
+  get textFields() {
+    const transferOption = this.transferOptions.find(
+      ({ type }) => type === this.evTransferCall.transferType,
+    );
+
+    return transferOption ? transferOption.textFields : [];
+  }
 
   goBack() {
-    this._modules.routerInteraction.goBack();
+    this._deps.routerInteraction.goBack();
   }
 
   clickCallRecipient(router: string) {
     if (router) {
-      this._modules.routerInteraction.push(router);
+      this._deps.routerInteraction.push(router);
     }
   }
 
   gotoActivityCallLogPage(id: string = this.callId) {
-    this._modules.routerInteraction.push(`/activityCallLog/${id}`);
+    this._deps.routerInteraction.push(`/activityCallLog/${id}`);
   }
 
   gotoTransferCallPage(id: string = this.callId) {
-    this._modules.routerInteraction.push(`/activityCallLog/${id}/transferCall`);
+    this._deps.routerInteraction.push(`/activityCallLog/${id}/transferCall`);
   }
 
   transferCall() {
@@ -425,6 +407,7 @@ class EvTransferCallUI extends RcUIModuleV2<DepsModules>
     const name = (`${firstName}${lastName}` || options.username)
       .replace(blankRegex, '')
       .toLowerCase();
+
     const keywords = text
       .toLowerCase()
       .trim()
@@ -436,29 +419,37 @@ class EvTransferCallUI extends RcUIModuleV2<DepsModules>
     );
   }
 
-  protected _searchPhoneBook(option: EvTransferPhoneBookItem, text: string) {
+  protected _searchPhoneBook(
+    {
+      phoneBookName,
+      destination,
+      parsedDestination,
+    }: EvTransferViewPhoneBookItem,
+    text: string,
+  ) {
+    const searchText = text.toLowerCase();
     return (
-      (text && option.name?.toLowerCase().includes(text.toLowerCase())) ||
-      option.destination?.includes(text) || // TODO: think about `trim`?
-      (option._parsedDestination && option._parsedDestination.includes(text))
+      phoneBookName?.toLowerCase().includes(searchText) ||
+      destination?.includes(searchText) ||
+      parsedDestination?.includes(searchText)
     );
   }
 
-  getStayOnCall = createSelector(
-    () => this.isQueueTransfer,
-    () => this._modules.evRequeueCall.stayOnCall,
-    () => this.evTransferCall.stayOnCall,
-    (isQueueTransfer, evRequeueCallStayOnCall, evTransferCallStayOnCall) => {
-      return isQueueTransfer
-        ? evRequeueCallStayOnCall
-        : evTransferCallStayOnCall;
-    },
-  );
+  @computed((that: EvTransferCallUI) => [
+    that.isQueueTransfer,
+    that._deps.evRequeueCall.stayOnCall,
+    that.evTransferCall.stayOnCall,
+  ])
+  get stayOnCall() {
+    return this.isQueueTransfer
+      ? this._deps.evRequeueCall.stayOnCall
+      : this.evTransferCall.stayOnCall;
+  }
 
-  private _clickTransferTypeFiled(type: string) {
+  private _clickTransferTypeFiled(type: EvTransferType) {
     this.evTransferCall.changeTransferType(type);
     if (type !== transferTypes.queue) {
-      const goalTransferOption = this.getTransferOptions().find(
+      const goalTransferOption = this.transferOptions.find(
         (transferOption) => transferOption.type === type,
       );
       this.clickCallRecipient(goalTransferOption?.textFields[0]?.router);
@@ -472,11 +463,11 @@ class EvTransferCallUI extends RcUIModuleV2<DepsModules>
     id: string;
     groupId?: string;
   }): EvTransferCallUIProps {
-    this._modules.evCall.activityCallId = id;
+    this._deps.evCall.activityCallId = id;
     this.routerQueueGroupId = groupId;
     return {
-      currentLocale: this._modules.locale.currentLocale,
-      transferOptions: this.getTransferOptions(),
+      currentLocale: this._deps.locale.currentLocale,
+      transferOptions: this.transferOptions,
       transferring: this.evTransferCall.transferring,
       transferRecipientCountryId: this.evTransferCall
         .transferRecipientCountryId,
@@ -484,30 +475,27 @@ class EvTransferCallUI extends RcUIModuleV2<DepsModules>
       transferPhoneBookSelectedIndex: this.evTransferCall
         .transferPhoneBookSelectedIndex,
       transferAgentId: this.evTransferCall.transferAgentId,
-      isStayOnCall: this.getStayOnCall(),
+      isStayOnCall: this.stayOnCall,
       selectedTransferType: this.evTransferCall.transferType,
       transferAgentList: this.evTransferCall.transferAgentList,
-      transferPhoneBook: this.evTransferCall.getTransferPhoneBook(),
+      transferPhoneBook: this.evTransferCall.transferPhoneBook,
       transferAgentListUpdateTTL: 3000,
-      transferCountryOptions: this._modules.evAuth.getAvailableCountries(),
+      transferCountryOptions: this._deps.evAuth.availableCountries,
       allowManualInternationalTransfer: this.evTransferCall
         .allowManualInternationalTransfer,
-      textFields: this.getTextFields(),
-      transferCallDisabled: this.getTransferCallDisabled(),
-      isWide: this._modules.environment.isWide,
+      textFields: this.textFields,
+      transferCallDisabled: this.transferCallDisabled,
+      isWide: this._deps.environment.isWide,
 
       // requeuing state
-      requeuing: this._modules.evRequeueCall.requeuing,
+      requeuing: this._deps.evRequeueCall.requeuing,
       // availableRequeueQueues
-      queueGroups: this._modules.evAuth.getAvailableRequeueQueues(),
-      selectedQueueGroupId: this._modules.evRequeueCall.selectedQueueGroupId,
-      selectedGateId: this._modules.evRequeueCall.selectedGateId,
+      queueGroups: this._deps.evAuth.availableRequeueQueues,
+      selectedQueueGroupId: this._deps.evRequeueCall.selectedQueueGroupId,
+      selectedGateId: this._deps.evRequeueCall.selectedGateId,
       // selected object
-      selectedQueueGroup: this.getSelectedQueueGroup(),
-      selectedGate: this.getSelectedGate(),
-      // disabled
-      gateDisabled: this.gateDisabled,
-      selectQueueGroupDisabled: this.selectQueueGroupDisabled,
+      selectedQueueGroup: this.selectedQueueGroup,
+      selectedGate: this.selectedGate,
     };
   }
 
@@ -518,7 +506,7 @@ class EvTransferCallUI extends RcUIModuleV2<DepsModules>
       clickTransferTypeFiled: (type) => this._clickTransferTypeFiled(type),
       setStayOnCall: (status) =>
         this.isQueueTransfer
-          ? this._modules.evRequeueCall.setStatus({ stayOnCall: !status })
+          ? this._deps.evRequeueCall.setStatus({ stayOnCall: !status })
           : this.evTransferCall.changeStayOnCall(status),
       fetchAgentList: () => this.evTransferCall.fetchAgentList(),
       changeRecipientNumber: (recipientNumber) => {

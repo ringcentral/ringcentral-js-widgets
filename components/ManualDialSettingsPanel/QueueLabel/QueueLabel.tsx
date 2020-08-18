@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react';
 import i18n from '../i18n';
 import styles from './styles.scss';
 
-interface QueueLabelProps {
+export interface QueueLabelProps {
   gateName: string;
   gateId: string;
   currentLocale: string;

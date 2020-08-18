@@ -5,19 +5,15 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.EvCallMonitor = void 0;
 
-require("core-js/modules/es6.promise");
-
 require("core-js/modules/es6.object.define-properties");
 
 require("core-js/modules/es7.object.get-own-property-descriptors");
 
-require("core-js/modules/es6.array.for-each");
+require("core-js/modules/es6.function.name");
 
-require("core-js/modules/es6.object.keys");
+require("core-js/modules/es6.string.iterator");
 
 require("core-js/modules/es6.array.from");
-
-require("core-js/modules/es6.function.name");
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -25,7 +21,7 @@ require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.array.is-array");
 
-require("core-js/modules/es6.object.define-property");
+require("core-js/modules/es6.promise");
 
 require("core-js/modules/es6.object.create");
 
@@ -36,6 +32,22 @@ require("core-js/modules/es6.date.to-string");
 require("core-js/modules/es6.reflect.construct");
 
 require("core-js/modules/es6.object.set-prototype-of");
+
+require("core-js/modules/es6.object.define-property");
+
+require("core-js/modules/es6.object.keys");
+
+require("core-js/modules/es6.array.for-each");
+
+require("core-js/modules/web.dom.iterable");
+
+require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.object.to-string");
+
+require("core-js/modules/es7.object.entries");
+
+require("core-js/modules/es6.array.reduce");
 
 require("core-js/modules/es6.regexp.match");
 
@@ -49,45 +61,21 @@ require("core-js/modules/es6.string.includes");
 
 require("regenerator-runtime/runtime");
 
-require("core-js/modules/es6.string.iterator");
-
-require("core-js/modules/es6.set");
-
-require("core-js/modules/web.dom.iterable");
-
-require("core-js/modules/es6.array.iterator");
-
-require("core-js/modules/es6.object.to-string");
-
-require("core-js/modules/es7.object.entries");
-
-require("core-js/modules/es6.array.reduce");
-
 var _core = require("@ringcentral-integration/core");
 
+var _events = require("events");
+
 var _di = require("ringcentral-integration/lib/di");
+
+var _enums = require("../../enums");
 
 var _callUniqueIdentifies = require("../../lib/callUniqueIdentifies");
 
 var _contactMatchIdentify = require("../../lib/contactMatchIdentify");
 
-var _dec, _class, _temp;
+var _dec, _dec2, _dec3, _class, _class2, _temp;
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e2) { throw _e2; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e3) { didErr = true; err = _e3; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
-
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
@@ -99,13 +87,25 @@ function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArra
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
 function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -127,169 +127,145 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
+
 var EvCallMonitor = (_dec = (0, _di.Module)({
   name: 'EvCallMonitor',
-  deps: ['Presence', 'EvClient', 'EvSessionConfig', {
+  deps: ['Presence', 'EvClient', 'Beforeunload', 'EvAgentSession', 'EvIntegratedSoftphone', {
     dep: 'ContactMatcher',
     optional: true
   }, {
     dep: 'ActivityMatcher',
     optional: true
   }]
-}), _dec(_class = (_temp = /*#__PURE__*/function (_RcModuleV) {
+}), _dec2 = (0, _core.computed)(function (that) {
+  return [that.callsDataMapping, that.contactMatches, that.activityMatches];
+}), _dec3 = (0, _core.computed)(function (that) {
+  return [that.calls];
+}), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcModuleV) {
   _inherits(EvCallMonitor, _RcModuleV);
 
   var _super = _createSuper(EvCallMonitor);
 
-  function EvCallMonitor(_ref) {
-    var _this;
+  function EvCallMonitor(deps) {
+    var _this$_deps$activityM;
 
-    var presence = _ref.presence,
-        evClient = _ref.evClient,
-        evSessionConfig = _ref.evSessionConfig,
-        contactMatcher = _ref.contactMatcher,
-        activityMatcher = _ref.activityMatcher;
+    var _this;
 
     _classCallCheck(this, EvCallMonitor);
 
     _this = _super.call(this, {
-      modules: {
-        presence: presence,
-        evClient: evClient,
-        evSessionConfig: evSessionConfig,
-        contactMatcher: contactMatcher,
-        activityMatcher: activityMatcher
-      }
+      deps: deps
     });
-    _this._oldCalls = void 0;
-    _this._onCallEndedHooks = void 0;
-    _this._onCallRingHooks = void 0;
     _this.handleActivityMatch = void 0;
-    _this.getCallsMapping = (0, _core.createSelector)(function () {
-      return _this.callsDataMapping;
-    }, function () {
-      return _this.contactMatches;
-    }, function () {
-      return _this.activityMatches;
-    }, function (callsDataMapping, contactMatches, activityMatches) {
-      return Object.entries(callsDataMapping).reduce(function (mapping, _ref2) {
-        var _ref3 = _slicedToArray(_ref2, 2),
-            key = _ref3[0],
-            call = _ref3[1];
+    _this._eventEmitter = new _events.EventEmitter();
+    _this._oldCalls = [];
 
-        var contactMatchIdentify = (0, _contactMatchIdentify.contactMatchIdentifyEncode)({
-          phoneNumber: call.ani,
-          callType: call.callType.toLowerCase()
-        });
-        var id = call.session ? _this.getCallId(call.session) : null;
-
-        var _ref4 = call.baggage || {},
-            agentFirstName = _ref4.agentFirstName,
-            agentLastName = _ref4.agentLastName;
-
-        var agentName = agentFirstName && agentLastName ? "".concat(agentFirstName, " ").concat(agentLastName) : null;
-        return _objectSpread(_objectSpread({}, mapping), {}, _defineProperty({}, key, _objectSpread(_objectSpread({}, call), {}, {
-          agentName: agentName,
-          // TODO confirm about using `toMatches` & `fromMatches`?
-          contactMatches: contactMatches[contactMatchIdentify] || [],
-          activityMatches: id && activityMatches[id] ? activityMatches[id] : []
-        })));
-      }, {});
-    });
-    _this.getUniqueIdentifies = (0, _core.createSelector)(function () {
-      return _this.calls;
-    }, function (calls) {
-      return (0, _callUniqueIdentifies.makeCallsUniqueIdentifies)(calls);
-    });
-
-    _this.beforeunloadHandler = function (event) {
-      if (_this._modules.evSessionConfig.hasMultipleTabs) {
-        // Guarantee the browser unload by removing the returnValue property of the event
-        delete event.returnValue;
-      } else {
-        event.preventDefault();
-        event.returnValue = '';
-      }
+    _this._beforeunloadHandler = function () {
+      return _this._deps.evAgentSession.shouldBlockBrowser;
     };
 
-    _this._oldCalls = [];
-    _this._onCallRingHooks = new Set();
-    _this._onCallEndedHooks = new Set();
-
-    if (_this._modules.contactMatcher) {
-      _this._modules.contactMatcher.addQuerySource({
-        getQueriesFn: function getQueriesFn() {
-          return _this.getUniqueIdentifies();
-        },
-        readyCheckFn: function readyCheckFn() {
-          return _this._modules.presence.ready;
-        }
-      });
-
-      _this.addCallRingHook( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-        var call, contactMatchIdentify;
+    _this.onCallRing( /*#__PURE__*/function () {
+      var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(_ref) {
+        var ani, callType, contactMatchIdentify;
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                call = _this.getCallsMapping()[_this.callIds[0]];
-                contactMatchIdentify = (0, _contactMatchIdentify.contactMatchIdentifyEncode)({
-                  phoneNumber: call.ani,
-                  callType: call.callType.toLowerCase()
+                ani = _ref.ani, callType = _ref.callType;
+
+                _this._deps.beforeunload.add(_this._beforeunloadHandler);
+
+                if (!_this._deps.contactMatcher) {
+                  _context.next = 8;
+                  break;
+                }
+
+                _this._deps.contactMatcher.addQuerySource({
+                  getQueriesFn: function getQueriesFn() {
+                    return _this.uniqueIdentifies;
+                  },
+                  readyCheckFn: function readyCheckFn() {
+                    return _this._deps.presence.ready;
+                  }
                 });
-                _context.next = 4;
-                return _this._modules.contactMatcher.forceMatchNumber({
+
+                contactMatchIdentify = (0, _contactMatchIdentify.contactMatchIdentifyEncode)({
+                  phoneNumber: ani,
+                  callType: callType
+                });
+                _context.next = 7;
+                return _this._deps.contactMatcher.forceMatchNumber({
                   phoneNumber: contactMatchIdentify
                 });
 
-              case 4:
+              case 7:
                 if (_this.handleActivityMatch) {
                   _this.handleActivityMatch();
                 }
 
-              case 5:
+              case 8:
               case "end":
                 return _context.stop();
             }
           }
         }, _callee);
-      })));
-    }
+      }));
 
-    if (_this._modules.activityMatcher) {
-      _this._modules.activityMatcher.addQuerySource({
-        getQueriesFn: function getQueriesFn() {
-          return _this.callIds;
-        },
-        readyCheckFn: function readyCheckFn() {
-          return _this._modules.presence.ready;
-        }
-      });
-    }
+      return function (_x) {
+        return _ref2.apply(this, arguments);
+      };
+    }()).onCallEnded(function () {
+      _this._deps.beforeunload.remove(_this._beforeunloadHandler);
+    });
 
+    (_this$_deps$activityM = _this._deps.activityMatcher) === null || _this$_deps$activityM === void 0 ? void 0 : _this$_deps$activityM.addQuerySource({
+      getQueriesFn: function getQueriesFn() {
+        return _this.callIds;
+      },
+      readyCheckFn: function readyCheckFn() {
+        return _this._deps.presence.ready;
+      }
+    });
     return _this;
   }
 
   _createClass(EvCallMonitor, [{
+    key: "getMainCall",
+    value: function getMainCall(uii) {
+      var id = this._deps.evClient.getMainId(uii);
+
+      return this._deps.presence.callsMapping[id];
+    }
+  }, {
     key: "onStateChange",
     value: function onStateChange() {
-      if (this.calls.length > this._oldCalls.length) {
-        this._oldCalls = this.calls;
+      if (this._deps.evAgentSession.configSuccess) {
+        if (this.calls.length > this._oldCalls.length) {
+          var _currentCall = this.calls[0];
+          var mainCall = this.getMainCall(_currentCall.uii);
 
-        if (this.calls.length > 0 && this.calls[0]) {
-          this.onCallRing();
+          if (_currentCall && mainCall) {
+            this._oldCalls = this.calls;
+
+            this._eventEmitter.emit(_enums.callStatus.RINGING, _currentCall);
+          } else {
+            this._deps.presence.clearCalls();
+          }
+        } else if (this.calls.length < this._oldCalls.length) {
+          var call = this._oldCalls[0];
+          this._oldCalls = this.calls;
+
+          this._eventEmitter.emit(_enums.callStatus.ENDED, call);
         }
-      } else if (this.calls.length < this._oldCalls.length) {
-        this._oldCalls = this.calls;
-        this.onCallEnded();
       }
     }
   }, {
     key: "getCallId",
-    value: function getCallId(_ref6) {
-      var uii = _ref6.uii,
-          sessionId = _ref6.sessionId;
-      return this._modules.evClient.encodeUii({
+    value: function getCallId(_ref3) {
+      var uii = _ref3.uii,
+          sessionId = _ref3.sessionId;
+      return this._deps.evClient.encodeUii({
         uii: uii,
         sessionId: sessionId
       });
@@ -297,9 +273,9 @@ var EvCallMonitor = (_dec = (0, _di.Module)({
   }, {
     key: "getActiveCallList",
     value: function getActiveCallList(callIds, otherCallIds, callsMapping, id) {
-      var uii = this._modules.evClient.decodeUii(id);
+      var uii = this._deps.evClient.decodeUii(id);
 
-      var mainUii = this._modules.evClient.getMainId(uii);
+      var mainUii = this._deps.evClient.getMainId(uii);
 
       if (!otherCallIds.includes(mainUii) || !callIds.includes(id)) return [];
       var currentOtherCallIds = otherCallIds.filter(function (id) {
@@ -313,162 +289,34 @@ var EvCallMonitor = (_dec = (0, _di.Module)({
   }, {
     key: "updateActivityMatches",
     value: function updateActivityMatches() {
-      var _ref7 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-          _ref7$forceMatch = _ref7.forceMatch,
-          forceMatch = _ref7$forceMatch === void 0 ? false : _ref7$forceMatch;
+      var _ref4 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+          _ref4$forceMatch = _ref4.forceMatch,
+          forceMatch = _ref4$forceMatch === void 0 ? false : _ref4$forceMatch;
 
       // it's async function
       // TODO: fix type in DataMatcher
-      return this._modules.activityMatcher.match({
-        queries: this._modules.activityMatcher._getQueries(),
+      return this._deps.activityMatcher.match({
+        queries: this._deps.activityMatcher._getQueries(),
         ignoreCache: forceMatch
       });
     }
   }, {
     key: "onCallRing",
-    value: function () {
-      var _onCallRing = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
-        var _iterator, _step, hook;
+    value: function onCallRing(callback) {
+      this._eventEmitter.on(_enums.callStatus.RINGING, function (currentCall) {
+        return callback(currentCall);
+      });
 
-        return regeneratorRuntime.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                window.addEventListener('beforeunload', this.beforeunloadHandler);
-                _iterator = _createForOfIteratorHelper(this._onCallRingHooks);
-                _context2.prev = 2;
-
-                _iterator.s();
-
-              case 4:
-                if ((_step = _iterator.n()).done) {
-                  _context2.next = 10;
-                  break;
-                }
-
-                hook = _step.value;
-                _context2.next = 8;
-                return hook();
-
-              case 8:
-                _context2.next = 4;
-                break;
-
-              case 10:
-                _context2.next = 15;
-                break;
-
-              case 12:
-                _context2.prev = 12;
-                _context2.t0 = _context2["catch"](2);
-
-                _iterator.e(_context2.t0);
-
-              case 15:
-                _context2.prev = 15;
-
-                _iterator.f();
-
-                return _context2.finish(15);
-
-              case 18:
-              case "end":
-                return _context2.stop();
-            }
-          }
-        }, _callee2, this, [[2, 12, 15, 18]]);
-      }));
-
-      function onCallRing() {
-        return _onCallRing.apply(this, arguments);
-      }
-
-      return onCallRing;
-    }()
+      return this;
+    }
   }, {
     key: "onCallEnded",
-    value: function () {
-      var _onCallEnded = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
-        var _iterator2, _step2, hook;
-
-        return regeneratorRuntime.wrap(function _callee3$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                window.removeEventListener('beforeunload', this.beforeunloadHandler);
-                _iterator2 = _createForOfIteratorHelper(this._onCallEndedHooks);
-                _context3.prev = 2;
-
-                _iterator2.s();
-
-              case 4:
-                if ((_step2 = _iterator2.n()).done) {
-                  _context3.next = 10;
-                  break;
-                }
-
-                hook = _step2.value;
-                _context3.next = 8;
-                return hook();
-
-              case 8:
-                _context3.next = 4;
-                break;
-
-              case 10:
-                _context3.next = 15;
-                break;
-
-              case 12:
-                _context3.prev = 12;
-                _context3.t0 = _context3["catch"](2);
-
-                _iterator2.e(_context3.t0);
-
-              case 15:
-                _context3.prev = 15;
-
-                _iterator2.f();
-
-                return _context3.finish(15);
-
-              case 18:
-              case "end":
-                return _context3.stop();
-            }
-          }
-        }, _callee3, this, [[2, 12, 15, 18]]);
-      }));
-
-      function onCallEnded() {
-        return _onCallEnded.apply(this, arguments);
-      }
-
-      return onCallEnded;
-    }()
-  }, {
-    key: "addCallRingHook",
-    value: function addCallRingHook(callback) {
-      this._onCallRingHooks.add(callback);
+    value: function onCallEnded(callback) {
+      this._eventEmitter.on(_enums.callStatus.ENDED, function (currentCall) {
+        return callback(currentCall);
+      });
 
       return this;
-    }
-  }, {
-    key: "removeCallRingHook",
-    value: function removeCallRingHook(callback) {
-      this._onCallRingHooks["delete"](callback);
-    }
-  }, {
-    key: "addCallEndedHook",
-    value: function addCallEndedHook(callback) {
-      this._onCallEndedHooks.add(callback);
-
-      return this;
-    }
-  }, {
-    key: "removeCallEndedHook",
-    value: function removeCallEndedHook(callback) {
-      this._onCallEndedHooks["delete"](callback);
     }
   }, {
     key: "isOnCall",
@@ -478,51 +326,88 @@ var EvCallMonitor = (_dec = (0, _di.Module)({
   }, {
     key: "calls",
     get: function get() {
-      return this._modules.presence.getCalls() || [];
+      return this._deps.presence.calls || [];
     }
   }, {
     key: "otherCalls",
     get: function get() {
-      return this._modules.presence.getOtherCalls() || [];
+      return this._deps.presence.otherCalls || [];
     }
   }, {
     key: "callLogs",
     get: function get() {
-      return this._modules.presence.getCallLogs() || [];
+      return this._deps.presence.callLogs || [];
     }
   }, {
     key: "callIds",
     get: function get() {
-      return this._modules.presence.callIds || [];
+      return this._deps.presence.callIds || [];
     }
   }, {
     key: "otherCallIds",
     get: function get() {
-      return this._modules.presence.otherCallIds || [];
+      return this._deps.presence.otherCallIds || [];
     }
   }, {
     key: "callLogsIds",
     get: function get() {
-      return this._modules.presence.callLogsIds || [];
+      return this._deps.presence.callLogsIds || [];
     }
   }, {
     key: "callsDataMapping",
     get: function get() {
-      return this._modules.presence.callsMapping || {};
+      return this._deps.presence.callsMapping || {};
     }
   }, {
     key: "contactMatches",
     get: function get() {
-      return this._modules.contactMatcher.dataMapping || {};
+      return this._deps.contactMatcher.dataMapping || {};
     }
   }, {
     key: "activityMatches",
     get: function get() {
-      return this._modules.activityMatcher.dataMapping || {};
+      return this._deps.activityMatcher.dataMapping || {};
+    }
+  }, {
+    key: "callsMapping",
+    get: function get() {
+      var _this2 = this;
+
+      var callsDataMapping = this.callsDataMapping,
+          contactMatches = this.contactMatches,
+          activityMatches = this.activityMatches;
+      return Object.entries(callsDataMapping).reduce(function (mapping, _ref5) {
+        var _ref6 = _slicedToArray(_ref5, 2),
+            key = _ref6[0],
+            call = _ref6[1];
+
+        var contactMatchIdentify = (0, _contactMatchIdentify.contactMatchIdentifyEncode)({
+          phoneNumber: call.ani,
+          callType: call.callType
+        });
+        var id = call.session ? _this2.getCallId(call.session) : null;
+
+        var _ref7 = call.baggage || {},
+            agentFirstName = _ref7.agentFirstName,
+            agentLastName = _ref7.agentLastName;
+
+        var agentName = agentFirstName && agentLastName ? "".concat(agentFirstName, " ").concat(agentLastName) : null;
+        return _objectSpread(_objectSpread({}, mapping), {}, _defineProperty({}, key, _objectSpread(_objectSpread({}, call), {}, {
+          agentName: agentName,
+          // TODO confirm about using `toMatches` & `fromMatches`?
+          contactMatches: contactMatches[contactMatchIdentify] || [],
+          activityMatches: id && activityMatches[id] ? activityMatches[id] : []
+        })));
+      }, {});
+    }
+  }, {
+    key: "uniqueIdentifies",
+    get: function get() {
+      return (0, _callUniqueIdentifies.makeCallsUniqueIdentifies)(this.calls);
     }
   }]);
 
   return EvCallMonitor;
-}(_core.RcModuleV2), _temp)) || _class);
+}(_core.RcModuleV2), _temp), (_applyDecoratedDescriptor(_class2.prototype, "callsMapping", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "callsMapping"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "uniqueIdentifies", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "uniqueIdentifies"), _class2.prototype)), _class2)) || _class);
 exports.EvCallMonitor = EvCallMonitor;
 //# sourceMappingURL=EvCallMonitor.js.map

@@ -91,7 +91,8 @@ var MainViewPanel = function MainViewPanel(_ref) {
       offhookState = _ref.offhookState,
       offhook = _ref.offhook,
       isWide = _ref.isWide,
-      isOffhooking = _ref.isOffhooking;
+      isOffhooking = _ref.isOffhooking,
+      hideOffHookBtn = _ref.hideOffHookBtn;
   var tabs = [{
     icon: function icon() {
       return /*#__PURE__*/_react["default"].createElement(CustomIcon, {
@@ -199,8 +200,9 @@ var MainViewPanel = function MainViewPanel(_ref) {
     changeWorkingState: changeWorkingState,
     agentStates: agentStates,
     disabled: disabled,
-    isWide: isWide
-  }), /*#__PURE__*/_react["default"].createElement("div", {
+    isWide: isWide,
+    hideOffHookBtn: hideOffHookBtn
+  }), !hideOffHookBtn && /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])([_styles["default"].offHookState, isOffHookDisable ? _styles["default"].disabled : _styles["default"].enabled]),
     onClick: isOffHookDisable ? null : offhook
   }, offHookIcon)), children);

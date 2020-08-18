@@ -29,8 +29,6 @@ var _rcui = require("@ringcentral-integration/rcui");
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _BackHeaderV = _interopRequireDefault(require("ringcentral-widgets/components/BackHeaderV2"));
-
 var _i18n = _interopRequireDefault(require("../../modules/EvManualDialSettingsUI/i18n"));
 
 var _ListItemWithScrollCheck = require("../ListItemWithScrollCheck");
@@ -40,6 +38,8 @@ var _SearchSelectField = require("../SearchSelectField");
 var _i18n2 = _interopRequireDefault(require("./i18n"));
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
+
+var _SelectList = require("../SelectList");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -56,11 +56,10 @@ var ManualDialSettingsPanel = function ManualDialSettingsPanel(_ref) {
   (0, _react.useEffect)(function () {
     init(); // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  return /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement(_BackHeaderV["default"], {
+  return /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement(_SelectList.BackHeader, {
     currentLocale: currentLocale,
     title: _i18n["default"].getString('manualDialSettings', currentLocale),
-    onBackClick: goBack,
-    className: _styles["default"].backHeader
+    onBackClick: goBack
   }), /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].container
   }, settingFields.map(function (_ref2, key) {

@@ -23,6 +23,6 @@ function EvAuthAlert(_ref) {
 
 EvAuthAlert.handleMessage = function (_ref2) {
   var message = _ref2.message;
-  return (0, _ramda.contains)(message, [_enums.messageTypes.NO_AGENT, _enums.messageTypes.CONNECT_ERROR, _enums.messageTypes.UNEXPECTED_AGENT, _enums.messageTypes.INVALID_BROWSER, _enums.messageTypes.CONNECT_TIMEOUT, _enums.messageTypes.OPEN_SOCKET_ERROR, _enums.messageTypes.EXISTING_LOGIN_ENGAGED]);
+  return (0, _ramda.contains)(message, [_enums.messageTypes.NO_AGENT, _enums.messageTypes.CONNECT_ERROR, _enums.messageTypes.UNEXPECTED_AGENT, _enums.messageTypes.INVALID_BROWSER, _enums.messageTypes.CONNECT_TIMEOUT, _enums.messageTypes.OPEN_SOCKET_ERROR, _enums.messageTypes.EXISTING_LOGIN_ENGAGED, _enums.messageTypes.FORCE_LOGOUT]);
 };
 //# sourceMappingURL=EvAuthAlert.js.map

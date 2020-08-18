@@ -16,18 +16,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _PhoneBookPanel = require("./PhoneBookPanel");
-
-Object.keys(_PhoneBookPanel).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function get() {
-      return _PhoneBookPanel[key];
-    }
-  });
-});
-
 var _InternalPanel = require("./InternalPanel");
 
 Object.keys(_InternalPanel).forEach(function (key) {
@@ -48,6 +36,18 @@ Object.keys(_ManualEntryPanel).forEach(function (key) {
     enumerable: true,
     get: function get() {
       return _ManualEntryPanel[key];
+    }
+  });
+});
+
+var _PhoneBookPanel = require("./PhoneBookPanel");
+
+Object.keys(_PhoneBookPanel).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _PhoneBookPanel[key];
     }
   });
 });

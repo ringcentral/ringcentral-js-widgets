@@ -1,23 +1,24 @@
 import {
   action,
-  RcModuleState,
+  computed,
   RcModuleV2,
   state,
   storage,
-  createSelector,
+  track,
 } from '@ringcentral-integration/core';
 import format from '@ringcentral-integration/phone-number/lib/format';
-import { Module } from 'ringcentral-integration/lib/di';
 import EventEmitter from 'events';
-import { messageTypes, authStatus } from '../../enums';
-import { EvAgentInfo } from '../../lib/EvClient';
+import { Module } from 'ringcentral-integration/lib/di';
+
+import { authStatus, messageTypes, tabManagerEvents } from '../../enums';
+import { EvAgentData, EvAgentInfo } from '../../lib/EvClient';
 import { EvCallbackTypes } from '../../lib/EvClient/enums';
 import { sortByName } from '../../lib/sortByName';
-import { Auth, DepsModules, EvAuthData, State } from './EvAuth.interface';
+import { trackEvents } from '../../lib/trackEvents';
+import { Auth, Deps, State } from './EvAuth.interface';
 import i18n from './i18n';
 
 const DEFAULT_COUNTRIES = ['USA', 'CAN'];
-type EvAuthState = RcModuleState<EvAuth, State>;
 
 @Module({
   name: 'EvAuth',
@@ -25,41 +26,36 @@ type EvAuthState = RcModuleState<EvAuth, State>;
     'EvClient',
     'Auth',
     'Storage',
+    'Block',
     'Alert',
     'Locale',
     'RouterInteraction',
     'EvSubscription',
+    'TabManager',
     { dep: 'EvAuthOptions', optional: true },
   ],
 })
-class EvAuth extends RcModuleV2<DepsModules, EvAuthState> implements Auth {
+class EvAuth extends RcModuleV2<Deps> implements Auth {
   public connecting?: boolean;
-
-  public disconnecting?: boolean;
 
   private _eventEmitter = new EventEmitter();
 
-  constructor({
-    auth,
-    alert,
-    locale,
-    storage,
-    evClient,
-    evSubscription,
-    routerInteraction,
-    enableCache = true,
-  }) {
+  public canUserLogoutFn: () => Promise<boolean> = async () => true;
+
+  private _logout = () => {
+    return this._deps.auth.logout({ dismissAllAlert: false });
+  };
+
+  private _logoutByOtherTab = false;
+
+  get tabManagerEnabled() {
+    return this._deps.tabManager?._tabbie.enabled;
+  }
+
+  constructor(deps: Deps) {
     super({
-      modules: {
-        auth,
-        alert,
-        locale,
-        storage,
-        evClient,
-        evSubscription,
-        routerInteraction,
-      },
-      enableCache,
+      deps,
+      enableCache: true,
       storageKey: 'EvAuth',
     });
   }
@@ -70,18 +66,38 @@ class EvAuth extends RcModuleV2<DepsModules, EvAuthState> implements Auth {
 
   @storage
   @state
-  agent: EvAuthData = {};
+  agent: EvAgentData = null;
 
   get agentId() {
-    return this.agent.data?.agents[0]?.agentId || '';
+    return this.agent?.authenticateResponse?.agents[0]?.agentId || '';
   }
 
   get isFreshLogin() {
-    return this._modules.auth.isFreshLogin;
+    return this._deps.auth.isFreshLogin;
+  }
+
+  get agentConfig() {
+    return this.agent?.agentConfig || null;
+  }
+
+  get agentSettings() {
+    return this.agentConfig.agentSettings;
   }
 
   get outboundManualDefaultRingtime() {
     return this.agentSettings.outboundManualDefaultRingtime;
+  }
+
+  get inboundSettings() {
+    return (
+      this.agentConfig.inboundSettings || {
+        availableQueues: [] as Array<undefined>,
+        availableSkillProfiles: [] as Array<undefined>,
+        queues: [] as Array<undefined>,
+        skillProfile: {} as any,
+        availableRequeueQueues: [] as Array<undefined>,
+      }
+    );
   }
 
   get assignedQueue() {
@@ -92,55 +108,34 @@ class EvAuth extends RcModuleV2<DepsModules, EvAuthState> implements Auth {
     return this.agentConfig.agentPermissions;
   }
 
-  get agentConfig() {
-    return this.agent.agentConfig;
-  }
-
-  get inboundSettings() {
-    return this.agentConfig.inboundSettings;
-  }
-
-  get agentSettings() {
-    return this.agentConfig.agentSettings;
-  }
-
   get autoAnswerCalls() {
-    return this.agentSettings.autoAnswerCalls;
+    return this.agentConfig.agentPermissions.defaultAutoAnswerOn;
   }
 
-  private _getAvailableQueues = createSelector(
-    () => this.inboundSettings.availableQueues,
-    (availableQueues) => [
+  @computed((that: EvAuth) => [that.inboundSettings.availableQueues])
+  get availableQueues() {
+    return [
       {
         gateId: '-1',
-        gateName: i18n.getString('default', this._modules.locale.currentLocale),
+        gateName: i18n.getString('default', this._deps.locale.currentLocale),
       },
-      ...sortByName(availableQueues, 'gateName'),
-    ],
-  );
-
-  get availableQueues() {
-    return this._getAvailableQueues();
+      ...sortByName(this.inboundSettings.availableQueues, 'gateName'),
+    ];
   }
 
-  getAvailableRequeueQueues = createSelector(
-    () => this.inboundSettings.availableRequeueQueues,
-    (availableRequeueQueues) => {
-      return sortByName(availableRequeueQueues, 'groupName');
-    },
-  );
+  @computed((that: EvAuth) => [that.inboundSettings.availableRequeueQueues])
+  get availableRequeueQueues() {
+    return sortByName(this.inboundSettings.availableRequeueQueues, 'groupName');
+  }
 
-  getCallerIds = createSelector(
-    () => this.agentSettings.callerIds,
-    (callerIds) => [
+  @computed((that: EvAuth) => [that.agentSettings.callerIds])
+  get callerIds() {
+    return [
       {
-        description: i18n.getString(
-          'default',
-          this._modules.locale.currentLocale,
-        ),
+        description: i18n.getString('default', this._deps.locale.currentLocale),
         number: '-1',
       },
-      ...callerIds.map((callerId) => {
+      ...this.agentSettings.callerIds.map((callerId) => {
         const number =
           format({
             phoneNumber: callerId.number,
@@ -151,112 +146,159 @@ class EvAuth extends RcModuleV2<DepsModules, EvAuthState> implements Auth {
           number,
         };
       }),
-    ],
-  );
+    ];
+  }
 
-  getAvailableCountries = createSelector(
-    () => this.agentConfig.applicationSettings.availableCountries,
-    (availableCountries = []) => {
-      // The default Engage Voice service area is `USA` and `CAN` with `+1` international code.
-      const countriesUsaCan = availableCountries.filter(({ countryId }) =>
-        DEFAULT_COUNTRIES.includes(countryId),
-      );
-      return countriesUsaCan.length > 0
-        ? countriesUsaCan
-        : [
-            {
-              countryId: 'USA',
-              countryName: i18n.getString(
-                'us',
-                this._modules.locale.currentLocale,
-              ),
-            },
-          ];
-    },
-  );
+  @computed((that: EvAuth) => [
+    that.agentConfig.applicationSettings.availableCountries,
+    that._deps.locale.currentLocale,
+  ])
+  get availableCountries() {
+    const { availableCountries } = this.agentConfig.applicationSettings;
+    // The default Engage Voice service area is `USA` and `CAN` with `+1` international code.
+    const countriesUsaCan = availableCountries.filter(({ countryId }) =>
+      DEFAULT_COUNTRIES.includes(countryId),
+    );
+    return countriesUsaCan.length > 0
+      ? countriesUsaCan
+      : [
+          {
+            countryId: 'USA',
+            countryName: i18n.getString('us', this._deps.locale.currentLocale),
+          },
+        ];
+  }
 
+  @track((_: EvAuth, { connected, agent }: State) => {
+    return [
+      trackEvents.loginAgent,
+      connected
+        ? {
+            'agentId(s)': agent.authenticateResponse?.agents?.map(
+              (agent) => agent.agentId,
+            ),
+            'userId(s)': agent.authenticateResponse?.agents?.map(
+              (agent) => agent.rcUserId,
+            ),
+          }
+        : undefined,
+    ];
+  })
   @action
   setConnectionData({ connected, agent }: State) {
-    this.state.agent = agent;
-    this.state.connected = connected;
+    this.agent = agent;
+    this.connected = connected;
+  }
+
+  @action
+  setAgent(agent: EvAgentData) {
+    this.agent = agent;
+  }
+
+  _shouldInit() {
+    return super._shouldInit() && this._deps.auth.loggedIn && this.connected;
   }
 
   onInitOnce() {
-    this._modules.evSubscription.subscribe(
-      EvCallbackTypes.LOGOUT,
-      async (data) => {
-        // TODO: check it about `data.message === 'OK'`?
-        // wait for fixing `LOGOUT` event missing issue about EV multiple socket
-        this._modules.auth.logout();
-      },
-    );
+    this._deps.evSubscription.subscribe(EvCallbackTypes.LOGOUT, async () => {
+      this._emitLogoutBefore();
+
+      // if that is logout by same browser that will only trigger emit
+      // if there is logout by other browser, that need redirect to home page,
+      if (!this._logoutByOtherTab) {
+        this._deps.alert.info({
+          message: messageTypes.FORCE_LOGOUT,
+        });
+
+        this._logoutByOtherTab = false;
+
+        this.newReconnect();
+      }
+    });
   }
 
-  onLogout(callback: () => void) {
+  async onStateChange() {
+    if (this.ready && this.tabManagerEnabled && this._deps.tabManager.ready) {
+      this._checkTabManagerEvent();
+    }
+
+    if (this._deps.auth.loggedIn && !this.connected && !this.connecting) {
+      this.connecting = true;
+      // when login make sure the _logoutByOtherTab is false
+      this._logoutByOtherTab = false;
+
+      await this.loginAgent();
+      this.connecting = false;
+    }
+  }
+
+  onceLogout(cb: () => any) {
+    return this._deps.evSubscription.once(EvCallbackTypes.LOGOUT, cb);
+  }
+
+  async logout() {
+    if (!(await this.canUserLogoutFn())) {
+      return;
+    }
+
+    const agentId = this.agentId;
+
+    this.sendLogoutTabEvent();
+
+    await this._deps.block.next(this._logout);
+
+    const logoutAgentResponse = await this.logoutAgent(agentId);
+
+    // TODO: error handle when logout fail
+    // TODO: when failed need tell other tab not logout => this._deps.tabManager.send(tabManagerEvents.LOGOUT);
+    if (!logoutAgentResponse.message || logoutAgentResponse.message !== 'OK') {
+      console.log('logoutAgent failed');
+      return;
+    }
+    this.setConnectionData({ connected: false, agent: null });
+  }
+
+  sendLogoutTabEvent() {
+    this._emitLogoutBefore();
+    if (this.tabManagerEnabled) {
+      this._deps.tabManager.send(tabManagerEvents.LOGOUT);
+    }
+  }
+
+  logoutAgent(agentId: string = this.agentId) {
+    return this._deps.evClient.logoutAgent(agentId);
+  }
+
+  beforeAgentLogout(callback: () => void) {
     this._eventEmitter.on(authStatus.LOGOUT_BEFORE, callback);
   }
 
-  private _onLogout() {
-    this._eventEmitter.emit(authStatus.LOGOUT_BEFORE);
+  newReconnect(isBlock: boolean = true) {
+    this._deps.evClient.closeSocket();
+
+    const fn = this.loginAgent;
+
+    return isBlock ? this._deps.block.next(fn) : fn();
   }
 
-  async disconnect(agentId: string) {
-    this._onLogout();
-    // ensure that multi-tabs update state effect.
-    if (!agentId) {
-      console.log('agentId does not exist');
-      return;
-    }
+  loginAgent = async () => {
     try {
-      const logoutAgentResponse = await this._modules.evClient.logoutAgent(
-        agentId,
+      this._deps.evClient.initSDK();
+
+      const agent = await this._deps.evClient.loginAgent(
+        this._deps.auth.accessToken,
+        'Bearer',
       );
-      if (
-        !logoutAgentResponse.message ||
-        logoutAgentResponse.message !== 'OK'
-      ) {
-        // TODO: error handle
-        console.log('logoutAgent failed');
-        return;
-      }
-      this.setConnectionData({ connected: false, agent: {} });
-      // create a new AgentSDK instance
-      this._modules.evClient.onInit();
-    } catch (error) {
-      // TODO: error handle
-      console.error('disconnect failed');
-    }
-  }
+      this.setConnectionData({
+        connected: true,
+        agent: agent.data,
+      });
 
-  async loginAgent() {
-    const agent = await this._modules.evClient.loginAgent(
-      this._modules.auth.accessToken,
-      'Bearer',
-    );
-
-    this.setConnectionData({
-      connected: true,
-      agent,
-    });
-
-    this._onLoginSuccess(agent);
-  }
-
-  onLoginSuccess(callback: (agent: EvAgentInfo) => void) {
-    this._eventEmitter.on(authStatus.LOGIN_SUCCESS, callback);
-  }
-
-  private _onLoginSuccess(agent: EvAgentInfo) {
-    this._eventEmitter.emit(authStatus.LOGIN_SUCCESS, agent);
-  }
-
-  async connect() {
-    try {
-      await this.loginAgent();
+      this._eventEmitter.emit(authStatus.LOGIN_SUCCESS, agent);
     } catch (error) {
       switch (error.type) {
         case messageTypes.NO_AGENT:
-          this._modules.alert.warning({
+          this._deps.alert.warning({
             message: error.type,
           });
           break;
@@ -264,37 +306,38 @@ class EvAuth extends RcModuleV2<DepsModules, EvAuthState> implements Auth {
         case messageTypes.UNEXPECTED_AGENT:
         case messageTypes.INVALID_BROWSER:
         case messageTypes.OPEN_SOCKET_ERROR:
-          this._modules.alert.danger({
+          this._deps.alert.danger({
             message: error.type,
           });
           break;
         default:
-          this._modules.alert.danger({
+          this._deps.alert.danger({
             message: messageTypes.CONNECT_ERROR,
           });
       }
-      await this._modules.auth.logout({ dismissAllAlert: false });
+      await this._logout();
     }
+  };
+
+  onLoginSuccess(callback: (agent: EvAgentInfo) => void) {
+    this._eventEmitter.on(authStatus.LOGIN_SUCCESS, callback);
   }
 
-  _shouldInit() {
-    return super._shouldInit() && this._modules.auth.loggedIn && this.connected;
+  private _emitLogoutBefore() {
+    this._eventEmitter.emit(authStatus.LOGOUT_BEFORE);
   }
 
-  async onStateChange() {
-    if (this._modules.auth.loggedIn && !this.connected && !this.connecting) {
-      this.connecting = true;
-      try {
-        await this.connect();
-      } catch (e) {
-        console.error(e);
+  private _checkTabManagerEvent() {
+    const { event } = this._deps.tabManager;
+    if (event) {
+      // const data = event.args[0];
+      switch (event.name) {
+        case tabManagerEvents.LOGOUT:
+          this._logoutByOtherTab = true;
+          break;
+        default:
+          break;
       }
-      this.connecting = false;
-    }
-    if (!this._modules.auth.loggedIn && this.connected && !this.disconnecting) {
-      this.disconnecting = true;
-      await this.disconnect(this.agentId);
-      this.disconnecting = false;
     }
   }
 }

@@ -27,8 +27,6 @@ require("core-js/modules/es6.object.set-prototype-of");
 
 require("core-js/modules/es6.object.define-property");
 
-require("core-js/modules/es6.array.reduce");
-
 require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
@@ -36,6 +34,10 @@ require("core-js/modules/es6.array.iterator");
 require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.for-each");
+
+require("core-js/modules/es6.function.name");
+
+require("core-js/modules/es6.array.reduce");
 
 require("core-js/modules/es6.promise");
 
@@ -51,8 +53,6 @@ require("core-js/modules/es6.string.includes");
 
 require("core-js/modules/es6.array.find");
 
-require("core-js/modules/es6.array.map");
-
 var _core = require("@ringcentral-integration/core");
 
 var _phoneNumber = require("@ringcentral-integration/phone-number");
@@ -64,22 +64,6 @@ var _di = require("ringcentral-integration/lib/di");
 var _callErrors = _interopRequireDefault(require("ringcentral-integration/modules/Call/callErrors"));
 
 var _enums = require("../../enums");
-
-var _directTransferNotificationTypes = require("../../enums/directTransferNotificationTypes");
-
-var _directTransferStatues = require("../../enums/directTransferStatues");
-
-var _directTransferTypes = require("../../enums/directTransferTypes");
-
-var _transferErrors = require("../../enums/transferErrors");
-
-var _transferEvents = require("../../enums/transferEvents");
-
-var _transferStatuses = require("../../enums/transferStatuses");
-
-var _transferSuccesses = require("../../enums/transferSuccesses");
-
-var _transferTypes = require("../../enums/transferTypes");
 
 var _asyncEventEmitter = require("../../lib/asyncEventEmitter");
 
@@ -93,21 +77,21 @@ var _parseNumber = require("../../lib/parseNumber");
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
-var _dec, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7, _descriptor8, _descriptor9, _descriptor10, _temp;
+var _dec, _dec2, _dec3, _dec4, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7, _descriptor8, _descriptor9, _descriptor10, _temp;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
 
@@ -137,48 +121,30 @@ function _initializerWarningHelper(descriptor, context) { throw new Error('Decor
 
 var EvTransferCall = (_dec = (0, _di.Module)({
   name: 'EvTransferCall',
-  deps: ['EvClient', 'EvCallMonitor', 'EvCall', 'EvSubscription', 'EvWorkingState', 'Storage', 'Modal', 'Locale', 'Alert', 'EvSessionConfig', {
+  deps: ['EvClient', 'EvCallMonitor', 'EvCall', 'EvSubscription', 'EvWorkingState', 'Storage', 'Modal', 'EvAuth', 'Locale', 'Alert', 'EvAgentSession', {
     dep: 'EvTransferCallOptions',
     optional: true
   }]
+}), _dec2 = (0, _core.computed)(function (that) {
+  return [that._deps.evCall.currentCall, that._deps.evAuth.availableCountries];
+}), _dec3 = (0, _core.computed)(function (that) {
+  return [that._deps.evCall.currentCall];
+}), _dec4 = (0, _core.computed)(function (that) {
+  return [that.transferAgentList, that.transferAgentId];
 }), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcModuleV) {
   _inherits(EvTransferCall, _RcModuleV);
 
   var _super = _createSuper(EvTransferCall);
 
   // alertTemplate: ModalTemplate;
-  function EvTransferCall(_ref) {
+  function EvTransferCall(deps) {
     var _this;
-
-    var evClient = _ref.evClient,
-        evCallMonitor = _ref.evCallMonitor,
-        evCall = _ref.evCall,
-        evSubscription = _ref.evSubscription,
-        evWorkingState = _ref.evWorkingState,
-        storage = _ref.storage,
-        modal = _ref.modal,
-        locale = _ref.locale,
-        alert = _ref.alert,
-        evSessionConfig = _ref.evSessionConfig,
-        _ref$enableCache = _ref.enableCache,
-        enableCache = _ref$enableCache === void 0 ? true : _ref$enableCache;
 
     _classCallCheck(this, EvTransferCall);
 
     _this = _super.call(this, {
-      modules: {
-        evClient: evClient,
-        evCallMonitor: evCallMonitor,
-        evCall: evCall,
-        evSubscription: evSubscription,
-        evWorkingState: evWorkingState,
-        storage: storage,
-        modal: modal,
-        locale: locale,
-        alert: alert,
-        evSessionConfig: evSessionConfig
-      },
-      enableCache: enableCache,
+      deps: deps,
+      enableCache: true,
       storageKey: 'EvTransferCall'
     });
     _this._eventEmitter = new _asyncEventEmitter.AsyncEventEmitter();
@@ -209,62 +175,31 @@ var EvTransferCall = (_dec = (0, _di.Module)({
 
     _initializerDefineProperty(_this, "stayOnCall", _descriptor10, _assertThisInitialized(_this));
 
-    _this.getTransferPhoneBook = (0, _core.createSelector)(function () {
-      return _this._modules.evCall.getCurrentCall();
-    }, function (currentCall) {
-      var _currentCall$transfer;
-
-      return ((_currentCall$transfer = currentCall.transferPhoneBook) === null || _currentCall$transfer === void 0 ? void 0 : _currentCall$transfer.map(function (item) {
-        var _parsedDestination;
-
-        try {
-          _parsedDestination = (0, _phoneNumber.format)({
-            phoneNumber: item.destination,
-            countryCode: (0, _i18nIsoCountries.alpha3ToAlpha2)(item.countryId),
-            type: _phoneNumber.formatTypes.e164
-          });
-        } catch (e) {//
-        }
-
-        return _objectSpread(_objectSpread({}, item), {}, {
-          _parsedDestination: _parsedDestination
-        });
-      })) || [];
-    });
-    _this.getTransferAgentAvailable = (0, _core.createSelector)(function () {
-      return _this.transferAgentList;
-    }, function () {
-      return _this.transferAgentId;
-    }, function (transferAgentList, transferAgentId) {
-      return transferAgentList.find(function (item) {
-        return item.agentId === transferAgentId;
-      }).available;
-    });
     return _this;
   }
 
   _createClass(EvTransferCall, [{
     key: "setReceivedCall",
     value: function setReceivedCall(data) {
-      this.state.receivedCall = data;
+      this.receivedCall = data;
     }
   }, {
     key: "setCancelableTransfer",
     value: function setCancelableTransfer(cancelable) {
-      this.state.isTransferCancelable = cancelable;
+      this.isTransferCancelable = cancelable;
     }
   }, {
     key: "resetTransferStatus",
     value: function resetTransferStatus() {
-      this.state.receivedCall = null;
-      this.state.transferType = _transferTypes.transferTypes.phoneBook;
-      this.state.transferAgentId = null;
-      this.state.transferAgentList = [];
-      this.state.transferPhoneBookSelectedIndex = null;
-      this.state.transferRecipientNumber = '';
-      this.state.transferRecipientCountryId = 'USA';
-      this.state.stayOnCall = true;
-      this.state.isTransferCancelable = false;
+      this.receivedCall = null;
+      this.transferType = _enums.transferTypes.phoneBook;
+      this.transferAgentId = null;
+      this.transferAgentList = [];
+      this.transferPhoneBookSelectedIndex = null;
+      this.transferRecipientNumber = '';
+      this.transferRecipientCountryId = 'USA';
+      this.stayOnCall = true;
+      this.isTransferCancelable = false;
       this._sendVoiceMailModalId = null;
       this._incomingTransferCallModalId = null;
       this._transferDest = null;
@@ -272,59 +207,59 @@ var EvTransferCall = (_dec = (0, _di.Module)({
   }, {
     key: "changeStayOnCall",
     value: function changeStayOnCall(value) {
-      this.state.stayOnCall = !value;
+      this.stayOnCall = !value;
     }
   }, {
     key: "changeRecipientCountryId",
     value: function changeRecipientCountryId(countryId) {
-      this.state.transferRecipientCountryId = countryId;
+      this.transferRecipientCountryId = countryId;
     }
   }, {
     key: "changeTransferType",
     value: function changeTransferType(type) {
-      this.state.transferType = type;
+      this.transferType = type;
     }
   }, {
     key: "changeAgentList",
     value: function changeAgentList(data) {
       var _this2 = this;
 
-      var currentAgent = data.find(function (_ref2) {
-        var agentId = _ref2.agentId;
+      var currentAgent = data.find(function (_ref) {
+        var agentId = _ref.agentId;
         return agentId === _this2.transferAgentId;
       });
 
       if (!currentAgent) {
-        this.state.transferAgentId = null;
+        this.transferAgentId = null;
       }
 
-      this.state.transferAgentList = data;
+      this.transferAgentList = data;
     }
   }, {
     key: "changeRecipientNumber",
     value: function changeRecipientNumber(phoneNumber) {
-      this.state.transferRecipientNumber = phoneNumber;
+      this.transferRecipientNumber = phoneNumber;
     }
   }, {
     key: "changeTransferPhoneBookSelected",
     value: function changeTransferPhoneBookSelected(index) {
-      this.state.transferPhoneBookSelectedIndex = index;
+      this.transferPhoneBookSelectedIndex = index;
     }
   }, {
     key: "changeTransferAgentId",
     value: function changeTransferAgentId(agentId) {
-      this.state.transferAgentId = agentId;
+      this.transferAgentId = agentId;
     }
   }, {
     key: "setTransferStatus",
     value: function setTransferStatus(transferStatus) {
-      this.state.transferStatus = transferStatus;
+      this.transferStatus = transferStatus;
     }
   }, {
     key: "onInit",
     value: function onInit() {
-      if (!this._modules.evSessionConfig.isConfigSuccessByLocal) {
-        this.setTransferStatus(_transferStatuses.transferStatuses.idle);
+      if (!this._deps.evAgentSession.isConfigTab) {
+        this.setTransferStatus(_enums.transferStatuses.idle);
       }
     }
   }, {
@@ -332,15 +267,19 @@ var EvTransferCall = (_dec = (0, _di.Module)({
     value: function onInitOnce() {
       var _this3 = this;
 
-      this._modules.evCallMonitor.addCallEndedHook(function () {
+      this._deps.evCallMonitor.onCallEnded(function () {
+        _this3.setTransferStatus(_enums.transferStatuses.idle);
+
         _this3.closeModals();
+
+        _this3.closeLoadingNotification();
       });
 
-      this._modules.evSubscription.subscribe(_callbackTypes.EvCallbackTypes.DIRECT_AGENT_TRANSFER, function (data) {
+      this._deps.evSubscription.subscribe(_callbackTypes.EvCallbackTypes.DIRECT_AGENT_TRANSFER, function (data) {
         var internalTransferCallback = _this3._internalTransferCallbacks[data.type];
 
-        if (data.status === _directTransferStatues.directTransferStatues.ACCEPTED && data.type === _directTransferTypes.directTransferTypes.WARM) {
-          if (!_this3.getTransferAgentAvailable()) {
+        if (data.status === _enums.directTransferStatues.ACCEPTED && data.type === _enums.directTransferTypes.WARM) {
+          if (!_this3.transferAgentAvailable) {
             _this3.setCancelableTransfer(true);
 
             _this3.showNotificationLoadingCancel();
@@ -349,7 +288,7 @@ var EvTransferCall = (_dec = (0, _di.Module)({
           return;
         }
 
-        if ([_directTransferStatues.directTransferStatues.REJECTED, _directTransferStatues.directTransferStatues.SUCCEEDED].includes(data.status) && data.type === _directTransferTypes.directTransferTypes.WARM) {
+        if ([_enums.directTransferStatues.REJECTED, _enums.directTransferStatues.SUCCEEDED].includes(data.status) && data.type === _enums.directTransferTypes.WARM) {
           _this3.setCancelableTransfer(false);
 
           _this3.showNotificationLoadingSpinner();
@@ -360,8 +299,10 @@ var EvTransferCall = (_dec = (0, _di.Module)({
         }
       });
 
-      this._modules.evSubscription.subscribe(_callbackTypes.EvCallbackTypes.DIRECT_AGENT_TRANSFER_NOTIF, function (data) {
-        if (data.status === _directTransferNotificationTypes.directTransferNotificationTypes.PENDING) {
+      var needCloseNotificationTypes = [_enums.directTransferNotificationTypes.CANCELLED, _enums.directTransferNotificationTypes.VOICEMAIL, _enums.directTransferNotificationTypes.MISSED];
+
+      this._deps.evSubscription.subscribe(_callbackTypes.EvCallbackTypes.DIRECT_AGENT_TRANSFER_NOTIF, function (data) {
+        if (data.status === _enums.directTransferNotificationTypes.PENDING) {
           var hasReceivedCall = !!_this3.receivedCall;
 
           _this3.setReceivedCall(data);
@@ -371,7 +312,7 @@ var EvTransferCall = (_dec = (0, _di.Module)({
           }
         }
 
-        if (data.status === _directTransferNotificationTypes.directTransferNotificationTypes.CANCELLED) {
+        if (needCloseNotificationTypes.includes(data.status)) {
           _this3.closeModals();
 
           _this3.setReceivedCall(null);
@@ -379,8 +320,8 @@ var EvTransferCall = (_dec = (0, _di.Module)({
       });
 
       this.onTransferStart(function () {
-        _this3._transferNotificationId = _this3._modules.alert.info({
-          message: _transferEvents.transferEvents.START,
+        _this3._transferNotificationId = _this3._deps.alert.info({
+          message: _enums.transferEvents.START,
           loading: true,
           backdrop: true,
           ttl: 0
@@ -395,22 +336,25 @@ var EvTransferCall = (_dec = (0, _di.Module)({
       this.onTransferSuccess(function () {
         _this3.closeLoadingNotification();
 
-        _this3._modules.alert.success({
-          message: _transferSuccesses.transferSuccesses.TRANSFER_CONNECTED
+        _this3._deps.alert.success({
+          message: _enums.transferSuccesses.TRANSFER_CONNECTED
         });
       });
-      this.onTransferError(function (_ref3) {
-        var message = _ref3.message;
+      this.onTransferError(function (data) {
+        _this3.closeLoadingNotification(); // if that is cancel transfer from user do nothing.
 
-        _this3.closeLoadingNotification();
+
+        if (data.type === _enums.directTransferTypes.CANCEL) {
+          return;
+        }
 
         if (_this3.isInternalTransfer) {
-          _this3._showSendVoiceMailModal();
-        } else if (message !== 'Transfer CANCELED') {
-          _this3._modules.alert.danger({
-            message: _transferErrors.transferErrors.TRANSFER_ERROR
-          });
+          return _this3._showSendVoiceMailModal(data);
         }
+
+        _this3._deps.alert.danger({
+          message: _enums.transferErrors.TRANSFER_ERROR
+        });
       }); // End transfer message will come after success and error.
 
       this.onTransferEnd(function () {
@@ -420,16 +364,16 @@ var EvTransferCall = (_dec = (0, _di.Module)({
   }, {
     key: "showNotificationLoadingSpinner",
     value: function showNotificationLoadingSpinner() {
-      this._modules.alert.update(this._transferNotificationId, {
-        message: _transferEvents.transferEvents.START,
+      this._deps.alert.update(this._transferNotificationId, {
+        message: _enums.transferEvents.START,
         loading: true
       });
     }
   }, {
     key: "showNotificationLoadingCancel",
     value: function showNotificationLoadingCancel() {
-      this._modules.alert.update(this._transferNotificationId, {
-        message: _transferEvents.transferEvents.START,
+      this._deps.alert.update(this._transferNotificationId, {
+        message: _enums.transferEvents.START,
         action: this.cancelTemplate
       });
     }
@@ -437,7 +381,7 @@ var EvTransferCall = (_dec = (0, _di.Module)({
     key: "closeLoadingNotification",
     value: function closeLoadingNotification() {
       if (this._transferNotificationId) {
-        this._modules.alert.dismiss(this._transferNotificationId);
+        this._deps.alert.dismiss(this._transferNotificationId);
 
         this._transferNotificationId = null;
       }
@@ -446,28 +390,28 @@ var EvTransferCall = (_dec = (0, _di.Module)({
     key: "onTransferStart",
     value: function onTransferStart(handler) {
       if (typeof handler === 'function') {
-        this._eventEmitter.on(_transferEvents.transferEvents.START, handler);
+        this._eventEmitter.on(_enums.transferEvents.START, handler);
       }
     }
   }, {
     key: "onTransferEnd",
     value: function onTransferEnd(handler) {
       if (typeof handler === 'function') {
-        this._eventEmitter.on(_transferEvents.transferEvents.END, handler);
+        this._eventEmitter.on(_enums.transferEvents.END, handler);
       }
     }
   }, {
     key: "onTransferError",
     value: function onTransferError(handler) {
       if (typeof handler === 'function') {
-        this._eventEmitter.on(_transferEvents.transferEvents.ERROR, handler);
+        this._eventEmitter.on(_enums.transferEvents.ERROR, handler);
       }
     }
   }, {
     key: "onTransferSuccess",
     value: function onTransferSuccess(handler) {
       if (typeof handler === 'function') {
-        this._eventEmitter.on(_transferEvents.transferEvents.SUCCESS, handler);
+        this._eventEmitter.on(_enums.transferEvents.SUCCESS, handler);
       }
     }
   }, {
@@ -475,12 +419,12 @@ var EvTransferCall = (_dec = (0, _di.Module)({
     value: function closeModals() {
       // close send voice modal.
       if (this._sendVoiceMailModalId) {
-        this._modules.modal.close(this._sendVoiceMailModalId);
+        this._deps.modal.close(this._sendVoiceMailModalId);
       } // close ignore/accept transfer modal.
 
 
       if (this._incomingTransferCallModalId) {
-        this._modules.modal.close(this._incomingTransferCallModalId);
+        this._deps.modal.close(this._incomingTransferCallModalId);
       }
     }
   }, {
@@ -539,7 +483,7 @@ var EvTransferCall = (_dec = (0, _di.Module)({
     value: function rejectTransferCall() {
       if (!this.receivedCall) return;
 
-      this._modules.evClient.rejectDirectAgentTransferCall(this.receivedCall.uii);
+      this._deps.evClient.rejectDirectAgentTransferCall(this.receivedCall.uii);
 
       this.setReceivedCall(null);
     }
@@ -550,7 +494,7 @@ var EvTransferCall = (_dec = (0, _di.Module)({
 
       if (!this.receivedCall) return;
 
-      this._modules.evWorkingState.setWorkingStateWorking(); // TODO: need check why add timeout here?
+      this._deps.evWorkingState.setWorkingStateWorking(); // TODO: need check why add timeout here?
 
 
       setTimeout(function () {
@@ -562,18 +506,18 @@ var EvTransferCall = (_dec = (0, _di.Module)({
     value: function sendVoicemailToAgent() {
       var _this5 = this;
 
-      this.setTransferStatus(_transferStatuses.transferStatuses.loading);
+      this.setTransferStatus(_enums.transferStatuses.loading);
 
-      this._modules.evClient.sendVoicemailDirectAgentTransfer(this.transferAgentId);
+      this._deps.evClient.sendVoicemailDirectAgentTransfer(this.transferAgentId);
 
       this._internalTransferCallbacks.VOICEMAIL = function (data) {
-        if (data.status === _directTransferStatues.directTransferStatues.ACCEPTED) {
-          _this5._modules.alert.success({
-            message: _transferSuccesses.transferSuccesses.SEND_VOICEMAIL_SUCCESS
+        if (data.status === _enums.directTransferStatues.ACCEPTED) {
+          _this5._deps.alert.success({
+            message: _enums.transferSuccesses.SEND_VOICEMAIL_SUCCESS
           });
         } else {
-          _this5._modules.alert.danger({
-            message: _transferErrors.transferErrors.SEND_VOICEMAIL_ERROR
+          _this5._deps.alert.danger({
+            message: _enums.transferErrors.SEND_VOICEMAIL_ERROR
           });
         }
       };
@@ -637,7 +581,7 @@ var EvTransferCall = (_dec = (0, _di.Module)({
                   break;
                 }
 
-                this._modules.evClient.cancelDirectAgentTransfer(this.transferAgentId);
+                this._deps.evClient.cancelDirectAgentTransfer(this.transferAgentId);
 
                 _context3.next = 5;
                 return new Promise(function (resolve, reject) {
@@ -648,7 +592,7 @@ var EvTransferCall = (_dec = (0, _di.Module)({
                       _this6._internalTransferCallbacks.COLD(data);
                     }
 
-                    if (data.status === _directTransferStatues.directTransferStatues.SUCCEEDED) {
+                    if (data.status === _enums.directTransferStatues.SUCCEEDED) {
                       resolve(data);
                     } else {
                       reject(data);
@@ -662,7 +606,7 @@ var EvTransferCall = (_dec = (0, _di.Module)({
 
               case 7:
                 if (this._transferDest) {
-                  this._modules.evClient.cancelWarmTransferCall(this._transferDest);
+                  this._deps.evClient.cancelWarmTransferCall(this._transferDest);
                 } else {
                   console.warn('Unexpected cancel transfer');
                 }
@@ -685,10 +629,10 @@ var EvTransferCall = (_dec = (0, _di.Module)({
     key: "parseNumber",
     value: function parseNumber() {
       switch (this.transferType) {
-        case _transferTypes.transferTypes.phoneBook:
+        case _enums.transferTypes.phoneBook:
           return this.parsePhoneBookNumber();
 
-        case _transferTypes.transferTypes.manualEntry:
+        case _enums.transferTypes.manualEntry:
           return this.parseManualEntryNumber();
 
         default:
@@ -698,13 +642,13 @@ var EvTransferCall = (_dec = (0, _di.Module)({
   }, {
     key: "getNumber",
     value: function getNumber() {
-      var _this$getTransferPhon;
+      var _this$transferPhoneBo;
 
       switch (this.transferType) {
-        case _transferTypes.transferTypes.phoneBook:
-          return (_this$getTransferPhon = this.getTransferPhoneBook()[this.transferPhoneBookSelectedIndex]) === null || _this$getTransferPhon === void 0 ? void 0 : _this$getTransferPhon.destination;
+        case _enums.transferTypes.phoneBook:
+          return (_this$transferPhoneBo = this.transferPhoneBook[this.transferPhoneBookSelectedIndex]) === null || _this$transferPhoneBo === void 0 ? void 0 : _this$transferPhoneBo.destination;
 
-        case _transferTypes.transferTypes.manualEntry:
+        case _enums.transferTypes.manualEntry:
           return this.transferRecipientNumber;
 
         default:
@@ -716,7 +660,7 @@ var EvTransferCall = (_dec = (0, _di.Module)({
     value: function parseManualEntryNumber() {
       if (!this.transferRecipientNumber) {
         throw new _EvTypeError.EvTypeError({
-          type: _transferErrors.transferErrors.RECIPIENT_NUMBER_ERROR,
+          type: _enums.transferErrors.RECIPIENT_NUMBER_ERROR,
           data: "Abnormal Transfer: this.transferRecipientNumber -> ".concat(this.transferRecipientNumber)
         });
       }
@@ -733,12 +677,12 @@ var EvTransferCall = (_dec = (0, _di.Module)({
     value: function parsePhoneBookNumber() {
       if (this.transferPhoneBookSelectedIndex === null) {
         throw new _EvTypeError.EvTypeError({
-          type: _transferErrors.transferErrors.CONTACT_ID_ERROR,
+          type: _enums.transferErrors.CONTACT_ID_ERROR,
           data: "Abnormal Transfer: this.transferPhoneBookSelected -> ".concat(this.transferPhoneBookSelectedIndex)
         });
       }
 
-      var transferPhoneBookSelected = this.getTransferPhoneBook()[this.transferPhoneBookSelectedIndex];
+      var transferPhoneBookSelected = this.transferPhoneBook[this.transferPhoneBookSelectedIndex];
       (0, _checkCountryCode.checkCountryCode)(transferPhoneBookSelected.destination);
       var toNumber = (0, _parseNumber.parseNumber)(transferPhoneBookSelected.destination);
       return {
@@ -750,21 +694,21 @@ var EvTransferCall = (_dec = (0, _di.Module)({
     key: "transfer",
     value: function () {
       var _transfer = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
-        var _ref4, toNumber, countryId;
+        var _ref2, toNumber, countryId;
 
         return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
                 _context4.prev = 0;
-                _ref4 = this.parseNumber() || {}, toNumber = _ref4.toNumber, countryId = _ref4.countryId;
+                _ref2 = this.parseNumber() || {}, toNumber = _ref2.toNumber, countryId = _ref2.countryId;
                 _context4.next = 4;
-                return this._eventEmitter.asyncEmit(_transferEvents.transferEvents.START);
+                return this._eventEmitter.asyncEmit(_enums.transferEvents.START);
 
               case 4:
-                this.setTransferStatus(_transferStatuses.transferStatuses.loading);
+                this.setTransferStatus(_enums.transferStatuses.loading);
                 _context4.t0 = this.transferType;
-                _context4.next = _context4.t0 === _transferTypes.transferTypes.internal ? 8 : _context4.t0 === _transferTypes.transferTypes.phoneBook ? 11 : _context4.t0 === _transferTypes.transferTypes.manualEntry ? 11 : 14;
+                _context4.next = _context4.t0 === _enums.transferTypes.internal ? 8 : _context4.t0 === _enums.transferTypes.phoneBook ? 11 : _context4.t0 === _enums.transferTypes.manualEntry ? 11 : 14;
                 break;
 
               case 8:
@@ -786,13 +730,13 @@ var EvTransferCall = (_dec = (0, _di.Module)({
 
               case 14:
                 throw new _EvTypeError.EvTypeError({
-                  type: _transferErrors.transferErrors.TYPE_ERROR,
+                  type: _enums.transferErrors.TYPE_ERROR,
                   data: "Abnormal Transfer: this.transferType -> ".concat(this.transferType)
                 });
 
               case 15:
                 _context4.next = 17;
-                return this._eventEmitter.asyncEmit(_transferEvents.transferEvents.SUCCESS);
+                return this._eventEmitter.asyncEmit(_enums.transferEvents.SUCCESS);
 
               case 17:
                 _context4.next = 29;
@@ -806,28 +750,28 @@ var EvTransferCall = (_dec = (0, _di.Module)({
                 break;
 
               case 24:
-                return _context4.abrupt("return", this._modules.alert.danger({
+                return _context4.abrupt("return", this._deps.alert.danger({
                   message: _enums.messageTypes.NO_SUPPORT_COUNTRY,
                   ttl: 0
                 }));
 
               case 25:
-                return _context4.abrupt("return", this._modules.alert.danger({
+                return _context4.abrupt("return", this._deps.alert.danger({
                   message: _callErrors["default"].noToNumber
                 }));
 
               case 26:
                 _context4.next = 28;
-                return this._eventEmitter.asyncEmit(_transferEvents.transferEvents.ERROR, _context4.t1);
+                return this._eventEmitter.asyncEmit(_enums.transferEvents.ERROR, _context4.t1);
 
               case 28:
                 throw _context4.t1;
 
               case 29:
                 _context4.prev = 29;
-                this.setTransferStatus(_transferStatuses.transferStatuses.idle);
+                this.setTransferStatus(_enums.transferStatuses.idle);
                 _context4.next = 33;
-                return this._eventEmitter.asyncEmit(_transferEvents.transferEvents.END);
+                return this._eventEmitter.asyncEmit(_enums.transferEvents.END);
 
               case 33:
                 return _context4.finish(29);
@@ -862,7 +806,7 @@ var EvTransferCall = (_dec = (0, _di.Module)({
                 }
 
                 throw new _EvTypeError.EvTypeError({
-                  type: _transferErrors.transferErrors.AGENT_ID_ERROR,
+                  type: _enums.transferErrors.AGENT_ID_ERROR,
                   data: "Abnormal Transfer: this.transferAgentId -> ".concat(this.transferAgentId)
                 });
 
@@ -891,7 +835,7 @@ var EvTransferCall = (_dec = (0, _di.Module)({
                 _context5.next = 15;
                 return new Promise(function (resolve, reject) {
                   _this7._internalTransferCallbacks.WARM = function (data) {
-                    if (data.status === _directTransferStatues.directTransferStatues.SUCCEEDED && data.type === _directTransferTypes.directTransferTypes.WARM) {
+                    if (data.status === _enums.directTransferStatues.SUCCEEDED && data.type === _enums.directTransferTypes.WARM) {
                       resolve(data);
                     } else {
                       reject(data);
@@ -908,7 +852,7 @@ var EvTransferCall = (_dec = (0, _di.Module)({
                 _context5.next = 20;
                 return new Promise(function (resolve, reject) {
                   _this7._internalTransferCallbacks.COLD = function (data) {
-                    if (data.status === _directTransferStatues.directTransferStatues.ACCEPTED) {
+                    if (data.status === _enums.directTransferStatues.ACCEPTED) {
                       resolve(data);
                     } else {
                       reject(data);
@@ -969,22 +913,17 @@ var EvTransferCall = (_dec = (0, _di.Module)({
       return transferCall;
     }()
   }, {
-    key: "checkAllowTransfer",
-    value: function checkAllowTransfer(currentCall) {
-      return currentCall.allowTransfer && !currentCall.endedCall;
-    }
-  }, {
     key: "warmTransferCall",
     value: function () {
-      var _warmTransferCall = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7(_ref5) {
+      var _warmTransferCall = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7(_ref3) {
         var dialDest, countryId;
         return regeneratorRuntime.wrap(function _callee7$(_context7) {
           while (1) {
             switch (_context7.prev = _context7.next) {
               case 0:
-                dialDest = _ref5.dialDest, countryId = _ref5.countryId;
+                dialDest = _ref3.dialDest, countryId = _ref3.countryId;
 
-                if (!(countryId !== 'USA')) {
+                if (!(countryId !== 'USA' && countryId !== 'CAN')) {
                   _context7.next = 11;
                   break;
                 }
@@ -1009,19 +948,17 @@ var EvTransferCall = (_dec = (0, _di.Module)({
                 throw new Error("Unexpected Error: ban transferring international call");
 
               case 9:
-                _context7.next = 15;
+                _context7.next = 14;
                 break;
 
               case 11:
-                this._transferDest = dialDest; // TODO: remove the temporary regression debugging log
-
-                console.log('[warmTransferCall]');
-                _context7.next = 15;
+                this._transferDest = dialDest;
+                _context7.next = 14;
                 return this.evClient.warmTransferCall({
                   dialDest: dialDest
                 });
 
-              case 15:
+              case 14:
               case "end":
                 return _context7.stop();
             }
@@ -1038,15 +975,15 @@ var EvTransferCall = (_dec = (0, _di.Module)({
   }, {
     key: "coldTransferCall",
     value: function () {
-      var _coldTransferCall = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8(_ref6) {
+      var _coldTransferCall = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8(_ref4) {
         var dialDest, countryId;
         return regeneratorRuntime.wrap(function _callee8$(_context8) {
           while (1) {
             switch (_context8.prev = _context8.next) {
               case 0:
-                dialDest = _ref6.dialDest, countryId = _ref6.countryId;
+                dialDest = _ref4.dialDest, countryId = _ref4.countryId;
 
-                if (!(countryId !== 'USA')) {
+                if (!(countryId !== 'USA' && countryId !== 'CAN')) {
                   _context8.next = 9;
                   break;
                 }
@@ -1097,29 +1034,54 @@ var EvTransferCall = (_dec = (0, _di.Module)({
     }
   }, {
     key: "_showSendVoiceMailModal",
-    value: function _showSendVoiceMailModal() {
+    value: function _showSendVoiceMailModal(data) {
       var _this8 = this;
 
-      this._sendVoiceMailModalId = this._modules.modal.confirm({
-        title: _i18n["default"].getString('transferModalTitle', this._modules.locale.currentLocale),
-        okText: _i18n["default"].getString('sendVoicemail', this._modules.locale.currentLocale),
-        content: _i18n["default"].getString('transferFailedContent', this._modules.locale.currentLocale),
-        cancelText: _i18n["default"].getString('selectOtherAgents', this._modules.locale.currentLocale),
+      var currentLocale = this._deps.locale.currentLocale;
+      var content = this.getErrorContent(data);
+      this._sendVoiceMailModalId = this._deps.modal.confirm({
+        title: _i18n["default"].getString('transferModalTitle', currentLocale),
+        okText: _i18n["default"].getString('sendVoicemail', currentLocale),
+        content: _i18n["default"].getString(content, currentLocale),
+        cancelText: _i18n["default"].getString('selectOtherAgents', currentLocale),
         onOK: function onOK() {
           _this8.sendVoicemailToAgent();
         }
       });
     }
   }, {
+    key: "getErrorContent",
+    value: function getErrorContent(data) {
+      if (data.status === 'FAILED') {
+        // ? that is from ev backend message.
+        if (data.message.includes('Routing')) {
+          return 'transferFailedContent';
+        }
+
+        return 'transferTimeOutContent';
+      }
+
+      if (data.status === 'REJECTED') {
+        return 'transferRejectedContent';
+      }
+
+      if (data.type === 'CANCEL') {
+        return 'transferCancelContent';
+      }
+
+      return 'transferFailedContent';
+    }
+  }, {
     key: "_showIncomingTransferCallModal",
     value: function _showIncomingTransferCallModal() {
       var _this9 = this;
 
-      this._incomingTransferCallModalId = this._modules.modal.confirm({
-        title: _i18n["default"].getString('incomingTransferTitle', this._modules.locale.currentLocale),
-        content: _i18n["default"].getString('incomingTransferContent', this._modules.locale.currentLocale),
-        okText: _i18n["default"].getString('acceptIncomingTransfer', this._modules.locale.currentLocale),
-        cancelText: _i18n["default"].getString('ignoreIncomingTransfer', this._modules.locale.currentLocale),
+      var currentLocale = this._deps.locale.currentLocale;
+      this._incomingTransferCallModalId = this._deps.modal.confirm({
+        title: _i18n["default"].getString('incomingTransferTitle', currentLocale),
+        content: _i18n["default"].getString('incomingTransferContent', currentLocale),
+        okText: _i18n["default"].getString('acceptIncomingTransfer', currentLocale),
+        cancelText: _i18n["default"].getString('ignoreIncomingTransfer', currentLocale),
         onOK: function onOK() {
           _this9.acceptTransferCall();
         },
@@ -1131,31 +1093,86 @@ var EvTransferCall = (_dec = (0, _di.Module)({
   }, {
     key: "transferring",
     get: function get() {
-      return this.transferStatus === _transferStatuses.transferStatuses.loading;
+      return this.transferStatus === _enums.transferStatuses.loading;
     }
   }, {
     key: "evClient",
     get: function get() {
-      return this._modules.evClient;
+      return this._deps.evClient;
     }
   }, {
     key: "allowManualInternationalTransfer",
     get: function get() {
-      var _this$_modules$evCall;
+      var _this$_deps$evCall$cu;
 
-      return (_this$_modules$evCall = this._modules.evCall.getCurrentCall()) === null || _this$_modules$evCall === void 0 ? void 0 : _this$_modules$evCall.allowManualInternationalTransfer;
+      return (_this$_deps$evCall$cu = this._deps.evCall.currentCall) === null || _this$_deps$evCall$cu === void 0 ? void 0 : _this$_deps$evCall$cu.allowManualInternationalTransfer;
     }
   }, {
     key: "allowInternalTransfer",
     get: function get() {
-      var _this$_modules$evCall2;
+      var _this$_deps$evCall$cu2;
 
-      return ((_this$_modules$evCall2 = this._modules.evCall.getCurrentCall()) === null || _this$_modules$evCall2 === void 0 ? void 0 : _this$_modules$evCall2.allowDirectAgentTransfer) !== '0';
+      return ((_this$_deps$evCall$cu2 = this._deps.evCall.currentCall) === null || _this$_deps$evCall$cu2 === void 0 ? void 0 : _this$_deps$evCall$cu2.allowDirectAgentTransfer) !== '0';
     }
   }, {
     key: "isInternalTransfer",
     get: function get() {
-      return this.transferType === _transferTypes.transferTypes.internal;
+      return this.transferType === _enums.transferTypes.internal;
+    }
+  }, {
+    key: "transferPhoneBook",
+    get: function get() {
+      var _this$_deps$evCall$cu3,
+          _this$_deps$evCall$cu4,
+          _this10 = this;
+
+      return ((_this$_deps$evCall$cu3 = this._deps.evCall.currentCall) === null || _this$_deps$evCall$cu3 === void 0 ? void 0 : (_this$_deps$evCall$cu4 = _this$_deps$evCall$cu3.transferPhoneBook) === null || _this$_deps$evCall$cu4 === void 0 ? void 0 : _this$_deps$evCall$cu4.reduce(function (prev, bookItem) {
+        var countryId = bookItem.countryId,
+            destination = bookItem.destination,
+            name = bookItem.name;
+
+        var country = _this10._deps.evAuth.availableCountries.find(function (country) {
+          return country.countryId === countryId;
+        });
+
+        if (typeof country === 'undefined' || country === null) {
+          return prev;
+        }
+
+        var parsedDestination = '';
+
+        try {
+          parsedDestination = (0, _phoneNumber.format)({
+            phoneNumber: destination,
+            countryCode: (0, _i18nIsoCountries.alpha3ToAlpha2)(countryId),
+            type: _phoneNumber.formatTypes.e164
+          });
+        } catch (e) {//
+        }
+
+        var countryName = country.countryId !== 'USA' ? country.countryName || country.countryId : '';
+        var phoneBookName = "".concat(name, " ").concat(countryName);
+        prev.push(_objectSpread(_objectSpread({}, bookItem), {}, {
+          phoneBookName: phoneBookName,
+          parsedDestination: parsedDestination
+        }));
+        return prev;
+      }, [])) || [];
+    }
+  }, {
+    key: "allowTransferCall",
+    get: function get() {
+      var currentCall = this._deps.evCall.currentCall;
+      return (currentCall === null || currentCall === void 0 ? void 0 : currentCall.allowTransfer) && !currentCall.endedCall;
+    }
+  }, {
+    key: "transferAgentAvailable",
+    get: function get() {
+      var _this11 = this;
+
+      return this.transferAgentList.find(function (item) {
+        return item.agentId === _this11.transferAgentId;
+      }).available;
     }
   }]);
 
@@ -1179,14 +1196,14 @@ var EvTransferCall = (_dec = (0, _di.Module)({
   enumerable: true,
   writable: true,
   initializer: function initializer() {
-    return _transferStatuses.transferStatuses.idle;
+    return _enums.transferStatuses.idle;
   }
 }), _descriptor4 = _applyDecoratedDescriptor(_class2.prototype, "transferType", [_core.storage, _core.state], {
   configurable: true,
   enumerable: true,
   writable: true,
   initializer: function initializer() {
-    return _transferTypes.transferTypes.phoneBook;
+    return _enums.transferTypes.phoneBook;
   }
 }), _descriptor5 = _applyDecoratedDescriptor(_class2.prototype, "transferAgentId", [_core.storage, _core.state], {
   configurable: true,
@@ -1230,6 +1247,6 @@ var EvTransferCall = (_dec = (0, _di.Module)({
   initializer: function initializer() {
     return true;
   }
-}), _applyDecoratedDescriptor(_class2.prototype, "setReceivedCall", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setReceivedCall"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setCancelableTransfer", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setCancelableTransfer"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "resetTransferStatus", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "resetTransferStatus"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "changeStayOnCall", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "changeStayOnCall"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "changeRecipientCountryId", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "changeRecipientCountryId"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "changeTransferType", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "changeTransferType"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "changeAgentList", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "changeAgentList"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "changeRecipientNumber", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "changeRecipientNumber"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "changeTransferPhoneBookSelected", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "changeTransferPhoneBookSelected"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "changeTransferAgentId", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "changeTransferAgentId"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setTransferStatus", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setTransferStatus"), _class2.prototype)), _class2)) || _class);
+}), _applyDecoratedDescriptor(_class2.prototype, "transferPhoneBook", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "transferPhoneBook"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setReceivedCall", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setReceivedCall"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setCancelableTransfer", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setCancelableTransfer"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "resetTransferStatus", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "resetTransferStatus"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "changeStayOnCall", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "changeStayOnCall"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "changeRecipientCountryId", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "changeRecipientCountryId"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "changeTransferType", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "changeTransferType"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "changeAgentList", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "changeAgentList"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "changeRecipientNumber", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "changeRecipientNumber"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "changeTransferPhoneBookSelected", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "changeTransferPhoneBookSelected"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "changeTransferAgentId", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "changeTransferAgentId"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setTransferStatus", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setTransferStatus"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "allowTransferCall", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "allowTransferCall"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "transferAgentAvailable", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "transferAgentAvailable"), _class2.prototype)), _class2)) || _class);
 exports.EvTransferCall = EvTransferCall;
 //# sourceMappingURL=EvTransferCall.js.map

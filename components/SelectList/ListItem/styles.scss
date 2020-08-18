@@ -1,0 +1,9 @@
+@import '../../../scss/variables.scss';
+
+.listItem {
+  padding: 0 $lightning-page-space !important;
+
+  [sf-classic] & {
+    padding: 0 $classic-page-space !important;
+  }
+}

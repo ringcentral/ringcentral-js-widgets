@@ -1,5 +1,8 @@
 export default {
   activeCall: 'Active call',
-  justMe: 'Just Me',
+  me: 'Me',
   everyone: 'Everyone',
+  caller: 'Caller',
+  callee: 'Callee',
+  unKnown: 'Unknown',
 };

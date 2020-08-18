@@ -1,21 +1,22 @@
 import {
   action,
-  RcModuleState,
+  computed,
   RcModuleV2,
   state,
   storage,
-  createSelector,
 } from '@ringcentral-integration/core';
 import { Module } from 'ringcentral-integration/lib/di';
 
 import {
   agentStateTypes,
-  defaultAgentStatesTexts,
+  DefaultAgentStateTexts,
+  defaultAgentStateTexts,
   messageTypes,
+  tabManagerEvents,
 } from '../../enums';
 import { EvAgentState, EvAvailableAgentState } from '../../lib/EvClient';
 import { EvCallbackTypes } from '../../lib/EvClient/enums/callbackTypes';
-import { DepsModules, State, WorkingState } from './EvWorkingState.interface';
+import { Deps, State, WorkingState } from './EvWorkingState.interface';
 
 const PendingDisposition: EvAvailableAgentState = {
   // TODO: here seems need i18n
@@ -23,8 +24,6 @@ const PendingDisposition: EvAvailableAgentState = {
   agentState: 'PENDING-DISPOSITION',
   agentAuxState: 'Pending Disposition',
 };
-
-type EvWorkingStateState = RcModuleState<EvWorkingState, State>;
 
 @Module({
   name: 'EvWorkingState',
@@ -34,55 +33,46 @@ type EvWorkingStateState = RcModuleState<EvWorkingState, State>;
     'EvSubscription',
     'EvClient',
     'Presence',
+    'EvCallMonitor',
     'Alert',
     'Storage',
-    'EvSessionConfig',
+    'EvAgentSession',
+    'TabManager',
     { dep: 'EvWorkingStateOptions', optional: true },
   ],
 })
-class EvWorkingState extends RcModuleV2<DepsModules, EvWorkingStateState>
-  implements WorkingState {
+class EvWorkingState extends RcModuleV2<Deps> implements WorkingState {
   private _hasSetInitialState = false;
 
-  constructor({
-    auth,
-    evAuth,
-    evSubscription,
-    evClient,
-    presence,
-    storage,
-    alert,
-    evSessionConfig,
-    enableCache = true,
-  }) {
+  constructor(deps: Deps) {
     super({
-      modules: {
-        auth,
-        evAuth,
-        evSubscription,
-        evClient,
-        presence,
-        storage,
-        alert,
-        evSessionConfig,
-      },
-      enableCache,
+      deps,
+      enableCache: true,
       storageKey: 'EvWorkingState',
     });
-    this._modules.evSessionConfig.onTriggerConfig.push(() => {
-      const { agentConfig } = this._modules.evAuth.agent;
+    this._deps.evAgentSession.onTriggerConfig.push(() => {
+      const { agentConfig } = this._deps.evAuth.agent;
       if (agentConfig?.agentSettings?.initLoginState) {
-        this._modules.evClient.setAgentState(
+        // if that tab is not activity, that wi
+        this._deps.evClient.setAgentState(
           agentConfig.agentSettings.initLoginState,
           agentConfig.agentSettings.initLoginStateLabel,
         );
       }
+
+      if (this.tabManagerEnabled) {
+        this._deps.tabManager.send(tabManagerEvents.RESET_WORKING_STATE);
+      }
       this.resetWorkingState();
     });
 
-    this._modules.evSessionConfig.onConfigSuccess.push(() => {
-      this._hasSetInitialState = this._modules.evSessionConfig.isConfigSuccessByLocal;
+    this._deps.evAgentSession.onConfigSuccess.push(() => {
+      this._hasSetInitialState = this._deps.evAgentSession.isConfigTab;
     });
+  }
+
+  get tabManagerEnabled() {
+    return this._deps.tabManager?._tabbie.enabled;
   }
 
   @storage
@@ -101,86 +91,84 @@ class EvWorkingState extends RcModuleV2<DepsModules, EvWorkingStateState>
   isPendingDisposition = false;
 
   get agentConfig() {
-    return this._modules.evAuth.agent
-      ? this._modules.evAuth.agent.agentConfig
-      : null;
+    return this._deps.evAuth.agent.agentConfig;
   }
 
-  getWorkingState = createSelector(
-    () => this.agentState,
-    () => this.isPendingDisposition,
-    (agentState, isPendingDisposition) =>
-      isPendingDisposition
-        ? PendingDisposition
-        : {
-            ...agentState,
-            agentAuxState:
-              agentState.agentAuxState ||
-              defaultAgentStatesTexts[agentState.agentState],
-          },
-  );
+  @computed((that: EvWorkingState) => [
+    that.agentState,
+    that.isPendingDisposition,
+  ])
+  get workingState() {
+    return this.isPendingDisposition
+      ? PendingDisposition
+      : {
+          ...this.agentState,
+          agentAuxState:
+            this.agentState.agentAuxState ||
+            defaultAgentStateTexts[
+              this.agentState.agentState as DefaultAgentStateTexts
+            ],
+        };
+  }
 
-  getAgentStates = createSelector(
-    () => this.agentConfig,
-    () => this.isPendingDisposition,
-    () => this.agentConfig.agentSettings.availableAgentStates,
-    (agentConfig, isPendingDisposition, availableAgentStates) => {
-      const agentStates = isPendingDisposition
-        ? [PendingDisposition, ...availableAgentStates]
-        : availableAgentStates;
+  @computed((that: EvWorkingState) => [
+    that.agentConfig,
+    that.isPendingDisposition,
+    that.agentConfig.agentSettings.availableAgentStates,
+  ])
+  get agentStates() {
+    const { availableAgentStates } = this.agentConfig.agentSettings;
 
-      return agentConfig ? agentStates : [];
-    },
-  );
+    const agentStates = this.isPendingDisposition
+      ? [PendingDisposition, ...availableAgentStates]
+      : availableAgentStates;
 
-  getWorkingAgentState = createSelector(
-    () => this.getAgentStates(),
-    (agentStates) => {
-      return agentStates.find(
-        (state) => state.agentState === agentStateTypes.working,
-      );
-    },
-  );
+    return this.agentConfig ? agentStates : [];
+  }
+
+  @computed((that: EvWorkingState) => [that.agentStates])
+  get workingAgentState() {
+    return this.agentStates.find(
+      (state) => state.agentState === agentStateTypes.working,
+    );
+  }
 
   @action
   setAgentState(agentState: EvAgentState) {
-    this.state.agentState = agentState;
+    this.agentState = agentState;
     if (agentState.agentState !== agentStateTypes.breakAfterCall) {
-      this.state.time = Date.now();
+      this.time = Date.now();
     }
   }
 
   @action
-  setIsPendingDisposition(
-    isPendingDisposition: EvWorkingStateState['isPendingDisposition'],
-  ) {
-    this.state.isPendingDisposition = isPendingDisposition;
-  }
-
-  @action
-  setSettingsNow() {
-    this.state.time = Date.now();
+  setIsPendingDisposition(isPendingDisposition: State['isPendingDisposition']) {
+    this.isPendingDisposition = isPendingDisposition;
   }
 
   @action
   resetWorkingState() {
-    this.state.time = Date.now();
-    this.state.isPendingDisposition = false;
+    this.time = Date.now();
+    this.isPendingDisposition = false;
   }
 
   @action
   setTime(time: number) {
-    this.state.time = time;
+    this.time = time;
   }
 
   onInitOnce() {
-    this._modules.evSubscription.subscribe(
+    this._deps.evCallMonitor.onCallEnded(() => {
+      this.setIsPendingDisposition(true);
+    });
+
+    this._deps.evSubscription.subscribe(
       EvCallbackTypes.AGENT_STATE,
       ({ currentAuxState, currentState }) => {
         // login with multi-tabs and skip the first agent notification for reset timer.
         if (
           !this._hasSetInitialState ||
-          this.agentState.agentState !== currentAuxState
+          this.agentState.agentState !== currentState
         ) {
           this.setAgentState({
             agentState: currentState,
@@ -192,35 +180,47 @@ class EvWorkingState extends RcModuleV2<DepsModules, EvWorkingStateState>
     );
   }
 
+  async onStateChange() {
+    if (this.ready && this.tabManagerEnabled && this._deps.tabManager.ready) {
+      const { event } = this._deps.tabManager;
+      if (event) {
+        switch (event.name) {
+          case tabManagerEvents.RESET_WORKING_STATE:
+            this.resetWorkingState();
+            break;
+          default:
+            break;
+        }
+      }
+    }
+  }
+
   changeWorkingState({ agentState, agentAuxState }: EvAgentState) {
     const isOnCall =
       [agentStateTypes.transition, agentStateTypes.engaged].indexOf(
         this.agentState.agentState,
-      ) > -1 || this._modules.presence.getCalls().length > 0;
+      ) > -1 || this._deps.presence.calls.length > 0;
 
-    if (isOnCall) {
-      if (agentState === agentStateTypes.onBreak) {
-        return this._modules.evClient.setAgentState(agentState, agentAuxState);
-      }
-      this._modules.alert.danger({
+    if (isOnCall && agentState !== agentStateTypes.onBreak) {
+      return this._deps.alert.danger({
         message: messageTypes.INVALID_STATE_CHANGE,
         allowDuplicates: false,
         ttl: 0,
       });
-      return;
     }
 
-    this._modules.evClient.setAgentState(agentState, agentAuxState);
+    this._deps.evClient.setAgentState(agentState, agentAuxState);
   }
 
   setWorkingStateWorking() {
-    if (this.getWorkingAgentState()) {
-      this.changeWorkingState(this.getWorkingAgentState());
+    const state = this.workingAgentState;
+    if (state) {
+      this.changeWorkingState(state);
     }
   }
 
   alertOverBreakTime() {
-    this._modules.alert.danger({
+    this._deps.alert.danger({
       message: messageTypes.OVER_BREAK_TIME,
       allowDuplicates: false,
       ttl: 0,

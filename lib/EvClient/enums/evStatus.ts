@@ -1,6 +1,6 @@
-import { createEnum } from 'ringcentral-integration/lib/Enum';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 
-export const evStatus = createEnum([
+export const evStatus = ObjectMap.fromKeys([
   'START',
   'CONNECTING',
   'CONNECTED',

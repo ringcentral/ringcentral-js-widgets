@@ -55,6 +55,16 @@ var defaultCurrentLog = {
     }
   }
 };
+var defaultIVRAlertData = [{
+  subject: 'I am subject 1',
+  body: 'I am body 1'
+}, {
+  subject: 'I am subject 2',
+  body: 'I am body 2'
+}, {
+  subject: 'I am subject 3',
+  body: 'I am body 3'
+}];
 
 function setup() {
   var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
@@ -115,8 +125,14 @@ function setup() {
       allowRequeueCall = _ref$currentCallContr3 === void 0 ? true : _ref$currentCallContr3,
       _ref$isOnActive = _ref.isOnActive,
       isOnActive = _ref$isOnActive === void 0 ? false : _ref$isOnActive,
+      _ref$disableInternalT = _ref.disableInternalTransfer,
+      disableInternalTransfer = _ref$disableInternalT === void 0 ? false : _ref$disableInternalT,
       _ref$onActive = _ref.onActive,
-      onActive = _ref$onActive === void 0 ? function () {} : _ref$onActive;
+      onActive = _ref$onActive === void 0 ? function () {} : _ref$onActive,
+      _ref$showMuteButton = _ref.showMuteButton,
+      showMuteButton = _ref$showMuteButton === void 0 ? false : _ref$showMuteButton,
+      _ref$ivrAlertData = _ref.ivrAlertData,
+      ivrAlertData = _ref$ivrAlertData === void 0 ? defaultIVRAlertData : _ref$ivrAlertData;
   return (0, _enzyme.mount)( /*#__PURE__*/_react["default"].createElement(_rcui.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_ActivityCallLogPanel.ActivityCallLogPanel, {
     isInbound: true,
     currentLocale: currentLocale,
@@ -149,7 +165,11 @@ function setup() {
     },
     isOnActive: isOnActive,
     onActive: onActive,
-    goBack: function goBack() {}
+    goBack: function goBack() {},
+    disableInternalTransfer: disableInternalTransfer,
+    showMuteButton: showMuteButton,
+    ivrAlertData: ivrAlertData,
+    onCopySuccess: function onCopySuccess() {}
   })));
 }
 
@@ -191,7 +211,7 @@ var getControlButton = function getControlButton(type) {
     },
     title: isExist && button.find('CircleIconButton').prop('title'),
     isActive: isExist && button.find('button').hasClass('buttonActive'),
-    isDisabled: isExist && button.find('button').prop('disabled')
+    isDisabled: isExist && !!button.find('button').render().attr('disabled')
   };
 };
 
@@ -300,6 +320,22 @@ describe('<ActivityCallLogPanel />', /*#__PURE__*/_asyncToGenerator( /*#__PURE__
             expect(onUnHold).not.toBeCalled();
             expect(onHold).toBeCalled();
           });
+          [{
+            isIntegratedSoftphone: true,
+            muteCallButtonNumber: 1
+          }, {
+            isIntegratedSoftphone: false,
+            muteCallButtonNumber: 0
+          }].map(function (_ref5) {
+            var isIntegratedSoftphone = _ref5.isIntegratedSoftphone,
+                muteCallButtonNumber = _ref5.muteCallButtonNumber;
+            return it("When the call is IntegratedSoftphone is ".concat(isIntegratedSoftphone, ", can see ").concat(muteCallButtonNumber, " mute button"), function () {
+              wrapper = setup({
+                showMuteButton: isIntegratedSoftphone
+              });
+              expect(wrapper.find('MuteCallButton').find('button').length).toBe(muteCallButtonNumber);
+            });
+          });
           it('When call is OnMute, MuteCallButton should display and work correctly', function () {
             var onMute = jest.fn();
             var onUnmute = jest.fn();
@@ -308,7 +344,8 @@ describe('<ActivityCallLogPanel />', /*#__PURE__*/_asyncToGenerator( /*#__PURE__
               saveStatus: 'submit',
               onMute: onMute,
               onUnmute: onUnmute,
-              isOnMute: true
+              isOnMute: true,
+              showMuteButton: true
             });
             var muteButton = getControlButton('MuteCallButton');
             muteButton.click();
@@ -325,7 +362,8 @@ describe('<ActivityCallLogPanel />', /*#__PURE__*/_asyncToGenerator( /*#__PURE__
               saveStatus: 'submit',
               onMute: onMute,
               onUnmute: onUnmute,
-              isOnMute: false
+              isOnMute: false,
+              showMuteButton: true
             });
             var muteButton = getControlButton('MuteCallButton');
             muteButton.click();
@@ -433,21 +471,90 @@ describe('<ActivityCallLogPanel />', /*#__PURE__*/_asyncToGenerator( /*#__PURE__
           }, {
             disableControl: 'disableActive',
             domTag: 'ActiveCallButton'
-          }].map(function (_ref5) {
-            var disableControl = _ref5.disableControl,
-                domTag = _ref5.domTag;
+          }].map(function (_ref6) {
+            var disableControl = _ref6.disableControl,
+                domTag = _ref6.domTag;
             return it("Verify permission of ".concat(disableControl), function () {
               var _setup;
 
               wrapper = setup((_setup = {
                 status: 'active',
                 saveStatus: 'submit'
-              }, _defineProperty(_setup, disableControl, true), _defineProperty(_setup, "isOnActive", disableControl === 'disableActive'), _setup));
+              }, _defineProperty(_setup, disableControl, true), _defineProperty(_setup, "isOnActive", disableControl === 'disableActive'), _defineProperty(_setup, "showMuteButton", true), _setup));
               expect(wrapper.find(domTag).find('button').prop('disabled')).toBe(true);
             });
           });
+          [{
+            ivrAlertData: []
+          }, {
+            ivrAlertData: [{
+              subject: 'I am subject 1',
+              body: 'I am body 1'
+            }],
+            subject: 'I am subject 1'
+          }, {
+            ivrAlertData: [{
+              subject: 'I am subject 1',
+              body: 'I am body 1'
+            }, {
+              subject: 'I am subject 2',
+              body: 'I am body 2'
+            }],
+            subject: 'I am subject 1 +1'
+          }, {
+            ivrAlertData: [{
+              subject: 'I am subject 1',
+              body: 'I am body 1'
+            }, {
+              subject: 'I am subject 2',
+              body: 'I am body 2'
+            }, {
+              subject: 'I am subject 3',
+              body: 'I am body 3'
+            }],
+            subject: 'I am subject 1 +2'
+          }].map(function (_ref7) {
+            var ivrAlertData = _ref7.ivrAlertData,
+                subject = _ref7.subject;
+            it("Verify ivr panel display of ".concat(subject), function () {
+              wrapper = setup({
+                ivrAlertData: ivrAlertData
+              });
 
-        case 13:
+              if (ivrAlertData.length === 0) {
+                expect(wrapper.find('.ivrPanel').exists()).toBeFalsy();
+              } else {
+                var item = wrapper.find('.item');
+
+                for (var i = 0; i < ivrAlertData.length; i++) {
+                  if (i !== 0) {
+                    expect(item.at(i).find('.subject').text()).toBe(ivrAlertData[i].subject);
+                    expect(item.at(i).find('.body').text()).toBe(ivrAlertData[i].body);
+                  } else {
+                    expect(item.at(0).find('.body').text()).toBe(ivrAlertData[0].body);
+                  }
+                }
+
+                expect(wrapper.find(_rcui.RcExpansionPanelSummary).text()).toBe(subject);
+              }
+            });
+            it('When the call is end, ivr panel should be shrunk', function () {
+              wrapper = setup({
+                status: 'active'
+              });
+              wrapper.find(_rcui.RcExpansionPanelSummary).find('RcIcon').simulate('click');
+              wrapper.update();
+              expect(wrapper.find(_rcui.RcExpansionPanel).find('.expanded').exists()).toBeTruthy();
+              wrapper = setup({
+                status: 'callEnd'
+              });
+              wrapper.update();
+              expect(wrapper.find(_rcui.RcExpansionPanel).find('.expanded').exists()).toBeFalsy();
+            });
+            return null;
+          });
+
+        case 15:
         case "end":
           return _context3.stop();
       }

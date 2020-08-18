@@ -5,8 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.EvWorkingState = void 0;
 
-require("core-js/modules/es6.function.name");
-
 require("core-js/modules/es6.string.iterator");
 
 require("core-js/modules/es6.array.from");
@@ -22,6 +20,8 @@ require("core-js/modules/es7.object.get-own-property-descriptors");
 require("core-js/modules/es6.array.filter");
 
 require("core-js/modules/es6.symbol");
+
+require("core-js/modules/es6.promise");
 
 require("core-js/modules/es6.object.create");
 
@@ -47,11 +47,15 @@ require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.for-each");
 
+require("core-js/modules/es6.array.find");
+
 require("core-js/modules/es6.array.index-of");
 
-require("core-js/modules/es6.date.now");
+require("core-js/modules/es6.function.name");
 
-require("core-js/modules/es6.array.find");
+require("regenerator-runtime/runtime");
+
+require("core-js/modules/es6.date.now");
 
 var _core = require("@ringcentral-integration/core");
 
@@ -61,7 +65,7 @@ var _enums = require("../../enums");
 
 var _callbackTypes = require("../../lib/EvClient/enums/callbackTypes");
 
-var _dec, _class, _class2, _descriptor, _descriptor2, _descriptor3, _temp;
+var _dec, _dec2, _dec3, _dec4, _class, _class2, _descriptor, _descriptor2, _descriptor3, _temp;
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -82,6 +86,10 @@ function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (O
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
 
@@ -117,43 +125,29 @@ var PendingDisposition = {
 };
 var EvWorkingState = (_dec = (0, _di.Module)({
   name: 'EvWorkingState',
-  deps: ['Auth', 'EvAuth', 'EvSubscription', 'EvClient', 'Presence', 'Alert', 'Storage', 'EvSessionConfig', {
+  deps: ['Auth', 'EvAuth', 'EvSubscription', 'EvClient', 'Presence', 'EvCallMonitor', 'Alert', 'Storage', 'EvAgentSession', 'TabManager', {
     dep: 'EvWorkingStateOptions',
     optional: true
   }]
+}), _dec2 = (0, _core.computed)(function (that) {
+  return [that.agentState, that.isPendingDisposition];
+}), _dec3 = (0, _core.computed)(function (that) {
+  return [that.agentConfig, that.isPendingDisposition, that.agentConfig.agentSettings.availableAgentStates];
+}), _dec4 = (0, _core.computed)(function (that) {
+  return [that.agentStates];
 }), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcModuleV) {
   _inherits(EvWorkingState, _RcModuleV);
 
   var _super = _createSuper(EvWorkingState);
 
-  function EvWorkingState(_ref) {
+  function EvWorkingState(deps) {
     var _this;
-
-    var auth = _ref.auth,
-        evAuth = _ref.evAuth,
-        evSubscription = _ref.evSubscription,
-        evClient = _ref.evClient,
-        presence = _ref.presence,
-        storage = _ref.storage,
-        alert = _ref.alert,
-        evSessionConfig = _ref.evSessionConfig,
-        _ref$enableCache = _ref.enableCache,
-        enableCache = _ref$enableCache === void 0 ? true : _ref$enableCache;
 
     _classCallCheck(this, EvWorkingState);
 
     _this = _super.call(this, {
-      modules: {
-        auth: auth,
-        evAuth: evAuth,
-        evSubscription: evSubscription,
-        evClient: evClient,
-        presence: presence,
-        storage: storage,
-        alert: alert,
-        evSessionConfig: evSessionConfig
-      },
-      enableCache: enableCache,
+      deps: deps,
+      enableCache: true,
       storageKey: 'EvWorkingState'
     });
     _this._hasSetInitialState = false;
@@ -164,47 +158,25 @@ var EvWorkingState = (_dec = (0, _di.Module)({
 
     _initializerDefineProperty(_this, "isPendingDisposition", _descriptor3, _assertThisInitialized(_this));
 
-    _this.getWorkingState = (0, _core.createSelector)(function () {
-      return _this.agentState;
-    }, function () {
-      return _this.isPendingDisposition;
-    }, function (agentState, isPendingDisposition) {
-      return isPendingDisposition ? PendingDisposition : _objectSpread(_objectSpread({}, agentState), {}, {
-        agentAuxState: agentState.agentAuxState || _enums.defaultAgentStatesTexts[agentState.agentState]
-      });
-    });
-    _this.getAgentStates = (0, _core.createSelector)(function () {
-      return _this.agentConfig;
-    }, function () {
-      return _this.isPendingDisposition;
-    }, function () {
-      return _this.agentConfig.agentSettings.availableAgentStates;
-    }, function (agentConfig, isPendingDisposition, availableAgentStates) {
-      var agentStates = isPendingDisposition ? [PendingDisposition].concat(_toConsumableArray(availableAgentStates)) : availableAgentStates;
-      return agentConfig ? agentStates : [];
-    });
-    _this.getWorkingAgentState = (0, _core.createSelector)(function () {
-      return _this.getAgentStates();
-    }, function (agentStates) {
-      return agentStates.find(function (state) {
-        return state.agentState === _enums.agentStateTypes.working;
-      });
-    });
-
-    _this._modules.evSessionConfig.onTriggerConfig.push(function () {
+    _this._deps.evAgentSession.onTriggerConfig.push(function () {
       var _agentConfig$agentSet;
 
-      var agentConfig = _this._modules.evAuth.agent.agentConfig;
+      var agentConfig = _this._deps.evAuth.agent.agentConfig;
 
       if (agentConfig === null || agentConfig === void 0 ? void 0 : (_agentConfig$agentSet = agentConfig.agentSettings) === null || _agentConfig$agentSet === void 0 ? void 0 : _agentConfig$agentSet.initLoginState) {
-        _this._modules.evClient.setAgentState(agentConfig.agentSettings.initLoginState, agentConfig.agentSettings.initLoginStateLabel);
+        // if that tab is not activity, that wi
+        _this._deps.evClient.setAgentState(agentConfig.agentSettings.initLoginState, agentConfig.agentSettings.initLoginStateLabel);
+      }
+
+      if (_this.tabManagerEnabled) {
+        _this._deps.tabManager.send(_enums.tabManagerEvents.RESET_WORKING_STATE);
       }
 
       _this.resetWorkingState();
     });
 
-    _this._modules.evSessionConfig.onConfigSuccess.push(function () {
-      _this._hasSetInitialState = _this._modules.evSessionConfig.isConfigSuccessByLocal;
+    _this._deps.evAgentSession.onConfigSuccess.push(function () {
+      _this._hasSetInitialState = _this._deps.evAgentSession.isConfigTab;
     });
 
     return _this;
@@ -213,44 +185,43 @@ var EvWorkingState = (_dec = (0, _di.Module)({
   _createClass(EvWorkingState, [{
     key: "setAgentState",
     value: function setAgentState(agentState) {
-      this.state.agentState = agentState;
+      this.agentState = agentState;
 
       if (agentState.agentState !== _enums.agentStateTypes.breakAfterCall) {
-        this.state.time = Date.now();
+        this.time = Date.now();
       }
     }
   }, {
     key: "setIsPendingDisposition",
     value: function setIsPendingDisposition(isPendingDisposition) {
-      this.state.isPendingDisposition = isPendingDisposition;
-    }
-  }, {
-    key: "setSettingsNow",
-    value: function setSettingsNow() {
-      this.state.time = Date.now();
+      this.isPendingDisposition = isPendingDisposition;
     }
   }, {
     key: "resetWorkingState",
     value: function resetWorkingState() {
-      this.state.time = Date.now();
-      this.state.isPendingDisposition = false;
+      this.time = Date.now();
+      this.isPendingDisposition = false;
     }
   }, {
     key: "setTime",
     value: function setTime(time) {
-      this.state.time = time;
+      this.time = time;
     }
   }, {
     key: "onInitOnce",
     value: function onInitOnce() {
       var _this2 = this;
 
-      this._modules.evSubscription.subscribe(_callbackTypes.EvCallbackTypes.AGENT_STATE, function (_ref2) {
-        var currentAuxState = _ref2.currentAuxState,
-            currentState = _ref2.currentState;
+      this._deps.evCallMonitor.onCallEnded(function () {
+        _this2.setIsPendingDisposition(true);
+      });
+
+      this._deps.evSubscription.subscribe(_callbackTypes.EvCallbackTypes.AGENT_STATE, function (_ref) {
+        var currentAuxState = _ref.currentAuxState,
+            currentState = _ref.currentState;
 
         // login with multi-tabs and skip the first agent notification for reset timer.
-        if (!_this2._hasSetInitialState || _this2.agentState.agentState !== currentAuxState) {
+        if (!_this2._hasSetInitialState || _this2.agentState.agentState !== currentState) {
           _this2.setAgentState({
             agentState: currentState,
             agentAuxState: currentAuxState
@@ -261,48 +232,118 @@ var EvWorkingState = (_dec = (0, _di.Module)({
       });
     }
   }, {
+    key: "onStateChange",
+    value: function () {
+      var _onStateChange = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+        var event;
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                if (!(this.ready && this.tabManagerEnabled && this._deps.tabManager.ready)) {
+                  _context.next = 9;
+                  break;
+                }
+
+                event = this._deps.tabManager.event;
+
+                if (!event) {
+                  _context.next = 9;
+                  break;
+                }
+
+                _context.t0 = event.name;
+                _context.next = _context.t0 === _enums.tabManagerEvents.RESET_WORKING_STATE ? 6 : 8;
+                break;
+
+              case 6:
+                this.resetWorkingState();
+                return _context.abrupt("break", 9);
+
+              case 8:
+                return _context.abrupt("break", 9);
+
+              case 9:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function onStateChange() {
+        return _onStateChange.apply(this, arguments);
+      }
+
+      return onStateChange;
+    }()
+  }, {
     key: "changeWorkingState",
-    value: function changeWorkingState(_ref3) {
-      var agentState = _ref3.agentState,
-          agentAuxState = _ref3.agentAuxState;
-      var isOnCall = [_enums.agentStateTypes.transition, _enums.agentStateTypes.engaged].indexOf(this.agentState.agentState) > -1 || this._modules.presence.getCalls().length > 0;
+    value: function changeWorkingState(_ref2) {
+      var agentState = _ref2.agentState,
+          agentAuxState = _ref2.agentAuxState;
+      var isOnCall = [_enums.agentStateTypes.transition, _enums.agentStateTypes.engaged].indexOf(this.agentState.agentState) > -1 || this._deps.presence.calls.length > 0;
 
-      if (isOnCall) {
-        if (agentState === _enums.agentStateTypes.onBreak) {
-          return this._modules.evClient.setAgentState(agentState, agentAuxState);
-        }
-
-        this._modules.alert.danger({
+      if (isOnCall && agentState !== _enums.agentStateTypes.onBreak) {
+        return this._deps.alert.danger({
           message: _enums.messageTypes.INVALID_STATE_CHANGE,
           allowDuplicates: false,
           ttl: 0
         });
-
-        return;
       }
 
-      this._modules.evClient.setAgentState(agentState, agentAuxState);
+      this._deps.evClient.setAgentState(agentState, agentAuxState);
     }
   }, {
     key: "setWorkingStateWorking",
     value: function setWorkingStateWorking() {
-      if (this.getWorkingAgentState()) {
-        this.changeWorkingState(this.getWorkingAgentState());
+      var state = this.workingAgentState;
+
+      if (state) {
+        this.changeWorkingState(state);
       }
     }
   }, {
     key: "alertOverBreakTime",
     value: function alertOverBreakTime() {
-      this._modules.alert.danger({
+      this._deps.alert.danger({
         message: _enums.messageTypes.OVER_BREAK_TIME,
         allowDuplicates: false,
         ttl: 0
       });
     }
   }, {
+    key: "tabManagerEnabled",
+    get: function get() {
+      var _this$_deps$tabManage;
+
+      return (_this$_deps$tabManage = this._deps.tabManager) === null || _this$_deps$tabManage === void 0 ? void 0 : _this$_deps$tabManage._tabbie.enabled;
+    }
+  }, {
     key: "agentConfig",
     get: function get() {
-      return this._modules.evAuth.agent ? this._modules.evAuth.agent.agentConfig : null;
+      return this._deps.evAuth.agent.agentConfig;
+    }
+  }, {
+    key: "workingState",
+    get: function get() {
+      return this.isPendingDisposition ? PendingDisposition : _objectSpread(_objectSpread({}, this.agentState), {}, {
+        agentAuxState: this.agentState.agentAuxState || _enums.defaultAgentStateTexts[this.agentState.agentState]
+      });
+    }
+  }, {
+    key: "agentStates",
+    get: function get() {
+      var availableAgentStates = this.agentConfig.agentSettings.availableAgentStates;
+      var agentStates = this.isPendingDisposition ? [PendingDisposition].concat(_toConsumableArray(availableAgentStates)) : availableAgentStates;
+      return this.agentConfig ? agentStates : [];
+    }
+  }, {
+    key: "workingAgentState",
+    get: function get() {
+      return this.agentStates.find(function (state) {
+        return state.agentState === _enums.agentStateTypes.working;
+      });
     }
   }]);
 
@@ -331,6 +372,6 @@ var EvWorkingState = (_dec = (0, _di.Module)({
   initializer: function initializer() {
     return false;
   }
-}), _applyDecoratedDescriptor(_class2.prototype, "setAgentState", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setAgentState"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setIsPendingDisposition", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setIsPendingDisposition"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setSettingsNow", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setSettingsNow"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "resetWorkingState", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "resetWorkingState"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setTime", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setTime"), _class2.prototype)), _class2)) || _class);
+}), _applyDecoratedDescriptor(_class2.prototype, "workingState", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "workingState"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "agentStates", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "agentStates"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "workingAgentState", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "workingAgentState"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setAgentState", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setAgentState"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setIsPendingDisposition", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setIsPendingDisposition"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "resetWorkingState", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "resetWorkingState"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setTime", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setTime"), _class2.prototype)), _class2)) || _class);
 exports.EvWorkingState = EvWorkingState;
 //# sourceMappingURL=EvWorkingState.js.map

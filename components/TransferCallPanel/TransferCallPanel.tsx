@@ -1,26 +1,20 @@
 import {
   RcButton,
   RcCheckbox,
-  RcIcon,
+  RcIconButton,
   RcSnackbarAction,
   RcTextField,
 } from '@ringcentral-integration/rcui';
 import dialerSvg from '@ringcentral-integration/rcui/icons/icon-dialer.svg';
-import React, {
-  FunctionComponent,
-  useEffect,
-  useMemo,
-  useCallback,
-} from 'react';
-import BackHeader from 'ringcentral-widgets/components/BackHeaderV2';
+import React, { FunctionComponent, useCallback, useEffect } from 'react';
 import { CustomArrowButton } from 'ringcentral-widgets/components/Rcui/CustomArrowButton';
-import classNames from 'classnames';
 
 import {
   EvTransferCallUIFunctions,
   EvTransferCallUIProps,
 } from '../../interfaces';
 import { PickList } from '../PickList';
+import { BackHeader } from '../SelectList';
 import i18n from './i18n';
 import styles from './styles.scss';
 
@@ -73,7 +67,12 @@ const TransferCallPanel: FunctionComponent<TransferCallPanelProps> = ({
   const endAdornment = useCallback(
     (disabled) =>
       selectedTransferType === 'manualEntry' ? (
-        <RcIcon size="medium" color={['primary', 'main']} symbol={dialerSvg} />
+        <RcIconButton
+          size="medium"
+          color={['primary', 'main'] as any}
+          variant="plain"
+          symbol={dialerSvg}
+        />
       ) : (
         <CustomArrowButton disabled={disabled} />
       ),
@@ -84,7 +83,6 @@ const TransferCallPanel: FunctionComponent<TransferCallPanelProps> = ({
     <>
       <BackHeader
         currentLocale={currentLocale}
-        className={styles.backHeader}
         title={i18n.getString('transfer', currentLocale)}
         onBackClick={goBack}
       />

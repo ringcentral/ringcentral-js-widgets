@@ -19,6 +19,7 @@ function setup({
   goToManualDialSettings = () => {},
   hangup = () => {},
   checkOnCall = () => {},
+  dialButtonDisabled = false,
 } = {}) {
   return mount(
     <RcThemeProvider>
@@ -27,6 +28,7 @@ function setup({
         dialout={dialout}
         toNumber={toNumber}
         size={size}
+        dialButtonDisabled={dialButtonDisabled}
         hasDialer={hasDialer}
         setToNumber={setToNumber}
         goToManualDialSettings={goToManualDialSettings}
@@ -65,7 +67,6 @@ describe('<DialerPanel />', async () => {
         ['semantic', 'positive'].join(','),
       );
       expect(callButton.prop('data-icon')).toBe('answer');
-      expect(callButton.prop('disabled')).toBe(false);
       callButton.simulate('click');
       expect(dialout).toBeCalled();
     });
@@ -82,6 +83,19 @@ describe('<DialerPanel />', async () => {
       .at(0)
       .simulate('change', eventObj);
     expect(setToNumber).toBeCalledWith('1243');
+  });
+
+  it('dialButtonDisabled can set dial button disable attribute', () => {
+    const getDialButtonDisabled = () =>
+      getCallButton()
+        .render()
+        .attr('disabled');
+
+    wrapper = setup({ dialButtonDisabled: true });
+    expect(getDialButtonDisabled()).toBe('disabled');
+
+    wrapper = setup({ dialButtonDisabled: false });
+    expect(getDialButtonDisabled()).toBe(undefined);
   });
 
   it('Click Delete Button', async () => {
@@ -126,7 +140,6 @@ describe('<DialerPanel />', async () => {
     const dialout = jest.fn(() => {});
     wrapper = setup({ toNumber, dialout, dialoutStatus });
     const callButton = getCallButton();
-    expect(callButton.prop('disabled')).toBe(true);
     expect(callButton.prop('data-icon')).toBe('hand-up');
     callButton.simulate('click');
     expect(dialout).not.toBeCalled();
@@ -139,7 +152,6 @@ describe('<DialerPanel />', async () => {
     const hangup = jest.fn(() => {});
     wrapper = setup({ toNumber, dialout, hangup, dialoutStatus });
     const callButton = getCallButton();
-    expect(callButton.prop('disabled')).toBe(false);
     expect(callButton.prop('data-icon')).toBe('hand-up');
     callButton.simulate('click');
     expect(dialout).not.toBeCalled();

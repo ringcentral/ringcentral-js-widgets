@@ -7,8 +7,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.transferEvents = void 0;
 
-var _Enum = require("ringcentral-integration/lib/Enum");
+var _ObjectMap = require("@ringcentral-integration/core/lib/ObjectMap");
 
-var transferEvents = (0, _Enum.createEnum)(['START', 'SUCCESS', 'END', 'ERROR'], 'transfer');
+var transferEvents = _ObjectMap.ObjectMap.prefixKeys(['START', 'SUCCESS', 'END', 'ERROR'], 'transfer');
+
 exports.transferEvents = transferEvents;
 //# sourceMappingURL=transferEvents.js.map

@@ -7,8 +7,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.loginTypes = void 0;
 
-var _Enum = require("ringcentral-integration/lib/Enum");
+var _ObjectMap = require("@ringcentral-integration/core/lib/ObjectMap");
 
-var loginTypes = (0, _Enum.createEnum)(['integratedSoftphone', 'externalPhone', 'RC_PHONE']);
+var loginTypes = _ObjectMap.ObjectMap.fromKeys(['integratedSoftphone', 'externalPhone', 'RC_PHONE']);
+
 exports.loginTypes = loginTypes;
 //# sourceMappingURL=loginTypes.js.map

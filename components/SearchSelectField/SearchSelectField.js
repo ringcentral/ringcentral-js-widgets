@@ -110,6 +110,14 @@ var SearchSelectField = function SearchSelectField(_ref) {
     currentLocale: currentLocale,
     open: currentOpen,
     selectListBasicClassName: _styles["default"].selectListBasic,
+    classes: {
+      searchInput: _styles["default"].searchInput,
+      noResult: _styles["default"].noResult,
+      placeholder: _styles["default"].placeholder
+    },
+    rightIcon: /*#__PURE__*/_react["default"].createElement("div", {
+      className: _styles["default"].fillRight
+    }),
     backHeaderClassName: _styles["default"].backHeader,
     renderListView: function renderListView(options, type, filter, scrollCheck) {
       return /*#__PURE__*/_react["default"].createElement(_rcui.RcList, null, listRenderer(options, scrollCheck, toggleOpen));

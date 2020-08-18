@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/TransferCallRecipient/InternalPanel/index.ts"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;AAAA;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA","sourcesContent":["export * from './InternalPanel';\n"],"file":"index.js"}

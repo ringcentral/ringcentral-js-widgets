@@ -12,4 +12,6 @@ export default {
   [messageTypes.ADD_SESSION_ERROR]: 'Internal error add session occurred.',
   [messageTypes.DROP_SESSION_ERROR]: 'Internal error drop session occurred.',
   [messageTypes.HOLD_ERROR]: 'Internal error hold/unhold call occurred.',
+  [messageTypes.LOGOUT_FAIL_WITH_CALL_CONNECTED]:
+    'Logout is not working while the call is still connected.',
 };

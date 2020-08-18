@@ -12,7 +12,7 @@ var _SessionConfigPanel = require("../../components/SessionConfigPanel");
 var _connectModule = require("../../lib/connectModule");
 
 var SessionConfigPage = (0, _connectModule.connectModule)(function (phone) {
-  return phone.evSessionConfigUI;
+  return phone.evAgentSessionUI;
 })(_SessionConfigPanel.SessionConfigPanel);
 exports.SessionConfigPage = SessionConfigPage;
 //# sourceMappingURL=SessionConfigPage.js.map

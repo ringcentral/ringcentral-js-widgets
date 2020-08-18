@@ -1,0 +1,18 @@
+@import '../../../scss/variables.scss';
+
+.full {
+  width: 100%;
+}
+
+.phoneBookName {
+  font-size: 14px;
+  display: flex;
+  width: 100%;
+}
+
+.phoneBookDest {
+  font-size: 10px;
+  line-height: 20px;
+  display: flex;
+}
+

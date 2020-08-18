@@ -5,8 +5,8 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.defaultAgentStatesTexts = void 0;
-var defaultAgentStatesTexts = {
+exports.defaultAgentStateTexts = void 0;
+var defaultAgentStateTexts = {
   WORKING: 'Working',
   AVAILABLE: 'Available',
   AWAY: 'Away',
@@ -16,5 +16,5 @@ var defaultAgentStatesTexts = {
   'AUX-UNAVAIL-NO-OFFHOOK': 'Disconnect Offhook',
   TRAINING: 'Training'
 };
-exports.defaultAgentStatesTexts = defaultAgentStatesTexts;
+exports.defaultAgentStateTexts = defaultAgentStateTexts;
 //# sourceMappingURL=agentStatesTexts.js.map

@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/TransferCallRecipient/PhoneBookPanel/i18n/en-US.ts"],"names":["phoneBookTransfer"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,iBAAiB,EAAE;AADN,C","sourcesContent":["export default {\n  phoneBookTransfer: 'Phone book transfer',\n};\n"],"file":"en-US.js"}

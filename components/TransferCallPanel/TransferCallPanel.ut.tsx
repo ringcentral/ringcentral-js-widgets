@@ -5,13 +5,13 @@ import { mount } from 'enzyme';
 import { TransferCallPanel, TransferCallPanelProps } from './TransferCallPanel';
 import { transferTypes } from '../../enums/transferTypes';
 import i18n from './i18n';
+import { EvTransferOption } from '../../interfaces';
 
 const currentLocale = 'en-US';
-const defaultTransferOptions = [
+const defaultTransferOptions: EvTransferOption[] = [
   {
     type: transferTypes.phoneBook,
     label: i18n.getString(transferTypes.phoneBook, currentLocale),
-    router: `/activityCallLog/123456789/transferCall/phoneBook`,
     textFields: [
       {
         label: i18n.getString('callRecipientName', currentLocale),
@@ -21,6 +21,7 @@ const defaultTransferOptions = [
         ),
         value: '',
         disabled: false,
+        router: `/activityCallLog/123456789/transferCall/phoneBook`,
       },
       {
         label: i18n.getString('callRecipientNumber', currentLocale),
@@ -36,7 +37,6 @@ const defaultTransferOptions = [
   {
     type: transferTypes.manualEntry,
     label: i18n.getString(transferTypes.manualEntry, currentLocale),
-    router: `/activityCallLog/123456789/transferCall/manualEntry`,
     textFields: [
       {
         label: i18n.getString('phoneNumber', currentLocale),
@@ -44,6 +44,7 @@ const defaultTransferOptions = [
           'enterThePhoneNumberPlaceholder',
           currentLocale,
         ),
+        router: `/activityCallLog/123456789/transferCall/manualEntry`,
         value: '',
         disabled: false,
       },
@@ -52,7 +53,6 @@ const defaultTransferOptions = [
   {
     type: transferTypes.internal,
     label: i18n.getString(transferTypes.internal, currentLocale),
-    router: `/activityCallLog/123456789/transferCall/internal`,
     textFields: [
       {
         label: i18n.getString('callRecipientName', currentLocale),
@@ -60,6 +60,7 @@ const defaultTransferOptions = [
           'callRecipientNamePlaceholder',
           currentLocale,
         ),
+        router: `/activityCallLog/123456789/transferCall/internal`,
         value: '',
         disabled: false,
       },
@@ -200,14 +201,24 @@ export const UTUserClickCallRecipientCases = [
 export const UTUserClickCallRecipient: StepFunction<any> = ({
   selectedTransferType,
 }) => {
-  const clickCallRecipient = jest.fn(() => {});
-  const wrapper = setup({ clickCallRecipient, selectedTransferType });
-  const callRecipient = wrapper.find('RcTextField[data-sign="callRecipient0"]');
+  const clickCallRecipient = jest.fn();
+
+  const textFields = defaultTextFields;
+  const selectIndex = 0;
+
+  const wrapper = setup({ clickCallRecipient, textFields });
+  const callRecipient = wrapper.find(
+    `RcTextField[data-sign="callRecipient${selectIndex}"]`,
+  );
+
   callRecipient
     .find('input')
     .at(0)
     .simulate('click');
-  expect(clickCallRecipient).toBeCalledWith(selectedTransferType);
+
+  expect(clickCallRecipient).toBeCalledWith(
+    defaultTextFields[selectIndex].router,
+  );
 };
 
 export const UTSetStayOnCallCases = [

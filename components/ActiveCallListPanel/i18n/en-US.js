@@ -8,8 +8,11 @@ Object.defineProperty(exports, "__esModule", {
 exports["default"] = void 0;
 var _default = {
   activeCall: 'Active call',
-  justMe: 'Just Me',
-  everyone: 'Everyone'
+  me: 'Me',
+  everyone: 'Everyone',
+  caller: 'Caller',
+  callee: 'Callee',
+  unKnown: 'Unknown'
 };
 exports["default"] = _default;
 //# sourceMappingURL=en-US.js.map

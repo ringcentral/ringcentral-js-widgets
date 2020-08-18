@@ -29,8 +29,6 @@ var _classnames = _interopRequireDefault(require("classnames"));
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _SpinnerOverlay = require("ringcentral-widgets/components/SpinnerOverlay");
-
 var _i18n = _interopRequireDefault(require("./i18n"));
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
@@ -54,18 +52,19 @@ var LoginPanel = function LoginPanel(_ref) {
       customStyles = _ref.customStyles,
       _ref$size = _ref.size,
       size = _ref$size === void 0 ? 'medium' : _ref$size,
-      isWide = _ref.isWide;
-  var CustomSpinner = (0, _react.useCallback)(function () {
-    return /*#__PURE__*/_react["default"].createElement(_rcui.RcCircularProgress, {
-      size: isWide ? 40 : 20
-    });
-  }, [isWide]);
-  var spinner = showSpinner ? /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay.SpinnerOverlay, {
-    classes: {
-      container: _styles["default"].spinner
-    },
-    custom: CustomSpinner
-  }) : null;
+      onLoading = _ref.onLoading,
+      onLoadingComplete = _ref.onLoadingComplete;
+  (0, _react.useEffect)(function () {
+    if (showSpinner) {
+      onLoading();
+    } else {
+      onLoadingComplete();
+    }
+
+    return function () {
+      onLoadingComplete();
+    }; // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [showSpinner]);
   var versionDisplay = version ? /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].versionContainer
   }, _i18n["default"].getString('version', currentLocale), " ", version) : null;
@@ -84,7 +83,7 @@ var LoginPanel = function LoginPanel(_ref) {
     onClick: onLoginButtonClick,
     disabled: disabled,
     size: size
-  }, _i18n["default"].getString('loginButton', currentLocale)), signUpButton, versionDisplay, spinner, children);
+  }, _i18n["default"].getString('loginButton', currentLocale)), signUpButton, versionDisplay, children);
 };
 
 exports.LoginPanel = LoginPanel;

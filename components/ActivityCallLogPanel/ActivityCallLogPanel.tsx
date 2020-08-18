@@ -2,8 +2,9 @@ import { RcButton, RcMenu, RcMenuItem } from '@ringcentral-integration/rcui';
 import classNames from 'classnames';
 import React, { FunctionComponent, useRef, useState } from 'react';
 import { BasicCallInfo } from 'ringcentral-widgets/components/BasicCallInfo';
-import CallLogPanel from 'ringcentral-widgets/components/CallLogPanel';
-import SaveLogButton from 'ringcentral-widgets/components/SaveLogButton';
+import CallLogPanel, {
+  CallLogPanelProps,
+} from 'ringcentral-widgets/components/CallLogPanel';
 
 import { transferTypes } from '../../enums';
 import {
@@ -12,11 +13,13 @@ import {
 } from '../../interfaces/EvActivityCallUI.interface';
 import { EvSmallCallControl } from '../EvSmallCallControl';
 import i18n from './i18n';
+import { IvrInfo } from './IvrInfo';
 import styles from './styles.scss';
 import { EditLogSection, getButtonText } from './utils';
 
 export type ActivityCallLogPanelProps = EvActivityCallUIProps &
-  EvActivityCallUIFunctions;
+  EvActivityCallUIFunctions &
+  Pick<CallLogPanelProps, 'startAdornmentRender'>;
 
 export const ActivityCallLogPanel: FunctionComponent<ActivityCallLogPanelProps> = ({
   currentLocale,
@@ -49,20 +52,22 @@ export const ActivityCallLogPanel: FunctionComponent<ActivityCallLogPanelProps> 
   isOnActive,
   onActive,
   isWide,
+  showMuteButton,
+  ivrAlertData,
+  onCopySuccess,
   ...rest
 }) => {
   const transferRef = useRef(null);
   const [transferEl, setTransferRef] = useState(null);
-  const [isOnTransfer, setOnTransfer] = useState(false);
   const isActivity = status === 'active';
   const isCallEnd = status === 'callEnd';
   const isLoading = saveStatus === 'saving';
+
   const onTransfer = () => {
-    setOnTransfer(true);
     setTransferRef(transferRef.current);
   };
+
   const handleTransferClose = () => {
-    setOnTransfer(false);
     setTransferRef(null);
   };
 
@@ -89,26 +94,32 @@ export const ActivityCallLogPanel: FunctionComponent<ActivityCallLogPanelProps> 
       isInTransferPage={false}
       // TODO: that need refactor CallLogPanel and then can remove that
       currentIdentify="123"
-      renderSaveLogButton={(props) => <SaveLogButton {...props} />}
       renderEditLogSection={EditLogSection}
       renderBasicInfo={() => {
         return (
-          <BasicCallInfo
-            status={status}
-            currentLocale={currentLocale}
-            isInbound={isInbound}
-            isRinging={isActivity}
-            subject={basicInfo.subject}
-            followInfos={basicInfo.followInfos}
-            callInfos={basicInfo.callInfos}
-            callControlRef={callControlRef}
-            classes={{
-              panel: isCallEnd && styles.noneShadow,
-            }}
-          />
+          <>
+            <BasicCallInfo
+              status={status}
+              currentLocale={currentLocale}
+              isInbound={isInbound}
+              isRinging={isActivity}
+              subject={basicInfo.subject}
+              followInfos={basicInfo.followInfos}
+              callInfos={basicInfo.callInfos}
+              callControlRef={callControlRef}
+              onCopySuccess={onCopySuccess}
+              classes={{
+                panel: isCallEnd && styles.noneShadow,
+              }}
+            />
+            {ivrAlertData?.length > 0 && (
+              <IvrInfo isCallEnd={isCallEnd} ivrAlertData={ivrAlertData} />
+            )}
+          </>
         );
       }}
       renderCallLogCallControl={() => {
+        const isOnTransfer = Boolean(transferEl);
         return isCallEnd ? (
           <RcButton
             data-sign="submit"
@@ -125,7 +136,7 @@ export const ActivityCallLogPanel: FunctionComponent<ActivityCallLogPanelProps> 
             <RcMenu
               classes={{ paper: styles.paper }}
               anchorEl={transferEl}
-              open={Boolean(transferEl)}
+              open={isOnTransfer}
               onClose={handleTransferClose}
               data-sign="transferMenu"
             >
@@ -180,6 +191,7 @@ export const ActivityCallLogPanel: FunctionComponent<ActivityCallLogPanelProps> 
               disableMute={disableMute}
               disableActive={disableActive}
               isOnActive={isOnActive}
+              showMuteButton={showMuteButton}
             />
           </>
         );

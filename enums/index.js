@@ -16,6 +16,18 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _agentScriptEvents = require("./agentScriptEvents");
+
+Object.keys(_agentScriptEvents).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _agentScriptEvents[key];
+    }
+  });
+});
+
 var _agentStateTypes = require("./agentStateTypes");
 
 Object.keys(_agentStateTypes).forEach(function (key) {
@@ -60,6 +72,18 @@ Object.keys(_authStatus).forEach(function (key) {
     enumerable: true,
     get: function get() {
       return _authStatus[key];
+    }
+  });
+});
+
+var _callStatus = require("./callStatus");
+
+Object.keys(_callStatus).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _callStatus[key];
     }
   });
 });
@@ -192,6 +216,18 @@ Object.keys(_softphoneEvents).forEach(function (key) {
     enumerable: true,
     get: function get() {
       return _softphoneEvents[key];
+    }
+  });
+});
+
+var _tabManagerEvents = require("./tabManagerEvents");
+
+Object.keys(_tabManagerEvents).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _tabManagerEvents[key];
     }
   });
 });

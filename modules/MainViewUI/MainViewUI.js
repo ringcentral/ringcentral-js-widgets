@@ -11,19 +11,9 @@ require("core-js/modules/es6.object.define-properties");
 
 require("core-js/modules/es7.object.get-own-property-descriptors");
 
-require("core-js/modules/es6.array.for-each");
-
 require("core-js/modules/es6.array.filter");
 
 require("core-js/modules/es6.symbol");
-
-require("core-js/modules/web.dom.iterable");
-
-require("core-js/modules/es6.array.iterator");
-
-require("core-js/modules/es6.object.keys");
-
-require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.object.create");
 
@@ -31,11 +21,23 @@ require("core-js/modules/es6.regexp.to-string");
 
 require("core-js/modules/es6.date.to-string");
 
-require("core-js/modules/es6.object.to-string");
-
 require("core-js/modules/es6.reflect.construct");
 
 require("core-js/modules/es6.object.set-prototype-of");
+
+require("core-js/modules/es6.object.define-property");
+
+require("core-js/modules/es6.array.reduce");
+
+require("core-js/modules/web.dom.iterable");
+
+require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.object.to-string");
+
+require("core-js/modules/es6.object.keys");
+
+require("core-js/modules/es6.array.for-each");
 
 require("core-js/modules/es6.array.index-of");
 
@@ -51,7 +53,7 @@ var _enums = require("../../enums");
 
 var _time = require("../../lib/time");
 
-var _dec, _class, _temp;
+var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _class, _class2, _temp;
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -81,88 +83,45 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
+
 var expiredWorkingTime = 60 * 1000;
 var MainViewUI = (_dec = (0, _di.Module)({
   name: 'MainViewUI',
-  deps: ['Locale', 'RouterInteraction', 'EvWorkingState', 'EvSettings', 'EvCallMonitor', 'EvAuth', 'Environment', {
-    dep: 'MainViewUIOptions',
-    optional: true
-  }]
-}), _dec(_class = (_temp = /*#__PURE__*/function (_RcUIModuleV) {
+  deps: ['Locale', 'RouterInteraction', 'EvWorkingState', 'EvSettings', 'EvCallMonitor', 'EvAuth', 'Environment']
+}), _dec2 = (0, _core.computed)(function (that) {
+  return [that._deps.evWorkingState.agentStates];
+}), _dec3 = (0, _core.computed)(function (that) {
+  return [that.agentStates, that._deps.evWorkingState.workingState];
+}), _dec4 = (0, _core.computed)(function (that) {
+  return [that._deps.evWorkingState.workingState];
+}), _dec5 = (0, _core.computed)(function (that) {
+  return [that._deps.evWorkingState.workingState];
+}), _dec6 = (0, _core.computed)(function (that) {
+  return [that._deps.evSettings.isOffhooking, that._deps.evCallMonitor.isOnCall, that._deps.evAuth.agentPermissions.allowOffHook];
+}), _dec7 = (0, _core.computed)(function (that) {
+  return [that._deps.evAuth.agentPermissions.allowOffHook];
+}), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcUIModuleV) {
   _inherits(MainViewUI, _RcUIModuleV);
 
   var _super = _createSuper(MainViewUI);
 
-  function MainViewUI(_ref) {
+  function MainViewUI(deps) {
     var _this;
-
-    var routerInteraction = _ref.routerInteraction,
-        evWorkingState = _ref.evWorkingState,
-        locale = _ref.locale,
-        evSettings = _ref.evSettings,
-        evAuth = _ref.evAuth,
-        evCallMonitor = _ref.evCallMonitor,
-        environment = _ref.environment;
 
     _classCallCheck(this, MainViewUI);
 
     _this = _super.call(this, {
-      modules: {
-        routerInteraction: routerInteraction,
-        evWorkingState: evWorkingState,
-        locale: locale,
-        evSettings: evSettings,
-        evAuth: evAuth,
-        evCallMonitor: evCallMonitor,
-        environment: environment
-      }
+      deps: deps
     });
     _this.oldIntervalTime = void 0;
-    _this.getAgentStates = (0, _core.createSelector)(function () {
-      return _this._modules.evWorkingState.getAgentStates();
-    }, function (agentStates) {
-      return agentStates.map(function (state) {
-        return _objectSpread(_objectSpread({}, state), {}, {
-          color: _enums.agentStatesColors[state.agentState],
-          title: state.agentAuxState
-        });
-      });
-    });
-    _this.getCurrentStateIndex = (0, _core.createSelector)(function () {
-      return _this.getAgentStates();
-    }, function () {
-      return _this._modules.evWorkingState.getWorkingState();
-    }, function (agentStates, workingState) {
-      return agentStates.findIndex(function (state) {
-        return state.agentAuxState === workingState.agentAuxState && state.agentState === workingState.agentState;
-      });
-    });
-    _this.getStateText = (0, _core.createSelector)(function () {
-      return _this._modules.evWorkingState.getWorkingState();
-    }, function (workingState) {
-      return workingState.agentAuxState || workingState.agentState;
-    });
-    _this.getIsTimingOneMinuteType = (0, _core.createSelector)(function () {
-      return _this._modules.evWorkingState.getWorkingState();
-    }, function (workingState) {
-      return [_enums.agentStateTypes.away, _enums.agentStateTypes.onBreak, _enums.agentStateTypes.lunch].indexOf(workingState.agentState) > -1;
-    });
-    _this.getIsOffHookDisable = (0, _core.createSelector)(function () {
-      return _this._modules.evSettings.isOffhooking;
-    }, function () {
-      return _this._modules.evCallMonitor.isOnCall;
-    }, function () {
-      return _this._modules.evAuth.agentPermissions.allowOffHook;
-    }, function (isOffhooking, isOnCall, allowOffHook) {
-      return isOffhooking || isOnCall || !allowOffHook;
-    });
     return _this;
   }
 
   _createClass(MainViewUI, [{
     key: "getStateColor",
     value: function getStateColor(intervalTime) {
-      if (this.getIsTimingOneMinuteType()) {
+      if (this.isTimingOneMinuteType) {
         var isOverOneMinute = this._checkOverTime(intervalTime);
 
         if (isOverOneMinute) {
@@ -170,12 +129,12 @@ var MainViewUI = (_dec = (0, _di.Module)({
         }
       }
 
-      return _enums.agentStatesColors[this._modules.evWorkingState.getWorkingState().agentState] || 'grey';
+      return _enums.agentStatesColors[this._deps.evWorkingState.workingState.agentState] || 'grey';
     }
   }, {
     key: "getTimerText",
     value: function getTimerText(intervalTime) {
-      if (!this.getIsTimingOneMinuteType()) {
+      if (!this.isTimingOneMinuteType) {
         return (0, _time.handleToClockTime)(intervalTime);
       }
 
@@ -192,8 +151,8 @@ var MainViewUI = (_dec = (0, _di.Module)({
       var isOverOneMinute = this._checkOverTime(intervalTime); // TODO think about when browser is block.
 
 
-      if (this.oldIntervalTime < expiredWorkingTime && isOverOneMinute && this.getIsTimingOneMinuteType()) {
-        this._modules.evWorkingState.alertOverBreakTime();
+      if (this.oldIntervalTime < expiredWorkingTime && isOverOneMinute && this.isTimingOneMinuteType) {
+        this._deps.evWorkingState.alertOverBreakTime();
       }
 
       this.oldIntervalTime = intervalTime;
@@ -207,19 +166,20 @@ var MainViewUI = (_dec = (0, _di.Module)({
     key: "getUIProps",
     value: function getUIProps() {
       return {
-        agentStates: this.getAgentStates(),
-        agentState: this._modules.evWorkingState.agentState,
-        currentStateIndex: this.getCurrentStateIndex(),
-        currentPath: this._modules.routerInteraction.currentPath,
-        stateText: this.getStateText(),
-        time: this._modules.evWorkingState.time,
-        disabled: this._modules.evWorkingState.isPendingDisposition,
-        isOffHookDisable: this.getIsOffHookDisable(),
-        offhookState: this._modules.evSettings.getOffhookState(),
-        isOffhook: this._modules.evSettings.isOffhook,
-        isOffhooking: this._modules.evSettings.isOffhooking,
-        isWide: this._modules.environment.isWide,
-        currentLocale: this._modules.locale.currentLocale
+        agentStates: this.agentStates,
+        agentState: this._deps.evWorkingState.agentState,
+        currentStateIndex: this.currentStateIndex,
+        currentPath: this._deps.routerInteraction.currentPath,
+        stateText: this.stateText,
+        time: this._deps.evWorkingState.time,
+        disabled: this._deps.evWorkingState.isPendingDisposition,
+        isOffHookDisable: this.isOffHookDisable,
+        offhookState: this._deps.evSettings.offhookState,
+        isOffhook: this._deps.evSettings.isOffhook,
+        isOffhooking: this._deps.evSettings.isOffhooking,
+        isWide: this._deps.environment.isWide,
+        hideOffHookBtn: this.hideOffHookBtn,
+        currentLocale: this._deps.locale.currentLocale
       };
     }
   }, {
@@ -230,11 +190,11 @@ var MainViewUI = (_dec = (0, _di.Module)({
       return {
         goTo: function goTo(path) {
           if (path) {
-            _this2._modules.routerInteraction.push(path);
+            _this2._deps.routerInteraction.push(path);
           }
         },
         changeWorkingState: function changeWorkingState(state) {
-          return _this2._modules.evWorkingState.changeWorkingState(state);
+          return _this2._deps.evWorkingState.changeWorkingState(state);
         },
         getTimerText: function getTimerText(intervalTime) {
           return _this2.getTimerText(intervalTime);
@@ -246,15 +206,55 @@ var MainViewUI = (_dec = (0, _di.Module)({
           return _this2.handleWithIntervalTime(intervalTime);
         },
         offhook: function offhook() {
-          if (!_this2.getIsOffHookDisable()) {
-            _this2._modules.evSettings.offHook();
+          if (!_this2.isOffHookDisable) {
+            _this2._deps.evSettings.offHook();
           }
         }
       };
     }
+  }, {
+    key: "agentStates",
+    get: function get() {
+      return this._deps.evWorkingState.agentStates.map(function (state) {
+        return _objectSpread(_objectSpread({}, state), {}, {
+          color: _enums.agentStatesColors[state.agentState],
+          title: state.agentAuxState
+        });
+      });
+    }
+  }, {
+    key: "currentStateIndex",
+    get: function get() {
+      var workingState = this._deps.evWorkingState.workingState;
+      return this.agentStates.findIndex(function (state) {
+        return state.agentAuxState === workingState.agentAuxState && state.agentState === workingState.agentState;
+      });
+    }
+  }, {
+    key: "stateText",
+    get: function get() {
+      var workingState = this._deps.evWorkingState.workingState;
+      return workingState.agentAuxState || workingState.agentState;
+    }
+  }, {
+    key: "isTimingOneMinuteType",
+    get: function get() {
+      var workingState = this._deps.evWorkingState.workingState;
+      return [_enums.agentStateTypes.away, _enums.agentStateTypes.onBreak, _enums.agentStateTypes.lunch].indexOf(workingState.agentState) > -1;
+    }
+  }, {
+    key: "isOffHookDisable",
+    get: function get() {
+      return this._deps.evSettings.isOffhooking || this._deps.evCallMonitor.isOnCall || !this._deps.evAuth.agentPermissions.allowOffHook;
+    }
+  }, {
+    key: "hideOffHookBtn",
+    get: function get() {
+      return !this._deps.evAuth.agentPermissions.allowOffHook;
+    }
   }]);
 
   return MainViewUI;
-}(_core.RcUIModuleV2), _temp)) || _class);
+}(_core.RcUIModuleV2), _temp), (_applyDecoratedDescriptor(_class2.prototype, "agentStates", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "agentStates"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "currentStateIndex", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "currentStateIndex"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "stateText", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "stateText"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "isTimingOneMinuteType", [_dec5], Object.getOwnPropertyDescriptor(_class2.prototype, "isTimingOneMinuteType"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "isOffHookDisable", [_dec6], Object.getOwnPropertyDescriptor(_class2.prototype, "isOffHookDisable"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "hideOffHookBtn", [_dec7], Object.getOwnPropertyDescriptor(_class2.prototype, "hideOffHookBtn"), _class2.prototype)), _class2)) || _class);
 exports.MainViewUI = MainViewUI;
 //# sourceMappingURL=MainViewUI.js.map

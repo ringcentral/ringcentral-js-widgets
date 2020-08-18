@@ -33,25 +33,19 @@ require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.array.is-array");
 
-require("core-js/modules/es6.array.map");
-
-var _react = _interopRequireWildcard(require("react"));
-
 var _rcui = require("@ringcentral-integration/rcui");
 
-var _SelectList = require("ringcentral-widgets/components/SelectList");
+var _react = _interopRequireWildcard(require("react"));
 
 var _Tooltip = require("ringcentral-widgets/components/Rcui/Tooltip");
 
 var _toolTipDelayTime = require("ringcentral-widgets/lib/toolTipDelayTime");
 
-var _ListItemWithScrollCheck = require("../../../ListItemWithScrollCheck");
-
-var _i18n = _interopRequireDefault(require("../i18n"));
+var _SelectList = require("../../../SelectList");
 
 var _styles = _interopRequireDefault(require("../styles.scss"));
 
-var _i18n2 = _interopRequireDefault(require("./i18n"));
+var _i18n = _interopRequireDefault(require("./i18n"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -79,48 +73,41 @@ var RequeueCallGroupDetailPanel = function RequeueCallGroupDetailPanel(_ref) {
       selectedGateId = _ref.selectedGateId,
       submitSelection = _ref.submitSelection;
 
-  var selectText = _i18n2["default"].getString('selectCheck', currentLocale);
+  var selectText = _i18n["default"].getString('selectCheck', currentLocale);
 
   var _useState = (0, _react.useState)(selectedGateId),
       _useState2 = _slicedToArray(_useState, 2),
       queueId = _useState2[0],
       setQueueId = _useState2[1];
 
-  var disabled = !queueId;
-  return /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement(_SelectList.SelectListBasicWithScrollCheck, {
-    listContainerClassName: _styles["default"].listContainer,
-    backHeaderClassName: _styles["default"].backHeader,
-    selectListBasicClassName: _styles["default"].selectListBasic,
-    title: selectedQueueGroup.groupName,
-    placeholder: _i18n["default"].getString('search', currentLocale),
-    options: selectedQueueGroup.gates,
-    renderListView: function renderListView(gates, type, filter, scrollCheck) {
-      return gates.length ? /*#__PURE__*/_react["default"].createElement(_rcui.RcList, null, gates.map(function (gate, i) {
-        return /*#__PURE__*/_react["default"].createElement(_ListItemWithScrollCheck.ListItemWithScrollCheck, {
-          onClick: function onClick() {
-            setQueueId(gate.gateId !== queueId ? gate.gateId : null);
-          },
-          className: _styles["default"].item,
-          selected: gate.gateId === queueId,
-          key: i,
-          scrollCheck: scrollCheck
-        }, /*#__PURE__*/_react["default"].createElement(_Tooltip.Tooltip, {
-          title: gate.gateName,
-          enterDelay: _toolTipDelayTime.TOOLTIP_DEFAULT_DELAY_TIME
-        }, /*#__PURE__*/_react["default"].createElement("span", {
-          className: _styles["default"].gateName
-        }, gate.gateName)));
-      })) : null;
-    },
-    onBackClick: goBack,
+  return /*#__PURE__*/_react["default"].createElement(_SelectList.SelectList, {
     searchOption: searchGate,
     currentLocale: currentLocale,
-    open: true
-  }), /*#__PURE__*/_react["default"].createElement("div", {
+    onBackClick: goBack,
+    title: selectedQueueGroup.groupName,
+    options: selectedQueueGroup.gates,
+    renderListItem: function renderListItem(_ref2) {
+      var option = _ref2.option,
+          index = _ref2.index;
+      var selected = option.gateId === queueId;
+      return /*#__PURE__*/_react["default"].createElement(_SelectList.ListItem, {
+        onClick: function onClick() {
+          setQueueId(selected ? null : option.gateId);
+        },
+        selected: selected,
+        key: index
+      }, /*#__PURE__*/_react["default"].createElement(_Tooltip.Tooltip, {
+        title: option.gateName,
+        enterDelay: _toolTipDelayTime.TOOLTIP_LONG_DELAY_TIME
+      }, /*#__PURE__*/_react["default"].createElement("span", {
+        className: _styles["default"].gateName
+      }, option.gateName)));
+    }
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].checkContainer
   }, /*#__PURE__*/_react["default"].createElement(_rcui.RcButton, {
     title: selectText,
-    disabled: disabled,
+    disabled: !queueId,
     onClick: function onClick() {
       return submitSelection(queueId);
     },

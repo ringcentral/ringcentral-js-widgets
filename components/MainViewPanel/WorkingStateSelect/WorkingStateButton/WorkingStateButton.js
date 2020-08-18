@@ -11,7 +11,7 @@ require("core-js/modules/es6.weak-map");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = exports.WorkingStateButton = void 0;
+exports.WorkingStateButton = void 0;
 
 require("core-js/modules/es6.string.iterator");
 
@@ -76,7 +76,8 @@ var WorkingStateButton = function WorkingStateButton(_ref) {
       color = _ref.color,
       onChange = _ref.onChange,
       disabled = _ref.disabled,
-      timerText = _ref.timerText;
+      timerText = _ref.timerText,
+      classes = _ref.classes;
 
   var _useState = (0, _react.useState)(null),
       _useState2 = _slicedToArray(_useState, 2),
@@ -104,7 +105,7 @@ var WorkingStateButton = function WorkingStateButton(_ref) {
     className: _styles["default"].stateDot
   }), /*#__PURE__*/_react["default"].createElement(_Tooltip.Tooltip, {
     title: label,
-    enterDelay: _toolTipDelayTime.TOOLTIP_DEFAULT_DELAY_TIME
+    enterDelay: _toolTipDelayTime.TOOLTIP_LONG_DELAY_TIME
   }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].stateName,
     "data-sign": "stateName"
@@ -121,7 +122,7 @@ var WorkingStateButton = function WorkingStateButton(_ref) {
       }
     },
     classes: {
-      paper: _styles["default"].paper
+      paper: classes.paper
     },
     anchorEl: anchorEl,
     open: menuOpened,
@@ -148,6 +149,7 @@ var WorkingStateButton = function WorkingStateButton(_ref) {
 };
 
 exports.WorkingStateButton = WorkingStateButton;
-var _default = WorkingStateButton;
-exports["default"] = _default;
+WorkingStateButton.defaultProps = {
+  classes: {}
+};
 //# sourceMappingURL=WorkingStateButton.js.map

@@ -1,6 +1,6 @@
 import {
   action,
-  RcModuleState,
+  computed,
   RcModuleV2,
   state,
   storage,
@@ -10,7 +10,7 @@ import { Module } from 'ringcentral-integration/lib/di';
 import { requeueEvents } from '../../enums';
 import { EvCallData } from '../../interfaces/EvData.interface';
 import { EvTypeError } from '../../lib/EvTypeError';
-import { DepsModules, RequeueCall, State } from './EvRequeueCall.inerface';
+import { Deps, RequeueCall } from './EvRequeueCall.interface';
 
 type EvRequeueCallStatus = Partial<
   Pick<
@@ -19,12 +19,11 @@ type EvRequeueCallStatus = Partial<
   >
 >;
 
-type EvRequeueCallState = RcModuleState<EvRequeueCall, State>;
-
 @Module({
   name: 'EvRequeueCall',
   deps: [
     'EvClient',
+    'EvCall',
     'Storage',
     'ActiveCallControl',
     'EvAuth',
@@ -32,25 +31,11 @@ type EvRequeueCallState = RcModuleState<EvRequeueCall, State>;
     { dep: 'EvRequeueCallOptions', optional: true },
   ],
 })
-class EvRequeueCall extends RcModuleV2<DepsModules, EvRequeueCallState>
-  implements RequeueCall {
-  constructor({
-    evClient,
-    storage,
-    activeCallControl,
-    evAuth,
-    alert,
-    enableCache = true,
-  }) {
+class EvRequeueCall extends RcModuleV2<Deps> implements RequeueCall {
+  constructor(deps: Deps) {
     super({
-      modules: {
-        evClient,
-        storage,
-        activeCallControl,
-        evAuth,
-        alert,
-      },
-      enableCache,
+      deps,
+      enableCache: true,
       storageKey: 'EvRequeueCall',
     });
   }
@@ -71,59 +56,18 @@ class EvRequeueCall extends RcModuleV2<DepsModules, EvRequeueCallState>
   @state
   requeuing: boolean = false;
 
-  @action
-  setStatus({
-    selectedQueueGroupId,
-    selectedGateId,
-    stayOnCall,
-    requeuing,
-  }: EvRequeueCallStatus) {
-    this.state.selectedQueueGroupId =
-      selectedQueueGroupId ?? this.selectedQueueGroupId;
-    this.state.selectedGateId = selectedGateId ?? this.selectedGateId;
-    this.state.stayOnCall = stayOnCall ?? this.stayOnCall;
-    this.state.requeuing = requeuing ?? this.requeuing;
-  }
-
-  async requeueCall() {
-    let loadingId: string;
-    try {
-      this.setStatus({ requeuing: true });
-      loadingId = this._modules.alert.info({
-        message: requeueEvents.START,
-        loading: true,
-      });
-
-      const result = await this._modules.evClient.requeueCall({
-        maintain: this.stayOnCall,
-        queueId: this.selectedGateId,
-      });
-
-      if (result.status === 'FAILURE') {
-        throw new EvTypeError({ type: 'Requeue' });
-      }
-      if (this.stayOnCall) {
-        await this._modules.activeCallControl.hold();
-      }
-      this._modules.alert.success({ message: requeueEvents.SUCCESS });
-    } catch (error) {
-      this._modules.alert.danger({
-        message: requeueEvents.FAILURE,
-      });
-      throw new EvTypeError({ type: requeueEvents.FAILURE });
-    } finally {
-      this.setStatus({ requeuing: false });
-      this._modules.alert.dismiss(loadingId);
-    }
-  }
-
-  checkAllowRequeue(currentCall: EvCallData) {
+  @computed((that: EvRequeueCall) => [
+    that._deps.evCall.currentCall,
+    that._deps.evAuth.agentPermissions.allowCrossQueueRequeue,
+  ])
+  get allowRequeueCall() {
+    const { currentCall } = this._deps.evCall;
     let result = true;
-    if (!currentCall.endedCall) {
+    if (currentCall && !currentCall.endedCall) {
       if (!currentCall.allowRequeue) {
         result = false;
       } else if (
-        !this._modules.evAuth.agentPermissions.allowCrossQueueRequeue &&
+        !this._deps.evAuth.agentPermissions.allowCrossQueueRequeue &&
         currentCall.callType === 'OUTBOUND' &&
         currentCall.requeueType === 'ADVANCED'
       ) {
@@ -135,10 +79,56 @@ class EvRequeueCall extends RcModuleV2<DepsModules, EvRequeueCallState>
     return result;
   }
 
+  @action
+  setStatus({
+    selectedQueueGroupId,
+    selectedGateId,
+    stayOnCall,
+    requeuing,
+  }: EvRequeueCallStatus) {
+    this.selectedQueueGroupId =
+      selectedQueueGroupId ?? this.selectedQueueGroupId;
+    this.selectedGateId = selectedGateId ?? this.selectedGateId;
+    this.stayOnCall = stayOnCall ?? this.stayOnCall;
+    this.requeuing = requeuing ?? this.requeuing;
+  }
+
+  async requeueCall() {
+    let loadingId: string;
+    try {
+      this.setStatus({ requeuing: true });
+      loadingId = this._deps.alert.info({
+        message: requeueEvents.START,
+        loading: true,
+      });
+
+      const result = await this._deps.evClient.requeueCall({
+        maintain: this.stayOnCall,
+        queueId: this.selectedGateId,
+      });
+
+      if (result.status === 'FAILURE') {
+        throw new EvTypeError({ type: 'Requeue' });
+      }
+      if (this.stayOnCall) {
+        await this._deps.activeCallControl.hold();
+      }
+      this._deps.alert.success({ message: requeueEvents.SUCCESS });
+    } catch (error) {
+      this._deps.alert.danger({
+        message: requeueEvents.FAILURE,
+      });
+      throw new EvTypeError({ type: requeueEvents.FAILURE });
+    } finally {
+      this.setStatus({ requeuing: false });
+      this._deps.alert.dismiss(loadingId);
+    }
+  }
+
   private _hasRequeueQueues(currentCall: EvCallData) {
     let result = false;
     if (currentCall.requeueType === 'ADVANCED') {
-      const queues = this._modules.evAuth.availableQueues;
+      const queues = this._deps.evAuth.availableQueues;
       result = queues && queues.length > 0;
     } else {
       const shortcuts = currentCall.requeueShortcuts;

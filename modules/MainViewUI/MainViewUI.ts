@@ -1,4 +1,4 @@
-import { RcUIModuleV2, createSelector } from '@ringcentral-integration/core';
+import { computed, RcUIModuleV2 } from '@ringcentral-integration/core';
 import { Module } from 'ringcentral-integration/lib/di';
 
 import { agentStatesColors, agentStateTypes } from '../../enums';
@@ -7,7 +7,7 @@ import {
   EvMainViewUIProps,
 } from '../../interfaces/EvMainViewUI.interface';
 import { handleToClockTime } from '../../lib/time';
-import { DepsModules, MainView } from './MainViewUI.interface';
+import { Deps, MainView } from './MainViewUI.interface';
 
 const expiredWorkingTime = 60 * 1000;
 
@@ -21,82 +21,79 @@ const expiredWorkingTime = 60 * 1000;
     'EvCallMonitor',
     'EvAuth',
     'Environment',
-    { dep: 'MainViewUIOptions', optional: true },
   ],
 })
-class MainViewUI extends RcUIModuleV2<DepsModules> implements MainView {
+class MainViewUI extends RcUIModuleV2<Deps> implements MainView {
   public oldIntervalTime?: number;
 
-  constructor({
-    routerInteraction,
-    evWorkingState,
-    locale,
-    evSettings,
-    evAuth,
-    evCallMonitor,
-    environment,
-  }) {
+  constructor(deps: Deps) {
     super({
-      modules: {
-        routerInteraction,
-        evWorkingState,
-        locale,
-        evSettings,
-        evAuth,
-        evCallMonitor,
-        environment,
-      },
+      deps,
     });
   }
 
-  getAgentStates = createSelector(
-    () => this._modules.evWorkingState.getAgentStates(),
-    (agentStates) => {
-      return agentStates.map((state) => ({
-        ...state,
-        color: agentStatesColors[state.agentState],
-        title: state.agentAuxState,
-      }));
-    },
-  );
+  @computed((that: MainViewUI) => [that._deps.evWorkingState.agentStates])
+  get agentStates() {
+    return this._deps.evWorkingState.agentStates.map((state) => ({
+      ...state,
+      color: agentStatesColors[state.agentState],
+      title: state.agentAuxState,
+    }));
+  }
 
-  getCurrentStateIndex = createSelector(
-    () => this.getAgentStates(),
-    () => this._modules.evWorkingState.getWorkingState(),
-    (agentStates, workingState) =>
-      agentStates.findIndex(
-        (state) =>
-          state.agentAuxState === workingState.agentAuxState &&
-          state.agentState === workingState.agentState,
-      ),
-  );
+  @computed((that: MainViewUI) => [
+    that.agentStates,
+    that._deps.evWorkingState.workingState,
+  ])
+  get currentStateIndex() {
+    const { workingState } = this._deps.evWorkingState;
+    return this.agentStates.findIndex(
+      (state) =>
+        state.agentAuxState === workingState.agentAuxState &&
+        state.agentState === workingState.agentState,
+    );
+  }
 
-  getStateText = createSelector(
-    () => this._modules.evWorkingState.getWorkingState(),
-    (workingState) => workingState.agentAuxState || workingState.agentState,
-  );
+  @computed((that: MainViewUI) => [that._deps.evWorkingState.workingState])
+  get stateText() {
+    const { workingState } = this._deps.evWorkingState;
+    return workingState.agentAuxState || workingState.agentState;
+  }
 
-  getIsTimingOneMinuteType = createSelector(
-    () => this._modules.evWorkingState.getWorkingState(),
-    (workingState) =>
+  @computed((that: MainViewUI) => [that._deps.evWorkingState.workingState])
+  get isTimingOneMinuteType() {
+    const { workingState } = this._deps.evWorkingState;
+    return (
       [
         agentStateTypes.away,
         agentStateTypes.onBreak,
         agentStateTypes.lunch,
-      ].indexOf(workingState.agentState) > -1,
-  );
+      ].indexOf(workingState.agentState) > -1
+    );
+  }
 
-  getIsOffHookDisable = createSelector(
-    () => this._modules.evSettings.isOffhooking,
-    () => this._modules.evCallMonitor.isOnCall,
-    () => this._modules.evAuth.agentPermissions.allowOffHook,
-    (isOffhooking, isOnCall, allowOffHook) => {
-      return isOffhooking || isOnCall || !allowOffHook;
-    },
-  );
+  @computed((that: MainViewUI) => [
+    that._deps.evSettings.isOffhooking,
+    that._deps.evCallMonitor.isOnCall,
+    that._deps.evAuth.agentPermissions.allowOffHook,
+  ])
+  get isOffHookDisable() {
+    return (
+      this._deps.evSettings.isOffhooking ||
+      this._deps.evCallMonitor.isOnCall ||
+      !this._deps.evAuth.agentPermissions.allowOffHook
+    );
+  }
+
+  @computed((that: MainViewUI) => [
+    that._deps.evAuth.agentPermissions.allowOffHook,
+  ])
+  get hideOffHookBtn() {
+    return !this._deps.evAuth.agentPermissions.allowOffHook;
+  }
 
   getStateColor(intervalTime: number) {
-    if (this.getIsTimingOneMinuteType()) {
+    if (this.isTimingOneMinuteType) {
       const isOverOneMinute = this._checkOverTime(intervalTime);
 
       if (isOverOneMinute) {
@@ -105,14 +102,13 @@ class MainViewUI extends RcUIModuleV2<DepsModules> implements MainView {
     }
 
     return (
-      agentStatesColors[
-        this._modules.evWorkingState.getWorkingState().agentState
-      ] || 'grey'
+      agentStatesColors[this._deps.evWorkingState.workingState.agentState] ||
+      'grey'
     );
   }
 
   getTimerText(intervalTime: number) {
-    if (!this.getIsTimingOneMinuteType()) {
+    if (!this.isTimingOneMinuteType) {
       return handleToClockTime(intervalTime);
     }
 
@@ -134,9 +130,9 @@ class MainViewUI extends RcUIModuleV2<DepsModules> implements MainView {
     if (
       this.oldIntervalTime < expiredWorkingTime &&
       isOverOneMinute &&
-      this.getIsTimingOneMinuteType()
+      this.isTimingOneMinuteType
     ) {
-      this._modules.evWorkingState.alertOverBreakTime();
+      this._deps.evWorkingState.alertOverBreakTime();
     }
     this.oldIntervalTime = intervalTime;
   }
@@ -147,19 +143,20 @@ class MainViewUI extends RcUIModuleV2<DepsModules> implements MainView {
 
   getUIProps(): EvMainViewUIProps {
     return {
-      agentStates: this.getAgentStates(),
-      agentState: this._modules.evWorkingState.agentState,
-      currentStateIndex: this.getCurrentStateIndex(),
-      currentPath: this._modules.routerInteraction.currentPath,
-      stateText: this.getStateText(),
-      time: this._modules.evWorkingState.time,
-      disabled: this._modules.evWorkingState.isPendingDisposition,
-      isOffHookDisable: this.getIsOffHookDisable(),
-      offhookState: this._modules.evSettings.getOffhookState(),
-      isOffhook: this._modules.evSettings.isOffhook,
-      isOffhooking: this._modules.evSettings.isOffhooking,
-      isWide: this._modules.environment.isWide,
-      currentLocale: this._modules.locale.currentLocale,
+      agentStates: this.agentStates,
+      agentState: this._deps.evWorkingState.agentState,
+      currentStateIndex: this.currentStateIndex,
+      currentPath: this._deps.routerInteraction.currentPath,
+      stateText: this.stateText,
+      time: this._deps.evWorkingState.time,
+      disabled: this._deps.evWorkingState.isPendingDisposition,
+      isOffHookDisable: this.isOffHookDisable,
+      offhookState: this._deps.evSettings.offhookState,
+      isOffhook: this._deps.evSettings.isOffhook,
+      isOffhooking: this._deps.evSettings.isOffhooking,
+      isWide: this._deps.environment.isWide,
+      hideOffHookBtn: this.hideOffHookBtn,
+      currentLocale: this._deps.locale.currentLocale,
     };
   }
 
@@ -167,18 +164,18 @@ class MainViewUI extends RcUIModuleV2<DepsModules> implements MainView {
     return {
       goTo: (path: string) => {
         if (path) {
-          this._modules.routerInteraction.push(path);
+          this._deps.routerInteraction.push(path);
         }
       },
       changeWorkingState: (state) =>
-        this._modules.evWorkingState.changeWorkingState(state),
+        this._deps.evWorkingState.changeWorkingState(state),
       getTimerText: (intervalTime: number) => this.getTimerText(intervalTime),
       getStateColor: (intervalTime: number) => this.getStateColor(intervalTime),
       handleWithIntervalTime: (intervalTime: number) =>
         this.handleWithIntervalTime(intervalTime),
       offhook: () => {
-        if (!this.getIsOffHookDisable()) {
-          this._modules.evSettings.offHook();
+        if (!this.isOffHookDisable) {
+          this._deps.evSettings.offHook();
         }
       },
     };

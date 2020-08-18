@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/SessionUpdatePanel/i18n/en-US.ts"],"names":["saveUpdate","cancel","editSession"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,UAAU,EAAE,aADC;AAEbC,EAAAA,MAAM,EAAE,QAFK;AAGbC,EAAAA,WAAW,EAAE;AAHA,C","sourcesContent":["export default {\n  saveUpdate: 'Save update',\n  cancel: 'Cancel',\n  editSession: 'Edit Session',\n};\n"],"file":"en-US.js"}

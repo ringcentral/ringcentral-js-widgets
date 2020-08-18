@@ -7,23 +7,7 @@ exports.EvActiveCallControl = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
-require("core-js/modules/es6.object.define-properties");
-
-require("core-js/modules/es7.object.get-own-property-descriptors");
-
-require("core-js/modules/es6.array.for-each");
-
-require("core-js/modules/es6.array.filter");
-
 require("core-js/modules/es6.symbol");
-
-require("core-js/modules/es6.array.index-of");
-
-require("core-js/modules/web.dom.iterable");
-
-require("core-js/modules/es6.array.iterator");
-
-require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.object.define-property");
 
@@ -49,16 +33,6 @@ var _dec, _class;
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
-
-function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -81,7 +55,10 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 var EvActiveCallControl = (_dec = (0, _di.Module)({
   name: 'EvActiveCallControl',
-  deps: ['EvClient', 'EvSettings', 'Presence', 'EvIntegratedSoftphone', {
+  deps: ['EvClient', 'EvSettings', 'Presence', 'EvIntegratedSoftphone', 'EvAgentSession', {
+    dep: 'TabManager',
+    optional: true
+  }, {
     dep: 'EvActiveCallControlOptions',
     optional: true
   }]
@@ -91,53 +68,36 @@ var EvActiveCallControl = (_dec = (0, _di.Module)({
   var _super = _createSuper(EvActiveCallControl);
 
   _createClass(EvActiveCallControl, [{
-    key: "isIntegratedSoftphone",
+    key: "tabManagerEnabled",
     get: function get() {
-      return this._modules.evSettings.loginType === _enums.loginTypes.integratedSoftphone;
+      var _this$_deps$tabManage;
+
+      return (_this$_deps$tabManage = this._deps.tabManager) === null || _this$_deps$tabManage === void 0 ? void 0 : _this$_deps$tabManage._tabbie.enabled;
     }
   }]);
 
-  function EvActiveCallControl(_ref) {
-    var evClient = _ref.evClient,
-        presence = _ref.presence,
-        evSettings = _ref.evSettings,
-        evIntegratedSoftphone = _ref.evIntegratedSoftphone,
-        options = _objectWithoutProperties(_ref, ["evClient", "presence", "evSettings", "evIntegratedSoftphone"]);
-
+  function EvActiveCallControl(deps) {
     _classCallCheck(this, EvActiveCallControl);
 
-    return _super.call(this, _objectSpread({
-      modules: {
-        evClient: evClient,
-        evSettings: evSettings,
-        presence: presence,
-        evIntegratedSoftphone: evIntegratedSoftphone
-      }
-    }, options));
+    return _super.call(this, {
+      deps: deps
+    });
   }
 
   _createClass(EvActiveCallControl, [{
     key: "mute",
     value: function mute() {
-      console.log('mute');
-
-      if (this.isIntegratedSoftphone) {
-        this._modules.evIntegratedSoftphone.sipToggleMute(true);
-      }
+      this._sipToggleMute(true);
     }
   }, {
     key: "unmute",
     value: function unmute() {
-      console.log('unmute');
-
-      if (this.isIntegratedSoftphone) {
-        this._modules.evIntegratedSoftphone.sipToggleMute(false);
-      }
+      this._sipToggleMute(false);
     }
   }, {
     key: "hangUp",
     value: function hangUp(sessionId) {
-      this._modules.evClient.hangup({
+      this._deps.evClient.hangup({
         sessionId: sessionId
       });
     }
@@ -149,29 +109,29 @@ var EvActiveCallControl = (_dec = (0, _di.Module)({
   }, {
     key: "hold",
     value: function hold() {
-      this.changeOnHoldState(true);
+      this._changeOnHoldState(true);
     }
   }, {
     key: "unhold",
     value: function unhold() {
-      this.changeOnHoldState(false);
+      this._changeOnHoldState(false);
     }
   }, {
     key: "hangupSession",
-    value: function hangupSession(_ref2) {
-      var sessionId = _ref2.sessionId;
+    value: function hangupSession(_ref) {
+      var sessionId = _ref.sessionId;
 
-      this._modules.evClient.hangup({
+      this._deps.evClient.hangup({
         sessionId: sessionId
       });
     }
   }, {
     key: "holdSession",
-    value: function holdSession(_ref3) {
-      var sessionId = _ref3.sessionId,
-          state = _ref3.state;
+    value: function holdSession(_ref2) {
+      var sessionId = _ref2.sessionId,
+          state = _ref2.state;
 
-      this._modules.evClient.holdSession({
+      this._deps.evClient.holdSession({
         state: state,
         sessionId: sessionId
       });
@@ -179,14 +139,25 @@ var EvActiveCallControl = (_dec = (0, _di.Module)({
   }, {
     key: "getMainCall",
     value: function getMainCall(uii) {
-      var id = this._modules.evClient.getMainId(uii);
+      var id = this._deps.evClient.getMainId(uii);
 
-      return this._modules.presence.callsMapping[id];
+      return this._deps.presence.callsMapping[id];
     }
   }, {
-    key: "changeOnHoldState",
-    value: function changeOnHoldState(state) {
-      this._modules.evClient.hold(state);
+    key: "_changeOnHoldState",
+    value: function _changeOnHoldState(state) {
+      this._deps.evClient.hold(state);
+    }
+  }, {
+    key: "_sipToggleMute",
+    value: function _sipToggleMute(state) {
+      if (this._deps.evAgentSession.isIntegratedSoftphone) {
+        if (this.tabManagerEnabled) {
+          this._deps.tabManager.send(_enums.tabManagerEvents.MUTE, state);
+        }
+
+        this._deps.evIntegratedSoftphone.sipToggleMute(state);
+      }
     }
   }]);
 

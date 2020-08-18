@@ -25,6 +25,8 @@ var _EvTransferCallAlert = _interopRequireDefault(require("./EvTransferCallAlert
 
 var _EvWorkingStateAlert = _interopRequireDefault(require("./EvWorkingStateAlert"));
 
+var _EvCallInfoAlert = _interopRequireDefault(require("./EvCallInfoAlert"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function getAlertRenderer() {
@@ -74,6 +76,12 @@ function getAlertRenderer() {
     if (_EvIntegratedSoftphoneAlert["default"].handleMessage(message)) {
       return function (props) {
         return /*#__PURE__*/_react["default"].createElement(_EvIntegratedSoftphoneAlert["default"], props);
+      };
+    }
+
+    if (_EvCallInfoAlert["default"].handleMessage(message)) {
+      return function (props) {
+        return /*#__PURE__*/_react["default"].createElement(_EvCallInfoAlert["default"], props);
       };
     }
     /**

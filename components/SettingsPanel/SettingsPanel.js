@@ -7,13 +7,19 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.SettingsPanel = void 0;
 
-var _rcui = require("@ringcentral-integration/rcui");
+require("core-js/modules/es6.array.map");
 
-var _iconLogout = _interopRequireDefault(require("@ringcentral-integration/rcui/icons/icon-Logout.svg"));
+require("core-js/modules/es6.function.name");
+
+var _rcui = require("@ringcentral-integration/rcui");
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
 var _react = _interopRequireDefault(require("react"));
+
+var _Tooltip = require("ringcentral-widgets/components/Rcui/Tooltip");
+
+var _toolTipDelayTime = require("ringcentral-widgets/lib/toolTipDelayTime");
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
@@ -21,43 +27,65 @@ var _styles = _interopRequireDefault(require("./styles.scss"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-var containerClass = (0, _classnames["default"])(_styles["default"].offhookStatusContainer, _styles["default"].item);
-var versionClass = (0, _classnames["default"])(_styles["default"].version, _styles["default"].item);
-
 var SettingsPanel = function SettingsPanel(_ref) {
   var onLogout = _ref.onLogout,
       currentLocale = _ref.currentLocale,
-      isOffHookDisable = _ref.isOffHookDisable,
-      offhookState = _ref.offhookState,
       version = _ref.version,
-      offhook = _ref.offhook,
-      isOffhooking = _ref.isOffhooking;
-
-  var offhookStatusText = _i18n["default"].getString('offhookStatus', currentLocale);
-
-  var logoutText = _i18n["default"].getString('logout', currentLocale);
-
-  var offhookStateText = _i18n["default"].getString(offhookState, currentLocale);
-
+      agentName = _ref.agentName,
+      userName = _ref.userName,
+      sessionInfo = _ref.sessionInfo,
+      goToSessionUpdatePage = _ref.goToSessionUpdatePage,
+      showEditSessionButton = _ref.showEditSessionButton;
   return /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].settingsPanel
   }, /*#__PURE__*/_react["default"].createElement("div", {
-    className: _styles["default"].list
-  }, /*#__PURE__*/_react["default"].createElement(_rcui.RcList, null, /*#__PURE__*/_react["default"].createElement(_rcui.RcListItem, {
-    title: logoutText,
-    size: "small",
-    button: true,
+    className: (0, _classnames["default"])(_styles["default"].name, _styles["default"].item)
+  }, agentName && /*#__PURE__*/_react["default"].createElement(_Tooltip.Tooltip, {
+    title: agentName,
+    enterDelay: _toolTipDelayTime.TOOLTIP_LONG_DELAY_TIME
+  }, /*#__PURE__*/_react["default"].createElement("div", {
+    className: _styles["default"].agentName
+  }, agentName)), /*#__PURE__*/_react["default"].createElement(_Tooltip.Tooltip, {
+    title: userName,
+    enterDelay: _toolTipDelayTime.TOOLTIP_LONG_DELAY_TIME
+  }, /*#__PURE__*/_react["default"].createElement("div", {
+    className: _styles["default"].userName
+  }, userName))), /*#__PURE__*/_react["default"].createElement("div", {
+    className: (0, _classnames["default"])(_styles["default"].info, _styles["default"].item)
+  }, /*#__PURE__*/_react["default"].createElement("div", {
+    className: _styles["default"].infoTitle
+  }, _i18n["default"].getString('sessionInfo', currentLocale)), sessionInfo.map(function (_ref2) {
+    var value = _ref2.value,
+        label = _ref2.label;
+    return /*#__PURE__*/_react["default"].createElement("div", {
+      className: _styles["default"].infoItem,
+      key: value
+    }, /*#__PURE__*/_react["default"].createElement(_rcui.RcTypography, {
+      variant: "caption1",
+      className: _styles["default"].label
+    }, label), /*#__PURE__*/_react["default"].createElement(_rcui.RcTypography, {
+      variant: "body1",
+      className: _styles["default"].value
+    }, value));
+  }), showEditSessionButton && /*#__PURE__*/_react["default"].createElement(_rcui.RcButton, {
+    "data-sign": "editSession",
+    onClick: goToSessionUpdatePage,
     classes: {
-      root: _styles["default"].settingItem
+      root: _styles["default"].editSession
     },
-    onClick: onLogout
-  }, logoutText, /*#__PURE__*/_react["default"].createElement(_rcui.RcIcon, {
-    size: "small",
-    className: _styles["default"].logoutIcon,
-    symbol: _iconLogout["default"]
-  })))), /*#__PURE__*/_react["default"].createElement("div", {
-    className: versionClass
-  }, _i18n["default"].getString('version', currentLocale), " ", version));
+    size: "medium",
+    fullWidth: true
+  }, _i18n["default"].getString('editSession', currentLocale))), /*#__PURE__*/_react["default"].createElement("div", {
+    className: (0, _classnames["default"])(_styles["default"].version, _styles["default"].item)
+  }, _i18n["default"].getString('version', currentLocale), /*#__PURE__*/_react["default"].createElement("span", null, version)), /*#__PURE__*/_react["default"].createElement("div", {
+    className: (0, _classnames["default"])(_styles["default"].logout, _styles["default"].item)
+  }, /*#__PURE__*/_react["default"].createElement(_rcui.RcButton, {
+    "data-sign": "logout",
+    variant: "outlined",
+    fullWidth: true,
+    onClick: onLogout,
+    size: "medium"
+  }, _i18n["default"].getString('logout', currentLocale))));
 };
 
 exports.SettingsPanel = SettingsPanel;

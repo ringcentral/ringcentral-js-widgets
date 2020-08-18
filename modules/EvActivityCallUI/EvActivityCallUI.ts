@@ -1,26 +1,30 @@
 import {
   action,
-  createSelector,
-  RcModuleState,
+  computed,
   RcUIModuleV2,
   state,
   storage,
 } from '@ringcentral-integration/core';
+import { keys } from 'ramda';
 import { Module } from 'ringcentral-integration/lib/di';
-import { PickListOption } from 'ringcentral-widgets/components/CallLogFields';
+import { CallLogPanelProps } from 'ringcentral-widgets/components/CallLogPanel';
 
-import { EvTransferType, logTypes, transferTypes } from '../../enums';
+import {
+  EvTransferType,
+  logTypes,
+  MessageTypes,
+  messageTypes,
+  tabManagerEvents,
+  transferTypes,
+} from '../../enums';
 import {
   EvActivityCallUIFunctions,
   EvActivityCallUIProps,
   EvCurrentLog,
 } from '../../interfaces/EvActivityCallUI.interface';
-import { EvDisposition } from '../../lib/EvClient';
-import {
-  ActivityCallUI,
-  DepsModules,
-  State,
-} from './EvActivityCallUI.interface';
+import { EvIvrData } from '../../interfaces/EvData.interface';
+import { EvBaggage } from '../../lib/EvClient';
+import { ActivityCallUI, Deps } from './EvActivityCallUI.interface';
 import i18n from './i18n';
 
 type FormState = {
@@ -28,8 +32,6 @@ type FormState = {
   required?: Partial<EvActivityCallUI['required']>;
   disabled?: Partial<EvActivityCallUI['disabled']>;
 };
-
-type EvActivityCallUIState = RcModuleState<EvActivityCallUI, State>;
 
 @Module({
   name: 'EvActivityCallUI',
@@ -43,72 +45,30 @@ type EvActivityCallUIState = RcModuleState<EvActivityCallUI, State>;
     'EvTransferCall',
     'EvCallDisposition',
     'EvWorkingState',
-    'EvSessionConfig',
+    'EvAgentSession',
     'EvIntegratedSoftphone',
     'RouterInteraction',
     'ConnectivityMonitor',
     'RateLimiter',
     'Environment',
     'Storage',
+    'EvAuth',
     { dep: 'TabManager', optional: true },
     { dep: 'EvActivityCallUIOptions', optional: true },
   ],
 })
-class EvActivityCallUI<T = {}, K = {}>
-  extends RcUIModuleV2<DepsModules & T, EvActivityCallUIState & K>
+class EvActivityCallUI<T = {}> extends RcUIModuleV2<Deps & T>
   implements ActivityCallUI {
-  protected _lastSaveStatus?: EvActivityCallUIProps['saveStatus'];
-
   public isFirstTimeHandled = false;
 
   /** Is the call pick up directly */
   pickUpDirectly = true;
 
-  constructor({
-    locale,
-    alert,
-    activeCallControl,
-    evCallMonitor,
-    evCall,
-    evCallDisposition,
-    routerInteraction,
-    evRequeueCall,
-    evTransferCall,
-    evWorkingState,
-    evSessionConfig,
-    evIntegratedSoftphone,
-    connectivityMonitor,
-    rateLimiter,
-    environment,
-    modules,
-    storage,
-    tabManager,
-    enableCache = true,
-    storageKey = 'EvActivityCallUI',
-  }) {
+  constructor(deps: Deps) {
     super({
-      modules: {
-        locale,
-        alert,
-        activeCallControl,
-        evCallMonitor,
-        evCall,
-        evCallDisposition,
-        routerInteraction,
-        evRequeueCall,
-        evTransferCall,
-        evWorkingState,
-        evSessionConfig,
-        evIntegratedSoftphone,
-        connectivityMonitor,
-        rateLimiter,
-        environment,
-        storage,
-        tabManager,
-        ...modules,
-      },
-      enableCache,
-      storageKey,
+      deps,
+      enableCache: true,
+      storageKey: 'EvActivityCallUI',
     });
   }
 
@@ -134,267 +94,300 @@ class EvActivityCallUI<T = {}, K = {}>
   saveStatus: EvActivityCallUIProps['saveStatus'] = 'submit';
 
   get callId() {
-    return this._modules.evCall.activityCallId;
+    return this._deps.evCall.activityCallId;
   }
 
   get disableLinks() {
     return (
-      !this._modules.connectivityMonitor.connectivity ||
-      this._modules.rateLimiter.throttling
+      !this._deps.connectivityMonitor.connectivity ||
+      this._deps.rateLimiter.throttling
     );
   }
 
-  get currentEvCall() {
-    return this._modules.evCall.getCurrentCall();
+  get tabManagerEnabled() {
+    return this._deps.tabManager?._tabbie.enabled;
   }
 
-  get isInbound() {
-    return this.currentEvCall?.callType === 'INBOUND';
+  get currentEvCall() {
+    return this._deps.evCall.currentCall;
   }
 
   // TODO: should check with outbound call
   get isInComingCall() {
-    return this.isInbound && !this.pickUpDirectly;
+    return this._deps.evCall.isInbound && !this.pickUpDirectly;
     // currentSession.callStatus === telephonyStatuses.ringing
   }
 
   // transferCall and requeueCall are two parts of transfer menu
   get allowTransfer() {
-    return this.getAllowTransferCall() || this.getAllowRequeueCall();
+    return (
+      this._deps.evTransferCall.allowTransferCall ||
+      this._deps.evRequeueCall.allowRequeueCall
+    );
   }
 
-  getCurrentCallControlPermission = createSelector(
-    () => this.getAllowTransferCall(),
-    () => this.getAllowRequeueCall(),
-    () => this.getCurrentEvMainCall(),
-    (allowTransferCall, allowRequeueCall, currentEvMainCall) => {
-      return {
-        allowTransferCall,
-        allowRequeueCall,
-        allowHoldCall: currentEvMainCall?.allowHold,
-        allowHangupCall: currentEvMainCall?.allowHangup,
-        // TODO: allow mute feature
-        allowMuteCall: true,
-      };
-    },
-  );
+  @computed((that: EvActivityCallUI) => [
+    that._deps.evTransferCall.allowTransferCall,
+    that._deps.evRequeueCall.allowRequeueCall,
+    that.currentEvMainCall,
+  ])
+  get currentCallControlPermission() {
+    return {
+      allowTransferCall: this._deps.evTransferCall.allowTransferCall,
+      allowRequeueCall: this._deps.evRequeueCall.allowRequeueCall,
+      allowHoldCall: this.currentEvMainCall?.allowHold,
+      allowHangupCall: this.currentEvMainCall?.allowHangup,
+    };
+  }
 
-  getAllowRequeueCall = createSelector(
-    () => this.currentEvCall,
-    (currentCall) => {
-      return this._modules.evRequeueCall.checkAllowRequeue(currentCall);
-    },
-  );
-
-  getAllowTransferCall = createSelector(
-    () => this.currentEvCall,
-    (currentCall) => {
-      return this._modules.evTransferCall.checkAllowTransfer(currentCall);
-    },
-  );
-
-  getDispositionPickList = createSelector(
-    () => this.currentEvCall,
-    (currentCall): (PickListOption & Partial<EvDisposition>)[] => {
-      return (
-        currentCall?.outdialDispositions?.dispositions?.map((item) => ({
-          ...item,
-          label: item.disposition,
-          value: item.dispositionId,
-        })) || []
-      );
-    },
-  );
+  @computed((that: EvActivityCallUI) => [that.currentEvCall])
+  get dispositionPickList() {
+    return (
+      this.currentEvCall?.outdialDispositions?.dispositions?.map((item) => ({
+        ...item,
+        label: item.disposition,
+        value: item.dispositionId,
+      })) || []
+    );
+  }
 
   // TODO add `callDisposition` in CallLog
-  getActivityCallLog = createSelector(
-    () => this.callId,
-    () => this.currentEvCall,
-    () => this._modules.evCallDisposition.callsMapping[this.callId],
-    () => this.validated,
-    () => this.required,
-    (
+  @computed((that: EvActivityCallUI) => [
+    that.callId,
+    that.currentEvCall,
+    that._deps.evCallDisposition.callsMapping[that.callId],
+    that.validated,
+    that.required,
+    that._deps.locale.currentLocale,
+    that.dispositionPickList,
+  ])
+  get activityCallLog(): EvCurrentLog {
+    const {
       callId,
-      currentCall,
-      callDisposition,
+      currentEvCall: currentCall,
+
       validated,
       required,
-    ): EvCurrentLog => {
-      if (!currentCall) {
-        return undefined;
-      }
-      const { callType, dnis, uii, ani, queueDts, agentId } = currentCall;
+    } = this;
 
-      // TODO confirm about  dialDest or dnis?
-      const fromNumber = callType === 'OUTBOUND' ? dnis : ani;
-      // TODO confirm about  dialDest or dnis?
-      const toNumber = callType === 'OUTBOUND' ? ani : dnis;
-      const { dispositionId, notes } = callDisposition || {};
+    const callDisposition = this._deps.evCallDisposition.callsMapping[
+      this.callId
+    ];
 
-      const dispositionPickList = this.getDispositionPickList();
+    if (!currentCall) {
+      return undefined;
+    }
+    const { callType, dnis, uii, ani, queueDts, agentId } = currentCall;
 
-      return {
-        currentEvRawCall: currentCall,
-        // the call which maps for rc component
-        call: {
-          id: uii,
-          direction: callType,
-          from: {
-            phoneNumber: fromNumber,
-            name: fromNumber,
-          },
-          to: {
-            phoneNumber: toNumber,
-            name: toNumber,
-          },
-          telephonyStatus: 'CallConnected', // TODO handle with call state and agent state
-          sessionId: currentCall.session.sessionId,
-          telephonySessionId: uii,
-          partyId: agentId,
-          startTime: new Date(queueDts).getTime(),
-          offset: 0,
-          fromMatches: [],
-          toMatches: [],
-          activityMatches: [],
+    // TODO confirm about  dialDest or dnis?
+    const fromNumber = callType === 'OUTBOUND' ? dnis : ani;
+    // TODO confirm about  dialDest or dnis?
+    const toNumber = callType === 'OUTBOUND' ? ani : dnis;
+    const { dispositionId, notes } = callDisposition || {};
+
+    const dispositionPickList = this.dispositionPickList;
+
+    return {
+      currentEvRawCall: currentCall,
+      // the call which maps for rc component
+      call: {
+        id: uii,
+        direction: callType,
+        from: {
+          phoneNumber: fromNumber,
+          name: fromNumber,
         },
-        currentSessionId: callId,
-        // TODO: this will be remove when api can using.
-        currentLogCall: {
-          isFailed: false,
-          isAutoSave: false,
-          isCreated: false,
+        to: {
+          phoneNumber: toNumber,
+          name: toNumber,
         },
-        customLogFields:
-          dispositionPickList.length === 0
-            ? []
-            : [
-                {
-                  label: 'Notes',
-                  sort: 3,
-                  type: 'textarea',
-                  value: 'notes',
-                  maxLength: 32000,
-                  required: required.notes,
-                  error: !validated.notes,
-                  onChange: (value: string) => {
-                    if (required.notes) {
-                      this.changeFormStatus({ validated: { notes: !!value } });
-                    } else {
-                      this.changeFormStatus({ validated: { notes: true } });
-                    }
-                  },
+        telephonyStatus: 'CallConnected', // TODO handle with call state and agent state
+        sessionId: currentCall.session.sessionId,
+        telephonySessionId: uii,
+        partyId: agentId,
+        startTime: new Date(queueDts).getTime(),
+        offset: 0,
+        fromMatches: [],
+        toMatches: [],
+        activityMatches: [],
+      },
+      currentSessionId: callId,
+      // TODO: this will be remove when api can using.
+      currentLogCall: {
+        isFailed: false,
+        isAutoSave: false,
+        isCreated: false,
+      },
+      customLogFields:
+        dispositionPickList.length === 0
+          ? []
+          : [
+              {
+                label: 'Notes',
+                sort: 3,
+                type: 'textarea',
+                value: 'notes',
+                maxLength: 32000,
+                required: required.notes,
+                error: !validated.notes,
+                onChange: (value: string) => {
+                  if (required.notes) {
+                    this.changeFormStatus({ validated: { notes: !!value } });
+                  } else {
+                    this.changeFormStatus({ validated: { notes: true } });
+                  }
                 },
-                {
-                  label: 'Disposition',
-                  sort: 5,
-                  type: 'picklist',
-                  value: 'dispositionId',
-                  placeholder: i18n.getString(
-                    'pleaseSelect',
-                    this._modules.locale.currentLocale,
-                  ),
-                  required: true,
-                  picklistOptions: dispositionPickList,
-                  enableScrollError: true,
-                  error: !validated.dispositionId,
-                  helperText: !validated.dispositionId
-                    ? i18n.getString(
-                        'dispositionError',
-                        this._modules.locale.currentLocale,
-                      )
-                    : undefined,
-                  onChange: (value: string) => {
-                    const currentDisposition = dispositionPickList.find(
-                      (item) => item.value === value,
-                    );
+              },
+              {
+                label: 'Disposition',
+                sort: 5,
+                type: 'picklist',
+                value: 'dispositionId',
+                placeholder: i18n.getString(
+                  'pleaseSelect',
+                  this._deps.locale.currentLocale,
+                ),
+                required: true,
+                picklistOptions: dispositionPickList,
+                enableScrollError: true,
+                error: !validated.dispositionId,
+                helperText: !validated.dispositionId
+                  ? i18n.getString(
+                      'dispositionError',
+                      this._deps.locale.currentLocale,
+                    )
+                  : undefined,
+                onChange: (value: string) => {
+                  const currentDisposition = dispositionPickList.find(
+                    (item) => item.value === value,
+                  );
 
-                    const noteRequired =
-                      currentDisposition && currentDisposition.requireNote;
+                  const noteRequired =
+                    currentDisposition && currentDisposition.requireNote;
 
-                    this.changeFormStatus({
-                      validated: {
-                        dispositionId: !!value,
-                        notes: !noteRequired || (noteRequired && !!notes),
-                      },
-                      required: {
-                        notes: noteRequired,
-                      },
-                    });
-                  },
+                  this.changeFormStatus({
+                    validated: {
+                      dispositionId: !!value,
+                      notes: !noteRequired || (noteRequired && !!notes),
+                    },
+                    required: {
+                      notes: noteRequired,
+                    },
+                  });
                 },
-              ],
-        task: {
-          dispositionId,
-          notes,
-        },
-      };
-    },
-  );
+              },
+            ],
+      task: {
+        dispositionId,
+        notes,
+      },
+    };
+  }
 
-  getCallStatus = createSelector(
-    () => this.currentEvCall,
-    () => this.getCurrentEvMainCall(),
-    (currentEvCall, currentEvMainCall) => {
-      let status: EvActivityCallUIProps['status'] = 'active';
+  @computed((that: EvActivityCallUI) => [
+    that.currentEvCall,
+    that.currentEvMainCall,
+  ])
+  get callStatus() {
+    let status: EvActivityCallUIProps['status'] = 'active';
 
-      if (currentEvCall?.endedCall) {
-        status = 'callEnd';
-      } else if (currentEvMainCall.isHold) {
-        status = 'onHold';
-      }
-      return status;
-    },
-  );
+    if (this.currentEvCall?.endedCall) {
+      status = 'callEnd';
+    } else if (this.currentEvMainCall?.isHold) {
+      status = 'onHold';
+    }
+    return status;
+  }
 
-  getCurrentEvMainCall = createSelector(
-    () => this.currentEvCall,
-    (currentEvCall) => {
-      return this._modules.activeCallControl.getMainCall(currentEvCall.uii);
-    },
-  );
+  @computed((that: EvActivityCallUI) => [that.currentEvCall])
+  get currentEvMainCall() {
+    return this.currentEvCall
+      ? this._deps.activeCallControl.getMainCall(this.currentEvCall.uii)
+      : null;
+  }
 
-  getCallList = createSelector(
-    () => this.callId,
-    () => this._modules.evCallMonitor.callIds,
-    () => this._modules.evCallMonitor.otherCallIds,
-    () => this._modules.evCallMonitor.getCallsMapping(),
-    (callId, callIds, otherCallIds, callsMapping) => {
-      return this._modules.evCallMonitor.getActiveCallList(
-        callIds,
-        otherCallIds,
-        callsMapping,
-        callId,
+  @computed((that: EvActivityCallUI) => [
+    that.callId,
+    that._deps.evCallMonitor.callIds,
+    that._deps.evCallMonitor.otherCallIds,
+    that._deps.evCallMonitor.callsMapping,
+  ])
+  get callList() {
+    const { callIds, otherCallIds, callsMapping } = this._deps.evCallMonitor;
+
+    return this._deps.evCallMonitor.getActiveCallList(
+      callIds,
+      otherCallIds,
+      callsMapping,
+      this.callId,
+    );
+  }
+
+  @computed((that: EvActivityCallUI) => [that.callList])
+  get isMultipleCalls() {
+    return this.callList.length > 2;
+  }
+
+  @computed((that: EvActivityCallUI) => [
+    that.isMultipleCalls,
+    that.callList,
+    that._deps.evAuth.agentId,
+    that.currentEvMainCall,
+  ])
+  get isOnHold() {
+    const { isMultipleCalls, callList, currentEvMainCall } = this;
+    if (isMultipleCalls) {
+      return !!callList.find(
+        (call) =>
+          !(call.session.agentId === this._deps.evAuth.agentId) &&
+          !!call.isHold,
       );
-    },
-  );
+    }
+    return currentEvMainCall?.isHold;
+  }
 
-  getIsMultipleCalls = createSelector(
-    () => this.getCallList(),
-    (callList) => callList.length > 2,
-  );
+  @computed((that: EvActivityCallUI) => [that.currentEvCall])
+  get ivrAlertData() {
+    const call = this.currentEvCall;
+    const ivrAlertData = [];
+    if (call.baggage) {
+      for (let i = 1; i <= 3; i++) {
+        const ivrAlertSubject =
+          call.baggage[`ivrAlertSubject_${i}` as keyof EvBaggage];
+        const ivrAlertBody =
+          call.baggage[`ivrAlertBody_${i}` as keyof EvBaggage];
+        if (ivrAlertSubject || ivrAlertBody)
+          ivrAlertData.push({
+            subject: ivrAlertSubject || '',
+            body: ivrAlertBody || '',
+          });
+      }
+    }
+    return ivrAlertData as EvIvrData[];
+  }
 
   @action
   changeSavingStatus(status: EvActivityCallUIProps['saveStatus']) {
-    this.state.saveStatus = status;
+    this.saveStatus = status;
   }
 
   @action
   protected changeFormStatus({ validated, required, disabled }: FormState) {
     if (validated) {
-      this.state.validated = {
-        ...this.state.validated,
+      this.validated = {
+        ...this.validated,
         ...validated,
       };
     }
     if (required) {
-      this.state.required = {
-        ...this.state.required,
+      this.required = {
+        ...this.required,
         ...required,
       };
     }
     if (disabled) {
-      this.state.disabled = {
-        ...this.state.disabled,
+      this.disabled = {
+        ...this.disabled,
         ...disabled,
       };
     }
@@ -402,27 +395,30 @@ class EvActivityCallUI<T = {}, K = {}>
 
   @action
   reset() {
-    this.state.validated = {
+    this.validated = {
       dispositionId: true,
       notes: true,
     };
-    this.state.required = {
+    this.required = {
       notes: false,
     };
-    this.state.disabled = {};
-    this.state.saveStatus = 'submit';
+    this.disabled = {};
+    this.saveStatus = 'submit';
   }
 
-  onUpdateCallLog({ task }, id) {
+  onUpdateCallLog(
+    { task }: Parameters<CallLogPanelProps['onUpdateCallLog']>[0],
+    id: Parameters<CallLogPanelProps['onUpdateCallLog']>[1],
+  ) {
     const isEvCallDisposition =
       Object.hasOwnProperty.call(task, 'dispositionId') ||
       Object.hasOwnProperty.call(task, 'notes');
     if (isEvCallDisposition) {
       const data = {
-        ...this._modules.evCallDisposition.callsMapping[id],
+        ...this._deps.evCallDisposition.callsMapping[id],
         ...task,
       };
-      this._modules.evCallDisposition.changeDisposition(id, {
+      this._deps.evCallDisposition.setDisposition(id, {
         dispositionId: data.dispositionId,
         notes: data.notes,
       });
@@ -430,56 +426,72 @@ class EvActivityCallUI<T = {}, K = {}>
   }
 
   goToActivityCallPage = (id: string = this.callId) => {
-    this._modules.routerInteraction.push(
-      `/activityCallLog/${id}/activeCallList`,
-    );
+    this._deps.routerInteraction.push(`/activityCallLog/${id}/activeCallList`);
   };
 
   goToRequeueCallPage() {
-    const {
-      gateGroupId,
-      gateId,
-    } = this._modules.evCallMonitor.getCallsMapping()[this.callId].gate;
-    this._modules.evRequeueCall.setStatus({
+    const { gateGroupId, gateId } = this._deps.evCallMonitor.callsMapping[
+      this.callId
+    ].gate;
+    this._deps.evRequeueCall.setStatus({
       selectedQueueGroupId: gateGroupId,
       selectedGateId: gateId,
       stayOnCall: false,
       requeuing: false,
     });
-    this._modules.evTransferCall.changeTransferType(transferTypes.queue);
+    this._deps.evTransferCall.changeTransferType(transferTypes.queue);
     this._redirectTransferCall('/transferCall');
   }
 
   goToTransferCallPage(type: EvTransferType) {
-    this._modules.evTransferCall.resetTransferStatus();
-    this._modules.evTransferCall.fetchAgentList();
+    this._deps.evTransferCall.resetTransferStatus();
+    this._deps.evTransferCall.fetchAgentList();
     this._redirectTransferCall(`/transferCall/${type}`);
   }
 
   private _redirectTransferCall(url: string = '') {
-    this._modules.routerInteraction.push(
-      `/activityCallLog/${this.callId}${url}`,
-    );
+    this._deps.routerInteraction.push(`/activityCallLog/${this.callId}${url}`);
   }
 
   goDialer() {
-    this._modules.routerInteraction.push('/dialer');
+    this._deps.routerInteraction.push('/dialer');
     this.reset();
+    this._deps.evCall.activityCallId = null;
   }
 
-  disposeCall() {
-    this._modules.evCallDisposition.disposeCall(this.callId);
+  async disposeCall() {
+    await this._deps.evCallDisposition.disposeCall(this.callId);
+  }
+
+  onStateChange() {
+    if (this.ready && this.tabManagerEnabled && this._deps.tabManager.ready) {
+      this._checkTabManagerEvent();
+    }
+  }
+
+  private _checkTabManagerEvent() {
+    const { event } = this._deps.tabManager;
+    if (event) {
+      // const data = event.args[0];
+      switch (event.name) {
+        case tabManagerEvents.CALL_DISPOSITION_SUCCESS:
+          this._dispositionSuccess();
+          break;
+        default:
+          break;
+      }
+    }
   }
 
   private _hasError() {
-    return Object.keys(this.validated).some((key) => {
+    return keys(this.validated).some((key) => {
       return !this.validated[key];
     });
   }
 
   private async _submitData(id: string) {
     try {
-      const saveFields = this._modules.evCallDisposition.callsMapping[id];
+      const saveFields = this._deps.evCallDisposition.callsMapping[id];
       if (saveFields) {
         this.changeFormStatus({
           validated: {
@@ -495,17 +507,11 @@ class EvActivityCallUI<T = {}, K = {}>
       }
       this.changeSavingStatus('saving');
       await this.disposeCall();
-      this.changeSavingStatus('saved');
-      if (!this.tabManagerEnabled) {
-        this._modules.alert.success({
-          message: logTypes.CALL_DISPOSITION_SUCCESS,
-        });
-        // delay for animation with loading ui.
-        setTimeout(() => this.goDialer(), 1000);
-      }
-      this._modules.evWorkingState.setIsPendingDisposition(false);
+
+      this._sendTabManager(tabManagerEvents.CALL_DISPOSITION_SUCCESS);
+      this._dispositionSuccess();
     } catch (e) {
-      this._modules.alert.danger({
+      this._deps.alert.danger({
         message: logTypes.CALL_DISPOSITION_FAILURE,
         ttl: 0,
       });
@@ -514,53 +520,46 @@ class EvActivityCallUI<T = {}, K = {}>
     }
   }
 
-  get tabManagerEnabled() {
-    return this._modules.tabManager?._tabbie.enabled;
+  private _dispositionSuccess() {
+    this.changeSavingStatus('saved');
+
+    this._deps.alert.success({
+      message: logTypes.CALL_DISPOSITION_SUCCESS,
+    });
+    // delay for animation with loading ui.
+    setTimeout(() => this.goDialer(), 1000);
+
+    this._deps.evWorkingState.setIsPendingDisposition(false);
   }
 
-  onStateChange() {
-    if (
-      this.tabManagerEnabled &&
-      this._lastSaveStatus === 'saving' &&
-      this.saveStatus === 'saved'
-    ) {
-      this._lastSaveStatus = this.saveStatus;
-      this._modules.alert.success({
-        message: logTypes.CALL_DISPOSITION_SUCCESS,
-      });
-      // delay for animation with loading ui.
-      setTimeout(() => this.goDialer(), 1000);
-    }
-    this._lastSaveStatus = this.saveStatus;
-  }
-
-  private _onHold() {
-    if (this.getIsMultipleCalls()) {
+  private _onHoldOrUnHold(type: 'hold' | 'unhold') {
+    if (this.isMultipleCalls) {
       return this.goToActivityCallPage();
     }
-    this._modules.activeCallControl.hold();
+    this._deps.activeCallControl[type]();
   }
 
-  getUIProps({ id }): EvActivityCallUIProps {
-    this._modules.evCall.activityCallId = id;
+  private _sendTabManager(event: string, value?: any) {
+    this._deps.tabManager?.send(event, value);
+  }
+
+  getUIProps({ id }: { id: string }): EvActivityCallUIProps {
+    this._deps.evCall.activityCallId = id;
 
     return {
-      currentLog: this.getActivityCallLog(),
-      showSmallCallControl: !this.getActivityCallLog()?.currentEvRawCall
-        ?.endedCall,
-      currentLocale: this._modules.locale.currentLocale,
+      currentLog: this.activityCallLog,
+      showSmallCallControl: !this.activityCallLog?.currentEvRawCall?.endedCall,
+      currentLocale: this._deps.locale.currentLocale,
       currentEvCall: this.currentEvCall,
       saveStatus: this.saveStatus,
-      status: this.getCallStatus(),
-      isInbound: this.isInbound,
-      isOnMute: this._modules.evIntegratedSoftphone.muteActive,
-      isOnHold: this.getCurrentEvMainCall().isHold,
-      isOnActive: this.getIsMultipleCalls(),
+      status: this.callStatus,
+      isInbound: this._deps.evCall.isInbound,
+      isOnMute: this._deps.evIntegratedSoftphone.muteActive,
+      isOnHold: this.isOnHold,
+      isOnActive: this.isMultipleCalls,
       isInComingCall: this.isInComingCall,
-      smallCallControlSize: this._modules.environment.isWide
-        ? 'medium'
-        : 'small',
-      currentCallControlPermission: this.getCurrentCallControlPermission(),
+      smallCallControlSize: this._deps.environment.isWide ? 'medium' : 'small',
+      currentCallControlPermission: this.currentCallControlPermission,
       disableDispose: this.disableLinks || this.saveStatus === 'saving',
       disableTransfer:
         this.disableLinks || this.isInComingCall || !this.allowTransfer,
@@ -568,34 +567,33 @@ class EvActivityCallUI<T = {}, K = {}>
         this.disableLinks ||
         this.isInComingCall ||
         !this.allowTransfer ||
-        !this._modules.evTransferCall.allowInternalTransfer,
+        !this._deps.evTransferCall.allowInternalTransfer,
       disableHold:
         this.disableLinks ||
         this.isInComingCall ||
-        !this.getCurrentCallControlPermission().allowHoldCall,
+        !this.currentCallControlPermission.allowHoldCall,
       disableHangup:
-        this.disableLinks ||
-        !this.getCurrentCallControlPermission().allowHangupCall,
+        this.disableLinks || !this.currentCallControlPermission.allowHangupCall,
       disableMute:
-        !this._modules.evSessionConfig.isIntegrated ||
-        this.disableLinks ||
-        !this.getCurrentCallControlPermission().allowMuteCall,
+        !this._deps.evAgentSession.isIntegratedSoftphone || this.disableLinks,
+      showMuteButton: this._deps.evAgentSession.isIntegratedSoftphone,
       disableActive: this.disableLinks,
+      ivrAlertData: this.ivrAlertData,
     };
   }
 
   getUIFunctions(): EvActivityCallUIFunctions {
     return {
       goBack: () => {},
-      onMute: () => this._modules.activeCallControl.mute(),
-      onUnmute: () => this._modules.activeCallControl.unmute(),
+      onMute: () => this._deps.activeCallControl.mute(),
+      onUnmute: () => this._deps.activeCallControl.unmute(),
       onHangup: () =>
-        this._modules.activeCallControl.hangUp(
+        this._deps.activeCallControl.hangUp(
           this.currentEvCall.session.sessionId,
         ),
-      onReject: () => this._modules.activeCallControl.reject(),
-      onHold: () => this._onHold(),
-      onUnHold: () => this._modules.activeCallControl.unhold(),
+      onReject: () => this._deps.activeCallControl.reject(),
+      onHold: () => this._onHoldOrUnHold('hold'),
+      onUnHold: () => this._onHoldOrUnHold('unhold'),
       onActive: () => this.goToActivityCallPage(),
       onUpdateCallLog: (data, id) => this.onUpdateCallLog(data, id),
       disposeCall: async () => {
@@ -603,6 +601,13 @@ class EvActivityCallUI<T = {}, K = {}>
           return this.goDialer();
         }
         await this._submitData(this.callId);
+      },
+      onCopySuccess: (name) => {
+        name = name.toUpperCase();
+        this._deps.alert.info({
+          message: messageTypes[`COPY_${name}_SUCCESS` as MessageTypes],
+          action: '',
+        });
       },
       goToRequeueCallPage: () => this.goToRequeueCallPage(),
       goToTransferCallPage: (transferType: EvTransferType) =>

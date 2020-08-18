@@ -1,0 +1,21 @@
+@import '../../scss/variables.scss';
+
+div.customSelect {
+  & input {
+    @include textOverflowEllipsis();
+  }
+}
+
+p.warning {
+  display: flex;
+  align-items: center;
+  background: rgb(249, 246, 236);
+  height: 76px;
+  padding-left: 8px;
+  // TODO: color will remove after RcTypography providing this color value
+  color: rgb(148, 106, 25);
+}
+
+// .takingCall {
+//   margin-top: 6px;
+// }

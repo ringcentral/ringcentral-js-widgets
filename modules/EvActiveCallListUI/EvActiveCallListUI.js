@@ -9,25 +9,35 @@ require("core-js/modules/es7.symbol.async-iterator");
 
 require("core-js/modules/es6.symbol");
 
-require("core-js/modules/es6.object.define-property");
-
 require("core-js/modules/es6.object.create");
 
 require("core-js/modules/es6.regexp.to-string");
 
 require("core-js/modules/es6.date.to-string");
 
-require("core-js/modules/es6.object.to-string");
-
 require("core-js/modules/es6.reflect.construct");
 
 require("core-js/modules/es6.object.set-prototype-of");
+
+require("core-js/modules/es6.object.define-property");
+
+require("core-js/modules/es6.array.reduce");
+
+require("core-js/modules/web.dom.iterable");
+
+require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.object.to-string");
+
+require("core-js/modules/es6.object.keys");
+
+require("core-js/modules/es6.array.for-each");
 
 var _core = require("@ringcentral-integration/core");
 
 var _di = require("ringcentral-integration/lib/di");
 
-var _dec, _class, _temp;
+var _dec, _dec2, _class, _class2;
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -51,13 +61,17 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
+
 var EvActiveCallListUI = (_dec = (0, _di.Module)({
   name: 'EvActiveCallListUI',
-  deps: ['Locale', 'RouterInteraction', 'EvCall', 'ActiveCallControl', 'EvCallMonitor', {
+  deps: ['Locale', 'RouterInteraction', 'EvCall', 'ActiveCallControl', 'EvCallMonitor', 'EvIntegratedSoftphone', 'EvAuth', 'EvClient', 'EvAgentSession', {
     dep: 'EvActiveCallListUIOptions',
     optional: true
   }]
-}), _dec(_class = (_temp = /*#__PURE__*/function (_RcUIModuleV) {
+}), _dec2 = (0, _core.computed)(function (that) {
+  return [that.callId, that._deps.evCallMonitor.callIds, that._deps.evCallMonitor.otherCallIds, that._deps.evCallMonitor.callsMapping, that._deps.evAuth.agentId];
+}), _dec(_class = (_class2 = /*#__PURE__*/function (_RcUIModuleV) {
   _inherits(EvActiveCallListUI, _RcUIModuleV);
 
   var _super = _createSuper(EvActiveCallListUI);
@@ -65,55 +79,29 @@ var EvActiveCallListUI = (_dec = (0, _di.Module)({
   _createClass(EvActiveCallListUI, [{
     key: "callId",
     get: function get() {
-      return this._modules.evCall.activityCallId;
+      return this._deps.evCall.activityCallId;
     }
   }]);
 
-  function EvActiveCallListUI(_ref) {
-    var _this;
-
-    var locale = _ref.locale,
-        routerInteraction = _ref.routerInteraction,
-        evCall = _ref.evCall,
-        activeCallControl = _ref.activeCallControl,
-        evCallMonitor = _ref.evCallMonitor;
-
+  function EvActiveCallListUI(deps) {
     _classCallCheck(this, EvActiveCallListUI);
 
-    _this = _super.call(this, {
-      modules: {
-        locale: locale,
-        routerInteraction: routerInteraction,
-        evCall: evCall,
-        activeCallControl: activeCallControl,
-        evCallMonitor: evCallMonitor
-      }
+    return _super.call(this, {
+      deps: deps
     });
-    _this.getCallList = (0, _core.createSelector)(function () {
-      return _this.callId;
-    }, function () {
-      return _this._modules.evCallMonitor.callIds;
-    }, function () {
-      return _this._modules.evCallMonitor.otherCallIds;
-    }, function () {
-      return _this._modules.evCallMonitor.getCallsMapping();
-    }, function (callId, callIds, otherCallIds, callsMapping) {
-      return _this._modules.evCallMonitor.getActiveCallList(callIds, otherCallIds, callsMapping, callId);
-    });
-    return _this;
   }
 
   _createClass(EvActiveCallListUI, [{
     key: "onHangup",
     value: function onHangup(call) {
-      this._modules.activeCallControl.hangupSession({
+      this._deps.activeCallControl.hangupSession({
         sessionId: call.session.sessionId
       });
     }
   }, {
     key: "onHold",
     value: function onHold(call) {
-      this._modules.activeCallControl.holdSession({
+      this._deps.activeCallControl.holdSession({
         sessionId: call.session.sessionId,
         state: true
       });
@@ -121,44 +109,75 @@ var EvActiveCallListUI = (_dec = (0, _di.Module)({
   }, {
     key: "onUnHold",
     value: function onUnHold(call) {
-      this._modules.activeCallControl.holdSession({
+      this._deps.activeCallControl.holdSession({
         sessionId: call.session.sessionId,
         state: false
       });
     }
   }, {
     key: "getUIProps",
-    value: function getUIProps(_ref2) {
-      var id = _ref2.id;
-      this._modules.evCall.activityCallId = id;
+    value: function getUIProps(_ref) {
+      var _this$_deps$evAuth$ag;
+
+      var id = _ref.id;
+      this._deps.evCall.activityCallId = id;
       return {
-        currentLocale: this._modules.locale.currentLocale,
-        callList: this.getCallList()
+        currentLocale: this._deps.locale.currentLocale,
+        callList: this.callList,
+        isOnMute: this._deps.evIntegratedSoftphone.muteActive,
+        showMuteButton: this._deps.evAgentSession.isIntegratedSoftphone,
+        userName: (_this$_deps$evAuth$ag = this._deps.evAuth.agentSettings) === null || _this$_deps$evAuth$ag === void 0 ? void 0 : _this$_deps$evAuth$ag.username,
+        isInbound: this._deps.evCall.isInbound
       };
     }
   }, {
     key: "getUIFunctions",
     value: function getUIFunctions() {
-      var _this2 = this;
+      var _this = this;
 
       return {
         goBack: function goBack() {
-          _this2._modules.routerInteraction.goBack();
+          _this._deps.routerInteraction.goBack();
         },
         onHangup: function onHangup(call) {
-          return _this2.onHangup(call);
+          return _this.onHangup(call);
         },
         onHold: function onHold(call) {
-          return _this2.onHold(call);
+          return _this.onHold(call);
         },
         onUnHold: function onUnHold(call) {
-          return _this2.onUnHold(call);
+          return _this.onUnHold(call);
+        },
+        onMute: function onMute() {
+          return _this._deps.activeCallControl.mute();
+        },
+        onUnmute: function onUnmute() {
+          return _this._deps.activeCallControl.unmute();
         }
       };
+    }
+  }, {
+    key: "callList",
+    get: function get() {
+      var _callList$, _callList$$session;
+
+      var _this$_deps$evCallMon = this._deps.evCallMonitor,
+          callIds = _this$_deps$evCallMon.callIds,
+          otherCallIds = _this$_deps$evCallMon.otherCallIds,
+          callsMapping = _this$_deps$evCallMon.callsMapping;
+      var agentId = this._deps.evAuth.agentId;
+
+      var callList = this._deps.evCallMonitor.getActiveCallList(callIds, otherCallIds, callsMapping, this.callId);
+
+      if (((_callList$ = callList[1]) === null || _callList$ === void 0 ? void 0 : (_callList$$session = _callList$.session) === null || _callList$$session === void 0 ? void 0 : _callList$$session.agentId) !== agentId) {
+        console.error('agent id is wrong');
+      }
+
+      return callList;
     }
   }]);
 
   return EvActiveCallListUI;
-}(_core.RcUIModuleV2), _temp)) || _class);
+}(_core.RcUIModuleV2), (_applyDecoratedDescriptor(_class2.prototype, "callList", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "callList"), _class2.prototype)), _class2)) || _class);
 exports.EvActiveCallListUI = EvActiveCallListUI;
 //# sourceMappingURL=EvActiveCallListUI.js.map

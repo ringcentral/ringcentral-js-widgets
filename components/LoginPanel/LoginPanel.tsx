@@ -1,11 +1,6 @@
-import {
-  RcButton,
-  RcButtonSize,
-  RcCircularProgress,
-} from '@ringcentral-integration/rcui';
+import { RcButton, RcButtonSize } from '@ringcentral-integration/rcui';
 import classNames from 'classnames';
-import React, { FunctionComponent, useCallback } from 'react';
-import { SpinnerOverlay } from 'ringcentral-widgets/components/SpinnerOverlay';
+import React, { FunctionComponent, useEffect } from 'react';
 
 import i18n from './i18n';
 import styles from './styles.scss';
@@ -21,7 +16,8 @@ export interface LoginPanelProps {
   onSignUpButtonClick?: () => void;
   customStyles?: string;
   size?: RcButtonSize;
-  isWide?: boolean;
+  onLoading: Function;
+  onLoadingComplete: Function;
 }
 
 export const LoginPanel: FunctionComponent<LoginPanelProps> = ({
@@ -36,19 +32,21 @@ export const LoginPanel: FunctionComponent<LoginPanelProps> = ({
   onSignUpButtonClick,
   customStyles,
   size = 'medium',
-  isWide,
+  onLoading,
+  onLoadingComplete,
 }) => {
-  const CustomSpinner = useCallback<FunctionComponent>(
-    () => <RcCircularProgress size={isWide ? 40 : 20} />,
-    [isWide],
-  );
+  useEffect(() => {
+    if (showSpinner) {
+      onLoading();
+    } else {
+      onLoadingComplete();
+    }
 
-  const spinner = showSpinner ? (
-    <SpinnerOverlay
-      classes={{ container: styles.spinner }}
-      custom={CustomSpinner}
-    />
-  ) : null;
+    return () => {
+      onLoadingComplete();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [showSpinner]);
 
   const versionDisplay = version ? (
     <div className={styles.versionContainer}>
@@ -81,7 +79,6 @@ export const LoginPanel: FunctionComponent<LoginPanelProps> = ({
       </RcButton>
       {signUpButton}
       {versionDisplay}
-      {spinner}
       {children}
     </div>
   );

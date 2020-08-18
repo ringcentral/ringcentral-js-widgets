@@ -1,6 +1,6 @@
 import { contains } from 'ramda';
 
-import { EvSoftphoneEvents } from '../../../enums';
+import { EvSoftphoneEvents, tabManagerEvents } from '../../../enums';
 import { EvCallbackTypes } from '../../../lib/EvClient/enums';
 import i18n from './i18n';
 
@@ -23,4 +23,7 @@ EvIntegratedSoftphoneAlert.handleMessage = ({ message }: { message: string }) =>
     EvCallbackTypes.SIP_REGISTRATION_FAILED,
     EvSoftphoneEvents.AUDIO_STREAM_REJECTED,
     EvSoftphoneEvents.CALL_REJECTED,
+    tabManagerEvents.SIP_CONNECTING,
+    tabManagerEvents.SIP_RECONNECTING_WHEN_CALL_CONNECTED,
+    tabManagerEvents.ASK_AUDIO_PERMISSION,
   ]);

@@ -5,17 +5,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.EvCallDisposition = void 0;
 
-require("core-js/modules/es6.string.iterator");
-
-require("core-js/modules/es6.array.from");
-
-require("core-js/modules/es6.function.name");
-
 require("core-js/modules/es7.symbol.async-iterator");
 
 require("core-js/modules/es6.symbol");
 
-require("core-js/modules/es6.array.is-array");
+require("core-js/modules/es6.promise");
 
 require("core-js/modules/es6.object.create");
 
@@ -41,6 +35,8 @@ require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.for-each");
 
+require("regenerator-runtime/runtime");
+
 require("core-js/modules/es6.array.find");
 
 var _core = require("@ringcentral-integration/core");
@@ -51,17 +47,9 @@ var _dec, _class, _class2, _descriptor, _descriptor2, _temp;
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
 
@@ -91,7 +79,7 @@ function _initializerWarningHelper(descriptor, context) { throw new Error('Decor
 
 var EvCallDisposition = (_dec = (0, _di.Module)({
   name: 'EvCallDisposition',
-  deps: ['Storage', 'EvCallMonitor', 'EvCallHistory', 'EvClient', {
+  deps: ['Storage', 'EvCallMonitor', 'EvCallHistory', 'EvClient', 'EvAgentScript', {
     dep: 'ContactMatcher',
     optional: true
   }, {
@@ -106,50 +94,31 @@ var EvCallDisposition = (_dec = (0, _di.Module)({
 
   var _super = _createSuper(EvCallDisposition);
 
-  function EvCallDisposition(_ref) {
+  function EvCallDisposition(deps) {
     var _this;
-
-    var evCallMonitor = _ref.evCallMonitor,
-        evCallHistory = _ref.evCallHistory,
-        contactMatcher = _ref.contactMatcher,
-        activityMatcher = _ref.activityMatcher,
-        storage = _ref.storage,
-        evClient = _ref.evClient,
-        _ref$enableCache = _ref.enableCache,
-        enableCache = _ref$enableCache === void 0 ? true : _ref$enableCache;
 
     _classCallCheck(this, EvCallDisposition);
 
     _this = _super.call(this, {
-      modules: {
-        storage: storage,
-        evCallMonitor: evCallMonitor,
-        evCallHistory: evCallHistory,
-        contactMatcher: contactMatcher,
-        activityMatcher: activityMatcher,
-        evClient: evClient
-      },
-      enableCache: enableCache,
+      deps: deps,
+      enableCache: true,
       storageKey: 'EvCallDisposition'
-    }); // TODO: when init need check, if still have call calling
+    });
 
     _initializerDefineProperty(_this, "callsMapping", _descriptor, _assertThisInitialized(_this));
 
     _initializerDefineProperty(_this, "dispositionStateMapping", _descriptor2, _assertThisInitialized(_this));
 
-    _this._modules.evCallMonitor.addCallRingHook(function () {
-      var _this$_modules$evCall = _slicedToArray(_this._modules.evCallMonitor.calls, 1),
-          call = _this$_modules$evCall[0];
-
+    _this._deps.evCallMonitor.onCallRing(function (call) {
       if (call === null || call === void 0 ? void 0 : call.outdialDispositions) {
-        var disposition = call.outdialDispositions.dispositions.find(function (_ref2) {
-          var isDefault = _ref2.isDefault;
+        var disposition = call.outdialDispositions.dispositions.find(function (_ref) {
+          var isDefault = _ref.isDefault;
           return isDefault;
         });
 
-        var id = _this._modules.evCallMonitor.getCallId(call.session);
+        var id = _this._deps.evCallMonitor.getCallId(call.session);
 
-        _this.changeDisposition(id, {
+        _this.setDisposition(id, {
           dispositionId: disposition ? disposition.dispositionId : null,
           notes: ''
         });
@@ -160,40 +129,76 @@ var EvCallDisposition = (_dec = (0, _di.Module)({
   }
 
   _createClass(EvCallDisposition, [{
-    key: "changeDisposition",
-    value: function changeDisposition(id, data) {
-      this.state.callsMapping[id] = data;
+    key: "setDisposition",
+    value: function setDisposition(id, data) {
+      this.callsMapping[id] = data;
     }
   }, {
     key: "removeDisposition",
     value: function removeDisposition(id) {
-      delete this.state.callsMapping[id];
+      delete this.callsMapping[id];
     }
   }, {
-    key: "changeDispositionState",
-    value: function changeDispositionState(id, disposed) {
-      this.state.dispositionStateMapping[id] = {
-        disposed: disposed
-      };
+    key: "setDispositionState",
+    value: function setDispositionState(id, disposed) {
+      this.dispositionStateMapping[id] = disposed;
     }
   }, {
     key: "disposeCall",
-    value: function disposeCall(id) {
-      var call = this._modules.evCallHistory.callsMapping[id];
-      var callDisposition = this.callsMapping[id];
-      var isDisposed = this.dispositionStateMapping[id] && this.dispositionStateMapping[id].disposed;
-      if (!call.outdialDispositions || isDisposed) return;
+    value: function () {
+      var _disposeCall = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(id) {
+        var call, callDisposition, isDisposed, evAgentScript;
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                call = this._deps.evCallHistory.callsMapping[id];
+                callDisposition = this.callsMapping[id];
+                isDisposed = this.dispositionStateMapping[id] && this.dispositionStateMapping[id].disposed;
 
-      this._modules.evClient.dispositionCall({
-        uii: call.uii,
-        dispId: callDisposition.dispositionId,
-        notes: callDisposition.notes
-      });
+                if (!(!call.outdialDispositions || isDisposed)) {
+                  _context.next = 5;
+                  break;
+                }
 
-      this.changeDispositionState(id, {
-        disposed: true
-      });
-    }
+                return _context.abrupt("return");
+
+              case 5:
+                this._deps.evClient.dispositionCall({
+                  uii: call.uii,
+                  dispId: callDisposition.dispositionId,
+                  notes: callDisposition.notes
+                });
+
+                evAgentScript = this._deps.evAgentScript;
+
+                if (!(evAgentScript.isAgentScript && call.scriptId)) {
+                  _context.next = 10;
+                  break;
+                }
+
+                _context.next = 10;
+                return evAgentScript.saveScriptResult(call);
+
+              case 10:
+                this.setDispositionState(id, {
+                  disposed: true
+                });
+
+              case 11:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function disposeCall(_x) {
+        return _disposeCall.apply(this, arguments);
+      }
+
+      return disposeCall;
+    }()
   }]);
 
   return EvCallDisposition;
@@ -211,6 +216,6 @@ var EvCallDisposition = (_dec = (0, _di.Module)({
   initializer: function initializer() {
     return {};
   }
-}), _applyDecoratedDescriptor(_class2.prototype, "changeDisposition", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "changeDisposition"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "removeDisposition", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "removeDisposition"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "changeDispositionState", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "changeDispositionState"), _class2.prototype)), _class2)) || _class);
+}), _applyDecoratedDescriptor(_class2.prototype, "setDisposition", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setDisposition"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "removeDisposition", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "removeDisposition"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setDispositionState", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setDispositionState"), _class2.prototype)), _class2)) || _class);
 exports.EvCallDisposition = EvCallDisposition;
 //# sourceMappingURL=EvCallDisposition.js.map

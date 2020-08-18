@@ -23,6 +23,6 @@ function EvCallAlert(_ref) {
 
 EvCallAlert.handleMessage = function (_ref2) {
   var message = _ref2.message;
-  return (0, _ramda.contains)(message, [_enums.messageTypes.NO_SUPPORT_COUNTRY, _enums.messageTypes.FAILED_TO_CALL, _enums.messageTypes.FAILED_TO_CALL, _enums.messageTypes.OFFHOOK_INIT_ERROR, _enums.messageTypes.OFFHOOK_TERM_ERROR, _enums.messageTypes.ADD_SESSION_ERROR, _enums.messageTypes.DROP_SESSION_ERROR, _enums.messageTypes.HOLD_ERROR]);
+  return (0, _ramda.contains)(message, [_enums.messageTypes.NO_SUPPORT_COUNTRY, _enums.messageTypes.FAILED_TO_CALL, _enums.messageTypes.FAILED_TO_CALL, _enums.messageTypes.OFFHOOK_INIT_ERROR, _enums.messageTypes.OFFHOOK_TERM_ERROR, _enums.messageTypes.ADD_SESSION_ERROR, _enums.messageTypes.DROP_SESSION_ERROR, _enums.messageTypes.HOLD_ERROR, _enums.messageTypes.LOGOUT_FAIL_WITH_CALL_CONNECTED]);
 };
 //# sourceMappingURL=EvCallAlert.js.map

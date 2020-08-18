@@ -1,4 +1,5 @@
 export const directTransferNotificationTypes = {
+  MISSED: 'MISSED',
   CANCELLED: 'CANCELLED',
   PENDING: 'PENDING',
   VOICEMAIL: 'VOICEMAIL',
