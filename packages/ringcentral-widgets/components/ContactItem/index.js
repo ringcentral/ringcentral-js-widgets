@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { formatSameSiteExtension } from '../../../phone-number/lib/format';
+import { formatSameSiteExtension } from '@ringcentral-integration/phone-number/lib/format';
 
 import PlaceholderImage from '../PlaceholderImage';
 import PresenceStatusIcon from '../PresenceStatusIcon';
