@@ -41,7 +41,7 @@ var _react = _interopRequireWildcard(require("react"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _format = require("../../../phone-number/lib/format");
+var _format = require("@ringcentral-integration/phone-number/lib/format");
 
 var _PlaceholderImage = _interopRequireDefault(require("../PlaceholderImage"));
 
