@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
-import SpinnerOverlay from 'ringcentral-widgets/components/SpinnerOverlay';
+import { SpinnerOverlay } from 'ringcentral-widgets/components/SpinnerOverlay';
 
 import styles from './styles.scss';
 import leftArrow from '../../assets/images/left_arrow.png';

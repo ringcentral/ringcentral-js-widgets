@@ -8,7 +8,7 @@ import {
   And,
   Step,
   examples,
-} from 'crius-test';
+} from '@ringcentral-integration/test-utils';
 
 import { RcModuleV2, state, storage, globalStorage } from '../../lib/RcModule';
 

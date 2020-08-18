@@ -34,6 +34,7 @@ export interface TrackAction {
   playing?: boolean;
   fromType?: string;
   callSettingMode?: string;
+  phoneNumber?: string;
 }
 
 export interface TrackLog {
@@ -112,6 +113,9 @@ export const tracking = track(DEFAULT_TAG_NAME);
     { dep: 'Locale', optional: true },
     { dep: 'Meeting', optional: true },
     { dep: 'RcVideo', optional: true },
+    { dep: 'CallLogSection', optional: true },
+    { dep: 'ActiveCallControl', optional: true },
+    { dep: 'DialerUI', optional: true },
   ],
 })
 export class Analytics extends RcModule<
@@ -144,6 +148,7 @@ export class Analytics extends RcModule<
   protected _locale: any;
   protected _meeting: any;
   protected _rcVideo: any;
+  private _dialerUI: any;
 
   private _segment: any;
   private _trackList: TrackItem[];
@@ -153,6 +158,8 @@ export class Analytics extends RcModule<
 
   private _lingerTimeout?: NodeJS.Timeout = null;
   private _promise?: Promise<void>;
+  private _callLogSection: any;
+  private _activeCallControl: any;
 
   constructor({
     // config
@@ -181,11 +188,15 @@ export class Analytics extends RcModule<
     locale,
     meeting,
     rcVideo,
+    dialerUI,
     // settinigs
     useLog = false,
     lingerThreshold = 1000,
+    callLogSection,
+    activeCallControl,
     ...options
-  }) {
+  }: Record<string, any>) {
+    // TODO: fix type from new modules based on RcModulesV2
     super({
       ...options,
       actionTypes: analyticsActionTypes,
@@ -218,6 +229,9 @@ export class Analytics extends RcModule<
     this._locale = locale;
     this._meeting = meeting;
     this._rcVideo = rcVideo;
+    this._callLogSection = callLogSection;
+    this._activeCallControl = activeCallControl;
+    this._dialerUI = dialerUI;
 
     // init
     this._reducer = getAnalyticsReducer(this.actionTypes);
@@ -227,7 +241,10 @@ export class Analytics extends RcModule<
     this._lingerThreshold = lingerThreshold;
   }
 
-  private _identify({ userId, ...props }) {
+  private _identify({
+    userId,
+    ...props
+  }: { userId: string } & Record<string, any>) {
     if (this.analytics) {
       this.analytics.identify(userId, props);
     }
@@ -880,6 +897,148 @@ export class Analytics extends RcModule<
       if (target) {
         this.trackSchedule(target);
       }
+    }
+  }
+
+  @tracking
+  private _viewCallLogPage(action: TrackAction) {
+    if (this._callLogSection?.actionTypes.showLogSection === action.type) {
+      this.track('Call Log: View/Call log page');
+    }
+  }
+
+  @tracking
+  private _notificationClickLog(action: TrackAction) {
+    if (this._callLogSection?.actionTypes.expandNotification === action.type) {
+      this.track('Call Log: Click call log/Notification');
+    }
+  }
+
+  @tracking
+  private _muteOnSimpleCallControl(action: TrackAction) {
+    if (
+      this._activeCallControl?.actionTypes.mute === action.type &&
+      this._routerInteraction?.currentPath.includes('/simplifycallctrl')
+    ) {
+      this.track('Call Control: Mute/Small call control');
+    }
+  }
+
+  @tracking
+  private _unmuteOnSimpleCallControl(action: TrackAction) {
+    if (
+      this._activeCallControl?.actionTypes.unmute === action.type &&
+      this._routerInteraction?.currentPath.includes('/simplifycallctrl')
+    ) {
+      this.track('Call Control: Unmute/Small call control');
+    }
+  }
+
+  @tracking
+  private _holdOnSimpleCallControl(action: TrackAction) {
+    if (
+      this._activeCallControl?.actionTypes.hold === action.type &&
+      this._routerInteraction?.currentPath.includes('/simplifycallctrl')
+    ) {
+      this.track('Call Control: Hold/Small call control');
+    }
+  }
+
+  @tracking
+  private _unholdOnSimpleCallControl(action: TrackAction) {
+    if (
+      this._activeCallControl?.actionTypes.unhold === action.type &&
+      this._routerInteraction?.currentPath.includes('/simplifycallctrl')
+    ) {
+      this.track('Call Control: Unhold/Small call control');
+    }
+  }
+
+  @tracking
+  private _confirmTransfer(action: TrackAction) {
+    if (this._activeCallControl?.actionTypes.transfer === action.type) {
+      this.track('Call Control: Cold transfer/Transfer page');
+    }
+  }
+
+  @tracking
+  private _muteOnCallLogPage(action: TrackAction) {
+    if (
+      this._callLogSection?.show &&
+      this._activeCallControl?.actionTypes.mute === action.type
+    ) {
+      this.track('Call Control: Mute/Call log page');
+    }
+  }
+
+  @tracking
+  private _unmuteOnCallLogPage(action: TrackAction) {
+    if (
+      this._callLogSection?.show &&
+      this._activeCallControl?.actionTypes.unmute === action.type
+    ) {
+      this.track('Call Control: Unmute/Call log page');
+    }
+  }
+
+  @tracking
+  private _holdOnCallLogPage(action: TrackAction) {
+    if (
+      this._callLogSection?.show &&
+      this._activeCallControl?.actionTypes.hold === action.type
+    ) {
+      this.track('Call Control: Hold/Call log page');
+    }
+  }
+
+  @tracking
+  private _unholdOnCallLogPage(action: TrackAction) {
+    if (
+      this._callLogSection?.show &&
+      this._activeCallControl?.actionTypes.unhold === action.type
+    ) {
+      this.track('Call Control: Unhold/Call log page');
+    }
+  }
+
+  @tracking
+  private _hangupOnCallLogPage(action: TrackAction) {
+    if (
+      this._callLogSection?.show &&
+      this._activeCallControl?.actionTypes.hangUp === action.type
+    ) {
+      this.track('Call Control: Hang up/Call log page');
+    }
+  }
+
+  @tracking
+  private _smsHistoryPlaceRingOutCall(action: TrackAction) {
+    if (
+      this._messageStore?.actionTypes.clickToCall === action.type &&
+      this._callingSettings.callingMode === callingModes.ringout
+    ) {
+      this.track('Call: Place RingOut call/SMS history');
+    }
+  }
+
+  @tracking
+  private _callHistoryPlaceRingOutCall(action: TrackAction) {
+    if (
+      this._callHistory?.actionTypes.clickToCall === action.type &&
+      this._callingSettings.callingMode === callingModes.ringout
+    ) {
+      this.track('Call: Place RingOut call/Call history');
+    }
+  }
+
+  @tracking
+  private _dialerPlaceRingOutCall(action: TrackAction) {
+    if (
+      this._dialerUI?.actionTypes.call === action.type &&
+      action.phoneNumber?.length > 0 &&
+      this._callingSettings.callingMode === callingModes.ringout
+    ) {
+      this.track('Call: Place RingOut call/Dialer');
     }
   }
 

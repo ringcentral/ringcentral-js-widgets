@@ -25,7 +25,6 @@ const RcVideoTypes: RcVideoTypesProps = {
 };
 
 const RCV_PASSWORD_REGEX = /^[A-Za-z0-9]{1,10}$/;
-const DEFAULT_JBH = false;
 const RCV_CREATE_API_KEYS: Array<keyof RcVideoAPI> = [
   'name',
   'type',
@@ -35,6 +34,9 @@ const RCV_CREATE_API_KEYS: Array<keyof RcVideoAPI> = [
   'isMeetingSecret',
   'meetingPassword',
   'expiresIn',
+  'isOnlyAuthUserJoin',
+  'isOnlyCoworkersJoin',
+  'allowScreenSharing',
 ];
 const RCV_PREFERENCES_API_KEYS: Array<keyof RcVPreferencesGET> = [
   'join_before_host',
@@ -42,6 +44,9 @@ const RCV_PREFERENCES_API_KEYS: Array<keyof RcVPreferencesGET> = [
   // 'join_audio_mute',
   'password_scheduled',
   'password_instant',
+  'guest_join',
+  'join_authenticated_from_account_only',
+  'screen_sharing_host_only',
 ];
 const RCV_PREFERENCES_KEYS: Array<keyof RcVPreferences> = [
   'isMeetingSecret',
@@ -63,7 +68,7 @@ function validateRandomPassword(pwd) {
   return /^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])[A-Za-z0-9]*$/.test(pwd);
 }
 
-function generateRandomPassword(length = 10) {
+function generateRandomPassword(length: number = 10): string {
   const charset = getDefaultChars();
   const charLen = charset.length;
   let retVal = '';
@@ -123,20 +128,30 @@ function getDefaultVideoSettings({
   startTime: Date;
 }): RcVMeetingModel {
   return {
+    // api fields
     name: topic,
     type: RcVideoTypes.meeting,
-    startTime,
-    duration: 60,
-    allowJoinBeforeHost: DEFAULT_JBH,
+    expiresIn: 31536000,
+    allowJoinBeforeHost: false,
     muteAudio: false,
     muteVideo: false,
-    expiresIn: 31536000,
-    saveAsDefault: false,
     isMeetingSecret: true,
     meetingPassword: '',
+    isOnlyAuthUserJoin: false,
+    isOnlyCoworkersJoin: false,
+    allowScreenSharing: true,
+    settingLock: {
+      allowJoinBeforeHost: false,
+      isMeetingSecret: false,
+      isOnlyAuthUserJoin: false,
+      allowScreenSharing: false,
+    },
+    // ui fields
+    startTime,
+    duration: 60,
+    saveAsDefault: false,
     isMeetingPasswordValid: false,
     usePersonalMeetingId: false,
-    personalMeetingId: '',
   };
 }
 
@@ -165,6 +180,24 @@ function transformPreferences(
     allowJoinBeforeHost: preferences.join_before_host,
     // muteVideo: preferences.join_video_off,
     // muteAudio: preferences.join_audio_mute,
+    isOnlyAuthUserJoin: preferences.guest_join,
+    isOnlyCoworkersJoin:
+      preferences.join_authenticated_from_account_only === 'only_co_workers',
+    allowScreenSharing: preferences.screen_sharing_host_only === 'all',
+  };
+}
+
+function transformMeetingSettingLock(
+  meetingSettingLock: RcVMeetingLockGET,
+  isInstantMeeting = false,
+): RcVMeetingLock {
+  return {
+    isMeetingSecret: isInstantMeeting
+      ? meetingSettingLock.password_instant
+      : meetingSettingLock.password_scheduled,
+    allowJoinBeforeHost: meetingSettingLock.join_before_host,
+    isOnlyAuthUserJoin: meetingSettingLock.guest_join,
+    allowScreenSharing: meetingSettingLock.screen_sharing_host_only,
   };
 }
 
@@ -176,6 +209,11 @@ function reversePreferences(
     join_before_host: preferences.allowJoinBeforeHost,
     // join_video_off: preferences.muteVideo,
     // join_audio_mute: preferences.muteAudio,
+    guest_join: preferences.isOnlyAuthUserJoin,
+    join_authenticated_from_account_only: preferences.isOnlyCoworkersJoin
+      ? 'only_co_workers'
+      : 'anyone_signed_into_rc',
+    screen_sharing_host_only: preferences.allowScreenSharing ? 'all' : 'host',
   } as RcVPreferencesPATCH;
   if (isInstantMeeting) {
     result.password_instant = preferences.isMeetingSecret;
@@ -211,7 +249,6 @@ function comparePreferences(
 // TODO: will remove this when google app script could support export seperately
 // export together because google app script not fully support export
 export {
-  DEFAULT_JBH,
   RCV_PASSWORD_REGEX,
   RCV_PREFERENCES_API_KEYS,
   RcVideoTypes,
@@ -228,4 +265,5 @@ export {
   reversePreferences,
   prunePreferencesObject,
   comparePreferences,
+  transformMeetingSettingLock,
 };

@@ -23,9 +23,9 @@ declare class AvailabilityMonitor extends RcModule {
 
   initialize(): void;
 
-  _requestErrorHandler(error: ClientError): void;
+  _requestErrorHandler(error: ClientError): Promise<void>;
 
-  checkIfHAError(error: ClientError): boolean;
+  checkIfHAError(error: ClientError): Promise<boolean>;
 }
 
 export default AvailabilityMonitor;

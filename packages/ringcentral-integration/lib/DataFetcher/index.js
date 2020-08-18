@@ -299,9 +299,8 @@ export default class DataFetcher extends Pollable {
     } catch (error) {
       if (
         error &&
-        error.apiResponse &&
-        error.apiResponse._response &&
-        error.apiResponse._response.status === 403 &&
+        error.response &&
+        error.response.status === 403 &&
         typeof this._forbiddenHandler === 'function'
       ) {
         const result = await this._forbiddenHandler(error);

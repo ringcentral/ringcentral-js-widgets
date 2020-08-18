@@ -1,4 +1,4 @@
-import { find, pathOr } from 'ramda';
+import { find } from 'ramda';
 import EventEmitter from 'events';
 import uuid from 'uuid';
 import RcModule from '../../lib/RcModule';
@@ -6,11 +6,11 @@ import { Module } from '../../lib/di';
 import isBlank from '../../lib/isBlank';
 import moduleStatuses from '../../enums/moduleStatuses';
 
-import messageSenderActionTypes from './messageSenderActionTypes';
+import { messageSenderActionTypes } from './messageSenderActionTypes';
 import getMessageSenderReducer from './getMessageSenderReducer';
 
-import messageSenderStatus from './messageSenderStatus';
-import messageSenderMessages from './messageSenderMessages';
+import { messageSenderStatus } from './messageSenderStatus';
+import { messageSenderMessages } from './messageSenderMessages';
 import proxify from '../../lib/proxy/proxify';
 import chunkMessage from '../../lib/chunkMessage';
 import sleep from '../../lib/sleep';
@@ -214,7 +214,7 @@ export default class MessageSender extends RcModule {
         }
         numbers.push(number.subAddress);
       } else {
-        numbers.push(number.e164);
+        numbers.push(number.availableExtension || number.e164);
       }
     }
     result.result = true;
@@ -315,7 +315,7 @@ export default class MessageSender extends RcModule {
         type: this.actionTypes.sendError,
         error: 'error',
       });
-      this._onSendError(error);
+      await this._onSendError(error);
       console.debug('sendComposeText e ', error);
       throw error;
     }
@@ -352,12 +352,14 @@ export default class MessageSender extends RcModule {
     return response;
   }
 
-  _onSendError(error) {
-    const errResp = error.apiResponse;
+  async _onSendError(error) {
+    const errResp = error.response;
+    if (errResp) {
+      errResp._json = await errResp.clone().json();
+    }
     if (
       errResp &&
-      errResp.response &&
-      !errResp.response.ok &&
+      !errResp.ok &&
       errResp._json &&
       (errResp._json.errorCode === 'InvalidParameter' ||
         errResp._json.errorCode === 'InternationalProhibited' ||
@@ -398,7 +400,7 @@ export default class MessageSender extends RcModule {
 
     if (
       this._availabilityMonitor &&
-      this._availabilityMonitor.checkIfHAError(error)
+      (await this._availabilityMonitor.checkIfHAError(error))
     ) {
       return null;
     }
@@ -428,5 +430,9 @@ export default class MessageSender extends RcModule {
 
   get senderNumbersList() {
     return this._extensionPhoneNumber.smsSenderNumbers;
+  }
+
+  get events() {
+    return this.actionTypes;
   }
 }

@@ -7,18 +7,24 @@ import {
   Then,
   Step,
   examples,
-} from 'crius-test';
+  BaseContext,
+} from '@ringcentral-integration/test-utils';
 import { find } from 'ramda';
 
 import { ObjectMap } from '../../lib/ObjectMap';
 
-export class GenericInstance extends Step {
+interface Context extends BaseContext {
+  definition?: any;
+  instance?: any;
+}
+
+class GenericInstance extends Step {
   run() {
     return (
       <>
         <Given
           desc="Generic definition object"
-          action={(props, context) => {
+          action={(props: any, context: Context) => {
             context.definition = {
               foo: 'bar',
               whisky: 'tango',
@@ -27,7 +33,7 @@ export class GenericInstance extends Step {
         />
         <When
           desc="Create an ObjectMap instance"
-          action={(props, context) => {
+          action={(props: any, context: Context) => {
             context.instance = ObjectMap.fromObject(context.definition);
           }}
         />
@@ -38,14 +44,14 @@ export class GenericInstance extends Step {
 
 @autorun(test)
 @title('Access value with keys')
-export class GetUseCase extends Step {
+class GetUseCase extends Step {
   run() {
     return (
       <Scenario desc="Access value with keys">
         <GenericInstance />
         <Then
           desc="The ObjectMap instance should allow values to be accessed by using the keys as property accessors"
-          action={(props, { instance, definition }) => {
+          action={(props: any, { instance, definition }: Context) => {
             expect(instance instanceof ObjectMap).toBe(true);
             for (const key of Object.keys(definition)) {
               expect(instance[key]).toBe(definition[key]);
@@ -59,14 +65,14 @@ export class GetUseCase extends Step {
 
 @autorun(test)
 @title('ObjectMap.getKey(instance)')
-export class GetKeyUseCase extends Step {
+class GetKeyUseCase extends Step {
   run() {
     return (
       <Scenario desc="ObjectMap.getKey(instance)">
         <GenericInstance />
         <Then
           desc="ObjectMap.getKey(instance) should return the key when passing in the value"
-          action={(props, { instance, definition }) => {
+          action={(props: any, { instance, definition }: Context) => {
             expect(ObjectMap.getKey(instance, 'bad value')).toBeNull();
             for (const key of Object.keys(definition)) {
               expect(ObjectMap.getKey(instance, definition[key])).toBe(key);
@@ -80,14 +86,14 @@ export class GetKeyUseCase extends Step {
 
 @autorun(test)
 @title('ObjectMap.entries(instance)')
-export class EntriesUseCase extends Step {
+class EntriesUseCase extends Step {
   run() {
     return (
       <Scenario desc="ObjectMap.entries(instance)">
         <GenericInstance />
         <Then
           desc="entries(instance) should return an iterator contain all the key value pairs"
-          action={(props, { instance, definition }) => {
+          action={(props: any, { instance, definition }: Context) => {
             const kvPairs = [...ObjectMap.entries(instance)];
             expect(kvPairs.length).toBe(Object.keys(definition).length);
             for (const key of Object.keys(definition)) {
@@ -104,14 +110,14 @@ export class EntriesUseCase extends Step {
 
 @autorun(test)
 @title('ObjectMap.size(instance)')
-export class SizeUseCase extends Step {
+class SizeUseCase extends Step {
   run() {
     return (
       <Scenario desc="ObjectMap.size(instance)">
         <GenericInstance />
         <Then
           desc="ObjectMap.size(instance) should return the number of key-value pairs"
-          action={(props, { instance, definition }) => {
+          action={(props: any, { instance, definition }: Context) => {
             expect(ObjectMap.size(instance)).toBe(
               Object.keys(definition).length,
             );
@@ -124,14 +130,14 @@ export class SizeUseCase extends Step {
 
 @autorun(test)
 @title('ObjectMap.has(instance, key)')
-export class HasUseCase extends Step {
+class HasUseCase extends Step {
   run() {
     return (
       <Scenario desc="ObjectMap.has(instance, key)">
         <GenericInstance />
         <Then
           desc="ObjectMap.has(instance, key) should return true if the key exists"
-          action={(props, { instance, definition }) => {
+          action={(props: any, { instance, definition }: Context) => {
             expect(ObjectMap.has(instance, 'bad key')).toBe(false);
             for (const key of Object.keys(definition)) {
               expect(ObjectMap.has(instance, key)).toBe(true);
@@ -145,14 +151,14 @@ export class HasUseCase extends Step {
 
 @autorun(test)
 @title('ObjectMap.hasValue(instance, value)')
-export class HasValueUseCase extends Step {
+class HasValueUseCase extends Step {
   run() {
     return (
       <Scenario desc="ObjectMap.hasValue(instance, value)">
         <GenericInstance />
         <Then
           desc="ObjectMap.hasValue(instance, value) should return true if the value exists"
-          action={(props, { instance, definition }) => {
+          action={(props: any, { instance, definition }: Context) => {
             expect(ObjectMap.hasValue(instance, 'bad value')).toBe(false);
             for (const key of Object.keys(definition)) {
               expect(ObjectMap.hasValue(instance, definition[key])).toBe(true);
@@ -166,14 +172,14 @@ export class HasValueUseCase extends Step {
 
 @autorun(test)
 @title('ObjectMap.keys(instance)')
-export class KeysUseCase extends Step {
+class KeysUseCase extends Step {
   run() {
     return (
       <Scenario desc="ObjectMap.keys(instance)">
         <GenericInstance />
         <Then
           desc="ObjectMap.keys(instance) should return an iterable containing all the keys"
-          action={(props, { instance, definition }) => {
+          action={(props: any, { instance, definition }: Context) => {
             const keys = [...ObjectMap.keys(instance)];
             expect(keys.length).toBe(Object.keys(definition).length);
             for (const key of Object.keys(definition)) {
@@ -188,14 +194,14 @@ export class KeysUseCase extends Step {
 
 @autorun(test)
 @title('ObjectMap.values(instance)')
-export class ValuesUseCase extends Step {
+class ValuesUseCase extends Step {
   run() {
     return (
       <Scenario desc="ObjectMap.values(instance)">
         <GenericInstance />
         <Then
           desc="ObjectMap.values(instance) should return an iterable containing all the values"
-          action={(props, { instance, definition }) => {
+          action={(props: any, { instance, definition }: Context) => {
             const values = [...ObjectMap.values(instance)];
             expect(values.length).toBe(Object.keys(definition).length);
             for (const key of Object.keys(definition)) {
@@ -210,16 +216,16 @@ export class ValuesUseCase extends Step {
 
 @autorun(test)
 @title('ObjectMap.forEach(fn, instance)')
-export class ForEachUseCase extends Step {
+class ForEachUseCase extends Step {
   run() {
     return (
       <Scenario desc="ObjectMap.forEach(fn, instance)">
         <GenericInstance />
         <Then
           desc="ObjectMap.forEach(fn, instance) should behave the same as Map.forEach"
-          action={(props, { instance }) => {
-            const keys = [];
-            const values = [];
+          action={(props: any, { instance }: Context) => {
+            const keys: any[] = [];
+            const values: any[] = [];
             ObjectMap.forEach((value, key, map) => {
               expect(map).toBe(instance);
               expect(instance[key]).toBe(value);
@@ -241,7 +247,7 @@ export class ForEachUseCase extends Step {
 
 @autorun(test)
 @title('ObjectMap.fromKeys(keys: string[])')
-export class FromKeysUseCase extends Step {
+class FromKeysUseCase extends Step {
   @examples([
     {
       keys: ['foo', 'bar'],
@@ -256,14 +262,14 @@ export class FromKeysUseCase extends Step {
         <Given desc="A set of keys and a getValue function" />
         <When
           desc="Calling ObjectMap.fromKeys(keys: string[])"
-          action={(props, context) => {
+          action={(props: any, context: Context) => {
             const { keys } = context.example;
             context.instance = ObjectMap.fromKeys(keys);
           }}
         />
         <Then
           desc="The instance should contain all the key-getValue(key) pairs"
-          action={(props, { instance, example: { keys } }) => {
+          action={(props: any, { instance, example: { keys } }: Context) => {
             expect(ObjectMap.size(instance)).toBe(keys.length);
             for (const key of keys) {
               expect(instance[key]).toBe(key);
@@ -277,7 +283,7 @@ export class FromKeysUseCase extends Step {
 
 @autorun(test)
 @title('ObjectMap.prefixKeys(keys: string[], prefix?: string)')
-export class PrefixKeysUseCase extends Step {
+class PrefixKeysUseCase extends Step {
   @examples([
     {
       keys: ['foo', 'bar', 'whisky', 'tango'],
@@ -294,14 +300,17 @@ export class PrefixKeysUseCase extends Step {
         <Given desc="A set of keys and a prefix" />
         <When
           desc="Calling ObjectMap.prefixKeys(keys: string[], prefix?: string)"
-          action={(props, context) => {
+          action={(props: any, context: Context) => {
             const { keys, prefix } = context.example;
             context.instance = ObjectMap.prefixKeys(keys, prefix);
           }}
         />
         <Then
           desc="The values will be equal to the keys or in the form '{prefix}-{key}' if a prefix is provided"
-          action={(props, { instance, example: { keys, prefix } }) => {
+          action={(
+            props: any,
+            { instance, example: { keys, prefix } }: Context,
+          ) => {
             expect(ObjectMap.size(instance)).toBe(keys.length);
             for (const key of keys) {
               expect(instance[key]).toBe(

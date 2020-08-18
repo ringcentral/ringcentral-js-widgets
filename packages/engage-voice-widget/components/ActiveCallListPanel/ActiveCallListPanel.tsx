@@ -12,7 +12,7 @@ import {
 } from '../SmallCallControl';
 import i18n from './i18n';
 import styles from './styles.scss';
-import { FormattedNumber } from '../FormattedNumber';
+import { formatPhoneNumber } from '../../lib/FormatPhoneNumber';
 import { BackHeader } from '../SelectList';
 
 export type ActiveCallListPanelProps = EvActiveCallListUIProps &
@@ -52,11 +52,10 @@ const ActiveCallListPanel: FunctionComponent<ActiveCallListPanelProps> = ({
         </div>
         <div className={styles.item} data-sign="callItem">
           <span className={classNames(styles.otherCallInfo, styles.children)}>
-            {everyoneCaller.session.phone ? (
-              <FormattedNumber phoneNumber={everyoneCaller.session.phone} />
-            ) : (
-              i18n.getString('unKnown', currentLocale)
-            )}
+            {formatPhoneNumber({
+              phoneNumber: everyoneCaller.session.phone,
+              currentLocale,
+            })}
             {`(${i18n.getString(
               isInbound ? 'caller' : 'callee',
               currentLocale,
@@ -116,7 +115,10 @@ const ActiveCallListPanel: FunctionComponent<ActiveCallListPanelProps> = ({
               <span
                 className={classNames(styles.otherCallInfo, styles.children)}
               >
-                <FormattedNumber phoneNumber={destination} />
+                {formatPhoneNumber({
+                  phoneNumber: destination,
+                  currentLocale,
+                })}
               </span>
               <div className={styles.controlButtons}>
                 <HoldCallButton

@@ -8,15 +8,15 @@ import RouterInteraction from 'ringcentral-widgets/modules/RouterInteraction';
 
 import { EvEnvironment } from '../../interfaces/Environment.interface';
 import { EvActiveCallControl } from '../EvActiveCallControl';
+import { EvAgentSession } from '../EvAgentSession';
+import { EvAuth } from '../EvAuth';
 import { EvCall } from '../EvCall';
 import { EvCallDisposition } from '../EvCallDisposition';
 import { EvCallMonitor } from '../EvCallMonitor';
 import { EvIntegratedSoftphone } from '../EvIntegratedSoftphone';
 import { EvRequeueCall } from '../EvRequeueCall';
-import { EvSessionConfig } from '../EvSessionConfig';
 import { EvTransferCall } from '../EvTransferCall';
 import { EvWorkingState } from '../EvWorkingState';
-import { EvAuth } from '../EvAuth';
 
 export interface State {
   saveStatus: string;
@@ -25,7 +25,11 @@ export interface State {
   validated: { dispositionId: boolean; notes: boolean };
 }
 
-export interface DepsModules {
+export interface EvActivityCallUIOptions {
+  //
+}
+
+export interface Deps {
   locale: Locale;
   alert: Alert;
   activeCallControl: EvActiveCallControl;
@@ -35,15 +39,16 @@ export interface DepsModules {
   evRequeueCall: EvRequeueCall;
   evTransferCall: EvTransferCall;
   evWorkingState: EvWorkingState;
-  evSessionConfig: EvSessionConfig;
+  evAgentSession: EvAgentSession;
   evIntegratedSoftphone: EvIntegratedSoftphone;
   routerInteraction: RouterInteraction;
   connectivityMonitor: ConnectivityMonitor;
   rateLimiter: RateLimiter;
   environment: EvEnvironment;
   storage: Storage;
-  tabManager?: TabManager;
   evAuth: EvAuth;
+  tabManager?: TabManager;
+  evActivityCallUIOptions?: EvActivityCallUIOptions;
 }
 
 export interface ActivityCallUI extends State {

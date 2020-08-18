@@ -3,7 +3,7 @@ import ConnectivityBadge from 'ringcentral-widgets/components/ConnectivityBadge'
 import ConnectivityAlert from 'ringcentral-widgets/components/AlertRenderer/ConnectivityAlert';
 import CircleButton from 'ringcentral-widgets/components/CircleButton';
 import { HAMocks } from '../HALimitedMode/mockLimited';
-import { getWrapper, timeout } from '../shared';
+import { getWrapper, timeout, tearDownWrapper } from '../shared';
 
 /* global jasmine */
 let wrapper = null;
@@ -18,11 +18,16 @@ describe('VoIP Only Mode', () => {
     wrapper = await getWrapper();
     phone = wrapper.props().phone;
     phone.availabilityMonitor._client.service.platform().emit('refreshError', {
-      mesage: 'none',
-      apiResponse: { _response: { status: 500 } },
+      message: 'none',
+      response: { status: 500 },
     });
+    await timeout(10); // wait refreshError listener to be executed
     wrapper.update();
     badge = wrapper.find(ConnectivityBadge);
+  });
+
+  afterAll(async () => {
+    await tearDownWrapper(wrapper);
   });
 
   test('App is in VoIP Only Mode', () => {
@@ -63,11 +68,16 @@ describe('Exit from VoIP Only Mode to Normal Mode', () => {
     phone = wrapper.props().phone;
   });
 
+  afterEach(async () => {
+    await tearDownWrapper(wrapper);
+  });
+
   test('Exit from refresh access-token successed.', async () => {
     phone.availabilityMonitor._client.service.platform().emit('refreshError', {
-      mesage: 'none',
-      apiResponse: { _response: { status: 500 } },
+      message: 'none',
+      response: { status: 500 },
     });
+    await timeout(10);
     wrapper.update();
     badge = wrapper.find(ConnectivityBadge);
     expect(badge.text()).toEqual('VoIP Only');
@@ -96,16 +106,15 @@ describe('Exit from VoIP Only Mode to Normal Mode', () => {
       'Sorry, something went wrong on our end, but we are working hard to fix it. You can still make calls, but other functions are currently limited.',
     );
 
-    Object.defineProperty(phone.availabilityMonitor, '_randomTime', {
-      value: 0.01,
-    });
+    phone.availabilityMonitor._randomTime = 0.0001;
     HAMocks.checkStatus();
     await phone.availabilityMonitor._healthCheck();
-    await timeout(600);
+    await timeout(1000);
     wrapper.update();
 
     expect(wrapper.find(ConnectivityBadge).text()).not.toEqual('VoIP Only');
     const connectivityAlert2 = wrapper.find(ConnectivityAlert);
+    console.error(connectivityAlert2.debug());
     expect(connectivityAlert2.exists()).toBeFalsy();
   });
 });

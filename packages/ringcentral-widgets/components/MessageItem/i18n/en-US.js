@@ -20,5 +20,5 @@ export default {
   pages: 'pages',
   preview: 'View',
   download: 'Download',
-  imageAttachment: 'Attachment: 1 image',
+  imageAttachment: 'Attachment: {count} image',
 };

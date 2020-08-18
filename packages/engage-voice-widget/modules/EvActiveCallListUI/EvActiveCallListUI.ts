@@ -1,4 +1,4 @@
-import { RcUIModuleV2, createSelector } from '@ringcentral-integration/core';
+import { computed, RcUIModuleV2 } from '@ringcentral-integration/core';
 import { Module } from 'ringcentral-integration/lib/di';
 
 import {
@@ -6,8 +6,7 @@ import {
   EvActiveCallListUIProps,
 } from '../../interfaces/EvActiveCallListUI.interface';
 import { EvCallData } from '../../interfaces/EvData.interface';
-import { ActiveCallListUI, DepsModules } from './EvActiveCallListUI.interface';
-import { transferTypes } from '../../enums/transferTypes';
+import { ActiveCallListUI, Deps } from './EvActiveCallListUI.interface';
 
 @Module({
   name: 'EvActiveCallListUI',
@@ -20,104 +19,87 @@ import { transferTypes } from '../../enums/transferTypes';
     'EvIntegratedSoftphone',
     'EvAuth',
     'EvClient',
-    'EvSessionConfig',
+    'EvAgentSession',
     { dep: 'EvActiveCallListUIOptions', optional: true },
   ],
 })
-class EvActiveCallListUI extends RcUIModuleV2<DepsModules>
+class EvActiveCallListUI extends RcUIModuleV2<Deps>
   implements ActiveCallListUI {
   get callId() {
-    return this._modules.evCall.activityCallId;
+    return this._deps.evCall.activityCallId;
   }
 
-  constructor({
-    locale,
-    routerInteraction,
-    evCall,
-    activeCallControl,
-    evCallMonitor,
-    evIntegratedSoftphone,
-    evAuth,
-    evClient,
-    evSessionConfig,
-  }) {
+  constructor(deps: Deps) {
     super({
-      modules: {
-        locale,
-        routerInteraction,
-        evCall,
-        activeCallControl,
-        evCallMonitor,
-        evIntegratedSoftphone,
-        evAuth,
-        evClient,
-        evSessionConfig,
-      },
+      deps,
     });
   }
 
-  getCallList = createSelector(
-    () => this.callId,
-    () => this._modules.evCallMonitor.callIds,
-    () => this._modules.evCallMonitor.otherCallIds,
-    () => this._modules.evCallMonitor.getCallsMapping(),
-    () => this._modules.evAuth.agentId,
-    (callId, callIds, otherCallIds, callsMapping, agentId) => {
-      const callList = this._modules.evCallMonitor.getActiveCallList(
-        callIds,
-        otherCallIds,
-        callsMapping,
-        callId,
-      );
-      if (callList[1]?.session?.agentId !== agentId) {
-        console.error('agent id is wrong');
-      }
-      return callList;
-    },
-  );
+  @computed((that: EvActiveCallListUI) => [
+    that.callId,
+    that._deps.evCallMonitor.callIds,
+    that._deps.evCallMonitor.otherCallIds,
+    that._deps.evCallMonitor.callsMapping,
+    that._deps.evAuth.agentId,
+  ])
+  get callList() {
+    const { callIds, otherCallIds, callsMapping } = this._deps.evCallMonitor;
+    const { agentId } = this._deps.evAuth;
+
+    const callList = this._deps.evCallMonitor.getActiveCallList(
+      callIds,
+      otherCallIds,
+      callsMapping,
+      this.callId,
+    );
+    if (callList[1]?.session?.agentId !== agentId) {
+      console.error('agent id is wrong');
+    }
+    return callList;
+  }
 
   onHangup(call: EvCallData) {
-    this._modules.activeCallControl.hangupSession({
+    this._deps.activeCallControl.hangupSession({
       sessionId: call.session.sessionId,
     });
   }
 
   onHold(call: EvCallData) {
-    this._modules.activeCallControl.holdSession({
+    this._deps.activeCallControl.holdSession({
       sessionId: call.session.sessionId,
       state: true,
     });
   }
 
   onUnHold(call: EvCallData) {
-    this._modules.activeCallControl.holdSession({
+    this._deps.activeCallControl.holdSession({
       sessionId: call.session.sessionId,
       state: false,
     });
   }
 
-  getUIProps({ id }): EvActiveCallListUIProps {
-    this._modules.evCall.activityCallId = id;
+  getUIProps({ id }: { id: string }): EvActiveCallListUIProps {
+    this._deps.evCall.activityCallId = id;
     return {
-      currentLocale: this._modules.locale.currentLocale,
-      callList: this.getCallList(),
-      isOnMute: this._modules.evIntegratedSoftphone.muteActive,
-      showMuteButton: this._modules.evSessionConfig.isIntegratedSoftphone,
-      userName: this._modules.evClient.agentSettings?.username,
-      isInbound: this._modules.evCall.isInbound,
+      currentLocale: this._deps.locale.currentLocale,
+      callList: this.callList,
+      isOnMute: this._deps.evIntegratedSoftphone.muteActive,
+      showMuteButton: this._deps.evAgentSession.isIntegratedSoftphone,
+      userName: this._deps.evAuth.agentSettings?.username,
+      isInbound: this._deps.evCall.isInbound,
     };
   }
 
   getUIFunctions(): EvActiveCallListUIFunctions {
     return {
       goBack: () => {
-        this._modules.routerInteraction.goBack();
+        this._deps.routerInteraction.goBack();
       },
       onHangup: (call) => this.onHangup(call),
       onHold: (call) => this.onHold(call),
       onUnHold: (call) => this.onUnHold(call),
-      onMute: () => this._modules.activeCallControl.mute(),
-      onUnmute: () => this._modules.activeCallControl.unmute(),
+      onMute: () => this._deps.activeCallControl.mute(),
+      onUnmute: () => this._deps.activeCallControl.unmute(),
     };
   }
 }

@@ -1,2 +1,2 @@
 export * from './interface';
-export { GenericMeeting as default } from './genericMeeting';
+export { GenericMeeting as default } from './GenericMeetingModule';

@@ -38,12 +38,12 @@ export function normalizeSession({ session, call }) {
     telephonySessionId: session.id,
     partyId,
     direction,
-    from: from && from.phoneNumber,
-    fromNumber: from && from.phoneNumber,
-    fromUserName: from && from.name,
-    to: to && to.phoneNumber,
-    toNumber: to && to.phoneNumber,
-    toUserName: to && to.name,
+    from: from?.phoneNumber,
+    fromNumber: from?.phoneNumber,
+    fromUserName: from?.name,
+    to: to?.phoneNumber,
+    toNumber: to?.phoneNumber,
+    toUserName: to?.name,
     id: session.id,
     sessionId,
     callStatus: call.telephonyStatus,
@@ -69,11 +69,11 @@ export function normalizeSession({ session, call }) {
   };
 }
 
-export function confictError(error) {
+export function conflictError({ message, response }) {
   const conflictErrRgx = /409/g;
   const conflictMsgRgx = /Incorrect State/g;
   return (
-    conflictErrRgx.test(error.message) &&
-    conflictMsgRgx.test(error.apiResponse._text)
+    conflictErrRgx.test(message) &&
+    conflictMsgRgx.test(response && response._text)
   );
 }

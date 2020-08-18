@@ -21,6 +21,7 @@ export function mapToProps(
     params,
     enableContactFallback = false,
     showGroupNumberName = false,
+    supportAttachment = false,
     perPage = 20,
     inputExpandable,
   },
@@ -37,23 +38,25 @@ export function mapToProps(
     (!conversationLogger || conversationLogger.ready)
   );
   const currentConversation = conversations.currentConversation;
+  const hasInputContent =
+    conversations.messageText.length > 0 ||
+    (conversations.attachments && conversations.attachments.length > 0);
   return {
     brand: brand.fullName,
     enableContactFallback,
     showGroupNumberName,
+    supportAttachment,
     currentLocale: locale.currentLocale,
     conversationId: params.conversationId,
     sendButtonDisabled:
-      conversations.pushing ||
-      disableLinks ||
-      conversations.messageText.length === 0 ||
-      showSpinner,
+      conversations.pushing || disableLinks || !hasInputContent || showSpinner,
     areaCode: regionSettings.areaCode,
     countryCode: regionSettings.countryCode,
     showSpinner,
     recipients: currentConversation.recipients,
     messages: currentConversation.messages,
     messageText: conversations.messageText,
+    attachments: conversations.attachments,
     conversation: currentConversation,
     disableLinks,
     autoLog: !!(conversationLogger && conversationLogger.autoLog),
@@ -116,6 +119,8 @@ export function mapToFunctions(
     unloadConversation: () => conversations.unloadConversation(),
     loadConversation: (id) => conversations.loadConversation(id),
     updateMessageText: (text) => conversations.updateMessageText(text),
+    addAttachment: (attachment) => conversations.addAttachment(attachment),
+    removeAttachment: (attachment) => conversations.removeAttachment(attachment),
     dateTimeFormatter,
     formatPhone: (phoneNumber) =>
       formatNumber({

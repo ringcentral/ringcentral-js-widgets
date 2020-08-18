@@ -3,9 +3,10 @@ import { Module } from 'ringcentral-integration/lib/di';
 
 import { tabManagerEvents } from '../../enums';
 import {
-  ActiveCallControl,
-  DepsModules,
-} from './EvActiveCallControl.interface';
+  EvClientHandUpParams,
+  EvClientHoldSessionParams,
+} from '../../lib/EvClient';
+import { ActiveCallControl, Deps } from './EvActiveCallControl.interface';
 
 @Module({
   name: 'EvActiveCallControl',
@@ -14,36 +15,20 @@ import {
     'EvSettings',
     'Presence',
     'EvIntegratedSoftphone',
-    'EvSessionConfig',
+    'EvAgentSession',
     { dep: 'TabManager', optional: true },
     { dep: 'EvActiveCallControlOptions', optional: true },
   ],
 })
-class EvActiveCallControl extends RcModuleV2<DepsModules>
+class EvActiveCallControl extends RcModuleV2<Deps>
   implements ActiveCallControl {
   get tabManagerEnabled() {
-    return this._modules.tabManager?._tabbie.enabled;
+    return this._deps.tabManager?._tabbie.enabled;
   }
 
-  constructor({
-    evClient,
-    presence,
-    evSettings,
-    tabManager,
-    evIntegratedSoftphone,
-    evSessionConfig,
-    ...options
-  }) {
+  constructor(deps: Deps) {
     super({
-      modules: {
-        evClient,
-        evSettings,
-        tabManager,
-        presence,
-        evIntegratedSoftphone,
-        evSessionConfig,
-      },
-      ...options,
+      deps,
     });
   }
 
@@ -56,7 +41,7 @@ class EvActiveCallControl extends RcModuleV2<DepsModules>
   }
 
   hangUp(sessionId: string) {
-    this._modules.evClient.hangup({ sessionId });
+    this._deps.evClient.hangup({ sessionId });
   }
 
   reject() {
@@ -71,29 +56,29 @@ class EvActiveCallControl extends RcModuleV2<DepsModules>
     this._changeOnHoldState(false);
   }
 
-  hangupSession({ sessionId }) {
-    this._modules.evClient.hangup({ sessionId });
+  hangupSession({ sessionId }: EvClientHandUpParams) {
+    this._deps.evClient.hangup({ sessionId });
   }
 
-  holdSession({ sessionId, state }) {
-    this._modules.evClient.holdSession({ state, sessionId });
+  holdSession({ sessionId, state }: EvClientHoldSessionParams) {
+    this._deps.evClient.holdSession({ state, sessionId });
   }
 
   getMainCall(uii: string) {
-    const id = this._modules.evClient.getMainId(uii);
-    return this._modules.presence.callsMapping[id];
+    const id = this._deps.evClient.getMainId(uii);
+    return this._deps.presence.callsMapping[id];
   }
 
   private _changeOnHoldState(state: boolean) {
-    this._modules.evClient.hold(state);
+    this._deps.evClient.hold(state);
   }
 
   private _sipToggleMute(state: boolean) {
-    if (this._modules.evSessionConfig.isIntegratedSoftphone) {
+    if (this._deps.evAgentSession.isIntegratedSoftphone) {
       if (this.tabManagerEnabled) {
-        this._modules.tabManager.send(tabManagerEvents.MUTE, state);
+        this._deps.tabManager.send(tabManagerEvents.MUTE, state);
       }
-      this._modules.evIntegratedSoftphone.sipToggleMute(state);
+      this._deps.evIntegratedSoftphone.sipToggleMute(state);
     }
   }
 }

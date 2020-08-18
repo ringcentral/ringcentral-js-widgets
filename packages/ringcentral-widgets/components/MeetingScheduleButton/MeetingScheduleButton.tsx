@@ -1,6 +1,6 @@
 import React from 'react';
 import classnames from 'classnames';
-import { ScheduleMeetingModel } from 'ringcentral-integration/modules/Meeting/meeting';
+import { RcMMeetingModel } from 'ringcentral-integration/modules/Meeting/Meeting';
 
 import styles from './styles.scss';
 import i18n from './i18n';
@@ -9,7 +9,7 @@ import CheckBox from '../CheckBox';
 
 type Props = {
   currentLocale: string;
-  meeting: ScheduleMeetingModel;
+  meeting: RcMMeetingModel;
   scheduleButtonLabel: string;
   onClick?: () => any;
   hidden?: boolean;
@@ -18,7 +18,7 @@ type Props = {
   disabled?: boolean;
   update?: (any) => any;
   showLaunchMeetingBtn?: boolean;
-  launchMeeting?: (meeting?: ScheduleMeetingModel) => any;
+  launchMeeting?: (meeting?: RcMMeetingModel) => any;
 };
 
 export class MeetingScheduleButton extends React.Component<Props, {}> {

@@ -33,13 +33,17 @@ export default class ComposeTextUI extends RcUIModule {
       contactSearch,
     },
     inputExpandable,
+    supportAttachment,
   }) {
+    const isContentEmpty =
+      composeText.messageText.length === 0 &&
+      (!composeText.attachments || composeText.attachments.length === 0);
     return {
       brand: brand.fullName,
       currentLocale: locale.currentLocale,
       sendButtonDisabled:
         !(composeText.ready && messageSender.idle) ||
-        composeText.messageText.length === 0 ||
+        isContentEmpty ||
         (composeText.toNumbers.length === 0 &&
           composeText.typingToNumber.length === 0) ||
         !connectivityMonitor.connectivity ||
@@ -59,6 +63,8 @@ export default class ComposeTextUI extends RcUIModule {
         contactSearch.ready
       ),
       inputExpandable,
+      attachments: composeText.attachments,
+      supportAttachment,
     };
   }
 
@@ -159,6 +165,8 @@ export default class ComposeTextUI extends RcUIModule {
       phoneSourceNameRenderer,
       recipientsContactInfoRenderer,
       recipientsContactPhoneRenderer,
+      addAttachment: (...args) => composeText.addAttachment(...args),
+      removeAttachment: (...args) => composeText.removeAttachment(...args),
     };
   }
 }

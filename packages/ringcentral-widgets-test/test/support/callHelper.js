@@ -3,12 +3,9 @@ import subscriptionBody from 'ringcentral-integration/integration-test/mock/data
 import { isConferenceSession } from 'ringcentral-integration/modules/Webphone/webphoneHelper';
 import telephonyStatuses from 'ringcentral-integration/enums/telephonyStatus';
 import * as mock from 'ringcentral-integration/integration-test/mock';
-import * as MockedPubNub from '../__mocks__/pubnub.js';
-import Session from './session';
+import { getLastPubnub } from '../__mocks__/pubnub';
+import Session, { CONFERENCE_SESSION_ID } from './session';
 import { timeout } from '../integration-test/shared';
-
-export const CONFERENCE_SESSION_ID =
-  'Y3MxNzI2MjI1NTQzODI0MzUzM0AxMC43NC4yLjIxOA';
 
 const defaultInboundOption = {
   id: '111',
@@ -57,7 +54,7 @@ export async function makeConferenceCall(
 
 /* --- mock pubnub --- */
 export async function mockPresencePubnub(activeCallsBody) {
-  const pubnub = MockedPubNub.getLastPubnub();
+  const pubnub = getLastPubnub();
   const encrypted = pubnub._realPubnub.encrypt(
     JSON.stringify({
       uuid: '1088719898803550582-8036702296129764',
@@ -218,3 +215,5 @@ export function mockActiveCalls(
     return calls;
   }, mockOtherDeivce);
 }
+
+export { CONFERENCE_SESSION_ID };

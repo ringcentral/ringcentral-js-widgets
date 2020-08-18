@@ -40,7 +40,7 @@ class ExtensionFeatures extends DataFetcher {
       async fetchFunction() {
         const res = await client.service
           .platform()
-          .get('/account/~/extension/~/features');
+          .get('/restapi/v1.0/account/~/extension/~/features');
         return extractData(res.json());
       },
       cleanOnReset: true,

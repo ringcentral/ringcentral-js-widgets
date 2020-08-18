@@ -1,5 +1,6 @@
 @import '../../lib/commonStyles/colors';
 @import '../../lib/commonStyles/full-size';
+@import '../../lib/commonStyles/text-ellipsis';
 
 .root {
   position: absolute;
@@ -11,6 +12,14 @@
   border-top: 1px solid #e3e3e5;
   box-sizing: border-box;
   background-color: white;
+
+  .attachmentIcon {
+    display: none;
+  }
+
+  .attachments {
+    display: none;
+  }
 }
 
 .textField {
@@ -70,4 +79,54 @@
   border: #c9c9c9 1px solid;
   color: #a9a9a9;
   cursor: not-allowed;
+}
+
+.supportAttachment {
+  .textField {
+    margin-left: 37px;
+
+    textarea {
+      margin-left: 0;
+    }
+  }
+
+  .submitField {
+    top: 30px;
+  }
+
+  .attachmentIcon {
+    display: block;
+    position: absolute;
+    left: 5px;
+    top: 5px;
+  }
+
+  .attachments {
+    display: block;
+    padding: 0 10px;
+    max-height: 250px;
+    overflow-y: auto;
+  }
+
+  .attachmentItem {
+    display: inline-block;
+    color: $night;
+    font-size: 13px;
+    border: solid 1px $smoke;
+    border-radius: 4px;
+    max-width: 250px;
+    position: relative;
+    padding-right: 32px;
+    padding-left: 10px;
+    line-height: 40px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    @include text-ellipsis;
+  }
+
+  .attachmentRemoveIcon {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
 }

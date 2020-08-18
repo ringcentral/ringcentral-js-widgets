@@ -11,12 +11,14 @@ import i18n from './i18n';
 import styles from './styles.scss';
 
 interface VideoProps {
+  disabled: boolean;
   currentLocale: string;
   meeting: any;
   update: (...args: any[]) => any;
 }
 
 const Video: FunctionComponent<VideoProps> = ({
+  disabled,
   currentLocale,
   meeting,
   update,
@@ -37,6 +39,7 @@ const Video: FunctionComponent<VideoProps> = ({
           {i18n.getString('host', currentLocale)}
         </span>
         <Switch
+          disable={disabled}
           checked={meeting.startHostVideo}
           onChange={(startHostVideo) => {
             update({
@@ -52,6 +55,7 @@ const Video: FunctionComponent<VideoProps> = ({
           {i18n.getString('participants', currentLocale)}
         </span>
         <Switch
+          disable={disabled}
           checked={meeting.startParticipantsVideo}
           onChange={(startParticipantsVideo) => {
             update({
@@ -67,16 +71,19 @@ const Video: FunctionComponent<VideoProps> = ({
 );
 
 interface AudioOptionsCheckboxProps {
+  disabled: boolean;
   data: any;
   meeting: any;
   update: (...args: any[]) => any;
 }
 const AudioOptionsCheckbox: FunctionComponent<AudioOptionsCheckboxProps> = ({
+  disabled,
   update,
   meeting,
   data,
 }) => (
   <CheckBox
+    disabled={disabled}
     onSelect={({ key }) => {
       const audioOptions = key.split('_');
       update({
@@ -92,17 +99,20 @@ const AudioOptionsCheckbox: FunctionComponent<AudioOptionsCheckboxProps> = ({
 );
 
 interface AudioOptionsDropdownProps {
+  disabled: boolean;
   data: any;
   meeting: any;
   update: (...args: any[]) => any;
 }
 
 const AudioOptionsDropdown: FunctionComponent<AudioOptionsDropdownProps> = ({
+  disabled,
   update,
   meeting,
   data,
 }) => (
   <DropdownSelect
+    disabled={disabled}
     className={classnames(styles.dropdownSelect)}
     iconClassNßame={styles.dropdownIcon}
     value={meeting.audioOptions.join('_')}
@@ -128,9 +138,11 @@ interface AudioOptionsProps {
   meeting: any;
   data: any;
   audioOptionToggle: boolean;
+  disabled: boolean;
 }
 
 const AudioOptions: FunctionComponent<AudioOptionsProps> = ({
+  disabled,
   currentLocale,
   update,
   meeting,
@@ -138,9 +150,19 @@ const AudioOptions: FunctionComponent<AudioOptionsProps> = ({
   audioOptionToggle,
 }) => {
   const audioOptions = audioOptionToggle ? (
-    <AudioOptionsDropdown update={update} meeting={meeting} data={data} />
+    <AudioOptionsDropdown
+      disabled={disabled}
+      update={update}
+      meeting={meeting}
+      data={data}
+    />
   ) : (
-    <AudioOptionsCheckbox update={update} meeting={meeting} data={data} />
+    <AudioOptionsCheckbox
+      disabled={disabled}
+      update={update}
+      meeting={meeting}
+      data={data}
+    />
   );
   return (
     <MeetingSection

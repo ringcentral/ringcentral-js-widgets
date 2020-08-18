@@ -125,11 +125,15 @@ export default class ContactList extends Component {
       getPresence,
       onItemSelect,
       sourceNodeRenderer,
+      currentSiteCode,
+      isMultipleSiteEnabled,
     } = this.props;
     return (
       <div key={`${rowData.type}-${rowData.id}`}>
         <ContactItem
           currentLocale={currentLocale}
+          currentSiteCode={currentSiteCode}
+          isMultipleSiteEnabled={isMultipleSiteEnabled}
           contact={rowData}
           getAvatarUrl={getAvatarUrl}
           getPresence={getPresence}
@@ -218,6 +222,8 @@ ContactList.propTypes = {
     }),
   ).isRequired,
   getAvatarUrl: PropTypes.func.isRequired,
+  currentSiteCode: PropTypes.string,
+  isMultipleSiteEnabled: PropTypes.bool,
   getPresence: PropTypes.func.isRequired,
   onItemSelect: PropTypes.func,
   sourceNodeRenderer: PropTypes.func,
@@ -228,4 +234,6 @@ ContactList.propTypes = {
 ContactList.defaultProps = {
   onItemSelect: undefined,
   sourceNodeRenderer: undefined,
+  currentSiteCode: '',
+  isMultipleSiteEnabled: false,
 };

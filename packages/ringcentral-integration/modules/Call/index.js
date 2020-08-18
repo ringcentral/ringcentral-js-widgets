@@ -301,7 +301,7 @@ export default class Call extends RcModule {
           } else if (error.message !== 'Refresh token has expired') {
             if (
               !this._availabilityMonitor ||
-              !this._availabilityMonitor.checkIfHAError(error)
+              !(await this._availabilityMonitor.checkIfHAError(error))
             ) {
               this._alert.danger({
                 message: callErrors.internalError,

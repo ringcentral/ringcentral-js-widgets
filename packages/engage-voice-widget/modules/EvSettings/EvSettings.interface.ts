@@ -2,25 +2,26 @@ import Storage from 'ringcentral-integration/modules/Storage';
 import { Beforeunload } from 'ringcentral-widgets/modules/Beforeunload';
 
 import { EvClient } from '../../lib/EvClient';
+import { EvAgentSession } from '../EvAgentSession';
 import { EvAuth } from '../EvAuth';
-import { EvSessionConfig } from '../EvSessionConfig';
-
-type Config = any; // Todo add type
 
 export interface State {
-  config: Config;
   isOffhook: boolean;
   isOffhooking: boolean;
   isManualOffhook: boolean;
 }
 
-export interface DepsModules {
+export interface EvSettingsOptions {
+  //
+}
+
+export interface Deps {
   evClient: EvClient;
   evAuth: EvAuth;
-  evSessionConfig: EvSessionConfig;
+  evAgentSession: EvAgentSession;
   storage: Storage;
   beforeunload: Beforeunload;
+  evSettingsOptions?: EvSettingsOptions;
 }
-export interface Settings extends State {
-  setConfig(config: Config): void;
-}
+
+export interface Settings extends State {}

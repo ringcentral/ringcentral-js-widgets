@@ -4,6 +4,7 @@ export interface SaveFunctionProps {
   callWith: string;
   myLocation: string;
   ringoutPrompt: boolean;
+  isCustomLocation: boolean;
   incomingAudio?: string;
   incomingAudioFile?: string;
   outgoingAudio?: string;
@@ -11,8 +12,9 @@ export interface SaveFunctionProps {
 }
 
 export interface CallingSettingsUIProps extends RingtoneBaseProps {
-  availableNumbers: any;
-  brand: string;
+  brandCode: string;
+  brandName: string;
+  availableNumbersWithLabel: { label: string; value: string }[];
   callWith: string;
   callWithOptions: string[];
   currentLocale: string;

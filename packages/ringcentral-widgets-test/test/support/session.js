@@ -6,7 +6,9 @@ import {
 import telephonyStatuses from 'ringcentral-integration/enums/telephonyStatus';
 import sessionStatus from 'ringcentral-integration/modules/Webphone/sessionStatus';
 import recordStatus from 'ringcentral-integration/modules/Webphone/recordStatus';
-import { CONFERENCE_SESSION_ID } from './callHelper';
+
+export const CONFERENCE_SESSION_ID =
+  'Y3MxNzI2MjI1NTQzODI0MzUzM0AxMC43NC4yLjIxOA';
 
 let partyId = 95;
 class SessionDescriptionHandler {

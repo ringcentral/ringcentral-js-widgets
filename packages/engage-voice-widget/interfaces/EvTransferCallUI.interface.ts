@@ -52,7 +52,7 @@ export interface EvTransferCallUIProps {
 export interface EvTransferCallUIFunctions {
   goBack(): void;
   clickCallRecipient(router: string): void;
-  clickTransferTypeFiled(type: string): void;
+  clickTransferTypeFiled(type: EvTransferType): void;
   setStayOnCall(status: boolean): void;
   fetchAgentList(): void;
   changeTransferAgentId(agentId: string): void;

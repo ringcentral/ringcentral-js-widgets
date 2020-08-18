@@ -1,0 +1,23 @@
+@import '../../scss/variables.scss';
+
+.root {
+  @include flex_column;
+  height: 100%;
+
+  .container {
+    @include flex_column;
+    @include flex-fill;
+    @include pageSpace();
+
+    margin-top: 24px;
+    margin-bottom: 10px;
+
+    .basicSessionPanel {
+      @include flex-fill;
+    }
+
+    button.saveUpdateButton {
+      margin-bottom: 8px;
+    }
+  }
+}

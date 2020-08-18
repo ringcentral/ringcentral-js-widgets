@@ -19,7 +19,7 @@ export default {
   pages: "pages",
   preview: "Afficher",
   download: "Télécharger",
-  imageAttachment: "Pièce jointe : 1 image"
+  imageAttachment: "Pièce jointe : {count} image"
 };
 
 // @key: @#@"addLog"@#@ @source: @#@"Log"@#@

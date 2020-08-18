@@ -224,9 +224,9 @@ export default class AddressBook extends Pollable {
     } catch (error) {
       if (
         error &&
-        error.apiResponse &&
-        error.apiResponse._response &&
-        error.apiResponse._response.status === 403
+        error.response &&
+        error.response._response &&
+        error.response.status === 403
       ) {
         const result = {
           records: [],

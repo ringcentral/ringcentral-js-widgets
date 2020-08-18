@@ -130,6 +130,7 @@ describe('CallingSettings Unit Test', () => {
         extensionPhoneNumberReady,
         forwardingNumberReady,
         rolesAndPermissionsReady,
+        extensionDeviceReady,
         pending,
       ) => {
         const result =
@@ -138,6 +139,7 @@ describe('CallingSettings Unit Test', () => {
           extensionPhoneNumberReady &&
           forwardingNumberReady &&
           rolesAndPermissionsReady &&
+          extensionDeviceReady &&
           pending;
         it(`should return ${result} when:
           storage.ready is ${storageReady} and
@@ -145,6 +147,7 @@ describe('CallingSettings Unit Test', () => {
           extensionPhoneNumber.ready is ${extensionPhoneNumberReady} and
           forwardingNumber.ready is ${forwardingNumberReady} and
           rolesAndPermissions.ready is ${rolesAndPermissionsReady} and
+          extensionDevice.ready is ${extensionDeviceReady} and
           callingSettings.pending is ${pending}
           `, () => {
           callingSettings._storage = {
@@ -162,6 +165,9 @@ describe('CallingSettings Unit Test', () => {
           callingSettings._rolesAndPermissions = {
             ready: rolesAndPermissionsReady,
           };
+          callingSettings._extensionDevice = {
+            ready: extensionDeviceReady,
+          };
           sinon.stub(callingSettings, 'pending', { get: () => pending });
           expect(callingSettings._shouldInit()).to.equal(result);
         });
@@ -178,6 +184,7 @@ describe('CallingSettings Unit Test', () => {
         extensionPhoneNumberReady,
         forwardingNumberReady,
         rolesAndPermissionsReady,
+        extensionDeviceReady,
       ) => {
         const result =
           ready &&
@@ -185,14 +192,16 @@ describe('CallingSettings Unit Test', () => {
             !extensionInfoReady ||
             !extensionPhoneNumberReady ||
             !forwardingNumberReady ||
-            !rolesAndPermissionsReady);
+            !rolesAndPermissionsReady ||
+            !extensionDeviceReady);
         it(`should return ${result} when:
           callingSettings.ready is ${ready}
           storage.ready is ${storageReady} and
           extensionInfo.ready is ${extensionInfoReady} and
           extensionPhoneNumber.ready is ${extensionPhoneNumberReady} and
           forwardingNumber.ready is ${forwardingNumberReady} and
-          rolesAndPermissions.ready is ${rolesAndPermissionsReady}
+          rolesAndPermissions.ready is ${rolesAndPermissionsReady} and
+          extensionDevice.ready is ${extensionDeviceReady}
           `, () => {
           sinon.stub(callingSettings, 'ready', { get: () => ready });
           callingSettings._storage = {
@@ -209,6 +218,9 @@ describe('CallingSettings Unit Test', () => {
           };
           callingSettings._rolesAndPermissions = {
             ready: rolesAndPermissionsReady,
+          };
+          callingSettings._extensionDevice = {
+            ready: extensionDeviceReady,
           };
           expect(callingSettings._shouldReset()).to.equal(result);
         });
@@ -452,31 +464,15 @@ describe('CallingSettings Unit Test', () => {
   });
   describe('_hasPermissionChanged', () => {
     it(`should return true when _ringoutEnabled is false and
-    callWith is equal to callingOptions.myphone`, () => {
+    callWith is equal to callingOptions.ringout`, () => {
       callingSettings._ringoutEnabled = false;
       sinon.stub(callingSettings, 'callWith', {
-        get: () => callingOptions.myphone,
-      });
-      expect(callingSettings._hasPermissionChanged()).to.equal(true);
-    });
-    it(`should return true when _ringoutEnabled is false and
-    callWith is equal to callingOptions.otherphone`, () => {
-      callingSettings._ringoutEnabled = false;
-      sinon.stub(callingSettings, 'callWith', {
-        get: () => callingOptions.otherphone,
-      });
-      expect(callingSettings._hasPermissionChanged()).to.equal(true);
-    });
-    it(`should return true when _ringoutEnabled is false and
-    callWith is equal to callingOptions.customphone`, () => {
-      callingSettings._ringoutEnabled = false;
-      sinon.stub(callingSettings, 'callWith', {
-        get: () => callingOptions.customphone,
+        get: () => callingOptions.ringout,
       });
       expect(callingSettings._hasPermissionChanged()).to.equal(true);
     });
     it(`should return false when _ringoutEnabled is false and
-    callWith is not equal to callingOptions.myphone and callingOptions.otherphone and callingOptions.customphone`, () => {
+    callWith is not equal to callingOptions.ringout`, () => {
       callingSettings._ringoutEnabled = false;
       sinon.stub(callingSettings, 'callWith', {
         get: () => callingOptions.browser,
@@ -484,73 +480,57 @@ describe('CallingSettings Unit Test', () => {
       expect(callingSettings._hasPermissionChanged()).to.equal(false);
     });
     it(`should return false when _ringoutEnabled is true and
-    callWith is equal to callingOptions.customphone`, () => {
+    callWith is equal to callingOptions.ringout`, () => {
       callingSettings._ringoutEnabled = true;
       sinon.stub(callingSettings, 'callWith', {
-        get: () => callingOptions.customphone,
+        get: () => callingOptions.ringout,
       });
       expect(callingSettings._hasPermissionChanged()).to.equal(false);
     });
   });
   describe('_hasPhoneNumberChanged', () => {
-    it(`should return true when callWith is equal to callingOptions.otherphone and
-    _otherPhoneNumbers index of myLocation is -1`, () => {
+    it(`should return true when callWith is equal to callingOptions.ringout and
+    isCustomLocation is false and
+    _availableNumbers index of myLocation is equal to -1`, () => {
       sinon.stub(callingSettings, 'callWith', {
-        get: () => callingOptions.otherphone,
+        get: () => callingOptions.ringout,
       });
-      callingSettings._otherPhoneNumbers = '123';
-      callingSettings._myPhoneNumbers = '123';
+      callingSettings._availableNumbers = ['123'];
       sinon.stub(callingSettings, 'myLocation', { get: () => '456' });
+      sinon.stub(callingSettings, 'isCustomLocation', { get: () => false });
       expect(callingSettings._hasPhoneNumberChanged()).to.equal(true);
     });
-    it(`should return true when callWith is equal to callingOptions.myphone and
-    _myPhoneNumbers index of myLocation is -1`, () => {
-      sinon.stub(callingSettings, 'callWith', {
-        get: () => callingOptions.myphone,
-      });
-      callingSettings._otherPhoneNumbers = '123';
-      callingSettings._myPhoneNumbers = '123';
-      sinon.stub(callingSettings, 'myLocation', { get: () => '456' });
-      expect(callingSettings._hasPhoneNumberChanged()).to.equal(true);
-    });
-    it(`should return false when callWith is not equal to callingOptions.otherphone and callingOptions.myphone and
-    _myPhoneNumbers index of myLocation is -1`, () => {
+    it(`should return false when callWith is not equal to callingOptions.ringout and
+    isCustomLocation is false and
+    _availableNumbers index of myLocation is equal to -1`, () => {
       sinon.stub(callingSettings, 'callWith', {
         get: () => callingOptions.softphone,
       });
-      callingSettings._otherPhoneNumbers = '123';
-      callingSettings._myPhoneNumbers = '123';
+      callingSettings._availableNumbers = ['123'];
       sinon.stub(callingSettings, 'myLocation', { get: () => '456' });
+      sinon.stub(callingSettings, 'isCustomLocation', { get: () => false });
       expect(callingSettings._hasPhoneNumberChanged()).to.equal(false);
     });
-    it(`should return false when callWith is equal to callingOptions.otherphone and
-    _otherPhoneNumbers index of myLocation is not equal to -1`, () => {
+    it(`should return false when callWith is equal to callingOptions.ringout and
+    isCustomLocation is true and
+    _availableNumbers index of myLocation is equal to -1`, () => {
       sinon.stub(callingSettings, 'callWith', {
-        get: () => callingOptions.otherphone,
+        get: () => callingOptions.ringout,
       });
-      callingSettings._otherPhoneNumbers = '456';
-      callingSettings._myPhoneNumbers = '123';
+      callingSettings._availableNumbers = ['123'];
       sinon.stub(callingSettings, 'myLocation', { get: () => '456' });
+      sinon.stub(callingSettings, 'isCustomLocation', { get: () => true });
       expect(callingSettings._hasPhoneNumberChanged()).to.equal(false);
     });
-    it(`should return false when callWith is equal to callingOptions.myphone and
-    _otherPhoneNumbers index of myLocation is not equal to -1`, () => {
+    it(`should return false when callWith is equal to callingOptions.ringout and
+    isCustomLocation is false and
+    _availableNumbers index of myLocation is not equal to -1`, () => {
       sinon.stub(callingSettings, 'callWith', {
-        get: () => callingOptions.myphone,
+        get: () => callingOptions.ringout,
       });
-      callingSettings._otherPhoneNumbers = '123';
-      callingSettings._myPhoneNumbers = '456';
+      callingSettings._availableNumbers = ['456'];
       sinon.stub(callingSettings, 'myLocation', { get: () => '456' });
-      expect(callingSettings._hasPhoneNumberChanged()).to.equal(false);
-    });
-    it(`should return false when callWith is not equal to callingOptions.otherphone and callingOptions.myphone and
-    _otherPhoneNumbers index of myLocation is not equal to -1`, () => {
-      sinon.stub(callingSettings, 'callWith', {
-        get: () => callingOptions.softphone,
-      });
-      callingSettings._otherPhoneNumbers = '456';
-      callingSettings._myPhoneNumbers = '456';
-      sinon.stub(callingSettings, 'myLocation', { get: () => '456' });
+      sinon.stub(callingSettings, 'isCustomLocation', { get: () => false });
       expect(callingSettings._hasPhoneNumberChanged()).to.equal(false);
     });
   });

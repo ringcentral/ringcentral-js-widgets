@@ -18,7 +18,7 @@ function flatten<T>(
         typeof module === 'object' &&
         (module.__name__ === null || typeof module.__name__ === 'undefined')
       ) {
-        module.__name__ = key;
+        module.__key__ = key;
       }
       flattenModules[key] = module;
       if (

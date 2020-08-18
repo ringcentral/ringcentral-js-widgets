@@ -1,5 +1,6 @@
 import { reduce } from 'ramda';
 import isBlank from './isBlank';
+import phoneTypes from '../enums/phoneTypes';
 
 export const AllContactSourceName = 'all';
 
@@ -119,14 +120,12 @@ export function getMatchContacts({
   phoneNumber,
   entityType,
   normalizeNumber = (number) => number,
+  findContact = (item) => normalizeNumber(item.phoneNumber) === phoneNumber,
 }) {
   const result = [];
   contacts.forEach((contact) => {
     const found =
-      contact.phoneNumbers &&
-      contact.phoneNumbers.find(
-        (item) => normalizeNumber(item.phoneNumber) === phoneNumber,
-      );
+      contact.phoneNumbers && contact.phoneNumbers.find(findContact);
     if (!found) {
       return;
     }
@@ -139,3 +138,78 @@ export function getMatchContacts({
   });
   return result;
 }
+
+const isSameSite = ({
+  siteCode = '',
+  extensionNumber,
+  extensionFromContacts,
+}) => {
+  /**
+   * [multiple site number match role]:
+   * Given account in the same site and the short extension starts with 0, When then short extension is equal to 0, it can match.
+   * Otherwise it cannot match.
+   */
+  if (
+    !siteCode ||
+    !/^[0-9]+$/.test(extensionNumber) || // to avoid special character in regular
+    (extensionNumber[0] === '0' && extensionNumber !== '0')
+  ) {
+    return false;
+  }
+
+  /**
+   * [multiple site only]
+   * The full extension number's length is fixed, no need to compute the frequency of 0.
+   * For example, 21022, 210022 would not both exist at the same time
+   */
+  return new RegExp(`^${siteCode}0*${extensionNumber}$`).test(
+    extensionFromContacts,
+  );
+};
+
+export const isAnExtension = (number) => {
+  return number && number.length <= 6 && number[0] !== '+';
+};
+
+/**
+ * check whether an extension is in contacts
+ * @param {String} extensionNumber extensionNumber need to be checked
+ * @param {String} extensionFromContacts extensionNumber from contact
+ * @param {Boolean} options.isMultipleSiteEnabled
+ * @param {String} options.site.code
+ * @returns {Boolean}
+ */
+export const isExtensionExist = ({
+  extensionNumber,
+  extensionFromContacts,
+  options,
+}) => {
+  if (extensionFromContacts === extensionNumber) {
+    return true;
+  }
+  if (
+    options.isMultipleSiteEnabled &&
+    isSameSite({
+      siteCode: options.site?.code ?? '',
+      extensionNumber,
+      extensionFromContacts,
+    })
+  ) {
+    return true;
+  }
+  return false;
+};
+
+export const getFindContact = ({ phoneNumber, options = {} }) => (item) => {
+  if (item.phoneType === phoneTypes.extension) {
+    return (
+      isAnExtension(phoneNumber) &&
+      isExtensionExist({
+        extensionNumber: phoneNumber,
+        extensionFromContacts: item.phoneNumber,
+        options,
+      })
+    );
+  }
+  return item.phoneNumber === phoneNumber;
+};

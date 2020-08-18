@@ -5,7 +5,7 @@ import Softphone from '../Softphone';
 import Ringout from '../Ringout';
 import NumberValidate from '../NumberValidate';
 import RegionSettings from '../RegionSettings';
-import CallingSettings from '../CallingSettings';
+import { CallingSettings } from '../CallingSettingsV2';
 import RolesAndPermissions from '../RolesAndPermissions';
 import Webphone from '../Webphone';
 import AvailabilityMonitor from '../AvailabilityMonitor';
@@ -20,7 +20,7 @@ export interface CallOptions {
   internationalCheck?: boolean;
 }
 
-export interface DepModules {
+export interface Deps {
   alert: Alert;
   storage: Storage;
   brand: Brand;
@@ -32,9 +32,8 @@ export interface DepModules {
   rolesAndPermissions: RolesAndPermissions;
   webphone?: Webphone;
   availabilityMonitor?: AvailabilityMonitor;
+  callOptions?: CallOptions;
 }
-
-export type DepOptions = DepModules & { callOptions: CallOptions };
 
 export interface Recipient {
   phoneNumber: string;

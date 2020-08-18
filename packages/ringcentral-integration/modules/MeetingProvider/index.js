@@ -1,30 +1,37 @@
-import sleep from '../../lib/sleep';
-import { Module } from '../../lib/di';
-import DataFetcher from '../../lib/DataFetcher';
-import subscriptionHints from '../../enums/subscriptionHints';
-import subscriptionFilters from '../../enums/subscriptionFilters';
+import { contains } from 'ramda';
 
+import subscriptionFilters from '../../enums/subscriptionFilters';
+import subscriptionHints from '../../enums/subscriptionHints';
+import DataFetcher from '../../lib/DataFetcher';
+import { Module } from '../../lib/di';
+import sleep from '../../lib/sleep';
+import { meetingProviderTypes } from './interface';
 import { getMeetingProvider } from './service';
 
 /**
  * @class
  * @description: just check meeting provider from RC PLA
  */
-@Module()
+@Module({
+  deps: ['RolesAndPermissions'],
+})
 export default class MeetingProvider extends DataFetcher {
-  constructor({ ...options }) {
+  constructor({ rolesAndPermissions, ...options }) {
     super({
       ...options,
       subscriptionFilters: [subscriptionFilters.extensionInfo],
       subscriptionHandler: async (message) => {
         await this._subscriptionHandleFn(message);
       },
+      readyCheckFn: () => this._rolesAndPermissions.ready,
       async fetchFunction() {
         const data = await getMeetingProvider(this._client);
         return data;
       },
       disableCache: true,
+      cleanOnReset: true,
     });
+    this._rolesAndPermissions = rolesAndPermissions;
   }
 
   async _subscriptionHandleFn(message) {
@@ -38,8 +45,23 @@ export default class MeetingProvider extends DataFetcher {
     }
   }
 
+  get isRCV() {
+    return this.provider === meetingProviderTypes.video;
+  }
+
+  get isRCM() {
+    return contains(this.provider, [
+      meetingProviderTypes.meeting,
+      meetingProviderTypes.none,
+    ]);
+  }
+
   get provider() {
-    return this.data?.provider;
+    return this.data?.provider || null;
+  }
+
+  get _hasPermission() {
+    return !!this._rolesAndPermissions.hasMeetingsPermission;
   }
 
   get _name() {

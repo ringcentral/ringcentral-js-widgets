@@ -7,12 +7,14 @@ import {
 import moduleStatuses from '../../enums/moduleStatuses';
 import mapOptionToMode from './mapOptionToMode';
 import callingOptions from './callingOptions';
+import deprecatedCallingOptions from './deprecatedCallingOptions';
 import callingModes from './callingModes';
 import callingSettingsMessages from './callingSettingsMessages';
 import actionTypes from './actionTypes';
 import proxify from '../../lib/proxy/proxify';
 import { selector } from '../../lib/selector';
 
+const LOCATION_NUMBER_ORDER = ['Other', 'Main'];
 /**
  * @class
  * @description Call setting managing module
@@ -26,6 +28,7 @@ import { selector } from '../../lib/selector';
     'ForwardingNumber',
     'Storage',
     'RolesAndPermissions',
+    'ExtensionDevice',
     { dep: 'CallerId', optional: true },
     { dep: 'TabManager', optional: true },
     { dep: 'Webphone', optional: true },
@@ -62,6 +65,7 @@ export default class CallingSettings extends RcModule {
     emergencyCallAvailable = false,
     defaultRingoutPrompt,
     showCallWithJupiter = true,
+    extensionDevice,
     ...options
   }) {
     super({
@@ -80,7 +84,7 @@ export default class CallingSettings extends RcModule {
     this._callerId = callerId;
     this._storageKey = 'callingSettingsData';
     this._emergencyCallAvailable = emergencyCallAvailable;
-
+    this._extensionDevice = extensionDevice;
     this._onFirstLogin = onFirstLogin;
     this.initRingoutPrompt = defaultRingoutPrompt;
 
@@ -125,6 +129,7 @@ export default class CallingSettings extends RcModule {
       this._forwardingNumber.ready &&
       (!this._callerId || this._callerId.ready) &&
       this._rolesAndPermissions.ready &&
+      this._extensionDevice.ready &&
       this.pending
     );
   }
@@ -137,7 +142,8 @@ export default class CallingSettings extends RcModule {
         !this._extensionPhoneNumber.ready ||
         !this._forwardingNumber.ready ||
         !this._rolesAndPermissions.ready ||
-        (this._callerId && !this._callerId.ready))
+        (this._callerId && !this._callerId.ready) ||
+        !this._extensionDevice.ready)
     );
   }
 
@@ -155,6 +161,7 @@ export default class CallingSettings extends RcModule {
     if (!this._rolesAndPermissions.callingEnabled) return;
     this._myPhoneNumbers = this.myPhoneNumbers;
     this._otherPhoneNumbers = this.otherPhoneNumbers;
+    this._availableNumbers = this.availableNumbers;
     this._ringoutEnabled = this._rolesAndPermissions.ringoutEnabled;
     this._webphoneEnabled = this._rolesAndPermissions.webphoneEnabled;
     if (!this.timestamp) {
@@ -171,6 +178,18 @@ export default class CallingSettings extends RcModule {
       if (typeof this._onFirstLogin === 'function') {
         this._onFirstLogin();
       }
+    }
+    if (
+      this.callWith === deprecatedCallingOptions.myphone ||
+      this.callWith === deprecatedCallingOptions.otherphone ||
+      this.callWith === deprecatedCallingOptions.customphone
+    ) {
+      this.store.dispatch({
+        type: this.actionTypes.setData,
+        callWith: callingOptions.ringout,
+        isCustomLocation:
+          this.callWith === deprecatedCallingOptions.customphone,
+      });
     }
     await this._validateSettings();
     await this._initFromNumber();
@@ -239,7 +258,7 @@ export default class CallingSettings extends RcModule {
     } else if (this._hasPhoneNumberChanged()) {
       this.store.dispatch({
         type: this.actionTypes.setData,
-        callWith: callingOptions.myphone,
+        callWith: callingOptions.ringout,
         myLocation: this._myPhoneNumbers[0],
         timestamp: Date.now(),
       });
@@ -258,21 +277,52 @@ export default class CallingSettings extends RcModule {
   }
 
   _hasPermissionChanged() {
-    return (
-      !this._ringoutEnabled &&
-      (this.callWith === callingOptions.myphone ||
-        this.callWith === callingOptions.otherphone ||
-        this.callWith === callingOptions.customphone)
-    );
+    return !this._ringoutEnabled && this.callWith === callingOptions.ringout;
   }
 
   _hasPhoneNumberChanged() {
     return (
-      (this.callWith === callingOptions.otherphone &&
-        this._otherPhoneNumbers.indexOf(this.myLocation) === -1) ||
-      (this.callWith === callingOptions.myphone &&
-        this._myPhoneNumbers.indexOf(this.myLocation) === -1)
+      this.callWith === callingOptions.ringout &&
+      !this.isCustomLocation &&
+      this._availableNumbers.indexOf(this.myLocation) === -1
     );
+  }
+
+  _getLocationLabel(phoneNumber) {
+    const { devices } = this._extensionDevice;
+    const { flipNumbers } = this._forwardingNumber;
+    const { mainCompanyNumber } = this._extensionPhoneNumber;
+    const { extensionNumber } = this._extensionInfo;
+    const mainPhoneNumber = `${mainCompanyNumber.phoneNumber}*${extensionNumber}`;
+    let name = null;
+    if (devices.length) {
+      let registedWithDevice = false;
+      devices.forEach((device) => {
+        const { phoneLines } = device;
+        if (phoneLines.length) {
+          registedWithDevice = phoneLines.find((phoneLine) => {
+            return phoneLine.phoneInfo.phoneNumber === phoneNumber;
+          });
+          if (registedWithDevice) {
+            name = device.name;
+          }
+        }
+      });
+      if (name) return name;
+    }
+    if (flipNumbers.length) {
+      const isFlipNumber = flipNumbers.find(
+        (flipNumber) => flipNumber.phoneNumber === phoneNumber,
+      );
+      if (isFlipNumber) {
+        return isFlipNumber.label || 'Other';
+      }
+    }
+
+    if (phoneNumber === mainPhoneNumber) {
+      return 'Main';
+    }
+    return 'Other';
   }
 
   @proxify
@@ -321,6 +371,10 @@ export default class CallingSettings extends RcModule {
     return this.data.myLocation;
   }
 
+  get isCustomLocation() {
+    return this.data.isCustomLocation;
+  }
+
   get timestamp() {
     return this.data.timestamp;
   }
@@ -361,11 +415,7 @@ export default class CallingSettings extends RcModule {
 
       callWithOptions.push(callingOptions.softphone);
       if (ringoutEnabled) {
-        callWithOptions.push(callingOptions.myphone);
-        if (hasOtherPhone) {
-          callWithOptions.push(callingOptions.otherphone);
-        }
-        callWithOptions.push(callingOptions.customphone);
+        callWithOptions.push(callingOptions.ringout);
       }
       return callWithOptions;
     },
@@ -411,10 +461,33 @@ export default class CallingSettings extends RcModule {
   availableNumbers = [
     () => this.myPhoneNumbers,
     () => this.otherPhoneNumbers,
-    (myPhoneNumbers, otherPhoneNumbers) => ({
-      [callingOptions.myphone]: myPhoneNumbers,
-      [callingOptions.otherphone]: otherPhoneNumbers,
-    }),
+    (myPhoneNumbers, otherPhoneNumbers) => {
+      const phoneNumbers = myPhoneNumbers.concat(otherPhoneNumbers);
+      return phoneNumbers;
+    },
+  ];
+
+  @selector
+  availableNumbersWithLabel = [
+    () => this.availableNumbers,
+    (availableNumbers) => {
+      const result = [];
+      if (availableNumbers.length) {
+        availableNumbers.forEach((phoneNumber) => {
+          const locationLabel = this._getLocationLabel(phoneNumber);
+          result.push({
+            label: locationLabel,
+            value: phoneNumber,
+          });
+        });
+      }
+      result.sort(
+        (a, b) =>
+          LOCATION_NUMBER_ORDER.indexOf(a.label) -
+          LOCATION_NUMBER_ORDER.indexOf(b.label),
+      );
+      return result;
+    },
   ];
 
   get fromNumber() {
@@ -437,13 +510,17 @@ export default class CallingSettings extends RcModule {
   ];
 
   @proxify
-  async setData({ callWith, myLocation, ringoutPrompt }, withPrompt) {
+  async setData(
+    { callWith, myLocation, ringoutPrompt, isCustomLocation },
+    withPrompt,
+  ) {
     // TODO validate myLocation
     this.store.dispatch({
       type: this.actionTypes.setData,
       callWith,
       myLocation,
       ringoutPrompt,
+      isCustomLocation,
       timestamp: Date.now(),
     });
     if (withPrompt) {

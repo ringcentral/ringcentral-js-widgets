@@ -133,12 +133,7 @@ export default class Ringout extends RcModule {
         .ringOut(ringoutId)
         .get()
         .catch((error) => {
-          if (
-            error &&
-            error.apiResponse &&
-            error.apiResponse._response &&
-            error.apiResponse._response.status === 404
-          ) {
+          if (error && error.response && error.response.status === 404) {
             callStatus = 'Success';
           }
         });

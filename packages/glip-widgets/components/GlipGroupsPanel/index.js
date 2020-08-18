@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import SearchInput from 'ringcentral-widgets/components/SearchInput';
-import SpinnerOverlay from 'ringcentral-widgets/components/SpinnerOverlay';
+import { SpinnerOverlay } from 'ringcentral-widgets/components/SpinnerOverlay';
 import debounce from 'ringcentral-integration/lib/debounce';
 
 import GlipGroupList from '../GlipGroupList';

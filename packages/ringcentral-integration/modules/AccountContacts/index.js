@@ -4,11 +4,11 @@ import RcModule from '../../lib/RcModule';
 import { Module } from '../../lib/di';
 import isBlank from '../../lib/isBlank';
 import ensureExist from '../../lib/ensureExist';
-import { addPhoneToContact, getMatchContacts } from '../../lib/contactHelper';
 import { batchGetApi } from '../../lib/batchApiHelper';
+import { getMatchContacts, getFindContact } from '../../lib/contactHelper';
 import proxify from '../../lib/proxy/proxify';
 import { selector } from '../../lib/selector';
-import actionTypes from './actionTypes';
+import { actionTypes } from './actionTypes';
 import getReducer from './getReducer';
 
 const MaximumBatchGetPresence = 30;
@@ -26,6 +26,7 @@ const DEFAULT_AVATARQUERYINTERVAL = 2 * 1000; // 2 seconds
     'Client',
     { dep: 'CompanyContacts' },
     { dep: 'AccountContactsOptions', optional: true },
+    { dep: 'ExtensionInfo', optional: true },
   ],
 })
 export default class AccountContacts extends RcModule {
@@ -34,6 +35,7 @@ export default class AccountContacts extends RcModule {
    * @param {Object} params - params object
    * @param {Client} params.client - client module instance
    * @param {CompanyContacts} params.companyContacts - companyContacts module instance
+   * @param {ExtensionInfo} params.extensionInfo - current user extension info
    * @param {Number} params.ttl - timestamp of local cache, default 30 mins
    * @param {Number} params.avatarTtl - timestamp of avatar local cache, default 2 hour
    * @param {Number} params.presenceTtl - timestamp of presence local cache, default 10 mins
@@ -43,6 +45,7 @@ export default class AccountContacts extends RcModule {
   constructor({
     client,
     companyContacts,
+    extensionInfo,
     ttl = DEFAULT_TTL,
     avatarTtl = DEFAULT_AVATARTTL,
     presenceTtl = DEFAULT_PRESENCETTL,
@@ -59,6 +62,7 @@ export default class AccountContacts extends RcModule {
       companyContacts,
       'companyContacts',
     );
+    this._extensionInfo = extensionInfo;
     this._ttl = ttl;
     this._avatarTtl = avatarTtl;
     this._presenceTtl = presenceTtl;
@@ -175,10 +179,18 @@ export default class AccountContacts extends RcModule {
 
   // interface of contact source
   matchPhoneNumber(phoneNumber) {
+    const { isMultipleSiteEnabled, site } = this._extensionInfo;
     return getMatchContacts({
-      contacts: this.contacts,
+      contacts: this.contacts.concat(this._companyContacts.ivrContacts),
       phoneNumber,
       entityType: 'rcContact',
+      findContact: getFindContact({
+        phoneNumber,
+        options: {
+          isMultipleSiteEnabled,
+          site,
+        },
+      }),
     });
   }
 
@@ -234,12 +246,14 @@ export default class AccountContacts extends RcModule {
             const ids = join(',', accountExtensionMap[accountId]);
             // extract json data now so the data appears in the same format
             // as single requests
-            return map(
-              (resp) => resp.json(),
-              await batchGetApi({
-                platform: this._client.service.platform(),
-                url: `/account/${accountId}/extension/${ids}/presence`,
-              }),
+            return Promise.all(
+              map(
+                async (resp) => resp.json(),
+                await batchGetApi({
+                  platform: this._client.service.platform(),
+                  url: `/restapi/v1.0/account/${accountId}/extension/${ids}/presence`,
+                }),
+              ),
             );
           }
           // wrap single request response data in array to keep the same

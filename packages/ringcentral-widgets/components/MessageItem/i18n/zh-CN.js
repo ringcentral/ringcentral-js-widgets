@@ -19,7 +19,7 @@ export default {
   pages: "页",
   preview: "查看",
   download: "下载",
-  imageAttachment: "附件：1 个图像"
+  imageAttachment: "附件：{count} 个图像"
 };
 
 // @key: @#@"addLog"@#@ @source: @#@"Log"@#@

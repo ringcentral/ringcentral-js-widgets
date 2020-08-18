@@ -1,3 +1,5 @@
+/* eslint-disable import/no-extraneous-dependencies */
+/* eslint-disable func-names */
 import {
   combineReducers,
   Reducer,
@@ -5,19 +7,18 @@ import {
   Action,
   AnyAction,
 } from 'redux';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import Storage from 'ringcentral-integration/modules/Storage';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import GlobalStorage from 'ringcentral-integration/modules/GlobalStorage';
+import { Analytics } from 'ringcentral-integration/modules/Analytics';
 import BaseModule, { state, action } from '../usm-redux';
 import { moduleStatuses } from '../../enums/moduleStatuses';
-import { Store } from '../usm/core/module';
+import { Store, Params } from '../usm/core/module';
 import { Properties } from '../usm/utils/flatten';
 
 // TODO: `_getProxyState`.
 
-interface Descriptor<T> extends TypedPropertyDescriptor<T> {
-  initializer(): T;
+export interface Descriptor<T> extends TypedPropertyDescriptor<T> {
+  initializer?(): T;
 }
 
 /**
@@ -53,6 +54,44 @@ function storage(
   return descriptor;
 }
 
+type TrackEvent = string | ((...args: any) => [string, object?]);
+
+function track(trackEvent: TrackEvent) {
+  return (target: RcModuleV2, name: string, descriptor?: Descriptor<any>) => {
+    if (
+      typeof descriptor.value !== 'function' &&
+      typeof descriptor.initializer !== 'function'
+    ) {
+      throw new Error(`@track decorated '${name}' is not a method`);
+    }
+    let fn: (...args: any) => any = descriptor.value;
+    const initializer = descriptor.initializer;
+    const trackedFn = function(this: RcModuleV2, ...args: any) {
+      const { analytics } = this.parentModule as RcModuleV2<Properties<any>> & {
+        analytics: Analytics;
+      };
+      if (typeof analytics !== 'undefined') {
+        if (typeof trackEvent === 'string') {
+          analytics.track(trackEvent);
+        } else {
+          const [event, trackProps] = trackEvent(this, ...args);
+          analytics.track(event, trackProps);
+        }
+      }
+      if (typeof initializer === 'function') {
+        fn = initializer.call(this);
+      }
+      return fn.apply(this, args);
+    };
+    // the any type is just to be compatible with babel and tsc.
+    return {
+      enumerable: true,
+      configurable: true,
+      value: trackedFn,
+    } as any;
+  };
+}
+
 interface RcModuleV2 {
   _storageSubKeys: string[];
   _globalStorageSubKeys: string[];
@@ -62,6 +101,13 @@ type ReducersMap = ReducersMapObject<
   any,
   Action & { states: Record<string, any> }
 >;
+
+type Options = {
+  deps?: Record<string, any>;
+  enableCache?: boolean;
+  enableGlobalCache?: boolean;
+  storageKey?: string;
+};
 
 class RcModuleV2<
   T extends { storage?: Storage; globalStorage?: GlobalStorage } & Record<
@@ -89,17 +135,20 @@ class RcModuleV2<
   protected onInitOnce?(): Promise<void> | void;
   protected _once = false;
   public __key__?: string;
+  public __subscriptions__?: (() => void)[];
   public storageKey: string;
   public _modulePath?: string;
   public _initialized = false;
   public _suppressInit?: boolean;
+  protected _deps: T;
 
-  constructor(...args: any[]) {
-    super(...args);
+  constructor(options: Options, ...args: any[]) {
+    super(options as any, ...args);
     this._modulePath = 'root';
+    this._deps = this._modules;
     if (this.enableStorage) {
       // TODO replace new way for `storageKey` definition
-      this.storageKey = args[0].storageKey;
+      this.storageKey = options.storageKey;
       const reducer = combineReducers(
         this._storageSubKeys.reduce((reducerMap: ReducersMap, key) => {
           reducerMap[key] = (
@@ -141,7 +190,7 @@ class RcModuleV2<
       Object.defineProperties(this, properties);
     }
     if (this.enableGlobalStorage) {
-      this.storageKey = args[0].storageKey;
+      this.storageKey = options.storageKey;
       const reducer = combineReducers(
         this._globalStorageSubKeys.reduce((reducerMap: ReducersMap, key) => {
           reducerMap[key] = (
@@ -184,6 +233,19 @@ class RcModuleV2<
     }
   }
 
+  public _handleArgs(params?: any): Params<T> {
+    if (typeof params === 'undefined') {
+      return {
+        modules: {} as T,
+      };
+    }
+    const { deps, ...rest } = params;
+    return {
+      modules: deps,
+      ...rest,
+    };
+  }
+
   get modulePath() {
     return this._modulePath;
   }
@@ -214,9 +276,11 @@ class RcModuleV2<
       (typeof this._modules.storage === 'undefined' ||
         this._modules.storage === null)
     ) {
-      console.error(
-        `Dependent 'Storage' module was not imported in the ${this.__key__} module.`,
-      );
+      if (process.env.NODE_ENV === 'development') {
+        console.error(
+          `Dependent 'Storage' module was not imported in the ${this.__key__} module.`,
+        );
+      }
     }
     return (
       this.enableCache &&
@@ -236,9 +300,11 @@ class RcModuleV2<
       (typeof this._modules.globalStorage === 'undefined' ||
         this._modules.globalStorage === null)
     ) {
-      console.error(
-        `Dependent 'GlobalStorage' module was not imported in the module.`,
-      );
+      if (process.env.NODE_ENV === 'development') {
+        console.error(
+          `Dependent 'GlobalStorage' module was not imported in the module.`,
+        );
+      }
     }
     return (
       this.enableGlobalCache &&
@@ -355,35 +421,42 @@ class RcModuleV2<
         this.__resetSuccessModule__();
       }
     });
+    if (Array.isArray(this.__subscriptions__)) {
+      this.__subscriptions__.forEach((subscribe) => subscribe());
+    }
+  }
+
+  protected _onStateChange(): void {}
+
+  get noReadyModulesLength() {
+    const modules = Object.values(this._modules || {}).filter(
+      // In order to be compatible with RcModuleV1
+      (module: any) => module && typeof module.ready !== 'undefined',
+    );
+    return modules.filter((module: any) => !module.ready).length;
   }
 
   _shouldInit() {
-    const modules = this._modules || {};
-    const areAllReady =
-      modules &&
-      Object.values(modules).filter((module: any) => module && !module.ready)
-        .length === 0;
+    const areAllReady = this.noReadyModulesLength === 0;
     return areAllReady && this.pending;
   }
 
   _shouldReset() {
-    const modules = this._modules || {};
-    const areNotReady =
-      modules &&
-      Object.values(modules).filter((module: any) => module && !module.ready)
-        .length > 0;
+    const areNotReady = this.noReadyModulesLength > 0;
     return areNotReady && this.ready;
   }
 
   get _store() {
-    return this.parentModule.store;
+    return this.parentModule?.store;
   }
 
   protected _setStore(store: Store) {
     // Compatibility about Factory ModuleV1 and ModuleV2
-    this.parentModule = {
-      store,
-    } as RcModuleV2;
+    if (typeof this.parentModule === 'undefined') {
+      this.parentModule = {
+        store,
+      } as RcModuleV2;
+    }
   }
 
   get reducer() {
@@ -445,4 +518,4 @@ class RcModuleV2<
   }
 }
 
-export { RcModuleV2, globalStorage, storage, state, action };
+export { RcModuleV2, globalStorage, storage, state, action, track };

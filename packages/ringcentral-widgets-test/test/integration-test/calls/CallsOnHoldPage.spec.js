@@ -13,7 +13,7 @@ import NavigationBar from 'ringcentral-widgets/components/NavigationBar';
 import { mockConferenceCallEnv } from '../CallCtrlPage/helper.js';
 import { makeCall } from '../../support/callHelper';
 import { mockMultiOutboundCalls } from './helper';
-import { initPhoneWrapper } from '../shared';
+import { initPhoneWrapper, tearDownWrapper } from '../shared';
 
 let panel = null;
 const SESSIONS_COUNT = 4;
@@ -108,6 +108,7 @@ describe('When user records the outbound call, user can not merge this call into
         }),
       ]),
     );
+    await tearDownWrapper(wrapper);
   });
   test('An conference call tried to merge a recorded outbound call, it will failed to merge and prompt', async () => {
     const { wrapper, phone } = await initPhoneWrapper();
@@ -162,6 +163,7 @@ describe('When user records the outbound call, user can not merge this call into
         }),
       ]),
     );
+    await tearDownWrapper(wrapper);
   });
 });
 
@@ -174,6 +176,7 @@ describe('RCI-121011 Merge call when multiple on hold outbound WebRTC calls', ()
     panel = wrapper.find(ActiveCallsPanel).first();
     expect(panel).toBeDefined();
     expect(panel.find(ActiveCallItem)).toHaveLength(SESSIONS_COUNT);
+    await tearDownWrapper(wrapper);
     done();
   });
 
@@ -213,6 +216,7 @@ describe('RCI-121011 Merge call when multiple on hold outbound WebRTC calls', ()
     expect(activeCallItem).toBeDefined();
     expect(activeCallItemProps).toBeDefined();
     expect(activeCallItemProps.showMergeCall).toEqual(true);
+    await tearDownWrapper(wrapper);
     done();
   });
 
@@ -241,6 +245,7 @@ describe('RCI-121011 Merge call when multiple on hold outbound WebRTC calls', ()
     ).toEqual(0);
     panel = wrapper.find(DialerPanel).at(0);
     expect(panel).toBeDefined();
+    await tearDownWrapper(wrapper);
     done();
   });
 
@@ -281,6 +286,7 @@ describe('RCI-121011 Merge call when multiple on hold outbound WebRTC calls', ()
     for (const step of steps) {
       await step();
     }
+    await tearDownWrapper(wrapper);
     done();
   });
 
@@ -310,6 +316,7 @@ describe('RCI-121011 Merge call when multiple on hold outbound WebRTC calls', ()
       ),
     ).toEqual(0);
     expect(phone.webphone.sessions.length).toEqual(SESSIONS_COUNT - 1);
+    await tearDownWrapper(wrapper);
     done();
   });
 
@@ -338,6 +345,7 @@ describe('RCI-121011 Merge call when multiple on hold outbound WebRTC calls', ()
     ).toEqual(0);
     panel = wrapper.find(ActiveCallPanel).first();
     expect(panel).toBeDefined();
+    await tearDownWrapper(wrapper);
     done();
   });
 });

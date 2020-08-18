@@ -376,7 +376,7 @@ describe('ConnectivityMonitor', () => {
       instance._requestErrorHandler(new Error());
       sinon.assert.calledOnce(instance._retry);
     });
-    it(`should call _retry if apiResponse is a fetch error
+    it(`should call _retry if response is a fetch error
     and this.conectvity === false`, () => {
       const instance = new ConnectivityMonitor({
         client: {},
@@ -394,7 +394,7 @@ describe('ConnectivityMonitor', () => {
       sinon.assert.calledOnce(instance._retry);
     });
     it(`should dispatch connectFail
-    if apiResponse is a fetch error
+    if response is a fetch error
     and this.conectvity === true`, () => {
       const instance = new ConnectivityMonitor({
         client: {},

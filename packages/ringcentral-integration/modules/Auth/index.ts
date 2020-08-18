@@ -43,6 +43,7 @@ export default class Auth extends RcModule {
   _lastEnvironmentCounter: number;
   _proxyUri: any;
   _redirectUri: string;
+  protected _usePKCE: boolean;
 
   /**
    * @constructor
@@ -64,6 +65,7 @@ export default class Auth extends RcModule {
     locale,
     tabManager,
     environment,
+    usePKCE = false,
     ...options
   }: any = {}) {
     super({
@@ -77,6 +79,7 @@ export default class Auth extends RcModule {
     this._tabManager = tabManager;
     this._environment = environment;
     this._reducer = getAuthReducer(this.actionTypes);
+    this._usePKCE = usePKCE;
     this._beforeLogoutHandlers = new Set();
     this._afterLoggedInHandlers = new Set();
     this._proxyFrame = null;
@@ -90,11 +93,8 @@ export default class Auth extends RcModule {
 
     const platform = this._client.service.platform();
     const client = this._client.service._client;
-    const onRequestError = (apiResponse) => {
-      if (
-        apiResponse instanceof Error &&
-        apiResponse.message === 'Token revoked'
-      ) {
+    const onRequestError = (error) => {
+      if (error instanceof Error && error.message === 'Token revoked') {
         this.logout();
       }
     };
@@ -102,7 +102,7 @@ export default class Auth extends RcModule {
     const onLoginSuccess = async () => {
       this.store.dispatch({
         type: this.actionTypes.loginSuccess,
-        token: platform.auth().data(),
+        token: await platform.auth().data(),
       });
       const handlers = [...this._afterLoggedInHandlers];
       for (const handler of handlers) {
@@ -133,30 +133,30 @@ export default class Auth extends RcModule {
         });
       }
     };
-    const onRefreshSuccess = () => {
+    const onRefreshSuccess = async () => {
       this.store.dispatch({
         type: this.actionTypes.refreshSuccess,
-        token: platform.auth().data(),
+        token: await platform.auth().data(),
       });
     };
-    const onRefreshError = (error) => {
+    const onRefreshError = async (error) => {
       // user is still considered logged in if the refreshToken is still valid
       const isOffline = validateIsOffline(error.message);
 
-      const res_status =
-        (error.apiResponse &&
-          error.apiResponse._response &&
-          error.apiResponse._response.status) ||
-        null;
+      const resStatus = (error.response && error.response.status) || null;
       const refreshTokenValid =
-        (isOffline || res_status >= 500) && platform.auth().refreshTokenValid();
+        (isOffline || resStatus >= 500) &&
+        (await platform.auth().refreshTokenValid());
       this.store.dispatch({
         type: this.actionTypes.refreshError,
         error,
         refreshTokenValid,
       });
 
-      if (!refreshTokenValid && platform.auth().data().access_token !== '') {
+      if (
+        !refreshTokenValid &&
+        (await platform.auth().data()).access_token !== ''
+      ) {
         this._alert.danger({
           message: authMessages.sessionExpired,
           payload: error,
@@ -202,7 +202,7 @@ export default class Auth extends RcModule {
         this.store.dispatch({
           type: this.actionTypes.initSuccess,
           loggedIn,
-          token: loggedIn ? platform.auth().data() : null,
+          token: loggedIn ? await platform.auth().data() : null,
         });
       }
       if (this._tabManager && this._tabManager.ready && this.ready) {
@@ -223,10 +223,10 @@ export default class Auth extends RcModule {
             type: this.actionTypes.tabSync,
             loggedIn,
             token: loggedIn
-              ? this._client.service
+              ? (await this._client.service
                   .platform()
                   .auth()
-                  .data()
+                  .data())
               : null,
           });
         }
@@ -312,7 +312,7 @@ export default class Auth extends RcModule {
     });
     let ownerId;
     if (accessToken) {
-      this._client.service
+      await this._client.service
         .platform()
         .auth()
         .setData({
@@ -327,6 +327,10 @@ export default class Auth extends RcModule {
         .extension()
         .get();
       ownerId = extensionData.id;
+    }
+    // TODO: support to set redirectUri in js sdk v4 login function
+    if (!this._client.service.platform()._redirectUri) {
+      this._client.service.platform()._redirectUri = redirectUri;
     }
     return this._client.service.platform().login({
       username,
@@ -361,6 +365,10 @@ export default class Auth extends RcModule {
     force,
     implicit = false,
   }) {
+    // TODO: support to set redirectUri in js sdk v4 login function
+    if (!this._client.service.platform()._redirectUri) {
+      this._client.service.platform()._redirectUri = redirectUri;
+    }
     return `${this._client.service.platform().loginUrl({
       redirectUri,
       state,
@@ -368,6 +376,7 @@ export default class Auth extends RcModule {
       display,
       prompt,
       implicit,
+      usePKCE: this.usePKCE,
     })}${force ? '&force' : ''}`;
   }
 
@@ -501,8 +510,13 @@ export default class Auth extends RcModule {
 
   get isImplicit() {
     return !(
-      this._client.service.platform()._appSecret &&
-      this._client.service.platform()._appSecret.length > 0
+      this.usePKCE ||
+      (this._client.service.platform()._clientSecret &&
+        this._client.service.platform()._clientSecret.length > 0)
     );
+  }
+
+  get usePKCE() {
+    return this._usePKCE;
   }
 }

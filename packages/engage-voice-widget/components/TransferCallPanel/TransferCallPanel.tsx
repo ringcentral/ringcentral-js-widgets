@@ -1,7 +1,7 @@
 import {
   RcButton,
   RcCheckbox,
-  RcIcon,
+  RcIconButton,
   RcSnackbarAction,
   RcTextField,
 } from '@ringcentral-integration/rcui';
@@ -67,7 +67,12 @@ const TransferCallPanel: FunctionComponent<TransferCallPanelProps> = ({
   const endAdornment = useCallback(
     (disabled) =>
       selectedTransferType === 'manualEntry' ? (
-        <RcIcon size="medium" color={['primary', 'main']} symbol={dialerSvg} />
+        <RcIconButton
+          size="medium"
+          color={['primary', 'main'] as any}
+          variant="plain"
+          symbol={dialerSvg}
+        />
       ) : (
         <CustomArrowButton disabled={disabled} />
       ),

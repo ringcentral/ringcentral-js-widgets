@@ -6,7 +6,7 @@ import { createSelector } from 'reselect';
 import withPhone from '../../lib/withPhone';
 import hasActiveCalls from '../../lib/hasActiveCalls';
 import TabContentPanel from '../../components/TabContentPanel';
-import SpinnerOverlay from '../../components/SpinnerOverlay';
+import { SpinnerOverlay } from '../../components/SpinnerOverlay';
 import i18n from './i18n';
 import styles from './styles.scss';
 

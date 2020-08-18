@@ -8,6 +8,9 @@ export const tabManagerEvents = ObjectMap.prefixKeys(
     'SET_CONFIG_TAB_ID',
     'AGENT_CONFIG_SUCCESS',
     'RESET_WORKING_STATE',
+    'UPDATE_SESSION',
+    'UPDATE_SESSION_SUCCESS',
+    'UPDATE_SESSION_SUCCESS_ALERT',
     // WebRTC related
     'ASK_AUDIO_PERMISSION',
     'SET_WEB_RTC_TAB_ID',

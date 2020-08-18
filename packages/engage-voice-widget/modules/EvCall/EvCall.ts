@@ -1,10 +1,10 @@
 import {
   action,
-  createSelector,
-  RcModuleState,
+  computed,
   RcModuleV2,
   state,
   storage,
+  track,
 } from '@ringcentral-integration/core';
 import { Module } from 'ringcentral-integration/lib/di';
 import callErrors from 'ringcentral-integration/modules/Call/callErrors';
@@ -15,10 +15,14 @@ import {
   DialoutStatusesType,
 } from '../../enums/dialoutStatus';
 import { checkCountryCode } from '../../lib/checkCountryCode';
-import { EvOffhookInitResponse } from '../../lib/EvClient';
+import {
+  EvClientManualOutdialParams,
+  EvOffhookInitResponse,
+} from '../../lib/EvClient';
 import { EvCallbackTypes } from '../../lib/EvClient/enums/callbackTypes';
 import { parseNumber } from '../../lib/parseNumber';
-import { Call, DepsModules, State } from './EvCall.interface';
+import { trackEvents } from '../../lib/trackEvents';
+import { Call, Deps, State } from './EvCall.interface';
 
 const DEFAULT_OUTBOUND_SETTING = {
   dialoutCallerId: '-1',
@@ -26,8 +30,6 @@ const DEFAULT_OUTBOUND_SETTING = {
   dialoutCountryId: 'USA',
   dialoutRingTime: 30,
 };
-
-type EvCallState = RcModuleState<EvCall, State>;
 
 @Module({
   name: 'EvCall',
@@ -40,13 +42,13 @@ type EvCallState = RcModuleState<EvCall, State>;
     'EvSettings',
     'EvCallMonitor',
     'EvSubscription',
-    'EvSessionConfig',
+    'EvAgentSession',
     'EvIntegratedSoftphone',
     { dep: 'TabManager', optional: true },
     { dep: 'EvCallOptions', optional: true },
   ],
 })
-class EvCall extends RcModuleV2<DepsModules, EvCallState> implements Call {
+class EvCall extends RcModuleV2<Deps> implements Call {
   /** this id is get from route, set from EvActivityCallUI */
   activityCallId: string;
 
@@ -55,35 +57,10 @@ class EvCall extends RcModuleV2<DepsModules, EvCallState> implements Call {
     max: 120,
   };
 
-  constructor({
-    alert,
-    evAuth,
-    storage,
-    evClient,
-    presence,
-    evSettings,
-    tabManager,
-    evCallMonitor,
-    evSubscription,
-    evSessionConfig,
-    evIntegratedSoftphone,
-    enableCache = true,
-  }) {
+  constructor(deps: Deps) {
     super({
-      modules: {
-        alert,
-        evAuth,
-        storage,
-        evClient,
-        presence,
-        evSettings,
-        tabManager,
-        evCallMonitor,
-        evSubscription,
-        evSessionConfig,
-        evIntegratedSoftphone,
-      },
-      enableCache,
+      deps,
+      enableCache: true,
       storageKey: 'EvCall',
     });
   }
@@ -125,21 +102,21 @@ class EvCall extends RcModuleV2<DepsModules, EvCallState> implements Call {
   }
 
   get dialoutStatus() {
-    return this._modules.presence.dialoutStatus;
+    return this._deps.presence.dialoutStatus;
   }
 
   private get _isTabActive() {
-    return !this._modules.tabManager || this._modules.tabManager.active;
+    return !this._deps.tabManager || this._deps.tabManager.active;
   }
 
-  getCurrentCall = createSelector(
-    () => this.activityCallId,
-    () => this._modules.evCallMonitor.getCallsMapping(),
-    (id, callsMapping) => {
-      const call = callsMapping[id];
-      return id && call ? call : null;
-    },
-  );
+  @computed((that: EvCall) => [
+    that.activityCallId,
+    that._deps.evCallMonitor.callsMapping,
+  ])
+  get currentCall() {
+    const call = this._deps.evCallMonitor.callsMapping[this.activityCallId];
+    return this.activityCallId && call ? call : null;
+  }
 
   @action
   setFormGroup(data: Partial<State['formGroup']>) {
@@ -161,7 +138,7 @@ class EvCall extends RcModuleV2<DepsModules, EvCallState> implements Call {
     this.dialoutCountryId = DEFAULT_OUTBOUND_SETTING.dialoutCountryId;
     this.dialoutRingTime = DEFAULT_OUTBOUND_SETTING.dialoutRingTime;
     const defaultRingtime = parseInt(
-      this._modules.evAuth.outboundManualDefaultRingtime,
+      this._deps.evAuth.outboundManualDefaultRingtime,
       10,
     );
     if (!Number.isNaN(defaultRingtime)) {
@@ -180,39 +157,44 @@ class EvCall extends RcModuleV2<DepsModules, EvCallState> implements Call {
   }
 
   onInitOnce() {
-    this._modules.evSubscription.subscribe(
+    this._deps.evCallMonitor.onCallEnded(() => {
+      this.setDialoutStatus(dialoutStatuses.idle);
+    });
+
+    this._deps.evSubscription.subscribe(
       EvCallbackTypes.TCPA_SAFE_LEAD_STATE,
       (data) => {
         if (data.leadState === 'BUSY') {
           // TCPA_SAFE_LEAD_STATE -> BUSY
           // TODO alert message info about busy call.
-          if (!this._modules.evSettings.isManualOffhook && this._isTabActive) {
-            this._modules.evClient.offhookTerm();
+          if (!this._deps.evSettings.isManualOffhook && this._isTabActive) {
+            this._deps.evClient.offhookTerm();
           }
           this.setPhonedIdle();
         }
       },
     );
 
-    this._modules.evSubscription.subscribe(EvCallbackTypes.OFFHOOK_TERM, () => {
+    this._deps.evSubscription.subscribe(EvCallbackTypes.OFFHOOK_TERM, () => {
       this.setPhonedIdle();
     });
   }
 
   onInit() {
-    if (this._modules.evAuth.isFreshLogin) {
+    if (this._deps.evAuth.isFreshLogin) {
       this.resetOutBoundDialSetting();
     }
   }
 
+  @track(trackEvents.outbound)
   async dialout(phoneNumber: string) {
-    if (this._modules.evSessionConfig.isIntegratedSoftphone) {
-      const integratedSoftphone = this._modules.evIntegratedSoftphone;
+    if (this._deps.evAgentSession.isIntegratedSoftphone) {
+      const integratedSoftphone = this._deps.evIntegratedSoftphone;
       try {
         if (integratedSoftphone.isWebRTCTabAlive) {
           await integratedSoftphone.askAudioPermission(false);
         } else {
-          await this._modules.evSessionConfig.configureAgent();
+          await this._deps.evAgentSession.configureAgent();
           await integratedSoftphone.onceRegistered();
         }
       } catch (error) {
@@ -220,11 +202,11 @@ class EvCall extends RcModuleV2<DepsModules, EvCallState> implements Call {
       }
     }
 
-    const toNumber = this._checkAndParseNumber(phoneNumber);
+    const destination = this._checkAndParseNumber(phoneNumber);
 
-    if (toNumber) {
+    if (destination) {
       await this._manualOutdial({
-        toNumber,
+        destination,
         callerId: this.callerId,
         countryId: this.countryId,
         queueId: this.queueId,
@@ -246,7 +228,7 @@ class EvCall extends RcModuleV2<DepsModules, EvCallState> implements Call {
   }
 
   setDialoutStatus(status: DialoutStatusesType) {
-    this._modules.presence.setDialoutStatus(status);
+    this._deps.presence.setDialoutStatus(status);
   }
 
   setPhonedIdle() {
@@ -267,13 +249,13 @@ class EvCall extends RcModuleV2<DepsModules, EvCallState> implements Call {
 
       switch (error.type) {
         case messageTypes.NO_SUPPORT_COUNTRY:
-          this._modules.alert.danger({
+          this._deps.alert.danger({
             message: messageTypes.NO_SUPPORT_COUNTRY,
             ttl: 0,
           });
           return null;
         default:
-          this._modules.alert.danger({
+          this._deps.alert.danger({
             message: callErrors.noToNumber,
           });
           return null;
@@ -283,33 +265,33 @@ class EvCall extends RcModuleV2<DepsModules, EvCallState> implements Call {
 
   private async _manualOutdial({
     callerId = '',
-    toNumber,
+    destination,
     ringTime = DEFAULT_OUTBOUND_SETTING.dialoutRingTime,
     queueId = '',
     countryId = 'USA',
-  }) {
+  }: EvClientManualOutdialParams) {
     let offhookInitResult: EvOffhookInitResponse;
     if (this.dialoutStatus !== dialoutStatuses.dialing) {
       this.setPhonedDialing();
     }
 
     try {
-      if (!this._modules.evSettings.isOffhook) {
+      if (!this._deps.evSettings.isOffhook) {
         // bind init hook first, and then call offhookInit
         const getOffhookInitResult = this._getOffhookInitResult();
-        this._modules.evClient.offhookInit();
+        this._deps.evClient.offhookInit();
 
         offhookInitResult = await getOffhookInitResult;
       }
 
       if (
-        this._modules.evSettings.isOffhook ||
+        this._deps.evSettings.isOffhook ||
         (offhookInitResult && offhookInitResult.status === 'OK')
       ) {
-        await this._modules.evClient.manualOutdial({
+        await this._deps.evClient.manualOutdial({
           callerId,
           countryId,
-          destination: toNumber,
+          destination,
           queueId,
           ringTime,
         });
@@ -317,8 +299,8 @@ class EvCall extends RcModuleV2<DepsModules, EvCallState> implements Call {
         throw new Error(`'offhookInit' exception error`);
       }
     } catch (e) {
-      if (!this._modules.evSettings.isManualOffhook) {
-        this._modules.evClient.offhookTerm();
+      if (!this._deps.evSettings.isManualOffhook) {
+        this._deps.evClient.offhookTerm();
       }
 
       this.setPhonedIdle();
@@ -328,7 +310,7 @@ class EvCall extends RcModuleV2<DepsModules, EvCallState> implements Call {
 
   private _getOffhookInitResult() {
     return new Promise<EvOffhookInitResponse>((resolve, reject) => {
-      this._modules.presence.evPresenceEvents.once(
+      this._deps.presence.evPresenceEvents.once(
         EvCallbackTypes.OFFHOOK_INIT,
         (data: EvOffhookInitResponse) => {
           if (data.status === 'OK') {
@@ -342,7 +324,7 @@ class EvCall extends RcModuleV2<DepsModules, EvCallState> implements Call {
   }
 
   get isInbound() {
-    return this.getCurrentCall()?.callType === 'INBOUND';
+    return this.currentCall?.callType === 'INBOUND';
   }
 }
 

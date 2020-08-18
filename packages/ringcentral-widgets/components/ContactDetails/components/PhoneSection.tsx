@@ -45,6 +45,7 @@ interface PhoneListItemProps extends formatNumber, onClickToDial, onClickToSMS {
   isClickToDialEnabled: boolean;
   isCallButtonDisabled: boolean;
   isClickToTextEnabled: boolean;
+  isMultipleSiteEnabled: boolean;
   outboundSmsPermission: boolean;
   phoneNumber: string;
   rawPhoneNumber: string;
@@ -60,6 +61,7 @@ const PhoneListItem: FunctionComponent<PhoneListItemProps> = ({
   isClickToDialEnabled,
   isCallButtonDisabled,
   isClickToTextEnabled,
+  isMultipleSiteEnabled,
   onClickToDial,
   onClickToSMS,
   outboundSmsPermission,
@@ -67,10 +69,13 @@ const PhoneListItem: FunctionComponent<PhoneListItemProps> = ({
   rawPhoneNumber,
   phoneType,
 }) => {
-  const formattedNumber = rawPhoneNumber || formatNumber(phoneNumber);
-  const showCallButton = !(
-    !isClickToDialEnabled || phoneType === phoneTypes.fax
-  );
+  const formattedNumber = formatNumber(phoneNumber);
+  // User will see, for example: (650) 123-4567
+  const displayedPhoneNumber = rawPhoneNumber || formattedNumber;
+  // User will use, for example: +16501234567
+  // In multi-site feature, "user will see" and "user will use" are the same
+  const usedPhoneNumber = isMultipleSiteEnabled ? formattedNumber : phoneNumber;
+  const showCallButton = isClickToDialEnabled && phoneType !== phoneTypes.fax;
   const showTextButton = !(
     !isClickToTextEnabled ||
     phoneType === phoneTypes.fax ||
@@ -80,8 +85,8 @@ const PhoneListItem: FunctionComponent<PhoneListItemProps> = ({
   return (
     <li>
       <div className={classnames(styles.text, styles.number)}>
-        <span data-sign="contactNumber" title={phoneNumber}>
-          {formattedNumber}
+        <span data-sign="contactNumber" title={usedPhoneNumber}>
+          {displayedPhoneNumber}
         </span>
       </div>
       <div className={styles.menu}>
@@ -89,9 +94,12 @@ const PhoneListItem: FunctionComponent<PhoneListItemProps> = ({
           <button
             type="button"
             className={classnames(isCallButtonDisabled && styles.disabled)}
-            title={`${i18n.getString('call', currentLocale)} ${phoneNumber}`}
+            title={`${i18n.getString(
+              'call',
+              currentLocale,
+            )} ${usedPhoneNumber}`}
             disabled={isCallButtonDisabled}
-            onClick={() => onClickToDial(contact, phoneNumber)}
+            onClick={() => onClickToDial(contact, usedPhoneNumber)}
           >
             <i className={dynamicsFont.call} />
           </button>
@@ -100,9 +108,12 @@ const PhoneListItem: FunctionComponent<PhoneListItemProps> = ({
           <button
             type="button"
             className={classnames(disableLinks && styles.disabled)}
-            title={`${i18n.getString('text', currentLocale)} ${phoneNumber}`}
+            title={`${i18n.getString(
+              'text',
+              currentLocale,
+            )} ${usedPhoneNumber}`}
             disabled={disableLinks}
-            onClick={() => onClickToSMS(contact, phoneNumber)}
+            onClick={() => onClickToSMS(contact, usedPhoneNumber)}
           >
             <i className={dynamicsFont.composeText} />
           </button>
@@ -122,6 +133,7 @@ export interface PhoneSectionProps
   isClickToDialEnabled: boolean;
   isCallButtonDisabled: boolean;
   isClickToTextEnabled: boolean;
+  isMultipleSiteEnabled: boolean;
   internalSmsPermission: boolean;
   outboundSmsPermission: boolean;
 }
@@ -133,6 +145,7 @@ export const PhoneSection: FunctionComponent<PhoneSectionProps> = ({
   isClickToDialEnabled,
   isCallButtonDisabled,
   isClickToTextEnabled,
+  isMultipleSiteEnabled,
   formatNumber,
   internalSmsPermission,
   onClickToDial,
@@ -159,7 +172,10 @@ export const PhoneSection: FunctionComponent<PhoneSectionProps> = ({
       sortedPhoneNumbers,
     ).map;
     return (
-      <div className={classnames(styles.section, styles.contacts)}>
+      <section
+        className={classnames(styles.section, styles.contacts)}
+        aria-label="phone"
+      >
         {map(
           (phoneType) => (
             <PhoneList
@@ -179,6 +195,7 @@ export const PhoneSection: FunctionComponent<PhoneSectionProps> = ({
                     isClickToDialEnabled={isClickToDialEnabled}
                     isCallButtonDisabled={isCallButtonDisabled}
                     isClickToTextEnabled={isClickToTextEnabled}
+                    isMultipleSiteEnabled={isMultipleSiteEnabled}
                     disableLinks={disableLinks}
                     internalSmsPermission={internalSmsPermission}
                     onClickToDial={onClickToDial}
@@ -192,7 +209,7 @@ export const PhoneSection: FunctionComponent<PhoneSectionProps> = ({
           ),
           keys(phoneMap),
         )}
-      </div>
+      </section>
     );
   }
   return null;

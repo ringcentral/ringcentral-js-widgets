@@ -12,7 +12,7 @@ import status from './status';
 const glipPostsRegExp = /glip\/posts$/;
 const glipGroupRegExp = /glip\/groups$/;
 
-const subscriptionFilter = '/glip/posts';
+const subscriptionFilter = '/restapi/v1.0/glip/posts';
 
 const DEFAULT_LOAD_TTL = 30 * 60 * 1000;
 
@@ -287,7 +287,7 @@ export default class GlipPosts extends RcModule {
       const platform = this._client.service.platform();
       const body = rawFile;
       const response = await platform.post(
-        '/glip/files',
+        '/restapi/v1.0/glip/files',
         body,
         { groupId, name: fileName },
         {

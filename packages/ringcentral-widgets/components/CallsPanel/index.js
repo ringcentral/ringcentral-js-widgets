@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import debounce from 'ringcentral-integration/lib/debounce';
 import { Header } from '../Header';
 import Panel from '../Panel';
-import SpinnerOverlay from '../SpinnerOverlay';
+import { SpinnerOverlay } from '../SpinnerOverlay';
 import CallList from '../CallList';
 import CallListV2 from '../CallListV2';
 

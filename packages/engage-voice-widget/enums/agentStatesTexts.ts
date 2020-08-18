@@ -1,4 +1,4 @@
-export const defaultAgentStatesTexts = {
+export const defaultAgentStateTexts = {
   WORKING: 'Working',
   AVAILABLE: 'Available',
   AWAY: 'Away',
@@ -7,4 +7,6 @@ export const defaultAgentStatesTexts = {
   'AUX-UNAVAIL-OFFHOOK': 'Allow Offhook',
   'AUX-UNAVAIL-NO-OFFHOOK': 'Disconnect Offhook',
   TRAINING: 'Training',
-};
+} as const;
+
+export type DefaultAgentStateTexts = keyof typeof defaultAgentStateTexts;

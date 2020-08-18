@@ -4,7 +4,7 @@ export interface State {
   //
 }
 
-export interface DepsModules {
+export interface Deps {
   evClient: EvClient;
 }
 

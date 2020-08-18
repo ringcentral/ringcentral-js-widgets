@@ -202,9 +202,10 @@ export default class Call extends RcModule {
 Let's go through some demo code to see how modules are used.
 
 ```javascript
-import SDK from 'ringcentral';
-import RingCentralClient from 'ringcentral-client';
+import { SDK } from '@ringcentral/sdk';
 import { combineReducers, createStore } from 'redux';
+import { RingCentralClient } from '../../../lib/RingCentralClient';
+
 import RcModule  from '../src/lib/RcModule';
 
 import Alert from '../src/modules/Alert';

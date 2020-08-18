@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 
-import SpinnerOverlay from '../SpinnerOverlay';
+import { SpinnerOverlay } from '../SpinnerOverlay';
 import ConversationMessageList from '../ConversationMessageList';
 import LogButton from '../LogButton';
 import ContactDisplay from '../ContactDisplay';
@@ -65,7 +65,7 @@ class ConversationPanel extends Component {
   }
 
   onSend = () => {
-    this.props.replyToReceivers(this.props.messageText);
+    this.props.replyToReceivers(this.props.messageText, this.props.attachments);
   };
 
   onInputHeightChange = (value) => {
@@ -278,6 +278,10 @@ class ConversationPanel extends Component {
           onSend={this.onSend}
           onHeightChange={this.onInputHeightChange}
           inputExpandable={this.props.inputExpandable}
+          attachments={this.props.attachments}
+          supportAttachment={this.props.supportAttachment}
+          addAttachment={this.props.addAttachment}
+          removeAttachment={this.props.removeAttachment}
         />
       </div>
     );
@@ -325,6 +329,15 @@ ConversationPanel.propTypes = {
   renderExtraButton: PropTypes.func,
   loadingNextPage: PropTypes.bool,
   inputExpandable: PropTypes.bool,
+  attachments: PropTypes.arrayOf(
+    PropTypes.shape({
+      size: PropTypes.number,
+      name: PropTypes.string,
+    }),
+  ),
+  supportAttachment: PropTypes.bool,
+  addAttachment: PropTypes.func,
+  removeAttachment: PropTypes.func,
 };
 ConversationPanel.defaultProps = {
   disableLinks: false,
@@ -344,6 +357,10 @@ ConversationPanel.defaultProps = {
   renderExtraButton: undefined,
   loadingNextPage: false,
   inputExpandable: undefined,
+  attachments: [],
+  supportAttachment: false,
+  addAttachment: () => null,
+  removeAttachment: () => null,
 };
 
 export default ConversationPanel;

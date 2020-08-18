@@ -3,16 +3,7 @@
 //   RcTimePickerSize,
 // } from '@ringcentral-integration/rcui';
 import { RcVMeetingModel } from 'ringcentral-integration/models/rcv.model';
-
-export interface RcMMeetingModel {
-  name: string;
-  startTime: Date;
-  duration: number;
-  allowJoinBeforeHost: boolean;
-  muteAudio: boolean;
-  muteVideo: boolean;
-  saveAsDefault: boolean;
-}
+import { RcMMeetingModel } from 'ringcentral-integration/modules/Meeting';
 
 export interface ScheduleButtonProps {
   currentLocale: string;
@@ -77,6 +68,7 @@ export interface GenericMeetingPanelProps
   CustomPanel?: React.ReactNode;
   brandName: string;
   personalMeetingId?: string;
+  switchUsePersonalMeetingId?: (usePersonalMeetingId: boolean) => void;
 }
 
 export interface GenericMeetingPanelState {}

@@ -3,7 +3,8 @@ export default {
   when: 'When',
   duration: 'Duration',
   recurringMeeting: 'Recurring Meeting',
-  recurringDescribe: 'Please remember to check recurrence or repeat in your calendar invitation to your attendees.',
+  recurringDescribe:
+    'Please remember to check recurrence or repeat in your calendar invitation to your attendees.',
   video: 'Video',
   videoDescribe: 'When joining a meeting',
   host: 'Host video on',
@@ -22,4 +23,11 @@ export default {
   recurrenceType: 'Recurrence Type',
   recurrenceEndDate: 'End Date',
   currentLocale: 'Day(s)',
+  meetingId: 'Meeting ID',
+  generateAutomatically: 'Generate Automatically',
+  usePmi: 'Personal Meeting ID (PMI): {meetingId}',
+  pmiChangeConfirm: 'If you want to make changes for your personal meeting, ',
+  changePmiSettings: 'change PMI settings',
+  pmiSettingChangeAlert:
+    'If you change the settings and schedule this meeting, all of meetings with Personal Meeting ID will use the same latest settings.',
 };

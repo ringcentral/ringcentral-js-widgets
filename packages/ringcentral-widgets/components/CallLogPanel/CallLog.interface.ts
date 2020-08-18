@@ -41,6 +41,7 @@ export interface Call {
 
   partyId: string;
   offset: number;
+  webphoneSession?: object;
 }
 
 export interface SfEntity {

@@ -7,7 +7,7 @@ import fetchList from '../../lib/fetchList';
 import ensureExist from '../../lib/ensureExist';
 import { selector } from '../../lib/selector';
 
-import actionTypes from './actionTypes';
+import { actionTypes } from './actionTypes';
 import {
   getDataReducer,
   getTimestampReducer,
@@ -17,6 +17,7 @@ import {
 } from './getReducers';
 import subscriptionFilters from '../../enums/subscriptionFilters';
 import extensionTypes from '../../enums/extensionTypes';
+import phoneTypes from '../../enums/phoneTypes';
 import { extensionStatusTypes } from '../../enums/extensionStatusTypes';
 
 const contactsRegExp = /.*\/directory\/contacts$/;
@@ -178,6 +179,7 @@ export default class CompanyContacts extends DataFetcher {
   }
 
   /**
+   * @deprecated consider using numberValidate module's isAvailableExtension
    * TODO: Currently we don't have clearly defined business rule on
    * what extension numbers are considered available for dialing.
    * @param {String} extensionNumber
@@ -186,7 +188,7 @@ export default class CompanyContacts extends DataFetcher {
   isAvailableExtension(extensionNumber) {
     return !!find(
       (item) => item.extensionNumber === extensionNumber,
-      this.filteredContacts,
+      this.filteredContacts.concat(this.ivrContacts),
     );
   }
 
@@ -214,6 +216,30 @@ export default class CompanyContacts extends DataFetcher {
           ),
       );
     },
+  ];
+
+  @selector
+  ivrContacts = [
+    () => this.data,
+    (data) =>
+      data
+        .filter((item) => item.type === extensionTypes.ivrMenu)
+        .map((item) => {
+          const phoneNumber = {
+            phoneType: phoneTypes.extension,
+            phoneNumber: item.extensionNumber,
+          };
+          let phoneNumbers = [];
+          if (!item.phoneNumbers) {
+            phoneNumbers = [phoneNumber];
+          } else {
+            phoneNumbers = item.phoneNumbers.concat([phoneNumber]);
+          }
+          return {
+            ...item,
+            phoneNumbers,
+          };
+        }),
   ];
 
   @selector

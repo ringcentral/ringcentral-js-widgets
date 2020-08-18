@@ -8,17 +8,27 @@ import React, { FunctionComponent, useState } from 'react';
 
 import {
   AvailableQueue,
-  EvInboundQueuesUIFunctions,
-  EvInboundQueuesUIProps,
+  EvAgentSessionUIFunctions,
+  EvAgentSessionUIProps,
 } from '../../interfaces';
 import { SelectList } from '../SelectList';
 import i18n from './i18n';
 import styles from './styles.scss';
 
-export type InboundQueuesProps = EvInboundQueuesUIProps &
-  EvInboundQueuesUIFunctions;
+export type InboundQueuesPanelProps = { goBack: () => void } & Pick<
+  EvAgentSessionUIFunctions & EvAgentSessionUIProps,
+  | 'searchOption'
+  | 'submitInboundQueues'
+  | 'getAssignedInboundQueues'
+  | 'isSeveralAssign'
+  | 'isAllAssign'
+  | 'checkBoxOnChange'
+  | 'allCheckBoxOnChange'
+  | 'currentLocale'
+  | 'inboundQueues'
+>;
 
-const InboundQueuesPanel: FunctionComponent<InboundQueuesProps> = ({
+const InboundQueuesPanel: FunctionComponent<InboundQueuesPanelProps> = ({
   searchOption,
   currentLocale,
   inboundQueues: inboundQueueSource,
@@ -78,7 +88,7 @@ const InboundQueuesPanel: FunctionComponent<InboundQueuesProps> = ({
   };
 
   return (
-    <div className={styles.container}>
+    <div className={styles.root}>
       <SelectList
         title={i18n.getString('inboundQueues', currentLocale)}
         placeholder={i18n.getString('search', currentLocale)}
@@ -113,7 +123,7 @@ const InboundQueuesPanel: FunctionComponent<InboundQueuesProps> = ({
         </div>
         <RcButton
           data-sign="update"
-          onClick={() => submitInboundQueues(assignedInboundQueues)}
+          onClick={() => submitInboundQueues(assignedInboundQueues, goBack)}
           size="medium"
           fullWidth
         >

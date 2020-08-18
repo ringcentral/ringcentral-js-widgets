@@ -315,7 +315,7 @@ export default class CallLog extends Pollable {
           call.from &&
           call.from.extensionNumber &&
           call.from.extensionNumber ===
-            this._extensionInfo.data.extensionNumber;
+            this._extensionInfo.info.extensionNumber;
         if (
           isOutbound(call) &&
           (call.action === callActions.ringOutWeb ||

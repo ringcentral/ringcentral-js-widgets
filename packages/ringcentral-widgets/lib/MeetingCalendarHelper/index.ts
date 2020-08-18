@@ -1,15 +1,26 @@
 import formatMessage from 'format-message';
 import i18n from './i18n';
-import { REG_EXP } from './config';
+import {
+  RcmMainParams,
+  RcvMainParams,
+  CommonBrand,
+  TplResult,
+  FormatToHtmlOptions,
+} from './index.interface';
+import {
+  MEETING_URI_REGEXP,
+  rcvAttTeleconference,
+  rcvTeleconference,
+} from './config';
 
-function f1(str) {
+function f1(str: string): Array<string> {
   if (str.length > 8 || str.length % 3 !== 2) {
     return [str.slice(0, 3), str.slice(3)];
   }
   return [str.slice(0, 4), str.slice(4)];
 }
 
-export function formatMeetingId(str) {
+export function formatMeetingId(str: string, delimeter = ' '): string {
   const [current, nextSlices] = f1(str);
   if (!nextSlices) {
     return current;
@@ -17,23 +28,52 @@ export function formatMeetingId(str) {
   if (nextSlices.length === 1) {
     return `${current}${nextSlices}`;
   }
-  return `${current} ${formatMeetingId(nextSlices)}`;
+  return `${current}${delimeter}${formatMeetingId(nextSlices, delimeter)}`;
 }
 
-function getPasswordTpl(password: string, currentLocale: string): string {
-  const passwordLiteral = i18n.getString('password', currentLocale);
-  return password
-    ? `
-    ${passwordLiteral}: ${password}`
-    : '';
-}
-
-function getRcvPasswordTpl(
+function getPasswordTpl(
   meetingPassword: string,
   currentLocale: string,
 ): string {
   const passwordLiteral = i18n.getString('password', currentLocale);
-  return `${passwordLiteral}: ${meetingPassword}`;
+  return meetingPassword ? `${passwordLiteral}: ${meetingPassword}` : '';
+}
+
+export const htmlNewLine: string = '<br>';
+export const htmlIndentation: string = '&nbsp;';
+export const htmlTabIndentation: string = htmlIndentation.repeat(4);
+
+export function formatTextToHtml(
+  plantText: string,
+  options: FormatToHtmlOptions = {},
+): string {
+  const {
+    links = [],
+    newLine = htmlNewLine,
+    indentation = htmlIndentation,
+    tabIndentation = htmlTabIndentation,
+  } = options;
+
+  let htmlContent = plantText
+    .replace(/\r\n|\n|\r/g, '\n') // formalize newline
+    .split('\n') // split with formalized newline
+    .map((line) => {
+      return line
+        .replace(/\t/g, tabIndentation) // replace all Tab with 4 indentations
+        .replace(/^\s*/, ($0) => indentation.repeat($0.length)); // replace leading whtespaces with indentations
+    })
+    .join(newLine);
+
+  links.forEach((uri) => {
+    if (uri) {
+      htmlContent = htmlContent.replace(
+        uri,
+        `<a target="_blank" href="${uri}">${uri}</a>`,
+      );
+    }
+  });
+
+  return `<section>${newLine}${htmlContent}${newLine}</section>`;
 }
 
 /**
@@ -47,63 +87,11 @@ function getRcvPstnPasswordTpl(
   return `${passwordPstnLiteral} ${meetingPasswordPSTN}`;
 }
 
-interface rcmMeeting {
-  id: string;
-  password: string;
-  links: { joinUri: string };
-}
-
-interface rcvMeeting {
-  joinUri: string;
-  shortId: string;
-  links: { joinUri: string };
-  isMeetingSecret: boolean;
-  meetingPassword: string;
-  meetingPasswordPSTN: string;
-}
-
-interface rcmServiceInfo {
-  mobileDialingNumberTpl: string;
-  phoneDialingNumberTpl: string;
-}
-
-interface commonExtensionInfo {
-  name: string;
-}
-
-interface commonBrand {
-  name: string;
-  id: string;
-  brandConfig: {
-    teleconference: string;
-  };
-}
-
-interface tplResult {
-  formattedMsg: string;
-  links: {
-    joinUri: string;
-    teleconference: string;
-  };
-}
-
-interface rcmMainParams {
-  meeting: rcmMeeting;
-  serviceInfo: rcmServiceInfo;
-  extensionInfo: commonExtensionInfo;
-}
-
-interface rcvMainParams {
-  meeting: rcvMeeting;
-  extensionInfo: commonExtensionInfo;
-  dialInNumber: string;
-}
-
 function getBaseRcmTpl(
-  { meeting, serviceInfo, extensionInfo }: rcmMainParams,
-  brand: commonBrand,
+  { meeting, serviceInfo, extensionInfo, invitationInfo }: RcmMainParams,
+  brand: CommonBrand,
   currentLocale: string,
-): tplResult {
+): TplResult {
   const accountName = extensionInfo.name;
   const meetingId = meeting.id;
   const joinUri = meeting.links.joinUri;
@@ -114,8 +102,9 @@ function getBaseRcmTpl(
   const passwordTpl = getPasswordTpl(password, currentLocale);
   const teleconference = brand.brandConfig.teleconference;
 
-  return {
-    formattedMsg: formatMessage(
+  let formattedMsg = invitationInfo?.invitation;
+  if (!formattedMsg) {
+    formattedMsg = formatMessage(
       i18n.getString('inviteMeetingContent', currentLocale),
       {
         accountName,
@@ -127,7 +116,11 @@ function getBaseRcmTpl(
         meetingId: formatMeetingId(meetingId),
         teleconference,
       },
-    ),
+    );
+  }
+
+  return {
+    formattedMsg,
     links: {
       joinUri,
       teleconference,
@@ -135,49 +128,31 @@ function getBaseRcmTpl(
   };
 }
 
-function formatTextToHtml({
-  formattedMsg,
-  links: { joinUri, teleconference },
-}: tplResult): string {
-  const newLine: string = '<br>';
-  const indentation: string = '&nbsp;';
-
-  return `<section>${newLine}${formattedMsg
-    .replace(/\r\n|\n|\r/g, newLine)
-    .replace(joinUri, `<a target="_blank" href="${joinUri}">${joinUri}</a>`)
-    .replace(
-      teleconference,
-      `<a target="_blank" href="${teleconference}">${teleconference}</a>`,
-    )
-    .replace(/\t/g, indentation.repeat(4))}${newLine}</section>`;
-}
-
 export function getRcmEventTpl(
-  mainInfo: rcmMainParams,
-  brand: commonBrand,
+  mainInfo: RcmMainParams,
+  brand: CommonBrand,
   currentLocale: string,
 ): string {
-  return getBaseRcmTpl(mainInfo, brand, currentLocale).formattedMsg;
+  const tplResult = getBaseRcmTpl(mainInfo, brand, currentLocale);
+  return tplResult.formattedMsg;
 }
 
 export function getRcmHtmlEventTpl(
-  mainInfo: rcmMainParams,
-  brand: commonBrand,
+  mainInfo: RcmMainParams,
+  brand: CommonBrand,
   currentLocale: string,
 ): string {
-  return formatTextToHtml(getBaseRcmTpl(mainInfo, brand, currentLocale));
+  const tplResult = getBaseRcmTpl(mainInfo, brand, currentLocale);
+  return formatTextToHtml(tplResult.formattedMsg, {
+    links: [tplResult.links.joinUri, tplResult.links.teleconference],
+  });
 }
 
-const rcvAttTeleconference: string =
-  'https://meetings.officeathand.att.com/teleconference';
-const rcvTeleconference: string = 'https://v.ringcentral.com/teleconference/';
-const attBrandId = '3420';
-
 function getBaseRcvTpl(
-  { meeting, extensionInfo, dialInNumber }: rcvMainParams,
-  brand: commonBrand,
+  { meeting, extensionInfo, dialInNumber }: RcvMainParams,
+  brand: CommonBrand,
   currentLocale: string,
-): tplResult {
+): TplResult {
   const accountName = extensionInfo.name;
   const { meetingPassword, meetingPasswordPSTN, isMeetingSecret } = meeting;
   const joinUri = meeting.joinUri;
@@ -207,23 +182,27 @@ function getBaseRcvTpl(
   }
   meetingContent.push(`${i18n.getString('rcvTeleconference', currentLocale)}`);
   const passwordTpl = isMeetingSecret
-    ? getRcvPasswordTpl(meetingPassword, currentLocale)
+    ? getPasswordTpl(meetingPassword, currentLocale)
     : '';
-  const teleconference =
-    brand.id === attBrandId ? rcvAttTeleconference : rcvTeleconference;
-  const brandName = brand.id === attBrandId ? `AT&T ${brand.name}` : brand.name;
+
+  const isATT = brand.code === 'att';
+  const teleconference = isATT ? rcvAttTeleconference : rcvTeleconference;
+  const brandName = isATT ? `AT&T ${brand.name}` : brand.name;
+
+  const formattedMsg = formatMessage(meetingContent.join(''), {
+    accountName,
+    brandName,
+    joinUri,
+    passwordTpl,
+    smartphones: `${dialInNumber},,${pinNumber}#`,
+    dialNumber: dialInNumber,
+    pinNumber: formatMeetingId(pinNumber),
+    teleconference,
+    productName,
+  });
+
   return {
-    formattedMsg: formatMessage(meetingContent.join(''), {
-      accountName,
-      brandName,
-      joinUri,
-      passwordTpl,
-      smartphones: `${dialInNumber},,${pinNumber}#`,
-      dialNumber: dialInNumber,
-      pinNumber: formatMeetingId(pinNumber),
-      teleconference,
-      productName,
-    }),
+    formattedMsg,
     links: {
       joinUri,
       teleconference,
@@ -232,24 +211,28 @@ function getBaseRcvTpl(
 }
 
 export function getRcvEventTpl(
-  mainInfo: rcvMainParams,
-  brand: commonBrand,
+  mainInfo: RcvMainParams,
+  brand: CommonBrand,
   currentLocale: string,
 ): string {
-  return getBaseRcvTpl(mainInfo, brand, currentLocale).formattedMsg;
+  const tplResult = getBaseRcvTpl(mainInfo, brand, currentLocale);
+  return tplResult.formattedMsg;
 }
 
 export function getRcvHtmlEventTpl(
-  mainInfo: rcvMainParams,
-  brand: commonBrand,
+  mainInfo: RcvMainParams,
+  brand: CommonBrand,
   currentLocale: string,
 ): string {
-  return formatTextToHtml(getBaseRcvTpl(mainInfo, brand, currentLocale));
+  const tplResult = getBaseRcvTpl(mainInfo, brand, currentLocale);
+  return formatTextToHtml(tplResult.formattedMsg, {
+    links: [tplResult.links.joinUri, tplResult.links.teleconference],
+  });
 }
 
-export function getMeetingId(meetingUri: string) {
+export function getMeetingId(meetingUri: string): string {
   if (meetingUri) {
-    const regs = [REG_EXP.MEETING, REG_EXP.RCV];
+    const regs = [MEETING_URI_REGEXP.RCM, MEETING_URI_REGEXP.RCV];
     for (let i = 0; i < regs.length; i += 1) {
       const matches = regs[i].exec(meetingUri);
       if (matches && matches.length > 0) {
@@ -260,7 +243,6 @@ export function getMeetingId(meetingUri: string) {
         ).split('/');
 
         const id = link[link.length - 1];
-
         return id;
       }
     }

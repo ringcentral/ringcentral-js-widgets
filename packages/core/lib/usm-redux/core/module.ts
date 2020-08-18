@@ -1,5 +1,10 @@
 /* eslint-disable no-nested-ternary */
-import { createStore, combineReducers, ReducersMapObject } from 'redux';
+import {
+  createStore,
+  combineReducers,
+  ReducersMapObject,
+  Unsubscribe,
+} from 'redux';
 import BaseModule from '../../usm';
 import { Action, Reducer, Params } from '../../usm/core/module';
 import { Properties } from '../../usm/utils/flatten';
@@ -25,7 +30,7 @@ export interface Dispatch {
 }
 
 type Store = {
-  subscribe(callback: Callback): void;
+  subscribe(callback: Callback): Unsubscribe;
   getState(): Properties;
   dispatch: Dispatch;
 };

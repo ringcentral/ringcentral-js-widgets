@@ -45,10 +45,8 @@ export default class Presence extends DataFetcher {
         const endpoint = this._detailed
           ? subscriptionFilters.detailedPresence
           : subscriptionFilters.presence;
-        const data = (
-          await this._client.service.platform().get(endpoint)
-        ).json();
-        return data;
+        const response = await this._client.service.platform().get(endpoint);
+        return response.json();
       },
       subscriptionFilters: [
         detailed
@@ -147,10 +145,10 @@ export default class Presence extends DataFetcher {
       const { ownerId } = this._auth;
       const platform = this._client.service.platform();
       const response = await platform.put(
-        '/account/~/extension/~/presence',
+        '/restapi/v1.0/account/~/extension/~/presence',
         params,
       );
-      const data = response.json();
+      const data = await response.json();
       if (ownerId === this._auth.ownerId) {
         this.store.dispatch({
           type: this.actionTypes.updateSuccess,

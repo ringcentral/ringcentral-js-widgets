@@ -8,7 +8,7 @@ import ConversationsPanel from 'ringcentral-widgets/components/ConversationsPane
 import SearchInput from 'ringcentral-widgets/components/SearchInput';
 import MessageItem from 'ringcentral-widgets/components/MessageItem';
 
-import { getWrapper, timeout } from '../shared';
+import { getWrapper, timeout, tearDownWrapper } from '../shared';
 import { mockPubnub } from './helper.js';
 
 let wrapper = null;
@@ -25,9 +25,9 @@ beforeEach(async () => {
   Object.defineProperty(phone.rolesAndPermissions, 'readFaxPermissions', {
     value: true,
   });
-  Object.defineProperty(phone.tabManager, 'active', {
-    value: true,
-  });
+  // Object.defineProperty(phone.tabManager, 'active', {
+  //   value: true,
+  // });
 
   mock.restore();
   mock.subscription();
@@ -61,7 +61,7 @@ beforeEach(async () => {
   });
   mock.messageList();
   await phone.subscription.subscribe(
-    ['/account/~/extension/~/message-sync'],
+    ['/restapi/v1.0/account/~/extension/~/message-sync'],
     10,
   );
   await timeout(100);
@@ -76,6 +76,12 @@ beforeEach(async () => {
   wrapper.update();
   panel = wrapper.find(ConversationsPanel).at(0);
 });
+
+afterEach(async () => {
+  mock.logout();
+  await tearDownWrapper(wrapper);
+});
+
 describe('messages', () => {
   test('search will not start when input less than two letters or two numbers', async () => {
     expect(panel.find(MessageItem).length).toEqual(2);

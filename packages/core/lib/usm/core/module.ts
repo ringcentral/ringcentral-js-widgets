@@ -32,7 +32,7 @@ interface Dispatch {
 }
 
 export interface Store {
-  subscribe(call: Callback): void;
+  subscribe(call: Callback): () => void;
   getState(): Properties;
   dispatch?: Dispatch;
 }
@@ -74,7 +74,7 @@ class Module<T = {}> {
     this._makeInstance(this._handleArgs(params, ...args));
   }
 
-  public _handleArgs(params?: Params<T>, ...args: any[]): Params<T> {
+  public _handleArgs(params?: Params<T>, ..._args: any[]): Params<T> {
     if (typeof params === 'undefined') {
       return {
         modules: {} as T,
@@ -261,7 +261,7 @@ class Module<T = {}> {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected static createStore(reducers?: Reducer): any {
+  protected static createStore(_reducers?: Reducer): any {
     throw new Error('`createStore` has not yet been implemented.');
   }
 

@@ -18,7 +18,7 @@ export interface TransportEvent {
 
 export interface FetchOption<T = any> {
   requestId: string;
-  fetchFunc: () => Promise<T>;
+  fetchFunc: () => Promise<T> | T;
 }
 
 export interface TransportResponseData {

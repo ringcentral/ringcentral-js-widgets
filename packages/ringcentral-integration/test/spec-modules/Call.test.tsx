@@ -7,7 +7,7 @@ import {
   Then,
   Step,
   examples,
-} from 'crius-test';
+} from '@ringcentral-integration/test-utils';
 
 import { Call, callStatus, Recipient } from '../../modules/CallV2';
 

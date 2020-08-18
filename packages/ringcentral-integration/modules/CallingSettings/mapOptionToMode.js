@@ -5,10 +5,7 @@ export default function mapOptionToMode(callWith) {
   switch (callWith) {
     case callingOptions.softphone:
       return callingModes.softphone;
-
-    case callingOptions.myphone:
-    case callingOptions.otherphone:
-    case callingOptions.customphone:
+    case callingOptions.ringout:
       return callingModes.ringout;
     case callingOptions.browser:
       return callingModes.webphone;

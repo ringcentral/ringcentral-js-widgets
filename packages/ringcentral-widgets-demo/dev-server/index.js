@@ -5,7 +5,7 @@ import { createPhone } from './Phone';
 import App from './containers/App';
 import RcIcon from './Icon.svg';
 import apiConfig from './api-config';
-import brandConfig from './brandConfig';
+import { brandConfig } from './brandConfig';
 import version from './version';
 import prefix from './prefix';
 

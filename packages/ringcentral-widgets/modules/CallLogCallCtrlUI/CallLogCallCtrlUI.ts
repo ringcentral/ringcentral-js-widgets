@@ -1,4 +1,5 @@
 import { Module } from 'ringcentral-integration/lib/di';
+import callingModes from 'ringcentral-integration/modules/CallingSettings/callingModes';
 import RcUIModule from '../../lib/RcUIModule';
 
 @Module({
@@ -8,6 +9,7 @@ import RcUIModule from '../../lib/RcUIModule';
     'ConnectivityMonitor',
     'RateLimiter',
     'RouterInteraction',
+    'CallingSettings',
   ],
 })
 export default class CallLogCallCtrlUI extends RcUIModule {
@@ -15,11 +17,13 @@ export default class CallLogCallCtrlUI extends RcUIModule {
   private _connectivityMonitor: any;
   private _rateLimiter: any;
   private _routerInteraction: any;
+  private _callingSettings: any;
   constructor({
     activeCallControl,
     connectivityMonitor,
     rateLimiter,
     routerInteraction,
+    callingSettings,
     ...options
   }) {
     super({ ...options });
@@ -27,6 +31,7 @@ export default class CallLogCallCtrlUI extends RcUIModule {
     this._connectivityMonitor = connectivityMonitor;
     this._rateLimiter = rateLimiter;
     this._routerInteraction = routerInteraction;
+    this._callingSettings = callingSettings;
   }
 
   private onTransfer = (telephonySessionId: string) => {
@@ -35,11 +40,14 @@ export default class CallLogCallCtrlUI extends RcUIModule {
     );
   };
 
-  getUIProps({ telephonySessionId }) {
+  getUIProps({ telephonySessionId }: { telephonySessionId: string }) {
+    const isWebphone =
+      this._callingSettings.callingMode === callingModes.webphone;
     const currentSession = this._activeCallControl.getActiveSession(
       telephonySessionId,
     );
     return {
+      isWebphone,
       currentSession,
       disableLinks:
         !this._connectivityMonitor.connectivity || this._rateLimiter.throttling,
@@ -55,7 +63,15 @@ export default class CallLogCallCtrlUI extends RcUIModule {
       reject: this._activeCallControl.reject.bind(this._activeCallControl),
       onHold: this._activeCallControl.hold.bind(this._activeCallControl),
       onUnHold: this._activeCallControl.unhold.bind(this._activeCallControl),
+      startRecord: this._activeCallControl.startRecord.bind(
+        this._activeCallControl,
+      ),
+      stopRecord: this._activeCallControl.stopRecord.bind(
+        this._activeCallControl,
+      ),
       onTransfer: this.onTransfer,
+      sendDTMF: (dtmfValue: string, telephonySessionId: string) =>
+        this._activeCallControl.sendDTMF(dtmfValue, telephonySessionId),
     };
   }
 }

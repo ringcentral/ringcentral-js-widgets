@@ -15,7 +15,6 @@ p {
   overflow: hidden;
   position: relative;
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.15);
-
   $rate: 0.2;
   &.active {
     background: rgba(38, 163, 4, $rate);

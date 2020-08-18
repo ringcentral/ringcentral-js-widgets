@@ -37,6 +37,15 @@
   }
 }
 
+.customInput {
+  padding: 0;
+  border: none;
+  width: inherit;
+  line-height: inherit;
+  outline: none;
+  box-sizing: border-box;
+}
+
 .selectedValue {
   margin-left: 0;
   display: block;
@@ -101,7 +110,7 @@
   width: 100%;
   border: 1px solid #efefef;
   border-radius: 2px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, .175);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.175);
   background: #fff;
   max-height: 250px;
   overflow: hidden;
@@ -134,7 +143,6 @@
       }
     }
   }
-
 }
 
 .open {
@@ -158,4 +166,40 @@
 
 [contenteditable]:focus {
   outline: 0px solid transparent;
+}
+
+.optionLabel {
+  flex-grow: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 8px;
+}
+
+.withLabel {
+  display: flex;
+  flex-direction: row;
+}
+
+.inputWithLabel {
+  text-align: right;
+  padding-right: 34px;
+  margin-right: 0;
+  // to avoid cover the selected option's label
+  padding-left: 39%;
+}
+.active {
+  padding-left: 0;
+}
+
+.selectedOptionLabel {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: calc(39% - 8px);
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.selectedOptionLabelHide {
+  z-index: -1;
 }

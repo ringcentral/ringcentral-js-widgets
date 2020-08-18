@@ -1,7 +1,7 @@
 export default class ClientHistoryRequest {
   static endPoints = {
-    callLog: '/account/~/extension/~/call-log',
-    dialingPlan: '/account/~/dialing-plan',
+    callLog: '/restapi/v1.0/account/~/extension/~/call-log',
+    dialingPlan: '/restapi/v1.0/account/~/dialing-plan',
     token: '/restapi/oauth/token',
     companyPager: '/restapi/v1.0/account/~/extension/~/company-pager',
     sms: '/restapi/v1.0/account/~/extension/~/sms',
@@ -10,32 +10,22 @@ export default class ClientHistoryRequest {
 
   constructor(requestContainer, client) {
     this._requestContainer = requestContainer;
-    this._client = client.service.platform().client();
+    this._client = client.service.client();
     this.init();
   }
 
   init() {
-    this._client.on(this._client.events.beforeRequest, (apiResponse) => {
-      this._requestContainer.set(apiResponse._request.url, null);
+    this._client.on(this._client.events.beforeRequest, (request) => {
+      this._requestContainer.set(request.url, null);
     });
-    this._client.on(this._client.events.requestSuccess, (apiResponse) => {
-      this._requestContainer.set(
-        apiResponse._request.url,
-        JSON.parse(apiResponse._text),
-      );
+    this._client.on(this._client.events.requestSuccess, async (response) => {
+      const res = response.clone();
+      this._requestContainer.set(res.url, await res.json());
     });
-    this._client.on(this._client.events.requestError, (error) => {
-      console.error(
-        error.apiResponse._request &&
-          error.apiResponse.headers &&
-          error.apiResponse.json &&
-          error.apiResponse.json(),
-      );
-      console.error(
-        error.apiResponse &&
-          error.apiResponse._response &&
-          error.apiResponse._response.status,
-      );
+    this._client.on(this._client.events.requestError, async (error) => {
+      console.error(error.request && error.request.url);
+      console.error(error.response && (await error.response.clone().json()));
+      console.error(error.response && error.response.status);
     });
   }
 

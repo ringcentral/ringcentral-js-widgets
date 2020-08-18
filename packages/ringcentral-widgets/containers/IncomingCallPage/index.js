@@ -46,15 +46,18 @@ class IncomingCallPage extends Component {
   toVoiceMail = () => this.props.toVoiceMail(this.props.session.id);
   replyWithMessage = (message) =>
     this.props.replyWithMessage(this.props.session.id, message);
+
   toggleMinimized = () => this.props.toggleMinimized(this.props.session.id);
   answerAndEnd = async () => {
     await this.props.hangup(this.props.activeSessionId);
     await this.props.answer(this.props.session.id);
   };
+
   answerAndHold = async () => {
     await this.props.onHold(this.props.activeSessionId);
     await this.props.answer(this.props.session.id);
   };
+
   onForward = (forwardNumber) =>
     this.props.onForward(this.props.session.id, forwardNumber);
 
@@ -63,7 +66,7 @@ class IncomingCallPage extends Component {
     this._updateAvatarAndMatchIndex(this.props);
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (this.props.session.id !== nextProps.session.id) {
       this._updateAvatarAndMatchIndex(nextProps);
     }
@@ -170,7 +173,10 @@ IncomingCallPage.propTypes = {
     to: PropTypes.string,
     from: PropTypes.string,
     contactMatch: PropTypes.object,
+    minimized: PropTypes.bool,
+    callQueueName: PropTypes.any,
   }).isRequired,
+  showCallQueueName: PropTypes.any,
   currentLocale: PropTypes.string.isRequired,
   toggleMinimized: PropTypes.func.isRequired,
   answer: PropTypes.func.isRequired,
@@ -204,6 +210,7 @@ IncomingCallPage.defaultProps = {
   sourceIcons: undefined,
   phoneTypeRenderer: undefined,
   phoneSourceNameRenderer: undefined,
+  showCallQueueName: null,
 };
 
 function mapToProps(
@@ -253,7 +260,13 @@ function mapToProps(
 function mapToFunctions(
   _,
   {
-    phone: { webphone, regionSettings, contactSearch, conferenceCall },
+    phone: {
+      webphone,
+      regionSettings,
+      contactSearch,
+      extensionInfo,
+      conferenceCall,
+    },
     getAvatarUrl = () => null,
   },
 ) {
@@ -263,6 +276,8 @@ function mapToFunctions(
         phoneNumber,
         areaCode: regionSettings.areaCode,
         countryCode: regionSettings.countryCode,
+        siteCode: extensionInfo?.site?.code ?? '',
+        isMultipleSiteEnabled: extensionInfo?.isMultipleSiteEnabled ?? false,
       }),
     answer(sessionId) {
       if (conferenceCall) {
@@ -288,10 +303,7 @@ function mapToFunctions(
 }
 
 const IncomingCallContainer = withPhone(
-  connect(
-    mapToProps,
-    mapToFunctions,
-  )(IncomingCallPage),
+  connect(mapToProps, mapToFunctions)(IncomingCallPage),
 );
 
 export default IncomingCallContainer;

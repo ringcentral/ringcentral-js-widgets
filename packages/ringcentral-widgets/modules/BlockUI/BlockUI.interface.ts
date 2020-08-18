@@ -1,6 +1,6 @@
 import { Block, BlockItem } from '../Block';
 
-export interface DepsModules {
+export interface Deps {
   block: Block;
 }
 

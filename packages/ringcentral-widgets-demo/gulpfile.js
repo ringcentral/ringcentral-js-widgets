@@ -18,7 +18,7 @@ export function devServer() {
     publicPath: '/',
     hot: true,
     inline: true,
-    noInfo: true,
+    // noInfo: true,
     stats: {
       warnings: false,
       chunks: false,
@@ -35,9 +35,9 @@ export function demoExtensionClean() {
 
 export function demoExtensionWebpack() {
   return new Promise((resolve, reject) => {
-    webpack(demoExtensionConfig, (err) => {
-      if (err) {
-        reject(err);
+    webpack(demoExtensionConfig, (err, stats) => {
+      if (err || stats.hasErrors()) {
+        reject(err || new Error(stats.toJson().errors));
         return;
       }
       resolve();

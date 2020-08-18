@@ -1,12 +1,11 @@
 export default {
-  schedule: 'Schedule',
-  topic: 'Topic',
+  topic: 'Meeting title',
   date: 'Date',
-  startTime: 'Start time',
+  startTime: 'Time',
   duration: 'Duration',
   meetingSettings: 'Meeting settings',
   rcMeetingSettings: 'Video Meeting settings',
-  joinBeforeHost: 'Allow join before host',
+  joinBeforeHost: 'Allow participants to join before host',
   muteAudio: 'Mute audio for participants',
   turnOffCamera: 'Turn off camera for participants',
   requirePassword: 'Require password',
@@ -17,4 +16,9 @@ export default {
   passwordHintText:
     'Your password should be 1-10 letters and numbers long but not contain symbols',
   usePersonalMeetingId: 'Use Personal Meeting ID',
+  meetingSettingsSecurity: 'Security',
+  onlyAuthUserJoin: 'Only authenticated users can join',
+  signedInUsers: 'Signed in users',
+  signedInCoWorkers: 'Signed in co-workers',
+  limitScreenSharing: 'Only host & moderators can share screen',
 };

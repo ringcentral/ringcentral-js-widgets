@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import messageSenderMessages from 'ringcentral-integration/modules/MessageSender/messageSenderMessages';
+import messageSenderMessagesV2 from 'ringcentral-integration/modules/MessageSenderV2/messageSenderMessages';
+
 import FormattedMessage from '../../FormattedMessage';
 
 import styles from './styles.scss';
@@ -85,4 +87,7 @@ MessageSenderAlert.handleMessage = ({ message }) =>
   message === messageSenderMessages.internationalSMSNotSupported ||
   message === messageSenderMessages.noInternalSMSPermission ||
   message === messageSenderMessages.noSMSPermission ||
+  message === messageSenderMessagesV2.attachmentCountLimitation ||
+  message === messageSenderMessagesV2.attachmentSizeLimitation ||
+  message === messageSenderMessagesV2.noAttachmentToExtension ||
   message === messageSenderMessages.sending;

@@ -31,7 +31,7 @@ function createState(
       ? descriptor.initializer.call(target)
       : undefined;
   const get = function(this: Module) {
-    return this.state[name];
+    return this._store ? this.state[name] : this._initialValue[name];
   };
   const set = function(this: Module, value: unknown) {
     this.state[name] = value;

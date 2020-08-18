@@ -17,7 +17,7 @@
   },
   "private": true,
   "dependencies": {
-    "@ringcentral-integration/core": "^0.11.0",
+    "@ringcentral-integration/core": "*",
     "@ringcentral-integration/babel-settings": "*",
     "@ringcentral-integration/i18n": "*",
     "@ringcentral-integration/locale-loader": "*",

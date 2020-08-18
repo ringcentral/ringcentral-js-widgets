@@ -1,6 +1,6 @@
 @import '../../scss/variables.scss';
 
-.container {
+.root {
   @include flex_column;
   height: 100%;
 }

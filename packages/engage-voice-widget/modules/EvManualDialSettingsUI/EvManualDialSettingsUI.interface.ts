@@ -1,6 +1,7 @@
 import { FunctionComponent } from 'react';
 import Locale from 'ringcentral-integration/modules/Locale';
 import RouterInteraction from 'ringcentral-widgets/modules/RouterInteraction';
+
 import { EvAuth } from '../EvAuth';
 import { EvCall } from '../EvCall';
 
@@ -8,7 +9,7 @@ interface State {
   //
 }
 
-export interface DepsModules {
+export interface Deps {
   locale: Locale;
   routerInteraction: RouterInteraction;
   evAuth: EvAuth;

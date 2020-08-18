@@ -5,7 +5,7 @@ import telephonyStatuses from 'ringcentral-integration/enums/telephonyStatus';
 import callDirections from 'ringcentral-integration/enums/callDirections';
 import { isRingingInboundCall } from 'ringcentral-integration/lib/callLogHelpers';
 
-import SpinnerOverlay from '../SpinnerOverlay';
+import { SpinnerOverlay } from '../SpinnerOverlay';
 import { Button } from '../Button';
 import styles from './styles.scss';
 import LogBasicInfo from '../LogBasicInfo';

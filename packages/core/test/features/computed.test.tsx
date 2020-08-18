@@ -7,9 +7,9 @@ import {
   Then,
   Step,
   examples,
-} from 'crius-test';
+} from '@ringcentral-integration/test-utils';
 
-import { RcModuleV2, state, action, computed } from '../../lib/RcModule';
+import { RcModuleV2, state, action, computed } from '../../lib';
 
 const generateModule = (
   numberComputedFn: Function,
@@ -61,7 +61,7 @@ const generateModule = (
 
 @autorun(test)
 @title('RcModuleV2::computed check with "${executeFunction}"')
-export class ModuleComputedCheck extends Step {
+class ModuleComputedCheck extends Step {
   @examples(`
     | executeFunction | numberComputed      | listCountComputed     | sumComputed         |
     | 'add'           | {time: 1, value: 1} | {time: 2, value: 2}   | {time: 2, value: 2} |
@@ -73,7 +73,7 @@ export class ModuleComputedCheck extends Step {
       <Scenario desc="RcModuleV2::computed check features">
         <Given
           desc="Generic RcModuleV2 instance fooInstance of class Foo"
-          action={(_, context) => {
+          action={(_: any, context: any) => {
             context.numberComputedFn = jest.fn();
             context.listCountComputedFn = jest.fn();
             context.sumComputedFn = jest.fn();
@@ -83,12 +83,12 @@ export class ModuleComputedCheck extends Step {
               context.sumComputedFn,
             );
             context.fooInstance = context.Foo.create();
-            expect(context.fooInstance instanceof context.Foo).toBeTruthy();
+            expect(context.fooInstance instanceof context.Foo).toBe(true);
           }}
         />
         <When
-          desc="barInstance run '${executeFunction}'"
-          action={(_, context) => {
+          desc="fooInstance run '${executeFunction}'"
+          action={(_: any, context: any) => {
             const {
               fooInstance,
               numberComputedFn,
@@ -106,8 +106,8 @@ export class ModuleComputedCheck extends Step {
           }}
         />
         <Then
-          desc="barInstance should be computed numberComputed: ${numberComputed}, listCountComputed: ${listCountComputed}, and sumComputed:${sumComputed}"
-          action={(_, context) => {
+          desc="fooInstance should be computed numberComputed: ${numberComputed}, listCountComputed: ${listCountComputed}, and sumComputed:${sumComputed}"
+          action={(_: any, context: any) => {
             const {
               fooInstance,
               numberComputedFn,
@@ -125,6 +125,132 @@ export class ModuleComputedCheck extends Step {
               listCountComputed.time,
             );
             expect(sumComputedFn.mock.calls.length).toBe(sumComputed.time);
+          }}
+        />
+      </Scenario>
+    );
+  }
+}
+
+@autorun(test)
+@title('RcModuleV2::computed check with inheritance')
+class ModuleComputedCheckWithInheritance extends Step {
+  run() {
+    return (
+      <Scenario desc="RcModuleV2::computed check features">
+        <Given
+          desc="Generic RcModuleV2 instance barInstance of class Bar"
+          action={(_: any, context: any) => {
+            class BaseFoo<T = any> extends RcModuleV2<T> {
+              computedFn = jest.fn();
+
+              @state
+              count = 0;
+
+              @action
+              increase() {
+                this.count += 1;
+              }
+
+              @computed(({ count }: BaseFoo) => [count])
+              get num() {
+                this.computedFn();
+                return this.count + 1;
+              }
+            }
+            class Foo extends BaseFoo {}
+
+            class Bar extends RcModuleV2<{ baseFoo: BaseFoo; foo: Foo }> {
+              get baseFoo() {
+                return this._deps.baseFoo;
+              }
+
+              get foo() {
+                return this._deps.foo;
+              }
+            }
+            const baseFoo = new BaseFoo({ deps: {} });
+            const foo = new Foo({ deps: {} });
+            context.barInstance = Bar.create({ deps: { baseFoo, foo } } as any);
+            expect(context.barInstance instanceof Bar).toBe(true);
+          }}
+        />
+        <When
+          desc="barInstance run computed and check value"
+          action={(_: any, context: any) => {
+            const { barInstance } = context;
+            expect(barInstance.foo.num).toBe(1);
+            expect(barInstance.baseFoo.num).toBe(1);
+          }}
+        />
+        <Then
+          desc="barInstance should be computed expected times"
+          action={(_: any, context: any) => {
+            const { barInstance } = context;
+            expect(barInstance.foo.computedFn.mock.calls.length).toBe(1);
+            expect(barInstance.baseFoo.computedFn.mock.calls.length).toBe(1);
+            expect(barInstance.foo.num).toBe(1);
+            expect(barInstance.baseFoo.num).toBe(1);
+            expect(barInstance.foo.computedFn.mock.calls.length).toBe(1);
+            expect(barInstance.baseFoo.computedFn.mock.calls.length).toBe(1);
+          }}
+        />
+        <When
+          desc="barInstance run 'foo.increase'"
+          action={(_: any, context: any) => {
+            const { barInstance } = context;
+            barInstance.foo.increase();
+          }}
+        />
+        <Then
+          desc="Only barInstance 'foo.num' should be increased 1 computed times"
+          action={(_: any, context: any) => {
+            const { barInstance } = context;
+            expect(barInstance.foo.num).toBe(2);
+            expect(barInstance.baseFoo.num).toBe(1);
+            expect(barInstance.foo.computedFn.mock.calls.length).toBe(2);
+            expect(barInstance.baseFoo.computedFn.mock.calls.length).toBe(1);
+          }}
+        />
+        <When
+          desc="barInstance run 'foo.increase'"
+          action={(_: any, context: any) => {
+            const { barInstance } = context;
+            barInstance.foo.increase();
+          }}
+        />
+        <When
+          desc="Only barInstance 'foo.num' should be increased 1 computed times"
+          action={(_: any, context: any) => {
+            const { barInstance } = context;
+            expect(barInstance.foo.num).toBe(3);
+            expect(barInstance.foo.num).toBe(3);
+            expect(barInstance.baseFoo.num).toBe(1);
+            expect(barInstance.baseFoo.num).toBe(1);
+            expect(barInstance.foo.num).toBe(3);
+            expect(barInstance.foo.computedFn.mock.calls.length).toBe(3);
+            expect(barInstance.baseFoo.computedFn.mock.calls.length).toBe(1);
+          }}
+        />
+        <When
+          desc="barInstance run 'baseFoo.increase'"
+          action={(_: any, context: any) => {
+            const { barInstance } = context;
+            barInstance.baseFoo.increase();
+          }}
+        />
+        <Then
+          desc="Only barInstance 'baseFoo.num' should be increased 1 computed times"
+          action={(_: any, context: any) => {
+            const { barInstance } = context;
+            expect(barInstance.foo.num).toBe(3);
+            expect(barInstance.baseFoo.num).toBe(2);
+            expect(barInstance.foo.computedFn.mock.calls.length).toBe(3);
+            expect(barInstance.baseFoo.computedFn.mock.calls.length).toBe(2);
+            expect(barInstance.foo.num).toBe(3);
+            expect(barInstance.baseFoo.num).toBe(2);
+            expect(barInstance.foo.computedFn.mock.calls.length).toBe(3);
+            expect(barInstance.baseFoo.computedFn.mock.calls.length).toBe(2);
           }}
         />
       </Scenario>

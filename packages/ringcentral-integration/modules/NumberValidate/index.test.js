@@ -28,6 +28,7 @@ describe('NumberValidate Unit Test', () => {
       'isNoAreaCode',
       '_isSpecial',
       'isNotAnExtension',
+      'getAvailableExtension',
       'isCompanyExtension',
       'validateNumbers',
       'validateFormat',
@@ -797,12 +798,12 @@ describe('NumberValidate Unit Test', () => {
       });
     });
 
-    it('should return result false if one number is not an extension number', async () => {
+    it('should return result false if one number is an extension number but not an available extension number', async () => {
       sinon
         .stub(numberValidate, '_numberParser')
         .callsFake(() => [{ special: true, originalString: '999' }]);
       sinon.stub(numberValidate, '_isSpecial').callsFake(() => false);
-      sinon.stub(numberValidate, 'isNotAnExtension').callsFake(() => true);
+      sinon.stub(numberValidate, 'getAvailableExtension').callsFake(() => null);
       const result = await numberValidate.validateWithNumberParser(['999']);
       expect(result).to.deep.equal({
         result: false,
@@ -816,11 +817,13 @@ describe('NumberValidate Unit Test', () => {
         .stub(numberValidate, '_numberParser')
         .callsFake(() => [{ special: true, originalString: '999' }]);
       sinon.stub(numberValidate, '_isSpecial').callsFake(() => false);
-      sinon.stub(numberValidate, 'isNotAnExtension').callsFake(() => false);
+      sinon.stub(numberValidate, 'getAvailableExtension').callsFake(() => 999);
       const result = await numberValidate.validateWithNumberParser(['999']);
       expect(result).to.deep.equal({
         result: true,
-        numbers: [{ special: true, originalString: '999' }],
+        numbers: [
+          { special: true, originalString: '999', availableExtension: 999 },
+        ],
         errors: [],
       });
     });

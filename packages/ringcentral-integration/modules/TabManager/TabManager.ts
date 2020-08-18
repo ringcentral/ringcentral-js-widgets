@@ -71,15 +71,18 @@ export default class TabManager extends RcModule<
     });
 
     if (this._tabbie.enabled) {
-      this._tabbie.on('mainTabIdChanged', async (mainTabId) => {
-        this.store.dispatch({
-          type: this.actionTypes.mainTabIdChanged,
-          mainTabId,
-          active: await this._tabbie.checkIsMain(),
-        });
-      });
+      this._tabbie.on(
+        this._tabbie.events.mainTabIdChanged,
+        async (mainTabId) => {
+          this.store.dispatch({
+            type: this.actionTypes.mainTabIdChanged,
+            mainTabId,
+            active: await this._tabbie.checkIsMain(),
+          });
+        },
+      );
 
-      this._tabbie.on('event', (event, ...args) => {
+      this._tabbie.on(this._tabbie.events.event, (event, ...args) => {
         this.store.dispatch({
           type: this.actionTypes.event,
           event,

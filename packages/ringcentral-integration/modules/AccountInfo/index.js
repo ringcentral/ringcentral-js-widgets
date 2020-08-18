@@ -20,6 +20,7 @@ import permissionsMessages from '../RolesAndPermissions/permissionsMessages';
 })
 export default class AccountInfo extends DataFetcher {
   /**
+   * @deprecated Please evaluate and use AccountInfoV2
    * @constructor
    * @param {Object} params - params object
    * @param {Client} params.client - client module instance
@@ -31,6 +32,9 @@ export default class AccountInfo extends DataFetcher {
       readyCheckFn: () => this._rolesAndPermissions.ready,
       ...options,
     });
+    console.warn(
+      'AccountInfo is deprecated, please evaluate and transition to use AccountInfoV2',
+    );
 
     this._rolesAndPermissions = ensureExist.call(
       this,
@@ -83,6 +87,10 @@ export default class AccountInfo extends DataFetcher {
 
   get countryCode() {
     return (this.country && this.country.isoCode) || 'US';
+  }
+
+  get regionalSettings() {
+    return this.data.regionalSettings;
   }
 
   get mainCompanyNumber() {

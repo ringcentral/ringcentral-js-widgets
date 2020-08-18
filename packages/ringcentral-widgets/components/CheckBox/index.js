@@ -27,7 +27,7 @@ function CheckBox({
             const isSelected =
               selected === (isListObject ? item[valueField] : item);
             const checkStyle = isSelected ? styles.selectedCheckButton : null;
-            const onClick = () => onSelect(item);
+            const onClick = () => (disabled ? undefined : onSelect(item));
             const extraInfo =
               typeof item.renderExtraInfo === 'function' && isSelected
                 ? item.renderExtraInfo({ ...props })
@@ -41,7 +41,9 @@ function CheckBox({
                   onClick={onClick}
                   className={classnames(
                     styles.item,
-                    item && item.disabled ? styles.disabled : null,
+                    disabled || (item && item.disabled)
+                      ? styles.disabled
+                      : null,
                   )}
                 >
                   <div className={classnames(styles.checkButton, checkStyle)} />
@@ -77,7 +79,7 @@ function CheckBox({
             }
           }}
         >
-          <div className={checkboxClassName}>✓</div>
+          <div className={checkboxClassName}>{checked && '✓'}</div>
           {children}
         </div>
       );

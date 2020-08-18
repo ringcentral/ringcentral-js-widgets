@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import styles from './styles.scss';
 
-interface CallerIdLabelProps {
+export interface CallerIdLabelProps {
   number: string;
   description: string;
 }

@@ -5,7 +5,7 @@ export const makeCallsUniqueIdentifies = (calls: EvCallData[]) => {
   const numbers = calls.map(({ ani, callType }) => {
     const id = contactMatchIdentifyEncode({
       phoneNumber: ani,
-      callType: callType.toLowerCase(),
+      callType,
     });
     return id;
   });

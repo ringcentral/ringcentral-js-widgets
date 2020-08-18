@@ -32,14 +32,16 @@ const getPhone = async ({
 } = {}) => {
   jest.mock('pubnub');
   jest.mock('ringcentral-web-phone');
-  localStorage.clear();
+  jest.mock('ringcentral-call');
 
   // Mock phone
-  const clientService = mock.createSDK({});
+  const clientService = mock.createSDK({
+    cachePrefix: `sdkPrefix-${Date.now()}`, // storage with different prefix in different case
+  });
   const phone = createPhone({
     apiConfig,
     brandConfig,
-    prefix,
+    prefix: `${prefix}-${Date.now()}`, // storage with different prefix in different case
     version,
     clientService,
   });
@@ -98,9 +100,11 @@ export const initPhoneWrapper = async (options = {}) => {
   return { wrapper, phone };
 };
 
-export const tearDownWrapper = (wrapper) => {
+export const tearDownWrapper = async (wrapper) => {
+  const phone = wrapper.props().phone;
+  await phone.auth.logout();
+  window.__stopAllTimers();
   global.clientHistoryRequest = null;
-  window.localStorage.clear();
   mock.restore();
   wrapper.unmount();
 };

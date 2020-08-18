@@ -157,6 +157,9 @@ export default class CallLogger extends LoggerBase {
   }
 
   async _autoLogCall({ call, fromEntity, toEntity, triggerType }) {
+    if (!this.ready) {
+      return;
+    }
     await this.log({
       call: {
         ...call,

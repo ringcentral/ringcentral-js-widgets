@@ -1,4 +1,5 @@
 import messageSenderMessages from 'ringcentral-integration/modules/MessageSender/messageSenderMessages';
+import messageSenderMessagesV2 from 'ringcentral-integration/modules/MessageSenderV2/messageSenderMessages';
 
 export default {
   [messageSenderMessages.sendSuccess]: 'Send Success.',
@@ -23,6 +24,9 @@ export default {
   [messageSenderMessages.internationalSMSNotSupported]: 'Sending SMS to international phone number is not supported.',
   [messageSenderMessages.noInternalSMSPermission]: 'You don\'t have permission to send messages. Please contact your {brand} account administrator for upgrade.',
   [messageSenderMessages.noSMSPermission]: 'You don\'t have permission to send messages to recipients outside of your organization.',
+  [messageSenderMessagesV2.attachmentCountLimitation]: 'Maximum 10 attachments.',
+  [messageSenderMessagesV2.attachmentSizeLimitation]: 'Attachments size is limited to 1.5M bytes.',
+  [messageSenderMessagesV2.noAttachmentToExtension]: 'It isn\'t supported to send MMS to an extension.',
   areaCode: 'area code',
   [messageSenderMessages.sending]: 'Message being sent…It may take a couple of minutes to complete.'
 };

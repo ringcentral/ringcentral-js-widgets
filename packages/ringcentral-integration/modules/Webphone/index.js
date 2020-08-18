@@ -295,6 +295,9 @@ export default class Webphone extends RcModule {
       });
     }
     this.store.subscribe(() => this._onStateChange());
+    this._auth.addBeforeLogoutHandler(async () => {
+      await this._disconnect();
+    });
     this._createOtherWebphoneInstanceRegisteredListener();
   }
 
@@ -307,7 +310,6 @@ export default class Webphone extends RcModule {
       this.store.dispatch({
         type: this.actionTypes.resetSuccess,
       });
-      this.disconnect();
     }
     if (
       this.ready &&
@@ -378,7 +380,7 @@ export default class Webphone extends RcModule {
   async _sipProvision() {
     const response = await this._client.service
       .platform()
-      .post('/client-info/sip-provision', {
+      .post('/restapi/v1.0/client-info/sip-provision', {
         sipInfo: [{ transport: 'WSS' }],
       });
     return response.json();
@@ -405,9 +407,12 @@ export default class Webphone extends RcModule {
     if (!this._webphone || !this._webphone.userAgent) {
       return;
     }
+    const waitUnregisteredPromise = this._waitUnregistered(
+      this._webphone.userAgent,
+    );
     this._webphone.userAgent.stop();
     try {
-      await this._waitUnregistered(this._webphone.userAgent);
+      await waitUnregisteredPromise;
     } catch (e) {
       console.error(e);
     }

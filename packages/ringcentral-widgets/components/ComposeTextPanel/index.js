@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import styles from './styles.scss';
 import RecipientsInput from '../RecipientsInput';
-import SpinnerOverlay from '../SpinnerOverlay';
+import { SpinnerOverlay } from '../SpinnerOverlay';
 import NoSenderAlert from './NoSenderAlert';
 import FromField from '../FromField';
 import MessageInput from '../MessageInput';
@@ -107,6 +107,10 @@ class ComposeTextPanel extends Component {
           currentLocale={this.props.currentLocale}
           onSend={this.props.send}
           inputExpandable={this.props.inputExpandable}
+          attachments={this.props.attachments}
+          supportAttachment={this.props.supportAttachment}
+          addAttachment={this.props.addAttachment}
+          removeAttachment={this.props.removeAttachment}
         />
       </div>
     );
@@ -159,6 +163,15 @@ ComposeTextPanel.propTypes = {
   recipientsContactPhoneRenderer: PropTypes.func,
   autoFocus: PropTypes.bool,
   inputExpandable: PropTypes.bool,
+  supportAttachment: PropTypes.bool,
+  attachments: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      size: PropTypes.number.isRequired,
+    }),
+  ),
+  addAttachment: PropTypes.func,
+  removeAttachment: PropTypes.func,
 };
 
 ComposeTextPanel.defaultProps = {
@@ -175,6 +188,10 @@ ComposeTextPanel.defaultProps = {
   recipientsContactPhoneRenderer: undefined,
   autoFocus: false,
   inputExpandable: undefined,
+  supportAttachment: false,
+  attachments: undefined,
+  addAttachment: undefined,
+  removeAttachment: undefined,
 };
 
 export default ComposeTextPanel;

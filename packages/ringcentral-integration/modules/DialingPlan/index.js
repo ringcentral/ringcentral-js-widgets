@@ -31,7 +31,7 @@ export default class DialingPlan extends DataFetcher {
           await fetchList(async (params) => {
             const platform = client.service.platform();
             const response = await platform.get(
-              '/account/~/dialing-plan',
+              '/restapi/v1.0/account/~/dialing-plan',
               params,
             );
             return response.json();

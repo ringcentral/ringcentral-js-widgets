@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import debounce from 'ringcentral-integration/lib/debounce';
-import SpinnerOverlay from '../SpinnerOverlay';
+import { SpinnerOverlay } from '../SpinnerOverlay';
 import ActiveCallItem from '../ActiveCallItem';
 import CallListV2 from '../CallListV2';
 import CallList from '../CallList';

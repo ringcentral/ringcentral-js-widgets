@@ -10,6 +10,7 @@ export default ObjectMap.prefixKeys(
     'scheduledSuccess',
     'updatedSuccess',
     'internalError',
+    'meetingIsDeleted',
   ],
   'meetingStatus',
 );

@@ -378,4 +378,32 @@ describe('format', () => {
       }),
     );
   });
+  test('should keep extension number intact when multi-site disabled', () => {
+    const originExtensionNumber = '22702';
+    expect(
+      format({
+        phoneNumber: originExtensionNumber,
+      }),
+    ).toBe(originExtensionNumber);
+  });
+  test('should only remove site code in extension number when same site', () => {
+    const siteIsSameWithExtension = '22';
+    const siteIsDifferentFromExtension = '37';
+    const longExtension = '22702';
+    const shortExtension = '702';
+    expect(
+      format({
+        phoneNumber: longExtension,
+        siteCode: siteIsSameWithExtension,
+        isMultipleSiteEnabled: true,
+      }),
+    ).toBe(shortExtension);
+    expect(
+      format({
+        phoneNumber: longExtension,
+        siteCode: siteIsDifferentFromExtension,
+        isMultipleSiteEnabled: true,
+      }),
+    ).toBe(longExtension);
+  });
 });

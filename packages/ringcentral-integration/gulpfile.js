@@ -73,6 +73,7 @@ function runTest() {
     .src(getTestSources())
     .pipe(
       mocha({
+        require: ['integration-test/setup.js'],
         timeout: TIMEOUT,
         compilers: 'js:@ringcentral-integration/babel-settings/lib/register',
       }),
@@ -85,6 +86,7 @@ export const test = gulp.series(preCoverage, runTest);
 export function quickTest() {
   return gulp.src(getTestSources()).pipe(
     mocha({
+      require: ['integration-test/setup.js'],
       timeout: TIMEOUT,
       compilers: 'js:@ringcentral-integration/babel-settings/lib/register',
     }),

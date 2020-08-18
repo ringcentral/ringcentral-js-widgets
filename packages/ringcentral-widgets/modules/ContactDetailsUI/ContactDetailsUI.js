@@ -22,6 +22,7 @@ const DEFAULT_COMPOSETEXT_ROUTE = '/composeText';
     'RouterInteraction',
     'ContactSearch',
     'Contacts',
+    'ExtensionInfo',
     'RolesAndPermissions',
     'RateLimiter',
     'RegionSettings',
@@ -54,6 +55,7 @@ export class ContactDetailsUI extends RcUIModule {
     brand,
     locale,
     callingSettings,
+    extensionInfo,
     composeTextRoute = DEFAULT_COMPOSETEXT_ROUTE,
     dialerRoute = DEFAULT_DIALER_ROUTE,
     ...options
@@ -77,6 +79,7 @@ export class ContactDetailsUI extends RcUIModule {
     this._routerInteraction = routerInteraction;
     this._contactSearch = contactSearch;
     this._contacts = contacts;
+    this._extensionInfo = extensionInfo;
     this._rolesAndPermissions = rolesAndPermissions;
     this._rateLimiter = rateLimiter;
     this._regionSettings = regionSettings;
@@ -160,6 +163,7 @@ export class ContactDetailsUI extends RcUIModule {
         id: contactId,
         type: contactType,
       }),
+      isMultipleSiteEnabled: this._extensionInfo.isMultipleSiteEnabled ?? false,
       isClickToDialEnabled: !!(
         this._dialerUI && this._rolesAndPermissions.callingEnabled
       ),
@@ -201,11 +205,24 @@ export class ContactDetailsUI extends RcUIModule {
         );
         const isE164Number = isE164(cleanedNumber);
         if (isE164Number) {
-          const formatedNumber: string = formatNumber({
+          const formattedNumber: string = formatNumber({
             phoneNumber,
             countryCode: this._regionSettings.countryCode,
           });
-          return formatedNumber;
+          return formattedNumber;
+        }
+        // if multi-site is enabled then we will try to remove site code with same site
+        if (
+          this._extensionInfo.isMultipleSiteEnabled &&
+          this._extensionInfo.site?.code
+        ) {
+          const formattedNumber: string = formatNumber({
+            phoneNumber,
+            countryCode: this._regionSettings.countryCode,
+            siteCode: this._extensionInfo.site?.code,
+            isMultipleSiteEnabled: this._extensionInfo.isMultipleSiteEnabled,
+          });
+          return formattedNumber;
         }
         return phoneNumber;
       },

@@ -46,8 +46,8 @@ Note that if you want the module to be always injetable, the `@Module()` decorat
     { dep: 'CompanyContactsOptions', optional: true }
   ]
 })
-export default class ActiveCalls {
-  // Dependent module will be innjected into consturctor
+export default class CompanyContacts {
+  // Dependent module will be injected into constructor
   constructor({
     client,
     ...options

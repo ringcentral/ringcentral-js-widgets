@@ -48,7 +48,7 @@ export interface RcModuleOptions<S, T> {
 })
 export default abstract class RcModule<
   S extends Record<string, any> = Record<string, any>,
-  T extends Record<string, string> = Record<string, string>
+  T extends object = Record<string, string>
 > {
   private _getState: () => S;
   private _getProxyState: () => S;

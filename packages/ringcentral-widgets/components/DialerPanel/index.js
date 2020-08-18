@@ -5,7 +5,7 @@ import DialPad from '../DialPad';
 import RecipientsInput from '../RecipientsInput';
 import { RecipientsInputV2 } from '../RecipientsInputV2';
 import FromField from '../FromField';
-import SpinnerOverlay from '../SpinnerOverlay';
+import { SpinnerOverlay } from '../SpinnerOverlay';
 import CircleButton from '../CircleButton';
 import AnswerIcon from '../../assets/images/Answer.svg';
 

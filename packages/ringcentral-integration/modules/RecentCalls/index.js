@@ -13,7 +13,7 @@ import concurrentExecute from '../../lib/concurrentExecute';
  * @description Retrieve all recent calls related to a specified contact.
  */
 @Module({
-  deps: ['Client', 'CallHistory'],
+  deps: ['Client', 'Auth', 'CallHistory'],
 })
 export default class RecentCalls extends RcModule {
   /**
@@ -22,12 +22,13 @@ export default class RecentCalls extends RcModule {
    * @param {CallHistory} params.callHistory - callHistory module instance
    * @param {Client} params.client - client module instance
    */
-  constructor({ client, callHistory, ...options }) {
+  constructor({ client, auth, callHistory, ...options }) {
     super({
       actionTypes,
       ...options,
     });
     this._client = ensureExist.call(this, client, 'client');
+    this._auth = ensureExist.call(this, auth, 'auth');
     this._callHistory = ensureExist.call(this, callHistory, 'callHistory');
     this._reducer = getRecentCallsReducer(this.actionTypes);
   }
@@ -37,11 +38,11 @@ export default class RecentCalls extends RcModule {
   }
 
   _onStateChange() {
-    if (this.pending && this._callHistory.ready) {
+    if (this.pending && this._callHistory.ready && this._auth.loggedIn) {
       this.store.dispatch({
         type: this.actionTypes.initSuccess,
       });
-    } else if (this.ready && !this._callHistory.ready) {
+    } else if (this.ready && !this._callHistory.ready && !this._auth.loggedIn) {
       this.store.dispatch({
         type: this.actionTypes.resetSuccess,
       });
@@ -198,12 +199,16 @@ export default class RecentCalls extends RcModule {
   }
 
   _fetchCallLogList(params) {
-    return () =>
-      this._client
+    return async () => {
+      if (!this._auth.loggedIn) {
+        return { records: [] };
+      }
+      return this._client
         .account()
         .extension()
         .callLog()
         .list(params);
+    };
   }
 
   _flattenToRecords(items) {

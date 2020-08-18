@@ -52,7 +52,8 @@ export function AlertRenderer(
       return (props) => (
         <CallingSettingsAlert
           {...props}
-          brand={brand.fullName}
+          brandCode={brand.code}
+          brandName={brand.name}
           onCallingSettingsLinkClick={onCallingSettingsLinkClick}
         />
       );
@@ -66,7 +67,6 @@ export function AlertRenderer(
         />
       );
     }
-
     if (MessageSenderAlert.handleMessage(message)) {
       return (props) => (
         <MessageSenderAlert

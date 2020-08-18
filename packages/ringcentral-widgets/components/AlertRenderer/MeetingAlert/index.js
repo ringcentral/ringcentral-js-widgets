@@ -34,6 +34,9 @@ MeetingAlert.propTypes = {
   currentLocale: PropTypes.string.isRequired,
   message: PropTypes.shape({
     message: PropTypes.string.isRequired,
+    payload: PropTypes.shape({
+      permissionName: PropTypes.string,
+    }),
   }).isRequired,
   application: PropTypes.string,
 };
@@ -48,4 +51,5 @@ MeetingAlert.handleMessage = ({ message }) =>
   message === meetingStatus.insufficientPermissions ||
   message === meetingStatus.scheduledSuccess ||
   message === meetingStatus.updatedSuccess ||
+  message === meetingStatus.meetingIsDeleted ||
   message === meetingStatus.internalError;

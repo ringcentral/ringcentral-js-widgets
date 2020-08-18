@@ -5,9 +5,10 @@ import format, {
 
 function getMobileDialingNumberTpl(dialInNumbers, meetingId) {
   return dialInNumbers
-    .map(
-      ({ phoneNumber, location = '' }) =>
-        `${phoneNumber},,${meetingId}# (${location})`,
+    .map(({ phoneNumber, location = '' }) =>
+      location
+        ? `${phoneNumber},,${meetingId}# (${location})`
+        : `${phoneNumber},,${meetingId}#`,
     )
     .join('\n    ');
 }
@@ -20,7 +21,9 @@ function getPhoneDialingNumberTpl(dialInNumbers) {
         countryCode: country.isoCode,
         type: formatTypes.international,
       });
-      return `${filterFormattedNumber} (${location})`;
+      return location
+        ? `${filterFormattedNumber} (${location})`
+        : `${filterFormattedNumber}`;
     })
     .join('\n    ');
 }
@@ -31,9 +34,12 @@ const MeetingType = {
   RECURRING: 'Recurring',
   SCHEDULED_RECURRING: 'ScheduledRecurring',
   INSTANT: 'Instant',
-};
+  PMI: 'PMI',
+} as const;
 
-function isRecurringMeeting(meetingType) {
+export type MeetingTypeV = typeof MeetingType[keyof typeof MeetingType];
+
+function isRecurringMeeting(meetingType: MeetingTypeV) {
   return (
     meetingType === MeetingType.RECURRING ||
     meetingType === MeetingType.SCHEDULED_RECURRING
@@ -68,7 +74,11 @@ function getMeetingSettings({
 }
 
 // Basic default meeting type information
-function getDefaultMeetingSettings(extensionName, startTime) {
+function getDefaultMeetingSettings(
+  extensionName: string,
+  startTime: string,
+  extensionId?: string,
+) {
   return {
     topic: `${extensionName}'s Meeting`,
     meetingType: MeetingType.SCHEDULED,
@@ -81,12 +91,13 @@ function getDefaultMeetingSettings(extensionName, startTime) {
       },
     },
     host: {
-      id: null,
+      id: extensionId ?? null,
     },
     allowJoinBeforeHost: false,
     startHostVideo: false,
     startParticipantsVideo: false,
     audioOptions: ['Phone', 'ComputerAudio'],
+    usePersonalMeetingId: false,
     _requireMeetingPassword: false,
     _showDate: false,
     _showTime: false,

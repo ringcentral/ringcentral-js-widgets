@@ -9,12 +9,36 @@ const formatTypes = {
 
 export { formatTypes };
 
+/**
+ * Given current account is enabled the multiple site, when number is the same with current account
+ * then the number needs to be formatted.
+ * @param {String} params.currentSiteCode current user's site code
+ * @param {String} params.extension extension number need to be format
+ * @returns {String}
+ */
+export const formatSameSiteExtension = ({
+  currentSiteCode = '',
+  extension = '',
+}) => {
+  if (
+    currentSiteCode === '' ||
+    !extension ||
+    extension.indexOf(currentSiteCode) !== 0
+  ) {
+    return extension;
+  }
+  const regex = new RegExp(`${currentSiteCode}0*`);
+  return extension.replace(regex, '') || '0';
+};
+
 export default function format({
   phoneNumber,
   countryCode = 'US',
   areaCode = '',
+  siteCode = '',
   type = formatTypes.local,
   removeExtension = false,
+  isMultipleSiteEnabled = false,
   extensionDelimeter = ' * ',
 }) {
   const {
@@ -31,8 +55,17 @@ export default function format({
   if (!isValid) {
     return '';
   }
-  if (isServiceNumber || isExtension) {
+  if (isServiceNumber) {
     return number;
+  }
+  if (isExtension) {
+    if (!isMultipleSiteEnabled) {
+      return number;
+    }
+    return formatSameSiteExtension({
+      currentSiteCode: siteCode,
+      extension: number,
+    });
   }
   const isUSCA = countryCode === 'CA' || countryCode === 'US';
   let finalType;

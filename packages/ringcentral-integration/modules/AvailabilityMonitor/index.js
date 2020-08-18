@@ -104,7 +104,7 @@ export default class AvailabilityMonitor extends RcModule {
       this._unbindHandlers();
     }
 
-    const client = this._client.service.platform().client();
+    const client = this._client.service.client();
     const platform = this._client.service.platform();
 
     // TODO: in other modules, when they catch error first check if app is in HA mode.
@@ -186,18 +186,12 @@ export default class AvailabilityMonitor extends RcModule {
   }
 
   /**
-   * Retrieve retry after value from repsonse headers
+   * Retrieve retry after value from response headers
    * @param {*} headers
    */
   _retrieveRetryAfter(headers) {
     try {
-      let retryAfter = parseFloat(headers.get('Retry-After') || -1);
-      if (retryAfter < 0) {
-        const h = pathOr({}, ['_headers', 'retry-after'], headers) || -1;
-        retryAfter = Array.isArray(h) ? parseFloat(h[0]) : -1;
-        // retryAfter = h['retry-after'] || -1;
-      }
-
+      const retryAfter = parseFloat(headers.get('Retry-After') || -1);
       return Number.isNaN(retryAfter) ? -1 : retryAfter;
     } catch (error) {
       return -1;
@@ -211,8 +205,11 @@ export default class AvailabilityMonitor extends RcModule {
    * @param {*} error Http response
    * @memberof AvailabilityMonitor
    */
-  _requestErrorHandler(error) {
-    const requestUrl = pathOr('', ['apiResponse', '_request', 'url'], error);
+  async _requestErrorHandler(error) {
+    if (error.response && !error.response._json) {
+      error.response._json = await error.response.clone().json();
+    }
+    const requestUrl = pathOr('', ['request', 'url'], error);
     const extractedUrl = extractUrl({
       url: requestUrl,
     });
@@ -235,7 +232,7 @@ export default class AvailabilityMonitor extends RcModule {
       return;
     }
 
-    const headers = pathOr({}, ['apiResponse', '_response', 'headers'], error);
+    const headers = pathOr({}, ['response', 'headers'], error);
     const retryAfter = this._retrieveRetryAfter(headers);
 
     if (retryAfter > 0) {
@@ -249,17 +246,14 @@ export default class AvailabilityMonitor extends RcModule {
     this._retry();
   }
 
-  _refreshErrorHandler(error) {
+  async _refreshErrorHandler(error) {
     const isOffline = validateIsOffline(error.message);
 
     const platform = this._client.service.platform();
-    const RES_STATUS =
-      (error.apiResponse &&
-        error.apiResponse._response &&
-        error.apiResponse._response.status) ||
-      null;
+    const RES_STATUS = (error.response && error.response.status) || null;
     const refreshTokenValid =
-      (isOffline || RES_STATUS >= 500) && platform.auth().refreshTokenValid();
+      (isOffline || RES_STATUS >= 500) &&
+      (await platform.auth().refreshTokenValid());
     if (refreshTokenValid) {
       this._switchToVoIPOnlyMode();
     }
@@ -325,8 +319,8 @@ export default class AvailabilityMonitor extends RcModule {
   async _getStatus() {
     const res = await this._client.service
       .platform()
-      .get('/status', null, { skipAuthCheck: true });
-    return res && res.response();
+      .get('/restapi/v1.0/status', null, { skipAuthCheck: true });
+    return res;
   }
 
   _retry() {
@@ -377,9 +371,11 @@ export default class AvailabilityMonitor extends RcModule {
    * Check if the error is Survival Mode error,
    * Or if app is already in Survival Mode and current request is blocked with an error.
    */
-  checkIfHAError(error) {
+  async checkIfHAError(error) {
     const errMessage = pathOr(null, ['message'], error);
-
+    if (error.response) {
+      error.response._json = await error.response.clone().json();
+    }
     return isHAError(error) || errMessage === errorMessages.serviceLimited;
   }
 

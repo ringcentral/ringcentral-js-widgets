@@ -5,7 +5,7 @@ import ActiveCallItemV2 from 'ringcentral-widgets/components/ActiveCallItemV2';
 import ActiveCallsPanel from 'ringcentral-widgets/components/ActiveCallsPanel';
 
 import { mockMultiActiveCalls } from './helper';
-import { initPhoneWrapper } from '../shared';
+import { initPhoneWrapper, tearDownWrapper } from '../shared';
 
 beforeEach(async () => {
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 64000;
@@ -26,6 +26,7 @@ describe('history', () => {
         .first()
         .text(),
     ).toEqual('No active calls');
+    await tearDownWrapper(wrapper);
   });
 });
 
@@ -42,6 +43,7 @@ describe('RCI-1038#4 All Calls Page', () => {
     const panel = wrapper.find(ActiveCallsPanel).first();
     expect(panel).toBeDefined();
     expect(panel.find(ActiveCallList)).toHaveLength(4);
+    await tearDownWrapper(wrapper);
   });
   test('Check Call Section: ringCall', async () => {
     const { wrapper, phone } = await initPhoneWrapper();
@@ -66,6 +68,7 @@ describe('RCI-1038#4 All Calls Page', () => {
     }
     expect(buttons.at(0).props().title).toEqual('Send to Voicemail');
     expect(buttons.at(1).props().title).toEqual('Accept');
+    await tearDownWrapper(wrapper);
   });
   test('Check Call Section: currentCall', async () => {
     const { wrapper, phone } = await initPhoneWrapper();
@@ -92,6 +95,7 @@ describe('RCI-1038#4 All Calls Page', () => {
       expect(buttons.at(0).props().title).toEqual('Hang up');
       expect(buttons.at(1).props().title).toEqual('Accept');
     }
+    await tearDownWrapper(wrapper);
   });
   test('Check Call Section: onHoldCall', async () => {
     const { wrapper, phone } = await initPhoneWrapper();
@@ -118,6 +122,7 @@ describe('RCI-1038#4 All Calls Page', () => {
       expect(buttons.at(0).props().title).toEqual('Hang up');
       expect(buttons.at(1).props().title).toEqual('Accept');
     }
+    await tearDownWrapper(wrapper);
   });
   test('Check Call Section: otherDeviceCall', async () => {
     const { wrapper, phone } = await initPhoneWrapper();
@@ -139,5 +144,6 @@ describe('RCI-1038#4 All Calls Page', () => {
       'Ongoing calls on my other devices',
     );
     expect(buttons).toHaveLength(0);
+    await tearDownWrapper(wrapper);
   });
 });

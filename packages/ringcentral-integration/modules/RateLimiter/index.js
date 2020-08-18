@@ -114,12 +114,21 @@ export default class RateLimiter extends RcModule {
     });
   }
 
-  _requestErrorHandler = (apiResponse) => {
+  _requestErrorHandler = (error) => {
     if (
-      !(apiResponse instanceof Error) ||
-      apiResponse.message !== 'Request rate exceeded'
+      !(error instanceof Error) ||
+      error.message !== 'Request rate exceeded'
     ) {
       return;
+    }
+
+    // Get `retry-after` from response headers first
+    this._throttleDuration = DEFAULT_THROTTLE_DURATION;
+    if (error.response) {
+      const retryAfter = error.response.headers.get('retry-after');
+      if (retryAfter) {
+        this._throttleDuration = 1000 * Number.parseInt(retryAfter, 10);
+      }
     }
 
     const wasThrottling = this.throttling;
@@ -130,14 +139,6 @@ export default class RateLimiter extends RcModule {
     if (!wasThrottling) {
       this.showAlert();
     }
-
-    // Get `retry-after` from response headers first
-    this._throttleDuration = pathOr(
-      DEFAULT_THROTTLE_DURATION,
-      ['apiResponse', '_response', 'headers', 'retry-after'],
-      apiResponse,
-    );
-
     setTimeout(this._checkTimestamp, this._throttleDuration);
   };
 
@@ -145,7 +146,7 @@ export default class RateLimiter extends RcModule {
     if (this._unbindHandlers) {
       this._unbindHandlers();
     }
-    const client = this._client.service.platform().client();
+    const client = this._client.service.client();
     // TODO: Bind the `rateLimitError` event instead
     client.on(client.events.requestError, this._requestErrorHandler);
     client.on(client.events.beforeRequest, this._beforeRequestHandler);

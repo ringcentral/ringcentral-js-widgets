@@ -30,6 +30,8 @@ EvSessionConfigAlert.handleMessage = ({ message }: HandleMessage): boolean =>
     messageTypes.INVALID_PHONE_NUMBER,
     messageTypes.AGENT_CONFIG_ERROR,
     messageTypes.AGENT_CONFIG_DETAIL_ERROR,
+    messageTypes.UPDATE_AGENT_SUCCESS,
+    messageTypes.UPDATE_AGENT_ERROR,
     messageTypes.EMPTY_PHONE_NUMBER,
     messageTypes.NO_AGENT_SELECTED,
     messageTypes.INVALID_PHONE_NUMBER,

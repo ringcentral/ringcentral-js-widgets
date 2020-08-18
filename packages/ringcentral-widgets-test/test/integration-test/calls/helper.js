@@ -1,9 +1,9 @@
 import telephonyStatuses from 'ringcentral-integration/enums/telephonyStatus';
 import * as mock from 'ringcentral-integration/integration-test/mock';
+import { waitUntilEqual } from 'ringcentral-integration/integration-test/utils/WaitUtil';
 
 import deviceBody from './data/device';
 
-import { timeout } from '../shared';
 import {
   makeCall,
   getInboundCall,
@@ -19,8 +19,21 @@ function mockCallProcedure(func) {
     mock.device(deviceBody, false);
     const activeCallsBody = await func.apply(null, [phone, ...args]);
     mock.activeCalls(activeCallsBody);
-    await phone.subscription.subscribe(['/account/~/extension/~/presence'], 10);
-    await timeout(100);
+    await phone.subscription.subscribe(
+      ['/restapi/v1.0/account/~/extension/~/presence'],
+      10,
+    );
+    await waitUntilEqual(
+      () =>
+        !!(
+          phone.subscription._subscription &&
+          phone.subscription._subscription._pubnub
+        ),
+      'subscription',
+      true,
+      5,
+      10,
+    );
     await mockPresencePubnub(activeCallsBody);
   };
 }
@@ -110,7 +123,20 @@ export async function mockActiveCallPanelData(
   mockGenerateActiveCallsApi({
     sessions: phone.webphone.sessions,
   });
-  await phone.subscription.subscribe(['/account/~/extension/~/presence'], 10);
-  await timeout(100);
+  await phone.subscription.subscribe(
+    ['/restapi/v1.0/account/~/extension/~/presence'],
+    10,
+  );
+  await waitUntilEqual(
+    () =>
+      !!(
+        phone.subscription._subscription &&
+        phone.subscription._subscription._pubnub
+      ),
+    'subscription',
+    true,
+    5,
+    10,
+  );
   await mockPresencePubnub(activeCalls);
 }

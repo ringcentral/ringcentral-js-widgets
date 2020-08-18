@@ -1,10 +1,8 @@
 import {
   action,
-  createSelector,
-  RcModuleState,
+  computed,
   RcModuleV2,
   state,
-  storage,
 } from '@ringcentral-integration/core';
 import { Module } from 'ringcentral-integration/lib/di';
 import uuid from 'uuid';
@@ -15,27 +13,23 @@ import {
   DepsModules,
   ModalItem,
   ModalMappingType,
-  State,
 } from './Modal.interface';
-
-type ModalState = RcModuleState<Modal, State>;
 
 @Module({
   name: 'Modal',
   deps: [],
 })
-export class Modal extends RcModuleV2<DepsModules, ModalState> {
+export class Modal extends RcModuleV2<DepsModules> {
   @state
   modalIds: string[] = [];
 
   @state
   modalMapping: ModalMappingType = {};
 
-  getModals = createSelector(
-    () => this.modalIds,
-    () => this.modalMapping,
-    (modalIds, modalMapping) => modalIds.map((id) => modalMapping[id]),
-  );
+  @computed((that: Modal) => [that.modalIds, that.modalMapping])
+  get modals() {
+    return this.modalIds.map((id) => this.modalMapping[id]);
+  }
 
   @action
   private _setListItem(id: string, data: ModalItem) {

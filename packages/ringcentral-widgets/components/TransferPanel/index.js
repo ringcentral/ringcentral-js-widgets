@@ -45,6 +45,7 @@ export default class TransferPanel extends PureComponent {
     this.state = {
       toNumber: '',
       recipient: null,
+      isLastInputFromDialpad: false,
     };
   }
 
@@ -70,6 +71,9 @@ export default class TransferPanel extends PureComponent {
   }
 
   onButtonOutput = (key) => {
+    this.setState({
+      isLastInputFromDialpad: true,
+    });
     if (this.state.recipient) {
       return;
     }
@@ -85,6 +89,7 @@ export default class TransferPanel extends PureComponent {
 
   onToNumberChange = (toNumber) => {
     this.setState({
+      isLastInputFromDialpad: false,
       toNumber,
     });
   };
@@ -146,6 +151,7 @@ export default class TransferPanel extends PureComponent {
           phoneSourceNameRenderer={phoneSourceNameRenderer}
           contactInfoRenderer={recipientsContactInfoRenderer}
           contactPhoneRenderer={recipientsContactPhoneRenderer}
+          isLastInputFromDialpad={this.state.isLastInputFromDialpad}
           titleEnabled
           autoFocus={autoFocus}
         />

@@ -1,7 +1,7 @@
 import { RcButton } from '@ringcentral-integration/rcui';
 import React, { FunctionComponent, useState } from 'react';
 import { Tooltip } from 'ringcentral-widgets/components/Rcui/Tooltip';
-import { TOOLTIP_DEFAULT_DELAY_TIME } from 'ringcentral-widgets/lib/toolTipDelayTime';
+import { TOOLTIP_LONG_DELAY_TIME } from 'ringcentral-widgets/lib/toolTipDelayTime';
 
 import { EvGate } from '../../../../lib/EvClient';
 import { SelectList, ListItem } from '../../../SelectList';
@@ -45,7 +45,7 @@ export const RequeueCallGroupDetailPanel: FunctionComponent<RequeueCallGroupPane
           >
             <Tooltip
               title={option.gateName}
-              enterDelay={TOOLTIP_DEFAULT_DELAY_TIME}
+              enterDelay={TOOLTIP_LONG_DELAY_TIME}
             >
               <span className={styles.gateName}>{option.gateName}</span>
             </Tooltip>

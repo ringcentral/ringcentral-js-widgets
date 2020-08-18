@@ -11,8 +11,10 @@
     "node": ">=8"
   },
   "scripts": {
+    "test:crius:dev": "jest --config=crius.config.js",
+    "test:crius": "cross-env NODE_ENV=ci jest --config=crius.config.js",
     "debug": "node --inspect ./node_modules/.bin/jest -i",
-    "test": "yarn test:jest",
+    "test": "yarn test:jest && yarn test:crius",
     "test:jest": "jest",
     "test:watch": "yarn test -- --watch",
     "test:coverage": "yarn test --coverage",
@@ -21,11 +23,16 @@
     "test:debug": "node --inspect node_modules/.bin/jest --runInBand"
   },
   "dependencies": {
-    "@ringcentral-integration/core": "^0.11.0",
+    "@rc-ex/core": "^0.4.2",
     "@ringcentral-integration/babel-settings": "*",
+    "@ringcentral-integration/core": "*",
     "@ringcentral-integration/i18n": "*",
     "@ringcentral-integration/locale-loader": "*",
     "@ringcentral-integration/phone-number": "*",
+    "@ringcentral-integration/rcui": "*",
+    "@ringcentral-integration/test-utils": "*",
+    "@ringcentral/sdk": "^4.3.2",
+    "@ringcentral/subscriptions": "^4.3.2",
     "babel-istanbul": "^0.12.1",
     "babel-jest": "^24.8.0",
     "coveralls": "^3.0.4",
@@ -42,7 +49,6 @@
     "pubnub": "^4.20.1",
     "ramda": "^0.26.1",
     "rc-tooltip": "^3.7.2",
-    "@ringcentral-integration/rcui":"*",
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
     "react-redux": "^5.1.1",
@@ -51,7 +57,6 @@
     "redux": "^4.0.4",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.2.0",
-    "ringcentral": "^3.2.1",
     "ringcentral-client": "^1.0.0-beta.2",
     "ringcentral-integration": "*",
     "ringcentral-widgets": "*",
@@ -59,6 +64,7 @@
     "yargs": "^14.0.0"
   },
   "jest": {
+    "roots": ["<rootDir>/test"],
     "moduleNameMapper": {
       "assets/images/.+?\\.svg$": "<rootDir>/test/__mocks__/svgMock.js",
       "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga|ogg)$": "<rootDir>/test/__mocks__/fileMock.js",
@@ -83,7 +89,6 @@
       "jest-junit"
     ]
   },
-  "peerDependencies": {},
   "devDependencies": {
     "@types/jest": "^24.0.16",
     "jest": "^24.8.0",

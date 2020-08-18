@@ -13,12 +13,16 @@ export default function formatNumber({
   removeExtension = false,
   countryCode = 'US',
   areaCode = '',
+  siteCode = '',
   international = false,
+  isMultipleSiteEnabled = false,
 }) {
   return format({
     phoneNumber,
     countryCode,
     areaCode,
+    siteCode,
+    isMultipleSiteEnabled,
     removeExtension,
     type: international ? formatTypes.international : formatTypes.local,
   });

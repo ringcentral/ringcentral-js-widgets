@@ -35,7 +35,7 @@ class Enum {
       properties[item] = Enum.setPrefix(item, prefix);
     });
     defineProperties(this, properties);
-    if (Proxy && Reflect) {
+    if (typeof window !== 'undefined' && window.Proxy && window.Reflect) {
       return freeze(this);
     }
     Object.freeze(this);
