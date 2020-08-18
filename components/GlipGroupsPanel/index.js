@@ -39,7 +39,7 @@ var _classnames = _interopRequireDefault(require("classnames"));
 
 var _SearchInput = _interopRequireDefault(require("ringcentral-widgets/components/SearchInput"));
 
-var _SpinnerOverlay = _interopRequireDefault(require("ringcentral-widgets/components/SpinnerOverlay"));
+var _SpinnerOverlay = require("ringcentral-widgets/components/SpinnerOverlay");
 
 var _debounce = _interopRequireDefault(require("ringcentral-integration/lib/debounce"));
 
@@ -170,7 +170,7 @@ var GlipGroupsPanel = /*#__PURE__*/function (_PureComponent) {
           filteredContacts = _this$props.filteredContacts,
           updateContactSearchFilter = _this$props.updateContactSearchFilter,
           contactSearchFilter = _this$props.contactSearchFilter;
-      var spinner = showSpinner ? /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay["default"], null) : null; // TODO: update searching with i18n
+      var spinner = showSpinner ? /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay.SpinnerOverlay, null) : null; // TODO: update searching with i18n
 
       return /*#__PURE__*/_react["default"].createElement("div", {
         className: (0, _classnames["default"])(_styles["default"].root, className)

@@ -37,7 +37,7 @@ var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
-var _SpinnerOverlay = _interopRequireDefault(require("ringcentral-widgets/components/SpinnerOverlay"));
+var _SpinnerOverlay = require("ringcentral-widgets/components/SpinnerOverlay");
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
@@ -125,7 +125,7 @@ var GlipChatPage = /*#__PURE__*/function (_Component) {
           loadNextPage = _this$props.loadNextPage,
           onBackClick = _this$props.onBackClick,
           mobile = _this$props.mobile;
-      var spinner = showSpinner ? /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay["default"], null) : null; // TODO: update alt with i18n
+      var spinner = showSpinner ? /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay.SpinnerOverlay, null) : null; // TODO: update alt with i18n
 
       var backIcon = onBackClick ? /*#__PURE__*/_react["default"].createElement("img", {
         src: _left_arrow["default"],
