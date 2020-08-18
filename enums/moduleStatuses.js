@@ -7,8 +7,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.moduleStatuses = void 0;
 
-var _enum = require("usm/lib/utils/enum");
+var _ObjectMap = require("../lib/ObjectMap");
 
-var moduleStatuses = (0, _enum.createEnum)(['pending', 'initializing', 'ready', 'resetting'], 'module');
+var moduleStatuses = _ObjectMap.ObjectMap.prefixKeys(['pending', 'initializing', 'ready', 'resetting'], 'module');
+
 exports.moduleStatuses = moduleStatuses;
 //# sourceMappingURL=moduleStatuses.js.map
