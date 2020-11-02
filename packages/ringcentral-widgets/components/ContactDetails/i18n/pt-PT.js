@@ -1,26 +1,27 @@
 import { presenceStatus } from 'ringcentral-integration/enums/presenceStatus.enum';
 import dndStatus from 'ringcentral-integration/modules/Presence/dndStatus';
-import phoneTypes from '../../../enums/phoneTypes';
+import { phoneTypes } from 'ringcentral-integration/enums/phoneTypes';
+
 export default {
-  [phoneTypes.extension]: "Ext.",
-  [phoneTypes.direct]: "Direto",
-  [phoneTypes.mobile]: "Dispositivo móvel",
-  [phoneTypes.home]: "Casa",
-  [phoneTypes.business]: "Profissional",
-  [phoneTypes.fax]: "Fax",
-  [phoneTypes.company]: "Empresa",
-  [phoneTypes.other]: "Outro",
-  emailLabel: "E-mail",
-  call: "Ligar",
-  text: "Texto",
-  [presenceStatus.available]: "Disponível",
-  [presenceStatus.offline]: "Invisível",
-  [presenceStatus.busy]: "Ocupado",
-  [dndStatus.doNotAcceptAnyCalls]: "Não incomodar",
-  notActivated: "Inativo",
-  company: "Empresa",
-  jobTitle: "Título",
-  site: "Local"
+  [phoneTypes.extension]: 'Ext.',
+  [phoneTypes.direct]: 'Direto',
+  [phoneTypes.mobile]: 'Dispositivo móvel',
+  [phoneTypes.home]: 'Casa',
+  [phoneTypes.business]: 'Profissional',
+  [phoneTypes.fax]: 'Fax',
+  [phoneTypes.company]: 'Empresa',
+  [phoneTypes.other]: 'Outro',
+  emailLabel: 'E-mail',
+  call: 'Ligar',
+  text: 'Texto',
+  [presenceStatus.available]: 'Disponível',
+  [presenceStatus.offline]: 'Invisível',
+  [presenceStatus.busy]: 'Ocupado',
+  [dndStatus.doNotAcceptAnyCalls]: 'Não incomodar',
+  notActivated: 'Inativo',
+  company: 'Empresa',
+  jobTitle: 'Título',
+  site: 'Local',
 };
 
 // @key: @#@"[phoneTypes.extension]"@#@ @source: @#@"Ext."@#@
