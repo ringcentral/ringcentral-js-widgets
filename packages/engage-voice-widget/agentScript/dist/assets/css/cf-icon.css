@@ -1,0 +1,130 @@
+@font-face {
+    font-family: 'cf-icon';
+    src:  url('../fonts/iconfont.eot?8d4693ff4ad163e9c8d451720f576b96');
+    src:  url('../fonts/iconfont.eot?8d4693ff4ad163e9c8d451720f576b96#iefix') format('embedded-opentype'),
+    url('../fonts/iconfont.ttf?8d4693ff4ad163e9c8d451720f576b96') format('truetype'),
+    url('../fonts/iconfont.woff?8d4693ff4ad163e9c8d451720f576b96') format('woff'),
+    url('../fonts/iconfont.svg?8d4693ff4ad163e9c8d451720f576b96#cf-icon') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.cf-icon {
+    /* use !important to prevent issues with browser extensions that change fonts */
+    font-family: 'cf-icon' !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+
+.cf-icon-answer:before {
+    content: "\f101";
+}
+.cf-icon-calendar_alt:before, .cf-icon-calendar-alt:before {
+    content: "\f102";
+}
+.cf-icon-connected_transfer:before, .cf-icon-connected-transfer:before {
+    content: "\f103";
+}
+.cf-icon-container:before {
+    content: "\f104";
+}
+.cf-icon-datetime:before {
+    content: "\f105";
+}
+.cf-icon-email:before {
+    content: "\f106";
+}
+.cf-icon-getDigits:before {
+    content: "\f107";
+}
+.cf-icon-hangup:before {
+    content: "\f108";
+}
+.cf-icon-playAudio:before {
+    content: "\f109";
+}
+.cf-icon-record_icon:before, .cf-icon-agent-record:before {
+    content: "\f10a";
+}
+.cf-icon-recordAudio:before {
+    content: "\f10b";
+}
+.cf-icon-requeue_icon:before, .cf-icon-agent-requeue:before {
+    content: "\f10c";
+}
+.cf-icon-sayVariable:before {
+    content: "\f10e";
+}
+.cf-icon-scripting:before, .cf-icon-script:before {
+    content: "\f10e";
+}
+.cf-icon-start:before {
+    content: "\f10f";
+}
+.cf-icon-startRec:before, .cf-icon-startRecord:before {
+    content: "\f110";
+}
+.cf-icon-stopRec:before, .cf-icon-stopRecord:before  {
+    content: "\f111";
+}
+.cf-icon-transfer:before {
+    content: "\f112";
+}
+.cf-icon-www:before {
+    content: "\f113";
+}
+
+.cf-icon-answer {
+    color: #00a1e4;
+}
+.cf-icon-container {
+    color: #a0a0a0;
+}
+.cf-icon-datetime {
+    color: #6dbc2b;
+}
+.cf-icon-email {
+    color: #7b3a23;
+}
+.cf-icon-getDigits {
+    color: #4ac7ca;
+}
+.cf-icon-hangup {
+    color: #0061b3;
+}
+.cf-icon-playAudio {
+    color: #fe542c;
+}
+.cf-icon-recordAudio {
+    color: #a349a3;
+}
+.cf-icon-sayVariable {
+    color: #ff2a5b;
+}
+.cf-icon-scripting, .cf-icon-script {
+    color: #0f778c;
+}
+.cf-icon-start {
+    color: #518088;
+}
+.cf-icon-startRec, .cf-icon-startRecord {
+    color: #007e3a;
+}
+.cf-icon-stopRec, .cf-icon-stopRecord {
+    color: #900001;
+}
+.cf-icon-transfer {
+    color: #ffa83a;
+}
+.cf-icon-www {
+    color: #751f94;
+}

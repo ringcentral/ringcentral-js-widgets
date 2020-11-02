@@ -28,7 +28,7 @@ import GroupConversationIcon from '../../assets/images/GroupConversation.svg';
 import styles from './styles.scss';
 import i18n from './i18n';
 
-function ConversationIcon({ group, type, currentLocale, direction }) {
+const ConversationIcon = ({ group, type, currentLocale, direction }) => {
   let title;
   let icon;
   switch (type) {
@@ -340,11 +340,19 @@ export default class MessageItem extends Component {
         conversation.mmsAttachments &&
         conversation.mmsAttachments.length > 0
       ) {
-        const count = conversation.mmsAttachments.filter(
+        const imageCount = conversation.mmsAttachments.filter(
           (m) => m.contentType.indexOf('image') > -1,
         ).length;
-        return formatMessage(i18n.getString('imageAttachment', currentLocale), {
-          count,
+        if (imageCount > 0) {
+          return formatMessage(
+            i18n.getString('imageAttachment', currentLocale),
+            {
+              count: imageCount,
+            },
+          );
+        }
+        return formatMessage(i18n.getString('fileAttachment', currentLocale), {
+          count: conversation.mmsAttachments.length,
         });
       }
       return conversation.subject;
@@ -419,6 +427,8 @@ export default class MessageItem extends Component {
       brand,
       countryCode,
       currentLocale,
+      currentSiteCode,
+      isMultipleSiteEnabled,
       conversation: {
         conversationId,
         unreadCounts,
@@ -533,6 +543,8 @@ export default class MessageItem extends Component {
               groupNumbers={groupNumbers}
               showGroupNumberName={showGroupNumberName}
               currentLocale={currentLocale}
+              currentSiteCode={currentSiteCode}
+              isMultipleSiteEnabled={isMultipleSiteEnabled}
               enableContactFallback={enableContactFallback}
               stopPropagation={false}
               showType={false}
@@ -678,6 +690,8 @@ MessageItem.propTypes = {
   brand: PropTypes.string.isRequired,
   countryCode: PropTypes.string.isRequired,
   currentLocale: PropTypes.string.isRequired,
+  currentSiteCode: PropTypes.string,
+  isMultipleSiteEnabled: PropTypes.bool,
   onLogConversation: PropTypes.func,
   onViewContact: PropTypes.func,
   onCreateContact: PropTypes.func,
@@ -709,6 +723,8 @@ MessageItem.propTypes = {
 };
 
 MessageItem.defaultProps = {
+  currentSiteCode: '',
+  isMultipleSiteEnabled: false,
   onLogConversation: undefined,
   onClickToDial: undefined,
   onViewContact: undefined,

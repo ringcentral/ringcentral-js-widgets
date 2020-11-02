@@ -1,5 +1,5 @@
-import { RcIconButton, RcIconButtonProps } from '@ringcentral-integration/rcui';
-import arrowRight1Svg from '@ringcentral-integration/rcui/icons/icon-arrow_right1.svg';
+import { RcIconButton, RcIconButtonProps } from '@ringcentral/juno';
+import arrowRight1Svg from '@ringcentral/juno/icons/icon-arrow_right1.svg';
 import React, { FunctionComponent } from 'react';
 
 type CustomArrowButtonProps = {

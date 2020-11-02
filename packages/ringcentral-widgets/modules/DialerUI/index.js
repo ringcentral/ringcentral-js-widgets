@@ -119,6 +119,16 @@ export default class DialerUI extends RcUIModule {
     });
   }
 
+  async triggerHook({ phoneNumber = '', recipient = null, fromNumber = null }) {
+    for (const hook of this._callHooks) {
+      await hook({
+        phoneNumber,
+        recipient,
+        fromNumber,
+      });
+    }
+  }
+
   @proxify
   async call({ phoneNumber = '', recipient = null, fromNumber = null }) {
     if (phoneNumber || recipient) {
@@ -127,13 +137,7 @@ export default class DialerUI extends RcUIModule {
         phoneNumber,
         recipient,
       });
-      for (const hook of this._callHooks) {
-        await hook({
-          phoneNumber,
-          recipient,
-          fromNumber,
-        });
-      }
+      await this.triggerHook({ phoneNumber, recipient, fromNumber });
       try {
         await this._call.call({
           phoneNumber: this.toNumberField,

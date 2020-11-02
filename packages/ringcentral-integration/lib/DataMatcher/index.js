@@ -192,11 +192,13 @@ export default class DataMatcher extends RcModule {
   }
 
   @proxify
-  async triggerMatch() {
+  async triggerMatch({ ignoreCache = false, ignoreQueue = false } = {}) {
     if (this.ready) {
       this._cleanUp();
       await this.match({
         queries: this._getQueries(),
+        ignoreCache,
+        ignoreQueue,
       });
     }
   }
@@ -228,16 +230,17 @@ export default class DataMatcher extends RcModule {
           `${this.constructor.name}: provider named "${name} does not exist`,
         );
       }
-      const promise = provider.searchFn({
-        queries,
-      });
+      const promise = Promise.resolve(
+        provider.searchFn({
+          queries,
+        }),
+      );
       this._matchPromises.set(name, {
         promise,
         queries,
       });
       const data = await promise;
       this._matchPromises.delete(name);
-
       this.store.dispatch({
         type: this.actionTypes.matchSuccess,
         name,
@@ -264,7 +267,7 @@ export default class DataMatcher extends RcModule {
     const data = this.data;
     const queuedItems = {};
     const promises = [];
-    let queue;
+
     let matching;
     if (!ignoreQueue && this._matchPromises.has(name)) {
       matching = this._matchPromises.get(name);
@@ -274,6 +277,7 @@ export default class DataMatcher extends RcModule {
       });
     }
 
+    let queue;
     if (!ignoreQueue && this._matchQueues.has(name)) {
       queue = this._matchQueues.get(name);
       promises.push(queue.promise);
@@ -281,7 +285,8 @@ export default class DataMatcher extends RcModule {
         queuedItems[item] = true;
       });
     }
-    const filteredQueries = ignoreCache
+
+    const newQueries = ignoreCache
       ? queries
       : filter(
           (query) =>
@@ -292,23 +297,23 @@ export default class DataMatcher extends RcModule {
           queries,
         );
 
-    if (filteredQueries.length) {
+    if (newQueries.length) {
       if (ignoreQueue) {
         promises.push(
           this._fetchMatchResult({
             name,
-            queries: filteredQueries,
+            queries: newQueries,
           }),
         );
       } else if (!matching) {
         matching = this._fetchMatchResult({
           name,
-          queries: filteredQueries,
+          queries: newQueries,
         });
         promises.push(matching);
       } else if (!queue) {
         queue = {
-          queries: filteredQueries,
+          queries: newQueries,
         };
         queue.promise = (async () => {
           await matching.promise;
@@ -322,7 +327,7 @@ export default class DataMatcher extends RcModule {
         this._matchQueues.set(name, queue);
         promises.push(queue.promise);
       } else {
-        queue.queries = queue.queries.concat(filteredQueries);
+        queue.queries = queue.queries.concat(newQueries);
       }
     }
     await Promise.all(promises);

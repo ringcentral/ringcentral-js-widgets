@@ -3,11 +3,16 @@ import { Module } from '../../lib/di';
 import Pollable from '../../lib/Pollable';
 import sleep from '../../lib/sleep';
 import moduleStatuses from '../../enums/moduleStatuses';
+import { phoneSources } from '../../enums/phoneSources';
 import syncTypes from '../../enums/syncTypes';
 import actionTypes from './actionTypes';
 import proxify from '../../lib/proxy/proxify';
 import { selector } from '../../lib/selector';
-import { addPhoneToContact, getMatchContacts } from '../../lib/contactHelper';
+import {
+  getSearchContacts,
+  getMatchContacts,
+  addPhoneToContact,
+} from '../../lib/contactHelper';
 
 import getAddressBookReducer, {
   getSyncTokenReducer,
@@ -222,12 +227,7 @@ export default class AddressBook extends Pollable {
       const response = await this._sync(syncToken);
       return response;
     } catch (error) {
-      if (
-        error &&
-        error.response &&
-        error.response._response &&
-        error.response.status === 403
-      ) {
+      if (error && error.response && error.response.status === 403) {
         const result = {
           records: [],
           syncInfo: {
@@ -240,6 +240,7 @@ export default class AddressBook extends Pollable {
     }
   }
 
+  // interface of ContactSource
   @proxify
   async sync() {
     if (!this._promise) {
@@ -335,12 +336,22 @@ export default class AddressBook extends Pollable {
     });
   }
 
-  // interface of contact source
+  // interface of ContactSource
+  searchContacts(searchString) {
+    return getSearchContacts({
+      contacts: this.contacts,
+      searchString,
+      entityType: phoneSources.contact,
+      options: null,
+    });
+  }
+
+  // interface of ContactSource
   matchPhoneNumber(phoneNumber) {
     return getMatchContacts({
       contacts: this.contacts,
       phoneNumber,
-      entityType: 'rcContact',
+      entityType: phoneSources.rcContact,
     });
   }
 
@@ -382,12 +393,12 @@ export default class AddressBook extends Pollable {
     return this._timeToRetry;
   }
 
-  // interface of contact source
+  // interface of ContactSource
   get sourceName() {
     return 'personal';
   }
 
-  // interface of contact source
+  // interface of ContactSource
   @selector
   contacts = [
     () => this.rawContacts,
@@ -404,6 +415,7 @@ export default class AddressBook extends Pollable {
         contact.name = `${contact.firstName || ''} ${contact.lastName || ''}`;
         if (contact.email) contact.emails.push(contact.email);
         if (contact.email2) contact.emails.push(contact.email2);
+        if (contact.email3) contact.emails.push(contact.email3);
         Object.keys(contact).forEach((key) => {
           if (key.toLowerCase().indexOf('phone') === -1) {
             return;
@@ -419,6 +431,7 @@ export default class AddressBook extends Pollable {
     },
   ];
 
+  // interface of ContactSource
   get sourceReady() {
     return this.ready;
   }

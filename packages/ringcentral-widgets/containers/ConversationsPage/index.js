@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
-import MessagesPanel from '../../components/ConversationsPanel';
+// it is used in message tab
+import ConversationsPanel from '../../components/ConversationsPanel';
 import { withPhone } from '../../lib/phoneContext';
 
 export function mapToProps(
@@ -19,6 +20,7 @@ export function mapToProps(
       rateLimiter,
       messageStore,
       connectivityManager,
+      extensionInfo,
     },
     showTitle = false,
     enableContactFallback = false,
@@ -38,6 +40,8 @@ export function mapToProps(
     showGroupNumberName,
     brand: brand.fullName,
     currentLocale: locale.currentLocale,
+    currentSiteCode: extensionInfo?.site?.code ?? '',
+    isMultipleSiteEnabled: extensionInfo?.isMultipleSiteEnabled ?? false,
     conversations: conversations.pagingConversations,
     areaCode: regionSettings.areaCode,
     countryCode: regionSettings.countryCode,
@@ -223,8 +227,5 @@ export function mapToFunctions(
   };
 }
 export default withPhone(
-  connect(
-    mapToProps,
-    mapToFunctions,
-  )(MessagesPanel),
+  connect(mapToProps, mapToFunctions)(ConversationsPanel),
 );

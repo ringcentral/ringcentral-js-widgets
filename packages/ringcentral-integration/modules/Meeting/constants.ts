@@ -17,7 +17,7 @@ export const COMMON_SETTINGS = [
 
 export const DEFAULT_LOCK_SETTINGS = {
   _lockRequireMeetingPassword: false,
-  _lockSettings: {
+  settingLock: {
     allowJoinBeforeHost: false,
     audioOptions: false,
     startHostVideo: false,

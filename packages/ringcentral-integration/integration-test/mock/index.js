@@ -1,6 +1,6 @@
 import { SDK } from '@ringcentral/sdk';
 import fetchMock from 'fetch-mock';
-import { RCV_PREFERENCES_API_KEYS } from '../../modules/RcVideo/videoHelper';
+import { RCV_PREFERENCES_IDS } from '../../modules/RcVideo/videoHelper';
 import accountBody from './data/accountInfo.json';
 import accountPhoneNumberBody from './data/accountPhoneNumber.json';
 import activeCallsBody from './data/activeCalls.json';
@@ -25,6 +25,7 @@ import lockedSettingsBody from './data/lockedSettings.json';
 import meetingBody from './data/meeting.json';
 import meetingInvitationBody from './data/meetingInvitation.json';
 import assistedUsersBody from './data/assistedUsers.json';
+import delegatorsBody from './data/delegatorsBody.json';
 import meetingProviderRcmBody from './data/meetingProviderRcm.json';
 import meetingProviderRcvBody from './data/meetingProviderRcv.json';
 import messageItemBody from './data/messageItem.json';
@@ -45,6 +46,7 @@ import userSettingsBody from './data/userSettings.json';
 import videoConfigurationBody from './data/videoConfiguration.json';
 import meetingPreferenceBody from './data/videoPreference.json';
 import featuresBody from './data/features.json';
+import videoPersonalSettingsBody from './data/videoPersonalSettings.json';
 
 export const mockServer = 'http://whatever';
 export function createSDK(options = {}) {
@@ -491,6 +493,14 @@ export function assistedUsers(mockResponse = {}) {
   });
 }
 
+export function delegators(mockResponse = {}) {
+  mockApi({
+    method: 'GET',
+    url: `${mockServer}/rcvideo/v1/accounts/~/extensions/~/delegators`,
+    body: mockResponse || delegatorsBody,
+  });
+}
+
 export function device(mockResponse = {}, isOnce = true) {
   mockApi({
     url: `begin:${mockServer}/restapi/v1.0/account/~/extension/~/device`,
@@ -708,12 +718,22 @@ export function meetingInfo(
   });
 }
 
-export function videoPreference() {
-  const query = `id=${RCV_PREFERENCES_API_KEYS.join('&id=')}`;
+export function videoPreference(useExtensionId = false) {
+  const query = `id=${RCV_PREFERENCES_IDS.join('&id=')}`;
+  const extensionId = useExtensionId ? extensionBody.id : '~';
   mockApi({
     method: 'GET',
-    url: `${mockServer}/rcvideo/v1/account/~/extension/~/preferences?${query}`,
+    url: `${mockServer}/rcvideo/v1/account/${extensionId}/extension/${extensionId}/preferences?${query}`,
     body: meetingPreferenceBody,
+    isOnce: false,
+  });
+}
+
+export function videoPersonalSettings() {
+  mockApi({
+    method: 'GET',
+    url: `${mockServer}/rcvideo/v1/bridges?default=true&accountId=${accountBody.id}&extensionId=${extensionBody.id}`,
+    body: videoPersonalSettingsBody,
     isOnce: false,
   });
 }
@@ -890,4 +910,6 @@ export function mockForLogin({
   lockedSettings(params.lockedSettingsData);
   features(params.featuresData);
   assistedUsers(params.mockAssistedUsers);
+  delegators();
+  videoPersonalSettings();
 }

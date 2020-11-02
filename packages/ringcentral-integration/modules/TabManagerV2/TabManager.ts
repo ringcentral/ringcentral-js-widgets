@@ -1,6 +1,7 @@
 import { action, RcModuleV2, state } from '@ringcentral-integration/core';
-
+import { AnyAction } from 'redux';
 import { Module } from '../../lib/di';
+import proxify from '../../lib/proxy/proxify';
 import { Tabbie } from '../../lib/Tabbie';
 import { Deps, TabEvent } from './TabManager.interface';
 
@@ -9,11 +10,23 @@ import { Deps, TabEvent } from './TabManager.interface';
   deps: ['Brand', { dep: 'TabManagerOptions', optional: true }],
 })
 export class TabManager extends RcModuleV2<Deps> {
-  protected _tabbie: Tabbie = null;
+  public tabbie: Tabbie;
   constructor(deps: Deps) {
     super({
       deps,
+      enableGlobalCache: deps.tabManagerOptions?.enableCache ?? false,
     });
+    this.tabbie = new Tabbie({
+      prefix: this._deps.brand.prefix,
+    });
+  }
+
+  @state
+  id: string = null;
+
+  @action
+  protected _setId(id: string) {
+    this.id = id;
   }
 
   /**
@@ -39,17 +52,31 @@ export class TabManager extends RcModuleV2<Deps> {
     };
   }
 
-  async onInit() {
-    this._tabbie = new Tabbie({
-      prefix: this._deps.brand.prefix,
-    });
-    if (this._tabbie.enabled) {
-      this._setActive(await this._tabbie.checkIsMain());
-      this._tabbie.on(this._tabbie.events.mainTabIdChanged, async () => {
-        this._setActive(await this._tabbie.checkIsMain());
+  public getReducers(actionTypes: Record<string, string>) {
+    return {
+      ...super.getReducers(actionTypes),
+      event: (state: TabEvent = null, action: AnyAction) => {
+        if (
+          actionTypes.event &&
+          action.type.indexOf(actionTypes.event) > -1 &&
+          action.states
+        ) {
+          return action.states.event;
+        }
+        return null;
+      },
+    };
+  }
+
+  async onInitOnce() {
+    this._setId(this.tabbie.id);
+    if (this.tabbie.enabled) {
+      this._setActive(await this.tabbie.checkIsMain());
+      this.tabbie.on(this.tabbie.events.mainTabIdChanged, async () => {
+        this._setActive(await this.tabbie.checkIsMain());
       });
-      this._tabbie.on(
-        this._tabbie.events.event,
+      this.tabbie.on(
+        this.tabbie.events.event,
         (event: string, ...args: any[]) => {
           this._setEvent(event, args);
         },
@@ -57,31 +84,34 @@ export class TabManager extends RcModuleV2<Deps> {
     }
   }
 
-  send(event: string, ...args: any[]) {
-    this._tabbie.send(event, ...args);
+  @proxify
+  async send(event: string, ...args: any[]) {
+    this.tabbie.send(event, ...args);
   }
 
+  @proxify
   async checkIsMain() {
-    return this._tabbie.checkIsMain();
+    return this.tabbie.checkIsMain();
   }
 
-  checkTabAliveById(id: string) {
-    return this._tabbie.checkTabAliveById(id);
-  }
-
-  get id() {
-    return this._tabbie.id;
+  @proxify
+  async checkTabAliveById(id: string) {
+    return this.tabbie.checkTabAliveById(id);
   }
 
   get hasMultipleTabs() {
-    return this._tabbie.hasMultipleTabs;
+    return this.tabbie?.hasMultipleTabs ?? false;
   }
 
   get tabs() {
-    return this._tabbie.tabs;
+    return this.tabbie?.tabs ?? [];
   }
 
   get isFirstTab() {
-    return this._tabbie.isFirstTab;
+    return this.tabbie?.isFirstTab ?? true;
+  }
+
+  get enable() {
+    return this.tabbie?.enabled;
   }
 }

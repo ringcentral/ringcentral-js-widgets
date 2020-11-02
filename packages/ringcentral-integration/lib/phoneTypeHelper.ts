@@ -1,7 +1,7 @@
 import { sort, reduce, filter, addIndex } from 'ramda';
 import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
-import phoneTypes from '../enums/phoneTypes';
-import { PhoneNumberModel } from '../models/PhoneNumber.model';
+import { phoneTypes } from '../enums/phoneTypes';
+import { PhoneNumberModel } from '../interfaces/PhoneNumber.model';
 
 export const phoneTypeOrder = Object.freeze([
   phoneTypes.extension,

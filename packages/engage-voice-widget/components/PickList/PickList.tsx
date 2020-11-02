@@ -1,8 +1,4 @@
-import {
-  RcLineSelect,
-  RcLineSelectProps,
-  RcMenuItem,
-} from '@ringcentral-integration/rcui';
+import { RcLineSelect, RcLineSelectProps, RcMenuItem } from '@ringcentral/juno';
 import React, { FunctionComponent, ReactNode } from 'react';
 
 import styles from './styles.scss';
@@ -38,6 +34,7 @@ export const PickList: FunctionComponent<PickListProps> = ({
   renderItem,
   renderValue,
   InputProps,
+  ...rest
 }) => {
   return (
     <RcLineSelect
@@ -51,6 +48,7 @@ export const PickList: FunctionComponent<PickListProps> = ({
         onChange(value);
       }}
       renderValue={renderValue}
+      {...rest}
     >
       {options.map((item, i) => {
         const label = item[optionLabelKey];

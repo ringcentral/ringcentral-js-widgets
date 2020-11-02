@@ -3,71 +3,73 @@ import formatNumber from 'ringcentral-integration/lib/formatNumber';
 import callDirections from 'ringcentral-integration/enums/callDirections';
 import { isRingingInboundCall } from 'ringcentral-integration/lib/callLogHelpers';
 import callingModes from 'ringcentral-integration/modules/CallingSettings/callingModes';
+import { isOnHold } from 'ringcentral-integration/modules/Webphone/webphoneHelper';
+import { isHolding } from 'ringcentral-integration/modules/ActiveCallControlV2/helpers';
 import RcUIModule from '../../lib/RcUIModule';
 
 @Module({
   name: 'ActiveCallsUI',
   deps: [
     'Brand',
-    { dep: 'CallLogger', optional: true },
-    { dep: 'ContactDetailsUI', optional: true },
-    'CallMonitor',
     'Locale',
-    'RegionSettings',
-    'RolesAndPermissions',
-    { dep: 'ConferenceCall', optional: true },
-    'CallingSettings',
-    'ConnectivityMonitor',
+    'CallMonitor',
     'RateLimiter',
-    { dep: 'ActiveCallControl', optional: true },
-    { dep: 'Webphone', optional: true },
-    'RouterInteraction',
-    { dep: 'ComposeText', optional: true },
     'ContactSearch',
+    'RegionSettings',
     'ContactMatcher',
+    'CallingSettings',
+    'RouterInteraction',
+    'RolesAndPermissions',
+    'ConnectivityMonitor',
+    { dep: 'Webphone', optional: true },
+    { dep: 'CallLogger', optional: true },
+    { dep: 'ComposeText', optional: true },
+    { dep: 'ConferenceCall', optional: true },
+    { dep: 'ContactDetailsUI', optional: true },
+    { dep: 'ActiveCallControl', optional: true },
   ],
 })
 export default class ActiveCallsUI extends RcUIModule {
   constructor({
     brand,
+    locale,
+    webphone,
     callLogger,
     callMonitor,
-    locale,
-    regionSettings,
-    rolesAndPermissions,
-    conferenceCall,
-    callingSettings,
-    connectivityMonitor,
     rateLimiter,
-    activeCallControl,
-    webphone,
-    routerInteraction,
     composeText,
     contactSearch,
+    regionSettings,
+    conferenceCall,
     contactMatcher,
+    callingSettings,
     contactDetailsUI,
+    activeCallControl,
+    routerInteraction,
+    rolesAndPermissions,
+    connectivityMonitor,
     ...options
   }) {
     super({
       ...options,
     });
     this._brand = brand;
+    this._locale = locale;
+    this._webphone = webphone;
     this._callLogger = callLogger;
     this._callMonitor = callMonitor;
-    this._locale = locale;
-    this._regionSettings = regionSettings;
-    this._rolesAndPermissions = rolesAndPermissions;
-    this._conferenceCall = conferenceCall;
-    this._callingSettings = callingSettings;
-    this._connectivityMonitor = connectivityMonitor;
     this._rateLimiter = rateLimiter;
-    this._activeCallControl = activeCallControl;
-    this._webphone = webphone;
-    this._routerInteraction = routerInteraction;
     this._composeText = composeText;
     this._contactSearch = contactSearch;
+    this._regionSettings = regionSettings;
+    this._conferenceCall = conferenceCall;
     this._contactMatcher = contactMatcher;
+    this._callingSettings = callingSettings;
     this._contactDetailsUI = contactDetailsUI;
+    this._activeCallControl = activeCallControl;
+    this._routerInteraction = routerInteraction;
+    this._rolesAndPermissions = rolesAndPermissions;
+    this._connectivityMonitor = connectivityMonitor;
   }
 
   getUIProps({
@@ -75,6 +77,7 @@ export default class ActiveCallsUI extends RcUIModule {
     showRingoutCallControl = false,
     showSwitchCall = false,
     useV2,
+    useCallControl,
   }) {
     const isWebRTC =
       this._callingSettings.callingMode === callingModes.webphone;
@@ -116,6 +119,7 @@ export default class ActiveCallsUI extends RcUIModule {
         !this._connectivityMonitor.connectivity ||
         this._rateLimiter.throttling ||
         controlBusy,
+      useCallControl,
     };
   }
 
@@ -130,7 +134,11 @@ export default class ActiveCallsUI extends RcUIModule {
     showViewContact = true,
     getAvatarUrl,
     useV2,
+    useCallControl,
   }) {
+    // Toggle to control if use new call control API, should using the ActiveCallControlV2 module same time,
+    // when you set this toggle to true (https://developers.ringcentral.com/api-reference/Call-Control/createCallOutCallSession)
+    this._useCallControlSDK = useCallControl && this._activeCallControl;
     return {
       formatPhone: (phoneNumber) =>
         formatNumber({
@@ -138,46 +146,77 @@ export default class ActiveCallsUI extends RcUIModule {
           areaCode: this._regionSettings.areaCode,
           countryCode: this._regionSettings.countryCode,
         }),
-      webphoneAnswer: async (sessionId) => {
-        if (!this._webphone) {
-          return;
-        }
+      webphoneAnswer: async (sessionId, telephonySessionId) => {
+        if (this._useCallControlSDK) {
+          this._activeCallControl.answer(telephonySessionId);
+        } else {
+          if (!this._webphone) {
+            return;
+          }
 
-        const session = this._webphone.sessions.find(
-          (session) => session.id === sessionId,
-        );
-        if (
-          this._conferenceCall &&
-          session &&
-          session.direction === callDirections.inbound
-        ) {
-          this._conferenceCall.closeMergingPair();
-        }
+          const session = this._webphone.sessions.find(
+            (session) => session.id === sessionId,
+          );
+          if (
+            this._conferenceCall &&
+            session &&
+            session.direction === callDirections.inbound
+          ) {
+            this._conferenceCall.closeMergingPair();
+          }
 
-        this._webphone.answer(sessionId);
+          this._webphone.answer(sessionId);
+        }
       },
-      webphoneToVoicemail: async (...args) =>
-        this._webphone && this._webphone.toVoiceMail(...args),
-      webphoneReject: async (...args) =>
-        this._webphone && this._webphone.reject(...args),
-      webphoneHangup: async (...args) => {
+      webphoneToVoicemail: async (sessionId, telephonySessionId) => {
+        if (this._useCallControlSDK) {
+          return (
+            this._activeCallControl &&
+            this._activeCallControl.reject(telephonySessionId)
+          );
+        }
+        return this._webphone && this._webphone.toVoiceMail(sessionId);
+      },
+      webphoneReject: async (sessionId) => {
+        return this._webphone && this._webphone.reject(sessionId);
+      },
+
+      webphoneHangup: async (sessionId, telephonySessionId) => {
         // user action track
         this._callMonitor.allCallsClickHangupTrack();
-        return this._webphone && this._webphone.hangup(...args);
+        if (this._useCallControlSDK) {
+          return (
+            this._activeCallControl &&
+            this._activeCallControl.hangUp(telephonySessionId)
+          );
+        }
+        return this._webphone && this._webphone.hangup(sessionId);
       },
-      webphoneResume: async (...args) => {
+      webphoneResume: async (sessionId, telephonySessionId) => {
+        if (this._useCallControlSDK) {
+          return (
+            this._activeCallControl &&
+            this._activeCallControl.unhold(telephonySessionId)
+          );
+        }
         if (!this._webphone) {
           return;
         }
-        await this._webphone.resume(...args);
+        await this._webphone.resume(sessionId);
         if (this._routerInteraction.currentPath !== callCtrlRoute && !useV2) {
           this._routerInteraction.push(callCtrlRoute);
         }
       },
-      webphoneHold: async (...args) => {
+      webphoneHold: async (sessionId, telephonySessionId) => {
         // user action track
-        this._callMonitor.allCallsClickHoldTrack();
-        return this._webphone && this._webphone.hold(...args);
+        this._callMonitor.allCallsClickHangupTrack();
+        if (this._useCallControlSDK) {
+          return (
+            this._activeCallControl &&
+            this._activeCallControl.hold(telephonySessionId)
+          );
+        }
+        return this._webphone && this._webphone.hold(sessionId);
       },
       webphoneSwitchCall: async (activeCall) => {
         if (!this._webphone) {
@@ -303,6 +342,18 @@ export default class ActiveCallsUI extends RcUIModule {
       getAvatarUrl,
       updateSessionMatchedContact: (sessionId, contact) =>
         this._webphone.updateSessionMatchedContact(sessionId, contact),
+      // function to check if a call is on hold status
+      isOnHold: (webphoneSession) => {
+        if (this._useCallControlSDK) {
+          const call =
+            this._callMonitor.calls.find(
+              (x) => x.webphoneSession === webphoneSession,
+            ) || {};
+          const { telephonySession } = call;
+          return isHolding(telephonySession);
+        }
+        return isOnHold(webphoneSession);
+      },
     };
   }
 }

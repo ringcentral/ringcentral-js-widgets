@@ -26,10 +26,13 @@ const defaultConferenceOption = {
 };
 
 export async function getInboundCall(phone, options = defaultInboundOption) {
-  const session = new Session({
-    ...options,
-    callId: options.callId || `call-${options.id}`,
-  });
+  const session = new Session(
+    {
+      ...options,
+      callId: options.callId || `call-${options.id}`,
+    },
+    phone.webphone._webphone.userAgent,
+  );
   await phone.webphone._webphone.userAgent.trigger('invite', session);
   return session;
 }

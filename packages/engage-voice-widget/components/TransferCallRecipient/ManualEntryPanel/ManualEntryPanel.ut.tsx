@@ -1,7 +1,7 @@
 import React from 'react';
 import { StepFunction } from 'crius-test';
 import { mount } from 'enzyme';
-import { RcThemeProvider } from '@ringcentral-integration/rcui';
+import { RcThemeProvider } from '@ringcentral/juno';
 import { ManualEntryPanel, ManualEntryPanelProps } from './ManualEntryPanel';
 
 let wrapper;

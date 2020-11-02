@@ -41,11 +41,7 @@ export class ExtensionPhoneNumber extends DataFetcherV2Consumer<
       cleanOnReset: true,
       fetchFunction: async (): Promise<UserPhoneNumberInfo[]> =>
         fetchList((params: any) =>
-          this._deps.client
-            .account()
-            .extension()
-            .phoneNumber()
-            .list(params),
+          this._deps.client.account().extension().phoneNumber().list(params),
         ),
       readyCheckFunction: () =>
         !!(
@@ -105,7 +101,7 @@ export class ExtensionPhoneNumber extends DataFetcherV2Consumer<
   @computed<ExtensionPhoneNumber>(({ numbers }) => [numbers])
   get directNumbers() {
     return filter(
-      (phoneNumber) => phoneNumber === usageTypes.DirectNumber,
+      (phoneNumber) => phoneNumber.usageType === usageTypes.DirectNumber,
       this.numbers,
     );
   }

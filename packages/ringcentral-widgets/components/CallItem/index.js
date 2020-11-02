@@ -29,7 +29,7 @@ const callIconMap = {
   missed: dynamicsFont.missed,
 };
 
-function CallIcon({
+const CallIcon = ({
   direction,
   missed,
   active,
@@ -38,7 +38,7 @@ function CallIcon({
   outboundTitle,
   missedTitle,
   type,
-}) {
+}) => {
   let icon = null;
   switch (type) {
     case messageTypes.fax: {
@@ -77,7 +77,7 @@ function CallIcon({
     }
   }
   return <div className={styles.callIcon}>{icon}</div>;
-}
+};
 CallIcon.propTypes = {
   direction: PropTypes.string.isRequired,
   missed: PropTypes.bool,
@@ -355,6 +355,8 @@ export default class CallItem extends Component {
       },
       brand,
       currentLocale,
+      currentSiteCode,
+      isMultipleSiteEnabled,
       areaCode,
       countryCode,
       disableLinks,
@@ -477,6 +479,8 @@ export default class CallItem extends Component {
               stopPropagation={false}
               showType={false}
               showPlaceholder={showContactDisplayPlaceholder}
+              currentSiteCode={currentSiteCode}
+              isMultipleSiteEnabled={isMultipleSiteEnabled}
             />
             <div className={styles.details}>
               {durationEl}
@@ -586,9 +590,13 @@ CallItem.propTypes = {
   readTextPermission: PropTypes.bool,
   onSizeChanged: PropTypes.func,
   withAnimation: PropTypes.bool,
+  currentSiteCode: PropTypes.string,
+  isMultipleSiteEnabled: PropTypes.bool,
 };
 
 CallItem.defaultProps = {
+  currentSiteCode: '',
+  isMultipleSiteEnabled: false,
   renderIndex: undefined,
   extended: false,
   onLogCall: undefined,

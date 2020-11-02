@@ -1,9 +1,5 @@
-import {
-  RcButton,
-  RcCircularProgress,
-  RcIcon,
-} from '@ringcentral-integration/rcui';
-import CheckSvg from '@ringcentral-integration/rcui/icons/icon-check.svg';
+import { RcButton, RcCircularProgress, RcIcon } from '@ringcentral/juno';
+import CheckSvg from '@ringcentral/juno/icons/icon-check.svg';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';

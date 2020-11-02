@@ -1,15 +1,15 @@
-import { equals, map } from 'ramda';
 import { Subscriptions } from '@ringcentral/subscriptions';
+import { equals, map } from 'ramda';
 
-import RcModule from '../../lib/RcModule';
-import { Module } from '../../lib/di';
-import loginStatus from '../Auth/loginStatus';
 import moduleStatuses from '../../enums/moduleStatuses';
+import { Module } from '../../lib/di';
+import proxify from '../../lib/proxy/proxify';
+import RcModule from '../../lib/RcModule';
+import loginStatus from '../Auth/loginStatus';
+import { actionTypes } from './actionTypes';
 import getSubscriptionReducer, {
   getCachedSubscriptionReducer,
 } from './getSubscriptionReducer';
-import actionTypes from './actionTypes';
-import proxify from '../../lib/proxy/proxify';
 import { normalizeEventFilter } from './normalizeEventFilter';
 
 const DEFAULT_TIME_TO_RETRY = 60 * 1000;

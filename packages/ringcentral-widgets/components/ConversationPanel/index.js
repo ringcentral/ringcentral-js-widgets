@@ -64,8 +64,8 @@ class ConversationPanel extends Component {
     this.props.unloadConversation();
   }
 
-  onSend = () => {
-    this.props.replyToReceivers(this.props.messageText, this.props.attachments);
+  onSend = (...args) => {
+    this.props.replyToReceivers(...args);
   };
 
   onInputHeightChange = (value) => {

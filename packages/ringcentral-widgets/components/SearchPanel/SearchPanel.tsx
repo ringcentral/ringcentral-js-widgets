@@ -1,6 +1,6 @@
-import searchSvg from '@ringcentral-integration/rcui/icons/icon-search.svg';
+import searchSvg from '@ringcentral/juno/icons/icon-search.svg';
 import React, { useState, FunctionComponent, useContext } from 'react';
-import { RcOutlineTextField } from '@ringcentral-integration/rcui';
+import { RcOutlineTextField } from '@ringcentral/juno';
 import classNames from 'classnames';
 import { SearchResult, SearchResultProps } from './SearchResult';
 import { SelectListContext } from '../../contexts';

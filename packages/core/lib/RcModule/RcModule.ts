@@ -1,21 +1,15 @@
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable func-names */
-import {
-  combineReducers,
-  Reducer,
-  ReducersMapObject,
-  Action,
-  AnyAction,
-} from 'redux';
+import { Reducer, ReducersMapObject, Action, AnyAction, Store } from 'redux';
+import { Storage as StorageV2 } from 'ringcentral-integration/modules/StorageV2';
+import { GlobalStorage as GlobalStorageV2 } from 'ringcentral-integration/modules/GlobalStorageV2';
 import Storage from 'ringcentral-integration/modules/Storage';
 import GlobalStorage from 'ringcentral-integration/modules/GlobalStorage';
 import { Analytics } from 'ringcentral-integration/modules/Analytics';
 import BaseModule, { state, action } from '../usm-redux';
 import { moduleStatuses } from '../../enums/moduleStatuses';
-import { Store, Params } from '../usm/core/module';
+import { Params } from '../usm/core/module';
 import { Properties } from '../usm/utils/flatten';
-
-// TODO: `_getProxyState`.
 
 export interface Descriptor<T> extends TypedPropertyDescriptor<T> {
   initializer?(): T;
@@ -23,9 +17,6 @@ export interface Descriptor<T> extends TypedPropertyDescriptor<T> {
 
 /**
  * decorate global storage state with `GlobalStorage` Module
- * @param target rc module
- * @param name sate key
- * @param descriptor descriptor
  */
 function globalStorage(
   target: RcModuleV2,
@@ -41,9 +32,6 @@ function globalStorage(
 
 /**
  * decorate storage state with `Storage` Module
- * @param target RcModule
- * @param name state key
- * @param descriptor descriptor
  */
 function storage(
   target: RcModuleV2,
@@ -56,6 +44,11 @@ function storage(
 
 type TrackEvent = string | ((...args: any) => [string, object?]);
 
+/**
+ * decorate a method with `Analytics` Module
+ *
+ * @param trackEvent define trackEvent for tracking
+ */
 function track(trackEvent: TrackEvent) {
   return (target: RcModuleV2, name: string, descriptor?: Descriptor<any>) => {
     if (
@@ -66,11 +59,14 @@ function track(trackEvent: TrackEvent) {
     }
     let fn: (...args: any) => any = descriptor.value;
     const initializer = descriptor.initializer;
-    const trackedFn = function(this: RcModuleV2, ...args: any) {
+    const trackedFn = function (this: RcModuleV2, ...args: any) {
       const { analytics } = this.parentModule as RcModuleV2<Properties<any>> & {
         analytics: Analytics;
       };
-      if (typeof analytics !== 'undefined') {
+      if (
+        typeof analytics !== 'undefined' &&
+        typeof analytics.track === 'function'
+      ) {
         if (typeof trackEvent === 'string') {
           analytics.track(trackEvent);
         } else {
@@ -92,6 +88,9 @@ function track(trackEvent: TrackEvent) {
   };
 }
 
+const getStorageSubKey = (storageKey: string, key: string) =>
+  `${storageKey}-${key}`;
+
 interface RcModuleV2 {
   _storageSubKeys: string[];
   _globalStorageSubKeys: string[];
@@ -110,10 +109,10 @@ type Options = {
 };
 
 class RcModuleV2<
-  T extends { storage?: Storage; globalStorage?: GlobalStorage } & Record<
-    string,
-    any
-  > = {},
+  T extends {
+    storage?: Storage | StorageV2;
+    globalStorage?: GlobalStorage | GlobalStorageV2;
+  } & Record<string, any> = {},
   S extends Record<string, any> = {}
 > extends BaseModule<T> {
   __$$state$$__: any;
@@ -121,6 +120,10 @@ class RcModuleV2<
    * `onInit` life cycle for current initialization before all deps modules are all ready.
    */
   protected onInit?(): Promise<void> | void;
+  /**
+   * `onInitOnce` once life cycle for current initialization before all deps modules are all ready.
+   */
+  protected onInitOnce?(): Promise<void> | void;
   /**
    * `onInitSuccess` life cycle for current initialization after this module is ready.
    */
@@ -130,9 +133,9 @@ class RcModuleV2<
    */
   protected onReset?(): Promise<void> | void;
   /**
-   * `onInitOnce` once life cycle for current initialization before all deps modules are all ready.
+   * `onStateChange` each Redux dispatch action will trigger it once.
    */
-  protected onInitOnce?(): Promise<void> | void;
+  protected onStateChange?(): Promise<void> | void;
   protected _once = false;
   public __key__?: string;
   public __subscriptions__?: (() => void)[];
@@ -149,27 +152,23 @@ class RcModuleV2<
     if (this.enableStorage) {
       // TODO replace new way for `storageKey` definition
       this.storageKey = options.storageKey;
-      const reducer = combineReducers(
-        this._storageSubKeys.reduce((reducerMap: ReducersMap, key) => {
-          reducerMap[key] = (
-            state = this._initialValue[key],
-            { type, states },
-          ) => {
-            if (
-              type &&
-              type.indexOf((this.actionTypes as Record<string, string>)[key]) >
-                -1
-            ) {
-              return states[key];
-            }
-            return state;
-          };
-          return reducerMap;
-        }, {}),
-      );
-      this._modules.storage.registerReducer({
-        key: this.storageKey,
-        reducer,
+      this._storageSubKeys.forEach((key) => {
+        const reducer: Reducer<any, AnyAction> = (
+          state = this._initialValue[key],
+          { type, states },
+        ) => {
+          if (
+            type &&
+            type.indexOf((this.actionTypes as Record<string, string>)[key]) > -1
+          ) {
+            return states[key];
+          }
+          return state;
+        };
+        this._modules.storage.registerReducer({
+          key: getStorageSubKey(this.storageKey, key),
+          reducer,
+        });
       });
       const properties = this._storageSubKeys.reduce(
         (propertiesMap: Record<string, PropertyDescriptor>, key) => {
@@ -180,7 +179,12 @@ class RcModuleV2<
               return this.state[key];
             },
             set(this: BaseModule, value: unknown) {
-              this.state[key] = value;
+              if (this._store) {
+                this.state[key] = value;
+              } else {
+                // Support for synchronous updating of initialized state values while in the constructor.
+                this._initialValue[key] = value;
+              }
             },
           };
           return propertiesMap;
@@ -191,27 +195,23 @@ class RcModuleV2<
     }
     if (this.enableGlobalStorage) {
       this.storageKey = options.storageKey;
-      const reducer = combineReducers(
-        this._globalStorageSubKeys.reduce((reducerMap: ReducersMap, key) => {
-          reducerMap[key] = (
-            state = this._initialValue[key],
-            { type, states },
-          ) => {
-            if (
-              type &&
-              type.indexOf((this.actionTypes as Record<string, string>)[key]) >
-                -1
-            ) {
-              return states[key];
-            }
-            return state;
-          };
-          return reducerMap;
-        }, {}),
-      );
-      this._modules.globalStorage.registerReducer({
-        key: this.storageKey,
-        reducer,
+      this._globalStorageSubKeys.forEach((key) => {
+        const reducer: Reducer<any, AnyAction> = (
+          state = this._initialValue[key],
+          { type, states },
+        ) => {
+          if (
+            type &&
+            type.indexOf((this.actionTypes as Record<string, string>)[key]) > -1
+          ) {
+            return states[key];
+          }
+          return state;
+        };
+        this._modules.globalStorage.registerReducer({
+          key: getStorageSubKey(this.storageKey, key),
+          reducer,
+        });
       });
       const properties = this._globalStorageSubKeys.reduce(
         (propertiesMap: Record<string, PropertyDescriptor>, key) => {
@@ -222,7 +222,12 @@ class RcModuleV2<
               return this.state[key];
             },
             set(this: BaseModule, value: unknown) {
-              this.state[key] = value;
+              if (this._store) {
+                this.state[key] = value;
+              } else {
+                // Support for synchronous updating of initialized state values while in the constructor.
+                this._initialValue[key] = value;
+              }
             },
           };
           return propertiesMap;
@@ -360,9 +365,10 @@ class RcModuleV2<
     return this._storageSubKeys.reduce((_state, key) => {
       let value;
       if (this.enableStorage) {
-        value = this._modules.storage.getItem(this.storageKey)
-          ? this._modules.storage.getItem(this.storageKey)[key]
-          : this._initialValue[key];
+        value =
+          this._modules.storage.getItem(
+            getStorageSubKey(this.storageKey, key),
+          ) ?? this._initialValue[key];
       } else {
         value = this.state[key];
       }
@@ -377,9 +383,10 @@ class RcModuleV2<
     return this._globalStorageSubKeys.reduce((_state, key) => {
       let value;
       if (this.enableGlobalStorage) {
-        value = this._modules.globalStorage.getItem(this.storageKey)
-          ? this._modules.globalStorage.getItem(this.storageKey)[key]
-          : this._initialValue[key];
+        value =
+          this._modules.globalStorage.getItem(
+            getStorageSubKey(this.storageKey, key),
+          ) ?? this._initialValue[key];
       } else {
         value = this.state[key];
       }
@@ -398,42 +405,64 @@ class RcModuleV2<
     }
   }
 
-  initModule() {
+  protected async _checkStatusChange() {
+    if (this._shouldInit()) {
+      this.__initModule__();
+      await this._onInitOnce();
+      if (typeof this.onInit === 'function') {
+        await this.onInit();
+      }
+      this.__initSuccessModule__();
+      if (typeof this.onInitSuccess === 'function') {
+        await this.onInitSuccess();
+      }
+    } else if (this._shouldReset()) {
+      this.__resetModule__();
+      if (typeof this.onReset === 'function') {
+        await this.onReset();
+      }
+      this.__resetSuccessModule__();
+    }
+  }
+
+  async initModule() {
     this.parentModule.store.subscribe(async () => {
       if (typeof this.onStateChange === 'function') {
         this.onStateChange();
       }
-      if (this._shouldInit()) {
-        this.__initModule__();
-        await this._onInitOnce();
-        if (typeof this.onInit === 'function') {
-          await this.onInit();
-        }
-        this.__initSuccessModule__();
-        if (typeof this.onInitSuccess === 'function') {
-          await this.onInitSuccess();
-        }
-      } else if (this._shouldReset()) {
-        this.__resetModule__();
-        if (typeof this.onReset === 'function') {
-          await this.onReset();
-        }
-        this.__resetSuccessModule__();
-      }
+      await this._checkStatusChange();
     });
     if (Array.isArray(this.__subscriptions__)) {
       this.__subscriptions__.forEach((subscribe) => subscribe());
+    }
+    await this._checkStatusChange();
+    if (typeof this.__key__ !== 'undefined') return;
+    for (const subModule in this) {
+      if (
+        Object.prototype.hasOwnProperty.call(this, subModule) &&
+        this[subModule] instanceof RcModuleV2 &&
+        !((this[subModule] as any) as RcModuleV2)._initialized &&
+        !((this[subModule] as any) as RcModuleV2)._suppressInit
+      ) {
+        const subRcModule: RcModuleV2 = this[subModule] as any;
+        subRcModule._initialized = true;
+        subRcModule.initModule();
+      }
     }
   }
 
   protected _onStateChange(): void {}
 
-  get noReadyModulesLength() {
+  get noReadyModules() {
     const modules = Object.values(this._modules || {}).filter(
       // In order to be compatible with RcModuleV1
       (module: any) => module && typeof module.ready !== 'undefined',
     );
-    return modules.filter((module: any) => !module.ready).length;
+    return modules.filter((module: any) => !module.ready);
+  }
+
+  get noReadyModulesLength() {
+    return this.noReadyModules.length;
   }
 
   _shouldInit() {
@@ -515,6 +544,13 @@ class RcModuleV2<
 
   public get resetting() {
     return this.__status__ === moduleStatuses.resetting;
+  }
+
+  /**
+   * @deprecated make it compatible with proxy state in RcModuleV1
+   */
+  get proxyReady() {
+    return this.ready;
   }
 }
 

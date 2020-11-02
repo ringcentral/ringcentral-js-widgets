@@ -1,14 +1,14 @@
 import { expect } from 'chai';
+
+import getModuleStatusReducer from '../../lib/getModuleStatusReducer';
+import { actionTypes } from './actionTypes';
 import getSubscriptionReducer, {
   getCachedSubscriptionReducer,
   getFiltersReducer,
   getMessageReducer,
   getSubscriptionStatusReducer,
 } from './getSubscriptionReducer';
-import getModuleStatusReducer from '../../lib/getModuleStatusReducer';
-
-import actionTypes from './actionTypes';
-import subscriptionStatus from './subscriptionStatus';
+import { subscriptionStatus } from './subscriptionStatus';
 
 describe('getMessageReducer', () => {
   it('should be a function', () => {

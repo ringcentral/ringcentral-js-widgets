@@ -3,9 +3,11 @@ import CallLogger from 'ringcentral-integration/modules/CallLogger';
 import RateLimiter from 'ringcentral-integration/modules/RateLimiter';
 import RegionSettings from 'ringcentral-integration/modules/RegionSettings';
 import DateTimeFormat from 'ringcentral-integration/modules/DateTimeFormat';
-import ActiveCallControl from 'ringcentral-integration/modules/ActiveCallControl';
+import { ActiveCallControl } from 'ringcentral-integration/modules/ActiveCallControlV2';
 import RolesAndPermissions from 'ringcentral-integration/modules/RolesAndPermissions';
 import ConnectivityMonitor from 'ringcentral-integration/modules/ConnectivityMonitor';
+import { CallingSettings } from 'ringcentral-integration/modules/CallingSettingsV2';
+import { ForwardingNumber } from 'ringcentral-integration/modules/ForwardingNumberV2';
 import RouterInteraction from '../RouterInteraction';
 import CallLogSection from '../CallLogSection';
 import { CallLogPanelProps } from '../../components/CallLogPanel';
@@ -35,6 +37,8 @@ export interface Deps {
   };
   rolesAndPermissions: RolesAndPermissions;
   connectivityMonitor: ConnectivityMonitor;
+  callingSettings: CallingSettings;
+  forwardingNumber: ForwardingNumber;
   callLogUIOptions: CallLogUIOptions;
 }
 

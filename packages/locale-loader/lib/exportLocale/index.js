@@ -3,14 +3,17 @@ import path from 'path';
 import { forEach } from 'ramda';
 import compileLocaleData from '../compileLocaleData';
 import defaultConfig from '../defaultConfig';
-import generateXlfData from '../generateXlfData';
+import { generateXlfData, generateJsonData } from '../generateData';
 
-export function writeXlf({ localizationFolder, xlfData }) {
+export function writeData({ localizationFolder, data, ext }) {
   fs.ensureDirSync(localizationFolder);
   forEach((locale) => {
-    const fileName = path.resolve(localizationFolder, `${locale}.xlf`);
-    fs.writeFileSync(fileName, xlfData[locale]);
-  }, Object.keys(xlfData));
+    const fileName = path.resolve(localizationFolder, `${locale}.${ext}`);
+    fs.writeFileSync(
+      fileName,
+      ext === 'json' ? JSON.stringify(data[locale], null, 2) : data[locale],
+    );
+  }, Object.keys(data));
 }
 
 export default function exportLocale({
@@ -20,6 +23,8 @@ export default function exportLocale({
   supportedLocales,
   exportType = 'diff',
   fillEmptyWithSource = true,
+  json = false,
+  writeFile = true,
 } = {}) {
   if (!supportedLocales) {
     throw new Error('options.supportedLocales is missing');
@@ -29,16 +34,27 @@ export default function exportLocale({
     sourceLocale,
     supportedLocales,
   });
-  const xlfData = generateXlfData({
-    localeData,
-    sourceFolder,
-    sourceLocale,
-    supportedLocales,
-    exportType,
-    fillEmptyWithSource,
-  });
-  writeXlf({
-    xlfData,
-    localizationFolder,
-  });
+  const data = json
+    ? generateJsonData({
+        localeData,
+        sourceFolder,
+        sourceLocale,
+        supportedLocales,
+      })
+    : generateXlfData({
+        localeData,
+        sourceFolder,
+        sourceLocale,
+        supportedLocales,
+        exportType,
+        fillEmptyWithSource,
+      });
+  if (writeFile) {
+    return writeData({
+      data,
+      localizationFolder,
+      ext: json ? 'json' : 'xlf',
+    });
+  }
+  return data;
 }

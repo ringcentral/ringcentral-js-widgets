@@ -1,8 +1,9 @@
-import uuid from 'uuid';
+import * as uuid from 'uuid';
 import RcModule from '../RcModule';
 import getProxyClientReducer from './getProxyClientReducer';
 import baseActionTypes from './baseActionTypes';
 import ensureExist from '../ensureExist';
+import { pushStates } from './handleProxyAction';
 
 const defaultVerifyModuleFunc = (module) => module instanceof RcModule;
 
@@ -20,6 +21,8 @@ export default function getProxyClient(
       this._target = createTarget({
         ...options,
       });
+      // Used by client to dispatch action.
+      this._target.__proxyAction__ = this.actionTypes.action;
       this._target._getState = () => this.state.target;
       this._target._getProxyState = () => this.state.proxy;
       // this._target = new Target({
@@ -122,8 +125,10 @@ export default function getProxyClient(
         if (payload.type === this.actionTypes.action) {
           if (this._syncPromise) await this._syncPromise;
           if (payload.actionNumber === this.state.actionNumber + 1) {
+            const action = pushStates(this._target, payload.action);
             this.store.dispatch({
               ...payload,
+              action,
               type: this.actionTypes.action,
             });
           } else {

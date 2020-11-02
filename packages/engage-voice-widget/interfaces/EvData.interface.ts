@@ -16,15 +16,7 @@ export type EvCallData = EvBaseCall & {
   /** transform queueDts from time zone date to timeStamp */
   timestamp: number;
   gate: EvEvRequeueCallGate;
-  /** temporary code for test screen pop sf object when inbound call */
-  recordId: string;
-  /** temporary code for test screen pop sf object when inbound call */
-  caseId: string;
-  /** temporary code for test screen pop sf object when inbound call */
-  objectValue: string;
-  /** temporary code for test screen pop sf object when inbound call */
-  objectType: string;
-  ivrString: string;
+  ivrString?: string;
 };
 
 export interface EvContactMatchItem {
@@ -40,4 +32,5 @@ export interface EvEvRequeueCallGate {
 export interface EvIvrData {
   subject: string;
   body: string;
+  onClick?: () => void;
 }

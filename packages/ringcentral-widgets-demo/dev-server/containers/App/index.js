@@ -172,6 +172,7 @@ export default function App({ phone, icon }) {
                       phone.routerInteraction.push('/calls');
                     }}
                     showCallQueueName
+                    showPark
                   >
                     <RecentActivityContainer
                       getSession={() => phone.webphone.activeSession || {}}

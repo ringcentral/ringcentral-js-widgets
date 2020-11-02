@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import uuid from 'uuid';
+import * as uuid from 'uuid';
 import classnames from 'classnames';
 import styles from './styles.scss';
 import SpinnerIcon from '../../assets/images/Spinner.svg';
 
 const REGEXP_BLOB_URL = /^blob:.+\/[\w-]{36,}(?:#.+)?$/;
-const REGEXP_BASE64_URL = /^(data:\w+\/[a-zA-Z\+\-\.]+;base64,)?(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/gi;
+const REGEXP_BASE64_URL = /^(data:\w+\/[a-zA-Z+\-.]+;base64,)?(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/gi;
 
 function isBlobURL(value) {
   return REGEXP_BLOB_URL.test(value);
@@ -61,7 +61,7 @@ class CallAvatar extends Component {
     }
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.loadImg();
   }
 
@@ -72,7 +72,7 @@ class CallAvatar extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.avatarUrl !== this.props.avatarUrl) {
       this.loadImg(nextProps);
     }
@@ -124,10 +124,9 @@ class CallAvatar extends Component {
     const spinnerTranslateTo =
       (initialSize - spinnerSize * spinnerScaleSize) / 2;
     const isOnConferenceCallWithExtraNum = isOnConferenceCall && extraNum > 0;
-    const spinnerTransform = `translate(${spinnerTranslateTo -
-      (isOnConferenceCallWithExtraNum
-        ? margin
-        : 0)},${spinnerTranslateTo}) scale(${spinnerScaleSize}, ${spinnerScaleSize})`;
+    const spinnerTransform = `translate(${
+      spinnerTranslateTo - (isOnConferenceCallWithExtraNum ? margin : 0)
+    },${spinnerTranslateTo}) scale(${spinnerScaleSize}, ${spinnerScaleSize})`;
 
     if (isOnConferenceCallWithExtraNum) {
       return (

@@ -237,7 +237,7 @@ export default class CallLog extends Pollable {
 
   async _init() {
     if (this._subscription) {
-      this._subscription.subscribe(subscriptionFilters.detailedPresence);
+      this._subscription.subscribe([subscriptionFilters.detailedPresence]);
     }
     if (
       (!this._tabManager || this._tabManager.active) &&
@@ -267,7 +267,7 @@ export default class CallLog extends Pollable {
 
   get data() {
     if (this._storage) {
-      return this._storage.getItem(this._callLogStorageKey).data;
+      return this._storage.getItem(this._callLogStorageKey)?.data;
     }
     return this.state.data;
   }

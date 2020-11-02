@@ -1,6 +1,9 @@
-import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
+import {
+  ObjectMap,
+  ObjectMapValue,
+} from '@ringcentral-integration/core/lib/ObjectMap';
 
-export default ObjectMap.fromKeys([
+export const phoneTypes = ObjectMap.fromKeys([
   'business',
   'extension',
   'home',
@@ -12,3 +15,6 @@ export default ObjectMap.fromKeys([
   'fax',
   'other',
 ]);
+
+export type PhoneType = ObjectMapValue<typeof phoneTypes>;
+export type PhoneTypes = Record<PhoneType, string>;

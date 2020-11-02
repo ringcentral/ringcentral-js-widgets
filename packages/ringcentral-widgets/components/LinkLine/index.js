@@ -9,6 +9,7 @@ function LinkLine({
   onClick,
   className,
   children,
+  hideUnderline,
   hrefClassName,
   iconClassName,
   tooltip,
@@ -21,6 +22,7 @@ function LinkLine({
       }}
       title={tooltip}
       className={classnames(styles.link, hrefClassName)}
+      style={hideUnderline ? { textDecoration: 'none' } : {}}
     >
       <IconLine
         className={className}
@@ -43,6 +45,7 @@ function LinkLine({
 LinkLine.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
+  hideUnderline: PropTypes.bool,
   hrefClassName: PropTypes.string,
   iconClassName: PropTypes.string,
   onClick: PropTypes.func.isRequired,
@@ -51,6 +54,7 @@ LinkLine.propTypes = {
 LinkLine.defaultProps = {
   children: undefined,
   className: undefined,
+  hideUnderline: false,
   hrefClassName: undefined,
   iconClassName: undefined,
   tooltip: undefined,

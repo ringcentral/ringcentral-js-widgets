@@ -1,9 +1,10 @@
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import React, { Component } from 'react';
-import attachmentSvg from '@ringcentral-integration/rcui/icons/icon-attachment.svg';
-import removeSvg from '@ringcentral-integration/rcui/icons/icon-close.svg';
-import { RcIconButton } from '@ringcentral-integration/rcui';
+import attachmentSvg from '@ringcentral/juno/icons/icon-attachment.svg';
+import removeSvg from '@ringcentral/juno/icons/icon-close.svg';
+import { RcIconButton } from '@ringcentral/juno';
+import { debounce } from 'ringcentral-integration/lib/debounce-throttle/debounce';
 
 import i18n from './i18n';
 import styles from './styles.scss';
@@ -51,7 +52,7 @@ export default class MessageInput extends Component {
       height: props.minHeight,
     };
     this._lastValueChange = 0;
-    this._fileInputRef = React.createRef()
+    this._fileInputRef = React.createRef();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -130,10 +131,16 @@ export default class MessageInput extends Component {
       value,
       height: newHeight,
     });
-    if (typeof this.props.onChange === 'function') {
-      this.props.onChange(value);
-    }
+    // ues debounce for avoiding frequent updates compose text module state
+    this.updateMessageText?.();
   };
+
+  updateMessageText =
+    typeof this.props.onChange === 'function'
+      ? debounce({
+          fn: () => this.props.onChange(this.state.value),
+        })
+      : null;
 
   onKeyDown = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
@@ -143,8 +150,9 @@ export default class MessageInput extends Component {
   };
 
   onSend = () => {
+    this.updateMessageText?.flush();
     if (!this.props.disabled && typeof this.props.onSend === 'function') {
-      this.props.onSend();
+      this.props.onSend(this.state.value, this.props.attachments);
     }
   };
 
@@ -157,7 +165,13 @@ export default class MessageInput extends Component {
       return;
     }
     const { addAttachment } = this.props;
-    const file = currentTarget.files[0];
+    let file = currentTarget.files[0];
+    if (
+      (file.name.endsWith('.vcard') || file.name.endsWith('.vcf')) &&
+      file.type !== 'text/vcard'
+    ) {
+      file = new File([file], file.name, { type: 'text/vcard' });
+    }
     addAttachment({
       name: file.name,
       size: file.size,
@@ -192,7 +206,7 @@ export default class MessageInput extends Component {
           />
           <input
             type="file"
-            accept="image/*"
+            accept="image/tiff,image/gif,image/jpeg,image/bmp,image/png,image/svg+xml,text/vcard,application/rtf,video/mpeg,audio/mpeg,video/mp4,application/zip"
             style={{ display: 'none' }}
             ref={this._fileInputRef}
             onChange={this.onSelectAttachment}

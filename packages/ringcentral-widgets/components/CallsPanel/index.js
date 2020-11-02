@@ -97,12 +97,16 @@ export default class CallsPanel extends React.PureComponent {
       phoneTypeRenderer,
       phoneSourceNameRenderer,
       useNewList,
+      currentSiteCode,
+      isMultipleSiteEnabled,
     } = this.props;
 
     const { contentWidth, contentHeight } = this.state;
 
     const callsListView = useNewList ? (
       <CallListV2
+        currentSiteCode={currentSiteCode}
+        isMultipleSiteEnabled={isMultipleSiteEnabled}
         brand={brand}
         currentLocale={currentLocale}
         calls={calls}
@@ -138,6 +142,8 @@ export default class CallsPanel extends React.PureComponent {
       />
     ) : (
       <CallList
+        currentSiteCode={currentSiteCode}
+        isMultipleSiteEnabled={isMultipleSiteEnabled}
         brand={brand}
         currentLocale={currentLocale}
         calls={calls}
@@ -184,6 +190,8 @@ export default class CallsPanel extends React.PureComponent {
 CallsPanel.propTypes = {
   brand: PropTypes.string.isRequired,
   currentLocale: PropTypes.string.isRequired,
+  currentSiteCode: PropTypes.string,
+  isMultipleSiteEnabled: PropTypes.bool,
   calls: PropTypes.arrayOf(PropTypes.any).isRequired,
   areaCode: PropTypes.string.isRequired,
   countryCode: PropTypes.string.isRequired,
@@ -217,6 +225,8 @@ CallsPanel.propTypes = {
 };
 
 CallsPanel.defaultProps = {
+  currentSiteCode: '',
+  isMultipleSiteEnabled: false,
   onViewContact: undefined,
   onCreateContact: undefined,
   onLogCall: undefined,

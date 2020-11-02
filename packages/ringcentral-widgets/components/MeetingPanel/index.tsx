@@ -29,6 +29,9 @@ const MeetingPanel: React.FunctionComponent<MeetingProps> = (props) => {
     showSaveAsDefault,
     disableSaveAsDefault,
     launchMeeting,
+    enablePersonalMeeting,
+    personalMeetingId,
+    switchUsePersonalMeetingId,
   } = props;
 
   return (
@@ -44,10 +47,12 @@ const MeetingPanel: React.FunctionComponent<MeetingProps> = (props) => {
           showWhen={showWhen}
           showDuration={showDuration}
           showRecurringMeeting={showRecurringMeeting}
-          openNewWindow={openNewWindow}
           meetingOptionToggle={meetingOptionToggle}
           passwordPlaceholderEnable={passwordPlaceholderEnable}
           audioOptionToggle={audioOptionToggle}
+          enablePersonalMeeting={enablePersonalMeeting}
+          personalMeetingId={personalMeetingId}
+          switchUsePersonalMeetingId={switchUsePersonalMeetingId}
         />
       ) : null}
       {ScheduleButton && (
@@ -112,6 +117,9 @@ interface MeetingProps {
   showSaveAsDefault?: boolean;
   disableSaveAsDefault?: boolean;
   launchMeeting?: () => any;
+  enablePersonalMeeting?: boolean;
+  personalMeetingId: string;
+  switchUsePersonalMeetingId: (usePersonalMeetingId: boolean) => any;
 }
 
 MeetingPanel.defaultProps = {
@@ -128,6 +136,7 @@ MeetingPanel.defaultProps = {
   audioOptionToggle: false,
   onOK: undefined,
   scheduleButton: undefined,
+  enablePersonalMeeting: false,
   showSaveAsDefault: false,
   disableSaveAsDefault: false,
   launchMeeting: undefined,

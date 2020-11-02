@@ -15,7 +15,7 @@ export function getEndedCallsReducer(types) {
             duration: Math.floor((timestamp - call.startTime) / 1000),
           };
           const idx = findIndex(
-            (item) => item.sessionId === call.sessionId,
+            (item) => item.telephonySessionId === call.telephonySessionId,
             newState,
           );
           if (idx > -1) {
@@ -31,7 +31,8 @@ export function getEndedCallsReducer(types) {
         return state.filter(
           (call) =>
             !endedCalls.find(
-              (shouldRemove) => shouldRemove.sessionId === call.sessionId,
+              (shouldRemove) =>
+                shouldRemove.telephonySessionId === call.telephonySessionId,
             ) ||
             // clean current overdue ended call (default clean time: 1day).
             new Date().getTime() - call.startTime > DEFAULT_CLEAN_TIME,

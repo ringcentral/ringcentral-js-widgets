@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { RcList, RcListItem } from '@ringcentral-integration/rcui';
+import { RcList, RcListItem } from '@ringcentral/juno';
 import classnames from 'classnames';
 import { CallInfo, CallInfoProps } from '../CallInfo';
 import styles from './styles.scss';

@@ -13,7 +13,7 @@ export default class CallListV2 extends React.PureComponent {
     this._list = React.createRef();
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { extendedIndex } = this.state;
     if (
       extendedIndex !== null &&
@@ -94,6 +94,8 @@ export default class CallListV2 extends React.PureComponent {
       externalViewEntity,
       externalHasEntity,
       readTextPermission,
+      currentSiteCode,
+      isMultipleSiteEnabled,
     } = this.props;
 
     let content;
@@ -113,6 +115,8 @@ export default class CallListV2 extends React.PureComponent {
           style={style}
           call={call}
           currentLocale={currentLocale}
+          currentSiteCode={currentSiteCode}
+          isMultipleSiteEnabled={isMultipleSiteEnabled}
           brand={brand}
           areaCode={areaCode}
           countryCode={countryCode}
@@ -190,6 +194,8 @@ export default class CallListV2 extends React.PureComponent {
 }
 
 CallListV2.propTypes = {
+  currentSiteCode: PropTypes.string,
+  isMultipleSiteEnabled: PropTypes.bool,
   className: PropTypes.string,
   width: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
@@ -234,6 +240,8 @@ CallListV2.propTypes = {
 };
 
 CallListV2.defaultProps = {
+  currentSiteCode: '',
+  isMultipleSiteEnabled: false,
   className: null,
   active: false,
   disableLinks: false,

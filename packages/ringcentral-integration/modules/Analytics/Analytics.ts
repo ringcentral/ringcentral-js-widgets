@@ -81,6 +81,17 @@ export function track(tagName: string) {
   };
 }
 
+export function replace(
+  prototype: any,
+  property: string,
+  descriptor: TypedPropertyDescriptor<TrackImpl>,
+) {
+  const existActionIndex = TRACK_LIST.findIndex(
+    (item) => property === item.funcName,
+  );
+  existActionIndex !== -1 && TRACK_LIST.splice(existActionIndex, 1);
+}
+
 export const DEFAULT_TAG_NAME = 'default';
 export const tracking = track(DEFAULT_TAG_NAME);
 

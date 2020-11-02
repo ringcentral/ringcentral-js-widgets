@@ -9,6 +9,7 @@ import { CallingSettings } from '../CallingSettingsV2';
 import RolesAndPermissions from '../RolesAndPermissions';
 import Webphone from '../Webphone';
 import AvailabilityMonitor from '../AvailabilityMonitor';
+import { ActiveCallControl } from '../ActiveCallControlV2';
 
 export interface ToNumberMatched {
   entityId: string;
@@ -18,6 +19,7 @@ export interface ToNumberMatched {
 export interface CallOptions {
   permissionCheck?: boolean;
   internationalCheck?: boolean;
+  useCallControlToMakeCall?: boolean;
 }
 
 export interface Deps {
@@ -33,6 +35,7 @@ export interface Deps {
   webphone?: Webphone;
   availabilityMonitor?: AvailabilityMonitor;
   callOptions?: CallOptions;
+  activeCallControl?: ActiveCallControl;
 }
 
 export interface Recipient {

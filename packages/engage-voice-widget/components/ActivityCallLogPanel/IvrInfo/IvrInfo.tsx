@@ -3,8 +3,9 @@ import {
   RcExpansionPanelDetails,
   RcExpansionPanelSummary,
   RcIcon,
-} from '@ringcentral-integration/rcui';
-import arrowDownSvg from '@ringcentral-integration/rcui/icons/icon-arrow_down.svg';
+  RcLink,
+} from '@ringcentral/juno';
+import arrowDownSvg from '@ringcentral/juno/icons/icon-arrow_down.svg';
 import classNames from 'classnames';
 import React, { FunctionComponent, useEffect, useState } from 'react';
 
@@ -65,13 +66,23 @@ export const IvrInfo: FunctionComponent<IvrInfoProps> = ({
               root: styles.detailsRoot,
             }}
           >
-            {ivrAlertData.map(({ subject = '', body = '' }, i) => {
+            {ivrAlertData.map(({ subject = '', body = '', onClick }, i) => {
+              const bodyRender = () => {
+                if (body.length > 0) {
+                  if (onClick) {
+                    return <RcLink handleOnClick={onClick}>{body}</RcLink>;
+                  }
+                  return <div className={styles.body}>{body}</div>;
+                }
+                return null;
+              };
+
               return (
                 <div className={styles.item} key={i}>
                   {i !== 0 && subject.length > 0 && (
                     <div className={styles.subject}>{subject}</div>
                   )}
-                  {body.length > 0 && <div className={styles.body}>{body}</div>}
+                  {bodyRender()}
                 </div>
               );
             })}

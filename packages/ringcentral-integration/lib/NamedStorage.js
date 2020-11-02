@@ -1,11 +1,12 @@
-import SymbolMap from 'data-types/symbol-map';
-import uuid from 'uuid';
+import * as uuid from 'uuid';
+
 import Subscribable from './Subscribable';
 
 class MemoryStorage {
   getItem() {
     return this.data;
   }
+
   setItem(key, data) {
     this.data = data;
   }
@@ -38,6 +39,7 @@ export default class NamedStorage extends Subscribable {
       this._localStorage = new MemoryStorage();
     }
   }
+
   getData() {
     try {
       const { data } = JSON.parse(this._localStorage.getItem(this._storageKey));
@@ -47,6 +49,7 @@ export default class NamedStorage extends Subscribable {
       return {};
     }
   }
+
   setData(data) {
     this._localStorage.setItem(
       this._storageKey,
@@ -56,11 +59,13 @@ export default class NamedStorage extends Subscribable {
       }),
     );
   }
+
   destroy() {
     if (this._storageHandler) {
       window.removeEventListener('storage', this._storageHandler);
     }
   }
+
   get id() {
     return this._id;
   }

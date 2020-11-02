@@ -2,18 +2,27 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import isBlank from 'ringcentral-integration/lib/isBlank';
+import fileSvg from '@ringcentral/juno/icons/icon-default-file.svg';
+import downloadSvg from '@ringcentral/juno/icons/icon-download.svg';
+import { RcIcon } from '@ringcentral/juno';
 
 import styles from './styles.scss';
 import i18n from './i18n';
 
-export function Message({
+function getExtFromContentType(contentType) {
+  const ext = contentType.split('/');
+  return ext[1].split('+')[0];
+}
+
+export const Message = ({
   subject,
   time,
   direction,
   sender,
   subjectRenderer: SubjectRenderer,
   mmsAttachments,
-}) {
+  currentLocale,
+}) => {
   let subjectNode;
   if (subject && !isBlank(subject)) {
     subjectNode = SubjectRenderer ? (
@@ -34,6 +43,28 @@ export function Message({
         />
       );
     });
+  const otherAttachments = mmsAttachments
+    .filter((m) => m.contentType.indexOf('image') === -1)
+    .map((attachment) => {
+      const fileName =
+        attachment.fileName ||
+        `${attachment.id}.${getExtFromContentType(attachment.contentType)}`;
+      return (
+        <div key={attachment.id} title={fileName} className={styles.file}>
+          <RcIcon size="small" symbol={fileSvg} />
+          <span className={styles.fileName}>{fileName}</span>
+          <a
+            target="_blank"
+            className={styles.download}
+            download={fileName}
+            title={i18n.getString('download', currentLocale)}
+            href={attachment.uri}
+          >
+            <RcIcon size="small" symbol={downloadSvg} />
+          </a>
+        </div>
+      );
+    });
   return (
     <div data-sign="message" className={styles.message}>
       {time ? <div className={styles.time}>{time}</div> : null}
@@ -49,6 +80,7 @@ export function Message({
       >
         {subjectNode}
         {imageAttachments}
+        {otherAttachments}
       </div>
       <div className={styles.clear} />
     </div>
@@ -62,6 +94,7 @@ Message.propTypes = {
   sender: PropTypes.string,
   subjectRenderer: PropTypes.func,
   mmsAttachments: PropTypes.array,
+  currentLocale: PropTypes.string.isRequired,
 };
 
 Message.defaultProps = {
@@ -157,6 +190,7 @@ class ConversationMessageList extends Component {
           subject={message.subject}
           subjectRenderer={messageSubjectRenderer}
           mmsAttachments={message.mmsAttachments}
+          currentLocale={currentLocale}
         />
       );
     });

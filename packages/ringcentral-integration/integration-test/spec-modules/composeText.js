@@ -164,7 +164,7 @@ export default (
       it('Should SMS Message Successfully', async () => {
         composeText.addToNumber({ phoneNumber: '+18558990011' });
         composeText.updateMessageText('test');
-        const responses = await composeText.send();
+        const responses = await composeText.send(composeText.messageText);
         expect(responses[0]).to.include.keys('id', 'conversation');
         expect(responses[0].type).to.equals('SMS');
         expect(responses[0].subject).to.equals('test');
@@ -179,7 +179,7 @@ export default (
       it('Should Send Pager Message Successfully', async () => {
         composeText.addToNumber({ phoneNumber: '101' });
         composeText.updateMessageText('test 2');
-        const responses = await composeText.send();
+        const responses = await composeText.send(composeText.messageText);
         expect(responses[0]).to.include.keys('id', 'conversation');
         expect(responses[0].type).to.equals('Pager');
         expect(responses[0].subject).to.equals('test 2');
@@ -195,7 +195,7 @@ export default (
         composeText.addToNumber({ phoneNumber: '+18558990011' });
         composeText.addToNumber({ phoneNumber: '101' });
         composeText.updateMessageText('test 3');
-        const responses = await composeText.send();
+        const responses = await composeText.send(composeText.messageText);
         expect(responses[0]).to.include.keys('id', 'conversation');
         expect(responses[0].subject).to.equals('test 3');
         expect(responses[1].subject).to.equals('test 3');
@@ -214,7 +214,7 @@ export default (
       it('Should Send Pager Message Successfully with Typing Number', async () => {
         composeText.updateTypingToNumber('101');
         composeText.updateMessageText('test 4');
-        const responses = await composeText.send();
+        const responses = await composeText.send(composeText.messageText);
         expect(responses[0]).to.include.keys('id', 'conversation');
         expect(responses[0].type).to.equals('Pager');
         expect(responses[0].subject).to.equals('test 4');
@@ -250,7 +250,7 @@ export default (
         it('Should Alert of textEmpty When Text Is Empty', async () => {
           composeText.updateTypingToNumber('+18558990011');
           composeText.updateMessageText('');
-          await composeText.send();
+          await composeText.send(composeText.messageText);
           expect(
             containsErrorMessage(
               alert.state.messages,
@@ -274,7 +274,7 @@ export default (
         it('Should Alert of textEmpty When Text Is Empty with Space', async () => {
           composeText.updateTypingToNumber('+18558990011');
           composeText.updateMessageText('   ');
-          const response = await composeText.send();
+          const response = await composeText.send(composeText.messageText);
           expect(
             containsErrorMessage(
               alert.state.messages,
@@ -290,7 +290,7 @@ export default (
         conditionalDescribe('Basic Validation', () => {
           it('Should Alert of recipientsEmpty - Not Input Recepiant Number', async () => {
             composeText.updateMessageText('test sender');
-            await composeText.send();
+            await composeText.send(composeText.messageText);
             expect(
               containsErrorMessage(
                 alert.state.messages,
@@ -304,7 +304,7 @@ export default (
               phoneNumber: "iamn%@onedi!@$%^&()_=\\][';/.,~nu><.,,?/mber#*",
             });
             composeText.updateMessageText('test sender');
-            await composeText.send();
+            await composeText.send(composeText.messageText);
             expect(
               containsErrorMessage(
                 alert.state.messages,
@@ -334,7 +334,7 @@ export default (
           it('Should Alert of noToNumber - Valid Special Char but No Digital Number', async () => {
             composeText.addToNumber({ phoneNumber: '+#' });
             composeText.updateMessageText('test sender');
-            await composeText.send();
+            await composeText.send(composeText.messageText);
             expect(
               containsErrorMessage(
                 alert.state.messages,
@@ -376,7 +376,7 @@ export default (
           it('Should Alert of noToNumber - Send With wrong Typing Number', async () => {
             composeText.updateTypingToNumber('test');
             composeText.updateMessageText('test 5');
-            const response = await composeText.send();
+            const response = await composeText.send(composeText.messageText);
             expect(
               containsErrorMessage(
                 alert.state.messages,
@@ -390,7 +390,7 @@ export default (
             composeText.addToNumber({ phoneNumber: '101' });
             composeText.addToNumber({ phoneNumber: 'test' });
             composeText.updateMessageText('test sender');
-            await composeText.send();
+            await composeText.send(composeText.messageText);
             expect(
               containsErrorMessage(
                 alert.state.messages,
@@ -420,7 +420,7 @@ export default (
           it('Should Not Alert Anything - to Number in E.164 Format', async () => {
             composeText.addToNumber({ phoneNumber: '+18558990011' });
             composeText.updateMessageText('test');
-            const response = await composeText.send();
+            const response = await composeText.send(composeText.messageText);
             expect(
               containsErrorMessage(
                 alert.state.messages,
@@ -456,7 +456,7 @@ export default (
           it('Should Not Alert Anything - To Number in (xxx)xxx-xxxx Format', async () => {
             composeText.updateTypingToNumber('(855)899-0011');
             composeText.updateMessageText('test');
-            const responses = await composeText.send();
+            const responses = await composeText.send(composeText.messageText);
             expect(responses[0]).to.include.keys('id', 'conversation');
             expect(
               containsErrorMessage(
@@ -493,7 +493,7 @@ export default (
           it('Should Not Alert Anything - to Number in (xxx) xxx-xxxx Format', async () => {
             composeText.updateTypingToNumber('(855) 899-0011');
             composeText.updateMessageText('test');
-            const responses = await composeText.send();
+            const responses = await composeText.send(composeText.messageText);
             expect(responses[0]).to.include.keys('id', 'conversation');
             expect(
               containsErrorMessage(
@@ -530,7 +530,7 @@ export default (
           it('Should Not Alert Anything - to Number in (xxx)xxx-xxxx*xxx Format', async () => {
             composeText.updateTypingToNumber('(866)211-8665*101');
             composeText.updateMessageText('test');
-            const responses = await composeText.send();
+            const responses = await composeText.send(composeText.messageText);
             expect(responses[0]).to.include.keys('id', 'conversation');
             expect(
               containsErrorMessage(
@@ -567,7 +567,7 @@ export default (
           it('Should Not Alert Anything - to Number in (xxx) xxx-xxxx*xxx Format', async () => {
             composeText.updateTypingToNumber('(866) 211-8665*101');
             composeText.updateMessageText('test');
-            const responses = await composeText.send();
+            const responses = await composeText.send(composeText.messageText);
             expect(responses[0]).to.include.keys('id', 'conversation');
             expect(
               containsErrorMessage(
@@ -604,7 +604,7 @@ export default (
           it('Should Not Alert Anything - to Number in xxx-xxx-xxxx Format', async () => {
             composeText.updateTypingToNumber('866-211-8665');
             composeText.updateMessageText('test');
-            const responses = await composeText.send();
+            const responses = await composeText.send(composeText.messageText);
             expect(responses[0]).to.include.keys('id', 'conversation');
             expect(
               containsErrorMessage(
@@ -641,7 +641,7 @@ export default (
           it('Should Not Alert Anything - to Number in xxx-xxx-xxxx*xxx Format', async () => {
             composeText.updateTypingToNumber('866-211-8665*101');
             composeText.updateMessageText('test');
-            const responses = await composeText.send();
+            const responses = await composeText.send(composeText.messageText);
             expect(responses[0]).to.include.keys('id', 'conversation');
             expect(
               containsErrorMessage(
@@ -681,7 +681,7 @@ export default (
             regionSettings.setData({ countryCode: 'CA', areaCode: '' });
             composeText.updateTypingToNumber('6545672');
             composeText.updateMessageText('test 6');
-            const response = await composeText.send();
+            const response = await composeText.send(composeText.messageText);
             expect(
               containsErrorMessage(
                 alert.state.messages,
@@ -695,7 +695,7 @@ export default (
             regionSettings.setData({ countryCode: 'US', areaCode: '' });
             composeText.addToNumber({ phoneNumber: '8990011' });
             composeText.updateMessageText('test sender');
-            await composeText.send();
+            await composeText.send(composeText);
             expect(
               containsErrorMessage(
                 alert.state.messages,
@@ -726,7 +726,7 @@ export default (
             regionSettings.setData({ countryCode: 'CA', areaCode: '' });
             composeText.addToNumber({ phoneNumber: '8990011' });
             composeText.updateMessageText('test sender');
-            await composeText.send();
+            await composeText.send(composeText.messageText);
             expect(
               containsErrorMessage(
                 alert.state.messages,
@@ -758,7 +758,7 @@ export default (
             composeText.addToNumber({ phoneNumber: '8990011' });
             composeText.updateMessageText('test sender');
             try {
-              await composeText.send();
+              await composeText.send(composeText.messageText);
             } catch (error) {
               console.debug('message sender e:', error);
             }
@@ -798,7 +798,7 @@ export default (
             composeText.addToNumber({ phoneNumber: '8990011' });
             composeText.updateMessageText('test sender');
             try {
-              await composeText.send();
+              await composeText.send(composeText.messageText);
             } catch (error) {
               console.debug('message sender e:', error);
             }
@@ -838,7 +838,7 @@ export default (
             it('Should Alert of notAnExtension - Typing Number', async () => {
               composeText.updateTypingToNumber('11111');
               composeText.updateMessageText('test sender');
-              await composeText.send();
+              await composeText.send(composeText.messageText);
               expect(
                 containsErrorMessage(
                   alert.state.messages,
@@ -868,7 +868,7 @@ export default (
             it('Should Alert of notAnExtension - To Number', async () => {
               composeText.addToNumber({ phoneNumber: '11111' });
               composeText.updateMessageText('test sender');
-              await composeText.send();
+              await composeText.send(composeText.messageText);
               expect(
                 containsErrorMessage(
                   alert.state.messages,
@@ -898,7 +898,7 @@ export default (
             it('Should Alert of notAnExtension - To Number (xxx)xxx-xxxx*xxx Format', async () => {
               composeText.addToNumber({ phoneNumber: '(888) 349-5556*999' });
               composeText.updateMessageText('test sender');
-              await composeText.send();
+              await composeText.send(composeText.messageText);
               expect(
                 containsErrorMessage(
                   alert.state.messages,
@@ -934,7 +934,7 @@ export default (
             it('Should Alert Special Number - toNumber 101 (Existed Extension/Special Number)', async () => {
               composeText.addToNumber({ phoneNumber: '101' });
               composeText.updateMessageText('test sender');
-              await composeText.send();
+              await composeText.send(composeText.messageText);
               expect(
                 containsErrorMessage(
                   alert.state.messages,
@@ -964,7 +964,7 @@ export default (
             it('Should Alert notAnExtension - toNumber 998 (No Extension)', async () => {
               composeText.addToNumber({ phoneNumber: '998' });
               composeText.updateMessageText('test sender');
-              await composeText.send();
+              await composeText.send(composeText.messageText);
               expect(
                 containsErrorMessage(
                   alert.state.messages,
@@ -994,7 +994,7 @@ export default (
             it('Should Alert Special Number - toNumber 999', async () => {
               composeText.addToNumber({ phoneNumber: '999' });
               composeText.updateMessageText('test sender');
-              await composeText.send();
+              await composeText.send(composeText.messageText);
               expect(
                 containsErrorMessage(
                   alert.state.messages,
@@ -1025,7 +1025,7 @@ export default (
               regionSettings.setData({ countryCode: 'GB', areaCode: '' });
               composeText.addToNumber({ phoneNumber: '911' });
               composeText.updateMessageText('test sender');
-              await composeText.send();
+              await composeText.send(composeText.messageText);
               expect(
                 containsErrorMessage(
                   alert.state.messages,
@@ -1043,7 +1043,7 @@ export default (
             it('Should Alert notAnExtension - toNumber 102 (No Extension/Not Special Number) with US Dialing Plan', async () => {
               composeText.addToNumber({ phoneNumber: '102' });
               composeText.updateMessageText('test sender');
-              await composeText.send();
+              await composeText.send(composeText.messageText);
               expect(
                 containsErrorMessage(
                   alert.state.messages,
@@ -1073,7 +1073,7 @@ export default (
             it('Should Alert notAnExtension - toNumber 998 (No Extension)', async () => {
               composeText.addToNumber({ phoneNumber: '998' });
               composeText.updateMessageText('test sender');
-              await composeText.send();
+              await composeText.send(composeText.messageText);
               expect(
                 containsErrorMessage(
                   alert.state.messages,
@@ -1103,7 +1103,7 @@ export default (
             it('Should Alert Special Number - toNumber is 911', async () => {
               composeText.addToNumber({ phoneNumber: '911' });
               composeText.updateMessageText('test sender');
-              await composeText.send();
+              await composeText.send(composeText.messageText);
               expect(
                 containsErrorMessage(
                   alert.state.messages,
@@ -1133,7 +1133,7 @@ export default (
             it('Should Not Alert Special Number - toNumber 999', async () => {
               composeText.addToNumber({ phoneNumber: '999' });
               composeText.updateMessageText('test sender');
-              await composeText.send();
+              await composeText.send(composeText.messageText);
               expect(
                 containsErrorMessage(
                   alert.state.messages,
@@ -1147,7 +1147,7 @@ export default (
               composeText.addToNumber({ phoneNumber: '101' });
               composeText.updateMessageText('test sender');
               try {
-                await composeText.send();
+                await composeText.send(composeText.messageText);
               } catch (error) {
                 console.debug('message sender e:', error);
               }
@@ -1189,7 +1189,7 @@ export default (
           composeText.addToNumber({ phoneNumber: '19999999' });
           composeText.updateMessageText('test sender');
           try {
-            await composeText.send();
+            await composeText.send(composeText.messageText);
           } catch (error) {
             console.debug('message sender e:', error);
           }
@@ -1229,7 +1229,7 @@ export default (
           composeText.addToNumber({ phoneNumber: '855899001' });
           composeText.updateMessageText('test sender');
           try {
-            await composeText.send();
+            await composeText.send(composeText.messageText);
           } catch (error) {
             console.debug('message sender e:', error);
           }

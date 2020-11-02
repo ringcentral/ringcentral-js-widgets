@@ -89,7 +89,7 @@ export default class ComposeTextUI extends RcUIModule {
     recipientsContactPhoneRenderer,
   }) {
     return {
-      send() {
+      send(...args) {
         let timeout = setTimeout(() => {
           if (routerInteraction.currentPath === '/composeText') {
             composeText.alertMessageSending();
@@ -99,7 +99,7 @@ export default class ComposeTextUI extends RcUIModule {
             timeout = null;
           }
         }, 10000);
-        composeText.send().then(
+        composeText.send(...args).then(
           (responses) => {
             if (timeout) {
               clearTimeout(timeout);

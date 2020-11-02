@@ -220,8 +220,13 @@ export default class BasePhone extends RcModule {
     //     });
     //     contactMatcher.addSearchProvider({
     //       name: 'contacts',
-    //       searchFn: async ({ queries }) => contacts.matchContacts({ phoneNumbers: queries }),
-    //       readyCheckFn: () => contacts.ready,
+    //       async searchFn({ queries }) {
+    //         const items = await contacts.matchContacts({ phoneNumbers: queries });
+    //         return items;
+    //       },
+    //       readyCheckFn() {
+    //         return contacts.ready;
+    //       },
     //     });
 
     //     // Webphone configuration

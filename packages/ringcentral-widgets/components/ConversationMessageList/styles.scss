@@ -144,3 +144,30 @@
 .picture {
   width: 100%;
 }
+
+.file {
+  padding: 10px;
+  min-width: 80px;
+  max-width: 200px;
+  border-radius: 4px;
+  background: $snow;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: flex-start;
+  margin-bottom: 5px;
+}
+
+.fileName {
+  margin: 0 5px;
+  flex: 1;
+}
+
+.download {
+  color: $ash;
+  cursor: pointer;
+
+  &:focus {
+    outline: 0;
+  }
+}

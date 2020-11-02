@@ -4,9 +4,10 @@ import {
   isE164,
   parseIncompletePhoneNumber,
 } from '@ringcentral-integration/phone-number';
-import formatNumber from 'ringcentral-integration/lib/formatNumber';
+import { formatNumber } from 'ringcentral-integration/lib/formatNumber';
 import proxify from 'ringcentral-integration/lib/proxy/proxify';
-import { ContactModel } from 'ringcentral-integration/models/Contact.model';
+import { ContactModel } from 'ringcentral-integration/interfaces/Contact.model';
+import { phoneTypes } from 'ringcentral-integration/enums/phoneTypes';
 import RcUIModule from '../../lib/RcUIModule';
 import {
   ContactDetailsViewProps,
@@ -118,7 +119,7 @@ export class ContactDetailsUI extends RcUIModule {
   }
 
   getContact({ id, type }): ContactModel {
-    return this._contacts.find({ id, type });
+    return this._contacts?.find({ id, type }) ?? null;
   }
 
   @proxify
@@ -158,46 +159,38 @@ export class ContactDetailsUI extends RcUIModule {
 
   getUIProps({ params: { contactId, contactType } }): ContactDetailsViewProps {
     return {
-      currentLocale: this._locale.currentLocale,
+      currentLocale: this._locale?.currentLocale,
       contact: this.getContact({
         id: contactId,
         type: contactType,
       }),
-      isMultipleSiteEnabled: this._extensionInfo.isMultipleSiteEnabled ?? false,
-      isClickToDialEnabled: !!(
-        this._dialerUI && this._rolesAndPermissions.callingEnabled
-      ),
+      isMultipleSiteEnabled:
+        this._extensionInfo?.isMultipleSiteEnabled ?? false,
       isCallButtonDisabled: !!(
-        this._connectivityManager.isOfflineMode ||
-        this._connectivityManager.isWebphoneUnavailableMode ||
-        this._connectivityManager.isWebphoneInitializing ||
-        this._rateLimiter.throttling
+        this._connectivityManager?.isOfflineMode ||
+        this._connectivityManager?.isWebphoneUnavailableMode ||
+        this._connectivityManager?.isWebphoneInitializing ||
+        this._rateLimiter?.throttling
       ),
-      isClickToTextEnabled: !!this._composeText,
       disableLinks: !!(
-        this._connectivityManager.isOfflineMode ||
-        this._connectivityManager.isVoipOnlyMode ||
-        this._rateLimiter.throttling
+        this._connectivityManager?.isOfflineMode ||
+        this._connectivityManager?.isVoipOnlyMode ||
+        this._rateLimiter?.throttling
       ),
       showSpinner: !(
-        this._locale.ready &&
-        this._contactSearch.ready &&
-        this._rolesAndPermissions.ready
-      ),
-      outboundSmsPermission: !!(
-        this._rolesAndPermissions.permissions &&
-        this._rolesAndPermissions.permissions.OutboundSMS
-      ),
-      internalSmsPermission: !!(
-        this._rolesAndPermissions.permissions &&
-        this._rolesAndPermissions.permissions.InternalSMS
+        this._locale?.ready &&
+        this._contactSearch?.ready &&
+        this._rolesAndPermissions?.ready
       ),
     };
   }
 
   getUIFunctions(): ContactDetailsViewFunctionProps {
     return {
-      formatNumber: (phoneNumber: string) => {
+      formatNumber: (phoneNumber: string = '') => {
+        if (!phoneNumber) {
+          return phoneNumber;
+        }
         // if the cleaned phone number is not a E164 format
         // we will show it directly, doesn't format it.
         const cleanedNumber: string = parseIncompletePhoneNumber(
@@ -213,8 +206,8 @@ export class ContactDetailsUI extends RcUIModule {
         }
         // if multi-site is enabled then we will try to remove site code with same site
         if (
-          this._extensionInfo.isMultipleSiteEnabled &&
-          this._extensionInfo.site?.code
+          this._extensionInfo?.isMultipleSiteEnabled &&
+          this._extensionInfo?.site?.code
         ) {
           const formattedNumber: string = formatNumber({
             phoneNumber,
@@ -225,6 +218,30 @@ export class ContactDetailsUI extends RcUIModule {
           return formattedNumber;
         }
         return phoneNumber;
+      },
+      canTextButtonShow: (phoneType: string) => {
+        const outboundSmsPermission = !!(
+          this._rolesAndPermissions?.permissions?.OutboundSMS ?? false
+        );
+        const internalSmsPermission = !!(
+          this._rolesAndPermissions?.permissions?.InternalSMS ?? false
+        );
+        // guess this statement is to avoid exception
+        const isClickToTextEnabled = !!this._composeText;
+        return (
+          isClickToTextEnabled &&
+          phoneType !== phoneTypes.fax &&
+          (phoneType === phoneTypes.extension
+            ? internalSmsPermission
+            : outboundSmsPermission)
+        );
+      },
+      canCallButtonShow: (phoneType: string) => {
+        const isClickToDialEnabled = !!(
+          this._dialerUI &&
+          (this._rolesAndPermissions?.callingEnabled ?? false)
+        );
+        return isClickToDialEnabled && phoneType !== phoneTypes.fax;
       },
       onBackClick: () => {
         this._routerInteraction.goBack();

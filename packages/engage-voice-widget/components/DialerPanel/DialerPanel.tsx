@@ -1,6 +1,6 @@
-import { RcFabIconButton, RcLink } from '@ringcentral-integration/rcui';
-import handUpSvg from '@ringcentral-integration/rcui/icons/icon-hand-up.svg';
-import phoneSvg from '@ringcentral-integration/rcui/icons/icon-phone.svg';
+import { RcFabIconButton, RcLink } from '@ringcentral/juno';
+import handUpSvg from '@ringcentral/juno/icons/icon-hand-up.svg';
+import phoneSvg from '@ringcentral/juno/icons/icon-phone.svg';
 import React, { FunctionComponent, useEffect } from 'react';
 
 import {
@@ -13,7 +13,7 @@ import i18n from './i18n';
 import styles from './styles.scss';
 
 const dialoutStatusMapping = {
-  dialing: ['background', 'disabled'],
+  dialing: ['element', 'disabled'],
   callConnected: ['semantic', 'negative'],
   idle: ['semantic', 'positive'],
 } as const;
@@ -73,7 +73,9 @@ const DialerPanel: FunctionComponent<DialerPanelProps> = ({
             // unexpected state
           }
         }}
-      />
+      >
+        phone
+      </RcFabIconButton>
       <i className={styles.flexFill} />
       <div className={styles.link}>
         <RcLink

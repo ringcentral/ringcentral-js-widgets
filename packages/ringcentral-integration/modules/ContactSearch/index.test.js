@@ -5,7 +5,7 @@ import ContactSearch from './index';
 import getContactSearchReducer from './getContactSearchReducer';
 import getCacheReducer from './getCacheReducer';
 import actionTypes from './actionTypes';
-import loginStatus from '../../modules/Auth/loginStatus';
+import loginStatus from '../Auth/loginStatus';
 
 describe('ContactSearch Unit Test', () => {
   let contactSearch;
@@ -468,7 +468,7 @@ describe('ContactSearch Unit Test', () => {
         error = e;
       }
       expect(error.message).to.equal(
-        'ContactSearch: "sourceName" is required.',
+        '[ContactSearch > SearchSource > sourceName] is required',
       );
     });
 
@@ -490,7 +490,7 @@ describe('ContactSearch Unit Test', () => {
         error = e;
       }
       expect(error.message).to.equal(
-        'ContactSearch: A search source named "test" already exists',
+        '[ContactSearch > SearchSource(test) > searchFn] already exists',
       );
     });
 
@@ -513,30 +513,7 @@ describe('ContactSearch Unit Test', () => {
         error = e;
       }
       expect(error.message).to.equal(
-        'ContactSearch: A search source check named "test" already exists',
-      );
-    });
-
-    it('Should raise a search source check name already exists error', () => {
-      contactSearch._searchSources = new Map();
-      contactSearch._searchSourcesCheck = new Map();
-      const searchFn = () => null;
-      const readyCheckFn = () => null;
-      const formatFn = () => null;
-      contactSearch._searchSourcesCheck.set('test', readyCheckFn);
-      let error = null;
-      try {
-        contactSearch.addSearchSource({
-          sourceName: 'test',
-          searchFn,
-          readyCheckFn,
-          formatFn,
-        });
-      } catch (e) {
-        error = e;
-      }
-      expect(error.message).to.equal(
-        'ContactSearch: A search source check named "test" already exists',
+        '[ContactSearch > SearchSource(test) > readyCheckFn] already exists',
       );
     });
 
@@ -560,7 +537,7 @@ describe('ContactSearch Unit Test', () => {
         error = e;
       }
       expect(error.message).to.equal(
-        'ContactSearch: A search source format named "test" already exists',
+        '[ContactSearch > SearchSource(test) > formatFn] already exists',
       );
     });
 
@@ -583,7 +560,7 @@ describe('ContactSearch Unit Test', () => {
         error = e;
       }
       expect(error.message).to.equal(
-        'ContactSearch: searchFn must be a function',
+        '[ContactSearch > SearchSource(test) > searchFn] must be a function',
       );
     });
 
@@ -606,7 +583,7 @@ describe('ContactSearch Unit Test', () => {
         error = e;
       }
       expect(error.message).to.equal(
-        'ContactSearch: readyCheckFn must be a function',
+        '[ContactSearch > SearchSource(test) > readyCheckFn] must be a function',
       );
     });
 
@@ -629,7 +606,7 @@ describe('ContactSearch Unit Test', () => {
         error = e;
       }
       expect(error.message).to.equal(
-        'ContactSearch: formatFn must be a function',
+        '[ContactSearch > SearchSource(test) > formatFn] must be a function',
       );
     });
 

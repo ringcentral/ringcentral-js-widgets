@@ -327,8 +327,9 @@ class EvTransferCallUI extends RcUIModuleV2<Deps> implements TransferCallUI {
         ({ countryId }) => countryId === phoneBook.countryId,
       );
       if (country) {
-        return `${phoneBook.name} (${country.countryName ||
-          country.countryId})`;
+        return `${phoneBook.name} (${
+          country.countryName || country.countryId
+        })`;
       }
       return `${phoneBook.name} (${phoneBook.countryId})`;
     }
@@ -339,8 +340,9 @@ class EvTransferCallUI extends RcUIModuleV2<Deps> implements TransferCallUI {
       const country = availableCountries.find(
         ({ countryId }) => countryId === transferRecipientCountryId,
       );
-      return `${transferRecipientNumber} (${country.countryName ||
-        country.countryId})`;
+      return `${transferRecipientNumber} (${
+        country.countryName || country.countryId
+      })`;
     }
     return '';
   }
@@ -408,10 +410,7 @@ class EvTransferCallUI extends RcUIModuleV2<Deps> implements TransferCallUI {
       .replace(blankRegex, '')
       .toLowerCase();
 
-    const keywords = text
-      .toLowerCase()
-      .trim()
-      .split(blankRegex);
+    const keywords = text.toLowerCase().trim().split(blankRegex);
 
     return (
       keywords.length > 0 &&

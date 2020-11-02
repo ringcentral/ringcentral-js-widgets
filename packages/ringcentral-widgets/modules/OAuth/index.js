@@ -2,7 +2,7 @@ import background from 'ringcentral-integration/lib/background';
 import { Module } from 'ringcentral-integration/lib/di';
 import proxify from 'ringcentral-integration/lib/proxy/proxify';
 import ensureExist from 'ringcentral-integration/lib/ensureExist';
-import uuid from 'uuid';
+import * as uuid from 'uuid';
 
 import popWindow from '../../lib/popWindow';
 
@@ -123,6 +123,14 @@ export default class OAuth extends OAuthBase {
       if (this.isRedirectUriSameOrigin) {
         this._setupRedirectCheckTimeout();
       }
+    }
+  }
+
+  @proxify
+  openOAuthPageInOtherRouter() {
+    this._loginWindow = popWindow(this.oAuthUri, 'rc-oauth', 600, 600);
+    if (this.isRedirectUriSameOrigin) {
+      this._setupRedirectCheckTimeout();
     }
   }
 

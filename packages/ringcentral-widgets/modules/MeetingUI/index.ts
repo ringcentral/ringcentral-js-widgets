@@ -50,6 +50,9 @@ export default class MeetingUI extends RcUIModule {
       // https://jira.ringcentral.com/browse/RCINT-15031
       // disableSaveAsDefault: !this._meeting.isPreferencesChanged,
       disableSaveAsDefault: false,
+      enablePersonalMeeting: this._meeting.enablePersonalMeeting,
+      personalMeetingId:
+        this._meeting.ready && this._meeting.personalMeeting?.shortId,
     };
   }
 
@@ -64,6 +67,8 @@ export default class MeetingUI extends RcUIModule {
         await this._meeting.schedule(meetingInfo, {}, opener);
       },
       init: () => this._meeting.init(),
+      switchUsePersonalMeetingId: (usePersonalMeetingId: boolean) =>
+        this._meeting.switchUsePersonalMeetingId(usePersonalMeetingId),
     };
   }
 }

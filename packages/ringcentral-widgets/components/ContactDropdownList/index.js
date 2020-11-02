@@ -55,7 +55,9 @@ function ContactPhone({
       className={styles.phoneNumberSection}
       title={titleEnabled && phoneNumberTitle}
     >
-      <span>{formatContactPhone(phoneNumber)}</span>
+      <span data-sign="dropDownContactPhone">
+        {formatContactPhone(phoneNumber)}
+      </span>
       <span className={styles.spliter}>{spliter}</span>
       <span className={styles.label}>{phoneTypeName}</span>
     </div>
@@ -153,6 +155,7 @@ ContactItem.defaultProps = {
 };
 
 class ContactDropdownList extends Component {
+  // eslint-disable-next-line react/no-deprecated
   componentWillReceiveProps(nextProps) {
     if (!nextProps.visibility || nextProps.items.length === 0) {
       return;

@@ -7,6 +7,7 @@ import getRecentCallsReducer from './getRecentCallsReducer';
 import getDateFrom from '../../lib/getDateFrom';
 import ensureExist from '../../lib/ensureExist';
 import concurrentExecute from '../../lib/concurrentExecute';
+import { phoneTypes } from '../../enums/phoneTypes';
 
 /**
  * @class
@@ -177,7 +178,7 @@ export default class RecentCalls extends RcModule {
     const recentCallsPromises = phoneNumbers.reduce(
       (acc, { phoneType, phoneNumber }) => {
         phoneNumber = phoneNumber.replace('+', '');
-        if (phoneType === 'extension') {
+        if (phoneType === phoneTypes.extension) {
           const promise = this._fetchCallLogList({
             ...params,
             extensionNumber: phoneNumber,
@@ -203,11 +204,7 @@ export default class RecentCalls extends RcModule {
       if (!this._auth.loggedIn) {
         return { records: [] };
       }
-      return this._client
-        .account()
-        .extension()
-        .callLog()
-        .list(params);
+      return this._client.account().extension().callLog().list(params);
     };
   }
 

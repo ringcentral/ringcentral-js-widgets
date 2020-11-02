@@ -6,4 +6,7 @@ export default {
   es: 'Spanish',
   it: 'Italian',
   pt: 'Portuguese',
+  zh: 'Chinese',
+  nl: 'Dutch',
+  ko: 'Korean',
 };

@@ -41,6 +41,10 @@ export default function getIntlDateTimeFormatter({
     locale,
     type = isToday(utcTimestamp) ? 'time' : 'date',
   }: DateTimeFormatterParams) => {
+    if (!utcTimestamp) {
+      console.warn('timestamp should not be empty');
+      return null;
+    }
     switch (type) {
       case 'date':
         return getFormatter(locale, dateOptions)

@@ -493,7 +493,6 @@ describe('Add Call Flow: Normal Call Ctrl -> click Add -> on hold list', () => {
       .at(2);
     expect(holdButton.find('.buttonTitle').text()).toEqual('Hold');
     expect(wrapper.find(ConferenceInfo)).toHaveLength(1);
-    await tearDownWrapper(wrapper);
   });
   test('RCINT-8377 Active Conference Call when merged(onheld outbound + onheld outbound)-2', async () => {
     const { wrapper, phone } = await initPhoneWrapper();

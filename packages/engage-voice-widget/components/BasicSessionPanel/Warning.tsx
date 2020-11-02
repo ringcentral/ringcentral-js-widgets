@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { RcTypography } from '@ringcentral-integration/rcui';
+import { RcTypography } from '@ringcentral/juno';
 import styles from './styles.scss';
 
 export interface WarningProps {

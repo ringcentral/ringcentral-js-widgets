@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="render">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Engage Voice Agent Script</title>
+    <link href="agentScript/assets/css/cf-icon.css" rel="stylesheet" />
+    <link href="agentScript/assets/css/engage-icons.css" rel="stylesheet" />
+    <link href="agentScript/assets/css/font-awesome.css" rel="stylesheet" />
+    <link href="agentScript/assets/css/stylesheet.css" rel="stylesheet" />
+    <link href="agentScript/dist/scripting_studio.css" rel="stylesheet" />
+
+    <link href="agentScript/dist/app.css" rel="stylesheet" />
+
+    <script src="agentScript/source/moment.min.js"></script>
+    <script src="agentScript/source/moment-timezone.js"></script>
+    <script src="agentScript/source/jquery.min.js"></script>
+    <script src="agentScript/source/jquery-ui.min.js"></script>
+
+    <script src="agentScript/source/lodash.min.js"></script>
+    <script src="agentScript/source/angular.min.js"></script>
+    <script src="agentScript/source/angular-resource.min.js"></script>
+    <script src="agentScript/source/angular-translate.min.js"></script>
+    <script src="agentScript/source/select.min.js"></script>
+    <script src="agentScript/source/angular-sanitize.min.js"></script>
+    <script src="agentScript/source/angular-aria.min.js"></script>
+    <script src="agentScript/source/angular-animate.min.js"></script>
+    <script src="agentScript/source/angular-material.min.js"></script>
+
+    <script src="agentScript/dist/localeLoader.js"></script>
+    <script src="agentScript/dist/vendor.js"></script>
+    <script src="agentScript/dist/render.js"></script>
+
+    <script defer src="agentScript.js"></script>
+    <script defer src="agentScript/dist/agentScript.angular.js"></script>
+  </head>
+  <body ng-controller="RenderCtrl" ng-cloak>
+    <script-render
+      ng-if="config"
+      data-uii="{{uii}}"
+      data-config="config"
+      data-callbacks="callbacks"
+    ></script-render>
+    <div ng-if="!config">
+      {{showMessage}}
+    </div>
+  </body>
+</html>

@@ -4,7 +4,10 @@ import React from 'react';
 import callDirections from 'ringcentral-integration/enums/callDirections';
 import callResults from 'ringcentral-integration/enums/callResults';
 import telephonyStatuses from 'ringcentral-integration/enums/telephonyStatus';
+import recordStatusEnum from 'ringcentral-integration/modules/Webphone/recordStatus';
 import { isMissed } from 'ringcentral-integration/lib/callLogHelpers';
+import { RcIcon } from '@ringcentral/juno';
+import RecordIconActive from '../../assets/images/RecordOn.svg';
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import DurationCounter from '../DurationCounter';
 import formatDuration from '../../lib/formatDuration';
@@ -43,6 +46,7 @@ export default function LogBasicInfo(props) {
     dateTimeFormatter,
     isWide,
     className,
+    recordStatus,
   } = props;
   if (!call) return null;
   const {
@@ -86,6 +90,8 @@ export default function LogBasicInfo(props) {
 
   const infoStatus = getInfoStatus(status);
 
+  const isRecording = recordStatus === recordStatusEnum.recording;
+
   return (
     <div
       data-sign="logSection"
@@ -113,6 +119,13 @@ export default function LogBasicInfo(props) {
             callIconMap[missed ? callResults.missed : direction],
           )}
         />
+        {isRecording && (
+          <RcIcon
+            iconSize="small"
+            symbol={RecordIconActive}
+            className={styles.recordingIndicator}
+          />
+        )}
         <ul className={styles.callDisplay}>
           <li className={styles.info}>
             <p className={styles.logName} title={logName}>
@@ -152,6 +165,7 @@ LogBasicInfo.propTypes = {
   dateTimeFormatter: PropTypes.func.isRequired,
   isWide: PropTypes.bool,
   className: PropTypes.string,
+  recordStatus: PropTypes.string,
 };
 
 LogBasicInfo.defaultProps = {
@@ -162,4 +176,5 @@ LogBasicInfo.defaultProps = {
   isWide: true,
   currentLocale: 'en',
   className: null,
+  recordStatus: '',
 };

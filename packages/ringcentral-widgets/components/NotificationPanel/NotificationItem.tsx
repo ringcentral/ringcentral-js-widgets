@@ -1,9 +1,11 @@
 import {
+  combineProps,
   RcSnackbarAction,
   RcSnackbarContent,
+  RcSnackbarContentProps,
   RcSnackbarContentType,
-} from '@ringcentral-integration/rcui';
-import closeSvg from '@ringcentral-integration/rcui/icons/icon-close.svg';
+} from '@ringcentral/juno';
+import closeSvg from '@ringcentral/juno/icons/icon-close.svg';
 import classNames from 'classnames';
 import React, { DOMAttributes, FunctionComponent, memo, useMemo } from 'react';
 
@@ -13,12 +15,10 @@ function getLevelType(level: NotificationMessage['level']) {
   let type: RcSnackbarContentType;
   switch (level) {
     case 'warning':
-      // the error is yellow
-      type = 'error';
+      type = 'warn';
       break;
     case 'danger':
-      // the warn is red
-      type = 'warn';
+      type = 'error';
       break;
     default:
       type = level;
@@ -50,6 +50,7 @@ export interface NotificationMessage {
    */
   classes?: {
     backdrop?: string;
+    snackbar?: RcSnackbarContentProps['classes'];
   };
   /** emit event when backdrop to be click */
   onBackdropClick?: DOMAttributes<HTMLDivElement>['onClick'];
@@ -70,7 +71,8 @@ export type NotificationItemProps = {
   dismiss: (id: string) => void;
   getRenderer(type: NotificationMessage): FunctionComponent<any>;
   duration?: number;
-} & Pick<NotificationMessage, 'animation' | 'backdropAnimation' | 'classes'>;
+} & Pick<NotificationMessage, 'animation' | 'backdropAnimation' | 'classes'> &
+  Pick<RcSnackbarContentProps, 'size' | 'messageAlign' | 'fullWidth'>;
 
 export const NotificationItem: FunctionComponent<NotificationItemProps> = memo(
   ({
@@ -82,7 +84,10 @@ export const NotificationItem: FunctionComponent<NotificationItemProps> = memo(
     duration,
     animation: defaultAnimation,
     backdropAnimation: defaultBackdropAnimation,
-    classes: defaultClasses,
+    classes: { snackbar: snackbarClass, backdrop: backdropClass },
+    size,
+    messageAlign,
+    fullWidth,
   }) => {
     const Message = getRenderer(data);
     const second = duration / 1000;
@@ -113,7 +118,7 @@ export const NotificationItem: FunctionComponent<NotificationItemProps> = memo(
           <div
             className={classNames(
               styles.backdrop,
-              defaultClasses.backdrop,
+              backdropClass,
               classes.backdrop,
               'animated',
               backdropAnimation,
@@ -126,14 +131,17 @@ export const NotificationItem: FunctionComponent<NotificationItemProps> = memo(
           data-sign="notification"
           data-sign-type={type}
           type={type}
-          size="small"
-          fullWidth
+          size={size}
+          fullWidth={fullWidth}
           loading={loading}
-          classes={{
-            root: classNames('animated', styles.snackbar, animation),
-          }}
+          classes={combineProps(
+            {
+              root: classNames('animated', styles.snackbar, animation),
+            },
+            snackbarClass,
+          )}
           style={animationStyle}
-          messageAlign="left"
+          messageAlign={messageAlign}
           message={
             <Message
               message={data}
@@ -162,4 +170,7 @@ export const NotificationItem: FunctionComponent<NotificationItemProps> = memo(
 NotificationItem.defaultProps = {
   duration: 500,
   classes: {},
+  size: 'small',
+  messageAlign: 'left',
+  fullWidth: true,
 };

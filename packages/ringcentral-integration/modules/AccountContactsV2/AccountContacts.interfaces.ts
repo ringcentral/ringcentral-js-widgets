@@ -5,12 +5,12 @@ import {
 } from '@rc-ex/core/definitions';
 import { CompanyContacts } from '../CompanyContactsV2';
 import ExtensionInfo from '../ExtensionInfo';
-import phoneTypes from '../../enums/phoneTypes';
+import { PhoneType } from '../../enums/phoneTypes';
 
 export interface Deps {
   client: any;
-  companyContacts: CompanyContacts;
   extensionInfo: ExtensionInfo;
+  companyContacts: CompanyContacts;
   accountContactsOptions?: AccountContactsOptions;
 }
 
@@ -58,7 +58,7 @@ export interface Contact extends ContactResource {
   hasProfileImage: boolean;
   phoneNumbers: ({
     phoneNumber?: string;
-    phoneType?: keyof typeof phoneTypes;
+    phoneType?: PhoneType;
   } & PhoneNumberResource)[];
   profileImageUrl: string;
   presence: Presence['presence'];

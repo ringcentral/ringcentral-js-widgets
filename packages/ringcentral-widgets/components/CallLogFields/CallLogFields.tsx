@@ -20,6 +20,7 @@ export default class CallLogFields extends Component<CallLogFieldsProps, {}> {
     startAdornmentRender: () => null,
     contactSearch: undefined,
     classes: {},
+    refs: {},
   };
 
   debounce = bindDebounce(this, DEFAULT_INPUT_SAVE_TIMEOUT);
@@ -32,6 +33,7 @@ export default class CallLogFields extends Component<CallLogFieldsProps, {}> {
         call,
         task = {} as Task,
       },
+      refs,
       onSaveCallLog,
     } = this.props;
     const onSave = () => isAutoSave && task.id && onSaveCallLog(call);
@@ -41,6 +43,7 @@ export default class CallLogFields extends Component<CallLogFieldsProps, {}> {
         return (
           <FieldItem
             {...this.props}
+            fieldRef={refs[fieldOption.value]}
             fieldOption={fieldOption}
             debounce={this.debounce}
             data-sign="callLogField"

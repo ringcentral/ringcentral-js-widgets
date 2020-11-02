@@ -79,6 +79,9 @@ describe('From `Normal Mode` to `Limited Mode`', () => {
     await toNumber.simulate('change');
     textArea.instance().value = messageContent;
     await textArea.simulate('change');
+    // wait for textArea 500ms debounce;
+    await timeout(1000);
+    wrapper.update();
     await sendButton.simulate('click');
 
     await timeout(500);

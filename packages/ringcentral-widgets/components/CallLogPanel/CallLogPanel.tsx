@@ -9,6 +9,7 @@ import BackHeader from '../BackHeaderV2';
 import LogBasicInfo from '../LogBasicInfoV2';
 import NotificationSection from '../NotificationSection';
 import NotificationSectionV2 from '../NotificationSectionV2';
+import WebRTCNotificationSection from '../WebRTCNotificationSection';
 import { SpinnerOverlay } from '../SpinnerOverlay';
 import { CallLogPanelProps } from './CallLogPanel.interface';
 import i18n from './i18n';
@@ -177,6 +178,7 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
       dateTimeFormatter,
       renderBasicInfo,
       classes: { logBasicInfo },
+      currentSession,
     } = this.props;
     if (renderBasicInfo) {
       return renderBasicInfo({ formatPhone, dateTimeFormatter, currentLog });
@@ -190,6 +192,7 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
         formatPhone={formatPhone}
         dateTimeFormatter={dateTimeFormatter}
         className={logBasicInfo}
+        recordStatus={currentSession?.recordStatus}
       />
     );
   }
@@ -230,10 +233,40 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
       disableLinks,
       useNewNotification,
       showNotiLogButton,
+      isWebRTC,
+      isWide,
+      onIgnore,
+      onForward,
+      endAndAnswer,
+      holdAndAnswer,
+      toVoicemail,
+      forwardingNumbers,
+      answer,
     } = this.props;
-    const { showNotification } = logNotification;
+    const { showNotification, call, logName } = logNotification;
     if (!showNotification) {
       return null;
+    }
+    if (isWebRTC) {
+      return (
+        <WebRTCNotificationSection
+          formatPhone={formatPhone}
+          currentLocale={currentLocale}
+          call={call}
+          logName={logName}
+          onCloseNotification={onCloseNotification}
+          currentNotificationIdentify={currentNotificationIdentify}
+          isWide={isWide}
+          onIgnore={onIgnore}
+          onForward={onForward}
+          endAndAnswer={endAndAnswer}
+          holdAndAnswer={holdAndAnswer}
+          toVoicemail={toVoicemail}
+          forwardingNumbers={forwardingNumbers}
+          isCurrentSessionEnd={!currentSession}
+          answer={answer}
+        />
+      );
     }
     if (useNewNotification) {
       return (

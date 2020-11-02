@@ -1,6 +1,7 @@
 import { reduce } from 'ramda';
+import { formatSameSiteExtension } from '@ringcentral-integration/phone-number/lib/format';
 import isBlank from './isBlank';
-import phoneTypes from '../enums/phoneTypes';
+import { phoneTypes } from '../enums/phoneTypes';
 
 export const AllContactSourceName = 'all';
 
@@ -115,6 +116,48 @@ export function filterContacts(contacts, searchFilter) {
   });
 }
 
+export function getSearchContacts({
+  contacts,
+  entityType,
+  searchString,
+  options,
+}) {
+  if (!searchString) {
+    return contacts;
+  }
+  const searchText = searchString.toLowerCase();
+  const result = [];
+  contacts.forEach((item) => {
+    const name = item.name || `${item.firstName} ${item.lastName}`;
+    item.phoneNumbers.forEach((p) => {
+      if (
+        name.toLowerCase().indexOf(searchText) >= 0 ||
+        p.phoneNumber.indexOf(searchText) >= 0
+      ) {
+        let { phoneNumber } = p;
+        const isMultipleSiteEnabled = options?.isMultipleSiteEnabled ?? false;
+        // Need to check multi-site ?
+        if (p.phoneType === phoneTypes.extension && isMultipleSiteEnabled) {
+          // Remove site code of same site
+          phoneNumber = formatSameSiteExtension({
+            currentSiteCode: options?.siteCode ?? '',
+            extension: phoneNumber,
+          });
+        }
+        result.push({
+          id: `${item.id}${p.phoneNumber}`,
+          name,
+          type: item.type,
+          phoneNumber,
+          phoneType: p.phoneType.replace('Phone', ''),
+          entityType,
+        });
+      }
+    });
+  });
+  return result;
+}
+
 export function getMatchContacts({
   contacts,
   phoneNumber,
@@ -146,7 +189,7 @@ const isSameSite = ({
 }) => {
   /**
    * [multiple site number match role]:
-   * Given account in the same site and the short extension starts with 0, When then short extension is equal to 0, it can match.
+   * Given an account which short extension starts with 0 in the same site, When short extension is equal to 0, it can match.
    * Otherwise it cannot match.
    */
   if (
@@ -176,7 +219,7 @@ export const isAnExtension = (number) => {
  * @param {String} extensionNumber extensionNumber need to be checked
  * @param {String} extensionFromContacts extensionNumber from contact
  * @param {Boolean} options.isMultipleSiteEnabled
- * @param {String} options.site.code
+ * @param {String} options.siteCode
  * @returns {Boolean}
  */
 export const isExtensionExist = ({
@@ -190,7 +233,7 @@ export const isExtensionExist = ({
   if (
     options.isMultipleSiteEnabled &&
     isSameSite({
-      siteCode: options.site?.code ?? '',
+      siteCode: options?.siteCode ?? '',
       extensionNumber,
       extensionFromContacts,
     })

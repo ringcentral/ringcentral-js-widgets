@@ -12,6 +12,7 @@ import {
   MeetingType,
   prunePreferencesObject,
   UTC_TIMEZONE_ID,
+  generateRandomPassword,
 } from '../../helpers/meetingHelper';
 import background from '../../lib/background';
 import { Module } from '../../lib/di';
@@ -30,8 +31,8 @@ import {
   RcmInvitationInfo,
   RcMMeetingModel,
   ScheduleMeetingResponse,
-  MeetingAssistedResponse,
-  MeetingAssistedUser,
+  MeetingDelegatorsResponse,
+  MeetingDelegators,
   MeetingInitialExtraData,
 } from './interface';
 import { MeetingErrors } from './meetingErrors';
@@ -74,10 +75,11 @@ export class Meeting extends RcModule<Record<string, any>, MeetingActionTypes> {
   private _enablePersonalMeeting: boolean;
   private _enableReloadAfterSchedule: boolean;
   private _enableServiceWebSettings: boolean;
-  private _enableScheduleFor: boolean;
+  private _enableScheduleOnBehalf: boolean;
   private _fetchPersonMeetingTimeout: NodeJS.Timeout;
   private _meetingProvider: any;
-  private _fetchAssistedUsersTimeout: NodeJS.Timeout;
+  private _fetchdelegatorsTimeout: NodeJS.Timeout;
+  private _enableCustomTimezone: boolean;
 
   constructor({
     brand,
@@ -93,7 +95,8 @@ export class Meeting extends RcModule<Record<string, any>, MeetingActionTypes> {
     enablePersonalMeeting = false,
     enableReloadAfterSchedule = true,
     enableServiceWebSettings = false,
-    enableScheduleFor = false,
+    enableScheduleOnBehalf = false,
+    enableCustomTimezone = false,
     ...options
   }) {
     super({
@@ -108,10 +111,11 @@ export class Meeting extends RcModule<Record<string, any>, MeetingActionTypes> {
     this._meetingProvider = meetingProvider;
     this._showSaveAsDefault = showSaveAsDefault;
     this._enableInvitationApi = enableInvitationApi;
+    this._enableCustomTimezone = enableCustomTimezone;
     this._enableReloadAfterSchedule = enableReloadAfterSchedule;
     this._enablePersonalMeeting = enablePersonalMeeting;
     this._enableServiceWebSettings = enableServiceWebSettings;
-    this._enableScheduleFor = enableScheduleFor;
+    this._enableScheduleOnBehalf = enableScheduleOnBehalf;
     this._availabilityMonitor = availabilityMonitor;
     this._lastMeetingSettingKey = 'lastMeetingSetting';
     this._defaultMeetingSettingKey = 'defaultMeetingSetting';
@@ -174,9 +178,8 @@ export class Meeting extends RcModule<Record<string, any>, MeetingActionTypes> {
 
     this._initMeeting();
 
-    if (this._enableScheduleFor) {
+    if (this._enableScheduleOnBehalf) {
       await this._initScheduleFor();
-      this.updateScheduleFor(this.extensionInfo.id);
     }
 
     this.store.dispatch({
@@ -237,15 +240,15 @@ export class Meeting extends RcModule<Record<string, any>, MeetingActionTypes> {
   }
 
   async _initScheduleFor() {
-    if (this._fetchAssistedUsersTimeout) {
-      clearTimeout(this._fetchAssistedUsersTimeout);
+    if (this._fetchdelegatorsTimeout) {
+      clearTimeout(this._fetchdelegatorsTimeout);
     }
     try {
-      await this.setAssistedUsers();
+      await this.setdelegators();
     } catch (e) {
       console.error('fetch default meeting error:', e);
       console.warn('retry after 10s');
-      this._fetchAssistedUsersTimeout = setTimeout(() => {
+      this._fetchdelegatorsTimeout = setTimeout(() => {
         this._initPersonalMeeting();
       }, 10000);
     }
@@ -289,16 +292,16 @@ export class Meeting extends RcModule<Record<string, any>, MeetingActionTypes> {
     if (!userExtensionId) {
       return;
     }
-    const user = find(
-      (item) => item.id === `${userExtensionId}`,
-      this.assistedUsers,
-    );
+    const hostId = `${userExtensionId}`;
+    const user = find((item) => item.id === hostId, this.delegators);
     if (user) {
-      this.store.dispatch({
-        type: this.actionTypes.updateScheduleForUser,
-        user,
+      const isMySelf = hostId === `${this.extensionInfo.id}`;
+      this.update({
+        ...this.meeting,
+        host: {
+          id: hostId,
+        },
       });
-      const isMySelf = userExtensionId === this.extensionInfo.id;
       this.switchUsePersonalMeetingId(isMySelf && this.usePmiDefaultFromSW);
     }
   }
@@ -350,14 +353,14 @@ export class Meeting extends RcModule<Record<string, any>, MeetingActionTypes> {
       requirePasswordForSchedulingNewMeetings: lockedRequirePasswordForSchedulingNewMeetings,
       requirePasswordForPmiMeetings: lockedRequirePasswordForPmiMeetings,
     } = this.scheduleLockedSettings;
+    const processedMeeting = {
+      ...meeting,
+      ...(usePmi ? personalMeetingSettings : userSettings),
+      usePersonalMeetingId: usePmi,
+    };
 
     // For PMI meetings
     if (usePmi) {
-      const processedMeeting = {
-        ...meeting,
-        ...personalMeetingSettings,
-        usePersonalMeetingId: true,
-      };
       const { allowJoinBeforeHost, password = '' } = processedMeeting;
 
       if (password !== '') {
@@ -391,24 +394,22 @@ export class Meeting extends RcModule<Record<string, any>, MeetingActionTypes> {
 
       processedMeeting._requireMeetingPassword = pmiRequiresPwd;
       processedMeeting._lockRequireMeetingPassword = pmiRequiresPwdLocked;
-
-      return processedMeeting;
+    } else {
+      // For non-PMI meetings
+      if (requirePasswordForSchedulingNewMeetings) {
+        processedMeeting._requireMeetingPassword = true;
+      }
+      if (lockedRequirePasswordForSchedulingNewMeetings) {
+        processedMeeting._lockRequireMeetingPassword = true;
+      }
     }
-
-    // For non-PMI meetings
-    const processedMeeting = {
-      ...meeting,
-      ...userSettings,
-      usePersonalMeetingId: false,
+    return {
+      ...processedMeeting,
+      password:
+        processedMeeting._requireMeetingPassword && !processedMeeting.password
+          ? generateRandomPassword()
+          : processedMeeting.password,
     };
-    if (requirePasswordForSchedulingNewMeetings) {
-      processedMeeting._requireMeetingPassword = true;
-    }
-    if (lockedRequirePasswordForSchedulingNewMeetings) {
-      processedMeeting._lockRequireMeetingPassword = true;
-    }
-
-    return processedMeeting;
   }
 
   _combineWithSWSettings(meeting: RcMMeetingModel): RcMMeetingModel {
@@ -427,33 +428,32 @@ export class Meeting extends RcModule<Record<string, any>, MeetingActionTypes> {
       lockedRequirePasswordForPmiMeetings &&
       requirePasswordForPmiMeetings === PMIRequirePassword.JBH_ONLY
     ) {
-      processedMeeting._lockRequireMeetingPassword = allowJoinBeforeHost;
-      if (allowJoinBeforeHost) {
+      if (allowJoinBeforeHost && !processedMeeting._requireMeetingPassword) {
         processedMeeting._requireMeetingPassword = true;
+        processedMeeting.password =
+          processedMeeting._pmiPassword || generateRandomPassword();
       }
+      processedMeeting._lockRequireMeetingPassword = allowJoinBeforeHost;
     }
-
     return processedMeeting;
   }
 
   @proxify
   private async fetchPersonalMeeting(): Promise<MeetingInfoResponse> {
-    let personalMeetingId = this.personalMeeting && this.personalMeeting.id;
-    if (!personalMeetingId) {
-      const serviceInfo = await this.getMeetingServiceInfo();
-      personalMeetingId = serviceInfo.externalUserInfo.personalMeetingId;
-    }
+    const serviceInfo = await this.getMeetingServiceInfo();
+    const personalMeetingId = serviceInfo.externalUserInfo.personalMeetingId;
     const meetingInfoResponse = await this.getMeeting(personalMeetingId);
     return meetingInfoResponse;
   }
 
   private formatPersonalMeeting(
     meetingInfo: MeetingInfoResponse,
+    shortId?: string,
   ): RcMMeetingModel {
     const settings = {
       ...this.initialMeetingSetting,
       ...meetingInfo,
-      shortId: meetingInfo.id,
+      shortId: shortId || meetingInfo.id,
       usePersonalMeetingId: true,
     };
     return {
@@ -477,19 +477,18 @@ export class Meeting extends RcModule<Record<string, any>, MeetingActionTypes> {
   }
 
   @proxify
-  private async setAssistedUsers() {
-    const { records } = await this.getAssistedUsers();
+  private async setdelegators() {
+    const { records } = await this.getDelegators();
     this.store.dispatch({
-      type: this.actionTypes.updateAssistedUsers,
-      assistedUsers: records,
+      type: this.actionTypes.updateDelegatorList,
+      delegators: records,
     });
   }
 
   @proxify
   async schedule(
     meeting: RcMMeetingModel,
-    { isAlertSuccess = true } = {},
-    opener: any,
+    { isAlertSuccess = true }: { isAlertSuccess?: boolean } = {},
   ): Promise<ScheduleMeetingResponse> {
     if (this.isScheduling) return (this.schedule as any)._promise;
     meeting = meeting || this.meeting;
@@ -524,7 +523,6 @@ export class Meeting extends RcModule<Record<string, any>, MeetingActionTypes> {
       const result = await this._createDialingNumberTpl(
         serviceInfo,
         resp,
-        opener,
         invitationInfo,
       );
 
@@ -537,7 +535,10 @@ export class Meeting extends RcModule<Record<string, any>, MeetingActionTypes> {
       if (this._enablePersonalMeeting && resp.usePersonalMeetingId) {
         this.store.dispatch({
           type: this.actionTypes.updatePersonalMeeting,
-          meeting: this.formatPersonalMeeting(resp),
+          meeting: this.formatPersonalMeeting(
+            resp,
+            serviceInfo.externalUserInfo.personalMeetingId,
+          ),
         });
         if (this._enableServiceWebSettings) {
           this.update({
@@ -590,11 +591,13 @@ export class Meeting extends RcModule<Record<string, any>, MeetingActionTypes> {
         _requireMeetingPassword: !!settings.password,
       };
     } catch (e) {
-      const error = await e.response.clone().json();
-      console.log(`failed to get meeting info: ${meetingId}, ${e}`);
+      const { errorCode, message } = await e.response.clone().json();
+      console.log(
+        `failed to get meeting info: ${meetingId}, ${errorCode}, ${message}`,
+      );
       const isMeetingDeleted =
-        error.errorCode === 'CMN-102' &&
-        error.message.indexOf('[meetingId] is not found') > -1;
+        errorCode === 'CMN-102' &&
+        message.indexOf('[meetingId] is not found') > -1;
       if (isAlertError && isMeetingDeleted) {
         setTimeout(() => {
           this._alert.danger({
@@ -607,11 +610,7 @@ export class Meeting extends RcModule<Record<string, any>, MeetingActionTypes> {
   }
 
   async postMeeting(formattedMeeting: RcMMeetingModel) {
-    return this._client
-      .account()
-      .extension()
-      .meeting()
-      .post(formattedMeeting);
+    return this._client.account().extension().meeting().post(formattedMeeting);
   }
 
   @proxify
@@ -624,7 +623,7 @@ export class Meeting extends RcModule<Record<string, any>, MeetingActionTypes> {
   }
 
   @proxify
-  async getAssistedUsers(): Promise<MeetingAssistedResponse> {
+  async getDelegators(): Promise<MeetingDelegatorsResponse> {
     const res = await this._client.service
       .platform()
       .get(
@@ -710,8 +709,7 @@ export class Meeting extends RcModule<Record<string, any>, MeetingActionTypes> {
   async updateMeeting(
     meetingId: string,
     meeting: RcMMeetingModel,
-    { isAlertSuccess = false } = {},
-    opener,
+    { isAlertSuccess = false }: { isAlertSuccess?: boolean } = {},
   ) {
     if (this._isUpdating(meetingId)) {
       return (this.updateMeeting as any)._promise;
@@ -749,7 +747,6 @@ export class Meeting extends RcModule<Record<string, any>, MeetingActionTypes> {
       const result = await this._createDialingNumberTpl(
         serviceInfo,
         resp,
-        opener,
         invitationInfo,
       );
 
@@ -762,7 +759,10 @@ export class Meeting extends RcModule<Record<string, any>, MeetingActionTypes> {
       if (this._enablePersonalMeeting && resp.usePersonalMeetingId) {
         this.store.dispatch({
           type: this.actionTypes.updatePersonalMeeting,
-          meeting: this.formatPersonalMeeting(resp),
+          meeting: this.formatPersonalMeeting(
+            resp,
+            serviceInfo.externalUserInfo.personalMeetingId,
+          ),
         });
         if (this._enableServiceWebSettings) {
           this.update({
@@ -796,7 +796,6 @@ export class Meeting extends RcModule<Record<string, any>, MeetingActionTypes> {
   async _createDialingNumberTpl(
     serviceInfo: any,
     resp: any,
-    opener: any,
     invitationInfo: RcmInvitationInfo,
   ) {
     serviceInfo.mobileDialingNumberTpl = getMobileDialingNumberTpl(
@@ -812,10 +811,6 @@ export class Meeting extends RcModule<Record<string, any>, MeetingActionTypes> {
       extensionInfo: this.extensionInfo,
       invitationInfo,
     };
-
-    if (typeof this.scheduledHook === 'function') {
-      await this.scheduledHook(result, opener);
-    }
     return result;
   }
 
@@ -826,6 +821,7 @@ export class Meeting extends RcModule<Record<string, any>, MeetingActionTypes> {
       }
     } else if (errors && errors.response) {
       const {
+        message,
         errorCode,
         permissionName,
       } = await errors.response.clone().json();
@@ -835,6 +831,13 @@ export class Meeting extends RcModule<Record<string, any>, MeetingActionTypes> {
           payload: {
             permissionName,
           },
+        });
+      } else if (
+        errorCode === 'CMN-102' &&
+        message.indexOf('[meetingId] is not found') > -1
+      ) {
+        this._alert.danger({
+          message: meetingStatus.meetingIsDeleted,
         });
       } else if (
         !this._availabilityMonitor ||
@@ -893,27 +896,24 @@ export class Meeting extends RcModule<Record<string, any>, MeetingActionTypes> {
     if (meetingType !== MeetingType.RECURRING) {
       const _schedule: MeetingScheduleResource = {
         durationInMinutes: schedule.durationInMinutes,
-        timeZone: { id: UTC_TIMEZONE_ID },
+        timeZone: {
+          id: this._enableCustomTimezone
+            ? schedule.timeZone.id
+            : UTC_TIMEZONE_ID,
+        },
       };
       if (schedule.startTime) {
         // Format selected startTime to utc standard time
         // Timezone information is not included here
-        _schedule.startTime = moment.utc(schedule.startTime).format();
+        _schedule.startTime = this._enableCustomTimezone
+          ? schedule.startTime
+          : moment.utc(schedule.startTime).format();
       }
       formatted.schedule = _schedule;
 
       if (recurrence && recurrence.until) {
         formatted.recurrence.until = moment.utc(recurrence.until).format();
       }
-    }
-
-    // Schedule For
-    if (this._enableScheduleFor) {
-      formatted.host = {
-        id:
-          (this.scheduleForUser && this.scheduleForUser.id) ||
-          (host && host.id),
-      };
     }
 
     // For PMI
@@ -958,6 +958,7 @@ export class Meeting extends RcModule<Record<string, any>, MeetingActionTypes> {
       meeting: {
         ...formattedMeeting,
         _saved: meeting.notShowAgain,
+        _requireMeetingPassword: meeting._requireMeetingPassword,
       },
     });
   }
@@ -1029,7 +1030,7 @@ export class Meeting extends RcModule<Record<string, any>, MeetingActionTypes> {
       return {};
     }
     return {
-      _lockSettings: pick(COMMON_SETTINGS, this.scheduleLockedSettings),
+      settingLock: pick(COMMON_SETTINGS, this.scheduleLockedSettings),
     };
   }
 
@@ -1141,25 +1142,42 @@ export class Meeting extends RcModule<Record<string, any>, MeetingActionTypes> {
 
   @selector
   initialMeetingSetting: any = [
-    () => this._extensionInfo.info.name || '',
+    () => {
+      const extensionName = this.extensionInfo.name || '';
+      if (
+        !this._enableScheduleOnBehalf ||
+        !this.meeting ||
+        !this.delegators ||
+        this.delegators.length === 0
+      ) {
+        return extensionName;
+      }
+      const currentHost = `${
+        (this.meeting.host && this.meeting.host.id) || ''
+      }`;
+      const user = find((item) => item.id === currentHost, this.delegators);
+      return user && user.id !== `${this.extensionInfo.id}`
+        ? user.name
+        : extensionName;
+    },
     () => getInitializedStartTime(),
-    () => `${this._extensionInfo.info.id}` || '',
-    () => `${this.scheduleForUser?.name || ''}`,
+    () => {
+      if (
+        this._enableScheduleOnBehalf &&
+        this.meeting &&
+        this.meeting.host &&
+        this.meeting.host.id
+      ) {
+        return `${this.meeting.host.id}`;
+      }
+      return `${this.extensionInfo.id}` || '';
+    },
     (
-      extensionName: string,
+      meetingName: string,
       startTime: string,
-      extensionId: string,
-      scheduleForName: string,
+      hostId: string,
     ): RcMMeetingModel => {
-      const meetingName =
-        scheduleForName && scheduleForName !== ASSISTED_USERS_MYSELF
-          ? scheduleForName
-          : extensionName;
-      const setting = getDefaultMeetingSettings(
-        meetingName,
-        startTime,
-        extensionId,
-      );
+      const setting = getDefaultMeetingSettings(meetingName, startTime, hostId);
       if (!this._enableServiceWebSettings) {
         return setting;
       }
@@ -1240,29 +1258,33 @@ export class Meeting extends RcModule<Record<string, any>, MeetingActionTypes> {
     return this.state.lockedSettings || {};
   }
 
+  get showAdminLock(): boolean {
+    return false;
+  }
+
+  get enablePersonalMeeting(): boolean {
+    return this._enablePersonalMeeting;
+  }
+
   get personalMeeting() {
     return this._storage.getItem(this._personalMeetingKey);
   }
 
-  @computed(({ state, selfUser }: Meeting) => [state, selfUser])
-  get assistedUsers(): MeetingAssistedUser[] {
-    if (this.state.assistedUsers.length === 0) {
+  @computed(({ state, loginUser }: Meeting) => [state, loginUser])
+  get delegators(): MeetingDelegators[] {
+    if (this.state.delegators.length === 0) {
       return [];
     }
-    return [this.selfUser, ...this.state.assistedUsers];
+    return [this.loginUser, ...this.state.delegators];
   }
 
   @computed(({ extensionInfo }: Meeting) => [extensionInfo])
-  get selfUser() {
-    const myself: MeetingAssistedUser = {
+  get loginUser() {
+    const myself: MeetingDelegators = {
       id: `${this.extensionInfo.id}`,
       name: ASSISTED_USERS_MYSELF,
+      isLoginUser: true,
     };
     return myself;
-  }
-
-  @computed(({ state }: Meeting) => [state])
-  get scheduleForUser() {
-    return this.state.scheduleForUser;
   }
 }

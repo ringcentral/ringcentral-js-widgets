@@ -56,13 +56,13 @@ export default class Softphone extends RcModule {
     /* do nothing */
   }
 
-  get protocol() {
-    switch (this._brand.id) {
-      case '3420': // ATT
+  get spartanProtocol() {
+    switch (this._brand.code) {
+      case 'att':
         return 'attvr20';
-      case '7710': // BT
+      case 'bt':
         return 'rcbtmobile';
-      case '7310': // TELUS
+      case 'telus':
         return 'rctelus';
       default:
         return 'rcmobile';
@@ -71,12 +71,12 @@ export default class Softphone extends RcModule {
 
   // currently we only have RingCentral App(rc brand)'s universal link
   get jupiterUniversalLink() {
-    switch (this._brand.id) {
-      case '3420': // ATT
+    switch (this._brand.code) {
+      case 'att':
         return null;
-      case '7710': // BT
+      case 'bt':
         return null;
-      case '7310': // TELUS
+      case 'telus':
         return null;
       default:
         return 'https://app.ringcentral.com/r/';
@@ -85,12 +85,12 @@ export default class Softphone extends RcModule {
 
   // currently we only have RingCentral App(rc brand)'s protocol
   get jupiterProtocol() {
-    switch (this._brand.id) {
-      case '3420': // ATT
+    switch (this._brand.code) {
+      case 'att':
         return null;
-      case '7710': // BT
+      case 'bt':
         return null;
-      case '7310': // TELUS
+      case 'telus':
         return null;
       default:
         return 'rcapp';
@@ -104,17 +104,21 @@ export default class Softphone extends RcModule {
       phoneNumber,
     });
 
-    const cmd = `call?number=${encodeURIComponent(phoneNumber)}`;
-    let uri = `${this.protocol}://${cmd}`;
-    const isCallWithJupiter =
-      callingMode && callingMode === callingModes.jupiter;
-    if (isCallWithJupiter) {
-      uri = `${this.jupiterProtocol}://r/call?number=${phoneNumber}`;
-    }
+    const isCallWithJupiter = callingMode === callingModes.jupiter;
+    const protocol = isCallWithJupiter
+      ? this.jupiterProtocol
+      : this.spartanProtocol;
+    const command = isCallWithJupiter
+      ? `call?number=${phoneNumber}` // jupiter doesn't recognize encoded string for now
+      : `call?number=${encodeURIComponent(phoneNumber)}`;
+    const uri = isCallWithJupiter
+      ? `${protocol}://r/${command}`
+      : `${protocol}://${command}`;
+
     if (this._callHandler) {
       this._callHandler({
-        protocol: this.protocol,
-        command: cmd,
+        protocol,
+        command,
         phoneNumber,
       });
     } else if (this._extensionMode || this.detectPlatform() !== 'desktop') {

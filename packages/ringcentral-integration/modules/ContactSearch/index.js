@@ -1,10 +1,10 @@
-import uuid from 'uuid';
+import * as uuid from 'uuid';
 import RcModule from '../../lib/RcModule';
 import { Module } from '../../lib/di';
 import { selector } from '../../lib/selector';
 import loginStatus from '../Auth/loginStatus';
 import proxify from '../../lib/proxy/proxify';
-import debounce from '../../lib/debounce';
+import { debounce } from '../../lib/debounce-throttle';
 import actionTypes from './actionTypes';
 import getContactSearchReducer from './getContactSearchReducer';
 import getCacheReducer from './getCacheReducer';
@@ -77,6 +77,9 @@ export default class ContactSearch extends RcModule {
     } else if (this._shouldReset()) {
       this._resetModuleStatus();
       this._clearStateCache();
+      if (this._debouncedSearchFn) {
+        this._debouncedSearchFn.cancel();
+      }
     }
   }
 
@@ -123,38 +126,51 @@ export default class ContactSearch extends RcModule {
 
   addSearchSource({ sourceName, searchFn, readyCheckFn, formatFn }) {
     if (!sourceName) {
-      throw new Error('ContactSearch: "sourceName" is required.');
+      throw new Error(
+        '[ContactSearch > SearchSource > sourceName] is required',
+      );
     }
     if (this._searchSources.has(sourceName)) {
       throw new Error(
-        `ContactSearch: A search source named "${sourceName}" already exists`,
+        `[ContactSearch > SearchSource(${sourceName}) > searchFn] already exists`,
       );
     }
     if (this._searchSourcesCheck.has(sourceName)) {
       throw new Error(
-        `ContactSearch: A search source check named "${sourceName}" already exists`,
+        `[ContactSearch > SearchSource(${sourceName}) > readyCheckFn] already exists`,
       );
     }
     if (this._searchSourcesFormat.has(sourceName)) {
       throw new Error(
-        `ContactSearch: A search source format named "${sourceName}" already exists`,
+        `[ContactSearch > SearchSource(${sourceName}) > formatFn] already exists`,
       );
     }
     if (typeof searchFn !== 'function') {
-      throw new Error('ContactSearch: searchFn must be a function');
+      throw new Error(
+        `[ContactSearch > SearchSource(${sourceName}) > searchFn] must be a function`,
+      );
     }
     if (typeof readyCheckFn !== 'function') {
-      throw new Error('ContactSearch: readyCheckFn must be a function');
+      throw new Error(
+        `[ContactSearch > SearchSource(${sourceName}) > readyCheckFn] must be a function`,
+      );
     }
     if (typeof formatFn !== 'function') {
-      throw new Error('ContactSearch: formatFn must be a function');
+      throw new Error(
+        `[ContactSearch > SearchSource(${sourceName}) > formatFn] must be a function`,
+      );
     }
     this._searchSources.set(sourceName, searchFn);
     this._searchSourcesFormat.set(sourceName, formatFn);
     this._searchSourcesCheck.set(sourceName, readyCheckFn);
   }
 
-  debouncedSearch = debounce(this.search, 800, false);
+  _debouncedSearchFn = debounce({ fn: this.search, threshold: 800 });
+
+  @proxify
+  debouncedSearch({ searchString }) {
+    this._debouncedSearchFn({ searchString });
+  }
 
   @proxify
   async search({ searchString }) {
@@ -199,16 +215,20 @@ export default class ContactSearch extends RcModule {
       type: this.actionTypes.search,
     });
     try {
+      // search cache
       let entities = null;
       entities = this._searchFromCache({ sourceName, searchString });
       if (entities) {
         this._loadSearching({ searchOnSources, searchString, entities });
         return;
       }
-      entities = await this._searchSources.get(sourceName)({
-        searchString,
-      });
-      entities = this._searchSourcesFormat.get(sourceName)(entities);
+      // search source
+      const searchFn = this._searchSources.get(sourceName);
+      entities = await searchFn({ searchString });
+      // format result
+      const formatFn = this._searchSourcesFormat.get(sourceName);
+      entities = formatFn(entities);
+      // save result
       this._saveSearching({ sourceName, searchString, entities });
       if (this._searchIds[sourceName] === searchId) {
         this._loadSearching({ searchOnSources, searchString, entities });

@@ -20,12 +20,15 @@ function mapToProps(
       dateTimeFormat,
       call,
       composeText,
+      extensionInfo,
     },
     showContactDisplayPlaceholder = false,
     enableContactFallback = false,
   },
 ) {
   return {
+    currentSiteCode: extensionInfo?.site?.code ?? '',
+    isMultipleSiteEnabled: extensionInfo?.isMultipleSiteEnabled ?? false,
     currentLocale: locale.currentLocale,
     activeRingCalls: callMonitor.activeRingCalls,
     activeOnHoldCalls: callMonitor.activeOnHoldCalls,
@@ -178,10 +181,7 @@ function mapToFunctions(
 }
 
 const CallsListPage = withPhone(
-  connect(
-    mapToProps,
-    mapToFunctions,
-  )(CallsListPanel),
+  connect(mapToProps, mapToFunctions)(CallsListPanel),
 );
 
 export default CallsListPage;

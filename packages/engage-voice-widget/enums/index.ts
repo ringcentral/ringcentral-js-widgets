@@ -1,4 +1,5 @@
 export * from './agentScriptEvents';
+export * from './agentSessionEvents';
 export * from './agentStateTypes';
 export * from './agentStatesColors';
 export * from './agentStatesTexts';

@@ -3,11 +3,12 @@ import { action, RcModuleV2, state } from '@ringcentral-integration/core';
 import AgentLibrary from '@SDK';
 import EventEmitter from 'events';
 import { Module } from 'ringcentral-integration/lib/di';
+import { raceTimeout } from 'ringcentral-integration/lib/raceTimeout';
 import sleep from 'ringcentral-integration/lib/sleep';
 
 import { messageTypes } from '../../enums';
+import { _encodeSymbol } from '../constant';
 import { EvTypeError } from '../EvTypeError';
-import { raceTimeout } from '../time';
 import { EvMessageTypes, evStatus } from './enums';
 import { EvCallbackTypes } from './enums/callbackTypes';
 import {
@@ -18,6 +19,7 @@ import {
   EvAgentInfo,
   EvAgentOptions,
   EvAgentScriptResult,
+  EvAgentSettings,
   EvAuthenticateAgentWithEngageAccessTokenRes,
   EvAuthenticateAgentWithRcAccessTokenRes,
   EvBaseCall,
@@ -87,14 +89,12 @@ class EvClient extends RcModuleV2<Deps> {
 
   private _options: EvAgentOptions;
 
-  private _encodeSymbol = '$';
-
   private _eventEmitter = new EventEmitter();
 
   private _callbacks: Record<string, Function> = {};
 
   @state
-  status: string = evStatus.START;
+  appStatus: string = evStatus.START;
 
   constructor(deps: Deps) {
     super({ deps });
@@ -104,14 +104,14 @@ class EvClient extends RcModuleV2<Deps> {
       openResponse,
     } = this._deps.evClientOptions.callbacks;
     this._onOpen = (res) => {
-      this.setStatus(evStatus.CONNECTED);
+      this.setAppStatus(evStatus.CONNECTED);
       openResponse(res);
       this._eventEmitter.emit(EvCallbackTypes.OPEN_SOCKET, res);
       // ensure for WebSocket keep-alive connection
       this._sdk.terminateStats();
     };
     this._onClose = () => {
-      this.setStatus(evStatus.CLOSED);
+      this.setAppStatus(evStatus.CLOSED);
       closeResponse();
       this._eventEmitter.emit(EvCallbackTypes.CLOSE_SOCKET);
     };
@@ -145,18 +145,25 @@ class EvClient extends RcModuleV2<Deps> {
     });
   }
 
-  get currentCall() {
+  get currentCall(): EvBaseCall {
     return this._sdk.getCurrentCall();
   }
 
   @action
-  setStatus(status: string) {
-    this.status = status;
+  setAppStatus(status: string) {
+    this.appStatus = status;
   }
 
   setEnv(authHost: string) {
     if (window.localStorage) {
       window.localStorage.setItem('__authHost__', authHost);
+      window.location.reload();
+    }
+  }
+
+  setSIPNoLog(authHost: string) {
+    if (window.localStorage) {
+      window.localStorage.setItem('__SIP_NO_LOG__', authHost);
       window.location.reload();
     }
   }
@@ -193,10 +200,14 @@ class EvClient extends RcModuleV2<Deps> {
     return this._sdk.getCallback(eventType);
   }
 
+  getRefreshedToken() {
+    this._sdk.getRefreshedToken();
+  }
+
   authenticateAgentWithEngageAccessToken(engageAccessToken: string) {
     return new Promise<EvAuthenticateAgentWithEngageAccessTokenRes>(
       (resolve) => {
-        this.setStatus(evStatus.LOGIN);
+        this.setAppStatus(evStatus.LOGIN);
         this._sdk.authenticateAgentWithEngageAccessToken(
           engageAccessToken,
           (response: EvAuthenticateAgentWithEngageAccessTokenRes) => {
@@ -286,7 +297,7 @@ class EvClient extends RcModuleV2<Deps> {
 
   authenticateAgent(rcAccessToken: string, tokenType: EvTokenType) {
     return new Promise<EvAuthenticateAgentWithRcAccessTokenRes>((resolve) => {
-      this.setStatus(evStatus.LOGIN);
+      this.setAppStatus(evStatus.LOGIN);
       this._sdk.authenticateAgentWithRcAccessToken(
         rcAccessToken,
         tokenType,
@@ -294,7 +305,7 @@ class EvClient extends RcModuleV2<Deps> {
           // here just auth with engage access token, not need handle response data, that handle by Agent SDK.
           await this.authenticateAgentWithEngageAccessToken(res.accessToken);
 
-          this.setStatus(evStatus.LOGINED);
+          this.setAppStatus(evStatus.LOGINED);
           const _agents = (res || {}).agents || [];
           const agents = _agents.map((agent) => ({
             ...agent,
@@ -334,7 +345,7 @@ class EvClient extends RcModuleV2<Deps> {
       this.authenticateAgent(rcAccessToken, tokenType),
       {
         timeout: 120 * 1000,
-        callback: () => null,
+        onTimeout: (resolve) => resolve(null),
       },
     );
     if (!authenticateResponse) {
@@ -402,7 +413,7 @@ class EvClient extends RcModuleV2<Deps> {
   }
 
   /**
-   * That closeSocket will auto reconnected by agent SDK
+   * when manual close socket, that closeSocket will auto reconnected by agent SDK
    */
   closeSocket() {
     this._sdk.closeSocket();
@@ -572,11 +583,22 @@ class EvClient extends RcModuleV2<Deps> {
   }
 
   encodeUii({ uii, sessionId }: Partial<EvAddSessionNotification>) {
-    return `${uii}${this._encodeSymbol}${sessionId}`;
+    return `${uii}${_encodeSymbol}${sessionId}`;
+  }
+
+  /**
+   * replace sessionId with _encodeSymbol when ringing
+   * @param _encodeSymbol '$'
+   */
+  encodeRingingUii({ uii }: EvBaseCall) {
+    return this.encodeUii({
+      uii: this.decodeUii(uii),
+      sessionId: _encodeSymbol,
+    });
   }
 
   decodeUii(uii: string) {
-    return uii.split(this._encodeSymbol)[0];
+    return uii.split(_encodeSymbol)[0];
   }
 
   /**
@@ -635,7 +657,9 @@ class EvClient extends RcModuleV2<Deps> {
   async multiLoginRequest() {
     // temp solution, and wait for ev backend enhancement.
     try {
-      await raceTimeout(this._multiLoginRequest());
+      await raceTimeout(this._multiLoginRequest(), {
+        onTimeout: (res, rej) => rej(),
+      });
     } catch (error) {
       throw new Error('_multiLoginRequest fail or 30s timeout');
     }
@@ -710,7 +734,7 @@ class EvClient extends RcModuleV2<Deps> {
       }),
       {
         timeout: 5 * 1000,
-        callback: () => null,
+        onTimeout: (resolve) => resolve(null),
       },
     );
 
@@ -719,6 +743,47 @@ class EvClient extends RcModuleV2<Deps> {
       throw new Error('saveScriptResult fail');
     }
     return res;
+  }
+
+  /**
+   * GET - /voice/api/v1/agent/:accountId/knowledgeBaseGroups
+      params:
+      accountId: AgentSvc.agentSettings.accountId,
+      guid: AgentSvc.agentSettings.guid,
+      knowledgeBaseGroupIds: knowledgeBaseGroupIds
+
+      knowledgeBaseGroupIds = comma list of all groups you care about
+   */
+  async getKnowledgeBaseGroups(knowledgeBaseGroupIds: number[]) {
+    this.getRefreshedToken();
+
+    const uiModel = this._sdk._getUIModel().getInstance();
+    const HttpService = this._sdk._HttpService;
+
+    const agentSettings: EvAgentSettings = this._sdk.getAgentSettings();
+    const engageAccessToken = `Bearer ${uiModel.authenticateRequest.engageAccessToken}`;
+
+    try {
+      const { status, response } = await new HttpService(
+        `${uiModel.authHost}/voice/api/v1/`,
+      ).httpGet(`agent/${agentSettings.accountId}/knowledgeBaseGroups`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: engageAccessToken,
+        },
+        queryParams: {
+          guid: agentSettings.guid,
+          knowledgeBaseGroupIds,
+        },
+      });
+
+      if (status === 200) {
+        return JSON.parse(response);
+      }
+    } catch (error) {
+      console.log('getKnowledgeBaseGroups fail');
+    }
+    return null;
   }
 }
 

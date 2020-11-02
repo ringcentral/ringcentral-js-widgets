@@ -10,10 +10,13 @@ module.exports = {
     'es-ES',
     'es-419',
     'ja-JP',
+    'pt-PT',
     'pt-BR',
     'zh-CN',
     'zh-TW',
     'zh-HK',
+    'nl-NL',
+    'ko-KR',
   ],
   sourceLocale: 'en-US',
 };

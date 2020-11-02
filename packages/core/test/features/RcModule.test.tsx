@@ -224,11 +224,10 @@ class StateCombineStorageReducers extends Step {
               expect(state[`${type}Counter`]).toBeUndefined();
               expect(context[`${type}Instance`]._key).toBeDefined();
               expect(context[`${type}Instance`]._reducer).toBeDefined();
-              const storageState = context[`${type}Instance`]._reducer(
-                {},
-                { type: 'INIT' },
-              );
-              expect(storageState[`${type}Counter`]).toBeDefined();
+              const storageState = context[
+                `${type}Instance`
+              ]._reducer(undefined, { type: 'INIT' });
+              expect(storageState).toBeDefined();
             } else {
               expect(state[`${type}Counter`]).toBeDefined();
             }
@@ -252,11 +251,10 @@ class StateCombineStorageReducers extends Step {
               expect(state[`${type}Counter`]).toBeUndefined();
               expect(context[`${type}Instance`]._key).toBeDefined();
               expect(context[`${type}Instance`]._reducer).toBeDefined();
-              const storageState = context[`${type}Instance`]._reducer(
-                {},
-                { type: 'INIT' },
-              );
-              expect(storageState[`${type}Counter`]).toBeDefined();
+              const storageState = context[
+                `${type}Instance`
+              ]._reducer(undefined, { type: 'INIT' });
+              expect(storageState).toBeDefined();
             } else {
               expect(state[`${type}Counter`]).toBeDefined();
             }

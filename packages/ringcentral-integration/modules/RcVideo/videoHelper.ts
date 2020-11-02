@@ -5,10 +5,17 @@ import {
   RcVMeetingModel,
   RcvGSuiteMeetingModel,
   RcVideoAPI,
+  RcVSettingId,
   RcVPreferencesGET,
+  RcVSettingLocksGET,
+  RcVSettingKey,
   RcVPreferences,
-  RcVPreferencesPATCH,
-} from '../../models/rcv.model';
+  RcVSettingLocks,
+} from '../../interfaces/Rcv.model';
+import {
+  RCV_WAITING_ROOM_MODE,
+  RCV_WAITING_ROOM_MODE_REVERSE,
+} from './constants';
 
 /* TODO: this meetingProviderTypes is only used for calender-addon
  * if you want to use meetingProviderTypes
@@ -25,20 +32,27 @@ const RcVideoTypes: RcVideoTypesProps = {
 };
 
 const RCV_PASSWORD_REGEX = /^[A-Za-z0-9]{1,10}$/;
+const RCV_WAITTING_ROOM_API_KEYS = 'waitingRoomMode';
 const RCV_CREATE_API_KEYS: Array<keyof RcVideoAPI> = [
   'name',
   'type',
+  'startTime',
+  'expiresIn',
+  'duration',
+  'accountId',
+  'extensionId',
   'allowJoinBeforeHost',
   'muteAudio',
   'muteVideo',
   'isMeetingSecret',
   'meetingPassword',
-  'expiresIn',
   'isOnlyAuthUserJoin',
   'isOnlyCoworkersJoin',
   'allowScreenSharing',
+  RCV_WAITTING_ROOM_API_KEYS,
 ];
-const RCV_PREFERENCES_API_KEYS: Array<keyof RcVPreferencesGET> = [
+
+const RCV_PREFERENCES_IDS: Array<RcVSettingId> = [
   'join_before_host',
   // 'join_video_off',
   // 'join_audio_mute',
@@ -47,24 +61,30 @@ const RCV_PREFERENCES_API_KEYS: Array<keyof RcVPreferencesGET> = [
   'guest_join',
   'join_authenticated_from_account_only',
   'screen_sharing_host_only',
+  'waiting_room_guests_only',
+  'waiting_room',
 ];
-const RCV_PREFERENCES_KEYS: Array<keyof RcVPreferences> = [
-  'isMeetingSecret',
+const RCV_PREFERENCES_KEYS: Array<RcVSettingKey> = [
   'allowJoinBeforeHost',
   // 'muteVideo',
-  // 'muteAudio'
+  // 'muteAudio',
+  'isMeetingSecret',
+  'isOnlyAuthUserJoin',
+  'isOnlyCoworkersJoin',
+  'allowScreenSharing',
+  RCV_WAITTING_ROOM_API_KEYS,
 ];
 
 /* RCINT-14566
  * Exclude characters that are hard to visually differentiate ["0", "o", "O", "I", "l"]
  */
-function getDefaultChars() {
+function getDefaultChars(): string {
   const DEFAULT_PASSWORD_CHARSET =
     'abcdefghijkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ123456789';
   return DEFAULT_PASSWORD_CHARSET;
 }
 
-function validateRandomPassword(pwd) {
+function validateRandomPassword(pwd: string): boolean {
   return /^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])[A-Za-z0-9]*$/.test(pwd);
 }
 
@@ -140,11 +160,16 @@ function getDefaultVideoSettings({
     isOnlyAuthUserJoin: false,
     isOnlyCoworkersJoin: false,
     allowScreenSharing: true,
+    waitingRoomMode: RCV_WAITING_ROOM_MODE.off,
     settingLock: {
       allowJoinBeforeHost: false,
+      // muteVideo: false,
+      // muteAudio: false,
       isMeetingSecret: false,
       isOnlyAuthUserJoin: false,
+      isOnlyCoworkersJoin: false,
       allowScreenSharing: false,
+      waitingRoomMode: false,
     },
     // ui fields
     startTime,
@@ -174,38 +199,46 @@ function transformPreferences(
   isInstantMeeting = false,
 ): RcVPreferences {
   return {
-    isMeetingSecret: isInstantMeeting
-      ? preferences.password_instant
-      : preferences.password_scheduled,
     allowJoinBeforeHost: preferences.join_before_host,
     // muteVideo: preferences.join_video_off,
     // muteAudio: preferences.join_audio_mute,
+    isMeetingSecret: isInstantMeeting
+      ? preferences.password_instant
+      : preferences.password_scheduled,
     isOnlyAuthUserJoin: preferences.guest_join,
-    isOnlyCoworkersJoin:
-      preferences.join_authenticated_from_account_only === 'only_co_workers',
+    isOnlyCoworkersJoin: preferences.guest_join
+      ? preferences.join_authenticated_from_account_only === 'only_co_workers'
+      : false,
     allowScreenSharing: preferences.screen_sharing_host_only === 'all',
+    waitingRoomMode: preferences.waiting_room
+      ? RCV_WAITING_ROOM_MODE[preferences.waiting_room_guests_only]
+      : RCV_WAITING_ROOM_MODE.off,
   };
 }
 
-function transformMeetingSettingLock(
-  meetingSettingLock: RcVMeetingLockGET,
+function transformSettingLocks(
+  settingLocks: RcVSettingLocksGET,
   isInstantMeeting = false,
-): RcVMeetingLock {
+): RcVSettingLocks {
   return {
+    allowJoinBeforeHost: settingLocks.join_before_host,
+    // muteVideo: settingLocks.join_video_off,
+    // muteAudio: settingLocks.join_audio_mute,
     isMeetingSecret: isInstantMeeting
-      ? meetingSettingLock.password_instant
-      : meetingSettingLock.password_scheduled,
-    allowJoinBeforeHost: meetingSettingLock.join_before_host,
-    isOnlyAuthUserJoin: meetingSettingLock.guest_join,
-    allowScreenSharing: meetingSettingLock.screen_sharing_host_only,
+      ? settingLocks.password_instant
+      : settingLocks.password_scheduled,
+    isOnlyAuthUserJoin: settingLocks.guest_join,
+    isOnlyCoworkersJoin: settingLocks.join_authenticated_from_account_only,
+    allowScreenSharing: settingLocks.screen_sharing_host_only,
+    waitingRoomMode: settingLocks.waiting_room,
   };
 }
 
 function reversePreferences(
   preferences: RcVPreferences,
   isInstantMeeting = false,
-): RcVPreferencesPATCH {
-  const result = {
+): Partial<RcVPreferencesGET> {
+  const result: Partial<RcVPreferencesGET> = {
     join_before_host: preferences.allowJoinBeforeHost,
     // join_video_off: preferences.muteVideo,
     // join_audio_mute: preferences.muteAudio,
@@ -214,7 +247,10 @@ function reversePreferences(
       ? 'only_co_workers'
       : 'anyone_signed_into_rc',
     screen_sharing_host_only: preferences.allowScreenSharing ? 'all' : 'host',
-  } as RcVPreferencesPATCH;
+    waiting_room: !!preferences.waitingRoomMode,
+    waiting_room_guests_only:
+      RCV_WAITING_ROOM_MODE_REVERSE[preferences.waitingRoomMode],
+  };
   if (isInstantMeeting) {
     result.password_instant = preferences.isMeetingSecret;
   } else {
@@ -236,8 +272,9 @@ function comparePreferences(
 ): boolean {
   let preferencesChanged = false;
   if (preferences && meeting) {
-    for (const key in preferences) {
-      if (preferences[key] !== meeting[key]) {
+    for (const key of Object.keys(preferences)) {
+      const settingKey = key as RcVSettingKey;
+      if (preferences[settingKey] !== meeting[settingKey]) {
         preferencesChanged = true;
         break;
       }
@@ -246,13 +283,70 @@ function comparePreferences(
   return preferencesChanged;
 }
 
+function getLockedPreferences(
+  settingLocks: RcVSettingLocks,
+  preferences: RcVPreferences,
+): Partial<RcVPreferences> {
+  const lockedPreferences: Partial<RcVPreferences> = {};
+  for (const [key, locked] of Object.entries(settingLocks)) {
+    if (locked) {
+      const settingKey = key as RcVSettingKey;
+      lockedPreferences[settingKey] = preferences[settingKey];
+    }
+  }
+  return lockedPreferences;
+}
+
+function getAvaliableWaitingRoomOpions(
+  isOnlyCoworkersJoin: boolean,
+): Array<number> {
+  return isOnlyCoworkersJoin
+    ? [RCV_WAITING_ROOM_MODE.off, RCV_WAITING_ROOM_MODE.all]
+    : [
+        RCV_WAITING_ROOM_MODE.off,
+        RCV_WAITING_ROOM_MODE.all,
+        RCV_WAITING_ROOM_MODE.notcoworker,
+      ];
+}
+function patchWaitingRoomRelated(
+  settings: RcVMeetingModel,
+  { waitingRoomMode }: RcVPreferences,
+  updatedMode: boolean = false,
+): Partial<RcVMeetingModel> {
+  const processedSettings: Partial<RcVMeetingModel> = {};
+  if (settings.isOnlyAuthUserJoin) {
+    // for pmi setting, waitingRoom, joinAfterMe option maybe not avaliable
+    if (
+      !getAvaliableWaitingRoomOpions(settings.isOnlyCoworkersJoin).includes(
+        settings.waitingRoomMode,
+      )
+    ) {
+      processedSettings.waitingRoomMode = updatedMode
+        ? RCV_WAITING_ROOM_MODE.all
+        : waitingRoomMode;
+    }
+  }
+  // when waitingRoom is 'everyone', joinAfterMe should be always checked
+  if (
+    (processedSettings.waitingRoomMode === RCV_WAITING_ROOM_MODE.all ||
+      settings.waitingRoomMode === RCV_WAITING_ROOM_MODE.all) &&
+    settings.allowJoinBeforeHost
+  ) {
+    processedSettings.allowJoinBeforeHost = false;
+  }
+  return processedSettings;
+}
+
 // TODO: will remove this when google app script could support export seperately
 // export together because google app script not fully support export
 export {
   RCV_PASSWORD_REGEX,
-  RCV_PREFERENCES_API_KEYS,
+  RCV_PREFERENCES_IDS,
+  RCV_PREFERENCES_KEYS,
+  RCV_WAITTING_ROOM_API_KEYS,
   RcVideoTypes,
   meetingProviderTypes,
+  RCV_WAITING_ROOM_MODE,
   getDefaultChars,
   validateRandomPassword,
   generateRandomPassword,
@@ -265,5 +359,7 @@ export {
   reversePreferences,
   prunePreferencesObject,
   comparePreferences,
-  transformMeetingSettingLock,
+  transformSettingLocks,
+  getLockedPreferences,
+  patchWaitingRoomRelated,
 };

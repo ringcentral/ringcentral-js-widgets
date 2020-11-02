@@ -161,12 +161,9 @@ export default class Conversations extends RcModule {
     this._showMMSAttachment = showMMSAttachment;
     this._lastConversaionList = [];
 
-    this._messageSender.on(
-      this._messageSender.events.send,
-      ({ toNumbers }) => {
-        this.addEntities(toNumbers);
-      },
-    );
+    this._messageSender.on(this._messageSender.events.send, ({ toNumbers }) => {
+      this.addEntities(toNumbers);
+    });
 
     if (this._contactMatcher) {
       this._contactMatcher.addQuerySource({
@@ -331,11 +328,9 @@ export default class Conversations extends RcModule {
       params.messageType = typeFilter;
     }
     try {
-      const { records } = await this._client
-        .account()
-        .extension()
-        .messageStore()
-        .list(params);
+      const {
+        records,
+      } = await this._client.account().extension().messageStore().list(params);
       const recordsLength = records.length;
       this._olderDataExsited = recordsLength === this._perPage;
       if (typeFilter === this.typeFilter && currentPage === this.currentPage) {
@@ -438,11 +433,9 @@ export default class Conversations extends RcModule {
       dateTo: dateTo.toISOString(),
     };
     try {
-      const { records } = await this._client
-        .account()
-        .extension()
-        .messageStore()
-        .list(params);
+      const {
+        records,
+      } = await this._client.account().extension().messageStore().list(params);
       this._olderMessagesExsited = records.length === perPage;
       if (conversationId === this.currentConversationId) {
         this.store.dispatch({

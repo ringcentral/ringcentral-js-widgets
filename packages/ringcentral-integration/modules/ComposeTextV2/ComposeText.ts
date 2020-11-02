@@ -293,7 +293,7 @@ export class ComposeText extends RcModuleV2<Deps> {
   }
 
   @proxify
-  async send() {
+  async send(text: string, attachments: Attachment[] = []) {
     const toNumbers = this.toNumbers.map((number) => number.phoneNumber);
     const { typingToNumber } = this;
     if (!isBlank(typingToNumber)) {
@@ -306,8 +306,8 @@ export class ComposeText extends RcModuleV2<Deps> {
     return this._deps.messageSender.send({
       fromNumber: this.senderNumber,
       toNumbers,
-      text: this.messageText,
-      attachments: this.attachments,
+      text,
+      attachments,
     });
   }
 

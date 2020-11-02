@@ -40,6 +40,8 @@ export default class ConversationList extends Component {
     const {
       className,
       currentLocale,
+      currentSiteCode,
+      isMultipleSiteEnabled,
       conversations,
       perPage,
       disableLinks,
@@ -55,6 +57,8 @@ export default class ConversationList extends Component {
           {...childProps}
           conversation={item}
           currentLocale={currentLocale}
+          currentSiteCode={currentSiteCode}
+          isMultipleSiteEnabled={isMultipleSiteEnabled}
           key={item.id}
           disableLinks={disableLinks}
           disableCallButton={disableCallButton}
@@ -84,6 +88,8 @@ export default class ConversationList extends Component {
 ConversationList.propTypes = {
   brand: PropTypes.string.isRequired,
   currentLocale: PropTypes.string.isRequired,
+  currentSiteCode: PropTypes.string,
+  isMultipleSiteEnabled: PropTypes.bool,
   conversations: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number,
@@ -112,6 +118,8 @@ ConversationList.propTypes = {
   renderExtraButton: PropTypes.func,
 };
 ConversationList.defaultProps = {
+  currentSiteCode: '',
+  isMultipleSiteEnabled: false,
   perPage: 20,
   className: undefined,
   disableLinks: false,

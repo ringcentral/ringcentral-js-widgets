@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import sleep from 'ringcentral-integration/lib/sleep';
-import { RcVMeetingModel } from 'ringcentral-integration/models/rcv.model';
+import { RcVMeetingModel } from 'ringcentral-integration/interfaces/Rcv.model';
 
 import isSafari from '../../lib/isSafari';
 import { VideoConfig, Topic } from './VideoConfig';
@@ -16,7 +16,7 @@ export const VideoPanel: React.FunctionComponent<VideoPanelProps> = ({
   disableSaveAsDefault,
   disabled,
   openNewWindow,
-  invite,
+  schedule,
   updateMeetingSettings,
   validatePasswordSettings,
   init,
@@ -24,6 +24,13 @@ export const VideoPanel: React.FunctionComponent<VideoPanelProps> = ({
   showWhen,
   showDuration,
   brandName,
+  showAdminLock,
+  showPmiAlert,
+  enableWaitingRoom,
+  enablePersonalMeeting,
+  enableJoinAfterMeCopy,
+  personalMeetingId,
+  switchUsePersonalMeetingId,
 }) => {
   const [topicRef, setTopicRef] = useState(null);
   return (
@@ -38,6 +45,13 @@ export const VideoPanel: React.FunctionComponent<VideoPanelProps> = ({
         showWhen={showWhen}
         showDuration={showDuration}
         brandName={brandName}
+        showAdminLock={showAdminLock}
+        showPmiAlert={showPmiAlert}
+        enableWaitingRoom={enableWaitingRoom}
+        enablePersonalMeeting={enablePersonalMeeting}
+        enableJoinAfterMeCopy={enableJoinAfterMeCopy}
+        personalMeetingId={personalMeetingId}
+        switchUsePersonalMeetingId={switchUsePersonalMeetingId}
       >
         <Topic
           name={meeting.name}
@@ -59,7 +73,7 @@ export const VideoPanel: React.FunctionComponent<VideoPanelProps> = ({
             if (!disabled) {
               await sleep(100);
               const opener = openNewWindow && isSafari() ? window.open() : null;
-              await invite(
+              await schedule(
                 {
                   ...meeting,
                   name: topicRef.current.props.value,
@@ -80,6 +94,7 @@ export const VideoPanel: React.FunctionComponent<VideoPanelProps> = ({
 interface VideoPanelProps {
   currentLocale: string;
   meeting: RcVMeetingModel;
+  schedule: (meeting: RcVMeetingModel, opener: Window) => any;
   updateMeetingSettings: (meeting: Partial<RcVMeetingModel>) => void;
   validatePasswordSettings: (password: string, isSecret: boolean) => boolean;
   hidden: boolean;
@@ -91,10 +106,16 @@ interface VideoPanelProps {
   disableSaveAsDefault: boolean;
   scheduleButton: any;
   openNewWindow: any;
-  invite: any;
   init: any;
   brandName: string;
   recipientsSection?: React.ReactNode;
   showWhen?: boolean;
   showDuration?: boolean;
+  showAdminLock?: boolean;
+  showPmiAlert?: boolean;
+  enableWaitingRoom?: boolean;
+  enablePersonalMeeting?: boolean;
+  enableJoinAfterMeCopy?: boolean;
+  personalMeetingId: string;
+  switchUsePersonalMeetingId: (usePersonalMeetingId: boolean) => any;
 }

@@ -141,6 +141,7 @@ class CallCtrlPanel extends Component {
       startTime,
       disableFlip,
       callQueueName,
+      showPark,
     } = this.props;
     const { isShowKeyPad, isShowMergeConfirm } = this.state;
 
@@ -190,6 +191,7 @@ class CallCtrlPanel extends Component {
         showContactDisplayPlaceholder={showContactDisplayPlaceholder}
         onFlip={this.onFlip}
         disableFlip={disableFlip}
+        showPark={showPark}
         onTransfer={this.onTransfer}
         gotoParticipantsCtrl={gotoParticipantsCtrl}
         sourceIcons={sourceIcons}
@@ -282,6 +284,7 @@ CallCtrlPanel.propTypes = {
   actions: PropTypes.array,
   controlBusy: PropTypes.bool,
   callQueueName: PropTypes.string,
+  showPark: PropTypes.bool,
 };
 
 CallCtrlPanel.defaultProps = {
@@ -328,6 +331,7 @@ CallCtrlPanel.defaultProps = {
   controlBusy: false,
   disableFlip: false,
   callQueueName: null,
+  showPark: false,
 };
 
 export default CallCtrlPanel;

@@ -20,12 +20,7 @@ describe('history', () => {
     const panel = wrapper.find(ActiveCallsPanel).first();
     expect(panel).toBeDefined();
     expect(panel.props()).toBeDefined();
-    expect(
-      panel
-        .find('p.noCalls')
-        .first()
-        .text(),
-    ).toEqual('No active calls');
+    expect(panel.find('p.noCalls').first().text()).toEqual('No active calls');
     await tearDownWrapper(wrapper);
   });
 });

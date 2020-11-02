@@ -26,6 +26,8 @@ declare class AvailabilityMonitor extends RcModule {
   _requestErrorHandler(error: ClientError): Promise<void>;
 
   checkIfHAError(error: ClientError): Promise<boolean>;
+
+  isVoIPOnlyMode: boolean;
 }
 
 export default AvailabilityMonitor;

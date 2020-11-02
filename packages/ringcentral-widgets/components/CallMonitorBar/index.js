@@ -69,6 +69,7 @@ export default class CallMonitorBar extends Component {
       ringingCalls,
       onHoldCalls,
       currentCalls,
+      otherDeviceCalls,
       currentLocale,
       onCurrentCallBtnClick,
       onViewCallBtnClick,
@@ -78,6 +79,7 @@ export default class CallMonitorBar extends Component {
 
     const numberOfIncomingCalls = ringingCalls.length;
     const numberOfOnHoldCalls = onHoldCalls.length;
+    const numberOfOtherDeviceCalls = otherDeviceCalls.length;
 
     return (
       <div
@@ -123,6 +125,24 @@ export default class CallMonitorBar extends Component {
                 shouldDisplayViewCallsBtn={shouldDisplayViewCallsBtn}
               />
             ) : null}
+            {numberOfOtherDeviceCalls > 0 ? (
+              <CallInfoBar
+                label={
+                  numberOfOtherDeviceCalls === 1
+                    ? formatMessage(
+                        i18n.getString('otherDeviceCall', currentLocale),
+                        { numberOf: numberOfOtherDeviceCalls },
+                      )
+                    : formatMessage(
+                        i18n.getString('otherDeviceCalls', currentLocale),
+                        { numberOf: numberOfOtherDeviceCalls },
+                      )
+                }
+                currentLocale={currentLocale}
+                onClick={onViewCallBtnClick}
+                shouldDisplayViewCallsBtn={shouldDisplayViewCallsBtn}
+              />
+            ) : null}
             {currentCalls.length > 0 ? (
               <div className={styles.bar}>
                 <div
@@ -153,6 +173,7 @@ CallMonitorBar.propTypes = {
   ringingCalls: PropTypes.array,
   currentCalls: PropTypes.array,
   onHoldCalls: PropTypes.array,
+  otherDeviceCalls: PropTypes.array,
   currentLocale: PropTypes.string.isRequired,
   onCurrentCallBtnClick: PropTypes.func,
   onViewCallBtnClick: PropTypes.func,
@@ -163,6 +184,7 @@ CallMonitorBar.defaultProps = {
   ringingCalls: [],
   currentCalls: [],
   onHoldCalls: [],
+  otherDeviceCalls: [],
   onCurrentCallBtnClick: undefined,
   onViewCallBtnClick: undefined,
   shouldDisplayCurrentCallBtn: false,

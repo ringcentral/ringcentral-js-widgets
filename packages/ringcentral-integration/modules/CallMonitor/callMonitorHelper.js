@@ -1,4 +1,6 @@
+import { PartyStatusCode } from 'ringcentral-call-control/lib/Session';
 import callDirections from '../../enums/callDirections';
+import { telephonyStatus } from '../../enums/telephonyStatus';
 
 function getSessionStartTime(session) {
   let webphoneStartTime;
@@ -92,4 +94,47 @@ export function matchWephoneSessionWithAcitveCall(sessions, callItem) {
   }
 
   return matches[0];
+}
+
+export function isCurrentDeviceEndCall(sessions, callItem) {
+  return sessions.indexOf(callItem.telephonySessionId) !== -1;
+}
+
+export function matchTelephonySessionWithActiveCall(callItem) {
+  if (callItem) {
+    return {
+      status: callItem.status,
+      id: callItem.id,
+      direction: callItem.direction,
+    };
+  }
+  return undefined;
+}
+
+// telephony session status match presence telephonyStatus
+export function mapTelephonyStatus(telephonySessionStatus) {
+  let result = null;
+  switch (telephonySessionStatus) {
+    case PartyStatusCode.setup:
+    case PartyStatusCode.proceeding: {
+      result = telephonyStatus.ringing;
+      break;
+    }
+    case PartyStatusCode.hold: {
+      result = telephonyStatus.onHold;
+      break;
+    }
+    case PartyStatusCode.answered: {
+      result = telephonyStatus.callConnected;
+      break;
+    }
+    case PartyStatusCode.parked: {
+      result = telephonyStatus.parkedCall;
+      break;
+    }
+    default: {
+      result = telephonyStatus.noCall;
+    }
+  }
+  return result;
 }

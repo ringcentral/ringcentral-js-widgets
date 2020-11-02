@@ -6,6 +6,13 @@ $icon-width: 10%;
 $icon-min-width: 58px;
 
 
+.wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
 .content {
   width: calc(100% - #{$icon-width});
   max-width: calc(100% - #{$icon-min-width});

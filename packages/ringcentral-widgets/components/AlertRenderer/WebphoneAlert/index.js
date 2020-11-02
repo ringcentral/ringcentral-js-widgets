@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import webphoneErrors from 'ringcentral-integration/modules/Webphone/webphoneErrors';
+import webphoneMessages from 'ringcentral-integration/modules/Webphone/webphoneMessages';
 import FormattedMessage from '../../FormattedMessage';
 import i18n from './i18n';
 
-const webphoneErrorList = [
+const webphoneMessageList = [
   webphoneErrors.connectFailed,
   webphoneErrors.toVoiceMailError,
   webphoneErrors.connected,
@@ -26,6 +27,7 @@ const webphoneErrorList = [
   webphoneErrors.unknownError,
   webphoneErrors.provisionUpdate,
   webphoneErrors.serverConnecting,
+  webphoneMessages.parked,
 ];
 
 export default function WebphoneAlert(props) {
@@ -94,6 +96,14 @@ export default function WebphoneAlert(props) {
         values={{ brandName: props.brand.name }}
       />
     );
+  } else if (message === webphoneMessages.parked) {
+    const { payload: { parkedNumber } = {} } = props.message;
+    view = (
+      <FormattedMessage
+        message={i18n.getString(message, props.currentLocale)}
+        values={{ parkedNumber }}
+      />
+    );
   }
   return view;
 }
@@ -107,4 +117,4 @@ WebphoneAlert.propTypes = {
 };
 
 WebphoneAlert.handleMessage = ({ message }) =>
-  webphoneErrorList.filter((err) => err === message).length > 0;
+  webphoneMessageList.filter((err) => err === message).length > 0;

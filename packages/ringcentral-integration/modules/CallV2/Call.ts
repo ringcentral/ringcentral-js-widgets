@@ -6,6 +6,7 @@ import {
   state,
   storage,
   action,
+  track,
 } from '@ringcentral-integration/core';
 import { Module } from '../../lib/di';
 import callingModes from '../CallingSettings/callingModes';
@@ -16,6 +17,7 @@ import { callStatus } from './callStatus';
 import { callErrors } from './callErrors';
 import { ringoutErrors } from '../Ringout/ringoutErrors';
 import validateNumbers from '../../lib/validateNumbers';
+import { trackEvents } from '../Analytics';
 
 const TO_NUMBER = 'toNumber';
 const FROM_NUMBER = 'fromNumber';
@@ -40,12 +42,14 @@ const ANONYMOUS = 'anonymous';
     { dep: 'Webphone', optional: true },
     { dep: 'AvailabilityMonitor', optional: true },
     { dep: 'CallOptions', optional: true },
+    { dep: 'ActiveCallControl', optional: true },
   ],
 })
 export class Call extends RcModuleV2<Deps> {
   _internationalCheck: boolean;
   _permissionCheck: boolean;
   _callSettingMode: string = null;
+  _useCallControlToMakeCall: boolean;
 
   /**
    * @constructor
@@ -60,6 +64,7 @@ export class Call extends RcModuleV2<Deps> {
    * @param {Webphone} params.webphone - webphone module instance
    * @param {NumberValidate} params.numberValidate - numberValidate module instance
    * @param {RegionSettings} params.regionSettings - regionSettings module instance
+   * @param {ActiveCallControl} params.activeCallControl - ActiveCallControl module instance
    */
   constructor(deps: Deps) {
     super({
@@ -70,6 +75,8 @@ export class Call extends RcModuleV2<Deps> {
     this._internationalCheck =
       this._deps.callOptions?.internationalCheck ?? true;
     this._permissionCheck = this._deps.callOptions?.permissionCheck ?? true;
+    this._useCallControlToMakeCall =
+      this._deps.callOptions?.useCallControlToMakeCall ?? false;
   }
 
   @state
@@ -78,13 +85,23 @@ export class Call extends RcModuleV2<Deps> {
   @state
   toNumberEntities: ToNumberMatched[] = [];
 
-  @storage
-  @state
-  lastPhoneNumber: string = null;
+  get lastPhoneNumber() {
+    return this.data.lastPhoneNumber;
+  }
+
+  get lastRecipient() {
+    return this.data.lastRecipient;
+  }
 
   @storage
   @state
-  lastRecipient: Recipient = null;
+  data: {
+    lastPhoneNumber: string;
+    lastRecipient: Recipient;
+  } = {
+    lastPhoneNumber: null,
+    lastRecipient: null,
+  };
 
   @action
   toNumberMatched(data: ToNumberMatched) {
@@ -96,25 +113,39 @@ export class Call extends RcModuleV2<Deps> {
     this.toNumberEntities = [];
   }
 
+  @track((_: Call, { callSettingMode }) => [
+    callSettingMode === callingModes.webphone
+      ? trackEvents.callAttemptWebRTC
+      : trackEvents.callAttempt,
+    { callSettingMode },
+  ])
   @action
   connect({
     isConference,
     phoneNumber = null,
     recipient = null,
+    callSettingMode,
   }: {
     isConference: boolean;
     phoneNumber: string;
     recipient: Recipient;
+    callSettingMode: string;
   }) {
     this.callStatus = callStatus.connecting;
     if (!isConference) {
-      this.lastPhoneNumber = phoneNumber;
-      this.lastRecipient = recipient;
+      this.data.lastPhoneNumber = phoneNumber;
+      this.data.lastRecipient = recipient;
     }
   }
 
+  @track((_: Call, callSettingMode) => [
+    callSettingMode === callingModes.webphone
+      ? trackEvents.outboundWebRTCCallConnected
+      : trackEvents.outboundCallConnected,
+    { callSettingMode },
+  ])
   @action
-  connectSuccess() {
+  connectSuccess(callSettingMode: string) {
     this.callStatus = callStatus.idle;
   }
 
@@ -207,8 +238,8 @@ export class Call extends RcModuleV2<Deps> {
           isConference,
           phoneNumber,
           recipient,
+          callSettingMode: this._callSettingMode,
         });
-        // TODO: callSettingMode: this._callSettingMode, // for Track
         try {
           let validatedNumbers;
           if (this._permissionCheck) {
@@ -229,8 +260,7 @@ export class Call extends RcModuleV2<Deps> {
               ...validatedNumbers,
               extendedControls,
             });
-            this.connectSuccess();
-            // TODO: callSettingMode: this._callSettingMode, // for Track
+            this.connectSuccess(this._callSettingMode);
           } else {
             this.connectError();
           }
@@ -487,8 +517,15 @@ export class Call extends RcModuleV2<Deps> {
           prompt: this._deps.callingSettings.ringoutPrompt,
         });
         break;
-      case callingModes.webphone:
-        if (this._deps.webphone) {
+      case callingModes.webphone: {
+        if (this._deps.activeCallControl && this._useCallControlToMakeCall) {
+          session = await this._deps.activeCallControl.makeCall({
+            fromNumber,
+            toNumber,
+            homeCountryId,
+            extendedControls,
+          });
+        } else if (this._deps.webphone) {
           // TODO: fix `webphone` module type
           session = (await this._deps.webphone.makeCall({
             fromNumber,
@@ -498,6 +535,8 @@ export class Call extends RcModuleV2<Deps> {
           })) as any;
         }
         break;
+      }
+
       default:
         break;
     }

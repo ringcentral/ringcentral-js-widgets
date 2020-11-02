@@ -27,7 +27,7 @@ export default function MeetingAlert({
       msg = i18n.getString(message, currentLocale);
       break;
   }
-  return <span>{msg}</span>;
+  return <span data-sign="meeting-alert">{msg}</span>;
 }
 
 MeetingAlert.propTypes = {

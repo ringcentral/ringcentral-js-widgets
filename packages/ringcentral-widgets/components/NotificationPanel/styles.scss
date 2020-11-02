@@ -21,6 +21,8 @@ $root-zIndex: 100;
 }
 
 .container {
+  display: flex;
+  flex-direction: column;
   margin: 0 16px;
 
   &:first-child {
@@ -33,5 +35,10 @@ $root-zIndex: 100;
   // using double selector to make selector priority higher
   .snackbar.snackbar {
     min-width: auto;
+
+    // fix IE 11 wrong offset problem
+    @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+      width: 100%;
+    }
   }
 }

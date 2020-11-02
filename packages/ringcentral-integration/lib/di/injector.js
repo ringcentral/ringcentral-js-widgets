@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import { RcModuleV2 } from '@ringcentral-integration/core';
 import Container from './container';
 import Registry from './registry/registry';
 import {
@@ -320,37 +321,43 @@ export class Injector {
       const module = moduleProviders[name];
       if (rootClassInstance.addModule) {
         rootClassInstance.addModule(name, module);
+        if (module instanceof RcModuleV2) {
+          module.parentModule = rootClassInstance;
+          module.__key__ = name;
+        }
       }
-      if (module.reducer) {
-        reducers[name] = module.reducer;
-      }
+      if (!(rootClassInstance instanceof RcModuleV2)) {
+        if (module.reducer) {
+          reducers[name] = module.reducer;
+        }
 
-      if (module.proxyReducer) {
-        proxyReducers[name] = module.proxyReducer;
-      }
+        if (module.proxyReducer) {
+          proxyReducers[name] = module.proxyReducer;
+        }
 
-      // Additional module configurations
-      if (module._reducer) {
-        Object.defineProperty(module, STATE_FUNC_LITERAL, {
-          value: () => rootClassInstance.state[name],
-        });
-        Object.defineProperty(rootClassInstance, REDUCER_LITERAL, {
-          value: combineReducers({
-            ...reducers,
-            // eslint-disable-next-line
-            lastAction: (state = null, action) => action,
-          }),
-        });
-      }
-      if (module._proxyReducer) {
-        Object.defineProperty(module, PROXY_STATE_FUNC_LITERAL, {
-          value: () => rootClassInstance.proxyState[name],
-        });
-        Object.defineProperty(rootClassInstance, PROXY_REDUCER_LITERAL, {
-          value: combineReducers({
-            ...proxyReducers,
-          }),
-        });
+        // Additional module configurations
+        if (module._reducer) {
+          Object.defineProperty(module, STATE_FUNC_LITERAL, {
+            value: () => rootClassInstance.state[name],
+          });
+          Object.defineProperty(rootClassInstance, REDUCER_LITERAL, {
+            value: combineReducers({
+              ...reducers,
+              // eslint-disable-next-line
+              lastAction: (state = null, action) => action,
+            }),
+          });
+        }
+        if (module._proxyReducer) {
+          Object.defineProperty(module, PROXY_STATE_FUNC_LITERAL, {
+            value: () => rootClassInstance.proxyState[name],
+          });
+          Object.defineProperty(rootClassInstance, PROXY_REDUCER_LITERAL, {
+            value: combineReducers({
+              ...proxyReducers,
+            }),
+          });
+        }
       }
     }
 

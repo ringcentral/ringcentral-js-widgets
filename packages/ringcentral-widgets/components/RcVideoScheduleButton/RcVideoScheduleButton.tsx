@@ -1,8 +1,8 @@
 import classnames from 'classnames';
-import { RcButton, RcCheckbox } from '@ringcentral-integration/rcui';
+import { RcButton, RcCheckbox } from '@ringcentral/juno';
 import React from 'react';
 
-import { RcVMeetingModel } from 'ringcentral-integration/models/rcv.model';
+import { RcVMeetingModel } from 'ringcentral-integration/interfaces/Rcv.model';
 
 import i18n from './i18n';
 import styles from './styles.scss';
@@ -49,7 +49,6 @@ export const RcVideoScheduleButton: React.FunctionComponent<RcVideoScheduleButto
     >
       {showSaveAsDefault ? (
         <RcCheckbox
-          color="primary"
           label={i18n.getString('saveAsDefault', currentLocale)}
           data-sign="saveAsDefault"
           checked={meeting.saveAsDefault}

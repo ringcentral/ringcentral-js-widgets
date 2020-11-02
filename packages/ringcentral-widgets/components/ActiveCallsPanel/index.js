@@ -19,7 +19,7 @@ export default class ActiveCallsPanel extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (
       this.hasCalls(this.props) &&
       !this.hasCalls(nextProps) &&
@@ -172,6 +172,7 @@ export default class ActiveCallsPanel extends Component {
       disableLinks,
       showRingoutCallControl,
       showSwitchCall,
+      isOnHold,
     } = this.props;
 
     return (
@@ -222,6 +223,7 @@ export default class ActiveCallsPanel extends Component {
         disableLinks={disableLinks}
         showRingoutCallControl={showRingoutCallControl}
         showSwitchCall={showSwitchCall}
+        isOnHold={isOnHold}
       />
     );
   }
@@ -330,6 +332,7 @@ ActiveCallsPanel.propTypes = {
   webphoneHold: PropTypes.func,
   useV2: PropTypes.bool,
   updateSessionMatchedContact: PropTypes.func,
+  isOnHold: PropTypes.func.isRequired,
   // CallLog related
   currentLog: PropTypes.object,
   renderEditLogSection: PropTypes.func,

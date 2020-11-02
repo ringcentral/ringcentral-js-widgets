@@ -4,6 +4,7 @@ import RcModule from '../../lib/RcModule';
 import { Tabbie } from '../../lib/Tabbie';
 import actionTypes from './actionTypes';
 import getTabManagerReducer from './getTabManagerReducer';
+import proxify from '../../lib/proxy/proxify';
 
 interface TabManagerEvent {
   name: string;
@@ -20,6 +21,10 @@ export default class TabManager extends RcModule<
   typeof actionTypes
 > {
   _tabbie: Tabbie;
+
+  get enable() {
+    return this._tabbie.enabled;
+  }
 
   get status() {
     return this.state.status;
@@ -92,10 +97,12 @@ export default class TabManager extends RcModule<
     }
   }
 
-  send(event: string, ...args: any[]) {
+  @proxify
+  async send(event: string, ...args: any[]) {
     this._tabbie.send(event, ...args);
   }
 
+  @proxify
   async checkIsMain() {
     return this._tabbie.checkIsMain();
   }
@@ -104,7 +111,8 @@ export default class TabManager extends RcModule<
    * check tab alive state by tabId
    * @param id tabId you want to check
    */
-  checkTabAliveById(id: string) {
+  @proxify
+  async checkTabAliveById(id: string) {
     return this._tabbie.checkTabAliveById(id);
   }
 }

@@ -1,20 +1,57 @@
 # @ringcentral-integration/core
 
+The foundation package for RingCentral Integration products.
+
 ## Usage
 
 ```sh
 yarn add @ringcentral-integration/core
 ```
 
+## APIs
+
+- [RcModuleV2](#RcModule-APIs)
+    - onStateChange()
+    - onInit()
+    - onInitOnce()
+    - onReset()
+- [RcUIModuleV2](#RcUIModule-APIs)
+- [@state](#state-API)
+- [@action](#action-API)
+- [@storage](#Storage-and-GlobalStorage-APIs)
+- [@globalStorage](#Storage-and-GlobalStorage-APIs)
+- [@computed()](#computed-API)
+- [@proxyState()](#proxyState-API)
+- [@track()](#Tracking-APIs)
+- [watch](#State-Subscription-APIs)
+
 ### RcModule APIs
 
-* `@ringcentral-integration/core` provides `RcModuleV2` base module, decorators `state`, `action`, `computed`, `storage` and `globalStorage`.
+`@ringcentral-integration/core` provides `RcModuleV2` base module, decorators `state`, `action`, `computed`, `storage` and `globalStorage`, `proxyState`.
 
- The decorator `storage` depends on `Storage` Module, And  The decorator `globalStorage` depends on `GlobalStorage` Module.
+The decorator `storage` depends on `Storage` Module, And  The decorator `globalStorage` depends on `GlobalStorage` Module.
 
-> If you use `@computed(callback)`, you should make sure that the return value of its callback function is an Array of dependency collections.
+> You should have access to all the dependency modules via `this._deps.fooBar`.
 
-> You should have access to all the dependency modules via `this._deps.xx`.
+- onInit()
+
+`onInit` life cycle for current initialization before all deps modules are all ready.
+
+- onInitOnce()
+
+`onInitOnce` once life cycle for current initialization before all deps modules are all ready.
+
+- onInitSuccess()
+
+`onInitSuccess` life cycle for current initialization after this module is ready.
+
+- onReset()
+
+`onReset` life cycle for current reset before one of deps modules is not ready.
+
+- onStateChange()
+
+`onStateChange` each Redux dispatch action will trigger it once.
 
 For example:
 
@@ -53,7 +90,42 @@ class Auth extends RcModuleV2<Deps> {
 }
 ```
 
-> Note: `@action` does **NOT** support asynchronous methods.
+#### state API
+
+`@state` is used to decorate a module state, which is based on the Redux reducer.
+
+#### action API
+
+`@action` is used to decorate a method that changes the state of the module (Executing it will dispatch a Redux action), and it does **NOT** support asynchronous methods.
+
+#### computed API
+
+Use `@computed(callback)`, you should make sure that the return value of its callback function is an `Array` of dependency collections.
+
+```ts
+class Auth extends RcModuleV2<Deps> {
+  constructor(deps: Deps) {
+    super({
+      deps,
+    });
+  }
+
+  @state
+  connected = '';
+
+  @state
+  readable = false;
+
+  @computed<Auth>(({ connected, readable }) => [connected, readable])
+  get permissions() {
+    return { writeable: getWriteable(this.connected), readable: this.readable };
+  }
+}
+```
+
+#### proxyState API
+
+`@proxyState` is used for asynchronous state changes of the browser client, and its parameter must be an asynchronous function and cannot be used with `@storage`/`@globalStorage`.
 
 ### RcUIModule APIs
 
@@ -121,9 +193,11 @@ class Auth extends RcModuleV2<Deps> {
 }
 ```
 
+> Note: All module options based on RcModuleV2 have `{ spread: true }` disabled on the DI settings.
+
 ### Storage and GlobalStorage APIs
 
-`Storage` or `GlobalStorage` should injection in module with `ringcentral-integration/lib/di` if you need.
+`Storage` or `GlobalStorage` should be injected in module with `ringcentral-integration/lib/di`.
 
 And You should pass parameters `enableCache`, `enableGlobalCache` and `storageKey` in `constructor` for `super` args.
 
@@ -197,7 +271,7 @@ class Call extends RcModuleV2<Deps> {
 
 ### State Subscription APIs
 
-* `watch`
+- `watch`
 
 It is used to subscribe to some state or `@computed` to get the derived computed state, which returns a callback function that can be used to cancel the subscription.
 

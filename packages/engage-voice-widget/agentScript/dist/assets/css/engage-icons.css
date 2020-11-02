@@ -1,0 +1,211 @@
+@font-face {
+    font-family: 'CCenter';
+    src:  url('../fonts/CCenter.eot?khge8t');
+    src:  url('../fonts/CCenter.eot?khge8t#iefix') format('embedded-opentype'),
+    url('../fonts/CCenter.woff2?khge8t') format('woff2'),
+    url('../fonts/CCenter.ttf?khge8t') format('truetype'),
+    url('../fonts/CCenter.woff?khge8t') format('woff'),
+    url('../fonts/CCenter.svg?khge8t#CCenter') format('svg');
+    font-weight: normal;
+    font-style: normal;
+    font-display: block;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+    /* use !important to prevent issues with browser extensions that change fonts */
+    font-family: 'CCenter' !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-searchalt:before {
+    content: "\e93c";
+}
+.icon-trashcan:before {
+    content: "\e93d";
+}
+.icon-chat-switcher:before {
+    content: "\e900";
+}
+.icon-phone-switcher:before {
+    content: "\e901";
+}
+.icon-close:before {
+    content: "\e931";
+}
+.icon-agentchat:before {
+    content: "\e918";
+}
+.icon-diallead:before {
+    content: "\e919";
+}
+.icon-listview:before {
+    content: "\e91a";
+}
+.icon-manualpass:before {
+    content: "\e91b";
+}
+.icon-stackview:before {
+    content: "\e91c";
+}
+.icon-downchevron:before {
+    content: "\e91d";
+}
+.icon-edit:before {
+    content: "\e91e";
+}
+.icon-expand:before {
+    content: "\e91f";
+}
+.icon-filter:before {
+    content: "\e920";
+}
+.icon-inboundcall:before {
+    content: "\e921";
+}
+.icon-information:before {
+    content: "\e922";
+}
+.icon-leftchevron:before {
+    content: "\e923";
+}
+.icon-listlogs:before {
+    content: "\e924";
+}
+.icon-merge:before {
+    content: "\e925";
+}
+.icon-outboundcall:before {
+    content: "\e926";
+}
+.icon-play:before {
+    content: "\e927";
+}
+.icon-requeue:before {
+    content: "\e928";
+}
+.icon-rightchevron:before {
+    content: "\e929";
+}
+.icon-shuffle:before {
+    content: "\e92a";
+}
+.icon-tag:before {
+    content: "\e92b";
+}
+.icon-upchevron:before {
+    content: "\e92d";
+}
+.icon-addnew:before {
+    content: "\e92e";
+}
+.icon-agentnote:before {
+    content: "\e92f";
+}
+.icon-agentvoice:before {
+    content: "\e930";
+}
+.icon-back:before {
+    content: "\e932";
+}
+.icon-complete:before {
+    content: "\e933";
+}
+.icon-disposition:before {
+    content: "\e934";
+}
+.icon-hold:before {
+    content: "\e935";
+}
+.icon-mute:before {
+    content: "\e936";
+}
+.icon-record:before {
+    content: "\e937";
+}
+.icon-showpassword:before {
+    content: "\e938";
+}
+.icon-transfer:before {
+    content: "\e939";
+}
+.icon-routing:before {
+    content: "\e917";
+}
+.icon-agentscripts:before {
+    content: "\e902";
+}
+.icon-agentstats:before {
+    content: "\e903";
+}
+.icon-agenttools:before {
+    content: "\e904";
+}
+.icon-analytics:before {
+    content: "\e905";
+}
+.icon-appgallery:before {
+    content: "\e906";
+}
+.icon-applications:before {
+    content: "\e907";
+}
+.icon-callhistory:before {
+    content: "\e908";
+}
+.icon-channels:before {
+    content: "\e909";
+}
+.icon-devtools:before {
+    content: "\e90a";
+}
+.icon-dialpad:before {
+    content: "\e90b";
+}
+.icon-digital:before {
+    content: "\e90c";
+}
+.icon-hamburger:before {
+    content: "\e90d";
+}
+.icon-inbox:before {
+    content: "\e90e";
+}
+.icon-internalchat:before {
+    content: "\e90f";
+}
+.icon-ivr:before {
+    content: "\e910";
+}
+.icon-more:before {
+    content: "\e911";
+}
+.icon-mytasks:before {
+    content: "\e912";
+}
+.icon-outbounddialer:before {
+    content: "\e913";
+}
+.icon-scheduledcallbacks:before {
+    content: "\e914";
+}
+.icon-search:before {
+    content: "\e915";
+}
+.icon-settings:before {
+    content: "\e916";
+}
+.icon-supervisor:before {
+    content: "\e93a";
+}
+.icon-users:before {
+    content: "\e93b";
+}

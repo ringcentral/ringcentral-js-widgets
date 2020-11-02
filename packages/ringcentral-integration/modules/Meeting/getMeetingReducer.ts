@@ -148,22 +148,11 @@ export function getPersonalMeetingReducer(types: MeetingActionTypes) {
   };
 }
 
-export function getAssistedUsersReducer(types: MeetingActionTypes) {
-  return (state = [], { type, assistedUsers = [] }) => {
+export function getDelegatorsReducer(types: MeetingActionTypes) {
+  return (state = [], { type, delegators = [] }) => {
     switch (type) {
-      case types.updateAssistedUsers:
-        return assistedUsers;
-      default:
-        return state;
-    }
-  };
-}
-
-export function getScheduleForUserReducer(types: MeetingActionTypes) {
-  return (state = null, { type, user = {} }) => {
-    switch (type) {
-      case types.updateScheduleForUser:
-        return user;
+      case types.updateDelegatorList:
+        return delegators;
       default:
         return state;
     }
@@ -175,12 +164,11 @@ export default (types: MeetingActionTypes, reducers) =>
     ...reducers,
     status: getModuleStatusReducer(types),
     meeting: getMeetingInfoReducer(types),
-    assistedUsers: getAssistedUsersReducer(types),
+    delegators: getDelegatorsReducer(types),
     schedulingStatus: getMeetingSchedulingStatusReducer(types),
     updatingStatus: getMeetingUpdatingStatusReducer(types),
     preferences: getMeetingPreferencesReducer(types),
     isPreferencesChanged: getMeetingPreferencesStateReducer(types),
     userSettings: getUserSettingsReducer(types),
     lockedSettings: getLockedSettingsReducer(types),
-    scheduleForUser: getScheduleForUserReducer(types),
   });

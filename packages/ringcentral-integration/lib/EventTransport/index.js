@@ -1,4 +1,4 @@
-import uuid from 'uuid';
+import * as uuid from 'uuid';
 import TransportBase from '../TransportBase';
 
 export default class EventTransport extends TransportBase {

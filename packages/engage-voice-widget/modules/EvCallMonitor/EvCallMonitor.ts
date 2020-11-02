@@ -1,5 +1,4 @@
 import { computed, RcModuleV2 } from '@ringcentral-integration/core';
-import { EventEmitter } from 'events';
 import { Module } from 'ringcentral-integration/lib/di';
 import { Mapping } from 'ringcentral-widgets/typings';
 
@@ -23,9 +22,6 @@ import { CallMonitor, Deps } from './EvCallMonitor.interface';
   ],
 })
 class EvCallMonitor extends RcModuleV2<Deps> implements CallMonitor {
-  handleActivityMatch: () => void;
-
-  private _eventEmitter = new EventEmitter();
   private _oldCalls: EvCallData[] = [];
 
   private _beforeunloadHandler = () =>
@@ -36,33 +32,26 @@ class EvCallMonitor extends RcModuleV2<Deps> implements CallMonitor {
       deps,
     });
 
-    this.onCallRing(async ({ ani, callType }) => {
-      this._deps.beforeunload.add(this._beforeunloadHandler);
-
-      if (this._deps.contactMatcher) {
-        this._deps.contactMatcher.addQuerySource({
-          getQueriesFn: () => this.uniqueIdentifies,
-          readyCheckFn: () => this._deps.presence.ready,
-        });
-        const contactMatchIdentify = contactMatchIdentifyEncode({
-          phoneNumber: ani,
-          callType,
-        });
-        await this._deps.contactMatcher.forceMatchNumber({
-          phoneNumber: contactMatchIdentify,
-        });
-        if (this.handleActivityMatch) {
-          this.handleActivityMatch();
-        }
-      }
-    }).onCallEnded(() => {
-      this._deps.beforeunload.remove(this._beforeunloadHandler);
+    this._deps.contactMatcher?.addQuerySource({
+      getQueriesFn: () => this.uniqueIdentifies,
+      readyCheckFn: () => this._deps.presence.ready,
     });
-
     this._deps.activityMatcher?.addQuerySource({
       getQueriesFn: () => this.callIds,
       readyCheckFn: () => this._deps.presence.ready,
     });
+  }
+
+  async getMatcher({ ani, callType }: EvCallData) {
+    if (this._deps.contactMatcher) {
+      const contactMatchIdentify = contactMatchIdentifyEncode({
+        phoneNumber: ani,
+        callType,
+      });
+      await this._deps.contactMatcher.forceMatchNumber({
+        phoneNumber: contactMatchIdentify,
+      });
+    }
   }
 
   get isOnCall() {
@@ -119,12 +108,15 @@ class EvCallMonitor extends RcModuleV2<Deps> implements CallMonitor {
           phoneNumber: call.ani,
           callType: call.callType,
         });
+
         const id = call.session ? this.getCallId(call.session) : null;
         const { agentFirstName, agentLastName } = call.baggage || {};
+
         const agentName =
           agentFirstName && agentLastName
             ? `${agentFirstName} ${agentLastName}`
             : null;
+
         return {
           ...mapping,
           [key]: {
@@ -160,7 +152,10 @@ class EvCallMonitor extends RcModuleV2<Deps> implements CallMonitor {
         if (currentCall && mainCall) {
           this._oldCalls = this.calls;
 
-          this._eventEmitter.emit(callStatus.RINGING, currentCall);
+          this._deps.presence.eventEmitter.emit(
+            callStatus.ANSWERED,
+            currentCall,
+          );
         } else {
           this._deps.presence.clearCalls();
         }
@@ -168,7 +163,7 @@ class EvCallMonitor extends RcModuleV2<Deps> implements CallMonitor {
         const call = this._oldCalls[0];
         this._oldCalls = this.calls;
 
-        this._eventEmitter.emit(callStatus.ENDED, call);
+        this._deps.presence.eventEmitter.emit(callStatus.ENDED, call);
       }
     }
   }
@@ -202,18 +197,27 @@ class EvCallMonitor extends RcModuleV2<Deps> implements CallMonitor {
     });
   }
 
-  onCallRing(callback: (currentCall?: EvCallData) => any) {
-    this._eventEmitter.on(callStatus.RINGING, (currentCall) =>
-      callback(currentCall),
-    );
+  onCallRinging(callback: (session?: EvAddSessionNotification) => any) {
+    this._deps.presence.eventEmitter.on(callStatus.RINGING, callback);
+    return this;
+  }
+
+  onCallAnswered(callback: (currentCall?: EvCallData) => any) {
+    this._deps.presence.eventEmitter.on(callStatus.ANSWERED, callback);
     return this;
   }
 
   onCallEnded(callback: (currentCall?: EvCallData) => any) {
-    this._eventEmitter.on(callStatus.ENDED, (currentCall) =>
-      callback(currentCall),
-    );
+    this._deps.presence.eventEmitter.on(callStatus.ENDED, callback);
     return this;
+  }
+
+  bindBeforeunload() {
+    this._deps.beforeunload.add(this._beforeunloadHandler);
+  }
+
+  removeBeforeunload() {
+    this._deps.beforeunload.remove(this._beforeunloadHandler);
   }
 }
 

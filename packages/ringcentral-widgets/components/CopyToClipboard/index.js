@@ -2,26 +2,19 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { Button } from '../Button';
+import { handleCopy } from '../../lib/handleCopy';
 import styles from './styles.scss';
 import i18n from './i18n';
 
 class CopyToClipboard extends Component {
-  executeCopy() {
-    this.copyTextArea.focus();
-    this.copyTextArea.select();
+  async executeCopy() {
+    const { copiedText, handleSuccess, handleFailure } = this.props;
     try {
-      const result = document.execCommand('copy');
-      if (result) {
-        this.copyTextArea.blur();
-        if (typeof this.props.handleSuccess === 'function')
-          this.props.handleSuccess();
-      } else if (typeof this.props.handleFailure === 'function') {
-        this.props.handleFailure();
-      }
+      await handleCopy(copiedText);
+      handleSuccess();
     } catch (e) {
-      console.error(e);
-      if (typeof this.props.handleFailure === 'function') {
-        this.props.handleFailure();
+      if (typeof handleFailure === 'function') {
+        handleFailure();
       }
     }
   }
@@ -31,35 +24,20 @@ class CopyToClipboard extends Component {
       currentLocale,
       buttonClassName,
       disabled,
-      copiedText,
       buttonText,
       button: CustomButton,
     } = this.props;
-    return (
-      <div className={styles.container}>
-        <textarea
-          className={styles.copyTextArea}
-          ref={(ref) => {
-            this.copyTextArea = ref;
-          }}
-          defaultValue={copiedText}
-        />
-        {CustomButton ? (
-          <CustomButton
-            {...this.props}
-            executeCopy={() => this.executeCopy()}
-          />
-        ) : (
-          <Button
-            disabled={disabled}
-            dataSign="copyToClipboard"
-            className={classnames(styles.primaryButton, buttonClassName)}
-            onClick={() => this.executeCopy()}
-          >
-            {buttonText || i18n.getString('copyToClipboard', currentLocale)}
-          </Button>
-        )}
-      </div>
+    return CustomButton ? (
+      <CustomButton {...this.props} executeCopy={() => this.executeCopy()} />
+    ) : (
+      <Button
+        disabled={disabled}
+        dataSign="copyToClipboard"
+        className={classnames(styles.primaryButton, buttonClassName)}
+        onClick={() => this.executeCopy()}
+      >
+        {buttonText || i18n.getString('copyToClipboard', currentLocale)}
+      </Button>
     );
   }
 }

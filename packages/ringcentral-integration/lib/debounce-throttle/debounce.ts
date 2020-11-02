@@ -87,10 +87,7 @@ export function debounce<F extends (...args: any) => any>({
     return lastResult;
   }
 
-  const debounced = function debounced(
-    this: any,
-    ...args: Parameters<F>
-  ): ReturnType<F> {
+  function debounced(this: any, ...args: Parameters<F>): ReturnType<F> {
     const timestamp = Date.now();
     if (!timeoutId || trailing || !leading) {
       lastThis = this;
@@ -111,7 +108,7 @@ export function debounce<F extends (...args: any) => any>({
     timeoutId = setTimeout(handleTimeout, getWaitTime(timestamp));
 
     return lastResult;
-  };
+  }
   debounced.cancel = cancel;
   debounced.flush = flush;
 

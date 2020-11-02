@@ -1,6 +1,6 @@
-import { RcButton, RcMenu, RcMenuItem } from '@ringcentral-integration/rcui';
+import { RcButton, RcMenu, RcMenuItem } from '@ringcentral/juno';
 import classNames from 'classnames';
-import React, { FunctionComponent, useRef, useState } from 'react';
+import React, { FunctionComponent, useCallback, useRef, useState } from 'react';
 import { BasicCallInfo } from 'ringcentral-widgets/components/BasicCallInfo';
 import CallLogPanel, {
   CallLogPanelProps,
@@ -55,9 +55,12 @@ export const ActivityCallLogPanel: FunctionComponent<ActivityCallLogPanelProps> 
   showMuteButton,
   ivrAlertData,
   onCopySuccess,
+  scrollTo,
   ...rest
 }) => {
   const transferRef = useRef(null);
+  const rootRef = useRef<CallLogPanel>(null);
+
   const [transferEl, setTransferRef] = useState(null);
   const isActivity = status === 'active';
   const isCallEnd = status === 'callEnd';
@@ -73,8 +76,20 @@ export const ActivityCallLogPanel: FunctionComponent<ActivityCallLogPanelProps> 
 
   const callControlRef = useRef<HTMLElement>(null);
 
+  const editLogSection = useCallback(
+    (props) => (
+      <EditLogSection
+        {...props}
+        scrollTo={scrollTo}
+        rootRef={rootRef.current?.editSectionRef}
+      />
+    ),
+    [scrollTo],
+  );
+
   return (
     <CallLogPanel
+      ref={rootRef}
       {...rest}
       currentLog={currentLog}
       currentLocale={currentLocale}
@@ -86,6 +101,7 @@ export const ActivityCallLogPanel: FunctionComponent<ActivityCallLogPanelProps> 
         ),
       }}
       refs={{
+        root: rootRef,
         callLogCallControl: callControlRef,
       }}
       isWide={isWide}
@@ -94,7 +110,7 @@ export const ActivityCallLogPanel: FunctionComponent<ActivityCallLogPanelProps> 
       isInTransferPage={false}
       // TODO: that need refactor CallLogPanel and then can remove that
       currentIdentify="123"
-      renderEditLogSection={EditLogSection}
+      renderEditLogSection={editLogSection}
       renderBasicInfo={() => {
         return (
           <>

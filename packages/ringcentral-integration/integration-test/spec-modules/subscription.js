@@ -1,9 +1,8 @@
-import { ensureLogin, containsErrorMessage } from '../utils/HelpUtil';
-import { waitInSeconds } from '../utils/WaitUtil';
-import ClientHistoryRequest from '../utils/ClientHistoryRequest';
+import { subscriptionStatus } from '../../modules/Subscription/subscriptionStatus';
 import * as mock from '../mock';
-import subscriptionStatus from '../../modules/Subscription/subscriptionStatus';
-import pubnub from 'pubnub';
+import ClientHistoryRequest from '../utils/ClientHistoryRequest';
+import { ensureLogin } from '../utils/HelpUtil';
+import { waitInSeconds } from '../utils/WaitUtil';
 
 export default (auth, client, subscription, account) => {
   describe('Subscription:', () => {

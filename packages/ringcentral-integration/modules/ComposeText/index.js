@@ -202,8 +202,7 @@ export default class ComposeText extends RcModule {
   }
 
   @proxify
-  async send() {
-    const text = this.messageText;
+  async send(text) {
     const fromNumber = this.senderNumber;
     const toNumbers = this.toNumbers.map((number) => number.phoneNumber);
     const { typingToNumber } = this;

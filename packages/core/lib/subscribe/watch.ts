@@ -2,6 +2,16 @@ import { subscribe } from './subscribe';
 import { isEqual } from '../utils';
 import { RcModuleV2 } from '../RcModule';
 
+/**
+ * It is used to subscribe to some state or `@computed` to get the derived computed state,
+ * which returns a callback function that can be used to cancel the subscription.
+ *
+ * @param service a module instance
+ * @param selector get a state or a derived data
+ * @param watcher watching for changes in the selector value
+ *
+ * @returns dispose watcher
+ */
 const watch = <T>(
   service: RcModuleV2,
   selector: () => T,

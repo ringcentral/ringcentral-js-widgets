@@ -1,6 +1,6 @@
 import { presenceStatus } from 'ringcentral-integration/enums/presenceStatus.enum';
 import dndStatus from 'ringcentral-integration/modules/Presence/dndStatus';
-import phoneTypes from '../../../enums/phoneTypes';
+import { phoneTypes } from 'ringcentral-integration/enums/phoneTypes';
 export default {
   [phoneTypes.extension]: "Durchw.",
   [phoneTypes.direct]: "Direkt",

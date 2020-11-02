@@ -1,3 +1,4 @@
+import { Store } from 'redux';
 import getActionTypes from './actionTypes';
 import moduleStatuses from './moduleStatuses';
 import { flatten, Properties } from '../utils/flatten';
@@ -17,6 +18,8 @@ export interface Params<T = {}> {
 export interface Action {
   type: string[] | string;
   states?: Properties;
+  __proxyState__?: Record<string, any>;
+  [K: string]: any;
 }
 
 export interface AnyAction extends Action {
@@ -31,13 +34,19 @@ interface Dispatch {
   (action: Action): void;
 }
 
-export interface Store {
-  subscribe(call: Callback): () => void;
-  getState(): Properties;
-  dispatch?: Dispatch;
-}
-
 interface Module {
+  /**
+   * Used by browser client to transport data.
+   */
+  _transport?: any;
+  /**
+   * browser client's proxy state.
+   */
+  __proxyState__: Record<string, (...args: any) => any>;
+  /**
+   * Used by browser client to dispatch.
+   */
+  __proxyAction__?: string;
   __name__: string;
   _state?: Properties;
   _store: Store;
@@ -46,7 +55,6 @@ interface Module {
   _dispatch?(action: Action): void;
   reducers?: Reducer;
   getState(): Properties;
-  onStateChange?(): void;
   parentModule?: Module<Properties<Module | any>>;
   isFactoryModule?: boolean;
   setStore?(store: Store): void;
@@ -64,6 +72,7 @@ class Module<T = {}> {
   protected __reset__: boolean;
   public _modules: T;
   public _arguments: Params<T>;
+  protected onStateChange?(): void;
 
   constructor(params?: Params<T>, ...args: any[]) {
     this._modules = {} as T;
@@ -74,6 +83,7 @@ class Module<T = {}> {
     this._makeInstance(this._handleArgs(params, ...args));
   }
 
+  // eslint-disable-next-line
   public _handleArgs(params?: Params<T>, ..._args: any[]): Params<T> {
     if (typeof params === 'undefined') {
       return {
@@ -298,7 +308,7 @@ class Module<T = {}> {
     return {
       subscribe: (subscription: Callback) => event.on('state', subscription),
       getState: () => this._state || {},
-    };
+    } as any;
   }
 
   public get actionTypes() {

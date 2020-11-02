@@ -20,15 +20,14 @@ export interface EvAgentSessionUIProps {
   loginTypeList: LoginType[];
   extensionNumber: string;
   // takingCall: boolean;
-  // autoAnswer: boolean;
+  autoAnswer: boolean;
   /** Is that have extension number TextField */
   isExtensionNumber: boolean;
   isLoading: boolean;
   inboundQueuesFieldText: string;
   // Inboudqueue Panel
   inboundQueues: AvailableQueue[];
-  voiceConnectionChanged: boolean;
-  isWide: boolean;
+  showAutoAnswer: boolean;
 }
 
 /** this is panel state with hook */
@@ -39,12 +38,10 @@ export interface EvAgentSessionUIFunctions {
   setLoginType: (loginType: LoginTypes) => void;
   setExtensionNumber: (extensionNumber: string) => void;
   // setTakingCall: (takingCall: boolean) => void;
-  // setAutoAnswer: (autoAnswer: boolean) => void;
+  setAutoAnswer: (autoAnswer: boolean) => void;
   setConfigure: () => Promise<void>;
   goToSettingsPage: () => void;
-  goToSessionUpdatePage: () => void;
   goToSettingsPageWhetherSessionChanged: () => void;
-  resetFormGroup: () => void;
   onSaveUpdate: () => void;
   // Inboudqueue Panel
   searchOption: (option: AvailableQueue, text: string) => boolean;
@@ -77,16 +74,18 @@ export interface EvAgentSessionUIFunctions {
 
 export type BasicSessionProps = Pick<
   EvAgentSessionUIProps & EvAgentSessionUIFunctions,
+  | 'autoAnswer'
   | 'currentLocale'
   | 'selectedSkillProfileId'
   | 'skillProfileList'
-  | 'setSkillProfileId'
   | 'loginTypeList'
   | 'loginType'
-  | 'setLoginType'
   | 'extensionNumber'
-  | 'setExtensionNumber'
   | 'inboundQueuesFieldText'
   | 'isExtensionNumber'
-  | 'resetFormGroup'
+  | 'showAutoAnswer'
+  | 'setSkillProfileId'
+  | 'setLoginType'
+  | 'setAutoAnswer'
+  | 'setExtensionNumber'
 >;

@@ -1,7 +1,7 @@
 import {
   Step as BaseStep,
   StepFunction as BaseStepFunction,
-  autorun,
+  autorun as baseAutorun,
   title,
   Scenario as BaseScenario,
   Given as BaseGiven,
@@ -12,6 +12,7 @@ import {
 } from 'crius-test';
 import { isCriusFlow } from 'crius-is';
 import { combine } from './combine';
+import { TestType, testTypes } from './constant';
 
 export { beforeEach } from 'crius-test';
 
@@ -32,6 +33,7 @@ afterEach(async () => {
 class Step<P = {}, C = {}> extends BaseStep<P, C> {
   static priority?: string;
   static type?: string;
+  static status?: string;
   static get context() {
     return {
       get phone() {
@@ -47,7 +49,14 @@ class Step<P = {}, C = {}> extends BaseStep<P, C> {
 
 function testBuild(this: BaseScenario) {
   let Action = this.props.action;
-  if (!isCriusFlow(Action) && typeof Action !== 'undefined') {
+  if (
+    Object.hasOwnProperty.call(this.props, 'action') &&
+    typeof Action === 'undefined'
+  ) {
+    throw new Error(
+      `The action of Step with desc '${this.props.desc}' is 'undefined'.`,
+    );
+  } else if (!isCriusFlow(Action) && typeof Action !== 'undefined') {
     if (Array.isArray(Action)) {
       Action = Action.map((item) => {
         const Item = combine(item);
@@ -66,34 +75,50 @@ function testBuild(this: BaseScenario) {
 }
 
 class Scenario extends BaseScenario {
-  run() {
+  run(): any {
     return testBuild.call(this);
   }
 }
 
 class Given extends BaseGiven {
-  run() {
+  run(): any {
     return testBuild.call(this);
   }
 }
 
 class When extends BaseWhen {
-  run() {
+  run(): any {
     return testBuild.call(this);
   }
 }
 
 class Then extends BaseThen {
-  run() {
+  run(): any {
     return testBuild.call(this);
   }
 }
 
 class And extends BaseAnd {
-  run() {
+  run(): any {
     return testBuild.call(this);
   }
 }
+
+const autorun = (_test: Function) => (_target: object) => {
+  if (
+    process.env.TEST_TYPE &&
+    !testTypes.includes(process.env.TEST_TYPE as TestType)
+  ) {
+    throw new Error(
+      `'TEST_TYPE' value should be in ${JSON.stringify(testTypes)}.`,
+    );
+  }
+  const skipTest =
+    process.env.TEST_TYPE &&
+    process.env.TEST_TYPE !== (_target as typeof Step).type &&
+    (_test as jest.It).skip;
+  return baseAutorun(skipTest || _test)(_target);
+};
 
 export interface StepFunction<P = {}, C = {}> extends BaseStepFunction<P, C> {}
 
@@ -108,4 +133,5 @@ export {
   And,
   examples,
   BaseStep,
+  testBuild,
 };

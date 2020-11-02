@@ -1,7 +1,7 @@
 import EventEmitter from 'events';
 import RcModule from '../../lib/RcModule';
 import { Module } from '../../lib/di';
-import Meeting from '../Meeting';
+import Meeting, { RcMMeetingModel } from '../Meeting';
 import Brand from '../Brand';
 import ExtensionInfo from '../ExtensionInfo';
 import proxify from '../../lib/proxy/proxify';
@@ -21,7 +21,7 @@ import { actionTypes } from './actionTypes';
 import { RcVideo } from '../RcVideo';
 
 import getGenericMeetingReducer from './getGenericMeetingReducer';
-import { RcVMeetingModel } from '../../models/rcv.model';
+import { RcVMeetingModel } from '../../interfaces/Rcv.model';
 
 @Module({
   deps: ['MeetingProvider', 'ExtensionInfo', 'Brand', 'Meeting', 'RcVideo'],
@@ -61,58 +61,60 @@ export class GenericMeeting extends RcModule implements IGenericMeeting {
 
   @background
   init() {
-    return this._meetingModule && this._meetingModule.init();
+    return this._meetingModule.init();
   }
 
   @proxify
   reload() {
-    return this._meetingModule && this._meetingModule.reload();
+    return this._meetingModule.reload();
   }
 
   @proxify
   switchUsePersonalMeetingId(usePersonalMeetingId: boolean) {
-    return (
-      this._meetingModule &&
-      this._meetingModule.switchUsePersonalMeetingId &&
-      this._meetingModule.switchUsePersonalMeetingId(usePersonalMeetingId)
-    );
+    this._meetingModule.switchUsePersonalMeetingId(usePersonalMeetingId);
   }
 
   @proxify
-  updateScheduleFor(userExtensionId: string) {
+  updateScheduleFor(userExtensionId: string | number) {
     return (
-      this._meetingModule &&
       this._meetingModule.updateScheduleFor &&
       this._meetingModule.updateScheduleFor(userExtensionId)
     );
   }
 
-  /* TODO: any is reserved for RcM */
   @proxify
-  updateMeetingSettings(
-    meeting: RcVMeetingModel | any,
-    patch: boolean = true,
-  ): void {
-    const fn =
-      this._meetingModule &&
-      (this._meetingModule.update || this._meetingModule.updateMeetingSettings);
-    return fn && (fn as Function).call(this._meetingModule, meeting, patch);
+  updateMeetingSettings(meeting: ScheduleModel, patch: boolean = true): void {
+    if (this.isRCM) {
+      this._meeting.update(meeting as RcMMeetingModel);
+    }
+    if (this.isRCV) {
+      this._rcVideo.updateMeetingSettings(meeting as RcVMeetingModel, patch);
+    }
   }
 
   @proxify
   async schedule(
     meeting: ScheduleModel,
-    config?: { isAlertSuccess: boolean },
+    config?: { isAlertSuccess?: boolean },
     opener?: Window,
   ) {
     let result;
     if (this.isRCM) {
-      result = await this._meeting.schedule(meeting, config, opener);
+      result = await this._meeting.schedule(meeting as RcMMeetingModel, config);
     } else if (this.isRCV) {
-      result = await this._rcVideo.createMeeting(
-        meeting as RcVMeetingModel,
-        config,
-      );
+      const rcvMeetingInfo = meeting as RcVMeetingModel;
+      if (rcvMeetingInfo.usePersonalMeetingId) {
+        result = await this._rcVideo.updateMeeting(
+          this._rcVideo.personalMeeting.id,
+          rcvMeetingInfo,
+          config,
+        );
+      } else {
+        result = await this._rcVideo.createMeeting(
+          meeting as RcVMeetingModel,
+          config,
+        );
+      }
     } else {
       console.error('Unknown meeting provider, please check module runtime');
       return;
@@ -125,32 +127,60 @@ export class GenericMeeting extends RcModule implements IGenericMeeting {
     return result;
   }
 
-  // TODO: any infer the type of rcm meeting, should be more specific
-  async instantMeeting(meeting: RcVMeetingModel | any) {
-    if (this.isRCV) {
-      return this._rcVideo.instantMeeting(meeting as RcVMeetingModel);
+  @proxify
+  async startMeeting(meeting: ScheduleModel) {
+    if (this.isRCM) {
+      return this._meeting.schedule(meeting as RcMMeetingModel);
     }
-    return this._meeting.schedule(meeting);
+    if (this.isRCV) {
+      return this._rcVideo.startMeeting(meeting as RcVMeetingModel);
+    }
+    return null;
   }
 
   @proxify
   async getMeeting(meetingId: string) {
-    return this._meetingModule && this._meetingModule.getMeeting(meetingId);
+    return this._meetingModule.getMeeting(meetingId);
   }
 
   @proxify
   async getMeetingServiceInfo() {
     return (
-      this._meetingModule &&
       this._meetingModule.getMeetingServiceInfo &&
       this._meetingModule.getMeetingServiceInfo()
     );
   }
 
   @proxify
-  async updateMeeting(...args) {
-    const fn = this._meetingModule && this._meetingModule.updateMeeting;
-    return fn && (fn as Function).apply(this._meetingModule, args);
+  async updateMeeting(
+    meetingId: string,
+    meeting: ScheduleModel,
+    config?: { isAlertSuccess?: boolean },
+    opener?: Window,
+  ) {
+    let result;
+    if (this.isRCM) {
+      result = await this._meeting.updateMeeting(
+        meetingId,
+        meeting as RcMMeetingModel,
+        config,
+      );
+    } else if (this.isRCV) {
+      result = await this._rcVideo.updateMeeting(
+        meetingId,
+        meeting as RcVMeetingModel,
+        config,
+      );
+    } else {
+      console.error('Unknown meeting provider, please check module runtime');
+      return;
+    }
+    if (result) {
+      this._eventEmitter.emit(MeetingEvents.afterUpdate, result, opener);
+    } else if (opener && opener.close) {
+      opener.close();
+    }
+    return result;
   }
 
   addScheduledCallBack(cb: ScheduledCallback) {
@@ -162,10 +192,7 @@ export class GenericMeeting extends RcModule implements IGenericMeeting {
   }
 
   validatePasswordSettings(password: string, isSecret: boolean): boolean {
-    return (
-      this._meetingModule &&
-      this._meetingModule.validatePasswordSettings(password, isSecret)
-    );
+    return this._meetingModule.validatePasswordSettings(password, isSecret);
   }
 
   generateRcvMeetingPassword() {
@@ -244,19 +271,11 @@ export class GenericMeeting extends RcModule implements IGenericMeeting {
   }
 
   get meeting() {
-    return this._meetingModule && this._meetingModule.meeting;
+    return this._meetingModule.meeting;
   }
 
-  /** TODO: assistedUsers and scheduleForUser are
-   *  used for 'Schedule For' Feature
-   * Now it only applies to RCM
-   */
-  get assistedUsers() {
-    return this._meetingModule && this._meetingModule.assistedUsers;
-  }
-
-  get scheduleForUser() {
-    return this._meetingModule && this._meetingModule.scheduleForUser;
+  get delegators() {
+    return this._meetingModule.delegators;
   }
 
   get defaultSetting() {
@@ -270,15 +289,15 @@ export class GenericMeeting extends RcModule implements IGenericMeeting {
   }
 
   get isScheduling() {
-    return !!(this._meetingModule && this._meetingModule.isScheduling);
+    return !!this._meetingModule.isScheduling;
   }
 
   get showSaveAsDefault() {
-    return !!(this._meetingModule && this._meetingModule.showSaveAsDefault);
+    return !!this._meetingModule.showSaveAsDefault;
   }
 
   get isPreferencesChanged() {
-    return !!(this._meetingModule && this._meetingModule.isPreferencesChanged);
+    return !!this._meetingModule.isPreferencesChanged;
   }
 
   get brandName() {
@@ -289,7 +308,36 @@ export class GenericMeeting extends RcModule implements IGenericMeeting {
     return this.state.status;
   }
 
-  get personalMeeting() {
-    return this._meetingModule && this._meetingModule.personalMeeting;
+  get showAdminLock(): boolean {
+    return !!this._meetingModule.showAdminLock;
+  }
+
+  get enablePersonalMeeting(): boolean {
+    return !!this._meetingModule.enablePersonalMeeting;
+  }
+
+  get enableWaitingRoom(): boolean {
+    if (this.isRCV) {
+      return this._rcVideo.enableWaitingRoom;
+    }
+    return false;
+  }
+
+  get personalMeeting(): any {
+    return this._meetingModule.personalMeeting;
+  }
+
+  get personalMeetingId(): string {
+    return this.personalMeeting?.shortId;
+  }
+
+  get personalMeetingSettings(): any {
+    if (this.isRCM) {
+      return this._meeting.pmiDefaultSettings;
+    }
+    if (this.isRCV) {
+      return this._rcVideo.personalVideoSetting;
+    }
+    return null;
   }
 }

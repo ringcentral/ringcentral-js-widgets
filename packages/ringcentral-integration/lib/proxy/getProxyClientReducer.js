@@ -17,7 +17,7 @@ export function getActionNumberReducer({ types }) {
     switch (type) {
       case types.action:
       case types.sync:
-        return actionNumber;
+        return actionNumber ?? state;
       default:
         return state;
     }

@@ -7,5 +7,5 @@ export default {
   integratedPhone: 'Integrated Phone',
   ringCentralPhone: 'RingCentral Phone',
   externalPhone: 'External Phone',
-  unKnown: 'Unknown'
+  unKnown: 'Unknown',
 };

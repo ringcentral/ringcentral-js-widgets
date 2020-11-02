@@ -1,4 +1,4 @@
-import phoneTypes from '../../enums/phoneTypes';
+import { phoneTypes } from 'ringcentral-integration/enums/phoneTypes';
 export default {
   [phoneTypes.business]: "Telefone comercial",
   [phoneTypes.extension]: "Número do ramal",

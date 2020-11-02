@@ -1,3 +1,4 @@
+export { events } from 'ringcentral-call';
 export class RingCentralCall {
   on() {
     // do nothing

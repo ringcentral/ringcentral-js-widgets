@@ -265,4 +265,11 @@ export default class RolesAndPermissions extends DataFetcher {
   get hasMeetingsPermission() {
     return !!(this.permissions && this.permissions.Meetings);
   }
+
+  get hasCallControlPermission() {
+    return (
+      this._auth.token.scope?.indexOf('CallControl') > -1 ||
+      this._auth.token.scope?.indexOf('TelephonySession') > -1
+    );
+  }
 }

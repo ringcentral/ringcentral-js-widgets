@@ -12,7 +12,7 @@ export default {
   [telephonyStatuses.noCall]: "Disconnected",
   [telephonyStatuses.callConnected]: "Connected",
   [telephonyStatuses.ringing]: "Ringing",
-  [telephonyStatuses.onHold]: "On hold",
+  [telephonyStatuses.onHold]: "On Hold",
   [telephonyStatuses.parkedCall]: "Parked",
   [callResults.unknown]: "Unknown",
   [callResults.missed]: "Missed",
@@ -26,7 +26,7 @@ export default {
   [callResults.faxOnDemand]: "Fax on demand",
   [callResults.partialReceive]: "Partial receive",
   [callResults.blocked]: "Blocked",
-  [callResults.callConnected]: "Disconnected",
+  [callResults.callConnected]: "Call connected",
   [callResults.noAnswer]: "No answer",
   [callResults.internationalDisabled]: "International disabled",
   [callResults.busy]: "Busy",
@@ -71,7 +71,7 @@ export default {
 // @key: @#@"[callResults.faxOnDemand]"@#@ @source: @#@"Fax on Demand"@#@
 // @key: @#@"[callResults.partialReceive]"@#@ @source: @#@"Partial Receive"@#@
 // @key: @#@"[callResults.blocked]"@#@ @source: @#@"Blocked"@#@
-// @key: @#@"[callResults.callConnected]"@#@ @source: @#@"Disconnected"@#@
+// @key: @#@"[callResults.callConnected]"@#@ @source: @#@"Call connected"@#@
 // @key: @#@"[callResults.noAnswer]"@#@ @source: @#@"No Answer"@#@
 // @key: @#@"[callResults.internationalDisabled]"@#@ @source: @#@"International Disabled"@#@
 // @key: @#@"[callResults.busy]"@#@ @source: @#@"Busy"@#@

@@ -17,7 +17,12 @@ import getCallMonitorReducer, {
 } from './getCallMonitorReducer';
 import ensureExist from '../../lib/ensureExist';
 import normalizeNumber from '../../lib/normalizeNumber';
-import { matchWephoneSessionWithAcitveCall } from './callMonitorHelper';
+import {
+  matchWephoneSessionWithAcitveCall,
+  isCurrentDeviceEndCall,
+  matchTelephonySessionWithActiveCall,
+  mapTelephonyStatus,
+} from './callMonitorHelper';
 import { selector } from '../../lib/selector';
 
 import {
@@ -33,8 +38,14 @@ import {
   isOnHold,
   isConferenceSession,
   sortByLastActiveTimeDesc,
+  normalizeSession as normalizeWebphoneSession,
 } from '../Webphone/webphoneHelper';
-
+import {
+  isRinging as isProceeding,
+  isHolding,
+  isForwardedToVoiceMail,
+  isOnSetupStage,
+} from '../ActiveCallControlV2/helpers';
 /**
  * @class
  * @description active calls monitor module
@@ -51,6 +62,7 @@ import {
     { dep: 'ActivityMatcher', optional: true },
     { dep: 'CallMonitorOptions', optional: true },
     { dep: 'TabManager', optional: true },
+    { dep: 'ActiveCallControl', optional: true },
   ],
 })
 export default class CallMonitor extends RcModule {
@@ -84,6 +96,9 @@ export default class CallMonitor extends RcModule {
     onCallUpdated,
     onCallEnded,
     storage,
+    activeCallControl,
+    // this feature requires to enable ActiveCallControlV2
+    useTelephonySession = false,
     ...options
   }) {
     super({
@@ -98,6 +113,7 @@ export default class CallMonitor extends RcModule {
     this._activityMatcher = activityMatcher;
     this._tabManager = tabManager;
     this._webphone = webphone;
+    this._activeCallControl = activeCallControl;
     this._onNewCall = onNewCall;
     this._onCallUpdated = onCallUpdated;
     this._onCallEnded = onCallEnded;
@@ -133,6 +149,13 @@ export default class CallMonitor extends RcModule {
     this._lastProcessedNumbers = null;
     this._lastProcessedCalls = null;
     this._lastProcessedIds = null;
+    this._useTelephonySession = useTelephonySession;
+    if (this._useTelephonySession && !this._activeCallControl) {
+      console.warn(
+        'Use telephonySession at CallMonitor module requires ActiveCallControlV2 module',
+      );
+      this._useTelephonySession = false;
+    }
   }
 
   async _onStateChange() {
@@ -427,6 +450,10 @@ export default class CallMonitor extends RcModule {
     return this._storage.getItem(this._callMatchedKey);
   }
 
+  get useTelephonySession() {
+    return this._useTelephonySession;
+  }
+
   @selector
   allCalls = [
     () => this.normalizedCalls,
@@ -459,6 +486,23 @@ export default class CallMonitor extends RcModule {
 
   @selector
   normalizedCalls = [
+    () => this.normalizedCallsFromPresence,
+    () => this.normalizedCallsFromTelephonySessions,
+    () => this.useTelephonySession,
+    (
+      normalizedCallsFromPresence,
+      normalizedCallsFromTelephonySessions,
+      useTelephonySession,
+    ) => {
+      if (useTelephonySession) {
+        return normalizedCallsFromTelephonySessions;
+      }
+      return normalizedCallsFromPresence;
+    },
+  ];
+
+  @selector
+  normalizedCallsFromPresence = [
     () => this._presence.calls,
     () => this._accountInfo.countryCode,
     () => this._webphone && this._webphone.sessions,
@@ -523,6 +567,101 @@ export default class CallMonitor extends RcModule {
   ];
 
   @selector
+  normalizedCallsFromTelephonySessions = [
+    () => this._activeCallControl?.sessions,
+    () => this._accountInfo.countryCode,
+    () => this._activeCallControl?.cachedSessions,
+    () => this._presence.calls,
+    (telephonySessions, countryCode, cachedSessions, presenceCalls) => {
+      // TODO match cached calls when there are conference merging calls, refer to `normalizedCallsFromPresence` function
+      if (!telephonySessions) return [];
+      const combinedCalls = [...telephonySessions]; // clone
+
+      // mapping and sort
+      this._normalizedCalls = sort(
+        (l, r) =>
+          sortByLastActiveTimeDesc(l.webphoneSession, r.webphoneSession),
+        map((callItem) => {
+          const currentRcCallSession = this._activeCallControl.rcCallSessions?.find(
+            (x) => x.id === callItem.id,
+          );
+          // sessionId arrives when telephony session event push and it's a required
+          // reference https://github.com/ringcentral/ringcentral-call-js/blob/master/src/Session.ts
+          if (
+            !currentRcCallSession ||
+            !currentRcCallSession.sessionId ||
+            isForwardedToVoiceMail(currentRcCallSession) ||
+            (isInbound(currentRcCallSession) &&
+              isOnSetupStage(currentRcCallSession))
+          ) {
+            return null;
+          }
+          const {
+            to,
+            from,
+            direction,
+            party,
+            telephonySessionId,
+            sessionId,
+            startTime,
+            webphoneSession: originalWebphoneSession,
+          } = currentRcCallSession;
+          let { _activeCallId: id } = currentRcCallSession;
+          // find id from presence call one time, due to telephony session event not push call id back
+          // with ringout call
+          if (!id) {
+            const presenceCall = presenceCalls.find(
+              (presenceCall) => presenceCall.telephonySessionId === callItem.id,
+            );
+            id = presenceCall?.id;
+          }
+          const fromNumber = normalizeNumber({
+            phoneNumber: from?.phoneNumber,
+            countryCode,
+          });
+          const toNumber = normalizeNumber({
+            phoneNumber: to?.phoneNumber,
+            countryCode,
+          });
+          const webphoneSession = originalWebphoneSession
+            ? normalizeWebphoneSession(originalWebphoneSession)
+            : null;
+          const toName = to?.name;
+          const fromName = from?.name;
+          const partyId = party?.id;
+          const telephonySession = matchTelephonySessionWithActiveCall(
+            currentRcCallSession,
+          );
+          const telephonyStatus = mapTelephonyStatus(party.status.code);
+
+          // TODO: add sipData here
+          // const sipData = {};
+          return {
+            id,
+            partyId,
+            direction,
+            telephonySession,
+            telephonySessionId,
+            toName,
+            fromName,
+            from: {
+              phoneNumber: fromNumber,
+            },
+            to: {
+              phoneNumber: toNumber,
+            },
+            startTime,
+            sessionId,
+            webphoneSession,
+            telephonyStatus,
+          };
+        }, combinedCalls).filter((x) => !!x),
+      );
+      return this._normalizedCalls;
+    },
+  ];
+
+  @selector
   calls = [
     () => this.allCalls,
     () => this._conferenceCall && this._conferenceCall.isMerging,
@@ -539,46 +678,74 @@ export default class CallMonitor extends RcModule {
   @selector
   activeRingCalls = [
     () => this.calls,
-    (calls) =>
-      filter(
-        (callItem) =>
-          callItem.webphoneSession && isRing(callItem.webphoneSession),
-        calls,
-      ),
+    () => this.useTelephonySession,
+    (calls, useTelephonySession) =>
+      filter((callItem) => {
+        if (useTelephonySession) {
+          return (
+            callItem.webphoneSession &&
+            callItem.telephonySession &&
+            isProceeding(callItem.telephonySession)
+          );
+        }
+        return callItem.webphoneSession && isRing(callItem.webphoneSession);
+      }, calls),
   ];
 
   @selector
   _activeOnHoldCalls = [
     () => this.calls,
-    (calls) =>
-      filter(
+    () => this.useTelephonySession,
+    (calls, useTelephonySession) => {
+      if (useTelephonySession) {
+        return filter(
+          (callItem) =>
+            callItem.webphoneSession &&
+            callItem.telephonySession &&
+            isHolding(callItem.telephonySession),
+          calls,
+        );
+      }
+      return filter(
         (callItem) =>
           callItem.webphoneSession && isOnHold(callItem.webphoneSession),
         calls,
-      ),
+      );
+    },
   ];
 
   @selector
   _activeCurrentCalls = [
     () => this.calls,
-    (calls) =>
-      filter(
-        (callItem) =>
+    () => this.useTelephonySession,
+    (calls, useTelephonySession) =>
+      filter((callItem) => {
+        if (useTelephonySession) {
+          return (
+            callItem.webphoneSession &&
+            callItem.telephonySession &&
+            !isProceeding(callItem.telephonySession) &&
+            !isHolding(callItem.telephonySession)
+          );
+        }
+        return (
           callItem.webphoneSession &&
           !isOnHold(callItem.webphoneSession) &&
-          !isRing(callItem.webphoneSession),
-        calls,
-      ),
+          !isRing(callItem.webphoneSession)
+        );
+      }, calls),
   ];
 
   @selector
   activeOnHoldCalls = [
     () => this._activeOnHoldCalls,
     () => this._activeCurrentCalls,
-    (_activeOnHoldCalls, _activeCurrentCalls) =>
-      _activeOnHoldCalls.length && !_activeCurrentCalls.length
-        ? _activeOnHoldCalls.slice(1)
-        : _activeOnHoldCalls,
+    (_activeOnHoldCalls, _activeCurrentCalls) => {
+      if (_activeOnHoldCalls.length && !_activeCurrentCalls.length) {
+        return _activeOnHoldCalls.slice(1);
+      }
+      return _activeOnHoldCalls;
+    },
   ];
 
   @selector
@@ -595,7 +762,14 @@ export default class CallMonitor extends RcModule {
   otherDeviceCalls = [
     () => this.calls,
     () => this._webphone && this._webphone.lastEndedSessions,
-    (calls, lastEndedSessions) =>
+    () => this.useTelephonySession,
+    () => this._activeCallControl?.lastEndedSessionIds,
+    (
+      calls,
+      lastEndedSessions,
+      useTelephonySession,
+      callControlLastEndedSessions,
+    ) =>
       reduce(
         ({ sessionsCache, res }, callItem) => {
           if (callItem.webphoneSession) {
@@ -611,11 +785,15 @@ export default class CallMonitor extends RcModule {
               res: [...res, callItem],
             };
           }
-
-          const endCall = matchWephoneSessionWithAcitveCall(sessionsCache, [
-            ...res,
-            callItem,
-          ]);
+          let endCall = null;
+          if (useTelephonySession) {
+            endCall = isCurrentDeviceEndCall(sessionsCache, callItem);
+          } else {
+            endCall = matchWephoneSessionWithAcitveCall(
+              sessionsCache,
+              callItem,
+            );
+          }
 
           return {
             sessionsCache: filter((x) => x !== endCall, sessionsCache),
@@ -623,7 +801,9 @@ export default class CallMonitor extends RcModule {
           };
         },
         {
-          sessionsCache: lastEndedSessions,
+          sessionsCache: useTelephonySession
+            ? callControlLastEndedSessions
+            : lastEndedSessions,
           res: [],
         },
         calls,

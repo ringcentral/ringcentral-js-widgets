@@ -1,4 +1,4 @@
-import { RcButton, RcButtonSize } from '@ringcentral-integration/rcui';
+import { RcButton, RcButtonSize } from '@ringcentral/juno';
 import classNames from 'classnames';
 import React, { FunctionComponent, useEffect } from 'react';
 

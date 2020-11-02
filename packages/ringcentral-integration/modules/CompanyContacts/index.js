@@ -17,7 +17,7 @@ import {
 } from './getReducers';
 import subscriptionFilters from '../../enums/subscriptionFilters';
 import extensionTypes from '../../enums/extensionTypes';
-import phoneTypes from '../../enums/phoneTypes';
+import { phoneTypes } from '../../enums/phoneTypes';
 import { extensionStatusTypes } from '../../enums/extensionStatusTypes';
 
 const contactsRegExp = /.*\/directory\/contacts$/;
@@ -113,11 +113,7 @@ export default class CompanyContacts extends DataFetcher {
       },
       fetchFunction: () =>
         fetchList((params) =>
-          this._client
-            .account()
-            .directory()
-            .contacts()
-            .list(params),
+          this._client.account().directory().contacts().list(params),
         ),
       readyCheckFn: () => this._rolesAndPermissions.ready,
     });

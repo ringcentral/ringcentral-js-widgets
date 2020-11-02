@@ -1,5 +1,5 @@
 import { DOMAttributes } from 'react';
-import uuid from 'uuid';
+import * as uuid from 'uuid';
 
 import moduleStatuses from '../../enums/moduleStatuses';
 import { Module } from '../../lib/di';

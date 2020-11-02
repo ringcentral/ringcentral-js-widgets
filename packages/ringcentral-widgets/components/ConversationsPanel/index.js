@@ -155,6 +155,8 @@ export default class ConversationsPanel extends Component {
       renderSearchTip,
       renderNoMessage,
       onFaxDownload,
+      currentSiteCode,
+      isMultipleSiteEnabled,
     } = this.props;
     if (showSpinner) {
       return <SpinnerOverlay />;
@@ -185,6 +187,8 @@ export default class ConversationsPanel extends Component {
           <ConversationList
             className={onSearchInputChange ? styles.contentWithSearch : null}
             currentLocale={currentLocale}
+            currentSiteCode={currentSiteCode}
+            isMultipleSiteEnabled={isMultipleSiteEnabled}
             perPage={perPage}
             disableLinks={disableLinks}
             disableCallButton={disableCallButton}
@@ -266,6 +270,8 @@ export default class ConversationsPanel extends Component {
 }
 
 ConversationsPanel.propTypes = {
+  currentSiteCode: PropTypes.string,
+  isMultipleSiteEnabled: PropTypes.bool,
   currentLocale: PropTypes.string.isRequired,
   showSpinner: PropTypes.bool,
   showTitle: PropTypes.bool,
@@ -322,6 +328,8 @@ ConversationsPanel.propTypes = {
 };
 
 ConversationsPanel.defaultProps = {
+  currentSiteCode: '',
+  isMultipleSiteEnabled: false,
   showSpinner: false,
   showTitle: false,
   showContactDisplayPlaceholder: true,

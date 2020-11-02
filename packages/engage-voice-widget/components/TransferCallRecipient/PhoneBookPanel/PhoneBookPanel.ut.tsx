@@ -1,6 +1,6 @@
 import React from 'react';
 import { StepFunction } from 'crius-test';
-import { RcThemeProvider } from '@ringcentral-integration/rcui';
+import { RcThemeProvider } from '@ringcentral/juno';
 import { format } from '@ringcentral-integration/phone-number';
 import { mount } from 'enzyme';
 import { PhoneBookPanel, PhoneBookPanelProps } from './PhoneBookPanel';

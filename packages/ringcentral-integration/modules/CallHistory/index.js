@@ -180,11 +180,13 @@ export default class CallHistory extends RcModule {
         const endedCalls = (this._lastProcessedMonitorCalls || []).filter(
           (call) =>
             !monitorCalls.find(
-              (currentCall) => call.sessionId === currentCall.sessionId,
+              (currentCall) =>
+                call.telephonySessionId === currentCall.telephonySessionId,
             ) &&
             // if the call's callLog has been fetch, skip
             !callLogCalls.find(
-              (currentCall) => call.sessionId === currentCall.sessionId,
+              (currentCall) =>
+                call.telephonySessionId === currentCall.telephonySessionId,
             ),
         );
         this._lastProcessedMonitorCalls = monitorCalls;
@@ -200,9 +202,11 @@ export default class CallHistory extends RcModule {
       this._lastProcessedCalls = currentCalls;
       const ids = {};
       currentCalls.forEach((call) => {
-        ids[call.sessionId] = true;
+        ids[call.telephonySessionId] = true;
       });
-      return this.recentlyEndedCalls.filter((call) => ids[call.sessionId]);
+      return this.recentlyEndedCalls.filter(
+        (call) => ids[call.telephonySessionId],
+      );
     }
     return null;
   }
@@ -354,9 +358,9 @@ export default class CallHistory extends RcModule {
       activityMapping = {},
       callMatched = {},
     ) => {
-      const sessionIds = {};
+      const telephonySessionIds = {};
       const calls = normalizedCalls.map((call) => {
-        sessionIds[call.sessionId] = true;
+        telephonySessionIds[call.telephonySessionId] = true;
         const fromNumber =
           call.from && (call.from.phoneNumber || call.from.extensionNumber);
         const toNumber =
@@ -374,7 +378,7 @@ export default class CallHistory extends RcModule {
         };
       });
       const filteredEndedCalls = endedCalls
-        .filter((call) => !sessionIds[call.sessionId])
+        .filter((call) => !telephonySessionIds[call.telephonySessionId])
         .map((call) => {
           const activityMatches = activityMapping[call.sessionId] || [];
           const fromNumber =

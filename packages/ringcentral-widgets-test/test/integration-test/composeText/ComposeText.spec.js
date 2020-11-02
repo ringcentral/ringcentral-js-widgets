@@ -42,6 +42,9 @@ describe('compose text panel', () => {
     expect(sendButton.props().disabled).toBe(true);
     textArea.instance().value = 'Hello world';
     await textArea.simulate('change');
+    // wait for textArea 500ms debounce;
+    await timeout(1000);
+    wrapper.update();
     panel = wrapper.find(ComposeTextPanel).first();
     textArea = panel
       .find('.textField')
@@ -96,6 +99,9 @@ describe('compose text panel', () => {
     await toNumber.simulate('change');
     textArea.instance().value = messageContent;
     await textArea.simulate('change');
+    // wait for textArea 500ms debounce;
+    await timeout(1000);
+    wrapper.update();
     panel = wrapper.find(ComposeTextPanel).first();
     sendButton = panel.find('.sendButton').first();
     expect(sendButton.props().disabled).toBe(false);

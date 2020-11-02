@@ -1,4 +1,4 @@
-import uuid from 'uuid';
+import * as uuid from 'uuid';
 
 import TransportBase from '../TransportBase';
 import { TransportBaseProps } from '../TransportBase/TransportBase';

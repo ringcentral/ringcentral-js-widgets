@@ -12,6 +12,19 @@ import {
   EvReceivedTransferCall,
 } from './EvSdkResponse.interface';
 
+export type EvSipRingingData = {
+  message: string;
+  // This type from sip.js => IncomingRequest
+  data: {
+    request: {
+      from: {
+        displayName: string;
+      };
+      friendlyName: string;
+    };
+  };
+};
+
 export interface EvClientCallMapping {
   acknowledgeResponse: EvACKResponse;
   addSessionNotification: EvAddSessionNotification;
@@ -96,11 +109,7 @@ export interface EvClientCallMapping {
   sipMuteResponse: any;
   sipRegisteredNotification: any;
   sipRegistrationFailedNotification: any;
-  sipRingingNotification: {
-    message: string;
-    // This type from sip.js => IncomingRequest
-    data: { request: { from: { displayName: string }; friendlyName: string } };
-  };
+  sipRingingNotification: EvSipRingingData;
   sipSwitchRegistrarNotification: any;
   sipUnmuteResponse: any;
   sipUnregisteredNotification: any;

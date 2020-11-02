@@ -28,7 +28,7 @@ const subscribeEvent = subscriptionFilters.telephonySessions;
     'Subscription',
     'ConnectivityMonitor',
     'RolesAndPermissions',
-    'CallMonitor',
+    'Presence',
     'Alert',
     'NumberValidate',
     'AccountInfo',
@@ -51,7 +51,7 @@ export default class ActiveCallControl extends Pollable {
     rolesAndPermissions,
     availabilityMonitor,
     tabManager,
-    callMonitor,
+    presence,
     polling = false,
     disableCache = false,
     alert,
@@ -80,7 +80,7 @@ export default class ActiveCallControl extends Pollable {
       'rolesAndPermissions',
     );
     this._availabilityMonitor = availabilityMonitor;
-    this._callMonitor = ensureExist.call(this, callMonitor, 'callMonitor');
+    this._presence = ensureExist.call(this, presence, 'presence');
     this._tabManager = tabManager;
     this._ttl = ttl;
     this._timeToRetry = timeToRetry;
@@ -106,6 +106,9 @@ export default class ActiveCallControl extends Pollable {
         data: getDataReducer(this.actionTypes),
       });
     }
+    console.warn(
+      'ActiveCallControl is deprecated, please evaluate and transition to use ActiveCallControlV2',
+    );
   }
 
   initialize() {
@@ -139,7 +142,7 @@ export default class ActiveCallControl extends Pollable {
       (!this._storage || this._storage.ready) &&
       this._subscription.ready &&
       this._connectivityMonitor.ready &&
-      this._callMonitor.ready &&
+      this._presence.ready &&
       (!this._tabManager || this._tabManager.ready) &&
       this._rolesAndPermissions.ready &&
       (!this._availabilityMonitor || this._availabilityMonitor.ready) &&
@@ -156,7 +159,7 @@ export default class ActiveCallControl extends Pollable {
         !this._subscription.ready ||
         (!!this._tabManager && !this._tabManager.ready) ||
         !this._connectivityMonitor.ready ||
-        !this._callMonitor.ready ||
+        !this._presence.ready ||
         !this._rolesAndPermissions.ready ||
         (!!this._availabilityMonitor && !this._availabilityMonitor.ready)) &&
       this.ready
@@ -222,7 +225,7 @@ export default class ActiveCallControl extends Pollable {
 
   async _syncData() {
     try {
-      const activeCalls = this._callMonitor.calls;
+      const activeCalls = this._presence.calls;
       await this._rcCallControl.loadSessions(activeCalls);
       this.store.dispatch({
         type: this.actionTypes.updateActiveSessions,
@@ -240,7 +243,7 @@ export default class ActiveCallControl extends Pollable {
 
   async _init() {
     if (!this._hasPermission) return;
-    this._subscription.subscribe(subscribeEvent);
+    this._subscription.subscribe([subscribeEvent]);
     this._rcCallControl = new RingCentralCallControl({
       sdk: this._client.service,
       preloadDevices: false,
@@ -723,7 +726,7 @@ export default class ActiveCallControl extends Pollable {
 
   @selector
   activeSessions = [
-    () => this._callMonitor.calls,
+    () => this._presence.calls,
     () => this.data.sessions,
     () => this.timestamp,
     (calls, sessions, _t) => {
@@ -745,7 +748,7 @@ export default class ActiveCallControl extends Pollable {
 
   @selector
   sessionIdToTelephonySessionIdMapping = [
-    () => this._callMonitor.calls,
+    () => this._presence.calls,
     (calls) => {
       const reducer = (accumulator, call) => {
         const { telephonySessionId, sessionId } = call;

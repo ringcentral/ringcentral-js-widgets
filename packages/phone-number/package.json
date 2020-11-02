@@ -1,6 +1,6 @@
 {
   "name": "@ringcentral-integration/phone-number",
-  "version": "1.0.4",
+  "version": "1.0.7",
   "description": "Wrapper around libphonenumber-js to provide RingCentral specific phone handling.",
   "main": "index.js",
   "repository": {
@@ -16,18 +16,18 @@
   "private": false,
   "dependencies": {
     "libphonenumber-js": "^1.7.29",
-    "ramda": "^0.26.1"
+    "ramda": "^0.27.0"
   },
   "peerDependencies": {},
   "devDependencies": {
     "@ringcentral-integration/babel-settings": "*",
-    "babel-jest": "^24.8.0",
-    "fs-extra": "^8.1.0",
+    "babel-jest": "^26.3.0",
+    "fs-extra": "^9.0.1",
     "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
     "gulp-sourcemaps": "^2.6.5",
-    "jest": "^24.8.0",
-    "jest-junit": "^6.3.0"
+    "jest": "^26.3.0",
+    "jest-html-reporters": "2.0.3"
   },
   "scripts": {
     "gulp": "gulp --require @ringcentral-integration/babel-settings/lib/register.js",
@@ -40,7 +40,17 @@
     "transform": {
       "^.+\\.(j|t)sx?$": "@ringcentral-integration/babel-settings/lib/jestTransform.js"
     },
-    "reporters": [ "default", "jest-junit" ]
+    "reporters": [
+      "default",
+      [
+        "jest-html-reporters",
+        {
+          "publicPath": "./html-report",
+          "filename": "jest-report.html",
+          "expand": true
+        }
+      ]
+    ]
   },
   "ci": {
     "ringcentral-js-widgets": "**"

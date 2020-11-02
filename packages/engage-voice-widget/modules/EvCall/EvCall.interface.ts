@@ -1,6 +1,6 @@
 import Alert from 'ringcentral-integration/modules/Alert';
 import Storage from 'ringcentral-integration/modules/Storage';
-import TabManager from 'ringcentral-integration/modules/TabManager';
+import { EvTabManager } from '../EvTabManager';
 
 import { EvClient } from '../../lib/EvClient';
 import { EvAgentSession } from '../EvAgentSession';
@@ -40,7 +40,7 @@ export interface Deps {
   evIntegratedSoftphone: EvIntegratedSoftphone;
   evCallMonitor: EvCallMonitor;
   presence: EvPresence;
-  tabManager?: TabManager;
+  tabManager?: EvTabManager;
   evCallOptions?: EvCallOptions;
 }
 

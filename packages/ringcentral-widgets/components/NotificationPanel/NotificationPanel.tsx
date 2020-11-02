@@ -20,7 +20,7 @@ export type NotificationPanelProps = {
 
   dismiss: (id: string) => void;
 
-  className: string;
+  className?: string;
   currentLocale: string;
 
   brand: string;
@@ -41,7 +41,7 @@ export const NotificationPanel: FunctionComponent<NotificationPanelProps> = ({
   const [timer, setTimer] = useState(null);
 
   useEffect(() => {
-    // if length is gratter means that is delete item.
+    // if length is grater means that is delete item.
     if (currentMessages.length > messages.length) {
       currentMessages.forEach((cm) => {
         // if that can't find this id, that means that is delete
@@ -69,6 +69,7 @@ export const NotificationPanel: FunctionComponent<NotificationPanelProps> = ({
       }
       setCurrentMessages(messages);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [messages]);
 
   return (

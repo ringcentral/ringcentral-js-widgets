@@ -1,4 +1,4 @@
 {
-  "extends": "../../../ringcentral-js-widgets/tsconfig.test.json",
+  "extends": "../../tsconfig.test.json",
   "include": ["./**/*.ts", "./**/*.tsx", "../typings/**/*"]
 }

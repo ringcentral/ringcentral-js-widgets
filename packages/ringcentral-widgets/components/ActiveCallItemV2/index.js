@@ -7,7 +7,6 @@ import {
   isRinging,
 } from 'ringcentral-integration/lib/callLogHelpers';
 import { isOnHold } from 'ringcentral-integration/modules/Webphone/webphoneHelper';
-
 import CallIcon from '../CallIcon';
 import ContactDisplay from '../ContactDisplay';
 import CircleButton from '../CircleButton';
@@ -20,11 +19,10 @@ import MergeIntoConferenceIcon from '../../assets/images/MergeIntoConferenceIcon
 import TransferIcon from '../../assets/images/Transfer.svg';
 import MediaObject from '../MediaObject';
 import DurationCounter from '../DurationCounter';
-
 import styles from './styles.scss';
-import i18n from '../ActiveCallItem/i18n'; // Reuse the exsisting translations
+import i18n from '../ActiveCallItem/i18n';
 
-function WebphoneButtons({
+const WebphoneButtons = ({
   currentLocale,
   session,
   webphoneReject,
@@ -37,7 +35,9 @@ function WebphoneButtons({
   disableMerge,
   onMergeCall,
   disableLinks,
-}) {
+  isOnHold,
+  telephonySessionId,
+}) => {
   if (!session) {
     return null;
   }
@@ -63,7 +63,7 @@ function WebphoneButtons({
           className={styles.answerButton}
           onClick={(e) => {
             e.stopPropagation();
-            webphoneAnswer(session.id);
+            webphoneAnswer(session.id, telephonySessionId);
           }}
           icon={AnswerIcon}
           showBorder={false}
@@ -75,7 +75,6 @@ function WebphoneButtons({
 
   let holdBtn;
   let mergeBtn;
-
   if (showHold) {
     if (isOnHold(session)) {
       holdBtn = (
@@ -84,7 +83,7 @@ function WebphoneButtons({
             className={classnames(styles.holdButton, styles.active)}
             onClick={(e) => {
               e.stopPropagation();
-              webphoneResume(session.id);
+              webphoneResume(session.id, telephonySessionId);
             }}
             iconWidth={260}
             iconX={120}
@@ -101,7 +100,7 @@ function WebphoneButtons({
             className={styles.holdButton}
             onClick={(e) => {
               e.stopPropagation();
-              webphoneHold(session.id);
+              webphoneHold(session.id, telephonySessionId);
             }}
             iconWidth={260}
             iconX={120}
@@ -152,7 +151,7 @@ function WebphoneButtons({
           className={styles.rejectButton}
           onClick={(e) => {
             e.stopPropagation();
-            hangupFunc(session.id);
+            hangupFunc(session.id, telephonySessionId);
           }}
           iconWidth={260}
           iconX={120}
@@ -164,7 +163,7 @@ function WebphoneButtons({
       {answerBtn}
     </div>
   );
-}
+};
 
 WebphoneButtons.propTypes = {
   currentLocale: PropTypes.string.isRequired,
@@ -179,6 +178,8 @@ WebphoneButtons.propTypes = {
   onMergeCall: PropTypes.func,
   webphoneAnswer: PropTypes.func,
   disableLinks: PropTypes.bool,
+  isOnHold: PropTypes.func.isRequired,
+  telephonySessionId: PropTypes.string,
 };
 
 WebphoneButtons.defaultProps = {
@@ -193,9 +194,10 @@ WebphoneButtons.defaultProps = {
   onMergeCall: (i) => i,
   webphoneAnswer: (i) => i,
   disableLinks: false,
+  telephonySessionId: null,
 };
 
-function ActiveCallControlButtons({
+const ActiveCallControlButtons = ({
   showRingoutCallControl,
   showSwitchCall,
   currentLocale,
@@ -207,7 +209,7 @@ function ActiveCallControlButtons({
   ringing,
   inbound,
   webphoneSwitchCall,
-}) {
+}) => {
   if (!showRingoutCallControl && !showSwitchCall) return null;
   let swithCallButton;
   if (showSwitchCall) {
@@ -321,7 +323,7 @@ function ActiveCallControlButtons({
       {swithCallButton}
     </div>
   );
-}
+};
 
 ActiveCallControlButtons.propTypes = {
   currentLocale: PropTypes.string.isRequired,
@@ -360,13 +362,13 @@ export default class ActiveCallItem extends Component {
     this._userSelection = false;
     this.contactDisplay = null;
 
-    this.webphoneToVoicemail = (sessionId) => {
+    this.webphoneToVoicemail = (sessionId, telephonySessionId) => {
       if (typeof this.props.webphoneToVoicemail !== 'function') {
         return;
       }
-      this.props.webphoneToVoicemail(sessionId);
+      this.props.webphoneToVoicemail(sessionId, telephonySessionId);
       this.toVoicemailTimeout = setTimeout(() => {
-        this.props.webphoneReject(sessionId);
+        this.props.webphoneReject(sessionId, telephonySessionId);
       }, 3000);
     };
   }
@@ -397,7 +399,7 @@ export default class ActiveCallItem extends Component {
     this.setContact();
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (this.getContactMatches(nextProps) !== this.getContactMatches()) {
       this.setContact(nextProps);
     }
@@ -542,6 +544,7 @@ export default class ActiveCallItem extends Component {
       showRingoutCallControl,
       showSwitchCall,
       showMultipleMatch,
+      isOnHold,
     } = this.props;
 
     const { avatarUrl, extraNum } = this.state;
@@ -559,9 +562,7 @@ export default class ActiveCallItem extends Component {
         <div className={styles.extraButton}>
           {renderExtraButton(this.props.call)}
         </div>
-      ) : (
-        undefined
-      );
+      ) : undefined;
     const hasCallControl = !!(
       webphoneSession ||
       showRingoutCallControl ||
@@ -641,6 +642,7 @@ export default class ActiveCallItem extends Component {
               {webphoneSession ? (
                 <WebphoneButtons
                   session={webphoneSession}
+                  telephonySessionId={telephonySessionId}
                   webphoneReject={this.webphoneToVoicemail}
                   webphoneHangup={webphoneHangup}
                   webphoneResume={webphoneResume}
@@ -651,6 +653,7 @@ export default class ActiveCallItem extends Component {
                   disableMerge={disableMerge}
                   onMergeCall={onMergeCall}
                   webphoneAnswer={webphoneAnswer}
+                  isOnHold={isOnHold}
                 />
               ) : (
                 <ActiveCallControlButtons
@@ -681,6 +684,7 @@ ActiveCallItem.propTypes = {
     direction: PropTypes.string.isRequired,
     telephonyStatus: PropTypes.string,
     startTime: PropTypes.number.isRequired,
+    offset: PropTypes.number,
     activityMatches: PropTypes.array.isRequired,
     fromMatches: PropTypes.array.isRequired,
     toMatches: PropTypes.array.isRequired,
@@ -734,6 +738,7 @@ ActiveCallItem.propTypes = {
   ringoutReject: PropTypes.func,
   showMultipleMatch: PropTypes.bool,
   showSwitchCall: PropTypes.bool,
+  isOnHold: PropTypes.func,
 };
 
 ActiveCallItem.defaultProps = {
@@ -771,4 +776,5 @@ ActiveCallItem.defaultProps = {
   showRingoutCallControl: false,
   showMultipleMatch: false,
   showSwitchCall: false,
+  isOnHold,
 };

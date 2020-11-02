@@ -27,7 +27,7 @@ export default {
   [callResults.faxOnDemand]: 'Fax on Demand',
   [callResults.partialReceive]: 'Partial Receive',
   [callResults.blocked]: 'Blocked',
-  [callResults.callConnected]: 'Disconnected',
+  [callResults.callConnected]: 'Call connected',
   [callResults.noAnswer]: 'No Answer',
   [callResults.internationalDisabled]: 'International Disabled',
   [callResults.busy]: 'Busy',

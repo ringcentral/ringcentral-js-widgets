@@ -12,8 +12,7 @@ import App from 'ringcentral-widgets-demo/dev-server/containers/App';
 import brandConfig from 'ringcentral-widgets-demo/dev-server/brandConfig';
 import version from 'ringcentral-widgets-demo/dev-server/version';
 import prefix from 'ringcentral-widgets-demo/dev-server/prefix';
-
-/* global jest */
+import { subscriptionStatus } from 'ringcentral-integration/modules/Subscription/subscriptionStatus';
 
 export const timeout = (ms) =>
   new Promise((resolve) => setTimeout(() => resolve(true), ms));
@@ -44,6 +43,7 @@ const getPhone = async ({
     prefix: `${prefix}-${Date.now()}`, // storage with different prefix in different case
     version,
     clientService,
+    subscriptionRegisterDelay: 10,
   });
 
   const store = createStore(phone.reducer);

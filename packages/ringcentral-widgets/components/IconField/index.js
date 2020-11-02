@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 import styles from './styles.scss';
 
 export default function IconField(props) {
   return (
-    <div className={props.className}>
+    <div className={classnames(styles.wrapper, props.className)}>
       <div className={styles.content} title={props.title} data-sign="iconField">
         {props.children}
       </div>
