@@ -1,11 +1,6 @@
-import {
-  RcButtonBase,
-  RcIcon,
-  RcMenu,
-  RcMenuItem,
-} from '@ringcentral-integration/rcui';
-import arrowDownSvg from '@ringcentral-integration/rcui/icons/icon-arrow-down.svg';
-import arrowUpSvg from '@ringcentral-integration/rcui/icons/icon-arrow-up.svg';
+import { RcButtonBase, RcIcon, RcMenu, RcMenuItem } from '@ringcentral/juno';
+import arrowDownSvg from '@ringcentral/juno/icons/icon-arrow-down.svg';
+import arrowUpSvg from '@ringcentral/juno/icons/icon-arrow-up.svg';
 import classNames from 'classnames';
 import React, { FunctionComponent, useState } from 'react';
 import { Tooltip } from 'ringcentral-widgets/components/Rcui/Tooltip';
@@ -57,7 +52,11 @@ export const WorkingStateButton: FunctionComponent<WorkingStateButtonProps> = ({
         className={classNames(styles.state, styles[color])}
         onClick={handleClick}
       >
-        <RcButtonBase disabled={disabled} className={styles.fullWidth}>
+        <RcButtonBase
+          disabled={disabled}
+          className={styles.fullWidth}
+          data-sign="workingStateButton"
+        >
           <div className={styles.stateDot} />
           <Tooltip title={label} enterDelay={TOOLTIP_LONG_DELAY_TIME}>
             <div className={styles.stateName} data-sign="stateName">
@@ -90,6 +89,7 @@ export const WorkingStateButton: FunctionComponent<WorkingStateButtonProps> = ({
                 handleClose();
                 onChange(state);
               }}
+              data-sign="workingStateItem"
               size="medium"
               selected={selected}
             >

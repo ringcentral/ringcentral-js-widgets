@@ -1,14 +1,13 @@
-import messageTypes from 'ringcentral-integration/enums/messageTypes';
 import * as mock from 'ringcentral-integration/integration-test/mock';
-import ClientHistoryRequest from 'ringcentral-integration/integration-test/utils/ClientHistoryRequest';
 import messageSyncBody from 'ringcentral-integration/integration-test/mock/data/messageSync.json';
-
-import NavigationBar from 'ringcentral-widgets/components/NavigationBar';
+import { waitUntilEqual } from 'ringcentral-integration/integration-test/utils/WaitUtil';
+import { subscriptionStatus } from 'ringcentral-integration/modules/Subscription/subscriptionStatus';
 import ConversationsPanel from 'ringcentral-widgets/components/ConversationsPanel';
-import SearchInput from 'ringcentral-widgets/components/SearchInput';
 import MessageItem from 'ringcentral-widgets/components/MessageItem';
+import NavigationBar from 'ringcentral-widgets/components/NavigationBar';
+import SearchInput from 'ringcentral-widgets/components/SearchInput';
 
-import { getWrapper, timeout, tearDownWrapper } from '../shared';
+import { getWrapper, tearDownWrapper, timeout } from '../shared';
 import { mockPubnub } from './helper.js';
 
 let wrapper = null;
@@ -60,11 +59,9 @@ beforeEach(async () => {
     ],
   });
   mock.messageList();
-  await phone.subscription.subscribe(
-    ['/restapi/v1.0/account/~/extension/~/message-sync'],
-    10,
-  );
-  await timeout(100);
+  await phone.subscription.subscribe([
+    '/restapi/v1.0/account/~/extension/~/message-sync',
+  ]);
 
   await mockPubnub();
   navigationBar = wrapper.find(NavigationBar).first();

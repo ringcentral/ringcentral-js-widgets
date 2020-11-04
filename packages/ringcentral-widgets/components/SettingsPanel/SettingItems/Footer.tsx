@@ -58,8 +58,12 @@ const Footer: FunctionComponent<FooterProps> = ({
             />
           }
         >
-          {i18n.getString('logout', currentLocale)}
-          <span className={styles.loginNumber}>{` ${loginNumber}`}</span>
+          <div style={{ display: 'inline-flex', flexDirection: 'column' }}>
+            {i18n.getString('logout', currentLocale)}
+            <span data-sign="loginNumber" className={styles.loginNumber}>
+              {loginNumber}
+            </span>
+          </div>
         </IconLine>
       </section>
       {versionArea}

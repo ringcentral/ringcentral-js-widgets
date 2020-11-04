@@ -1,5 +1,5 @@
 import React from 'react';
-import { RcThemeProvider } from '@ringcentral-integration/rcui';
+import { RcThemeProvider } from '@ringcentral/juno';
 import { mount } from 'enzyme';
 import i18n from '../../modules/EvManualDialSettingsUI/i18n';
 import {

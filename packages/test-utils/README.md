@@ -1,8 +1,10 @@
 # @ringcentral-integration/test-utils
 
+Test utilities for RingCentral Integration
+
 ## Usage
 
-Add `@ringcentral-integration/test-utils` dependency by running the following command in the monorepo root directory.
+Add `@ringcentral-integration/test-utils` to the development dependencies in the specified project.
 
 And copy the template(CLI tool to be implemented):
 

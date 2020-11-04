@@ -1,4 +1,4 @@
-import TabManager from 'ringcentral-integration/modules/TabManager';
+import { EvTabManager } from '../EvTabManager';
 
 import { EvClient } from '../../lib/EvClient';
 import { EvAgentSession } from '../EvAgentSession';
@@ -18,7 +18,7 @@ export interface Deps {
   evClient: EvClient;
   presence: EvPresence;
   evIntegratedSoftphone: EvIntegratedSoftphone;
-  tabManager?: TabManager;
+  tabManager?: EvTabManager;
   evSettings: EvSettings;
   evAgentSession: EvAgentSession;
   evActiveCallControlOptions?: EvActiveCallControlOptions;

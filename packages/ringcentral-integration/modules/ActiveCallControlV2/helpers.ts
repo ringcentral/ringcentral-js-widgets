@@ -1,6 +1,10 @@
-import { Session as TelephonySession } from 'ringcentral-call/lib/Session';
+import { Session } from 'ringcentral-call/lib/Session';
 import { CallRecording, Error } from '@rc-ex/core/definitions';
-import { SessionData, Party } from 'ringcentral-call-control/lib/Session';
+import {
+  SessionData,
+  Party,
+  PartyStatusCode,
+} from 'ringcentral-call-control/lib/Session';
 // eslint-disable-next-line import/no-named-as-default
 import recordStatus from '../Webphone/recordStatus';
 // eslint-disable-next-line import/no-named-as-default
@@ -93,4 +97,32 @@ export async function conflictError(error: Error): Promise<boolean> {
   return !!(
     conflictErrRgx.test(error.message) && conflictMsgRgx.test(error.errorCode)
   );
+}
+
+export function isRinging(telephonySession: any) {
+  return (
+    telephonySession &&
+    (telephonySession.status === PartyStatusCode.proceeding ||
+      telephonySession.status === PartyStatusCode.setup) &&
+    telephonySession.direction === callDirections.inbound
+  );
+}
+
+export function isHolding(telephonySession: any) {
+  return telephonySession.status === PartyStatusCode.hold;
+}
+
+export function isRecording(telephonySession: any) {
+  const party: Party = getSessionsParty(telephonySession);
+  return isOnRecording(party.recordings);
+}
+
+export function isForwardedToVoiceMail(session: any) {
+  // TODO: fix this for call control js
+  // return session.status === PartyStatusCode.voicemail;
+  return session.status === 'Voicemail';
+}
+
+export function isOnSetupStage(session: any) {
+  return session.status === PartyStatusCode.setup;
 }

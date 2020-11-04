@@ -12,11 +12,14 @@ import {
 import { Call, callStatus, Recipient } from '../../modules/CallV2';
 
 const getMockModule = () => ({
-  lastPhoneNumber: null as string,
-  lastRecipient: null as Recipient,
+  data: {
+    lastPhoneNumber: null as string,
+    lastRecipient: null as Recipient,
+  },
   callStatus: callStatus.idle,
   state: {},
   _dispatch: () => {},
+  parentModule: {},
 });
 
 @autorun(test)
@@ -34,8 +37,8 @@ export class CallConnect extends Step {
           desc="Create a 'Call' instance and initial state should be null"
           action={() => {
             const call = new Call({} as any);
-            expect(call._initialValue.lastPhoneNumber).toBeNull();
-            expect(call._initialValue.lastRecipient).toBeNull();
+            expect(call._initialValue.data.lastPhoneNumber).toBeNull();
+            expect(call._initialValue.data.lastRecipient).toBeNull();
           }}
         />
         <When
@@ -54,13 +57,13 @@ export class CallConnect extends Step {
           desc="The mockModule 'lastPhoneNumber' and 'lastRecipient' should be the expected values"
           action={(_: any, context: any) => {
             if (context.example.isConference) {
-              expect(context.mockModule.lastPhoneNumber).toBeNull();
-              expect(context.mockModule.lastRecipient).toBeNull();
+              expect(context.mockModule.data.lastPhoneNumber).toBeNull();
+              expect(context.mockModule.data.lastRecipient).toBeNull();
             } else {
-              expect(context.mockModule.lastPhoneNumber).toEqual(
+              expect(context.mockModule.data.lastPhoneNumber).toEqual(
                 context.params.phoneNumber,
               );
-              expect(context.mockModule.lastRecipient).toEqual(
+              expect(context.mockModule.data.lastRecipient).toEqual(
                 context.params.recipient,
               );
             }

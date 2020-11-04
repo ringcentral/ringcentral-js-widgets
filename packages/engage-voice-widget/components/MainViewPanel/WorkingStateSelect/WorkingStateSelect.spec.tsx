@@ -1,4 +1,4 @@
-import { RcThemeProvider } from '@ringcentral-integration/rcui';
+import { RcThemeProvider } from '@ringcentral/juno';
 import { mount } from 'enzyme';
 import React from 'react';
 import { act } from 'react-dom/test-utils';

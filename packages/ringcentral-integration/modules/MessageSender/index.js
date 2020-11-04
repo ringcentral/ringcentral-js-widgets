@@ -1,6 +1,6 @@
 import { find } from 'ramda';
 import EventEmitter from 'events';
-import uuid from 'uuid';
+import * as uuid from 'uuid';
 import RcModule from '../../lib/RcModule';
 import { Module } from '../../lib/di';
 import isBlank from '../../lib/isBlank';

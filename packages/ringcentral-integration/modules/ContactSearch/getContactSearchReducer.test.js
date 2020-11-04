@@ -4,6 +4,8 @@ import getContactSearchReducer, {
   getSearchingReducer,
 } from './getContactSearchReducer';
 
+import { phoneTypes } from '../../enums/phoneTypes';
+import { phoneSources } from '../../enums/phoneSources';
 import getModuleStatusReducer from '../../lib/getModuleStatusReducer';
 
 import actionTypes from './actionTypes';
@@ -112,11 +114,11 @@ describe('getSearchingReducer', () => {
       const originalState = {};
       const entities = [
         {
-          entityType: 'account',
+          entityType: phoneSources.account,
           id: '123',
           name: 'User One',
           phoneNumber: '12345678',
-          phoneType: 'mobile',
+          phoneType: phoneTypes.mobile,
         },
       ];
       expect(
@@ -133,37 +135,37 @@ describe('getSearchingReducer', () => {
         searchString: 'test',
         result: [
           {
-            entityType: 'contact',
+            entityType: phoneSources.contact,
             id: '1',
             name: 'User Zero',
             phoneNumber: '1234567890',
-            phoneType: 'mobile',
+            phoneType: phoneTypes.mobile,
           },
         ],
       };
       const entities = [
         {
-          entityType: 'account',
+          entityType: phoneSources.account,
           id: '123',
           name: 'User One',
           phoneNumber: '12345678',
-          phoneType: 'mobile',
+          phoneType: phoneTypes.mobile,
         },
       ];
       const expectResult = [
         {
-          entityType: 'contact',
+          entityType: phoneSources.contact,
           id: '1',
           name: 'User Zero',
           phoneNumber: '1234567890',
-          phoneType: 'mobile',
+          phoneType: phoneTypes.mobile,
         },
         {
-          entityType: 'account',
+          entityType: phoneSources.account,
           id: '123',
           name: 'User One',
           phoneNumber: '12345678',
-          phoneType: 'mobile',
+          phoneType: phoneTypes.mobile,
         },
       ];
       expect(

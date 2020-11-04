@@ -73,6 +73,7 @@ export default class ContactsView extends Component {
     super(props);
     this.state = {
       searchString: props.searchString,
+      lastInputTimestamp: 0,
       unfold: false,
       contentHeight: 0,
       contentWidth: 0,
@@ -121,7 +122,8 @@ export default class ContactsView extends Component {
   }
 
   UNSAFE_componentWillUpdate(nextProps, nextState) {
-    if (nextProps.searchString !== this.props.searchString) {
+    const isNotEditing = Date.now() - this.state.lastInputTimestamp > 2000;
+    if (isNotEditing && nextProps.searchString !== this.props.searchString) {
       nextState.searchString = nextProps.searchString;
     }
     if (!contains(nextProps.searchSource, nextProps.contactSourceNames)) {
@@ -135,16 +137,15 @@ export default class ContactsView extends Component {
   componentWillUnmount() {
     this._mounted = false;
     window.removeEventListener('resize', this.onResize);
-    clearTimeout(this._searchTimeoutId);
   }
 
-  onSearchInputChange = ({ target: { value } }) => {
-    this.setState({
-      searchString: value,
-    });
-    this.search({
-      searchString: value,
-      delay: 100,
+  onSearchInputChange = (ev) => {
+    const value = ev.target.value;
+    const lastInputTimestamp = Date.now();
+    this.setState({ searchString: value, lastInputTimestamp }, () => {
+      this.search({
+        searchString: value,
+      });
     });
   };
 
@@ -181,27 +182,12 @@ export default class ContactsView extends Component {
   search({
     searchSource = this.props.searchSource,
     searchString = this.state.searchString,
-    delay = 0,
   }) {
     if (this.props.onSearchContact) {
-      if (this._searchTimeoutId) {
-        clearTimeout(this._searchTimeoutId);
-      }
-      if (delay) {
-        this._searchTimeoutId = setTimeout(
-          () =>
-            this.props.onSearchContact({
-              searchSource,
-              searchString,
-            }),
-          delay,
-        );
-      } else {
-        this.props.onSearchContact({
-          searchSource,
-          searchString,
-        });
-      }
+      this.props.onSearchContact({
+        searchSource,
+        searchString,
+      });
     }
   }
 

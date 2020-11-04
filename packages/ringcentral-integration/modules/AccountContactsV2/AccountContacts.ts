@@ -6,11 +6,16 @@ import {
   computed,
 } from '@ringcentral-integration/core';
 import { PresenceInfoResponse, ValidationError } from '@rc-ex/core/definitions';
-import phoneTypes from '../../enums/phoneTypes';
+import { phoneSources } from '../../enums/phoneSources';
+import { phoneTypes } from '../../enums/phoneTypes';
 import { Module } from '../../lib/di';
 import isBlank from '../../lib/isBlank';
 import { batchGetApi } from '../../lib/batchApiHelper';
-import { getMatchContacts, getFindContact } from '../../lib/contactHelper';
+import {
+  getSearchContacts,
+  getMatchContacts,
+  getFindContact,
+} from '../../lib/contactHelper';
 import proxify from '../../lib/proxy/proxify';
 import {
   Deps,
@@ -31,8 +36,8 @@ const DEFAULT_AVATARQUERYINTERVAL = 2 * 1000; // 2 seconds
   name: 'AccountContacts',
   deps: [
     'Client',
+    'ExtensionInfo',
     { dep: 'CompanyContacts' },
-    { dep: 'ExtensionInfo', optional: true },
     { dep: 'AccountContactsOptions', optional: true },
   ],
 })
@@ -138,7 +143,7 @@ export class AccountContacts extends RcModuleV2<Deps> {
     return !this._deps.companyContacts.ready && this.ready;
   }
 
-  // interface of contact source
+  // interface of ContactSource
   @proxify
   async getProfileImage(contact: Contact, useCache = true) {
     if (
@@ -166,7 +171,7 @@ export class AccountContacts extends RcModuleV2<Deps> {
         .extension(contact.id)
         .profileImage('195x195')
         .get();
-      imageUrl = URL.createObjectURL(await response._response.blob());
+      imageUrl = URL.createObjectURL(await response.blob());
       this.fetchImageSuccess({
         imageId,
         imageUrl,
@@ -178,7 +183,7 @@ export class AccountContacts extends RcModuleV2<Deps> {
     return imageUrl;
   }
 
-  // interface of contact source
+  // interface of ContactSource
   @proxify
   getPresence(contact: Contact, useCache = true) {
     return new Promise((resolve) => {
@@ -219,18 +224,29 @@ export class AccountContacts extends RcModuleV2<Deps> {
     });
   }
 
-  // interface of contact source
+  // interface of ContactSource
+  searchContacts(searchString: string) {
+    const { isMultipleSiteEnabled, site } = this._deps.extensionInfo;
+    return getSearchContacts({
+      contacts: this.contacts,
+      searchString,
+      entityType: phoneSources.contact,
+      options: { isMultipleSiteEnabled, siteCode: site?.code },
+    });
+  }
+
+  // interface of ContactSource
   matchPhoneNumber(phoneNumber: string) {
     const { isMultipleSiteEnabled, site } = this._deps.extensionInfo;
     return getMatchContacts({
       contacts: [...this.contacts, ...this._deps.companyContacts.ivrContacts],
       phoneNumber,
-      entityType: 'rcContact',
+      entityType: phoneSources.rcContact,
       findContact: getFindContact({
         phoneNumber,
         options: {
           isMultipleSiteEnabled,
-          site,
+          siteCode: site?.code,
         },
       }),
     });
@@ -330,12 +346,12 @@ export class AccountContacts extends RcModuleV2<Deps> {
     return presenceSet;
   }
 
-  // interface of contact source
+  // interface of ContactSource
   get sourceName() {
     return 'company';
   }
 
-  // interface of contact source
+  // interface of ContactSource
   @computed<AccountContacts>(({ _deps, presences, profileImages }) => [
     _deps.companyContacts.filteredContacts,
     profileImages,
@@ -387,10 +403,12 @@ export class AccountContacts extends RcModuleV2<Deps> {
     );
   }
 
+  // interface of ContactSource
   get contacts() {
     return this.directoryContacts;
   }
 
+  // interface of ContactSource
   get sourceReady() {
     return this.ready;
   }

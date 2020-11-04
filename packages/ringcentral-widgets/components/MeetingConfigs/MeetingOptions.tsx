@@ -47,7 +47,7 @@ const MeetingOptions: FunctionComponent<MeetingOptionsProps> = ({
           </span>
           <Switch
             disable={disabled}
-            checked={meeting._requireMeetingPassword || !!meeting.password}
+            checked={meeting._requireMeetingPassword}
             onChange={(_requireMeetingPassword) => {
               if (_requireMeetingPassword) {
                 setTimeout(() => {

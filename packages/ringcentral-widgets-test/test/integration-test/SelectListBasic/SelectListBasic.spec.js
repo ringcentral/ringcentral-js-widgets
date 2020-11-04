@@ -1,6 +1,6 @@
-import React from 'react';
-import { RcThemeProvider } from '@ringcentral-integration/rcui';
+import { RcThemeProvider } from '@ringcentral/juno';
 import { mount } from 'enzyme';
+import React from 'react';
 import { SelectListBasic } from 'ringcentral-widgets/components/SelectListBasic';
 
 function renderFunction(option) {
@@ -83,18 +83,8 @@ describe('<SelectListBasic />', () => {
   it('search result title', () => {
     const wrapper = setup();
     const searchResult = wrapper.find('[data-sign="searchResult"]').at(0);
-    expect(
-      searchResult
-        .find('.title')
-        .at(0)
-        .text(),
-    ).toBe('matched (3)');
-    expect(
-      searchResult
-        .find('.title')
-        .at(1)
-        .text(),
-    ).toBe('others (2)');
+    expect(searchResult.find('.title').at(0).text()).toBe('matched (3)');
+    expect(searchResult.find('.title').at(1).text()).toBe('others (2)');
   });
 
   it('search bar: input 3, show value13 in matched, show nothing in other', () => {
@@ -106,12 +96,7 @@ describe('<SelectListBasic />', () => {
 
     searchInput.simulate('change', { target: { value: '3' } });
     expect(wrapper.find('.matched').length).toBe(1);
-    expect(
-      wrapper
-        .find('.matched')
-        .at(0)
-        .text(),
-    ).toBe('value13');
+    expect(wrapper.find('.matched').at(0).text()).toBe('value13');
     expect(wrapper.find('.other').length).toBe(0);
   });
 
@@ -124,25 +109,10 @@ describe('<SelectListBasic />', () => {
 
     searchInput.simulate('change', { target: { value: '2' } });
     expect(wrapper.find('.matched').length).toBe(1);
-    expect(
-      wrapper
-        .find('.matched')
-        .at(0)
-        .text(),
-    ).toBe('value12');
+    expect(wrapper.find('.matched').at(0).text()).toBe('value12');
     expect(wrapper.find('.other').length).toBe(2);
-    expect(
-      wrapper
-        .find('.other')
-        .at(0)
-        .text(),
-    ).toBe('value21');
-    expect(
-      wrapper
-        .find('.other')
-        .at(1)
-        .text(),
-    ).toBe('value22');
+    expect(wrapper.find('.other').at(0).text()).toBe('value21');
+    expect(wrapper.find('.other').at(1).text()).toBe('value22');
   });
 
   it('search bar: input 5, show "No result found for 5"', () => {

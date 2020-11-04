@@ -7,6 +7,7 @@ export default ObjectMap.prefixKeys(
     'muteConflictError',
     'unMuteConflictError',
     'generalError',
+    'forwardSuccess',
   ],
   'callControl',
 );

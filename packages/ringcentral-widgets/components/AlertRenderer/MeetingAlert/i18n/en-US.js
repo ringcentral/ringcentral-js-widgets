@@ -5,9 +5,9 @@ export default {
   [meetingStatus.noPassword]: 'Please provide meeting password.',
   [meetingStatus.insufficientPermissions]:
     '{application} do not have {permissionName} permission.',
-  [meetingStatus.scheduledSuccess]: 'Meeting is scheduled.',
-  [meetingStatus.updatedSuccess]: 'Meeting is updated.',
-  [meetingStatus.meetingIsDeleted]: 'Meeting has been deleted.',
+  [meetingStatus.scheduledSuccess]: 'Meeting added',
+  [meetingStatus.updatedSuccess]: 'Meeting updated',
+  [meetingStatus.meetingIsDeleted]: 'Meeting has been deleted',
   [meetingStatus.internalError]:
     'Sorry, something went wrong on our end. Try again.',
 };

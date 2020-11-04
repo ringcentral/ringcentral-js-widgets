@@ -28,19 +28,31 @@ class UserAgent {
   constructor() {
     this._events = {};
     this.transport = new Transport();
+    this.sessions = {};
   }
 
   on(event, cb) {
-    this._events[event] = cb;
+    if (!this._events[event]) {
+      this._events[event] = [];
+    }
+    this._events[event].push(cb);
   }
 
   once(event, cb) {
-    this._events[event] = cb;
+    if (!this._events[event]) {
+      this._events[event] = [];
+    }
+    this._events[event].push(cb);
   }
 
   trigger(event, ...args) {
+    if (event === 'invite') {
+      this.sessions[args[0].id] = args[0];
+    }
     if (this._events[event]) {
-      this._events[event](...args);
+      this._events[event].forEach((cb) => {
+        cb(...args);
+      });
     }
   }
 
@@ -48,12 +60,16 @@ class UserAgent {
     const sessionId = `${toNumber}-${Math.round(
       Math.random() * 1000000000,
     ).toString()}`;
-    return new Session({
-      id: sessionId,
-      direction: 'Outbound',
-      to: toNumber,
-      callId: `call-${sessionId}`,
-    });
+    const session = new Session({
+        id: sessionId,
+        direction: 'Outbound',
+        to: toNumber,
+        callId: `call-${sessionId}`,
+      },
+      this,
+    );
+    this.sessions[session.id] = session;
+    return session;
   }
 
   stop() {
@@ -82,6 +98,12 @@ class UserAgent {
 
   isRegistered() {
     return true;
+  }
+
+  get registerContext() {
+    return {
+      registered: true,
+    };
   }
 }
 

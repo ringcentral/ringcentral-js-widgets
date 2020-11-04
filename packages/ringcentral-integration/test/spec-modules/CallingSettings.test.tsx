@@ -15,18 +15,20 @@ import {
 } from '../../modules/CallingSettingsV2';
 
 const getMockModule = () => ({
-  callWith: null as string,
-  ringoutPrompt: true as boolean,
-  myLocation: '' as string,
-  timestamp: null as number,
-  fromNumber: null as string,
+  data: {
+    callWith: null as string,
+    ringoutPrompt: true as boolean,
+    myLocation: '' as string,
+    timestamp: null as number,
+    fromNumber: null as string,
+  },
   state: {},
   _dispatch: () => {},
 });
 
 @autorun(test)
 @title('Save call settings should workable')
-class SaveCallSettings extends Step {
+export class SaveCallSettings extends Step {
   run() {
     return (
       <Scenario desc="Save call settings">
@@ -34,10 +36,10 @@ class SaveCallSettings extends Step {
           desc="Call settings should provide the default settings"
           action={() => {
             const instance = new CallingSettings({} as any);
-            expect(instance._initialValue.callWith).toBe(null);
-            expect(instance._initialValue.ringoutPrompt).toBe(true);
-            expect(instance._initialValue.myLocation).toBe('');
-            expect(instance._initialValue.timestamp).toBe(null);
+            expect(instance._initialValue.data.callWith).toBe(null);
+            expect(instance._initialValue.data.ringoutPrompt).toBe(true);
+            expect(instance._initialValue.data.myLocation).toBe('');
+            expect(instance._initialValue.data.timestamp).toBe(null);
           }}
         />
         <When
@@ -59,16 +61,16 @@ class SaveCallSettings extends Step {
         <Then
           desc="The mockModule 'callWith', 'ringoutPrompt','myLocation' and 'timestamp' should be the expected values"
           action={(_: any, context: any) => {
-            expect(context.mockModule.callWith).toEqual(
+            expect(context.mockModule.data.callWith).toEqual(
               context.params.callWith,
             );
-            expect(context.mockModule.ringoutPrompt).toEqual(
+            expect(context.mockModule.data.ringoutPrompt).toEqual(
               context.params.ringoutPrompt,
             );
-            expect(context.mockModule.myLocation).toEqual(
+            expect(context.mockModule.data.myLocation).toEqual(
               context.params.myLocation,
             );
-            expect(context.mockModule.timestamp).not.toBe(null);
+            expect(context.mockModule.data.timestamp).not.toBe(null);
           }}
         />
       </Scenario>
@@ -77,9 +79,9 @@ class SaveCallSettings extends Step {
 }
 @autorun(test)
 @title("From number state should be changed after trigger 'actionType'")
-class FromNumberState extends Step {
+export class FromNumberState extends Step {
   @examples([
-    { actionType: 'updateFromNumber' },
+    { actionType: '_updateFromNumber' },
     { actionType: 'resetSuccess' },
   ])
   run() {
@@ -89,7 +91,7 @@ class FromNumberState extends Step {
           desc="from number state should default to null"
           action={() => {
             const instance = new CallingSettings({} as any);
-            expect(instance._initialValue.fromNumber).toBe(null);
+            expect(instance._initialValue.data.fromNumber).toBe(null);
           }}
         />
         <When
@@ -109,9 +111,9 @@ class FromNumberState extends Step {
           desc="From number should be the expected value"
           action={(_: any, context: any) => {
             if (context.example.actionType === 'resetSuccess') {
-              expect(context.mockModule.fromNumber).toBe(null);
+              expect(context.mockModule.data.fromNumber).toBe(null);
             } else {
-              expect(context.mockModule.fromNumber).toBe(
+              expect(context.mockModule.data.fromNumber).toBe(
                 context.params.phoneNumber,
               );
             }
@@ -124,7 +126,7 @@ class FromNumberState extends Step {
 
 @autorun(test)
 @title('Show call with Jupiter default to ON')
-class CallWithJupiterDefaultOn extends Step {
+export class CallWithJupiterDefaultOn extends Step {
   @examples(`
   | showCallWithJupiter |
   | true |
@@ -165,7 +167,7 @@ class CallWithJupiterDefaultOn extends Step {
 
 @autorun(test)
 @title('Emergency call available default to OFF')
-class EmergencyCallAvailable extends Step {
+export class EmergencyCallAvailable extends Step {
   @examples(`
   | emergencyCallAvailable |
   | true |

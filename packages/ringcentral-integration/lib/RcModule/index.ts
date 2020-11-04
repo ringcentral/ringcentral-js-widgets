@@ -73,15 +73,6 @@ export default abstract class RcModule<
       prefix,
       actionTypes,
     } = options;
-    for (const [key, value] of Object.entries(options)) {
-      if (
-        value instanceof RcModuleV2 &&
-        !Object.prototype.hasOwnProperty.call(value, 'parentModule')
-      ) {
-        value.parentModule = this as any;
-        value.__key__ = key;
-      }
-    }
     const _actionTypes =
       typeof actionTypes === 'undefined' ? this._actionTypes : actionTypes;
     if (typeof getState !== 'function') {

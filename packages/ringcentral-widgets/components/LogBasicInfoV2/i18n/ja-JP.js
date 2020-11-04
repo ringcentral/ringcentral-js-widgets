@@ -26,7 +26,7 @@ export default {
   [callResults.faxOnDemand]: "オンデマンドFAX",
   [callResults.partialReceive]: "部分受信",
   [callResults.blocked]: "ブロック済み",
-  [callResults.callConnected]: "切断済み",
+  [callResults.callConnected]: "通話を接続済み",
   [callResults.noAnswer]: "応答なし",
   [callResults.internationalDisabled]: "国際電話無効",
   [callResults.busy]: "取り込み中",
@@ -71,7 +71,7 @@ export default {
 // @key: @#@"[callResults.faxOnDemand]"@#@ @source: @#@"Fax on Demand"@#@
 // @key: @#@"[callResults.partialReceive]"@#@ @source: @#@"Partial Receive"@#@
 // @key: @#@"[callResults.blocked]"@#@ @source: @#@"Blocked"@#@
-// @key: @#@"[callResults.callConnected]"@#@ @source: @#@"Disconnected"@#@
+// @key: @#@"[callResults.callConnected]"@#@ @source: @#@"Call connected"@#@
 // @key: @#@"[callResults.noAnswer]"@#@ @source: @#@"No Answer"@#@
 // @key: @#@"[callResults.internationalDisabled]"@#@ @source: @#@"International Disabled"@#@
 // @key: @#@"[callResults.busy]"@#@ @source: @#@"Busy"@#@

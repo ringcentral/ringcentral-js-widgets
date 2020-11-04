@@ -154,6 +154,19 @@ export class ObjectMap<
     return instance[sDefinition].forEach((v, k) => fn(v, k, instance));
   }
 
+  static filter<D extends Record<K, V>, K extends keyof D, V extends D[K]>(
+    fn: (value: V, key: K) => boolean,
+    instance: ObjectMap<D, K, V> & D,
+  ) {
+    const obj = {} as Record<K, V>;
+    ObjectMap.forEach((v, k) => {
+      if (fn(v, k)) {
+        obj[k] = v;
+      }
+    }, instance);
+    return ObjectMap.fromObject(obj);
+  }
+
   static prefixValues<
     D extends Record<K, string>,
     K extends keyof D,

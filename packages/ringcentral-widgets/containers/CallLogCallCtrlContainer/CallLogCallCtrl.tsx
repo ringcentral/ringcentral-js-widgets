@@ -8,6 +8,7 @@ export type CurrentSession = {
   callStatus: string;
   direction: any;
   recordStatus: string;
+  sessionId: string;
 };
 
 export interface CallLogCallCtrlProps {
@@ -30,6 +31,13 @@ export interface CallLogCallCtrlProps {
   startRecord: (telephonySessionId: string) => any;
   stopRecord: (telephonySessionId: string) => any;
   sendDTMF: (dtmfValue: string, telephonySessionId: string) => void;
+  forward: (phoneNumber: string, telephonySessionId: string) => any;
+  answer: (telephonySessionId: string) => any;
+  forwardingNumbers: [];
+  ignore: (telephonySessionId: string) => void;
+  answerAndHold: (telephonySessionId: string) => void;
+  answerAndEnd: (telephonySessionId: string) => void;
+  otherActiveCalls: boolean;
 }
 
 export const CallLogCallCtrl: FunctionComponent<CallLogCallCtrlProps> = (
@@ -46,6 +54,13 @@ export const CallLogCallCtrl: FunctionComponent<CallLogCallCtrlProps> = (
     isCurrentDeviceCall,
     isWebphone,
     sendDTMF,
+    forward,
+    answer,
+    ignore,
+    forwardingNumbers,
+    otherActiveCalls,
+    answerAndHold,
+    answerAndEnd,
   } = props;
   if (!currentSession) {
     return null;
@@ -71,9 +86,20 @@ export const CallLogCallCtrl: FunctionComponent<CallLogCallCtrlProps> = (
       isWide={isWide}
       transferRef={transferRef}
       isOnTransfer={isOnTransfer}
-      isWebphone={isWebphone}
+      //  isWebphone={isWebphone}
       isCurrentDeviceCall={isCurrentDeviceCall}
       sendDTMF={async (dtmfValue) => sendDTMF(dtmfValue, telephonySessionId)}
+      forward={async (phoneNumber) => forward(phoneNumber, telephonySessionId)}
+      answer={async () => answer(telephonySessionId)}
+      forwardingNumbers={forwardingNumbers}
+      ignore={async () => ignore(telephonySessionId)}
+      otherActiveCalls={otherActiveCalls}
+      answerAndHold={async () => {
+        await answerAndHold(telephonySessionId);
+      }}
+      answerAndEnd={async () => {
+        await answerAndEnd(telephonySessionId);
+      }}
     />
   );
 };

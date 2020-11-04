@@ -41,9 +41,12 @@ export const startRecordFn = jest.fn();
 export const stopRecordFn = jest.fn();
 
 export default class Session {
-  constructor({ id, direction, to, fromNumber, callId, telephonyStatus }) {
+  constructor(
+    { id, direction, to, fromNumber, callId, telephonyStatus },
+    userAgent,
+  ) {
     partyId += 1;
-
+    this._ua = userAgent;
     // native sip fields
     this.id = id;
     this.startTime = new Date();
@@ -86,7 +89,10 @@ export default class Session {
   }
 
   on(event, cb) {
-    this._events[event] = cb;
+    if (!this._events[event]) {
+      this._events[event] = []
+    }
+    this._events[event].push(cb);
   }
 
   get localHold() {
@@ -94,8 +100,10 @@ export default class Session {
   }
 
   trigger(event, ...args) {
-    if (typeof this._events[event] === 'function') {
-      this._events[event](...args);
+    if (this._events[event]) {
+      this._events[event].forEach((cb) => {
+        cb(...args);
+      });
     }
   }
 
@@ -107,6 +115,7 @@ export default class Session {
   }
 
   reject() {
+    delete this._ua.sessions[this.id];
     this.trigger('rejected');
     this.__rc_callStatus = sessionStatus.finished;
     return rejectFn(this.id);
@@ -119,6 +128,7 @@ export default class Session {
   }
 
   terminate() {
+    delete this._ua.sessions[this.id];
     this.trigger('terminated');
     this.__rc_callStatus = sessionStatus.finished;
     return terminateFn(this.id);
@@ -170,6 +180,7 @@ export default class Session {
   }
 
   async transfer(validPhoneNumber) {
+    delete this._ua.sessions[this.id];
     this.trigger('refer');
     transferFn(validPhoneNumber);
     return Promise.resolve(validPhoneNumber);

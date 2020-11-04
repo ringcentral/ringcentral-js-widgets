@@ -646,7 +646,7 @@ describe('Call Basic Info:', () => {
       },
     };
     const wrapper = setup(props);
-    expect(wrapper.find('.status').text()).toBe('Disconnected');
+    expect(wrapper.find('.status').text()).toBe('Call connected');
   });
   it('When Call Status is Hang up, Call Status Text: Hung up', () => {
     const props = {

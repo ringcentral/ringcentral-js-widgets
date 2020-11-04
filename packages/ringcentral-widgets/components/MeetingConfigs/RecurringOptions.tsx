@@ -1,5 +1,6 @@
 import 'react-widgets/dist/css/react-widgets.css';
 
+import { MeetingType } from 'ringcentral-integration/modules/Meeting';
 import React, { FunctionComponent } from 'react';
 
 import MeetingSection from '../MeetingSection';
@@ -33,8 +34,8 @@ const RecurringOptions: FunctionComponent<RecurringOptionsProps> = ({
               checked={isRecurring}
               onChange={(isCheckRecurring) => {
                 const meetingType = isCheckRecurring
-                  ? 'ScheduledRecurring'
-                  : 'Scheduled';
+                  ? MeetingType.RECURRING
+                  : MeetingType.SCHEDULED;
                 update({
                   ...meeting,
                   meetingType,

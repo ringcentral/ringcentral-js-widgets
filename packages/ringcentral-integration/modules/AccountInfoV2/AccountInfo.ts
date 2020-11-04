@@ -38,7 +38,7 @@ export class AccountInfo extends DataFetcherV2Consumer<
   }
 
   protected _checkPermission() {
-    return !!this._deps.rolesAndPermissions.permissions.ReadCompanyInfo;
+    return !!this._deps.rolesAndPermissions.permissions?.ReadCompanyInfo;
   }
 
   async onStateChange() {
@@ -64,6 +64,11 @@ export class AccountInfo extends DataFetcherV2Consumer<
   @computed<AccountInfo>(({ serviceInfo }) => [serviceInfo])
   get servicePlan() {
     return this.serviceInfo.servicePlan ?? {};
+  }
+
+  @computed<AccountInfo>(({ serviceInfo }) => [serviceInfo])
+  get billingPlan() {
+    return this.serviceInfo.billingPlan ?? {};
   }
 
   get id() {

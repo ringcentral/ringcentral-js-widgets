@@ -1,8 +1,4 @@
-import {
-  RcMenuItem,
-  RcMenuList,
-  RcPopover,
-} from '@ringcentral-integration/rcui';
+import { RcMenuItem, RcMenuList, RcPopover } from '@ringcentral/juno';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';

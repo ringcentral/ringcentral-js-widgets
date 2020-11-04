@@ -7,6 +7,7 @@ import {
   Then,
   Step,
 } from '@ringcentral-integration/test-utils';
+import { SessionData } from 'ringcentral-call-control/lib/Session';
 
 import { ActiveCallControl } from '../../modules/ActiveCallControlV2';
 
@@ -24,10 +25,12 @@ const mockSession = {
 const getMockModule = () => ({
   state: {},
   _dispatch: () => {},
-  sessions: [] as [],
-  activeSessionId: null as string,
-  busyTimestamp: 0,
-  timestamp: 0,
+  data: {
+    sessions: [] as SessionData[],
+    activeSessionId: null as string,
+    busyTimestamp: 0,
+    timestamp: 0,
+  },
   _rcCall: {
     _callControl: {
       sessions: [mockSession],
@@ -45,8 +48,10 @@ export class ActiveCallControlUpdateActiveSessions extends Step {
           desc="Create a 'ActiveCallControl' instance and have initial state 'activeSessions' as []"
           action={() => {
             const activeCallControl = new ActiveCallControl({} as any);
-            expect(activeCallControl._initialValue.sessions.length).toBe(0);
-            expect(activeCallControl._initialValue.timestamp).toBe(0);
+            expect(activeCallControl._initialValue.data.sessions.length).toBe(
+              0,
+            );
+            expect(activeCallControl._initialValue.data.timestamp).toBe(0);
           }}
         />
         <When
@@ -62,8 +67,8 @@ export class ActiveCallControlUpdateActiveSessions extends Step {
         <Then
           desc="The mockModule 'sessions' should be the expected values"
           action={(_: any, context: any) => {
-            expect(context.mockModule.sessions).toEqual([mockSessionData]);
-            expect(context.mockModule.timestamp).toEqual(1234567);
+            expect(context.mockModule.data.sessions).toEqual([mockSessionData]);
+            expect(context.mockModule.data.timestamp).toEqual(1234567);
           }}
         />
       </Scenario>
@@ -83,7 +88,7 @@ export class ActiveCallControlBusyTimestamp extends Step {
           desc="Create a 'ActiveCallControl' instance and have initial state 'busyTimestamp' as 0"
           action={() => {
             const activeCallControl = new ActiveCallControl({} as any);
-            expect(activeCallControl._initialValue.busyTimestamp).toBe(0);
+            expect(activeCallControl._initialValue.data.busyTimestamp).toBe(0);
           }}
         />
         <When
@@ -99,7 +104,7 @@ export class ActiveCallControlBusyTimestamp extends Step {
         <Then
           desc="The busyTimestamp should be the expected values"
           action={(_: any, context: any) => {
-            expect(context.mockModule.busyTimestamp).toEqual(12345678);
+            expect(context.mockModule.data.busyTimestamp).toEqual(12345678);
           }}
         />
         <When
@@ -114,7 +119,7 @@ export class ActiveCallControlBusyTimestamp extends Step {
         <Then
           desc="The mockModule 'busyTimestamp' should be the expected values"
           action={(_: any, context: any) => {
-            expect(context.mockModule.busyTimestamp).toEqual(0);
+            expect(context.mockModule.data.busyTimestamp).toEqual(0);
           }}
         />
       </Scenario>
@@ -134,7 +139,9 @@ export class ActiveCallControlActiveSessionId extends Step {
           desc="Create a 'ActiveCallControl' instance and have initial state 'activeSessions' as []"
           action={() => {
             const activeCallControl = new ActiveCallControl({} as any);
-            expect(activeCallControl._initialValue.activeSessionId).toBe(null);
+            expect(activeCallControl._initialValue.data.activeSessionId).toBe(
+              null,
+            );
           }}
         />
         <When
@@ -150,7 +157,7 @@ export class ActiveCallControlActiveSessionId extends Step {
         <Then
           desc="The mockModule 'activeSessionId' should be the expected values"
           action={(_: any, context: any) => {
-            expect(context.mockModule.activeSessionId).toEqual('123');
+            expect(context.mockModule.data.activeSessionId).toEqual('123');
           }}
         />
         <When
@@ -165,7 +172,7 @@ export class ActiveCallControlActiveSessionId extends Step {
         <Then
           desc="The mockModule 'activeSessionId' should be the expected values"
           action={(_: any, context: any) => {
-            expect(context.mockModule.activeSessionId).toEqual(null);
+            expect(context.mockModule.data.activeSessionId).toEqual(null);
           }}
         />
       </Scenario>

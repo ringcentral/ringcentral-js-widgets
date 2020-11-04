@@ -2,6 +2,9 @@
 @import '../../lib/commonStyles/buttons';
 @import '../../lib/commonStyles/fonts';
 
+$content-padding: 20px;
+$row-space: 10px;
+
 .videoPanel {
   display: flex;
   flex-direction: column;
@@ -18,11 +21,11 @@
 }
 
 .meetingContent {
-  padding: 15px 0;
+  padding: $content-padding 0;
 }
 
 .meetingSection {
-  padding: 0px 16px;
+  padding: 0 $content-padding;
 }
 
 .select {
@@ -30,61 +33,48 @@
   width: 50%;
 }
 
+$hour-minute-space: 12px;
 .hourDuration {
   display: inline-flex;
-  width: calc(50% - 6px);
+  width: calc(50% - #{$hour-minute-space / 2});
 }
-
 .minuteDuration {
   display: inline-flex;
-  width: calc(50% - 6px);
-  margin-left: 12px;
+  width: calc(50% - #{$hour-minute-space / 2});
+  margin-left: $hour-minute-space;
 }
 
-div.videoConfig div.meetingSettings div.expansionPanel {
-  background: transparent;
-  box-shadow: none;
+.pmiLabel {
+  display: flex;
+  flex-wrap: wrap;
 }
 
-div.videoConfig div.expansionPanelSummaryDisabled {
-  opacity: inherit;
-  user-select: inherit;
-}
-
-div.videoConfig div.expansionPanel div.expansionPanelSummary {
-  font-weight: bold;
-  color: #212121;
-  height: 44px;
-  font-size: 15px;
-  padding: 0 16px;
-  min-height: 44px;
-}
-
-div.expansionPanelSummaryContent {
-  margin: 0 0;
-}
-
-div.videoConfig div.expansionPanel div.expansionPanelDetails {
-  padding: 0;
-  border: 0;
-  flex-direction: column;
-}
-
-.toggleGroup {
-  width: 100%;
-}
-
-div.expansionPanel div.toggleGroup label.labelPlacementStart {
+label.labelPlacementStartRoot {
   margin: 0;
-  padding: 11px 16px;
+  padding: $row-space/2 $content-padding/2 $row-space/2 $content-padding;
+  display: flex;
+  align-items: flex-start;
   justify-content: space-between;
+
+  .labelText {
+    line-height: normal;
+    padding-top: 11px;
+  }
 }
 
-div.expansionPanel
-  div.toggleGroup
-  label.labelPlacementStart
-  .checkInputWrapper {
-  padding: 0;
+label.labelPlacementEndRoot {
+  margin: 0;
+  padding: $row-space/2 $content-padding $row-space/2 0;
+  display: flex;
+  align-items: flex-start;
+
+  .labelText {
+    width: 100%;
+    padding-top: 11px;
+    display: flex;
+    justify-content: space-between;
+    line-height: normal;
+  }
 }
 
 // RCTextField
@@ -92,18 +82,71 @@ div.expansionPanel
   font-size: 0.875rem !important;
 }
 
-.inputArea {
-  padding: 0 16px 0 16px;
+.passwordInput {
+  padding: 0 $content-padding !important;
+
+  .passwordLabel {
+    font-weight: 700 !important;
+    font-size: 12px !important;
+    left: inherit !important;
+  }
+
+  input {
+    font-size: 15px !important;
+  }
 }
 
-.personMeetingInfo {
-  @include secondary-font;
-}
-
-.authUserType {
-  padding: 0 16px 8px;
+.boxSelectWrapper {
+  padding: $row-space/2 $content-padding;
+  box-sizing: border-box;
+  width: 100%;
 }
 
 .boxSelect {
   max-width: 100% !important;
+
+  & > div > div {
+    display: block !important;
+  }
+}
+
+.boxSelectMenuItem {
+  display: block !important;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.checkboxSeparate {
+  margin-left: 8px;
+}
+
+.iconCombine {
+  @extend .checkboxSeparate;
+  display: flex;
+  align-items: center;
+}
+
+$win-scroll-bar-width: 17px;
+
+.tooltip {
+  max-width: 100% !important;
+}
+
+.popper {
+  margin-right: 15px !important;
+  margin-left: 25px !important;
+}
+
+.popperOfWin {
+  margin-left: 20px;
+  margin-right: calc(15px + #{$win-scroll-bar-width}) !important;
+}
+
+.lockButton {
+  color: #6c7489; // need to migrate using juno token "$color-icon-default"
+}
+
+.pmiAlertContainer {
+  margin: 0 $content-padding;
 }

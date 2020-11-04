@@ -1,4 +1,4 @@
-import { RcTextField, RcTextFieldProps } from '@ringcentral-integration/rcui';
+import { RcTextField, RcTextFieldProps } from '@ringcentral/juno';
 import React, { FunctionComponent } from 'react';
 
 import { CustomArrowButton } from '../../../../Rcui/CustomArrowButton';

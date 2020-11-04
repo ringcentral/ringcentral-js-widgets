@@ -237,7 +237,7 @@ export default class MessageStore extends Pollable {
     } else {
       this._retry();
     }
-    this._subscription.subscribe(subscriptionFilters.messageStore);
+    this._subscription.subscribe([subscriptionFilters.messageStore]);
   }
 
   _shouldFetch() {

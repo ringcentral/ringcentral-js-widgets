@@ -30,55 +30,109 @@ describe.each`
 describe('formatTextToHtml', () => {
   test('formalize and replace newlines', () => {
     const message: string = 'aaa\nbbb\r\nccc\rddd';
-    expect(formatTextToHtml(message)).toContain(
+    expect(formatTextToHtml(message)).toEqual(
       `aaa${htmlNewLine}bbb${htmlNewLine}ccc${htmlNewLine}ddd`,
     );
   });
 
   test('replace leading whitespaces', () => {
     const message: string = `${' '.repeat(3)}aaa bbb`;
-    expect(formatTextToHtml(message)).toContain(
+    expect(formatTextToHtml(message)).toEqual(
       `${htmlIndentation.repeat(3)}aaa bbb`,
     );
   });
 
   test('replace all tabs', () => {
     const message: string = '\taaa\tbbb';
-    expect(formatTextToHtml(message)).toContain(
+    expect(formatTextToHtml(message)).toEqual(
       `${htmlTabIndentation}aaa${htmlTabIndentation}bbb`,
     );
   });
 
-  test('replace link', () => {
+  test('replace links', () => {
     const link: string = 'https://rcdev.dev.meetzoom.us/j/1492252796';
     const message: string = `meeting link ${link}`;
     expect(
       formatTextToHtml(message, {
         links: [link],
       }),
-    ).toContain(`meeting link <a target="_blank" href="${link}">${link}</a>`);
+    ).toEqual(`meeting link <a target="_blank" href="${link}">${link}</a>`);
+  });
+
+  test('search two links', () => {
+    const link1: string =
+      'https://rcdev.dev.meetzoom.us/j/1492252796?pwd=sdfkljkl23423423';
+    const link2: string = 'https://v.ringcentral.com/teleconference/';
+    const message: string = `meeting link ${link1}<br /> ${link2}`;
+    expect(
+      formatTextToHtml(message, {
+        searchLinks: true,
+      }),
+    ).toEqual(
+      `meeting link <a target="_blank" href="${link1}">${link1}</a><br /> <a target="_blank" href="${link2}">${link2}</a>`,
+    );
+  });
+
+  test('search one links', () => {
+    const link1: string =
+      'https://rcdev.dev.meetzoom.us/j/1492252796?pwd=sdfkljkl23423423';
+    const message: string = `meeting link ${link1}`;
+    expect(
+      formatTextToHtml(message, {
+        searchLinks: true,
+      }),
+    ).toEqual(`meeting link <a target="_blank" href="${link1}">${link1}</a>`);
+  });
+
+  test('search links followed by <br>', () => {
+    const link1: string = 'https://rcdev.dev.meetzoom.us/j/1492252796';
+    const message: string = `meeting link ${link1}<br>`;
+    expect(
+      formatTextToHtml(message, {
+        searchLinks: true,
+      }),
+    ).toEqual(
+      `meeting link <a target="_blank" href="${link1}">${link1}</a><br>`,
+    );
+  });
+
+  test('search links within anchor', () => {
+    const link1: string = 'https://rcdev.dev.meetzoom.us/j/1492252796';
+    const link2: string = 'https://v.ringcentral.com/teleconference/';
+    const message: string = `meeting link <a target="_blank" href="${link1}">${link1}</a> ${link2}<br>`;
+    expect(
+      formatTextToHtml(message, {
+        searchLinks: true,
+      }),
+    ).toEqual(
+      `meeting link <a target="_blank" href="${link1}">${link1}</a> <a target="_blank" href="${link2}">${link2}</a><br>`,
+    );
   });
 
   test('composited', () => {
     const link1: string = 'https://rcdev.dev.meetzoom.us/j/1492252796';
     const link2: string = 'https://v.ringcentral.com/teleconference/';
+    const link3: string = 'https://www.ringcentral.com/apps';
     const inputParts: string[] = [
       `meeting link ${link1}`,
       '\n aaa',
       '\n\tbbb',
       `\nccc ${link2}`,
+      `\r\nddd ${link3}`,
     ];
     const outputParts: string[] = [
       `meeting link <a target="_blank" href="${link1}">${link1}</a>`,
       `${htmlNewLine}${htmlIndentation}aaa`,
       `${htmlNewLine}${htmlTabIndentation}bbb`,
       `${htmlNewLine}ccc <a target="_blank" href="${link2}">${link2}</a>`,
+      `${htmlNewLine}ddd <a target="_blank" href="${link3}">${link3}</a>`,
     ];
     expect(
       formatTextToHtml(inputParts.join(''), {
         links: [link1, link2],
+        searchLinks: true,
       }),
-    ).toContain(outputParts.join(''));
+    ).toEqual(outputParts.join(''));
   });
 });
 

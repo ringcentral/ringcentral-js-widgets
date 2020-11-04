@@ -1,5 +1,5 @@
 import React from 'react';
-import { RcThemeProvider } from '@ringcentral-integration/rcui';
+import { RcThemeProvider } from '@ringcentral/juno';
 import { mount } from 'enzyme';
 import {
   SessionConfigPanel,
@@ -56,7 +56,6 @@ function setup({
   // setTakingCall = () => {},
   // autoAnswer = true,
   // setAutoAnswer = () => {},
-  resetFormGroup = () => {},
   searchOption,
   inboundQueues = [],
   submitInboundQueues,
@@ -94,7 +93,6 @@ function setup({
         isSeveralAssign={isSeveralAssign}
         checkBoxOnChange={checkBoxOnChange}
         allCheckBoxOnChange={allCheckBoxOnChange}
-        resetFormGroup={resetFormGroup}
       />
     </RcThemeProvider>,
   );

@@ -1,6 +1,6 @@
 import React from 'react';
 import { StepFunction } from 'crius-test';
-import { RcThemeProvider } from '@ringcentral-integration/rcui';
+import { RcThemeProvider } from '@ringcentral/juno';
 import { mount } from 'enzyme';
 import { TransferCallPanel, TransferCallPanelProps } from './TransferCallPanel';
 import { transferTypes } from '../../enums/transferTypes';
@@ -110,10 +110,7 @@ function setup({
 }
 
 const getTransferCallButton = (wrapper) =>
-  wrapper
-    .find('RcButton[data-sign="transferCall"]')
-    .at(0)
-    .find('button');
+  wrapper.find('RcButton[data-sign="transferCall"]').at(0).find('button');
 
 export const UTCheckTransferCallRenderCases = [
   {
@@ -160,15 +157,6 @@ export const UTCheckTransferCallRender: StepFunction<any> = ({
     'PickList[data-sign="transferType"]',
   );
   expect(transferTypePickList.prop('value')).toBe(selectedTransferType);
-  transferTypePickList.find('[role="button"]').simulate('click');
-  const menuItems = document.body.querySelectorAll(
-    '[role="presentation"] li[role="option"]',
-  );
-  expect(menuItems).toHaveLength(transferOptions.length);
-  document.body
-    .querySelector<HTMLInputElement>(`li[data-value="${selectedTransferType}"]`)
-    .click();
-  expect(clickTransferTypeFiled).toBeCalledWith(selectedTransferType);
   wrapper.unmount();
 };
 
@@ -198,9 +186,7 @@ export const UTUserClickCallRecipientCases = [
   },
 ];
 
-export const UTUserClickCallRecipient: StepFunction<any> = ({
-  selectedTransferType,
-}) => {
+export const UTUserClickCallRecipient: StepFunction<any> = () => {
   const clickCallRecipient = jest.fn();
 
   const textFields = defaultTextFields;
@@ -211,10 +197,7 @@ export const UTUserClickCallRecipient: StepFunction<any> = ({
     `RcTextField[data-sign="callRecipient${selectIndex}"]`,
   );
 
-  callRecipient
-    .find('input')
-    .at(0)
-    .simulate('click');
+  callRecipient.find('input').at(0).simulate('click');
 
   expect(clickCallRecipient).toBeCalledWith(
     defaultTextFields[selectIndex].router,

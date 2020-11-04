@@ -7,7 +7,8 @@ import {
 } from '@ringcentral-integration/core';
 import { Module } from 'ringcentral-integration/lib/di';
 
-import { dropDownOptions } from '../../enums';
+import { dropDownOptions, loginTypes, LoginTypes } from '../../enums';
+
 import {
   ChangeQueueStateFn,
   EvAgentSessionUIFunctions,
@@ -29,7 +30,6 @@ import i18n from './i18n';
     'EvWorkingState',
     'Storage',
     'Modal',
-    'Environment',
     'EvCallMonitor',
     { dep: 'EvAgentSessionUIOptions', optional: true },
   ],
@@ -85,17 +85,15 @@ class EvAgentSessionUI extends RcUIModuleV2<Deps> implements SessionConfigUI {
   async setConfigure() {
     this.setIsLoading(true);
     try {
-      await this._deps.evAgentSession.configureAgent();
+      await this._deps.evAgentSession.configureAgent({
+        needAssignFormGroupValue: true,
+      });
     } catch (e) {
       console.error(e);
       return;
     } finally {
       this.setIsLoading(false);
     }
-  }
-
-  goToSessionUpdatePage() {
-    this._deps.routerInteraction.push('/sessionUpdate');
   }
 
   private showSaveEditionModal() {
@@ -123,34 +121,23 @@ class EvAgentSessionUI extends RcUIModuleV2<Deps> implements SessionConfigUI {
     this._deps.evAgentSession.goToSettingsPage();
   }
 
-  get voiceConnectionChanged() {
-    return (
-      this._deps.evAgentSession.loginType !==
-      this._deps.evAgentSession.formGroup.loginType
-    );
-  }
-
   async onSaveUpdate() {
-    try {
-      if (!this._deps.evAgentSession.isSessionChanged) {
-        return this._deps.evAgentSession.goToSettingsPage();
-      }
-
-      await this._deps.evAgentSession.updateAgent(this.voiceConnectionChanged);
-    } catch (error) {
-      console.error('error', error);
+    if (!this._deps.evAgentSession.isSessionChanged) {
+      return this._deps.evAgentSession.goToSettingsPage();
     }
+
+    await this._deps.evAgentSession.updateAgent(this.voiceConnectionChanged);
   }
 
-  // Inboudqueue Panel
+  // InboundQueue Panel
   @computed((that: EvAgentSessionUI) => [
-    that._deps.evAgentSession.selectedInboundQueueIds,
+    that._deps.evAgentSession.formGroup.selectedInboundQueueIds,
     that._deps.evAgentSession.inboundQueues,
   ])
   get inboundQueues() {
     const {
       inboundQueues,
-      selectedInboundQueueIds,
+      formGroup: { selectedInboundQueueIds },
     } = this._deps.evAgentSession;
 
     return sortByName(
@@ -210,18 +197,43 @@ class EvAgentSessionUI extends RcUIModuleV2<Deps> implements SessionConfigUI {
     cb();
   }
 
+  get selectedIntegratedSoftphone() {
+    return (
+      this._deps.evAgentSession.formGroup.loginType ===
+      loginTypes.integratedSoftphone
+    );
+  }
+
+  get voiceConnectionChanged() {
+    return (
+      this._deps.evAgentSession.loginType !==
+      this._deps.evAgentSession.formGroup.loginType
+    );
+  }
+
+  setLoginType(loginType: LoginTypes) {
+    // set login type first, and reset autoAnswer after login type changed
+    this._deps.evAgentSession.setFormGroup({ loginType });
+    const autoAnswer = this.selectedIntegratedSoftphone
+      ? this._deps.evAgentSession.autoAnswer
+      : this._deps.evAgentSession.defaultAutoAnswerOn;
+    this._deps.evAgentSession.setFormGroup({
+      autoAnswer,
+    });
+  }
+
   getUIProps(): EvAgentSessionUIProps {
     const {
       skillProfileList,
       loginTypeList,
       isExternalPhone,
       // takingCall,
-      // autoAnswer,
     } = this._deps.evAgentSession;
     const {
       selectedSkillProfileId,
       loginType,
       extensionNumber,
+      autoAnswer,
     } = this._deps.evAgentSession.formGroup;
     return {
       selectedSkillProfileId,
@@ -229,7 +241,7 @@ class EvAgentSessionUI extends RcUIModuleV2<Deps> implements SessionConfigUI {
       extensionNumber,
       inboundQueuesFieldText: this.inboundQueuesFieldText,
       // takingCall,
-      // autoAnswer,
+      autoAnswer,
       skillProfileList,
       loginTypeList,
       isExtensionNumber: isExternalPhone,
@@ -237,8 +249,9 @@ class EvAgentSessionUI extends RcUIModuleV2<Deps> implements SessionConfigUI {
       currentLocale: this._deps.locale.currentLocale,
       // Inboudqueue Panel
       inboundQueues: this.inboundQueues,
-      voiceConnectionChanged: this.voiceConnectionChanged,
-      isWide: this._deps.environment.isWide,
+      showAutoAnswer:
+        this._deps.evAuth.agentPermissions.allowAutoAnswer &&
+        this.selectedIntegratedSoftphone,
     };
   }
 
@@ -246,19 +259,18 @@ class EvAgentSessionUI extends RcUIModuleV2<Deps> implements SessionConfigUI {
     return {
       setSkillProfileId: (selectedSkillProfileId) =>
         this._deps.evAgentSession.setFormGroup({ selectedSkillProfileId }),
-      setLoginType: (loginType) =>
-        this._deps.evAgentSession.setFormGroup({ loginType }),
+      setLoginType: (loginType) => this.setLoginType(loginType),
       setExtensionNumber: (extensionNumber) =>
         this._deps.evAgentSession.setFormGroup({ extensionNumber }),
+      setAutoAnswer: (autoAnswer) =>
+        this._deps.evAgentSession.setFormGroup({ autoAnswer }),
       submitInboundQueues: (queues, cb) => this.submitInboundQueues(queues, cb),
-      resetFormGroup: () => this._deps.evAgentSession.resetFormGroup(),
       // setTakingCall: (takingCall) =>
       //   this._deps.evAgentSession.setTakingCall(takingCall),
       // setAutoAnswer: (autoAnswer) =>
       //   this._deps.evAgentSession.setAutoAnswer(autoAnswer),
       setConfigure: () => this.setConfigure(),
       goToSettingsPage: () => this._deps.evAgentSession.goToSettingsPage(),
-      goToSessionUpdatePage: () => this.goToSessionUpdatePage(),
       goToSettingsPageWhetherSessionChanged: () =>
         this.goToSettingsPageWhetherSessionChanged(),
       onSaveUpdate: () => this.onSaveUpdate(),

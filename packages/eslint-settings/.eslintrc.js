@@ -1,4 +1,5 @@
 const localeSettings = require('@ringcentral-integration/locale-settings');
+
 const jsRegex = ['**/*.js', '**/*.jsx'];
 const tsRegex = ['**/*.ts', '**/*.tsx'];
 const jsExtensions = ['.js', '.jsx'];
@@ -81,6 +82,7 @@ module.exports = {
     'no-unused-expressions': 0,
     'import/no-unresolved': 1,
     'import/prefer-default-export': 0,
+    'import/no-webpack-loader-syntax': 1,
     'jsx-a11y/label-has-for': 0, // allow implicit label for input implementation
     'jsx-a11y/no-static-element-interactions': 0,
     'jsx-a11y/no-noninteractive-element-interactions': 0,
@@ -141,6 +143,10 @@ module.exports = {
     'max-classes-per-file': 'off',
     // for crius use, the jsx must have react use ts cover that.
     'react/react-in-jsx-scope': 'off',
+    'react/function-component-definition': [
+      1,
+      { namedComponents: 'arrow-function' },
+    ],
   },
   overrides: [
     {
@@ -189,15 +195,13 @@ module.exports = {
         'import/named': 0,
         'import/namespace': 2,
         'import/default': 2,
-        'import/export': 2,
+        'import/export': 1,
         'arrow-parens': [2, 'always'],
         'no-useless-constructor': 'off',
         'no-unused-vars': 0,
         '@typescript-eslint/no-useless-constructor': 2,
         'object-shorthand': [2, 'always'],
-        'no-unused-vars': 0,
         '@typescript-eslint/no-unused-vars': 1,
-        'import/export': 0,
       },
     },
   ],

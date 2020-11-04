@@ -1,15 +1,25 @@
+import { ASSISTED_USERS_MYSELF } from 'ringcentral-integration/modules/RcVideo/constants';
+
 export default {
   topic: 'Meeting title',
   date: 'Date',
   startTime: 'Time',
   duration: 'Duration',
+  scheduleFor: 'Schedule on behalf of',
   meetingSettings: 'Meeting settings',
+  [ASSISTED_USERS_MYSELF]: 'Myself',
   rcMeetingSettings: 'Video Meeting settings',
   joinBeforeHost: 'Allow participants to join before host',
+  waitingRoom: 'Enable waiting room for',
+  waitingRoomNotCoworker: 'Anyone outside my company',
+  waitingRoomGuest: 'Anyone not signed in',
+  waitingRoomAll: 'Everyone',
+  onlyJoinAfterMe: 'Participants can only join after me',
+  onlyJoinAfterHost: 'Participants can only join after host',
   muteAudio: 'Mute audio for participants',
   turnOffCamera: 'Turn off camera for participants',
   requirePassword: 'Require password',
-  setPassword: 'Set password',
+  setPassword: 'Set password *',
   passwordEmptyError: 'Meeting password required',
   passwordInvalidError:
     'Use 1 to 10 characters which include alphabets and numbers but no symbols',
@@ -21,4 +31,6 @@ export default {
   signedInUsers: 'Signed in users',
   signedInCoWorkers: 'Signed in co-workers',
   limitScreenSharing: 'Only host & moderators can share screen',
+  lockTooltip: 'This setting is managed by your company admin',
+  pmiSettingAlert: 'These settings will apply to all meetings created with PMI',
 };

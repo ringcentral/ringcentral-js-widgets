@@ -1,5 +1,5 @@
 import React from 'react';
-import { RcThemeProvider } from '@ringcentral-integration/rcui';
+import { RcThemeProvider } from '@ringcentral/juno';
 import { mount } from 'enzyme';
 import CallLogFields from 'ringcentral-widgets/components/CallLogFields';
 

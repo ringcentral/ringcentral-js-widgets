@@ -21,4 +21,5 @@ export default {
   preview: 'View',
   download: 'Download',
   imageAttachment: 'Attachment: {count} image',
+  fileAttachment: 'Attachment: {count} file',
 };

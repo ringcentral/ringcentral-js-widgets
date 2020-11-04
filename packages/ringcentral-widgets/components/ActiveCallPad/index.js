@@ -11,7 +11,7 @@ import MuteIcon from '../../assets/images/Mute.svg';
 import UnmuteIcon from '../../assets/images/Unmute.svg';
 import KeypadIcon from '../../assets/images/Dialpad.svg';
 import HoldIcon from '../../assets/images/Hold.svg';
-// import ParkIcon from '../../assets/images/Park.svg';
+import ParkIcon from '../../assets/images/Park.svg';
 import RecordIcon from '../../assets/images/Record.svg';
 // import AddIcon from '../../assets/images/AddCall.svg';
 import MoreIcon from '../../assets/images/MoreIcon.svg';
@@ -38,6 +38,7 @@ export const ACTIONS_CTRL_MAP = {
   recordCtrl: 'recordCtrl',
   transferCtrl: 'transferCtrl',
   flipCtrl: 'flipCtrl',
+  parkCtrl: 'parkCtrl',
 };
 
 class ActiveCallPad extends Component {
@@ -234,10 +235,9 @@ class ActiveCallPad extends Component {
     });
 
     /* --------------------- Flip --------------------------- */
-    const disabledFlip =
-      this.props.disableFlip ||
-      this.props.isOnHold ||
-      this.props.layout !== callCtrlLayouts.normalCtrl;
+    const disableControlButton =
+      this.props.isOnHold || this.props.layout !== callCtrlLayouts.normalCtrl;
+    const disabledFlip = this.props.disableFlip || disableControlButton
     buttons.push({
       icon: FlipIcon,
       id: ACTIONS_CTRL_MAP.flipCtrl,
@@ -246,7 +246,17 @@ class ActiveCallPad extends Component {
       disabled: disabledFlip || controlBusy,
       onClick: this.props.onFlip,
     });
-
+    /* --------------------- Park --------------------------- */
+    if (this.props.showPark) {
+      buttons.push({
+        icon: ParkIcon,
+        id: ACTIONS_CTRL_MAP.parkCtrl,
+        dataSign: 'park',
+        title: i18n.getString('park', this.props.currentLocale),
+        disabled: disableControlButton || controlBusy,
+        onClick: this.props.onPark,
+      });
+    }
     // filter actions
     const { actions } = this.props;
     if (actions.length > 0) {
@@ -341,13 +351,14 @@ ActiveCallPad.propTypes = {
   onRecord: PropTypes.func.isRequired,
   onStopRecord: PropTypes.func.isRequired,
   onHangup: PropTypes.func.isRequired,
-  // onPark: PropTypes.func.isRequired,
+  onPark: PropTypes.func.isRequired,
   onShowKeyPad: PropTypes.func.isRequired,
   onAdd: PropTypes.func,
   onMerge: PropTypes.func,
   onFlip: PropTypes.func.isRequired,
   onTransfer: PropTypes.func.isRequired,
   disableFlip: PropTypes.bool,
+  showPark: PropTypes.bool,
   layout: PropTypes.string,
   addDisabled: PropTypes.bool,
   mergeDisabled: PropTypes.bool,
@@ -370,6 +381,7 @@ ActiveCallPad.defaultProps = {
   onMerge: undefined,
   expandMore: false,
   disableFlip: false,
+  showPark: false,
   actions: [],
 };
 

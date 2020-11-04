@@ -9,6 +9,8 @@ export default class CallList extends PureComponent {
       className,
       brand,
       currentLocale,
+      currentSiteCode,
+      isMultipleSiteEnabled,
       calls,
       areaCode,
       countryCode,
@@ -57,6 +59,8 @@ export default class CallList extends PureComponent {
               brand={brand}
               areaCode={areaCode}
               countryCode={countryCode}
+              currentSiteCode={currentSiteCode}
+              isMultipleSiteEnabled={isMultipleSiteEnabled}
               onViewContact={onViewContact}
               onCreateContact={onCreateContact}
               createEntityTypes={createEntityTypes}
@@ -105,6 +109,8 @@ CallList.propTypes = {
   className: PropTypes.string,
   brand: PropTypes.string.isRequired,
   currentLocale: PropTypes.string.isRequired,
+  currentSiteCode: PropTypes.string,
+  isMultipleSiteEnabled: PropTypes.bool,
   calls: PropTypes.arrayOf(CallItem.propTypes.call).isRequired,
   active: PropTypes.bool,
   areaCode: PropTypes.string.isRequired,
@@ -142,6 +148,8 @@ CallList.propTypes = {
 };
 
 CallList.defaultProps = {
+  currentSiteCode: '',
+  isMultipleSiteEnabled: false,
   className: null,
   active: false,
   disableLinks: false,

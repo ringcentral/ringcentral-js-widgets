@@ -114,7 +114,6 @@ describe('Exit from VoIP Only Mode to Normal Mode', () => {
 
     expect(wrapper.find(ConnectivityBadge).text()).not.toEqual('VoIP Only');
     const connectivityAlert2 = wrapper.find(ConnectivityAlert);
-    console.error(connectivityAlert2.debug());
     expect(connectivityAlert2.exists()).toBeFalsy();
   });
 });

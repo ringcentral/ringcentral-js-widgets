@@ -72,7 +72,8 @@ export default class IncomingCallPad extends Component {
       }
     };
   }
-  componentWillReceiveProps(newProps) {
+
+  UNSAFE_componentWillReceiveProps(newProps) {
     if (this.props.sessionId !== newProps.sessionId) {
       if (this.replyTimeout) {
         clearTimeout(this.replyTimeout);
@@ -84,6 +85,7 @@ export default class IncomingCallPad extends Component {
       }
     }
   }
+
   componentWillUnmount() {
     if (this.replyTimeout) {
       clearTimeout(this.replyTimeout);
@@ -94,6 +96,7 @@ export default class IncomingCallPad extends Component {
       this.voicemailTimeout = null;
     }
   }
+
   render() {
     const {
       currentLocale,

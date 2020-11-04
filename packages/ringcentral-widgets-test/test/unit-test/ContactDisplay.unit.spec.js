@@ -1,5 +1,7 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
+import { phoneTypes } from 'ringcentral-integration/enums/phoneTypes';
+import { phoneSources } from 'ringcentral-integration/enums/phoneSources';
 import ContactDisplay from 'ringcentral-widgets/components/ContactDisplay';
 
 const DEFAULT_PROPS = {
@@ -75,9 +77,9 @@ describe('<jira id>: RCINT-8557:', () => {
           extensionNumber: '101',
           hasProfileImage: false,
           phoneNumbers: [
-            { phoneNumber: '101', phoneType: 'extension' },
-            { phoneNumber: '+12069853329', phoneType: 'directPhone' },
-            { phoneNumber: '+13103223278', phoneType: 'directPhone' },
+            { phoneNumber: '101', phoneType: phoneTypes.extension },
+            { phoneNumber: '+12069853329', phoneType: phoneTypes.directPhone },
+            { phoneNumber: '+13103223278', phoneType: phoneTypes.directPhone },
           ],
           presence: {
             dndStatus: 'TakeAllCalls',
@@ -87,7 +89,7 @@ describe('<jira id>: RCINT-8557:', () => {
           },
           contactStatus: 'Enabled',
           name: 'Something1 New1',
-          entityType: 'rcContact',
+          entityType: phoneSources.rcContact,
         },
       ],
     });
@@ -111,12 +113,12 @@ describe('<jira id>: RCINT-8557:', () => {
           extensionNumber: '101',
           hasProfileImage: false,
           phoneNumbers: [
-            { phoneNumber: '101', phoneType: 'extension' },
-            { phoneNumber: '+18559100010', phoneType: 'directPhone' },
+            { phoneNumber: '101', phoneType: phoneTypes.extension },
+            { phoneNumber: '+18559100010', phoneType: phoneTypes.directPhone },
           ],
           contactStatus: 'Enabled',
           name: 'Something1 New1',
-          entityType: 'rcContact',
+          entityType: phoneSources.rcContact,
         },
         {
           type: 'company',
@@ -127,12 +129,12 @@ describe('<jira id>: RCINT-8557:', () => {
           extensionNumber: '101',
           hasProfileImage: false,
           phoneNumbers: [
-            { phoneNumber: '101', phoneType: 'extension' },
-            { phoneNumber: '+18559100010', phoneType: 'directPhone' },
+            { phoneNumber: '101', phoneType: phoneTypes.extension },
+            { phoneNumber: '+18559100010', phoneType: phoneTypes.directPhone },
           ],
           contactStatus: 'Enabled',
           name: 'Something2 New2',
-          entityType: 'rcContact',
+          entityType: phoneSources.rcContact,
         },
       ],
     });

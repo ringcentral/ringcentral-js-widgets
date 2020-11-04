@@ -63,7 +63,7 @@ function getCallsListReducer(types) {
   };
 }
 
-function getCurrentIdentifyReducer(types) {
+export function getCurrentIdentifyReducer(types) {
   return (state = null, { type, identify }) => {
     switch (type) {
       case types.showLogSection:
@@ -76,7 +76,7 @@ function getCurrentIdentifyReducer(types) {
   };
 }
 
-function getCurrentNotificationIdentifyReducer(types) {
+export function getCurrentNotificationIdentifyReducer(types) {
   return (state = null, { type, identify }) => {
     switch (type) {
       case types.showLogNotification:
@@ -89,7 +89,7 @@ function getCurrentNotificationIdentifyReducer(types) {
   };
 }
 
-function getNotificationIsExpandReducer(types) {
+export function getNotificationIsExpandReducer(types) {
   return (state = false, { type }) => {
     switch (type) {
       case types.expandNotification:
@@ -103,12 +103,19 @@ function getNotificationIsExpandReducer(types) {
   };
 }
 
-export default function getStorageReducer(types) {
-  return combineReducers({
+export default function getStorageReducer(types, notSyncOpenState = false) {
+  const baseReducer = {
     callsList: getCallsListReducer(types),
     callsMapping: getCallsMappingReducer(types),
+  };
+  const openStateReducer = {
     currentIdentify: getCurrentIdentifyReducer(types),
     currentNotificationIdentify: getCurrentNotificationIdentifyReducer(types),
     notificationIsExpand: getNotificationIsExpandReducer(types),
-  });
+  };
+  const reducers = {
+    ...baseReducer,
+    ...(notSyncOpenState ? {} : openStateReducer),
+  };
+  return combineReducers(reducers);
 }

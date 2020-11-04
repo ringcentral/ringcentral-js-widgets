@@ -1,3 +1,4 @@
 export * from './priority';
-export * from './type';
 export * from './skip';
+export * from './status';
+export * from './type';

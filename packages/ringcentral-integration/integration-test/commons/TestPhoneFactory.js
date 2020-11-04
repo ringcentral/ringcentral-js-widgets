@@ -1,5 +1,5 @@
 import { createStore } from 'redux';
-import uuid from 'uuid';
+import * as uuid from 'uuid';
 import { createPhone } from './Phone';
 import apiConfig from './config/apiConfig';
 import getBrandConfig from './config/brandConfig';

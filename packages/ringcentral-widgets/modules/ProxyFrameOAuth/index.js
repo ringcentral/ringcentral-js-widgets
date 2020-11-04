@@ -3,7 +3,7 @@ import proxify from 'ringcentral-integration/lib/proxy/proxify';
 import { Module } from 'ringcentral-integration/lib/di';
 import ensureExist from 'ringcentral-integration/lib/ensureExist';
 import url from 'url';
-import uuid from 'uuid';
+import * as uuid from 'uuid';
 import actionTypes from './actionTypes';
 import getProxyFrameOAuthReducer from './getProxyFrameOAuthReducer';
 

@@ -1,4 +1,4 @@
-import { RcDatePicker } from '@ringcentral-integration/rcui';
+import { RcDatePicker } from '@ringcentral/juno';
 import React, { Component } from 'react';
 
 import { setUTCTime } from '../../../lib/timeFormatHelper';
@@ -11,14 +11,15 @@ import { SelectField } from './SelectField';
 import styles from './styles.scss';
 
 const DEFAULT_FINDER = {
-  getValue: (item) => (typeof item === 'object' ? item.id : item) || null,
-  searchOption: (option, text) =>
+  getValue: (item: any) => (typeof item === 'object' ? item.id : item) || null,
+  searchOption: (option: any, text: string) =>
     option.name && option.name.toLowerCase().includes(text.toLowerCase()),
 };
 
 const appDefaultValue = '[None]';
 
 export type FieldItemProps = {
+  fieldRef?: React.RefObject<HTMLDivElement>;
   timeout: number;
   fieldOption: FieldItemOption;
   onSave(): any;
@@ -33,8 +34,11 @@ export class FieldItem extends Component<FieldItemProps, {}> {
     const {
       currentLog: { task },
     } = this.props;
-    return task[value];
+    return (task as any)[value];
   }
+
+  // eslint-disable-next-line react/destructuring-assignment
+  fieldItemRef = this.props.fieldRef || React.createRef<HTMLDivElement>();
 
   // this is click to new popup window page
   private renderReference = () => {
@@ -131,7 +135,7 @@ export class FieldItem extends Component<FieldItemProps, {}> {
         showAssociatedSection={showAssociatedSection}
         startAdornment={startAdornmentRender}
         field={value}
-        value={task[metadata.valueField] || ''}
+        value={(task as any)[metadata.valueField] || ''}
         onChange={async (args) => {
           await onChange(this.props)(args);
           await onSave();
@@ -167,7 +171,7 @@ export class FieldItem extends Component<FieldItemProps, {}> {
         placeholder={label}
         value={this.currentValue || ''}
         data-sign={value}
-        onChange={(args) => this._updateValue(value, args, onSave)}
+        onChange={(args: any) => this._updateValue(value, args, onSave)}
       />
     );
   };
@@ -187,7 +191,7 @@ export class FieldItem extends Component<FieldItemProps, {}> {
         data-sign={value}
         multiline
         value={this.currentValue || ''}
-        onChange={(text) => {
+        onChange={(text: any) => {
           this._updateValue(value, text, onSave);
           if (onChange) onChange(text);
         }}
@@ -244,8 +248,6 @@ export class FieldItem extends Component<FieldItemProps, {}> {
     );
   };
 
-  fieldItemRef = React.createRef<HTMLDivElement>();
-
   private renderSelectMenu = () => {
     const {
       fieldOption: {
@@ -265,8 +267,7 @@ export class FieldItem extends Component<FieldItemProps, {}> {
 
     const selectList = (picklistOptions || []).map((item) => {
       let value: string = item as any;
-      let label =
-        item !== null ? (item as any) : defaultValue || appDefaultValue;
+      let label = item !== null ? (item as any) : appDefaultValue;
       let disabled = false;
 
       if (item instanceof Object) {
@@ -291,10 +292,10 @@ export class FieldItem extends Component<FieldItemProps, {}> {
         error={error}
         required={required}
         label={label}
-        value={this.currentValue || defaultValue}
+        value={this.currentValue}
         onChange={async ({ target: { value } }) => {
-          if (picklistOptions[value]) {
-            value = picklistOptions[value].value;
+          if ((picklistOptions as any)[value]) {
+            value = (picklistOptions as any)[value].value;
           }
           await this.onInputSelectChange(fieldValue)(value);
           await onSave();
@@ -305,7 +306,7 @@ export class FieldItem extends Component<FieldItemProps, {}> {
     );
   };
 
-  private onInputSelectChange = (value) => async (item) => {
+  private onInputSelectChange = (value: string) => async (item: any) => {
     const {
       currentLog: { currentSessionId, task = {} },
       onUpdateCallLog,
@@ -329,7 +330,7 @@ export class FieldItem extends Component<FieldItemProps, {}> {
     await onUpdateCallLog(logData, currentSessionId);
   };
 
-  private _updateValue(value, args, onSave) {
+  private _updateValue(value: any, args: any, onSave: Function) {
     const { debounce } = this.props;
     this.onInputSelectChange(value)(args);
     debounce(onSave);

@@ -1,4 +1,4 @@
-import { RcTextFieldProps } from '@ringcentral-integration/rcui';
+import { RcTextFieldProps } from '@ringcentral/juno';
 
 export type PickListOption = {
   label: string;

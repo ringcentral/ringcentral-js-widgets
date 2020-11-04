@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import i18n from './i18n';
 
-function Eula(props) {
+const Eula = (props) => {
   const {
     currentLocale,
     className,
@@ -22,13 +22,13 @@ function Eula(props) {
       break;
     case '7710': // bt
       labelId = 'termsOfService';
-      link = 'https://business.bt.com/terms/';
+      link = 'https://www.bt.com/products/static/terms/terms-of-use.html';
       break;
     case '7310': // telus
       labelId = 'serviceTerms';
       link = isFr
-        ? 'https://business.telus.com/fr/campaigns/business-connect-service-terms?INTCMP=VAN_businessconnect_fr_serviceterms'
-        : 'https://business.telus.com/en/support/global/legal/business-connect-service-terms?INTCMP=VAN_businessconnect_serviceterms';
+        ? 'http://telus.com/BusinessConnect/fr/ServiceTerms'
+        : 'http://telus.com/BusinessConnect/ServiceTerms';
       break;
     default:
       link = 'https://www.ringcentral.com/legal/eulatos.html';

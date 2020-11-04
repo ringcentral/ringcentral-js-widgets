@@ -1,6 +1,7 @@
 import { GetExtensionInfoResponse } from '@rc-ex/core/definitions';
 import { action, RcModuleV2, state } from '@ringcentral-integration/core';
 import url from 'url';
+
 import moduleStatuses from '../../enums/moduleStatuses';
 import { Module } from '../../lib/di';
 import proxify from '../../lib/proxy/proxify';
@@ -9,7 +10,7 @@ import { Deps, Token, TokenInfo } from './Auth.interface';
 import { authMessages } from './authMessages';
 import { loginStatus } from './loginStatus';
 
-const LoginStatusChangeEvent = 'loginStatusChange';
+export const LoginStatusChangeEvent = 'loginStatusChange';
 
 @Module({
   name: 'Auth',
@@ -332,16 +333,13 @@ class Auth extends RcModuleV2<Deps> {
     this.setLogin();
     let ownerId: number;
     if (accessToken) {
-      await this._deps.client.service
-        .platform()
-        .auth()
-        .setData({
-          token_type: tokenType,
-          access_token: accessToken,
-          expires_in: expiresIn,
-          refresh_token_expires_in: expiresIn,
-          scope,
-        });
+      await this._deps.client.service.platform().auth().setData({
+        token_type: tokenType,
+        access_token: accessToken,
+        expires_in: expiresIn,
+        refresh_token_expires_in: expiresIn,
+        scope,
+      });
       const extensionData: GetExtensionInfoResponse = await this._deps.client
         .account()
         .extension()
@@ -365,6 +363,16 @@ class Auth extends RcModuleV2<Deps> {
       token_type: tokenType,
       owner_id: ownerId,
     });
+  }
+
+  @proxify
+  async refreshToken() {
+    const token = await this._deps.client.service
+      .platform()
+      .refresh()
+      .then((response: any) => response.json());
+
+    return token;
   }
 
   getLoginUrl({

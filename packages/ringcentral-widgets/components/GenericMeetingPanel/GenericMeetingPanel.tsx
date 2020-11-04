@@ -5,11 +5,12 @@ import MeetingConfigs from '../MeetingConfigs';
 import isSafari from '../../lib/isSafari';
 
 import { VideoConfig, Topic } from '../VideoPanel/VideoConfig';
+import { MeetingConfigs as MeetingConfigsV2 } from '../MeetingConfigsV2';
 
 import { GenericMeetingPanelProps } from './interface';
 import styles from './styles.scss';
 import { RcMMeetingModel } from '../../../ringcentral-integration/modules/Meeting';
-import { RcVMeetingModel } from '../../../ringcentral-integration/models/rcv.model';
+import { RcVMeetingModel } from '../../../ringcentral-integration/interfaces/Rcv.model';
 
 const GenericMeetingPanel: React.ComponentType<GenericMeetingPanelProps> = (
   props,
@@ -22,6 +23,7 @@ const GenericMeetingPanel: React.ComponentType<GenericMeetingPanelProps> = (
   }
 
   const {
+    useRcmV2,
     meeting,
     disabled,
     currentLocale,
@@ -51,9 +53,18 @@ const GenericMeetingPanel: React.ComponentType<GenericMeetingPanelProps> = (
     appCode,
     schedule,
     brandName,
-    personalMeetingId,
     showSpinner,
+    showAdminLock,
+    showPmiAlert,
+    enablePersonalMeeting,
+    enableWaitingRoom,
+    enableJoinAfterMeCopy,
+    personalMeetingId,
     switchUsePersonalMeetingId,
+    showScheduleOnBehalf,
+    delegators,
+    updateScheduleFor,
+    labelPlacement,
   } = props;
 
   if (showSpinner) {
@@ -62,10 +73,9 @@ const GenericMeetingPanel: React.ComponentType<GenericMeetingPanelProps> = (
 
   return (
     <div className={styles.wrapper}>
-      {isRCM && (
+      {isRCM && !useRcmV2 && (
         <MeetingConfigs
           update={updateMeetingSettings}
-          switchUsePersonalMeetingId={switchUsePersonalMeetingId}
           init={init}
           meeting={meeting as RcMMeetingModel}
           disabled={disabled}
@@ -78,13 +88,38 @@ const GenericMeetingPanel: React.ComponentType<GenericMeetingPanelProps> = (
           meetingOptionToggle={meetingOptionToggle}
           passwordPlaceholderEnable={passwordPlaceholderEnable}
           audioOptionToggle={audioOptionToggle}
+          enablePersonalMeeting={enablePersonalMeeting}
           personalMeetingId={personalMeetingId}
+          switchUsePersonalMeetingId={switchUsePersonalMeetingId}
+        />
+      )}
+      {isRCM && useRcmV2 && (
+        <MeetingConfigsV2
+          updateMeetingSettings={updateMeetingSettings}
+          personalMeetingId={personalMeetingId}
+          switchUsePersonalMeetingId={switchUsePersonalMeetingId}
+          init={init}
+          labelPlacement={labelPlacement}
+          meeting={meeting as RcMMeetingModel}
+          currentLocale={currentLocale}
+          recipientsSection={recipientsSection}
+          showTopic={showTopic}
+          showWhen={showWhen}
+          showDuration={showDuration}
+          showRecurringMeeting={showRecurringMeeting}
+          meetingOptionToggle={meetingOptionToggle}
+          audioOptionToggle={audioOptionToggle}
+          showScheduleOnBehalf={showScheduleOnBehalf}
+          delegators={delegators}
+          updateScheduleFor={updateScheduleFor}
         />
       )}
       {isRCV && (
         <VideoConfig
           currentLocale={currentLocale}
+          labelPlacement={labelPlacement}
           meeting={meeting as RcVMeetingModel}
+          updateScheduleFor={updateScheduleFor}
           updateMeetingSettings={updateMeetingSettings}
           validatePasswordSettings={validatePasswordSettings}
           recipientsSection={recipientsSection}
@@ -95,16 +130,26 @@ const GenericMeetingPanel: React.ComponentType<GenericMeetingPanelProps> = (
           datePickerSize={datePickerSize}
           timePickerSize={timePickerSize}
           brandName={brandName}
+          showAdminLock={showAdminLock}
+          showPmiAlert={showPmiAlert}
+          enableWaitingRoom={enableWaitingRoom}
+          enablePersonalMeeting={enablePersonalMeeting}
+          enableJoinAfterMeCopy={enableJoinAfterMeCopy}
           personalMeetingId={personalMeetingId}
+          switchUsePersonalMeetingId={switchUsePersonalMeetingId}
+          showScheduleOnBehalf={showScheduleOnBehalf}
+          delegators={delegators}
         >
-          <Topic
-            name={meeting.name}
-            updateMeetingTopic={(name) => {
-              updateMeetingSettings({ name });
-            }}
-            currentLocale={currentLocale}
-            setTopicRef={setTopicRef}
-          />
+          {showTopic && (
+            <Topic
+              name={(meeting as RcVMeetingModel).name}
+              updateMeetingTopic={(name) => {
+                updateMeetingSettings({ name });
+              }}
+              currentLocale={currentLocale}
+              setTopicRef={setTopicRef}
+            />
+          )}
         </VideoConfig>
       )}
       {(isRCM || isRCV) && ScheduleButton && (
@@ -152,6 +197,11 @@ GenericMeetingPanel.defaultProps = {
   audioOptionToggle: false,
   onOK: undefined,
   scheduleButton: undefined,
+  showAdminLock: false,
+  showPmiAlert: false,
+  enableWaitingRoom: false,
+  enablePersonalMeeting: false,
+  enableJoinAfterMeCopy: false,
   showSaveAsDefault: true,
   disableSaveAsDefault: false,
   showCustom: false,
@@ -160,6 +210,8 @@ GenericMeetingPanel.defaultProps = {
   scheduleButtonLabel: '',
   personalMeetingId: undefined,
   showSpinner: false,
+  useRcmV2: false,
+  labelPlacement: 'start',
 };
 
 export { GenericMeetingPanel };

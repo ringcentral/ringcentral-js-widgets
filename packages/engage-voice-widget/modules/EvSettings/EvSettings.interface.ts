@@ -1,15 +1,11 @@
 import Storage from 'ringcentral-integration/modules/Storage';
-import { Beforeunload } from 'ringcentral-widgets/modules/Beforeunload';
 
 import { EvClient } from '../../lib/EvClient';
 import { EvAgentSession } from '../EvAgentSession';
 import { EvAuth } from '../EvAuth';
+import { EvPresence } from '../EvPresence';
 
-export interface State {
-  isOffhook: boolean;
-  isOffhooking: boolean;
-  isManualOffhook: boolean;
-}
+export interface State {}
 
 export interface EvSettingsOptions {
   //
@@ -20,7 +16,7 @@ export interface Deps {
   evAuth: EvAuth;
   evAgentSession: EvAgentSession;
   storage: Storage;
-  beforeunload: Beforeunload;
+  presence: EvPresence;
   evSettingsOptions?: EvSettingsOptions;
 }
 

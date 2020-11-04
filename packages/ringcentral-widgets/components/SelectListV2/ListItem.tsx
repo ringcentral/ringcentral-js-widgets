@@ -1,4 +1,4 @@
-import { RcListItem } from '@ringcentral-integration/rcui';
+import { RcListItem } from '@ringcentral/juno';
 import classNames from 'classnames';
 import React, { FunctionComponent } from 'react';
 

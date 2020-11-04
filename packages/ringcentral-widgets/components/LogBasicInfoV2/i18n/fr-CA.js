@@ -26,7 +26,7 @@ export default {
   [callResults.faxOnDemand]: "Fax sur demande",
   [callResults.partialReceive]: "Réception partielle",
   [callResults.blocked]: "Bloqué",
-  [callResults.callConnected]: "Déconnecté",
+  [callResults.callConnected]: "Appel connecté",
   [callResults.noAnswer]: "Aucune réponse",
   [callResults.internationalDisabled]: "Appels internationaux désactivés",
   [callResults.busy]: "Occupé",
@@ -71,7 +71,7 @@ export default {
 // @key: @#@"[callResults.faxOnDemand]"@#@ @source: @#@"Fax on Demand"@#@
 // @key: @#@"[callResults.partialReceive]"@#@ @source: @#@"Partial Receive"@#@
 // @key: @#@"[callResults.blocked]"@#@ @source: @#@"Blocked"@#@
-// @key: @#@"[callResults.callConnected]"@#@ @source: @#@"Disconnected"@#@
+// @key: @#@"[callResults.callConnected]"@#@ @source: @#@"Call connected"@#@
 // @key: @#@"[callResults.noAnswer]"@#@ @source: @#@"No Answer"@#@
 // @key: @#@"[callResults.internationalDisabled]"@#@ @source: @#@"International Disabled"@#@
 // @key: @#@"[callResults.busy]"@#@ @source: @#@"Busy"@#@

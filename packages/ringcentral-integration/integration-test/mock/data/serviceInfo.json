@@ -7,7 +7,8 @@
     "accountId": "37439510",
     "userType": 2,
     "userToken": "lep1JsOzGskx00CUvV-ARdUqVogZjujsso4-Dq-xyiQ.CAIAAAFjcm4D2wAAAHgYb0Vya0xqN2FBZTdjSUVDNmlKaExldz09DDNDQkF1b2lZUzNzPQ",
-    "hostKey": "558809"
+    "hostKey": "558809",
+    "personalMeetingId": "148112345"
   },
   "dialInNumbers": [{
     "phoneNumber": "+17732319226",

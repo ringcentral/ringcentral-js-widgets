@@ -19,14 +19,13 @@ export default ObjectMap.prefixKeys(
     'updated',
     'resetUpdating',
     'updatePersonalMeeting',
-    'updateAssistedUsers',
+    'updateDelegatorList',
     'saveAsDefaultSetting',
     'updateMeetingPreferences',
     'saveMeetingPreferencesState',
     // Meeting settings from Service Web related
     'updateUserSettings',
     'updateLockedSettings',
-    'updateScheduleForUser',
   ],
   'meeting',
 );
@@ -46,6 +45,5 @@ export interface MeetingActionTypes extends ModuleActionTypes {
   updatePersonalMeeting: string;
   updateUserSettings: string;
   updateLockedSettings: string;
-  updateAssistedUsers: string;
-  updateScheduleForUser: string;
+  updateDelegatorList: string;
 }

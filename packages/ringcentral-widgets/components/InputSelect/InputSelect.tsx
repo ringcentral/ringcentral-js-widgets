@@ -3,8 +3,8 @@ import {
   RcListItem,
   RcListItemText,
   RcTextField,
-} from '@ringcentral-integration/rcui';
-import arrowDownSvg from '@ringcentral-integration/rcui/icons/icon-arrow_down.svg';
+} from '@ringcentral/juno';
+import arrowDownSvg from '@ringcentral/juno/icons/icon-arrow_down.svg';
 import React, { Component } from 'react';
 
 import { bindDebounce } from '../../lib/bindDebounce';

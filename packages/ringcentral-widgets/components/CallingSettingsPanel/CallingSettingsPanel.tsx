@@ -78,6 +78,10 @@ export function getCallingOptionName(
   if (callingOption === callingOptions.jupiter) {
     return getJupiterAppName(brandCode, brandName, currentLocale);
   }
+  if (callingOption === callingOptions.ringout) {
+    // Not to translate
+    return 'RingOut';
+  }
   return i18n.getString(callingOption, currentLocale);
 }
 

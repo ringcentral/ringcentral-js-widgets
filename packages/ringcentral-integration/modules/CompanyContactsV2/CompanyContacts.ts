@@ -12,7 +12,7 @@ import { Unsubscribe } from 'redux';
 
 import { extensionStatusTypes } from '../../enums/extensionStatusTypes';
 import { extensionTypes } from '../../enums/extensionTypes';
-import phoneTypes from '../../enums/phoneTypes';
+import { phoneTypes } from '../../enums/phoneTypes';
 import { subscriptionFilters } from '../../enums/subscriptionFilters';
 import { Module } from '../../lib/di';
 import fetchList from '../../lib/fetchList';
@@ -80,11 +80,7 @@ export class CompanyContacts extends DataFetcherV2Consumer<
       cleanOnReset: true,
       fetchFunction: async (): Promise<ContactResource[]> =>
         fetchList((params: any) =>
-          this._deps.client
-            .account()
-            .directory()
-            .contacts()
-            .list(params),
+          this._deps.client.account().directory().contacts().list(params),
         ),
       readyCheckFunction: () =>
         this._deps.rolesAndPermissions.ready && this._deps.subscription.ready,

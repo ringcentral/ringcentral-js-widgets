@@ -1,14 +1,16 @@
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
-import React, { useState, createRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import callDirections from 'ringcentral-integration/enums/callDirections';
 import telephonyStatuses from 'ringcentral-integration/enums/telephonyStatus';
 import recordStatusEnum from 'ringcentral-integration/modules/Webphone/recordStatus';
-import TransferSmallIcon from '@ringcentral-integration/rcui/icons/icon-transfer-call.svg';
-import HoldIconInAction from '@ringcentral-integration/rcui/icons/icon-hold.svg';
+import TransferSmallIcon from '@ringcentral/juno/icons/icon-transfer-call.svg';
+import HoldIconInAction from '@ringcentral/juno/icons/icon-hold.svg';
+import IgnoreIcon from '@ringcentral/juno/icons/icon-ignore.svg';
+import VoicemailIcon from '@ringcentral/juno/icons/icon-voicemail.svg';
+import ForwardIcon from '../../assets/images/Forward_white.svg';
 import RecordIcon from '../../assets/images/RecordOff.svg';
 import RecordIconActive from '../../assets/images/RecordOn.svg';
-
 import CircleButton from '../CircleButton';
 import { MoreActionComponent } from './MoreActionComponent';
 import { CallLogDialpad } from './CallLogDialpad';
@@ -17,11 +19,16 @@ import HoldIcon from '../../assets/images/Hold.svg';
 import MuteIcon from '../../assets/images/Mute.svg';
 import TransferIcon from '../../assets/images/Transfer.svg';
 import UnmuteIcon from '../../assets/images/Unmute.svg';
-
 import DialpadIcon from '../../assets/images/Dialpad.svg';
-
+import AnswerIcon from '../../assets/images/Answer.svg';
+import MoreIcon from '../../assets/images/MoreIcon.svg';
 import i18n from './i18n';
 import styles from './styles.scss';
+import { MoreActionWithForward } from './MoreActionWithForward';
+import HoldAnswerIcon from '../../assets/images/HoldAnswer.svg';
+import EndAnswerIcon from '../../assets/images/EndAnswer.svg';
+
+const recodingVoiceTime = 6781;
 
 export default function CallLogCallCtrlComponent(props) {
   const {
@@ -46,6 +53,13 @@ export default function CallLogCallCtrlComponent(props) {
     transferRef,
     isCurrentDeviceCall,
     sendDTMF,
+    forward,
+    answer,
+    forwardingNumbers,
+    ignore,
+    otherActiveCalls,
+    answerAndHold,
+    answerAndEnd,
   } = props;
 
   // reject conditions: call direction is inbound & call status is ringing
@@ -66,39 +80,78 @@ export default function CallLogCallCtrlComponent(props) {
     onDialpadShow(!dialpadShow);
   };
   // WebRTC logic
-  if (isCurrentDeviceCall && callDirections.outbound === callDirection) {
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [recordPendingState, setRecordPendingState] = useState(false);
+  let timer;
+  const startRecordAction = async (...args) => {
+    const res = await startRecord(...args);
+    if (res) {
+      setRecordPendingState(true);
+      timer = setTimeout(() => {
+        setRecordPendingState(false);
+      }, recodingVoiceTime);
+    }
+  };
+  useEffect(() => () => {
+    timer && clearTimeout(timer);
+    timer = null;
+  });
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  const isWebRTCCall = isCurrentDeviceCall;
+  const onGoingActiveCalls = otherActiveCalls;
+  if (
+    (isWebRTCCall && callDirections.outbound === callDirection) ||
+    (isWebRTCCall &&
+      callDirections.inbound === callDirection &&
+      callStatus !== telephonyStatuses.ringing)
+  ) {
     const isRecording = recordStatus === recordStatusEnum.recording;
     const recordingText = isRecording ? 'stopRecord' : 'record';
-    const recordAction = isRecording ? stopRecord : startRecord;
+    const recordAction = isRecording ? stopRecord : startRecordAction;
     const keypadText = dialpadShow ? 'hideKeypad' : 'showKeypad';
-
+    const onHoldText = isOnHold ? 'unHold' : 'hold';
     const moreActions = [
       {
         icon: TransferSmallIcon,
-        text: 'transfer',
+        key: 'transfer',
         onClick: onTransfer,
         iconClassName: classnames({
           [styles.moreActionIcon]: true,
         }),
+        text: i18n.getString('transfer', currentLocale),
       },
       {
         icon: HoldIconInAction,
-        text: isOnHold ? 'unHold' : 'hold',
+        key: onHoldText,
         onClick: holdAction,
         iconClassName: classnames({
           [styles.moreActionIcon]: true,
           [styles.holdActive]: isOnHold,
         }),
+        text: i18n.getString(onHoldText, currentLocale),
       },
       {
         icon: isRecording ? RecordIconActive : RecordIcon,
-        text: recordingText,
+        key: recordingText,
         onClick: recordAction,
         iconClassName: classnames({
           [styles.moreActionIcon]: true,
+          [styles.recordingIcon]: true,
+          [styles.recordingDisabled]: recordPendingState,
         }),
+        disabled: recordPendingState,
+        text: i18n.getString(recordingText, currentLocale),
       },
     ];
+    const rootButtonProps = {
+      icon: MoreIcon,
+      tooltip: i18n.getString('more', currentLocale),
+    };
     return (
       <>
         <div
@@ -118,6 +171,7 @@ export default function CallLogCallCtrlComponent(props) {
           </span>
           <span title={i18n.getString(keypadText, currentLocale)}>
             <CircleButton
+              dataSign={keypadText}
               icon={DialpadIcon}
               className={classnames({
                 [styles.button]: true,
@@ -129,9 +183,13 @@ export default function CallLogCallCtrlComponent(props) {
             />
           </span>
           <MoreActionComponent
+            rootButtonProps={rootButtonProps}
             actionsList={moreActions}
             currentLocale={currentLocale}
             disabled={disableLinks || disabledCtrl}
+            handleClick={handleClick}
+            handleClose={handleClose}
+            anchorEl={anchorEl}
           />
           <span title={i18n.getString(endTitle, currentLocale)}>
             <CircleButton
@@ -161,6 +219,145 @@ export default function CallLogCallCtrlComponent(props) {
           />
         )}
       </>
+    );
+  }
+
+  if (isWebRTCCall && isInComingCall && !onGoingActiveCalls) {
+    const forwardTitle = i18n.getString('forward', currentLocale);
+    const ignoreTitle = i18n.getString('ignore', currentLocale);
+    const voicemailTitle = i18n.getString('voicemail', currentLocale);
+    const answerTitle = i18n.getString('answer', currentLocale);
+    const onForward = (e) => {
+      e.stopPropagation();
+      handleClose();
+      const selectdValue = e.currentTarget.attributes['data-value'].value;
+      forward(selectdValue);
+    };
+    const forwardList = forwardingNumbers.map((phoneNumber) => {
+      return {
+        key: phoneNumber.phoneNumber,
+        text: phoneNumber.label,
+        subText: phoneNumber.phoneNumber,
+        onClick: (e) => onForward(e),
+      };
+    });
+    forwardList.push({
+      key: 'custom',
+      text: i18n.getString('custom', currentLocale),
+      onClick: (e) => onForward(e),
+    });
+    const rootButtonProps = {
+      icon: ForwardIcon,
+      className: !!anchorEl && styles.rootButtonActive,
+      tooltip: forwardTitle,
+    };
+    return (
+      <div className={classnames(!isWide ? styles.classic : null, styles.root)}>
+        <MoreActionComponent
+          rootButtonProps={rootButtonProps}
+          actionsList={forwardList}
+          currentLocale={currentLocale}
+          handleClick={handleClick}
+          handleClose={handleClose}
+          anchorEl={anchorEl}
+          withSubText
+          popoverClasses={{ paper: styles.forwardPopover }}
+        />
+        <span title={ignoreTitle}>
+          <CircleButton
+            dataSign={ignoreTitle}
+            icon={IgnoreIcon}
+            iconWidth={250}
+            iconHeight={250}
+            iconX={125}
+            iconY={125}
+            className={classnames({
+              [styles.button]: true,
+            })}
+            disabled={disableLinks}
+            onClick={ignore}
+          />
+        </span>
+        <span title={voicemailTitle}>
+          <CircleButton
+            dataSign={voicemailTitle}
+            showBorder={false}
+            icon={VoicemailIcon}
+            iconWidth={250}
+            iconHeight={250}
+            iconX={125}
+            iconY={125}
+            onClick={endAction}
+            className={classnames({
+              [styles.hangup]: true,
+              [styles.button]: true,
+              [styles.buttonDisabled]: disableLinks,
+            })}
+            disabled={disableLinks}
+          />
+        </span>
+        <span title={answerTitle}>
+          <CircleButton
+            dataSign={answerTitle}
+            showBorder={false}
+            icon={AnswerIcon}
+            onClick={answer}
+            className={classnames({
+              [styles.button]: true,
+              [styles.answer]: true,
+              [styles.buttonDisabled]: disableLinks,
+            })}
+            disabled={disableLinks}
+          />
+        </span>
+      </div>
+    );
+  }
+
+  if (isWebRTCCall && onGoingActiveCalls && isInComingCall) {
+    const voicemailTitle = i18n.getString('voicemail', currentLocale);
+    return (
+      <div className={classnames(!isWide ? styles.classic : null, styles.root)}>
+        <span
+          title={i18n.getString('answerAndEnd', currentLocale)}
+          className={styles.answerButton}
+          onClick={answerAndEnd}
+        >
+          <EndAnswerIcon />
+        </span>
+        <span title={voicemailTitle}>
+          <CircleButton
+            dataSign={voicemailTitle}
+            showBorder={false}
+            icon={VoicemailIcon}
+            iconWidth={250}
+            iconHeight={250}
+            iconX={125}
+            iconY={125}
+            onClick={endAction}
+            className={classnames({
+              [styles.hangup]: true,
+              [styles.button]: true,
+              [styles.buttonDisabled]: disableLinks,
+            })}
+            disabled={disableLinks}
+          />
+        </span>
+        <span
+          title={i18n.getString('answerAndHold', currentLocale)}
+          className={styles.answerButton}
+          onClick={answerAndHold}
+        >
+          <HoldAnswerIcon />
+        </span>
+        <MoreActionWithForward
+          currentLocale={currentLocale}
+          disabled={disableLinks}
+          forwardingNumbers={forwardingNumbers}
+          forward={forward}
+          ignore={ignore}
+        />
+      </div>
     );
   }
 
@@ -247,6 +444,13 @@ CallLogCallCtrlComponent.propTypes = {
   ]),
   isOnTransfer: PropTypes.bool,
   sendDTMF: PropTypes.func,
+  forward: PropTypes.func,
+  answer: PropTypes.func,
+  forwardingNumbers: PropTypes.array,
+  ignore: PropTypes.func,
+  otherActiveCalls: PropTypes.bool,
+  answerAndHold: PropTypes.func,
+  answerAndEnd: PropTypes.func,
 };
 CallLogCallCtrlComponent.defaultProps = {
   onMute() {},
@@ -267,4 +471,11 @@ CallLogCallCtrlComponent.defaultProps = {
   transferRef: undefined,
   isOnTransfer: false,
   sendDTMF() {},
+  forward() {},
+  answer() {},
+  forwardingNumbers: [],
+  ignore() {},
+  otherActiveCalls: false,
+  answerAndEnd() {},
+  answerAndHold() {},
 };

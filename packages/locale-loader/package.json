@@ -24,25 +24,25 @@
     "@ringcentral-integration/i18n": "^2.0.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.6.0",
+    "@babel/core": "^7.11.4",
     "@ringcentral-integration/babel-settings": "*",
-    "babel-jest": "^24.8.0",
+    "babel-jest": "^26.3.0",
     "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
     "gulp-sourcemaps": "^2.6.5",
-    "jest": "^24.8.0",
-    "jest-junit": "^6.3.0"
+    "jest": "^26.3.0",
+    "jest-html-reporters": "2.0.3"
   },
   "dependencies": {
-    "@babel/generator": "^7.6.0",
-    "@babel/parser": "^7.6.0",
+    "@babel/generator": "^7.11.4",
+    "@babel/parser": "^7.11.4",
     "chalk": "^2.4.1",
     "dedent": "^0.7.0",
-    "fs-extra": "^8.1.0",
+    "fs-extra": "^9.0.1",
     "glob": "^7.1.2",
     "inquirer": "^6.0.0",
     "loader-utils": "^1.1.0",
-    "ramda": "^0.26.1",
+    "ramda": "^0.27.0",
     "through2": "^2.0.5",
     "xml-js": "^1.6.2"
   },
@@ -54,7 +54,17 @@
       "localization/.*",
       "testData/.*"
     ],
-    "reporters": [ "default", "jest-junit" ]
+    "reporters": [
+      "default",
+      [
+        "jest-html-reporters",
+        {
+          "publicPath": "./html-report",
+          "filename": "jest-report.html",
+          "expand": true
+        }
+      ]
+    ]
   },
   "ci": {
     "ringcentral-js-widgets": "**"

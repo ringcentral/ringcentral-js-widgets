@@ -1,0 +1,179 @@
+@import 'ringcentral-widgets/lib/commonStyles/fonts';
+
+$panel-side-padding: 20px;
+$checkbox-ripple-width: 20px;
+$header-font-color: #212121;
+$locked-color: rgba(0,0,0,0.38);
+
+.videoConfig {
+  height: 100%;
+  overflow-y: auto;
+  font-family: $juno-font-family;
+}
+
+.meetingContent {
+  padding: 8px 0 32px;
+}
+
+.meetingSection {
+  padding: 0px 16px;
+}
+
+.pmiLabel {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+div.videoConfig div.meetingSettings div.expansionPanel {
+  background: transparent;
+  box-shadow: none;
+  margin: 0;
+}
+
+div.videoConfig div.expansionPanelSummaryDisabled {
+  opacity: inherit;
+  user-select: inherit;
+}
+
+div.videoConfig div.expansionPanel div.expansionPanelSummary {
+  font-weight: bold;
+  color: $header-font-color;
+  height: 44px;
+  font-size: 15px;
+  padding: 0 $panel-side-padding;
+  min-height: 44px;
+}
+
+div.expansionPanelSummaryContent {
+  margin: 0 0;
+}
+
+div.videoConfig div.expansionPanel div.expansionPanelDetails {
+  padding: 0;
+  border: 0;
+  flex-direction: column;
+}
+
+.toggleGroup {
+  width: 100%;
+}
+
+.labelPlacement {
+  margin: 0;
+  justify-content: space-between;
+  display: flex;
+  align-items: flex-start;
+}
+div.expansionPanel div.toggleGroup label.labelPlacementStart {
+  @extend .labelPlacement;
+  padding: 0 $panel-side-padding 0 ($panel-side-padding - $checkbox-ripple-width/2);
+}
+
+div.expansionPanel div.toggleGroup label.labelPlacementEnd {
+  @extend .labelPlacement;
+  padding: 0 $panel-side-padding;
+}
+
+.optionLabel {
+  margin-right: 23px;
+}
+
+.recurringNote {
+  @include secondary-font;
+  padding: 4px $panel-side-padding 0;
+}
+
+// RCTextField
+:global .myinput {
+  font-size: 0.875rem !important;
+}
+
+.sideMargin {
+  padding: 0 $panel-side-padding;
+}
+
+.alertContainer {
+  margin: 0 $panel-side-padding;
+}
+
+.selectOption {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.boxSelectMenuItem {
+  display: block !important;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.fullWidthLabel {
+  width: 100%;
+}
+
+.passwordField {
+  @extend .sideMargin;
+  margin-top: 11px;
+
+  label {
+    width: 100% !important;
+  }
+
+  input::-ms-clear {
+    display: none;
+  }
+  input::-o-clear {
+    display: none;
+  }
+}
+
+.labelContent {
+  display: flex;
+  align-items: flex-start;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  .placementLeft {
+    flex: 1;
+  }
+  .placementRight {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 4px 8px;
+  }
+}
+
+.scheduleForBoxSelect {
+  & > div > div {
+    display: block !important;
+    line-height: 18px;
+  }
+}
+
+.autoFullWidth {
+  max-width: none !important;
+  & > div {
+    @extend .forceFullWidth;
+  }
+}
+
+.forceFullWidth {
+  width: 100% !important;
+}
+
+.boxSelectWrapper {
+  @extend .forceFullWidth;
+  line-height: 18px;
+  display: block !important;
+  padding-left: 8px !important;
+}
+
+.hackWidth {
+  width: 0;
+}
+
+.lockedIcon {
+  color: $locked-color;
+  padding: 8px 8px !important;
+}

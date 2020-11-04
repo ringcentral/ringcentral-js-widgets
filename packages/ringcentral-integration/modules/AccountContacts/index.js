@@ -1,11 +1,16 @@
 import { reduce, forEach, map, join, keys } from 'ramda';
-import phoneTypes from '../../enums/phoneTypes';
+import { phoneSources } from '../../enums/phoneSources';
+import { phoneTypes } from '../../enums/phoneTypes';
 import RcModule from '../../lib/RcModule';
 import { Module } from '../../lib/di';
 import isBlank from '../../lib/isBlank';
 import ensureExist from '../../lib/ensureExist';
 import { batchGetApi } from '../../lib/batchApiHelper';
-import { getMatchContacts, getFindContact } from '../../lib/contactHelper';
+import {
+  getSearchContacts,
+  getMatchContacts,
+  getFindContact,
+} from '../../lib/contactHelper';
 import proxify from '../../lib/proxy/proxify';
 import { selector } from '../../lib/selector';
 import { actionTypes } from './actionTypes';
@@ -24,9 +29,9 @@ const DEFAULT_AVATARQUERYINTERVAL = 2 * 1000; // 2 seconds
 @Module({
   deps: [
     'Client',
+    'ExtensionInfo',
     { dep: 'CompanyContacts' },
     { dep: 'AccountContactsOptions', optional: true },
-    { dep: 'ExtensionInfo', optional: true },
   ],
 })
 export default class AccountContacts extends RcModule {
@@ -34,8 +39,8 @@ export default class AccountContacts extends RcModule {
    * @constructor
    * @param {Object} params - params object
    * @param {Client} params.client - client module instance
-   * @param {CompanyContacts} params.companyContacts - companyContacts module instance
    * @param {ExtensionInfo} params.extensionInfo - current user extension info
+   * @param {CompanyContacts} params.companyContacts - companyContacts module instance
    * @param {Number} params.ttl - timestamp of local cache, default 30 mins
    * @param {Number} params.avatarTtl - timestamp of avatar local cache, default 2 hour
    * @param {Number} params.presenceTtl - timestamp of presence local cache, default 10 mins
@@ -95,7 +100,7 @@ export default class AccountContacts extends RcModule {
     return !this._companyContacts.ready && this.ready;
   }
 
-  // interface of contact source
+  // interface of ContactSource
   @proxify
   async getProfileImage(contact, useCache = true) {
     if (
@@ -123,7 +128,7 @@ export default class AccountContacts extends RcModule {
         .extension(contact.id)
         .profileImage('195x195')
         .get();
-      imageUrl = URL.createObjectURL(await response._response.blob());
+      imageUrl = URL.createObjectURL(await response.blob());
       this.store.dispatch({
         type: this.actionTypes.fetchImageSuccess,
         imageId,
@@ -136,7 +141,7 @@ export default class AccountContacts extends RcModule {
     return imageUrl;
   }
 
-  // interface of contact source
+  // interface of ContactSource
   @proxify
   getPresence(contact, useCache = true) {
     return new Promise((resolve) => {
@@ -177,18 +182,29 @@ export default class AccountContacts extends RcModule {
     });
   }
 
-  // interface of contact source
+  // interface of ContactSource
+  searchContacts(searchString) {
+    const { isMultipleSiteEnabled, site } = this._extensionInfo;
+    return getSearchContacts({
+      contacts: this.contacts,
+      searchString,
+      entityType: phoneSources.contact,
+      options: { isMultipleSiteEnabled, siteCode: site?.code },
+    });
+  }
+
+  // interface of ContactSource
   matchPhoneNumber(phoneNumber) {
     const { isMultipleSiteEnabled, site } = this._extensionInfo;
     return getMatchContacts({
       contacts: this.contacts.concat(this._companyContacts.ivrContacts),
       phoneNumber,
-      entityType: 'rcContact',
+      entityType: phoneSources.rcContact,
       findContact: getFindContact({
         phoneNumber,
         options: {
           isMultipleSiteEnabled,
-          site,
+          siteCode: site?.code,
         },
       }),
     });
@@ -297,12 +313,12 @@ export default class AccountContacts extends RcModule {
     return this.state.presences;
   }
 
-  // interface of contact source
+  // interface of ContactSource
   get sourceName() {
     return 'company';
   }
 
-  // interface of contact source
+  // interface of ContactSource
   @selector
   directoryContacts = [
     () => this._companyContacts.filteredContacts,
@@ -353,10 +369,12 @@ export default class AccountContacts extends RcModule {
       ),
   ];
 
+  // interface of ContactSource
   get contacts() {
     return this.directoryContacts;
   }
 
+  // interface of ContactSource
   get sourceReady() {
     return this.ready;
   }

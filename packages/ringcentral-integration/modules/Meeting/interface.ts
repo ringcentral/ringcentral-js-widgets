@@ -76,6 +76,13 @@ export interface RecurrenceOptions {
   until?: string; // "2030-12-21T12:00:00Z"
 }
 
+export type RcMMeetingSettingLock = Pick<
+  RcMMeetingModel,
+  'allowJoinBeforeHost' | 'startHostVideo' | 'startParticipantsVideo'
+> & {
+  audioOptions: boolean;
+};
+
 export interface RcMMeetingModel {
   allowJoinBeforeHost: boolean;
   audioOptions: AudioOptions;
@@ -89,12 +96,7 @@ export interface RcMMeetingModel {
   startHostVideo: boolean;
   startParticipantsVideo: boolean;
   topic: string;
-  _lockSettings?: {
-    allowJoinBeforeHost?: boolean;
-    audioOptions?: boolean;
-    startHostVideo?: boolean;
-    startParticipantsVideo?: boolean;
-  };
+  settingLock?: RcMMeetingSettingLock;
   _requireMeetingPassword: boolean;
   _lockRequireMeetingPassword?: boolean;
   _saved: boolean;
@@ -276,13 +278,14 @@ export interface ScheduleMeetingResponse {
   invitationInfo?: any;
 }
 
-export interface MeetingAssistedUser {
+export interface MeetingDelegators {
   id: string;
   name: string;
+  isLoginUser?: boolean;
 }
 
-export interface MeetingAssistedResponse {
-  records: MeetingAssistedUser[];
+export interface MeetingDelegatorsResponse {
+  records: MeetingDelegators[];
 }
 
 export { MeetingScheduleResource };

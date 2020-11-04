@@ -3,7 +3,6 @@ import callingOptions from 'ringcentral-integration/modules/CallingSettings/call
 export default {
   title: 'Calling',
   [callingOptions.softphone]: '{brand} for Desktop',
-  [callingOptions.ringout]: 'RingOut',
   [callingOptions.browser]: 'Browser',
   [callingOptions.jupiter]: '{brand}',
   makeCallsWith: 'Make my calls with',

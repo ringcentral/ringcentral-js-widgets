@@ -1,5 +1,6 @@
 import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 import { baseActionTypes } from './baseActionTypes';
+import { dropStates } from './handleProxyAction';
 
 export default function getProxyServerReducer({
   moduleReducer,
@@ -22,7 +23,7 @@ export default function getProxyServerReducer({
     transport.push({
       payload: {
         type: actionTypes.action,
-        action,
+        action: dropStates(action),
         actionNumber: nextActionNumber,
       },
     });

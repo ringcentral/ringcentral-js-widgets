@@ -1,12 +1,5 @@
-import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
+export * from 'ringcentral-integration/enums/phoneSources';
 
-export const phoneSources = ObjectMap.fromKeys([
-  'account',
-  'contact',
-  'lead',
-  'opportunity',
-  'systemUser',
-  'rcContact',
-]);
-
-export default phoneSources;
+// Don't use this anymore.
+// We keep this only for 3rd-party compatible.
+// Use "ringcentral-js-widgets/ringcentral-integration/enums/phoneSources.ts" instead.

@@ -8,6 +8,8 @@ import {
   examples,
 } from '@ringcentral-integration/test-utils';
 
+import { phoneTypes } from '../../../enums/phoneTypes';
+import { phoneSources } from '../../../enums/phoneSources';
 import { getMatchContacts, getFindContact } from '../../../lib/contactHelper';
 
 const mockContact = [
@@ -18,7 +20,7 @@ const mockContact = [
     phoneNumbers: [
       {
         phoneNumber: '22701',
-        phoneType: 'extension',
+        phoneType: phoneTypes.extension,
       },
     ],
     site: { name: 'US', code: '22' },
@@ -31,7 +33,7 @@ const mockContact = [
     phoneNumbers: [
       {
         phoneNumber: '22702',
-        phoneType: 'extension',
+        phoneType: phoneTypes.extension,
       },
     ],
     site: { name: 'US', code: '22' },
@@ -44,7 +46,7 @@ const mockContact = [
     phoneNumbers: [
       {
         phoneNumber: '37712',
-        phoneType: 'extension',
+        phoneType: phoneTypes.extension,
       },
     ],
     site: { name: 'Canada', code: '37' },
@@ -57,7 +59,7 @@ const mockContact = [
     phoneNumbers: [
       {
         phoneNumber: '+12052032688',
-        phoneType: 'direct',
+        phoneType: phoneTypes.direct,
         type: 'VoiceFax',
         usageType: 'DirectNumber',
       },
@@ -92,12 +94,12 @@ export class getContact extends Step {
             context.actual = getMatchContacts({
               contacts,
               phoneNumber,
-              entityType: 'rcContact',
+              entityType: phoneSources.rcContact,
               findContact: getFindContact({
                 phoneNumber,
                 options: {
                   isMultipleSiteEnabled: true,
-                  site: currentSite,
+                  siteCode: currentSite.code,
                 },
               }),
             });

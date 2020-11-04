@@ -16,6 +16,7 @@ import recordStatus from './recordStatus';
 import actionTypes from './actionTypes';
 import callDirections from '../../enums/callDirections';
 import webphoneErrors from './webphoneErrors';
+import webphoneMessages from './webphoneMessages';
 import callErrors from '../Call/callErrors';
 import ensureExist from '../../lib/ensureExist';
 import proxify from '../../lib/proxy/proxify';
@@ -204,6 +205,7 @@ export default class Webphone extends RcModule {
     this._connectDelay = connectDelay;
     this._disconnectOnInactive = disconnectOnInactive;
     this._activeWebphoneKey = `${prefix}-active-webphone-key`;
+    this._activeWebphoneActiveCallKey = `${prefix}-active-webphone-active-call-key`;
     this._storageKey = `${prefix}-webphone`;
 
     if (typeof onCallEnd === 'function') {
@@ -246,6 +248,7 @@ export default class Webphone extends RcModule {
     this._tabActive = false;
     this._connectTimeout = null;
     this._isFirstRegister = true;
+    this._stopWebphoneUserAgentPromise = null;
 
     if (this._contactMatcher) {
       this._contactMatcher.addQuerySource({
@@ -298,7 +301,7 @@ export default class Webphone extends RcModule {
     this._auth.addBeforeLogoutHandler(async () => {
       await this._disconnect();
     });
-    this._createOtherWebphoneInstanceRegisteredListener();
+    this._createOtherWebphoneInstanceListener();
   }
 
   async _onStateChange() {
@@ -407,15 +410,16 @@ export default class Webphone extends RcModule {
     if (!this._webphone || !this._webphone.userAgent) {
       return;
     }
-    const waitUnregisteredPromise = this._waitUnregistered(
+    this._stopWebphoneUserAgentPromise = this._waitUnregistered(
       this._webphone.userAgent,
     );
     this._webphone.userAgent.stop();
     try {
-      await waitUnregisteredPromise;
+      await this._stopWebphoneUserAgentPromise;
     } catch (e) {
       console.error(e);
     }
+    this._stopWebphoneUserAgentPromise = null;
     try {
       this._webphone.userAgent.removeAllListeners();
       this._webphone.userAgent.transport.removeAllListeners();
@@ -850,7 +854,8 @@ export default class Webphone extends RcModule {
       this.disconnecting ||
       this.inactiveDisconnecting ||
       this.disconnected ||
-      this.inactive
+      this.inactive ||
+      !!this._stopWebphoneUserAgentPromise
     ) {
       // unregister by our app
       return;
@@ -878,26 +883,29 @@ export default class Webphone extends RcModule {
     }
   }
 
-  _createOtherWebphoneInstanceRegisteredListener() {
+  _createOtherWebphoneInstanceListener() {
     if (!this._disconnectOnInactive || !this._tabManager) {
       return;
     }
-    // disconnect to inactive when other tabs' web phone connected
     window.addEventListener('storage', (e) => {
-      if (e.key !== this._activeWebphoneKey) {
-        return;
+      // disconnect to inactive when other tabs' web phone connected
+      if (e.key === this._activeWebphoneKey) {
+        if (!this.connected || !document.hidden) {
+          return;
+        }
+        if (e.newValue === this._tabManager.id) {
+          return;
+        }
+        if (this.sessions.length === 0) {
+          this._disconnectToInactive();
+          return;
+        }
+        this._disconnectInactiveAfterSessionEnd = true;
       }
-      if (!this.connected || !document.hidden) {
-        return;
+      // unhold active calls in current tab
+      if (e.key === this._activeWebphoneActiveCallKey) {
+        this._holdOtherSession(e.newValue);
       }
-      if (e.newValue === this._tabManager.id) {
-        return;
-      }
-      if (this.sessions.length === 0) {
-        this._disconnectToInactive();
-        return;
-      }
-      this._disconnectInactiveAfterSessionEnd = true;
     });
   }
 
@@ -1293,6 +1301,7 @@ export default class Webphone extends RcModule {
         this._onCallHold(session);
       }),
     );
+    this._updateSessions();
     // update cached sessions
     this.store.dispatch({
       type: this.actionTypes.onholdCachedSession,
@@ -1385,8 +1394,17 @@ export default class Webphone extends RcModule {
       return;
     }
     try {
-      await session.park();
+      const result = await session.park();
       console.log('Parked');
+      if (result['park extension']) {
+        this._alert.success({
+          message: webphoneMessages.parked,
+          payload: {
+            parkedNumber: `*${result['park extension']}`,
+          },
+          ttl: 0,
+        });
+      }
     } catch (e) {
       console.error(e);
     }
@@ -1696,6 +1714,16 @@ export default class Webphone extends RcModule {
     });
   }
 
+  _setActiveWebphoneActiveCallId(session) {
+    if (!this._disconnectOnInactive) {
+      return;
+    }
+    const currentId = localStorage.getItem(this._activeWebphoneActiveCallKey);
+    if (currentId !== session.id) {
+      localStorage.setItem(this._activeWebphoneActiveCallKey, session.id);
+    }
+  }
+
   _onCallInit(session) {
     this._addSession(session);
     const normalizedSession = find((x) => x.id === session.id, this.sessions);
@@ -1715,6 +1743,7 @@ export default class Webphone extends RcModule {
       normalizedSession,
       this.activeSession,
     );
+    this._setActiveWebphoneActiveCallId(session);
   }
 
   _onCallStart(session) {
@@ -1730,6 +1759,7 @@ export default class Webphone extends RcModule {
       normalizedSession,
       this.activeSession,
     );
+    this._setActiveWebphoneActiveCallId(session);
   }
 
   _onCallRing(session) {
@@ -1808,6 +1838,7 @@ export default class Webphone extends RcModule {
       normalizedSession,
       this.activeSession,
     );
+    this._setActiveWebphoneActiveCallId(session);
   }
 
   _onCallHold(session) {

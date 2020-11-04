@@ -24,9 +24,9 @@ interface ITimezoneResponse {
 
 interface ITimezone {
   id: string;
-  bias: string;
-  description: string;
-  name: string;
+  bias?: string;
+  description?: string;
+  name?: string;
   uri?: string;
 }
 
@@ -78,20 +78,17 @@ export default class Timezone extends RcModule<
   }
 
   async _onStateChange() {
-    if (
-      this.pending &&
-      this._auth.ready &&
-      this._storage.ready
-      // && this.shouldUpdateTimezones
-    ) {
+    if (this.pending && this._auth.ready && this._storage.ready) {
       this.store.dispatch({
         type: this.actionTypes.init,
       });
-      await this._initTimezones();
+      if (this.shouldUpdateTimezones) {
+        await this._initTimezones();
+        this.updateCacheExpiredAt();
+      }
       this.store.dispatch({
         type: this.actionTypes.initSuccess,
       });
-      this.updateCacheExpiredAt();
     }
     if (this.ready && !this._auth.ready && !this._storage.ready) {
       this.store.dispatch({
@@ -102,10 +99,7 @@ export default class Timezone extends RcModule<
 
   @proxify
   private async _initTimezones() {
-    const data = await this._client
-      .dictionary()
-      .timezone()
-      .get();
+    const data = await this._client.dictionary().timezone().get();
     const { records = [] } = data as ITimezoneResponse;
     this.updateTimezones(records);
   }
@@ -147,13 +141,11 @@ export default class Timezone extends RcModule<
   }
 
   get timezones(): ITimezone[] {
-    const { timezones = [] } = this.storage;
-    return timezones;
+    return this.state.timezones || [];
   }
 
   get cacheExpiredAt() {
-    const { cacheExpiredAt = null } = this.storage;
-    return cacheExpiredAt;
+    return this.state.cacheExpiredAt || null;
   }
 
   get localeTimezone() {

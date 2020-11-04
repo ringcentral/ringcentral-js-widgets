@@ -100,27 +100,38 @@ export default class Contacts extends RcModule {
    */
   addSource(source) {
     if (!source.sourceName) {
-      throw new Error('Contacts: "sourceName" is required in Contacts source.');
+      throw new Error('[Contacts > ContactSource > sourceName] is required');
     }
     if (this._contactSources.has(source.sourceName)) {
       throw new Error(
-        `Contacts: A contact source named "${source.sourceName}" already exists`,
+        `[Contacts > ContactSource(${source.sourceName}) > sourceName] already exists`,
       );
     }
     if (source.getPresence && typeof source.getPresence !== 'function') {
-      throw new Error("Contacts: source' getPresence must be a function");
+      throw new Error(
+        `[Contacts > ContactSource(${source.sourceName}) > getPresence] must be a function`,
+      );
     }
     if (
       source.getProfileImage &&
       typeof source.getProfileImage !== 'function'
     ) {
-      throw new Error("Contacts: source' getProfileImage must be a function");
+      throw new Error(
+        `[Contacts > ContactSource(${source.sourceName}) > getProfileImage] must be a function`,
+      );
+    }
+    if (source.searchContacts && typeof source.searchContacts !== 'function') {
+      throw new Error(
+        `[Contacts > ContactSource(${source.sourceName}) > searchContacts] must be a function`,
+      );
     }
     if (
       source.matchPhoneNumber &&
       typeof source.matchPhoneNumber !== 'function'
     ) {
-      throw new Error("Contacts: source' matchPhoneNumber must be a function");
+      throw new Error(
+        `[Contacts > ContactSource(${source.sourceName}) > matchPhoneNumber] must be a function`,
+      );
     }
     this._contactSources.set(source.sourceName, source);
     this._sourcesLastStatus.set(source.sourceName, {});
@@ -149,22 +160,60 @@ export default class Contacts extends RcModule {
     return this._sourcesUpdatedAt;
   }
 
-  matchPhoneNumber(phoneNumber) {
+  async searchContacts(searchString) {
+    const sources = Array.from(this._contactSources.values()).filter(
+      (source) => typeof source.searchContacts === 'function',
+    );
     let result = [];
-    for (const sourceName of Array.from(this._contactSources.keys())) {
-      const source = this._contactSources.get(sourceName);
-      if (typeof source.matchPhoneNumber === 'function') {
-        result = result.concat(source.matchPhoneNumber(phoneNumber));
-      }
-    }
+    await Promise.all(
+      sources.map((source) => {
+        const promise = Promise.resolve(source.searchContacts(searchString));
+        return promise
+          .then((contacts) => {
+            result = result.concat(contacts);
+          })
+          .catch((error) => {
+            console.error(
+              `[Contacts > ContactSource(${source.sourceName}) > searchContacts] ${error}`,
+            );
+          });
+      }),
+    );
     return result;
   }
 
-  matchContacts({ phoneNumbers }) {
+  async matchPhoneNumber(phoneNumber) {
+    const sources = Array.from(this._contactSources.values()).filter(
+      (source) => typeof source.matchPhoneNumber === 'function',
+    );
+    let result = [];
+    await Promise.all(
+      sources.map((source) => {
+        const promise = Promise.resolve(source.matchPhoneNumber(phoneNumber));
+        return promise
+          .then((contacts) => {
+            result = result.concat(contacts);
+          })
+          .catch((error) => {
+            console.error(
+              `[Contacts > ContactSource(${source.sourceName}) > matchPhoneNumber] ${error}`,
+            );
+          });
+      }),
+    );
+    return result;
+  }
+
+  async matchContacts({ phoneNumbers }) {
     const result = {};
-    phoneNumbers.forEach((phoneNumber) => {
-      result[phoneNumber] = this.matchPhoneNumber(phoneNumber);
-    });
+    await Promise.all(
+      phoneNumbers.map((phoneNumber) => {
+        const promise = this.matchPhoneNumber(phoneNumber);
+        return promise.then((contacts) => {
+          result[phoneNumber] = contacts;
+        });
+      }),
+    );
     return result;
   }
 

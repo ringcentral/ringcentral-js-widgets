@@ -8,7 +8,11 @@ import { getWrapper, timeout } from '../shared';
 let wrapper = null;
 let phone = null;
 let badge = null;
-/* global jasmine */
+
+/**
+ * TODO: Convert to use UT
+ */
+
 beforeEach(async () => {
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 64000;
 });
@@ -79,7 +83,7 @@ describe('Platform is not accessible', () => {
     expect(contains('disabled', button.at(0).prop('className'))).toBeTruthy();
   });
 
-  test('Click on the badge', async () => {
+  test.skip('Click on the badge', async () => {
     phone.connectivityManager._hideAlerts();
     await timeout(500);
     wrapper.update();

@@ -1,4 +1,4 @@
-import { RcThemeProvider, DeepPartial } from '@ringcentral-integration/rcui';
+import { RcThemeProvider, DeepPartial } from '@ringcentral/juno';
 import { mount } from 'enzyme';
 import React from 'react';
 

@@ -34,6 +34,7 @@ export default class PresenceDropdown extends Component {
       setBusy,
       setDoNotDisturb,
       setInvisible,
+      className,
     } = this.props;
     const { showSelects } = this.state;
     const showDropdown = classnames(
@@ -51,6 +52,7 @@ export default class PresenceDropdown extends Component {
             styles.presence,
             styles[userStatus],
             styles[dndStatus],
+            className,
           )}
           onClick={this.toggleShow}
         >
@@ -116,9 +118,11 @@ PresenceDropdown.propTypes = {
   setDoNotDisturb: PropTypes.func.isRequired,
   setInvisible: PropTypes.func.isRequired,
   isReady: PropTypes.bool.isRequired,
+  className: PropTypes.string,
 };
 
 PresenceDropdown.defaultProps = {
   dndStatus: null,
   userStatus: null,
+  className: null,
 };

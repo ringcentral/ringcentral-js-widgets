@@ -1,17 +1,18 @@
-import fs from 'fs-extra';
-import path from 'path';
-import chalk from 'chalk';
-import { reduce, filter, forEach, find } from 'ramda';
-import { parse } from '@babel/parser';
 import generate from '@babel/generator';
+import { parse } from '@babel/parser';
 import formatLocale from '@ringcentral-integration/i18n/lib/formatLocale';
+import chalk from 'chalk';
+import fs from 'fs-extra';
 import inquirer from 'inquirer';
+import path from 'path';
+import { filter, find, forEach, reduce } from 'ramda';
 
+import asyncForEach from '../asyncForEach';
+import asyncReduce from '../asyncReduce';
 import compileLocaleData from '../compileLocaleData';
 import defaultConfig from '../defaultConfig';
+import { readJsonData } from '../readJsonData';
 import readXlfData from '../readXlfData';
-import asyncReduce from '../asyncReduce';
-import asyncForEach from '../asyncForEach';
 
 const prompt = inquirer.createPromptModule();
 
@@ -82,11 +83,13 @@ async function mergeTranslationData({
                   fileName: relativePath,
                 });
                 if (interactive) {
-                  shouldDelete = (await prompt({
-                    name: 'result',
-                    type: 'confirm',
-                    message,
-                  })).result;
+                  shouldDelete = (
+                    await prompt({
+                      name: 'result',
+                      type: 'confirm',
+                      message,
+                    })
+                  ).result;
                 } else {
                   shouldDelete = true;
                 }
@@ -99,11 +102,13 @@ async function mergeTranslationData({
                 fileName: relativePath,
               });
               if (interactive) {
-                shouldDelete = (await prompt({
-                  name: 'result',
-                  type: 'confirm',
-                  message,
-                })).result;
+                shouldDelete = (
+                  await prompt({
+                    name: 'result',
+                    type: 'confirm',
+                    message,
+                  })
+                ).result;
               } else {
                 shouldDelete = true;
               }
@@ -158,11 +163,13 @@ async function mergeTranslationData({
               fileName,
             });
             if (interactive) {
-              shouldSkip = (await prompt({
-                name: 'result',
-                type: 'confirm',
-                message,
-              })).result;
+              shouldSkip = (
+                await prompt({
+                  name: 'result',
+                  type: 'confirm',
+                  message,
+                })
+              ).result;
             } else {
               shouldSkip = true;
             }
@@ -174,11 +181,13 @@ async function mergeTranslationData({
               fileName,
             });
             if (interactive) {
-              shouldSkip = (await prompt({
-                name: 'result',
-                type: 'confirm',
-                message,
-              })).result;
+              shouldSkip = (
+                await prompt({
+                  name: 'result',
+                  type: 'confirm',
+                  message,
+                })
+              ).result;
             } else {
               shouldSkip = true;
             }
@@ -249,6 +258,8 @@ export default async function importLocale({
   supportedLocales,
   interactive = defaultConfig.interactive,
   silent = defaultConfig.silent,
+  json = false,
+  rawData,
 } = {}) {
   if (!supportedLocales) {
     throw new Error('options.supportedLocales is missing');
@@ -258,10 +269,17 @@ export default async function importLocale({
     sourceLocale,
     supportedLocales,
   });
-  const translations = readXlfData({
-    localizationFolder,
-    supportedLocales,
-  });
+  const translations = json
+    ? readJsonData({
+        localizationFolder,
+        supportedLocales,
+        sourceLocale,
+        rawData,
+      })
+    : readXlfData({
+        localizationFolder,
+        supportedLocales,
+      });
   const mergedData = await mergeTranslationData({
     localeData,
     translations,

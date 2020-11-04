@@ -1,6 +1,11 @@
 import { assoc } from 'ramda';
 import { combineReducers } from 'redux';
 import getModuleStatusReducer from 'ringcentral-integration/lib/getModuleStatusReducer';
+import {
+  getCurrentIdentifyReducer,
+  getCurrentNotificationIdentifyReducer,
+  getNotificationIsExpandReducer,
+} from './getStorageReducer';
 
 function getCallsSavingStatusReducer(types) {
   return (state = {}, { type, identify }) => {
@@ -18,9 +23,22 @@ function getCallsSavingStatusReducer(types) {
   };
 }
 
-export default function getCallLogSectionReducer(types) {
-  return combineReducers({
+export default function getCallLogSectionReducer(
+  types,
+  notSyncOpenState = false,
+) {
+  const baseReducers = {
     status: getModuleStatusReducer(types),
     callsSavingStatus: getCallsSavingStatusReducer(types),
-  });
+  };
+  const openStateReducer = {
+    currentIdentify: getCurrentIdentifyReducer(types),
+    currentNotificationIdentify: getCurrentNotificationIdentifyReducer(types),
+    notificationIsExpand: getNotificationIsExpandReducer(types),
+  };
+  const reducers = {
+    ...baseReducers,
+    ...(notSyncOpenState ? openStateReducer : {}),
+  };
+  return combineReducers(reducers);
 }

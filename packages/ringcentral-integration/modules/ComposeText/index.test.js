@@ -474,7 +474,7 @@ describe('ComposeText Unit Test', () => {
       sinon.stub(composeText, 'toNumbers', {
         get: () => [{ phoneNumber: '12345' }],
       });
-      const result = await composeText.send();
+      const result = await composeText.send(composeText);
       expect(result.id).to.equal('123456');
     });
 
@@ -497,7 +497,7 @@ describe('ComposeText Unit Test', () => {
       sinon.stub(composeText, 'toNumbers', {
         get: () => [{ phoneNumber: '12345' }],
       });
-      const result = await composeText.send();
+      const result = await composeText.send(composeText);
       expect(result.toNumbers).to.deep.equal(['12345', '123']);
     });
 
@@ -520,7 +520,7 @@ describe('ComposeText Unit Test', () => {
       sinon.stub(composeText, 'toNumbers', {
         get: () => [{ phoneNumber: '12345' }],
       });
-      const result = await composeText.send();
+      const result = await composeText.send(composeText);
       expect(result).to.equal(null);
     });
   });

@@ -286,7 +286,6 @@ describe('RCI-121011 Merge call when multiple on hold outbound WebRTC calls', ()
     for (const step of steps) {
       await step();
     }
-    await tearDownWrapper(wrapper);
     done();
   });
 

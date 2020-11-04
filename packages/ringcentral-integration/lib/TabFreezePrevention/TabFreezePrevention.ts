@@ -1,4 +1,4 @@
-import uuid from 'uuid';
+import * as uuid from 'uuid';
 
 /**
  * If the browser supports web lock api, obtain a web lock indefinitely.

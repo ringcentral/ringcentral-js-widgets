@@ -1,5 +1,5 @@
-import { RcDialPad } from '@ringcentral-integration/rcui';
-import RcDialerPadSounds from '@ringcentral-integration/rcui/RcDialerPadSounds.json';
+import { RcDialPad } from '@ringcentral/juno';
+import RcDialerPadSounds from '@ringcentral/juno/RcDialerPadSounds.json';
 import classnames from 'classnames';
 import React, { FunctionComponent } from 'react';
 

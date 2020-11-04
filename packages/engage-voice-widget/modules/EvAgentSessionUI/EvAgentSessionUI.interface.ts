@@ -7,7 +7,6 @@ import { EvAgentSession } from '../EvAgentSession';
 import { EvAuth } from '../EvAuth';
 import { EvSettings } from '../EvSettings';
 import { EvWorkingState } from '../EvWorkingState';
-import { EvEnvironment } from '../../interfaces/Environment.interface';
 
 export interface State {
   isLoading: boolean;
@@ -27,7 +26,6 @@ export interface Deps {
   storage: Storage;
   evAgentSessionUIOptions?: EvAgentSessionUIOptions;
   modal: Modal;
-  environment: EvEnvironment;
 }
 
 export interface SessionConfigUI extends State {

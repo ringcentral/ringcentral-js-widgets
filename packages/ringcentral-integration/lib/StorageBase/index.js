@@ -1,7 +1,7 @@
 import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 import RcModule from '../RcModule';
 import { Library } from '../di';
-import SynchronizedStorage from '../SynchronizedStorage';
+import { SynchronizedStorage } from '../SynchronizedStorage';
 
 import { actionTypesBase } from './actionTypesBase';
 import moduleStatuses from '../../enums/moduleStatuses';

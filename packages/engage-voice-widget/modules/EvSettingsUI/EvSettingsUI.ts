@@ -29,6 +29,7 @@ type LoginType = keyof typeof LOGIN_TYPE;
     'EvSettings',
     'Version',
     'EvCallMonitor',
+    'EvAgentSession',
   ],
 })
 class EvSettingsUI extends RcUIModuleV2<Deps> implements SettingsUI {
@@ -86,6 +87,7 @@ class EvSettingsUI extends RcUIModuleV2<Deps> implements SettingsUI {
   }
 
   goToSessionUpdatePage() {
+    this._deps.evAgentSession.resetFormGroup();
     this._deps.routerInteraction.push('/sessionUpdate');
   }
 
@@ -107,7 +109,10 @@ class EvSettingsUI extends RcUIModuleV2<Deps> implements SettingsUI {
       agentName: this.agentName,
       userName: this._deps.evAuth.agent.agentConfig.agentSettings.username,
       sessionInfo: this.sessionInfo,
-      showEditSessionButton: !this._deps.evCallMonitor.isOnCall,
+      disableEditSessionButton:
+        this._deps.evCallMonitor.isOnCall ||
+        this._deps.evSettings.isOffhooking ||
+        this._deps.evSettings.isOffhook,
     };
   }
 

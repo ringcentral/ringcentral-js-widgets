@@ -49,7 +49,7 @@ class EvAuth extends RcModuleV2<Deps> implements Auth {
   private _logoutByOtherTab = false;
 
   get tabManagerEnabled() {
-    return this._deps.tabManager?._tabbie.enabled;
+    return this._deps.tabManager?.enable;
   }
 
   constructor(deps: Deps) {
@@ -106,10 +106,6 @@ class EvAuth extends RcModuleV2<Deps> implements Auth {
 
   get agentPermissions() {
     return this.agentConfig.agentPermissions;
-  }
-
-  get autoAnswerCalls() {
-    return this.agentConfig.agentPermissions.defaultAutoAnswerOn;
   }
 
   @computed((that: EvAuth) => [that.inboundSettings.availableQueues])
@@ -186,6 +182,7 @@ class EvAuth extends RcModuleV2<Deps> implements Auth {
   })
   @action
   setConnectionData({ connected, agent }: State) {
+    // ! agent must be set before connected
     this.agent = agent;
     this.connected = connected;
   }
@@ -212,19 +209,20 @@ class EvAuth extends RcModuleV2<Deps> implements Auth {
 
         this._logoutByOtherTab = false;
 
-        this.newReconnect();
+        await this.newReconnect();
       }
     });
   }
 
   async onStateChange() {
-    if (this.ready && this.tabManagerEnabled && this._deps.tabManager.ready) {
+    // here not need check this.ready, because that should work when not login
+    if (this.tabManagerEnabled && this._deps.tabManager.ready) {
       this._checkTabManagerEvent();
     }
 
     if (this._deps.auth.loggedIn && !this.connected && !this.connecting) {
       this.connecting = true;
-      // when login make sure the _logoutByOtherTab is false
+      // when login make sure the logoutByOtherTab is false
       this._logoutByOtherTab = false;
 
       await this.loginAgent();
@@ -253,7 +251,6 @@ class EvAuth extends RcModuleV2<Deps> implements Auth {
     // TODO: when failed need tell other tab not logout => this._deps.tabManager.send(tabManagerEvents.LOGOUT);
     if (!logoutAgentResponse.message || logoutAgentResponse.message !== 'OK') {
       console.log('logoutAgent failed');
-      return;
     }
     this.setConnectionData({ connected: false, agent: null });
   }
@@ -281,20 +278,19 @@ class EvAuth extends RcModuleV2<Deps> implements Auth {
     return isBlock ? this._deps.block.next(fn) : fn();
   }
 
-  loginAgent = async () => {
+  loginAgent = async (token: string = this._deps.auth.accessToken) => {
+    console.log('loginAgent~~');
     try {
       this._deps.evClient.initSDK();
 
-      const agent = await this._deps.evClient.loginAgent(
-        this._deps.auth.accessToken,
-        'Bearer',
-      );
+      const agent = await this._deps.evClient.loginAgent(token, 'Bearer');
+
       this.setConnectionData({
         connected: true,
         agent: agent.data,
       });
 
-      this._eventEmitter.emit(authStatus.LOGIN_SUCCESS, agent);
+      this._emitLoginSuccess(agent);
     } catch (error) {
       switch (error.type) {
         case messageTypes.NO_AGENT:
@@ -323,8 +319,16 @@ class EvAuth extends RcModuleV2<Deps> implements Auth {
     this._eventEmitter.on(authStatus.LOGIN_SUCCESS, callback);
   }
 
+  onceLoginSuccess(callback: (agent: EvAgentInfo) => void) {
+    this._eventEmitter.once(authStatus.LOGIN_SUCCESS, callback);
+  }
+
   private _emitLogoutBefore() {
     this._eventEmitter.emit(authStatus.LOGOUT_BEFORE);
+  }
+
+  private _emitLoginSuccess(agent: EvAgentInfo) {
+    this._eventEmitter.emit(authStatus.LOGIN_SUCCESS, agent);
   }
 
   private _checkTabManagerEvent() {

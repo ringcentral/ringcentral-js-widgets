@@ -4,8 +4,8 @@ import {
   RcIconButton,
   RcSnackbarAction,
   RcTextField,
-} from '@ringcentral-integration/rcui';
-import dialerSvg from '@ringcentral-integration/rcui/icons/icon-dialer.svg';
+} from '@ringcentral/juno';
+import dialerSvg from '@ringcentral/juno/icons/icon-dialer.svg';
 import React, { FunctionComponent, useCallback, useEffect } from 'react';
 import { CustomArrowButton } from 'ringcentral-widgets/components/Rcui/CustomArrowButton';
 
@@ -129,7 +129,6 @@ const TransferCallPanel: FunctionComponent<TransferCallPanelProps> = ({
           )}
           <RcCheckbox
             data-sign="stayOnCall"
-            color="primary"
             label={i18n.getString('stayOnCall', currentLocale)}
             checked={isStayOnCall}
             onClick={() => setStayOnCall(isStayOnCall)}

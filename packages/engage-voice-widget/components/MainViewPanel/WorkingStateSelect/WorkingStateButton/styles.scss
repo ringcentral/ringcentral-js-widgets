@@ -23,12 +23,12 @@ $green-light: #edf5fb;
   pointer-events: auto !important;
 }
 
-
 .stateName {
-  flex-grow: 1;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  @include textOverflowEllipsis();
+
+  flex: 1 1 auto;
+  width: 0;
+
   text-align: left;
   font-size: 12px;
   line-height: 20px;

@@ -1,4 +1,4 @@
-import { RcTextField, RcTextFieldProps } from '@ringcentral-integration/rcui';
+import { RcTextField, RcTextFieldProps } from '@ringcentral/juno';
 import classnames from 'classnames';
 import React, { Component } from 'react';
 

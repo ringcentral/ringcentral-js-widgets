@@ -5,9 +5,7 @@ import React, { Component } from 'react';
 import momentLocalizer from 'react-widgets-moment';
 import {
   isRecurringMeeting,
-  MeetingTypeV,
   RcMMeetingModel,
-  MeetingType,
 } from 'ringcentral-integration/modules/Meeting';
 
 import i18n from './i18n';
@@ -22,7 +20,7 @@ import { AudioOptions, Video } from './VideoAudioOptions';
 
 interface MeetingConfigsProps {
   disabled: boolean;
-  openNewWindow: boolean;
+  enablePersonalMeeting: boolean;
   personalMeetingId: string;
   switchUsePersonalMeetingId: (usePersonalMeetingId: boolean) => any;
   update: (...args: any[]) => any;
@@ -134,6 +132,7 @@ class MeetingConfig extends Component<
       passwordPlaceholderEnable,
       audioOptionToggle,
       useTimePicker,
+      enablePersonalMeeting,
       personalMeetingId,
       switchUsePersonalMeetingId,
     } = this.props;
@@ -184,7 +183,7 @@ class MeetingConfig extends Component<
     }
 
     return (
-      <div className={styles.scroll}>
+      <div className={styles.scroll} data-sign="meetingConfigsPanel">
         {showTopic ? (
           <Topic
             that={this}
@@ -193,7 +192,7 @@ class MeetingConfig extends Component<
             currentLocale={currentLocale}
           />
         ) : null}
-        {personalMeetingId ? (
+        {enablePersonalMeeting && (
           <MeetingIdSection
             personalMeetingId={personalMeetingId}
             currentLocale={currentLocale}
@@ -202,7 +201,7 @@ class MeetingConfig extends Component<
             handlePmiConfirmed={this.handlePmiConfirmed}
             isChangePmiConfirmed={isChangePmiConfirmed}
           />
-        ) : null}
+        )}
         {recipientsSection}
         {showWhen ? (
           <MeetingDate

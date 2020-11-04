@@ -1,7 +1,7 @@
 import Alert from 'ringcentral-integration/modules/Alert';
 import { Auth } from 'ringcentral-integration/modules/AuthV2';
 import Storage from 'ringcentral-integration/modules/Storage';
-import TabManager from 'ringcentral-integration/modules/TabManager';
+import { EvTabManager } from '../EvTabManager';
 
 import { EvAgentState, EvClient } from '../../lib/EvClient';
 import { EvAgentSession } from '../EvAgentSession';
@@ -30,7 +30,7 @@ export interface Deps {
   presence: EvPresence;
   storage: Storage;
   alert: Alert;
-  tabManager?: TabManager;
+  tabManager?: EvTabManager;
   evWorkingStateOptions?: EvWorkingStateOptions;
 }
 

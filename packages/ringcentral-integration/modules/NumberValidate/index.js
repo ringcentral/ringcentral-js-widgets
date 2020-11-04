@@ -159,6 +159,7 @@ export default class NumberValidate extends RcModule {
     if (!isAnExtension(extensionNumber)) {
       return null;
     }
+    const { isMultipleSiteEnabled, site } = this._extensionInfo;
     const { filteredContacts, ivrContacts } = this._companyContacts;
     const contacts = filteredContacts.concat(ivrContacts);
     return (
@@ -167,9 +168,8 @@ export default class NumberValidate extends RcModule {
           extensionNumber,
           extensionFromContacts: item.extensionNumber,
           options: {
-            isMultipleSiteEnabled:
-              this._extensionInfo?.isMultipleSiteEnabled ?? false,
-            site: this._extensionInfo?.site ?? null,
+            isMultipleSiteEnabled,
+            siteCode: site?.code,
           },
         }),
       )?.extensionNumber ?? null
@@ -289,15 +289,12 @@ export default class NumberValidate extends RcModule {
 
   @proxify
   async _numberParserApi(originalStrings, homeCountry) {
-    const response = await this._client
-      .numberParser()
-      .parse()
-      .post(
-        {
-          originalStrings,
-        },
-        homeCountry,
-      );
+    const response = await this._client.numberParser().parse().post(
+      {
+        originalStrings,
+      },
+      homeCountry,
+    );
     return response;
   }
 

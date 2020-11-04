@@ -26,7 +26,7 @@ export default {
   [callResults.faxOnDemand]: "按需传真",
   [callResults.partialReceive]: "部分接收",
   [callResults.blocked]: "已阻止",
-  [callResults.callConnected]: "已断开连接",
+  [callResults.callConnected]: "呼叫已接通",
   [callResults.noAnswer]: "无人接听",
   [callResults.internationalDisabled]: "国际功能已停用",
   [callResults.busy]: "忙碌",
@@ -71,7 +71,7 @@ export default {
 // @key: @#@"[callResults.faxOnDemand]"@#@ @source: @#@"Fax on Demand"@#@
 // @key: @#@"[callResults.partialReceive]"@#@ @source: @#@"Partial Receive"@#@
 // @key: @#@"[callResults.blocked]"@#@ @source: @#@"Blocked"@#@
-// @key: @#@"[callResults.callConnected]"@#@ @source: @#@"Disconnected"@#@
+// @key: @#@"[callResults.callConnected]"@#@ @source: @#@"Call connected"@#@
 // @key: @#@"[callResults.noAnswer]"@#@ @source: @#@"No Answer"@#@
 // @key: @#@"[callResults.internationalDisabled]"@#@ @source: @#@"International Disabled"@#@
 // @key: @#@"[callResults.busy]"@#@ @source: @#@"Busy"@#@

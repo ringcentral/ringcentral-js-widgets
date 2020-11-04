@@ -13,6 +13,7 @@ import {
   debounce,
   DEFAULT_THRESHOLD,
   throttle,
+  promisedDebounce,
 } from '../../lib/debounce-throttle';
 import sleep from '../../lib/sleep';
 
@@ -589,6 +590,216 @@ export class ThrottleBasic extends Step {
             await sleep(context.threshold + 30);
             context.throttled();
             expect(context.fn.mock.calls.length).toBe(4);
+          }}
+        />
+      </Scenario>
+    );
+  }
+}
+
+@autorun(test)
+@title('PromisedDebounce::basic')
+export class PromisedDebounceBasic extends Step {
+  run() {
+    return (
+      <Scenario desc="">
+        <Given
+          desc="Basic debounce setup"
+          action={(_: any, context: any) => {
+            context.fn = jest.fn();
+            context.threshold = DEFAULT_THRESHOLD;
+            context.debounced = promisedDebounce({ fn: context.fn });
+          }}
+        />
+        <When
+          desc="debounced is invoked"
+          action={(_: any, context: any) => {
+            context.debounced();
+          }}
+        />
+        <Then
+          desc="fn should be invoked after the default threshold"
+          action={async (_: any, context: any) => {
+            expect(context.fn.mock.calls.length).toBe(0);
+            await sleep(context.threshold + 30);
+            expect(context.fn.mock.calls.length).toBe(1);
+          }}
+        />
+        <And
+          desc="invoking debounced before the threshold should delay fn being invoked"
+          action={async (_: any, context: any) => {
+            context.fn.mockReset();
+            context.debounced();
+            expect(context.fn.mock.calls.length).toBe(0);
+            await sleep(200);
+            context.debounced();
+            expect(context.fn.mock.calls.length).toBe(0);
+            await sleep(200);
+            context.debounced();
+            expect(context.fn.mock.calls.length).toBe(0);
+            await sleep(200);
+            context.debounced();
+            expect(context.fn.mock.calls.length).toBe(0);
+            await sleep(context.threshold + 30);
+            expect(context.fn.mock.calls.length).toBe(1);
+          }}
+        />
+      </Scenario>
+    );
+  }
+}
+
+@autorun(test)
+@title('PromisedDebounce::promise')
+export class PromisedDebouncePromise extends Step {
+  run() {
+    return (
+      <Scenario desc="">
+        <Given
+          desc="Basic debounce setup"
+          action={(_: any, context: any) => {
+            context.fn = jest.fn();
+            context.threshold = DEFAULT_THRESHOLD;
+            context.debounced = promisedDebounce({ fn: context.fn });
+          }}
+        />
+        <When
+          desc="debounced is invoked"
+          action={(_: any, context: any) => {
+            context.promise = context.debounced();
+            expect(context.promise instanceof Promise).toBe(true);
+          }}
+        />
+        <Then
+          desc="fn should be invoked when promise is resolved"
+          action={async (_: any, context: any) => {
+            expect(context.fn.mock.calls.length).toBe(0);
+            await context.promise;
+            expect(context.fn.mock.calls.length).toBe(1);
+          }}
+        />
+        <And
+          desc="invoking debounced before the threshold should delay fn being invoked"
+          action={async (_: any, context: any) => {
+            context.fn.mockReset();
+            context.debounced();
+            expect(context.fn.mock.calls.length).toBe(0);
+            await sleep(200);
+            context.debounced();
+            expect(context.fn.mock.calls.length).toBe(0);
+            await sleep(200);
+            context.debounced();
+            expect(context.fn.mock.calls.length).toBe(0);
+            await sleep(200);
+            context.debounced();
+            expect(context.fn.mock.calls.length).toBe(0);
+            await context.debounced();
+            expect(context.fn.mock.calls.length).toBe(1);
+          }}
+        />
+      </Scenario>
+    );
+  }
+}
+
+@autorun(test)
+@title('PromisedDebounce::cancel')
+export class PromisedDebounceCancel extends Step {
+  run() {
+    return (
+      <Scenario desc="">
+        <Given
+          desc="Basic debounce setup"
+          action={(_: any, context: any) => {
+            context.fn = jest.fn();
+            context.threshold = 100;
+            context.debounced = promisedDebounce({
+              fn: context.fn,
+              threshold: context.threshold,
+            });
+          }}
+        />
+        <When
+          desc="debounced is invoked, and a function is bound to the promise"
+          action={(_: any, context: any) => {
+            context.promise = context.debounced();
+            context.thenFn = jest.fn();
+            context.promise.then(
+              () => {},
+              (...args: any) => context.thenFn(...args),
+            );
+          }}
+        />
+        <And
+          desc="cancel is invoked before the threshold"
+          action={(_: any, context: any) => {
+            context.debounced.cancel();
+          }}
+        />
+        <Then
+          desc="promise should be rejected after the next immediate cycle"
+          action={async (_: any, context: any) => {
+            await sleep(10);
+            expect(context.thenFn.mock.calls.length).toBe(1);
+            expect(context.thenFn.mock.calls[0][0] instanceof Error).toBe(true);
+            expect(context.thenFn.mock.calls[0][0].message).toBe('cancelled');
+          }}
+        />
+        <And
+          desc="fn should not be invoked after the threshold"
+          action={async (_: any, context: any) => {
+            expect(context.fn.mock.calls.length).toBe(0);
+            await sleep(context.threshold + 30);
+            expect(context.fn.mock.calls.length).toBe(0);
+          }}
+        />
+      </Scenario>
+    );
+  }
+}
+
+@autorun(test)
+@title('PromisedDebounce::flush')
+export class PromisedDebounceFlush extends Step {
+  run() {
+    return (
+      <Scenario desc="">
+        <Given
+          desc="Basic debounce setup"
+          action={(_: any, context: any) => {
+            context.fn = jest.fn();
+            context.threshold = 100;
+            context.debounced = promisedDebounce({
+              fn: context.fn,
+              threshold: context.threshold,
+            });
+          }}
+        />
+        <When
+          desc="debounced is invoked, and a function is bound to the promise"
+          action={(_: any, context: any) => {
+            context.promise = context.debounced();
+            context.thenFn = jest.fn();
+            context.promise.then((...args: any) => context.thenFn(...args));
+          }}
+        />
+        <And
+          desc="cancel is invoked before the threshold"
+          action={(_: any, context: any) => {
+            context.debounced.flush();
+          }}
+        />
+        <Then
+          desc="fn should be invoked immediately"
+          action={(_: any, context: any) => {
+            expect(context.fn.mock.calls.length).toBe(1);
+          }}
+        />
+        <And
+          desc="the promise should be resolved in the next immediate cycle"
+          action={async (_: any, context: any) => {
+            await sleep(10);
+            expect(context.thenFn.mock.calls.length).toBe(1);
           }}
         />
       </Scenario>

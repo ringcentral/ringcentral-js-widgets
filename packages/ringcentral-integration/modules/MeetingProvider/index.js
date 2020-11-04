@@ -60,6 +60,10 @@ export default class MeetingProvider extends DataFetcher {
     return this.data?.provider || null;
   }
 
+  get userLicenseType() {
+    return this.data?.userLicenseType || null;
+  }
+
   get _hasPermission() {
     return !!this._rolesAndPermissions.hasMeetingsPermission;
   }

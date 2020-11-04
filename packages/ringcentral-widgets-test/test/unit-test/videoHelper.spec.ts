@@ -1,5 +1,5 @@
 function mockFunctions() {
-  const original = require.requireActual(
+  const original = jest.requireActual(
     'ringcentral-integration/modules/RcVideo/videoHelper',
   );
   return {

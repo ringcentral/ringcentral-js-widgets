@@ -15,17 +15,17 @@
   "license": "MIT",
   "private": false,
   "peerDependencies": {
-    "@babel/polyfill": "^7.6.0"
+    "@babel/polyfill": "^7.10.4"
   },
   "devDependencies": {
     "@ringcentral-integration/babel-settings": "*",
-    "babel-jest": "^24.8.0",
+    "babel-jest": "^26.3.0",
     "faker": "^4.1.0",
-    "fs-extra": "^8.1.0",
+    "fs-extra": "^9.0.1",
     "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
     "gulp-sourcemaps": "^2.6.5",
-    "jest": "^24.8.0"
+    "jest": "^26.3.0"
   },
   "scripts": {
     "test": "jest",
@@ -36,7 +36,18 @@
   "jest": {
     "transform": {
       "^.+\\.js$": "@ringcentral-integration/babel-settings/lib/jestTransform.js"
-    }
+    },
+    "reporters": [
+      "default",
+      [
+        "jest-html-reporters",
+        {
+          "publicPath": "./html-report",
+          "filename": "jest-report.html",
+          "expand": true
+        }
+      ]
+    ]
   },
   "ci": {
     "ringcentral-js-widgets": "**"

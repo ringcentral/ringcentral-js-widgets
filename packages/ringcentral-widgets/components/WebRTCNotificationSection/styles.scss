@@ -1,0 +1,222 @@
+@import '../../lib/commonStyles/colors.scss';
+
+.layer {
+  position: fixed;
+  z-index: 1001;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -134px;
+  margin-left: -134px;
+  width: 268px;
+  height: 267px;
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: 0px 13px 46px 0px rgba(0, 0, 0, 0.14),
+    0px 8px 25px 0px rgba(0, 0, 0, 0.22);
+  text-align: center;
+
+  &:not(.classic) {
+    transform: translateY(36px);
+  }
+}
+
+.contact {
+  font-size: 24px;
+  line-height: 32px;
+  margin-top: 28px;
+  color: #0c0c0c;
+}
+
+.number {
+  font-size: 15px;
+  line-height: 22px;
+  color: #0c0c0c;
+}
+
+.control {
+  margin-top: 24px;
+}
+
+.buttonsGroup+.buttonsGroup {
+  margin-top: 36px;
+
+  .callButton {
+    margin: 0 8px;
+  }
+
+  .answerButton {
+    width: 50px;
+    margin: 0 10px;
+
+    &+.callButton {
+      margin: 0 10px;
+    }
+  }
+}
+
+.callButton {
+  display: inline-block;
+  font-size: 0;
+  margin: 0 20px;
+  max-width: 72px;
+}
+
+.button {
+  width: 30px;
+  height: 30px;
+}
+
+.multipleButton {
+  width: 40px;
+  height: 40px;
+
+  g,
+  path {
+    fill: #ffffff;
+  }
+}
+
+.hangup {
+  width: 40px;
+  height: 40px;
+
+  circle {
+    fill: #ff4646;
+  }
+
+  g,
+  path {
+    fill: #ffffff;
+  }
+}
+
+.answer {
+  width: 40px;
+  height: 40px;
+
+  circle {
+    fill: $call-btn-color;
+  }
+
+  g,
+  path {
+    fill: #ffffff;
+  }
+}
+
+.text {
+  display: block;
+  font-size: 12px;
+  transform: scale(0.9);
+  white-space: nowrap;
+  line-height: 13px;
+  margin-top: 4px;
+  color: #616161;
+}
+
+.forwardPopover {
+  max-height: 352px !important;
+  max-width: 170px !important;
+}
+
+.overflowEllipsis {
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: left;
+}
+
+.moreActionItem {
+  display: flex;
+  vertical-align: middle;
+  width: 138px;
+  flex-direction: column;
+  text-align: center;
+  align-items: flex-start;
+  height: 56px;
+  min-height: 56px;
+  justify-content: center;
+
+  .actionText {
+    color: rgb(33, 33, 33);
+    font-size: 15px;
+    font-weight: normal;
+    letter-spacing: 0px;
+    line-height: 22px;
+    @extend .overflowEllipsis;
+  }
+
+  .subText {
+    color: rgb(129, 146, 175);
+    font-size: 12px;
+    font-weight: normal;
+    letter-spacing: 0px;
+    line-height: 16px;
+    @extend .overflowEllipsis;
+  }
+}
+
+.classic {
+  margin-left: -92px;
+  width: 184px;
+  height: 267px;
+
+  .contact {
+    font-size: 20px;
+    line-height: 28px;
+    margin-top: 36px;
+  }
+
+  .number {
+    font-size: 12px;
+    line-height: 16px;
+    margin-top: 8px;
+  }
+
+  .control {
+    margin-top: 33px;
+  }
+
+  .buttonsGroup+.buttonsGroup {
+    margin-top: 32px;
+
+    .callButton {
+      margin: 0 3px;
+    }
+  }
+
+  .callButton {
+    margin: 0 6px;
+  }
+
+  .singleCallCtrl {
+    .callButton {
+      margin: 0 12px;
+    }
+  }
+
+  .voicemail {
+    margin-left: 2px;
+    margin-right: -4px;
+  }
+
+  .multipleButton {
+    width: 32px;
+    height: 32px;
+  }
+
+  .hangup,
+  .answer {
+    width: 30px;
+    height: 30px;
+  }
+}

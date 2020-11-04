@@ -7,21 +7,39 @@ import {
   track,
   watch,
 } from '@ringcentral-integration/core';
-import { RingCentralCall } from 'ringcentral-call';
-import { Session } from 'ringcentral-call/lib/Session';
+import {
+  RingCentralCall,
+  events as callEvents,
+  MakeCallParams,
+} from 'ringcentral-call';
+import { Session, events as eventsEnum } from 'ringcentral-call/lib/Session';
 import {
   Session as TelephonySession,
   SessionData,
+  PartyStatusCode,
 } from 'ringcentral-call-control/lib/Session';
 import { WebPhoneSession } from 'ringcentral-web-phone/lib/session';
+import { filter, sort } from 'ramda';
 import { Module } from '../../lib/di';
 // eslint-disable-next-line import/no-named-as-default
 import subscriptionFilters from '../../enums/subscriptionFilters';
 import callErrors from '../Call/callErrors';
-import { normalizeSession, conflictError } from './helpers';
+import {
+  normalizeSession,
+  conflictError,
+  isRecording,
+  isHolding,
+} from './helpers';
 import { trackEvents } from '../Analytics';
 import callControlError from '../ActiveCallControl/callControlError';
-import { Deps } from './ActiveCallControl.interface';
+import { Deps, ModuleMakeCallParams } from './ActiveCallControl.interface';
+import validateNumbers from '../../lib/validateNumbers';
+import { webphoneErrors } from '../Webphone/webphoneErrors';
+import {
+  normalizeSession as normalizeWebphoneSession,
+  sortByCreationTimeDesc,
+} from '../Webphone/webphoneHelper';
+import { sessionStatus } from '../Webphone/sessionStatus';
 
 const DEFAULT_TTL = 30 * 60 * 1000;
 const DEFAULT_TIME_TO_RETRY = 62 * 1000;
@@ -32,21 +50,24 @@ const subscribeEvent = subscriptionFilters.telephonySessions;
 @Module({
   name: 'ActiveCallControl',
   deps: [
-    'Client',
     'Auth',
+    'Alert',
+    'Brand',
+    'Client',
+    'Presence',
+    'AccountInfo',
+    'Subscription',
+    'ExtensionInfo',
+    'NumberValidate',
+    'RegionSettings',
     'ConnectivityMonitor',
     'RolesAndPermissions',
-    'CallMonitor',
-    'Alert',
-    'NumberValidate',
-    'AccountInfo',
-    'ExtensionInfo',
-    'Subscription',
+    { dep: 'Storage', optional: true },
     { dep: 'Webphone', optional: true },
     { dep: 'TabManager', optional: true },
-    { dep: 'Storage', optional: true },
-    { dep: 'ActiveCallControlOptions', optional: true },
+    { dep: 'AudioSettings', optional: true },
     { dep: 'AvailabilityMonitor', optional: true },
+    { dep: 'ActiveCallControlOptions', optional: true },
   ],
 })
 export class ActiveCallControl extends RcModuleV2<Deps> {
@@ -59,8 +80,9 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
   private _tabActive: boolean;
   private _connectivity: boolean;
   private _onCallEndFunc: () => void;
-  private _timeoutId: NodeJS.Timeout;
+  private _timeoutId: number;
   private _lastSubscriptionMessage: string;
+  private _permissionCheck: boolean;
   constructor(deps: Deps) {
     super({
       deps,
@@ -75,6 +97,7 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
     this._enableCache = activeCallControlOptions?.enableCache ?? true;
     this._promise = null;
     this._rcCall = null;
+    this._permissionCheck = activeCallControlOptions?.permissionCheck ?? true;
   }
 
   async onStateChange() {
@@ -85,21 +108,42 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
     }
   }
 
-  @storage
-  @state
-  activeSessionId: string = null;
+  get activeSessionId() {
+    return this.data.activeSessionId;
+  }
+
+  get busyTimestamp() {
+    return this.data.busyTimestamp;
+  }
+
+  get timestamp() {
+    return this.data.timestamp;
+  }
+
+  get sessions() {
+    return this.data.sessions;
+  }
 
   @storage
   @state
-  busyTimestamp: number = 0;
+  data: {
+    activeSessionId: string;
+    busyTimestamp: number;
+    timestamp: number;
+    sessions: SessionData[];
+  } = {
+    activeSessionId: null,
+    busyTimestamp: 0,
+    timestamp: 0,
+    sessions: [],
+  };
 
-  @storage
   @state
-  timestamp: number = 0;
+  lastEndedSessionIds: string[] = [];
 
-  @storage
+  // TODO conference call using
   @state
-  sessions: SessionData[] = [];
+  cachedSessions: object[] = [];
 
   async onInit() {
     if (!this._hasPermission) return;
@@ -118,10 +162,14 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
           account: this._deps.accountInfo.info,
         },
       },
+      webphone: this._deps.webphone?._webphone,
     });
-    this._rcCall.on('new', (session: Session) => {
+    this._rcCall.on(callEvents.NEW, (session: Session) => {
       this._newSessionHandler(session);
     });
+    this._rcCall.on(callEvents.WEBPHONE_INVITE, (session: WebPhoneSession) =>
+      this._onWebphoneInvite(session),
+    );
     this._tabActive = this._deps.tabManager?.active;
     if (this._shouldFetch()) {
       try {
@@ -153,10 +201,10 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
 
   @action
   resetState() {
-    this.activeSessionId = null;
-    this.busyTimestamp = 0;
-    this.timestamp = 0;
-    this.sessions = [];
+    this.data.activeSessionId = null;
+    this.data.busyTimestamp = 0;
+    this.data.timestamp = 0;
+    this.data.sessions = [];
   }
 
   _shouldFetch() {
@@ -250,7 +298,7 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
 
   async _syncData() {
     try {
-      const activeCalls = this._deps.callMonitor.calls;
+      const activeCalls = this._deps.presence.calls;
       await this._rcCall.loadSessions(activeCalls);
       this.updateActiveSessions();
       this._rcCall.sessions.forEach((session: Session) => {
@@ -268,32 +316,66 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
 
   @action
   updateActiveSessions() {
-    this.timestamp = Date.now();
-    this.sessions =
-      this._rcCall?._callControl?.sessions.map((session: TelephonySession) => {
+    this.data.timestamp = Date.now();
+    const callControlSessions = this._rcCall?._callControl?.sessions.map(
+      (session: TelephonySession) => {
         return session.data;
-      }) || [];
+      },
+    );
+    this.data.sessions = callControlSessions || [];
   }
 
   _newSessionHandler(session: Session) {
+    session.removeListener(eventsEnum.STATUS, this._updateSessionsHandler);
+    session.removeListener(eventsEnum.MUTED, this._updateSessionsHandler);
+    session.removeListener(eventsEnum.RECORDINGS, this._updateSessionsHandler);
+    session.removeListener(
+      eventsEnum.DISCONNECTED,
+      this._updateSessionsHandler,
+    );
+    session.on(eventsEnum.STATUS, this._updateSessionsHandler);
+    session.on(eventsEnum.MUTED, this._updateSessionsHandler);
+    session.on(eventsEnum.RECORDINGS, this._updateSessionsHandler);
+    session.on(eventsEnum.DISCONNECTED, this._updateSessionsHandler);
+    // Handle the session update at the end of function to reduce the probability of empty rc call
+    // sessions
     this._updateSessionsHandler();
-    session.removeListener('status', this._updateSessionsHandler);
-    session.removeListener('muted', this._updateSessionsHandler);
-    session.removeListener('recordings', this._updateSessionsHandler);
-    session.on('status', this._updateSessionsHandler);
-    session.on('muted', this._updateSessionsHandler);
-    session.on('recordings', this._updateSessionsHandler);
   }
 
   @action
   removeActiveSession() {
-    this.activeSessionId = null;
+    this.data.activeSessionId = null;
   }
 
   // count it as load (should only call on container init step)
   @action
   setActiveSessionId(telephonySessionId: string) {
-    this.activeSessionId = telephonySessionId;
+    if (!telephonySessionId) return;
+    this.data.activeSessionId = telephonySessionId;
+  }
+
+  @action
+  setLastEndedSessionIds(session: WebPhoneSession) {
+    /**
+     * don't add incoming call that isn't relied by current app
+     *   to end sessions. this call can be answered by other apps
+     */
+    const normalizedWebphoneSession = normalizeWebphoneSession(session);
+    if (
+      !normalizedWebphoneSession.startTime &&
+      !normalizedWebphoneSession.isToVoicemail &&
+      !normalizedWebphoneSession.isForwarded &&
+      !normalizedWebphoneSession.isReplied
+    ) {
+      return;
+    }
+    const { partyData } = normalizedWebphoneSession;
+    if (!partyData) return;
+    if (this.lastEndedSessionIds.indexOf(partyData.sessionId) === -1) {
+      this.lastEndedSessionIds = [partyData.sessionId]
+        .concat(this.lastEndedSessionIds)
+        .slice(0, 5);
+    }
   }
 
   _checkConnectivity() {
@@ -326,12 +408,12 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
 
   @action
   setCallControlBusyTimestamp() {
-    this.busyTimestamp = Date.now();
+    this.data.busyTimestamp = Date.now();
   }
 
   @action
   clearCallControlBusyTimestamp() {
-    this.busyTimestamp = 0;
+    this.data.busyTimestamp = 0;
   }
 
   @track(trackEvents.mute)
@@ -387,8 +469,9 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
         (s: Session) => s.id === telephonySessionId,
       );
       const recordingId = this.getRecordingId(session);
-      await session.startRecord(recordingId);
+      await session.startRecord({ recordingId });
       this.clearCallControlBusyTimestamp();
+      return true;
     } catch (error) {
       this.clearCallControlBusyTimestamp();
     }
@@ -407,7 +490,7 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
         (s: Session) => s.id === telephonySessionId,
       );
       const recordingId = this.getRecordingId(session);
-      await session.stopRecord(recordingId);
+      await session.stopRecord({ recordingId });
       this.clearCallControlBusyTimestamp();
     } catch (error) {
       console.log('stop record error:', error);
@@ -444,6 +527,9 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
         (s: Session) => s.id === telephonySessionId,
       );
       await session.toVoicemail();
+      if (session && session.webphoneSession) {
+        session.webphoneSession.__rc_isToVoicemail = true;
+      }
       this.clearCallControlBusyTimestamp();
     } catch (error) {
       if (!(await this._deps.availabilityMonitor?.checkIfHAError(error))) {
@@ -461,6 +547,10 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
         (s: Session) => s.id === telephonySessionId,
       );
       await session.hold();
+      const { webphoneSession } = session;
+      if (webphoneSession && webphoneSession.__rc_callStatus) {
+        webphoneSession.__rc_callStatus = sessionStatus.onHold;
+      }
       this.clearCallControlBusyTimestamp();
     } catch (error) {
       if (await conflictError(error)) {
@@ -483,7 +573,13 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
       const session = this._rcCall.sessions.find(
         (s: Session) => s.id === telephonySessionId,
       );
+      await this._holdOtherCalls(telephonySessionId);
       await session.unhold();
+      const { webphoneSession } = session;
+      if (webphoneSession && webphoneSession.__rc_callStatus) {
+        webphoneSession.__rc_callStatus = sessionStatus.connected;
+      }
+      this.setActiveSessionId(telephonySessionId);
       this.clearCallControlBusyTimestamp();
     } catch (error) {
       if (await conflictError(error)) {
@@ -501,6 +597,7 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
     }
   }
 
+  @track(trackEvents.transfer)
   async transfer(transferNumber: string, telephonySessionId: string) {
     try {
       this.setCallControlBusyTimestamp();
@@ -564,9 +661,62 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
     }
   }
 
-  async forward() {
-    // No implement at the moment
-    // Need to check the API document
+  async forward(forwardNumber: string, telephonySessionId: string) {
+    const { regionSettings, brand } = this._deps;
+    const session = this._rcCall.sessions.find((s: Session) => {
+      return s.id === telephonySessionId;
+    });
+    if (!session) {
+      return false;
+    }
+    try {
+      let validatedResult;
+      let validPhoneNumber;
+      if (!this._permissionCheck) {
+        validatedResult = validateNumbers(
+          [forwardNumber],
+          regionSettings,
+          brand.id,
+        );
+        validPhoneNumber = validatedResult[0];
+      } else {
+        validatedResult = await this._deps.numberValidate.validateNumbers([
+          forwardNumber,
+        ]);
+        if (!validatedResult.result) {
+          validatedResult.errors.forEach((error) => {
+            this._deps.alert.warning({
+              message: (callErrors as any)[error.type],
+              payload: {
+                phoneNumber: error.phoneNumber,
+              },
+            });
+          });
+          return false;
+        }
+        validPhoneNumber =
+          (validatedResult as any).numbers[0] &&
+          (validatedResult as any).numbers[0].e164;
+      }
+      if (session && session.webphoneSession) {
+        session.webphoneSession.__rc_isForwarded = true;
+      }
+
+      await session.forward(validPhoneNumber, this.acceptOptions);
+      this._deps.alert.success({
+        message: callControlError.forwardSuccess,
+      });
+      if (typeof this._onCallEndFunc === 'function') {
+        this._onCallEndFunc();
+      }
+      return true;
+    } catch (e) {
+      console.error(e);
+      this._deps.alert.warning({
+        message: webphoneErrors.forwardError,
+      });
+      return false;
+    }
   }
 
   // DTMF handing by webphone session temporary, due to rc call session doesn't support currently
@@ -586,6 +736,214 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
     }
   }
 
+  _onWebphoneInvite(session: WebPhoneSession) {
+    const webphoneSession = session;
+    if (!webphoneSession) return;
+    if (!webphoneSession.__rc_creationTime) {
+      webphoneSession.__rc_creationTime = Date.now();
+    }
+    if (!webphoneSession.__rc_lastActiveTime) {
+      webphoneSession.__rc_lastActiveTime = Date.now();
+    }
+    webphoneSession.on('terminated', () => {
+      console.log('Call Event: terminated');
+      this.setLastEndedSessionIds(webphoneSession);
+      const { telephonySessionId } =
+        this.rcCallSessions.find(
+          (s: Session) => s.webphoneSession === webphoneSession,
+        ) || {};
+      this._setActiveSessionIdFromOnHoldCalls(telephonySessionId);
+    });
+    webphoneSession.on('accepted', () => {
+      const { telephonySessionId } =
+        this.rcCallSessions.find(
+          (s: Session) => s.webphoneSession === webphoneSession,
+        ) || {};
+      this.setActiveSessionId(telephonySessionId);
+      this.updateActiveSessions();
+    });
+  }
+
+  /**
+   *if current call is terminated, then pick the first onhold call as active current call;
+   *
+   * @param {Session} session
+   * @memberof ActiveCallControl
+   */
+  _setActiveSessionIdFromOnHoldCalls(telephonySessionId: string) {
+    if (!telephonySessionId) return;
+    if (this.activeSessionId === telephonySessionId) {
+      const onHoldSessions: Session[] = sort(
+        (l, r) =>
+          sortByCreationTimeDesc(
+            normalizeWebphoneSession(l.webphoneSession),
+            normalizeWebphoneSession(r.webphoneSession),
+          ),
+        filter(
+          (s: Session) => isHolding(s) && !!s.webphoneSession,
+          this.rcCallSessions,
+        ),
+      );
+      if (onHoldSessions.length) {
+        this.setActiveSessionId(onHoldSessions[0].telephonySessionId);
+      }
+    }
+  }
+
+  async _holdOtherCalls(telephonySessionId?: string) {
+    const otherSessions = filter(
+      (s: Session) =>
+        s.telephonySessionId !== telephonySessionId &&
+        s.status === PartyStatusCode.answered &&
+        s.webphoneSession &&
+        !s.webphoneSession.localHold,
+      this._rcCall.sessions,
+    );
+    if (!otherSessions.length) {
+      return;
+    }
+    const holdOtherSessions = otherSessions.map(async (session) => {
+      try {
+        await session.hold();
+        const { webphoneSession } = session;
+        if (webphoneSession && webphoneSession.__rc_callStatus) {
+          webphoneSession.__rc_callStatus = sessionStatus.onHold;
+        }
+      } catch (error) {
+        console.log('Hold call fail.', error);
+      }
+    });
+    await Promise.all(holdOtherSessions);
+  }
+
+  async answer(telephonySessionId: string) {
+    try {
+      this.setCallControlBusyTimestamp();
+      const session = this._rcCall.sessions.find((s: Session) => {
+        return s.id === telephonySessionId;
+      });
+      await this._holdOtherCalls(telephonySessionId);
+      const { webphoneSession } = session;
+      const deviceId = this._deps.webphone?.device?.id;
+      await session.answer({ deviceId });
+      if (webphoneSession && webphoneSession.__rc_callStatus) {
+        webphoneSession.__rc_callStatus = sessionStatus.connected;
+      }
+      this.clearCallControlBusyTimestamp();
+    } catch (error) {
+      console.log('answer failed.');
+    }
+  }
+
+  /**
+   * ignore an incoming WebRTC call, after action executed, call will be ignored at current
+   * device and move to "calls on other device" section. This call still can be answered at other
+   * device
+   * @param {string} telephonySessionId
+   * @memberof ActiveCallControl
+   */
+  async ignore(telephonySessionId: string) {
+    try {
+      this.setCallControlBusyTimestamp();
+      const session = this._rcCall.sessions.find((s: Session) => {
+        return s.id === telephonySessionId;
+      });
+      const { webphoneSession } = session;
+      await webphoneSession.reject();
+      // hack for update sessions, then incoming call log page can re-render
+      setTimeout(() => this.updateActiveSessions(), 0);
+      this.clearCallControlBusyTimestamp();
+    } catch (error) {
+      console.log('ignore failed.', error);
+    }
+  }
+
+  async answerAndHold(telephonySessionId: string) {
+    // currently, the logic is same as answer
+    try {
+      await this.answer(telephonySessionId);
+    } catch (error) {
+      console.log('answer hold failed.', error);
+    }
+  }
+
+  async answerAndEnd(telephonySessionId: string) {
+    try {
+      if (this.busy) return;
+      this.setCallControlBusyTimestamp();
+      const session = this._rcCall.sessions.find((s: Session) => {
+        return s.id === telephonySessionId;
+      });
+      const currentActiveCall = this._rcCall.sessions.find(
+        (s: Session) =>
+          s.id !== telephonySessionId &&
+          s.webphoneSession &&
+          s.status === PartyStatusCode.answered,
+      );
+      if (currentActiveCall) {
+        await currentActiveCall.hangup();
+      }
+      const deviceId = this._deps.webphone?.device?.id;
+      await session.answer({ deviceId });
+      const { webphoneSession } = session;
+      if (webphoneSession && webphoneSession.__rc_callStatus) {
+        webphoneSession.__rc_callStatus = sessionStatus.connected;
+      }
+      this.clearCallControlBusyTimestamp();
+    } catch (error) {
+      console.log('answer and end fail.');
+      console.error(error);
+    }
+  }
+
+  async makeCall(params: ModuleMakeCallParams) {
+    try {
+      if (
+        params.toNumber.length > 6 &&
+        (!this._deps.availabilityMonitor ||
+          !this._deps.availabilityMonitor.isVoIPOnlyMode)
+      ) {
+        const phoneLines = await this._fetchDL();
+        if (phoneLines.length === 0) {
+          this._deps.alert.warning({
+            message: webphoneErrors.noOutboundCallWithoutDL,
+          });
+          return null;
+        }
+      }
+      await this._holdOtherCalls();
+      const sdkMakeCallParams: MakeCallParams = {
+        // type 'callControl' not support webphone's sip device currently.
+        type: 'webphone',
+        toNumber: params.toNumber,
+        fromNumber: params.fromNumber,
+        homeCountryId: params.homeCountryId,
+      };
+      const session = await this._rcCall.makeCall(sdkMakeCallParams);
+      return session;
+    } catch (error) {
+      console.log('make call fail.', error);
+    }
+  }
+
+  async _fetchDL() {
+    const response = await this._deps.client
+      .account()
+      .extension()
+      .device()
+      .list();
+    const devices = response.records;
+    let phoneLines: any[] = [];
+    devices.forEach((device) => {
+      // wrong type of phoneLines, temporary treat it as any
+      if (!device.phoneLines || (device.phoneLines as any).length === 0) {
+        return;
+      }
+      phoneLines = phoneLines.concat(device.phoneLines);
+    });
+    return phoneLines;
+  }
+
   getActiveSession(telephonySessionId: string) {
     return this.activeSessions[telephonySessionId];
   }
@@ -599,7 +957,7 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
   }
 
   @computed((that: ActiveCallControl) => [
-    that._deps.callMonitor.calls,
+    that._deps.presence.calls,
     that.sessions,
     that.timestamp,
   ])
@@ -617,10 +975,10 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
       });
       return accumulator;
     };
-    return this._deps.callMonitor.calls.reduce(reducer, {});
+    return this._deps.presence.calls.reduce(reducer, {});
   }
 
-  @computed((that: ActiveCallControl) => [that._deps.callMonitor.calls])
+  @computed((that: ActiveCallControl) => [that._deps.presence.calls])
   get sessionIdToTelephonySessionIdMapping() {
     // TODO: add calls type in callMonitor modules
     const reducer = (accumulator: any, call: any) => {
@@ -628,7 +986,7 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
       accumulator[sessionId] = telephonySessionId;
       return accumulator;
     };
-    return this._deps.callMonitor.calls.reduce(reducer, {});
+    return this._deps.presence.calls.reduce(reducer, {});
   }
 
   /**
@@ -650,5 +1008,26 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
 
   get ttl() {
     return this._ttl;
+  }
+
+  get acceptOptions() {
+    return {
+      sessionDescriptionHandlerOptions: {
+        constraints: {
+          audio: {
+            deviceId: this._deps.audioSettings?.inputDeviceId,
+          },
+          video: false,
+        },
+      },
+    };
+  }
+
+  get hasCallInRecording() {
+    return this.sessions.some((session) => isRecording(session));
+  }
+
+  get rcCallSessions() {
+    return this._rcCall?.sessions || [];
   }
 }

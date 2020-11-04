@@ -1,6 +1,6 @@
 import { find } from 'ramda';
 import EventEmitter from 'events';
-import uuid from 'uuid';
+import * as uuid from 'uuid';
 import { RcModuleV2, state, action } from '@ringcentral-integration/core';
 import { ApiError } from '@ringcentral/sdk';
 import GetMessageInfoResponse from 'ringcentral-client/build/definitions/GetMessageInfoResponse';

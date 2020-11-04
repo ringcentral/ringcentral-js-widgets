@@ -2,12 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import formatNumber from 'ringcentral-integration/lib/formatNumber';
+import { phoneSources } from 'ringcentral-integration/enums/phoneSources';
 import formatMessage from 'format-message';
 import DropdownSelect from '../DropdownSelect';
 import i18n from './i18n';
 import styles from './styles.scss';
 import phoneSourceNames from '../../lib/phoneSourceNames';
-import phoneSources from '../../enums/phoneSources';
 
 const displayFormatter = ({
   entityName,
@@ -102,6 +102,8 @@ export default function ContactDisplay({
   countryCode,
   phoneNumber,
   currentLocale,
+  currentSiteCode,
+  isMultipleSiteEnabled,
   groupNumbers,
   showType,
   selectClassName,
@@ -118,6 +120,13 @@ export default function ContactDisplay({
   iconClassName,
 }) {
   let contentEl;
+  phoneNumber = formatNumber({
+    phoneNumber,
+    countryCode,
+    areaCode,
+    siteCode: currentSiteCode,
+    isMultipleSiteEnabled,
+  });
   if (isOnConferenceCall) {
     const confStr = i18n.getString('conferenceCall', currentLocale);
     contentEl = (
@@ -170,12 +179,7 @@ export default function ContactDisplay({
   } else if (contactMatches.length === 0) {
     const display =
       (enableContactFallback && fallBackName) ||
-      (phoneNumber &&
-        formatNumber({
-          phoneNumber,
-          countryCode,
-          areaCode,
-        })) ||
+      phoneNumber ||
       i18n.getString('unknownNumber', currentLocale);
     const title = (enableContactFallback && fallBackName) || phoneNumber || '';
     contentEl = (
@@ -277,6 +281,8 @@ ContactDisplay.propTypes = {
   countryCode: PropTypes.string.isRequired,
   phoneNumber: PropTypes.string,
   currentLocale: PropTypes.string.isRequired,
+  currentSiteCode: PropTypes.string,
+  isMultipleSiteEnabled: PropTypes.bool,
   groupNumbers: PropTypes.arrayOf(PropTypes.string),
   showType: PropTypes.bool,
   selectClassName: PropTypes.string,
@@ -293,6 +299,8 @@ ContactDisplay.propTypes = {
 };
 
 ContactDisplay.defaultProps = {
+  currentSiteCode: '',
+  isMultipleSiteEnabled: false,
   isOnConferenceCall: false,
   reference: undefined,
   className: undefined,

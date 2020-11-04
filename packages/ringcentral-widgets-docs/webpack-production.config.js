@@ -21,11 +21,13 @@ const config = {
         NODE_ENV: JSON.stringify('production'),
       },
     }),
-    new CopyWebpackPlugin([
-      { from: 'src/www/css', to: 'css' },
-      { from: 'src/www/images', to: 'images' },
-      { from: 'src/www/index.html', to: 'index.html' },
-    ]),
+    new CopyWebpackPlugin({
+      patterns: [
+        { from: 'src/www/css', to: 'css' },
+        { from: 'src/www/images', to: 'images' },
+        { from: 'src/www/index.html', to: 'index.html' },
+      ],
+    }),
   ],
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx'],
@@ -59,7 +61,7 @@ const config = {
       },
       {
         test: /\.svg/,
-        exclude: /node_modules|font/,
+        exclude: /font/,
         use: [
           'babel-loader',
           {
@@ -78,7 +80,7 @@ const config = {
         ],
       },
       {
-        test: /\.png|\.jpg|\.gif|\.svg/,
+        test: /\.png|\.jpg|\.gif|fonts(\/|\\).*\.svg/,
         exclude: /assets(\/|\\)images(\/|\\).+\.svg/,
         use:
           'url-loader?limit=20000&publicPath=./&name=images/[name]_[hash].[ext]',

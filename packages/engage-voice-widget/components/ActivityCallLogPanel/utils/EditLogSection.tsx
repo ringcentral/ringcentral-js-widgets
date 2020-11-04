@@ -1,4 +1,9 @@
-import React from 'react';
+import React, {
+  FunctionComponent,
+  MutableRefObject,
+  useEffect,
+  useRef,
+} from 'react';
 import CallLogFields, {
   FieldItemProps,
 } from 'ringcentral-widgets/components/CallLogFields';
@@ -15,7 +20,7 @@ const rightIconRender = () => {
 const _getReferenceFieldOptions = (
   currentLocale: string,
 ): CallLogFieldsProps['referenceFieldOptions'] => {
-  const getNameLabel = (item: any = {}, length) => {
+  const getNameLabel = (item: any = {}, length: number) => {
     const { id, name, type } = item;
     if (!id) {
       return length > 1
@@ -25,8 +30,8 @@ const _getReferenceFieldOptions = (
     return name ? `${name}` : `${type}(${id})`;
   };
 
-  const getRelatedToLabel = (item: any = {}, length) => {
-    const { id, name, type } = item;
+  const getRelatedToLabel = (item: any = {}, length: number) => {
+    const { CaseNumber, name, type } = item;
     if (Object.keys(item).length === 0) {
       return length > 1
         ? `${i18n.getString(
@@ -35,13 +40,13 @@ const _getReferenceFieldOptions = (
           )} (${length})`
         : i18n.getString('none', currentLocale);
     }
-    return name ? `${name}` : `${type}(${id})`;
+    return name ? `${name}` : `${type}(${CaseNumber})`;
   };
 
   const onNameChange = ({
     currentLog: { task, currentSessionId },
     onUpdateCallLog,
-  }: FieldItemProps) => async (item) => {
+  }: FieldItemProps) => async (item: any) => {
     const id = item.id;
     const relatedTo = task.whatid;
     await onUpdateCallLog(
@@ -59,8 +64,8 @@ const _getReferenceFieldOptions = (
   const onRelatedToChange = ({
     currentLog: { currentSessionId },
     onUpdateCallLog,
-  }: FieldItemProps) => async (args) => {
-    const id = (typeof args === 'object' ? args.id : args) || null;
+  }: FieldItemProps) => async (item: any) => {
+    const id = (typeof item === 'object' ? item.id : item) || null;
     await onUpdateCallLog(
       {
         isSaved: false,
@@ -104,7 +109,12 @@ const _getReferenceFieldOptions = (
   };
 };
 
-export const EditLogSection: CallLogPanelProps['renderEditLogSection'] = ({
+type EditLogSectionProps = {
+  scrollTo: string;
+  rootRef: MutableRefObject<HTMLElement>;
+} & Parameters<CallLogPanelProps['renderEditLogSection']>[0];
+
+export const EditLogSection: FunctionComponent<EditLogSectionProps> = ({
   onUpdateCallLog,
   currentLog,
   currentLocale,
@@ -112,7 +122,28 @@ export const EditLogSection: CallLogPanelProps['renderEditLogSection'] = ({
   subjectDropdownsTracker,
   editSectionScrollBy,
   startAdornmentRender,
+  scrollTo,
+  rootRef,
 }) => {
+  const dispositionIdRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (rootRef?.current && dispositionIdRef.current) {
+      switch (scrollTo) {
+        case 'dispositionId':
+          rootRef.current.scrollBy({
+            top: dispositionIdRef.current.offsetTop,
+            behavior: 'smooth',
+          });
+          break;
+
+        default:
+          break;
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [scrollTo]);
+
   return (
     <CallLogFields
       referenceFieldOptions={_getReferenceFieldOptions(currentLocale)}
@@ -125,6 +156,9 @@ export const EditLogSection: CallLogPanelProps['renderEditLogSection'] = ({
       editSectionScrollBy={editSectionScrollBy}
       classes={{
         root: styles.root,
+      }}
+      refs={{
+        dispositionId: dispositionIdRef,
       }}
     />
   );

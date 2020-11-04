@@ -1,6 +1,6 @@
 import { meetingProviderTypesProps } from '../MeetingProvider/interface';
-import { RcVMeetingModel } from '../../models/rcv.model';
-import { MeetingAssistedUser } from '../Meeting';
+import { RcVMeetingModel } from '../../interfaces/Rcv.model';
+import { MeetingDelegators, RcMMeetingModel } from '../Meeting';
 
 export type ExtensionInfo = {
   contact: object;
@@ -40,7 +40,7 @@ export type MeetingScheduleModel = {
   startTime?: string;
 };
 
-export type ScheduleModel = Maybe<MeetingScheduleModel | RcVMeetingModel>;
+export type ScheduleModel = Maybe<RcMMeetingModel | RcVMeetingModel>;
 
 export type Maybe<T> = T | undefined;
 export type Either<T1, T2> = T1 | T2;
@@ -96,6 +96,7 @@ export type Meeting = Either<RCMeeting, RCVideo>;
 
 export enum MeetingEvents {
   afterSchedule = 'afterSchedule',
+  afterUpdate = 'afterUpdate',
 }
 
 export interface IGenericMeeting {
@@ -110,8 +111,7 @@ export interface IGenericMeeting {
   isPreferencesChanged: boolean;
   brandName: string;
   status: object;
-  assistedUsers: MeetingAssistedUser[];
-  scheduleForUser: MeetingAssistedUser;
+  delegators: MeetingDelegators[];
 
   initialize(): void;
 
@@ -133,6 +133,12 @@ export interface IGenericMeeting {
    */
   validatePasswordSettings(password: string, isSecret: boolean): boolean;
 
+  enablePersonalMeeting: boolean;
+  personalMeeting: any;
+  personalMeetingId: string;
+  personalMeetingSettings: any;
+  switchUsePersonalMeetingId: (usePersonalMeetingId: boolean) => any;
+
   /**
    * requests
    */
@@ -144,7 +150,7 @@ export interface IGenericMeeting {
     opener?: Window,
   ) => Promise<Maybe<Meeting>>;
 
-  getMeeting(meetingId: string): Promise<Maybe<Meeting>>;
+  getMeeting: (meetingId: string) => Promise<Maybe<Meeting>>;
 
   updateMeeting(
     meetingId: string,
@@ -155,12 +161,13 @@ export interface IGenericMeeting {
     opener?: Window,
   ): Promise<Maybe<Meeting>>;
 
+  updateScheduleFor: (userExtensionId: string | number) => void;
+
   getMeetingServiceInfo?: () => Promise<ServiceInfo>;
 
   /**
    * hook
    */
-  // TODO: refactor all `scheduledHook`
   addScheduledCallBack(cb: ScheduledCallback): void;
   removeScheduledCallBack(cb: ScheduledCallback): void;
 }

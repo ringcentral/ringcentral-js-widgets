@@ -1,5 +1,5 @@
-import micOffSvg from '@ringcentral-integration/rcui/icons/icon-mic-off.svg';
-import micSvg from '@ringcentral-integration/rcui/icons/icon-mic.svg';
+import micOffSvg from '@ringcentral/juno/icons/icon-mic-off.svg';
+import micSvg from '@ringcentral/juno/icons/icon-mic.svg';
 import React, { FunctionComponent } from 'react';
 
 import { CircleIconButton } from '../../CircleIconButton';

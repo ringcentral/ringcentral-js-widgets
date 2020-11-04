@@ -1,7 +1,7 @@
 import {
   combineProps,
   RcCircularProgress,
-} from '@ringcentral-integration/rcui';
+} from '@ringcentral/juno';
 import React, { FunctionComponent } from 'react';
 
 import { BlockItem } from '../../modules/Block';

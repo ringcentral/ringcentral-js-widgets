@@ -1,4 +1,4 @@
-import transferCallSvg from '@ringcentral-integration/rcui/icons/icon-transfer-call.svg';
+import transferCallSvg from '@ringcentral/juno/icons/icon-transfer-call.svg';
 import React, { FunctionComponent } from 'react';
 
 import { CircleIconButton } from '../../CircleIconButton';

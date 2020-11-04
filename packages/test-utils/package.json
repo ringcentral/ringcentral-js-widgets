@@ -22,15 +22,16 @@
   "license": "MIT",
   "dependencies": {
     "@ringcentral-integration/babel-settings": "*",
-    "babel-jest": "^24.8.0",
+    "babel-jest": "^26.3.0",
     "babel-preset-crius": "^1.0.0-alpha.2",
+    "crius-test": "^1.0.0-alpha.14",
     "cross-env": "^5.1.3",
     "enzyme": "^3.7.0",
     "enzyme-adapter-react-16": "^1.6.0",
     "enzyme-to-json": "^3.3.4",
     "identity-obj-proxy": "3.0.0",
-    "jest": "^24.8.0",
-    "jest-circus": "^24.9.0",
+    "jest": "^26.3.0",
+    "jest-circus": "^26.3.0",
     "jest-junit": "^6.3.0",
     "ringcentral-crius": "*"
   }

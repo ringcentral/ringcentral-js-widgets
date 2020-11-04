@@ -1,4 +1,4 @@
-import { RcList } from '@ringcentral-integration/rcui';
+import { RcList } from '@ringcentral/juno';
 import React, { FunctionComponent, ReactNode, useState } from 'react';
 import {
   SelectListTextField,

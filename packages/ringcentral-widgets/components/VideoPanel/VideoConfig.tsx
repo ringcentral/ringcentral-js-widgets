@@ -1,29 +1,35 @@
 import {
+  RcBoxSelect,
+  RcCheckbox,
   RcDatePicker,
-  RcFormGroup,
-  RcIconButton,
+  RcDatePickerProps,
   RcLineSelect,
   RcMenuItem,
-  RcCheckbox,
   RcTextField,
   RcTimePicker,
-  RcBoxSelect,
-} from '@ringcentral-integration/rcui';
-import dateSvg from '@ringcentral-integration/rcui/icons/icon-date_border.svg';
-import timeSvg from '@ringcentral-integration/rcui/icons/icon-time_border.svg';
-import { reduce } from 'ramda';
+  RcTimePickerProps,
+} from '@ringcentral/juno';
+import { find, reduce } from 'ramda';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { RcVMeetingModel } from 'ringcentral-integration/models/rcv.model';
+import { RcVMeetingModel } from 'ringcentral-integration/interfaces/Rcv.model';
+import { RCV_WAITING_ROOM_MODE } from 'ringcentral-integration/modules/RcVideo/videoHelper';
+import {
+  RcvDelegator,
+  RcvWaitingRoomModeProps,
+} from 'ringcentral-integration/modules/RcVideo/interface';
 
+import { formatMeetingId } from '../../lib/MeetingCalendarHelper';
 import { useDebounce } from '../../react-hooks';
-import { VideoSettingsGroup } from './VideoSettingsGroup';
+import { Alert, AlertType } from '../Alert';
 import i18n from './i18n';
+import { SettingGroup } from './SettingGroup';
 import styles from './styles.scss';
+import { VideoSecuritySettingsItem } from './VideoSecuritySettingItem';
 
-export const MINUTE_SCALE = 4;
-export const HOUR_SCALE = 13;
+export const MINUTE_SCALE: number = 4;
+export const HOUR_SCALE: number = 13;
 
-function getMinutesList(MINUTE_SCALE) {
+export function getMinutesList(MINUTE_SCALE: number) {
   return reduce(
     (result) => {
       const index = result.length;
@@ -39,7 +45,7 @@ function getMinutesList(MINUTE_SCALE) {
   );
 }
 
-function getHoursList(HOUR_SCALE) {
+export function getHoursList(HOUR_SCALE: number) {
   if (HOUR_SCALE > 23) {
     throw new Error('HOUR_SCALE must be less than 23.');
   }
@@ -71,6 +77,8 @@ function getHelperTextForPasswordField(
 }
 
 interface VideoConfigProps {
+  showScheduleOnBehalf?: boolean;
+  delegators?: RcvDelegator[];
   currentLocale: string;
   meeting: RcVMeetingModel;
 
@@ -81,11 +89,20 @@ interface VideoConfigProps {
   showTopic?: boolean;
   showWhen?: boolean;
   showDuration?: boolean;
+  showAdminLock?: boolean;
+  showPmiAlert?: boolean;
+  enableWaitingRoom?: boolean;
+
+  enablePersonalMeeting?: boolean;
+  enableJoinAfterMeCopy?: boolean;
+  personalMeetingId: string;
+  switchUsePersonalMeetingId: (usePersonalMeetingId: boolean) => any;
+  updateScheduleFor: (userExtensionId: string) => any;
   brandName: string;
   init: () => any;
-  personalMeetingId?: string;
-  datePickerSize?: string;
-  timePickerSize?: string;
+  datePickerSize?: RcDatePickerProps['size'];
+  timePickerSize?: RcTimePickerProps['size'];
+  labelPlacement?: 'end' | 'start' | 'top' | 'bottom';
 }
 
 export const VideoConfig: React.FunctionComponent<VideoConfigProps> = (
@@ -99,12 +116,23 @@ export const VideoConfig: React.FunctionComponent<VideoConfigProps> = (
     recipientsSection,
     init,
     children,
+    showTopic,
     showWhen,
     showDuration,
     brandName,
+    showAdminLock,
+    showPmiAlert,
+    enableWaitingRoom,
+    enablePersonalMeeting,
+    enableJoinAfterMeCopy,
     personalMeetingId,
+    switchUsePersonalMeetingId,
     datePickerSize,
     timePickerSize,
+    labelPlacement,
+    delegators,
+    showScheduleOnBehalf,
+    updateScheduleFor,
   } = props;
   const hoursList = getHoursList(HOUR_SCALE);
   const minutesList = getMinutesList(MINUTE_SCALE);
@@ -148,10 +176,41 @@ export const VideoConfig: React.FunctionComponent<VideoConfigProps> = (
     setAuthUserType(authUserTypeValue);
   }, [authUserTypeValue]);
 
+  const configRef = useRef<HTMLDivElement>();
+  const [hasScrollBar, setHasScrollBar] = useState<boolean>(false);
+
+  useEffect(() => {
+    setHasScrollBar(
+      configRef.current.scrollHeight > configRef.current.clientHeight,
+    );
+  }, []);
+
   const settingsGroupExpandable = false;
 
+  const [joinBeforeHostLabel, setJoinBeforeHostLabel] = useState<
+    'joinBeforeHost' | 'onlyJoinAfterMe' | 'onlyJoinAfterHost'
+  >('joinBeforeHost');
+  useEffect(() => {
+    if (!enableJoinAfterMeCopy) {
+      setJoinBeforeHostLabel('joinBeforeHost');
+      return;
+    }
+    const user = find(
+      (item) => item.extensionId === meeting.extensionId,
+      delegators || [],
+    );
+    if (user && !user.isLoginUser) {
+      return setJoinBeforeHostLabel('onlyJoinAfterHost');
+    }
+    return setJoinBeforeHostLabel('onlyJoinAfterMe');
+  }, [enableJoinAfterMeCopy, delegators, meeting.extensionId]);
+
   return (
-    <div className={styles.videoConfig}>
+    <div
+      ref={configRef}
+      className={styles.videoConfig}
+      data-sign="videoConfigPanel"
+    >
       <div className={styles.meetingContent}>
         <div className={styles.meetingSection}>{children}</div>
         {recipientsSection ? (
@@ -164,21 +223,13 @@ export const VideoConfig: React.FunctionComponent<VideoConfigProps> = (
               data-sign="date"
               date={startTime}
               fullWidth
+              clearBtn={false}
+              formatString="MM/DD/YYYY"
               size={datePickerSize}
               onChange={(value) => {
                 updateMeetingSettings({
                   startTime: value,
                 });
-              }}
-              formatString="MM/DD/YYYY"
-              InputProps={{
-                endAdornment: (
-                  <RcIconButton
-                    variant="round"
-                    size="medium"
-                    symbol={dateSvg}
-                  />
-                ),
               }}
             />
           </div>
@@ -187,23 +238,16 @@ export const VideoConfig: React.FunctionComponent<VideoConfigProps> = (
           <div className={styles.meetingSection}>
             <RcTimePicker
               fullWidth
+              clearBtn={false}
               size={timePickerSize}
               label={i18n.getString('startTime', currentLocale)}
+              isTwelveHourSystem
               data-sign="startTime"
               value={startTime}
               onChange={(value) => {
                 updateMeetingSettings({
                   startTime: new Date(value),
                 });
-              }}
-              InputProps={{
-                endAdornment: (
-                  <RcIconButton
-                    variant="round"
-                    size="medium"
-                    symbol={timeSvg}
-                  />
-                ),
               }}
             />
           </div>
@@ -272,205 +316,333 @@ export const VideoConfig: React.FunctionComponent<VideoConfigProps> = (
             </div>
           </div>
         ) : null}
-        <div className={styles.meetingSettings}>
-          <VideoSettingsGroup
-            dateSign="settingsPanel"
+        {showScheduleOnBehalf ? (
+          <SettingGroup
+            dataSign="scheduleOnBehalfPanel"
             expandable={settingsGroupExpandable}
-            summary={i18n.getString(
-              isRCBrand ? 'rcMeetingSettings' : 'meetingSettings',
-              currentLocale,
-            )}
+            summary={i18n.getString('scheduleFor', currentLocale)}
           >
-            <RcFormGroup
-              classes={{
-                root: styles.toggleGroup,
-              }}
-            >
-              {personalMeetingId ? (
+            <div className={styles.boxSelectWrapper}>
+              <RcBoxSelect
+                fullWidth
+                className={styles.boxSelect}
+                data-sign="scheduleFor"
+                onChange={(e) => {
+                  updateScheduleFor(e.target.value as string);
+                }}
+                value={meeting.extensionId}
+              >
+                {delegators.map((item: RcvDelegator, index: number) => {
+                  const userName = i18n.getString(item.name, currentLocale);
+                  return (
+                    <RcMenuItem
+                      value={item.extensionId}
+                      key={item.extensionId}
+                      title={userName}
+                      className={styles.boxSelectMenuItem}
+                      data-sign={`scheduleForMenuItem${index}`}
+                    >
+                      {userName}
+                    </RcMenuItem>
+                  );
+                })}
+              </RcBoxSelect>
+            </div>
+          </SettingGroup>
+        ) : null}
+        <SettingGroup
+          dataSign="settingsPanel"
+          expandable={settingsGroupExpandable}
+          summary={i18n.getString(
+            isRCBrand ? 'rcMeetingSettings' : 'meetingSettings',
+            currentLocale,
+          )}
+        >
+          {enablePersonalMeeting && (
+            <>
+              <VideoSecuritySettingsItem
+                labelPlacement={labelPlacement}
+                dataSign="usePersonalMeetingIdWrapper"
+                hasScrollBar={hasScrollBar}
+                currentLocale={currentLocale}
+                label={
+                  <div className={styles.pmiLabel}>
+                    {i18n.getString('usePersonalMeetingId', currentLocale)}
+                    &nbsp;
+                    <span data-sign="personalMeetingId">
+                      {formatMeetingId(personalMeetingId, '-')}
+                    </span>
+                  </div>
+                }
+              >
                 <RcCheckbox
                   data-sign="usePersonalMeetingId"
                   checked={meeting.usePersonalMeetingId}
-                  onChange={() => {
-                    updateMeetingSettings({
-                      usePersonalMeetingId: !meeting.usePersonalMeetingId,
-                    });
-                  }}
-                  label={
-                    <div>
-                      <div>
-                        {i18n.getString('usePersonalMeetingId', currentLocale)}
-                      </div>
-                      <div className={styles.personMeetingInfo}>
-                        {personalMeetingId}
-                      </div>
-                    </div>
-                  }
-                  classes={{ root: styles.checkInputWrapper }}
-                  formControlLabelProps={{
-                    classes: { root: styles.labelPlacementStart },
-                    labelPlacement: 'start',
+                  onChange={(ev, checked) => {
+                    switchUsePersonalMeetingId(checked);
                   }}
                 />
+              </VideoSecuritySettingsItem>
+              {meeting.usePersonalMeetingId && showPmiAlert ? (
+                <Alert
+                  type={AlertType.INFO}
+                  className={styles.pmiAlertContainer}
+                  dataSign="pmiAlert"
+                >
+                  {i18n.getString('pmiSettingAlert', currentLocale)}
+                </Alert>
               ) : null}
-              <RcCheckbox
-                data-sign="muteAudio"
-                checked={meeting.muteAudio}
-                onChange={() => {
-                  updateMeetingSettings({
-                    muteAudio: !meeting.muteAudio,
-                  });
-                }}
-                label={i18n.getString('muteAudio', currentLocale)}
-                classes={{ root: styles.checkInputWrapper }}
-                formControlLabelProps={{
-                  classes: { root: styles.labelPlacementStart },
-                  labelPlacement: 'start',
-                }}
-              />
-              <RcCheckbox
-                data-sign="turnOffCamera"
-                checked={meeting.muteVideo}
-                onChange={() => {
-                  updateMeetingSettings({
-                    muteVideo: !meeting.muteVideo,
-                  });
-                }}
-                label={i18n.getString('turnOffCamera', currentLocale)}
-                classes={{ root: styles.checkInputWrapper }}
-                formControlLabelProps={{
-                  classes: { root: styles.labelPlacementStart },
-                  labelPlacement: 'start',
-                }}
-              />
-            </RcFormGroup>
-          </VideoSettingsGroup>
-          <VideoSettingsGroup
-            dateSign="securityPanel"
-            expandable={settingsGroupExpandable}
-            summary={i18n.getString('meetingSettingsSecurity', currentLocale)}
+            </>
+          )}
+          <VideoSecuritySettingsItem
+            labelPlacement={labelPlacement}
+            dataSign="muteAudioWrapper"
+            hasScrollBar={hasScrollBar}
+            currentLocale={currentLocale}
+            label={i18n.getString('muteAudio', currentLocale)}
           >
-            <RcFormGroup
-              classes={{
-                root: styles.toggleGroup,
+            <RcCheckbox
+              data-sign="muteAudio"
+              checked={meeting.muteAudio}
+              onChange={() => {
+                updateMeetingSettings({
+                  muteAudio: !meeting.muteAudio,
+                });
               }}
-            >
-              <RcCheckbox
-                data-sign="requirePassword"
-                checked={meeting.isMeetingSecret}
-                onChange={() => {
-                  const next = !meeting.isMeetingSecret;
-                  updateMeetingSettings({
-                    isMeetingSecret: next,
-                  });
-                }}
-                label={i18n.getString('requirePassword', currentLocale)}
-                classes={{ root: styles.checkInputWrapper }}
-                formControlLabelProps={{
-                  classes: { root: styles.labelPlacementStart },
-                  labelPlacement: 'start',
-                }}
-              />
-              {meeting.isMeetingSecret ? (
-                <div className={styles.inputArea}>
-                  <RcTextField
-                    error={!meeting.isMeetingPasswordValid}
-                    helperText={getHelperTextForPasswordField(
-                      meeting,
-                      currentLocale,
-                    )}
-                    placeholder={i18n.getString('setPassword', currentLocale)}
-                    data-sign="password"
-                    fullWidth
-                    clearBtn
-                    spellCheck={false}
-                    value={meetingPassword}
-                    inputProps={{
-                      maxLength: 255,
-                    }}
-                    onChange={(e) => {
-                      const password = e.target.value;
-                      if (/^[A-Za-z0-9]{0,10}$/.test(password)) {
-                        setMeetingPassword(password);
-                      }
-                    }}
-                  />
-                </div>
-              ) : null}
-              <RcCheckbox
-                data-sign="allowJoinBeforeHost"
-                checked={meeting.allowJoinBeforeHost}
-                onChange={() => {
-                  updateMeetingSettings({
-                    allowJoinBeforeHost: !meeting.allowJoinBeforeHost,
-                  });
-                }}
-                label={i18n.getString('joinBeforeHost', currentLocale)}
-                classes={{ root: styles.checkInputWrapper }}
-                formControlLabelProps={{
-                  classes: { root: styles.labelPlacementStart },
-                  labelPlacement: 'start',
-                }}
-              />
-              <RcCheckbox
-                data-sign="isOnlyAuthUserJoin"
-                checked={meeting.isOnlyAuthUserJoin}
-                onChange={(ev, checked) => {
-                  updateMeetingSettings({
-                    isOnlyAuthUserJoin: checked,
-                    isOnlyCoworkersJoin: checked
-                      ? meeting.isOnlyCoworkersJoin
-                      : false,
-                  });
-                }}
-                label={i18n.getString('onlyAuthUserJoin', currentLocale)}
-                classes={{ root: styles.checkInputWrapper }}
-                formControlLabelProps={{
-                  classes: { root: styles.labelPlacementStart },
-                  labelPlacement: 'start',
-                }}
-              />
-              {meeting.isOnlyAuthUserJoin ? (
-                <div className={styles.authUserType}>
+            />
+          </VideoSecuritySettingsItem>
+          <VideoSecuritySettingsItem
+            labelPlacement={labelPlacement}
+            dataSign="turnOffCameraWrapper"
+            hasScrollBar={hasScrollBar}
+            currentLocale={currentLocale}
+            label={i18n.getString('turnOffCamera', currentLocale)}
+          >
+            <RcCheckbox
+              data-sign="turnOffCamera"
+              checked={meeting.muteVideo}
+              onChange={() => {
+                updateMeetingSettings({
+                  muteVideo: !meeting.muteVideo,
+                });
+              }}
+            />
+          </VideoSecuritySettingsItem>
+        </SettingGroup>
+        <SettingGroup
+          dataSign="securityPanel"
+          expandable={settingsGroupExpandable}
+          summary={i18n.getString('meetingSettingsSecurity', currentLocale)}
+        >
+          <VideoSecuritySettingsItem
+            labelPlacement={labelPlacement}
+            dataSign="requirePasswordWrapper"
+            hasScrollBar={hasScrollBar}
+            isLock={showAdminLock && meeting.settingLock.isMeetingSecret}
+            currentLocale={currentLocale}
+            label={i18n.getString('requirePassword', currentLocale)}
+          >
+            <RcCheckbox
+              data-sign="requirePassword"
+              checked={meeting.isMeetingSecret}
+              disabled={showAdminLock && meeting.settingLock.isMeetingSecret}
+              onChange={() => {
+                const next = !meeting.isMeetingSecret;
+                updateMeetingSettings({
+                  isMeetingSecret: next,
+                });
+              }}
+            />
+          </VideoSecuritySettingsItem>
+          {meeting.isMeetingSecret ? (
+            <RcTextField
+              error={!meeting.isMeetingPasswordValid}
+              helperText={getHelperTextForPasswordField(meeting, currentLocale)}
+              className={styles.passwordInput}
+              label={i18n.getString('setPassword', currentLocale)}
+              InputLabelProps={{
+                className: styles.passwordLabel,
+              }}
+              data-sign="password"
+              clearBtn
+              spellCheck={false}
+              value={meetingPassword}
+              inputProps={{
+                maxLength: 255,
+              }}
+              onChange={(e) => {
+                const password = e.target.value;
+                if (/^[A-Za-z0-9]{0,10}$/.test(password)) {
+                  setMeetingPassword(password);
+                }
+              }}
+            />
+          ) : null}
+          <VideoSecuritySettingsItem
+            labelPlacement={labelPlacement}
+            dataSign="allowJoinBeforeHostWrapper"
+            hasScrollBar={hasScrollBar}
+            isLock={showAdminLock && meeting.settingLock.allowJoinBeforeHost}
+            currentLocale={currentLocale}
+            label={i18n.getString(joinBeforeHostLabel, currentLocale)}
+          >
+            <RcCheckbox
+              data-sign="allowJoinBeforeHost"
+              checked={
+                enableJoinAfterMeCopy
+                  ? !meeting.allowJoinBeforeHost
+                  : meeting.allowJoinBeforeHost
+              }
+              disabled={
+                (showAdminLock && meeting.settingLock.allowJoinBeforeHost) ||
+                (enableWaitingRoom &&
+                  meeting.waitingRoomMode === RCV_WAITING_ROOM_MODE.all)
+              }
+              onChange={() => {
+                updateMeetingSettings({
+                  allowJoinBeforeHost: !meeting.allowJoinBeforeHost,
+                });
+              }}
+            />
+          </VideoSecuritySettingsItem>
+          {enableWaitingRoom ? (
+            <>
+              <VideoSecuritySettingsItem
+                labelPlacement={labelPlacement}
+                dataSign="isWaitingRoomWrapper"
+                hasScrollBar={hasScrollBar}
+                isLock={showAdminLock && meeting.settingLock.waitingRoomMode}
+                currentLocale={currentLocale}
+                label={i18n.getString('waitingRoom', currentLocale)}
+              >
+                <RcCheckbox
+                  data-sign="enableWaitingRoom"
+                  checked={!!meeting.waitingRoomMode}
+                  disabled={
+                    showAdminLock && meeting.settingLock.waitingRoomMode
+                  }
+                  onChange={(ev, checked) => {
+                    updateMeetingSettings({
+                      waitingRoomMode: checked
+                        ? RCV_WAITING_ROOM_MODE.notcoworker
+                        : RCV_WAITING_ROOM_MODE.off,
+                    });
+                  }}
+                />
+              </VideoSecuritySettingsItem>
+              {meeting.waitingRoomMode ? (
+                <div className={styles.boxSelectWrapper}>
                   <RcBoxSelect
+                    data-sign="waitingRoom"
+                    automationId="waitingRoom"
                     className={styles.boxSelect}
-                    isFullWidth
-                    automationId="authUserType"
+                    fullWidth
+                    disabled={
+                      showAdminLock && meeting.settingLock.waitingRoomMode
+                    }
                     onChange={(e) => {
-                      setAuthUserType(e.target.value as string);
                       updateMeetingSettings({
-                        isOnlyCoworkersJoin:
-                          e.target.value === 'signedInCoWorkers',
+                        waitingRoomMode: e.target
+                          .value as RcvWaitingRoomModeProps,
                       });
                     }}
-                    value={authUserType}
+                    value={meeting.waitingRoomMode}
                   >
-                    <RcMenuItem value="signedInUsers">
-                      {i18n.getString('signedInUsers', currentLocale)}
+                    <RcMenuItem
+                      data-sign="waitingRoomNotCoworker"
+                      disabled={meeting.isOnlyCoworkersJoin}
+                      value={RCV_WAITING_ROOM_MODE.notcoworker}
+                    >
+                      {i18n.getString('waitingRoomNotCoworker', currentLocale)}
                     </RcMenuItem>
-                    <RcMenuItem value="signedInCoWorkers">
-                      {i18n.getString('signedInCoWorkers', currentLocale)}
+                    <RcMenuItem
+                      data-sign="waitingRoomGuest"
+                      disabled={meeting.isOnlyAuthUserJoin}
+                      value={RCV_WAITING_ROOM_MODE.guests}
+                    >
+                      {i18n.getString('waitingRoomGuest', currentLocale)}
+                    </RcMenuItem>
+                    <RcMenuItem
+                      data-sign="waitingRoomAll"
+                      value={RCV_WAITING_ROOM_MODE.all}
+                    >
+                      {i18n.getString('waitingRoomAll', currentLocale)}
                     </RcMenuItem>
                   </RcBoxSelect>
                 </div>
               ) : null}
-              <RcCheckbox
-                data-sign="limitScreenSharing"
-                checked={!meeting.allowScreenSharing}
-                onChange={() => {
+            </>
+          ) : null}
+          <VideoSecuritySettingsItem
+            labelPlacement={labelPlacement}
+            dataSign="isOnlyAuthUserJoinWrapper"
+            hasScrollBar={hasScrollBar}
+            isLock={showAdminLock && meeting.settingLock.isOnlyAuthUserJoin}
+            currentLocale={currentLocale}
+            label={i18n.getString('onlyAuthUserJoin', currentLocale)}
+          >
+            <RcCheckbox
+              data-sign="isOnlyAuthUserJoin"
+              checked={meeting.isOnlyAuthUserJoin}
+              disabled={showAdminLock && meeting.settingLock.isOnlyAuthUserJoin}
+              onChange={(ev, checked) => {
+                updateMeetingSettings({
+                  isOnlyAuthUserJoin: checked,
+                  isOnlyCoworkersJoin: checked
+                    ? meeting.isOnlyCoworkersJoin
+                    : false,
+                });
+              }}
+            />
+          </VideoSecuritySettingsItem>
+          {meeting.isOnlyAuthUserJoin ? (
+            <div className={styles.boxSelectWrapper}>
+              <RcBoxSelect
+                data-sign="authUserType"
+                automationId="authUserType"
+                disabled={
+                  showAdminLock && meeting.settingLock.isOnlyCoworkersJoin
+                }
+                className={styles.boxSelect}
+                fullWidth
+                onChange={(e) => {
+                  setAuthUserType(e.target.value as string);
                   updateMeetingSettings({
-                    allowScreenSharing: !meeting.allowScreenSharing,
+                    isOnlyCoworkersJoin: e.target.value === 'signedInCoWorkers',
                   });
                 }}
-                label={i18n.getString('limitScreenSharing', currentLocale)}
-                classes={{ root: styles.checkInputWrapper }}
-                formControlLabelProps={{
-                  classes: { root: styles.labelPlacementStart },
-                  labelPlacement: 'start',
-                }}
-              />
-            </RcFormGroup>
-          </VideoSettingsGroup>
-        </div>
+                value={authUserType}
+              >
+                <RcMenuItem value="signedInUsers">
+                  {i18n.getString('signedInUsers', currentLocale)}
+                </RcMenuItem>
+                <RcMenuItem value="signedInCoWorkers">
+                  {i18n.getString('signedInCoWorkers', currentLocale)}
+                </RcMenuItem>
+              </RcBoxSelect>
+            </div>
+          ) : null}
+
+          <VideoSecuritySettingsItem
+            labelPlacement={labelPlacement}
+            dataSign="limitScreenSharingWrapper"
+            hasScrollBar={hasScrollBar}
+            isLock={showAdminLock && meeting.settingLock.allowScreenSharing}
+            currentLocale={currentLocale}
+            label={i18n.getString('limitScreenSharing', currentLocale)}
+          >
+            <RcCheckbox
+              data-sign="limitScreenSharing"
+              checked={!meeting.allowScreenSharing}
+              disabled={showAdminLock && meeting.settingLock.allowScreenSharing}
+              onChange={() => {
+                updateMeetingSettings({
+                  allowScreenSharing: !meeting.allowScreenSharing,
+                });
+              }}
+            />
+          </VideoSecuritySettingsItem>
+        </SettingGroup>
       </div>
     </div>
   );
@@ -525,7 +697,12 @@ VideoConfig.defaultProps = {
   showTopic: true,
   showWhen: true,
   showDuration: true,
-  personalMeetingId: undefined,
+  showAdminLock: false,
+  showPmiAlert: false,
+  enablePersonalMeeting: false,
+  enableWaitingRoom: false,
+  enableJoinAfterMeCopy: false,
   datePickerSize: 'medium',
   timePickerSize: 'medium',
+  labelPlacement: 'start',
 };

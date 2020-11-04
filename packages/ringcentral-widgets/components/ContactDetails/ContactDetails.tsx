@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { ContactModel } from 'ringcentral-integration/models/Contact.model';
+import { ContactModel } from 'ringcentral-integration/interfaces/Contact.model';
 import { CompanyInfo } from './components/CompanyInfo';
 import { Emails } from './components/Emails';
 import { Profile } from './components/Profile';
@@ -8,16 +8,16 @@ import styles from './styles.scss';
 import { PhoneSection } from './components/PhoneSection';
 import {
   onClickMailTo,
-  onClickToDial,
-  onClickToSMS,
+  clickToSMS,
+  clickToDial,
   formatNumber,
   sourceNodeRenderer,
 } from './ContactDetails.interface';
 
 interface ContactDetailsProps
   extends onClickMailTo,
-    onClickToDial,
-    onClickToSMS,
+    clickToSMS,
+    clickToDial,
     formatNumber,
     sourceNodeRenderer {
   currentLocale: string;
@@ -25,10 +25,6 @@ interface ContactDetailsProps
   disableLinks: boolean;
   isMultipleSiteEnabled: boolean;
   isCallButtonDisabled: boolean;
-  isClickToDialEnabled: boolean;
-  isClickToTextEnabled: boolean;
-  internalSmsPermission: boolean;
-  outboundSmsPermission: boolean;
 }
 
 export const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
@@ -38,13 +34,11 @@ export const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
   disableLinks,
   isMultipleSiteEnabled,
   isCallButtonDisabled,
-  isClickToDialEnabled,
-  isClickToTextEnabled,
+  canCallButtonShow,
+  canTextButtonShow,
   formatNumber,
-  internalSmsPermission,
   onClickToDial,
   onClickToSMS,
-  outboundSmsPermission,
   sourceNodeRenderer,
 }) => {
   return (
@@ -64,15 +58,13 @@ export const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
         contact={contact}
         currentLocale={currentLocale}
         disableLinks={disableLinks}
-        isClickToDialEnabled={isClickToDialEnabled}
+        canCallButtonShow={canCallButtonShow}
+        canTextButtonShow={canTextButtonShow}
         isCallButtonDisabled={isCallButtonDisabled}
-        isClickToTextEnabled={isClickToTextEnabled}
         isMultipleSiteEnabled={isMultipleSiteEnabled}
         formatNumber={formatNumber}
-        internalSmsPermission={internalSmsPermission}
         onClickToDial={onClickToDial}
         onClickToSMS={onClickToSMS}
-        outboundSmsPermission={outboundSmsPermission}
       />
       <Emails
         contactType={contact.type}

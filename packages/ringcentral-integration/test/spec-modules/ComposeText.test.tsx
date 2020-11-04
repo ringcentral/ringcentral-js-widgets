@@ -109,6 +109,8 @@ export class SendSMSSuccessfully extends Step {
               context.instance._deps.messageSender;
             context.reps = await ComposeText.prototype.send.call(
               context.mockModule,
+              context.mockModule.messageText,
+              context.mockModule.attachments,
             );
           }}
         />

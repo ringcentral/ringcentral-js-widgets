@@ -1,4 +1,4 @@
-import handUpSvg from '@ringcentral-integration/rcui/icons/icon-hand-up.svg';
+import handUpSvg from '@ringcentral/juno/icons/icon-hand-up.svg';
 import React, { FunctionComponent } from 'react';
 
 import { CircleIconButton } from '../../CircleIconButton';

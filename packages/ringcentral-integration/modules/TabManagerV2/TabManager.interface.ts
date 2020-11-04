@@ -1,6 +1,8 @@
 import { Brand } from '../BrandV2';
 
-export interface TabManagerOptions {}
+export interface TabManagerOptions {
+  enableCache?: boolean;
+}
 
 export interface Deps {
   brand: Brand;

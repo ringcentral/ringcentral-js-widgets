@@ -22,6 +22,7 @@
     white-space: nowrap;
     padding: 0 5px;
     vertical-align: middle;
+    box-sizing: content-box;
 }
 .currentCallBtn:hover {
   color: $leaf;
@@ -41,6 +42,7 @@
   white-space: nowrap;
   padding: 0 5px;
   vertical-align: middle;
+  box-sizing: content-box;
 }
 .viewCallsBtn:hover {
   color: $orange;

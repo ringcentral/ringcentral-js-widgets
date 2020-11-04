@@ -29,32 +29,32 @@
     "@ringcentral-integration/i18n": "*",
     "@ringcentral-integration/locale-loader": "*",
     "@ringcentral-integration/phone-number": "*",
-    "@ringcentral-integration/rcui": "*",
+    "@ringcentral/juno": "*",
     "@ringcentral-integration/test-utils": "*",
     "@ringcentral/sdk": "^4.3.2",
     "@ringcentral/subscriptions": "^4.3.2",
     "babel-istanbul": "^0.12.1",
-    "babel-jest": "^24.8.0",
+    "babel-jest": "^26.3.0",
     "coveralls": "^3.0.4",
     "dotenv": "^6.2.0",
     "enzyme": "^3.7.0",
     "enzyme-adapter-react-16": "^1.6.0",
     "enzyme-to-json": "^3.3.4",
-    "format-message": "^5.0.0",
-    "fs-extra": "^8.1.0",
+    "format-message": "^6.2.3",
+    "fs-extra": "^9.0.1",
     "identity-obj-proxy": "^3.0.0",
-    "jest-junit": "^6.3.0",
+    "jest-html-reporters": "2.0.3",
     "moment": "^2.24.0",
     "normalize-css": "^2.3.1",
     "pubnub": "^4.20.1",
-    "ramda": "^0.26.1",
+    "ramda": "^0.27.0",
     "rc-tooltip": "^3.7.2",
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
     "react-redux": "^5.1.1",
     "react-router": "^3.0.0",
     "react-router-redux": "^4.0.7",
-    "redux": "^4.0.4",
+    "redux": "^4.0.5",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.2.0",
     "ringcentral-client": "^1.0.0-beta.2",
@@ -86,12 +86,19 @@
     ],
     "reporters": [
       "default",
-      "jest-junit"
+      [
+        "jest-html-reporters",
+        {
+          "publicPath": "./html-report",
+          "filename": "jest-report.html",
+          "expand": true
+        }
+      ]
     ]
   },
   "devDependencies": {
-    "@types/jest": "^24.0.16",
-    "jest": "^24.8.0",
+    "@types/jest": "^26.0.13",
+    "jest": "^26.3.0",
     "react-test-renderer": "^16.8.3"
   },
   "ci": {

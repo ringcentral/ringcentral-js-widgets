@@ -38,6 +38,7 @@ class EvSubscription extends RcModuleV2<Deps> implements Subscription {
       });
     }
     this.eventEmitters.on(event, listener);
+    return this;
   }
 
   once<T extends EvClientCallBackValueType, K extends EvClientCallMapping[T]>(
@@ -45,6 +46,13 @@ class EvSubscription extends RcModuleV2<Deps> implements Subscription {
     listener: (data?: K) => any,
   ) {
     this.eventEmitters.once(event, listener);
+  }
+
+  off<T extends EvClientCallBackValueType, K extends EvClientCallMapping[T]>(
+    event: T,
+    listener: (data?: K) => any,
+  ) {
+    this.eventEmitters.off(event, listener);
   }
 }
 

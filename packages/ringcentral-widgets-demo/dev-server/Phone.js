@@ -6,11 +6,12 @@ import { RingCentralClient } from 'ringcentral-integration/lib/RingCentralClient
 import { ModuleFactory } from 'ringcentral-integration/lib/di';
 import RcModule from 'ringcentral-integration/lib/RcModule';
 
+import { phoneSources } from 'ringcentral-integration/enums/phoneSources';
 import callDirections from 'ringcentral-integration/enums/callDirections';
 import { callingOptions } from 'ringcentral-integration/modules/CallingSettingsV2/callingOptions';
 import { AccountContacts } from 'ringcentral-integration/modules/AccountContactsV2';
 import { CompanyContacts } from 'ringcentral-integration/modules/CompanyContactsV2';
-import AddressBook from 'ringcentral-integration/modules/AddressBook';
+import { AddressBook } from 'ringcentral-integration/modules/AddressBookV2';
 import { Alert } from 'ringcentral-integration/modules/AlertV2';
 import { Brand } from 'ringcentral-integration/modules/BrandV2';
 import CallCtrlUI from 'ringcentral-widgets/modules/CallCtrlUI';
@@ -18,25 +19,24 @@ import Contacts from 'ringcentral-integration/modules/Contacts';
 import ConnectivityMonitor from 'ringcentral-integration/modules/ConnectivityMonitor';
 import { DialingPlan } from 'ringcentral-integration/modules/DialingPlanV2';
 import { ExtensionDevice } from 'ringcentral-integration/modules/ExtensionDeviceV2';
-import Environment from 'ringcentral-integration/modules/Environment';
+import { Environment } from 'ringcentral-integration/modules/EnvironmentV2';
 import { ExtensionPhoneNumber } from 'ringcentral-integration/modules/ExtensionPhoneNumberV2';
 
 import { ForwardingNumber } from 'ringcentral-integration/modules/ForwardingNumberV2';
-import GlobalStorage from 'ringcentral-integration/modules/GlobalStorage';
-import Locale from 'ringcentral-integration/modules/Locale';
+import { GlobalStorage } from 'ringcentral-integration/modules/GlobalStorageV2';
+import { Locale } from 'ringcentral-integration/modules/LocaleV2';
 import RateLimiter from 'ringcentral-integration/modules/RateLimiter';
-import RegionSettings from 'ringcentral-integration/modules/RegionSettings';
-import Ringout from 'ringcentral-integration/modules/Ringout';
-import Webphone from 'ringcentral-integration/modules/Webphone';
-import Softphone from 'ringcentral-integration/modules/Softphone';
-import Storage from 'ringcentral-integration/modules/Storage';
-import Subscription from 'ringcentral-integration/modules/Subscription';
-// import TabManager from 'ringcentral-integration/modules/TabManager';
+import { RegionSettings } from 'ringcentral-integration/modules/RegionSettingsV2';
+import { Ringout } from 'ringcentral-integration/modules/RingoutV2';
+import { Webphone } from 'ringcentral-integration/modules/WebphoneV2';
+import { Softphone } from 'ringcentral-integration/modules/SoftphoneV2';
+import { Storage } from 'ringcentral-integration/modules/StorageV2';
+import { Subscription } from 'ringcentral-integration/modules/SubscriptionV2';
 import { TabManager } from 'ringcentral-integration/modules/TabManagerV2';
 import NumberValidate from 'ringcentral-integration/modules/NumberValidate';
 import MessageStore from 'ringcentral-integration/modules/MessageStore';
 import ContactSearch from 'ringcentral-integration/modules/ContactSearch';
-import DateTimeFormat from 'ringcentral-integration/modules/DateTimeFormat';
+import { DateTimeFormat } from 'ringcentral-integration/modules/DateTimeFormatV2';
 import Conference from 'ringcentral-integration/modules/Conference';
 import ConferenceCall from 'ringcentral-integration/modules/ConferenceCall';
 import QuickAccess from 'ringcentral-integration/modules/QuickAccess';
@@ -45,9 +45,9 @@ import CallMonitor from 'ringcentral-integration/modules/CallMonitor';
 import CallHistory from 'ringcentral-integration/modules/CallHistory';
 import RecentMessages from 'ringcentral-integration/modules/RecentMessages';
 import RecentCalls from 'ringcentral-integration/modules/RecentCalls';
-import AudioSettings from 'ringcentral-integration/modules/AudioSettings';
+import { AudioSettings } from 'ringcentral-integration/modules/AudioSettingsV2';
 import Meeting from 'ringcentral-integration/modules/Meeting';
-import LocaleSettings from 'ringcentral-integration/modules/LocaleSettings';
+import { LocaleSettings } from 'ringcentral-integration/modules/LocaleSettingsV2';
 import ContactMatcher from 'ringcentral-integration/modules/ContactMatcher';
 import { Analytics } from 'ringcentral-integration/modules/Analytics';
 import Feedback from 'ringcentral-integration/modules/Feedback';
@@ -86,7 +86,7 @@ import AlertUI from 'ringcentral-widgets/modules/AlertUI';
 import FlipUI from 'ringcentral-widgets/modules/FlipUI';
 import TransferUI from 'ringcentral-widgets/modules/TransferUI';
 import 'ringcentral-integration/lib/TabFreezePrevention';
-import LocalForageStorage from 'ringcentral-integration/lib/LocalForageStorage';
+import { LocalForageStorage } from 'ringcentral-integration/lib/LocalForageStorage';
 import { DataFetcherV2 } from 'ringcentral-integration/modules/DataFetcherV2';
 import { ExtensionInfo } from 'ringcentral-integration/modules/ExtensionInfoV2';
 import { ExtensionFeatures } from 'ringcentral-integration/modules/ExtensionFeaturesV2';
@@ -221,12 +221,19 @@ const history =
     { provide: 'ActiveCallControl', useClass: ActiveCallControl },
     { provide: 'BlockedNumber', useClass: BlockedNumber },
     {
+      // for StorageV2
       provide: 'StorageOptions',
       useValue: {
         StorageProvider: LocalForageStorage, // IndexedDB
-        disableAllowInactiveTabsWrite: true,
+        disableInactiveTabsWrite: true,
       },
-      spread: true,
+    },
+    {
+      // for GlobalStorageV2
+      provide: 'GlobalStorageOptions',
+      useValue: {
+        StorageProvider: LocalForageStorage, // IndexedDB
+      },
     },
     {
       provide: 'MessageStoreOptions',
@@ -252,6 +259,13 @@ const history =
         enabled: true,
       },
       spread: true,
+    },
+    {
+      provide: 'EnvironmentOptions',
+      useValue: {
+        defaultRecordingHost:
+          'https://apps.ringcentral.com/integrations/recording/index.html',
+      },
     },
     // {
     //   provide: 'ConferenceCallOptions',
@@ -327,7 +341,7 @@ export default class BasePhone extends RcModule {
                 type: item.type,
                 phoneNumber: p.phoneNumber,
                 phoneType: p.phoneType.replace('Phone', ''),
-                entityType: 'contact',
+                entityType: phoneSources.contact,
               });
             }
           });
@@ -337,11 +351,16 @@ export default class BasePhone extends RcModule {
       formatFn: (entities) => entities,
       readyCheckFn: () => contacts.ready,
     });
+
     contactMatcher.addSearchProvider({
       name: 'contacts',
-      searchFn: async ({ queries }) =>
-        contacts.matchContacts({ phoneNumbers: queries }),
-      readyCheckFn: () => contacts.ready,
+      async searchFn({ queries }) {
+        const items = await contacts.matchContacts({ phoneNumbers: queries });
+        return items;
+      },
+      readyCheckFn() {
+        return contacts.ready;
+      },
     });
 
     // Webphone configuration
@@ -481,9 +500,9 @@ export default class BasePhone extends RcModule {
         (ringout.ringoutStatus === ringoutStatus.connecting ||
           // for softphone
           (this._softphoneConnectTime &&
-          call &&
-          call.to &&
-          new Date() - this._softphoneConnectTime < 1 * 60 * 1000 && // in 1 minute
+            call &&
+            call.to &&
+            new Date() - this._softphoneConnectTime < 1 * 60 * 1000 && // in 1 minute
             this._normalizeNumber(call.to.phoneNumber) ===
               this._normalizeNumber(this._softphoneConnectNumber)))
       ) {
@@ -608,19 +627,6 @@ export function createPhone({
         },
       },
       {
-        provide: 'EnvironmentOptions',
-        useValue: {
-          sdkConfig: {
-            ...apiConfig,
-            appName: 'Widgets Demo App',
-            appVersion: 'N/A',
-            cachePrefix: `sdk-${prefix}`,
-            clearCacheOnRefreshError: false,
-          },
-        },
-        spread: true,
-      },
-      {
         // for Brand (V1) deprecated
         provide: 'BrandOptions',
         spread: true,
@@ -638,7 +644,6 @@ export function createPhone({
       },
       {
         provide: 'WebphoneOptions',
-        spread: true,
         useValue: {
           appKey: apiConfig.clientId || apiConfig.appKey,
           appName: brandConfig.appName,

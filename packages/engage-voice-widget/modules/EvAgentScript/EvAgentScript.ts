@@ -3,17 +3,26 @@ import {
   RcModuleV2,
   state,
   storage,
+  watch,
 } from '@ringcentral-integration/core';
 import { EventEmitter } from 'events';
 import { clone, reduce } from 'ramda';
+import { Debounce } from 'ringcentral-integration/lib/debounce-throttle';
 import { Module } from 'ringcentral-integration/lib/di';
+import { SingleTabBroadcastChannel } from 'ringcentral-integration/lib/SingleTabBroadcastChannel';
 
-import { agentScriptEvents, BROADCAST_KEY } from '../../enums';
+import {
+  agentScriptEvents,
+  EV_AGENT_SCRIPT_BROADCAST_KEY,
+  EV_AGENT_SCRIPT_PAGE_KEY,
+  EV_APP_PAGE_KEY,
+} from '../../enums';
 import { EvCallData } from '../../interfaces/EvData.interface';
 import {
   EvAgentScriptData,
   EvAgentScriptResult,
   EvAgentScriptResultModel,
+  EvCallDispositionItem,
   EvScriptResponseJSON,
 } from '../../lib/EvClient';
 import {
@@ -29,13 +38,18 @@ import {
     'EvAuth',
     'EvCall',
     'Storage',
+    'TabManager',
+    'EvCallMonitor',
     { dep: 'EvAgentScriptOptions', optional: true },
   ],
 })
-class EvAgentScript<T = {}> extends RcModuleV2<Deps & T>
+class EvAgentScript<T = {}>
+  extends RcModuleV2<Deps & T>
   implements AgentScript {
-  private broadcastChannel = new BroadcastChannel(BROADCAST_KEY);
+  private _channel: SingleTabBroadcastChannel;
+
   protected _eventEmitter = new EventEmitter();
+  private _hadResponse = false;
 
   constructor(deps: Deps) {
     super({
@@ -53,15 +67,15 @@ class EvAgentScript<T = {}> extends RcModuleV2<Deps & T>
 
   @storage
   @state
-  isAgentScript = true;
+  isDisplayAgentScript = true;
 
   @storage
   @state
   callScriptResultMapping: EvCallScriptResultMapping = {};
 
   @action
-  setIsAgentScript(state: boolean) {
-    this.isAgentScript = state;
+  setIsDisplayAgentScript(state: boolean) {
+    this.isDisplayAgentScript = state;
   }
 
   @action
@@ -69,6 +83,7 @@ class EvAgentScript<T = {}> extends RcModuleV2<Deps & T>
     this.currentCallScript = script;
   }
 
+  @Debounce()
   @action
   setCallScriptResult(id: string, data: EvAgentScriptResult) {
     this.callScriptResultMapping[id] = data;
@@ -76,50 +91,135 @@ class EvAgentScript<T = {}> extends RcModuleV2<Deps & T>
   }
 
   reset() {
-    this.setIsAgentScript(false);
+    console.log('!!!EvAgentScript reset');
+    // this.setIsDisplayAgentScript(false);
   }
 
   onSetScriptResult(cb: (id: string, data: EvAgentScriptResult) => any) {
     this._eventEmitter.on(agentScriptEvents.SET_SCRIPT_RESULT, cb);
   }
 
-  onInitOnce() {
-    this.broadcastChannel.onmessage = ({ data }) => {
-      if (this.isAgentScript) {
-        switch (data.key) {
-          case agentScriptEvents.INIT:
-            {
-              const { currentCall } = this._deps.evCall;
-              if (currentCall?.scriptId) {
-                this._sendInitScript();
-              }
-            }
-            break;
-          case agentScriptEvents.SET_SCRIPT_RESULT:
-            {
-              const { currentCall } = this._deps.evCall;
+  onUpdateDisposition(cb: (id: string, data: EvCallDispositionItem) => any) {
+    this._eventEmitter.on(agentScriptEvents.UPDATE_DISPOSITION, cb);
+  }
 
-              if (currentCall) {
-                this.setCallScriptResult(currentCall.uii, data.data);
-              }
-            }
-            break;
-          default:
-            break;
-        }
+  onInitOnce() {
+    this._bindChannel();
+
+    // when script change emit that
+    watch(
+      this,
+      () => this.currentCallScript,
+      () => {
+        this._responseInitScript();
+      },
+    );
+
+    this._deps.evCallMonitor.onCallAnswered(async (call) => {
+      if (this.getIsAgentScript(call)) {
+        await this.getScript(
+          call.scriptId,
+          call.scriptVersion,
+          'CALL',
+          call.uii,
+        );
       }
-    };
+    });
 
     this._deps.evAuth.beforeAgentLogout(() => {
       this.reset();
     });
   }
 
-  private _sendInitScript() {
-    this.broadcastChannel.postMessage({
-      key: agentScriptEvents.INIT,
-      value: this.currentCallScript,
+  onInit() {
+    console.log('EvAgentScript!! init');
+    this.setIsDisplayAgentScript(true);
+  }
+
+  getIsAgentScript(call: EvCallData) {
+    return !!(this.isDisplayAgentScript && call.scriptId);
+  }
+
+  private _bindChannel() {
+    if (
+      this._deps.tabManager.enable &&
+      !sessionStorage.getItem(EV_AGENT_SCRIPT_BROADCAST_KEY)
+    ) {
+      sessionStorage.setItem(
+        EV_AGENT_SCRIPT_BROADCAST_KEY,
+        this._deps.tabManager.id,
+      );
+    }
+
+    this._channel = new SingleTabBroadcastChannel(
+      EV_AGENT_SCRIPT_BROADCAST_KEY,
+      {
+        from: EV_APP_PAGE_KEY,
+        to: EV_AGENT_SCRIPT_PAGE_KEY,
+      },
+    ).init();
+
+    this._channel.addEventListener(({ data }) => {
+      const { key, value } = data;
+      const { activityCallId, currentCall } = this._deps.evCall;
+
+      if (
+        this.isDisplayAgentScript &&
+        activityCallId &&
+        currentCall?.scriptId
+      ) {
+        switch (key) {
+          case agentScriptEvents.INIT:
+            this._responseInitScript();
+            break;
+          case agentScriptEvents.SET_SCRIPT_RESULT:
+            this.setCallScriptResult(activityCallId, value);
+            break;
+          case agentScriptEvents.GET_KNOWLEDGE_BASE_ARTICLES:
+            this._getKnowledgeBaseGroups(value);
+            break;
+          case agentScriptEvents.UPDATE_DISPOSITION:
+            this._eventEmitter.emit(
+              agentScriptEvents.UPDATE_DISPOSITION,
+              activityCallId,
+              value,
+            );
+            break;
+          default:
+            break;
+        }
+      }
     });
+
+    // if that agent Script is more quick than CTI app, that will need emit that when app init.
+    setTimeout(() => {
+      if (this.currentCallScript && !this._hadResponse) {
+        this._responseInitScript();
+      }
+    }, 1000);
+  }
+
+  private async _getKnowledgeBaseGroups(knowledgeBaseGroupIds: number[]) {
+    const value = await this._deps.evClient.getKnowledgeBaseGroups(
+      knowledgeBaseGroupIds,
+    );
+
+    this._channel.send({
+      key: agentScriptEvents.GET_KNOWLEDGE_BASE_ARTICLES,
+      value,
+    });
+  }
+
+  private _responseInitScript() {
+    this._channel.send({
+      key: agentScriptEvents.INIT,
+      value: {
+        config: this.currentCallScript,
+        call: this._deps.evCall.currentCall,
+      },
+    });
+
+    this._hadResponse = true;
   }
 
   async getScript(
@@ -145,7 +245,6 @@ class EvAgentScript<T = {}> extends RcModuleV2<Deps & T>
       //   break;
       case 'CALL':
         this.setCurrentCallScript(result);
-        this._sendInitScript();
         break;
 
       default:

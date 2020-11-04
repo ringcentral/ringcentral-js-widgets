@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 import getModuleStatusReducer from '../../lib/getModuleStatusReducer';
-import subscriptionStatus from './subscriptionStatus';
+import { subscriptionStatus } from './subscriptionStatus';
 
 export function getCachedSubscriptionReducer(types) {
   return (state = null, { type, subscription }) => {
@@ -50,7 +50,8 @@ export function getMessageReducer(types) {
   return (state = null, { type, message = state }) => {
     if (type === types.notification) {
       return message;
-    } else if (type === types.resetSuccess) {
+    }
+    if (type === types.resetSuccess) {
       return null;
     }
     return state;

@@ -2,14 +2,18 @@
   "name": "ringcentral-crius",
   "private": true,
   "version": "1.0.0",
-  "description": "A test lib based on Crius for RingCentral",
+  "description": "A test lib based on Crius for RingCentral Integration",
   "main": "index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
     "crius-is": "^1.0.0-alpha.11",
-    "crius-test": "^1.0.0-alpha.13"
+    "crius-test": "^1.0.0-alpha.14"
+  },
+  "peerDependencies": {
+    "crius-is": "^1.0.0-alpha.11",
+    "crius-test": "^1.0.0-alpha.14"
   },
   "keywords": [],
   "author": "",

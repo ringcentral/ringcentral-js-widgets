@@ -20,7 +20,10 @@ function f1(str: string): Array<string> {
   return [str.slice(0, 4), str.slice(4)];
 }
 
-export function formatMeetingId(str: string, delimeter = ' '): string {
+export function formatMeetingId(str: string, delimeter: string = ' '): string {
+  if (!str) {
+    return '';
+  }
   const [current, nextSlices] = f1(str);
   if (!nextSlices) {
     return current;
@@ -39,6 +42,30 @@ function getPasswordTpl(
   return meetingPassword ? `${passwordLiteral}: ${meetingPassword}` : '';
 }
 
+/**
+ * replace all text link into anchor link
+ * Should match: http://www.example.com
+ * Should not match: <a href="http://www.example.com">http://www.example.com </a>
+ * Then replace it into <a href="http://www.example.com">http://www.example.com </a>
+ * @param input
+ */
+export function replaceTextLinksToAnchors(input: string): string {
+  /**
+   * [^<>\]]+ means should match any characters except < or > or ]
+   * (?!\s*<\/a>) means url should not be followed by either "</a>" or "     </a>"
+   * (?!"[^>]*>) means url should not followed by ">
+   * further explanation: origin string: <a href="http://www.example.com">http://www.example.com </a> should not match
+   * (?=[\s!,?\]]|$) means url can be followed by punctuations or whitespace or nothing
+   */
+  // https://stackoverflow.com/questions/19060460/url-replace-with-anchor-not-replacing-existing-anchors
+
+  const pattern: RegExp = /(?:(?:ht|f)tps?:\/\/|www)[^<>\]]+(?!\s*<\/a>)(?!"[^>]*>)(?=[\s!,?\]<]|$)/gim;
+
+  return input.replace(pattern, ($0: string): string => {
+    return `<a target="_blank" href="${$0}">${$0}</a>`;
+  });
+}
+
 export const htmlNewLine: string = '<br>';
 export const htmlIndentation: string = '&nbsp;';
 export const htmlTabIndentation: string = htmlIndentation.repeat(4);
@@ -49,6 +76,7 @@ export function formatTextToHtml(
 ): string {
   const {
     links = [],
+    searchLinks = false,
     newLine = htmlNewLine,
     indentation = htmlIndentation,
     tabIndentation = htmlTabIndentation,
@@ -73,7 +101,11 @@ export function formatTextToHtml(
     }
   });
 
-  return `<section>${newLine}${htmlContent}${newLine}</section>`;
+  if (searchLinks) {
+    htmlContent = replaceTextLinksToAnchors(htmlContent);
+  }
+
+  return htmlContent;
 }
 
 /**

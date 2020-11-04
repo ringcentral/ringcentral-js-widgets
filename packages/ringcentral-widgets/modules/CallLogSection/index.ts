@@ -29,20 +29,31 @@ import getStorageReducer from './getStorageReducer';
   ],
 })
 export default class CallLogSection extends RcModule {
-  constructor({ storage, ...options }) {
+  _notSyncOpenState: boolean;
+  _storageKey: string;
+  _storageReducer: any;
+
+  constructor({ storage, notSyncOpenState = false, ...options }) {
     super({
       storage,
       actionTypes,
       ...options,
     });
     this._storage = storage;
-    this._storageReducer = getStorageReducer(this.actionTypes);
+    this._notSyncOpenState = notSyncOpenState;
+    this._storageReducer = getStorageReducer(
+      this.actionTypes,
+      notSyncOpenState,
+    );
     this._storageKey = 'callLogSection';
     this._storage.registerReducer({
       key: this._storageKey,
       reducer: this._storageReducer,
     });
-    this._reducer = getCallLogSectionReducer(this.actionTypes);
+    this._reducer = getCallLogSectionReducer(
+      this.actionTypes,
+      notSyncOpenState,
+    );
   }
 
   async _onStateChange() {
@@ -247,6 +258,7 @@ export default class CallLogSection extends RcModule {
     () => this._callsSavingStatus,
     converge(mergeWith(flip(assoc('isSaving'))), [
       identity,
+      // eslint-disable-next-line react-hooks/rules-of-hooks
       useWith(pick, [keys, identity]),
     ]),
   ] as any;
@@ -266,24 +278,54 @@ export default class CallLogSection extends RcModule {
     return this.state.callsSavingStatus;
   }
 
-  get currentIdentify() {
+  get _storageCurrentIdentify() {
     return this._storage.getItem(this._storageKey).currentIdentify;
+  }
+
+  get _stateCurrentIdentify() {
+    return this.state.currentIdentify;
+  }
+
+  get currentIdentify() {
+    return this._notSyncOpenState
+      ? this._stateCurrentIdentify
+      : this._storageCurrentIdentify;
   }
 
   get show() {
     return !!this.currentIdentify;
   }
 
-  get currentNotificationIdentify() {
+  get _storageCurrentNotificationIdentify() {
     return this._storage.getItem(this._storageKey).currentNotificationIdentify;
+  }
+
+  get _stateCurrentNotificationIdentify() {
+    return this.state.currentNotificationIdentify;
+  }
+
+  get currentNotificationIdentify() {
+    return this._notSyncOpenState
+      ? this._stateCurrentNotificationIdentify
+      : this._storageCurrentNotificationIdentify;
   }
 
   get showNotification() {
     return !!this.currentNotificationIdentify;
   }
 
-  get notificationIsExpand() {
+  get _storageNotificationIsExpand() {
     return this._storage.getItem(this._storageKey).notificationIsExpand;
+  }
+
+  get _stateNotificationIsExpand() {
+    return this.state.notificationIsExpand;
+  }
+
+  get notificationIsExpand() {
+    return this._notSyncOpenState
+      ? this._stateNotificationIsExpand
+      : this._storageNotificationIsExpand;
   }
 
   get status() {

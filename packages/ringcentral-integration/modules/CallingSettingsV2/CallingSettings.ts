@@ -66,7 +66,7 @@ class CallingSettings extends RcModuleV2<Deps> {
     super({
       deps,
       enableCache: true,
-      storageKey: 'callingSettingsData',
+      storageKey: 'CallingSettings',
     });
     this._onFirstLogin = this._deps.callingSettingsOptions?.onFirstLogin;
     this.initRingoutPrompt = this._deps.callingSettingsOptions?.defaultRingoutPrompt;
@@ -74,31 +74,57 @@ class CallingSettings extends RcModuleV2<Deps> {
       this._deps.callingSettingsOptions?.showCallWithJupiter ?? true;
     this._emergencyCallAvailable =
       this._deps.callingSettingsOptions?.emergencyCallAvailable ?? false;
+    /* migration storage v1 to v2 */
+    if (this._deps.storage) {
+      this._deps.storage.migrationMapping =
+        this._deps.storage.migrationMapping ?? {};
+      this._deps.storage.migrationMapping['CallingSettings-data'] =
+        'callingSettingsData';
+    }
+    /* migration storage v1 to v2 */
+  }
+
+  get callWith() {
+    return this.data.callWith;
+  }
+
+  get ringoutPrompt() {
+    return this.data.ringoutPrompt;
+  }
+
+  get myLocation() {
+    return this.data.myLocation;
+  }
+
+  get fromNumber() {
+    return this.data.fromNumber;
+  }
+
+  get timestamp() {
+    return this.data.timestamp;
+  }
+
+  get isCustomLocation() {
+    return this.data.isCustomLocation;
   }
 
   @storage
   @state
-  callWith: string = null;
-
-  @storage
-  @state
-  ringoutPrompt: boolean = true;
-
-  @storage
-  @state
-  myLocation: string = '';
-
-  @storage
-  @state
-  fromNumber: string = null;
-
-  @storage
-  @state
-  timestamp: number = null;
-
-  @storage
-  @state
-  isCustomLocation: boolean = false;
+  data: {
+    callWith: string;
+    ringoutPrompt: boolean;
+    myLocation: string;
+    fromNumber: string;
+    timestamp: number;
+    isCustomLocation: boolean;
+  } = {
+    callWith: null,
+    ringoutPrompt: true,
+    myLocation: '',
+    fromNumber: null,
+    timestamp: null,
+    isCustomLocation: false,
+  };
 
   @action
   setDataAction({
@@ -114,28 +140,30 @@ class CallingSettings extends RcModuleV2<Deps> {
     timestamp?: number;
     isCustomLocation?: boolean;
   }) {
-    this.callWith = callWith;
-    this.ringoutPrompt = ringoutPrompt;
-    this.myLocation = myLocation;
-    this.timestamp = timestamp;
-    this.isCustomLocation = isCustomLocation;
+    this.data.callWith = callWith;
+    this.data.ringoutPrompt = ringoutPrompt;
+    this.data.myLocation = myLocation;
+    this.data.timestamp = timestamp;
+    this.data.isCustomLocation = isCustomLocation;
+  }
+
+  @action
+  _updateFromNumber(number: { phoneNumber?: string }) {
+    this.data.fromNumber = number && number?.phoneNumber;
   }
 
   @proxify
-  @action
   async updateFromNumber(number: { phoneNumber?: string }) {
-    this.fromNumber = number && number?.phoneNumber;
+    this._updateFromNumber(number);
   }
 
   @action
   resetSuccess() {
-    this.fromNumber = null;
+    this.data.fromNumber = null;
   }
 
   async onStateChange() {
-    if (this._shouldReset()) {
-      this.__resetSuccessModule__();
-    } else if (this._shouldValidate()) {
+    if (!this._shouldReset() && !this._shouldInit() && this._shouldValidate()) {
       this._ringoutEnabled = this._deps.rolesAndPermissions.ringoutEnabled;
       this._webphoneEnabled = this._deps.rolesAndPermissions.webphoneEnabled;
       this._myPhoneNumbers = this.myPhoneNumbers;

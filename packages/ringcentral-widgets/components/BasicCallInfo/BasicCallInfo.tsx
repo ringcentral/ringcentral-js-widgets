@@ -1,6 +1,6 @@
-import { RcIconButton } from '@ringcentral-integration/rcui';
-import chevronLeftSvg from '@ringcentral-integration/rcui/icons/icon-chevron_left.svg';
-import chevronRight from '@ringcentral-integration/rcui/icons/icon-chevron_right.svg';
+import { RcIconButton } from '@ringcentral/juno';
+import chevronLeftSvg from '@ringcentral/juno/icons/icon-chevron_left.svg';
+import chevronRight from '@ringcentral/juno/icons/icon-chevron_right.svg';
 import classNames from 'classnames';
 import React, {
   FunctionComponent,

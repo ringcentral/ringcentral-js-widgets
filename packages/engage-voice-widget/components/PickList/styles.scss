@@ -2,5 +2,6 @@
 
 .menuItem {
   @include textOverflowEllipsis();
+  line-height: normal;
   width: 100%;
 }

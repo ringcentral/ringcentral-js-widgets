@@ -312,6 +312,7 @@ describe('CallHistory Unit Test', () => {
         calls: [
           {
             sessionId: 'foo',
+            telephonySessionId: 'foo1',
           },
         ],
       };
@@ -325,13 +326,15 @@ describe('CallHistory Unit Test', () => {
       callHistory._lastProcessedMonitorCalls = [
         {
           sessionId: 'bar',
+          telephonySessionId: 'bar1',
         },
         {
           sessionId: 'foo',
+          telephonySessionId: 'foo1',
         },
       ];
       expect(callHistory._getEndedCalls()).to.deep.equal([
-        { sessionId: 'bar' },
+        { sessionId: 'bar', telephonySessionId: 'bar1' },
       ]);
     });
     it('Should return [] when sessionId already exist', () => {
@@ -339,9 +342,11 @@ describe('CallHistory Unit Test', () => {
         calls: [
           {
             sessionId: 'bar',
+            telephonySessionId: 'bar1',
           },
           {
             sessionId: 'foo',
+            telephonySessionId: 'foo1',
           },
         ],
       };
@@ -351,6 +356,7 @@ describe('CallHistory Unit Test', () => {
       callHistory._lastProcessedMonitorCalls = [
         {
           sessionId: 'bar',
+          telephonySessionId: 'bar1',
         },
       ];
       expect(callHistory._getEndedCalls()).to.deep.equal([]);
@@ -383,6 +389,7 @@ describe('CallHistory Unit Test', () => {
         calls: [
           {
             sessionId: 'foo',
+            telephonySessionId: 'foo1',
           },
         ],
       };
@@ -393,9 +400,11 @@ describe('CallHistory Unit Test', () => {
       callHistory._lastProcessedCalls = [
         {
           sessionId: 'bar',
+          telephonySessionId: 'bar1',
         },
         {
           sessionId: 'foo',
+          telephonySessionId: 'foo1',
         },
       ];
       const recentlyEndedCalls = currentCalls.calls;
@@ -404,7 +413,7 @@ describe('CallHistory Unit Test', () => {
       });
 
       expect(callHistory._shouldRemoveEndedCalls()).to.deep.equal([
-        { sessionId: 'foo' },
+        { sessionId: 'foo', telephonySessionId: 'foo1' },
       ]);
     });
     it('Should return [] when _lastProcessedCalls is not equal to currentCalls and sessionId is not existed', () => {
@@ -412,11 +421,13 @@ describe('CallHistory Unit Test', () => {
       callHistory._lastProcessedCalls = [
         {
           sessionId: 'bar',
+          telephonySessionId: 'bar1',
         },
       ];
       const recentlyEndedCalls = [
         {
           sessionId: 'koo',
+          telephonySessionId: 'koo1',
         },
       ];
       sinon.stub(callHistory, 'recentlyEndedCalls', {

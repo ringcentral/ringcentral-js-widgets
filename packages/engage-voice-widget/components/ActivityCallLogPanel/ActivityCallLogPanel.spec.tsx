@@ -3,7 +3,7 @@ import {
   RcThemeProvider,
   RcExpansionPanelSummary,
   RcExpansionPanel,
-} from '@ringcentral-integration/rcui';
+} from '@ringcentral/juno';
 import { mount } from 'enzyme';
 import {
   ActivityCallLogPanel,

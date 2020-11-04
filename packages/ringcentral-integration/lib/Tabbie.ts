@@ -1,5 +1,5 @@
 import EventEmitter from 'events';
-import uuid from 'uuid';
+import * as uuid from 'uuid';
 import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 
 const HEART_BEAT_INTERVAL = 1000;
@@ -8,6 +8,9 @@ const HEART_BEAT_INTERVAL = 1000;
 // sometimes would kill live heartbeats and cause the mainTabId to change
 const HEART_BEAT_EXPIRE = 3000;
 const GC_INTERVAL = 5000;
+export const getPrefix = (prefix: string): string =>
+  prefix && prefix !== '' ? `${prefix}-` : '';
+export const getEventKey = (prefix: string): string => `${prefix}tabbie-event-`;
 
 const TabbieEvents = ObjectMap.fromKeys(['mainTabIdChanged', 'event']);
 /**
@@ -51,6 +54,10 @@ export class Tabbie {
     return this._getHeartBeatKeys();
   }
 
+  get actualTabIds() {
+    return this.tabs.map((tab) => this._getActualId(tab));
+  }
+
   get firstTabId() {
     const tabs = this.tabs;
     if (tabs.length) {
@@ -80,7 +87,7 @@ export class Tabbie {
     heartBeatExpire = HEART_BEAT_EXPIRE,
     gcInterval = GC_INTERVAL,
   }) {
-    this.prefix = prefix && prefix !== '' ? `${prefix}-` : '';
+    this.prefix = getPrefix(prefix);
     this._heartBeatInterval = heartBeatInterval;
     this._heartBeatExpire = heartBeatExpire;
     this._gcInterval = gcInterval;
@@ -93,7 +100,7 @@ export class Tabbie {
     const preFixHeartBeatKey = `${this.prefix}tabbie-heartBeat-`;
     this._heartBeatKey = `${preFixHeartBeatKey}${this.id}`;
     this._mainTabKey = `${this.prefix}tabbie-mainTab-id`;
-    this._eventKey = `${this.prefix}tabbie-event-`;
+    this._eventKey = getEventKey(this.prefix);
 
     this._heartBeatRegExp = new RegExp(`^${preFixHeartBeatKey}`);
     this._eventRegExp = new RegExp(`^${this._eventKey}`);
@@ -102,9 +109,8 @@ export class Tabbie {
       this._bindInterval();
 
       this._bindListener();
-
       if (!document.hidden) {
-        this._setAsMainTab();
+        this.setAsMainTab();
       } else if (!this.mainTabId) {
         this._setFirstTabAsMainTab();
       }
@@ -250,22 +256,22 @@ export class Tabbie {
     return [...results];
   }
 
-  private _setAsMainTab() {
-    localStorage.setItem(this._mainTabKey, this.id);
-    this._emitter.emit(this.events.mainTabIdChanged, this.id);
+  public setAsMainTab(id = this.id) {
+    localStorage.setItem(this._mainTabKey, id);
+    this._emitter.emit(this.events.mainTabIdChanged, id);
   }
 
   private _setAsVisibleTab = () => {
     // avoid setting mainTabId repeatedly which may result in forced rendering
     if (!document.hidden && !this.isMainTab) {
-      this._setAsMainTab();
+      this.setAsMainTab();
     }
   };
 
   private _setFirstTabAsMainTab() {
     if (this.isFirstTab) {
       localStorage.removeItem(this._mainTabKey);
-      this._setAsMainTab();
+      this.setAsMainTab();
     }
   }
 }

@@ -6,7 +6,7 @@ import Webphone from '../Webphone';
 import ExtensionInfo from '../ExtensionInfo';
 import ExtensionPhoneNumber from '../ExtensionPhoneNumber';
 import ForwardingNumber from '../ForwardingNumber';
-import Storage from '../Storage';
+import { Storage } from '../StorageV2';
 import { CallerId } from '../CallerId';
 import ExtensionDevice from '../ExtensionDevice';
 

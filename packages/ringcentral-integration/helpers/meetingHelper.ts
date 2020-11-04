@@ -77,7 +77,7 @@ function getMeetingSettings({
 function getDefaultMeetingSettings(
   extensionName: string,
   startTime: string,
-  extensionId?: string,
+  hostId?: string,
 ) {
   return {
     topic: `${extensionName}'s Meeting`,
@@ -91,7 +91,7 @@ function getDefaultMeetingSettings(
       },
     },
     host: {
-      id: extensionId ?? null,
+      id: hostId ?? null,
     },
     allowJoinBeforeHost: false,
     startHostVideo: false,
@@ -136,6 +136,16 @@ function comparePreferences(preferences, meeting): boolean {
   return preferencesChanged;
 }
 
+function generateRandomPassword(length: number = 6): string {
+  const charset = '0123456789';
+  const charLen = charset.length;
+  let retVal = '';
+  for (let i = 0; i < length; i++) {
+    retVal += charset.charAt(Math.floor(Math.random() * charLen));
+  }
+  return retVal;
+}
+
 export {
   getMobileDialingNumberTpl,
   getPhoneDialingNumberTpl,
@@ -147,4 +157,5 @@ export {
   prunePreferencesObject,
   comparePreferences,
   isRecurringMeeting,
+  generateRandomPassword,
 };

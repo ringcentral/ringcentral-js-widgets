@@ -1,5 +1,7 @@
 import { Module } from 'ringcentral-integration/lib/di';
-import { RcVMeetingModel } from 'ringcentral-integration/models/rcv.model';
+import { RcVMeetingModel } from 'ringcentral-integration/interfaces/Rcv.model';
+import { RcMMeetingModel } from 'ringcentral-integration/modules/Meeting';
+import GenericMeeting from 'ringcentral-integration/modules/GenericMeeting';
 import Brand from 'ringcentral-integration/modules/Brand';
 
 import RcUIModule from '../../lib/RcUIModule';
@@ -15,7 +17,7 @@ import RcUIModule from '../../lib/RcUIModule';
   ],
 })
 export default class GenericMeetingUI extends RcUIModule {
-  _genericMeeting: any;
+  _genericMeeting: GenericMeeting;
   _locale: any;
   _rateLimiter: any;
   _connectivityMonitor: any;
@@ -40,11 +42,13 @@ export default class GenericMeetingUI extends RcUIModule {
   }
 
   getUIProps({
+    useRcmV2,
     disabled,
     showTopic,
     showWhen,
     showDuration,
     openNewWindow,
+    labelPlacement,
     showRecurringMeeting,
     scheduleButton,
     datePickerSize,
@@ -55,24 +59,25 @@ export default class GenericMeetingUI extends RcUIModule {
       this._genericMeeting.meeting &&
       (this._genericMeeting.isRCV || this._genericMeeting.isRCM) &&
       !this._genericMeeting.validatePasswordSettings(
-        this._genericMeeting.meeting.password,
+        this._genericMeeting.isRCV
+          ? this._genericMeeting.meeting.meetingPassword
+          : this._genericMeeting.meeting.password,
         this._genericMeeting.isRCV
           ? this._genericMeeting.meeting.isMeetingSecret
           : this._genericMeeting.meeting._requireMeetingPassword,
       );
     const meeting =
       (this._genericMeeting.ready && this._genericMeeting.meeting) || {};
+    const delegators =
+      (this._genericMeeting.ready && this._genericMeeting.delegators) || [];
     return {
       meeting,
+      useRcmV2,
+      delegators,
+      labelPlacement,
       datePickerSize,
       timePickerSize,
       currentLocale: this._locale.currentLocale,
-      assistedUsers:
-        (this._genericMeeting.ready && this._genericMeeting.assistedUsers) ||
-        [],
-      scheduleForUser: this._genericMeeting.ready
-        ? this._genericMeeting.scheduleForUser
-        : null,
       disabled: !!(
         disabled ||
         invalidPassowrd ||
@@ -84,6 +89,7 @@ export default class GenericMeetingUI extends RcUIModule {
       showTopic,
       showWhen,
       showDuration,
+      showScheduleOnBehalf: !!(delegators && delegators.length > 0),
       showRecurringMeeting:
         !meeting.usePersonalMeetingId && showRecurringMeeting,
       openNewWindow,
@@ -99,10 +105,15 @@ export default class GenericMeetingUI extends RcUIModule {
       isRCV: this._genericMeeting.isRCV,
       scheduleButton,
       brandName: this._brand.name,
-      personalMeetingId:
+      showAdminLock:
+        this._genericMeeting.ready && this._genericMeeting.showAdminLock,
+      enablePersonalMeeting:
         this._genericMeeting.ready &&
-        this._genericMeeting.personalMeeting &&
-        this._genericMeeting.personalMeeting.shortId,
+        this._genericMeeting.enablePersonalMeeting,
+      enableWaitingRoom:
+        this._genericMeeting.ready && this._genericMeeting.enableWaitingRoom,
+      personalMeetingId:
+        this._genericMeeting.ready && this._genericMeeting.personalMeetingId,
       showSpinner: !!(
         !this._locale.ready ||
         !this._genericMeeting.ready ||
@@ -122,7 +133,7 @@ export default class GenericMeetingUI extends RcUIModule {
       updateScheduleFor: (userExtensionId: string) =>
         this._genericMeeting.updateScheduleFor(userExtensionId),
       // TODO: any is reserved for RcM
-      updateMeetingSettings: (value: RcVMeetingModel | any) =>
+      updateMeetingSettings: (value: RcMMeetingModel | RcVMeetingModel) =>
         this._genericMeeting.updateMeetingSettings(value),
       validatePasswordSettings: (
         password: string,
@@ -133,7 +144,10 @@ export default class GenericMeetingUI extends RcUIModule {
           isSecret,
         );
       },
-      schedule: async (meetingInfo, opener) => {
+      schedule: async (
+        meetingInfo: RcMMeetingModel | RcVMeetingModel,
+        opener: Window,
+      ) => {
         if (schedule) {
           await schedule(meetingInfo, opener);
           return;

@@ -58,9 +58,14 @@ class TabContentView extends Component {
   }
 }
 
-function mapToProps(_, { phone, phone: { locale, routerInteraction } }) {
+function mapToProps(
+  _,
+  { phone, phone: { locale, routerInteraction }, ...props },
+) {
   return {
-    showTabs: hasActiveCalls(phone),
+    showTabs: props.hasActiveCalls
+      ? props.hasActiveCalls(phone)
+      : hasActiveCalls(phone),
     currentLocale: locale.currentLocale,
     showSpinner: !locale.ready,
     currentPath: routerInteraction.currentPath,
@@ -76,10 +81,7 @@ function mapToFunctions(_, { phone: { routerInteraction } }) {
 }
 
 const DialerAndCallsTabContainer = withPhone(
-  connect(
-    mapToProps,
-    mapToFunctions,
-  )(TabContentView),
+  connect(mapToProps, mapToFunctions)(TabContentView),
 );
 
 export { mapToProps, mapToFunctions, DialerAndCallsTabContainer as default };

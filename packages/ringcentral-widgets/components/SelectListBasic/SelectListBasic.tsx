@@ -1,5 +1,5 @@
-import { RcOutlineTextField } from '@ringcentral-integration/rcui';
-import searchSvg from '@ringcentral-integration/rcui/icons/icon-search.svg';
+import { RcOutlineTextField } from '@ringcentral/juno';
+import searchSvg from '@ringcentral/juno/icons/icon-search.svg';
 import classNames from 'classnames';
 import formatMessage from 'format-message';
 import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
@@ -187,9 +187,7 @@ const SelectListBasic: FunctionComponent<SelectListBasicProps> = ({
                     if ((key && key.keyCode !== 13) || !showFoundFromServer)
                       return;
                     if (contactSearch && typeof contactSearch === 'function') {
-                      const searchString = filter
-                        ? filter.replace(/\s/g, '')
-                        : '';
+                      const searchString = filter ? filter.trim() : '';
                       if (searchString.length) {
                         contactSearch({
                           searchString,
@@ -309,7 +307,9 @@ SelectListBasic.defaultProps = {
   rightIcon: null,
   setOpen() {},
   open: false,
-  renderListView: () => null,
+  renderListView() {
+    return null;
+  },
   scrollCheck() {},
   selectListBasicClassName: null,
   backHeaderClassName: null,

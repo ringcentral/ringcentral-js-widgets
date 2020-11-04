@@ -1,4 +1,4 @@
-import { RcModalProps } from '@ringcentral-integration/rcui';
+import { RcModalProps } from '@ringcentral/juno';
 
 export type ModalItem = Partial<RcModalProps>;
 

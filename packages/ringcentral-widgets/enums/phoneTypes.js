@@ -1,17 +1,5 @@
-import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
+export * from 'ringcentral-integration/enums/phoneTypes';
 
-// FIXME: delete this after syncing up
-export const phoneTypes = ObjectMap.fromKeys([
-  'business',
-  'extension',
-  'home',
-  'mobile',
-  'phone',
-  'unknown',
-  'company',
-  'direct',
-  'fax',
-  'other',
-]);
-
-export default phoneTypes;
+// Don't use this anymore.
+// We keep this only for 3rd-party compatible.
+// Use "ringcentral-js-widgets/ringcentral-integration/enums/phoneTypes.ts" instead.

@@ -21,6 +21,7 @@ export type EvCurrentLog = CallLogPanelCurrentLog & {
 };
 
 export type EvActivityCallUIProps = {
+  scrollTo: string;
   currentLog: EvCurrentLog;
   /** The subject for call log info */
   basicInfo?: {

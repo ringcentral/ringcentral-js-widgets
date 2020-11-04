@@ -1,10 +1,5 @@
 /* eslint-disable no-nested-ternary */
-import {
-  createStore,
-  combineReducers,
-  ReducersMapObject,
-  Unsubscribe,
-} from 'redux';
+import { createStore, combineReducers, ReducersMapObject, Store } from 'redux';
 import BaseModule from '../../usm';
 import { Action, Reducer, Params } from '../../usm/core/module';
 import { Properties } from '../../usm/utils/flatten';
@@ -29,20 +24,35 @@ export interface Dispatch {
   (action: Action): void;
 }
 
-type Store = {
-  subscribe(callback: Callback): Unsubscribe;
-  getState(): Properties;
-  dispatch: Dispatch;
-};
-
 class Module<T extends Record<string, any> = {}> extends BaseModule<T> {
   public _makeInstance(params: Params<T>) {
     if (Array.isArray(this._actionTypes)) {
       this._actionTypes.forEach((name) => {
         this._reducersMaps[name] = (types) => (
           _state = this._initialValue[name],
-          { type, states },
-        ) => (type.indexOf(types[name]) > -1 && states ? states[name] : _state);
+          { type, states, __proxyState__ },
+        ) => {
+          if (type.indexOf(types[name]) > -1 && __proxyState__) {
+            return __proxyState__[name];
+          } else if (type.indexOf(types[name]) > -1 && states) {
+            if (this._transport && this.__proxyState__?.[name]) {
+              // sync up state with async proxy callback
+              (async () => {
+                await this.__proxyState__[name](this, states[name]);
+                this._dispatch({
+                  type: this.parentModule.__proxyAction__,
+                  action: {
+                    type: [types[name]],
+                    __proxyState__: { [name]: states[name] },
+                  },
+                });
+              })();
+              return _state;
+            }
+            return states[name];
+          }
+          return _state;
+        };
       });
     }
     super._makeInstance(params);
@@ -59,7 +69,7 @@ class Module<T extends Record<string, any> = {}> extends BaseModule<T> {
   }
 
   protected static combineReducers(reducers: ReducersMapObject<{}, any>) {
-    return combineReducers(reducers);
+    return combineReducers(reducers) as Reducer;
   }
 
   protected static createStore(reducer: Reducer): Store {
@@ -86,7 +96,7 @@ class Module<T extends Record<string, any> = {}> extends BaseModule<T> {
     }
   }
 
-  public _subscribe(callback: Callback) {
+  public _subscribe(callback: () => void) {
     return this._store.subscribe(callback);
   }
 
@@ -101,7 +111,7 @@ class Module<T extends Record<string, any> = {}> extends BaseModule<T> {
       : this.getState();
   }
 
-  protected _getReducers(actionTypes: ActionTypes) {
+  public _getReducers(actionTypes: ActionTypes) {
     const reducers = this.getReducers(actionTypes);
     const subReducers: Properties<Reducer> = !this.isFactoryModule
       ? {}

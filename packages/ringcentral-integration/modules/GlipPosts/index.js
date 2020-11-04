@@ -90,7 +90,7 @@ export default class GlipPosts extends RcModule {
       this.store.dispatch({
         type: this.actionTypes.initSuccess,
       });
-      this._subscription.subscribe(subscriptionFilter);
+      this._subscription.subscribe([subscriptionFilter]);
     } else if (this._shouldReset()) {
       this.store.dispatch({
         type: this.actionTypes.resetSuccess,

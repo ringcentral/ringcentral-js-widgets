@@ -3,11 +3,12 @@ import ConnectivityMonitor from 'ringcentral-integration/modules/ConnectivityMon
 import Locale from 'ringcentral-integration/modules/Locale';
 import RateLimiter from 'ringcentral-integration/modules/RateLimiter';
 import Storage from 'ringcentral-integration/modules/Storage';
-import TabManager from 'ringcentral-integration/modules/TabManager';
 import RouterInteraction from 'ringcentral-widgets/modules/RouterInteraction';
+import { EvTabManager } from '../EvTabManager';
 
 import { EvEnvironment } from '../../interfaces/Environment.interface';
 import { EvActiveCallControl } from '../EvActiveCallControl';
+import { EvAgentScript } from '../EvAgentScript';
 import { EvAgentSession } from '../EvAgentSession';
 import { EvAuth } from '../EvAuth';
 import { EvCall } from '../EvCall';
@@ -34,6 +35,7 @@ export interface Deps {
   alert: Alert;
   activeCallControl: EvActiveCallControl;
   evCall: EvCall;
+  evAgentScript: EvAgentScript;
   evCallMonitor: EvCallMonitor;
   evCallDisposition: EvCallDisposition;
   evRequeueCall: EvRequeueCall;
@@ -47,7 +49,7 @@ export interface Deps {
   environment: EvEnvironment;
   storage: Storage;
   evAuth: EvAuth;
-  tabManager?: TabManager;
+  tabManager?: EvTabManager;
   evActivityCallUIOptions?: EvActivityCallUIOptions;
 }
 

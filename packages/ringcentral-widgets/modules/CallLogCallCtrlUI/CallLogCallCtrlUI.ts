@@ -10,6 +10,8 @@ import RcUIModule from '../../lib/RcUIModule';
     'RateLimiter',
     'RouterInteraction',
     'CallingSettings',
+    'ForwardingNumber',
+    'CallMonitor',
   ],
 })
 export default class CallLogCallCtrlUI extends RcUIModule {
@@ -18,12 +20,17 @@ export default class CallLogCallCtrlUI extends RcUIModule {
   private _rateLimiter: any;
   private _routerInteraction: any;
   private _callingSettings: any;
+  private _forwardingNumber: any;
+  private _callMonitor: any;
+
   constructor({
     activeCallControl,
     connectivityMonitor,
     rateLimiter,
     routerInteraction,
     callingSettings,
+    forwardingNumber,
+    callMonitor,
     ...options
   }) {
     super({ ...options });
@@ -32,6 +39,8 @@ export default class CallLogCallCtrlUI extends RcUIModule {
     this._rateLimiter = rateLimiter;
     this._routerInteraction = routerInteraction;
     this._callingSettings = callingSettings;
+    this._forwardingNumber = forwardingNumber;
+    this._callMonitor = callMonitor;
   }
 
   private onTransfer = (telephonySessionId: string) => {
@@ -46,12 +55,21 @@ export default class CallLogCallCtrlUI extends RcUIModule {
     const currentSession = this._activeCallControl.getActiveSession(
       telephonySessionId,
     );
+    const { activeOnHoldCalls, activeCurrentCalls } = this._callMonitor;
+    const otherActiveCalls =
+      currentSession &&
+      !!activeOnHoldCalls
+        .concat(activeCurrentCalls)
+        .filter((call: any) => call.sessionId !== currentSession.sessionId)
+        .length;
     return {
       isWebphone,
       currentSession,
       disableLinks:
         !this._connectivityMonitor.connectivity || this._rateLimiter.throttling,
       telephonySessionId,
+      forwardingNumbers: this._forwardingNumber.forwardingNumbers,
+      otherActiveCalls,
     };
   }
 
@@ -72,6 +90,25 @@ export default class CallLogCallCtrlUI extends RcUIModule {
       onTransfer: this.onTransfer,
       sendDTMF: (dtmfValue: string, telephonySessionId: string) =>
         this._activeCallControl.sendDTMF(dtmfValue, telephonySessionId),
+      answer: this._activeCallControl.answer.bind(this._activeCallControl),
+      forward: (phoneNumber: string, telephonySessionId: string) => {
+        if (phoneNumber === 'custom') {
+          this._routerInteraction.push(`/forward/${telephonySessionId}`);
+        } else {
+          this._activeCallControl.forward.call(
+            this._activeCallControl,
+            phoneNumber,
+            telephonySessionId,
+          );
+        }
+      },
+      ignore: this._activeCallControl.ignore.bind(this._activeCallControl),
+      answerAndHold: this._activeCallControl.answerAndHold.bind(
+        this._activeCallControl,
+      ),
+      answerAndEnd: this._activeCallControl.answerAndEnd.bind(
+        this._activeCallControl,
+      ),
     };
   }
 }

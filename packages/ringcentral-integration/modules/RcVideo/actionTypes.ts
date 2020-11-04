@@ -7,34 +7,41 @@ import {
 export default ObjectMap.prefixKeys(
   [
     ...ObjectMap.keys(moduleActionTypes),
-    'updateMeetingSettings',
-    'saveAsDefaultSetting',
+    'initSettingsStart',
+    'initSettingsEnd',
     'initCreating',
     'created',
     'resetCreating', // for Office...TODO:
     'initUpdating',
     'updated',
     'resetUpdating',
+    'updateDelegator',
+    'updateDelegatorList',
+    'updateMeetingSettings',
+    'saveAsDefaultSetting',
     'savePersonalMeeting',
     'updateMeetingPreferences',
-    'updateMeetingSettingLock',
+    'updateMeetingSettingLocks',
     'saveMeetingPreferencesState',
   ],
   'RcVideo',
 );
 
 export interface RcVideoActionTypes extends ModuleActionTypes {
-  updateMeetingSettings: string;
-  saveAsDefaultSetting: string;
-  initSuccess: string;
+  initSettingsStart: string;
+  initSettingsEnd: string;
   initCreating: string;
   created: string;
   resetCreating: string;
   initUpdating: string;
   updated: string;
   resetUpdating: string;
+  updateDelegatorList: string;
+  updateMeetingSettings: string;
+  saveAsDefaultSetting: string;
   savePersonalMeeting: string;
   updateMeetingPreferences: string;
   saveMeetingPreferencesState: string;
-  updateMeetingSettingLock: string;
+  updateMeetingSettingLocks: string;
+  updateDelegator: string;
 }

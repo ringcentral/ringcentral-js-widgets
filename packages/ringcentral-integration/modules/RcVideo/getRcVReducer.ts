@@ -2,7 +2,8 @@ import { combineReducers } from 'redux';
 import getModuleStatusReducer from '../../lib/getModuleStatusReducer';
 
 import { RcVideoActionTypes } from './actionTypes';
-import createStatus from './createStatus';
+import { RcvDelegator } from './interface';
+import { videoStatus } from './videoStatus';
 
 export function getRcVideoInfoReducer(types: RcVideoActionTypes) {
   return (state = {}, { type, meeting = null, patch = true }) => {
@@ -21,15 +22,24 @@ export function getRcVideoInfoReducer(types: RcVideoActionTypes) {
   };
 }
 
-export function getRcVideoCreatingStatusReducer(types: RcVideoActionTypes) {
-  return (state = createStatus.idle, { type }) => {
+export function getRcVideoStatusReducer(types: RcVideoActionTypes) {
+  return (state = videoStatus.idle, { type }) => {
     switch (type) {
+      case types.initSettingsStart:
+        return videoStatus.initializing;
+      case types.initSettingsEnd:
+        return videoStatus.initialized;
       case types.initCreating:
-        return createStatus.creating;
+        return videoStatus.creating;
       case types.created:
-        return createStatus.created;
+        return videoStatus.created;
+      case types.initUpdating:
+        return videoStatus.updating;
+      case types.updated:
+        return videoStatus.updated;
       case types.resetCreating:
-        return createStatus.idle;
+      case types.resetUpdating:
+        return videoStatus.idle;
       default:
         return state;
     }
@@ -57,11 +67,11 @@ export function getPersonalMeetingReducer(types: RcVideoActionTypes) {
     }
   };
 }
-export function getRcVideoMeetingLockReducer(types: RcVideoActionTypes) {
-  return (state = {}, { type, meetingSettingLock }) => {
+export function getRcVideoSettingLocksReducer(types: RcVideoActionTypes) {
+  return (state = {}, { type, settingLocks }) => {
     switch (type) {
-      case types.updateMeetingSettingLock:
-        return meetingSettingLock;
+      case types.updateMeetingSettingLocks:
+        return settingLocks;
       default:
         return state;
     }
@@ -90,13 +100,37 @@ export function getRcVideoPreferencesStateReducer(types: RcVideoActionTypes) {
   };
 }
 
+export function getDelegatorListReducer(types: RcVideoActionTypes) {
+  return (state = [], { type, delegators }): RcvDelegator[] => {
+    switch (type) {
+      case types.updateDelegatorList:
+        return delegators;
+      default:
+        return state;
+    }
+  };
+}
+
+export function getDelegatorReducer(types: RcVideoActionTypes) {
+  return (state = null, { type, delegator }): RcvDelegator => {
+    switch (type) {
+      case types.updateDelegator:
+        return delegator;
+      default:
+        return state;
+    }
+  };
+}
+
 export default (types: RcVideoActionTypes, reducers) =>
   combineReducers({
     ...reducers,
     meeting: getRcVideoInfoReducer(types),
     status: getModuleStatusReducer(types),
-    creatingStatus: getRcVideoCreatingStatusReducer(types),
+    videoStatus: getRcVideoStatusReducer(types),
+    delegators: getDelegatorListReducer(types),
     preferences: getRcVideoPreferencesReducer(types),
     isPreferencesChanged: getRcVideoPreferencesStateReducer(types),
-    meetingSettingLock: getRcVideoMeetingLockReducer(types),
+    settingLocks: getRcVideoSettingLocksReducer(types),
+    delegator: getDelegatorReducer(types),
   });

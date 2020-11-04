@@ -1,8 +1,4 @@
-import {
-  RcButton,
-  RcCheckbox,
-  RcListItem,
-} from '@ringcentral-integration/rcui';
+import { RcButton, RcCheckbox, RcListItem } from '@ringcentral/juno';
 import formatMessage from 'format-message';
 import React, { FunctionComponent, useState } from 'react';
 
@@ -28,6 +24,11 @@ export type InboundQueuesPanelProps = { goBack: () => void } & Pick<
   | 'inboundQueues'
 >;
 
+type RenderListViewProps = {
+  option: AvailableQueue;
+  index: number;
+};
+
 const InboundQueuesPanel: FunctionComponent<InboundQueuesPanelProps> = ({
   searchOption,
   currentLocale,
@@ -52,12 +53,9 @@ const InboundQueuesPanel: FunctionComponent<InboundQueuesPanelProps> = ({
     inboundQueuesState,
   );
 
-  const renderListView = ({
+  const renderListView: FunctionComponent<RenderListViewProps> = ({
     option,
     index,
-  }: {
-    option: AvailableQueue;
-    index: number;
   }) => {
     const { gateName, gateId, checked } = option;
     return (
@@ -73,7 +71,6 @@ const InboundQueuesPanel: FunctionComponent<InboundQueuesPanelProps> = ({
         }}
       >
         <RcCheckbox
-          color="primary"
           formControlLabelProps={{
             classes: {
               root: styles.checkbox,
@@ -101,7 +98,6 @@ const InboundQueuesPanel: FunctionComponent<InboundQueuesPanelProps> = ({
       <div className={styles.footer}>
         <div className={styles.selected}>
           <RcCheckbox
-            color="primary"
             label={i18n.getString('selectAll', currentLocale)}
             data-sign="bulkChangeCheckBox"
             onClick={() =>

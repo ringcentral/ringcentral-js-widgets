@@ -323,3 +323,27 @@ class PrefixKeysUseCase extends Step {
     );
   }
 }
+
+@autorun(test)
+@title(
+  `ObjectMap.filter(fn: (value: V, key: K) => boolean,instance: ObjectMap<D, K, V> & D,)`,
+)
+class filterCase extends Step {
+  run() {
+    <Scenario desc="ObjectMap.filter">
+      <GenericInstance />
+      <When
+        desc="mock a filterFn, call the filter, it should return an ObjectMap which meets the filterFn condition"
+        action={(props: any, { instance }: Context) => {
+          const fn = (value: any, key: any) => value !== 'tango';
+          const result = ObjectMap.filter(fn, instance);
+
+          expect(result).toBeInstanceOf(ObjectMap);
+          ObjectMap.forEach((value, key) => {
+            expect(fn(value, key)).toBeTruthy();
+          }, result);
+        }}
+      />
+    </Scenario>;
+  }
+}

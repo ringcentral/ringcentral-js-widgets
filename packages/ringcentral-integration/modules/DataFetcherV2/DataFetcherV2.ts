@@ -51,13 +51,23 @@ export class DataFetcherV2 extends RcModuleV2<Deps> {
   @state
   sourceStatus: Record<string, SourceStatusType> = {};
 
-  @storage
-  @state
-  cachedData: Record<string, any> = {};
+  get cachedData() {
+    return this.storageData.cachedData;
+  }
+
+  get cachedTimestamps() {
+    return this.storageData.cachedTimestamps;
+  }
 
   @storage
   @state
-  cachedTimestamps: Record<string, number> = {};
+  storageData: {
+    cachedData: Record<string, any>;
+    cachedTimestamps: Record<string, number>;
+  } = {
+    cachedData: {},
+    cachedTimestamps: {},
+  };
 
   @state
   data: Record<string, any> = {};
@@ -87,8 +97,8 @@ export class DataFetcherV2 extends RcModuleV2<Deps> {
       this.data[source.key] = data;
       this.timestamps[source.key] = timestamp;
     } else {
-      this.cachedData[source.key] = data;
-      this.cachedTimestamps[source.key] = timestamp;
+      this.storageData.cachedData[source.key] = data;
+      this.storageData.cachedTimestamps[source.key] = timestamp;
     }
   }
 
@@ -309,7 +319,7 @@ export class DataFetcherV2 extends RcModuleV2<Deps> {
 
   protected _handleSleepDetected() {
     forEach((source) => {
-      if (this._shouldFetch(source)) {
+      if (this.ready && this._shouldFetch(source)) {
         this.fetchData(source);
       }
     }, Array.from(this._sources));

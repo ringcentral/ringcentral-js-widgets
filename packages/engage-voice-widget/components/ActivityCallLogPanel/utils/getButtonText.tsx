@@ -1,5 +1,5 @@
-import { RcIcon } from '@ringcentral-integration/rcui';
-import checkSvg from '@ringcentral-integration/rcui/icons/icon-check.svg';
+import { RcIcon } from '@ringcentral/juno';
+import checkSvg from '@ringcentral/juno/icons/icon-check.svg';
 import React from 'react';
 
 import { EvActivityCallUIProps } from '../../../interfaces';

@@ -15,7 +15,7 @@ function isConferenceCall(normalizedCall) {
   );
 }
 
-function ActiveCallList({
+const ActiveCallList = ({
   calls,
   className,
   currentLocale,
@@ -61,10 +61,12 @@ function ActiveCallList({
   disableLinks,
   showRingoutCallControl,
   showSwitchCall,
-}) {
+  isOnHold,
+}) => {
   if (!calls.length) {
     return null;
   }
+  // if you are using call control SDK for webphone operation, then require to use ActiveCallItem v2
   const Component = useV2 ? ActiveCallItemV2 : ActiveCallItem;
 
   return (
@@ -131,12 +133,13 @@ function ActiveCallList({
             showRingoutCallControl={showRingoutCallControl}
             showMultipleMatch={!showRingoutCallControl} // disabled for salesforce
             showSwitchCall={showSwitchCall}
+            isOnHold={isOnHold}
           />
         );
       })}
     </div>
   );
-}
+};
 
 ActiveCallList.propTypes = {
   currentLocale: PropTypes.string.isRequired,
@@ -184,6 +187,7 @@ ActiveCallList.propTypes = {
   disableLinks: PropTypes.bool,
   showRingoutCallControl: PropTypes.bool,
   showSwitchCall: PropTypes.bool,
+  isOnHold: PropTypes.func,
 };
 
 ActiveCallList.defaultProps = {
@@ -226,6 +230,7 @@ ActiveCallList.defaultProps = {
   disableLinks: false,
   showRingoutCallControl: false,
   showSwitchCall: false,
+  isOnHold: undefined,
 };
 
 export default ActiveCallList;
