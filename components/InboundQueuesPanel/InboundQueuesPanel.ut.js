@@ -41,7 +41,7 @@ require("core-js/modules/es6.string.includes");
 
 var _react = _interopRequireDefault(require("react"));
 
-var _rcui = require("@ringcentral-integration/rcui");
+var _juno = require("@ringcentral/juno");
 
 var _enzyme = require("enzyme");
 
@@ -111,7 +111,7 @@ function allCheckBoxOnChange(severalAssign, inboundQueuesState, setInboundQueues
 var goBack = function goBack() {};
 
 function setup(inboundQueues) {
-  var wrapper = (0, _enzyme.mount)( /*#__PURE__*/_react["default"].createElement(_rcui.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_index.InboundQueuesPanel, {
+  var wrapper = (0, _enzyme.mount)( /*#__PURE__*/_react["default"].createElement(_juno.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_index.InboundQueuesPanel, {
     renderFunction: renderFunction,
     searchOption: searchOption,
     currentLocale: currentLocale,

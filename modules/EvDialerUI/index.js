@@ -20,6 +20,7 @@ var _EvDialerUI = require("./EvDialerUI");
 
 Object.keys(_EvDialerUI).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _EvDialerUI[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {
@@ -32,6 +33,7 @@ var _EvDialerUI2 = require("./EvDialerUI.interface");
 
 Object.keys(_EvDialerUI2).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _EvDialerUI2[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {

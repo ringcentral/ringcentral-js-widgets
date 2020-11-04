@@ -171,7 +171,7 @@ var EvAuth = (_dec = (0, _di.Module)({
     get: function get() {
       var _this$_deps$tabManage;
 
-      return (_this$_deps$tabManage = this._deps.tabManager) === null || _this$_deps$tabManage === void 0 ? void 0 : _this$_deps$tabManage._tabbie.enabled;
+      return (_this$_deps$tabManage = this._deps.tabManager) === null || _this$_deps$tabManage === void 0 ? void 0 : _this$_deps$tabManage.enable;
     }
   }]);
 
@@ -215,20 +215,24 @@ var EvAuth = (_dec = (0, _di.Module)({
     _initializerDefineProperty(_this, "agent", _descriptor2, _assertThisInitialized(_this));
 
     _this.loginAgent = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
-      var _agent;
+      var token,
+          _agent,
+          _args2 = arguments;
 
       return regeneratorRuntime.wrap(function _callee2$(_context2) {
         while (1) {
           switch (_context2.prev = _context2.next) {
             case 0:
-              _context2.prev = 0;
+              token = _args2.length > 0 && _args2[0] !== undefined ? _args2[0] : _this._deps.auth.accessToken;
+              console.log('loginAgent~~');
+              _context2.prev = 2;
 
               _this._deps.evClient.initSDK();
 
-              _context2.next = 4;
-              return _this._deps.evClient.loginAgent(_this._deps.auth.accessToken, 'Bearer');
+              _context2.next = 6;
+              return _this._deps.evClient.loginAgent(token, 'Bearer');
 
-            case 4:
+            case 6:
               _agent = _context2.sent;
 
               _this.setConnectionData({
@@ -236,47 +240,47 @@ var EvAuth = (_dec = (0, _di.Module)({
                 agent: _agent.data
               });
 
-              _this._eventEmitter.emit(_enums.authStatus.LOGIN_SUCCESS, _agent);
+              _this._emitLoginSuccess(_agent);
 
-              _context2.next = 21;
+              _context2.next = 23;
               break;
 
-            case 9:
-              _context2.prev = 9;
-              _context2.t0 = _context2["catch"](0);
+            case 11:
+              _context2.prev = 11;
+              _context2.t0 = _context2["catch"](2);
               _context2.t1 = _context2.t0.type;
-              _context2.next = _context2.t1 === _enums.messageTypes.NO_AGENT ? 14 : _context2.t1 === _enums.messageTypes.CONNECT_TIMEOUT ? 16 : _context2.t1 === _enums.messageTypes.UNEXPECTED_AGENT ? 16 : _context2.t1 === _enums.messageTypes.INVALID_BROWSER ? 16 : _context2.t1 === _enums.messageTypes.OPEN_SOCKET_ERROR ? 16 : 18;
+              _context2.next = _context2.t1 === _enums.messageTypes.NO_AGENT ? 16 : _context2.t1 === _enums.messageTypes.CONNECT_TIMEOUT ? 18 : _context2.t1 === _enums.messageTypes.UNEXPECTED_AGENT ? 18 : _context2.t1 === _enums.messageTypes.INVALID_BROWSER ? 18 : _context2.t1 === _enums.messageTypes.OPEN_SOCKET_ERROR ? 18 : 20;
               break;
 
-            case 14:
+            case 16:
               _this._deps.alert.warning({
                 message: _context2.t0.type
               });
 
-              return _context2.abrupt("break", 19);
+              return _context2.abrupt("break", 21);
 
-            case 16:
+            case 18:
               _this._deps.alert.danger({
                 message: _context2.t0.type
               });
 
-              return _context2.abrupt("break", 19);
+              return _context2.abrupt("break", 21);
 
-            case 18:
+            case 20:
               _this._deps.alert.danger({
                 message: _enums.messageTypes.CONNECT_ERROR
               });
 
-            case 19:
-              _context2.next = 21;
+            case 21:
+              _context2.next = 23;
               return _this._logout();
 
-            case 21:
+            case 23:
             case "end":
               return _context2.stop();
           }
         }
-      }, _callee2, null, [[0, 9]]);
+      }, _callee2, null, [[2, 11]]);
     }));
     return _this;
   }
@@ -286,6 +290,7 @@ var EvAuth = (_dec = (0, _di.Module)({
     value: function setConnectionData(_ref4) {
       var connected = _ref4.connected,
           agent = _ref4.agent;
+      // ! agent must be set before connected
       this.agent = agent;
       this.connected = connected;
     }
@@ -313,17 +318,20 @@ var EvAuth = (_dec = (0, _di.Module)({
                 // if there is logout by other browser, that need redirect to home page,
 
 
-                if (!_this2._logoutByOtherTab) {
-                  _this2._deps.alert.info({
-                    message: _enums.messageTypes.FORCE_LOGOUT
-                  });
-
-                  _this2._logoutByOtherTab = false;
-
-                  _this2.newReconnect();
+                if (_this2._logoutByOtherTab) {
+                  _context3.next = 6;
+                  break;
                 }
 
-              case 2:
+                _this2._deps.alert.info({
+                  message: _enums.messageTypes.FORCE_LOGOUT
+                });
+
+                _this2._logoutByOtherTab = false;
+                _context3.next = 6;
+                return _this2.newReconnect();
+
+              case 6:
               case "end":
                 return _context3.stop();
             }
@@ -339,7 +347,8 @@ var EvAuth = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                if (this.ready && this.tabManagerEnabled && this._deps.tabManager.ready) {
+                // here not need check this.ready, because that should work when not login
+                if (this.tabManagerEnabled && this._deps.tabManager.ready) {
                   this._checkTabManagerEvent();
                 }
 
@@ -348,7 +357,7 @@ var EvAuth = (_dec = (0, _di.Module)({
                   break;
                 }
 
-                this.connecting = true; // when login make sure the _logoutByOtherTab is false
+                this.connecting = true; // when login make sure the logoutByOtherTab is false
 
                 this._logoutByOtherTab = false;
                 _context4.next = 6;
@@ -409,21 +418,18 @@ var EvAuth = (_dec = (0, _di.Module)({
               case 10:
                 logoutAgentResponse = _context5.sent;
 
-                if (!(!logoutAgentResponse.message || logoutAgentResponse.message !== 'OK')) {
-                  _context5.next = 14;
-                  break;
+                // TODO: error handle when logout fail
+                // TODO: when failed need tell other tab not logout => this._deps.tabManager.send(tabManagerEvents.LOGOUT);
+                if (!logoutAgentResponse.message || logoutAgentResponse.message !== 'OK') {
+                  console.log('logoutAgent failed');
                 }
 
-                console.log('logoutAgent failed');
-                return _context5.abrupt("return");
-
-              case 14:
                 this.setConnectionData({
                   connected: false,
                   agent: null
                 });
 
-              case 15:
+              case 13:
               case "end":
                 return _context5.stop();
             }
@@ -473,9 +479,19 @@ var EvAuth = (_dec = (0, _di.Module)({
       this._eventEmitter.on(_enums.authStatus.LOGIN_SUCCESS, callback);
     }
   }, {
+    key: "onceLoginSuccess",
+    value: function onceLoginSuccess(callback) {
+      this._eventEmitter.once(_enums.authStatus.LOGIN_SUCCESS, callback);
+    }
+  }, {
     key: "_emitLogoutBefore",
     value: function _emitLogoutBefore() {
       this._eventEmitter.emit(_enums.authStatus.LOGOUT_BEFORE);
+    }
+  }, {
+    key: "_emitLoginSuccess",
+    value: function _emitLoginSuccess(agent) {
+      this._eventEmitter.emit(_enums.authStatus.LOGIN_SUCCESS, agent);
     }
   }, {
     key: "_checkTabManagerEvent",
@@ -543,11 +559,6 @@ var EvAuth = (_dec = (0, _di.Module)({
     key: "agentPermissions",
     get: function get() {
       return this.agentConfig.agentPermissions;
-    }
-  }, {
-    key: "autoAnswerCalls",
-    get: function get() {
-      return this.agentConfig.agentPermissions.defaultAutoAnswerOn;
     }
   }, {
     key: "availableQueues",

@@ -25,15 +25,15 @@ exports.MainViewPanel = void 0;
 
 require("core-js/modules/es6.object.assign");
 
-var _rcui = require("@ringcentral-integration/rcui");
+var _juno = require("@ringcentral/juno");
 
-var _iconPhone = _interopRequireDefault(require("@ringcentral-integration/rcui/icons/icon-phone.svg"));
+var _iconPhone = _interopRequireDefault(require("@ringcentral/juno/icons/icon-phone.svg"));
 
-var _iconPhone_border = _interopRequireDefault(require("@ringcentral-integration/rcui/icons/icon-phone_border.svg"));
+var _iconPhone_border = _interopRequireDefault(require("@ringcentral/juno/icons/icon-phone_border.svg"));
 
-var _iconSettings = _interopRequireDefault(require("@ringcentral-integration/rcui/icons/icon-settings.svg"));
+var _iconSettings = _interopRequireDefault(require("@ringcentral/juno/icons/icon-settings.svg"));
 
-var _iconSettings_border = _interopRequireDefault(require("@ringcentral-integration/rcui/icons/icon-settings_border.svg"));
+var _iconSettings_border = _interopRequireDefault(require("@ringcentral/juno/icons/icon-settings_border.svg"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
@@ -68,7 +68,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 var CustomIcon = function CustomIcon(props) {
-  return /*#__PURE__*/_react["default"].createElement(_rcui.RcIcon, _extends({
+  return /*#__PURE__*/_react["default"].createElement(_juno.RcIcon, _extends({
     className: _styles["default"].icon
   }, props));
 };
@@ -176,7 +176,7 @@ var MainViewPanel = function MainViewPanel(_ref) {
 
     return /*#__PURE__*/_react["default"].createElement(_Tooltip.Tooltip, {
       title: title
-    }, /*#__PURE__*/_react["default"].createElement(_rcui.RcIcon, {
+    }, /*#__PURE__*/_react["default"].createElement(_juno.RcIcon, {
       className: className,
       symbol: symbol
     }));

@@ -72,7 +72,7 @@ var EvActiveCallControl = (_dec = (0, _di.Module)({
     get: function get() {
       var _this$_deps$tabManage;
 
-      return (_this$_deps$tabManage = this._deps.tabManager) === null || _this$_deps$tabManage === void 0 ? void 0 : _this$_deps$tabManage._tabbie.enabled;
+      return (_this$_deps$tabManage = this._deps.tabManager) === null || _this$_deps$tabManage === void 0 ? void 0 : _this$_deps$tabManage.enable;
     }
   }]);
 

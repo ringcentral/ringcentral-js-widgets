@@ -1,9 +1,8 @@
 import Alert from 'ringcentral-integration/modules/Alert';
 import { Auth } from 'ringcentral-integration/modules/AuthV2';
 import Locale from 'ringcentral-integration/modules/Locale';
-import RegionSettings from 'ringcentral-integration/modules/RegionSettings';
 import Storage from 'ringcentral-integration/modules/Storage';
-import TabManager from 'ringcentral-integration/modules/TabManager';
+import { Beforeunload } from 'ringcentral-widgets/modules/Beforeunload';
 import { Block } from 'ringcentral-widgets/modules/Block';
 import { Modal } from 'ringcentral-widgets/modules/Modal';
 import RouterInteraction from 'ringcentral-widgets/modules/RouterInteraction';
@@ -11,18 +10,19 @@ import RouterInteraction from 'ringcentral-widgets/modules/RouterInteraction';
 import { LoginTypes } from '../../enums';
 import { EvClient } from '../../lib/EvClient';
 import { EvAuth } from '../EvAuth';
+import { EvPresence } from '../EvPresence';
+import { EvTabManager } from '../EvTabManager';
 
-export interface EvAgentSessionOptions {
-  heartBeatInterval?: number;
-}
+export interface EvAgentSessionOptions {}
 
 export type FormGroup = Partial<
   Pick<
-    AgentSession,
+    State,
     | 'selectedInboundQueueIds'
     | 'loginType'
     | 'selectedSkillProfileId'
     | 'extensionNumber'
+    | 'autoAnswer'
   >
 >;
 
@@ -34,11 +34,12 @@ export interface Deps {
   auth: Auth;
   modal: Modal;
   locale: Locale;
-  regionSettings: RegionSettings;
-  tabManager?: TabManager;
+  tabManager?: EvTabManager;
   evAgentSessionOptions?: EvAgentSessionOptions;
   routerInteraction: RouterInteraction;
   block: Block;
+  presence: EvPresence;
+  beforeunload: Beforeunload;
 }
 
 export interface State {
@@ -50,6 +51,7 @@ export interface State {
   autoAnswer: boolean;
   configSuccess: boolean;
   configured: boolean;
+  tabManagerEnabled: boolean;
 }
 
 export interface AgentSession extends State {

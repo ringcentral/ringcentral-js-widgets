@@ -1,16 +1,19 @@
 import Alert from 'ringcentral-integration/modules/Alert';
 import Storage from 'ringcentral-integration/modules/Storage';
+import { Beforeunload } from 'ringcentral-widgets/modules/Beforeunload';
 import { Mapping } from 'ringcentral-widgets/typings';
 
 import { DialoutStatusesType } from '../../enums';
 import { EvCallData } from '../../interfaces/EvData.interface';
 import { EvClient } from '../../lib/EvClient';
-import { EvAgentSession } from '../EvAgentSession';
-import { EvAuth } from '../EvAuth';
-import { EvSettings } from '../EvSettings';
+import { EvCallDataSource } from '../EvCallDataSource';
 import { EvSubscription } from '../EvSubscription';
 
 export interface State {
+  isOffhook: boolean;
+  isOffhooking: boolean;
+  isManualOffhook: boolean;
+
   /** current agent ongoing session calls list with callId (encodeUii({ uii, sessionId })) */
   callIds: string[];
   /** other agent ongoing session calls list with callId (encodeUii({ uii, sessionId })) */
@@ -23,22 +26,6 @@ export interface State {
   rawCallsMapping: Mapping<EvCallData>;
   /** current dialout statue */
   dialoutStatus: DialoutStatusesType;
-  /**
-   * temporary code for test screen pop sf object when inbound call
-   */
-  recordId: string;
-  /**
-   * temporary code for test screen pop sf object when inbound call
-   */
-  caseId: string;
-  /**
-   * temporary code for test screen pop sf object when inbound call
-   */
-  objectValue: string;
-  /**
-   * temporary code for test screen pop sf object when inbound call
-   */
-  objectType: string;
 }
 
 export interface PresenceOptions {
@@ -48,11 +35,10 @@ export interface PresenceOptions {
 export interface Deps {
   evSubscription: EvSubscription;
   evClient: EvClient;
-  evAuth: EvAuth;
   storage: Storage;
-  evSettings: EvSettings;
-  evAgentSession: EvAgentSession;
   alert: Alert;
+  beforeunload: Beforeunload;
+  evCallDataSource: EvCallDataSource;
   presenceOptions?: PresenceOptions;
 }
 

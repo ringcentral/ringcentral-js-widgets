@@ -20,6 +20,7 @@ var _SettingsPanel = require("./SettingsPanel");
 
 Object.keys(_SettingsPanel).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _SettingsPanel[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {

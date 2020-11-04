@@ -27,7 +27,7 @@ require("core-js/modules/es6.function.name");
 
 var _react = _interopRequireDefault(require("react"));
 
-var _rcui = require("@ringcentral-integration/rcui");
+var _juno = require("@ringcentral/juno");
 
 var _phoneNumber = require("@ringcentral-integration/phone-number");
 
@@ -104,7 +104,7 @@ function setup(_ref) {
       changeTransferPhoneBookSelected = _ref$changeTransferPh === void 0 ? function () {} : _ref$changeTransferPh,
       _ref$transferPhoneBoo2 = _ref.transferPhoneBook,
       transferPhoneBook = _ref$transferPhoneBoo2 === void 0 ? defaultTransferPhoneBook : _ref$transferPhoneBoo2;
-  return (0, _enzyme.mount)( /*#__PURE__*/_react["default"].createElement(_rcui.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_PhoneBookPanel.PhoneBookPanel, {
+  return (0, _enzyme.mount)( /*#__PURE__*/_react["default"].createElement(_juno.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_PhoneBookPanel.PhoneBookPanel, {
     currentLocale: currentLocale,
     goBack: goBack,
     transferPhoneBook: transferPhoneBook,

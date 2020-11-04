@@ -1,4 +1,4 @@
-import { RcFabIconButtonProps } from '@ringcentral-integration/rcui';
+import { RcFabIconButtonProps } from '@ringcentral/juno';
 
 import { DialoutStatusesType } from '../enums';
 

@@ -12,7 +12,7 @@ require("regenerator-runtime/runtime");
 
 require("core-js/modules/es6.date.now");
 
-var _rcui = require("@ringcentral-integration/rcui");
+var _juno = require("@ringcentral/juno");
 
 var _enzyme = require("enzyme");
 
@@ -104,7 +104,7 @@ function setup() {
       _ref$disabled = _ref.disabled,
       disabled = _ref$disabled === void 0 ? false : _ref$disabled;
 
-  return (0, _enzyme.mount)( /*#__PURE__*/_react["default"].createElement(_rcui.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_WorkingStateSelect.WorkingStateSelect, {
+  return (0, _enzyme.mount)( /*#__PURE__*/_react["default"].createElement(_juno.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_WorkingStateSelect.WorkingStateSelect, {
     agentStates: agentStates,
     getStateColor: getStateColor,
     handleWithIntervalTime: handleWithIntervalTime,

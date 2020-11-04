@@ -53,11 +53,15 @@ var _events = require("events");
 
 var _ramda = require("ramda");
 
+var _debounceThrottle = require("ringcentral-integration/lib/debounce-throttle");
+
 var _di = require("ringcentral-integration/lib/di");
+
+var _SingleTabBroadcastChannel = require("ringcentral-integration/lib/SingleTabBroadcastChannel");
 
 var _enums = require("../../enums");
 
-var _dec, _class, _class2, _descriptor, _descriptor2, _descriptor3, _temp;
+var _dec, _dec2, _class, _class2, _descriptor, _descriptor2, _descriptor3, _temp;
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -105,11 +109,11 @@ function _initializerWarningHelper(descriptor, context) { throw new Error('Decor
 
 var EvAgentScript = (_dec = (0, _di.Module)({
   name: 'EvAgentScript',
-  deps: ['EvClient', 'EvAuth', 'EvCall', 'Storage', {
+  deps: ['EvClient', 'EvAuth', 'EvCall', 'Storage', 'TabManager', 'EvCallMonitor', {
     dep: 'EvAgentScriptOptions',
     optional: true
   }]
-}), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcModuleV) {
+}), _dec2 = (0, _debounceThrottle.Debounce)(), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcModuleV) {
   _inherits(EvAgentScript, _RcModuleV);
 
   var _super = _createSuper(EvAgentScript);
@@ -124,12 +128,13 @@ var EvAgentScript = (_dec = (0, _di.Module)({
       enableCache: true,
       storageKey: 'EvAgentScript'
     });
-    _this.broadcastChannel = new BroadcastChannel(_enums.BROADCAST_KEY);
+    _this._channel = void 0;
     _this._eventEmitter = new _events.EventEmitter();
+    _this._hadResponse = false;
 
     _initializerDefineProperty(_this, "currentCallScript", _descriptor, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "isAgentScript", _descriptor2, _assertThisInitialized(_this));
+    _initializerDefineProperty(_this, "isDisplayAgentScript", _descriptor2, _assertThisInitialized(_this));
 
     _initializerDefineProperty(_this, "callScriptResultMapping", _descriptor3, _assertThisInitialized(_this));
 
@@ -138,9 +143,9 @@ var EvAgentScript = (_dec = (0, _di.Module)({
 
 
   _createClass(EvAgentScript, [{
-    key: "setIsAgentScript",
-    value: function setIsAgentScript(state) {
-      this.isAgentScript = state;
+    key: "setIsDisplayAgentScript",
+    value: function setIsDisplayAgentScript(state) {
+      this.isDisplayAgentScript = state;
     }
   }, {
     key: "setCurrentCallScript",
@@ -157,7 +162,7 @@ var EvAgentScript = (_dec = (0, _di.Module)({
   }, {
     key: "reset",
     value: function reset() {
-      this.setIsAgentScript(false);
+      console.log('!!!EvAgentScript reset'); // this.setIsDisplayAgentScript(false);
     }
   }, {
     key: "onSetScriptResult",
@@ -165,75 +170,192 @@ var EvAgentScript = (_dec = (0, _di.Module)({
       this._eventEmitter.on(_enums.agentScriptEvents.SET_SCRIPT_RESULT, cb);
     }
   }, {
+    key: "onUpdateDisposition",
+    value: function onUpdateDisposition(cb) {
+      this._eventEmitter.on(_enums.agentScriptEvents.UPDATE_DISPOSITION, cb);
+    }
+  }, {
     key: "onInitOnce",
     value: function onInitOnce() {
       var _this2 = this;
 
-      this.broadcastChannel.onmessage = function (_ref) {
-        var data = _ref.data;
+      this._bindChannel(); // when script change emit that
 
-        if (_this2.isAgentScript) {
-          switch (data.key) {
-            case _enums.agentScriptEvents.INIT:
-              {
-                var currentCall = _this2._deps.evCall.currentCall;
 
-                if (currentCall === null || currentCall === void 0 ? void 0 : currentCall.scriptId) {
-                  _this2._sendInitScript();
-                }
+      (0, _core.watch)(this, function () {
+        return _this2.currentCallScript;
+      }, function () {
+        _this2._responseInitScript();
+      });
+
+      this._deps.evCallMonitor.onCallAnswered( /*#__PURE__*/function () {
+        var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(call) {
+          return regeneratorRuntime.wrap(function _callee$(_context) {
+            while (1) {
+              switch (_context.prev = _context.next) {
+                case 0:
+                  if (!_this2.getIsAgentScript(call)) {
+                    _context.next = 3;
+                    break;
+                  }
+
+                  _context.next = 3;
+                  return _this2.getScript(call.scriptId, call.scriptVersion, 'CALL', call.uii);
+
+                case 3:
+                case "end":
+                  return _context.stop();
               }
-              break;
+            }
+          }, _callee);
+        }));
 
-            case _enums.agentScriptEvents.SET_SCRIPT_RESULT:
-              {
-                var _currentCall = _this2._deps.evCall.currentCall;
-
-                if (_currentCall) {
-                  _this2.setCallScriptResult(_currentCall.uii, data.data);
-                }
-              }
-              break;
-
-            default:
-              break;
-          }
-        }
-      };
+        return function (_x) {
+          return _ref.apply(this, arguments);
+        };
+      }());
 
       this._deps.evAuth.beforeAgentLogout(function () {
         _this2.reset();
       });
     }
   }, {
-    key: "_sendInitScript",
-    value: function _sendInitScript() {
-      this.broadcastChannel.postMessage({
+    key: "onInit",
+    value: function onInit() {
+      console.log('EvAgentScript!! init');
+      this.setIsDisplayAgentScript(true);
+    }
+  }, {
+    key: "getIsAgentScript",
+    value: function getIsAgentScript(call) {
+      return !!(this.isDisplayAgentScript && call.scriptId);
+    }
+  }, {
+    key: "_bindChannel",
+    value: function _bindChannel() {
+      var _this3 = this;
+
+      if (this._deps.tabManager.enable && !sessionStorage.getItem(_enums.EV_AGENT_SCRIPT_BROADCAST_KEY)) {
+        sessionStorage.setItem(_enums.EV_AGENT_SCRIPT_BROADCAST_KEY, this._deps.tabManager.id);
+      }
+
+      this._channel = new _SingleTabBroadcastChannel.SingleTabBroadcastChannel(_enums.EV_AGENT_SCRIPT_BROADCAST_KEY, {
+        from: _enums.EV_APP_PAGE_KEY,
+        to: _enums.EV_AGENT_SCRIPT_PAGE_KEY
+      }).init();
+
+      this._channel.addEventListener(function (_ref2) {
+        var data = _ref2.data;
+        var key = data.key,
+            value = data.value;
+        var _this3$_deps$evCall = _this3._deps.evCall,
+            activityCallId = _this3$_deps$evCall.activityCallId,
+            currentCall = _this3$_deps$evCall.currentCall;
+
+        if (_this3.isDisplayAgentScript && activityCallId && (currentCall === null || currentCall === void 0 ? void 0 : currentCall.scriptId)) {
+          switch (key) {
+            case _enums.agentScriptEvents.INIT:
+              _this3._responseInitScript();
+
+              break;
+
+            case _enums.agentScriptEvents.SET_SCRIPT_RESULT:
+              _this3.setCallScriptResult(activityCallId, value);
+
+              break;
+
+            case _enums.agentScriptEvents.GET_KNOWLEDGE_BASE_ARTICLES:
+              _this3._getKnowledgeBaseGroups(value);
+
+              break;
+
+            case _enums.agentScriptEvents.UPDATE_DISPOSITION:
+              _this3._eventEmitter.emit(_enums.agentScriptEvents.UPDATE_DISPOSITION, activityCallId, value);
+
+              break;
+
+            default:
+              break;
+          }
+        }
+      }); // if that agent Script is more quick than CTI app, that will need emit that when app init.
+
+
+      setTimeout(function () {
+        if (_this3.currentCallScript && !_this3._hadResponse) {
+          _this3._responseInitScript();
+        }
+      }, 1000);
+    }
+  }, {
+    key: "_getKnowledgeBaseGroups",
+    value: function () {
+      var _getKnowledgeBaseGroups2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(knowledgeBaseGroupIds) {
+        var value;
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return this._deps.evClient.getKnowledgeBaseGroups(knowledgeBaseGroupIds);
+
+              case 2:
+                value = _context2.sent;
+
+                this._channel.send({
+                  key: _enums.agentScriptEvents.GET_KNOWLEDGE_BASE_ARTICLES,
+                  value: value
+                });
+
+              case 4:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function _getKnowledgeBaseGroups(_x2) {
+        return _getKnowledgeBaseGroups2.apply(this, arguments);
+      }
+
+      return _getKnowledgeBaseGroups;
+    }()
+  }, {
+    key: "_responseInitScript",
+    value: function _responseInitScript() {
+      this._channel.send({
         key: _enums.agentScriptEvents.INIT,
-        value: this.currentCallScript
+        value: {
+          config: this.currentCallScript,
+          call: this._deps.evCall.currentCall
+        }
       });
+
+      this._hadResponse = true;
     }
   }, {
     key: "getScript",
     value: function () {
-      var _getScript = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(scriptId) {
+      var _getScript = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(scriptId) {
         var version,
             type,
             uii,
             response,
             result,
-            _args = arguments;
-        return regeneratorRuntime.wrap(function _callee$(_context) {
+            _args3 = arguments;
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
-            switch (_context.prev = _context.next) {
+            switch (_context3.prev = _context3.next) {
               case 0:
-                version = _args.length > 1 && _args[1] !== undefined ? _args[1] : null;
-                type = _args.length > 2 && _args[2] !== undefined ? _args[2] : 'CALL';
-                uii = _args.length > 3 && _args[3] !== undefined ? _args[3] : null;
-                _context.next = 5;
+                version = _args3.length > 1 && _args3[1] !== undefined ? _args3[1] : null;
+                type = _args3.length > 2 && _args3[2] !== undefined ? _args3[2] : 'CALL';
+                uii = _args3.length > 3 && _args3[3] !== undefined ? _args3[3] : null;
+                _context3.next = 5;
                 return this._deps.evClient.getScript(scriptId, version);
 
               case 5:
-                response = _context.sent;
+                response = _context3.sent;
                 // TODO: that will fix in next MR
                 result = {
                   scriptId: response.scriptId,
@@ -243,32 +365,29 @@ var EvAgentScript = (_dec = (0, _di.Module)({
                   // version: response.version,
                   data: JSON.parse(response.json)
                 };
-                _context.t0 = type;
-                _context.next = _context.t0 === 'CALL' ? 10 : 13;
+                _context3.t0 = type;
+                _context3.next = _context3.t0 === 'CALL' ? 10 : 12;
                 break;
 
               case 10:
                 this.setCurrentCallScript(result);
+                return _context3.abrupt("break", 13);
 
-                this._sendInitScript();
-
-                return _context.abrupt("break", 14);
+              case 12:
+                return _context3.abrupt("break", 13);
 
               case 13:
-                return _context.abrupt("break", 14);
+                return _context3.abrupt("return", result);
 
               case 14:
-                return _context.abrupt("return", result);
-
-              case 15:
               case "end":
-                return _context.stop();
+                return _context3.stop();
             }
           }
-        }, _callee, this);
+        }, _callee3, this);
       }));
 
-      function getScript(_x) {
+      function getScript(_x3) {
         return _getScript.apply(this, arguments);
       }
 
@@ -281,42 +400,42 @@ var EvAgentScript = (_dec = (0, _di.Module)({
   }, {
     key: "saveScriptResult",
     value: function () {
-      var _saveScriptResult = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(call) {
+      var _saveScriptResult = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(call) {
         var scriptResult, result, res;
-        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+        return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context4.prev = _context4.next) {
               case 0:
                 scriptResult = this.callScriptResultMapping[call.uii];
 
                 if (!scriptResult) {
-                  _context2.next = 13;
+                  _context4.next = 13;
                   break;
                 }
 
                 result = this._formatScriptResult(scriptResult);
-                _context2.prev = 3;
-                _context2.next = 6;
+                _context4.prev = 3;
+                _context4.next = 6;
                 return this._deps.evClient.saveScriptResult(call.uii, call.scriptId, result);
 
               case 6:
-                res = _context2.sent;
-                return _context2.abrupt("return", res);
+                res = _context4.sent;
+                return _context4.abrupt("return", res);
 
               case 10:
-                _context2.prev = 10;
-                _context2.t0 = _context2["catch"](3);
-                console.log('saveScriptResult fail', _context2.t0);
+                _context4.prev = 10;
+                _context4.t0 = _context4["catch"](3);
+                console.log('saveScriptResult fail', _context4.t0);
 
               case 13:
               case "end":
-                return _context2.stop();
+                return _context4.stop();
             }
           }
-        }, _callee2, this, [[3, 10]]);
+        }, _callee4, this, [[3, 10]]);
       }));
 
-      function saveScriptResult(_x2) {
+      function saveScriptResult(_x4) {
         return _saveScriptResult.apply(this, arguments);
       }
 
@@ -326,12 +445,12 @@ var EvAgentScript = (_dec = (0, _di.Module)({
     key: "_formatScriptResult",
     value: function _formatScriptResult(scriptResult) {
       var resultCopy = (0, _ramda.clone)(scriptResult);
-      resultCopy.model = (0, _ramda.reduce)(function (output, _ref2) {
+      resultCopy.model = (0, _ramda.reduce)(function (output, _ref3) {
         var _value$leadField;
 
-        var _ref3 = _slicedToArray(_ref2, 2),
-            key = _ref3[0],
-            value = _ref3[1];
+        var _ref4 = _slicedToArray(_ref3, 2),
+            key = _ref4[0],
+            value = _ref4[1];
 
         var result = value;
 
@@ -357,7 +476,7 @@ var EvAgentScript = (_dec = (0, _di.Module)({
   initializer: function initializer() {
     return null;
   }
-}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, "isAgentScript", [_core.storage, _core.state], {
+}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, "isDisplayAgentScript", [_core.storage, _core.state], {
   configurable: true,
   enumerable: true,
   writable: true,
@@ -371,6 +490,6 @@ var EvAgentScript = (_dec = (0, _di.Module)({
   initializer: function initializer() {
     return {};
   }
-}), _applyDecoratedDescriptor(_class2.prototype, "setIsAgentScript", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setIsAgentScript"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setCurrentCallScript", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setCurrentCallScript"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setCallScriptResult", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setCallScriptResult"), _class2.prototype)), _class2)) || _class);
+}), _applyDecoratedDescriptor(_class2.prototype, "setIsDisplayAgentScript", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setIsDisplayAgentScript"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setCurrentCallScript", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setCurrentCallScript"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setCallScriptResult", [_dec2, _core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setCallScriptResult"), _class2.prototype)), _class2)) || _class);
 exports.EvAgentScript = EvAgentScript;
 //# sourceMappingURL=EvAgentScript.js.map

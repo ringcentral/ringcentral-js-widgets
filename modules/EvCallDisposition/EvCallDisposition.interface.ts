@@ -1,15 +1,10 @@
 import ActivityMatcher from 'ringcentral-integration/modules/ActivityMatcher';
 import ContactMatcher from 'ringcentral-integration/modules/ContactMatcher';
 
-import { EvClient } from '../../lib/EvClient';
+import { EvCallDispositionItem, EvClient } from '../../lib/EvClient';
 import { EvAgentScript } from '../EvAgentScript';
 import { EvCallHistory } from '../EvCallHistory';
 import { EvCallMonitor } from '../EvCallMonitor';
-
-export interface EvCallDispositionItem {
-  dispositionId: string;
-  notes: string;
-}
 
 export interface EvCallDispositionMapping {
   [callId: string]: EvCallDispositionItem;

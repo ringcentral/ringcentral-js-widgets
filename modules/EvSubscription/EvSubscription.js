@@ -101,11 +101,17 @@ var EvSubscription = (_dec = (0, _di.Module)({
       }
 
       this.eventEmitters.on(event, listener);
+      return this;
     }
   }, {
     key: "once",
     value: function once(event, listener) {
       this.eventEmitters.once(event, listener);
+    }
+  }, {
+    key: "off",
+    value: function off(event, listener) {
+      this.eventEmitters.off(event, listener);
     }
   }]);
 

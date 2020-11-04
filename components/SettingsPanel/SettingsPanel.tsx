@@ -1,4 +1,4 @@
-import { RcButton, RcTypography } from '@ringcentral-integration/rcui';
+import { RcButton, RcTypography } from '@ringcentral/juno';
 import classNames from 'classnames';
 import React, { FunctionComponent } from 'react';
 import { Tooltip } from 'ringcentral-widgets/components/Rcui/Tooltip';
@@ -21,7 +21,7 @@ export const SettingsPanel: FunctionComponent<SettingsPanelProps> = ({
   userName,
   sessionInfo,
   goToSessionUpdatePage,
-  showEditSessionButton,
+  disableEditSessionButton,
 }) => {
   return (
     <div className={styles.settingsPanel}>
@@ -49,17 +49,16 @@ export const SettingsPanel: FunctionComponent<SettingsPanelProps> = ({
             </RcTypography>
           </div>
         ))}
-        {showEditSessionButton && (
-          <RcButton
-            data-sign="editSession"
-            onClick={goToSessionUpdatePage}
-            classes={{ root: styles.editSession }}
-            size="medium"
-            fullWidth
-          >
-            {i18n.getString('editSession', currentLocale)}
-          </RcButton>
-        )}
+        <RcButton
+          data-sign="editSession"
+          disabled={disableEditSessionButton}
+          onClick={goToSessionUpdatePage}
+          classes={{ root: styles.editSession }}
+          size="medium"
+          fullWidth
+        >
+          {i18n.getString('editSession', currentLocale)}
+        </RcButton>
       </div>
       <div className={classNames(styles.version, styles.item)}>
         {i18n.getString('version', currentLocale)}

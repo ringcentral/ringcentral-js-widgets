@@ -47,7 +47,7 @@ require("core-js/modules/es6.regexp.replace");
 
 var _react = _interopRequireDefault(require("react"));
 
-var _rcui = require("@ringcentral-integration/rcui");
+var _juno = require("@ringcentral/juno");
 
 var _enzyme = require("enzyme");
 
@@ -129,7 +129,7 @@ function setup(_ref) {
       searchAgent = _ref$searchAgent === void 0 ? defaultSearchAgent : _ref$searchAgent,
       _ref$transferAgentLis2 = _ref.transferAgentList,
       transferAgentList = _ref$transferAgentLis2 === void 0 ? defaultTransferAgentList : _ref$transferAgentLis2;
-  return (0, _enzyme.mount)( /*#__PURE__*/_react["default"].createElement(_rcui.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_InternalPanel.InternalPanel, {
+  return (0, _enzyme.mount)( /*#__PURE__*/_react["default"].createElement(_juno.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_InternalPanel.InternalPanel, {
     currentLocale: currentLocale,
     goBack: goBack,
     transferAgentList: transferAgentList,

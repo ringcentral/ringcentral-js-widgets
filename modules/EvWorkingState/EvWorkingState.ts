@@ -50,7 +50,7 @@ class EvWorkingState extends RcModuleV2<Deps> implements WorkingState {
       enableCache: true,
       storageKey: 'EvWorkingState',
     });
-    this._deps.evAgentSession.onTriggerConfig.push(() => {
+    this._deps.evAgentSession.onTriggerConfig(() => {
       const { agentConfig } = this._deps.evAuth.agent;
       if (agentConfig?.agentSettings?.initLoginState) {
         // if that tab is not activity, that wi
@@ -66,13 +66,13 @@ class EvWorkingState extends RcModuleV2<Deps> implements WorkingState {
       this.resetWorkingState();
     });
 
-    this._deps.evAgentSession.onConfigSuccess.push(() => {
-      this._hasSetInitialState = this._deps.evAgentSession.isConfigTab;
+    this._deps.evAgentSession.onTriggerConfig(async () => {
+      this._hasSetInitialState = true;
     });
   }
 
   get tabManagerEnabled() {
-    return this._deps.tabManager?._tabbie.enabled;
+    return this._deps.tabManager?.enable;
   }
 
   @storage

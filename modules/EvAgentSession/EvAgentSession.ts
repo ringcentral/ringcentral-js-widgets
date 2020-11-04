@@ -7,11 +7,14 @@ import {
   track,
 } from '@ringcentral-integration/core';
 import { format, parse } from '@ringcentral-integration/phone-number';
+import { EventEmitter } from 'events';
 import { equals } from 'ramda';
 import { Module } from 'ringcentral-integration/lib/di';
 import sleep from 'ringcentral-integration/lib/sleep';
 
 import {
+  agentSessionEvents,
+  dialoutStatuses,
   dropDownOptions,
   LoginTypes,
   loginTypes,
@@ -24,9 +27,10 @@ import {
   EvAvailableSkillProfile,
   EvConfigureAgentOptions,
 } from '../../lib/EvClient';
-import { HeartBeat } from '../../lib/heartBeat';
+import { TabLife } from '../../lib/tabLife';
 import { trackEvents } from '../../lib/trackEvents';
 import { AgentSession, Deps, FormGroup } from './EvAgentSession.interface';
+import { tabManagerEnabled } from './tabManagerEnabled.decorator';
 import i18n from './i18n';
 
 const ACCEPTABLE_LOGIN_TYPES = [
@@ -38,7 +42,7 @@ const DEFAULT_LOGIN_TYPE = loginTypes.integratedSoftphone;
 
 const NONE = dropDownOptions.None;
 
-// wait all tab is logout complete, server has some delay after logout
+// ! wait all tab is logout complete, server has some delay after logout
 const WAIT_EV_SERVER_ROLLBACK_DELAY = 2000;
 
 const DEFAULT_FORM_GROUP = {
@@ -46,6 +50,15 @@ const DEFAULT_FORM_GROUP = {
   loginType: DEFAULT_LOGIN_TYPE,
   selectedSkillProfileId: NONE,
   extensionNumber: '',
+  autoAnswer: false,
+};
+
+type AutoConfigType = 'already success' | 'other tab config' | 'config';
+
+type ConfigureAgentParams = {
+  config?: EvConfigureAgentOptions;
+  triggerEvent?: boolean;
+  needAssignFormGroupValue?: boolean;
 };
 
 @Module({
@@ -58,27 +71,49 @@ const DEFAULT_FORM_GROUP = {
     'Alert',
     'Auth',
     'Locale',
-    'RegionSettings',
+    'Presence',
     'RouterInteraction',
     'Modal',
     'Block',
+    'Beforeunload',
     { dep: 'TabManager', optional: true },
     { dep: 'EvAgentSessionOptions', optional: true },
   ],
 })
 class EvAgentSession extends RcModuleV2<Deps> implements AgentSession {
   isForceLogin = false;
-  onConfigSuccess: Function[] = [];
-  onTriggerConfig: Function[] = [];
-  clearCalls?: () => void;
 
+  _isReConfiguring = false;
+
+  isReconnected = false;
+
+  private _eventEmitter = new EventEmitter();
   private _loginPromise: Promise<void>;
-  private _heartBeat: HeartBeat;
+
   private _isAgentUpdating = false;
   private _updateSessionBlockId: string;
+  private _isLogin = false;
 
-  get isConfigTab() {
-    return !this.tabManagerEnabled || this._heartBeat?.isSuccessByLocal;
+  private _tabConfigWorking = new TabLife(
+    `${this._deps.tabManager.prefix}sessionConfig_working`,
+  );
+
+  private _tabConfigSuccess = new TabLife(
+    `${this._deps.tabManager.prefix}sessionConfig_success`,
+  );
+
+  @tabManagerEnabled()
+  private _configSuccessAlive() {
+    this._tabConfigSuccess.alive();
+  }
+
+  @tabManagerEnabled()
+  private _configWorkingAlive() {
+    this._tabConfigWorking.alive();
+  }
+
+  async isConfigTabAlive() {
+    return !this.tabManagerEnabled || this._tabConfigSuccess?.isAlive();
   }
 
   get shouldBlockBrowser() {
@@ -92,53 +127,18 @@ class EvAgentSession extends RcModuleV2<Deps> implements AgentSession {
       enableCache: true,
       storageKey: 'EvAgentSession',
     });
-    const heartBeatInterval =
-      this._deps.evAgentSessionOptions?.heartBeatInterval ?? 1000;
-
-    if (this.tabManagerEnabled) {
-      this._heartBeat = new HeartBeat(
-        `${this._deps.tabManager._tabbie.prefix}sessionConfig`,
-        heartBeatInterval,
-      );
-    }
-
-    // #region those event should put in constructor, that _shouldInit will effect that binding timing.
-    this._deps.evAuth.onLoginSuccess(async () => {
-      if (this._isAgentUpdating) {
-        return;
-      }
-
-      this._afterLogin();
-
-      if (!this._deps.auth.isFreshLogin && this.configured) {
-        try {
-          return await this._autoConfigureAgent();
-        } catch (e) {
-          console.error(e);
-        }
-      }
-
-      this.setFreshConfig();
-
-      this._deps.routerInteraction.push('/sessionConfig');
+    // ! that onceLoginSuccess for get event before onInitOnce.
+    this._deps.evAuth.onceLoginSuccess(() => {
+      // when that is seconds time get onLoginSuccess
+      console.log('----------onLoginSuccess1');
+      this._isLogin = true;
     });
-
-    this.onConfigSuccess.push(async () => {
-      if (this._isAgentUpdating) {
-        this._isAgentUpdating = false;
-      } else {
-        this._deps.routerInteraction.push('/dialer');
-      }
-    });
-
+    // ! logout event should in constructor, when logout that will not call init.
     this._deps.evAuth.beforeAgentLogout(() => {
-      if (!this._isAgentUpdating) {
-        this.resetAllConfig();
-      }
-      this.setConfigSuccess(false);
-      this._heartBeat?.destroy();
+      this._resetAllState();
     });
-    // #endregion
+
+    this._deps.presence.beforeunloadHandler = () => this.shouldBlockBrowser;
   }
 
   @storage
@@ -176,6 +176,10 @@ class EvAgentSession extends RcModuleV2<Deps> implements AgentSession {
   @state
   formGroup: FormGroup = DEFAULT_FORM_GROUP;
 
+  @storage
+  @state
+  accessToken = '';
+
   get isExternalPhone() {
     return this.formGroup.loginType === loginTypes.externalPhone;
   }
@@ -189,7 +193,7 @@ class EvAgentSession extends RcModuleV2<Deps> implements AgentSession {
   }
 
   get tabManagerEnabled() {
-    return this._deps.tabManager?._tabbie.enabled;
+    return this._deps.tabManager?.enable;
   }
 
   get hasMultipleTabs() {
@@ -210,11 +214,11 @@ class EvAgentSession extends RcModuleV2<Deps> implements AgentSession {
   }
 
   @computed((that: EvAgentSession) => [
-    that._deps.evAuth.agent.agentConfig,
+    that._deps.evAuth.agent,
     that._deps.auth.isFreshLogin,
   ])
   get inboundQueues() {
-    const { agentConfig } = this._deps.evAuth.agent;
+    const { agentConfig } = this._deps.evAuth.agent || {};
 
     if (!agentConfig || !agentConfig.inboundSettings) {
       return [];
@@ -239,11 +243,11 @@ class EvAgentSession extends RcModuleV2<Deps> implements AgentSession {
   }
 
   @computed((that: EvAgentSession) => [
-    that._deps.evAuth.agent.agentConfig,
+    that._deps.evAuth.agent,
     that._deps.locale.currentLocale,
   ])
   get skillProfileList() {
-    const { agentConfig } = this._deps.evAuth.agent;
+    const { agentConfig } = this._deps.evAuth.agent || {};
 
     if (!agentConfig || !agentConfig.inboundSettings) {
       return [];
@@ -255,10 +259,13 @@ class EvAgentSession extends RcModuleV2<Deps> implements AgentSession {
     const defaultSkill = this._pickSkillProfile(availableSkillProfiles);
 
     if (!defaultSkill && availableSkillProfiles.length > 0) {
-      availableSkillProfiles.unshift({
-        profileId: NONE,
-        profileName: i18n.getString(NONE, this._deps.locale.currentLocale),
-      });
+      return [
+        {
+          profileId: NONE,
+          profileName: i18n.getString(NONE, this._deps.locale.currentLocale),
+        },
+        ...availableSkillProfiles,
+      ];
     }
 
     return availableSkillProfiles;
@@ -299,9 +306,15 @@ class EvAgentSession extends RcModuleV2<Deps> implements AgentSession {
   }
 
   @action
+  setAccessToken(token: string) {
+    this.accessToken = token;
+  }
+
+  @action
   setConfigSuccess(status: boolean) {
+    console.log('setConfigSuccess~', status);
     if (status) {
-      this._onConfigureAgentSuccess();
+      this._emitConfigSuccess();
     }
 
     this.configSuccess = status;
@@ -365,7 +378,7 @@ class EvAgentSession extends RcModuleV2<Deps> implements AgentSession {
     this.loginType = DEFAULT_LOGIN_TYPE;
     this.extensionNumber = '';
     this.takingCall = true;
-    this.autoAnswer = false;
+    this.autoAnswer = this.defaultAutoAnswerOn;
     this.configSuccess = false;
     this.configured = false;
 
@@ -375,18 +388,24 @@ class EvAgentSession extends RcModuleV2<Deps> implements AgentSession {
     );
   }
 
+  get defaultAutoAnswerOn() {
+    return this._deps.evAuth.agentPermissions.defaultAutoAnswerOn;
+  }
+
+  @action
   assignFormGroupValue() {
     const {
       selectedInboundQueueIds,
       extensionNumber,
       loginType,
       selectedSkillProfileId,
+      autoAnswer,
     } = this.formGroup;
-    this.setInboundQueueIds(selectedInboundQueueIds);
-    this.setExtensionNumber(extensionNumber);
-    this.setLoginType(loginType);
-    this.setSkillProfileId(selectedSkillProfileId);
-    this.resetFormGroup();
+    this.selectedInboundQueueIds = selectedInboundQueueIds;
+    this.extensionNumber = extensionNumber;
+    this.loginType = loginType;
+    this.selectedSkillProfileId = selectedSkillProfileId;
+    this.autoAnswer = autoAnswer;
   }
 
   @action
@@ -400,6 +419,7 @@ class EvAgentSession extends RcModuleV2<Deps> implements AgentSession {
       selectedSkillProfileId: this.selectedSkillProfileId,
       loginType: this.loginType,
       extensionNumber: this.extensionNumber,
+      autoAnswer: this.autoAnswer,
     });
   }
 
@@ -416,20 +436,230 @@ class EvAgentSession extends RcModuleV2<Deps> implements AgentSession {
       selectedSkillProfileId: this.selectedSkillProfileId,
       loginType: this.loginType,
       extensionNumber: this.extensionNumber,
+      autoAnswer: this.autoAnswer,
     };
     return !equals(sessionConfigs, this.formGroup);
   }
 
-  _shouldInit() {
-    return (
-      super._shouldInit() &&
-      this._deps.auth.loggedIn &&
-      this._deps.evAuth.connected
+  _shouldReset() {
+    return super._shouldReset() && !this._deps.auth.loggedIn;
+  }
+
+  async checkIsMainTabAlive() {
+    return this._deps.tabManager.checkIsMainTabAlive();
+  }
+
+  private _mainTabBeforeunloadHandler = () => {
+    console.log(
+      '_mainTabBeforeunloadHandler~~',
+      this._deps.tabManager.hasMultipleTabs,
+      this.isMainTab,
+      this._deps.tabManager.firstTabIdExcludeMainTab,
+    );
+
+    if (
+      this._deps.tabManager.hasMultipleTabs &&
+      this.isMainTab &&
+      this._deps.tabManager.firstTabIdExcludeMainTab
+    ) {
+      return true;
+    }
+    return false;
+  };
+
+  private _mainTabAfterUnloadHandler = () => {
+    console.log(
+      '_mainTabAfterUnloadHandler~~',
+      this._deps.tabManager.firstTabIdExcludeMainTab,
+    );
+    if (!this.isMainTab) return;
+    const firstTabIdExcludeMainTab = this._deps.tabManager
+      .firstTabIdExcludeMainTab;
+
+    this._deps.tabManager.setMainTabId(firstTabIdExcludeMainTab);
+
+    this._sendTabManager(
+      tabManagerEvents.MAIN_TAB_WILL_UNLOAD,
+      firstTabIdExcludeMainTab,
+    );
+  };
+
+  @tabManagerEnabled()
+  private _setMainTabId() {
+    console.log('_setMainTabId~~~');
+    const { id } = this._deps.tabManager;
+    this._deps.tabManager.setMainTabId(id);
+    this._deps.beforeunload.add(this._mainTabBeforeunloadHandler);
+    this._deps.beforeunload.onAfterUnload(
+      this._mainTabAfterUnloadHandler,
+      true,
     );
   }
 
-  _shouldReset() {
-    return super._shouldReset() && !this._deps.auth.loggedIn;
+  onInitOnce() {
+    this._init();
+
+    this.onConfigSuccess(() => {
+      if (this._deps.presence.calls.length === 0) {
+        this._deps.presence.setDialoutStatus(dialoutStatuses.idle);
+      }
+
+      if (this._isAgentUpdating) {
+        this._isAgentUpdating = false;
+      } else {
+        console.log('!!!!to Dialer');
+        this._deps.routerInteraction.push('/dialer');
+      }
+    });
+  }
+
+  private async _tabReConfig() {
+    console.log('_tabReConfig~~~', this._isReConfiguring);
+    if (this._isReConfiguring) return;
+
+    this._isReConfiguring = true;
+
+    if (this.isIntegratedSoftphone) {
+      try {
+        await this._deps.block.next(async () => {
+          // !! sip resiter need to configure agent at fisrt
+          await this.configureAgent({
+            triggerEvent: false,
+          });
+        });
+      } catch (error) {
+        console.error('re config fail', error);
+        this._emitReConfigFail();
+        return;
+      }
+    } else {
+      this._configWorkingAlive();
+    }
+
+    this.isReconnected = true;
+
+    this._mainTabHandle();
+    this._configSuccessAlive();
+
+    this._isReConfiguring = false;
+  }
+
+  // _newMainTabReConfig and _pollAskIfCanBeNewMainTab are all for handle new main tab
+  private async _newMainTabReConfig() {
+    console.log(
+      '_newMainTabReConfig~',
+      !this.isReconnected,
+      this._deps.evAuth.connected,
+      this.configSuccess,
+      this.isMainTab,
+    );
+
+    if (
+      !this.isReconnected &&
+      this._deps.evAuth.connected &&
+      this.configSuccess &&
+      this.isMainTab
+    ) {
+      console.log('_newMainTabReConfig success~');
+      await this._tabReConfig();
+    }
+  }
+
+  @tabManagerEnabled()
+  private _pollAskIfCanBeNewMainTab() {
+    console.log('_pollAskIfCanBeNewMainTab~~');
+    this._tabConfigSuccess.onLeave(async () => {
+      console.log(
+        '_tabReConfig in _pollAskIfCanBeNewMainTab~',
+        this._deps.tabManager.isFirstTab,
+        this._deps.evAuth.connected,
+        this.configSuccess,
+        !this._isReConfiguring,
+      );
+      if (
+        this._deps.tabManager.isFirstTab &&
+        this._deps.evAuth.connected &&
+        this.configSuccess &&
+        !this._isReConfiguring &&
+        (await this._tabConfigWorking.isLeave())
+      ) {
+        await this._tabReConfig();
+      } else if (!this.isMainTab) {
+        this._pollAskIfCanBeNewMainTab();
+      }
+    }, 3000);
+  }
+
+  private async _init() {
+    if (this._isLogin) {
+      this._initTabLife();
+      await this._initAgentSession();
+    }
+    // ! that must call after onInitOnce, because when that is not in init once,
+    // ! that configured will some times to be false because storage block
+    this._deps.evAuth.onLoginSuccess(() => {
+      // when that is seconds time get onLoginSuccess
+      console.log('----------onLoginSuccess2');
+      this._initTabLife();
+      this._initAgentSession();
+    });
+  }
+
+  private _initAgentSession() {
+    console.log('_initAgentSession~', this._isAgentUpdating);
+    if (this._isAgentUpdating) {
+      return;
+    }
+    this._afterLogin();
+
+    console.log('autoconfig~', !this._deps.auth.isFreshLogin, this.configured);
+
+    if (this._deps.auth.isFreshLogin === false && this.configured) {
+      try {
+        return this._autoConfigureAgent();
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    this.setFreshConfig();
+
+    this.resetFormGroup();
+
+    this._navigateToSessionConfigPage();
+  }
+
+  private _navigateToSessionConfigPage() {
+    this._deps.routerInteraction.push('/sessionConfig');
+    console.log('to sessionConfig~~');
+  }
+
+  // ! also reset in onReset for auth logout by rc
+  onReset() {
+    console.log('onReset in EvAgentSession~~');
+    try {
+      this._resetAllState();
+      this._isAgentUpdating = false;
+    } catch (error) {
+      // ignore error
+    }
+  }
+
+  private _resetAllState() {
+    console.log('_resetAllState~~', this.isMainTab);
+    if (!this._isAgentUpdating) {
+      this.resetAllConfig();
+    }
+    if (this.isMainTab) {
+      this._deps.tabManager.setMainTabId(null);
+    }
+    this.setConfigSuccess(false);
+    this.isReconnected = false;
+    this._destroyTabLife();
+    this._deps.beforeunload.clear();
+    this._deps.beforeunload.removeAfterUnloadListener(
+      this._mainTabAfterUnloadHandler,
+    );
   }
 
   async onStateChange() {
@@ -440,24 +670,55 @@ class EvAgentSession extends RcModuleV2<Deps> implements AgentSession {
 
   private async _checkTabManagerEvent() {
     const { event } = this._deps.tabManager;
+    const data = event?.args[0];
     if (event) {
       switch (event.name) {
         case tabManagerEvents.AGENT_CONFIG_SUCCESS:
+          console.log('!!!from other');
           await this._othersTabConfigureAgent();
           break;
         case tabManagerEvents.UPDATE_SESSION:
           this._updateSessionBlockId = this._deps.block.block();
           this._isAgentUpdating = true;
-          this._deps.evAuth.onceLogout(async () => {
-            await sleep(WAIT_EV_SERVER_ROLLBACK_DELAY);
-            this._loginPromise = this._deps.evAuth.loginAgent();
-          });
+
+          // if voiceConnectionChanged
+          if (data) {
+            this.onceLogoutThenLogin().then((loginPromise) => {
+              this._loginPromise = loginPromise;
+            });
+          }
+          break;
+        case tabManagerEvents.MAIN_TAB_WILL_UNLOAD:
+          console.log(
+            'MAIN_TAB_WILL_UNLOAD~~',
+            data === this._deps.tabManager.tabbie.id,
+            this.isMainTab,
+          );
+          if (data === this._deps.tabManager.tabbie.id || this.isMainTab) {
+            // now this tab is the new main tab
+            await this._newMainTabReConfig();
+          }
+          break;
+        case tabManagerEvents.SET_MIAN_TAB_ID:
+          if (this._deps.tabManager.mainTabId !== data) {
+            console.log('SET_MIAN_TAB_ID in this tab~');
+            this._deps.tabManager.setMainTabIdInThisTab(data);
+          }
           break;
         case tabManagerEvents.UPDATE_SESSION_SUCCESS:
           try {
-            await this._loginPromise;
-            await this._autoConfigureAgent();
-            this._deps.block.unblock(this._updateSessionBlockId);
+            console.log('UPDATE_SESSION_SUCCESS~~', data);
+            // if voiceConnectionChanged
+            if (data) {
+              this._destroyTabLife();
+              this._initTabLife();
+              await this._loginPromise;
+              await this._othersTabConfigureAgent();
+            } else {
+              this.setConfigSuccess(true);
+            }
+
+            this._unblockUpdateSession();
 
             this._isAgentUpdating = false;
           } catch (error) {
@@ -469,10 +730,30 @@ class EvAgentSession extends RcModuleV2<Deps> implements AgentSession {
         case tabManagerEvents.UPDATE_SESSION_SUCCESS_ALERT:
           this._showUpdateSuccessAlert();
           break;
+        case tabManagerEvents.UPDATE_SESSION_FAIL:
+          this._unblockUpdateSession();
+          break;
         default:
           break;
       }
     }
+  }
+
+  private _unblockUpdateSession() {
+    this._deps.block.unblock(this._updateSessionBlockId);
+  }
+
+  @tabManagerEnabled()
+  private _initTabLife() {
+    console.log('initTabLife~');
+    this._tabConfigWorking.init();
+    this._tabConfigSuccess.init();
+  }
+
+  @tabManagerEnabled()
+  private _destroyTabLife() {
+    this._tabConfigWorking?.destroy();
+    this._tabConfigSuccess?.destroy();
   }
 
   private _afterLogin() {
@@ -503,6 +784,52 @@ class EvAgentSession extends RcModuleV2<Deps> implements AgentSession {
     }
   }
 
+  private _emitTriggerConfig() {
+    this._eventEmitter.emit(agentSessionEvents.TRIGGER_CONFIG);
+  }
+
+  onTriggerConfig(callback: () => void) {
+    this._eventEmitter.on(agentSessionEvents.TRIGGER_CONFIG, callback);
+    return this;
+  }
+
+  private _emitConfigSuccess() {
+    this._eventEmitter.emit(agentSessionEvents.CONFIG_SUCCESS);
+  }
+
+  onConfigSuccess(callback: () => void) {
+    this._eventEmitter.on(agentSessionEvents.CONFIG_SUCCESS, callback);
+    return this;
+  }
+
+  private _emitReConfigFail() {
+    this._eventEmitter.emit(agentSessionEvents.RECONFIG_FAIL);
+  }
+
+  onReConfigFail(callback: () => void) {
+    this._eventEmitter.on(agentSessionEvents.RECONFIG_FAIL, callback);
+    return this;
+  }
+
+  private _mainTabHandle() {
+    console.log('_mainTabHandle~~');
+    this._setMainTabId();
+    // refresh token prevent get token fail to get sip_info
+    this._deps.evClient.getRefreshedToken();
+    this._deps.tabManager.emitSetMainTabComplete();
+  }
+
+  async updateAgentConfigs() {
+    const agentConfig = await this._deps.evClient.getAgentConfig();
+    const agent = {
+      ...this._deps.evAuth.agent,
+      agentConfig,
+    };
+    this._deps.evAuth.setAgent(agent);
+    // !! update agentConfig need before set config success.
+    this.setConfigSuccess(true);
+  }
+
   /**
    * config agent in session config page
    * @param triggerEvent is that should trigger event, default is true
@@ -517,76 +844,111 @@ class EvAgentSession extends RcModuleV2<Deps> implements AgentSession {
       'Auto Answer': that.autoAnswer,
     },
   ])
-  async configureAgent(triggerEvent: boolean = true) {
-    const config = this._checkFieldsResult();
+  async configureAgent({
+    config = this._checkFieldsResult(this.formGroup),
+    triggerEvent = true,
+    needAssignFormGroupValue = false,
+  }: ConfigureAgentParams = {}) {
+    this._configWorkingAlive();
+    console.log('configureAgent~~', triggerEvent);
     this._clearCalls();
-
     let result = await this._connectEvServer(config);
 
     // Session timeout
     // this will occur when stay in session config page for long time
     if (result.data.status !== 'SUCCESS') {
-      this._deps.routerInteraction.push('/sessionConfig');
+      this._navigateToSessionConfigPage();
       await this._deps.evAuth.newReconnect(false);
 
       result = await this._connectEvServer(config);
     }
 
-    this._handleAgentResult(result.data);
+    this._handleAgentResult({ config: result.data, needAssignFormGroupValue });
 
     if (triggerEvent) {
-      this._onTriggerAgentConfig();
+      this._mainTabHandle();
+      this._emitTriggerConfig();
+      this._configSuccessAlive();
       this._sendTabManager(tabManagerEvents.AGENT_CONFIG_SUCCESS);
       this.setConfigSuccess(true);
-    }
-
-    if (this.tabManagerEnabled) {
-      this._heartBeat.heartBeatOnSuccess();
     }
   }
 
   async updateAgent(voiceConnectionChanged: boolean) {
-    await this._deps.block.next(async () => {
-      const config = this._checkFieldsResult();
+    try {
+      await this._deps.block.next(async () => {
+        if (voiceConnectionChanged) this._configWorkingAlive();
+        const config = this._checkFieldsResult(this.formGroup);
 
-      this._clearCalls();
+        this._clearCalls();
 
-      this._isAgentUpdating = true;
+        this._isAgentUpdating = true;
 
-      if (voiceConnectionChanged) {
-        this._sendTabManager(tabManagerEvents.UPDATE_SESSION);
-        this._deps.evAuth.sendLogoutTabEvent();
+        this._sendTabManager(
+          tabManagerEvents.UPDATE_SESSION,
+          voiceConnectionChanged,
+        );
 
-        await this._deps.evAuth.logoutAgent();
+        if (voiceConnectionChanged) await this.reLoginAgent();
 
-        // wait all login is logout complete.
-        await sleep(WAIT_EV_SERVER_ROLLBACK_DELAY);
-
-        await this._deps.evAuth.loginAgent();
         config.isForce = true;
-      }
+        const result = await this._connectEvServer(config);
+        this._handleAgentResult({
+          config: result.data,
+          isAgentUpdating: true,
+          needAssignFormGroupValue: true,
+        });
 
-      const result = await this._connectEvServer(config);
-      this._handleAgentResult(result.data);
+        if (voiceConnectionChanged) {
+          this._mainTabHandle();
+          this._emitTriggerConfig();
+        }
 
-      this._onTriggerAgentConfig();
+        await this.updateAgentConfigs();
 
-      this.setConfigSuccess(true);
+        if (voiceConnectionChanged) this._configSuccessAlive();
 
-      await this.updateAgentConfigs();
+        // * update session complete, and config ready
+        this._sendTabManager(
+          tabManagerEvents.UPDATE_SESSION_SUCCESS,
+          voiceConnectionChanged,
+        );
 
-      if (this.tabManagerEnabled) {
-        this._heartBeat.heartBeatOnSuccess();
-      }
+        this.goToSettingsPage();
 
-      if (voiceConnectionChanged) {
-        this._sendTabManager(tabManagerEvents.UPDATE_SESSION_SUCCESS);
-      }
+        this._sendTabManager(tabManagerEvents.UPDATE_SESSION_SUCCESS_ALERT);
+        this._showUpdateSuccessAlert();
+      });
+    } catch (error) {
+      this._sendTabManager(tabManagerEvents.UPDATE_SESSION_FAIL);
+      this._unblockUpdateSession();
 
-      this.goToSettingsPage();
+      console.error('error', error);
+    }
+  }
 
-      this._sendTabManager(tabManagerEvents.UPDATE_SESSION_SUCCESS_ALERT);
-      this._showUpdateSuccessAlert();
+  async reLoginAgent() {
+    this._deps.evAuth.sendLogoutTabEvent();
+
+    const { access_token } = await this._deps.auth.refreshToken();
+    this.setAccessToken(access_token);
+
+    // * then do logout send to every tab
+    await this._deps.evAuth.logoutAgent();
+
+    // ! wait all tab is logout complete, server has some delay after logout
+    await sleep(WAIT_EV_SERVER_ROLLBACK_DELAY);
+
+    await this._deps.evAuth.loginAgent(this.accessToken);
+  }
+
+  onceLogoutThenLogin() {
+    return new Promise<Promise<void>>((resolve) => {
+      this._deps.evAuth.onceLogout(async () => {
+        // ! wait all tab is logout complete, server has some delay after logout
+        await sleep(WAIT_EV_SERVER_ROLLBACK_DELAY);
+        resolve(this._deps.evAuth.loginAgent(this.accessToken));
+      });
     });
   }
 
@@ -600,7 +962,15 @@ class EvAgentSession extends RcModuleV2<Deps> implements AgentSession {
     });
   }
 
-  private _handleAgentResult({ message, status }: EvAgentConfig) {
+  private _handleAgentResult({
+    config: { message, status },
+    isAgentUpdating,
+    needAssignFormGroupValue,
+  }: {
+    config: EvAgentConfig;
+    isAgentUpdating?: boolean;
+    needAssignFormGroupValue?: boolean;
+  }) {
     if (status !== 'SUCCESS') {
       if (typeof message === 'string') {
         this._deps.alert.danger({
@@ -610,7 +980,7 @@ class EvAgentSession extends RcModuleV2<Deps> implements AgentSession {
         });
       } else {
         this._deps.alert.danger({
-          message: this._isAgentUpdating
+          message: isAgentUpdating
             ? messageTypes.UPDATE_AGENT_ERROR
             : messageTypes.AGENT_CONFIG_ERROR,
           ttl: 0,
@@ -618,43 +988,114 @@ class EvAgentSession extends RcModuleV2<Deps> implements AgentSession {
       }
       throw new Error(message);
     }
-    this.assignFormGroupValue();
+    if (needAssignFormGroupValue) {
+      this.assignFormGroupValue();
+    }
   }
 
-  private _autoConfigureAgent() {
+  private async _autoConfigureAgent() {
+    console.log('_autoConfigureAgent~', this.tabManagerEnabled);
     if (this.tabManagerEnabled) {
-      const isWorkingByLocal = this._heartBeat.isWorkingByLocal;
+      const resolves: ((
+        value?: AutoConfigType | PromiseLike<AutoConfigType>,
+      ) => void)[] = [null, null, null];
+      return Promise.race<AutoConfigType>([
+        new Promise<AutoConfigType>((res) => {
+          resolves[0] = () => res('already success');
 
-      if (!isWorkingByLocal) {
-        this._heartBeat.heartBeatOnWorking();
-      }
+          this._eventEmitter.once(
+            agentSessionEvents.CONFIG_SUCCESS,
+            resolves[0],
+          );
+        }),
+        new Promise<AutoConfigType>((res) => {
+          resolves[1] = res;
+          // check isSuccess first
+          if (
+            this._isAgentUpdating ||
+            this._deps.tabManager.tabs.length !== 1
+          ) {
+            const checkIsAlive = () => {
+              this._tabConfigSuccess.isAlive().then(async (result) => {
+                if (result) {
+                  res('other tab config');
+                } else {
+                  checkIsAlive();
+                }
+              });
+            };
 
-      // check isSuccess first
-      if (this._heartBeat.isSuccessByLocal || this._isAgentUpdating) {
-        return this._othersTabConfigureAgent();
-      }
+            checkIsAlive();
+          }
+        }),
+        new Promise<AutoConfigType>((res) => {
+          resolves[2] = res;
+          // when there is too many tab, that event will block
+          // then check local
+          if (this._deps.tabManager.isFirstTab) {
+            this._tabConfigWorking.isLeave().then(async (result) => {
+              if (result) {
+                this._configWorkingAlive();
+                res('config');
+              }
+            });
+          }
+        }),
+      ])
+        .then((result) => {
+          this._eventEmitter.off(
+            agentSessionEvents.CONFIG_SUCCESS,
+            resolves[0],
+          );
+          // clear all memory with promise
+          resolves.forEach((r) => r());
+          resolves.length = 0;
 
-      // then check local
-      if (!isWorkingByLocal) {
-        return this.configureAgent();
-      }
-    } else {
-      return this.configureAgent();
+          console.log('!!!!!', result);
+
+          switch (result) {
+            case 'other tab config':
+              console.log('_othersTabConfigureAgent in auto config~~');
+              return this._othersTabConfigureAgent();
+            case 'config': {
+              console.log('configureAgent in auto config~~');
+              //! when reConfig, if that change queue or others field in ev admin, that will get error, should redirect to sessionPage
+              const config = this._checkFieldsResult({
+                selectedInboundQueueIds: this.selectedInboundQueueIds,
+                selectedSkillProfileId: this.selectedSkillProfileId,
+                loginType: this.loginType,
+                extensionNumber: this.extensionNumber,
+              });
+              return this.configureAgent({ config });
+            }
+            case 'already success':
+            default:
+              return Promise.resolve();
+          }
+        })
+        .catch((e) => {
+          this.setConfigSuccess(false);
+          this._navigateToSessionConfigPage();
+          return e;
+        });
     }
+
+    return this.configureAgent();
   }
 
   async _othersTabConfigureAgent() {
+    console.log('_othersTabConfigureAgent~~', this.configSuccess);
     if (this.configSuccess) {
       return;
     }
+
     try {
       await this._deps.evClient.multiLoginRequest();
 
-      this.setConfigSuccess(true);
-
       await this.updateAgentConfigs();
 
-      this._heartBeat.heartBeatOnSuccess();
+      this._pollAskIfCanBeNewMainTab();
+
       return;
     } catch (e) {
       console.log(e);
@@ -665,36 +1106,8 @@ class EvAgentSession extends RcModuleV2<Deps> implements AgentSession {
     return skillProfileList.find((item) => item.isDefault === '1');
   }
 
-  private _onConfigureAgentSuccess() {
-    this.onConfigSuccess.forEach((hook) => {
-      try {
-        hook();
-      } catch (e) {
-        console.error(e);
-      }
-    });
-  }
-
-  private _onTriggerAgentConfig() {
-    this.onTriggerConfig.forEach((hook) => {
-      try {
-        hook();
-      } catch (e) {
-        console.error(e);
-      }
-    });
-  }
-
-  async updateAgentConfigs() {
-    const agentConfig = await this._deps.evClient.getAgentConfig();
-    const agent = {
-      ...this._deps.evAuth.agent,
-      agentConfig,
-    };
-    this._deps.evAuth.setAgent(agent);
-  }
-
   private async _connectEvServer(config: EvConfigureAgentOptions) {
+    console.log('configure ev agent in _connectEvServer~~');
     let result = await this._deps.evClient.configureAgent(config);
     const { status } = result.data;
 
@@ -732,8 +1145,10 @@ class EvAgentSession extends RcModuleV2<Deps> implements AgentSession {
     return result;
   }
 
-  private _checkFieldsResult(): EvConfigureAgentOptions {
-    if (this.formGroup.selectedInboundQueueIds.length === 0) {
+  private _checkFieldsResult(formGroup: FormGroup): EvConfigureAgentOptions {
+    const { selectedInboundQueueIds, selectedSkillProfileId } = formGroup;
+
+    if (selectedInboundQueueIds.length === 0) {
       this._deps.alert.danger({
         message: messageTypes.NO_AGENT_SELECTED,
         ttl: 0,
@@ -742,20 +1157,18 @@ class EvAgentSession extends RcModuleV2<Deps> implements AgentSession {
     }
 
     return {
-      dialDest: this._getDialDest(),
-      queueIds: this.formGroup.selectedInboundQueueIds,
+      dialDest: this._getDialDest(formGroup),
+      queueIds: selectedInboundQueueIds,
       skillProfileId:
-        this.formGroup.selectedSkillProfileId === NONE
-          ? ''
-          : this.formGroup.selectedSkillProfileId,
+        selectedSkillProfileId === NONE ? '' : selectedSkillProfileId,
     };
   }
 
-  private _getDialDest() {
+  private _getDialDest({ loginType, extensionNumber }: FormGroup) {
     // Only external phone has number input
-    switch (this.formGroup.loginType) {
+    switch (loginType) {
       case loginTypes.externalPhone: {
-        if (!this.formGroup.extensionNumber) {
+        if (!extensionNumber) {
           this._deps.alert.danger({
             message: messageTypes.EMPTY_PHONE_NUMBER,
             ttl: 0,
@@ -763,8 +1176,7 @@ class EvAgentSession extends RcModuleV2<Deps> implements AgentSession {
           throw new Error(`'extensionNumber' is an empty number.`);
         }
         const formatPhoneNumber = format({
-          phoneNumber: this.formGroup.extensionNumber,
-          areaCode: this._deps.regionSettings.areaCode,
+          phoneNumber: extensionNumber,
         });
         const { parsedNumber, isValid } = parse({
           input: formatPhoneNumber,
@@ -777,7 +1189,7 @@ class EvAgentSession extends RcModuleV2<Deps> implements AgentSession {
           throw new Error(`'extensionNumber' is not a valid number.`);
         }
         this.setFormGroup({ extensionNumber: parsedNumber });
-        return this.formGroup.extensionNumber;
+        return extensionNumber;
       }
       case loginTypes.integratedSoftphone:
         return 'integrated';
@@ -792,9 +1204,11 @@ class EvAgentSession extends RcModuleV2<Deps> implements AgentSession {
   }
 
   private _clearCalls() {
-    if (typeof this.clearCalls === 'function') {
-      this.clearCalls();
-    }
+    this._deps.presence.clearCalls();
+  }
+
+  get isMainTab() {
+    return this._deps.tabManager.isMainTab;
   }
 }
 

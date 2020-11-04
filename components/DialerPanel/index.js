@@ -20,6 +20,7 @@ var _Dialer = require("./Dialer");
 
 Object.keys(_Dialer).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _Dialer[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {
@@ -32,6 +33,7 @@ var _DialerPanel = require("./DialerPanel");
 
 Object.keys(_DialerPanel).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _DialerPanel[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {

@@ -33,7 +33,7 @@ require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.array.is-array");
 
-var _rcui = require("@ringcentral-integration/rcui");
+var _juno = require("@ringcentral/juno");
 
 var _react = _interopRequireWildcard(require("react"));
 
@@ -105,7 +105,7 @@ var RequeueCallGroupDetailPanel = function RequeueCallGroupDetailPanel(_ref) {
     }
   }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].checkContainer
-  }, /*#__PURE__*/_react["default"].createElement(_rcui.RcButton, {
+  }, /*#__PURE__*/_react["default"].createElement(_juno.RcButton, {
     title: selectText,
     disabled: !queueId,
     onClick: function onClick() {

@@ -20,6 +20,7 @@ var _BackHeader = require("./BackHeader");
 
 Object.keys(_BackHeader).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _BackHeader[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {

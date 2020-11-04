@@ -63,8 +63,6 @@ require("regenerator-runtime/runtime");
 
 var _core = require("@ringcentral-integration/core");
 
-var _events = require("events");
-
 var _di = require("ringcentral-integration/lib/di");
 
 var _enums = require("../../enums");
@@ -148,7 +146,7 @@ var EvCallMonitor = (_dec = (0, _di.Module)({
   var _super = _createSuper(EvCallMonitor);
 
   function EvCallMonitor(deps) {
-    var _this$_deps$activityM;
+    var _this$_deps$contactMa, _this$_deps$activityM;
 
     var _this;
 
@@ -157,68 +155,20 @@ var EvCallMonitor = (_dec = (0, _di.Module)({
     _this = _super.call(this, {
       deps: deps
     });
-    _this.handleActivityMatch = void 0;
-    _this._eventEmitter = new _events.EventEmitter();
     _this._oldCalls = [];
 
     _this._beforeunloadHandler = function () {
       return _this._deps.evAgentSession.shouldBlockBrowser;
     };
 
-    _this.onCallRing( /*#__PURE__*/function () {
-      var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(_ref) {
-        var ani, callType, contactMatchIdentify;
-        return regeneratorRuntime.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                ani = _ref.ani, callType = _ref.callType;
-
-                _this._deps.beforeunload.add(_this._beforeunloadHandler);
-
-                if (!_this._deps.contactMatcher) {
-                  _context.next = 8;
-                  break;
-                }
-
-                _this._deps.contactMatcher.addQuerySource({
-                  getQueriesFn: function getQueriesFn() {
-                    return _this.uniqueIdentifies;
-                  },
-                  readyCheckFn: function readyCheckFn() {
-                    return _this._deps.presence.ready;
-                  }
-                });
-
-                contactMatchIdentify = (0, _contactMatchIdentify.contactMatchIdentifyEncode)({
-                  phoneNumber: ani,
-                  callType: callType
-                });
-                _context.next = 7;
-                return _this._deps.contactMatcher.forceMatchNumber({
-                  phoneNumber: contactMatchIdentify
-                });
-
-              case 7:
-                if (_this.handleActivityMatch) {
-                  _this.handleActivityMatch();
-                }
-
-              case 8:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee);
-      }));
-
-      return function (_x) {
-        return _ref2.apply(this, arguments);
-      };
-    }()).onCallEnded(function () {
-      _this._deps.beforeunload.remove(_this._beforeunloadHandler);
+    (_this$_deps$contactMa = _this._deps.contactMatcher) === null || _this$_deps$contactMa === void 0 ? void 0 : _this$_deps$contactMa.addQuerySource({
+      getQueriesFn: function getQueriesFn() {
+        return _this.uniqueIdentifies;
+      },
+      readyCheckFn: function readyCheckFn() {
+        return _this._deps.presence.ready;
+      }
     });
-
     (_this$_deps$activityM = _this._deps.activityMatcher) === null || _this$_deps$activityM === void 0 ? void 0 : _this$_deps$activityM.addQuerySource({
       getQueriesFn: function getQueriesFn() {
         return _this.callIds;
@@ -231,6 +181,45 @@ var EvCallMonitor = (_dec = (0, _di.Module)({
   }
 
   _createClass(EvCallMonitor, [{
+    key: "getMatcher",
+    value: function () {
+      var _getMatcher = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(_ref) {
+        var ani, callType, contactMatchIdentify;
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                ani = _ref.ani, callType = _ref.callType;
+
+                if (!this._deps.contactMatcher) {
+                  _context.next = 5;
+                  break;
+                }
+
+                contactMatchIdentify = (0, _contactMatchIdentify.contactMatchIdentifyEncode)({
+                  phoneNumber: ani,
+                  callType: callType
+                });
+                _context.next = 5;
+                return this._deps.contactMatcher.forceMatchNumber({
+                  phoneNumber: contactMatchIdentify
+                });
+
+              case 5:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function getMatcher(_x) {
+        return _getMatcher.apply(this, arguments);
+      }
+
+      return getMatcher;
+    }()
+  }, {
     key: "getMainCall",
     value: function getMainCall(uii) {
       var id = this._deps.evClient.getMainId(uii);
@@ -248,7 +237,7 @@ var EvCallMonitor = (_dec = (0, _di.Module)({
           if (_currentCall && mainCall) {
             this._oldCalls = this.calls;
 
-            this._eventEmitter.emit(_enums.callStatus.RINGING, _currentCall);
+            this._deps.presence.eventEmitter.emit(_enums.callStatus.ANSWERED, _currentCall);
           } else {
             this._deps.presence.clearCalls();
           }
@@ -256,15 +245,15 @@ var EvCallMonitor = (_dec = (0, _di.Module)({
           var call = this._oldCalls[0];
           this._oldCalls = this.calls;
 
-          this._eventEmitter.emit(_enums.callStatus.ENDED, call);
+          this._deps.presence.eventEmitter.emit(_enums.callStatus.ENDED, call);
         }
       }
     }
   }, {
     key: "getCallId",
-    value: function getCallId(_ref3) {
-      var uii = _ref3.uii,
-          sessionId = _ref3.sessionId;
+    value: function getCallId(_ref2) {
+      var uii = _ref2.uii,
+          sessionId = _ref2.sessionId;
       return this._deps.evClient.encodeUii({
         uii: uii,
         sessionId: sessionId
@@ -289,9 +278,9 @@ var EvCallMonitor = (_dec = (0, _di.Module)({
   }, {
     key: "updateActivityMatches",
     value: function updateActivityMatches() {
-      var _ref4 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-          _ref4$forceMatch = _ref4.forceMatch,
-          forceMatch = _ref4$forceMatch === void 0 ? false : _ref4$forceMatch;
+      var _ref3 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+          _ref3$forceMatch = _ref3.forceMatch,
+          forceMatch = _ref3$forceMatch === void 0 ? false : _ref3$forceMatch;
 
       // it's async function
       // TODO: fix type in DataMatcher
@@ -301,22 +290,35 @@ var EvCallMonitor = (_dec = (0, _di.Module)({
       });
     }
   }, {
-    key: "onCallRing",
-    value: function onCallRing(callback) {
-      this._eventEmitter.on(_enums.callStatus.RINGING, function (currentCall) {
-        return callback(currentCall);
-      });
+    key: "onCallRinging",
+    value: function onCallRinging(callback) {
+      this._deps.presence.eventEmitter.on(_enums.callStatus.RINGING, callback);
+
+      return this;
+    }
+  }, {
+    key: "onCallAnswered",
+    value: function onCallAnswered(callback) {
+      this._deps.presence.eventEmitter.on(_enums.callStatus.ANSWERED, callback);
 
       return this;
     }
   }, {
     key: "onCallEnded",
     value: function onCallEnded(callback) {
-      this._eventEmitter.on(_enums.callStatus.ENDED, function (currentCall) {
-        return callback(currentCall);
-      });
+      this._deps.presence.eventEmitter.on(_enums.callStatus.ENDED, callback);
 
       return this;
+    }
+  }, {
+    key: "bindBeforeunload",
+    value: function bindBeforeunload() {
+      this._deps.beforeunload.add(this._beforeunloadHandler);
+    }
+  }, {
+    key: "removeBeforeunload",
+    value: function removeBeforeunload() {
+      this._deps.beforeunload.remove(this._beforeunloadHandler);
     }
   }, {
     key: "isOnCall",
@@ -376,10 +378,10 @@ var EvCallMonitor = (_dec = (0, _di.Module)({
       var callsDataMapping = this.callsDataMapping,
           contactMatches = this.contactMatches,
           activityMatches = this.activityMatches;
-      return Object.entries(callsDataMapping).reduce(function (mapping, _ref5) {
-        var _ref6 = _slicedToArray(_ref5, 2),
-            key = _ref6[0],
-            call = _ref6[1];
+      return Object.entries(callsDataMapping).reduce(function (mapping, _ref4) {
+        var _ref5 = _slicedToArray(_ref4, 2),
+            key = _ref5[0],
+            call = _ref5[1];
 
         var contactMatchIdentify = (0, _contactMatchIdentify.contactMatchIdentifyEncode)({
           phoneNumber: call.ani,
@@ -387,9 +389,9 @@ var EvCallMonitor = (_dec = (0, _di.Module)({
         });
         var id = call.session ? _this2.getCallId(call.session) : null;
 
-        var _ref7 = call.baggage || {},
-            agentFirstName = _ref7.agentFirstName,
-            agentLastName = _ref7.agentLastName;
+        var _ref6 = call.baggage || {},
+            agentFirstName = _ref6.agentFirstName,
+            agentLastName = _ref6.agentLastName;
 
         var agentName = agentFirstName && agentLastName ? "".concat(agentFirstName, " ").concat(agentLastName) : null;
         return _objectSpread(_objectSpread({}, mapping), {}, _defineProperty({}, key, _objectSpread(_objectSpread({}, call), {}, {

@@ -20,6 +20,7 @@ var _WorkingStateButton = require("./WorkingStateButton");
 
 Object.keys(_WorkingStateButton).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _WorkingStateButton[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {

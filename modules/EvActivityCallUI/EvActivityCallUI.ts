@@ -41,6 +41,7 @@ type FormState = {
     'ActiveCallControl',
     'EvCallMonitor',
     'EvCall',
+    'EvAgentScript',
     'EvRequeueCall',
     'EvTransferCall',
     'EvCallDisposition',
@@ -57,12 +58,17 @@ type FormState = {
     { dep: 'EvActivityCallUIOptions', optional: true },
   ],
 })
-class EvActivityCallUI<T = {}> extends RcUIModuleV2<Deps & T>
+class EvActivityCallUI<T = {}>
+  extends RcUIModuleV2<Deps & T>
   implements ActivityCallUI {
   public isFirstTimeHandled = false;
 
   /** Is the call pick up directly */
   pickUpDirectly = true;
+
+  protected openAgentScriptTab() {
+    console.warn('this should be implement in extend module');
+  }
 
   constructor(deps: Deps) {
     super({
@@ -93,6 +99,10 @@ class EvActivityCallUI<T = {}> extends RcUIModuleV2<Deps & T>
   @state
   saveStatus: EvActivityCallUIProps['saveStatus'] = 'submit';
 
+  @storage
+  @state
+  scrollTo: string = null;
+
   get callId() {
     return this._deps.evCall.activityCallId;
   }
@@ -105,7 +115,7 @@ class EvActivityCallUI<T = {}> extends RcUIModuleV2<Deps & T>
   }
 
   get tabManagerEnabled() {
-    return this._deps.tabManager?._tabbie.enabled;
+    return this._deps.tabManager?.enable;
   }
 
   get currentEvCall() {
@@ -346,11 +356,24 @@ class EvActivityCallUI<T = {}> extends RcUIModuleV2<Deps & T>
     return currentEvMainCall?.isHold;
   }
 
-  @computed((that: EvActivityCallUI) => [that.currentEvCall])
+  @computed((that: EvActivityCallUI) => [that.currentEvCall, that._deps.locale])
   get ivrAlertData() {
     const call = this.currentEvCall;
-    const ivrAlertData = [];
-    if (call.baggage) {
+    const { currentLocale } = this._deps.locale;
+    const ivrAlertData: EvIvrData[] = [];
+
+    if (
+      this._deps.environment.isWide &&
+      this._deps.evAgentScript.getIsAgentScript(call)
+    ) {
+      ivrAlertData.push({
+        subject: i18n.getString('agentScriptTitle', currentLocale),
+        body: i18n.getString('agentScriptContent', currentLocale),
+        onClick: () => this.openAgentScriptTab(),
+      });
+    }
+
+    if (call?.baggage) {
       for (let i = 1; i <= 3; i++) {
         const ivrAlertSubject =
           call.baggage[`ivrAlertSubject_${i}` as keyof EvBaggage];
@@ -394,6 +417,11 @@ class EvActivityCallUI<T = {}> extends RcUIModuleV2<Deps & T>
   }
 
   @action
+  setScrollTo(id: string) {
+    this.scrollTo = id;
+  }
+
+  @action
   reset() {
     this.validated = {
       dispositionId: true,
@@ -404,6 +432,12 @@ class EvActivityCallUI<T = {}> extends RcUIModuleV2<Deps & T>
     };
     this.disabled = {};
     this.saveStatus = 'submit';
+  }
+
+  onStateChange() {
+    if (this.ready && this.tabManagerEnabled && this._deps.tabManager.ready) {
+      this._checkTabManagerEvent();
+    }
   }
 
   onUpdateCallLog(
@@ -426,6 +460,10 @@ class EvActivityCallUI<T = {}> extends RcUIModuleV2<Deps & T>
   }
 
   goToActivityCallPage = (id: string = this.callId) => {
+    this._deps.routerInteraction.push(`/activityCallLog/${id}`);
+  };
+
+  goToActivityCallListPage = (id: string = this.callId) => {
     this._deps.routerInteraction.push(`/activityCallLog/${id}/activeCallList`);
   };
 
@@ -460,13 +498,19 @@ class EvActivityCallUI<T = {}> extends RcUIModuleV2<Deps & T>
   }
 
   async disposeCall() {
-    await this._deps.evCallDisposition.disposeCall(this.callId);
-  }
+    const promises: Promise<any>[] = [
+      this._deps.evCallDisposition.disposeCall(this.callId),
+    ];
 
-  onStateChange() {
-    if (this.ready && this.tabManagerEnabled && this._deps.tabManager.ready) {
-      this._checkTabManagerEvent();
+    const { evAgentScript } = this._deps;
+    const call = this.currentEvCall;
+    // evAgentScript.isDisplayAgentScript &&
+    if (call.scriptId) {
+      evAgentScript.setCurrentCallScript(null);
+      promises.push(evAgentScript.saveScriptResult(call));
     }
+
+    await Promise.all(promises);
   }
 
   private _checkTabManagerEvent() {
@@ -534,7 +578,7 @@ class EvActivityCallUI<T = {}> extends RcUIModuleV2<Deps & T>
 
   private _onHoldOrUnHold(type: 'hold' | 'unhold') {
     if (this.isMultipleCalls) {
-      return this.goToActivityCallPage();
+      return this.goToActivityCallListPage();
     }
     this._deps.activeCallControl[type]();
   }
@@ -547,6 +591,7 @@ class EvActivityCallUI<T = {}> extends RcUIModuleV2<Deps & T>
     this._deps.evCall.activityCallId = id;
 
     return {
+      scrollTo: this.scrollTo,
       currentLog: this.activityCallLog,
       showSmallCallControl: !this.activityCallLog?.currentEvRawCall?.endedCall,
       currentLocale: this._deps.locale.currentLocale,
@@ -594,7 +639,7 @@ class EvActivityCallUI<T = {}> extends RcUIModuleV2<Deps & T>
       onReject: () => this._deps.activeCallControl.reject(),
       onHold: () => this._onHoldOrUnHold('hold'),
       onUnHold: () => this._onHoldOrUnHold('unhold'),
-      onActive: () => this.goToActivityCallPage(),
+      onActive: () => this.goToActivityCallListPage(),
       onUpdateCallLog: (data, id) => this.onUpdateCallLog(data, id),
       disposeCall: async () => {
         if (this.saveStatus === 'saved') {

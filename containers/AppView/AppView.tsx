@@ -9,8 +9,8 @@ interface AppViewProps {
   server: string;
   redirectUri: string;
   enabled: boolean;
-  appKey?: string;
-  appSecret?: string;
+  clientId?: string;
+  clientSecret?: string;
   onSetData: (options: any) => any;
 }
 

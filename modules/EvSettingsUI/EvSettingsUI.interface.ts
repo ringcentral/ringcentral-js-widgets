@@ -2,6 +2,7 @@ import Locale from 'ringcentral-integration/modules/Locale';
 import RouterInteraction from 'ringcentral-widgets/modules/RouterInteraction';
 
 import { EvClient } from '../../lib/EvClient';
+import { EvAgentSession } from '../EvAgentSession';
 import { EvAuth } from '../EvAuth';
 import { EvCallMonitor } from '../EvCallMonitor';
 import { EvSettings } from '../EvSettings';
@@ -14,6 +15,7 @@ export interface Deps {
   evCallMonitor: EvCallMonitor;
   evAuth: EvAuth;
   evClient: EvClient;
+  evAgentSession: EvAgentSession;
 }
 
 export interface SettingsUI {

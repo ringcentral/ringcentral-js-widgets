@@ -20,6 +20,7 @@ var _CircleIconButton = require("./CircleIconButton");
 
 Object.keys(_CircleIconButton).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _CircleIconButton[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {

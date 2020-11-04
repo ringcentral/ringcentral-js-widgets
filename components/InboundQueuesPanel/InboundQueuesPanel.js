@@ -33,7 +33,7 @@ require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.array.is-array");
 
-var _rcui = require("@ringcentral-integration/rcui");
+var _juno = require("@ringcentral/juno");
 
 var _formatMessage = _interopRequireDefault(require("format-message"));
 
@@ -91,7 +91,7 @@ var InboundQueuesPanel = function InboundQueuesPanel(_ref) {
     var gateName = option.gateName,
         gateId = option.gateId,
         checked = option.checked;
-    return /*#__PURE__*/_react["default"].createElement(_rcui.RcListItem, {
+    return /*#__PURE__*/_react["default"].createElement(_juno.RcListItem, {
       key: index,
       title: gateName,
       button: true,
@@ -101,8 +101,7 @@ var InboundQueuesPanel = function InboundQueuesPanel(_ref) {
         e.preventDefault();
         checkBoxOnChange(gateId, inboundQueuesState, setInboundQueuesState);
       }
-    }, /*#__PURE__*/_react["default"].createElement(_rcui.RcCheckbox, {
-      color: "primary",
+    }, /*#__PURE__*/_react["default"].createElement(_juno.RcCheckbox, {
       formControlLabelProps: {
         classes: {
           root: _styles["default"].checkbox,
@@ -128,8 +127,7 @@ var InboundQueuesPanel = function InboundQueuesPanel(_ref) {
     className: _styles["default"].footer
   }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].selected
-  }, /*#__PURE__*/_react["default"].createElement(_rcui.RcCheckbox, {
-    color: "primary",
+  }, /*#__PURE__*/_react["default"].createElement(_juno.RcCheckbox, {
     label: _i18n["default"].getString('selectAll', currentLocale),
     "data-sign": "bulkChangeCheckBox",
     onClick: function onClick() {
@@ -143,7 +141,7 @@ var InboundQueuesPanel = function InboundQueuesPanel(_ref) {
   }, (0, _formatMessage["default"])(_i18n["default"].getString('selectedTips', currentLocale), {
     totalInboundQueuesNumber: inboundQueueSource.length,
     assignedInboundQueuesNumber: assignedInboundQueuesNumber
-  }))), /*#__PURE__*/_react["default"].createElement(_rcui.RcButton, {
+  }))), /*#__PURE__*/_react["default"].createElement(_juno.RcButton, {
     "data-sign": "update",
     onClick: function onClick() {
       return submitInboundQueues(assignedInboundQueues, goBack);

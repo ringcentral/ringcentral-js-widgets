@@ -157,6 +157,10 @@ class EvCall extends RcModuleV2<Deps> implements Call {
   }
 
   onInitOnce() {
+    this._deps.evAuth.onLoginSuccess(() => {
+      this.resetForm();
+    });
+
     this._deps.evCallMonitor.onCallEnded(() => {
       this.setDialoutStatus(dialoutStatuses.idle);
     });
@@ -191,7 +195,7 @@ class EvCall extends RcModuleV2<Deps> implements Call {
     if (this._deps.evAgentSession.isIntegratedSoftphone) {
       const integratedSoftphone = this._deps.evIntegratedSoftphone;
       try {
-        if (integratedSoftphone.isWebRTCTabAlive) {
+        if (integratedSoftphone.sipRegisterSuccess) {
           await integratedSoftphone.askAudioPermission(false);
         } else {
           await this._deps.evAgentSession.configureAgent();
@@ -202,9 +206,8 @@ class EvCall extends RcModuleV2<Deps> implements Call {
       }
     }
 
-    const destination = this._checkAndParseNumber(phoneNumber);
-
-    if (destination) {
+    try {
+      const destination = this._checkAndParseNumber(phoneNumber);
       await this._manualOutdial({
         destination,
         callerId: this.callerId,
@@ -214,6 +217,8 @@ class EvCall extends RcModuleV2<Deps> implements Call {
       });
 
       this.setDialoutStatus(dialoutStatuses.callConnected);
+    } catch (error) {
+      this.setPhonedIdle();
     }
   }
 
@@ -245,21 +250,21 @@ class EvCall extends RcModuleV2<Deps> implements Call {
 
       return parseNumber(phoneNumber);
     } catch (error) {
-      this.setPhonedIdle();
-
       switch (error.type) {
         case messageTypes.NO_SUPPORT_COUNTRY:
           this._deps.alert.danger({
             message: messageTypes.NO_SUPPORT_COUNTRY,
             ttl: 0,
           });
-          return null;
+          break;
         default:
           this._deps.alert.danger({
             message: callErrors.noToNumber,
           });
-          return null;
+          break;
       }
+
+      throw error;
     }
   }
 
@@ -303,7 +308,6 @@ class EvCall extends RcModuleV2<Deps> implements Call {
         this._deps.evClient.offhookTerm();
       }
 
-      this.setPhonedIdle();
       throw e;
     }
   }

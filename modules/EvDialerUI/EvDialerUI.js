@@ -5,8 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.EvDialerUI = void 0;
 
-require("core-js/modules/es6.promise");
-
 require("core-js/modules/es6.string.iterator");
 
 require("core-js/modules/es6.array.from");
@@ -18,6 +16,8 @@ require("core-js/modules/es7.symbol.async-iterator");
 require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.array.is-array");
+
+require("core-js/modules/es6.promise");
 
 require("core-js/modules/es6.object.create");
 
@@ -53,10 +53,6 @@ var _dec, _dec2, _class, _class2, _descriptor, _descriptor2, _temp;
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -68,6 +64,10 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
 
@@ -127,6 +127,12 @@ var EvDialerUI = (_dec = (0, _di.Module)({
   }
 
   _createClass(EvDialerUI, [{
+    key: "reset",
+    value: function reset() {
+      this.toNumber = '';
+      this.latestDialoutNumber = '';
+    }
+  }, {
     key: "setToNumber",
     value: function setToNumber(value) {
       this.toNumber = value;
@@ -137,27 +143,54 @@ var EvDialerUI = (_dec = (0, _di.Module)({
       this.latestDialoutNumber = this.toNumber;
     }
   }, {
-    key: "checkOnCall",
-    value: function checkOnCall() {
-      // onCall or not yet disposed call, it should navigate to the `activityCallLog/:id` router.
-      var _this$_deps$evCallMon = _slicedToArray(this._deps.evCallMonitor.calls, 1),
-          call = _this$_deps$evCallMon[0];
+    key: "onInitOnce",
+    value: function onInitOnce() {
+      var _this2 = this;
 
-      var isPendingDisposition = this._deps.evWorkingState.isPendingDisposition;
-      var id;
-
-      if (isPendingDisposition) {
-        id = this._deps.evCallMonitor.callLogsIds[0];
-      }
-
-      if (call) {
-        id = this._deps.evClient.encodeUii(call.session);
-      }
-
-      if (id && this._deps.evAgentSession.isConfigTab) {
-        this._deps.routerInteraction.push("/activityCallLog/".concat(id));
-      }
+      this._deps.evAuth.beforeAgentLogout(function () {
+        _this2.reset();
+      });
     }
+  }, {
+    key: "checkOnCall",
+    value: function () {
+      var _checkOnCall = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+        var _this$_deps$evCallMon, call, isPendingDisposition, id;
+
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                // onCall or not yet disposed call, it should navigate to the `activityCallLog/:id` router.
+                _this$_deps$evCallMon = _slicedToArray(this._deps.evCallMonitor.calls, 1), call = _this$_deps$evCallMon[0];
+                isPendingDisposition = this._deps.evWorkingState.isPendingDisposition;
+
+                if (isPendingDisposition) {
+                  id = this._deps.evCallMonitor.callLogsIds[0];
+                }
+
+                if (call) {
+                  id = this._deps.evClient.encodeUii(call.session);
+                }
+
+                if (id) {
+                  this._deps.routerInteraction.push("/activityCallLog/".concat(id));
+                }
+
+              case 5:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function checkOnCall() {
+        return _checkOnCall.apply(this, arguments);
+      }
+
+      return checkOnCall;
+    }()
   }, {
     key: "getUIProps",
     value: function getUIProps() {
@@ -173,58 +206,32 @@ var EvDialerUI = (_dec = (0, _di.Module)({
   }, {
     key: "getUIFunctions",
     value: function getUIFunctions() {
-      var _this2 = this;
+      var _this3 = this;
 
       return {
         setToNumber: function setToNumber(value) {
-          return _this2.setToNumber(value);
+          return _this3.setToNumber(value);
         },
-        dialout: function () {
-          var _dialout = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-            return regeneratorRuntime.wrap(function _callee$(_context) {
-              while (1) {
-                switch (_context.prev = _context.next) {
-                  case 0:
-                    if (!_this2.toNumber) {
-                      _context.next = 6;
-                      break;
-                    }
+        dialout: function dialout() {
+          if (_this3.toNumber) {
+            _this3.setLatestDialoutNumber();
+          } else if (_this3.latestDialoutNumber) {
+            _this3.setToNumber(_this3.latestDialoutNumber);
 
-                    _this2.setLatestDialoutNumber();
-
-                    _context.next = 4;
-                    return _this2._deps.evCall.dialout(_this2.toNumber);
-
-                  case 4:
-                    _context.next = 7;
-                    break;
-
-                  case 6:
-                    _this2.setToNumber(_this2.latestDialoutNumber);
-
-                  case 7:
-                  case "end":
-                    return _context.stop();
-                }
-              }
-            }, _callee);
-          }));
-
-          function dialout() {
-            return _dialout.apply(this, arguments);
+            return;
           }
 
-          return dialout;
-        }(),
+          _this3._deps.evCall.dialout(_this3.toNumber);
+        },
         goToManualDialSettings: function goToManualDialSettings() {
-          _this2._deps.routerInteraction.push('/manualDialSettings');
+          _this3._deps.routerInteraction.push('/manualDialSettings');
         },
         checkOnCall: function checkOnCall() {
-          return _this2.checkOnCall();
+          return _this3.checkOnCall();
         },
         hangup: function hangup() {
-          if (!_this2._deps.evSettings.isManualOffhook) {
-            _this2._deps.evClient.offhookTerm();
+          if (!_this3._deps.evSettings.isManualOffhook) {
+            _this3._deps.evClient.offhookTerm();
           }
         }
       };
@@ -251,6 +258,6 @@ var EvDialerUI = (_dec = (0, _di.Module)({
   initializer: function initializer() {
     return '';
   }
-}), _applyDecoratedDescriptor(_class2.prototype, "setToNumber", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setToNumber"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setLatestDialoutNumber", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setLatestDialoutNumber"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "dialButtonDisabled", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "dialButtonDisabled"), _class2.prototype)), _class2)) || _class);
+}), _applyDecoratedDescriptor(_class2.prototype, "reset", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "reset"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setToNumber", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setToNumber"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setLatestDialoutNumber", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setLatestDialoutNumber"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "dialButtonDisabled", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "dialButtonDisabled"), _class2.prototype)), _class2)) || _class);
 exports.EvDialerUI = EvDialerUI;
 //# sourceMappingURL=EvDialerUI.js.map

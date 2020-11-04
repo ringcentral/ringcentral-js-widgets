@@ -632,3 +632,8 @@ export interface EvAgentScriptResult {
 export interface EvAgentScriptResultModel {
   [callId: string]: { value: any; leadField: string };
 }
+
+export interface EvCallDispositionItem {
+  dispositionId: string;
+  notes: string;
+}

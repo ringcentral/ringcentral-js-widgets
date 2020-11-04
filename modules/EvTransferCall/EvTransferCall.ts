@@ -278,13 +278,11 @@ class EvTransferCall extends RcModuleV2<Deps> implements TransferCall {
     ).available;
   }
 
-  onInit() {
-    if (!this._deps.evAgentSession.isConfigTab) {
-      this.setTransferStatus(transferStatuses.idle);
-    }
-  }
-
   onInitOnce() {
+    this._deps.evAgentSession.onTriggerConfig(async () => {
+      this.setTransferStatus(transferStatuses.idle);
+    });
+
     this._deps.evCallMonitor.onCallEnded(() => {
       this.setTransferStatus(transferStatuses.idle);
       this.closeModals();

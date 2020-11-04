@@ -32,6 +32,7 @@ var _EvActivityCallUI = require("./EvActivityCallUI.interface");
 Object.keys(_EvActivityCallUI).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
+  if (key in exports && exports[key] === _EvActivityCallUI[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {
@@ -45,6 +46,7 @@ var _EvActivityCallUI2 = require("./EvActivityCallUI");
 Object.keys(_EvActivityCallUI2).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
+  if (key in exports && exports[key] === _EvActivityCallUI2[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {

@@ -33,7 +33,7 @@ require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.array.is-array");
 
-var _rcui = require("@ringcentral-integration/rcui");
+var _juno = require("@ringcentral/juno");
 
 var _react = _interopRequireWildcard(require("react"));
 
@@ -95,7 +95,7 @@ var ManualEntryPanel = function ManualEntryPanel(_ref) {
     className: _styles["default"].actionContainer
   }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].button
-  }, /*#__PURE__*/_react["default"].createElement(_rcui.RcButton, {
+  }, /*#__PURE__*/_react["default"].createElement(_juno.RcButton, {
     "data-sign": "nextButton",
     size: "medium",
     fullWidth: true,

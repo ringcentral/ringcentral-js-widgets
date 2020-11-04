@@ -1,1 +1,1 @@
-{"version":3,"sources":["components/InboundQueuesPanel/index.ts"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;AAAA;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA","sourcesContent":["export * from './InboundQueuesPanel';\n"],"file":"index.js"}
+{"version":3,"sources":["components/InboundQueuesPanel/index.ts"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;AAAA;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA","sourcesContent":["export * from './InboundQueuesPanel';\n"],"file":"index.js"}

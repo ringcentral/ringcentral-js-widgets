@@ -20,6 +20,7 @@ var _LoginPanel = require("./LoginPanel");
 
 Object.keys(_LoginPanel).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _LoginPanel[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {

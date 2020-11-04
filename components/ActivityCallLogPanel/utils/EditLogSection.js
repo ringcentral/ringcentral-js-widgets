@@ -2,6 +2,10 @@
 
 require("core-js/modules/es6.object.define-property");
 
+require("core-js/modules/es6.string.iterator");
+
+require("core-js/modules/es6.weak-map");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -25,7 +29,7 @@ require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.function.name");
 
-var _react = _interopRequireDefault(require("react"));
+var _react = _interopRequireWildcard(require("react"));
 
 var _CallLogFields = _interopRequireDefault(require("ringcentral-widgets/components/CallLogFields"));
 
@@ -34,6 +38,10 @@ var _i18n = _interopRequireDefault(require("../i18n"));
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -65,7 +73,7 @@ var _getReferenceFieldOptions = function _getReferenceFieldOptions(currentLocale
   var getRelatedToLabel = function getRelatedToLabel() {
     var item = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
     var length = arguments.length > 1 ? arguments[1] : undefined;
-    var id = item.id,
+    var CaseNumber = item.CaseNumber,
         name = item.name,
         type = item.type;
 
@@ -73,7 +81,7 @@ var _getReferenceFieldOptions = function _getReferenceFieldOptions(currentLocale
       return length > 1 ? "".concat(_i18n["default"].getString('multipleRelatedToMatch', currentLocale), " (").concat(length, ")") : _i18n["default"].getString('none', currentLocale);
     }
 
-    return name ? "".concat(name) : "".concat(type, "(").concat(id, ")");
+    return name ? "".concat(name) : "".concat(type, "(").concat(CaseNumber, ")");
   };
 
   var onNameChange = function onNameChange(_ref) {
@@ -117,13 +125,13 @@ var _getReferenceFieldOptions = function _getReferenceFieldOptions(currentLocale
     var currentSessionId = _ref3.currentLog.currentSessionId,
         onUpdateCallLog = _ref3.onUpdateCallLog;
     return /*#__PURE__*/function () {
-      var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(args) {
+      var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(item) {
         var id;
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                id = (_typeof(args) === 'object' ? args.id : args) || null;
+                id = (_typeof(item) === 'object' ? item.id : item) || null;
                 _context2.next = 3;
                 return onUpdateCallLog({
                   isSaved: false,
@@ -205,7 +213,26 @@ var EditLogSection = function EditLogSection(_ref9) {
       onSaveCallLog = _ref9.onSaveCallLog,
       subjectDropdownsTracker = _ref9.subjectDropdownsTracker,
       editSectionScrollBy = _ref9.editSectionScrollBy,
-      startAdornmentRender = _ref9.startAdornmentRender;
+      startAdornmentRender = _ref9.startAdornmentRender,
+      scrollTo = _ref9.scrollTo,
+      rootRef = _ref9.rootRef;
+  var dispositionIdRef = (0, _react.useRef)(null);
+  (0, _react.useEffect)(function () {
+    if ((rootRef === null || rootRef === void 0 ? void 0 : rootRef.current) && dispositionIdRef.current) {
+      switch (scrollTo) {
+        case 'dispositionId':
+          rootRef.current.scrollBy({
+            top: dispositionIdRef.current.offsetTop,
+            behavior: 'smooth'
+          });
+          break;
+
+        default:
+          break;
+      }
+    } // eslint-disable-next-line react-hooks/exhaustive-deps
+
+  }, [scrollTo]);
   return /*#__PURE__*/_react["default"].createElement(_CallLogFields["default"], {
     referenceFieldOptions: _getReferenceFieldOptions(currentLocale),
     subjectDropdownsTracker: subjectDropdownsTracker,
@@ -217,6 +244,9 @@ var EditLogSection = function EditLogSection(_ref9) {
     editSectionScrollBy: editSectionScrollBy,
     classes: {
       root: _styles["default"].root
+    },
+    refs: {
+      dispositionId: dispositionIdRef
     }
   });
 };

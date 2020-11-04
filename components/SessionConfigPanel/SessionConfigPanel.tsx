@@ -1,4 +1,4 @@
-import { RcButton } from '@ringcentral-integration/rcui';
+import { RcButton } from '@ringcentral/juno';
 import React, { FunctionComponent } from 'react';
 
 import {

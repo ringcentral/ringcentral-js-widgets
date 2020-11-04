@@ -20,6 +20,7 @@ var _SettingsPage = require("./SettingsPage");
 
 Object.keys(_SettingsPage).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _SettingsPage[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {

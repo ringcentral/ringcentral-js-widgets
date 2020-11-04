@@ -14,7 +14,7 @@ require("regenerator-runtime/runtime");
 
 var _react = _interopRequireDefault(require("react"));
 
-var _rcui = require("@ringcentral-integration/rcui");
+var _juno = require("@ringcentral/juno");
 
 var _enzyme = require("enzyme");
 
@@ -133,7 +133,7 @@ function setup() {
       showMuteButton = _ref$showMuteButton === void 0 ? false : _ref$showMuteButton,
       _ref$ivrAlertData = _ref.ivrAlertData,
       ivrAlertData = _ref$ivrAlertData === void 0 ? defaultIVRAlertData : _ref$ivrAlertData;
-  return (0, _enzyme.mount)( /*#__PURE__*/_react["default"].createElement(_rcui.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_ActivityCallLogPanel.ActivityCallLogPanel, {
+  return (0, _enzyme.mount)( /*#__PURE__*/_react["default"].createElement(_juno.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_ActivityCallLogPanel.ActivityCallLogPanel, {
     isInbound: true,
     currentLocale: currentLocale,
     currentEvCall: currentEvCall,
@@ -535,21 +535,21 @@ describe('<ActivityCallLogPanel />', /*#__PURE__*/_asyncToGenerator( /*#__PURE__
                   }
                 }
 
-                expect(wrapper.find(_rcui.RcExpansionPanelSummary).text()).toBe(subject);
+                expect(wrapper.find(_juno.RcExpansionPanelSummary).text()).toBe(subject);
               }
             });
             it('When the call is end, ivr panel should be shrunk', function () {
               wrapper = setup({
                 status: 'active'
               });
-              wrapper.find(_rcui.RcExpansionPanelSummary).find('RcIcon').simulate('click');
+              wrapper.find(_juno.RcExpansionPanelSummary).find('RcIcon').simulate('click');
               wrapper.update();
-              expect(wrapper.find(_rcui.RcExpansionPanel).find('.expanded').exists()).toBeTruthy();
+              expect(wrapper.find(_juno.RcExpansionPanel).find('.expanded').exists()).toBeTruthy();
               wrapper = setup({
                 status: 'callEnd'
               });
               wrapper.update();
-              expect(wrapper.find(_rcui.RcExpansionPanel).find('.expanded').exists()).toBeFalsy();
+              expect(wrapper.find(_juno.RcExpansionPanel).find('.expanded').exists()).toBeFalsy();
             });
             return null;
           });

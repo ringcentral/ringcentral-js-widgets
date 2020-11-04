@@ -2,12 +2,12 @@ import Alert from 'ringcentral-integration/modules/Alert';
 import { Auth as RcAuth } from 'ringcentral-integration/modules/AuthV2';
 import Locale from 'ringcentral-integration/modules/Locale';
 import Storage from 'ringcentral-integration/modules/Storage';
-import TabManager from 'ringcentral-integration/modules/TabManager';
 import { Block } from 'ringcentral-widgets/modules/Block';
 import RouterInteraction from 'ringcentral-widgets/modules/RouterInteraction';
 
 import { EvAgentData, EvClient } from '../../lib/EvClient';
 import { EvSubscription } from '../EvSubscription';
+import { EvTabManager } from '../EvTabManager';
 
 export interface EvAuthOptions {
   //
@@ -22,7 +22,7 @@ export interface Deps {
   auth: RcAuth;
   block: Block;
   evSubscription: EvSubscription;
-  tabManager?: TabManager;
+  tabManager?: EvTabManager;
   evAuthOptions?: EvAuthOptions;
 }
 

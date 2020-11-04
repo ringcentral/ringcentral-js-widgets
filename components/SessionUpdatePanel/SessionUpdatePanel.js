@@ -21,7 +21,7 @@ require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.keys");
 
-var _rcui = require("@ringcentral-integration/rcui");
+var _juno = require("@ringcentral/juno");
 
 var _react = _interopRequireDefault(require("react"));
 
@@ -45,9 +45,7 @@ var SessionUpdatePanel = function SessionUpdatePanel(_ref) {
   var currentLocale = _ref.currentLocale,
       goToSettingsPageWhetherSessionChanged = _ref.goToSettingsPageWhetherSessionChanged,
       onSaveUpdate = _ref.onSaveUpdate,
-      voiceConnectionChanged = _ref.voiceConnectionChanged,
-      isWide = _ref.isWide,
-      rest = _objectWithoutProperties(_ref, ["currentLocale", "goToSettingsPageWhetherSessionChanged", "onSaveUpdate", "voiceConnectionChanged", "isWide"]);
+      rest = _objectWithoutProperties(_ref, ["currentLocale", "goToSettingsPageWhetherSessionChanged", "onSaveUpdate"]);
 
   return /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].root
@@ -61,10 +59,8 @@ var SessionUpdatePanel = function SessionUpdatePanel(_ref) {
     currentLocale: currentLocale,
     classes: {
       root: _styles["default"].basicSessionPanel
-    },
-    showWarning: voiceConnectionChanged,
-    isWide: isWide
-  })), /*#__PURE__*/_react["default"].createElement(_rcui.RcButton, {
+    }
+  })), /*#__PURE__*/_react["default"].createElement(_juno.RcButton, {
     "data-sign": "saveUpdate",
     fullWidth: true,
     size: "medium",
@@ -72,7 +68,7 @@ var SessionUpdatePanel = function SessionUpdatePanel(_ref) {
     classes: {
       root: _styles["default"].saveUpdateButton
     }
-  }, _i18n["default"].getString('saveUpdate', currentLocale)), /*#__PURE__*/_react["default"].createElement(_rcui.RcButton, {
+  }, _i18n["default"].getString('saveUpdate', currentLocale)), /*#__PURE__*/_react["default"].createElement(_juno.RcButton, {
     "data-sign": "cancel",
     fullWidth: true,
     size: "medium",

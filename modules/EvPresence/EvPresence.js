@@ -7,10 +7,6 @@ exports.EvPresence = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
-require("core-js/modules/es6.object.define-properties");
-
-require("core-js/modules/es7.object.get-own-property-descriptors");
-
 require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.object.create");
@@ -39,17 +35,7 @@ require("core-js/modules/es6.array.for-each");
 
 require("core-js/modules/es6.array.map");
 
-require("core-js/modules/es6.array.some");
-
-require("core-js/modules/es6.array.find");
-
-require("core-js/modules/es7.array.includes");
-
-require("core-js/modules/es6.string.includes");
-
 require("core-js/modules/es6.array.filter");
-
-require("core-js/modules/es6.array.index-of");
 
 var _core = require("@ringcentral-integration/core");
 
@@ -61,19 +47,11 @@ var _enums = require("../../enums");
 
 var _callbackTypes = require("../../lib/EvClient/enums/callbackTypes");
 
-var _helper = require("./helper");
-
-var _dec, _dec2, _dec3, _dec4, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7, _descriptor8, _descriptor9, _descriptor10, _temp;
+var _dec, _dec2, _dec3, _dec4, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _temp;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
 
@@ -103,7 +81,7 @@ function _initializerWarningHelper(descriptor, context) { throw new Error('Decor
 
 var EvPresence = (_dec = (0, _di.Module)({
   name: 'EvPresence',
-  deps: ['EvSubscription', 'EvClient', 'EvAuth', 'Storage', 'EvSettings', 'EvAgentSession', 'Alert', {
+  deps: ['EvSubscription', 'EvCallDataSource', 'EvClient', 'Storage', 'Beforeunload', 'Alert', {
     dep: 'PresenceOptions',
     optional: true
   }]
@@ -118,6 +96,33 @@ var EvPresence = (_dec = (0, _di.Module)({
 
   var _super = _createSuper(EvPresence);
 
+  _createClass(EvPresence, [{
+    key: "callIds",
+    get: function get() {
+      return this._deps.evCallDataSource.callIds;
+    }
+  }, {
+    key: "otherCallIds",
+    get: function get() {
+      return this._deps.evCallDataSource.otherCallIds;
+    }
+  }, {
+    key: "callLogsIds",
+    get: function get() {
+      return this._deps.evCallDataSource.callLogsIds;
+    }
+  }, {
+    key: "callsMapping",
+    get: function get() {
+      return this._deps.evCallDataSource.callsMapping;
+    }
+  }, {
+    key: "rawCallsMapping",
+    get: function get() {
+      return this._deps.evCallDataSource.rawCallsMapping;
+    }
+  }]);
+
   function EvPresence(deps) {
     var _this;
 
@@ -128,152 +133,27 @@ var EvPresence = (_dec = (0, _di.Module)({
       enableCache: true,
       storageKey: 'EvPresence'
     });
+
+    _this.beforeunloadHandler = function () {
+      return false;
+    };
+
+    _this.eventEmitter = _this._deps.evCallDataSource.eventEmitter;
     _this.evPresenceEvents = new _events["default"]();
     _this.showOffHookInitError = true;
 
-    _initializerDefineProperty(_this, "recordId", _descriptor, _assertThisInitialized(_this));
+    _initializerDefineProperty(_this, "isOffhook", _descriptor, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "caseId", _descriptor2, _assertThisInitialized(_this));
+    _initializerDefineProperty(_this, "isManualOffhook", _descriptor2, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "objectValue", _descriptor3, _assertThisInitialized(_this));
+    _initializerDefineProperty(_this, "isOffhooking", _descriptor3, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "objectType", _descriptor4, _assertThisInitialized(_this));
-
-    _initializerDefineProperty(_this, "callIds", _descriptor5, _assertThisInitialized(_this));
-
-    _initializerDefineProperty(_this, "otherCallIds", _descriptor6, _assertThisInitialized(_this));
-
-    _initializerDefineProperty(_this, "callLogsIds", _descriptor7, _assertThisInitialized(_this));
-
-    _initializerDefineProperty(_this, "callsMapping", _descriptor8, _assertThisInitialized(_this));
-
-    _initializerDefineProperty(_this, "rawCallsMapping", _descriptor9, _assertThisInitialized(_this));
-
-    _initializerDefineProperty(_this, "dialoutStatus", _descriptor10, _assertThisInitialized(_this));
-
-    _this._deps.evAgentSession.clearCalls = function () {
-      _this.clearCalls();
-    };
+    _initializerDefineProperty(_this, "dialoutStatus", _descriptor4, _assertThisInitialized(_this));
 
     return _this;
-  } // temporary code for test screen pop sf object when inbound call
-
+  }
 
   _createClass(EvPresence, [{
-    key: "setRecordId",
-    // temporary code for test screen pop sf object when inbound call
-    value: function setRecordId(recordId) {
-      this.recordId = recordId;
-    } // temporary code for test screen pop sf object when inbound call
-
-  }, {
-    key: "setCaseId",
-    // temporary code for test screen pop sf object when inbound call
-    value: function setCaseId(caseId) {
-      this.caseId = caseId;
-    } // temporary code for test screen pop sf object when inbound call
-
-  }, {
-    key: "setObjectValue",
-    // temporary code for test screen pop sf object when inbound call
-    value: function setObjectValue(objectValue) {
-      this.objectValue = objectValue;
-    } // temporary code for test screen pop sf object when inbound call
-
-  }, {
-    key: "setObjectType",
-    // temporary code for test screen pop sf object when inbound call
-    value: function setObjectType(objectType) {
-      this.objectType = objectType;
-    }
-  }, {
-    key: "addNewCall",
-    value: function addNewCall(call) {
-      // note: rawCallsMapping index is raw call uii.
-      this.rawCallsMapping[call.uii] = _objectSpread(_objectSpread({}, call), {}, {
-        // input timezone in second arg if EV reponse has timezone propoty
-        // default timezone is 'America/New_York'
-        timestamp: (0, _helper.getTimeStamp)(call.queueDts),
-        gate: this._getCurrentGateData(call),
-        // temporary code for test screen pop sf object when inbound call
-        recordId: this.recordId,
-        caseId: this.caseId,
-        objectValue: this.objectValue,
-        objectType: this.objectType
-      });
-    }
-  }, {
-    key: "addNewSession",
-    value: function addNewSession(session) {
-      var id = this._getCallEncodeId(session);
-
-      if (session.agentId === this._deps.evAuth.agentId) {
-        // related to current agent session
-        var index = this.callIds.indexOf(id);
-
-        if (index === -1) {
-          this.callIds.unshift(id);
-        }
-      } else {
-        // other session without current agent
-        var _index = this.otherCallIds.indexOf(id);
-
-        if (_index === -1) {
-          this.otherCallIds.unshift(id);
-        }
-      }
-
-      this.callsMapping[id] = _objectSpread(_objectSpread({}, this.rawCallsMapping[session.uii]), {}, {
-        session: session
-      });
-    }
-  }, {
-    key: "dropSession",
-    value: function dropSession(_dropSession) {
-      var id = this._getCallEncodeId(_dropSession);
-
-      this.otherCallIds = this.otherCallIds.filter(function (callId) {
-        return callId !== id;
-      });
-    }
-  }, {
-    key: "removeEndedCall",
-    value: function removeEndedCall(endedCall) {
-      var id = this._getCallEncodeId(endedCall); // remove current agent session call with uii.
-
-
-      this.callIds = this.callIds.filter(function (callId) {
-        return callId !== id;
-      }); // remove other call session with uii.
-
-      this.otherCallIds = this.otherCallIds.filter(function (callId) {
-        return !callId.includes(endedCall.uii);
-      }); // add call with id (encodeUii({ uii, sessionId }))
-
-      var callLogsIndex = this.callLogsIds.indexOf(id);
-
-      if (callLogsIndex === -1) {
-        this.callLogsIds.unshift(id);
-      }
-
-      if (this.callsMapping[id]) {
-        this.callsMapping[id].endedCall = endedCall;
-      }
-    }
-  }, {
-    key: "setCallHoldStatus",
-    value: function setCallHoldStatus(res) {
-      var id = this._getCallEncodeId(res);
-
-      this.callsMapping[id].isHold = res.holdState;
-    }
-  }, {
-    key: "clearCalls",
-    value: function clearCalls() {
-      this.callIds = [];
-      this.otherCallIds = [];
-    }
-  }, {
     key: "setDialoutStatus",
     value: function setDialoutStatus(status) {
       if (this.dialoutStatus !== status) {
@@ -281,143 +161,160 @@ var EvPresence = (_dec = (0, _di.Module)({
       }
     }
   }, {
-    key: "onInitOnce",
-    value: function onInitOnce() {
-      var _this2 = this;
-
-      this._deps.evAgentSession.onConfigSuccess.push(function () {
-        if (_this2.calls.length === 0) {
-          _this2.setDialoutStatus(_enums.dialoutStatuses.idle);
-        }
-      });
-
-      this._bindSubscription();
-    }
-  }, {
     key: "setOffhookInit",
     value: function setOffhookInit() {
-      this._deps.evSettings.setOffhookInit();
+      this.isOffhooking = false;
+      this.isOffhook = true;
+
+      this._checkBeforeunload();
     }
   }, {
     key: "setOffhookTerm",
     value: function setOffhookTerm() {
-      this._deps.evSettings.setOffhookTerm();
+      this.isOffhooking = false;
+      this.isOffhook = false;
+      this.isManualOffhook = false;
+
+      this._checkBeforeunload();
+    }
+  }, {
+    key: "setIsManualOffhook",
+    value: function setIsManualOffhook(isManualOffhook) {
+      this.isManualOffhook = isManualOffhook;
+    }
+  }, {
+    key: "setOffhook",
+    value: function setOffhook(status) {
+      this.isOffhook = status;
+
+      this._checkBeforeunload();
+    }
+  }, {
+    key: "setOffhooking",
+    value: function setOffhooking(offhooking) {
+      this.isOffhooking = offhooking;
+    }
+  }, {
+    key: "addNewCall",
+    value: function addNewCall(call) {
+      this._deps.evCallDataSource.addNewCall(call);
+    }
+  }, {
+    key: "addNewSession",
+    value: function addNewSession(session) {
+      this._deps.evCallDataSource.addNewSession(session);
+    }
+  }, {
+    key: "dropSession",
+    value: function dropSession(_dropSession) {
+      this._deps.evCallDataSource.dropSession(_dropSession);
+    }
+  }, {
+    key: "removeEndedCall",
+    value: function removeEndedCall(endedCall) {
+      this._deps.evCallDataSource.removeEndedCall(endedCall);
+    }
+  }, {
+    key: "setCallHoldStatus",
+    value: function setCallHoldStatus(res) {
+      this._deps.evCallDataSource.setCallHoldStatus(res);
+    }
+  }, {
+    key: "clearCalls",
+    value: function clearCalls() {
+      this._deps.evCallDataSource.clearCalls();
+    }
+  }, {
+    key: "onInitOnce",
+    value: function onInitOnce() {
+      this._bindSubscription();
     }
   }, {
     key: "_bindSubscription",
     value: function _bindSubscription() {
-      var _this3 = this;
+      var _this2 = this;
 
       this._deps.evSubscription.subscribe(_callbackTypes.EvCallbackTypes.OFFHOOK_INIT, function (data) {
-        _this3.evPresenceEvents.emit(_callbackTypes.EvCallbackTypes.OFFHOOK_INIT, data);
+        _this2.evPresenceEvents.emit(_callbackTypes.EvCallbackTypes.OFFHOOK_INIT, data);
 
         if (data.status === 'OK') {
-          _this3.setOffhookInit(); // when that is reject integrated softphone, we not alert error
-
-        } else if (_this3.showOffHookInitError) {
-          _this3._deps.alert.danger({
-            message: _enums.messageTypes.OFFHOOK_INIT_ERROR
-          });
-
-          _this3.setOffhookTerm();
-
-          _this3.showOffHookInitError = true;
-        }
-      });
-
-      this._deps.evSubscription.subscribe(_callbackTypes.EvCallbackTypes.OFFHOOK_TERM, function (data) {
-        if (data.status === 'OK') {
-          _this3.setOffhookTerm();
+          _this2.setOffhookInit();
         } else {
-          _this3._deps.alert.danger({
+          // when that is reject integrated softphone, we not alert error
+          if (_this2.showOffHookInitError) {
+            _this2._deps.alert.danger({
+              message: _enums.messageTypes.OFFHOOK_INIT_ERROR
+            });
+          }
+
+          _this2.setOffhookTerm();
+
+          _this2.showOffHookInitError = true;
+        }
+      }).subscribe(_callbackTypes.EvCallbackTypes.OFFHOOK_TERM, function (data) {
+        if (data.status === 'OK') {
+          _this2.setOffhookTerm();
+        } else {
+          _this2._deps.alert.danger({
             message: _enums.messageTypes.OFFHOOK_TERM_ERROR
           });
 
           console.error(data);
         }
-      });
-
-      this._deps.evSubscription.subscribe(_callbackTypes.EvCallbackTypes.ADD_SESSION, function (data) {
+      }).subscribe(_callbackTypes.EvCallbackTypes.ADD_SESSION, function (data) {
         if (data.status === 'OK') {
-          _this3.addNewSession(data);
+          _this2.addNewSession(data);
         } else {
-          _this3._deps.alert.danger({
+          _this2._deps.alert.danger({
             message: _enums.messageTypes.ADD_SESSION_ERROR
           });
         }
-      });
-
-      this._deps.evSubscription.subscribe(_callbackTypes.EvCallbackTypes.DROP_SESSION, function (data) {
+      }).subscribe(_callbackTypes.EvCallbackTypes.DROP_SESSION, function (data) {
         if (data.status === 'OK') {
-          _this3.dropSession(data);
+          _this2.dropSession(data);
         } else {
-          _this3._deps.alert.danger({
+          _this2._deps.alert.danger({
             message: _enums.messageTypes.DROP_SESSION_ERROR
           });
         }
-      });
-
-      this._deps.evSubscription.subscribe(_callbackTypes.EvCallbackTypes.HOLD, function (data) {
+      }).subscribe(_callbackTypes.EvCallbackTypes.HOLD, function (data) {
         if (data.status === 'OK') {
-          _this3.setCallHoldStatus(data);
+          _this2.setCallHoldStatus(data);
         } else {
-          _this3._deps.alert.danger({
+          _this2._deps.alert.danger({
             message: _enums.messageTypes.HOLD_ERROR
           });
         }
-      });
+      }).subscribe(_callbackTypes.EvCallbackTypes.NEW_CALL, function (data) {
+        _this2.addNewCall(data);
+      }).subscribe(_callbackTypes.EvCallbackTypes.END_CALL, function (data) {
+        var id = _this2._deps.evClient.encodeUii(data);
 
-      this._deps.evSubscription.subscribe(_callbackTypes.EvCallbackTypes.NEW_CALL, function (data) {
-        _this3.addNewCall(data);
-      });
+        if (!_this2.callsMapping[id]) return;
 
-      this._deps.evSubscription.subscribe(_callbackTypes.EvCallbackTypes.END_CALL, function (data) {
-        var id = _this3._getCallEncodeId(data);
-
-        if (!_this3.callsMapping[id]) return;
-
-        if (!_this3._deps.evSettings.isManualOffhook) {
-          _this3._deps.evClient.offhookTerm();
+        if (!_this2.isManualOffhook) {
+          _this2._deps.evClient.offhookTerm();
         }
 
-        _this3.removeEndedCall(data);
+        _this2.removeEndedCall(data);
       });
     }
   }, {
-    key: "_getCurrentGateData",
-    value: function _getCurrentGateData(call) {
-      var currentGateId = call.queue.number;
-
-      var currentQueueGroup = this._deps.evAuth.availableRequeueQueues.find(function (_ref) {
-        var gates = _ref.gates;
-        return gates.some(function (_ref2) {
-          var gateId = _ref2.gateId;
-          return gateId === currentGateId;
-        });
-      });
-
-      return {
-        gateId: currentGateId,
-        gateGroupId: currentQueueGroup === null || currentQueueGroup === void 0 ? void 0 : currentQueueGroup.gateGroupId
-      };
-    }
-  }, {
-    key: "_getCallEncodeId",
-    value: function _getCallEncodeId(_ref3) {
-      var uii = _ref3.uii,
-          sessionId = _ref3.sessionId;
-      return this._deps.evClient.encodeUii({
-        sessionId: sessionId,
-        uii: uii
-      });
+    key: "_checkBeforeunload",
+    value: function _checkBeforeunload() {
+      if (this.isOffhook) {
+        this._deps.beforeunload.add(this.beforeunloadHandler);
+      } else {
+        this._deps.beforeunload.remove(this.beforeunloadHandler);
+      }
     }
   }, {
     key: "calls",
     get: function get() {
-      var _this4 = this;
+      var _this3 = this;
 
       return this.callIds.map(function (id) {
-        return _this4.callsMapping[id];
+        return _this3.callsMapping[id];
       }).filter(function (call) {
         return !!call;
       });
@@ -425,94 +322,57 @@ var EvPresence = (_dec = (0, _di.Module)({
   }, {
     key: "otherCalls",
     get: function get() {
-      var _this5 = this;
+      var _this4 = this;
 
       return this.otherCallIds.map(function (id) {
-        return _this5.callsMapping[id];
+        return _this4.callsMapping[id];
       });
     }
   }, {
     key: "callLogs",
     get: function get() {
-      var _this6 = this;
+      var _this5 = this;
 
       return this.callLogsIds.map(function (id) {
-        return _this6.callsMapping[id];
+        return _this5.callsMapping[id];
       });
+    }
+  }, {
+    key: "isCallConnected",
+    get: function get() {
+      return this.dialoutStatus === _enums.dialoutStatuses.callConnected;
     }
   }]);
 
   return EvPresence;
-}(_core.RcModuleV2), _temp), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "recordId", [_core.storage, _core.state], {
+}(_core.RcModuleV2), _temp), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "isOffhook", [_core.storage, _core.state], {
   configurable: true,
   enumerable: true,
   writable: true,
   initializer: function initializer() {
-    return '';
+    return false;
   }
-}), _applyDecoratedDescriptor(_class2.prototype, "setRecordId", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setRecordId"), _class2.prototype), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, "caseId", [_core.storage, _core.state], {
+}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, "isManualOffhook", [_core.storage, _core.state], {
   configurable: true,
   enumerable: true,
   writable: true,
   initializer: function initializer() {
-    return '';
+    return false;
   }
-}), _applyDecoratedDescriptor(_class2.prototype, "setCaseId", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setCaseId"), _class2.prototype), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, "objectValue", [_core.storage, _core.state], {
+}), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, "isOffhooking", [_core.storage, _core.state], {
   configurable: true,
   enumerable: true,
   writable: true,
   initializer: function initializer() {
-    return '';
+    return false;
   }
-}), _applyDecoratedDescriptor(_class2.prototype, "setObjectValue", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setObjectValue"), _class2.prototype), _descriptor4 = _applyDecoratedDescriptor(_class2.prototype, "objectType", [_core.storage, _core.state], {
-  configurable: true,
-  enumerable: true,
-  writable: true,
-  initializer: function initializer() {
-    return '';
-  }
-}), _applyDecoratedDescriptor(_class2.prototype, "setObjectType", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setObjectType"), _class2.prototype), _descriptor5 = _applyDecoratedDescriptor(_class2.prototype, "callIds", [_core.storage, _core.state], {
-  configurable: true,
-  enumerable: true,
-  writable: true,
-  initializer: function initializer() {
-    return [];
-  }
-}), _descriptor6 = _applyDecoratedDescriptor(_class2.prototype, "otherCallIds", [_core.storage, _core.state], {
-  configurable: true,
-  enumerable: true,
-  writable: true,
-  initializer: function initializer() {
-    return [];
-  }
-}), _descriptor7 = _applyDecoratedDescriptor(_class2.prototype, "callLogsIds", [_core.storage, _core.state], {
-  configurable: true,
-  enumerable: true,
-  writable: true,
-  initializer: function initializer() {
-    return [];
-  }
-}), _descriptor8 = _applyDecoratedDescriptor(_class2.prototype, "callsMapping", [_core.storage, _core.state], {
-  configurable: true,
-  enumerable: true,
-  writable: true,
-  initializer: function initializer() {
-    return {};
-  }
-}), _descriptor9 = _applyDecoratedDescriptor(_class2.prototype, "rawCallsMapping", [_core.storage, _core.state], {
-  configurable: true,
-  enumerable: true,
-  writable: true,
-  initializer: function initializer() {
-    return {};
-  }
-}), _descriptor10 = _applyDecoratedDescriptor(_class2.prototype, "dialoutStatus", [_core.storage, _core.state], {
+}), _descriptor4 = _applyDecoratedDescriptor(_class2.prototype, "dialoutStatus", [_core.storage, _core.state], {
   configurable: true,
   enumerable: true,
   writable: true,
   initializer: function initializer() {
     return _enums.dialoutStatuses.idle;
   }
-}), _applyDecoratedDescriptor(_class2.prototype, "calls", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "calls"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "otherCalls", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "otherCalls"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "callLogs", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "callLogs"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "addNewCall", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "addNewCall"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "addNewSession", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "addNewSession"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "dropSession", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "dropSession"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "removeEndedCall", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "removeEndedCall"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setCallHoldStatus", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setCallHoldStatus"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "clearCalls", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "clearCalls"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setDialoutStatus", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setDialoutStatus"), _class2.prototype)), _class2)) || _class);
+}), _applyDecoratedDescriptor(_class2.prototype, "calls", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "calls"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "otherCalls", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "otherCalls"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "callLogs", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "callLogs"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setDialoutStatus", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setDialoutStatus"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setOffhookInit", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setOffhookInit"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setOffhookTerm", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setOffhookTerm"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setIsManualOffhook", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setIsManualOffhook"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setOffhook", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setOffhook"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setOffhooking", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setOffhooking"), _class2.prototype)), _class2)) || _class);
 exports.EvPresence = EvPresence;
 //# sourceMappingURL=EvPresence.js.map

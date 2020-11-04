@@ -20,6 +20,7 @@ var _IvrInfo = require("./IvrInfo");
 
 Object.keys(_IvrInfo).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _IvrInfo[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {

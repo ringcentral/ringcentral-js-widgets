@@ -22,7 +22,8 @@ import i18n from './i18n';
   name: 'EvManualDialSettingsUI',
   deps: ['Locale', 'RouterInteraction', 'EvCall', 'EvAuth'],
 })
-class EvManualDialSettingsUI extends RcUIModuleV2<Deps>
+class EvManualDialSettingsUI
+  extends RcUIModuleV2<Deps>
   implements ManualDialSettingsUI {
   private _renderProps: EvManualDialSettingsRenderProps;
 

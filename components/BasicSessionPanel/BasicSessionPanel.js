@@ -33,19 +33,17 @@ require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.array.is-array");
 
-var _rcui = require("@ringcentral-integration/rcui");
+var _juno = require("@ringcentral/juno");
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _CustomArrowButton = require("ringcentral-widgets/components/Rcui/CustomArrowButton");
-
 var _AnimationPanel = require("ringcentral-widgets/components/AnimationPanel");
 
-var _PickList = require("../PickList");
-
-var _Warning = require("./Warning");
+var _CustomArrowButton = require("ringcentral-widgets/components/Rcui/CustomArrowButton");
 
 var _InboundQueuesPanel = require("../InboundQueuesPanel");
+
+var _PickList = require("../PickList");
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
@@ -89,19 +87,16 @@ var BasicSessionPanel = function BasicSessionPanel(_ref) {
       isSeveralAssign = _ref.isSeveralAssign,
       checkBoxOnChange = _ref.checkBoxOnChange,
       allCheckBoxOnChange = _ref.allCheckBoxOnChange,
-      classes = _ref.classes,
-      resetFormGroup = _ref.resetFormGroup,
-      showWarning = _ref.showWarning,
-      isWide = _ref.isWide;
+      setAutoAnswer = _ref.setAutoAnswer,
+      autoAnswer = _ref.autoAnswer,
+      showAutoAnswer = _ref.showAutoAnswer,
+      classes = _ref.classes;
 
   var _useState = (0, _react.useState)(false),
       _useState2 = _slicedToArray(_useState, 2),
       inboundQueuesPageShow = _useState2[0],
       setInboundQueuesPageShow = _useState2[1];
 
-  (0, _react.useEffect)(function () {
-    return resetFormGroup();
-  }, []);
   return /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement(_AnimationPanel.AnimationPanel, {
     open: inboundQueuesPageShow
   }, /*#__PURE__*/_react["default"].createElement(_InboundQueuesPanel.InboundQueuesPanel, {
@@ -119,14 +114,16 @@ var BasicSessionPanel = function BasicSessionPanel(_ref) {
     }
   })), /*#__PURE__*/_react["default"].createElement("div", {
     className: classes.root
-  }, /*#__PURE__*/_react["default"].createElement(_rcui.RcTextField, {
-    "data-sign": "inboundQueues",
+  }, /*#__PURE__*/_react["default"].createElement(_juno.RcTextField, {
     label: _i18n["default"].getString('inboundQueues', currentLocale),
     title: inboundQueuesFieldText,
     value: inboundQueuesFieldText,
     fullWidth: true,
     classes: {
       root: _styles["default"].customSelect
+    },
+    inputProps: {
+      'data-sign': 'inboundQueues'
     },
     InputProps: {
       readOnly: true,
@@ -150,14 +147,14 @@ var BasicSessionPanel = function BasicSessionPanel(_ref) {
     label: _i18n["default"].getString('voiceConnection', currentLocale),
     value: loginType,
     onChange: setLoginType
-  }), isExtensionNumber && /*#__PURE__*/_react["default"].createElement(_rcui.RcTextField, {
-    "data-sign": "extensionNumber",
+  }), isExtensionNumber && /*#__PURE__*/_react["default"].createElement(_juno.RcTextField, {
     label: _i18n["default"].getString('extensionNumber', currentLocale),
     fullWidth: true,
     value: extensionNumber,
     placeholder: _i18n["default"].getString('enterYourPhoneNumber', currentLocale),
     inputProps: {
-      maxLength: 255
+      maxLength: 255,
+      'data-sign': 'extensionNumber'
     },
     clearBtn: false,
     classes: {
@@ -167,14 +164,25 @@ var BasicSessionPanel = function BasicSessionPanel(_ref) {
       var value = _ref2.target.value;
       setExtensionNumber(value);
     }
-  }), showWarning && /*#__PURE__*/_react["default"].createElement(_Warning.Warning, {
-    isWide: isWide
-  }, _i18n["default"].getString('warning', currentLocale))));
+  }), showAutoAnswer && /*#__PURE__*/_react["default"].createElement(_juno.RcSwitch, {
+    "data-sign": "autoAnswer",
+    formControlLabelProps: {
+      labelPlacement: 'start',
+      classes: {
+        labelPlacementStart: _styles["default"].root,
+        label: _styles["default"].label
+      }
+    },
+    label: _i18n["default"].getString('answerCalls', currentLocale),
+    onChange: function onChange() {
+      setAutoAnswer(!autoAnswer);
+    },
+    checked: autoAnswer
+  })));
 };
 
 exports.BasicSessionPanel = BasicSessionPanel;
 BasicSessionPanel.defaultProps = {
-  classes: {},
-  showWarning: false
+  classes: {}
 };
 //# sourceMappingURL=BasicSessionPanel.js.map

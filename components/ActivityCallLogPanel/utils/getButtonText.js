@@ -7,9 +7,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.getButtonText = getButtonText;
 
-var _rcui = require("@ringcentral-integration/rcui");
+var _juno = require("@ringcentral/juno");
 
-var _iconCheck = _interopRequireDefault(require("@ringcentral-integration/rcui/icons/icon-check.svg"));
+var _iconCheck = _interopRequireDefault(require("@ringcentral/juno/icons/icon-check.svg"));
 
 var _react = _interopRequireDefault(require("react"));
 
@@ -20,7 +20,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 function getButtonText(status, currentLocale) {
   switch (status) {
     case 'saved':
-      return /*#__PURE__*/_react["default"].createElement(_rcui.RcIcon, {
+      return /*#__PURE__*/_react["default"].createElement(_juno.RcIcon, {
         symbol: _iconCheck["default"]
       });
 

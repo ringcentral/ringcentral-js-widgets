@@ -1,4 +1,4 @@
-import holdSvg from '@ringcentral-integration/rcui/icons/icon-hold.svg';
+import holdSvg from '@ringcentral/juno/icons/icon-hold.svg';
 import React, { FunctionComponent } from 'react';
 
 import { CircleIconButton } from '../../CircleIconButton';

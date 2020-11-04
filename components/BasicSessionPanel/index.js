@@ -20,6 +20,7 @@ var _BasicSessionPanel = require("./BasicSessionPanel");
 
 Object.keys(_BasicSessionPanel).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _BasicSessionPanel[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {

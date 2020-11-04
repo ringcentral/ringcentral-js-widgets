@@ -5,15 +5,17 @@ export const tabManagerEvents = ObjectMap.prefixKeys(
     'MUTE',
     'MUTE_STATE_CHANGE',
     // Session config related
-    'SET_CONFIG_TAB_ID',
+    'SET_MIAN_TAB_ID',
+    'MAIN_TAB_WILL_UNLOAD',
+    'SET_MAIN_TAB_COMPLETE',
     'AGENT_CONFIG_SUCCESS',
     'RESET_WORKING_STATE',
     'UPDATE_SESSION',
+    'UPDATE_SESSION_FAIL',
     'UPDATE_SESSION_SUCCESS',
     'UPDATE_SESSION_SUCCESS_ALERT',
     // WebRTC related
     'ASK_AUDIO_PERMISSION',
-    'SET_WEB_RTC_TAB_ID',
     'SIP_RECONNECTING_WHEN_CALL_CONNECTED',
     'SIP_CONNECTING',
     'SIP_RINGING',
@@ -23,6 +25,7 @@ export const tabManagerEvents = ObjectMap.prefixKeys(
     'SIP_REGISTRATION_FAILED',
     'SIP_CONNECTED',
     'SIP_ENDED',
+    'SIP_REGISTRATION_FAILED_RELOAD',
     // Disposition related
     'CALL_DISPOSITION_SUCCESS',
     'CLOSE_WHEN_CALL_CONNECTED',

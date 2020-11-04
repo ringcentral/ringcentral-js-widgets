@@ -20,6 +20,7 @@ var _HandUpButton = require("./HandUpButton");
 
 Object.keys(_HandUpButton).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _HandUpButton[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {
@@ -32,6 +33,7 @@ var _HoldCallButton = require("./HoldCallButton");
 
 Object.keys(_HoldCallButton).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _HoldCallButton[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {
@@ -44,6 +46,7 @@ var _MuteCallButton = require("./MuteCallButton");
 
 Object.keys(_MuteCallButton).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _MuteCallButton[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {
@@ -56,6 +59,7 @@ var _TransferCallButton = require("./TransferCallButton");
 
 Object.keys(_TransferCallButton).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _TransferCallButton[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {
@@ -68,6 +72,7 @@ var _CallButtons = require("./CallButtons.interface");
 
 Object.keys(_CallButtons).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _CallButtons[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {

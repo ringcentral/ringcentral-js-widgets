@@ -7,21 +7,3 @@ export const handleToClockTime = (time: number) => {
     .map((time) => `${String(time).length < 2 ? '0' : ''}${time}`)
     .join(':');
 };
-
-export const raceTimeout = async <T>(
-  fn: Promise<T>,
-  { timeout = 30 * 1000, callback = () => {} } = {},
-) => {
-  let timeoutId = null;
-  let timeoutResolve = null;
-  const result = await Promise.race<T>([
-    fn,
-    new Promise<any>((resolve, reject) => {
-      timeoutResolve = resolve;
-      timeoutId = setTimeout(() => reject(callback()), timeout);
-    }),
-  ]);
-  timeoutResolve();
-  clearTimeout(timeoutId);
-  return result;
-};

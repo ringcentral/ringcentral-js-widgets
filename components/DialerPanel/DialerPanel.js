@@ -25,11 +25,11 @@ exports.DialerPanel = void 0;
 
 require("core-js/modules/es6.string.link");
 
-var _rcui = require("@ringcentral-integration/rcui");
+var _juno = require("@ringcentral/juno");
 
-var _iconHandUp = _interopRequireDefault(require("@ringcentral-integration/rcui/icons/icon-hand-up.svg"));
+var _iconHandUp = _interopRequireDefault(require("@ringcentral/juno/icons/icon-hand-up.svg"));
 
-var _iconPhone = _interopRequireDefault(require("@ringcentral-integration/rcui/icons/icon-phone.svg"));
+var _iconPhone = _interopRequireDefault(require("@ringcentral/juno/icons/icon-phone.svg"));
 
 var _react = _interopRequireWildcard(require("react"));
 
@@ -46,7 +46,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var dialoutStatusMapping = {
-  dialing: ['background', 'disabled'],
+  dialing: ['element', 'disabled'],
   callConnected: ['semantic', 'negative'],
   idle: ['semantic', 'positive']
 };
@@ -81,7 +81,7 @@ var DialerPanel = function DialerPanel(_ref) {
     value: toNumber,
     setValue: setToNumber,
     placeholder: _i18n["default"].getString('dialPlaceholder', currentLocale)
-  }, /*#__PURE__*/_react["default"].createElement(_rcui.RcFabIconButton, {
+  }, /*#__PURE__*/_react["default"].createElement(_juno.RcFabIconButton, {
     size: size,
     color: color,
     "data-icon": isIdle ? 'answer' : 'hand-up',
@@ -96,11 +96,11 @@ var DialerPanel = function DialerPanel(_ref) {
       } else {// unexpected state
       }
     }
-  }), /*#__PURE__*/_react["default"].createElement("i", {
+  }, "phone"), /*#__PURE__*/_react["default"].createElement("i", {
     className: _styles["default"].flexFill
   }), /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].link
-  }, /*#__PURE__*/_react["default"].createElement(_rcui.RcLink, {
+  }, /*#__PURE__*/_react["default"].createElement(_juno.RcLink, {
     size: size,
     handleOnClick: goToManualDialSettings,
     "data-sign": "manualDialSettings"

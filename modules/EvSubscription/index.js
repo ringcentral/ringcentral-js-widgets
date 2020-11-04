@@ -20,6 +20,7 @@ var _EvSubscription = require("./EvSubscription");
 
 Object.keys(_EvSubscription).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _EvSubscription[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {
@@ -32,6 +33,7 @@ var _EvSubscription2 = require("./EvSubscription.interface");
 
 Object.keys(_EvSubscription2).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _EvSubscription2[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {

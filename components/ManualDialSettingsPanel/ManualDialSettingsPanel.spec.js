@@ -10,7 +10,7 @@ require("regenerator-runtime/runtime");
 
 var _react = _interopRequireDefault(require("react"));
 
-var _rcui = require("@ringcentral-integration/rcui");
+var _juno = require("@ringcentral/juno");
 
 var _enzyme = require("enzyme");
 
@@ -67,7 +67,7 @@ function setup(_ref) {
       goBack = _ref$goBack === void 0 ? function () {} : _ref$goBack,
       _ref$settingFields = _ref.settingFields,
       settingFields = _ref$settingFields === void 0 ? defaultSettingFields : _ref$settingFields;
-  return (0, _enzyme.mount)( /*#__PURE__*/_react["default"].createElement(_rcui.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_ManualDialSettingsPanel.ManualDialSettingsPanel, {
+  return (0, _enzyme.mount)( /*#__PURE__*/_react["default"].createElement(_juno.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_ManualDialSettingsPanel.ManualDialSettingsPanel, {
     currentLocale: currentLocale,
     goBack: goBack,
     settingFields: settingFields,

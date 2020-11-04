@@ -11,7 +11,7 @@ require("core-js/modules/es6.array.map");
 
 require("core-js/modules/es6.function.name");
 
-var _rcui = require("@ringcentral-integration/rcui");
+var _juno = require("@ringcentral/juno");
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
@@ -35,7 +35,7 @@ var SettingsPanel = function SettingsPanel(_ref) {
       userName = _ref.userName,
       sessionInfo = _ref.sessionInfo,
       goToSessionUpdatePage = _ref.goToSessionUpdatePage,
-      showEditSessionButton = _ref.showEditSessionButton;
+      disableEditSessionButton = _ref.disableEditSessionButton;
   return /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].settingsPanel
   }, /*#__PURE__*/_react["default"].createElement("div", {
@@ -60,15 +60,16 @@ var SettingsPanel = function SettingsPanel(_ref) {
     return /*#__PURE__*/_react["default"].createElement("div", {
       className: _styles["default"].infoItem,
       key: value
-    }, /*#__PURE__*/_react["default"].createElement(_rcui.RcTypography, {
+    }, /*#__PURE__*/_react["default"].createElement(_juno.RcTypography, {
       variant: "caption1",
       className: _styles["default"].label
-    }, label), /*#__PURE__*/_react["default"].createElement(_rcui.RcTypography, {
+    }, label), /*#__PURE__*/_react["default"].createElement(_juno.RcTypography, {
       variant: "body1",
       className: _styles["default"].value
     }, value));
-  }), showEditSessionButton && /*#__PURE__*/_react["default"].createElement(_rcui.RcButton, {
+  }), /*#__PURE__*/_react["default"].createElement(_juno.RcButton, {
     "data-sign": "editSession",
+    disabled: disableEditSessionButton,
     onClick: goToSessionUpdatePage,
     classes: {
       root: _styles["default"].editSession
@@ -79,7 +80,7 @@ var SettingsPanel = function SettingsPanel(_ref) {
     className: (0, _classnames["default"])(_styles["default"].version, _styles["default"].item)
   }, _i18n["default"].getString('version', currentLocale), /*#__PURE__*/_react["default"].createElement("span", null, version)), /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])(_styles["default"].logout, _styles["default"].item)
-  }, /*#__PURE__*/_react["default"].createElement(_rcui.RcButton, {
+  }, /*#__PURE__*/_react["default"].createElement(_juno.RcButton, {
     "data-sign": "logout",
     variant: "outlined",
     fullWidth: true,

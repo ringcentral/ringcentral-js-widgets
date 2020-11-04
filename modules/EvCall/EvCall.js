@@ -201,6 +201,10 @@ var EvCall = (_dec = (0, _di.Module)({
     value: function onInitOnce() {
       var _this2 = this;
 
+      this._deps.evAuth.onLoginSuccess(function () {
+        _this2.resetForm();
+      });
+
       this._deps.evCallMonitor.onCallEnded(function () {
         _this2.setDialoutStatus(_dialoutStatus.dialoutStatuses.idle);
       });
@@ -245,7 +249,7 @@ var EvCall = (_dec = (0, _di.Module)({
                 integratedSoftphone = this._deps.evIntegratedSoftphone;
                 _context.prev = 2;
 
-                if (!integratedSoftphone.isWebRTCTabAlive) {
+                if (!integratedSoftphone.sipRegisterSuccess) {
                   _context.next = 8;
                   break;
                 }
@@ -275,13 +279,8 @@ var EvCall = (_dec = (0, _di.Module)({
                 return _context.abrupt("return");
 
               case 17:
+                _context.prev = 17;
                 destination = this._checkAndParseNumber(phoneNumber);
-
-                if (!destination) {
-                  _context.next = 22;
-                  break;
-                }
-
                 _context.next = 21;
                 return this._manualOutdial({
                   destination: destination,
@@ -293,13 +292,20 @@ var EvCall = (_dec = (0, _di.Module)({
 
               case 21:
                 this.setDialoutStatus(_dialoutStatus.dialoutStatuses.callConnected);
+                _context.next = 27;
+                break;
 
-              case 22:
+              case 24:
+                _context.prev = 24;
+                _context.t1 = _context["catch"](17);
+                this.setPhonedIdle();
+
+              case 27:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, this, [[2, 14]]);
+        }, _callee, this, [[2, 14], [17, 24]]);
       }));
 
       function dialout(_x) {
@@ -341,8 +347,6 @@ var EvCall = (_dec = (0, _di.Module)({
         (0, _checkCountryCode.checkCountryCode)(phoneNumber);
         return (0, _parseNumber.parseNumber)(phoneNumber);
       } catch (error) {
-        this.setPhonedIdle();
-
         switch (error.type) {
           case _enums.messageTypes.NO_SUPPORT_COUNTRY:
             this._deps.alert.danger({
@@ -350,15 +354,17 @@ var EvCall = (_dec = (0, _di.Module)({
               ttl: 0
             });
 
-            return null;
+            break;
 
           default:
             this._deps.alert.danger({
               message: _callErrors["default"].noToNumber
             });
 
-            return null;
+            break;
         }
+
+        throw error;
       }
     }
   }, {
@@ -418,7 +424,7 @@ var EvCall = (_dec = (0, _di.Module)({
                 throw new Error("'offhookInit' exception error");
 
               case 15:
-                _context2.next = 22;
+                _context2.next = 21;
                 break;
 
               case 17:
@@ -429,10 +435,9 @@ var EvCall = (_dec = (0, _di.Module)({
                   this._deps.evClient.offhookTerm();
                 }
 
-                this.setPhonedIdle();
                 throw _context2.t0;
 
-              case 22:
+              case 21:
               case "end":
                 return _context2.stop();
             }

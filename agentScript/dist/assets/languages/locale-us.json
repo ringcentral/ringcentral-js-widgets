@@ -1,0 +1,65 @@
+{
+  "GENERICS": {
+    "LABELS": {
+      "ERR_REQUIRED": "required"
+    }
+  },
+  "DISPOSITIONS": {
+    "TITLE_ALT": "Submit disposition",
+    "TITLE_MSG": "End message",
+    "SAVE_AND_SUBMIT_LATER": "Save and submit later",
+    "TITLE": "Disposition call",
+    "PICK_DISP": "Disposition",
+    "SCRIPT_INCOMPLETE": "Script contains required fields, complete script to submit",
+    "CALL_BACK": {
+      "CALL_BACK": "Set a specific callback time (optional)",
+      "DATE": "Callback date",
+      "TIME": "Callback time"
+    },
+    "CALL_BACK_LEAD_TZ": {
+      "CALL_BACK_LEAD_TZ": "Lead's timezone",
+      "Central": "Central",
+      "Eastern": "Eastern",
+      "Mountain": "Mountain",
+      "Pacific": "Pacific",
+      "Alaska": "Alaska",
+      "Hawaii": "Hawaii"
+    },
+    "CALL_BACK_LOCAL_TZ": "Time in your local timezone ({{tz}})",
+    "CALL_BACK_DATETIME": "Callback time",
+
+    "NOTES": "Notes",
+    "NOTES_PLACEHOLDER": "Enter call notes here",
+    "CONTACT_FORWARDING": {
+      "CONTACT_FORWARDING": "Forward the call",
+      "DISP_PLACEHOLDER": "10-digit phone number",
+      "PLACEHOLDER": "Number to forward call to"
+    },
+    "SUBMIT": "Submit",
+    "SUBMIT_END_CALL": "Submit and hangup",
+    "SUBMIT_END_CHAT": "Submit",
+    "CLOSE_VIEW": "Close on call view",
+    "DISP_TIMEOUT": "Please submit the script/disposition form. You are not eligible to receive calls until this step has been completed.",
+    "CHAT_DISP_TIMEOUT": "Please submit the script/disposition form for completed chats.",
+
+    "EMAIL_TEMPLATE": {
+      "TITLE": "Configure email template",
+      "EMAIL_TEMPLATE": "Email template",
+      "SUBJECT": "Subject",
+      "TO": "To",
+      "CC": "CC",
+      "BCC": "BCC",
+      "FROM": "From",
+      "CONFIRM_TITLE": "Confirm your selection",
+      "CONFIRM_MSG": "This action cannot be undone. Selecting 'Send Email' below will immediately send the current email to the specified addressees and disposition the call. Selecting 'Discard' will cancel sending this email and disposition the call.",
+      "YES_CANCEL": "Yes, don't send",
+      "NO_DONT_CANCEL": "No, back to email",
+      "SEND": "Send email",
+      "DISCARD": "Discard"
+    },
+
+    "MESSAGES": {
+      "DISP_ERR": "Error sending disposition."
+    }
+  }
+}

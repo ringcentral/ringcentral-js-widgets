@@ -20,6 +20,7 @@ var _SessionUpdatePage = require("./SessionUpdatePage");
 
 Object.keys(_SessionUpdatePage).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _SessionUpdatePage[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {

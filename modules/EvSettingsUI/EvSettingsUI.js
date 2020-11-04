@@ -100,7 +100,7 @@ var LOGIN_TYPE = {
 };
 var EvSettingsUI = (_dec = (0, _di.Module)({
   name: 'EvSettingsUI',
-  deps: ['EvClient', 'Locale', 'RouterInteraction', 'EvAuth', 'EvSettings', 'Version', 'EvCallMonitor']
+  deps: ['EvClient', 'Locale', 'RouterInteraction', 'EvAuth', 'EvSettings', 'Version', 'EvCallMonitor', 'EvAgentSession']
 }), _dec2 = (0, _core.computed)(function (that) {
   return [that._deps.locale.currentLocale, that._deps.evAuth.agentSettings.loginDTS, that._deps.evAuth.agentSettings.loginType, that._deps.evAuth.agentSettings.dialDest, that._deps.evAuth.inboundSettings.skillProfile];
 }), _dec(_class = (_class2 = /*#__PURE__*/function (_RcUIModuleV) {
@@ -119,6 +119,8 @@ var EvSettingsUI = (_dec = (0, _di.Module)({
   _createClass(EvSettingsUI, [{
     key: "goToSessionUpdatePage",
     value: function goToSessionUpdatePage() {
+      this._deps.evAgentSession.resetFormGroup();
+
       this._deps.routerInteraction.push('/sessionUpdate');
     }
   }, {
@@ -130,7 +132,7 @@ var EvSettingsUI = (_dec = (0, _di.Module)({
         agentName: this.agentName,
         userName: this._deps.evAuth.agent.agentConfig.agentSettings.username,
         sessionInfo: this.sessionInfo,
-        showEditSessionButton: !this._deps.evCallMonitor.isOnCall
+        disableEditSessionButton: this._deps.evCallMonitor.isOnCall || this._deps.evSettings.isOffhooking || this._deps.evSettings.isOffhook
       };
     }
   }, {

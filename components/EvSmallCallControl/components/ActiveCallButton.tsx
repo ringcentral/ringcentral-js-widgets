@@ -1,4 +1,4 @@
-import activeCallSvg from '@ringcentral-integration/rcui/icons/icon-active-call.svg';
+import activeCallSvg from '@ringcentral/juno/icons/icon-active-call.svg';
 import React, { FunctionComponent } from 'react';
 
 import { CircleIconButton } from '../../CircleIconButton';

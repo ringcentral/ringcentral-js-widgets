@@ -14,7 +14,7 @@ require("core-js/modules/es6.string.includes");
 
 var _react = _interopRequireDefault(require("react"));
 
-var _rcui = require("@ringcentral-integration/rcui");
+var _juno = require("@ringcentral/juno");
 
 var _enzyme = require("enzyme");
 
@@ -57,7 +57,7 @@ function setup() {
       goToRequeueCallPage = _ref2$goToRequeueCall === void 0 ? function () {} : _ref2$goToRequeueCall;
 
   var selectedQueueGroupId = queueGroups[selectedQueueGroupIndex] ? queueGroups[selectedQueueGroupIndex].gateGroupId : '';
-  return (0, _enzyme.mount)( /*#__PURE__*/_react["default"].createElement(_rcui.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_RequeueCallGroupPanel.RequeueCallGroupPanel, {
+  return (0, _enzyme.mount)( /*#__PURE__*/_react["default"].createElement(_juno.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_RequeueCallGroupPanel.RequeueCallGroupPanel, {
     currentLocale: currentLocale,
     goToRequeueCallPage: goToRequeueCallPage,
     searchGroup: searchGroup,

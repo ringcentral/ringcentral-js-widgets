@@ -7,8 +7,6 @@ exports.EvActivityCallUI = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
-require("core-js/modules/es6.promise");
-
 require("core-js/modules/es6.object.define-properties");
 
 require("core-js/modules/es7.object.get-own-property-descriptors");
@@ -31,12 +29,6 @@ require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.array.reduce");
 
-require("core-js/modules/web.dom.iterable");
-
-require("core-js/modules/es6.array.iterator");
-
-require("core-js/modules/es6.object.to-string");
-
 require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.for-each");
@@ -48,6 +40,16 @@ require("core-js/modules/es6.array.map");
 require("core-js/modules/es6.array.some");
 
 require("core-js/modules/es6.function.name");
+
+require("core-js/modules/es6.promise");
+
+require("core-js/modules/web.dom.iterable");
+
+require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.object.to-string");
+
+require("core-js/modules/es6.string.iterator");
 
 require("regenerator-runtime/runtime");
 
@@ -61,7 +63,7 @@ var _enums = require("../../enums");
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
-var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _dec10, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _temp;
+var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _dec10, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _temp;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -105,7 +107,7 @@ function _initializerWarningHelper(descriptor, context) { throw new Error('Decor
 
 var EvActivityCallUI = (_dec = (0, _di.Module)({
   name: 'EvActivityCallUI',
-  deps: ['Locale', 'Alert', 'ActiveCallControl', 'EvCallMonitor', 'EvCall', 'EvRequeueCall', 'EvTransferCall', 'EvCallDisposition', 'EvWorkingState', 'EvAgentSession', 'EvIntegratedSoftphone', 'RouterInteraction', 'ConnectivityMonitor', 'RateLimiter', 'Environment', 'Storage', 'EvAuth', {
+  deps: ['Locale', 'Alert', 'ActiveCallControl', 'EvCallMonitor', 'EvCall', 'EvAgentScript', 'EvRequeueCall', 'EvTransferCall', 'EvCallDisposition', 'EvWorkingState', 'EvAgentSession', 'EvIntegratedSoftphone', 'RouterInteraction', 'ConnectivityMonitor', 'RateLimiter', 'Environment', 'Storage', 'EvAuth', {
     dep: 'TabManager',
     optional: true
   }, {
@@ -129,13 +131,21 @@ var EvActivityCallUI = (_dec = (0, _di.Module)({
 }), _dec9 = (0, _core.computed)(function (that) {
   return [that.isMultipleCalls, that.callList, that._deps.evAuth.agentId, that.currentEvMainCall];
 }), _dec10 = (0, _core.computed)(function (that) {
-  return [that.currentEvCall];
+  return [that.currentEvCall, that._deps.locale];
 }), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcUIModuleV) {
   _inherits(EvActivityCallUI, _RcUIModuleV);
 
   var _super = _createSuper(EvActivityCallUI);
 
-  /** Is the call pick up directly */
+  _createClass(EvActivityCallUI, [{
+    key: "openAgentScriptTab",
+
+    /** Is the call pick up directly */
+    value: function openAgentScriptTab() {
+      console.warn('this should be implement in extend module');
+    }
+  }]);
+
   function EvActivityCallUI(deps) {
     var _this;
 
@@ -157,7 +167,15 @@ var EvActivityCallUI = (_dec = (0, _di.Module)({
 
     _initializerDefineProperty(_this, "saveStatus", _descriptor4, _assertThisInitialized(_this));
 
+    _initializerDefineProperty(_this, "scrollTo", _descriptor5, _assertThisInitialized(_this));
+
     _this.goToActivityCallPage = function () {
+      var id = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _this.callId;
+
+      _this._deps.routerInteraction.push("/activityCallLog/".concat(id));
+    };
+
+    _this.goToActivityCallListPage = function () {
       var id = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _this.callId;
 
       _this._deps.routerInteraction.push("/activityCallLog/".concat(id, "/activeCallList"));
@@ -191,6 +209,11 @@ var EvActivityCallUI = (_dec = (0, _di.Module)({
       }
     }
   }, {
+    key: "setScrollTo",
+    value: function setScrollTo(id) {
+      this.scrollTo = id;
+    }
+  }, {
     key: "reset",
     value: function reset() {
       this.validated = {
@@ -202,6 +225,13 @@ var EvActivityCallUI = (_dec = (0, _di.Module)({
       };
       this.disabled = {};
       this.saveStatus = 'submit';
+    }
+  }, {
+    key: "onStateChange",
+    value: function onStateChange() {
+      if (this.ready && this.tabManagerEnabled && this._deps.tabManager.ready) {
+        this._checkTabManagerEvent();
+      }
     }
   }, {
     key: "onUpdateCallLog",
@@ -264,14 +294,24 @@ var EvActivityCallUI = (_dec = (0, _di.Module)({
     key: "disposeCall",
     value: function () {
       var _disposeCall = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+        var promises, evAgentScript, call;
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _context.next = 2;
-                return this._deps.evCallDisposition.disposeCall(this.callId);
+                promises = [this._deps.evCallDisposition.disposeCall(this.callId)];
+                evAgentScript = this._deps.evAgentScript;
+                call = this.currentEvCall; // evAgentScript.isDisplayAgentScript &&
 
-              case 2:
+                if (call.scriptId) {
+                  evAgentScript.setCurrentCallScript(null);
+                  promises.push(evAgentScript.saveScriptResult(call));
+                }
+
+                _context.next = 6;
+                return Promise.all(promises);
+
+              case 6:
               case "end":
                 return _context.stop();
             }
@@ -285,13 +325,6 @@ var EvActivityCallUI = (_dec = (0, _di.Module)({
 
       return disposeCall;
     }()
-  }, {
-    key: "onStateChange",
-    value: function onStateChange() {
-      if (this.ready && this.tabManagerEnabled && this._deps.tabManager.ready) {
-        this._checkTabManagerEvent();
-      }
-    }
   }, {
     key: "_checkTabManagerEvent",
     value: function _checkTabManagerEvent() {
@@ -408,7 +441,7 @@ var EvActivityCallUI = (_dec = (0, _di.Module)({
     key: "_onHoldOrUnHold",
     value: function _onHoldOrUnHold(type) {
       if (this.isMultipleCalls) {
-        return this.goToActivityCallPage();
+        return this.goToActivityCallListPage();
       }
 
       this._deps.activeCallControl[type]();
@@ -428,6 +461,7 @@ var EvActivityCallUI = (_dec = (0, _di.Module)({
       var id = _ref3.id;
       this._deps.evCall.activityCallId = id;
       return {
+        scrollTo: this.scrollTo,
         currentLog: this.activityCallLog,
         showSmallCallControl: !((_this$activityCallLog = this.activityCallLog) === null || _this$activityCallLog === void 0 ? void 0 : (_this$activityCallLog2 = _this$activityCallLog.currentEvRawCall) === null || _this$activityCallLog2 === void 0 ? void 0 : _this$activityCallLog2.endedCall),
         currentLocale: this._deps.locale.currentLocale,
@@ -478,7 +512,7 @@ var EvActivityCallUI = (_dec = (0, _di.Module)({
           return _this4._onHoldOrUnHold('unhold');
         },
         onActive: function onActive() {
-          return _this4.goToActivityCallPage();
+          return _this4.goToActivityCallListPage();
         },
         onUpdateCallLog: function onUpdateCallLog(data, id) {
           return _this4.onUpdateCallLog(data, id);
@@ -545,7 +579,7 @@ var EvActivityCallUI = (_dec = (0, _di.Module)({
     get: function get() {
       var _this$_deps$tabManage2;
 
-      return (_this$_deps$tabManage2 = this._deps.tabManager) === null || _this$_deps$tabManage2 === void 0 ? void 0 : _this$_deps$tabManage2._tabbie.enabled;
+      return (_this$_deps$tabManage2 = this._deps.tabManager) === null || _this$_deps$tabManage2 === void 0 ? void 0 : _this$_deps$tabManage2.enable;
     }
   }, {
     key: "currentEvCall",
@@ -763,10 +797,23 @@ var EvActivityCallUI = (_dec = (0, _di.Module)({
   }, {
     key: "ivrAlertData",
     get: function get() {
+      var _this7 = this;
+
       var call = this.currentEvCall;
+      var currentLocale = this._deps.locale.currentLocale;
       var ivrAlertData = [];
 
-      if (call.baggage) {
+      if (this._deps.environment.isWide && this._deps.evAgentScript.getIsAgentScript(call)) {
+        ivrAlertData.push({
+          subject: _i18n["default"].getString('agentScriptTitle', currentLocale),
+          body: _i18n["default"].getString('agentScriptContent', currentLocale),
+          onClick: function onClick() {
+            return _this7.openAgentScriptTab();
+          }
+        });
+      }
+
+      if (call === null || call === void 0 ? void 0 : call.baggage) {
         for (var i = 1; i <= 3; i++) {
           var ivrAlertSubject = call.baggage["ivrAlertSubject_".concat(i)];
           var ivrAlertBody = call.baggage["ivrAlertBody_".concat(i)];
@@ -815,6 +862,13 @@ var EvActivityCallUI = (_dec = (0, _di.Module)({
   initializer: function initializer() {
     return 'submit';
   }
-}), _applyDecoratedDescriptor(_class2.prototype, "currentCallControlPermission", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "currentCallControlPermission"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "dispositionPickList", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "dispositionPickList"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "activityCallLog", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "activityCallLog"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "callStatus", [_dec5], Object.getOwnPropertyDescriptor(_class2.prototype, "callStatus"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "currentEvMainCall", [_dec6], Object.getOwnPropertyDescriptor(_class2.prototype, "currentEvMainCall"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "callList", [_dec7], Object.getOwnPropertyDescriptor(_class2.prototype, "callList"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "isMultipleCalls", [_dec8], Object.getOwnPropertyDescriptor(_class2.prototype, "isMultipleCalls"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "isOnHold", [_dec9], Object.getOwnPropertyDescriptor(_class2.prototype, "isOnHold"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "ivrAlertData", [_dec10], Object.getOwnPropertyDescriptor(_class2.prototype, "ivrAlertData"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "changeSavingStatus", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "changeSavingStatus"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "changeFormStatus", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "changeFormStatus"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "reset", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "reset"), _class2.prototype)), _class2)) || _class);
+}), _descriptor5 = _applyDecoratedDescriptor(_class2.prototype, "scrollTo", [_core.storage, _core.state], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: function initializer() {
+    return null;
+  }
+}), _applyDecoratedDescriptor(_class2.prototype, "currentCallControlPermission", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "currentCallControlPermission"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "dispositionPickList", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "dispositionPickList"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "activityCallLog", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "activityCallLog"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "callStatus", [_dec5], Object.getOwnPropertyDescriptor(_class2.prototype, "callStatus"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "currentEvMainCall", [_dec6], Object.getOwnPropertyDescriptor(_class2.prototype, "currentEvMainCall"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "callList", [_dec7], Object.getOwnPropertyDescriptor(_class2.prototype, "callList"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "isMultipleCalls", [_dec8], Object.getOwnPropertyDescriptor(_class2.prototype, "isMultipleCalls"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "isOnHold", [_dec9], Object.getOwnPropertyDescriptor(_class2.prototype, "isOnHold"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "ivrAlertData", [_dec10], Object.getOwnPropertyDescriptor(_class2.prototype, "ivrAlertData"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "changeSavingStatus", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "changeSavingStatus"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "changeFormStatus", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "changeFormStatus"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setScrollTo", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setScrollTo"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "reset", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "reset"), _class2.prototype)), _class2)) || _class);
 exports.EvActivityCallUI = EvActivityCallUI;
 //# sourceMappingURL=EvActivityCallUI.js.map

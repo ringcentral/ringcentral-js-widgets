@@ -23,7 +23,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.LoginPanel = void 0;
 
-var _rcui = require("@ringcentral-integration/rcui");
+var _juno = require("@ringcentral/juno");
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
@@ -68,7 +68,7 @@ var LoginPanel = function LoginPanel(_ref) {
   var versionDisplay = version ? /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].versionContainer
   }, _i18n["default"].getString('version', currentLocale), " ", version) : null;
-  var signUpButton = showSignUp ? /*#__PURE__*/_react["default"].createElement(_rcui.RcButton, {
+  var signUpButton = showSignUp ? /*#__PURE__*/_react["default"].createElement(_juno.RcButton, {
     variant: "contained",
     className: _styles["default"].signUpButton,
     onClick: onSignUpButtonClick,
@@ -76,7 +76,7 @@ var LoginPanel = function LoginPanel(_ref) {
   }, _i18n["default"].getString('signupButton', currentLocale)) : null;
   return /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])(_styles["default"].root, className)
-  }, /*#__PURE__*/_react["default"].createElement(_rcui.RcButton, {
+  }, /*#__PURE__*/_react["default"].createElement(_juno.RcButton, {
     variant: "contained",
     "data-sign": "loginButton",
     className: (0, _classnames["default"])(_styles["default"].loginButton, customStyles),

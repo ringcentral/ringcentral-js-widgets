@@ -15,7 +15,7 @@ require("regenerator-runtime/runtime");
 
 require("core-js/modules/es6.array.find");
 
-var _rcui = require("@ringcentral-integration/rcui");
+var _juno = require("@ringcentral/juno");
 
 var _enzyme = require("enzyme");
 
@@ -75,7 +75,7 @@ function setup() {
       _ref$isInbound = _ref.isInbound,
       isInbound = _ref$isInbound === void 0 ? false : _ref$isInbound;
 
-  return (0, _enzyme.mount)( /*#__PURE__*/_react["default"].createElement(_rcui.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_ActiveCallListPanel.ActiveCallListPanel, {
+  return (0, _enzyme.mount)( /*#__PURE__*/_react["default"].createElement(_juno.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_ActiveCallListPanel.ActiveCallListPanel, {
     currentLocale: currentLocale,
     goBack: goBack,
     callList: callList,

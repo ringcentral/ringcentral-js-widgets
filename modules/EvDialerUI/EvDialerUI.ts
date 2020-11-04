@@ -49,6 +49,12 @@ class EvDialerUI extends RcUIModuleV2<Deps> implements DialerUI {
   latestDialoutNumber = '';
 
   @action
+  reset() {
+    this.toNumber = '';
+    this.latestDialoutNumber = '';
+  }
+
+  @action
   setToNumber(value: string) {
     this.toNumber = value;
   }
@@ -69,7 +75,13 @@ class EvDialerUI extends RcUIModuleV2<Deps> implements DialerUI {
     );
   }
 
-  checkOnCall() {
+  onInitOnce() {
+    this._deps.evAuth.beforeAgentLogout(() => {
+      this.reset();
+    });
+  }
+
+  async checkOnCall() {
     // onCall or not yet disposed call, it should navigate to the `activityCallLog/:id` router.
     const [call] = this._deps.evCallMonitor.calls;
     const { isPendingDisposition } = this._deps.evWorkingState;
@@ -80,7 +92,7 @@ class EvDialerUI extends RcUIModuleV2<Deps> implements DialerUI {
     if (call) {
       id = this._deps.evClient.encodeUii(call.session);
     }
-    if (id && this._deps.evAgentSession.isConfigTab) {
+    if (id) {
       this._deps.routerInteraction.push(`/activityCallLog/${id}`);
     }
   }
@@ -99,13 +111,15 @@ class EvDialerUI extends RcUIModuleV2<Deps> implements DialerUI {
   getUIFunctions(): EvDialerUIFunctions {
     return {
       setToNumber: (value: string) => this.setToNumber(value),
-      dialout: async () => {
+      dialout: () => {
         if (this.toNumber) {
           this.setLatestDialoutNumber();
-          await this._deps.evCall.dialout(this.toNumber);
-        } else {
+        } else if (this.latestDialoutNumber) {
           this.setToNumber(this.latestDialoutNumber);
+          return;
         }
+
+        this._deps.evCall.dialout(this.toNumber);
       },
       goToManualDialSettings: () => {
         this._deps.routerInteraction.push('/manualDialSettings');

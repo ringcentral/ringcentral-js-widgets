@@ -39,7 +39,7 @@ require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.keys");
 
-var _rcui = require("@ringcentral-integration/rcui");
+var _juno = require("@ringcentral/juno");
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
@@ -121,9 +121,11 @@ var ActivityCallLogPanel = function ActivityCallLogPanel(_ref) {
       showMuteButton = _ref.showMuteButton,
       ivrAlertData = _ref.ivrAlertData,
       onCopySuccess = _ref.onCopySuccess,
-      rest = _objectWithoutProperties(_ref, ["currentLocale", "currentLog", "basicInfo", "isInbound", "disposeCall", "status", "saveStatus", "goToRequeueCallPage", "goToTransferCallPage", "onMute", "onUnmute", "onHangup", "onReject", "onHold", "onUnHold", "isOnMute", "isOnHold", "smallCallControlSize", "isInComingCall", "currentCallControlPermission", "disableDispose", "disableTransfer", "disableInternalTransfer", "disableHold", "disableHangup", "disableMute", "disableActive", "isOnActive", "onActive", "isWide", "showMuteButton", "ivrAlertData", "onCopySuccess"]);
+      scrollTo = _ref.scrollTo,
+      rest = _objectWithoutProperties(_ref, ["currentLocale", "currentLog", "basicInfo", "isInbound", "disposeCall", "status", "saveStatus", "goToRequeueCallPage", "goToTransferCallPage", "onMute", "onUnmute", "onHangup", "onReject", "onHold", "onUnHold", "isOnMute", "isOnHold", "smallCallControlSize", "isInComingCall", "currentCallControlPermission", "disableDispose", "disableTransfer", "disableInternalTransfer", "disableHold", "disableHangup", "disableMute", "disableActive", "isOnActive", "onActive", "isWide", "showMuteButton", "ivrAlertData", "onCopySuccess", "scrollTo"]);
 
   var transferRef = (0, _react.useRef)(null);
+  var rootRef = (0, _react.useRef)(null);
 
   var _useState = (0, _react.useState)(null),
       _useState2 = _slicedToArray(_useState, 2),
@@ -143,7 +145,17 @@ var ActivityCallLogPanel = function ActivityCallLogPanel(_ref) {
   };
 
   var callControlRef = (0, _react.useRef)(null);
-  return /*#__PURE__*/_react["default"].createElement(_CallLogPanel["default"], _extends({}, rest, {
+  var editLogSection = (0, _react.useCallback)(function (props) {
+    var _rootRef$current;
+
+    return /*#__PURE__*/_react["default"].createElement(_utils.EditLogSection, _extends({}, props, {
+      scrollTo: scrollTo,
+      rootRef: (_rootRef$current = rootRef.current) === null || _rootRef$current === void 0 ? void 0 : _rootRef$current.editSectionRef
+    }));
+  }, [scrollTo]);
+  return /*#__PURE__*/_react["default"].createElement(_CallLogPanel["default"], _extends({
+    ref: rootRef
+  }, rest, {
     currentLog: currentLog,
     currentLocale: currentLocale,
     classes: {
@@ -151,6 +163,7 @@ var ActivityCallLogPanel = function ActivityCallLogPanel(_ref) {
       callLogCallControl: (0, _classnames["default"])(_styles["default"].callLogCallControl, isCallEnd ? _styles["default"].noneShadow : _styles["default"].smallCallControlRoot)
     },
     refs: {
+      root: rootRef,
       callLogCallControl: callControlRef
     },
     isWide: isWide,
@@ -159,7 +172,7 @@ var ActivityCallLogPanel = function ActivityCallLogPanel(_ref) {
     isInTransferPage: false // TODO: that need refactor CallLogPanel and then can remove that
     ,
     currentIdentify: "123",
-    renderEditLogSection: _utils.EditLogSection,
+    renderEditLogSection: editLogSection,
     renderBasicInfo: function renderBasicInfo() {
       return /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement(_BasicCallInfo.BasicCallInfo, {
         status: status,
@@ -181,7 +194,7 @@ var ActivityCallLogPanel = function ActivityCallLogPanel(_ref) {
     },
     renderCallLogCallControl: function renderCallLogCallControl() {
       var isOnTransfer = Boolean(transferEl);
-      return isCallEnd ? /*#__PURE__*/_react["default"].createElement(_rcui.RcButton, {
+      return isCallEnd ? /*#__PURE__*/_react["default"].createElement(_juno.RcButton, {
         "data-sign": "submit",
         size: "large",
         fullWidth: true,
@@ -190,7 +203,7 @@ var ActivityCallLogPanel = function ActivityCallLogPanel(_ref) {
         onClick: function onClick() {
           return disposeCall();
         }
-      }, (0, _utils.getButtonText)(saveStatus, currentLocale)) : /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement(_rcui.RcMenu, {
+      }, (0, _utils.getButtonText)(saveStatus, currentLocale)) : /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement(_juno.RcMenu, {
         classes: {
           paper: _styles["default"].paper
         },
@@ -198,25 +211,25 @@ var ActivityCallLogPanel = function ActivityCallLogPanel(_ref) {
         open: isOnTransfer,
         onClose: handleTransferClose,
         "data-sign": "transferMenu"
-      }, /*#__PURE__*/_react["default"].createElement(_rcui.RcMenuItem, {
+      }, /*#__PURE__*/_react["default"].createElement(_juno.RcMenuItem, {
         onClick: function onClick() {
           return goToTransferCallPage(_enums.transferTypes.internal);
         },
         disabled: !allowTransferCall || disableInternalTransfer,
         "data-sign": "transferItem-internalTransfer"
-      }, _i18n["default"].getString('internalTransfer', currentLocale)), /*#__PURE__*/_react["default"].createElement(_rcui.RcMenuItem, {
+      }, _i18n["default"].getString('internalTransfer', currentLocale)), /*#__PURE__*/_react["default"].createElement(_juno.RcMenuItem, {
         onClick: function onClick() {
           return goToTransferCallPage(_enums.transferTypes.phoneBook);
         },
         disabled: !allowTransferCall,
         "data-sign": "transferItem-phoneBookTransfer"
-      }, _i18n["default"].getString('phoneBookTransfer', currentLocale)), /*#__PURE__*/_react["default"].createElement(_rcui.RcMenuItem, {
+      }, _i18n["default"].getString('phoneBookTransfer', currentLocale)), /*#__PURE__*/_react["default"].createElement(_juno.RcMenuItem, {
         onClick: function onClick() {
           return goToRequeueCallPage();
         },
         disabled: !allowRequeueCall,
         "data-sign": "transferItem-queueTransfer"
-      }, _i18n["default"].getString('queueTransfer', currentLocale)), /*#__PURE__*/_react["default"].createElement(_rcui.RcMenuItem, {
+      }, _i18n["default"].getString('queueTransfer', currentLocale)), /*#__PURE__*/_react["default"].createElement(_juno.RcMenuItem, {
         onClick: function onClick() {
           return goToTransferCallPage(_enums.transferTypes.manualEntry);
         },

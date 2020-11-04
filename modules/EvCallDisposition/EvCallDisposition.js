@@ -79,7 +79,7 @@ function _initializerWarningHelper(descriptor, context) { throw new Error('Decor
 
 var EvCallDisposition = (_dec = (0, _di.Module)({
   name: 'EvCallDisposition',
-  deps: ['Storage', 'EvCallMonitor', 'EvCallHistory', 'EvClient', 'EvAgentScript', {
+  deps: ['Storage', 'EvCallMonitor', 'EvCallHistory', 'EvClient', {
     dep: 'ContactMatcher',
     optional: true
   }, {
@@ -109,22 +109,6 @@ var EvCallDisposition = (_dec = (0, _di.Module)({
 
     _initializerDefineProperty(_this, "dispositionStateMapping", _descriptor2, _assertThisInitialized(_this));
 
-    _this._deps.evCallMonitor.onCallRing(function (call) {
-      if (call === null || call === void 0 ? void 0 : call.outdialDispositions) {
-        var disposition = call.outdialDispositions.dispositions.find(function (_ref) {
-          var isDefault = _ref.isDefault;
-          return isDefault;
-        });
-
-        var id = _this._deps.evCallMonitor.getCallId(call.session);
-
-        _this.setDisposition(id, {
-          dispositionId: disposition ? disposition.dispositionId : null,
-          notes: ''
-        });
-      }
-    });
-
     return _this;
   }
 
@@ -144,10 +128,31 @@ var EvCallDisposition = (_dec = (0, _di.Module)({
       this.dispositionStateMapping[id] = disposed;
     }
   }, {
+    key: "onInitOnce",
+    value: function onInitOnce() {
+      var _this2 = this;
+
+      this._deps.evCallMonitor.onCallAnswered(function (call) {
+        if (call.outdialDispositions) {
+          var disposition = call.outdialDispositions.dispositions.find(function (_ref) {
+            var isDefault = _ref.isDefault;
+            return isDefault;
+          });
+
+          var id = _this2._deps.evCallMonitor.getCallId(call.session);
+
+          _this2.setDisposition(id, {
+            dispositionId: disposition ? disposition.dispositionId : null,
+            notes: ''
+          });
+        }
+      });
+    }
+  }, {
     key: "disposeCall",
     value: function () {
       var _disposeCall = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(id) {
-        var call, callDisposition, isDisposed, evAgentScript;
+        var call, callDisposition, isDisposed;
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -170,22 +175,11 @@ var EvCallDisposition = (_dec = (0, _di.Module)({
                   notes: callDisposition.notes
                 });
 
-                evAgentScript = this._deps.evAgentScript;
-
-                if (!(evAgentScript.isAgentScript && call.scriptId)) {
-                  _context.next = 10;
-                  break;
-                }
-
-                _context.next = 10;
-                return evAgentScript.saveScriptResult(call);
-
-              case 10:
                 this.setDispositionState(id, {
                   disposed: true
                 });
 
-              case 11:
+              case 7:
               case "end":
                 return _context.stop();
             }

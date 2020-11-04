@@ -25,7 +25,7 @@ exports.ManualDialSettingsPanel = void 0;
 
 require("core-js/modules/es6.array.map");
 
-var _rcui = require("@ringcentral-integration/rcui");
+var _juno = require("@ringcentral/juno");
 
 var _react = _interopRequireWildcard(require("react"));
 
@@ -103,7 +103,7 @@ var ManualDialSettingsPanel = function ManualDialSettingsPanel(_ref) {
     }
 
     if (input) {
-      return /*#__PURE__*/_react["default"].createElement(_rcui.RcTextField, {
+      return /*#__PURE__*/_react["default"].createElement(_juno.RcTextField, {
         key: key,
         label: input.label,
         inputProps: {
@@ -132,7 +132,7 @@ var ManualDialSettingsPanel = function ManualDialSettingsPanel(_ref) {
     return null;
   })), /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].footer
-  }, /*#__PURE__*/_react["default"].createElement(_rcui.RcButton, {
+  }, /*#__PURE__*/_react["default"].createElement(_juno.RcButton, {
     "data-sign": "saveButton",
     size: "medium",
     fullWidth: true,

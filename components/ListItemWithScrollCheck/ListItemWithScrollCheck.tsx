@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useRef, useEffect } from 'react';
-import { RcListItem } from '@ringcentral-integration/rcui';
+import { RcListItem } from '@ringcentral/juno';
 import classNames from 'classnames';
 import styles from './styles.scss';
 

@@ -23,7 +23,8 @@ import { ActiveCallListUI, Deps } from './EvActiveCallListUI.interface';
     { dep: 'EvActiveCallListUIOptions', optional: true },
   ],
 })
-class EvActiveCallListUI extends RcUIModuleV2<Deps>
+class EvActiveCallListUI
+  extends RcUIModuleV2<Deps>
   implements ActiveCallListUI {
   get callId() {
     return this._deps.evCall.activityCallId;

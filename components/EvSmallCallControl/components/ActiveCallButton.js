@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.ActiveCallButton = void 0;
 
-var _iconActiveCall = _interopRequireDefault(require("@ringcentral-integration/rcui/icons/icon-active-call.svg"));
+var _iconActiveCall = _interopRequireDefault(require("@ringcentral/juno/icons/icon-active-call.svg"));
 
 var _react = _interopRequireDefault(require("react"));
 

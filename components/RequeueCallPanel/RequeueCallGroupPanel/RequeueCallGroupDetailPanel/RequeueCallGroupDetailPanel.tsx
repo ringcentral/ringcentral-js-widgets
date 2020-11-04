@@ -1,4 +1,4 @@
-import { RcButton } from '@ringcentral-integration/rcui';
+import { RcButton } from '@ringcentral/juno';
 import React, { FunctionComponent, useState } from 'react';
 import { Tooltip } from 'ringcentral-widgets/components/Rcui/Tooltip';
 import { TOOLTIP_LONG_DELAY_TIME } from 'ringcentral-widgets/lib/toolTipDelayTime';

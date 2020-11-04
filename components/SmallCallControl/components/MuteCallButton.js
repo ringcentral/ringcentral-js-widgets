@@ -7,9 +7,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.MuteCallButton = void 0;
 
-var _iconMicOff = _interopRequireDefault(require("@ringcentral-integration/rcui/icons/icon-mic-off.svg"));
+var _iconMicOff = _interopRequireDefault(require("@ringcentral/juno/icons/icon-mic-off.svg"));
 
-var _iconMic = _interopRequireDefault(require("@ringcentral-integration/rcui/icons/icon-mic.svg"));
+var _iconMic = _interopRequireDefault(require("@ringcentral/juno/icons/icon-mic.svg"));
 
 var _react = _interopRequireDefault(require("react"));
 

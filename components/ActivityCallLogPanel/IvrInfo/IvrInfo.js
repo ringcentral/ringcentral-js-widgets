@@ -35,9 +35,9 @@ require("core-js/modules/es6.array.is-array");
 
 require("core-js/modules/es6.array.map");
 
-var _rcui = require("@ringcentral-integration/rcui");
+var _juno = require("@ringcentral/juno");
 
-var _iconArrow_down = _interopRequireDefault(require("@ringcentral-integration/rcui/icons/icon-arrow_down.svg"));
+var _iconArrow_down = _interopRequireDefault(require("@ringcentral/juno/icons/icon-arrow_down.svg"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
@@ -83,7 +83,7 @@ var IvrInfo = function IvrInfo(_ref) {
     className: _styles["default"].remain
   }), /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].container
-  }, /*#__PURE__*/_react["default"].createElement(_rcui.RcExpansionPanel, {
+  }, /*#__PURE__*/_react["default"].createElement(_juno.RcExpansionPanel, {
     square: true,
     onChange: function onChange() {
       return setExpanded(!expanded);
@@ -93,7 +93,7 @@ var IvrInfo = function IvrInfo(_ref) {
       root: (0, _classnames["default"])(_styles["default"].panelRoot, isCallEnd && _styles["default"].endCall),
       expanded: _styles["default"].expanded
     }
-  }, /*#__PURE__*/_react["default"].createElement(_rcui.RcExpansionPanelSummary, {
+  }, /*#__PURE__*/_react["default"].createElement(_juno.RcExpansionPanelSummary, {
     classes: {
       root: _styles["default"].summaryRoot,
       content: _styles["default"].summaryContent
@@ -101,7 +101,7 @@ var IvrInfo = function IvrInfo(_ref) {
     IconButtonProps: {
       size: 'small'
     },
-    expandIcon: /*#__PURE__*/_react["default"].createElement(_rcui.RcIcon, {
+    expandIcon: /*#__PURE__*/_react["default"].createElement(_juno.RcIcon, {
       symbol: _iconArrow_down["default"],
       color: ['grey', 500]
     })
@@ -109,7 +109,7 @@ var IvrInfo = function IvrInfo(_ref) {
     className: _styles["default"].ivrMainSubject
   }, ivrAlertData[0].subject || ''), ivrAlertData.length > 1 ? /*#__PURE__*/_react["default"].createElement("span", {
     className: _styles["default"].count
-  }, " +", ivrAlertData.length - 1) : null), /*#__PURE__*/_react["default"].createElement(_rcui.RcExpansionPanelDetails, {
+  }, " +", ivrAlertData.length - 1) : null), /*#__PURE__*/_react["default"].createElement(_juno.RcExpansionPanelDetails, {
     classes: {
       root: _styles["default"].detailsRoot
     }
@@ -117,15 +117,31 @@ var IvrInfo = function IvrInfo(_ref) {
     var _ref2$subject = _ref2.subject,
         subject = _ref2$subject === void 0 ? '' : _ref2$subject,
         _ref2$body = _ref2.body,
-        body = _ref2$body === void 0 ? '' : _ref2$body;
+        body = _ref2$body === void 0 ? '' : _ref2$body,
+        onClick = _ref2.onClick;
+
+    var bodyRender = function bodyRender() {
+      if (body.length > 0) {
+        if (onClick) {
+          return /*#__PURE__*/_react["default"].createElement(_juno.RcLink, {
+            handleOnClick: onClick
+          }, body);
+        }
+
+        return /*#__PURE__*/_react["default"].createElement("div", {
+          className: _styles["default"].body
+        }, body);
+      }
+
+      return null;
+    };
+
     return /*#__PURE__*/_react["default"].createElement("div", {
       className: _styles["default"].item,
       key: i
     }, i !== 0 && subject.length > 0 && /*#__PURE__*/_react["default"].createElement("div", {
       className: _styles["default"].subject
-    }, subject), body.length > 0 && /*#__PURE__*/_react["default"].createElement("div", {
-      className: _styles["default"].body
-    }, body));
+    }, subject), bodyRender());
   })))));
 };
 

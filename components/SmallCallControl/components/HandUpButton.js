@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.HandUpButton = void 0;
 
-var _iconHandUp = _interopRequireDefault(require("@ringcentral-integration/rcui/icons/icon-hand-up.svg"));
+var _iconHandUp = _interopRequireDefault(require("@ringcentral/juno/icons/icon-hand-up.svg"));
 
 var _react = _interopRequireDefault(require("react"));
 

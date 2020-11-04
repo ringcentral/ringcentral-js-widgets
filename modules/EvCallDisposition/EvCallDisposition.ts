@@ -20,7 +20,6 @@ import {
     'EvCallMonitor',
     'EvCallHistory',
     'EvClient',
-    'EvAgentScript',
     { dep: 'ContactMatcher', optional: true },
     { dep: 'ActivityMatcher', optional: true },
     { dep: 'EvCallDispositionOptions', optional: true },
@@ -32,19 +31,6 @@ class EvCallDisposition extends RcModuleV2<Deps> implements CallDisposition {
       deps,
       enableCache: true,
       storageKey: 'EvCallDisposition',
-    });
-
-    this._deps.evCallMonitor.onCallRing((call) => {
-      if (call?.outdialDispositions) {
-        const disposition = call.outdialDispositions.dispositions.find(
-          ({ isDefault }) => isDefault,
-        );
-        const id = this._deps.evCallMonitor.getCallId(call.session);
-        this.setDisposition(id, {
-          dispositionId: disposition ? disposition.dispositionId : null,
-          notes: '',
-        });
-      }
     });
   }
 
@@ -71,6 +57,21 @@ class EvCallDisposition extends RcModuleV2<Deps> implements CallDisposition {
     this.dispositionStateMapping[id] = disposed;
   }
 
+  onInitOnce() {
+    this._deps.evCallMonitor.onCallAnswered((call) => {
+      if (call.outdialDispositions) {
+        const disposition = call.outdialDispositions.dispositions.find(
+          ({ isDefault }) => isDefault,
+        );
+        const id = this._deps.evCallMonitor.getCallId(call.session);
+        this.setDisposition(id, {
+          dispositionId: disposition ? disposition.dispositionId : null,
+          notes: '',
+        });
+      }
+    });
+  }
+
   async disposeCall(id: string) {
     const call = this._deps.evCallHistory.callsMapping[id];
     const callDisposition = this.callsMapping[id];
@@ -84,11 +85,6 @@ class EvCallDisposition extends RcModuleV2<Deps> implements CallDisposition {
       dispId: callDisposition.dispositionId,
       notes: callDisposition.notes,
     });
-
-    const { evAgentScript } = this._deps;
-    if (evAgentScript.isAgentScript && call.scriptId) {
-      await evAgentScript.saveScriptResult(call);
-    }
 
     this.setDispositionState(id, { disposed: true });
   }

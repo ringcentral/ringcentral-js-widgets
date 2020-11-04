@@ -20,6 +20,7 @@ var _EvSettings = require("./EvSettings");
 
 Object.keys(_EvSettings).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _EvSettings[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {
@@ -32,6 +33,7 @@ var _EvSettings2 = require("./EvSettings.interface");
 
 Object.keys(_EvSettings2).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _EvSettings2[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {

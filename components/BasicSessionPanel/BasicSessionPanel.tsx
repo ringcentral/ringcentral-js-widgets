@@ -1,16 +1,14 @@
-import { RcTextField } from '@ringcentral-integration/rcui';
-import React, { FunctionComponent, useState, useEffect } from 'react';
-import { CustomArrowButton } from 'ringcentral-widgets/components/Rcui/CustomArrowButton';
+import { RcSwitch, RcTextField } from '@ringcentral/juno';
+import React, { FunctionComponent, useState } from 'react';
 import { AnimationPanel } from 'ringcentral-widgets/components/AnimationPanel';
+import { CustomArrowButton } from 'ringcentral-widgets/components/Rcui/CustomArrowButton';
 
 import { BasicSessionProps } from '../../interfaces/EvAgentSessionUI.interface';
-import { PickList } from '../PickList';
-import { Warning, WarningProps } from './Warning';
-
 import {
   InboundQueuesPanel,
   InboundQueuesPanelProps,
 } from '../InboundQueuesPanel';
+import { PickList } from '../PickList';
 import i18n from './i18n';
 import styles from './styles.scss';
 
@@ -19,8 +17,7 @@ export type BasicSessionPanelProps = BasicSessionProps &
     classes?: {
       root?: string;
     };
-    showWarning?: boolean;
-  } & Pick<WarningProps, 'isWide'>;
+  };
 
 export const BasicSessionPanel: FunctionComponent<BasicSessionPanelProps> = ({
   currentLocale,
@@ -42,13 +39,12 @@ export const BasicSessionPanel: FunctionComponent<BasicSessionPanelProps> = ({
   isSeveralAssign,
   checkBoxOnChange,
   allCheckBoxOnChange,
+  setAutoAnswer,
+  autoAnswer,
+  showAutoAnswer,
   classes,
-  resetFormGroup,
-  showWarning,
-  isWide,
 }) => {
   const [inboundQueuesPageShow, setInboundQueuesPageShow] = useState(false);
-  useEffect(() => resetFormGroup(), []);
 
   return (
     <>
@@ -68,13 +64,15 @@ export const BasicSessionPanel: FunctionComponent<BasicSessionPanelProps> = ({
       </AnimationPanel>
       <div className={classes.root}>
         <RcTextField
-          data-sign="inboundQueues"
           label={i18n.getString('inboundQueues', currentLocale)}
           title={inboundQueuesFieldText}
           value={inboundQueuesFieldText}
           fullWidth
           classes={{
             root: styles.customSelect,
+          }}
+          inputProps={{
+            'data-sign': 'inboundQueues',
           }}
           InputProps={{
             readOnly: true,
@@ -103,13 +101,13 @@ export const BasicSessionPanel: FunctionComponent<BasicSessionPanelProps> = ({
         />
         {isExtensionNumber && (
           <RcTextField
-            data-sign="extensionNumber"
             label={i18n.getString('extensionNumber', currentLocale)}
             fullWidth
             value={extensionNumber}
             placeholder={i18n.getString('enterYourPhoneNumber', currentLocale)}
             inputProps={{
               maxLength: 255,
+              'data-sign': 'extensionNumber',
             }}
             clearBtn={false}
             classes={{
@@ -120,30 +118,38 @@ export const BasicSessionPanel: FunctionComponent<BasicSessionPanelProps> = ({
             }}
           />
         )}
-        {showWarning && (
-          <Warning isWide={isWide}>
-            {i18n.getString('warning', currentLocale)}
-          </Warning>
-        )}
-        {/* <ToggleButton
+        {/* <RcSwitch
         data-sign="takingCall"
+        formControlLabelProps={{
+          labelPlacement: 'start',
+          classes: {
+            labelPlacementStart: styles.root,
+            label: styles.label,
+          },
+        }}
         label={i18n.getString('takingCall', currentLocale)}
         onChange={() => {
-          setTakingCall(!takingCall);
+          // setTakingCall(!takingCall);
         }}
-        classes={{
-          root: styles.takingCall,
-        }}
-        checked={takingCall}
-      />
-      <ToggleButton
-        data-sign="autoAnswer"
-        label={i18n.getString('answerCalls', currentLocale)}
-        onChange={() => {
-          setAutoAnswer(!autoAnswer);
-        }}
-        checked={autoAnswer}
+        // checked={takingCall}
       /> */}
+        {showAutoAnswer && (
+          <RcSwitch
+            data-sign="autoAnswer"
+            formControlLabelProps={{
+              labelPlacement: 'start',
+              classes: {
+                labelPlacementStart: styles.root,
+                label: styles.label,
+              },
+            }}
+            label={i18n.getString('answerCalls', currentLocale)}
+            onChange={() => {
+              setAutoAnswer(!autoAnswer);
+            }}
+            checked={autoAnswer}
+          />
+        )}
       </div>
     </>
   );
@@ -151,5 +157,4 @@ export const BasicSessionPanel: FunctionComponent<BasicSessionPanelProps> = ({
 
 BasicSessionPanel.defaultProps = {
   classes: {},
-  showWarning: false,
 };

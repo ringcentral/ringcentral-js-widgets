@@ -20,6 +20,7 @@ var _ActiveCallListPage = require("./ActiveCallListPage");
 
 Object.keys(_ActiveCallListPage).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _ActiveCallListPage[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {

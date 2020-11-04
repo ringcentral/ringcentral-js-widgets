@@ -1,4 +1,4 @@
-import { RcButton } from '@ringcentral-integration/rcui';
+import { RcButton } from '@ringcentral/juno';
 import React, { FunctionComponent } from 'react';
 
 import {
@@ -16,19 +16,13 @@ import styles from './styles.scss';
 export type SessionUpdatePanelProps = BasicSessionPanelProps &
   Pick<
     EvAgentSessionUIProps & EvAgentSessionUIFunctions,
-    | 'goToSettingsPageWhetherSessionChanged'
-    | 'resetFormGroup'
-    | 'onSaveUpdate'
-    | 'voiceConnectionChanged'
-    | 'isWide'
+    'goToSettingsPageWhetherSessionChanged' | 'onSaveUpdate'
   >;
 
 export const SessionUpdatePanel: FunctionComponent<SessionUpdatePanelProps> = ({
   currentLocale,
   goToSettingsPageWhetherSessionChanged,
   onSaveUpdate,
-  voiceConnectionChanged,
-  isWide,
   ...rest
 }) => {
   return (
@@ -43,8 +37,6 @@ export const SessionUpdatePanel: FunctionComponent<SessionUpdatePanelProps> = ({
           {...rest}
           currentLocale={currentLocale}
           classes={{ root: styles.basicSessionPanel }}
-          showWarning={voiceConnectionChanged}
-          isWide={isWide}
         />
         <RcButton
           data-sign="saveUpdate"

@@ -1,1 +1,1 @@
-{"version":3,"sources":["containers/TransferCallPage/index.ts"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;AAAA;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA","sourcesContent":["export * from './TransferCallPage';\n"],"file":"index.js"}
+{"version":3,"sources":["containers/TransferCallPage/index.ts"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;AAAA;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA","sourcesContent":["export * from './TransferCallPage';\n"],"file":"index.js"}

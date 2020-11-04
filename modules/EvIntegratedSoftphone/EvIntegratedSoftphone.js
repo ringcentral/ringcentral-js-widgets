@@ -47,15 +47,13 @@ var _formatMessage = _interopRequireDefault(require("format-message"));
 
 var _di = require("ringcentral-integration/lib/di");
 
+var _raceTimeout = require("ringcentral-integration/lib/raceTimeout");
+
 var _sleep = _interopRequireDefault(require("ringcentral-integration/lib/sleep"));
 
 var _enums = require("../../enums");
 
 var _enums2 = require("../../lib/EvClient/enums");
-
-var _heartBeat = require("../../lib/heartBeat");
-
-var _time = require("../../lib/time");
 
 var _audios = require("./audios");
 
@@ -121,26 +119,26 @@ var EvIntegratedSoftphone = (_dec = (0, _di.Module)({
     key: "tabManagerEnabled",
 
     /** audio permission alert id */
+    // private _checkWebRTCIntervalId: NodeJS.Timeout;
+    // private _heartBeatIntervalTime: number;
     get: function get() {
       var _this$_deps$tabManage;
 
-      return (_this$_deps$tabManage = this._deps.tabManager) === null || _this$_deps$tabManage === void 0 ? void 0 : _this$_deps$tabManage._tabbie.enabled;
+      return (_this$_deps$tabManage = this._deps.tabManager) === null || _this$_deps$tabManage === void 0 ? void 0 : _this$_deps$tabManage.enable;
     }
   }, {
     key: "isWebRTCTab",
     get: function get() {
-      return !this.tabManagerEnabled || this.webRTCTabId === this._deps.tabManager.id;
+      return this._deps.tabManager.isMainTab && this.sipRegisterSuccess;
     }
   }, {
-    key: "isWebRTCTabAlive",
+    key: "isIntegratedSoftphoneWithTabEnable",
     get: function get() {
-      return !this.tabManagerEnabled || this.webRTCTabId && this._deps.tabManager.checkTabAliveById(this.webRTCTabId);
+      return this._deps.tabManager.enable && this._deps.evAgentSession.isIntegratedSoftphone;
     }
   }]);
 
   function EvIntegratedSoftphone(deps) {
-    var _this$_deps$evIntegra, _this$_deps$evIntegra2;
-
     var _this;
 
     _classCallCheck(this, EvIntegratedSoftphone);
@@ -155,33 +153,31 @@ var EvIntegratedSoftphone = (_dec = (0, _di.Module)({
     _this._eventEmitter = new _events["default"]();
     _this._answerModalId = null;
     _this._audioPermissionAlertId = null;
-    _this._checkWebRTCIntervalId = void 0;
-    _this._heartBeat = void 0;
-    _this._heartBeatIntervalTime = void 0;
-    _this._isReconnected = false;
 
     _this._beforeunloadHandler = function () {
       return _this.isWebRTCTab;
     };
 
     _this._isCloseWhenCallConnected = false;
+    _this._failedBlockId = void 0;
 
-    _initializerDefineProperty(_this, "muteActive", _descriptor, _assertThisInitialized(_this));
+    _initializerDefineProperty(_this, "audioPermission", _descriptor, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "sipRegisterSuccess", _descriptor2, _assertThisInitialized(_this));
+    _initializerDefineProperty(_this, "muteActive", _descriptor2, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "sipRegistering", _descriptor3, _assertThisInitialized(_this));
+    _initializerDefineProperty(_this, "sipRegisterSuccess", _descriptor3, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "webRTCTabId", _descriptor4, _assertThisInitialized(_this));
+    _initializerDefineProperty(_this, "sipRegistering", _descriptor4, _assertThisInitialized(_this));
 
     _initializerDefineProperty(_this, "connectingAlertId", _descriptor5, _assertThisInitialized(_this));
 
-    var heartBeatInterval = (_this$_deps$evIntegra = (_this$_deps$evIntegra2 = _this._deps.evIntegratedSoftphoneOptions) === null || _this$_deps$evIntegra2 === void 0 ? void 0 : _this$_deps$evIntegra2.heartBeatInterval) !== null && _this$_deps$evIntegra !== void 0 ? _this$_deps$evIntegra : 1000;
+    _this._deps.evAuth.beforeAgentLogout(function () {
+      _this._resetAllState();
+    });
 
-    if (_this.tabManagerEnabled) {
-      _this._heartBeat = new _heartBeat.HeartBeat("".concat(_this._deps.tabManager._tabbie.prefix, "webRTCConnect"), heartBeatInterval);
-      _this._heartBeatIntervalTime = heartBeatInterval;
-    }
+    _this._deps.beforeunload.onAfterUnload(function () {
+      _this._sendTabManager(_enums.tabManagerEvents.CLOSE_WHEN_CALL_CONNECTED);
+    });
 
     return _this;
   } // @state
@@ -200,6 +196,11 @@ var EvIntegratedSoftphone = (_dec = (0, _di.Module)({
       this.connectingAlertId = id;
     }
   }, {
+    key: "setAudioPermission",
+    value: function setAudioPermission(permission) {
+      this.audioPermission = permission;
+    }
+  }, {
     key: "resetController",
     value: function resetController() {
       // this.dtmfString = '';
@@ -211,16 +212,11 @@ var EvIntegratedSoftphone = (_dec = (0, _di.Module)({
       this.muteActive = state;
     }
   }, {
-    key: "setWebRTCTabId",
-    value: function setWebRTCTabId(id) {
-      this.webRTCTabId = id;
-    }
-  }, {
     key: "resetSip",
     value: function resetSip() {
+      this.audioPermission = false;
       this.sipRegistering = false;
       this.sipRegisterSuccess = false;
-      this.webRTCTabId = null;
     }
   }, {
     key: "setSipRegisterSuccess",
@@ -239,24 +235,24 @@ var EvIntegratedSoftphone = (_dec = (0, _di.Module)({
 
       this._initAudio();
 
-      if (this.tabManagerEnabled) {
-        this._bindCheckWebRTCInterval();
-      }
+      this._bindingIntegratedSoftphone();
 
-      this._deps.evAgentSession.onTriggerConfig.push( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+      this._deps.tabManager.onSetMainTabComplete( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                if (!(_this2._deps.evAgentSession.isIntegratedSoftphone && !_this2.isWebRTCTabAlive)) {
-                  _context.next = 3;
+                console.log('onSettedMainTab~~', _this2._deps.evAgentSession.isIntegratedSoftphone);
+
+                if (!_this2._deps.evAgentSession.isIntegratedSoftphone) {
+                  _context.next = 4;
                   break;
                 }
 
-                _context.next = 3;
+                _context.next = 4;
                 return _this2.connectWebRTC();
 
-              case 3:
+              case 4:
               case "end":
                 return _context.stop();
             }
@@ -264,121 +260,32 @@ var EvIntegratedSoftphone = (_dec = (0, _di.Module)({
         }, _callee);
       })));
 
-      this._deps.evAuth.beforeAgentLogout(function () {
-        var _this2$_heartBeat;
-
-        _this2._closeWebRTCConnectingMask();
-
-        _this2.resetSip();
-
-        _this2._clearWebRTCInterval();
-
-        (_this2$_heartBeat = _this2._heartBeat) === null || _this2$_heartBeat === void 0 ? void 0 : _this2$_heartBeat.destroy();
-
-        _this2._deps.evClient.sipTerminate();
-      });
-
-      this._deps.beforeunload.onAfterUnload(function () {
-        _this2._sendTabManager(_enums.tabManagerEvents.CLOSE_WHEN_CALL_CONNECTED);
+      this._deps.evAgentSession.onReConfigFail(function () {
+        if (_this2._deps.evAgentSession.isIntegratedSoftphone) {
+          _this2._emitRegistrationFailed();
+        }
       });
     }
   }, {
-    key: "_clearWebRTCInterval",
-    value: function _clearWebRTCInterval() {
-      if (this._checkWebRTCIntervalId) {
-        clearInterval(this._checkWebRTCIntervalId);
-        this._checkWebRTCIntervalId = null;
+    key: "onReset",
+    value: function onReset() {
+      try {
+        console.log('onReset in EvIntegratedSoftphone~');
+
+        this._resetAllState();
+      } catch (error) {// ignore error
       }
     }
   }, {
-    key: "_bindCheckWebRTCInterval",
-    value: function _bindCheckWebRTCInterval() {
-      var _this3 = this;
+    key: "_resetAllState",
+    value: function _resetAllState() {
+      this._closeWebRTCConnectingMask();
 
-      this._deps.evAgentSession.onConfigSuccess.push(function () {
-        if (_this3._deps.evAgentSession.isIntegratedSoftphone) {
-          // when config success, if that webRTC tab is alive set sip register success to true
-          if (_this3.isWebRTCTabAlive) {
-            _this3.setSipRegisterSuccess(true);
-          }
+      this.resetSip();
 
-          if (typeof _this3._checkWebRTCIntervalId === 'number') return;
-          _this3._checkWebRTCIntervalId = setInterval( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
-            return regeneratorRuntime.wrap(function _callee3$(_context3) {
-              while (1) {
-                switch (_context3.prev = _context3.next) {
-                  case 0:
-                    if (!(_this3.sipRegistering || _this3.isWebRTCTab)) {
-                      _context3.next = 3;
-                      break;
-                    }
+      this._deps.evClient.sipTerminate();
 
-                    _this3._clearWebRTCInterval();
-
-                    return _context3.abrupt("return");
-
-                  case 3:
-                    if (!(_this3._deps.evAuth.connected && _this3._deps.evAgentSession.configSuccess && !_this3.isWebRTCTabAlive && !_this3._heartBeat.isWorkingByLocal && !_this3._heartBeat.isSuccessByLocal)) {
-                      _context3.next = 21;
-                      break;
-                    }
-
-                    _this3._heartBeat.heartBeatOnWorking(); // when that is connecting
-
-
-                    _this3._closeWebRTCConnectingMask();
-
-                    _this3.setWebRTCTabId(null);
-
-                    _context3.prev = 7;
-                    _context3.next = 10;
-                    return _this3._deps.block.next( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
-                      return regeneratorRuntime.wrap(function _callee2$(_context2) {
-                        while (1) {
-                          switch (_context2.prev = _context2.next) {
-                            case 0:
-                              console.log('!!!configureAgent');
-                              _context2.next = 3;
-                              return _this3._deps.evAgentSession.configureAgent(false);
-
-                            case 3:
-                            case "end":
-                              return _context2.stop();
-                          }
-                        }
-                      }, _callee2);
-                    })));
-
-                  case 10:
-                    _context3.next = 17;
-                    break;
-
-                  case 12:
-                    _context3.prev = 12;
-                    _context3.t0 = _context3["catch"](7);
-                    console.error('re config fail', _context3.t0);
-
-                    _this3._emitRegistrationFailed();
-
-                    return _context3.abrupt("return");
-
-                  case 17:
-                    _this3._isReconnected = true;
-
-                    _this3._clearWebRTCInterval();
-
-                    _context3.next = 21;
-                    return _this3.connectWebRTC();
-
-                  case 21:
-                  case "end":
-                    return _context3.stop();
-                }
-              }
-            }, _callee3, null, [[7, 12]]);
-          })), _this3._heartBeatIntervalTime);
-        }
-      });
+      this._eventEmitter.emit(_enums.EvSoftphoneEvents.RESET);
     }
   }, {
     key: "_emitRegistrationFailed",
@@ -388,21 +295,21 @@ var EvIntegratedSoftphone = (_dec = (0, _di.Module)({
   }, {
     key: "onStateChange",
     value: function () {
-      var _onStateChange = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
-        return regeneratorRuntime.wrap(function _callee4$(_context4) {
+      var _onStateChange = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context2.prev = _context2.next) {
               case 0:
-                if (this.ready && this.tabManagerEnabled && this._deps.tabManager.ready) {
+                if (this.ready && this._deps.tabManager.enable && this._deps.tabManager.ready) {
                   this._checkTabManagerEvent();
                 }
 
               case 1:
               case "end":
-                return _context4.stop();
+                return _context2.stop();
             }
           }
-        }, _callee4, this);
+        }, _callee2, this);
       }));
 
       function onStateChange() {
@@ -413,96 +320,131 @@ var EvIntegratedSoftphone = (_dec = (0, _di.Module)({
     }()
   }, {
     key: "_checkTabManagerEvent",
-    value: function _checkTabManagerEvent() {
-      var event = this._deps.tabManager.event;
+    value: function () {
+      var _checkTabManagerEvent2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
+        var event, data;
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                event = this._deps.tabManager.event;
 
-      if (event) {
-        var data = event.args[0];
+                if (!event) {
+                  _context3.next = 39;
+                  break;
+                }
 
-        switch (event.name) {
-          case _enums.tabManagerEvents.ASK_AUDIO_PERMISSION:
-            if (data) {
-              this._showAskAudioPermissionMask();
-            } else {
-              this._closeAskAudioPermissionMask();
+                data = event.args[0];
+                _context3.t0 = event.name;
+                _context3.next = _context3.t0 === _enums.tabManagerEvents.ASK_AUDIO_PERMISSION ? 6 : _context3.t0 === _enums.tabManagerEvents.SIP_CONNECTING ? 8 : _context3.t0 === _enums.tabManagerEvents.SIP_RINGING ? 10 : _context3.t0 === _enums.tabManagerEvents.SIP_RINGING_MODAL ? 12 : _context3.t0 === _enums.tabManagerEvents.MUTE_STATE_CHANGE ? 15 : _context3.t0 === _enums.tabManagerEvents.SIP_REGISTERED ? 17 : _context3.t0 === _enums.tabManagerEvents.SIP_UNREGISTERED ? 20 : _context3.t0 === _enums.tabManagerEvents.SIP_REGISTRATION_FAILED_RELOAD ? 22 : _context3.t0 === _enums.tabManagerEvents.SIP_REGISTRATION_FAILED ? 24 : _context3.t0 === _enums.tabManagerEvents.SIP_CONNECTED ? 29 : _context3.t0 === _enums.tabManagerEvents.SIP_ENDED ? 31 : _context3.t0 === _enums.tabManagerEvents.MUTE ? 34 : _context3.t0 === _enums.tabManagerEvents.CLOSE_WHEN_CALL_CONNECTED ? 36 : 38;
+                break;
+
+              case 6:
+                if (data) {
+                  this._showAskAudioPermissionMask();
+                } else {
+                  this._closeAskAudioPermissionMask();
+                }
+
+                return _context3.abrupt("break", 39);
+
+              case 8:
+                this._showWebRTCConnectingMask();
+
+                return _context3.abrupt("break", 39);
+
+              case 10:
+                this._showRingingModal(data);
+
+                return _context3.abrupt("break", 39);
+
+              case 12:
+                // that event call from modal ok or cancel, that auto close modal
+                this._deps.modal.close(this._answerModalId);
+
+                if (data) {
+                  this.answerCall();
+                } else {
+                  this.rejectCall();
+                }
+
+                return _context3.abrupt("break", 39);
+
+              case 15:
+                this.setMuteActive(data);
+                return _context3.abrupt("break", 39);
+
+              case 17:
+                console.log('_sipRegistered in other tabs~');
+
+                this._sipRegistered();
+
+                return _context3.abrupt("break", 39);
+
+              case 20:
+                this.setSipRegisterSuccess(false);
+                return _context3.abrupt("break", 39);
+
+              case 22:
+                this._reloadApp();
+
+                return _context3.abrupt("break", 39);
+
+              case 24:
+                this._handleRegistrationFailed();
+
+                _context3.next = 27;
+                return this._deps.evAgentSession.onceLogoutThenLogin();
+
+              case 27:
+                this._closeFailReconnectedBlock();
+
+                return _context3.abrupt("break", 39);
+
+              case 29:
+                this._sipConnected();
+
+                return _context3.abrupt("break", 39);
+
+              case 31:
+                this._sipEnded(); // When sip end need reset Dialout Status to idle
+
+
+                this._deps.presence.setDialoutStatus(_enums.dialoutStatuses.idle);
+
+                return _context3.abrupt("break", 39);
+
+              case 34:
+                this.sipToggleMute(data);
+                return _context3.abrupt("break", 39);
+
+              case 36:
+                this._isCloseWhenCallConnected = true;
+                return _context3.abrupt("break", 39);
+
+              case 38:
+                return _context3.abrupt("break", 39);
+
+              case 39:
+              case "end":
+                return _context3.stop();
             }
+          }
+        }, _callee3, this);
+      }));
 
-            break;
-
-          case _enums.tabManagerEvents.SIP_CONNECTING:
-            this._showWebRTCConnectingMask();
-
-            break;
-
-          case _enums.tabManagerEvents.SET_WEB_RTC_TAB_ID:
-            // when set tab id, reset the connected state to false
-            this._isCloseWhenCallConnected = false;
-            this.setWebRTCTabId(data);
-
-            this._closeWebRTCConnectingMask();
-
-            break;
-
-          case _enums.tabManagerEvents.SIP_RINGING:
-            this._showRingingModal(data);
-
-            break;
-
-          case _enums.tabManagerEvents.SIP_RINGING_MODAL:
-            // that event call from modal ok or cancel, that auto close modal
-            this._deps.modal.close(this._answerModalId);
-
-            if (data) {
-              this.answerCall();
-            } else {
-              this.rejectCall();
-            }
-
-            break;
-
-          case _enums.tabManagerEvents.MUTE_STATE_CHANGE:
-            this.setMuteActive(data);
-            break;
-
-          case _enums.tabManagerEvents.SIP_REGISTERED:
-            this._sipRegistered();
-
-            break;
-
-          case _enums.tabManagerEvents.SIP_UNREGISTERED:
-            this.setSipRegisterSuccess(false);
-            break;
-
-          case _enums.tabManagerEvents.SIP_REGISTRATION_FAILED:
-            this._handleRegistrationFailed();
-
-            break;
-
-          case _enums.tabManagerEvents.SIP_CONNECTED:
-            this._sipConnected();
-
-            break;
-
-          case _enums.tabManagerEvents.SIP_ENDED:
-            this._sipEnded(); // When sip end need reset Dialout Status to idle
-
-
-            this._deps.presence.setDialoutStatus(_enums.dialoutStatuses.idle);
-
-            break;
-
-          case _enums.tabManagerEvents.MUTE:
-            this.sipToggleMute(data);
-            break;
-
-          case _enums.tabManagerEvents.CLOSE_WHEN_CALL_CONNECTED:
-            this._isCloseWhenCallConnected = true;
-            break;
-
-          default:
-            break;
-        }
+      function _checkTabManagerEvent() {
+        return _checkTabManagerEvent2.apply(this, arguments);
       }
+
+      return _checkTabManagerEvent;
+    }()
+  }, {
+    key: "_closeFailReconnectedBlock",
+    value: function _closeFailReconnectedBlock() {
+      this._deps.block.unblock(this._failedBlockId);
+
+      this._failedBlockId = null;
     }
   }, {
     key: "sipToggleMute",
@@ -517,46 +459,40 @@ var EvIntegratedSoftphone = (_dec = (0, _di.Module)({
   }, {
     key: "askAudioPermission",
     value: function () {
-      var _askAudioPermission = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
-        var _this4 = this;
-
+      var _askAudioPermission = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
         var showMask,
-            showMaskTimeout,
-            _args5 = arguments;
-        return regeneratorRuntime.wrap(function _callee5$(_context5) {
+            _args4 = arguments;
+        return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
-            switch (_context5.prev = _context5.next) {
+            switch (_context4.prev = _context4.next) {
               case 0:
-                showMask = _args5.length > 0 && _args5[0] !== undefined ? _args5[0] : true;
-                showMaskTimeout = null;
-                _context5.prev = 2;
+                showMask = _args4.length > 0 && _args4[0] !== undefined ? _args4[0] : true;
+                _context4.prev = 1;
 
-                if (showMask) {
-                  /**
-                   *  using timeout when navigator.mediaDevices.getUserMedia is already completed,
-                   *  that will very quick close, so remove that when very quick.
-                   */
-                  showMaskTimeout = setTimeout(function () {
-                    _this4._sendTabManager(_enums.tabManagerEvents.ASK_AUDIO_PERMISSION, true);
-
-                    _this4._showAskAudioPermissionMask();
-
-                    showMaskTimeout = null;
-                  }, 100);
+                if (!showMask) {
+                  _context4.next = 7;
+                  break;
                 }
 
-                _context5.next = 6;
+                if (!this.audioPermission) {
+                  this._sendTabManager(_enums.tabManagerEvents.ASK_AUDIO_PERMISSION, true);
+
+                  this._showAskAudioPermissionMask();
+                }
+
+                console.log('connect WEB_RTC');
+                _context4.next = 7;
                 return navigator.mediaDevices.getUserMedia({
                   audio: true
                 });
 
-              case 6:
-                _context5.next = 12;
+              case 7:
+                _context4.next = 14;
                 break;
 
-              case 8:
-                _context5.prev = 8;
-                _context5.t0 = _context5["catch"](2);
+              case 9:
+                _context4.prev = 9;
+                _context4.t0 = _context4["catch"](1);
 
                 this._deps.alert.danger({
                   message: _enums.EvSoftphoneEvents.AUDIO_STREAM_REJECTED,
@@ -564,16 +500,13 @@ var EvIntegratedSoftphone = (_dec = (0, _di.Module)({
                   ttl: 0
                 });
 
+                console.log(_context4.t0);
                 throw new Error('Need Audio permission');
 
-              case 12:
-                _context5.prev = 12;
+              case 14:
+                _context4.prev = 14;
 
                 if (showMask) {
-                  if (showMaskTimeout) {
-                    clearTimeout(showMaskTimeout);
-                  }
-
                   if (this._audioPermissionAlertId) {
                     this._sendTabManager(_enums.tabManagerEvents.ASK_AUDIO_PERMISSION, false);
 
@@ -581,23 +514,25 @@ var EvIntegratedSoftphone = (_dec = (0, _di.Module)({
                   }
                 }
 
-                return _context5.finish(12);
+                return _context4.finish(14);
 
-              case 15:
+              case 17:
+                this.setAudioPermission(true);
+
                 if (this.sipRegisterSuccess) {
-                  _context5.next = 18;
+                  _context4.next = 21;
                   break;
                 }
 
-                _context5.next = 18;
+                _context4.next = 21;
                 return this._registerSoftphone();
 
-              case 18:
+              case 21:
               case "end":
-                return _context5.stop();
+                return _context4.stop();
             }
           }
-        }, _callee5, this, [[2, 8, 12, 15]]);
+        }, _callee4, this, [[1, 9, 14, 17]]);
       }));
 
       function askAudioPermission() {
@@ -609,31 +544,22 @@ var EvIntegratedSoftphone = (_dec = (0, _di.Module)({
   }, {
     key: "connectWebRTC",
     value: function () {
-      var _connectWebRTC = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
-        var isConfiguringByLocal;
-        return regeneratorRuntime.wrap(function _callee6$(_context6) {
+      var _connectWebRTC = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
+        return regeneratorRuntime.wrap(function _callee5$(_context5) {
           while (1) {
-            switch (_context6.prev = _context6.next) {
+            switch (_context5.prev = _context5.next) {
               case 0:
-                isConfiguringByLocal = this._heartBeat.isWorkingByLocal;
-
-                if (this.tabManagerEnabled && !isConfiguringByLocal) {
-                  this._heartBeat.heartBeatOnWorking();
-                }
-
-                this._bindingIntegratedSoftphone(); // when init set register to be false
-
-
+                console.log('connectWebRTC~');
                 this.resetSip();
-                _context6.next = 6;
+                _context5.next = 4;
                 return this.askAudioPermission();
 
-              case 6:
+              case 4:
               case "end":
-                return _context6.stop();
+                return _context5.stop();
             }
           }
-        }, _callee6, this);
+        }, _callee5, this);
       }));
 
       function connectWebRTC() {
@@ -645,93 +571,102 @@ var EvIntegratedSoftphone = (_dec = (0, _di.Module)({
   }, {
     key: "_bindingIntegratedSoftphone",
     value: function _bindingIntegratedSoftphone() {
-      var _this5 = this;
+      var _this3 = this;
 
       this._deps.evSubscription.subscribe(_enums2.EvCallbackTypes.SIP_REGISTERED, function () {
         // That will call several times when reconnected.
         console.log('!!!!!!!SIP_REGISTERED');
 
-        if (!_this5.sipRegisterSuccess) {
-          _this5._setWebRTCTabId();
+        if (!_this3.sipRegisterSuccess) {
+          _this3._sendTabManager(_enums.tabManagerEvents.SIP_REGISTERED);
 
-          _this5._heartBeat.heartBeatOnSuccess();
-
-          _this5._sendTabManager(_enums.tabManagerEvents.SIP_REGISTERED);
-
-          _this5._sipRegistered();
+          _this3._sipRegistered();
         }
       });
 
       this._deps.evSubscription.subscribe(_enums2.EvCallbackTypes.SIP_UNREGISTERED, function () {
         console.log('!!!!!!!SIP_UNREGISTERED');
 
-        if (_this5.sipRegisterSuccess) {
-          _this5._sendTabManager(_enums.tabManagerEvents.SIP_UNREGISTERED);
+        if (_this3.sipRegisterSuccess) {
+          _this3._sendTabManager(_enums.tabManagerEvents.SIP_UNREGISTERED);
 
-          _this5.setSipRegisterSuccess(false);
+          _this3.setSipRegisterSuccess(false);
         }
       });
 
-      this._deps.evSubscription.subscribe(_enums2.EvCallbackTypes.SIP_REGISTRATION_FAILED, function () {
-        console.log('!!!!!!!SIP_REGISTRATION_FAILED');
+      this._deps.evSubscription.subscribe(_enums2.EvCallbackTypes.SIP_REGISTRATION_FAILED, /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
+        return regeneratorRuntime.wrap(function _callee6$(_context6) {
+          while (1) {
+            switch (_context6.prev = _context6.next) {
+              case 0:
+                console.log('!!!!!!!SIP_REGISTRATION_FAILED');
 
-        _this5.setSipRegistering(false);
+                _this3.setSipRegistering(false);
 
-        _this5._sendTabManager(_enums.tabManagerEvents.SIP_REGISTRATION_FAILED);
+                _this3._sendTabManager(_enums.tabManagerEvents.SIP_REGISTRATION_FAILED);
 
-        _this5._handleRegistrationFailed();
-      });
+                _this3._handleRegistrationFailed(); // await this._deps.evAgentSession.reLoginAgent();
+                // this._closeFailReconnectedBlock();
+
+
+              case 4:
+              case "end":
+                return _context6.stop();
+            }
+          }
+        }, _callee6);
+      })));
 
       this._deps.evSubscription.subscribe(_enums2.EvCallbackTypes.SIP_RINGING, function (ringingCall) {
+        _this3.bindBeforeunload();
+
         console.log('!!!!!!!SIP_RINGING');
 
-        _this5._eventEmitter.emit(_enums2.EvCallbackTypes.SIP_RINGING);
+        _this3._eventEmitter.emit(_enums2.EvCallbackTypes.SIP_RINGING, ringingCall);
 
-        if (_this5.autoAnswerCheckFn()) {
-          return _this5._sipAnswer();
+        if (_this3.autoAnswerCheckFn()) {
+          return _this3._sipAnswer();
         }
 
         var displayName = ringingCall.data.request.from.displayName;
 
-        _this5._sendTabManager(_enums.tabManagerEvents.SIP_RINGING, displayName);
+        _this3._sendTabManager(_enums.tabManagerEvents.SIP_RINGING, displayName);
 
-        _this5._showRingingModal(displayName);
+        _this3._showRingingModal(displayName);
       });
 
       this._deps.evSubscription.subscribe(_enums2.EvCallbackTypes.SIP_CONNECTED, function () {
-        _this5._deps.beforeunload.add(_this5._beforeunloadHandler);
-
         console.info('!!!!!!!SIP_CONNECTED');
 
-        _this5._sendTabManager(_enums.tabManagerEvents.SIP_CONNECTED);
+        _this3._sendTabManager(_enums.tabManagerEvents.SIP_CONNECTED);
 
-        _this5._sipConnected();
+        _this3._sipConnected();
       });
 
       this._deps.evSubscription.subscribe(_enums2.EvCallbackTypes.SIP_ENDED, function () {
         console.info('!!!!!!!SIP_ENDED');
 
-        _this5._deps.beforeunload.remove(_this5._beforeunloadHandler);
+        _this3.removeBeforeunload();
 
-        _this5._sendTabManager(_enums.tabManagerEvents.SIP_ENDED);
+        _this3._sendTabManager(_enums.tabManagerEvents.SIP_ENDED);
 
-        _this5._sipEnded();
+        _this3._sipEnded();
       });
 
       this._deps.evSubscription.subscribe(_enums2.EvCallbackTypes.SIP_MUTE, function () {
         console.info('!!!!!!!SIP_MUTE');
 
-        _this5._sendTabManager(_enums.tabManagerEvents.MUTE_STATE_CHANGE, true);
+        _this3._sendTabManager(_enums.tabManagerEvents.MUTE_STATE_CHANGE, true);
 
-        _this5.setMuteActive(true);
+        _this3.setMuteActive(true);
       });
 
       this._deps.evSubscription.subscribe(_enums2.EvCallbackTypes.SIP_UNMUTE, function () {
         console.info('!!!!!!!SIP_UNMUTE');
 
-        _this5._sendTabManager(_enums.tabManagerEvents.MUTE_STATE_CHANGE, false);
+        _this3._sendTabManager(_enums.tabManagerEvents.MUTE_STATE_CHANGE, false);
 
-        _this5.setMuteActive(false);
+        _this3.setMuteActive(false);
       }); // TODO: that is update session config related feature
       // triggered by agentSDK if dial destination is changed on softphone registration
       // pass in autoStartOH, maintainOH and dial destination, needed for reconnect logic
@@ -765,39 +700,62 @@ var EvIntegratedSoftphone = (_dec = (0, _di.Module)({
     value: function _sipEnded() {
       this._closeRingingModal();
 
-      this._deps.evSettings.setOffhook(false);
+      this._deps.presence.setOffhook(false);
     }
   }, {
     key: "_sipRegistered",
     value: function _sipRegistered() {
+      console.log('_sipRegistered~');
       this.setSipRegisterSuccess(true);
 
       this._eventEmitter.emit(_enums.EvSoftphoneEvents.REGISTERED);
+
+      this._isCloseWhenCallConnected = false;
+
+      this._closeWebRTCConnectingMask();
     }
   }, {
     key: "_handleRegistrationFailed",
     value: function _handleRegistrationFailed() {
+      var _this4 = this;
+
+      this._failedBlockId = this._deps.block.block();
+
       this._deps.evClient.sipTerminate();
 
-      this._deps.evAuth.newReconnect();
+      this._resetAllState();
 
-      this.setSipRegisterSuccess(false);
+      this._closeWebRTCConnectingMask(); // this._deps.alert.danger({
+      //   message: EvCallbackTypes.SIP_REGISTRATION_FAILED,
+      //   backdrop: true,
+      //   ttl: 0,
+      //   allowDuplicates: false,
+      // });
 
-      this._closeWebRTCConnectingMask();
 
-      this._deps.alert.danger({
-        message: _enums2.EvCallbackTypes.SIP_REGISTRATION_FAILED,
-        backdrop: true,
-        ttl: 0,
-        allowDuplicates: false
+      this._deps.modal.alert({
+        title: 'Registration failed',
+        content: 'Will reload your pages and tabs for you',
+        okText: 'Ok',
+        onOK: function onOK() {
+          _this4._sendTabManager(_enums.tabManagerEvents.SIP_REGISTRATION_FAILED_RELOAD);
+
+          _this4._reloadApp();
+        }
       });
 
-      this._deps.routerInteraction.push('/sessionConfig');
+      this._deps.tabManager.setMainTabId(null); // this._deps.routerInteraction.push('/sessionConfig');
+
+    }
+  }, {
+    key: "_reloadApp",
+    value: function _reloadApp() {
+      window.location.reload();
     }
   }, {
     key: "_sipConnected",
     value: function _sipConnected() {
-      this._deps.evSettings.setOffhook(true); // When connected reset all controller state
+      this._deps.presence.setOffhook(true); // When connected reset all controller state
 
 
       this.resetController();
@@ -815,6 +773,8 @@ var EvIntegratedSoftphone = (_dec = (0, _di.Module)({
   }, {
     key: "_closeWebRTCConnectingMask",
     value: function _closeWebRTCConnectingMask() {
+      console.log('_closeWebRTCConnectingMask~~', this.connectingAlertId);
+
       if (this.connectingAlertId) {
         this._deps.alert.dismiss(this.connectingAlertId);
 
@@ -844,7 +804,7 @@ var EvIntegratedSoftphone = (_dec = (0, _di.Module)({
   }, {
     key: "_showRingingModal",
     value: function _showRingingModal(displayName) {
-      var _this6 = this;
+      var _this5 = this;
 
       // prevent open a lot of modal, that sdk event pass a lot of ringing state when re login
       if (this._answerModalId) {
@@ -862,14 +822,14 @@ var EvIntegratedSoftphone = (_dec = (0, _di.Module)({
         okText: _i18n["default"].getString('inviteModalAnswer', currentLocale),
         cancelText: _i18n["default"].getString('inviteModalReject', currentLocale),
         onOK: function onOK() {
-          _this6._sendTabManager(_enums.tabManagerEvents.SIP_RINGING_MODAL, true);
+          _this5._sendTabManager(_enums.tabManagerEvents.SIP_RINGING_MODAL, true);
 
-          _this6.answerCall();
+          _this5.answerCall();
         },
         onCancel: function onCancel() {
-          _this6._sendTabManager(_enums.tabManagerEvents.SIP_RINGING_MODAL, false);
+          _this5._sendTabManager(_enums.tabManagerEvents.SIP_RINGING_MODAL, false);
 
-          _this6.rejectCall();
+          _this5.rejectCall();
         }
       });
     }
@@ -891,16 +851,40 @@ var EvIntegratedSoftphone = (_dec = (0, _di.Module)({
       this._deps.evClient.sipReject();
 
       this._eventEmitter.emit(_enums.EvSoftphoneEvents.CALL_REJECTED);
+
+      this.removeBeforeunload();
     }
   }, {
     key: "onceRegistered",
     value: function onceRegistered() {
-      var _this7 = this;
+      var _this6 = this;
 
-      return (0, _time.raceTimeout)(new Promise(function (resolve) {
-        return _this7._eventEmitter.once(_enums.EvSoftphoneEvents.REGISTERED, resolve);
+      var _resolve;
+
+      var _reject;
+
+      return (0, _raceTimeout.raceTimeout)(new Promise(function (resolve, reject) {
+        _resolve = resolve;
+        _reject = reject;
+
+        _this6._eventEmitter.once(_enums.EvSoftphoneEvents.REGISTERED, _resolve); // when reset sip also need reject that
+
+
+        _this6._eventEmitter.once(_enums.EvSoftphoneEvents.RESET, _reject);
       }), {
-        timeout: SIP_MAX_CONNECTING_TIME
+        timeout: SIP_MAX_CONNECTING_TIME,
+        onTimeout: function onTimeout(res, rej) {
+          _this6._emitRegistrationFailed();
+
+          rej('connected integratedSoftphone fail');
+        },
+        finalize: function finalize() {
+          _resolve();
+
+          _this6._eventEmitter.off(_enums.EvSoftphoneEvents.REGISTERED, _resolve);
+
+          _this6._eventEmitter.off(_enums.EvSoftphoneEvents.RESET, _reject);
+        }
       });
     }
   }, {
@@ -929,7 +913,7 @@ var EvIntegratedSoftphone = (_dec = (0, _di.Module)({
             switch (_context7.prev = _context7.next) {
               case 0:
                 if (this.sipRegistering) {
-                  _context7.next = 14;
+                  _context7.next = 15;
                   break;
                 }
 
@@ -937,36 +921,37 @@ var EvIntegratedSoftphone = (_dec = (0, _di.Module)({
 
                 this._sendTabManager(_enums.tabManagerEvents.SIP_CONNECTING);
 
-                this._showWebRTCConnectingMask(); // When that is force login is also need delay to reconnect server
+                this._showWebRTCConnectingMask();
 
+                console.log('isReconnected, isForceLogin, _isCloseWhenCallConnected~', this._deps.evAgentSession.isReconnected, this._deps.evAgentSession.isForceLogin, this._isCloseWhenCallConnected); // When that is force login is also need delay to reconnect server
 
-                if (!(this._isReconnected || this._deps.evAgentSession.isForceLogin)) {
-                  _context7.next = 11;
+                if (!(this._deps.evAgentSession.isReconnected || this._deps.evAgentSession.isForceLogin)) {
+                  _context7.next = 12;
                   break;
                 }
 
-                _context7.next = 7;
+                _context7.next = 8;
                 return (0, _sleep["default"])(this._isCloseWhenCallConnected ? RECONNECT_DEBOUNCE_TIME_WHEN_CONNECTED : RECONNECT_DEBOUNCE_TIME);
 
-              case 7:
-                _context7.next = 9;
+              case 8:
+                _context7.next = 10;
                 return this._connectedWebRTC();
 
-              case 9:
-                _context7.next = 13;
+              case 10:
+                _context7.next = 14;
                 break;
 
-              case 11:
-                _context7.next = 13;
+              case 12:
+                _context7.next = 14;
                 return this._connectedWebRTC();
 
-              case 13:
+              case 14:
                 return _context7.abrupt("return");
 
-              case 14:
+              case 15:
                 throw new Error('Sip is registering');
 
-              case 15:
+              case 16:
               case "end":
                 return _context7.stop();
             }
@@ -988,35 +973,34 @@ var EvIntegratedSoftphone = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context8.prev = _context8.next) {
               case 0:
+                _context8.prev = 0;
+
                 this._deps.evClient.sipInit();
 
                 this._deps.evClient.sipRegister();
 
-                _context8.prev = 2;
                 _context8.next = 5;
                 return this.onceRegistered();
 
               case 5:
                 this.setSipRegistering(false);
 
-                this._setWebRTCTabId();
+                this._closeWebRTCConnectingMask();
 
-                _context8.next = 13;
+                _context8.next = 12;
                 break;
 
               case 9:
                 _context8.prev = 9;
-                _context8.t0 = _context8["catch"](2);
+                _context8.t0 = _context8["catch"](0);
                 console.error(_context8.t0);
 
-                this._emitRegistrationFailed();
-
-              case 13:
+              case 12:
               case "end":
                 return _context8.stop();
             }
           }
-        }, _callee8, this, [[2, 9]]);
+        }, _callee8, this, [[0, 9]]);
       }));
 
       function _connectedWebRTC() {
@@ -1025,19 +1009,6 @@ var EvIntegratedSoftphone = (_dec = (0, _di.Module)({
 
       return _connectedWebRTC;
     }()
-  }, {
-    key: "_setWebRTCTabId",
-    value: function _setWebRTCTabId() {
-      if (this.tabManagerEnabled) {
-        var id = this._deps.tabManager.id;
-
-        this._sendTabManager(_enums.tabManagerEvents.SET_WEB_RTC_TAB_ID, id);
-
-        this.setWebRTCTabId(id);
-      }
-
-      this._closeWebRTCConnectingMask();
-    }
   }, {
     key: "_resetRingingModal",
     value: function _resetRingingModal() {
@@ -1086,36 +1057,46 @@ var EvIntegratedSoftphone = (_dec = (0, _di.Module)({
 
       (_this$_deps$tabManage2 = this._deps.tabManager) === null || _this$_deps$tabManage2 === void 0 ? void 0 : _this$_deps$tabManage2.send(event, value);
     }
+  }, {
+    key: "bindBeforeunload",
+    value: function bindBeforeunload() {
+      this._deps.beforeunload.add(this._beforeunloadHandler);
+    }
+  }, {
+    key: "removeBeforeunload",
+    value: function removeBeforeunload() {
+      this._deps.beforeunload.remove(this._beforeunloadHandler);
+    }
   }]);
 
   return EvIntegratedSoftphone;
-}(_core.RcModuleV2), _temp), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "muteActive", [_core.storage, _core.state], {
+}(_core.RcModuleV2), _temp), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "audioPermission", [_core.storage, _core.state], {
   configurable: true,
   enumerable: true,
   writable: true,
   initializer: function initializer() {
     return false;
   }
-}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, "sipRegisterSuccess", [_core.state], {
+}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, "muteActive", [_core.storage, _core.state], {
   configurable: true,
   enumerable: true,
   writable: true,
   initializer: function initializer() {
     return false;
   }
-}), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, "sipRegistering", [_core.state], {
+}), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, "sipRegisterSuccess", [_core.state], {
   configurable: true,
   enumerable: true,
   writable: true,
   initializer: function initializer() {
     return false;
   }
-}), _descriptor4 = _applyDecoratedDescriptor(_class2.prototype, "webRTCTabId", [_core.storage, _core.state], {
+}), _descriptor4 = _applyDecoratedDescriptor(_class2.prototype, "sipRegistering", [_core.state], {
   configurable: true,
   enumerable: true,
   writable: true,
   initializer: function initializer() {
-    return null;
+    return false;
   }
 }), _descriptor5 = _applyDecoratedDescriptor(_class2.prototype, "connectingAlertId", [_core.state], {
   configurable: true,
@@ -1124,6 +1105,6 @@ var EvIntegratedSoftphone = (_dec = (0, _di.Module)({
   initializer: function initializer() {
     return null;
   }
-}), _applyDecoratedDescriptor(_class2.prototype, "setConnectingAlertId", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setConnectingAlertId"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "resetController", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "resetController"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setMuteActive", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setMuteActive"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setWebRTCTabId", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setWebRTCTabId"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "resetSip", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "resetSip"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setSipRegisterSuccess", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setSipRegisterSuccess"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setSipRegistering", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setSipRegistering"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_playAudio", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "_playAudio"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_stopAudio", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "_stopAudio"), _class2.prototype)), _class2)) || _class);
+}), _applyDecoratedDescriptor(_class2.prototype, "setConnectingAlertId", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setConnectingAlertId"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setAudioPermission", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setAudioPermission"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "resetController", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "resetController"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setMuteActive", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setMuteActive"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "resetSip", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "resetSip"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setSipRegisterSuccess", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setSipRegisterSuccess"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setSipRegistering", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setSipRegistering"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_playAudio", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "_playAudio"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_stopAudio", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "_stopAudio"), _class2.prototype)), _class2)) || _class);
 exports.EvIntegratedSoftphone = EvIntegratedSoftphone;
 //# sourceMappingURL=EvIntegratedSoftphone.js.map

@@ -1,8 +1,8 @@
-import { RcIcon, RcIconProps } from '@ringcentral-integration/rcui';
-import phoneSvg from '@ringcentral-integration/rcui/icons/icon-phone.svg';
-import phoneBorderSvg from '@ringcentral-integration/rcui/icons/icon-phone_border.svg';
-import settingsSvg from '@ringcentral-integration/rcui/icons/icon-settings.svg';
-import settingsBorderSvg from '@ringcentral-integration/rcui/icons/icon-settings_border.svg';
+import { RcIcon, RcIconProps } from '@ringcentral/juno';
+import phoneSvg from '@ringcentral/juno/icons/icon-phone.svg';
+import phoneBorderSvg from '@ringcentral/juno/icons/icon-phone_border.svg';
+import settingsSvg from '@ringcentral/juno/icons/icon-settings.svg';
+import settingsBorderSvg from '@ringcentral/juno/icons/icon-settings_border.svg';
 import classNames from 'classnames';
 import React, { FunctionComponent, useMemo } from 'react';
 import { TabPropTypes } from 'ringcentral-widgets/components/NavigationBar';
@@ -22,8 +22,8 @@ import i18n from './i18n';
 import styles from './styles.scss';
 import { WorkingStateSelect } from './WorkingStateSelect';
 
-// import TimeSvg from '@ringcentral-integration/rcui/icons/icon-time.svg';
-// import TimeBorderSvg from '@ringcentral-integration/rcui/icons/icon-time_border.svg';
+// import TimeSvg from '@ringcentral/juno/icons/icon-time.svg';
+// import TimeBorderSvg from '@ringcentral/juno/icons/icon-time_border.svg';
 export type MainViewPanelProps = EvMainViewUIProps & EvMainViewUIFunctions;
 
 const CustomIcon: FunctionComponent<RcIconProps> = (props) => {

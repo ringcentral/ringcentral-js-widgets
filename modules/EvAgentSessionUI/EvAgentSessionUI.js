@@ -127,14 +127,14 @@ function _initializerWarningHelper(descriptor, context) { throw new Error('Decor
 
 var EvAgentSessionUI = (_dec = (0, _di.Module)({
   name: 'EvAgentSessionUI',
-  deps: ['Locale', 'RouterInteraction', 'EvAuth', 'EvAgentSession', 'EvSettings', 'EvWorkingState', 'Storage', 'Modal', 'Environment', 'EvCallMonitor', {
+  deps: ['Locale', 'RouterInteraction', 'EvAuth', 'EvAgentSession', 'EvSettings', 'EvWorkingState', 'Storage', 'Modal', 'EvCallMonitor', {
     dep: 'EvAgentSessionUIOptions',
     optional: true
   }]
 }), _dec2 = (0, _core.computed)(function (that) {
   return [that._deps.locale.currentLocale, that._deps.evAgentSession.inboundQueues, that._deps.evAgentSession.formGroup.selectedInboundQueueIds];
 }), _dec3 = (0, _core.computed)(function (that) {
-  return [that._deps.evAgentSession.selectedInboundQueueIds, that._deps.evAgentSession.inboundQueues];
+  return [that._deps.evAgentSession.formGroup.selectedInboundQueueIds, that._deps.evAgentSession.inboundQueues];
 }), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcUIModuleV) {
   _inherits(EvAgentSessionUI, _RcUIModuleV);
 
@@ -177,7 +177,9 @@ var EvAgentSessionUI = (_dec = (0, _di.Module)({
                 this.setIsLoading(true);
                 _context.prev = 1;
                 _context.next = 4;
-                return this._deps.evAgentSession.configureAgent();
+                return this._deps.evAgentSession.configureAgent({
+                  needAssignFormGroupValue: true
+                });
 
               case 4:
                 _context.next = 10;
@@ -208,11 +210,6 @@ var EvAgentSessionUI = (_dec = (0, _di.Module)({
 
       return setConfigure;
     }()
-  }, {
-    key: "goToSessionUpdatePage",
-    value: function goToSessionUpdatePage() {
-      this._deps.routerInteraction.push('/sessionUpdate');
-    }
   }, {
     key: "showSaveEditionModal",
     value: function showSaveEditionModal() {
@@ -252,34 +249,23 @@ var EvAgentSessionUI = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                _context2.prev = 0;
-
                 if (this._deps.evAgentSession.isSessionChanged) {
-                  _context2.next = 3;
+                  _context2.next = 2;
                   break;
                 }
 
                 return _context2.abrupt("return", this._deps.evAgentSession.goToSettingsPage());
 
-              case 3:
-                _context2.next = 5;
+              case 2:
+                _context2.next = 4;
                 return this._deps.evAgentSession.updateAgent(this.voiceConnectionChanged);
 
-              case 5:
-                _context2.next = 10;
-                break;
-
-              case 7:
-                _context2.prev = 7;
-                _context2.t0 = _context2["catch"](0);
-                console.error('error', _context2.t0);
-
-              case 10:
+              case 4:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2, this, [[0, 7]]);
+        }, _callee2, this);
       }));
 
       function onSaveUpdate() {
@@ -287,7 +273,7 @@ var EvAgentSessionUI = (_dec = (0, _di.Module)({
       }
 
       return onSaveUpdate;
-    }() // Inboudqueue Panel
+    }() // InboundQueue Panel
 
   }, {
     key: "_checkBoxOnChange",
@@ -334,6 +320,20 @@ var EvAgentSessionUI = (_dec = (0, _di.Module)({
       cb();
     }
   }, {
+    key: "setLoginType",
+    value: function setLoginType(loginType) {
+      // set login type first, and reset autoAnswer after login type changed
+      this._deps.evAgentSession.setFormGroup({
+        loginType: loginType
+      });
+
+      var autoAnswer = this.selectedIntegratedSoftphone ? this._deps.evAgentSession.autoAnswer : this._deps.evAgentSession.defaultAutoAnswerOn;
+
+      this._deps.evAgentSession.setFormGroup({
+        autoAnswer: autoAnswer
+      });
+    }
+  }, {
     key: "getUIProps",
     value: function getUIProps() {
       var _this$_deps$evAgentSe = this._deps.evAgentSession,
@@ -343,14 +343,15 @@ var EvAgentSessionUI = (_dec = (0, _di.Module)({
       var _this$_deps$evAgentSe2 = this._deps.evAgentSession.formGroup,
           selectedSkillProfileId = _this$_deps$evAgentSe2.selectedSkillProfileId,
           loginType = _this$_deps$evAgentSe2.loginType,
-          extensionNumber = _this$_deps$evAgentSe2.extensionNumber;
+          extensionNumber = _this$_deps$evAgentSe2.extensionNumber,
+          autoAnswer = _this$_deps$evAgentSe2.autoAnswer;
       return {
         selectedSkillProfileId: selectedSkillProfileId,
         loginType: loginType,
         extensionNumber: extensionNumber,
         inboundQueuesFieldText: this.inboundQueuesFieldText,
         // takingCall,
-        // autoAnswer,
+        autoAnswer: autoAnswer,
         skillProfileList: skillProfileList,
         loginTypeList: loginTypeList,
         isExtensionNumber: isExternalPhone,
@@ -358,8 +359,7 @@ var EvAgentSessionUI = (_dec = (0, _di.Module)({
         currentLocale: this._deps.locale.currentLocale,
         // Inboudqueue Panel
         inboundQueues: this.inboundQueues,
-        voiceConnectionChanged: this.voiceConnectionChanged,
-        isWide: this._deps.environment.isWide
+        showAutoAnswer: this._deps.evAuth.agentPermissions.allowAutoAnswer && this.selectedIntegratedSoftphone
       };
     }
   }, {
@@ -374,20 +374,20 @@ var EvAgentSessionUI = (_dec = (0, _di.Module)({
           });
         },
         setLoginType: function setLoginType(loginType) {
-          return _this3._deps.evAgentSession.setFormGroup({
-            loginType: loginType
-          });
+          return _this3.setLoginType(loginType);
         },
         setExtensionNumber: function setExtensionNumber(extensionNumber) {
           return _this3._deps.evAgentSession.setFormGroup({
             extensionNumber: extensionNumber
           });
         },
+        setAutoAnswer: function setAutoAnswer(autoAnswer) {
+          return _this3._deps.evAgentSession.setFormGroup({
+            autoAnswer: autoAnswer
+          });
+        },
         submitInboundQueues: function submitInboundQueues(queues, cb) {
           return _this3.submitInboundQueues(queues, cb);
-        },
-        resetFormGroup: function resetFormGroup() {
-          return _this3._deps.evAgentSession.resetFormGroup();
         },
         // setTakingCall: (takingCall) =>
         //   this._deps.evAgentSession.setTakingCall(takingCall),
@@ -398,9 +398,6 @@ var EvAgentSessionUI = (_dec = (0, _di.Module)({
         },
         goToSettingsPage: function goToSettingsPage() {
           return _this3._deps.evAgentSession.goToSettingsPage();
-        },
-        goToSessionUpdatePage: function goToSessionUpdatePage() {
-          return _this3.goToSessionUpdatePage();
         },
         goToSettingsPageWhetherSessionChanged: function goToSettingsPageWhetherSessionChanged() {
           return _this3.goToSettingsPageWhetherSessionChanged();
@@ -456,16 +453,11 @@ var EvAgentSessionUI = (_dec = (0, _di.Module)({
       return _i18n["default"].getString(_enums.dropDownOptions.None, currentLocale);
     }
   }, {
-    key: "voiceConnectionChanged",
-    get: function get() {
-      return this._deps.evAgentSession.loginType !== this._deps.evAgentSession.formGroup.loginType;
-    }
-  }, {
     key: "inboundQueues",
     get: function get() {
       var _this$_deps$evAgentSe3 = this._deps.evAgentSession,
           inboundQueues = _this$_deps$evAgentSe3.inboundQueues,
-          selectedInboundQueueIds = _this$_deps$evAgentSe3.selectedInboundQueueIds;
+          selectedInboundQueueIds = _this$_deps$evAgentSe3.formGroup.selectedInboundQueueIds;
       return (0, _sortByName.sortByName)(inboundQueues.map(function (inboundQueue) {
         return _objectSpread(_objectSpread({}, inboundQueue), {}, {
           checked: !!selectedInboundQueueIds.find(function (id) {
@@ -473,6 +465,16 @@ var EvAgentSessionUI = (_dec = (0, _di.Module)({
           })
         });
       }), 'gateName');
+    }
+  }, {
+    key: "selectedIntegratedSoftphone",
+    get: function get() {
+      return this._deps.evAgentSession.formGroup.loginType === _enums.loginTypes.integratedSoftphone;
+    }
+  }, {
+    key: "voiceConnectionChanged",
+    get: function get() {
+      return this._deps.evAgentSession.loginType !== this._deps.evAgentSession.formGroup.loginType;
     }
   }]);
 

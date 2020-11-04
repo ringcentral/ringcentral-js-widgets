@@ -20,6 +20,7 @@ var _EvCallHistory = require("./EvCallHistory");
 
 Object.keys(_EvCallHistory).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _EvCallHistory[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {
@@ -32,6 +33,7 @@ var _EvCallHistory2 = require("./EvCallHistory.interface");
 
 Object.keys(_EvCallHistory2).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _EvCallHistory2[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {

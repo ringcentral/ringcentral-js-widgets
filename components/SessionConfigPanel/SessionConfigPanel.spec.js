@@ -10,7 +10,7 @@ require("core-js/modules/es6.array.find");
 
 var _react = _interopRequireDefault(require("react"));
 
-var _rcui = require("@ringcentral-integration/rcui");
+var _juno = require("@ringcentral/juno");
 
 var _enzyme = require("enzyme");
 
@@ -75,8 +75,6 @@ function setup(_ref) {
       isLoading = _ref$isLoading === void 0 ? false : _ref$isLoading,
       _ref$isExtensionNumbe = _ref.isExtensionNumber,
       isExtensionNumber = _ref$isExtensionNumbe === void 0 ? false : _ref$isExtensionNumbe,
-      _ref$resetFormGroup = _ref.resetFormGroup,
-      resetFormGroup = _ref$resetFormGroup === void 0 ? function () {} : _ref$resetFormGroup,
       searchOption = _ref.searchOption,
       _ref$inboundQueues = _ref.inboundQueues,
       inboundQueues = _ref$inboundQueues === void 0 ? [] : _ref$inboundQueues,
@@ -95,7 +93,7 @@ function setup(_ref) {
   } : _ref$isSeveralAssign,
       checkBoxOnChange = _ref.checkBoxOnChange,
       allCheckBoxOnChange = _ref.allCheckBoxOnChange;
-  return (0, _enzyme.mount)( /*#__PURE__*/_react["default"].createElement(_rcui.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_SessionConfigPanel.SessionConfigPanel, {
+  return (0, _enzyme.mount)( /*#__PURE__*/_react["default"].createElement(_juno.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_SessionConfigPanel.SessionConfigPanel, {
     currentLocale: currentLocale,
     selectedSkillProfileId: selectedSkillProfileId,
     skillProfileList: skillProfileList,
@@ -120,8 +118,7 @@ function setup(_ref) {
     isAllAssign: isAllAssign,
     isSeveralAssign: isSeveralAssign,
     checkBoxOnChange: checkBoxOnChange,
-    allCheckBoxOnChange: allCheckBoxOnChange,
-    resetFormGroup: resetFormGroup
+    allCheckBoxOnChange: allCheckBoxOnChange
   })));
 }
 

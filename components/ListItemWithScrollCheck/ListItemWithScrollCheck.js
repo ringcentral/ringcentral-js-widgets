@@ -25,7 +25,7 @@ exports.ListItemWithScrollCheck = void 0;
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _rcui = require("@ringcentral-integration/rcui");
+var _juno = require("@ringcentral/juno");
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
@@ -49,7 +49,7 @@ var ListItemWithScrollCheck = function ListItemWithScrollCheck(_ref) {
       scrollCheck(selectElm.current);
     }
   });
-  return /*#__PURE__*/_react["default"].createElement(_rcui.RcListItem, {
+  return /*#__PURE__*/_react["default"].createElement(_juno.RcListItem, {
     innerRef: selectElm,
     button: true,
     selected: selected,

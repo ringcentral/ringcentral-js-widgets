@@ -20,10 +20,11 @@ import { ActiveCallControl, Deps } from './EvActiveCallControl.interface';
     { dep: 'EvActiveCallControlOptions', optional: true },
   ],
 })
-class EvActiveCallControl extends RcModuleV2<Deps>
+class EvActiveCallControl
+  extends RcModuleV2<Deps>
   implements ActiveCallControl {
   get tabManagerEnabled() {
-    return this._deps.tabManager?._tabbie.enabled;
+    return this._deps.tabManager?.enable;
   }
 
   constructor(deps: Deps) {

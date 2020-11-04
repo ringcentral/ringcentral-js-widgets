@@ -39,7 +39,7 @@ require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.keys");
 
-var _rcui = require("@ringcentral-integration/rcui");
+var _juno = require("@ringcentral/juno");
 
 var _react = _interopRequireWildcard(require("react"));
 
@@ -120,7 +120,7 @@ var SearchSelectField = function SearchSelectField(_ref) {
     }),
     backHeaderClassName: _styles["default"].backHeader,
     renderListView: function renderListView(options, type, filter, scrollCheck) {
-      return /*#__PURE__*/_react["default"].createElement(_rcui.RcList, null, listRenderer(options, scrollCheck, toggleOpen));
+      return /*#__PURE__*/_react["default"].createElement(_juno.RcList, null, listRenderer(options, scrollCheck, toggleOpen));
     }
   })));
 };

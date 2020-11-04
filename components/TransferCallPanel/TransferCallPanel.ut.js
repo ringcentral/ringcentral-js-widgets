@@ -13,7 +13,7 @@ require("core-js/modules/es6.array.find");
 
 var _react = _interopRequireDefault(require("react"));
 
-var _rcui = require("@ringcentral-integration/rcui");
+var _juno = require("@ringcentral/juno");
 
 var _enzyme = require("enzyme");
 
@@ -95,7 +95,7 @@ function setup(_ref) {
       cancelTransfer = _ref$cancelTransfer === void 0 ? function () {} : _ref$cancelTransfer,
       _ref$cancelTransferPa = _ref.cancelTransferPage,
       cancelTransferPage = _ref$cancelTransferPa === void 0 ? function () {} : _ref$cancelTransferPa;
-  return (0, _enzyme.mount)( /*#__PURE__*/_react["default"].createElement(_rcui.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_TransferCallPanel.TransferCallPanel, {
+  return (0, _enzyme.mount)( /*#__PURE__*/_react["default"].createElement(_juno.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_TransferCallPanel.TransferCallPanel, {
     currentLocale: currentLocale,
     goBack: goBack,
     clickCallRecipient: clickCallRecipient,
@@ -154,11 +154,6 @@ var UTCheckTransferCallRender = function UTCheckTransferCallRender(_ref2) {
   });
   var transferTypePickList = wrapper.find('PickList[data-sign="transferType"]');
   expect(transferTypePickList.prop('value')).toBe(selectedTransferType);
-  transferTypePickList.find('[role="button"]').simulate('click');
-  var menuItems = document.body.querySelectorAll('[role="presentation"] li[role="option"]');
-  expect(menuItems).toHaveLength(transferOptions.length);
-  document.body.querySelector("li[data-value=\"".concat(selectedTransferType, "\"]")).click();
-  expect(clickTransferTypeFiled).toBeCalledWith(selectedTransferType);
   wrapper.unmount();
 };
 
@@ -186,8 +181,7 @@ var UTUserClickCallRecipientCases = [{
 }];
 exports.UTUserClickCallRecipientCases = UTUserClickCallRecipientCases;
 
-var UTUserClickCallRecipient = function UTUserClickCallRecipient(_ref4) {
-  var selectedTransferType = _ref4.selectedTransferType;
+var UTUserClickCallRecipient = function UTUserClickCallRecipient() {
   var clickCallRecipient = jest.fn();
   var textFields = defaultTextFields;
   var selectIndex = 0;
@@ -210,8 +204,8 @@ var UTSetStayOnCallCases = [{
 }];
 exports.UTSetStayOnCallCases = UTSetStayOnCallCases;
 
-var UTSetStayOnCall = function UTSetStayOnCall(_ref5) {
-  var isStayOnCall = _ref5.isStayOnCall;
+var UTSetStayOnCall = function UTSetStayOnCall(_ref4) {
+  var isStayOnCall = _ref4.isStayOnCall;
   var setStayOnCall = jest.fn(function () {});
   var wrapper = setup({
     setStayOnCall: setStayOnCall,

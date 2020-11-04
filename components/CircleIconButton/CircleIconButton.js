@@ -7,7 +7,7 @@ exports.CircleIconButton = void 0;
 
 require("core-js/modules/es6.object.define-property");
 
-var _rcui = require("@ringcentral-integration/rcui");
+var _juno = require("@ringcentral/juno");
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
@@ -39,7 +39,7 @@ var CircleIconButton = function CircleIconButton(_ref) {
   return /*#__PURE__*/_react["default"].createElement(_Tooltip.Tooltip, {
     title: title,
     placement: placement
-  }, /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement(_rcui.RcFabIconButton, {
+  }, /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement(_juno.RcFabIconButton, {
     color: color,
     symbol: symbol,
     size: size,

@@ -1,7 +1,4 @@
-import {
-  RcFabIconButton,
-  RcFabIconButtonProps,
-} from '@ringcentral-integration/rcui';
+import { RcFabIconButton, RcFabIconButtonProps } from '@ringcentral/juno';
 import classNames from 'classnames';
 import React, { FunctionComponent } from 'react';
 import {

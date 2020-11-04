@@ -9,6 +9,8 @@ require("core-js/modules/es7.symbol.async-iterator");
 
 require("core-js/modules/es6.symbol");
 
+require("core-js/modules/es6.promise");
+
 require("core-js/modules/es6.object.create");
 
 require("core-js/modules/es6.regexp.to-string");
@@ -33,15 +35,19 @@ require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.for-each");
 
+require("regenerator-runtime/runtime");
+
 var _core = require("@ringcentral-integration/core");
 
 var _di = require("ringcentral-integration/lib/di");
 
-var _dec, _dec2, _class, _class2, _descriptor, _descriptor2, _descriptor3, _temp;
+var _dec, _dec2, _class, _class2;
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -65,114 +71,83 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
 
-function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and runs after the decorators transform.'); }
-
 var EvSettings = (_dec = (0, _di.Module)({
   name: 'EvSettings',
-  deps: ['EvClient', 'EvAuth', 'EvAgentSession', 'Beforeunload', 'Storage', {
+  deps: ['EvClient', 'EvAuth', 'EvAgentSession', 'Storage', 'Presence', {
     dep: 'EvSettingsOptions',
     optional: true
   }]
 }), _dec2 = (0, _core.computed)(function (that) {
   return [that.isOffhooking, that.isOffhook];
-}), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcModuleV) {
+}), _dec(_class = (_class2 = /*#__PURE__*/function (_RcModuleV) {
   _inherits(EvSettings, _RcModuleV);
 
   var _super = _createSuper(EvSettings);
 
   function EvSettings(deps) {
-    var _this;
-
     _classCallCheck(this, EvSettings);
 
-    _this = _super.call(this, {
+    return _super.call(this, {
       deps: deps,
       enableCache: true,
       storageKey: 'EvSettings'
     });
-
-    _this._beforeunloadHandler = function () {
-      return _this._deps.evAgentSession.shouldBlockBrowser;
-    };
-
-    _initializerDefineProperty(_this, "isOffhook", _descriptor, _assertThisInitialized(_this));
-
-    _initializerDefineProperty(_this, "isManualOffhook", _descriptor2, _assertThisInitialized(_this));
-
-    _initializerDefineProperty(_this, "isOffhooking", _descriptor3, _assertThisInitialized(_this));
-
-    return _this;
   }
 
   _createClass(EvSettings, [{
-    key: "setIsManualOffhook",
-    value: function setIsManualOffhook(isManualOffhook) {
-      this.isManualOffhook = isManualOffhook;
-    }
-  }, {
-    key: "setOffhook",
-    value: function setOffhook(status) {
-      this.isOffhook = status;
+    key: "onInitOnce",
+    value: function onInitOnce() {
+      var _this = this;
 
-      this._checkBeforeunload();
-    }
-  }, {
-    key: "setOffhooking",
-    value: function setOffhooking(offhooking) {
-      this.isOffhooking = offhooking;
-    }
-  }, {
-    key: "setOffhookInit",
-    value: function setOffhookInit() {
-      this.isOffhooking = false;
-      this.isOffhook = true;
+      this._deps.evAgentSession.onTriggerConfig( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _this._deps.presence.setOffhookTerm();
 
-      this._checkBeforeunload();
-    }
-  }, {
-    key: "setOffhookTerm",
-    value: function setOffhookTerm() {
-      this.isOffhooking = false;
-      this.isOffhook = false;
-      this.isManualOffhook = false;
-
-      this._checkBeforeunload();
-    }
-  }, {
-    key: "onInit",
-    value: function onInit() {
-      if (this._deps.evAuth.isFreshLogin || !this._deps.evAgentSession.isConfigTab) {
-        this.setOffhookTerm();
-      }
+              case 1:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      })));
     }
   }, {
     key: "offHook",
     value: function offHook() {
-      this.setOffhooking(true);
+      this._deps.presence.setOffhooking(true);
 
       if (this.isOffhook) {
-        this.setIsManualOffhook(false);
+        this._deps.presence.setIsManualOffhook(false);
 
         this._deps.evClient.offhookTerm();
       } else {
-        this.setIsManualOffhook(true);
+        this._deps.presence.setIsManualOffhook(true);
 
         this._deps.evClient.offhookInit();
-      }
-    }
-  }, {
-    key: "_checkBeforeunload",
-    value: function _checkBeforeunload() {
-      if (this.isOffhook) {
-        this._deps.beforeunload.add(this._beforeunloadHandler);
-      } else {
-        this._deps.beforeunload.remove(this._beforeunloadHandler);
       }
     }
   }, {
     key: "loginType",
     get: function get() {
       return this._deps.evAgentSession.loginType;
+    }
+  }, {
+    key: "isOffhook",
+    get: function get() {
+      return this._deps.presence.isOffhook;
+    }
+  }, {
+    key: "isOffhooking",
+    get: function get() {
+      return this._deps.presence.isOffhooking;
+    }
+  }, {
+    key: "isManualOffhook",
+    get: function get() {
+      return this._deps.presence.isManualOffhook;
     }
   }, {
     key: "offhookState",
@@ -186,27 +161,6 @@ var EvSettings = (_dec = (0, _di.Module)({
   }]);
 
   return EvSettings;
-}(_core.RcModuleV2), _temp), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "isOffhook", [_core.storage, _core.state], {
-  configurable: true,
-  enumerable: true,
-  writable: true,
-  initializer: function initializer() {
-    return false;
-  }
-}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, "isManualOffhook", [_core.storage, _core.state], {
-  configurable: true,
-  enumerable: true,
-  writable: true,
-  initializer: function initializer() {
-    return false;
-  }
-}), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, "isOffhooking", [_core.storage, _core.state], {
-  configurable: true,
-  enumerable: true,
-  writable: true,
-  initializer: function initializer() {
-    return false;
-  }
-}), _applyDecoratedDescriptor(_class2.prototype, "offhookState", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "offhookState"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setIsManualOffhook", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setIsManualOffhook"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setOffhook", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setOffhook"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setOffhooking", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setOffhooking"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setOffhookInit", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setOffhookInit"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setOffhookTerm", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setOffhookTerm"), _class2.prototype)), _class2)) || _class);
+}(_core.RcModuleV2), (_applyDecoratedDescriptor(_class2.prototype, "offhookState", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "offhookState"), _class2.prototype)), _class2)) || _class);
 exports.EvSettings = EvSettings;
 //# sourceMappingURL=EvSettings.js.map

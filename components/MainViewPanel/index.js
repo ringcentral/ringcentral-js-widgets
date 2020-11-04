@@ -20,6 +20,7 @@ var _MainViewPanel = require("./MainViewPanel");
 
 Object.keys(_MainViewPanel).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _MainViewPanel[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {

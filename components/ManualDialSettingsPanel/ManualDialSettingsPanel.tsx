@@ -1,4 +1,4 @@
-import { RcButton, RcTextField } from '@ringcentral-integration/rcui';
+import { RcButton, RcTextField } from '@ringcentral/juno';
 import React, { FunctionComponent, useEffect } from 'react';
 
 import {

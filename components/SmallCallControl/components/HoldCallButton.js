@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.HoldCallButton = void 0;
 
-var _iconHold = _interopRequireDefault(require("@ringcentral-integration/rcui/icons/icon-hold.svg"));
+var _iconHold = _interopRequireDefault(require("@ringcentral/juno/icons/icon-hold.svg"));
 
 var _react = _interopRequireDefault(require("react"));
 

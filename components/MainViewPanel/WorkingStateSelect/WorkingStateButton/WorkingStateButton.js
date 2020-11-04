@@ -35,11 +35,11 @@ require("core-js/modules/es6.array.is-array");
 
 require("core-js/modules/es6.array.map");
 
-var _rcui = require("@ringcentral-integration/rcui");
+var _juno = require("@ringcentral/juno");
 
-var _iconArrowDown = _interopRequireDefault(require("@ringcentral-integration/rcui/icons/icon-arrow-down.svg"));
+var _iconArrowDown = _interopRequireDefault(require("@ringcentral/juno/icons/icon-arrow-down.svg"));
 
-var _iconArrowUp = _interopRequireDefault(require("@ringcentral-integration/rcui/icons/icon-arrow-up.svg"));
+var _iconArrowUp = _interopRequireDefault(require("@ringcentral/juno/icons/icon-arrow-up.svg"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
@@ -98,9 +98,10 @@ var WorkingStateButton = function WorkingStateButton(_ref) {
   return /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])(_styles["default"].state, _styles["default"][color]),
     onClick: handleClick
-  }, /*#__PURE__*/_react["default"].createElement(_rcui.RcButtonBase, {
+  }, /*#__PURE__*/_react["default"].createElement(_juno.RcButtonBase, {
     disabled: disabled,
-    className: _styles["default"].fullWidth
+    className: _styles["default"].fullWidth,
+    "data-sign": "workingStateButton"
   }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].stateDot
   }), /*#__PURE__*/_react["default"].createElement(_Tooltip.Tooltip, {
@@ -112,10 +113,10 @@ var WorkingStateButton = function WorkingStateButton(_ref) {
   }, label)), /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].timer,
     "data-sign": "timer"
-  }, timerText), /*#__PURE__*/_react["default"].createElement(_rcui.RcIcon, {
+  }, timerText), /*#__PURE__*/_react["default"].createElement(_juno.RcIcon, {
     className: _styles["default"].icon,
     symbol: menuOpened ? _iconArrowUp["default"] : _iconArrowDown["default"]
-  }))), /*#__PURE__*/_react["default"].createElement(_rcui.RcMenu, {
+  }))), /*#__PURE__*/_react["default"].createElement(_juno.RcMenu, {
     PaperProps: {
       style: {
         maxHeight: 280
@@ -129,7 +130,7 @@ var WorkingStateButton = function WorkingStateButton(_ref) {
     onClose: handleClose
   }, options.map(function (state, i) {
     var selected = optionIndex === i;
-    return /*#__PURE__*/_react["default"].createElement(_rcui.RcMenuItem, {
+    return /*#__PURE__*/_react["default"].createElement(_juno.RcMenuItem, {
       key: i,
       classes: {
         root: _styles["default"].item
@@ -138,6 +139,7 @@ var WorkingStateButton = function WorkingStateButton(_ref) {
         handleClose();
         onChange(state);
       },
+      "data-sign": "workingStateItem",
       size: "medium",
       selected: selected
     }, /*#__PURE__*/_react["default"].createElement("div", {

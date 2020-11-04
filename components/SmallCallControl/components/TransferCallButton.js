@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.TransferCallButton = void 0;
 
-var _iconTransferCall = _interopRequireDefault(require("@ringcentral-integration/rcui/icons/icon-transfer-call.svg"));
+var _iconTransferCall = _interopRequireDefault(require("@ringcentral/juno/icons/icon-transfer-call.svg"));
 
 var _react = _interopRequireDefault(require("react"));
 

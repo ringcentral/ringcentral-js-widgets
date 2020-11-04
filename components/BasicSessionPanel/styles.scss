@@ -12,10 +12,19 @@ p.warning {
   background: rgb(249, 246, 236);
   height: 76px;
   padding-left: 8px;
+  margin-bottom: 16px;
   // TODO: color will remove after RcTypography providing this color value
   color: rgb(148, 106, 25);
 }
 
-// .takingCall {
-//   margin-top: 6px;
-// }
+.root.root {
+  width: 100%;
+  display: flex;
+  margin-left: 0;
+  margin-bottom: 16px;
+}
+
+.label {
+  flex: 1 1 auto;
+  width: 100%;
+}
