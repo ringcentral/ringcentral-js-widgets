@@ -20,6 +20,7 @@ var _RcVideo = require("./RcVideo");
 
 Object.keys(_RcVideo).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _RcVideo[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {

@@ -1,5 +1,7 @@
 "use strict";
 
+require("core-js/modules/es6.weak-map");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -61,7 +63,7 @@ require("core-js/modules/es6.map");
 
 require("core-js/modules/es6.regexp.search");
 
-var _uuid = _interopRequireDefault(require("uuid"));
+var uuid = _interopRequireWildcard(require("uuid"));
 
 var _RcModule2 = _interopRequireDefault(require("../../lib/RcModule"));
 
@@ -73,7 +75,7 @@ var _loginStatus = _interopRequireDefault(require("../Auth/loginStatus"));
 
 var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
 
-var _debounce = _interopRequireDefault(require("../../lib/debounce"));
+var _debounceThrottle = require("../../lib/debounce-throttle");
 
 var _actionTypes = _interopRequireDefault(require("./actionTypes"));
 
@@ -84,6 +86,10 @@ var _getCacheReducer = _interopRequireDefault(require("./getCacheReducer"));
 var _dec, _class, _class2, _descriptor, _temp;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -188,7 +194,10 @@ var ContactSearch = (_dec = (0, _di.Module)({
     _this = _super.call(this, _objectSpread(_objectSpread({}, options), {}, {
       actionTypes: _actionTypes["default"]
     }));
-    _this.debouncedSearch = (0, _debounce["default"])(_this.search, 800, false);
+    _this._debouncedSearchFn = (0, _debounceThrottle.debounce)({
+      fn: _this.search,
+      threshold: 800
+    });
 
     _initializerDefineProperty(_this, "sortedResult", _descriptor, _assertThisInitialized(_this));
 
@@ -236,6 +245,10 @@ var ContactSearch = (_dec = (0, _di.Module)({
         this._resetModuleStatus();
 
         this._clearStateCache();
+
+        if (this._debouncedSearchFn) {
+          this._debouncedSearchFn.cancel();
+        }
       }
     }
   }, {
@@ -285,31 +298,31 @@ var ContactSearch = (_dec = (0, _di.Module)({
           formatFn = _ref2.formatFn;
 
       if (!sourceName) {
-        throw new Error('ContactSearch: "sourceName" is required.');
+        throw new Error('[ContactSearch > SearchSource > sourceName] is required');
       }
 
       if (this._searchSources.has(sourceName)) {
-        throw new Error("ContactSearch: A search source named \"".concat(sourceName, "\" already exists"));
+        throw new Error("[ContactSearch > SearchSource(".concat(sourceName, ") > searchFn] already exists"));
       }
 
       if (this._searchSourcesCheck.has(sourceName)) {
-        throw new Error("ContactSearch: A search source check named \"".concat(sourceName, "\" already exists"));
+        throw new Error("[ContactSearch > SearchSource(".concat(sourceName, ") > readyCheckFn] already exists"));
       }
 
       if (this._searchSourcesFormat.has(sourceName)) {
-        throw new Error("ContactSearch: A search source format named \"".concat(sourceName, "\" already exists"));
+        throw new Error("[ContactSearch > SearchSource(".concat(sourceName, ") > formatFn] already exists"));
       }
 
       if (typeof searchFn !== 'function') {
-        throw new Error('ContactSearch: searchFn must be a function');
+        throw new Error("[ContactSearch > SearchSource(".concat(sourceName, ") > searchFn] must be a function"));
       }
 
       if (typeof readyCheckFn !== 'function') {
-        throw new Error('ContactSearch: readyCheckFn must be a function');
+        throw new Error("[ContactSearch > SearchSource(".concat(sourceName, ") > readyCheckFn] must be a function"));
       }
 
       if (typeof formatFn !== 'function') {
-        throw new Error('ContactSearch: formatFn must be a function');
+        throw new Error("[ContactSearch > SearchSource(".concat(sourceName, ") > formatFn] must be a function"));
       }
 
       this._searchSources.set(sourceName, searchFn);
@@ -319,9 +332,18 @@ var ContactSearch = (_dec = (0, _di.Module)({
       this._searchSourcesCheck.set(sourceName, readyCheckFn);
     }
   }, {
+    key: "debouncedSearch",
+    value: function debouncedSearch(_ref3) {
+      var searchString = _ref3.searchString;
+
+      this._debouncedSearchFn({
+        searchString: searchString
+      });
+    }
+  }, {
     key: "search",
     value: function () {
-      var _search = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(_ref3) {
+      var _search = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(_ref4) {
         var _this3 = this;
 
         var searchString, searchOnSources, _i, _searchOnSources, sourceName;
@@ -330,7 +352,7 @@ var ContactSearch = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                searchString = _ref3.searchString;
+                searchString = _ref4.searchString;
 
                 if (!(!this.ready || !searchString || searchString.length < this._minimalSearchLength)) {
                   _context2.next = 4;
@@ -415,19 +437,20 @@ var ContactSearch = (_dec = (0, _di.Module)({
   }, {
     key: "_searchSource",
     value: function () {
-      var _searchSource2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(_ref5) {
-        var searchOnSources, sourceName, searchString, searchId, entities;
+      var _searchSource2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(_ref6) {
+        var searchOnSources, sourceName, searchString, searchId, entities, searchFn, formatFn;
         return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                searchOnSources = _ref5.searchOnSources, sourceName = _ref5.sourceName, searchString = _ref5.searchString;
-                searchId = _uuid["default"].v4();
+                searchOnSources = _ref6.searchOnSources, sourceName = _ref6.sourceName, searchString = _ref6.searchString;
+                searchId = uuid.v4();
                 this._searchIds[sourceName] = searchId;
                 this.store.dispatch({
                   type: this.actionTypes.search
                 });
                 _context3.prev = 4;
+                // search cache
                 entities = null;
                 entities = this._searchFromCache({
                   sourceName: sourceName,
@@ -448,14 +471,18 @@ var ContactSearch = (_dec = (0, _di.Module)({
                 return _context3.abrupt("return");
 
               case 10:
-                _context3.next = 12;
-                return this._searchSources.get(sourceName)({
+                // search source
+                searchFn = this._searchSources.get(sourceName);
+                _context3.next = 13;
+                return searchFn({
                   searchString: searchString
                 });
 
-              case 12:
+              case 13:
                 entities = _context3.sent;
-                entities = this._searchSourcesFormat.get(sourceName)(entities);
+                // format result
+                formatFn = this._searchSourcesFormat.get(sourceName);
+                entities = formatFn(entities); // save result
 
                 this._saveSearching({
                   sourceName: sourceName,
@@ -471,21 +498,21 @@ var ContactSearch = (_dec = (0, _di.Module)({
                   });
                 }
 
-                _context3.next = 21;
+                _context3.next = 23;
                 break;
 
-              case 18:
-                _context3.prev = 18;
+              case 20:
+                _context3.prev = 20;
                 _context3.t0 = _context3["catch"](4);
 
                 this._onSearchError();
 
-              case 21:
+              case 23:
               case "end":
                 return _context3.stop();
             }
           }
-        }, _callee3, this, [[4, 18]]);
+        }, _callee3, this, [[4, 20]]);
       }));
 
       function _searchSource(_x2) {
@@ -496,11 +523,11 @@ var ContactSearch = (_dec = (0, _di.Module)({
     }()
   }, {
     key: "_quickSort",
-    value: function _quickSort(_ref6) {
-      var _ref6$result = _ref6.result,
-          result = _ref6$result === void 0 ? [] : _ref6$result,
-          _ref6$searchString = _ref6.searchString,
-          searchString = _ref6$searchString === void 0 ? '' : _ref6$searchString;
+    value: function _quickSort(_ref7) {
+      var _ref7$result = _ref7.result,
+          result = _ref7$result === void 0 ? [] : _ref7$result,
+          _ref7$searchString = _ref7.searchString,
+          searchString = _ref7$searchString === void 0 ? '' : _ref7$searchString;
 
       var list = _toConsumableArray(result);
 
@@ -519,9 +546,9 @@ var ContactSearch = (_dec = (0, _di.Module)({
     }
   }, {
     key: "_searchFromCache",
-    value: function _searchFromCache(_ref7) {
-      var sourceName = _ref7.sourceName,
-          searchString = _ref7.searchString;
+    value: function _searchFromCache(_ref8) {
+      var sourceName = _ref8.sourceName,
+          searchString = _ref8.searchString;
       var key = "".concat(sourceName, "-").concat(searchString);
       var searching = this.cache && this.cache.contactSearch && this.cache.contactSearch[key];
       var now = Date.now();
@@ -563,10 +590,10 @@ var ContactSearch = (_dec = (0, _di.Module)({
     }
   }, {
     key: "_loadSearching",
-    value: function _loadSearching(_ref8) {
-      var searchOnSources = _ref8.searchOnSources,
-          searchString = _ref8.searchString,
-          entities = _ref8.entities;
+    value: function _loadSearching(_ref9) {
+      var searchOnSources = _ref9.searchOnSources,
+          searchString = _ref9.searchString,
+          entities = _ref9.entities;
       this.store.dispatch({
         type: this.actionTypes.searchSuccess,
         searchOnSources: searchOnSources,
@@ -576,10 +603,10 @@ var ContactSearch = (_dec = (0, _di.Module)({
     }
   }, {
     key: "_saveSearching",
-    value: function _saveSearching(_ref9) {
-      var sourceName = _ref9.sourceName,
-          searchString = _ref9.searchString,
-          entities = _ref9.entities;
+    value: function _saveSearching(_ref10) {
+      var sourceName = _ref10.sourceName,
+          searchString = _ref10.searchString,
+          entities = _ref10.entities;
       this.store.dispatch({
         type: this.actionTypes.save,
         sourceName: sourceName,
@@ -616,7 +643,7 @@ var ContactSearch = (_dec = (0, _di.Module)({
   }]);
 
   return ContactSearch;
-}(_RcModule2["default"]), _temp), (_applyDecoratedDescriptor(_class2.prototype, "search", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "search"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_searchSource", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_searchSource"), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, "sortedResult", [_selector.selector], {
+}(_RcModule2["default"]), _temp), (_applyDecoratedDescriptor(_class2.prototype, "debouncedSearch", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "debouncedSearch"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "search", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "search"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_searchSource", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_searchSource"), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, "sortedResult", [_selector.selector], {
   configurable: true,
   enumerable: true,
   writable: true,

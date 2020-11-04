@@ -55,7 +55,9 @@ require("regenerator-runtime/runtime");
 
 var _ramda = require("ramda");
 
-var _phoneTypes = _interopRequireDefault(require("../../enums/phoneTypes"));
+var _phoneSources = require("../../enums/phoneSources");
+
+var _phoneTypes = require("../../enums/phoneTypes");
 
 var _RcModule2 = _interopRequireDefault(require("../../lib/RcModule"));
 
@@ -138,13 +140,10 @@ var DEFAULT_AVATARQUERYINTERVAL = 2 * 1000; // 2 seconds
  */
 
 var AccountContacts = (_dec = (0, _di.Module)({
-  deps: ['Client', {
+  deps: ['Client', 'ExtensionInfo', {
     dep: 'CompanyContacts'
   }, {
     dep: 'AccountContactsOptions',
-    optional: true
-  }, {
-    dep: 'ExtensionInfo',
     optional: true
   }]
 }), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcModule) {
@@ -156,8 +155,8 @@ var AccountContacts = (_dec = (0, _di.Module)({
    * @constructor
    * @param {Object} params - params object
    * @param {Client} params.client - client module instance
-   * @param {CompanyContacts} params.companyContacts - companyContacts module instance
    * @param {ExtensionInfo} params.extensionInfo - current user extension info
+   * @param {CompanyContacts} params.companyContacts - companyContacts module instance
    * @param {Number} params.ttl - timestamp of local cache, default 30 mins
    * @param {Number} params.avatarTtl - timestamp of avatar local cache, default 2 hour
    * @param {Number} params.presenceTtl - timestamp of presence local cache, default 10 mins
@@ -230,7 +229,7 @@ var AccountContacts = (_dec = (0, _di.Module)({
     key: "_shouldReset",
     value: function _shouldReset() {
       return !this._companyContacts.ready && this.ready;
-    } // interface of contact source
+    } // interface of ContactSource
 
   }, {
     key: "getProfileImage",
@@ -276,7 +275,7 @@ var AccountContacts = (_dec = (0, _di.Module)({
                 response = _context.sent;
                 _context.t0 = URL;
                 _context.next = 15;
-                return response._response.blob();
+                return response.blob();
 
               case 15:
                 _context.t1 = _context.sent;
@@ -311,7 +310,7 @@ var AccountContacts = (_dec = (0, _di.Module)({
       }
 
       return getProfileImage;
-    }() // interface of contact source
+    }() // interface of ContactSource
 
   }, {
     key: "getPresence",
@@ -356,23 +355,40 @@ var AccountContacts = (_dec = (0, _di.Module)({
           }, 1000);
         }
       });
-    } // interface of contact source
+    } // interface of ContactSource
+
+  }, {
+    key: "searchContacts",
+    value: function searchContacts(searchString) {
+      var _this$_extensionInfo = this._extensionInfo,
+          isMultipleSiteEnabled = _this$_extensionInfo.isMultipleSiteEnabled,
+          site = _this$_extensionInfo.site;
+      return (0, _contactHelper.getSearchContacts)({
+        contacts: this.contacts,
+        searchString: searchString,
+        entityType: _phoneSources.phoneSources.contact,
+        options: {
+          isMultipleSiteEnabled: isMultipleSiteEnabled,
+          siteCode: site === null || site === void 0 ? void 0 : site.code
+        }
+      });
+    } // interface of ContactSource
 
   }, {
     key: "matchPhoneNumber",
     value: function matchPhoneNumber(phoneNumber) {
-      var _this$_extensionInfo = this._extensionInfo,
-          isMultipleSiteEnabled = _this$_extensionInfo.isMultipleSiteEnabled,
-          site = _this$_extensionInfo.site;
+      var _this$_extensionInfo2 = this._extensionInfo,
+          isMultipleSiteEnabled = _this$_extensionInfo2.isMultipleSiteEnabled,
+          site = _this$_extensionInfo2.site;
       return (0, _contactHelper.getMatchContacts)({
         contacts: this.contacts.concat(this._companyContacts.ivrContacts),
         phoneNumber: phoneNumber,
-        entityType: 'rcContact',
+        entityType: _phoneSources.phoneSources.rcContact,
         findContact: (0, _contactHelper.getFindContact)({
           phoneNumber: phoneNumber,
           options: {
             isMultipleSiteEnabled: isMultipleSiteEnabled,
-            site: site
+            siteCode: site === null || site === void 0 ? void 0 : site.code
           }
         })
       });
@@ -581,19 +597,21 @@ var AccountContacts = (_dec = (0, _di.Module)({
     key: "presences",
     get: function get() {
       return this.state.presences;
-    } // interface of contact source
+    } // interface of ContactSource
 
   }, {
     key: "sourceName",
     get: function get() {
       return 'company';
-    } // interface of contact source
+    } // interface of ContactSource
 
   }, {
     key: "contacts",
+    // interface of ContactSource
     get: function get() {
       return this.directoryContacts;
-    }
+    } // interface of ContactSource
+
   }, {
     key: "sourceReady",
     get: function get() {
@@ -627,7 +645,7 @@ var AccountContacts = (_dec = (0, _di.Module)({
           hasProfileImage: !!item.profileImage,
           phoneNumbers: [{
             phoneNumber: item.extensionNumber,
-            phoneType: _phoneTypes["default"].extension
+            phoneType: _phoneTypes.phoneTypes.extension
           }],
           profileImageUrl: profileImages[id] && profileImages[id].imageUrl,
           presence: presences[id] && presences[id].presence,
@@ -644,7 +662,7 @@ var AccountContacts = (_dec = (0, _di.Module)({
           item.phoneNumbers.forEach(function (phone) {
             if (phone.type) {
               contact.phoneNumbers.push(_objectSpread(_objectSpread({}, phone), {}, {
-                phoneType: _phoneTypes["default"].direct
+                phoneType: _phoneTypes.phoneTypes.direct
               }));
             }
           });

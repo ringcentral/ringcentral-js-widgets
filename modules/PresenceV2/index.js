@@ -20,6 +20,7 @@ var _Presence = require("./Presence");
 
 Object.keys(_Presence).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _Presence[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {
@@ -32,6 +33,7 @@ var _Presence2 = require("./Presence.interface");
 
 Object.keys(_Presence2).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _Presence2[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {

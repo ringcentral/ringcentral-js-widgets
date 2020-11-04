@@ -221,7 +221,7 @@ var GlipPosts = (_dec = (0, _di.Module)({
                   type: this.actionTypes.initSuccess
                 });
 
-                this._subscription.subscribe(subscriptionFilter);
+                this._subscription.subscribe([subscriptionFilter]);
 
                 _context.next = 9;
                 break;

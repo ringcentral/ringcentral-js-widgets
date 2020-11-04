@@ -67,7 +67,7 @@ function getEndedCallsReducer(types) {
             });
 
             var idx = (0, _ramda.findIndex)(function (item) {
-              return item.sessionId === call.sessionId;
+              return item.telephonySessionId === call.telephonySessionId;
             }, newState);
 
             if (idx > -1) {
@@ -83,7 +83,7 @@ function getEndedCallsReducer(types) {
       case types.removeEndedCalls:
         return state.filter(function (call) {
           return !endedCalls.find(function (shouldRemove) {
-            return shouldRemove.sessionId === call.sessionId;
+            return shouldRemove.telephonySessionId === call.telephonySessionId;
           }) || // clean current overdue ended call (default clean time: 1day).
           new Date().getTime() - call.startTime > DEFAULT_CLEAN_TIME;
         });

@@ -241,7 +241,7 @@ var ExtensionPhoneNumber = (_dec = (0, _di.Module)({
     key: "directNumbers",
     get: function get() {
       return (0, _ramda.filter)(function (phoneNumber) {
-        return phoneNumber === _usageTypes.usageTypes.DirectNumber;
+        return phoneNumber.usageType === _usageTypes.usageTypes.DirectNumber;
       }, this.numbers);
     }
   }, {

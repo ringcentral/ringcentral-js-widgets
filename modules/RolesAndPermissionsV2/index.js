@@ -20,6 +20,7 @@ var _RolesAndPermissions = require("./RolesAndPermissions");
 
 Object.keys(_RolesAndPermissions).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _RolesAndPermissions[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {
@@ -32,6 +33,7 @@ var _RolesAndPermissions2 = require("./RolesAndPermissions.interface");
 
 Object.keys(_RolesAndPermissions2).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _RolesAndPermissions2[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {

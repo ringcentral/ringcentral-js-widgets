@@ -83,7 +83,7 @@ var _subscriptionFilters = _interopRequireDefault(require("../../enums/subscript
 
 var _extensionTypes = _interopRequireDefault(require("../../enums/extensionTypes"));
 
-var _phoneTypes = _interopRequireDefault(require("../../enums/phoneTypes"));
+var _phoneTypes = require("../../enums/phoneTypes");
 
 var _extensionStatusTypes = require("../../enums/extensionStatusTypes");
 
@@ -460,7 +460,7 @@ var CompanyContacts = (_dec = (0, _di.Module)({
         return item.type === _extensionTypes["default"].ivrMenu;
       }).map(function (item) {
         var phoneNumber = {
-          phoneType: _phoneTypes["default"].extension,
+          phoneType: _phoneTypes.phoneTypes.extension,
           phoneNumber: item.extensionNumber
         };
         var phoneNumbers = [];

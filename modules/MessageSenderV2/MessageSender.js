@@ -1,5 +1,7 @@
 "use strict";
 
+require("core-js/modules/es6.weak-map");
+
 require("core-js/modules/es6.array.find");
 
 Object.defineProperty(exports, "__esModule", {
@@ -59,7 +61,7 @@ var _ramda = require("ramda");
 
 var _events = _interopRequireDefault(require("events"));
 
-var _uuid = _interopRequireDefault(require("uuid"));
+var uuid = _interopRequireWildcard(require("uuid"));
 
 var _core = require("@ringcentral-integration/core");
 
@@ -80,6 +82,10 @@ var _chunkMessage = _interopRequireDefault(require("../../lib/chunkMessage"));
 var _sleep = _interopRequireDefault(require("../../lib/sleep"));
 
 var _dec, _class, _class2, _descriptor, _temp;
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -397,7 +403,7 @@ var MessageSender = (_dec = (0, _di.Module)({
             switch (_context2.prev = _context2.next) {
               case 0:
                 fromNumber = _ref.fromNumber, toNumbers = _ref.toNumbers, text = _ref.text, replyOnMessageId = _ref.replyOnMessageId, _ref$multipart = _ref.multipart, multipart = _ref$multipart === void 0 ? false : _ref$multipart, _ref$attachments = _ref.attachments, attachments = _ref$attachments === void 0 ? [] : _ref$attachments;
-                eventId = _uuid["default"].v4();
+                eventId = uuid.v4();
 
                 if (this._validateContent(text, attachments, multipart)) {
                   _context2.next = 4;

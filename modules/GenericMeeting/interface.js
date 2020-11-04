@@ -11,5 +11,6 @@ exports.MeetingEvents = MeetingEvents;
 
 (function (MeetingEvents) {
   MeetingEvents["afterSchedule"] = "afterSchedule";
+  MeetingEvents["afterUpdate"] = "afterUpdate";
 })(MeetingEvents || (exports.MeetingEvents = MeetingEvents = {}));
 //# sourceMappingURL=interface.js.map

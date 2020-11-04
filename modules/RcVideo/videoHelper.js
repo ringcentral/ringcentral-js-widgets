@@ -15,8 +15,28 @@ exports.transformPreferences = transformPreferences;
 exports.reversePreferences = reversePreferences;
 exports.prunePreferencesObject = prunePreferencesObject;
 exports.comparePreferences = comparePreferences;
-exports.transformMeetingSettingLock = transformMeetingSettingLock;
-exports.meetingProviderTypes = exports.RcVideoTypes = exports.RCV_PREFERENCES_API_KEYS = exports.RCV_PASSWORD_REGEX = void 0;
+exports.transformSettingLocks = transformSettingLocks;
+exports.getLockedPreferences = getLockedPreferences;
+exports.patchWaitingRoomRelated = patchWaitingRoomRelated;
+Object.defineProperty(exports, "RCV_WAITING_ROOM_MODE", {
+  enumerable: true,
+  get: function get() {
+    return _constants.RCV_WAITING_ROOM_MODE;
+  }
+});
+exports.meetingProviderTypes = exports.RcVideoTypes = exports.RCV_WAITTING_ROOM_API_KEYS = exports.RCV_PREFERENCES_KEYS = exports.RCV_PREFERENCES_IDS = exports.RCV_PASSWORD_REGEX = void 0;
+
+require("core-js/modules/es6.string.iterator");
+
+require("core-js/modules/es6.array.from");
+
+require("core-js/modules/es6.regexp.to-string");
+
+require("core-js/modules/es6.date.to-string");
+
+require("core-js/modules/es7.symbol.async-iterator");
+
+require("core-js/modules/es6.array.is-array");
 
 require("core-js/modules/es6.object.define-properties");
 
@@ -32,6 +52,12 @@ require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.array.index-of");
 
+require("core-js/modules/es7.array.includes");
+
+require("core-js/modules/es6.string.includes");
+
+require("core-js/modules/es7.object.entries");
+
 require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
@@ -43,6 +69,20 @@ require("core-js/modules/es6.object.keys");
 require("core-js/modules/es6.function.name");
 
 var _ramda = require("ramda");
+
+var _constants = require("./constants");
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
@@ -72,17 +112,21 @@ var RcVideoTypes = {
 exports.RcVideoTypes = RcVideoTypes;
 var RCV_PASSWORD_REGEX = /^[A-Za-z0-9]{1,10}$/;
 exports.RCV_PASSWORD_REGEX = RCV_PASSWORD_REGEX;
-var RCV_CREATE_API_KEYS = ['name', 'type', 'allowJoinBeforeHost', 'muteAudio', 'muteVideo', 'isMeetingSecret', 'meetingPassword', 'expiresIn', 'isOnlyAuthUserJoin', 'isOnlyCoworkersJoin', 'allowScreenSharing'];
-var RCV_PREFERENCES_API_KEYS = ['join_before_host', // 'join_video_off',
+var RCV_WAITTING_ROOM_API_KEYS = 'waitingRoomMode';
+exports.RCV_WAITTING_ROOM_API_KEYS = RCV_WAITTING_ROOM_API_KEYS;
+var RCV_CREATE_API_KEYS = ['name', 'type', 'startTime', 'expiresIn', 'duration', 'accountId', 'extensionId', 'allowJoinBeforeHost', 'muteAudio', 'muteVideo', 'isMeetingSecret', 'meetingPassword', 'isOnlyAuthUserJoin', 'isOnlyCoworkersJoin', 'allowScreenSharing', RCV_WAITTING_ROOM_API_KEYS];
+var RCV_PREFERENCES_IDS = ['join_before_host', // 'join_video_off',
 // 'join_audio_mute',
-'password_scheduled', 'password_instant', 'guest_join', 'join_authenticated_from_account_only', 'screen_sharing_host_only'];
-exports.RCV_PREFERENCES_API_KEYS = RCV_PREFERENCES_API_KEYS;
-var RCV_PREFERENCES_KEYS = ['isMeetingSecret', 'allowJoinBeforeHost' // 'muteVideo',
-// 'muteAudio'
-];
+'password_scheduled', 'password_instant', 'guest_join', 'join_authenticated_from_account_only', 'screen_sharing_host_only', 'waiting_room_guests_only', 'waiting_room'];
+exports.RCV_PREFERENCES_IDS = RCV_PREFERENCES_IDS;
+var RCV_PREFERENCES_KEYS = ['allowJoinBeforeHost', // 'muteVideo',
+// 'muteAudio',
+'isMeetingSecret', 'isOnlyAuthUserJoin', 'isOnlyCoworkersJoin', 'allowScreenSharing', RCV_WAITTING_ROOM_API_KEYS];
 /* RCINT-14566
  * Exclude characters that are hard to visually differentiate ["0", "o", "O", "I", "l"]
  */
+
+exports.RCV_PREFERENCES_KEYS = RCV_PREFERENCES_KEYS;
 
 function getDefaultChars() {
   var DEFAULT_PASSWORD_CHARSET = 'abcdefghijkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ123456789';
@@ -163,11 +207,16 @@ function getDefaultVideoSettings(_ref) {
     isOnlyAuthUserJoin: false,
     isOnlyCoworkersJoin: false,
     allowScreenSharing: true,
+    waitingRoomMode: _constants.RCV_WAITING_ROOM_MODE.off,
     settingLock: {
       allowJoinBeforeHost: false,
+      // muteVideo: false,
+      // muteAudio: false,
       isMeetingSecret: false,
       isOnlyAuthUserJoin: false,
-      allowScreenSharing: false
+      isOnlyCoworkersJoin: false,
+      allowScreenSharing: false,
+      waitingRoomMode: false
     },
     // ui fields
     startTime: startTime,
@@ -197,23 +246,28 @@ function pruneMeetingObject(meeting) {
 function transformPreferences(preferences) {
   var isInstantMeeting = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
   return {
-    isMeetingSecret: isInstantMeeting ? preferences.password_instant : preferences.password_scheduled,
     allowJoinBeforeHost: preferences.join_before_host,
     // muteVideo: preferences.join_video_off,
     // muteAudio: preferences.join_audio_mute,
+    isMeetingSecret: isInstantMeeting ? preferences.password_instant : preferences.password_scheduled,
     isOnlyAuthUserJoin: preferences.guest_join,
-    isOnlyCoworkersJoin: preferences.join_authenticated_from_account_only === 'only_co_workers',
-    allowScreenSharing: preferences.screen_sharing_host_only === 'all'
+    isOnlyCoworkersJoin: preferences.guest_join ? preferences.join_authenticated_from_account_only === 'only_co_workers' : false,
+    allowScreenSharing: preferences.screen_sharing_host_only === 'all',
+    waitingRoomMode: preferences.waiting_room ? _constants.RCV_WAITING_ROOM_MODE[preferences.waiting_room_guests_only] : _constants.RCV_WAITING_ROOM_MODE.off
   };
 }
 
-function transformMeetingSettingLock(meetingSettingLock) {
+function transformSettingLocks(settingLocks) {
   var isInstantMeeting = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
   return {
-    isMeetingSecret: isInstantMeeting ? meetingSettingLock.password_instant : meetingSettingLock.password_scheduled,
-    allowJoinBeforeHost: meetingSettingLock.join_before_host,
-    isOnlyAuthUserJoin: meetingSettingLock.guest_join,
-    allowScreenSharing: meetingSettingLock.screen_sharing_host_only
+    allowJoinBeforeHost: settingLocks.join_before_host,
+    // muteVideo: settingLocks.join_video_off,
+    // muteAudio: settingLocks.join_audio_mute,
+    isMeetingSecret: isInstantMeeting ? settingLocks.password_instant : settingLocks.password_scheduled,
+    isOnlyAuthUserJoin: settingLocks.guest_join,
+    isOnlyCoworkersJoin: settingLocks.join_authenticated_from_account_only,
+    allowScreenSharing: settingLocks.screen_sharing_host_only,
+    waitingRoomMode: settingLocks.waiting_room
   };
 }
 
@@ -225,7 +279,9 @@ function reversePreferences(preferences) {
     // join_audio_mute: preferences.muteAudio,
     guest_join: preferences.isOnlyAuthUserJoin,
     join_authenticated_from_account_only: preferences.isOnlyCoworkersJoin ? 'only_co_workers' : 'anyone_signed_into_rc',
-    screen_sharing_host_only: preferences.allowScreenSharing ? 'all' : 'host'
+    screen_sharing_host_only: preferences.allowScreenSharing ? 'all' : 'host',
+    waiting_room: !!preferences.waitingRoomMode,
+    waiting_room_guests_only: _constants.RCV_WAITING_ROOM_MODE_REVERSE[preferences.waitingRoomMode]
   };
 
   if (isInstantMeeting) {
@@ -249,8 +305,11 @@ function comparePreferences(preferences, meeting) {
   var preferencesChanged = false;
 
   if (preferences && meeting) {
-    for (var key in preferences) {
-      if (preferences[key] !== meeting[key]) {
+    for (var _i = 0, _Object$keys = Object.keys(preferences); _i < _Object$keys.length; _i++) {
+      var key = _Object$keys[_i];
+      var settingKey = key;
+
+      if (preferences[settingKey] !== meeting[settingKey]) {
         preferencesChanged = true;
         break;
       }
@@ -258,6 +317,47 @@ function comparePreferences(preferences, meeting) {
   }
 
   return preferencesChanged;
+}
+
+function getLockedPreferences(settingLocks, preferences) {
+  var lockedPreferences = {};
+
+  for (var _i2 = 0, _Object$entries = Object.entries(settingLocks); _i2 < _Object$entries.length; _i2++) {
+    var _Object$entries$_i = _slicedToArray(_Object$entries[_i2], 2),
+        key = _Object$entries$_i[0],
+        locked = _Object$entries$_i[1];
+
+    if (locked) {
+      var settingKey = key;
+      lockedPreferences[settingKey] = preferences[settingKey];
+    }
+  }
+
+  return lockedPreferences;
+}
+
+function getAvaliableWaitingRoomOpions(isOnlyCoworkersJoin) {
+  return isOnlyCoworkersJoin ? [_constants.RCV_WAITING_ROOM_MODE.off, _constants.RCV_WAITING_ROOM_MODE.all] : [_constants.RCV_WAITING_ROOM_MODE.off, _constants.RCV_WAITING_ROOM_MODE.all, _constants.RCV_WAITING_ROOM_MODE.notcoworker];
+}
+
+function patchWaitingRoomRelated(settings, _ref2) {
+  var waitingRoomMode = _ref2.waitingRoomMode;
+  var updatedMode = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+  var processedSettings = {};
+
+  if (settings.isOnlyAuthUserJoin) {
+    // for pmi setting, waitingRoom, joinAfterMe option maybe not avaliable
+    if (!getAvaliableWaitingRoomOpions(settings.isOnlyCoworkersJoin).includes(settings.waitingRoomMode)) {
+      processedSettings.waitingRoomMode = updatedMode ? _constants.RCV_WAITING_ROOM_MODE.all : waitingRoomMode;
+    }
+  } // when waitingRoom is 'everyone', joinAfterMe should be always checked
+
+
+  if ((processedSettings.waitingRoomMode === _constants.RCV_WAITING_ROOM_MODE.all || settings.waitingRoomMode === _constants.RCV_WAITING_ROOM_MODE.all) && settings.allowJoinBeforeHost) {
+    processedSettings.allowJoinBeforeHost = false;
+  }
+
+  return processedSettings;
 } // TODO: will remove this when google app script could support export seperately
 // export together because google app script not fully support export
 //# sourceMappingURL=videoHelper.js.map

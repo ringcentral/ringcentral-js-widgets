@@ -19,7 +19,7 @@ var _redux = require("redux");
 
 var _getModuleStatusReducer = _interopRequireDefault(require("../../lib/getModuleStatusReducer"));
 
-var _subscriptionStatus = _interopRequireDefault(require("./subscriptionStatus"));
+var _subscriptionStatus = require("./subscriptionStatus");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -49,28 +49,28 @@ function getCachedSubscriptionReducer(types) {
 
 function getSubscriptionStatusReducer(types) {
   return function () {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _subscriptionStatus["default"].notSubscribed;
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _subscriptionStatus.subscriptionStatus.notSubscribed;
 
     var _ref2 = arguments.length > 1 ? arguments[1] : undefined,
         type = _ref2.type;
 
     switch (type) {
       case types.subscribe:
-        return _subscriptionStatus["default"].subscribing;
+        return _subscriptionStatus.subscriptionStatus.subscribing;
 
       case types.subscribeSuccess:
       case types.renewSuccess:
-        return _subscriptionStatus["default"].subscribed;
+        return _subscriptionStatus.subscriptionStatus.subscribed;
 
       case types.renewError:
       case types.resetSuccess:
       case types.removeSuccess:
       case types.removeError:
       case types.subscribeError:
-        return _subscriptionStatus["default"].notSubscribed;
+        return _subscriptionStatus.subscriptionStatus.notSubscribed;
 
       case types.remove:
-        return _subscriptionStatus["default"].unsubscribing;
+        return _subscriptionStatus.subscriptionStatus.unsubscribing;
 
       default:
         return state;
@@ -89,7 +89,9 @@ function getMessageReducer(types) {
 
     if (type === types.notification) {
       return message;
-    } else if (type === types.resetSuccess) {
+    }
+
+    if (type === types.resetSuccess) {
       return null;
     }
 

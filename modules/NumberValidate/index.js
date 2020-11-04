@@ -268,27 +268,26 @@ _dec = (0, _di.Module)({
   }, {
     key: "getAvailableExtension",
     value: function getAvailableExtension(extensionNumber) {
-      var _contacts$find$extens,
-          _contacts$find,
-          _this3 = this;
+      var _contacts$find$extens, _contacts$find;
 
       if (!(0, _contactHelper.isAnExtension)(extensionNumber)) {
         return null;
       }
 
+      var _this$_extensionInfo = this._extensionInfo,
+          isMultipleSiteEnabled = _this$_extensionInfo.isMultipleSiteEnabled,
+          site = _this$_extensionInfo.site;
       var _this$_companyContact = this._companyContacts,
           filteredContacts = _this$_companyContact.filteredContacts,
           ivrContacts = _this$_companyContact.ivrContacts;
       var contacts = filteredContacts.concat(ivrContacts);
       return (_contacts$find$extens = (_contacts$find = contacts.find(function (item) {
-        var _this3$_extensionInfo, _this3$_extensionInfo2, _this3$_extensionInfo3, _this3$_extensionInfo4;
-
         return (0, _contactHelper.isExtensionExist)({
           extensionNumber: extensionNumber,
           extensionFromContacts: item.extensionNumber,
           options: {
-            isMultipleSiteEnabled: (_this3$_extensionInfo = (_this3$_extensionInfo2 = _this3._extensionInfo) === null || _this3$_extensionInfo2 === void 0 ? void 0 : _this3$_extensionInfo2.isMultipleSiteEnabled) !== null && _this3$_extensionInfo !== void 0 ? _this3$_extensionInfo : false,
-            site: (_this3$_extensionInfo3 = (_this3$_extensionInfo4 = _this3._extensionInfo) === null || _this3$_extensionInfo4 === void 0 ? void 0 : _this3$_extensionInfo4.site) !== null && _this3$_extensionInfo3 !== void 0 ? _this3$_extensionInfo3 : null
+            isMultipleSiteEnabled: isMultipleSiteEnabled,
+            siteCode: site === null || site === void 0 ? void 0 : site.code
           }
         });
       })) === null || _contacts$find === void 0 ? void 0 : _contacts$find.extensionNumber) !== null && _contacts$find$extens !== void 0 ? _contacts$find$extens : null;
@@ -368,11 +367,11 @@ _dec = (0, _di.Module)({
   }, {
     key: "validateFormat",
     value: function validateFormat(phoneNumbers) {
-      var _this4 = this;
+      var _this3 = this;
 
       var errors = [];
       phoneNumbers.map(function (phoneNumber) {
-        if (_this4.isNoToNumber(phoneNumber)) {
+        if (_this3.isNoToNumber(phoneNumber)) {
           errors.push({
             phoneNumber: phoneNumber,
             type: 'noToNumber'
@@ -380,7 +379,7 @@ _dec = (0, _di.Module)({
           return null;
         }
 
-        if (_this4.isNoAreaCode(phoneNumber)) {
+        if (_this3.isNoAreaCode(phoneNumber)) {
           errors.push({
             phoneNumber: phoneNumber,
             type: 'noAreaCode'
@@ -398,7 +397,7 @@ _dec = (0, _di.Module)({
     key: "validateWithNumberParser",
     value: function () {
       var _validateWithNumberParser = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(phoneNumbers) {
-        var _this5 = this;
+        var _this4 = this;
 
         var pasedNumers, errors, validatedPhoneNumbers;
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
@@ -413,7 +412,7 @@ _dec = (0, _di.Module)({
                 errors = [];
                 validatedPhoneNumbers = [];
                 pasedNumers.map(function (phoneNumber) {
-                  if (_this5._isSpecial(phoneNumber)) {
+                  if (_this4._isSpecial(phoneNumber)) {
                     errors.push({
                       phoneNumber: phoneNumber.originalString,
                       type: 'specialNumber'
@@ -423,7 +422,7 @@ _dec = (0, _di.Module)({
 
                   var number = phoneNumber.originalString;
 
-                  var availableExtension = _this5.getAvailableExtension(number);
+                  var availableExtension = _this4.getAvailableExtension(number);
 
                   if ((0, _contactHelper.isAnExtension)(number) && !availableExtension) {
                     errors.push({

@@ -467,7 +467,7 @@ var MessageStore = (_dec = (0, _di.Module)({
                 }
 
               case 16:
-                this._subscription.subscribe(_subscriptionFilters["default"].messageStore);
+                this._subscription.subscribe([_subscriptionFilters["default"].messageStore]);
 
               case 17:
               case "end":

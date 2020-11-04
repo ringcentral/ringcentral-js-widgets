@@ -16,6 +16,7 @@ var trackEvents = _ObjectMap.ObjectMap.fromObject({
   hold: 'Call Control: Hold/Call log page',
   unhold: 'Call Control: Unhold/Call log page',
   hangup: 'Call Control: Hang up/Call log page',
+  transfer: 'Call Control: Cold transfer/Transfer page',
   authentication: 'Authentication',
   logout: 'Logout',
   callAttemptWebRTC: 'Call Attempt WebRTC',

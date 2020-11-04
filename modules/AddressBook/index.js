@@ -67,6 +67,8 @@ var _sleep = _interopRequireDefault(require("../../lib/sleep"));
 
 var _moduleStatuses = _interopRequireDefault(require("../../enums/moduleStatuses"));
 
+var _phoneSources = require("../../enums/phoneSources");
+
 var _syncTypes = _interopRequireDefault(require("../../enums/syncTypes"));
 
 var _actionTypes = _interopRequireDefault(require("./actionTypes"));
@@ -450,7 +452,7 @@ var AddressBook = (_dec = (0, _di.Module)({
                 _context3.prev = 7;
                 _context3.t0 = _context3["catch"](0);
 
-                if (!(_context3.t0 && _context3.t0.response && _context3.t0.response._response && _context3.t0.response.status === 403)) {
+                if (!(_context3.t0 && _context3.t0.response && _context3.t0.response.status === 403)) {
                   _context3.next = 12;
                   break;
                 }
@@ -479,7 +481,8 @@ var AddressBook = (_dec = (0, _di.Module)({
       }
 
       return _syncWithForbiddenCheck;
-    }()
+    }() // interface of ContactSource
+
   }, {
     key: "sync",
     value: function () {
@@ -694,7 +697,18 @@ var AddressBook = (_dec = (0, _di.Module)({
       this.store.dispatch({
         type: this.actionTypes.cleanUp
       });
-    } // interface of contact source
+    } // interface of ContactSource
+
+  }, {
+    key: "searchContacts",
+    value: function searchContacts(searchString) {
+      return (0, _contactHelper.getSearchContacts)({
+        contacts: this.contacts,
+        searchString: searchString,
+        entityType: _phoneSources.phoneSources.contact,
+        options: null
+      });
+    } // interface of ContactSource
 
   }, {
     key: "matchPhoneNumber",
@@ -702,7 +716,7 @@ var AddressBook = (_dec = (0, _di.Module)({
       return (0, _contactHelper.getMatchContacts)({
         contacts: this.contacts,
         phoneNumber: phoneNumber,
-        entityType: 'rcContact'
+        entityType: _phoneSources.phoneSources.rcContact
       });
     }
   }, {
@@ -776,16 +790,17 @@ var AddressBook = (_dec = (0, _di.Module)({
     key: "timeToRetry",
     get: function get() {
       return this._timeToRetry;
-    } // interface of contact source
+    } // interface of ContactSource
 
   }, {
     key: "sourceName",
     get: function get() {
       return 'personal';
-    } // interface of contact source
+    } // interface of ContactSource
 
   }, {
     key: "sourceReady",
+    // interface of ContactSource
     get: function get() {
       return this.ready;
     }
@@ -814,6 +829,7 @@ var AddressBook = (_dec = (0, _di.Module)({
         contact.name = "".concat(contact.firstName || '', " ").concat(contact.lastName || '');
         if (contact.email) contact.emails.push(contact.email);
         if (contact.email2) contact.emails.push(contact.email2);
+        if (contact.email3) contact.emails.push(contact.email3);
         Object.keys(contact).forEach(function (key) {
           if (key.toLowerCase().indexOf('phone') === -1) {
             return;

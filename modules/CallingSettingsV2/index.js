@@ -20,6 +20,7 @@ var _CallingSettings = require("./CallingSettings");
 
 Object.keys(_CallingSettings).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _CallingSettings[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {
@@ -32,6 +33,7 @@ var _callingModes = require("./callingModes");
 
 Object.keys(_callingModes).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _callingModes[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {
@@ -44,6 +46,7 @@ var _callingOptions = require("./callingOptions");
 
 Object.keys(_callingOptions).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _callingOptions[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {
@@ -56,6 +59,7 @@ var _callingSettingsMessages = require("./callingSettingsMessages");
 
 Object.keys(_callingSettingsMessages).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _callingSettingsMessages[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {
@@ -68,6 +72,7 @@ var _CallingSettings2 = require("./CallingSettings.interface");
 
 Object.keys(_CallingSettings2).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _CallingSettings2[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {

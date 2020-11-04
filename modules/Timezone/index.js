@@ -169,32 +169,39 @@ _dec = (0, _di.Module)({
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                if (!(this.pending && this._auth.ready && this._storage.ready // && this.shouldUpdateTimezones
-                )) {
-                  _context.next = 6;
+                if (!(this.pending && this._auth.ready && this._storage.ready)) {
+                  _context.next = 7;
                   break;
                 }
 
                 this.store.dispatch({
                   type: this.actionTypes.init
                 });
-                _context.next = 4;
+
+                if (!this.shouldUpdateTimezones) {
+                  _context.next = 6;
+                  break;
+                }
+
+                _context.next = 5;
                 return this._initTimezones();
 
-              case 4:
-                this.store.dispatch({
-                  type: this.actionTypes.initSuccess
-                });
+              case 5:
                 this.updateCacheExpiredAt();
 
               case 6:
+                this.store.dispatch({
+                  type: this.actionTypes.initSuccess
+                });
+
+              case 7:
                 if (this.ready && !this._auth.ready && !this._storage.ready) {
                   this.store.dispatch({
                     type: this.actionTypes.resetSuccess
                   });
                 }
 
-              case 7:
+              case 8:
               case "end":
                 return _context.stop();
             }
@@ -284,16 +291,12 @@ _dec = (0, _di.Module)({
   }, {
     key: "timezones",
     get: function get() {
-      var _this$storage$timezon = this.storage.timezones,
-          timezones = _this$storage$timezon === void 0 ? [] : _this$storage$timezon;
-      return timezones;
+      return this.state.timezones || [];
     }
   }, {
     key: "cacheExpiredAt",
     get: function get() {
-      var _this$storage$cacheEx = this.storage.cacheExpiredAt,
-          cacheExpiredAt = _this$storage$cacheEx === void 0 ? null : _this$storage$cacheEx;
-      return cacheExpiredAt;
+      return this.state.cacheExpiredAt || null;
     }
   }, {
     key: "localeTimezone",

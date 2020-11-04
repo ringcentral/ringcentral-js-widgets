@@ -155,37 +155,41 @@ var GenericMeeting = (_dec = (0, _di.Module)({
   }, {
     key: "init",
     value: function init() {
-      return this._meetingModule && this._meetingModule.init();
+      return this._meetingModule.init();
     }
   }, {
     key: "reload",
     value: function reload() {
-      return this._meetingModule && this._meetingModule.reload();
+      return this._meetingModule.reload();
     }
   }, {
     key: "switchUsePersonalMeetingId",
     value: function switchUsePersonalMeetingId(usePersonalMeetingId) {
-      return this._meetingModule && this._meetingModule.switchUsePersonalMeetingId && this._meetingModule.switchUsePersonalMeetingId(usePersonalMeetingId);
+      this._meetingModule.switchUsePersonalMeetingId(usePersonalMeetingId);
     }
   }, {
     key: "updateScheduleFor",
     value: function updateScheduleFor(userExtensionId) {
-      return this._meetingModule && this._meetingModule.updateScheduleFor && this._meetingModule.updateScheduleFor(userExtensionId);
+      return this._meetingModule.updateScheduleFor && this._meetingModule.updateScheduleFor(userExtensionId);
     }
-    /* TODO: any is reserved for RcM */
-
   }, {
     key: "updateMeetingSettings",
     value: function updateMeetingSettings(meeting) {
       var patch = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-      var fn = this._meetingModule && (this._meetingModule.update || this._meetingModule.updateMeetingSettings);
-      return fn && fn.call(this._meetingModule, meeting, patch);
+
+      if (this.isRCM) {
+        this._meeting.update(meeting);
+      }
+
+      if (this.isRCV) {
+        this._rcVideo.updateMeetingSettings(meeting, patch);
+      }
     }
   }, {
     key: "schedule",
     value: function () {
       var _schedule = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(meeting, config, opener) {
-        var result;
+        var result, rcvMeetingInfo;
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -196,32 +200,50 @@ var GenericMeeting = (_dec = (0, _di.Module)({
                 }
 
                 _context.next = 3;
-                return this._meeting.schedule(meeting, config, opener);
+                return this._meeting.schedule(meeting, config);
 
               case 3:
                 result = _context.sent;
-                _context.next = 14;
+                _context.next = 21;
                 break;
 
               case 6:
                 if (!this.isRCV) {
-                  _context.next = 12;
+                  _context.next = 19;
                   break;
                 }
 
-                _context.next = 9;
-                return this._rcVideo.createMeeting(meeting, config);
+                rcvMeetingInfo = meeting;
 
-              case 9:
+                if (!rcvMeetingInfo.usePersonalMeetingId) {
+                  _context.next = 14;
+                  break;
+                }
+
+                _context.next = 11;
+                return this._rcVideo.updateMeeting(this._rcVideo.personalMeeting.id, rcvMeetingInfo, config);
+
+              case 11:
                 result = _context.sent;
-                _context.next = 14;
+                _context.next = 17;
                 break;
 
-              case 12:
+              case 14:
+                _context.next = 16;
+                return this._rcVideo.createMeeting(meeting, config);
+
+              case 16:
+                result = _context.sent;
+
+              case 17:
+                _context.next = 21;
+                break;
+
+              case 19:
                 console.error('Unknown meeting provider, please check module runtime');
                 return _context.abrupt("return");
 
-              case 14:
+              case 21:
                 if (result) {
                   this._eventEmitter.emit(_interface.MeetingEvents.afterSchedule, result, opener);
                 } else if (opener && opener.close) {
@@ -230,7 +252,7 @@ var GenericMeeting = (_dec = (0, _di.Module)({
 
                 return _context.abrupt("return", result);
 
-              case 16:
+              case 23:
               case "end":
                 return _context.stop();
             }
@@ -243,27 +265,34 @@ var GenericMeeting = (_dec = (0, _di.Module)({
       }
 
       return schedule;
-    }() // TODO: any infer the type of rcm meeting, should be more specific
-
+    }()
   }, {
-    key: "instantMeeting",
+    key: "startMeeting",
     value: function () {
-      var _instantMeeting = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(meeting) {
+      var _startMeeting = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(meeting) {
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                if (!this.isRCV) {
+                if (!this.isRCM) {
                   _context2.next = 2;
                   break;
                 }
 
-                return _context2.abrupt("return", this._rcVideo.instantMeeting(meeting));
-
-              case 2:
                 return _context2.abrupt("return", this._meeting.schedule(meeting));
 
-              case 3:
+              case 2:
+                if (!this.isRCV) {
+                  _context2.next = 4;
+                  break;
+                }
+
+                return _context2.abrupt("return", this._rcVideo.startMeeting(meeting));
+
+              case 4:
+                return _context2.abrupt("return", null);
+
+              case 5:
               case "end":
                 return _context2.stop();
             }
@@ -271,11 +300,11 @@ var GenericMeeting = (_dec = (0, _di.Module)({
         }, _callee2, this);
       }));
 
-      function instantMeeting(_x4) {
-        return _instantMeeting.apply(this, arguments);
+      function startMeeting(_x4) {
+        return _startMeeting.apply(this, arguments);
       }
 
-      return instantMeeting;
+      return startMeeting;
     }()
   }, {
     key: "getMeeting",
@@ -285,7 +314,7 @@ var GenericMeeting = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                return _context3.abrupt("return", this._meetingModule && this._meetingModule.getMeeting(meetingId));
+                return _context3.abrupt("return", this._meetingModule.getMeeting(meetingId));
 
               case 1:
               case "end":
@@ -309,7 +338,7 @@ var GenericMeeting = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                return _context4.abrupt("return", this._meetingModule && this._meetingModule.getMeetingServiceInfo && this._meetingModule.getMeetingServiceInfo());
+                return _context4.abrupt("return", this._meetingModule.getMeetingServiceInfo && this._meetingModule.getMeetingServiceInfo());
 
               case 1:
               case "end":
@@ -328,26 +357,53 @@ var GenericMeeting = (_dec = (0, _di.Module)({
   }, {
     key: "updateMeeting",
     value: function () {
-      var _updateMeeting = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
-        var fn,
-            _len,
-            args,
-            _key,
-            _args5 = arguments;
-
+      var _updateMeeting = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(meetingId, meeting, config, opener) {
+        var result;
         return regeneratorRuntime.wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
-                fn = this._meetingModule && this._meetingModule.updateMeeting;
-
-                for (_len = _args5.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-                  args[_key] = _args5[_key];
+                if (!this.isRCM) {
+                  _context5.next = 6;
+                  break;
                 }
 
-                return _context5.abrupt("return", fn && fn.apply(this._meetingModule, args));
+                _context5.next = 3;
+                return this._meeting.updateMeeting(meetingId, meeting, config);
 
               case 3:
+                result = _context5.sent;
+                _context5.next = 14;
+                break;
+
+              case 6:
+                if (!this.isRCV) {
+                  _context5.next = 12;
+                  break;
+                }
+
+                _context5.next = 9;
+                return this._rcVideo.updateMeeting(meetingId, meeting, config);
+
+              case 9:
+                result = _context5.sent;
+                _context5.next = 14;
+                break;
+
+              case 12:
+                console.error('Unknown meeting provider, please check module runtime');
+                return _context5.abrupt("return");
+
+              case 14:
+                if (result) {
+                  this._eventEmitter.emit(_interface.MeetingEvents.afterUpdate, result, opener);
+                } else if (opener && opener.close) {
+                  opener.close();
+                }
+
+                return _context5.abrupt("return", result);
+
+              case 16:
               case "end":
                 return _context5.stop();
             }
@@ -355,7 +411,7 @@ var GenericMeeting = (_dec = (0, _di.Module)({
         }, _callee5, this);
       }));
 
-      function updateMeeting() {
+      function updateMeeting(_x6, _x7, _x8, _x9) {
         return _updateMeeting.apply(this, arguments);
       }
 
@@ -374,7 +430,7 @@ var GenericMeeting = (_dec = (0, _di.Module)({
   }, {
     key: "validatePasswordSettings",
     value: function validatePasswordSettings(password, isSecret) {
-      return this._meetingModule && this._meetingModule.validatePasswordSettings(password, isSecret);
+      return this._meetingModule.validatePasswordSettings(password, isSecret);
     }
   }, {
     key: "generateRcvMeetingPassword",
@@ -450,22 +506,12 @@ var GenericMeeting = (_dec = (0, _di.Module)({
   }, {
     key: "meeting",
     get: function get() {
-      return this._meetingModule && this._meetingModule.meeting;
-    }
-    /** TODO: assistedUsers and scheduleForUser are
-     *  used for 'Schedule For' Feature
-     * Now it only applies to RCM
-     */
-
-  }, {
-    key: "assistedUsers",
-    get: function get() {
-      return this._meetingModule && this._meetingModule.assistedUsers;
+      return this._meetingModule.meeting;
     }
   }, {
-    key: "scheduleForUser",
+    key: "delegators",
     get: function get() {
-      return this._meetingModule && this._meetingModule.scheduleForUser;
+      return this._meetingModule.delegators;
     }
   }, {
     key: "defaultSetting",
@@ -483,17 +529,17 @@ var GenericMeeting = (_dec = (0, _di.Module)({
   }, {
     key: "isScheduling",
     get: function get() {
-      return !!(this._meetingModule && this._meetingModule.isScheduling);
+      return !!this._meetingModule.isScheduling;
     }
   }, {
     key: "showSaveAsDefault",
     get: function get() {
-      return !!(this._meetingModule && this._meetingModule.showSaveAsDefault);
+      return !!this._meetingModule.showSaveAsDefault;
     }
   }, {
     key: "isPreferencesChanged",
     get: function get() {
-      return !!(this._meetingModule && this._meetingModule.isPreferencesChanged);
+      return !!this._meetingModule.isPreferencesChanged;
     }
   }, {
     key: "brandName",
@@ -506,13 +552,52 @@ var GenericMeeting = (_dec = (0, _di.Module)({
       return this.state.status;
     }
   }, {
+    key: "showAdminLock",
+    get: function get() {
+      return !!this._meetingModule.showAdminLock;
+    }
+  }, {
+    key: "enablePersonalMeeting",
+    get: function get() {
+      return !!this._meetingModule.enablePersonalMeeting;
+    }
+  }, {
+    key: "enableWaitingRoom",
+    get: function get() {
+      if (this.isRCV) {
+        return this._rcVideo.enableWaitingRoom;
+      }
+
+      return false;
+    }
+  }, {
     key: "personalMeeting",
     get: function get() {
-      return this._meetingModule && this._meetingModule.personalMeeting;
+      return this._meetingModule.personalMeeting;
+    }
+  }, {
+    key: "personalMeetingId",
+    get: function get() {
+      var _this$personalMeeting;
+
+      return (_this$personalMeeting = this.personalMeeting) === null || _this$personalMeeting === void 0 ? void 0 : _this$personalMeeting.shortId;
+    }
+  }, {
+    key: "personalMeetingSettings",
+    get: function get() {
+      if (this.isRCM) {
+        return this._meeting.pmiDefaultSettings;
+      }
+
+      if (this.isRCV) {
+        return this._rcVideo.personalVideoSetting;
+      }
+
+      return null;
     }
   }]);
 
   return GenericMeeting;
-}(_RcModule2["default"]), _temp), (_applyDecoratedDescriptor(_class2.prototype, "init", [_background["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "init"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "reload", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "reload"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "switchUsePersonalMeetingId", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "switchUsePersonalMeetingId"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateScheduleFor", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "updateScheduleFor"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateMeetingSettings", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "updateMeetingSettings"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "schedule", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "schedule"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getMeeting", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "getMeeting"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getMeetingServiceInfo", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "getMeetingServiceInfo"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateMeeting", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "updateMeeting"), _class2.prototype)), _class2)) || _class);
+}(_RcModule2["default"]), _temp), (_applyDecoratedDescriptor(_class2.prototype, "init", [_background["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "init"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "reload", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "reload"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "switchUsePersonalMeetingId", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "switchUsePersonalMeetingId"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateScheduleFor", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "updateScheduleFor"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateMeetingSettings", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "updateMeetingSettings"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "schedule", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "schedule"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "startMeeting", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "startMeeting"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getMeeting", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "getMeeting"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getMeetingServiceInfo", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "getMeetingServiceInfo"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateMeeting", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "updateMeeting"), _class2.prototype)), _class2)) || _class);
 exports.GenericMeeting = GenericMeeting;
 //# sourceMappingURL=GenericMeetingModule.js.map

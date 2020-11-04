@@ -23,7 +23,7 @@ var COMMON_SETTINGS = ['allowJoinBeforeHost', 'audioOptions', 'startHostVideo', 
 exports.COMMON_SETTINGS = COMMON_SETTINGS;
 var DEFAULT_LOCK_SETTINGS = {
   _lockRequireMeetingPassword: false,
-  _lockSettings: {
+  settingLock: {
     allowJoinBeforeHost: false,
     audioOptions: false,
     startHostVideo: false,

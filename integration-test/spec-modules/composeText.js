@@ -239,7 +239,7 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                         });
                         composeText.updateMessageText('test');
                         _context3.next = 4;
-                        return composeText.send();
+                        return composeText.send(composeText.messageText);
 
                       case 4:
                         responses = _context3.sent;
@@ -267,7 +267,7 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                         });
                         composeText.updateMessageText('test 2');
                         _context4.next = 4;
-                        return composeText.send();
+                        return composeText.send(composeText.messageText);
 
                       case 4:
                         responses = _context4.sent;
@@ -298,7 +298,7 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                         });
                         composeText.updateMessageText('test 3');
                         _context5.next = 5;
-                        return composeText.send();
+                        return composeText.send(composeText.messageText);
 
                       case 5:
                         responses = _context5.sent;
@@ -328,7 +328,7 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                         composeText.updateTypingToNumber('101');
                         composeText.updateMessageText('test 4');
                         _context6.next = 4;
-                        return composeText.send();
+                        return composeText.send(composeText.messageText);
 
                       case 4:
                         responses = _context6.sent;
@@ -386,7 +386,7 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                           composeText.updateTypingToNumber('+18558990011');
                           composeText.updateMessageText('');
                           _context8.next = 4;
-                          return composeText.send();
+                          return composeText.send(composeText.messageText);
 
                         case 4:
                           expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages["default"].textEmpty)).to.not.equal(undefined);
@@ -413,7 +413,7 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                           composeText.updateTypingToNumber('+18558990011');
                           composeText.updateMessageText('   ');
                           _context9.next = 4;
-                          return composeText.send();
+                          return composeText.send(composeText.messageText);
 
                         case 4:
                           response = _context9.sent;
@@ -438,7 +438,7 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                           case 0:
                             composeText.updateMessageText('test sender');
                             _context10.next = 3;
-                            return composeText.send();
+                            return composeText.send(composeText.messageText);
 
                           case 3:
                             expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages["default"].recipientsEmpty)).to.not.equal(undefined);
@@ -460,7 +460,7 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                             });
                             composeText.updateMessageText('test sender');
                             _context11.next = 4;
-                            return composeText.send();
+                            return composeText.send(composeText.messageText);
 
                           case 4:
                             expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages["default"].noToNumber)).to.not.equal(undefined);
@@ -485,7 +485,7 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                             });
                             composeText.updateMessageText('test sender');
                             _context12.next = 4;
-                            return composeText.send();
+                            return composeText.send(composeText.messageText);
 
                           case 4:
                             expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages["default"].noToNumber)).to.not.equal(undefined);
@@ -515,7 +515,7 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                             composeText.updateTypingToNumber('test');
                             composeText.updateMessageText('test 5');
                             _context13.next = 4;
-                            return composeText.send();
+                            return composeText.send(composeText.messageText);
 
                           case 4:
                             response = _context13.sent;
@@ -542,7 +542,7 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                             });
                             composeText.updateMessageText('test sender');
                             _context14.next = 5;
-                            return composeText.send();
+                            return composeText.send(composeText.messageText);
 
                           case 5:
                             expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages["default"].noToNumber)).to.not.equal(undefined);
@@ -568,7 +568,7 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                             });
                             composeText.updateMessageText('test');
                             _context15.next = 4;
-                            return composeText.send();
+                            return composeText.send(composeText.messageText);
 
                           case 4:
                             response = _context15.sent;
@@ -601,7 +601,7 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                             composeText.updateTypingToNumber('(855)899-0011');
                             composeText.updateMessageText('test');
                             _context16.next = 4;
-                            return composeText.send();
+                            return composeText.send(composeText.messageText);
 
                           case 4:
                             responses = _context16.sent;
@@ -628,7 +628,7 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                             composeText.updateTypingToNumber('(855) 899-0011');
                             composeText.updateMessageText('test');
                             _context17.next = 4;
-                            return composeText.send();
+                            return composeText.send(composeText.messageText);
 
                           case 4:
                             responses = _context17.sent;
@@ -655,7 +655,7 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                             composeText.updateTypingToNumber('(866)211-8665*101');
                             composeText.updateMessageText('test');
                             _context18.next = 4;
-                            return composeText.send();
+                            return composeText.send(composeText.messageText);
 
                           case 4:
                             responses = _context18.sent;
@@ -682,7 +682,7 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                             composeText.updateTypingToNumber('(866) 211-8665*101');
                             composeText.updateMessageText('test');
                             _context19.next = 4;
-                            return composeText.send();
+                            return composeText.send(composeText.messageText);
 
                           case 4:
                             responses = _context19.sent;
@@ -709,7 +709,7 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                             composeText.updateTypingToNumber('866-211-8665');
                             composeText.updateMessageText('test');
                             _context20.next = 4;
-                            return composeText.send();
+                            return composeText.send(composeText.messageText);
 
                           case 4:
                             responses = _context20.sent;
@@ -736,7 +736,7 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                             composeText.updateTypingToNumber('866-211-8665*101');
                             composeText.updateMessageText('test');
                             _context21.next = 4;
-                            return composeText.send();
+                            return composeText.send(composeText.messageText);
 
                           case 4:
                             responses = _context21.sent;
@@ -769,7 +769,7 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                             composeText.updateTypingToNumber('6545672');
                             composeText.updateMessageText('test 6');
                             _context22.next = 5;
-                            return composeText.send();
+                            return composeText.send(composeText.messageText);
 
                           case 5:
                             response = _context22.sent;
@@ -797,7 +797,7 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                             });
                             composeText.updateMessageText('test sender');
                             _context23.next = 5;
-                            return composeText.send();
+                            return composeText.send(composeText);
 
                           case 5:
                             expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages["default"].noAreaCode)).to.not.equal(undefined);
@@ -826,7 +826,7 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                             });
                             composeText.updateMessageText('test sender');
                             _context24.next = 5;
-                            return composeText.send();
+                            return composeText.send(composeText.messageText);
 
                           case 5:
                             expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages["default"].noAreaCode)).to.not.equal(undefined);
@@ -857,7 +857,7 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                             composeText.updateMessageText('test sender');
                             _context25.prev = 3;
                             _context25.next = 6;
-                            return composeText.send();
+                            return composeText.send(composeText.messageText);
 
                           case 6:
                             _context25.next = 11;
@@ -900,7 +900,7 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                             composeText.updateMessageText('test sender');
                             _context26.prev = 3;
                             _context26.next = 6;
-                            return composeText.send();
+                            return composeText.send(composeText.messageText);
 
                           case 6:
                             _context26.next = 11;
@@ -937,7 +937,7 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                               composeText.updateTypingToNumber('11111');
                               composeText.updateMessageText('test sender');
                               _context27.next = 4;
-                              return composeText.send();
+                              return composeText.send(composeText.messageText);
 
                             case 4:
                               expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages["default"].notAnExtension)).to.not.equal(undefined);
@@ -962,7 +962,7 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                               });
                               composeText.updateMessageText('test sender');
                               _context28.next = 4;
-                              return composeText.send();
+                              return composeText.send(composeText.messageText);
 
                             case 4:
                               expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages["default"].notAnExtension)).to.not.equal(undefined);
@@ -987,7 +987,7 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                               });
                               composeText.updateMessageText('test sender');
                               _context29.next = 4;
-                              return composeText.send();
+                              return composeText.send(composeText.messageText);
 
                             case 4:
                               expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages["default"].notAnExtension)).to.not.equal(undefined);
@@ -1020,7 +1020,7 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                               });
                               composeText.updateMessageText('test sender');
                               _context30.next = 4;
-                              return composeText.send();
+                              return composeText.send(composeText.messageText);
 
                             case 4:
                               expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages["default"].noAreaCode)).to.equal(undefined);
@@ -1045,7 +1045,7 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                               });
                               composeText.updateMessageText('test sender');
                               _context31.next = 4;
-                              return composeText.send();
+                              return composeText.send(composeText.messageText);
 
                             case 4:
                               expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages["default"].noAreaCode)).to.equal(undefined);
@@ -1070,7 +1070,7 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                               });
                               composeText.updateMessageText('test sender');
                               _context32.next = 4;
-                              return composeText.send();
+                              return composeText.send(composeText.messageText);
 
                             case 4:
                               expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages["default"].noAreaCode)).to.equal(undefined);
@@ -1099,7 +1099,7 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                               });
                               composeText.updateMessageText('test sender');
                               _context33.next = 5;
-                              return composeText.send();
+                              return composeText.send(composeText.messageText);
 
                             case 5:
                               expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages["default"].specialNumber)).to.equal(undefined);
@@ -1129,7 +1129,7 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                               });
                               composeText.updateMessageText('test sender');
                               _context34.next = 4;
-                              return composeText.send();
+                              return composeText.send(composeText.messageText);
 
                             case 4:
                               expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages["default"].noAreaCode)).to.equal(undefined);
@@ -1154,7 +1154,7 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                               });
                               composeText.updateMessageText('test sender');
                               _context35.next = 4;
-                              return composeText.send();
+                              return composeText.send(composeText.messageText);
 
                             case 4:
                               expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages["default"].noAreaCode)).to.equal(undefined);
@@ -1179,7 +1179,7 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                               });
                               composeText.updateMessageText('test sender');
                               _context36.next = 4;
-                              return composeText.send();
+                              return composeText.send(composeText.messageText);
 
                             case 4:
                               expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages["default"].noAreaCode)).to.equal(undefined);
@@ -1204,7 +1204,7 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                               });
                               composeText.updateMessageText('test sender');
                               _context37.next = 4;
-                              return composeText.send();
+                              return composeText.send(composeText.messageText);
 
                             case 4:
                               expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages["default"].specialNumber)).to.equal(undefined);
@@ -1232,7 +1232,7 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                               composeText.updateMessageText('test sender');
                               _context38.prev = 3;
                               _context38.next = 6;
-                              return composeText.send();
+                              return composeText.send(composeText.messageText);
 
                             case 6:
                               _context38.next = 11;
@@ -1273,7 +1273,7 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                           composeText.updateMessageText('test sender');
                           _context39.prev = 2;
                           _context39.next = 5;
-                          return composeText.send();
+                          return composeText.send(composeText.messageText);
 
                         case 5:
                           _context39.next = 10;
@@ -1313,7 +1313,7 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                           composeText.updateMessageText('test sender');
                           _context40.prev = 3;
                           _context40.next = 6;
-                          return composeText.send();
+                          return composeText.send(composeText.messageText);
 
                         case 6:
                           _context40.next = 11;

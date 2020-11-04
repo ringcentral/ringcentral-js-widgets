@@ -403,7 +403,7 @@ var CallLog = (_dec = (0, _di.Module)({
             switch (_context3.prev = _context3.next) {
               case 0:
                 if (this._subscription) {
-                  this._subscription.subscribe(_subscriptionFilters["default"].detailedPresence);
+                  this._subscription.subscribe([_subscriptionFilters["default"].detailedPresence]);
                 }
 
                 if (!((!this._tabManager || this._tabManager.active) && (!this.timestamp || Date.now() - this.timestamp > this.refreshLock))) {
@@ -836,7 +836,9 @@ var CallLog = (_dec = (0, _di.Module)({
     key: "data",
     get: function get() {
       if (this._storage) {
-        return this._storage.getItem(this._callLogStorageKey).data;
+        var _this$_storage$getIte;
+
+        return (_this$_storage$getIte = this._storage.getItem(this._callLogStorageKey)) === null || _this$_storage$getIte === void 0 ? void 0 : _this$_storage$getIte.data;
       }
 
       return this.state.data;

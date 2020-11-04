@@ -13,19 +13,9 @@ require("core-js/modules/es6.object.define-properties");
 
 require("core-js/modules/es7.object.get-own-property-descriptors");
 
-require("core-js/modules/es6.array.for-each");
-
 require("core-js/modules/es6.array.filter");
 
 require("core-js/modules/es6.symbol");
-
-require("core-js/modules/web.dom.iterable");
-
-require("core-js/modules/es6.array.iterator");
-
-require("core-js/modules/es6.object.keys");
-
-require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.object.create");
 
@@ -33,11 +23,23 @@ require("core-js/modules/es6.regexp.to-string");
 
 require("core-js/modules/es6.date.to-string");
 
-require("core-js/modules/es6.object.to-string");
-
 require("core-js/modules/es6.reflect.construct");
 
 require("core-js/modules/es6.object.set-prototype-of");
+
+require("core-js/modules/es6.object.define-property");
+
+require("core-js/modules/es6.array.reduce");
+
+require("core-js/modules/web.dom.iterable");
+
+require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.object.to-string");
+
+require("core-js/modules/es6.object.keys");
+
+require("core-js/modules/es6.array.for-each");
 
 require("regenerator-runtime/runtime");
 
@@ -55,7 +57,9 @@ var _actionTypes = _interopRequireDefault(require("./actionTypes"));
 
 var _getTabManagerReducer = _interopRequireDefault(require("./getTabManagerReducer"));
 
-var _dec, _class, _temp;
+var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
+
+var _dec, _class, _class2, _temp;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -91,17 +95,24 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
+
 var TabManager = (
 /**
  * @class
  * @description To handle data between different tabs
  */
-_dec = (0, _di.Module)(), _dec(_class = (_temp = /*#__PURE__*/function (_RcModule) {
+_dec = (0, _di.Module)(), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcModule) {
   _inherits(TabManager, _RcModule);
 
   var _super = _createSuper(TabManager);
 
   _createClass(TabManager, [{
+    key: "enable",
+    get: function get() {
+      return this._tabbie.enabled;
+    }
+  }, {
     key: "status",
     get: function get() {
       return this.state.status;
@@ -250,31 +261,55 @@ _dec = (0, _di.Module)(), _dec(_class = (_temp = /*#__PURE__*/function (_RcModul
     }()
   }, {
     key: "send",
-    value: function send(event) {
-      var _this$_tabbie;
-
-      for (var _len2 = arguments.length, args = new Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
-        args[_key2 - 1] = arguments[_key2];
-      }
-
-      (_this$_tabbie = this._tabbie).send.apply(_this$_tabbie, [event].concat(args));
-    }
-  }, {
-    key: "checkIsMain",
     value: function () {
-      var _checkIsMain = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
+      var _send = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(event) {
+        var _this$_tabbie;
+
+        var _len2,
+            args,
+            _key2,
+            _args3 = arguments;
+
         return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                return _context3.abrupt("return", this._tabbie.checkIsMain());
+                for (_len2 = _args3.length, args = new Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
+                  args[_key2 - 1] = _args3[_key2];
+                }
 
-              case 1:
+                (_this$_tabbie = this._tabbie).send.apply(_this$_tabbie, [event].concat(args));
+
+              case 2:
               case "end":
                 return _context3.stop();
             }
           }
         }, _callee3, this);
+      }));
+
+      function send(_x2) {
+        return _send.apply(this, arguments);
+      }
+
+      return send;
+    }()
+  }, {
+    key: "checkIsMain",
+    value: function () {
+      var _checkIsMain = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
+        return regeneratorRuntime.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                return _context4.abrupt("return", this._tabbie.checkIsMain());
+
+              case 1:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4, this);
       }));
 
       function checkIsMain() {
@@ -290,12 +325,31 @@ _dec = (0, _di.Module)(), _dec(_class = (_temp = /*#__PURE__*/function (_RcModul
 
   }, {
     key: "checkTabAliveById",
-    value: function checkTabAliveById(id) {
-      return this._tabbie.checkTabAliveById(id);
-    }
+    value: function () {
+      var _checkTabAliveById = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(id) {
+        return regeneratorRuntime.wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                return _context5.abrupt("return", this._tabbie.checkTabAliveById(id));
+
+              case 1:
+              case "end":
+                return _context5.stop();
+            }
+          }
+        }, _callee5, this);
+      }));
+
+      function checkTabAliveById(_x3) {
+        return _checkTabAliveById.apply(this, arguments);
+      }
+
+      return checkTabAliveById;
+    }()
   }]);
 
   return TabManager;
-}(_RcModule2["default"]), _temp)) || _class);
+}(_RcModule2["default"]), _temp), (_applyDecoratedDescriptor(_class2.prototype, "send", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "send"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "checkIsMain", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "checkIsMain"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "checkTabAliveById", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "checkTabAliveById"), _class2.prototype)), _class2)) || _class);
 exports["default"] = TabManager;
 //# sourceMappingURL=TabManager.js.map

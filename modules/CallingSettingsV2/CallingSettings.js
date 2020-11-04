@@ -67,7 +67,7 @@ var _callingSettingsMessages = require("./callingSettingsMessages");
 
 var _deprecatedCallingOptions = require("./deprecatedCallingOptions");
 
-var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _temp;
+var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _class, _class2, _descriptor, _temp;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -165,7 +165,7 @@ var CallingSettings = (_dec = (0, _di.Module)({
     _this = _super.call(this, {
       deps: deps,
       enableCache: true,
-      storageKey: 'callingSettingsData'
+      storageKey: 'CallingSettings'
     });
     _this._myPhoneNumbers = void 0;
     _this._onFirstLogin = void 0;
@@ -177,22 +177,23 @@ var CallingSettings = (_dec = (0, _di.Module)({
     _this._emergencyCallAvailable = void 0;
     _this._availableNumbers = void 0;
 
-    _initializerDefineProperty(_this, "callWith", _descriptor, _assertThisInitialized(_this));
-
-    _initializerDefineProperty(_this, "ringoutPrompt", _descriptor2, _assertThisInitialized(_this));
-
-    _initializerDefineProperty(_this, "myLocation", _descriptor3, _assertThisInitialized(_this));
-
-    _initializerDefineProperty(_this, "fromNumber", _descriptor4, _assertThisInitialized(_this));
-
-    _initializerDefineProperty(_this, "timestamp", _descriptor5, _assertThisInitialized(_this));
-
-    _initializerDefineProperty(_this, "isCustomLocation", _descriptor6, _assertThisInitialized(_this));
+    _initializerDefineProperty(_this, "data", _descriptor, _assertThisInitialized(_this));
 
     _this._onFirstLogin = (_this$_deps$callingSe = _this._deps.callingSettingsOptions) === null || _this$_deps$callingSe === void 0 ? void 0 : _this$_deps$callingSe.onFirstLogin;
     _this.initRingoutPrompt = (_this$_deps$callingSe2 = _this._deps.callingSettingsOptions) === null || _this$_deps$callingSe2 === void 0 ? void 0 : _this$_deps$callingSe2.defaultRingoutPrompt;
     _this._showCallWithJupiter = (_this$_deps$callingSe3 = (_this$_deps$callingSe4 = _this._deps.callingSettingsOptions) === null || _this$_deps$callingSe4 === void 0 ? void 0 : _this$_deps$callingSe4.showCallWithJupiter) !== null && _this$_deps$callingSe3 !== void 0 ? _this$_deps$callingSe3 : true;
     _this._emergencyCallAvailable = (_this$_deps$callingSe5 = (_this$_deps$callingSe6 = _this._deps.callingSettingsOptions) === null || _this$_deps$callingSe6 === void 0 ? void 0 : _this$_deps$callingSe6.emergencyCallAvailable) !== null && _this$_deps$callingSe5 !== void 0 ? _this$_deps$callingSe5 : false;
+    /* migration storage v1 to v2 */
+
+    if (_this._deps.storage) {
+      var _this$_deps$storage$m;
+
+      _this._deps.storage.migrationMapping = (_this$_deps$storage$m = _this._deps.storage.migrationMapping) !== null && _this$_deps$storage$m !== void 0 ? _this$_deps$storage$m : {};
+      _this._deps.storage.migrationMapping['CallingSettings-data'] = 'callingSettingsData';
+    }
+    /* migration storage v1 to v2 */
+
+
     return _this;
   }
 
@@ -209,21 +210,26 @@ var CallingSettings = (_dec = (0, _di.Module)({
           timestamp = _ref$timestamp === void 0 ? this.timestamp : _ref$timestamp,
           _ref$isCustomLocation = _ref.isCustomLocation,
           isCustomLocation = _ref$isCustomLocation === void 0 ? this.isCustomLocation : _ref$isCustomLocation;
-      this.callWith = callWith;
-      this.ringoutPrompt = ringoutPrompt;
-      this.myLocation = myLocation;
-      this.timestamp = timestamp;
-      this.isCustomLocation = isCustomLocation;
+      this.data.callWith = callWith;
+      this.data.ringoutPrompt = ringoutPrompt;
+      this.data.myLocation = myLocation;
+      this.data.timestamp = timestamp;
+      this.data.isCustomLocation = isCustomLocation;
+    }
+  }, {
+    key: "_updateFromNumber",
+    value: function _updateFromNumber(number) {
+      this.data.fromNumber = number && (number === null || number === void 0 ? void 0 : number.phoneNumber);
     }
   }, {
     key: "updateFromNumber",
     value: function () {
-      var _updateFromNumber = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(number) {
+      var _updateFromNumber2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(number) {
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                this.fromNumber = number && (number === null || number === void 0 ? void 0 : number.phoneNumber);
+                this._updateFromNumber(number);
 
               case 1:
               case "end":
@@ -234,7 +240,7 @@ var CallingSettings = (_dec = (0, _di.Module)({
       }));
 
       function updateFromNumber(_x) {
-        return _updateFromNumber.apply(this, arguments);
+        return _updateFromNumber2.apply(this, arguments);
       }
 
       return updateFromNumber;
@@ -242,7 +248,7 @@ var CallingSettings = (_dec = (0, _di.Module)({
   }, {
     key: "resetSuccess",
     value: function resetSuccess() {
-      this.fromNumber = null;
+      this.data.fromNumber = null;
     }
   }, {
     key: "onStateChange",
@@ -252,19 +258,8 @@ var CallingSettings = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                if (!this._shouldReset()) {
-                  _context2.next = 4;
-                  break;
-                }
-
-                this.__resetSuccessModule__();
-
-                _context2.next = 11;
-                break;
-
-              case 4:
-                if (!this._shouldValidate()) {
-                  _context2.next = 11;
+                if (!(!this._shouldReset() && !this._shouldInit() && this._shouldValidate())) {
+                  _context2.next = 7;
                   break;
                 }
 
@@ -272,10 +267,10 @@ var CallingSettings = (_dec = (0, _di.Module)({
                 this._webphoneEnabled = this._deps.rolesAndPermissions.webphoneEnabled;
                 this._myPhoneNumbers = this.myPhoneNumbers;
                 this._otherPhoneNumbers = this.otherPhoneNumbers;
-                _context2.next = 11;
+                _context2.next = 7;
                 return this._validateSettings();
 
-              case 11:
+              case 7:
               case "end":
                 return _context2.stop();
             }
@@ -685,6 +680,36 @@ var CallingSettings = (_dec = (0, _di.Module)({
       return setData;
     }()
   }, {
+    key: "callWith",
+    get: function get() {
+      return this.data.callWith;
+    }
+  }, {
+    key: "ringoutPrompt",
+    get: function get() {
+      return this.data.ringoutPrompt;
+    }
+  }, {
+    key: "myLocation",
+    get: function get() {
+      return this.data.myLocation;
+    }
+  }, {
+    key: "fromNumber",
+    get: function get() {
+      return this.data.fromNumber;
+    }
+  }, {
+    key: "timestamp",
+    get: function get() {
+      return this.data.timestamp;
+    }
+  }, {
+    key: "isCustomLocation",
+    get: function get() {
+      return this.data.isCustomLocation;
+    }
+  }, {
     key: "myPhoneNumbers",
     get: function get() {
       var _this$_deps$extension = this._deps.extensionPhoneNumber,
@@ -823,48 +848,20 @@ var CallingSettings = (_dec = (0, _di.Module)({
   }]);
 
   return CallingSettings;
-}(_core.RcModuleV2), _temp), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "callWith", [_core.storage, _core.state], {
+}(_core.RcModuleV2), _temp), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "data", [_core.storage, _core.state], {
   configurable: true,
   enumerable: true,
   writable: true,
   initializer: function initializer() {
-    return null;
+    return {
+      callWith: null,
+      ringoutPrompt: true,
+      myLocation: '',
+      fromNumber: null,
+      timestamp: null,
+      isCustomLocation: false
+    };
   }
-}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, "ringoutPrompt", [_core.storage, _core.state], {
-  configurable: true,
-  enumerable: true,
-  writable: true,
-  initializer: function initializer() {
-    return true;
-  }
-}), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, "myLocation", [_core.storage, _core.state], {
-  configurable: true,
-  enumerable: true,
-  writable: true,
-  initializer: function initializer() {
-    return '';
-  }
-}), _descriptor4 = _applyDecoratedDescriptor(_class2.prototype, "fromNumber", [_core.storage, _core.state], {
-  configurable: true,
-  enumerable: true,
-  writable: true,
-  initializer: function initializer() {
-    return null;
-  }
-}), _descriptor5 = _applyDecoratedDescriptor(_class2.prototype, "timestamp", [_core.storage, _core.state], {
-  configurable: true,
-  enumerable: true,
-  writable: true,
-  initializer: function initializer() {
-    return null;
-  }
-}), _descriptor6 = _applyDecoratedDescriptor(_class2.prototype, "isCustomLocation", [_core.storage, _core.state], {
-  configurable: true,
-  enumerable: true,
-  writable: true,
-  initializer: function initializer() {
-    return false;
-  }
-}), _applyDecoratedDescriptor(_class2.prototype, "setDataAction", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setDataAction"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateFromNumber", [_proxify["default"], _core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "updateFromNumber"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "resetSuccess", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "resetSuccess"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_warningEmergencyCallingNotAvailable", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_warningEmergencyCallingNotAvailable"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_validateSettings", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_validateSettings"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_setSoftPhoneToCallWith", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_setSoftPhoneToCallWith"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_initFromNumber", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_initFromNumber"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setData", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "setData"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "myPhoneNumbers", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "myPhoneNumbers"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "otherPhoneNumbers", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "otherPhoneNumbers"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "callWithOptions", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "callWithOptions"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "fromNumbers", [_dec5], Object.getOwnPropertyDescriptor(_class2.prototype, "fromNumbers"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "availableNumbers", [_dec6], Object.getOwnPropertyDescriptor(_class2.prototype, "availableNumbers"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "availableNumbersWithLabel", [_dec7], Object.getOwnPropertyDescriptor(_class2.prototype, "availableNumbersWithLabel"), _class2.prototype)), _class2)) || _class);
+}), _applyDecoratedDescriptor(_class2.prototype, "setDataAction", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setDataAction"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_updateFromNumber", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_updateFromNumber"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateFromNumber", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "updateFromNumber"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "resetSuccess", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "resetSuccess"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_warningEmergencyCallingNotAvailable", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_warningEmergencyCallingNotAvailable"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_validateSettings", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_validateSettings"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_setSoftPhoneToCallWith", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_setSoftPhoneToCallWith"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_initFromNumber", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_initFromNumber"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setData", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "setData"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "myPhoneNumbers", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "myPhoneNumbers"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "otherPhoneNumbers", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "otherPhoneNumbers"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "callWithOptions", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "callWithOptions"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "fromNumbers", [_dec5], Object.getOwnPropertyDescriptor(_class2.prototype, "fromNumbers"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "availableNumbers", [_dec6], Object.getOwnPropertyDescriptor(_class2.prototype, "availableNumbers"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "availableNumbersWithLabel", [_dec7], Object.getOwnPropertyDescriptor(_class2.prototype, "availableNumbersWithLabel"), _class2.prototype)), _class2)) || _class);
 exports.CallingSettings = CallingSettings;
 //# sourceMappingURL=CallingSettings.js.map

@@ -11,6 +11,11 @@ exports.isOnRecording = isOnRecording;
 exports.getSessionsParty = getSessionsParty;
 exports.normalizeSession = normalizeSession;
 exports.conflictError = conflictError;
+exports.isRinging = isRinging;
+exports.isHolding = isHolding;
+exports.isRecording = isRecording;
+exports.isForwardedToVoiceMail = isForwardedToVoiceMail;
+exports.isOnSetupStage = isOnSetupStage;
 
 require("regenerator-runtime/runtime");
 
@@ -21,6 +26,8 @@ require("core-js/modules/es6.object.to-string");
 require("core-js/modules/es6.function.name");
 
 require("core-js/modules/es6.array.find");
+
+var _Session = require("ringcentral-call-control/lib/Session");
 
 var _recordStatus = _interopRequireDefault(require("../Webphone/recordStatus"));
 
@@ -133,5 +140,28 @@ function _conflictError() {
     }, _callee);
   }));
   return _conflictError.apply(this, arguments);
+}
+
+function isRinging(telephonySession) {
+  return telephonySession && (telephonySession.status === _Session.PartyStatusCode.proceeding || telephonySession.status === _Session.PartyStatusCode.setup) && telephonySession.direction === _callDirections["default"].inbound;
+}
+
+function isHolding(telephonySession) {
+  return telephonySession.status === _Session.PartyStatusCode.hold;
+}
+
+function isRecording(telephonySession) {
+  var party = getSessionsParty(telephonySession);
+  return isOnRecording(party.recordings);
+}
+
+function isForwardedToVoiceMail(session) {
+  // TODO: fix this for call control js
+  // return session.status === PartyStatusCode.voicemail;
+  return session.status === 'Voicemail';
+}
+
+function isOnSetupStage(session) {
+  return session.status === _Session.PartyStatusCode.setup;
 }
 //# sourceMappingURL=helpers.js.map

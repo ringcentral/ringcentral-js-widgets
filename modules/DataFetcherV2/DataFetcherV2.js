@@ -59,7 +59,7 @@ var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
 
 var _sourceStatus = require("./sourceStatus");
 
-var _dec, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _temp;
+var _dec, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _temp;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -129,15 +129,13 @@ var DataFetcherV2 = (_dec = (0, _di.Module)({
 
     _initializerDefineProperty(_this, "sourceStatus", _descriptor, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "cachedData", _descriptor2, _assertThisInitialized(_this));
+    _initializerDefineProperty(_this, "storageData", _descriptor2, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "cachedTimestamps", _descriptor3, _assertThisInitialized(_this));
+    _initializerDefineProperty(_this, "data", _descriptor3, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "data", _descriptor4, _assertThisInitialized(_this));
+    _initializerDefineProperty(_this, "timestamps", _descriptor4, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "timestamps", _descriptor5, _assertThisInitialized(_this));
-
-    _initializerDefineProperty(_this, "isFetching", _descriptor6, _assertThisInitialized(_this));
+    _initializerDefineProperty(_this, "isFetching", _descriptor5, _assertThisInitialized(_this));
 
     _this._deps.sleepDetector.on(_this._deps.sleepDetector.events.detected, function () {
       return _this._handleSleepDetected();
@@ -175,8 +173,8 @@ var DataFetcherV2 = (_dec = (0, _di.Module)({
         this.data[source.key] = data;
         this.timestamps[source.key] = timestamp;
       } else {
-        this.cachedData[source.key] = data;
-        this.cachedTimestamps[source.key] = timestamp;
+        this.storageData.cachedData[source.key] = data;
+        this.storageData.cachedTimestamps[source.key] = timestamp;
       }
     }
   }, {
@@ -491,7 +489,7 @@ var DataFetcherV2 = (_dec = (0, _di.Module)({
       var _this5 = this;
 
       (0, _ramda.forEach)(function (source) {
-        if (_this5._shouldFetch(source)) {
+        if (_this5.ready && _this5._shouldFetch(source)) {
           _this5.fetchData(source);
         }
       }, Array.from(this._sources));
@@ -597,6 +595,16 @@ var DataFetcherV2 = (_dec = (0, _di.Module)({
       return null;
     }
   }, {
+    key: "cachedData",
+    get: function get() {
+      return this.storageData.cachedData;
+    }
+  }, {
+    key: "cachedTimestamps",
+    get: function get() {
+      return this.storageData.cachedTimestamps;
+    }
+  }, {
     key: "sources",
     get: function get() {
       return this._sources;
@@ -611,35 +619,31 @@ var DataFetcherV2 = (_dec = (0, _di.Module)({
   initializer: function initializer() {
     return {};
   }
-}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, "cachedData", [_core.storage, _core.state], {
+}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, "storageData", [_core.storage, _core.state], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: function initializer() {
+    return {
+      cachedData: {},
+      cachedTimestamps: {}
+    };
+  }
+}), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, "data", [_core.state], {
   configurable: true,
   enumerable: true,
   writable: true,
   initializer: function initializer() {
     return {};
   }
-}), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, "cachedTimestamps", [_core.storage, _core.state], {
+}), _descriptor4 = _applyDecoratedDescriptor(_class2.prototype, "timestamps", [_core.state], {
   configurable: true,
   enumerable: true,
   writable: true,
   initializer: function initializer() {
     return {};
   }
-}), _descriptor4 = _applyDecoratedDescriptor(_class2.prototype, "data", [_core.state], {
-  configurable: true,
-  enumerable: true,
-  writable: true,
-  initializer: function initializer() {
-    return {};
-  }
-}), _descriptor5 = _applyDecoratedDescriptor(_class2.prototype, "timestamps", [_core.state], {
-  configurable: true,
-  enumerable: true,
-  writable: true,
-  initializer: function initializer() {
-    return {};
-  }
-}), _descriptor6 = _applyDecoratedDescriptor(_class2.prototype, "isFetching", [_core.state], {
+}), _descriptor5 = _applyDecoratedDescriptor(_class2.prototype, "isFetching", [_core.state], {
   configurable: true,
   enumerable: true,
   writable: true,

@@ -169,7 +169,7 @@ _dec = (0, _di.Module)({
     key: "makeCall",
     value: function () {
       var _makeCall = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(phoneNumber, callingMode) {
-        var cmd, uri, isCallWithJupiter, frame;
+        var isCallWithJupiter, protocol, command, uri, frame;
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -178,13 +178,11 @@ _dec = (0, _di.Module)({
                   type: this.actionTypes.startToConnect,
                   phoneNumber: phoneNumber
                 });
-                cmd = "call?number=".concat(encodeURIComponent(phoneNumber));
-                uri = "".concat(this.protocol, "://").concat(cmd);
-                isCallWithJupiter = callingMode && callingMode === _callingModes["default"].jupiter;
-
-                if (isCallWithJupiter) {
-                  uri = "".concat(this.jupiterProtocol, "://r/call?number=").concat(phoneNumber);
-                }
+                isCallWithJupiter = callingMode === _callingModes["default"].jupiter;
+                protocol = isCallWithJupiter ? this.jupiterProtocol : this.spartanProtocol;
+                command = isCallWithJupiter ? "call?number=".concat(phoneNumber) // jupiter doesn't recognize encoded string for now
+                : "call?number=".concat(encodeURIComponent(phoneNumber));
+                uri = isCallWithJupiter ? "".concat(protocol, "://r/").concat(command) : "".concat(protocol, "://").concat(command);
 
                 if (!this._callHandler) {
                   _context.next = 9;
@@ -192,8 +190,8 @@ _dec = (0, _di.Module)({
                 }
 
                 this._callHandler({
-                  protocol: this.protocol,
-                  command: cmd,
+                  protocol: protocol,
+                  command: command,
                   phoneNumber: phoneNumber
                 });
 
@@ -283,19 +281,16 @@ _dec = (0, _di.Module)({
     }() // eslint-disable-next-line class-methods-use-this
 
   }, {
-    key: "protocol",
+    key: "spartanProtocol",
     get: function get() {
-      switch (this._brand.id) {
-        case '3420':
-          // ATT
+      switch (this._brand.code) {
+        case 'att':
           return 'attvr20';
 
-        case '7710':
-          // BT
+        case 'bt':
           return 'rcbtmobile';
 
-        case '7310':
-          // TELUS
+        case 'telus':
           return 'rctelus';
 
         default:
@@ -306,17 +301,14 @@ _dec = (0, _di.Module)({
   }, {
     key: "jupiterUniversalLink",
     get: function get() {
-      switch (this._brand.id) {
-        case '3420':
-          // ATT
+      switch (this._brand.code) {
+        case 'att':
           return null;
 
-        case '7710':
-          // BT
+        case 'bt':
           return null;
 
-        case '7310':
-          // TELUS
+        case 'telus':
           return null;
 
         default:
@@ -327,17 +319,14 @@ _dec = (0, _di.Module)({
   }, {
     key: "jupiterProtocol",
     get: function get() {
-      switch (this._brand.id) {
-        case '3420':
-          // ATT
+      switch (this._brand.code) {
+        case 'att':
           return null;
 
-        case '7710':
-          // BT
+        case 'bt':
           return null;
 
-        case '7310':
-          // TELUS
+        case 'telus':
           return null;
 
         default:

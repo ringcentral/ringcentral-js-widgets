@@ -87,7 +87,7 @@ var _scheduleStatus = _interopRequireDefault(require("./scheduleStatus"));
 
 var _constants = require("./constants");
 
-var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _dec10, _dec11, _dec12, _dec13, _dec14, _dec15, _dec16, _class, _class2, _descriptor, _descriptor2, _temp;
+var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _dec10, _dec11, _dec12, _dec13, _dec14, _dec15, _class, _class2, _descriptor, _descriptor2, _temp;
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
@@ -219,44 +219,43 @@ var Meeting = (_dec = (0, _di.Module)({
   return [state.lockedSettings];
 }), _dec14 = (0, _core.computed)(function (_ref13) {
   var state = _ref13.state,
-      selfUser = _ref13.selfUser;
-  return [state, selfUser];
+      loginUser = _ref13.loginUser;
+  return [state, loginUser];
 }), _dec15 = (0, _core.computed)(function (_ref14) {
   var extensionInfo = _ref14.extensionInfo;
   return [extensionInfo];
-}), _dec16 = (0, _core.computed)(function (_ref15) {
-  var state = _ref15.state;
-  return [state];
 }), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcModule) {
   _inherits(Meeting, _RcModule);
 
   var _super = _createSuper(Meeting);
 
   // TODO: add state interface
-  function Meeting(_ref16) {
+  function Meeting(_ref15) {
     var _this;
 
-    var brand = _ref16.brand,
-        alert = _ref16.alert,
-        client = _ref16.client,
-        extensionInfo = _ref16.extensionInfo,
-        storage = _ref16.storage,
-        availabilityMonitor = _ref16.availabilityMonitor,
-        reducers = _ref16.reducers,
-        meetingProvider = _ref16.meetingProvider,
-        _ref16$showSaveAsDefa = _ref16.showSaveAsDefault,
-        showSaveAsDefault = _ref16$showSaveAsDefa === void 0 ? false : _ref16$showSaveAsDefa,
-        _ref16$enableInvitati = _ref16.enableInvitationApi,
-        enableInvitationApi = _ref16$enableInvitati === void 0 ? false : _ref16$enableInvitati,
-        _ref16$enablePersonal = _ref16.enablePersonalMeeting,
-        enablePersonalMeeting = _ref16$enablePersonal === void 0 ? false : _ref16$enablePersonal,
-        _ref16$enableReloadAf = _ref16.enableReloadAfterSchedule,
-        enableReloadAfterSchedule = _ref16$enableReloadAf === void 0 ? true : _ref16$enableReloadAf,
-        _ref16$enableServiceW = _ref16.enableServiceWebSettings,
-        enableServiceWebSettings = _ref16$enableServiceW === void 0 ? false : _ref16$enableServiceW,
-        _ref16$enableSchedule = _ref16.enableScheduleFor,
-        enableScheduleFor = _ref16$enableSchedule === void 0 ? false : _ref16$enableSchedule,
-        options = _objectWithoutProperties(_ref16, ["brand", "alert", "client", "extensionInfo", "storage", "availabilityMonitor", "reducers", "meetingProvider", "showSaveAsDefault", "enableInvitationApi", "enablePersonalMeeting", "enableReloadAfterSchedule", "enableServiceWebSettings", "enableScheduleFor"]);
+    var brand = _ref15.brand,
+        alert = _ref15.alert,
+        client = _ref15.client,
+        extensionInfo = _ref15.extensionInfo,
+        storage = _ref15.storage,
+        availabilityMonitor = _ref15.availabilityMonitor,
+        reducers = _ref15.reducers,
+        meetingProvider = _ref15.meetingProvider,
+        _ref15$showSaveAsDefa = _ref15.showSaveAsDefault,
+        showSaveAsDefault = _ref15$showSaveAsDefa === void 0 ? false : _ref15$showSaveAsDefa,
+        _ref15$enableInvitati = _ref15.enableInvitationApi,
+        enableInvitationApi = _ref15$enableInvitati === void 0 ? false : _ref15$enableInvitati,
+        _ref15$enablePersonal = _ref15.enablePersonalMeeting,
+        enablePersonalMeeting = _ref15$enablePersonal === void 0 ? false : _ref15$enablePersonal,
+        _ref15$enableReloadAf = _ref15.enableReloadAfterSchedule,
+        enableReloadAfterSchedule = _ref15$enableReloadAf === void 0 ? true : _ref15$enableReloadAf,
+        _ref15$enableServiceW = _ref15.enableServiceWebSettings,
+        enableServiceWebSettings = _ref15$enableServiceW === void 0 ? false : _ref15$enableServiceW,
+        _ref15$enableSchedule = _ref15.enableScheduleOnBehalf,
+        enableScheduleOnBehalf = _ref15$enableSchedule === void 0 ? false : _ref15$enableSchedule,
+        _ref15$enableCustomTi = _ref15.enableCustomTimezone,
+        enableCustomTimezone = _ref15$enableCustomTi === void 0 ? false : _ref15$enableCustomTi,
+        options = _objectWithoutProperties(_ref15, ["brand", "alert", "client", "extensionInfo", "storage", "availabilityMonitor", "reducers", "meetingProvider", "showSaveAsDefault", "enableInvitationApi", "enablePersonalMeeting", "enableReloadAfterSchedule", "enableServiceWebSettings", "enableScheduleOnBehalf", "enableCustomTimezone"]);
 
     _classCallCheck(this, Meeting);
 
@@ -277,10 +276,11 @@ var Meeting = (_dec = (0, _di.Module)({
     _this._enablePersonalMeeting = void 0;
     _this._enableReloadAfterSchedule = void 0;
     _this._enableServiceWebSettings = void 0;
-    _this._enableScheduleFor = void 0;
+    _this._enableScheduleOnBehalf = void 0;
     _this._fetchPersonMeetingTimeout = void 0;
     _this._meetingProvider = void 0;
-    _this._fetchAssistedUsersTimeout = void 0;
+    _this._fetchdelegatorsTimeout = void 0;
+    _this._enableCustomTimezone = void 0;
 
     _initializerDefineProperty(_this, "defaultMeetingSetting", _descriptor, _assertThisInitialized(_this));
 
@@ -294,10 +294,11 @@ var Meeting = (_dec = (0, _di.Module)({
     _this._meetingProvider = meetingProvider;
     _this._showSaveAsDefault = showSaveAsDefault;
     _this._enableInvitationApi = enableInvitationApi;
+    _this._enableCustomTimezone = enableCustomTimezone;
     _this._enableReloadAfterSchedule = enableReloadAfterSchedule;
     _this._enablePersonalMeeting = enablePersonalMeeting;
     _this._enableServiceWebSettings = enableServiceWebSettings;
-    _this._enableScheduleFor = enableScheduleFor;
+    _this._enableScheduleOnBehalf = enableScheduleOnBehalf;
     _this._availabilityMonitor = availabilityMonitor;
     _this._lastMeetingSettingKey = 'lastMeetingSetting';
     _this._defaultMeetingSettingKey = 'defaultMeetingSetting';
@@ -411,8 +412,8 @@ var Meeting = (_dec = (0, _di.Module)({
               case 7:
                 this._initMeeting();
 
-                if (!this._enableScheduleFor) {
-                  _context2.next = 12;
+                if (!this._enableScheduleOnBehalf) {
+                  _context2.next = 11;
                   break;
                 }
 
@@ -420,14 +421,11 @@ var Meeting = (_dec = (0, _di.Module)({
                 return this._initScheduleFor();
 
               case 11:
-                this.updateScheduleFor(this.extensionInfo.id);
-
-              case 12:
                 this.store.dispatch({
                   type: this.actionTypes.initSuccess
                 });
 
-              case 13:
+              case 12:
               case "end":
                 return _context2.stop();
             }
@@ -530,13 +528,13 @@ var Meeting = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                if (this._fetchAssistedUsersTimeout) {
-                  clearTimeout(this._fetchAssistedUsersTimeout);
+                if (this._fetchdelegatorsTimeout) {
+                  clearTimeout(this._fetchdelegatorsTimeout);
                 }
 
                 _context4.prev = 1;
                 _context4.next = 4;
-                return this.setAssistedUsers();
+                return this.setdelegators();
 
               case 4:
                 _context4.next = 11;
@@ -547,7 +545,7 @@ var Meeting = (_dec = (0, _di.Module)({
                 _context4.t0 = _context4["catch"](1);
                 console.error('fetch default meeting error:', _context4.t0);
                 console.warn('retry after 10s');
-                this._fetchAssistedUsersTimeout = setTimeout(function () {
+                this._fetchdelegatorsTimeout = setTimeout(function () {
                   _this4._initPersonalMeeting();
                 }, 10000);
 
@@ -617,7 +615,7 @@ var Meeting = (_dec = (0, _di.Module)({
     key: "updateScheduleFor",
     value: function () {
       var _updateScheduleFor = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(userExtensionId) {
-        var user, isMySelf;
+        var hostId, user, isMySelf;
         return regeneratorRuntime.wrap(function _callee6$(_context6) {
           while (1) {
             switch (_context6.prev = _context6.next) {
@@ -630,20 +628,22 @@ var Meeting = (_dec = (0, _di.Module)({
                 return _context6.abrupt("return");
 
               case 2:
+                hostId = "".concat(userExtensionId);
                 user = (0, _ramda.find)(function (item) {
-                  return item.id === "".concat(userExtensionId);
-                }, this.assistedUsers);
+                  return item.id === hostId;
+                }, this.delegators);
 
                 if (user) {
-                  this.store.dispatch({
-                    type: this.actionTypes.updateScheduleForUser,
-                    user: user
-                  });
-                  isMySelf = userExtensionId === this.extensionInfo.id;
+                  isMySelf = hostId === "".concat(this.extensionInfo.id);
+                  this.update(_objectSpread(_objectSpread({}, this.meeting), {}, {
+                    host: {
+                      id: hostId
+                    }
+                  }));
                   this.switchUsePersonalMeetingId(isMySelf && this.usePmiDefaultFromSW);
                 }
 
-              case 4:
+              case 5:
               case "end":
                 return _context6.stop();
             }
@@ -718,9 +718,9 @@ var Meeting = (_dec = (0, _di.Module)({
     }()
   }, {
     key: "_initDefaultData",
-    value: function _initDefaultData(meeting, _ref17, usePmi) {
-      var userSettings = _ref17.userSettings,
-          personalMeetingSettings = _ref17.personalMeetingSettings;
+    value: function _initDefaultData(meeting, _ref16, usePmi) {
+      var userSettings = _ref16.userSettings,
+          personalMeetingSettings = _ref16.personalMeetingSettings;
 
       if (!this._enableServiceWebSettings) {
         return meeting;
@@ -732,19 +732,20 @@ var Meeting = (_dec = (0, _di.Module)({
           requirePasswordForPmiMeetings = _this$scheduleUserSet.requirePasswordForPmiMeetings;
       var _this$scheduleLockedS = this.scheduleLockedSettings,
           lockedRequirePasswordForSchedulingNewMeetings = _this$scheduleLockedS.requirePasswordForSchedulingNewMeetings,
-          lockedRequirePasswordForPmiMeetings = _this$scheduleLockedS.requirePasswordForPmiMeetings; // For PMI meetings
+          lockedRequirePasswordForPmiMeetings = _this$scheduleLockedS.requirePasswordForPmiMeetings;
+
+      var processedMeeting = _objectSpread(_objectSpread(_objectSpread({}, meeting), usePmi ? personalMeetingSettings : userSettings), {}, {
+        usePersonalMeetingId: usePmi
+      }); // For PMI meetings
+
 
       if (usePmi) {
-        var _processedMeeting = _objectSpread(_objectSpread(_objectSpread({}, meeting), personalMeetingSettings), {}, {
-          usePersonalMeetingId: true
-        });
-
-        var allowJoinBeforeHost = _processedMeeting.allowJoinBeforeHost,
-            _processedMeeting$pas = _processedMeeting.password,
+        var allowJoinBeforeHost = processedMeeting.allowJoinBeforeHost,
+            _processedMeeting$pas = processedMeeting.password,
             password = _processedMeeting$pas === void 0 ? '' : _processedMeeting$pas;
 
         if (password !== '') {
-          _processedMeeting._pmiPassword = password;
+          processedMeeting._pmiPassword = password;
         }
 
         var pmiRequiresPwd;
@@ -763,10 +764,10 @@ var Meeting = (_dec = (0, _di.Module)({
             break;
 
           default:
-            pmiRequiresPwd = _processedMeeting._requireMeetingPassword;
+            pmiRequiresPwd = processedMeeting._requireMeetingPassword;
         }
 
-        var pmiRequiresPwdLocked = _processedMeeting._lockRequireMeetingPassword;
+        var pmiRequiresPwdLocked = processedMeeting._lockRequireMeetingPassword;
 
         if (requirePasswordForPmiMeetings === _constants.PMIRequirePassword.JBH_ONLY) {
           pmiRequiresPwdLocked = lockedRequirePasswordForPmiMeetings && allowJoinBeforeHost;
@@ -774,25 +775,22 @@ var Meeting = (_dec = (0, _di.Module)({
           pmiRequiresPwdLocked = lockedRequirePasswordForPmiMeetings;
         }
 
-        _processedMeeting._requireMeetingPassword = pmiRequiresPwd;
-        _processedMeeting._lockRequireMeetingPassword = pmiRequiresPwdLocked;
-        return _processedMeeting;
-      } // For non-PMI meetings
+        processedMeeting._requireMeetingPassword = pmiRequiresPwd;
+        processedMeeting._lockRequireMeetingPassword = pmiRequiresPwdLocked;
+      } else {
+        // For non-PMI meetings
+        if (requirePasswordForSchedulingNewMeetings) {
+          processedMeeting._requireMeetingPassword = true;
+        }
 
+        if (lockedRequirePasswordForSchedulingNewMeetings) {
+          processedMeeting._lockRequireMeetingPassword = true;
+        }
+      }
 
-      var processedMeeting = _objectSpread(_objectSpread(_objectSpread({}, meeting), userSettings), {}, {
-        usePersonalMeetingId: false
+      return _objectSpread(_objectSpread({}, processedMeeting), {}, {
+        password: processedMeeting._requireMeetingPassword && !processedMeeting.password ? (0, _meetingHelper.generateRandomPassword)() : processedMeeting.password
       });
-
-      if (requirePasswordForSchedulingNewMeetings) {
-        processedMeeting._requireMeetingPassword = true;
-      }
-
-      if (lockedRequirePasswordForSchedulingNewMeetings) {
-        processedMeeting._lockRequireMeetingPassword = true;
-      }
-
-      return processedMeeting;
     }
   }, {
     key: "_combineWithSWSettings",
@@ -808,11 +806,12 @@ var Meeting = (_dec = (0, _di.Module)({
       var lockedRequirePasswordForPmiMeetings = this.scheduleLockedSettings.requirePasswordForPmiMeetings;
 
       if (lockedRequirePasswordForPmiMeetings && requirePasswordForPmiMeetings === _constants.PMIRequirePassword.JBH_ONLY) {
-        processedMeeting._lockRequireMeetingPassword = allowJoinBeforeHost;
-
-        if (allowJoinBeforeHost) {
+        if (allowJoinBeforeHost && !processedMeeting._requireMeetingPassword) {
           processedMeeting._requireMeetingPassword = true;
+          processedMeeting.password = processedMeeting._pmiPassword || (0, _meetingHelper.generateRandomPassword)();
         }
+
+        processedMeeting._lockRequireMeetingPassword = allowJoinBeforeHost;
       }
 
       return processedMeeting;
@@ -821,34 +820,25 @@ var Meeting = (_dec = (0, _di.Module)({
     key: "fetchPersonalMeeting",
     value: function () {
       var _fetchPersonalMeeting = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8() {
-        var personalMeetingId, serviceInfo, meetingInfoResponse;
+        var serviceInfo, personalMeetingId, meetingInfoResponse;
         return regeneratorRuntime.wrap(function _callee8$(_context8) {
           while (1) {
             switch (_context8.prev = _context8.next) {
               case 0:
-                personalMeetingId = this.personalMeeting && this.personalMeeting.id;
-
-                if (personalMeetingId) {
-                  _context8.next = 6;
-                  break;
-                }
-
-                _context8.next = 4;
+                _context8.next = 2;
                 return this.getMeetingServiceInfo();
 
-              case 4:
+              case 2:
                 serviceInfo = _context8.sent;
                 personalMeetingId = serviceInfo.externalUserInfo.personalMeetingId;
-
-              case 6:
-                _context8.next = 8;
+                _context8.next = 6;
                 return this.getMeeting(personalMeetingId);
 
-              case 8:
+              case 6:
                 meetingInfoResponse = _context8.sent;
                 return _context8.abrupt("return", meetingInfoResponse);
 
-              case 10:
+              case 8:
               case "end":
                 return _context8.stop();
             }
@@ -864,9 +854,9 @@ var Meeting = (_dec = (0, _di.Module)({
     }()
   }, {
     key: "formatPersonalMeeting",
-    value: function formatPersonalMeeting(meetingInfo) {
+    value: function formatPersonalMeeting(meetingInfo, shortId) {
       var settings = _objectSpread(_objectSpread(_objectSpread({}, this.initialMeetingSetting), meetingInfo), {}, {
-        shortId: meetingInfo.id,
+        shortId: shortId || meetingInfo.id,
         usePersonalMeetingId: true
       });
 
@@ -917,24 +907,24 @@ var Meeting = (_dec = (0, _di.Module)({
       return setPersonalMeeting;
     }()
   }, {
-    key: "setAssistedUsers",
+    key: "setdelegators",
     value: function () {
-      var _setAssistedUsers = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10() {
-        var _yield$this$getAssist, records;
+      var _setdelegators = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10() {
+        var _yield$this$getDelega, records;
 
         return regeneratorRuntime.wrap(function _callee10$(_context10) {
           while (1) {
             switch (_context10.prev = _context10.next) {
               case 0:
                 _context10.next = 2;
-                return this.getAssistedUsers();
+                return this.getDelegators();
 
               case 2:
-                _yield$this$getAssist = _context10.sent;
-                records = _yield$this$getAssist.records;
+                _yield$this$getDelega = _context10.sent;
+                records = _yield$this$getDelega.records;
                 this.store.dispatch({
-                  type: this.actionTypes.updateAssistedUsers,
-                  assistedUsers: records
+                  type: this.actionTypes.updateDelegatorList,
+                  delegators: records
                 });
 
               case 5:
@@ -945,11 +935,11 @@ var Meeting = (_dec = (0, _di.Module)({
         }, _callee10, this);
       }));
 
-      function setAssistedUsers() {
-        return _setAssistedUsers.apply(this, arguments);
+      function setdelegators() {
+        return _setdelegators.apply(this, arguments);
       }
 
-      return setAssistedUsers;
+      return setdelegators;
     }()
   }, {
     key: "schedule",
@@ -957,10 +947,9 @@ var Meeting = (_dec = (0, _di.Module)({
       var _schedule2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee11(meeting) {
         var _this5 = this;
 
-        var _ref18,
-            _ref18$isAlertSuccess,
+        var _ref17,
+            _ref17$isAlertSuccess,
             isAlertSuccess,
-            opener,
             formattedMeeting,
             _yield$_promise,
             _yield$_promise2,
@@ -974,19 +963,18 @@ var Meeting = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context11.prev = _context11.next) {
               case 0:
-                _ref18 = _args11.length > 1 && _args11[1] !== undefined ? _args11[1] : {}, _ref18$isAlertSuccess = _ref18.isAlertSuccess, isAlertSuccess = _ref18$isAlertSuccess === void 0 ? true : _ref18$isAlertSuccess;
-                opener = _args11.length > 2 ? _args11[2] : undefined;
+                _ref17 = _args11.length > 1 && _args11[1] !== undefined ? _args11[1] : {}, _ref17$isAlertSuccess = _ref17.isAlertSuccess, isAlertSuccess = _ref17$isAlertSuccess === void 0 ? true : _ref17$isAlertSuccess;
 
                 if (!this.isScheduling) {
-                  _context11.next = 4;
+                  _context11.next = 3;
                   break;
                 }
 
                 return _context11.abrupt("return", this.schedule._promise);
 
-              case 4:
+              case 3:
                 meeting = meeting || this.meeting;
-                _context11.prev = 5;
+                _context11.prev = 4;
                 this.store.dispatch({
                   type: this.actionTypes.initScheduling
                 }); // Validate meeting
@@ -1000,18 +988,18 @@ var Meeting = (_dec = (0, _di.Module)({
                 }
 
                 this.schedule._promise = Promise.all([this.postMeeting(formattedMeeting), this.getMeetingServiceInfo()]);
-                _context11.next = 13;
+                _context11.next = 12;
                 return this.schedule._promise;
 
-              case 13:
+              case 12:
                 _yield$_promise = _context11.sent;
                 _yield$_promise2 = _slicedToArray(_yield$_promise, 2);
                 resp = _yield$_promise2[0];
                 serviceInfo = _yield$_promise2[1];
-                _context11.next = 19;
+                _context11.next = 18;
                 return this.getMeetingInvitation(resp.id);
 
-              case 19:
+              case 18:
                 invitationInfo = _context11.sent;
                 this.store.dispatch({
                   type: this.actionTypes.scheduled,
@@ -1020,10 +1008,10 @@ var Meeting = (_dec = (0, _di.Module)({
                     _saved: meeting._saved
                   })
                 });
-                _context11.next = 23;
-                return this._createDialingNumberTpl(serviceInfo, resp, opener, invitationInfo);
+                _context11.next = 22;
+                return this._createDialingNumberTpl(serviceInfo, resp, invitationInfo);
 
-              case 23:
+              case 22:
                 result = _context11.sent;
 
                 // Reload meeting info
@@ -1035,7 +1023,7 @@ var Meeting = (_dec = (0, _di.Module)({
                 if (this._enablePersonalMeeting && resp.usePersonalMeetingId) {
                   this.store.dispatch({
                     type: this.actionTypes.updatePersonalMeeting,
-                    meeting: this.formatPersonalMeeting(resp)
+                    meeting: this.formatPersonalMeeting(resp, serviceInfo.externalUserInfo.personalMeetingId)
                   });
 
                   if (this._enableServiceWebSettings) {
@@ -1056,29 +1044,29 @@ var Meeting = (_dec = (0, _di.Module)({
 
                 return _context11.abrupt("return", result);
 
-              case 30:
-                _context11.prev = 30;
-                _context11.t0 = _context11["catch"](5);
+              case 29:
+                _context11.prev = 29;
+                _context11.t0 = _context11["catch"](4);
                 this.store.dispatch({
                   type: this.actionTypes.resetScheduling
                 });
-                _context11.next = 35;
+                _context11.next = 34;
                 return this._errorHandle(_context11.t0);
 
-              case 35:
+              case 34:
                 return _context11.abrupt("return", null);
 
-              case 36:
-                _context11.prev = 36;
+              case 35:
+                _context11.prev = 35;
                 delete this.schedule._promise;
-                return _context11.finish(36);
+                return _context11.finish(35);
 
-              case 39:
+              case 38:
               case "end":
                 return _context11.stop();
             }
           }
-        }, _callee11, this, [[5, 30, 36, 39]]);
+        }, _callee11, this, [[4, 29, 35, 38]]);
       }));
 
       function schedule(_x3) {
@@ -1117,11 +1105,13 @@ var Meeting = (_dec = (0, _di.Module)({
       var _getMeeting = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee13(meetingId) {
         var _this6 = this;
 
-        var _ref19,
-            _ref19$isAlertError,
+        var _ref18,
+            _ref18$isAlertError,
             isAlertError,
             settings,
-            error,
+            _yield$e$response$clo,
+            errorCode,
+            message,
             isMeetingDeleted,
             _args13 = arguments;
 
@@ -1129,7 +1119,7 @@ var Meeting = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context13.prev = _context13.next) {
               case 0:
-                _ref19 = _args13.length > 1 && _args13[1] !== undefined ? _args13[1] : {}, _ref19$isAlertError = _ref19.isAlertError, isAlertError = _ref19$isAlertError === void 0 ? true : _ref19$isAlertError;
+                _ref18 = _args13.length > 1 && _args13[1] !== undefined ? _args13[1] : {}, _ref18$isAlertError = _ref18.isAlertError, isAlertError = _ref18$isAlertError === void 0 ? true : _ref18$isAlertError;
                 _context13.prev = 1;
                 _context13.next = 4;
                 return this._client.account().extension().meeting(meetingId).get();
@@ -1147,9 +1137,11 @@ var Meeting = (_dec = (0, _di.Module)({
                 return _context13.t0.response.clone().json();
 
               case 12:
-                error = _context13.sent;
-                console.log("failed to get meeting info: ".concat(meetingId, ", ").concat(_context13.t0));
-                isMeetingDeleted = error.errorCode === 'CMN-102' && error.message.indexOf('[meetingId] is not found') > -1;
+                _yield$e$response$clo = _context13.sent;
+                errorCode = _yield$e$response$clo.errorCode;
+                message = _yield$e$response$clo.message;
+                console.log("failed to get meeting info: ".concat(meetingId, ", ").concat(errorCode, ", ").concat(message));
+                isMeetingDeleted = errorCode === 'CMN-102' && message.indexOf('[meetingId] is not found') > -1;
 
                 if (isAlertError && isMeetingDeleted) {
                   setTimeout(function () {
@@ -1161,7 +1153,7 @@ var Meeting = (_dec = (0, _di.Module)({
 
                 return _context13.abrupt("return", null);
 
-              case 17:
+              case 19:
               case "end":
                 return _context13.stop();
             }
@@ -1224,9 +1216,9 @@ var Meeting = (_dec = (0, _di.Module)({
       return putMeeting;
     }()
   }, {
-    key: "getAssistedUsers",
+    key: "getDelegators",
     value: function () {
-      var _getAssistedUsers = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee16() {
+      var _getDelegators = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee16() {
         var res;
         return regeneratorRuntime.wrap(function _callee16$(_context16) {
           while (1) {
@@ -1247,11 +1239,11 @@ var Meeting = (_dec = (0, _di.Module)({
         }, _callee16, this);
       }));
 
-      function getAssistedUsers() {
-        return _getAssistedUsers.apply(this, arguments);
+      function getDelegators() {
+        return _getDelegators.apply(this, arguments);
       }
 
-      return getAssistedUsers;
+      return getDelegators;
     }()
   }, {
     key: "getMeetingInvitation",
@@ -1437,10 +1429,9 @@ var Meeting = (_dec = (0, _di.Module)({
       var _updateMeeting = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee20(meetingId, meeting) {
         var _this7 = this;
 
-        var _ref20,
-            _ref20$isAlertSuccess,
+        var _ref19,
+            _ref19$isAlertSuccess,
             isAlertSuccess,
-            opener,
             formattedMeeting,
             _yield$_promise3,
             _yield$_promise4,
@@ -1454,19 +1445,18 @@ var Meeting = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context20.prev = _context20.next) {
               case 0:
-                _ref20 = _args20.length > 2 && _args20[2] !== undefined ? _args20[2] : {}, _ref20$isAlertSuccess = _ref20.isAlertSuccess, isAlertSuccess = _ref20$isAlertSuccess === void 0 ? false : _ref20$isAlertSuccess;
-                opener = _args20.length > 3 ? _args20[3] : undefined;
+                _ref19 = _args20.length > 2 && _args20[2] !== undefined ? _args20[2] : {}, _ref19$isAlertSuccess = _ref19.isAlertSuccess, isAlertSuccess = _ref19$isAlertSuccess === void 0 ? false : _ref19$isAlertSuccess;
 
                 if (!this._isUpdating(meetingId)) {
-                  _context20.next = 4;
+                  _context20.next = 3;
                   break;
                 }
 
                 return _context20.abrupt("return", this.updateMeeting._promise);
 
-              case 4:
+              case 3:
                 meeting = meeting || this.meeting;
-                _context20.prev = 5;
+                _context20.prev = 4;
                 this.store.dispatch({
                   type: this.actionTypes.initUpdating,
                   meetingId: meetingId
@@ -1481,18 +1471,18 @@ var Meeting = (_dec = (0, _di.Module)({
                 }
 
                 this.updateMeeting._promise = Promise.all([this.putMeeting(meetingId, formattedMeeting), this.getMeetingServiceInfo()]);
-                _context20.next = 13;
+                _context20.next = 12;
                 return this.updateMeeting._promise;
 
-              case 13:
+              case 12:
                 _yield$_promise3 = _context20.sent;
                 _yield$_promise4 = _slicedToArray(_yield$_promise3, 2);
                 resp = _yield$_promise4[0];
                 serviceInfo = _yield$_promise4[1];
-                _context20.next = 19;
+                _context20.next = 18;
                 return this.getMeetingInvitation(meetingId);
 
-              case 19:
+              case 18:
                 invitationInfo = _context20.sent;
                 this.store.dispatch({
                   type: this.actionTypes.updated,
@@ -1501,10 +1491,10 @@ var Meeting = (_dec = (0, _di.Module)({
                   }),
                   meetingId: meetingId
                 });
-                _context20.next = 23;
-                return this._createDialingNumberTpl(serviceInfo, resp, opener, invitationInfo);
+                _context20.next = 22;
+                return this._createDialingNumberTpl(serviceInfo, resp, invitationInfo);
 
-              case 23:
+              case 22:
                 result = _context20.sent;
 
                 // Reload meeting info
@@ -1516,7 +1506,7 @@ var Meeting = (_dec = (0, _di.Module)({
                 if (this._enablePersonalMeeting && resp.usePersonalMeetingId) {
                   this.store.dispatch({
                     type: this.actionTypes.updatePersonalMeeting,
-                    meeting: this.formatPersonalMeeting(resp)
+                    meeting: this.formatPersonalMeeting(resp, serviceInfo.externalUserInfo.personalMeetingId)
                   });
 
                   if (this._enableServiceWebSettings) {
@@ -1537,30 +1527,30 @@ var Meeting = (_dec = (0, _di.Module)({
 
                 return _context20.abrupt("return", result);
 
-              case 30:
-                _context20.prev = 30;
-                _context20.t0 = _context20["catch"](5);
+              case 29:
+                _context20.prev = 29;
+                _context20.t0 = _context20["catch"](4);
                 this.store.dispatch({
                   type: this.actionTypes.resetUpdating,
                   meetingId: meetingId
                 });
-                _context20.next = 35;
+                _context20.next = 34;
                 return this._errorHandle(_context20.t0);
 
-              case 35:
+              case 34:
                 return _context20.abrupt("return", null);
 
-              case 36:
-                _context20.prev = 36;
+              case 35:
+                _context20.prev = 35;
                 delete this.updateMeeting._promise;
-                return _context20.finish(36);
+                return _context20.finish(35);
 
-              case 39:
+              case 38:
               case "end":
                 return _context20.stop();
             }
           }
-        }, _callee20, this, [[5, 30, 36, 39]]);
+        }, _callee20, this, [[4, 29, 35, 38]]);
       }));
 
       function updateMeeting(_x10, _x11) {
@@ -1572,7 +1562,7 @@ var Meeting = (_dec = (0, _di.Module)({
   }, {
     key: "_createDialingNumberTpl",
     value: function () {
-      var _createDialingNumberTpl2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee21(serviceInfo, resp, opener, invitationInfo) {
+      var _createDialingNumberTpl2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee21(serviceInfo, resp, invitationInfo) {
         var result;
         return regeneratorRuntime.wrap(function _callee21$(_context21) {
           while (1) {
@@ -1586,19 +1576,9 @@ var Meeting = (_dec = (0, _di.Module)({
                   extensionInfo: this.extensionInfo,
                   invitationInfo: invitationInfo
                 };
-
-                if (!(typeof this.scheduledHook === 'function')) {
-                  _context21.next = 6;
-                  break;
-                }
-
-                _context21.next = 6;
-                return this.scheduledHook(result, opener);
-
-              case 6:
                 return _context21.abrupt("return", result);
 
-              case 7:
+              case 4:
               case "end":
                 return _context21.stop();
             }
@@ -1606,7 +1586,7 @@ var Meeting = (_dec = (0, _di.Module)({
         }, _callee21, this);
       }));
 
-      function _createDialingNumberTpl(_x12, _x13, _x14, _x15) {
+      function _createDialingNumberTpl(_x12, _x13, _x14) {
         return _createDialingNumberTpl2.apply(this, arguments);
       }
 
@@ -1616,7 +1596,7 @@ var Meeting = (_dec = (0, _di.Module)({
     key: "_errorHandle",
     value: function () {
       var _errorHandle2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee22(errors) {
-        var _iterator, _step, error, _yield$errors$respons, errorCode, permissionName;
+        var _iterator, _step, error, _yield$errors$respons, message, errorCode, permissionName;
 
         return regeneratorRuntime.wrap(function _callee22$(_context22) {
           while (1) {
@@ -1641,12 +1621,12 @@ var Meeting = (_dec = (0, _di.Module)({
                   _iterator.f();
                 }
 
-                _context22.next = 26;
+                _context22.next = 31;
                 break;
 
               case 5:
                 if (!(errors && errors.response)) {
-                  _context22.next = 24;
+                  _context22.next = 29;
                   break;
                 }
 
@@ -1655,11 +1635,12 @@ var Meeting = (_dec = (0, _di.Module)({
 
               case 8:
                 _yield$errors$respons = _context22.sent;
+                message = _yield$errors$respons.message;
                 errorCode = _yield$errors$respons.errorCode;
                 permissionName = _yield$errors$respons.permissionName;
 
                 if (!(errorCode === 'InsufficientPermissions' && permissionName)) {
-                  _context22.next = 15;
+                  _context22.next = 16;
                   break;
                 }
 
@@ -1670,26 +1651,39 @@ var Meeting = (_dec = (0, _di.Module)({
                   }
                 });
 
-                _context22.next = 22;
+                _context22.next = 27;
                 break;
 
-              case 15:
-                _context22.t0 = !this._availabilityMonitor;
-
-                if (_context22.t0) {
+              case 16:
+                if (!(errorCode === 'CMN-102' && message.indexOf('[meetingId] is not found') > -1)) {
                   _context22.next = 20;
                   break;
                 }
 
-                _context22.next = 19;
-                return this._availabilityMonitor.checkIfHAError(errors);
+                this._alert.danger({
+                  message: _meetingStatus["default"].meetingIsDeleted
+                });
 
-              case 19:
-                _context22.t0 = !_context22.sent;
+                _context22.next = 27;
+                break;
 
               case 20:
+                _context22.t0 = !this._availabilityMonitor;
+
+                if (_context22.t0) {
+                  _context22.next = 25;
+                  break;
+                }
+
+                _context22.next = 24;
+                return this._availabilityMonitor.checkIfHAError(errors);
+
+              case 24:
+                _context22.t0 = !_context22.sent;
+
+              case 25:
                 if (!_context22.t0) {
-                  _context22.next = 22;
+                  _context22.next = 27;
                   break;
                 }
 
@@ -1697,18 +1691,18 @@ var Meeting = (_dec = (0, _di.Module)({
                   message: _meetingStatus["default"].internalError
                 });
 
-              case 22:
-                _context22.next = 26;
+              case 27:
+                _context22.next = 31;
                 break;
 
-              case 24:
+              case 29:
                 console.log('errors:', errors);
 
                 this._alert.danger({
                   message: _meetingStatus["default"].internalError
                 });
 
-              case 26:
+              case 31:
               case "end":
                 return _context22.stop();
             }
@@ -1716,7 +1710,7 @@ var Meeting = (_dec = (0, _di.Module)({
         }, _callee22, this);
       }));
 
-      function _errorHandle(_x16) {
+      function _errorHandle(_x15) {
         return _errorHandle2.apply(this, arguments);
       }
 
@@ -1770,14 +1764,14 @@ var Meeting = (_dec = (0, _di.Module)({
         var _schedule = {
           durationInMinutes: schedule.durationInMinutes,
           timeZone: {
-            id: _meetingHelper.UTC_TIMEZONE_ID
+            id: this._enableCustomTimezone ? schedule.timeZone.id : _meetingHelper.UTC_TIMEZONE_ID
           }
         };
 
         if (schedule.startTime) {
           // Format selected startTime to utc standard time
           // Timezone information is not included here
-          _schedule.startTime = _moment["default"].utc(schedule.startTime).format();
+          _schedule.startTime = this._enableCustomTimezone ? schedule.startTime : _moment["default"].utc(schedule.startTime).format();
         }
 
         formatted.schedule = _schedule;
@@ -1785,13 +1779,6 @@ var Meeting = (_dec = (0, _di.Module)({
         if (recurrence && recurrence.until) {
           formatted.recurrence.until = _moment["default"].utc(recurrence.until).format();
         }
-      } // Schedule For
-
-
-      if (this._enableScheduleFor) {
-        formatted.host = {
-          id: this.scheduleForUser && this.scheduleForUser.id || host && host.id
-        };
       } // For PMI
 
 
@@ -1843,7 +1830,8 @@ var Meeting = (_dec = (0, _di.Module)({
       this.store.dispatch({
         type: this.actionTypes.saveAsDefaultSetting,
         meeting: _objectSpread(_objectSpread({}, formattedMeeting), {}, {
-          _saved: meeting.notShowAgain
+          _saved: meeting.notShowAgain,
+          _requireMeetingPassword: meeting._requireMeetingPassword
         })
       });
     }
@@ -1916,7 +1904,7 @@ var Meeting = (_dec = (0, _di.Module)({
       }
 
       return {
-        _lockSettings: (0, _ramda.pick)(_constants.COMMON_SETTINGS, this.scheduleLockedSettings)
+        settingLock: (0, _ramda.pick)(_constants.COMMON_SETTINGS, this.scheduleLockedSettings)
       };
     }
   }, {
@@ -2010,37 +1998,43 @@ var Meeting = (_dec = (0, _di.Module)({
       return this.state.lockedSettings || {};
     }
   }, {
+    key: "showAdminLock",
+    get: function get() {
+      return false;
+    }
+  }, {
+    key: "enablePersonalMeeting",
+    get: function get() {
+      return this._enablePersonalMeeting;
+    }
+  }, {
     key: "personalMeeting",
     get: function get() {
       return this._storage.getItem(this._personalMeetingKey);
     }
   }, {
-    key: "assistedUsers",
+    key: "delegators",
     get: function get() {
-      if (this.state.assistedUsers.length === 0) {
+      if (this.state.delegators.length === 0) {
         return [];
       }
 
-      return [this.selfUser].concat(_toConsumableArray(this.state.assistedUsers));
+      return [this.loginUser].concat(_toConsumableArray(this.state.delegators));
     }
   }, {
-    key: "selfUser",
+    key: "loginUser",
     get: function get() {
       var myself = {
         id: "".concat(this.extensionInfo.id),
-        name: _constants.ASSISTED_USERS_MYSELF
+        name: _constants.ASSISTED_USERS_MYSELF,
+        isLoginUser: true
       };
       return myself;
-    }
-  }, {
-    key: "scheduleForUser",
-    get: function get() {
-      return this.state.scheduleForUser;
     }
   }]);
 
   return Meeting;
-}(_RcModule2["default"]), _temp), (_applyDecoratedDescriptor(_class2.prototype, "init", [_background["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "init"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "reload", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "reload"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "update", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "update"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "switchUsePersonalMeetingId", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "switchUsePersonalMeetingId"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateScheduleFor", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "updateScheduleFor"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_updateServiceWebSettings", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_updateServiceWebSettings"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "fetchPersonalMeeting", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "fetchPersonalMeeting"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setPersonalMeeting", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "setPersonalMeeting"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setAssistedUsers", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "setAssistedUsers"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "schedule", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "schedule"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getMeetingServiceInfo", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "getMeetingServiceInfo"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getMeeting", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "getMeeting"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "putMeeting", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "putMeeting"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getAssistedUsers", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "getAssistedUsers"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getMeetingInvitation", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "getMeetingInvitation"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getUserSettings", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "getUserSettings"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getLockedSettings", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "getLockedSettings"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateMeeting", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "updateMeeting"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "commonUserSettings", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "commonUserSettings"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "commonPersonalMeetingSettings", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "commonPersonalMeetingSettings"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "defaultLockedSettings", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "defaultLockedSettings"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "pmiDefaultSettings", [_dec5], Object.getOwnPropertyDescriptor(_class2.prototype, "pmiDefaultSettings"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "generalDefaultSettings", [_dec6], Object.getOwnPropertyDescriptor(_class2.prototype, "generalDefaultSettings"), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, "defaultMeetingSetting", [_selector.selector], {
+}(_RcModule2["default"]), _temp), (_applyDecoratedDescriptor(_class2.prototype, "init", [_background["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "init"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "reload", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "reload"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "update", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "update"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "switchUsePersonalMeetingId", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "switchUsePersonalMeetingId"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateScheduleFor", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "updateScheduleFor"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_updateServiceWebSettings", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_updateServiceWebSettings"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "fetchPersonalMeeting", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "fetchPersonalMeeting"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setPersonalMeeting", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "setPersonalMeeting"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setdelegators", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "setdelegators"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "schedule", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "schedule"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getMeetingServiceInfo", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "getMeetingServiceInfo"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getMeeting", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "getMeeting"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "putMeeting", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "putMeeting"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getDelegators", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "getDelegators"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getMeetingInvitation", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "getMeetingInvitation"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getUserSettings", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "getUserSettings"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getLockedSettings", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "getLockedSettings"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateMeeting", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "updateMeeting"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "commonUserSettings", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "commonUserSettings"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "commonPersonalMeetingSettings", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "commonPersonalMeetingSettings"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "defaultLockedSettings", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "defaultLockedSettings"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "pmiDefaultSettings", [_dec5], Object.getOwnPropertyDescriptor(_class2.prototype, "pmiDefaultSettings"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "generalDefaultSettings", [_dec6], Object.getOwnPropertyDescriptor(_class2.prototype, "generalDefaultSettings"), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, "defaultMeetingSetting", [_selector.selector], {
   configurable: true,
   enumerable: true,
   writable: true,
@@ -2082,18 +2076,27 @@ var Meeting = (_dec = (0, _di.Module)({
     var _this9 = this;
 
     return [function () {
-      return _this9._extensionInfo.info.name || '';
+      var extensionName = _this9.extensionInfo.name || '';
+
+      if (!_this9._enableScheduleOnBehalf || !_this9.meeting || !_this9.delegators || _this9.delegators.length === 0) {
+        return extensionName;
+      }
+
+      var currentHost = "".concat(_this9.meeting.host && _this9.meeting.host.id || '');
+      var user = (0, _ramda.find)(function (item) {
+        return item.id === currentHost;
+      }, _this9.delegators);
+      return user && user.id !== "".concat(_this9.extensionInfo.id) ? user.name : extensionName;
     }, function () {
       return (0, _meetingHelper.getInitializedStartTime)();
     }, function () {
-      return "".concat(_this9._extensionInfo.info.id) || '';
-    }, function () {
-      var _this9$scheduleForUse;
+      if (_this9._enableScheduleOnBehalf && _this9.meeting && _this9.meeting.host && _this9.meeting.host.id) {
+        return "".concat(_this9.meeting.host.id);
+      }
 
-      return "".concat(((_this9$scheduleForUse = _this9.scheduleForUser) === null || _this9$scheduleForUse === void 0 ? void 0 : _this9$scheduleForUse.name) || '');
-    }, function (extensionName, startTime, extensionId, scheduleForName) {
-      var meetingName = scheduleForName && scheduleForName !== _constants.ASSISTED_USERS_MYSELF ? scheduleForName : extensionName;
-      var setting = (0, _meetingHelper.getDefaultMeetingSettings)(meetingName, startTime, extensionId);
+      return "".concat(_this9.extensionInfo.id) || '';
+    }, function (meetingName, startTime, hostId) {
+      var setting = (0, _meetingHelper.getDefaultMeetingSettings)(meetingName, startTime, hostId);
 
       if (!_this9._enableServiceWebSettings) {
         return setting;
@@ -2104,6 +2107,6 @@ var Meeting = (_dec = (0, _di.Module)({
       });
     }];
   }
-}), _applyDecoratedDescriptor(_class2.prototype, "usePmiDefaultFromSW", [_dec7], Object.getOwnPropertyDescriptor(_class2.prototype, "usePmiDefaultFromSW"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "recordingUserSettings", [_dec8], Object.getOwnPropertyDescriptor(_class2.prototype, "recordingUserSettings"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "scheduleUserSettings", [_dec9], Object.getOwnPropertyDescriptor(_class2.prototype, "scheduleUserSettings"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "recordingLockedSettings", [_dec10], Object.getOwnPropertyDescriptor(_class2.prototype, "recordingLockedSettings"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "scheduleLockedSettings", [_dec11], Object.getOwnPropertyDescriptor(_class2.prototype, "scheduleLockedSettings"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "userSettings", [_dec12], Object.getOwnPropertyDescriptor(_class2.prototype, "userSettings"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "lockedSettings", [_dec13], Object.getOwnPropertyDescriptor(_class2.prototype, "lockedSettings"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "assistedUsers", [_dec14], Object.getOwnPropertyDescriptor(_class2.prototype, "assistedUsers"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "selfUser", [_dec15], Object.getOwnPropertyDescriptor(_class2.prototype, "selfUser"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "scheduleForUser", [_dec16], Object.getOwnPropertyDescriptor(_class2.prototype, "scheduleForUser"), _class2.prototype)), _class2)) || _class);
+}), _applyDecoratedDescriptor(_class2.prototype, "usePmiDefaultFromSW", [_dec7], Object.getOwnPropertyDescriptor(_class2.prototype, "usePmiDefaultFromSW"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "recordingUserSettings", [_dec8], Object.getOwnPropertyDescriptor(_class2.prototype, "recordingUserSettings"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "scheduleUserSettings", [_dec9], Object.getOwnPropertyDescriptor(_class2.prototype, "scheduleUserSettings"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "recordingLockedSettings", [_dec10], Object.getOwnPropertyDescriptor(_class2.prototype, "recordingLockedSettings"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "scheduleLockedSettings", [_dec11], Object.getOwnPropertyDescriptor(_class2.prototype, "scheduleLockedSettings"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "userSettings", [_dec12], Object.getOwnPropertyDescriptor(_class2.prototype, "userSettings"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "lockedSettings", [_dec13], Object.getOwnPropertyDescriptor(_class2.prototype, "lockedSettings"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "delegators", [_dec14], Object.getOwnPropertyDescriptor(_class2.prototype, "delegators"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "loginUser", [_dec15], Object.getOwnPropertyDescriptor(_class2.prototype, "loginUser"), _class2.prototype)), _class2)) || _class);
 exports.Meeting = Meeting;
 //# sourceMappingURL=Meeting.js.map

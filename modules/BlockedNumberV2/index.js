@@ -20,6 +20,7 @@ var _BlockedNumber = require("./BlockedNumber");
 
 Object.keys(_BlockedNumber).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _BlockedNumber[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {
@@ -32,6 +33,7 @@ var _BlockedNumber2 = require("./BlockedNumber.interface");
 
 Object.keys(_BlockedNumber2).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _BlockedNumber2[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {

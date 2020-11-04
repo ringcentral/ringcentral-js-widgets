@@ -34,6 +34,7 @@ exports.callLog = callLog;
 exports.userSettings = userSettings;
 exports.lockedSettings = lockedSettings;
 exports.assistedUsers = assistedUsers;
+exports.delegators = delegators;
 exports.device = device;
 exports.conferencing = conferencing;
 exports.numberParse = numberParse;
@@ -55,6 +56,7 @@ exports.meeting = meeting;
 exports.meetingInvitation = meetingInvitation;
 exports.meetingInfo = meetingInfo;
 exports.videoPreference = videoPreference;
+exports.videoPersonalSettings = videoPersonalSettings;
 exports.serviceInfo = serviceInfo;
 exports.meetingProvider = meetingProvider;
 exports.meetingProviderRcm = meetingProviderRcm;
@@ -151,6 +153,8 @@ var _meetingInvitation = _interopRequireDefault(require("./data/meetingInvitatio
 
 var _assistedUsers = _interopRequireDefault(require("./data/assistedUsers.json"));
 
+var _delegatorsBody = _interopRequireDefault(require("./data/delegatorsBody.json"));
+
 var _meetingProviderRcm = _interopRequireDefault(require("./data/meetingProviderRcm.json"));
 
 var _meetingProviderRcv = _interopRequireDefault(require("./data/meetingProviderRcv.json"));
@@ -190,6 +194,8 @@ var _videoConfiguration = _interopRequireDefault(require("./data/videoConfigurat
 var _videoPreference = _interopRequireDefault(require("./data/videoPreference.json"));
 
 var _features = _interopRequireDefault(require("./data/features.json"));
+
+var _videoPersonalSettings = _interopRequireDefault(require("./data/videoPersonalSettings.json"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -602,6 +608,15 @@ function assistedUsers() {
   });
 }
 
+function delegators() {
+  var mockResponse = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  mockApi({
+    method: 'GET',
+    url: "".concat(mockServer, "/rcvideo/v1/accounts/~/extensions/~/delegators"),
+    body: mockResponse || _delegatorsBody["default"]
+  });
+}
+
 function device() {
   var mockResponse = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
   var isOnce = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
@@ -808,11 +823,22 @@ function meetingInfo() {
 }
 
 function videoPreference() {
-  var query = "id=".concat(_videoHelper.RCV_PREFERENCES_API_KEYS.join('&id='));
+  var useExtensionId = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+  var query = "id=".concat(_videoHelper.RCV_PREFERENCES_IDS.join('&id='));
+  var extensionId = useExtensionId ? _extensionInfo["default"].id : '~';
   mockApi({
     method: 'GET',
-    url: "".concat(mockServer, "/rcvideo/v1/account/~/extension/~/preferences?").concat(query),
+    url: "".concat(mockServer, "/rcvideo/v1/account/").concat(extensionId, "/extension/").concat(extensionId, "/preferences?").concat(query),
     body: _videoPreference["default"],
+    isOnce: false
+  });
+}
+
+function videoPersonalSettings() {
+  mockApi({
+    method: 'GET',
+    url: "".concat(mockServer, "/rcvideo/v1/bridges?default=true&accountId=").concat(_accountInfo["default"].id, "&extensionId=").concat(_extensionInfo["default"].id),
+    body: _videoPersonalSettings["default"],
     isOnce: false
   });
 }
@@ -1002,5 +1028,7 @@ function mockForLogin() {
   lockedSettings(params.lockedSettingsData);
   features(params.featuresData);
   assistedUsers(params.mockAssistedUsers);
+  delegators();
+  videoPersonalSettings();
 }
 //# sourceMappingURL=index.js.map

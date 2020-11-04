@@ -71,6 +71,8 @@ var _ensureExist = _interopRequireDefault(require("../../lib/ensureExist"));
 
 var _concurrentExecute = _interopRequireDefault(require("../../lib/concurrentExecute"));
 
+var _phoneTypes = require("../../enums/phoneTypes");
+
 var _dec, _class, _class2;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -365,7 +367,7 @@ _dec = (0, _di.Module)({
             phoneNumber = _ref7.phoneNumber;
         phoneNumber = phoneNumber.replace('+', '');
 
-        if (phoneType === 'extension') {
+        if (phoneType === _phoneTypes.phoneTypes.extension) {
           var _promise = _this4._fetchCallLogList(_objectSpread(_objectSpread({}, params), {}, {
             extensionNumber: phoneNumber
           }));

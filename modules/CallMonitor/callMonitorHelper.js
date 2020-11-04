@@ -6,6 +6,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.matchWephoneSessionWithAcitveCall = matchWephoneSessionWithAcitveCall;
+exports.isCurrentDeviceEndCall = isCurrentDeviceEndCall;
+exports.matchTelephonySessionWithActiveCall = matchTelephonySessionWithActiveCall;
+exports.mapTelephonyStatus = mapTelephonyStatus;
 
 require("core-js/modules/es6.array.sort");
 
@@ -13,7 +16,11 @@ require("core-js/modules/es6.array.index-of");
 
 require("core-js/modules/es6.array.filter");
 
+var _Session = require("ringcentral-call-control/lib/Session");
+
 var _callDirections = _interopRequireDefault(require("../../enums/callDirections"));
+
+var _telephonyStatus = require("../../enums/telephonyStatus");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -114,5 +121,60 @@ function matchWephoneSessionWithAcitveCall(sessions, callItem) {
   }
 
   return matches[0];
+}
+
+function isCurrentDeviceEndCall(sessions, callItem) {
+  return sessions.indexOf(callItem.telephonySessionId) !== -1;
+}
+
+function matchTelephonySessionWithActiveCall(callItem) {
+  if (callItem) {
+    return {
+      status: callItem.status,
+      id: callItem.id,
+      direction: callItem.direction
+    };
+  }
+
+  return undefined;
+} // telephony session status match presence telephonyStatus
+
+
+function mapTelephonyStatus(telephonySessionStatus) {
+  var result = null;
+
+  switch (telephonySessionStatus) {
+    case _Session.PartyStatusCode.setup:
+    case _Session.PartyStatusCode.proceeding:
+      {
+        result = _telephonyStatus.telephonyStatus.ringing;
+        break;
+      }
+
+    case _Session.PartyStatusCode.hold:
+      {
+        result = _telephonyStatus.telephonyStatus.onHold;
+        break;
+      }
+
+    case _Session.PartyStatusCode.answered:
+      {
+        result = _telephonyStatus.telephonyStatus.callConnected;
+        break;
+      }
+
+    case _Session.PartyStatusCode.parked:
+      {
+        result = _telephonyStatus.telephonyStatus.parkedCall;
+        break;
+      }
+
+    default:
+      {
+        result = _telephonyStatus.telephonyStatus.noCall;
+      }
+  }
+
+  return result;
 }
 //# sourceMappingURL=callMonitorHelper.js.map

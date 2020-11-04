@@ -4,12 +4,14 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.getRcVideoInfoReducer = getRcVideoInfoReducer;
-exports.getRcVideoCreatingStatusReducer = getRcVideoCreatingStatusReducer;
+exports.getRcVideoStatusReducer = getRcVideoStatusReducer;
 exports.getDefaultVideoSettingReducer = getDefaultVideoSettingReducer;
 exports.getPersonalMeetingReducer = getPersonalMeetingReducer;
-exports.getRcVideoMeetingLockReducer = getRcVideoMeetingLockReducer;
+exports.getRcVideoSettingLocksReducer = getRcVideoSettingLocksReducer;
 exports.getRcVideoPreferencesReducer = getRcVideoPreferencesReducer;
 exports.getRcVideoPreferencesStateReducer = getRcVideoPreferencesStateReducer;
+exports.getDelegatorListReducer = getDelegatorListReducer;
+exports.getDelegatorReducer = getDelegatorReducer;
 exports["default"] = void 0;
 
 require("core-js/modules/es6.object.define-properties");
@@ -36,7 +38,7 @@ var _redux = require("redux");
 
 var _getModuleStatusReducer = _interopRequireDefault(require("../../lib/getModuleStatusReducer"));
 
-var _createStatus = _interopRequireDefault(require("./createStatus"));
+var _videoStatus = require("./videoStatus");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -69,22 +71,35 @@ function getRcVideoInfoReducer(types) {
   };
 }
 
-function getRcVideoCreatingStatusReducer(types) {
+function getRcVideoStatusReducer(types) {
   return function () {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _createStatus["default"].idle;
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _videoStatus.videoStatus.idle;
 
     var _ref2 = arguments.length > 1 ? arguments[1] : undefined,
         type = _ref2.type;
 
     switch (type) {
+      case types.initSettingsStart:
+        return _videoStatus.videoStatus.initializing;
+
+      case types.initSettingsEnd:
+        return _videoStatus.videoStatus.initialized;
+
       case types.initCreating:
-        return _createStatus["default"].creating;
+        return _videoStatus.videoStatus.creating;
 
       case types.created:
-        return _createStatus["default"].created;
+        return _videoStatus.videoStatus.created;
+
+      case types.initUpdating:
+        return _videoStatus.videoStatus.updating;
+
+      case types.updated:
+        return _videoStatus.videoStatus.updated;
 
       case types.resetCreating:
-        return _createStatus["default"].idle;
+      case types.resetUpdating:
+        return _videoStatus.videoStatus.idle;
 
       default:
         return state;
@@ -130,17 +145,17 @@ function getPersonalMeetingReducer(types) {
   };
 }
 
-function getRcVideoMeetingLockReducer(types) {
+function getRcVideoSettingLocksReducer(types) {
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
     var _ref5 = arguments.length > 1 ? arguments[1] : undefined,
         type = _ref5.type,
-        meetingSettingLock = _ref5.meetingSettingLock;
+        settingLocks = _ref5.settingLocks;
 
     switch (type) {
-      case types.updateMeetingSettingLock:
-        return meetingSettingLock;
+      case types.updateMeetingSettingLocks:
+        return settingLocks;
 
       default:
         return state;
@@ -184,14 +199,52 @@ function getRcVideoPreferencesStateReducer(types) {
   };
 }
 
+function getDelegatorListReducer(types) {
+  return function () {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+
+    var _ref8 = arguments.length > 1 ? arguments[1] : undefined,
+        type = _ref8.type,
+        delegators = _ref8.delegators;
+
+    switch (type) {
+      case types.updateDelegatorList:
+        return delegators;
+
+      default:
+        return state;
+    }
+  };
+}
+
+function getDelegatorReducer(types) {
+  return function () {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+
+    var _ref9 = arguments.length > 1 ? arguments[1] : undefined,
+        type = _ref9.type,
+        delegator = _ref9.delegator;
+
+    switch (type) {
+      case types.updateDelegator:
+        return delegator;
+
+      default:
+        return state;
+    }
+  };
+}
+
 var _default = function _default(types, reducers) {
   return (0, _redux.combineReducers)(_objectSpread(_objectSpread({}, reducers), {}, {
     meeting: getRcVideoInfoReducer(types),
     status: (0, _getModuleStatusReducer["default"])(types),
-    creatingStatus: getRcVideoCreatingStatusReducer(types),
+    videoStatus: getRcVideoStatusReducer(types),
+    delegators: getDelegatorListReducer(types),
     preferences: getRcVideoPreferencesReducer(types),
     isPreferencesChanged: getRcVideoPreferencesStateReducer(types),
-    meetingSettingLock: getRcVideoMeetingLockReducer(types)
+    settingLocks: getRcVideoSettingLocksReducer(types),
+    delegator: getDelegatorReducer(types)
   }));
 };
 

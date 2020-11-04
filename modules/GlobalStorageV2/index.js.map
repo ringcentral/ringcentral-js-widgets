@@ -1,0 +1,1 @@
+{"version":3,"sources":["modules/GlobalStorageV2/index.ts"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;AAAA;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;;AACA;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA","sourcesContent":["export * from './GlobalStorage';\nexport * from './GlobalStorage.interface';\n"],"file":"index.js"}

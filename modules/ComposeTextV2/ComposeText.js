@@ -433,43 +433,47 @@ var ComposeText = (_dec = (0, _di.Module)({
   }, {
     key: "send",
     value: function () {
-      var _send = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
-        var toNumbers, typingToNumber;
+      var _send = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(text) {
+        var attachments,
+            toNumbers,
+            typingToNumber,
+            _args3 = arguments;
         return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
+                attachments = _args3.length > 1 && _args3[1] !== undefined ? _args3[1] : [];
                 toNumbers = this.toNumbers.map(function (number) {
                   return number.phoneNumber;
                 });
                 typingToNumber = this.typingToNumber;
 
                 if ((0, _isBlank["default"])(typingToNumber)) {
-                  _context3.next = 8;
+                  _context3.next = 9;
                   break;
                 }
 
                 if (!this._validatePhoneNumber(typingToNumber)) {
-                  _context3.next = 7;
+                  _context3.next = 8;
                   break;
                 }
 
                 toNumbers.push(typingToNumber);
-                _context3.next = 8;
+                _context3.next = 9;
                 break;
 
-              case 7:
+              case 8:
                 return _context3.abrupt("return", null);
 
-              case 8:
+              case 9:
                 return _context3.abrupt("return", this._deps.messageSender.send({
                   fromNumber: this.senderNumber,
                   toNumbers: toNumbers,
-                  text: this.messageText,
-                  attachments: this.attachments
+                  text: text,
+                  attachments: attachments
                 }));
 
-              case 9:
+              case 10:
               case "end":
                 return _context3.stop();
             }
@@ -477,7 +481,7 @@ var ComposeText = (_dec = (0, _di.Module)({
         }, _callee3, this);
       }));
 
-      function send() {
+      function send(_x) {
         return _send.apply(this, arguments);
       }
 
@@ -501,7 +505,7 @@ var ComposeText = (_dec = (0, _di.Module)({
         }, _callee4, this);
       }));
 
-      function updateSenderNumber(_x) {
+      function updateSenderNumber(_x2) {
         return _updateSenderNumber.apply(this, arguments);
       }
 
@@ -535,7 +539,7 @@ var ComposeText = (_dec = (0, _di.Module)({
         }, _callee5, this);
       }));
 
-      function updateTypingToNumber(_x2) {
+      function updateTypingToNumber(_x3) {
         return _updateTypingToNumber.apply(this, arguments);
       }
 
@@ -562,7 +566,7 @@ var ComposeText = (_dec = (0, _di.Module)({
         }, _callee6, this);
       }));
 
-      function onToNumberMatch(_x3) {
+      function onToNumberMatch(_x4) {
         return _onToNumberMatch.apply(this, arguments);
       }
 
@@ -598,7 +602,7 @@ var ComposeText = (_dec = (0, _di.Module)({
         }, _callee7, this);
       }));
 
-      function addToRecipients(_x4) {
+      function addToRecipients(_x5) {
         return _addToRecipients.apply(this, arguments);
       }
 
@@ -664,7 +668,7 @@ var ComposeText = (_dec = (0, _di.Module)({
         }, _callee9, this);
       }));
 
-      function addToNumber(_x5) {
+      function addToNumber(_x6) {
         return _addToNumber2.apply(this, arguments);
       }
 
@@ -688,7 +692,7 @@ var ComposeText = (_dec = (0, _di.Module)({
         }, _callee10, this);
       }));
 
-      function removeToNumber(_x6) {
+      function removeToNumber(_x7) {
         return _removeToNumber2.apply(this, arguments);
       }
 
@@ -722,7 +726,7 @@ var ComposeText = (_dec = (0, _di.Module)({
         }, _callee11, this);
       }));
 
-      function updateMessageText(_x7) {
+      function updateMessageText(_x8) {
         return _updateMessageText.apply(this, arguments);
       }
 
@@ -771,7 +775,7 @@ var ComposeText = (_dec = (0, _di.Module)({
         }, _callee12, this);
       }));
 
-      function addAttachment(_x8) {
+      function addAttachment(_x9) {
         return _addAttachment2.apply(this, arguments);
       }
 
@@ -795,7 +799,7 @@ var ComposeText = (_dec = (0, _di.Module)({
         }, _callee13, this);
       }));
 
-      function removeAttachment(_x9) {
+      function removeAttachment(_x10) {
         return _removeAttachment2.apply(this, arguments);
       }
 

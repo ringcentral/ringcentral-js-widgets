@@ -236,6 +236,13 @@ _dec = (0, _di.Module)({
       return ((_this$data = this.data) === null || _this$data === void 0 ? void 0 : _this$data.provider) || null;
     }
   }, {
+    key: "userLicenseType",
+    get: function get() {
+      var _this$data2;
+
+      return ((_this$data2 = this.data) === null || _this$data2 === void 0 ? void 0 : _this$data2.userLicenseType) || null;
+    }
+  }, {
     key: "_hasPermission",
     get: function get() {
       return !!this._rolesAndPermissions.hasMeetingsPermission;

@@ -20,6 +20,7 @@ var _Brand = require("./Brand");
 
 Object.keys(_Brand).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _Brand[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {
@@ -32,6 +33,7 @@ var _Brand2 = require("./Brand.interface");
 
 Object.keys(_Brand2).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _Brand2[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {
@@ -44,6 +46,7 @@ var _createBrandConfig = require("./createBrandConfig");
 
 Object.keys(_createBrandConfig).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _createBrandConfig[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {

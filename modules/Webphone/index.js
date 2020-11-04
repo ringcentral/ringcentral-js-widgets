@@ -95,6 +95,8 @@ var _callDirections = _interopRequireDefault(require("../../enums/callDirections
 
 var _webphoneErrors = _interopRequireDefault(require("./webphoneErrors"));
 
+var _webphoneMessages = _interopRequireDefault(require("./webphoneMessages"));
+
 var _callErrors = _interopRequireDefault(require("../Call/callErrors"));
 
 var _ensureExist = _interopRequireDefault(require("../../lib/ensureExist"));
@@ -321,6 +323,7 @@ var Webphone = (_dec = (0, _di.Module)({
     _this._connectDelay = connectDelay;
     _this._disconnectOnInactive = disconnectOnInactive;
     _this._activeWebphoneKey = "".concat(prefix, "-active-webphone-key");
+    _this._activeWebphoneActiveCallKey = "".concat(prefix, "-active-webphone-active-call-key");
     _this._storageKey = "".concat(prefix, "-webphone");
 
     if (typeof onCallEnd === 'function') {
@@ -373,6 +376,7 @@ var Webphone = (_dec = (0, _di.Module)({
     _this._tabActive = false;
     _this._connectTimeout = null;
     _this._isFirstRegister = true;
+    _this._stopWebphoneUserAgentPromise = null;
 
     if (_this._contactMatcher) {
       _this._contactMatcher.addQuerySource({
@@ -459,7 +463,7 @@ var Webphone = (_dec = (0, _di.Module)({
         }, _callee);
       })));
 
-      this._createOtherWebphoneInstanceRegisteredListener();
+      this._createOtherWebphoneInstanceListener();
     }
   }, {
     key: "_onStateChange",
@@ -613,7 +617,6 @@ var Webphone = (_dec = (0, _di.Module)({
     key: "_removeWebphone",
     value: function () {
       var _removeWebphone2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
-        var waitUnregisteredPromise;
         return regeneratorRuntime.wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
@@ -626,13 +629,13 @@ var Webphone = (_dec = (0, _di.Module)({
                 return _context5.abrupt("return");
 
               case 2:
-                waitUnregisteredPromise = this._waitUnregistered(this._webphone.userAgent);
+                this._stopWebphoneUserAgentPromise = this._waitUnregistered(this._webphone.userAgent);
 
                 this._webphone.userAgent.stop();
 
                 _context5.prev = 4;
                 _context5.next = 7;
-                return waitUnregisteredPromise;
+                return this._stopWebphoneUserAgentPromise;
 
               case 7:
                 _context5.next = 12;
@@ -644,6 +647,8 @@ var Webphone = (_dec = (0, _di.Module)({
                 console.error(_context5.t0);
 
               case 12:
+                this._stopWebphoneUserAgentPromise = null;
+
                 try {
                   this._webphone.userAgent.removeAllListeners();
 
@@ -667,7 +672,7 @@ var Webphone = (_dec = (0, _di.Module)({
 
                 this._webphone = null;
 
-              case 14:
+              case 15:
               case "end":
                 return _context5.stop();
             }
@@ -1380,7 +1385,7 @@ var Webphone = (_dec = (0, _di.Module)({
     value: function _onWebphoneUnregistered() {
       this._removeCurrentInstanceFromActiveWebphone();
 
-      if (this.disconnecting || this.inactiveDisconnecting || this.disconnected || this.inactive) {
+      if (this.disconnecting || this.inactiveDisconnecting || this.disconnected || this.inactive || !!this._stopWebphoneUserAgentPromise) {
         // unregister by our app
         return;
       } // unavailable, unregistered by some errors
@@ -1409,35 +1414,38 @@ var Webphone = (_dec = (0, _di.Module)({
       }
     }
   }, {
-    key: "_createOtherWebphoneInstanceRegisteredListener",
-    value: function _createOtherWebphoneInstanceRegisteredListener() {
+    key: "_createOtherWebphoneInstanceListener",
+    value: function _createOtherWebphoneInstanceListener() {
       var _this5 = this;
 
       if (!this._disconnectOnInactive || !this._tabManager) {
         return;
-      } // disconnect to inactive when other tabs' web phone connected
-
+      }
 
       window.addEventListener('storage', function (e) {
-        if (e.key !== _this5._activeWebphoneKey) {
-          return;
+        // disconnect to inactive when other tabs' web phone connected
+        if (e.key === _this5._activeWebphoneKey) {
+          if (!_this5.connected || !document.hidden) {
+            return;
+          }
+
+          if (e.newValue === _this5._tabManager.id) {
+            return;
+          }
+
+          if (_this5.sessions.length === 0) {
+            _this5._disconnectToInactive();
+
+            return;
+          }
+
+          _this5._disconnectInactiveAfterSessionEnd = true;
+        } // unhold active calls in current tab
+
+
+        if (e.key === _this5._activeWebphoneActiveCallKey) {
+          _this5._holdOtherSession(e.newValue);
         }
-
-        if (!_this5.connected || !document.hidden) {
-          return;
-        }
-
-        if (e.newValue === _this5._tabManager.id) {
-          return;
-        }
-
-        if (_this5.sessions.length === 0) {
-          _this5._disconnectToInactive();
-
-          return;
-        }
-
-        _this5._disconnectInactiveAfterSessionEnd = true;
       });
     }
   }, {
@@ -2301,12 +2309,14 @@ var Webphone = (_dec = (0, _di.Module)({
                 }()));
 
               case 2:
-                // update cached sessions
+                this._updateSessions(); // update cached sessions
+
+
                 this.store.dispatch({
                   type: this.actionTypes.onholdCachedSession
                 });
 
-              case 3:
+              case 4:
               case "end":
                 return _context24.stop();
             }
@@ -2536,7 +2546,7 @@ var Webphone = (_dec = (0, _di.Module)({
     key: "park",
     value: function () {
       var _park = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee28(sessionId) {
-        var session;
+        var session, result;
         return regeneratorRuntime.wrap(function _callee28$(_context28) {
           while (1) {
             switch (_context28.prev = _context28.next) {
@@ -2556,21 +2566,33 @@ var Webphone = (_dec = (0, _di.Module)({
                 return session.park();
 
               case 6:
+                result = _context28.sent;
                 console.log('Parked');
-                _context28.next = 12;
+
+                if (result['park extension']) {
+                  this._alert.success({
+                    message: _webphoneMessages["default"].parked,
+                    payload: {
+                      parkedNumber: "*".concat(result['park extension'])
+                    },
+                    ttl: 0
+                  });
+                }
+
+                _context28.next = 14;
                 break;
 
-              case 9:
-                _context28.prev = 9;
+              case 11:
+                _context28.prev = 11;
                 _context28.t0 = _context28["catch"](3);
                 console.error(_context28.t0);
 
-              case 12:
+              case 14:
               case "end":
                 return _context28.stop();
             }
           }
-        }, _callee28, this, [[3, 9]]);
+        }, _callee28, this, [[3, 11]]);
       }));
 
       function park(_x17) {
@@ -3326,6 +3348,19 @@ var Webphone = (_dec = (0, _di.Module)({
       return toggleMinimized;
     }()
   }, {
+    key: "_setActiveWebphoneActiveCallId",
+    value: function _setActiveWebphoneActiveCallId(session) {
+      if (!this._disconnectOnInactive) {
+        return;
+      }
+
+      var currentId = localStorage.getItem(this._activeWebphoneActiveCallKey);
+
+      if (currentId !== session.id) {
+        localStorage.setItem(this._activeWebphoneActiveCallKey, session.id);
+      }
+    }
+  }, {
     key: "_onCallInit",
     value: function _onCallInit(session) {
       this._addSession(session);
@@ -3344,6 +3379,8 @@ var Webphone = (_dec = (0, _di.Module)({
       }
 
       this._eventEmitter.emit(EVENTS.callInit, normalizedSession, this.activeSession);
+
+      this._setActiveWebphoneActiveCallId(session);
     }
   }, {
     key: "_onCallStart",
@@ -3360,6 +3397,8 @@ var Webphone = (_dec = (0, _di.Module)({
       });
 
       this._eventEmitter.emit(EVENTS.callStart, normalizedSession, this.activeSession);
+
+      this._setActiveWebphoneActiveCallId(session);
     }
   }, {
     key: "_onCallRing",
@@ -3443,6 +3482,8 @@ var Webphone = (_dec = (0, _di.Module)({
       });
 
       this._eventEmitter.emit(EVENTS.callResume, normalizedSession, this.activeSession);
+
+      this._setActiveWebphoneActiveCallId(session);
     }
   }, {
     key: "_onCallHold",

@@ -51,7 +51,7 @@ var _DataFetcherV = require("../DataFetcherV2");
 
 var _permissionsMessages = require("../RolesAndPermissions/permissionsMessages");
 
-var _dec, _dec2, _dec3, _dec4, _class, _class2;
+var _dec, _dec2, _dec3, _dec4, _dec5, _class, _class2;
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -101,6 +101,9 @@ var AccountInfo = (_dec = (0, _di.Module)({
   return [info];
 }), _dec4 = (0, _core.computed)(function (_ref3) {
   var serviceInfo = _ref3.serviceInfo;
+  return [serviceInfo];
+}), _dec5 = (0, _core.computed)(function (_ref4) {
+  var serviceInfo = _ref4.serviceInfo;
   return [serviceInfo];
 }), _dec(_class = (_class2 = /*#__PURE__*/function (_DataFetcherV2Consume) {
   _inherits(AccountInfo, _DataFetcherV2Consume);
@@ -160,7 +163,9 @@ var AccountInfo = (_dec = (0, _di.Module)({
   _createClass(AccountInfo, [{
     key: "_checkPermission",
     value: function _checkPermission() {
-      return !!this._deps.rolesAndPermissions.permissions.ReadCompanyInfo;
+      var _this$_deps$rolesAndP;
+
+      return !!((_this$_deps$rolesAndP = this._deps.rolesAndPermissions.permissions) === null || _this$_deps$rolesAndP === void 0 ? void 0 : _this$_deps$rolesAndP.ReadCompanyInfo);
     }
   }, {
     key: "onStateChange",
@@ -220,6 +225,13 @@ var AccountInfo = (_dec = (0, _di.Module)({
       return (_this$serviceInfo$ser = this.serviceInfo.servicePlan) !== null && _this$serviceInfo$ser !== void 0 ? _this$serviceInfo$ser : {};
     }
   }, {
+    key: "billingPlan",
+    get: function get() {
+      var _this$serviceInfo$bil;
+
+      return (_this$serviceInfo$bil = this.serviceInfo.billingPlan) !== null && _this$serviceInfo$bil !== void 0 ? _this$serviceInfo$bil : {};
+    }
+  }, {
     key: "id",
     get: function get() {
       return this.info.id;
@@ -246,6 +258,6 @@ var AccountInfo = (_dec = (0, _di.Module)({
   }]);
 
   return AccountInfo;
-}(_DataFetcherV.DataFetcherV2Consumer), (_applyDecoratedDescriptor(_class2.prototype, "info", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "info"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "serviceInfo", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "serviceInfo"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "servicePlan", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "servicePlan"), _class2.prototype)), _class2)) || _class);
+}(_DataFetcherV.DataFetcherV2Consumer), (_applyDecoratedDescriptor(_class2.prototype, "info", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "info"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "serviceInfo", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "serviceInfo"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "servicePlan", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "servicePlan"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "billingPlan", [_dec5], Object.getOwnPropertyDescriptor(_class2.prototype, "billingPlan"), _class2.prototype)), _class2)) || _class);
 exports.AccountInfo = AccountInfo;
 //# sourceMappingURL=AccountInfo.js.map

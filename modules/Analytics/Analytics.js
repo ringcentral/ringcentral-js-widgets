@@ -1,9 +1,12 @@
 "use strict";
 
+require("core-js/modules/es6.regexp.replace");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.track = track;
+exports.replace = replace;
 exports.Analytics = exports.tracking = exports.DEFAULT_TAG_NAME = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
@@ -57,6 +60,8 @@ require("core-js/modules/es6.array.for-each");
 require("regenerator-runtime/runtime");
 
 require("core-js/modules/es6.date.to-iso-string");
+
+require("core-js/modules/es6.array.find-index");
 
 var _RcModule2 = _interopRequireDefault(require("../../lib/RcModule"));
 
@@ -142,6 +147,13 @@ function track(tagName) {
       configurable: false
     });
   };
+}
+
+function replace(prototype, property, descriptor) {
+  var existActionIndex = TRACK_LIST.findIndex(function (item) {
+    return property === item.funcName;
+  });
+  existActionIndex !== -1 && TRACK_LIST.splice(existActionIndex, 1);
 }
 
 var DEFAULT_TAG_NAME = 'default';

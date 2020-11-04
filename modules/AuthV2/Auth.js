@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Auth = void 0;
+exports.Auth = exports.LoginStatusChangeEvent = void 0;
 
 require("core-js/modules/es6.array.from");
 
@@ -114,6 +114,7 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
 function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and runs after the decorators transform.'); }
 
 var LoginStatusChangeEvent = 'loginStatusChange';
+exports.LoginStatusChangeEvent = LoginStatusChangeEvent;
 var Auth = (_dec = (0, _di.Module)({
   name: 'Auth',
   deps: ['Client', 'Alert', 'Locale', {
@@ -688,6 +689,38 @@ var Auth = (_dec = (0, _di.Module)({
       return login;
     }()
   }, {
+    key: "refreshToken",
+    value: function () {
+      var _refreshToken = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9() {
+        var token;
+        return regeneratorRuntime.wrap(function _callee9$(_context9) {
+          while (1) {
+            switch (_context9.prev = _context9.next) {
+              case 0:
+                _context9.next = 2;
+                return this._deps.client.service.platform().refresh().then(function (response) {
+                  return response.json();
+                });
+
+              case 2:
+                token = _context9.sent;
+                return _context9.abrupt("return", token);
+
+              case 4:
+              case "end":
+                return _context9.stop();
+            }
+          }
+        }, _callee9, this);
+      }));
+
+      function refreshToken() {
+        return _refreshToken.apply(this, arguments);
+      }
+
+      return refreshToken;
+    }()
+  }, {
     key: "getLoginUrl",
     value: function getLoginUrl(_ref6) {
       var redirectUri = _ref6.redirectUri,
@@ -722,7 +755,7 @@ var Auth = (_dec = (0, _di.Module)({
   }, {
     key: "logout",
     value: function () {
-      var _logout = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10() {
+      var _logout = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee11() {
         var _this3 = this;
 
         var _ref7,
@@ -733,13 +766,13 @@ var Auth = (_dec = (0, _di.Module)({
             _step2,
             _loop,
             _ret,
-            _args11 = arguments;
+            _args12 = arguments;
 
-        return regeneratorRuntime.wrap(function _callee10$(_context11) {
+        return regeneratorRuntime.wrap(function _callee11$(_context12) {
           while (1) {
-            switch (_context11.prev = _context11.next) {
+            switch (_context12.prev = _context12.next) {
               case 0:
-                _ref7 = _args11.length > 0 && _args11[0] !== undefined ? _args11[0] : {}, _ref7$dismissAllAlert = _ref7.dismissAllAlert, dismissAllAlert = _ref7$dismissAllAlert === void 0 ? true : _ref7$dismissAllAlert;
+                _ref7 = _args12.length > 0 && _args12[0] !== undefined ? _args12[0] : {}, _ref7$dismissAllAlert = _ref7.dismissAllAlert, dismissAllAlert = _ref7$dismissAllAlert === void 0 ? true : _ref7$dismissAllAlert;
 
                 if (dismissAllAlert) {
                   this._deps.alert.dismissAll();
@@ -747,42 +780,42 @@ var Auth = (_dec = (0, _di.Module)({
 
                 this.setBeforeLogout();
                 handlers = _toConsumableArray(this._beforeLogoutHandlers);
-                _context11.prev = 4;
+                _context12.prev = 4;
 
                 if (this._deps.tabManager && this._deps.tabManager.ready) {
                   this._deps.tabManager.send(LoginStatusChangeEvent, false);
                 }
 
                 _iterator2 = _createForOfIteratorHelper(handlers);
-                _context11.prev = 7;
+                _context12.prev = 7;
                 _loop = /*#__PURE__*/regeneratorRuntime.mark(function _loop() {
                   var handler, result;
-                  return regeneratorRuntime.wrap(function _loop$(_context10) {
+                  return regeneratorRuntime.wrap(function _loop$(_context11) {
                     while (1) {
-                      switch (_context10.prev = _context10.next) {
+                      switch (_context11.prev = _context11.next) {
                         case 0:
                           handler = _step2.value;
-                          _context10.next = 3;
-                          return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9() {
-                            return regeneratorRuntime.wrap(function _callee9$(_context9) {
+                          _context11.next = 3;
+                          return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10() {
+                            return regeneratorRuntime.wrap(function _callee10$(_context10) {
                               while (1) {
-                                switch (_context9.prev = _context9.next) {
+                                switch (_context10.prev = _context10.next) {
                                   case 0:
-                                    return _context9.abrupt("return", handler());
+                                    return _context10.abrupt("return", handler());
 
                                   case 1:
                                   case "end":
-                                    return _context9.stop();
+                                    return _context10.stop();
                                 }
                               }
-                            }, _callee9);
+                            }, _callee10);
                           }))();
 
                         case 3:
-                          result = _context10.sent;
+                          result = _context11.sent;
 
                           if (!result) {
-                            _context10.next = 8;
+                            _context11.next = 8;
                             break;
                           }
 
@@ -792,13 +825,13 @@ var Auth = (_dec = (0, _di.Module)({
                             _this3._deps.tabManager.send(LoginStatusChangeEvent, true);
                           }
 
-                          return _context10.abrupt("return", {
+                          return _context11.abrupt("return", {
                             v: Promise.reject(result)
                           });
 
                         case 8:
                         case "end":
-                          return _context10.stop();
+                          return _context11.stop();
                       }
                     }
                   }, _loop);
@@ -808,79 +841,79 @@ var Auth = (_dec = (0, _di.Module)({
 
               case 10:
                 if ((_step2 = _iterator2.n()).done) {
-                  _context11.next = 17;
+                  _context12.next = 17;
                   break;
                 }
 
-                return _context11.delegateYield(_loop(), "t0", 12);
+                return _context12.delegateYield(_loop(), "t0", 12);
 
               case 12:
-                _ret = _context11.t0;
+                _ret = _context12.t0;
 
                 if (!(_typeof(_ret) === "object")) {
-                  _context11.next = 15;
+                  _context12.next = 15;
                   break;
                 }
 
-                return _context11.abrupt("return", _ret.v);
+                return _context12.abrupt("return", _ret.v);
 
               case 15:
-                _context11.next = 10;
+                _context12.next = 10;
                 break;
 
               case 17:
-                _context11.next = 22;
+                _context12.next = 22;
                 break;
 
               case 19:
-                _context11.prev = 19;
-                _context11.t1 = _context11["catch"](7);
+                _context12.prev = 19;
+                _context12.t1 = _context12["catch"](7);
 
-                _iterator2.e(_context11.t1);
+                _iterator2.e(_context12.t1);
 
               case 22:
-                _context11.prev = 22;
+                _context12.prev = 22;
 
                 _iterator2.f();
 
-                return _context11.finish(22);
+                return _context12.finish(22);
 
               case 25:
-                _context11.next = 31;
+                _context12.next = 31;
                 break;
 
               case 27:
-                _context11.prev = 27;
-                _context11.t2 = _context11["catch"](4);
-                console.error(_context11.t2);
+                _context12.prev = 27;
+                _context12.t2 = _context12["catch"](4);
+                console.error(_context12.t2);
 
                 this._deps.alert.danger({
                   message: _authMessages.authMessages.beforeLogoutError,
-                  payload: _context11.t2
+                  payload: _context12.t2
                 });
 
               case 31:
                 this.setLogout();
 
                 if (!this.isImplicit) {
-                  _context11.next = 36;
+                  _context12.next = 36;
                   break;
                 }
 
                 this._deps.client.service.platform()._cache.clean();
 
                 this.setLogoutSuccess();
-                return _context11.abrupt("return", null);
+                return _context12.abrupt("return", null);
 
               case 36:
-                return _context11.abrupt("return", this._deps.client.service.platform().logout());
+                return _context12.abrupt("return", this._deps.client.service.platform().logout());
 
               case 37:
               case "end":
-                return _context11.stop();
+                return _context12.stop();
             }
           }
-        }, _callee10, this, [[4, 27], [7, 19, 22, 25]]);
+        }, _callee11, this, [[4, 27], [7, 19, 22, 25]]);
       }));
 
       function logout() {
@@ -930,27 +963,27 @@ var Auth = (_dec = (0, _di.Module)({
   }, {
     key: "refreshImplicitToken",
     value: function () {
-      var _refreshImplicitToken = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee11(_ref9) {
+      var _refreshImplicitToken = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee12(_ref9) {
         var tokenType, accessToken, expiresIn, endpointId, extensionData, ownerId, platform, newAuthData;
-        return regeneratorRuntime.wrap(function _callee11$(_context12) {
+        return regeneratorRuntime.wrap(function _callee12$(_context13) {
           while (1) {
-            switch (_context12.prev = _context12.next) {
+            switch (_context13.prev = _context13.next) {
               case 0:
                 tokenType = _ref9.tokenType, accessToken = _ref9.accessToken, expiresIn = _ref9.expiresIn, endpointId = _ref9.endpointId;
-                _context12.prev = 1;
-                _context12.next = 4;
+                _context13.prev = 1;
+                _context13.next = 4;
                 return this._deps.client.account().extension().get();
 
               case 4:
-                extensionData = _context12.sent;
+                extensionData = _context13.sent;
                 ownerId = String(extensionData.id);
 
                 if (!(ownerId !== String(this.ownerId))) {
-                  _context12.next = 8;
+                  _context13.next = 8;
                   break;
                 }
 
-                return _context12.abrupt("return");
+                return _context13.abrupt("return");
 
               case 8:
                 platform = this._deps.client.service.platform();
@@ -963,20 +996,20 @@ var Auth = (_dec = (0, _di.Module)({
                 };
                 platform.auth().setData(newAuthData);
                 platform.emit(platform.events.refreshSuccess, newAuthData);
-                _context12.next = 17;
+                _context13.next = 17;
                 break;
 
               case 14:
-                _context12.prev = 14;
-                _context12.t0 = _context12["catch"](1);
-                console.error('refreshImplicitToken error:', _context12.t0);
+                _context13.prev = 14;
+                _context13.t0 = _context13["catch"](1);
+                console.error('refreshImplicitToken error:', _context13.t0);
 
               case 17:
               case "end":
-                return _context12.stop();
+                return _context13.stop();
             }
           }
-        }, _callee11, this, [[1, 14]]);
+        }, _callee12, this, [[1, 14]]);
       }));
 
       function refreshImplicitToken(_x3) {
@@ -988,23 +1021,23 @@ var Auth = (_dec = (0, _di.Module)({
   }, {
     key: "checkIsLoggedIn",
     value: function () {
-      var _checkIsLoggedIn = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee12() {
-        return regeneratorRuntime.wrap(function _callee12$(_context13) {
+      var _checkIsLoggedIn = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee13() {
+        return regeneratorRuntime.wrap(function _callee13$(_context14) {
           while (1) {
-            switch (_context13.prev = _context13.next) {
+            switch (_context14.prev = _context14.next) {
               case 0:
-                _context13.next = 2;
+                _context14.next = 2;
                 return this._deps.client.service.platform().loggedIn();
 
               case 2:
-                return _context13.abrupt("return", this.loginStatus === _loginStatus.loginStatus.loggedIn);
+                return _context14.abrupt("return", this.loginStatus === _loginStatus.loginStatus.loggedIn);
 
               case 3:
               case "end":
-                return _context13.stop();
+                return _context14.stop();
             }
           }
-        }, _callee12, this);
+        }, _callee13, this);
       }));
 
       function checkIsLoggedIn() {
@@ -1084,6 +1117,6 @@ var Auth = (_dec = (0, _di.Module)({
   initializer: function initializer() {
     return {};
   }
-}), _applyDecoratedDescriptor(_class2.prototype, "setLoginSuccess", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setLoginSuccess"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setLoginError", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setLoginError"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setLogoutSuccess", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setLogoutSuccess"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setRefreshSuccess", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setRefreshSuccess"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setRefreshError", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setRefreshError"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setLogoutError", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setLogoutError"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setLogin", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setLogin"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setBeforeLogout", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setBeforeLogout"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setCancelLogout", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setCancelLogout"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setLogout", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setLogout"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setInitLogin", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setInitLogin"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "login", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "login"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "logout", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "logout"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "refreshImplicitToken", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "refreshImplicitToken"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "checkIsLoggedIn", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "checkIsLoggedIn"), _class2.prototype)), _class2)) || _class);
+}), _applyDecoratedDescriptor(_class2.prototype, "setLoginSuccess", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setLoginSuccess"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setLoginError", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setLoginError"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setLogoutSuccess", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setLogoutSuccess"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setRefreshSuccess", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setRefreshSuccess"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setRefreshError", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setRefreshError"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setLogoutError", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setLogoutError"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setLogin", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setLogin"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setBeforeLogout", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setBeforeLogout"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setCancelLogout", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setCancelLogout"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setLogout", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setLogout"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setInitLogin", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setInitLogin"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "login", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "login"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "refreshToken", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "refreshToken"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "logout", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "logout"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "refreshImplicitToken", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "refreshImplicitToken"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "checkIsLoggedIn", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "checkIsLoggedIn"), _class2.prototype)), _class2)) || _class);
 exports.Auth = Auth;
 //# sourceMappingURL=Auth.js.map

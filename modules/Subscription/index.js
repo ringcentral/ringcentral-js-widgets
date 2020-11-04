@@ -55,23 +55,23 @@ require("core-js/modules/es6.date.now");
 
 require("regenerator-runtime/runtime");
 
-var _ramda = require("ramda");
-
 var _subscriptions = require("@ringcentral/subscriptions");
 
-var _RcModule2 = _interopRequireDefault(require("../../lib/RcModule"));
-
-var _di = require("../../lib/di");
-
-var _loginStatus = _interopRequireDefault(require("../Auth/loginStatus"));
+var _ramda = require("ramda");
 
 var _moduleStatuses = _interopRequireDefault(require("../../enums/moduleStatuses"));
 
-var _getSubscriptionReducer = _interopRequireWildcard(require("./getSubscriptionReducer"));
-
-var _actionTypes = _interopRequireDefault(require("./actionTypes"));
+var _di = require("../../lib/di");
 
 var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
+
+var _RcModule2 = _interopRequireDefault(require("../../lib/RcModule"));
+
+var _loginStatus = _interopRequireDefault(require("../Auth/loginStatus"));
+
+var _actionTypes = require("./actionTypes");
+
+var _getSubscriptionReducer = _interopRequireWildcard(require("./getSubscriptionReducer"));
 
 var _normalizeEventFilter = require("./normalizeEventFilter");
 
@@ -158,7 +158,7 @@ var Subscription = (_dec = (0, _di.Module)({
     _classCallCheck(this, Subscription);
 
     _this = _super.call(this, _objectSpread(_objectSpread({}, options), {}, {
-      actionTypes: _actionTypes["default"]
+      actionTypes: _actionTypes.actionTypes
     }));
     _this._auth = auth;
     _this._client = client;

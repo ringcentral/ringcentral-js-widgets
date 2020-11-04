@@ -448,8 +448,13 @@ var BasePhone = (_dec2 = (0, _di.ModuleFactory)({
     //     });
     //     contactMatcher.addSearchProvider({
     //       name: 'contacts',
-    //       searchFn: async ({ queries }) => contacts.matchContacts({ phoneNumbers: queries }),
-    //       readyCheckFn: () => contacts.ready,
+    //       async searchFn({ queries }) {
+    //         const items = await contacts.matchContacts({ phoneNumbers: queries });
+    //         return items;
+    //       },
+    //       readyCheckFn() {
+    //         return contacts.ready;
+    //       },
     //     });
     //     // Webphone configuration
     //     webphone.onCallEnd((session, currentSession, ringSession) => {

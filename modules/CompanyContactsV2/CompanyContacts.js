@@ -67,7 +67,7 @@ var _extensionStatusTypes = require("../../enums/extensionStatusTypes");
 
 var _extensionTypes = require("../../enums/extensionTypes");
 
-var _phoneTypes = _interopRequireDefault(require("../../enums/phoneTypes"));
+var _phoneTypes = require("../../enums/phoneTypes");
 
 var _subscriptionFilters = require("../../enums/subscriptionFilters");
 
@@ -384,7 +384,7 @@ var CompanyContacts = (_dec = (0, _di.Module)({
 
         return _objectSpread(_objectSpread({}, item), {}, {
           phoneNumbers: [].concat(_toConsumableArray((_item$phoneNumbers = item.phoneNumbers) !== null && _item$phoneNumbers !== void 0 ? _item$phoneNumbers : []), [{
-            phonetype: _phoneTypes["default"].extension,
+            phonetype: _phoneTypes.phoneTypes.extension,
             phoneNumber: item.extensionNumber
           }])
         });

@@ -20,6 +20,7 @@ var _VideoConfiguration = require("./VideoConfiguration");
 
 Object.keys(_VideoConfiguration).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _VideoConfiguration[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {

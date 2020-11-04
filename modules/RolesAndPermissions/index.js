@@ -25,8 +25,6 @@ require("core-js/modules/es6.array.filter");
 
 require("core-js/modules/es6.symbol");
 
-require("core-js/modules/es6.array.index-of");
-
 require("core-js/modules/es6.reflect.get");
 
 require("core-js/modules/es6.object.create");
@@ -50,6 +48,8 @@ require("core-js/modules/es6.array.iterator");
 require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.keys");
+
+require("core-js/modules/es6.array.index-of");
 
 require("regenerator-runtime/runtime");
 
@@ -441,6 +441,13 @@ var RolesAndPermissions = (_dec = (0, _di.Module)({
     key: "hasMeetingsPermission",
     get: function get() {
       return !!(this.permissions && this.permissions.Meetings);
+    }
+  }, {
+    key: "hasCallControlPermission",
+    get: function get() {
+      var _this$_auth$token$sco, _this$_auth$token$sco2;
+
+      return ((_this$_auth$token$sco = this._auth.token.scope) === null || _this$_auth$token$sco === void 0 ? void 0 : _this$_auth$token$sco.indexOf('CallControl')) > -1 || ((_this$_auth$token$sco2 = this._auth.token.scope) === null || _this$_auth$token$sco2 === void 0 ? void 0 : _this$_auth$token$sco2.indexOf('TelephonySession')) > -1;
     }
   }]);
 

@@ -28,6 +28,7 @@ var _interface = require("./interface");
 Object.keys(_interface).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
+  if (key in exports && exports[key] === _interface[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {
@@ -41,6 +42,7 @@ var _constants = require("./constants");
 Object.keys(_constants).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
+  if (key in exports && exports[key] === _constants[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {
@@ -54,6 +56,7 @@ var _meetingErrors = require("./meetingErrors");
 Object.keys(_meetingErrors).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
+  if (key in exports && exports[key] === _meetingErrors[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {
@@ -67,6 +70,7 @@ var _meetingHelper = require("../../helpers/meetingHelper");
 Object.keys(_meetingHelper).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
+  if (key in exports && exports[key] === _meetingHelper[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {

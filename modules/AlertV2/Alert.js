@@ -1,5 +1,9 @@
 "use strict";
 
+require("core-js/modules/es6.string.iterator");
+
+require("core-js/modules/es6.weak-map");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -49,7 +53,7 @@ require("core-js/modules/es6.array.map");
 
 require("core-js/modules/es6.date.now");
 
-var _uuid = _interopRequireDefault(require("uuid"));
+var uuid = _interopRequireWildcard(require("uuid"));
 
 var _core = require("@ringcentral-integration/core");
 
@@ -62,6 +66,10 @@ var _alertLevels = require("./alertLevels");
 var _dec, _class, _class2, _descriptor, _temp;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -203,8 +211,7 @@ var Alert = (_dec = (0, _di.Module)({
           classes = _ref4.classes,
           onBackdropClick = _ref4.onBackdropClick,
           action = _ref4.action;
-
-      var id = _uuid["default"].v4();
+      var id = uuid.v4();
 
       this._alert({
         message: message,

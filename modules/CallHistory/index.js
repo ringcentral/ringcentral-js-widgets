@@ -350,10 +350,10 @@ _dec = (0, _di.Module)({
         if (this._lastProcessedMonitorCalls !== monitorCalls) {
           var endedCalls = (this._lastProcessedMonitorCalls || []).filter(function (call) {
             return !monitorCalls.find(function (currentCall) {
-              return call.sessionId === currentCall.sessionId;
+              return call.telephonySessionId === currentCall.telephonySessionId;
             }) && // if the call's callLog has been fetch, skip
             !callLogCalls.find(function (currentCall) {
-              return call.sessionId === currentCall.sessionId;
+              return call.telephonySessionId === currentCall.telephonySessionId;
             });
           });
           this._lastProcessedMonitorCalls = monitorCalls;
@@ -372,10 +372,10 @@ _dec = (0, _di.Module)({
         this._lastProcessedCalls = currentCalls;
         var ids = {};
         currentCalls.forEach(function (call) {
-          ids[call.sessionId] = true;
+          ids[call.telephonySessionId] = true;
         });
         return this.recentlyEndedCalls.filter(function (call) {
-          return ids[call.sessionId];
+          return ids[call.telephonySessionId];
         });
       }
 
@@ -631,9 +631,9 @@ _dec = (0, _di.Module)({
       var contactMapping = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
       var activityMapping = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
       var callMatched = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : {};
-      var sessionIds = {};
+      var telephonySessionIds = {};
       var calls = normalizedCalls.map(function (call) {
-        sessionIds[call.sessionId] = true;
+        telephonySessionIds[call.telephonySessionId] = true;
         var fromNumber = call.from && (call.from.phoneNumber || call.from.extensionNumber);
         var toNumber = call.to && (call.to.phoneNumber || call.to.extensionNumber);
         var fromMatches = fromNumber && contactMapping[fromNumber] || [];
@@ -648,7 +648,7 @@ _dec = (0, _di.Module)({
         });
       });
       var filteredEndedCalls = endedCalls.filter(function (call) {
-        return !sessionIds[call.sessionId];
+        return !telephonySessionIds[call.telephonySessionId];
       }).map(function (call) {
         var activityMatches = activityMapping[call.sessionId] || [];
         var fromNumber = call.from && (call.from.phoneNumber || call.from.extensionNumber);

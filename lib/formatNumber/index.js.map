@@ -1,1 +1,1 @@
-{"version":3,"sources":["lib/formatNumber/index.ts"],"names":["formatNumber"],"mappings":";;;;;;;;;AAAA;;;;eAEeA,wB","sourcesContent":["import formatNumber from './formatNumber';\n\nexport default formatNumber;\n"],"file":"index.js"}
+{"version":3,"sources":["lib/formatNumber/index.ts"],"names":["formatNumber"],"mappings":";;;;;;;;;;;;;;;AAAA;;;;eAEeA,wB","sourcesContent":["import formatNumber from './formatNumber';\n\nexport default formatNumber;\nexport { formatNumber };\n"],"file":"index.js"}

@@ -17,9 +17,10 @@ function hasClickToCallPermission(_ref) {
       webphoneEnabled = _ref.webphoneEnabled;
   var browser = _callingOptions["default"].browser,
       softphone = _callingOptions["default"].softphone,
-      myphone = _callingOptions["default"].myphone,
-      otherphone = _callingOptions["default"].otherphone,
-      customphone = _callingOptions["default"].customphone;
-  return (callWith === browser || callWith === softphone) && webphoneEnabled || (callWith === softphone || callWith === myphone || callWith === otherphone || callWith === customphone) && ringoutEnabled;
+      ringout = _callingOptions["default"].ringout,
+      jupiter = _callingOptions["default"].jupiter; // Without Webphone permissions, it won't work on Jupiter either.
+  // And without RingOut and Webphone permissions, it won't work on Softphone either.
+
+  return (callWith === browser || callWith === softphone || callWith === jupiter) && webphoneEnabled || (callWith === softphone || callWith === ringout) && ringoutEnabled;
 }
 //# sourceMappingURL=permissionsHelper.js.map

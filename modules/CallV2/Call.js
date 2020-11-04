@@ -69,7 +69,9 @@ var _ringoutErrors = require("../Ringout/ringoutErrors");
 
 var _validateNumbers = _interopRequireDefault(require("../../lib/validateNumbers"));
 
-var _dec, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _temp;
+var _Analytics = require("../Analytics");
+
+var _dec, _dec2, _dec3, _class, _class2, _descriptor, _descriptor2, _descriptor3, _temp;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -130,7 +132,19 @@ var Call = (_dec = (0, _di.Module)({
   }, {
     dep: 'CallOptions',
     optional: true
+  }, {
+    dep: 'ActiveCallControl',
+    optional: true
   }]
+}), _dec2 = (0, _core.track)(function (_, _ref) {
+  var callSettingMode = _ref.callSettingMode;
+  return [callSettingMode === _callingModes["default"].webphone ? _Analytics.trackEvents.callAttemptWebRTC : _Analytics.trackEvents.callAttempt, {
+    callSettingMode: callSettingMode
+  }];
+}), _dec3 = (0, _core.track)(function (_, callSettingMode) {
+  return [callSettingMode === _callingModes["default"].webphone ? _Analytics.trackEvents.outboundWebRTCCallConnected : _Analytics.trackEvents.outboundCallConnected, {
+    callSettingMode: callSettingMode
+  }];
 }), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcModuleV) {
   _inherits(Call, _RcModuleV);
 
@@ -149,9 +163,10 @@ var Call = (_dec = (0, _di.Module)({
    * @param {Webphone} params.webphone - webphone module instance
    * @param {NumberValidate} params.numberValidate - numberValidate module instance
    * @param {RegionSettings} params.regionSettings - regionSettings module instance
+   * @param {ActiveCallControl} params.activeCallControl - ActiveCallControl module instance
    */
   function Call(deps) {
-    var _this$_deps$callOptio, _this$_deps$callOptio2, _this$_deps$callOptio3, _this$_deps$callOptio4;
+    var _this$_deps$callOptio, _this$_deps$callOptio2, _this$_deps$callOptio3, _this$_deps$callOptio4, _this$_deps$callOptio5, _this$_deps$callOptio6;
 
     var _this;
 
@@ -165,17 +180,17 @@ var Call = (_dec = (0, _di.Module)({
     _this._internationalCheck = void 0;
     _this._permissionCheck = void 0;
     _this._callSettingMode = null;
+    _this._useCallControlToMakeCall = void 0;
 
     _initializerDefineProperty(_this, "callStatus", _descriptor, _assertThisInitialized(_this));
 
     _initializerDefineProperty(_this, "toNumberEntities", _descriptor2, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "lastPhoneNumber", _descriptor3, _assertThisInitialized(_this));
-
-    _initializerDefineProperty(_this, "lastRecipient", _descriptor4, _assertThisInitialized(_this));
+    _initializerDefineProperty(_this, "data", _descriptor3, _assertThisInitialized(_this));
 
     _this._internationalCheck = (_this$_deps$callOptio = (_this$_deps$callOptio2 = _this._deps.callOptions) === null || _this$_deps$callOptio2 === void 0 ? void 0 : _this$_deps$callOptio2.internationalCheck) !== null && _this$_deps$callOptio !== void 0 ? _this$_deps$callOptio : true;
     _this._permissionCheck = (_this$_deps$callOptio3 = (_this$_deps$callOptio4 = _this._deps.callOptions) === null || _this$_deps$callOptio4 === void 0 ? void 0 : _this$_deps$callOptio4.permissionCheck) !== null && _this$_deps$callOptio3 !== void 0 ? _this$_deps$callOptio3 : true;
+    _this._useCallControlToMakeCall = (_this$_deps$callOptio5 = (_this$_deps$callOptio6 = _this._deps.callOptions) === null || _this$_deps$callOptio6 === void 0 ? void 0 : _this$_deps$callOptio6.useCallControlToMakeCall) !== null && _this$_deps$callOptio5 !== void 0 ? _this$_deps$callOptio5 : false;
     return _this;
   }
 
@@ -191,22 +206,23 @@ var Call = (_dec = (0, _di.Module)({
     }
   }, {
     key: "connect",
-    value: function connect(_ref) {
-      var isConference = _ref.isConference,
-          _ref$phoneNumber = _ref.phoneNumber,
-          phoneNumber = _ref$phoneNumber === void 0 ? null : _ref$phoneNumber,
-          _ref$recipient = _ref.recipient,
-          recipient = _ref$recipient === void 0 ? null : _ref$recipient;
+    value: function connect(_ref2) {
+      var isConference = _ref2.isConference,
+          _ref2$phoneNumber = _ref2.phoneNumber,
+          phoneNumber = _ref2$phoneNumber === void 0 ? null : _ref2$phoneNumber,
+          _ref2$recipient = _ref2.recipient,
+          recipient = _ref2$recipient === void 0 ? null : _ref2$recipient,
+          callSettingMode = _ref2.callSettingMode;
       this.callStatus = _callStatus.callStatus.connecting;
 
       if (!isConference) {
-        this.lastPhoneNumber = phoneNumber;
-        this.lastRecipient = recipient;
+        this.data.lastPhoneNumber = phoneNumber;
+        this.data.lastRecipient = recipient;
       }
     }
   }, {
     key: "connectSuccess",
-    value: function connectSuccess() {
+    value: function connectSuccess(callSettingMode) {
       this.callStatus = _callStatus.callStatus.idle;
     }
   }, {
@@ -351,9 +367,9 @@ var Call = (_dec = (0, _di.Module)({
 
   }, {
     key: "onToNumberMatch",
-    value: function onToNumberMatch(_ref2) {
-      var entityId = _ref2.entityId,
-          startTime = _ref2.startTime;
+    value: function onToNumberMatch(_ref3) {
+      var entityId = _ref3.entityId,
+          startTime = _ref3.startTime;
 
       if (this.isIdle) {
         this.toNumberMatched({
@@ -365,14 +381,14 @@ var Call = (_dec = (0, _di.Module)({
   }, {
     key: "call",
     value: function () {
-      var _call = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(_ref3) {
-        var input, recipient, fromNumber, _ref3$isConference, isConference, session, _extractControls, phoneNumber, extendedControls, toNumber, validatedNumbers;
+      var _call = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(_ref4) {
+        var input, recipient, fromNumber, _ref4$isConference, isConference, session, _extractControls, phoneNumber, extendedControls, toNumber, validatedNumbers;
 
         return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                input = _ref3.phoneNumber, recipient = _ref3.recipient, fromNumber = _ref3.fromNumber, _ref3$isConference = _ref3.isConference, isConference = _ref3$isConference === void 0 ? false : _ref3$isConference;
+                input = _ref4.phoneNumber, recipient = _ref4.recipient, fromNumber = _ref4.fromNumber, _ref4$isConference = _ref4.isConference, isConference = _ref4$isConference === void 0 ? false : _ref4$isConference;
                 session = null;
 
                 if (!this.isIdle) {
@@ -399,9 +415,9 @@ var Call = (_dec = (0, _di.Module)({
                 this.connect({
                   isConference: isConference,
                   phoneNumber: phoneNumber,
-                  recipient: recipient
-                }); // TODO: callSettingMode: this._callSettingMode, // for Track
-
+                  recipient: recipient,
+                  callSettingMode: this._callSettingMode
+                });
                 _context4.prev = 10;
 
                 if (!this._permissionCheck) {
@@ -441,8 +457,7 @@ var Call = (_dec = (0, _di.Module)({
 
               case 21:
                 session = _context4.sent;
-                this.connectSuccess(); // TODO: callSettingMode: this._callSettingMode, // for Track
-
+                this.connectSuccess(this._callSettingMode);
                 _context4.next = 26;
                 break;
 
@@ -506,10 +521,10 @@ var Call = (_dec = (0, _di.Module)({
     }()
   }, {
     key: "_getNumbers",
-    value: function _getNumbers(_ref4) {
-      var toNumber = _ref4.toNumber,
-          fromNumber = _ref4.fromNumber,
-          isConference = _ref4.isConference;
+    value: function _getNumbers(_ref5) {
+      var toNumber = _ref5.toNumber,
+          fromNumber = _ref5.fromNumber,
+          isConference = _ref5.isConference;
       var isWebphone = this._deps.callingSettings.callingMode === _callingModes["default"].webphone;
       var theFromNumber = fromNumber || (isWebphone ? this._deps.callingSettings.fromNumber : this._deps.callingSettings.myLocation);
 
@@ -563,13 +578,13 @@ var Call = (_dec = (0, _di.Module)({
   }, {
     key: "_getValidatedNumbers",
     value: function () {
-      var _getValidatedNumbers2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(_ref5) {
+      var _getValidatedNumbers2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(_ref6) {
         var toNumber, fromNumber, isConference, isWebphone, theFromNumber, waitingValidateNumbers, parsedToNumber, parsedFromNumber, numbers, validatedResult, toNumberIndex, fromNumberIndex, error, parsedToNumberE164, parsedFromNumberE164;
         return regeneratorRuntime.wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
-                toNumber = _ref5.toNumber, fromNumber = _ref5.fromNumber, isConference = _ref5.isConference;
+                toNumber = _ref6.toNumber, fromNumber = _ref6.fromNumber, isConference = _ref6.isConference;
                 isWebphone = this._deps.callingSettings.callingMode === _callingModes["default"].webphone;
                 theFromNumber = fromNumber || (isWebphone ? this._deps.callingSettings.fromNumber : this._deps.callingSettings.myLocation);
 
@@ -702,22 +717,22 @@ var Call = (_dec = (0, _di.Module)({
   }, {
     key: "_makeCall",
     value: function () {
-      var _makeCall2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(_ref6) {
-        var toNumber, fromNumber, _ref6$callingMode, callingMode, _ref6$extendedControl, extendedControls, homeCountryId, session;
+      var _makeCall2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(_ref7) {
+        var toNumber, fromNumber, _ref7$callingMode, callingMode, _ref7$extendedControl, extendedControls, homeCountryId, session;
 
         return regeneratorRuntime.wrap(function _callee6$(_context6) {
           while (1) {
             switch (_context6.prev = _context6.next) {
               case 0:
-                toNumber = _ref6.toNumber, fromNumber = _ref6.fromNumber, _ref6$callingMode = _ref6.callingMode, callingMode = _ref6$callingMode === void 0 ? this._deps.callingSettings.callingMode : _ref6$callingMode, _ref6$extendedControl = _ref6.extendedControls, extendedControls = _ref6$extendedControl === void 0 ? [] : _ref6$extendedControl;
+                toNumber = _ref7.toNumber, fromNumber = _ref7.fromNumber, _ref7$callingMode = _ref7.callingMode, callingMode = _ref7$callingMode === void 0 ? this._deps.callingSettings.callingMode : _ref7$callingMode, _ref7$extendedControl = _ref7.extendedControls, extendedControls = _ref7$extendedControl === void 0 ? [] : _ref7$extendedControl;
                 homeCountryId = this._deps.regionSettings.homeCountryId;
                 _context6.t0 = callingMode;
-                _context6.next = _context6.t0 === _callingModes["default"].softphone ? 5 : _context6.t0 === _callingModes["default"].jupiter ? 5 : _context6.t0 === _callingModes["default"].ringout ? 7 : _context6.t0 === _callingModes["default"].webphone ? 11 : 16;
+                _context6.next = _context6.t0 === _callingModes["default"].softphone ? 5 : _context6.t0 === _callingModes["default"].jupiter ? 5 : _context6.t0 === _callingModes["default"].ringout ? 7 : _context6.t0 === _callingModes["default"].webphone ? 11 : 22;
                 break;
 
               case 5:
                 session = this._deps.softphone.makeCall(toNumber, callingMode);
-                return _context6.abrupt("break", 17);
+                return _context6.abrupt("break", 23);
 
               case 7:
                 _context6.next = 9;
@@ -730,16 +745,16 @@ var Call = (_dec = (0, _di.Module)({
 
               case 9:
                 session = _context6.sent;
-                return _context6.abrupt("break", 17);
+                return _context6.abrupt("break", 23);
 
               case 11:
-                if (!this._deps.webphone) {
-                  _context6.next = 15;
+                if (!(this._deps.activeCallControl && this._useCallControlToMakeCall)) {
+                  _context6.next = 17;
                   break;
                 }
 
                 _context6.next = 14;
-                return this._deps.webphone.makeCall({
+                return this._deps.activeCallControl.makeCall({
                   fromNumber: fromNumber,
                   toNumber: toNumber,
                   homeCountryId: homeCountryId,
@@ -748,17 +763,36 @@ var Call = (_dec = (0, _di.Module)({
 
               case 14:
                 session = _context6.sent;
-
-              case 15:
-                return _context6.abrupt("break", 17);
-
-              case 16:
-                return _context6.abrupt("break", 17);
+                _context6.next = 21;
+                break;
 
               case 17:
+                if (!this._deps.webphone) {
+                  _context6.next = 21;
+                  break;
+                }
+
+                _context6.next = 20;
+                return this._deps.webphone.makeCall({
+                  fromNumber: fromNumber,
+                  toNumber: toNumber,
+                  homeCountryId: homeCountryId,
+                  extendedControls: extendedControls
+                });
+
+              case 20:
+                session = _context6.sent;
+
+              case 21:
+                return _context6.abrupt("break", 23);
+
+              case 22:
+                return _context6.abrupt("break", 23);
+
+              case 23:
                 return _context6.abrupt("return", session);
 
-              case 18:
+              case 24:
               case "end":
                 return _context6.stop();
             }
@@ -772,6 +806,16 @@ var Call = (_dec = (0, _di.Module)({
 
       return _makeCall;
     }()
+  }, {
+    key: "lastPhoneNumber",
+    get: function get() {
+      return this.data.lastPhoneNumber;
+    }
+  }, {
+    key: "lastRecipient",
+    get: function get() {
+      return this.data.lastRecipient;
+    }
   }, {
     key: "isIdle",
     get: function get() {
@@ -794,20 +838,16 @@ var Call = (_dec = (0, _di.Module)({
   initializer: function initializer() {
     return [];
   }
-}), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, "lastPhoneNumber", [_core.storage, _core.state], {
+}), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, "data", [_core.storage, _core.state], {
   configurable: true,
   enumerable: true,
   writable: true,
   initializer: function initializer() {
-    return null;
+    return {
+      lastPhoneNumber: null,
+      lastRecipient: null
+    };
   }
-}), _descriptor4 = _applyDecoratedDescriptor(_class2.prototype, "lastRecipient", [_core.storage, _core.state], {
-  configurable: true,
-  enumerable: true,
-  writable: true,
-  initializer: function initializer() {
-    return null;
-  }
-}), _applyDecoratedDescriptor(_class2.prototype, "toNumberMatched", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "toNumberMatched"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "cleanToNumberEntities", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "cleanToNumberEntities"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "connect", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "connect"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "connectSuccess", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "connectSuccess"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "connectError", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "connectError"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "call", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "call"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_getNumbers", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_getNumbers"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_getValidatedNumbers", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_getValidatedNumbers"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_makeCall", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_makeCall"), _class2.prototype)), _class2)) || _class);
+}), _applyDecoratedDescriptor(_class2.prototype, "toNumberMatched", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "toNumberMatched"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "cleanToNumberEntities", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "cleanToNumberEntities"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "connect", [_dec2, _core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "connect"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "connectSuccess", [_dec3, _core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "connectSuccess"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "connectError", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "connectError"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "call", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "call"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_getNumbers", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_getNumbers"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_getValidatedNumbers", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_getValidatedNumbers"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_makeCall", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_makeCall"), _class2.prototype)), _class2)) || _class);
 exports.Call = Call;
 //# sourceMappingURL=Call.js.map

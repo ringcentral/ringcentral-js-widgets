@@ -132,7 +132,7 @@ var telephonySessionsEndPoint = /\/telephony\/sessions$/;
 var storageKey = 'activeCallControl';
 var subscribeEvent = _subscriptionFilters["default"].telephonySessions;
 var ActiveCallControl = (_dec = (0, _di.Module)({
-  deps: ['Client', 'Auth', 'Subscription', 'ConnectivityMonitor', 'RolesAndPermissions', 'CallMonitor', 'Alert', 'NumberValidate', 'AccountInfo', 'ExtensionInfo', {
+  deps: ['Client', 'Auth', 'Subscription', 'ConnectivityMonitor', 'RolesAndPermissions', 'Presence', 'Alert', 'NumberValidate', 'AccountInfo', 'ExtensionInfo', {
     dep: 'TabManager',
     optional: true
   }, {
@@ -165,7 +165,7 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
         rolesAndPermissions = _ref.rolesAndPermissions,
         availabilityMonitor = _ref.availabilityMonitor,
         tabManager = _ref.tabManager,
-        callMonitor = _ref.callMonitor,
+        presence = _ref.presence,
         _ref$polling = _ref.polling,
         polling = _ref$polling === void 0 ? false : _ref$polling,
         _ref$disableCache = _ref.disableCache,
@@ -174,7 +174,7 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
         numberValidate = _ref.numberValidate,
         accountInfo = _ref.accountInfo,
         extensionInfo = _ref.extensionInfo,
-        options = _objectWithoutProperties(_ref, ["client", "auth", "ttl", "timeToRetry", "storage", "subscription", "connectivityMonitor", "rolesAndPermissions", "availabilityMonitor", "tabManager", "callMonitor", "polling", "disableCache", "alert", "numberValidate", "accountInfo", "extensionInfo"]);
+        options = _objectWithoutProperties(_ref, ["client", "auth", "ttl", "timeToRetry", "storage", "subscription", "connectivityMonitor", "rolesAndPermissions", "availabilityMonitor", "tabManager", "presence", "polling", "disableCache", "alert", "numberValidate", "accountInfo", "extensionInfo"]);
 
     _classCallCheck(this, ActiveCallControl);
 
@@ -208,7 +208,7 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
     _this._connectivityMonitor = _ensureExist["default"].call(_assertThisInitialized(_this), connectivityMonitor, 'connectivityMonitor');
     _this._rolesAndPermissions = _ensureExist["default"].call(_assertThisInitialized(_this), rolesAndPermissions, 'rolesAndPermissions');
     _this._availabilityMonitor = availabilityMonitor;
-    _this._callMonitor = _ensureExist["default"].call(_assertThisInitialized(_this), callMonitor, 'callMonitor');
+    _this._presence = _ensureExist["default"].call(_assertThisInitialized(_this), presence, 'presence');
     _this._tabManager = tabManager;
     _this._ttl = ttl;
     _this._timeToRetry = timeToRetry;
@@ -236,6 +236,7 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
       });
     }
 
+    console.warn('ActiveCallControl is deprecated, please evaluate and transition to use ActiveCallControlV2');
     return _this;
   }
 
@@ -303,12 +304,12 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
   }, {
     key: "_shouldInit",
     value: function _shouldInit() {
-      return this._auth.loggedIn && this._accountInfo.ready && this._extensionInfo.ready && (!this._storage || this._storage.ready) && this._subscription.ready && this._connectivityMonitor.ready && this._callMonitor.ready && (!this._tabManager || this._tabManager.ready) && this._rolesAndPermissions.ready && (!this._availabilityMonitor || this._availabilityMonitor.ready) && this.pending;
+      return this._auth.loggedIn && this._accountInfo.ready && this._extensionInfo.ready && (!this._storage || this._storage.ready) && this._subscription.ready && this._connectivityMonitor.ready && this._presence.ready && (!this._tabManager || this._tabManager.ready) && this._rolesAndPermissions.ready && (!this._availabilityMonitor || this._availabilityMonitor.ready) && this.pending;
     }
   }, {
     key: "_shouldReset",
     value: function _shouldReset() {
-      return (!this._auth.loggedIn || !this._accountInfo.ready || !this._extensionInfo.ready || !!this._storage && !this._storage.ready || !this._subscription.ready || !!this._tabManager && !this._tabManager.ready || !this._connectivityMonitor.ready || !this._callMonitor.ready || !this._rolesAndPermissions.ready || !!this._availabilityMonitor && !this._availabilityMonitor.ready) && this.ready;
+      return (!this._auth.loggedIn || !this._accountInfo.ready || !this._extensionInfo.ready || !!this._storage && !this._storage.ready || !this._subscription.ready || !!this._tabManager && !this._tabManager.ready || !this._connectivityMonitor.ready || !this._presence.ready || !this._rolesAndPermissions.ready || !!this._availabilityMonitor && !this._availabilityMonitor.ready) && this.ready;
     }
   }, {
     key: "_resetModuleStatus",
@@ -436,7 +437,7 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
             switch (_context4.prev = _context4.next) {
               case 0:
                 _context4.prev = 0;
-                activeCalls = this._callMonitor.calls;
+                activeCalls = this._presence.calls;
                 _context4.next = 4;
                 return this._rcCallControl.loadSessions(activeCalls);
 
@@ -494,7 +495,7 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
                 return _context5.abrupt("return");
 
               case 2:
-                this._subscription.subscribe(subscribeEvent);
+                this._subscription.subscribe([subscribeEvent]);
 
                 this._rcCallControl = new _ringcentralCallControl.RingCentralCallControl({
                   sdk: this._client.service,
@@ -1577,7 +1578,7 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
     var _this9 = this;
 
     return [function () {
-      return _this9._callMonitor.calls;
+      return _this9._presence.calls;
     }, function () {
       return _this9.data.sessions;
     }, function () {
@@ -1611,7 +1612,7 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
     var _this10 = this;
 
     return [function () {
-      return _this10._callMonitor.calls;
+      return _this10._presence.calls;
     }, function (calls) {
       var reducer = function reducer(accumulator, call) {
         var telephonySessionId = call.telephonySessionId,

@@ -328,13 +328,12 @@ _dec = (0, _di.Module)({
   }, {
     key: "send",
     value: function () {
-      var _send = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-        var text, fromNumber, toNumbers, typingToNumber;
+      var _send = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(text) {
+        var fromNumber, toNumbers, typingToNumber;
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                text = this.messageText;
                 fromNumber = this.senderNumber;
                 toNumbers = this.toNumbers.map(function (number) {
                   return number.phoneNumber;
@@ -342,30 +341,30 @@ _dec = (0, _di.Module)({
                 typingToNumber = this.typingToNumber;
 
                 if ((0, _isBlank["default"])(typingToNumber)) {
-                  _context.next = 10;
-                  break;
-                }
-
-                if (!this._validatePhoneNumber(typingToNumber)) {
                   _context.next = 9;
                   break;
                 }
 
+                if (!this._validatePhoneNumber(typingToNumber)) {
+                  _context.next = 8;
+                  break;
+                }
+
                 toNumbers.push(typingToNumber);
-                _context.next = 10;
+                _context.next = 9;
                 break;
 
-              case 9:
+              case 8:
                 return _context.abrupt("return", null);
 
-              case 10:
+              case 9:
                 return _context.abrupt("return", this._messageSender.send({
                   fromNumber: fromNumber,
                   toNumbers: toNumbers,
                   text: text
                 }));
 
-              case 11:
+              case 10:
               case "end":
                 return _context.stop();
             }
@@ -373,7 +372,7 @@ _dec = (0, _di.Module)({
         }, _callee, this);
       }));
 
-      function send() {
+      function send(_x) {
         return _send.apply(this, arguments);
       }
 
@@ -400,7 +399,7 @@ _dec = (0, _di.Module)({
         }, _callee2, this);
       }));
 
-      function updateSenderNumber(_x) {
+      function updateSenderNumber(_x2) {
         return _updateSenderNumber.apply(this, arguments);
       }
 
@@ -437,7 +436,7 @@ _dec = (0, _di.Module)({
         }, _callee3, this);
       }));
 
-      function updateTypingToNumber(_x2) {
+      function updateTypingToNumber(_x3) {
         return _updateTypingToNumber.apply(this, arguments);
       }
 
@@ -466,7 +465,7 @@ _dec = (0, _di.Module)({
         }, _callee4, this);
       }));
 
-      function onToNumberMatch(_x3) {
+      function onToNumberMatch(_x4) {
         return _onToNumberMatch.apply(this, arguments);
       }
 
@@ -506,7 +505,7 @@ _dec = (0, _di.Module)({
         }, _callee5, this);
       }));
 
-      function addToRecipients(_x4) {
+      function addToRecipients(_x5) {
         return _addToRecipients.apply(this, arguments);
       }
 
@@ -576,7 +575,7 @@ _dec = (0, _di.Module)({
         }, _callee7, this);
       }));
 
-      function addToNumber(_x5) {
+      function addToNumber(_x6) {
         return _addToNumber.apply(this, arguments);
       }
 
@@ -603,7 +602,7 @@ _dec = (0, _di.Module)({
         }, _callee8, this);
       }));
 
-      function removeToNumber(_x6) {
+      function removeToNumber(_x7) {
         return _removeToNumber.apply(this, arguments);
       }
 
@@ -640,7 +639,7 @@ _dec = (0, _di.Module)({
         }, _callee9, this);
       }));
 
-      function updateMessageText(_x7) {
+      function updateMessageText(_x8) {
         return _updateMessageText.apply(this, arguments);
       }
 

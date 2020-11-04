@@ -20,6 +20,7 @@ var _TabManager = require("./TabManager");
 
 Object.keys(_TabManager).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _TabManager[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {
@@ -32,6 +33,7 @@ var _TabManager2 = require("./TabManager.interface");
 
 Object.keys(_TabManager2).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _TabManager2[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {

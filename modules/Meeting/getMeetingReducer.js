@@ -13,8 +13,7 @@ exports.getMeetingPreferencesStateReducer = getMeetingPreferencesStateReducer;
 exports.getUserSettingsReducer = getUserSettingsReducer;
 exports.getLockedSettingsReducer = getLockedSettingsReducer;
 exports.getPersonalMeetingReducer = getPersonalMeetingReducer;
-exports.getAssistedUsersReducer = getAssistedUsersReducer;
-exports.getScheduleForUserReducer = getScheduleForUserReducer;
+exports.getDelegatorsReducer = getDelegatorsReducer;
 exports["default"] = void 0;
 
 require("core-js/modules/es6.object.define-properties");
@@ -296,37 +295,18 @@ function getPersonalMeetingReducer(types) {
   };
 }
 
-function getAssistedUsersReducer(types) {
+function getDelegatorsReducer(types) {
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 
     var _ref11 = arguments.length > 1 ? arguments[1] : undefined,
         type = _ref11.type,
-        _ref11$assistedUsers = _ref11.assistedUsers,
-        assistedUsers = _ref11$assistedUsers === void 0 ? [] : _ref11$assistedUsers;
+        _ref11$delegators = _ref11.delegators,
+        delegators = _ref11$delegators === void 0 ? [] : _ref11$delegators;
 
     switch (type) {
-      case types.updateAssistedUsers:
-        return assistedUsers;
-
-      default:
-        return state;
-    }
-  };
-}
-
-function getScheduleForUserReducer(types) {
-  return function () {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-
-    var _ref12 = arguments.length > 1 ? arguments[1] : undefined,
-        type = _ref12.type,
-        _ref12$user = _ref12.user,
-        user = _ref12$user === void 0 ? {} : _ref12$user;
-
-    switch (type) {
-      case types.updateScheduleForUser:
-        return user;
+      case types.updateDelegatorList:
+        return delegators;
 
       default:
         return state;
@@ -338,14 +318,13 @@ var _default = function _default(types, reducers) {
   return (0, _redux.combineReducers)(_objectSpread(_objectSpread({}, reducers), {}, {
     status: (0, _getModuleStatusReducer["default"])(types),
     meeting: getMeetingInfoReducer(types),
-    assistedUsers: getAssistedUsersReducer(types),
+    delegators: getDelegatorsReducer(types),
     schedulingStatus: getMeetingSchedulingStatusReducer(types),
     updatingStatus: getMeetingUpdatingStatusReducer(types),
     preferences: getMeetingPreferencesReducer(types),
     isPreferencesChanged: getMeetingPreferencesStateReducer(types),
     userSettings: getUserSettingsReducer(types),
-    lockedSettings: getLockedSettingsReducer(types),
-    scheduleForUser: getScheduleForUserReducer(types)
+    lockedSettings: getLockedSettingsReducer(types)
   }));
 };
 

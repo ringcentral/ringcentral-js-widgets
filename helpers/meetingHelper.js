@@ -29,6 +29,7 @@ exports.getInitializedStartTime = getInitializedStartTime;
 exports.prunePreferencesObject = prunePreferencesObject;
 exports.comparePreferences = comparePreferences;
 exports.isRecurringMeeting = isRecurringMeeting;
+exports.generateRandomPassword = generateRandomPassword;
 exports.MeetingType = exports.UTC_TIMEZONE_ID = void 0;
 
 require("core-js/modules/es6.array.map");
@@ -109,7 +110,7 @@ function getMeetingSettings(_ref3) {
 } // Basic default meeting type information
 
 
-function getDefaultMeetingSettings(extensionName, startTime, extensionId) {
+function getDefaultMeetingSettings(extensionName, startTime, hostId) {
   return {
     topic: "".concat(extensionName, "'s Meeting"),
     meetingType: MeetingType.SCHEDULED,
@@ -122,7 +123,7 @@ function getDefaultMeetingSettings(extensionName, startTime, extensionId) {
       }
     },
     host: {
-      id: extensionId !== null && extensionId !== void 0 ? extensionId : null
+      id: hostId !== null && hostId !== void 0 ? hostId : null
     },
     allowJoinBeforeHost: false,
     startHostVideo: false,
@@ -162,5 +163,18 @@ function comparePreferences(preferences, meeting) {
   }
 
   return preferencesChanged;
+}
+
+function generateRandomPassword() {
+  var length = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 6;
+  var charset = '0123456789';
+  var charLen = charset.length;
+  var retVal = '';
+
+  for (var i = 0; i < length; i++) {
+    retVal += charset.charAt(Math.floor(Math.random() * charLen));
+  }
+
+  return retVal;
 }
 //# sourceMappingURL=meetingHelper.js.map

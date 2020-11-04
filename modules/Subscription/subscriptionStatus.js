@@ -5,13 +5,11 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = exports.subscriptionStatus = void 0;
+exports.subscriptionStatus = void 0;
 
 var _ObjectMap = require("@ringcentral-integration/core/lib/ObjectMap");
 
-var subscriptionStatus = _ObjectMap.ObjectMap.prefixKeys(['subscribing', 'subscribed', 'unsubscribing', 'notSubscribed'], 'subscriptionStatus');
+var subscriptionStatus = _ObjectMap.ObjectMap.fromKeys(['subscribing', 'subscribed', 'unsubscribing', 'notSubscribed']);
 
 exports.subscriptionStatus = subscriptionStatus;
-var _default = subscriptionStatus;
-exports["default"] = _default;
 //# sourceMappingURL=subscriptionStatus.js.map
