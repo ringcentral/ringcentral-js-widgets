@@ -71,7 +71,7 @@ var MeetingOptions = function MeetingOptions(_ref) {
     className: (0, _classnames["default"])(_styles["default"].labelLight, _styles["default"].defaultShrink)
   }, _i18n["default"].getString('requirePassword', currentLocale)), /*#__PURE__*/_react["default"].createElement(_Switch["default"], {
     disable: disabled,
-    checked: meeting._requireMeetingPassword || !!meeting.password,
+    checked: meeting._requireMeetingPassword,
     onChange: function onChange(_requireMeetingPassword) {
       if (_requireMeetingPassword) {
         setTimeout(function () {

@@ -18,6 +18,7 @@ import i18n from './i18n';
     { dep: 'ComposeText', optional: true },
     { dep: 'DialerUI', optional: true },
     { dep: 'ContactDetailsUI', optional: true },
+    { dep: 'ExtensionInfo', optional: true },
     'ContactMatcher',
     'RouterInteraction',
     'ContactSearch',
@@ -39,6 +40,7 @@ export default class CallHistoryUI extends RcUIModule {
       rateLimiter,
       regionSettings,
       rolesAndPermissions,
+      extensionInfo,
     },
     enableContactFallback = false,
     useNewList = false,
@@ -51,6 +53,8 @@ export default class CallHistoryUI extends RcUIModule {
       calls: callHistory.latestCalls,
       areaCode: regionSettings.areaCode,
       countryCode: regionSettings.countryCode,
+      currentSiteCode: extensionInfo?.site?.code ?? '',
+      isMultipleSiteEnabled: extensionInfo?.isMultipleSiteEnabled ?? false,
       disableLinks:
         connectivityManager.isOfflineMode ||
         connectivityManager.isVoipOnlyMode ||

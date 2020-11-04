@@ -20,6 +20,7 @@ var _Modal = require("./Modal.interface");
 
 Object.keys(_Modal).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _Modal[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {
@@ -32,6 +33,7 @@ var _Modal2 = require("./Modal");
 
 Object.keys(_Modal2).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _Modal2[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {

@@ -135,7 +135,7 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
-function ConversationIcon(_ref) {
+var ConversationIcon = function ConversationIcon(_ref) {
   var group = _ref.group,
       type = _ref.type,
       currentLocale = _ref.currentLocale,
@@ -179,7 +179,7 @@ function ConversationIcon(_ref) {
   }, /*#__PURE__*/_react["default"].createElement("span", {
     title: title
   }, icon));
-}
+};
 
 ConversationIcon.propTypes = {
   group: _propTypes["default"].bool,
@@ -553,11 +553,18 @@ var MessageItem = /*#__PURE__*/function (_Component) {
 
       if ((0, _messageHelper.messageIsTextMessage)(conversation)) {
         if (conversation.mmsAttachments && conversation.mmsAttachments.length > 0) {
-          var count = conversation.mmsAttachments.filter(function (m) {
+          var imageCount = conversation.mmsAttachments.filter(function (m) {
             return m.contentType.indexOf('image') > -1;
           }).length;
-          return (0, _formatMessage["default"])(_i18n["default"].getString('imageAttachment', currentLocale), {
-            count: count
+
+          if (imageCount > 0) {
+            return (0, _formatMessage["default"])(_i18n["default"].getString('imageAttachment', currentLocale), {
+              count: imageCount
+            });
+          }
+
+          return (0, _formatMessage["default"])(_i18n["default"].getString('fileAttachment', currentLocale), {
+            count: conversation.mmsAttachments.length
           });
         }
 
@@ -605,6 +612,8 @@ var MessageItem = /*#__PURE__*/function (_Component) {
           brand = _this$props3.brand,
           countryCode = _this$props3.countryCode,
           currentLocale = _this$props3.currentLocale,
+          currentSiteCode = _this$props3.currentSiteCode,
+          isMultipleSiteEnabled = _this$props3.isMultipleSiteEnabled,
           _this$props3$conversa = _this$props3.conversation,
           conversationId = _this$props3$conversa.conversationId,
           unreadCounts = _this$props3$conversa.unreadCounts,
@@ -707,6 +716,8 @@ var MessageItem = /*#__PURE__*/function (_Component) {
         groupNumbers: groupNumbers,
         showGroupNumberName: showGroupNumberName,
         currentLocale: currentLocale,
+        currentSiteCode: currentSiteCode,
+        isMultipleSiteEnabled: isMultipleSiteEnabled,
         enableContactFallback: enableContactFallback,
         stopPropagation: false,
         showType: false,
@@ -817,6 +828,8 @@ MessageItem.propTypes = {
   brand: _propTypes["default"].string.isRequired,
   countryCode: _propTypes["default"].string.isRequired,
   currentLocale: _propTypes["default"].string.isRequired,
+  currentSiteCode: _propTypes["default"].string,
+  isMultipleSiteEnabled: _propTypes["default"].bool,
   onLogConversation: _propTypes["default"].func,
   onViewContact: _propTypes["default"].func,
   onCreateContact: _propTypes["default"].func,
@@ -847,6 +860,8 @@ MessageItem.propTypes = {
   onFaxDownload: _propTypes["default"].func
 };
 MessageItem.defaultProps = {
+  currentSiteCode: '',
+  isMultipleSiteEnabled: false,
   onLogConversation: undefined,
   onClickToDial: undefined,
   onViewContact: undefined,

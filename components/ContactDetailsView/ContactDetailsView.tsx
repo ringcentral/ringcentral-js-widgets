@@ -18,17 +18,15 @@ export const ContactDetailsView: FunctionComponent<ContactDetailsViewFunctionPro
   contact,
   currentLocale,
   isMultipleSiteEnabled,
-  isClickToDialEnabled,
   isCallButtonDisabled,
-  isClickToTextEnabled,
   disableLinks,
   formatNumber,
-  internalSmsPermission,
+  canCallButtonShow,
+  canTextButtonShow,
   onBackClick,
   onClickMailTo,
   onClickToDial,
   onClickToSMS,
-  outboundSmsPermission,
   showSpinner,
   sourceNodeRenderer,
 }) => {
@@ -39,18 +37,16 @@ export const ContactDetailsView: FunctionComponent<ContactDetailsViewFunctionPro
     <ContactDetails
       currentLocale={currentLocale}
       contact={contact}
+      canCallButtonShow={canCallButtonShow}
+      canTextButtonShow={canTextButtonShow}
       onClickToSMS={onClickToSMS}
       onClickToDial={onClickToDial}
       isMultipleSiteEnabled={isMultipleSiteEnabled}
-      isClickToDialEnabled={isClickToDialEnabled}
       isCallButtonDisabled={isCallButtonDisabled}
-      isClickToTextEnabled={isClickToTextEnabled}
       disableLinks={disableLinks}
       onClickMailTo={onClickMailTo}
       formatNumber={formatNumber}
       sourceNodeRenderer={sourceNodeRenderer}
-      outboundSmsPermission={outboundSmsPermission}
-      internalSmsPermission={internalSmsPermission}
     />
   );
   return (

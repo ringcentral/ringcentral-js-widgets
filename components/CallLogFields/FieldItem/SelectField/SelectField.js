@@ -21,7 +21,7 @@ require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.map");
 
-var _rcui = require("@ringcentral-integration/rcui");
+var _juno = require("@ringcentral/juno");
 
 var _react = _interopRequireDefault(require("react"));
 
@@ -35,8 +35,8 @@ var SelectField = function SelectField(_ref) {
   var options = _ref.options,
       rest = _objectWithoutProperties(_ref, ["options"]);
 
-  return /*#__PURE__*/_react["default"].createElement(_rcui.RcLineSelect, rest, options.map(function (item, i) {
-    return /*#__PURE__*/_react["default"].createElement(_rcui.RcMenuItem, {
+  return /*#__PURE__*/_react["default"].createElement(_juno.RcLineSelect, rest, options.map(function (item, i) {
+    return /*#__PURE__*/_react["default"].createElement(_juno.RcMenuItem, {
       key: i,
       value: !item.value ? undefined : "".concat(item.value),
       "data-sign": "option".concat(i),

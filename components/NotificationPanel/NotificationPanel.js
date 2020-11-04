@@ -108,7 +108,7 @@ var NotificationPanel = function NotificationPanel(_ref) {
       setTimer = _useState4[1];
 
   (0, _react.useEffect)(function () {
-    // if length is gratter means that is delete item.
+    // if length is grater means that is delete item.
     if (currentMessages.length > messages.length) {
       currentMessages.forEach(function (cm) {
         // if that can't find this id, that means that is delete
@@ -136,7 +136,8 @@ var NotificationPanel = function NotificationPanel(_ref) {
       }
 
       setCurrentMessages(messages);
-    }
+    } // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [messages]);
   return /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])(_styles["default"].root, className)

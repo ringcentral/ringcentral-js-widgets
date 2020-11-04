@@ -193,6 +193,7 @@ var MeetingConfig = /*#__PURE__*/function (_Component) {
           passwordPlaceholderEnable = _this$props3.passwordPlaceholderEnable,
           audioOptionToggle = _this$props3.audioOptionToggle,
           useTimePicker = _this$props3.useTimePicker,
+          enablePersonalMeeting = _this$props3.enablePersonalMeeting,
           personalMeetingId = _this$props3.personalMeetingId,
           switchUsePersonalMeetingId = _this$props3.switchUsePersonalMeetingId;
       var isOptionDisabled = meeting.usePersonalMeetingId && !isChangePmiConfirmed;
@@ -242,20 +243,21 @@ var MeetingConfig = /*#__PURE__*/function (_Component) {
       }
 
       return /*#__PURE__*/_react["default"].createElement("div", {
-        className: _styles["default"].scroll
+        className: _styles["default"].scroll,
+        "data-sign": "meetingConfigsPanel"
       }, showTopic ? /*#__PURE__*/_react["default"].createElement(_MeetingTopic.Topic, {
         that: this,
         meeting: meeting,
         update: update,
         currentLocale: currentLocale
-      }) : null, personalMeetingId ? /*#__PURE__*/_react["default"].createElement(_MeetingIdSection.MeetingIdSection, {
+      }) : null, enablePersonalMeeting && /*#__PURE__*/_react["default"].createElement(_MeetingIdSection.MeetingIdSection, {
         personalMeetingId: personalMeetingId,
         currentLocale: currentLocale,
         meeting: meeting,
         switchUsePersonalMeetingId: switchUsePersonalMeetingId,
         handlePmiConfirmed: this.handlePmiConfirmed,
         isChangePmiConfirmed: isChangePmiConfirmed
-      }) : null, recipientsSection, showWhen ? /*#__PURE__*/_react["default"].createElement(_MeetingDate.MeetingDate, {
+      }), recipientsSection, showWhen ? /*#__PURE__*/_react["default"].createElement(_MeetingDate.MeetingDate, {
         isRecurring: isRecurring,
         currentLocale: currentLocale,
         meeting: meeting,

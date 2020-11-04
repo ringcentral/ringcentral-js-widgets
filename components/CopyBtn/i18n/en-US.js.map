@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/CopyBtn/i18n/en-US.ts"],"names":["copy"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,IAAI,EAAE;AADO,C","sourcesContent":["export default {\n  copy: 'Copy',\n};\n"],"file":"en-US.js"}

@@ -20,6 +20,7 @@ var _ListViewItem = require("./ListViewItem");
 
 Object.keys(_ListViewItem).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _ListViewItem[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {

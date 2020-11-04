@@ -35,11 +35,11 @@ require("core-js/modules/es6.array.is-array");
 
 require("core-js/modules/es6.array.filter");
 
-var _iconSearch = _interopRequireDefault(require("@ringcentral-integration/rcui/icons/icon-search.svg"));
+var _iconSearch = _interopRequireDefault(require("@ringcentral/juno/icons/icon-search.svg"));
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _rcui = require("@ringcentral-integration/rcui");
+var _juno = require("@ringcentral/juno");
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
@@ -98,7 +98,7 @@ var SearchPanel = function SearchPanel(_ref) {
   // IE polyfill
   _react["default"].createElement("span", {
     className: (0, _classnames["default"])(_styles["default"].placeholder, classes.placeholder)
-  }, placeholder || _i18n["default"].getString('search', currentLocale)), /*#__PURE__*/_react["default"].createElement(_rcui.RcOutlineTextField, {
+  }, placeholder || _i18n["default"].getString('search', currentLocale)), /*#__PURE__*/_react["default"].createElement(_juno.RcOutlineTextField, {
     size: "small",
     radiusType: "circle",
     iconPosition: "left",

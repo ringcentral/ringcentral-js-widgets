@@ -4,12 +4,14 @@ import {
 } from '../../components/NotificationPanel';
 import { connectModule } from '../../lib/phoneContext';
 
-// NotificationProps &
 type NotificationContainerProp = {
   regionSettingsUrl?: string;
   callingSettingsUrl?: string;
   getAdditionalRenderer?: Function;
-} & Pick<NotificationPanelProps, 'classes'>;
+} & Pick<
+  NotificationPanelProps,
+  'classes' | 'size' | 'messageAlign' | 'fullWidth' | 'className'
+>;
 
 export const NotificationContainer = connectModule<
   any,

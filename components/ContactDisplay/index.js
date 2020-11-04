@@ -39,6 +39,8 @@ var _classnames = _interopRequireDefault(require("classnames"));
 
 var _formatNumber = _interopRequireDefault(require("ringcentral-integration/lib/formatNumber"));
 
+var _phoneSources = require("ringcentral-integration/enums/phoneSources");
+
 var _formatMessage = _interopRequireDefault(require("format-message"));
 
 var _DropdownSelect = _interopRequireDefault(require("../DropdownSelect"));
@@ -48,8 +50,6 @@ var _i18n = _interopRequireDefault(require("./i18n"));
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
 var _phoneSourceNames = _interopRequireDefault(require("../../lib/phoneSourceNames"));
-
-var _phoneSources = _interopRequireDefault(require("../../enums/phoneSources"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -109,7 +109,7 @@ function ContactDisplayItem(_ref2) {
   var SourceIcon = null;
 
   if (entityType) {
-    if (entityType === _phoneSources["default"].rcContact) {
+    if (entityType === _phoneSources.phoneSources.rcContact) {
       SourceIcon = sourceIcons.brandIcon;
     } else {
       SourceIcon = sourceIcons[entityType];
@@ -168,6 +168,8 @@ function ContactDisplay(_ref3) {
       countryCode = _ref3.countryCode,
       phoneNumber = _ref3.phoneNumber,
       currentLocale = _ref3.currentLocale,
+      currentSiteCode = _ref3.currentSiteCode,
+      isMultipleSiteEnabled = _ref3.isMultipleSiteEnabled,
       groupNumbers = _ref3.groupNumbers,
       showType = _ref3.showType,
       selectClassName = _ref3.selectClassName,
@@ -184,6 +186,13 @@ function ContactDisplay(_ref3) {
       isOnConferenceCall = _ref3.isOnConferenceCall,
       iconClassName = _ref3.iconClassName;
   var contentEl;
+  phoneNumber = (0, _formatNumber["default"])({
+    phoneNumber: phoneNumber,
+    countryCode: countryCode,
+    areaCode: areaCode,
+    siteCode: currentSiteCode,
+    isMultipleSiteEnabled: isMultipleSiteEnabled
+  });
 
   if (isOnConferenceCall) {
     var confStr = _i18n["default"].getString('conferenceCall', currentLocale);
@@ -221,11 +230,7 @@ function ContactDisplay(_ref3) {
       className: _styles["default"].currentName
     }, _display);
   } else if (contactMatches.length === 0) {
-    var _display2 = enableContactFallback && fallBackName || phoneNumber && (0, _formatNumber["default"])({
-      phoneNumber: phoneNumber,
-      countryCode: countryCode,
-      areaCode: areaCode
-    }) || _i18n["default"].getString('unknownNumber', currentLocale);
+    var _display2 = enableContactFallback && fallBackName || phoneNumber || _i18n["default"].getString('unknownNumber', currentLocale);
 
     var title = enableContactFallback && fallBackName || phoneNumber || '';
     contentEl = /*#__PURE__*/_react["default"].createElement("div", {
@@ -331,6 +336,8 @@ ContactDisplay.propTypes = {
   countryCode: _propTypes["default"].string.isRequired,
   phoneNumber: _propTypes["default"].string,
   currentLocale: _propTypes["default"].string.isRequired,
+  currentSiteCode: _propTypes["default"].string,
+  isMultipleSiteEnabled: _propTypes["default"].bool,
   groupNumbers: _propTypes["default"].arrayOf(_propTypes["default"].string),
   showType: _propTypes["default"].bool,
   selectClassName: _propTypes["default"].string,
@@ -346,6 +353,8 @@ ContactDisplay.propTypes = {
   iconClassName: _propTypes["default"].string
 };
 ContactDisplay.defaultProps = {
+  currentSiteCode: '',
+  isMultipleSiteEnabled: false,
   isOnConferenceCall: false,
   reference: undefined,
   className: undefined,

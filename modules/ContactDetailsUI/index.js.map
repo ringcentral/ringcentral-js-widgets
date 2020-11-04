@@ -1,1 +1,1 @@
-{"version":3,"sources":["modules/ContactDetailsUI/index.ts"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;AAAA;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA","sourcesContent":["export * from './ContactDetailsUI';\n"],"file":"index.js"}
+{"version":3,"sources":["modules/ContactDetailsUI/index.ts"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;AAAA;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA","sourcesContent":["export * from './ContactDetailsUI';\n"],"file":"index.js"}

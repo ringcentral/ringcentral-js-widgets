@@ -1,17 +1,31 @@
 "use strict";
 
+require("core-js/modules/web.dom.iterable");
+
+require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.object.to-string");
+
+require("core-js/modules/es6.object.keys");
+
+require("core-js/modules/es6.array.for-each");
+
 require("core-js/modules/es6.object.define-property");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = exports.phoneSources = void 0;
 
-var _ObjectMap = require("@ringcentral-integration/core/lib/ObjectMap");
+var _phoneSources = require("ringcentral-integration/enums/phoneSources");
 
-var phoneSources = _ObjectMap.ObjectMap.fromKeys(['account', 'contact', 'lead', 'opportunity', 'systemUser', 'rcContact']);
-
-exports.phoneSources = phoneSources;
-var _default = phoneSources;
-exports["default"] = _default;
+Object.keys(_phoneSources).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _phoneSources[key]) return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _phoneSources[key];
+    }
+  });
+});
 //# sourceMappingURL=phoneSources.js.map

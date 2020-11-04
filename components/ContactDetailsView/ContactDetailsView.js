@@ -28,35 +28,31 @@ var ContactDetailsView = function ContactDetailsView(_ref) {
       contact = _ref.contact,
       currentLocale = _ref.currentLocale,
       isMultipleSiteEnabled = _ref.isMultipleSiteEnabled,
-      isClickToDialEnabled = _ref.isClickToDialEnabled,
       isCallButtonDisabled = _ref.isCallButtonDisabled,
-      isClickToTextEnabled = _ref.isClickToTextEnabled,
       disableLinks = _ref.disableLinks,
       formatNumber = _ref.formatNumber,
-      internalSmsPermission = _ref.internalSmsPermission,
+      canCallButtonShow = _ref.canCallButtonShow,
+      canTextButtonShow = _ref.canTextButtonShow,
       onBackClick = _ref.onBackClick,
       onClickMailTo = _ref.onClickMailTo,
       onClickToDial = _ref.onClickToDial,
       onClickToSMS = _ref.onClickToSMS,
-      outboundSmsPermission = _ref.outboundSmsPermission,
       showSpinner = _ref.showSpinner,
       sourceNodeRenderer = _ref.sourceNodeRenderer;
   if (!contact) return null;
   var content = showSpinner ? /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay.SpinnerOverlay, null) : /*#__PURE__*/_react["default"].createElement(_ContactDetails.ContactDetails, {
     currentLocale: currentLocale,
     contact: contact,
+    canCallButtonShow: canCallButtonShow,
+    canTextButtonShow: canTextButtonShow,
     onClickToSMS: onClickToSMS,
     onClickToDial: onClickToDial,
     isMultipleSiteEnabled: isMultipleSiteEnabled,
-    isClickToDialEnabled: isClickToDialEnabled,
     isCallButtonDisabled: isCallButtonDisabled,
-    isClickToTextEnabled: isClickToTextEnabled,
     disableLinks: disableLinks,
     onClickMailTo: onClickMailTo,
     formatNumber: formatNumber,
-    sourceNodeRenderer: sourceNodeRenderer,
-    outboundSmsPermission: outboundSmsPermission,
-    internalSmsPermission: internalSmsPermission
+    sourceNodeRenderer: sourceNodeRenderer
   });
   return /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].root

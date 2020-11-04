@@ -121,6 +121,8 @@ var MeetingUI = (_dec = (0, _di.Module)({
   _createClass(MeetingUI, [{
     key: "getUIProps",
     value: function getUIProps(_ref2) {
+      var _this$_meeting$person;
+
       var disabled = _ref2.disabled,
           showWhen = _ref2.showWhen,
           showDuration = _ref2.showDuration,
@@ -138,7 +140,9 @@ var MeetingUI = (_dec = (0, _di.Module)({
         // Need to add this back when we back to this ticket
         // https://jira.ringcentral.com/browse/RCINT-15031
         // disableSaveAsDefault: !this._meeting.isPreferencesChanged,
-        disableSaveAsDefault: false
+        disableSaveAsDefault: false,
+        enablePersonalMeeting: this._meeting.enablePersonalMeeting,
+        personalMeetingId: this._meeting.ready && ((_this$_meeting$person = this._meeting.personalMeeting) === null || _this$_meeting$person === void 0 ? void 0 : _this$_meeting$person.shortId)
       };
     }
   }, {
@@ -188,6 +192,9 @@ var MeetingUI = (_dec = (0, _di.Module)({
         }(),
         init: function init() {
           return _this2._meeting.init();
+        },
+        switchUsePersonalMeetingId: function switchUsePersonalMeetingId(usePersonalMeetingId) {
+          return _this2._meeting.switchUsePersonalMeetingId(usePersonalMeetingId);
         }
       };
     }

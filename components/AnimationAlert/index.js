@@ -25,6 +25,7 @@ var _AnimationAlertUtils = require("./AnimationAlertUtils");
 Object.keys(_AnimationAlertUtils).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
+  if (key in exports && exports[key] === _AnimationAlertUtils[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {
@@ -38,6 +39,7 @@ var _AnimationMessage = require("./AnimationMessage");
 Object.keys(_AnimationMessage).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
+  if (key in exports && exports[key] === _AnimationMessage[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {

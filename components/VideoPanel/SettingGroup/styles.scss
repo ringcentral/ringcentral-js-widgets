@@ -1,0 +1,35 @@
+$content-padding: 20px;
+
+div.expansionPanel {
+  box-shadow: none !important;
+  margin: 6px 0 0 0 !important;
+  background-color: transparent !important;
+
+  div.expansionPanelSummary {
+    font-weight: bold;
+    color: #212121;
+    height: 44px;
+    font-size: 15px;
+    padding: 0 $content-padding;
+    min-height: 44px;
+
+    &.expansionPanelSummaryDisabled {
+      opacity: inherit;
+      user-select: inherit;
+    }
+
+    div.expansionPanelSummaryContent {
+      margin: 0 0;
+    }
+  }
+
+  div.expansionPanelDetails {
+    padding: 0;
+    border: 0;
+    flex-direction: column;
+
+    div.toggleGroup {
+      width: 100%;
+    }
+  }
+}

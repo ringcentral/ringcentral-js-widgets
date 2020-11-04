@@ -29,6 +29,7 @@ var LinkLineItem = function LinkLineItem(_ref) {
   }
 
   return /*#__PURE__*/_react["default"].createElement(_LinkLine["default"], {
+    hideUnderline: true,
     onClick: onClick
   }, customTitle || _i18n["default"].getString(name, currentLocale));
 };

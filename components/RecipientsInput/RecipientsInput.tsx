@@ -49,6 +49,7 @@ type RecipientsInputProps = {
 };
 type RecipientsInputState = {
   value: any;
+  lastInputTimestamp: number;
   isFocusOnInput: boolean;
   selectedContactIndex: number;
   scrollDirection: null;
@@ -62,8 +63,8 @@ class RecipientsInput extends Component<
   scrollOperation: (direction: any) => void;
   addSelectedContactIndex: () => void;
   reduceSelectedContactIndex: () => void;
-  isSplitter: (e: any) => boolean;
-  handleHotKey: (e: any) => void;
+  isSplitter: (ev: React.KeyboardEvent<HTMLInputElement>) => boolean;
+  handleHotKey: (ev: React.KeyboardEvent<HTMLInputElement>) => void;
   listRef: any;
   inputRef: any;
   _focusTimeout: NodeJS.Timeout;
@@ -77,6 +78,7 @@ class RecipientsInput extends Component<
     super(props);
     this.state = {
       value: props.value,
+      lastInputTimestamp: 0,
       isFocusOnInput: false,
       selectedContactIndex: 0,
       scrollDirection: null,
@@ -117,37 +119,37 @@ class RecipientsInput extends Component<
         });
       }
     };
-    this.isSplitter = (e) => {
+    this.isSplitter = (ev: React.KeyboardEvent<HTMLInputElement>) => {
       if (
-        e.key === ',' ||
-        e.key === ';' ||
-        e.key === 'Enter' ||
-        (e.key === 'Unidentified' && // for Safari (FF cannot rely on keyCode...)
-          (e.keyCode === 186 || // semicolon
-          e.keyCode === 188 || // comma
-            e.keyCode === 13)) // enter
+        ev.key === ',' ||
+        ev.key === ';' ||
+        ev.key === 'Enter' ||
+        (ev.key === 'Unidentified' && // for Safari (FF cannot rely on keyCode...)
+          (ev.keyCode === 186 || // semicolon
+            ev.keyCode === 188 || // comma
+            ev.keyCode === 13)) // enter
       ) {
         return true;
       }
       return false;
     };
     // using React SyntheticEvent to deal with cross browser issue
-    this.handleHotKey = (e) => {
+    this.handleHotKey = (ev: React.KeyboardEvent<HTMLInputElement>) => {
       if (this.state.isFocusOnInput && this.state.value.length >= 3) {
-        if (e.key === 'ArrowUp') {
+        if (ev.key === 'ArrowUp') {
           this.reduceSelectedContactIndex();
-          this.scrollOperation(e.key);
-        } else if (e.key === 'ArrowDown') {
+          this.scrollOperation(ev.key);
+        } else if (ev.key === 'ArrowDown') {
           this.addSelectedContactIndex();
-          this.scrollOperation(e.key);
+          this.scrollOperation(ev.key);
         }
       } else {
         this.setState({
           selectedContactIndex: 0,
         });
       }
-      if (this.isSplitter(e)) {
-        e.preventDefault();
+      if (this.isSplitter(ev)) {
+        ev.preventDefault();
         if (this.state.value.length === 0) {
           return;
         }
@@ -155,7 +157,7 @@ class RecipientsInput extends Component<
           this.state.value.length >= 3 ? this.props.searchContactList : [];
         const currentSelected =
           relatedContactList[this.state.selectedContactIndex];
-        if (currentSelected && e.key === 'Enter') {
+        if (currentSelected && ev.key === 'Enter') {
           this.props.addToRecipients({
             name: currentSelected.name,
             phoneNumber: currentSelected.phoneNumber,
@@ -170,8 +172,8 @@ class RecipientsInput extends Component<
     };
   }
 
-  onInputKeyUp = (e) => {
-    this.props.searchContact(e.currentTarget.value);
+  onInputKeyUp = (ev: React.KeyboardEvent<HTMLInputElement>) => {
+    this.props.searchContact(ev.currentTarget.value);
     this.setState({
       isFocusOnInput: true,
     });
@@ -183,9 +185,10 @@ class RecipientsInput extends Component<
     });
   };
 
-  onInputChange = (e) => {
-    const { value } = e.currentTarget;
-    this.setState({ value }, () => {
+  onInputChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = ev.currentTarget;
+    const lastInputTimestamp = Date.now();
+    this.setState({ value, lastInputTimestamp }, () => {
       this.props.onChange(value);
     });
     if (this.listRef) {
@@ -218,7 +221,11 @@ class RecipientsInput extends Component<
   };
 
   UNSAFE_componentWillReceiveProps(nextProps) {
+    const isNotEditing =
+      !this.state.isFocusOnInput ||
+      Date.now() - this.state.lastInputTimestamp > 2000;
     if (
+      isNotEditing &&
       nextProps.value !== undefined &&
       nextProps.value !== this.props.value &&
       nextProps.value !== this.state.value
@@ -248,9 +255,11 @@ class RecipientsInput extends Component<
     window.removeEventListener('click', this.clickHandler);
   }
 
-  clickHandler = (evt) => {
-    if (this.listRef && this.listRef.contains(evt.target)) return;
-    if (this.inputRef && this.inputRef.contains(evt.target)) {
+  clickHandler = (ev: MouseEvent) => {
+    if (this.listRef && this.listRef.contains(ev.target)) {
+      return;
+    }
+    if (this.inputRef && this.inputRef.contains(ev.target)) {
       this.setState({
         isFocusOnInput: true,
       });

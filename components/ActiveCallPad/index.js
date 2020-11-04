@@ -65,6 +65,8 @@ var _Dialpad = _interopRequireDefault(require("../../assets/images/Dialpad.svg")
 
 var _Hold = _interopRequireDefault(require("../../assets/images/Hold.svg"));
 
+var _Park = _interopRequireDefault(require("../../assets/images/Park.svg"));
+
 var _Record = _interopRequireDefault(require("../../assets/images/Record.svg"));
 
 var _MoreIcon = _interopRequireDefault(require("../../assets/images/MoreIcon.svg"));
@@ -131,7 +133,8 @@ var ACTIONS_CTRL_MAP = {
   mergeOrAddCtrl: 'mergeOrAddCtrl',
   recordCtrl: 'recordCtrl',
   transferCtrl: 'transferCtrl',
-  flipCtrl: 'flipCtrl'
+  flipCtrl: 'flipCtrl',
+  parkCtrl: 'parkCtrl'
 };
 exports.ACTIONS_CTRL_MAP = ACTIONS_CTRL_MAP;
 
@@ -314,7 +317,8 @@ var ActiveCallPad = /*#__PURE__*/function (_Component) {
       });
       /* --------------------- Flip --------------------------- */
 
-      var disabledFlip = this.props.disableFlip || this.props.isOnHold || this.props.layout !== _callCtrlLayouts["default"].normalCtrl;
+      var disableControlButton = this.props.isOnHold || this.props.layout !== _callCtrlLayouts["default"].normalCtrl;
+      var disabledFlip = this.props.disableFlip || disableControlButton;
       buttons.push({
         icon: _Flip["default"],
         id: ACTIONS_CTRL_MAP.flipCtrl,
@@ -322,7 +326,20 @@ var ActiveCallPad = /*#__PURE__*/function (_Component) {
         title: _i18n["default"].getString('flip', this.props.currentLocale),
         disabled: disabledFlip || controlBusy,
         onClick: this.props.onFlip
-      }); // filter actions
+      });
+      /* --------------------- Park --------------------------- */
+
+      if (this.props.showPark) {
+        buttons.push({
+          icon: _Park["default"],
+          id: ACTIONS_CTRL_MAP.parkCtrl,
+          dataSign: 'park',
+          title: _i18n["default"].getString('park', this.props.currentLocale),
+          disabled: disableControlButton || controlBusy,
+          onClick: this.props.onPark
+        });
+      } // filter actions
+
 
       var actions = this.props.actions;
 
@@ -409,13 +426,14 @@ ActiveCallPad.propTypes = {
   onRecord: _propTypes["default"].func.isRequired,
   onStopRecord: _propTypes["default"].func.isRequired,
   onHangup: _propTypes["default"].func.isRequired,
-  // onPark: PropTypes.func.isRequired,
+  onPark: _propTypes["default"].func.isRequired,
   onShowKeyPad: _propTypes["default"].func.isRequired,
   onAdd: _propTypes["default"].func,
   onMerge: _propTypes["default"].func,
   onFlip: _propTypes["default"].func.isRequired,
   onTransfer: _propTypes["default"].func.isRequired,
   disableFlip: _propTypes["default"].bool,
+  showPark: _propTypes["default"].bool,
   layout: _propTypes["default"].string,
   addDisabled: _propTypes["default"].bool,
   mergeDisabled: _propTypes["default"].bool,
@@ -437,6 +455,7 @@ ActiveCallPad.defaultProps = {
   onMerge: undefined,
   expandMore: false,
   disableFlip: false,
+  showPark: false,
   actions: []
 };
 var _default = ActiveCallPad;

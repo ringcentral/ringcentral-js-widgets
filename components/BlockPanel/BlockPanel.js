@@ -21,7 +21,7 @@ require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.keys");
 
-var _rcui = require("@ringcentral-integration/rcui");
+var _juno = require("@ringcentral/juno");
 
 var _react = _interopRequireDefault(require("react"));
 
@@ -45,11 +45,11 @@ var BlockPanel = function BlockPanel(_ref) {
   var _block$classes = block.classes,
       classes = _block$classes === void 0 ? {} : _block$classes;
   return block && /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay.SpinnerOverlay, _extends({
-    classes: (0, _rcui.combineProps)(classes, {
+    classes: (0, _juno.combineProps)(classes, {
       container: _styles["default"].spinner
     }),
     custom: function custom() {
-      return /*#__PURE__*/_react["default"].createElement(_rcui.RcCircularProgress, {
+      return /*#__PURE__*/_react["default"].createElement(_juno.RcCircularProgress, {
         size: 40
       });
     }

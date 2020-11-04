@@ -35,9 +35,9 @@ require("core-js/modules/es6.string.trim");
 
 require("core-js/modules/es6.array.map");
 
-var _rcui = require("@ringcentral-integration/rcui");
+var _juno = require("@ringcentral/juno");
 
-var _iconArrow_down = _interopRequireDefault(require("@ringcentral-integration/rcui/icons/icon-arrow_down.svg"));
+var _iconArrow_down = _interopRequireDefault(require("@ringcentral/juno/icons/icon-arrow_down.svg"));
 
 var _react = _interopRequireWildcard(require("react"));
 
@@ -102,8 +102,8 @@ var InputSelect = /*#__PURE__*/function (_Component) {
 
       return /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].select
-      }, /*#__PURE__*/_react["default"].createElement(_rcui.RcList, null, subjectPicklist.map(function (option, i) {
-        return /*#__PURE__*/_react["default"].createElement(_rcui.RcListItem, {
+      }, /*#__PURE__*/_react["default"].createElement(_juno.RcList, null, subjectPicklist.map(function (option, i) {
+        return /*#__PURE__*/_react["default"].createElement(_juno.RcListItem, {
           key: i,
           button: true,
           singleLine: true,
@@ -111,7 +111,7 @@ var InputSelect = /*#__PURE__*/function (_Component) {
             return _this.onSelectChange(option);
           },
           "data-sign": "match".concat(i)
-        }, /*#__PURE__*/_react["default"].createElement(_rcui.RcListItemText, {
+        }, /*#__PURE__*/_react["default"].createElement(_juno.RcListItemText, {
           primary: option,
           classes: {
             primary: _styles["default"].listText
@@ -201,7 +201,7 @@ var InputSelect = /*#__PURE__*/function (_Component) {
         ref: function ref(_ref) {
           _this2.wrapper = _ref;
         }
-      }, /*#__PURE__*/_react["default"].createElement(_rcui.RcTextField, {
+      }, /*#__PURE__*/_react["default"].createElement(_juno.RcTextField, {
         label: label || 'Subject',
         "data-sign": "subject",
         title: subject,

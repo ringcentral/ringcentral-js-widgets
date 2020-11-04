@@ -21,7 +21,7 @@ require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.keys");
 
-var _rcui = require("@ringcentral-integration/rcui");
+var _juno = require("@ringcentral/juno");
 
 var _react = _interopRequireDefault(require("react"));
 
@@ -42,7 +42,7 @@ var SelectListTextField = function SelectListTextField(_ref) {
       disabled = _ref.disabled,
       rest = _objectWithoutProperties(_ref, ["value", "disabled"]);
 
-  return /*#__PURE__*/_react["default"].createElement(_rcui.RcTextField, _extends({}, rest, {
+  return /*#__PURE__*/_react["default"].createElement(_juno.RcTextField, _extends({}, rest, {
     title: "".concat(value),
     value: value,
     disabled: disabled,

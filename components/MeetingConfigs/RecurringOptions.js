@@ -27,6 +27,8 @@ require("core-js/modules/es6.object.define-property");
 
 require("react-widgets/dist/css/react-widgets.css");
 
+var _Meeting = require("ringcentral-integration/modules/Meeting");
+
 var _react = _interopRequireDefault(require("react"));
 
 var _MeetingSection = _interopRequireDefault(require("../MeetingSection"));
@@ -61,7 +63,7 @@ var RecurringOptions = function RecurringOptions(_ref) {
   }, _i18n["default"].getString('recurringMeeting', currentLocale)), /*#__PURE__*/_react["default"].createElement(_Switch["default"], {
     checked: isRecurring,
     onChange: function onChange(isCheckRecurring) {
-      var meetingType = isCheckRecurring ? 'ScheduledRecurring' : 'Scheduled';
+      var meetingType = isCheckRecurring ? _Meeting.MeetingType.RECURRING : _Meeting.MeetingType.SCHEDULED;
       update(_objectSpread(_objectSpread({}, meeting), {}, {
         meetingType: meetingType
       }));

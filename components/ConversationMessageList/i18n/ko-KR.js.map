@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/ConversationMessageList/i18n/ko-KR.js"],"names":["loading"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,OAAO,EAAE;AADI,C,EAIf","sourcesContent":["export default {\n  loading: \"로드 중...\"\n};\n\n// @key: @#@\"loading\"@#@ @source: @#@\"Loading ...\"@#@\n"],"file":"ko-KR.js"}

@@ -98,8 +98,8 @@ var ActiveCallsPanel = /*#__PURE__*/function (_Component) {
       }
     }
   }, {
-    key: "componentWillReceiveProps",
-    value: function componentWillReceiveProps(nextProps) {
+    key: "UNSAFE_componentWillReceiveProps",
+    value: function UNSAFE_componentWillReceiveProps(nextProps) {
       if (this.hasCalls(this.props) && !this.hasCalls(nextProps) && typeof this.props.onCallsEmpty === 'function') {
         this.props.onCallsEmpty();
       }
@@ -221,7 +221,8 @@ var ActiveCallsPanel = /*#__PURE__*/function (_Component) {
           ringoutReject = _this$props2.ringoutReject,
           disableLinks = _this$props2.disableLinks,
           showRingoutCallControl = _this$props2.showRingoutCallControl,
-          showSwitchCall = _this$props2.showSwitchCall;
+          showSwitchCall = _this$props2.showSwitchCall,
+          isOnHold = _this$props2.isOnHold;
       return /*#__PURE__*/_react["default"].createElement(_ActiveCallList["default"], {
         title: title,
         calls: calls,
@@ -269,7 +270,8 @@ var ActiveCallsPanel = /*#__PURE__*/function (_Component) {
         ringoutReject: ringoutReject,
         disableLinks: disableLinks,
         showRingoutCallControl: showRingoutCallControl,
-        showSwitchCall: showSwitchCall
+        showSwitchCall: showSwitchCall,
+        isOnHold: isOnHold
       });
     }
   }, {
@@ -359,6 +361,7 @@ ActiveCallsPanel.propTypes = {
   webphoneHold: _propTypes["default"].func,
   useV2: _propTypes["default"].bool,
   updateSessionMatchedContact: _propTypes["default"].func,
+  isOnHold: _propTypes["default"].func.isRequired,
   // CallLog related
   currentLog: _propTypes["default"].object,
   renderEditLogSection: _propTypes["default"].func,

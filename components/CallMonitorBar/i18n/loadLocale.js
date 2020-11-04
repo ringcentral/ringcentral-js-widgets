@@ -190,6 +190,42 @@ function loadLocale(locale) {
           break;
         }
 
+      case 'ko':
+      case 'ko-KR':
+        {
+          if (typeof require.ensure === 'function') {
+            require.ensure(['./ko-KR'], function (require) {
+              var data = require('./ko-KR');
+
+              resolve(data.__esModule === true ? data["default"] : data);
+            }, 'ko-KR');
+          } else {
+            var _data10 = require('./ko-KR');
+
+            resolve(_data10.__esModule === true ? _data10["default"] : _data10);
+          }
+
+          break;
+        }
+
+      case 'nl':
+      case 'nl-NL':
+        {
+          if (typeof require.ensure === 'function') {
+            require.ensure(['./nl-NL'], function (require) {
+              var data = require('./nl-NL');
+
+              resolve(data.__esModule === true ? data["default"] : data);
+            }, 'nl-NL');
+          } else {
+            var _data11 = require('./nl-NL');
+
+            resolve(_data11.__esModule === true ? _data11["default"] : _data11);
+          }
+
+          break;
+        }
+
       case 'pt':
       case 'pt-BR':
         {
@@ -200,9 +236,26 @@ function loadLocale(locale) {
               resolve(data.__esModule === true ? data["default"] : data);
             }, 'pt-BR');
           } else {
-            var _data10 = require('./pt-BR');
+            var _data12 = require('./pt-BR');
 
-            resolve(_data10.__esModule === true ? _data10["default"] : _data10);
+            resolve(_data12.__esModule === true ? _data12["default"] : _data12);
+          }
+
+          break;
+        }
+
+      case 'pt-PT':
+        {
+          if (typeof require.ensure === 'function') {
+            require.ensure(['./pt-PT'], function (require) {
+              var data = require('./pt-PT');
+
+              resolve(data.__esModule === true ? data["default"] : data);
+            }, 'pt-PT');
+          } else {
+            var _data13 = require('./pt-PT');
+
+            resolve(_data13.__esModule === true ? _data13["default"] : _data13);
           }
 
           break;
@@ -218,9 +271,9 @@ function loadLocale(locale) {
               resolve(data.__esModule === true ? data["default"] : data);
             }, 'zh-CN');
           } else {
-            var _data11 = require('./zh-CN');
+            var _data14 = require('./zh-CN');
 
-            resolve(_data11.__esModule === true ? _data11["default"] : _data11);
+            resolve(_data14.__esModule === true ? _data14["default"] : _data14);
           }
 
           break;
@@ -235,9 +288,9 @@ function loadLocale(locale) {
               resolve(data.__esModule === true ? data["default"] : data);
             }, 'zh-HK');
           } else {
-            var _data12 = require('./zh-HK');
+            var _data15 = require('./zh-HK');
 
-            resolve(_data12.__esModule === true ? _data12["default"] : _data12);
+            resolve(_data15.__esModule === true ? _data15["default"] : _data15);
           }
 
           break;
@@ -252,9 +305,9 @@ function loadLocale(locale) {
               resolve(data.__esModule === true ? data["default"] : data);
             }, 'zh-TW');
           } else {
-            var _data13 = require('./zh-TW');
+            var _data16 = require('./zh-TW');
 
-            resolve(_data13.__esModule === true ? _data13["default"] : _data13);
+            resolve(_data16.__esModule === true ? _data16["default"] : _data16);
           }
 
           break;

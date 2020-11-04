@@ -33,11 +33,11 @@ require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.array.is-array");
 
-var _rcui = require("@ringcentral-integration/rcui");
+var _juno = require("@ringcentral/juno");
 
-var _iconChevron_left = _interopRequireDefault(require("@ringcentral-integration/rcui/icons/icon-chevron_left.svg"));
+var _iconChevron_left = _interopRequireDefault(require("@ringcentral/juno/icons/icon-chevron_left.svg"));
 
-var _iconChevron_right = _interopRequireDefault(require("@ringcentral-integration/rcui/icons/icon-chevron_right.svg"));
+var _iconChevron_right = _interopRequireDefault(require("@ringcentral/juno/icons/icon-chevron_right.svg"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
@@ -118,7 +118,7 @@ var BasicCallInfo = function BasicCallInfo(_ref) {
     followInfos: followInfos
   }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].rightIcon
-  }, /*#__PURE__*/_react["default"].createElement(_rcui.RcIconButton, {
+  }, /*#__PURE__*/_react["default"].createElement(_juno.RcIconButton, {
     variant: "round",
     size: "small",
     color: "grey.700",
@@ -137,7 +137,7 @@ var BasicCallInfo = function BasicCallInfo(_ref) {
     }
   }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].panel
-  }, /*#__PURE__*/_react["default"].createElement("header", null, /*#__PURE__*/_react["default"].createElement(_rcui.RcIconButton, {
+  }, /*#__PURE__*/_react["default"].createElement("header", null, /*#__PURE__*/_react["default"].createElement(_juno.RcIconButton, {
     variant: "round",
     size: "small",
     color: "grey.700",

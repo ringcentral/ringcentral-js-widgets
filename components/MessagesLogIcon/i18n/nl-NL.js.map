@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/MessagesLogIcon/i18n/nl-NL.js"],"names":["log"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,GAAG,EAAE;AADQ,C,EAIf","sourcesContent":["export default {\n  log: \"Loggen\"\n};\n\n// @key: @#@\"log\"@#@ @source: @#@\"Log\"@#@\n"],"file":"nl-NL.js"}

@@ -23,7 +23,7 @@ require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.map");
 
-var _rcui = require("@ringcentral-integration/rcui");
+var _juno = require("@ringcentral/juno");
 
 var _react = _interopRequireDefault(require("react"));
 
@@ -43,7 +43,7 @@ var ModalV2 = function ModalV2(_ref) {
     var children = _ref2.children,
         restModalProps = _objectWithoutProperties(_ref2, ["children"]);
 
-    return /*#__PURE__*/_react["default"].createElement(_rcui.RcModal, _extends({}, rest, restModalProps, {
+    return /*#__PURE__*/_react["default"].createElement(_juno.RcModal, _extends({}, rest, restModalProps, {
       key: i
     }), children);
   }));

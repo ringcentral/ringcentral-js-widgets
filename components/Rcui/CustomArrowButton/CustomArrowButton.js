@@ -9,9 +9,9 @@ exports.CustomArrowButton = void 0;
 
 require("core-js/modules/es6.object.assign");
 
-var _rcui = require("@ringcentral-integration/rcui");
+var _juno = require("@ringcentral/juno");
 
-var _iconArrow_right = _interopRequireDefault(require("@ringcentral-integration/rcui/icons/icon-arrow_right1.svg"));
+var _iconArrow_right = _interopRequireDefault(require("@ringcentral/juno/icons/icon-arrow_right1.svg"));
 
 var _react = _interopRequireDefault(require("react"));
 
@@ -21,7 +21,7 @@ function _extends() { _extends = Object.assign || function (target) { for (var i
 
 var CustomArrowButton = function CustomArrowButton(_ref) {
   var rest = Object.assign({}, _ref);
-  return /*#__PURE__*/_react["default"].createElement(_rcui.RcIconButton, _extends({
+  return /*#__PURE__*/_react["default"].createElement(_juno.RcIconButton, _extends({
     "data-sign": "arrow_icon",
     color: "grey.600",
     variant: "plain"

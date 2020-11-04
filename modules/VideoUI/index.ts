@@ -1,7 +1,7 @@
 import { Module } from 'ringcentral-integration/lib/di';
 import Brand from 'ringcentral-integration/modules/Brand';
 import { RcVideo } from 'ringcentral-integration/modules/RcVideo';
-import { RcVMeetingModel } from 'ringcentral-integration/models/rcv.model';
+import { RcVMeetingModel } from 'ringcentral-integration/interfaces/Rcv.model';
 
 import RcUIModule from '../../lib/RcUIModule';
 
@@ -37,6 +37,10 @@ export default class VideoUI extends RcUIModule {
     return {
       currentLocale: this._locale.currentLocale,
       meeting: this._rcVideo.meeting,
+      showAdminLock: this._rcVideo.showAdminLock,
+      enablePersonalMeeting: this._rcVideo.enablePersonalMeeting,
+      personalMeetingId:
+        this._rcVideo.ready && this._rcVideo.personalMeeting?.shortId,
       showSaveAsDefault: this._rcVideo.showSaveAsDefault,
       disableSaveAsDefault: !this._rcVideo.isPreferencesChanged,
       brandName: this._brand.name,
@@ -58,12 +62,21 @@ export default class VideoUI extends RcUIModule {
       ): boolean => {
         return this._rcVideo.validatePasswordSettings(password, isSecret);
       },
-      invite: async (meetingInfo) => {
+      switchUsePersonalMeetingId: (usePersonalMeetingId: boolean) =>
+        this._rcVideo.switchUsePersonalMeetingId(usePersonalMeetingId),
+      schedule: async (meetingInfo: RcVMeetingModel, opener: Window) => {
         if (schedule) {
-          await schedule(meetingInfo);
+          await schedule(meetingInfo, opener);
           return;
         }
-        await this._rcVideo.createMeeting(meetingInfo);
+        if (meetingInfo.usePersonalMeetingId) {
+          await this._rcVideo.updateMeeting(
+            this._rcVideo.personalMeeting.id,
+            meetingInfo,
+          );
+        } else {
+          await this._rcVideo.createMeeting(meetingInfo);
+        }
       },
       init: () => {
         this._rcVideo.init();

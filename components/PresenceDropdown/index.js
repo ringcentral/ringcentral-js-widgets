@@ -116,12 +116,13 @@ var PresenceDropdown = /*#__PURE__*/function (_Component) {
           setAvailable = _this$props.setAvailable,
           setBusy = _this$props.setBusy,
           setDoNotDisturb = _this$props.setDoNotDisturb,
-          setInvisible = _this$props.setInvisible;
+          setInvisible = _this$props.setInvisible,
+          className = _this$props.className;
       var showSelects = this.state.showSelects;
       var showDropdown = (0, _classnames["default"])(_style["default"].root, showSelects ? _style["default"].showSelects : null);
       var showBackground = (0, _classnames["default"])(_style["default"].bk, showSelects ? _style["default"].showSelects : null);
       return /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("div", {
-        className: (0, _classnames["default"])(_style["default"].presence, _style["default"][userStatus], _style["default"][dndStatus]),
+        className: (0, _classnames["default"])(_style["default"].presence, _style["default"][userStatus], _style["default"][dndStatus], className),
         onClick: this.toggleShow
       }, /*#__PURE__*/_react["default"].createElement("div", {
         className: _style["default"].presenceBar
@@ -176,10 +177,12 @@ PresenceDropdown.propTypes = {
   setBusy: _propTypes["default"].func.isRequired,
   setDoNotDisturb: _propTypes["default"].func.isRequired,
   setInvisible: _propTypes["default"].func.isRequired,
-  isReady: _propTypes["default"].bool.isRequired
+  isReady: _propTypes["default"].bool.isRequired,
+  className: _propTypes["default"].string
 };
 PresenceDropdown.defaultProps = {
   dndStatus: null,
-  userStatus: null
+  userStatus: null,
+  className: null
 };
 //# sourceMappingURL=index.js.map

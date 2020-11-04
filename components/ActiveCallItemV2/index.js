@@ -109,8 +109,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-// Reuse the exsisting translations
-function WebphoneButtons(_ref) {
+var WebphoneButtons = function WebphoneButtons(_ref) {
   var currentLocale = _ref.currentLocale,
       session = _ref.session,
       webphoneReject = _ref.webphoneReject,
@@ -122,7 +121,9 @@ function WebphoneButtons(_ref) {
       showHold = _ref.showHold,
       disableMerge = _ref.disableMerge,
       onMergeCall = _ref.onMergeCall,
-      disableLinks = _ref.disableLinks;
+      disableLinks = _ref.disableLinks,
+      isOnHold = _ref.isOnHold,
+      telephonySessionId = _ref.telephonySessionId;
 
   if (!session) {
     return null;
@@ -150,7 +151,7 @@ function WebphoneButtons(_ref) {
       className: _styles["default"].answerButton,
       onClick: function onClick(e) {
         e.stopPropagation();
-        webphoneAnswer(session.id);
+        webphoneAnswer(session.id, telephonySessionId);
       },
       icon: _Answer["default"],
       showBorder: false,
@@ -162,7 +163,7 @@ function WebphoneButtons(_ref) {
   var mergeBtn;
 
   if (showHold) {
-    if ((0, _webphoneHelper.isOnHold)(session)) {
+    if (isOnHold(session)) {
       holdBtn = /*#__PURE__*/_react["default"].createElement("span", {
         title: unholdTitle,
         className: _styles["default"].webphoneButton
@@ -170,7 +171,7 @@ function WebphoneButtons(_ref) {
         className: (0, _classnames8["default"])(_styles["default"].holdButton, _styles["default"].active),
         onClick: function onClick(e) {
           e.stopPropagation();
-          webphoneResume(session.id);
+          webphoneResume(session.id, telephonySessionId);
         },
         iconWidth: 260,
         iconX: 120,
@@ -186,7 +187,7 @@ function WebphoneButtons(_ref) {
         className: _styles["default"].holdButton,
         onClick: function onClick(e) {
           e.stopPropagation();
-          webphoneHold(session.id);
+          webphoneHold(session.id, telephonySessionId);
         },
         iconWidth: 260,
         iconX: 120,
@@ -230,7 +231,7 @@ function WebphoneButtons(_ref) {
     className: _styles["default"].rejectButton,
     onClick: function onClick(e) {
       e.stopPropagation();
-      hangupFunc(session.id);
+      hangupFunc(session.id, telephonySessionId);
     },
     iconWidth: 260,
     iconX: 120,
@@ -238,7 +239,7 @@ function WebphoneButtons(_ref) {
     showBorder: false,
     disabled: disableLinks
   })), answerBtn);
-}
+};
 
 WebphoneButtons.propTypes = {
   currentLocale: _propTypes["default"].string.isRequired,
@@ -252,7 +253,9 @@ WebphoneButtons.propTypes = {
   disableMerge: _propTypes["default"].bool,
   onMergeCall: _propTypes["default"].func,
   webphoneAnswer: _propTypes["default"].func,
-  disableLinks: _propTypes["default"].bool
+  disableLinks: _propTypes["default"].bool,
+  isOnHold: _propTypes["default"].func.isRequired,
+  telephonySessionId: _propTypes["default"].string
 };
 WebphoneButtons.defaultProps = {
   session: undefined,
@@ -269,10 +272,11 @@ WebphoneButtons.defaultProps = {
   webphoneAnswer: function webphoneAnswer(i) {
     return i;
   },
-  disableLinks: false
+  disableLinks: false,
+  telephonySessionId: null
 };
 
-function ActiveCallControlButtons(_ref2) {
+var ActiveCallControlButtons = function ActiveCallControlButtons(_ref2) {
   var showRingoutCallControl = _ref2.showRingoutCallControl,
       showSwitchCall = _ref2.showSwitchCall,
       currentLocale = _ref2.currentLocale,
@@ -380,7 +384,7 @@ function ActiveCallControlButtons(_ref2) {
   return /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].ringoutButtons
   }, endButton, transferBtn, swithCallButton);
-}
+};
 
 ActiveCallControlButtons.propTypes = {
   currentLocale: _propTypes["default"].string.isRequired,
@@ -492,15 +496,15 @@ var ActiveCallItem = /*#__PURE__*/function (_Component) {
     _this._userSelection = false;
     _this.contactDisplay = null;
 
-    _this.webphoneToVoicemail = function (sessionId) {
+    _this.webphoneToVoicemail = function (sessionId, telephonySessionId) {
       if (typeof _this.props.webphoneToVoicemail !== 'function') {
         return;
       }
 
-      _this.props.webphoneToVoicemail(sessionId);
+      _this.props.webphoneToVoicemail(sessionId, telephonySessionId);
 
       _this.toVoicemailTimeout = setTimeout(function () {
-        _this.props.webphoneReject(sessionId);
+        _this.props.webphoneReject(sessionId, telephonySessionId);
       }, 3000);
     };
 
@@ -534,8 +538,8 @@ var ActiveCallItem = /*#__PURE__*/function (_Component) {
       this.setContact();
     }
   }, {
-    key: "componentWillReceiveProps",
-    value: function componentWillReceiveProps(nextProps) {
+    key: "UNSAFE_componentWillReceiveProps",
+    value: function UNSAFE_componentWillReceiveProps(nextProps) {
       if (this.getContactMatches(nextProps) !== this.getContactMatches()) {
         this.setContact(nextProps);
       }
@@ -636,7 +640,8 @@ var ActiveCallItem = /*#__PURE__*/function (_Component) {
           ringoutReject = _this$props2.ringoutReject,
           showRingoutCallControl = _this$props2.showRingoutCallControl,
           showSwitchCall = _this$props2.showSwitchCall,
-          showMultipleMatch = _this$props2.showMultipleMatch;
+          showMultipleMatch = _this$props2.showMultipleMatch,
+          isOnHold = _this$props2.isOnHold;
       var _this$state = this.state,
           avatarUrl = _this$state.avatarUrl,
           extraNum = _this$state.extraNum;
@@ -703,6 +708,7 @@ var ActiveCallItem = /*#__PURE__*/function (_Component) {
           className: _styles["default"].actionIconsBox
         }, webphoneSession ? /*#__PURE__*/_react["default"].createElement(WebphoneButtons, {
           session: webphoneSession,
+          telephonySessionId: telephonySessionId,
           webphoneReject: this.webphoneToVoicemail,
           webphoneHangup: webphoneHangup,
           webphoneResume: webphoneResume,
@@ -712,7 +718,8 @@ var ActiveCallItem = /*#__PURE__*/function (_Component) {
           showHold: showHold,
           disableMerge: disableMerge,
           onMergeCall: onMergeCall,
-          webphoneAnswer: webphoneAnswer
+          webphoneAnswer: webphoneAnswer,
+          isOnHold: isOnHold
         }) : /*#__PURE__*/_react["default"].createElement(ActiveCallControlButtons, {
           showSwitchCall: !webphoneSession && showSwitchCall,
           webphoneSwitchCall: this.webphoneSwitchCall,
@@ -739,6 +746,7 @@ ActiveCallItem.propTypes = {
     direction: _propTypes["default"].string.isRequired,
     telephonyStatus: _propTypes["default"].string,
     startTime: _propTypes["default"].number.isRequired,
+    offset: _propTypes["default"].number,
     activityMatches: _propTypes["default"].array.isRequired,
     fromMatches: _propTypes["default"].array.isRequired,
     toMatches: _propTypes["default"].array.isRequired,
@@ -791,7 +799,8 @@ ActiveCallItem.propTypes = {
   showRingoutCallControl: _propTypes["default"].bool,
   ringoutReject: _propTypes["default"].func,
   showMultipleMatch: _propTypes["default"].bool,
-  showSwitchCall: _propTypes["default"].bool
+  showSwitchCall: _propTypes["default"].bool,
+  isOnHold: _propTypes["default"].func
 };
 ActiveCallItem.defaultProps = {
   isLogging: false,
@@ -833,6 +842,7 @@ ActiveCallItem.defaultProps = {
   ringoutReject: undefined,
   showRingoutCallControl: false,
   showMultipleMatch: false,
-  showSwitchCall: false
+  showSwitchCall: false,
+  isOnHold: _webphoneHelper.isOnHold
 };
 //# sourceMappingURL=index.js.map

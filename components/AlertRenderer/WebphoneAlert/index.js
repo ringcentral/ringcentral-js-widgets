@@ -17,13 +17,15 @@ var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _webphoneErrors = _interopRequireDefault(require("ringcentral-integration/modules/Webphone/webphoneErrors"));
 
+var _webphoneMessages = _interopRequireDefault(require("ringcentral-integration/modules/Webphone/webphoneMessages"));
+
 var _FormattedMessage = _interopRequireDefault(require("../../FormattedMessage"));
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-var webphoneErrorList = [_webphoneErrors["default"].connectFailed, _webphoneErrors["default"].toVoiceMailError, _webphoneErrors["default"].connected, _webphoneErrors["default"].muteError, _webphoneErrors["default"].holdError, _webphoneErrors["default"].flipError, _webphoneErrors["default"].recordError, _webphoneErrors["default"].recordDisabled, _webphoneErrors["default"].transferError, _webphoneErrors["default"].noOutboundCallWithoutDL, _webphoneErrors["default"].checkDLError, _webphoneErrors["default"].browserNotSupported, _webphoneErrors["default"].sipProvisionError, _webphoneErrors["default"].webphoneCountOverLimit, _webphoneErrors["default"].webphoneForbidden, _webphoneErrors["default"].requestTimeout, _webphoneErrors["default"].serverTimeout, _webphoneErrors["default"].internalServerError, _webphoneErrors["default"].unknownError, _webphoneErrors["default"].provisionUpdate, _webphoneErrors["default"].serverConnecting];
+var webphoneMessageList = [_webphoneErrors["default"].connectFailed, _webphoneErrors["default"].toVoiceMailError, _webphoneErrors["default"].connected, _webphoneErrors["default"].muteError, _webphoneErrors["default"].holdError, _webphoneErrors["default"].flipError, _webphoneErrors["default"].recordError, _webphoneErrors["default"].recordDisabled, _webphoneErrors["default"].transferError, _webphoneErrors["default"].noOutboundCallWithoutDL, _webphoneErrors["default"].checkDLError, _webphoneErrors["default"].browserNotSupported, _webphoneErrors["default"].sipProvisionError, _webphoneErrors["default"].webphoneCountOverLimit, _webphoneErrors["default"].webphoneForbidden, _webphoneErrors["default"].requestTimeout, _webphoneErrors["default"].serverTimeout, _webphoneErrors["default"].internalServerError, _webphoneErrors["default"].unknownError, _webphoneErrors["default"].provisionUpdate, _webphoneErrors["default"].serverConnecting, _webphoneMessages["default"].parked];
 
 function WebphoneAlert(props) {
   var message = props.message.message;
@@ -86,6 +88,16 @@ function WebphoneAlert(props) {
         brandName: props.brand.name
       }
     });
+  } else if (message === _webphoneMessages["default"].parked) {
+    var _props$message$payloa4 = props.message.payload;
+    _props$message$payloa4 = _props$message$payloa4 === void 0 ? {} : _props$message$payloa4;
+    var parkedNumber = _props$message$payloa4.parkedNumber;
+    view = /*#__PURE__*/_react["default"].createElement(_FormattedMessage["default"], {
+      message: _i18n["default"].getString(message, props.currentLocale),
+      values: {
+        parkedNumber: parkedNumber
+      }
+    });
   }
 
   return view;
@@ -101,7 +113,7 @@ WebphoneAlert.propTypes = {
 
 WebphoneAlert.handleMessage = function (_ref) {
   var message = _ref.message;
-  return webphoneErrorList.filter(function (err) {
+  return webphoneMessageList.filter(function (err) {
     return err === message;
   }).length > 0;
 };

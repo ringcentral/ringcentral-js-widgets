@@ -56,6 +56,7 @@ export interface TplResult {
 
 export interface FormatToHtmlOptions {
   links?: string[];
+  searchLinks?: boolean;
   newLine?: string;
   indentation?: string;
   tabIndentation?: string;

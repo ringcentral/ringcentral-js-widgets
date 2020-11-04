@@ -157,7 +157,7 @@ var ComposeTextUI = (_dec = (0, _module["default"])({
               timeout = null;
             }
           }, 10000);
-          composeText.send().then(function (responses) {
+          composeText.send.apply(composeText, arguments).then(function (responses) {
             if (timeout) {
               clearTimeout(timeout);
               timeout = null;

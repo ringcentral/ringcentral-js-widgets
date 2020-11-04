@@ -315,9 +315,9 @@ var DialerUI = (_dec = (0, _di.Module)({
       return clearRecipient;
     }()
   }, {
-    key: "call",
+    key: "triggerHook",
     value: function () {
-      var _call = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(_ref2) {
+      var _triggerHook = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(_ref2) {
         var _ref2$phoneNumber, phoneNumber, _ref2$recipient, recipient, _ref2$fromNumber, fromNumber, _iterator, _step, hook;
 
         return regeneratorRuntime.wrap(function _callee5$(_context5) {
@@ -325,9 +325,74 @@ var DialerUI = (_dec = (0, _di.Module)({
             switch (_context5.prev = _context5.next) {
               case 0:
                 _ref2$phoneNumber = _ref2.phoneNumber, phoneNumber = _ref2$phoneNumber === void 0 ? '' : _ref2$phoneNumber, _ref2$recipient = _ref2.recipient, recipient = _ref2$recipient === void 0 ? null : _ref2$recipient, _ref2$fromNumber = _ref2.fromNumber, fromNumber = _ref2$fromNumber === void 0 ? null : _ref2$fromNumber;
+                _iterator = _createForOfIteratorHelper(this._callHooks);
+                _context5.prev = 2;
+
+                _iterator.s();
+
+              case 4:
+                if ((_step = _iterator.n()).done) {
+                  _context5.next = 10;
+                  break;
+                }
+
+                hook = _step.value;
+                _context5.next = 8;
+                return hook({
+                  phoneNumber: phoneNumber,
+                  recipient: recipient,
+                  fromNumber: fromNumber
+                });
+
+              case 8:
+                _context5.next = 4;
+                break;
+
+              case 10:
+                _context5.next = 15;
+                break;
+
+              case 12:
+                _context5.prev = 12;
+                _context5.t0 = _context5["catch"](2);
+
+                _iterator.e(_context5.t0);
+
+              case 15:
+                _context5.prev = 15;
+
+                _iterator.f();
+
+                return _context5.finish(15);
+
+              case 18:
+              case "end":
+                return _context5.stop();
+            }
+          }
+        }, _callee5, this, [[2, 12, 15, 18]]);
+      }));
+
+      function triggerHook(_x3) {
+        return _triggerHook.apply(this, arguments);
+      }
+
+      return triggerHook;
+    }()
+  }, {
+    key: "call",
+    value: function () {
+      var _call = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(_ref3) {
+        var _ref3$phoneNumber, phoneNumber, _ref3$recipient, recipient, _ref3$fromNumber, fromNumber;
+
+        return regeneratorRuntime.wrap(function _callee6$(_context6) {
+          while (1) {
+            switch (_context6.prev = _context6.next) {
+              case 0:
+                _ref3$phoneNumber = _ref3.phoneNumber, phoneNumber = _ref3$phoneNumber === void 0 ? '' : _ref3$phoneNumber, _ref3$recipient = _ref3.recipient, recipient = _ref3$recipient === void 0 ? null : _ref3$recipient, _ref3$fromNumber = _ref3.fromNumber, fromNumber = _ref3$fromNumber === void 0 ? null : _ref3$fromNumber;
 
                 if (!(phoneNumber || recipient)) {
-                  _context5.next = 29;
+                  _context6.next = 14;
                   break;
                 }
 
@@ -336,79 +401,46 @@ var DialerUI = (_dec = (0, _di.Module)({
                   phoneNumber: phoneNumber,
                   recipient: recipient
                 });
-                _iterator = _createForOfIteratorHelper(this._callHooks);
-                _context5.prev = 4;
-
-                _iterator.s();
-
-              case 6:
-                if ((_step = _iterator.n()).done) {
-                  _context5.next = 12;
-                  break;
-                }
-
-                hook = _step.value;
-                _context5.next = 10;
-                return hook({
+                _context6.next = 5;
+                return this.triggerHook({
                   phoneNumber: phoneNumber,
                   recipient: recipient,
                   fromNumber: fromNumber
                 });
 
-              case 10:
-                _context5.next = 6;
-                break;
-
-              case 12:
-                _context5.next = 17;
-                break;
-
-              case 14:
-                _context5.prev = 14;
-                _context5.t0 = _context5["catch"](4);
-
-                _iterator.e(_context5.t0);
-
-              case 17:
-                _context5.prev = 17;
-
-                _iterator.f();
-
-                return _context5.finish(17);
-
-              case 20:
-                _context5.prev = 20;
-                _context5.next = 23;
+              case 5:
+                _context6.prev = 5;
+                _context6.next = 8;
                 return this._call.call({
                   phoneNumber: this.toNumberField,
                   recipient: this.recipient,
                   fromNumber: fromNumber
                 });
 
-              case 23:
+              case 8:
                 this.store.dispatch({
                   type: this.actionTypes.callSuccess
                 });
-                _context5.next = 29;
+                _context6.next = 14;
                 break;
 
-              case 26:
-                _context5.prev = 26;
-                _context5.t1 = _context5["catch"](20);
+              case 11:
+                _context6.prev = 11;
+                _context6.t0 = _context6["catch"](5);
                 this.store.dispatch({
                   type: this.actionTypes.callError,
-                  error: _context5.t1
+                  error: _context6.t0
                 });
 
-              case 29:
+              case 14:
               case "end":
-                return _context5.stop();
+                return _context6.stop();
             }
           }
-        }, _callee5, this, [[4, 14, 17, 20], [20, 26]]);
+        }, _callee6, this, [[5, 11]]);
       }));
 
-      function call(_x3) {
+      function call(_x4) {
         return _call.apply(this, arguments);
       }
 
@@ -432,32 +464,32 @@ var DialerUI = (_dec = (0, _di.Module)({
   }, {
     key: "onCallButtonClick",
     value: function () {
-      var _onCallButtonClick = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
-        var _ref3,
+      var _onCallButtonClick = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
+        var _ref4,
             fromNumber,
             fromSessionId,
-            _args6 = arguments;
+            _args7 = arguments;
 
-        return regeneratorRuntime.wrap(function _callee6$(_context6) {
+        return regeneratorRuntime.wrap(function _callee7$(_context7) {
           while (1) {
-            switch (_context6.prev = _context6.next) {
+            switch (_context7.prev = _context7.next) {
               case 0:
-                _ref3 = _args6.length > 0 && _args6[0] !== undefined ? _args6[0] : {}, fromNumber = _ref3.fromNumber, fromSessionId = _ref3.fromSessionId;
+                _ref4 = _args7.length > 0 && _args7[0] !== undefined ? _args7[0] : {}, fromNumber = _ref4.fromNumber, fromSessionId = _ref4.fromSessionId;
 
                 if (!("".concat(this.toNumberField).trim().length === 0 && !this.recipient)) {
-                  _context6.next = 5;
+                  _context7.next = 5;
                   break;
                 }
 
                 this._loadLastPhoneNumber();
 
-                _context6.next = 8;
+                _context7.next = 8;
                 break;
 
               case 5:
                 this._onBeforeCall(fromSessionId);
 
-                _context6.next = 8;
+                _context7.next = 8;
                 return this.call({
                   phoneNumber: this.toNumberField,
                   recipient: this.recipient,
@@ -466,10 +498,10 @@ var DialerUI = (_dec = (0, _di.Module)({
 
               case 8:
               case "end":
-                return _context6.stop();
+                return _context7.stop();
             }
           }
-        }, _callee6, this);
+        }, _callee7, this);
       }));
 
       function onCallButtonClick() {

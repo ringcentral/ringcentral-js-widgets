@@ -47,6 +47,8 @@ require("regenerator-runtime/runtime");
 
 require("core-js/modules/es6.regexp.search");
 
+require("core-js/modules/es6.date.now");
+
 var _ramda = require("ramda");
 
 var _react = _interopRequireWildcard(require("react"));
@@ -209,16 +211,17 @@ var ContactsView = /*#__PURE__*/function (_Component) {
       };
     };
 
-    _this.onSearchInputChange = function (_ref3) {
-      var value = _ref3.target.value;
+    _this.onSearchInputChange = function (ev) {
+      var value = ev.target.value;
+      var lastInputTimestamp = Date.now();
 
       _this.setState({
-        searchString: value
-      });
-
-      _this.search({
         searchString: value,
-        delay: 100
+        lastInputTimestamp: lastInputTimestamp
+      }, function () {
+        _this.search({
+          searchString: value
+        });
       });
     };
 
@@ -271,6 +274,7 @@ var ContactsView = /*#__PURE__*/function (_Component) {
     }));
     _this.state = {
       searchString: props.searchString,
+      lastInputTimestamp: 0,
       unfold: false,
       contentHeight: 0,
       contentWidth: 0,
@@ -307,7 +311,9 @@ var ContactsView = /*#__PURE__*/function (_Component) {
   }, {
     key: "UNSAFE_componentWillUpdate",
     value: function UNSAFE_componentWillUpdate(nextProps, nextState) {
-      if (nextProps.searchString !== this.props.searchString) {
+      var isNotEditing = Date.now() - this.state.lastInputTimestamp > 2000;
+
+      if (isNotEditing && nextProps.searchString !== this.props.searchString) {
         nextState.searchString = nextProps.searchString;
       }
 
@@ -323,38 +329,20 @@ var ContactsView = /*#__PURE__*/function (_Component) {
     value: function componentWillUnmount() {
       this._mounted = false;
       window.removeEventListener('resize', this.onResize);
-      clearTimeout(this._searchTimeoutId);
     }
   }, {
     key: "search",
-    value: function search(_ref5) {
-      var _this2 = this;
-
-      var _ref5$searchSource = _ref5.searchSource,
-          searchSource = _ref5$searchSource === void 0 ? this.props.searchSource : _ref5$searchSource,
-          _ref5$searchString = _ref5.searchString,
-          searchString = _ref5$searchString === void 0 ? this.state.searchString : _ref5$searchString,
-          _ref5$delay = _ref5.delay,
-          delay = _ref5$delay === void 0 ? 0 : _ref5$delay;
+    value: function search(_ref4) {
+      var _ref4$searchSource = _ref4.searchSource,
+          searchSource = _ref4$searchSource === void 0 ? this.props.searchSource : _ref4$searchSource,
+          _ref4$searchString = _ref4.searchString,
+          searchString = _ref4$searchString === void 0 ? this.state.searchString : _ref4$searchString;
 
       if (this.props.onSearchContact) {
-        if (this._searchTimeoutId) {
-          clearTimeout(this._searchTimeoutId);
-        }
-
-        if (delay) {
-          this._searchTimeoutId = setTimeout(function () {
-            return _this2.props.onSearchContact({
-              searchSource: searchSource,
-              searchString: searchString
-            });
-          }, delay);
-        } else {
-          this.props.onSearchContact({
-            searchSource: searchSource,
-            searchString: searchString
-          });
-        }
+        this.props.onSearchContact({
+          searchSource: searchSource,
+          searchString: searchString
+        });
       }
     }
   }, {

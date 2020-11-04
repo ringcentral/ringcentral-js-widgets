@@ -11,8 +11,7 @@ require("core-js/modules/es6.weak-map");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Message = Message;
-exports["default"] = void 0;
+exports["default"] = exports.Message = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -46,6 +45,8 @@ require("core-js/modules/es6.array.filter");
 
 require("core-js/modules/es6.array.map");
 
+require("core-js/modules/es6.regexp.split");
+
 var _react = _interopRequireWildcard(require("react"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
@@ -53,6 +54,12 @@ var _propTypes = _interopRequireDefault(require("prop-types"));
 var _classnames = _interopRequireDefault(require("classnames"));
 
 var _isBlank = _interopRequireDefault(require("ringcentral-integration/lib/isBlank"));
+
+var _iconDefaultFile = _interopRequireDefault(require("@ringcentral/juno/icons/icon-default-file.svg"));
+
+var _iconDownload = _interopRequireDefault(require("@ringcentral/juno/icons/icon-download.svg"));
+
+var _juno = require("@ringcentral/juno");
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
@@ -90,13 +97,19 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
-function Message(_ref) {
+function getExtFromContentType(contentType) {
+  var ext = contentType.split('/');
+  return ext[1].split('+')[0];
+}
+
+var Message = function Message(_ref) {
   var subject = _ref.subject,
       time = _ref.time,
       direction = _ref.direction,
       sender = _ref.sender,
       SubjectRenderer = _ref.subjectRenderer,
-      mmsAttachments = _ref.mmsAttachments;
+      mmsAttachments = _ref.mmsAttachments,
+      currentLocale = _ref.currentLocale;
   var subjectNode;
 
   if (subject && !(0, _isBlank["default"])(subject)) {
@@ -115,6 +128,30 @@ function Message(_ref) {
       className: _styles["default"].picture
     });
   });
+  var otherAttachments = mmsAttachments.filter(function (m) {
+    return m.contentType.indexOf('image') === -1;
+  }).map(function (attachment) {
+    var fileName = attachment.fileName || "".concat(attachment.id, ".").concat(getExtFromContentType(attachment.contentType));
+    return /*#__PURE__*/_react["default"].createElement("div", {
+      key: attachment.id,
+      title: fileName,
+      className: _styles["default"].file
+    }, /*#__PURE__*/_react["default"].createElement(_juno.RcIcon, {
+      size: "small",
+      symbol: _iconDefaultFile["default"]
+    }), /*#__PURE__*/_react["default"].createElement("span", {
+      className: _styles["default"].fileName
+    }, fileName), /*#__PURE__*/_react["default"].createElement("a", {
+      target: "_blank",
+      className: _styles["default"].download,
+      download: fileName,
+      title: _i18n["default"].getString('download', currentLocale),
+      href: attachment.uri
+    }, /*#__PURE__*/_react["default"].createElement(_juno.RcIcon, {
+      size: "small",
+      symbol: _iconDownload["default"]
+    })));
+  });
   return /*#__PURE__*/_react["default"].createElement("div", {
     "data-sign": "message",
     className: _styles["default"].message
@@ -124,18 +161,20 @@ function Message(_ref) {
     className: _styles["default"].sender
   }, sender) : null, /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])(_styles["default"].messageBody, direction === 'Outbound' ? _styles["default"].outbound : _styles["default"].inbound, subject && subject.length > 500 && _styles["default"].big)
-  }, subjectNode, imageAttachments), /*#__PURE__*/_react["default"].createElement("div", {
+  }, subjectNode, imageAttachments, otherAttachments), /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].clear
   }));
-}
+};
 
+exports.Message = Message;
 Message.propTypes = {
   direction: _propTypes["default"].string.isRequired,
   subject: _propTypes["default"].string,
   time: _propTypes["default"].string,
   sender: _propTypes["default"].string,
   subjectRenderer: _propTypes["default"].func,
-  mmsAttachments: _propTypes["default"].array
+  mmsAttachments: _propTypes["default"].array,
+  currentLocale: _propTypes["default"].string.isRequired
 };
 Message.defaultProps = {
   subject: '',
@@ -258,7 +297,8 @@ var ConversationMessageList = /*#__PURE__*/function (_Component) {
           direction: message.direction,
           subject: message.subject,
           subjectRenderer: messageSubjectRenderer,
-          mmsAttachments: message.mmsAttachments
+          mmsAttachments: message.mmsAttachments,
+          currentLocale: currentLocale
         });
       });
       var loading = loadingNextPage ? /*#__PURE__*/_react["default"].createElement("div", {

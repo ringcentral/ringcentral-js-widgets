@@ -21,7 +21,7 @@ require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.keys");
 
-var _rcui = require("@ringcentral-integration/rcui");
+var _juno = require("@ringcentral/juno");
 
 var _react = _interopRequireDefault(require("react"));
 
@@ -41,7 +41,7 @@ var Tooltip = function Tooltip(_ref) {
       rest = _objectWithoutProperties(_ref, ["children", "title"]);
 
   if (!title) return children;
-  return /*#__PURE__*/_react["default"].createElement(_rcui.RcTooltip, _extends({
+  return /*#__PURE__*/_react["default"].createElement(_juno.RcTooltip, _extends({
     size: "medium",
     title: /*#__PURE__*/_react["default"].createElement("span", {
       className: _styles["default"].title

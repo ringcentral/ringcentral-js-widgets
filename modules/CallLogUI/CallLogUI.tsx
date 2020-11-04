@@ -1,6 +1,7 @@
 import { RcUIModuleV2 } from '@ringcentral-integration/core';
 import { Module } from 'ringcentral-integration/lib/di';
 import formatNumber from 'ringcentral-integration/lib/formatNumber';
+import { callingOptions } from 'ringcentral-integration/modules/CallingSettingsV2/callingOptions';
 import React from 'react';
 import {
   CallLogUIInterface,
@@ -25,10 +26,13 @@ import CallLogCallCtrlContainer from '../../containers/CallLogCallCtrlContainer'
     'EnvironmentOptions',
     'RolesAndPermissions',
     'ConnectivityMonitor',
+    'CallingSettings',
+    'ForwardingNumber',
     { dep: 'CallLogUIOptions', optional: true },
   ],
 })
-class CallLogUI<T = {}> extends RcUIModuleV2<Deps & T>
+class CallLogUI<T = {}>
+  extends RcUIModuleV2<Deps & T>
   implements CallLogUIInterface {
   constructor({ deps = {}, ...options }: Deps & { deps: Record<string, any> }) {
     super({
@@ -52,6 +56,8 @@ class CallLogUI<T = {}> extends RcUIModuleV2<Deps & T>
       environmentOptions,
       rolesAndPermissions,
       connectivityMonitor,
+      callingSettings,
+      forwardingNumber,
     } = this._deps;
     const { currentNotificationIdentify, currentIdentify } = callLogSection;
     const isInTransferPage =
@@ -77,6 +83,8 @@ class CallLogUI<T = {}> extends RcUIModuleV2<Deps & T>
           currentNotificationIdentify
         ],
       ),
+      isWebRTC: callingSettings.callWith === callingOptions.browser,
+      forwardingNumbers: forwardingNumber.forwardingNumbers,
     };
   }
 
@@ -86,6 +94,7 @@ class CallLogUI<T = {}> extends RcUIModuleV2<Deps & T>
       callLogSection,
       locale,
       activeCallControl,
+      routerInteraction,
     } = this._deps;
     return {
       formatPhone: (phoneNumber: string) =>
@@ -122,6 +131,34 @@ class CallLogUI<T = {}> extends RcUIModuleV2<Deps & T>
         const telephonySessionId =
           activeCallControl.sessionIdToTelephonySessionIdMapping[sessionId];
         return activeCallControl.hangUp(telephonySessionId);
+      },
+      onIgnore: (telephonySessionId: string) => {
+        callLogSection.closeLogNotification();
+        activeCallControl.ignore?.(telephonySessionId);
+      },
+      onForward: (phoneNumber: string, telephonySessionId: string) => {
+        if (phoneNumber === 'custom') {
+          routerInteraction.push(`/forward/${telephonySessionId}`);
+        } else {
+          callLogSection.closeLogNotification();
+          activeCallControl.forward?.(phoneNumber, telephonySessionId);
+        }
+      },
+      endAndAnswer: (telephonySessionId: string) => {
+        callLogSection.discardAndHandleNotification();
+        activeCallControl.answerAndEnd?.(telephonySessionId);
+      },
+      holdAndAnswer: (telephonySessionId: string) => {
+        callLogSection.discardAndHandleNotification();
+        activeCallControl.answerAndHold?.(telephonySessionId);
+      },
+      toVoicemail: (telephonySessionId: string) => {
+        callLogSection.closeLogNotification();
+        activeCallControl.reject(telephonySessionId);
+      },
+      answer: (telephonySessionId: string) => {
+        callLogSection.discardAndHandleNotification();
+        activeCallControl.answer?.(telephonySessionId);
       },
     };
   }

@@ -25,7 +25,7 @@ require("core-js/modules/es6.date.to-string");
 
 require("core-js/modules/es6.object.to-string");
 
-var _rcui = require("@ringcentral-integration/rcui");
+var _juno = require("@ringcentral/juno");
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
@@ -64,7 +64,7 @@ var ListItem = function ListItem(_ref) {
       rest = _objectWithoutProperties(_ref, ["selected", "onClick", "children", "className"]);
 
   var itemRef = (0, _useScrollIntoView.useScrollIntoView)(selected);
-  return /*#__PURE__*/_react["default"].createElement(_rcui.RcListItem, _extends({
+  return /*#__PURE__*/_react["default"].createElement(_juno.RcListItem, _extends({
     innerRef: itemRef,
     button: true,
     selected: selected,

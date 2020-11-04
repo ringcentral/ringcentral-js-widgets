@@ -27,6 +27,7 @@ function LinkLine(_ref) {
   var _onClick = _ref.onClick,
       className = _ref.className,
       children = _ref.children,
+      hideUnderline = _ref.hideUnderline,
       hrefClassName = _ref.hrefClassName,
       iconClassName = _ref.iconClassName,
       tooltip = _ref.tooltip;
@@ -37,7 +38,10 @@ function LinkLine(_ref) {
       _onClick();
     },
     title: tooltip,
-    className: (0, _classnames["default"])(_styles["default"].link, hrefClassName)
+    className: (0, _classnames["default"])(_styles["default"].link, hrefClassName),
+    style: hideUnderline ? {
+      textDecoration: 'none'
+    } : {}
   }, /*#__PURE__*/_react["default"].createElement(_IconLine["default"], {
     className: className,
     icon: /*#__PURE__*/_react["default"].createElement("span", {
@@ -49,6 +53,7 @@ function LinkLine(_ref) {
 LinkLine.propTypes = {
   children: _propTypes["default"].node,
   className: _propTypes["default"].string,
+  hideUnderline: _propTypes["default"].bool,
   hrefClassName: _propTypes["default"].string,
   iconClassName: _propTypes["default"].string,
   onClick: _propTypes["default"].func.isRequired,
@@ -57,6 +62,7 @@ LinkLine.propTypes = {
 LinkLine.defaultProps = {
   children: undefined,
   className: undefined,
+  hideUnderline: false,
   hrefClassName: undefined,
   iconClassName: undefined,
   tooltip: undefined

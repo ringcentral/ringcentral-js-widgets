@@ -20,6 +20,7 @@ var _WithScrollCheck = require("./WithScrollCheck");
 
 Object.keys(_WithScrollCheck).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _WithScrollCheck[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {

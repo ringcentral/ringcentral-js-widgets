@@ -213,11 +213,18 @@ var Beforeunload = (_dec = (0, _di.Module)({
     value: function onAfterUnload(cb) {
       var _this2 = this;
 
+      var notNeedCheck = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
       window.addEventListener('unload', function () {
-        if (_this2.checkShouldBlock()) {
+        if (notNeedCheck || _this2.checkShouldBlock()) {
           cb();
         }
       });
+    }
+  }, {
+    key: "removeAfterUnloadListener",
+    value: function removeAfterUnloadListener(cb) {
+      console.log('removeAfterUnloadListener~~');
+      window.removeEventListener('unload', cb);
     }
   }, {
     key: "_removeItem",

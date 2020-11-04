@@ -35,6 +35,7 @@ var _SelectedRecipientItem = require("./SelectedRecipientItem");
 Object.keys(_SelectedRecipientItem).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
+  if (key in exports && exports[key] === _SelectedRecipientItem[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {
@@ -48,6 +49,7 @@ var _SelectedRecipients = require("./SelectedRecipients");
 Object.keys(_SelectedRecipients).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
+  if (key in exports && exports[key] === _SelectedRecipients[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {
@@ -61,6 +63,7 @@ var _focusCampo = require("./focusCampo");
 Object.keys(_focusCampo).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
+  if (key in exports && exports[key] === _focusCampo[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {

@@ -25,6 +25,7 @@ var _CallLogPanel2 = require("./CallLogPanel.interface");
 Object.keys(_CallLogPanel2).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
+  if (key in exports && exports[key] === _CallLogPanel2[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {
@@ -38,6 +39,7 @@ var _CallLog = require("./CallLog.interface");
 Object.keys(_CallLog).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
+  if (key in exports && exports[key] === _CallLog[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {

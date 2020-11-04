@@ -13,7 +13,10 @@ var _default = {
   de: 'Deutsch',
   es: 'Spanish',
   it: 'Italian',
-  pt: 'Portuguese'
+  pt: 'Portuguese',
+  zh: 'Chinese',
+  nl: 'Dutch',
+  ko: 'Korean'
 };
 exports["default"] = _default;
 //# sourceMappingURL=en-US.js.map

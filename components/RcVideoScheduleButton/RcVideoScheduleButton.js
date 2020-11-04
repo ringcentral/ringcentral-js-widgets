@@ -27,7 +27,7 @@ require("core-js/modules/es6.object.define-property");
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
-var _rcui = require("@ringcentral-integration/rcui");
+var _juno = require("@ringcentral/juno");
 
 var _react = _interopRequireDefault(require("react"));
 
@@ -59,8 +59,7 @@ var RcVideoScheduleButton = function RcVideoScheduleButton(props) {
       buttonLabel = props.buttonLabel;
   return /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])(_styles["default"].inviteBox, !hidden ? _styles["default"].withShadow : _styles["default"].onlyButton, showSaveAsDefault ? null : _styles["default"].noCheckbox)
-  }, showSaveAsDefault ? /*#__PURE__*/_react["default"].createElement(_rcui.RcCheckbox, {
-    color: "primary",
+  }, showSaveAsDefault ? /*#__PURE__*/_react["default"].createElement(_juno.RcCheckbox, {
     label: _i18n["default"].getString('saveAsDefault', currentLocale),
     "data-sign": "saveAsDefault",
     checked: meeting.saveAsDefault,
@@ -70,7 +69,7 @@ var RcVideoScheduleButton = function RcVideoScheduleButton(props) {
         saveAsDefault: !meeting.saveAsDefault
       }));
     }
-  }) : null, /*#__PURE__*/_react["default"].createElement(_rcui.RcButton, {
+  }) : null, /*#__PURE__*/_react["default"].createElement(_juno.RcButton, {
     onClick: onClick,
     disabled: disabled,
     "data-sign": "videoScheduleButton",

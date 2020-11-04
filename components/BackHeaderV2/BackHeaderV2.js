@@ -33,9 +33,9 @@ require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.array.is-array");
 
-var _rcui = require("@ringcentral-integration/rcui");
+var _juno = require("@ringcentral/juno");
 
-var _iconChevron_left = _interopRequireDefault(require("@ringcentral-integration/rcui/icons/icon-chevron_left.svg"));
+var _iconChevron_left = _interopRequireDefault(require("@ringcentral/juno/icons/icon-chevron_left.svg"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
@@ -92,7 +92,7 @@ var BackHeader = function BackHeader(_ref) {
   var rootClass = (0, _classnames["default"])(_styles["default"].root, isClassic && _styles["default"].classic, className);
   return /*#__PURE__*/_react["default"].createElement("div", {
     className: rootClass
-  }, /*#__PURE__*/_react["default"].createElement(_rcui.RcIconButton, {
+  }, /*#__PURE__*/_react["default"].createElement(_juno.RcIconButton, {
     className: (0, _classnames["default"])(_styles["default"].back),
     variant: "round",
     size: "small",

@@ -118,7 +118,9 @@ function ContactPhone(_ref2) {
   return /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].phoneNumberSection,
     title: titleEnabled && phoneNumberTitle
-  }, /*#__PURE__*/_react["default"].createElement("span", null, formatContactPhone(phoneNumber)), /*#__PURE__*/_react["default"].createElement("span", {
+  }, /*#__PURE__*/_react["default"].createElement("span", {
+    "data-sign": "dropDownContactPhone"
+  }, formatContactPhone(phoneNumber)), /*#__PURE__*/_react["default"].createElement("span", {
     className: _styles["default"].spliter
   }, spliter), /*#__PURE__*/_react["default"].createElement("span", {
     className: _styles["default"].label
@@ -228,6 +230,7 @@ var ContactDropdownList = /*#__PURE__*/function (_Component) {
 
   _createClass(ContactDropdownList, [{
     key: "componentWillReceiveProps",
+    // eslint-disable-next-line react/no-deprecated
     value: function componentWillReceiveProps(nextProps) {
       if (!nextProps.visibility || nextProps.items.length === 0) {
         return;

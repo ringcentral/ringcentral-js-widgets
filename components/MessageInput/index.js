@@ -35,6 +35,8 @@ require("core-js/modules/es6.array.map");
 
 require("core-js/modules/es6.function.name");
 
+require("core-js/modules/es6.string.ends-with");
+
 require("core-js/modules/es6.date.now");
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
@@ -43,11 +45,13 @@ var _classnames = _interopRequireDefault(require("classnames"));
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _iconAttachment = _interopRequireDefault(require("@ringcentral-integration/rcui/icons/icon-attachment.svg"));
+var _iconAttachment = _interopRequireDefault(require("@ringcentral/juno/icons/icon-attachment.svg"));
 
-var _iconClose = _interopRequireDefault(require("@ringcentral-integration/rcui/icons/icon-close.svg"));
+var _iconClose = _interopRequireDefault(require("@ringcentral/juno/icons/icon-close.svg"));
 
-var _rcui = require("@ringcentral-integration/rcui");
+var _juno = require("@ringcentral/juno");
+
+var _debounce = require("ringcentral-integration/lib/debounce-throttle/debounce");
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
@@ -96,6 +100,8 @@ var MessageInput = /*#__PURE__*/function (_Component) {
     _this = _super.call(this, props, context);
 
     _this.onChange = function (e) {
+      var _this$updateMessageTe, _this2;
+
       _this._lastValueChange = Date.now();
       var value = e.currentTarget.value;
 
@@ -108,12 +114,17 @@ var MessageInput = /*#__PURE__*/function (_Component) {
       _this.setState({
         value: value,
         height: newHeight
-      });
+      }); // ues debounce for avoiding frequent updates compose text module state
 
-      if (typeof _this.props.onChange === 'function') {
-        _this.props.onChange(value);
-      }
+
+      (_this$updateMessageTe = (_this2 = _this).updateMessageText) === null || _this$updateMessageTe === void 0 ? void 0 : _this$updateMessageTe.call(_this2);
     };
+
+    _this.updateMessageText = typeof _this.props.onChange === 'function' ? (0, _debounce.debounce)({
+      fn: function fn() {
+        return _this.props.onChange(_this.state.value);
+      }
+    }) : null;
 
     _this.onKeyDown = function (e) {
       if (e.key === 'Enter' && !e.shiftKey) {
@@ -124,8 +135,12 @@ var MessageInput = /*#__PURE__*/function (_Component) {
     };
 
     _this.onSend = function () {
+      var _this$updateMessageTe2;
+
+      (_this$updateMessageTe2 = _this.updateMessageText) === null || _this$updateMessageTe2 === void 0 ? void 0 : _this$updateMessageTe2.flush();
+
       if (!_this.props.disabled && typeof _this.props.onSend === 'function') {
-        _this.props.onSend();
+        _this.props.onSend(_this.state.value, _this.props.attachments);
       }
     };
 
@@ -142,6 +157,13 @@ var MessageInput = /*#__PURE__*/function (_Component) {
 
       var addAttachment = _this.props.addAttachment;
       var file = currentTarget.files[0];
+
+      if ((file.name.endsWith('.vcard') || file.name.endsWith('.vcf')) && file.type !== 'text/vcard') {
+        file = new File([file], file.name, {
+          type: 'text/vcard'
+        });
+      }
+
       addAttachment({
         name: file.name,
         size: file.size,
@@ -161,7 +183,7 @@ var MessageInput = /*#__PURE__*/function (_Component) {
   _createClass(MessageInput, [{
     key: "componentWillReceiveProps",
     value: function componentWillReceiveProps(nextProps) {
-      var _this2 = this;
+      var _this3 = this;
 
       if (nextProps.value !== this.state.value && // ignore value changes from props for 300ms after typing
       // this is to prevent unnecessary value changes when used in chrome extension
@@ -173,14 +195,14 @@ var MessageInput = /*#__PURE__*/function (_Component) {
             value: nextProps.value
           };
         }, function () {
-          var newHeight = _this2.calculateNewHeight();
+          var newHeight = _this3.calculateNewHeight();
 
-          if (newHeight !== _this2.state.height) {
-            if (typeof _this2.props.onHeightChange === 'function') {
-              _this2.props.onHeightChange(newHeight);
+          if (newHeight !== _this3.state.height) {
+            if (typeof _this3.props.onHeightChange === 'function') {
+              _this3.props.onHeightChange(newHeight);
             }
 
-            _this2.setState({
+            _this3.setState({
               height: newHeight
             });
           }
@@ -232,7 +254,7 @@ var MessageInput = /*#__PURE__*/function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this3 = this;
+      var _this4 = this;
 
       var _this$props2 = this.props,
           currentLocale = _this$props2.currentLocale,
@@ -249,14 +271,14 @@ var MessageInput = /*#__PURE__*/function (_Component) {
         className: (0, _classnames["default"])(_styles["default"].root, supportAttachment && _styles["default"].supportAttachment)
       }, /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].attachmentIcon
-      }, /*#__PURE__*/_react["default"].createElement(_rcui.RcIconButton, {
+      }, /*#__PURE__*/_react["default"].createElement(_juno.RcIconButton, {
         variant: "round",
         size: "small",
         symbol: _iconAttachment["default"],
         onClick: this.onAttachmentIconClick
       }), /*#__PURE__*/_react["default"].createElement("input", {
         type: "file",
-        accept: "image/*",
+        accept: "image/tiff,image/gif,image/jpeg,image/bmp,image/png,image/svg+xml,text/vcard,application/rtf,video/mpeg,audio/mpeg,video/mp4,application/zip",
         style: {
           display: 'none'
         },
@@ -267,7 +289,7 @@ var MessageInput = /*#__PURE__*/function (_Component) {
       }, /*#__PURE__*/_react["default"].createElement("textarea", {
         "data-sign": "messageInput",
         ref: function ref(target) {
-          _this3.textArea = target;
+          _this4.textArea = target;
         },
         placeholder: _i18n["default"].getString('typeMessage', currentLocale),
         value: value,
@@ -295,7 +317,7 @@ var MessageInput = /*#__PURE__*/function (_Component) {
           title: attachment.name
         }, attachment.name, /*#__PURE__*/_react["default"].createElement("div", {
           className: _styles["default"].attachmentRemoveIcon
-        }, /*#__PURE__*/_react["default"].createElement(_rcui.RcIconButton, {
+        }, /*#__PURE__*/_react["default"].createElement(_juno.RcIconButton, {
           size: "small",
           symbol: _iconClose["default"],
           onClick: function onClick() {

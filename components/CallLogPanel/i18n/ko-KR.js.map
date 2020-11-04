@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/CallLogPanel/i18n/ko-KR.js"],"names":["createCallLog"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,aAAa,EAAE;AADF,C,EAIf","sourcesContent":["export default {\n  createCallLog: \"통화 기록 만들기\"\n};\n\n// @key: @#@\"createCallLog\"@#@ @source: @#@\"Create call log\"@#@\n"],"file":"ko-KR.js"}

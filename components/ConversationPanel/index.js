@@ -106,7 +106,9 @@ var ConversationPanel = /*#__PURE__*/function (_Component) {
     _this = _super.call(this, props);
 
     _this.onSend = function () {
-      _this.props.replyToReceivers(_this.props.messageText, _this.props.attachments);
+      var _this$props;
+
+      (_this$props = _this.props).replyToReceivers.apply(_this$props, arguments);
     };
 
     _this.onInputHeightChange = function (value) {
@@ -327,9 +329,9 @@ var ConversationPanel = /*#__PURE__*/function (_Component) {
 
       var conversationBody = null;
       var loading = this.props.showSpinner;
-      var _this$props = this.props,
-          recipients = _this$props.recipients,
-          messageSubjectRenderer = _this$props.messageSubjectRenderer;
+      var _this$props2 = this.props,
+          recipients = _this$props2.recipients,
+          messageSubjectRenderer = _this$props2.messageSubjectRenderer;
 
       if (!loading) {
         conversationBody = /*#__PURE__*/_react["default"].createElement(_ConversationMessageList["default"], {

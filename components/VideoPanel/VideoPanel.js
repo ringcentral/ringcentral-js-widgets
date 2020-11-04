@@ -95,14 +95,21 @@ var VideoPanel = function VideoPanel(_ref) {
       disableSaveAsDefault = _ref.disableSaveAsDefault,
       disabled = _ref.disabled,
       openNewWindow = _ref.openNewWindow,
-      invite = _ref.invite,
+      schedule = _ref.schedule,
       updateMeetingSettings = _ref.updateMeetingSettings,
       validatePasswordSettings = _ref.validatePasswordSettings,
       init = _ref.init,
       recipientsSection = _ref.recipientsSection,
       showWhen = _ref.showWhen,
       showDuration = _ref.showDuration,
-      brandName = _ref.brandName;
+      brandName = _ref.brandName,
+      showAdminLock = _ref.showAdminLock,
+      showPmiAlert = _ref.showPmiAlert,
+      enableWaitingRoom = _ref.enableWaitingRoom,
+      enablePersonalMeeting = _ref.enablePersonalMeeting,
+      enableJoinAfterMeCopy = _ref.enableJoinAfterMeCopy,
+      personalMeetingId = _ref.personalMeetingId,
+      switchUsePersonalMeetingId = _ref.switchUsePersonalMeetingId;
 
   var _useState = (0, _react.useState)(null),
       _useState2 = _slicedToArray(_useState, 2),
@@ -120,7 +127,14 @@ var VideoPanel = function VideoPanel(_ref) {
     init: init,
     showWhen: showWhen,
     showDuration: showDuration,
-    brandName: brandName
+    brandName: brandName,
+    showAdminLock: showAdminLock,
+    showPmiAlert: showPmiAlert,
+    enableWaitingRoom: enableWaitingRoom,
+    enablePersonalMeeting: enablePersonalMeeting,
+    enableJoinAfterMeCopy: enableJoinAfterMeCopy,
+    personalMeetingId: personalMeetingId,
+    switchUsePersonalMeetingId: switchUsePersonalMeetingId
   }, /*#__PURE__*/_react["default"].createElement(_VideoConfig.Topic, {
     name: meeting.name,
     updateMeetingTopic: function updateMeetingTopic(name) {
@@ -137,7 +151,8 @@ var VideoPanel = function VideoPanel(_ref) {
     meeting: meeting,
     onOK: onOK,
     onClick: /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-      var opener;
+      var _opener;
+
       return regeneratorRuntime.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
@@ -151,11 +166,11 @@ var VideoPanel = function VideoPanel(_ref) {
               return (0, _sleep["default"])(100);
 
             case 3:
-              opener = openNewWindow && (0, _isSafari["default"])() ? window.open() : null;
+              _opener = openNewWindow && (0, _isSafari["default"])() ? window.open() : null;
               _context.next = 6;
-              return invite(_objectSpread(_objectSpread({}, meeting), {}, {
+              return schedule(_objectSpread(_objectSpread({}, meeting), {}, {
                 name: topicRef.current.props.value
-              }), opener);
+              }), _opener);
 
             case 6:
             case "end":

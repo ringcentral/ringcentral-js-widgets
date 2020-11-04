@@ -15,7 +15,7 @@ var _i18n = _interopRequireDefault(require("./i18n"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function Eula(props) {
+var Eula = function Eula(props) {
   var currentLocale = props.currentLocale,
       className = props.className,
       onLinkClicked = props.onLinkClicked,
@@ -36,13 +36,13 @@ function Eula(props) {
     case '7710':
       // bt
       labelId = 'termsOfService';
-      link = 'https://business.bt.com/terms/';
+      link = 'https://www.bt.com/products/static/terms/terms-of-use.html';
       break;
 
     case '7310':
       // telus
       labelId = 'serviceTerms';
-      link = isFr ? 'https://business.telus.com/fr/campaigns/business-connect-service-terms?INTCMP=VAN_businessconnect_fr_serviceterms' : 'https://business.telus.com/en/support/global/legal/business-connect-service-terms?INTCMP=VAN_businessconnect_serviceterms';
+      link = isFr ? 'http://telus.com/BusinessConnect/fr/ServiceTerms' : 'http://telus.com/BusinessConnect/ServiceTerms';
       break;
 
     default:
@@ -60,7 +60,7 @@ function Eula(props) {
     } : null,
     "data-sign": dataSign
   }, _i18n["default"].getString(labelId));
-}
+};
 
 Eula.propTypes = {
   dataSign: _propTypes["default"].string,

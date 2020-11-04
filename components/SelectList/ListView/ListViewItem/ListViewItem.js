@@ -27,7 +27,7 @@ require("core-js/modules/es6.array.index-of");
 
 require("core-js/modules/es6.array.filter");
 
-var _rcui = require("@ringcentral-integration/rcui");
+var _juno = require("@ringcentral/juno");
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
@@ -79,7 +79,7 @@ var ListViewItem = function ListViewItem(_ref) {
 
   return /*#__PURE__*/_react["default"].createElement("div", {
     ref: selectElm
-  }, /*#__PURE__*/_react["default"].createElement(_rcui.RcListItem, {
+  }, /*#__PURE__*/_react["default"].createElement(_juno.RcListItem, {
     button: true,
     size: "small",
     singleLine: true,
@@ -89,7 +89,7 @@ var ListViewItem = function ListViewItem(_ref) {
     "data-sign": "match".concat(index),
     className: (0, _classnames["default"])(_styles["default"].listItem),
     selected: isSelected
-  }, startAdornment && startAdornment(type), /*#__PURE__*/_react["default"].createElement(_rcui.RcListItemText, {
+  }, startAdornment && startAdornment(type), /*#__PURE__*/_react["default"].createElement(_juno.RcListItemText, {
     primary: getFilterResult(option)
   })));
 };

@@ -146,6 +146,7 @@ var CallMonitorBar = /*#__PURE__*/function (_Component) {
           ringingCalls = _this$props.ringingCalls,
           onHoldCalls = _this$props.onHoldCalls,
           currentCalls = _this$props.currentCalls,
+          otherDeviceCalls = _this$props.otherDeviceCalls,
           currentLocale = _this$props.currentLocale,
           onCurrentCallBtnClick = _this$props.onCurrentCallBtnClick,
           onViewCallBtnClick = _this$props.onViewCallBtnClick,
@@ -153,6 +154,7 @@ var CallMonitorBar = /*#__PURE__*/function (_Component) {
           shouldDisplayViewCallsBtn = _this$props.shouldDisplayViewCallsBtn;
       var numberOfIncomingCalls = ringingCalls.length;
       var numberOfOnHoldCalls = onHoldCalls.length;
+      var numberOfOtherDeviceCalls = otherDeviceCalls.length;
       return /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].bar,
         onMouseOver: this.showBtn,
@@ -175,6 +177,15 @@ var CallMonitorBar = /*#__PURE__*/function (_Component) {
           numberOf: numberOfIncomingCalls
         }) : (0, _formatMessage["default"])(_i18n["default"].getString('incomingCalls', currentLocale), {
           numberOf: numberOfIncomingCalls
+        }),
+        currentLocale: currentLocale,
+        onClick: onViewCallBtnClick,
+        shouldDisplayViewCallsBtn: shouldDisplayViewCallsBtn
+      }) : null, numberOfOtherDeviceCalls > 0 ? /*#__PURE__*/_react["default"].createElement(CallInfoBar, {
+        label: numberOfOtherDeviceCalls === 1 ? (0, _formatMessage["default"])(_i18n["default"].getString('otherDeviceCall', currentLocale), {
+          numberOf: numberOfOtherDeviceCalls
+        }) : (0, _formatMessage["default"])(_i18n["default"].getString('otherDeviceCalls', currentLocale), {
+          numberOf: numberOfOtherDeviceCalls
         }),
         currentLocale: currentLocale,
         onClick: onViewCallBtnClick,
@@ -203,6 +214,7 @@ CallMonitorBar.propTypes = {
   ringingCalls: _propTypes["default"].array,
   currentCalls: _propTypes["default"].array,
   onHoldCalls: _propTypes["default"].array,
+  otherDeviceCalls: _propTypes["default"].array,
   currentLocale: _propTypes["default"].string.isRequired,
   onCurrentCallBtnClick: _propTypes["default"].func,
   onViewCallBtnClick: _propTypes["default"].func,
@@ -213,6 +225,7 @@ CallMonitorBar.defaultProps = {
   ringingCalls: [],
   currentCalls: [],
   onHoldCalls: [],
+  otherDeviceCalls: [],
   onCurrentCallBtnClick: undefined,
   onViewCallBtnClick: undefined,
   shouldDisplayCurrentCallBtn: false,

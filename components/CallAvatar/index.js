@@ -35,7 +35,7 @@ var _react = _interopRequireWildcard(require("react"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _uuid = _interopRequireDefault(require("uuid"));
+var uuid = _interopRequireWildcard(require("uuid"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
@@ -72,7 +72,7 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 var REGEXP_BLOB_URL = /^blob:.+\/[\w-]{36,}(?:#.+)?$/;
-var REGEXP_BASE64_URL = /^(data:\w+\/[a-zA-Z\+\-\.]+;base64,)?(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/gi;
+var REGEXP_BASE64_URL = /^(data:\w+\/[a-zA-Z+\-.]+;base64,)?(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/gi;
 
 function isBlobURL(value) {
   return REGEXP_BLOB_URL.test(value);
@@ -146,8 +146,8 @@ var CallAvatar = /*#__PURE__*/function (_Component) {
       }
     }
   }, {
-    key: "componentWillMount",
-    value: function componentWillMount() {
+    key: "UNSAFE_componentWillMount",
+    value: function UNSAFE_componentWillMount() {
       this.loadImg();
     }
   }, {
@@ -160,8 +160,8 @@ var CallAvatar = /*#__PURE__*/function (_Component) {
       }
     }
   }, {
-    key: "componentWillReceiveProps",
-    value: function componentWillReceiveProps(nextProps) {
+    key: "UNSAFE_componentWillReceiveProps",
+    value: function UNSAFE_componentWillReceiveProps(nextProps) {
       if (nextProps.avatarUrl !== this.props.avatarUrl) {
         this.loadImg(nextProps);
       }
@@ -195,9 +195,7 @@ var CallAvatar = /*#__PURE__*/function (_Component) {
       var defaultAvatarStyle = {
         opacity: +$transparency
       };
-
-      var hash = _uuid["default"].v4();
-
+      var hash = uuid.v4();
       var portraitChar = "\uE904"; // HACK: &#xe904; is the font code for the portrait icon
 
       var iconFont = 'dynamics_icon'; // Hard coding this for firefox to load iconfont

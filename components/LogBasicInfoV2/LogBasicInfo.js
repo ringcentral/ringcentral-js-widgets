@@ -19,7 +19,13 @@ var _callResults = _interopRequireDefault(require("ringcentral-integration/enums
 
 var _telephonyStatus = _interopRequireDefault(require("ringcentral-integration/enums/telephonyStatus"));
 
+var _recordStatus = _interopRequireDefault(require("ringcentral-integration/modules/Webphone/recordStatus"));
+
 var _callLogHelpers = require("ringcentral-integration/lib/callLogHelpers");
+
+var _juno = require("@ringcentral/juno");
+
+var _RecordOn = _interopRequireDefault(require("../../assets/images/RecordOn.svg"));
 
 var _DynamicsFont = _interopRequireDefault(require("../../assets/DynamicsFont/DynamicsFont.scss"));
 
@@ -67,7 +73,8 @@ function LogBasicInfo(props) {
       disableLinks = props.disableLinks,
       dateTimeFormatter = props.dateTimeFormatter,
       isWide = props.isWide,
-      className = props.className;
+      className = props.className,
+      recordStatus = props.recordStatus;
   if (!call) return null;
   var direction = call.direction,
       to = call.to,
@@ -103,6 +110,7 @@ function LogBasicInfo(props) {
 
   var isRinging = status === _telephonyStatus["default"].ringing;
   var infoStatus = getInfoStatus(status);
+  var isRecording = recordStatus === _recordStatus["default"].recording;
   return /*#__PURE__*/_react["default"].createElement("div", {
     "data-sign": "logSection",
     className: (0, _classnames["default"])(_styles["default"].root, !isWide && _styles["default"].classic, _styles["default"][infoStatus], className)
@@ -116,6 +124,10 @@ function LogBasicInfo(props) {
   }, /*#__PURE__*/_react["default"].createElement(_CallIcon.CallIcon, {
     title: missed ? _i18n["default"].getString(_callResults["default"].missed, currentLocale) : _i18n["default"].getString(direction, currentLocale),
     iconClassName: (0, _classnames["default"])(_styles["default"].icon, callIconMap[missed ? _callResults["default"].missed : direction])
+  }), isRecording && /*#__PURE__*/_react["default"].createElement(_juno.RcIcon, {
+    iconSize: "small",
+    symbol: _RecordOn["default"],
+    className: _styles["default"].recordingIndicator
   }), /*#__PURE__*/_react["default"].createElement("ul", {
     className: _styles["default"].callDisplay
   }, /*#__PURE__*/_react["default"].createElement("li", {
@@ -149,7 +161,8 @@ LogBasicInfo.propTypes = {
   disableLinks: _propTypes["default"].bool,
   dateTimeFormatter: _propTypes["default"].func.isRequired,
   isWide: _propTypes["default"].bool,
-  className: _propTypes["default"].string
+  className: _propTypes["default"].string,
+  recordStatus: _propTypes["default"].string
 };
 LogBasicInfo.defaultProps = {
   formatPhone: function formatPhone(value) {
@@ -160,6 +173,7 @@ LogBasicInfo.defaultProps = {
   disableLinks: false,
   isWide: true,
   currentLocale: 'en',
-  className: null
+  className: null,
+  recordStatus: ''
 };
 //# sourceMappingURL=LogBasicInfo.js.map

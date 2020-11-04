@@ -23,7 +23,7 @@ require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.map");
 
-var _rcui = require("@ringcentral-integration/rcui");
+var _juno = require("@ringcentral/juno");
 
 var _react = _interopRequireDefault(require("react"));
 
@@ -48,7 +48,7 @@ var ListView = function ListView(_ref) {
     return nonShow;
   }
 
-  return /*#__PURE__*/_react["default"].createElement(_rcui.RcList, null, options.map(function (option, i) {
+  return /*#__PURE__*/_react["default"].createElement(_juno.RcList, null, options.map(function (option, i) {
     return /*#__PURE__*/_react["default"].createElement(_ListViewItem.ListViewItem, _extends({
       key: i,
       index: i,

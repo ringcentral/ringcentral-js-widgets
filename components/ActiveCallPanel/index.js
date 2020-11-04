@@ -74,6 +74,7 @@ function ActiveCallPanel(_ref) {
       showContactDisplayPlaceholder = _ref.showContactDisplayPlaceholder,
       brand = _ref.brand,
       disableFlip = _ref.disableFlip,
+      showPark = _ref.showPark,
       sourceIcons = _ref.sourceIcons,
       phoneTypeRenderer = _ref.phoneTypeRenderer,
       phoneSourceNameRenderer = _ref.phoneSourceNameRenderer,
@@ -177,6 +178,7 @@ function ActiveCallPanel(_ref) {
     onFlip: onFlip,
     disableFlip: disableFlip,
     onPark: onPark,
+    showPark: showPark,
     layout: layout,
     direction: direction,
     addDisabled: addDisabled,
@@ -207,7 +209,6 @@ ActiveCallPanel.propTypes = {
   onAdd: _propTypes["default"].func,
   onMerge: _propTypes["default"].func,
   onHangup: _propTypes["default"].func.isRequired,
-  onPark: _propTypes["default"].func.isRequired,
   showBackButton: _propTypes["default"].bool,
   backButtonLabel: _propTypes["default"].string,
   onBackButtonClick: _propTypes["default"].func,
@@ -223,6 +224,8 @@ ActiveCallPanel.propTypes = {
   showContactDisplayPlaceholder: _propTypes["default"].bool,
   onFlip: _propTypes["default"].func,
   disableFlip: _propTypes["default"].bool,
+  onPark: _propTypes["default"].func,
+  showPark: _propTypes["default"].bool,
   gotoParticipantsCtrl: _propTypes["default"].func,
   sourceIcons: _propTypes["default"].object,
   phoneTypeRenderer: _propTypes["default"].func,
@@ -254,9 +257,13 @@ ActiveCallPanel.defaultProps = {
   brand: 'RingCentral',
   showContactDisplayPlaceholder: true,
   disableFlip: false,
+  showPark: false,
   onAdd: undefined,
   onMerge: undefined,
   onFlip: function onFlip() {
+    return null;
+  },
+  onPark: function onPark() {
     return null;
   },
   gotoParticipantsCtrl: function gotoParticipantsCtrl() {

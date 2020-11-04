@@ -13,7 +13,7 @@ require("core-js/modules/es6.array.map");
 
 var _react = _interopRequireDefault(require("react"));
 
-var _rcui = require("@ringcentral-integration/rcui");
+var _juno = require("@ringcentral/juno");
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
@@ -36,12 +36,12 @@ var CallInfoList = function CallInfoList(_ref) {
   return /*#__PURE__*/_react["default"].createElement("div", {
     "data-sign": "infoList",
     className: className
-  }, /*#__PURE__*/_react["default"].createElement(_rcui.RcList, null, callInfos.map(function (_ref2, i) {
+  }, /*#__PURE__*/_react["default"].createElement(_juno.RcList, null, callInfos.map(function (_ref2, i) {
     var attr = _ref2.attr,
         name = _ref2.name,
         content = _ref2.content,
         enableCopy = _ref2.enableCopy;
-    return /*#__PURE__*/_react["default"].createElement(_rcui.RcListItem, {
+    return /*#__PURE__*/_react["default"].createElement(_juno.RcListItem, {
       key: i,
       className: (0, _classnames["default"])(_styles["default"].listItem),
       button: false

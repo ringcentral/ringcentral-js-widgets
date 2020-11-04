@@ -62,6 +62,8 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function mapToProps(_, _ref) {
+  var _extensionInfo$site$c, _extensionInfo$site, _extensionInfo$isMult;
+
   var _ref$phone = _ref.phone,
       brand = _ref$phone.brand,
       locale = _ref$phone.locale,
@@ -76,6 +78,7 @@ function mapToProps(_, _ref) {
       rateLimiter = _ref$phone.rateLimiter,
       messageStore = _ref$phone.messageStore,
       connectivityManager = _ref$phone.connectivityManager,
+      extensionInfo = _ref$phone.extensionInfo,
       _ref$showTitle = _ref.showTitle,
       showTitle = _ref$showTitle === void 0 ? false : _ref$showTitle,
       _ref$enableContactFal = _ref.enableContactFallback,
@@ -93,6 +96,8 @@ function mapToProps(_, _ref) {
     showGroupNumberName: showGroupNumberName,
     brand: brand.fullName,
     currentLocale: locale.currentLocale,
+    currentSiteCode: (_extensionInfo$site$c = extensionInfo === null || extensionInfo === void 0 ? void 0 : (_extensionInfo$site = extensionInfo.site) === null || _extensionInfo$site === void 0 ? void 0 : _extensionInfo$site.code) !== null && _extensionInfo$site$c !== void 0 ? _extensionInfo$site$c : '',
+    isMultipleSiteEnabled: (_extensionInfo$isMult = extensionInfo === null || extensionInfo === void 0 ? void 0 : extensionInfo.isMultipleSiteEnabled) !== null && _extensionInfo$isMult !== void 0 ? _extensionInfo$isMult : false,
     conversations: conversations.pagingConversations,
     areaCode: regionSettings.areaCode,
     countryCode: regionSettings.countryCode,

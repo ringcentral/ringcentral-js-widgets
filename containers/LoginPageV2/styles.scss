@@ -1,0 +1,6 @@
+@import '../../lib/commonStyles/full-size';
+
+.root {
+  @include full-size;
+  padding-bottom: 0px;
+}

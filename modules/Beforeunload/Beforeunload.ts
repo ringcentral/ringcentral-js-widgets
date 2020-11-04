@@ -91,12 +91,17 @@ export class Beforeunload extends RcModuleV2 {
   /**
    * that method will trigger after check not leave success
    */
-  onAfterUnload(cb: () => void) {
+  onAfterUnload(cb: () => void, notNeedCheck = false) {
     window.addEventListener('unload', () => {
-      if (this.checkShouldBlock()) {
+      if (notNeedCheck || this.checkShouldBlock()) {
         cb();
       }
     });
+  }
+
+  removeAfterUnloadListener(cb: () => void) {
+    console.log('removeAfterUnloadListener~~');
+    window.removeEventListener('unload', cb);
   }
 
   private _removeItem(i: number) {

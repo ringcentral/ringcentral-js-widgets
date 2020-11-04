@@ -25,6 +25,7 @@ var _CallLogFields2 = require("./CallLogFields.interface");
 Object.keys(_CallLogFields2).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
+  if (key in exports && exports[key] === _CallLogFields2[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {
@@ -38,6 +39,7 @@ var _FieldItem = require("./FieldItem");
 Object.keys(_FieldItem).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
+  if (key in exports && exports[key] === _FieldItem[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {

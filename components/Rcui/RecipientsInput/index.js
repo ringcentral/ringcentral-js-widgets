@@ -20,6 +20,7 @@ var _RecipientsInput = require("./RecipientsInput");
 
 Object.keys(_RecipientsInput).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _RecipientsInput[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {

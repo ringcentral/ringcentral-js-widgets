@@ -7,9 +7,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = SaveLogButton;
 
-var _rcui = require("@ringcentral-integration/rcui");
+var _juno = require("@ringcentral/juno");
 
-var _iconCheck = _interopRequireDefault(require("@ringcentral-integration/rcui/icons/icon-check.svg"));
+var _iconCheck = _interopRequireDefault(require("@ringcentral/juno/icons/icon-check.svg"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
@@ -37,17 +37,17 @@ function SaveLogButton(_ref) {
       buttonContent = _getButtonStatus.buttonContent;
 
   var getContent = function getContent(buttonContent) {
-    return /*#__PURE__*/_react["default"].createElement("span", null, buttonContent === 'saved' && /*#__PURE__*/_react["default"].createElement(_rcui.RcIcon, {
+    return /*#__PURE__*/_react["default"].createElement("span", null, buttonContent === 'saved' && /*#__PURE__*/_react["default"].createElement(_juno.RcIcon, {
       color: ['primary', 'main'],
       symbol: _iconCheck["default"],
       size: "small"
-    }), buttonContent === 'saving' && /*#__PURE__*/_react["default"].createElement(_rcui.RcCircularProgress, {
+    }), buttonContent === 'saving' && /*#__PURE__*/_react["default"].createElement(_juno.RcCircularProgress, {
       size: 20
     }), buttonContent === 'save' && _i18n["default"].getString('save', currentLocale));
   };
 
   var content = getContent(buttonContent);
-  return /*#__PURE__*/_react["default"].createElement(_rcui.RcButton, {
+  return /*#__PURE__*/_react["default"].createElement(_juno.RcButton, {
     className: (0, _classnames["default"])(_styles["default"].button, !isWide && _styles["default"].classic),
     variant: "text",
     size: "medium",

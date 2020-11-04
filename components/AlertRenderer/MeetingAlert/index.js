@@ -43,7 +43,9 @@ function MeetingAlert(_ref) {
       break;
   }
 
-  return /*#__PURE__*/_react["default"].createElement("span", null, msg);
+  return /*#__PURE__*/_react["default"].createElement("span", {
+    "data-sign": "meeting-alert"
+  }, msg);
 }
 
 MeetingAlert.propTypes = {

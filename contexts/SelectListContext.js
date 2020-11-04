@@ -9,7 +9,7 @@ exports.SelectListContext = void 0;
 
 var _react = require("react");
 
-var SelectListContext = (0, _react.createContext)({
+var SelectListContext = /*#__PURE__*/(0, _react.createContext)({
   scrollElmRef: null
 });
 exports.SelectListContext = SelectListContext;

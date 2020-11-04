@@ -13,6 +13,8 @@ exports["default"] = CallLogCallCtrlComponent;
 
 require("core-js/modules/es6.object.define-property");
 
+require("core-js/modules/es6.promise");
+
 require("core-js/modules/es6.string.iterator");
 
 require("core-js/modules/es6.array.from");
@@ -33,7 +35,11 @@ require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.array.is-array");
 
-var _classnames12 = _interopRequireDefault(require("classnames"));
+require("core-js/modules/es6.array.map");
+
+require("regenerator-runtime/runtime");
+
+var _classnames16 = _interopRequireDefault(require("classnames"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
@@ -45,9 +51,15 @@ var _telephonyStatus = _interopRequireDefault(require("ringcentral-integration/e
 
 var _recordStatus = _interopRequireDefault(require("ringcentral-integration/modules/Webphone/recordStatus"));
 
-var _iconTransferCall = _interopRequireDefault(require("@ringcentral-integration/rcui/icons/icon-transfer-call.svg"));
+var _iconTransferCall = _interopRequireDefault(require("@ringcentral/juno/icons/icon-transfer-call.svg"));
 
-var _iconHold = _interopRequireDefault(require("@ringcentral-integration/rcui/icons/icon-hold.svg"));
+var _iconHold = _interopRequireDefault(require("@ringcentral/juno/icons/icon-hold.svg"));
+
+var _iconIgnore = _interopRequireDefault(require("@ringcentral/juno/icons/icon-ignore.svg"));
+
+var _iconVoicemail = _interopRequireDefault(require("@ringcentral/juno/icons/icon-voicemail.svg"));
+
+var _Forward_white = _interopRequireDefault(require("../../assets/images/Forward_white.svg"));
 
 var _RecordOff = _interopRequireDefault(require("../../assets/images/RecordOff.svg"));
 
@@ -71,9 +83,19 @@ var _Unmute = _interopRequireDefault(require("../../assets/images/Unmute.svg"));
 
 var _Dialpad = _interopRequireDefault(require("../../assets/images/Dialpad.svg"));
 
+var _Answer = _interopRequireDefault(require("../../assets/images/Answer.svg"));
+
+var _MoreIcon = _interopRequireDefault(require("../../assets/images/MoreIcon.svg"));
+
 var _i18n = _interopRequireDefault(require("./i18n"));
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
+
+var _MoreActionWithForward = require("./MoreActionWithForward");
+
+var _HoldAnswer = _interopRequireDefault(require("../../assets/images/HoldAnswer.svg"));
+
+var _EndAnswer = _interopRequireDefault(require("../../assets/images/EndAnswer.svg"));
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
@@ -82,6 +104,10 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
@@ -95,8 +121,10 @@ function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
+var recodingVoiceTime = 6781;
+
 function CallLogCallCtrlComponent(props) {
-  var _classnames8, _classnames9, _classnames10, _classnames11;
+  var _classnames12, _classnames13, _classnames14, _classnames15;
 
   var onMute = props.onMute,
       onUnmute = props.onUnmute,
@@ -118,7 +146,14 @@ function CallLogCallCtrlComponent(props) {
       isWide = props.isWide,
       transferRef = props.transferRef,
       isCurrentDeviceCall = props.isCurrentDeviceCall,
-      sendDTMF = props.sendDTMF; // reject conditions: call direction is inbound & call status is ringing
+      sendDTMF = props.sendDTMF,
+      forward = props.forward,
+      answer = props.answer,
+      forwardingNumbers = props.forwardingNumbers,
+      ignore = props.ignore,
+      otherActiveCalls = props.otherActiveCalls,
+      answerAndHold = props.answerAndHold,
+      answerAndEnd = props.answerAndEnd; // reject conditions: call direction is inbound & call status is ringing
 
   var isInComingCall = _callDirections["default"].inbound === callDirection && _telephonyStatus["default"].ringing === callStatus;
   var muteIcon = isOnMute ? _Mute["default"] : _Unmute["default"];
@@ -140,50 +175,128 @@ function CallLogCallCtrlComponent(props) {
   }; // WebRTC logic
 
 
-  if (isCurrentDeviceCall && _callDirections["default"].outbound === callDirection) {
-    var _classnames2, _classnames4, _classnames5, _classnames6;
+  var _useState3 = (0, _react.useState)(null),
+      _useState4 = _slicedToArray(_useState3, 2),
+      anchorEl = _useState4[0],
+      setAnchorEl = _useState4[1];
+
+  var _useState5 = (0, _react.useState)(false),
+      _useState6 = _slicedToArray(_useState5, 2),
+      recordPendingState = _useState6[0],
+      setRecordPendingState = _useState6[1];
+
+  var timer;
+
+  var startRecordAction = /*#__PURE__*/function () {
+    var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+      var res,
+          _args = arguments;
+      return regeneratorRuntime.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              _context.next = 2;
+              return startRecord.apply(void 0, _args);
+
+            case 2:
+              res = _context.sent;
+
+              if (res) {
+                setRecordPendingState(true);
+                timer = setTimeout(function () {
+                  setRecordPendingState(false);
+                }, recodingVoiceTime);
+              }
+
+            case 4:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    }));
+
+    return function startRecordAction() {
+      return _ref.apply(this, arguments);
+    };
+  }();
+
+  (0, _react.useEffect)(function () {
+    return function () {
+      timer && clearTimeout(timer);
+      timer = null;
+    };
+  });
+
+  var handleClick = function handleClick(event) {
+    setAnchorEl(event.currentTarget);
+  };
+
+  var handleClose = function handleClose() {
+    setAnchorEl(null);
+  };
+
+  var isWebRTCCall = isCurrentDeviceCall;
+  var onGoingActiveCalls = otherActiveCalls;
+
+  if (isWebRTCCall && _callDirections["default"].outbound === callDirection || isWebRTCCall && _callDirections["default"].inbound === callDirection && callStatus !== _telephonyStatus["default"].ringing) {
+    var _classnames2, _classnames3, _classnames4, _classnames5, _classnames6;
 
     var isRecording = recordStatus === _recordStatus["default"].recording;
     var recordingText = isRecording ? 'stopRecord' : 'record';
-    var recordAction = isRecording ? stopRecord : startRecord;
+    var recordAction = isRecording ? stopRecord : startRecordAction;
     var keypadText = dialpadShow ? 'hideKeypad' : 'showKeypad';
+    var onHoldText = isOnHold ? 'unHold' : 'hold';
     var moreActions = [{
       icon: _iconTransferCall["default"],
-      text: 'transfer',
+      key: 'transfer',
       onClick: onTransfer,
-      iconClassName: (0, _classnames12["default"])(_defineProperty({}, _styles["default"].moreActionIcon, true))
+      iconClassName: (0, _classnames16["default"])(_defineProperty({}, _styles["default"].moreActionIcon, true)),
+      text: _i18n["default"].getString('transfer', currentLocale)
     }, {
       icon: _iconHold["default"],
-      text: isOnHold ? 'unHold' : 'hold',
+      key: onHoldText,
       onClick: holdAction,
-      iconClassName: (0, _classnames12["default"])((_classnames2 = {}, _defineProperty(_classnames2, _styles["default"].moreActionIcon, true), _defineProperty(_classnames2, _styles["default"].holdActive, isOnHold), _classnames2))
+      iconClassName: (0, _classnames16["default"])((_classnames2 = {}, _defineProperty(_classnames2, _styles["default"].moreActionIcon, true), _defineProperty(_classnames2, _styles["default"].holdActive, isOnHold), _classnames2)),
+      text: _i18n["default"].getString(onHoldText, currentLocale)
     }, {
       icon: isRecording ? _RecordOn["default"] : _RecordOff["default"],
-      text: recordingText,
+      key: recordingText,
       onClick: recordAction,
-      iconClassName: (0, _classnames12["default"])(_defineProperty({}, _styles["default"].moreActionIcon, true))
+      iconClassName: (0, _classnames16["default"])((_classnames3 = {}, _defineProperty(_classnames3, _styles["default"].moreActionIcon, true), _defineProperty(_classnames3, _styles["default"].recordingIcon, true), _defineProperty(_classnames3, _styles["default"].recordingDisabled, recordPendingState), _classnames3)),
+      disabled: recordPendingState,
+      text: _i18n["default"].getString(recordingText, currentLocale)
     }];
+    var rootButtonProps = {
+      icon: _MoreIcon["default"],
+      tooltip: _i18n["default"].getString('more', currentLocale)
+    };
     return /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement("div", {
-      className: (0, _classnames12["default"])(!isWide ? _styles["default"].classic : null, _styles["default"].root)
+      className: (0, _classnames16["default"])(!isWide ? _styles["default"].classic : null, _styles["default"].root)
     }, /*#__PURE__*/_react["default"].createElement("span", {
       title: _i18n["default"].getString(muteTitle, currentLocale)
     }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
       dataSign: muteTitle,
       icon: muteIcon,
       onClick: muteAction,
-      className: (0, _classnames12["default"])((_classnames4 = {}, _defineProperty(_classnames4, _styles["default"].button, true), _defineProperty(_classnames4, _styles["default"].buttonDisabled, disableLinks || disabledCtrl), _classnames4)),
+      className: (0, _classnames16["default"])((_classnames4 = {}, _defineProperty(_classnames4, _styles["default"].button, true), _defineProperty(_classnames4, _styles["default"].buttonDisabled, disableLinks || disabledCtrl), _classnames4)),
       disabled: disableLinks || disabledCtrl
     })), /*#__PURE__*/_react["default"].createElement("span", {
       title: _i18n["default"].getString(keypadText, currentLocale)
     }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
+      dataSign: keypadText,
       icon: _Dialpad["default"],
-      className: (0, _classnames12["default"])((_classnames5 = {}, _defineProperty(_classnames5, _styles["default"].button, true), _defineProperty(_classnames5, _styles["default"].buttonDisabled, isInComingCall || disableLinks), _defineProperty(_classnames5, _styles["default"].dialpadIconActive, dialpadShow), _classnames5)),
+      className: (0, _classnames16["default"])((_classnames5 = {}, _defineProperty(_classnames5, _styles["default"].button, true), _defineProperty(_classnames5, _styles["default"].buttonDisabled, isInComingCall || disableLinks), _defineProperty(_classnames5, _styles["default"].dialpadIconActive, dialpadShow), _classnames5)),
       disabled: disableLinks || isInComingCall,
       onClick: toggleDialpadShow
     })), /*#__PURE__*/_react["default"].createElement(_MoreActionComponent.MoreActionComponent, {
+      rootButtonProps: rootButtonProps,
       actionsList: moreActions,
       currentLocale: currentLocale,
-      disabled: disableLinks || disabledCtrl
+      disabled: disableLinks || disabledCtrl,
+      handleClick: handleClick,
+      handleClose: handleClose,
+      anchorEl: anchorEl
     }), /*#__PURE__*/_react["default"].createElement("span", {
       title: _i18n["default"].getString(endTitle, currentLocale)
     }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
@@ -191,10 +304,10 @@ function CallLogCallCtrlComponent(props) {
       showBorder: false,
       icon: _End["default"],
       onClick: endAction,
-      className: (0, _classnames12["default"])((_classnames6 = {}, _defineProperty(_classnames6, _styles["default"].hangup, true), _defineProperty(_classnames6, _styles["default"].button, true), _defineProperty(_classnames6, _styles["default"].buttonDisabled, disableLinks), _classnames6)),
+      className: (0, _classnames16["default"])((_classnames6 = {}, _defineProperty(_classnames6, _styles["default"].hangup, true), _defineProperty(_classnames6, _styles["default"].button, true), _defineProperty(_classnames6, _styles["default"].buttonDisabled, disableLinks), _classnames6)),
       disabled: disableLinks
     }))), dialpadShow && /*#__PURE__*/_react["default"].createElement(_CallLogDialpad.CallLogDialpad, {
-      className: (0, _classnames12["default"])(_styles["default"].smallDialpad, _defineProperty({}, _styles["default"].smallDiapadShow, dialpadShow)),
+      className: (0, _classnames16["default"])(_styles["default"].smallDialpad, _defineProperty({}, _styles["default"].smallDiapadShow, dialpadShow)),
       onChange: function onChange(e) {
         sendDTMF(e);
       },
@@ -203,15 +316,142 @@ function CallLogCallCtrlComponent(props) {
     }));
   }
 
+  if (isWebRTCCall && isInComingCall && !onGoingActiveCalls) {
+    var _classnames9, _classnames10;
+
+    var forwardTitle = _i18n["default"].getString('forward', currentLocale);
+
+    var ignoreTitle = _i18n["default"].getString('ignore', currentLocale);
+
+    var voicemailTitle = _i18n["default"].getString('voicemail', currentLocale);
+
+    var answerTitle = _i18n["default"].getString('answer', currentLocale);
+
+    var onForward = function onForward(e) {
+      e.stopPropagation();
+      handleClose();
+      var selectdValue = e.currentTarget.attributes['data-value'].value;
+      forward(selectdValue);
+    };
+
+    var forwardList = forwardingNumbers.map(function (phoneNumber) {
+      return {
+        key: phoneNumber.phoneNumber,
+        text: phoneNumber.label,
+        subText: phoneNumber.phoneNumber,
+        onClick: function onClick(e) {
+          return onForward(e);
+        }
+      };
+    });
+    forwardList.push({
+      key: 'custom',
+      text: _i18n["default"].getString('custom', currentLocale),
+      onClick: function onClick(e) {
+        return onForward(e);
+      }
+    });
+    var _rootButtonProps = {
+      icon: _Forward_white["default"],
+      className: !!anchorEl && _styles["default"].rootButtonActive,
+      tooltip: forwardTitle
+    };
+    return /*#__PURE__*/_react["default"].createElement("div", {
+      className: (0, _classnames16["default"])(!isWide ? _styles["default"].classic : null, _styles["default"].root)
+    }, /*#__PURE__*/_react["default"].createElement(_MoreActionComponent.MoreActionComponent, {
+      rootButtonProps: _rootButtonProps,
+      actionsList: forwardList,
+      currentLocale: currentLocale,
+      handleClick: handleClick,
+      handleClose: handleClose,
+      anchorEl: anchorEl,
+      withSubText: true,
+      popoverClasses: {
+        paper: _styles["default"].forwardPopover
+      }
+    }), /*#__PURE__*/_react["default"].createElement("span", {
+      title: ignoreTitle
+    }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
+      dataSign: ignoreTitle,
+      icon: _iconIgnore["default"],
+      iconWidth: 250,
+      iconHeight: 250,
+      iconX: 125,
+      iconY: 125,
+      className: (0, _classnames16["default"])(_defineProperty({}, _styles["default"].button, true)),
+      disabled: disableLinks,
+      onClick: ignore
+    })), /*#__PURE__*/_react["default"].createElement("span", {
+      title: voicemailTitle
+    }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
+      dataSign: voicemailTitle,
+      showBorder: false,
+      icon: _iconVoicemail["default"],
+      iconWidth: 250,
+      iconHeight: 250,
+      iconX: 125,
+      iconY: 125,
+      onClick: endAction,
+      className: (0, _classnames16["default"])((_classnames9 = {}, _defineProperty(_classnames9, _styles["default"].hangup, true), _defineProperty(_classnames9, _styles["default"].button, true), _defineProperty(_classnames9, _styles["default"].buttonDisabled, disableLinks), _classnames9)),
+      disabled: disableLinks
+    })), /*#__PURE__*/_react["default"].createElement("span", {
+      title: answerTitle
+    }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
+      dataSign: answerTitle,
+      showBorder: false,
+      icon: _Answer["default"],
+      onClick: answer,
+      className: (0, _classnames16["default"])((_classnames10 = {}, _defineProperty(_classnames10, _styles["default"].button, true), _defineProperty(_classnames10, _styles["default"].answer, true), _defineProperty(_classnames10, _styles["default"].buttonDisabled, disableLinks), _classnames10)),
+      disabled: disableLinks
+    })));
+  }
+
+  if (isWebRTCCall && onGoingActiveCalls && isInComingCall) {
+    var _classnames11;
+
+    var _voicemailTitle = _i18n["default"].getString('voicemail', currentLocale);
+
+    return /*#__PURE__*/_react["default"].createElement("div", {
+      className: (0, _classnames16["default"])(!isWide ? _styles["default"].classic : null, _styles["default"].root)
+    }, /*#__PURE__*/_react["default"].createElement("span", {
+      title: _i18n["default"].getString('answerAndEnd', currentLocale),
+      className: _styles["default"].answerButton,
+      onClick: answerAndEnd
+    }, /*#__PURE__*/_react["default"].createElement(_EndAnswer["default"], null)), /*#__PURE__*/_react["default"].createElement("span", {
+      title: _voicemailTitle
+    }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
+      dataSign: _voicemailTitle,
+      showBorder: false,
+      icon: _iconVoicemail["default"],
+      iconWidth: 250,
+      iconHeight: 250,
+      iconX: 125,
+      iconY: 125,
+      onClick: endAction,
+      className: (0, _classnames16["default"])((_classnames11 = {}, _defineProperty(_classnames11, _styles["default"].hangup, true), _defineProperty(_classnames11, _styles["default"].button, true), _defineProperty(_classnames11, _styles["default"].buttonDisabled, disableLinks), _classnames11)),
+      disabled: disableLinks
+    })), /*#__PURE__*/_react["default"].createElement("span", {
+      title: _i18n["default"].getString('answerAndHold', currentLocale),
+      className: _styles["default"].answerButton,
+      onClick: answerAndHold
+    }, /*#__PURE__*/_react["default"].createElement(_HoldAnswer["default"], null)), /*#__PURE__*/_react["default"].createElement(_MoreActionWithForward.MoreActionWithForward, {
+      currentLocale: currentLocale,
+      disabled: disableLinks,
+      forwardingNumbers: forwardingNumbers,
+      forward: forward,
+      ignore: ignore
+    }));
+  }
+
   return /*#__PURE__*/_react["default"].createElement("div", {
-    className: (0, _classnames12["default"])(!isWide ? _styles["default"].classic : null, _styles["default"].root)
+    className: (0, _classnames16["default"])(!isWide ? _styles["default"].classic : null, _styles["default"].root)
   }, /*#__PURE__*/_react["default"].createElement("span", {
     title: _i18n["default"].getString(muteTitle, currentLocale)
   }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
     dataSign: muteTitle,
     icon: muteIcon,
     onClick: muteAction,
-    className: (0, _classnames12["default"])((_classnames8 = {}, _defineProperty(_classnames8, _styles["default"].button, true), _defineProperty(_classnames8, _styles["default"].buttonDisabled, disableLinks || disabledCtrl), _classnames8)),
+    className: (0, _classnames16["default"])((_classnames12 = {}, _defineProperty(_classnames12, _styles["default"].button, true), _defineProperty(_classnames12, _styles["default"].buttonDisabled, disableLinks || disabledCtrl), _classnames12)),
     disabled: disableLinks || disabledCtrl
   })), /*#__PURE__*/_react["default"].createElement("span", {
     ref: transferRef,
@@ -220,7 +460,7 @@ function CallLogCallCtrlComponent(props) {
     dataSign: "transfer",
     icon: _Transfer["default"],
     onClick: onTransfer,
-    className: (0, _classnames12["default"])((_classnames9 = {}, _defineProperty(_classnames9, _styles["default"].button, true), _defineProperty(_classnames9, _styles["default"].buttonActive, isOnTransfer), _defineProperty(_classnames9, _styles["default"].buttonDisabled, disableLinks || isInComingCall), _classnames9)),
+    className: (0, _classnames16["default"])((_classnames13 = {}, _defineProperty(_classnames13, _styles["default"].button, true), _defineProperty(_classnames13, _styles["default"].buttonActive, isOnTransfer), _defineProperty(_classnames13, _styles["default"].buttonDisabled, disableLinks || isInComingCall), _classnames13)),
     disabled: disableLinks || isInComingCall
   })), /*#__PURE__*/_react["default"].createElement("span", {
     title: _i18n["default"].getString(holdTitle, currentLocale)
@@ -228,7 +468,7 @@ function CallLogCallCtrlComponent(props) {
     dataSign: holdTitle,
     icon: _Hold["default"],
     onClick: holdAction,
-    className: (0, _classnames12["default"])((_classnames10 = {}, _defineProperty(_classnames10, _styles["default"].button, true), _defineProperty(_classnames10, _styles["default"].buttonActive, isOnHold), _defineProperty(_classnames10, _styles["default"].buttonDisabled, isInComingCall || disableLinks), _classnames10)),
+    className: (0, _classnames16["default"])((_classnames14 = {}, _defineProperty(_classnames14, _styles["default"].button, true), _defineProperty(_classnames14, _styles["default"].buttonActive, isOnHold), _defineProperty(_classnames14, _styles["default"].buttonDisabled, isInComingCall || disableLinks), _classnames14)),
     disabled: disableLinks || isInComingCall
   })), /*#__PURE__*/_react["default"].createElement("span", {
     title: _i18n["default"].getString(endTitle, currentLocale)
@@ -237,7 +477,7 @@ function CallLogCallCtrlComponent(props) {
     showBorder: false,
     icon: _End["default"],
     onClick: endAction,
-    className: (0, _classnames12["default"])((_classnames11 = {}, _defineProperty(_classnames11, _styles["default"].hangup, true), _defineProperty(_classnames11, _styles["default"].button, true), _defineProperty(_classnames11, _styles["default"].buttonDisabled, disableLinks), _classnames11)),
+    className: (0, _classnames16["default"])((_classnames15 = {}, _defineProperty(_classnames15, _styles["default"].hangup, true), _defineProperty(_classnames15, _styles["default"].button, true), _defineProperty(_classnames15, _styles["default"].buttonDisabled, disableLinks), _classnames15)),
     disabled: disableLinks
   })));
 }
@@ -265,7 +505,14 @@ CallLogCallCtrlComponent.propTypes = {
     current: _propTypes["default"].instanceOf(Element)
   })]),
   isOnTransfer: _propTypes["default"].bool,
-  sendDTMF: _propTypes["default"].func
+  sendDTMF: _propTypes["default"].func,
+  forward: _propTypes["default"].func,
+  answer: _propTypes["default"].func,
+  forwardingNumbers: _propTypes["default"].array,
+  ignore: _propTypes["default"].func,
+  otherActiveCalls: _propTypes["default"].bool,
+  answerAndHold: _propTypes["default"].func,
+  answerAndEnd: _propTypes["default"].func
 };
 CallLogCallCtrlComponent.defaultProps = {
   onMute: function onMute() {},
@@ -285,6 +532,13 @@ CallLogCallCtrlComponent.defaultProps = {
   isWide: true,
   transferRef: undefined,
   isOnTransfer: false,
-  sendDTMF: function sendDTMF() {}
+  sendDTMF: function sendDTMF() {},
+  forward: function forward() {},
+  answer: function answer() {},
+  forwardingNumbers: [],
+  ignore: function ignore() {},
+  otherActiveCalls: false,
+  answerAndEnd: function answerAndEnd() {},
+  answerAndHold: function answerAndHold() {}
 };
 //# sourceMappingURL=index.js.map

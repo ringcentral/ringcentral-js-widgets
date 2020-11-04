@@ -87,6 +87,8 @@ var CallList = /*#__PURE__*/function (_PureComponent) {
           className = _this$props.className,
           brand = _this$props.brand,
           currentLocale = _this$props.currentLocale,
+          currentSiteCode = _this$props.currentSiteCode,
+          isMultipleSiteEnabled = _this$props.isMultipleSiteEnabled,
           calls = _this$props.calls,
           areaCode = _this$props.areaCode,
           countryCode = _this$props.countryCode,
@@ -134,6 +136,8 @@ var CallList = /*#__PURE__*/function (_PureComponent) {
             brand: brand,
             areaCode: areaCode,
             countryCode: countryCode,
+            currentSiteCode: currentSiteCode,
+            isMultipleSiteEnabled: isMultipleSiteEnabled,
             onViewContact: onViewContact,
             onCreateContact: onCreateContact,
             createEntityTypes: createEntityTypes,
@@ -186,6 +190,8 @@ CallList.propTypes = {
   className: _propTypes["default"].string,
   brand: _propTypes["default"].string.isRequired,
   currentLocale: _propTypes["default"].string.isRequired,
+  currentSiteCode: _propTypes["default"].string,
+  isMultipleSiteEnabled: _propTypes["default"].bool,
   calls: _propTypes["default"].arrayOf(_CallItem["default"].propTypes.call).isRequired,
   active: _propTypes["default"].bool,
   areaCode: _propTypes["default"].string.isRequired,
@@ -222,6 +228,8 @@ CallList.propTypes = {
   readTextPermission: _propTypes["default"].bool
 };
 CallList.defaultProps = {
+  currentSiteCode: '',
+  isMultipleSiteEnabled: false,
   className: null,
   active: false,
   disableLinks: false,

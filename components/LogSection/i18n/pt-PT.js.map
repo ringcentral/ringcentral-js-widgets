@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/LogSection/i18n/pt-PT.js"],"names":["saveLog"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,OAAO,EAAE;AADI,C,EAIf","sourcesContent":["export default {\n  saveLog: \"Guardar\"\n};\n\n// @key: @#@\"saveLog\"@#@ @source: @#@\"Save\"@#@\n"],"file":"pt-PT.js"}

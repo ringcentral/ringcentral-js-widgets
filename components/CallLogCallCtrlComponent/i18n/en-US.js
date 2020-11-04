@@ -19,7 +19,13 @@ var _default = {
   record: 'Record',
   showKeypad: 'Keypad',
   hideKeypad: 'Hide Keypad',
-  unHold: 'Unhold'
+  unHold: 'Unhold',
+  forward: 'Forward',
+  ignore: 'Ignore',
+  voicemail: 'Voicemail',
+  custom: 'Custom',
+  answerAndEnd: "Answer & End",
+  answerAndHold: 'Answer & Hold'
 };
 exports["default"] = _default;
 //# sourceMappingURL=en-US.js.map

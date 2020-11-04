@@ -22,7 +22,7 @@ var _default = {
   passwordEmptyError: "Meeting password required",
   passwordInvalidError: "Use 1 to 10 characters which include letters and numbers but no symbols",
   passwordHintText: "Your password should be 1 - 10 letters and numbers but cannot contain symbols",
-  usePersonalMeetingId: "Use personal meeting ID"
+  usePersonalMeetingId: "Use Personal Meeting ID"
 }; // @key: @#@"schedule"@#@ @source: @#@"Schedule"@#@
 // @key: @#@"topic"@#@ @source: @#@"Topic"@#@
 // @key: @#@"date"@#@ @source: @#@"Date"@#@

@@ -235,7 +235,9 @@ var ConversationsPanel = /*#__PURE__*/function (_Component) {
           updateTypeFilter = _this$props.updateTypeFilter,
           renderSearchTip = _this$props.renderSearchTip,
           renderNoMessage = _this$props.renderNoMessage,
-          onFaxDownload = _this$props.onFaxDownload;
+          onFaxDownload = _this$props.onFaxDownload,
+          currentSiteCode = _this$props.currentSiteCode,
+          isMultipleSiteEnabled = _this$props.isMultipleSiteEnabled;
 
       if (showSpinner) {
         return /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay.SpinnerOverlay, null);
@@ -257,6 +259,8 @@ var ConversationsPanel = /*#__PURE__*/function (_Component) {
       }), conversations.length ? /*#__PURE__*/_react["default"].createElement(_ConversationList["default"], {
         className: onSearchInputChange ? _styles["default"].contentWithSearch : null,
         currentLocale: currentLocale,
+        currentSiteCode: currentSiteCode,
+        isMultipleSiteEnabled: isMultipleSiteEnabled,
         perPage: perPage,
         disableLinks: disableLinks,
         disableCallButton: disableCallButton,
@@ -335,6 +339,8 @@ var ConversationsPanel = /*#__PURE__*/function (_Component) {
 
 exports["default"] = ConversationsPanel;
 ConversationsPanel.propTypes = {
+  currentSiteCode: _propTypes["default"].string,
+  isMultipleSiteEnabled: _propTypes["default"].bool,
   currentLocale: _propTypes["default"].string.isRequired,
   showSpinner: _propTypes["default"].bool,
   showTitle: _propTypes["default"].bool,
@@ -390,6 +396,8 @@ ConversationsPanel.propTypes = {
   onFaxDownload: _propTypes["default"].func
 };
 ConversationsPanel.defaultProps = {
+  currentSiteCode: '',
+  isMultipleSiteEnabled: false,
   showSpinner: false,
   showTitle: false,
   showContactDisplayPlaceholder: true,

@@ -29,7 +29,8 @@ CallControlAlert.handleMessage = function (_ref2) {
       unHoldConflictError = _callControlError["default"].unHoldConflictError,
       muteConflictError = _callControlError["default"].muteConflictError,
       unMuteConflictError = _callControlError["default"].unMuteConflictError,
-      generalError = _callControlError["default"].generalError;
-  return message === holdConflictError || message === unHoldConflictError || message === muteConflictError || message === unMuteConflictError || message === generalError;
+      generalError = _callControlError["default"].generalError,
+      forwardSuccess = _callControlError["default"].forwardSuccess;
+  return message === holdConflictError || message === unHoldConflictError || message === muteConflictError || message === unMuteConflictError || message === generalError || message === forwardSuccess;
 };
 //# sourceMappingURL=index.js.map

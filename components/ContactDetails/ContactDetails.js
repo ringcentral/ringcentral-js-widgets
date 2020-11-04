@@ -28,13 +28,11 @@ var ContactDetails = function ContactDetails(_ref) {
       disableLinks = _ref.disableLinks,
       isMultipleSiteEnabled = _ref.isMultipleSiteEnabled,
       isCallButtonDisabled = _ref.isCallButtonDisabled,
-      isClickToDialEnabled = _ref.isClickToDialEnabled,
-      isClickToTextEnabled = _ref.isClickToTextEnabled,
+      canCallButtonShow = _ref.canCallButtonShow,
+      canTextButtonShow = _ref.canTextButtonShow,
       formatNumber = _ref.formatNumber,
-      internalSmsPermission = _ref.internalSmsPermission,
       onClickToDial = _ref.onClickToDial,
       onClickToSMS = _ref.onClickToSMS,
-      outboundSmsPermission = _ref.outboundSmsPermission,
       sourceNodeRenderer = _ref.sourceNodeRenderer;
   return /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].root,
@@ -52,15 +50,13 @@ var ContactDetails = function ContactDetails(_ref) {
     contact: contact,
     currentLocale: currentLocale,
     disableLinks: disableLinks,
-    isClickToDialEnabled: isClickToDialEnabled,
+    canCallButtonShow: canCallButtonShow,
+    canTextButtonShow: canTextButtonShow,
     isCallButtonDisabled: isCallButtonDisabled,
-    isClickToTextEnabled: isClickToTextEnabled,
     isMultipleSiteEnabled: isMultipleSiteEnabled,
     formatNumber: formatNumber,
-    internalSmsPermission: internalSmsPermission,
     onClickToDial: onClickToDial,
-    onClickToSMS: onClickToSMS,
-    outboundSmsPermission: outboundSmsPermission
+    onClickToSMS: onClickToSMS
   }), /*#__PURE__*/_react["default"].createElement(_Emails.Emails, {
     contactType: contact.type,
     currentLocale: currentLocale,

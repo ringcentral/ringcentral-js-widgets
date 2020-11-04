@@ -20,6 +20,7 @@ var _Ringtone = require("./Ringtone");
 
 Object.keys(_Ringtone).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _Ringtone[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {

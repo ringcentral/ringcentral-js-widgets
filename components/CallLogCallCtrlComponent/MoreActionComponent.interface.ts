@@ -1,12 +1,29 @@
 export interface MoreActionItem {
-  icon: any;
+  key: string;
+  icon?: any;
   text: string;
+  subText?: string;
   onClick: () => void;
   iconClassName: string;
+  disabled?: boolean;
 }
 
 export interface MoreActionComponentProps {
   currentLocale: string;
   actionsList: MoreActionItem[];
   disabled: boolean;
+  rootIcon: any;
+  rootButtonProps: {
+    icon: any;
+    tooltip: string;
+    className: string;
+  };
+  withSubText: boolean;
+  handleClick: () => void;
+  handleClose: () => void;
+  anchorEl: any;
+  popoverClasses: {
+    root: string;
+    paper: string;
+  };
 }

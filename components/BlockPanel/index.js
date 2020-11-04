@@ -20,6 +20,7 @@ var _BlockPanel = require("./BlockPanel");
 
 Object.keys(_BlockPanel).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _BlockPanel[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {

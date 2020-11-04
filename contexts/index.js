@@ -20,6 +20,7 @@ var _SelectListContext = require("./SelectListContext");
 
 Object.keys(_SelectListContext).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _SelectListContext[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {

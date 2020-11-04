@@ -51,7 +51,7 @@ require("core-js/modules/es6.string.includes");
 
 require("core-js/modules/es6.function.name");
 
-var _rcui = require("@ringcentral-integration/rcui");
+var _juno = require("@ringcentral/juno");
 
 var _react = _interopRequireWildcard(require("react"));
 
@@ -140,6 +140,7 @@ var FieldItem = /*#__PURE__*/function (_Component) {
     }
 
     _this = _super.call.apply(_super, [this].concat(_args));
+    _this.fieldItemRef = _this.props.fieldRef || /*#__PURE__*/_react["default"].createRef();
 
     _this.renderReference = function () {
       var _this$props = _this.props,
@@ -313,7 +314,7 @@ var FieldItem = /*#__PURE__*/function (_Component) {
           onSave = _this$props5.onSave;
       var fieldSize = _this.props.fieldSize;
       var date = _this.currentValue ? new Date(_this.currentValue) : null;
-      return /*#__PURE__*/_react["default"].createElement(_rcui.RcDatePicker, {
+      return /*#__PURE__*/_react["default"].createElement(_juno.RcDatePicker, {
         fullWidth: true,
         size: fieldSize,
         "data-sign": fieldValue,
@@ -375,8 +376,6 @@ var FieldItem = /*#__PURE__*/function (_Component) {
       });
     };
 
-    _this.fieldItemRef = /*#__PURE__*/_react["default"].createRef();
-
     _this.renderSelectMenu = function () {
       var _this$props8 = _this.props,
           _this$props8$fieldOpt = _this$props8.fieldOption,
@@ -394,7 +393,7 @@ var FieldItem = /*#__PURE__*/function (_Component) {
           onSave = _this$props8.onSave;
       var selectList = (picklistOptions || []).map(function (item) {
         var value = item;
-        var label = item !== null ? item : defaultValue || appDefaultValue;
+        var label = item !== null ? item : appDefaultValue;
         var disabled = false;
 
         if (item instanceof Object) {
@@ -418,7 +417,7 @@ var FieldItem = /*#__PURE__*/function (_Component) {
         error: error,
         required: required,
         label: label,
-        value: _this.currentValue || defaultValue,
+        value: _this.currentValue,
         onChange: /*#__PURE__*/function () {
           var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(_ref3) {
             var value;
@@ -547,7 +546,7 @@ var FieldItem = /*#__PURE__*/function (_Component) {
       var value = this.props.fieldOption.value;
       var task = this.props.currentLog.task;
       return task[value];
-    } // this is click to new popup window page
+    } // eslint-disable-next-line react/destructuring-assignment
 
   }]);
 

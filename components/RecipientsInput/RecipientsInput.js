@@ -39,6 +39,8 @@ require("core-js/modules/es6.regexp.replace");
 
 require("regenerator-runtime/runtime");
 
+require("core-js/modules/es6.date.now");
+
 var _classnames = _interopRequireDefault(require("classnames"));
 
 var _react = _interopRequireWildcard(require("react"));
@@ -108,8 +110,8 @@ var RecipientsInput = /*#__PURE__*/function (_Component) {
     _this.inputRef = void 0;
     _this._focusTimeout = void 0;
 
-    _this.onInputKeyUp = function (e) {
-      _this.props.searchContact(e.currentTarget.value);
+    _this.onInputKeyUp = function (ev) {
+      _this.props.searchContact(ev.currentTarget.value);
 
       _this.setState({
         isFocusOnInput: true
@@ -122,11 +124,13 @@ var RecipientsInput = /*#__PURE__*/function (_Component) {
       });
     };
 
-    _this.onInputChange = function (e) {
-      var value = e.currentTarget.value;
+    _this.onInputChange = function (ev) {
+      var value = ev.currentTarget.value;
+      var lastInputTimestamp = Date.now();
 
       _this.setState({
-        value: value
+        value: value,
+        lastInputTimestamp: lastInputTimestamp
       }, function () {
         _this.props.onChange(value);
       });
@@ -188,10 +192,12 @@ var RecipientsInput = /*#__PURE__*/function (_Component) {
       _this.props.onClean();
     };
 
-    _this.clickHandler = function (evt) {
-      if (_this.listRef && _this.listRef.contains(evt.target)) return;
+    _this.clickHandler = function (ev) {
+      if (_this.listRef && _this.listRef.contains(ev.target)) {
+        return;
+      }
 
-      if (_this.inputRef && _this.inputRef.contains(evt.target)) {
+      if (_this.inputRef && _this.inputRef.contains(ev.target)) {
         _this.setState({
           isFocusOnInput: true
         });
@@ -223,6 +229,7 @@ var RecipientsInput = /*#__PURE__*/function (_Component) {
 
     _this.state = {
       value: props.value,
+      lastInputTimestamp: 0,
       isFocusOnInput: false,
       selectedContactIndex: 0,
       scrollDirection: null
@@ -273,11 +280,11 @@ var RecipientsInput = /*#__PURE__*/function (_Component) {
       }
     };
 
-    _this.isSplitter = function (e) {
-      if (e.key === ',' || e.key === ';' || e.key === 'Enter' || e.key === 'Unidentified' && ( // for Safari (FF cannot rely on keyCode...)
-      e.keyCode === 186 || // semicolon
-      e.keyCode === 188 || // comma
-      e.keyCode === 13) // enter
+    _this.isSplitter = function (ev) {
+      if (ev.key === ',' || ev.key === ';' || ev.key === 'Enter' || ev.key === 'Unidentified' && ( // for Safari (FF cannot rely on keyCode...)
+      ev.keyCode === 186 || // semicolon
+      ev.keyCode === 188 || // comma
+      ev.keyCode === 13) // enter
       ) {
           return true;
         }
@@ -286,16 +293,16 @@ var RecipientsInput = /*#__PURE__*/function (_Component) {
     }; // using React SyntheticEvent to deal with cross browser issue
 
 
-    _this.handleHotKey = function (e) {
+    _this.handleHotKey = function (ev) {
       if (_this.state.isFocusOnInput && _this.state.value.length >= 3) {
-        if (e.key === 'ArrowUp') {
+        if (ev.key === 'ArrowUp') {
           _this.reduceSelectedContactIndex();
 
-          _this.scrollOperation(e.key);
-        } else if (e.key === 'ArrowDown') {
+          _this.scrollOperation(ev.key);
+        } else if (ev.key === 'ArrowDown') {
           _this.addSelectedContactIndex();
 
-          _this.scrollOperation(e.key);
+          _this.scrollOperation(ev.key);
         }
       } else {
         _this.setState({
@@ -303,8 +310,8 @@ var RecipientsInput = /*#__PURE__*/function (_Component) {
         });
       }
 
-      if (_this.isSplitter(e)) {
-        e.preventDefault();
+      if (_this.isSplitter(ev)) {
+        ev.preventDefault();
 
         if (_this.state.value.length === 0) {
           return;
@@ -313,7 +320,7 @@ var RecipientsInput = /*#__PURE__*/function (_Component) {
         var relatedContactList = _this.state.value.length >= 3 ? _this.props.searchContactList : [];
         var currentSelected = relatedContactList[_this.state.selectedContactIndex];
 
-        if (currentSelected && e.key === 'Enter') {
+        if (currentSelected && ev.key === 'Enter') {
           _this.props.addToRecipients({
             name: currentSelected.name,
             phoneNumber: currentSelected.phoneNumber
@@ -335,7 +342,9 @@ var RecipientsInput = /*#__PURE__*/function (_Component) {
     value: function UNSAFE_componentWillReceiveProps(nextProps) {
       var _this2 = this;
 
-      if (nextProps.value !== undefined && nextProps.value !== this.props.value && nextProps.value !== this.state.value) {
+      var isNotEditing = !this.state.isFocusOnInput || Date.now() - this.state.lastInputTimestamp > 2000;
+
+      if (isNotEditing && nextProps.value !== undefined && nextProps.value !== this.props.value && nextProps.value !== this.state.value) {
         this.setState({
           value: nextProps.value
         }, function () {

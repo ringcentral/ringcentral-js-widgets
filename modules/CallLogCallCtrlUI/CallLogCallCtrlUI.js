@@ -13,8 +13,6 @@ require("core-js/modules/es7.object.get-own-property-descriptors");
 
 require("core-js/modules/es6.array.for-each");
 
-require("core-js/modules/es6.array.filter");
-
 require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.array.index-of");
@@ -40,6 +38,8 @@ require("core-js/modules/es6.reflect.construct");
 require("core-js/modules/es6.object.set-prototype-of");
 
 require("core-js/modules/es6.function.bind");
+
+require("core-js/modules/es6.array.filter");
 
 var _di = require("ringcentral-integration/lib/di");
 
@@ -85,7 +85,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 var CallLogCallCtrlUI = (_dec = (0, _di.Module)({
   name: 'CallLogCallCtrlUI',
-  deps: ['ActiveCallControl', 'ConnectivityMonitor', 'RateLimiter', 'RouterInteraction', 'CallingSettings']
+  deps: ['ActiveCallControl', 'ConnectivityMonitor', 'RateLimiter', 'RouterInteraction', 'CallingSettings', 'ForwardingNumber', 'CallMonitor']
 }), _dec(_class = (_temp = /*#__PURE__*/function (_RcUIModule) {
   _inherits(CallLogCallCtrlUI, _RcUIModule);
 
@@ -99,7 +99,9 @@ var CallLogCallCtrlUI = (_dec = (0, _di.Module)({
         rateLimiter = _ref.rateLimiter,
         routerInteraction = _ref.routerInteraction,
         callingSettings = _ref.callingSettings,
-        options = _objectWithoutProperties(_ref, ["activeCallControl", "connectivityMonitor", "rateLimiter", "routerInteraction", "callingSettings"]);
+        forwardingNumber = _ref.forwardingNumber,
+        callMonitor = _ref.callMonitor,
+        options = _objectWithoutProperties(_ref, ["activeCallControl", "connectivityMonitor", "rateLimiter", "routerInteraction", "callingSettings", "forwardingNumber", "callMonitor"]);
 
     _classCallCheck(this, CallLogCallCtrlUI);
 
@@ -109,6 +111,8 @@ var CallLogCallCtrlUI = (_dec = (0, _di.Module)({
     _this._rateLimiter = void 0;
     _this._routerInteraction = void 0;
     _this._callingSettings = void 0;
+    _this._forwardingNumber = void 0;
+    _this._callMonitor = void 0;
 
     _this.onTransfer = function (telephonySessionId) {
       return _this._routerInteraction.push("/transfer/".concat(telephonySessionId, "/active"));
@@ -119,6 +123,8 @@ var CallLogCallCtrlUI = (_dec = (0, _di.Module)({
     _this._rateLimiter = rateLimiter;
     _this._routerInteraction = routerInteraction;
     _this._callingSettings = callingSettings;
+    _this._forwardingNumber = forwardingNumber;
+    _this._callMonitor = callMonitor;
     return _this;
   }
 
@@ -130,11 +136,19 @@ var CallLogCallCtrlUI = (_dec = (0, _di.Module)({
 
       var currentSession = this._activeCallControl.getActiveSession(telephonySessionId);
 
+      var _this$_callMonitor = this._callMonitor,
+          activeOnHoldCalls = _this$_callMonitor.activeOnHoldCalls,
+          activeCurrentCalls = _this$_callMonitor.activeCurrentCalls;
+      var otherActiveCalls = currentSession && !!activeOnHoldCalls.concat(activeCurrentCalls).filter(function (call) {
+        return call.sessionId !== currentSession.sessionId;
+      }).length;
       return {
         isWebphone: isWebphone,
         currentSession: currentSession,
         disableLinks: !this._connectivityMonitor.connectivity || this._rateLimiter.throttling,
-        telephonySessionId: telephonySessionId
+        telephonySessionId: telephonySessionId,
+        forwardingNumbers: this._forwardingNumber.forwardingNumbers,
+        otherActiveCalls: otherActiveCalls
       };
     }
   }, {
@@ -154,7 +168,18 @@ var CallLogCallCtrlUI = (_dec = (0, _di.Module)({
         onTransfer: this.onTransfer,
         sendDTMF: function sendDTMF(dtmfValue, telephonySessionId) {
           return _this2._activeCallControl.sendDTMF(dtmfValue, telephonySessionId);
-        }
+        },
+        answer: this._activeCallControl.answer.bind(this._activeCallControl),
+        forward: function forward(phoneNumber, telephonySessionId) {
+          if (phoneNumber === 'custom') {
+            _this2._routerInteraction.push("/forward/".concat(telephonySessionId));
+          } else {
+            _this2._activeCallControl.forward.call(_this2._activeCallControl, phoneNumber, telephonySessionId);
+          }
+        },
+        ignore: this._activeCallControl.ignore.bind(this._activeCallControl),
+        answerAndHold: this._activeCallControl.answerAndHold.bind(this._activeCallControl),
+        answerAndEnd: this._activeCallControl.answerAndEnd.bind(this._activeCallControl)
       };
     }
   }]);

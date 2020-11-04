@@ -1,4 +1,4 @@
-import { RcModal, RcModalProps } from '@ringcentral-integration/rcui';
+import { RcModal, RcModalProps } from '@ringcentral/juno';
 import React, { FunctionComponent } from 'react';
 
 export type ModalV2Props = {

@@ -47,6 +47,8 @@ var _di = require("ringcentral-integration/lib/di");
 
 var _formatNumber = _interopRequireDefault(require("ringcentral-integration/lib/formatNumber"));
 
+var _callingOptions = require("ringcentral-integration/modules/CallingSettingsV2/callingOptions");
+
 var _react = _interopRequireDefault(require("react"));
 
 var _CallLogCallCtrlContainer = _interopRequireDefault(require("../../containers/CallLogCallCtrlContainer"));
@@ -89,7 +91,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 var CallLogUI = (_dec = (0, _di.Module)({
   name: 'CallLogUI',
-  deps: ['Locale', 'CallLogger', 'RateLimiter', 'RegionSettings', 'DateTimeFormat', 'CallLogSection', 'RouterInteraction', 'ActiveCallControl', 'EnvironmentOptions', 'RolesAndPermissions', 'ConnectivityMonitor', {
+  deps: ['Locale', 'CallLogger', 'RateLimiter', 'RegionSettings', 'DateTimeFormat', 'CallLogSection', 'RouterInteraction', 'ActiveCallControl', 'EnvironmentOptions', 'RolesAndPermissions', 'ConnectivityMonitor', 'CallingSettings', 'ForwardingNumber', {
     dep: 'CallLogUIOptions',
     optional: true
   }]
@@ -124,7 +126,9 @@ var CallLogUI = (_dec = (0, _di.Module)({
           activeCallControl = _this$_deps.activeCallControl,
           environmentOptions = _this$_deps.environmentOptions,
           rolesAndPermissions = _this$_deps.rolesAndPermissions,
-          connectivityMonitor = _this$_deps.connectivityMonitor;
+          connectivityMonitor = _this$_deps.connectivityMonitor,
+          callingSettings = _this$_deps.callingSettings,
+          forwardingNumber = _this$_deps.forwardingNumber;
       var currentNotificationIdentify = callLogSection.currentNotificationIdentify,
           currentIdentify = callLogSection.currentIdentify;
       var isInTransferPage = routerInteraction.currentPath.match('^/transfer/') !== null;
@@ -137,7 +141,9 @@ var CallLogUI = (_dec = (0, _di.Module)({
         currentIdentify: currentIdentify,
         // notification props
         currentNotificationIdentify: currentNotificationIdentify,
-        currentSession: activeCallControl.getActiveSession(activeCallControl.sessionIdToTelephonySessionIdMapping[currentNotificationIdentify])
+        currentSession: activeCallControl.getActiveSession(activeCallControl.sessionIdToTelephonySessionIdMapping[currentNotificationIdentify]),
+        isWebRTC: callingSettings.callWith === _callingOptions.callingOptions.browser,
+        forwardingNumbers: forwardingNumber.forwardingNumbers
       };
     }
   }, {
@@ -147,7 +153,8 @@ var CallLogUI = (_dec = (0, _di.Module)({
           regionSettings = _this$_deps2.regionSettings,
           callLogSection = _this$_deps2.callLogSection,
           locale = _this$_deps2.locale,
-          activeCallControl = _this$_deps2.activeCallControl;
+          activeCallControl = _this$_deps2.activeCallControl,
+          routerInteraction = _this$_deps2.routerInteraction;
       return {
         formatPhone: function formatPhone(phoneNumber) {
           return (0, _formatNumber["default"])({
@@ -187,6 +194,44 @@ var CallLogUI = (_dec = (0, _di.Module)({
         onHangup: function onHangup(sessionId) {
           var telephonySessionId = activeCallControl.sessionIdToTelephonySessionIdMapping[sessionId];
           return activeCallControl.hangUp(telephonySessionId);
+        },
+        onIgnore: function onIgnore(telephonySessionId) {
+          var _activeCallControl$ig;
+
+          callLogSection.closeLogNotification();
+          (_activeCallControl$ig = activeCallControl.ignore) === null || _activeCallControl$ig === void 0 ? void 0 : _activeCallControl$ig.call(activeCallControl, telephonySessionId);
+        },
+        onForward: function onForward(phoneNumber, telephonySessionId) {
+          if (phoneNumber === 'custom') {
+            routerInteraction.push("/forward/".concat(telephonySessionId));
+          } else {
+            var _activeCallControl$fo;
+
+            callLogSection.closeLogNotification();
+            (_activeCallControl$fo = activeCallControl.forward) === null || _activeCallControl$fo === void 0 ? void 0 : _activeCallControl$fo.call(activeCallControl, phoneNumber, telephonySessionId);
+          }
+        },
+        endAndAnswer: function endAndAnswer(telephonySessionId) {
+          var _activeCallControl$an;
+
+          callLogSection.discardAndHandleNotification();
+          (_activeCallControl$an = activeCallControl.answerAndEnd) === null || _activeCallControl$an === void 0 ? void 0 : _activeCallControl$an.call(activeCallControl, telephonySessionId);
+        },
+        holdAndAnswer: function holdAndAnswer(telephonySessionId) {
+          var _activeCallControl$an2;
+
+          callLogSection.discardAndHandleNotification();
+          (_activeCallControl$an2 = activeCallControl.answerAndHold) === null || _activeCallControl$an2 === void 0 ? void 0 : _activeCallControl$an2.call(activeCallControl, telephonySessionId);
+        },
+        toVoicemail: function toVoicemail(telephonySessionId) {
+          callLogSection.closeLogNotification();
+          activeCallControl.reject(telephonySessionId);
+        },
+        answer: function answer(telephonySessionId) {
+          var _activeCallControl$an3;
+
+          callLogSection.discardAndHandleNotification();
+          (_activeCallControl$an3 = activeCallControl.answer) === null || _activeCallControl$an3 === void 0 ? void 0 : _activeCallControl$an3.call(activeCallControl, telephonySessionId);
         }
       };
     }

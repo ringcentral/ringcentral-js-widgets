@@ -160,11 +160,15 @@ var CallsPanel = /*#__PURE__*/function (_React$PureComponent) {
           sourceIcons = _this$props.sourceIcons,
           phoneTypeRenderer = _this$props.phoneTypeRenderer,
           phoneSourceNameRenderer = _this$props.phoneSourceNameRenderer,
-          useNewList = _this$props.useNewList;
+          useNewList = _this$props.useNewList,
+          currentSiteCode = _this$props.currentSiteCode,
+          isMultipleSiteEnabled = _this$props.isMultipleSiteEnabled;
       var _this$state = this.state,
           contentWidth = _this$state.contentWidth,
           contentHeight = _this$state.contentHeight;
       var callsListView = useNewList ? /*#__PURE__*/_react["default"].createElement(_CallListV["default"], {
+        currentSiteCode: currentSiteCode,
+        isMultipleSiteEnabled: isMultipleSiteEnabled,
         brand: brand,
         currentLocale: currentLocale,
         calls: calls,
@@ -198,6 +202,8 @@ var CallsPanel = /*#__PURE__*/function (_React$PureComponent) {
         height: contentHeight,
         useNewList: useNewList
       }) : /*#__PURE__*/_react["default"].createElement(_CallList["default"], {
+        currentSiteCode: currentSiteCode,
+        isMultipleSiteEnabled: isMultipleSiteEnabled,
         brand: brand,
         currentLocale: currentLocale,
         calls: calls,
@@ -245,6 +251,8 @@ exports["default"] = CallsPanel;
 CallsPanel.propTypes = {
   brand: _propTypes["default"].string.isRequired,
   currentLocale: _propTypes["default"].string.isRequired,
+  currentSiteCode: _propTypes["default"].string,
+  isMultipleSiteEnabled: _propTypes["default"].bool,
   calls: _propTypes["default"].arrayOf(_propTypes["default"].any).isRequired,
   areaCode: _propTypes["default"].string.isRequired,
   countryCode: _propTypes["default"].string.isRequired,
@@ -277,6 +285,8 @@ CallsPanel.propTypes = {
   useNewList: _propTypes["default"].bool
 };
 CallsPanel.defaultProps = {
+  currentSiteCode: '',
+  isMultipleSiteEnabled: false,
   onViewContact: undefined,
   onCreateContact: undefined,
   onLogCall: undefined,

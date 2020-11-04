@@ -1,8 +1,8 @@
 import React, { FunctionComponent } from 'react';
 import classnames from 'classnames';
-import { ContactModel } from 'ringcentral-integration/models/Contact.model';
+import { ContactModel } from 'ringcentral-integration/interfaces/Contact.model';
 import { extensionStatusTypes } from 'ringcentral-integration/enums/extensionStatusTypes';
-import { PresenceModel } from 'ringcentral-integration/models/Presence.model';
+import { PresenceModel } from 'ringcentral-integration/interfaces/Presence.model';
 import { Avatar } from './Avatar';
 import styles from '../styles.scss';
 import i18n from '../i18n';
@@ -96,7 +96,9 @@ export const Profile: FunctionComponent<ProfileProps> = ({
           name={name}
           avatarUrl={profileImageUrl}
           inactive={inactive}
-          source={sourceNodeRenderer({ sourceType: type })}
+          source={
+            sourceNodeRenderer && sourceNodeRenderer({ sourceType: type })
+          }
         />
         <div className={styles.info}>
           <Name inactive={inactive} name={name} presence={presence} />

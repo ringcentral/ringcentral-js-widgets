@@ -1,19 +1,19 @@
 import React, { FunctionComponent } from 'react';
 import classnames from 'classnames';
 import { map, reduce, keys } from 'ramda';
-import phoneTypes from 'ringcentral-integration/enums/phoneTypes';
+import { PhoneType } from 'ringcentral-integration/enums/phoneTypes';
 import {
   sortByPhoneTypes,
   filterByPhoneTypes,
 } from 'ringcentral-integration/lib/phoneTypeHelper';
-import { ContactModel } from 'ringcentral-integration/models/Contact.model';
+import { ContactModel } from 'ringcentral-integration/interfaces/Contact.model';
 import dynamicsFont from '../../../assets/DynamicsFont/DynamicsFont.scss';
 import styles from '../styles.scss';
 import i18n from '../i18n';
 import {
-  onClickToSMS,
+  clickToSMS,
+  clickToDial,
   formatNumber,
-  onClickToDial,
 } from '../ContactDetails.interface';
 
 /**
@@ -37,19 +37,15 @@ const PhoneList: FunctionComponent<PhoneListProps> = ({ label, children }) => {
   );
 };
 
-interface PhoneListItemProps extends formatNumber, onClickToDial, onClickToSMS {
+interface PhoneListItemProps extends formatNumber, clickToSMS, clickToDial {
   currentLocale: string;
   contact: ContactModel;
   disableLinks: boolean;
-  internalSmsPermission: boolean;
-  isClickToDialEnabled: boolean;
   isCallButtonDisabled: boolean;
-  isClickToTextEnabled: boolean;
   isMultipleSiteEnabled: boolean;
-  outboundSmsPermission: boolean;
   phoneNumber: string;
   rawPhoneNumber: string;
-  phoneType: string;
+  phoneType: PhoneType;
 }
 
 const PhoneListItem: FunctionComponent<PhoneListItemProps> = ({
@@ -57,14 +53,12 @@ const PhoneListItem: FunctionComponent<PhoneListItemProps> = ({
   currentLocale,
   disableLinks,
   formatNumber,
-  internalSmsPermission,
-  isClickToDialEnabled,
   isCallButtonDisabled,
-  isClickToTextEnabled,
   isMultipleSiteEnabled,
+  canCallButtonShow,
+  canTextButtonShow,
   onClickToDial,
   onClickToSMS,
-  outboundSmsPermission,
   phoneNumber,
   rawPhoneNumber,
   phoneType,
@@ -75,13 +69,7 @@ const PhoneListItem: FunctionComponent<PhoneListItemProps> = ({
   // User will use, for example: +16501234567
   // In multi-site feature, "user will see" and "user will use" are the same
   const usedPhoneNumber = isMultipleSiteEnabled ? formattedNumber : phoneNumber;
-  const showCallButton = isClickToDialEnabled && phoneType !== phoneTypes.fax;
-  const showTextButton = !(
-    !isClickToTextEnabled ||
-    phoneType === phoneTypes.fax ||
-    (phoneType === phoneTypes.extension && !internalSmsPermission) ||
-    (phoneType !== phoneTypes.extension && !outboundSmsPermission)
-  );
+
   return (
     <li>
       <div className={classnames(styles.text, styles.number)}>
@@ -90,9 +78,10 @@ const PhoneListItem: FunctionComponent<PhoneListItemProps> = ({
         </span>
       </div>
       <div className={styles.menu}>
-        {showCallButton ? (
+        {canCallButtonShow(phoneType) ? (
           <button
             type="button"
+            data-sign="call"
             className={classnames(isCallButtonDisabled && styles.disabled)}
             title={`${i18n.getString(
               'call',
@@ -104,10 +93,11 @@ const PhoneListItem: FunctionComponent<PhoneListItemProps> = ({
             <i className={dynamicsFont.call} />
           </button>
         ) : null}
-        {showTextButton ? (
+        {canTextButtonShow(phoneType) ? (
           <button
             type="button"
             className={classnames(disableLinks && styles.disabled)}
+            data-sign="text"
             title={`${i18n.getString(
               'text',
               currentLocale,
@@ -125,32 +115,26 @@ const PhoneListItem: FunctionComponent<PhoneListItemProps> = ({
 
 export interface PhoneSectionProps
   extends formatNumber,
-    onClickToDial,
-    onClickToSMS {
+    clickToSMS,
+    clickToDial {
   currentLocale: string;
   contact: ContactModel;
   disableLinks: boolean;
-  isClickToDialEnabled: boolean;
   isCallButtonDisabled: boolean;
-  isClickToTextEnabled: boolean;
   isMultipleSiteEnabled: boolean;
-  internalSmsPermission: boolean;
-  outboundSmsPermission: boolean;
 }
 
 export const PhoneSection: FunctionComponent<PhoneSectionProps> = ({
   contact,
   currentLocale,
   disableLinks,
-  isClickToDialEnabled,
   isCallButtonDisabled,
-  isClickToTextEnabled,
   isMultipleSiteEnabled,
   formatNumber,
-  internalSmsPermission,
+  canCallButtonShow,
+  canTextButtonShow,
   onClickToDial,
   onClickToSMS,
-  outboundSmsPermission,
 }) => {
   if (contact && contact.phoneNumbers && contact.phoneNumbers.length) {
     const sortedPhoneNumbers = sortByPhoneTypes(
@@ -190,17 +174,15 @@ export const PhoneSection: FunctionComponent<PhoneSectionProps> = ({
                     rawPhoneNumber={rawPhoneNumber}
                     phoneType={phoneType}
                     contact={contact}
+                    canCallButtonShow={canCallButtonShow}
+                    canTextButtonShow={canTextButtonShow}
                     formatNumber={formatNumber}
                     currentLocale={currentLocale}
-                    isClickToDialEnabled={isClickToDialEnabled}
                     isCallButtonDisabled={isCallButtonDisabled}
-                    isClickToTextEnabled={isClickToTextEnabled}
                     isMultipleSiteEnabled={isMultipleSiteEnabled}
                     disableLinks={disableLinks}
-                    internalSmsPermission={internalSmsPermission}
                     onClickToDial={onClickToDial}
                     onClickToSMS={onClickToSMS}
-                    outboundSmsPermission={outboundSmsPermission}
                   />
                 ),
                 phoneMap[phoneType],

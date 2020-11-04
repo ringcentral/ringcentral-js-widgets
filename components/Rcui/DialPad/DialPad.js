@@ -7,9 +7,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.DialPad = void 0;
 
-var _rcui = require("@ringcentral-integration/rcui");
+var _juno = require("@ringcentral/juno");
 
-var _RcDialerPadSounds = _interopRequireDefault(require("@ringcentral-integration/rcui/RcDialerPadSounds.json"));
+var _RcDialerPadSounds = _interopRequireDefault(require("@ringcentral/juno/RcDialerPadSounds.json"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
@@ -32,7 +32,7 @@ var DialPad = function DialPad(_ref) {
   return /*#__PURE__*/_react["default"].createElement("div", {
     "data-sign": "".concat(dataSign || '', "DialPad"),
     className: (0, _classnames["default"])(_styles["default"].root, className)
-  }, /*#__PURE__*/_react["default"].createElement(_rcui.RcDialPad, {
+  }, /*#__PURE__*/_react["default"].createElement(_juno.RcDialPad, {
     mouseEffect: dialEffect,
     classes: {
       root: _styles["default"].dialPadRoot,

@@ -33,9 +33,9 @@ require("core-js/modules/es6.date.to-string");
 
 require("core-js/modules/es6.object.to-string");
 
-var _rcui = require("@ringcentral-integration/rcui");
+var _juno = require("@ringcentral/juno");
 
-var _iconDeletenumber = _interopRequireDefault(require("@ringcentral-integration/rcui/icons/icon-deletenumber.svg"));
+var _iconDeletenumber = _interopRequireDefault(require("@ringcentral/juno/icons/icon-deletenumber.svg"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
@@ -115,7 +115,7 @@ var RecipientsInput = function RecipientsInput(_ref) {
   }, [mouseDownTime, onDelete, timer]);
   return /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])(className, _styles["default"].inputRoot)
-  }, /*#__PURE__*/_react["default"].createElement(_rcui.RcTextField, {
+  }, /*#__PURE__*/_react["default"].createElement(_juno.RcTextField, {
     placeholder: placeholder || _i18n["default"].getString('dialPlaceholder', currentLocale),
     value: value,
     inputProps: {
@@ -149,7 +149,7 @@ var RecipientsInput = function RecipientsInput(_ref) {
         root: _styles["default"].root,
         input: _styles["default"].input
       },
-      endAdornment: haveDeleteButton && /*#__PURE__*/_react["default"].createElement(_rcui.RcIconButton, {
+      endAdornment: haveDeleteButton && /*#__PURE__*/_react["default"].createElement(_juno.RcIconButton, {
         variant: "plain",
         size: "large",
         color: "grey.400",

@@ -33,7 +33,14 @@ var CallLogCallCtrl = function CallLogCallCtrl(props) {
       isOnTransfer = props.isOnTransfer,
       isCurrentDeviceCall = props.isCurrentDeviceCall,
       isWebphone = props.isWebphone,
-      sendDTMF = props.sendDTMF;
+      sendDTMF = props.sendDTMF,
+      forward = props.forward,
+      answer = props.answer,
+      ignore = props.ignore,
+      forwardingNumbers = props.forwardingNumbers,
+      otherActiveCalls = props.otherActiveCalls,
+      answerAndHold = props.answerAndHold,
+      answerAndEnd = props.answerAndEnd;
 
   if (!currentSession) {
     return null;
@@ -164,8 +171,8 @@ var CallLogCallCtrl = function CallLogCallCtrl(props) {
     disableLinks: disableLinks,
     isWide: isWide,
     transferRef: transferRef,
-    isOnTransfer: isOnTransfer,
-    isWebphone: isWebphone,
+    isOnTransfer: isOnTransfer //  isWebphone={isWebphone}
+    ,
     isCurrentDeviceCall: isCurrentDeviceCall,
     sendDTMF: /*#__PURE__*/function () {
       var _ref9 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9(dtmfValue) {
@@ -186,7 +193,87 @@ var CallLogCallCtrl = function CallLogCallCtrl(props) {
       return function (_x) {
         return _ref9.apply(this, arguments);
       };
-    }()
+    }(),
+    forward: /*#__PURE__*/function () {
+      var _ref10 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10(phoneNumber) {
+        return regeneratorRuntime.wrap(function _callee10$(_context10) {
+          while (1) {
+            switch (_context10.prev = _context10.next) {
+              case 0:
+                return _context10.abrupt("return", forward(phoneNumber, telephonySessionId));
+
+              case 1:
+              case "end":
+                return _context10.stop();
+            }
+          }
+        }, _callee10);
+      }));
+
+      return function (_x2) {
+        return _ref10.apply(this, arguments);
+      };
+    }(),
+    answer: /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee11() {
+      return regeneratorRuntime.wrap(function _callee11$(_context11) {
+        while (1) {
+          switch (_context11.prev = _context11.next) {
+            case 0:
+              return _context11.abrupt("return", answer(telephonySessionId));
+
+            case 1:
+            case "end":
+              return _context11.stop();
+          }
+        }
+      }, _callee11);
+    })),
+    forwardingNumbers: forwardingNumbers,
+    ignore: /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee12() {
+      return regeneratorRuntime.wrap(function _callee12$(_context12) {
+        while (1) {
+          switch (_context12.prev = _context12.next) {
+            case 0:
+              return _context12.abrupt("return", ignore(telephonySessionId));
+
+            case 1:
+            case "end":
+              return _context12.stop();
+          }
+        }
+      }, _callee12);
+    })),
+    otherActiveCalls: otherActiveCalls,
+    answerAndHold: /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee13() {
+      return regeneratorRuntime.wrap(function _callee13$(_context13) {
+        while (1) {
+          switch (_context13.prev = _context13.next) {
+            case 0:
+              _context13.next = 2;
+              return answerAndHold(telephonySessionId);
+
+            case 2:
+            case "end":
+              return _context13.stop();
+          }
+        }
+      }, _callee13);
+    })),
+    answerAndEnd: /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee14() {
+      return regeneratorRuntime.wrap(function _callee14$(_context14) {
+        while (1) {
+          switch (_context14.prev = _context14.next) {
+            case 0:
+              _context14.next = 2;
+              return answerAndEnd(telephonySessionId);
+
+            case 2:
+            case "end":
+              return _context14.stop();
+          }
+        }
+      }, _callee14);
+    }))
   });
 };
 

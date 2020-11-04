@@ -59,6 +59,8 @@ var _isSafari = _interopRequireDefault(require("../../lib/isSafari"));
 
 var _VideoConfig = require("../VideoPanel/VideoConfig");
 
+var _MeetingConfigsV = require("../MeetingConfigsV2");
+
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
@@ -102,7 +104,8 @@ var GenericMeetingPanel = function GenericMeetingPanel(props) {
     return CustomPanel;
   }
 
-  var meeting = props.meeting,
+  var useRcmV2 = props.useRcmV2,
+      meeting = props.meeting,
       disabled = props.disabled,
       currentLocale = props.currentLocale,
       ScheduleButton = props.scheduleButton,
@@ -131,9 +134,18 @@ var GenericMeetingPanel = function GenericMeetingPanel(props) {
       appCode = props.appCode,
       schedule = props.schedule,
       brandName = props.brandName,
-      personalMeetingId = props.personalMeetingId,
       showSpinner = props.showSpinner,
-      switchUsePersonalMeetingId = props.switchUsePersonalMeetingId;
+      showAdminLock = props.showAdminLock,
+      showPmiAlert = props.showPmiAlert,
+      enablePersonalMeeting = props.enablePersonalMeeting,
+      enableWaitingRoom = props.enableWaitingRoom,
+      enableJoinAfterMeCopy = props.enableJoinAfterMeCopy,
+      personalMeetingId = props.personalMeetingId,
+      switchUsePersonalMeetingId = props.switchUsePersonalMeetingId,
+      showScheduleOnBehalf = props.showScheduleOnBehalf,
+      delegators = props.delegators,
+      updateScheduleFor = props.updateScheduleFor,
+      labelPlacement = props.labelPlacement;
 
   if (showSpinner) {
     return /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay.SpinnerOverlay, null);
@@ -141,9 +153,8 @@ var GenericMeetingPanel = function GenericMeetingPanel(props) {
 
   return /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].wrapper
-  }, isRCM && /*#__PURE__*/_react["default"].createElement(_MeetingConfigs["default"], {
+  }, isRCM && !useRcmV2 && /*#__PURE__*/_react["default"].createElement(_MeetingConfigs["default"], {
     update: updateMeetingSettings,
-    switchUsePersonalMeetingId: switchUsePersonalMeetingId,
     init: init,
     meeting: meeting,
     disabled: disabled,
@@ -156,10 +167,32 @@ var GenericMeetingPanel = function GenericMeetingPanel(props) {
     meetingOptionToggle: meetingOptionToggle,
     passwordPlaceholderEnable: passwordPlaceholderEnable,
     audioOptionToggle: audioOptionToggle,
-    personalMeetingId: personalMeetingId
+    enablePersonalMeeting: enablePersonalMeeting,
+    personalMeetingId: personalMeetingId,
+    switchUsePersonalMeetingId: switchUsePersonalMeetingId
+  }), isRCM && useRcmV2 && /*#__PURE__*/_react["default"].createElement(_MeetingConfigsV.MeetingConfigs, {
+    updateMeetingSettings: updateMeetingSettings,
+    personalMeetingId: personalMeetingId,
+    switchUsePersonalMeetingId: switchUsePersonalMeetingId,
+    init: init,
+    labelPlacement: labelPlacement,
+    meeting: meeting,
+    currentLocale: currentLocale,
+    recipientsSection: recipientsSection,
+    showTopic: showTopic,
+    showWhen: showWhen,
+    showDuration: showDuration,
+    showRecurringMeeting: showRecurringMeeting,
+    meetingOptionToggle: meetingOptionToggle,
+    audioOptionToggle: audioOptionToggle,
+    showScheduleOnBehalf: showScheduleOnBehalf,
+    delegators: delegators,
+    updateScheduleFor: updateScheduleFor
   }), isRCV && /*#__PURE__*/_react["default"].createElement(_VideoConfig.VideoConfig, {
     currentLocale: currentLocale,
+    labelPlacement: labelPlacement,
     meeting: meeting,
+    updateScheduleFor: updateScheduleFor,
     updateMeetingSettings: updateMeetingSettings,
     validatePasswordSettings: validatePasswordSettings,
     recipientsSection: recipientsSection,
@@ -170,8 +203,16 @@ var GenericMeetingPanel = function GenericMeetingPanel(props) {
     datePickerSize: datePickerSize,
     timePickerSize: timePickerSize,
     brandName: brandName,
-    personalMeetingId: personalMeetingId
-  }, /*#__PURE__*/_react["default"].createElement(_VideoConfig.Topic, {
+    showAdminLock: showAdminLock,
+    showPmiAlert: showPmiAlert,
+    enableWaitingRoom: enableWaitingRoom,
+    enablePersonalMeeting: enablePersonalMeeting,
+    enableJoinAfterMeCopy: enableJoinAfterMeCopy,
+    personalMeetingId: personalMeetingId,
+    switchUsePersonalMeetingId: switchUsePersonalMeetingId,
+    showScheduleOnBehalf: showScheduleOnBehalf,
+    delegators: delegators
+  }, showTopic && /*#__PURE__*/_react["default"].createElement(_VideoConfig.Topic, {
     name: meeting.name,
     updateMeetingTopic: function updateMeetingTopic(name) {
       updateMeetingSettings({
@@ -238,6 +279,11 @@ GenericMeetingPanel.defaultProps = {
   audioOptionToggle: false,
   onOK: undefined,
   scheduleButton: undefined,
+  showAdminLock: false,
+  showPmiAlert: false,
+  enableWaitingRoom: false,
+  enablePersonalMeeting: false,
+  enableJoinAfterMeCopy: false,
   showSaveAsDefault: true,
   disableSaveAsDefault: false,
   showCustom: false,
@@ -245,6 +291,8 @@ GenericMeetingPanel.defaultProps = {
   appCode: '',
   scheduleButtonLabel: '',
   personalMeetingId: undefined,
-  showSpinner: false
+  showSpinner: false,
+  useRcmV2: false,
+  labelPlacement: 'start'
 };
 //# sourceMappingURL=GenericMeetingPanel.js.map

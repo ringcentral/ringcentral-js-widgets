@@ -86,6 +86,9 @@ var CallHistoryUI = (_dec = (0, _di.Module)({
   }, {
     dep: 'ContactDetailsUI',
     optional: true
+  }, {
+    dep: 'ExtensionInfo',
+    optional: true
   }, 'ContactMatcher', 'RouterInteraction', 'ContactSearch', 'ConnectivityManager']
 }), _dec(_class = /*#__PURE__*/function (_RcUIModule) {
   _inherits(CallHistoryUI, _RcUIModule);
@@ -101,6 +104,8 @@ var CallHistoryUI = (_dec = (0, _di.Module)({
   _createClass(CallHistoryUI, [{
     key: "getUIProps",
     value: function getUIProps(_ref) {
+      var _extensionInfo$site$c, _extensionInfo$site, _extensionInfo$isMult;
+
       var _ref$phone = _ref.phone,
           brand = _ref$phone.brand,
           call = _ref$phone.call,
@@ -114,6 +119,7 @@ var CallHistoryUI = (_dec = (0, _di.Module)({
           rateLimiter = _ref$phone.rateLimiter,
           regionSettings = _ref$phone.regionSettings,
           rolesAndPermissions = _ref$phone.rolesAndPermissions,
+          extensionInfo = _ref$phone.extensionInfo,
           _ref$enableContactFal = _ref.enableContactFallback,
           enableContactFallback = _ref$enableContactFal === void 0 ? false : _ref$enableContactFal,
           _ref$useNewList = _ref.useNewList,
@@ -126,6 +132,8 @@ var CallHistoryUI = (_dec = (0, _di.Module)({
         calls: callHistory.latestCalls,
         areaCode: regionSettings.areaCode,
         countryCode: regionSettings.countryCode,
+        currentSiteCode: (_extensionInfo$site$c = extensionInfo === null || extensionInfo === void 0 ? void 0 : (_extensionInfo$site = extensionInfo.site) === null || _extensionInfo$site === void 0 ? void 0 : _extensionInfo$site.code) !== null && _extensionInfo$site$c !== void 0 ? _extensionInfo$site$c : '',
+        isMultipleSiteEnabled: (_extensionInfo$isMult = extensionInfo === null || extensionInfo === void 0 ? void 0 : extensionInfo.isMultipleSiteEnabled) !== null && _extensionInfo$isMult !== void 0 ? _extensionInfo$isMult : false,
         disableLinks: connectivityManager.isOfflineMode || connectivityManager.isVoipOnlyMode || rateLimiter.throttling,
         disableCallButton: connectivityManager.isOfflineMode || connectivityManager.isWebphoneUnavailableMode || connectivityManager.isWebphoneInitializing || rateLimiter.throttling,
         disableClickToDial: !(call && call.isIdle),

@@ -25,6 +25,7 @@ var _CallLogCallCtrl = require("./CallLogCallCtrl");
 Object.keys(_CallLogCallCtrl).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
+  if (key in exports && exports[key] === _CallLogCallCtrl[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {

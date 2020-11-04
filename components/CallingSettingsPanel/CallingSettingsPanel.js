@@ -149,6 +149,11 @@ function getCallingOptionName(callingOption, brandCode, brandName, currentLocale
     return getJupiterAppName(brandCode, brandName, currentLocale);
   }
 
+  if (callingOption === _callingOptions["default"].ringout) {
+    // Not to translate
+    return 'RingOut';
+  }
+
   return _i18n["default"].getString(callingOption, currentLocale);
 }
 

@@ -104,6 +104,7 @@ var CallLogFields = /*#__PURE__*/function (_Component) {
           call = _this$props$currentLo.call,
           _this$props$currentLo2 = _this$props$currentLo.task,
           task = _this$props$currentLo2 === void 0 ? {} : _this$props$currentLo2,
+          refs = _this$props.refs,
           onSaveCallLog = _this$props.onSaveCallLog;
 
       var onSave = function onSave() {
@@ -114,6 +115,7 @@ var CallLogFields = /*#__PURE__*/function (_Component) {
         return a.sort - b.sort;
       }).map(function (fieldOption, i) {
         return /*#__PURE__*/_react["default"].createElement(_FieldItem.FieldItem, _extends({}, _this.props, {
+          fieldRef: refs[fieldOption.value],
           fieldOption: fieldOption,
           debounce: _this.debounce,
           "data-sign": "callLogField",
@@ -161,6 +163,7 @@ CallLogFields.defaultProps = {
     return null;
   },
   contactSearch: undefined,
-  classes: {}
+  classes: {},
+  refs: {}
 };
 //# sourceMappingURL=CallLogFields.js.map

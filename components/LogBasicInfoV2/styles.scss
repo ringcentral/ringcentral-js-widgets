@@ -16,15 +16,19 @@ p {
   position: relative;
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.15);
   $rate: 0.2;
+
   &.active {
     background: rgba(38, 163, 4, $rate);
   }
+
   &.onHold {
     background: rgba(255, 136, 0, $rate);
   }
+
   &.callEnd {
     background: rgba(158, 158, 158, $rate);
   }
+
   ul,
   ol {
     margin: 0;
@@ -44,6 +48,17 @@ p {
   left: 0;
 }
 
+.recordingIndicator {
+  position: absolute !important;
+  left: -3px;
+  top: 30px;
+  animation: flashing 0.8s infinite;
+
+  circle:nth-child(2) {
+    stroke-width: 1;
+  }
+}
+
 .callIcon {
   margin: 3px 12px 0 0;
 }
@@ -58,6 +73,7 @@ p {
   font-size: 12px;
   @include display_flex;
   @include flex_fill;
+
   .info {
     max-width: 170px;
   }
@@ -76,8 +92,10 @@ p {
     justify-content: flex-end;
     margin-top: 0.5em;
     text-align: right;
-    p + p {
+
+    p+p {
       margin-top: 0.5em;
+
       &::before {
         display: none;
       }
@@ -86,7 +104,7 @@ p {
 }
 
 .follow {
-  * + * {
+  *+* {
     &::before {
       content: '|';
       margin: 0 5px;
@@ -99,6 +117,7 @@ p {
     padding: 10px 12px;
     @include main_border(right);
   }
+
   .callDisplay {
     margin-top: 4px;
     flex-direction: column;
@@ -120,11 +139,14 @@ p {
     font-size: 12px;
     @include text-ellipsis;
   }
+
   .time {
     flex-direction: row;
     justify-content: flex-start;
-    p + p {
+
+    p+p {
       margin-top: 0;
+
       &::before {
         display: inline-block;
       }
@@ -136,13 +158,29 @@ p {
   0% {
     transform: translateX(-100%);
   }
+
   100% {
     transform: translateX(100%);
   }
 }
 
+@keyframes flashing {
+  0% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
 .leftSectionInfo {
   @include display_flex;
+  position: relative;
 }
 
 .text-ellipsis {

@@ -1,0 +1,113 @@
+@import '../../lib/commonStyles/colors';
+@import '../../lib/commonStyles/full-size';
+@import '../../lib/commonStyles/fonts';
+
+$input-height: 43px;
+
+.root {
+  @include full-size;
+  box-sizing: border-box;
+  background: $snow;
+  z-index: 21;
+}
+
+.padContainer {
+  height: calc(100% - #{$input-height});
+  padding: 0 10px;
+  .dialPad {
+    height: 60%;
+    box-sizing: border-box;
+    padding-left: 7%;
+    padding-right: 7%;
+  }
+}
+
+.buttonRow {
+  text-align: center;
+  height: 20%;
+  width: 100%;
+}
+
+.button {
+  width: 16.1%;
+  height: 100%;
+  display: inline-block;
+}
+
+.disabled {
+  g {
+    cursor: not-allowed;
+  }
+
+  circle {
+    opacity: 1;
+    stroke: $disabled-background-color;
+  }
+
+  path {
+    fill: $disabled-background-color;
+  }
+}
+
+$input-height: 24px;
+$input-margin-top: 42px;
+$input-margin-bottom: 12px;
+.dialInput {
+  height: $input-height;
+  box-sizing: border-box;
+  border: 0px;
+  margin: $input-margin-top auto $input-margin-bottom auto;
+  width: 204px;
+  border-bottom: 1px solid rgba(33, 33, 33, 0.25);
+  input {
+    @include secondary-font;
+    box-sizing: content-box;
+    text-align: center;
+    padding: 0;
+    outline: 0;
+    height: 100%;
+    width: 100%;
+    background-color: transparent;
+    border: none;
+    font-size: 15px;
+    color: $lightblack;
+  }
+  .input::-ms-clear {
+    display: none;
+  }
+  // &.classic {
+  //   margin: $input-margin-top-classic auto $input-margin-bottom-classic auto;
+  // }
+}
+
+.backHeader {
+  height: 44px;
+  box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.15);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.forwardIcon {
+  > g > circle {
+    fill: $call-btn-color;
+    stroke: rgba(95, 185, 91, 0.8);
+  }
+  > g > svg > path {
+    fill: white;
+  }
+  > g > circle:hover {
+    stroke: $call-btn-color;
+  }
+}
+.forwardIconDisable {
+  > g > circle {
+    fill: #b2b2b2;
+    stroke: #b2b2b2;
+  }
+  > g > svg > path {
+    fill: white;
+  }
+  > g > circle:hover {
+    stroke: #b2b2b2;
+  }
+}

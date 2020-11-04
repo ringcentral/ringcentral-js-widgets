@@ -5,7 +5,7 @@ import {
   state,
 } from '@ringcentral-integration/core';
 import { Module } from 'ringcentral-integration/lib/di';
-import uuid from 'uuid';
+import * as uuid from 'uuid';
 
 import {
   AlertModalProps,

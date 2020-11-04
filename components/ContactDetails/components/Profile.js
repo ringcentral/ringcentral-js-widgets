@@ -91,7 +91,7 @@ var Profile = function Profile(_ref3) {
     name: name,
     avatarUrl: profileImageUrl,
     inactive: inactive,
-    source: sourceNodeRenderer({
+    source: sourceNodeRenderer && sourceNodeRenderer({
       sourceType: type
     })
   }), /*#__PURE__*/_react["default"].createElement("div", {

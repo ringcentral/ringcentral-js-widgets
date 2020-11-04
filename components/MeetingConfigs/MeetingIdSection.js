@@ -9,7 +9,7 @@ exports.MeetingIdSection = void 0;
 
 require("react-widgets/dist/css/react-widgets.css");
 
-var _rcui = require("@ringcentral-integration/rcui");
+var _juno = require("@ringcentral/juno");
 
 var _formatMessage = _interopRequireDefault(require("format-message"));
 
@@ -62,7 +62,7 @@ var MeetingIdSection = function MeetingIdSection(_ref) {
     className: _styles["default"].pmiHintContainer
   }, _i18n["default"].getString('pmiSettingChangeAlert', currentLocale)) : null, meeting.usePersonalMeetingId && !isChangePmiConfirmed ? /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].pmiHintContainer
-  }, _i18n["default"].getString('pmiChangeConfirm', currentLocale), /*#__PURE__*/_react["default"].createElement(_rcui.RcLink, {
+  }, _i18n["default"].getString('pmiChangeConfirm', currentLocale), /*#__PURE__*/_react["default"].createElement(_juno.RcLink, {
     handleOnClick: function handleOnClick() {
       return handlePmiConfirmed(true);
     }

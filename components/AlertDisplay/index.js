@@ -33,6 +33,7 @@ var _AlertDisplay = _interopRequireWildcard(require("./AlertDisplay"));
 Object.keys(_AlertDisplay).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
+  if (key in exports && exports[key] === _AlertDisplay[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {

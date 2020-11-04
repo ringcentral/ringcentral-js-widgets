@@ -224,7 +224,8 @@ var CallCtrlPanel = /*#__PURE__*/function (_Component) {
           sourceIcons = _this$props.sourceIcons,
           startTime = _this$props.startTime,
           disableFlip = _this$props.disableFlip,
-          callQueueName = _this$props.callQueueName;
+          callQueueName = _this$props.callQueueName,
+          showPark = _this$props.showPark;
       var _this$state = this.state,
           isShowKeyPad = _this$state.isShowKeyPad,
           isShowMergeConfirm = _this$state.isShowMergeConfirm;
@@ -273,6 +274,7 @@ var CallCtrlPanel = /*#__PURE__*/function (_Component) {
         showContactDisplayPlaceholder: showContactDisplayPlaceholder,
         onFlip: this.onFlip,
         disableFlip: disableFlip,
+        showPark: showPark,
         onTransfer: this.onTransfer,
         gotoParticipantsCtrl: gotoParticipantsCtrl,
         sourceIcons: sourceIcons,
@@ -360,7 +362,8 @@ CallCtrlPanel.propTypes = {
   afterOnMerge: _propTypes["default"].func,
   actions: _propTypes["default"].array,
   controlBusy: _propTypes["default"].bool,
-  callQueueName: _propTypes["default"].string
+  callQueueName: _propTypes["default"].string,
+  showPark: _propTypes["default"].bool
 };
 CallCtrlPanel.defaultProps = {
   startTime: null,
@@ -427,7 +430,8 @@ CallCtrlPanel.defaultProps = {
   recordStatus: '',
   controlBusy: false,
   disableFlip: false,
-  callQueueName: null
+  callQueueName: null,
+  showPark: false
 };
 var _default = CallCtrlPanel;
 exports["default"] = _default;

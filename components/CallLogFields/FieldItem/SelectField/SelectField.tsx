@@ -1,8 +1,4 @@
-import {
-  RcLineSelect,
-  RcLineSelectProps,
-  RcMenuItem,
-} from '@ringcentral-integration/rcui';
+import { RcLineSelect, RcLineSelectProps, RcMenuItem } from '@ringcentral/juno';
 import React, { FunctionComponent } from 'react';
 
 export type SelectFieldProps = {

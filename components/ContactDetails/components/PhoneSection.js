@@ -23,8 +23,6 @@ var _classnames = _interopRequireDefault(require("classnames"));
 
 var _ramda = require("ramda");
 
-var _phoneTypes = _interopRequireDefault(require("ringcentral-integration/enums/phoneTypes"));
-
 var _phoneTypeHelper = require("ringcentral-integration/lib/phoneTypeHelper");
 
 var _DynamicsFont = _interopRequireDefault(require("../../../assets/DynamicsFont/DynamicsFont.scss"));
@@ -52,14 +50,12 @@ var PhoneListItem = function PhoneListItem(_ref2) {
       currentLocale = _ref2.currentLocale,
       disableLinks = _ref2.disableLinks,
       formatNumber = _ref2.formatNumber,
-      internalSmsPermission = _ref2.internalSmsPermission,
-      isClickToDialEnabled = _ref2.isClickToDialEnabled,
       isCallButtonDisabled = _ref2.isCallButtonDisabled,
-      isClickToTextEnabled = _ref2.isClickToTextEnabled,
       isMultipleSiteEnabled = _ref2.isMultipleSiteEnabled,
+      canCallButtonShow = _ref2.canCallButtonShow,
+      canTextButtonShow = _ref2.canTextButtonShow,
       onClickToDial = _ref2.onClickToDial,
       onClickToSMS = _ref2.onClickToSMS,
-      outboundSmsPermission = _ref2.outboundSmsPermission,
       phoneNumber = _ref2.phoneNumber,
       rawPhoneNumber = _ref2.rawPhoneNumber,
       phoneType = _ref2.phoneType;
@@ -69,8 +65,6 @@ var PhoneListItem = function PhoneListItem(_ref2) {
   // In multi-site feature, "user will see" and "user will use" are the same
 
   var usedPhoneNumber = isMultipleSiteEnabled ? formattedNumber : phoneNumber;
-  var showCallButton = isClickToDialEnabled && phoneType !== _phoneTypes["default"].fax;
-  var showTextButton = !(!isClickToTextEnabled || phoneType === _phoneTypes["default"].fax || phoneType === _phoneTypes["default"].extension && !internalSmsPermission || phoneType !== _phoneTypes["default"].extension && !outboundSmsPermission);
   return /*#__PURE__*/_react["default"].createElement("li", null, /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])(_styles["default"].text, _styles["default"].number)
   }, /*#__PURE__*/_react["default"].createElement("span", {
@@ -78,8 +72,9 @@ var PhoneListItem = function PhoneListItem(_ref2) {
     title: usedPhoneNumber
   }, displayedPhoneNumber)), /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].menu
-  }, showCallButton ? /*#__PURE__*/_react["default"].createElement("button", {
+  }, canCallButtonShow(phoneType) ? /*#__PURE__*/_react["default"].createElement("button", {
     type: "button",
+    "data-sign": "call",
     className: (0, _classnames["default"])(isCallButtonDisabled && _styles["default"].disabled),
     title: "".concat(_i18n["default"].getString('call', currentLocale), " ").concat(usedPhoneNumber),
     disabled: isCallButtonDisabled,
@@ -88,9 +83,10 @@ var PhoneListItem = function PhoneListItem(_ref2) {
     }
   }, /*#__PURE__*/_react["default"].createElement("i", {
     className: _DynamicsFont["default"].call
-  })) : null, showTextButton ? /*#__PURE__*/_react["default"].createElement("button", {
+  })) : null, canTextButtonShow(phoneType) ? /*#__PURE__*/_react["default"].createElement("button", {
     type: "button",
     className: (0, _classnames["default"])(disableLinks && _styles["default"].disabled),
+    "data-sign": "text",
     title: "".concat(_i18n["default"].getString('text', currentLocale), " ").concat(usedPhoneNumber),
     disabled: disableLinks,
     onClick: function onClick() {
@@ -105,15 +101,13 @@ var PhoneSection = function PhoneSection(_ref3) {
   var contact = _ref3.contact,
       currentLocale = _ref3.currentLocale,
       disableLinks = _ref3.disableLinks,
-      isClickToDialEnabled = _ref3.isClickToDialEnabled,
       isCallButtonDisabled = _ref3.isCallButtonDisabled,
-      isClickToTextEnabled = _ref3.isClickToTextEnabled,
       isMultipleSiteEnabled = _ref3.isMultipleSiteEnabled,
       formatNumber = _ref3.formatNumber,
-      internalSmsPermission = _ref3.internalSmsPermission,
+      canCallButtonShow = _ref3.canCallButtonShow,
+      canTextButtonShow = _ref3.canTextButtonShow,
       onClickToDial = _ref3.onClickToDial,
-      onClickToSMS = _ref3.onClickToSMS,
-      outboundSmsPermission = _ref3.outboundSmsPermission;
+      onClickToSMS = _ref3.onClickToSMS;
 
   if (contact && contact.phoneNumbers && contact.phoneNumbers.length) {
     var sortedPhoneNumbers = (0, _phoneTypeHelper.sortByPhoneTypes)((0, _phoneTypeHelper.filterByPhoneTypes)(contact.phoneNumbers));
@@ -145,17 +139,15 @@ var PhoneSection = function PhoneSection(_ref3) {
           rawPhoneNumber: rawPhoneNumber,
           phoneType: phoneType,
           contact: contact,
+          canCallButtonShow: canCallButtonShow,
+          canTextButtonShow: canTextButtonShow,
           formatNumber: formatNumber,
           currentLocale: currentLocale,
-          isClickToDialEnabled: isClickToDialEnabled,
           isCallButtonDisabled: isCallButtonDisabled,
-          isClickToTextEnabled: isClickToTextEnabled,
           isMultipleSiteEnabled: isMultipleSiteEnabled,
           disableLinks: disableLinks,
-          internalSmsPermission: internalSmsPermission,
           onClickToDial: onClickToDial,
-          onClickToSMS: onClickToSMS,
-          outboundSmsPermission: outboundSmsPermission
+          onClickToSMS: onClickToSMS
         });
       }, phoneMap[phoneType]));
     }, (0, _ramda.keys)(phoneMap)));

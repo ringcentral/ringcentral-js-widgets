@@ -19,6 +19,8 @@ require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.object.assign");
 
+require("core-js/modules/es6.promise");
+
 require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.object.create");
@@ -33,6 +35,8 @@ require("core-js/modules/es6.reflect.construct");
 
 require("core-js/modules/es6.object.set-prototype-of");
 
+require("regenerator-runtime/runtime");
+
 var _react = _interopRequireWildcard(require("react"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
@@ -40,6 +44,8 @@ var _propTypes = _interopRequireDefault(require("prop-types"));
 var _classnames = _interopRequireDefault(require("classnames"));
 
 var _Button = require("../Button");
+
+var _handleCopy = require("../../lib/handleCopy");
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
@@ -54,6 +60,10 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -88,48 +98,58 @@ var CopyToClipboard = /*#__PURE__*/function (_Component) {
 
   _createClass(CopyToClipboard, [{
     key: "executeCopy",
-    value: function executeCopy() {
-      this.copyTextArea.focus();
-      this.copyTextArea.select();
+    value: function () {
+      var _executeCopy = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+        var _this$props, copiedText, handleSuccess, handleFailure;
 
-      try {
-        var result = document.execCommand('copy');
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _this$props = this.props, copiedText = _this$props.copiedText, handleSuccess = _this$props.handleSuccess, handleFailure = _this$props.handleFailure;
+                _context.prev = 1;
+                _context.next = 4;
+                return (0, _handleCopy.handleCopy)(copiedText);
 
-        if (result) {
-          this.copyTextArea.blur();
-          if (typeof this.props.handleSuccess === 'function') this.props.handleSuccess();
-        } else if (typeof this.props.handleFailure === 'function') {
-          this.props.handleFailure();
-        }
-      } catch (e) {
-        console.error(e);
+              case 4:
+                handleSuccess();
+                _context.next = 10;
+                break;
 
-        if (typeof this.props.handleFailure === 'function') {
-          this.props.handleFailure();
-        }
+              case 7:
+                _context.prev = 7;
+                _context.t0 = _context["catch"](1);
+
+                if (typeof handleFailure === 'function') {
+                  handleFailure();
+                }
+
+              case 10:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this, [[1, 7]]);
+      }));
+
+      function executeCopy() {
+        return _executeCopy.apply(this, arguments);
       }
-    }
+
+      return executeCopy;
+    }()
   }, {
     key: "render",
     value: function render() {
       var _this = this;
 
-      var _this$props = this.props,
-          currentLocale = _this$props.currentLocale,
-          buttonClassName = _this$props.buttonClassName,
-          disabled = _this$props.disabled,
-          copiedText = _this$props.copiedText,
-          buttonText = _this$props.buttonText,
-          CustomButton = _this$props.button;
-      return /*#__PURE__*/_react["default"].createElement("div", {
-        className: _styles["default"].container
-      }, /*#__PURE__*/_react["default"].createElement("textarea", {
-        className: _styles["default"].copyTextArea,
-        ref: function ref(_ref) {
-          _this.copyTextArea = _ref;
-        },
-        defaultValue: copiedText
-      }), CustomButton ? /*#__PURE__*/_react["default"].createElement(CustomButton, _extends({}, this.props, {
+      var _this$props2 = this.props,
+          currentLocale = _this$props2.currentLocale,
+          buttonClassName = _this$props2.buttonClassName,
+          disabled = _this$props2.disabled,
+          buttonText = _this$props2.buttonText,
+          CustomButton = _this$props2.button;
+      return CustomButton ? /*#__PURE__*/_react["default"].createElement(CustomButton, _extends({}, this.props, {
         executeCopy: function executeCopy() {
           return _this.executeCopy();
         }
@@ -140,7 +160,7 @@ var CopyToClipboard = /*#__PURE__*/function (_Component) {
         onClick: function onClick() {
           return _this.executeCopy();
         }
-      }, buttonText || _i18n["default"].getString('copyToClipboard', currentLocale)));
+      }, buttonText || _i18n["default"].getString('copyToClipboard', currentLocale));
     }
   }]);
 

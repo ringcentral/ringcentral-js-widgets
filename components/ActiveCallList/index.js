@@ -29,7 +29,7 @@ function isConferenceCall(normalizedCall) {
   return normalizedCall && normalizedCall.to && Array.isArray(normalizedCall.to.phoneNumber) && normalizedCall.to.phoneNumber.length === 0 && normalizedCall.toName === 'Conference';
 }
 
-function ActiveCallList(_ref) {
+var ActiveCallList = function ActiveCallList(_ref) {
   var calls = _ref.calls,
       className = _ref.className,
       currentLocale = _ref.currentLocale,
@@ -74,11 +74,13 @@ function ActiveCallList(_ref) {
       ringoutReject = _ref.ringoutReject,
       disableLinks = _ref.disableLinks,
       showRingoutCallControl = _ref.showRingoutCallControl,
-      showSwitchCall = _ref.showSwitchCall;
+      showSwitchCall = _ref.showSwitchCall,
+      isOnHold = _ref.isOnHold;
 
   if (!calls.length) {
     return null;
-  }
+  } // if you are using call control SDK for webphone operation, then require to use ActiveCallItem v2
+
 
   var Component = useV2 ? _ActiveCallItemV["default"] : _ActiveCallItem["default"];
   return /*#__PURE__*/_react["default"].createElement("div", {
@@ -141,10 +143,11 @@ function ActiveCallList(_ref) {
       showRingoutCallControl: showRingoutCallControl,
       showMultipleMatch: !showRingoutCallControl // disabled for salesforce
       ,
-      showSwitchCall: showSwitchCall
+      showSwitchCall: showSwitchCall,
+      isOnHold: isOnHold
     });
   }));
-}
+};
 
 ActiveCallList.propTypes = {
   currentLocale: _propTypes["default"].string.isRequired,
@@ -191,7 +194,8 @@ ActiveCallList.propTypes = {
   ringoutReject: _propTypes["default"].func,
   disableLinks: _propTypes["default"].bool,
   showRingoutCallControl: _propTypes["default"].bool,
-  showSwitchCall: _propTypes["default"].bool
+  showSwitchCall: _propTypes["default"].bool,
+  isOnHold: _propTypes["default"].func
 };
 ActiveCallList.defaultProps = {
   className: undefined,
@@ -240,7 +244,8 @@ ActiveCallList.defaultProps = {
   ringoutReject: undefined,
   disableLinks: false,
   showRingoutCallControl: false,
-  showSwitchCall: false
+  showSwitchCall: false,
+  isOnHold: undefined
 };
 var _default = ActiveCallList;
 exports["default"] = _default;

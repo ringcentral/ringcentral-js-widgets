@@ -51,7 +51,10 @@ var MeetingPanel = function MeetingPanel(props) {
       init = props.init,
       showSaveAsDefault = props.showSaveAsDefault,
       disableSaveAsDefault = props.disableSaveAsDefault,
-      launchMeeting = props.launchMeeting;
+      launchMeeting = props.launchMeeting,
+      enablePersonalMeeting = props.enablePersonalMeeting,
+      personalMeetingId = props.personalMeetingId,
+      switchUsePersonalMeetingId = props.switchUsePersonalMeetingId;
   return /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].meetingPanel
   }, !hidden ? /*#__PURE__*/_react["default"].createElement(_MeetingConfigs["default"], {
@@ -64,10 +67,12 @@ var MeetingPanel = function MeetingPanel(props) {
     showWhen: showWhen,
     showDuration: showDuration,
     showRecurringMeeting: showRecurringMeeting,
-    openNewWindow: openNewWindow,
     meetingOptionToggle: meetingOptionToggle,
     passwordPlaceholderEnable: passwordPlaceholderEnable,
-    audioOptionToggle: audioOptionToggle
+    audioOptionToggle: audioOptionToggle,
+    enablePersonalMeeting: enablePersonalMeeting,
+    personalMeetingId: personalMeetingId,
+    switchUsePersonalMeetingId: switchUsePersonalMeetingId
   }) : null, ScheduleButton && /*#__PURE__*/_react["default"].createElement(ScheduleButton, {
     currentLocale: currentLocale,
     hidden: hidden,
@@ -126,6 +131,7 @@ MeetingPanel.defaultProps = {
   audioOptionToggle: false,
   onOK: undefined,
   scheduleButton: undefined,
+  enablePersonalMeeting: false,
   showSaveAsDefault: false,
   disableSaveAsDefault: false,
   launchMeeting: undefined

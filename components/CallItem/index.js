@@ -139,7 +139,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 var callIconMap = (_callIconMap = {}, _defineProperty(_callIconMap, _callDirections["default"].inbound, _DynamicsFont["default"].inbound), _defineProperty(_callIconMap, _callDirections["default"].outbound, _DynamicsFont["default"].outbound), _defineProperty(_callIconMap, "missed", _DynamicsFont["default"].missed), _callIconMap);
 
-function CallIcon(_ref) {
+var CallIcon = function CallIcon(_ref) {
   var direction = _ref.direction,
       missed = _ref.missed,
       active = _ref.active,
@@ -187,7 +187,7 @@ function CallIcon(_ref) {
   return /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].callIcon
   }, icon);
-}
+};
 
 CallIcon.propTypes = {
   direction: _propTypes["default"].string.isRequired,
@@ -569,6 +569,8 @@ var CallItem = /*#__PURE__*/function (_Component) {
           toName = _this$props5$call.toName,
           brand = _this$props5.brand,
           currentLocale = _this$props5.currentLocale,
+          currentSiteCode = _this$props5.currentSiteCode,
+          isMultipleSiteEnabled = _this$props5.isMultipleSiteEnabled,
           areaCode = _this$props5.areaCode,
           countryCode = _this$props5.countryCode,
           disableLinks = _this$props5.disableLinks,
@@ -680,7 +682,9 @@ var CallItem = /*#__PURE__*/function (_Component) {
         currentLocale: currentLocale,
         stopPropagation: false,
         showType: false,
-        showPlaceholder: showContactDisplayPlaceholder
+        showPlaceholder: showContactDisplayPlaceholder,
+        currentSiteCode: currentSiteCode,
+        isMultipleSiteEnabled: isMultipleSiteEnabled
       }), /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].details
       }, durationEl, " | ".concat(dateEl).concat(statusEl))), extraButton), /*#__PURE__*/_react["default"].createElement(_ActionMenu["default"], {
@@ -784,9 +788,13 @@ CallItem.propTypes = {
   externalHasEntity: _propTypes["default"].func,
   readTextPermission: _propTypes["default"].bool,
   onSizeChanged: _propTypes["default"].func,
-  withAnimation: _propTypes["default"].bool
+  withAnimation: _propTypes["default"].bool,
+  currentSiteCode: _propTypes["default"].string,
+  isMultipleSiteEnabled: _propTypes["default"].bool
 };
 CallItem.defaultProps = {
+  currentSiteCode: '',
+  isMultipleSiteEnabled: false,
   renderIndex: undefined,
   extended: false,
   onLogCall: undefined,

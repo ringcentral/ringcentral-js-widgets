@@ -57,9 +57,15 @@ var Footer = function Footer(_ref) {
     icon: /*#__PURE__*/_react["default"].createElement("span", {
       className: (0, _classnames["default"])(_styles["default"].logoutIcon, _DynamicsFont["default"].logout)
     })
+  }, /*#__PURE__*/_react["default"].createElement("div", {
+    style: {
+      display: 'inline-flex',
+      flexDirection: 'column'
+    }
   }, _i18n["default"].getString('logout', currentLocale), /*#__PURE__*/_react["default"].createElement("span", {
+    "data-sign": "loginNumber",
     className: _styles["default"].loginNumber
-  }, " ".concat(loginNumber)))), versionArea);
+  }, loginNumber)))), versionArea);
 };
 
 exports.Footer = Footer;

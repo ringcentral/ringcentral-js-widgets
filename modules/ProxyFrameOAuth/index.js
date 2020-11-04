@@ -1,5 +1,9 @@
 "use strict";
 
+require("core-js/modules/es6.string.iterator");
+
+require("core-js/modules/es6.weak-map");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -59,7 +63,7 @@ var _ensureExist = _interopRequireDefault(require("ringcentral-integration/lib/e
 
 var _url = _interopRequireDefault(require("url"));
 
-var _uuid = _interopRequireDefault(require("uuid"));
+var uuid = _interopRequireWildcard(require("uuid"));
 
 var _actionTypes = _interopRequireDefault(require("./actionTypes"));
 
@@ -68,6 +72,10 @@ var _getProxyFrameOAuthReducer = _interopRequireDefault(require("./getProxyFrame
 var _OAuthBase2 = _interopRequireDefault(require("../../lib/OAuthBase"));
 
 var _dec, _class, _class2, _temp;
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -201,7 +209,7 @@ var ProxyFrameOAuth = (_dec = (0, _di.Module)({
       }, _this._defaultProxyRetry);
     };
 
-    _this._uuid = _uuid["default"].v4();
+    _this._uuid = uuid.v4();
     _this._proxyUri = (0, _ensureExist["default"])(proxyUri, 'proxyUri');
     _this._routerInteraction = (0, _ensureExist["default"])(routerInteraction, 'routerInteraction');
     _this._defaultProxyRetry = defaultProxyRetry;

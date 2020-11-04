@@ -123,7 +123,9 @@ var CallLogSection = (_dec = (0, _di.Module)({
     var _this;
 
     var storage = _ref.storage,
-        options = _objectWithoutProperties(_ref, ["storage"]);
+        _ref$notSyncOpenState = _ref.notSyncOpenState,
+        notSyncOpenState = _ref$notSyncOpenState === void 0 ? false : _ref$notSyncOpenState,
+        options = _objectWithoutProperties(_ref, ["storage", "notSyncOpenState"]);
 
     _classCallCheck(this, CallLogSection);
 
@@ -131,13 +133,17 @@ var CallLogSection = (_dec = (0, _di.Module)({
       storage: storage,
       actionTypes: _actionTypes["default"]
     }, options));
+    _this._notSyncOpenState = void 0;
+    _this._storageKey = void 0;
+    _this._storageReducer = void 0;
 
     _initializerDefineProperty(_this, "calls", _descriptor, _assertThisInitialized(_this));
 
     _initializerDefineProperty(_this, "callsMapping", _descriptor2, _assertThisInitialized(_this));
 
     _this._storage = storage;
-    _this._storageReducer = (0, _getStorageReducer["default"])(_this.actionTypes);
+    _this._notSyncOpenState = notSyncOpenState;
+    _this._storageReducer = (0, _getStorageReducer["default"])(_this.actionTypes, notSyncOpenState);
     _this._storageKey = 'callLogSection';
 
     _this._storage.registerReducer({
@@ -145,7 +151,7 @@ var CallLogSection = (_dec = (0, _di.Module)({
       reducer: _this._storageReducer
     });
 
-    _this._reducer = (0, _getCallLogSectionReducer["default"])(_this.actionTypes);
+    _this._reducer = (0, _getCallLogSectionReducer["default"])(_this.actionTypes, notSyncOpenState);
     return _this;
   }
 
@@ -511,9 +517,19 @@ var CallLogSection = (_dec = (0, _di.Module)({
       return this.state.callsSavingStatus;
     }
   }, {
-    key: "currentIdentify",
+    key: "_storageCurrentIdentify",
     get: function get() {
       return this._storage.getItem(this._storageKey).currentIdentify;
+    }
+  }, {
+    key: "_stateCurrentIdentify",
+    get: function get() {
+      return this.state.currentIdentify;
+    }
+  }, {
+    key: "currentIdentify",
+    get: function get() {
+      return this._notSyncOpenState ? this._stateCurrentIdentify : this._storageCurrentIdentify;
     }
   }, {
     key: "show",
@@ -521,9 +537,19 @@ var CallLogSection = (_dec = (0, _di.Module)({
       return !!this.currentIdentify;
     }
   }, {
-    key: "currentNotificationIdentify",
+    key: "_storageCurrentNotificationIdentify",
     get: function get() {
       return this._storage.getItem(this._storageKey).currentNotificationIdentify;
+    }
+  }, {
+    key: "_stateCurrentNotificationIdentify",
+    get: function get() {
+      return this.state.currentNotificationIdentify;
+    }
+  }, {
+    key: "currentNotificationIdentify",
+    get: function get() {
+      return this._notSyncOpenState ? this._stateCurrentNotificationIdentify : this._storageCurrentNotificationIdentify;
     }
   }, {
     key: "showNotification",
@@ -531,9 +557,19 @@ var CallLogSection = (_dec = (0, _di.Module)({
       return !!this.currentNotificationIdentify;
     }
   }, {
-    key: "notificationIsExpand",
+    key: "_storageNotificationIsExpand",
     get: function get() {
       return this._storage.getItem(this._storageKey).notificationIsExpand;
+    }
+  }, {
+    key: "_stateNotificationIsExpand",
+    get: function get() {
+      return this.state.notificationIsExpand;
+    }
+  }, {
+    key: "notificationIsExpand",
+    get: function get() {
+      return this._notSyncOpenState ? this._stateNotificationIsExpand : this._storageNotificationIsExpand;
     }
   }, {
     key: "status",
@@ -573,7 +609,8 @@ var CallLogSection = (_dec = (0, _di.Module)({
       return _this3._callsMapping;
     }, function () {
       return _this3._callsSavingStatus;
-    }, (0, _ramda.converge)((0, _ramda.mergeWith)((0, _ramda.flip)((0, _ramda.assoc)('isSaving'))), [_ramda.identity, (0, _ramda.useWith)(_ramda.pick, [_ramda.keys, _ramda.identity])])];
+    }, (0, _ramda.converge)((0, _ramda.mergeWith)((0, _ramda.flip)((0, _ramda.assoc)('isSaving'))), [_ramda.identity, // eslint-disable-next-line react-hooks/rules-of-hooks
+    (0, _ramda.useWith)(_ramda.pick, [_ramda.keys, _ramda.identity])])];
   }
 })), _class2)) || _class);
 exports["default"] = CallLogSection;

@@ -137,7 +137,9 @@ var CallListV2 = /*#__PURE__*/function (_React$PureComponent) {
           contactDisplayStyle = _this$props.contactDisplayStyle,
           externalViewEntity = _this$props.externalViewEntity,
           externalHasEntity = _this$props.externalHasEntity,
-          readTextPermission = _this$props.readTextPermission;
+          readTextPermission = _this$props.readTextPermission,
+          currentSiteCode = _this$props.currentSiteCode,
+          isMultipleSiteEnabled = _this$props.isMultipleSiteEnabled;
       var content;
 
       if (index >= calls.length) {
@@ -156,6 +158,8 @@ var CallListV2 = /*#__PURE__*/function (_React$PureComponent) {
           style: style,
           call: call,
           currentLocale: currentLocale,
+          currentSiteCode: currentSiteCode,
+          isMultipleSiteEnabled: isMultipleSiteEnabled,
           brand: brand,
           areaCode: areaCode,
           countryCode: countryCode,
@@ -220,8 +224,8 @@ var CallListV2 = /*#__PURE__*/function (_React$PureComponent) {
   }
 
   _createClass(CallListV2, [{
-    key: "componentWillReceiveProps",
-    value: function componentWillReceiveProps(nextProps) {
+    key: "UNSAFE_componentWillReceiveProps",
+    value: function UNSAFE_componentWillReceiveProps(nextProps) {
       var extendedIndex = this.state.extendedIndex;
 
       if (extendedIndex !== null && this.props.calls[extendedIndex] !== nextProps.calls[extendedIndex]) {
@@ -262,6 +266,8 @@ var CallListV2 = /*#__PURE__*/function (_React$PureComponent) {
 
 exports["default"] = CallListV2;
 CallListV2.propTypes = {
+  currentSiteCode: _propTypes["default"].string,
+  isMultipleSiteEnabled: _propTypes["default"].bool,
   className: _propTypes["default"].string,
   width: _propTypes["default"].number.isRequired,
   height: _propTypes["default"].number.isRequired,
@@ -305,6 +311,8 @@ CallListV2.propTypes = {
   extendedRowHeight: _propTypes["default"].number
 };
 CallListV2.defaultProps = {
+  currentSiteCode: '',
+  isMultipleSiteEnabled: false,
   className: null,
   active: false,
   disableLinks: false,

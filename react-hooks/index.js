@@ -20,6 +20,7 @@ var _useDebounce = require("./useDebounce");
 
 Object.keys(_useDebounce).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _useDebounce[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {
@@ -32,6 +33,7 @@ var _useIsMounted = require("./useIsMounted");
 
 Object.keys(_useIsMounted).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _useIsMounted[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {
@@ -44,6 +46,7 @@ var _useScrollIntoView = require("./useScrollIntoView");
 
 Object.keys(_useScrollIntoView).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _useScrollIntoView[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {

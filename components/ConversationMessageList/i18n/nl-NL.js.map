@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/ConversationMessageList/i18n/nl-NL.js"],"names":["loading"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,OAAO,EAAE;AADI,C,EAIf","sourcesContent":["export default {\n  loading: \"Laden...\"\n};\n\n// @key: @#@\"loading\"@#@ @source: @#@\"Loading ...\"@#@\n"],"file":"nl-NL.js"}

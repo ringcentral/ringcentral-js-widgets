@@ -7,7 +7,7 @@ exports["default"] = LogNotification;
 
 require("core-js/modules/es6.object.define-property");
 
-var _rcui = require("@ringcentral-integration/rcui");
+var _juno = require("@ringcentral/juno");
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
@@ -104,7 +104,7 @@ function LogNotification(_ref2) {
         return onExpand();
       },
       className: (0, _classnames["default"])(_styles["default"].logBtn, _styles["default"].actionItem)
-    }, !isExpand ? /*#__PURE__*/_react["default"].createElement(_LogUnclick["default"], null) : /*#__PURE__*/_react["default"].createElement(_LogClick["default"], null))), /*#__PURE__*/_react["default"].createElement(_rcui.RcPopover, {
+    }, !isExpand ? /*#__PURE__*/_react["default"].createElement(_LogUnclick["default"], null) : /*#__PURE__*/_react["default"].createElement(_LogClick["default"], null))), /*#__PURE__*/_react["default"].createElement(_juno.RcPopover, {
       open: !!anchorEl.current && isExpand,
       anchorEl: anchorEl.current,
       onClose: function onClose() {
@@ -121,12 +121,12 @@ function LogNotification(_ref2) {
       closeAfterTransition: true,
       container: viewport,
       className: _styles["default"].modalAnimation
-    }, /*#__PURE__*/_react["default"].createElement(_rcui.RcMenuList, null, /*#__PURE__*/_react["default"].createElement(_rcui.RcMenuItem, {
+    }, /*#__PURE__*/_react["default"].createElement(_juno.RcMenuList, null, /*#__PURE__*/_react["default"].createElement(_juno.RcMenuItem, {
       onClick: function onClick() {
         return onSave();
       },
       className: _styles["default"].menuItem
-    }, _i18n2["default"].getString('save', currentLocale)), /*#__PURE__*/_react["default"].createElement(_rcui.RcMenuItem, {
+    }, _i18n2["default"].getString('save', currentLocale)), /*#__PURE__*/_react["default"].createElement(_juno.RcMenuItem, {
       onClick: function onClick() {
         return onDiscard();
       },

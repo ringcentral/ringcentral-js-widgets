@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/MessagesLogIcon/i18n/ko-KR.js"],"names":["log"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,GAAG,EAAE;AADQ,C,EAIf","sourcesContent":["export default {\n  log: \"기록\"\n};\n\n// @key: @#@\"log\"@#@ @source: @#@\"Log\"@#@\n"],"file":"ko-KR.js"}

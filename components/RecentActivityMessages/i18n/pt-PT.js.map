@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/RecentActivityMessages/i18n/pt-PT.js"],"names":["noRecords"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,SAAS,EAAE;AADE,C,EAIf","sourcesContent":["export default {\n  noRecords: \"Não foram encontrados registos.\"\n};\n\n// @key: @#@\"noRecords\"@#@ @source: @#@\"No recent records found.\"@#@\n"],"file":"pt-PT.js"}

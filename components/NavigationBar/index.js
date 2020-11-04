@@ -33,6 +33,7 @@ var _NavigationBar = _interopRequireWildcard(require("./NavigationBar"));
 Object.keys(_NavigationBar).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
+  if (key in exports && exports[key] === _NavigationBar[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {
@@ -46,6 +47,7 @@ var _NavigationBar2 = require("./NavigationBar.interface");
 Object.keys(_NavigationBar2).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
+  if (key in exports && exports[key] === _NavigationBar2[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {

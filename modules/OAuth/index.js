@@ -1,5 +1,9 @@
 "use strict";
 
+require("core-js/modules/es6.string.iterator");
+
+require("core-js/modules/es6.weak-map");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -57,13 +61,17 @@ var _proxify = _interopRequireDefault(require("ringcentral-integration/lib/proxy
 
 var _ensureExist = _interopRequireDefault(require("ringcentral-integration/lib/ensureExist"));
 
-var _uuid = _interopRequireDefault(require("uuid"));
+var uuid = _interopRequireWildcard(require("uuid"));
 
 var _popWindow = _interopRequireDefault(require("../../lib/popWindow"));
 
 var _OAuthBase2 = _interopRequireDefault(require("../../lib/OAuthBase"));
 
 var _dec, _class, _class2;
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -139,7 +147,7 @@ var OAuth = (_dec = (0, _di.Module)({
     _this._loginPath = loginPath;
     _this._loginWindow = null;
     _this._redirectCheckTimeout = null;
-    _this._uuid = _uuid["default"].v4();
+    _this._uuid = uuid.v4();
     return _this;
   }
 
@@ -279,6 +287,15 @@ var OAuth = (_dec = (0, _di.Module)({
       }
     }
   }, {
+    key: "openOAuthPageInOtherRouter",
+    value: function openOAuthPageInOtherRouter() {
+      this._loginWindow = (0, _popWindow["default"])(this.oAuthUri, 'rc-oauth', 600, 600);
+
+      if (this.isRedirectUriSameOrigin) {
+        this._setupRedirectCheckTimeout();
+      }
+    }
+  }, {
     key: "_clearRedirectCheckTimeout",
     value: function _clearRedirectCheckTimeout() {
       if (this._redirectCheckTimeout === null) {
@@ -344,6 +361,6 @@ var OAuth = (_dec = (0, _di.Module)({
   }]);
 
   return OAuth;
-}(_OAuthBase2["default"]), (_applyDecoratedDescriptor(_class2.prototype, "setupOAuth", [_background["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "setupOAuth"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "destroyOAuth", [_background["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "destroyOAuth"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "openOAuthPage", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "openOAuthPage"), _class2.prototype)), _class2)) || _class);
+}(_OAuthBase2["default"]), (_applyDecoratedDescriptor(_class2.prototype, "setupOAuth", [_background["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "setupOAuth"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "destroyOAuth", [_background["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "destroyOAuth"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "openOAuthPage", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "openOAuthPage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "openOAuthPageInOtherRouter", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "openOAuthPageInOtherRouter"), _class2.prototype)), _class2)) || _class);
 exports["default"] = OAuth;
 //# sourceMappingURL=index.js.map

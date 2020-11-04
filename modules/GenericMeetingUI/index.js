@@ -126,28 +126,33 @@ var GenericMeetingUI = (_dec = (0, _di.Module)({
   _createClass(GenericMeetingUI, [{
     key: "getUIProps",
     value: function getUIProps(_ref2) {
-      var disabled = _ref2.disabled,
+      var useRcmV2 = _ref2.useRcmV2,
+          disabled = _ref2.disabled,
           showTopic = _ref2.showTopic,
           showWhen = _ref2.showWhen,
           showDuration = _ref2.showDuration,
           openNewWindow = _ref2.openNewWindow,
+          labelPlacement = _ref2.labelPlacement,
           showRecurringMeeting = _ref2.showRecurringMeeting,
           scheduleButton = _ref2.scheduleButton,
           datePickerSize = _ref2.datePickerSize,
           timePickerSize = _ref2.timePickerSize;
-      var invalidPassowrd = this._genericMeeting.ready && this._genericMeeting.meeting && (this._genericMeeting.isRCV || this._genericMeeting.isRCM) && !this._genericMeeting.validatePasswordSettings(this._genericMeeting.meeting.password, this._genericMeeting.isRCV ? this._genericMeeting.meeting.isMeetingSecret : this._genericMeeting.meeting._requireMeetingPassword);
+      var invalidPassowrd = this._genericMeeting.ready && this._genericMeeting.meeting && (this._genericMeeting.isRCV || this._genericMeeting.isRCM) && !this._genericMeeting.validatePasswordSettings(this._genericMeeting.isRCV ? this._genericMeeting.meeting.meetingPassword : this._genericMeeting.meeting.password, this._genericMeeting.isRCV ? this._genericMeeting.meeting.isMeetingSecret : this._genericMeeting.meeting._requireMeetingPassword);
       var meeting = this._genericMeeting.ready && this._genericMeeting.meeting || {};
+      var delegators = this._genericMeeting.ready && this._genericMeeting.delegators || [];
       return {
         meeting: meeting,
+        useRcmV2: useRcmV2,
+        delegators: delegators,
+        labelPlacement: labelPlacement,
         datePickerSize: datePickerSize,
         timePickerSize: timePickerSize,
         currentLocale: this._locale.currentLocale,
-        assistedUsers: this._genericMeeting.ready && this._genericMeeting.assistedUsers || [],
-        scheduleForUser: this._genericMeeting.ready ? this._genericMeeting.scheduleForUser : null,
         disabled: !!(disabled || invalidPassowrd || this._genericMeeting.ready && this._genericMeeting.isScheduling || this._connectivityMonitor && !this._connectivityMonitor.connectivity || this._rateLimiter && this._rateLimiter.throttling),
         showTopic: showTopic,
         showWhen: showWhen,
         showDuration: showDuration,
+        showScheduleOnBehalf: !!(delegators && delegators.length > 0),
         showRecurringMeeting: !meeting.usePersonalMeetingId && showRecurringMeeting,
         openNewWindow: openNewWindow,
         showSaveAsDefault: this._genericMeeting.ready && this._genericMeeting.showSaveAsDefault,
@@ -161,7 +166,10 @@ var GenericMeetingUI = (_dec = (0, _di.Module)({
         isRCV: this._genericMeeting.isRCV,
         scheduleButton: scheduleButton,
         brandName: this._brand.name,
-        personalMeetingId: this._genericMeeting.ready && this._genericMeeting.personalMeeting && this._genericMeeting.personalMeeting.shortId,
+        showAdminLock: this._genericMeeting.ready && this._genericMeeting.showAdminLock,
+        enablePersonalMeeting: this._genericMeeting.ready && this._genericMeeting.enablePersonalMeeting,
+        enableWaitingRoom: this._genericMeeting.ready && this._genericMeeting.enableWaitingRoom,
+        personalMeetingId: this._genericMeeting.ready && this._genericMeeting.personalMeetingId,
         showSpinner: !!(!this._locale.ready || !this._genericMeeting.ready || !this._genericMeeting.isRCM && !this._genericMeeting.isRCV || !this._genericMeeting.meeting || this._connectivityMonitor && !this._connectivityMonitor.ready || this._rateLimiter && !this._rateLimiter.ready)
       };
     }

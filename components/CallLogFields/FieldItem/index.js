@@ -20,6 +20,7 @@ var _FieldItem = require("./FieldItem.interface");
 
 Object.keys(_FieldItem).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _FieldItem[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {
@@ -32,6 +33,7 @@ var _FieldItem2 = require("./FieldItem");
 
 Object.keys(_FieldItem2).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _FieldItem2[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {
@@ -44,6 +46,7 @@ var _FullSelectField = require("./FullSelectField");
 
 Object.keys(_FullSelectField).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _FullSelectField[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {
@@ -56,6 +59,7 @@ var _LogFieldsInput = require("./LogFieldsInput");
 
 Object.keys(_LogFieldsInput).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _LogFieldsInput[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {

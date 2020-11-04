@@ -439,6 +439,7 @@ var CallCtrlContainer = /*#__PURE__*/function (_Component) {
         onTransfer: this.props.onTransfer,
         onPark: this.onPark,
         disableFlip: this.props.disableFlip,
+        showPark: this.props.showPark,
         nameMatches: this.props.nameMatches,
         fallBackName: fallbackUserName,
         showCallQueueName: showCallQueueName,

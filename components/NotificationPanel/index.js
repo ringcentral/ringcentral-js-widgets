@@ -20,6 +20,7 @@ var _NotificationPanel = require("./NotificationPanel");
 
 Object.keys(_NotificationPanel).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _NotificationPanel[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {

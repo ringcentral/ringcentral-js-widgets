@@ -1,1 +1,1 @@
-{"version":3,"sources":["components/BasicCallInfo/FollowInfo/index.ts"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;AAAA;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA","sourcesContent":["export * from './FollowInfo';\n"],"file":"index.js"}
+{"version":3,"sources":["components/BasicCallInfo/FollowInfo/index.ts"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;AAAA;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA","sourcesContent":["export * from './FollowInfo';\n"],"file":"index.js"}

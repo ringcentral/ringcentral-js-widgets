@@ -134,13 +134,15 @@ var ConversationList = /*#__PURE__*/function (_Component) {
       var _this$props = this.props,
           className = _this$props.className,
           currentLocale = _this$props.currentLocale,
+          currentSiteCode = _this$props.currentSiteCode,
+          isMultipleSiteEnabled = _this$props.isMultipleSiteEnabled,
           conversations = _this$props.conversations,
           perPage = _this$props.perPage,
           disableLinks = _this$props.disableLinks,
           disableCallButton = _this$props.disableCallButton,
           placeholder = _this$props.placeholder,
           loadingNextPage = _this$props.loadingNextPage,
-          childProps = _objectWithoutProperties(_this$props, ["className", "currentLocale", "conversations", "perPage", "disableLinks", "disableCallButton", "placeholder", "loadingNextPage"]);
+          childProps = _objectWithoutProperties(_this$props, ["className", "currentLocale", "currentSiteCode", "isMultipleSiteEnabled", "conversations", "perPage", "disableLinks", "disableCallButton", "placeholder", "loadingNextPage"]);
 
       var content;
 
@@ -149,6 +151,8 @@ var ConversationList = /*#__PURE__*/function (_Component) {
           return /*#__PURE__*/_react["default"].createElement(_MessageItem["default"], _extends({}, childProps, {
             conversation: item,
             currentLocale: currentLocale,
+            currentSiteCode: currentSiteCode,
+            isMultipleSiteEnabled: isMultipleSiteEnabled,
             key: item.id,
             disableLinks: disableLinks,
             disableCallButton: disableCallButton
@@ -176,6 +180,8 @@ exports["default"] = ConversationList;
 ConversationList.propTypes = {
   brand: _propTypes["default"].string.isRequired,
   currentLocale: _propTypes["default"].string.isRequired,
+  currentSiteCode: _propTypes["default"].string,
+  isMultipleSiteEnabled: _propTypes["default"].bool,
   conversations: _propTypes["default"].arrayOf(_propTypes["default"].shape({
     id: _propTypes["default"].number,
     conversationId: _propTypes["default"].string.isRequired,
@@ -202,6 +208,8 @@ ConversationList.propTypes = {
   renderExtraButton: _propTypes["default"].func
 };
 ConversationList.defaultProps = {
+  currentSiteCode: '',
+  isMultipleSiteEnabled: false,
   perPage: 20,
   className: undefined,
   disableLinks: false,

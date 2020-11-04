@@ -20,6 +20,7 @@ var _ModalUI = require("./ModalUI.interface");
 
 Object.keys(_ModalUI).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _ModalUI[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {
@@ -32,6 +33,7 @@ var _ModalUI2 = require("./ModalUI");
 
 Object.keys(_ModalUI2).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _ModalUI2[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {

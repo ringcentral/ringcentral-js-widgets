@@ -37,7 +37,7 @@ require("core-js/modules/es6.reflect.construct");
 
 require("core-js/modules/es6.object.set-prototype-of");
 
-var _rcui = require("@ringcentral-integration/rcui");
+var _juno = require("@ringcentral/juno");
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
@@ -134,7 +134,7 @@ var LogFieldsInput = /*#__PURE__*/function (_Component) {
       var styleRequired = required ? _styles["default"].isRequired : null;
       return /*#__PURE__*/_react["default"].createElement("div", {
         className: (0, _classnames["default"])(styleRequired, _styles["default"].commonStyle)
-      }, /*#__PURE__*/_react["default"].createElement(_rcui.RcTextField, _extends({}, rest, {
+      }, /*#__PURE__*/_react["default"].createElement(_juno.RcTextField, _extends({}, rest, {
         required: required,
         error: error,
         value: value,

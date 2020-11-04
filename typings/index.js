@@ -20,6 +20,7 @@ var _deStructureArgs = require("./deStructureArgs");
 
 Object.keys(_deStructureArgs).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _deStructureArgs[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {
@@ -32,6 +33,7 @@ var _mapping = require("./mapping");
 
 Object.keys(_mapping).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _mapping[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {
@@ -44,6 +46,7 @@ var _tupletoUnion = require("./tupletoUnion");
 
 Object.keys(_tupletoUnion).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _tupletoUnion[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {

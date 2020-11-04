@@ -170,8 +170,8 @@ var IncomingCallPad = /*#__PURE__*/function (_Component) {
   }
 
   _createClass(IncomingCallPad, [{
-    key: "componentWillReceiveProps",
-    value: function componentWillReceiveProps(newProps) {
+    key: "UNSAFE_componentWillReceiveProps",
+    value: function UNSAFE_componentWillReceiveProps(newProps) {
       if (this.props.sessionId !== newProps.sessionId) {
         if (this.replyTimeout) {
           clearTimeout(this.replyTimeout);

@@ -3,6 +3,9 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.getCurrentIdentifyReducer = getCurrentIdentifyReducer;
+exports.getCurrentNotificationIdentifyReducer = getCurrentNotificationIdentifyReducer;
+exports.getNotificationIsExpandReducer = getNotificationIsExpandReducer;
 exports["default"] = getStorageReducer;
 
 require("core-js/modules/es6.function.name");
@@ -191,12 +194,19 @@ function getNotificationIsExpandReducer(types) {
 }
 
 function getStorageReducer(types) {
-  return (0, _redux.combineReducers)({
+  var notSyncOpenState = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+  var baseReducer = {
     callsList: getCallsListReducer(types),
-    callsMapping: getCallsMappingReducer(types),
+    callsMapping: getCallsMappingReducer(types)
+  };
+  var openStateReducer = {
     currentIdentify: getCurrentIdentifyReducer(types),
     currentNotificationIdentify: getCurrentNotificationIdentifyReducer(types),
     notificationIsExpand: getNotificationIsExpandReducer(types)
-  });
+  };
+
+  var reducers = _objectSpread(_objectSpread({}, baseReducer), notSyncOpenState ? {} : openStateReducer);
+
+  return (0, _redux.combineReducers)(reducers);
 }
 //# sourceMappingURL=getStorageReducer.js.map

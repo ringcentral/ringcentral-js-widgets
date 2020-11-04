@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/ForwardPanel/i18n/ko-KR.js"],"names":["forward"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,OAAO,EAAE;AADI,C,EAIf","sourcesContent":["export default {\n  forward: \"착신 전환\"\n};\n\n// @key: @#@\"forward\"@#@ @source: @#@\"Forward\"@#@\n"],"file":"ko-KR.js"}

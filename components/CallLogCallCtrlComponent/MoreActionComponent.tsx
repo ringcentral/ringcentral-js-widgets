@@ -1,44 +1,35 @@
 import React, { FunctionComponent, useState } from 'react';
 import classnames from 'classnames';
-
-import {
-  RcPopover,
-  RcMenuList,
-  RcMenuItem,
-  RcIcon,
-} from '@ringcentral-integration/rcui';
-import MoreIcon from '../../assets/images/MoreIcon.svg';
-import i18n from './i18n';
+import { RcPopover, RcMenuList, RcMenuItem, RcIcon } from '@ringcentral/juno';
 import styles from './styles.scss';
 import CircleButton from '../CircleButton';
 import { MoreActionComponentProps } from './MoreActionComponent.interface';
 
 export const MoreActionComponent: FunctionComponent<MoreActionComponentProps> = ({
-  currentLocale,
   actionsList,
   disabled = false,
+  rootButtonProps,
+  withSubText,
+  anchorEl,
+  handleClick,
+  handleClose,
+  popoverClasses,
 }) => {
-  const [anchorEl, setAnchorEl] = useState(null);
-
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  if (!Array.isArray(actionsList) || actionsList.length === 0) {
+    return <></>;
+  }
 
   return (
     <>
-      <span title={i18n.getString('more', currentLocale)}>
+      <span title={rootButtonProps.tooltip}>
         <CircleButton
-          icon={MoreIcon}
+          dataSign="more"
+          icon={rootButtonProps.icon}
           onClick={handleClick}
-          className={classnames({
-            [styles.button]: true,
+          className={classnames(rootButtonProps.className, styles.button, {
             [styles.buttonDisabled]: disabled,
           })}
-          disabled={disabled}
+          disabled={false}
         />
       </span>
       <RcPopover
@@ -53,22 +44,47 @@ export const MoreActionComponent: FunctionComponent<MoreActionComponentProps> = 
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
         onClose={() => handleClose()}
+        classes={popoverClasses}
       >
         <RcMenuList>
-          {actionsList.map(({ icon, text, onClick, iconClassName }) => (
-            <RcMenuItem key={text} onClick={onClick}>
-              <div className={styles.moreActionItem}>
-                <RcIcon
-                  iconSize="small"
-                  symbol={icon}
-                  className={iconClassName}
-                />
-                <span className={styles.actionText}>
-                  {i18n.getString(text, currentLocale)}
-                </span>
-              </div>
-            </RcMenuItem>
-          ))}
+          {actionsList.map(
+            ({
+              icon,
+              text,
+              subText,
+              onClick,
+              disabled,
+              iconClassName,
+              key,
+            }) => (
+              <RcMenuItem
+                key={key}
+                onClick={onClick}
+                maxWidth={170}
+                data-value={key}
+                disabled={disabled}
+              >
+                <div
+                  className={classnames(styles.moreActionItem, {
+                    [styles.withSubText]: withSubText,
+                  })}
+                  data-sign={key}
+                >
+                  {icon && (
+                    <RcIcon
+                      iconSize="small"
+                      symbol={icon}
+                      className={iconClassName}
+                    />
+                  )}
+                  {text && <span className={styles.actionText}>{text}</span>}
+                  {withSubText && subText && (
+                    <span className={styles.subText}>{subText} </span>
+                  )}
+                </div>
+              </RcMenuItem>
+            ),
+          )}
         </RcMenuList>
       </RcPopover>
     </>

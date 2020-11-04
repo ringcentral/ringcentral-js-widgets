@@ -126,10 +126,15 @@ var VideoUI = (_dec = (0, _di.Module)({
   _createClass(VideoUI, [{
     key: "getUIProps",
     value: function getUIProps(_ref2) {
+      var _this$_rcVideo$person;
+
       var disabled = _ref2.disabled;
       return {
         currentLocale: this._locale.currentLocale,
         meeting: this._rcVideo.meeting,
+        showAdminLock: this._rcVideo.showAdminLock,
+        enablePersonalMeeting: this._rcVideo.enablePersonalMeeting,
+        personalMeetingId: this._rcVideo.ready && ((_this$_rcVideo$person = this._rcVideo.personalMeeting) === null || _this$_rcVideo$person === void 0 ? void 0 : _this$_rcVideo$person.shortId),
         showSaveAsDefault: this._rcVideo.showSaveAsDefault,
         disableSaveAsDefault: !this._rcVideo.isPreferencesChanged,
         brandName: this._brand.name,
@@ -141,7 +146,7 @@ var VideoUI = (_dec = (0, _di.Module)({
     value: function getUIFunctions(_ref3) {
       var _this2 = this;
 
-      var schedule = _ref3.schedule;
+      var _schedule = _ref3.schedule;
       return {
         updateMeetingSettings: function updateMeetingSettings(value) {
           return _this2._rcVideo.updateMeetingSettings(value);
@@ -149,28 +154,44 @@ var VideoUI = (_dec = (0, _di.Module)({
         validatePasswordSettings: function validatePasswordSettings(password, isSecret) {
           return _this2._rcVideo.validatePasswordSettings(password, isSecret);
         },
-        invite: function () {
-          var _invite = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(meetingInfo) {
+        switchUsePersonalMeetingId: function switchUsePersonalMeetingId(usePersonalMeetingId) {
+          return _this2._rcVideo.switchUsePersonalMeetingId(usePersonalMeetingId);
+        },
+        schedule: function () {
+          var _schedule2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(meetingInfo, opener) {
             return regeneratorRuntime.wrap(function _callee$(_context) {
               while (1) {
                 switch (_context.prev = _context.next) {
                   case 0:
-                    if (!schedule) {
+                    if (!_schedule) {
                       _context.next = 4;
                       break;
                     }
 
                     _context.next = 3;
-                    return schedule(meetingInfo);
+                    return _schedule(meetingInfo, opener);
 
                   case 3:
                     return _context.abrupt("return");
 
                   case 4:
-                    _context.next = 6;
+                    if (!meetingInfo.usePersonalMeetingId) {
+                      _context.next = 9;
+                      break;
+                    }
+
+                    _context.next = 7;
+                    return _this2._rcVideo.updateMeeting(_this2._rcVideo.personalMeeting.id, meetingInfo);
+
+                  case 7:
+                    _context.next = 11;
+                    break;
+
+                  case 9:
+                    _context.next = 11;
                     return _this2._rcVideo.createMeeting(meetingInfo);
 
-                  case 6:
+                  case 11:
                   case "end":
                     return _context.stop();
                 }
@@ -178,11 +199,11 @@ var VideoUI = (_dec = (0, _di.Module)({
             }, _callee);
           }));
 
-          function invite(_x) {
-            return _invite.apply(this, arguments);
+          function schedule(_x, _x2) {
+            return _schedule2.apply(this, arguments);
           }
 
-          return invite;
+          return schedule;
         }(),
         init: function init() {
           _this2._rcVideo.init();

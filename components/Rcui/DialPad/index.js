@@ -20,6 +20,7 @@ var _DialPad = require("./DialPad");
 
 Object.keys(_DialPad).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _DialPad[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {

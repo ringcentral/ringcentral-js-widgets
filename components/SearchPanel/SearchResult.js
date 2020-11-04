@@ -11,9 +11,9 @@ require("core-js/modules/es6.array.map");
 
 require("core-js/modules/es6.array.filter");
 
-var _react = _interopRequireDefault(require("react"));
+var _juno = require("@ringcentral/juno");
 
-var _rcui = require("@ringcentral-integration/rcui");
+var _react = _interopRequireDefault(require("react"));
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
@@ -33,7 +33,7 @@ var SearchResult = function SearchResult(_ref) {
   return /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, options.length ? /*#__PURE__*/_react["default"].createElement("div", {
     className: classes.root,
     "data-sign": "searchResult"
-  }, filteredOptions.length > 0 ? /*#__PURE__*/_react["default"].createElement(_rcui.RcList, null, filteredOptions.map(function (option, index) {
+  }, filteredOptions.length > 0 ? /*#__PURE__*/_react["default"].createElement(_juno.RcList, null, filteredOptions.map(function (option, index) {
     return renderListItem({
       option: option,
       index: index

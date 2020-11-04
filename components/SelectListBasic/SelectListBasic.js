@@ -33,15 +33,15 @@ require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.array.is-array");
 
-require("core-js/modules/es6.regexp.replace");
+require("core-js/modules/es6.string.trim");
 
 require("core-js/modules/es6.regexp.search");
 
 require("core-js/modules/es6.array.filter");
 
-var _rcui = require("@ringcentral-integration/rcui");
+var _juno = require("@ringcentral/juno");
 
-var _iconSearch = _interopRequireDefault(require("@ringcentral-integration/rcui/icons/icon-search.svg"));
+var _iconSearch = _interopRequireDefault(require("@ringcentral/juno/icons/icon-search.svg"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
@@ -186,7 +186,7 @@ var SelectListBasic = function SelectListBasic(_ref) {
     className: (0, _classnames["default"])(_styles["default"].search, classes.searchInput)
   }, !filter && /*#__PURE__*/_react["default"].createElement("span", {
     className: (0, _classnames["default"])(_styles["default"].placeholder, classes.placeholder)
-  }, placeholder), /*#__PURE__*/_react["default"].createElement(_rcui.RcOutlineTextField, {
+  }, placeholder), /*#__PURE__*/_react["default"].createElement(_juno.RcOutlineTextField, {
     size: "small",
     radiusType: "circle",
     iconPosition: "left",
@@ -203,7 +203,7 @@ var SelectListBasic = function SelectListBasic(_ref) {
       if (key && key.keyCode !== 13 || !showFoundFromServer) return;
 
       if (contactSearch && typeof contactSearch === 'function') {
-        var searchString = filter ? filter.replace(/\s/g, '') : '';
+        var searchString = filter ? filter.trim() : '';
 
         if (searchString.length) {
           contactSearch({

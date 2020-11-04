@@ -1,6 +1,6 @@
-import { RcDatePickerProps } from '@ringcentral-integration/rcui';
+import { RcDatePickerProps } from '@ringcentral/juno';
 import { ReactElementLike } from 'prop-types';
-import { ReactNode } from 'react';
+import { MutableRefObject, ReactNode } from 'react';
 
 import { CallLog, Task } from '../CallLogPanel';
 
@@ -20,6 +20,9 @@ export type CallLogFieldsProps = {
   fieldSize: RcDatePickerProps['size'];
   classes?: {
     root?: string;
+  };
+  refs?: {
+    [key: string]: MutableRefObject<any>;
   };
 };
 

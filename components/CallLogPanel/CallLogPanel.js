@@ -45,6 +45,8 @@ var _NotificationSection = _interopRequireDefault(require("../NotificationSectio
 
 var _NotificationSectionV = _interopRequireDefault(require("../NotificationSectionV2"));
 
+var _WebRTCNotificationSection = _interopRequireDefault(require("../WebRTCNotificationSection"));
+
 var _SpinnerOverlay = require("../SpinnerOverlay");
 
 var _i18n = _interopRequireDefault(require("./i18n"));
@@ -223,7 +225,8 @@ var CallLogPanel = /*#__PURE__*/function (_Component) {
           formatPhone = _this$props4.formatPhone,
           dateTimeFormatter = _this$props4.dateTimeFormatter,
           renderBasicInfo = _this$props4.renderBasicInfo,
-          logBasicInfo = _this$props4.classes.logBasicInfo;
+          logBasicInfo = _this$props4.classes.logBasicInfo,
+          currentSession = _this$props4.currentSession;
 
       if (renderBasicInfo) {
         return renderBasicInfo({
@@ -240,7 +243,8 @@ var CallLogPanel = /*#__PURE__*/function (_Component) {
         currentLocale: currentLocale,
         formatPhone: formatPhone,
         dateTimeFormatter: dateTimeFormatter,
-        className: logBasicInfo
+        className: logBasicInfo,
+        recordStatus: currentSession === null || currentSession === void 0 ? void 0 : currentSession.recordStatus
       });
     }
   }, {
@@ -280,11 +284,42 @@ var CallLogPanel = /*#__PURE__*/function (_Component) {
           shrinkNotification = _this$props6.shrinkNotification,
           disableLinks = _this$props6.disableLinks,
           useNewNotification = _this$props6.useNewNotification,
-          showNotiLogButton = _this$props6.showNotiLogButton;
-      var showNotification = logNotification.showNotification;
+          showNotiLogButton = _this$props6.showNotiLogButton,
+          isWebRTC = _this$props6.isWebRTC,
+          isWide = _this$props6.isWide,
+          onIgnore = _this$props6.onIgnore,
+          onForward = _this$props6.onForward,
+          endAndAnswer = _this$props6.endAndAnswer,
+          holdAndAnswer = _this$props6.holdAndAnswer,
+          toVoicemail = _this$props6.toVoicemail,
+          forwardingNumbers = _this$props6.forwardingNumbers,
+          answer = _this$props6.answer;
+      var showNotification = logNotification.showNotification,
+          call = logNotification.call,
+          logName = logNotification.logName;
 
       if (!showNotification) {
         return null;
+      }
+
+      if (isWebRTC) {
+        return /*#__PURE__*/_react["default"].createElement(_WebRTCNotificationSection["default"], {
+          formatPhone: formatPhone,
+          currentLocale: currentLocale,
+          call: call,
+          logName: logName,
+          onCloseNotification: onCloseNotification,
+          currentNotificationIdentify: currentNotificationIdentify,
+          isWide: isWide,
+          onIgnore: onIgnore,
+          onForward: onForward,
+          endAndAnswer: endAndAnswer,
+          holdAndAnswer: holdAndAnswer,
+          toVoicemail: toVoicemail,
+          forwardingNumbers: forwardingNumbers,
+          isCurrentSessionEnd: !currentSession,
+          answer: answer
+        });
       }
 
       if (useNewNotification) {
