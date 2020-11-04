@@ -1,6 +1,6 @@
 {
   "name": "@ringcentral-integration/i18n",
-  "version": "0.12.2",
+  "version": "2.0.1",
   "description": "A simple I18n implementation used in RingCentral Integration projects.",
   "main": "index.js",
   "repository": {
@@ -15,12 +15,23 @@
   "license": "MIT",
   "private": false,
   "peerDependencies": {
-    "@babel/polyfill": "^7.6.0"
+    "@babel/polyfill": "^7.10.4"
   },
   "jest": {
     "transform": {
       "^.+\\.js$": "@ringcentral-integration/babel-settings/lib/jestTransform.js"
-    }
+    },
+    "reporters": [
+      "default",
+      [
+        "jest-html-reporters",
+        {
+          "publicPath": "./html-report",
+          "filename": "jest-report.html",
+          "expand": true
+        }
+      ]
+    ]
   },
   "ci": {
     "ringcentral-js-widgets": "**"
