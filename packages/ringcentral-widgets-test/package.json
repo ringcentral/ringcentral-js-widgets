@@ -61,7 +61,7 @@
     "ringcentral-integration": "*",
     "ringcentral-widgets": "*",
     "ringcentral-widgets-demo": "*",
-    "yargs": "^14.0.0"
+    "yargs": "^16.0.0"
   },
   "jest": {
     "roots": ["<rootDir>/test"],
