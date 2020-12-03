@@ -30,7 +30,7 @@ import EndAnswerIcon from '../../assets/images/EndAnswer.svg';
 
 const recodingVoiceTime = 6781;
 
-export default function CallLogCallCtrlComponent(props) {
+const CallLogCallCtrlComponent = (props) => {
   const {
     onMute,
     onUnmute,
@@ -144,7 +144,7 @@ export default function CallLogCallCtrlComponent(props) {
           [styles.recordingIcon]: true,
           [styles.recordingDisabled]: recordPendingState,
         }),
-        disabled: recordPendingState,
+        disabled: recordPendingState || isOnHold,
         text: i18n.getString(recordingText, currentLocale),
       },
     ];
@@ -417,7 +417,7 @@ export default function CallLogCallCtrlComponent(props) {
       </span>
     </div>
   );
-}
+};
 
 CallLogCallCtrlComponent.propTypes = {
   onMute: PropTypes.func,
@@ -479,3 +479,5 @@ CallLogCallCtrlComponent.defaultProps = {
   answerAndEnd() {},
   answerAndHold() {},
 };
+
+export default CallLogCallCtrlComponent;

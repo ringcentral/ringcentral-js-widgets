@@ -5,7 +5,7 @@ export default {
   AU: "Australia",
   BE: "Belgio",
   BG: "Bulgaria",
-  BH: "Bahrain",
+  BH: "Bahrein",
   BJ: "Benin",
   BR: "Brasile",
   CA: "Canada",

@@ -632,7 +632,7 @@ export default class CallMonitor extends RcModule {
           const telephonySession = matchTelephonySessionWithActiveCall(
             currentRcCallSession,
           );
-          const telephonyStatus = mapTelephonyStatus(party.status.code);
+          const telephonyStatus = mapTelephonyStatus(party?.status.code);
 
           // TODO: add sipData here
           // const sipData = {};

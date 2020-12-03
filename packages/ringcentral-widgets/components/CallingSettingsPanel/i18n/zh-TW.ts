@@ -1,10 +1,7 @@
 import callingOptions from 'ringcentral-integration/modules/CallingSettings/callingOptions';
 export default {
   title: "撥號",
-  [callingOptions.softphone]: "{brand}",
-  [callingOptions.myphone]: "我的 {brand} 電話",
-  [callingOptions.otherphone]: "其他電話",
-  [callingOptions.customphone]: "自訂電話",
+  [callingOptions.softphone]: "電腦版 {brand}",
   [callingOptions.browser]: "瀏覽器",
   [callingOptions.jupiter]: "{brand}",
   makeCallsWith: "我的通話進行時使用",
@@ -13,20 +10,13 @@ export default {
   press1ToStartCallLabel: "在接通通話前提示我按 1",
   [`${callingOptions.browser}Tooltip`]: "請使用這個選項，透過您電腦的麥克風和喇叭撥出與接聽電話。",
   [`${callingOptions.softphone}Tooltip`]: "請使用這個選項，透過您的 {brand} 撥出與接聽電話。",
-  [`${callingOptions.myphone}Tooltip`]: "請使用這個選項，透過您的 {brand} 電話來進行通話。",
-  [`${callingOptions.myphone}Tooltip1`]: "對於您所撥出的電話，您的 {brand} 電話將會先對受話方響鈴。",
-  [`${callingOptions.otherphone}Tooltip`]: "請使用這個選項，透過您已在 {brand} 分機中加入的家用電話或行動電話等其他電話進行通話。",
-  [`${callingOptions.otherphone}Tooltip1`]: "對於您所撥出的電話，這支電話將會先對受話方響鈴。",
-  [`${callingOptions.customphone}Tooltip`]: "請使用這個選項，在以下欄位輸入有效的電話號碼，使用任選的任何電話，進行通話。",
-  [`${callingOptions.customphone}Tooltip1`]: "對於您所撥出的電話，這支電話將會先對受話方響鈴。",
+  [`${callingOptions.ringout}Tooltip`]: "使用此選項即可使用選擇或輸入的電話號碼撥打電話。",
+  [`${callingOptions.ringout}Tooltip1`]: "在您撥號通話時，這部電話會先響起鈴聲，接著您致電的對象才會鈴響。",
   [`${callingOptions.jupiter}Tooltip`]: "請使用這個選項，透過您的 {brand} 撥出與接聽電話。"
 };
 
 // @key: @#@"title"@#@ @source: @#@"Calling"@#@
-// @key: @#@"[callingOptions.softphone]"@#@ @source: @#@"{brand}"@#@
-// @key: @#@"[callingOptions.myphone]"@#@ @source: @#@"My {brand} Phone"@#@
-// @key: @#@"[callingOptions.otherphone]"@#@ @source: @#@"Other Phone"@#@
-// @key: @#@"[callingOptions.customphone]"@#@ @source: @#@"Custom Phone"@#@
+// @key: @#@"[callingOptions.softphone]"@#@ @source: @#@"{brand} for Desktop"@#@
 // @key: @#@"[callingOptions.browser]"@#@ @source: @#@"Browser"@#@
 // @key: @#@"[callingOptions.jupiter]"@#@ @source: @#@"{brand}"@#@
 // @key: @#@"makeCallsWith"@#@ @source: @#@"Make my calls with"@#@
@@ -35,10 +25,6 @@ export default {
 // @key: @#@"press1ToStartCallLabel"@#@ @source: @#@"Prompt me to dial 1 before connecting the call"@#@
 // @key: @#@"[`${callingOptions.browser}Tooltip`]"@#@ @source: @#@"Use this option to make and receive calls using your computer’s microphone and speaker."@#@
 // @key: @#@"[`${callingOptions.softphone}Tooltip`]"@#@ @source: @#@"Use this option to make and receive calls using your {brand}."@#@
-// @key: @#@"[`${callingOptions.myphone}Tooltip`]"@#@ @source: @#@"Use this option to make calls using your {brand} phone."@#@
-// @key: @#@"[`${callingOptions.myphone}Tooltip1`]"@#@ @source: @#@"For the call you make, your {brand} phone will ring first then the party you called."@#@
-// @key: @#@"[`${callingOptions.otherphone}Tooltip`]"@#@ @source: @#@"Use this option to make calls using your other phones such as home or cell phones that you have added in your {brand} Extension."@#@
-// @key: @#@"[`${callingOptions.otherphone}Tooltip1`]"@#@ @source: @#@"For the call you make, this phone will ring first then the party you called."@#@
-// @key: @#@"[`${callingOptions.customphone}Tooltip`]"@#@ @source: @#@"Use this option to make calls using any phone of your choice by entering a valid phone number in the field below."@#@
-// @key: @#@"[`${callingOptions.customphone}Tooltip1`]"@#@ @source: @#@"For the call you make, this phone will ring first then the party you called."@#@
+// @key: @#@"[`${callingOptions.ringout}Tooltip`]"@#@ @source: @#@"Use this option to make calls using your selected or entered phone number."@#@
+// @key: @#@"[`${callingOptions.ringout}Tooltip1`]"@#@ @source: @#@"For the call you make, this phone will ring first then the party you called."@#@
 // @key: @#@"[`${callingOptions.jupiter}Tooltip`]"@#@ @source: @#@"Use this option to make and receive calls using your {brand}."@#@

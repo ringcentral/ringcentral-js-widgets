@@ -10,7 +10,7 @@ export const raceTimeout = async <T>(
   fn: Promise<T>,
   {
     timeout = 30 * 1000,
-    onTimeout = (reject) => {
+    onTimeout = (_, reject) => {
       reject(null);
     },
     finalize = () => {},
@@ -28,10 +28,7 @@ export const raceTimeout = async <T>(
       new Promise<any>((resolve, reject) => {
         timeoutResolve = resolve;
         // here use resolve for easy to use.
-        timeoutId = setTimeout(
-          () => resolve(onTimeout(resolve, reject)),
-          timeout,
-        );
+        timeoutId = setTimeout(() => onTimeout(resolve, reject), timeout);
       }),
     ]);
   } catch (error) {

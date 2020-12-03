@@ -9,15 +9,11 @@ import i18n from './i18n';
 const CAPTION_HEIGHT = 20;
 const ROW_HEIGHT = 50;
 
-function NoContacts({ currentLocale }) {
-  return (
-    <p className={styles.noContacts}>
-      {i18n.getString('noContacts', currentLocale)}
-    </p>
-  );
-}
-NoContacts.propTypes = {
-  currentLocale: PropTypes.string.isRequired,
+const Placeholder = ({ message }) => {
+  return <p className={styles.placeholder}>{message}</p>;
+};
+Placeholder.propTypes = {
+  message: PropTypes.string.isRequired,
 };
 
 export default class ContactList extends Component {
@@ -76,7 +72,14 @@ export default class ContactList extends Component {
     }
   }
 
+  isBottomNoticeRow(rowIndex) {
+    return this.props.bottomNotice && rowIndex === this.state.count;
+  }
+
   calculateRowHeight = ({ index }) => {
+    if (this.isBottomNoticeRow(index)) {
+      return this.props.bottomNoticeHeight;
+    }
     if (this.state.captionRows[index]) {
       return CAPTION_HEIGHT;
     }
@@ -92,6 +95,11 @@ export default class ContactList extends Component {
     );
 
   rowGetter = ({ index }) => {
+    if (this.isBottomNoticeRow(index)) {
+      return {
+        bottomNoticeRow: true,
+      };
+    }
     if (this.state.captionRows[index]) {
       return {
         caption: this.state.captionRows[index],
@@ -116,6 +124,10 @@ export default class ContactList extends Component {
   }
 
   cellRenderer = ({ rowData }) => {
+    if (rowData.bottomNoticeRow) {
+      const { bottomNotice: BottomNotice } = this.props;
+      return BottomNotice ? <BottomNotice /> : <span />;
+    }
     if (rowData.caption) {
       return <div className={styles.groupCaption}>{rowData.caption}</div>;
     }
@@ -145,6 +157,9 @@ export default class ContactList extends Component {
   };
 
   onRowsRendered = ({ startIndex }) => {
+    if (this.isBottomNoticeRow(startIndex)) {
+      return;
+    }
     // update header with the correct caption
     if (this.state.captionRows[startIndex]) {
       const groupIndex = findIndex(
@@ -179,7 +194,7 @@ export default class ContactList extends Component {
         headerHeight={CAPTION_HEIGHT}
         width={this.props.width}
         height={this.props.height}
-        rowCount={this.state.count}
+        rowCount={this.state.count + (this.props.bottomNotice ? 1 : 0)}
         rowHeight={this.calculateRowHeight}
         rowGetter={this.rowGetter}
         onRowsRendered={this.onRowsRendered}
@@ -199,14 +214,26 @@ export default class ContactList extends Component {
   }
 
   render() {
-    const { currentLocale, contactGroups, width, height } = this.props;
+    const {
+      currentLocale,
+      contactGroups,
+      isSearching,
+      width,
+      height,
+    } = this.props;
     let content = null;
     if (width !== 0 && height !== 0) {
-      content = contactGroups.length ? (
-        this.renderList()
-      ) : (
-        <NoContacts currentLocale={currentLocale} />
-      );
+      if (contactGroups.length) {
+        content = this.renderList();
+      } else if (isSearching) {
+        content = (
+          <Placeholder message={i18n.getString('onSearching', currentLocale)} />
+        );
+      } else {
+        content = (
+          <Placeholder message={i18n.getString('noContacts', currentLocale)} />
+        );
+      }
     }
     return <div className={styles.root}>{content}</div>;
   }
@@ -227,6 +254,9 @@ ContactList.propTypes = {
   getPresence: PropTypes.func.isRequired,
   onItemSelect: PropTypes.func,
   sourceNodeRenderer: PropTypes.func,
+  isSearching: PropTypes.bool,
+  bottomNotice: PropTypes.func,
+  bottomNoticeHeight: PropTypes.number,
   width: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
 };
@@ -234,6 +264,9 @@ ContactList.propTypes = {
 ContactList.defaultProps = {
   onItemSelect: undefined,
   sourceNodeRenderer: undefined,
+  isSearching: false,
+  bottomNotice: undefined,
+  bottomNoticeHeight: 0,
   currentSiteCode: '',
   isMultipleSiteEnabled: false,
 };

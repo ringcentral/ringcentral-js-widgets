@@ -1,4 +1,5 @@
 import webphoneErrors from 'ringcentral-integration/modules/Webphone/webphoneErrors';
+import webphoneMessages from 'ringcentral-integration/modules/Webphone/webphoneMessages';
 export default {
   [webphoneErrors.connectFailed]: "Désolé, les fonctionnalités du téléphone sont actuellement indisponibles. Veuillez réessayer plus tard. ",
   [webphoneErrors.connected]: "Téléphone Web inscrit.",
@@ -12,11 +13,12 @@ export default {
   [webphoneErrors.muteError]: "L'appel ne peut être mis en mode discrétion pour le moment.",
   [webphoneErrors.holdError]: "L'appel ne peut être mis en attente pour le moment.",
   [webphoneErrors.flipError]: "Impossible de renvoyer l'appel. Veuillez réessayer plus tard.",
-  [webphoneErrors.recordError]: "Vous ne pouvez pas enregistrer l'appel pour le moment. Code d'erreur : {errorCode}",
+  [webphoneErrors.recordError]: "Vous ne pouvez pas enregistrer l'appel pour le moment. Code d'erreur : {errorCode}",
   [webphoneErrors.recordDisabled]: "Désolé, votre compte ne possède pas la fonction d'enregistrement d'appel. Veuillez communiquer avec votre administrateur de compte.",
   [webphoneErrors.transferError]: "Impossible de transférer l'appel. Veuillez réessayer plus tard.",
-  failWithStatusCode: "Désolé, nous avons rencontré une erreur : {errorCode}. Si le problème persiste, signalez au service de soutien de {brandName}.",
-  registeringWithStatusCode: "Désolé, une erreur s'est produite. Nous essayons de vous reconnecter. Si le problème persiste, veuillez le signaler au service de soutien de {brandName}. Code d'erreur : {errorCode}.",
+  [webphoneMessages.parked]: "Votre appel est parqué à : {parkedNumber}",
+  failWithStatusCode: "Désolé, nous avons rencontré une erreur : {errorCode}. Si le problème persiste, signalez au service de soutien de {brandName}.",
+  registeringWithStatusCode: "Désolé, une erreur s'est produite. Nous essayons de vous reconnecter. Si le problème persiste, veuillez le signaler au service de soutien de {brandName}. Code d'erreur : {errorCode}.",
   failWithoutStatusCode: "Désolé, une erreur s'est produite de notre côté. Si l'erreur persiste, veuillez la signaler au service de soutien de {brandName}.",
   registeringWithoutStatusCode: "Désolé, une erreur s'est produite. Nous essayons de vous reconnecter. Si le problème persiste, veuillez le signaler au service de soutien de {brandName}."
 };
@@ -36,6 +38,7 @@ export default {
 // @key: @#@"[webphoneErrors.recordError]"@#@ @source: @#@"You cannot record the call at the moment. Error code: {errorCode}"@#@
 // @key: @#@"[webphoneErrors.recordDisabled]"@#@ @source: @#@"Sorry, your account does not have the feature to record a call. Please contact your account administrator."@#@
 // @key: @#@"[webphoneErrors.transferError]"@#@ @source: @#@"Cannot transfer the call. Please try again later."@#@
+// @key: @#@"[webphoneMessages.parked]"@#@ @source: @#@"Your call is parked at location: {parkedNumber}"@#@
 // @key: @#@"failWithStatusCode"@#@ @source: @#@"Sorry, we've encountered an error: {errorCode}. If the problem persists, report this error to {brandName} support."@#@
 // @key: @#@"registeringWithStatusCode"@#@ @source: @#@"Sorry, something went wrong. We are trying to reconnect. If the problem persists, please report this error to {brandName} support. Error code: {errorCode}."@#@
 // @key: @#@"failWithoutStatusCode"@#@ @source: @#@"Sorry, something went wrong on our end. If the error persists, report this error to {brandName} support."@#@

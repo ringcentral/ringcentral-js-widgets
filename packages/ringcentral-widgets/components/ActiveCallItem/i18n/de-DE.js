@@ -29,7 +29,11 @@ export default {
   unhold: "Gehaltenen Anruf annehmen",
   transfer: "Weiterleitung",
   reject: "Ablehnen",
-  switchCall: "Anruf zu dieser App wechseln"
+  switchCall: "Anruf zu dieser App wechseln",
+  callSwitch: "Anrufwechsel",
+  comfirmContext: "Sie befinden sich momentan in einem aktiven Anruf mit {displayName}. Möchten Sie den Anruf auf diesem Gerät fortsetzen?",
+  comfirmCancelButton: "Abbrechen",
+  comfirmOKButton: "Wechseln"
 };
 
 // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
@@ -63,3 +67,7 @@ export default {
 // @key: @#@"transfer"@#@ @source: @#@"Transfer"@#@
 // @key: @#@"reject"@#@ @source: @#@"Reject"@#@
 // @key: @#@"switchCall"@#@ @source: @#@"Switch Call to this app"@#@
+// @key: @#@"callSwitch"@#@ @source: @#@"Call Switch"@#@
+// @key: @#@"comfirmContext"@#@ @source: @#@"You're currently on an active call with {displayName}. Would you like to continue the call on this device?"@#@
+// @key: @#@"comfirmCancelButton"@#@ @source: @#@"Cancel"@#@
+// @key: @#@"comfirmOKButton"@#@ @source: @#@"Switch"@#@

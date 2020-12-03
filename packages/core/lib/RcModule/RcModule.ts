@@ -63,21 +63,28 @@ function track(trackEvent: TrackEvent) {
       const { analytics } = this.parentModule as RcModuleV2<Properties<any>> & {
         analytics: Analytics;
       };
-      if (
-        typeof analytics !== 'undefined' &&
-        typeof analytics.track === 'function'
-      ) {
-        if (typeof trackEvent === 'string') {
-          analytics.track(trackEvent);
-        } else {
-          const [event, trackProps] = trackEvent(this, ...args);
-          analytics.track(event, trackProps);
-        }
-      }
       if (typeof initializer === 'function') {
         fn = initializer.call(this);
       }
-      return fn.apply(this, args);
+      const result = fn.apply(this, args);
+      try {
+        if (
+          typeof analytics !== 'undefined' &&
+          typeof analytics.track === 'function'
+        ) {
+          if (typeof trackEvent === 'string') {
+            analytics.track(trackEvent);
+          } else {
+            const [event, trackProps] = trackEvent(this, ...args) ?? [];
+            if (event) {
+              analytics.track(event, trackProps);
+            }
+          }
+        }
+      } catch (e) {
+        console.warn(`Analytics Error: ${target.__name__}.${name}`);
+      }
+      return result;
     };
     // the any type is just to be compatible with babel and tsc.
     return {

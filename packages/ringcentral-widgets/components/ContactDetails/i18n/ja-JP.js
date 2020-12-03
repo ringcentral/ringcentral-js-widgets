@@ -19,7 +19,8 @@ export default {
   [dndStatus.doNotAcceptAnyCalls]: "応答不可",
   notActivated: "非アクティブ",
   company: "会社",
-  jobTitle: "役職"
+  jobTitle: "役職",
+  site: "サイト"
 };
 
 // @key: @#@"[phoneTypes.extension]"@#@ @source: @#@"Ext."@#@
@@ -40,3 +41,4 @@ export default {
 // @key: @#@"notActivated"@#@ @source: @#@"Inactive"@#@
 // @key: @#@"company"@#@ @source: @#@"Company"@#@
 // @key: @#@"jobTitle"@#@ @source: @#@"Title"@#@
+// @key: @#@"site"@#@ @source: @#@"Site"@#@

@@ -9,7 +9,7 @@ export default {
   [messageSenderMessages.senderEmpty]: "U moet een nummer uit uw telefoonnummers selecteren om te verzenden",
   [messageSenderMessages.noToNumber]: "Voer een geldig telefoonnummer in.",
   [messageSenderMessages.recipientsEmpty]: "Voer een geldig ontvangstnummer in.",
-  [messageSenderMessages.textTooLong]: "Tekst is te lang, mag niet langer zijn dan 1000",
+  [messageSenderMessages.textTooLong]: "Tekst is te lang, mag niet langer zijn dan 1000 tekens",
   [messageSenderMessages.multipartTextTooLong]: "Tekst is te lang, mag niet langer zijn dan 5000",
   [messageSenderMessages.recipientNumberInvalids]: "Voer een geldig telefoonnummer in.",
   [messageSenderMessages.noAreaCode]: "Stel {areaCodeLink} in om 7-cijferige lokale telefoonnummers te gebruiken.",

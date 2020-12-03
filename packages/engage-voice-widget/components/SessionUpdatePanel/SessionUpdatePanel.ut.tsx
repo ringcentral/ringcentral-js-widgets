@@ -50,6 +50,8 @@ function setup({
   loginTypeList = defaultLoginTypeList,
   loginType = '102',
   setLoginType = () => {},
+  autoAnswer = true,
+  setAutoAnswer = () => {},
   extensionNumber = '',
   setExtensionNumber = () => {},
   inboundQueuesFieldText = '',
@@ -62,6 +64,9 @@ function setup({
   isSeveralAssign = () => false,
   checkBoxOnChange,
   allCheckBoxOnChange,
+  showInboundQueues = true,
+  showSkillProfile = true,
+  showAutoAnswer = true,
 }: Partial<SessionUpdatePanelProps>) {
   return mount(
     <RcThemeProvider>
@@ -77,6 +82,8 @@ function setup({
         loginTypeList={loginTypeList}
         loginType={loginType}
         setLoginType={setLoginType}
+        autoAnswer={autoAnswer}
+        setAutoAnswer={setAutoAnswer}
         extensionNumber={extensionNumber}
         setExtensionNumber={setExtensionNumber}
         inboundQueuesFieldText={inboundQueuesFieldText}
@@ -89,6 +96,9 @@ function setup({
         isSeveralAssign={isSeveralAssign}
         checkBoxOnChange={checkBoxOnChange}
         allCheckBoxOnChange={allCheckBoxOnChange}
+        showInboundQueues={showInboundQueues}
+        showSkillProfile={showSkillProfile}
+        showAutoAnswer={showAutoAnswer}
       />
     </RcThemeProvider>,
   );

@@ -10,11 +10,17 @@ import {
   And as BaseAnd,
   examples,
 } from 'crius-test';
-import { isCriusFlow } from 'crius-is';
+import { isCriusNode } from 'crius-is';
 import { combine } from './combine';
 import { TestType, testTypes } from './constant';
 
 export { beforeEach } from 'crius-test';
+
+interface BuilderProps {
+  desc: string;
+  // TODO: fix type for all feature file
+  action?: any;
+}
 
 beforeEach(() => {
   global.instance = null;
@@ -47,8 +53,8 @@ class Step<P = {}, C = {}> extends BaseStep<P, C> {
   }
 }
 
-function testBuild(this: BaseScenario) {
-  let Action = this.props.action;
+function testBuild(this: BaseScenario): any {
+  let Action: any = this.props.action;
   if (
     Object.hasOwnProperty.call(this.props, 'action') &&
     typeof Action === 'undefined'
@@ -56,7 +62,7 @@ function testBuild(this: BaseScenario) {
     throw new Error(
       `The action of Step with desc '${this.props.desc}' is 'undefined'.`,
     );
-  } else if (!isCriusFlow(Action) && typeof Action !== 'undefined') {
+  } else if (!isCriusNode(Action) && typeof Action !== 'undefined') {
     if (Array.isArray(Action)) {
       Action = Action.map((item) => {
         const Item = combine(item);
@@ -68,40 +74,70 @@ function testBuild(this: BaseScenario) {
   }
   return (
     <>
-      {isCriusFlow(Action) || Array.isArray(Action) ? Action : <Action />}
+      {isCriusNode(Action) || Array.isArray(Action) ? Action : <Action />}
       {this.props.children}
     </>
   );
 }
 
-class Scenario extends BaseScenario {
+class Scenario<P = {}, C = {}> extends BaseScenario<BuilderProps & P, C> {
   run(): any {
     return testBuild.call(this);
   }
+
+  render = (): any => null;
+  setState = (): any => null;
+  forceUpdate = (): any => null;
+  state: any;
+  refs: any;
 }
 
-class Given extends BaseGiven {
+class Given<P = {}, C = {}> extends BaseGiven<BuilderProps & P, C> {
   run(): any {
     return testBuild.call(this);
   }
+
+  render = (): any => null;
+  setState = (): any => null;
+  forceUpdate = (): any => null;
+  state: any;
+  refs: any;
 }
 
-class When extends BaseWhen {
+class When<P = {}, C = {}> extends BaseWhen<BuilderProps & P, C> {
   run(): any {
     return testBuild.call(this);
   }
+
+  render = (): any => null;
+  setState = (): any => null;
+  forceUpdate = (): any => null;
+  state: any;
+  refs: any;
 }
 
-class Then extends BaseThen {
+class Then<P = {}, C = {}> extends BaseThen<BuilderProps & P, C> {
   run(): any {
     return testBuild.call(this);
   }
+
+  render = (): any => null;
+  setState = (): any => null;
+  forceUpdate = (): any => null;
+  state: any;
+  refs: any;
 }
 
-class And extends BaseAnd {
+class And<P = {}, C = {}> extends BaseAnd<BuilderProps & P, C> {
   run(): any {
     return testBuild.call(this);
   }
+
+  render = (): any => null;
+  setState = (): any => null;
+  forceUpdate = (): any => null;
+  state: any;
+  refs: any;
 }
 
 const autorun = (_test: Function) => (_target: object) => {

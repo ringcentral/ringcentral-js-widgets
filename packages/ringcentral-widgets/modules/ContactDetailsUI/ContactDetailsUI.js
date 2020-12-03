@@ -35,6 +35,10 @@ const DEFAULT_COMPOSETEXT_ROUTE = '/composeText';
     'Locale',
     'CallingSettings',
     {
+      dep: 'ContactList',
+      optional: true,
+    },
+    {
       dep: 'ContactDetailsUIOptions',
       optional: true,
     },
@@ -45,6 +49,7 @@ export class ContactDetailsUI extends RcUIModule {
   constructor({
     routerInteraction,
     contactSearch,
+    contactList,
     contacts,
     rolesAndPermissions,
     rateLimiter,
@@ -79,6 +84,7 @@ export class ContactDetailsUI extends RcUIModule {
     });
     this._routerInteraction = routerInteraction;
     this._contactSearch = contactSearch;
+    this._contactList = contactList;
     this._contacts = contacts;
     this._extensionInfo = extensionInfo;
     this._rolesAndPermissions = rolesAndPermissions;
@@ -108,7 +114,7 @@ export class ContactDetailsUI extends RcUIModule {
 
   @proxify
   showContactDetails({ id, type, direct = false }) {
-    const contact = this._contacts.find({ id, type });
+    const contact = this.getContact({ id, type });
     if (contact) {
       this._routerInteraction.push(
         `/contacts/${type}/${id}${direct ? '?direct=true' : ''}`,
@@ -119,7 +125,16 @@ export class ContactDetailsUI extends RcUIModule {
   }
 
   getContact({ id, type }): ContactModel {
-    return this._contacts?.find({ id, type }) ?? null;
+    let contact;
+    if (this._contactList) {
+      contact = this._contactList.filteredContacts.find(
+        (x) => x.type === type && x.id === id,
+      );
+    }
+    if (!contact) {
+      contact = this._contacts.find({ id, type });
+    }
+    return contact ?? null;
   }
 
   @proxify
@@ -159,13 +174,12 @@ export class ContactDetailsUI extends RcUIModule {
 
   getUIProps({ params: { contactId, contactType } }): ContactDetailsViewProps {
     return {
-      currentLocale: this._locale?.currentLocale,
+      currentLocale: this._locale.currentLocale,
       contact: this.getContact({
         id: contactId,
         type: contactType,
       }),
-      isMultipleSiteEnabled:
-        this._extensionInfo?.isMultipleSiteEnabled ?? false,
+      isMultipleSiteEnabled: this._extensionInfo.isMultipleSiteEnabled ?? false,
       isCallButtonDisabled: !!(
         this._connectivityManager?.isOfflineMode ||
         this._connectivityManager?.isWebphoneUnavailableMode ||
@@ -178,9 +192,9 @@ export class ContactDetailsUI extends RcUIModule {
         this._rateLimiter?.throttling
       ),
       showSpinner: !(
-        this._locale?.ready &&
-        this._contactSearch?.ready &&
-        this._rolesAndPermissions?.ready
+        this._locale.ready &&
+        this._contactSearch.ready &&
+        this._rolesAndPermissions.ready
       ),
     };
   }
@@ -206,8 +220,8 @@ export class ContactDetailsUI extends RcUIModule {
         }
         // if multi-site is enabled then we will try to remove site code with same site
         if (
-          this._extensionInfo?.isMultipleSiteEnabled &&
-          this._extensionInfo?.site?.code
+          this._extensionInfo.isMultipleSiteEnabled &&
+          this._extensionInfo.site?.code
         ) {
           const formattedNumber: string = formatNumber({
             phoneNumber,
@@ -221,10 +235,10 @@ export class ContactDetailsUI extends RcUIModule {
       },
       canTextButtonShow: (phoneType: string) => {
         const outboundSmsPermission = !!(
-          this._rolesAndPermissions?.permissions?.OutboundSMS ?? false
+          this._rolesAndPermissions.permissions.OutboundSMS ?? false
         );
         const internalSmsPermission = !!(
-          this._rolesAndPermissions?.permissions?.InternalSMS ?? false
+          this._rolesAndPermissions.permissions.InternalSMS ?? false
         );
         // guess this statement is to avoid exception
         const isClickToTextEnabled = !!this._composeText;
@@ -239,7 +253,7 @@ export class ContactDetailsUI extends RcUIModule {
       canCallButtonShow: (phoneType: string) => {
         const isClickToDialEnabled = !!(
           this._dialerUI &&
-          (this._rolesAndPermissions?.callingEnabled ?? false)
+          (this._rolesAndPermissions.callingEnabled ?? false)
         );
         return isClickToDialEnabled && phoneType !== phoneTypes.fax;
       },

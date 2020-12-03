@@ -89,17 +89,21 @@ class CallMonitorBarInterval extends Step {
 }
 
 @autorun(test.skip)
-@title('Call monitor status bar with 5 seconds interval')
+@title('Call monitor status bar with incoming calls')
 class CallMonitorBarWithIncomingCall extends Step {
   @examples(`
-    | incomingCallNumber|
-    | '3' |`)
+  | incomingCallNumber | path                            | callMonitorBarContent                    |
+  | '1'                | 'settings page'                 | '1 incoming call and view calls button'  |
+  | '3'                | 'settings page'                 | '3 incoming calls and view calls button' |
+  | '1'                | 'current ringing call log page' | 'empty'                                  |
+  | '3'                | 'current ringing call log page' | '3 incoming calls and view calls button' |
+  | '1'                | 'other ongoing call log page'   | '1 incoming call and view calls button'  |`)
   run() {
     return (
       <Scenario desc="Call monitor bar with incoming calls">
-        <Given desc="Given user is on the Path: <setting_path>" />
         <When desc="When user has ${incomingCallNumber} incoming calls" />
-        <Then desc="Then the callMonitor bar should with ${incomingCallNumber} incoming calls, [view call btn]" />
+        <And desc="And user navigate to ${path}" />
+        <Then desc="Then the callMonitor bar should show ${callMonitorBarContent}" />
       </Scenario>
     );
   }

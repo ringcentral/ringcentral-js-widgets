@@ -1,4 +1,4 @@
-import EventEmitter from 'events';
+import { EventEmitter } from 'events';
 import RcModule from '../../lib/RcModule';
 import { Module } from '../../lib/di';
 import Meeting, { RcMMeetingModel } from '../Meeting';
@@ -22,6 +22,7 @@ import { RcVideo } from '../RcVideo';
 
 import getGenericMeetingReducer from './getGenericMeetingReducer';
 import { RcVMeetingModel } from '../../interfaces/Rcv.model';
+import { genericMeetingStatus } from './genericMeetingStatus';
 
 @Module({
   deps: ['MeetingProvider', 'ExtensionInfo', 'Brand', 'Meeting', 'RcVideo'],
@@ -75,11 +76,20 @@ export class GenericMeeting extends RcModule implements IGenericMeeting {
   }
 
   @proxify
-  updateScheduleFor(userExtensionId: string | number) {
-    return (
-      this._meetingModule.updateScheduleFor &&
-      this._meetingModule.updateScheduleFor(userExtensionId)
-    );
+  async updateScheduleFor(userExtensionId: string | number) {
+    if (!this._meetingModule.updateScheduleFor) {
+      return;
+    }
+
+    this.store.dispatch({
+      type: this.actionTypes.initUpdating,
+    });
+
+    await this._meetingModule.updateScheduleFor(userExtensionId);
+
+    this.store.dispatch({
+      type: this.actionTypes.updated,
+    });
   }
 
   @proxify
@@ -339,5 +349,9 @@ export class GenericMeeting extends RcModule implements IGenericMeeting {
       return this._rcVideo.personalVideoSetting;
     }
     return null;
+  }
+
+  get isUpdating() {
+    return this.state.updatingStatus === genericMeetingStatus.updating;
   }
 }

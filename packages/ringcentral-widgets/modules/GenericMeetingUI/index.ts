@@ -122,6 +122,7 @@ export default class GenericMeetingUI extends RcUIModule {
         (this._connectivityMonitor && !this._connectivityMonitor.ready) ||
         (this._rateLimiter && !this._rateLimiter.ready)
       ),
+      showSpinnerInConfigPanel: this._genericMeeting.isUpdating,
     };
   }
 

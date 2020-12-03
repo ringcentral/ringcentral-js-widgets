@@ -1,5 +1,5 @@
 export default {
-  flipHeader: "Anruf umlegen zu ...",
+  flipHeader: "Anruf umlegen zu ...",
   flip: "Umlegen",
   complete: "Umlegen abschließen"
 };

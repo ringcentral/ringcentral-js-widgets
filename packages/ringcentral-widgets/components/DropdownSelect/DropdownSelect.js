@@ -281,6 +281,7 @@ class DropdownSelect extends Component {
     if (!this._optionsWithLabel) return null;
     return (
       <span
+        data-sign="selectedLabel"
         className={classnames(
           styles.selectedOptionLabel,
           open ? styles.selectedOptionLabelHide : null,

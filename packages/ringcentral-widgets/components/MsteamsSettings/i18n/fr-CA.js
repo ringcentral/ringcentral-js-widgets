@@ -1,5 +1,5 @@
 export default {
-  msTeamsSettingHeader: "Paramètres de Microsoft Teams",
+  msTeamsSettingHeader: "Paramètres de Microsoft Teams",
   audioSetting: "Définir {brandName} comme application par défaut lors d'appels audio",
   videoSetting: "Définir {brandName} comme application par défaut lors d'appels vidéo"
 };

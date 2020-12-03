@@ -19,7 +19,8 @@ export default {
   [dndStatus.doNotAcceptAnyCalls]: "Non disturbare",
   notActivated: "Inattivo",
   company: "Azienda",
-  jobTitle: "Titolo"
+  jobTitle: "Titolo",
+  site: "Sede"
 };
 
 // @key: @#@"[phoneTypes.extension]"@#@ @source: @#@"Ext."@#@
@@ -40,3 +41,4 @@ export default {
 // @key: @#@"notActivated"@#@ @source: @#@"Inactive"@#@
 // @key: @#@"company"@#@ @source: @#@"Company"@#@
 // @key: @#@"jobTitle"@#@ @source: @#@"Title"@#@
+// @key: @#@"site"@#@ @source: @#@"Site"@#@

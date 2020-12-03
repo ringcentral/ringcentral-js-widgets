@@ -1,6 +1,6 @@
 export default {
   eula: "最终用户许可协议",
-  eulaAbbr: "EULA",
+  eulaAbbr: "最终用户许可协议",
   serviceTerms: "服务条款",
   termsOfService: "条款和条件"
 };

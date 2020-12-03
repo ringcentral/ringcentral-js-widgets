@@ -54,8 +54,8 @@ function setup({
   isExtensionNumber = false,
   // takingCall = false,
   // setTakingCall = () => {},
-  // autoAnswer = true,
-  // setAutoAnswer = () => {},
+  autoAnswer = true,
+  setAutoAnswer = () => {},
   searchOption,
   inboundQueues = [],
   submitInboundQueues,
@@ -64,6 +64,9 @@ function setup({
   isSeveralAssign = () => false,
   checkBoxOnChange,
   allCheckBoxOnChange,
+  showInboundQueues = true,
+  showSkillProfile = true,
+  showAutoAnswer = true,
 }: Partial<SessionConfigPanelProps>) {
   return mount(
     <RcThemeProvider>
@@ -83,8 +86,8 @@ function setup({
         isLoading={isLoading}
         // takingCall={takingCall}
         // setTakingCall={setTakingCall}
-        // autoAnswer={autoAnswer}
-        // setAutoAnswer={setAutoAnswer}
+        autoAnswer={autoAnswer}
+        setAutoAnswer={setAutoAnswer}
         searchOption={searchOption}
         inboundQueues={inboundQueues}
         submitInboundQueues={submitInboundQueues}
@@ -93,6 +96,9 @@ function setup({
         isSeveralAssign={isSeveralAssign}
         checkBoxOnChange={checkBoxOnChange}
         allCheckBoxOnChange={allCheckBoxOnChange}
+        showInboundQueues={showInboundQueues}
+        showSkillProfile={showSkillProfile}
+        showAutoAnswer={showAutoAnswer}
       />
     </RcThemeProvider>,
   );

@@ -10,13 +10,15 @@ import {
   RcTimePickerProps,
 } from '@ringcentral/juno';
 import { find, reduce } from 'ramda';
+import classnames from 'classnames';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { RcVMeetingModel } from 'ringcentral-integration/interfaces/Rcv.model';
-import { RCV_WAITING_ROOM_MODE } from 'ringcentral-integration/modules/RcVideo/videoHelper';
 import {
   RcvDelegator,
+  ASSISTED_USERS_MYSELF,
+  RCV_WAITING_ROOM_MODE,
   RcvWaitingRoomModeProps,
-} from 'ringcentral-integration/modules/RcVideo/interface';
+} from 'ringcentral-integration/modules/RcVideo';
 
 import { formatMeetingId } from '../../lib/MeetingCalendarHelper';
 import { useDebounce } from '../../react-hooks';
@@ -25,6 +27,7 @@ import i18n from './i18n';
 import { SettingGroup } from './SettingGroup';
 import styles from './styles.scss';
 import { VideoSecuritySettingsItem } from './VideoSecuritySettingItem';
+import { SpinnerOverlay } from '../SpinnerOverlay';
 
 export const MINUTE_SCALE: number = 4;
 export const HOUR_SCALE: number = 13;
@@ -103,6 +106,7 @@ interface VideoConfigProps {
   datePickerSize?: RcDatePickerProps['size'];
   timePickerSize?: RcTimePickerProps['size'];
   labelPlacement?: 'end' | 'start' | 'top' | 'bottom';
+  showSpinnerInConfigPanel: boolean;
 }
 
 export const VideoConfig: React.FunctionComponent<VideoConfigProps> = (
@@ -133,6 +137,7 @@ export const VideoConfig: React.FunctionComponent<VideoConfigProps> = (
     delegators,
     showScheduleOnBehalf,
     updateScheduleFor,
+    showSpinnerInConfigPanel,
   } = props;
   const hoursList = getHoursList(HOUR_SCALE);
   const minutesList = getMinutesList(MINUTE_SCALE);
@@ -212,6 +217,7 @@ export const VideoConfig: React.FunctionComponent<VideoConfigProps> = (
       data-sign="videoConfigPanel"
     >
       <div className={styles.meetingContent}>
+        {showSpinnerInConfigPanel ? <SpinnerOverlay /> : null}
         <div className={styles.meetingSection}>{children}</div>
         {recipientsSection ? (
           <div className={styles.meetingSection}>{recipientsSection}</div>
@@ -333,7 +339,10 @@ export const VideoConfig: React.FunctionComponent<VideoConfigProps> = (
                 value={meeting.extensionId}
               >
                 {delegators.map((item: RcvDelegator, index: number) => {
-                  const userName = i18n.getString(item.name, currentLocale);
+                  const userName =
+                    item.name === ASSISTED_USERS_MYSELF
+                      ? i18n.getString(item.name, currentLocale)
+                      : item.name;
                   return (
                     <RcMenuItem
                       value={item.extensionId}
@@ -358,7 +367,7 @@ export const VideoConfig: React.FunctionComponent<VideoConfigProps> = (
             currentLocale,
           )}
         >
-          {enablePersonalMeeting && (
+          {enablePersonalMeeting && personalMeetingId && (
             <>
               <VideoSecuritySettingsItem
                 labelPlacement={labelPlacement}
@@ -458,7 +467,13 @@ export const VideoConfig: React.FunctionComponent<VideoConfigProps> = (
             <RcTextField
               error={!meeting.isMeetingPasswordValid}
               helperText={getHelperTextForPasswordField(meeting, currentLocale)}
-              className={styles.passwordInput}
+              className={classnames(
+                styles.passwordInput,
+                styles.noBottomMargin,
+                {
+                  [styles.subPrefixPadding]: labelPlacement === 'end',
+                },
+              )}
               label={i18n.getString('setPassword', currentLocale)}
               InputLabelProps={{
                 className: styles.passwordLabel,
@@ -531,7 +546,11 @@ export const VideoConfig: React.FunctionComponent<VideoConfigProps> = (
                 />
               </VideoSecuritySettingsItem>
               {meeting.waitingRoomMode ? (
-                <div className={styles.boxSelectWrapper}>
+                <div
+                  className={classnames(styles.boxSelectWrapper, {
+                    [styles.subPrefixPadding]: labelPlacement === 'end',
+                  })}
+                >
                   <RcBoxSelect
                     data-sign="waitingRoom"
                     automationId="waitingRoom"
@@ -596,7 +615,11 @@ export const VideoConfig: React.FunctionComponent<VideoConfigProps> = (
             />
           </VideoSecuritySettingsItem>
           {meeting.isOnlyAuthUserJoin ? (
-            <div className={styles.boxSelectWrapper}>
+            <div
+              className={classnames(styles.boxSelectWrapper, {
+                [styles.subPrefixPadding]: labelPlacement === 'end',
+              })}
+            >
               <RcBoxSelect
                 data-sign="authUserType"
                 automationId="authUserType"

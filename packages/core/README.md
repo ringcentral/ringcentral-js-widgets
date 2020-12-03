@@ -10,20 +10,19 @@ yarn add @ringcentral-integration/core
 
 ## APIs
 
-- [RcModuleV2](#RcModule-APIs)
-    - onStateChange()
-    - onInit()
-    - onInitOnce()
-    - onReset()
-- [RcUIModuleV2](#RcUIModule-APIs)
-- [@state](#state-API)
-- [@action](#action-API)
-- [@storage](#Storage-and-GlobalStorage-APIs)
-- [@globalStorage](#Storage-and-GlobalStorage-APIs)
-- [@computed()](#computed-API)
-- [@proxyState()](#proxyState-API)
-- [@track()](#Tracking-APIs)
-- [watch](#State-Subscription-APIs)
+- [@ringcentral-integration/core](#ringcentral-integrationcore)
+  - [Usage](#usage)
+  - [APIs](#apis)
+    - [RcModule APIs](#rcmodule-apis)
+      - [state API](#state-api)
+      - [action API](#action-api)
+      - [computed API](#computed-api)
+      - [proxyState API](#proxystate-api)
+    - [RcUIModule APIs](#rcuimodule-apis)
+    - [Dependency Injection](#dependency-injection)
+    - [Storage and GlobalStorage APIs](#storage-and-globalstorage-apis)
+    - [Tracking APIs](#tracking-apis)
+    - [State Subscription APIs](#state-subscription-apis)
 
 ### RcModule APIs
 
@@ -35,11 +34,11 @@ The decorator `storage` depends on `Storage` Module, And  The decorator `globalS
 
 - onInit()
 
-`onInit` life cycle for current initialization before all deps modules are all ready.
+`onInit` life cycle for current initialization after all deps modules are all ready.
 
 - onInitOnce()
 
-`onInitOnce` once life cycle for current initialization before all deps modules are all ready.
+`onInitOnce` once life cycle for current initialization after all deps modules are all ready.
 
 - onInitSuccess()
 
@@ -47,7 +46,7 @@ The decorator `storage` depends on `Storage` Module, And  The decorator `globalS
 
 - onReset()
 
-`onReset` life cycle for current reset before one of deps modules is not ready.
+`onReset` life cycle for current reset after one of deps modules is not ready.
 
 - onStateChange()
 

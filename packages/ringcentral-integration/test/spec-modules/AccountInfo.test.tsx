@@ -10,12 +10,13 @@ import {
 } from '@ringcentral-integration/test-utils';
 
 import { AccountInfo } from '../../modules/AccountInfoV2';
+import { loginStatus } from '../../modules/AuthV2';
 import { permissionsMessages } from '../../modules/RolesAndPermissions/permissionsMessages';
 
 class MockAuth {
-  loggedIn = true;
+  loginStatus = loginStatus.loggedIn;
   async logout() {
-    this.loggedIn = false;
+    this.loginStatus = loginStatus.notLoggedIn;
   }
 }
 
@@ -71,9 +72,8 @@ export class CleanOnReset extends Step {
 )
 export class ReadCompanyInfo extends Step {
   @examples(`
-    | ReadCompanyInfo  |
-    | true             |
-    | false            |
+    | ReadCompanyInfo |
+    | true            |
     | false            |
   `)
   run() {
@@ -119,12 +119,16 @@ export class ReadCompanyInfo extends Step {
           desc="Should logout if user has no ReadCompanyInfo permission"
           action={(_: any, context: any) => {
             if (!context.example.ReadCompanyInfo) {
-              expect(context.instance._deps.auth.loggedIn).toBe(false);
+              expect(context.instance._deps.auth.loginStatus).toBe(
+                loginStatus.notLoggedIn,
+              );
               expect(context.instance._deps.alert.args[0].message).toBe(
                 permissionsMessages.insufficientPrivilege,
               );
             } else {
-              expect(context.instance._deps.auth.loggedIn).toBe(true);
+              expect(context.instance._deps.auth.loginStatus).toBe(
+                loginStatus.loggedIn,
+              );
               expect(context.instance._deps.alert.args).toBeNull();
             }
           }}

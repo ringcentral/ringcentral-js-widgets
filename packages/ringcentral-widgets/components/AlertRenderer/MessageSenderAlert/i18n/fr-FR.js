@@ -1,4 +1,5 @@
 import messageSenderMessages from 'ringcentral-integration/modules/MessageSender/messageSenderMessages';
+import messageSenderMessagesV2 from 'ringcentral-integration/modules/MessageSenderV2/messageSenderMessages';
 export default {
   [messageSenderMessages.sendSuccess]: "Envoi réussi.",
   [messageSenderMessages.sendError]: "Une erreur s'est produite lors de l'envoi du message.",
@@ -8,10 +9,10 @@ export default {
   [messageSenderMessages.senderEmpty]: "Vous devez sélectionner un numéro parmi les numéros de téléphone pour envoyer",
   [messageSenderMessages.noToNumber]: "Veuillez saisir un numéro de téléphone valide.",
   [messageSenderMessages.recipientsEmpty]: "Veuillez saisir un numéro de destinataire valide.",
-  [messageSenderMessages.textTooLong]: "Le texte est trop long, limite : 1 000",
-  [messageSenderMessages.multipartTextTooLong]: "Le texte est trop long, limite : 5 000",
+  [messageSenderMessages.textTooLong]: "Le texte est trop long, limite : 1 000",
+  [messageSenderMessages.multipartTextTooLong]: "Le texte est trop long, limite : 5 000",
   [messageSenderMessages.recipientNumberInvalids]: "Veuillez saisir un numéro de téléphone valide.",
-  [messageSenderMessages.noAreaCode]: "Veuillez paramétrer l'{areaCodeLink} pour utiliser des numéros de téléphone locaux à 7 chiffres.",
+  [messageSenderMessages.noAreaCode]: "Veuillez paramétrer l'{areaCodeLink} pour utiliser des numéros de téléphone locaux à 7 chiffres.",
   [messageSenderMessages.specialNumber]: "L'envoi de textos à des numéros d'urgence ou à des numéros pour services spéciaux n'est pas pris en charge.",
   [messageSenderMessages.connectFailed]: "Échec de la connexion. Veuillez réessayer plus tard.",
   [messageSenderMessages.internalError]: "Connexion impossible en raison d'erreurs internes. Veuillez réessayer plus tard.",
@@ -22,6 +23,9 @@ export default {
   [messageSenderMessages.internationalSMSNotSupported]: "L'envoi de SMS vers un numéro de téléphone international n'est pas pris en charge.",
   [messageSenderMessages.noInternalSMSPermission]: "Vous n'êtes pas autorisé à envoyer des messages. Veuillez contacter votre administrateur de compte {brand} pour une mise à niveau.",
   [messageSenderMessages.noSMSPermission]: "Vous n'êtes pas autorisé à envoyer des messages à des destinataires extérieurs à votre entreprise.",
+  [messageSenderMessagesV2.attachmentCountLimitation]: "Maximum 10 pièces jointes.",
+  [messageSenderMessagesV2.attachmentSizeLimitation]: "La taille des pièces jointes est limitée à 1,5 Mo.",
+  [messageSenderMessagesV2.noAttachmentToExtension]: "L'envoi de MMS à une extension n'est pas pris en charge.",
   areaCode: "indicatif régional",
   [messageSenderMessages.sending]: "Message en cours d'envoi… Cela peut prendre quelques minutes."
 };
@@ -48,5 +52,8 @@ export default {
 // @key: @#@"[messageSenderMessages.internationalSMSNotSupported]"@#@ @source: @#@"Sending SMS to international phone number is not supported."@#@
 // @key: @#@"[messageSenderMessages.noInternalSMSPermission]"@#@ @source: @#@"You don't have permission to send messages. Please contact your {brand} account administrator for upgrade."@#@
 // @key: @#@"[messageSenderMessages.noSMSPermission]"@#@ @source: @#@"You don't have permission to send messages to recipients outside of your organization."@#@
+// @key: @#@"[messageSenderMessagesV2.attachmentCountLimitation]"@#@ @source: @#@"Maximum 10 attachments."@#@
+// @key: @#@"[messageSenderMessagesV2.attachmentSizeLimitation]"@#@ @source: @#@"Attachments size is limited to 1.5M bytes."@#@
+// @key: @#@"[messageSenderMessagesV2.noAttachmentToExtension]"@#@ @source: @#@"It isn't supported to send MMS to an extension."@#@
 // @key: @#@"areaCode"@#@ @source: @#@"area code"@#@
 // @key: @#@"[messageSenderMessages.sending]"@#@ @source: @#@"Message being sent…It may take a couple of minutes to complete."@#@

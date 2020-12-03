@@ -19,7 +19,8 @@ export default {
   pages: "페이지",
   preview: "보기",
   download: "다운로드",
-  imageAttachment: "첨부 파일: {count}개 이미지"
+  imageAttachment: "첨부 파일: {count}개 이미지",
+  fileAttachment: "첨부 파일: {count}개의 파일"
 };
 
 // @key: @#@"addLog"@#@ @source: @#@"Log"@#@
@@ -42,3 +43,4 @@ export default {
 // @key: @#@"preview"@#@ @source: @#@"View"@#@
 // @key: @#@"download"@#@ @source: @#@"Download"@#@
 // @key: @#@"imageAttachment"@#@ @source: @#@"Attachment: {count} image"@#@
+// @key: @#@"fileAttachment"@#@ @source: @#@"Attachment: {count} file"@#@

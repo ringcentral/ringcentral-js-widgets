@@ -19,7 +19,8 @@ export default {
   pages: "ページ",
   preview: "表示",
   download: "ダウンロード",
-  imageAttachment: "添付ファイル：{count}個の画像"
+  imageAttachment: "添付ファイル：{count}件のイメージ",
+  fileAttachment: "添付ファイル：{count}ファイル"
 };
 
 // @key: @#@"addLog"@#@ @source: @#@"Log"@#@
@@ -41,4 +42,5 @@ export default {
 // @key: @#@"pages"@#@ @source: @#@"pages"@#@
 // @key: @#@"preview"@#@ @source: @#@"View"@#@
 // @key: @#@"download"@#@ @source: @#@"Download"@#@
-// @key: @#@"imageAttachment"@#@ @source: @#@"Attachment: 1 image"@#@
+// @key: @#@"imageAttachment"@#@ @source: @#@"Attachment: {count} image"@#@
+// @key: @#@"fileAttachment"@#@ @source: @#@"Attachment: {count} file"@#@

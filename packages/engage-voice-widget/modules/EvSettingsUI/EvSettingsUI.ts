@@ -103,16 +103,19 @@ class EvSettingsUI extends RcUIModuleV2<Deps> implements SettingsUI {
   }
 
   getUIProps(): EvSettingsUIProps {
+    const { agentSettings, agentPermissions } = this._deps.evAuth;
     return {
       currentLocale: this._deps.locale.currentLocale,
       version: this._deps.version,
       agentName: this.agentName,
-      userName: this._deps.evAuth.agent.agentConfig.agentSettings.username,
+      userName: agentSettings.username,
       sessionInfo: this.sessionInfo,
+      // pendingdisposition?
       disableEditSessionButton:
         this._deps.evCallMonitor.isOnCall ||
         this._deps.evSettings.isOffhooking ||
         this._deps.evSettings.isOffhook,
+      showEditSessionButton: agentPermissions.allowLoginUpdates,
     };
   }
 

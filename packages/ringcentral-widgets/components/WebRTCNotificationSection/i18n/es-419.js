@@ -1,17 +1,17 @@
 export default {
   forward: "Reenviar",
-  reply: "Responder",
   ignore: "Ignorar",
   toVoicemail: "A buzón de voz",
   answer: "Responder",
-  answerAndEnd: "Resp. y finalizar",
-  answerAndHold: "Resp. y a espera"
+  endAndAnswer: "Finalizar y responder",
+  holdAndAnswer: "Poner en espera y responder",
+  custom: "Personalizar"
 };
 
 // @key: @#@"forward"@#@ @source: @#@"Forward"@#@
-// @key: @#@"reply"@#@ @source: @#@"Reply"@#@
 // @key: @#@"ignore"@#@ @source: @#@"Ignore"@#@
 // @key: @#@"toVoicemail"@#@ @source: @#@"To Voicemail"@#@
 // @key: @#@"answer"@#@ @source: @#@"Answer"@#@
-// @key: @#@"answerAndEnd"@#@ @source: @#@"Answer & End"@#@
-// @key: @#@"answerAndHold"@#@ @source: @#@"Answer & Hold"@#@
+// @key: @#@"endAndAnswer"@#@ @source: @#@"End & Answer"@#@
+// @key: @#@"holdAndAnswer"@#@ @source: @#@"Hold & Answer"@#@
+// @key: @#@"custom"@#@ @source: @#@"Custom"@#@

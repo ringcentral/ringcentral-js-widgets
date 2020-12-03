@@ -11,11 +11,11 @@ export default {
   inviteWithGCalendar: "Inviter avec Google Agenda",
   inviteWithText: "Envoyer une invitation par SMS",
   joinAsHost: "Lancer la conférence",
-  internationalNumber: "Numéros internationaux à composer :",
-  inviteText_att: "Veuillez rejoindre la conférence {brandName}.\n\nNuméro d'accès : {formattedDialInNumber} \n{additionalNumbersSection} \nAccès du participant : {participantCode} \n\nVous avez besoin d'un numéro d'accès international ? Veuillez visiter la page {dialInNumbersLinks} \n\nCette conférence téléphonique vous est offerte par le service de conférences {brandName}.",
-  inviteText_bt: "Veuillez rejoindre la conférence {brandName}.\n\nNuméro d'accès : {formattedDialInNumber} \n{additionalNumbersSection} \nAccès du participant : {participantCode} \n\nNuméros d'accès supplémentaires {dialInNumbersLinks}",
-  inviteText_rc: "Veuillez rejoindre la conférence {brandName}.\n\nNuméro d'accès : {formattedDialInNumber} \n{additionalNumbersSection} \nAccès du participant : {participantCode} \n\nVous avez besoin d'un numéro d'accès international ? Veuillez visiter la page {dialInNumbersLinks} \n\nCette conférence téléphonique vous est offerte par le service de conférences {brandName}.",
-  inviteText_telus: "Veuillez rejoindre la conférence {brandName}.\n\nNuméro d'accès : {formattedDialInNumber} \n{additionalNumbersSection} \nAccès du participant : {participantCode} \n\nNuméros d'accès supplémentaires {dialInNumbersLinks}"
+  internationalNumber: "Numéros internationaux à composer :",
+  inviteText_att: "Veuillez rejoindre la conférence {brandName}.\n\nNuméro d'accès : {formattedDialInNumber} \n{additionalNumbersSection} \nAccès du participant : {participantCode} \n\nVous avez besoin d'un numéro d'accès international ? Veuillez visiter la page {dialInNumbersLinks} \n\nCette conférence téléphonique vous est offerte par le service de conférences {brandName}.",
+  inviteText_bt: "Veuillez rejoindre la conférence {brandName}.\n\nNuméro d'accès : {formattedDialInNumber} \n{additionalNumbersSection} \nAccès du participant : {participantCode} \n\nNuméros d'accès supplémentaires {dialInNumbersLinks}",
+  inviteText_rc: "Veuillez rejoindre la conférence {brandName}.\n\nNuméro d'accès : {formattedDialInNumber} \n{additionalNumbersSection} \nAccès du participant : {participantCode} \n\nVous avez besoin d'un numéro d'accès international ? Veuillez visiter la page {dialInNumbersLinks} \n\nCette conférence téléphonique vous est offerte par le service de conférences {brandName}.",
+  inviteText_telus: "Veuillez rejoindre la conférence {brandName}.\n\nNuméro d'accès : {formattedDialInNumber} \n{additionalNumbersSection} \nAccès du participant : {participantCode} \n\nNuméros d'accès supplémentaires {dialInNumbersLinks}"
 };
 
 // @key: @#@"newConference"@#@ @source: @#@"New Conference"@#@

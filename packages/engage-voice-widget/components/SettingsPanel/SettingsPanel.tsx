@@ -22,6 +22,7 @@ export const SettingsPanel: FunctionComponent<SettingsPanelProps> = ({
   sessionInfo,
   goToSessionUpdatePage,
   disableEditSessionButton,
+  showEditSessionButton,
 }) => {
   return (
     <div className={styles.settingsPanel}>
@@ -49,16 +50,18 @@ export const SettingsPanel: FunctionComponent<SettingsPanelProps> = ({
             </RcTypography>
           </div>
         ))}
-        <RcButton
-          data-sign="editSession"
-          disabled={disableEditSessionButton}
-          onClick={goToSessionUpdatePage}
-          classes={{ root: styles.editSession }}
-          size="medium"
-          fullWidth
-        >
-          {i18n.getString('editSession', currentLocale)}
-        </RcButton>
+        {showEditSessionButton && (
+          <RcButton
+            data-sign="editSession"
+            disabled={disableEditSessionButton}
+            onClick={goToSessionUpdatePage}
+            classes={{ root: styles.editSession }}
+            size="medium"
+            fullWidth
+          >
+            {i18n.getString('editSession', currentLocale)}
+          </RcButton>
+        )}
       </div>
       <div className={classNames(styles.version, styles.item)}>
         {i18n.getString('version', currentLocale)}

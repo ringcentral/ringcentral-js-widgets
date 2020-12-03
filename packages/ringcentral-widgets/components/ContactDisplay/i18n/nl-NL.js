@@ -3,14 +3,14 @@ export default {
   logCall: "Oproep loggen",
   editLog: "Log bewerken",
   select: "Selecteer overeenkomend",
-  OnHold: "In de wacht",
+  OnHold: "In wacht",
   Ringing: "Aan het bellen",
   CallConnected: "Oproep verbonden",
   unknownUser: "Onbekende gebruiker",
   unknownNumber: "Anoniem",
   unavailable: "Niet beschikbaar",
   viewDetails: "Details weergeven",
-  conferenceCall: "Conference call"
+  conferenceCall: "Conferencecall"
 };
 
 // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@

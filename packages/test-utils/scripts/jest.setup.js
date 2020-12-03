@@ -4,7 +4,7 @@ import Adapter from 'enzyme-adapter-react-16';
 // Using for React UI component Unit Test.
 const adapter = new Adapter();
 configure({ adapter });
-/* global jest */
+/* global jest, __CI__ */
 
 window.Audio.prototype.pause = () => {};
 window.authData = null;
@@ -17,3 +17,7 @@ console.debug = () => {};
 console.info = () => {};
 console.warn = () => {};
 Element.prototype.scrollIntoView = () => {};
+if (__CI__) {
+  // eslint-disable-next-line
+  console = new Proxy({}, { get: () => () => {} });
+}

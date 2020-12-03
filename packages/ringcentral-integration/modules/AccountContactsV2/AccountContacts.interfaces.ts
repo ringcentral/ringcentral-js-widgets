@@ -4,8 +4,7 @@ import {
   PresenceInfoResponse,
 } from '@rc-ex/core/definitions';
 import { CompanyContacts } from '../CompanyContactsV2';
-import ExtensionInfo from '../ExtensionInfo';
-import { PhoneType } from '../../enums/phoneTypes';
+import { ExtensionInfo } from '../ExtensionInfoV2';
 
 export interface Deps {
   client: any;
@@ -53,16 +52,17 @@ export type Presences = Record<string, Presence>;
 export interface Contact extends ContactResource {
   type: string;
   id: string;
-  emails: string[];
-  extensionNumber: string;
-  hasProfileImage: boolean;
-  phoneNumbers: ({
+  emails?: string[];
+  hasProfileImage?: boolean;
+  phoneNumbers?: ({
     phoneNumber?: string;
-    phoneType?: PhoneType;
+    // Type conflict with IContact
+    phoneType?: string;
   } & PhoneNumberResource)[];
-  profileImageUrl: string;
-  presence: Presence['presence'];
-  contactStatus: string;
+  extensionNumber?: string;
+  profileImageUrl?: string;
+  presence?: Presence['presence'];
+  contactStatus?: string;
 }
 
 export type PresenceContexts = {

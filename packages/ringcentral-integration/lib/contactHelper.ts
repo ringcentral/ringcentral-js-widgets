@@ -2,10 +2,20 @@ import { reduce } from 'ramda';
 import { formatSameSiteExtension } from '@ringcentral-integration/phone-number/lib/format';
 import isBlank from './isBlank';
 import { phoneTypes } from '../enums/phoneTypes';
+import {
+  ContactGroup,
+  IContact,
+  TypedContact,
+  TypedPhoneNumber,
+} from '../interfaces/Contact.model';
 
 export const AllContactSourceName = 'all';
 
-export function addPhoneToContact(contact, phone, type) {
+export function addPhoneToContact(
+  contact: IContact,
+  phone: IContact['phoneNumber'],
+  type: IContact['type'],
+) {
   if (isBlank(phone)) {
     return;
   }
@@ -22,8 +32,8 @@ export function addPhoneToContact(contact, phone, type) {
   }
 }
 
-export function uniqueContactItems(input = []) {
-  const map = {};
+export function uniqueContactItems(input: IContact[] = []) {
+  const map: Record<string, boolean> = {};
   return reduce(
     (result, item) => {
       const itemId = `${item.type}${item.id}`;
@@ -35,11 +45,11 @@ export function uniqueContactItems(input = []) {
     },
     [],
     input,
-  );
+  ) as IContact[];
 }
 
 const NON_ALPHABET_RE = /[^a-z]/i;
-function byName(a, b) {
+function byName(a: IContact, b: IContact) {
   const name1 = (a.name || '').toLowerCase().replace(/^\s\s*/, ''); // trim start
   const name2 = (b.name || '').toLowerCase().replace(/^\s\s*/, ''); // trim start
   const isNumber1 = /^[0-9]/.test(name1);
@@ -63,15 +73,16 @@ function byName(a, b) {
   }
   return name1.localeCompare(name2);
 }
-export function sortContactItemsByName(input = []) {
+
+export function sortContactItemsByName(input: IContact[] = []) {
   return input.sort(byName);
 }
 
 const POUND_SIGN = '#';
-export function groupByFirstLetterOfName(input = []) {
-  const groups = [];
+export function groupByFirstLetterOfName(input: IContact[] = []) {
+  const groups: ContactGroup[] = [];
   if (input && input.length) {
-    let group;
+    let group: ContactGroup;
     input.forEach((contact) => {
       const name = (contact.name || '').replace(/^\s\s*/, ''); // trim start
       let letter = null;
@@ -94,50 +105,73 @@ export function groupByFirstLetterOfName(input = []) {
   return groups;
 }
 
-export function filterContacts(contacts, searchFilter) {
-  const items = contacts;
-  if (!searchFilter || isBlank(searchFilter)) {
-    return items;
-  }
-  const searchText = searchFilter.toLowerCase();
-  return items.filter((item) => {
-    const name = `${item.firstName} ${item.lastName} ${item.name}`;
-    if (
-      name.toLowerCase().indexOf(searchText) >= 0 ||
-      (item.extensionNumber && item.extensionNumber.indexOf(searchText) >= 0) ||
-      (item.phoneNumbers &&
-        item.phoneNumbers.find(
-          (x) => x.phoneNumber && x.phoneNumber.indexOf(searchText) >= 0,
-        ))
-    ) {
-      return true;
-    }
-    return false;
-  });
+export function isSearchHitContact({
+  lowerSearch,
+  contact,
+}: {
+  lowerSearch: string;
+  contact: IContact;
+}): boolean {
+  return (
+    // search names
+    `${contact.firstName} ${contact.lastName} ${contact.name}`
+      .toLowerCase()
+      .includes(lowerSearch) ||
+    // search phones
+    (Array.isArray(contact.phoneNumbers) &&
+      contact.phoneNumbers.some(
+        (x) => x.phoneNumber && x.phoneNumber.includes(lowerSearch),
+      )) ||
+    // search emails
+    (contact.email && contact.email.toLowerCase() === lowerSearch) ||
+    (Array.isArray(contact.emails) &&
+      contact.emails.map((x) => x && x.toLowerCase()).includes(lowerSearch))
+  );
 }
 
-export function getSearchContacts({
+export function getFilterContacts(
+  contacts: IContact[],
+  searchFilter: string,
+): IContact[] {
+  if (!searchFilter || isBlank(searchFilter)) {
+    return contacts;
+  }
+  const lowerSearch = searchFilter.toLowerCase();
+  return contacts.filter((contact) =>
+    isSearchHitContact({ lowerSearch, contact }),
+  );
+}
+
+export function getSearchForPhoneNumbers({
   contacts,
   entityType,
   searchString,
   options,
-}) {
+}: {
+  contacts: IContact[];
+  entityType: string;
+  searchString: string;
+  options?: {
+    isMultipleSiteEnabled?: boolean;
+    siteCode?: string;
+  };
+}): TypedPhoneNumber[] {
   if (!searchString) {
-    return contacts;
+    return [];
   }
-  const searchText = searchString.toLowerCase();
-  const result = [];
-  contacts.forEach((item) => {
-    const name = item.name || `${item.firstName} ${item.lastName}`;
-    item.phoneNumbers.forEach((p) => {
-      if (
-        name.toLowerCase().indexOf(searchText) >= 0 ||
-        p.phoneNumber.indexOf(searchText) >= 0
-      ) {
-        let { phoneNumber } = p;
-        const isMultipleSiteEnabled = options?.isMultipleSiteEnabled ?? false;
-        // Need to check multi-site ?
-        if (p.phoneType === phoneTypes.extension && isMultipleSiteEnabled) {
+  const lowerSearch = searchString.toLowerCase();
+  const result: TypedPhoneNumber[] = [];
+  contacts.forEach((contact) => {
+    if (!Array.isArray(contact.phoneNumbers) || !contact.phoneNumbers.length) {
+      return;
+    }
+    const isContactHit = isSearchHitContact({ lowerSearch, contact });
+    contact.phoneNumbers.forEach(({ phoneType, phoneNumber }) => {
+      if (isContactHit || (phoneNumber && phoneNumber.includes(lowerSearch))) {
+        if (
+          phoneType === phoneTypes.extension &&
+          options?.isMultipleSiteEnabled
+        ) {
           // Remove site code of same site
           phoneNumber = formatSameSiteExtension({
             currentSiteCode: options?.siteCode ?? '',
@@ -145,11 +179,11 @@ export function getSearchContacts({
           });
         }
         result.push({
-          id: `${item.id}${p.phoneNumber}`,
-          name,
-          type: item.type,
+          id: `${contact.id}${phoneNumber}`,
+          name: contact.name || `${contact.firstName} ${contact.lastName}`,
+          type: contact.type,
           phoneNumber,
-          phoneType: p.phoneType.replace('Phone', ''),
+          phoneType: phoneType.replace('Phone', ''),
           entityType,
         });
       }
@@ -158,17 +192,24 @@ export function getSearchContacts({
   return result;
 }
 
-export function getMatchContacts({
+export function getMatchContactsByPhoneNumber({
   contacts,
   phoneNumber,
   entityType,
   normalizeNumber = (number) => number,
-  findContact = (item) => normalizeNumber(item.phoneNumber) === phoneNumber,
-}) {
-  const result = [];
+  findPhoneNumber = (item: IContact['phoneNumbers'][number]) =>
+    normalizeNumber(item.phoneNumber) === phoneNumber,
+}: {
+  contacts: IContact[];
+  phoneNumber: string;
+  entityType: string;
+  normalizeNumber?: (number: string) => string;
+  findPhoneNumber?: (item: IContact['phoneNumbers'][number]) => boolean;
+}): TypedContact[] {
+  const result: TypedContact[] = [];
   contacts.forEach((contact) => {
     const found =
-      contact.phoneNumbers && contact.phoneNumbers.find(findContact);
+      contact.phoneNumbers && contact.phoneNumbers.find(findPhoneNumber);
     if (!found) {
       return;
     }
@@ -186,7 +227,11 @@ const isSameSite = ({
   siteCode = '',
   extensionNumber,
   extensionFromContacts,
-}) => {
+}: {
+  siteCode?: string;
+  extensionNumber: string;
+  extensionFromContacts: string;
+}): boolean => {
   /**
    * [multiple site number match role]:
    * Given an account which short extension starts with 0 in the same site, When short extension is equal to 0, it can match.
@@ -210,23 +255,31 @@ const isSameSite = ({
   );
 };
 
-export const isAnExtension = (number) => {
+export const isAnExtension = (number: string): boolean => {
   return number && number.length <= 6 && number[0] !== '+';
 };
 
 /**
  * check whether an extension is in contacts
- * @param {String} extensionNumber extensionNumber need to be checked
- * @param {String} extensionFromContacts extensionNumber from contact
- * @param {Boolean} options.isMultipleSiteEnabled
- * @param {String} options.siteCode
- * @returns {Boolean}
  */
 export const isExtensionExist = ({
   extensionNumber,
   extensionFromContacts,
   options,
-}) => {
+}: {
+  /**
+   * extensionNumber need to be checked
+   */
+  extensionNumber: string;
+  /**
+   * extensionNumber from contact
+   */
+  extensionFromContacts: string;
+  options?: {
+    isMultipleSiteEnabled?: boolean;
+    siteCode?: string;
+  };
+}): boolean => {
   if (extensionFromContacts === extensionNumber) {
     return true;
   }
@@ -243,7 +296,16 @@ export const isExtensionExist = ({
   return false;
 };
 
-export const getFindContact = ({ phoneNumber, options = {} }) => (item) => {
+export const getFindPhoneNumber = ({
+  phoneNumber,
+  options = {},
+}: {
+  phoneNumber: string;
+  options?: {
+    isMultipleSiteEnabled?: boolean;
+    siteCode?: string;
+  };
+}) => (item: IContact['phoneNumbers'][number]) => {
   if (item.phoneType === phoneTypes.extension) {
     return (
       isAnExtension(phoneNumber) &&

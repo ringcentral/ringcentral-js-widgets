@@ -25,7 +25,7 @@ export default {
   GB: "Verenigd Koninkrijk",
   GE: "Georgië",
   GH: "Ghana",
-  GN: "Guinea",
+  GN: "Guinee",
   GR: "Griekenland",
   HK: "Hongkong",
   HR: "Kroatië",

@@ -3,14 +3,16 @@ export default {
   [meetingStatus.emptyTopic]: "Please enter meeting topic.",
   [meetingStatus.noPassword]: "Please provide meeting password.",
   [meetingStatus.insufficientPermissions]: "{application} do not have {permissionName} permission.",
-  [meetingStatus.scheduledSuccess]: "Meeting is scheduled.",
-  [meetingStatus.updatedSuccess]: "Meeting is updated.",
-  [meetingStatus.internalError]: "Internal error, meeting schedule failed. Try again later."
+  [meetingStatus.scheduledSuccess]: "Meeting added",
+  [meetingStatus.updatedSuccess]: "Meeting updated",
+  [meetingStatus.meetingIsDeleted]: "Meeting has been deleted",
+  [meetingStatus.internalError]: "Sorry, something went wrong on our end. Try again."
 };
 
 // @key: @#@"[meetingStatus.emptyTopic]"@#@ @source: @#@"Please enter meeting topic."@#@
 // @key: @#@"[meetingStatus.noPassword]"@#@ @source: @#@"Please provide meeting password."@#@
 // @key: @#@"[meetingStatus.insufficientPermissions]"@#@ @source: @#@"{application} do not have {permissionName} permission."@#@
-// @key: @#@"[meetingStatus.scheduledSuccess]"@#@ @source: @#@"Meeting is scheduled."@#@
-// @key: @#@"[meetingStatus.updatedSuccess]"@#@ @source: @#@"Meeting is updated."@#@
-// @key: @#@"[meetingStatus.internalError]"@#@ @source: @#@"Internal error, meeting schedule failed. Try again later."@#@
+// @key: @#@"[meetingStatus.scheduledSuccess]"@#@ @source: @#@"Meeting added"@#@
+// @key: @#@"[meetingStatus.updatedSuccess]"@#@ @source: @#@"Meeting updated"@#@
+// @key: @#@"[meetingStatus.meetingIsDeleted]"@#@ @source: @#@"Meeting has been deleted"@#@
+// @key: @#@"[meetingStatus.internalError]"@#@ @source: @#@"Sorry, something went wrong on our end. Try again."@#@

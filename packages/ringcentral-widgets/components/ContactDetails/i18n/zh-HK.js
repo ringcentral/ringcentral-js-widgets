@@ -19,7 +19,8 @@ export default {
   [dndStatus.doNotAcceptAnyCalls]: "請勿打擾",
   notActivated: "非使用中",
   company: "公司",
-  jobTitle: "職稱"
+  jobTitle: "職稱",
+  site: "站台"
 };
 
 // @key: @#@"[phoneTypes.extension]"@#@ @source: @#@"Ext."@#@
@@ -40,3 +41,4 @@ export default {
 // @key: @#@"notActivated"@#@ @source: @#@"Inactive"@#@
 // @key: @#@"company"@#@ @source: @#@"Company"@#@
 // @key: @#@"jobTitle"@#@ @source: @#@"Title"@#@
+// @key: @#@"site"@#@ @source: @#@"Site"@#@

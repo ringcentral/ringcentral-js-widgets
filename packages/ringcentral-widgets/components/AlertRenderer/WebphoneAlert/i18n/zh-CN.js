@@ -1,4 +1,5 @@
 import webphoneErrors from 'ringcentral-integration/modules/Webphone/webphoneErrors';
+import webphoneMessages from 'ringcentral-integration/modules/Webphone/webphoneMessages';
 export default {
   [webphoneErrors.connectFailed]: "抱歉，电话功能当前不可用。请稍后再试。",
   [webphoneErrors.connected]: "网络电话已注册。",
@@ -15,6 +16,7 @@ export default {
   [webphoneErrors.recordError]: "当前无法录音通话。错误代码：{errorCode}",
   [webphoneErrors.recordDisabled]: "抱歉，您的帐户没有通话录音功能。请联系您的帐户管理员。",
   [webphoneErrors.transferError]: "无法转移通话。请稍后再试。",
+  [webphoneMessages.parked]: "您的呼叫寄存在以下号码：{parkedNumber}",
   failWithStatusCode: "抱歉，我们遇到了一个错误：{errorCode}。如果问题仍然存在，请向 {brandName} 支持部门报告此错误。",
   registeringWithStatusCode: "抱歉，发生问题。我们正在尝试重新连接。如果问题仍然存在，请向 {brandName} 支持部门报告此错误。错误代码：{errorCode}。",
   failWithoutStatusCode: "抱歉，我们这边发生了问题。如果错误仍然存在，请向 {brandName} 支持部门报告此错误。",
@@ -36,6 +38,7 @@ export default {
 // @key: @#@"[webphoneErrors.recordError]"@#@ @source: @#@"You cannot record the call at the moment. Error code: {errorCode}"@#@
 // @key: @#@"[webphoneErrors.recordDisabled]"@#@ @source: @#@"Sorry, your account does not have the feature to record a call. Please contact your account administrator."@#@
 // @key: @#@"[webphoneErrors.transferError]"@#@ @source: @#@"Cannot transfer the call. Please try again later."@#@
+// @key: @#@"[webphoneMessages.parked]"@#@ @source: @#@"Your call is parked at location: {parkedNumber}"@#@
 // @key: @#@"failWithStatusCode"@#@ @source: @#@"Sorry, we've encountered an error: {errorCode}. If the problem persists, report this error to {brandName} support."@#@
 // @key: @#@"registeringWithStatusCode"@#@ @source: @#@"Sorry, something went wrong. We are trying to reconnect. If the problem persists, please report this error to {brandName} support. Error code: {errorCode}."@#@
 // @key: @#@"failWithoutStatusCode"@#@ @source: @#@"Sorry, something went wrong on our end. If the error persists, report this error to {brandName} support."@#@

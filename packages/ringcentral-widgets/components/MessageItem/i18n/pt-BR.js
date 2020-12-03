@@ -19,7 +19,8 @@ export default {
   pages: "páginas",
   preview: "Exibir",
   download: "Baixar",
-  imageAttachment: "Anexo: {count} imagem"
+  imageAttachment: "Anexo: {count} imagem",
+  fileAttachment: "Anexo: {count} arquivo"
 };
 
 // @key: @#@"addLog"@#@ @source: @#@"Log"@#@
@@ -41,4 +42,5 @@ export default {
 // @key: @#@"pages"@#@ @source: @#@"pages"@#@
 // @key: @#@"preview"@#@ @source: @#@"View"@#@
 // @key: @#@"download"@#@ @source: @#@"Download"@#@
-// @key: @#@"imageAttachment"@#@ @source: @#@"Attachment: 1 image"@#@
+// @key: @#@"imageAttachment"@#@ @source: @#@"Attachment: {count} image"@#@
+// @key: @#@"fileAttachment"@#@ @source: @#@"Attachment: {count} file"@#@

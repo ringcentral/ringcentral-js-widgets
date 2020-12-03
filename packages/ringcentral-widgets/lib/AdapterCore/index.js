@@ -12,6 +12,9 @@ const SANDBOX_ATTRIBUTE_VALUE = [
   'allow-scripts',
   'allow-forms',
   'allow-popups',
+  // For Google Chrome v83 new feature:
+  // https://www.chromestatus.com/feature/5706745674465280
+  'allow-downloads',
 ].join(' ');
 
 // chrome 63 mandate the declaration of this attribute for getUserMedia to work in iframes

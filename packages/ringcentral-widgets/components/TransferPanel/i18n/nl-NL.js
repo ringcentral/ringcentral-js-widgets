@@ -1,7 +1,7 @@
 export default {
   to: "Aan:",
   transferTo: "Overdragen naar",
-  blindTransfer: "Doorverbinden",
+  blindTransfer: "Doorv.",
   enterNameOrNumber: "Voer nummer in"
 };
 

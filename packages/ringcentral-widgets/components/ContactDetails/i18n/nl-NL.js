@@ -3,7 +3,7 @@ import dndStatus from 'ringcentral-integration/modules/Presence/dndStatus';
 import { phoneTypes } from 'ringcentral-integration/enums/phoneTypes';
 export default {
   [phoneTypes.extension]: "Ext.",
-  [phoneTypes.direct]: "Direct",
+  [phoneTypes.direct]: "Rechtstreeks",
   [phoneTypes.mobile]: "Mobiel",
   [phoneTypes.home]: "Thuis",
   [phoneTypes.business]: "Bedrijf",
@@ -20,7 +20,7 @@ export default {
   notActivated: "Inactief",
   company: "Bedrijf",
   jobTitle: "Titel",
-  site: "Site"
+  site: "Locatie"
 };
 
 // @key: @#@"[phoneTypes.extension]"@#@ @source: @#@"Ext."@#@

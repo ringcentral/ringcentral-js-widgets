@@ -21,7 +21,13 @@ export default {
   recurringEvery: "A cada",
   recurrenceType: "Tipo de recorrência",
   recurrenceEndDate: "Data de término",
-  currentLocale: "Dia(s)"
+  currentLocale: "Dia(s)",
+  meetingId: "ID da reunião",
+  generateAutomatically: "Gerar automaticamente",
+  usePmi: "ID da reunião pessoal (PMI): {meetingId}",
+  pmiChangeConfirm: "Se quiser fazer alterações em sua reunião pessoal, ",
+  changePmiSettings: "altere as configurações de PMI",
+  pmiSettingChangeAlert: "Se você alterar as configurações e agendar esta reunião, todas as reuniões com ID da reunião pessoal usarão essas mesmas configurações mais recentes."
 };
 
 // @key: @#@"topic"@#@ @source: @#@"Topic"@#@
@@ -47,3 +53,9 @@ export default {
 // @key: @#@"recurrenceType"@#@ @source: @#@"Recurrence Type"@#@
 // @key: @#@"recurrenceEndDate"@#@ @source: @#@"End Date"@#@
 // @key: @#@"currentLocale"@#@ @source: @#@"Day(s)"@#@
+// @key: @#@"meetingId"@#@ @source: @#@"Meeting ID"@#@
+// @key: @#@"generateAutomatically"@#@ @source: @#@"Generate Automatically"@#@
+// @key: @#@"usePmi"@#@ @source: @#@"Personal Meeting ID (PMI): {meetingId}"@#@
+// @key: @#@"pmiChangeConfirm"@#@ @source: @#@"If you want to make changes for your personal meeting, "@#@
+// @key: @#@"changePmiSettings"@#@ @source: @#@"change PMI settings"@#@
+// @key: @#@"pmiSettingChangeAlert"@#@ @source: @#@"If you change the settings and schedule this meeting, all of meetings with Personal Meeting ID will use the same latest settings."@#@

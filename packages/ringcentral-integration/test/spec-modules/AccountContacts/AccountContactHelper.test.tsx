@@ -10,7 +10,10 @@ import {
 
 import { phoneTypes } from '../../../enums/phoneTypes';
 import { phoneSources } from '../../../enums/phoneSources';
-import { getMatchContacts, getFindContact } from '../../../lib/contactHelper';
+import {
+  getMatchContactsByPhoneNumber,
+  getFindPhoneNumber,
+} from '../../../lib/contactHelper';
 
 const mockContact = [
   {
@@ -91,11 +94,11 @@ export class getContact extends Step {
             const contacts = mockContact;
             const currentSite = { name: 'US', code: '22' };
             const phoneNumber = context.example.matchString;
-            context.actual = getMatchContacts({
+            context.actual = getMatchContactsByPhoneNumber({
               contacts,
               phoneNumber,
               entityType: phoneSources.rcContact,
-              findContact: getFindContact({
+              findPhoneNumber: getFindPhoneNumber({
                 phoneNumber,
                 options: {
                   isMultipleSiteEnabled: true,

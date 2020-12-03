@@ -1,12 +1,18 @@
 import { GetExtensionInfoResponse } from '@rc-ex/core/definitions';
-import { action, RcModuleV2, state } from '@ringcentral-integration/core';
+import {
+  action,
+  RcModuleV2,
+  state,
+  track,
+} from '@ringcentral-integration/core';
 import url from 'url';
 
 import moduleStatuses from '../../enums/moduleStatuses';
 import { Module } from '../../lib/di';
 import proxify from '../../lib/proxy/proxify';
 import validateIsOffline from '../../lib/validateIsOffline';
-import { Deps, Token, TokenInfo } from './Auth.interface';
+import { trackEvents } from '../Analytics';
+import { Deps, LoginOptions, Token, TokenInfo } from './Auth.interface';
 import { authMessages } from './authMessages';
 import { loginStatus } from './loginStatus';
 
@@ -47,6 +53,7 @@ class Auth extends RcModuleV2<Deps> {
   @state
   token: Token = {};
 
+  @track(trackEvents.authentication)
   @action
   setLoginSuccess(token: TokenInfo) {
     this.loginStatus = loginStatus.loggedIn;
@@ -58,6 +65,10 @@ class Auth extends RcModuleV2<Deps> {
       expiresIn: token.expires_in,
       scope: token.scope,
     };
+    // TODO: refactor for Analytics V2
+    (this.parentModule as any).analytics?._identify?.({
+      userId: token.owner_id,
+    });
   }
 
   @action
@@ -119,6 +130,7 @@ class Auth extends RcModuleV2<Deps> {
     this.loginStatus = loginStatus.loggedIn;
   }
 
+  @track(trackEvents.logout)
   @action
   setLogout() {
     this.loginStatus = loginStatus.loggingOut;
@@ -317,19 +329,7 @@ class Auth extends RcModuleV2<Deps> {
     endpointId,
     tokenType,
     scope,
-  }: {
-    username: string;
-    password: string;
-    extension: string;
-    remember: boolean | number;
-    code: string;
-    redirectUri: string;
-    accessToken: TokenInfo['access_token'];
-    expiresIn: TokenInfo['expires_in'];
-    endpointId: TokenInfo['endpoint_id'];
-    tokenType: TokenInfo['token_type'];
-    scope: TokenInfo['scope'];
-  }) {
+  }: LoginOptions) {
     this.setLogin();
     let ownerId: number;
     if (accessToken) {
@@ -413,10 +413,10 @@ class Auth extends RcModuleV2<Deps> {
    */
   @proxify
   async logout({ dismissAllAlert = true } = {}) {
+    this.setBeforeLogout();
     if (dismissAllAlert) {
       this._deps.alert.dismissAll();
     }
-    this.setBeforeLogout();
     const handlers = [...this._beforeLogoutHandlers];
     try {
       if (this._deps.tabManager && this._deps.tabManager.ready) {

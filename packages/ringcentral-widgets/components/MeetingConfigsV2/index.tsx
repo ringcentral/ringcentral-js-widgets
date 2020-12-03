@@ -8,7 +8,6 @@ import {
   RcTypography,
 } from '@ringcentral/juno';
 import classnames from 'classnames';
-import { find } from 'ramda';
 import React, { useEffect, useRef, useState } from 'react';
 import { generateRandomPassword } from 'ringcentral-integration/helpers/meetingHelper';
 import {
@@ -16,6 +15,7 @@ import {
   MeetingDelegators,
   MeetingType,
   RcMMeetingModel,
+  ASSISTED_USERS_MYSELF,
 } from 'ringcentral-integration/modules/Meeting';
 
 import { formatMeetingId } from '../../lib/MeetingCalendarHelper';
@@ -30,6 +30,7 @@ import { VideoSettingGroup } from './VideoSettingGroup';
 // TODO: wait for juno upgrade
 export interface MeetingConfigsProps {
   disabled: boolean;
+  showSpinnerInConfigPanel: boolean;
   personalMeetingId: string;
   updateMeetingSettings: (meeting: Partial<RcMMeetingModel>) => void;
   switchUsePersonalMeetingId: (usePersonalMeetingId: boolean) => any;
@@ -88,8 +89,8 @@ function getCheckboxCommProps(
       classes: {
         root:
           labelPlacement === 'end'
-            ? styles.labelPlacementStart
-            : styles.labelPlacementEnd,
+            ? styles.labelPlacementEnd
+            : styles.labelPlacementStart,
         label: styles.fullWidthLabel,
       },
       labelPlacement,
@@ -117,7 +118,7 @@ const MeetingOptionLabel: React.FunctionComponent<{
       <div
         className={classnames(
           styles.placementLeft,
-          labelPlacement === 'start' && styles.optionLabel,
+          { [styles.optionLabel]: labelPlacement === 'start' },
           className,
         )}
       >
@@ -158,17 +159,12 @@ export const MeetingConfigs: React.FunctionComponent<MeetingConfigsProps> = ({
   delegators,
   updateScheduleFor,
   labelPlacement,
+  showSpinnerInConfigPanel,
 }) => {
-  const [isFetchSetting, setIsFetchSetting] = useState<boolean>(false);
   useEffect(() => {
-    async function fetchData() {
-      if (init) {
-        setIsFetchSetting(true);
-        await init();
-        setIsFetchSetting(false);
-      }
+    if (init) {
+      init();
     }
-    fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -234,17 +230,6 @@ export const MeetingConfigs: React.FunctionComponent<MeetingConfigsProps> = ({
   const isDisabled =
     disabled || (meeting.usePersonalMeetingId && !isPmiConfirm);
 
-  /* Schedule For */
-  const [isScheduleForMySelf, setScheduleForMySelf] = useState<boolean>(true);
-  useEffect(() => {
-    if (!showScheduleOnBehalf) {
-      setScheduleForMySelf(true);
-      return;
-    }
-    const user = find((item) => item.id === meeting.host.id, delegators || []);
-    setScheduleForMySelf(Boolean(user && user.isLoginUser));
-  }, [meeting.host.id, delegators, showScheduleOnBehalf]);
-
   const settingsGroupExpandable = false;
 
   const checkboxCommProps = getCheckboxCommProps(labelPlacement);
@@ -256,7 +241,7 @@ export const MeetingConfigs: React.FunctionComponent<MeetingConfigsProps> = ({
       data-sign="meetingConfigsPanel"
     >
       <div className={styles.meetingContent}>
-        {isFetchSetting ? <SpinnerOverlay /> : null}
+        {showSpinnerInConfigPanel ? <SpinnerOverlay /> : null}
         {recipientsSection ? (
           <div className={styles.meetingSection}>{recipientsSection}</div>
         ) : null}
@@ -284,7 +269,10 @@ export const MeetingConfigs: React.FunctionComponent<MeetingConfigsProps> = ({
                   value={meeting.host.id}
                 >
                   {delegators.map((item: MeetingDelegators) => {
-                    const userName = i18n.getString(item.name, currentLocale);
+                    const userName =
+                      item.name === ASSISTED_USERS_MYSELF
+                        ? i18n.getString(item.name, currentLocale)
+                        : item.name;
                     return (
                       <RcMenuItem
                         value={item.id}
@@ -311,7 +299,6 @@ export const MeetingConfigs: React.FunctionComponent<MeetingConfigsProps> = ({
                   {...checkboxCommProps}
                   data-sign="usePersonalMeetingId"
                   checked={meeting.usePersonalMeetingId}
-                  disabled={!isScheduleForMySelf}
                   onChange={async () => {
                     onPmiChange(!meeting.usePersonalMeetingId);
                   }}
@@ -389,7 +376,11 @@ export const MeetingConfigs: React.FunctionComponent<MeetingConfigsProps> = ({
               }
             />
             {meeting._requireMeetingPassword ? (
-              <div className={styles.passwordField}>
+              <div
+                className={classnames(styles.passwordField, {
+                  [styles.subPrefixPadding]: labelPlacement === 'end',
+                })}
+              >
                 <RcTextField
                   disabled={isDisabled}
                   error={getIsPasswordFieldError(meeting, isPasswordFocus)}
@@ -400,6 +391,9 @@ export const MeetingConfigs: React.FunctionComponent<MeetingConfigsProps> = ({
                   )}
                   label={i18n.getString('setPassword', currentLocale)}
                   data-sign="password"
+                  classes={{
+                    root: styles.noBottomMargin,
+                  }}
                   fullWidth
                   clearBtn
                   value={meeting.password}
@@ -477,9 +471,9 @@ export const MeetingConfigs: React.FunctionComponent<MeetingConfigsProps> = ({
           >
             <div
               className={classnames(
-                styles.sideMargin,
                 styles.selectOption,
                 styles.labelContent,
+                styles.sideMargin,
               )}
             >
               <div
@@ -577,7 +571,9 @@ export const MeetingConfigs: React.FunctionComponent<MeetingConfigsProps> = ({
                 />
                 <RcTypography
                   variant="caption1"
-                  className={styles.recurringNote}
+                  className={classnames(styles.recurringNote, {
+                    [styles.subPrefixPadding]: labelPlacement === 'end',
+                  })}
                 >
                   {i18n.getString('recurringNote', currentLocale)}
                 </RcTypography>

@@ -1,5 +1,5 @@
 import { find, filter } from 'ramda';
-import EventEmitter from 'events';
+import { EventEmitter } from 'events';
 import RingCentralWebphone from 'ringcentral-web-phone';
 import defaultIncomingAudio from 'ringcentral-web-phone/audio/incoming.ogg';
 import defaultOutgoingAudio from 'ringcentral-web-phone/audio/outgoing.ogg';

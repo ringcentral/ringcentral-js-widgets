@@ -5,7 +5,7 @@ import { subscriptionStatus } from 'ringcentral-integration/modules/Subscription
 import ConversationsPanel from 'ringcentral-widgets/components/ConversationsPanel';
 import MessageItem from 'ringcentral-widgets/components/MessageItem';
 import NavigationBar from 'ringcentral-widgets/components/NavigationBar';
-import SearchInput from 'ringcentral-widgets/components/SearchInput';
+import { SearchInput } from 'ringcentral-widgets/components/SearchInput';
 
 import { getWrapper, tearDownWrapper, timeout } from '../shared';
 import { mockPubnub } from './helper.js';
@@ -66,10 +66,7 @@ beforeEach(async () => {
   await mockPubnub();
   navigationBar = wrapper.find(NavigationBar).first();
   await navigationBar.props().goTo('/messages');
-  await panel
-    .find(NavigationBar)
-    .props()
-    .goTo('Fax');
+  await panel.find(NavigationBar).props().goTo('Fax');
   wrapper.update();
   panel = wrapper.find(ConversationsPanel).at(0);
 });
@@ -110,24 +107,18 @@ describe('messages', () => {
     await timeout(200);
     wrapper.update();
     panel = wrapper.find(ConversationsPanel).first();
-    expect(
-      panel
-        .find('.noMessages')
-        .text()
-        .trim(),
-    ).toEqual('No matching records found');
+    expect(panel.find('.noMessages').text().trim()).toEqual(
+      'No matching records found',
+    );
 
     domInput.instance().value = '12344444';
     domInput.simulate('change');
     panel = wrapper.find(ConversationsPanel).first();
     searchInput = panel.find(SearchInput).first();
     expect(searchInput.props().value).toEqual('12344444');
-    expect(
-      panel
-        .find('.noMessages')
-        .text()
-        .trim(),
-    ).toEqual('No matching records found');
+    expect(panel.find('.noMessages').text().trim()).toEqual(
+      'No matching records found',
+    );
   });
   test('could search by phone number', () => {
     expect(panel.find(MessageItem).length).toEqual(2);

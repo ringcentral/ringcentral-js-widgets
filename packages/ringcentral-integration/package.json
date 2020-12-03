@@ -30,7 +30,7 @@
   "devDependencies": {
     "@rc-ex/core": "^0.4.6",
     "@rc-ex/rcsdk": "^0.4.12",
-    "@rc-ex/ws": "^0.4.13",
+    "@rc-ex/ws": "^0.6.3",
     "@ringcentral-integration/babel-settings": "*",
     "@ringcentral-integration/core": "*",
     "@ringcentral-integration/locale-loader": "*",

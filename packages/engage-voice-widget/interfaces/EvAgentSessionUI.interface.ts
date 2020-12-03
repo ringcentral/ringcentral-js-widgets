@@ -28,6 +28,8 @@ export interface EvAgentSessionUIProps {
   // Inboudqueue Panel
   inboundQueues: AvailableQueue[];
   showAutoAnswer: boolean;
+  showInboundQueues: boolean;
+  showSkillProfile: boolean;
 }
 
 /** this is panel state with hook */
@@ -84,6 +86,8 @@ export type BasicSessionProps = Pick<
   | 'inboundQueuesFieldText'
   | 'isExtensionNumber'
   | 'showAutoAnswer'
+  | 'showSkillProfile'
+  | 'showInboundQueues'
   | 'setSkillProfileId'
   | 'setLoginType'
   | 'setAutoAnswer'

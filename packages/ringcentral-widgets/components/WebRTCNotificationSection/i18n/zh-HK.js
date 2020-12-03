@@ -1,17 +1,17 @@
 export default {
   forward: "轉接",
-  reply: "回覆",
   ignore: "忽略",
   toVoicemail: "轉至語音信箱",
   answer: "接聽",
-  answerAndEnd: "接聽並結束",
-  answerAndHold: "接聽並保留"
+  endAndAnswer: "結束並回答",
+  holdAndAnswer: "等候並回答",
+  custom: "自訂"
 };
 
 // @key: @#@"forward"@#@ @source: @#@"Forward"@#@
-// @key: @#@"reply"@#@ @source: @#@"Reply"@#@
 // @key: @#@"ignore"@#@ @source: @#@"Ignore"@#@
 // @key: @#@"toVoicemail"@#@ @source: @#@"To Voicemail"@#@
 // @key: @#@"answer"@#@ @source: @#@"Answer"@#@
-// @key: @#@"answerAndEnd"@#@ @source: @#@"Answer & End"@#@
-// @key: @#@"answerAndHold"@#@ @source: @#@"Answer & Hold"@#@
+// @key: @#@"endAndAnswer"@#@ @source: @#@"End & Answer"@#@
+// @key: @#@"holdAndAnswer"@#@ @source: @#@"Hold & Answer"@#@
+// @key: @#@"custom"@#@ @source: @#@"Custom"@#@

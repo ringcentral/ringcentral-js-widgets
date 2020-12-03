@@ -1,0 +1,28 @@
+.recordingIndicator {
+  animation: flashing 1.5s infinite;
+
+  circle:nth-child(2) {
+    stroke-width: 1;
+  }
+}
+@keyframes flashing {
+  0% {
+    opacity: 1;
+  }
+
+  60% {
+    opacity: 1;
+  }
+
+  70% {
+    opacity: 0;
+  }
+
+  90% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}

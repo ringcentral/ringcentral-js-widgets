@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import debounce from 'ringcentral-integration/lib/debounce';
 import Panel from '../Panel';
-import SearchInput from '../SearchInput';
+import { SearchInput } from '../SearchInput';
 import { SpinnerOverlay } from '../SpinnerOverlay';
 
 import ContactList from '../ContactList';
@@ -17,7 +17,7 @@ import RefreshingIcon from '../../assets/images/OvalLoading.svg';
 
 import ContactSourceFilter from '../ContactSourceFilter';
 
-function AddContact({ className, onClick }) {
+const AddContact = ({ className, onClick }) => {
   return (
     <div className={className} onClick={onClick}>
       <div className={styles.iconContainer}>
@@ -25,7 +25,7 @@ function AddContact({ className, onClick }) {
       </div>
     </div>
   );
-}
+};
 AddContact.propTypes = {
   className: PropTypes.string,
   onClick: PropTypes.func.isRequired,
@@ -34,30 +34,35 @@ AddContact.defaultProps = {
   className: undefined,
 };
 
-function RefreshContacts({ className, onRefresh, refreshing, currentLocale }) {
+const RefreshContacts = ({
+  className,
+  onRefresh,
+  refreshing,
+  currentLocale,
+}) => {
   let icon = null;
-  let iconWrappClass = null;
+  let iconWrapClass = null;
   if (refreshing) {
-    iconWrappClass = styles.refreshingIcon;
+    iconWrapClass = styles.refreshingIcon;
     icon = (
       <RefreshingIcon className={styles.iconNode} width={12} height={12} />
     );
   } else {
-    iconWrappClass = styles.refreshIcon;
+    iconWrapClass = styles.refreshIcon;
     icon = (
       <RefreshContactIcon className={styles.iconNode} width={12} height={12} />
     );
   }
   return (
     <div
-      className={classnames(iconWrappClass, className)}
+      className={classnames(iconWrapClass, className)}
       onClick={onRefresh}
       title={i18n.getString('refresh', currentLocale)}
     >
       <div className={styles.iconContainer}>{icon}</div>
     </div>
   );
-}
+};
 RefreshContacts.propTypes = {
   className: PropTypes.string,
   currentLocale: PropTypes.string.isRequired,
@@ -108,13 +113,10 @@ export default class ContactsView extends Component {
 
   componentDidMount() {
     this._mounted = true;
-    if (typeof this.props.onVisitPage === 'function') {
-      this.props.onVisitPage();
+    const { onVisitPage } = this.props;
+    if (typeof onVisitPage === 'function') {
+      onVisitPage();
     }
-    this.search({
-      searchSource: this.props.searchSource,
-      searchString: this.state.searchString,
-    });
     this.setState({
       ...this.calculateContentSize(),
     });
@@ -122,14 +124,19 @@ export default class ContactsView extends Component {
   }
 
   UNSAFE_componentWillUpdate(nextProps, nextState) {
-    const isNotEditing = Date.now() - this.state.lastInputTimestamp > 2000;
-    if (isNotEditing && nextProps.searchString !== this.props.searchString) {
+    const { lastInputTimestamp } = this.state;
+    const { searchString: searchStringProp } = this.props;
+    // sync search string from other app instance
+    const isNotEditing = Date.now() - lastInputTimestamp > 2000;
+    if (isNotEditing && nextProps.searchString !== searchStringProp) {
       nextState.searchString = nextProps.searchString;
     }
+    // default to the first contact source when current selected contact source is removed
     if (!contains(nextProps.searchSource, nextProps.contactSourceNames)) {
+      const { searchString } = this.state;
       this.search({
         searchSource: nextProps.contactSourceNames[0],
-        searchString: this.state.searchString,
+        searchString,
       });
     }
   }
@@ -140,13 +147,20 @@ export default class ContactsView extends Component {
   }
 
   onSearchInputChange = (ev) => {
-    const value = ev.target.value;
-    const lastInputTimestamp = Date.now();
-    this.setState({ searchString: value, lastInputTimestamp }, () => {
-      this.search({
-        searchString: value,
-      });
-    });
+    this.setState(
+      {
+        searchString: ev.target.value,
+        lastInputTimestamp: Date.now(),
+      },
+      () => {
+        const { searchString } = this.state;
+        const { searchSource } = this.props;
+        this.search({
+          searchString,
+          searchSource,
+        });
+      },
+    );
   };
 
   onSourceSelect = (searchSource) => {
@@ -157,8 +171,10 @@ export default class ContactsView extends Component {
     ) {
       this.contactList.current.resetScrollTop();
     }
+    const { searchString } = this.state;
     this.search({
       searchSource,
+      searchString,
     });
   };
 
@@ -171,20 +187,19 @@ export default class ContactsView extends Component {
   }, 300);
 
   onRefresh = async () => {
-    if (typeof this.props.onRefresh !== 'function') {
-      return;
+    const { onRefresh } = this.props;
+    if (typeof onRefresh === 'function') {
+      this.setState({ refreshing: true }, async () => {
+        await onRefresh();
+        this.setState({ refreshing: false });
+      });
     }
-    this.setState({ refreshing: true });
-    await this.props.onRefresh();
-    this.setState({ refreshing: false });
   };
 
-  search({
-    searchSource = this.props.searchSource,
-    searchString = this.state.searchString,
-  }) {
-    if (this.props.onSearchContact) {
-      this.props.onSearchContact({
+  search({ searchSource, searchString }) {
+    const { onSearchContact } = this.props;
+    if (typeof onSearchContact === 'function') {
+      onSearchContact({
         searchSource,
         searchString,
       });
@@ -197,6 +212,7 @@ export default class ContactsView extends Component {
       contactGroups,
       contactSourceNames,
       searchSource,
+      isSearching,
       showSpinner,
       getAvatarUrl,
       getPresence,
@@ -204,16 +220,25 @@ export default class ContactsView extends Component {
       contactSourceFilterRenderer: Filter,
       sourceNodeRenderer,
       onRefresh,
+      bottomNotice,
+      bottomNoticeHeight,
       children,
       currentSiteCode,
       isMultipleSiteEnabled,
     } = this.props;
+    const {
+      refreshing,
+      searchString,
+      unfold,
+      contentWidth,
+      contentHeight,
+    } = this.state;
 
     const showRefresh = typeof onRefresh === 'function';
     const refreshButton = showRefresh ? (
       <RefreshContacts
         className={styles.actionButton}
-        refreshing={this.state.refreshing}
+        refreshing={refreshing}
         currentLocale={currentLocale}
         onRefresh={this.onRefresh}
       />
@@ -227,7 +252,7 @@ export default class ContactsView extends Component {
               styles.searchInput,
               showRefresh ? styles.withRefresh : '',
             )}
-            value={this.state.searchString || ''}
+            value={searchString || ''}
             onChange={this.onSearchInputChange}
             placeholder={i18n.getString('searchPlaceholder', currentLocale)}
           />
@@ -238,7 +263,7 @@ export default class ContactsView extends Component {
             contactSourceNames={contactSourceNames}
             onSourceSelect={this.onSourceSelect}
             selectedSourceName={searchSource}
-            unfold={this.state.unfold}
+            unfold={unfold}
             onUnfoldChange={this.onUnfoldChange}
           />
         </div>
@@ -254,8 +279,11 @@ export default class ContactsView extends Component {
               currentSiteCode={currentSiteCode}
               isMultipleSiteEnabled={isMultipleSiteEnabled}
               sourceNodeRenderer={sourceNodeRenderer}
-              width={this.state.contentWidth}
-              height={this.state.contentHeight}
+              isSearching={isSearching}
+              bottomNotice={bottomNotice}
+              bottomNoticeHeight={bottomNoticeHeight}
+              width={contentWidth}
+              height={contentHeight}
             />
           </div>
         </Panel>
@@ -283,18 +311,22 @@ ContactsView.propTypes = {
   isMultipleSiteEnabled: PropTypes.bool,
   searchSource: PropTypes.string,
   searchString: PropTypes.string,
+  isSearching: PropTypes.bool,
   onItemSelect: PropTypes.func,
   onSearchContact: PropTypes.func,
   contactSourceFilterRenderer: PropTypes.func,
   sourceNodeRenderer: PropTypes.func,
   onVisitPage: PropTypes.func,
   onRefresh: PropTypes.func,
+  bottomNotice: PropTypes.func,
+  bottomNoticeHeight: PropTypes.number,
   children: PropTypes.node,
 };
 
 ContactsView.defaultProps = {
   searchSource: undefined,
   searchString: undefined,
+  isSearching: false,
   onItemSelect: undefined,
   onSearchContact: undefined,
   contactSourceFilterRenderer: ContactSourceFilter,
@@ -302,6 +334,8 @@ ContactsView.defaultProps = {
   onVisitPage: undefined,
   children: undefined,
   onRefresh: undefined,
+  bottomNotice: undefined,
+  bottomNoticeHeight: 0,
   currentSiteCode: '',
   isMultipleSiteEnabled: false,
 };

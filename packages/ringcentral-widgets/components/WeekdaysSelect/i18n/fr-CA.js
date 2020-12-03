@@ -1,11 +1,11 @@
 export default {
-  monday: "M",
-  tuesday: "T",
-  wednesday: "W",
-  thursday: "T",
-  friday: "F",
-  saturday: "S",
-  sunday: "S"
+  monday: "L",
+  tuesday: "M",
+  wednesday: "M",
+  thursday: "J",
+  friday: "V",
+  saturday: "D",
+  sunday: "D"
 };
 
 // @key: @#@"monday"@#@ @source: @#@"M"@#@

@@ -22,7 +22,7 @@ export const LinkLineItem: FunctionComponent<LinkLineItemProps> = ({
     return null;
   }
   return (
-    <LinkLine hideUnderline={true} onClick={onClick}>
+    <LinkLine hideUnderline onClick={onClick}>
       {customTitle || i18n.getString(name, currentLocale)}
     </LinkLine>
   );

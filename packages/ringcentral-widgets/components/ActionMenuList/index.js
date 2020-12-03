@@ -518,7 +518,7 @@ export default class ActionMenuList extends Component {
             target="_blank"
             download
             title={downloadTitle}
-            href={faxAttachment.uri}
+            href={`${faxAttachment.uri}&contentDisposition=Attachment`}
             onClick={this._onDownloadClick}
             disabled={disableLinks}
           >

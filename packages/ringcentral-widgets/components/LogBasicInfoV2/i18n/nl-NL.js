@@ -12,7 +12,7 @@ export default {
   [telephonyStatuses.noCall]: "Verbinding verbroken",
   [telephonyStatuses.callConnected]: "Verbonden",
   [telephonyStatuses.ringing]: "Aan het bellen",
-  [telephonyStatuses.onHold]: "In de wacht",
+  [telephonyStatuses.onHold]: "In wacht",
   [telephonyStatuses.parkedCall]: "Geparkeerd",
   [callResults.unknown]: "Onbekend",
   [callResults.missed]: "Gemist",

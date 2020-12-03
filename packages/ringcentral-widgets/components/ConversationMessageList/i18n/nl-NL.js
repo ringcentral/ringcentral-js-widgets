@@ -1,5 +1,7 @@
 export default {
-  loading: "Laden..."
+  loading: "Laden...",
+  download: "Downloaden"
 };
 
 // @key: @#@"loading"@#@ @source: @#@"Loading ..."@#@
+// @key: @#@"download"@#@ @source: @#@"Download"@#@

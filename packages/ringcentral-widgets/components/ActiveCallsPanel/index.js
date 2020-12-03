@@ -162,6 +162,8 @@ export default class ActiveCallsPanel extends Component {
       conferenceCallParties,
       webphoneHold,
       webphoneSwitchCall,
+      modalConfirm,
+      modalClose,
       useV2,
       updateSessionMatchedContact,
       renderExtraButton,
@@ -172,7 +174,15 @@ export default class ActiveCallsPanel extends Component {
       disableLinks,
       showRingoutCallControl,
       showSwitchCall,
+      showTransferCall,
+      showHoldOnOtherDevice,
       isOnHold,
+      // customization
+      webphoneIgnore,
+      showIgnoreBtn,
+      showHoldAnswerBtn,
+      useCallDetailV2,
+      newCallIcon,
     } = this.props;
 
     return (
@@ -199,6 +209,9 @@ export default class ActiveCallsPanel extends Component {
         webphoneHangup={webphoneHangup}
         webphoneResume={webphoneResume}
         webphoneSwitchCall={webphoneSwitchCall}
+        webphoneIgnore={webphoneIgnore}
+        modalConfirm={modalConfirm}
+        modalClose={modalClose}
         webphoneToVoicemail={webphoneToVoicemail}
         renderExtraButton={renderExtraButton}
         renderContactName={renderContactName}
@@ -223,7 +236,13 @@ export default class ActiveCallsPanel extends Component {
         disableLinks={disableLinks}
         showRingoutCallControl={showRingoutCallControl}
         showSwitchCall={showSwitchCall}
+        showTransferCall={showTransferCall}
+        showHoldOnOtherDevice={showHoldOnOtherDevice}
         isOnHold={isOnHold}
+        showIgnoreBtn={showIgnoreBtn}
+        showHoldAnswerBtn={showHoldAnswerBtn}
+        useCallDetailV2={useCallDetailV2}
+        newCallIcon={newCallIcon}
       />
     );
   }
@@ -238,6 +257,7 @@ export default class ActiveCallsPanel extends Component {
       currentLocale,
       showSpinner,
       showOtherDevice,
+      showCallDetail,
     } = this.props;
     const logSection = this.renderLogSection();
 
@@ -273,14 +293,17 @@ export default class ActiveCallsPanel extends Component {
           {this.getCallList(
             activeRingCalls,
             i18n.getString('ringCall', currentLocale),
+            showCallDetail,
           )}
           {this.getCallList(
             activeCurrentCalls,
             i18n.getString('currentCall', currentLocale),
+            showCallDetail,
           )}
           {this.getCallList(
             activeOnHoldCalls,
             i18n.getString('onHoldCall', currentLocale),
+            showCallDetail,
           )}
           {otherDevice}
         </div>
@@ -315,6 +338,9 @@ ActiveCallsPanel.propTypes = {
   webphoneResume: PropTypes.func,
   webphoneToVoicemail: PropTypes.func,
   webphoneSwitchCall: PropTypes.func,
+  webphoneIgnore: PropTypes.func,
+  modalConfirm: PropTypes.func,
+  modalClose: PropTypes.func,
   autoLog: PropTypes.bool,
   onViewContact: PropTypes.func,
   enableContactFallback: PropTypes.bool,
@@ -359,8 +385,16 @@ ActiveCallsPanel.propTypes = {
   disableLinks: PropTypes.bool,
   showRingoutCallControl: PropTypes.bool,
   showSwitchCall: PropTypes.bool,
+  showTransferCall: PropTypes.bool,
+  showHoldOnOtherDevice: PropTypes.bool,
   onLogBasicInfoClick: PropTypes.func,
   renderSmallCallContrl: PropTypes.func,
+  // customization
+  showCallDetail: PropTypes.bool,
+  showIgnoreBtn: PropTypes.bool,
+  showHoldAnswerBtn: PropTypes.bool,
+  useCallDetailV2: PropTypes.bool,
+  newCallIcon: PropTypes.bool,
 };
 
 ActiveCallsPanel.defaultProps = {
@@ -380,6 +414,9 @@ ActiveCallsPanel.defaultProps = {
   webphoneResume: undefined,
   webphoneToVoicemail: undefined,
   webphoneSwitchCall: undefined,
+  webphoneIgnore: undefined,
+  modalConfirm: undefined,
+  modalClose: undefined,
   enableContactFallback: undefined,
   loggingMap: {},
   autoLog: false,
@@ -421,6 +458,14 @@ ActiveCallsPanel.defaultProps = {
   disableLinks: false,
   showRingoutCallControl: false,
   showSwitchCall: false,
+  showTransferCall: true,
+  showHoldOnOtherDevice: false,
   onLogBasicInfoClick() {},
   renderSmallCallContrl() {},
+  // customization
+  showCallDetail: false,
+  showIgnoreBtn: false,
+  showHoldAnswerBtn: false,
+  useCallDetailV2: false,
+  newCallIcon: false,
 };

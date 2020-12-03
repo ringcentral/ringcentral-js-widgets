@@ -29,7 +29,7 @@ export class Storage extends StorageBase<Deps> {
   constructor(deps: Deps) {
     super(deps, {
       name: 'storage',
-      StorageProvider: deps.storageOptions.StorageProvider,
+      StorageProvider: deps.storageOptions?.StorageProvider,
     });
     this._disableInactiveTabsWrite =
       this._deps.storageOptions?.disableInactiveTabsWrite ?? true;

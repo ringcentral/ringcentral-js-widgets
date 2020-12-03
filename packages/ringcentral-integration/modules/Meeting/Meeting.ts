@@ -78,7 +78,7 @@ export class Meeting extends RcModule<Record<string, any>, MeetingActionTypes> {
   private _enableScheduleOnBehalf: boolean;
   private _fetchPersonMeetingTimeout: NodeJS.Timeout;
   private _meetingProvider: any;
-  private _fetchdelegatorsTimeout: NodeJS.Timeout;
+  private _fetchDelegatorsTimeout: NodeJS.Timeout;
   private _enableCustomTimezone: boolean;
 
   constructor({
@@ -163,20 +163,24 @@ export class Meeting extends RcModule<Record<string, any>, MeetingActionTypes> {
     );
   }
 
+  private async _initMeetingSettings(extensionId?: string) {
+    if (this._enablePersonalMeeting) {
+      await this._initPersonalMeeting(extensionId);
+    }
+
+    if (this._enableServiceWebSettings) {
+      await this._updateServiceWebSettings(extensionId);
+    }
+
+    await this._initMeeting(extensionId);
+  }
+
   private async _init() {
     this.store.dispatch({
       type: this.actionTypes.init,
     });
 
-    if (this._enablePersonalMeeting) {
-      await this._initPersonalMeeting();
-    }
-
-    if (this._enableServiceWebSettings) {
-      await this._updateServiceWebSettings();
-    }
-
-    this._initMeeting();
+    await this._initMeetingSettings();
 
     if (this._enableScheduleOnBehalf) {
       await this._initScheduleFor();
@@ -219,61 +223,73 @@ export class Meeting extends RcModule<Record<string, any>, MeetingActionTypes> {
     this._initMeeting();
   }
 
-  private _initMeeting() {
-    this.update(this.defaultMeetingSetting);
+  private _initMeeting(extensionId?: string) {
+    this.update({
+      ...this.defaultMeetingSetting,
+      host: {
+        id: extensionId || this.loginUser.id,
+      },
+    });
     this._updatePreferences();
   }
 
-  async _initPersonalMeeting() {
+  async _initPersonalMeeting(extensionId?: string) {
     if (this._fetchPersonMeetingTimeout) {
       clearTimeout(this._fetchPersonMeetingTimeout);
     }
     try {
-      await this.setPersonalMeeting();
+      const meetingInfoResponse = await this.fetchPersonalMeeting(extensionId);
+      const meeting = this.formatPersonalMeeting(meetingInfoResponse);
+      this.store.dispatch({
+        type: this.actionTypes.updatePersonalMeeting,
+        meeting,
+      });
     } catch (e) {
-      console.error('fetch default meeting error:', e);
+      console.error('fetch personal meeting error:', e);
+      this.store.dispatch({
+        type: this.actionTypes.resetPersonalMeeting,
+      });
       console.warn('retry after 10s');
       this._fetchPersonMeetingTimeout = setTimeout(() => {
-        this._initPersonalMeeting();
+        this._initPersonalMeeting(extensionId);
       }, 10000);
     }
   }
 
   async _initScheduleFor() {
-    if (this._fetchdelegatorsTimeout) {
-      clearTimeout(this._fetchdelegatorsTimeout);
+    if (this._fetchDelegatorsTimeout) {
+      clearTimeout(this._fetchDelegatorsTimeout);
     }
     try {
-      await this.setdelegators();
+      await this.setDelegators();
     } catch (e) {
-      console.error('fetch default meeting error:', e);
+      console.error('fetch delegators error:', e);
       console.warn('retry after 10s');
-      this._fetchdelegatorsTimeout = setTimeout(() => {
-        this._initPersonalMeeting();
+      this._fetchDelegatorsTimeout = setTimeout(() => {
+        this.setDelegators();
       }, 10000);
     }
   }
 
   combineWithSettings(_meeting: RcMMeetingModel) {
-    let meeting = _meeting;
-    if (this._enableServiceWebSettings) {
-      meeting = this._combineWithSWSettings(_meeting);
-    }
-    return {
-      ...meeting,
-      isMeetingPasswordValid: this.validatePasswordSettings(
-        meeting.password,
-        meeting._requireMeetingPassword,
-      ),
-    };
+    return this._combineWithSWSettings(_meeting);
   }
 
   @proxify
   update(_meeting: RcMMeetingModel) {
-    const meeting = this.combineWithSettings(_meeting);
+    let meeting = _meeting;
+    if (this._enableServiceWebSettings) {
+      meeting = this.combineWithSettings(_meeting);
+    }
     this.store.dispatch({
       type: this.actionTypes.updateMeeting,
-      meeting,
+      meeting: {
+        ...meeting,
+        isMeetingPasswordValid: this.validatePasswordSettings(
+          _meeting.password,
+          _meeting._requireMeetingPassword,
+        ),
+      },
     });
     this._comparePreferences();
   }
@@ -289,20 +305,14 @@ export class Meeting extends RcModule<Record<string, any>, MeetingActionTypes> {
 
   @proxify
   async updateScheduleFor(userExtensionId: string | number) {
-    if (!userExtensionId) {
+    if (!userExtensionId || !this.delegators || this.delegators.length === 0) {
       return;
     }
     const hostId = `${userExtensionId}`;
     const user = find((item) => item.id === hostId, this.delegators);
+
     if (user) {
-      const isMySelf = hostId === `${this.extensionInfo.id}`;
-      this.update({
-        ...this.meeting,
-        host: {
-          id: hostId,
-        },
-      });
-      this.switchUsePersonalMeetingId(isMySelf && this.usePmiDefaultFromSW);
+      await this._initMeetingSettings(hostId);
     }
   }
 
@@ -322,9 +332,9 @@ export class Meeting extends RcModule<Record<string, any>, MeetingActionTypes> {
   }
 
   @proxify
-  private async _updateServiceWebSettings() {
+  private async _updateServiceWebSettings(extensionId?: string) {
     const [userSettings, lockedSettings] = await Promise.all([
-      this.getUserSettings(),
+      this.getUserSettings(extensionId),
       this.getLockedSettings(),
     ]);
     this.store.dispatch({
@@ -439,8 +449,10 @@ export class Meeting extends RcModule<Record<string, any>, MeetingActionTypes> {
   }
 
   @proxify
-  private async fetchPersonalMeeting(): Promise<MeetingInfoResponse> {
-    const serviceInfo = await this.getMeetingServiceInfo();
+  private async fetchPersonalMeeting(
+    extensionId?: string,
+  ): Promise<MeetingInfoResponse> {
+    const serviceInfo = await this.getMeetingServiceInfo(extensionId);
     const personalMeetingId = serviceInfo.externalUserInfo.personalMeetingId;
     const meetingInfoResponse = await this.getMeeting(personalMeetingId);
     return meetingInfoResponse;
@@ -463,21 +475,7 @@ export class Meeting extends RcModule<Record<string, any>, MeetingActionTypes> {
   }
 
   @proxify
-  private async setPersonalMeeting() {
-    try {
-      const meetingInfoResponse = await this.fetchPersonalMeeting();
-      const meeting = this.formatPersonalMeeting(meetingInfoResponse);
-      this.store.dispatch({
-        type: this.actionTypes.updatePersonalMeeting,
-        meeting,
-      });
-    } catch (e) {
-      console.log('failed to get personal meeting id:', e);
-    }
-  }
-
-  @proxify
-  private async setdelegators() {
+  private async setDelegators() {
     const { records } = await this.getDelegators();
     this.store.dispatch({
       type: this.actionTypes.updateDelegatorList,
@@ -506,7 +504,7 @@ export class Meeting extends RcModule<Record<string, any>, MeetingActionTypes> {
 
       (this.schedule as any)._promise = Promise.all([
         this.postMeeting(formattedMeeting),
-        this.getMeetingServiceInfo(),
+        this.getMeetingServiceInfo(meeting.host?.id),
       ]);
 
       const [resp, serviceInfo] = await (this.schedule as any)._promise;
@@ -605,7 +603,7 @@ export class Meeting extends RcModule<Record<string, any>, MeetingActionTypes> {
           });
         }, 50);
       }
-      return null;
+      throw e;
     }
   }
 
@@ -658,12 +656,12 @@ export class Meeting extends RcModule<Record<string, any>, MeetingActionTypes> {
   }
 
   @proxify
-  async getUserSettings() {
+  async getUserSettings(extensionId = '~') {
     try {
       const platform = this._client.service.platform();
       const apiResponse = await platform.send({
         method: 'GET',
-        url: '/restapi/v1.0/account/~/extension/~/meeting/user-settings',
+        url: `/restapi/v1.0/account/~/extension/${extensionId}/meeting/user-settings`,
       });
       const { recording = {}, scheduleMeeting = {} } = await apiResponse.json();
       return {
@@ -729,7 +727,7 @@ export class Meeting extends RcModule<Record<string, any>, MeetingActionTypes> {
 
       (this.updateMeeting as any)._promise = Promise.all([
         this.putMeeting(meetingId, formattedMeeting),
-        this.getMeetingServiceInfo(),
+        this.getMeetingServiceInfo(meeting.host?.id),
       ]);
 
       const [resp, serviceInfo] = await (this.updateMeeting as any)._promise;
@@ -1132,11 +1130,12 @@ export class Meeting extends RcModule<Record<string, any>, MeetingActionTypes> {
         }
         return initialSetting;
       }
-      return {
+      const meeting = {
         ...initialSetting,
         ...savedSetting,
         meetingType: MeetingType.SCHEDULED,
       };
+      return meeting;
     },
   ];
 
@@ -1174,7 +1173,7 @@ export class Meeting extends RcModule<Record<string, any>, MeetingActionTypes> {
     },
     (
       meetingName: string,
-      startTime: string,
+      startTime: number,
       hostId: string,
     ): RcMMeetingModel => {
       const setting = getDefaultMeetingSettings(meetingName, startTime, hostId);

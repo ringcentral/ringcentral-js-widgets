@@ -1,0 +1,163 @@
+export interface ModalContentProps {
+  currentLocale: string;
+  contactName: string;
+}
+
+export interface WebphoneButtonsProps {
+  currentLocale: string;
+  session?: WebphoneSession;
+  webphoneReject: (
+    webphoneSessionId: string,
+    telephonySessionId: string,
+  ) => any;
+  webphoneHangup: (
+    webphoneSessionId: string,
+    telephonySessionId: string,
+  ) => any;
+  webphoneResume: (
+    webphoneSessionId: string,
+    telephonySessionId: string,
+  ) => any;
+  webphoneHold: (webphoneSessionId: string, telephonySessionId: string) => any;
+  showMergeCall?: boolean;
+  showHold?: boolean;
+  disableMerge?: boolean;
+  onMergeCall?: (webphoneSessionId: string) => any;
+  webphoneAnswer: (
+    webphoneSessionId: string,
+    telephonySessionId: string,
+  ) => any;
+  disableLinks?: boolean;
+  isOnHold: (session: object) => boolean;
+  telephonySessionId: string;
+  webphoneIgnore?: (telephonySessionId: string) => any;
+  showIgnoreBtn?: boolean;
+  showHoldAnswerBtn?: boolean;
+  useCallDetailV2?: boolean;
+}
+
+export interface ActiveCallControlButtonsProps {
+  session?: object;
+  currentLocale: string;
+  disableLinks?: boolean;
+  ringoutHangup: (telephonySessionId: string) => any;
+  ringoutTransfer?: (telephonySessionId: string) => any;
+  ringing: boolean;
+  inbound: boolean;
+  telephonySessionId: string;
+  ringoutReject: (telephonySessionId: string) => any;
+  showRingoutCallControl: boolean;
+  showSwitchCall: boolean;
+  showTransferCall: boolean;
+  showHoldOnOtherDevice: boolean;
+  onClickSwitchBtn?: () => any;
+  webphoneResume?: (
+    webphoneSessionId: string,
+    telephonySessionId: string,
+  ) => any;
+  webphoneHold?: (webphoneSessionId: string, telephonySessionId: string) => any;
+}
+
+interface WebphoneSession {
+  callStatus: string;
+  id: string;
+  contactMatch: any;
+}
+
+interface Call {
+  direction: string;
+  telephonyStatus?: string;
+  startTime: number;
+  offset?: number;
+  activityMatches: [];
+  fromMatches: any[];
+  toMatches: any[];
+  from: {
+    phoneNumber?: string;
+    extensionNumber?: string;
+    name?: string;
+  };
+  to?: {
+    phoneNumber?: string;
+    extensionNumber?: string;
+    name?: string;
+  };
+  webphoneSession?: WebphoneSession;
+  telephonySessionId?: string;
+  telephonySession?: object;
+}
+
+export interface ActiveCallItemProps {
+  call: Call;
+  areaCode: string;
+  countryCode: string;
+  currentLocale: string;
+  disableLinks?: boolean;
+  isLogging?: boolean;
+  webphoneReject: (
+    webphoneSessionId: string,
+    telephonySessionId: string,
+  ) => any;
+  webphoneHangup: (
+    webphoneSessionId: string,
+    telephonySessionId: string,
+  ) => any;
+  webphoneResume: (
+    webphoneSessionId: string,
+    telephonySessionId: string,
+  ) => any;
+  webphoneToVoicemail: (
+    webphoneSessionId: string,
+    telephonySessionId: string,
+  ) => any;
+  webphoneHold: (webphoneSessionId: string, telephonySessionId: string) => any;
+  enableContactFallback?: boolean;
+  brand?: string;
+  showContactDisplayPlaceholder?: boolean;
+  sourceIcons?: object;
+  phoneTypeRenderer?: (...args: any[]) => any;
+  phoneSourceNameRenderer?: (...args: any[]) => any;
+  renderContactName?: (call: Call) => string;
+  renderExtraButton?: (call: Call) => any;
+  contactDisplayStyle?: string;
+  isOnConferenceCall?: boolean;
+  conferenceCallParties: any[];
+  onClick?: (...args: any[]) => any;
+  showAvatar?: boolean;
+  getAvatarUrl?: (...args: any[]) => any;
+  showMergeCall?: boolean;
+  showHold?: boolean;
+  disableMerge?: boolean;
+  onMergeCall?: (webphoneSessionId: string) => any;
+  showCallDetail?: boolean;
+  updateSessionMatchedContact?: (...args: any[]) => any;
+  webphoneAnswer: (
+    webphoneSessionId: string,
+    telephonySessionId: string,
+  ) => any;
+  ringoutHangup: (telephonySessionId: string) => any;
+  ringoutTransfer: (telephonySessionId: string) => any;
+  showRingoutCallControl?: boolean;
+  ringoutReject: (telephonySessionId: string) => any;
+  showMultipleMatch?: boolean;
+  showSwitchCall?: boolean;
+  showTransferCall?: boolean;
+  showHoldOnOtherDevice?: boolean;
+  isOnHold?: (session: object) => boolean;
+  webphoneSwitchCall: (call: Call) => any;
+  webphoneIgnore: (telephonySessionId: string) => any;
+  modalConfirm: (...args: any[]) => any;
+  modalClose: (id: string) => any;
+  // new Juno call direction icon
+  newCallIcon: boolean;
+  showHoldAnswerBtn?: boolean;
+  useCallDetailV2?: boolean;
+  showIgnoreBtn?: boolean;
+}
+
+export interface ActiveCallItemState {
+  selected: number;
+  isLogging: boolean;
+  avatarUrl: string;
+  extraNum: number;
+}

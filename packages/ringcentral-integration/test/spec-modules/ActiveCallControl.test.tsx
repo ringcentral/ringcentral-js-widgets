@@ -11,15 +11,19 @@ import { SessionData } from 'ringcentral-call-control/lib/Session';
 
 import { ActiveCallControl } from '../../modules/ActiveCallControlV2';
 
+const mockParty = {};
+
 const mockSessionData = {
   id: 'testId',
   extensionId: 'testExtensionId',
   accountId: 'testAccountId',
   parties: [] as [],
+  party: mockParty,
 };
 
 const mockSession = {
   data: mockSessionData,
+  party: mockParty,
 };
 
 const getMockModule = () => ({

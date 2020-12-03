@@ -4,7 +4,6 @@ export * from './sessionStatus';
 export * from './webphoneErrors';
 export * from './webphoneMessages';
 export * from './events';
-export * from './extendedControlStatus';
 export * from './Webphone.interface';
 export * from './WebphoneBase';
 export * from './Webphone';

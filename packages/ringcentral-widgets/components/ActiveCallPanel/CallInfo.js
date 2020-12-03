@@ -14,7 +14,9 @@ export default function CallInfo(props) {
   return (
     <div className={styles.userInfo}>
       <div className={styles.avatarContainer}>
-        <div className={styles.avatar}>{avatar}</div>
+        <div className={styles.avatar} data-sign="avatar">
+          {avatar}
+        </div>
       </div>
       <div className={styles.userName}>
         {props.callQueueName}

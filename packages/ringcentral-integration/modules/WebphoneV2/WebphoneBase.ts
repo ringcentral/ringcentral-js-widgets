@@ -1,4 +1,4 @@
-import EventEmitter from 'events';
+import { EventEmitter } from 'events';
 import RingCentralWebphone from 'ringcentral-web-phone';
 import { WebPhoneUserAgent } from 'ringcentral-web-phone/lib/userAgent';
 import CreateSipRegistrationResponse from '@rc-ex/core/definitions/CreateSipRegistrationResponse';
@@ -14,22 +14,21 @@ import {
   watch,
   computed,
   storage,
+  track,
 } from '@ringcentral-integration/core';
-
 import { Module } from '../../lib/di';
 import sleep from '../../lib/sleep';
 import { connectionStatus } from './connectionStatus';
-
 import { webphoneErrors } from './webphoneErrors';
 import proxify from '../../lib/proxy/proxify';
-
-import { Deps, WebphoneSession } from './Webphone.interface';
-
+import { Deps } from './Webphone.interface';
 import {
   isBrowserSupport,
   isChrome,
   isEnableMidLinesInSDP,
 } from './webphoneHelper';
+import { trackEvents } from '../Analytics';
+import { WebphoneSession } from '../../interfaces/Webphone.interface';
 
 export const DEFAULT_AUDIO = 'default';
 
@@ -185,6 +184,7 @@ export class WebphoneBase extends RcModuleV2<Deps> {
     this.connectRetryCounts += 1;
   }
 
+  @track(trackEvents.webRTCRegistration)
   @action
   _setStateOnRegistered(device: SipRegistrationDeviceInfo) {
     this.connectionStatus = connectionStatus.connected;
@@ -1093,7 +1093,7 @@ export class WebphoneBase extends RcModuleV2<Deps> {
   }
 
   @proxify
-  setOutgoingAudio({
+  async setOutgoingAudio({
     fileName,
     dataUrl,
   }: {
@@ -1106,13 +1106,13 @@ export class WebphoneBase extends RcModuleV2<Deps> {
   }
 
   @proxify
-  resetOutgoingAudio() {
+  async resetOutgoingAudio() {
     this._resetOutgoingAudio();
     this.loadAudio();
   }
 
   @proxify
-  setIncomingAudio({
+  async setIncomingAudio({
     fileName,
     dataUrl,
   }: {
@@ -1125,13 +1125,13 @@ export class WebphoneBase extends RcModuleV2<Deps> {
   }
 
   @proxify
-  resetIncomingAudio() {
+  async resetIncomingAudio() {
     this._resetIncomingAudio();
     this.loadAudio();
   }
 
   @proxify
-  setRingtone({
+  async setRingtone({
     incomingAudio,
     incomingAudioFile,
     outgoingAudio,

@@ -5,7 +5,19 @@ export default {
   reject: "Rejeter",
   hold: "Mettre en attente",
   onHold: "En attente",
-  transfer: "Transférer"
+  transfer: "Transférer",
+  more: "Plus",
+  stopRecord: "Arrêter d'enregistrer",
+  record: "Enregistrer",
+  showKeypad: "Clavier",
+  hideKeypad: "Cacher le clavier",
+  unHold: "Reprendre l'appel",
+  forward: "Transférer",
+  ignore: "Ignorer",
+  voicemail: "Messagerie vocale",
+  custom: "Personnalisé",
+  answerAndEnd: "Répondre et terminer",
+  answerAndHold: "Répondre et mettre en attente"
 };
 
 // @key: @#@"mute"@#@ @source: @#@"Mute"@#@
@@ -15,3 +27,15 @@ export default {
 // @key: @#@"hold"@#@ @source: @#@"Hold"@#@
 // @key: @#@"onHold"@#@ @source: @#@"On Hold"@#@
 // @key: @#@"transfer"@#@ @source: @#@"Transfer"@#@
+// @key: @#@"more"@#@ @source: @#@"More"@#@
+// @key: @#@"stopRecord"@#@ @source: @#@"Stop Recording"@#@
+// @key: @#@"record"@#@ @source: @#@"Record"@#@
+// @key: @#@"showKeypad"@#@ @source: @#@"Keypad"@#@
+// @key: @#@"hideKeypad"@#@ @source: @#@"Hide Keypad"@#@
+// @key: @#@"unHold"@#@ @source: @#@"Unhold"@#@
+// @key: @#@"forward"@#@ @source: @#@"Forward"@#@
+// @key: @#@"ignore"@#@ @source: @#@"Ignore"@#@
+// @key: @#@"voicemail"@#@ @source: @#@"Voicemail"@#@
+// @key: @#@"custom"@#@ @source: @#@"Custom"@#@
+// @key: @#@"answerAndEnd"@#@ @source: @#@"Answer & End"@#@
+// @key: @#@"answerAndHold"@#@ @source: @#@"Answer & Hold"@#@

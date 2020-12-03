@@ -1,5 +1,5 @@
 import { find } from 'ramda';
-import EventEmitter from 'events';
+import { EventEmitter } from 'events';
 import { Module } from '../../lib/di';
 import RcModule from '../../lib/RcModule';
 import proxify from '../../lib/proxy/proxify';

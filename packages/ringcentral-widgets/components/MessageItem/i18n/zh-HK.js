@@ -19,7 +19,8 @@ export default {
   pages: "頁",
   preview: "檢視",
   download: "下載",
-  imageAttachment: "附件：{count} 張圖片"
+  imageAttachment: "附件：{count} 個影像",
+  fileAttachment: "附件：{count} 份檔案"
 };
 
 // @key: @#@"addLog"@#@ @source: @#@"Log"@#@
@@ -41,4 +42,5 @@ export default {
 // @key: @#@"pages"@#@ @source: @#@"pages"@#@
 // @key: @#@"preview"@#@ @source: @#@"View"@#@
 // @key: @#@"download"@#@ @source: @#@"Download"@#@
-// @key: @#@"imageAttachment"@#@ @source: @#@"Attachment: 1 image"@#@
+// @key: @#@"imageAttachment"@#@ @source: @#@"Attachment: {count} image"@#@
+// @key: @#@"fileAttachment"@#@ @source: @#@"Attachment: {count} file"@#@

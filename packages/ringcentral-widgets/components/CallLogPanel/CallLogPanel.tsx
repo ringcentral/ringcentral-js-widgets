@@ -46,6 +46,7 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
       logName: null,
       notificationIsExpand: false,
     },
+    showRecordingIndicator: false,
   };
 
   editSectionRef = React.createRef<HTMLDivElement>();
@@ -179,6 +180,7 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
       renderBasicInfo,
       classes: { logBasicInfo },
       currentSession,
+      showRecordingIndicator,
     } = this.props;
     if (renderBasicInfo) {
       return renderBasicInfo({ formatPhone, dateTimeFormatter, currentLog });
@@ -193,6 +195,7 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
         dateTimeFormatter={dateTimeFormatter}
         className={logBasicInfo}
         recordStatus={currentSession?.recordStatus}
+        showRecordingIndicator={showRecordingIndicator}
       />
     );
   }
@@ -227,6 +230,7 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
       onDiscardNotification,
       currentNotificationIdentify,
       currentSession,
+      activeSession,
       onReject,
       onHangup,
       shrinkNotification,
@@ -248,6 +252,7 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
       return null;
     }
     if (isWebRTC) {
+      if (!call || !call.webphoneSession) return null;
       return (
         <WebRTCNotificationSection
           formatPhone={formatPhone}
@@ -263,7 +268,7 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
           holdAndAnswer={holdAndAnswer}
           toVoicemail={toVoicemail}
           forwardingNumbers={forwardingNumbers}
-          isCurrentSessionEnd={!currentSession}
+          hasActiveSession={!!activeSession}
           answer={answer}
         />
       );

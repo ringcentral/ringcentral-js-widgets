@@ -21,7 +21,13 @@ export default {
   recurringEvery: "每一个",
   recurrenceType: "重复类型",
   recurrenceEndDate: "结束日期",
-  currentLocale: "天"
+  currentLocale: "天",
+  meetingId: "会议 ID",
+  generateAutomatically: "自动生成",
+  usePmi: "个人会议 ID (PMI)：{meetingId}",
+  pmiChangeConfirm: "要对个人会议进行更改， ",
+  changePmiSettings: "更改 PMI 设置",
+  pmiSettingChangeAlert: "您更改设置并安排会议时间后，使用个人会议 ID 的所有会议都会改为使用这些最新设置。"
 };
 
 // @key: @#@"topic"@#@ @source: @#@"Topic"@#@
@@ -47,3 +53,9 @@ export default {
 // @key: @#@"recurrenceType"@#@ @source: @#@"Recurrence Type"@#@
 // @key: @#@"recurrenceEndDate"@#@ @source: @#@"End Date"@#@
 // @key: @#@"currentLocale"@#@ @source: @#@"Day(s)"@#@
+// @key: @#@"meetingId"@#@ @source: @#@"Meeting ID"@#@
+// @key: @#@"generateAutomatically"@#@ @source: @#@"Generate Automatically"@#@
+// @key: @#@"usePmi"@#@ @source: @#@"Personal Meeting ID (PMI): {meetingId}"@#@
+// @key: @#@"pmiChangeConfirm"@#@ @source: @#@"If you want to make changes for your personal meeting, "@#@
+// @key: @#@"changePmiSettings"@#@ @source: @#@"change PMI settings"@#@
+// @key: @#@"pmiSettingChangeAlert"@#@ @source: @#@"If you change the settings and schedule this meeting, all of meetings with Personal Meeting ID will use the same latest settings."@#@

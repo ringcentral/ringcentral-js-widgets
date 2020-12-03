@@ -5,7 +5,7 @@ export default {
   play: "Riproduci",
   stop: "Stop",
   upload: "Carica",
-  reset: "Reset",
+  reset: "Reimposta",
   save: "Salva"
 };
 

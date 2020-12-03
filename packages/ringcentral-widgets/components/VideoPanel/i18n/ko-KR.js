@@ -24,7 +24,7 @@ export default {
   passwordHintText: "비밀번호는 1~10자의 문자 및 숫자여야 하며 기호를 포함하지 않아야 합니다.",
   usePersonalMeetingId: "개인 모임 ID 사용",
   meetingSettingsSecurity: "보안",
-  onlyAuthUserJoin: "인증된 사용자만 가입할 수 있습니다.",
+  onlyAuthUserJoin: "인증된 사용자만 참가할 수 있습니다.",
   signedInUsers: "로그인한 사용자",
   signedInCoWorkers: "로그인한 동료",
   limitScreenSharing: "호스트 및 중재자만 화면을 공유할 수 있습니다.",

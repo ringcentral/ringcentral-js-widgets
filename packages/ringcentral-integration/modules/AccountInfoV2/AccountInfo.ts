@@ -2,6 +2,7 @@ import { GetAccountInfoResponse } from '@rc-ex/core/definitions';
 import { computed } from '@ringcentral-integration/core';
 
 import { Module } from '../../lib/di';
+import { loginStatus } from '../AuthV2';
 import { DataFetcherV2Consumer, DataSource } from '../DataFetcherV2';
 import { permissionsMessages } from '../RolesAndPermissions/permissionsMessages';
 import { Deps } from './AccountInfo.interfaces';
@@ -41,8 +42,23 @@ export class AccountInfo extends DataFetcherV2Consumer<
     return !!this._deps.rolesAndPermissions.permissions?.ReadCompanyInfo;
   }
 
+  onInitSuccess() {
+    // TODO: refactor for Analytics V2
+    (this.parentModule as any).analytics?._identify?.({
+      userId: this._deps.auth?.ownerId,
+      accountId: this.id,
+      servicePlanId: this.servicePlan.id,
+      edition: this.servicePlan.edition,
+      CRMEnabled: this._deps.rolesAndPermissions.tierEnabled,
+    });
+  }
+
   async onStateChange() {
-    if (this._deps.auth.loggedIn && this.ready && !this._checkPermission()) {
+    if (
+      this._deps.auth.loginStatus === loginStatus.loggedIn &&
+      this.ready &&
+      !this._checkPermission()
+    ) {
       await this._deps.auth.logout();
       this._deps.alert.danger({
         message: permissionsMessages.insufficientPrivilege,

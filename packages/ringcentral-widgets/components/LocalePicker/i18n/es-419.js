@@ -5,7 +5,10 @@ export default {
   de: "Danés",
   es: "Español",
   it: "Italiano",
-  pt: "Portugués"
+  pt: "Portugués",
+  zh: "Chino",
+  nl: "Holandés",
+  ko: "Coreano"
 };
 
 // @key: @#@"en"@#@ @source: @#@"English"@#@
@@ -15,3 +18,6 @@ export default {
 // @key: @#@"es"@#@ @source: @#@"Spanish"@#@
 // @key: @#@"it"@#@ @source: @#@"Italian"@#@
 // @key: @#@"pt"@#@ @source: @#@"Portuguese"@#@
+// @key: @#@"zh"@#@ @source: @#@"Chinese"@#@
+// @key: @#@"nl"@#@ @source: @#@"Dutch"@#@
+// @key: @#@"ko"@#@ @source: @#@"Korean"@#@

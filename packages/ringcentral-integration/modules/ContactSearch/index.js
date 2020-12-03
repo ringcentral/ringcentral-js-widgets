@@ -18,9 +18,8 @@ export const DefaultMinimalSearchLength = 3;
 @Module({
   deps: [
     'Auth',
-    'Storage',
+    { dep: 'Storage', optional: true },
     { dep: 'ContactSearchOptions', optional: true },
-    { dep: 'TabManager', optional: true },
   ],
 })
 export default class ContactSearch extends RcModule {

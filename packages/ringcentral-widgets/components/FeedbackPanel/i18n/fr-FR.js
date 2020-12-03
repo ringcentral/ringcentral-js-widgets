@@ -14,7 +14,7 @@ export default {
   featureRequest: "Demande de fonctionnalité",
   others: "Autres",
   subject: "Objet",
-  subjectPlaceHolder: "Que pouvons-nous faire pour vous aider ?",
+  subjectPlaceHolder: "Que pouvons-nous faire pour vous aider ?",
   description: "Description complète",
   descriptionPlaceHolder: "Veuillez saisir autant de détails que possible",
   send: "Envoyez votre commentaire"

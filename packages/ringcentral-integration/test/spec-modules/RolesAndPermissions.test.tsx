@@ -12,11 +12,12 @@ import {
 
 import { RolesAndPermissions } from '../../modules/RolesAndPermissionsV2';
 import { permissionsMessages } from '../../modules/RolesAndPermissions/permissionsMessages';
+import { loginStatus } from '../../modules/AuthV2';
 
 class MockAuth {
-  loggedIn = true;
+  loginStatus = loginStatus.loggedIn;
   async logout() {
-    this.loggedIn = false;
+    this.loginStatus = loginStatus.notLoggedIn;
   }
 }
 
@@ -117,7 +118,9 @@ export class InsufficientPermissionOnRequest extends Step {
         <Then
           desc="logout should be called"
           action={(_: any, context: any) => {
-            expect(context.instance._deps.auth.loggedIn).toBe(false);
+            expect(context.instance._deps.auth.loginStatus).toBe(
+              loginStatus.notLoggedIn,
+            );
           }}
         />
         <Then
@@ -303,13 +306,17 @@ export class CheckTier extends Step {
           desc="Should logout and show invalidTier alert when isCRM=true and hasSalesForce=false"
           action={(_: any, context: any) => {
             if (context.example.isCRM && !context.example.hasSalesForce) {
-              expect(context.instance._deps.auth.loggedIn).toBe(false);
+              expect(context.instance._deps.auth.loginStatus).toBe(
+                loginStatus.notLoggedIn,
+              );
               expect(context.instance._deps.alert.args).toBeTruthy();
               expect(context.instance._deps.alert.args[0].message).toBe(
                 permissionsMessages.invalidTier,
               );
             } else {
-              expect(context.instance._deps.auth.loggedIn).toBe(true);
+              expect(context.instance._deps.auth.loginStatus).toBe(
+                loginStatus.loggedIn,
+              );
               expect(context.instance._deps.alert.args).toBeNull();
             }
           }}
@@ -380,7 +387,9 @@ export class ReadUserInfo extends Step {
           desc="Should logout if user has no ReadUserInfo permission, but only show alert if user has permission to fetch authsProfiles data"
           action={(_: any, context: any) => {
             if (!context.example.ReadUserInfo) {
-              expect(context.instance._deps.auth.loggedIn).toBe(false);
+              expect(context.instance._deps.auth.loginStatus).toBe(
+                loginStatus.notLoggedIn,
+              );
               if (context.example.hasPermission) {
                 expect(context.instance._deps.alert.args[0].message).toBe(
                   permissionsMessages.insufficientPrivilege,
@@ -389,7 +398,9 @@ export class ReadUserInfo extends Step {
                 expect(context.instance._deps.alert.args).toBeNull();
               }
             } else {
-              expect(context.instance._deps.auth.loggedIn).toBe(true);
+              expect(context.instance._deps.auth.loginStatus).toBe(
+                loginStatus.loggedIn,
+              );
               expect(context.instance._deps.alert.args).toBeNull();
             }
           }}

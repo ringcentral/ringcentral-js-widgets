@@ -1,10 +1,7 @@
 import callingOptions from 'ringcentral-integration/modules/CallingSettings/callingOptions';
 export default {
   title: "通話",
-  [callingOptions.softphone]: "{brand}",
-  [callingOptions.myphone]: "自分の{brand}電話",
-  [callingOptions.otherphone]: "その他の電話",
-  [callingOptions.customphone]: "カスタム電話",
+  [callingOptions.softphone]: "{brand} for Desktop",
   [callingOptions.browser]: "ブラウザー",
   [callingOptions.jupiter]: "{brand}",
   makeCallsWith: "通話発信に使用する電話",
@@ -13,20 +10,13 @@ export default {
   press1ToStartCallLabel: "通話接続前に「1」をダイヤルするように指示するメッセージを受け取る",
   [`${callingOptions.browser}Tooltip`]: "通話の発着信にコンピューターのマイクロフォンとスピーカーを使用するには、このオプションを使用します。",
   [`${callingOptions.softphone}Tooltip`]: "通話の発着信に{brand}を使用するには、このオプションを使用します。",
-  [`${callingOptions.myphone}Tooltip`]: "{brand}電話を使用して電話をかけるには、このオプションを使用します。",
-  [`${callingOptions.myphone}Tooltip1`]: "電話をかけた場合、最初に自分の{brand}電話が鳴ってから、通話相手の電話が鳴ります。",
-  [`${callingOptions.otherphone}Tooltip`]: "{brand}の内線に追加した自宅電話や携帯電話など、他の電話を使用して電話をかけるには、このオプションを使用します。",
-  [`${callingOptions.otherphone}Tooltip1`]: "電話をかけた場合、最初にこの電話が鳴ってから、通話相手の電話が鳴ります。",
-  [`${callingOptions.customphone}Tooltip`]: "以下のフィールドに有効な電話番号を入力することで任意の電話を使用して電話をかけるには、このオプションを使用します。",
-  [`${callingOptions.customphone}Tooltip1`]: "電話をかけた場合、最初にこの電話が鳴ってから、通話相手の電話が鳴ります。",
+  [`${callingOptions.ringout}Tooltip`]: "このオプションを使用して、選択または入力した電話番号で発信します。",
+  [`${callingOptions.ringout}Tooltip1`]: "発信した場合、最初にこの電話が鳴り、次に発信先の電話が鳴ります。",
   [`${callingOptions.jupiter}Tooltip`]: "通話の発着信に{brand}を使用するには、このオプションを使用します。"
 };
 
 // @key: @#@"title"@#@ @source: @#@"Calling"@#@
-// @key: @#@"[callingOptions.softphone]"@#@ @source: @#@"{brand}"@#@
-// @key: @#@"[callingOptions.myphone]"@#@ @source: @#@"My {brand} Phone"@#@
-// @key: @#@"[callingOptions.otherphone]"@#@ @source: @#@"Other Phone"@#@
-// @key: @#@"[callingOptions.customphone]"@#@ @source: @#@"Custom Phone"@#@
+// @key: @#@"[callingOptions.softphone]"@#@ @source: @#@"{brand} for Desktop"@#@
 // @key: @#@"[callingOptions.browser]"@#@ @source: @#@"Browser"@#@
 // @key: @#@"[callingOptions.jupiter]"@#@ @source: @#@"{brand}"@#@
 // @key: @#@"makeCallsWith"@#@ @source: @#@"Make my calls with"@#@
@@ -35,10 +25,6 @@ export default {
 // @key: @#@"press1ToStartCallLabel"@#@ @source: @#@"Prompt me to dial 1 before connecting the call"@#@
 // @key: @#@"[`${callingOptions.browser}Tooltip`]"@#@ @source: @#@"Use this option to make and receive calls using your computer’s microphone and speaker."@#@
 // @key: @#@"[`${callingOptions.softphone}Tooltip`]"@#@ @source: @#@"Use this option to make and receive calls using your {brand}."@#@
-// @key: @#@"[`${callingOptions.myphone}Tooltip`]"@#@ @source: @#@"Use this option to make calls using your {brand} phone."@#@
-// @key: @#@"[`${callingOptions.myphone}Tooltip1`]"@#@ @source: @#@"For the call you make, your {brand} phone will ring first then the party you called."@#@
-// @key: @#@"[`${callingOptions.otherphone}Tooltip`]"@#@ @source: @#@"Use this option to make calls using your other phones such as home or cell phones that you have added in your {brand} Extension."@#@
-// @key: @#@"[`${callingOptions.otherphone}Tooltip1`]"@#@ @source: @#@"For the call you make, this phone will ring first then the party you called."@#@
-// @key: @#@"[`${callingOptions.customphone}Tooltip`]"@#@ @source: @#@"Use this option to make calls using any phone of your choice by entering a valid phone number in the field below."@#@
-// @key: @#@"[`${callingOptions.customphone}Tooltip1`]"@#@ @source: @#@"For the call you make, this phone will ring first then the party you called."@#@
+// @key: @#@"[`${callingOptions.ringout}Tooltip`]"@#@ @source: @#@"Use this option to make calls using your selected or entered phone number."@#@
+// @key: @#@"[`${callingOptions.ringout}Tooltip1`]"@#@ @source: @#@"For the call you make, this phone will ring first then the party you called."@#@
 // @key: @#@"[`${callingOptions.jupiter}Tooltip`]"@#@ @source: @#@"Use this option to make and receive calls using your {brand}."@#@

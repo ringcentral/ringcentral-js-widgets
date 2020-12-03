@@ -8,12 +8,8 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "crius-is": "^1.0.0-alpha.11",
-    "crius-test": "^1.0.0-alpha.14"
-  },
-  "peerDependencies": {
-    "crius-is": "^1.0.0-alpha.11",
-    "crius-test": "^1.0.0-alpha.14"
+    "crius-is": "^1.1.2",
+    "crius-test": "^1.1.3"
   },
   "keywords": [],
   "author": "",

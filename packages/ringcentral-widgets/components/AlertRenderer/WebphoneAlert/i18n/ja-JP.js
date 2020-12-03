@@ -1,4 +1,5 @@
 import webphoneErrors from 'ringcentral-integration/modules/Webphone/webphoneErrors';
+import webphoneMessages from 'ringcentral-integration/modules/Webphone/webphoneMessages';
 export default {
   [webphoneErrors.connectFailed]: "申し訳ございません。現在、電話機能は使用できません。後でやり直してください。 ",
   [webphoneErrors.connected]: "ウェブ電話は登録されています。",
@@ -15,6 +16,7 @@ export default {
   [webphoneErrors.recordError]: "現在、通話を録音できません。エラーコード：{errorCode}",
   [webphoneErrors.recordDisabled]: "申し訳ありません。お使いのアカウントでは、通話を録音する機能はサポートされていません。アカウント管理者にお問い合わせください。",
   [webphoneErrors.transferError]: "通話を転送できません。後でもう一度やり直してください。",
+  [webphoneMessages.parked]: "通話は{parkedNumber}でパークされました",
   failWithStatusCode: "申し訳ございません。エラー {errorCode} が発生しました。問題が解決しない場合は、このエラーを {brandName} サポートに報告してください。",
   registeringWithStatusCode: "申し訳ございません。問題が発生しました。再接続しようとしています。問題が解決しない場合は、このエラーを {brandName} サポートに報告してください。エラーコード：{errorCode}。",
   failWithoutStatusCode: "申し訳ございません。こちら側で問題が発生しました。エラーが解決しない場合は、このエラーを {brandName} サポートに報告してください。",
@@ -36,6 +38,7 @@ export default {
 // @key: @#@"[webphoneErrors.recordError]"@#@ @source: @#@"You cannot record the call at the moment. Error code: {errorCode}"@#@
 // @key: @#@"[webphoneErrors.recordDisabled]"@#@ @source: @#@"Sorry, your account does not have the feature to record a call. Please contact your account administrator."@#@
 // @key: @#@"[webphoneErrors.transferError]"@#@ @source: @#@"Cannot transfer the call. Please try again later."@#@
+// @key: @#@"[webphoneMessages.parked]"@#@ @source: @#@"Your call is parked at location: {parkedNumber}"@#@
 // @key: @#@"failWithStatusCode"@#@ @source: @#@"Sorry, we've encountered an error: {errorCode}. If the problem persists, report this error to {brandName} support."@#@
 // @key: @#@"registeringWithStatusCode"@#@ @source: @#@"Sorry, something went wrong. We are trying to reconnect. If the problem persists, please report this error to {brandName} support. Error code: {errorCode}."@#@
 // @key: @#@"failWithoutStatusCode"@#@ @source: @#@"Sorry, something went wrong on our end. If the error persists, report this error to {brandName} support."@#@

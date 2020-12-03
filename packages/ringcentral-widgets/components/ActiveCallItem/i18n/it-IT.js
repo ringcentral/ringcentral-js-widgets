@@ -29,7 +29,11 @@ export default {
   unhold: "Riprendi",
   transfer: "Trasferisci",
   reject: "Rifiuta",
-  switchCall: "Passa chiamata su questa app"
+  switchCall: "Passa chiamata su questa app",
+  callSwitch: "Commutazione chiamata",
+  comfirmContext: "Al momento sei in una chiamata attiva con {displayName}. Vuoi continuare la chiamata su questo dispositivo?",
+  comfirmCancelButton: "Annulla",
+  comfirmOKButton: "Commuta"
 };
 
 // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
@@ -63,3 +67,7 @@ export default {
 // @key: @#@"transfer"@#@ @source: @#@"Transfer"@#@
 // @key: @#@"reject"@#@ @source: @#@"Reject"@#@
 // @key: @#@"switchCall"@#@ @source: @#@"Switch Call to this app"@#@
+// @key: @#@"callSwitch"@#@ @source: @#@"Call Switch"@#@
+// @key: @#@"comfirmContext"@#@ @source: @#@"You're currently on an active call with {displayName}. Would you like to continue the call on this device?"@#@
+// @key: @#@"comfirmCancelButton"@#@ @source: @#@"Cancel"@#@
+// @key: @#@"comfirmOKButton"@#@ @source: @#@"Switch"@#@
