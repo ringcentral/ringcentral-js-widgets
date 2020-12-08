@@ -37,7 +37,7 @@ var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
-var _SearchInput = _interopRequireDefault(require("ringcentral-widgets/components/SearchInput"));
+var _SearchInput = require("ringcentral-widgets/components/SearchInput");
 
 var _SpinnerOverlay = require("ringcentral-widgets/components/SpinnerOverlay");
 
@@ -176,7 +176,7 @@ var GlipGroupsPanel = /*#__PURE__*/function (_PureComponent) {
         className: (0, _classnames["default"])(_styles["default"].root, className)
       }, /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].header
-      }, /*#__PURE__*/_react["default"].createElement(_SearchInput["default"], {
+      }, /*#__PURE__*/_react["default"].createElement(_SearchInput.SearchInput, {
         className: _styles["default"].searchInput,
         value: this.state.searchString,
         onChange: this.updateSeachString,

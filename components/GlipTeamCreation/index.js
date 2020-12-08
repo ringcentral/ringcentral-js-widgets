@@ -49,7 +49,7 @@ var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _Modal = _interopRequireDefault(require("ringcentral-widgets/components/Modal"));
 
-var _SearchInput = _interopRequireDefault(require("ringcentral-widgets/components/SearchInput"));
+var _SearchInput = require("ringcentral-widgets/components/SearchInput");
 
 var _TextInput = _interopRequireDefault(require("ringcentral-widgets/components/TextInput"));
 
@@ -283,7 +283,7 @@ var GlipTeamCreationModal = /*#__PURE__*/function (_Component) {
         value: this.state.teamName,
         onChange: this.updateTeamName,
         placeholder: "Team name"
-      }), /*#__PURE__*/_react["default"].createElement(_SearchInput["default"], {
+      }), /*#__PURE__*/_react["default"].createElement(_SearchInput.SearchInput, {
         className: _styles["default"].searchInput,
         value: this.props.searchFilter,
         onChange: this.updateSeachString,
