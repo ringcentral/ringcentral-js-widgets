@@ -13,7 +13,7 @@ var _default = {
   play: "Riproduci",
   stop: "Stop",
   upload: "Carica",
-  reset: "Reset",
+  reset: "Reimposta",
   save: "Salva"
 }; // @key: @#@"ringtones"@#@ @source: @#@"Ringtones"@#@
 // @key: @#@"incomingRingtone"@#@ @source: @#@"Incoming Ringtone"@#@

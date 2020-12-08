@@ -15,15 +15,15 @@ var _default = {
   starSharp4Title: "Menu",
   starSharp4Body: "Permet d'écouter la liste de commandes du téléphone à clavier",
   starSharp5Title: "Définir les modes d'écoute",
-  starSharp5Body: "Faire la commande une fois pour : Activer le mode discrétion sur la ligne des appelants. Ces derniers peuvent le désactiver en appuyant sur les touches *, # et 6\r\nFaire la commande deux fois pour : Activer le mode discrétion sur la ligne des appelants afin d'écouter uniquement. Aucune option de désactivation du mode discrétion\r\nFaire la commande trois fois pour : Désactiver le mode discrétion sur la ligne des appelants, leur ligne est donc rouverte.",
+  starSharp5Body: "Faire la commande une fois pour : Activer le mode discrétion sur la ligne des appelants. Ces derniers peuvent le désactiver en appuyant sur les touches *, # et 6\nFaire la commande deux fois pour : Activer le mode discrétion sur la ligne des appelants afin d'écouter uniquement. Aucune option de désactivation du mode discrétion\nFaire la commande trois fois pour : Désactiver le mode discrétion sur la ligne des appelants, leur ligne est donc rouverte.",
   starSharp6Title: "Act. mode disc. sur la ligne de l'animateur",
-  starSharp6Body: "Appuyez une fois pour activer le mode DISCRÉTION\r\nAppuyez une autre fois pour désactiver le mode DISCRÉTION",
+  starSharp6Body: "Appuyez une fois pour activer le mode DISCRÉTION\nAppuyez une autre fois pour désactiver le mode DISCRÉTION",
   starSharp7Title: "Sécuriser la conférence",
-  starSharp7Body: "Faire la commande une fois pour BLOQUER l'accès à la conférence\r\nFaire la commande de nouveau pour OUVRIR la conférence",
+  starSharp7Body: "Faire la commande une fois pour BLOQUER l'accès à la conférence\nFaire la commande de nouveau pour OUVRIR la conférence",
   starSharp8Title: "Entendre un son lorsque des participants entrent dans la téléconférence ou en sortent",
-  starSharp8Body: "Faire la commande une fois pour : DÉSACTIVER le son\r\nFaire la commande deux fois pour : ACTIVER le son d'entrée et DÉSACTIVER le son de sortie\r\nFaire la commande trois fois pour : DÉSACTIVER le son d'entrée et ACTIVER le son de sortie\r\nFaire la commande quatre fois pour : ACTIVER le son",
+  starSharp8Body: "Faire la commande une fois pour : DÉSACTIVER le son\nFaire la commande deux fois pour : ACTIVER le son d'entrée et DÉSACTIVER le son de sortie\nFaire la commande trois fois pour : DÉSACTIVER le son d'entrée et ACTIVER le son de sortie\nFaire la commande quatre fois pour : ACTIVER le son",
   star9Title: "Enregistrer la conférence",
-  star9Body: "Faire la commande une fois pour DÉMARRER l'enregistrement\r\nFaire la commande de nouveau pour ARRÊTER l'enregistrement"
+  star9Body: "Faire la commande une fois pour DÉMARRER l'enregistrement\nFaire la commande de nouveau pour ARRÊTER l'enregistrement"
 }; // @key: @#@"title"@#@ @source: @#@"Conference Commands"@#@
 // @key: @#@"starSharp2Title"@#@ @source: @#@"Caller Count"@#@
 // @key: @#@"starSharp2Body"@#@ @source: @#@"Keep track of how many people are on the call"@#@

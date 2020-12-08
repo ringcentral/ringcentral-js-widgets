@@ -37,7 +37,8 @@ function UserInfo(props) {
   }), /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])(_styles["default"].ringInner, _styles["default"].ringing)
   }), /*#__PURE__*/_react["default"].createElement("div", {
-    className: _styles["default"].avatar
+    className: _styles["default"].avatar,
+    "data-sign": "avatar"
   }, /*#__PURE__*/_react["default"].createElement(_CallAvatar["default"], {
     avatarUrl: props.avatarUrl
   })))), /*#__PURE__*/_react["default"].createElement("div", {
@@ -62,7 +63,8 @@ function UserInfo(props) {
     phoneTypeRenderer: props.phoneTypeRenderer,
     phoneSourceNameRenderer: props.phoneSourceNameRenderer
   })), /*#__PURE__*/_react["default"].createElement("div", {
-    className: _styles["default"].userPhoneNumber
+    className: _styles["default"].userPhoneNumber,
+    "data-sign": "userPhoneNumber"
   }, props.formatPhone(props.phoneNumber)));
 }
 

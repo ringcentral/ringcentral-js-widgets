@@ -1,37 +1,60 @@
+import { ASSISTED_USERS_MYSELF } from 'ringcentral-integration/modules/Meeting';
 export default {
-  schedule: 'Zeitplan',
-  topic: 'Thema',
-  date: 'Datum',
-  startTime: 'Startzeit',
-  duration: 'Dauer',
-  meetingSettings: 'Besprechungseinstellungen',
-  rcMeetingSettings: 'Video-Besprechungseinstellungen',
-  joinBeforeHost: 'Beitritt vor Host zulassen',
-  muteAudio: 'Ton für Teilnehmer aus',
-  turnOffCamera: 'Kamera für Teilnehmer ausschalten',
-  requirePassword: 'Kennwort erforderlich',
-  setPassword: 'Kennwort festlegen',
-  passwordEmptyError: 'Besprechungskennwort erforderlich',
-  passwordInvalidError:
-    'Verwenden Sie 1 bis 10 Zeichen einschließlich Buchstaben und Ziffern, aber keine Symbole',
-  passwordHintText:
-    'Ihr Kennwort muss aus 1 bis 10 Buchstaben und Ziffern bestehen und darf keine Symbole enthalten',
-  usePersonalMeetingId: 'Persönliche Besprechungs-ID verwenden',
+  voIPOnly: "Nur Internet-Audio",
+  telephonyOnly: "Nur Telefon",
+  both: "Telefon und Internet-Audio",
+  meetingId: "Meeting-ID",
+  password: "Kennwort",
+  video: "Video",
+  audio: "Audio",
+  scheduleFor: "Ansetzen im Namen von",
+  [ASSISTED_USERS_MYSELF]: "Mir",
+  meetingOptions: "Meeting-Optionen",
+  meetingSettings: "Besprechungseinstellungen",
+  rcMeetingSettings: "Video-Besprechungseinstellungen",
+  audioOptions: "Audio-Optionen",
+  recurringMeeting: "Wiederholendes Meeting",
+  recurringNote: "Hinweis: Diese Option aktivieren, wenn „Wiederholung“ ausgewählt wird",
+  joinBeforeHost: "Teilnehmern erlauben, vor dem Gastgeber teilzunehmen",
+  turnOffCamera: "Kamera für Teilnehmer ausschalten",
+  turnOffHostCamera: "Kamera für Gastgeber bei Teilnahme an Meeting deaktivieren",
+  requirePassword: "Kennwort erforderlich",
+  setPassword: "Kennwort festlegen *",
+  passwordEmptyError: "Besprechungskennwort erforderlich",
+  rcmPasswordInvalidError: "Ihr Passwort muss 1–10 Zeichen oder Ziffern lang sein und darf keine Symbole außer @, * oder - enthalten",
+  rcmPasswordHintText: "Ihr Passwort sollte 1–10 Zeichen oder Ziffern lang sein und darf keine Symbole außer @, * oder - enthalten",
+  usePersonalMeetingId: "Persönliche Besprechungs-ID verwenden",
+  pmiChangeConfirm: "Wenn Sie an Ihrem persönlichen Meeting Änderungen vornehmen möchten, ",
+  changePmiSettings: "ändern Sie die PMI-Einstellungen",
+  pmiSettingChangeAlert: "Wenn Sie die Einstellungen ändern und dieses Meeting ansetzen, verwenden alle Meetings mit persönlicher Meeting-ID dieselben aktuellen Einstellungen.",
+  lockedTooltip: "Diese Einstellung wird vom Admin Ihres Unternehmens verwaltet"
 };
 
-// @key: @#@"schedule"@#@ @source: @#@"Schedule"@#@
-// @key: @#@"topic"@#@ @source: @#@"Topic"@#@
-// @key: @#@"date"@#@ @source: @#@"Date"@#@
-// @key: @#@"startTime"@#@ @source: @#@"Start time"@#@
-// @key: @#@"duration"@#@ @source: @#@"Duration"@#@
+// @key: @#@"voIPOnly"@#@ @source: @#@"Internet audio only"@#@
+// @key: @#@"telephonyOnly"@#@ @source: @#@"Telephone only"@#@
+// @key: @#@"both"@#@ @source: @#@"Telephone and Internet Audio"@#@
+// @key: @#@"meetingId"@#@ @source: @#@"Meeting ID"@#@
+// @key: @#@"password"@#@ @source: @#@"Password"@#@
+// @key: @#@"video"@#@ @source: @#@"Video"@#@
+// @key: @#@"audio"@#@ @source: @#@"Audio"@#@
+// @key: @#@"scheduleFor"@#@ @source: @#@"Schedule on behalf of"@#@
+// @key: @#@"ASSISTED_USERS_MYSELF"@#@ @source: @#@"Myself"@#@
+// @key: @#@"meetingOptions"@#@ @source: @#@"Meeting options"@#@
 // @key: @#@"meetingSettings"@#@ @source: @#@"Meeting settings"@#@
 // @key: @#@"rcMeetingSettings"@#@ @source: @#@"Video Meeting settings"@#@
-// @key: @#@"joinBeforeHost"@#@ @source: @#@"Allow join before host"@#@
-// @key: @#@"muteAudio"@#@ @source: @#@"Mute audio for participants"@#@
+// @key: @#@"audioOptions"@#@ @source: @#@"Audio options"@#@
+// @key: @#@"recurringMeeting"@#@ @source: @#@"Recurring meeting"@#@
+// @key: @#@"recurringNote"@#@ @source: @#@"Note: Enable this one when choosing \"Recurrence\""@#@
+// @key: @#@"joinBeforeHost"@#@ @source: @#@"Allow participants to join before host"@#@
 // @key: @#@"turnOffCamera"@#@ @source: @#@"Turn off camera for participants"@#@
+// @key: @#@"turnOffHostCamera"@#@ @source: @#@"Turn off camera for host when joining meeting"@#@
 // @key: @#@"requirePassword"@#@ @source: @#@"Require password"@#@
-// @key: @#@"setPassword"@#@ @source: @#@"Set password"@#@
+// @key: @#@"setPassword"@#@ @source: @#@"Set password *"@#@
 // @key: @#@"passwordEmptyError"@#@ @source: @#@"Meeting password required"@#@
-// @key: @#@"passwordInvalidError"@#@ @source: @#@"Use 1 to 10 characters which include alphabets and numbers but no symbols"@#@
-// @key: @#@"passwordHintText"@#@ @source: @#@"Your password should be 1-10 letters and numbers long but not contain symbols"@#@
+// @key: @#@"rcmPasswordInvalidError"@#@ @source: @#@"Your password must be 1-10 characters, numbers long and cannot have symbols except @, * or -"@#@
+// @key: @#@"rcmPasswordHintText"@#@ @source: @#@"Your password should be 1-10 characters, numbers long and cannot have symbols except @, * or -"@#@
 // @key: @#@"usePersonalMeetingId"@#@ @source: @#@"Use Personal Meeting ID"@#@
+// @key: @#@"pmiChangeConfirm"@#@ @source: @#@"If you want to make changes for your Personal Meeting, "@#@
+// @key: @#@"changePmiSettings"@#@ @source: @#@"change PMI settings"@#@
+// @key: @#@"pmiSettingChangeAlert"@#@ @source: @#@"If you change the settings and schedule this meeting, all of meetings with Personal Meeting ID will use the same latest settings."@#@
+// @key: @#@"lockedTooltip"@#@ @source: @#@"This setting is managed by your company admin"@#@

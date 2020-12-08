@@ -37,7 +37,8 @@ function CallInfo(props) {
   }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].avatarContainer
   }, /*#__PURE__*/_react["default"].createElement("div", {
-    className: _styles["default"].avatar
+    className: _styles["default"].avatar,
+    "data-sign": "avatar"
   }, avatar)), /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].userName
   }, props.callQueueName, /*#__PURE__*/_react["default"].createElement(_ContactDisplay["default"], {

@@ -2,8 +2,6 @@
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-require("core-js/modules/es6.object.define-property");
-
 require("core-js/modules/es6.array.iterator");
 
 require("core-js/modules/es6.weak-map");
@@ -12,6 +10,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+
+require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.string.iterator");
 
@@ -37,7 +37,7 @@ var _juno = require("@ringcentral/juno");
 
 var _iconChevron_left = _interopRequireDefault(require("@ringcentral/juno/icons/icon-chevron_left.svg"));
 
-var _classnames = _interopRequireDefault(require("classnames"));
+var _classnames2 = _interopRequireDefault(require("classnames"));
 
 var _react = _interopRequireWildcard(require("react"));
 
@@ -52,6 +52,8 @@ function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
@@ -89,11 +91,13 @@ var BackHeader = function BackHeader(_ref) {
       setMaxWidth(initWidth - (rightRef.current.clientWidth - 62));
     }
   }, [currentLocale, isClassic]);
-  var rootClass = (0, _classnames["default"])(_styles["default"].root, isClassic && _styles["default"].classic, className);
+  var rootClass = (0, _classnames2["default"])(_styles["default"].root, isClassic && _styles["default"].classic, className); // if right icon is empty then should occupy position to make title actually center align
+
+  var rightIconClass = (0, _classnames2["default"])(_styles["default"].rightIcon, _defineProperty({}, _styles["default"].emptyRightIcon, !rightIcon));
   return /*#__PURE__*/_react["default"].createElement("div", {
     className: rootClass
   }, /*#__PURE__*/_react["default"].createElement(_juno.RcIconButton, {
-    className: (0, _classnames["default"])(_styles["default"].back),
+    className: (0, _classnames2["default"])(_styles["default"].back),
     variant: "round",
     size: "small",
     symbol: backIcon,
@@ -110,7 +114,7 @@ var BackHeader = function BackHeader(_ref) {
     }
   }, title)) : null), /*#__PURE__*/_react["default"].createElement("div", {
     ref: rightRef,
-    className: _styles["default"].rightIcon
+    className: rightIconClass
   }, rightIcon));
 };
 

@@ -2,6 +2,8 @@
 @import '../../lib/commonStyles/text-ellipsis.scss';
 @import '../../lib/commonStyles/variable.scss';
 
+$back-margin-left: 10px;
+$back-margin-left-classic: 6px;
 .root {
   display: flex;
   justify-content: space-between;
@@ -11,17 +13,20 @@
   position: relative;
   &.classic {
     .back {
-      margin-left: 6px;
+      margin-left: $back-margin-left-classic;
       flex-shrink: 0;
     }
     .title {
       font-size: 12px;
     }
+    .emptyRightIcon {
+      width: $back-margin-left-classic + 32px;
+    }
   }
 
   .back {
     z-index: 1;
-    margin-left: 10px;
+    margin-left: $back-margin-left;
     flex-shrink: 0;
   }
 
@@ -38,6 +43,10 @@
     span {
       @include text-ellipsis;
     }
+  }
+  // 32px is back icon's width
+  .emptyRightIcon {
+    width: $back-margin-left + 32px;
   }
 }
 

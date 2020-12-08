@@ -83,6 +83,7 @@ class CallLogUI<T = {}>
           currentNotificationIdentify
         ],
       ),
+      activeSession: activeCallControl.activeSession,
       isWebRTC: callingSettings.callWith === callingOptions.browser,
       forwardingNumbers: forwardingNumber.forwardingNumbers,
     };

@@ -226,7 +226,8 @@ var CallLogPanel = /*#__PURE__*/function (_Component) {
           dateTimeFormatter = _this$props4.dateTimeFormatter,
           renderBasicInfo = _this$props4.renderBasicInfo,
           logBasicInfo = _this$props4.classes.logBasicInfo,
-          currentSession = _this$props4.currentSession;
+          currentSession = _this$props4.currentSession,
+          showRecordingIndicator = _this$props4.showRecordingIndicator;
 
       if (renderBasicInfo) {
         return renderBasicInfo({
@@ -244,7 +245,8 @@ var CallLogPanel = /*#__PURE__*/function (_Component) {
         formatPhone: formatPhone,
         dateTimeFormatter: dateTimeFormatter,
         className: logBasicInfo,
-        recordStatus: currentSession === null || currentSession === void 0 ? void 0 : currentSession.recordStatus
+        recordStatus: currentSession === null || currentSession === void 0 ? void 0 : currentSession.recordStatus,
+        showRecordingIndicator: showRecordingIndicator
       });
     }
   }, {
@@ -279,6 +281,7 @@ var CallLogPanel = /*#__PURE__*/function (_Component) {
           onDiscardNotification = _this$props6.onDiscardNotification,
           currentNotificationIdentify = _this$props6.currentNotificationIdentify,
           currentSession = _this$props6.currentSession,
+          activeSession = _this$props6.activeSession,
           onReject = _this$props6.onReject,
           onHangup = _this$props6.onHangup,
           shrinkNotification = _this$props6.shrinkNotification,
@@ -303,6 +306,7 @@ var CallLogPanel = /*#__PURE__*/function (_Component) {
       }
 
       if (isWebRTC) {
+        if (!call || !call.webphoneSession) return null;
         return /*#__PURE__*/_react["default"].createElement(_WebRTCNotificationSection["default"], {
           formatPhone: formatPhone,
           currentLocale: currentLocale,
@@ -317,7 +321,7 @@ var CallLogPanel = /*#__PURE__*/function (_Component) {
           holdAndAnswer: holdAndAnswer,
           toVoicemail: toVoicemail,
           forwardingNumbers: forwardingNumbers,
-          isCurrentSessionEnd: !currentSession,
+          hasActiveSession: !!activeSession,
           answer: answer
         });
       }
@@ -432,6 +436,7 @@ CallLogPanel.defaultProps = {
     call: null,
     logName: null,
     notificationIsExpand: false
-  }
+  },
+  showRecordingIndicator: false
 };
 //# sourceMappingURL=CallLogPanel.js.map

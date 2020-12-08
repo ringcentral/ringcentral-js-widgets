@@ -7,19 +7,19 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  unmute: "Dempen uitschakelen",
-  mute: "Dempen",
-  keypad: "Toetsenbord",
-  hold: "In wacht zetten",
-  onHold: "In de wacht zetten",
-  park: "Parkeren",
-  stopRecord: "Stoppen",
-  record: "Opnemen",
-  add: "Toevoegen",
-  transfer: "Doorverbinden",
-  flip: "Omkeren",
-  more: "Oproepacties",
-  mergeToConference: "Samenvoegen"
+  unmute: 'Dempen uitschakelen',
+  mute: 'Dempen',
+  keypad: 'Toetsenbord',
+  hold: 'Wacht',
+  onHold: 'In wacht',
+  park: 'Parkeren',
+  stopRecord: 'Stoppen',
+  record: 'Opnemen',
+  add: 'Toevoegen',
+  transfer: 'Doorv.',
+  flip: 'Omkeren',
+  more: 'Oproepacties',
+  mergeToConference: 'Samenvoegen'
 }; // @key: @#@"unmute"@#@ @source: @#@"Unmute"@#@
 // @key: @#@"mute"@#@ @source: @#@"Mute"@#@
 // @key: @#@"keypad"@#@ @source: @#@"Keypad"@#@

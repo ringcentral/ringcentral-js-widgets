@@ -8,7 +8,7 @@ Object.defineProperty(exports, "__esModule", {
 exports["default"] = void 0;
 var _default = {
   confirmation: "Confirmation",
-  confirmMergeToConference: "Ajouter à la conférence téléphonique ?",
+  confirmMergeToConference: "Ajouter à la conférence téléphonique ?",
   mergeToConference: "Fusionner",
   conferenceCall: "Conférence téléphonique"
 }; // @key: @#@"confirmation"@#@ @source: @#@"Confirmation"@#@

@@ -29,7 +29,13 @@ var _default = {
   recurringEvery: "Every",
   recurrenceType: "Recurrence type",
   recurrenceEndDate: "End date",
-  currentLocale: "Day(s)"
+  currentLocale: "Day(s)",
+  meetingId: "Meeting ID",
+  generateAutomatically: "Generate Automatically",
+  usePmi: "Personal Meeting ID (PMI): {meetingId}",
+  pmiChangeConfirm: "If you want to make changes for your personal meeting, ",
+  changePmiSettings: "change PMI settings",
+  pmiSettingChangeAlert: "If you change the settings and schedule this meeting, all of meetings with Personal Meeting ID will use the same latest settings."
 }; // @key: @#@"topic"@#@ @source: @#@"Topic"@#@
 // @key: @#@"when"@#@ @source: @#@"When"@#@
 // @key: @#@"duration"@#@ @source: @#@"Duration"@#@
@@ -53,6 +59,12 @@ var _default = {
 // @key: @#@"recurrenceType"@#@ @source: @#@"Recurrence Type"@#@
 // @key: @#@"recurrenceEndDate"@#@ @source: @#@"End Date"@#@
 // @key: @#@"currentLocale"@#@ @source: @#@"Day(s)"@#@
+// @key: @#@"meetingId"@#@ @source: @#@"Meeting ID"@#@
+// @key: @#@"generateAutomatically"@#@ @source: @#@"Generate Automatically"@#@
+// @key: @#@"usePmi"@#@ @source: @#@"Personal Meeting ID (PMI): {meetingId}"@#@
+// @key: @#@"pmiChangeConfirm"@#@ @source: @#@"If you want to make changes for your personal meeting, "@#@
+// @key: @#@"changePmiSettings"@#@ @source: @#@"change PMI settings"@#@
+// @key: @#@"pmiSettingChangeAlert"@#@ @source: @#@"If you change the settings and schedule this meeting, all of meetings with Personal Meeting ID will use the same latest settings."@#@
 
 exports["default"] = _default;
 //# sourceMappingURL=en-AU.js.map

@@ -8,7 +8,7 @@ Object.defineProperty(exports, "__esModule", {
 exports["default"] = void 0;
 var _default = {
   unmute: "Ativar som",
-  mute: "Desativar som",
+  mute: "Desat. som",
   keypad: "Teclado de marcação",
   hold: "Em espera",
   onHold: "Em espera",

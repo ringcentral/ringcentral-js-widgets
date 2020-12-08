@@ -86,3 +86,29 @@
   transform: translate(-50%, -50%);
   overflow: hidden;
 }
+.callInfoBarV2 {
+  .currentCallInfo {
+    max-width: 160px;
+  }
+  .viewCallsBtn,
+  .currentCallBtn {
+    width: auto;
+    height: 16px;
+    line-height: 16px;
+    border-radius: 8px;
+    border: none;
+    color: $snow;
+    margin-left: 8px;
+  }
+  .viewCallsBtn:hover,
+  .currentCallBtn:hover {
+    color: $snow;
+  }
+  .viewCallsBtn {
+    background-color: $orange;
+    padding: 0 8px;
+  }
+  .currentCallBtn {
+    background-color: $leaf;
+  }
+}

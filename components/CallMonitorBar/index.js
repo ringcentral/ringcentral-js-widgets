@@ -80,31 +80,35 @@ function CallInfoBar(_ref) {
   var label = _ref.label,
       onClick = _ref.onClick,
       currentLocale = _ref.currentLocale,
-      shouldDisplayViewCallsBtn = _ref.shouldDisplayViewCallsBtn;
+      shouldDisplayViewCallsBtn = _ref.shouldDisplayViewCallsBtn,
+      useV2 = _ref.useV2;
+  var buttonText = useV2 ? 'view' : 'viewCalls';
   return /*#__PURE__*/_react["default"].createElement("div", {
-    className: _styles["default"].bar
+    className: useV2 ? _styles["default"].callInfoBarV2 : _styles["default"].bar
   }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].currentCallInfo,
     title: label,
     onClick: onClick
   }, label), shouldDisplayViewCallsBtn ? /*#__PURE__*/_react["default"].createElement(_Button.Button, {
     className: _styles["default"].viewCallsBtn,
-    tooltip: _i18n["default"].getString('viewCalls', currentLocale),
+    tooltip: _i18n["default"].getString(buttonText, currentLocale),
     onClick: onClick
-  }, _i18n["default"].getString('viewCalls', currentLocale)) : null);
+  }, _i18n["default"].getString(buttonText, currentLocale)) : null);
 }
 
 CallInfoBar.propTypes = {
   label: _propTypes["default"].string,
   onClick: _propTypes["default"].func,
   currentLocale: _propTypes["default"].string,
-  shouldDisplayViewCallsBtn: _propTypes["default"].bool
+  shouldDisplayViewCallsBtn: _propTypes["default"].bool,
+  useV2: _propTypes["default"].bool
 };
 CallInfoBar.defaultProps = {
   label: '',
   onClick: undefined,
   currentLocale: '',
-  shouldDisplayViewCallsBtn: false
+  shouldDisplayViewCallsBtn: false,
+  useV2: false
 };
 
 var CallMonitorBar = /*#__PURE__*/function (_Component) {
@@ -151,7 +155,9 @@ var CallMonitorBar = /*#__PURE__*/function (_Component) {
           onCurrentCallBtnClick = _this$props.onCurrentCallBtnClick,
           onViewCallBtnClick = _this$props.onViewCallBtnClick,
           shouldDisplayCurrentCallBtn = _this$props.shouldDisplayCurrentCallBtn,
-          shouldDisplayViewCallsBtn = _this$props.shouldDisplayViewCallsBtn;
+          shouldDisplayViewCallsBtn = _this$props.shouldDisplayViewCallsBtn,
+          shouldHideRingingCallStatus = _this$props.shouldHideRingingCallStatus,
+          useV2 = _this$props.useV2;
       var numberOfIncomingCalls = ringingCalls.length;
       var numberOfOnHoldCalls = onHoldCalls.length;
       var numberOfOtherDeviceCalls = otherDeviceCalls.length;
@@ -171,8 +177,9 @@ var CallMonitorBar = /*#__PURE__*/function (_Component) {
         }),
         currentLocale: currentLocale,
         onClick: onViewCallBtnClick,
-        shouldDisplayViewCallsBtn: shouldDisplayViewCallsBtn
-      }) : null, numberOfIncomingCalls > 0 ? /*#__PURE__*/_react["default"].createElement(CallInfoBar, {
+        shouldDisplayViewCallsBtn: shouldDisplayViewCallsBtn,
+        useV2: useV2
+      }) : null, !shouldHideRingingCallStatus && numberOfIncomingCalls > 0 ? /*#__PURE__*/_react["default"].createElement(CallInfoBar, {
         label: numberOfIncomingCalls === 1 ? (0, _formatMessage["default"])(_i18n["default"].getString('incomingCall', currentLocale), {
           numberOf: numberOfIncomingCalls
         }) : (0, _formatMessage["default"])(_i18n["default"].getString('incomingCalls', currentLocale), {
@@ -180,7 +187,8 @@ var CallMonitorBar = /*#__PURE__*/function (_Component) {
         }),
         currentLocale: currentLocale,
         onClick: onViewCallBtnClick,
-        shouldDisplayViewCallsBtn: shouldDisplayViewCallsBtn
+        shouldDisplayViewCallsBtn: shouldDisplayViewCallsBtn,
+        useV2: useV2
       }) : null, numberOfOtherDeviceCalls > 0 ? /*#__PURE__*/_react["default"].createElement(CallInfoBar, {
         label: numberOfOtherDeviceCalls === 1 ? (0, _formatMessage["default"])(_i18n["default"].getString('otherDeviceCall', currentLocale), {
           numberOf: numberOfOtherDeviceCalls
@@ -189,9 +197,10 @@ var CallMonitorBar = /*#__PURE__*/function (_Component) {
         }),
         currentLocale: currentLocale,
         onClick: onViewCallBtnClick,
-        shouldDisplayViewCallsBtn: shouldDisplayViewCallsBtn
+        shouldDisplayViewCallsBtn: shouldDisplayViewCallsBtn,
+        useV2: useV2
       }) : null, currentCalls.length > 0 ? /*#__PURE__*/_react["default"].createElement("div", {
-        className: _styles["default"].bar
+        className: useV2 ? _styles["default"].callInfoBarV2 : _styles["default"].bar
       }, /*#__PURE__*/_react["default"].createElement("div", {
         "data-sign": "callDuration",
         className: _styles["default"].duration,
@@ -219,7 +228,9 @@ CallMonitorBar.propTypes = {
   onCurrentCallBtnClick: _propTypes["default"].func,
   onViewCallBtnClick: _propTypes["default"].func,
   shouldDisplayCurrentCallBtn: _propTypes["default"].bool,
-  shouldDisplayViewCallsBtn: _propTypes["default"].bool
+  shouldDisplayViewCallsBtn: _propTypes["default"].bool,
+  shouldHideRingingCallStatus: _propTypes["default"].bool,
+  useV2: _propTypes["default"].bool
 };
 CallMonitorBar.defaultProps = {
   ringingCalls: [],
@@ -229,6 +240,8 @@ CallMonitorBar.defaultProps = {
   onCurrentCallBtnClick: undefined,
   onViewCallBtnClick: undefined,
   shouldDisplayCurrentCallBtn: false,
-  shouldDisplayViewCallsBtn: false
+  shouldDisplayViewCallsBtn: false,
+  shouldHideRingingCallStatus: false,
+  useV2: false
 };
 //# sourceMappingURL=index.js.map

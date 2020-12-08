@@ -212,6 +212,8 @@ var ActiveCallsPanel = /*#__PURE__*/function (_Component) {
           conferenceCallParties = _this$props2.conferenceCallParties,
           webphoneHold = _this$props2.webphoneHold,
           webphoneSwitchCall = _this$props2.webphoneSwitchCall,
+          modalConfirm = _this$props2.modalConfirm,
+          modalClose = _this$props2.modalClose,
           useV2 = _this$props2.useV2,
           updateSessionMatchedContact = _this$props2.updateSessionMatchedContact,
           renderExtraButton = _this$props2.renderExtraButton,
@@ -222,7 +224,14 @@ var ActiveCallsPanel = /*#__PURE__*/function (_Component) {
           disableLinks = _this$props2.disableLinks,
           showRingoutCallControl = _this$props2.showRingoutCallControl,
           showSwitchCall = _this$props2.showSwitchCall,
-          isOnHold = _this$props2.isOnHold;
+          showTransferCall = _this$props2.showTransferCall,
+          showHoldOnOtherDevice = _this$props2.showHoldOnOtherDevice,
+          isOnHold = _this$props2.isOnHold,
+          webphoneIgnore = _this$props2.webphoneIgnore,
+          showIgnoreBtn = _this$props2.showIgnoreBtn,
+          showHoldAnswerBtn = _this$props2.showHoldAnswerBtn,
+          useCallDetailV2 = _this$props2.useCallDetailV2,
+          newCallIcon = _this$props2.newCallIcon;
       return /*#__PURE__*/_react["default"].createElement(_ActiveCallList["default"], {
         title: title,
         calls: calls,
@@ -246,6 +255,9 @@ var ActiveCallsPanel = /*#__PURE__*/function (_Component) {
         webphoneHangup: webphoneHangup,
         webphoneResume: webphoneResume,
         webphoneSwitchCall: webphoneSwitchCall,
+        webphoneIgnore: webphoneIgnore,
+        modalConfirm: modalConfirm,
+        modalClose: modalClose,
         webphoneToVoicemail: webphoneToVoicemail,
         renderExtraButton: renderExtraButton,
         renderContactName: renderContactName,
@@ -271,7 +283,13 @@ var ActiveCallsPanel = /*#__PURE__*/function (_Component) {
         disableLinks: disableLinks,
         showRingoutCallControl: showRingoutCallControl,
         showSwitchCall: showSwitchCall,
-        isOnHold: isOnHold
+        showTransferCall: showTransferCall,
+        showHoldOnOtherDevice: showHoldOnOtherDevice,
+        isOnHold: isOnHold,
+        showIgnoreBtn: showIgnoreBtn,
+        showHoldAnswerBtn: showHoldAnswerBtn,
+        useCallDetailV2: useCallDetailV2,
+        newCallIcon: newCallIcon
       });
     }
   }, {
@@ -287,7 +305,8 @@ var ActiveCallsPanel = /*#__PURE__*/function (_Component) {
           className = _this$props3.className,
           currentLocale = _this$props3.currentLocale,
           showSpinner = _this$props3.showSpinner,
-          showOtherDevice = _this$props3.showOtherDevice;
+          showOtherDevice = _this$props3.showOtherDevice,
+          showCallDetail = _this$props3.showCallDetail;
       var logSection = this.renderLogSection();
 
       if (!this.hasCalls()) {
@@ -310,7 +329,7 @@ var ActiveCallsPanel = /*#__PURE__*/function (_Component) {
         ref: function ref(target) {
           _this.container = target;
         }
-      }, this.getCallList(activeRingCalls, _i18n["default"].getString('ringCall', currentLocale)), this.getCallList(activeCurrentCalls, _i18n["default"].getString('currentCall', currentLocale)), this.getCallList(activeOnHoldCalls, _i18n["default"].getString('onHoldCall', currentLocale)), otherDevice), logSection, showSpinner ? /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay.SpinnerOverlay, {
+      }, this.getCallList(activeRingCalls, _i18n["default"].getString('ringCall', currentLocale), showCallDetail), this.getCallList(activeCurrentCalls, _i18n["default"].getString('currentCall', currentLocale), showCallDetail), this.getCallList(activeOnHoldCalls, _i18n["default"].getString('onHoldCall', currentLocale), showCallDetail), otherDevice), logSection, showSpinner ? /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay.SpinnerOverlay, {
         className: _styles["default"].spinner
       }) : null);
     }
@@ -344,6 +363,9 @@ ActiveCallsPanel.propTypes = {
   webphoneResume: _propTypes["default"].func,
   webphoneToVoicemail: _propTypes["default"].func,
   webphoneSwitchCall: _propTypes["default"].func,
+  webphoneIgnore: _propTypes["default"].func,
+  modalConfirm: _propTypes["default"].func,
+  modalClose: _propTypes["default"].func,
   autoLog: _propTypes["default"].bool,
   onViewContact: _propTypes["default"].func,
   enableContactFallback: _propTypes["default"].bool,
@@ -388,8 +410,16 @@ ActiveCallsPanel.propTypes = {
   disableLinks: _propTypes["default"].bool,
   showRingoutCallControl: _propTypes["default"].bool,
   showSwitchCall: _propTypes["default"].bool,
+  showTransferCall: _propTypes["default"].bool,
+  showHoldOnOtherDevice: _propTypes["default"].bool,
   onLogBasicInfoClick: _propTypes["default"].func,
-  renderSmallCallContrl: _propTypes["default"].func
+  renderSmallCallContrl: _propTypes["default"].func,
+  // customization
+  showCallDetail: _propTypes["default"].bool,
+  showIgnoreBtn: _propTypes["default"].bool,
+  showHoldAnswerBtn: _propTypes["default"].bool,
+  useCallDetailV2: _propTypes["default"].bool,
+  newCallIcon: _propTypes["default"].bool
 };
 ActiveCallsPanel.defaultProps = {
   className: undefined,
@@ -408,6 +438,9 @@ ActiveCallsPanel.defaultProps = {
   webphoneResume: undefined,
   webphoneToVoicemail: undefined,
   webphoneSwitchCall: undefined,
+  webphoneIgnore: undefined,
+  modalConfirm: undefined,
+  modalClose: undefined,
   enableContactFallback: undefined,
   loggingMap: {},
   autoLog: false,
@@ -455,7 +488,15 @@ ActiveCallsPanel.defaultProps = {
   disableLinks: false,
   showRingoutCallControl: false,
   showSwitchCall: false,
+  showTransferCall: true,
+  showHoldOnOtherDevice: false,
   onLogBasicInfoClick: function onLogBasicInfoClick() {},
-  renderSmallCallContrl: function renderSmallCallContrl() {}
+  renderSmallCallContrl: function renderSmallCallContrl() {},
+  // customization
+  showCallDetail: false,
+  showIgnoreBtn: false,
+  showHoldAnswerBtn: false,
+  useCallDetailV2: false,
+  newCallIcon: false
 };
 //# sourceMappingURL=index.js.map

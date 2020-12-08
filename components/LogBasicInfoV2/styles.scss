@@ -52,11 +52,6 @@ p {
   position: absolute !important;
   left: -3px;
   top: 30px;
-  animation: flashing 0.8s infinite;
-
-  circle:nth-child(2) {
-    stroke-width: 1;
-  }
 }
 
 .callIcon {
@@ -161,20 +156,6 @@ p {
 
   100% {
     transform: translateX(100%);
-  }
-}
-
-@keyframes flashing {
-  0% {
-    opacity: 0;
-  }
-
-  50% {
-    opacity: 1;
-  }
-
-  100% {
-    opacity: 0;
   }
 }
 

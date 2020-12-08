@@ -7,8 +7,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  loading: "正在載入..."
+  loading: "正在載入...",
+  download: "下載"
 }; // @key: @#@"loading"@#@ @source: @#@"Loading ..."@#@
+// @key: @#@"download"@#@ @source: @#@"Download"@#@
 
 exports["default"] = _default;
 //# sourceMappingURL=zh-HK.js.map

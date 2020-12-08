@@ -109,7 +109,8 @@ var Message = function Message(_ref) {
       sender = _ref.sender,
       SubjectRenderer = _ref.subjectRenderer,
       mmsAttachments = _ref.mmsAttachments,
-      currentLocale = _ref.currentLocale;
+      currentLocale = _ref.currentLocale,
+      onAttachmentDownload = _ref.onAttachmentDownload;
   var subjectNode;
 
   if (subject && !(0, _isBlank["default"])(subject)) {
@@ -145,8 +146,13 @@ var Message = function Message(_ref) {
       target: "_blank",
       className: _styles["default"].download,
       download: fileName,
+      onClick: function onClick(e) {
+        if (typeof onAttachmentDownload === 'function') {
+          onAttachmentDownload(attachment.uri, e);
+        }
+      },
       title: _i18n["default"].getString('download', currentLocale),
-      href: attachment.uri
+      href: "".concat(attachment.uri, "&contentDisposition=Attachment")
     }, /*#__PURE__*/_react["default"].createElement(_juno.RcIcon, {
       size: "small",
       symbol: _iconDownload["default"]
@@ -174,14 +180,16 @@ Message.propTypes = {
   sender: _propTypes["default"].string,
   subjectRenderer: _propTypes["default"].func,
   mmsAttachments: _propTypes["default"].array,
-  currentLocale: _propTypes["default"].string.isRequired
+  currentLocale: _propTypes["default"].string.isRequired,
+  onAttachmentDownload: _propTypes["default"].func
 };
 Message.defaultProps = {
   subject: '',
   sender: undefined,
   time: undefined,
   subjectRenderer: undefined,
-  mmsAttachments: []
+  mmsAttachments: [],
+  onAttachmentDownload: undefined
 };
 
 var ConversationMessageList = /*#__PURE__*/function (_Component) {
@@ -263,7 +271,7 @@ var ConversationMessageList = /*#__PURE__*/function (_Component) {
       if (!this._scrollUp) {
         this.scrollToLastMessage();
       } else if (this._listRef && this._scrollHeight !== this._listRef.scrollHeight) {
-        this._listRef.scrollTop = this._listRef.scrollTop + (this._listRef.scrollHeight - this._scrollHeight);
+        this._listRef.scrollTop += this._listRef.scrollHeight - this._scrollHeight;
       }
     }
   }, {
@@ -280,7 +288,8 @@ var ConversationMessageList = /*#__PURE__*/function (_Component) {
           messageSubjectRenderer = _this$props.messageSubjectRenderer,
           formatPhone = _this$props.formatPhone,
           loadingNextPage = _this$props.loadingNextPage,
-          currentLocale = _this$props.currentLocale;
+          currentLocale = _this$props.currentLocale,
+          onAttachmentDownload = _this$props.onAttachmentDownload;
       var lastDate = 0;
       var messageList = messages.map(function (message) {
         var sender = showSender ? message.from.name || formatPhone(message.from.extensionNumber || message.from.phoneNumber) : null;
@@ -298,7 +307,8 @@ var ConversationMessageList = /*#__PURE__*/function (_Component) {
           subject: message.subject,
           subjectRenderer: messageSubjectRenderer,
           mmsAttachments: message.mmsAttachments,
-          currentLocale: currentLocale
+          currentLocale: currentLocale,
+          onAttachmentDownload: onAttachmentDownload
         });
       });
       var loading = loadingNextPage ? /*#__PURE__*/_react["default"].createElement("div", {
@@ -336,7 +346,8 @@ ConversationMessageList.propTypes = {
   formatPhone: _propTypes["default"].func.isRequired,
   loadPreviousMessages: _propTypes["default"].func,
   loadingNextPage: _propTypes["default"].bool,
-  height: _propTypes["default"].oneOfType([_propTypes["default"].number, _propTypes["default"].string])
+  height: _propTypes["default"].oneOfType([_propTypes["default"].number, _propTypes["default"].string]),
+  onAttachmentDownload: _propTypes["default"].func
 };
 ConversationMessageList.defaultProps = {
   currentLocale: 'en-US',
@@ -347,7 +358,8 @@ ConversationMessageList.defaultProps = {
   loadingNextPage: false,
   loadPreviousMessages: function loadPreviousMessages() {
     return null;
-  }
+  },
+  onAttachmentDownload: undefined
 };
 var _default = ConversationMessageList;
 exports["default"] = _default;

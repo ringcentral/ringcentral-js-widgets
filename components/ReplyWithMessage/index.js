@@ -261,7 +261,8 @@ var ReplyWithMessage = /*#__PURE__*/function (_Component) {
             _this2.callYouInputRef.focus();
           }, 100);
         },
-        className: (0, _classnames["default"])(_styles["default"].messageItem, this.state.type === CALL_YOU ? _styles["default"].active : null)
+        className: (0, _classnames["default"])(_styles["default"].messageItem, this.state.type === CALL_YOU ? _styles["default"].active : null),
+        "data-sign": "willCallYouBackIn"
       }, /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].label
       }, _i18n["default"].getString('willCallYouBackIn', currentLocale), "..."), /*#__PURE__*/_react["default"].createElement("div", {
@@ -281,7 +282,8 @@ var ReplyWithMessage = /*#__PURE__*/function (_Component) {
             _this2.callMeInputRef.focus();
           }, 100);
         },
-        className: (0, _classnames["default"])(_styles["default"].messageItem, this.state.type === CALL_ME ? _styles["default"].active : null)
+        className: (0, _classnames["default"])(_styles["default"].messageItem, this.state.type === CALL_ME ? _styles["default"].active : null),
+        "data-sign": "callMeBackIn"
       }, /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].label
       }, _i18n["default"].getString('callMeBackIn', currentLocale), "..."), /*#__PURE__*/_react["default"].createElement("div", {
@@ -297,7 +299,8 @@ var ReplyWithMessage = /*#__PURE__*/function (_Component) {
         onClick: function onClick() {
           return _this2.onSelectType(ON_MY_WAY);
         },
-        className: (0, _classnames["default"])(_styles["default"].messageItem, this.state.type === ON_MY_WAY ? _styles["default"].active : null)
+        className: (0, _classnames["default"])(_styles["default"].messageItem, this.state.type === ON_MY_WAY ? _styles["default"].active : null),
+        "data-sign": "onMyWay"
       }, /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].label
       }, _i18n["default"].getString('onMyWay', currentLocale))), /*#__PURE__*/_react["default"].createElement("div", {
@@ -308,7 +311,8 @@ var ReplyWithMessage = /*#__PURE__*/function (_Component) {
             _this2.customValueInput.focus();
           }, 100);
         },
-        className: (0, _classnames["default"])(_styles["default"].messageItem, this.state.type === CUSTOM_MESSAGE ? _styles["default"].active : null)
+        className: (0, _classnames["default"])(_styles["default"].messageItem, this.state.type === CUSTOM_MESSAGE ? _styles["default"].active : null),
+        "data-sign": "customMessage"
       }, /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].label
       }, _i18n["default"].getString('customMessage', currentLocale)), /*#__PURE__*/_react["default"].createElement("div", {
@@ -324,11 +328,13 @@ var ReplyWithMessage = /*#__PURE__*/function (_Component) {
         className: _styles["default"].buttonGroup
       }, /*#__PURE__*/_react["default"].createElement(_Button.Button, {
         className: _styles["default"].cancelButton,
-        onClick: onCancel
+        onClick: onCancel,
+        dataSign: "cancelReplyButton"
       }, _i18n["default"].getString('cancel', currentLocale)), /*#__PURE__*/_react["default"].createElement(_Button.Button, {
         className: (0, _classnames["default"])(_styles["default"].replyButton, disableButton ? _styles["default"].disabled : null),
         onClick: this.props.disabled ? function () {} : this.onReply,
-        disabled: disableButton
+        disabled: disableButton,
+        dataSign: "doReplyButton"
       }, /*#__PURE__*/_react["default"].createElement("span", {
         className: _styles["default"].buttonText
       }, _i18n["default"].getString('reply', currentLocale)))));

@@ -15,7 +15,7 @@ var _classnames = _interopRequireDefault(require("classnames"));
 
 var _messageTypes = _interopRequireDefault(require("ringcentral-integration/enums/messageTypes"));
 
-var _SearchInput = _interopRequireDefault(require("../../../SearchInput"));
+var _SearchInput = require("../../../SearchInput");
 
 var _NewComposeText = _interopRequireDefault(require("../../../../assets/images/NewComposeText.svg"));
 
@@ -44,7 +44,7 @@ function Search(_ref) {
   var showTextIcon = composeTextPermission && (typeFilter === _messageTypes["default"].all || typeFilter === _messageTypes["default"].text);
   return /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])(_styles["default"].searchContainer, showTextIcon ? null : _styles["default"].withoutTextIcon)
-  }, /*#__PURE__*/_react["default"].createElement(_SearchInput["default"], {
+  }, /*#__PURE__*/_react["default"].createElement(_SearchInput.SearchInput, {
     className: _styles["default"].searchInput,
     value: searchInput,
     onChange: onSearchInputChange,

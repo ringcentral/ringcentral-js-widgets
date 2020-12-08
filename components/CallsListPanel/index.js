@@ -47,7 +47,7 @@ var _LogSection = _interopRequireDefault(require("../LogSection"));
 
 var _LogNotification = _interopRequireDefault(require("../LogNotification"));
 
-var _SearchInput = _interopRequireDefault(require("../SearchInput"));
+var _SearchInput = require("../SearchInput");
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
@@ -534,7 +534,7 @@ var CallsListPanel = /*#__PURE__*/function (_React$PureComponent) {
       });
       var search = onSearchInputChange ? /*#__PURE__*/_react["default"].createElement("div", {
         className: (0, _classnames["default"])(_styles["default"].searchContainer)
-      }, /*#__PURE__*/_react["default"].createElement(_SearchInput["default"], {
+      }, /*#__PURE__*/_react["default"].createElement(_SearchInput.SearchInput, {
         key: "100",
         className: _styles["default"].searchInput,
         value: searchInput,

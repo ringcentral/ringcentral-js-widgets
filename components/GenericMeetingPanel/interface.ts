@@ -76,6 +76,7 @@ export interface GenericMeetingPanelProps
   useRcmV2: boolean;
   isRCM: boolean;
   isRCV: boolean;
+  showSpinnerInConfigPanel: boolean;
   showCustom?: boolean;
   CustomPanel?: React.ReactNode;
   brandName: string;

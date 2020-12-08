@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/ForwardPanel/i18n/fr-FR.js"],"names":["forward"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,OAAO,EAAE;AADI,C,EAIf","sourcesContent":["export default {\n  forward: \"Transférer\"\n};\n\n// @key: @#@\"forward\"@#@ @source: @#@\"Forward\"@#@\n"],"file":"fr-FR.js"}

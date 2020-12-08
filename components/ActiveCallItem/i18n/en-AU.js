@@ -37,7 +37,11 @@ var _default = {
   unhold: "Unhold",
   transfer: "Transfer",
   reject: "Reject",
-  switchCall: "Switch call to this app"
+  switchCall: "Switch call to this app",
+  callSwitch: "Call Switch",
+  comfirmContext: "You're currently on an active call with {displayName}. Would you like to continue the call on this device?",
+  comfirmCancelButton: "Cancel",
+  comfirmOKButton: "Switch"
 }; // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
 // @key: @#@"logCall"@#@ @source: @#@"Log Call"@#@
 // @key: @#@"editLog"@#@ @source: @#@"Edit Log"@#@
@@ -69,6 +73,10 @@ var _default = {
 // @key: @#@"transfer"@#@ @source: @#@"Transfer"@#@
 // @key: @#@"reject"@#@ @source: @#@"Reject"@#@
 // @key: @#@"switchCall"@#@ @source: @#@"Switch Call to this app"@#@
+// @key: @#@"callSwitch"@#@ @source: @#@"Call Switch"@#@
+// @key: @#@"comfirmContext"@#@ @source: @#@"You're currently on an active call with {displayName}. Would you like to continue the call on this device?"@#@
+// @key: @#@"comfirmCancelButton"@#@ @source: @#@"Cancel"@#@
+// @key: @#@"comfirmOKButton"@#@ @source: @#@"Switch"@#@
 
 exports["default"] = _default;
 //# sourceMappingURL=en-AU.js.map

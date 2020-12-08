@@ -4,28 +4,12 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
 require("core-js/modules/es6.weak-map");
 
-require("core-js/modules/es6.array.find");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.MeetingConfigs = void 0;
 
 require("core-js/modules/es6.object.assign");
-
-require("core-js/modules/es6.object.define-properties");
-
-require("core-js/modules/es7.object.get-own-property-descriptors");
-
-require("core-js/modules/es6.array.for-each");
-
-require("core-js/modules/es6.array.filter");
-
-require("core-js/modules/es6.array.iterator");
-
-require("core-js/modules/es6.object.keys");
-
-require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.promise");
 
@@ -37,29 +21,41 @@ require("core-js/modules/es6.regexp.to-string");
 
 require("core-js/modules/es6.date.to-string");
 
-require("core-js/modules/es6.object.to-string");
-
-require("core-js/modules/web.dom.iterable");
-
 require("core-js/modules/es7.symbol.async-iterator");
+
+require("core-js/modules/es6.array.is-array");
+
+require("core-js/modules/es6.object.define-properties");
+
+require("core-js/modules/es7.object.get-own-property-descriptors");
+
+require("core-js/modules/es6.array.for-each");
+
+require("core-js/modules/es6.array.filter");
 
 require("core-js/modules/es6.symbol");
 
-require("core-js/modules/es6.array.is-array");
+require("core-js/modules/web.dom.iterable");
+
+require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.object.to-string");
+
+require("core-js/modules/es6.object.keys");
+
+require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.function.name");
 
 require("core-js/modules/es6.array.map");
 
-require("core-js/modules/es6.regexp.split");
-
 require("regenerator-runtime/runtime");
+
+require("core-js/modules/es6.regexp.split");
 
 var _juno = require("@ringcentral/juno");
 
-var _classnames = _interopRequireDefault(require("classnames"));
-
-var _ramda = require("ramda");
+var _classnames4 = _interopRequireDefault(require("classnames"));
 
 var _react = _interopRequireWildcard(require("react"));
 
@@ -91,12 +87,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
@@ -112,6 +102,12 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function getHelperTextForPasswordField(meeting, currentLocale, isPasswordFocus) {
   // when focus on password input, always show hint text
@@ -139,7 +135,7 @@ function getCheckboxCommProps(labelPlacement) {
   return {
     formControlLabelProps: {
       classes: {
-        root: labelPlacement === 'end' ? _styles["default"].labelPlacementStart : _styles["default"].labelPlacementEnd,
+        root: labelPlacement === 'end' ? _styles["default"].labelPlacementEnd : _styles["default"].labelPlacementStart,
         label: _styles["default"].fullWidthLabel
       },
       labelPlacement: labelPlacement
@@ -160,7 +156,7 @@ var MeetingOptionLabel = function MeetingOptionLabel(_ref) {
   return /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].labelContent
   }, /*#__PURE__*/_react["default"].createElement("div", {
-    className: (0, _classnames["default"])(_styles["default"].placementLeft, labelPlacement === 'start' && _styles["default"].optionLabel, className)
+    className: (0, _classnames4["default"])(_styles["default"].placementLeft, _defineProperty({}, _styles["default"].optionLabel, labelPlacement === 'start'), className)
   }, children), isLocked ? /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].placementRight
   }, /*#__PURE__*/_react["default"].createElement(_ExtendedTooltip.ExtendedTooltip, {
@@ -191,47 +187,13 @@ var MeetingConfigs = function MeetingConfigs(_ref2) {
       showScheduleOnBehalf = _ref2.showScheduleOnBehalf,
       delegators = _ref2.delegators,
       updateScheduleFor = _ref2.updateScheduleFor,
-      labelPlacement = _ref2.labelPlacement;
-
-  var _useState = (0, _react.useState)(false),
-      _useState2 = _slicedToArray(_useState, 2),
-      isFetchSetting = _useState2[0],
-      setIsFetchSetting = _useState2[1];
-
+      labelPlacement = _ref2.labelPlacement,
+      showSpinnerInConfigPanel = _ref2.showSpinnerInConfigPanel;
   (0, _react.useEffect)(function () {
-    function fetchData() {
-      return _fetchData.apply(this, arguments);
-    }
+    if (init) {
+      init();
+    } // eslint-disable-next-line react-hooks/exhaustive-deps
 
-    function _fetchData() {
-      _fetchData = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-        return regeneratorRuntime.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                if (!init) {
-                  _context.next = 5;
-                  break;
-                }
-
-                setIsFetchSetting(true);
-                _context.next = 4;
-                return init();
-
-              case 4:
-                setIsFetchSetting(false);
-
-              case 5:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee);
-      }));
-      return _fetchData.apply(this, arguments);
-    }
-
-    fetchData(); // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   var update = function update(options) {
@@ -240,27 +202,27 @@ var MeetingConfigs = function MeetingConfigs(_ref2) {
 
   var configRef = (0, _react.useRef)();
 
-  var _useState3 = (0, _react.useState)(false),
-      _useState4 = _slicedToArray(_useState3, 2),
-      hasScrollBar = _useState4[0],
-      setHasScrollBar = _useState4[1];
+  var _useState = (0, _react.useState)(false),
+      _useState2 = _slicedToArray(_useState, 2),
+      hasScrollBar = _useState2[0],
+      setHasScrollBar = _useState2[1];
 
   (0, _react.useEffect)(function () {
     setHasScrollBar(configRef.current.scrollHeight > configRef.current.clientHeight);
   }, []);
   /* Password */
 
-  var _useState5 = (0, _react.useState)(false),
-      _useState6 = _slicedToArray(_useState5, 2),
-      isPasswordFocus = _useState6[0],
-      setPasswordFocus = _useState6[1];
+  var _useState3 = (0, _react.useState)(false),
+      _useState4 = _slicedToArray(_useState3, 2),
+      isPasswordFocus = _useState4[0],
+      setPasswordFocus = _useState4[1];
   /* AudioOptions */
 
 
-  var _useState7 = (0, _react.useState)(meeting.audioOptions && meeting.audioOptions.join('_')),
-      _useState8 = _slicedToArray(_useState7, 2),
-      audioOptions = _useState8[0],
-      setAudioOptions = _useState8[1];
+  var _useState5 = (0, _react.useState)(meeting.audioOptions && meeting.audioOptions.join('_')),
+      _useState6 = _slicedToArray(_useState5, 2),
+      audioOptions = _useState6[0],
+      setAudioOptions = _useState6[1];
 
   var audioHelpTextMap = {
     Phone: 'telephonyOnly',
@@ -280,10 +242,10 @@ var MeetingConfigs = function MeetingConfigs(_ref2) {
   }, [meeting.audioOptions]);
   /* Recurring */
 
-  var _useState9 = (0, _react.useState)((0, _Meeting.isRecurringMeeting)(meeting.meetingType)),
-      _useState10 = _slicedToArray(_useState9, 2),
-      isRecurring = _useState10[0],
-      setIsRecurring = _useState10[1];
+  var _useState7 = (0, _react.useState)((0, _Meeting.isRecurringMeeting)(meeting.meetingType)),
+      _useState8 = _slicedToArray(_useState7, 2),
+      isRecurring = _useState8[0],
+      setIsRecurring = _useState8[1];
 
   var toggleRecurring = function toggleRecurring(isRecurring) {
     update({
@@ -296,27 +258,27 @@ var MeetingConfigs = function MeetingConfigs(_ref2) {
   }, [meeting.meetingType]);
   /* Use Personal MeetingId */
 
-  var _useState11 = (0, _react.useState)(false),
-      _useState12 = _slicedToArray(_useState11, 2),
-      isPmiConfirm = _useState12[0],
-      setPmiConfirm = _useState12[1];
+  var _useState9 = (0, _react.useState)(false),
+      _useState10 = _slicedToArray(_useState9, 2),
+      isPmiConfirm = _useState10[0],
+      setPmiConfirm = _useState10[1];
 
   var onPmiChange = /*#__PURE__*/function () {
-    var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(usePersonalMeetingId) {
-      return regeneratorRuntime.wrap(function _callee2$(_context2) {
+    var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(usePersonalMeetingId) {
+      return regeneratorRuntime.wrap(function _callee$(_context) {
         while (1) {
-          switch (_context2.prev = _context2.next) {
+          switch (_context.prev = _context.next) {
             case 0:
               setPmiConfirm(false);
-              _context2.next = 3;
+              _context.next = 3;
               return switchUsePersonalMeetingId(usePersonalMeetingId);
 
             case 3:
             case "end":
-              return _context2.stop();
+              return _context.stop();
           }
         }
-      }, _callee2);
+      }, _callee);
     }));
 
     return function onPmiChange(_x) {
@@ -327,24 +289,6 @@ var MeetingConfigs = function MeetingConfigs(_ref2) {
 
 
   var isDisabled = disabled || meeting.usePersonalMeetingId && !isPmiConfirm;
-  /* Schedule For */
-
-  var _useState13 = (0, _react.useState)(true),
-      _useState14 = _slicedToArray(_useState13, 2),
-      isScheduleForMySelf = _useState14[0],
-      setScheduleForMySelf = _useState14[1];
-
-  (0, _react.useEffect)(function () {
-    if (!showScheduleOnBehalf) {
-      setScheduleForMySelf(true);
-      return;
-    }
-
-    var user = (0, _ramda.find)(function (item) {
-      return item.id === meeting.host.id;
-    }, delegators || []);
-    setScheduleForMySelf(Boolean(user && user.isLoginUser));
-  }, [meeting.host.id, delegators, showScheduleOnBehalf]);
   var settingsGroupExpandable = false;
   var checkboxCommProps = getCheckboxCommProps(labelPlacement);
   return /*#__PURE__*/_react["default"].createElement("div", {
@@ -353,7 +297,7 @@ var MeetingConfigs = function MeetingConfigs(_ref2) {
     "data-sign": "meetingConfigsPanel"
   }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].meetingContent
-  }, isFetchSetting ? /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay.SpinnerOverlay, null) : null, recipientsSection ? /*#__PURE__*/_react["default"].createElement("div", {
+  }, showSpinnerInConfigPanel ? /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay.SpinnerOverlay, null) : null, recipientsSection ? /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].meetingSection
   }, recipientsSection) : null, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].meetingSettings
@@ -362,10 +306,10 @@ var MeetingConfigs = function MeetingConfigs(_ref2) {
     expandable: settingsGroupExpandable,
     summary: _i18n["default"].getString('scheduleFor', currentLocale)
   }, /*#__PURE__*/_react["default"].createElement("div", {
-    className: (0, _classnames["default"])(_styles["default"].sideMargin, _styles["default"].selectOption)
+    className: (0, _classnames4["default"])(_styles["default"].sideMargin, _styles["default"].selectOption)
   }, /*#__PURE__*/_react["default"].createElement(_juno.RcBoxSelect, {
     disabled: disabled,
-    className: (0, _classnames["default"])(_styles["default"].scheduleForBoxSelect, _styles["default"].autoFullWidth),
+    className: (0, _classnames4["default"])(_styles["default"].scheduleForBoxSelect, _styles["default"].autoFullWidth),
     "data-sign": "scheduleFor",
     automationId: "scheduleFor",
     onChange: function onChange(e) {
@@ -373,8 +317,7 @@ var MeetingConfigs = function MeetingConfigs(_ref2) {
     },
     value: meeting.host.id
   }, delegators.map(function (item) {
-    var userName = _i18n["default"].getString(item.name, currentLocale);
-
+    var userName = item.name === _Meeting.ASSISTED_USERS_MYSELF ? _i18n["default"].getString(item.name, currentLocale) : item.name;
     return /*#__PURE__*/_react["default"].createElement(_juno.RcMenuItem, {
       value: item.id,
       key: item.id,
@@ -388,20 +331,19 @@ var MeetingConfigs = function MeetingConfigs(_ref2) {
   }, /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement(_juno.RcCheckbox, _extends({}, checkboxCommProps, {
     "data-sign": "usePersonalMeetingId",
     checked: meeting.usePersonalMeetingId,
-    disabled: !isScheduleForMySelf,
-    onChange: /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
-      return regeneratorRuntime.wrap(function _callee3$(_context3) {
+    onChange: /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+      return regeneratorRuntime.wrap(function _callee2$(_context2) {
         while (1) {
-          switch (_context3.prev = _context3.next) {
+          switch (_context2.prev = _context2.next) {
             case 0:
               onPmiChange(!meeting.usePersonalMeetingId);
 
             case 1:
             case "end":
-              return _context3.stop();
+              return _context2.stop();
           }
         }
-      }, _callee3);
+      }, _callee2);
     })),
     label: /*#__PURE__*/_react["default"].createElement(MeetingOptionLabel, {
       labelPlacement: labelPlacement,
@@ -446,13 +388,16 @@ var MeetingConfigs = function MeetingConfigs(_ref2) {
       hasScrollBar: hasScrollBar
     }, _i18n["default"].getString('requirePassword', currentLocale))
   })), meeting._requireMeetingPassword ? /*#__PURE__*/_react["default"].createElement("div", {
-    className: _styles["default"].passwordField
+    className: (0, _classnames4["default"])(_styles["default"].passwordField, _defineProperty({}, _styles["default"].subPrefixPadding, labelPlacement === 'end'))
   }, /*#__PURE__*/_react["default"].createElement(_juno.RcTextField, {
     disabled: isDisabled,
     error: getIsPasswordFieldError(meeting, isPasswordFocus),
     helperText: getHelperTextForPasswordField(meeting, currentLocale, isPasswordFocus),
     label: _i18n["default"].getString('setPassword', currentLocale),
     "data-sign": "password",
+    classes: {
+      root: _styles["default"].noBottomMargin
+    },
     fullWidth: true,
     clearBtn: true,
     value: meeting.password,
@@ -510,9 +455,9 @@ var MeetingConfigs = function MeetingConfigs(_ref2) {
     expandable: settingsGroupExpandable,
     summary: _i18n["default"].getString('audio', currentLocale)
   }, /*#__PURE__*/_react["default"].createElement("div", {
-    className: (0, _classnames["default"])(_styles["default"].sideMargin, _styles["default"].selectOption, _styles["default"].labelContent)
+    className: (0, _classnames4["default"])(_styles["default"].selectOption, _styles["default"].labelContent, _styles["default"].sideMargin)
   }, /*#__PURE__*/_react["default"].createElement("div", {
-    className: (0, _classnames["default"])(_styles["default"].placementLeft, _styles["default"].hackWidth)
+    className: (0, _classnames4["default"])(_styles["default"].placementLeft, _styles["default"].hackWidth)
   }, /*#__PURE__*/_react["default"].createElement(_juno.RcBoxSelect, {
     disabled: isDisabled || meeting.settingLock.audioOptions,
     title: _i18n["default"].getString(audioHelpTextMap[audioOptions], currentLocale),
@@ -532,7 +477,7 @@ var MeetingConfigs = function MeetingConfigs(_ref2) {
   }, _i18n["default"].getString('voIPOnly', currentLocale)), /*#__PURE__*/_react["default"].createElement(_juno.RcMenuItem, {
     value: "Phone_ComputerAudio"
   }, _i18n["default"].getString('both', currentLocale)))), meeting.settingLock.audioOptions ? /*#__PURE__*/_react["default"].createElement("div", {
-    className: (0, _classnames["default"])(_styles["default"].placementRight, _styles["default"].lockedIcon)
+    className: (0, _classnames4["default"])(_styles["default"].placementRight, _styles["default"].lockedIcon)
   }, /*#__PURE__*/_react["default"].createElement(_ExtendedTooltip.ExtendedTooltip, {
     hasScrollBar: hasScrollBar,
     title: /*#__PURE__*/_react["default"].createElement("span", null, _i18n["default"].getString('lockedTooltip', currentLocale))
@@ -570,7 +515,7 @@ var MeetingConfigs = function MeetingConfigs(_ref2) {
     }, _i18n["default"].getString('recurringMeeting', currentLocale))
   })), /*#__PURE__*/_react["default"].createElement(_juno.RcTypography, {
     variant: "caption1",
-    className: _styles["default"].recurringNote
+    className: (0, _classnames4["default"])(_styles["default"].recurringNote, _defineProperty({}, _styles["default"].subPrefixPadding, labelPlacement === 'end'))
   }, _i18n["default"].getString('recurringNote', currentLocale))) : null))));
 };
 

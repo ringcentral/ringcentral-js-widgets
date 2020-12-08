@@ -9,7 +9,7 @@ require("core-js/modules/es6.weak-map");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = CallLogCallCtrlComponent;
+exports["default"] = void 0;
 
 require("core-js/modules/es6.object.define-property");
 
@@ -123,7 +123,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 var recodingVoiceTime = 6781;
 
-function CallLogCallCtrlComponent(props) {
+var CallLogCallCtrlComponent = function CallLogCallCtrlComponent(props) {
   var _classnames12, _classnames13, _classnames14, _classnames15;
 
   var onMute = props.onMute,
@@ -264,7 +264,7 @@ function CallLogCallCtrlComponent(props) {
       key: recordingText,
       onClick: recordAction,
       iconClassName: (0, _classnames16["default"])((_classnames3 = {}, _defineProperty(_classnames3, _styles["default"].moreActionIcon, true), _defineProperty(_classnames3, _styles["default"].recordingIcon, true), _defineProperty(_classnames3, _styles["default"].recordingDisabled, recordPendingState), _classnames3)),
-      disabled: recordPendingState,
+      disabled: recordPendingState || isOnHold,
       text: _i18n["default"].getString(recordingText, currentLocale)
     }];
     var rootButtonProps = {
@@ -480,7 +480,7 @@ function CallLogCallCtrlComponent(props) {
     className: (0, _classnames16["default"])((_classnames15 = {}, _defineProperty(_classnames15, _styles["default"].hangup, true), _defineProperty(_classnames15, _styles["default"].button, true), _defineProperty(_classnames15, _styles["default"].buttonDisabled, disableLinks), _classnames15)),
     disabled: disableLinks
   })));
-}
+};
 
 CallLogCallCtrlComponent.propTypes = {
   onMute: _propTypes["default"].func,
@@ -541,4 +541,6 @@ CallLogCallCtrlComponent.defaultProps = {
   answerAndEnd: function answerAndEnd() {},
   answerAndHold: function answerAndHold() {}
 };
+var _default = CallLogCallCtrlComponent;
+exports["default"] = _default;
 //# sourceMappingURL=index.js.map

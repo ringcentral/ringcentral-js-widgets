@@ -12,11 +12,15 @@ $locked-color: rgba(0,0,0,0.38);
 }
 
 .meetingContent {
-  padding: 8px 0 32px;
+  padding: 0 0 10px;
 }
 
 .meetingSection {
   padding: 0px 16px;
+}
+
+.noBottomMargin {
+  margin-bottom: 0px !important;
 }
 
 .pmiLabel {
@@ -66,12 +70,12 @@ div.videoConfig div.expansionPanel div.expansionPanelDetails {
 }
 div.expansionPanel div.toggleGroup label.labelPlacementStart {
   @extend .labelPlacement;
-  padding: 0 $panel-side-padding 0 ($panel-side-padding - $checkbox-ripple-width/2);
+  padding: 0 ($panel-side-padding - $checkbox-ripple-width/2) 0 $panel-side-padding;
 }
 
 div.expansionPanel div.toggleGroup label.labelPlacementEnd {
   @extend .labelPlacement;
-  padding: 0 $panel-side-padding;
+  padding: 0 $panel-side-padding 0 ($panel-side-padding - $checkbox-ripple-width/2);
 }
 
 .optionLabel {
@@ -89,7 +93,8 @@ div.expansionPanel div.toggleGroup label.labelPlacementEnd {
 }
 
 .sideMargin {
-  padding: 0 $panel-side-padding;
+  padding-left: $panel-side-padding !important;
+  padding-right: $panel-side-padding !important;
 }
 
 .alertContainer {
@@ -97,6 +102,8 @@ div.expansionPanel div.toggleGroup label.labelPlacementEnd {
 }
 
 .selectOption {
+  padding-top: 4px !important;
+  padding-bottom: 4px !important;
   max-width: 100%;
   box-sizing: border-box;
 }
@@ -131,16 +138,15 @@ div.expansionPanel div.toggleGroup label.labelPlacementEnd {
 .labelContent {
   display: flex;
   align-items: flex-start;
-  padding-top: 8px;
-  padding-bottom: 8px;
+  padding: 9px 0 9px 2px;
   .placementLeft {
     flex: 1;
   }
   .placementRight {
     display: inline-flex;
-    align-items: center;
+    align-items: flex-end;
     cursor: pointer;
-    padding: 4px 8px;
+    padding: 2px 0;
   }
 }
 
@@ -175,5 +181,9 @@ div.expansionPanel div.toggleGroup label.labelPlacementEnd {
 
 .lockedIcon {
   color: $locked-color;
-  padding: 8px 8px !important;
+  padding: 8px 0 8px 8px!important;
+}
+
+.subPrefixPadding {
+  padding-left: $panel-side-padding + 32px !important;
 }

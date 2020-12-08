@@ -7,8 +7,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
+  onSearching: "Chargement en cours...",
   noContacts: "Aucun enregistrement trouvé."
-}; // @key: @#@"noContacts"@#@ @source: @#@"No records found."@#@
+}; // @key: @#@"onSearching"@#@ @source: @#@"Loading..."@#@
+// @key: @#@"noContacts"@#@ @source: @#@"No records found."@#@
 
 exports["default"] = _default;
 //# sourceMappingURL=fr-CA.js.map

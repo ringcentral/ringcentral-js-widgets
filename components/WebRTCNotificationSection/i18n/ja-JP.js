@@ -8,19 +8,19 @@ Object.defineProperty(exports, "__esModule", {
 exports["default"] = void 0;
 var _default = {
   forward: "転送",
-  reply: "返信",
   ignore: "無視",
   toVoicemail: "ボイスメールへ",
   answer: "電話に出る",
-  answerAndEnd: "応答して終了",
-  answerAndHold: "応答して保留"
+  endAndAnswer: "終了/応答",
+  holdAndAnswer: "保留/応答",
+  custom: "カスタム"
 }; // @key: @#@"forward"@#@ @source: @#@"Forward"@#@
-// @key: @#@"reply"@#@ @source: @#@"Reply"@#@
 // @key: @#@"ignore"@#@ @source: @#@"Ignore"@#@
 // @key: @#@"toVoicemail"@#@ @source: @#@"To Voicemail"@#@
 // @key: @#@"answer"@#@ @source: @#@"Answer"@#@
-// @key: @#@"answerAndEnd"@#@ @source: @#@"Answer & End"@#@
-// @key: @#@"answerAndHold"@#@ @source: @#@"Answer & Hold"@#@
+// @key: @#@"endAndAnswer"@#@ @source: @#@"End & Answer"@#@
+// @key: @#@"holdAndAnswer"@#@ @source: @#@"Hold & Answer"@#@
+// @key: @#@"custom"@#@ @source: @#@"Custom"@#@
 
 exports["default"] = _default;
 //# sourceMappingURL=ja-JP.js.map

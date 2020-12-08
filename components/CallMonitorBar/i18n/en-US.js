@@ -9,6 +9,7 @@ exports["default"] = void 0;
 var _default = {
   currentCall: 'Current Call',
   viewCalls: 'View Calls',
+  view: 'View',
   incomingCall: '{numberOf} Incoming Call',
   incomingCalls: '{numberOf} Incoming Calls',
   callOnHold: '{numberOf} Call On Hold',

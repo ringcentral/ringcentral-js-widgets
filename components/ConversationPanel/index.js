@@ -344,7 +344,8 @@ var ConversationPanel = /*#__PURE__*/function (_Component) {
           messageSubjectRenderer: messageSubjectRenderer,
           formatPhone: this.props.formatPhone,
           loadingNextPage: this.props.loadingNextPage,
-          loadPreviousMessages: this.props.loadPreviousMessages
+          loadPreviousMessages: this.props.loadPreviousMessages,
+          onAttachmentDownload: this.props.onAttachmentDownload
         });
       }
 
@@ -468,7 +469,8 @@ ConversationPanel.propTypes = {
   })),
   supportAttachment: _propTypes["default"].bool,
   addAttachment: _propTypes["default"].func,
-  removeAttachment: _propTypes["default"].func
+  removeAttachment: _propTypes["default"].func,
+  onAttachmentDownload: _propTypes["default"].func
 };
 ConversationPanel.defaultProps = {
   disableLinks: false,
@@ -499,7 +501,8 @@ ConversationPanel.defaultProps = {
   },
   removeAttachment: function removeAttachment() {
     return null;
-  }
+  },
+  onAttachmentDownload: undefined
 };
 var _default = ConversationPanel;
 exports["default"] = _default;

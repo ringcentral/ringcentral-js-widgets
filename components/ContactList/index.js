@@ -98,15 +98,15 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 var CAPTION_HEIGHT = 20;
 var ROW_HEIGHT = 50;
 
-function NoContacts(_ref) {
-  var currentLocale = _ref.currentLocale;
+var Placeholder = function Placeholder(_ref) {
+  var message = _ref.message;
   return /*#__PURE__*/_react["default"].createElement("p", {
-    className: _styles["default"].noContacts
-  }, _i18n["default"].getString('noContacts', currentLocale));
-}
+    className: _styles["default"].placeholder
+  }, message);
+};
 
-NoContacts.propTypes = {
-  currentLocale: _propTypes["default"].string.isRequired
+Placeholder.propTypes = {
+  message: _propTypes["default"].string.isRequired
 };
 
 var ContactList = /*#__PURE__*/function (_Component) {
@@ -124,6 +124,10 @@ var ContactList = /*#__PURE__*/function (_Component) {
     _this.calculateRowHeight = function (_ref2) {
       var index = _ref2.index;
 
+      if (_this.isBottomNoticeRow(index)) {
+        return _this.props.bottomNoticeHeight;
+      }
+
       if (_this.state.captionRows[index]) {
         return CAPTION_HEIGHT;
       }
@@ -140,6 +144,12 @@ var ContactList = /*#__PURE__*/function (_Component) {
 
     _this.rowGetter = function (_ref4) {
       var index = _ref4.index;
+
+      if (_this.isBottomNoticeRow(index)) {
+        return {
+          bottomNoticeRow: true
+        };
+      }
 
       if (_this.state.captionRows[index]) {
         return {
@@ -166,6 +176,11 @@ var ContactList = /*#__PURE__*/function (_Component) {
 
     _this.cellRenderer = function (_ref6) {
       var rowData = _ref6.rowData;
+
+      if (rowData.bottomNoticeRow) {
+        var BottomNotice = _this.props.bottomNotice;
+        return BottomNotice ? /*#__PURE__*/_react["default"].createElement(BottomNotice, null) : /*#__PURE__*/_react["default"].createElement("span", null);
+      }
 
       if (rowData.caption) {
         return /*#__PURE__*/_react["default"].createElement("div", {
@@ -198,7 +213,11 @@ var ContactList = /*#__PURE__*/function (_Component) {
     _this.onRowsRendered = function (_ref7) {
       var startIndex = _ref7.startIndex;
 
-      // update header with the correct caption
+      if (_this.isBottomNoticeRow(startIndex)) {
+        return;
+      } // update header with the correct caption
+
+
       if (_this.state.captionRows[startIndex]) {
         var groupIndex = (0, _ramda.findIndex)(function (item) {
           return item === _this.state.captionRows[startIndex];
@@ -244,6 +263,11 @@ var ContactList = /*#__PURE__*/function (_Component) {
       }
     }
   }, {
+    key: "isBottomNoticeRow",
+    value: function isBottomNoticeRow(rowIndex) {
+      return this.props.bottomNotice && rowIndex === this.state.count;
+    }
+  }, {
     key: "resetScrollTop",
     value: function resetScrollTop() {
       this.setState({
@@ -259,7 +283,7 @@ var ContactList = /*#__PURE__*/function (_Component) {
         headerHeight: CAPTION_HEIGHT,
         width: this.props.width,
         height: this.props.height,
-        rowCount: this.state.count,
+        rowCount: this.state.count + (this.props.bottomNotice ? 1 : 0),
         rowHeight: this.calculateRowHeight,
         rowGetter: this.rowGetter,
         onRowsRendered: this.onRowsRendered,
@@ -280,14 +304,23 @@ var ContactList = /*#__PURE__*/function (_Component) {
       var _this$props2 = this.props,
           currentLocale = _this$props2.currentLocale,
           contactGroups = _this$props2.contactGroups,
+          isSearching = _this$props2.isSearching,
           width = _this$props2.width,
           height = _this$props2.height;
       var content = null;
 
       if (width !== 0 && height !== 0) {
-        content = contactGroups.length ? this.renderList() : /*#__PURE__*/_react["default"].createElement(NoContacts, {
-          currentLocale: currentLocale
-        });
+        if (contactGroups.length) {
+          content = this.renderList();
+        } else if (isSearching) {
+          content = /*#__PURE__*/_react["default"].createElement(Placeholder, {
+            message: _i18n["default"].getString('onSearching', currentLocale)
+          });
+        } else {
+          content = /*#__PURE__*/_react["default"].createElement(Placeholder, {
+            message: _i18n["default"].getString('noContacts', currentLocale)
+          });
+        }
       }
 
       return /*#__PURE__*/_react["default"].createElement("div", {
@@ -349,12 +382,18 @@ ContactList.propTypes = {
   getPresence: _propTypes["default"].func.isRequired,
   onItemSelect: _propTypes["default"].func,
   sourceNodeRenderer: _propTypes["default"].func,
+  isSearching: _propTypes["default"].bool,
+  bottomNotice: _propTypes["default"].func,
+  bottomNoticeHeight: _propTypes["default"].number,
   width: _propTypes["default"].number.isRequired,
   height: _propTypes["default"].number.isRequired
 };
 ContactList.defaultProps = {
   onItemSelect: undefined,
   sourceNodeRenderer: undefined,
+  isSearching: false,
+  bottomNotice: undefined,
+  bottomNoticeHeight: 0,
   currentSiteCode: '',
   isMultipleSiteEnabled: false
 };

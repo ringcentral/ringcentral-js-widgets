@@ -25,7 +25,7 @@ export const WebRTCNotificationSection: FunctionComponent<WebRTCNotificationProp
   endAndAnswer,
   holdAndAnswer,
   toVoicemail,
-  isCurrentSessionEnd,
+  hasActiveSession,
   answer,
   forwardingNumbers,
   onForward,
@@ -42,7 +42,6 @@ export const WebRTCNotificationSection: FunctionComponent<WebRTCNotificationProp
   }, [call.result]);
 
   const renderLogSection = () => {
-    if (!call) return null;
     const { direction, to, from, telephonySessionId } = call;
     const number =
       direction === callDirections.outbound
@@ -55,6 +54,7 @@ export const WebRTCNotificationSection: FunctionComponent<WebRTCNotificationProp
     return (
       <div className={styles.layer}>
         <div
+          data-sign="inboundNotification"
           className={classnames(
             !isWide ? styles.classic : null,
             styles.content,
@@ -65,7 +65,7 @@ export const WebRTCNotificationSection: FunctionComponent<WebRTCNotificationProp
           <div className={styles.control}>
             <ul
               className={classnames(styles.buttonsGroup, {
-                [styles.singleCallCtrl]: isCurrentSessionEnd,
+                [styles.singleCallCtrl]: !hasActiveSession,
               })}
             >
               <li className={styles.callButton}>
@@ -94,7 +94,7 @@ export const WebRTCNotificationSection: FunctionComponent<WebRTCNotificationProp
                   {i18n.getString('forward', currentLocale)}
                 </span>
               </li>
-              {!isWide && !isCurrentSessionEnd && (
+              {!isWide && hasActiveSession && (
                 <li className={classnames(styles.callButton, styles.voicemail)}>
                   <CircleButton
                     dataSign="toVoicemail"
@@ -114,7 +114,7 @@ export const WebRTCNotificationSection: FunctionComponent<WebRTCNotificationProp
               )}
             </ul>
             <ul className={styles.buttonsGroup}>
-              {isCurrentSessionEnd && (
+              {!hasActiveSession && (
                 <li
                   className={classnames(styles.callButton, styles.answerButton)}
                 >
@@ -130,7 +130,7 @@ export const WebRTCNotificationSection: FunctionComponent<WebRTCNotificationProp
                   </span>
                 </li>
               )}
-              {!isCurrentSessionEnd && (
+              {hasActiveSession && (
                 <li className={styles.callButton}>
                   <CircleButton
                     dataSign="endAndAnswer"
@@ -148,7 +148,7 @@ export const WebRTCNotificationSection: FunctionComponent<WebRTCNotificationProp
                   </span>
                 </li>
               )}
-              {(isWide || isCurrentSessionEnd) && (
+              {(isWide || !hasActiveSession) && (
                 <li className={styles.callButton}>
                   <CircleButton
                     dataSign="toVoicemail"
@@ -166,7 +166,7 @@ export const WebRTCNotificationSection: FunctionComponent<WebRTCNotificationProp
                   </span>
                 </li>
               )}
-              {!isCurrentSessionEnd && (
+              {hasActiveSession && (
                 <li className={styles.callButton}>
                   <CircleButton
                     dataSign="holdAndAnswer"

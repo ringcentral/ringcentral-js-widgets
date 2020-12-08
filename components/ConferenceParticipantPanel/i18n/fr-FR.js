@@ -9,7 +9,7 @@ exports["default"] = void 0;
 var _default = {
   removeParticipant: "Supprimer le participant",
   confirmStr1: "Voulez-vous vraiment supprimer",
-  confirmStr2: "de cet appel ?",
+  confirmStr2: "de cet appel ?",
   remove: "Supprimer",
   cancel: "Annuler",
   participants: "Participants",

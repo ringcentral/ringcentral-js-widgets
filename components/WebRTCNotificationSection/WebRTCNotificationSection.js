@@ -93,7 +93,7 @@ var WebRTCNotificationSection = function WebRTCNotificationSection(_ref) {
       endAndAnswer = _ref.endAndAnswer,
       holdAndAnswer = _ref.holdAndAnswer,
       toVoicemail = _ref.toVoicemail,
-      isCurrentSessionEnd = _ref.isCurrentSessionEnd,
+      hasActiveSession = _ref.hasActiveSession,
       answer = _ref.answer,
       forwardingNumbers = _ref.forwardingNumbers,
       onForward = _ref.onForward;
@@ -114,7 +114,6 @@ var WebRTCNotificationSection = function WebRTCNotificationSection(_ref) {
   }, [call.result]);
 
   var renderLogSection = function renderLogSection() {
-    if (!call) return null;
     var direction = call.direction,
         to = call.to,
         from = call.from,
@@ -129,6 +128,7 @@ var WebRTCNotificationSection = function WebRTCNotificationSection(_ref) {
     return /*#__PURE__*/_react["default"].createElement("div", {
       className: _styles["default"].layer
     }, /*#__PURE__*/_react["default"].createElement("div", {
+      "data-sign": "inboundNotification",
       className: (0, _classnames2["default"])(!isWide ? _styles["default"].classic : null, _styles["default"].content)
     }, /*#__PURE__*/_react["default"].createElement("div", {
       className: _styles["default"].contact
@@ -137,7 +137,7 @@ var WebRTCNotificationSection = function WebRTCNotificationSection(_ref) {
     }, formatNumber), /*#__PURE__*/_react["default"].createElement("div", {
       className: _styles["default"].control
     }, /*#__PURE__*/_react["default"].createElement("ul", {
-      className: (0, _classnames2["default"])(_styles["default"].buttonsGroup, _defineProperty({}, _styles["default"].singleCallCtrl, isCurrentSessionEnd))
+      className: (0, _classnames2["default"])(_styles["default"].buttonsGroup, _defineProperty({}, _styles["default"].singleCallCtrl, !hasActiveSession))
     }, /*#__PURE__*/_react["default"].createElement("li", {
       className: _styles["default"].callButton
     }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
@@ -162,7 +162,7 @@ var WebRTCNotificationSection = function WebRTCNotificationSection(_ref) {
       onClick: handleClick
     }), /*#__PURE__*/_react["default"].createElement("span", {
       className: _styles["default"].text
-    }, _i18n["default"].getString('forward', currentLocale))), !isWide && !isCurrentSessionEnd && /*#__PURE__*/_react["default"].createElement("li", {
+    }, _i18n["default"].getString('forward', currentLocale))), !isWide && hasActiveSession && /*#__PURE__*/_react["default"].createElement("li", {
       className: (0, _classnames2["default"])(_styles["default"].callButton, _styles["default"].voicemail)
     }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
       dataSign: "toVoicemail",
@@ -180,7 +180,7 @@ var WebRTCNotificationSection = function WebRTCNotificationSection(_ref) {
       className: _styles["default"].text
     }, _i18n["default"].getString('toVoicemail', currentLocale)))), /*#__PURE__*/_react["default"].createElement("ul", {
       className: _styles["default"].buttonsGroup
-    }, isCurrentSessionEnd && /*#__PURE__*/_react["default"].createElement("li", {
+    }, !hasActiveSession && /*#__PURE__*/_react["default"].createElement("li", {
       className: (0, _classnames2["default"])(_styles["default"].callButton, _styles["default"].answerButton)
     }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
       dataSign: "answer",
@@ -192,7 +192,7 @@ var WebRTCNotificationSection = function WebRTCNotificationSection(_ref) {
       }
     }), /*#__PURE__*/_react["default"].createElement("span", {
       className: _styles["default"].text
-    }, _i18n["default"].getString('answer', currentLocale))), !isCurrentSessionEnd && /*#__PURE__*/_react["default"].createElement("li", {
+    }, _i18n["default"].getString('answer', currentLocale))), hasActiveSession && /*#__PURE__*/_react["default"].createElement("li", {
       className: _styles["default"].callButton
     }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
       dataSign: "endAndAnswer",
@@ -208,7 +208,7 @@ var WebRTCNotificationSection = function WebRTCNotificationSection(_ref) {
       }
     }), /*#__PURE__*/_react["default"].createElement("span", {
       className: _styles["default"].text
-    }, _i18n["default"].getString('endAndAnswer', currentLocale))), (isWide || isCurrentSessionEnd) && /*#__PURE__*/_react["default"].createElement("li", {
+    }, _i18n["default"].getString('endAndAnswer', currentLocale))), (isWide || !hasActiveSession) && /*#__PURE__*/_react["default"].createElement("li", {
       className: _styles["default"].callButton
     }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
       dataSign: "toVoicemail",
@@ -224,7 +224,7 @@ var WebRTCNotificationSection = function WebRTCNotificationSection(_ref) {
       }
     }), /*#__PURE__*/_react["default"].createElement("span", {
       className: _styles["default"].text
-    }, _i18n["default"].getString('toVoicemail', currentLocale))), !isCurrentSessionEnd && /*#__PURE__*/_react["default"].createElement("li", {
+    }, _i18n["default"].getString('toVoicemail', currentLocale))), hasActiveSession && /*#__PURE__*/_react["default"].createElement("li", {
       className: _styles["default"].callButton
     }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
       dataSign: "holdAndAnswer",

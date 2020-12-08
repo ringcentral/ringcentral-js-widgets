@@ -37,7 +37,11 @@ var _default = {
   unhold: "Reanudar",
   transfer: "Transferir",
   reject: "Rechazar",
-  switchCall: "Cambiar llamada a esta aplicación"
+  switchCall: "Cambiar llamada a esta aplicación",
+  callSwitch: "Cambio de llamada",
+  comfirmContext: "Está en una llamada activa con {displayName}. ¿Desea continuar la llamada en este dispositivo?",
+  comfirmCancelButton: "Cancelar",
+  comfirmOKButton: "Cambiar"
 }; // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
 // @key: @#@"logCall"@#@ @source: @#@"Log Call"@#@
 // @key: @#@"editLog"@#@ @source: @#@"Edit Log"@#@
@@ -69,6 +73,10 @@ var _default = {
 // @key: @#@"transfer"@#@ @source: @#@"Transfer"@#@
 // @key: @#@"reject"@#@ @source: @#@"Reject"@#@
 // @key: @#@"switchCall"@#@ @source: @#@"Switch Call to this app"@#@
+// @key: @#@"callSwitch"@#@ @source: @#@"Call Switch"@#@
+// @key: @#@"comfirmContext"@#@ @source: @#@"You're currently on an active call with {displayName}. Would you like to continue the call on this device?"@#@
+// @key: @#@"comfirmCancelButton"@#@ @source: @#@"Cancel"@#@
+// @key: @#@"comfirmOKButton"@#@ @source: @#@"Switch"@#@
 
 exports["default"] = _default;
 //# sourceMappingURL=es-ES.js.map

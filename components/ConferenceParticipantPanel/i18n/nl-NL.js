@@ -14,7 +14,7 @@ var _default = {
   cancel: "Annuleren",
   participants: "Deelnemers",
   participant: "Deelnemer",
-  conferenceCall: "Conference call",
+  conferenceCall: "Conferencecall",
   unknownNumber: "Anoniem"
 }; // @key: @#@"removeParticipant"@#@ @source: @#@"Remove Participant"@#@
 // @key: @#@"confirmStr1"@#@ @source: @#@"Are you sure you want to remove"@#@

@@ -98,13 +98,15 @@ var Beforeunload = (_dec = (0, _di.Module)({
       this._list = value;
 
       if (this._bindState && this._list.length === 0) {
-        window.removeEventListener(UNLOAD_EVENT_NAME, this._beforeunloadHandler); // TODO: binding event here, that will not emit when close tab, not sure why
-        // window.removeEventListener('unload', this._onAfterUnload);
+        this._window.removeEventListener(UNLOAD_EVENT_NAME, this._beforeunloadHandler); // TODO: binding event here, that will not emit when close tab, not sure why
+        // this._window.removeEventListener('unload', this._onAfterUnload);
+
 
         this._bindState = false;
       } else if (!this._bindState && this._list.length > 0) {
-        window.addEventListener(UNLOAD_EVENT_NAME, this._beforeunloadHandler); // TODO: binding event here, that will not emit when close tab, not sure why
-        // window.addEventListener('unload', this._onAfterUnload);
+        this._window.addEventListener(UNLOAD_EVENT_NAME, this._beforeunloadHandler); // TODO: binding event here, that will not emit when close tab, not sure why
+        // this._window.addEventListener('unload', this._onAfterUnload);
+
 
         this._bindState = true;
       }
@@ -112,6 +114,8 @@ var Beforeunload = (_dec = (0, _di.Module)({
   }]);
 
   function Beforeunload() {
+    var _this$_deps$beforeunl, _this$_deps$beforeunl2;
+
     var _this;
 
     _classCallCheck(this, Beforeunload);
@@ -119,6 +123,7 @@ var Beforeunload = (_dec = (0, _di.Module)({
     _this = _super.call(this, {
       deps: {}
     });
+    _this._window = void 0;
     _this._list = [];
     _this._bindState = false;
 
@@ -133,6 +138,7 @@ var Beforeunload = (_dec = (0, _di.Module)({
       delete event.returnValue;
     };
 
+    _this._window = (_this$_deps$beforeunl = (_this$_deps$beforeunl2 = _this._deps.beforeunloadOptions) === null || _this$_deps$beforeunl2 === void 0 ? void 0 : _this$_deps$beforeunl2.orginWindow) !== null && _this$_deps$beforeunl !== void 0 ? _this$_deps$beforeunl : window;
     return _this;
   }
   /**
@@ -214,7 +220,8 @@ var Beforeunload = (_dec = (0, _di.Module)({
       var _this2 = this;
 
       var notNeedCheck = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-      window.addEventListener('unload', function () {
+
+      this._window.addEventListener('unload', function () {
         if (notNeedCheck || _this2.checkShouldBlock()) {
           cb();
         }
@@ -224,7 +231,8 @@ var Beforeunload = (_dec = (0, _di.Module)({
     key: "removeAfterUnloadListener",
     value: function removeAfterUnloadListener(cb) {
       console.log('removeAfterUnloadListener~~');
-      window.removeEventListener('unload', cb);
+
+      this._window.removeEventListener('unload', cb);
     }
   }, {
     key: "_removeItem",

@@ -29,7 +29,13 @@ var _default = {
   recurringEvery: "每個",
   recurrenceType: "重復類型",
   recurrenceEndDate: "結束日期",
-  currentLocale: "日"
+  currentLocale: "日",
+  meetingId: "會議 ID",
+  generateAutomatically: "自動產生",
+  usePmi: "個人會議 ID (PMI)：{meetingId}",
+  pmiChangeConfirm: "如果您想變更個人會議， ",
+  changePmiSettings: "請變更 PMI 設定",
+  pmiSettingChangeAlert: "若您變更設定並排程此會議，相同的最新設定會套用至使用個人會議 ID 的所有會議。"
 }; // @key: @#@"topic"@#@ @source: @#@"Topic"@#@
 // @key: @#@"when"@#@ @source: @#@"When"@#@
 // @key: @#@"duration"@#@ @source: @#@"Duration"@#@
@@ -53,6 +59,12 @@ var _default = {
 // @key: @#@"recurrenceType"@#@ @source: @#@"Recurrence Type"@#@
 // @key: @#@"recurrenceEndDate"@#@ @source: @#@"End Date"@#@
 // @key: @#@"currentLocale"@#@ @source: @#@"Day(s)"@#@
+// @key: @#@"meetingId"@#@ @source: @#@"Meeting ID"@#@
+// @key: @#@"generateAutomatically"@#@ @source: @#@"Generate Automatically"@#@
+// @key: @#@"usePmi"@#@ @source: @#@"Personal Meeting ID (PMI): {meetingId}"@#@
+// @key: @#@"pmiChangeConfirm"@#@ @source: @#@"If you want to make changes for your personal meeting, "@#@
+// @key: @#@"changePmiSettings"@#@ @source: @#@"change PMI settings"@#@
+// @key: @#@"pmiSettingChangeAlert"@#@ @source: @#@"If you change the settings and schedule this meeting, all of meetings with Personal Meeting ID will use the same latest settings."@#@
 
 exports["default"] = _default;
 //# sourceMappingURL=zh-HK.js.map

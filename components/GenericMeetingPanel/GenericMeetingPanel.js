@@ -145,7 +145,8 @@ var GenericMeetingPanel = function GenericMeetingPanel(props) {
       showScheduleOnBehalf = props.showScheduleOnBehalf,
       delegators = props.delegators,
       updateScheduleFor = props.updateScheduleFor,
-      labelPlacement = props.labelPlacement;
+      labelPlacement = props.labelPlacement,
+      showSpinnerInConfigPanel = props.showSpinnerInConfigPanel;
 
   if (showSpinner) {
     return /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay.SpinnerOverlay, null);
@@ -154,6 +155,7 @@ var GenericMeetingPanel = function GenericMeetingPanel(props) {
   return /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].wrapper
   }, isRCM && !useRcmV2 && /*#__PURE__*/_react["default"].createElement(_MeetingConfigs["default"], {
+    useTimePicker: true,
     update: updateMeetingSettings,
     init: init,
     meeting: meeting,
@@ -171,6 +173,7 @@ var GenericMeetingPanel = function GenericMeetingPanel(props) {
     personalMeetingId: personalMeetingId,
     switchUsePersonalMeetingId: switchUsePersonalMeetingId
   }), isRCM && useRcmV2 && /*#__PURE__*/_react["default"].createElement(_MeetingConfigsV.MeetingConfigs, {
+    showSpinnerInConfigPanel: showSpinnerInConfigPanel,
     updateMeetingSettings: updateMeetingSettings,
     personalMeetingId: personalMeetingId,
     switchUsePersonalMeetingId: switchUsePersonalMeetingId,
@@ -211,6 +214,7 @@ var GenericMeetingPanel = function GenericMeetingPanel(props) {
     personalMeetingId: personalMeetingId,
     switchUsePersonalMeetingId: switchUsePersonalMeetingId,
     showScheduleOnBehalf: showScheduleOnBehalf,
+    showSpinnerInConfigPanel: showSpinnerInConfigPanel,
     delegators: delegators
   }, showTopic && /*#__PURE__*/_react["default"].createElement(_VideoConfig.Topic, {
     name: meeting.name,

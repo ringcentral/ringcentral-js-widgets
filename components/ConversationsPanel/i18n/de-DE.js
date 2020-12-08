@@ -17,7 +17,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 var _default = (_title$search$compose = {
   title: "Nachrichten",
-  search: "Suchen ...",
+  search: "Suchen ...",
   composeText: "Textnachricht erstellen",
   noMessages: "Keine Meldungen",
   noSearchResults: "Kein übereinstimmender Datensatz gefunden"

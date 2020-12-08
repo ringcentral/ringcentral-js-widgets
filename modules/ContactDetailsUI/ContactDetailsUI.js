@@ -108,6 +108,9 @@ var DEFAULT_COMPOSETEXT_ROUTE = '/composeText';
 var ContactDetailsUI = (_dec = (0, _di.Module)({
   name: 'ContactDetailsUI',
   deps: ['RouterInteraction', 'ContactSearch', 'Contacts', 'ExtensionInfo', 'RolesAndPermissions', 'RateLimiter', 'RegionSettings', 'ConnectivityManager', 'Call', 'DialerUI', 'ComposeText', 'Brand', 'Locale', 'CallingSettings', {
+    dep: 'ContactList',
+    optional: true
+  }, {
     dep: 'ContactDetailsUIOptions',
     optional: true
   }]
@@ -122,6 +125,7 @@ var ContactDetailsUI = (_dec = (0, _di.Module)({
 
     var routerInteraction = _ref.routerInteraction,
         contactSearch = _ref.contactSearch,
+        contactList = _ref.contactList,
         contacts = _ref.contacts,
         rolesAndPermissions = _ref.rolesAndPermissions,
         rateLimiter = _ref.rateLimiter,
@@ -138,7 +142,7 @@ var ContactDetailsUI = (_dec = (0, _di.Module)({
         composeTextRoute = _ref$composeTextRoute === void 0 ? DEFAULT_COMPOSETEXT_ROUTE : _ref$composeTextRoute,
         _ref$dialerRoute = _ref.dialerRoute,
         dialerRoute = _ref$dialerRoute === void 0 ? DEFAULT_DIALER_ROUTE : _ref$dialerRoute,
-        options = _objectWithoutProperties(_ref, ["routerInteraction", "contactSearch", "contacts", "rolesAndPermissions", "rateLimiter", "regionSettings", "connectivityManager", "call", "dialerUI", "composeText", "brand", "locale", "callingSettings", "extensionInfo", "composeTextRoute", "dialerRoute"]);
+        options = _objectWithoutProperties(_ref, ["routerInteraction", "contactSearch", "contactList", "contacts", "rolesAndPermissions", "rateLimiter", "regionSettings", "connectivityManager", "call", "dialerUI", "composeText", "brand", "locale", "callingSettings", "extensionInfo", "composeTextRoute", "dialerRoute"]);
 
     _classCallCheck(this, ContactDetailsUI);
 
@@ -159,6 +163,7 @@ var ContactDetailsUI = (_dec = (0, _di.Module)({
     }, options));
     _this._routerInteraction = routerInteraction;
     _this._contactSearch = contactSearch;
+    _this._contactList = contactList;
     _this._contacts = contacts;
     _this._extensionInfo = extensionInfo;
     _this._rolesAndPermissions = rolesAndPermissions;
@@ -183,8 +188,7 @@ var ContactDetailsUI = (_dec = (0, _di.Module)({
           type = _ref2.type,
           _ref2$direct = _ref2.direct,
           direct = _ref2$direct === void 0 ? false : _ref2$direct;
-
-      var contact = this._contacts.find({
+      var contact = this.getContact({
         id: id,
         type: type
       });
@@ -200,14 +204,26 @@ var ContactDetailsUI = (_dec = (0, _di.Module)({
   }, {
     key: "getContact",
     value: function getContact(_ref3) {
-      var _this$_contacts$find, _this$_contacts;
+      var _contact;
 
       var id = _ref3.id,
           type = _ref3.type;
-      return (_this$_contacts$find = (_this$_contacts = this._contacts) === null || _this$_contacts === void 0 ? void 0 : _this$_contacts.find({
-        id: id,
-        type: type
-      })) !== null && _this$_contacts$find !== void 0 ? _this$_contacts$find : null;
+      var contact;
+
+      if (this._contactList) {
+        contact = this._contactList.filteredContacts.find(function (x) {
+          return x.type === type && x.id === id;
+        });
+      }
+
+      if (!contact) {
+        contact = this._contacts.find({
+          id: id,
+          type: type
+        });
+      }
+
+      return (_contact = contact) !== null && _contact !== void 0 ? _contact : null;
     }
   }, {
     key: "handleClickToDial",
@@ -293,21 +309,21 @@ var ContactDetailsUI = (_dec = (0, _di.Module)({
   }, {
     key: "getUIProps",
     value: function getUIProps(_ref4) {
-      var _this$_locale, _this$_extensionInfo$, _this$_extensionInfo, _this$_connectivityMa, _this$_connectivityMa2, _this$_connectivityMa3, _this$_rateLimiter, _this$_connectivityMa4, _this$_connectivityMa5, _this$_rateLimiter2, _this$_locale2, _this$_contactSearch, _this$_rolesAndPermis;
+      var _this$_extensionInfo$, _this$_connectivityMa, _this$_connectivityMa2, _this$_connectivityMa3, _this$_rateLimiter, _this$_connectivityMa4, _this$_connectivityMa5, _this$_rateLimiter2;
 
       var _ref4$params = _ref4.params,
           contactId = _ref4$params.contactId,
           contactType = _ref4$params.contactType;
       return {
-        currentLocale: (_this$_locale = this._locale) === null || _this$_locale === void 0 ? void 0 : _this$_locale.currentLocale,
+        currentLocale: this._locale.currentLocale,
         contact: this.getContact({
           id: contactId,
           type: contactType
         }),
-        isMultipleSiteEnabled: (_this$_extensionInfo$ = (_this$_extensionInfo = this._extensionInfo) === null || _this$_extensionInfo === void 0 ? void 0 : _this$_extensionInfo.isMultipleSiteEnabled) !== null && _this$_extensionInfo$ !== void 0 ? _this$_extensionInfo$ : false,
+        isMultipleSiteEnabled: (_this$_extensionInfo$ = this._extensionInfo.isMultipleSiteEnabled) !== null && _this$_extensionInfo$ !== void 0 ? _this$_extensionInfo$ : false,
         isCallButtonDisabled: !!(((_this$_connectivityMa = this._connectivityManager) === null || _this$_connectivityMa === void 0 ? void 0 : _this$_connectivityMa.isOfflineMode) || ((_this$_connectivityMa2 = this._connectivityManager) === null || _this$_connectivityMa2 === void 0 ? void 0 : _this$_connectivityMa2.isWebphoneUnavailableMode) || ((_this$_connectivityMa3 = this._connectivityManager) === null || _this$_connectivityMa3 === void 0 ? void 0 : _this$_connectivityMa3.isWebphoneInitializing) || ((_this$_rateLimiter = this._rateLimiter) === null || _this$_rateLimiter === void 0 ? void 0 : _this$_rateLimiter.throttling)),
         disableLinks: !!(((_this$_connectivityMa4 = this._connectivityManager) === null || _this$_connectivityMa4 === void 0 ? void 0 : _this$_connectivityMa4.isOfflineMode) || ((_this$_connectivityMa5 = this._connectivityManager) === null || _this$_connectivityMa5 === void 0 ? void 0 : _this$_connectivityMa5.isVoipOnlyMode) || ((_this$_rateLimiter2 = this._rateLimiter) === null || _this$_rateLimiter2 === void 0 ? void 0 : _this$_rateLimiter2.throttling)),
-        showSpinner: !(((_this$_locale2 = this._locale) === null || _this$_locale2 === void 0 ? void 0 : _this$_locale2.ready) && ((_this$_contactSearch = this._contactSearch) === null || _this$_contactSearch === void 0 ? void 0 : _this$_contactSearch.ready) && ((_this$_rolesAndPermis = this._rolesAndPermissions) === null || _this$_rolesAndPermis === void 0 ? void 0 : _this$_rolesAndPermis.ready))
+        showSpinner: !(this._locale.ready && this._contactSearch.ready && this._rolesAndPermissions.ready)
       };
     }
   }, {
@@ -317,7 +333,7 @@ var ContactDetailsUI = (_dec = (0, _di.Module)({
 
       return {
         formatNumber: function formatNumber() {
-          var _this2$_extensionInfo, _this2$_extensionInfo2, _this2$_extensionInfo3;
+          var _this2$_extensionInfo;
 
           var phoneNumber = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
 
@@ -339,13 +355,13 @@ var ContactDetailsUI = (_dec = (0, _di.Module)({
           } // if multi-site is enabled then we will try to remove site code with same site
 
 
-          if (((_this2$_extensionInfo = _this2._extensionInfo) === null || _this2$_extensionInfo === void 0 ? void 0 : _this2$_extensionInfo.isMultipleSiteEnabled) && ((_this2$_extensionInfo2 = _this2._extensionInfo) === null || _this2$_extensionInfo2 === void 0 ? void 0 : (_this2$_extensionInfo3 = _this2$_extensionInfo2.site) === null || _this2$_extensionInfo3 === void 0 ? void 0 : _this2$_extensionInfo3.code)) {
-            var _this2$_extensionInfo4;
+          if (_this2._extensionInfo.isMultipleSiteEnabled && ((_this2$_extensionInfo = _this2._extensionInfo.site) === null || _this2$_extensionInfo === void 0 ? void 0 : _this2$_extensionInfo.code)) {
+            var _this2$_extensionInfo2;
 
             var _formattedNumber = (0, _formatNumber2.formatNumber)({
               phoneNumber: phoneNumber,
               countryCode: _this2._regionSettings.countryCode,
-              siteCode: (_this2$_extensionInfo4 = _this2._extensionInfo.site) === null || _this2$_extensionInfo4 === void 0 ? void 0 : _this2$_extensionInfo4.code,
+              siteCode: (_this2$_extensionInfo2 = _this2._extensionInfo.site) === null || _this2$_extensionInfo2 === void 0 ? void 0 : _this2$_extensionInfo2.code,
               isMultipleSiteEnabled: _this2._extensionInfo.isMultipleSiteEnabled
             });
 
@@ -355,18 +371,18 @@ var ContactDetailsUI = (_dec = (0, _di.Module)({
           return phoneNumber;
         },
         canTextButtonShow: function canTextButtonShow(phoneType) {
-          var _this2$_rolesAndPermi, _this2$_rolesAndPermi2, _this2$_rolesAndPermi3, _this2$_rolesAndPermi4, _this2$_rolesAndPermi5, _this2$_rolesAndPermi6;
+          var _this2$_rolesAndPermi, _this2$_rolesAndPermi2;
 
-          var outboundSmsPermission = !!((_this2$_rolesAndPermi = (_this2$_rolesAndPermi2 = _this2._rolesAndPermissions) === null || _this2$_rolesAndPermi2 === void 0 ? void 0 : (_this2$_rolesAndPermi3 = _this2$_rolesAndPermi2.permissions) === null || _this2$_rolesAndPermi3 === void 0 ? void 0 : _this2$_rolesAndPermi3.OutboundSMS) !== null && _this2$_rolesAndPermi !== void 0 ? _this2$_rolesAndPermi : false);
-          var internalSmsPermission = !!((_this2$_rolesAndPermi4 = (_this2$_rolesAndPermi5 = _this2._rolesAndPermissions) === null || _this2$_rolesAndPermi5 === void 0 ? void 0 : (_this2$_rolesAndPermi6 = _this2$_rolesAndPermi5.permissions) === null || _this2$_rolesAndPermi6 === void 0 ? void 0 : _this2$_rolesAndPermi6.InternalSMS) !== null && _this2$_rolesAndPermi4 !== void 0 ? _this2$_rolesAndPermi4 : false); // guess this statement is to avoid exception
+          var outboundSmsPermission = !!((_this2$_rolesAndPermi = _this2._rolesAndPermissions.permissions.OutboundSMS) !== null && _this2$_rolesAndPermi !== void 0 ? _this2$_rolesAndPermi : false);
+          var internalSmsPermission = !!((_this2$_rolesAndPermi2 = _this2._rolesAndPermissions.permissions.InternalSMS) !== null && _this2$_rolesAndPermi2 !== void 0 ? _this2$_rolesAndPermi2 : false); // guess this statement is to avoid exception
 
           var isClickToTextEnabled = !!_this2._composeText;
           return isClickToTextEnabled && phoneType !== _phoneTypes.phoneTypes.fax && (phoneType === _phoneTypes.phoneTypes.extension ? internalSmsPermission : outboundSmsPermission);
         },
         canCallButtonShow: function canCallButtonShow(phoneType) {
-          var _this2$_rolesAndPermi7, _this2$_rolesAndPermi8;
+          var _this2$_rolesAndPermi3;
 
-          var isClickToDialEnabled = !!(_this2._dialerUI && ((_this2$_rolesAndPermi7 = (_this2$_rolesAndPermi8 = _this2._rolesAndPermissions) === null || _this2$_rolesAndPermi8 === void 0 ? void 0 : _this2$_rolesAndPermi8.callingEnabled) !== null && _this2$_rolesAndPermi7 !== void 0 ? _this2$_rolesAndPermi7 : false));
+          var isClickToDialEnabled = !!(_this2._dialerUI && ((_this2$_rolesAndPermi3 = _this2._rolesAndPermissions.callingEnabled) !== null && _this2$_rolesAndPermi3 !== void 0 ? _this2$_rolesAndPermi3 : false));
           return isClickToDialEnabled && phoneType !== _phoneTypes.phoneTypes.fax;
         },
         onBackClick: function onBackClick() {

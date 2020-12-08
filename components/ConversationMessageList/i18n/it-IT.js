@@ -7,8 +7,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  loading: "Caricamento..."
+  loading: "Caricamento...",
+  download: "Scarica"
 }; // @key: @#@"loading"@#@ @source: @#@"Loading ..."@#@
+// @key: @#@"download"@#@ @source: @#@"Download"@#@
 
 exports["default"] = _default;
 //# sourceMappingURL=it-IT.js.map

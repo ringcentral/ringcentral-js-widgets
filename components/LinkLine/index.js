@@ -23,7 +23,7 @@ var _DynamicsFont = _interopRequireDefault(require("../../assets/DynamicsFont/Dy
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function LinkLine(_ref) {
+var LinkLine = function LinkLine(_ref) {
   var _onClick = _ref.onClick,
       className = _ref.className,
       children = _ref.children,
@@ -48,7 +48,7 @@ function LinkLine(_ref) {
       className: (0, _classnames["default"])(_DynamicsFont["default"].arrow, _styles["default"].icon, iconClassName)
     })
   }, children));
-}
+};
 
 LinkLine.propTypes = {
   children: _propTypes["default"].node,

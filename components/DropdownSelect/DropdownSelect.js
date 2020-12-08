@@ -406,6 +406,7 @@ var DropdownSelect = /*#__PURE__*/function (_Component) {
           selectedOption = _this$state.selectedOption;
       if (!this._optionsWithLabel) return null;
       return /*#__PURE__*/_react["default"].createElement("span", {
+        "data-sign": "selectedLabel",
         className: (0, _classnames["default"])(_styles["default"].selectedOptionLabel, open ? _styles["default"].selectedOptionLabelHide : null)
       }, selectedOption.label);
     }

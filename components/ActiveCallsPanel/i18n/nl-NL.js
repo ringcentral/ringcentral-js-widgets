@@ -15,7 +15,7 @@ var _default = {
   confirmation: "Bevestiging",
   confirmMergeToConference: "Aan conference call toevoegen?",
   mergeToConference: "Samenvoegen",
-  conferenceCall: "Conference call"
+  conferenceCall: "Conferencecall"
 }; // @key: @#@"noActiveCalls"@#@ @source: @#@"No active calls"@#@
 // @key: @#@"currentCall"@#@ @source: @#@"Current Call"@#@
 // @key: @#@"ringCall"@#@ @source: @#@"Ringing Call"@#@

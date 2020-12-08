@@ -140,7 +140,8 @@ var FlipPanel = /*#__PURE__*/function (_Component) {
           formatPhone = _this$props2.formatPhone;
       var flipEnabled = this.state.flipEnabled;
       return /*#__PURE__*/_react["default"].createElement("div", {
-        className: _styles["default"].root
+        className: _styles["default"].root,
+        "data-sign": "flipPanel"
       }, /*#__PURE__*/_react["default"].createElement(_BackHeader["default"], {
         onBackClick: isOnFlip ? null : onBack,
         backButton: /*#__PURE__*/_react["default"].createElement(_BackButton["default"], {

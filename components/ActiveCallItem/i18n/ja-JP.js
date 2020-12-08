@@ -37,7 +37,11 @@ var _default = {
   unhold: "保留解除",
   transfer: "転送",
   reject: "拒否",
-  switchCall: "このアプリに通話を変更"
+  switchCall: "このアプリに通話を変更",
+  callSwitch: "通話の切り替え",
+  comfirmContext: "現在、{displayName}とのアクティブな通話中です。このデバイスで通話を続けますか？",
+  comfirmCancelButton: "キャンセル",
+  comfirmOKButton: "切り替え"
 }; // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
 // @key: @#@"logCall"@#@ @source: @#@"Log Call"@#@
 // @key: @#@"editLog"@#@ @source: @#@"Edit Log"@#@
@@ -69,6 +73,10 @@ var _default = {
 // @key: @#@"transfer"@#@ @source: @#@"Transfer"@#@
 // @key: @#@"reject"@#@ @source: @#@"Reject"@#@
 // @key: @#@"switchCall"@#@ @source: @#@"Switch Call to this app"@#@
+// @key: @#@"callSwitch"@#@ @source: @#@"Call Switch"@#@
+// @key: @#@"comfirmContext"@#@ @source: @#@"You're currently on an active call with {displayName}. Would you like to continue the call on this device?"@#@
+// @key: @#@"comfirmCancelButton"@#@ @source: @#@"Cancel"@#@
+// @key: @#@"comfirmOKButton"@#@ @source: @#@"Switch"@#@
 
 exports["default"] = _default;
 //# sourceMappingURL=ja-JP.js.map

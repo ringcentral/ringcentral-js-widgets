@@ -19,13 +19,15 @@ var holdConflictError = _callControlError["default"].holdConflictError,
     unHoldConflictError = _callControlError["default"].unHoldConflictError,
     muteConflictError = _callControlError["default"].muteConflictError,
     unMuteConflictError = _callControlError["default"].unMuteConflictError,
-    generalError = _callControlError["default"].generalError;
+    generalError = _callControlError["default"].generalError,
+    forwardSuccess = _callControlError["default"].forwardSuccess;
 
-var _default = (_muteConflictError$ho = {}, _defineProperty(_muteConflictError$ho, muteConflictError, "L'audio di questa chiamata è stato disattivato sull'altro dispositivo. Riattivalo prima di eseguire l'operazione in questa app."), _defineProperty(_muteConflictError$ho, holdConflictError, "Questa chiamata è stata messa in attesa sull'altro dispositivo. Riprendila prima di eseguire l'operazione in questa app."), _defineProperty(_muteConflictError$ho, unMuteConflictError, "L'audio di questa chiamata è stato riattivato sull'altro dispositivo. Disattivalo prima di eseguire l'operazione in questa app."), _defineProperty(_muteConflictError$ho, unHoldConflictError, "Questa chiamata è stata ripresa sull'altro dispositivo. Mettila in attesa prima di eseguire l'operazione in questa app."), _defineProperty(_muteConflictError$ho, generalError, "Errore inatteso del server. Riprova più tardi."), _muteConflictError$ho); // @key: @#@"muteConflictError"@#@ @source: @#@"This call had been muted on other device. Please unmute the call before you control in this App."@#@
+var _default = (_muteConflictError$ho = {}, _defineProperty(_muteConflictError$ho, muteConflictError, "L'audio di questa chiamata è stato disattivato sull'altro dispositivo. Riattivalo prima di eseguire l'operazione in questa app."), _defineProperty(_muteConflictError$ho, holdConflictError, "Questa chiamata è stata messa in attesa sull'altro dispositivo. Riprendila prima di eseguire l'operazione in questa app."), _defineProperty(_muteConflictError$ho, unMuteConflictError, "L'audio di questa chiamata è stato riattivato sull'altro dispositivo. Disattivalo prima di eseguire l'operazione in questa app."), _defineProperty(_muteConflictError$ho, unHoldConflictError, "Questa chiamata è stata ripresa sull'altro dispositivo. Mettila in attesa prima di eseguire l'operazione in questa app."), _defineProperty(_muteConflictError$ho, generalError, "Errore inatteso del server. Riprova più tardi."), _defineProperty(_muteConflictError$ho, forwardSuccess, "Chiamata trasferita"), _muteConflictError$ho); // @key: @#@"muteConflictError"@#@ @source: @#@"This call had been muted on other device. Please unmute the call before you control in this App."@#@
 // @key: @#@"holdConflictError"@#@ @source: @#@"This call had been held on other device. Please unhold the call before you control in this App."@#@
 // @key: @#@"unMuteConflictError"@#@ @source: @#@"This call had been unmuted on other device. Please mute the call before you control in this App."@#@
 // @key: @#@"unHoldConflictError"@#@ @source: @#@"This call had been unheld on other device. Please hold the call before you control in this App."@#@
 // @key: @#@"generalError"@#@ @source: @#@"Unexpected server error. Please try again later."@#@
+// @key: @#@"forwardSuccess"@#@ @source: @#@"Call forwarded"@#@
 
 
 exports["default"] = _default;

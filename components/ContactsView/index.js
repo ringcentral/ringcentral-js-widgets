@@ -61,7 +61,7 @@ var _debounce = _interopRequireDefault(require("ringcentral-integration/lib/debo
 
 var _Panel = _interopRequireDefault(require("../Panel"));
 
-var _SearchInput = _interopRequireDefault(require("../SearchInput"));
+var _SearchInput = require("../SearchInput");
 
 var _SpinnerOverlay = require("../SpinnerOverlay");
 
@@ -119,7 +119,7 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
-function AddContact(_ref) {
+var AddContact = function AddContact(_ref) {
   var className = _ref.className,
       onClick = _ref.onClick;
   return /*#__PURE__*/_react["default"].createElement("div", {
@@ -130,7 +130,7 @@ function AddContact(_ref) {
   }, /*#__PURE__*/_react["default"].createElement(_ContactAdd["default"], {
     className: _styles["default"].iconNode
   })));
-}
+};
 
 AddContact.propTypes = {
   className: _propTypes["default"].string,
@@ -140,23 +140,23 @@ AddContact.defaultProps = {
   className: undefined
 };
 
-function RefreshContacts(_ref2) {
+var RefreshContacts = function RefreshContacts(_ref2) {
   var className = _ref2.className,
       onRefresh = _ref2.onRefresh,
       refreshing = _ref2.refreshing,
       currentLocale = _ref2.currentLocale;
   var icon = null;
-  var iconWrappClass = null;
+  var iconWrapClass = null;
 
   if (refreshing) {
-    iconWrappClass = _styles["default"].refreshingIcon;
+    iconWrapClass = _styles["default"].refreshingIcon;
     icon = /*#__PURE__*/_react["default"].createElement(_OvalLoading["default"], {
       className: _styles["default"].iconNode,
       width: 12,
       height: 12
     });
   } else {
-    iconWrappClass = _styles["default"].refreshIcon;
+    iconWrapClass = _styles["default"].refreshIcon;
     icon = /*#__PURE__*/_react["default"].createElement(_RetryIcon["default"], {
       className: _styles["default"].iconNode,
       width: 12,
@@ -165,13 +165,13 @@ function RefreshContacts(_ref2) {
   }
 
   return /*#__PURE__*/_react["default"].createElement("div", {
-    className: (0, _classnames["default"])(iconWrappClass, className),
+    className: (0, _classnames["default"])(iconWrapClass, className),
     onClick: onRefresh,
     title: _i18n["default"].getString('refresh', currentLocale)
   }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].iconContainer
   }, icon));
-}
+};
 
 RefreshContacts.propTypes = {
   className: _propTypes["default"].string,
@@ -212,15 +212,16 @@ var ContactsView = /*#__PURE__*/function (_Component) {
     };
 
     _this.onSearchInputChange = function (ev) {
-      var value = ev.target.value;
-      var lastInputTimestamp = Date.now();
-
       _this.setState({
-        searchString: value,
-        lastInputTimestamp: lastInputTimestamp
+        searchString: ev.target.value,
+        lastInputTimestamp: Date.now()
       }, function () {
+        var searchString = _this.state.searchString;
+        var searchSource = _this.props.searchSource;
+
         _this.search({
-          searchString: value
+          searchString: searchString,
+          searchSource: searchSource
         });
       });
     };
@@ -230,8 +231,11 @@ var ContactsView = /*#__PURE__*/function (_Component) {
         _this.contactList.current.resetScrollTop();
       }
 
+      var searchString = _this.state.searchString;
+
       _this.search({
-        searchSource: searchSource
+        searchSource: searchSource,
+        searchString: searchString
       });
     };
 
@@ -240,37 +244,45 @@ var ContactsView = /*#__PURE__*/function (_Component) {
         _this.setState(_objectSpread({}, _this.calculateContentSize()));
       }
     }, 300);
-    _this.onRefresh = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-      return regeneratorRuntime.wrap(function _callee$(_context) {
+    _this.onRefresh = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+      var onRefresh;
+      return regeneratorRuntime.wrap(function _callee2$(_context2) {
         while (1) {
-          switch (_context.prev = _context.next) {
+          switch (_context2.prev = _context2.next) {
             case 0:
-              if (!(typeof _this.props.onRefresh !== 'function')) {
-                _context.next = 2;
-                break;
+              onRefresh = _this.props.onRefresh;
+
+              if (typeof onRefresh === 'function') {
+                _this.setState({
+                  refreshing: true
+                }, /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+                  return regeneratorRuntime.wrap(function _callee$(_context) {
+                    while (1) {
+                      switch (_context.prev = _context.next) {
+                        case 0:
+                          _context.next = 2;
+                          return onRefresh();
+
+                        case 2:
+                          _this.setState({
+                            refreshing: false
+                          });
+
+                        case 3:
+                        case "end":
+                          return _context.stop();
+                      }
+                    }
+                  }, _callee);
+                })));
               }
 
-              return _context.abrupt("return");
-
             case 2:
-              _this.setState({
-                refreshing: true
-              });
-
-              _context.next = 5;
-              return _this.props.onRefresh();
-
-            case 5:
-              _this.setState({
-                refreshing: false
-              });
-
-            case 6:
             case "end":
-              return _context.stop();
+              return _context2.stop();
           }
         }
-      }, _callee);
+      }, _callee2);
     }));
     _this.state = {
       searchString: props.searchString,
@@ -296,31 +308,33 @@ var ContactsView = /*#__PURE__*/function (_Component) {
     key: "componentDidMount",
     value: function componentDidMount() {
       this._mounted = true;
+      var onVisitPage = this.props.onVisitPage;
 
-      if (typeof this.props.onVisitPage === 'function') {
-        this.props.onVisitPage();
+      if (typeof onVisitPage === 'function') {
+        onVisitPage();
       }
 
-      this.search({
-        searchSource: this.props.searchSource,
-        searchString: this.state.searchString
-      });
       this.setState(_objectSpread({}, this.calculateContentSize()));
       window.addEventListener('resize', this.onResize);
     }
   }, {
     key: "UNSAFE_componentWillUpdate",
     value: function UNSAFE_componentWillUpdate(nextProps, nextState) {
-      var isNotEditing = Date.now() - this.state.lastInputTimestamp > 2000;
+      var lastInputTimestamp = this.state.lastInputTimestamp;
+      var searchStringProp = this.props.searchString; // sync search string from other app instance
 
-      if (isNotEditing && nextProps.searchString !== this.props.searchString) {
+      var isNotEditing = Date.now() - lastInputTimestamp > 2000;
+
+      if (isNotEditing && nextProps.searchString !== searchStringProp) {
         nextState.searchString = nextProps.searchString;
-      }
+      } // default to the first contact source when current selected contact source is removed
+
 
       if (!(0, _ramda.contains)(nextProps.searchSource, nextProps.contactSourceNames)) {
+        var searchString = this.state.searchString;
         this.search({
           searchSource: nextProps.contactSourceNames[0],
-          searchString: this.state.searchString
+          searchString: searchString
         });
       }
     }
@@ -332,14 +346,13 @@ var ContactsView = /*#__PURE__*/function (_Component) {
     }
   }, {
     key: "search",
-    value: function search(_ref4) {
-      var _ref4$searchSource = _ref4.searchSource,
-          searchSource = _ref4$searchSource === void 0 ? this.props.searchSource : _ref4$searchSource,
-          _ref4$searchString = _ref4.searchString,
-          searchString = _ref4$searchString === void 0 ? this.state.searchString : _ref4$searchString;
+    value: function search(_ref5) {
+      var searchSource = _ref5.searchSource,
+          searchString = _ref5.searchString;
+      var onSearchContact = this.props.onSearchContact;
 
-      if (this.props.onSearchContact) {
-        this.props.onSearchContact({
+      if (typeof onSearchContact === 'function') {
+        onSearchContact({
           searchSource: searchSource,
           searchString: searchString
         });
@@ -353,6 +366,7 @@ var ContactsView = /*#__PURE__*/function (_Component) {
           contactGroups = _this$props.contactGroups,
           contactSourceNames = _this$props.contactSourceNames,
           searchSource = _this$props.searchSource,
+          isSearching = _this$props.isSearching,
           showSpinner = _this$props.showSpinner,
           getAvatarUrl = _this$props.getAvatarUrl,
           getPresence = _this$props.getPresence,
@@ -360,13 +374,21 @@ var ContactsView = /*#__PURE__*/function (_Component) {
           Filter = _this$props.contactSourceFilterRenderer,
           sourceNodeRenderer = _this$props.sourceNodeRenderer,
           onRefresh = _this$props.onRefresh,
+          bottomNotice = _this$props.bottomNotice,
+          bottomNoticeHeight = _this$props.bottomNoticeHeight,
           children = _this$props.children,
           currentSiteCode = _this$props.currentSiteCode,
           isMultipleSiteEnabled = _this$props.isMultipleSiteEnabled;
+      var _this$state = this.state,
+          refreshing = _this$state.refreshing,
+          searchString = _this$state.searchString,
+          unfold = _this$state.unfold,
+          contentWidth = _this$state.contentWidth,
+          contentHeight = _this$state.contentHeight;
       var showRefresh = typeof onRefresh === 'function';
       var refreshButton = showRefresh ? /*#__PURE__*/_react["default"].createElement(RefreshContacts, {
         className: _styles["default"].actionButton,
-        refreshing: this.state.refreshing,
+        refreshing: refreshing,
         currentLocale: currentLocale,
         onRefresh: this.onRefresh
       }) : null;
@@ -374,10 +396,10 @@ var ContactsView = /*#__PURE__*/function (_Component) {
         className: _styles["default"].root
       }, /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].actionBar
-      }, /*#__PURE__*/_react["default"].createElement(_SearchInput["default"], {
+      }, /*#__PURE__*/_react["default"].createElement(_SearchInput.SearchInput, {
         dataSign: "contactsSearchInput",
         className: (0, _classnames["default"])(_styles["default"].searchInput, showRefresh ? _styles["default"].withRefresh : ''),
-        value: this.state.searchString || '',
+        value: searchString || '',
         onChange: this.onSearchInputChange,
         placeholder: _i18n["default"].getString('searchPlaceholder', currentLocale)
       }), refreshButton, /*#__PURE__*/_react["default"].createElement(Filter, {
@@ -386,7 +408,7 @@ var ContactsView = /*#__PURE__*/function (_Component) {
         contactSourceNames: contactSourceNames,
         onSourceSelect: this.onSourceSelect,
         selectedSourceName: searchSource,
-        unfold: this.state.unfold,
+        unfold: unfold,
         onUnfoldChange: this.onUnfoldChange
       })), /*#__PURE__*/_react["default"].createElement(_Panel["default"], {
         className: _styles["default"].content
@@ -403,8 +425,11 @@ var ContactsView = /*#__PURE__*/function (_Component) {
         currentSiteCode: currentSiteCode,
         isMultipleSiteEnabled: isMultipleSiteEnabled,
         sourceNodeRenderer: sourceNodeRenderer,
-        width: this.state.contentWidth,
-        height: this.state.contentHeight
+        isSearching: isSearching,
+        bottomNotice: bottomNotice,
+        bottomNoticeHeight: bottomNoticeHeight,
+        width: contentWidth,
+        height: contentHeight
       }))), showSpinner ? /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay.SpinnerOverlay, {
         className: _styles["default"].spinner
       }) : null, children);
@@ -430,17 +455,21 @@ ContactsView.propTypes = {
   isMultipleSiteEnabled: _propTypes["default"].bool,
   searchSource: _propTypes["default"].string,
   searchString: _propTypes["default"].string,
+  isSearching: _propTypes["default"].bool,
   onItemSelect: _propTypes["default"].func,
   onSearchContact: _propTypes["default"].func,
   contactSourceFilterRenderer: _propTypes["default"].func,
   sourceNodeRenderer: _propTypes["default"].func,
   onVisitPage: _propTypes["default"].func,
   onRefresh: _propTypes["default"].func,
+  bottomNotice: _propTypes["default"].func,
+  bottomNoticeHeight: _propTypes["default"].number,
   children: _propTypes["default"].node
 };
 ContactsView.defaultProps = {
   searchSource: undefined,
   searchString: undefined,
+  isSearching: false,
   onItemSelect: undefined,
   onSearchContact: undefined,
   contactSourceFilterRenderer: _ContactSourceFilter["default"],
@@ -448,6 +477,8 @@ ContactsView.defaultProps = {
   onVisitPage: undefined,
   children: undefined,
   onRefresh: undefined,
+  bottomNotice: undefined,
+  bottomNoticeHeight: 0,
   currentSiteCode: '',
   isMultipleSiteEnabled: false
 };

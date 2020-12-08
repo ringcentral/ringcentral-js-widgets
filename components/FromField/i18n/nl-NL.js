@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  DirectNumber: "Direct",
+  DirectNumber: "Rechtstreeks",
   MainCompanyNumber: "Hoofd",
   CompanyNumber: "Bedrijf",
   CompanyFaxNumber: "Fax",

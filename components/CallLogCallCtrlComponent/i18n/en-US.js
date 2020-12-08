@@ -22,10 +22,11 @@ var _default = {
   unHold: 'Unhold',
   forward: 'Forward',
   ignore: 'Ignore',
-  voicemail: 'Voicemail',
+  voicemail: 'To Voicemail',
   custom: 'Custom',
   answerAndEnd: "Answer & End",
-  answerAndHold: 'Answer & Hold'
+  answerAndHold: 'Answer & Hold',
+  answer: 'Answer'
 };
 exports["default"] = _default;
 //# sourceMappingURL=en-US.js.map

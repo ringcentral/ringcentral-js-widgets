@@ -85,6 +85,7 @@ var InfoFieldWithAction = /*#__PURE__*/(0, _react.memo)(function (_ref3) {
     tooltip: tooltip,
     labelVariant: labelVariant
   }, /*#__PURE__*/_react["default"].createElement(StyledContainer, null, /*#__PURE__*/_react["default"].createElement(StyledInfo, {
+    "data-sign": "".concat(name, "Field"),
     fullSize: fullSize,
     breakSpace: breakSpace
   }, value), btn, children));

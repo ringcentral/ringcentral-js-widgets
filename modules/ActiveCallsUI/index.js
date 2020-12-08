@@ -108,6 +108,9 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 var ActiveCallsUI = (_dec = (0, _di.Module)({
   name: 'ActiveCallsUI',
   deps: ['Brand', 'Locale', 'CallMonitor', 'RateLimiter', 'ContactSearch', 'RegionSettings', 'ContactMatcher', 'CallingSettings', 'RouterInteraction', 'RolesAndPermissions', 'ConnectivityMonitor', {
+    dep: 'Modal',
+    optional: true
+  }, {
     dep: 'Webphone',
     optional: true
   }, {
@@ -151,7 +154,8 @@ var ActiveCallsUI = (_dec = (0, _di.Module)({
         routerInteraction = _ref.routerInteraction,
         rolesAndPermissions = _ref.rolesAndPermissions,
         connectivityMonitor = _ref.connectivityMonitor,
-        options = _objectWithoutProperties(_ref, ["brand", "locale", "webphone", "callLogger", "callMonitor", "rateLimiter", "composeText", "contactSearch", "regionSettings", "conferenceCall", "contactMatcher", "callingSettings", "contactDetailsUI", "activeCallControl", "routerInteraction", "rolesAndPermissions", "connectivityMonitor"]);
+        modal = _ref.modal,
+        options = _objectWithoutProperties(_ref, ["brand", "locale", "webphone", "callLogger", "callMonitor", "rateLimiter", "composeText", "contactSearch", "regionSettings", "conferenceCall", "contactMatcher", "callingSettings", "contactDetailsUI", "activeCallControl", "routerInteraction", "rolesAndPermissions", "connectivityMonitor", "modal"]);
 
     _classCallCheck(this, ActiveCallsUI);
 
@@ -173,6 +177,7 @@ var ActiveCallsUI = (_dec = (0, _di.Module)({
     _this._routerInteraction = routerInteraction;
     _this._rolesAndPermissions = rolesAndPermissions;
     _this._connectivityMonitor = connectivityMonitor;
+    _this._modal = modal;
     return _this;
   }
 
@@ -185,6 +190,10 @@ var ActiveCallsUI = (_dec = (0, _di.Module)({
           showRingoutCallControl = _ref2$showRingoutCall === void 0 ? false : _ref2$showRingoutCall,
           _ref2$showSwitchCall = _ref2.showSwitchCall,
           showSwitchCall = _ref2$showSwitchCall === void 0 ? false : _ref2$showSwitchCall,
+          _ref2$showTransferCal = _ref2.showTransferCall,
+          showTransferCall = _ref2$showTransferCal === void 0 ? true : _ref2$showTransferCal,
+          _ref2$showHoldOnOther = _ref2.showHoldOnOtherDevice,
+          showHoldOnOtherDevice = _ref2$showHoldOnOther === void 0 ? false : _ref2$showHoldOnOther,
           useV2 = _ref2.useV2,
           useCallControl = _ref2.useCallControl;
       var isWebRTC = this._callingSettings.callingMode === _callingModes["default"].webphone;
@@ -203,6 +212,8 @@ var ActiveCallsUI = (_dec = (0, _di.Module)({
         brand: this._brand.fullName,
         showContactDisplayPlaceholder: showContactDisplayPlaceholder,
         showRingoutCallControl: showRingoutCallControl,
+        showTransferCall: showTransferCall,
+        showHoldOnOtherDevice: showHoldOnOtherDevice,
         showSwitchCall: showSwitchCall && isWebRTC && this._webphone && this._webphone.connected,
         autoLog: !!(this._callLogger && this._callLogger.autoLog),
         isWebRTC: isWebRTC,
@@ -235,6 +246,12 @@ var ActiveCallsUI = (_dec = (0, _di.Module)({
       // when you set this toggle to true (https://developers.ringcentral.com/api-reference/Call-Control/createCallOutCallSession)
       this._useCallControlSDK = useCallControl && this._activeCallControl;
       return {
+        modalConfirm: function modalConfirm(props) {
+          return _this2._modal && _this2._modal.confirm(props);
+        },
+        modalClose: function modalClose(id) {
+          return _this2._modal && _this2._modal.close(id);
+        },
         formatPhone: function formatPhone(phoneNumber) {
           return (0, _formatNumber["default"])({
             phoneNumber: phoneNumber,
@@ -428,7 +445,7 @@ var ActiveCallsUI = (_dec = (0, _di.Module)({
                 switch (_context6.prev = _context6.next) {
                   case 0:
                     // user action track
-                    _this2._callMonitor.allCallsClickHangupTrack();
+                    _this2._callMonitor.allCallsClickHoldTrack();
 
                     if (!_this2._useCallControlSDK) {
                       _context6.next = 3;
@@ -461,22 +478,30 @@ var ActiveCallsUI = (_dec = (0, _di.Module)({
               while (1) {
                 switch (_context7.prev = _context7.next) {
                   case 0:
-                    if (_this2._webphone) {
+                    if (!_this2._useCallControlSDK) {
                       _context7.next = 2;
+                      break;
+                    }
+
+                    return _context7.abrupt("return", _this2._activeCallControl && _this2._activeCallControl["switch"](activeCall.telephonySessionId));
+
+                  case 2:
+                    if (_this2._webphone) {
+                      _context7.next = 4;
                       break;
                     }
 
                     return _context7.abrupt("return");
 
-                  case 2:
-                    _context7.next = 4;
+                  case 4:
+                    _context7.next = 6;
                     return _this2._webphone.switchCall(activeCall, _this2._regionSettings.homeCountryId);
 
-                  case 4:
+                  case 6:
                     session = _context7.sent;
                     return _context7.abrupt("return", session);
 
-                  case 6:
+                  case 8:
                   case "end":
                     return _context7.stop();
                 }
@@ -490,26 +515,50 @@ var ActiveCallsUI = (_dec = (0, _di.Module)({
 
           return webphoneSwitchCall;
         }(),
-        ringoutHangup: function () {
-          var _ringoutHangup = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8() {
+        webphoneIgnore: function () {
+          var _webphoneIgnore = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8(telephonySessionId) {
             var _this2$_activeCallCon;
 
-            var _args8 = arguments;
             return regeneratorRuntime.wrap(function _callee8$(_context8) {
               while (1) {
                 switch (_context8.prev = _context8.next) {
                   case 0:
-                    // user action track
-                    _this2._callMonitor.allCallsClickHangupTrack();
+                    return _context8.abrupt("return", (_this2$_activeCallCon = _this2._activeCallControl) === null || _this2$_activeCallCon === void 0 ? void 0 : _this2$_activeCallCon.ignore(telephonySessionId));
 
-                    return _context8.abrupt("return", _this2._activeCallControl && (_this2$_activeCallCon = _this2._activeCallControl).hangUp.apply(_this2$_activeCallCon, _args8));
-
-                  case 2:
+                  case 1:
                   case "end":
                     return _context8.stop();
                 }
               }
             }, _callee8);
+          }));
+
+          function webphoneIgnore(_x13) {
+            return _webphoneIgnore.apply(this, arguments);
+          }
+
+          return webphoneIgnore;
+        }(),
+        ringoutHangup: function () {
+          var _ringoutHangup = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9() {
+            var _this2$_activeCallCon2;
+
+            var _args9 = arguments;
+            return regeneratorRuntime.wrap(function _callee9$(_context9) {
+              while (1) {
+                switch (_context9.prev = _context9.next) {
+                  case 0:
+                    // user action track
+                    _this2._callMonitor.allCallsClickHangupTrack();
+
+                    return _context9.abrupt("return", _this2._activeCallControl && (_this2$_activeCallCon2 = _this2._activeCallControl).hangUp.apply(_this2$_activeCallCon2, _args9));
+
+                  case 2:
+                  case "end":
+                    return _context9.stop();
+                }
+              }
+            }, _callee9);
           }));
 
           function ringoutHangup() {
@@ -519,39 +568,14 @@ var ActiveCallsUI = (_dec = (0, _di.Module)({
           return ringoutHangup;
         }(),
         ringoutTransfer: function () {
-          var _ringoutTransfer = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9(sessionId) {
-            return regeneratorRuntime.wrap(function _callee9$(_context9) {
-              while (1) {
-                switch (_context9.prev = _context9.next) {
-                  case 0:
-                    _this2._routerInteraction.push("/transfer/".concat(sessionId, "/active"));
-
-                  case 1:
-                  case "end":
-                    return _context9.stop();
-                }
-              }
-            }, _callee9);
-          }));
-
-          function ringoutTransfer(_x13) {
-            return _ringoutTransfer.apply(this, arguments);
-          }
-
-          return ringoutTransfer;
-        }(),
-        ringoutReject: function () {
-          var _ringoutReject = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10(sessionId) {
+          var _ringoutTransfer = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10(sessionId) {
             return regeneratorRuntime.wrap(function _callee10$(_context10) {
               while (1) {
                 switch (_context10.prev = _context10.next) {
                   case 0:
-                    // user action track
-                    _this2._callMonitor.allCallsClickRejectTrack();
+                    _this2._routerInteraction.push("/transfer/".concat(sessionId, "/active"));
 
-                    return _context10.abrupt("return", _this2._activeCallControl && _this2._activeCallControl.reject(sessionId));
-
-                  case 2:
+                  case 1:
                   case "end":
                     return _context10.stop();
                 }
@@ -559,7 +583,32 @@ var ActiveCallsUI = (_dec = (0, _di.Module)({
             }, _callee10);
           }));
 
-          function ringoutReject(_x14) {
+          function ringoutTransfer(_x14) {
+            return _ringoutTransfer.apply(this, arguments);
+          }
+
+          return ringoutTransfer;
+        }(),
+        ringoutReject: function () {
+          var _ringoutReject = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee11(sessionId) {
+            return regeneratorRuntime.wrap(function _callee11$(_context11) {
+              while (1) {
+                switch (_context11.prev = _context11.next) {
+                  case 0:
+                    // user action track
+                    _this2._callMonitor.allCallsClickRejectTrack();
+
+                    return _context11.abrupt("return", _this2._activeCallControl && _this2._activeCallControl.reject(sessionId));
+
+                  case 2:
+                  case "end":
+                    return _context11.stop();
+                }
+              }
+            }, _callee11);
+          }));
+
+          function ringoutReject(_x15) {
             return _ringoutReject.apply(this, arguments);
           }
 
@@ -579,14 +628,14 @@ var ActiveCallsUI = (_dec = (0, _di.Module)({
           }
         } : null,
         onClickToSms: this._composeText ? /*#__PURE__*/function () {
-          var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee11(contact) {
+          var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee12(contact) {
             var isDummyContact,
-                _args11 = arguments;
-            return regeneratorRuntime.wrap(function _callee11$(_context11) {
+                _args12 = arguments;
+            return regeneratorRuntime.wrap(function _callee12$(_context12) {
               while (1) {
-                switch (_context11.prev = _context11.next) {
+                switch (_context12.prev = _context12.next) {
                   case 0:
-                    isDummyContact = _args11.length > 1 && _args11[1] !== undefined ? _args11[1] : false;
+                    isDummyContact = _args12.length > 1 && _args12[1] !== undefined ? _args12[1] : false;
 
                     if (_this2._routerInteraction) {
                       _this2._routerInteraction.push(composeTextRoute);
@@ -606,53 +655,6 @@ var ActiveCallsUI = (_dec = (0, _di.Module)({
 
                   case 4:
                   case "end":
-                    return _context11.stop();
-                }
-              }
-            }, _callee11);
-          }));
-
-          return function (_x15) {
-            return _ref5.apply(this, arguments);
-          };
-        }() : undefined,
-        onCreateContact: onCreateContact ? /*#__PURE__*/function () {
-          var _ref7 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee12(_ref6) {
-            var phoneNumber, name, entityType, hasMatchNumber;
-            return regeneratorRuntime.wrap(function _callee12$(_context12) {
-              while (1) {
-                switch (_context12.prev = _context12.next) {
-                  case 0:
-                    phoneNumber = _ref6.phoneNumber, name = _ref6.name, entityType = _ref6.entityType;
-                    _context12.next = 3;
-                    return _this2._contactMatcher.hasMatchNumber({
-                      phoneNumber: phoneNumber,
-                      ignoreCache: true
-                    });
-
-                  case 3:
-                    hasMatchNumber = _context12.sent;
-
-                    if (hasMatchNumber) {
-                      _context12.next = 9;
-                      break;
-                    }
-
-                    _context12.next = 7;
-                    return onCreateContact({
-                      phoneNumber: phoneNumber,
-                      name: name,
-                      entityType: entityType
-                    });
-
-                  case 7:
-                    _context12.next = 9;
-                    return _this2._contactMatcher.forceMatchNumber({
-                      phoneNumber: phoneNumber
-                    });
-
-                  case 9:
-                  case "end":
                     return _context12.stop();
                 }
               }
@@ -660,27 +662,45 @@ var ActiveCallsUI = (_dec = (0, _di.Module)({
           }));
 
           return function (_x16) {
-            return _ref7.apply(this, arguments);
+            return _ref5.apply(this, arguments);
           };
         }() : undefined,
-        isLoggedContact: isLoggedContact,
-        onLogCall: onLogCall || this._callLogger && /*#__PURE__*/function () {
-          var _ref9 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee13(_ref8) {
-            var call, contact, _ref8$redirect, redirect;
-
+        onCreateContact: onCreateContact ? /*#__PURE__*/function () {
+          var _ref7 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee13(_ref6) {
+            var phoneNumber, name, entityType, hasMatchNumber;
             return regeneratorRuntime.wrap(function _callee13$(_context13) {
               while (1) {
                 switch (_context13.prev = _context13.next) {
                   case 0:
-                    call = _ref8.call, contact = _ref8.contact, _ref8$redirect = _ref8.redirect, redirect = _ref8$redirect === void 0 ? true : _ref8$redirect;
+                    phoneNumber = _ref6.phoneNumber, name = _ref6.name, entityType = _ref6.entityType;
                     _context13.next = 3;
-                    return _this2._callLogger.logCall({
-                      call: call,
-                      contact: contact,
-                      redirect: redirect
+                    return _this2._contactMatcher.hasMatchNumber({
+                      phoneNumber: phoneNumber,
+                      ignoreCache: true
                     });
 
                   case 3:
+                    hasMatchNumber = _context13.sent;
+
+                    if (hasMatchNumber) {
+                      _context13.next = 9;
+                      break;
+                    }
+
+                    _context13.next = 7;
+                    return onCreateContact({
+                      phoneNumber: phoneNumber,
+                      name: name,
+                      entityType: entityType
+                    });
+
+                  case 7:
+                    _context13.next = 9;
+                    return _this2._contactMatcher.forceMatchNumber({
+                      phoneNumber: phoneNumber
+                    });
+
+                  case 9:
                   case "end":
                     return _context13.stop();
                 }
@@ -689,6 +709,35 @@ var ActiveCallsUI = (_dec = (0, _di.Module)({
           }));
 
           return function (_x17) {
+            return _ref7.apply(this, arguments);
+          };
+        }() : undefined,
+        isLoggedContact: isLoggedContact,
+        onLogCall: onLogCall || this._callLogger && /*#__PURE__*/function () {
+          var _ref9 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee14(_ref8) {
+            var call, contact, _ref8$redirect, redirect;
+
+            return regeneratorRuntime.wrap(function _callee14$(_context14) {
+              while (1) {
+                switch (_context14.prev = _context14.next) {
+                  case 0:
+                    call = _ref8.call, contact = _ref8.contact, _ref8$redirect = _ref8.redirect, redirect = _ref8$redirect === void 0 ? true : _ref8$redirect;
+                    _context14.next = 3;
+                    return _this2._callLogger.logCall({
+                      call: call,
+                      contact: contact,
+                      redirect: redirect
+                    });
+
+                  case 3:
+                  case "end":
+                    return _context14.stop();
+                }
+              }
+            }, _callee14);
+          }));
+
+          return function (_x18) {
             return _ref9.apply(this, arguments);
           };
         }(),

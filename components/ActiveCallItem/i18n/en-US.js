@@ -29,15 +29,21 @@ var _default = {
   from: 'From',
   to: 'To',
   hangup: 'Hang up',
-  accept: 'Accept',
-  toVoicemail: 'Send to Voicemail',
+  accept: 'Answer',
+  toVoicemail: 'To Voicemail',
   anonymous: 'Anonymous',
   mergeToConference: 'Merge',
   hold: 'Hold',
   unhold: 'Unhold',
   transfer: 'Transfer',
   reject: 'Reject',
-  switchCall: 'Switch Call to this app'
+  switchCall: 'Switch Call to this app',
+  callSwitch: 'Call Switch',
+  comfirmContext: "You're currently on an active call with {displayName}. Would you like to continue the call on this device?",
+  comfirmCancelButton: 'Cancel',
+  comfirmOKButton: 'Switch',
+  ignore: 'Ignore',
+  holdAndAnswer: 'Hold & Answer'
 };
 exports["default"] = _default;
 //# sourceMappingURL=en-US.js.map

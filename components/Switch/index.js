@@ -17,7 +17,7 @@ var _styles = _interopRequireDefault(require("./styles.scss"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function Switch(props) {
+var Switch = function Switch(props) {
   var onChange = props.onChange ? function (e) {
     return !props.disable && props.onChange(e.currentTarget.checked);
   } : undefined;
@@ -28,12 +28,14 @@ function Switch(props) {
   }, /*#__PURE__*/_react["default"].createElement("input", {
     "data-sign": "switch",
     type: "checkbox",
+    role: "switch",
+    "aria-label": props.dataSign,
     checked: props.checked,
     onChange: onChange
   }), /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].slider
   }));
-}
+};
 
 Switch.propTypes = {
   checked: _propTypes["default"].bool,

@@ -142,6 +142,7 @@ var CallLogUI = (_dec = (0, _di.Module)({
         // notification props
         currentNotificationIdentify: currentNotificationIdentify,
         currentSession: activeCallControl.getActiveSession(activeCallControl.sessionIdToTelephonySessionIdMapping[currentNotificationIdentify]),
+        activeSession: activeCallControl.activeSession,
         isWebRTC: callingSettings.callWith === _callingOptions.callingOptions.browser,
         forwardingNumbers: forwardingNumber.forwardingNumbers
       };

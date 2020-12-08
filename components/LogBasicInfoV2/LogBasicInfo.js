@@ -23,13 +23,11 @@ var _recordStatus = _interopRequireDefault(require("ringcentral-integration/modu
 
 var _callLogHelpers = require("ringcentral-integration/lib/callLogHelpers");
 
-var _juno = require("@ringcentral/juno");
-
-var _RecordOn = _interopRequireDefault(require("../../assets/images/RecordOn.svg"));
-
 var _DynamicsFont = _interopRequireDefault(require("../../assets/DynamicsFont/DynamicsFont.scss"));
 
 var _DurationCounter = _interopRequireDefault(require("../DurationCounter"));
+
+var _RecordingIndicator = require("../RecordingIndicator");
 
 var _formatDuration = _interopRequireDefault(require("../../lib/formatDuration"));
 
@@ -74,7 +72,8 @@ function LogBasicInfo(props) {
       dateTimeFormatter = props.dateTimeFormatter,
       isWide = props.isWide,
       className = props.className,
-      recordStatus = props.recordStatus;
+      recordStatus = props.recordStatus,
+      showRecordingIndicator = props.showRecordingIndicator;
   if (!call) return null;
   var direction = call.direction,
       to = call.to,
@@ -124,10 +123,8 @@ function LogBasicInfo(props) {
   }, /*#__PURE__*/_react["default"].createElement(_CallIcon.CallIcon, {
     title: missed ? _i18n["default"].getString(_callResults["default"].missed, currentLocale) : _i18n["default"].getString(direction, currentLocale),
     iconClassName: (0, _classnames["default"])(_styles["default"].icon, callIconMap[missed ? _callResults["default"].missed : direction])
-  }), isRecording && /*#__PURE__*/_react["default"].createElement(_juno.RcIcon, {
-    iconSize: "small",
-    symbol: _RecordOn["default"],
-    className: _styles["default"].recordingIndicator
+  }), showRecordingIndicator && isRecording && /*#__PURE__*/_react["default"].createElement(_RecordingIndicator.RecordingIndicator, {
+    customClass: _styles["default"].recordingIndicator
   }), /*#__PURE__*/_react["default"].createElement("ul", {
     className: _styles["default"].callDisplay
   }, /*#__PURE__*/_react["default"].createElement("li", {
@@ -162,7 +159,8 @@ LogBasicInfo.propTypes = {
   dateTimeFormatter: _propTypes["default"].func.isRequired,
   isWide: _propTypes["default"].bool,
   className: _propTypes["default"].string,
-  recordStatus: _propTypes["default"].string
+  recordStatus: _propTypes["default"].string,
+  showRecordingIndicator: _propTypes["default"].bool
 };
 LogBasicInfo.defaultProps = {
   formatPhone: function formatPhone(value) {
@@ -174,6 +172,7 @@ LogBasicInfo.defaultProps = {
   isWide: true,
   currentLocale: 'en',
   className: null,
-  recordStatus: ''
+  recordStatus: '',
+  showRecordingIndicator: false
 };
 //# sourceMappingURL=LogBasicInfo.js.map

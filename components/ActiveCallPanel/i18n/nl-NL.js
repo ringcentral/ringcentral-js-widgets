@@ -7,8 +7,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  conferenceCall: "Conference call",
-  onHold: "In de wacht",
+  conferenceCall: "Conferencecall",
+  onHold: "In wacht",
   unknown: "Onbekend",
   disconnected: "Verbinding verbroken",
   loading: "Laden...",

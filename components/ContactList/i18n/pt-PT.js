@@ -7,8 +7,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
+  onSearching: "A carregar...",
   noContacts: "Não foram encontrados registos."
-}; // @key: @#@"noContacts"@#@ @source: @#@"No records found."@#@
+}; // @key: @#@"onSearching"@#@ @source: @#@"Loading..."@#@
+// @key: @#@"noContacts"@#@ @source: @#@"No records found."@#@
 
 exports["default"] = _default;
 //# sourceMappingURL=pt-PT.js.map

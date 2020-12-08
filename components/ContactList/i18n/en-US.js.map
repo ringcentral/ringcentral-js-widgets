@@ -1,1 +1,1 @@
-{"version":3,"sources":["components/ContactList/i18n/en-US.js"],"names":["noContacts"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,UAAU,EAAE;AADC,C","sourcesContent":["export default {\n  noContacts: 'No records found.',\n};\n"],"file":"en-US.js"}
+{"version":3,"sources":["components/ContactList/i18n/en-US.js"],"names":["onSearching","noContacts"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,WAAW,EAAE,YADA;AAEbC,EAAAA,UAAU,EAAE;AAFC,C","sourcesContent":["export default {\n  onSearching: 'Loading...',\n  noContacts: 'No records found.',\n};\n"],"file":"en-US.js"}

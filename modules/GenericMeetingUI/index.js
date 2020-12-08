@@ -170,7 +170,8 @@ var GenericMeetingUI = (_dec = (0, _di.Module)({
         enablePersonalMeeting: this._genericMeeting.ready && this._genericMeeting.enablePersonalMeeting,
         enableWaitingRoom: this._genericMeeting.ready && this._genericMeeting.enableWaitingRoom,
         personalMeetingId: this._genericMeeting.ready && this._genericMeeting.personalMeetingId,
-        showSpinner: !!(!this._locale.ready || !this._genericMeeting.ready || !this._genericMeeting.isRCM && !this._genericMeeting.isRCV || !this._genericMeeting.meeting || this._connectivityMonitor && !this._connectivityMonitor.ready || this._rateLimiter && !this._rateLimiter.ready)
+        showSpinner: !!(!this._locale.ready || !this._genericMeeting.ready || !this._genericMeeting.isRCM && !this._genericMeeting.isRCV || !this._genericMeeting.meeting || this._connectivityMonitor && !this._connectivityMonitor.ready || this._rateLimiter && !this._rateLimiter.ready),
+        showSpinnerInConfigPanel: this._genericMeeting.isUpdating
       };
     }
   }, {

@@ -607,7 +607,7 @@ var ActionMenuList = /*#__PURE__*/function (_Component) {
         target: "_blank",
         download: true,
         title: downloadTitle,
-        href: faxAttachment.uri,
+        href: "".concat(faxAttachment.uri, "&contentDisposition=Attachment"),
         onClick: this._onDownloadClick,
         disabled: disableLinks
       }, /*#__PURE__*/_react["default"].createElement(_Download["default"], {

@@ -113,13 +113,7 @@ var LoginUI = (_dec = (0, _module["default"])({
   }, {
     key: "getUIFunctions",
     value: function getUIFunctions() {
-      var _this = this;
-
-      return {
-        onLoginButtonClick: function onLoginButtonClick() {
-          return _this._deps.oAuth.openOAuthPage();
-        }
-      };
+      return {};
     }
   }]);
 

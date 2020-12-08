@@ -25,7 +25,7 @@ var _default = (_addLog$editLog$viewD = {
   conversation: "会話",
   groupConversation: "グループ会話",
   voiceMessage: "ボイスメッセージ"
-}, _defineProperty(_addLog$editLog$viewD, _messageTypes["default"].voiceMail, "ボイスメール"), _defineProperty(_addLog$editLog$viewD, _messageTypes["default"].fax, "FAX"), _defineProperty(_addLog$editLog$viewD, "mark", "未読にする"), _defineProperty(_addLog$editLog$viewD, "unmark", "既読にする"), _defineProperty(_addLog$editLog$viewD, "delete", "削除"), _defineProperty(_addLog$editLog$viewD, "faxSent", "FAX送信済み"), _defineProperty(_addLog$editLog$viewD, "faxReceived", "FAX受信済み"), _defineProperty(_addLog$editLog$viewD, "pages", "ページ"), _defineProperty(_addLog$editLog$viewD, "preview", "表示"), _defineProperty(_addLog$editLog$viewD, "download", "ダウンロード"), _defineProperty(_addLog$editLog$viewD, "imageAttachment", "添付ファイル：{count}個の画像"), _addLog$editLog$viewD); // @key: @#@"addLog"@#@ @source: @#@"Log"@#@
+}, _defineProperty(_addLog$editLog$viewD, _messageTypes["default"].voiceMail, "ボイスメール"), _defineProperty(_addLog$editLog$viewD, _messageTypes["default"].fax, "FAX"), _defineProperty(_addLog$editLog$viewD, "mark", "未読にする"), _defineProperty(_addLog$editLog$viewD, "unmark", "既読にする"), _defineProperty(_addLog$editLog$viewD, "delete", "削除"), _defineProperty(_addLog$editLog$viewD, "faxSent", "FAX送信済み"), _defineProperty(_addLog$editLog$viewD, "faxReceived", "FAX受信済み"), _defineProperty(_addLog$editLog$viewD, "pages", "ページ"), _defineProperty(_addLog$editLog$viewD, "preview", "表示"), _defineProperty(_addLog$editLog$viewD, "download", "ダウンロード"), _defineProperty(_addLog$editLog$viewD, "imageAttachment", "添付ファイル：{count}件のイメージ"), _defineProperty(_addLog$editLog$viewD, "fileAttachment", "添付ファイル：{count}ファイル"), _addLog$editLog$viewD); // @key: @#@"addLog"@#@ @source: @#@"Log"@#@
 // @key: @#@"editLog"@#@ @source: @#@"Edit Log"@#@
 // @key: @#@"viewDetails"@#@ @source: @#@"View Details"@#@
 // @key: @#@"addEntity"@#@ @source: @#@"Create New"@#@
@@ -44,7 +44,8 @@ var _default = (_addLog$editLog$viewD = {
 // @key: @#@"pages"@#@ @source: @#@"pages"@#@
 // @key: @#@"preview"@#@ @source: @#@"View"@#@
 // @key: @#@"download"@#@ @source: @#@"Download"@#@
-// @key: @#@"imageAttachment"@#@ @source: @#@"Attachment: 1 image"@#@
+// @key: @#@"imageAttachment"@#@ @source: @#@"Attachment: {count} image"@#@
+// @key: @#@"fileAttachment"@#@ @source: @#@"Attachment: {count} file"@#@
 
 
 exports["default"] = _default;

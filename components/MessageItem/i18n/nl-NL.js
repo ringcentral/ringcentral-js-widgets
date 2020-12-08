@@ -25,7 +25,7 @@ var _default = (_addLog$editLog$viewD = {
   conversation: "Gesprek",
   groupConversation: "Groepsgesprek",
   voiceMessage: "Stembericht"
-}, _defineProperty(_addLog$editLog$viewD, _messageTypes["default"].voiceMail, "Voicemail"), _defineProperty(_addLog$editLog$viewD, _messageTypes["default"].fax, "Fax"), _defineProperty(_addLog$editLog$viewD, "mark", "Markeren als ongelezen"), _defineProperty(_addLog$editLog$viewD, "unmark", "Markeren als gelezen"), _defineProperty(_addLog$editLog$viewD, "delete", "Verwijderen"), _defineProperty(_addLog$editLog$viewD, "faxSent", "Fax verzonden"), _defineProperty(_addLog$editLog$viewD, "faxReceived", "Fax ontvangen"), _defineProperty(_addLog$editLog$viewD, "pages", "pagina's"), _defineProperty(_addLog$editLog$viewD, "preview", "Weergeven"), _defineProperty(_addLog$editLog$viewD, "download", "Downloaden"), _defineProperty(_addLog$editLog$viewD, "imageAttachment", "Bijlage: {count} afbeelding"), _addLog$editLog$viewD); // @key: @#@"addLog"@#@ @source: @#@"Log"@#@
+}, _defineProperty(_addLog$editLog$viewD, _messageTypes["default"].voiceMail, "Voicemail"), _defineProperty(_addLog$editLog$viewD, _messageTypes["default"].fax, "Fax"), _defineProperty(_addLog$editLog$viewD, "mark", "Markeren als ongelezen"), _defineProperty(_addLog$editLog$viewD, "unmark", "Markeren als gelezen"), _defineProperty(_addLog$editLog$viewD, "delete", "Verwijderen"), _defineProperty(_addLog$editLog$viewD, "faxSent", "Fax verzonden"), _defineProperty(_addLog$editLog$viewD, "faxReceived", "Fax ontvangen"), _defineProperty(_addLog$editLog$viewD, "pages", "pagina's"), _defineProperty(_addLog$editLog$viewD, "preview", "Weergeven"), _defineProperty(_addLog$editLog$viewD, "download", "Downloaden"), _defineProperty(_addLog$editLog$viewD, "imageAttachment", "Bijlage: {count} afbeelding"), _defineProperty(_addLog$editLog$viewD, "fileAttachment", "Bijlage: {count} bestand"), _addLog$editLog$viewD); // @key: @#@"addLog"@#@ @source: @#@"Log"@#@
 // @key: @#@"editLog"@#@ @source: @#@"Edit Log"@#@
 // @key: @#@"viewDetails"@#@ @source: @#@"View Details"@#@
 // @key: @#@"addEntity"@#@ @source: @#@"Create New"@#@
@@ -45,6 +45,7 @@ var _default = (_addLog$editLog$viewD = {
 // @key: @#@"preview"@#@ @source: @#@"View"@#@
 // @key: @#@"download"@#@ @source: @#@"Download"@#@
 // @key: @#@"imageAttachment"@#@ @source: @#@"Attachment: {count} image"@#@
+// @key: @#@"fileAttachment"@#@ @source: @#@"Attachment: {count} file"@#@
 
 
 exports["default"] = _default;
