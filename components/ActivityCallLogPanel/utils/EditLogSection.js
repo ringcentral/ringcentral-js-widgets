@@ -73,7 +73,7 @@ var _getReferenceFieldOptions = function _getReferenceFieldOptions(currentLocale
   var getRelatedToLabel = function getRelatedToLabel() {
     var item = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
     var length = arguments.length > 1 ? arguments[1] : undefined;
-    var CaseNumber = item.CaseNumber,
+    var caseNumber = item.caseNumber,
         name = item.name,
         type = item.type;
 
@@ -81,7 +81,7 @@ var _getReferenceFieldOptions = function _getReferenceFieldOptions(currentLocale
       return length > 1 ? "".concat(_i18n["default"].getString('multipleRelatedToMatch', currentLocale), " (").concat(length, ")") : _i18n["default"].getString('none', currentLocale);
     }
 
-    return name ? "".concat(name) : "".concat(type, "(").concat(CaseNumber, ")");
+    return name ? "".concat(name) : "".concat(type, "(").concat(caseNumber, ")");
   };
 
   var onNameChange = function onNameChange(_ref) {

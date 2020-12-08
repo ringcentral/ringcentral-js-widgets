@@ -39,7 +39,7 @@ require("core-js/modules/es6.array.filter");
 
 var _core = require("@ringcentral-integration/core");
 
-var _events = _interopRequireDefault(require("events"));
+var _events = require("events");
 
 var _di = require("ringcentral-integration/lib/di");
 
@@ -48,8 +48,6 @@ var _enums = require("../../enums");
 var _callbackTypes = require("../../lib/EvClient/enums/callbackTypes");
 
 var _dec, _dec2, _dec3, _dec4, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _temp;
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -139,7 +137,7 @@ var EvPresence = (_dec = (0, _di.Module)({
     };
 
     _this.eventEmitter = _this._deps.evCallDataSource.eventEmitter;
-    _this.evPresenceEvents = new _events["default"]();
+    _this.evPresenceEvents = new _events.EventEmitter();
     _this.showOffHookInitError = true;
 
     _initializerDefineProperty(_this, "isOffhook", _descriptor, _assertThisInitialized(_this));

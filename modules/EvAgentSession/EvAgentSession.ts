@@ -218,9 +218,12 @@ class EvAgentSession extends RcModuleV2<Deps> implements AgentSession {
     that._deps.auth.isFreshLogin,
   ])
   get inboundQueues() {
-    const { agentConfig } = this._deps.evAuth.agent || {};
-
-    if (!agentConfig || !agentConfig.inboundSettings) {
+    const { agentConfig, agentPermissions } = this._deps.evAuth;
+    if (
+      !agentConfig ||
+      !agentConfig?.inboundSettings ||
+      !agentPermissions?.allowInbound
+    ) {
       return [];
     }
     const {
@@ -237,7 +240,7 @@ class EvAgentSession extends RcModuleV2<Deps> implements AgentSession {
   }
 
   @computed((that: EvAgentSession) => [that.skillProfileList])
-  get defaultSkillProfile() {
+  get defaultSkillProfileId() {
     const defaultSkill = this._pickSkillProfile(this.skillProfileList);
     return defaultSkill ? defaultSkill.profileId : NONE;
   }
@@ -382,10 +385,12 @@ class EvAgentSession extends RcModuleV2<Deps> implements AgentSession {
     this.configSuccess = false;
     this.configured = false;
 
-    this.selectedSkillProfileId = this.defaultSkillProfile;
-    this.selectedInboundQueueIds = this.inboundQueues.map(
-      (inboundQueue) => inboundQueue.gateId,
-    );
+    this.selectedSkillProfileId = this.defaultSkillProfileId;
+    if (this._modules.evAuth.agentPermissions.allowInbound) {
+      this.selectedInboundQueueIds = this.inboundQueues.map(
+        (inboundQueue) => inboundQueue.gateId,
+      );
+    }
   }
 
   get defaultAutoAnswerOn() {
@@ -763,7 +768,7 @@ class EvAgentSession extends RcModuleV2<Deps> implements AgentSession {
         (profile) => profile.profileId === this.selectedSkillProfileId,
       );
       if (!checkSelectIsInList) {
-        this.setSkillProfileId(this.defaultSkillProfile);
+        this.setSkillProfileId(this.defaultSkillProfileId);
       }
 
       // check all selected queue is in inboundQueue list

@@ -4,7 +4,7 @@ import {
   state,
   storage,
 } from '@ringcentral-integration/core';
-import EventEmitter from 'events';
+import { EventEmitter } from 'events';
 import formatMessage from 'format-message';
 import { Module } from 'ringcentral-integration/lib/di';
 import { raceTimeout } from 'ringcentral-integration/lib/raceTimeout';

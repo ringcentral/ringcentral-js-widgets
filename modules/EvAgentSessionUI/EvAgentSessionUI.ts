@@ -230,6 +230,11 @@ class EvAgentSessionUI extends RcUIModuleV2<Deps> implements SessionConfigUI {
       // takingCall,
     } = this._deps.evAgentSession;
     const {
+      allowAutoAnswer,
+      allowLoginControl,
+      allowInbound,
+    } = this._deps.evAuth.agentPermissions;
+    const {
       selectedSkillProfileId,
       loginType,
       extensionNumber,
@@ -249,9 +254,9 @@ class EvAgentSessionUI extends RcUIModuleV2<Deps> implements SessionConfigUI {
       currentLocale: this._deps.locale.currentLocale,
       // Inboudqueue Panel
       inboundQueues: this.inboundQueues,
-      showAutoAnswer:
-        this._deps.evAuth.agentPermissions.allowAutoAnswer &&
-        this.selectedIntegratedSoftphone,
+      showAutoAnswer: allowAutoAnswer && this.selectedIntegratedSoftphone,
+      showInboundQueues: allowLoginControl && allowInbound,
+      showSkillProfile: allowLoginControl && skillProfileList.length > 0,
     };
   }
 
@@ -267,8 +272,6 @@ class EvAgentSessionUI extends RcUIModuleV2<Deps> implements SessionConfigUI {
       submitInboundQueues: (queues, cb) => this.submitInboundQueues(queues, cb),
       // setTakingCall: (takingCall) =>
       //   this._deps.evAgentSession.setTakingCall(takingCall),
-      // setAutoAnswer: (autoAnswer) =>
-      //   this._deps.evAgentSession.setAutoAnswer(autoAnswer),
       setConfigure: () => this.setConfigure(),
       goToSettingsPage: () => this._deps.evAgentSession.goToSettingsPage(),
       goToSettingsPageWhetherSessionChanged: () =>

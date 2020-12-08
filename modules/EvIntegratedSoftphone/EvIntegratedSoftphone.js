@@ -41,7 +41,7 @@ require("regenerator-runtime/runtime");
 
 var _core = require("@ringcentral-integration/core");
 
-var _events = _interopRequireDefault(require("events"));
+var _events = require("events");
 
 var _formatMessage = _interopRequireDefault(require("format-message"));
 
@@ -150,7 +150,7 @@ var EvIntegratedSoftphone = (_dec = (0, _di.Module)({
     });
     _this.autoAnswerCheckFn = void 0;
     _this._audio = void 0;
-    _this._eventEmitter = new _events["default"]();
+    _this._eventEmitter = new _events.EventEmitter();
     _this._answerModalId = null;
     _this._audioPermissionAlertId = null;
 

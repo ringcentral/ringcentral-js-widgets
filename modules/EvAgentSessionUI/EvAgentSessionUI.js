@@ -340,6 +340,10 @@ var EvAgentSessionUI = (_dec = (0, _di.Module)({
           skillProfileList = _this$_deps$evAgentSe.skillProfileList,
           loginTypeList = _this$_deps$evAgentSe.loginTypeList,
           isExternalPhone = _this$_deps$evAgentSe.isExternalPhone;
+      var _this$_deps$evAuth$ag = this._deps.evAuth.agentPermissions,
+          allowAutoAnswer = _this$_deps$evAuth$ag.allowAutoAnswer,
+          allowLoginControl = _this$_deps$evAuth$ag.allowLoginControl,
+          allowInbound = _this$_deps$evAuth$ag.allowInbound;
       var _this$_deps$evAgentSe2 = this._deps.evAgentSession.formGroup,
           selectedSkillProfileId = _this$_deps$evAgentSe2.selectedSkillProfileId,
           loginType = _this$_deps$evAgentSe2.loginType,
@@ -359,7 +363,9 @@ var EvAgentSessionUI = (_dec = (0, _di.Module)({
         currentLocale: this._deps.locale.currentLocale,
         // Inboudqueue Panel
         inboundQueues: this.inboundQueues,
-        showAutoAnswer: this._deps.evAuth.agentPermissions.allowAutoAnswer && this.selectedIntegratedSoftphone
+        showAutoAnswer: allowAutoAnswer && this.selectedIntegratedSoftphone,
+        showInboundQueues: allowLoginControl && allowInbound,
+        showSkillProfile: allowLoginControl && skillProfileList.length > 0
       };
     }
   }, {
@@ -391,8 +397,6 @@ var EvAgentSessionUI = (_dec = (0, _di.Module)({
         },
         // setTakingCall: (takingCall) =>
         //   this._deps.evAgentSession.setTakingCall(takingCall),
-        // setAutoAnswer: (autoAnswer) =>
-        //   this._deps.evAgentSession.setAutoAnswer(autoAnswer),
         setConfigure: function setConfigure() {
           return _this3.setConfigure();
         },

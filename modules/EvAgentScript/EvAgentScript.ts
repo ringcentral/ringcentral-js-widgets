@@ -22,6 +22,7 @@ import {
   EvAgentScriptData,
   EvAgentScriptResult,
   EvAgentScriptResultModel,
+  EvBaseCall,
   EvCallDispositionItem,
   EvScriptResponseJSON,
 } from '../../lib/EvClient';
@@ -136,7 +137,7 @@ class EvAgentScript<T = {}>
     this.setIsDisplayAgentScript(true);
   }
 
-  getIsAgentScript(call: EvCallData) {
+  getIsAgentScript(call: EvBaseCall) {
     return !!(this.isDisplayAgentScript && call.scriptId);
   }
 
@@ -258,7 +259,13 @@ class EvAgentScript<T = {}>
    * @param call - the corresponding chat or call object
    */
   async saveScriptResult(call: EvCallData) {
-    const scriptResult = this.callScriptResultMapping[call.uii];
+    const scriptResult = this.callScriptResultMapping[
+      this._deps.evClient.encodeUii({
+        uii: call.uii,
+        sessionId: call.session.sessionId,
+      })
+    ];
+
     if (scriptResult) {
       const result = this._formatScriptResult(scriptResult);
 

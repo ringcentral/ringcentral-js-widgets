@@ -43,45 +43,51 @@ export const BasicSessionPanel: FunctionComponent<BasicSessionPanelProps> = ({
   autoAnswer,
   showAutoAnswer,
   classes,
+  showInboundQueues,
+  showSkillProfile,
 }) => {
   const [inboundQueuesPageShow, setInboundQueuesPageShow] = useState(false);
 
   return (
     <>
-      <AnimationPanel open={inboundQueuesPageShow}>
-        <InboundQueuesPanel
-          searchOption={searchOption}
-          currentLocale={currentLocale}
-          inboundQueues={inboundQueues}
-          submitInboundQueues={submitInboundQueues}
-          getAssignedInboundQueues={getAssignedInboundQueues}
-          isAllAssign={isAllAssign}
-          isSeveralAssign={isSeveralAssign}
-          checkBoxOnChange={checkBoxOnChange}
-          allCheckBoxOnChange={allCheckBoxOnChange}
-          goBack={() => setInboundQueuesPageShow(false)}
-        />
-      </AnimationPanel>
+      {showInboundQueues && (
+        <AnimationPanel open={inboundQueuesPageShow}>
+          <InboundQueuesPanel
+            searchOption={searchOption}
+            currentLocale={currentLocale}
+            inboundQueues={inboundQueues}
+            submitInboundQueues={submitInboundQueues}
+            getAssignedInboundQueues={getAssignedInboundQueues}
+            isAllAssign={isAllAssign}
+            isSeveralAssign={isSeveralAssign}
+            checkBoxOnChange={checkBoxOnChange}
+            allCheckBoxOnChange={allCheckBoxOnChange}
+            goBack={() => setInboundQueuesPageShow(false)}
+          />
+        </AnimationPanel>
+      )}
       <div className={classes.root}>
-        <RcTextField
-          label={i18n.getString('inboundQueues', currentLocale)}
-          title={inboundQueuesFieldText}
-          value={inboundQueuesFieldText}
-          fullWidth
-          classes={{
-            root: styles.customSelect,
-          }}
-          inputProps={{
-            'data-sign': 'inboundQueues',
-          }}
-          InputProps={{
-            readOnly: true,
-            endAdornment: <CustomArrowButton />,
-          }}
-          clearBtn={false}
-          onClick={() => setInboundQueuesPageShow(true)}
-        />
-        {skillProfileList.length > 0 && (
+        {showInboundQueues && (
+          <RcTextField
+            label={i18n.getString('inboundQueues', currentLocale)}
+            title={inboundQueuesFieldText}
+            value={inboundQueuesFieldText}
+            fullWidth
+            classes={{
+              root: styles.customSelect,
+            }}
+            inputProps={{
+              'data-sign': 'inboundQueues',
+            }}
+            InputProps={{
+              readOnly: true,
+              endAdornment: <CustomArrowButton />,
+            }}
+            clearBtn={false}
+            onClick={() => setInboundQueuesPageShow(true)}
+          />
+        )}
+        {showSkillProfile && (
           <PickList
             data-sign="skillProfile"
             options={skillProfileList}

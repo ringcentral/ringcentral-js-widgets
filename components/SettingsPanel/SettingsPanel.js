@@ -35,7 +35,8 @@ var SettingsPanel = function SettingsPanel(_ref) {
       userName = _ref.userName,
       sessionInfo = _ref.sessionInfo,
       goToSessionUpdatePage = _ref.goToSessionUpdatePage,
-      disableEditSessionButton = _ref.disableEditSessionButton;
+      disableEditSessionButton = _ref.disableEditSessionButton,
+      showEditSessionButton = _ref.showEditSessionButton;
   return /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].settingsPanel
   }, /*#__PURE__*/_react["default"].createElement("div", {
@@ -67,7 +68,7 @@ var SettingsPanel = function SettingsPanel(_ref) {
       variant: "body1",
       className: _styles["default"].value
     }, value));
-  }), /*#__PURE__*/_react["default"].createElement(_juno.RcButton, {
+  }), showEditSessionButton && /*#__PURE__*/_react["default"].createElement(_juno.RcButton, {
     "data-sign": "editSession",
     disabled: disableEditSessionButton,
     onClick: goToSessionUpdatePage,

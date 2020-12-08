@@ -25,13 +25,11 @@ require("core-js/modules/es6.object.set-prototype-of");
 
 var _core = require("@ringcentral-integration/core");
 
-var _events = _interopRequireDefault(require("events"));
+var _events = require("events");
 
 var _di = require("ringcentral-integration/lib/di");
 
 var _dec, _class, _temp;
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -74,7 +72,7 @@ var EvSubscription = (_dec = (0, _di.Module)({
     _this = _super.call(this, {
       deps: deps
     });
-    _this.eventEmitters = new _events["default"]();
+    _this.eventEmitters = new _events.EventEmitter();
     return _this;
   }
 

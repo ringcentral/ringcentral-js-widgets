@@ -406,7 +406,10 @@ var EvAgentScript = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                scriptResult = this.callScriptResultMapping[call.uii];
+                scriptResult = this.callScriptResultMapping[this._deps.evClient.encodeUii({
+                  uii: call.uii,
+                  sessionId: call.session.sessionId
+                })];
 
                 if (!scriptResult) {
                   _context4.next = 13;

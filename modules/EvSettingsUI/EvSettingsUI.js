@@ -126,13 +126,18 @@ var EvSettingsUI = (_dec = (0, _di.Module)({
   }, {
     key: "getUIProps",
     value: function getUIProps() {
+      var _this$_deps$evAuth = this._deps.evAuth,
+          agentSettings = _this$_deps$evAuth.agentSettings,
+          agentPermissions = _this$_deps$evAuth.agentPermissions;
       return {
         currentLocale: this._deps.locale.currentLocale,
         version: this._deps.version,
         agentName: this.agentName,
-        userName: this._deps.evAuth.agent.agentConfig.agentSettings.username,
+        userName: agentSettings.username,
         sessionInfo: this.sessionInfo,
-        disableEditSessionButton: this._deps.evCallMonitor.isOnCall || this._deps.evSettings.isOffhooking || this._deps.evSettings.isOffhook
+        // pendingdisposition?
+        disableEditSessionButton: this._deps.evCallMonitor.isOnCall || this._deps.evSettings.isOffhooking || this._deps.evSettings.isOffhook,
+        showEditSessionButton: agentPermissions.allowLoginUpdates
       };
     }
   }, {

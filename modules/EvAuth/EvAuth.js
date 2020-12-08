@@ -61,7 +61,7 @@ var _core = require("@ringcentral-integration/core");
 
 var _format = _interopRequireDefault(require("@ringcentral-integration/phone-number/lib/format"));
 
-var _events = _interopRequireDefault(require("events"));
+var _events = require("events");
 
 var _di = require("ringcentral-integration/lib/di");
 
@@ -186,7 +186,7 @@ var EvAuth = (_dec = (0, _di.Module)({
       storageKey: 'EvAuth'
     });
     _this.connecting = void 0;
-    _this._eventEmitter = new _events["default"]();
+    _this._eventEmitter = new _events.EventEmitter();
     _this.canUserLogoutFn = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
       return regeneratorRuntime.wrap(function _callee$(_context) {
         while (1) {

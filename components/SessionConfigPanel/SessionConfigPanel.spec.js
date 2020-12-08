@@ -75,6 +75,10 @@ function setup(_ref) {
       isLoading = _ref$isLoading === void 0 ? false : _ref$isLoading,
       _ref$isExtensionNumbe = _ref.isExtensionNumber,
       isExtensionNumber = _ref$isExtensionNumbe === void 0 ? false : _ref$isExtensionNumbe,
+      _ref$autoAnswer = _ref.autoAnswer,
+      autoAnswer = _ref$autoAnswer === void 0 ? true : _ref$autoAnswer,
+      _ref$setAutoAnswer = _ref.setAutoAnswer,
+      setAutoAnswer = _ref$setAutoAnswer === void 0 ? function () {} : _ref$setAutoAnswer,
       searchOption = _ref.searchOption,
       _ref$inboundQueues = _ref.inboundQueues,
       inboundQueues = _ref$inboundQueues === void 0 ? [] : _ref$inboundQueues,
@@ -92,7 +96,13 @@ function setup(_ref) {
     return false;
   } : _ref$isSeveralAssign,
       checkBoxOnChange = _ref.checkBoxOnChange,
-      allCheckBoxOnChange = _ref.allCheckBoxOnChange;
+      allCheckBoxOnChange = _ref.allCheckBoxOnChange,
+      _ref$showInboundQueue = _ref.showInboundQueues,
+      showInboundQueues = _ref$showInboundQueue === void 0 ? true : _ref$showInboundQueue,
+      _ref$showSkillProfile = _ref.showSkillProfile,
+      showSkillProfile = _ref$showSkillProfile === void 0 ? true : _ref$showSkillProfile,
+      _ref$showAutoAnswer = _ref.showAutoAnswer,
+      showAutoAnswer = _ref$showAutoAnswer === void 0 ? true : _ref$showAutoAnswer;
   return (0, _enzyme.mount)( /*#__PURE__*/_react["default"].createElement(_juno.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_SessionConfigPanel.SessionConfigPanel, {
     currentLocale: currentLocale,
     selectedSkillProfileId: selectedSkillProfileId,
@@ -108,9 +118,9 @@ function setup(_ref) {
     isExtensionNumber: isExtensionNumber,
     isLoading: isLoading // takingCall={takingCall}
     // setTakingCall={setTakingCall}
-    // autoAnswer={autoAnswer}
-    // setAutoAnswer={setAutoAnswer}
     ,
+    autoAnswer: autoAnswer,
+    setAutoAnswer: setAutoAnswer,
     searchOption: searchOption,
     inboundQueues: inboundQueues,
     submitInboundQueues: submitInboundQueues,
@@ -118,7 +128,10 @@ function setup(_ref) {
     isAllAssign: isAllAssign,
     isSeveralAssign: isSeveralAssign,
     checkBoxOnChange: checkBoxOnChange,
-    allCheckBoxOnChange: allCheckBoxOnChange
+    allCheckBoxOnChange: allCheckBoxOnChange,
+    showInboundQueues: showInboundQueues,
+    showSkillProfile: showSkillProfile,
+    showAutoAnswer: showAutoAnswer
   })));
 }
 

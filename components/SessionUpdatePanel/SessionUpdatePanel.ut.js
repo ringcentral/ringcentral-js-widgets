@@ -63,6 +63,10 @@ function setup(_ref) {
       loginType = _ref$loginType === void 0 ? '102' : _ref$loginType,
       _ref$setLoginType = _ref.setLoginType,
       setLoginType = _ref$setLoginType === void 0 ? function () {} : _ref$setLoginType,
+      _ref$autoAnswer = _ref.autoAnswer,
+      autoAnswer = _ref$autoAnswer === void 0 ? true : _ref$autoAnswer,
+      _ref$setAutoAnswer = _ref.setAutoAnswer,
+      setAutoAnswer = _ref$setAutoAnswer === void 0 ? function () {} : _ref$setAutoAnswer,
       _ref$extensionNumber = _ref.extensionNumber,
       extensionNumber = _ref$extensionNumber === void 0 ? '' : _ref$extensionNumber,
       _ref$setExtensionNumb = _ref.setExtensionNumber,
@@ -88,7 +92,13 @@ function setup(_ref) {
     return false;
   } : _ref$isSeveralAssign,
       checkBoxOnChange = _ref.checkBoxOnChange,
-      allCheckBoxOnChange = _ref.allCheckBoxOnChange;
+      allCheckBoxOnChange = _ref.allCheckBoxOnChange,
+      _ref$showInboundQueue = _ref.showInboundQueues,
+      showInboundQueues = _ref$showInboundQueue === void 0 ? true : _ref$showInboundQueue,
+      _ref$showSkillProfile = _ref.showSkillProfile,
+      showSkillProfile = _ref$showSkillProfile === void 0 ? true : _ref$showSkillProfile,
+      _ref$showAutoAnswer = _ref.showAutoAnswer,
+      showAutoAnswer = _ref$showAutoAnswer === void 0 ? true : _ref$showAutoAnswer;
   return (0, _enzyme.mount)( /*#__PURE__*/_react["default"].createElement(_juno.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_SessionUpdatePanel.SessionUpdatePanel, {
     currentLocale: currentLocale,
     goToSettingsPageWhetherSessionChanged: goToSettingsPageWhetherSessionChanged,
@@ -99,6 +109,8 @@ function setup(_ref) {
     loginTypeList: loginTypeList,
     loginType: loginType,
     setLoginType: setLoginType,
+    autoAnswer: autoAnswer,
+    setAutoAnswer: setAutoAnswer,
     extensionNumber: extensionNumber,
     setExtensionNumber: setExtensionNumber,
     inboundQueuesFieldText: inboundQueuesFieldText,
@@ -110,7 +122,10 @@ function setup(_ref) {
     isAllAssign: isAllAssign,
     isSeveralAssign: isSeveralAssign,
     checkBoxOnChange: checkBoxOnChange,
-    allCheckBoxOnChange: allCheckBoxOnChange
+    allCheckBoxOnChange: allCheckBoxOnChange,
+    showInboundQueues: showInboundQueues,
+    showSkillProfile: showSkillProfile,
+    showAutoAnswer: showAutoAnswer
   })));
 }
 

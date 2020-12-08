@@ -90,14 +90,16 @@ var BasicSessionPanel = function BasicSessionPanel(_ref) {
       setAutoAnswer = _ref.setAutoAnswer,
       autoAnswer = _ref.autoAnswer,
       showAutoAnswer = _ref.showAutoAnswer,
-      classes = _ref.classes;
+      classes = _ref.classes,
+      showInboundQueues = _ref.showInboundQueues,
+      showSkillProfile = _ref.showSkillProfile;
 
   var _useState = (0, _react.useState)(false),
       _useState2 = _slicedToArray(_useState, 2),
       inboundQueuesPageShow = _useState2[0],
       setInboundQueuesPageShow = _useState2[1];
 
-  return /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement(_AnimationPanel.AnimationPanel, {
+  return /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, showInboundQueues && /*#__PURE__*/_react["default"].createElement(_AnimationPanel.AnimationPanel, {
     open: inboundQueuesPageShow
   }, /*#__PURE__*/_react["default"].createElement(_InboundQueuesPanel.InboundQueuesPanel, {
     searchOption: searchOption,
@@ -114,7 +116,7 @@ var BasicSessionPanel = function BasicSessionPanel(_ref) {
     }
   })), /*#__PURE__*/_react["default"].createElement("div", {
     className: classes.root
-  }, /*#__PURE__*/_react["default"].createElement(_juno.RcTextField, {
+  }, showInboundQueues && /*#__PURE__*/_react["default"].createElement(_juno.RcTextField, {
     label: _i18n["default"].getString('inboundQueues', currentLocale),
     title: inboundQueuesFieldText,
     value: inboundQueuesFieldText,
@@ -133,7 +135,7 @@ var BasicSessionPanel = function BasicSessionPanel(_ref) {
     onClick: function onClick() {
       return setInboundQueuesPageShow(true);
     }
-  }), skillProfileList.length > 0 && /*#__PURE__*/_react["default"].createElement(_PickList.PickList, {
+  }), showSkillProfile && /*#__PURE__*/_react["default"].createElement(_PickList.PickList, {
     "data-sign": "skillProfile",
     options: skillProfileList,
     label: _i18n["default"].getString('skillProfile', currentLocale),

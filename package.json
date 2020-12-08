@@ -26,7 +26,7 @@
   "peerDependencies": {
     "@ringcentral-integration/core": "^0.12.0",
     "@ringcentral-integration/phone-number": "^1.0.4",
-    "@ringcentral/juno": "^1.1.1",
+    "@ringcentral/juno": "^1.1.3",
     "ringcentral-integration": "^0.12.0",
     "ringcentral-widgets": "^0.12.0"
   },
@@ -37,7 +37,7 @@
     "@ringcentral-integration/locale-settings": "*",
     "@ringcentral-integration/phone-number": "*",
     "@ringcentral/juno": "*",
-    "crius-test": "^1.0.0-alpha.14",
+    "crius-test": "^1.1.3",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.15.1",
     "execa": "^1.0.0",

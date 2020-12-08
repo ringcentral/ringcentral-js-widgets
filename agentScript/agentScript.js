@@ -10,13 +10,11 @@ require("core-js/modules/es6.array.for-each");
 
 require("regenerator-runtime/runtime");
 
-var _events = _interopRequireDefault(require("events"));
+var _events = require("events");
 
 var _SingleTabBroadcastChannel = require("ringcentral-integration/lib/SingleTabBroadcastChannel");
 
 var _enums = require("../enums");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -35,7 +33,7 @@ var AgentScriptApp = /*#__PURE__*/function () {
     _classCallCheck(this, AgentScriptApp);
 
     this._channel = void 0;
-    this.eventEmitter = new _events["default"]();
+    this.eventEmitter = new _events.EventEmitter();
     this.toAngularKey = 'to_angular';
     this.fromAngularKey = 'from_angular';
     this.eventKeys = {

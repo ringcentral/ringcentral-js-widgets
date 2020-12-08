@@ -53,9 +53,9 @@ require("core-js/modules/es6.array.index-of");
 
 require("core-js/modules/es6.function.name");
 
-require("core-js/modules/es6.date.now");
-
 require("regenerator-runtime/runtime");
+
+require("core-js/modules/es6.date.now");
 
 var _core = require("@ringcentral-integration/core");
 
@@ -150,7 +150,6 @@ var EvWorkingState = (_dec = (0, _di.Module)({
       enableCache: true,
       storageKey: 'EvWorkingState'
     });
-    _this._hasSetInitialState = false;
 
     _initializerDefineProperty(_this, "time", _descriptor, _assertThisInitialized(_this));
 
@@ -174,21 +173,6 @@ var EvWorkingState = (_dec = (0, _di.Module)({
 
       _this.resetWorkingState();
     });
-
-    _this._deps.evAgentSession.onTriggerConfig( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-      return regeneratorRuntime.wrap(function _callee$(_context) {
-        while (1) {
-          switch (_context.prev = _context.next) {
-            case 0:
-              _this._hasSetInitialState = true;
-
-            case 1:
-            case "end":
-              return _context.stop();
-          }
-        }
-      }, _callee);
-    })));
 
     return _this;
   }
@@ -227,59 +211,56 @@ var EvWorkingState = (_dec = (0, _di.Module)({
         _this2.setIsPendingDisposition(true);
       });
 
-      this._deps.evSubscription.subscribe(_callbackTypes.EvCallbackTypes.AGENT_STATE, function (_ref2) {
-        var currentAuxState = _ref2.currentAuxState,
-            currentState = _ref2.currentState;
+      this._deps.evSubscription.subscribe(_callbackTypes.EvCallbackTypes.AGENT_STATE, function (_ref) {
+        var currentAuxState = _ref.currentAuxState,
+            currentState = _ref.currentState;
 
-        // login with multi-tabs and skip the first agent notification for reset timer.
-        if (!_this2._hasSetInitialState || _this2.agentState.agentState !== currentState) {
+        if (_this2.agentState.agentState !== currentState || _this2.agentState.agentAuxState !== currentAuxState) {
           _this2.setAgentState({
             agentState: currentState,
             agentAuxState: currentAuxState
           });
         }
-
-        _this2._hasSetInitialState = false;
       });
     }
   }, {
     key: "onStateChange",
     value: function () {
-      var _onStateChange = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+      var _onStateChange = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
         var event;
-        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+        return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context.prev = _context.next) {
               case 0:
                 if (!(this.ready && this.tabManagerEnabled && this._deps.tabManager.ready)) {
-                  _context2.next = 9;
+                  _context.next = 9;
                   break;
                 }
 
                 event = this._deps.tabManager.event;
 
                 if (!event) {
-                  _context2.next = 9;
+                  _context.next = 9;
                   break;
                 }
 
-                _context2.t0 = event.name;
-                _context2.next = _context2.t0 === _enums.tabManagerEvents.RESET_WORKING_STATE ? 6 : 8;
+                _context.t0 = event.name;
+                _context.next = _context.t0 === _enums.tabManagerEvents.RESET_WORKING_STATE ? 6 : 8;
                 break;
 
               case 6:
                 this.resetWorkingState();
-                return _context2.abrupt("break", 9);
+                return _context.abrupt("break", 9);
 
               case 8:
-                return _context2.abrupt("break", 9);
+                return _context.abrupt("break", 9);
 
               case 9:
               case "end":
-                return _context2.stop();
+                return _context.stop();
             }
           }
-        }, _callee2, this);
+        }, _callee, this);
       }));
 
       function onStateChange() {
@@ -290,9 +271,9 @@ var EvWorkingState = (_dec = (0, _di.Module)({
     }()
   }, {
     key: "changeWorkingState",
-    value: function changeWorkingState(_ref3) {
-      var agentState = _ref3.agentState,
-          agentAuxState = _ref3.agentAuxState;
+    value: function changeWorkingState(_ref2) {
+      var agentState = _ref2.agentState,
+          agentAuxState = _ref2.agentAuxState;
       var isOnCall = [_enums.agentStateTypes.transition, _enums.agentStateTypes.engaged].indexOf(this.agentState.agentState) > -1 || this._deps.presence.calls.length > 0;
 
       if (isOnCall && agentState !== _enums.agentStateTypes.onBreak) {

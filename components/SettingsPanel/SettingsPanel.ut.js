@@ -66,7 +66,9 @@ function setup(_ref) {
       _ref$userName = _ref.userName,
       userName = _ref$userName === void 0 ? defaultUserName : _ref$userName,
       _ref$disableEditSessi = _ref.disableEditSessionButton,
-      disableEditSessionButton = _ref$disableEditSessi === void 0 ? false : _ref$disableEditSessi;
+      disableEditSessionButton = _ref$disableEditSessi === void 0 ? false : _ref$disableEditSessi,
+      _ref$showEditSessionB = _ref.showEditSessionButton,
+      showEditSessionButton = _ref$showEditSessionB === void 0 ? true : _ref$showEditSessionB;
   return (0, _enzyme.mount)( /*#__PURE__*/_react["default"].createElement(_juno.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_.SettingsPanel, {
     currentLocale: currentLocale,
     onLogout: onLogout,
@@ -75,7 +77,8 @@ function setup(_ref) {
     sessionInfo: sessionInfo,
     agentName: agentName,
     userName: userName,
-    disableEditSessionButton: disableEditSessionButton
+    disableEditSessionButton: disableEditSessionButton,
+    showEditSessionButton: showEditSessionButton
   })));
 }
 

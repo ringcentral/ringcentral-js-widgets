@@ -42,8 +42,6 @@ const PendingDisposition: EvAvailableAgentState = {
   ],
 })
 class EvWorkingState extends RcModuleV2<Deps> implements WorkingState {
-  private _hasSetInitialState = false;
-
   constructor(deps: Deps) {
     super({
       deps,
@@ -64,10 +62,6 @@ class EvWorkingState extends RcModuleV2<Deps> implements WorkingState {
         this._deps.tabManager.send(tabManagerEvents.RESET_WORKING_STATE);
       }
       this.resetWorkingState();
-    });
-
-    this._deps.evAgentSession.onTriggerConfig(async () => {
-      this._hasSetInitialState = true;
     });
   }
 
@@ -165,17 +159,15 @@ class EvWorkingState extends RcModuleV2<Deps> implements WorkingState {
     this._deps.evSubscription.subscribe(
       EvCallbackTypes.AGENT_STATE,
       ({ currentAuxState, currentState }) => {
-        // login with multi-tabs and skip the first agent notification for reset timer.
         if (
-          !this._hasSetInitialState ||
-          this.agentState.agentState !== currentState
+          this.agentState.agentState !== currentState ||
+          this.agentState.agentAuxState !== currentAuxState
         ) {
           this.setAgentState({
             agentState: currentState,
             agentAuxState: currentAuxState,
           });
         }
-        this._hasSetInitialState = false;
       },
     );
   }
