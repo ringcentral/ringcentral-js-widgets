@@ -21,6 +21,7 @@ import RcUIModule from '../../lib/RcUIModule';
     'RouterInteraction',
     'RolesAndPermissions',
     'ConnectivityMonitor',
+    { dep: 'Modal', optional: true },
     { dep: 'Webphone', optional: true },
     { dep: 'CallLogger', optional: true },
     { dep: 'ComposeText', optional: true },
@@ -48,6 +49,7 @@ export default class ActiveCallsUI extends RcUIModule {
     routerInteraction,
     rolesAndPermissions,
     connectivityMonitor,
+    modal,
     ...options
   }) {
     super({
@@ -70,12 +72,15 @@ export default class ActiveCallsUI extends RcUIModule {
     this._routerInteraction = routerInteraction;
     this._rolesAndPermissions = rolesAndPermissions;
     this._connectivityMonitor = connectivityMonitor;
+    this._modal = modal;
   }
 
   getUIProps({
     showContactDisplayPlaceholder = false,
     showRingoutCallControl = false,
     showSwitchCall = false,
+    showTransferCall = true,
+    showHoldOnOtherDevice = false,
     useV2,
     useCallControl,
   }) {
@@ -83,7 +88,6 @@ export default class ActiveCallsUI extends RcUIModule {
       this._callingSettings.callingMode === callingModes.webphone;
     const controlBusy =
       (this._activeCallControl && this._activeCallControl.busy) || false;
-
     return {
       currentLocale: this._locale.currentLocale,
       activeRingCalls: this._callMonitor.activeRingCalls,
@@ -104,6 +108,8 @@ export default class ActiveCallsUI extends RcUIModule {
       brand: this._brand.fullName,
       showContactDisplayPlaceholder,
       showRingoutCallControl,
+      showTransferCall,
+      showHoldOnOtherDevice,
       showSwitchCall:
         showSwitchCall &&
         isWebRTC &&
@@ -140,6 +146,8 @@ export default class ActiveCallsUI extends RcUIModule {
     // when you set this toggle to true (https://developers.ringcentral.com/api-reference/Call-Control/createCallOutCallSession)
     this._useCallControlSDK = useCallControl && this._activeCallControl;
     return {
+      modalConfirm: (props) => this._modal && this._modal.confirm(props),
+      modalClose: (id) => this._modal && this._modal.close(id),
       formatPhone: (phoneNumber) =>
         formatNumber({
           phoneNumber,
@@ -209,7 +217,7 @@ export default class ActiveCallsUI extends RcUIModule {
       },
       webphoneHold: async (sessionId, telephonySessionId) => {
         // user action track
-        this._callMonitor.allCallsClickHangupTrack();
+        this._callMonitor.allCallsClickHoldTrack();
         if (this._useCallControlSDK) {
           return (
             this._activeCallControl &&
@@ -219,6 +227,12 @@ export default class ActiveCallsUI extends RcUIModule {
         return this._webphone && this._webphone.hold(sessionId);
       },
       webphoneSwitchCall: async (activeCall) => {
+        if (this._useCallControlSDK) {
+          return (
+            this._activeCallControl &&
+            this._activeCallControl.switch(activeCall.telephonySessionId)
+          );
+        }
         if (!this._webphone) {
           return;
         }
@@ -227,6 +241,9 @@ export default class ActiveCallsUI extends RcUIModule {
           this._regionSettings.homeCountryId,
         );
         return session;
+      },
+      webphoneIgnore: async (telephonySessionId) => {
+        return this._activeCallControl?.ignore(telephonySessionId);
       },
       ringoutHangup: async (...args) => {
         // user action track

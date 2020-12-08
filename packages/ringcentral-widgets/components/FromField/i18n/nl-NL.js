@@ -1,5 +1,5 @@
 export default {
-  DirectNumber: "Direct",
+  DirectNumber: "Rechtstreeks",
   MainCompanyNumber: "Hoofd",
   CompanyNumber: "Bedrijf",
   CompanyFaxNumber: "Fax",

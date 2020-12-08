@@ -1,4 +1,10 @@
-export default (Module: any, state: any, action: any, computed: any) => {
+export default (
+  Module: any,
+  state: any,
+  action: any,
+  computed: any,
+  log: any,
+) => {
   return new Promise((resolve) => {
     interface Todo {
       text: string;
@@ -21,7 +27,7 @@ export default (Module: any, state: any, action: any, computed: any) => {
       }
 
       async moduleDidInitialize() {
-        console.log('moduleDidInitialize');
+        log('moduleDidInitialize');
         this.add({ text: 'Learn C++', completed: false });
         this.toggle(0);
         this.length;
@@ -35,7 +41,7 @@ export default (Module: any, state: any, action: any, computed: any) => {
       length = [
         () => this.list.length,
         (length: number) => {
-          console.log('computed => list.length');
+          log('computed => list.length');
           return length;
         },
       ];
@@ -85,7 +91,7 @@ export default (Module: any, state: any, action: any, computed: any) => {
     });
 
     index.store.subscribe(() => {
-      console.log(
+      log(
         index._modules.todoList.list,
         index._modules.indexOptions.enable,
         todoList.length,

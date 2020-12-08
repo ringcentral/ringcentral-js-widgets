@@ -7,7 +7,7 @@ import {
   uniqueContactItems,
   sortContactItemsByName,
   groupByFirstLetterOfName,
-  filterContacts,
+  getFilterContacts,
   AllContactSourceName,
 } from '../../lib/contactHelper';
 import proxify from '../../lib/proxy/proxify';
@@ -86,18 +86,6 @@ export default class Contacts extends RcModule {
     });
   }
 
-  /**
-   * @function
-   * @param {Object} source - source module object
-   * @param {String} params.sourceName - source name
-   * @param {Bool} params.ready - source module ready status
-   * @param {Bool} params.sourceReady - source ready status
-   * @param {Array} params.contacts - source contacts data
-   * @param {Function} params.getPresence - get source presence function, optional
-   * @param {Function} params.getProfileImage - get source profile image function, optional
-   * @param {Function} params.sync - sync source data function, optional
-   * @param {Function} params.matchPhoneNumber - get match phoneNumber function, optional
-   */
   addSource(source) {
     if (!source.sourceName) {
       throw new Error('[Contacts > ContactSource > sourceName] is required');
@@ -120,17 +108,25 @@ export default class Contacts extends RcModule {
         `[Contacts > ContactSource(${source.sourceName}) > getProfileImage] must be a function`,
       );
     }
-    if (source.searchContacts && typeof source.searchContacts !== 'function') {
+    if (source.filterContacts && typeof source.filterContacts !== 'function') {
       throw new Error(
-        `[Contacts > ContactSource(${source.sourceName}) > searchContacts] must be a function`,
+        `[Contacts > ContactSource(${source.sourceName}) > filterContacts] must be a function`,
       );
     }
     if (
-      source.matchPhoneNumber &&
-      typeof source.matchPhoneNumber !== 'function'
+      source.searchForPhoneNumbers &&
+      typeof source.searchForPhoneNumbers !== 'function'
     ) {
       throw new Error(
-        `[Contacts > ContactSource(${source.sourceName}) > matchPhoneNumber] must be a function`,
+        `[Contacts > ContactSource(${source.sourceName}) > searchForPhoneNumbers] must be a function`,
+      );
+    }
+    if (
+      source.matchContactsByPhoneNumber &&
+      typeof source.matchContactsByPhoneNumber !== 'function'
+    ) {
+      throw new Error(
+        `[Contacts > ContactSource(${source.sourceName}) > matchContactsByPhoneNumber] must be a function`,
       );
     }
     this._contactSources.set(source.sourceName, source);
@@ -138,7 +134,7 @@ export default class Contacts extends RcModule {
     this._sourcesUpdatedAt = Date.now();
   }
 
-  _checkSourceUpdated() {
+  checkSourceUpdated() {
     let updated = false;
     for (const sourceName of Array.from(this._contactSources.keys())) {
       const source = this._contactSources.get(sourceName);
@@ -160,21 +156,21 @@ export default class Contacts extends RcModule {
     return this._sourcesUpdatedAt;
   }
 
-  async searchContacts(searchString) {
+  async filterContacts(searchFilter) {
     const sources = Array.from(this._contactSources.values()).filter(
-      (source) => typeof source.searchContacts === 'function',
+      (source) => typeof source.filterContacts === 'function',
     );
     let result = [];
     await Promise.all(
       sources.map((source) => {
-        const promise = Promise.resolve(source.searchContacts(searchString));
+        const promise = Promise.resolve(source.filterContacts(searchFilter));
         return promise
-          .then((contacts) => {
-            result = result.concat(contacts);
+          .then((items) => {
+            result = result.concat(items);
           })
           .catch((error) => {
             console.error(
-              `[Contacts > ContactSource(${source.sourceName}) > searchContacts] ${error}`,
+              `[Contacts > ContactSource(${source.sourceName}) > filterContacts] ${error}`,
             );
           });
       }),
@@ -182,21 +178,47 @@ export default class Contacts extends RcModule {
     return result;
   }
 
-  async matchPhoneNumber(phoneNumber) {
+  async searchForPhoneNumbers(searchString) {
     const sources = Array.from(this._contactSources.values()).filter(
-      (source) => typeof source.matchPhoneNumber === 'function',
+      (source) => typeof source.searchForPhoneNumbers === 'function',
     );
     let result = [];
     await Promise.all(
       sources.map((source) => {
-        const promise = Promise.resolve(source.matchPhoneNumber(phoneNumber));
+        const promise = Promise.resolve(
+          source.searchForPhoneNumbers(searchString),
+        );
         return promise
-          .then((contacts) => {
-            result = result.concat(contacts);
+          .then((items) => {
+            result = result.concat(items);
           })
           .catch((error) => {
             console.error(
-              `[Contacts > ContactSource(${source.sourceName}) > matchPhoneNumber] ${error}`,
+              `[Contacts > ContactSource(${source.sourceName}) > searchForPhoneNumbers] ${error}`,
+            );
+          });
+      }),
+    );
+    return result;
+  }
+
+  async matchContactsByPhoneNumber(phoneNumber) {
+    const sources = Array.from(this._contactSources.values()).filter(
+      (source) => typeof source.matchContactsByPhoneNumber === 'function',
+    );
+    let result = [];
+    await Promise.all(
+      sources.map((source) => {
+        const promise = Promise.resolve(
+          source.matchContactsByPhoneNumber(phoneNumber),
+        );
+        return promise
+          .then((items) => {
+            result = result.concat(items);
+          })
+          .catch((error) => {
+            console.error(
+              `[Contacts > ContactSource(${source.sourceName}) > matchContactsByPhoneNumber] ${error}`,
             );
           });
       }),
@@ -208,9 +230,9 @@ export default class Contacts extends RcModule {
     const result = {};
     await Promise.all(
       phoneNumbers.map((phoneNumber) => {
-        const promise = this.matchPhoneNumber(phoneNumber);
-        return promise.then((contacts) => {
-          result[phoneNumber] = contacts;
+        const promise = this.matchContactsByPhoneNumber(phoneNumber);
+        return promise.then((items) => {
+          result[phoneNumber] = items;
         });
       }),
     );
@@ -298,7 +320,7 @@ export default class Contacts extends RcModule {
   @selector
   sourceNames = [
     () => this._contactSources.size,
-    () => this._checkSourceUpdated(),
+    () => this.checkSourceUpdated(),
     () => {
       const names = [AllContactSourceName];
       for (const sourceName of Array.from(this._contactSources.keys())) {
@@ -313,7 +335,7 @@ export default class Contacts extends RcModule {
 
   @selector
   allContacts = [
-    () => this._checkSourceUpdated(),
+    () => this.checkSourceUpdated(),
     () => {
       let contacts = [];
       for (const sourceName of Array.from(this._contactSources.keys())) {
@@ -339,7 +361,7 @@ export default class Contacts extends RcModule {
   filteredContacts = [
     () => this.searchFilter,
     () => this.sourceFilter,
-    () => this._checkSourceUpdated(),
+    () => this.checkSourceUpdated(),
     (searchFilter, sourceFilter) => {
       let contacts;
       if (
@@ -360,7 +382,7 @@ export default class Contacts extends RcModule {
         contacts = this.allContacts;
       }
       if (!isBlank(searchFilter)) {
-        contacts = filterContacts(contacts, searchFilter);
+        contacts = getFilterContacts(contacts, searchFilter);
       }
       return contacts;
     },

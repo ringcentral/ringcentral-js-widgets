@@ -29,7 +29,11 @@ export default {
   unhold: "대기 해제",
   transfer: "전달",
   reject: "거부",
-  switchCall: "이 앱으로 통화 전환"
+  switchCall: "이 앱으로 통화 전환",
+  callSwitch: "통화 넘기기",
+  comfirmContext: "현재 {displayName}님과 통화 중입니다. 이 디바이스에서 통화를 계속하시겠습니까?",
+  comfirmCancelButton: "취소",
+  comfirmOKButton: "전환"
 };
 
 // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
@@ -63,3 +67,7 @@ export default {
 // @key: @#@"transfer"@#@ @source: @#@"Transfer"@#@
 // @key: @#@"reject"@#@ @source: @#@"Reject"@#@
 // @key: @#@"switchCall"@#@ @source: @#@"Switch Call to this app"@#@
+// @key: @#@"callSwitch"@#@ @source: @#@"Call Switch"@#@
+// @key: @#@"comfirmContext"@#@ @source: @#@"You're currently on an active call with {displayName}. Would you like to continue the call on this device?"@#@
+// @key: @#@"comfirmCancelButton"@#@ @source: @#@"Cancel"@#@
+// @key: @#@"comfirmOKButton"@#@ @source: @#@"Switch"@#@

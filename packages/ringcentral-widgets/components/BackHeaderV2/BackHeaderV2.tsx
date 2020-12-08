@@ -42,6 +42,10 @@ const BackHeader: FunctionComponent<BackHeaderProps> = ({
     isClassic && styles.classic,
     className,
   );
+  // if right icon is empty then should occupy position to make title actually center align
+  const rightIconClass = classnames(styles.rightIcon, {
+    [styles.emptyRightIcon]: !rightIcon,
+  });
   return (
     <div className={rootClass}>
       <RcIconButton
@@ -61,7 +65,7 @@ const BackHeader: FunctionComponent<BackHeaderProps> = ({
           </Tooltip>
         ) : null}
       </div>
-      <div ref={rightRef} className={styles.rightIcon}>
+      <div ref={rightRef} className={rightIconClass}>
         {rightIcon}
       </div>
     </div>

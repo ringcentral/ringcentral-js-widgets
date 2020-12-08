@@ -13,19 +13,21 @@ export function CallInfoBar({
   onClick,
   currentLocale,
   shouldDisplayViewCallsBtn,
+  useV2,
 }) {
+  const buttonText = useV2 ? 'view' : 'viewCalls';
   return (
-    <div className={styles.bar}>
+    <div className={useV2 ? styles.callInfoBarV2 : styles.bar}>
       <div className={styles.currentCallInfo} title={label} onClick={onClick}>
         {label}
       </div>
       {shouldDisplayViewCallsBtn ? (
         <Button
           className={styles.viewCallsBtn}
-          tooltip={i18n.getString('viewCalls', currentLocale)}
+          tooltip={i18n.getString(buttonText, currentLocale)}
           onClick={onClick}
         >
-          {i18n.getString('viewCalls', currentLocale)}
+          {i18n.getString(buttonText, currentLocale)}
         </Button>
       ) : null}
     </div>
@@ -36,12 +38,14 @@ CallInfoBar.propTypes = {
   onClick: PropTypes.func,
   currentLocale: PropTypes.string,
   shouldDisplayViewCallsBtn: PropTypes.bool,
+  useV2: PropTypes.bool,
 };
 CallInfoBar.defaultProps = {
   label: '',
   onClick: undefined,
   currentLocale: '',
   shouldDisplayViewCallsBtn: false,
+  useV2: false,
 };
 
 export default class CallMonitorBar extends Component {
@@ -75,6 +79,8 @@ export default class CallMonitorBar extends Component {
       onViewCallBtnClick,
       shouldDisplayCurrentCallBtn,
       shouldDisplayViewCallsBtn,
+      shouldHideRingingCallStatus,
+      useV2,
     } = this.props;
 
     const numberOfIncomingCalls = ringingCalls.length;
@@ -105,9 +111,10 @@ export default class CallMonitorBar extends Component {
                 currentLocale={currentLocale}
                 onClick={onViewCallBtnClick}
                 shouldDisplayViewCallsBtn={shouldDisplayViewCallsBtn}
+                useV2={useV2}
               />
             ) : null}
-            {numberOfIncomingCalls > 0 ? (
+            {!shouldHideRingingCallStatus && numberOfIncomingCalls > 0 ? (
               <CallInfoBar
                 label={
                   numberOfIncomingCalls === 1
@@ -123,6 +130,7 @@ export default class CallMonitorBar extends Component {
                 currentLocale={currentLocale}
                 onClick={onViewCallBtnClick}
                 shouldDisplayViewCallsBtn={shouldDisplayViewCallsBtn}
+                useV2={useV2}
               />
             ) : null}
             {numberOfOtherDeviceCalls > 0 ? (
@@ -141,10 +149,11 @@ export default class CallMonitorBar extends Component {
                 currentLocale={currentLocale}
                 onClick={onViewCallBtnClick}
                 shouldDisplayViewCallsBtn={shouldDisplayViewCallsBtn}
+                useV2={useV2}
               />
             ) : null}
             {currentCalls.length > 0 ? (
-              <div className={styles.bar}>
+              <div className={useV2 ? styles.callInfoBarV2 : styles.bar}>
                 <div
                   data-sign="callDuration"
                   className={styles.duration}
@@ -179,6 +188,8 @@ CallMonitorBar.propTypes = {
   onViewCallBtnClick: PropTypes.func,
   shouldDisplayCurrentCallBtn: PropTypes.bool,
   shouldDisplayViewCallsBtn: PropTypes.bool,
+  shouldHideRingingCallStatus: PropTypes.bool,
+  useV2: PropTypes.bool,
 };
 CallMonitorBar.defaultProps = {
   ringingCalls: [],
@@ -189,4 +200,6 @@ CallMonitorBar.defaultProps = {
   onViewCallBtnClick: undefined,
   shouldDisplayCurrentCallBtn: false,
   shouldDisplayViewCallsBtn: false,
+  shouldHideRingingCallStatus: false,
+  useV2: false,
 };

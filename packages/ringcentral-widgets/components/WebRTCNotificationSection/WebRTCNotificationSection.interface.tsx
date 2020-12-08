@@ -12,7 +12,7 @@ export interface WebRTCNotificationProps {
   holdAndAnswer: (telephonySession: string) => any;
   toVoicemail: (telephonySession: string) => any;
   forwardingNumbers: any[];
-  isCurrentSessionEnd: boolean;
+  hasActiveSession: boolean;
   answer: (telephonySession: string) => any;
 }
 

@@ -1,5 +1,6 @@
 import { RcModuleV2 } from '@ringcentral-integration/core';
 import { Module } from 'ringcentral-integration/lib/di';
+import { Deps } from './Beforeunload.interface';
 
 const UNLOAD_EVENT_NAME = 'beforeunload';
 
@@ -9,7 +10,9 @@ type BeforeunloadFn = () => boolean;
   name: 'Beforeunload',
   deps: [{ dep: 'BeforeunloadOptions', optional: true }],
 })
-export class Beforeunload extends RcModuleV2 {
+export class Beforeunload extends RcModuleV2<Deps>  {
+  _window: Window;
+
   private get list() {
     return this._list;
   }
@@ -18,14 +21,20 @@ export class Beforeunload extends RcModuleV2 {
     this._list = value;
 
     if (this._bindState && this._list.length === 0) {
-      window.removeEventListener(UNLOAD_EVENT_NAME, this._beforeunloadHandler);
+      this._window.removeEventListener(
+        UNLOAD_EVENT_NAME,
+        this._beforeunloadHandler,
+      );
       // TODO: binding event here, that will not emit when close tab, not sure why
-      // window.removeEventListener('unload', this._onAfterUnload);
+      // this._window.removeEventListener('unload', this._onAfterUnload);
       this._bindState = false;
     } else if (!this._bindState && this._list.length > 0) {
-      window.addEventListener(UNLOAD_EVENT_NAME, this._beforeunloadHandler);
+      this._window.addEventListener(
+        UNLOAD_EVENT_NAME,
+        this._beforeunloadHandler,
+      );
       // TODO: binding event here, that will not emit when close tab, not sure why
-      // window.addEventListener('unload', this._onAfterUnload);
+      // this._window.addEventListener('unload', this._onAfterUnload);
       this._bindState = true;
     }
   }
@@ -38,6 +47,7 @@ export class Beforeunload extends RcModuleV2 {
     super({
       deps: {},
     });
+    this._window = this._deps.beforeunloadOptions?.orginWindow ?? window;
   }
 
   /**
@@ -92,7 +102,7 @@ export class Beforeunload extends RcModuleV2 {
    * that method will trigger after check not leave success
    */
   onAfterUnload(cb: () => void, notNeedCheck = false) {
-    window.addEventListener('unload', () => {
+    this._window.addEventListener('unload', () => {
       if (notNeedCheck || this.checkShouldBlock()) {
         cb();
       }
@@ -101,7 +111,7 @@ export class Beforeunload extends RcModuleV2 {
 
   removeAfterUnloadListener(cb: () => void) {
     console.log('removeAfterUnloadListener~~');
-    window.removeEventListener('unload', cb);
+    this._window.removeEventListener('unload', cb);
   }
 
   private _removeItem(i: number) {

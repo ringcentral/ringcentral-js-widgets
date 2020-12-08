@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Modal from 'ringcentral-widgets/components/Modal';
-import SearchInput from 'ringcentral-widgets/components/SearchInput';
+import { SearchInput } from 'ringcentral-widgets/components/SearchInput';
 import TextInput from 'ringcentral-widgets/components/TextInput';
 
 import styles from './styles.scss';

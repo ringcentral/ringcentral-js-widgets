@@ -4,7 +4,7 @@ import classnames from 'classnames';
 
 import messageTypes from 'ringcentral-integration/enums/messageTypes';
 
-import SearchInput from '../../../SearchInput';
+import { SearchInput } from '../../../SearchInput';
 import NewComposeText from '../../../../assets/images/NewComposeText.svg';
 import NewComposeTextHover from '../../../../assets/images/NewComposeTextHover.svg';
 

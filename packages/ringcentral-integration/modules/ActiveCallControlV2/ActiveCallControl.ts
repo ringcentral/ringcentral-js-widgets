@@ -11,15 +11,20 @@ import {
   RingCentralCall,
   events as callEvents,
   MakeCallParams,
+  ActiveCallInfo,
 } from 'ringcentral-call';
 import { Session, events as eventsEnum } from 'ringcentral-call/lib/Session';
 import {
   Session as TelephonySession,
-  SessionData,
   PartyStatusCode,
 } from 'ringcentral-call-control/lib/Session';
 import { WebPhoneSession } from 'ringcentral-web-phone/lib/session';
-import { filter, sort } from 'ramda';
+import { filter, sort, forEach } from 'ramda';
+import { v4 as uuidV4 } from 'uuid';
+import {
+  ExtensionTelephonySessionsEvent,
+  TelephonySessionsEventPartyInfo,
+} from '@rc-ex/core/definitions';
 import { Module } from '../../lib/di';
 // eslint-disable-next-line import/no-named-as-default
 import subscriptionFilters from '../../enums/subscriptionFilters';
@@ -29,6 +34,8 @@ import {
   conflictError,
   isRecording,
   isHolding,
+  ActiveCallControlSessionData,
+  isRinging,
 } from './helpers';
 import { trackEvents } from '../Analytics';
 import callControlError from '../ActiveCallControl/callControlError';
@@ -62,6 +69,7 @@ const subscribeEvent = subscriptionFilters.telephonySessions;
     'RegionSettings',
     'ConnectivityMonitor',
     'RolesAndPermissions',
+    { dep: 'Prefix', optional: true },
     { dep: 'Storage', optional: true },
     { dep: 'Webphone', optional: true },
     { dep: 'TabManager', optional: true },
@@ -83,6 +91,10 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
   private _timeoutId: number;
   private _lastSubscriptionMessage: string;
   private _permissionCheck: boolean;
+  private _autoMergeSignCallIdKey: string;
+  private _autoMergeCallsKey: string;
+  private _enableAutoSwitchFeature: boolean;
+
   constructor(deps: Deps) {
     super({
       deps,
@@ -98,6 +110,10 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
     this._promise = null;
     this._rcCall = null;
     this._permissionCheck = activeCallControlOptions?.permissionCheck ?? true;
+    this._enableAutoSwitchFeature =
+      activeCallControlOptions?.enableAutoSwitchFeature ?? false;
+    this._autoMergeSignCallIdKey = `${deps.prefix}-auto-merge-sign-call-id-key`;
+    this._autoMergeCallsKey = `${deps.prefix}-auto-merge-calls-key`;
   }
 
   async onStateChange() {
@@ -105,6 +121,125 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
       this._subscriptionHandler();
       this._checkConnectivity();
       await this._checkTabActive();
+    }
+  }
+
+  async initModule() {
+    this._createOtherInstanceListener();
+    await super.initModule();
+  }
+
+  _createOtherInstanceListener() {
+    if (!this._deps.tabManager || !this._enableAutoSwitchFeature) {
+      return;
+    }
+    window.addEventListener('storage', (e) => {
+      this._onStorageChangeEvent(e);
+    });
+  }
+
+  _onStorageChangeEvent(e: StorageEvent) {
+    switch (e.key) {
+      case this._autoMergeSignCallIdKey:
+        this._triggerCurrentClientAutoMerge(e);
+        break;
+      case this._autoMergeCallsKey:
+        this._autoMergeCallsHandler(e);
+        break;
+      default:
+        break;
+    }
+  }
+
+  _triggerCurrentClientAutoMerge(e: StorageEvent) {
+    try {
+      const { telephoneSessionId }: { telephoneSessionId: string } = JSON.parse(
+        e.newValue,
+      );
+      const ids = this.rcCallSessions
+        .filter(
+          (s: Session) =>
+            !isRinging(s) &&
+            !!s.webphoneSession &&
+            s.telephonySessionId !== telephoneSessionId,
+        )
+        .map((s: Session) => s.telephonySessionId);
+      const id = uuidV4();
+      const data = { id, ids };
+      if (ids.length) {
+        localStorage.setItem(this._autoMergeCallsKey, JSON.stringify(data));
+      }
+    } catch (err) {
+      console.log('AutoMerge sign event parse error');
+    }
+  }
+
+  async _autoMergeCallsHandler(e: StorageEvent) {
+    if (!this._deps.tabManager.active) return;
+
+    try {
+      const { ids }: { ids: string[] } = JSON.parse(e.newValue);
+      const response = await this._deps.client.service
+        .platform()
+        .get(subscriptionFilters.detailedPresence);
+      const data = await response.json();
+      const activeCalls: ActiveCallInfo[] = data.activeCalls;
+      const callsList = ids
+        // filter calls which are already in current instance.
+        .filter((id) =>
+          this.rcCallSessions.find(
+            (item) => item.telephonySessionId === id && !!item.telephonySession,
+          ),
+        )
+        // transfer id to ActiveCallInfo.
+        .map((telephonySessionId: string) => {
+          const activeCall = activeCalls.find(
+            (call) => call.telephonySessionId === telephonySessionId,
+          );
+          if (!activeCall)
+            console.log(
+              `Auto Switch failed with telephonySessionId ${telephonySessionId}`,
+            );
+          return activeCall;
+        })
+        .filter((item: any) => !!item);
+
+      if (callsList.length) {
+        callsList.forEach((activeCall: ActiveCallInfo) => {
+          const switchSession = this._rcCall.switchCallFromActiveCall(
+            activeCall,
+          );
+          switchSession.webphoneSession.once('accepted', async () => {
+            await switchSession.webphoneSession.hold();
+            this._addTrackToActiveSession();
+          });
+        });
+      }
+    } catch (err) {
+      console.log(err);
+      console.log('auto merge calls from other tabs failed');
+    }
+  }
+
+  _triggerAutoMergeEvent(telephoneSessionId?: string) {
+    if (!this._deps.tabManager || !this._enableAutoSwitchFeature) return;
+
+    const id = uuidV4();
+    const data = {
+      id,
+      telephoneSessionId,
+    };
+    localStorage.setItem(this._autoMergeSignCallIdKey, JSON.stringify(data));
+  }
+
+  _addTrackToActiveSession() {
+    const telephonySessionId = this.activeSessionId;
+    const activeRCCallSession = this.rcCallSessions.find(
+      (s) => s.telephonySessionId === telephonySessionId,
+    );
+    if (activeRCCallSession && activeRCCallSession.webphoneSession) {
+      const { _remoteVideo, _localVideo } = this._deps.webphone;
+      activeRCCallSession.webphoneSession.addTrack(_remoteVideo, _localVideo);
     }
   }
 
@@ -130,7 +265,7 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
     activeSessionId: string;
     busyTimestamp: number;
     timestamp: number;
-    sessions: SessionData[];
+    sessions: ActiveCallControlSessionData[];
   } = {
     activeSessionId: null,
     busyTimestamp: 0,
@@ -169,6 +304,10 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
     });
     this._rcCall.on(callEvents.WEBPHONE_INVITE, (session: WebPhoneSession) =>
       this._onWebphoneInvite(session),
+    );
+    this._rcCall.on(
+      callEvents.WEBPHONE_INVITE_SENT,
+      (session: WebPhoneSession) => this._onWebphoneInvite(session),
     );
     this._tabActive = this._deps.tabManager?.active;
     if (this._shouldFetch()) {
@@ -223,26 +362,47 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
   }
 
   _subscriptionHandler() {
-    if (
-      !this.ready ||
-      (this._deps.storage &&
-        this._deps.tabManager &&
-        !this._deps.tabManager?.active)
-    ) {
+    if (!this.ready) {
       return;
     }
-    const { message } = this._deps.subscription;
+    let { message } = this._deps.subscription;
     if (
       message &&
       message !== this._lastSubscriptionMessage &&
       telephonySessionsEndPoint.test(message.event) &&
       message.body
     ) {
+      message = this._checkRingOutCallDirection(message);
       this._lastSubscriptionMessage = message;
       if (this._rcCall) {
         this._rcCall.onNotificationEvent(message);
       }
     }
+  }
+
+  // workaround of PLA bug: https://jira.ringcentral.com/browse/PLA-52742, remove these code after PLA
+  // fixed this bug
+  _checkRingOutCallDirection(message: ExtensionTelephonySessionsEvent) {
+    const { body } = message;
+    const originType = body?.origin?.type;
+    if (originType === 'RingOut') {
+      const { parties } = body;
+      if (Array.isArray(parties) && parties.length) {
+        forEach((party: any) => {
+          if (
+            party.ringOutRole &&
+            party.ringOutRole === 'Initiator' &&
+            party.direction === 'Inbound'
+          ) {
+            const tempFrom = { ...party.from };
+            party.direction = 'Outbound';
+            party.from = party.to;
+            party.to = tempFrom;
+          }
+        }, parties);
+      }
+    }
+    return message;
   }
 
   _retry(t = this.timeToRetry) {
@@ -319,7 +479,7 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
     this.data.timestamp = Date.now();
     const callControlSessions = this._rcCall?._callControl?.sessions.map(
       (session: TelephonySession) => {
-        return session.data;
+        return { ...session.data, party: session.party || {} };
       },
     );
     this.data.sessions = callControlSessions || [];
@@ -539,6 +699,22 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
     }
   }
 
+  async switch(telephonySessionId: string) {
+    try {
+      this._triggerAutoMergeEvent(telephonySessionId);
+
+      this.setCallControlBusyTimestamp();
+      await this._rcCall.switchCall(telephonySessionId);
+      await this._holdOtherCalls(telephonySessionId);
+      this.clearCallControlBusyTimestamp();
+    } catch (error) {
+      if (!(await this._deps.availabilityMonitor?.checkIfHAError(error))) {
+        this._deps.alert.warning({ message: callControlError.generalError });
+      }
+      this.clearCallControlBusyTimestamp();
+    }
+  }
+
   @track(trackEvents.hold)
   async hold(telephonySessionId: string) {
     try {
@@ -580,6 +756,7 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
         webphoneSession.__rc_callStatus = sessionStatus.connected;
       }
       this.setActiveSessionId(telephonySessionId);
+      this._addTrackToActiveSession();
       this.clearCallControlBusyTimestamp();
     } catch (error) {
       if (await conflictError(error)) {
@@ -747,7 +924,7 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
     }
     webphoneSession.on('terminated', () => {
       console.log('Call Event: terminated');
-      this.setLastEndedSessionIds(webphoneSession);
+      //this.setLastEndedSessionIds(webphoneSession);
       const { telephonySessionId } =
         this.rcCallSessions.find(
           (s: Session) => s.webphoneSession === webphoneSession,
@@ -818,6 +995,7 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
 
   async answer(telephonySessionId: string) {
     try {
+      this._triggerAutoMergeEvent(telephonySessionId);
       this.setCallControlBusyTimestamp();
       const session = this._rcCall.sessions.find((s: Session) => {
         return s.id === telephonySessionId;
@@ -911,6 +1089,7 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
           return null;
         }
       }
+      this._triggerAutoMergeEvent();
       await this._holdOtherCalls();
       const sdkMakeCallParams: MakeCallParams = {
         // type 'callControl' not support webphone's sip device currently.
@@ -956,26 +1135,15 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
     return this.getActiveSession(this.activeSessionId);
   }
 
-  @computed((that: ActiveCallControl) => [
-    that._deps.presence.calls,
-    that.sessions,
-    that.timestamp,
-  ])
+  @computed((that: ActiveCallControl) => [that.sessions, that.timestamp])
   get activeSessions() {
     // TODO: add calls type in callMonitor modules
-    const reducer = (accumulator: any, call: any) => {
-      const { telephonySessionId } = call;
-      const session = this.sessions.find((s) => s.id === telephonySessionId);
-      if (!session) {
-        return accumulator;
-      }
-      accumulator[telephonySessionId] = normalizeSession({
-        session,
-        call,
-      });
+    const reducer = (accumulator: any, session: any) => {
+      const { id } = session;
+      accumulator[id] = normalizeSession({ session });
       return accumulator;
     };
-    return this._deps.presence.calls.reduce(reducer, {});
+    return this.sessions.reduce(reducer, {});
   }
 
   @computed((that: ActiveCallControl) => [that._deps.presence.calls])

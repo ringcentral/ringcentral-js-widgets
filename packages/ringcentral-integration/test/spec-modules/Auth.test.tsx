@@ -14,6 +14,7 @@ const getMockModule = () => ({
   token: {} as Token,
   state: {},
   _dispatch: () => {},
+  parentModule: {},
 });
 
 @autorun(test)

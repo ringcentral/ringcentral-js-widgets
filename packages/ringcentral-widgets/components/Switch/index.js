@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import styles from './styles.scss';
 
-function Switch(props) {
+const Switch = (props) => {
   const onChange = props.onChange
     ? (e) => !props.disable && props.onChange(e.currentTarget.checked)
     : undefined;
@@ -20,13 +20,15 @@ function Switch(props) {
       <input
         data-sign="switch"
         type="checkbox"
+        role="switch"
+        aria-label={props.dataSign}
         checked={props.checked}
         onChange={onChange}
       />
       <div className={styles.slider} />
     </label>
   );
-}
+};
 
 Switch.propTypes = {
   checked: PropTypes.bool,

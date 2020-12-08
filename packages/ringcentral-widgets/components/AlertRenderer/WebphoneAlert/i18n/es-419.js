@@ -1,4 +1,5 @@
 import webphoneErrors from 'ringcentral-integration/modules/Webphone/webphoneErrors';
+import webphoneMessages from 'ringcentral-integration/modules/Webphone/webphoneMessages';
 export default {
   [webphoneErrors.connectFailed]: "Lo sentimos, las funciones del teléfono no están disponibles en este momento. Vuelva a intentarlo más tarde. ",
   [webphoneErrors.connected]: "Teléfono web registrado.",
@@ -15,6 +16,7 @@ export default {
   [webphoneErrors.recordError]: "No puede grabar la llamada en este momento. Código de error: {errorCode}",
   [webphoneErrors.recordDisabled]: "Su cuenta no incluye la función de grabar llamadas. Comuníquese con el administrador de su cuenta.",
   [webphoneErrors.transferError]: "No se puede transferir la llamada. Vuelva a intentarlo más tarde.",
+  [webphoneMessages.parked]: "Su llamada se recuperó en la ubicación: {parkedNumber}",
   failWithStatusCode: "Lo sentimos, hemos detectado un error: {errorCode}. Si el problema persiste, comuníquelo al servicio técnico de {brandName}.",
   registeringWithStatusCode: "Lo sentimos, se produjo un error. Estamos intentando volver a conectar. Si el problema persiste, comuníquelo al servicio técnico de {brandName}. Código de error: {errorCode}.",
   failWithoutStatusCode: "Lo sentimos, cometimos un error. Si el error persiste, comuníquelo al servicio técnico de {brandName}.",
@@ -36,6 +38,7 @@ export default {
 // @key: @#@"[webphoneErrors.recordError]"@#@ @source: @#@"You cannot record the call at the moment. Error code: {errorCode}"@#@
 // @key: @#@"[webphoneErrors.recordDisabled]"@#@ @source: @#@"Sorry, your account does not have the feature to record a call. Please contact your account administrator."@#@
 // @key: @#@"[webphoneErrors.transferError]"@#@ @source: @#@"Cannot transfer the call. Please try again later."@#@
+// @key: @#@"[webphoneMessages.parked]"@#@ @source: @#@"Your call is parked at location: {parkedNumber}"@#@
 // @key: @#@"failWithStatusCode"@#@ @source: @#@"Sorry, we've encountered an error: {errorCode}. If the problem persists, report this error to {brandName} support."@#@
 // @key: @#@"registeringWithStatusCode"@#@ @source: @#@"Sorry, something went wrong. We are trying to reconnect. If the problem persists, please report this error to {brandName} support. Error code: {errorCode}."@#@
 // @key: @#@"failWithoutStatusCode"@#@ @source: @#@"Sorry, something went wrong on our end. If the error persists, report this error to {brandName} support."@#@

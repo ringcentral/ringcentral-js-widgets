@@ -3,14 +3,16 @@ export default {
   [meetingStatus.emptyTopic]: "请输入会议主题。",
   [meetingStatus.noPassword]: "请提供会议密码。",
   [meetingStatus.insufficientPermissions]: "{application}没有{permissionName}权限。",
-  [meetingStatus.scheduledSuccess]: "会议已安排。",
-  [meetingStatus.updatedSuccess]: "会议已更新。",
-  [meetingStatus.internalError]: "内部错误，会议安排失败。请稍后再试。"
+  [meetingStatus.scheduledSuccess]: "已添加会议",
+  [meetingStatus.updatedSuccess]: "已更新会议",
+  [meetingStatus.meetingIsDeleted]: "已删除会议",
+  [meetingStatus.internalError]: "抱歉，服务器出错。请重试。"
 };
 
 // @key: @#@"[meetingStatus.emptyTopic]"@#@ @source: @#@"Please enter meeting topic."@#@
 // @key: @#@"[meetingStatus.noPassword]"@#@ @source: @#@"Please provide meeting password."@#@
 // @key: @#@"[meetingStatus.insufficientPermissions]"@#@ @source: @#@"{application} do not have {permissionName} permission."@#@
-// @key: @#@"[meetingStatus.scheduledSuccess]"@#@ @source: @#@"Meeting is scheduled."@#@
-// @key: @#@"[meetingStatus.updatedSuccess]"@#@ @source: @#@"Meeting is updated."@#@
-// @key: @#@"[meetingStatus.internalError]"@#@ @source: @#@"Internal error, meeting schedule failed. Try again later."@#@
+// @key: @#@"[meetingStatus.scheduledSuccess]"@#@ @source: @#@"Meeting added"@#@
+// @key: @#@"[meetingStatus.updatedSuccess]"@#@ @source: @#@"Meeting updated"@#@
+// @key: @#@"[meetingStatus.meetingIsDeleted]"@#@ @source: @#@"Meeting has been deleted"@#@
+// @key: @#@"[meetingStatus.internalError]"@#@ @source: @#@"Sorry, something went wrong on our end. Try again."@#@

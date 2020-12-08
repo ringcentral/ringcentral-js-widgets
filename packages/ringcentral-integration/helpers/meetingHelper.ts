@@ -1,7 +1,10 @@
-import { pick } from 'ramda';
 import format, {
   formatTypes,
 } from '@ringcentral-integration/phone-number/lib/format';
+import { pick } from 'ramda';
+
+import { RcMMeetingModel } from '../modules/MeetingV2/Meeting.interface';
+import { MeetingType, MeetingTypeV } from './meetingHelper.interface';
 
 function getMobileDialingNumberTpl(dialInNumbers, meetingId) {
   return dialInNumbers
@@ -29,15 +32,6 @@ function getPhoneDialingNumberTpl(dialInNumbers) {
 }
 
 const UTC_TIMEZONE_ID = '1';
-const MeetingType = {
-  SCHEDULED: 'Scheduled',
-  RECURRING: 'Recurring',
-  SCHEDULED_RECURRING: 'ScheduledRecurring',
-  INSTANT: 'Instant',
-  PMI: 'PMI',
-} as const;
-
-export type MeetingTypeV = typeof MeetingType[keyof typeof MeetingType];
 
 function isRecurringMeeting(meetingType: MeetingTypeV) {
   return (
@@ -76,9 +70,9 @@ function getMeetingSettings({
 // Basic default meeting type information
 function getDefaultMeetingSettings(
   extensionName: string,
-  startTime: string,
+  startTime: number,
   hostId?: string,
-) {
+): RcMMeetingModel {
   return {
     topic: `${extensionName}'s Meeting`,
     meetingType: MeetingType.SCHEDULED,

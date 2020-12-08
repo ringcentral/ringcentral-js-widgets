@@ -171,6 +171,7 @@ export default class ReplyWithMessage extends Component {
               styles.messageItem,
               this.state.type === CALL_YOU ? styles.active : null,
             )}
+            data-sign="willCallYouBackIn"
           >
             <div className={styles.label}>
               {i18n.getString('willCallYouBackIn', currentLocale)}...
@@ -197,6 +198,7 @@ export default class ReplyWithMessage extends Component {
               styles.messageItem,
               this.state.type === CALL_ME ? styles.active : null,
             )}
+            data-sign="callMeBackIn"
           >
             <div className={styles.label}>
               {i18n.getString('callMeBackIn', currentLocale)}...
@@ -218,6 +220,7 @@ export default class ReplyWithMessage extends Component {
               styles.messageItem,
               this.state.type === ON_MY_WAY ? styles.active : null,
             )}
+            data-sign="onMyWay"
           >
             <div className={styles.label}>
               {i18n.getString('onMyWay', currentLocale)}
@@ -234,6 +237,7 @@ export default class ReplyWithMessage extends Component {
               styles.messageItem,
               this.state.type === CUSTOM_MESSAGE ? styles.active : null,
             )}
+            data-sign="customMessage"
           >
             <div className={styles.label}>
               {i18n.getString('customMessage', currentLocale)}
@@ -251,7 +255,11 @@ export default class ReplyWithMessage extends Component {
           </div>
         </div>
         <div className={styles.buttonGroup}>
-          <Button className={styles.cancelButton} onClick={onCancel}>
+          <Button
+            className={styles.cancelButton}
+            onClick={onCancel}
+            dataSign="cancelReplyButton"
+          >
             {i18n.getString('cancel', currentLocale)}
           </Button>
           <Button
@@ -261,6 +269,7 @@ export default class ReplyWithMessage extends Component {
             )}
             onClick={this.props.disabled ? () => {} : this.onReply}
             disabled={disableButton}
+            dataSign="doReplyButton"
           >
             <span className={styles.buttonText}>
               {i18n.getString('reply', currentLocale)}

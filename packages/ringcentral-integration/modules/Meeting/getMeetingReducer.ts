@@ -142,6 +142,8 @@ export function getPersonalMeetingReducer(types: MeetingActionTypes) {
     switch (type) {
       case types.updatePersonalMeeting:
         return meeting;
+      case types.resetPersonalMeeting:
+        return {};
       default:
         return state;
     }

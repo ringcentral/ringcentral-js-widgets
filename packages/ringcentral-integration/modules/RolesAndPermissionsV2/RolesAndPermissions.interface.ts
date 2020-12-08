@@ -1,5 +1,5 @@
 import Alert from '../Alert';
-import Auth from '../Auth';
+import { Auth } from '../AuthV2';
 import {
   DataFetcherV2ConsumerBaseDeps,
   DataSourceBaseProps,

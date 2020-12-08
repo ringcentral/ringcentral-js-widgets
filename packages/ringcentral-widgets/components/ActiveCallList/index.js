@@ -39,6 +39,8 @@ const ActiveCallList = ({
   webphoneResume,
   webphoneToVoicemail,
   webphoneSwitchCall,
+  modalConfirm,
+  modalClose,
   enableContactFallback,
   title,
   sourceIcons,
@@ -61,7 +63,14 @@ const ActiveCallList = ({
   disableLinks,
   showRingoutCallControl,
   showSwitchCall,
+  showTransferCall,
+  showHoldOnOtherDevice,
   isOnHold,
+  webphoneIgnore,
+  showIgnoreBtn,
+  showHoldAnswerBtn,
+  useCallDetailV2,
+  newCallIcon,
 }) => {
   if (!calls.length) {
     return null;
@@ -111,6 +120,8 @@ const ActiveCallList = ({
             webphoneResume={webphoneResume}
             webphoneToVoicemail={webphoneToVoicemail}
             webphoneSwitchCall={webphoneSwitchCall}
+            modalConfirm={modalConfirm}
+            modalClose={modalClose}
             enableContactFallback={enableContactFallback}
             autoLog={autoLog}
             sourceIcons={sourceIcons}
@@ -133,7 +144,14 @@ const ActiveCallList = ({
             showRingoutCallControl={showRingoutCallControl}
             showMultipleMatch={!showRingoutCallControl} // disabled for salesforce
             showSwitchCall={showSwitchCall}
+            showTransferCall={showTransferCall}
+            showHoldOnOtherDevice={showHoldOnOtherDevice}
             isOnHold={isOnHold}
+            webphoneIgnore={webphoneIgnore}
+            showIgnoreBtn={showIgnoreBtn}
+            showHoldAnswerBtn={showHoldAnswerBtn}
+            useCallDetailV2={useCallDetailV2}
+            newCallIcon={newCallIcon}
           />
         );
       })}
@@ -165,6 +183,9 @@ ActiveCallList.propTypes = {
   webphoneResume: PropTypes.func,
   webphoneToVoicemail: PropTypes.func,
   webphoneSwitchCall: PropTypes.func,
+  webphoneIgnore: PropTypes.func,
+  modalConfirm: PropTypes.func,
+  modalClose: PropTypes.func,
   enableContactFallback: PropTypes.bool,
   autoLog: PropTypes.bool,
   sourceIcons: PropTypes.object,
@@ -187,7 +208,13 @@ ActiveCallList.propTypes = {
   disableLinks: PropTypes.bool,
   showRingoutCallControl: PropTypes.bool,
   showSwitchCall: PropTypes.bool,
+  showTransferCall: PropTypes.bool,
+  showHoldOnOtherDevice: PropTypes.bool,
   isOnHold: PropTypes.func,
+  showIgnoreBtn: PropTypes.bool,
+  showHoldAnswerBtn: PropTypes.bool,
+  useCallDetailV2: PropTypes.bool,
+  newCallIcon: PropTypes.bool,
 };
 
 ActiveCallList.defaultProps = {
@@ -210,6 +237,9 @@ ActiveCallList.defaultProps = {
   onViewContact: undefined,
   webphoneToVoicemail: undefined,
   webphoneSwitchCall: undefined,
+  webphoneIgnore: undefined,
+  modalConfirm: undefined,
+  modalClose: undefined,
   sourceIcons: undefined,
   phoneTypeRenderer: undefined,
   phoneSourceNameRenderer: undefined,
@@ -230,7 +260,13 @@ ActiveCallList.defaultProps = {
   disableLinks: false,
   showRingoutCallControl: false,
   showSwitchCall: false,
+  showTransferCall: true,
+  showHoldOnOtherDevice: false,
   isOnHold: undefined,
+  showIgnoreBtn: false,
+  showHoldAnswerBtn: false,
+  useCallDetailV2: false,
+  newCallIcon: false,
 };
 
 export default ActiveCallList;

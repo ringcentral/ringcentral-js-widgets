@@ -2,7 +2,7 @@ export default {
   confirmation: "Bevestiging",
   confirmMergeToConference: "Aan conference call toevoegen?",
   mergeToConference: "Samenvoegen",
-  conferenceCall: "Conference call"
+  conferenceCall: "Conferencecall"
 };
 
 // @key: @#@"confirmation"@#@ @source: @#@"Confirmation"@#@

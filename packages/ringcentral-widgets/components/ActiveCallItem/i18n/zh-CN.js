@@ -29,7 +29,11 @@ export default {
   unhold: "取消保持",
   transfer: "转移",
   reject: "拒绝",
-  switchCall: "将呼叫切换到此应用"
+  switchCall: "将呼叫切换到此应用",
+  callSwitch: "呼叫切换",
+  comfirmContext: "您当前正在与{displayName}通话。要在此设备上继续通话吗？",
+  comfirmCancelButton: "取消",
+  comfirmOKButton: "切换"
 };
 
 // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
@@ -63,3 +67,7 @@ export default {
 // @key: @#@"transfer"@#@ @source: @#@"Transfer"@#@
 // @key: @#@"reject"@#@ @source: @#@"Reject"@#@
 // @key: @#@"switchCall"@#@ @source: @#@"Switch Call to this app"@#@
+// @key: @#@"callSwitch"@#@ @source: @#@"Call Switch"@#@
+// @key: @#@"comfirmContext"@#@ @source: @#@"You're currently on an active call with {displayName}. Would you like to continue the call on this device?"@#@
+// @key: @#@"comfirmCancelButton"@#@ @source: @#@"Cancel"@#@
+// @key: @#@"comfirmOKButton"@#@ @source: @#@"Switch"@#@

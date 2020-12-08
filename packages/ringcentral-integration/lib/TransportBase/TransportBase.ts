@@ -1,4 +1,4 @@
-import EventEmitter from 'events';
+import { EventEmitter } from 'events';
 
 import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 

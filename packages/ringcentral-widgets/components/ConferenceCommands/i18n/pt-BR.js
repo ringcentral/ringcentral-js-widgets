@@ -7,15 +7,15 @@ export default {
   starSharp4Title: "Menu",
   starSharp4Body: "Ouvir a lista de comandos por tom de toque",
   starSharp5Title: "Definir modos de escuta",
-  starSharp5Body: "Pressione 1x: Colocar autores de chamadas no mudo - Os autores de chamadas podem desativar o modo mudo com  *, #, 6\r\nPressione 2x: Colocar autores de chamadas no mudo - Apenas escuta. Sem opção de desativar mudo\r\nPressione 3x: Desativar mudo dos autores de chamadas - Reabre a linha",
+  starSharp5Body: "Pressione 1x: Colocar autores de chamadas no mudo - Os autores de chamadas podem desativar o modo mudo com  *, #, 6\nPressione 2x: Colocar autores de chamadas no mudo - Apenas escuta. Sem opção de desativar mudo\nPressione 3x: Desativar mudo dos autores de chamadas - Reabre a linha",
   starSharp6Title: "Colocar a linha do organizador no mudo",
-  starSharp6Body: "Pressione uma vez para COLOCAR NO MUDO\r\nPressione novamente para DESATIVAR MUDO",
+  starSharp6Body: "Pressione uma vez para COLOCAR NO MUDO\nPressione novamente para DESATIVAR MUDO",
   starSharp7Title: "Proteger a chamada",
-  starSharp7Body: "Pressione uma vez para BLOQUEAR todos os autores de chamadas\r\nPressione novamente para ABRIR a chamada",
+  starSharp7Body: "Pressione uma vez para BLOQUEAR todos os autores de chamadas\nPressione novamente para ABRIR a chamada",
   starSharp8Title: "Ouvir um som quando alguém Entrar ou Sair da chamada",
-  starSharp8Body: "Pressione 1x: DESATIVA o som\r\nPressione 2x: Inserir tom está ATIVADO Sair do tom está DESATIVADO\r\nPressione 3x: Inserir tom está DESATIVADO Sair do tom está ATIVADO\r\nPressione 4x: ATIVA o som",
+  starSharp8Body: "Pressione 1x: DESATIVA o som\nPressione 2x: Inserir tom está ATIVADO Sair do tom está DESATIVADO\nPressione 3x: Inserir tom está DESATIVADO Sair do tom está ATIVADO\nPressione 4x: ATIVA o som",
   star9Title: "Gravar sua conferência",
-  star9Body: "Pressione uma vez para COMEÇAR a gravação\r\nPressione novamente para PARAR a gravação"
+  star9Body: "Pressione uma vez para COMEÇAR a gravação\nPressione novamente para PARAR a gravação"
 };
 
 // @key: @#@"title"@#@ @source: @#@"Conference Commands"@#@

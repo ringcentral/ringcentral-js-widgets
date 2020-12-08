@@ -1,4 +1,3 @@
-import { Session } from 'ringcentral-call/lib/Session';
 import { CallRecording, Error } from '@rc-ex/core/definitions';
 import {
   SessionData,
@@ -12,6 +11,11 @@ import callResults from '../../enums/callResults';
 import callDirections from '../../enums/callDirections';
 // eslint-disable-next-line import/no-named-as-default
 import activeCallControlStatus from '../../enums/activeCallControlStatus';
+import { mapTelephonyStatus } from '../CallMonitor/callMonitorHelper';
+
+export interface ActiveCallControlSessionData extends SessionData {
+  party: Party;
+}
 
 export function isHangUp(code: string) {
   return code === callResults.disconnected;
@@ -39,25 +43,15 @@ export function isOnRecording(recordings: Array<CallRecording>) {
   return recording.active;
 }
 
-export function getSessionsParty(session: SessionData) {
-  const extensionId = session.extensionId;
-  return session.parties.find((p: Party) => {
-    return p.extensionId === extensionId;
-  });
-}
-
 // TODO: add call type in callMonitor module
 export function normalizeSession({
   session,
-  call,
 }: {
-  session: SessionData;
-  call: any;
+  session: ActiveCallControlSessionData;
 }) {
-  const party: Party = getSessionsParty(session);
+  const { party, creationTime, sessionId } = session;
   const { id: partyId, direction, from, to, status, recordings, muted } = party;
 
-  const { startTime, sessionId } = call;
   const formatValue = {
     telephonySessionId: session.id,
     partyId,
@@ -70,13 +64,13 @@ export function normalizeSession({
     toUserName: to?.name,
     id: session.id,
     sessionId,
-    callStatus: call?.telephonyStatus,
-    startTime,
-    creationTime: startTime,
+    callStatus: mapTelephonyStatus(status?.code),
+    startTime: new Date(creationTime).getTime(),
+    creationTime,
     isOnMute: muted,
     isForwarded: false,
     isOnFlip: false,
-    isOnHold: status.code === activeCallControlStatus.hold,
+    isOnHold: status?.code === activeCallControlStatus.hold,
     isOnTransfer: false,
     isReplied: false,
     isToVoicemail: false,
@@ -86,7 +80,7 @@ export function normalizeSession({
       ? recordStatus.recording
       : recordStatus.idle,
     removed: false,
-    isReject: isRejectCode({ direction, code: status.code }),
+    isReject: isRejectCode({ direction, code: status?.code }),
   };
   return formatValue;
 }
@@ -112,8 +106,8 @@ export function isHolding(telephonySession: any) {
   return telephonySession.status === PartyStatusCode.hold;
 }
 
-export function isRecording(telephonySession: any) {
-  const party: Party = getSessionsParty(telephonySession);
+export function isRecording(session: ActiveCallControlSessionData) {
+  const { party } = session;
   return isOnRecording(party.recordings);
 }
 

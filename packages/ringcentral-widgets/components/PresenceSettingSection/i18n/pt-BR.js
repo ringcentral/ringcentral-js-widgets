@@ -1,5 +1,5 @@
 export default {
-  status: "Status",
+  status: "Status:",
   acceptQueueCalls: "Aceitar chamadas em fila"
 };
 

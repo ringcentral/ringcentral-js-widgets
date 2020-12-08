@@ -10,6 +10,7 @@ import { Unsubscribe } from 'redux';
 
 import { presenceStatus } from '../../enums/presenceStatus.enum';
 import { subscriptionFilters } from '../../enums/subscriptionFilters';
+import { PresenceInfoModel } from '../../interfaces/Presence.model';
 import {
   isEnded,
   normalizeFromTo,
@@ -22,11 +23,7 @@ import proxify from '../../lib/proxy/proxify';
 import { DataFetcherV2Consumer, DataSource } from '../DataFetcherV2';
 import { dndStatus } from '../Presence/dndStatus';
 import { removeIntermediateCall } from '../Presence/getPresenceReducer';
-import {
-  Deps,
-  PresenceInfoModel,
-  UpdatePresenceParams,
-} from './Presence.interface';
+import { Deps, UpdatePresenceParams } from './Presence.interface';
 
 export const DEFAULT_TTL = 62 * 1000;
 export const DEFAULT_POLLING_INTERVAL = 3 * 60 * 1000;
@@ -312,7 +309,7 @@ export class Presence extends DataFetcherV2Consumer<Deps, PresenceInfoModel> {
   }
 
   @proxify
-  _updateData(data: PresenceInfoModel, timestamp = Date.now()) {
+  async _updateData(data: PresenceInfoModel, timestamp = Date.now()) {
     this._deps.dataFetcherV2.updateData(
       this._source,
       {

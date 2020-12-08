@@ -1,16 +1,15 @@
 import { phoneTypes } from 'ringcentral-integration/enums/phoneTypes';
-
 export default {
-  [phoneTypes.business]: 'Telefone profissional',
-  [phoneTypes.extension]: 'Número de extensão',
-  [phoneTypes.home]: 'Número de casa',
-  [phoneTypes.mobile]: 'Telemóvel',
-  [phoneTypes.phone]: 'Telefone',
-  [phoneTypes.unknown]: 'Tipo de telefone desconhecido',
-  [phoneTypes.company]: 'Número da empresa',
-  [phoneTypes.direct]: 'Número direto',
-  [phoneTypes.fax]: 'Fax',
-  [phoneTypes.other]: 'Outro',
+  [phoneTypes.business]: "Telefone profissional",
+  [phoneTypes.extension]: "Número de extensão",
+  [phoneTypes.home]: "Número de casa",
+  [phoneTypes.mobile]: "Telemóvel",
+  [phoneTypes.phone]: "Telefone",
+  [phoneTypes.unknown]: "Tipo de telefone desconhecido",
+  [phoneTypes.company]: "Número da empresa",
+  [phoneTypes.direct]: "Número direto",
+  [phoneTypes.fax]: "Fax",
+  [phoneTypes.other]: "Outro"
 };
 
 // @key: @#@"[phoneTypes.business]"@#@ @source: @#@"Business Phone"@#@

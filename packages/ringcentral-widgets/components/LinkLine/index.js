@@ -5,7 +5,7 @@ import IconLine from '../IconLine';
 import styles from './styles.scss';
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 
-function LinkLine({
+const LinkLine = ({
   onClick,
   className,
   children,
@@ -13,7 +13,7 @@ function LinkLine({
   hrefClassName,
   iconClassName,
   tooltip,
-}) {
+}) => {
   return (
     <a
       onClick={(e) => {
@@ -40,7 +40,7 @@ function LinkLine({
       </IconLine>
     </a>
   );
-}
+};
 
 LinkLine.propTypes = {
   children: PropTypes.node,

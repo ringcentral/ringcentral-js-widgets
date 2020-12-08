@@ -143,12 +143,18 @@ function getVideoSettings(data) {
 function getDefaultVideoSettings({
   topic,
   startTime,
+  accountId,
+  extensionId,
 }: {
   topic: string;
   startTime: Date;
+  accountId: string;
+  extensionId: string;
 }): RcVMeetingModel {
   return {
     // api fields
+    accountId,
+    extensionId,
     name: topic,
     type: RcVideoTypes.meeting,
     expiresIn: 31536000,
@@ -311,7 +317,7 @@ function getAvaliableWaitingRoomOpions(
 function patchWaitingRoomRelated(
   settings: RcVMeetingModel,
   { waitingRoomMode }: RcVPreferences,
-  updatedMode: boolean = false,
+  isUpdatingMode: boolean = false,
 ): Partial<RcVMeetingModel> {
   const processedSettings: Partial<RcVMeetingModel> = {};
   if (settings.isOnlyAuthUserJoin) {
@@ -321,7 +327,7 @@ function patchWaitingRoomRelated(
         settings.waitingRoomMode,
       )
     ) {
-      processedSettings.waitingRoomMode = updatedMode
+      processedSettings.waitingRoomMode = isUpdatingMode
         ? RCV_WAITING_ROOM_MODE.all
         : waitingRoomMode;
     }
@@ -346,7 +352,6 @@ export {
   RCV_WAITTING_ROOM_API_KEYS,
   RcVideoTypes,
   meetingProviderTypes,
-  RCV_WAITING_ROOM_MODE,
   getDefaultChars,
   validateRandomPassword,
   generateRandomPassword,
@@ -362,4 +367,5 @@ export {
   transformSettingLocks,
   getLockedPreferences,
   patchWaitingRoomRelated,
+  RCV_WAITING_ROOM_MODE,
 };

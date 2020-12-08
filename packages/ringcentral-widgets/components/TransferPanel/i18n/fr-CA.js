@@ -1,5 +1,5 @@
 export default {
-  to: "À :",
+  to: "À :",
   transferTo: "Transférer à",
   blindTransfer: "Transfert",
   enterNameOrNumber: "Entrer le numéro"

@@ -3,7 +3,7 @@ export default {
   logCall: "Oproep loggen",
   editLog: "Log bewerken",
   select: "Selecteer een overeenkomende opname",
-  OnHold: "In de wacht",
+  OnHold: "In wacht",
   Ringing: "Aan het bellen",
   CallConnected: "Oproep verbonden",
   unknownUser: "Onbekende gebruiker",

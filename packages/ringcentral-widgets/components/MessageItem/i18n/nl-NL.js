@@ -19,7 +19,8 @@ export default {
   pages: "pagina's",
   preview: "Weergeven",
   download: "Downloaden",
-  imageAttachment: "Bijlage: {count} afbeelding"
+  imageAttachment: "Bijlage: {count} afbeelding",
+  fileAttachment: "Bijlage: {count} bestand"
 };
 
 // @key: @#@"addLog"@#@ @source: @#@"Log"@#@
@@ -42,3 +43,4 @@ export default {
 // @key: @#@"preview"@#@ @source: @#@"View"@#@
 // @key: @#@"download"@#@ @source: @#@"Download"@#@
 // @key: @#@"imageAttachment"@#@ @source: @#@"Attachment: {count} image"@#@
+// @key: @#@"fileAttachment"@#@ @source: @#@"Attachment: {count} file"@#@

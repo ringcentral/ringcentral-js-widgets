@@ -29,3 +29,17 @@ export interface Deps {
   environment?: Environment;
   authOptions?: AuthOptions;
 }
+
+export interface LoginOptions {
+  username: string;
+  password: string;
+  extension: string;
+  remember: boolean | number;
+  code: string;
+  redirectUri: string;
+  accessToken: TokenInfo['access_token'];
+  expiresIn: TokenInfo['expires_in'];
+  endpointId: TokenInfo['endpoint_id'];
+  tokenType: TokenInfo['token_type'];
+  scope: TokenInfo['scope'];
+}

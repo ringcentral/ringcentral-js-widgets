@@ -738,10 +738,10 @@ export function videoPersonalSettings() {
   });
 }
 
-export function serviceInfo(mockResponse = {}) {
+export function serviceInfo(mockResponse = {}, extensionId = '~') {
   mockApi({
     method: 'GET',
-    url: `${mockServer}/restapi/v1.0/account/~/extension/~/meeting/service-info`,
+    url: `${mockServer}/restapi/v1.0/account/~/extension/${extensionId}/meeting/service-info`,
     body: {
       ...serviceInfoBody,
       ...mockResponse,

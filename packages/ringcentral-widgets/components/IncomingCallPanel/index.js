@@ -14,7 +14,7 @@ function UserInfo(props) {
         <div className={styles.avatarHolder}>
           <div className={classnames(styles.ringOutside, styles.ringing)} />
           <div className={classnames(styles.ringInner, styles.ringing)} />
-          <div className={styles.avatar}>
+          <div className={styles.avatar} data-sign="avatar">
             <CallAvatar avatarUrl={props.avatarUrl} />
           </div>
         </div>
@@ -42,7 +42,7 @@ function UserInfo(props) {
           phoneSourceNameRenderer={props.phoneSourceNameRenderer}
         />
       </div>
-      <div className={styles.userPhoneNumber}>
+      <div className={styles.userPhoneNumber} data-sign="userPhoneNumber">
         {props.formatPhone(props.phoneNumber)}
       </div>
     </div>

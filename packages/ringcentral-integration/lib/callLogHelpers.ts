@@ -4,35 +4,38 @@ import {
   isValidNumber,
   isSameLocalNumber,
 } from '@ringcentral-integration/phone-number';
-import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap'
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 import callActions from '../enums/callActions';
 import callDirections from '../enums/callDirections';
-import callResults from '../enums/callResults';
+import callResults, { CallResultsKey } from '../enums/callResults';
 import telephonyStatuses from '../enums/telephonyStatus';
 import terminationTypes from '../enums/terminationTypes';
+import { ActiveCall } from '../interfaces/Presence.model';
+import { Call } from '../interfaces/Call.interface';
 // import i18n from './i18n';
 
 /* call direction helpers */
-export function isInbound(call = {}) {
+export function isInbound(call: { direction?: string } = {}) {
   return call.direction === callDirections.inbound;
 }
 
-export function isOutbound(call = {}) {
+export function isOutbound(call: { direction?: string } = {}) {
   return call.direction === callDirections.outbound;
 }
 
 /* status helpers */
-export function isRinging(call = {}) {
+export function isRinging(call: Call = {}) {
   return call.telephonyStatus === telephonyStatuses.ringing;
 }
-export function isRingingInboundCall(call) {
+export function isRingingInboundCall(call: Call) {
   return isRinging(call) && isInbound(call);
 }
 
 const callResultsToMissedMap = ObjectMap.fromObject(
-  reduce(
+  reduce<string, Record<string, boolean>>(
     (result, key) => {
-      result[callResults[key]] = !!find((item) => item === callResults[key], [
+      const value = callResults[key as CallResultsKey];
+      result[value] = !!find((item) => item === value, [
         callResults.missed,
         callResults.hangUp,
         // callResults.HangUp,
@@ -47,34 +50,34 @@ const callResultsToMissedMap = ObjectMap.fromObject(
   ),
 );
 
-export function isMissed(call = {}) {
+export function isMissed(call: ActiveCall = {}) {
   return !!callResultsToMissedMap[call.result];
 }
 
-export function hasRingingCalls(calls = []) {
+export function hasRingingCalls(calls: Call[] = []) {
   return !!calls.find(isRinging);
 }
 
-export function isEnded(call = {}) {
+export function isEnded(call: ActiveCall = {}) {
   return (
     call.telephonyStatus === telephonyStatuses.noCall &&
     call.terminationType === terminationTypes.final
   );
 }
 
-export function hasEndedCalls(calls) {
+export function hasEndedCalls(calls: ActiveCall[]) {
   return !!calls.find(isEnded);
 }
 
-export function isOnHold(call = {}) {
+export function isOnHold(call: ActiveCall = {}) {
   return call.telephonyStatus === telephonyStatuses.onHold;
 }
 
-export function isIntermediateCall(call = {}) {
+export function isIntermediateCall(call: ActiveCall = {}) {
   return call.terminationType === terminationTypes.intermediate;
 }
 
-export function isSelfCall(call = {}) {
+export function isSelfCall(call: ActiveCall = {}) {
   if (call.to && call.from) {
     return call.to.phoneNumber === call.from.phoneNumber;
   }
@@ -83,17 +86,23 @@ export function isSelfCall(call = {}) {
 
 /* sort functions */
 
-export function sortBySessionId(a, b) {
+export function sortBySessionId(
+  a: { sessionId: string },
+  b: { sessionId: string },
+) {
   if (a.sessionId === b.sessionId) return 0;
   return a.sessionId > b.sessionId ? 1 : -1;
 }
-export function sortByStartTime(a, b) {
+export function sortByStartTime(
+  a: { startTime: number | string },
+  b: { startTime: number | string },
+) {
   if (a.startTime === b.startTime) return 0;
   return a.startTime > b.startTime ? -1 : 1;
 }
 
-export function normalizeStartTime(call) {
-  const result = {
+export function normalizeStartTime(call: ActiveCall) {
+  const result: ActiveCall = {
     ...call,
   };
   if (call.startTime) {
@@ -105,7 +114,7 @@ export function normalizeStartTime(call) {
   return result;
 }
 
-export function normalizeFromTo(call) {
+export function normalizeFromTo(call: ActiveCall) {
   return {
     ...call,
     from:
@@ -115,9 +124,11 @@ export function normalizeFromTo(call) {
 }
 
 /* ringout leg helpers */
-export function areTwoLegs(inbound, outbound) {
+export function areTwoLegs(inbound: ActiveCall, outbound: ActiveCall) {
   if (isInbound(inbound) && isOutbound(outbound)) {
-    switch (Math.abs(inbound.sessionId - outbound.sessionId)) {
+    switch (
+      Math.abs(parseInt(inbound.sessionId) - parseInt(outbound.sessionId))
+    ) {
       case 1000:
       case 2000:
       case 3000:
@@ -161,8 +172,8 @@ export function areTwoLegs(inbound, outbound) {
   return false;
 }
 
-export function removeInboundRingOutLegs(calls) {
-  const output = [];
+export function removeInboundRingOutLegs(calls: ActiveCall[]) {
+  const output: ActiveCall[] = [];
   const outbounds = calls.filter(isOutbound);
   calls.filter(isInbound).forEach((inbound) => {
     const outboundIndex = outbounds.findIndex((call) =>
@@ -221,13 +232,19 @@ export function removeInboundRingOutLegs(calls) {
   return output.concat(outbounds);
 }
 
-export function removeDuplicateIntermediateCalls(calls) {
-  const resultCalls = [];
-  const indexMap = {};
+export function removeDuplicateIntermediateCalls(calls: ActiveCall[]) {
+  const resultCalls: ActiveCall[] = [];
+  const indexMap: Record<
+    string,
+    {
+      isIntermediate: boolean;
+      index: number;
+    }
+  > = {};
   calls.forEach((call) => {
     const isIntermediate = isIntermediateCall(call);
     if (!indexMap[call.sessionId]) {
-      indexMap[call.sessionid] = {
+      indexMap[call.sessionId] = {
         index: resultCalls.length,
         isIntermediate,
       };
@@ -241,13 +258,19 @@ export function removeDuplicateIntermediateCalls(calls) {
 }
 
 // there are two active calls with same sessionId when user call self.
-export function removeDuplicateSelfCalls(calls) {
-  const resultCalls = [];
-  const indexMap = {};
+export function removeDuplicateSelfCalls(calls: ActiveCall[]) {
+  const resultCalls: ActiveCall[] = [];
+  const indexMap: Record<
+    string,
+    {
+      index: number;
+      isSelf: boolean;
+    }
+  > = {};
   calls.forEach((call) => {
     const isSelf = isSelfCall(call);
     if (!indexMap[call.sessionId]) {
-      indexMap[call.sessionid] = {
+      indexMap[call.sessionId] = {
         index: resultCalls.length,
         isSelf,
       };
@@ -261,7 +284,7 @@ export function removeDuplicateSelfCalls(calls) {
 }
 
 // Get phone number and matches.
-export function getPhoneNumberMatches(call = {}) {
+export function getPhoneNumberMatches(call: Call = {}) {
   const {
     to = {},
     from = {},

@@ -5,7 +5,7 @@ export default {
   onHoldCall: "Appel en attente",
   otherDeviceCall: "Appels en cours sur mes autres appareils",
   confirmation: "Confirmation",
-  confirmMergeToConference: "Ajouter à la conférence téléphonique ?",
+  confirmMergeToConference: "Ajouter à la conférence téléphonique ?",
   mergeToConference: "Fusionner",
   conferenceCall: "Conférence téléphonique"
 };

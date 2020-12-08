@@ -15,8 +15,9 @@ import { AddressBook } from 'ringcentral-integration/modules/AddressBookV2';
 import { Alert } from 'ringcentral-integration/modules/AlertV2';
 import { Brand } from 'ringcentral-integration/modules/BrandV2';
 import CallCtrlUI from 'ringcentral-widgets/modules/CallCtrlUI';
-import Contacts from 'ringcentral-integration/modules/Contacts';
-import ConnectivityMonitor from 'ringcentral-integration/modules/ConnectivityMonitor';
+import { Contacts } from 'ringcentral-integration/modules/ContactsV2';
+import { ContactList } from 'ringcentral-integration/modules/ContactList';
+import { ConnectivityMonitor } from 'ringcentral-integration/modules/ConnectivityMonitorV2';
 import { DialingPlan } from 'ringcentral-integration/modules/DialingPlanV2';
 import { ExtensionDevice } from 'ringcentral-integration/modules/ExtensionDeviceV2';
 import { Environment } from 'ringcentral-integration/modules/EnvironmentV2';
@@ -25,7 +26,7 @@ import { ExtensionPhoneNumber } from 'ringcentral-integration/modules/ExtensionP
 import { ForwardingNumber } from 'ringcentral-integration/modules/ForwardingNumberV2';
 import { GlobalStorage } from 'ringcentral-integration/modules/GlobalStorageV2';
 import { Locale } from 'ringcentral-integration/modules/LocaleV2';
-import RateLimiter from 'ringcentral-integration/modules/RateLimiter';
+import { RateLimiter } from 'ringcentral-integration/modules/RateLimiterV2';
 import { RegionSettings } from 'ringcentral-integration/modules/RegionSettingsV2';
 import { Ringout } from 'ringcentral-integration/modules/RingoutV2';
 import { Webphone } from 'ringcentral-integration/modules/WebphoneV2';
@@ -35,20 +36,20 @@ import { Subscription } from 'ringcentral-integration/modules/SubscriptionV2';
 import { TabManager } from 'ringcentral-integration/modules/TabManagerV2';
 import NumberValidate from 'ringcentral-integration/modules/NumberValidate';
 import MessageStore from 'ringcentral-integration/modules/MessageStore';
-import ContactSearch from 'ringcentral-integration/modules/ContactSearch';
+import { ContactSearch } from 'ringcentral-integration/modules/ContactSearchV2';
 import { DateTimeFormat } from 'ringcentral-integration/modules/DateTimeFormatV2';
 import Conference from 'ringcentral-integration/modules/Conference';
 import ConferenceCall from 'ringcentral-integration/modules/ConferenceCall';
-import QuickAccess from 'ringcentral-integration/modules/QuickAccess';
+import { QuickAccess } from 'ringcentral-integration/modules/QuickAccessV2';
 import CallLog from 'ringcentral-integration/modules/CallLog';
-import CallMonitor from 'ringcentral-integration/modules/CallMonitor';
+import { CallMonitor } from 'ringcentral-integration/modules/CallMonitorV2';
 import CallHistory from 'ringcentral-integration/modules/CallHistory';
 import RecentMessages from 'ringcentral-integration/modules/RecentMessages';
 import RecentCalls from 'ringcentral-integration/modules/RecentCalls';
 import { AudioSettings } from 'ringcentral-integration/modules/AudioSettingsV2';
 import Meeting from 'ringcentral-integration/modules/Meeting';
 import { LocaleSettings } from 'ringcentral-integration/modules/LocaleSettingsV2';
-import ContactMatcher from 'ringcentral-integration/modules/ContactMatcher';
+import { ContactMatcher } from 'ringcentral-integration/modules/ContactMatcherV2';
 import { Analytics } from 'ringcentral-integration/modules/Analytics';
 import Feedback from 'ringcentral-integration/modules/Feedback';
 import UserGuide from 'ringcentral-integration/modules/UserGuide';
@@ -59,6 +60,7 @@ import DialerUI from 'ringcentral-widgets/modules/DialerUI';
 import ConferenceDialerUI from 'ringcentral-widgets/modules/ConferenceDialerUI';
 import ConferenceUI from 'ringcentral-widgets/modules/ConferenceUI';
 import MeetingUI from 'ringcentral-widgets/modules/MeetingUI';
+import { ContactListUI } from 'ringcentral-widgets/modules/ContactListUI';
 import { ContactDetailsUI } from 'ringcentral-widgets/modules/ContactDetailsUI';
 import OAuth from 'ringcentral-widgets/modules/OAuth';
 import AudioSettingsUI from 'ringcentral-widgets/modules/AudioSettingsUI';
@@ -183,6 +185,7 @@ const history =
     { provide: 'AccountContacts', useClass: AccountContacts },
     { provide: 'AddressBook', useClass: AddressBook },
     { provide: 'Contacts', useClass: Contacts },
+    { provide: 'ContactList', useClass: ContactList },
     { provide: 'QuickAccess', useClass: QuickAccess },
     {
       provide: 'ContactSources',
@@ -205,6 +208,7 @@ const history =
     { provide: 'ConferenceDialerUI', useClass: ConferenceDialerUI },
     { provide: 'ConferenceUI', useClass: ConferenceUI },
     { provide: 'MeetingUI', useClass: MeetingUI },
+    { provide: 'ContactListUI', useClass: ContactListUI },
     { provide: 'ContactDetailsUI', useClass: ContactDetailsUI },
     { provide: 'ActiveCallsUI', useClass: ActiveCallsUI },
     { provide: 'SettingsUI', useClass: SettingsUI },
@@ -321,35 +325,16 @@ export default class BasePhone extends RcModule {
 
     contactSearch.addSearchSource({
       sourceName: 'contacts',
-      searchFn({ searchString }) {
-        const items = contacts.allContacts;
-        if (!searchString) {
-          return items;
-        }
-        const searchText = searchString.toLowerCase();
-        const result = [];
-        items.forEach((item) => {
-          const name = item.name || `${item.firstName} ${item.lastName}`;
-          item.phoneNumbers.forEach((p) => {
-            if (
-              name.toLowerCase().indexOf(searchText) >= 0 ||
-              p.phoneNumber.indexOf(searchText) >= 0
-            ) {
-              result.push({
-                id: `${item.id}${p.phoneNumber}`,
-                name,
-                type: item.type,
-                phoneNumber: p.phoneNumber,
-                phoneType: p.phoneType.replace('Phone', ''),
-                entityType: phoneSources.contact,
-              });
-            }
-          });
-        });
-        return result;
+      async searchFn({ searchString }) {
+        const items = await contacts.searchForPhoneNumbers(searchString);
+        return items;
       },
-      formatFn: (entities) => entities,
-      readyCheckFn: () => contacts.ready,
+      formatFn(entities) {
+        return entities;
+      },
+      readyCheckFn() {
+        return contacts.ready;
+      },
     });
 
     contactMatcher.addSearchProvider({
@@ -491,7 +476,7 @@ export default class BasePhone extends RcModule {
     this._softphoneConnectTime = null;
     this._softphoneConnectNumber = null;
 
-    callMonitor._onRinging = (call) => {
+    callMonitor.onCallRinging = (call) => {
       // auto nav rules
       if (
         callingSettings.callingMode !== callingModes.webphone && // not webRTC mode
@@ -513,7 +498,7 @@ export default class BasePhone extends RcModule {
     };
 
     const phone = this;
-    callMonitor._onCallEnded = () => {
+    callMonitor.onCallEnded = () => {
       if (
         routerInteraction.currentPath === '/calls' &&
         !hasActiveCalls(phone)

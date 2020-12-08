@@ -23,9 +23,11 @@ export interface ActiveCallControlOptions {
   ttl?: number;
   timeToRetry?: number;
   permissionCheck?: boolean;
+  enableAutoSwitchFeature?: boolean;
 }
 
 export interface Deps {
+  prefix: string;
   client: RingCentralClient;
   auth: Auth;
   subscription: Subscription;

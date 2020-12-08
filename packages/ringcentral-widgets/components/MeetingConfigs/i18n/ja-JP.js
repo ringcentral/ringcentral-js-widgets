@@ -21,7 +21,13 @@ export default {
   recurringEvery: "すべて",
   recurrenceType: "繰り返しのタイプ",
   recurrenceEndDate: "終了日",
-  currentLocale: "日"
+  currentLocale: "日",
+  meetingId: "会議ID",
+  generateAutomatically: "自動生成",
+  usePmi: "個人会議ID (PMI)：{meetingId}",
+  pmiChangeConfirm: "個人会議に変更を加える場合は、 ",
+  changePmiSettings: "PMI設定を変更します",
+  pmiSettingChangeAlert: "設定を変更してこの会議をスケジュールする場合は、個人会議IDのある会議すべてで同じ最新の設定が使用されます。"
 };
 
 // @key: @#@"topic"@#@ @source: @#@"Topic"@#@
@@ -47,3 +53,9 @@ export default {
 // @key: @#@"recurrenceType"@#@ @source: @#@"Recurrence Type"@#@
 // @key: @#@"recurrenceEndDate"@#@ @source: @#@"End Date"@#@
 // @key: @#@"currentLocale"@#@ @source: @#@"Day(s)"@#@
+// @key: @#@"meetingId"@#@ @source: @#@"Meeting ID"@#@
+// @key: @#@"generateAutomatically"@#@ @source: @#@"Generate Automatically"@#@
+// @key: @#@"usePmi"@#@ @source: @#@"Personal Meeting ID (PMI): {meetingId}"@#@
+// @key: @#@"pmiChangeConfirm"@#@ @source: @#@"If you want to make changes for your personal meeting, "@#@
+// @key: @#@"changePmiSettings"@#@ @source: @#@"change PMI settings"@#@
+// @key: @#@"pmiSettingChangeAlert"@#@ @source: @#@"If you change the settings and schedule this meeting, all of meetings with Personal Meeting ID will use the same latest settings."@#@

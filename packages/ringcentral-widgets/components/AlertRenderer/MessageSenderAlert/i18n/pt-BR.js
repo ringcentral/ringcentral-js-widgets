@@ -1,4 +1,5 @@
 import messageSenderMessages from 'ringcentral-integration/modules/MessageSender/messageSenderMessages';
+import messageSenderMessagesV2 from 'ringcentral-integration/modules/MessageSenderV2/messageSenderMessages';
 export default {
   [messageSenderMessages.sendSuccess]: "Enviado com sucesso.",
   [messageSenderMessages.sendError]: "Erro ao enviar a mensagem.",
@@ -22,6 +23,9 @@ export default {
   [messageSenderMessages.internationalSMSNotSupported]: "Não há suporte para o envio de SMS para um número de telefone internacional.",
   [messageSenderMessages.noInternalSMSPermission]: "Você não tem permissão para enviar mensagens. Entre em contato com o administrador da sua conta {brand} para fazer um upgrade.",
   [messageSenderMessages.noSMSPermission]: "Você não tem permissão para enviar mensagens para destinatários de fora da sua organização.",
+  [messageSenderMessagesV2.attachmentCountLimitation]: "Máximo de 10 anexos.",
+  [messageSenderMessagesV2.attachmentSizeLimitation]: "O tamanho dos anexos é limitado a 1,5 MB.",
+  [messageSenderMessagesV2.noAttachmentToExtension]: "Não há suporte para enviar MMS para um ramal.",
   areaCode: "código de área",
   [messageSenderMessages.sending]: "Enviando mensagem... O processo pode levar alguns minutos para ser concluído."
 };
@@ -48,5 +52,8 @@ export default {
 // @key: @#@"[messageSenderMessages.internationalSMSNotSupported]"@#@ @source: @#@"Sending SMS to international phone number is not supported."@#@
 // @key: @#@"[messageSenderMessages.noInternalSMSPermission]"@#@ @source: @#@"You don't have permission to send messages. Please contact your {brand} account administrator for upgrade."@#@
 // @key: @#@"[messageSenderMessages.noSMSPermission]"@#@ @source: @#@"You don't have permission to send messages to recipients outside of your organization."@#@
+// @key: @#@"[messageSenderMessagesV2.attachmentCountLimitation]"@#@ @source: @#@"Maximum 10 attachments."@#@
+// @key: @#@"[messageSenderMessagesV2.attachmentSizeLimitation]"@#@ @source: @#@"Attachments size is limited to 1.5M bytes."@#@
+// @key: @#@"[messageSenderMessagesV2.noAttachmentToExtension]"@#@ @source: @#@"It isn't supported to send MMS to an extension."@#@
 // @key: @#@"areaCode"@#@ @source: @#@"area code"@#@
 // @key: @#@"[messageSenderMessages.sending]"@#@ @source: @#@"Message being sent…It may take a couple of minutes to complete."@#@

@@ -1,7 +1,19 @@
-export default function proxify(prototype, property, descriptor) {
+export default function proxify(
+  prototype: object,
+  property: string,
+  descriptor: TypedPropertyDescriptor<(...args: any) => Promise<any>>,
+) {
   const { configurable, enumerable, value } = descriptor;
 
-  function proxyFn(...args) {
+  function proxyFn(
+    // TODO: fix type
+    this: {
+      _transport: any;
+      modulePath: string;
+      _proxyActionTypes: Record<string, string>;
+    },
+    ...args: any
+  ) {
     if (!this._transport) {
       return value.call(this, ...args);
     }

@@ -2,16 +2,17 @@ import {
   ExtensionInfoEvent,
   UserVideoConfiguration,
 } from '@rc-ex/core/definitions';
+import { contains } from 'ramda';
 import { watch } from '@ringcentral-integration/core';
 import { Unsubscribe } from 'redux';
-
 import { subscriptionFilters } from '../../enums/subscriptionFilters';
 import { subscriptionHints } from '../../enums/subscriptionHints';
 import { debounce, DebouncedFunction } from '../../lib/debounce-throttle';
 import { Module } from '../../lib/di';
 import { DataFetcherV2Consumer, DataSource } from '../DataFetcherV2';
-import { videoProviders } from '../MeetingProvider/videoProviders';
+import { videoProviders } from './videoProviders';
 import { Deps } from './VideoConfiguration.interface';
+import { UserLicenseType } from './userLicenseType';
 
 const DEFAULT_FETCH_DELAY = 5 * 1000;
 
@@ -43,6 +44,7 @@ export class VideoConfiguration extends DataFetcherV2Consumer<
       ...deps.videoConfigurationOptions,
       key: 'videoConfiguration',
       cleanOnReset: true,
+      disableCache: true,
       fetchFunction: async (): Promise<UserVideoConfiguration> => {
         const response = await this._deps.client.service
           .platform()
@@ -74,6 +76,10 @@ export class VideoConfiguration extends DataFetcherV2Consumer<
       message?.body?.hints?.includes(subscriptionHints.videoConfiguration) &&
       (this._source.disableCache || (this._deps.tabManager?.active ?? true))
     ) {
+      // https://jira.ringcentral.com/browse/ENV-67087
+      // the video configuration api may return the old value
+      // when we try to query immediately right after got the push notification
+      // here we wait for seconds as a workaround to solve the issue
       this._debouncedFetchData();
     }
   }
@@ -98,13 +104,23 @@ export class VideoConfiguration extends DataFetcherV2Consumer<
   }
 
   get isRCM() {
-    return (
-      this.provider === videoProviders.RCMeetings ||
-      this.provider === videoProviders.None
-    );
+    return contains(this.provider, [
+      videoProviders.RCMeetings,
+      videoProviders.None,
+    ]);
   }
 
   get provider() {
     return this.data?.provider || null;
+  }
+
+  get userLicenseType(): UserLicenseType {
+    // TODO: fix UserVideoConfiguration type in @rc-ex/core/definitions
+    // @ts-ignore
+    return this.data?.userLicenseType || null;
+  }
+
+  get _hasPermission() {
+    return !!this._deps.rolesAndPermissions.hasMeetingsPermission;
   }
 }

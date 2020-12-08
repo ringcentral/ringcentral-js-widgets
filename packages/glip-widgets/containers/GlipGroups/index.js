@@ -5,19 +5,22 @@ import GlipGroupsPanel from '../../components/GlipGroupsPanel';
 
 function mapToProps(
   _,
-  { phone: { glipGroups, contacts }, hiddenCurrentGroup = false },
+  { phone: { glipGroups, contactList }, hiddenCurrentGroup = false },
 ) {
   return {
     groups: glipGroups.groupsWithUnread,
     currentGroupId: hiddenCurrentGroup ? null : glipGroups.currentGroupId,
     searchFilter: glipGroups.searchFilter,
     currentPage: glipGroups.pageNumber,
-    filteredContacts: contacts.filteredContacts,
-    contactSearchFilter: contacts.searchFilter,
+    filteredContacts: contactList.filteredContacts,
+    contactSearchFilter: contactList.searchFilter,
   };
 }
 
-function mapToFunctions(_, { phone: { glipGroups, contacts }, onSelectGroup }) {
+function mapToFunctions(
+  _,
+  { phone: { glipGroups, contactList }, onSelectGroup },
+) {
   return {
     onSelectGroup,
     updateSearchFilter(searchFilter) {
@@ -27,7 +30,7 @@ function mapToFunctions(_, { phone: { glipGroups, contacts }, onSelectGroup }) {
       glipGroups.updateFilter({ pageNumber });
     },
     updateContactSearchFilter(searchFilter) {
-      contacts.updateFilter({ searchFilter });
+      contactList.applyFilters({ searchFilter });
     },
     async createTeam({ teamName, selectedContacts }) {
       const groupId = await glipGroups.createTeam(
@@ -40,10 +43,7 @@ function mapToFunctions(_, { phone: { glipGroups, contacts }, onSelectGroup }) {
 }
 
 const GlipGroupsPage = withPhone(
-  connect(
-    mapToProps,
-    mapToFunctions,
-  )(GlipGroupsPanel),
+  connect(mapToProps, mapToFunctions)(GlipGroupsPanel),
 );
 
 export default GlipGroupsPage;

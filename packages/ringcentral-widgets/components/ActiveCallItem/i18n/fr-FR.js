@@ -29,7 +29,11 @@ export default {
   unhold: "Reprendre l'appel",
   transfer: "Transférer",
   reject: "Rejeter",
-  switchCall: "Transférer l'appel sur cette application"
+  switchCall: "Transférer l'appel sur cette application",
+  callSwitch: "Commutation d'appel",
+  comfirmContext: "Vous avez actuellement un appel actif avec {displayName}. Souhaitez-vous continuer l'appel sur cet appareil ?",
+  comfirmCancelButton: "Annuler",
+  comfirmOKButton: "Commuter"
 };
 
 // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
@@ -63,3 +67,7 @@ export default {
 // @key: @#@"transfer"@#@ @source: @#@"Transfer"@#@
 // @key: @#@"reject"@#@ @source: @#@"Reject"@#@
 // @key: @#@"switchCall"@#@ @source: @#@"Switch Call to this app"@#@
+// @key: @#@"callSwitch"@#@ @source: @#@"Call Switch"@#@
+// @key: @#@"comfirmContext"@#@ @source: @#@"You're currently on an active call with {displayName}. Would you like to continue the call on this device?"@#@
+// @key: @#@"comfirmCancelButton"@#@ @source: @#@"Cancel"@#@
+// @key: @#@"comfirmOKButton"@#@ @source: @#@"Switch"@#@

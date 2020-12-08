@@ -17,6 +17,8 @@ export type EvCallData = EvBaseCall & {
   timestamp: number;
   gate: EvEvRequeueCallGate;
   ivrString?: string;
+  id?: string;
+  CALL_UNIQUE_ID__c?: string;
 };
 
 export interface EvContactMatchItem {

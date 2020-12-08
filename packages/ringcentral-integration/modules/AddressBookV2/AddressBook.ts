@@ -3,13 +3,15 @@ import { computed } from '@ringcentral-integration/core';
 import { forEach, map } from 'ramda';
 
 import { phoneSources } from '../../enums/phoneSources';
-import { ContactModel } from '../../interfaces/Contact.model';
+import { ContactModel, ContactSource } from '../../interfaces/Contact.model';
 import {
-  getSearchContacts,
-  getMatchContacts,
+  getFilterContacts,
+  getSearchForPhoneNumbers,
+  getMatchContactsByPhoneNumber,
   addPhoneToContact,
 } from '../../lib/contactHelper';
 import { Module } from '../../lib/di';
+import proxify from '../../lib/proxy/proxify';
 import sleep from '../../lib/sleep';
 import { DataFetcherV2Consumer, DataSource } from '../DataFetcherV2';
 import { Deps } from './AddressBook.interface';
@@ -27,10 +29,12 @@ export const DEFAULT_CONTACTS_PER_PAGE = 250;
     { dep: 'AddressBookOptions', optional: true },
   ],
 })
-export class AddressBook extends DataFetcherV2Consumer<
-  Deps,
-  Pick<AddressBookSync, 'syncInfo' | 'records'>
-> {
+export class AddressBook
+  extends DataFetcherV2Consumer<
+    Deps,
+    Pick<AddressBookSync, 'syncInfo' | 'records'>
+  >
+  implements ContactSource {
   constructor(deps: Deps) {
     super({
       deps,
@@ -103,8 +107,19 @@ export class AddressBook extends DataFetcherV2Consumer<
   }
 
   // interface of ContactSource
-  searchContacts(searchString: string) {
-    return getSearchContacts({
+  @proxify
+  async sync() {
+    await this._sync();
+  }
+
+  // interface of ContactSource
+  filterContacts(searchFilter: string) {
+    return getFilterContacts(this.contacts, searchFilter);
+  }
+
+  // interface of ContactSource
+  searchForPhoneNumbers(searchString: string) {
+    return getSearchForPhoneNumbers({
       contacts: this.contacts,
       searchString,
       entityType: phoneSources.contact,
@@ -113,8 +128,8 @@ export class AddressBook extends DataFetcherV2Consumer<
   }
 
   // interface of ContactSource
-  matchPhoneNumber(phoneNumber: string) {
-    return getMatchContacts({
+  matchContactsByPhoneNumber(phoneNumber: string) {
+    return getMatchContactsByPhoneNumber({
       contacts: this.contacts,
       phoneNumber,
       entityType: phoneSources.rcContact,
@@ -154,7 +169,7 @@ export class AddressBook extends DataFetcherV2Consumer<
         ) {
           return;
         }
-        addPhoneToContact(contact, contact[key], key);
+        addPhoneToContact(contact, contact[key] as string, key);
       }, Object.keys(contact) as (keyof typeof contact)[]);
       return contact;
     }, this.data?.records ?? []);

@@ -19,7 +19,8 @@ export default {
   pages: "páginas",
   preview: "Ver",
   download: "Transferir",
-  imageAttachment: "Anexo: {count} imagem"
+  imageAttachment: "Anexo: {count} imagem",
+  fileAttachment: "Anexo: {count} ficheiro"
 };
 
 // @key: @#@"addLog"@#@ @source: @#@"Log"@#@
@@ -42,3 +43,4 @@ export default {
 // @key: @#@"preview"@#@ @source: @#@"View"@#@
 // @key: @#@"download"@#@ @source: @#@"Download"@#@
 // @key: @#@"imageAttachment"@#@ @source: @#@"Attachment: {count} image"@#@
+// @key: @#@"fileAttachment"@#@ @source: @#@"Attachment: {count} file"@#@

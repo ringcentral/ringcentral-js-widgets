@@ -7,7 +7,7 @@ import {
   track,
 } from '@ringcentral-integration/core';
 import format from '@ringcentral-integration/phone-number/lib/format';
-import EventEmitter from 'events';
+import { EventEmitter } from 'events';
 import { Module } from 'ringcentral-integration/lib/di';
 
 import { authStatus, messageTypes, tabManagerEvents } from '../../enums';

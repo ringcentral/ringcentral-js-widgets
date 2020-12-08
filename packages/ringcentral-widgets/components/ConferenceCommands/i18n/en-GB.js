@@ -7,15 +7,15 @@ export default {
   starSharp4Title: "Menu",
   starSharp4Body: "Listen to the list of touch-tone commands",
   starSharp5Title: "Set listening modes",
-  starSharp5Body: "Press once: Mute callers – callers can unmute with *, #, 6\r\nPress twice: Mute callers – listen only. No unmuting option\r\nPress three times: Unmute callers – opens the line again",
+  starSharp5Body: "Press once: Mute callers – callers can unmute with *, #, 6\nPress twice: Mute callers – listen only. No unmuting option\nPress three times: Unmute callers – opens the line again",
   starSharp6Title: "Mute host line",
-  starSharp6Body: "Press once to MUTE\r\nPress again to UNMUTE",
+  starSharp6Body: "Press once to MUTE\nPress again to UNMUTE",
   starSharp7Title: "Secure the call",
-  starSharp7Body: "Press once to BLOCK all callers\r\nPress again to OPEN the call",
+  starSharp7Body: "Press once to BLOCK all callers\nPress again to OPEN the call",
   starSharp8Title: "Hear sound when people enter or exit call",
-  starSharp8Body: "Press once: Turns OFF sound\r\nPress twice: Enter tone is ON. Exit tone is OFF\r\nPress three times: Enter tone is OFF. Exit tone is ON\r\nPress four times: Turns ON sound",
+  starSharp8Body: "Press once: Turns OFF sound\nPress twice: Enter tone is ON. Exit tone is OFF\nPress three times: Enter tone is OFF. Exit tone is ON\nPress four times: Turns ON sound",
   star9Title: "Record your conference",
-  star9Body: "Press once to START recording\r\nPress again to STOP recording"
+  star9Body: "Press once to START recording\nPress again to STOP recording"
 };
 
 // @key: @#@"title"@#@ @source: @#@"Conference Commands"@#@

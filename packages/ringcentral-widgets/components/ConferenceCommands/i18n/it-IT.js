@@ -7,15 +7,15 @@ export default {
   starSharp4Title: "Menu",
   starSharp4Body: "Consente di ascoltare l'elenco dei comandi di composizione a toni",
   starSharp5Title: "Imposta modalità di ascolto",
-  starSharp5Body: "1 pressione: Disattiva audio chiamanti - I chiamanti possono riattivare l'audio con *, #, 6\r\n2 pressioni: Disattiva audio chiamanti - Solo ascolto. Nessuna opzione di riattivazione audio\r\n3 pressioni: Riattiva audio chiamanti - Riapre la linea",
+  starSharp5Body: "1 pressione: Disattiva audio chiamanti - I chiamanti possono riattivare l'audio con *, #, 6\n2 pressioni: Disattiva audio chiamanti - Solo ascolto. Nessuna opzione di riattivazione audio\n3 pressioni: Riattiva audio chiamanti - Riapre la linea",
   starSharp6Title: "Disattiva audio linea moderatore",
-  starSharp6Body: "Premi una volta per DISATTIVARE L'AUDIO\r\nPremi nuovamente per RIATTIVARE L'AUDIO",
+  starSharp6Body: "Premi una volta per DISATTIVARE L'AUDIO\nPremi nuovamente per RIATTIVARE L'AUDIO",
   starSharp7Title: "Proteggi chiamata",
-  starSharp7Body: "Premi una volta per BLOCCARE tutti i chiamanti\r\nPremi nuovamente per APRIRE la chiamata",
+  starSharp7Body: "Premi una volta per BLOCCARE tutti i chiamanti\nPremi nuovamente per APRIRE la chiamata",
   starSharp8Title: "Ricevi un segnale acustico quando le persone entrano o escono dalla chiamata",
-  starSharp8Body: "1 pressione: Disattiva l'audio\r\n2 pressioni: Tono entrata attivo, tono uscita inattivo\r\n3 pressioni: Tono entrata inattivo, tono uscita attivo\r\n4 pressioni: Attiva l'audio",
+  starSharp8Body: "1 pressione: Disattiva l'audio\n2 pressioni: Tono entrata attivo, tono uscita inattivo\n3 pressioni: Tono entrata inattivo, tono uscita attivo\n4 pressioni: Attiva l'audio",
   star9Title: "Registra la conferenza",
-  star9Body: "Premi una volta per AVVIARE la registrazione\r\nPremi nuovamente per INTERROMPERE la registrazione"
+  star9Body: "Premi una volta per AVVIARE la registrazione\nPremi nuovamente per INTERROMPERE la registrazione"
 };
 
 // @key: @#@"title"@#@ @source: @#@"Conference Commands"@#@

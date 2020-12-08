@@ -191,6 +191,8 @@ function getBaseRcvTpl(
   const pinNumber = meeting.shortId;
   let productName;
   const meetingContent: Array<string> = [];
+  const showMeetingPasswordPSTN = isMeetingSecret && meetingPasswordPSTN;
+
   if (brand.name === 'RingCentral') {
     productName = 'RingCentral Video';
     meetingContent.push(
@@ -206,7 +208,7 @@ function getBaseRcvTpl(
     meetingContent.push(
       i18n.getString('rcvInviteMeetingContentDial', currentLocale),
     );
-    if (isMeetingSecret && meetingPasswordPSTN) {
+    if (showMeetingPasswordPSTN) {
       meetingContent.push(
         getRcvPstnPasswordTpl(meetingPasswordPSTN, currentLocale),
       );
@@ -226,7 +228,9 @@ function getBaseRcvTpl(
     brandName,
     joinUri,
     passwordTpl,
-    smartphones: `${dialInNumber},,${pinNumber}#`,
+    smartphones: `${dialInNumber},,${pinNumber}#${
+      showMeetingPasswordPSTN ? `,,${meetingPasswordPSTN}#` : ''
+    }`,
     dialNumber: dialInNumber,
     pinNumber: formatMeetingId(pinNumber),
     teleconference,

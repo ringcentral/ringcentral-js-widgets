@@ -12,12 +12,15 @@ export { formatTypes };
 /**
  * Given current account is enabled the multiple site, when number is the same with current account
  * then the number needs to be formatted.
- * @param {String} params.currentSiteCode current user's site code
- * @param {String} params.extension extension number need to be format
- * @returns {String}
  */
 export const formatSameSiteExtension = ({
+  /**
+   * current user's site code
+   */
   currentSiteCode = '',
+  /**
+   * extension number need to be format
+   */
   extension = '',
 }) => {
   if (

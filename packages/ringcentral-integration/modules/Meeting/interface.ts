@@ -1,5 +1,5 @@
 import MeetingScheduleResource from 'ringcentral-client/build/definitions/MeetingScheduleResource';
-import { MeetingTypeV } from '../../helpers/meetingHelper';
+import { MeetingTypeV } from '../../helpers/meetingHelper.interface';
 
 export const AUDIO_OPTIONS = {
   ComputerAudio: 'ComputerAudio',

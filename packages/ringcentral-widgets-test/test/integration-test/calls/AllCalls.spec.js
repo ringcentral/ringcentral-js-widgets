@@ -23,15 +23,9 @@ async function checkIncomingPopup(wrapper, phone) {
   expect(ringingCall.find('.listTitle').text()).toEqual('Ringing Call');
   const panel = wrapper.find(ActiveCallsPanel);
   if (panel.props().useV2) {
-    ringingCall
-      .find(ActiveCallItemV2)
-      .find('.currentName')
-      .simulate('click');
+    ringingCall.find(ActiveCallItemV2).find('.currentName').simulate('click');
   } else {
-    ringingCall
-      .find(ActiveCallItem)
-      .find('.currentName')
-      .simulate('click');
+    ringingCall.find(ActiveCallItem).find('.currentName').simulate('click');
   }
   await timeout(100);
   expect(phone.routerInteraction.currentPath).toEqual('/calls');
@@ -39,7 +33,7 @@ async function checkIncomingPopup(wrapper, phone) {
   expect(wrapper.find(IncomingCallPad)).toHaveLength(1);
 }
 
-describe('Incoming Call Control Page from All Calls', () => {
+describe('RCI-1105: Incoming Call Control Page from All Calls', () => {
   test(`One incoming call then click back button without answer or reject the call, then click
   incoming call item from all calls tab,user will see the incoming call popup again`, async () => {
     const { phone, wrapper } = await initPhoneWrapper();
@@ -63,6 +57,7 @@ describe('Incoming Call Control Page from All Calls', () => {
     await checkIncomingPopup(wrapper, phone);
     await tearDownWrapper(wrapper);
   });
+
   test(`when user at call ctrl page, with the a incoming call, if user reject this incoming call,
   app should stay at original page`, async () => {
     const { phone, wrapper } = await initPhoneWrapper();
@@ -81,22 +76,12 @@ describe('Incoming Call Control Page from All Calls', () => {
     wrapper.update();
     const answerBtn = wrapper.find(MultiCallAnswerButton);
     expect(answerBtn).toHaveLength(2);
-    expect(
-      answerBtn
-        .at(0)
-        .find('.buttonTitle')
-        .text(),
-    ).toEqual('Answer & End');
-    expect(
-      answerBtn
-        .at(1)
-        .find('.buttonTitle')
-        .text(),
-    ).toEqual('Answer & Hold');
-    wrapper
-      .find('.backButton')
-      .at(1)
-      .simulate('click');
+    expect(answerBtn.at(0).find('.buttonTitle').text()).toEqual('Answer & End');
+    expect(answerBtn.at(1).find('.buttonTitle').text()).toEqual(
+      'Answer & Hold',
+    );
+
+    wrapper.find('.backButton').at(1).simulate('click');
     await timeout(100);
     const activeCallPad = wrapper.find(ActiveCallPad);
     expect(activeCallPad).toHaveLength(1);
@@ -108,8 +93,16 @@ describe('Incoming Call Control Page from All Calls', () => {
     expect(phone.routerInteraction.currentPath).toEqual('/calls');
     wrapper.update();
     await checkIncomingPopup(wrapper, phone);
+
+    const ignoreBtn = wrapper.find(ActiveCallButton).at(2);
+    expect(ignoreBtn.find('.buttonTitle').text()).toEqual('Ignore');
+    ignoreBtn.simulate('click');
+    await timeout(100);
+    expect(phone.routerInteraction.currentPath).toEqual('/calls');
+
     await tearDownWrapper(wrapper);
   });
+
   test(`Multiple incoming calls auto goes to all calls page, then click one of
    the call item can see the incoming call popup again`, async () => {
     const { phone, wrapper } = await initPhoneWrapper();
@@ -137,23 +130,14 @@ describe('Incoming Call Control Page from All Calls', () => {
       ringingCalls = allCallList.at(0).find(ActiveCallItem);
     }
     expect(ringingCalls).toHaveLength(2);
-    ringingCalls
-      .at(0)
-      .find('.currentName')
-      .simulate('click');
+    ringingCalls.at(0).find('.currentName').simulate('click');
     await timeout(100);
     wrapper.update();
     expect(wrapper.find(IncomingCallPanel)).toHaveLength(1);
-    wrapper
-      .find(IncomingCallPanel)
-      .find('.backButton')
-      .simulate('click');
+    wrapper.find(IncomingCallPanel).find('.backButton').simulate('click');
     await timeout(100);
     wrapper.update();
-    ringingCalls
-      .at(1)
-      .find('.currentName')
-      .simulate('click');
+    ringingCalls.at(1).find('.currentName').simulate('click');
     await timeout(100);
     wrapper.update();
     expect(wrapper.find(IncomingCallPanel)).toHaveLength(1);

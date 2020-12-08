@@ -205,6 +205,7 @@ class ConversationPanel extends Component {
           formatPhone={this.props.formatPhone}
           loadingNextPage={this.props.loadingNextPage}
           loadPreviousMessages={this.props.loadPreviousMessages}
+          onAttachmentDownload={this.props.onAttachmentDownload}
         />
       );
     }
@@ -338,6 +339,7 @@ ConversationPanel.propTypes = {
   supportAttachment: PropTypes.bool,
   addAttachment: PropTypes.func,
   removeAttachment: PropTypes.func,
+  onAttachmentDownload: PropTypes.func,
 };
 ConversationPanel.defaultProps = {
   disableLinks: false,
@@ -361,6 +363,7 @@ ConversationPanel.defaultProps = {
   supportAttachment: false,
   addAttachment: () => null,
   removeAttachment: () => null,
+  onAttachmentDownload: undefined,
 };
 
 export default ConversationPanel;

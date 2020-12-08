@@ -1,7 +1,7 @@
 @import '../../lib/commonStyles/colors';
 $fixed-icon-width: 21px;
 $fixed-avatar-width: 35px;
-$avatar-basis:45.5px;
+$avatar-basis: 45.5px;
 
 .callIcon {
   display: inline-flex;
@@ -40,4 +40,26 @@ $avatar-basis:45.5px;
     font-size: $fixed-avatar-width;
     opacity: 0.3;
   }
+}
+
+.newCallIcon {
+  width: $fixed-icon-width;
+  svg {
+    fill: #6a7186;
+  }
+}
+@keyframes newRinging {
+  from {
+    filter: drop-shadow(0 0 1px $active);
+  }
+  to {
+    fill: #2ce44d;
+    filter: drop-shadow(0 0 10px #2ce44d);
+  }
+}
+.activeCall.newRinging {
+  animation-name: newRinging;
+  animation-direction: alternate;
+  animation-duration: 0.5s;
+  animation-iteration-count: infinite;
 }

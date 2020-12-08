@@ -6,7 +6,7 @@ export default {
   rcvRCBrandInviteMeetingContent:
     '{accountName} has invited you to a {productName} meeting.\n\nPlease join using this link:\n\t{joinUri}{passwordTpl}',
   rcvInviteMeetingContentDial:
-    '\n\nOne tap to join audio only from a smartphone:\n\t{smartphones}\n\nOr dial:\n\tDial: {dialNumber}\n\tPIN: {pinNumber} ',
+    '\n\nOne tap to join audio only from a smartphone:\n\t{smartphones}\n\nOr dial:\n\tDial: {dialNumber}\n\tAccess Code / Meeting ID: {pinNumber} ',
   rcvTeleconference: '\n\nInternational numbers available: {teleconference} ',
   doNotModify: '===== Do not modify this text =====',
   password: '\n\nPassword',

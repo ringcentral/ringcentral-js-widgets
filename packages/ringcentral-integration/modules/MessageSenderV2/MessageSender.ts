@@ -1,7 +1,12 @@
 import { find } from 'ramda';
-import EventEmitter from 'events';
+import { EventEmitter } from 'events';
 import * as uuid from 'uuid';
-import { RcModuleV2, state, action } from '@ringcentral-integration/core';
+import {
+  RcModuleV2,
+  state,
+  action,
+  track,
+} from '@ringcentral-integration/core';
 import { ApiError } from '@ringcentral/sdk';
 import GetMessageInfoResponse from 'ringcentral-client/build/definitions/GetMessageInfoResponse';
 import CreatePagerMessageRequest from 'ringcentral-client/build/definitions/CreatePagerMessageRequest';
@@ -28,6 +33,7 @@ import { messageSenderEvents } from './messageSenderEvents';
 import proxify from '../../lib/proxy/proxify';
 import chunkMessage from '../../lib/chunkMessage';
 import sleep from '../../lib/sleep';
+import { trackEvents } from '../Analytics';
 
 export const MESSAGE_MAX_LENGTH = 1000;
 export const MULTIPART_MESSAGE_MAX_LENGTH = MESSAGE_MAX_LENGTH * 5;
@@ -76,6 +82,21 @@ export class MessageSender extends RcModuleV2<Deps> {
   @action
   setSendStatus(status: string) {
     this.sendStatus = status;
+  }
+
+  @track(trackEvents.smsAttempt)
+  _smsAttempt() {
+    this.setSendStatus(messageSenderStatus.sending);
+  }
+
+  @track(trackEvents.smsSentSuccessfully)
+  _smsSentOver() {
+    this.setSendStatus(messageSenderStatus.idle);
+  }
+
+  @track(trackEvents.smsSentFailed)
+  _smsSentError() {
+    this.setSendStatus(messageSenderStatus.idle);
   }
 
   _alertWarning(message: string) {
@@ -253,7 +274,7 @@ export class MessageSender extends RcModuleV2<Deps> {
         replyOnMessageId,
         multipart,
       });
-      this.setSendStatus(messageSenderStatus.sending);
+      this._smsAttempt();
       const responses = [];
       const chunks = multipart
         ? chunkMessage(text, MESSAGE_MAX_LENGTH)
@@ -292,7 +313,7 @@ export class MessageSender extends RcModuleV2<Deps> {
           }
         }
       }
-      this.setSendStatus(messageSenderStatus.idle);
+      this._smsSentOver();
       return responses;
     } catch (error) {
       console.debug('sendComposeText e ', error);
@@ -304,7 +325,7 @@ export class MessageSender extends RcModuleV2<Deps> {
         replyOnMessageId,
         multipart,
       });
-      this.setSendStatus(messageSenderStatus.idle);
+      this._smsSentError();
       await this._onSendError(error);
       throw error;
     }

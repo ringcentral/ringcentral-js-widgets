@@ -1,4 +1,4 @@
-import EventEmitter from 'events';
+import { EventEmitter } from 'events';
 import { SingleTabBroadcastChannel } from 'ringcentral-integration/lib/SingleTabBroadcastChannel';
 
 import {

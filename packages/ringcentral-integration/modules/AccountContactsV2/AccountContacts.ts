@@ -12,9 +12,10 @@ import { Module } from '../../lib/di';
 import isBlank from '../../lib/isBlank';
 import { batchGetApi } from '../../lib/batchApiHelper';
 import {
-  getSearchContacts,
-  getMatchContacts,
-  getFindContact,
+  getFilterContacts,
+  getSearchForPhoneNumbers,
+  getMatchContactsByPhoneNumber,
+  getFindPhoneNumber,
 } from '../../lib/contactHelper';
 import proxify from '../../lib/proxy/proxify';
 import {
@@ -25,6 +26,7 @@ import {
   PresenceContexts,
   PresenceMap,
 } from './AccountContacts.interfaces';
+import { IContact, ContactSource } from '../../interfaces/Contact.model';
 
 const MaximumBatchGetPresence = 30;
 const DEFAULT_TTL = 30 * 60 * 1000; // 30 mins
@@ -41,7 +43,7 @@ const DEFAULT_AVATARQUERYINTERVAL = 2 * 1000; // 2 seconds
     { dep: 'AccountContactsOptions', optional: true },
   ],
 })
-export class AccountContacts extends RcModuleV2<Deps> {
+export class AccountContacts extends RcModuleV2<Deps> implements ContactSource {
   protected _getPresenceContexts?: PresenceContexts;
 
   protected _enqueueTimeoutId: NodeJS.Timeout;
@@ -225,9 +227,14 @@ export class AccountContacts extends RcModuleV2<Deps> {
   }
 
   // interface of ContactSource
-  searchContacts(searchString: string) {
+  filterContacts(searchFilter: string) {
+    return getFilterContacts(this.contacts, searchFilter);
+  }
+
+  // interface of ContactSource
+  searchForPhoneNumbers(searchString: string) {
     const { isMultipleSiteEnabled, site } = this._deps.extensionInfo;
-    return getSearchContacts({
+    return getSearchForPhoneNumbers({
       contacts: this.contacts,
       searchString,
       entityType: phoneSources.contact,
@@ -236,13 +243,16 @@ export class AccountContacts extends RcModuleV2<Deps> {
   }
 
   // interface of ContactSource
-  matchPhoneNumber(phoneNumber: string) {
+  matchContactsByPhoneNumber(phoneNumber: string) {
     const { isMultipleSiteEnabled, site } = this._deps.extensionInfo;
-    return getMatchContacts({
-      contacts: [...this.contacts, ...this._deps.companyContacts.ivrContacts],
+    return getMatchContactsByPhoneNumber({
+      contacts: [
+        ...this.contacts,
+        ...this._deps.companyContacts.ivrContacts,
+      ] as IContact[],
       phoneNumber,
       entityType: phoneSources.rcContact,
-      findContact: getFindContact({
+      findPhoneNumber: getFindPhoneNumber({
         phoneNumber,
         options: {
           isMultipleSiteEnabled,

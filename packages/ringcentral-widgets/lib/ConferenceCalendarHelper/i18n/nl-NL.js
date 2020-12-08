@@ -10,7 +10,7 @@ export default {
   inviteText_bt: "Neem deel aan de {brandName}-conference.\n\nInbelnummer: {formattedDialInNumber} \n{additionalNumbersSection} \nToegang deelnemer: {participantCode} \n\nExtra inbelnummers {dialInNumbersLinks} ",
   inviteText_rc: "Neem deel aan de {brandName}-conference.\n\nInbelnummer: {formattedDialInNumber} \n{additionalNumbersSection} \nToegang deelnemer: {participantCode} \n\nEen internationaal inbelnummer nodig? Ga naar{dialInNumbersLinks} \n\nDeze conference wordt u aangeboden door {brandName} Conferencing.",
   inviteText_telus: "Neem deel aan de {brandName}-conference.\n\nInbelnummer: {formattedDialInNumber} \n{additionalNumbersSection} \nToegang deelnemer: {participantCode} \n\nExtra inbelnummers {dialInNumbersLinks} ",
-  conferenceCall: "{brandName} Conference call",
+  conferenceCall: "{brandName} conferencecall",
   videoCall: "{brandName} video-oproep",
   addConferencingDetails: "Conferencegegevens toevoegen",
   updateConferencingDetails: "Conferencegegevens worden bijgewerkt",

@@ -52,20 +52,13 @@ describe('Schedule Meeting', () => {
     const expectedDate = now.add(1, 'days');
     dateField.props().onChange(expectedDate.toDate());
     app.update();
-    // HR/MIN
+    // Time
     expectedDate.hours(EXPECT_HOUR).minutes(EXPECT_MINUTES);
     when = app.find(MeetingSection).at(1);
-    const hourField = when.find('input').at(2);
-    hourField.simulate('change', { target: { value: EXPECT_HOUR.toString() } });
-    hourField.props().onBlur();
-    // To fit the Debounce timeout on MeetingPanel
-    await sleep(100);
-    when = app.find(MeetingSection).at(1);
-    const minuteField = when.find('input').at(3);
-    minuteField.simulate('change', {
-      target: { value: EXPECT_MINUTES.toString() },
-    });
-    minuteField.props().onBlur();
+    const timeField = when.find('DateTimePicker').at(1);
+    timeField.props().onChange(expectedDate.toDate());
+    app.update();
+
     await sleep(100);
     const actualDate = moment(
       app.props().phone.meeting.meeting.schedule.startTime,

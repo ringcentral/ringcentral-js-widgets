@@ -1,4 +1,4 @@
-import EventEmitter from 'events';
+import { EventEmitter } from 'events';
 
 class AsyncEventEmitter extends EventEmitter {
   async asyncEmit(type: string | symbol, data?): Promise<void> {

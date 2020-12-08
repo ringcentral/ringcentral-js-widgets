@@ -1,25 +1,20 @@
 import { find, filter } from 'ramda';
-import { state, action, computed } from '@ringcentral-integration/core';
+import { state, action, computed, track } from '@ringcentral-integration/core';
 import { ObjectMapKey } from '@ringcentral-integration/core/lib/ObjectMap';
 import { InviteOptions } from 'ringcentral-web-phone/lib/userAgent';
 import { Module } from '../../lib/di';
 import sleep from '../../lib/sleep';
-
 import { sessionStatus } from './sessionStatus';
 import { recordStatus } from './recordStatus';
 import callDirections from '../../enums/callDirections';
 import { webphoneErrors } from './webphoneErrors';
 import { webphoneMessages } from './webphoneMessages';
-import { extendedControlStatus } from './extendedControlStatus';
 import { EVENTS } from './events';
 import { callErrors } from '../CallV2/callErrors';
 import proxify from '../../lib/proxy/proxify';
 import validateNumbers from '../../lib/validateNumbers';
-
 import {
   Deps,
-  WebphoneSession,
-  NormalizedSession,
   SwitchCallActiveCallParams,
   SessionReplyOptions,
   CallStartHandler,
@@ -32,7 +27,6 @@ import {
   CallHoldHandler,
 } from './Webphone.interface';
 import { WebphoneBase } from './WebphoneBase';
-
 import {
   normalizeSession,
   isRing,
@@ -40,6 +34,12 @@ import {
   extractHeadersData,
   sortByLastActiveTimeDesc,
 } from './webphoneHelper';
+import { trackEvents } from '../Analytics';
+import { extendedControlStatus } from '../../enums/extendedControlStatus';
+import {
+  NormalizedSession,
+  WebphoneSession,
+} from '../../interfaces/Webphone.interface';
 
 export const INCOMING_CALL_INVALID_STATE_ERROR_CODE = 2;
 
@@ -334,6 +334,11 @@ export class Webphone extends WebphoneBase {
     session.__rc_extendedControlStatus = extendedControlStatus.stopped;
   }
 
+  @track(trackEvents.inboundWebRTCCallConnected)
+  _trackCallAnswer() {
+    //
+  }
+
   @proxify
   async answer(sessionId: string) {
     const sipSession = this.originalSessions[sessionId];
@@ -345,11 +350,7 @@ export class Webphone extends WebphoneBase {
       await this._holdOtherSession(sessionId);
       this._onAccepted(sipSession);
       await sipSession.accept(this.acceptOptions);
-      // TODO: track action
-      // this.store.dispatch({
-      //   // for track
-      //   type: this.actionTypes.callAnswer,
-      // });
+      this._trackCallAnswer();
     } catch (e) {
       console.log('Accept failed');
       console.error(e);
@@ -907,17 +908,20 @@ export class Webphone extends WebphoneBase {
   }
 
   @proxify
-  setSessionCaching(sessionIds: string[]) {
+  async setSessionCaching(sessionIds: string[]) {
     this._setSessionCaching(sessionIds);
   }
 
   @proxify
-  clearSessionCaching() {
+  async clearSessionCaching() {
     this._clearSessionCaching(
       [...Object.values(this.originalSessions)].map(normalizeSession),
     );
   }
 
+  @track((that: Webphone) =>
+    that.isOnTransfer ? [trackEvents.coldTransferCall] : null,
+  )
   _updateSessions() {
     this._updateSessionsState(
       [...Object.values(this.originalSessions)].map(normalizeSession),

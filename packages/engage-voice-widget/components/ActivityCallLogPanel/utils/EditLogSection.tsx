@@ -31,7 +31,7 @@ const _getReferenceFieldOptions = (
   };
 
   const getRelatedToLabel = (item: any = {}, length: number) => {
-    const { CaseNumber, name, type } = item;
+    const { caseNumber, name, type } = item;
     if (Object.keys(item).length === 0) {
       return length > 1
         ? `${i18n.getString(
@@ -40,7 +40,7 @@ const _getReferenceFieldOptions = (
           )} (${length})`
         : i18n.getString('none', currentLocale);
     }
-    return name ? `${name}` : `${type}(${CaseNumber})`;
+    return name ? `${name}` : `${type}(${caseNumber})`;
   };
 
   const onNameChange = ({

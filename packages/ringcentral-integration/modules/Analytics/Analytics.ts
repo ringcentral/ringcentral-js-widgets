@@ -1,13 +1,14 @@
-import RcModule from '../../lib/RcModule';
-import { Module } from '../../lib/di';
-import sleep from '../../lib/sleep';
-import saveBlob from '../../lib/saveBlob';
+import RouterInteraction from '../../../ringcentral-widgets/modules/RouterInteraction';
 import moduleStatuses from '../../enums/moduleStatuses';
-import { analyticsActionTypes, AnalyticsActionTypes } from './actionTypes';
-import getAnalyticsReducer from './getAnalyticsReducer';
-
 import { Segment } from '../../lib/Analytics';
+import { Module } from '../../lib/di';
+import RcModule from '../../lib/RcModule';
+import saveBlob from '../../lib/saveBlob';
+import sleep from '../../lib/sleep';
 import callingModes from '../CallingSettings/callingModes';
+import { ExtensionInfo } from '../ExtensionInfoV2';
+import { AnalyticsActionTypes, analyticsActionTypes } from './actionTypes';
+import getAnalyticsReducer from './getAnalyticsReducer';
 
 export interface TrackProps {
   appName: string;
@@ -144,7 +145,7 @@ export class Analytics extends RcModule<
   protected _call: any;
   protected _callingSettings: any;
   protected _accountInfo: any;
-  protected _extensionInfo: any;
+  protected _extensionInfo: ExtensionInfo;
   protected _rolesAndPermissions: any;
   protected _callHistory: any;
   protected _callMonitor: any;
@@ -153,7 +154,7 @@ export class Analytics extends RcModule<
   protected _contactDetailsUI: any;
   protected _messageSender: any;
   protected _messageStore: any;
-  protected _routerInteraction: any;
+  protected _routerInteraction: RouterInteraction;
   protected _userGuide: any;
   protected _webphone: any;
   protected _locale: any;
@@ -432,7 +433,7 @@ export class Analytics extends RcModule<
   @tracking
   private _smsSentOver(action: TrackAction) {
     if (this._messageSender?.actionTypes.sendOver === action.type) {
-      this.track('SMS: SMS sent succesfully');
+      this.track('SMS: SMS sent successfully');
     }
   }
 

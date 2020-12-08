@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { createStore } from 'redux';
-import EventEmitter from 'events';
+import { EventEmitter } from 'events';
 import MessageSender, {
   MessageMaxLength,
   MultipartMessageMaxLength,

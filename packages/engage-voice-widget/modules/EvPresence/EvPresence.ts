@@ -5,7 +5,7 @@ import {
   state,
   storage,
 } from '@ringcentral-integration/core';
-import EventEmitter from 'events';
+import { EventEmitter } from 'events';
 import { Module } from 'ringcentral-integration/lib/di';
 
 import {

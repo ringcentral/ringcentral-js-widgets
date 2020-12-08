@@ -6,7 +6,7 @@ export default {
   [meetingStatus.scheduledSuccess]: "모임이 추가됨",
   [meetingStatus.updatedSuccess]: "모임이 업데이트됨",
   [meetingStatus.meetingIsDeleted]: "모임이 삭제됨",
-  [meetingStatus.internalError]: "죄송합니다. RingCentral 시스템에서 문제가 발생했습니다. 다시 시도하세요."
+  [meetingStatus.internalError]: "죄송합니다. 시스템에서 문제가 발생했습니다. 다시 시도하세요."
 };
 
 // @key: @#@"[meetingStatus.emptyTopic]"@#@ @source: @#@"Please enter meeting topic."@#@

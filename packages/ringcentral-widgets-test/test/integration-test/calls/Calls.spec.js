@@ -61,8 +61,8 @@ describe('RCI-1038#4 All Calls Page', () => {
         .find(ActiveCallItem)
         .find('.webphoneButtons > span');
     }
-    expect(buttons.at(0).props().title).toEqual('Send to Voicemail');
-    expect(buttons.at(1).props().title).toEqual('Accept');
+    expect(buttons.at(0).props().title).toEqual('To Voicemail');
+    expect(buttons.at(1).props().title).toEqual('Answer');
     await tearDownWrapper(wrapper);
   });
   test('Check Call Section: currentCall', async () => {

@@ -3,7 +3,7 @@ export default {
   logCall: "Oproep loggen",
   editLog: "Log bewerken",
   select: "Selecteer een overeenkomende opname",
-  OnHold: "In de wacht",
+  OnHold: "In wacht",
   Ringing: "Aan het bellen",
   CallConnected: "Oproep verbonden",
   unknownUser: "Onbekende gebruiker",
@@ -27,9 +27,13 @@ export default {
   mergeToConference: "Samenvoegen",
   hold: "In de wacht zetten",
   unhold: "Uit de wacht halen",
-  transfer: "Doorverbinden",
+  transfer: "Doorv.",
   reject: "Weigeren",
-  switchCall: "Oproep naar deze app schakelen"
+  switchCall: "Oproep naar deze app schakelen",
+  callSwitch: "Oproep schakelen",
+  comfirmContext: "U bent momenteel in een actief gesprek met {displayName}. Wilt u het gesprek voortzetten op dit apparaat?",
+  comfirmCancelButton: "Annuleren",
+  comfirmOKButton: "Schakelen"
 };
 
 // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
@@ -63,3 +67,7 @@ export default {
 // @key: @#@"transfer"@#@ @source: @#@"Transfer"@#@
 // @key: @#@"reject"@#@ @source: @#@"Reject"@#@
 // @key: @#@"switchCall"@#@ @source: @#@"Switch Call to this app"@#@
+// @key: @#@"callSwitch"@#@ @source: @#@"Call Switch"@#@
+// @key: @#@"comfirmContext"@#@ @source: @#@"You're currently on an active call with {displayName}. Would you like to continue the call on this device?"@#@
+// @key: @#@"comfirmCancelButton"@#@ @source: @#@"Cancel"@#@
+// @key: @#@"comfirmOKButton"@#@ @source: @#@"Switch"@#@

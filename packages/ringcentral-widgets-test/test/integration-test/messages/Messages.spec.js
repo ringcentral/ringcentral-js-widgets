@@ -2,7 +2,7 @@ import NavigationBar from 'ringcentral-widgets/components/NavigationBar';
 import ConversationList from 'ringcentral-widgets/components/ConversationList';
 import ConversationsPanel from 'ringcentral-widgets/components/ConversationsPanel';
 import ContactDisplay from 'ringcentral-widgets/components/ContactDisplay';
-import SearchInput from 'ringcentral-widgets/components/SearchInput';
+import { SearchInput } from 'ringcentral-widgets/components/SearchInput';
 import MessageItem from 'ringcentral-widgets/components/MessageItem';
 import ConversationPanel from 'ringcentral-widgets/components/ConversationPanel';
 import LogButton from 'ringcentral-widgets/components/LogButton';
@@ -42,21 +42,15 @@ describe('messages', () => {
     panel = wrapper.find(ConversationsPanel).first();
     searchInput = panel.find(SearchInput).first();
     expect(searchInput.props().value).toEqual('something-doesnt-exist');
-    expect(
-      panel
-        .find('.noMessages')
-        .text()
-        .trim(),
-    ).toEqual('No matching records found');
+    expect(panel.find('.noMessages').text().trim()).toEqual(
+      'No matching records found',
+    );
   });
 
   test('message list', () => {
     panel.find(MessageItem).forEach((item) => {
       const { conversation } = item.props();
-      const { className } = item
-        .find(ContactDisplay)
-        .first()
-        .props();
+      const { className } = item.find(ContactDisplay).first().props();
       if (conversation.unreadCounts > 0) {
         expect(className).toContain('unread');
       } else {
@@ -78,10 +72,7 @@ describe('messages', () => {
       false,
     );
     const firstMessage = panel.find(MessageItem).first();
-    await firstMessage
-      .find('.wrapper')
-      .first()
-      .simulate('click');
+    await firstMessage.find('.wrapper').first().simulate('click');
     await timeout(200); // wait conversation loaded
     const conversationPanel = wrapper.find(ConversationPanel);
     expect(conversationPanel.length > 0).toBe(true);
@@ -91,11 +82,7 @@ describe('messages', () => {
     const messageItems = panel.find(MessageItem);
     if (messageItems.length > 0) {
       const callItem = messageItems.at(messageItems.length - 1); // last item
-      const logButton = callItem
-        .find(LogButton)
-        .first()
-        .find(Button)
-        .first();
+      const logButton = callItem.find(LogButton).first().find(Button).first();
       expect(logButton.props().disabled).toBe(false);
     }
   });
@@ -138,16 +125,10 @@ describe('messages', () => {
       false,
     );
     const firstMessage = panel.find(MessageItem).first();
-    await firstMessage
-      .find('.wrapper')
-      .first()
-      .simulate('click');
+    await firstMessage.find('.wrapper').first().simulate('click');
     await timeout(200); // wait conversation loaded
     const conversationPanel = wrapper.find(ConversationPanel);
-    const logButton = conversationPanel
-      .find(LogButton)
-      .first()
-      .find(Button);
+    const logButton = conversationPanel.find(LogButton).first().find(Button);
     expect(logButton.props().disabled).toBe(false);
   });
 
@@ -162,10 +143,7 @@ describe('messages', () => {
       false,
     );
     const firstMessage = panel.find(MessageItem).first();
-    await firstMessage
-      .find('.wrapper')
-      .first()
-      .simulate('click');
+    await firstMessage.find('.wrapper').first().simulate('click');
     await timeout(200); // wait conversation loaded
     let conversationPanel = wrapper.find(ConversationPanel);
     let logButton = conversationPanel.find(LogButton).find(Button);

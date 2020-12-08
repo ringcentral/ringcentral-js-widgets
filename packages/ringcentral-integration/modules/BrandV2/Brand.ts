@@ -1,5 +1,5 @@
 import { RcModuleV2 } from '@ringcentral-integration/core';
-import camelcase from 'camelcase';
+import { camelcase } from './brandHelper';
 
 import { Module } from '../../lib/di';
 import { Deps } from './Brand.interface';

@@ -1,4 +1,5 @@
 import messageSenderMessages from 'ringcentral-integration/modules/MessageSender/messageSenderMessages';
+import messageSenderMessagesV2 from 'ringcentral-integration/modules/MessageSenderV2/messageSenderMessages';
 export default {
   [messageSenderMessages.sendSuccess]: "送信が成功しました。",
   [messageSenderMessages.sendError]: "メッセージの送信時に問題が発生しました。",
@@ -22,6 +23,9 @@ export default {
   [messageSenderMessages.internationalSMSNotSupported]: "国際電話番号へのSMS送信はサポートされていません。",
   [messageSenderMessages.noInternalSMSPermission]: "メッセージを送信するためのアクセス許可がありません。アップグレードについて{brand}アカウント管理者にお問い合わせください。",
   [messageSenderMessages.noSMSPermission]: "組織外部の受信者にメッセージを送信するためのアクセス許可がありません。",
+  [messageSenderMessagesV2.attachmentCountLimitation]: "添付ファイルは最大10件です。",
+  [messageSenderMessagesV2.attachmentSizeLimitation]: "添付ファイルのサイズの上限は1.5メガバイトです。",
+  [messageSenderMessagesV2.noAttachmentToExtension]: "MMSの内線への送信はサポートされていません。",
   areaCode: "市外局番",
   [messageSenderMessages.sending]: "メッセージを送信しています…完了するまで数分かかる場合があります。"
 };
@@ -48,5 +52,8 @@ export default {
 // @key: @#@"[messageSenderMessages.internationalSMSNotSupported]"@#@ @source: @#@"Sending SMS to international phone number is not supported."@#@
 // @key: @#@"[messageSenderMessages.noInternalSMSPermission]"@#@ @source: @#@"You don't have permission to send messages. Please contact your {brand} account administrator for upgrade."@#@
 // @key: @#@"[messageSenderMessages.noSMSPermission]"@#@ @source: @#@"You don't have permission to send messages to recipients outside of your organization."@#@
+// @key: @#@"[messageSenderMessagesV2.attachmentCountLimitation]"@#@ @source: @#@"Maximum 10 attachments."@#@
+// @key: @#@"[messageSenderMessagesV2.attachmentSizeLimitation]"@#@ @source: @#@"Attachments size is limited to 1.5M bytes."@#@
+// @key: @#@"[messageSenderMessagesV2.noAttachmentToExtension]"@#@ @source: @#@"It isn't supported to send MMS to an extension."@#@
 // @key: @#@"areaCode"@#@ @source: @#@"area code"@#@
 // @key: @#@"[messageSenderMessages.sending]"@#@ @source: @#@"Message being sent…It may take a couple of minutes to complete."@#@

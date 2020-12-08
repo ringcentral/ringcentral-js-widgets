@@ -9,8 +9,9 @@ import actionTypes from './actionTypes';
 import proxify from '../../lib/proxy/proxify';
 import { selector } from '../../lib/selector';
 import {
-  getSearchContacts,
-  getMatchContacts,
+  getFilterContacts,
+  getSearchForPhoneNumbers,
+  getMatchContactsByPhoneNumber,
   addPhoneToContact,
 } from '../../lib/contactHelper';
 
@@ -337,8 +338,13 @@ export default class AddressBook extends Pollable {
   }
 
   // interface of ContactSource
-  searchContacts(searchString) {
-    return getSearchContacts({
+  filterContacts(searchFilter) {
+    return getFilterContacts(this.contacts, searchFilter);
+  }
+
+  // interface of ContactSource
+  searchForPhoneNumbers(searchString) {
+    return getSearchForPhoneNumbers({
       contacts: this.contacts,
       searchString,
       entityType: phoneSources.contact,
@@ -347,8 +353,8 @@ export default class AddressBook extends Pollable {
   }
 
   // interface of ContactSource
-  matchPhoneNumber(phoneNumber) {
-    return getMatchContacts({
+  matchContactsByPhoneNumber(phoneNumber) {
+    return getMatchContactsByPhoneNumber({
       contacts: this.contacts,
       phoneNumber,
       entityType: phoneSources.rcContact,

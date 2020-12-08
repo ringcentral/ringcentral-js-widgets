@@ -1,4 +1,5 @@
 import messageSenderMessages from 'ringcentral-integration/modules/MessageSender/messageSenderMessages';
+import messageSenderMessagesV2 from 'ringcentral-integration/modules/MessageSenderV2/messageSenderMessages';
 export default {
   [messageSenderMessages.sendSuccess]: "发送成功。",
   [messageSenderMessages.sendError]: "发送消息时出错。",
@@ -22,6 +23,9 @@ export default {
   [messageSenderMessages.internationalSMSNotSupported]: "不支持向国际电话号码发送短信。",
   [messageSenderMessages.noInternalSMSPermission]: "您没有权限发送消息。请联系您的 {brand} 帐户管理员进行升级。",
   [messageSenderMessages.noSMSPermission]: "您没有权限向贵组织以外的收件人发送消息。",
+  [messageSenderMessagesV2.attachmentCountLimitation]: "最多包含 10 个附件。",
+  [messageSenderMessagesV2.attachmentSizeLimitation]: "附件最大不能超过 1.5M。",
+  [messageSenderMessagesV2.noAttachmentToExtension]: "不支持向分机发送彩信。",
   areaCode: "区号",
   [messageSenderMessages.sending]: "正在发送消息…可能需要几分钟时间完成。"
 };
@@ -48,5 +52,8 @@ export default {
 // @key: @#@"[messageSenderMessages.internationalSMSNotSupported]"@#@ @source: @#@"Sending SMS to international phone number is not supported."@#@
 // @key: @#@"[messageSenderMessages.noInternalSMSPermission]"@#@ @source: @#@"You don't have permission to send messages. Please contact your {brand} account administrator for upgrade."@#@
 // @key: @#@"[messageSenderMessages.noSMSPermission]"@#@ @source: @#@"You don't have permission to send messages to recipients outside of your organization."@#@
+// @key: @#@"[messageSenderMessagesV2.attachmentCountLimitation]"@#@ @source: @#@"Maximum 10 attachments."@#@
+// @key: @#@"[messageSenderMessagesV2.attachmentSizeLimitation]"@#@ @source: @#@"Attachments size is limited to 1.5M bytes."@#@
+// @key: @#@"[messageSenderMessagesV2.noAttachmentToExtension]"@#@ @source: @#@"It isn't supported to send MMS to an extension."@#@
 // @key: @#@"areaCode"@#@ @source: @#@"area code"@#@
 // @key: @#@"[messageSenderMessages.sending]"@#@ @source: @#@"Message being sent…It may take a couple of minutes to complete."@#@

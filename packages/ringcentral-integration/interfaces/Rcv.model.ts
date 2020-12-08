@@ -1,7 +1,7 @@
 import {
   RcvWaitingRoomType,
   RcvWaitingRoomModeProps,
-} from '../modules/RcVideo/interface';
+} from '../modules/RcVideo/constants';
 
 export type MeetingProviderTypesProps = {
   meeting: 'RCMeetings';
@@ -53,6 +53,36 @@ export interface RcVideoAPI {
   isOnlyAuthUserJoin: boolean;
   isOnlyCoworkersJoin: boolean;
   allowScreenSharing: boolean;
+  waitingRoomMode?: RcvWaitingRoomModeProps;
+}
+
+export interface RcVideoAPIResponse extends RcVideoAPI {
+  uri: string;
+  id: string;
+  participantCode: string;
+  hostCode: string;
+  shortId: string;
+  meetingUri: string;
+  joinUri: string;
+  allowJoinBeforeHost: boolean;
+  name: string;
+  type: 0 | 1;
+  announceOnEnter: boolean;
+  countOnEnter: boolean;
+  musicEnabled: boolean;
+  enterExitTonesMode: number; // TODO: shrinker range
+  muteAudio: boolean;
+  muteVideo: boolean;
+  accountId: string;
+  extensionId: string;
+  phoneGroup: string;
+  meetingPassword?: string;
+  meetingPasswordPSTN?: string;
+  meetingPasswordMasked?: string;
+  isMeetingSecret: boolean;
+  allowScreenSharing: boolean;
+  isOnlyAuthUserJoin: boolean;
+  isOnlyCoworkersJoin: boolean;
   waitingRoomMode?: RcvWaitingRoomModeProps;
 }
 

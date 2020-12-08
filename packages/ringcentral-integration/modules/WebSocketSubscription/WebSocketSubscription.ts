@@ -88,6 +88,9 @@ export class WebSocketSubscription extends RcModuleV2<Deps> {
       this._wsExtension.eventEmitter.on(Events.autoRecoverSuccess, () => {
         this._exposeConnectionEvents();
       });
+      this._wsExtension.eventEmitter.on(Events.autoRecoverFailed, () => {
+        this._exposeConnectionEvents();
+      });
     }
 
     this._deps.sleepDetector.on(

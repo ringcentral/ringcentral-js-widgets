@@ -3,6 +3,7 @@
 @import '../../lib/commonStyles/fonts';
 
 $content-padding: 20px;
+$content-bottom: 16px;
 $row-space: 10px;
 
 .videoPanel {
@@ -21,11 +22,15 @@ $row-space: 10px;
 }
 
 .meetingContent {
-  padding: $content-padding 0;
+  padding: 0 0 $content-bottom;
 }
 
 .meetingSection {
   padding: 0 $content-padding;
+}
+
+.noBottomMargin {
+  margin-bottom: 0px !important;
 }
 
 .select {
@@ -57,23 +62,23 @@ label.labelPlacementStartRoot {
   justify-content: space-between;
 
   .labelText {
-    line-height: normal;
-    padding-top: 11px;
+    line-height: 22px;
+    padding: 9px 0;
   }
 }
 
 label.labelPlacementEndRoot {
   margin: 0;
-  padding: $row-space/2 $content-padding $row-space/2 0;
+  padding: 0 $content-padding 0 0;
   display: flex;
   align-items: flex-start;
 
   .labelText {
     width: 100%;
-    padding-top: 11px;
+    padding: 9px 0;
     display: flex;
     justify-content: space-between;
-    line-height: normal;
+    line-height: 22px;
   }
 }
 
@@ -96,8 +101,12 @@ label.labelPlacementEndRoot {
   }
 }
 
+.subPrefixPadding {
+  padding-left: $content-padding + 32px !important;
+}
+
 .boxSelectWrapper {
-  padding: $row-space/2 $content-padding;
+  padding: 0 $content-padding 4px;
   box-sizing: border-box;
   width: 100%;
 }

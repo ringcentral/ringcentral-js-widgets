@@ -37,6 +37,7 @@ function setup({
   agentName = defaultAgentName,
   userName = defaultUserName,
   disableEditSessionButton = false,
+  showEditSessionButton = true,
 }: Partial<SettingsPanelProps>) {
   return mount(
     <RcThemeProvider>
@@ -49,6 +50,7 @@ function setup({
         agentName={agentName}
         userName={userName}
         disableEditSessionButton={disableEditSessionButton}
+        showEditSessionButton={showEditSessionButton}
       />
     </RcThemeProvider>,
   );

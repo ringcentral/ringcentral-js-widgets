@@ -29,7 +29,11 @@ export default {
   unhold: "Retomar",
   transfer: "Transferir",
   reject: "Rejeitar",
-  switchCall: "Passar chamada para esta aplicação"
+  switchCall: "Passar chamada para esta aplicação",
+  callSwitch: "Mudança de chamada",
+  comfirmContext: "Está numa chamada ativa com {displayName}. Pretende continuar a chamada neste dispositivo?",
+  comfirmCancelButton: "Cancelar",
+  comfirmOKButton: "Mudar"
 };
 
 // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
@@ -63,3 +67,7 @@ export default {
 // @key: @#@"transfer"@#@ @source: @#@"Transfer"@#@
 // @key: @#@"reject"@#@ @source: @#@"Reject"@#@
 // @key: @#@"switchCall"@#@ @source: @#@"Switch Call to this app"@#@
+// @key: @#@"callSwitch"@#@ @source: @#@"Call Switch"@#@
+// @key: @#@"comfirmContext"@#@ @source: @#@"You're currently on an active call with {displayName}. Would you like to continue the call on this device?"@#@
+// @key: @#@"comfirmCancelButton"@#@ @source: @#@"Cancel"@#@
+// @key: @#@"comfirmOKButton"@#@ @source: @#@"Switch"@#@

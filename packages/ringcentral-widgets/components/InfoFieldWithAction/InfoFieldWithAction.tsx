@@ -50,7 +50,11 @@ export const InfoFieldWithAction: FunctionComponent<IInfoFieldWithActionProps> =
         labelVariant={labelVariant}
       >
         <StyledContainer>
-          <StyledInfo fullSize={fullSize} breakSpace={breakSpace}>
+          <StyledInfo
+            data-sign={`${name}Field`}
+            fullSize={fullSize}
+            breakSpace={breakSpace}
+          >
             {value}
           </StyledInfo>
           {btn}

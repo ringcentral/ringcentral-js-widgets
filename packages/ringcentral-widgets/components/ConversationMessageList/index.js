@@ -22,6 +22,7 @@ export const Message = ({
   subjectRenderer: SubjectRenderer,
   mmsAttachments,
   currentLocale,
+  onAttachmentDownload,
 }) => {
   let subjectNode;
   if (subject && !isBlank(subject)) {
@@ -57,8 +58,13 @@ export const Message = ({
             target="_blank"
             className={styles.download}
             download={fileName}
+            onClick={(e) => {
+              if (typeof onAttachmentDownload === 'function') {
+                onAttachmentDownload(attachment.uri, e);
+              }
+            }}
             title={i18n.getString('download', currentLocale)}
-            href={attachment.uri}
+            href={`${attachment.uri}&contentDisposition=Attachment`}
           >
             <RcIcon size="small" symbol={downloadSvg} />
           </a>
@@ -85,7 +91,7 @@ export const Message = ({
       <div className={styles.clear} />
     </div>
   );
-}
+};
 
 Message.propTypes = {
   direction: PropTypes.string.isRequired,
@@ -95,6 +101,7 @@ Message.propTypes = {
   subjectRenderer: PropTypes.func,
   mmsAttachments: PropTypes.array,
   currentLocale: PropTypes.string.isRequired,
+  onAttachmentDownload: PropTypes.func,
 };
 
 Message.defaultProps = {
@@ -103,6 +110,7 @@ Message.defaultProps = {
   time: undefined,
   subjectRenderer: undefined,
   mmsAttachments: [],
+  onAttachmentDownload: undefined,
 };
 
 class ConversationMessageList extends Component {
@@ -120,9 +128,8 @@ class ConversationMessageList extends Component {
       this._listRef &&
       this._scrollHeight !== this._listRef.scrollHeight
     ) {
-      this._listRef.scrollTop =
-        this._listRef.scrollTop +
-        (this._listRef.scrollHeight - this._scrollHeight);
+      this._listRef.scrollTop +=
+        this._listRef.scrollHeight - this._scrollHeight;
     }
   }
 
@@ -163,6 +170,7 @@ class ConversationMessageList extends Component {
       formatPhone,
       loadingNextPage,
       currentLocale,
+      onAttachmentDownload,
     } = this.props;
 
     let lastDate = 0;
@@ -191,6 +199,7 @@ class ConversationMessageList extends Component {
           subjectRenderer={messageSubjectRenderer}
           mmsAttachments={message.mmsAttachments}
           currentLocale={currentLocale}
+          onAttachmentDownload={onAttachmentDownload}
         />
       );
     });
@@ -234,6 +243,7 @@ ConversationMessageList.propTypes = {
   loadPreviousMessages: PropTypes.func,
   loadingNextPage: PropTypes.bool,
   height: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  onAttachmentDownload: PropTypes.func,
 };
 
 ConversationMessageList.defaultProps = {
@@ -244,6 +254,7 @@ ConversationMessageList.defaultProps = {
   height: '100%',
   loadingNextPage: false,
   loadPreviousMessages: () => null,
+  onAttachmentDownload: undefined,
 };
 
 export default ConversationMessageList;

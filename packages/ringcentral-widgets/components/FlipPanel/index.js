@@ -56,7 +56,7 @@ export default class FlipPanel extends Component {
     } = this.props;
     const { flipEnabled } = this.state;
     return (
-      <div className={styles.root}>
+      <div className={styles.root} data-sign="flipPanel">
         <BackHeader
           onBackClick={isOnFlip ? null : onBack}
           backButton={<BackButton showIcon={!isOnFlip} />}

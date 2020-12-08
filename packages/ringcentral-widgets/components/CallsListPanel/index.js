@@ -9,7 +9,7 @@ import CallList from '../CallList';
 import InsideModal from '../InsideModal';
 import LogSection from '../LogSection';
 import LogNotification from '../LogNotification';
-import SearchInput from '../SearchInput';
+import { SearchInput } from '../SearchInput';
 import styles from './styles.scss';
 import i18n from './i18n';
 

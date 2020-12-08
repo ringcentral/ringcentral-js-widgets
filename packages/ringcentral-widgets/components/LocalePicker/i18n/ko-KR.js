@@ -5,7 +5,10 @@ export default {
   de: "독일어",
   es: "스페인어",
   it: "이탈리아어",
-  pt: "포르투갈어"
+  pt: "포르투갈어",
+  zh: "중국어",
+  nl: "네덜란드어",
+  ko: "한국어"
 };
 
 // @key: @#@"en"@#@ @source: @#@"English"@#@
@@ -15,3 +18,6 @@ export default {
 // @key: @#@"es"@#@ @source: @#@"Spanish"@#@
 // @key: @#@"it"@#@ @source: @#@"Italian"@#@
 // @key: @#@"pt"@#@ @source: @#@"Portuguese"@#@
+// @key: @#@"zh"@#@ @source: @#@"Chinese"@#@
+// @key: @#@"nl"@#@ @source: @#@"Dutch"@#@
+// @key: @#@"ko"@#@ @source: @#@"Korean"@#@

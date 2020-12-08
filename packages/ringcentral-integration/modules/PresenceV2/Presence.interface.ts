@@ -1,7 +1,5 @@
 import { GetPresenceInfo } from '@rc-ex/core/definitions';
 import { ObjectMapValue } from '@ringcentral-integration/core/lib/ObjectMap';
-
-import { presenceStatus } from '../../enums/presenceStatus.enum';
 import { Auth } from '../AuthV2';
 import ConnectivityMonitor from '../ConnectivityMonitor';
 import {
@@ -27,17 +25,6 @@ export interface PresenceOptions extends DataSourceBaseProps {
   detailed?: boolean;
   fetchDelay?: number;
   maxFetchDelay?: number;
-}
-
-export interface PresenceInfoModel {
-  activeCalls?: GetPresenceInfo['activeCalls'];
-  dndStatus?: ObjectMapValue<typeof dndStatus>;
-  meetingStatus?: GetPresenceInfo['meetingStatus'];
-  presenceStatus?: ObjectMapValue<typeof presenceStatus>;
-  telephonyStatus?: GetPresenceInfo['telephonyStatus'];
-  userStatus?: GetPresenceInfo['userStatus'];
-  lastDndStatus?: ObjectMapValue<typeof dndStatus>;
-  sequence?: number;
 }
 
 export interface UpdatePresenceParams {

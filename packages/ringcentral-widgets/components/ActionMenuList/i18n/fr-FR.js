@@ -1,6 +1,6 @@
 export default {
-  sureToDeleteVoiceMail: "Voulez-vous vraiment supprimer ce message vocal ?",
-  sureToDeleteFax: "Êtes-vous sûr de vouloir supprimer ce fax ?",
+  sureToDeleteVoiceMail: "Voulez-vous vraiment supprimer ce message vocal ?",
+  sureToDeleteFax: "Êtes-vous sûr de vouloir supprimer ce fax ?",
   doNotAskAgain: "Ne plus afficher ce message à l'avenir"
 };
 

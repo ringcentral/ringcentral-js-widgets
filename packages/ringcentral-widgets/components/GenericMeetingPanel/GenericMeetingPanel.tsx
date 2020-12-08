@@ -65,6 +65,7 @@ const GenericMeetingPanel: React.ComponentType<GenericMeetingPanelProps> = (
     delegators,
     updateScheduleFor,
     labelPlacement,
+    showSpinnerInConfigPanel,
   } = props;
 
   if (showSpinner) {
@@ -75,6 +76,7 @@ const GenericMeetingPanel: React.ComponentType<GenericMeetingPanelProps> = (
     <div className={styles.wrapper}>
       {isRCM && !useRcmV2 && (
         <MeetingConfigs
+          useTimePicker
           update={updateMeetingSettings}
           init={init}
           meeting={meeting as RcMMeetingModel}
@@ -95,6 +97,7 @@ const GenericMeetingPanel: React.ComponentType<GenericMeetingPanelProps> = (
       )}
       {isRCM && useRcmV2 && (
         <MeetingConfigsV2
+          showSpinnerInConfigPanel={showSpinnerInConfigPanel}
           updateMeetingSettings={updateMeetingSettings}
           personalMeetingId={personalMeetingId}
           switchUsePersonalMeetingId={switchUsePersonalMeetingId}
@@ -138,6 +141,7 @@ const GenericMeetingPanel: React.ComponentType<GenericMeetingPanelProps> = (
           personalMeetingId={personalMeetingId}
           switchUsePersonalMeetingId={switchUsePersonalMeetingId}
           showScheduleOnBehalf={showScheduleOnBehalf}
+          showSpinnerInConfigPanel={showSpinnerInConfigPanel}
           delegators={delegators}
         >
           {showTopic && (

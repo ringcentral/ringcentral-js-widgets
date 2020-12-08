@@ -7,6 +7,7 @@ import { reduce } from 'ramda';
 import { Unsubscribe } from 'redux';
 
 import { Module } from '../../lib/di';
+import { loginStatus } from '../AuthV2';
 import { DataFetcherV2Consumer, DataSource } from '../DataFetcherV2';
 import { permissionsMessages } from '../RolesAndPermissions/permissionsMessages';
 import { Deps } from './RolesAndPermissions.interface';
@@ -81,7 +82,7 @@ export class RolesAndPermissions extends DataFetcherV2Consumer<
   protected async _checkTier() {
     if (
       this.ready &&
-      this._deps.auth.loggedIn &&
+      this._deps.auth.loginStatus === loginStatus.loggedIn &&
       this.isCRM &&
       this.tierEnabled === false
     ) {
@@ -108,7 +109,7 @@ export class RolesAndPermissions extends DataFetcherV2Consumer<
   protected async _checkReadUserInfo() {
     if (
       this.ready &&
-      this._deps.auth.loggedIn &&
+      this._deps.auth.loginStatus === loginStatus.loggedIn &&
       !this.permissions.ReadUserInfo
     ) {
       const hasPermissions = !!this.data;
@@ -265,5 +266,12 @@ export class RolesAndPermissions extends DataFetcherV2Consumer<
 
   get hasMeetingsPermission() {
     return !!this.permissions.Meetings;
+  }
+
+  get hasCallControlPermission() {
+    return (
+      this._deps.auth.token.scope?.indexOf('CallControl') > -1 ||
+      this._deps.auth.token.scope?.indexOf('TelephonySession') > -1
+    );
   }
 }

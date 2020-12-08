@@ -1,6 +1,6 @@
 export default {
-  conferenceCall: "Conference call",
-  onHold: "In de wacht",
+  conferenceCall: "Conferencecall",
+  onHold: "In wacht",
   unknown: "Onbekend",
   disconnected: "Verbinding verbroken",
   loading: "Laden...",

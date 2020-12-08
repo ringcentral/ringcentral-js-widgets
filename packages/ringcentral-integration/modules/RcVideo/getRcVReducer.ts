@@ -62,6 +62,8 @@ export function getPersonalMeetingReducer(types: RcVideoActionTypes) {
     switch (type) {
       case types.savePersonalMeeting:
         return { ...state, ...meeting };
+      case types.resetPersonalMeeting:
+        return {};
       default:
         return state;
     }

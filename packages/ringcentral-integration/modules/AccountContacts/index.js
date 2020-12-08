@@ -7,9 +7,10 @@ import isBlank from '../../lib/isBlank';
 import ensureExist from '../../lib/ensureExist';
 import { batchGetApi } from '../../lib/batchApiHelper';
 import {
-  getSearchContacts,
-  getMatchContacts,
-  getFindContact,
+  getFilterContacts,
+  getSearchForPhoneNumbers,
+  getMatchContactsByPhoneNumber,
+  getFindPhoneNumber,
 } from '../../lib/contactHelper';
 import proxify from '../../lib/proxy/proxify';
 import { selector } from '../../lib/selector';
@@ -183,9 +184,14 @@ export default class AccountContacts extends RcModule {
   }
 
   // interface of ContactSource
-  searchContacts(searchString) {
+  filterContacts(searchFilter) {
+    return getFilterContacts(this.contacts, searchFilter);
+  }
+
+  // interface of ContactSource
+  searchForPhoneNumbers(searchString) {
     const { isMultipleSiteEnabled, site } = this._extensionInfo;
-    return getSearchContacts({
+    return getSearchForPhoneNumbers({
       contacts: this.contacts,
       searchString,
       entityType: phoneSources.contact,
@@ -194,13 +200,13 @@ export default class AccountContacts extends RcModule {
   }
 
   // interface of ContactSource
-  matchPhoneNumber(phoneNumber) {
+  matchContactsByPhoneNumber(phoneNumber) {
     const { isMultipleSiteEnabled, site } = this._extensionInfo;
-    return getMatchContacts({
+    return getMatchContactsByPhoneNumber({
       contacts: this.contacts.concat(this._companyContacts.ivrContacts),
       phoneNumber,
       entityType: phoneSources.rcContact,
-      findContact: getFindContact({
+      findPhoneNumber: getFindPhoneNumber({
         phoneNumber,
         options: {
           isMultipleSiteEnabled,

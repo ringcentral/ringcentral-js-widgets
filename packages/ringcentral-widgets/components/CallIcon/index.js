@@ -2,14 +2,20 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import callDirections from 'ringcentral-integration/enums/callDirections';
+import OutCall from '@ringcentral/juno/icons/icon-outcall_border.svg';
+import InCall from '@ringcentral/juno/icons/icon-incall_border.svg';
 import CallAvatar from '../CallAvatar';
-import ConferenceCallIcon from '../../assets/images/ConferenceCallIcon.svg';
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import styles from './styles.scss';
 
 const callIconMap = {
   [callDirections.inbound]: dynamicsFont.inbound,
   [callDirections.outbound]: dynamicsFont.outbound,
+};
+
+const newCallIconMap = {
+  [callDirections.inbound]: InCall,
+  [callDirections.outbound]: OutCall,
 };
 
 function CallIcon({
@@ -21,10 +27,12 @@ function CallIcon({
   showAvatar,
   avatarUrl,
   extraNum = 0,
+  newCallIcon,
 }) {
   const title =
     direction === callDirections.inbound ? inboundTitle : outboundTitle;
   let symbol;
+  const CallDirectionIco = newCallIconMap[direction];
   if (showAvatar) {
     symbol = (
       <div className={classnames(styles.callIcon, styles.avatar)}>
@@ -33,6 +41,18 @@ function CallIcon({
           avatarUrl={avatarUrl}
           extraNum={extraNum}
         />
+      </div>
+    );
+  } else if (newCallIcon) {
+    symbol = (
+      <div className={styles.newCallIcon}>
+        <span title={title} data-sign="callDirection">
+          <CallDirectionIco
+            className={classnames(styles.activeCall, {
+              [styles.newRinging]: ringing,
+            })}
+          />
+        </span>
       </div>
     );
   } else {
@@ -61,6 +81,7 @@ CallIcon.propTypes = {
   outboundTitle: PropTypes.string,
   showAvatar: PropTypes.bool,
   avatarUrl: PropTypes.string,
+  newCallIcon: PropTypes.bool,
 };
 
 CallIcon.defaultProps = {
@@ -70,6 +91,7 @@ CallIcon.defaultProps = {
   outboundTitle: undefined,
   showAvatar: false,
   avatarUrl: null,
+  newCallIcon: false,
 };
 
 export default CallIcon;

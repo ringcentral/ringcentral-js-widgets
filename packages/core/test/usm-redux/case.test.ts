@@ -3,13 +3,13 @@ import createCase from '../usm/case';
 import caseResult from './caseResult';
 
 const logs = [];
-console.log = (...args) => {
+const log = (...args) => {
   logs.push(JSON.parse(JSON.stringify(args)));
 };
 
 describe('usm-reudx', () => {
   test('simple case', async () => {
-    const index = await createCase(Module, state, action, computed);
+    const index = await createCase(Module, state, action, computed, log);
     expect(logs).toEqual(caseResult);
     expect((index as any).store.getState()).toEqual({
       __$$default$$__: null,
