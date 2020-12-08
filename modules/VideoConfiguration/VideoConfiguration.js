@@ -45,6 +45,8 @@ require("core-js/modules/es6.string.includes");
 
 require("regenerator-runtime/runtime");
 
+var _ramda = require("ramda");
+
 var _core = require("@ringcentral-integration/core");
 
 var _subscriptionFilters = require("../../enums/subscriptionFilters");
@@ -57,7 +59,7 @@ var _di = require("../../lib/di");
 
 var _DataFetcherV = require("../DataFetcherV2");
 
-var _videoProviders = require("../MeetingProvider/videoProviders");
+var _videoProviders = require("./videoProviders");
 
 var _dec, _class, _temp;
 
@@ -121,6 +123,7 @@ var VideoConfiguration = (_dec = (0, _di.Module)({
     _this._source = new _DataFetcherV.DataSource(_objectSpread(_objectSpread({}, deps.videoConfigurationOptions), {}, {
       key: 'videoConfiguration',
       cleanOnReset: true,
+      disableCache: true,
       fetchFunction: function () {
         var _fetchFunction = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
           var response;
@@ -177,6 +180,10 @@ var VideoConfiguration = (_dec = (0, _di.Module)({
             switch (_context2.prev = _context2.next) {
               case 0:
                 if (this.ready && (message === null || message === void 0 ? void 0 : (_message$body = message.body) === null || _message$body === void 0 ? void 0 : (_message$body$hints = _message$body.hints) === null || _message$body$hints === void 0 ? void 0 : _message$body$hints.includes(_subscriptionHints.subscriptionHints.videoConfiguration)) && (this._source.disableCache || ((_this$_deps$tabManage = (_this$_deps$tabManage2 = this._deps.tabManager) === null || _this$_deps$tabManage2 === void 0 ? void 0 : _this$_deps$tabManage2.active) !== null && _this$_deps$tabManage !== void 0 ? _this$_deps$tabManage : true))) {
+                  // https://jira.ringcentral.com/browse/ENV-67087
+                  // the video configuration api may return the old value
+                  // when we try to query immediately right after got the push notification
+                  // here we wait for seconds as a workaround to solve the issue
                   this._debouncedFetchData();
                 }
 
@@ -232,7 +239,7 @@ var VideoConfiguration = (_dec = (0, _di.Module)({
   }, {
     key: "isRCM",
     get: function get() {
-      return this.provider === _videoProviders.videoProviders.RCMeetings || this.provider === _videoProviders.videoProviders.None;
+      return (0, _ramda.contains)(this.provider, [_videoProviders.videoProviders.RCMeetings, _videoProviders.videoProviders.None]);
     }
   }, {
     key: "provider",
@@ -240,6 +247,20 @@ var VideoConfiguration = (_dec = (0, _di.Module)({
       var _this$data;
 
       return ((_this$data = this.data) === null || _this$data === void 0 ? void 0 : _this$data.provider) || null;
+    }
+  }, {
+    key: "userLicenseType",
+    get: function get() {
+      var _this$data2;
+
+      // TODO: fix UserVideoConfiguration type in @rc-ex/core/definitions
+      // @ts-ignore
+      return ((_this$data2 = this.data) === null || _this$data2 === void 0 ? void 0 : _this$data2.userLicenseType) || null;
+    }
+  }, {
+    key: "_hasPermission",
+    get: function get() {
+      return !!this._deps.rolesAndPermissions.hasMeetingsPermission;
     }
   }]);
 

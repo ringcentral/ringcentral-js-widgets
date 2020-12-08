@@ -27,13 +27,11 @@ require("core-js/modules/es6.function.name");
 
 var _core = require("@ringcentral-integration/core");
 
-var _camelcase = _interopRequireDefault(require("camelcase"));
+var _brandHelper = require("./brandHelper");
 
 var _di = require("../../lib/di");
 
 var _dec, _class, _temp;
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -77,7 +75,7 @@ var Brand = (_dec = (0, _di.Module)({
       deps: deps
     });
     _this._prefix = null;
-    _this._prefix = "".concat(_this._deps.brandConfig.brandCode, "-").concat((0, _camelcase["default"])(_this._deps.brandConfig.application));
+    _this._prefix = "".concat(_this._deps.brandConfig.brandCode, "-").concat((0, _brandHelper.camelcase)(_this._deps.brandConfig.application));
     return _this;
   }
 

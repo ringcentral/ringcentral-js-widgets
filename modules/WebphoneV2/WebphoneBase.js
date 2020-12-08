@@ -55,7 +55,7 @@ require("core-js/modules/es6.array.for-each");
 
 require("regenerator-runtime/runtime");
 
-var _events = _interopRequireDefault(require("events"));
+var _events = require("events");
 
 var _ringcentralWebPhone = _interopRequireDefault(require("ringcentral-web-phone"));
 
@@ -77,7 +77,9 @@ var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
 
 var _webphoneHelper = require("./webphoneHelper");
 
-var _dec, _dec2, _dec3, _dec4, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7, _temp;
+var _Analytics = require("../Analytics");
+
+var _dec, _dec2, _dec3, _dec4, _dec5, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7, _temp;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -151,11 +153,11 @@ var WebphoneBase = (_dec = (0, _di.Module)({
     dep: 'WebphoneOptions',
     optional: true
   }]
-}), _dec2 = (0, _core.computed)(function (that) {
+}), _dec2 = (0, _core.track)(_Analytics.trackEvents.webRTCRegistration), _dec3 = (0, _core.computed)(function (that) {
   return [that.ready, that._deps.audioSettings.ringtoneVolume, that._deps.audioSettings.ringtoneMuted];
-}), _dec3 = (0, _core.computed)(function (that) {
-  return [that.ready, that._deps.audioSettings.supportDevices, that._deps.audioSettings.outputDeviceId];
 }), _dec4 = (0, _core.computed)(function (that) {
+  return [that.ready, that._deps.audioSettings.supportDevices, that._deps.audioSettings.outputDeviceId];
+}), _dec5 = (0, _core.computed)(function (that) {
   var _that$_deps$tabManage, _that$_deps$tabManage2;
 
   return [that.ready, (_that$_deps$tabManage = that._deps.tabManager) === null || _that$_deps$tabManage === void 0 ? void 0 : _that$_deps$tabManage.ready, (_that$_deps$tabManage2 = that._deps.tabManager) === null || _that$_deps$tabManage2 === void 0 ? void 0 : _that$_deps$tabManage2.active];
@@ -212,7 +214,7 @@ var WebphoneBase = (_dec = (0, _di.Module)({
     _this._disconnectInactiveAfterSessionEnd = false;
     _this._connectTimeout = null;
     _this._isFirstRegister = true;
-    _this._eventEmitter = new _events["default"]();
+    _this._eventEmitter = new _events.EventEmitter();
     return _this;
   }
 
@@ -1614,54 +1616,147 @@ var WebphoneBase = (_dec = (0, _di.Module)({
     }
   }, {
     key: "setOutgoingAudio",
-    value: function setOutgoingAudio(_ref5) {
-      var fileName = _ref5.fileName,
-          dataUrl = _ref5.dataUrl;
+    value: function () {
+      var _setOutgoingAudio = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee16(_ref5) {
+        var fileName, dataUrl;
+        return regeneratorRuntime.wrap(function _callee16$(_context16) {
+          while (1) {
+            switch (_context16.prev = _context16.next) {
+              case 0:
+                fileName = _ref5.fileName, dataUrl = _ref5.dataUrl;
 
-      // TODO validate filePath?
-      this._setOutgoingAudioIntoStorage(fileName, dataUrl);
+                // TODO validate filePath?
+                this._setOutgoingAudioIntoStorage(fileName, dataUrl);
 
-      this.loadAudio();
-    }
+                this.loadAudio();
+
+              case 3:
+              case "end":
+                return _context16.stop();
+            }
+          }
+        }, _callee16, this);
+      }));
+
+      function setOutgoingAudio(_x3) {
+        return _setOutgoingAudio.apply(this, arguments);
+      }
+
+      return setOutgoingAudio;
+    }()
   }, {
     key: "resetOutgoingAudio",
-    value: function resetOutgoingAudio() {
-      this._resetOutgoingAudio();
+    value: function () {
+      var _resetOutgoingAudio2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee17() {
+        return regeneratorRuntime.wrap(function _callee17$(_context17) {
+          while (1) {
+            switch (_context17.prev = _context17.next) {
+              case 0:
+                this._resetOutgoingAudio();
 
-      this.loadAudio();
-    }
+                this.loadAudio();
+
+              case 2:
+              case "end":
+                return _context17.stop();
+            }
+          }
+        }, _callee17, this);
+      }));
+
+      function resetOutgoingAudio() {
+        return _resetOutgoingAudio2.apply(this, arguments);
+      }
+
+      return resetOutgoingAudio;
+    }()
   }, {
     key: "setIncomingAudio",
-    value: function setIncomingAudio(_ref6) {
-      var fileName = _ref6.fileName,
-          dataUrl = _ref6.dataUrl;
+    value: function () {
+      var _setIncomingAudio = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee18(_ref6) {
+        var fileName, dataUrl;
+        return regeneratorRuntime.wrap(function _callee18$(_context18) {
+          while (1) {
+            switch (_context18.prev = _context18.next) {
+              case 0:
+                fileName = _ref6.fileName, dataUrl = _ref6.dataUrl;
 
-      // TODO validate filePath?
-      this._setIncomingAudioIntoStorage(fileName, dataUrl);
+                // TODO validate filePath?
+                this._setIncomingAudioIntoStorage(fileName, dataUrl);
 
-      this.loadAudio();
-    }
+                this.loadAudio();
+
+              case 3:
+              case "end":
+                return _context18.stop();
+            }
+          }
+        }, _callee18, this);
+      }));
+
+      function setIncomingAudio(_x4) {
+        return _setIncomingAudio.apply(this, arguments);
+      }
+
+      return setIncomingAudio;
+    }()
   }, {
     key: "resetIncomingAudio",
-    value: function resetIncomingAudio() {
-      this._resetIncomingAudio();
+    value: function () {
+      var _resetIncomingAudio2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee19() {
+        return regeneratorRuntime.wrap(function _callee19$(_context19) {
+          while (1) {
+            switch (_context19.prev = _context19.next) {
+              case 0:
+                this._resetIncomingAudio();
 
-      this.loadAudio();
-    }
+                this.loadAudio();
+
+              case 2:
+              case "end":
+                return _context19.stop();
+            }
+          }
+        }, _callee19, this);
+      }));
+
+      function resetIncomingAudio() {
+        return _resetIncomingAudio2.apply(this, arguments);
+      }
+
+      return resetIncomingAudio;
+    }()
   }, {
     key: "setRingtone",
-    value: function setRingtone(_ref7) {
-      var incomingAudio = _ref7.incomingAudio,
-          incomingAudioFile = _ref7.incomingAudioFile,
-          outgoingAudio = _ref7.outgoingAudio,
-          outgoingAudioFile = _ref7.outgoingAudioFile;
-      var isIncomingDefault = incomingAudioFile === DEFAULT_AUDIO && incomingAudio === _incoming["default"];
-      var isOutgoingDefault = outgoingAudioFile === DEFAULT_AUDIO && outgoingAudio === _outgoing["default"];
+    value: function () {
+      var _setRingtone = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee20(_ref7) {
+        var incomingAudio, incomingAudioFile, outgoingAudio, outgoingAudioFile, isIncomingDefault, isOutgoingDefault;
+        return regeneratorRuntime.wrap(function _callee20$(_context20) {
+          while (1) {
+            switch (_context20.prev = _context20.next) {
+              case 0:
+                incomingAudio = _ref7.incomingAudio, incomingAudioFile = _ref7.incomingAudioFile, outgoingAudio = _ref7.outgoingAudio, outgoingAudioFile = _ref7.outgoingAudioFile;
+                isIncomingDefault = incomingAudioFile === DEFAULT_AUDIO && incomingAudio === _incoming["default"];
+                isOutgoingDefault = outgoingAudioFile === DEFAULT_AUDIO && outgoingAudio === _outgoing["default"];
 
-      this._setRingtoneIntoStorage(isIncomingDefault ? null : incomingAudio, isIncomingDefault ? DEFAULT_AUDIO : incomingAudioFile, isOutgoingDefault ? null : outgoingAudio, isOutgoingDefault ? DEFAULT_AUDIO : outgoingAudioFile);
+                this._setRingtoneIntoStorage(isIncomingDefault ? null : incomingAudio, isIncomingDefault ? DEFAULT_AUDIO : incomingAudioFile, isOutgoingDefault ? null : outgoingAudio, isOutgoingDefault ? DEFAULT_AUDIO : outgoingAudioFile);
 
-      this.loadAudio();
-    }
+                this.loadAudio();
+
+              case 5:
+              case "end":
+                return _context20.stop();
+            }
+          }
+        }, _callee20, this);
+      }));
+
+      function setRingtone(_x5) {
+        return _setRingtone.apply(this, arguments);
+      }
+
+      return setRingtone;
+    }()
   }, {
     key: "incomingAudioFile",
     get: function get() {
@@ -1847,7 +1942,7 @@ var WebphoneBase = (_dec = (0, _di.Module)({
   initializer: function initializer() {
     return null;
   }
-}), _applyDecoratedDescriptor(_class2.prototype, "_setVideoElementPrepared", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setVideoElementPrepared"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_setConnectionStatus", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setConnectionStatus"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_setStateOnConnectError", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setStateOnConnectError"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_setStateOnConnectFailed", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setStateOnConnectFailed"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_setStateOnConnect", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setStateOnConnect"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_setStateOnReconnect", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setStateOnReconnect"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_setStateOnRegistered", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setStateOnRegistered"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_setStateOnUnregistered", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setStateOnUnregistered"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_setStateWhenUnregisteredOnInactive", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setStateWhenUnregisteredOnInactive"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_setStoreOnDisconnect", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setStoreOnDisconnect"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_setDevice", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setDevice"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_setRetryCounts", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setRetryCounts"), _class2.prototype), _descriptor7 = _applyDecoratedDescriptor(_class2.prototype, "data", [_core.storage, _core.state], {
+}), _applyDecoratedDescriptor(_class2.prototype, "_setVideoElementPrepared", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setVideoElementPrepared"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_setConnectionStatus", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setConnectionStatus"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_setStateOnConnectError", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setStateOnConnectError"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_setStateOnConnectFailed", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setStateOnConnectFailed"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_setStateOnConnect", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setStateOnConnect"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_setStateOnReconnect", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setStateOnReconnect"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_setStateOnRegistered", [_dec2, _core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setStateOnRegistered"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_setStateOnUnregistered", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setStateOnUnregistered"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_setStateWhenUnregisteredOnInactive", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setStateWhenUnregisteredOnInactive"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_setStoreOnDisconnect", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setStoreOnDisconnect"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_setDevice", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setDevice"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_setRetryCounts", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setRetryCounts"), _class2.prototype), _descriptor7 = _applyDecoratedDescriptor(_class2.prototype, "data", [_core.storage, _core.state], {
   configurable: true,
   enumerable: true,
   writable: true,
@@ -1859,6 +1954,6 @@ var WebphoneBase = (_dec = (0, _di.Module)({
       outgoingAudioDataUrl: null
     };
   }
-}), _applyDecoratedDescriptor(_class2.prototype, "_setRingtoneIntoStorage", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setRingtoneIntoStorage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_setIncomingAudioIntoStorage", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setIncomingAudioIntoStorage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_resetIncomingAudio", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_resetIncomingAudio"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_setOutgoingAudioIntoStorage", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setOutgoingAudioIntoStorage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_resetOutgoingAudio", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_resetOutgoingAudio"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "shouldUpdateRingtoneVolume", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "shouldUpdateRingtoneVolume"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "shouldSetSinkId", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "shouldSetSinkId"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "shouldTriggerOnTabActive", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "shouldTriggerOnTabActive"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_sipProvision", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_sipProvision"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_connect", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_connect"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "connect", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "connect"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "disconnect", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "disconnect"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "showAlert", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "showAlert"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setOutgoingAudio", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "setOutgoingAudio"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "resetOutgoingAudio", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "resetOutgoingAudio"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setIncomingAudio", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "setIncomingAudio"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "resetIncomingAudio", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "resetIncomingAudio"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setRingtone", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "setRingtone"), _class2.prototype)), _class2)) || _class);
+}), _applyDecoratedDescriptor(_class2.prototype, "_setRingtoneIntoStorage", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setRingtoneIntoStorage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_setIncomingAudioIntoStorage", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setIncomingAudioIntoStorage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_resetIncomingAudio", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_resetIncomingAudio"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_setOutgoingAudioIntoStorage", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setOutgoingAudioIntoStorage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_resetOutgoingAudio", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_resetOutgoingAudio"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "shouldUpdateRingtoneVolume", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "shouldUpdateRingtoneVolume"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "shouldSetSinkId", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "shouldSetSinkId"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "shouldTriggerOnTabActive", [_dec5], Object.getOwnPropertyDescriptor(_class2.prototype, "shouldTriggerOnTabActive"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_sipProvision", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_sipProvision"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_connect", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_connect"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "connect", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "connect"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "disconnect", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "disconnect"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "showAlert", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "showAlert"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setOutgoingAudio", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "setOutgoingAudio"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "resetOutgoingAudio", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "resetOutgoingAudio"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setIncomingAudio", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "setIncomingAudio"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "resetIncomingAudio", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "resetIncomingAudio"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setRingtone", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "setRingtone"), _class2.prototype)), _class2)) || _class);
 exports.WebphoneBase = WebphoneBase;
 //# sourceMappingURL=WebphoneBase.js.map

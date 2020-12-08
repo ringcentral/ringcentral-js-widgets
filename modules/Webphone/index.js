@@ -65,7 +65,7 @@ require("core-js/modules/es6.map");
 
 var _ramda = require("ramda");
 
-var _events = _interopRequireDefault(require("events"));
+var _events = require("events");
 
 var _ringcentralWebPhone = _interopRequireDefault(require("ringcentral-web-phone"));
 
@@ -302,7 +302,7 @@ var Webphone = (_dec = (0, _di.Module)({
 
     _this._regionSettings = regionSettings;
     _this._brand = brand;
-    _this._eventEmitter = new _events["default"]();
+    _this._eventEmitter = new _events.EventEmitter();
     _this._appKey = appKey;
     _this._appName = appName;
     _this._appVersion = appVersion;

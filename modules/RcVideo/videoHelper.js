@@ -193,9 +193,13 @@ function getVideoSettings(data) {
 
 function getDefaultVideoSettings(_ref) {
   var topic = _ref.topic,
-      startTime = _ref.startTime;
+      startTime = _ref.startTime,
+      accountId = _ref.accountId,
+      extensionId = _ref.extensionId;
   return {
     // api fields
+    accountId: accountId,
+    extensionId: extensionId,
     name: topic,
     type: RcVideoTypes.meeting,
     expiresIn: 31536000,
@@ -342,13 +346,13 @@ function getAvaliableWaitingRoomOpions(isOnlyCoworkersJoin) {
 
 function patchWaitingRoomRelated(settings, _ref2) {
   var waitingRoomMode = _ref2.waitingRoomMode;
-  var updatedMode = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+  var isUpdatingMode = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
   var processedSettings = {};
 
   if (settings.isOnlyAuthUserJoin) {
     // for pmi setting, waitingRoom, joinAfterMe option maybe not avaliable
     if (!getAvaliableWaitingRoomOpions(settings.isOnlyCoworkersJoin).includes(settings.waitingRoomMode)) {
-      processedSettings.waitingRoomMode = updatedMode ? _constants.RCV_WAITING_ROOM_MODE.all : waitingRoomMode;
+      processedSettings.waitingRoomMode = isUpdatingMode ? _constants.RCV_WAITING_ROOM_MODE.all : waitingRoomMode;
     }
   } // when waitingRoom is 'everyone', joinAfterMe should be always checked
 

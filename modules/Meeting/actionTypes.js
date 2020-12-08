@@ -48,7 +48,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 var _default = _ObjectMap.ObjectMap.prefixKeys([].concat(_toConsumableArray(_ObjectMap.ObjectMap.keys(_moduleActionTypes.moduleActionTypes)), [// Local meeting related
 'updateMeeting', 'clearMeeting', // Meeting scheduling related
 'initScheduling', 'scheduled', 'resetScheduling', // Meeting updating related
-'initUpdating', 'updated', 'resetUpdating', 'updatePersonalMeeting', 'updateDelegatorList', 'saveAsDefaultSetting', 'updateMeetingPreferences', 'saveMeetingPreferencesState', // Meeting settings from Service Web related
+'initUpdating', 'updated', 'resetUpdating', 'updatePersonalMeeting', 'resetPersonalMeeting', 'updateDelegatorList', 'saveAsDefaultSetting', 'updateMeetingPreferences', 'saveMeetingPreferencesState', // Meeting settings from Service Web related
 'updateUserSettings', 'updateLockedSettings']), 'meeting');
 
 exports["default"] = _default;

@@ -63,23 +63,23 @@ require("core-js/modules/es6.date.to-iso-string");
 
 require("core-js/modules/es6.array.find-index");
 
-var _RcModule2 = _interopRequireDefault(require("../../lib/RcModule"));
+var _moduleStatuses = _interopRequireDefault(require("../../enums/moduleStatuses"));
+
+var _Analytics = require("../../lib/Analytics");
 
 var _di = require("../../lib/di");
 
-var _sleep = _interopRequireDefault(require("../../lib/sleep"));
+var _RcModule2 = _interopRequireDefault(require("../../lib/RcModule"));
 
 var _saveBlob = _interopRequireDefault(require("../../lib/saveBlob"));
 
-var _moduleStatuses = _interopRequireDefault(require("../../enums/moduleStatuses"));
+var _sleep = _interopRequireDefault(require("../../lib/sleep"));
+
+var _callingModes = _interopRequireDefault(require("../CallingSettings/callingModes"));
 
 var _actionTypes = require("./actionTypes");
 
 var _getAnalyticsReducer = _interopRequireDefault(require("./getAnalyticsReducer"));
-
-var _Analytics = require("../../lib/Analytics");
-
-var _callingModes = _interopRequireDefault(require("../CallingSettings/callingModes"));
 
 var _dec, _class, _class2, _temp;
 
@@ -629,7 +629,7 @@ var Analytics = (_dec = (0, _di.Module)({
       var _this$_messageSender2;
 
       if (((_this$_messageSender2 = this._messageSender) === null || _this$_messageSender2 === void 0 ? void 0 : _this$_messageSender2.actionTypes.sendOver) === action.type) {
-        this.track('SMS: SMS sent succesfully');
+        this.track('SMS: SMS sent successfully');
       }
     }
   }, {

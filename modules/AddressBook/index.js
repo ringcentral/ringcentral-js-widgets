@@ -700,9 +700,15 @@ var AddressBook = (_dec = (0, _di.Module)({
     } // interface of ContactSource
 
   }, {
-    key: "searchContacts",
-    value: function searchContacts(searchString) {
-      return (0, _contactHelper.getSearchContacts)({
+    key: "filterContacts",
+    value: function filterContacts(searchFilter) {
+      return (0, _contactHelper.getFilterContacts)(this.contacts, searchFilter);
+    } // interface of ContactSource
+
+  }, {
+    key: "searchForPhoneNumbers",
+    value: function searchForPhoneNumbers(searchString) {
+      return (0, _contactHelper.getSearchForPhoneNumbers)({
         contacts: this.contacts,
         searchString: searchString,
         entityType: _phoneSources.phoneSources.contact,
@@ -711,9 +717,9 @@ var AddressBook = (_dec = (0, _di.Module)({
     } // interface of ContactSource
 
   }, {
-    key: "matchPhoneNumber",
-    value: function matchPhoneNumber(phoneNumber) {
-      return (0, _contactHelper.getMatchContacts)({
+    key: "matchContactsByPhoneNumber",
+    value: function matchContactsByPhoneNumber(phoneNumber) {
+      return (0, _contactHelper.getMatchContactsByPhoneNumber)({
         contacts: this.contacts,
         phoneNumber: phoneNumber,
         entityType: _phoneSources.phoneSources.rcContact

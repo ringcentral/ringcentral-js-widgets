@@ -8,7 +8,6 @@ Object.defineProperty(exports, "__esModule", {
 exports.isHangUp = isHangUp;
 exports.isRejectCode = isRejectCode;
 exports.isOnRecording = isOnRecording;
-exports.getSessionsParty = getSessionsParty;
 exports.normalizeSession = normalizeSession;
 exports.conflictError = conflictError;
 exports.isRinging = isRinging;
@@ -25,8 +24,6 @@ require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.function.name");
 
-require("core-js/modules/es6.array.find");
-
 var _Session = require("ringcentral-call-control/lib/Session");
 
 var _recordStatus = _interopRequireDefault(require("../Webphone/recordStatus"));
@@ -36,6 +33,8 @@ var _callResults = _interopRequireDefault(require("../../enums/callResults"));
 var _callDirections = _interopRequireDefault(require("../../enums/callDirections"));
 
 var _activeCallControlStatus = _interopRequireDefault(require("../../enums/activeCallControlStatus"));
+
+var _callMonitorHelper = require("../CallMonitor/callMonitorHelper");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -60,20 +59,14 @@ function isOnRecording(recordings) {
 
   var recording = recordings[0];
   return recording.active;
-}
-
-function getSessionsParty(session) {
-  var extensionId = session.extensionId;
-  return session.parties.find(function (p) {
-    return p.extensionId === extensionId;
-  });
 } // TODO: add call type in callMonitor module
 
 
 function normalizeSession(_ref2) {
-  var session = _ref2.session,
-      call = _ref2.call;
-  var party = getSessionsParty(session);
+  var session = _ref2.session;
+  var party = session.party,
+      creationTime = session.creationTime,
+      sessionId = session.sessionId;
   var partyId = party.id,
       direction = party.direction,
       from = party.from,
@@ -81,8 +74,6 @@ function normalizeSession(_ref2) {
       status = party.status,
       recordings = party.recordings,
       muted = party.muted;
-  var startTime = call.startTime,
-      sessionId = call.sessionId;
   var formatValue = {
     telephonySessionId: session.id,
     partyId: partyId,
@@ -95,13 +86,13 @@ function normalizeSession(_ref2) {
     toUserName: to === null || to === void 0 ? void 0 : to.name,
     id: session.id,
     sessionId: sessionId,
-    callStatus: call === null || call === void 0 ? void 0 : call.telephonyStatus,
-    startTime: startTime,
-    creationTime: startTime,
+    callStatus: (0, _callMonitorHelper.mapTelephonyStatus)(status === null || status === void 0 ? void 0 : status.code),
+    startTime: new Date(creationTime).getTime(),
+    creationTime: creationTime,
     isOnMute: muted,
     isForwarded: false,
     isOnFlip: false,
-    isOnHold: status.code === _activeCallControlStatus["default"].hold,
+    isOnHold: (status === null || status === void 0 ? void 0 : status.code) === _activeCallControlStatus["default"].hold,
     isOnTransfer: false,
     isReplied: false,
     isToVoicemail: false,
@@ -111,7 +102,7 @@ function normalizeSession(_ref2) {
     removed: false,
     isReject: isRejectCode({
       direction: direction,
-      code: status.code
+      code: status === null || status === void 0 ? void 0 : status.code
     })
   };
   return formatValue;
@@ -150,8 +141,8 @@ function isHolding(telephonySession) {
   return telephonySession.status === _Session.PartyStatusCode.hold;
 }
 
-function isRecording(telephonySession) {
-  var party = getSessionsParty(telephonySession);
+function isRecording(session) {
+  var party = session.party;
   return isOnRecording(party.recordings);
 }
 

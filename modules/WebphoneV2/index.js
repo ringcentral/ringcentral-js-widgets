@@ -94,19 +94,6 @@ Object.keys(_events).forEach(function (key) {
   });
 });
 
-var _extendedControlStatus = require("./extendedControlStatus");
-
-Object.keys(_extendedControlStatus).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  if (key in exports && exports[key] === _extendedControlStatus[key]) return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function get() {
-      return _extendedControlStatus[key];
-    }
-  });
-});
-
 var _Webphone = require("./Webphone.interface");
 
 Object.keys(_Webphone).forEach(function (key) {

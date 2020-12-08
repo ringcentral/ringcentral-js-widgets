@@ -155,11 +155,11 @@ var DefaultMinimalSearchLength = 3;
 
 exports.DefaultMinimalSearchLength = DefaultMinimalSearchLength;
 var ContactSearch = (_dec = (0, _di.Module)({
-  deps: ['Auth', 'Storage', {
-    dep: 'ContactSearchOptions',
+  deps: ['Auth', {
+    dep: 'Storage',
     optional: true
   }, {
-    dep: 'TabManager',
+    dep: 'ContactSearchOptions',
     optional: true
   }]
 }), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcModule) {

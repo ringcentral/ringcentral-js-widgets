@@ -203,6 +203,10 @@ var WebSocketSubscription = (_dec = (0, _di.Module)({
                   this._wsExtension.eventEmitter.on(_ws.Events.autoRecoverSuccess, function () {
                     _this2._exposeConnectionEvents();
                   });
+
+                  this._wsExtension.eventEmitter.on(_ws.Events.autoRecoverFailed, function () {
+                    _this2._exposeConnectionEvents();
+                  });
                 }
 
                 this._deps.sleepDetector.on(this._deps.sleepDetector.events.detected, /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {

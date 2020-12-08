@@ -364,12 +364,18 @@ var AccountContacts = (_dec = (0, _di.Module)({
     } // interface of ContactSource
 
   }, {
-    key: "searchContacts",
-    value: function searchContacts(searchString) {
+    key: "filterContacts",
+    value: function filterContacts(searchFilter) {
+      return (0, _contactHelper.getFilterContacts)(this.contacts, searchFilter);
+    } // interface of ContactSource
+
+  }, {
+    key: "searchForPhoneNumbers",
+    value: function searchForPhoneNumbers(searchString) {
       var _this$_deps$extension = this._deps.extensionInfo,
           isMultipleSiteEnabled = _this$_deps$extension.isMultipleSiteEnabled,
           site = _this$_deps$extension.site;
-      return (0, _contactHelper.getSearchContacts)({
+      return (0, _contactHelper.getSearchForPhoneNumbers)({
         contacts: this.contacts,
         searchString: searchString,
         entityType: _phoneSources.phoneSources.contact,
@@ -381,16 +387,16 @@ var AccountContacts = (_dec = (0, _di.Module)({
     } // interface of ContactSource
 
   }, {
-    key: "matchPhoneNumber",
-    value: function matchPhoneNumber(phoneNumber) {
+    key: "matchContactsByPhoneNumber",
+    value: function matchContactsByPhoneNumber(phoneNumber) {
       var _this$_deps$extension2 = this._deps.extensionInfo,
           isMultipleSiteEnabled = _this$_deps$extension2.isMultipleSiteEnabled,
           site = _this$_deps$extension2.site;
-      return (0, _contactHelper.getMatchContacts)({
+      return (0, _contactHelper.getMatchContactsByPhoneNumber)({
         contacts: [].concat(_toConsumableArray(this.contacts), _toConsumableArray(this._deps.companyContacts.ivrContacts)),
         phoneNumber: phoneNumber,
         entityType: _phoneSources.phoneSources.rcContact,
-        findContact: (0, _contactHelper.getFindContact)({
+        findPhoneNumber: (0, _contactHelper.getFindPhoneNumber)({
           phoneNumber: phoneNumber,
           options: {
             isMultipleSiteEnabled: isMultipleSiteEnabled,

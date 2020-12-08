@@ -833,7 +833,7 @@ _dec = (0, _di.Module)({
         var fromName = from === null || from === void 0 ? void 0 : from.name;
         var partyId = party === null || party === void 0 ? void 0 : party.id;
         var telephonySession = (0, _callMonitorHelper.matchTelephonySessionWithActiveCall)(currentRcCallSession);
-        var telephonyStatus = (0, _callMonitorHelper.mapTelephonyStatus)(party.status.code); // TODO: add sipData here
+        var telephonyStatus = (0, _callMonitorHelper.mapTelephonyStatus)(party === null || party === void 0 ? void 0 : party.status.code); // TODO: add sipData here
         // const sipData = {};
 
         return {

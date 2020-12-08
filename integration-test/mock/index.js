@@ -845,9 +845,10 @@ function videoPersonalSettings() {
 
 function serviceInfo() {
   var mockResponse = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var extensionId = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '~';
   mockApi({
     method: 'GET',
-    url: "".concat(mockServer, "/restapi/v1.0/account/~/extension/~/meeting/service-info"),
+    url: "".concat(mockServer, "/restapi/v1.0/account/~/extension/").concat(extensionId, "/meeting/service-info"),
     body: _objectSpread(_objectSpread({}, _serviceInfo["default"]), mockResponse),
     isOnce: false
   });

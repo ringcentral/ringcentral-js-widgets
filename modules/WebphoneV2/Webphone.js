@@ -77,8 +77,6 @@ var _webphoneErrors = require("./webphoneErrors");
 
 var _webphoneMessages = require("./webphoneMessages");
 
-var _extendedControlStatus = require("./extendedControlStatus");
-
 var _events = require("./events");
 
 var _callErrors = require("../CallV2/callErrors");
@@ -91,7 +89,11 @@ var _WebphoneBase2 = require("./WebphoneBase");
 
 var _webphoneHelper = require("./webphoneHelper");
 
-var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _temp;
+var _Analytics = require("../Analytics");
+
+var _extendedControlStatus = require("../../enums/extendedControlStatus");
+
+var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _dec10, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _temp;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -153,27 +155,29 @@ exports.INCOMING_CALL_INVALID_STATE_ERROR_CODE = INCOMING_CALL_INVALID_STATE_ERR
 var Webphone = (_dec = (0, _di.Module)({
   name: 'Webphone',
   deps: []
-}), _dec2 = (0, _core.computed)(function (_ref) {
+}), _dec2 = (0, _core.track)(_Analytics.trackEvents.inboundWebRTCCallConnected), _dec3 = (0, _core.track)(function (that) {
+  return that.isOnTransfer ? [_Analytics.trackEvents.coldTransferCall] : null;
+}), _dec4 = (0, _core.computed)(function (_ref) {
   var sessions = _ref.sessions;
   return [sessions];
-}), _dec3 = (0, _core.computed)(function (_ref2) {
+}), _dec5 = (0, _core.computed)(function (_ref2) {
   var activeSessionId = _ref2.activeSessionId,
       sessions = _ref2.sessions;
   return [activeSessionId, sessions];
-}), _dec4 = (0, _core.computed)(function (_ref3) {
+}), _dec6 = (0, _core.computed)(function (_ref3) {
   var ringSessionId = _ref3.ringSessionId,
       sessions = _ref3.sessions;
   return [ringSessionId, sessions];
-}), _dec5 = (0, _core.computed)(function (_ref4) {
+}), _dec7 = (0, _core.computed)(function (_ref4) {
   var sessions = _ref4.sessions;
   return [sessions];
-}), _dec6 = (0, _core.computed)(function (_ref5) {
+}), _dec8 = (0, _core.computed)(function (_ref5) {
   var sessions = _ref5.sessions;
   return [sessions];
-}), _dec7 = (0, _core.computed)(function (_ref6) {
+}), _dec9 = (0, _core.computed)(function (_ref6) {
   var sessions = _ref6.sessions;
   return [sessions];
-}), _dec8 = (0, _core.computed)(function (_ref7) {
+}), _dec10 = (0, _core.computed)(function (_ref7) {
   var ringSessions = _ref7.ringSessions;
   return [ringSessions];
 }), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_WebphoneBase) {
@@ -561,6 +565,10 @@ var Webphone = (_dec = (0, _di.Module)({
       return _playExtendedControls;
     }()
   }, {
+    key: "_trackCallAnswer",
+    value: function _trackCallAnswer() {//
+    }
+  }, {
     key: "answer",
     value: function () {
       var _answer = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(sessionId) {
@@ -593,11 +601,13 @@ var Webphone = (_dec = (0, _di.Module)({
                 return sipSession.accept(this.acceptOptions);
 
               case 10:
-                _context2.next = 17;
+                this._trackCallAnswer();
+
+                _context2.next = 18;
                 break;
 
-              case 12:
-                _context2.prev = 12;
+              case 13:
+                _context2.prev = 13;
                 _context2.t0 = _context2["catch"](4);
                 console.log('Accept failed');
                 console.error(_context2.t0);
@@ -608,12 +618,12 @@ var Webphone = (_dec = (0, _di.Module)({
                   this._onCallEnd(sipSession);
                 }
 
-              case 17:
+              case 18:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2, this, [[4, 12]]);
+        }, _callee2, this, [[4, 13]]);
       }));
 
       function answer(_x2) {
@@ -1976,34 +1986,13 @@ var Webphone = (_dec = (0, _di.Module)({
     }()
   }, {
     key: "setSessionCaching",
-    value: function setSessionCaching(sessionIds) {
-      this._setSessionCaching(sessionIds);
-    }
-  }, {
-    key: "clearSessionCaching",
-    value: function clearSessionCaching() {
-      this._clearSessionCaching(_toConsumableArray(Object.values(this.originalSessions)).map(_webphoneHelper.normalizeSession));
-    }
-  }, {
-    key: "_updateSessions",
-    value: function _updateSessions() {
-      this._updateSessionsState(_toConsumableArray(Object.values(this.originalSessions)).map(_webphoneHelper.normalizeSession));
-    }
-  }, {
-    key: "toggleMinimized",
     value: function () {
-      var _toggleMinimized = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee28(sessionId) {
-        var _this12 = this;
-
+      var _setSessionCaching2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee28(sessionIds) {
         return regeneratorRuntime.wrap(function _callee28$(_context28) {
           while (1) {
             switch (_context28.prev = _context28.next) {
               case 0:
-                this._sessionHandleWithId(sessionId, function (session) {
-                  session.__rc_minimized = !session.__rc_minimized;
-
-                  _this12._updateSessions();
-                });
+                this._setSessionCaching(sessionIds);
 
               case 1:
               case "end":
@@ -2013,7 +2002,66 @@ var Webphone = (_dec = (0, _di.Module)({
         }, _callee28, this);
       }));
 
-      function toggleMinimized(_x37) {
+      function setSessionCaching(_x37) {
+        return _setSessionCaching2.apply(this, arguments);
+      }
+
+      return setSessionCaching;
+    }()
+  }, {
+    key: "clearSessionCaching",
+    value: function () {
+      var _clearSessionCaching2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee29() {
+        return regeneratorRuntime.wrap(function _callee29$(_context29) {
+          while (1) {
+            switch (_context29.prev = _context29.next) {
+              case 0:
+                this._clearSessionCaching(_toConsumableArray(Object.values(this.originalSessions)).map(_webphoneHelper.normalizeSession));
+
+              case 1:
+              case "end":
+                return _context29.stop();
+            }
+          }
+        }, _callee29, this);
+      }));
+
+      function clearSessionCaching() {
+        return _clearSessionCaching2.apply(this, arguments);
+      }
+
+      return clearSessionCaching;
+    }()
+  }, {
+    key: "_updateSessions",
+    value: function _updateSessions() {
+      this._updateSessionsState(_toConsumableArray(Object.values(this.originalSessions)).map(_webphoneHelper.normalizeSession));
+    }
+  }, {
+    key: "toggleMinimized",
+    value: function () {
+      var _toggleMinimized = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee30(sessionId) {
+        var _this12 = this;
+
+        return regeneratorRuntime.wrap(function _callee30$(_context30) {
+          while (1) {
+            switch (_context30.prev = _context30.next) {
+              case 0:
+                this._sessionHandleWithId(sessionId, function (session) {
+                  session.__rc_minimized = !session.__rc_minimized;
+
+                  _this12._updateSessions();
+                });
+
+              case 1:
+              case "end":
+                return _context30.stop();
+            }
+          }
+        }, _callee30, this);
+      }));
+
+      function toggleMinimized(_x38) {
         return _toggleMinimized.apply(this, arguments);
       }
 
@@ -2243,12 +2291,12 @@ var Webphone = (_dec = (0, _di.Module)({
   }, {
     key: "_disconnect",
     value: function () {
-      var _disconnect2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee29() {
-        return regeneratorRuntime.wrap(function _callee29$(_context29) {
+      var _disconnect2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee31() {
+        return regeneratorRuntime.wrap(function _callee31$(_context31) {
           while (1) {
-            switch (_context29.prev = _context29.next) {
+            switch (_context31.prev = _context31.next) {
               case 0:
-                _context29.next = 2;
+                _context31.next = 2;
                 return _get(_getPrototypeOf(Webphone.prototype), "_disconnect", this).call(this);
 
               case 2:
@@ -2256,10 +2304,10 @@ var Webphone = (_dec = (0, _di.Module)({
 
               case 3:
               case "end":
-                return _context29.stop();
+                return _context31.stop();
             }
           }
-        }, _callee29, this);
+        }, _callee31, this);
       }));
 
       function _disconnect() {
@@ -2392,6 +2440,6 @@ var Webphone = (_dec = (0, _di.Module)({
   initializer: function initializer() {
     return [];
   }
-}), _applyDecoratedDescriptor(_class2.prototype, "_updateSessionsState", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_updateSessionsState"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_setActiveSessionId", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setActiveSessionId"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_setStateOnCallRing", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setStateOnCallRing"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_setStateOnCallStart", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setStateOnCallStart"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_setStateOnCallEnd", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setStateOnCallEnd"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_setSessionCaching", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setSessionCaching"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_clearSessionCaching", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_clearSessionCaching"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_onHoldCachedSession", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_onHoldCachedSession"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "answer", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "answer"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "reject", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "reject"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "resume", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "resume"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "forward", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "forward"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "mute", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "mute"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "unmute", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "unmute"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "hold", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "hold"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "unhold", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "unhold"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "startRecord", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "startRecord"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "stopRecord", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "stopRecord"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "park", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "park"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "transfer", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "transfer"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "transferWarm", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "transferWarm"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "flip", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "flip"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_sendDTMF", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_sendDTMF"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "sendDTMF", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "sendDTMF"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "hangup", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "hangup"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "toVoiceMail", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "toVoiceMail"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "replyWithMessage", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "replyWithMessage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "makeCall", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "makeCall"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "switchCall", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "switchCall"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateSessionMatchedContact", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "updateSessionMatchedContact"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setSessionCaching", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "setSessionCaching"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "clearSessionCaching", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "clearSessionCaching"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "toggleMinimized", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "toggleMinimized"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "sessionPhoneNumbers", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "sessionPhoneNumbers"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "activeSession", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "activeSession"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "ringSession", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "ringSession"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "ringSessions", [_dec5], Object.getOwnPropertyDescriptor(_class2.prototype, "ringSessions"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "onHoldSessions", [_dec6], Object.getOwnPropertyDescriptor(_class2.prototype, "onHoldSessions"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "cachedSessions", [_dec7], Object.getOwnPropertyDescriptor(_class2.prototype, "cachedSessions"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "ringingCallOnView", [_dec8], Object.getOwnPropertyDescriptor(_class2.prototype, "ringingCallOnView"), _class2.prototype)), _class2)) || _class);
+}), _applyDecoratedDescriptor(_class2.prototype, "_updateSessionsState", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_updateSessionsState"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_setActiveSessionId", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setActiveSessionId"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_setStateOnCallRing", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setStateOnCallRing"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_setStateOnCallStart", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setStateOnCallStart"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_setStateOnCallEnd", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setStateOnCallEnd"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_setSessionCaching", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setSessionCaching"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_clearSessionCaching", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_clearSessionCaching"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_onHoldCachedSession", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_onHoldCachedSession"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_trackCallAnswer", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "_trackCallAnswer"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "answer", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "answer"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "reject", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "reject"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "resume", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "resume"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "forward", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "forward"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "mute", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "mute"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "unmute", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "unmute"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "hold", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "hold"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "unhold", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "unhold"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "startRecord", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "startRecord"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "stopRecord", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "stopRecord"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "park", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "park"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "transfer", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "transfer"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "transferWarm", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "transferWarm"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "flip", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "flip"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_sendDTMF", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_sendDTMF"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "sendDTMF", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "sendDTMF"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "hangup", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "hangup"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "toVoiceMail", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "toVoiceMail"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "replyWithMessage", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "replyWithMessage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "makeCall", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "makeCall"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "switchCall", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "switchCall"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateSessionMatchedContact", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "updateSessionMatchedContact"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setSessionCaching", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "setSessionCaching"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "clearSessionCaching", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "clearSessionCaching"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_updateSessions", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "_updateSessions"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "toggleMinimized", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "toggleMinimized"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "sessionPhoneNumbers", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "sessionPhoneNumbers"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "activeSession", [_dec5], Object.getOwnPropertyDescriptor(_class2.prototype, "activeSession"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "ringSession", [_dec6], Object.getOwnPropertyDescriptor(_class2.prototype, "ringSession"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "ringSessions", [_dec7], Object.getOwnPropertyDescriptor(_class2.prototype, "ringSessions"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "onHoldSessions", [_dec8], Object.getOwnPropertyDescriptor(_class2.prototype, "onHoldSessions"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "cachedSessions", [_dec9], Object.getOwnPropertyDescriptor(_class2.prototype, "cachedSessions"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "ringingCallOnView", [_dec10], Object.getOwnPropertyDescriptor(_class2.prototype, "ringingCallOnView"), _class2.prototype)), _class2)) || _class);
 exports.Webphone = Webphone;
 //# sourceMappingURL=Webphone.js.map

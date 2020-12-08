@@ -47,6 +47,8 @@ var _core = require("@ringcentral-integration/core");
 
 var _di = require("../../lib/di");
 
+var _AuthV = require("../AuthV2");
+
 var _DataFetcherV = require("../DataFetcherV2");
 
 var _permissionsMessages = require("../RolesAndPermissions/permissionsMessages");
@@ -168,6 +170,20 @@ var AccountInfo = (_dec = (0, _di.Module)({
       return !!((_this$_deps$rolesAndP = this._deps.rolesAndPermissions.permissions) === null || _this$_deps$rolesAndP === void 0 ? void 0 : _this$_deps$rolesAndP.ReadCompanyInfo);
     }
   }, {
+    key: "onInitSuccess",
+    value: function onInitSuccess() {
+      var _analytics, _analytics$_identify, _this$_deps$auth;
+
+      // TODO: refactor for Analytics V2
+      (_analytics = this.parentModule.analytics) === null || _analytics === void 0 ? void 0 : (_analytics$_identify = _analytics._identify) === null || _analytics$_identify === void 0 ? void 0 : _analytics$_identify.call(_analytics, {
+        userId: (_this$_deps$auth = this._deps.auth) === null || _this$_deps$auth === void 0 ? void 0 : _this$_deps$auth.ownerId,
+        accountId: this.id,
+        servicePlanId: this.servicePlan.id,
+        edition: this.servicePlan.edition,
+        CRMEnabled: this._deps.rolesAndPermissions.tierEnabled
+      });
+    }
+  }, {
     key: "onStateChange",
     value: function () {
       var _onStateChange = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
@@ -175,7 +191,7 @@ var AccountInfo = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                if (!(this._deps.auth.loggedIn && this.ready && !this._checkPermission())) {
+                if (!(this._deps.auth.loginStatus === _AuthV.loginStatus.loggedIn && this.ready && !this._checkPermission())) {
                   _context2.next = 4;
                   break;
                 }

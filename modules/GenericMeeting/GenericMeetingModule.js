@@ -47,7 +47,7 @@ require("core-js/modules/es6.function.name");
 
 require("regenerator-runtime/runtime");
 
-var _events = _interopRequireDefault(require("events"));
+var _events = require("events");
 
 var _RcModule2 = _interopRequireDefault(require("../../lib/RcModule"));
 
@@ -62,6 +62,8 @@ var _interface = require("./interface");
 var _actionTypes = require("./actionTypes");
 
 var _getGenericMeetingReducer = _interopRequireDefault(require("./getGenericMeetingReducer"));
+
+var _genericMeetingStatus = require("./genericMeetingStatus");
 
 var _dec, _class, _class2, _temp;
 
@@ -133,7 +135,7 @@ var GenericMeeting = (_dec = (0, _di.Module)({
     _this._rcVideo = void 0;
     _this._brand = void 0;
     _this._extensionInfo = void 0;
-    _this._eventEmitter = new _events["default"]();
+    _this._eventEmitter = new _events.EventEmitter();
     _this._reducer = (0, _getGenericMeetingReducer["default"])(_this.actionTypes, reducers);
     _this._meeting = meeting;
     _this._meetingProvider = meetingProvider;
@@ -169,9 +171,45 @@ var GenericMeeting = (_dec = (0, _di.Module)({
     }
   }, {
     key: "updateScheduleFor",
-    value: function updateScheduleFor(userExtensionId) {
-      return this._meetingModule.updateScheduleFor && this._meetingModule.updateScheduleFor(userExtensionId);
-    }
+    value: function () {
+      var _updateScheduleFor = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(userExtensionId) {
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                if (this._meetingModule.updateScheduleFor) {
+                  _context.next = 2;
+                  break;
+                }
+
+                return _context.abrupt("return");
+
+              case 2:
+                this.store.dispatch({
+                  type: this.actionTypes.initUpdating
+                });
+                _context.next = 5;
+                return this._meetingModule.updateScheduleFor(userExtensionId);
+
+              case 5:
+                this.store.dispatch({
+                  type: this.actionTypes.updated
+                });
+
+              case 6:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function updateScheduleFor(_x) {
+        return _updateScheduleFor.apply(this, arguments);
+      }
+
+      return updateScheduleFor;
+    }()
   }, {
     key: "updateMeetingSettings",
     value: function updateMeetingSettings(meeting) {
@@ -188,60 +226,60 @@ var GenericMeeting = (_dec = (0, _di.Module)({
   }, {
     key: "schedule",
     value: function () {
-      var _schedule = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(meeting, config, opener) {
+      var _schedule = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(meeting, config, opener) {
         var result, rcvMeetingInfo;
-        return regeneratorRuntime.wrap(function _callee$(_context) {
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
-            switch (_context.prev = _context.next) {
+            switch (_context2.prev = _context2.next) {
               case 0:
                 if (!this.isRCM) {
-                  _context.next = 6;
+                  _context2.next = 6;
                   break;
                 }
 
-                _context.next = 3;
+                _context2.next = 3;
                 return this._meeting.schedule(meeting, config);
 
               case 3:
-                result = _context.sent;
-                _context.next = 21;
+                result = _context2.sent;
+                _context2.next = 21;
                 break;
 
               case 6:
                 if (!this.isRCV) {
-                  _context.next = 19;
+                  _context2.next = 19;
                   break;
                 }
 
                 rcvMeetingInfo = meeting;
 
                 if (!rcvMeetingInfo.usePersonalMeetingId) {
-                  _context.next = 14;
+                  _context2.next = 14;
                   break;
                 }
 
-                _context.next = 11;
+                _context2.next = 11;
                 return this._rcVideo.updateMeeting(this._rcVideo.personalMeeting.id, rcvMeetingInfo, config);
 
               case 11:
-                result = _context.sent;
-                _context.next = 17;
+                result = _context2.sent;
+                _context2.next = 17;
                 break;
 
               case 14:
-                _context.next = 16;
+                _context2.next = 16;
                 return this._rcVideo.createMeeting(meeting, config);
 
               case 16:
-                result = _context.sent;
+                result = _context2.sent;
 
               case 17:
-                _context.next = 21;
+                _context2.next = 21;
                 break;
 
               case 19:
                 console.error('Unknown meeting provider, please check module runtime');
-                return _context.abrupt("return");
+                return _context2.abrupt("return");
 
               case 21:
                 if (result) {
@@ -250,17 +288,17 @@ var GenericMeeting = (_dec = (0, _di.Module)({
                   opener.close();
                 }
 
-                return _context.abrupt("return", result);
+                return _context2.abrupt("return", result);
 
               case 23:
               case "end":
-                return _context.stop();
+                return _context2.stop();
             }
           }
-        }, _callee, this);
+        }, _callee2, this);
       }));
 
-      function schedule(_x, _x2, _x3) {
+      function schedule(_x2, _x3, _x4) {
         return _schedule.apply(this, arguments);
       }
 
@@ -269,38 +307,38 @@ var GenericMeeting = (_dec = (0, _di.Module)({
   }, {
     key: "startMeeting",
     value: function () {
-      var _startMeeting = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(meeting) {
-        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+      var _startMeeting = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(meeting) {
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context3.prev = _context3.next) {
               case 0:
                 if (!this.isRCM) {
-                  _context2.next = 2;
+                  _context3.next = 2;
                   break;
                 }
 
-                return _context2.abrupt("return", this._meeting.schedule(meeting));
+                return _context3.abrupt("return", this._meeting.schedule(meeting));
 
               case 2:
                 if (!this.isRCV) {
-                  _context2.next = 4;
+                  _context3.next = 4;
                   break;
                 }
 
-                return _context2.abrupt("return", this._rcVideo.startMeeting(meeting));
+                return _context3.abrupt("return", this._rcVideo.startMeeting(meeting));
 
               case 4:
-                return _context2.abrupt("return", null);
+                return _context3.abrupt("return", null);
 
               case 5:
               case "end":
-                return _context2.stop();
+                return _context3.stop();
             }
           }
-        }, _callee2, this);
+        }, _callee3, this);
       }));
 
-      function startMeeting(_x4) {
+      function startMeeting(_x5) {
         return _startMeeting.apply(this, arguments);
       }
 
@@ -309,22 +347,22 @@ var GenericMeeting = (_dec = (0, _di.Module)({
   }, {
     key: "getMeeting",
     value: function () {
-      var _getMeeting = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(meetingId) {
-        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+      var _getMeeting = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(meetingId) {
+        return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context4.prev = _context4.next) {
               case 0:
-                return _context3.abrupt("return", this._meetingModule.getMeeting(meetingId));
+                return _context4.abrupt("return", this._meetingModule.getMeeting(meetingId));
 
               case 1:
               case "end":
-                return _context3.stop();
+                return _context4.stop();
             }
           }
-        }, _callee3, this);
+        }, _callee4, this);
       }));
 
-      function getMeeting(_x5) {
+      function getMeeting(_x6) {
         return _getMeeting.apply(this, arguments);
       }
 
@@ -333,19 +371,19 @@ var GenericMeeting = (_dec = (0, _di.Module)({
   }, {
     key: "getMeetingServiceInfo",
     value: function () {
-      var _getMeetingServiceInfo = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
-        return regeneratorRuntime.wrap(function _callee4$(_context4) {
+      var _getMeetingServiceInfo = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
+        return regeneratorRuntime.wrap(function _callee5$(_context5) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context5.prev = _context5.next) {
               case 0:
-                return _context4.abrupt("return", this._meetingModule.getMeetingServiceInfo && this._meetingModule.getMeetingServiceInfo());
+                return _context5.abrupt("return", this._meetingModule.getMeetingServiceInfo && this._meetingModule.getMeetingServiceInfo());
 
               case 1:
               case "end":
-                return _context4.stop();
+                return _context5.stop();
             }
           }
-        }, _callee4, this);
+        }, _callee5, this);
       }));
 
       function getMeetingServiceInfo() {
@@ -357,42 +395,42 @@ var GenericMeeting = (_dec = (0, _di.Module)({
   }, {
     key: "updateMeeting",
     value: function () {
-      var _updateMeeting = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(meetingId, meeting, config, opener) {
+      var _updateMeeting = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(meetingId, meeting, config, opener) {
         var result;
-        return regeneratorRuntime.wrap(function _callee5$(_context5) {
+        return regeneratorRuntime.wrap(function _callee6$(_context6) {
           while (1) {
-            switch (_context5.prev = _context5.next) {
+            switch (_context6.prev = _context6.next) {
               case 0:
                 if (!this.isRCM) {
-                  _context5.next = 6;
+                  _context6.next = 6;
                   break;
                 }
 
-                _context5.next = 3;
+                _context6.next = 3;
                 return this._meeting.updateMeeting(meetingId, meeting, config);
 
               case 3:
-                result = _context5.sent;
-                _context5.next = 14;
+                result = _context6.sent;
+                _context6.next = 14;
                 break;
 
               case 6:
                 if (!this.isRCV) {
-                  _context5.next = 12;
+                  _context6.next = 12;
                   break;
                 }
 
-                _context5.next = 9;
+                _context6.next = 9;
                 return this._rcVideo.updateMeeting(meetingId, meeting, config);
 
               case 9:
-                result = _context5.sent;
-                _context5.next = 14;
+                result = _context6.sent;
+                _context6.next = 14;
                 break;
 
               case 12:
                 console.error('Unknown meeting provider, please check module runtime');
-                return _context5.abrupt("return");
+                return _context6.abrupt("return");
 
               case 14:
                 if (result) {
@@ -401,17 +439,17 @@ var GenericMeeting = (_dec = (0, _di.Module)({
                   opener.close();
                 }
 
-                return _context5.abrupt("return", result);
+                return _context6.abrupt("return", result);
 
               case 16:
               case "end":
-                return _context5.stop();
+                return _context6.stop();
             }
           }
-        }, _callee5, this);
+        }, _callee6, this);
       }));
 
-      function updateMeeting(_x6, _x7, _x8, _x9) {
+      function updateMeeting(_x7, _x8, _x9, _x10) {
         return _updateMeeting.apply(this, arguments);
       }
 
@@ -594,6 +632,11 @@ var GenericMeeting = (_dec = (0, _di.Module)({
       }
 
       return null;
+    }
+  }, {
+    key: "isUpdating",
+    get: function get() {
+      return this.state.updatingStatus === _genericMeetingStatus.genericMeetingStatus.updating;
     }
   }]);
 

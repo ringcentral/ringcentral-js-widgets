@@ -9,7 +9,7 @@ exports["default"] = exports.permissionsMessages = void 0;
 
 var _ObjectMap = require("@ringcentral-integration/core/lib/ObjectMap");
 
-var permissionsMessages = _ObjectMap.ObjectMap.prefixKeys(['invalidTier', 'insufficientPrivilege'], 'permissionsMessages');
+var permissionsMessages = _ObjectMap.ObjectMap.prefixKeys(['invalidTier', 'insufficientPrivilege', 'callingDisable'], 'permissionsMessages');
 
 exports.permissionsMessages = permissionsMessages;
 var _default = permissionsMessages;

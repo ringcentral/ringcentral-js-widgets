@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.getMeetingUpdatingStatusReducer = getMeetingUpdatingStatusReducer;
 exports["default"] = void 0;
 
 require("core-js/modules/es6.object.define-properties");
@@ -27,6 +28,8 @@ require("core-js/modules/es6.object.define-property");
 
 var _redux = require("redux");
 
+var _genericMeetingStatus = require("./genericMeetingStatus");
+
 var _getModuleStatusReducer = _interopRequireDefault(require("../../lib/getModuleStatusReducer"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -37,8 +40,32 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+function getMeetingUpdatingStatusReducer(types) {
+  return function () {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+
+    var _ref = arguments.length > 1 ? arguments[1] : undefined,
+        type = _ref.type;
+
+    switch (type) {
+      case types.initUpdating:
+        return _genericMeetingStatus.genericMeetingStatus.updating;
+
+      case types.updated:
+        return _genericMeetingStatus.genericMeetingStatus.updated;
+
+      case types.resetUpdating:
+        return _genericMeetingStatus.genericMeetingStatus.idle;
+
+      default:
+        return state;
+    }
+  };
+}
+
 var getGenericMeetingReducer = function getGenericMeetingReducer(types, reducers) {
   return (0, _redux.combineReducers)(_objectSpread(_objectSpread({}, reducers), {}, {
+    updatingStatus: getMeetingUpdatingStatusReducer(types),
     status: (0, _getModuleStatusReducer["default"])(types)
   }));
 };

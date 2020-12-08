@@ -65,7 +65,7 @@ require("core-js/modules/es6.array.sort");
 
 var _ramda = require("ramda");
 
-var _events = _interopRequireDefault(require("events"));
+var _events = require("events");
 
 var _di = require("../../lib/di");
 
@@ -238,7 +238,7 @@ var ConferenceCall = (_dec = (0, _di.Module)({
 
     _initializerDefineProperty(_this, "partyProfiles", _descriptor2, _assertThisInitialized(_this));
 
-    _this._eventEmitter = new _events["default"]();
+    _this._eventEmitter = new _events.EventEmitter();
     _this._auth = _ensureExist["default"].call(_assertThisInitialized(_this), auth, 'auth');
     _this._alert = _ensureExist["default"].call(_assertThisInitialized(_this), alert, 'alert');
     _this._call = _ensureExist["default"].call(_assertThisInitialized(_this), call, 'call');

@@ -426,11 +426,32 @@ var Presence = (_dec = (0, _di.Module)({
     }()
   }, {
     key: "_updateData",
-    value: function _updateData(data) {
-      var timestamp = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : Date.now();
+    value: function () {
+      var _updateData2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(data) {
+        var timestamp,
+            _args3 = arguments;
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                timestamp = _args3.length > 1 && _args3[1] !== undefined ? _args3[1] : Date.now();
 
-      this._deps.dataFetcherV2.updateData(this._source, _objectSpread(_objectSpread({}, this.data), data), timestamp);
-    }
+                this._deps.dataFetcherV2.updateData(this._source, _objectSpread(_objectSpread({}, this.data), data), timestamp);
+
+              case 2:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3, this);
+      }));
+
+      function _updateData(_x2) {
+        return _updateData2.apply(this, arguments);
+      }
+
+      return _updateData;
+    }()
   }, {
     key: "_getUpdateStatusParams",
     value: function _getUpdateStatusParams(userStatus) {
@@ -450,48 +471,13 @@ var Presence = (_dec = (0, _di.Module)({
   }, {
     key: "setAvailable",
     value: function () {
-      var _setAvailable = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
-        var params;
-        return regeneratorRuntime.wrap(function _callee3$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                if (!(this.userStatus === _presenceStatus2.presenceStatus.available && this.dndStatus !== _dndStatus2.dndStatus.doNotAcceptAnyCalls)) {
-                  _context3.next = 2;
-                  break;
-                }
-
-                return _context3.abrupt("return");
-
-              case 2:
-                params = this._getUpdateStatusParams(_presenceStatus2.presenceStatus.available);
-                _context3.next = 5;
-                return this._update(params);
-
-              case 5:
-              case "end":
-                return _context3.stop();
-            }
-          }
-        }, _callee3, this);
-      }));
-
-      function setAvailable() {
-        return _setAvailable.apply(this, arguments);
-      }
-
-      return setAvailable;
-    }()
-  }, {
-    key: "setBusy",
-    value: function () {
-      var _setBusy = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
+      var _setAvailable = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
         var params;
         return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                if (!(this.userStatus === _presenceStatus2.presenceStatus.busy && this.dndStatus !== _dndStatus2.dndStatus.doNotAcceptAnyCalls)) {
+                if (!(this.userStatus === _presenceStatus2.presenceStatus.available && this.dndStatus !== _dndStatus2.dndStatus.doNotAcceptAnyCalls)) {
                   _context4.next = 2;
                   break;
                 }
@@ -499,7 +485,7 @@ var Presence = (_dec = (0, _di.Module)({
                 return _context4.abrupt("return");
 
               case 2:
-                params = this._getUpdateStatusParams(_presenceStatus2.presenceStatus.busy);
+                params = this._getUpdateStatusParams(_presenceStatus2.presenceStatus.available);
                 _context4.next = 5;
                 return this._update(params);
 
@@ -511,22 +497,22 @@ var Presence = (_dec = (0, _di.Module)({
         }, _callee4, this);
       }));
 
-      function setBusy() {
-        return _setBusy.apply(this, arguments);
+      function setAvailable() {
+        return _setAvailable.apply(this, arguments);
       }
 
-      return setBusy;
+      return setAvailable;
     }()
   }, {
-    key: "setDoNotDisturb",
+    key: "setBusy",
     value: function () {
-      var _setDoNotDisturb = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
+      var _setBusy = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
         var params;
         return regeneratorRuntime.wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
-                if (!(this.dndStatus === _dndStatus2.dndStatus.doNotAcceptAnyCalls)) {
+                if (!(this.userStatus === _presenceStatus2.presenceStatus.busy && this.dndStatus !== _dndStatus2.dndStatus.doNotAcceptAnyCalls)) {
                   _context5.next = 2;
                   break;
                 }
@@ -534,9 +520,7 @@ var Presence = (_dec = (0, _di.Module)({
                 return _context5.abrupt("return");
 
               case 2:
-                params = {
-                  dndStatus: _dndStatus2.dndStatus.doNotAcceptAnyCalls
-                };
+                params = this._getUpdateStatusParams(_presenceStatus2.presenceStatus.busy);
                 _context5.next = 5;
                 return this._update(params);
 
@@ -548,22 +532,22 @@ var Presence = (_dec = (0, _di.Module)({
         }, _callee5, this);
       }));
 
-      function setDoNotDisturb() {
-        return _setDoNotDisturb.apply(this, arguments);
+      function setBusy() {
+        return _setBusy.apply(this, arguments);
       }
 
-      return setDoNotDisturb;
+      return setBusy;
     }()
   }, {
-    key: "setInvisible",
+    key: "setDoNotDisturb",
     value: function () {
-      var _setInvisible = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
+      var _setDoNotDisturb = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
         var params;
         return regeneratorRuntime.wrap(function _callee6$(_context6) {
           while (1) {
             switch (_context6.prev = _context6.next) {
               case 0:
-                if (!(this.userStatus === _presenceStatus2.presenceStatus.offline && this.dndStatus !== _dndStatus2.dndStatus.doNotAcceptAnyCalls)) {
+                if (!(this.dndStatus === _dndStatus2.dndStatus.doNotAcceptAnyCalls)) {
                   _context6.next = 2;
                   break;
                 }
@@ -571,7 +555,9 @@ var Presence = (_dec = (0, _di.Module)({
                 return _context6.abrupt("return");
 
               case 2:
-                params = this._getUpdateStatusParams(_presenceStatus2.presenceStatus.offline);
+                params = {
+                  dndStatus: _dndStatus2.dndStatus.doNotAcceptAnyCalls
+                };
                 _context6.next = 5;
                 return this._update(params);
 
@@ -583,6 +569,41 @@ var Presence = (_dec = (0, _di.Module)({
         }, _callee6, this);
       }));
 
+      function setDoNotDisturb() {
+        return _setDoNotDisturb.apply(this, arguments);
+      }
+
+      return setDoNotDisturb;
+    }()
+  }, {
+    key: "setInvisible",
+    value: function () {
+      var _setInvisible = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
+        var params;
+        return regeneratorRuntime.wrap(function _callee7$(_context7) {
+          while (1) {
+            switch (_context7.prev = _context7.next) {
+              case 0:
+                if (!(this.userStatus === _presenceStatus2.presenceStatus.offline && this.dndStatus !== _dndStatus2.dndStatus.doNotAcceptAnyCalls)) {
+                  _context7.next = 2;
+                  break;
+                }
+
+                return _context7.abrupt("return");
+
+              case 2:
+                params = this._getUpdateStatusParams(_presenceStatus2.presenceStatus.offline);
+                _context7.next = 5;
+                return this._update(params);
+
+              case 5:
+              case "end":
+                return _context7.stop();
+            }
+          }
+        }, _callee7, this);
+      }));
+
       function setInvisible() {
         return _setInvisible.apply(this, arguments);
       }
@@ -592,59 +613,59 @@ var Presence = (_dec = (0, _di.Module)({
   }, {
     key: "setPresence",
     value: function () {
-      var _setPresence = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7(presenceData) {
-        return regeneratorRuntime.wrap(function _callee7$(_context7) {
+      var _setPresence = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8(presenceData) {
+        return regeneratorRuntime.wrap(function _callee8$(_context8) {
           while (1) {
-            switch (_context7.prev = _context7.next) {
+            switch (_context8.prev = _context8.next) {
               case 0:
-                _context7.t0 = presenceData;
-                _context7.next = _context7.t0 === _presenceStatus2.presenceStatus.available ? 3 : _context7.t0 === _presenceStatus2.presenceStatus.busy ? 6 : _context7.t0 === _dndStatus2.dndStatus.doNotAcceptAnyCalls ? 9 : _context7.t0 === _presenceStatus2.presenceStatus.offline ? 12 : 15;
+                _context8.t0 = presenceData;
+                _context8.next = _context8.t0 === _presenceStatus2.presenceStatus.available ? 3 : _context8.t0 === _presenceStatus2.presenceStatus.busy ? 6 : _context8.t0 === _dndStatus2.dndStatus.doNotAcceptAnyCalls ? 9 : _context8.t0 === _presenceStatus2.presenceStatus.offline ? 12 : 15;
                 break;
 
               case 3:
-                _context7.next = 5;
+                _context8.next = 5;
                 return this.setAvailable();
 
               case 5:
-                return _context7.abrupt("break", 18);
+                return _context8.abrupt("break", 18);
 
               case 6:
-                _context7.next = 8;
+                _context8.next = 8;
                 return this.setBusy();
 
               case 8:
-                return _context7.abrupt("break", 18);
+                return _context8.abrupt("break", 18);
 
               case 9:
-                _context7.next = 11;
+                _context8.next = 11;
                 return this.setDoNotDisturb();
 
               case 11:
-                return _context7.abrupt("break", 18);
+                return _context8.abrupt("break", 18);
 
               case 12:
-                _context7.next = 14;
+                _context8.next = 14;
                 return this.setInvisible();
 
               case 14:
-                return _context7.abrupt("break", 18);
+                return _context8.abrupt("break", 18);
 
               case 15:
-                _context7.next = 17;
+                _context8.next = 17;
                 return this.setAvailable();
 
               case 17:
-                return _context7.abrupt("break", 18);
+                return _context8.abrupt("break", 18);
 
               case 18:
               case "end":
-                return _context7.stop();
+                return _context8.stop();
             }
           }
-        }, _callee7, this);
+        }, _callee8, this);
       }));
 
-      function setPresence(_x2) {
+      function setPresence(_x3) {
         return _setPresence.apply(this, arguments);
       }
 
@@ -653,11 +674,11 @@ var Presence = (_dec = (0, _di.Module)({
   }, {
     key: "toggleAcceptCallQueueCalls",
     value: function () {
-      var _toggleAcceptCallQueueCalls = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8() {
+      var _toggleAcceptCallQueueCalls = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9() {
         var params;
-        return regeneratorRuntime.wrap(function _callee8$(_context8) {
+        return regeneratorRuntime.wrap(function _callee9$(_context9) {
           while (1) {
-            switch (_context8.prev = _context8.next) {
+            switch (_context9.prev = _context9.next) {
               case 0:
                 params = {
                   userStatus: this.userStatus
@@ -670,19 +691,19 @@ var Presence = (_dec = (0, _di.Module)({
                 }
 
                 if (!params.dndStatus) {
-                  _context8.next = 5;
+                  _context9.next = 5;
                   break;
                 }
 
-                _context8.next = 5;
+                _context9.next = 5;
                 return this._update(params);
 
               case 5:
               case "end":
-                return _context8.stop();
+                return _context9.stop();
             }
           }
-        }, _callee8, this);
+        }, _callee9, this);
       }));
 
       function toggleAcceptCallQueueCalls() {
@@ -694,21 +715,21 @@ var Presence = (_dec = (0, _di.Module)({
   }, {
     key: "fetchData",
     value: function () {
-      var _fetchData = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9() {
-        return regeneratorRuntime.wrap(function _callee9$(_context9) {
+      var _fetchData = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10() {
+        return regeneratorRuntime.wrap(function _callee10$(_context10) {
           while (1) {
-            switch (_context9.prev = _context9.next) {
+            switch (_context10.prev = _context10.next) {
               case 0:
                 this._debouncedFetchData.cancel();
 
-                return _context9.abrupt("return", this._deps.dataFetcherV2.fetchData(this._source));
+                return _context10.abrupt("return", this._deps.dataFetcherV2.fetchData(this._source));
 
               case 2:
               case "end":
-                return _context9.stop();
+                return _context10.stop();
             }
           }
-        }, _callee9, this);
+        }, _callee10, this);
       }));
 
       function fetchData() {

@@ -59,7 +59,7 @@ require("core-js/modules/es6.array.for-each");
 
 var _ramda = require("ramda");
 
-var _events = _interopRequireDefault(require("events"));
+var _events = require("events");
 
 var uuid = _interopRequireWildcard(require("uuid"));
 
@@ -81,13 +81,15 @@ var _chunkMessage = _interopRequireDefault(require("../../lib/chunkMessage"));
 
 var _sleep = _interopRequireDefault(require("../../lib/sleep"));
 
-var _dec, _class, _class2, _descriptor, _temp;
+var _Analytics = require("../Analytics");
+
+var _dec, _dec2, _dec3, _dec4, _class, _class2, _descriptor, _temp;
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -148,7 +150,7 @@ var MessageSender = (_dec = (0, _di.Module)({
     dep: 'MessageSenderOptions',
     optional: true
   }]
-}), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcModuleV) {
+}), _dec2 = (0, _core.track)(_Analytics.trackEvents.smsAttempt), _dec3 = (0, _core.track)(_Analytics.trackEvents.smsSentSuccessfully), _dec4 = (0, _core.track)(_Analytics.trackEvents.smsSentFailed), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcModuleV) {
   _inherits(MessageSender, _RcModuleV);
 
   var _super = _createSuper(MessageSender);
@@ -170,7 +172,7 @@ var MessageSender = (_dec = (0, _di.Module)({
     _this = _super.call(this, {
       deps: deps
     });
-    _this._eventEmitter = new _events["default"]();
+    _this._eventEmitter = new _events.EventEmitter();
 
     _initializerDefineProperty(_this, "sendStatus", _descriptor, _assertThisInitialized(_this));
 
@@ -181,6 +183,21 @@ var MessageSender = (_dec = (0, _di.Module)({
     key: "setSendStatus",
     value: function setSendStatus(status) {
       this.sendStatus = status;
+    }
+  }, {
+    key: "_smsAttempt",
+    value: function _smsAttempt() {
+      this.setSendStatus(_messageSenderStatus.messageSenderStatus.sending);
+    }
+  }, {
+    key: "_smsSentOver",
+    value: function _smsSentOver() {
+      this.setSendStatus(_messageSenderStatus.messageSenderStatus.idle);
+    }
+  }, {
+    key: "_smsSentError",
+    value: function _smsSentError() {
+      this.setSendStatus(_messageSenderStatus.messageSenderStatus.idle);
     }
   }, {
     key: "_alertWarning",
@@ -468,7 +485,8 @@ var MessageSender = (_dec = (0, _di.Module)({
                   multipart: multipart
                 });
 
-                this.setSendStatus(_messageSenderStatus.messageSenderStatus.sending);
+                this._smsAttempt();
+
                 responses = [];
                 chunks = multipart ? (0, _chunkMessage["default"])(text, MESSAGE_MAX_LENGTH) : [text];
                 total = (phoneNumbers.length + 1) * chunks.length;
@@ -647,7 +665,8 @@ var MessageSender = (_dec = (0, _di.Module)({
                 return _context2.finish(91);
 
               case 94:
-                this.setSendStatus(_messageSenderStatus.messageSenderStatus.idle);
+                this._smsSentOver();
+
                 return _context2.abrupt("return", responses);
 
               case 98:
@@ -664,7 +683,8 @@ var MessageSender = (_dec = (0, _di.Module)({
                   multipart: multipart
                 });
 
-                this.setSendStatus(_messageSenderStatus.messageSenderStatus.idle);
+                this._smsSentError();
+
                 _context2.next = 105;
                 return this._onSendError(_context2.t3);
 
@@ -950,6 +970,6 @@ var MessageSender = (_dec = (0, _di.Module)({
   initializer: function initializer() {
     return _messageSenderStatus.messageSenderStatus.idle;
   }
-}), _applyDecoratedDescriptor(_class2.prototype, "setSendStatus", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setSendStatus"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_validateToNumbers", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_validateToNumbers"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "send", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "send"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_sendSMS", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_sendSMS"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_sendPager", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_sendPager"), _class2.prototype)), _class2)) || _class);
+}), _applyDecoratedDescriptor(_class2.prototype, "setSendStatus", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setSendStatus"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_smsAttempt", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "_smsAttempt"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_smsSentOver", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "_smsSentOver"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_smsSentError", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "_smsSentError"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_validateToNumbers", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_validateToNumbers"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "send", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "send"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_sendSMS", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_sendSMS"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_sendPager", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_sendPager"), _class2.prototype)), _class2)) || _class);
 exports.MessageSender = MessageSender;
 //# sourceMappingURL=MessageSender.js.map

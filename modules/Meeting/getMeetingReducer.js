@@ -289,6 +289,9 @@ function getPersonalMeetingReducer(types) {
       case types.updatePersonalMeeting:
         return meeting;
 
+      case types.resetPersonalMeeting:
+        return {};
+
       default:
         return state;
     }

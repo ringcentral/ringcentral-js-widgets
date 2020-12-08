@@ -1,0 +1,1 @@
+{"version":3,"sources":["modules/QuickAccessV2/index.ts"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;AAAA;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;;AACA;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA","sourcesContent":["export * from './QuickAccess';\nexport * from './QuickAccess.interface';\n"],"file":"index.js"}

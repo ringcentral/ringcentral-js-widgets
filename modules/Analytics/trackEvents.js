@@ -53,6 +53,7 @@ var trackEvents = _ObjectMap.ObjectMap.fromObject({
   whatsNew: "What's New",
   clickHoldAllCalls: 'Click Hold (All Calls)',
   clickHangupAllCalls: 'Click Hangup (All Calls)',
+  clickRejectAllCalls: 'Click Reject (All Calls)',
   clickCallItem: 'Click Call Item (All Calls)',
   clickAddCallControl: 'Click Add (Call Control)',
   clickMergeCallControl: 'Click Merge (Call Control)',

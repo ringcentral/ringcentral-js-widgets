@@ -103,7 +103,7 @@ var Storage = (_dec = (0, _di.Module)({
 
   /* migration storage v1 to v2 */
   function Storage(deps) {
-    var _this$_deps$storageOp, _this$_deps$storageOp2;
+    var _deps$storageOptions, _this$_deps$storageOp, _this$_deps$storageOp2;
 
     var _this;
 
@@ -111,7 +111,7 @@ var Storage = (_dec = (0, _di.Module)({
 
     _this = _super.call(this, deps, {
       name: 'storage',
-      StorageProvider: deps.storageOptions.StorageProvider
+      StorageProvider: (_deps$storageOptions = deps.storageOptions) === null || _deps$storageOptions === void 0 ? void 0 : _deps$storageOptions.StorageProvider
     });
     _this.migrationMapping = {};
     _this._disableInactiveTabsWrite = void 0;

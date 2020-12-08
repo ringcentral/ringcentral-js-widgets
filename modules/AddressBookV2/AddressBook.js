@@ -57,6 +57,8 @@ var _contactHelper = require("../../lib/contactHelper");
 
 var _di = require("../../lib/di");
 
+var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
+
 var _sleep = _interopRequireDefault(require("../../lib/sleep"));
 
 var _DataFetcherV = require("../DataFetcherV2");
@@ -285,9 +287,41 @@ var AddressBook = (_dec = (0, _di.Module)({
     }() // interface of ContactSource
 
   }, {
-    key: "searchContacts",
-    value: function searchContacts(searchString) {
-      return (0, _contactHelper.getSearchContacts)({
+    key: "sync",
+    value: function () {
+      var _sync3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
+        return regeneratorRuntime.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                _context4.next = 2;
+                return this._sync();
+
+              case 2:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4, this);
+      }));
+
+      function sync() {
+        return _sync3.apply(this, arguments);
+      }
+
+      return sync;
+    }() // interface of ContactSource
+
+  }, {
+    key: "filterContacts",
+    value: function filterContacts(searchFilter) {
+      return (0, _contactHelper.getFilterContacts)(this.contacts, searchFilter);
+    } // interface of ContactSource
+
+  }, {
+    key: "searchForPhoneNumbers",
+    value: function searchForPhoneNumbers(searchString) {
+      return (0, _contactHelper.getSearchForPhoneNumbers)({
         contacts: this.contacts,
         searchString: searchString,
         entityType: _phoneSources.phoneSources.contact,
@@ -296,9 +330,9 @@ var AddressBook = (_dec = (0, _di.Module)({
     } // interface of ContactSource
 
   }, {
-    key: "matchPhoneNumber",
-    value: function matchPhoneNumber(phoneNumber) {
-      return (0, _contactHelper.getMatchContacts)({
+    key: "matchContactsByPhoneNumber",
+    value: function matchContactsByPhoneNumber(phoneNumber) {
+      return (0, _contactHelper.getMatchContactsByPhoneNumber)({
         contacts: this.contacts,
         phoneNumber: phoneNumber,
         entityType: _phoneSources.phoneSources.rcContact
@@ -381,6 +415,6 @@ var AddressBook = (_dec = (0, _di.Module)({
   }]);
 
   return AddressBook;
-}(_DataFetcherV.DataFetcherV2Consumer), (_applyDecoratedDescriptor(_class2.prototype, "contacts", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "contacts"), _class2.prototype)), _class2)) || _class);
+}(_DataFetcherV.DataFetcherV2Consumer), (_applyDecoratedDescriptor(_class2.prototype, "sync", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "sync"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "contacts", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "contacts"), _class2.prototype)), _class2)) || _class);
 exports.AddressBook = AddressBook;
 //# sourceMappingURL=AddressBook.js.map

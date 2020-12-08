@@ -139,6 +139,9 @@ function getPersonalMeetingReducer(types) {
       case types.savePersonalMeeting:
         return _objectSpread(_objectSpread({}, state), meeting);
 
+      case types.resetPersonalMeeting:
+        return {};
+
       default:
         return state;
     }

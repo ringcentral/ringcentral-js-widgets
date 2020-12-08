@@ -51,6 +51,8 @@ require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.for-each");
 
+require("core-js/modules/es6.array.index-of");
+
 require("regenerator-runtime/runtime");
 
 var _core = require("@ringcentral-integration/core");
@@ -58,6 +60,8 @@ var _core = require("@ringcentral-integration/core");
 var _ramda = require("ramda");
 
 var _di = require("../../lib/di");
+
+var _AuthV = require("../AuthV2");
 
 var _DataFetcherV = require("../DataFetcherV2");
 
@@ -223,7 +227,7 @@ var RolesAndPermissions = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                if (!(this.ready && this._deps.auth.loggedIn && this.isCRM && this.tierEnabled === false)) {
+                if (!(this.ready && this._deps.auth.loginStatus === _AuthV.loginStatus.loggedIn && this.isCRM && this.tierEnabled === false)) {
                   _context2.next = 4;
                   break;
                 }
@@ -260,7 +264,7 @@ var RolesAndPermissions = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                if (!(this.ready && this._deps.auth.loggedIn && !this.permissions.ReadUserInfo)) {
+                if (!(this.ready && this._deps.auth.loginStatus === _AuthV.loginStatus.loggedIn && !this.permissions.ReadUserInfo)) {
                   _context3.next = 5;
                   break;
                 }
@@ -540,6 +544,13 @@ var RolesAndPermissions = (_dec = (0, _di.Module)({
     key: "hasMeetingsPermission",
     get: function get() {
       return !!this.permissions.Meetings;
+    }
+  }, {
+    key: "hasCallControlPermission",
+    get: function get() {
+      var _this$_deps$auth$toke, _this$_deps$auth$toke2;
+
+      return ((_this$_deps$auth$toke = this._deps.auth.token.scope) === null || _this$_deps$auth$toke === void 0 ? void 0 : _this$_deps$auth$toke.indexOf('CallControl')) > -1 || ((_this$_deps$auth$toke2 = this._deps.auth.token.scope) === null || _this$_deps$auth$toke2 === void 0 ? void 0 : _this$_deps$auth$toke2.indexOf('TelephonySession')) > -1;
     }
   }]);
 

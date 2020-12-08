@@ -250,19 +250,6 @@ var Contacts = (_dec = (0, _di.Module)({
         searchFilter: searchFilter
       });
     }
-    /**
-     * @function
-     * @param {Object} source - source module object
-     * @param {String} params.sourceName - source name
-     * @param {Bool} params.ready - source module ready status
-     * @param {Bool} params.sourceReady - source ready status
-     * @param {Array} params.contacts - source contacts data
-     * @param {Function} params.getPresence - get source presence function, optional
-     * @param {Function} params.getProfileImage - get source profile image function, optional
-     * @param {Function} params.sync - sync source data function, optional
-     * @param {Function} params.matchPhoneNumber - get match phoneNumber function, optional
-     */
-
   }, {
     key: "addSource",
     value: function addSource(source) {
@@ -282,12 +269,16 @@ var Contacts = (_dec = (0, _di.Module)({
         throw new Error("[Contacts > ContactSource(".concat(source.sourceName, ") > getProfileImage] must be a function"));
       }
 
-      if (source.searchContacts && typeof source.searchContacts !== 'function') {
-        throw new Error("[Contacts > ContactSource(".concat(source.sourceName, ") > searchContacts] must be a function"));
+      if (source.filterContacts && typeof source.filterContacts !== 'function') {
+        throw new Error("[Contacts > ContactSource(".concat(source.sourceName, ") > filterContacts] must be a function"));
       }
 
-      if (source.matchPhoneNumber && typeof source.matchPhoneNumber !== 'function') {
-        throw new Error("[Contacts > ContactSource(".concat(source.sourceName, ") > matchPhoneNumber] must be a function"));
+      if (source.searchForPhoneNumbers && typeof source.searchForPhoneNumbers !== 'function') {
+        throw new Error("[Contacts > ContactSource(".concat(source.sourceName, ") > searchForPhoneNumbers] must be a function"));
+      }
+
+      if (source.matchContactsByPhoneNumber && typeof source.matchContactsByPhoneNumber !== 'function') {
+        throw new Error("[Contacts > ContactSource(".concat(source.sourceName, ") > matchContactsByPhoneNumber] must be a function"));
       }
 
       this._contactSources.set(source.sourceName, source);
@@ -297,8 +288,8 @@ var Contacts = (_dec = (0, _di.Module)({
       this._sourcesUpdatedAt = Date.now();
     }
   }, {
-    key: "_checkSourceUpdated",
-    value: function _checkSourceUpdated() {
+    key: "checkSourceUpdated",
+    value: function checkSourceUpdated() {
       var updated = false;
 
       for (var _i = 0, _Array$from = Array.from(this._contactSources.keys()); _i < _Array$from.length; _i++) {
@@ -325,25 +316,25 @@ var Contacts = (_dec = (0, _di.Module)({
       return this._sourcesUpdatedAt;
     }
   }, {
-    key: "searchContacts",
+    key: "filterContacts",
     value: function () {
-      var _searchContacts = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(searchString) {
+      var _filterContacts = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(searchFilter) {
         var sources, result;
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
                 sources = Array.from(this._contactSources.values()).filter(function (source) {
-                  return typeof source.searchContacts === 'function';
+                  return typeof source.filterContacts === 'function';
                 });
                 result = [];
                 _context.next = 4;
                 return Promise.all(sources.map(function (source) {
-                  var promise = Promise.resolve(source.searchContacts(searchString));
-                  return promise.then(function (contacts) {
-                    result = result.concat(contacts);
+                  var promise = Promise.resolve(source.filterContacts(searchFilter));
+                  return promise.then(function (items) {
+                    result = result.concat(items);
                   })["catch"](function (error) {
-                    console.error("[Contacts > ContactSource(".concat(source.sourceName, ") > searchContacts] ").concat(error));
+                    console.error("[Contacts > ContactSource(".concat(source.sourceName, ") > filterContacts] ").concat(error));
                   });
                 }));
 
@@ -358,32 +349,32 @@ var Contacts = (_dec = (0, _di.Module)({
         }, _callee, this);
       }));
 
-      function searchContacts(_x) {
-        return _searchContacts.apply(this, arguments);
+      function filterContacts(_x) {
+        return _filterContacts.apply(this, arguments);
       }
 
-      return searchContacts;
+      return filterContacts;
     }()
   }, {
-    key: "matchPhoneNumber",
+    key: "searchForPhoneNumbers",
     value: function () {
-      var _matchPhoneNumber = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(phoneNumber) {
+      var _searchForPhoneNumbers = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(searchString) {
         var sources, result;
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
                 sources = Array.from(this._contactSources.values()).filter(function (source) {
-                  return typeof source.matchPhoneNumber === 'function';
+                  return typeof source.searchForPhoneNumbers === 'function';
                 });
                 result = [];
                 _context2.next = 4;
                 return Promise.all(sources.map(function (source) {
-                  var promise = Promise.resolve(source.matchPhoneNumber(phoneNumber));
-                  return promise.then(function (contacts) {
-                    result = result.concat(contacts);
+                  var promise = Promise.resolve(source.searchForPhoneNumbers(searchString));
+                  return promise.then(function (items) {
+                    result = result.concat(items);
                   })["catch"](function (error) {
-                    console.error("[Contacts > ContactSource(".concat(source.sourceName, ") > matchPhoneNumber] ").concat(error));
+                    console.error("[Contacts > ContactSource(".concat(source.sourceName, ") > searchForPhoneNumbers] ").concat(error));
                   });
                 }));
 
@@ -398,31 +389,32 @@ var Contacts = (_dec = (0, _di.Module)({
         }, _callee2, this);
       }));
 
-      function matchPhoneNumber(_x2) {
-        return _matchPhoneNumber.apply(this, arguments);
+      function searchForPhoneNumbers(_x2) {
+        return _searchForPhoneNumbers.apply(this, arguments);
       }
 
-      return matchPhoneNumber;
+      return searchForPhoneNumbers;
     }()
   }, {
-    key: "matchContacts",
+    key: "matchContactsByPhoneNumber",
     value: function () {
-      var _matchContacts = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(_ref3) {
-        var _this3 = this;
-
-        var phoneNumbers, result;
+      var _matchContactsByPhoneNumber = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(phoneNumber) {
+        var sources, result;
         return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                phoneNumbers = _ref3.phoneNumbers;
-                result = {};
+                sources = Array.from(this._contactSources.values()).filter(function (source) {
+                  return typeof source.matchContactsByPhoneNumber === 'function';
+                });
+                result = [];
                 _context3.next = 4;
-                return Promise.all(phoneNumbers.map(function (phoneNumber) {
-                  var promise = _this3.matchPhoneNumber(phoneNumber);
-
-                  return promise.then(function (contacts) {
-                    result[phoneNumber] = contacts;
+                return Promise.all(sources.map(function (source) {
+                  var promise = Promise.resolve(source.matchContactsByPhoneNumber(phoneNumber));
+                  return promise.then(function (items) {
+                    result = result.concat(items);
+                  })["catch"](function (error) {
+                    console.error("[Contacts > ContactSource(".concat(source.sourceName, ") > matchContactsByPhoneNumber] ").concat(error));
                   });
                 }));
 
@@ -434,10 +426,49 @@ var Contacts = (_dec = (0, _di.Module)({
                 return _context3.stop();
             }
           }
-        }, _callee3);
+        }, _callee3, this);
       }));
 
-      function matchContacts(_x3) {
+      function matchContactsByPhoneNumber(_x3) {
+        return _matchContactsByPhoneNumber.apply(this, arguments);
+      }
+
+      return matchContactsByPhoneNumber;
+    }()
+  }, {
+    key: "matchContacts",
+    value: function () {
+      var _matchContacts = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(_ref3) {
+        var _this3 = this;
+
+        var phoneNumbers, result;
+        return regeneratorRuntime.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                phoneNumbers = _ref3.phoneNumbers;
+                result = {};
+                _context4.next = 4;
+                return Promise.all(phoneNumbers.map(function (phoneNumber) {
+                  var promise = _this3.matchContactsByPhoneNumber(phoneNumber);
+
+                  return promise.then(function (items) {
+                    result[phoneNumber] = items;
+                  });
+                }));
+
+              case 4:
+                return _context4.abrupt("return", result);
+
+              case 5:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4);
+      }));
+
+      function matchContacts(_x4) {
         return _matchContacts.apply(this, arguments);
       }
 
@@ -463,51 +494,7 @@ var Contacts = (_dec = (0, _di.Module)({
   }, {
     key: "getProfileImage",
     value: function () {
-      var _getProfileImage = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(contact) {
-        var useCache,
-            source,
-            result,
-            _args4 = arguments;
-        return regeneratorRuntime.wrap(function _callee4$(_context4) {
-          while (1) {
-            switch (_context4.prev = _context4.next) {
-              case 0:
-                useCache = _args4.length > 1 && _args4[1] !== undefined ? _args4[1] : true;
-                source = this._contactSources.get(contact && contact.type);
-
-                if (!(source && source.getProfileImage)) {
-                  _context4.next = 7;
-                  break;
-                }
-
-                _context4.next = 5;
-                return source.getProfileImage(contact, useCache);
-
-              case 5:
-                result = _context4.sent;
-                return _context4.abrupt("return", result);
-
-              case 7:
-                return _context4.abrupt("return", null);
-
-              case 8:
-              case "end":
-                return _context4.stop();
-            }
-          }
-        }, _callee4, this);
-      }));
-
-      function getProfileImage(_x4) {
-        return _getProfileImage.apply(this, arguments);
-      }
-
-      return getProfileImage;
-    }()
-  }, {
-    key: "getPresence",
-    value: function () {
-      var _getPresence = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(contact) {
+      var _getProfileImage = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(contact) {
         var useCache,
             source,
             result,
@@ -519,13 +506,13 @@ var Contacts = (_dec = (0, _di.Module)({
                 useCache = _args5.length > 1 && _args5[1] !== undefined ? _args5[1] : true;
                 source = this._contactSources.get(contact && contact.type);
 
-                if (!(source && source.getPresence)) {
+                if (!(source && source.getProfileImage)) {
                   _context5.next = 7;
                   break;
                 }
 
                 _context5.next = 5;
-                return source.getPresence(contact, useCache);
+                return source.getProfileImage(contact, useCache);
 
               case 5:
                 result = _context5.sent;
@@ -542,7 +529,51 @@ var Contacts = (_dec = (0, _di.Module)({
         }, _callee5, this);
       }));
 
-      function getPresence(_x5) {
+      function getProfileImage(_x5) {
+        return _getProfileImage.apply(this, arguments);
+      }
+
+      return getProfileImage;
+    }()
+  }, {
+    key: "getPresence",
+    value: function () {
+      var _getPresence = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(contact) {
+        var useCache,
+            source,
+            result,
+            _args6 = arguments;
+        return regeneratorRuntime.wrap(function _callee6$(_context6) {
+          while (1) {
+            switch (_context6.prev = _context6.next) {
+              case 0:
+                useCache = _args6.length > 1 && _args6[1] !== undefined ? _args6[1] : true;
+                source = this._contactSources.get(contact && contact.type);
+
+                if (!(source && source.getPresence)) {
+                  _context6.next = 7;
+                  break;
+                }
+
+                _context6.next = 5;
+                return source.getPresence(contact, useCache);
+
+              case 5:
+                result = _context6.sent;
+                return _context6.abrupt("return", result);
+
+              case 7:
+                return _context6.abrupt("return", null);
+
+              case 8:
+              case "end":
+                return _context6.stop();
+            }
+          }
+        }, _callee6, this);
+      }));
+
+      function getPresence(_x6) {
         return _getPresence.apply(this, arguments);
       }
 
@@ -551,22 +582,22 @@ var Contacts = (_dec = (0, _di.Module)({
   }, {
     key: "sync",
     value: function () {
-      var _sync = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
+      var _sync = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
         var _i2,
             _Array$from2,
             sourceName,
             source,
-            _args6 = arguments;
+            _args7 = arguments;
 
-        return regeneratorRuntime.wrap(function _callee6$(_context6) {
+        return regeneratorRuntime.wrap(function _callee7$(_context7) {
           while (1) {
-            switch (_context6.prev = _context6.next) {
+            switch (_context7.prev = _context7.next) {
               case 0:
                 _i2 = 0, _Array$from2 = Array.from(this._contactSources.keys());
 
               case 1:
                 if (!(_i2 < _Array$from2.length)) {
-                  _context6.next = 10;
+                  _context7.next = 10;
                   break;
                 }
 
@@ -574,24 +605,24 @@ var Contacts = (_dec = (0, _di.Module)({
                 source = this._contactSources.get(sourceName);
 
                 if (!(typeof source.sync === 'function')) {
-                  _context6.next = 7;
+                  _context7.next = 7;
                   break;
                 }
 
-                _context6.next = 7;
-                return source.sync.apply(source, _args6);
+                _context7.next = 7;
+                return source.sync.apply(source, _args7);
 
               case 7:
                 _i2++;
-                _context6.next = 1;
+                _context7.next = 1;
                 break;
 
               case 10:
               case "end":
-                return _context6.stop();
+                return _context7.stop();
             }
           }
-        }, _callee6, this);
+        }, _callee7, this);
       }));
 
       function sync() {
@@ -667,7 +698,7 @@ var Contacts = (_dec = (0, _di.Module)({
     return [function () {
       return _this4._contactSources.size;
     }, function () {
-      return _this4._checkSourceUpdated();
+      return _this4.checkSourceUpdated();
     }, function () {
       var names = [_contactHelper.AllContactSourceName];
 
@@ -692,7 +723,7 @@ var Contacts = (_dec = (0, _di.Module)({
     var _this5 = this;
 
     return [function () {
-      return _this5._checkSourceUpdated();
+      return _this5.checkSourceUpdated();
     }, function () {
       var contacts = [];
 
@@ -734,7 +765,7 @@ var Contacts = (_dec = (0, _di.Module)({
     }, function () {
       return _this7.sourceFilter;
     }, function () {
-      return _this7._checkSourceUpdated();
+      return _this7.checkSourceUpdated();
     }, function (searchFilter, sourceFilter) {
       var contacts;
 
@@ -756,7 +787,7 @@ var Contacts = (_dec = (0, _di.Module)({
       }
 
       if (!(0, _isBlank["default"])(searchFilter)) {
-        contacts = (0, _contactHelper.filterContacts)(contacts, searchFilter);
+        contacts = (0, _contactHelper.getFilterContacts)(contacts, searchFilter);
       }
 
       return contacts;

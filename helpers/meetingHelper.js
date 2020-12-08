@@ -30,13 +30,21 @@ exports.prunePreferencesObject = prunePreferencesObject;
 exports.comparePreferences = comparePreferences;
 exports.isRecurringMeeting = isRecurringMeeting;
 exports.generateRandomPassword = generateRandomPassword;
-exports.MeetingType = exports.UTC_TIMEZONE_ID = void 0;
+Object.defineProperty(exports, "MeetingType", {
+  enumerable: true,
+  get: function get() {
+    return _meetingHelper.MeetingType;
+  }
+});
+exports.UTC_TIMEZONE_ID = void 0;
 
 require("core-js/modules/es6.array.map");
 
+var _format = _interopRequireWildcard(require("@ringcentral-integration/phone-number/lib/format"));
+
 var _ramda = require("ramda");
 
-var _format = _interopRequireWildcard(require("@ringcentral-integration/phone-number/lib/format"));
+var _meetingHelper = require("./meetingHelper.interface");
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
@@ -68,17 +76,9 @@ function getPhoneDialingNumberTpl(dialInNumbers) {
 
 var UTC_TIMEZONE_ID = '1';
 exports.UTC_TIMEZONE_ID = UTC_TIMEZONE_ID;
-var MeetingType = {
-  SCHEDULED: 'Scheduled',
-  RECURRING: 'Recurring',
-  SCHEDULED_RECURRING: 'ScheduledRecurring',
-  INSTANT: 'Instant',
-  PMI: 'PMI'
-};
-exports.MeetingType = MeetingType;
 
 function isRecurringMeeting(meetingType) {
-  return meetingType === MeetingType.RECURRING || meetingType === MeetingType.SCHEDULED_RECURRING;
+  return meetingType === _meetingHelper.MeetingType.RECURRING || meetingType === _meetingHelper.MeetingType.SCHEDULED_RECURRING;
 }
 
 function getMeetingSettings(_ref3) {
@@ -90,7 +90,7 @@ function getMeetingSettings(_ref3) {
       topic = _ref3$topic === void 0 ? '' : _ref3$topic;
   return {
     topic: topic || "".concat(extensionName, "'s Meeting"),
-    meetingType: MeetingType.SCHEDULED,
+    meetingType: _meetingHelper.MeetingType.SCHEDULED,
     password: '',
     schedule: {
       startTime: startTime,
@@ -113,7 +113,7 @@ function getMeetingSettings(_ref3) {
 function getDefaultMeetingSettings(extensionName, startTime, hostId) {
   return {
     topic: "".concat(extensionName, "'s Meeting"),
-    meetingType: MeetingType.SCHEDULED,
+    meetingType: _meetingHelper.MeetingType.SCHEDULED,
     password: '',
     schedule: {
       startTime: startTime,
