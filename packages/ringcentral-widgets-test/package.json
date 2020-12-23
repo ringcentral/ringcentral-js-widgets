@@ -23,7 +23,7 @@
     "test:debug": "node --inspect node_modules/.bin/jest --runInBand"
   },
   "dependencies": {
-    "@rc-ex/core": "^0.4.2",
+    "@rc-ex/core": "^0.6.1",
     "@ringcentral-integration/babel-settings": "*",
     "@ringcentral-integration/core": "*",
     "@ringcentral-integration/i18n": "*",
