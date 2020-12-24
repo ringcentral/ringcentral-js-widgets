@@ -54,7 +54,7 @@
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.2.0",
     "ringcentral-client": "^1.0.0-beta.2",
-    "@rc-ex/core": "^0.4.2",
+    "@rc-ex/core": "^0.6.1",
     "ringcentral-integration": "*",
     "ringcentral-widgets": "*",
     "sass-loader": "^7.1.0",
