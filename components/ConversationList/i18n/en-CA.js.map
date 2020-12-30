@@ -1,1 +1,0 @@
-{"version":3,"sources":["components/ConversationList/i18n/en-CA.js"],"names":["loading"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,OAAO,EAAE;AADI,C,EAIf","sourcesContent":["export default {\n  loading: \"Loading ...\"\n};\n\n// @key: @#@\"loading\"@#@ @source: @#@\"Loading ...\"@#@\n"],"file":"en-CA.js"}

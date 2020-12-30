@@ -1,1 +1,0 @@
-{"version":3,"sources":["containers/CallBadgeContainer/i18n/en-US.js"],"names":["activeCall"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,UAAU,EAAE;AADC,C","sourcesContent":["export default {\n  activeCall: 'Active Call',\n};\n"],"file":"en-US.js"}

@@ -1,1 +1,0 @@
-{"version":3,"sources":["containers/ConferenceCallDialerPage/i18n/en-CA.js"],"names":["activeCall"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,UAAU,EAAE;AADC,C,EAIf","sourcesContent":["export default {\n  activeCall: \"Active Call\"\n};\n\n// @key: @#@\"activeCall\"@#@ @source: @#@\"Active Call\"@#@\n"],"file":"en-CA.js"}

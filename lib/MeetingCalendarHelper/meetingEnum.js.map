@@ -1,1 +1,0 @@
-{"version":3,"sources":["lib/MeetingCalendarHelper/meetingEnum.js"],"names":["Enum"],"mappings":";;;;;;;;;AAAA;;;;eAEe,IAAIA,gBAAJ,CAAS,CAAC,YAAD,EAAe,SAAf,CAAT,C","sourcesContent":["import Enum from 'ringcentral-integration/lib/Enum';\n\nexport default new Enum(['conference', 'meeting']);\n"],"file":"meetingEnum.js"}

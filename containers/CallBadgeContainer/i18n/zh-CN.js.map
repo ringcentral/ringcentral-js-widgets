@@ -1,1 +1,0 @@
-{"version":3,"sources":["containers/CallBadgeContainer/i18n/zh-CN.js"],"names":["activeCall"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,UAAU,EAAE;AADC,C,EAIf","sourcesContent":["export default {\n  activeCall: \"启用中通话\"\n};\n\n// @key: @#@\"activeCall\"@#@ @source: @#@\"Active Call\"@#@\n"],"file":"zh-CN.js"}

@@ -1,1 +1,0 @@
-{"version":3,"sources":["containers/CallMonitorPage/i18n/en-US.js"],"names":["title"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,KAAK,EAAE;AADM,C","sourcesContent":["export default {\n  title: 'Calls'\n};\n"],"file":"en-US.js"}

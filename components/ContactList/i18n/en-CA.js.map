@@ -1,1 +1,0 @@
-{"version":3,"sources":["components/ContactList/i18n/en-CA.js"],"names":["noContacts"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,UAAU,EAAE;AADC,C,EAIf","sourcesContent":["export default {\n  noContacts: \"No records found.\"\n};\n\n// @key: @#@\"noContacts\"@#@ @source: @#@\"No records found.\"@#@\n"],"file":"en-CA.js"}

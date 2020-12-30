@@ -1,1 +1,0 @@
-{"version":3,"sources":["components/ExtensionCalendarInjection/constants/meetingModeEnum.js"],"names":["Enum"],"mappings":";;;;;;;;;AAAA;;;;eAEe,IAAIA,gBAAJ,CAAS,CACtB,KADsB,EAEtB,MAFsB,CAAT,C","sourcesContent":["import Enum from 'ringcentral-integration/lib/Enum';\n\nexport default new Enum([\n  'add',\n  'edit',\n]);\n"],"file":"meetingModeEnum.js"}
