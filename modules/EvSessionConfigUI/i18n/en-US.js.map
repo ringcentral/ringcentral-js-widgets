@@ -1,1 +1,0 @@
-{"version":3,"sources":["modules/EvSessionConfigUI/i18n/en-US.ts"],"names":["dropDownOptions","None"],"mappings":";;;;;;;;;AAAA;;;;;;mFAGGA,uBAAgBC,I,EAAO,M,sDACd,sB","sourcesContent":["import { dropDownOptions } from '../../../enums';\n\nexport default {\n  [dropDownOptions.None]: 'None',\n  multiple: 'Multiple assignments',\n};\n"],"file":"en-US.js"}
