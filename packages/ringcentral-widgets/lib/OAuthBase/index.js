@@ -5,7 +5,6 @@ import ensureExist from 'ringcentral-integration/lib/ensureExist';
 import proxify from 'ringcentral-integration/lib/proxy/proxify';
 import authMessages from 'ringcentral-integration/modules/Auth/authMessages';
 import required from 'ringcentral-integration/lib/required';
-import qs from 'qs';
 import url from 'url';
 
 import parseCallbackUri from '../parseCallbackUri';
@@ -30,7 +29,7 @@ export default class OAuthBase extends RcModule {
     locale,
     tabManager,
     redirectUri,
-    extralUIOptions = DEFAULT_UI_OPTIONS,
+    extraUIOptions = DEFAULT_UI_OPTIONS,
     ...options
   }) {
     super({
@@ -43,7 +42,7 @@ export default class OAuthBase extends RcModule {
     this._tabManager = tabManager;
     this._redirectUri = ensureExist.call(this, redirectUri, 'redirectUri');
     this._reducer = getOAuthBaseReducer(this.actionTypes);
-    this._extralUIOptions = extralUIOptions;
+    this._extraUIOptions = extraUIOptions;
   }
 
   get _actionTypes() {
@@ -152,29 +151,27 @@ export default class OAuthBase extends RcModule {
   openOAuthPage() {}
 
   get oAuthUri() {
-    const extendedQuery = qs.stringify({
-      force: true,
-      localeId: this._locale.currentLocale,
-      ui_options: this._extralUIOptions.join(' '),
-    });
-    return `${this._auth.getLoginUrl({
+    return this._auth.getLoginUrl({
       redirectUri: this.redirectUri,
       brandId: this._brand.id,
       state: this.authState,
       display: 'page',
+      localeId: this._locale.currentLocale,
+      uiOptions: this._extraUIOptions,
       implicit: this._auth.isImplicit,
-    })}&${extendedQuery}`;
+      force: true,
+    });
   }
 
   get implictRefreshOAuthUri() {
-    return `${this._auth.getLoginUrl({
+    return this._auth.getLoginUrl({
       redirectUri: this.redirectUri,
       brandId: this._brand.id,
       state: this.authState,
       display: 'page',
       prompt: 'none',
       implicit: this._auth.isImplicit,
-    })}`;
+    });
   }
 
   get authState() {

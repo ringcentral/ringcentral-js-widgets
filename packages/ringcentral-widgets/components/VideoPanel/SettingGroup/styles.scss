@@ -1,4 +1,5 @@
 $content-padding: 20px;
+$normal-font-size: 14px;
 
 div.expansionPanel {
   box-shadow: none !important;
@@ -9,10 +10,10 @@ div.expansionPanel {
   div.expansionPanelSummary {
     font-weight: bold;
     color: #212121;
-    height: 40px;
-    font-size: 15px;
+    height: 32px;
+    font-size: $normal-font-size;
     padding: 0 $content-padding;
-    min-height: 40px;
+    min-height: 32px;
 
     &.expansionPanelSummaryDisabled {
       opacity: inherit;

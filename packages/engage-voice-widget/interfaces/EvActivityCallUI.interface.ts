@@ -1,4 +1,5 @@
 import { BasicCallInfoProps } from 'ringcentral-widgets/components/BasicCallInfo';
+import { CallLogFieldsProps } from 'ringcentral-widgets/components/CallLogFields';
 import {
   CallLogPanelProps,
   CallStatus,
@@ -17,7 +18,7 @@ export type EvCallLogTask = CallLogPanelCurrentLog['task'] & {
 
 export type EvCurrentLog = CallLogPanelCurrentLog & {
   currentEvRawCall: EvCallData;
-  task: EvCallLogTask;
+  task: { [key: string]: any };
 };
 
 export type EvActivityCallUIProps = {
@@ -42,6 +43,7 @@ export type EvActivityCallUIProps = {
   disableInternalTransfer: boolean;
   showMuteButton: boolean;
   ivrAlertData: EvIvrData[];
+  referenceFieldOptions?: CallLogFieldsProps['referenceFieldOptions'];
 } & Pick<
   CallLogPanelProps,
   'currentLocale' | 'showSmallCallControl' | 'isWide'

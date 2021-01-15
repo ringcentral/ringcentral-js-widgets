@@ -21,7 +21,7 @@ const RETRY_INTERVALS = [2 * 1000, 5 * 1000, 10 * 1000, 30 * 1000];
   deps: [
     'Auth',
     'Client',
-    'Subscription',
+    { dep: 'Subscription', optional: true },
     { dep: 'SleepDetector', optional: true },
     { dep: 'TabManager', optional: true },
     { dep: 'Storage', optional: true },

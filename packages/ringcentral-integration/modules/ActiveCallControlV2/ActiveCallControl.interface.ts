@@ -1,3 +1,5 @@
+import { Session } from 'ringcentral-call/lib/Session';
+import { WebPhoneSession } from 'ringcentral-web-phone/lib/session';
 import Alert from '../Alert';
 import Storage from '../Storage';
 import NumberValidate from '../NumberValidate';
@@ -16,6 +18,7 @@ import RegionSettings from '../RegionSettings';
 import Brand from '../Brand';
 import AudioSettings from '../AudioSettings';
 import Presence from '../Presence';
+import RouterInteraction from '../../../ringcentral-widgets/modules/RouterInteraction';
 
 export interface ActiveCallControlOptions {
   polling?: boolean;
@@ -47,6 +50,7 @@ export interface Deps {
   brand: Brand;
   audioSettings: AudioSettings;
   presence: Presence;
+  routerInteraction: RouterInteraction;
 }
 
 export interface ModuleMakeCallParams {
@@ -55,3 +59,5 @@ export interface ModuleMakeCallParams {
   homeCountryId?: string;
   extendedControls?: object;
 }
+
+export { Session, WebPhoneSession };

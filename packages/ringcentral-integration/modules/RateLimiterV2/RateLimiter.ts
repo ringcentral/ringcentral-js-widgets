@@ -59,7 +59,9 @@ export class RateLimiter extends RcModuleV2<Deps> {
         this,
         () => this._deps.environment.changeCounter,
         () => {
-          this._bindHandlers();
+          if (this.ready) {
+            this._bindHandlers();
+          }
         },
       );
     }

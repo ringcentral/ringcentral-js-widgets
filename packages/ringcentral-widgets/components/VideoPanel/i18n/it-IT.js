@@ -7,8 +7,8 @@ export default {
   scheduleFor: "Programma per conto di",
   meetingSettings: "Impostazioni riunione",
   [ASSISTED_USERS_MYSELF]: "Me stesso",
-  rcMeetingSettings: "Impostazioni riunione video",
   joinBeforeHost: "Consenti ai partecipanti di accedere prima dell'host",
+  enableWaitingRoom: "Abilita sala d'attesa",
   waitingRoom: "Attiva la sala d'attesa per",
   waitingRoomNotCoworker: "Chiunque al di fuori della mia azienda",
   waitingRoomGuest: "Chi non si è registrato",
@@ -19,14 +19,15 @@ export default {
   turnOffCamera: "Spegni la videocamera per i partecipanti",
   requirePassword: "Richiedi password",
   setPassword: "Imposta la password *",
+  setPasswordNotSymbol: "Imposta la password",
   passwordEmptyError: "La password per la riunione è obbligatoria",
-  passwordInvalidError: "Usa da 1 a 10 caratteri che includono caratteri alfanumerici, ma senza simboli",
-  passwordHintText: "La password deve contenere da 1 a 10 lettere e numeri ma non contenere simboli",
+  passwordInvalidError: "La password deve avere 1-10 lettere e numeri e non può contenere simboli",
+  passwordHintText: "La password deve avere 1-10 lettere e numeri e non può contenere simboli",
   usePersonalMeetingId: "Usa ID riunione personale",
   meetingSettingsSecurity: "Sicurezza",
   onlyAuthUserJoin: "Possono partecipare solo gli utenti autenticati",
-  signedInUsers: "Utenti che hanno effettuato l'accesso",
-  signedInCoWorkers: "Collaboratori che hanno effettuato l'accesso",
+  signedInUsers: "Utenti connessi",
+  signedInCoWorkers: "Collaboratori connessi",
   limitScreenSharing: "Solo gli host e i moderatori possono condividere lo schermo",
   lockTooltip: "Questa impostazione è gestita dall'amministratore della tua azienda",
   pmiSettingAlert: "Queste impostazioni si applicheranno a tutte le riunioni create con il PMI"
@@ -39,8 +40,8 @@ export default {
 // @key: @#@"scheduleFor"@#@ @source: @#@"Schedule on behalf of"@#@
 // @key: @#@"meetingSettings"@#@ @source: @#@"Meeting settings"@#@
 // @key: @#@"ASSISTED_USERS_MYSELF"@#@ @source: @#@"Myself"@#@
-// @key: @#@"rcMeetingSettings"@#@ @source: @#@"Video Meeting settings"@#@
 // @key: @#@"joinBeforeHost"@#@ @source: @#@"Allow participants to join before host"@#@
+// @key: @#@"enableWaitingRoom"@#@ @source: @#@"Enable waiting room"@#@
 // @key: @#@"waitingRoom"@#@ @source: @#@"Enable waiting room for"@#@
 // @key: @#@"waitingRoomNotCoworker"@#@ @source: @#@"Anyone outside my company"@#@
 // @key: @#@"waitingRoomGuest"@#@ @source: @#@"Anyone not signed in"@#@
@@ -51,9 +52,10 @@ export default {
 // @key: @#@"turnOffCamera"@#@ @source: @#@"Turn off camera for participants"@#@
 // @key: @#@"requirePassword"@#@ @source: @#@"Require password"@#@
 // @key: @#@"setPassword"@#@ @source: @#@"Set password *"@#@
+// @key: @#@"setPasswordNotSymbol"@#@ @source: @#@"Set password"@#@
 // @key: @#@"passwordEmptyError"@#@ @source: @#@"Meeting password required"@#@
-// @key: @#@"passwordInvalidError"@#@ @source: @#@"Use 1 to 10 characters which include alphabets and numbers but no symbols"@#@
-// @key: @#@"passwordHintText"@#@ @source: @#@"Your password should be 1-10 letters and numbers long but not contain symbols"@#@
+// @key: @#@"passwordInvalidError"@#@ @source: @#@"Your password must be 1-10 letters and numbers long but cannot contain symbols"@#@
+// @key: @#@"passwordHintText"@#@ @source: @#@"Your password should be 1-10 letters and numbers long but cannot contain symbols"@#@
 // @key: @#@"usePersonalMeetingId"@#@ @source: @#@"Use Personal Meeting ID"@#@
 // @key: @#@"meetingSettingsSecurity"@#@ @source: @#@"Security"@#@
 // @key: @#@"onlyAuthUserJoin"@#@ @source: @#@"Only authenticated users can join"@#@

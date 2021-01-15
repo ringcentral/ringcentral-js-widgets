@@ -172,6 +172,7 @@ export class Analytics extends RcModule<
   private _promise?: Promise<void>;
   private _callLogSection: any;
   private _activeCallControl: any;
+  private _enablePendo: boolean;
 
   constructor({
     // config
@@ -206,6 +207,7 @@ export class Analytics extends RcModule<
     lingerThreshold = 1000,
     callLogSection,
     activeCallControl,
+    enablePendo = false,
     ...options
   }: Record<string, any>) {
     // TODO: fix type from new modules based on RcModulesV2
@@ -251,6 +253,7 @@ export class Analytics extends RcModule<
     this._trackList = [...TRACK_LIST];
     this._useLog = useLog;
     this._lingerThreshold = lingerThreshold;
+    this._enablePendo = enablePendo;
   }
 
   private _identify({
@@ -258,7 +261,20 @@ export class Analytics extends RcModule<
     ...props
   }: { userId: string } & Record<string, any>) {
     if (this.analytics) {
-      this.analytics.identify(userId, props);
+      this.analytics.identify(
+        userId,
+        {
+          ...props,
+          companyName: this._extensionInfo?.info?.contact?.company,
+        },
+        {
+          integrations: {
+            All: true,
+            Mixpanel: true,
+            Pendo: this._enablePendo,
+          },
+        },
+      );
     }
   }
 
@@ -270,7 +286,13 @@ export class Analytics extends RcModule<
       ...this.trackProps,
       ...properties,
     };
-    this.analytics.track(event, trackProps);
+    this.analytics.track(event, trackProps, {
+      integrations: {
+        All: true,
+        Mixpanel: true,
+        Pendo: this._enablePendo,
+      },
+    });
     if (this._useLog) {
       this._logs.push({
         timeStamp: new Date().toISOString(),
@@ -327,8 +349,14 @@ export class Analytics extends RcModule<
       this.store.dispatch({
         type: this.actionTypes.init,
       });
-      if (this._analyticsKey) {
-        this._segment.load(this._analyticsKey);
+      if (this._analyticsKey && this._segment) {
+        this._segment.load(this._analyticsKey, {
+          integrations: {
+            All: true,
+            Mixpanel: true,
+            Pendo: this._enablePendo,
+          },
+        });
       }
       this.store.dispatch({
         type: this.actionTypes.initSuccess,
@@ -818,7 +846,9 @@ export class Analytics extends RcModule<
     }
   }
 
-  private _getTrackTarget(path: string): TrackTarget {
+  private _getTrackTarget(
+    path = this._routerInteraction?.currentPath,
+  ): TrackTarget {
     if (!path) {
       return null;
     }

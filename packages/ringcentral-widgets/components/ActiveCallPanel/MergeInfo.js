@@ -149,7 +149,10 @@ class MergeInfo extends Component {
               <CallAvatar avatarUrl={null} />
             )}
           </div>
-          <div className={styles.callee_name_active}>
+          <div
+            className={styles.callee_name_active}
+            data-sign="activeCalleeName"
+          >
             <span title={currentCallTitle}>{currentCallTitle}</span>
           </div>
           <div className={styles.callee_status_active}>{timeCounter}</div>

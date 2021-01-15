@@ -7,8 +7,8 @@ export default {
   scheduleFor: "代表以下對象排程",
   meetingSettings: "會議設定",
   [ASSISTED_USERS_MYSELF]: "我本人",
-  rcMeetingSettings: "視訊會議設定",
   joinBeforeHost: "允許參與者在主持人之前加入",
+  enableWaitingRoom: "啟用等候室",
   waitingRoom: "為以下對象啟用等候室",
   waitingRoomNotCoworker: "公司以外任何人",
   waitingRoomGuest: "未登入的任何人",
@@ -19,9 +19,10 @@ export default {
   turnOffCamera: "關閉參與者的相機",
   requirePassword: "需要密碼",
   setPassword: "請設定密碼 *",
+  setPasswordNotSymbol: "請設定密碼",
   passwordEmptyError: "必須提供會議密碼",
-  passwordInvalidError: "使用 1 到 10 個字元，可包含字母和數字，但不能包含符號",
-  passwordHintText: "您的密碼應為 1-10 個字母和數字，但不能包含符號",
+  passwordInvalidError: "您的密碼必須包含 1 到 10 個字元和數字，但不得包含任何符號",
+  passwordHintText: "您的密碼應包含 1 到 10 個字元和數字，但不得包含任何符號",
   usePersonalMeetingId: "使用個人會議 ID",
   meetingSettingsSecurity: "安全性",
   onlyAuthUserJoin: "只有通過驗證的使用者可以加入",
@@ -39,8 +40,8 @@ export default {
 // @key: @#@"scheduleFor"@#@ @source: @#@"Schedule on behalf of"@#@
 // @key: @#@"meetingSettings"@#@ @source: @#@"Meeting settings"@#@
 // @key: @#@"ASSISTED_USERS_MYSELF"@#@ @source: @#@"Myself"@#@
-// @key: @#@"rcMeetingSettings"@#@ @source: @#@"Video Meeting settings"@#@
 // @key: @#@"joinBeforeHost"@#@ @source: @#@"Allow participants to join before host"@#@
+// @key: @#@"enableWaitingRoom"@#@ @source: @#@"Enable waiting room"@#@
 // @key: @#@"waitingRoom"@#@ @source: @#@"Enable waiting room for"@#@
 // @key: @#@"waitingRoomNotCoworker"@#@ @source: @#@"Anyone outside my company"@#@
 // @key: @#@"waitingRoomGuest"@#@ @source: @#@"Anyone not signed in"@#@
@@ -51,9 +52,10 @@ export default {
 // @key: @#@"turnOffCamera"@#@ @source: @#@"Turn off camera for participants"@#@
 // @key: @#@"requirePassword"@#@ @source: @#@"Require password"@#@
 // @key: @#@"setPassword"@#@ @source: @#@"Set password *"@#@
+// @key: @#@"setPasswordNotSymbol"@#@ @source: @#@"Set password"@#@
 // @key: @#@"passwordEmptyError"@#@ @source: @#@"Meeting password required"@#@
-// @key: @#@"passwordInvalidError"@#@ @source: @#@"Use 1 to 10 characters which include alphabets and numbers but no symbols"@#@
-// @key: @#@"passwordHintText"@#@ @source: @#@"Your password should be 1-10 letters and numbers long but not contain symbols"@#@
+// @key: @#@"passwordInvalidError"@#@ @source: @#@"Your password must be 1-10 letters and numbers long but cannot contain symbols"@#@
+// @key: @#@"passwordHintText"@#@ @source: @#@"Your password should be 1-10 letters and numbers long but cannot contain symbols"@#@
 // @key: @#@"usePersonalMeetingId"@#@ @source: @#@"Use Personal Meeting ID"@#@
 // @key: @#@"meetingSettingsSecurity"@#@ @source: @#@"Security"@#@
 // @key: @#@"onlyAuthUserJoin"@#@ @source: @#@"Only authenticated users can join"@#@

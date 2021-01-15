@@ -1,15 +1,13 @@
 import { computed, RcUIModuleV2 } from '@ringcentral-integration/core';
 import { Module } from 'ringcentral-integration/lib/di';
 
-import { agentStatesColors, agentStateTypes } from '../../enums';
+import { agentStatesColors } from '../../enums';
 import {
   EvMainViewUIFunctions,
   EvMainViewUIProps,
 } from '../../interfaces/EvMainViewUI.interface';
 import { handleToClockTime } from '../../lib/time';
 import { Deps, MainView } from './MainViewUI.interface';
-
-const expiredWorkingTime = 60 * 1000;
 
 @Module({
   name: 'MainViewUI',
@@ -30,6 +28,10 @@ class MainViewUI extends RcUIModuleV2<Deps> implements MainView {
     super({
       deps,
     });
+  }
+
+  get maxBreakTime() {
+    return this._deps.evWorkingState.maxBreakTime;
   }
 
   @computed((that: MainViewUI) => [that._deps.evWorkingState.agentStates])
@@ -61,15 +63,9 @@ class MainViewUI extends RcUIModuleV2<Deps> implements MainView {
   }
 
   @computed((that: MainViewUI) => [that._deps.evWorkingState.workingState])
-  get isTimingOneMinuteType() {
-    const { workingState } = this._deps.evWorkingState;
-    return (
-      [
-        agentStateTypes.away,
-        agentStateTypes.onBreak,
-        agentStateTypes.lunch,
-      ].indexOf(workingState.agentState) > -1
-    );
+  get isBreak() {
+    const { isOnBreakOrAway, isOnLunch } = this._deps.evWorkingState;
+    return isOnBreakOrAway || isOnLunch;
   }
 
   @computed((that: MainViewUI) => [
@@ -93,7 +89,7 @@ class MainViewUI extends RcUIModuleV2<Deps> implements MainView {
   }
 
   getStateColor(intervalTime: number) {
-    if (this.isTimingOneMinuteType) {
+    if (this.isBreak) {
       const isOverOneMinute = this._checkOverTime(intervalTime);
 
       if (isOverOneMinute) {
@@ -108,29 +104,23 @@ class MainViewUI extends RcUIModuleV2<Deps> implements MainView {
   }
 
   getTimerText(intervalTime: number) {
-    if (!this.isTimingOneMinuteType) {
-      return handleToClockTime(intervalTime);
-    }
-
     if (this._checkOverTime(intervalTime)) {
-      return `-${handleToClockTime(intervalTime - expiredWorkingTime)}`;
+      return `-${handleToClockTime(intervalTime - this.maxBreakTime)}`;
     }
-
-    const resetSecond = parseInt(
-      `${(expiredWorkingTime - intervalTime) / 1000}`,
-      10,
-    );
-
-    return `00:${String(resetSecond).length < 2 ? '0' : ''}${resetSecond}`;
+    if (this.isBreak && this.maxBreakTime > 0) {
+      intervalTime = parseInt(`${this.maxBreakTime - intervalTime}`, 10);
+      return handleToClockTime(intervalTime, { useCeil: true });
+    }
+    return handleToClockTime(intervalTime);
   }
 
   handleWithIntervalTime(intervalTime: number) {
     const isOverOneMinute = this._checkOverTime(intervalTime);
     // TODO think about when browser is block.
     if (
-      this.oldIntervalTime < expiredWorkingTime &&
+      this.oldIntervalTime < this.maxBreakTime &&
       isOverOneMinute &&
-      this.isTimingOneMinuteType
+      this.isBreak
     ) {
       this._deps.evWorkingState.alertOverBreakTime();
     }
@@ -138,7 +128,9 @@ class MainViewUI extends RcUIModuleV2<Deps> implements MainView {
   }
 
   private _checkOverTime(intervalTime: number) {
-    return intervalTime > expiredWorkingTime;
+    return (
+      this.isBreak && this.maxBreakTime > 0 && intervalTime > this.maxBreakTime
+    );
   }
 
   getUIProps(): EvMainViewUIProps {

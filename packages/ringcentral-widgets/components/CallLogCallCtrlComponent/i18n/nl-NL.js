@@ -14,10 +14,11 @@ export default {
   unHold: "Uit de wacht",
   forward: "Doorschakelen",
   ignore: "Negeren",
-  voicemail: "Voicemail",
+  voicemail: "Naar voicemail",
   custom: "Aangepast",
   answerAndEnd: "Beantwoorden en beëindigen",
-  answerAndHold: "Beantwoorden en in de wacht zetten"
+  answerAndHold: "Beantwoorden en in de wacht zetten",
+  answer: "Beantwoorden"
 };
 
 // @key: @#@"mute"@#@ @source: @#@"Mute"@#@
@@ -35,7 +36,8 @@ export default {
 // @key: @#@"unHold"@#@ @source: @#@"Unhold"@#@
 // @key: @#@"forward"@#@ @source: @#@"Forward"@#@
 // @key: @#@"ignore"@#@ @source: @#@"Ignore"@#@
-// @key: @#@"voicemail"@#@ @source: @#@"Voicemail"@#@
+// @key: @#@"voicemail"@#@ @source: @#@"To Voicemail"@#@
 // @key: @#@"custom"@#@ @source: @#@"Custom"@#@
 // @key: @#@"answerAndEnd"@#@ @source: @#@"Answer & End"@#@
 // @key: @#@"answerAndHold"@#@ @source: @#@"Answer & Hold"@#@
+// @key: @#@"answer"@#@ @source: @#@"Answer"@#@

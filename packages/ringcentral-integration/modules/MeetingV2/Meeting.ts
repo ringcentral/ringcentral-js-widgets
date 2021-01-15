@@ -5,9 +5,11 @@ import {
   RcModuleV2,
   state,
   storage,
+  track,
 } from '@ringcentral-integration/core';
 import moment from 'moment';
 import { filter, find, isEmpty, pick } from 'ramda';
+import { DEFAULT_LOCALE } from '@ringcentral-integration/i18n';
 
 import {
   comparePreferences,
@@ -33,6 +35,7 @@ import {
   RCM_PASSWORD_REGEX,
   SAVED_DEFAULT_MEETING_SETTINGS,
 } from './constants';
+import { getExtensionName, getHostId } from './helper';
 import {
   CommonPersonalMeetingSettings,
   DefaultScheduleLockedSettings,
@@ -57,6 +60,7 @@ import {
 } from './Meeting.interface';
 import { MeetingErrors } from './meetingErrors';
 import { meetingStatus } from './meetingStatus';
+import { trackEvents } from '../Analytics';
 
 @Module({
   name: 'Meeting',
@@ -67,6 +71,7 @@ import { meetingStatus } from './meetingStatus';
     'ExtensionInfo',
     'Storage',
     'VideoConfiguration',
+    'Locale',
     { dep: 'AvailabilityMonitor', optional: true },
     { dep: 'MeetingOptions', optional: true },
   ],
@@ -74,6 +79,7 @@ import { meetingStatus } from './meetingStatus';
 export class Meeting extends RcModuleV2<Deps> implements IMeeting {
   protected _fetchDelegatorsTimeout: NodeJS.Timeout = null;
   private _fetchPersonMeetingTimeout: NodeJS.Timeout = null;
+  private _createMeetingPromise: Promise<ScheduleMeetingResponse>;
 
   constructor(deps: Deps) {
     super({ deps, enableCache: true, storageKey: 'Meeting' });
@@ -181,9 +187,9 @@ export class Meeting extends RcModuleV2<Deps> implements IMeeting {
     return pick([...COMMON_SETTINGS, 'password'], this.personalMeeting);
   }
 
-  // TODO: Add feature toggle showAdminLock
-  get showAdminLock() {
-    return false;
+  @computed<Meeting>((that) => [that._deps.locale.currentLocale])
+  get currentLocale() {
+    return this._deps.locale.currentLocale || DEFAULT_LOCALE;
   }
 
   get pmiDefaultSettings(): Partial<RcMMeetingModel> {
@@ -204,7 +210,7 @@ export class Meeting extends RcModuleV2<Deps> implements IMeeting {
     );
   }
 
-  get generalDefaultSettings(): Partial<RcMMeetingModel> {
+  getGeneralDefaultSettings(): RcMMeetingModel {
     if (!this.enableServiceWebSettings) {
       const savedSetting = this.showSaveAsDefault
         ? this.savedDefaultMeetingSetting
@@ -234,7 +240,7 @@ export class Meeting extends RcModuleV2<Deps> implements IMeeting {
     const usePmi = this.usePmiDefaultFromSW;
     const userSettings = this.userSettings;
     const pmiDefaultSettings = this.pmiDefaultSettings;
-    const generalDefaultSettings = this.generalDefaultSettings;
+    const generalDefaultSettings = this.getGeneralDefaultSettings();
     const savedSetting = this.showSaveAsDefault
       ? this.savedDefaultMeetingSetting
       : this.lastMeetingSetting;
@@ -253,11 +259,25 @@ export class Meeting extends RcModuleV2<Deps> implements IMeeting {
     return meeting;
   }
 
-  get initialMeetingSetting(): RcMMeetingModel {
-    const meetingName = this._getExtensionName();
+  getInitialMeetingSetting() {
+    const meetingName = getExtensionName({
+      extensionInfo: this.extensionInfo,
+      enableScheduleOnBehalf: this.enableScheduleOnBehalf,
+      meeting: this.meeting,
+      delegators: this.delegators,
+    });
     const startTime = getInitializedStartTime();
-    const hostId = this._getHostId();
-    const setting = getDefaultMeetingSettings(meetingName, startTime, hostId);
+    const hostId = getHostId({
+      enableScheduleOnBehalf: this.enableScheduleOnBehalf,
+      meeting: this.meeting,
+      extensionInfo: this.extensionInfo,
+    });
+    const setting = getDefaultMeetingSettings(
+      meetingName,
+      this.currentLocale,
+      startTime,
+      hostId,
+    );
     if (!this.enableServiceWebSettings) {
       return setting;
     }
@@ -266,6 +286,10 @@ export class Meeting extends RcModuleV2<Deps> implements IMeeting {
       ...DEFAULT_LOCK_SETTINGS,
       _pmiPassword: '',
     };
+  }
+
+  get initialMeetingSetting(): RcMMeetingModel {
+    return this.getInitialMeetingSetting();
   }
 
   get extensionInfo() {
@@ -290,6 +314,10 @@ export class Meeting extends RcModuleV2<Deps> implements IMeeting {
 
   get enableServiceWebSettings() {
     return this._deps.meetingOptions?.enableServiceWebSettings ?? false;
+  }
+
+  get putRecurringMeetingInMiddle() {
+    return this._deps.meetingOptions?.putRecurringMeetingInMiddle ?? false;
   }
 
   get enableScheduleOnBehalf() {
@@ -352,6 +380,14 @@ export class Meeting extends RcModuleV2<Deps> implements IMeeting {
     this.savedDefaultMeetingSetting = savedDefaultMeetingSetting;
   }
 
+  @track((that: Meeting, isScheduling: boolean) => {
+    if (!isScheduling) return;
+    // TODO: fix analytics V2
+    const target = (that.parentModule as any).analytics?._getTrackTarget();
+    if (target) {
+      return [trackEvents.clickMeetingSchedulePage, { router: target.router }];
+    }
+  })
   @action
   protected _updateIsScheduling(isScheduling: boolean) {
     this.isScheduling = isScheduling;
@@ -373,12 +409,16 @@ export class Meeting extends RcModuleV2<Deps> implements IMeeting {
   }
 
   protected async _initScheduleFor() {
+    if (!this.enableScheduleOnBehalf) {
+      return;
+    }
     if (this._fetchDelegatorsTimeout) {
       clearTimeout(this._fetchDelegatorsTimeout);
     }
     try {
       const { records } = await this.getDelegators();
       if (!records || records.length === 0) {
+        this.updateDelegators([]);
         return;
       }
       this.updateDelegators([this.loginUser, ...records]);
@@ -392,13 +432,10 @@ export class Meeting extends RcModuleV2<Deps> implements IMeeting {
   }
 
   protected async _initMeetingSettings(extensionId?: string) {
-    if (this.enablePersonalMeeting) {
-      await this._initPersonalMeeting(extensionId);
-    }
-
-    if (this.enableServiceWebSettings) {
-      await this._updateServiceWebSettings(extensionId);
-    }
+    await Promise.all([
+      this._initPersonalMeeting(extensionId),
+      this._updateServiceWebSettings(extensionId),
+    ]);
 
     await this._initMeeting(extensionId);
   }
@@ -408,22 +445,18 @@ export class Meeting extends RcModuleV2<Deps> implements IMeeting {
    * also load meeting setting from previous one.
    */
   @background
-  init() {
-    this._initMeeting();
+  async init() {
+    await this.onInit();
   }
 
   @proxify
   async reload() {
-    return this._initMeeting();
+    await this.onInit();
   }
 
   @proxify
   async _init() {
-    await this._initMeetingSettings();
-
-    if (this.enableScheduleOnBehalf) {
-      await this._initScheduleFor();
-    }
+    await Promise.all([this._initMeetingSettings(), this._initScheduleFor()]);
   }
 
   @proxify
@@ -513,6 +546,9 @@ export class Meeting extends RcModuleV2<Deps> implements IMeeting {
 
   @proxify
   async _initPersonalMeeting(extensionId?: string) {
+    if (!this.enablePersonalMeeting) {
+      return;
+    }
     if (this._fetchPersonMeetingTimeout) {
       clearTimeout(this._fetchPersonMeetingTimeout);
     }
@@ -532,6 +568,9 @@ export class Meeting extends RcModuleV2<Deps> implements IMeeting {
 
   @proxify
   async _updateServiceWebSettings(extensionId?: string) {
+    if (!this.enableServiceWebSettings) {
+      return;
+    }
     try {
       const [userSettings, lockedSettings] = await Promise.all([
         this.getUserSettings(extensionId),
@@ -549,7 +588,7 @@ export class Meeting extends RcModuleV2<Deps> implements IMeeting {
     this.update(
       usePersonalMeetingId
         ? this.pmiDefaultSettings
-        : this.generalDefaultSettings,
+        : this.getGeneralDefaultSettings(),
     );
   }
 
@@ -564,13 +603,12 @@ export class Meeting extends RcModuleV2<Deps> implements IMeeting {
   }
 
   @proxify
-  async schedule(
+  async scheduleDirectly(
     meeting: RcMMeetingModel,
     { isAlertSuccess = true }: { isAlertSuccess?: boolean } = {},
   ): Promise<ScheduleMeetingResponse> {
-    if (this.isScheduling) return (this.schedule as any)._promise;
-    meeting = meeting || this.meeting;
     try {
+      meeting = meeting || this.meeting;
       this.updateIsScheduling(true);
       // Validate meeting
       this._validate(meeting);
@@ -580,13 +618,15 @@ export class Meeting extends RcModuleV2<Deps> implements IMeeting {
         this.saveAsDefaultSetting(meeting);
       }
 
-      (this.schedule as any)._promise = Promise.all([
+      const [resp, serviceInfo] = await Promise.all([
         this.postMeeting(formattedMeeting),
         this.getMeetingServiceInfo(meeting.host?.id),
       ]);
 
-      const [resp, serviceInfo] = await (this.schedule as any)._promise;
-      const invitationInfo = await this.getMeetingInvitation(resp.id);
+      const invitationInfo = await this.getMeetingInvitation(
+        resp.id,
+        this.currentLocale,
+      );
       this.updateLastMeetingSetting({
         ...formattedMeeting,
         _saved: meeting._saved,
@@ -632,9 +672,24 @@ export class Meeting extends RcModuleV2<Deps> implements IMeeting {
       await this._errorHandle(errors);
       return null;
     } finally {
-      delete (this.schedule as any)._promise;
       this.updateIsScheduling(false);
     }
+  }
+
+  @proxify
+  async schedule(
+    meeting: RcMMeetingModel,
+    { isAlertSuccess = true }: { isAlertSuccess?: boolean } = {},
+  ): Promise<ScheduleMeetingResponse> {
+    if (this.isScheduling) return this._createMeetingPromise;
+
+    this._createMeetingPromise = this.scheduleDirectly(meeting, {
+      isAlertSuccess,
+    });
+
+    const result = await this._createMeetingPromise;
+    this._createMeetingPromise = null;
+    return result;
   }
 
   @proxify
@@ -662,7 +717,11 @@ export class Meeting extends RcModuleV2<Deps> implements IMeeting {
       ]);
 
       const [resp, serviceInfo] = await (this.updateMeeting as any)._promise;
-      const invitationInfo = await this.getMeetingInvitation(meetingId);
+
+      const invitationInfo = await this.getMeetingInvitation(
+        meetingId,
+        this.currentLocale,
+      );
 
       const result = await this._createDialingNumberTpl(
         serviceInfo,
@@ -915,7 +974,10 @@ export class Meeting extends RcModuleV2<Deps> implements IMeeting {
   }
 
   @proxify
-  async getMeetingInvitation(meetingId: string): Promise<RcmInvitationInfo> {
+  async getMeetingInvitation(
+    meetingId: string,
+    locale = DEFAULT_LOCALE,
+  ): Promise<RcmInvitationInfo> {
     if (!this.enableInvitationApi) {
       return null;
     }
@@ -924,11 +986,14 @@ export class Meeting extends RcModuleV2<Deps> implements IMeeting {
       return null;
     }
     try {
-      const platform = this._deps.client.service.platform();
-      const apiResponse = await platform.send({
-        method: 'GET',
-        url: `/restapi/v1.0/account/~/extension/~/meeting/${meetingId}/invitation`,
-      });
+      const apiResponse = await this._deps.client.service
+        .platform()
+        .get(
+          `/restapi/v1.0/account/~/extension/~/meeting/${meetingId}/invitation`,
+          {
+            language: locale,
+          },
+        );
       const { invitation } = await apiResponse.json();
       return {
         invitation,
@@ -953,35 +1018,6 @@ export class Meeting extends RcModuleV2<Deps> implements IMeeting {
       ...settings,
       _requireMeetingPassword: !!settings.password,
     };
-  }
-
-  _getHostId() {
-    if (
-      this.enableScheduleOnBehalf &&
-      this.meeting &&
-      this.meeting.host &&
-      this.meeting.host.id
-    ) {
-      return `${this.meeting.host.id}`;
-    }
-    return `${this.extensionInfo.info.id}` || '';
-  }
-
-  _getExtensionName() {
-    const extensionName = this.extensionInfo.info.name || '';
-    if (
-      !this.enableScheduleOnBehalf ||
-      !this.meeting ||
-      !this.delegators ||
-      this.delegators.length === 0
-    ) {
-      return extensionName;
-    }
-    const currentHost = `${(this.meeting.host && this.meeting.host.id) || ''}`;
-    const user = find((item) => item.id === currentHost, this.delegators);
-    return user && user.id !== `${this.extensionInfo.info.id}`
-      ? user.name
-      : extensionName;
   }
 
   /**

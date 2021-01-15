@@ -1,5 +1,5 @@
 import { RcIconButton, RcTextField, RcTextFieldProps } from '@ringcentral/juno';
-import deletenumberSvg from '@ringcentral/juno/icons/icon-deletenumber.svg';
+import deletenumberSvg from '@ringcentral/juno/icon/Deletenumber';
 import classNames from 'classnames';
 import React, {
   FunctionComponent,

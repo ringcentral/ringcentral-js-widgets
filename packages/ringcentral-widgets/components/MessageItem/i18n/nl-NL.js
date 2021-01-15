@@ -1,6 +1,6 @@
 import messageTypes from 'ringcentral-integration/enums/messageTypes';
 export default {
-  addLog: "Loggen",
+  addLog: "Log",
   editLog: "Log bewerken",
   viewDetails: "Details weergeven",
   addEntity: "Nieuw maken",

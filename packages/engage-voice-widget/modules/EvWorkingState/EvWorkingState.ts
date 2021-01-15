@@ -89,6 +89,42 @@ class EvWorkingState extends RcModuleV2<Deps> implements WorkingState {
   }
 
   @computed((that: EvWorkingState) => [
+    that.agentConfig.agentSettings,
+    that.workingState.agentState,
+  ])
+  get maxBreakTime() {
+    if (this.isOnBreakOrAway) {
+      return (
+        parseInt(this.agentConfig.agentSettings.maxBreakTime || '0', 10) *
+        60 *
+        1000
+      );
+    }
+    if (this.isOnLunch) {
+      return (
+        parseInt(this.agentConfig.agentSettings.maxLunchTime || '0', 10) *
+        60 *
+        1000
+      );
+    }
+    return 1000 * 60;
+  }
+
+  @computed((that: EvWorkingState) => [that.workingState.agentState])
+  get isOnBreakOrAway() {
+    return (
+      [agentStateTypes.away, agentStateTypes.onBreak].indexOf(
+        this.workingState.agentState,
+      ) > -1
+    );
+  }
+
+  @computed((that: EvWorkingState) => [that.workingState.agentState])
+  get isOnLunch() {
+    return this.workingState.agentState === agentStateTypes.lunch;
+  }
+
+  @computed((that: EvWorkingState) => [
     that.agentState,
     that.isPendingDisposition,
   ])

@@ -43,32 +43,19 @@ function setup({
 }
 
 const getSearchInput = () =>
-  wrapper
-    .find('RcOutlineTextField')
-    .at(0)
-    .find('input');
+  wrapper.find('RcOutlineTextField').at(0).find('input');
 
-const getDetailItems = () =>
-  wrapper
-    .find('RcList')
-    .at(0)
-    .find('RcListItem');
+const getDetailItems = () => wrapper.find('RcList').at(0).find('RcListItem');
 
 const getSubmitButton = () =>
-  wrapper
-    .find('RcButton[data-sign="select-group-item"]')
-    .at(0)
-    .find('button');
+  wrapper.find('RcButton[data-sign="select-group-item"]').at(0).find('button');
 
 describe('<RequeueCallGroupPanel />', async () => {
   it('Can display selected Queue Group Name and all the Queues', () => {
     wrapper = setup({});
-    expect(
-      wrapper
-        .find('BackHeader')
-        .at(0)
-        .prop('title'),
-    ).toBe(defalutSelectedQueueGroup.groupName);
+    expect(wrapper.find('BackHeader').at(0).prop('title')).toBe(
+      defalutSelectedQueueGroup.groupName,
+    );
     expect(getDetailItems().length).toBe(3);
   });
 
@@ -77,11 +64,7 @@ describe('<RequeueCallGroupPanel />', async () => {
     wrapper = setup({
       selectedGateIndex,
     });
-    expect(
-      getDetailItems()
-        .at(selectedGateIndex)
-        .prop('selected'),
-    ).toBe(true);
+    expect(getDetailItems().at(selectedGateIndex).prop('selected')).toBe(true);
     expect(getSubmitButton().prop('disabled')).toBe(false);
   });
 
@@ -159,12 +142,7 @@ describe('<RequeueCallGroupPanel />', async () => {
     expect(getDetailItems().length).toBe(0);
 
     expect(
-      wrapper
-        .find('[data-sign="searchResult"]')
-        .at(0)
-        .find('div')
-        .at(0)
-        .text(),
+      wrapper.find('[data-sign="searchResult"]').at(0).find('div').at(0).text(),
     ).toBe(`No result found for "${searchText}"`);
   });
 });

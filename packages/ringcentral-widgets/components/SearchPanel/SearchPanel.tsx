@@ -1,4 +1,4 @@
-import searchSvg from '@ringcentral/juno/icons/icon-search.svg';
+import searchSvg from '@ringcentral/juno/icon/Search';
 import React, { useState, FunctionComponent, useContext } from 'react';
 import { RcOutlineTextField } from '@ringcentral/juno';
 import classNames from 'classnames';

@@ -1,0 +1,36 @@
+.disabled {
+  color: #b5b9c5 !important;
+  cursor: not-allowed;
+  background: #fff !important;
+
+  .selectedValue {
+    color: #b5b9c5 !important;
+  }
+}
+
+.option {
+  font-family: 'Yu Gothic UI', 'Meiryo UI', Meiryo, 'MS Pgothic', Osaka,
+    'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica Neue',
+    sans-serif;
+  color: rgb(51, 51, 51) !important;
+  background: transparent;
+  display: flex;
+  align-items: center;
+}
+
+.value {
+  display: flex;
+  font-family: 'Yu Gothic UI', 'Meiryo UI', Meiryo, 'MS Pgothic', Osaka,
+    'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica Neue',
+    sans-serif;
+}
+
+.icon {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.marginRight5 {
+  margin-right: 8px;
+}

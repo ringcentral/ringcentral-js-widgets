@@ -1,9 +1,11 @@
 @import 'ringcentral-widgets/lib/commonStyles/fonts';
+@import 'ringcentral-widgets/lib/commonStyles/variable';
 
 $panel-side-padding: 20px;
 $checkbox-ripple-width: 20px;
+$checkbox-right-margin: 4px;
 $header-font-color: #212121;
-$locked-color: rgba(0,0,0,0.38);
+$locked-color: rgba(0, 0, 0, 0.38);
 
 .videoConfig {
   height: 100%;
@@ -16,7 +18,10 @@ $locked-color: rgba(0,0,0,0.38);
 }
 
 .meetingSection {
-  padding: 0px 16px;
+  padding: 0px 20px;
+  input {
+    @extend .normalFontSize;
+  }
 }
 
 .noBottomMargin {
@@ -28,10 +33,51 @@ $locked-color: rgba(0,0,0,0.38);
   flex-wrap: wrap;
 }
 
+.normalFontSize {
+  font-size: $primary-font-size !important;
+}
+
 div.videoConfig div.meetingSettings div.expansionPanel {
   background: transparent;
   box-shadow: none;
   margin: 0;
+}
+
+$date-time-space: 12px;
+div.meetingSettings div.meetingDatePicker {
+  display: inline-flex;
+  width: calc(50% - #{$date-time-space / 2});
+}
+div.meetingSettings div.meetingTimePicker {
+  display: inline-flex;
+  width: calc(50% - #{$date-time-space / 2});
+  margin-left: 12px;
+}
+.select {
+  flex-grow: 1;
+  width: 50%;
+}
+.meetingTitle {
+  margin-top: 12px;
+}
+
+$hour-minute-space: 12px;
+.hourDuration {
+  display: inline-flex;
+  width: calc(50% - #{$hour-minute-space / 2});
+
+  div[class*='selectMenu'] {
+    @extend .normalFontSize;
+  }
+}
+.minuteDuration {
+  display: inline-flex;
+  width: calc(50% - #{$hour-minute-space / 2});
+  margin-left: $hour-minute-space;
+
+  div[class*='selectMenu'] {
+    @extend .normalFontSize;
+  }
 }
 
 div.videoConfig div.expansionPanelSummaryDisabled {
@@ -42,10 +88,10 @@ div.videoConfig div.expansionPanelSummaryDisabled {
 div.videoConfig div.expansionPanel div.expansionPanelSummary {
   font-weight: bold;
   color: $header-font-color;
-  height: 44px;
-  font-size: 15px;
+  height: 32px;
+  @extend .normalFontSize;
   padding: 0 $panel-side-padding;
-  min-height: 44px;
+  min-height: 32px;
 }
 
 div.expansionPanelSummaryContent {
@@ -67,15 +113,22 @@ div.videoConfig div.expansionPanel div.expansionPanelDetails {
   justify-content: space-between;
   display: flex;
   align-items: flex-start;
+  & > span[class*='RcCheckbox'] {
+    margin-top: -4px;
+    margin-bottom: -4px;
+  }
 }
 div.expansionPanel div.toggleGroup label.labelPlacementStart {
   @extend .labelPlacement;
-  padding: 0 ($panel-side-padding - $checkbox-ripple-width/2) 0 $panel-side-padding;
+  padding: 0
+    ($panel-side-padding - $checkbox-ripple-width/2 - $checkbox-right-margin) 0
+    $panel-side-padding;
 }
 
 div.expansionPanel div.toggleGroup label.labelPlacementEnd {
   @extend .labelPlacement;
-  padding: 0 $panel-side-padding 0 ($panel-side-padding - $checkbox-ripple-width/2);
+  padding: 0 $panel-side-padding 0
+    ($panel-side-padding - $checkbox-ripple-width/2);
 }
 
 .optionLabel {
@@ -98,7 +151,11 @@ div.expansionPanel div.toggleGroup label.labelPlacementEnd {
 }
 
 .alertContainer {
-  margin: 0 $panel-side-padding;
+  margin: 4px $panel-side-padding 0;
+  padding: 8px !important;
+  & > div[class*='RcAlert-message'] {
+    font-size: 14px !important;
+  }
 }
 
 .selectOption {
@@ -120,13 +177,19 @@ div.expansionPanel div.toggleGroup label.labelPlacementEnd {
 }
 
 .passwordField {
+  padding-top: 4px;
   @extend .sideMargin;
-  margin-top: 11px;
 
   label {
     width: 100% !important;
   }
-
+  input {
+    // TODO: will remove it after Juno updated
+    &[class*="Mui-disabled"] {
+      -webkit-text-fill-color: rc-palette(text, 'disabled');
+    }
+    @extend .normalFontSize;
+  }
   input::-ms-clear {
     display: none;
   }
@@ -138,7 +201,10 @@ div.expansionPanel div.toggleGroup label.labelPlacementEnd {
 .labelContent {
   display: flex;
   align-items: flex-start;
-  padding: 9px 0 9px 2px;
+  padding: 5px 0;
+  @extend .normalFontSize;
+  font-weight: normal;
+  line-height: 22px;
   .placementLeft {
     flex: 1;
   }
@@ -154,6 +220,7 @@ div.expansionPanel div.toggleGroup label.labelPlacementEnd {
   & > div > div {
     display: block !important;
     line-height: 18px;
+    @extend .normalFontSize;
   }
 }
 
@@ -170,7 +237,8 @@ div.expansionPanel div.toggleGroup label.labelPlacementEnd {
 
 .boxSelectWrapper {
   @extend .forceFullWidth;
-  line-height: 18px;
+  font-size: 14px !important;
+  line-height: 22px;
   display: block !important;
   padding-left: 8px !important;
 }
@@ -181,9 +249,18 @@ div.expansionPanel div.toggleGroup label.labelPlacementEnd {
 
 .lockedIcon {
   color: $locked-color;
-  padding: 8px 0 8px 8px!important;
+  padding: 8px 0 8px 8px !important;
 }
 
 .subPrefixPadding {
-  padding-left: $panel-side-padding + 32px !important;
+  padding-left: $panel-side-padding + 34px !important;
+}
+
+.recurringDescribe {
+  margin: 4px 20px 0 20px!important;
+  font-size: 14px!important;
+  background-color: #f0f1f4;
+  padding: 8px;
+  border-radius: 1px;
+  line-height: 20px!important;
 }

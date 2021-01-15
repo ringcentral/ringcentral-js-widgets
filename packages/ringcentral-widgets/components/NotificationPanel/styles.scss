@@ -11,6 +11,7 @@ $root-zIndex: 100;
   width: 100%;
   height: 0;
   z-index: $root-zIndex;
+  pointer-events: none;
 }
 
 .backdrop {

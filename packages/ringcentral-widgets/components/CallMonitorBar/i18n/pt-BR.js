@@ -7,7 +7,7 @@ export default {
   callOnHold: "{numberOf} chamada em espera",
   callsOnHold: "{numberOf} chamadas em espera",
   otherDeviceCall: "{numberOf} chamada em outros dispositivos",
-  otherDeviceCalls: "{numberOf} chamadas em outros dispositivos"
+  otherDeviceCalls: "{numberOf} cham. em outros disp."
 };
 
 // @key: @#@"currentCall"@#@ @source: @#@"Current Call"@#@

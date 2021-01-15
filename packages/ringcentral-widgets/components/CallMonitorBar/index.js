@@ -80,6 +80,7 @@ export default class CallMonitorBar extends Component {
       shouldDisplayCurrentCallBtn,
       shouldDisplayViewCallsBtn,
       shouldHideRingingCallStatus,
+      clickHeaderTrack,
       useV2,
     } = this.props;
 
@@ -92,6 +93,7 @@ export default class CallMonitorBar extends Component {
         className={styles.bar}
         onMouseOver={this.showBtn}
         onMouseLeave={this.hideBtn}
+        onClick={clickHeaderTrack}
       >
         <div className={styles.box}>
           <CarrouselBar hoverBar={this.state.hoverBar}>
@@ -189,6 +191,7 @@ CallMonitorBar.propTypes = {
   shouldDisplayCurrentCallBtn: PropTypes.bool,
   shouldDisplayViewCallsBtn: PropTypes.bool,
   shouldHideRingingCallStatus: PropTypes.bool,
+  clickHeaderTrack: PropTypes.func,
   useV2: PropTypes.bool,
 };
 CallMonitorBar.defaultProps = {
@@ -201,5 +204,6 @@ CallMonitorBar.defaultProps = {
   shouldDisplayCurrentCallBtn: false,
   shouldDisplayViewCallsBtn: false,
   shouldHideRingingCallStatus: false,
+  clickHeaderTrack() {},
   useV2: false,
 };

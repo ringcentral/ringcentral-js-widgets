@@ -24,8 +24,8 @@ import normalizeNumber from '../../lib/normalizeNumber';
 import {
   matchWephoneSessionWithAcitveCall,
   isCurrentDeviceEndCall,
-  matchTelephonySessionWithActiveCall,
   mapTelephonyStatus,
+  normalizeTelephonySession,
 } from './callMonitorHelper';
 
 import {
@@ -152,7 +152,7 @@ export class CallMonitor extends RcModuleV2<Deps> {
       this,
       () => this.uniqueNumbers,
       (uniqueNumbers, lastProcessedNumbers) => {
-        if (!this._deps.tabManager?.active) return;
+        if (!this.ready || !this._deps.tabManager?.active) return;
         const newNumbers = difference(
           uniqueNumbers,
           lastProcessedNumbers || [],
@@ -170,7 +170,7 @@ export class CallMonitor extends RcModuleV2<Deps> {
       this,
       () => this.sessionIds,
       (sessionIds, lastProcessedIds) => {
-        if (!this._deps.tabManager?.active) return;
+        if (!this.ready || !this._deps.tabManager?.active) return;
         const newSessions = difference(sessionIds, lastProcessedIds || []);
         if (this._deps.activityMatcher && this._deps.activityMatcher.ready) {
           this._deps.activityMatcher.match({
@@ -185,6 +185,7 @@ export class CallMonitor extends RcModuleV2<Deps> {
       this,
       () => this.calls,
       (_, lastProcessedCalls) => {
+        if (!this.ready) return;
         this.handleCalls(lastProcessedCalls?.slice() ?? []);
       },
     );
@@ -489,7 +490,7 @@ export class CallMonitor extends RcModuleV2<Deps> {
         const toName = to?.name;
         const fromName = from?.name;
         const partyId = party?.id;
-        const telephonySession = matchTelephonySessionWithActiveCall(
+        const telephonySession = normalizeTelephonySession(
           currentRcCallSession,
         );
         const telephonyStatus = mapTelephonyStatus(party?.status.code);

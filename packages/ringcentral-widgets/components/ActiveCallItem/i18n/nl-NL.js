@@ -4,14 +4,14 @@ export default {
   editLog: "Log bewerken",
   select: "Selecteer een overeenkomende opname",
   OnHold: "In wacht",
-  Ringing: "Aan het bellen",
+  Ringing: "Gaat over",
   CallConnected: "Oproep verbonden",
   unknownUser: "Onbekende gebruiker",
   unknownNumber: "Anoniem",
   unavailable: "Niet beschikbaar",
   viewDetails: "Details weergeven",
   addEntity: "Nieuw maken",
-  addLog: "Loggen",
+  addLog: "Log",
   text: "Tekstbericht",
   call: "Oproep",
   addContact: "Contactpersoon toevoegen",
@@ -21,8 +21,8 @@ export default {
   from: "Van",
   to: "Aan",
   hangup: "Ophangen",
-  accept: "Accepteren",
-  toVoicemail: "Verzenden naar voicemail",
+  accept: "Beantwoorden",
+  toVoicemail: "Naar voicemail",
   anonymous: "Anoniem",
   mergeToConference: "Samenvoegen",
   hold: "In de wacht zetten",
@@ -33,7 +33,9 @@ export default {
   callSwitch: "Oproep schakelen",
   comfirmContext: "U bent momenteel in een actief gesprek met {displayName}. Wilt u het gesprek voortzetten op dit apparaat?",
   comfirmCancelButton: "Annuleren",
-  comfirmOKButton: "Schakelen"
+  comfirmOKButton: "Schakelen",
+  ignore: "Negeren",
+  holdAndAnswer: "In wacht en beantwoorden"
 };
 
 // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
@@ -58,8 +60,8 @@ export default {
 // @key: @#@"from"@#@ @source: @#@"From"@#@
 // @key: @#@"to"@#@ @source: @#@"To"@#@
 // @key: @#@"hangup"@#@ @source: @#@"Hang up"@#@
-// @key: @#@"accept"@#@ @source: @#@"Accept"@#@
-// @key: @#@"toVoicemail"@#@ @source: @#@"Send to Voicemail"@#@
+// @key: @#@"accept"@#@ @source: @#@"Answer"@#@
+// @key: @#@"toVoicemail"@#@ @source: @#@"To Voicemail"@#@
 // @key: @#@"anonymous"@#@ @source: @#@"Anonymous"@#@
 // @key: @#@"mergeToConference"@#@ @source: @#@"Merge"@#@
 // @key: @#@"hold"@#@ @source: @#@"Hold"@#@
@@ -71,3 +73,5 @@ export default {
 // @key: @#@"comfirmContext"@#@ @source: @#@"You're currently on an active call with {displayName}. Would you like to continue the call on this device?"@#@
 // @key: @#@"comfirmCancelButton"@#@ @source: @#@"Cancel"@#@
 // @key: @#@"comfirmOKButton"@#@ @source: @#@"Switch"@#@
+// @key: @#@"ignore"@#@ @source: @#@"Ignore"@#@
+// @key: @#@"holdAndAnswer"@#@ @source: @#@"Hold & Answer"@#@

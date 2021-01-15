@@ -6,7 +6,6 @@ import { RingCentralClient } from 'ringcentral-integration/lib/RingCentralClient
 import { ModuleFactory } from 'ringcentral-integration/lib/di';
 import RcModule from 'ringcentral-integration/lib/RcModule';
 
-import { phoneSources } from 'ringcentral-integration/enums/phoneSources';
 import callDirections from 'ringcentral-integration/enums/callDirections';
 import { callingOptions } from 'ringcentral-integration/modules/CallingSettingsV2/callingOptions';
 import { AccountContacts } from 'ringcentral-integration/modules/AccountContactsV2';
@@ -16,7 +15,6 @@ import { Alert } from 'ringcentral-integration/modules/AlertV2';
 import { Brand } from 'ringcentral-integration/modules/BrandV2';
 import CallCtrlUI from 'ringcentral-widgets/modules/CallCtrlUI';
 import { Contacts } from 'ringcentral-integration/modules/ContactsV2';
-import { ContactList } from 'ringcentral-integration/modules/ContactList';
 import { ConnectivityMonitor } from 'ringcentral-integration/modules/ConnectivityMonitorV2';
 import { DialingPlan } from 'ringcentral-integration/modules/DialingPlanV2';
 import { ExtensionDevice } from 'ringcentral-integration/modules/ExtensionDeviceV2';
@@ -34,25 +32,25 @@ import { Softphone } from 'ringcentral-integration/modules/SoftphoneV2';
 import { Storage } from 'ringcentral-integration/modules/StorageV2';
 import { Subscription } from 'ringcentral-integration/modules/SubscriptionV2';
 import { TabManager } from 'ringcentral-integration/modules/TabManagerV2';
-import NumberValidate from 'ringcentral-integration/modules/NumberValidate';
+import { NumberValidate } from 'ringcentral-integration/modules/NumberValidateV2';
 import MessageStore from 'ringcentral-integration/modules/MessageStore';
 import { ContactSearch } from 'ringcentral-integration/modules/ContactSearchV2';
 import { DateTimeFormat } from 'ringcentral-integration/modules/DateTimeFormatV2';
 import Conference from 'ringcentral-integration/modules/Conference';
 import ConferenceCall from 'ringcentral-integration/modules/ConferenceCall';
 import { QuickAccess } from 'ringcentral-integration/modules/QuickAccessV2';
-import CallLog from 'ringcentral-integration/modules/CallLog';
+import { CallLog } from 'ringcentral-integration/modules/CallLogV2';
 import { CallMonitor } from 'ringcentral-integration/modules/CallMonitorV2';
-import CallHistory from 'ringcentral-integration/modules/CallHistory';
+import { CallHistory } from 'ringcentral-integration/modules/CallHistoryV2';
 import RecentMessages from 'ringcentral-integration/modules/RecentMessages';
-import RecentCalls from 'ringcentral-integration/modules/RecentCalls';
+import { RecentCalls } from 'ringcentral-integration/modules/RecentCallsV2';
 import { AudioSettings } from 'ringcentral-integration/modules/AudioSettingsV2';
 import Meeting from 'ringcentral-integration/modules/Meeting';
 import { LocaleSettings } from 'ringcentral-integration/modules/LocaleSettingsV2';
 import { ContactMatcher } from 'ringcentral-integration/modules/ContactMatcherV2';
 import { Analytics } from 'ringcentral-integration/modules/Analytics';
-import Feedback from 'ringcentral-integration/modules/Feedback';
-import UserGuide from 'ringcentral-integration/modules/UserGuide';
+import { Feedback } from 'ringcentral-integration/modules/FeedbackV2';
+import { UserGuide } from 'ringcentral-integration/modules/UserGuideV2';
 import { SleepDetector } from 'ringcentral-integration/modules/SleepDetectorV2';
 
 import RouterInteraction from 'ringcentral-widgets/modules/RouterInteraction';
@@ -77,7 +75,7 @@ import hasActiveCalls from 'ringcentral-widgets/lib/hasActiveCalls';
 import ringoutStatus from 'ringcentral-integration/modules/Ringout/ringoutStatus';
 import softphoneStatus from 'ringcentral-integration/modules/Softphone/softphoneStatus';
 import { callingModes } from 'ringcentral-integration/modules/CallingSettingsV2/callingModes';
-import AvailabilityMonitor from 'ringcentral-integration/modules/AvailabilityMonitor';
+import { AvailabilityMonitor } from 'ringcentral-integration/modules/AvailabilityMonitorV2';
 import ActiveCallsUI from 'ringcentral-widgets/modules/ActiveCallsUI';
 import SettingsUI from 'ringcentral-widgets/modules/SettingsUI';
 import ComposeTextUI from 'ringcentral-widgets/modules/ComposeTextUI';
@@ -106,6 +104,7 @@ import { Presence } from 'ringcentral-integration/modules/PresenceV2';
 import { ActiveCalls } from 'ringcentral-integration/modules/ActiveCallsV2';
 import { VideoConfiguration } from 'ringcentral-integration/modules/VideoConfiguration';
 import { Conversations } from 'ringcentral-integration/modules/ConversationsV2';
+import { ModalUI } from 'ringcentral-widgets/modules/ModalUIV2';
 
 const history =
   global.process &&
@@ -131,6 +130,7 @@ const history =
     { provide: 'OAuth', useClass: OAuth },
     { provide: 'SleepDetector', useClass: SleepDetector },
     { provide: 'DataFetcherV2', useClass: DataFetcherV2 },
+    { provide: 'ModalUI', useClass: ModalUI },
     // {
     //   provide: 'OAuthOptions',
     //   useValue: {
@@ -185,7 +185,6 @@ const history =
     { provide: 'AccountContacts', useClass: AccountContacts },
     { provide: 'AddressBook', useClass: AddressBook },
     { provide: 'Contacts', useClass: Contacts },
-    { provide: 'ContactList', useClass: ContactList },
     { provide: 'QuickAccess', useClass: QuickAccess },
     {
       provide: 'ContactSources',
@@ -262,7 +261,6 @@ const history =
       useValue: {
         enabled: true,
       },
-      spread: true,
     },
     {
       provide: 'EnvironmentOptions',
@@ -476,36 +474,35 @@ export default class BasePhone extends RcModule {
     this._softphoneConnectTime = null;
     this._softphoneConnectNumber = null;
 
-    callMonitor.onCallRinging = (call) => {
-      // auto nav rules
-      if (
-        callingSettings.callingMode !== callingModes.webphone && // not webRTC mode
-        routerInteraction.currentPath === '/dialer' &&
-        // for ringout
-        (ringout.ringoutStatus === ringoutStatus.connecting ||
-          // for softphone
-          (this._softphoneConnectTime &&
-            call &&
-            call.to &&
-            new Date() - this._softphoneConnectTime < 1 * 60 * 1000 && // in 1 minute
-            this._normalizeNumber(call.to.phoneNumber) ===
-              this._normalizeNumber(this._softphoneConnectNumber)))
-      ) {
-        routerInteraction.push('/calls');
-        this._softphoneConnectTime = null;
-        this._softphoneConnectNumber = null;
-      }
-    };
-
-    const phone = this;
-    callMonitor.onCallEnded = () => {
-      if (
-        routerInteraction.currentPath === '/calls' &&
-        !hasActiveCalls(phone)
-      ) {
-        routerInteraction.replace('/dialer');
-      }
-    };
+    callMonitor
+      .onCallRinging((call) => {
+        // auto nav rules
+        if (
+          callingSettings.callingMode !== callingModes.webphone && // not webRTC mode
+          routerInteraction.currentPath === '/dialer' &&
+          // for ringout
+          (ringout.ringoutStatus === ringoutStatus.connecting ||
+            // for softphone
+            (this._softphoneConnectTime &&
+              call &&
+              call.to &&
+              new Date() - this._softphoneConnectTime < 1 * 60 * 1000 && // in 1 minute
+              this._normalizeNumber(call.to.phoneNumber) ===
+                this._normalizeNumber(this._softphoneConnectNumber)))
+        ) {
+          routerInteraction.push('/calls');
+          this._softphoneConnectTime = null;
+          this._softphoneConnectNumber = null;
+        }
+      })
+      .onCallEnded(() => {
+        if (
+          routerInteraction.currentPath === '/calls' &&
+          !hasActiveCalls(this)
+        ) {
+          routerInteraction.replace('/dialer');
+        }
+      });
   }
 
   _normalizeNumber(phoneNumber) {

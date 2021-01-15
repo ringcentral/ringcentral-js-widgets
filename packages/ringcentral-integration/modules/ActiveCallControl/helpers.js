@@ -1,4 +1,4 @@
-import recordStatus from '../../modules/Webphone/recordStatus';
+import recordStatus from '../Webphone/recordStatus';
 import callResults from '../../enums/callResults';
 import callDirections from '../../enums/callDirections';
 import activeCallControlStatus from '../../enums/activeCallControlStatus';
@@ -23,7 +23,7 @@ export function isOnRecording(recordings) {
 
 export function getSessionsParty(session) {
   const extensionId = session.extensionId;
-  return session.parties.find(p => {
+  return session.parties.find((p) => {
     return p.extensionId === extensionId;
   });
 }

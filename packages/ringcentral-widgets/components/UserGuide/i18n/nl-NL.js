@@ -1,5 +1,5 @@
 export default {
-  start: "Een korte rondleiding nemen",
+  start: "Een korte rondleiding",
   skip: "Overslaan",
   next: "Volgende",
   finish: "Voltooien"

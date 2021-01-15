@@ -70,6 +70,7 @@ const Name: FunctionComponent<NameProps> = ({ presence, inactive, name }) => {
         inactive && styles.inactiveText,
       )}
       title={name}
+      data-sign="contactName"
     >
       {name}
     </div>

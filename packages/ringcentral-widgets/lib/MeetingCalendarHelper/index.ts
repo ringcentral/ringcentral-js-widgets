@@ -1,37 +1,72 @@
 import formatMessage from 'format-message';
-import i18n from './i18n';
-import {
-  RcmMainParams,
-  RcvMainParams,
-  CommonBrand,
-  TplResult,
-  FormatToHtmlOptions,
-} from './index.interface';
+import { RcVDialInNumberObj } from 'ringcentral-integration/interfaces/Rcv.model';
+
 import {
   MEETING_URI_REGEXP,
   rcvAttTeleconference,
   rcvTeleconference,
 } from './config';
+import { formatMeetingId } from './formatMeetingId';
+import i18n from './i18n';
+import {
+  CommonBrand,
+  FormatToHtmlOptions,
+  RcmMainParams,
+  RcvMainParams,
+  TplResult,
+} from './index.interface';
 
-function f1(str: string): Array<string> {
-  if (str.length > 8 || str.length % 3 !== 2) {
-    return [str.slice(0, 3), str.slice(3)];
-  }
-  return [str.slice(0, 4), str.slice(4)];
-}
-
-export function formatMeetingId(str: string, delimeter: string = ' '): string {
-  if (!str) {
+function formatSmartphones(
+  dialInNumber: string | RcVDialInNumberObj[],
+  pinNumber: string,
+  showMeetingPasswordPSTN: boolean,
+  meetingPasswordPSTN: string,
+) {
+  if (!dialInNumber || dialInNumber.length === 0) {
     return '';
   }
-  const [current, nextSlices] = f1(str);
-  if (!nextSlices) {
-    return current;
+
+  if (typeof dialInNumber === 'string') {
+    return `${dialInNumber},,${pinNumber}#${
+      showMeetingPasswordPSTN ? `,,${meetingPasswordPSTN}#` : ''
+    }`;
   }
-  if (nextSlices.length === 1) {
-    return `${current}${nextSlices}`;
+
+  return dialInNumber
+    .map((obj) => {
+      const passwordField = showMeetingPasswordPSTN
+        ? `,,${meetingPasswordPSTN}#`
+        : '';
+
+      const locationField =
+        obj?.country?.name && obj.location
+          ? `${obj.country.name} (${obj.location})`
+          : obj?.country?.name || '';
+
+      return `${obj.phoneNumber},,${pinNumber}#${passwordField} ${locationField}`;
+    })
+    .join('\n\t');
+}
+
+function formatDialInNumber(dialInNumber: string | RcVDialInNumberObj[]) {
+  if (!dialInNumber || dialInNumber.length === 0) {
+    return '';
   }
-  return `${current}${delimeter}${formatMeetingId(nextSlices, delimeter)}`;
+
+  if (typeof dialInNumber === 'string') {
+    return dialInNumber;
+  }
+
+  return dialInNumber
+    .map((obj) => {
+      const locationField =
+        obj?.country?.name && obj.location
+          ? `${obj.country.name} (${obj.location})`
+          : obj?.country?.name || '';
+
+      return `${obj.phoneNumber} ${locationField}`;
+    })
+    .join('\n\t');
 }
 
 function getPasswordTpl(
@@ -191,7 +226,7 @@ function getBaseRcvTpl(
   const pinNumber = meeting.shortId;
   let productName;
   const meetingContent: Array<string> = [];
-  const showMeetingPasswordPSTN = isMeetingSecret && meetingPasswordPSTN;
+  const showMeetingPasswordPSTN = !!(isMeetingSecret && meetingPasswordPSTN);
 
   if (brand.name === 'RingCentral') {
     productName = 'RingCentral Video';
@@ -204,9 +239,17 @@ function getBaseRcvTpl(
       i18n.getString('rcvInviteMeetingContent', currentLocale),
     );
   }
-  if (dialInNumber) {
+  if (dialInNumber && dialInNumber.length > 0) {
+    /* TODO: after get the translation, remove rcvInviteMeetingContentDial
+     * rcvInviteMeetingContentCountryDial is the correct one
+     */
     meetingContent.push(
-      i18n.getString('rcvInviteMeetingContentDial', currentLocale),
+      i18n.getString(
+        typeof dialInNumber === 'string'
+          ? 'rcvInviteMeetingContentDial'
+          : 'rcvInviteMeetingContentCountryDial',
+        currentLocale,
+      ),
     );
     if (showMeetingPasswordPSTN) {
       meetingContent.push(
@@ -228,10 +271,13 @@ function getBaseRcvTpl(
     brandName,
     joinUri,
     passwordTpl,
-    smartphones: `${dialInNumber},,${pinNumber}#${
-      showMeetingPasswordPSTN ? `,,${meetingPasswordPSTN}#` : ''
-    }`,
-    dialNumber: dialInNumber,
+    smartphones: formatSmartphones(
+      dialInNumber,
+      pinNumber,
+      showMeetingPasswordPSTN,
+      meetingPasswordPSTN,
+    ),
+    dialNumber: formatDialInNumber(dialInNumber),
     pinNumber: formatMeetingId(pinNumber),
     teleconference,
     productName,
@@ -286,3 +332,5 @@ export function getMeetingId(meetingUri: string): string {
 
   return null;
 }
+
+export { formatMeetingId };

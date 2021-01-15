@@ -21,6 +21,9 @@ import {
 } from './mockData';
 
 const mockDeps = {
+  locale: {
+    currentLocale: 'en-US',
+  },
   brand: {
     code: 'rc',
   },
@@ -173,7 +176,8 @@ export class GeneralDefaultSettingsWhenEnableSWOff extends Step {
             expect(context.instance.showSaveAsDefault).toEqual(
               context.example.showSaveAsDefault,
             );
-            expect(context.instance.generalDefaultSettings).toEqual(
+            const generalDefaultSettings = context.instance.getGeneralDefaultSettings();
+            expect(generalDefaultSettings).toEqual(
               context.instance.showSaveAsDefault
                 ? EXPECT_SAVE_AS_DEFAULT_SETTING
                 : EXPECT_LAST_MEETING_SETTING,
@@ -365,11 +369,12 @@ export class GeneralDefaultSettingsWhenEnableSWOn extends Step {
             expect(context.instance.enablePersonalMeeting).toEqual(false);
             expect(context.instance.enableServiceWebSettings).toEqual(true);
 
+            const generalDefaultSettings = context.instance.getGeneralDefaultSettings();
             const {
               password,
               _requireMeetingPassword,
               ...rest
-            } = context.instance.generalDefaultSettings;
+            } = generalDefaultSettings;
             const {
               password: password2,
               _requireMeetingPassword: _requireMeetingPassword2,
@@ -556,10 +561,8 @@ export class GeneralDefaultSettingsLockDataWhenEnableSWOn extends Step {
           action={(_: any, context: any) => {
             expect(context.instance.enablePersonalMeeting).toEqual(false);
             expect(context.instance.enableServiceWebSettings).toEqual(true);
-            expect(
-              context.instance.generalDefaultSettings
-                ._lockRequireMeetingPassword,
-            ).toEqual(
+            const generalDefaultSettings = context.instance.getGeneralDefaultSettings();
+            expect(generalDefaultSettings._lockRequireMeetingPassword).toEqual(
               context.example.lockedRequirePasswordForSchedulingNewMeetings,
             );
           }}

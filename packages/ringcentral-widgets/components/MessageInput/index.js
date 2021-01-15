@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import React, { Component } from 'react';
-import attachmentSvg from '@ringcentral/juno/icons/icon-attachment.svg';
-import removeSvg from '@ringcentral/juno/icons/icon-close.svg';
+import attachmentSvg from '@ringcentral/juno/icon/Attachment';
+import removeSvg from '@ringcentral/juno/icon/Close';
 import { RcIconButton } from '@ringcentral/juno';
 import { debounce } from 'ringcentral-integration/lib/debounce-throttle/debounce';
 

@@ -5,9 +5,13 @@ import DropdownSelect from '../DropdownSelect';
 import styles from './styles.scss';
 
 import i18n from './i18n';
-import map from 'ramda/es/map';
 
-function PhoneNumber({ formatPhone, usageType, currentLocale, phoneNumber }) {
+const PhoneNumber = ({
+  formatPhone,
+  usageType,
+  currentLocale,
+  phoneNumber,
+}) => {
   const usageTypeDom = usageType ? (
     <span className={styles.usageType}>
       {i18n.getString(usageType, currentLocale)}
@@ -42,6 +46,7 @@ const FromField = memo(function FromField({
   onChange,
   formatPhone,
   hidden,
+  disabled,
   showAnonymous,
   currentLocale,
 }) {
@@ -62,6 +67,7 @@ const FromField = memo(function FromField({
       label={`${i18n.getString('from', currentLocale)}:`}
       onChange={onChange}
       options={options}
+      disabled={disabled}
       renderValue={(value) => {
         if (value === 'anonymous') {
           return <span>{i18n.getString('Blocked', currentLocale)}</span>;
@@ -106,12 +112,14 @@ FromField.propTypes = {
   hidden: PropTypes.bool.isRequired,
   showAnonymous: PropTypes.bool,
   className: PropTypes.string,
+  disabled: PropTypes.bool,
 };
 
 FromField.defaultProps = {
   fromNumber: null,
   className: undefined,
   showAnonymous: true,
+  disabled: false,
 };
 
 export default FromField;

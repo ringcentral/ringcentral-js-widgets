@@ -3,8 +3,10 @@ import format, {
 } from '@ringcentral-integration/phone-number/lib/format';
 import { pick } from 'ramda';
 
+import formatMessage from 'format-message';
 import { RcMMeetingModel } from '../modules/MeetingV2/Meeting.interface';
 import { MeetingType, MeetingTypeV } from './meetingHelper.interface';
+import i18n from '../modules/MeetingV2/i18n';
 
 function getMobileDialingNumberTpl(dialInNumbers, meetingId) {
   return dialInNumbers
@@ -45,9 +47,14 @@ function getMeetingSettings({
   startTime,
   durationInMinutes = 60,
   topic = '',
+  currentLocale = 'en-US',
 }) {
   return {
-    topic: topic || `${extensionName}'s Meeting`,
+    topic:
+      topic ||
+      formatMessage(i18n.getString('meetingTitle', currentLocale), {
+        extensionName,
+      }),
     meetingType: MeetingType.SCHEDULED,
     password: '',
     schedule: {
@@ -70,11 +77,14 @@ function getMeetingSettings({
 // Basic default meeting type information
 function getDefaultMeetingSettings(
   extensionName: string,
+  currentLocale: string = 'en-US',
   startTime: number,
   hostId?: string,
 ): RcMMeetingModel {
   return {
-    topic: `${extensionName}'s Meeting`,
+    topic: formatMessage(i18n.getString('meetingTitle', currentLocale), {
+      extensionName,
+    }),
     meetingType: MeetingType.SCHEDULED,
     password: '',
     schedule: {
@@ -140,6 +150,25 @@ function generateRandomPassword(length: number = 6): string {
   return retVal;
 }
 
+// only update the date part (container year, month, day)
+function updateFullYear(preTime: Date, currTime: Date): number {
+  const y = currTime.getFullYear();
+  const m = currTime.getMonth();
+  const d = currTime.getDate();
+  return preTime.setFullYear(y, m, d);
+}
+
+// only update the time part (container hour, minute, second)
+function updateFullTime(preTime: Date, currTime: Date | number): Date {
+  const newTime = new Date(currTime);
+  preTime.setHours(newTime.getHours());
+  preTime.setMinutes(newTime.getMinutes());
+  preTime.setSeconds(newTime.getSeconds());
+  return preTime;
+}
+
+// TODO: will remove this when google app script could support export seperately
+// export together because google app script not fully support export
 export {
   getMobileDialingNumberTpl,
   getPhoneDialingNumberTpl,
@@ -152,4 +181,6 @@ export {
   comparePreferences,
   isRecurringMeeting,
   generateRandomPassword,
+  updateFullYear,
+  updateFullTime,
 };

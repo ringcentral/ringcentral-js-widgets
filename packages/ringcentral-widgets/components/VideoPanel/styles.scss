@@ -1,10 +1,13 @@
 @import '../../lib/commonStyles/colors';
 @import '../../lib/commonStyles/buttons';
 @import '../../lib/commonStyles/fonts';
+@import '../../lib/commonStyles/variable';
 
 $content-padding: 20px;
 $content-bottom: 16px;
 $row-space: 10px;
+$checkbox-right-margin: 4px;
+$security-margin: 8px;
 
 .videoPanel {
   display: flex;
@@ -27,10 +30,13 @@ $row-space: 10px;
 
 .meetingSection {
   padding: 0 $content-padding;
+  input {
+    @extend .normalFontSize;
+  }
 }
 
 .noBottomMargin {
-  margin-bottom: 0px !important;
+  margin-bottom: 8px !important;
 }
 
 .select {
@@ -42,11 +48,19 @@ $hour-minute-space: 12px;
 .hourDuration {
   display: inline-flex;
   width: calc(50% - #{$hour-minute-space / 2});
+
+  div[class*='selectMenu'] {
+    @extend .normalFontSize;
+  }
 }
 .minuteDuration {
   display: inline-flex;
   width: calc(50% - #{$hour-minute-space / 2});
   margin-left: $hour-minute-space;
+
+  div[class*='selectMenu'] {
+    @extend .normalFontSize;
+  }
 }
 
 .pmiLabel {
@@ -54,16 +68,26 @@ $hour-minute-space: 12px;
   flex-wrap: wrap;
 }
 
+.normalFontSize {
+  font-size: $primary-font-size !important;
+}
+
+.normalLabel {
+  @extend .normalFontSize;
+  font-weight: normal;
+  line-height: 22px;
+  padding: 5px 0;
+}
+
 label.labelPlacementStartRoot {
   margin: 0;
-  padding: $row-space/2 $content-padding/2 $row-space/2 $content-padding;
+  padding: 0 ($content-padding/2 - $checkbox-right-margin) 0 $content-padding;
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
 
   .labelText {
-    line-height: 22px;
-    padding: 9px 0;
+    @extend .normalLabel;
   }
 }
 
@@ -74,11 +98,10 @@ label.labelPlacementEndRoot {
   align-items: flex-start;
 
   .labelText {
+    @extend .normalLabel;
     width: 100%;
-    padding: 9px 0;
     display: flex;
     justify-content: space-between;
-    line-height: 22px;
   }
 }
 
@@ -88,8 +111,7 @@ label.labelPlacementEndRoot {
 }
 
 .passwordInput {
-  padding: 0 $content-padding !important;
-
+  padding: 4px $content-padding 8px !important;
   .passwordLabel {
     font-weight: 700 !important;
     font-size: 12px !important;
@@ -97,16 +119,20 @@ label.labelPlacementEndRoot {
   }
 
   input {
-    font-size: 15px !important;
+    // TODO: will remove it after Juno updated
+    &[class*="Mui-disabled"] {
+      -webkit-text-fill-color: rc-palette(text, 'disabled');
+    }
+    @extend .normalFontSize;
   }
 }
 
 .subPrefixPadding {
-  padding-left: $content-padding + 32px !important;
+  padding-left: $content-padding + 34px !important;
 }
 
 .boxSelectWrapper {
-  padding: 0 $content-padding 4px;
+  padding: 4px $content-padding 8px;
   box-sizing: border-box;
   width: 100%;
 }
@@ -116,18 +142,20 @@ label.labelPlacementEndRoot {
 
   & > div > div {
     display: block !important;
+    @extend .normalFontSize;
   }
 }
 
 .boxSelectMenuItem {
   display: block !important;
+  line-height: 22px;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
 
 .checkboxSeparate {
-  margin-left: 8px;
+  margin: -4px 0 -4px 10px;
 }
 
 .iconCombine {
@@ -154,8 +182,14 @@ $win-scroll-bar-width: 17px;
 
 .lockButton {
   color: #6c7489; // need to migrate using juno token "$color-icon-default"
+  padding-top: 2px;
 }
 
 .pmiAlertContainer {
   margin: 0 $content-padding;
+  padding: 8px !important;
+}
+
+.extraSecurityMargin {
+  margin-bottom: $security-margin;
 }

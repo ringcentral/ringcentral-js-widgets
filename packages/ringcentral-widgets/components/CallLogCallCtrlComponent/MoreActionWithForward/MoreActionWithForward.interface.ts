@@ -4,4 +4,5 @@ export interface MoreActionWithForwardProps {
   forwardingNumbers: object[];
   forward: (forwardNumber: string) => Promise<void>;
   ignore: () => Promise<void>;
+  clickForwardTrack: () => any;
 }

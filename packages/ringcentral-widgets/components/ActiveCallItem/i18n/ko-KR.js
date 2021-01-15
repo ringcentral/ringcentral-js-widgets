@@ -21,7 +21,7 @@ export default {
   from: "발신자",
   to: "수신자",
   hangup: "전화 끊기",
-  accept: "동의",
+  accept: "응답",
   toVoicemail: "음성 사서함에 보내기",
   anonymous: "익명",
   mergeToConference: "병합",
@@ -33,7 +33,9 @@ export default {
   callSwitch: "통화 넘기기",
   comfirmContext: "현재 {displayName}님과 통화 중입니다. 이 디바이스에서 통화를 계속하시겠습니까?",
   comfirmCancelButton: "취소",
-  comfirmOKButton: "전환"
+  comfirmOKButton: "전환",
+  ignore: "무시",
+  holdAndAnswer: "대기 후 응답"
 };
 
 // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
@@ -58,8 +60,8 @@ export default {
 // @key: @#@"from"@#@ @source: @#@"From"@#@
 // @key: @#@"to"@#@ @source: @#@"To"@#@
 // @key: @#@"hangup"@#@ @source: @#@"Hang up"@#@
-// @key: @#@"accept"@#@ @source: @#@"Accept"@#@
-// @key: @#@"toVoicemail"@#@ @source: @#@"Send to Voicemail"@#@
+// @key: @#@"accept"@#@ @source: @#@"Answer"@#@
+// @key: @#@"toVoicemail"@#@ @source: @#@"To Voicemail"@#@
 // @key: @#@"anonymous"@#@ @source: @#@"Anonymous"@#@
 // @key: @#@"mergeToConference"@#@ @source: @#@"Merge"@#@
 // @key: @#@"hold"@#@ @source: @#@"Hold"@#@
@@ -71,3 +73,5 @@ export default {
 // @key: @#@"comfirmContext"@#@ @source: @#@"You're currently on an active call with {displayName}. Would you like to continue the call on this device?"@#@
 // @key: @#@"comfirmCancelButton"@#@ @source: @#@"Cancel"@#@
 // @key: @#@"comfirmOKButton"@#@ @source: @#@"Switch"@#@
+// @key: @#@"ignore"@#@ @source: @#@"Ignore"@#@
+// @key: @#@"holdAndAnswer"@#@ @source: @#@"Hold & Answer"@#@

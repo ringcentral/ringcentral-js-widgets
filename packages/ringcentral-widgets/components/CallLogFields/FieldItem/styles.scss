@@ -5,3 +5,10 @@
 .row {
   padding: 10px 0 6px 0;
 }
+
+.row {
+  .ticketSelectList.tickets.selectList{
+     width: calc(100% - 31px);
+     margin-left: 31px;
+  }
+}

@@ -21,7 +21,6 @@ const LoginStatusChangeEvent = 'loginStatusChange';
   deps: [
     'Client',
     'Alert',
-    'Brand',
     'Locale',
     { dep: 'TabManager', optional: true },
     { dep: 'Environment', optional: true },
@@ -31,7 +30,6 @@ const LoginStatusChangeEvent = 'loginStatusChange';
 export default class Auth extends RcModule {
   _client: any;
   _alert: any;
-  _brand: any;
   _locale: any;
   _tabManager: any;
   _environment: any;
@@ -61,7 +59,6 @@ export default class Auth extends RcModule {
   constructor({
     client,
     alert,
-    brand,
     locale,
     tabManager,
     environment,
@@ -74,7 +71,6 @@ export default class Auth extends RcModule {
     });
     this._client = ensureExist(client, 'client');
     this._alert = ensureExist(alert, 'alert');
-    this._brand = ensureExist(brand, 'brand');
     this._locale = ensureExist(locale, 'locale');
     this._tabManager = tabManager;
     this._environment = environment;
@@ -362,6 +358,9 @@ export default class Auth extends RcModule {
     brandId,
     display,
     prompt,
+    uiOptions,
+    uiLocales,
+    localeId,
     force,
     implicit = false,
   }) {
@@ -375,9 +374,12 @@ export default class Auth extends RcModule {
       brandId,
       display,
       prompt,
+      uiOptions,
+      uiLocales,
+      localeId,
       implicit,
       usePKCE: this.usePKCE,
-    })}${force ? '&force' : ''}`;
+    })}${force ? '&force=true' : ''}`;
   }
 
   /**

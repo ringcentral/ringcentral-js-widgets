@@ -11,7 +11,7 @@ import AnswerIcon from '../../assets/images/Answer.svg';
 
 import styles from './styles.scss';
 
-function DialerPanel({
+const DialerPanel = ({
   currentLocale,
   callButtonDisabled,
   className,
@@ -40,12 +40,13 @@ function DialerPanel({
   recipientsContactPhoneRenderer,
   autoFocus,
   showFromField = true,
+  disableFromField = false,
   children,
   withTabs,
   inConference,
   isLastInputFromDialpad,
   useV2,
-}) {
+}) => {
   const inputEl = useRef(null);
   useEffect(() => {
     if (useV2 && autoFocus && inputEl.current) {
@@ -115,6 +116,7 @@ function DialerPanel({
             formatPhone={formatPhone}
             currentLocale={currentLocale}
             hidden={!isWebphoneMode}
+            disabled={disableFromField}
           />
         </div>
       ) : null}
@@ -207,6 +209,7 @@ DialerPanel.propTypes = {
   recipientsContactPhoneRenderer: PropTypes.func,
   autoFocus: PropTypes.bool,
   showFromField: PropTypes.bool,
+  disableFromField: PropTypes.bool,
   children: PropTypes.node,
   withTabs: PropTypes.bool,
   inConference: PropTypes.bool,
@@ -235,6 +238,7 @@ DialerPanel.defaultProps = {
   recipientsContactPhoneRenderer: undefined,
   autoFocus: false,
   showFromField: true,
+  disableFromField: false,
   children: undefined,
   withTabs: false,
   inConference: false,

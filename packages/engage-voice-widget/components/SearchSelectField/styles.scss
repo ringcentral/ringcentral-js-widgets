@@ -5,3 +5,27 @@
   height: calc(100% - #{$working-state-height});
   top: $working-state-height;
 }
+
+
+// TODO： remove SearchSelectField, just use SelectList component, so need not abstract this style
+.noResult {
+  @include pageSpace();
+  font-size: 14px !important;
+
+  word-break: break-all;
+
+  color: rgb(158, 158, 158);
+  line-height: 22px;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+
+  [sf-classic] & {
+    font-size: 12px !important;
+    line-height: 16px;
+    height: 32px;
+  }
+}

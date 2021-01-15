@@ -3,7 +3,7 @@ export default {
   save: "Salvar e novo",
   discard: "Descartar e novo",
   hangup: "Desligar",
-  reject: "Para caixa postal"
+  reject: "P/ caixa postal"
 };
 
 // @key: @#@"log"@#@ @source: @#@"Log"@#@

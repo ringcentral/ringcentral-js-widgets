@@ -6,4 +6,5 @@ export default {
   [connectivityTypes.offline]: 'Offline',
   [connectivityTypes.voipOnly]: 'VoIP Only',
   [connectivityTypes.survival]: 'Limited Mode',
+  [connectivityTypes.connecting]: 'Connecting'
 }

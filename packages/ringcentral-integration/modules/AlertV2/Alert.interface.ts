@@ -18,6 +18,10 @@ export interface AlertOptions {
    * enable tab sync for alert
    */
   enableTabSync?: boolean;
+  /**
+   * action template(right area) with new notification
+   */
+  action?: React.ReactNode;
 }
 
 export type AlertLevel = {};

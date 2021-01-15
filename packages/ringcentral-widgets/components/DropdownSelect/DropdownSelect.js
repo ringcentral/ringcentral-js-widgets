@@ -78,7 +78,8 @@ class DropdownSelect extends Component {
       return;
     }
 
-    onToggle(!this.state.open);
+    const { open: isPrevOpen } = this.state;
+    onToggle && onToggle(!isPrevOpen);
 
     this.setState((preState) => ({
       open: !preState.open,
@@ -253,6 +254,7 @@ class DropdownSelect extends Component {
             value === currentValue ? styles.selected : null,
           );
           const display = this.renderFunction(option, idx);
+          const isOptionDisabled = option?.disabled ?? false;
           return (
             <li
               data-sign="selectMenuItem"
@@ -266,7 +268,11 @@ class DropdownSelect extends Component {
               )}
               value={currentValue}
               title={this.renderTitle(option, option.value || display)}
-              onClick={(e) => this.onChange(e, option, idx)}
+              onClick={(e) => {
+                if (!isOptionDisabled) {
+                  this.onChange(e, option, idx);
+                }
+              }}
             >
               {display}
             </li>

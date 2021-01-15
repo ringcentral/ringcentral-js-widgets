@@ -110,14 +110,9 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
       showSmallCallControl,
     } = this.props;
     const { call } = currentLog;
-    const { result, telephonySessionId, webphoneSession } = call;
+    const { telephonySessionId, webphoneSession } = call;
     const isCurrentDeviceCall = !!webphoneSession;
-    // if `result` is exist, call has been disconnect
-    // 'showSmallCallControl || isActive' can be replaced with 'showSmallCallControl'
-    // which include showSmallCallControl permission and isActive judgement(eg: canShowSmallCallControl && isActive) on UI module in the future
-    // Then we can remove the logic from component to UI module like 'engage-voice-widget/modules/EvActivityCallUI/EvActivityCallUI'
-    const isActive = !result;
-    if (showSmallCallControl || isActive) {
+    if (showSmallCallControl) {
       return (
         <div
           ref={callLogCallControlRef}
@@ -146,7 +141,6 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
       additionalInfo,
       subjectDropdownsTracker,
       contactSearch,
-      onBackClick,
       showFoundFromServer,
       appName,
       isSearching,
@@ -161,7 +155,6 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
       additionalInfo,
       subjectDropdownsTracker,
       contactSearch,
-      onBackClick,
       showFoundFromServer,
       appName,
       isSearching,
@@ -246,6 +239,7 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
       toVoicemail,
       forwardingNumbers,
       answer,
+      clickForwardTrack,
     } = this.props;
     const { showNotification, call, logName } = logNotification;
     if (!showNotification) {
@@ -270,6 +264,7 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
           forwardingNumbers={forwardingNumbers}
           hasActiveSession={!!activeSession}
           answer={answer}
+          clickForwardTrack={clickForwardTrack}
         />
       );
     }
@@ -326,6 +321,7 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
       header,
       isInTransferPage,
       isWide,
+      children,
     } = this.props;
     if (!currentIdentify || isInTransferPage) return null;
     // console.log(this.props.currentLog);
@@ -350,6 +346,7 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
           />
         )}
         {this.renderLogSection()}
+        {children}
       </div>
     );
   }

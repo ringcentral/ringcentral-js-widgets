@@ -21,8 +21,8 @@ export default {
   from: "自",
   to: "至",
   hangup: "挂断",
-  accept: "接受",
-  toVoicemail: "发送到语音信箱",
+  accept: "接听",
+  toVoicemail: "转语音邮件",
   anonymous: "匿名",
   mergeToConference: "合并",
   hold: "保持",
@@ -31,9 +31,11 @@ export default {
   reject: "拒绝",
   switchCall: "将呼叫切换到此应用",
   callSwitch: "呼叫切换",
-  comfirmContext: "您当前正在与{displayName}通话。要在此设备上继续通话吗？",
+  comfirmContext: "您当前正在与 {displayName} 通话。要在此设备上继续通话吗？",
   comfirmCancelButton: "取消",
-  comfirmOKButton: "切换"
+  comfirmOKButton: "切换",
+  ignore: "忽略",
+  holdAndAnswer: "保持并接听"
 };
 
 // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
@@ -58,8 +60,8 @@ export default {
 // @key: @#@"from"@#@ @source: @#@"From"@#@
 // @key: @#@"to"@#@ @source: @#@"To"@#@
 // @key: @#@"hangup"@#@ @source: @#@"Hang up"@#@
-// @key: @#@"accept"@#@ @source: @#@"Accept"@#@
-// @key: @#@"toVoicemail"@#@ @source: @#@"Send to Voicemail"@#@
+// @key: @#@"accept"@#@ @source: @#@"Answer"@#@
+// @key: @#@"toVoicemail"@#@ @source: @#@"To Voicemail"@#@
 // @key: @#@"anonymous"@#@ @source: @#@"Anonymous"@#@
 // @key: @#@"mergeToConference"@#@ @source: @#@"Merge"@#@
 // @key: @#@"hold"@#@ @source: @#@"Hold"@#@
@@ -71,3 +73,5 @@ export default {
 // @key: @#@"comfirmContext"@#@ @source: @#@"You're currently on an active call with {displayName}. Would you like to continue the call on this device?"@#@
 // @key: @#@"comfirmCancelButton"@#@ @source: @#@"Cancel"@#@
 // @key: @#@"comfirmOKButton"@#@ @source: @#@"Switch"@#@
+// @key: @#@"ignore"@#@ @source: @#@"Ignore"@#@
+// @key: @#@"holdAndAnswer"@#@ @source: @#@"Hold & Answer"@#@

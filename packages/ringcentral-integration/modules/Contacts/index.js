@@ -108,6 +108,11 @@ export default class Contacts extends RcModule {
         `[Contacts > ContactSource(${source.sourceName}) > getProfileImage] must be a function`,
       );
     }
+    if (source.findContact && typeof source.findContact !== 'function') {
+      throw new Error(
+        `[Contacts > ContactSource(${source.sourceName}) > findContact] must be a function`,
+      );
+    }
     if (source.filterContacts && typeof source.filterContacts !== 'function') {
       throw new Error(
         `[Contacts > ContactSource(${source.sourceName}) > filterContacts] must be a function`,
@@ -154,6 +159,21 @@ export default class Contacts extends RcModule {
       this._sourcesUpdatedAt = Date.now();
     }
     return this._sourcesUpdatedAt;
+  }
+
+  async findContact({ sourceName, contactId }) {
+    let contact = null;
+    const source = this._contactSources.get(sourceName);
+    if (source && typeof source.findContact === 'function') {
+      try {
+        contact = await source.findContact(contactId);
+      } catch (error) {
+        console.error(
+          `[Contacts > ContactSource(${source.sourceName}) > findContact] ${error}`,
+        );
+      }
+    }
+    return contact;
   }
 
   async filterContacts(searchFilter) {

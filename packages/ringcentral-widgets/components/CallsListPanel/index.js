@@ -58,8 +58,10 @@ function ActiveCallList({
     return null;
   }
   return (
-    <div className={classnames(styles.list, className)}>
-      <div className={styles.listTitle}>{title}</div>
+    <div className={classnames(styles.list, className)} data-sign="callList">
+      <div className={styles.listTitle} data-sign="callListTitle">
+        {title}
+      </div>
       {calls.map((call) => (
         <ActiveCallItem
           call={call}

@@ -27,14 +27,6 @@ export interface Deps {
   callLogSection: CallLogSection;
   routerInteraction: RouterInteraction;
   activeCallControl: ActiveCallControl;
-  // TODO: more to Environment based on RcModuleV2
-  environmentOptions: {
-    app: {
-      isLightning: boolean;
-      ENTITY_WHITE_LIST: object;
-    };
-    sdkConfig: object;
-  };
   rolesAndPermissions: RolesAndPermissions;
   connectivityMonitor: ConnectivityMonitor;
   callingSettings: CallingSettings;

@@ -14,6 +14,9 @@ export default {
   meetingOptions: "会議のオプション",
   requirePassword: "会議のパスワードを要求する",
   password: "パスワード",
+  rcmPasswordHintText: "パスワードは1～10文字で英数字と@*-のみ使用できます",
+  passwordEmptyError: "会議パスワードを必須にする",
+  rcmPasswordInvalidError: "パスワードは1～10文字で英数字と@*-のみ使用できます",
   enableJoinBeforeHost: "ホストより前の参加を可能にする",
   telephonyOnly: "電話通信のみ",
   hostVideoOn: "ホストビデオオン",
@@ -45,6 +48,9 @@ export default {
 // @key: @#@"meetingOptions"@#@ @source: @#@"Meeting options"@#@
 // @key: @#@"requirePassword"@#@ @source: @#@"Require meeting password"@#@
 // @key: @#@"password"@#@ @source: @#@"Password"@#@
+// @key: @#@"rcmPasswordHintText"@#@ @source: @#@"Your password should be 1-10 characters, numbers long and cannot have symbols except @, * or -"@#@
+// @key: @#@"passwordEmptyError"@#@ @source: @#@"Meeting password required"@#@
+// @key: @#@"rcmPasswordInvalidError"@#@ @source: @#@"Your password must be 1-10 characters, numbers long and cannot have symbols except @, * or -"@#@
 // @key: @#@"enableJoinBeforeHost"@#@ @source: @#@"Enable join before host"@#@
 // @key: @#@"telephonyOnly"@#@ @source: @#@"Telephony Only"@#@
 // @key: @#@"hostVideoOn"@#@ @source: @#@"Host Video On"@#@

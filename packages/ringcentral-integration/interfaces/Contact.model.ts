@@ -49,6 +49,11 @@ export interface ContactModel
   id: string;
 }
 
+export type ContactPresence = Pick<
+  PresenceInfoResponse,
+  'dndStatus' | 'presenceStatus' | 'telephonyStatus' | 'userStatus'
+>;
+
 export interface ContactSource {
   /**
    * source name
@@ -72,28 +77,31 @@ export interface ContactSource {
   getPresence?: (
     contact: IContact,
     useCache?: boolean,
-  ) => Promise<
-    Pick<
-      PresenceInfoResponse,
-      'dndStatus' | 'presenceStatus' | 'telephonyStatus' | 'userStatus'
-    >
-  >;
+  ) => ContactPresence | Promise<ContactPresence>;
   /**
    * get source profile image
    */
   getProfileImage?: (contact: IContact, useCache?: boolean) => Promise<string>;
   /**
+   * find contact by id
+   */
+  findContact?: (contactId: string) => IContact | Promise<IContact>;
+  /**
    * filter contacts
    */
-  filterContacts?: (searchFilter: string) => IContact[];
+  filterContacts?: (searchFilter: string) => IContact[] | Promise<IContact[]>;
   /**
    * get search contacts with a search string
    */
-  searchForPhoneNumbers?: (searchString: string) => TypedPhoneNumber[];
+  searchForPhoneNumbers?: (
+    searchString: string,
+  ) => TypedPhoneNumber[] | Promise<TypedPhoneNumber[]>;
   /**
    * get match phoneNumber
    */
-  matchContactsByPhoneNumber?: (phoneNumber: string) => TypedContact[];
+  matchContactsByPhoneNumber?: (
+    phoneNumber: string,
+  ) => TypedContact[] | Promise<TypedContact[]>;
   /**
    * sync source data
    */

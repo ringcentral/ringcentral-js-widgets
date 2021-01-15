@@ -14,6 +14,9 @@ export default {
   meetingOptions: "Meeting options",
   requirePassword: "Require meeting password",
   password: "Password",
+  rcmPasswordHintText: "Your password should be 1-10 characters long, including letters and numbers, and cannot have symbols except for @, * or -",
+  passwordEmptyError: "Meeting password required",
+  rcmPasswordInvalidError: "Your password must be 1-10 characters long, including letters and numbers, and cannot have symbols except for @, * or -",
   enableJoinBeforeHost: "Enable joining before host",
   telephonyOnly: "Telephony only",
   hostVideoOn: "Host video on",
@@ -45,6 +48,9 @@ export default {
 // @key: @#@"meetingOptions"@#@ @source: @#@"Meeting options"@#@
 // @key: @#@"requirePassword"@#@ @source: @#@"Require meeting password"@#@
 // @key: @#@"password"@#@ @source: @#@"Password"@#@
+// @key: @#@"rcmPasswordHintText"@#@ @source: @#@"Your password should be 1-10 characters, numbers long and cannot have symbols except @, * or -"@#@
+// @key: @#@"passwordEmptyError"@#@ @source: @#@"Meeting password required"@#@
+// @key: @#@"rcmPasswordInvalidError"@#@ @source: @#@"Your password must be 1-10 characters, numbers long and cannot have symbols except @, * or -"@#@
 // @key: @#@"enableJoinBeforeHost"@#@ @source: @#@"Enable join before host"@#@
 // @key: @#@"telephonyOnly"@#@ @source: @#@"Telephony Only"@#@
 // @key: @#@"hostVideoOn"@#@ @source: @#@"Host Video On"@#@

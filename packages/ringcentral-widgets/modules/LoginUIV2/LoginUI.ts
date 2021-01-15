@@ -36,6 +36,10 @@ export class LoginUI<T = {}> extends RcUIModuleV2<Deps & T> {
   }
 
   getUIFunctions() {
-    return {};
+    return {
+      onLoginButtonClick: () => {
+        this._deps.oAuth.openOAuthPage();
+      },
+    };
   }
 }

@@ -184,6 +184,11 @@ export default class AccountContacts extends RcModule {
   }
 
   // interface of ContactSource
+  findContact(contactId) {
+    return this.contacts.find((x) => x.id === contactId);
+  }
+
+  // interface of ContactSource
   filterContacts(searchFilter) {
     return getFilterContacts(this.contacts, searchFilter);
   }

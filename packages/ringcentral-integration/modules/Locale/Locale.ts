@@ -51,6 +51,7 @@ export default class Locale extends RcModule {
     this._detectBrowser = detectBrowser;
     this._polling = polling;
     this._pollingInterval = pollingInterval;
+    I18n.setDefaultLocale(this._defaultLocale);
   }
 
   get _actionTypes() {

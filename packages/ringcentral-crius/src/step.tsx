@@ -14,7 +14,7 @@ import { isCriusNode } from 'crius-is';
 import { combine } from './combine';
 import { TestType, testTypes } from './constant';
 
-export { beforeEach } from 'crius-test';
+export { beforeEach, afterEach } from 'crius-test';
 
 interface BuilderProps {
   desc: string;
@@ -22,11 +22,11 @@ interface BuilderProps {
   action?: any;
 }
 
-beforeEach(() => {
+global.beforeEach?.(() => {
   global.instance = null;
 });
 
-afterEach(async () => {
+global.afterEach?.(async () => {
   try {
     if (global.mockServer && typeof global.mockServer.stop === 'function') {
       global.mockServer.stop();

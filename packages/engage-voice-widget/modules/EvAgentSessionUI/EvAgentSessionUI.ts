@@ -7,14 +7,19 @@ import {
 } from '@ringcentral-integration/core';
 import { Module } from 'ringcentral-integration/lib/di';
 
-import { dropDownOptions, loginTypes, LoginTypes } from '../../enums';
-
+import {
+  dropDownOptions,
+  LoginTypes,
+  loginTypes,
+  tabManagerEvents,
+} from '../../enums';
 import {
   ChangeQueueStateFn,
   EvAgentSessionUIFunctions,
   EvAgentSessionUIProps,
 } from '../../interfaces/EvAgentSessionUI.interface';
 import { AvailableQueue } from '../../interfaces/SelectableQueue.interface';
+import { EvAgent } from '../../lib/EvClient';
 import { sortByName } from '../../lib/sortByName';
 import { Deps, SessionConfigUI } from './EvAgentSessionUI.interface';
 import i18n from './i18n';
@@ -29,8 +34,11 @@ import i18n from './i18n';
     'EvSettings',
     'EvWorkingState',
     'Storage',
-    'Modal',
+    'ModalUI',
     'EvCallMonitor',
+    'Block',
+    'EvClient',
+    { dep: 'TabManager', optional: true },
     { dep: 'EvAgentSessionUIOptions', optional: true },
   ],
 })
@@ -41,6 +49,29 @@ class EvAgentSessionUI extends RcUIModuleV2<Deps> implements SessionConfigUI {
       enableCache: true,
       storageKey: 'EvAgentSessionUI',
     });
+  }
+
+  async onStateChange() {
+    if (
+      this.ready &&
+      this._deps.tabManager.ready &&
+      this._deps.tabManager?.enable
+    ) {
+      await this._checkTabManagerEvent();
+    }
+  }
+
+  private async _checkTabManagerEvent() {
+    const { event } = this._deps.tabManager;
+    if (event) {
+      switch (event.name) {
+        case tabManagerEvents.RE_CHOOSE_ACCOUNT:
+          await this._onAccountReChoose();
+          break;
+        default:
+          break;
+      }
+    }
   }
 
   @storage
@@ -83,27 +114,29 @@ class EvAgentSessionUI extends RcUIModuleV2<Deps> implements SessionConfigUI {
   }
 
   async setConfigure() {
-    this.setIsLoading(true);
-    try {
-      await this._deps.evAgentSession.configureAgent({
-        needAssignFormGroupValue: true,
-      });
-    } catch (e) {
-      console.error(e);
-      return;
-    } finally {
-      this.setIsLoading(false);
-    }
+    await this._deps.block.next(async () => {
+      this.setIsLoading(true);
+      try {
+        await this._deps.evAgentSession.configureAgent({
+          needAssignFormGroupValue: true,
+        });
+      } catch (e) {
+        console.error(e);
+      } finally {
+        this.setIsLoading(false);
+      }
+    });
   }
 
   private showSaveEditionModal() {
     const { currentLocale } = this._deps.locale;
 
-    this._deps.modal.confirm({
+    this._deps.modalUI.confirm({
       title: i18n.getString('saveEditionModalTitle', currentLocale),
       content: i18n.getString('saveEditionModalContent', currentLocale),
       okText: i18n.getString('save', currentLocale),
       cancelText: i18n.getString('cancel', currentLocale),
+      size: 'xsmall',
       onOK: () => {
         this.onSaveUpdate();
       },
@@ -222,6 +255,29 @@ class EvAgentSessionUI extends RcUIModuleV2<Deps> implements SessionConfigUI {
     });
   }
 
+  async _onAccountReChoose(syncAllTabs = false) {
+    await this._deps.block.next(async () => {
+      if (syncAllTabs) {
+        this._deps.tabManager.send(tabManagerEvents.RE_CHOOSE_ACCOUNT);
+      }
+      if (this._deps.evClient.ifSocketExist) {
+        this._deps.evClient.closeSocket();
+      }
+      this._deps.evAuth.clearAgentId();
+      this._deps.routerInteraction.push('/chooseAccount');
+      await this._deps.evAuth.authenticateWithToken();
+    });
+  }
+
+  @computed((that: EvAgentSessionUI) => [
+    that._deps.evAuth.authenticateResponse.agents,
+    that._deps.evAuth.agentId,
+  ])
+  get _selectedAgent() {
+    const agents = this._deps.evAuth.authenticateResponse.agents;
+    return agents.find((agent) => agent.agentId === this._deps.evAuth.agentId);
+  }
+
   getUIProps(): EvAgentSessionUIProps {
     const {
       skillProfileList,
@@ -252,11 +308,13 @@ class EvAgentSessionUI extends RcUIModuleV2<Deps> implements SessionConfigUI {
       isExtensionNumber: isExternalPhone,
       isLoading: this.isLoading,
       currentLocale: this._deps.locale.currentLocale,
-      // Inboudqueue Panel
+      // InboundQueue Panel
       inboundQueues: this.inboundQueues,
       showAutoAnswer: allowAutoAnswer && this.selectedIntegratedSoftphone,
       showInboundQueues: allowLoginControl && allowInbound,
       showSkillProfile: allowLoginControl && skillProfileList.length > 0,
+      selectedAgent: this._selectedAgent,
+      showReChooseAccount: !this._deps.evAuth.isOnlyOneAgent,
     };
   }
 
@@ -277,10 +335,9 @@ class EvAgentSessionUI extends RcUIModuleV2<Deps> implements SessionConfigUI {
       goToSettingsPageWhetherSessionChanged: () =>
         this.goToSettingsPageWhetherSessionChanged(),
       onSaveUpdate: () => this.onSaveUpdate(),
-      // Inboudqueue Panel
+      // InboundQueue Panel
       searchOption: (option, text) =>
-        option.gateName &&
-        option.gateName.toLowerCase().includes(text.toLowerCase()),
+        option?.gateName?.toLowerCase().includes(text.toLowerCase()),
       goBack: () => this.goBack(),
       getAssignedInboundQueues: (inboundQueues) =>
         inboundQueues.filter(({ checked }) => checked),
@@ -292,6 +349,7 @@ class EvAgentSessionUI extends RcUIModuleV2<Deps> implements SessionConfigUI {
         assignedInboundQueues.length !== inboundQueues.length,
       checkBoxOnChange: (...args) => this._checkBoxOnChange(...args),
       allCheckBoxOnChange: (...args) => this._allCheckBoxOnChange(...args),
+      onAccountReChoose: () => this._onAccountReChoose(true),
     };
   }
 }

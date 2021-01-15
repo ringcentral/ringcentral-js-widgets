@@ -5,14 +5,17 @@ import {
   state,
   storage,
   track,
+  globalStorage,
 } from '@ringcentral-integration/core';
 import format from '@ringcentral-integration/phone-number/lib/format';
 import { EventEmitter } from 'events';
 import { Module } from 'ringcentral-integration/lib/di';
+import sleep from 'ringcentral-integration/lib/sleep';
 
 import { authStatus, messageTypes, tabManagerEvents } from '../../enums';
-import { EvAgentData, EvAgentInfo } from '../../lib/EvClient';
+import { EvAgentConfig, EvAgentData, EvTokenType } from '../../lib/EvClient';
 import { EvCallbackTypes } from '../../lib/EvClient/enums';
+import { EvTypeError } from '../../lib/EvTypeError';
 import { sortByName } from '../../lib/sortByName';
 import { trackEvents } from '../../lib/trackEvents';
 import { Auth, Deps, State } from './EvAuth.interface';
@@ -32,6 +35,7 @@ const DEFAULT_COUNTRIES = ['USA', 'CAN'];
     'RouterInteraction',
     'EvSubscription',
     'TabManager',
+    'GlobalStorage',
     { dep: 'EvAuthOptions', optional: true },
   ],
 })
@@ -52,11 +56,16 @@ class EvAuth extends RcModuleV2<Deps> implements Auth {
     return this._deps.tabManager?.enable;
   }
 
+  get isOnlyOneAgent() {
+    return this.agent?.authenticateResponse.agents.length === 1;
+  }
+
   constructor(deps: Deps) {
     super({
       deps,
       enableCache: true,
       storageKey: 'EvAuth',
+      enableGlobalCache: true,
     });
   }
 
@@ -68,8 +77,16 @@ class EvAuth extends RcModuleV2<Deps> implements Auth {
   @state
   agent: EvAgentData = null;
 
-  get agentId() {
-    return this.agent?.authenticateResponse?.agents[0]?.agentId || '';
+  @globalStorage
+  @state
+  agentId = '';
+
+  @action
+  setAgentId(agentId: string, syncTabs = false) {
+    this.agentId = agentId;
+    if (syncTabs) {
+      this._deps.tabManager.send(tabManagerEvents.SET_AGENT_ID, agentId);
+    }
   }
 
   get isFreshLogin() {
@@ -78,6 +95,10 @@ class EvAuth extends RcModuleV2<Deps> implements Auth {
 
   get agentConfig() {
     return this.agent?.agentConfig || null;
+  }
+
+  get authenticateResponse() {
+    return this.agent?.authenticateResponse || null;
   }
 
   get agentSettings() {
@@ -188,15 +209,34 @@ class EvAuth extends RcModuleV2<Deps> implements Auth {
   }
 
   @action
+  setConnected(connected: boolean) {
+    this.connected = connected;
+  }
+
+  @action
   setAgent(agent: EvAgentData) {
     this.agent = agent;
+  }
+
+  @action
+  clearAgentId(syncTabs = false) {
+    this.agentId = '';
+    if (syncTabs) {
+      this._deps.tabManager.send(tabManagerEvents.SET_AGENT_ID, '');
+    }
   }
 
   _shouldInit() {
     return super._shouldInit() && this._deps.auth.loggedIn && this.connected;
   }
 
+  onBeforeRCLogout() {
+    console.log('_onBeforeRCLogout~');
+    this.clearAgentId();
+  }
+
   onInitOnce() {
+    this._deps.auth.addBeforeLogoutHandler(() => this.onBeforeRCLogout());
     this._deps.evSubscription.subscribe(EvCallbackTypes.LOGOUT, async () => {
       this._emitLogoutBefore();
 
@@ -217,16 +257,20 @@ class EvAuth extends RcModuleV2<Deps> implements Auth {
   async onStateChange() {
     // here not need check this.ready, because that should work when not login
     if (this.tabManagerEnabled && this._deps.tabManager.ready) {
-      this._checkTabManagerEvent();
+      await this._checkTabManagerEvent();
     }
 
     if (this._deps.auth.loggedIn && !this.connected && !this.connecting) {
+      console.log('evAuth onStateChange~~');
       this.connecting = true;
       // when login make sure the logoutByOtherTab is false
       this._logoutByOtherTab = false;
 
-      await this.loginAgent();
-      this.connecting = false;
+      if (this.agentId) {
+        await this.loginAgent();
+      } else {
+        await this.authenticateWithToken();
+      }
     }
   }
 
@@ -278,19 +322,22 @@ class EvAuth extends RcModuleV2<Deps> implements Auth {
     return isBlock ? this._deps.block.next(fn) : fn();
   }
 
-  loginAgent = async (token: string = this._deps.auth.accessToken) => {
-    console.log('loginAgent~~');
+  async authenticateWithToken(
+    rcAccessToken = this._deps.auth.accessToken,
+    tokenType: EvTokenType = 'Bearer',
+  ) {
     try {
       this._deps.evClient.initSDK();
 
-      const agent = await this._deps.evClient.loginAgent(token, 'Bearer');
+      const authenticateResponse = await this._deps.evClient.getAndHandleAuthenticateResponse(
+        rcAccessToken,
+        tokenType,
+      );
+      const agent = { ...this.agent, authenticateResponse };
+      this.setAgent(agent);
+      this._emitAuthSuccess();
 
-      this.setConnectionData({
-        connected: true,
-        agent: agent.data,
-      });
-
-      this._emitLoginSuccess(agent);
+      return authenticateResponse;
     } catch (error) {
       switch (error.type) {
         case messageTypes.NO_AGENT:
@@ -300,8 +347,6 @@ class EvAuth extends RcModuleV2<Deps> implements Auth {
           break;
         case messageTypes.CONNECT_TIMEOUT:
         case messageTypes.UNEXPECTED_AGENT:
-        case messageTypes.INVALID_BROWSER:
-        case messageTypes.OPEN_SOCKET_ERROR:
           this._deps.alert.danger({
             message: error.type,
           });
@@ -313,31 +358,136 @@ class EvAuth extends RcModuleV2<Deps> implements Auth {
       }
       await this._logout();
     }
+  }
+
+  async openSocketWithSelectedAgentId({
+    syncOtherTabs = false,
+    retryOpenSocket = false,
+  } = {}) {
+    try {
+      // TODO: here need check time when no message come back, that will block app.
+      const getAgentConfig = new Promise<EvAgentConfig>((resolve) => {
+        this._deps.evClient.on(EvCallbackTypes.LOGIN_PHASE_1, resolve);
+      });
+
+      const selectedAgentId = this.agentId;
+      console.log('selectedAgentId~~~', selectedAgentId);
+      if (!selectedAgentId) {
+        throw new EvTypeError({
+          type: messageTypes.NO_AGENT,
+        });
+      }
+      const openSocketResult = await this._deps.evClient.openSocket(
+        selectedAgentId,
+      );
+      // wait for socketOpened
+      // Because instance.socket Opened(); was performed after callback.
+      await sleep(0);
+      if (openSocketResult.error) {
+        console.log('retryOpenSocket~~', retryOpenSocket);
+        if (retryOpenSocket) {
+          const { access_token } = await this._deps.auth.refreshToken();
+          const authenticateRes = await this.authenticateWithToken(
+            access_token,
+          );
+          if (!authenticateRes) return;
+          const openSocketRes: any = await this.openSocketWithSelectedAgentId({
+            syncOtherTabs,
+          });
+          return openSocketRes;
+        }
+        throw new EvTypeError({
+          type: messageTypes.OPEN_SOCKET_ERROR,
+        });
+      }
+
+      // TODO： implement multiple sync back drop
+      if (syncOtherTabs && this.tabManagerEnabled) {
+        this._deps.tabManager.send(tabManagerEvents.OPEN_SOCKET);
+      }
+
+      const agentConfig = await getAgentConfig;
+
+      const agent = { ...this.agent, agentConfig };
+
+      this.setConnectionData({ agent, connected: true });
+
+      this.connecting = false;
+
+      this._emitLoginSuccess();
+      return agentConfig;
+    } catch (error) {
+      switch (error.type) {
+        case messageTypes.NO_AGENT:
+          this._deps.alert.warning({
+            message: error.type,
+          });
+          break;
+        case messageTypes.INVALID_BROWSER:
+        case messageTypes.OPEN_SOCKET_ERROR:
+          this._deps.alert.danger({
+            message: error.type,
+          });
+          break;
+        default:
+          this._deps.alert.danger({
+            message: messageTypes.CONNECT_ERROR,
+          });
+      }
+
+      await this._logout();
+    }
+  }
+
+  loginAgent = async (token: string = this._deps.auth.accessToken) => {
+    const authenticateRes = await this.authenticateWithToken(token);
+    if (!authenticateRes) return;
+    await this.openSocketWithSelectedAgentId();
   };
 
-  onLoginSuccess(callback: (agent: EvAgentInfo) => void) {
+  onLoginSuccess(callback: () => void) {
     this._eventEmitter.on(authStatus.LOGIN_SUCCESS, callback);
   }
 
-  onceLoginSuccess(callback: (agent: EvAgentInfo) => void) {
+  onceLoginSuccess(callback: () => void) {
     this._eventEmitter.once(authStatus.LOGIN_SUCCESS, callback);
+  }
+
+  onAuthSuccess(callback: () => void) {
+    this._eventEmitter.on(authStatus.AUTH_SUCCESS, callback);
   }
 
   private _emitLogoutBefore() {
     this._eventEmitter.emit(authStatus.LOGOUT_BEFORE);
   }
 
-  private _emitLoginSuccess(agent: EvAgentInfo) {
-    this._eventEmitter.emit(authStatus.LOGIN_SUCCESS, agent);
+  private _emitLoginSuccess() {
+    this._eventEmitter.emit(authStatus.LOGIN_SUCCESS);
   }
 
-  private _checkTabManagerEvent() {
+  private _emitAuthSuccess() {
+    console.log('_emitAuthSuccess~~');
+    this._eventEmitter.emit(authStatus.AUTH_SUCCESS);
+  }
+
+  private async _checkTabManagerEvent() {
     const { event } = this._deps.tabManager;
     if (event) {
-      // const data = event.args[0];
+      const data = event.args[0];
       switch (event.name) {
         case tabManagerEvents.LOGOUT:
           this._logoutByOtherTab = true;
+          break;
+        case tabManagerEvents.OPEN_SOCKET:
+          console.log('tabManagerEvents.OPEN_SOCKET~~');
+          await this._deps.block.next(async () => {
+            await this.openSocketWithSelectedAgentId({
+              retryOpenSocket: true,
+            });
+          });
+          break;
+        case tabManagerEvents.SET_AGENT_ID:
+          this.setAgentId(data);
           break;
         default:
           break;

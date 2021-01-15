@@ -6,12 +6,12 @@ import {
   RcIconButton,
   RcFormGroup,
 } from '@ringcentral/juno';
-import arrowDownSvg from '@ringcentral/juno/icons/icon-arrow_down.svg';
+import arrowDownSvg from '@ringcentral/juno/icon/ArrowDown2';
 import styles from './styles.scss';
 
 interface VideoSettingGroupProps {
   dataSign: string;
-  summary: string;
+  summary?: string;
   expandable: boolean;
   defaultExpanded?: boolean;
 }
@@ -31,21 +31,23 @@ export const VideoSettingGroup: React.FunctionComponent<VideoSettingGroupProps> 
       defaultExpanded={defaultExpanded}
       disabled={!expandable}
     >
-      <RcExpansionPanelSummary
-        classes={{
-          root: styles.expansionPanelSummary,
-          content: styles.expansionPanelSummaryContent,
-          disabled: expandable ? null : styles.expansionPanelSummaryDisabled,
-        }}
-        expandIcon={
-          expandable ? (
-            <RcIconButton variant="round" symbol={arrowDownSvg} />
-          ) : null
-        }
-        data-sign={`${dataSign}Summary`}
-      >
-        {summary}
-      </RcExpansionPanelSummary>
+      {summary ? (
+        <RcExpansionPanelSummary
+          classes={{
+            root: styles.expansionPanelSummary,
+            content: styles.expansionPanelSummaryContent,
+            disabled: expandable ? null : styles.expansionPanelSummaryDisabled,
+          }}
+          expandIcon={
+            expandable ? (
+              <RcIconButton variant="round" symbol={arrowDownSvg} />
+            ) : null
+          }
+          data-sign={`${dataSign}Summary`}
+        >
+          {summary}
+        </RcExpansionPanelSummary>
+      ) : null}
       <RcExpansionPanelDetails
         classes={{
           root: styles.expansionPanelDetails,

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ActiveCallItem from '../ActiveCallItemV2';
+import { ActiveCallItem } from '../ActiveCallItemV2';
 import CircleButton from '../CircleButton';
 import BackButton from '../BackButton';
 import BackHeader from '../BackHeader';

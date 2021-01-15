@@ -32,8 +32,6 @@ export const EvSmallCallControl: FunctionComponent<EvSmallCallControlProps> = ({
 };
 
 EvSmallCallControl.defaultProps = {
-  ...ActiveCallButton.defaultProps,
-  ...SmallCallControl.defaultProps,
   isOnActive: false,
   showMuteButton: false,
 };

@@ -7,11 +7,10 @@
 
 .searchInput,
 .noResult {
-  @include space($lightning-page-space);
+  @include pageSpace();
   font-size: 14px !important;
 
   [sf-classic] & {
-    @include space($classic-page-space);
     font-size: 12px !important;
   }
 }
@@ -23,11 +22,20 @@
 }
 
 .noResult {
-  font-size: 14px;
+  word-break: break-all;
+
   color: rgb(158, 158, 158);
+  line-height: 22px;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
 
   [sf-classic] & {
-    font-size: 11px;
+    line-height: 16px;
+    height: 32px;
   }
 }
 

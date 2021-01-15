@@ -2,6 +2,8 @@ import {
   DirectTransferNotificationTypes,
   DirectTransferStatues,
   DirectTransferTypes,
+  AgentTypesType,
+  OriginAgentTypesType,
 } from '../../../enums';
 
 export type EvTokenType = 'Bearer';
@@ -457,7 +459,7 @@ export interface EvAvailableAgentState {
   rank: string;
 }
 
-export interface EvAuthenticateAgentWithRcAccessTokenRes {
+export interface RawEvAuthenticateAgentWithRcAccessTokenRes {
   platformId: string;
   rcAccessToken: string;
   tokenType: string;
@@ -466,11 +468,18 @@ export interface EvAuthenticateAgentWithRcAccessTokenRes {
   refreshToken?: any;
   socketUrl: string;
   socketPort: number;
-  agents: EvAgent[];
+  agents: RawEvAgent[];
   // Authenticate Error
   message?: string;
   type?: string;
 }
+
+export type EvAuthenticateAgentWithRcAccessTokenRes = Omit<
+  RawEvAuthenticateAgentWithRcAccessTokenRes,
+  'agents'
+> & {
+  agents: EvAgents;
+};
 
 export interface EvAuthenticateAgentWithEngageAccessTokenRes {
   platformId: string;
@@ -481,16 +490,22 @@ export interface EvAuthenticateAgentWithEngageAccessTokenRes {
   refreshToken: null;
   socketUrl: string;
   socketPort: number;
-  agents: EvAgent[];
+  agents: RawEvAgent[];
 }
 
-export interface EvAgent {
+export type EvAgent = Omit<RawEvAgent, 'agentType'> & {
+  agentType: AgentTypesType;
+};
+
+export type EvAgents = EvAgent[];
+
+export interface RawEvAgent {
   agentId: string;
   firstName: string;
   lastName: string;
   email?: any;
   username: string;
-  agentType: string;
+  agentType: OriginAgentTypesType;
   rcUserId: number;
   accountId: string;
   accountName: string;

@@ -3,6 +3,6 @@ export default {
   turnOff: 'Turn Persistent Voice Connection off',
   disabled: 'Persistent Voice Connection disabled',
   dialpadLabel: 'Dial Pad',
+  historyLabel: 'Call History',
   settingsLabel: 'Settings',
 };
-

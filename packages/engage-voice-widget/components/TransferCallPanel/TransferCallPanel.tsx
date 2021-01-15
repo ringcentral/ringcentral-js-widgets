@@ -5,7 +5,7 @@ import {
   RcSnackbarAction,
   RcTextField,
 } from '@ringcentral/juno';
-import dialerSvg from '@ringcentral/juno/icons/icon-dialer.svg';
+import dialerSvg from '@ringcentral/juno/icon/Dialer';
 import React, { FunctionComponent, useCallback, useEffect } from 'react';
 import { CustomArrowButton } from 'ringcentral-widgets/components/Rcui/CustomArrowButton';
 

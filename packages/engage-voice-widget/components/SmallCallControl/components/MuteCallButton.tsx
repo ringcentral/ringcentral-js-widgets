@@ -1,5 +1,5 @@
-import micOffSvg from '@ringcentral/juno/icons/icon-mic-off.svg';
-import micSvg from '@ringcentral/juno/icons/icon-mic.svg';
+import micOffSvg from '@ringcentral/juno/icon/MicOff';
+import micSvg from '@ringcentral/juno/icon/Mic';
 import React, { FunctionComponent } from 'react';
 
 import { CircleIconButton } from '../../CircleIconButton';
@@ -21,12 +21,14 @@ export const MuteCallButton: FunctionComponent<MuteCallButtonProps> = ({
   size,
   className,
   disableMute,
+  dataSign,
 }) => {
   const { muteTitle } = getCircleIconButtonTitle({
     isOnMute,
   });
   return (
     <CircleIconButton
+      dataSign={dataSign}
       data-icon={isOnMute ? 'mic-off' : 'mic'}
       symbol={isOnMute ? micOffSvg : micSvg}
       title={i18n.getString(muteTitle, currentLocale)}
@@ -45,4 +47,5 @@ MuteCallButton.defaultProps = {
   onUnmute() {},
   disableMute: false,
   currentLocale: 'en-US',
+  dataSign: 'muteCall',
 };

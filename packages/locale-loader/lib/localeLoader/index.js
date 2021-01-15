@@ -6,8 +6,8 @@ import isLoaderFile, { noChunks } from '../isLoaderFile';
 
 module.exports = function localeLoader(content) {
   const callback = this.async();
-  const querys = loaderUtils.getOptions(this) || {};
-  const supportedLocales = querys.supportedLocales || [];
+  const options = loaderUtils.getOptions(this) || {};
+  const supportedLocales = options.supportedLocales || [];
   if (isLoaderFile(content)) {
     (async () => {
       const files = (await fs.readdir(this.context))
@@ -18,6 +18,7 @@ module.exports = function localeLoader(content) {
         generateLoaderContent({
           files,
           chunk: !noChunks(content),
+          supportedLocales,
         }),
       );
     })();

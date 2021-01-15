@@ -5,7 +5,7 @@ export default {
   onHoldCall: "Oproep staat in de wacht",
   otherDeviceCall: "Actieve oproepen op mijn andere apparaten",
   confirmation: "Bevestiging",
-  confirmMergeToConference: "Aan conference call toevoegen?",
+  confirmMergeToConference: "Aan conferencecall toevoegen?",
   mergeToConference: "Samenvoegen",
   conferenceCall: "Conferencecall"
 };

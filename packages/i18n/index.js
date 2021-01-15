@@ -7,6 +7,7 @@ export const RUNTIME = {
   defaultLocale: DEFAULT_LOCALE,
   instances: new Set(),
   padRatio: 0.3,
+  fallbackLocale: DEFAULT_LOCALE,
 };
 
 /**
@@ -55,6 +56,7 @@ export default class I18n {
     }
   }
   async load() {
+    await this._load(RUNTIME.fallbackLocale);
     await this._load(RUNTIME.defaultLocale);
     await this._load(RUNTIME.locale);
   }
@@ -67,16 +69,29 @@ export default class I18n {
     }
     if (
       this._cache[RUNTIME.defaultLocale] &&
-      Object.prototype.hasOwnProperty.call(this._cache[RUNTIME.defaultLocale], key)
+      Object.prototype.hasOwnProperty.call(
+        this._cache[RUNTIME.defaultLocale],
+        key,
+      )
     ) {
       return this._cache[RUNTIME.defaultLocale][key];
     }
+    if (
+      this._cache[RUNTIME.fallbackLocale] &&
+      Object.prototype.hasOwnProperty.call(
+        this._cache[RUNTIME.fallbackLocale],
+        key,
+      )
+    ) {
+      return this._cache[RUNTIME.fallbackLocale][key];
+    }
+
     return key;
   }
   getString(key, locale = RUNTIME.locale) {
     if (locale === PSEUDO_LOCALE) {
       return toPseudoString({
-        str: this._getString(key, RUNTIME.defaultLocale),
+        str: this._getString(key, RUNTIME.fallbackLocale),
         padRatio: RUNTIME.padRatio,
       });
     }

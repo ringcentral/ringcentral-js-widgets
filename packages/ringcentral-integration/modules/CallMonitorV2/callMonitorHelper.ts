@@ -110,17 +110,6 @@ export function isCurrentDeviceEndCall(sessions: string[], callItem: Call) {
   return sessions.indexOf(callItem.telephonySessionId) !== -1;
 }
 
-export function matchTelephonySessionWithActiveCall(callItem: Session) {
-  if (callItem) {
-    return {
-      status: callItem.status,
-      id: callItem.id,
-      direction: callItem.direction as string,
-    };
-  }
-  return undefined;
-}
-
 // telephony session status match presence telephonyStatus
 export function mapTelephonyStatus(telephonySessionStatus: PartyStatusCode) {
   switch (telephonySessionStatus) {
@@ -136,4 +125,13 @@ export function mapTelephonyStatus(telephonySessionStatus: PartyStatusCode) {
     default:
       return telephonyStatus.noCall;
   }
+}
+
+export function normalizeTelephonySession(session: Session) {
+  return {
+    status: session.status,
+    id: session.id,
+    direction: session.direction,
+    otherParties: session.otherParties,
+  };
 }

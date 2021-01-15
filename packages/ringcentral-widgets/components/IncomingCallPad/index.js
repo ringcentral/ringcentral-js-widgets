@@ -131,7 +131,7 @@ export default class IncomingCallPad extends Component {
           iconWidth={274}
           iconX={116}
           showBorder={!this.state.toVoiceMailEnabled}
-          dataSign="toVoicemail"
+          dataSign="toVoiceMail"
           className={styles.callButton}
           disabled={!this.state.toVoiceMailEnabled}
         />

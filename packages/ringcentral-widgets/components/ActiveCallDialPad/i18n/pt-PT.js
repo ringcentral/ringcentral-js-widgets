@@ -1,7 +1,7 @@
 export default {
   hide: "Ocultar",
   end: "Terminar",
-  keypad: "Teclado de marcação"
+  keypad: "Teclado"
 };
 
 // @key: @#@"hide"@#@ @source: @#@"Hide"@#@

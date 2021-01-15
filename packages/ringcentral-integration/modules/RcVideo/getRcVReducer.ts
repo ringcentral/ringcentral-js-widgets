@@ -124,6 +124,17 @@ export function getDelegatorReducer(types: RcVideoActionTypes) {
   };
 }
 
+export function getHasSettingChangedReducer(types: RcVideoActionTypes) {
+  return (state = false, { type, isChanged }): boolean => {
+    switch (type) {
+      case types.saveHasSettingChanged:
+        return isChanged;
+      default:
+        return state;
+    }
+  };
+}
+
 export default (types: RcVideoActionTypes, reducers) =>
   combineReducers({
     ...reducers,
@@ -135,4 +146,5 @@ export default (types: RcVideoActionTypes, reducers) =>
     isPreferencesChanged: getRcVideoPreferencesStateReducer(types),
     settingLocks: getRcVideoSettingLocksReducer(types),
     delegator: getDelegatorReducer(types),
+    hasSettingsChanged: getHasSettingChangedReducer(types),
   });

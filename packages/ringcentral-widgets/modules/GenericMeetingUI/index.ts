@@ -1,34 +1,25 @@
 import { Module } from 'ringcentral-integration/lib/di';
 import { RcVMeetingModel } from 'ringcentral-integration/interfaces/Rcv.model';
-import { RcMMeetingModel } from 'ringcentral-integration/modules/Meeting';
-import GenericMeeting from 'ringcentral-integration/modules/GenericMeeting';
-import Brand from 'ringcentral-integration/modules/Brand';
+import { RcMMeetingModel } from 'ringcentral-integration/modules/MeetingV2';
+import { GenericMeeting } from 'ringcentral-integration/modules/GenericMeetingV2';
 
 import RcUIModule from '../../lib/RcUIModule';
 
 @Module({
   name: 'GenericMeetingUI',
-  deps: [
-    'GenericMeeting',
-    'Locale',
-    'RateLimiter',
-    'ConnectivityMonitor',
-    'Brand',
-  ],
+  deps: ['GenericMeeting', 'Locale', 'RateLimiter', 'ConnectivityMonitor'],
 })
 export default class GenericMeetingUI extends RcUIModule {
   _genericMeeting: GenericMeeting;
   _locale: any;
   _rateLimiter: any;
   _connectivityMonitor: any;
-  _brand: Brand;
 
   constructor({
     genericMeeting,
     locale,
     rateLimiter,
     connectivityMonitor,
-    brand,
     ...options
   }) {
     super({
@@ -38,7 +29,6 @@ export default class GenericMeetingUI extends RcUIModule {
     this._locale = locale;
     this._rateLimiter = rateLimiter;
     this._connectivityMonitor = connectivityMonitor;
-    this._brand = brand;
   }
 
   getUIProps({
@@ -86,6 +76,7 @@ export default class GenericMeetingUI extends RcUIModule {
           !this._connectivityMonitor.connectivity) ||
         (this._rateLimiter && this._rateLimiter.throttling)
       ),
+      configDisabled: false,
       showTopic,
       showWhen,
       showDuration,
@@ -104,9 +95,11 @@ export default class GenericMeetingUI extends RcUIModule {
       isRCM: this._genericMeeting.isRCM,
       isRCV: this._genericMeeting.isRCV,
       scheduleButton,
-      brandName: this._brand.name,
       showAdminLock:
         this._genericMeeting.ready && this._genericMeeting.showAdminLock,
+      enableServiceWebSettings:
+        this._genericMeeting.ready &&
+        this._genericMeeting.enableServiceWebSettings,
       enablePersonalMeeting:
         this._genericMeeting.ready &&
         this._genericMeeting.enablePersonalMeeting,
@@ -114,6 +107,9 @@ export default class GenericMeetingUI extends RcUIModule {
         this._genericMeeting.ready && this._genericMeeting.enableWaitingRoom,
       personalMeetingId:
         this._genericMeeting.ready && this._genericMeeting.personalMeetingId,
+      putRecurringMeetingInMiddle:
+        this._genericMeeting.ready &&
+        this._genericMeeting.putRecurringMeetingInMiddle,
       showSpinner: !!(
         !this._locale.ready ||
         !this._genericMeeting.ready ||
@@ -123,6 +119,7 @@ export default class GenericMeetingUI extends RcUIModule {
         (this._rateLimiter && !this._rateLimiter.ready)
       ),
       showSpinnerInConfigPanel: this._genericMeeting.isUpdating,
+      hasSettingsChanged: this._genericMeeting.hasSettingsChanged,
     };
   }
 
@@ -131,6 +128,10 @@ export default class GenericMeetingUI extends RcUIModule {
     return {
       switchUsePersonalMeetingId: (usePersonalMeetingId: boolean) =>
         this._genericMeeting.switchUsePersonalMeetingId(usePersonalMeetingId),
+
+      updateHasSettingsChanged: (isChanged: boolean) => {
+        this._genericMeeting.updateHasSettingsChanged(isChanged);
+      },
       updateScheduleFor: (userExtensionId: string) =>
         this._genericMeeting.updateScheduleFor(userExtensionId),
       // TODO: any is reserved for RcM

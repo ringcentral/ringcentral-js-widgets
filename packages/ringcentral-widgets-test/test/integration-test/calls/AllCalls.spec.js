@@ -2,7 +2,7 @@ import IncomingCallPanel from 'ringcentral-widgets/components/IncomingCallPanel'
 import IncomingCallPad from 'ringcentral-widgets/components/IncomingCallPad';
 import NavigationBar from 'ringcentral-widgets/components/NavigationBar';
 import ActiveCallList from 'ringcentral-widgets/components/ActiveCallList';
-import ActiveCallItemV2 from 'ringcentral-widgets/components/ActiveCallItemV2';
+import { ActiveCallItem as ActiveCallItemV2 } from 'ringcentral-widgets/components/ActiveCallItemV2';
 import ActiveCallItem from 'ringcentral-widgets/components/ActiveCallItem';
 import ActiveCallsPanel from 'ringcentral-widgets/components/ActiveCallsPanel';
 import MultiCallAnswerButton from 'ringcentral-widgets/components/MultiCallAnswerButton';

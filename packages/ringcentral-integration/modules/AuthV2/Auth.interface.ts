@@ -1,4 +1,5 @@
 import { TokenInfo as BaseTokenInfo } from '@rc-ex/core/definitions';
+import { LoginUrlOptions as SdkLoginUrlOptions } from '@ringcentral/sdk';
 import Locale from '../Locale';
 import Alert from '../Alert';
 import TabManager from '../TabManager';
@@ -42,4 +43,9 @@ export interface LoginOptions {
   endpointId: TokenInfo['endpoint_id'];
   tokenType: TokenInfo['token_type'];
   scope: TokenInfo['scope'];
+}
+
+export interface LoginUrlOptions extends SdkLoginUrlOptions {
+  redirectUri?: string;
+  force?: boolean;
 }

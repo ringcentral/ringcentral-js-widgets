@@ -5,7 +5,7 @@ import {
   RcIcon,
   RcLink,
 } from '@ringcentral/juno';
-import arrowDownSvg from '@ringcentral/juno/icons/icon-arrow_down.svg';
+import arrowDownSvg from '@ringcentral/juno/icon/ArrowDown2';
 import classNames from 'classnames';
 import React, { FunctionComponent, useEffect, useState } from 'react';
 

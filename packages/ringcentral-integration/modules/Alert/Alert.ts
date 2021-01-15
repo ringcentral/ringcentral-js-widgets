@@ -55,17 +55,21 @@ export default class Alert extends RcModule<
 > {
   // TODO: add state interface
   private _ttl: number;
+  private _action: React.ReactNode;
   /**
    * @constructor
    * @param {Object} params - params object
    * @param {Number} params.ttl - Default time-to-live for alert messages.
+   * @param {React.ReactNode} params.action - action template(right area) with new notification
    */
-  constructor({ ttl = 5000, ...options }) {
+  constructor({ ttl = 5000, alertOptions, ...options }) {
     super({
+      alertOptions,
       ...options,
     });
     this._reducer = getAlertReducer(this.actionTypes);
     this._ttl = ttl;
+    this._action = alertOptions?.action;
   }
 
   get _actionTypes() {
@@ -124,7 +128,7 @@ export default class Alert extends RcModule<
     backdrop = false,
     classes,
     onBackdropClick,
-    action,
+    action = this._action,
   }: AlertModel & AlertLevel) {
     const id = uuid.v4();
     this.store.dispatch({

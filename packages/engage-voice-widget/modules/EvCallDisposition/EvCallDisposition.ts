@@ -72,7 +72,7 @@ class EvCallDisposition extends RcModuleV2<Deps> implements CallDisposition {
     });
   }
 
-  async disposeCall(id: string) {
+  disposeCall(id: string) {
     const call = this._deps.evCallHistory.callsMapping[id];
     const callDisposition = this.callsMapping[id];
     const isDisposed =

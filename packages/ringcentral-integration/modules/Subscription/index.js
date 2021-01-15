@@ -261,7 +261,7 @@ export default class Subscription extends RcModule {
       const oldFilters = this.filters;
       this.store.dispatch({
         type: this.actionTypes.removeFilters,
-        fiters: [].concat(events),
+        filters: [].concat(events),
       });
       if (this.filters.length === 0) {
         this.remove();

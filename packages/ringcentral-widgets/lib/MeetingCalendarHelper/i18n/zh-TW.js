@@ -3,6 +3,7 @@ export default {
   rcvInviteMeetingContent: "{accountName} 已邀請您參加 {brandName} 會議。\n\n請使用以下連結加入：\n\t{joinUri}{passwordTpl}",
   rcvRCBrandInviteMeetingContent: "{accountName} 已邀請您加入 {productName} 會議。\n\n請使用這個連結加入：\n\t{joinUri}{passwordTpl}",
   rcvInviteMeetingContentDial: "\n\n點選一下即可從智慧型手機加入僅限音訊的會議：\n\t{smartphones}\n\n或撥打：\n\t撥打：{dialNumber}\n\t存取碼/會議 ID：{pinNumber} ",
+  rcvInviteMeetingContentCountryDial: "\n\n點選一下即可從智慧型手機加入僅限音訊的會議：\n\t{smartphones}\n\n或撥打：\n\t{dialNumber}\n\t存取碼/會議 ID：{pinNumber} ",
   rcvTeleconference: "\n\n可用的國際號碼： {teleconference} ",
   doNotModify: "===== 不要修改此文字 =====",
   password: "\n\n密碼",
@@ -13,6 +14,7 @@ export default {
 // @key: @#@"rcvInviteMeetingContent"@#@ @source: @#@"{accountName} has invited you to a {brandName} Meeting.\n\nPlease join using this link:\n\t{joinUri}{passwordTpl}"@#@
 // @key: @#@"rcvRCBrandInviteMeetingContent"@#@ @source: @#@"{accountName} has invited you to a {productName} meeting.\n\nPlease join using this link:\n\t{joinUri}{passwordTpl}"@#@
 // @key: @#@"rcvInviteMeetingContentDial"@#@ @source: @#@"\n\nOne tap to join audio only from a smartphone:\n\t{smartphones}\n\nOr dial:\n\tDial: {dialNumber}\n\tAccess Code / Meeting ID: {pinNumber} "@#@
+// @key: @#@"rcvInviteMeetingContentCountryDial"@#@ @source: @#@"\n\nOne tap to join audio only from a smartphone:\n\t{smartphones}\n\nOr dial:\n\t{dialNumber}\n\tAccess Code / Meeting ID: {pinNumber} "@#@
 // @key: @#@"rcvTeleconference"@#@ @source: @#@"\n\nInternational numbers available: {teleconference} "@#@
 // @key: @#@"doNotModify"@#@ @source: @#@"===== Do not modify this text ====="@#@
 // @key: @#@"password"@#@ @source: @#@"\n\nPassword"@#@

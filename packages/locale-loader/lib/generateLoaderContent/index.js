@@ -1,11 +1,8 @@
 import dedent from 'dedent';
 import formatLocale from '@ringcentral-integration/i18n/lib/formatLocale';
 
-function byLocale(a, b) {
-  const ta = formatLocale(a);
-  const tb = formatLocale(b);
-  if (ta === tb) return 0;
-  return ta > tb ? 1 : -1;
+function getBaseName(f) {
+  return f.replace(/\.(js|json|ts)$/i, '');
 }
 /**
  * @typedef GLCOptions
@@ -19,11 +16,31 @@ function byLocale(a, b) {
  * @param {GLCOptions} options
  */
 export default function generateLoaderContent(
-  /** @type {GLCOptions} */ { files, chunk = true },
+  /** @type {GLCOptions} */ { files, chunk = true, supportedLocales = [] },
 ) {
+  // create sort function
+  const sortIdx = {};
+  supportedLocales.forEach((locale, idx) => {
+    sortIdx[formatLocale(locale)] = idx;
+  });
+  const byLocale = (a, b) => {
+    const ta = formatLocale(getBaseName(a));
+    const tb = formatLocale(getBaseName(b));
+    const aIdx = sortIdx[ta] ?? -1;
+    const bIdx = sortIdx[tb] ?? -1;
+    if (aIdx === bIdx) {
+      // -1 or ta === tb
+      if (ta === tb) {
+        return 0;
+      }
+      return ta > tb ? 1 : -1;
+    }
+    // smaller index has priority
+    return aIdx > bIdx ? 1 : -1;
+  };
   const usedLang = {};
   const cases = files.sort(byLocale).map((f) => {
-    const basename = f.replace(/\.(js|json|ts)$/i, '');
+    const basename = getBaseName(f);
     const locale = formatLocale(basename);
     const lang = locale.split('-')[0];
     const padding = chunk ? '  ' : '';

@@ -5,7 +5,6 @@ import CircleButton from 'ringcentral-widgets/components/CircleButton';
 import { HAMocks } from '../HALimitedMode/mockLimited';
 import { getWrapper, timeout, tearDownWrapper } from '../shared';
 
-/* global jasmine */
 let wrapper = null;
 let phone = null;
 let badge = null;
@@ -17,10 +16,12 @@ describe('VoIP Only Mode', () => {
   beforeAll(async () => {
     wrapper = await getWrapper();
     phone = wrapper.props().phone;
-    phone.availabilityMonitor._client.service.platform().emit('refreshError', {
-      message: 'none',
-      response: { status: 500 },
-    });
+    phone.availabilityMonitor._deps.client.service
+      .platform()
+      .emit('refreshError', {
+        message: 'none',
+        response: { status: 500 },
+      });
     await timeout(10); // wait refreshError listener to be executed
     wrapper.update();
     badge = wrapper.find(ConnectivityBadge);
@@ -73,10 +74,12 @@ describe('Exit from VoIP Only Mode to Normal Mode', () => {
   });
 
   test('Exit from refresh access-token successed.', async () => {
-    phone.availabilityMonitor._client.service.platform().emit('refreshError', {
-      message: 'none',
-      response: { status: 500 },
-    });
+    phone.availabilityMonitor._deps.client.service
+      .platform()
+      .emit('refreshError', {
+        message: 'none',
+        response: { status: 500 },
+      });
     await timeout(10);
     wrapper.update();
     badge = wrapper.find(ConnectivityBadge);
@@ -86,7 +89,9 @@ describe('Exit from VoIP Only Mode to Normal Mode', () => {
       'Sorry, something went wrong on our end, but we are working hard to fix it. You can still make calls, but other functions are currently limited.',
     );
     expect(phone.availabilityMonitor._limitedTimeout).not.toEqual(null);
-    phone.availabilityMonitor._client.service.platform().emit('refreshSuccess');
+    phone.availabilityMonitor._deps.client.service
+      .platform()
+      .emit('refreshSuccess');
     await timeout(600);
     wrapper.update();
     badge = wrapper.find(ConnectivityBadge);

@@ -5,21 +5,21 @@ import GlipGroupsPanel from '../../components/GlipGroupsPanel';
 
 function mapToProps(
   _,
-  { phone: { glipGroups, contactList }, hiddenCurrentGroup = false },
+  { phone: { glipGroups, contactListUI }, hiddenCurrentGroup = false },
 ) {
   return {
     groups: glipGroups.groupsWithUnread,
     currentGroupId: hiddenCurrentGroup ? null : glipGroups.currentGroupId,
     searchFilter: glipGroups.searchFilter,
     currentPage: glipGroups.pageNumber,
-    filteredContacts: contactList.filteredContacts,
-    contactSearchFilter: contactList.searchFilter,
+    filteredContacts: contactListUI.filteredContacts,
+    contactSearchFilter: contactListUI.searchFilter,
   };
 }
 
 function mapToFunctions(
   _,
-  { phone: { glipGroups, contactList }, onSelectGroup },
+  { phone: { glipGroups, contactListUI }, onSelectGroup },
 ) {
   return {
     onSelectGroup,
@@ -30,7 +30,7 @@ function mapToFunctions(
       glipGroups.updateFilter({ pageNumber });
     },
     updateContactSearchFilter(searchFilter) {
-      contactList.applyFilters({ searchFilter });
+      contactListUI.applyFilters({ searchFilter });
     },
     async createTeam({ teamName, selectedContacts }) {
       const groupId = await glipGroups.createTeam(

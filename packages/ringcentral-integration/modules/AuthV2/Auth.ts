@@ -12,7 +12,13 @@ import { Module } from '../../lib/di';
 import proxify from '../../lib/proxy/proxify';
 import validateIsOffline from '../../lib/validateIsOffline';
 import { trackEvents } from '../Analytics';
-import { Deps, LoginOptions, Token, TokenInfo } from './Auth.interface';
+import {
+  Deps,
+  LoginOptions,
+  Token,
+  TokenInfo,
+  LoginUrlOptions,
+} from './Auth.interface';
 import { authMessages } from './authMessages';
 import { loginStatus } from './loginStatus';
 
@@ -377,34 +383,20 @@ class Auth extends RcModuleV2<Deps> {
 
   getLoginUrl({
     redirectUri,
-    state,
-    brandId,
-    display,
-    prompt,
     force,
     implicit = false,
-  }: {
-    redirectUri: string;
-    state: string;
-    brandId: string;
-    display: string;
-    prompt: string;
-    force: boolean;
-    implicit?: boolean;
-  }) {
+    ...options
+  }: LoginUrlOptions) {
     // TODO: support to set redirectUri in js sdk v4 login function
     if (!this._deps.client.service.platform()._redirectUri) {
       this._deps.client.service.platform()._redirectUri = redirectUri;
     }
     return `${this._deps.client.service.platform().loginUrl({
+      ...options,
       redirectUri,
-      state,
-      brandId,
-      display,
-      prompt,
       implicit,
       usePKCE: this.usePKCE,
-    })}${force ? '&force' : ''}`;
+    })}${force ? '&force=true' : ''}`;
   }
 
   /**

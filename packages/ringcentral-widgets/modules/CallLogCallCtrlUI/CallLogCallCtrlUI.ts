@@ -44,6 +44,7 @@ export default class CallLogCallCtrlUI extends RcUIModule {
   }
 
   private onTransfer = (telephonySessionId: string) => {
+    this._activeCallControl.clickTransferTrack();
     return this._routerInteraction.push(
       `/transfer/${telephonySessionId}/active`,
     );
@@ -55,6 +56,10 @@ export default class CallLogCallCtrlUI extends RcUIModule {
     const currentSession = this._activeCallControl.getActiveSession(
       telephonySessionId,
     );
+    // we can get real callee call status from telephony session
+    const realOutboundCallStatus = this._activeCallControl?.getRcCallSession(
+      telephonySessionId,
+    )?.otherParties[0]?.['status']['code'];
     const { activeOnHoldCalls, activeCurrentCalls } = this._callMonitor;
     const otherActiveCalls =
       currentSession &&
@@ -70,6 +75,7 @@ export default class CallLogCallCtrlUI extends RcUIModule {
       telephonySessionId,
       forwardingNumbers: this._forwardingNumber.forwardingNumbers,
       otherActiveCalls,
+      realOutboundCallStatus,
     };
   }
 
@@ -107,6 +113,16 @@ export default class CallLogCallCtrlUI extends RcUIModule {
         this._activeCallControl,
       ),
       answerAndEnd: this._activeCallControl.answerAndEnd.bind(
+        this._activeCallControl,
+      ),
+      dialpadToggleTrack: (open: boolean) => {
+        if (open) {
+          this._activeCallControl.dialpadOpenTrack();
+        } else {
+          this._activeCallControl.dialpadCloseTrack();
+        }
+      },
+      clickForwardTrack: this._activeCallControl.clickForwardTrack.bind(
         this._activeCallControl,
       ),
     };

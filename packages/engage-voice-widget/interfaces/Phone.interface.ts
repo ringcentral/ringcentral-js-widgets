@@ -25,6 +25,7 @@ import { EvTransferCallUI } from '../modules/EvTransferCallUI';
 import { EvWorkingState } from '../modules/EvWorkingState';
 import { EvTabManager } from '../modules/EvTabManager';
 import { MainViewUI } from '../modules/MainViewUI';
+import { EvChooseAccountUI } from '../modules/EvChooseAccountUI';
 
 // TODO: separated UI and normal module that should just pick getUIProps, getUIFunctions in test environment.
 export type EvPhoneUI = {
@@ -37,6 +38,7 @@ export type EvPhoneUI = {
   evActiveCallListUI: EvActiveCallListUI;
   evSettingsUI: EvSettingsUI;
   evManualDialSettingsUI: EvManualDialSettingsUI;
+  evChooseAccountUI: EvChooseAccountUI;
 };
 
 export type EvPhone = RcModulePhoneType<

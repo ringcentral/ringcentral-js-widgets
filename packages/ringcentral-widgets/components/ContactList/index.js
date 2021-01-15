@@ -36,13 +36,14 @@ export default class ContactList extends Component {
             // skip the caption row for the first group
             const rowOffset = nextState.groups.length !== 0 ? 1 : 0;
             if (rowOffset) {
-              nextState.captionRows[nextState.count] = group.caption;
+              nextState.captionRows[nextState.rowCount] = group.caption;
             }
             nextState.groups.push({
               ...group,
-              startIndex: nextState.count + rowOffset,
+              startIndex: nextState.rowCount + rowOffset,
             });
-            nextState.count += group.contacts.length + rowOffset; // with caption row
+            nextState.rowCount += group.contacts.length + rowOffset; // with caption row
+            nextState.contactCount += group.contacts.length;
             return nextState;
           },
           {
@@ -50,7 +51,8 @@ export default class ContactList extends Component {
             groups: [],
             captions: [],
             captionRows: {},
-            count: 0,
+            rowCount: 0,
+            contactCount: 0,
           },
           props.contactGroups,
         ),
@@ -73,7 +75,7 @@ export default class ContactList extends Component {
   }
 
   isBottomNoticeRow(rowIndex) {
-    return this.props.bottomNotice && rowIndex === this.state.count;
+    return this.props.bottomNotice && rowIndex === this.state.rowCount;
   }
 
   calculateRowHeight = ({ index }) => {
@@ -194,7 +196,7 @@ export default class ContactList extends Component {
         headerHeight={CAPTION_HEIGHT}
         width={this.props.width}
         height={this.props.height}
-        rowCount={this.state.count + (this.props.bottomNotice ? 1 : 0)}
+        rowCount={this.state.rowCount + (this.props.bottomNotice ? 1 : 0)}
         rowHeight={this.calculateRowHeight}
         rowGetter={this.rowGetter}
         onRowsRendered={this.onRowsRendered}
@@ -235,7 +237,15 @@ export default class ContactList extends Component {
         );
       }
     }
-    return <div className={styles.root}>{content}</div>;
+    return (
+      <div
+        className={styles.root}
+        data-sign="contactList"
+        data-contact-count={this.state.contactCount}
+      >
+        {content}
+      </div>
+    );
   }
 }
 

@@ -30,7 +30,7 @@ export class UpdatePageStatus extends Step {
     return (
       <Scenario desc="QuickAccess Module 'updatePageStatus' action">
         <Given
-          desc="Create an Ringout instance with default value"
+          desc="Create an QuickAccess instance with default value"
           action={(_: any, context: any) => {
             const quickAccess = new QuickAccess({} as any);
             expect(quickAccess._initialValue.entered).toBe(false);

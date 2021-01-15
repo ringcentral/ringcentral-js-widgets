@@ -73,7 +73,10 @@ export class RegionSettings extends RcModuleV2<Deps> {
       this,
       () => this.availableCountries,
       () => {
-        if (!this._deps.tabManager || this._deps.tabManager.active) {
+        if (
+          this.ready &&
+          (!this._deps.tabManager || this._deps.tabManager.active)
+        ) {
           this.checkRegionSettings();
         }
       },

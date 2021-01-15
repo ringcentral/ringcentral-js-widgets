@@ -1,14 +1,10 @@
-import { WebSocketOptions } from '@rc-ex/ws/lib/types';
-import Auth from '../Auth';
-import SleepDetector from '../SleepDetector';
+import { RingCentralExtensions } from '../RingCentralExtensions';
 
-export interface WebSocketSubscriptionOptions extends WebSocketOptions {
+export interface WebSocketSubscriptionOptions {
   refreshDelay?: number;
 }
 
 export interface Deps {
-  client: any;
-  auth: Auth;
-  sleepDetector?: SleepDetector;
+  ringCentralExtensions: RingCentralExtensions;
   webSocketSubscriptionOptions?: WebSocketSubscriptionOptions;
 }

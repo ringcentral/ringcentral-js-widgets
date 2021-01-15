@@ -3,22 +3,24 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Environment from 'ringcentral-widgets/components/Environment';
 import { withPhone } from 'ringcentral-widgets/lib/phoneContext';
+import { ModalContainer } from 'ringcentral-widgets/containers/ModalContainer';
 
 import styles from './styles.scss';
 
-function AppView(props) {
+const AppView = ({ children, server, enabled, onSetData }) => {
   return (
     <div className={styles.root}>
-      {props.children}
+      {children}
       <Environment
-        server={props.server}
-        enabled={props.enabled}
-        onSetData={props.onSetData}
+        server={server}
+        enabled={enabled}
+        onSetData={onSetData}
         recordingHost=""
       />
+      <ModalContainer />
     </div>
   );
-}
+};
 
 AppView.propTypes = {
   children: PropTypes.node,

@@ -1,6 +1,6 @@
 import React, { FC, ReactNode } from 'react';
 import { RcFormControlLabel, RcTooltip, RcIcon } from '@ringcentral/juno';
-import lockSvg from '@ringcentral/juno/icons/icon-lock_border.svg';
+import lockSvg from '@ringcentral/juno/icon/LockBorder';
 import i18n from './i18n';
 import styles from './styles.scss';
 
@@ -18,6 +18,7 @@ function generateLockIcon(
         tooltip: styles.tooltip,
       }}
       placement="bottom"
+      data-sign="lockButtonTooltip"
       title={i18n.getString('lockTooltip', currentLocale)}
     >
       <RcIcon size="small" className={styles.lockButton} symbol={lockSvg} />
@@ -33,7 +34,7 @@ interface VideoSecuritySettingsItemProps {
   children: ReactNode;
   hasScrollBar: boolean;
   labelPlacement?: 'end' | 'start' | 'top' | 'bottom';
-  classes: {};
+  classes?: {};
 }
 
 export const VideoSecuritySettingsItem: FC<VideoSecuritySettingsItemProps> = ({

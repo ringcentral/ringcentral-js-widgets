@@ -1,48 +1,50 @@
-import React, { Component, FunctionComponent } from 'react';
 import classnames from 'classnames';
-import sessionStatus from 'ringcentral-integration/modules/Webphone/sessionStatus';
+import formatMessage from 'format-message';
+import React, { Component, FunctionComponent } from 'react';
+import { telephonySessionStatus } from 'ringcentral-integration/enums/telephonySessionStatus';
 import {
   isInbound,
   isRinging,
 } from 'ringcentral-integration/lib/callLogHelpers';
-import { isOnHold } from 'ringcentral-integration/modules/Webphone/webphoneHelper';
 import { isHolding as isTelephonySessionOnHold } from 'ringcentral-integration/modules/ActiveCallControlV2/helpers';
-import formatMessage from 'format-message';
-import CallIcon from '../CallIcon';
-import ContactDisplay from '../ContactDisplay';
-import CircleButton from '../CircleButton';
+import sessionStatus from 'ringcentral-integration/modules/Webphone/sessionStatus';
+import { isOnHold } from 'ringcentral-integration/modules/Webphone/webphoneHelper';
+
+import AnswerIcon from '../../assets/images/Answer.svg';
 import EndIcon from '../../assets/images/End.svg';
 import HoldIcon from '../../assets/images/Hold.svg';
-import SwitchIcon from '../../assets/images/Switch.svg';
-import VoicemailIcon from '../../assets/images/Voicemail.svg';
-import AnswerIcon from '../../assets/images/Answer.svg';
-import MergeIntoConferenceIcon from '../../assets/images/MergeIntoConferenceIcon.svg';
-import TransferIcon from '../../assets/images/Transfer.svg';
-import MediaObject from '../MediaObject';
-import DurationCounter from '../DurationCounter';
-import SwitchImage from '../../assets/images/img_call_switch.svg';
-import IgnoreIcon from '../../assets/images/Ignore.svg';
 import HoldAnswerIcon from '../../assets/images/HoldAnswer.svg';
+import IgnoreIcon from '../../assets/images/Ignore.svg';
+import SwitchImage from '../../assets/images/img_call_switch.svg';
+import MergeIntoConferenceIcon from '../../assets/images/MergeIntoConferenceIcon.svg';
+import SwitchIcon from '../../assets/images/Switch.svg';
+import TransferIcon from '../../assets/images/Transfer.svg';
+import VoicemailIcon from '../../assets/images/Voicemail.svg';
+import i18n from '../ActiveCallItem/i18n';
+import CallIcon from '../CallIcon';
+import CircleButton from '../CircleButton';
+import ContactDisplay from '../ContactDisplay';
+import DurationCounter from '../DurationCounter';
+import MediaObject from '../MediaObject';
 import {
-  ModalContentProps,
-  WebphoneButtonsProps,
   ActiveCallControlButtonsProps,
   ActiveCallItemProps,
   ActiveCallItemState,
+  ModalContentProps,
+  WebphoneButtonsProps,
 } from './ActiveCallItem.interface';
 import styles from './styles.scss';
-import i18n from '../ActiveCallItem/i18n';
 
 export const ModalContent: FunctionComponent<ModalContentProps> = ({
   currentLocale,
   contactName,
 }) => {
   return (
-    <div className={styles.switchDialogContent}>
+    <div>
       <div className={styles.switchDialogImage}>
         <SwitchImage width="116" height="69" />
       </div>
-      <div>
+      <div className={styles.switchDialogContent}>
         {formatMessage(i18n.getString('comfirmContext', currentLocale), {
           // displayName: activeCall.name,
           displayName: contactName,
@@ -70,22 +72,17 @@ const WebphoneButtons: FunctionComponent<WebphoneButtonsProps> = ({
   webphoneIgnore,
   showHoldAnswerBtn,
   showIgnoreBtn,
+  isConnecting = false,
 }) => {
   if (!session) {
     return null;
   }
-  let hangupFunc = webphoneHangup;
-  let endIcon = EndIcon;
-  let answerBtn = null;
+
+  let answerBtn;
   let ignoreBtn;
-  let rejectTitle = i18n.getString('hangup', currentLocale);
-  const holdTitle = i18n.getString('hold', currentLocale);
-  const unholdTitle = i18n.getString('unhold', currentLocale);
+  let endBtn;
 
   if (isInbound(session) && session.callStatus === sessionStatus.connecting) {
-    hangupFunc = webphoneReject;
-    endIcon = VoicemailIcon;
-    rejectTitle = i18n.getString('toVoicemail', currentLocale);
     showHold = false;
     answerBtn = (
       <span
@@ -109,7 +106,7 @@ const WebphoneButtons: FunctionComponent<WebphoneButtonsProps> = ({
             title={i18n.getString('holdAndAnswer', currentLocale)}
             onClick={(e) => {
               e.stopPropagation();
-              webphoneAnswer(session.id, telephonySessionId);
+              webphoneAnswer(session.id, telephonySessionId, true);
             }}
           >
             <HoldAnswerIcon className={styles.answerHoldButton} />
@@ -117,10 +114,35 @@ const WebphoneButtons: FunctionComponent<WebphoneButtonsProps> = ({
         )}
       </span>
     );
+    endBtn = (
+      <span
+        title={i18n.getString('toVoicemail', currentLocale)}
+        className={styles.webphoneButton}
+        data-sign="toVoiceMail"
+      >
+        <CircleButton
+          className={styles.rejectButton}
+          onClick={(e) => {
+            e.stopPropagation();
+            webphoneReject(session.id, telephonySessionId);
+          }}
+          iconWidth={260}
+          iconX={120}
+          icon={VoicemailIcon}
+          showBorder={false}
+          disabled={disableLinks}
+        />
+      </span>
+    );
+
     if (showIgnoreBtn) {
       const ignoreTitle = i18n.getString('ignore', currentLocale);
       ignoreBtn = (
-        <span title={ignoreTitle} className={styles.webphoneButton}>
+        <span
+          title={i18n.getString('ignore', currentLocale)}
+          className={styles.webphoneButton}
+          data-sign="ignore"
+        >
           <CircleButton
             className={classnames({
               [styles.mergeButton]: true,
@@ -135,21 +157,48 @@ const WebphoneButtons: FunctionComponent<WebphoneButtonsProps> = ({
             icon={IgnoreIcon}
             showBorder
             disabled={disableLinks}
-            dataSign={ignoreTitle}
           />
         </span>
       );
     }
+  } else {
+    endBtn = (
+      <span
+        title={i18n.getString('hangup', currentLocale)}
+        className={styles.webphoneButton}
+        data-sign="hangup"
+      >
+        <CircleButton
+          className={styles.rejectButton}
+          onClick={(e) => {
+            e.stopPropagation();
+            webphoneHangup(session.id, telephonySessionId);
+          }}
+          iconWidth={260}
+          iconX={120}
+          icon={EndIcon}
+          showBorder={false}
+          disabled={disableLinks}
+        />
+      </span>
+    );
   }
 
   let holdBtn;
   let mergeBtn;
+
   if (showHold) {
     if (isOnHold(session)) {
       holdBtn = (
-        <span title={unholdTitle} className={styles.webphoneButton}>
+        <span
+          title={i18n.getString('unhold', currentLocale)}
+          className={styles.webphoneButton}
+          data-sign="unhold"
+        >
           <CircleButton
-            className={classnames(styles.holdButton, styles.active)}
+            className={classnames(styles.holdButton, styles.active, {
+              [styles.disabled]: disableLinks || isConnecting,
+            })}
             onClick={(e) => {
               e.stopPropagation();
               webphoneResume(session.id, telephonySessionId);
@@ -157,16 +206,22 @@ const WebphoneButtons: FunctionComponent<WebphoneButtonsProps> = ({
             iconWidth={260}
             iconX={120}
             icon={HoldIcon}
-            disabled={disableLinks}
+            disabled={disableLinks || isConnecting}
             showBorder
           />
         </span>
       );
     } else {
       holdBtn = (
-        <span title={holdTitle} className={styles.webphoneButton}>
+        <span
+          title={i18n.getString('hold', currentLocale)}
+          className={styles.webphoneButton}
+          data-sign="hold"
+        >
           <CircleButton
-            className={styles.holdButton}
+            className={classnames(styles.holdButton, {
+              [styles.disabled]: disableLinks || isConnecting,
+            })}
             onClick={(e) => {
               e.stopPropagation();
               webphoneHold(session.id, telephonySessionId);
@@ -174,7 +229,7 @@ const WebphoneButtons: FunctionComponent<WebphoneButtonsProps> = ({
             iconWidth={260}
             iconX={120}
             icon={HoldIcon}
-            disabled={disableLinks}
+            disabled={disableLinks || isConnecting}
             showBorder
           />
         </span>
@@ -183,10 +238,12 @@ const WebphoneButtons: FunctionComponent<WebphoneButtonsProps> = ({
   }
 
   if (showMergeCall) {
-    const mergeTitle = i18n.getString('mergeToConference', currentLocale);
-
     mergeBtn = (
-      <span title={mergeTitle} className={styles.webphoneButton}>
+      <span
+        title={i18n.getString('mergeToConference', currentLocale)}
+        className={styles.webphoneButton}
+        data-sign="merge"
+      >
         <CircleButton
           className={classnames({
             [styles.mergeButton]: true,
@@ -201,34 +258,17 @@ const WebphoneButtons: FunctionComponent<WebphoneButtonsProps> = ({
           icon={MergeIntoConferenceIcon}
           showBorder
           disabled={disableMerge || disableLinks}
-          dataSign={mergeTitle}
         />
       </span>
     );
   }
+
   return (
     <div className={styles.webphoneButtons}>
       {ignoreBtn}
       {mergeBtn}
       {holdBtn}
-      <span
-        title={rejectTitle}
-        data-sign="toVoiceMail"
-        className={styles.webphoneButton}
-      >
-        <CircleButton
-          className={styles.rejectButton}
-          onClick={(e) => {
-            e.stopPropagation();
-            hangupFunc(session.id, telephonySessionId);
-          }}
-          iconWidth={260}
-          iconX={120}
-          icon={endIcon}
-          showBorder={false}
-          disabled={disableLinks}
-        />
-      </span>
+      {endBtn}
       {answerBtn}
     </div>
   );
@@ -251,6 +291,8 @@ const ActiveCallControlButtons: FunctionComponent<ActiveCallControlButtonsProps>
   onClickSwitchBtn = undefined,
   webphoneResume = undefined,
   webphoneHold = undefined,
+  isConnecting = false,
+  clickSwitchTrack = () => {},
 }) => {
   if (!showRingoutCallControl && !showSwitchCall) return null;
   let switchCallButton;
@@ -270,6 +312,7 @@ const ActiveCallControlButtons: FunctionComponent<ActiveCallControlButtonsProps>
           onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
             e.stopPropagation();
             if (!disabled) {
+              clickSwitchTrack();
               onClickSwitchBtn();
             }
           }}
@@ -282,12 +325,13 @@ const ActiveCallControlButtons: FunctionComponent<ActiveCallControlButtonsProps>
     return <div className={styles.ringoutButtons}>{switchCallButton}</div>;
   }
 
-  let endButton;
-  let holdBtn = null;
+  let endBtn;
+  let holdBtn;
+
   const inComingCall = inbound && ringing;
   if (inComingCall) {
     const rejectTitle = i18n.getString('reject', currentLocale);
-    endButton = (
+    endBtn = (
       <span
         title={rejectTitle}
         className={styles.ringoutButton}
@@ -309,10 +353,9 @@ const ActiveCallControlButtons: FunctionComponent<ActiveCallControlButtonsProps>
       </span>
     );
   } else {
-    const hangupTitle = i18n.getString('hangup', currentLocale);
-    endButton = (
+    endBtn = (
       <span
-        title={hangupTitle}
+        title={i18n.getString('hangup', currentLocale)}
         className={styles.ringoutButton}
         data-sign="hangup"
       >
@@ -331,14 +374,20 @@ const ActiveCallControlButtons: FunctionComponent<ActiveCallControlButtonsProps>
         />
       </span>
     );
-    const holdTitle = i18n.getString('hold', currentLocale);
-    const unholdTitle = i18n.getString('unhold', currentLocale);
+
+    const disabled = disableLinks || isConnecting || ringing;
     if (session) {
       if (isTelephonySessionOnHold(session)) {
         holdBtn = (
-          <span title={unholdTitle} className={styles.webphoneButton}>
+          <span
+            title={i18n.getString('unhold', currentLocale)}
+            className={styles.webphoneButton}
+            data-sign="unhold"
+          >
             <CircleButton
-              className={classnames(styles.holdButton, styles.active)}
+              className={classnames(styles.holdButton, styles.active, {
+                [styles.disabled]: disabled,
+              })}
               onClick={(e) => {
                 e.stopPropagation();
                 webphoneResume('', telephonySessionId);
@@ -346,16 +395,22 @@ const ActiveCallControlButtons: FunctionComponent<ActiveCallControlButtonsProps>
               iconWidth={260}
               iconX={120}
               icon={HoldIcon}
-              disabled={disableLinks}
+              disabled={disabled}
               showBorder
             />
           </span>
         );
       } else {
         holdBtn = (
-          <span title={holdTitle} className={styles.webphoneButton}>
+          <span
+            title={i18n.getString('hold', currentLocale)}
+            className={classnames(styles.webphoneButton)}
+            data-sign="hold"
+          >
             <CircleButton
-              className={styles.holdButton}
+              className={classnames(styles.holdButton, {
+                [styles.disabled]: disabled,
+              })}
               onClick={(e) => {
                 e.stopPropagation();
                 webphoneHold('', telephonySessionId);
@@ -363,7 +418,7 @@ const ActiveCallControlButtons: FunctionComponent<ActiveCallControlButtonsProps>
               iconWidth={260}
               iconX={120}
               icon={HoldIcon}
-              disabled={disableLinks}
+              disabled={disabled}
               showBorder
             />
           </span>
@@ -403,7 +458,7 @@ const ActiveCallControlButtons: FunctionComponent<ActiveCallControlButtonsProps>
       {showHoldOnOtherDevice && holdBtn}
       {showTransferCall && transferBtn}
       {switchCallButton}
-      {endButton}
+      {endBtn}
     </div>
   );
 };
@@ -628,16 +683,14 @@ export class ActiveCallItem extends Component<
       typeof this.props.renderContactName === 'function'
         ? this.props.renderContactName(this.props.call)
         : undefined;
+    // TODO: Consider refactoring modalConfirm out of UI components
     this.modalId = this.props.modalConfirm({
       size: 'small',
       title: i18n.getString('callSwitch', this.props.currentLocale),
       dialogProps: { className: styles.switchDialog },
-      content: (
-        <ModalContent
-          currentLocale={this.props.currentLocale}
-          contactName={contactName}
-        />
-      ),
+      contentProps: {
+        contactName,
+      },
       okText: i18n.getString('comfirmOKButton', this.props.currentLocale),
       cancelText: i18n.getString(
         'comfirmCancelButton',
@@ -694,6 +747,7 @@ export class ActiveCallItem extends Component<
       webphoneIgnore,
       showHoldAnswerBtn,
       showIgnoreBtn,
+      clickSwitchTrack,
     } = this.props;
 
     const { avatarUrl, extraNum } = this.state;
@@ -718,6 +772,10 @@ export class ActiveCallItem extends Component<
       showSwitchCall
     );
     const cursorPointer = hasCallControl && !!onClick;
+    // real outbound call status
+    const isConnecting =
+      telephonySession?.otherParties[0]?.status.code ===
+      telephonySessionStatus.proceeding;
     return (
       <div data-sign="callItem" className={styles.callItemContainer}>
         <MediaObject
@@ -792,6 +850,7 @@ export class ActiveCallItem extends Component<
               {webphoneSession ? (
                 <WebphoneButtons
                   session={webphoneSession}
+                  isConnecting={isConnecting}
                   telephonySessionId={telephonySessionId}
                   webphoneReject={this.webphoneToVoicemail}
                   webphoneHangup={webphoneHangup}
@@ -826,6 +885,8 @@ export class ActiveCallItem extends Component<
                   showHoldOnOtherDevice={showHoldOnOtherDevice}
                   webphoneResume={webphoneResume}
                   webphoneHold={webphoneHold}
+                  isConnecting={isConnecting}
+                  clickSwitchTrack={clickSwitchTrack}
                 />
               )}
               {extraButton}

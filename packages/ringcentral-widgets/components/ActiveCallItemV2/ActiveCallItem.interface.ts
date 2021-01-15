@@ -1,3 +1,8 @@
+import {
+  Session,
+  WebPhoneSession,
+} from 'ringcentral-integration/modules/ActiveCallControlV2';
+
 export interface ModalContentProps {
   currentLocale: string;
   contactName: string;
@@ -5,7 +10,7 @@ export interface ModalContentProps {
 
 export interface WebphoneButtonsProps {
   currentLocale: string;
-  session?: WebphoneSession;
+  session?: WebPhoneSession;
   webphoneReject: (
     webphoneSessionId: string,
     telephonySessionId: string,
@@ -26,6 +31,7 @@ export interface WebphoneButtonsProps {
   webphoneAnswer: (
     webphoneSessionId: string,
     telephonySessionId: string,
+    isHoldAndAnswer?: boolean,
   ) => any;
   disableLinks?: boolean;
   isOnHold: (session: object) => boolean;
@@ -34,6 +40,7 @@ export interface WebphoneButtonsProps {
   showIgnoreBtn?: boolean;
   showHoldAnswerBtn?: boolean;
   useCallDetailV2?: boolean;
+  isConnecting?: boolean;
 }
 
 export interface ActiveCallControlButtonsProps {
@@ -56,16 +63,12 @@ export interface ActiveCallControlButtonsProps {
     telephonySessionId: string,
   ) => any;
   webphoneHold?: (webphoneSessionId: string, telephonySessionId: string) => any;
-}
-
-interface WebphoneSession {
-  callStatus: string;
-  id: string;
-  contactMatch: any;
+  isConnecting?: boolean;
+  clickSwitchTrack?: () => any;
 }
 
 interface Call {
-  direction: string;
+  direction: 'Inbound' | 'Outbound';
   telephonyStatus?: string;
   startTime: number;
   offset?: number;
@@ -82,9 +85,9 @@ interface Call {
     extensionNumber?: string;
     name?: string;
   };
-  webphoneSession?: WebphoneSession;
+  webphoneSession?: WebPhoneSession;
   telephonySessionId?: string;
-  telephonySession?: object;
+  telephonySession?: Session;
 }
 
 export interface ActiveCallItemProps {
@@ -134,6 +137,7 @@ export interface ActiveCallItemProps {
   webphoneAnswer: (
     webphoneSessionId: string,
     telephonySessionId: string,
+    isHoldAndAnswer?: boolean,
   ) => any;
   ringoutHangup: (telephonySessionId: string) => any;
   ringoutTransfer: (telephonySessionId: string) => any;
@@ -153,6 +157,7 @@ export interface ActiveCallItemProps {
   showHoldAnswerBtn?: boolean;
   useCallDetailV2?: boolean;
   showIgnoreBtn?: boolean;
+  clickSwitchTrack?: () => any;
 }
 
 export interface ActiveCallItemState {

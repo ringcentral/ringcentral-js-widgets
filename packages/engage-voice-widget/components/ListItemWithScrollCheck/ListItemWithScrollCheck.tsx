@@ -16,6 +16,7 @@ export const ListItemWithScrollCheck: FunctionComponent<ListItemWithScrollCheckP
   children,
   scrollCheck,
   className,
+  ...rest
 }) => {
   const selectElm = useRef();
 
@@ -27,6 +28,7 @@ export const ListItemWithScrollCheck: FunctionComponent<ListItemWithScrollCheckP
 
   return (
     <RcListItem
+      {...rest}
       innerRef={selectElm}
       button
       selected={selected}

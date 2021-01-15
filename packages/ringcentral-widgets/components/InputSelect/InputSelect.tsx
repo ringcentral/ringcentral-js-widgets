@@ -4,7 +4,7 @@ import {
   RcListItemText,
   RcTextField,
 } from '@ringcentral/juno';
-import arrowDownSvg from '@ringcentral/juno/icons/icon-arrow_down.svg';
+import arrowDownSvg from '@ringcentral/juno/icon/ArrowDown2';
 import React, { Component } from 'react';
 
 import { bindDebounce } from '../../lib/bindDebounce';

@@ -9,10 +9,7 @@ function renderFunction(option) {
 }
 
 function searchOption(option, text) {
-  return (
-    option.gateName &&
-    option.gateName.toLowerCase().includes(text.toLowerCase())
-  );
+  return option?.gateName?.toLowerCase().includes(text.toLowerCase());
 }
 
 const currentLocale = 'en-US';
@@ -192,9 +189,7 @@ export const CheckInboundQueuesPanel: StepFunction<any> = ({
 }) => {
   const wrapper = setup(list);
   if (bulkClick) {
-    findElement(wrapper, 'bulkChangeCheckBox')
-      .find('input')
-      .simulate('click');
+    findElement(wrapper, 'bulkChangeCheckBox').find('input').simulate('click');
   }
   expect(findElement(wrapper, 'selectedTips').text()).toBe(
     `${assignment} of ${list.length} Selected`,
