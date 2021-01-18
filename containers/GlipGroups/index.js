@@ -30,7 +30,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 function mapToProps(_, _ref) {
   var _ref$phone = _ref.phone,
       glipGroups = _ref$phone.glipGroups,
-      contactList = _ref$phone.contactList,
+      contactListUI = _ref$phone.contactListUI,
       _ref$hiddenCurrentGro = _ref.hiddenCurrentGroup,
       hiddenCurrentGroup = _ref$hiddenCurrentGro === void 0 ? false : _ref$hiddenCurrentGro;
   return {
@@ -38,15 +38,15 @@ function mapToProps(_, _ref) {
     currentGroupId: hiddenCurrentGroup ? null : glipGroups.currentGroupId,
     searchFilter: glipGroups.searchFilter,
     currentPage: glipGroups.pageNumber,
-    filteredContacts: contactList.filteredContacts,
-    contactSearchFilter: contactList.searchFilter
+    filteredContacts: contactListUI.filteredContacts,
+    contactSearchFilter: contactListUI.searchFilter
   };
 }
 
 function mapToFunctions(_, _ref2) {
   var _ref2$phone = _ref2.phone,
       glipGroups = _ref2$phone.glipGroups,
-      contactList = _ref2$phone.contactList,
+      contactListUI = _ref2$phone.contactListUI,
       onSelectGroup = _ref2.onSelectGroup;
   return {
     onSelectGroup: onSelectGroup,
@@ -61,7 +61,7 @@ function mapToFunctions(_, _ref2) {
       });
     },
     updateContactSearchFilter: function updateContactSearchFilter(searchFilter) {
-      contactList.applyFilters({
+      contactListUI.applyFilters({
         searchFilter: searchFilter
       });
     },
