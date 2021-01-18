@@ -862,40 +862,44 @@ var RcVideo = (_dec = (0, _di.Module)({
                   meetingDetail = (0, _ramda.omit)([_videoHelper.RCV_WAITTING_ROOM_API_KEYS], meetingDetail);
                 }
 
-                meetingResult = this._client.service.platform().post('/rcvideo/v1/bridges', meetingDetail);
+                _context12.next = 8;
+                return this._client.service.platform().post('/rcvideo/v1/bridges', meetingDetail);
+
+              case 8:
+                meetingResult = _context12.sent;
                 this.updateMeetingSettings(_objectSpread(_objectSpread({}, meeting), {}, {
                   saveAsDefault: false
                 })); // After Create
 
-                _context12.next = 10;
+                _context12.next = 12;
                 return this._getDialinNumbers();
 
-              case 10:
+              case 12:
                 dialInNumber = _context12.sent;
-                _context12.next = 13;
+                _context12.next = 15;
                 return this.getExtensionInfo(this.currentUser.extensionId);
 
-              case 13:
+              case 15:
                 extensionInfo = _context12.sent;
 
                 if (!meeting.saveAsDefault) {
-                  _context12.next = 17;
+                  _context12.next = 19;
                   break;
                 }
 
-                _context12.next = 17;
+                _context12.next = 19;
                 return this.savePreferencesChanges(meeting);
 
-              case 17:
+              case 19:
                 if (!this._enableReloadAfterSchedule) {
-                  _context12.next = 20;
+                  _context12.next = 22;
                   break;
                 }
 
-                _context12.next = 20;
+                _context12.next = 22;
                 return this._initMeeting(Number(this.currentUser.extensionId));
 
-              case 20:
+              case 22:
                 if (isAlertSuccess) {
                   setTimeout(function () {
                     _this3._alert.success({
@@ -904,10 +908,10 @@ var RcVideo = (_dec = (0, _di.Module)({
                   }, 50);
                 }
 
-                _context12.next = 23;
+                _context12.next = 25;
                 return meetingResult.json();
 
-              case 23:
+              case 25:
                 newMeeting = _context12.sent;
                 this.store.dispatch({
                   type: this.actionTypes.created
@@ -920,8 +924,8 @@ var RcVideo = (_dec = (0, _di.Module)({
                 };
                 return _context12.abrupt("return", _objectSpread(_objectSpread({}, meetingResponse), meeting));
 
-              case 30:
-                _context12.prev = 30;
+              case 32:
+                _context12.prev = 32;
                 _context12.t0 = _context12["catch"](1);
                 this.store.dispatch({
                   type: this.actionTypes.resetCreating
@@ -931,12 +935,12 @@ var RcVideo = (_dec = (0, _di.Module)({
 
                 return _context12.abrupt("return", null);
 
-              case 35:
+              case 37:
               case "end":
                 return _context12.stop();
             }
           }
-        }, _callee12, this, [[1, 30]]);
+        }, _callee12, this, [[1, 32]]);
       }));
 
       function createMeetingDirectly(_x3) {

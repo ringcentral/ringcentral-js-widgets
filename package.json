@@ -21,6 +21,7 @@
     "@ringcentral-integration/babel-settings": "*",
     "@ringcentral-integration/core": "*",
     "@ringcentral-integration/locale-loader": "*",
+    "@ringcentral-integration/locale-settings": "*",
     "@ringcentral-integration/phone-number": "*",
     "@ringcentral-integration/test-utils": "*",
     "@ringcentral/sdk": "^4.3.2",
