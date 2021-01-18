@@ -69,7 +69,8 @@ var RUNTIME = {
   locale: DEFAULT_LOCALE,
   defaultLocale: DEFAULT_LOCALE,
   instances: new Set(),
-  padRatio: 0.3
+  padRatio: 0.3,
+  fallbackLocale: DEFAULT_LOCALE
 };
 /**
  * @function
@@ -235,13 +236,17 @@ var I18n = /*#__PURE__*/function () {
             switch (_context3.prev = _context3.next) {
               case 0:
                 _context3.next = 2;
-                return this._load(RUNTIME.defaultLocale);
+                return this._load(RUNTIME.fallbackLocale);
 
               case 2:
                 _context3.next = 4;
-                return this._load(RUNTIME.locale);
+                return this._load(RUNTIME.defaultLocale);
 
               case 4:
+                _context3.next = 6;
+                return this._load(RUNTIME.locale);
+
+              case 6:
               case "end":
                 return _context3.stop();
             }
@@ -266,6 +271,10 @@ var I18n = /*#__PURE__*/function () {
         return this._cache[RUNTIME.defaultLocale][key];
       }
 
+      if (this._cache[RUNTIME.fallbackLocale] && Object.prototype.hasOwnProperty.call(this._cache[RUNTIME.fallbackLocale], key)) {
+        return this._cache[RUNTIME.fallbackLocale][key];
+      }
+
       return key;
     }
   }, {
@@ -275,7 +284,7 @@ var I18n = /*#__PURE__*/function () {
 
       if (locale === PSEUDO_LOCALE) {
         return (0, _toPseudoString["default"])({
-          str: this._getString(key, RUNTIME.defaultLocale),
+          str: this._getString(key, RUNTIME.fallbackLocale),
           padRatio: RUNTIME.padRatio
         });
       }
