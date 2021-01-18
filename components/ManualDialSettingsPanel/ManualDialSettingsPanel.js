@@ -76,7 +76,8 @@ var ManualDialSettingsPanel = function ManualDialSettingsPanel(_ref) {
         key: key,
         InputProps: {
           value: select.renderValue,
-          required: select.required
+          required: select.required,
+          'data-sign': dataSign
         },
         options: select.options,
         currentLocale: currentLocale,

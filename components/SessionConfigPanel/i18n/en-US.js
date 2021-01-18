@@ -14,7 +14,10 @@ var _default = {
   takingCalls: 'Persistent Voice Connection',
   answerCalls: 'Auto answer calls',
   "continue": 'Continue',
-  enterYourPhoneNumber: 'Enter your phone number'
+  enterYourPhoneNumber: 'Enter your phone number',
+  switchAccount: 'Switch account',
+  agent: 'Agent',
+  supervisor: 'Supervisor'
 };
 exports["default"] = _default;
 //# sourceMappingURL=en-US.js.map

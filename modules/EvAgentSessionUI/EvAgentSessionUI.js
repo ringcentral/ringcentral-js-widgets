@@ -9,8 +9,6 @@ require("core-js/modules/es6.object.define-properties");
 
 require("core-js/modules/es7.object.get-own-property-descriptors");
 
-require("core-js/modules/es6.function.name");
-
 require("core-js/modules/es6.string.iterator");
 
 require("core-js/modules/es6.array.from");
@@ -59,6 +57,8 @@ require("core-js/modules/es6.array.map");
 
 require("core-js/modules/es6.array.find-index");
 
+require("core-js/modules/es6.function.name");
+
 require("regenerator-runtime/runtime");
 
 var _core = require("@ringcentral-integration/core");
@@ -71,7 +71,7 @@ var _sortByName = require("../../lib/sortByName");
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
-var _dec, _dec2, _dec3, _class, _class2, _descriptor, _temp;
+var _dec, _dec2, _dec3, _dec4, _class, _class2, _descriptor, _temp;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -127,7 +127,10 @@ function _initializerWarningHelper(descriptor, context) { throw new Error('Decor
 
 var EvAgentSessionUI = (_dec = (0, _di.Module)({
   name: 'EvAgentSessionUI',
-  deps: ['Locale', 'RouterInteraction', 'EvAuth', 'EvAgentSession', 'EvSettings', 'EvWorkingState', 'Storage', 'Modal', 'EvCallMonitor', {
+  deps: ['Locale', 'RouterInteraction', 'EvAuth', 'EvAgentSession', 'EvSettings', 'EvWorkingState', 'Storage', 'ModalUI', 'EvCallMonitor', 'Block', 'EvClient', {
+    dep: 'TabManager',
+    optional: true
+  }, {
     dep: 'EvAgentSessionUIOptions',
     optional: true
   }]
@@ -135,6 +138,8 @@ var EvAgentSessionUI = (_dec = (0, _di.Module)({
   return [that._deps.locale.currentLocale, that._deps.evAgentSession.inboundQueues, that._deps.evAgentSession.formGroup.selectedInboundQueueIds];
 }), _dec3 = (0, _core.computed)(function (that) {
   return [that._deps.evAgentSession.formGroup.selectedInboundQueueIds, that._deps.evAgentSession.inboundQueues];
+}), _dec4 = (0, _core.computed)(function (that) {
+  return [that._deps.evAuth.authenticateResponse.agents, that._deps.evAuth.agentId];
 }), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcUIModuleV) {
   _inherits(EvAgentSessionUI, _RcUIModuleV);
 
@@ -157,6 +162,82 @@ var EvAgentSessionUI = (_dec = (0, _di.Module)({
   }
 
   _createClass(EvAgentSessionUI, [{
+    key: "onStateChange",
+    value: function () {
+      var _onStateChange = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+        var _this$_deps$tabManage;
+
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                if (!(this.ready && this._deps.tabManager.ready && ((_this$_deps$tabManage = this._deps.tabManager) === null || _this$_deps$tabManage === void 0 ? void 0 : _this$_deps$tabManage.enable))) {
+                  _context.next = 3;
+                  break;
+                }
+
+                _context.next = 3;
+                return this._checkTabManagerEvent();
+
+              case 3:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function onStateChange() {
+        return _onStateChange.apply(this, arguments);
+      }
+
+      return onStateChange;
+    }()
+  }, {
+    key: "_checkTabManagerEvent",
+    value: function () {
+      var _checkTabManagerEvent2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+        var event;
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                event = this._deps.tabManager.event;
+
+                if (!event) {
+                  _context2.next = 9;
+                  break;
+                }
+
+                _context2.t0 = event.name;
+                _context2.next = _context2.t0 === _enums.tabManagerEvents.RE_CHOOSE_ACCOUNT ? 5 : 8;
+                break;
+
+              case 5:
+                _context2.next = 7;
+                return this._onAccountReChoose();
+
+              case 7:
+                return _context2.abrupt("break", 9);
+
+              case 8:
+                return _context2.abrupt("break", 9);
+
+              case 9:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function _checkTabManagerEvent() {
+        return _checkTabManagerEvent2.apply(this, arguments);
+      }
+
+      return _checkTabManagerEvent;
+    }()
+  }, {
     key: "setIsLoading",
     value: function setIsLoading(isLoading) {
       this.isLoading = isLoading;
@@ -169,39 +250,57 @@ var EvAgentSessionUI = (_dec = (0, _di.Module)({
   }, {
     key: "setConfigure",
     value: function () {
-      var _setConfigure = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-        return regeneratorRuntime.wrap(function _callee$(_context) {
+      var _setConfigure = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
+        var _this2 = this;
+
+        return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
-            switch (_context.prev = _context.next) {
+            switch (_context4.prev = _context4.next) {
               case 0:
-                this.setIsLoading(true);
-                _context.prev = 1;
-                _context.next = 4;
-                return this._deps.evAgentSession.configureAgent({
-                  needAssignFormGroupValue: true
-                });
+                _context4.next = 2;
+                return this._deps.block.next( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
+                  return regeneratorRuntime.wrap(function _callee3$(_context3) {
+                    while (1) {
+                      switch (_context3.prev = _context3.next) {
+                        case 0:
+                          _this2.setIsLoading(true);
 
-              case 4:
-                _context.next = 10;
-                break;
+                          _context3.prev = 1;
+                          _context3.next = 4;
+                          return _this2._deps.evAgentSession.configureAgent({
+                            needAssignFormGroupValue: true
+                          });
 
-              case 6:
-                _context.prev = 6;
-                _context.t0 = _context["catch"](1);
-                console.error(_context.t0);
-                return _context.abrupt("return");
+                        case 4:
+                          _context3.next = 9;
+                          break;
 
-              case 10:
-                _context.prev = 10;
-                this.setIsLoading(false);
-                return _context.finish(10);
+                        case 6:
+                          _context3.prev = 6;
+                          _context3.t0 = _context3["catch"](1);
+                          console.error(_context3.t0);
 
-              case 13:
+                        case 9:
+                          _context3.prev = 9;
+
+                          _this2.setIsLoading(false);
+
+                          return _context3.finish(9);
+
+                        case 12:
+                        case "end":
+                          return _context3.stop();
+                      }
+                    }
+                  }, _callee3, null, [[1, 6, 9, 12]]);
+                })));
+
+              case 2:
               case "end":
-                return _context.stop();
+                return _context4.stop();
             }
           }
-        }, _callee, this, [[1, 6, 10, 13]]);
+        }, _callee4, this);
       }));
 
       function setConfigure() {
@@ -213,22 +312,23 @@ var EvAgentSessionUI = (_dec = (0, _di.Module)({
   }, {
     key: "showSaveEditionModal",
     value: function showSaveEditionModal() {
-      var _this2 = this;
+      var _this3 = this;
 
       var currentLocale = this._deps.locale.currentLocale;
 
-      this._deps.modal.confirm({
+      this._deps.modalUI.confirm({
         title: _i18n["default"].getString('saveEditionModalTitle', currentLocale),
         content: _i18n["default"].getString('saveEditionModalContent', currentLocale),
         okText: _i18n["default"].getString('save', currentLocale),
         cancelText: _i18n["default"].getString('cancel', currentLocale),
+        size: 'xsmall',
         onOK: function onOK() {
-          _this2.onSaveUpdate();
+          _this3.onSaveUpdate();
         },
         onCancel: function onCancel() {
-          _this2._deps.evAgentSession.resetFormGroup();
+          _this3._deps.evAgentSession.resetFormGroup();
 
-          _this2._deps.evAgentSession.goToSettingsPage();
+          _this3._deps.evAgentSession.goToSettingsPage();
         }
       });
     }
@@ -244,28 +344,28 @@ var EvAgentSessionUI = (_dec = (0, _di.Module)({
   }, {
     key: "onSaveUpdate",
     value: function () {
-      var _onSaveUpdate = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
-        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+      var _onSaveUpdate = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
+        return regeneratorRuntime.wrap(function _callee5$(_context5) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context5.prev = _context5.next) {
               case 0:
                 if (this._deps.evAgentSession.isSessionChanged) {
-                  _context2.next = 2;
+                  _context5.next = 2;
                   break;
                 }
 
-                return _context2.abrupt("return", this._deps.evAgentSession.goToSettingsPage());
+                return _context5.abrupt("return", this._deps.evAgentSession.goToSettingsPage());
 
               case 2:
-                _context2.next = 4;
+                _context5.next = 4;
                 return this._deps.evAgentSession.updateAgent(this.voiceConnectionChanged);
 
               case 4:
               case "end":
-                return _context2.stop();
+                return _context5.stop();
             }
           }
-        }, _callee2, this);
+        }, _callee5, this);
       }));
 
       function onSaveUpdate() {
@@ -334,6 +434,62 @@ var EvAgentSessionUI = (_dec = (0, _di.Module)({
       });
     }
   }, {
+    key: "_onAccountReChoose",
+    value: function () {
+      var _onAccountReChoose2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
+        var _this4 = this;
+
+        var syncAllTabs,
+            _args7 = arguments;
+        return regeneratorRuntime.wrap(function _callee7$(_context7) {
+          while (1) {
+            switch (_context7.prev = _context7.next) {
+              case 0:
+                syncAllTabs = _args7.length > 0 && _args7[0] !== undefined ? _args7[0] : false;
+                _context7.next = 3;
+                return this._deps.block.next( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
+                  return regeneratorRuntime.wrap(function _callee6$(_context6) {
+                    while (1) {
+                      switch (_context6.prev = _context6.next) {
+                        case 0:
+                          if (syncAllTabs) {
+                            _this4._deps.tabManager.send(_enums.tabManagerEvents.RE_CHOOSE_ACCOUNT);
+                          }
+
+                          if (_this4._deps.evClient.ifSocketExist) {
+                            _this4._deps.evClient.closeSocket();
+                          }
+
+                          _this4._deps.evAuth.clearAgentId();
+
+                          _this4._deps.routerInteraction.push('/chooseAccount');
+
+                          _context6.next = 6;
+                          return _this4._deps.evAuth.authenticateWithToken();
+
+                        case 6:
+                        case "end":
+                          return _context6.stop();
+                      }
+                    }
+                  }, _callee6);
+                })));
+
+              case 3:
+              case "end":
+                return _context7.stop();
+            }
+          }
+        }, _callee7, this);
+      }));
+
+      function _onAccountReChoose() {
+        return _onAccountReChoose2.apply(this, arguments);
+      }
+
+      return _onAccountReChoose;
+    }()
+  }, {
     key: "getUIProps",
     value: function getUIProps() {
       var _this$_deps$evAgentSe = this._deps.evAgentSession,
@@ -361,64 +517,68 @@ var EvAgentSessionUI = (_dec = (0, _di.Module)({
         isExtensionNumber: isExternalPhone,
         isLoading: this.isLoading,
         currentLocale: this._deps.locale.currentLocale,
-        // Inboudqueue Panel
+        // InboundQueue Panel
         inboundQueues: this.inboundQueues,
         showAutoAnswer: allowAutoAnswer && this.selectedIntegratedSoftphone,
         showInboundQueues: allowLoginControl && allowInbound,
-        showSkillProfile: allowLoginControl && skillProfileList.length > 0
+        showSkillProfile: allowLoginControl && skillProfileList.length > 0,
+        selectedAgent: this._selectedAgent,
+        showReChooseAccount: !this._deps.evAuth.isOnlyOneAgent
       };
     }
   }, {
     key: "getUIFunctions",
     value: function getUIFunctions() {
-      var _this3 = this;
+      var _this5 = this;
 
       return {
         setSkillProfileId: function setSkillProfileId(selectedSkillProfileId) {
-          return _this3._deps.evAgentSession.setFormGroup({
+          return _this5._deps.evAgentSession.setFormGroup({
             selectedSkillProfileId: selectedSkillProfileId
           });
         },
         setLoginType: function setLoginType(loginType) {
-          return _this3.setLoginType(loginType);
+          return _this5.setLoginType(loginType);
         },
         setExtensionNumber: function setExtensionNumber(extensionNumber) {
-          return _this3._deps.evAgentSession.setFormGroup({
+          return _this5._deps.evAgentSession.setFormGroup({
             extensionNumber: extensionNumber
           });
         },
         setAutoAnswer: function setAutoAnswer(autoAnswer) {
-          return _this3._deps.evAgentSession.setFormGroup({
+          return _this5._deps.evAgentSession.setFormGroup({
             autoAnswer: autoAnswer
           });
         },
         submitInboundQueues: function submitInboundQueues(queues, cb) {
-          return _this3.submitInboundQueues(queues, cb);
+          return _this5.submitInboundQueues(queues, cb);
         },
         // setTakingCall: (takingCall) =>
         //   this._deps.evAgentSession.setTakingCall(takingCall),
         setConfigure: function setConfigure() {
-          return _this3.setConfigure();
+          return _this5.setConfigure();
         },
         goToSettingsPage: function goToSettingsPage() {
-          return _this3._deps.evAgentSession.goToSettingsPage();
+          return _this5._deps.evAgentSession.goToSettingsPage();
         },
         goToSettingsPageWhetherSessionChanged: function goToSettingsPageWhetherSessionChanged() {
-          return _this3.goToSettingsPageWhetherSessionChanged();
+          return _this5.goToSettingsPageWhetherSessionChanged();
         },
         onSaveUpdate: function onSaveUpdate() {
-          return _this3.onSaveUpdate();
+          return _this5.onSaveUpdate();
         },
-        // Inboudqueue Panel
+        // InboundQueue Panel
         searchOption: function searchOption(option, text) {
-          return option.gateName && option.gateName.toLowerCase().includes(text.toLowerCase());
+          var _option$gateName;
+
+          return option === null || option === void 0 ? void 0 : (_option$gateName = option.gateName) === null || _option$gateName === void 0 ? void 0 : _option$gateName.toLowerCase().includes(text.toLowerCase());
         },
         goBack: function goBack() {
-          return _this3.goBack();
+          return _this5.goBack();
         },
         getAssignedInboundQueues: function getAssignedInboundQueues(inboundQueues) {
-          return inboundQueues.filter(function (_ref) {
-            var checked = _ref.checked;
+          return inboundQueues.filter(function (_ref3) {
+            var checked = _ref3.checked;
             return checked;
           });
         },
@@ -429,10 +589,13 @@ var EvAgentSessionUI = (_dec = (0, _di.Module)({
           return !!assignedInboundQueues.length && assignedInboundQueues.length !== inboundQueues.length;
         },
         checkBoxOnChange: function checkBoxOnChange() {
-          return _this3._checkBoxOnChange.apply(_this3, arguments);
+          return _this5._checkBoxOnChange.apply(_this5, arguments);
         },
         allCheckBoxOnChange: function allCheckBoxOnChange() {
-          return _this3._allCheckBoxOnChange.apply(_this3, arguments);
+          return _this5._allCheckBoxOnChange.apply(_this5, arguments);
+        },
+        onAccountReChoose: function onAccountReChoose() {
+          return _this5._onAccountReChoose(true);
         }
       };
     }
@@ -480,6 +643,16 @@ var EvAgentSessionUI = (_dec = (0, _di.Module)({
     get: function get() {
       return this._deps.evAgentSession.loginType !== this._deps.evAgentSession.formGroup.loginType;
     }
+  }, {
+    key: "_selectedAgent",
+    get: function get() {
+      var _this6 = this;
+
+      var agents = this._deps.evAuth.authenticateResponse.agents;
+      return agents.find(function (agent) {
+        return agent.agentId === _this6._deps.evAuth.agentId;
+      });
+    }
   }]);
 
   return EvAgentSessionUI;
@@ -490,6 +663,6 @@ var EvAgentSessionUI = (_dec = (0, _di.Module)({
   initializer: function initializer() {
     return false;
   }
-}), _applyDecoratedDescriptor(_class2.prototype, "inboundQueuesFieldText", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "inboundQueuesFieldText"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setIsLoading", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setIsLoading"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "inboundQueues", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "inboundQueues"), _class2.prototype)), _class2)) || _class);
+}), _applyDecoratedDescriptor(_class2.prototype, "inboundQueuesFieldText", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "inboundQueuesFieldText"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setIsLoading", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setIsLoading"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "inboundQueues", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "inboundQueues"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_selectedAgent", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "_selectedAgent"), _class2.prototype)), _class2)) || _class);
 exports.EvAgentSessionUI = EvAgentSessionUI;
 //# sourceMappingURL=EvAgentSessionUI.js.map

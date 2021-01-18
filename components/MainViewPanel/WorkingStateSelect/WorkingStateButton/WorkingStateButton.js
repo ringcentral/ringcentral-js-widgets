@@ -37,9 +37,9 @@ require("core-js/modules/es6.array.map");
 
 var _juno = require("@ringcentral/juno");
 
-var _iconArrowDown = _interopRequireDefault(require("@ringcentral/juno/icons/icon-arrow-down.svg"));
+var _ArrowDown = _interopRequireDefault(require("@ringcentral/juno/icon/ArrowDown"));
 
-var _iconArrowUp = _interopRequireDefault(require("@ringcentral/juno/icons/icon-arrow-up.svg"));
+var _ArrowUp = _interopRequireDefault(require("@ringcentral/juno/icon/ArrowUp"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
@@ -115,7 +115,7 @@ var WorkingStateButton = function WorkingStateButton(_ref) {
     "data-sign": "timer"
   }, timerText), /*#__PURE__*/_react["default"].createElement(_juno.RcIcon, {
     className: _styles["default"].icon,
-    symbol: menuOpened ? _iconArrowUp["default"] : _iconArrowDown["default"]
+    symbol: menuOpened ? _ArrowUp["default"] : _ArrowDown["default"]
   }))), /*#__PURE__*/_react["default"].createElement(_juno.RcMenu, {
     PaperProps: {
       style: {

@@ -34,12 +34,14 @@ var CircleIconButton = function CircleIconButton(_ref) {
       active = _ref.active,
       normal = _ref.normal,
       className = _ref.className,
-      placement = _ref.placement;
+      placement = _ref.placement,
+      dataSign = _ref.dataSign;
   // this div provides ref for RcTooltip because RcFabIconButton can't
   return /*#__PURE__*/_react["default"].createElement(_Tooltip.Tooltip, {
     title: title,
     placement: placement
   }, /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement(_juno.RcFabIconButton, {
+    "data-sign": dataSign,
     color: color,
     symbol: symbol,
     size: size,
@@ -57,6 +59,7 @@ CircleIconButton.defaultProps = {
   active: false,
   normal: false,
   className: undefined,
-  placement: 'bottom'
+  placement: 'bottom',
+  dataSign: undefined
 };
 //# sourceMappingURL=CircleIconButton.js.map

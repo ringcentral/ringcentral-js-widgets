@@ -27,7 +27,7 @@ require("core-js/modules/es6.array.map");
 
 var _juno = require("@ringcentral/juno");
 
-var _iconDialer = _interopRequireDefault(require("@ringcentral/juno/icons/icon-dialer.svg"));
+var _Dialer = _interopRequireDefault(require("@ringcentral/juno/icon/Dialer"));
 
 var _react = _interopRequireWildcard(require("react"));
 
@@ -76,7 +76,7 @@ var TransferCallPanel = function TransferCallPanel(_ref) {
       size: "medium",
       color: ['primary', 'main'],
       variant: "plain",
-      symbol: _iconDialer["default"]
+      symbol: _Dialer["default"]
     }) : /*#__PURE__*/_react["default"].createElement(_CustomArrowButton.CustomArrowButton, {
       disabled: disabled
     });

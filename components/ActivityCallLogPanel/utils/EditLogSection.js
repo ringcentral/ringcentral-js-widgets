@@ -1,6 +1,18 @@
 "use strict";
 
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+require("core-js/modules/es7.symbol.async-iterator");
+
+require("core-js/modules/es6.symbol");
+
 require("core-js/modules/es6.object.define-property");
+
+require("core-js/modules/web.dom.iterable");
+
+require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.string.iterator");
 
@@ -11,29 +23,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.EditLogSection = void 0;
 
-require("core-js/modules/es7.symbol.async-iterator");
-
-require("core-js/modules/es6.symbol");
-
-require("core-js/modules/es6.promise");
-
-require("regenerator-runtime/runtime");
-
-require("core-js/modules/web.dom.iterable");
-
-require("core-js/modules/es6.array.iterator");
-
-require("core-js/modules/es6.object.to-string");
-
-require("core-js/modules/es6.object.keys");
-
-require("core-js/modules/es6.function.name");
-
 var _react = _interopRequireWildcard(require("react"));
 
 var _CallLogFields = _interopRequireDefault(require("ringcentral-widgets/components/CallLogFields"));
-
-var _i18n = _interopRequireDefault(require("../i18n"));
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
@@ -43,179 +35,18 @@ function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return 
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
-var rightIconRender = function rightIconRender() {
-  return /*#__PURE__*/_react["default"].createElement("div", {
-    className: _styles["default"].fillRight
-  });
-};
-
-var _getReferenceFieldOptions = function _getReferenceFieldOptions(currentLocale) {
-  var getNameLabel = function getNameLabel() {
-    var item = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-    var length = arguments.length > 1 ? arguments[1] : undefined;
-    var id = item.id,
-        name = item.name,
-        type = item.type;
-
-    if (!id) {
-      return length > 1 ? "".concat(_i18n["default"].getString('multipleNameMatch', currentLocale), " (").concat(length, ")") : _i18n["default"].getString('none', currentLocale);
-    }
-
-    return name ? "".concat(name) : "".concat(type, "(").concat(id, ")");
-  };
-
-  var getRelatedToLabel = function getRelatedToLabel() {
-    var item = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-    var length = arguments.length > 1 ? arguments[1] : undefined;
-    var caseNumber = item.caseNumber,
-        name = item.name,
-        type = item.type;
-
-    if (Object.keys(item).length === 0) {
-      return length > 1 ? "".concat(_i18n["default"].getString('multipleRelatedToMatch', currentLocale), " (").concat(length, ")") : _i18n["default"].getString('none', currentLocale);
-    }
-
-    return name ? "".concat(name) : "".concat(type, "(").concat(caseNumber, ")");
-  };
-
-  var onNameChange = function onNameChange(_ref) {
-    var _ref$currentLog = _ref.currentLog,
-        task = _ref$currentLog.task,
-        currentSessionId = _ref$currentLog.currentSessionId,
-        onUpdateCallLog = _ref.onUpdateCallLog;
-    return /*#__PURE__*/function () {
-      var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(item) {
-        var id, relatedTo;
-        return regeneratorRuntime.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                id = item.id;
-                relatedTo = task.whatid;
-                _context.next = 4;
-                return onUpdateCallLog({
-                  isSaved: false,
-                  task: {
-                    whoid: id || '',
-                    whatid: relatedTo || ''
-                  }
-                }, currentSessionId);
-
-              case 4:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee);
-      }));
-
-      return function (_x) {
-        return _ref2.apply(this, arguments);
-      };
-    }();
-  };
-
-  var onRelatedToChange = function onRelatedToChange(_ref3) {
-    var currentSessionId = _ref3.currentLog.currentSessionId,
-        onUpdateCallLog = _ref3.onUpdateCallLog;
-    return /*#__PURE__*/function () {
-      var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(item) {
-        var id;
-        return regeneratorRuntime.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                id = (_typeof(item) === 'object' ? item.id : item) || null;
-                _context2.next = 3;
-                return onUpdateCallLog({
-                  isSaved: false,
-                  task: {
-                    whatid: id || ''
-                  }
-                }, currentSessionId);
-
-              case 3:
-              case "end":
-                return _context2.stop();
-            }
-          }
-        }, _callee2);
-      }));
-
-      return function (_x2) {
-        return _ref4.apply(this, arguments);
-      };
-    }();
-  };
-
-  return {
-    whoid: {
-      getLabel: getNameLabel,
-      onChange: onNameChange,
-      metadata: {
-        title: _i18n["default"].getString('name', currentLocale),
-        placeholder: _i18n["default"].getString('namePlaceholder', currentLocale),
-        valueField: 'whoid'
-      },
-      currentOptionFinder: function currentOptionFinder(task) {
-        return function (item) {
-          return item.id === task.whoid;
-        };
-      },
-      matchedEntitiesGetter: function matchedEntitiesGetter(_ref5) {
-        var nameEntities = _ref5.nameEntities;
-        return nameEntities;
-      },
-      otherEntitiesGetter: function otherEntitiesGetter(_ref6) {
-        var name = _ref6.navigateToEntities.name;
-        return name;
-      },
-      rightIconRender: rightIconRender,
-      backHeaderClassName: _styles["default"].backHeader
-    },
-    whatid: {
-      getLabel: getRelatedToLabel,
-      onChange: onRelatedToChange,
-      metadata: {
-        title: _i18n["default"].getString('relatedTo', currentLocale),
-        placeholder: _i18n["default"].getString('relatedToPlaceholder', currentLocale),
-        valueField: 'whatid'
-      },
-      currentOptionFinder: function currentOptionFinder(task) {
-        return function (item) {
-          return item.id === task.whatid;
-        };
-      },
-      matchedEntitiesGetter: function matchedEntitiesGetter(_ref7) {
-        var relatedToEntities = _ref7.relatedToEntities;
-        return relatedToEntities;
-      },
-      otherEntitiesGetter: function otherEntitiesGetter(_ref8) {
-        var relatedTo = _ref8.navigateToEntities.relatedTo;
-        return relatedTo;
-      },
-      rightIconRender: rightIconRender,
-      backHeaderClassName: _styles["default"].backHeader
-    }
-  };
-};
-
-var EditLogSection = function EditLogSection(_ref9) {
-  var onUpdateCallLog = _ref9.onUpdateCallLog,
-      currentLog = _ref9.currentLog,
-      currentLocale = _ref9.currentLocale,
-      onSaveCallLog = _ref9.onSaveCallLog,
-      subjectDropdownsTracker = _ref9.subjectDropdownsTracker,
-      editSectionScrollBy = _ref9.editSectionScrollBy,
-      startAdornmentRender = _ref9.startAdornmentRender,
-      scrollTo = _ref9.scrollTo,
-      rootRef = _ref9.rootRef;
+var EditLogSection = function EditLogSection(_ref) {
+  var onUpdateCallLog = _ref.onUpdateCallLog,
+      currentLog = _ref.currentLog,
+      currentLocale = _ref.currentLocale,
+      onSaveCallLog = _ref.onSaveCallLog,
+      subjectDropdownsTracker = _ref.subjectDropdownsTracker,
+      editSectionScrollBy = _ref.editSectionScrollBy,
+      startAdornmentRender = _ref.startAdornmentRender,
+      scrollTo = _ref.scrollTo,
+      isWide = _ref.isWide,
+      rootRef = _ref.rootRef,
+      referenceFieldOptions = _ref.referenceFieldOptions;
   var dispositionIdRef = (0, _react.useRef)(null);
   (0, _react.useEffect)(function () {
     if ((rootRef === null || rootRef === void 0 ? void 0 : rootRef.current) && dispositionIdRef.current) {
@@ -234,7 +65,8 @@ var EditLogSection = function EditLogSection(_ref9) {
 
   }, [scrollTo]);
   return /*#__PURE__*/_react["default"].createElement(_CallLogFields["default"], {
-    referenceFieldOptions: _getReferenceFieldOptions(currentLocale),
+    fieldSize: isWide ? 'medium' : 'small',
+    referenceFieldOptions: referenceFieldOptions,
     subjectDropdownsTracker: subjectDropdownsTracker,
     onUpdateCallLog: onUpdateCallLog,
     onSaveCallLog: onSaveCallLog,
@@ -252,4 +84,7 @@ var EditLogSection = function EditLogSection(_ref9) {
 };
 
 exports.EditLogSection = EditLogSection;
+EditLogSection.defaultProps = {
+  referenceFieldOptions: {}
+};
 //# sourceMappingURL=EditLogSection.js.map

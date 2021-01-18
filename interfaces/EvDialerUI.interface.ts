@@ -15,7 +15,6 @@ export type EvDialerUIProps = {
 export type EvDialerUIFunctions = {
   dialout(): void;
   goToManualDialSettings(): void;
-  checkOnCall(): void;
   setToNumber(value: string): void;
   hangup(): void;
 };

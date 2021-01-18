@@ -33,6 +33,6 @@ EvSessionConfigAlert.handleMessage = ({ message }: HandleMessage): boolean =>
     messageTypes.UPDATE_AGENT_SUCCESS,
     messageTypes.UPDATE_AGENT_ERROR,
     messageTypes.EMPTY_PHONE_NUMBER,
-    messageTypes.NO_AGENT_SELECTED,
+    messageTypes.NOT_INBOUND_QUEUE_SELECTED,
     messageTypes.INVALID_PHONE_NUMBER,
   ]);

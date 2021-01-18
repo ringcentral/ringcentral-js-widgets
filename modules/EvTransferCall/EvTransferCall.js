@@ -121,7 +121,7 @@ function _initializerWarningHelper(descriptor, context) { throw new Error('Decor
 
 var EvTransferCall = (_dec = (0, _di.Module)({
   name: 'EvTransferCall',
-  deps: ['EvClient', 'EvCallMonitor', 'EvCall', 'EvSubscription', 'EvWorkingState', 'Storage', 'Modal', 'EvAuth', 'Locale', 'Alert', 'EvAgentSession', {
+  deps: ['EvClient', 'EvCallMonitor', 'EvCall', 'EvSubscription', 'EvWorkingState', 'Storage', 'ModalUI', 'EvAuth', 'Locale', 'Alert', 'EvAgentSession', {
     dep: 'EvTransferCallOptions',
     optional: true
   }]
@@ -427,12 +427,12 @@ var EvTransferCall = (_dec = (0, _di.Module)({
     value: function closeModals() {
       // close send voice modal.
       if (this._sendVoiceMailModalId) {
-        this._deps.modal.close(this._sendVoiceMailModalId);
+        this._deps.modalUI.close(this._sendVoiceMailModalId);
       } // close ignore/accept transfer modal.
 
 
       if (this._incomingTransferCallModalId) {
-        this._deps.modal.close(this._incomingTransferCallModalId);
+        this._deps.modalUI.close(this._incomingTransferCallModalId);
       }
     }
   }, {
@@ -1047,14 +1047,15 @@ var EvTransferCall = (_dec = (0, _di.Module)({
 
       var currentLocale = this._deps.locale.currentLocale;
       var content = this.getErrorContent(data);
-      this._sendVoiceMailModalId = this._deps.modal.confirm({
+      this._sendVoiceMailModalId = this._deps.modalUI.confirm({
         title: _i18n["default"].getString('transferModalTitle', currentLocale),
         okText: _i18n["default"].getString('sendVoicemail', currentLocale),
         content: _i18n["default"].getString(content, currentLocale),
         cancelText: _i18n["default"].getString('selectOtherAgents', currentLocale),
         onOK: function onOK() {
           _this8.sendVoicemailToAgent();
-        }
+        },
+        size: 'xsmall'
       });
     }
   }, {
@@ -1085,7 +1086,7 @@ var EvTransferCall = (_dec = (0, _di.Module)({
       var _this9 = this;
 
       var currentLocale = this._deps.locale.currentLocale;
-      this._incomingTransferCallModalId = this._deps.modal.confirm({
+      this._incomingTransferCallModalId = this._deps.modalUI.confirm({
         title: _i18n["default"].getString('incomingTransferTitle', currentLocale),
         content: _i18n["default"].getString('incomingTransferContent', currentLocale),
         okText: _i18n["default"].getString('acceptIncomingTransfer', currentLocale),
@@ -1095,7 +1096,8 @@ var EvTransferCall = (_dec = (0, _di.Module)({
         },
         onCancel: function onCancel() {
           _this9.rejectTransferCall();
-        }
+        },
+        size: 'xsmall'
       });
     }
   }, {

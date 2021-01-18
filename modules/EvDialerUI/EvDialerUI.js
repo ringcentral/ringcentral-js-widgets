@@ -17,8 +17,6 @@ require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.array.is-array");
 
-require("core-js/modules/es6.promise");
-
 require("core-js/modules/es6.object.create");
 
 require("core-js/modules/es6.regexp.to-string");
@@ -43,8 +41,6 @@ require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.for-each");
 
-require("regenerator-runtime/runtime");
-
 var _core = require("@ringcentral-integration/core");
 
 var _di = require("ringcentral-integration/lib/di");
@@ -64,10 +60,6 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
 
@@ -148,49 +140,42 @@ var EvDialerUI = (_dec = (0, _di.Module)({
       var _this2 = this;
 
       this._deps.evAuth.beforeAgentLogout(function () {
-        _this2.reset();
+        // * if that logout is not from update session
+        if (!_this2._deps.evAgentSession.isAgentUpdating) {
+          _this2.reset();
+        }
+      });
+
+      (0, _core.watch)(this, function () {
+        return _this2._deps.routerInteraction.currentPath;
+      }, function (newValue) {
+        if (newValue === '/dialer') {
+          _this2.checkOnCall();
+        }
       });
     }
   }, {
     key: "checkOnCall",
-    value: function () {
-      var _checkOnCall = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-        var _this$_deps$evCallMon, call, isPendingDisposition, id;
+    value: function checkOnCall() {
+      // onCall or not yet disposed call, it should navigate to the `activityCallLog/:id` router.
+      var _this$_deps$evCallMon = _slicedToArray(this._deps.evCallMonitor.calls, 1),
+          call = _this$_deps$evCallMon[0];
 
-        return regeneratorRuntime.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                // onCall or not yet disposed call, it should navigate to the `activityCallLog/:id` router.
-                _this$_deps$evCallMon = _slicedToArray(this._deps.evCallMonitor.calls, 1), call = _this$_deps$evCallMon[0];
-                isPendingDisposition = this._deps.evWorkingState.isPendingDisposition;
+      var isPendingDisposition = this._deps.evWorkingState.isPendingDisposition;
+      var id;
 
-                if (isPendingDisposition) {
-                  id = this._deps.evCallMonitor.callLogsIds[0];
-                }
-
-                if (call) {
-                  id = this._deps.evClient.encodeUii(call.session);
-                }
-
-                if (id) {
-                  this._deps.routerInteraction.push("/activityCallLog/".concat(id));
-                }
-
-              case 5:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee, this);
-      }));
-
-      function checkOnCall() {
-        return _checkOnCall.apply(this, arguments);
+      if (isPendingDisposition) {
+        id = this._deps.evCallMonitor.callLogsIds[0];
       }
 
-      return checkOnCall;
-    }()
+      if (call) {
+        id = this._deps.evClient.encodeUii(call.session);
+      }
+
+      if (id) {
+        this._deps.routerInteraction.push("/activityCallLog/".concat(id));
+      }
+    }
   }, {
     key: "getUIProps",
     value: function getUIProps() {
@@ -225,9 +210,6 @@ var EvDialerUI = (_dec = (0, _di.Module)({
         },
         goToManualDialSettings: function goToManualDialSettings() {
           _this3._deps.routerInteraction.push('/manualDialSettings');
-        },
-        checkOnCall: function checkOnCall() {
-          return _this3.checkOnCall();
         },
         hangup: function hangup() {
           if (!_this3._deps.evSettings.isManualOffhook) {

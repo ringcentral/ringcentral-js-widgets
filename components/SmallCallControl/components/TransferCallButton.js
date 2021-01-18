@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.TransferCallButton = void 0;
 
-var _iconTransferCall = _interopRequireDefault(require("@ringcentral/juno/icons/icon-transfer-call.svg"));
+var _TransferCall = _interopRequireDefault(require("@ringcentral/juno/icon/TransferCall"));
 
 var _react = _interopRequireDefault(require("react"));
 
@@ -24,10 +24,12 @@ var TransferCallButton = function TransferCallButton(_ref) {
       transferRef = _ref.transferRef,
       disableTransfer = _ref.disableTransfer,
       size = _ref.size,
-      className = _ref.className;
+      className = _ref.className,
+      dataSign = _ref.dataSign;
   return /*#__PURE__*/_react["default"].createElement(_CircleIconButton.CircleIconButton, {
+    dataSign: dataSign,
     "data-icon": "transfer-call",
-    symbol: _iconTransferCall["default"],
+    symbol: _TransferCall["default"],
     title: _i18n["default"].getString('transfer', currentLocale),
     active: isOnTransfer,
     onClick: onTransfer,
@@ -43,6 +45,7 @@ exports.TransferCallButton = TransferCallButton;
 TransferCallButton.defaultProps = {
   onTransfer: function onTransfer() {},
   disableTransfer: false,
-  currentLocale: 'en-US'
+  currentLocale: 'en-US',
+  dataSign: 'transferCall'
 };
 //# sourceMappingURL=TransferCallButton.js.map

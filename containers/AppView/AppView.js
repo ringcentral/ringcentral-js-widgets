@@ -35,7 +35,11 @@ var AppViewPanel = function AppViewPanel(_ref) {
 
     switch (currentPath) {
       case '/sessionUpdate':
-        couldNotAccess = phone.evAuth.agent.agentConfig.agentPermissions.allowLoginUpdates ? false : true;
+        couldNotAccess = !phone.evAuth.agent.agentConfig.agentPermissions.allowLoginUpdates;
+        break;
+
+      default:
+        break;
     }
   }
 

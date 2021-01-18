@@ -7,12 +7,6 @@ exports.EvCallHistory = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
-require("core-js/modules/es6.object.define-properties");
-
-require("core-js/modules/es7.object.get-own-property-descriptors");
-
-require("core-js/modules/es6.array.filter");
-
 require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.object.create");
@@ -39,11 +33,21 @@ require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.for-each");
 
+require("core-js/modules/es6.function.name");
+
+require("core-js/modules/es6.array.find");
+
 require("core-js/modules/es6.array.map");
+
+require("core-js/modules/es6.array.filter");
+
+var _moment = _interopRequireDefault(require("moment"));
 
 var _core = require("@ringcentral-integration/core");
 
 var _di = require("ringcentral-integration/lib/di");
+
+var _callDirections = require("ringcentral-integration/enums/callDirections");
 
 var _directTransferNotificationTypes = require("../../enums/directTransferNotificationTypes");
 
@@ -55,13 +59,9 @@ var _callbackTypes = require("../../lib/EvClient/enums/callbackTypes");
 
 var _dec, _dec2, _dec3, _dec4, _class, _class2;
 
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -136,6 +136,13 @@ var EvCallHistory = (_dec = (0, _di.Module)({
 
 
   _createClass(EvCallHistory, [{
+    key: "_getLastWeekDayTimestamp",
+    value: function _getLastWeekDayTimestamp() {
+      var now = (0, _moment["default"])();
+      var lastWeekDay = now.clone().subtract(7, 'days').startOf('day');
+      return lastWeekDay.valueOf();
+    }
+  }, {
     key: "onInitOnce",
     value: function onInitOnce() {
       this._deps.evSubscription.subscribe(_callbackTypes.EvCallbackTypes.DIRECT_AGENT_TRANSFER_NOTIF, function (data) {
@@ -173,7 +180,13 @@ var EvCallHistory = (_dec = (0, _di.Module)({
     get: function get() {
       var _this2 = this;
 
-      return this.rawCalls.map(function (call) {
+      var lastWeekDayTimestamp = this._getLastWeekDayTimestamp(); // max 250 and 7 days
+
+
+      var calls = this.rawCalls.slice(0, 250).filter(function (call) {
+        return call.timestamp >= lastWeekDayTimestamp;
+      });
+      return calls.map(function (call) {
         var contactMatchIdentify = (0, _contactMatchIdentify.contactMatchIdentifyEncode)({
           phoneNumber: call.ani,
           callType: call.callType
@@ -181,11 +194,42 @@ var EvCallHistory = (_dec = (0, _di.Module)({
 
         var id = _this2._deps.evCallMonitor.getCallId(call.session);
 
-        return _objectSpread(_objectSpread({}, call), {}, {
-          // TODO confirm about using `toMatches` & `fromMatches`?
-          contactMatches: _this2.contactMatches[contactMatchIdentify] || [],
-          activityMatches: _this2.activityMatches[id] || []
-        });
+        var direction = call.callType.toLowerCase() === 'outbound' ? _callDirections.callDirection.outbound : _callDirections.callDirection.inbound;
+        var contactMatches = _this2.contactMatches[contactMatchIdentify] || [];
+        var activityMatches = _this2.activityMatches[id] || [];
+        var agent = {
+          name: call.agentId,
+          phoneNumber: call.agentId
+        };
+        var name = '';
+
+        if (contactMatches.length && activityMatches.length) {
+          var activity = activityMatches[0];
+          var matched = contactMatches.find(function (match) {
+            return match.id === activity;
+          });
+
+          if (matched) {
+            name = matched.name;
+          }
+        }
+
+        var contact = {
+          name: name,
+          phoneNumber: call.ani
+        };
+        return {
+          id: id,
+          direction: direction,
+          from: direction === _callDirections.callDirection.outbound ? agent : contact,
+          to: direction === _callDirections.callDirection.outbound ? contact : agent,
+          fromName: direction === _callDirections.callDirection.outbound ? agent.name || agent.phoneNumber : contact.name || contact.phoneNumber,
+          toName: direction === _callDirections.callDirection.outbound ? contact.name || contact.phoneNumber : agent.name || agent.phoneNumber,
+          fromMatches: contactMatches,
+          toMatches: contactMatches,
+          activityMatches: activityMatches,
+          startTime: call.timestamp
+        };
       });
     }
   }, {

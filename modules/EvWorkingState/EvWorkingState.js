@@ -65,7 +65,7 @@ var _enums = require("../../enums");
 
 var _callbackTypes = require("../../lib/EvClient/enums/callbackTypes");
 
-var _dec, _dec2, _dec3, _dec4, _class, _class2, _descriptor, _descriptor2, _descriptor3, _temp;
+var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _class, _class2, _descriptor, _descriptor2, _descriptor3, _temp;
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -130,10 +130,16 @@ var EvWorkingState = (_dec = (0, _di.Module)({
     optional: true
   }]
 }), _dec2 = (0, _core.computed)(function (that) {
-  return [that.agentState, that.isPendingDisposition];
+  return [that.agentConfig.agentSettings, that.workingState.agentState];
 }), _dec3 = (0, _core.computed)(function (that) {
-  return [that.agentConfig, that.isPendingDisposition, that.agentConfig.agentSettings.availableAgentStates];
+  return [that.workingState.agentState];
 }), _dec4 = (0, _core.computed)(function (that) {
+  return [that.workingState.agentState];
+}), _dec5 = (0, _core.computed)(function (that) {
+  return [that.agentState, that.isPendingDisposition];
+}), _dec6 = (0, _core.computed)(function (that) {
+  return [that.agentConfig, that.isPendingDisposition, that.agentConfig.agentSettings.availableAgentStates];
+}), _dec7 = (0, _core.computed)(function (that) {
   return [that.agentStates];
 }), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcModuleV) {
   _inherits(EvWorkingState, _RcModuleV);
@@ -317,6 +323,29 @@ var EvWorkingState = (_dec = (0, _di.Module)({
       return this._deps.evAuth.agent.agentConfig;
     }
   }, {
+    key: "maxBreakTime",
+    get: function get() {
+      if (this.isOnBreakOrAway) {
+        return parseInt(this.agentConfig.agentSettings.maxBreakTime || '0', 10) * 60 * 1000;
+      }
+
+      if (this.isOnLunch) {
+        return parseInt(this.agentConfig.agentSettings.maxLunchTime || '0', 10) * 60 * 1000;
+      }
+
+      return 1000 * 60;
+    }
+  }, {
+    key: "isOnBreakOrAway",
+    get: function get() {
+      return [_enums.agentStateTypes.away, _enums.agentStateTypes.onBreak].indexOf(this.workingState.agentState) > -1;
+    }
+  }, {
+    key: "isOnLunch",
+    get: function get() {
+      return this.workingState.agentState === _enums.agentStateTypes.lunch;
+    }
+  }, {
     key: "workingState",
     get: function get() {
       return this.isPendingDisposition ? PendingDisposition : _objectSpread(_objectSpread({}, this.agentState), {}, {
@@ -364,6 +393,6 @@ var EvWorkingState = (_dec = (0, _di.Module)({
   initializer: function initializer() {
     return false;
   }
-}), _applyDecoratedDescriptor(_class2.prototype, "workingState", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "workingState"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "agentStates", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "agentStates"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "workingAgentState", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "workingAgentState"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setAgentState", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setAgentState"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setIsPendingDisposition", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setIsPendingDisposition"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "resetWorkingState", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "resetWorkingState"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setTime", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setTime"), _class2.prototype)), _class2)) || _class);
+}), _applyDecoratedDescriptor(_class2.prototype, "maxBreakTime", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "maxBreakTime"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "isOnBreakOrAway", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "isOnBreakOrAway"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "isOnLunch", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "isOnLunch"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "workingState", [_dec5], Object.getOwnPropertyDescriptor(_class2.prototype, "workingState"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "agentStates", [_dec6], Object.getOwnPropertyDescriptor(_class2.prototype, "agentStates"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "workingAgentState", [_dec7], Object.getOwnPropertyDescriptor(_class2.prototype, "workingAgentState"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setAgentState", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setAgentState"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setIsPendingDisposition", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setIsPendingDisposition"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "resetWorkingState", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "resetWorkingState"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setTime", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setTime"), _class2.prototype)), _class2)) || _class);
 exports.EvWorkingState = EvWorkingState;
 //# sourceMappingURL=EvWorkingState.js.map

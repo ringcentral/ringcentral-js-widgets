@@ -7,6 +7,8 @@ exports.EvActivityCallUI = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
+require("core-js/modules/es6.promise");
+
 require("core-js/modules/es6.object.define-properties");
 
 require("core-js/modules/es7.object.get-own-property-descriptors");
@@ -29,6 +31,12 @@ require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.array.reduce");
 
+require("core-js/modules/web.dom.iterable");
+
+require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.object.to-string");
+
 require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.for-each");
@@ -40,16 +48,6 @@ require("core-js/modules/es6.array.map");
 require("core-js/modules/es6.array.some");
 
 require("core-js/modules/es6.function.name");
-
-require("core-js/modules/es6.promise");
-
-require("core-js/modules/web.dom.iterable");
-
-require("core-js/modules/es6.array.iterator");
-
-require("core-js/modules/es6.object.to-string");
-
-require("core-js/modules/es6.string.iterator");
 
 require("regenerator-runtime/runtime");
 
@@ -294,24 +292,22 @@ var EvActivityCallUI = (_dec = (0, _di.Module)({
     key: "disposeCall",
     value: function () {
       var _disposeCall = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-        var promises, evAgentScript, call;
+        var evAgentScript, call;
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                promises = [this._deps.evCallDisposition.disposeCall(this.callId)];
+                this._deps.evCallDisposition.disposeCall(this.callId);
+
                 evAgentScript = this._deps.evAgentScript;
                 call = this.currentEvCall; // evAgentScript.isDisplayAgentScript &&
 
                 if (call.scriptId) {
                   evAgentScript.setCurrentCallScript(null);
-                  promises.push(evAgentScript.saveScriptResult(call));
+                  evAgentScript.saveScriptResult(call);
                 }
 
-                _context.next = 6;
-                return Promise.all(promises);
-
-              case 6:
+              case 4:
               case "end":
                 return _context.stop();
             }
@@ -684,7 +680,8 @@ var EvActivityCallUI = (_dec = (0, _di.Module)({
         currentLogCall: {
           isFailed: false,
           isAutoSave: false,
-          isCreated: false
+          isCreated: false,
+          phoneNumber: currentCall.ani
         },
         customLogFields: dispositionPickList.length === 0 ? [] : [{
           label: 'Notes',

@@ -1,8 +1,10 @@
 import { RcIcon, RcIconProps } from '@ringcentral/juno';
-import phoneSvg from '@ringcentral/juno/icons/icon-phone.svg';
-import phoneBorderSvg from '@ringcentral/juno/icons/icon-phone_border.svg';
-import settingsSvg from '@ringcentral/juno/icons/icon-settings.svg';
-import settingsBorderSvg from '@ringcentral/juno/icons/icon-settings_border.svg';
+import phoneSvg from '@ringcentral/juno/icon/Phone';
+import phoneBorderSvg from '@ringcentral/juno/icon/PhoneBorder';
+import TimeSvg from '@ringcentral/juno/icon/Time';
+import TimeBorderSvg from '@ringcentral/juno/icon/TimeBorder';
+import settingsSvg from '@ringcentral/juno/icon/Settings';
+import settingsBorderSvg from '@ringcentral/juno/icon/SettingsBorder';
 import classNames from 'classnames';
 import React, { FunctionComponent, useMemo } from 'react';
 import { TabPropTypes } from 'ringcentral-widgets/components/NavigationBar';
@@ -22,8 +24,6 @@ import i18n from './i18n';
 import styles from './styles.scss';
 import { WorkingStateSelect } from './WorkingStateSelect';
 
-// import TimeSvg from '@ringcentral/juno/icons/icon-time.svg';
-// import TimeBorderSvg from '@ringcentral/juno/icons/icon-time_border.svg';
 export type MainViewPanelProps = EvMainViewUIProps & EvMainViewUIFunctions;
 
 const CustomIcon: FunctionComponent<RcIconProps> = (props) => {
@@ -61,15 +61,14 @@ const MainViewPanel: FunctionComponent<MainViewPanelProps> = ({
         currentPath === '/dialer' || /^\/activityCallLog/.test(currentPath),
       className: styles.tab,
     },
-    // The call history function is not available yet
-    // {
-    //   icon: () => <CustomIcon symbol={TimeBorderSvg} />,
-    //   activeIcon: () => <CustomIcon symbol={TimeSvg} />,
-    //   label: i18n.getString('historyLabel', currentLocale),
-    //   path: '/history',
-    //   isActive: (currentPath) => /^\/history/.test(currentPath),
-    //   className: styles.tab,
-    // },
+    {
+      icon: () => <CustomIcon symbol={TimeBorderSvg} />,
+      activeIcon: () => <CustomIcon symbol={TimeSvg} />,
+      label: i18n.getString('historyLabel', currentLocale),
+      path: '/history',
+      isActive: (currentPath) => /^\/history/.test(currentPath),
+      className: styles.tab,
+    },
     {
       icon: () => <CustomIcon symbol={settingsBorderSvg} />,
       activeIcon: () => <CustomIcon symbol={settingsSvg} />,

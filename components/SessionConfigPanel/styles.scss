@@ -1,8 +1,6 @@
 @import '../../scss/variables.scss';
 
 .root {
-  @include pageSpace();
-
   height: 100%;
   .svgStyle {
     display: block;
@@ -14,7 +12,49 @@
     padding: 20px 0;
   }
 
-  button.button {
-    margin-top: 4px;
+  .goBackBg {
+    background: rc-palette(bg, primaryLightest);
+    margin-bottom: 16px;
+  }
+
+  .goBack {
+    display: inline-flex;
+    align-items: center;
+    height: 28px;
+    button,
+    p {
+      cursor: pointer;
+    }
+  }
+
+  .wrapperStyle,
+  .basicSession,
+  .configureButton,
+  .accountInfo {
+    @include pageSpace();
+  }
+
+  .accountInfo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 24px;
+  }
+
+  button.configureButton {
+    margin-top: 14px;
+    width: calc(100% - 32px);
+  }
+
+  .backText {
+    color: rc-palette(text, button);
+  }
+
+  .accountName {
+    color: rc-palette(text, dark);
+  }
+
+  .agentType {
+    color: rc-palette(text, subdued);
   }
 }

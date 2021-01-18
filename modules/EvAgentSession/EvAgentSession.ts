@@ -30,8 +30,8 @@ import {
 import { TabLife } from '../../lib/tabLife';
 import { trackEvents } from '../../lib/trackEvents';
 import { AgentSession, Deps, FormGroup } from './EvAgentSession.interface';
-import { tabManagerEnabled } from './tabManagerEnabled.decorator';
 import i18n from './i18n';
+import { tabManagerEnabled } from './tabManagerEnabled.decorator';
 
 const ACCEPTABLE_LOGIN_TYPES = [
   loginTypes.integratedSoftphone,
@@ -53,7 +53,11 @@ const DEFAULT_FORM_GROUP = {
   autoAnswer: false,
 };
 
-type AutoConfigType = 'already success' | 'other tab config' | 'config';
+type AutoConfigType =
+  | 'already success'
+  | 'other tab config'
+  | 'config'
+  | 'retry';
 
 type ConfigureAgentParams = {
   config?: EvConfigureAgentOptions;
@@ -73,7 +77,7 @@ type ConfigureAgentParams = {
     'Locale',
     'Presence',
     'RouterInteraction',
-    'Modal',
+    'ModalUI',
     'Block',
     'Beforeunload',
     { dep: 'TabManager', optional: true },
@@ -82,15 +86,16 @@ type ConfigureAgentParams = {
 })
 class EvAgentSession extends RcModuleV2<Deps> implements AgentSession {
   isForceLogin = false;
-
-  _isReConfiguring = false;
-
   isReconnected = false;
+  isAgentUpdating = false;
+
+  private _isReConfiguring = false;
+
+  _autoConfigureRetryTimes = 0;
 
   private _eventEmitter = new EventEmitter();
   private _loginPromise: Promise<void>;
 
-  private _isAgentUpdating = false;
   private _updateSessionBlockId: string;
   private _isLogin = false;
 
@@ -509,8 +514,8 @@ class EvAgentSession extends RcModuleV2<Deps> implements AgentSession {
         this._deps.presence.setDialoutStatus(dialoutStatuses.idle);
       }
 
-      if (this._isAgentUpdating) {
-        this._isAgentUpdating = false;
+      if (this.isAgentUpdating) {
+        this.isAgentUpdating = false;
       } else {
         console.log('!!!!to Dialer');
         this._deps.routerInteraction.push('/dialer');
@@ -527,7 +532,7 @@ class EvAgentSession extends RcModuleV2<Deps> implements AgentSession {
     if (this.isIntegratedSoftphone) {
       try {
         await this._deps.block.next(async () => {
-          // !! sip resiter need to configure agent at fisrt
+          // !! sip register need to configure agent at fisrt
           await this.configureAgent({
             triggerEvent: false,
           });
@@ -611,8 +616,8 @@ class EvAgentSession extends RcModuleV2<Deps> implements AgentSession {
   }
 
   private _initAgentSession() {
-    console.log('_initAgentSession~', this._isAgentUpdating);
-    if (this._isAgentUpdating) {
+    console.log('_initAgentSession~', this.isAgentUpdating);
+    if (this.isAgentUpdating) {
       return;
     }
     this._afterLogin();
@@ -644,7 +649,7 @@ class EvAgentSession extends RcModuleV2<Deps> implements AgentSession {
     console.log('onReset in EvAgentSession~~');
     try {
       this._resetAllState();
-      this._isAgentUpdating = false;
+      this.isAgentUpdating = false;
     } catch (error) {
       // ignore error
     }
@@ -652,7 +657,7 @@ class EvAgentSession extends RcModuleV2<Deps> implements AgentSession {
 
   private _resetAllState() {
     console.log('_resetAllState~~', this.isMainTab);
-    if (!this._isAgentUpdating) {
+    if (!this.isAgentUpdating) {
       this.resetAllConfig();
     }
     if (this.isMainTab) {
@@ -679,12 +684,18 @@ class EvAgentSession extends RcModuleV2<Deps> implements AgentSession {
     if (event) {
       switch (event.name) {
         case tabManagerEvents.AGENT_CONFIG_SUCCESS:
-          console.log('!!!from other');
-          await this._othersTabConfigureAgent();
+          console.log(
+            '_othersTabConfigureAgent from tabManagerEvents.AGENT_CONFIG_SUCCESS~~',
+          );
+          try {
+            await this._othersTabConfigureAgent();
+          } catch (error) {
+            this._configureFail();
+          }
           break;
         case tabManagerEvents.UPDATE_SESSION:
           this._updateSessionBlockId = this._deps.block.block();
-          this._isAgentUpdating = true;
+          this.isAgentUpdating = true;
 
           // if voiceConnectionChanged
           if (data) {
@@ -725,7 +736,7 @@ class EvAgentSession extends RcModuleV2<Deps> implements AgentSession {
 
             this._unblockUpdateSession();
 
-            this._isAgentUpdating = false;
+            this.isAgentUpdating = false;
           } catch (error) {
             // when that auto config fail, just reload that tab
             console.log(error);
@@ -737,6 +748,16 @@ class EvAgentSession extends RcModuleV2<Deps> implements AgentSession {
           break;
         case tabManagerEvents.UPDATE_SESSION_FAIL:
           this._unblockUpdateSession();
+          break;
+        case tabManagerEvents.RELOGIN:
+          await this.reLoginAgent({
+            isBlock: true,
+            alertMessage: messageTypes.NOT_INBOUND_QUEUE_SELECTED,
+          });
+          break;
+        case tabManagerEvents.CONFIGURE_FAIL:
+          console.log('other tab be called to invoke _configureFail~~');
+          this._configureFail();
           break;
         default:
           break;
@@ -887,7 +908,7 @@ class EvAgentSession extends RcModuleV2<Deps> implements AgentSession {
 
         this._clearCalls();
 
-        this._isAgentUpdating = true;
+        this.isAgentUpdating = true;
 
         this._sendTabManager(
           tabManagerEvents.UPDATE_SESSION,
@@ -932,19 +953,35 @@ class EvAgentSession extends RcModuleV2<Deps> implements AgentSession {
     }
   }
 
-  async reLoginAgent() {
-    this._deps.evAuth.sendLogoutTabEvent();
+  async reLoginAgent({
+    isBlock,
+    alertMessage,
+  }: {
+    isBlock?: boolean;
+    alertMessage?: string;
+  } = {}) {
+    const fn = async () => {
+      if (alertMessage) {
+        this._deps.alert.danger({
+          message: alertMessage,
+          ttl: 0,
+        });
+      }
+      this._deps.evAuth.sendLogoutTabEvent();
 
-    const { access_token } = await this._deps.auth.refreshToken();
-    this.setAccessToken(access_token);
+      const { access_token } = await this._deps.auth.refreshToken();
+      this.setAccessToken(access_token);
 
-    // * then do logout send to every tab
-    await this._deps.evAuth.logoutAgent();
+      // * then do logout send to every tab
+      await this._deps.evAuth.logoutAgent();
 
-    // ! wait all tab is logout complete, server has some delay after logout
-    await sleep(WAIT_EV_SERVER_ROLLBACK_DELAY);
+      // ! wait all tab is logout complete, server has some delay after logout
+      await sleep(WAIT_EV_SERVER_ROLLBACK_DELAY);
 
-    await this._deps.evAuth.loginAgent(this.accessToken);
+      await this._deps.evAuth.loginAgent(this.accessToken);
+    };
+
+    return isBlock ? this._deps.block.next(fn) : fn();
   }
 
   onceLogoutThenLogin() {
@@ -998,14 +1035,25 @@ class EvAgentSession extends RcModuleV2<Deps> implements AgentSession {
     }
   }
 
-  private async _autoConfigureAgent() {
+  private async _autoConfigureAgent(): Promise<void> {
     console.log('_autoConfigureAgent~', this.tabManagerEnabled);
+
+    const isFirstTab = this._deps.tabManager.isFirstTab;
+
+    if (this._autoConfigureRetryTimes >= 5) {
+      console.log('stop autoConfigureRetry~~', this._autoConfigureRetryTimes);
+      this._autoConfigureRetryTimes = 0;
+      return this._configureFail(isFirstTab);
+    }
+
+    let timeoutId: NodeJS.Timeout = null;
     if (this.tabManagerEnabled) {
       const resolves: ((
         value?: AutoConfigType | PromiseLike<AutoConfigType>,
       ) => void)[] = [null, null, null];
       return Promise.race<AutoConfigType>([
         new Promise<AutoConfigType>((res) => {
+          console.log('res already success~~');
           resolves[0] = () => res('already success');
 
           this._eventEmitter.once(
@@ -1016,13 +1064,13 @@ class EvAgentSession extends RcModuleV2<Deps> implements AgentSession {
         new Promise<AutoConfigType>((res) => {
           resolves[1] = res;
           // check isSuccess first
-          if (
-            this._isAgentUpdating ||
-            this._deps.tabManager.tabs.length !== 1
-          ) {
+          if (this.isAgentUpdating || this._deps.tabManager.tabs.length !== 1) {
             const checkIsAlive = () => {
+              console.log('checkIsAlive~~');
               this._tabConfigSuccess.isAlive().then(async (result) => {
+                console.log('isAlive ?~', result);
                 if (result) {
+                  console.log('res other tab config~~');
                   res('other tab config');
                 } else {
                   checkIsAlive();
@@ -1037,21 +1085,30 @@ class EvAgentSession extends RcModuleV2<Deps> implements AgentSession {
           resolves[2] = res;
           // when there is too many tab, that event will block
           // then check local
-          if (this._deps.tabManager.isFirstTab) {
+          if (isFirstTab) {
             this._tabConfigWorking.isLeave().then(async (result) => {
+              console.log('isLeave ?~', result);
               if (result) {
                 this._configWorkingAlive();
+                console.log('res config~~');
                 res('config');
               }
             });
           }
         }),
+        new Promise<AutoConfigType>((res) => {
+          timeoutId = setTimeout(() => {
+            res('retry');
+          }, 10000);
+        }),
       ])
         .then((result) => {
+          clearTimeout(timeoutId);
           this._eventEmitter.off(
             agentSessionEvents.CONFIG_SUCCESS,
             resolves[0],
           );
+          console.log('clear all memory with promise~');
           // clear all memory with promise
           resolves.forEach((r) => r());
           resolves.length = 0;
@@ -1059,6 +1116,10 @@ class EvAgentSession extends RcModuleV2<Deps> implements AgentSession {
           console.log('!!!!!', result);
 
           switch (result) {
+            case 'retry':
+              console.log('retry auto config~');
+              this._autoConfigureRetryTimes++;
+              return this._autoConfigureAgent();
             case 'other tab config':
               console.log('_othersTabConfigureAgent in auto config~~');
               return this._othersTabConfigureAgent();
@@ -1079,13 +1140,26 @@ class EvAgentSession extends RcModuleV2<Deps> implements AgentSession {
           }
         })
         .catch((e) => {
-          this.setConfigSuccess(false);
-          this._navigateToSessionConfigPage();
+          console.log('_autoConfigureAgent error~~', e);
+          this._configureFail(isFirstTab);
           return e;
         });
     }
 
     return this.configureAgent();
+  }
+
+  _configureFail(needAsyncAllTabs = false) {
+    console.log(
+      '_configureFail~~',
+      this._deps.tabManager.hasMultipleTabs,
+      needAsyncAllTabs,
+    );
+    if (this._deps.tabManager.hasMultipleTabs && needAsyncAllTabs) {
+      this._sendTabManager(tabManagerEvents.CONFIGURE_FAIL);
+    }
+    this.setConfigSuccess(false);
+    this._navigateToSessionConfigPage();
   }
 
   async _othersTabConfigureAgent() {
@@ -1094,17 +1168,19 @@ class EvAgentSession extends RcModuleV2<Deps> implements AgentSession {
       return;
     }
 
-    try {
-      await this._deps.evClient.multiLoginRequest();
+    await this._deps.evClient.multiLoginRequest();
 
-      await this.updateAgentConfigs();
+    await this.updateAgentConfigs();
 
-      this._pollAskIfCanBeNewMainTab();
-
-      return;
-    } catch (e) {
-      console.log(e);
+    if (this.notInboundQueueSelected) {
+      this._sendTabManager(tabManagerEvents.RELOGIN);
+      await this.reLoginAgent({
+        isBlock: true,
+        alertMessage: messageTypes.NOT_INBOUND_QUEUE_SELECTED,
+      });
     }
+
+    this._pollAskIfCanBeNewMainTab();
   }
 
   private _pickSkillProfile(skillProfileList: EvAvailableSkillProfile[]) {
@@ -1120,21 +1196,25 @@ class EvAgentSession extends RcModuleV2<Deps> implements AgentSession {
       const { currentLocale } = this._deps.locale;
 
       // TODO: think about sync up in all tabs?
-      const modalId = await this._deps.modal.confirmSync({
-        title: i18n.getString('multipleLoginsTitle', currentLocale),
-        content: i18n.getString('multipleLoginsContent', currentLocale),
-        okText: i18n.getString('multipleLoginsConfirm', currentLocale),
-        cancelText: i18n.getString('multipleLoginsCancel', currentLocale),
-        onOK: async () => {
-          result = await this._deps.evClient.configureAgent({
-            ...config,
-            isForce: true,
-          });
-          this.isForceLogin = true;
+      const confirmed = await this._deps.modalUI.confirm(
+        {
+          title: i18n.getString('multipleLoginsTitle', currentLocale),
+          content: i18n.getString('multipleLoginsContent', currentLocale),
+          okText: i18n.getString('multipleLoginsConfirm', currentLocale),
+          cancelText: i18n.getString('multipleLoginsCancel', currentLocale),
+          onOK: async () => {
+            result = await this._deps.evClient.configureAgent({
+              ...config,
+              isForce: true,
+            });
+            this.isForceLogin = true;
+          },
+          size: 'xsmall',
         },
-      });
+        true,
+      );
 
-      if (!modalId) {
+      if (!confirmed) {
         this.isForceLogin = false;
         throw new Error(status);
       }
@@ -1152,10 +1232,9 @@ class EvAgentSession extends RcModuleV2<Deps> implements AgentSession {
 
   private _checkFieldsResult(formGroup: FormGroup): EvConfigureAgentOptions {
     const { selectedInboundQueueIds, selectedSkillProfileId } = formGroup;
-
-    if (selectedInboundQueueIds.length === 0) {
+    if (this.notInboundQueueSelected) {
       this._deps.alert.danger({
-        message: messageTypes.NO_AGENT_SELECTED,
+        message: messageTypes.NOT_INBOUND_QUEUE_SELECTED,
         ttl: 0,
       });
       throw new Error(`'queueIds' is an empty array.`);
@@ -1214,6 +1293,13 @@ class EvAgentSession extends RcModuleV2<Deps> implements AgentSession {
 
   get isMainTab() {
     return this._deps.tabManager.isMainTab;
+  }
+
+  get notInboundQueueSelected() {
+    return (
+      !this._deps.evAuth.agentPermissions.allowInbound ||
+      this.formGroup.selectedInboundQueueIds.length === 0
+    );
   }
 }
 

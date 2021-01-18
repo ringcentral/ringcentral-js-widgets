@@ -37,7 +37,7 @@ require("core-js/modules/es6.array.map");
 
 var _juno = require("@ringcentral/juno");
 
-var _iconArrow_down = _interopRequireDefault(require("@ringcentral/juno/icons/icon-arrow_down.svg"));
+var _ArrowDown = _interopRequireDefault(require("@ringcentral/juno/icon/ArrowDown2"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
@@ -102,7 +102,7 @@ var IvrInfo = function IvrInfo(_ref) {
       size: 'small'
     },
     expandIcon: /*#__PURE__*/_react["default"].createElement(_juno.RcIcon, {
-      symbol: _iconArrow_down["default"],
+      symbol: _ArrowDown["default"],
       color: ['grey', 500]
     })
   }, /*#__PURE__*/_react["default"].createElement("span", {

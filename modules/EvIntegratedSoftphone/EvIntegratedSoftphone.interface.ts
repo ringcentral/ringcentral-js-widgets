@@ -4,7 +4,7 @@ import Locale from 'ringcentral-integration/modules/Locale';
 import Storage from 'ringcentral-integration/modules/Storage';
 import { Beforeunload } from 'ringcentral-widgets/modules/Beforeunload';
 import { Block } from 'ringcentral-widgets/modules/Block';
-import { Modal } from 'ringcentral-widgets/modules/Modal';
+import { ModalUI } from 'ringcentral-widgets/modules/ModalUIV2';
 import RouterInteraction from 'ringcentral-widgets/modules/RouterInteraction';
 
 import { EvClient } from '../../lib/EvClient';
@@ -35,7 +35,7 @@ export interface Deps {
   evClient: EvClient;
   storage: Storage;
   presence: EvPresence;
-  modal: Modal;
+  modalUI: ModalUI;
   alert: Alert;
   block: Block;
   evAuth: EvAuth;

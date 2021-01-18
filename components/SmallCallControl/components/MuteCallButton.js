@@ -7,9 +7,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.MuteCallButton = void 0;
 
-var _iconMicOff = _interopRequireDefault(require("@ringcentral/juno/icons/icon-mic-off.svg"));
+var _MicOff = _interopRequireDefault(require("@ringcentral/juno/icon/MicOff"));
 
-var _iconMic = _interopRequireDefault(require("@ringcentral/juno/icons/icon-mic.svg"));
+var _Mic = _interopRequireDefault(require("@ringcentral/juno/icon/Mic"));
 
 var _react = _interopRequireDefault(require("react"));
 
@@ -28,7 +28,8 @@ var MuteCallButton = function MuteCallButton(_ref) {
       onMute = _ref.onMute,
       size = _ref.size,
       className = _ref.className,
-      disableMute = _ref.disableMute;
+      disableMute = _ref.disableMute,
+      dataSign = _ref.dataSign;
 
   var _getCircleIconButtonT = (0, _help.getCircleIconButtonTitle)({
     isOnMute: isOnMute
@@ -36,8 +37,9 @@ var MuteCallButton = function MuteCallButton(_ref) {
       muteTitle = _getCircleIconButtonT.muteTitle;
 
   return /*#__PURE__*/_react["default"].createElement(_CircleIconButton.CircleIconButton, {
+    dataSign: dataSign,
     "data-icon": isOnMute ? 'mic-off' : 'mic',
-    symbol: isOnMute ? _iconMicOff["default"] : _iconMic["default"],
+    symbol: isOnMute ? _MicOff["default"] : _Mic["default"],
     title: _i18n["default"].getString(muteTitle, currentLocale),
     active: isOnMute,
     onClick: isOnMute ? onUnmute : onMute,
@@ -53,6 +55,7 @@ MuteCallButton.defaultProps = {
   onMute: function onMute() {},
   onUnmute: function onUnmute() {},
   disableMute: false,
-  currentLocale: 'en-US'
+  currentLocale: 'en-US',
+  dataSign: 'muteCall'
 };
 //# sourceMappingURL=MuteCallButton.js.map

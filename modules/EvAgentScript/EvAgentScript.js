@@ -228,7 +228,7 @@ var EvAgentScript = (_dec = (0, _di.Module)({
   }, {
     key: "getIsAgentScript",
     value: function getIsAgentScript(call) {
-      return !!(this.isDisplayAgentScript && call.scriptId);
+      return !!(this.isDisplayAgentScript && (call === null || call === void 0 ? void 0 : call.scriptId));
     }
   }, {
     key: "_bindChannel",
@@ -399,51 +399,18 @@ var EvAgentScript = (_dec = (0, _di.Module)({
 
   }, {
     key: "saveScriptResult",
-    value: function () {
-      var _saveScriptResult = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(call) {
-        var scriptResult, result, res;
-        return regeneratorRuntime.wrap(function _callee4$(_context4) {
-          while (1) {
-            switch (_context4.prev = _context4.next) {
-              case 0:
-                scriptResult = this.callScriptResultMapping[this._deps.evClient.encodeUii({
-                  uii: call.uii,
-                  sessionId: call.session.sessionId
-                })];
+    value: function saveScriptResult(call) {
+      var scriptResult = this.callScriptResultMapping[this._deps.evClient.encodeUii({
+        uii: call.uii,
+        sessionId: call.session.sessionId
+      })];
 
-                if (!scriptResult) {
-                  _context4.next = 13;
-                  break;
-                }
+      if (scriptResult) {
+        var result = this._formatScriptResult(scriptResult);
 
-                result = this._formatScriptResult(scriptResult);
-                _context4.prev = 3;
-                _context4.next = 6;
-                return this._deps.evClient.saveScriptResult(call.uii, call.scriptId, result);
-
-              case 6:
-                res = _context4.sent;
-                return _context4.abrupt("return", res);
-
-              case 10:
-                _context4.prev = 10;
-                _context4.t0 = _context4["catch"](3);
-                console.log('saveScriptResult fail', _context4.t0);
-
-              case 13:
-              case "end":
-                return _context4.stop();
-            }
-          }
-        }, _callee4, this, [[3, 10]]);
-      }));
-
-      function saveScriptResult(_x4) {
-        return _saveScriptResult.apply(this, arguments);
+        this._deps.evClient.saveScriptResult(call.uii, call.scriptId, result);
       }
-
-      return saveScriptResult;
-    }()
+    }
   }, {
     key: "_formatScriptResult",
     value: function _formatScriptResult(scriptResult) {

@@ -22,3 +22,4 @@ export * from './transferEvents';
 export * from './transferStatuses';
 export * from './transferSuccesses';
 export * from './transferTypes';
+export * from './agentTypes';

@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.ActiveCallButton = void 0;
 
-var _iconActiveCall = _interopRequireDefault(require("@ringcentral/juno/icons/icon-active-call.svg"));
+var _ActiveCall = _interopRequireDefault(require("@ringcentral/juno/icon/ActiveCall"));
 
 var _react = _interopRequireDefault(require("react"));
 
@@ -21,9 +21,11 @@ var ActiveCallButton = function ActiveCallButton(_ref) {
   var currentLocale = _ref.currentLocale,
       disableActive = _ref.disableActive,
       onActive = _ref.onActive,
-      size = _ref.size;
+      size = _ref.size,
+      dataSign = _ref.dataSign;
   return /*#__PURE__*/_react["default"].createElement(_CircleIconButton.CircleIconButton, {
-    symbol: _iconActiveCall["default"],
+    dataSign: dataSign,
+    symbol: _ActiveCall["default"],
     title: _i18n["default"].getString('activeCall', currentLocale),
     onClick: onActive,
     disabled: disableActive,
@@ -36,6 +38,7 @@ exports.ActiveCallButton = ActiveCallButton;
 ActiveCallButton.defaultProps = {
   onActive: function onActive() {},
   disableActive: false,
-  currentLocale: 'en-US'
+  currentLocale: 'en-US',
+  dataSign: 'activeCall'
 };
 //# sourceMappingURL=ActiveCallButton.js.map

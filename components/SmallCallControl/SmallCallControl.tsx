@@ -30,7 +30,10 @@ export const SmallCallControl: FunctionComponent<SmallCallControlProps> = ({
   ...rest
 }) => {
   return (
-    <div className={classNames(styles.root, classes?.root)}>
+    <div
+      className={classNames(styles.root, classes?.root)}
+      data-sign="smallCallControl"
+    >
       {children || (
         <>
           <MuteCallButton {...rest} />
@@ -41,11 +44,4 @@ export const SmallCallControl: FunctionComponent<SmallCallControlProps> = ({
       )}
     </div>
   );
-};
-
-SmallCallControl.defaultProps = {
-  ...MuteCallButton.defaultProps,
-  ...HoldCallButton.defaultProps,
-  ...TransferCallButton.defaultProps,
-  ...HandUpButton.defaultProps,
 };

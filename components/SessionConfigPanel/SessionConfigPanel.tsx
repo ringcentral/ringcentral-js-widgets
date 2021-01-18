@@ -1,5 +1,6 @@
-import { RcButton } from '@ringcentral/juno';
+import { RcButton, RcIconButton, RcTypography } from '@ringcentral/juno';
 import React, { FunctionComponent } from 'react';
+import chevronLeftSvg from '@ringcentral/juno/icon/ChevronLeft';
 
 import {
   EvAgentSessionUIFunctions,
@@ -16,13 +17,20 @@ import styles from './styles.scss';
 export type SessionConfigPanelProps = BasicSessionPanelProps &
   Pick<
     EvAgentSessionUIProps & EvAgentSessionUIFunctions,
-    'setConfigure' | 'isLoading'
+    | 'setConfigure'
+    | 'isLoading'
+    | 'onAccountReChoose'
+    | 'selectedAgent'
+    | 'showReChooseAccount'
   >;
 
 export const SessionConfigPanel: FunctionComponent<SessionConfigPanelProps> = ({
   currentLocale,
   setConfigure,
   isLoading,
+  onAccountReChoose,
+  selectedAgent,
+  showReChooseAccount,
   ...rest
 }) => {
   return (
@@ -31,7 +39,38 @@ export const SessionConfigPanel: FunctionComponent<SessionConfigPanelProps> = ({
         wrapperStyle={styles.wrapperStyle}
         svgStyle={styles.svgStyle}
       />
-      <BasicSessionPanel {...rest} currentLocale={currentLocale} />
+      {showReChooseAccount && (
+        <div className={styles.goBackBg}>
+          <div onClick={onAccountReChoose} className={styles.goBack}>
+            <RcIconButton
+              className={styles.back}
+              variant="round"
+              size="small"
+              symbol={chevronLeftSvg}
+              color="primary"
+              data-sign="reChooseAccountButton"
+            />
+            <RcTypography variant="body1" className={styles.backText}>
+              {i18n.getString('switchAccount', currentLocale)}
+            </RcTypography>
+          </div>
+        </div>
+      )}
+      <div className={styles.accountInfo}>
+        <RcTypography variant="body1" className={styles.accountName}>
+          {selectedAgent?.accountName}
+        </RcTypography>
+        <RcTypography variant="caption1" className={styles.agentType}>
+          {i18n.getString(selectedAgent?.agentType, currentLocale)}
+        </RcTypography>
+      </div>
+      <BasicSessionPanel
+        classes={{
+          root: styles.basicSession,
+        }}
+        {...rest}
+        currentLocale={currentLocale}
+      />
       <RcButton
         data-sign="setConfigure"
         fullWidth
@@ -40,7 +79,7 @@ export const SessionConfigPanel: FunctionComponent<SessionConfigPanelProps> = ({
         size="medium"
         onClick={setConfigure}
         classes={{
-          root: styles.button,
+          root: styles.configureButton,
         }}
       >
         {i18n.getString('continue', currentLocale)}

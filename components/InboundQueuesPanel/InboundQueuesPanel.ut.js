@@ -66,7 +66,9 @@ function renderFunction(option) {
 }
 
 function searchOption(option, text) {
-  return option.gateName && option.gateName.toLowerCase().includes(text.toLowerCase());
+  var _option$gateName;
+
+  return option === null || option === void 0 ? void 0 : (_option$gateName = option.gateName) === null || _option$gateName === void 0 ? void 0 : _option$gateName.toLowerCase().includes(text.toLowerCase());
 }
 
 var currentLocale = 'en-US';

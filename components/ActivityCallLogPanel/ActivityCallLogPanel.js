@@ -122,7 +122,8 @@ var ActivityCallLogPanel = function ActivityCallLogPanel(_ref) {
       ivrAlertData = _ref.ivrAlertData,
       onCopySuccess = _ref.onCopySuccess,
       scrollTo = _ref.scrollTo,
-      rest = _objectWithoutProperties(_ref, ["currentLocale", "currentLog", "basicInfo", "isInbound", "disposeCall", "status", "saveStatus", "goToRequeueCallPage", "goToTransferCallPage", "onMute", "onUnmute", "onHangup", "onReject", "onHold", "onUnHold", "isOnMute", "isOnHold", "smallCallControlSize", "isInComingCall", "currentCallControlPermission", "disableDispose", "disableTransfer", "disableInternalTransfer", "disableHold", "disableHangup", "disableMute", "disableActive", "isOnActive", "onActive", "isWide", "showMuteButton", "ivrAlertData", "onCopySuccess", "scrollTo"]);
+      referenceFieldOptions = _ref.referenceFieldOptions,
+      rest = _objectWithoutProperties(_ref, ["currentLocale", "currentLog", "basicInfo", "isInbound", "disposeCall", "status", "saveStatus", "goToRequeueCallPage", "goToTransferCallPage", "onMute", "onUnmute", "onHangup", "onReject", "onHold", "onUnHold", "isOnMute", "isOnHold", "smallCallControlSize", "isInComingCall", "currentCallControlPermission", "disableDispose", "disableTransfer", "disableInternalTransfer", "disableHold", "disableHangup", "disableMute", "disableActive", "isOnActive", "onActive", "isWide", "showMuteButton", "ivrAlertData", "onCopySuccess", "scrollTo", "referenceFieldOptions"]);
 
   var transferRef = (0, _react.useRef)(null);
   var rootRef = (0, _react.useRef)(null);
@@ -148,11 +149,14 @@ var ActivityCallLogPanel = function ActivityCallLogPanel(_ref) {
   var editLogSection = (0, _react.useCallback)(function (props) {
     var _rootRef$current;
 
-    return /*#__PURE__*/_react["default"].createElement(_utils.EditLogSection, _extends({}, props, {
+    return /*#__PURE__*/_react["default"].createElement(_utils.EditLogSection, _extends({
+      isWide: isWide
+    }, props, {
       scrollTo: scrollTo,
-      rootRef: (_rootRef$current = rootRef.current) === null || _rootRef$current === void 0 ? void 0 : _rootRef$current.editSectionRef
+      rootRef: (_rootRef$current = rootRef.current) === null || _rootRef$current === void 0 ? void 0 : _rootRef$current.editSectionRef,
+      referenceFieldOptions: referenceFieldOptions
     }));
-  }, [scrollTo]);
+  }, [isWide, scrollTo, referenceFieldOptions]);
   return /*#__PURE__*/_react["default"].createElement(_CallLogPanel["default"], _extends({
     ref: rootRef
   }, rest, {
@@ -194,16 +198,7 @@ var ActivityCallLogPanel = function ActivityCallLogPanel(_ref) {
     },
     renderCallLogCallControl: function renderCallLogCallControl() {
       var isOnTransfer = Boolean(transferEl);
-      return isCallEnd ? /*#__PURE__*/_react["default"].createElement(_juno.RcButton, {
-        "data-sign": "submit",
-        size: "large",
-        fullWidth: true,
-        disabled: disableDispose,
-        loading: isLoading,
-        onClick: function onClick() {
-          return disposeCall();
-        }
-      }, (0, _utils.getButtonText)(saveStatus, currentLocale)) : /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement(_juno.RcMenu, {
+      return !isCallEnd && /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement(_juno.RcMenu, {
         classes: {
           paper: _styles["default"].paper
         },
@@ -260,7 +255,18 @@ var ActivityCallLogPanel = function ActivityCallLogPanel(_ref) {
         showMuteButton: showMuteButton
       }));
     }
-  }));
+  }), isCallEnd && /*#__PURE__*/_react["default"].createElement("div", {
+    className: (0, _classnames["default"])(_styles["default"].submitButton)
+  }, /*#__PURE__*/_react["default"].createElement(_juno.RcButton, {
+    "data-sign": "submit",
+    size: "large",
+    fullWidth: true,
+    disabled: disableDispose,
+    loading: isLoading,
+    onClick: function onClick() {
+      return disposeCall();
+    }
+  }, (0, _utils.getButtonText)(saveStatus, currentLocale))));
 };
 
 exports.ActivityCallLogPanel = ActivityCallLogPanel;

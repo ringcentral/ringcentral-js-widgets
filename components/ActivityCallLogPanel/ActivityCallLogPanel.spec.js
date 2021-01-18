@@ -132,7 +132,9 @@ function setup() {
       _ref$showMuteButton = _ref.showMuteButton,
       showMuteButton = _ref$showMuteButton === void 0 ? false : _ref$showMuteButton,
       _ref$ivrAlertData = _ref.ivrAlertData,
-      ivrAlertData = _ref$ivrAlertData === void 0 ? defaultIVRAlertData : _ref$ivrAlertData;
+      ivrAlertData = _ref$ivrAlertData === void 0 ? defaultIVRAlertData : _ref$ivrAlertData,
+      _ref$showSmallCallCon = _ref.showSmallCallControl,
+      showSmallCallControl = _ref$showSmallCallCon === void 0 ? true : _ref$showSmallCallCon;
   return (0, _enzyme.mount)( /*#__PURE__*/_react["default"].createElement(_juno.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_ActivityCallLogPanel.ActivityCallLogPanel, {
     isInbound: true,
     currentLocale: currentLocale,
@@ -169,7 +171,8 @@ function setup() {
     disableInternalTransfer: disableInternalTransfer,
     showMuteButton: showMuteButton,
     ivrAlertData: ivrAlertData,
-    onCopySuccess: function onCopySuccess() {}
+    onCopySuccess: function onCopySuccess() {},
+    showSmallCallControl: showSmallCallControl
   })));
 }
 

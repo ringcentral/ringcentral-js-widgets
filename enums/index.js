@@ -327,4 +327,17 @@ Object.keys(_transferTypes).forEach(function (key) {
     }
   });
 });
+
+var _agentTypes = require("./agentTypes");
+
+Object.keys(_agentTypes).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _agentTypes[key]) return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _agentTypes[key];
+    }
+  });
+});
 //# sourceMappingURL=index.js.map

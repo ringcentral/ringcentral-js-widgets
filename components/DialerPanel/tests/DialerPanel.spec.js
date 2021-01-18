@@ -266,7 +266,7 @@ describe('<DialerPanel />', /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regener
               goToManualDialSettings: goToManualDialSettings
             });
             var manualDialSettings = wrapper.find('[data-sign="manualDialSettings"]').at(0);
-            manualDialSettings.find('span').at(0).simulate('click');
+            manualDialSettings.simulate('click');
             expect(goToManualDialSettings).toBeCalled();
           });
           it("User can use digit virtual keyboard to input numbers, and press zero for 1 second will typing '+'", /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10() {

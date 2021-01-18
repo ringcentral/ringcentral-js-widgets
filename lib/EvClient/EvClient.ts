@@ -1,22 +1,20 @@
 import { action, RcModuleV2, state } from '@ringcentral-integration/core';
 // eslint-disable-next-line import/no-unresolved
 import AgentLibrary from '@SDK';
-import EventEmitter from 'events';
+import { EventEmitter } from 'events';
 import { Module } from 'ringcentral-integration/lib/di';
 import { raceTimeout } from 'ringcentral-integration/lib/raceTimeout';
-import sleep from 'ringcentral-integration/lib/sleep';
 
-import { messageTypes } from '../../enums';
+import { AGENT_TYPES, messageTypes } from '../../enums';
 import { _encodeSymbol } from '../constant';
 import { EvTypeError } from '../EvTypeError';
-import { EvMessageTypes, evStatus } from './enums';
+import { evStatus } from './enums';
 import { EvCallbackTypes } from './enums/callbackTypes';
 import {
   Deps,
   EvACKResponse,
   EvAddSessionNotification,
   EvAgentConfig,
-  EvAgentInfo,
   EvAgentOptions,
   EvAgentScriptResult,
   EvAgentSettings,
@@ -39,6 +37,7 @@ import {
   EvTokenType,
   EvWarmTransferCallResponse,
   EvWarmTransferIntlCallResponse,
+  RawEvAuthenticateAgentWithRcAccessTokenRes,
 } from './interfaces';
 
 type ListenerType = typeof EvCallbackTypes['OPEN_SOCKET' | 'CLOSE_SOCKET'];
@@ -111,6 +110,7 @@ class EvClient extends RcModuleV2<Deps> {
       this._sdk.terminateStats();
     };
     this._onClose = () => {
+      console.log('EvCallbackTypes.CLOSE_SOCKET~');
       this.setAppStatus(evStatus.CLOSED);
       closeResponse();
       this._eventEmitter.emit(EvCallbackTypes.CLOSE_SOCKET);
@@ -301,7 +301,7 @@ class EvClient extends RcModuleV2<Deps> {
       this._sdk.authenticateAgentWithRcAccessToken(
         rcAccessToken,
         tokenType,
-        async (res: EvAuthenticateAgentWithRcAccessTokenRes) => {
+        async (res: RawEvAuthenticateAgentWithRcAccessTokenRes) => {
           // here just auth with engage access token, not need handle response data, that handle by Agent SDK.
           await this.authenticateAgentWithEngageAccessToken(res.accessToken);
 
@@ -310,6 +310,7 @@ class EvClient extends RcModuleV2<Deps> {
           const agents = _agents.map((agent) => ({
             ...agent,
             agentId: agent && agent.agentId ? `${agent.agentId}` : '',
+            agentType: AGENT_TYPES[agent.agentType],
           }));
           resolve({
             ...res,
@@ -321,6 +322,12 @@ class EvClient extends RcModuleV2<Deps> {
   }
 
   openSocket(agentId: string) {
+    const hasSupportWebSocket = 'WebSocket' in window;
+    if (!hasSupportWebSocket) {
+      throw new EvTypeError({
+        type: messageTypes.INVALID_BROWSER,
+      });
+    }
     return new Promise<EvOpenSocketResult>((resolve) => {
       this.addListenerByOnce(EvCallbackTypes.OPEN_SOCKET, (res) => {
         resolve(res);
@@ -337,10 +344,10 @@ class EvClient extends RcModuleV2<Deps> {
     });
   }
 
-  async loginAgent(
+  async getAndHandleAuthenticateResponse(
     rcAccessToken: string,
     tokenType: EvTokenType,
-  ): Promise<EvAgentInfo> {
+  ) {
     const authenticateResponse = await raceTimeout(
       this.authenticateAgent(rcAccessToken, tokenType),
       {
@@ -379,37 +386,7 @@ class EvClient extends RcModuleV2<Deps> {
         type: messageTypes.UNEXPECTED_AGENT,
       });
     }
-    const agentId = authenticateResponse.agents[0].agentId;
-    const hasSupportWebSocket = 'WebSocket' in window;
-    if (!hasSupportWebSocket) {
-      throw new EvTypeError({
-        type: messageTypes.INVALID_BROWSER,
-      });
-    }
-
-    // TODO: here need check time when no message come back, that will block app.
-    const getAgentConfig = new Promise<EvAgentConfig>((resolve) => {
-      this.on(EvCallbackTypes.LOGIN_PHASE_1, (...args) => resolve(...args));
-    });
-    const openSocketResult = await this.openSocket(agentId);
-    // wait for socketOpened
-    // Because instance.socket Opened(); was performed after callback.
-    await sleep(0);
-    if (openSocketResult.error) {
-      throw new EvTypeError({
-        type: messageTypes.OPEN_SOCKET_ERROR,
-      });
-    }
-
-    const agentConfig = await getAgentConfig;
-    // prevent that the WebSocket instance disconnects by server side.
-    return {
-      type: messageTypes.AGENT_LOGIN,
-      data: {
-        authenticateResponse,
-        agentConfig,
-      },
-    };
+    return authenticateResponse;
   }
 
   /**
@@ -417,6 +394,10 @@ class EvClient extends RcModuleV2<Deps> {
    */
   closeSocket() {
     this._sdk.closeSocket();
+  }
+
+  get ifSocketExist() {
+    return !!this._sdk.socket;
   }
 
   hangup({ sessionId, resetPendingDisp = false }: EvClientHandUpParams) {
@@ -718,31 +699,9 @@ class EvClient extends RcModuleV2<Deps> {
     scriptId: string,
     jsonResult: EvAgentScriptResult,
   ) {
-    let fn: (e: EvACKResponse) => void;
+    this._sdk.saveScriptResult(uii, scriptId, jsonResult);
 
-    const res = await raceTimeout(
-      new Promise<EvACKResponse>((resolve) => {
-        this._sdk.saveScriptResult(uii, scriptId, jsonResult);
-
-        fn = (e: EvACKResponse) => {
-          if (e.type === EvMessageTypes.SCRIPT_RESULT) {
-            resolve(e);
-            this._eventEmitter.removeListener(EvCallbackTypes.ACK, fn);
-          }
-        };
-        this._eventEmitter.on(EvCallbackTypes.ACK, fn);
-      }),
-      {
-        timeout: 5 * 1000,
-        onTimeout: (resolve) => resolve(null),
-      },
-    );
-
-    if (!res) {
-      this._eventEmitter.removeListener(EvCallbackTypes.ACK, fn);
-      throw new Error('saveScriptResult fail');
-    }
-    return res;
+    return jsonResult;
   }
 
   /**

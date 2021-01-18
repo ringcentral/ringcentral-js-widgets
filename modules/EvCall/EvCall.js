@@ -291,21 +291,20 @@ var EvCall = (_dec = (0, _di.Module)({
                 });
 
               case 21:
-                this.setDialoutStatus(_dialoutStatus.dialoutStatuses.callConnected);
-                _context.next = 27;
+                _context.next = 26;
                 break;
 
-              case 24:
-                _context.prev = 24;
+              case 23:
+                _context.prev = 23;
                 _context.t1 = _context["catch"](17);
                 this.setPhonedIdle();
 
-              case 27:
+              case 26:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, this, [[2, 14], [17, 24]]);
+        }, _callee, this, [[2, 14], [17, 23]]);
       }));
 
       function dialout(_x) {
@@ -403,11 +402,12 @@ var EvCall = (_dec = (0, _di.Module)({
 
               case 9:
                 if (!(this._deps.evSettings.isOffhook || offhookInitResult && offhookInitResult.status === 'OK')) {
-                  _context2.next = 14;
+                  _context2.next = 15;
                   break;
                 }
 
-                _context2.next = 12;
+                console.log('manualOutdial~~');
+                _context2.next = 13;
                 return this._deps.evClient.manualOutdial({
                   callerId: callerId,
                   countryId: countryId,
@@ -416,19 +416,19 @@ var EvCall = (_dec = (0, _di.Module)({
                   ringTime: ringTime
                 });
 
-              case 12:
-                _context2.next = 15;
+              case 13:
+                _context2.next = 16;
                 break;
-
-              case 14:
-                throw new Error("'offhookInit' exception error");
 
               case 15:
-                _context2.next = 21;
+                throw new Error("'offhookInit' exception error");
+
+              case 16:
+                _context2.next = 22;
                 break;
 
-              case 17:
-                _context2.prev = 17;
+              case 18:
+                _context2.prev = 18;
                 _context2.t0 = _context2["catch"](2);
 
                 if (!this._deps.evSettings.isManualOffhook) {
@@ -437,12 +437,12 @@ var EvCall = (_dec = (0, _di.Module)({
 
                 throw _context2.t0;
 
-              case 21:
+              case 22:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2, this, [[2, 17]]);
+        }, _callee2, this, [[2, 18]]);
       }));
 
       function _manualOutdial(_x2) {

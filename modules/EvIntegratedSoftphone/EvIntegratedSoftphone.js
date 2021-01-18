@@ -103,7 +103,7 @@ var RECONNECT_DEBOUNCE_TIME_WHEN_CONNECTED = SECOND * 15;
 var SIP_MAX_CONNECTING_TIME = SECOND * 30;
 var EvIntegratedSoftphone = (_dec = (0, _di.Module)({
   name: 'EvIntegratedSoftphone',
-  deps: ['Locale', 'RouterInteraction', 'EvAgentSession', 'EvSubscription', 'Beforeunload', 'EvSettings', 'EvClient', 'Presence', 'Storage', 'EvAuth', 'Block', 'Auth', 'Modal', 'Alert', {
+  deps: ['Locale', 'RouterInteraction', 'EvAgentSession', 'EvSubscription', 'Beforeunload', 'EvSettings', 'EvClient', 'Presence', 'Storage', 'EvAuth', 'Block', 'Auth', 'ModalUI', 'Alert', {
     dep: 'TabManager',
     optional: true
   }, {
@@ -260,6 +260,14 @@ var EvIntegratedSoftphone = (_dec = (0, _di.Module)({
         }, _callee);
       })));
 
+      this._deps.evAgentSession.onConfigSuccess(function () {
+        if (_this2._deps.tabManager.hasMultipleTabs && !_this2._deps.tabManager.isMainTab && _this2._deps.evAgentSession.isConfigTabAlive()) {
+          console.log('setSipRegisterSuccess in onConfigSuccess~~');
+
+          _this2.setSipRegisterSuccess(true);
+        }
+      });
+
       this._deps.evAgentSession.onReConfigFail(function () {
         if (_this2._deps.evAgentSession.isIntegratedSoftphone) {
           _this2._emitRegistrationFailed();
@@ -360,7 +368,7 @@ var EvIntegratedSoftphone = (_dec = (0, _di.Module)({
 
               case 12:
                 // that event call from modal ok or cancel, that auto close modal
-                this._deps.modal.close(this._answerModalId);
+                this._deps.modalUI.close(this._answerModalId);
 
                 if (data) {
                   this.answerCall();
@@ -573,6 +581,8 @@ var EvIntegratedSoftphone = (_dec = (0, _di.Module)({
     value: function _bindingIntegratedSoftphone() {
       var _this3 = this;
 
+      console.log('_bindingIntegratedSoftphone~~');
+
       this._deps.evSubscription.subscribe(_enums2.EvCallbackTypes.SIP_REGISTERED, function () {
         // That will call several times when reconnected.
         console.log('!!!!!!!SIP_REGISTERED');
@@ -733,10 +743,11 @@ var EvIntegratedSoftphone = (_dec = (0, _di.Module)({
       // });
 
 
-      this._deps.modal.alert({
+      this._deps.modalUI.alert({
         title: 'Registration failed',
         content: 'Will reload your pages and tabs for you',
         okText: 'Ok',
+        size: 'xsmall',
         onOK: function onOK() {
           _this4._sendTabManager(_enums.tabManagerEvents.SIP_REGISTRATION_FAILED_RELOAD);
 
@@ -814,7 +825,7 @@ var EvIntegratedSoftphone = (_dec = (0, _di.Module)({
       this._playAudioLoop('ringtone');
 
       var currentLocale = this._deps.locale.currentLocale;
-      this._answerModalId = this._deps.modal.confirm({
+      this._answerModalId = this._deps.modalUI.confirm({
         title: _i18n["default"].getString('inviteModalTitle', currentLocale),
         content: (0, _formatMessage["default"])(_i18n["default"].getString('inviteModalContent', currentLocale), {
           displayName: displayName
@@ -830,7 +841,8 @@ var EvIntegratedSoftphone = (_dec = (0, _di.Module)({
           _this5._sendTabManager(_enums.tabManagerEvents.SIP_RINGING_MODAL, false);
 
           _this5.rejectCall();
-        }
+        },
+        size: 'xsmall'
       });
     }
   }, {
@@ -897,7 +909,7 @@ var EvIntegratedSoftphone = (_dec = (0, _di.Module)({
           ttl: 0
         });
 
-        this._deps.modal.close(this._answerModalId);
+        this._deps.modalUI.close(this._answerModalId);
 
         this._answerModalId = null;
 

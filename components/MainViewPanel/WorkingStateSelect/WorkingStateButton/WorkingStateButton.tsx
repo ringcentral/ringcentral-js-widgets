@@ -1,6 +1,6 @@
 import { RcButtonBase, RcIcon, RcMenu, RcMenuItem } from '@ringcentral/juno';
-import arrowDownSvg from '@ringcentral/juno/icons/icon-arrow-down.svg';
-import arrowUpSvg from '@ringcentral/juno/icons/icon-arrow-up.svg';
+import arrowDownSvg from '@ringcentral/juno/icon/ArrowDown';
+import arrowUpSvg from '@ringcentral/juno/icon/ArrowUp';
 import classNames from 'classnames';
 import React, { FunctionComponent, useState } from 'react';
 import { Tooltip } from 'ringcentral-widgets/components/Rcui/Tooltip';

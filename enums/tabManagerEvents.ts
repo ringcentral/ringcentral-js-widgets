@@ -31,6 +31,11 @@ export const tabManagerEvents = ObjectMap.prefixKeys(
     'CLOSE_WHEN_CALL_CONNECTED',
     // Auth related
     'LOGOUT',
+    'OPEN_SOCKET',
+    'RELOGIN',
+    'CONFIGURE_FAIL',
+    'RE_CHOOSE_ACCOUNT',
+    'SET_AGENT_ID',
   ],
   'tabManager',
 );

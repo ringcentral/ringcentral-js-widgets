@@ -47,6 +47,33 @@ var defaultLoginTypeList = [{
   label: 'externalPhone2',
   id: '102'
 }];
+var defaultSelectedAgent = {
+  accountId: '15240001',
+  accountName: 'RC Internal QA C02',
+  agentGroupId: null,
+  agentId: '1364338',
+  agentRank: null,
+  agentType: 'AGENT',
+  allowLoginControl: true,
+  allowLoginUpdates: true,
+  altDefaultLoginDest: null,
+  directAgentExtension: null,
+  email: 'kiwi.lin+11564@ringcentral.onmicrosoft.com',
+  enableSoftphone: null,
+  externalAgentId: null,
+  firstName: 'Kiwi',
+  ghostRnaAction: null,
+  initLoginBaseState: null,
+  lastName: 'Lin',
+  location: null,
+  manualOutboundDefaultCallerId: null,
+  maxChats: null,
+  password: null,
+  phoneLoginPin: null,
+  rcUserId: 62710741028,
+  team: null,
+  username: 'kiwi.lin+11564+15240001_1364338@ringcentral.com'
+};
 
 function setup(_ref) {
   var _ref$selectedSkillPro = _ref.selectedSkillProfileId,
@@ -102,8 +129,16 @@ function setup(_ref) {
       _ref$showSkillProfile = _ref.showSkillProfile,
       showSkillProfile = _ref$showSkillProfile === void 0 ? true : _ref$showSkillProfile,
       _ref$showAutoAnswer = _ref.showAutoAnswer,
-      showAutoAnswer = _ref$showAutoAnswer === void 0 ? true : _ref$showAutoAnswer;
+      showAutoAnswer = _ref$showAutoAnswer === void 0 ? true : _ref$showAutoAnswer,
+      _ref$onAccountReChoos = _ref.onAccountReChoose,
+      onAccountReChoose = _ref$onAccountReChoos === void 0 ? function () {} : _ref$onAccountReChoos,
+      _ref$selectedAgent = _ref.selectedAgent,
+      selectedAgent = _ref$selectedAgent === void 0 ? defaultSelectedAgent : _ref$selectedAgent,
+      _ref$showReChooseAcco = _ref.showReChooseAccount,
+      showReChooseAccount = _ref$showReChooseAcco === void 0 ? true : _ref$showReChooseAcco;
   return (0, _enzyme.mount)( /*#__PURE__*/_react["default"].createElement(_juno.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_SessionConfigPanel.SessionConfigPanel, {
+    onAccountReChoose: onAccountReChoose,
+    selectedAgent: selectedAgent,
     currentLocale: currentLocale,
     selectedSkillProfileId: selectedSkillProfileId,
     skillProfileList: skillProfileList,
@@ -116,7 +151,8 @@ function setup(_ref) {
     setConfigure: setConfigure,
     inboundQueuesFieldText: inboundQueuesFieldText,
     isExtensionNumber: isExtensionNumber,
-    isLoading: isLoading // takingCall={takingCall}
+    isLoading: isLoading,
+    showReChooseAccount: showReChooseAccount // takingCall={takingCall}
     // setTakingCall={setTakingCall}
     ,
     autoAnswer: autoAnswer,

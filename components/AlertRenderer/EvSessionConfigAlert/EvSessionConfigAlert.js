@@ -30,6 +30,6 @@ function EvSessionConfigAlert(_ref) {
 
 EvSessionConfigAlert.handleMessage = function (_ref2) {
   var message = _ref2.message;
-  return (0, _ramda.contains)(message, [_enums.messageTypes.INVALID_PHONE_NUMBER, _enums.messageTypes.AGENT_CONFIG_ERROR, _enums.messageTypes.AGENT_CONFIG_DETAIL_ERROR, _enums.messageTypes.UPDATE_AGENT_SUCCESS, _enums.messageTypes.UPDATE_AGENT_ERROR, _enums.messageTypes.EMPTY_PHONE_NUMBER, _enums.messageTypes.NO_AGENT_SELECTED, _enums.messageTypes.INVALID_PHONE_NUMBER]);
+  return (0, _ramda.contains)(message, [_enums.messageTypes.INVALID_PHONE_NUMBER, _enums.messageTypes.AGENT_CONFIG_ERROR, _enums.messageTypes.AGENT_CONFIG_DETAIL_ERROR, _enums.messageTypes.UPDATE_AGENT_SUCCESS, _enums.messageTypes.UPDATE_AGENT_ERROR, _enums.messageTypes.EMPTY_PHONE_NUMBER, _enums.messageTypes.NOT_INBOUND_QUEUE_SELECTED, _enums.messageTypes.INVALID_PHONE_NUMBER]);
 };
 //# sourceMappingURL=EvSessionConfigAlert.js.map

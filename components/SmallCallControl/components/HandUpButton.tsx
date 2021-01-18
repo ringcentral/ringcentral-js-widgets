@@ -1,4 +1,4 @@
-import handUpSvg from '@ringcentral/juno/icons/icon-hand-up.svg';
+import handUpSvg from '@ringcentral/juno/icon/HandUp';
 import React, { FunctionComponent } from 'react';
 
 import { CircleIconButton } from '../../CircleIconButton';
@@ -21,12 +21,14 @@ export const HandUpButton: FunctionComponent<HandUpButtonProps> = ({
   size,
   disableHangup,
   className,
+  dataSign,
 }) => {
   const { endTitle } = getCircleIconButtonTitle({
     isInComingCall,
   });
   return (
     <CircleIconButton
+      dataSign={dataSign}
       data-icon="hand-up"
       symbol={handUpSvg}
       title={i18n.getString(endTitle, currentLocale)}
@@ -45,4 +47,5 @@ HandUpButton.defaultProps = {
   disableHangup: false,
   isInComingCall: false,
   currentLocale: 'en-US',
+  dataSign: 'handUp',
 };

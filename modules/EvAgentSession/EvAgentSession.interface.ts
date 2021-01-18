@@ -4,7 +4,7 @@ import Locale from 'ringcentral-integration/modules/Locale';
 import Storage from 'ringcentral-integration/modules/Storage';
 import { Beforeunload } from 'ringcentral-widgets/modules/Beforeunload';
 import { Block } from 'ringcentral-widgets/modules/Block';
-import { Modal } from 'ringcentral-widgets/modules/Modal';
+import { ModalUI } from 'ringcentral-widgets/modules/ModalUIV2';
 import RouterInteraction from 'ringcentral-widgets/modules/RouterInteraction';
 
 import { LoginTypes } from '../../enums';
@@ -32,7 +32,7 @@ export interface Deps {
   storage: Storage;
   alert: Alert;
   auth: Auth;
-  modal: Modal;
+  modalUI: ModalUI;
   locale: Locale;
   tabManager?: EvTabManager;
   evAgentSessionOptions?: EvAgentSessionOptions;

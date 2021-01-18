@@ -1,5 +1,5 @@
 import { LoginTypes } from '../enums';
-import { EvAvailableSkillProfile } from '../lib/EvClient';
+import { EvAgent, EvAvailableSkillProfile } from '../lib/EvClient';
 import { AvailableQueue } from './SelectableQueue.interface';
 
 export interface SkillProfile {
@@ -30,6 +30,8 @@ export interface EvAgentSessionUIProps {
   showAutoAnswer: boolean;
   showInboundQueues: boolean;
   showSkillProfile: boolean;
+  selectedAgent: EvAgent;
+  showReChooseAccount: boolean;
 }
 
 /** this is panel state with hook */
@@ -72,6 +74,7 @@ export interface EvAgentSessionUIFunctions {
     /** this is panel state with hook */
     setInboundQueuesState: ChangeQueueStateFn,
   ) => void;
+  onAccountReChoose: () => void | Promise<void>;
 }
 
 export type BasicSessionProps = Pick<

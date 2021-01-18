@@ -39,8 +39,6 @@ require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.for-each");
 
-require("core-js/modules/es6.array.index-of");
-
 require("core-js/modules/es6.array.find-index");
 
 require("core-js/modules/es6.array.map");
@@ -85,7 +83,6 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
 
-var expiredWorkingTime = 60 * 1000;
 var MainViewUI = (_dec = (0, _di.Module)({
   name: 'MainViewUI',
   deps: ['Locale', 'RouterInteraction', 'EvWorkingState', 'EvSettings', 'EvCallMonitor', 'EvAuth', 'Environment']
@@ -121,7 +118,7 @@ var MainViewUI = (_dec = (0, _di.Module)({
   _createClass(MainViewUI, [{
     key: "getStateColor",
     value: function getStateColor(intervalTime) {
-      if (this.isTimingOneMinuteType) {
+      if (this.isBreak) {
         var isOverOneMinute = this._checkOverTime(intervalTime);
 
         if (isOverOneMinute) {
@@ -134,16 +131,18 @@ var MainViewUI = (_dec = (0, _di.Module)({
   }, {
     key: "getTimerText",
     value: function getTimerText(intervalTime) {
-      if (!this.isTimingOneMinuteType) {
-        return (0, _time.handleToClockTime)(intervalTime);
-      }
-
       if (this._checkOverTime(intervalTime)) {
-        return "-".concat((0, _time.handleToClockTime)(intervalTime - expiredWorkingTime));
+        return "-".concat((0, _time.handleToClockTime)(intervalTime - this.maxBreakTime));
       }
 
-      var resetSecond = parseInt("".concat((expiredWorkingTime - intervalTime) / 1000), 10);
-      return "00:".concat(String(resetSecond).length < 2 ? '0' : '').concat(resetSecond);
+      if (this.isBreak && this.maxBreakTime > 0) {
+        intervalTime = parseInt("".concat(this.maxBreakTime - intervalTime), 10);
+        return (0, _time.handleToClockTime)(intervalTime, {
+          useCeil: true
+        });
+      }
+
+      return (0, _time.handleToClockTime)(intervalTime);
     }
   }, {
     key: "handleWithIntervalTime",
@@ -151,7 +150,7 @@ var MainViewUI = (_dec = (0, _di.Module)({
       var isOverOneMinute = this._checkOverTime(intervalTime); // TODO think about when browser is block.
 
 
-      if (this.oldIntervalTime < expiredWorkingTime && isOverOneMinute && this.isTimingOneMinuteType) {
+      if (this.oldIntervalTime < this.maxBreakTime && isOverOneMinute && this.isBreak) {
         this._deps.evWorkingState.alertOverBreakTime();
       }
 
@@ -160,7 +159,7 @@ var MainViewUI = (_dec = (0, _di.Module)({
   }, {
     key: "_checkOverTime",
     value: function _checkOverTime(intervalTime) {
-      return intervalTime > expiredWorkingTime;
+      return this.isBreak && this.maxBreakTime > 0 && intervalTime > this.maxBreakTime;
     }
   }, {
     key: "getUIProps",
@@ -213,6 +212,11 @@ var MainViewUI = (_dec = (0, _di.Module)({
       };
     }
   }, {
+    key: "maxBreakTime",
+    get: function get() {
+      return this._deps.evWorkingState.maxBreakTime;
+    }
+  }, {
     key: "agentStates",
     get: function get() {
       return this._deps.evWorkingState.agentStates.map(function (state) {
@@ -237,10 +241,12 @@ var MainViewUI = (_dec = (0, _di.Module)({
       return workingState.agentAuxState || workingState.agentState;
     }
   }, {
-    key: "isTimingOneMinuteType",
+    key: "isBreak",
     get: function get() {
-      var workingState = this._deps.evWorkingState.workingState;
-      return [_enums.agentStateTypes.away, _enums.agentStateTypes.onBreak, _enums.agentStateTypes.lunch].indexOf(workingState.agentState) > -1;
+      var _this$_deps$evWorking = this._deps.evWorkingState,
+          isOnBreakOrAway = _this$_deps$evWorking.isOnBreakOrAway,
+          isOnLunch = _this$_deps$evWorking.isOnLunch;
+      return isOnBreakOrAway || isOnLunch;
     }
   }, {
     key: "isOffHookDisable",
@@ -255,6 +261,6 @@ var MainViewUI = (_dec = (0, _di.Module)({
   }]);
 
   return MainViewUI;
-}(_core.RcUIModuleV2), _temp), (_applyDecoratedDescriptor(_class2.prototype, "agentStates", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "agentStates"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "currentStateIndex", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "currentStateIndex"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "stateText", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "stateText"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "isTimingOneMinuteType", [_dec5], Object.getOwnPropertyDescriptor(_class2.prototype, "isTimingOneMinuteType"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "isOffHookDisable", [_dec6], Object.getOwnPropertyDescriptor(_class2.prototype, "isOffHookDisable"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "hideOffHookBtn", [_dec7], Object.getOwnPropertyDescriptor(_class2.prototype, "hideOffHookBtn"), _class2.prototype)), _class2)) || _class);
+}(_core.RcUIModuleV2), _temp), (_applyDecoratedDescriptor(_class2.prototype, "agentStates", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "agentStates"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "currentStateIndex", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "currentStateIndex"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "stateText", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "stateText"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "isBreak", [_dec5], Object.getOwnPropertyDescriptor(_class2.prototype, "isBreak"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "isOffHookDisable", [_dec6], Object.getOwnPropertyDescriptor(_class2.prototype, "isOffHookDisable"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "hideOffHookBtn", [_dec7], Object.getOwnPropertyDescriptor(_class2.prototype, "hideOffHookBtn"), _class2.prototype)), _class2)) || _class);
 exports.MainViewUI = MainViewUI;
 //# sourceMappingURL=MainViewUI.js.map

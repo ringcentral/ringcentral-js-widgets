@@ -27,13 +27,17 @@ require("core-js/modules/es6.object.assign");
 
 var _juno = require("@ringcentral/juno");
 
-var _iconPhone = _interopRequireDefault(require("@ringcentral/juno/icons/icon-phone.svg"));
+var _Phone = _interopRequireDefault(require("@ringcentral/juno/icon/Phone"));
 
-var _iconPhone_border = _interopRequireDefault(require("@ringcentral/juno/icons/icon-phone_border.svg"));
+var _PhoneBorder = _interopRequireDefault(require("@ringcentral/juno/icon/PhoneBorder"));
 
-var _iconSettings = _interopRequireDefault(require("@ringcentral/juno/icons/icon-settings.svg"));
+var _Time = _interopRequireDefault(require("@ringcentral/juno/icon/Time"));
 
-var _iconSettings_border = _interopRequireDefault(require("@ringcentral/juno/icons/icon-settings_border.svg"));
+var _TimeBorder = _interopRequireDefault(require("@ringcentral/juno/icon/TimeBorder"));
+
+var _Settings = _interopRequireDefault(require("@ringcentral/juno/icon/Settings"));
+
+var _SettingsBorder = _interopRequireDefault(require("@ringcentral/juno/icon/SettingsBorder"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
@@ -96,12 +100,12 @@ var MainViewPanel = function MainViewPanel(_ref) {
   var tabs = [{
     icon: function icon() {
       return /*#__PURE__*/_react["default"].createElement(CustomIcon, {
-        symbol: _iconPhone_border["default"]
+        symbol: _PhoneBorder["default"]
       });
     },
     activeIcon: function activeIcon() {
       return /*#__PURE__*/_react["default"].createElement(CustomIcon, {
-        symbol: _iconPhone["default"]
+        symbol: _Phone["default"]
       });
     },
     label: _i18n["default"].getString('dialpadLabel', currentLocale),
@@ -110,24 +114,32 @@ var MainViewPanel = function MainViewPanel(_ref) {
       return currentPath === '/dialer' || /^\/activityCallLog/.test(currentPath);
     },
     className: _styles["default"].tab
-  }, // The call history function is not available yet
-  // {
-  //   icon: () => <CustomIcon symbol={TimeBorderSvg} />,
-  //   activeIcon: () => <CustomIcon symbol={TimeSvg} />,
-  //   label: i18n.getString('historyLabel', currentLocale),
-  //   path: '/history',
-  //   isActive: (currentPath) => /^\/history/.test(currentPath),
-  //   className: styles.tab,
-  // },
-  {
+  }, {
     icon: function icon() {
       return /*#__PURE__*/_react["default"].createElement(CustomIcon, {
-        symbol: _iconSettings_border["default"]
+        symbol: _TimeBorder["default"]
       });
     },
     activeIcon: function activeIcon() {
       return /*#__PURE__*/_react["default"].createElement(CustomIcon, {
-        symbol: _iconSettings["default"]
+        symbol: _Time["default"]
+      });
+    },
+    label: _i18n["default"].getString('historyLabel', currentLocale),
+    path: '/history',
+    isActive: function isActive(currentPath) {
+      return /^\/history/.test(currentPath);
+    },
+    className: _styles["default"].tab
+  }, {
+    icon: function icon() {
+      return /*#__PURE__*/_react["default"].createElement(CustomIcon, {
+        symbol: _SettingsBorder["default"]
+      });
+    },
+    activeIcon: function activeIcon() {
+      return /*#__PURE__*/_react["default"].createElement(CustomIcon, {
+        symbol: _Settings["default"]
       });
     },
     label: _i18n["default"].getString('settingsLabel', currentLocale),

@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.HandUpButton = void 0;
 
-var _iconHandUp = _interopRequireDefault(require("@ringcentral/juno/icons/icon-hand-up.svg"));
+var _HandUp = _interopRequireDefault(require("@ringcentral/juno/icon/HandUp"));
 
 var _react = _interopRequireDefault(require("react"));
 
@@ -26,7 +26,8 @@ var HandUpButton = function HandUpButton(_ref) {
       isInComingCall = _ref.isInComingCall,
       size = _ref.size,
       disableHangup = _ref.disableHangup,
-      className = _ref.className;
+      className = _ref.className,
+      dataSign = _ref.dataSign;
 
   var _getCircleIconButtonT = (0, _help.getCircleIconButtonTitle)({
     isInComingCall: isInComingCall
@@ -34,8 +35,9 @@ var HandUpButton = function HandUpButton(_ref) {
       endTitle = _getCircleIconButtonT.endTitle;
 
   return /*#__PURE__*/_react["default"].createElement(_CircleIconButton.CircleIconButton, {
+    dataSign: dataSign,
     "data-icon": "hand-up",
-    symbol: _iconHandUp["default"],
+    symbol: _HandUp["default"],
     title: _i18n["default"].getString(endTitle, currentLocale),
     color: ['semantic', 'negative'],
     onClick: isInComingCall ? onReject : onHangup,
@@ -51,6 +53,7 @@ HandUpButton.defaultProps = {
   onHangup: function onHangup() {},
   disableHangup: false,
   isInComingCall: false,
-  currentLocale: 'en-US'
+  currentLocale: 'en-US',
+  dataSign: 'handUp'
 };
 //# sourceMappingURL=HandUpButton.js.map

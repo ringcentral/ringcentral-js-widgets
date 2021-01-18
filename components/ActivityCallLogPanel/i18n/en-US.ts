@@ -1,13 +1,6 @@
 export default {
-  none: 'None',
   submit: 'Submit',
-  name: 'Name',
-  relatedTo: 'Related to',
   disposition: 'Disposition',
-  multipleNameMatch: 'Multiple name matches',
-  multipleRelatedToMatch: 'Multiple related matches',
-  namePlaceholder: 'Search contact/lead',
-  relatedToPlaceholder: 'Search account/opportunity...',
   internalTransfer: 'Internal transfer',
   phoneBookTransfer: 'Phone book transfer',
   queueTransfer: 'Queue transfer',

@@ -77,9 +77,9 @@ var _tabLife = require("../../lib/tabLife");
 
 var _trackEvents = require("../../lib/trackEvents");
 
-var _tabManagerEnabled = require("./tabManagerEnabled.decorator");
-
 var _i18n = _interopRequireDefault(require("./i18n"));
+
+var _tabManagerEnabled = require("./tabManagerEnabled.decorator");
 
 var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _dec10, _dec11, _dec12, _dec13, _dec14, _dec15, _dec16, _dec17, _dec18, _dec19, _dec20, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7, _descriptor8, _descriptor9, _descriptor10, _temp;
 
@@ -153,7 +153,7 @@ var DEFAULT_FORM_GROUP = {
 };
 var EvAgentSession = (_dec = (0, _di.Module)({
   name: 'EvAgentSession',
-  deps: ['EvClient', 'Auth', 'EvAuth', 'Storage', 'Alert', 'Auth', 'Locale', 'Presence', 'RouterInteraction', 'Modal', 'Block', 'Beforeunload', {
+  deps: ['EvClient', 'Auth', 'EvAuth', 'Storage', 'Alert', 'Auth', 'Locale', 'Presence', 'RouterInteraction', 'ModalUI', 'Block', 'Beforeunload', {
     dep: 'TabManager',
     optional: true
   }, {
@@ -263,11 +263,12 @@ var EvAgentSession = (_dec = (0, _di.Module)({
     }); // ! that onceLoginSuccess for get event before onInitOnce.
 
     _this.isForceLogin = false;
-    _this._isReConfiguring = false;
     _this.isReconnected = false;
+    _this.isAgentUpdating = false;
+    _this._isReConfiguring = false;
+    _this._autoConfigureRetryTimes = 0;
     _this._eventEmitter = new _events.EventEmitter();
     _this._loginPromise = void 0;
-    _this._isAgentUpdating = false;
     _this._updateSessionBlockId = void 0;
     _this._isLogin = false;
     _this._tabConfigWorking = new _tabLife.TabLife("".concat(_this._deps.tabManager.prefix, "sessionConfig_working"));
@@ -493,8 +494,8 @@ var EvAgentSession = (_dec = (0, _di.Module)({
           _this2._deps.presence.setDialoutStatus(_enums.dialoutStatuses.idle);
         }
 
-        if (_this2._isAgentUpdating) {
-          _this2._isAgentUpdating = false;
+        if (_this2.isAgentUpdating) {
+          _this2.isAgentUpdating = false;
         } else {
           console.log('!!!!to Dialer');
 
@@ -727,9 +728,9 @@ var EvAgentSession = (_dec = (0, _di.Module)({
   }, {
     key: "_initAgentSession",
     value: function _initAgentSession() {
-      console.log('_initAgentSession~', this._isAgentUpdating);
+      console.log('_initAgentSession~', this.isAgentUpdating);
 
-      if (this._isAgentUpdating) {
+      if (this.isAgentUpdating) {
         return;
       }
 
@@ -766,7 +767,7 @@ var EvAgentSession = (_dec = (0, _di.Module)({
       try {
         this._resetAllState();
 
-        this._isAgentUpdating = false;
+        this.isAgentUpdating = false;
       } catch (error) {// ignore error
       }
     }
@@ -775,7 +776,7 @@ var EvAgentSession = (_dec = (0, _di.Module)({
     value: function _resetAllState() {
       console.log('_resetAllState~~', this.isMainTab);
 
-      if (!this._isAgentUpdating) {
+      if (!this.isAgentUpdating) {
         this.resetAllConfig();
       }
 
@@ -837,25 +838,36 @@ var EvAgentSession = (_dec = (0, _di.Module)({
                 data = event === null || event === void 0 ? void 0 : event.args[0];
 
                 if (!event) {
-                  _context9.next = 47;
+                  _context9.next = 59;
                   break;
                 }
 
                 _context9.t0 = event.name;
-                _context9.next = _context9.t0 === _enums.tabManagerEvents.AGENT_CONFIG_SUCCESS ? 6 : _context9.t0 === _enums.tabManagerEvents.UPDATE_SESSION ? 10 : _context9.t0 === _enums.tabManagerEvents.MAIN_TAB_WILL_UNLOAD ? 14 : _context9.t0 === _enums.tabManagerEvents.SET_MIAN_TAB_ID ? 19 : _context9.t0 === _enums.tabManagerEvents.UPDATE_SESSION_SUCCESS ? 21 : _context9.t0 === _enums.tabManagerEvents.UPDATE_SESSION_SUCCESS_ALERT ? 42 : _context9.t0 === _enums.tabManagerEvents.UPDATE_SESSION_FAIL ? 44 : 46;
+                _context9.next = _context9.t0 === _enums.tabManagerEvents.AGENT_CONFIG_SUCCESS ? 6 : _context9.t0 === _enums.tabManagerEvents.UPDATE_SESSION ? 16 : _context9.t0 === _enums.tabManagerEvents.MAIN_TAB_WILL_UNLOAD ? 20 : _context9.t0 === _enums.tabManagerEvents.SET_MIAN_TAB_ID ? 25 : _context9.t0 === _enums.tabManagerEvents.UPDATE_SESSION_SUCCESS ? 27 : _context9.t0 === _enums.tabManagerEvents.UPDATE_SESSION_SUCCESS_ALERT ? 48 : _context9.t0 === _enums.tabManagerEvents.UPDATE_SESSION_FAIL ? 50 : _context9.t0 === _enums.tabManagerEvents.RELOGIN ? 52 : _context9.t0 === _enums.tabManagerEvents.CONFIGURE_FAIL ? 55 : 58;
                 break;
 
               case 6:
-                console.log('!!!from other');
-                _context9.next = 9;
+                console.log('_othersTabConfigureAgent from tabManagerEvents.AGENT_CONFIG_SUCCESS~~');
+                _context9.prev = 7;
+                _context9.next = 10;
                 return this._othersTabConfigureAgent();
 
-              case 9:
-                return _context9.abrupt("break", 47);
-
               case 10:
+                _context9.next = 15;
+                break;
+
+              case 12:
+                _context9.prev = 12;
+                _context9.t1 = _context9["catch"](7);
+
+                this._configureFail();
+
+              case 15:
+                return _context9.abrupt("break", 59);
+
+              case 16:
                 this._updateSessionBlockId = this._deps.block.block();
-                this._isAgentUpdating = true; // if voiceConnectionChanged
+                this.isAgentUpdating = true; // if voiceConnectionChanged
 
                 if (data) {
                   this.onceLogoutThenLogin().then(function (loginPromise) {
@@ -863,37 +875,37 @@ var EvAgentSession = (_dec = (0, _di.Module)({
                   });
                 }
 
-                return _context9.abrupt("break", 47);
+                return _context9.abrupt("break", 59);
 
-              case 14:
+              case 20:
                 console.log('MAIN_TAB_WILL_UNLOAD~~', data === this._deps.tabManager.tabbie.id, this.isMainTab);
 
                 if (!(data === this._deps.tabManager.tabbie.id || this.isMainTab)) {
-                  _context9.next = 18;
+                  _context9.next = 24;
                   break;
                 }
 
-                _context9.next = 18;
+                _context9.next = 24;
                 return this._newMainTabReConfig();
 
-              case 18:
-                return _context9.abrupt("break", 47);
+              case 24:
+                return _context9.abrupt("break", 59);
 
-              case 19:
+              case 25:
                 if (this._deps.tabManager.mainTabId !== data) {
                   console.log('SET_MIAN_TAB_ID in this tab~');
 
                   this._deps.tabManager.setMainTabIdInThisTab(data);
                 }
 
-                return _context9.abrupt("break", 47);
+                return _context9.abrupt("break", 59);
 
-              case 21:
-                _context9.prev = 21;
+              case 27:
+                _context9.prev = 27;
                 console.log('UPDATE_SESSION_SUCCESS~~', data); // if voiceConnectionChanged
 
                 if (!data) {
-                  _context9.next = 32;
+                  _context9.next = 38;
                   break;
                 }
 
@@ -901,56 +913,73 @@ var EvAgentSession = (_dec = (0, _di.Module)({
 
                 this._initTabLife();
 
-                _context9.next = 28;
+                _context9.next = 34;
                 return this._loginPromise;
 
-              case 28:
-                _context9.next = 30;
+              case 34:
+                _context9.next = 36;
                 return this._othersTabConfigureAgent();
 
-              case 30:
-                _context9.next = 33;
+              case 36:
+                _context9.next = 39;
                 break;
 
-              case 32:
+              case 38:
                 this.setConfigSuccess(true);
 
-              case 33:
+              case 39:
                 this._unblockUpdateSession();
 
-                this._isAgentUpdating = false;
-                _context9.next = 41;
+                this.isAgentUpdating = false;
+                _context9.next = 47;
                 break;
 
-              case 37:
-                _context9.prev = 37;
-                _context9.t1 = _context9["catch"](21);
+              case 43:
+                _context9.prev = 43;
+                _context9.t2 = _context9["catch"](27);
                 // when that auto config fail, just reload that tab
-                console.log(_context9.t1);
+                console.log(_context9.t2);
                 window.location.reload();
 
-              case 41:
-                return _context9.abrupt("break", 47);
+              case 47:
+                return _context9.abrupt("break", 59);
 
-              case 42:
+              case 48:
                 this._showUpdateSuccessAlert();
 
-                return _context9.abrupt("break", 47);
+                return _context9.abrupt("break", 59);
 
-              case 44:
+              case 50:
                 this._unblockUpdateSession();
 
-                return _context9.abrupt("break", 47);
+                return _context9.abrupt("break", 59);
 
-              case 46:
-                return _context9.abrupt("break", 47);
+              case 52:
+                _context9.next = 54;
+                return this.reLoginAgent({
+                  isBlock: true,
+                  alertMessage: _enums.messageTypes.NOT_INBOUND_QUEUE_SELECTED
+                });
 
-              case 47:
+              case 54:
+                return _context9.abrupt("break", 59);
+
+              case 55:
+                console.log('other tab be called to invoke _configureFail~~');
+
+                this._configureFail();
+
+                return _context9.abrupt("break", 59);
+
+              case 58:
+                return _context9.abrupt("break", 59);
+
+              case 59:
               case "end":
                 return _context9.stop();
             }
           }
-        }, _callee9, this, [[21, 37]]);
+        }, _callee9, this, [[7, 12], [27, 43]]);
       }));
 
       function _checkTabManagerEvent() {
@@ -1203,7 +1232,7 @@ var EvAgentSession = (_dec = (0, _di.Module)({
 
                           _this8._clearCalls();
 
-                          _this8._isAgentUpdating = true;
+                          _this8.isAgentUpdating = true;
 
                           _this8._sendTabManager(_enums.tabManagerEvents.UPDATE_SESSION, voiceConnectionChanged);
 
@@ -1288,40 +1317,80 @@ var EvAgentSession = (_dec = (0, _di.Module)({
   }, {
     key: "reLoginAgent",
     value: function () {
-      var _reLoginAgent = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee14() {
-        var _yield$this$_deps$aut, access_token;
+      var _reLoginAgent = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee15() {
+        var _this9 = this;
 
-        return regeneratorRuntime.wrap(function _callee14$(_context14) {
+        var _ref5,
+            isBlock,
+            alertMessage,
+            fn,
+            _args15 = arguments;
+
+        return regeneratorRuntime.wrap(function _callee15$(_context15) {
           while (1) {
-            switch (_context14.prev = _context14.next) {
+            switch (_context15.prev = _context15.next) {
               case 0:
-                this._deps.evAuth.sendLogoutTabEvent();
+                _ref5 = _args15.length > 0 && _args15[0] !== undefined ? _args15[0] : {}, isBlock = _ref5.isBlock, alertMessage = _ref5.alertMessage;
 
-                _context14.next = 3;
-                return this._deps.auth.refreshToken();
+                fn = /*#__PURE__*/function () {
+                  var _ref6 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee14() {
+                    var _yield$_this9$_deps$a, access_token;
+
+                    return regeneratorRuntime.wrap(function _callee14$(_context14) {
+                      while (1) {
+                        switch (_context14.prev = _context14.next) {
+                          case 0:
+                            if (alertMessage) {
+                              _this9._deps.alert.danger({
+                                message: alertMessage,
+                                ttl: 0
+                              });
+                            }
+
+                            _this9._deps.evAuth.sendLogoutTabEvent();
+
+                            _context14.next = 4;
+                            return _this9._deps.auth.refreshToken();
+
+                          case 4:
+                            _yield$_this9$_deps$a = _context14.sent;
+                            access_token = _yield$_this9$_deps$a.access_token;
+
+                            _this9.setAccessToken(access_token); // * then do logout send to every tab
+
+
+                            _context14.next = 9;
+                            return _this9._deps.evAuth.logoutAgent();
+
+                          case 9:
+                            _context14.next = 11;
+                            return (0, _sleep["default"])(WAIT_EV_SERVER_ROLLBACK_DELAY);
+
+                          case 11:
+                            _context14.next = 13;
+                            return _this9._deps.evAuth.loginAgent(_this9.accessToken);
+
+                          case 13:
+                          case "end":
+                            return _context14.stop();
+                        }
+                      }
+                    }, _callee14);
+                  }));
+
+                  return function fn() {
+                    return _ref6.apply(this, arguments);
+                  };
+                }();
+
+                return _context15.abrupt("return", isBlock ? this._deps.block.next(fn) : fn());
 
               case 3:
-                _yield$this$_deps$aut = _context14.sent;
-                access_token = _yield$this$_deps$aut.access_token;
-                this.setAccessToken(access_token); // * then do logout send to every tab
-
-                _context14.next = 8;
-                return this._deps.evAuth.logoutAgent();
-
-              case 8:
-                _context14.next = 10;
-                return (0, _sleep["default"])(WAIT_EV_SERVER_ROLLBACK_DELAY);
-
-              case 10:
-                _context14.next = 12;
-                return this._deps.evAuth.loginAgent(this.accessToken);
-
-              case 12:
               case "end":
-                return _context14.stop();
+                return _context15.stop();
             }
           }
-        }, _callee14, this);
+        }, _callee15, this);
       }));
 
       function reLoginAgent() {
@@ -1333,26 +1402,26 @@ var EvAgentSession = (_dec = (0, _di.Module)({
   }, {
     key: "onceLogoutThenLogin",
     value: function onceLogoutThenLogin() {
-      var _this9 = this;
+      var _this10 = this;
 
       return new Promise(function (resolve) {
-        _this9._deps.evAuth.onceLogout( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee15() {
-          return regeneratorRuntime.wrap(function _callee15$(_context15) {
+        _this10._deps.evAuth.onceLogout( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee16() {
+          return regeneratorRuntime.wrap(function _callee16$(_context16) {
             while (1) {
-              switch (_context15.prev = _context15.next) {
+              switch (_context16.prev = _context16.next) {
                 case 0:
-                  _context15.next = 2;
+                  _context16.next = 2;
                   return (0, _sleep["default"])(WAIT_EV_SERVER_ROLLBACK_DELAY);
 
                 case 2:
-                  resolve(_this9._deps.evAuth.loginAgent(_this9.accessToken));
+                  resolve(_this10._deps.evAuth.loginAgent(_this10.accessToken));
 
                 case 3:
                 case "end":
-                  return _context15.stop();
+                  return _context16.stop();
               }
             }
-          }, _callee15);
+          }, _callee16);
         })));
       });
     }
@@ -1370,12 +1439,12 @@ var EvAgentSession = (_dec = (0, _di.Module)({
     }
   }, {
     key: "_handleAgentResult",
-    value: function _handleAgentResult(_ref6) {
-      var _ref6$config = _ref6.config,
-          message = _ref6$config.message,
-          status = _ref6$config.status,
-          isAgentUpdating = _ref6.isAgentUpdating,
-          needAssignFormGroupValue = _ref6.needAssignFormGroupValue;
+    value: function _handleAgentResult(_ref8) {
+      var _ref8$config = _ref8.config,
+          message = _ref8$config.message,
+          status = _ref8$config.status,
+          isAgentUpdating = _ref8.isAgentUpdating,
+          needAssignFormGroupValue = _ref8.needAssignFormGroupValue;
 
       if (status !== 'SUCCESS') {
         if (typeof message === 'string') {
@@ -1401,55 +1470,75 @@ var EvAgentSession = (_dec = (0, _di.Module)({
   }, {
     key: "_autoConfigureAgent",
     value: function () {
-      var _autoConfigureAgent2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee18() {
-        var _this10 = this;
+      var _autoConfigureAgent2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee19() {
+        var _this11 = this;
 
-        var resolves;
-        return regeneratorRuntime.wrap(function _callee18$(_context18) {
+        var isFirstTab, timeoutId, resolves;
+        return regeneratorRuntime.wrap(function _callee19$(_context19) {
           while (1) {
-            switch (_context18.prev = _context18.next) {
+            switch (_context19.prev = _context19.next) {
               case 0:
                 console.log('_autoConfigureAgent~', this.tabManagerEnabled);
+                isFirstTab = this._deps.tabManager.isFirstTab;
+
+                if (!(this._autoConfigureRetryTimes >= 5)) {
+                  _context19.next = 6;
+                  break;
+                }
+
+                console.log('stop autoConfigureRetry~~', this._autoConfigureRetryTimes);
+                this._autoConfigureRetryTimes = 0;
+                return _context19.abrupt("return", this._configureFail(isFirstTab));
+
+              case 6:
+                timeoutId = null;
 
                 if (!this.tabManagerEnabled) {
-                  _context18.next = 4;
+                  _context19.next = 10;
                   break;
                 }
 
                 resolves = [null, null, null];
-                return _context18.abrupt("return", Promise.race([new Promise(function (res) {
+                return _context19.abrupt("return", Promise.race([new Promise(function (res) {
+                  console.log('res already success~~');
+
                   resolves[0] = function () {
                     return res('already success');
                   };
 
-                  _this10._eventEmitter.once(_enums.agentSessionEvents.CONFIG_SUCCESS, resolves[0]);
+                  _this11._eventEmitter.once(_enums.agentSessionEvents.CONFIG_SUCCESS, resolves[0]);
                 }), new Promise(function (res) {
                   resolves[1] = res; // check isSuccess first
 
-                  if (_this10._isAgentUpdating || _this10._deps.tabManager.tabs.length !== 1) {
+                  if (_this11.isAgentUpdating || _this11._deps.tabManager.tabs.length !== 1) {
                     var checkIsAlive = function checkIsAlive() {
-                      _this10._tabConfigSuccess.isAlive().then( /*#__PURE__*/function () {
-                        var _ref7 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee16(result) {
-                          return regeneratorRuntime.wrap(function _callee16$(_context16) {
+                      console.log('checkIsAlive~~');
+
+                      _this11._tabConfigSuccess.isAlive().then( /*#__PURE__*/function () {
+                        var _ref9 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee17(result) {
+                          return regeneratorRuntime.wrap(function _callee17$(_context17) {
                             while (1) {
-                              switch (_context16.prev = _context16.next) {
+                              switch (_context17.prev = _context17.next) {
                                 case 0:
+                                  console.log('isAlive ?~', result);
+
                                   if (result) {
+                                    console.log('res other tab config~~');
                                     res('other tab config');
                                   } else {
                                     checkIsAlive();
                                   }
 
-                                case 1:
+                                case 2:
                                 case "end":
-                                  return _context16.stop();
+                                  return _context17.stop();
                               }
                             }
-                          }, _callee16);
+                          }, _callee17);
                         }));
 
                         return function (_x2) {
-                          return _ref7.apply(this, arguments);
+                          return _ref9.apply(this, arguments);
                         };
                       }());
                     };
@@ -1460,35 +1549,45 @@ var EvAgentSession = (_dec = (0, _di.Module)({
                   resolves[2] = res; // when there is too many tab, that event will block
                   // then check local
 
-                  if (_this10._deps.tabManager.isFirstTab) {
-                    _this10._tabConfigWorking.isLeave().then( /*#__PURE__*/function () {
-                      var _ref8 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee17(result) {
-                        return regeneratorRuntime.wrap(function _callee17$(_context17) {
+                  if (isFirstTab) {
+                    _this11._tabConfigWorking.isLeave().then( /*#__PURE__*/function () {
+                      var _ref10 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee18(result) {
+                        return regeneratorRuntime.wrap(function _callee18$(_context18) {
                           while (1) {
-                            switch (_context17.prev = _context17.next) {
+                            switch (_context18.prev = _context18.next) {
                               case 0:
-                                if (result) {
-                                  _this10._configWorkingAlive();
+                                console.log('isLeave ?~', result);
 
+                                if (result) {
+                                  _this11._configWorkingAlive();
+
+                                  console.log('res config~~');
                                   res('config');
                                 }
 
-                              case 1:
+                              case 2:
                               case "end":
-                                return _context17.stop();
+                                return _context18.stop();
                             }
                           }
-                        }, _callee17);
+                        }, _callee18);
                       }));
 
                       return function (_x3) {
-                        return _ref8.apply(this, arguments);
+                        return _ref10.apply(this, arguments);
                       };
                     }());
                   }
+                }), new Promise(function (res) {
+                  timeoutId = setTimeout(function () {
+                    res('retry');
+                  }, 10000);
                 })]).then(function (result) {
-                  _this10._eventEmitter.off(_enums.agentSessionEvents.CONFIG_SUCCESS, resolves[0]); // clear all memory with promise
+                  clearTimeout(timeoutId);
 
+                  _this11._eventEmitter.off(_enums.agentSessionEvents.CONFIG_SUCCESS, resolves[0]);
+
+                  console.log('clear all memory with promise~'); // clear all memory with promise
 
                   resolves.forEach(function (r) {
                     return r();
@@ -1497,22 +1596,27 @@ var EvAgentSession = (_dec = (0, _di.Module)({
                   console.log('!!!!!', result);
 
                   switch (result) {
+                    case 'retry':
+                      console.log('retry auto config~');
+                      _this11._autoConfigureRetryTimes++;
+                      return _this11._autoConfigureAgent();
+
                     case 'other tab config':
                       console.log('_othersTabConfigureAgent in auto config~~');
-                      return _this10._othersTabConfigureAgent();
+                      return _this11._othersTabConfigureAgent();
 
                     case 'config':
                       {
                         console.log('configureAgent in auto config~~'); //! when reConfig, if that change queue or others field in ev admin, that will get error, should redirect to sessionPage
 
-                        var config = _this10._checkFieldsResult({
-                          selectedInboundQueueIds: _this10.selectedInboundQueueIds,
-                          selectedSkillProfileId: _this10.selectedSkillProfileId,
-                          loginType: _this10.loginType,
-                          extensionNumber: _this10.extensionNumber
+                        var config = _this11._checkFieldsResult({
+                          selectedInboundQueueIds: _this11.selectedInboundQueueIds,
+                          selectedSkillProfileId: _this11.selectedSkillProfileId,
+                          loginType: _this11.loginType,
+                          extensionNumber: _this11.extensionNumber
                         });
 
-                        return _this10.configureAgent({
+                        return _this11.configureAgent({
                           config: config
                         });
                       }
@@ -1522,22 +1626,22 @@ var EvAgentSession = (_dec = (0, _di.Module)({
                       return Promise.resolve();
                   }
                 })["catch"](function (e) {
-                  _this10.setConfigSuccess(false);
+                  console.log('_autoConfigureAgent error~~', e);
 
-                  _this10._navigateToSessionConfigPage();
+                  _this11._configureFail(isFirstTab);
 
                   return e;
                 }));
 
-              case 4:
-                return _context18.abrupt("return", this.configureAgent());
+              case 10:
+                return _context19.abrupt("return", this.configureAgent());
 
-              case 5:
+              case 11:
               case "end":
-                return _context18.stop();
+                return _context19.stop();
             }
           }
-        }, _callee18, this);
+        }, _callee19, this);
       }));
 
       function _autoConfigureAgent() {
@@ -1547,47 +1651,67 @@ var EvAgentSession = (_dec = (0, _di.Module)({
       return _autoConfigureAgent;
     }()
   }, {
+    key: "_configureFail",
+    value: function _configureFail() {
+      var needAsyncAllTabs = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+      console.log('_configureFail~~', this._deps.tabManager.hasMultipleTabs, needAsyncAllTabs);
+
+      if (this._deps.tabManager.hasMultipleTabs && needAsyncAllTabs) {
+        this._sendTabManager(_enums.tabManagerEvents.CONFIGURE_FAIL);
+      }
+
+      this.setConfigSuccess(false);
+
+      this._navigateToSessionConfigPage();
+    }
+  }, {
     key: "_othersTabConfigureAgent",
     value: function () {
-      var _othersTabConfigureAgent2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee19() {
-        return regeneratorRuntime.wrap(function _callee19$(_context19) {
+      var _othersTabConfigureAgent2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee20() {
+        return regeneratorRuntime.wrap(function _callee20$(_context20) {
           while (1) {
-            switch (_context19.prev = _context19.next) {
+            switch (_context20.prev = _context20.next) {
               case 0:
                 console.log('_othersTabConfigureAgent~~', this.configSuccess);
 
                 if (!this.configSuccess) {
-                  _context19.next = 3;
+                  _context20.next = 3;
                   break;
                 }
 
-                return _context19.abrupt("return");
+                return _context20.abrupt("return");
 
               case 3:
-                _context19.prev = 3;
-                _context19.next = 6;
+                _context20.next = 5;
                 return this._deps.evClient.multiLoginRequest();
 
-              case 6:
-                _context19.next = 8;
+              case 5:
+                _context20.next = 7;
                 return this.updateAgentConfigs();
 
-              case 8:
+              case 7:
+                if (!this.notInboundQueueSelected) {
+                  _context20.next = 11;
+                  break;
+                }
+
+                this._sendTabManager(_enums.tabManagerEvents.RELOGIN);
+
+                _context20.next = 11;
+                return this.reLoginAgent({
+                  isBlock: true,
+                  alertMessage: _enums.messageTypes.NOT_INBOUND_QUEUE_SELECTED
+                });
+
+              case 11:
                 this._pollAskIfCanBeNewMainTab();
 
-                return _context19.abrupt("return");
-
               case 12:
-                _context19.prev = 12;
-                _context19.t0 = _context19["catch"](3);
-                console.log(_context19.t0);
-
-              case 15:
               case "end":
-                return _context19.stop();
+                return _context20.stop();
             }
           }
-        }, _callee19, this, [[3, 12]]);
+        }, _callee20, this);
       }));
 
       function _othersTabConfigureAgent() {
@@ -1606,56 +1730,56 @@ var EvAgentSession = (_dec = (0, _di.Module)({
   }, {
     key: "_connectEvServer",
     value: function () {
-      var _connectEvServer2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee21(config) {
-        var _this11 = this;
+      var _connectEvServer2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee22(config) {
+        var _this12 = this;
 
-        var result, status, currentLocale, modalId;
-        return regeneratorRuntime.wrap(function _callee21$(_context21) {
+        var result, status, currentLocale, confirmed;
+        return regeneratorRuntime.wrap(function _callee22$(_context22) {
           while (1) {
-            switch (_context21.prev = _context21.next) {
+            switch (_context22.prev = _context22.next) {
               case 0:
                 console.log('configure ev agent in _connectEvServer~~');
-                _context21.next = 3;
+                _context22.next = 3;
                 return this._deps.evClient.configureAgent(config);
 
               case 3:
-                result = _context21.sent;
+                result = _context22.sent;
                 status = result.data.status;
 
                 if (!(status === _enums.messageTypes.EXISTING_LOGIN_FOUND)) {
-                  _context21.next = 15;
+                  _context22.next = 15;
                   break;
                 }
 
                 currentLocale = this._deps.locale.currentLocale; // TODO: think about sync up in all tabs?
 
-                _context21.next = 9;
-                return this._deps.modal.confirmSync({
+                _context22.next = 9;
+                return this._deps.modalUI.confirm({
                   title: _i18n["default"].getString('multipleLoginsTitle', currentLocale),
                   content: _i18n["default"].getString('multipleLoginsContent', currentLocale),
                   okText: _i18n["default"].getString('multipleLoginsConfirm', currentLocale),
                   cancelText: _i18n["default"].getString('multipleLoginsCancel', currentLocale),
                   onOK: function () {
-                    var _onOK = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee20() {
-                      return regeneratorRuntime.wrap(function _callee20$(_context20) {
+                    var _onOK = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee21() {
+                      return regeneratorRuntime.wrap(function _callee21$(_context21) {
                         while (1) {
-                          switch (_context20.prev = _context20.next) {
+                          switch (_context21.prev = _context21.next) {
                             case 0:
-                              _context20.next = 2;
-                              return _this11._deps.evClient.configureAgent(_objectSpread(_objectSpread({}, config), {}, {
+                              _context21.next = 2;
+                              return _this12._deps.evClient.configureAgent(_objectSpread(_objectSpread({}, config), {}, {
                                 isForce: true
                               }));
 
                             case 2:
-                              result = _context20.sent;
-                              _this11.isForceLogin = true;
+                              result = _context21.sent;
+                              _this12.isForceLogin = true;
 
                             case 4:
                             case "end":
-                              return _context20.stop();
+                              return _context21.stop();
                           }
                         }
-                      }, _callee20);
+                      }, _callee21);
                     }));
 
                     function onOK() {
@@ -1663,14 +1787,15 @@ var EvAgentSession = (_dec = (0, _di.Module)({
                     }
 
                     return onOK;
-                  }()
-                });
+                  }(),
+                  size: 'xsmall'
+                }, true);
 
               case 9:
-                modalId = _context21.sent;
+                confirmed = _context22.sent;
 
-                if (modalId) {
-                  _context21.next = 13;
+                if (confirmed) {
+                  _context22.next = 13;
                   break;
                 }
 
@@ -1678,12 +1803,12 @@ var EvAgentSession = (_dec = (0, _di.Module)({
                 throw new Error(status);
 
               case 13:
-                _context21.next = 18;
+                _context22.next = 18;
                 break;
 
               case 15:
                 if (!(status === _enums.messageTypes.EXISTING_LOGIN_ENGAGED)) {
-                  _context21.next = 18;
+                  _context22.next = 18;
                   break;
                 }
 
@@ -1695,14 +1820,14 @@ var EvAgentSession = (_dec = (0, _di.Module)({
                 throw new Error(_enums.messageTypes.EXISTING_LOGIN_ENGAGED);
 
               case 18:
-                return _context21.abrupt("return", result);
+                return _context22.abrupt("return", result);
 
               case 19:
               case "end":
-                return _context21.stop();
+                return _context22.stop();
             }
           }
-        }, _callee21, this);
+        }, _callee22, this);
       }));
 
       function _connectEvServer(_x4) {
@@ -1717,9 +1842,9 @@ var EvAgentSession = (_dec = (0, _di.Module)({
       var selectedInboundQueueIds = formGroup.selectedInboundQueueIds,
           selectedSkillProfileId = formGroup.selectedSkillProfileId;
 
-      if (selectedInboundQueueIds.length === 0) {
+      if (this.notInboundQueueSelected) {
         this._deps.alert.danger({
-          message: _enums.messageTypes.NO_AGENT_SELECTED,
+          message: _enums.messageTypes.NOT_INBOUND_QUEUE_SELECTED,
           ttl: 0
         });
 
@@ -1734,9 +1859,9 @@ var EvAgentSession = (_dec = (0, _di.Module)({
     }
   }, {
     key: "_getDialDest",
-    value: function _getDialDest(_ref9) {
-      var loginType = _ref9.loginType,
-          extensionNumber = _ref9.extensionNumber;
+    value: function _getDialDest(_ref11) {
+      var loginType = _ref11.loginType,
+          extensionNumber = _ref11.extensionNumber;
 
       // Only external phone has number input
       switch (loginType) {
@@ -1870,8 +1995,8 @@ var EvAgentSession = (_dec = (0, _di.Module)({
   }, {
     key: "skillProfileList",
     get: function get() {
-      var _ref10 = this._deps.evAuth.agent || {},
-          agentConfig = _ref10.agentConfig;
+      var _ref12 = this._deps.evAuth.agent || {},
+          agentConfig = _ref12.agentConfig;
 
       if (!agentConfig || !agentConfig.inboundSettings) {
         return [];
@@ -1894,20 +2019,20 @@ var EvAgentSession = (_dec = (0, _di.Module)({
   }, {
     key: "selectedSkillProfile",
     get: function get() {
-      var _this12 = this;
+      var _this13 = this;
 
       var selectedSkillProfile = this.skillProfileList.find(function (profile) {
-        return profile.profileId === _this12.formGroup.selectedSkillProfileId;
+        return profile.profileId === _this13.formGroup.selectedSkillProfileId;
       });
       return selectedSkillProfile === null || selectedSkillProfile === void 0 ? void 0 : selectedSkillProfile.profileName;
     }
   }, {
     key: "selectedInboundQueues",
     get: function get() {
-      var _this13 = this;
+      var _this14 = this;
 
       var results = this.formGroup.selectedInboundQueueIds.map(function (id) {
-        return _this13.inboundQueues.find(function (queue) {
+        return _this14.inboundQueues.find(function (queue) {
           return queue.gateId === id;
         });
       });
@@ -1938,6 +2063,11 @@ var EvAgentSession = (_dec = (0, _di.Module)({
     key: "isMainTab",
     get: function get() {
       return this._deps.tabManager.isMainTab;
+    }
+  }, {
+    key: "notInboundQueueSelected",
+    get: function get() {
+      return !this._deps.evAuth.agentPermissions.allowInbound || this.formGroup.selectedInboundQueueIds.length === 0;
     }
   }]);
 

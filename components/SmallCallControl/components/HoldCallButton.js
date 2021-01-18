@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.HoldCallButton = void 0;
 
-var _iconHold = _interopRequireDefault(require("@ringcentral/juno/icons/icon-hold.svg"));
+var _Hold = _interopRequireDefault(require("@ringcentral/juno/icon/Hold"));
 
 var _react = _interopRequireDefault(require("react"));
 
@@ -26,7 +26,8 @@ var HoldCallButton = function HoldCallButton(_ref) {
       onHold = _ref.onHold,
       size = _ref.size,
       disableHold = _ref.disableHold,
-      className = _ref.className;
+      className = _ref.className,
+      dataSign = _ref.dataSign;
 
   var _getCircleIconButtonT = (0, _help.getCircleIconButtonTitle)({
     isOnHold: isOnHold
@@ -34,8 +35,9 @@ var HoldCallButton = function HoldCallButton(_ref) {
       holdTitle = _getCircleIconButtonT.holdTitle;
 
   return /*#__PURE__*/_react["default"].createElement(_CircleIconButton.CircleIconButton, {
+    dataSign: dataSign,
     "data-icon": "hold",
-    symbol: _iconHold["default"],
+    symbol: _Hold["default"],
     title: _i18n["default"].getString(holdTitle, currentLocale),
     active: isOnHold,
     onClick: isOnHold ? onUnHold : onHold,
@@ -51,6 +53,7 @@ HoldCallButton.defaultProps = {
   onHold: function onHold() {},
   onUnHold: function onUnHold() {},
   disableHold: false,
-  currentLocale: 'en-US'
+  currentLocale: 'en-US',
+  dataSign: 'holdCall'
 };
 //# sourceMappingURL=HoldCallButton.js.map
