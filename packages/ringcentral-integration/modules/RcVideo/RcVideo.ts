@@ -418,7 +418,7 @@ export class RcVideo extends RcModule<Record<string, any>, RcVideoActionTypes> {
         meetingDetail = omit([RCV_WAITTING_ROOM_API_KEYS], meetingDetail);
       }
 
-      const meetingResult = this._client.service
+      const meetingResult = await this._client.service
         .platform()
         .post('/rcvideo/v1/bridges', meetingDetail);
 
