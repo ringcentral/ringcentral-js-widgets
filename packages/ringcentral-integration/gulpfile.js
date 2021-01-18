@@ -8,6 +8,8 @@ import fs from 'fs-extra';
 import babel from 'gulp-babel';
 import sourcemaps from 'gulp-sourcemaps';
 import cp from 'child_process';
+import transformLoader from '@ringcentral-integration/locale-loader/lib/transformLoader';
+import localeSettings from '@ringcentral-integration/locale-settings';
 
 const TIMEOUT = 30000;
 const { argv } = yargs;
@@ -115,6 +117,11 @@ export function compile() {
       '!./junit{/**,}',
       '!./node_modules{/**,}',
     ])
+    .pipe(
+      transformLoader({
+        ...localeSettings,
+      }),
+    )
     .pipe(sourcemaps.init())
     .pipe(babel())
     .pipe(sourcemaps.write('.'))
