@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  dialPlaceholder: "名前または番号の入力"
+  dialPlaceholder: "名前または番号を入力"
 }; // @key: @#@"dialPlaceholder"@#@ @source: @#@"Enter Name or Number"@#@
 
 exports["default"] = _default;

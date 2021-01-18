@@ -61,11 +61,11 @@ var _react = _interopRequireWildcard(require("react"));
 
 var _RcVideo = require("ringcentral-integration/modules/RcVideo");
 
+var _meetingHelper = require("ringcentral-integration/helpers/meetingHelper");
+
 var _MeetingCalendarHelper = require("../../lib/MeetingCalendarHelper");
 
 var _reactHooks = require("../../react-hooks");
-
-var _Alert = require("../Alert");
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
@@ -133,7 +133,7 @@ function getHoursList(HOUR_SCALE) {
   }, [], new Array(HOUR_SCALE));
 }
 
-function getHelperTextForPasswordField(meeting, currentLocale) {
+function getHelperTextForPasswordField(meeting, currentLocale, isPasswordFocus) {
   if (!meeting.meetingPassword) {
     return _i18n["default"].getString('passwordEmptyError', currentLocale);
   }
@@ -142,11 +142,17 @@ function getHelperTextForPasswordField(meeting, currentLocale) {
     return _i18n["default"].getString('passwordInvalidError', currentLocale);
   }
 
-  return _i18n["default"].getString('passwordHintText', currentLocale);
+  if (isPasswordFocus) {
+    return _i18n["default"].getString('passwordHintText', currentLocale);
+  } // when correct input without focus, show nothing
+
+
+  return '';
 }
 
 var VideoConfig = function VideoConfig(props) {
-  var currentLocale = props.currentLocale,
+  var disabled = props.disabled,
+      currentLocale = props.currentLocale,
       meeting = props.meeting,
       updateMeetingSettings = props.updateMeetingSettings,
       validatePasswordSettings = props.validatePasswordSettings,
@@ -156,14 +162,13 @@ var VideoConfig = function VideoConfig(props) {
       showTopic = props.showTopic,
       showWhen = props.showWhen,
       showDuration = props.showDuration,
-      brandName = props.brandName,
       showAdminLock = props.showAdminLock,
       showPmiAlert = props.showPmiAlert,
       enableWaitingRoom = props.enableWaitingRoom,
       enablePersonalMeeting = props.enablePersonalMeeting,
-      enableJoinAfterMeCopy = props.enableJoinAfterMeCopy,
       personalMeetingId = props.personalMeetingId,
       switchUsePersonalMeetingId = props.switchUsePersonalMeetingId,
+      updateHasSettingsChanged = props.updateHasSettingsChanged,
       datePickerSize = props.datePickerSize,
       timePickerSize = props.timePickerSize,
       labelPlacement = props.labelPlacement,
@@ -173,7 +178,6 @@ var VideoConfig = function VideoConfig(props) {
       showSpinnerInConfigPanel = props.showSpinnerInConfigPanel;
   var hoursList = getHoursList(HOUR_SCALE);
   var minutesList = getMinutesList(MINUTE_SCALE);
-  var isRCBrand = brandName === 'RingCentral';
   (0, _react.useEffect)(function () {
     if (init) {
       init();
@@ -184,10 +188,23 @@ var VideoConfig = function VideoConfig(props) {
       _useState2 = _slicedToArray(_useState, 2),
       meetingPassword = _useState2[0],
       setMeetingPassword = _useState2[1];
+  /* Password */
+
+
+  var _useState3 = (0, _react.useState)(false),
+      _useState4 = _slicedToArray(_useState3, 2),
+      isPasswordFocus = _useState4[0],
+      setPasswordFocus = _useState4[1];
 
   (0, _react.useEffect)(function () {
     setMeetingPassword(meeting.meetingPassword);
   }, [meeting.meetingPassword]);
+
+  var update = function update(options) {
+    updateHasSettingsChanged(true);
+    return updateMeetingSettings(_objectSpread(_objectSpread({}, meeting), options));
+  };
+
   var debouncedPassword = (0, _reactHooks.useDebounce)(meetingPassword, 200);
   (0, _react.useEffect)(function () {
     var isMeetingPasswordValid = validatePasswordSettings(debouncedPassword, meeting.isMeetingSecret);
@@ -201,37 +218,32 @@ var VideoConfig = function VideoConfig(props) {
   }, [meeting.startTime]);
   var authUserTypeValue = meeting.isOnlyCoworkersJoin ? 'signedInCoWorkers' : 'signedInUsers';
 
-  var _useState3 = (0, _react.useState)(authUserTypeValue),
-      _useState4 = _slicedToArray(_useState3, 2),
-      authUserType = _useState4[0],
-      setAuthUserType = _useState4[1];
+  var _useState5 = (0, _react.useState)(authUserTypeValue),
+      _useState6 = _slicedToArray(_useState5, 2),
+      authUserType = _useState6[0],
+      setAuthUserType = _useState6[1];
 
   (0, _react.useEffect)(function () {
     setAuthUserType(authUserTypeValue);
   }, [authUserTypeValue]);
   var configRef = (0, _react.useRef)();
 
-  var _useState5 = (0, _react.useState)(false),
-      _useState6 = _slicedToArray(_useState5, 2),
-      hasScrollBar = _useState6[0],
-      setHasScrollBar = _useState6[1];
+  var _useState7 = (0, _react.useState)(false),
+      _useState8 = _slicedToArray(_useState7, 2),
+      hasScrollBar = _useState8[0],
+      setHasScrollBar = _useState8[1];
 
   (0, _react.useEffect)(function () {
     setHasScrollBar(configRef.current.scrollHeight > configRef.current.clientHeight);
   }, []);
   var settingsGroupExpandable = false;
 
-  var _useState7 = (0, _react.useState)('joinBeforeHost'),
-      _useState8 = _slicedToArray(_useState7, 2),
-      joinBeforeHostLabel = _useState8[0],
-      setJoinBeforeHostLabel = _useState8[1];
+  var _useState9 = (0, _react.useState)('onlyJoinAfterMe'),
+      _useState10 = _slicedToArray(_useState9, 2),
+      joinBeforeHostLabel = _useState10[0],
+      setJoinBeforeHostLabel = _useState10[1];
 
   (0, _react.useEffect)(function () {
-    if (!enableJoinAfterMeCopy) {
-      setJoinBeforeHostLabel('joinBeforeHost');
-      return;
-    }
-
     var user = (0, _ramda.find)(function (item) {
       return item.extensionId === meeting.extensionId;
     }, delegators || []);
@@ -241,7 +253,7 @@ var VideoConfig = function VideoConfig(props) {
     }
 
     return setJoinBeforeHostLabel('onlyJoinAfterMe');
-  }, [enableJoinAfterMeCopy, delegators, meeting.extensionId]);
+  }, [delegators, meeting.extensionId]);
   return /*#__PURE__*/_react["default"].createElement("div", {
     ref: configRef,
     className: _styles["default"].videoConfig,
@@ -263,8 +275,8 @@ var VideoConfig = function VideoConfig(props) {
     formatString: "MM/DD/YYYY",
     size: datePickerSize,
     onChange: function onChange(value) {
-      updateMeetingSettings({
-        startTime: value
+      update({
+        startTime: (0, _meetingHelper.updateFullYear)(startTime, value)
       });
     }
   })) : null, showWhen ? /*#__PURE__*/_react["default"].createElement("div", {
@@ -278,8 +290,8 @@ var VideoConfig = function VideoConfig(props) {
     "data-sign": "startTime",
     value: startTime,
     onChange: function onChange(value) {
-      updateMeetingSettings({
-        startTime: new Date(value)
+      update({
+        startTime: (0, _meetingHelper.updateFullTime)(startTime, value)
       });
     }
   })) : null, showDuration ? /*#__PURE__*/_react["default"].createElement("div", {
@@ -294,7 +306,7 @@ var VideoConfig = function VideoConfig(props) {
       var value = +e.target.value;
       var restMinutes = Math.floor(meeting.duration % 60);
       var durationInMinutes = value * 60 + restMinutes;
-      updateMeetingSettings({
+      update({
         duration: durationInMinutes
       });
     },
@@ -321,7 +333,7 @@ var VideoConfig = function VideoConfig(props) {
       var isMax = restHours === hoursList.slice(-1)[0].value;
       var minutes = isMax ? 0 : value;
       var durationInMinutes = restHours * 60 + minutes;
-      updateMeetingSettings({
+      update({
         duration: durationInMinutes
       });
     },
@@ -344,6 +356,7 @@ var VideoConfig = function VideoConfig(props) {
     fullWidth: true,
     className: _styles["default"].boxSelect,
     "data-sign": "scheduleFor",
+    disabled: disabled,
     onChange: function onChange(e) {
       updateScheduleFor(e.target.value);
     },
@@ -360,7 +373,7 @@ var VideoConfig = function VideoConfig(props) {
   })))) : null, /*#__PURE__*/_react["default"].createElement(_SettingGroup.SettingGroup, {
     dataSign: "settingsPanel",
     expandable: settingsGroupExpandable,
-    summary: _i18n["default"].getString(isRCBrand ? 'rcMeetingSettings' : 'meetingSettings', currentLocale)
+    summary: _i18n["default"].getString('meetingSettings', currentLocale)
   }, enablePersonalMeeting && personalMeetingId && /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement(_VideoSecuritySettingItem.VideoSecuritySettingsItem, {
     labelPlacement: labelPlacement,
     dataSign: "usePersonalMeetingIdWrapper",
@@ -373,14 +386,16 @@ var VideoConfig = function VideoConfig(props) {
     }, (0, _MeetingCalendarHelper.formatMeetingId)(personalMeetingId, '-')))
   }, /*#__PURE__*/_react["default"].createElement(_juno.RcCheckbox, {
     "data-sign": "usePersonalMeetingId",
+    disabled: disabled,
     checked: meeting.usePersonalMeetingId,
     onChange: function onChange(ev, checked) {
       switchUsePersonalMeetingId(checked);
+      updateHasSettingsChanged(true);
     }
-  })), meeting.usePersonalMeetingId && showPmiAlert ? /*#__PURE__*/_react["default"].createElement(_Alert.Alert, {
-    type: _Alert.AlertType.INFO,
+  })), meeting.usePersonalMeetingId && showPmiAlert ? /*#__PURE__*/_react["default"].createElement(_juno.RcAlert, {
+    severity: "info",
     className: _styles["default"].pmiAlertContainer,
-    dataSign: "pmiAlert"
+    "data-sign": "pmiAlert"
   }, _i18n["default"].getString('pmiSettingAlert', currentLocale)) : null), /*#__PURE__*/_react["default"].createElement(_VideoSecuritySettingItem.VideoSecuritySettingsItem, {
     labelPlacement: labelPlacement,
     dataSign: "muteAudioWrapper",
@@ -389,9 +404,10 @@ var VideoConfig = function VideoConfig(props) {
     label: _i18n["default"].getString('muteAudio', currentLocale)
   }, /*#__PURE__*/_react["default"].createElement(_juno.RcCheckbox, {
     "data-sign": "muteAudio",
+    disabled: disabled,
     checked: meeting.muteAudio,
     onChange: function onChange() {
-      updateMeetingSettings({
+      update({
         muteAudio: !meeting.muteAudio
       });
     }
@@ -403,9 +419,10 @@ var VideoConfig = function VideoConfig(props) {
     label: _i18n["default"].getString('turnOffCamera', currentLocale)
   }, /*#__PURE__*/_react["default"].createElement(_juno.RcCheckbox, {
     "data-sign": "turnOffCamera",
+    disabled: disabled,
     checked: meeting.muteVideo,
     onChange: function onChange() {
-      updateMeetingSettings({
+      update({
         muteVideo: !meeting.muteVideo
       });
     }
@@ -423,18 +440,21 @@ var VideoConfig = function VideoConfig(props) {
   }, /*#__PURE__*/_react["default"].createElement(_juno.RcCheckbox, {
     "data-sign": "requirePassword",
     checked: meeting.isMeetingSecret,
-    disabled: showAdminLock && meeting.settingLock.isMeetingSecret,
+    disabled: disabled || showAdminLock && meeting.settingLock.isMeetingSecret,
     onChange: function onChange() {
       var next = !meeting.isMeetingSecret;
-      updateMeetingSettings({
+      update({
         isMeetingSecret: next
       });
     }
-  })), meeting.isMeetingSecret ? /*#__PURE__*/_react["default"].createElement(_juno.RcTextField, {
+  })), meeting.isMeetingSecret ? /*#__PURE__*/_react["default"].createElement("div", {
+    className: (0, _classnames4["default"])(_styles["default"].passwordInput, _defineProperty({}, _styles["default"].subPrefixPadding, labelPlacement === 'end'))
+  }, /*#__PURE__*/_react["default"].createElement(_juno.RcOutlineTextField, {
+    disabled: disabled,
+    size: "small",
+    placeholder: _i18n["default"].getString('Enter Password', currentLocale),
     error: !meeting.isMeetingPasswordValid,
-    helperText: getHelperTextForPasswordField(meeting, currentLocale),
-    className: (0, _classnames4["default"])(_styles["default"].passwordInput, _styles["default"].noBottomMargin, _defineProperty({}, _styles["default"].subPrefixPadding, labelPlacement === 'end')),
-    label: _i18n["default"].getString('setPassword', currentLocale),
+    helperText: getHelperTextForPasswordField(meeting, currentLocale, isPasswordFocus),
     InputLabelProps: {
       className: _styles["default"].passwordLabel
     },
@@ -446,13 +466,16 @@ var VideoConfig = function VideoConfig(props) {
       maxLength: 255
     },
     onChange: function onChange(e) {
-      var password = e.target.value;
-
-      if (/^[A-Za-z0-9]{0,10}$/.test(password)) {
-        setMeetingPassword(password);
-      }
+      setMeetingPassword(e.target.value);
+      updateHasSettingsChanged(true);
+    },
+    onFocus: function onFocus() {
+      setPasswordFocus(true);
+    },
+    onBlur: function onBlur() {
+      setPasswordFocus(false);
     }
-  }) : null, /*#__PURE__*/_react["default"].createElement(_VideoSecuritySettingItem.VideoSecuritySettingsItem, {
+  })) : null, /*#__PURE__*/_react["default"].createElement(_VideoSecuritySettingItem.VideoSecuritySettingsItem, {
     labelPlacement: labelPlacement,
     dataSign: "allowJoinBeforeHostWrapper",
     hasScrollBar: hasScrollBar,
@@ -461,10 +484,10 @@ var VideoConfig = function VideoConfig(props) {
     label: _i18n["default"].getString(joinBeforeHostLabel, currentLocale)
   }, /*#__PURE__*/_react["default"].createElement(_juno.RcCheckbox, {
     "data-sign": "allowJoinBeforeHost",
-    checked: enableJoinAfterMeCopy ? !meeting.allowJoinBeforeHost : meeting.allowJoinBeforeHost,
-    disabled: showAdminLock && meeting.settingLock.allowJoinBeforeHost || enableWaitingRoom && meeting.waitingRoomMode === _RcVideo.RCV_WAITING_ROOM_MODE.all,
+    checked: !meeting.allowJoinBeforeHost,
+    disabled: showAdminLock && meeting.settingLock.allowJoinBeforeHost || enableWaitingRoom && meeting.waitingRoomMode === _RcVideo.RCV_WAITING_ROOM_MODE.all || disabled,
     onChange: function onChange() {
-      updateMeetingSettings({
+      update({
         allowJoinBeforeHost: !meeting.allowJoinBeforeHost
       });
     }
@@ -474,13 +497,13 @@ var VideoConfig = function VideoConfig(props) {
     hasScrollBar: hasScrollBar,
     isLock: showAdminLock && meeting.settingLock.waitingRoomMode,
     currentLocale: currentLocale,
-    label: _i18n["default"].getString('waitingRoom', currentLocale)
+    label: _i18n["default"].getString(meeting.waitingRoomMode ? 'waitingRoom' : 'enableWaitingRoom', currentLocale)
   }, /*#__PURE__*/_react["default"].createElement(_juno.RcCheckbox, {
     "data-sign": "enableWaitingRoom",
     checked: !!meeting.waitingRoomMode,
-    disabled: showAdminLock && meeting.settingLock.waitingRoomMode,
+    disabled: disabled || showAdminLock && meeting.settingLock.waitingRoomMode,
     onChange: function onChange(ev, checked) {
-      updateMeetingSettings({
+      update({
         waitingRoomMode: checked ? _RcVideo.RCV_WAITING_ROOM_MODE.notcoworker : _RcVideo.RCV_WAITING_ROOM_MODE.off
       });
     }
@@ -491,9 +514,9 @@ var VideoConfig = function VideoConfig(props) {
     automationId: "waitingRoom",
     className: _styles["default"].boxSelect,
     fullWidth: true,
-    disabled: showAdminLock && meeting.settingLock.waitingRoomMode,
+    disabled: disabled || showAdminLock && meeting.settingLock.waitingRoomMode,
     onChange: function onChange(e) {
-      updateMeetingSettings({
+      update({
         waitingRoomMode: e.target.value
       });
     },
@@ -519,9 +542,9 @@ var VideoConfig = function VideoConfig(props) {
   }, /*#__PURE__*/_react["default"].createElement(_juno.RcCheckbox, {
     "data-sign": "isOnlyAuthUserJoin",
     checked: meeting.isOnlyAuthUserJoin,
-    disabled: showAdminLock && meeting.settingLock.isOnlyAuthUserJoin,
+    disabled: disabled || showAdminLock && meeting.settingLock.isOnlyAuthUserJoin,
     onChange: function onChange(ev, checked) {
-      updateMeetingSettings({
+      update({
         isOnlyAuthUserJoin: checked,
         isOnlyCoworkersJoin: checked ? meeting.isOnlyCoworkersJoin : false
       });
@@ -531,12 +554,12 @@ var VideoConfig = function VideoConfig(props) {
   }, /*#__PURE__*/_react["default"].createElement(_juno.RcBoxSelect, {
     "data-sign": "authUserType",
     automationId: "authUserType",
-    disabled: showAdminLock && meeting.settingLock.isOnlyCoworkersJoin,
+    disabled: disabled || showAdminLock && meeting.settingLock.isOnlyCoworkersJoin,
     className: _styles["default"].boxSelect,
     fullWidth: true,
     onChange: function onChange(e) {
       setAuthUserType(e.target.value);
-      updateMeetingSettings({
+      update({
         isOnlyCoworkersJoin: e.target.value === 'signedInCoWorkers'
       });
     },
@@ -555,9 +578,9 @@ var VideoConfig = function VideoConfig(props) {
   }, /*#__PURE__*/_react["default"].createElement(_juno.RcCheckbox, {
     "data-sign": "limitScreenSharing",
     checked: !meeting.allowScreenSharing,
-    disabled: showAdminLock && meeting.settingLock.allowScreenSharing,
+    disabled: disabled || showAdminLock && meeting.settingLock.allowScreenSharing,
     onChange: function onChange() {
-      updateMeetingSettings({
+      update({
         allowScreenSharing: !meeting.allowScreenSharing
       });
     }
@@ -572,10 +595,10 @@ var InnerTopic = function InnerTopic(_ref) {
       setTopicRef = _ref.setTopicRef,
       updateMeetingTopic = _ref.updateMeetingTopic;
 
-  var _useState9 = (0, _react.useState)(name),
-      _useState10 = _slicedToArray(_useState9, 2),
-      topic = _useState10[0],
-      setTopic = _useState10[1];
+  var _useState11 = (0, _react.useState)(name),
+      _useState12 = _slicedToArray(_useState11, 2),
+      topic = _useState12[0],
+      setTopic = _useState12[1];
 
   var topicRef = (0, _react.useRef)();
   (0, _react.useEffect)(function () {
@@ -619,7 +642,6 @@ VideoConfig.defaultProps = {
   showPmiAlert: false,
   enablePersonalMeeting: false,
   enableWaitingRoom: false,
-  enableJoinAfterMeCopy: false,
   datePickerSize: 'medium',
   timePickerSize: 'medium',
   labelPlacement: 'start'

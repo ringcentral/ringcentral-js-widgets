@@ -7,7 +7,10 @@ export interface SearchResultProps {
   filter: string;
   filteredOptions: object[];
   options: object[];
-  renderListItem?(params: { option: object; index: number }): React.ReactNode;
+  renderListItem?(params: {
+    option: object;
+    index: number;
+  }): React.ReactNode | void;
   currentLocale: string;
   tipWhenNoOptions?: string;
   classes?: {
@@ -50,7 +53,7 @@ export const SearchResult: FunctionComponent<SearchResultProps> = ({
 };
 
 SearchResult.defaultProps = {
-  renderListItem: () => null,
+  renderListItem() {},
   classes: {},
   tipWhenNoOptions: '',
 };

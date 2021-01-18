@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/ModalV2/i18n/pt-PT.js"],"names":["close"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,KAAK,EAAE;AADM,C,EAIf","sourcesContent":["export default {\n  close: \"Fechar\"\n};\n\n// @key: @#@\"close\"@#@ @source: @#@\"Close\"@#@\n"],"file":"pt-PT.js"}

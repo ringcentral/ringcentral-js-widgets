@@ -9,7 +9,7 @@ exports["default"] = void 0;
 var _default = {
   hide: "Ocultar",
   end: "Terminar",
-  keypad: "Teclado de marcação"
+  keypad: "Teclado"
 }; // @key: @#@"hide"@#@ @source: @#@"Hide"@#@
 // @key: @#@"end"@#@ @source: @#@"End"@#@
 // @key: @#@"keypad"@#@ @source: @#@"Keypad"@#@

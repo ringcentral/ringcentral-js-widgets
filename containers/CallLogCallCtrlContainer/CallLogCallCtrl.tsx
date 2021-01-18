@@ -12,7 +12,6 @@ export type CurrentSession = {
 };
 
 export interface CallLogCallCtrlProps {
-  isWebphone: boolean;
   currentLocale?: string;
   currentSession?: CurrentSession;
   telephonySessionId?: string;
@@ -38,6 +37,9 @@ export interface CallLogCallCtrlProps {
   answerAndHold: (telephonySessionId: string) => void;
   answerAndEnd: (telephonySessionId: string) => void;
   otherActiveCalls: boolean;
+  dialpadToggleTrack: (open: boolean) => void;
+  clickForwardTrack: () => void;
+  realOutboundCallStatus?: string;
 }
 
 export const CallLogCallCtrl: FunctionComponent<CallLogCallCtrlProps> = (
@@ -52,7 +54,6 @@ export const CallLogCallCtrl: FunctionComponent<CallLogCallCtrlProps> = (
     transferRef,
     isOnTransfer,
     isCurrentDeviceCall,
-    isWebphone,
     sendDTMF,
     forward,
     answer,
@@ -61,6 +62,9 @@ export const CallLogCallCtrl: FunctionComponent<CallLogCallCtrlProps> = (
     otherActiveCalls,
     answerAndHold,
     answerAndEnd,
+    realOutboundCallStatus,
+    dialpadToggleTrack,
+    clickForwardTrack,
   } = props;
   if (!currentSession) {
     return null;
@@ -86,7 +90,6 @@ export const CallLogCallCtrl: FunctionComponent<CallLogCallCtrlProps> = (
       isWide={isWide}
       transferRef={transferRef}
       isOnTransfer={isOnTransfer}
-      //  isWebphone={isWebphone}
       isCurrentDeviceCall={isCurrentDeviceCall}
       sendDTMF={async (dtmfValue) => sendDTMF(dtmfValue, telephonySessionId)}
       forward={async (phoneNumber) => forward(phoneNumber, telephonySessionId)}
@@ -100,6 +103,9 @@ export const CallLogCallCtrl: FunctionComponent<CallLogCallCtrlProps> = (
       answerAndEnd={async () => {
         await answerAndEnd(telephonySessionId);
       }}
+      realOutboundCallStatus={realOutboundCallStatus}
+      dialpadToggleTrack={dialpadToggleTrack}
+      clickForwardTrack={clickForwardTrack}
     />
   );
 };
@@ -112,4 +118,5 @@ CallLogCallCtrl.defaultProps = {
   isWide: true,
   transferRef: undefined,
   isOnTransfer: false,
+  realOutboundCallStatus: '',
 };

@@ -8,14 +8,14 @@ Object.defineProperty(exports, "__esModule", {
 exports["default"] = void 0;
 var _default = {
   currentCall: "Chamada atual",
-  viewCalls: "Ver chamadas",
+  viewCalls: "Ver chm",
   view: "Ver",
   incomingCall: "{numberOf} chamada recebida",
   incomingCalls: "{numberOf} chamadas recebidas",
-  callOnHold: "{numberOf} chamada em espera",
-  callsOnHold: "{numberOf} chamadas em espera",
-  otherDeviceCall: "{numberOf} chamada noutros dispositivos",
-  otherDeviceCalls: "{numberOf} chamadas noutros dispositivos"
+  callOnHold: "{numberOf} chm em espera",
+  callsOnHold: "{numberOf} chm em espera",
+  otherDeviceCall: "{numberOf} ch. noutros disp.",
+  otherDeviceCalls: "{numberOf} ch. noutros disp."
 }; // @key: @#@"currentCall"@#@ @source: @#@"Current Call"@#@
 // @key: @#@"viewCalls"@#@ @source: @#@"View Calls"@#@
 // @key: @#@"view"@#@ @source: @#@"View"@#@

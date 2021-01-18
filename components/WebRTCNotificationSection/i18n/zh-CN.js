@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  forward: "转发",
+  forward: "转移",
   ignore: "忽略",
   toVoicemail: "到语音信箱",
   answer: "接听",

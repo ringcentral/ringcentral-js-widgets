@@ -3,7 +3,7 @@ import 'react-widgets/dist/css/react-widgets.css';
 import { RcLink } from '@ringcentral/juno';
 import formatMessage from 'format-message';
 import React, { FunctionComponent } from 'react';
-import { RcMMeetingModel } from 'ringcentral-integration/modules/Meeting';
+import { RcMMeetingModel } from 'ringcentral-integration/modules/MeetingV2';
 
 import CheckBox from '../CheckBox';
 import MeetingSection from '../MeetingSection';

@@ -22,10 +22,11 @@ var _default = {
   unHold: "Arrêter la mise en attente",
   forward: "Renvoyer",
   ignore: "Ignorer",
-  voicemail: "Message vocal",
+  voicemail: "Messagerie",
   custom: "Personnalisé",
   answerAndEnd: "Répondre et raccrocher",
-  answerAndHold: "Répondre et mettre en attente"
+  answerAndHold: "Répondre et mettre en attente",
+  answer: "Répondre"
 }; // @key: @#@"mute"@#@ @source: @#@"Mute"@#@
 // @key: @#@"unmute"@#@ @source: @#@"Unmute"@#@
 // @key: @#@"hangup"@#@ @source: @#@"Hang up"@#@
@@ -41,10 +42,11 @@ var _default = {
 // @key: @#@"unHold"@#@ @source: @#@"Unhold"@#@
 // @key: @#@"forward"@#@ @source: @#@"Forward"@#@
 // @key: @#@"ignore"@#@ @source: @#@"Ignore"@#@
-// @key: @#@"voicemail"@#@ @source: @#@"Voicemail"@#@
+// @key: @#@"voicemail"@#@ @source: @#@"To Voicemail"@#@
 // @key: @#@"custom"@#@ @source: @#@"Custom"@#@
 // @key: @#@"answerAndEnd"@#@ @source: @#@"Answer & End"@#@
 // @key: @#@"answerAndHold"@#@ @source: @#@"Answer & Hold"@#@
+// @key: @#@"answer"@#@ @source: @#@"Answer"@#@
 
 exports["default"] = _default;
 //# sourceMappingURL=fr-CA.js.map

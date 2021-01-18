@@ -14,8 +14,8 @@ var _default = {
   incomingCalls: "{numberOf}件の着信通話",
   callOnHold: "{numberOf}件の保留中の通話",
   callsOnHold: "{numberOf}件の保留中の通話",
-  otherDeviceCall: "他のデバイスの通話{numberOf}",
-  otherDeviceCalls: "他のデバイスの通話{numberOf}"
+  otherDeviceCall: "{numberOf}の他のデバイスの通話",
+  otherDeviceCalls: "{numberOf}件の他のデバイスの通話"
 }; // @key: @#@"currentCall"@#@ @source: @#@"Current Call"@#@
 // @key: @#@"viewCalls"@#@ @source: @#@"View Calls"@#@
 // @key: @#@"view"@#@ @source: @#@"View"@#@

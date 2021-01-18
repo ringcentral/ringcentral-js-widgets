@@ -47,9 +47,9 @@ require("regenerator-runtime/runtime");
 
 require("core-js/modules/es6.function.name");
 
-var _sleep = _interopRequireDefault(require("ringcentral-integration/lib/sleep"));
-
 var _react = _interopRequireWildcard(require("react"));
+
+var _sleep = _interopRequireDefault(require("ringcentral-integration/lib/sleep"));
 
 var _SpinnerOverlay = require("../SpinnerOverlay");
 
@@ -63,11 +63,11 @@ var _MeetingConfigsV = require("../MeetingConfigsV2");
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
@@ -107,6 +107,7 @@ var GenericMeetingPanel = function GenericMeetingPanel(props) {
   var useRcmV2 = props.useRcmV2,
       meeting = props.meeting,
       disabled = props.disabled,
+      configDisabled = props.configDisabled,
       currentLocale = props.currentLocale,
       ScheduleButton = props.scheduleButton,
       recipientsSection = props.recipientsSection,
@@ -133,20 +134,21 @@ var GenericMeetingPanel = function GenericMeetingPanel(props) {
       scheduleButtonLabel = props.scheduleButtonLabel,
       appCode = props.appCode,
       schedule = props.schedule,
-      brandName = props.brandName,
       showSpinner = props.showSpinner,
       showAdminLock = props.showAdminLock,
       showPmiAlert = props.showPmiAlert,
       enablePersonalMeeting = props.enablePersonalMeeting,
       enableWaitingRoom = props.enableWaitingRoom,
-      enableJoinAfterMeCopy = props.enableJoinAfterMeCopy,
       personalMeetingId = props.personalMeetingId,
       switchUsePersonalMeetingId = props.switchUsePersonalMeetingId,
+      updateHasSettingsChanged = props.updateHasSettingsChanged,
       showScheduleOnBehalf = props.showScheduleOnBehalf,
       delegators = props.delegators,
       updateScheduleFor = props.updateScheduleFor,
       labelPlacement = props.labelPlacement,
-      showSpinnerInConfigPanel = props.showSpinnerInConfigPanel;
+      showSpinnerInConfigPanel = props.showSpinnerInConfigPanel,
+      enableServiceWebSettings = props.enableServiceWebSettings,
+      putRecurringMeetingInMiddle = props.putRecurringMeetingInMiddle;
 
   if (showSpinner) {
     return /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay.SpinnerOverlay, null);
@@ -159,7 +161,7 @@ var GenericMeetingPanel = function GenericMeetingPanel(props) {
     update: updateMeetingSettings,
     init: init,
     meeting: meeting,
-    disabled: disabled,
+    disabled: configDisabled,
     currentLocale: currentLocale,
     recipientsSection: recipientsSection,
     showWhen: showWhen,
@@ -173,6 +175,7 @@ var GenericMeetingPanel = function GenericMeetingPanel(props) {
     personalMeetingId: personalMeetingId,
     switchUsePersonalMeetingId: switchUsePersonalMeetingId
   }), isRCM && useRcmV2 && /*#__PURE__*/_react["default"].createElement(_MeetingConfigsV.MeetingConfigs, {
+    disabled: configDisabled,
     showSpinnerInConfigPanel: showSpinnerInConfigPanel,
     updateMeetingSettings: updateMeetingSettings,
     personalMeetingId: personalMeetingId,
@@ -190,8 +193,11 @@ var GenericMeetingPanel = function GenericMeetingPanel(props) {
     audioOptionToggle: audioOptionToggle,
     showScheduleOnBehalf: showScheduleOnBehalf,
     delegators: delegators,
-    updateScheduleFor: updateScheduleFor
+    updateScheduleFor: updateScheduleFor,
+    enableServiceWebSettings: enableServiceWebSettings,
+    putRecurringMeetingInMiddle: putRecurringMeetingInMiddle
   }), isRCV && /*#__PURE__*/_react["default"].createElement(_VideoConfig.VideoConfig, {
+    disabled: configDisabled,
     currentLocale: currentLocale,
     labelPlacement: labelPlacement,
     meeting: meeting,
@@ -205,14 +211,13 @@ var GenericMeetingPanel = function GenericMeetingPanel(props) {
     init: init,
     datePickerSize: datePickerSize,
     timePickerSize: timePickerSize,
-    brandName: brandName,
     showAdminLock: showAdminLock,
     showPmiAlert: showPmiAlert,
     enableWaitingRoom: enableWaitingRoom,
     enablePersonalMeeting: enablePersonalMeeting,
-    enableJoinAfterMeCopy: enableJoinAfterMeCopy,
     personalMeetingId: personalMeetingId,
     switchUsePersonalMeetingId: switchUsePersonalMeetingId,
+    updateHasSettingsChanged: updateHasSettingsChanged,
     showScheduleOnBehalf: showScheduleOnBehalf,
     showSpinnerInConfigPanel: showSpinnerInConfigPanel,
     delegators: delegators
@@ -287,7 +292,6 @@ GenericMeetingPanel.defaultProps = {
   showPmiAlert: false,
   enableWaitingRoom: false,
   enablePersonalMeeting: false,
-  enableJoinAfterMeCopy: false,
   showSaveAsDefault: true,
   disableSaveAsDefault: false,
   showCustom: false,
@@ -297,6 +301,8 @@ GenericMeetingPanel.defaultProps = {
   personalMeetingId: undefined,
   showSpinner: false,
   useRcmV2: false,
-  labelPlacement: 'start'
+  labelPlacement: 'start',
+  enableServiceWebSettings: false,
+  putRecurringMeetingInMiddle: false
 };
 //# sourceMappingURL=GenericMeetingPanel.js.map

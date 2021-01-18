@@ -7,13 +7,13 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  monday: "M",
-  tuesday: "T",
-  wednesday: "W",
-  thursday: "T",
-  friday: "F",
-  saturday: "S",
-  sunday: "S"
+  monday: "月",
+  tuesday: "火",
+  wednesday: "水",
+  thursday: "木",
+  friday: "金",
+  saturday: "土",
+  sunday: "日"
 }; // @key: @#@"monday"@#@ @source: @#@"M"@#@
 // @key: @#@"tuesday"@#@ @source: @#@"T"@#@
 // @key: @#@"wednesday"@#@ @source: @#@"W"@#@

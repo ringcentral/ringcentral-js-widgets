@@ -2,6 +2,8 @@
 
 require("core-js/modules/es6.object.define-property");
 
+require("core-js/modules/es6.array.map");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -21,9 +23,9 @@ require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.keys");
 
-require("core-js/modules/es6.array.map");
-
 var _juno = require("@ringcentral/juno");
+
+var _ramda = require("ramda");
 
 var _react = _interopRequireDefault(require("react"));
 
@@ -37,16 +39,20 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
 
 var ModalV2 = function ModalV2(_ref) {
   var modals = _ref.modals,
-      rest = _objectWithoutProperties(_ref, ["modals"]);
+      _ref$dialogProps = _ref.dialogProps,
+      dialogProps = _ref$dialogProps === void 0 ? {} : _ref$dialogProps;
+  return /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, (0, _ramda.map)(function (_ref2) {
+    var key = _ref2.key,
+        _ref2$dialogProps = _ref2.dialogProps,
+        modalDialogProps = _ref2$dialogProps === void 0 ? {} : _ref2$dialogProps,
+        modalProps = _objectWithoutProperties(_ref2, ["key", "dialogProps"]);
 
-  return /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, modals.map(function (_ref2, i) {
-    var children = _ref2.children,
-        restModalProps = _objectWithoutProperties(_ref2, ["children"]);
-
-    return /*#__PURE__*/_react["default"].createElement(_juno.RcModal, _extends({}, rest, restModalProps, {
-      key: i
-    }), children);
-  }));
+    return /*#__PURE__*/_react["default"].createElement(_juno.RcModal, _extends({
+      dialogProps: (0, _ramda.mergeDeepLeft)(modalDialogProps, dialogProps)
+    }, modalProps, {
+      key: key
+    }));
+  }, modals));
 };
 
 exports.ModalV2 = ModalV2;

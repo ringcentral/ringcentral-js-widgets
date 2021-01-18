@@ -34,7 +34,8 @@ var MoreActionComponent = function MoreActionComponent(_ref) {
       anchorEl = _ref.anchorEl,
       handleClick = _ref.handleClick,
       handleClose = _ref.handleClose,
-      popoverClasses = _ref.popoverClasses;
+      popoverClasses = _ref.popoverClasses,
+      dataSign = _ref.dataSign;
 
   if (!Array.isArray(actionsList) || actionsList.length === 0) {
     return /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null);
@@ -43,7 +44,7 @@ var MoreActionComponent = function MoreActionComponent(_ref) {
   return /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement("span", {
     title: rootButtonProps.tooltip
   }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
-    dataSign: "more",
+    dataSign: dataSign,
     icon: rootButtonProps.icon,
     onClick: handleClick,
     className: (0, _classnames3["default"])(rootButtonProps.className, _styles["default"].button, _defineProperty({}, _styles["default"].buttonDisabled, disabled)),
@@ -63,6 +64,8 @@ var MoreActionComponent = function MoreActionComponent(_ref) {
       return handleClose();
     },
     classes: popoverClasses
+  }, /*#__PURE__*/_react["default"].createElement("div", {
+    "data-sign": "".concat(dataSign, "List")
   }, /*#__PURE__*/_react["default"].createElement(_juno.RcMenuList, null, actionsList.map(function (_ref2) {
     var icon = _ref2.icon,
         text = _ref2.text,
@@ -81,15 +84,16 @@ var MoreActionComponent = function MoreActionComponent(_ref) {
       className: (0, _classnames3["default"])(_styles["default"].moreActionItem, _defineProperty({}, _styles["default"].withSubText, withSubText)),
       "data-sign": key
     }, icon && /*#__PURE__*/_react["default"].createElement(_juno.RcIcon, {
-      iconSize: "small",
+      size: "small",
       symbol: icon,
       className: iconClassName
     }), text && /*#__PURE__*/_react["default"].createElement("span", {
+      title: text,
       className: _styles["default"].actionText
     }, text), withSubText && subText && /*#__PURE__*/_react["default"].createElement("span", {
       className: _styles["default"].subText
     }, subText, " ")));
-  }))));
+  })))));
 };
 
 exports.MoreActionComponent = MoreActionComponent;

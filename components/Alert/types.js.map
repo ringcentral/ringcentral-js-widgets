@@ -1,1 +1,0 @@
-{"version":3,"sources":["components/Alert/types.ts"],"names":["AlertType"],"mappings":";;;;;;;;IAAYA,S;;;WAAAA,S;AAAAA,EAAAA,S;AAAAA,EAAAA,S;AAAAA,EAAAA,S;AAAAA,EAAAA,S;GAAAA,S,yBAAAA,S","sourcesContent":["export enum AlertType {\n  WARN = 'warn',\n  SUCCESS = 'success',\n  ERROR = 'error',\n  INFO = 'info',\n}\n"],"file":"types.js"}

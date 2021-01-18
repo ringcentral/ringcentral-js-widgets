@@ -11,7 +11,7 @@ require("core-js/modules/es6.object.assign");
 
 var _juno = require("@ringcentral/juno");
 
-var _iconArrow_right = _interopRequireDefault(require("@ringcentral/juno/icons/icon-arrow_right1.svg"));
+var _ArrowRight = _interopRequireDefault(require("@ringcentral/juno/icon/ArrowRight1"));
 
 var _react = _interopRequireDefault(require("react"));
 
@@ -31,7 +31,7 @@ var CustomArrowButton = function CustomArrowButton(_ref) {
 exports.CustomArrowButton = CustomArrowButton;
 CustomArrowButton.defaultProps = {
   onClick: function onClick() {},
-  symbol: _iconArrow_right["default"],
+  symbol: _ArrowRight["default"],
   size: 'large'
 };
 //# sourceMappingURL=CustomArrowButton.js.map

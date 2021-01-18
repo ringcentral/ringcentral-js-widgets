@@ -35,7 +35,7 @@ require("core-js/modules/es6.object.to-string");
 
 var _juno = require("@ringcentral/juno");
 
-var _iconDeletenumber = _interopRequireDefault(require("@ringcentral/juno/icons/icon-deletenumber.svg"));
+var _Deletenumber = _interopRequireDefault(require("@ringcentral/juno/icon/Deletenumber"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
@@ -153,7 +153,7 @@ var RecipientsInput = function RecipientsInput(_ref) {
         variant: "plain",
         size: "large",
         color: "grey.400",
-        symbol: _iconDeletenumber["default"],
+        symbol: _Deletenumber["default"],
         "data-sign": "deleteButton",
         onMouseUp: mouseUp,
         onMouseDown: mouseDown

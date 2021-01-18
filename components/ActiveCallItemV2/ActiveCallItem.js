@@ -39,59 +39,61 @@ require("core-js/modules/es6.array.map");
 
 require("core-js/modules/es6.array.find-index");
 
-var _react = _interopRequireWildcard(require("react"));
-
-var _classnames9 = _interopRequireDefault(require("classnames"));
-
-var _sessionStatus = _interopRequireDefault(require("ringcentral-integration/modules/Webphone/sessionStatus"));
-
-var _callLogHelpers = require("ringcentral-integration/lib/callLogHelpers");
-
-var _webphoneHelper = require("ringcentral-integration/modules/Webphone/webphoneHelper");
-
-var _helpers = require("ringcentral-integration/modules/ActiveCallControlV2/helpers");
+var _classnames13 = _interopRequireDefault(require("classnames"));
 
 var _formatMessage = _interopRequireDefault(require("format-message"));
 
-var _CallIcon = _interopRequireDefault(require("../CallIcon"));
+var _react = _interopRequireWildcard(require("react"));
 
-var _ContactDisplay = _interopRequireDefault(require("../ContactDisplay"));
+var _telephonySessionStatus = require("ringcentral-integration/enums/telephonySessionStatus");
 
-var _CircleButton = _interopRequireDefault(require("../CircleButton"));
+var _callLogHelpers = require("ringcentral-integration/lib/callLogHelpers");
+
+var _helpers = require("ringcentral-integration/modules/ActiveCallControlV2/helpers");
+
+var _sessionStatus = _interopRequireDefault(require("ringcentral-integration/modules/Webphone/sessionStatus"));
+
+var _webphoneHelper = require("ringcentral-integration/modules/Webphone/webphoneHelper");
+
+var _Answer = _interopRequireDefault(require("../../assets/images/Answer.svg"));
 
 var _End = _interopRequireDefault(require("../../assets/images/End.svg"));
 
 var _Hold = _interopRequireDefault(require("../../assets/images/Hold.svg"));
 
-var _Switch = _interopRequireDefault(require("../../assets/images/Switch.svg"));
-
-var _Voicemail = _interopRequireDefault(require("../../assets/images/Voicemail.svg"));
-
-var _Answer = _interopRequireDefault(require("../../assets/images/Answer.svg"));
-
-var _MergeIntoConferenceIcon = _interopRequireDefault(require("../../assets/images/MergeIntoConferenceIcon.svg"));
-
-var _Transfer = _interopRequireDefault(require("../../assets/images/Transfer.svg"));
-
-var _MediaObject = _interopRequireDefault(require("../MediaObject"));
-
-var _DurationCounter = _interopRequireDefault(require("../DurationCounter"));
-
-var _img_call_switch = _interopRequireDefault(require("../../assets/images/img_call_switch.svg"));
+var _HoldAnswer = _interopRequireDefault(require("../../assets/images/HoldAnswer.svg"));
 
 var _Ignore = _interopRequireDefault(require("../../assets/images/Ignore.svg"));
 
-var _HoldAnswer = _interopRequireDefault(require("../../assets/images/HoldAnswer.svg"));
+var _img_call_switch = _interopRequireDefault(require("../../assets/images/img_call_switch.svg"));
 
-var _styles = _interopRequireDefault(require("./styles.scss"));
+var _MergeIntoConferenceIcon = _interopRequireDefault(require("../../assets/images/MergeIntoConferenceIcon.svg"));
+
+var _Switch = _interopRequireDefault(require("../../assets/images/Switch.svg"));
+
+var _Transfer = _interopRequireDefault(require("../../assets/images/Transfer.svg"));
+
+var _Voicemail = _interopRequireDefault(require("../../assets/images/Voicemail.svg"));
 
 var _i18n = _interopRequireDefault(require("../ActiveCallItem/i18n"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+var _CallIcon = _interopRequireDefault(require("../CallIcon"));
+
+var _CircleButton = _interopRequireDefault(require("../CircleButton"));
+
+var _ContactDisplay = _interopRequireDefault(require("../ContactDisplay"));
+
+var _DurationCounter = _interopRequireDefault(require("../DurationCounter"));
+
+var _MediaObject = _interopRequireDefault(require("../MediaObject"));
+
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -120,14 +122,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 var ModalContent = function ModalContent(_ref) {
   var currentLocale = _ref.currentLocale,
       contactName = _ref.contactName;
-  return /*#__PURE__*/_react["default"].createElement("div", {
-    className: _styles["default"].switchDialogContent
-  }, /*#__PURE__*/_react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].switchDialogImage
   }, /*#__PURE__*/_react["default"].createElement(_img_call_switch["default"], {
     width: "116",
     height: "69"
-  })), /*#__PURE__*/_react["default"].createElement("div", null, (0, _formatMessage["default"])(_i18n["default"].getString('comfirmContext', currentLocale), {
+  })), /*#__PURE__*/_react["default"].createElement("div", {
+    className: _styles["default"].switchDialogContent
+  }, (0, _formatMessage["default"])(_i18n["default"].getString('comfirmContext', currentLocale), {
     // displayName: activeCall.name,
     displayName: contactName
   })));
@@ -160,27 +162,19 @@ var WebphoneButtons = function WebphoneButtons(_ref2) {
       telephonySessionId = _ref2.telephonySessionId,
       webphoneIgnore = _ref2.webphoneIgnore,
       showHoldAnswerBtn = _ref2.showHoldAnswerBtn,
-      showIgnoreBtn = _ref2.showIgnoreBtn;
+      showIgnoreBtn = _ref2.showIgnoreBtn,
+      _ref2$isConnecting = _ref2.isConnecting,
+      isConnecting = _ref2$isConnecting === void 0 ? false : _ref2$isConnecting;
 
   if (!session) {
     return null;
   }
 
-  var hangupFunc = webphoneHangup;
-  var endIcon = _End["default"];
-  var answerBtn = null;
+  var answerBtn;
   var ignoreBtn;
-
-  var rejectTitle = _i18n["default"].getString('hangup', currentLocale);
-
-  var holdTitle = _i18n["default"].getString('hold', currentLocale);
-
-  var unholdTitle = _i18n["default"].getString('unhold', currentLocale);
+  var endBtn;
 
   if ((0, _callLogHelpers.isInbound)(session) && session.callStatus === _sessionStatus["default"].connecting) {
-    hangupFunc = webphoneReject;
-    endIcon = _Voicemail["default"];
-    rejectTitle = _i18n["default"].getString('toVoicemail', currentLocale);
     showHold = false;
     answerBtn = /*#__PURE__*/_react["default"].createElement("span", {
       title: _i18n["default"].getString('accept', currentLocale),
@@ -199,11 +193,27 @@ var WebphoneButtons = function WebphoneButtons(_ref2) {
       title: _i18n["default"].getString('holdAndAnswer', currentLocale),
       onClick: function onClick(e) {
         e.stopPropagation();
-        webphoneAnswer(session.id, telephonySessionId);
+        webphoneAnswer(session.id, telephonySessionId, true);
       }
     }, /*#__PURE__*/_react["default"].createElement(_HoldAnswer["default"], {
       className: _styles["default"].answerHoldButton
     })));
+    endBtn = /*#__PURE__*/_react["default"].createElement("span", {
+      title: _i18n["default"].getString('toVoicemail', currentLocale),
+      className: _styles["default"].webphoneButton,
+      "data-sign": "toVoiceMail"
+    }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
+      className: _styles["default"].rejectButton,
+      onClick: function onClick(e) {
+        e.stopPropagation();
+        webphoneReject(session.id, telephonySessionId);
+      },
+      iconWidth: 260,
+      iconX: 120,
+      icon: _Voicemail["default"],
+      showBorder: false,
+      disabled: disableLinks
+    }));
 
     if (showIgnoreBtn) {
       var _classnames;
@@ -211,10 +221,11 @@ var WebphoneButtons = function WebphoneButtons(_ref2) {
       var ignoreTitle = _i18n["default"].getString('ignore', currentLocale);
 
       ignoreBtn = /*#__PURE__*/_react["default"].createElement("span", {
-        title: ignoreTitle,
-        className: _styles["default"].webphoneButton
+        title: _i18n["default"].getString('ignore', currentLocale),
+        className: _styles["default"].webphoneButton,
+        "data-sign": "ignore"
       }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
-        className: (0, _classnames9["default"])((_classnames = {}, _defineProperty(_classnames, _styles["default"].mergeButton, true), _defineProperty(_classnames, _styles["default"].disabled, disableLinks), _classnames)),
+        className: (0, _classnames13["default"])((_classnames = {}, _defineProperty(_classnames, _styles["default"].mergeButton, true), _defineProperty(_classnames, _styles["default"].disabled, disableLinks), _classnames)),
         onClick: function onClick(e) {
           e.stopPropagation();
           webphoneIgnore(telephonySessionId);
@@ -223,10 +234,26 @@ var WebphoneButtons = function WebphoneButtons(_ref2) {
         iconX: 120,
         icon: _Ignore["default"],
         showBorder: true,
-        disabled: disableLinks,
-        dataSign: ignoreTitle
+        disabled: disableLinks
       }));
     }
+  } else {
+    endBtn = /*#__PURE__*/_react["default"].createElement("span", {
+      title: _i18n["default"].getString('hangup', currentLocale),
+      className: _styles["default"].webphoneButton,
+      "data-sign": "hangup"
+    }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
+      className: _styles["default"].rejectButton,
+      onClick: function onClick(e) {
+        e.stopPropagation();
+        webphoneHangup(session.id, telephonySessionId);
+      },
+      iconWidth: 260,
+      iconX: 120,
+      icon: _End["default"],
+      showBorder: false,
+      disabled: disableLinks
+    }));
   }
 
   var holdBtn;
@@ -235,10 +262,11 @@ var WebphoneButtons = function WebphoneButtons(_ref2) {
   if (showHold) {
     if (isOnHold(session)) {
       holdBtn = /*#__PURE__*/_react["default"].createElement("span", {
-        title: unholdTitle,
-        className: _styles["default"].webphoneButton
+        title: _i18n["default"].getString('unhold', currentLocale),
+        className: _styles["default"].webphoneButton,
+        "data-sign": "unhold"
       }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
-        className: (0, _classnames9["default"])(_styles["default"].holdButton, _styles["default"].active),
+        className: (0, _classnames13["default"])(_styles["default"].holdButton, _styles["default"].active, _defineProperty({}, _styles["default"].disabled, disableLinks || isConnecting)),
         onClick: function onClick(e) {
           e.stopPropagation();
           webphoneResume(session.id, telephonySessionId);
@@ -246,15 +274,16 @@ var WebphoneButtons = function WebphoneButtons(_ref2) {
         iconWidth: 260,
         iconX: 120,
         icon: _Hold["default"],
-        disabled: disableLinks,
+        disabled: disableLinks || isConnecting,
         showBorder: true
       }));
     } else {
       holdBtn = /*#__PURE__*/_react["default"].createElement("span", {
-        title: holdTitle,
-        className: _styles["default"].webphoneButton
+        title: _i18n["default"].getString('hold', currentLocale),
+        className: _styles["default"].webphoneButton,
+        "data-sign": "hold"
       }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
-        className: _styles["default"].holdButton,
+        className: (0, _classnames13["default"])(_styles["default"].holdButton, _defineProperty({}, _styles["default"].disabled, disableLinks || isConnecting)),
         onClick: function onClick(e) {
           e.stopPropagation();
           webphoneHold(session.id, telephonySessionId);
@@ -262,22 +291,21 @@ var WebphoneButtons = function WebphoneButtons(_ref2) {
         iconWidth: 260,
         iconX: 120,
         icon: _Hold["default"],
-        disabled: disableLinks,
+        disabled: disableLinks || isConnecting,
         showBorder: true
       }));
     }
   }
 
   if (showMergeCall) {
-    var _classnames2;
-
-    var mergeTitle = _i18n["default"].getString('mergeToConference', currentLocale);
+    var _classnames4;
 
     mergeBtn = /*#__PURE__*/_react["default"].createElement("span", {
-      title: mergeTitle,
-      className: _styles["default"].webphoneButton
+      title: _i18n["default"].getString('mergeToConference', currentLocale),
+      className: _styles["default"].webphoneButton,
+      "data-sign": "merge"
     }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
-      className: (0, _classnames9["default"])((_classnames2 = {}, _defineProperty(_classnames2, _styles["default"].mergeButton, true), _defineProperty(_classnames2, _styles["default"].disabled, disableMerge), _classnames2)),
+      className: (0, _classnames13["default"])((_classnames4 = {}, _defineProperty(_classnames4, _styles["default"].mergeButton, true), _defineProperty(_classnames4, _styles["default"].disabled, disableMerge), _classnames4)),
       onClick: function onClick(e) {
         e.stopPropagation();
         onMergeCall(session.id);
@@ -286,29 +314,13 @@ var WebphoneButtons = function WebphoneButtons(_ref2) {
       iconX: 120,
       icon: _MergeIntoConferenceIcon["default"],
       showBorder: true,
-      disabled: disableMerge || disableLinks,
-      dataSign: mergeTitle
+      disabled: disableMerge || disableLinks
     }));
   }
 
   return /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].webphoneButtons
-  }, ignoreBtn, mergeBtn, holdBtn, /*#__PURE__*/_react["default"].createElement("span", {
-    title: rejectTitle,
-    "data-sign": "toVoiceMail",
-    className: _styles["default"].webphoneButton
-  }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
-    className: _styles["default"].rejectButton,
-    onClick: function onClick(e) {
-      e.stopPropagation();
-      hangupFunc(session.id, telephonySessionId);
-    },
-    iconWidth: 260,
-    iconX: 120,
-    icon: endIcon,
-    showBorder: false,
-    disabled: disableLinks
-  })), answerBtn);
+  }, ignoreBtn, mergeBtn, holdBtn, endBtn, answerBtn);
 };
 
 var ActiveCallControlButtons = function ActiveCallControlButtons(_ref3) {
@@ -333,24 +345,29 @@ var ActiveCallControlButtons = function ActiveCallControlButtons(_ref3) {
       _ref3$webphoneResume = _ref3.webphoneResume,
       webphoneResume = _ref3$webphoneResume === void 0 ? undefined : _ref3$webphoneResume,
       _ref3$webphoneHold = _ref3.webphoneHold,
-      webphoneHold = _ref3$webphoneHold === void 0 ? undefined : _ref3$webphoneHold;
+      webphoneHold = _ref3$webphoneHold === void 0 ? undefined : _ref3$webphoneHold,
+      _ref3$isConnecting = _ref3.isConnecting,
+      isConnecting = _ref3$isConnecting === void 0 ? false : _ref3$isConnecting,
+      _ref3$clickSwitchTrac = _ref3.clickSwitchTrack,
+      clickSwitchTrack = _ref3$clickSwitchTrac === void 0 ? function () {} : _ref3$clickSwitchTrac;
   if (!showRingoutCallControl && !showSwitchCall) return null;
   var switchCallButton;
 
   if (showSwitchCall) {
-    var _classnames3;
+    var _classnames5;
 
     var disabled = disableLinks || ringing;
     switchCallButton = /*#__PURE__*/_react["default"].createElement("span", {
       title: _i18n["default"].getString('switchCall', currentLocale),
-      className: (0, _classnames9["default"])(_styles["default"].ringoutButton, _styles["default"].cursorPointer),
+      className: (0, _classnames13["default"])(_styles["default"].ringoutButton, _styles["default"].cursorPointer),
       "data-sign": "switchCall"
     }, /*#__PURE__*/_react["default"].createElement(_Switch["default"], {
-      className: (0, _classnames9["default"])((_classnames3 = {}, _defineProperty(_classnames3, _styles["default"].switchButton, true), _defineProperty(_classnames3, _styles["default"].disabled, disabled), _classnames3)),
+      className: (0, _classnames13["default"])((_classnames5 = {}, _defineProperty(_classnames5, _styles["default"].switchButton, true), _defineProperty(_classnames5, _styles["default"].disabled, disabled), _classnames5)),
       onClick: function onClick(e) {
         e.stopPropagation();
 
         if (!disabled) {
+          clickSwitchTrack();
           onClickSwitchBtn();
         }
       }
@@ -363,22 +380,22 @@ var ActiveCallControlButtons = function ActiveCallControlButtons(_ref3) {
     }, switchCallButton);
   }
 
-  var endButton;
-  var holdBtn = null;
+  var endBtn;
+  var holdBtn;
   var inComingCall = inbound && ringing;
 
   if (inComingCall) {
-    var _classnames4;
+    var _classnames6;
 
     var rejectTitle = _i18n["default"].getString('reject', currentLocale);
 
-    endButton = /*#__PURE__*/_react["default"].createElement("span", {
+    endBtn = /*#__PURE__*/_react["default"].createElement("span", {
       title: rejectTitle,
       className: _styles["default"].ringoutButton,
       "data-sign": "hangup"
     }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
       disabled: disableLinks,
-      className: (0, _classnames9["default"])((_classnames4 = {}, _defineProperty(_classnames4, _styles["default"].endButton, true), _defineProperty(_classnames4, _styles["default"].disabled, disableLinks), _classnames4)),
+      className: (0, _classnames13["default"])((_classnames6 = {}, _defineProperty(_classnames6, _styles["default"].endButton, true), _defineProperty(_classnames6, _styles["default"].disabled, disableLinks), _classnames6)),
       onClick: function onClick(e) {
         e.stopPropagation();
         ringoutReject(telephonySessionId);
@@ -387,17 +404,15 @@ var ActiveCallControlButtons = function ActiveCallControlButtons(_ref3) {
       showBorder: false
     }));
   } else {
-    var _classnames5;
+    var _classnames7;
 
-    var hangupTitle = _i18n["default"].getString('hangup', currentLocale);
-
-    endButton = /*#__PURE__*/_react["default"].createElement("span", {
-      title: hangupTitle,
+    endBtn = /*#__PURE__*/_react["default"].createElement("span", {
+      title: _i18n["default"].getString('hangup', currentLocale),
       className: _styles["default"].ringoutButton,
       "data-sign": "hangup"
     }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
       disabled: disableLinks,
-      className: (0, _classnames9["default"])((_classnames5 = {}, _defineProperty(_classnames5, _styles["default"].endButton, true), _defineProperty(_classnames5, _styles["default"].disabled, disableLinks), _classnames5)),
+      className: (0, _classnames13["default"])((_classnames7 = {}, _defineProperty(_classnames7, _styles["default"].endButton, true), _defineProperty(_classnames7, _styles["default"].disabled, disableLinks), _classnames7)),
       onClick: function onClick(e) {
         e.stopPropagation();
         ringoutHangup(telephonySessionId);
@@ -406,17 +421,16 @@ var ActiveCallControlButtons = function ActiveCallControlButtons(_ref3) {
       showBorder: false
     }));
 
-    var holdTitle = _i18n["default"].getString('hold', currentLocale);
-
-    var unholdTitle = _i18n["default"].getString('unhold', currentLocale);
+    var _disabled = disableLinks || isConnecting || ringing;
 
     if (session) {
       if ((0, _helpers.isHolding)(session)) {
         holdBtn = /*#__PURE__*/_react["default"].createElement("span", {
-          title: unholdTitle,
-          className: _styles["default"].webphoneButton
+          title: _i18n["default"].getString('unhold', currentLocale),
+          className: _styles["default"].webphoneButton,
+          "data-sign": "unhold"
         }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
-          className: (0, _classnames9["default"])(_styles["default"].holdButton, _styles["default"].active),
+          className: (0, _classnames13["default"])(_styles["default"].holdButton, _styles["default"].active, _defineProperty({}, _styles["default"].disabled, _disabled)),
           onClick: function onClick(e) {
             e.stopPropagation();
             webphoneResume('', telephonySessionId);
@@ -424,15 +438,16 @@ var ActiveCallControlButtons = function ActiveCallControlButtons(_ref3) {
           iconWidth: 260,
           iconX: 120,
           icon: _Hold["default"],
-          disabled: disableLinks,
+          disabled: _disabled,
           showBorder: true
         }));
       } else {
         holdBtn = /*#__PURE__*/_react["default"].createElement("span", {
-          title: holdTitle,
-          className: _styles["default"].webphoneButton
+          title: _i18n["default"].getString('hold', currentLocale),
+          className: (0, _classnames13["default"])(_styles["default"].webphoneButton),
+          "data-sign": "hold"
         }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
-          className: _styles["default"].holdButton,
+          className: (0, _classnames13["default"])(_styles["default"].holdButton, _defineProperty({}, _styles["default"].disabled, _disabled)),
           onClick: function onClick(e) {
             e.stopPropagation();
             webphoneHold('', telephonySessionId);
@@ -440,7 +455,7 @@ var ActiveCallControlButtons = function ActiveCallControlButtons(_ref3) {
           iconWidth: 260,
           iconX: 120,
           icon: _Hold["default"],
-          disabled: disableLinks,
+          disabled: _disabled,
           showBorder: true
         }));
       }
@@ -450,7 +465,7 @@ var ActiveCallControlButtons = function ActiveCallControlButtons(_ref3) {
   var transferBtn;
 
   if (ringoutTransfer && !inComingCall) {
-    var _classnames6;
+    var _classnames10;
 
     var transferTitle = _i18n["default"].getString('transfer', currentLocale);
 
@@ -460,7 +475,7 @@ var ActiveCallControlButtons = function ActiveCallControlButtons(_ref3) {
       "data-sign": "transfer"
     }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
       disabled: disableLinks,
-      className: (0, _classnames9["default"])((_classnames6 = {}, _defineProperty(_classnames6, _styles["default"].transferButton, true), _defineProperty(_classnames6, _styles["default"].disabled, disableLinks), _classnames6)),
+      className: (0, _classnames13["default"])((_classnames10 = {}, _defineProperty(_classnames10, _styles["default"].transferButton, true), _defineProperty(_classnames10, _styles["default"].disabled, disableLinks), _classnames10)),
       onClick: function onClick(e) {
         e.stopPropagation();
         ringoutTransfer(telephonySessionId);
@@ -471,7 +486,7 @@ var ActiveCallControlButtons = function ActiveCallControlButtons(_ref3) {
 
   return /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].ringoutButtons
-  }, showHoldOnOtherDevice && holdBtn, showTransferCall && transferBtn, switchCallButton, endButton);
+  }, showHoldOnOtherDevice && holdBtn, showTransferCall && transferBtn, switchCallButton, endBtn);
 };
 /**
  * TODO: Gradually replace <ActiveCallItem/> with this component
@@ -557,17 +572,17 @@ var ActiveCallItem = /*#__PURE__*/function (_Component) {
     };
 
     _this.onClickSwitchBtn = function () {
-      var contactName = typeof _this.props.renderContactName === 'function' ? _this.props.renderContactName(_this.props.call) : undefined;
+      var contactName = typeof _this.props.renderContactName === 'function' ? _this.props.renderContactName(_this.props.call) : undefined; // TODO: Consider refactoring modalConfirm out of UI components
+
       _this.modalId = _this.props.modalConfirm({
         size: 'small',
         title: _i18n["default"].getString('callSwitch', _this.props.currentLocale),
         dialogProps: {
           className: _styles["default"].switchDialog
         },
-        content: /*#__PURE__*/_react["default"].createElement(ModalContent, {
-          currentLocale: _this.props.currentLocale,
+        contentProps: {
           contactName: contactName
-        }),
+        },
         okText: _i18n["default"].getString('comfirmOKButton', _this.props.currentLocale),
         cancelText: _i18n["default"].getString('comfirmCancelButton', _this.props.currentLocale),
         onOK: function onOK() {
@@ -706,7 +721,7 @@ var ActiveCallItem = /*#__PURE__*/function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      var _classnames7, _classnames8;
+      var _telephonySession$oth, _classnames11, _classnames12;
 
       var _this$props2 = this.props,
           _this$props2$call = _this$props2.call,
@@ -752,7 +767,8 @@ var ActiveCallItem = /*#__PURE__*/function (_Component) {
           newCallIcon = _this$props2.newCallIcon,
           webphoneIgnore = _this$props2.webphoneIgnore,
           showHoldAnswerBtn = _this$props2.showHoldAnswerBtn,
-          showIgnoreBtn = _this$props2.showIgnoreBtn;
+          showIgnoreBtn = _this$props2.showIgnoreBtn,
+          clickSwitchTrack = _this$props2.clickSwitchTrack;
       var _this$state = this.state,
           avatarUrl = _this$state.avatarUrl,
           extraNum = _this$state.extraNum;
@@ -766,14 +782,16 @@ var ActiveCallItem = /*#__PURE__*/function (_Component) {
         className: _styles["default"].extraButton
       }, renderExtraButton(this.props.call)) : undefined;
       var hasCallControl = !!(webphoneSession || showRingoutCallControl || showSwitchCall);
-      var cursorPointer = hasCallControl && !!onClick;
+      var cursorPointer = hasCallControl && !!onClick; // real outbound call status
+
+      var isConnecting = (telephonySession === null || telephonySession === void 0 ? void 0 : (_telephonySession$oth = telephonySession.otherParties[0]) === null || _telephonySession$oth === void 0 ? void 0 : _telephonySession$oth.status.code) === _telephonySessionStatus.telephonySessionStatus.proceeding;
       return /*#__PURE__*/_react["default"].createElement("div", {
         "data-sign": "callItem",
         className: _styles["default"].callItemContainer
       }, /*#__PURE__*/_react["default"].createElement(_MediaObject["default"], {
         containerCls: _styles["default"].wrapper,
-        bodyCls: (0, _classnames9["default"])((_classnames7 = {}, _defineProperty(_classnames7, _styles["default"].content, true), _defineProperty(_classnames7, _styles["default"].cursorPointer, cursorPointer), _defineProperty(_classnames7, _styles["default"].cursorUnset, !cursorPointer), _defineProperty(_classnames7, _styles["default"].disabled, hasCallControl && disableLinks), _classnames7)),
-        leftCls: (0, _classnames9["default"])((_classnames8 = {}, _defineProperty(_classnames8, _styles["default"].cursorPointer, cursorPointer), _defineProperty(_classnames8, _styles["default"].cursorUnset, !cursorPointer), _defineProperty(_classnames8, _styles["default"].disabled, hasCallControl && disableLinks), _classnames8)),
+        bodyCls: (0, _classnames13["default"])((_classnames11 = {}, _defineProperty(_classnames11, _styles["default"].content, true), _defineProperty(_classnames11, _styles["default"].cursorPointer, cursorPointer), _defineProperty(_classnames11, _styles["default"].cursorUnset, !cursorPointer), _defineProperty(_classnames11, _styles["default"].disabled, hasCallControl && disableLinks), _classnames11)),
+        leftCls: (0, _classnames13["default"])((_classnames12 = {}, _defineProperty(_classnames12, _styles["default"].cursorPointer, cursorPointer), _defineProperty(_classnames12, _styles["default"].cursorUnset, !cursorPointer), _defineProperty(_classnames12, _styles["default"].disabled, hasCallControl && disableLinks), _classnames12)),
         mediaLeft: /*#__PURE__*/_react["default"].createElement("div", {
           onClick: hasCallControl && onClick ? onClick : null
         }, /*#__PURE__*/_react["default"].createElement(_CallIcon["default"], {
@@ -796,7 +814,7 @@ var ActiveCallItem = /*#__PURE__*/function (_Component) {
         }, /*#__PURE__*/_react["default"].createElement(_ContactDisplay["default"], {
           isOnConferenceCall: isOnConferenceCall,
           contactName: showMultipleMatch ? undefined : contactName,
-          className: (0, _classnames9["default"])(_styles["default"].contactDisplay, contactDisplayStyle),
+          className: (0, _classnames13["default"])(_styles["default"].contactDisplay, contactDisplayStyle),
           contactMatches: contactMatches,
           selected: this.state.selected,
           onSelectContact: this.onSelectContact,
@@ -820,6 +838,7 @@ var ActiveCallItem = /*#__PURE__*/function (_Component) {
           className: _styles["default"].actionIconsBox
         }, webphoneSession ? /*#__PURE__*/_react["default"].createElement(WebphoneButtons, {
           session: webphoneSession,
+          isConnecting: isConnecting,
           telephonySessionId: telephonySessionId,
           webphoneReject: this.webphoneToVoicemail,
           webphoneHangup: webphoneHangup,
@@ -851,7 +870,9 @@ var ActiveCallItem = /*#__PURE__*/function (_Component) {
           showTransferCall: showTransferCall,
           showHoldOnOtherDevice: showHoldOnOtherDevice,
           webphoneResume: webphoneResume,
-          webphoneHold: webphoneHold
+          webphoneHold: webphoneHold,
+          isConnecting: isConnecting,
+          clickSwitchTrack: clickSwitchTrack
         }), extraButton)
       }));
     }

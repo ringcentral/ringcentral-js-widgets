@@ -112,12 +112,14 @@ var TabContentView = /*#__PURE__*/function (_Component) {
       return [{
         path: '/dialer',
         label: _i18n["default"].getString('dialer', currentLocale),
+        dataSign: 'dialer',
         isActive: function isActive() {
           return currentPath === '/dialer';
         }
       }, {
         path: '/calls',
         label: _i18n["default"].getString('allCalls', currentLocale),
+        dataSign: 'allCalls',
         isActive: function isActive() {
           return currentPath === '/calls';
         }

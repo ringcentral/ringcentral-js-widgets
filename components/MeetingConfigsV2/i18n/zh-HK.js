@@ -9,11 +9,15 @@ require("core-js/modules/es6.object.define-property");
 
 var _Meeting = require("ringcentral-integration/modules/Meeting");
 
-var _voIPOnly$telephonyOn;
+var _date$time$duration$t;
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-var _default = (_voIPOnly$telephonyOn = {
+var _default = (_date$time$duration$t = {
+  date: "日期",
+  time: "時間",
+  duration: "長度",
+  topic: "會議標題",
   voIPOnly: "僅限網路音訊",
   telephonyOnly: "僅限電話",
   both: "電話和網路音訊",
@@ -22,7 +26,11 @@ var _default = (_voIPOnly$telephonyOn = {
   video: "視訊",
   audio: "音訊",
   scheduleFor: "代表以下對象排程"
-}, _defineProperty(_voIPOnly$telephonyOn, _Meeting.ASSISTED_USERS_MYSELF, "我本人"), _defineProperty(_voIPOnly$telephonyOn, "meetingOptions", "會議選項"), _defineProperty(_voIPOnly$telephonyOn, "meetingSettings", "會議設定"), _defineProperty(_voIPOnly$telephonyOn, "rcMeetingSettings", "視訊會議設定"), _defineProperty(_voIPOnly$telephonyOn, "audioOptions", "音訊選項"), _defineProperty(_voIPOnly$telephonyOn, "recurringMeeting", "定期會議"), _defineProperty(_voIPOnly$telephonyOn, "recurringNote", "注意：選擇「定期」時請啟用此選項"), _defineProperty(_voIPOnly$telephonyOn, "joinBeforeHost", "允許參與者在主持人之前加入"), _defineProperty(_voIPOnly$telephonyOn, "turnOffCamera", "關閉參與者的相機"), _defineProperty(_voIPOnly$telephonyOn, "turnOffHostCamera", "主持人加入會議時請關閉攝影機"), _defineProperty(_voIPOnly$telephonyOn, "requirePassword", "需要密碼"), _defineProperty(_voIPOnly$telephonyOn, "setPassword", "請設定密碼 *"), _defineProperty(_voIPOnly$telephonyOn, "passwordEmptyError", "必須提供會議密碼"), _defineProperty(_voIPOnly$telephonyOn, "rcmPasswordInvalidError", "您的密碼必須包含 1 到 10 個字元和數字，並且不得包含任何符號 (除 @、* 或 - 以外)"), _defineProperty(_voIPOnly$telephonyOn, "rcmPasswordHintText", "您的密碼應包含 1 到 10 個字元和數字，並且不得包含任何符號 (除 @、* 或 - 以外)"), _defineProperty(_voIPOnly$telephonyOn, "usePersonalMeetingId", "使用個人會議 ID"), _defineProperty(_voIPOnly$telephonyOn, "pmiChangeConfirm", "如果您想變更個人會議， "), _defineProperty(_voIPOnly$telephonyOn, "changePmiSettings", "請變更 PMI 設定"), _defineProperty(_voIPOnly$telephonyOn, "pmiSettingChangeAlert", "若您變更設定並排程此會議，相同的最新設定會套用至使用個人會議 ID 的所有會議。"), _defineProperty(_voIPOnly$telephonyOn, "lockedTooltip", "此設定是由貴公司管理員負責管理"), _voIPOnly$telephonyOn); // @key: @#@"voIPOnly"@#@ @source: @#@"Internet audio only"@#@
+}, _defineProperty(_date$time$duration$t, _Meeting.ASSISTED_USERS_MYSELF, "我本人"), _defineProperty(_date$time$duration$t, "meetingOptions", "會議選項"), _defineProperty(_date$time$duration$t, "meetingSettings", "會議設定"), _defineProperty(_date$time$duration$t, "rcMeetingSettings", "視訊會議設定"), _defineProperty(_date$time$duration$t, "audioOptions", "音訊選項"), _defineProperty(_date$time$duration$t, "recurringMeeting", "定期會議"), _defineProperty(_date$time$duration$t, "recurringNote", "注意：選擇「定期」時請啟用此選項"), _defineProperty(_date$time$duration$t, "joinBeforeHost", "允許參與者在主持人之前加入"), _defineProperty(_date$time$duration$t, "turnOffCamera", "關閉參與者的相機"), _defineProperty(_date$time$duration$t, "turnOffHostCamera", "主持人加入會議時請關閉攝影機"), _defineProperty(_date$time$duration$t, "requirePassword", "需要密碼"), _defineProperty(_date$time$duration$t, "setPassword", "請設定密碼 *"), _defineProperty(_date$time$duration$t, "passwordEmptyError", "必須提供會議密碼"), _defineProperty(_date$time$duration$t, "rcmPasswordInvalidError", "您的密碼必須包含 1 到 10 個字元和數字，並且不得包含任何符號 (除 @、* 或 - 以外)"), _defineProperty(_date$time$duration$t, "rcmPasswordHintText", "您的密碼應包含 1 到 10 個字元和數字，並且不得包含任何符號 (除 @、* 或 - 以外)"), _defineProperty(_date$time$duration$t, "usePersonalMeetingId", "使用個人會議 ID"), _defineProperty(_date$time$duration$t, "pmiChangeConfirm", "如果您想變更個人會議， "), _defineProperty(_date$time$duration$t, "changePmiSettings", "請變更 PMI 設定"), _defineProperty(_date$time$duration$t, "pmiSettingChangeAlert", "若您變更設定並排程此會議，相同的最新設定會套用至使用個人會議 ID 的所有會議。"), _defineProperty(_date$time$duration$t, "lockedTooltip", "此設定是由貴公司管理員負責管理"), _defineProperty(_date$time$duration$t, "when", "時間"), _defineProperty(_date$time$duration$t, "recurringDescribe", "請記得確認傳送給列席者的行事曆邀請中的定期或重複會議。"), _date$time$duration$t); // @key: @#@"date"@#@ @source: @#@"Date"@#@
+// @key: @#@"time"@#@ @source: @#@"Time"@#@
+// @key: @#@"duration"@#@ @source: @#@"Duration"@#@
+// @key: @#@"topic"@#@ @source: @#@"Meeting title"@#@
+// @key: @#@"voIPOnly"@#@ @source: @#@"Internet audio only"@#@
 // @key: @#@"telephonyOnly"@#@ @source: @#@"Telephone only"@#@
 // @key: @#@"both"@#@ @source: @#@"Telephone and Internet Audio"@#@
 // @key: @#@"meetingId"@#@ @source: @#@"Meeting ID"@#@
@@ -50,6 +58,8 @@ var _default = (_voIPOnly$telephonyOn = {
 // @key: @#@"changePmiSettings"@#@ @source: @#@"change PMI settings"@#@
 // @key: @#@"pmiSettingChangeAlert"@#@ @source: @#@"If you change the settings and schedule this meeting, all of meetings with Personal Meeting ID will use the same latest settings."@#@
 // @key: @#@"lockedTooltip"@#@ @source: @#@"This setting is managed by your company admin"@#@
+// @key: @#@"when"@#@ @source: @#@"When"@#@
+// @key: @#@"recurringDescribe"@#@ @source: @#@"Please remember to check recurrence or repeat in your calendar invitation to your attendees."@#@
 
 
 exports["default"] = _default;

@@ -45,9 +45,7 @@ var SearchResult = function SearchResult(_ref) {
 
 exports.SearchResult = SearchResult;
 SearchResult.defaultProps = {
-  renderListItem: function renderListItem() {
-    return null;
-  },
+  renderListItem: function renderListItem() {},
   classes: {},
   tipWhenNoOptions: ''
 };

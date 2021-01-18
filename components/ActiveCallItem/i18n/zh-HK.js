@@ -29,8 +29,8 @@ var _default = {
   from: "來自",
   to: "至",
   hangup: "掛斷",
-  accept: "接受",
-  toVoicemail: "轉至語音信箱",
+  accept: "接聽",
+  toVoicemail: "轉語音訊息",
   anonymous: "匿名",
   mergeToConference: "合併",
   hold: "通話保留",
@@ -41,7 +41,9 @@ var _default = {
   callSwitch: "通話切換",
   comfirmContext: "您目前正使用 {displayName} 通話。您要繼續在此裝置上通話嗎？",
   comfirmCancelButton: "取消",
-  comfirmOKButton: "切換"
+  comfirmOKButton: "切換",
+  ignore: "忽略",
+  holdAndAnswer: "等候並回答"
 }; // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
 // @key: @#@"logCall"@#@ @source: @#@"Log Call"@#@
 // @key: @#@"editLog"@#@ @source: @#@"Edit Log"@#@
@@ -64,8 +66,8 @@ var _default = {
 // @key: @#@"from"@#@ @source: @#@"From"@#@
 // @key: @#@"to"@#@ @source: @#@"To"@#@
 // @key: @#@"hangup"@#@ @source: @#@"Hang up"@#@
-// @key: @#@"accept"@#@ @source: @#@"Accept"@#@
-// @key: @#@"toVoicemail"@#@ @source: @#@"Send to Voicemail"@#@
+// @key: @#@"accept"@#@ @source: @#@"Answer"@#@
+// @key: @#@"toVoicemail"@#@ @source: @#@"To Voicemail"@#@
 // @key: @#@"anonymous"@#@ @source: @#@"Anonymous"@#@
 // @key: @#@"mergeToConference"@#@ @source: @#@"Merge"@#@
 // @key: @#@"hold"@#@ @source: @#@"Hold"@#@
@@ -77,6 +79,8 @@ var _default = {
 // @key: @#@"comfirmContext"@#@ @source: @#@"You're currently on an active call with {displayName}. Would you like to continue the call on this device?"@#@
 // @key: @#@"comfirmCancelButton"@#@ @source: @#@"Cancel"@#@
 // @key: @#@"comfirmOKButton"@#@ @source: @#@"Switch"@#@
+// @key: @#@"ignore"@#@ @source: @#@"Ignore"@#@
+// @key: @#@"holdAndAnswer"@#@ @source: @#@"Hold & Answer"@#@
 
 exports["default"] = _default;
 //# sourceMappingURL=zh-HK.js.map

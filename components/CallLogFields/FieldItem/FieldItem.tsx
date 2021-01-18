@@ -1,13 +1,19 @@
 import { RcDatePicker } from '@ringcentral/juno';
 import React, { Component } from 'react';
+import classNames from 'classnames';
 
-import { setUTCTime } from '../../../lib/timeFormatHelper';
+import { setUTCTime, getDateFromUTCDay } from '../../../lib/timeFormatHelper';
 import InputSelect from '../../InputSelect';
 import { CallLogFieldsProps, FieldMetadata } from '../CallLogFields.interface';
-import { FieldItemOption, FieldsMap } from './FieldItem.interface';
+import {
+  FieldItemOption,
+  FieldsMap,
+  PickListOption,
+} from './FieldItem.interface';
 import { FullSelectField } from './FullSelectField';
 import { LogFieldsInput } from './LogFieldsInput';
 import { SelectField } from './SelectField';
+import { RadioField } from './RadioField';
 import styles from './styles.scss';
 
 const DEFAULT_FINDER = {
@@ -205,7 +211,9 @@ export class FieldItem extends Component<FieldItemProps, {}> {
       onSave,
     } = this.props;
     const { fieldSize } = this.props;
-    const date = this.currentValue ? new Date(this.currentValue) : null;
+    const date = this.currentValue
+      ? getDateFromUTCDay(this.currentValue)
+      : null;
     return (
       <RcDatePicker
         fullWidth
@@ -215,7 +223,7 @@ export class FieldItem extends Component<FieldItemProps, {}> {
         label={label}
         date={date}
         onChange={async (value) => {
-          const timeStamp = setUTCTime(value);
+          const timeStamp = value ? setUTCTime(value) : value;
           await this.onInputSelectChange(fieldValue)(timeStamp);
           await onSave;
         }}
@@ -255,7 +263,6 @@ export class FieldItem extends Component<FieldItemProps, {}> {
         value: fieldValue,
         picklistOptions,
         required,
-        defaultValue,
         helperText,
         error,
         onChange,
@@ -306,6 +313,106 @@ export class FieldItem extends Component<FieldItemProps, {}> {
     );
   };
 
+  private renderRadio = () => {
+    const {
+      fieldOption: { picklistOptions },
+      currentLog,
+    } = this.props;
+    const { task } = currentLog;
+    const options = [
+      {
+        value: (picklistOptions[0] as PickListOption).value,
+        label: (picklistOptions[0] as PickListOption).label,
+        disabled: false,
+      },
+      {
+        value: (picklistOptions[1] as PickListOption).value,
+        label: (picklistOptions[1] as PickListOption).label,
+        disabled: !!(
+          !task.tickets ||
+          (task.tickets && task.tickets.length === 0)
+        ),
+      },
+    ];
+    const defaultOption =
+      task.option || (picklistOptions[0] as PickListOption).value;
+    return (
+      <RadioField
+        value={defaultOption}
+        options={options}
+        onChange={this.onRadioChange}
+      />
+    );
+  };
+
+  private onRadioChange = async (
+    event: React.ChangeEvent<HTMLInputElement>,
+    value: string,
+  ) => {
+    const { currentLog, onUpdateCallLog } = this.props;
+    const { currentSessionId, task = {} } = currentLog;
+    await onUpdateCallLog(
+      {
+        ...currentLog,
+        task: {
+          ...task,
+          option: value,
+          ticketId: task.ticketId || task.tickets[0],
+        },
+      },
+      currentSessionId,
+    );
+  };
+
+  // this is the dropdown to render ticket lists
+  private renderTicketSelectList = () => {
+    const { currentLog, fieldOption } = this.props;
+    const { renderCondition, label } = fieldOption;
+    const { task } = currentLog;
+    if (task.option !== renderCondition) {
+      return null;
+    }
+    const options = task.tickets
+      ? task.tickets.map((ticket: any) => {
+          return {
+            value: ticket.id,
+            label: `#${ticket.id} ${ticket.subject}`,
+          };
+        })
+      : [];
+    // TODO: need to double check the logic here
+    const defaultValue =
+      task.ticketId || (task.tickets && task.tickets[0]?.id) || '';
+    return (
+      <SelectField
+        options={options}
+        disabled={options.length === 0}
+        value={defaultValue}
+        label={label}
+        classes={{
+          root: classNames(
+            styles.ticketSelectList,
+            styles.tickets,
+            styles.selectList,
+          ),
+        }}
+        onChange={this.onSelectChange}
+      />
+    );
+  };
+
+  private onSelectChange = async (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const { value } = event.target;
+    const { currentLog, onUpdateCallLog } = this.props;
+    const { currentSessionId, task = {} } = currentLog;
+    await onUpdateCallLog(
+      { ...currentLog, task: { ...task, ticketId: value } },
+      currentSessionId,
+    );
+  };
+
   private onInputSelectChange = (value: string) => async (item: any) => {
     const {
       currentLog: { currentSessionId, task = {} },
@@ -344,7 +451,10 @@ export class FieldItem extends Component<FieldItemProps, {}> {
     string: this.renderInput,
     integer: this.renderInput,
     double: this.renderInput,
+    long: this.renderInput,
     combobox: this.renderSubjectField,
+    radio: this.renderRadio,
+    ticketSelectList: this.renderTicketSelectList,
   };
 
   render() {

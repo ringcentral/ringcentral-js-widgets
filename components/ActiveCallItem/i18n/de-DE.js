@@ -29,8 +29,8 @@ var _default = {
   from: "Von",
   to: "An",
   hangup: "Auflegen",
-  accept: "Annehmen",
-  toVoicemail: "An Voicemail weiterleiten",
+  accept: "Antworten",
+  toVoicemail: "An Voicemail",
   anonymous: "Anonym",
   mergeToConference: "Zus.führen",
   hold: "Halten",
@@ -41,7 +41,9 @@ var _default = {
   callSwitch: "Anrufwechsel",
   comfirmContext: "Sie befinden sich momentan in einem aktiven Anruf mit {displayName}. Möchten Sie den Anruf auf diesem Gerät fortsetzen?",
   comfirmCancelButton: "Abbrechen",
-  comfirmOKButton: "Wechseln"
+  comfirmOKButton: "Wechseln",
+  ignore: "Ignorieren",
+  holdAndAnswer: "Halten & beantw."
 }; // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
 // @key: @#@"logCall"@#@ @source: @#@"Log Call"@#@
 // @key: @#@"editLog"@#@ @source: @#@"Edit Log"@#@
@@ -64,8 +66,8 @@ var _default = {
 // @key: @#@"from"@#@ @source: @#@"From"@#@
 // @key: @#@"to"@#@ @source: @#@"To"@#@
 // @key: @#@"hangup"@#@ @source: @#@"Hang up"@#@
-// @key: @#@"accept"@#@ @source: @#@"Accept"@#@
-// @key: @#@"toVoicemail"@#@ @source: @#@"Send to Voicemail"@#@
+// @key: @#@"accept"@#@ @source: @#@"Answer"@#@
+// @key: @#@"toVoicemail"@#@ @source: @#@"To Voicemail"@#@
 // @key: @#@"anonymous"@#@ @source: @#@"Anonymous"@#@
 // @key: @#@"mergeToConference"@#@ @source: @#@"Merge"@#@
 // @key: @#@"hold"@#@ @source: @#@"Hold"@#@
@@ -77,6 +79,8 @@ var _default = {
 // @key: @#@"comfirmContext"@#@ @source: @#@"You're currently on an active call with {displayName}. Would you like to continue the call on this device?"@#@
 // @key: @#@"comfirmCancelButton"@#@ @source: @#@"Cancel"@#@
 // @key: @#@"comfirmOKButton"@#@ @source: @#@"Switch"@#@
+// @key: @#@"ignore"@#@ @source: @#@"Ignore"@#@
+// @key: @#@"holdAndAnswer"@#@ @source: @#@"Hold & Answer"@#@
 
 exports["default"] = _default;
 //# sourceMappingURL=de-DE.js.map

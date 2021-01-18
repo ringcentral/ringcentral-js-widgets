@@ -66,7 +66,8 @@ var Name = function Name(_ref2) {
       name = _ref2.name;
   return /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])(_styles["default"].name, !presence && _styles["default"].withoutPresence, inactive && _styles["default"].inactiveText),
-    title: name
+    title: name,
+    "data-sign": "contactName"
   }, name);
 };
 

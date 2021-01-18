@@ -157,6 +157,7 @@ var CallMonitorBar = /*#__PURE__*/function (_Component) {
           shouldDisplayCurrentCallBtn = _this$props.shouldDisplayCurrentCallBtn,
           shouldDisplayViewCallsBtn = _this$props.shouldDisplayViewCallsBtn,
           shouldHideRingingCallStatus = _this$props.shouldHideRingingCallStatus,
+          clickHeaderTrack = _this$props.clickHeaderTrack,
           useV2 = _this$props.useV2;
       var numberOfIncomingCalls = ringingCalls.length;
       var numberOfOnHoldCalls = onHoldCalls.length;
@@ -164,7 +165,8 @@ var CallMonitorBar = /*#__PURE__*/function (_Component) {
       return /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].bar,
         onMouseOver: this.showBtn,
-        onMouseLeave: this.hideBtn
+        onMouseLeave: this.hideBtn,
+        onClick: clickHeaderTrack
       }, /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].box
       }, /*#__PURE__*/_react["default"].createElement(_CarrouselBar["default"], {
@@ -230,6 +232,7 @@ CallMonitorBar.propTypes = {
   shouldDisplayCurrentCallBtn: _propTypes["default"].bool,
   shouldDisplayViewCallsBtn: _propTypes["default"].bool,
   shouldHideRingingCallStatus: _propTypes["default"].bool,
+  clickHeaderTrack: _propTypes["default"].func,
   useV2: _propTypes["default"].bool
 };
 CallMonitorBar.defaultProps = {
@@ -242,6 +245,7 @@ CallMonitorBar.defaultProps = {
   shouldDisplayCurrentCallBtn: false,
   shouldDisplayViewCallsBtn: false,
   shouldHideRingingCallStatus: false,
+  clickHeaderTrack: function clickHeaderTrack() {},
   useV2: false
 };
 //# sourceMappingURL=index.js.map

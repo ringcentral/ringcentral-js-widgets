@@ -1,0 +1,1 @@
+{"version":3,"sources":["modules/CallHistoryUIV2/index.ts"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;AAAA;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;;AACA;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA","sourcesContent":["export * from './CallHistoryUI.interface';\nexport * from './CallHistoryUI';\n"],"file":"index.js"}

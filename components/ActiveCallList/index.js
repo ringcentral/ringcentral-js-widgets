@@ -19,7 +19,7 @@ var _classnames = _interopRequireDefault(require("classnames"));
 
 var _ActiveCallItem = _interopRequireDefault(require("../ActiveCallItem"));
 
-var _ActiveCallItemV = _interopRequireDefault(require("../ActiveCallItemV2"));
+var _ActiveCallItemV = require("../ActiveCallItemV2");
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
@@ -84,16 +84,18 @@ var ActiveCallList = function ActiveCallList(_ref) {
       showIgnoreBtn = _ref.showIgnoreBtn,
       showHoldAnswerBtn = _ref.showHoldAnswerBtn,
       useCallDetailV2 = _ref.useCallDetailV2,
-      newCallIcon = _ref.newCallIcon;
+      newCallIcon = _ref.newCallIcon,
+      clickSwitchTrack = _ref.clickSwitchTrack;
 
   if (!calls.length) {
     return null;
   } // if you are using call control SDK for webphone operation, then require to use ActiveCallItem v2
 
 
-  var Component = useV2 ? _ActiveCallItemV["default"] : _ActiveCallItem["default"];
+  var Component = useV2 ? _ActiveCallItemV.ActiveCallItem : _ActiveCallItem["default"];
   return /*#__PURE__*/_react["default"].createElement("div", {
-    className: (0, _classnames["default"])(_styles["default"].list, className)
+    className: (0, _classnames["default"])(_styles["default"].list, className),
+    "data-sign": "callList"
   }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].listTitle,
     style: {
@@ -162,7 +164,8 @@ var ActiveCallList = function ActiveCallList(_ref) {
       showIgnoreBtn: showIgnoreBtn,
       showHoldAnswerBtn: showHoldAnswerBtn,
       useCallDetailV2: useCallDetailV2,
-      newCallIcon: newCallIcon
+      newCallIcon: newCallIcon,
+      clickSwitchTrack: clickSwitchTrack
     });
   }));
 };
@@ -222,7 +225,8 @@ ActiveCallList.propTypes = {
   showIgnoreBtn: _propTypes["default"].bool,
   showHoldAnswerBtn: _propTypes["default"].bool,
   useCallDetailV2: _propTypes["default"].bool,
-  newCallIcon: _propTypes["default"].bool
+  newCallIcon: _propTypes["default"].bool,
+  clickSwitchTrack: _propTypes["default"].func
 };
 ActiveCallList.defaultProps = {
   className: undefined,
@@ -281,7 +285,8 @@ ActiveCallList.defaultProps = {
   showIgnoreBtn: false,
   showHoldAnswerBtn: false,
   useCallDetailV2: false,
-  newCallIcon: false
+  newCallIcon: false,
+  clickSwitchTrack: function clickSwitchTrack() {}
 };
 var _default = ActiveCallList;
 exports["default"] = _default;

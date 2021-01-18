@@ -11,7 +11,7 @@ var _default = {
   contact: "Contacto",
   lead: "Cliente potencial",
   opportunity: "Oportunidade",
-  chooseEntity: "Selecione o tipo de entidade",
+  chooseEntity: "Selec. o tipo de entidade",
   create: "Criar"
 }; // @key: @#@"account"@#@ @source: @#@"Account"@#@
 // @key: @#@"contact"@#@ @source: @#@"Contact"@#@

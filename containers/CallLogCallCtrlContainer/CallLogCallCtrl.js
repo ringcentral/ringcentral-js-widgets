@@ -32,7 +32,6 @@ var CallLogCallCtrl = function CallLogCallCtrl(props) {
       transferRef = props.transferRef,
       isOnTransfer = props.isOnTransfer,
       isCurrentDeviceCall = props.isCurrentDeviceCall,
-      isWebphone = props.isWebphone,
       sendDTMF = props.sendDTMF,
       forward = props.forward,
       answer = props.answer,
@@ -40,7 +39,10 @@ var CallLogCallCtrl = function CallLogCallCtrl(props) {
       forwardingNumbers = props.forwardingNumbers,
       otherActiveCalls = props.otherActiveCalls,
       answerAndHold = props.answerAndHold,
-      answerAndEnd = props.answerAndEnd;
+      answerAndEnd = props.answerAndEnd,
+      realOutboundCallStatus = props.realOutboundCallStatus,
+      dialpadToggleTrack = props.dialpadToggleTrack,
+      clickForwardTrack = props.clickForwardTrack;
 
   if (!currentSession) {
     return null;
@@ -171,8 +173,7 @@ var CallLogCallCtrl = function CallLogCallCtrl(props) {
     disableLinks: disableLinks,
     isWide: isWide,
     transferRef: transferRef,
-    isOnTransfer: isOnTransfer //  isWebphone={isWebphone}
-    ,
+    isOnTransfer: isOnTransfer,
     isCurrentDeviceCall: isCurrentDeviceCall,
     sendDTMF: /*#__PURE__*/function () {
       var _ref9 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9(dtmfValue) {
@@ -273,7 +274,10 @@ var CallLogCallCtrl = function CallLogCallCtrl(props) {
           }
         }
       }, _callee14);
-    }))
+    })),
+    realOutboundCallStatus: realOutboundCallStatus,
+    dialpadToggleTrack: dialpadToggleTrack,
+    clickForwardTrack: clickForwardTrack
   });
 };
 
@@ -285,6 +289,7 @@ CallLogCallCtrl.defaultProps = {
   disableLinks: false,
   isWide: true,
   transferRef: undefined,
-  isOnTransfer: false
+  isOnTransfer: false,
+  realOutboundCallStatus: ''
 };
 //# sourceMappingURL=CallLogCallCtrl.js.map

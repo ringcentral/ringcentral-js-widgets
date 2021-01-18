@@ -12,7 +12,7 @@ var _default = {
   editLog: "Log bewerken",
   select: "Selecteer overeenkomend",
   OnHold: "In wacht",
-  Ringing: "Aan het bellen",
+  Ringing: "Gaat over",
   CallConnected: "Oproep verbonden",
   unknownUser: "Onbekende gebruiker",
   unknownNumber: "Anoniem",

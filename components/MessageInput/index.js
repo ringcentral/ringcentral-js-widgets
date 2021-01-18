@@ -45,9 +45,9 @@ var _classnames = _interopRequireDefault(require("classnames"));
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _iconAttachment = _interopRequireDefault(require("@ringcentral/juno/icons/icon-attachment.svg"));
+var _Attachment = _interopRequireDefault(require("@ringcentral/juno/icon/Attachment"));
 
-var _iconClose = _interopRequireDefault(require("@ringcentral/juno/icons/icon-close.svg"));
+var _Close = _interopRequireDefault(require("@ringcentral/juno/icon/Close"));
 
 var _juno = require("@ringcentral/juno");
 
@@ -274,7 +274,7 @@ var MessageInput = /*#__PURE__*/function (_Component) {
       }, /*#__PURE__*/_react["default"].createElement(_juno.RcIconButton, {
         variant: "round",
         size: "small",
-        symbol: _iconAttachment["default"],
+        symbol: _Attachment["default"],
         onClick: this.onAttachmentIconClick
       }), /*#__PURE__*/_react["default"].createElement("input", {
         type: "file",
@@ -319,7 +319,7 @@ var MessageInput = /*#__PURE__*/function (_Component) {
           className: _styles["default"].attachmentRemoveIcon
         }, /*#__PURE__*/_react["default"].createElement(_juno.RcIconButton, {
           size: "small",
-          symbol: _iconClose["default"],
+          symbol: _Close["default"],
           onClick: function onClick() {
             removeAttachment(attachment);
           }

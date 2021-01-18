@@ -122,9 +122,11 @@ function ActiveCallList(_ref) {
   }
 
   return /*#__PURE__*/_react["default"].createElement("div", {
-    className: (0, _classnames["default"])(_styles["default"].list, className)
+    className: (0, _classnames["default"])(_styles["default"].list, className),
+    "data-sign": "callList"
   }, /*#__PURE__*/_react["default"].createElement("div", {
-    className: _styles["default"].listTitle
+    className: _styles["default"].listTitle,
+    "data-sign": "callListTitle"
   }, title), calls.map(function (call) {
     return /*#__PURE__*/_react["default"].createElement(_ActiveCallItem["default"], {
       call: call,

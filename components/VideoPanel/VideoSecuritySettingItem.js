@@ -15,7 +15,7 @@ var _react = _interopRequireDefault(require("react"));
 
 var _juno = require("@ringcentral/juno");
 
-var _iconLock_border = _interopRequireDefault(require("@ringcentral/juno/icons/icon-lock_border.svg"));
+var _LockBorder = _interopRequireDefault(require("@ringcentral/juno/icon/LockBorder"));
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
@@ -31,11 +31,12 @@ function generateLockIcon(isLock, currentLocale, hasScrollBar) {
       tooltip: _styles["default"].tooltip
     },
     placement: "bottom",
+    "data-sign": "lockButtonTooltip",
     title: _i18n["default"].getString('lockTooltip', currentLocale)
   }, /*#__PURE__*/_react["default"].createElement(_juno.RcIcon, {
     size: "small",
     className: _styles["default"].lockButton,
-    symbol: _iconLock_border["default"]
+    symbol: _LockBorder["default"]
   })) : null;
 }
 

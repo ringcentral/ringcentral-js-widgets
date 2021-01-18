@@ -49,6 +49,7 @@ export default class VideoUI extends RcUIModule {
         disabled ||
         !this._connectivityMonitor.connectivity ||
         (this._rateLimiter && this._rateLimiter.throttling),
+      hasSettingsChanged: this._rcVideo.hasSettingsChanged,
     };
   }
 
@@ -78,6 +79,7 @@ export default class VideoUI extends RcUIModule {
           await this._rcVideo.createMeeting(meetingInfo);
         }
       },
+      updateHasSettingsChanged: this._rcVideo.updateHasSettingsChanged,
       init: () => {
         this._rcVideo.init();
       },

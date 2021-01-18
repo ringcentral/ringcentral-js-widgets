@@ -11,8 +11,8 @@ var _default = {
   ignore: "Ignorar",
   toVoicemail: "A buzón de voz",
   answer: "Responder",
-  endAndAnswer: "Finalizar y responder",
-  holdAndAnswer: "Poner en espera y responder",
+  endAndAnswer: "Final. y respon.",
+  holdAndAnswer: "En espera y resp.",
   custom: "Personalizado"
 }; // @key: @#@"forward"@#@ @source: @#@"Forward"@#@
 // @key: @#@"ignore"@#@ @source: @#@"Ignore"@#@

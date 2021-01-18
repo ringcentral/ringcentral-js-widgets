@@ -11,7 +11,7 @@ var _react = _interopRequireDefault(require("react"));
 
 var _juno = require("@ringcentral/juno");
 
-var _iconArrow_down = _interopRequireDefault(require("@ringcentral/juno/icons/icon-arrow_down.svg"));
+var _ArrowDown = _interopRequireDefault(require("@ringcentral/juno/icon/ArrowDown2"));
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
@@ -30,7 +30,7 @@ var VideoSettingGroup = function VideoSettingGroup(_ref) {
     },
     defaultExpanded: defaultExpanded,
     disabled: !expandable
-  }, /*#__PURE__*/_react["default"].createElement(_juno.RcExpansionPanelSummary, {
+  }, summary ? /*#__PURE__*/_react["default"].createElement(_juno.RcExpansionPanelSummary, {
     classes: {
       root: _styles["default"].expansionPanelSummary,
       content: _styles["default"].expansionPanelSummaryContent,
@@ -38,10 +38,10 @@ var VideoSettingGroup = function VideoSettingGroup(_ref) {
     },
     expandIcon: expandable ? /*#__PURE__*/_react["default"].createElement(_juno.RcIconButton, {
       variant: "round",
-      symbol: _iconArrow_down["default"]
+      symbol: _ArrowDown["default"]
     }) : null,
     "data-sign": "".concat(dataSign, "Summary")
-  }, summary), /*#__PURE__*/_react["default"].createElement(_juno.RcExpansionPanelDetails, {
+  }, summary) : null, /*#__PURE__*/_react["default"].createElement(_juno.RcExpansionPanelDetails, {
     classes: {
       root: _styles["default"].expansionPanelDetails
     },

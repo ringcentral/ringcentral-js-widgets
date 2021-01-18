@@ -1,0 +1,35 @@
+@import '../../lib/commonStyles/variable';
+
+.callHistoryPanel {
+  @include flex_column;
+
+  border-top: 1px solid rc-palette(border, light);
+  background-color: rc-palette(background, default);
+  height: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+  position: relative;
+}
+
+.date {
+  @include rc-typography('caption1');
+
+  color: rc-palette(text, dark);
+  text-align: center;
+  display: block;
+  height: 32px;
+  line-height: 32px;
+  background: rc-palette(background, default);
+  box-sizing: border-box;
+  border-bottom: 1px solid rc-palette(border, light);
+  position: sticky;
+  top: 0;
+  z-index: 2 !important;
+}
+
+.empty {
+  @include display_flex;
+  @include flex-center;
+
+  height: 100%;
+}

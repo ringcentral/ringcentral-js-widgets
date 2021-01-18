@@ -9,10 +9,10 @@ exports["default"] = void 0;
 var _default = {
   forward: "Transférer",
   ignore: "Ignorer",
-  toVoicemail: "Vers la messagerie vocale",
+  toVoicemail: "Vers messag.",
   answer: "Répondre",
-  endAndAnswer: "Terminer et répondre",
-  holdAndAnswer: "Mettre en attente et répondre",
+  endAndAnswer: "Fin et rép.",
+  holdAndAnswer: "Attente et rép.",
   custom: "Personnalisé"
 }; // @key: @#@"forward"@#@ @source: @#@"Forward"@#@
 // @key: @#@"ignore"@#@ @source: @#@"Ignore"@#@

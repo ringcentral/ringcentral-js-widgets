@@ -22,6 +22,9 @@ var _default = {
   meetingOptions: "会议选项",
   requirePassword: "需要会议密码",
   password: "密码",
+  rcmPasswordHintText: "密码应包含 1 到 10 个字符和数字，且不能使用除 @、* 或 - 以外的特殊符号",
+  passwordEmptyError: "会议密码为必填项",
+  rcmPasswordInvalidError: "密码必须包含 1 到 10 个字符和数字，且不能使用除 @、* 或 - 以外的特殊符号",
   enableJoinBeforeHost: "允许在主持人进入会议前加入",
   telephonyOnly: "仅电话",
   hostVideoOn: "主持人视频开启",
@@ -51,6 +54,9 @@ var _default = {
 // @key: @#@"meetingOptions"@#@ @source: @#@"Meeting options"@#@
 // @key: @#@"requirePassword"@#@ @source: @#@"Require meeting password"@#@
 // @key: @#@"password"@#@ @source: @#@"Password"@#@
+// @key: @#@"rcmPasswordHintText"@#@ @source: @#@"Your password should be 1-10 characters, numbers long and cannot have symbols except @, * or -"@#@
+// @key: @#@"passwordEmptyError"@#@ @source: @#@"Meeting password required"@#@
+// @key: @#@"rcmPasswordInvalidError"@#@ @source: @#@"Your password must be 1-10 characters, numbers long and cannot have symbols except @, * or -"@#@
 // @key: @#@"enableJoinBeforeHost"@#@ @source: @#@"Enable join before host"@#@
 // @key: @#@"telephonyOnly"@#@ @source: @#@"Telephony Only"@#@
 // @key: @#@"hostVideoOn"@#@ @source: @#@"Host Video On"@#@

@@ -51,13 +51,15 @@ var _telephonyStatus = _interopRequireDefault(require("ringcentral-integration/e
 
 var _recordStatus = _interopRequireDefault(require("ringcentral-integration/modules/Webphone/recordStatus"));
 
-var _iconTransferCall = _interopRequireDefault(require("@ringcentral/juno/icons/icon-transfer-call.svg"));
+var _TransferCall = _interopRequireDefault(require("@ringcentral/juno/icon/TransferCall"));
 
-var _iconHold = _interopRequireDefault(require("@ringcentral/juno/icons/icon-hold.svg"));
+var _Hold = _interopRequireDefault(require("@ringcentral/juno/icon/Hold"));
 
-var _iconIgnore = _interopRequireDefault(require("@ringcentral/juno/icons/icon-ignore.svg"));
+var _Ignore = _interopRequireDefault(require("@ringcentral/juno/icon/Ignore"));
 
-var _iconVoicemail = _interopRequireDefault(require("@ringcentral/juno/icons/icon-voicemail.svg"));
+var _Voicemail = _interopRequireDefault(require("@ringcentral/juno/icon/Voicemail"));
+
+var _telephonySessionStatus = require("ringcentral-integration/enums/telephonySessionStatus");
 
 var _Forward_white = _interopRequireDefault(require("../../assets/images/Forward_white.svg"));
 
@@ -73,7 +75,7 @@ var _CallLogDialpad = require("./CallLogDialpad");
 
 var _End = _interopRequireDefault(require("../../assets/images/End.svg"));
 
-var _Hold = _interopRequireDefault(require("../../assets/images/Hold.svg"));
+var _Hold2 = _interopRequireDefault(require("../../assets/images/Hold.svg"));
 
 var _Mute = _interopRequireDefault(require("../../assets/images/Mute.svg"));
 
@@ -153,9 +155,15 @@ var CallLogCallCtrlComponent = function CallLogCallCtrlComponent(props) {
       ignore = props.ignore,
       otherActiveCalls = props.otherActiveCalls,
       answerAndHold = props.answerAndHold,
-      answerAndEnd = props.answerAndEnd; // reject conditions: call direction is inbound & call status is ringing
+      answerAndEnd = props.answerAndEnd,
+      realOutboundCallStatus = props.realOutboundCallStatus,
+      dialpadToggleTrack = props.dialpadToggleTrack,
+      clickForwardTrack = props.clickForwardTrack; // reject conditions: call direction is inbound & call status is ringing
 
-  var isInComingCall = _callDirections["default"].inbound === callDirection && _telephonyStatus["default"].ringing === callStatus;
+  var isInComingCall = _callDirections["default"].inbound === callDirection && _telephonyStatus["default"].ringing === callStatus; // real outbound call status
+
+  var isOutboundCallConnecting = realOutboundCallStatus === _telephonySessionStatus.telephonySessionStatus.proceeding;
+  var isOutboundCallOnVoiceMail = realOutboundCallStatus === _telephonySessionStatus.telephonySessionStatus.voicemail;
   var muteIcon = isOnMute ? _Mute["default"] : _Unmute["default"];
   var muteAction = isOnMute ? onUnmute : onMute;
   var muteTitle = isOnMute ? 'unmute' : 'mute';
@@ -171,6 +179,7 @@ var CallLogCallCtrlComponent = function CallLogCallCtrlComponent(props) {
       onDialpadShow = _useState2[1];
 
   var toggleDialpadShow = function toggleDialpadShow() {
+    dialpadToggleTrack(!dialpadShow);
     onDialpadShow(!dialpadShow);
   }; // WebRTC logic
 
@@ -228,7 +237,7 @@ var CallLogCallCtrlComponent = function CallLogCallCtrlComponent(props) {
     };
   });
 
-  var handleClick = function handleClick(event) {
+  var _handleClick = function handleClick(event) {
     setAnchorEl(event.currentTarget);
   };
 
@@ -247,24 +256,27 @@ var CallLogCallCtrlComponent = function CallLogCallCtrlComponent(props) {
     var recordAction = isRecording ? stopRecord : startRecordAction;
     var keypadText = dialpadShow ? 'hideKeypad' : 'showKeypad';
     var onHoldText = isOnHold ? 'unHold' : 'hold';
+    var recordDisabled = recordPendingState || isOnHold || isOutboundCallConnecting || isOutboundCallOnVoiceMail;
+    var holdDisabled = disableLinks || isOutboundCallConnecting;
     var moreActions = [{
-      icon: _iconTransferCall["default"],
+      icon: _TransferCall["default"],
       key: 'transfer',
       onClick: onTransfer,
       iconClassName: (0, _classnames16["default"])(_defineProperty({}, _styles["default"].moreActionIcon, true)),
       text: _i18n["default"].getString('transfer', currentLocale)
     }, {
-      icon: _iconHold["default"],
+      icon: _Hold["default"],
       key: onHoldText,
       onClick: holdAction,
       iconClassName: (0, _classnames16["default"])((_classnames2 = {}, _defineProperty(_classnames2, _styles["default"].moreActionIcon, true), _defineProperty(_classnames2, _styles["default"].holdActive, isOnHold), _classnames2)),
+      disabled: holdDisabled,
       text: _i18n["default"].getString(onHoldText, currentLocale)
     }, {
       icon: isRecording ? _RecordOn["default"] : _RecordOff["default"],
       key: recordingText,
       onClick: recordAction,
       iconClassName: (0, _classnames16["default"])((_classnames3 = {}, _defineProperty(_classnames3, _styles["default"].moreActionIcon, true), _defineProperty(_classnames3, _styles["default"].recordingIcon, true), _defineProperty(_classnames3, _styles["default"].recordingDisabled, recordPendingState), _classnames3)),
-      disabled: recordPendingState || isOnHold,
+      disabled: recordDisabled,
       text: _i18n["default"].getString(recordingText, currentLocale)
     }];
     var rootButtonProps = {
@@ -290,11 +302,12 @@ var CallLogCallCtrlComponent = function CallLogCallCtrlComponent(props) {
       disabled: disableLinks || isInComingCall,
       onClick: toggleDialpadShow
     })), /*#__PURE__*/_react["default"].createElement(_MoreActionComponent.MoreActionComponent, {
+      dataSign: "more",
       rootButtonProps: rootButtonProps,
       actionsList: moreActions,
       currentLocale: currentLocale,
       disabled: disableLinks || disabledCtrl,
-      handleClick: handleClick,
+      handleClick: _handleClick,
       handleClose: handleClose,
       anchorEl: anchorEl
     }), /*#__PURE__*/_react["default"].createElement("span", {
@@ -320,12 +333,6 @@ var CallLogCallCtrlComponent = function CallLogCallCtrlComponent(props) {
     var _classnames9, _classnames10;
 
     var forwardTitle = _i18n["default"].getString('forward', currentLocale);
-
-    var ignoreTitle = _i18n["default"].getString('ignore', currentLocale);
-
-    var voicemailTitle = _i18n["default"].getString('voicemail', currentLocale);
-
-    var answerTitle = _i18n["default"].getString('answer', currentLocale);
 
     var onForward = function onForward(e) {
       e.stopPropagation();
@@ -359,10 +366,15 @@ var CallLogCallCtrlComponent = function CallLogCallCtrlComponent(props) {
     return /*#__PURE__*/_react["default"].createElement("div", {
       className: (0, _classnames16["default"])(!isWide ? _styles["default"].classic : null, _styles["default"].root)
     }, /*#__PURE__*/_react["default"].createElement(_MoreActionComponent.MoreActionComponent, {
+      dataSign: !anchorEl ? 'forward' : 'forwardActive',
       rootButtonProps: _rootButtonProps,
       actionsList: forwardList,
       currentLocale: currentLocale,
-      handleClick: handleClick,
+      handleClick: function handleClick(e) {
+        clickForwardTrack();
+
+        _handleClick(e);
+      },
       handleClose: handleClose,
       anchorEl: anchorEl,
       withSubText: true,
@@ -370,10 +382,10 @@ var CallLogCallCtrlComponent = function CallLogCallCtrlComponent(props) {
         paper: _styles["default"].forwardPopover
       }
     }), /*#__PURE__*/_react["default"].createElement("span", {
-      title: ignoreTitle
+      title: _i18n["default"].getString('ignore', currentLocale)
     }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
-      dataSign: ignoreTitle,
-      icon: _iconIgnore["default"],
+      dataSign: "ignore",
+      icon: _Ignore["default"],
       iconWidth: 250,
       iconHeight: 250,
       iconX: 125,
@@ -382,11 +394,11 @@ var CallLogCallCtrlComponent = function CallLogCallCtrlComponent(props) {
       disabled: disableLinks,
       onClick: ignore
     })), /*#__PURE__*/_react["default"].createElement("span", {
-      title: voicemailTitle
+      title: _i18n["default"].getString('voicemail', currentLocale)
     }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
-      dataSign: voicemailTitle,
+      dataSign: "voicemail",
       showBorder: false,
-      icon: _iconVoicemail["default"],
+      icon: _Voicemail["default"],
       iconWidth: 250,
       iconHeight: 250,
       iconX: 125,
@@ -395,9 +407,9 @@ var CallLogCallCtrlComponent = function CallLogCallCtrlComponent(props) {
       className: (0, _classnames16["default"])((_classnames9 = {}, _defineProperty(_classnames9, _styles["default"].hangup, true), _defineProperty(_classnames9, _styles["default"].button, true), _defineProperty(_classnames9, _styles["default"].buttonDisabled, disableLinks), _classnames9)),
       disabled: disableLinks
     })), /*#__PURE__*/_react["default"].createElement("span", {
-      title: answerTitle
+      title: _i18n["default"].getString('answer', currentLocale)
     }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
-      dataSign: answerTitle,
+      dataSign: "answer",
       showBorder: false,
       icon: _Answer["default"],
       onClick: answer,
@@ -409,20 +421,19 @@ var CallLogCallCtrlComponent = function CallLogCallCtrlComponent(props) {
   if (isWebRTCCall && onGoingActiveCalls && isInComingCall) {
     var _classnames11;
 
-    var _voicemailTitle = _i18n["default"].getString('voicemail', currentLocale);
-
     return /*#__PURE__*/_react["default"].createElement("div", {
       className: (0, _classnames16["default"])(!isWide ? _styles["default"].classic : null, _styles["default"].root)
     }, /*#__PURE__*/_react["default"].createElement("span", {
+      "data-sign": "endAndAnswer",
       title: _i18n["default"].getString('answerAndEnd', currentLocale),
       className: _styles["default"].answerButton,
       onClick: answerAndEnd
     }, /*#__PURE__*/_react["default"].createElement(_EndAnswer["default"], null)), /*#__PURE__*/_react["default"].createElement("span", {
-      title: _voicemailTitle
+      title: _i18n["default"].getString('voicemail', currentLocale)
     }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
-      dataSign: _voicemailTitle,
+      dataSign: "voicemail",
       showBorder: false,
-      icon: _iconVoicemail["default"],
+      icon: _Voicemail["default"],
       iconWidth: 250,
       iconHeight: 250,
       iconX: 125,
@@ -431,6 +442,7 @@ var CallLogCallCtrlComponent = function CallLogCallCtrlComponent(props) {
       className: (0, _classnames16["default"])((_classnames11 = {}, _defineProperty(_classnames11, _styles["default"].hangup, true), _defineProperty(_classnames11, _styles["default"].button, true), _defineProperty(_classnames11, _styles["default"].buttonDisabled, disableLinks), _classnames11)),
       disabled: disableLinks
     })), /*#__PURE__*/_react["default"].createElement("span", {
+      "data-sign": "holdAndAnswer",
       title: _i18n["default"].getString('answerAndHold', currentLocale),
       className: _styles["default"].answerButton,
       onClick: answerAndHold
@@ -439,7 +451,8 @@ var CallLogCallCtrlComponent = function CallLogCallCtrlComponent(props) {
       disabled: disableLinks,
       forwardingNumbers: forwardingNumbers,
       forward: forward,
-      ignore: ignore
+      ignore: ignore,
+      clickForwardTrack: clickForwardTrack
     }));
   }
 
@@ -466,10 +479,10 @@ var CallLogCallCtrlComponent = function CallLogCallCtrlComponent(props) {
     title: _i18n["default"].getString(holdTitle, currentLocale)
   }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
     dataSign: holdTitle,
-    icon: _Hold["default"],
+    icon: _Hold2["default"],
     onClick: holdAction,
-    className: (0, _classnames16["default"])((_classnames14 = {}, _defineProperty(_classnames14, _styles["default"].button, true), _defineProperty(_classnames14, _styles["default"].buttonActive, isOnHold), _defineProperty(_classnames14, _styles["default"].buttonDisabled, isInComingCall || disableLinks), _classnames14)),
-    disabled: disableLinks || isInComingCall
+    className: (0, _classnames16["default"])((_classnames14 = {}, _defineProperty(_classnames14, _styles["default"].button, true), _defineProperty(_classnames14, _styles["default"].buttonActive, isOnHold), _defineProperty(_classnames14, _styles["default"].buttonDisabled, isInComingCall || disableLinks || isOutboundCallConnecting), _classnames14)),
+    disabled: disableLinks || isInComingCall || isOutboundCallConnecting
   })), /*#__PURE__*/_react["default"].createElement("span", {
     title: _i18n["default"].getString(endTitle, currentLocale)
   }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
@@ -512,7 +525,10 @@ CallLogCallCtrlComponent.propTypes = {
   ignore: _propTypes["default"].func,
   otherActiveCalls: _propTypes["default"].bool,
   answerAndHold: _propTypes["default"].func,
-  answerAndEnd: _propTypes["default"].func
+  answerAndEnd: _propTypes["default"].func,
+  dialpadToggleTrack: _propTypes["default"].func,
+  clickForwardTrack: _propTypes["default"].func,
+  realOutboundCallStatus: _propTypes["default"].string
 };
 CallLogCallCtrlComponent.defaultProps = {
   onMute: function onMute() {},
@@ -539,7 +555,10 @@ CallLogCallCtrlComponent.defaultProps = {
   ignore: function ignore() {},
   otherActiveCalls: false,
   answerAndEnd: function answerAndEnd() {},
-  answerAndHold: function answerAndHold() {}
+  answerAndHold: function answerAndHold() {},
+  dialpadToggleTrack: function dialpadToggleTrack(i) {},
+  clickForwardTrack: function clickForwardTrack() {},
+  realOutboundCallStatus: ''
 };
 var _default = CallLogCallCtrlComponent;
 exports["default"] = _default;

@@ -55,9 +55,9 @@ var _classnames = _interopRequireDefault(require("classnames"));
 
 var _isBlank = _interopRequireDefault(require("ringcentral-integration/lib/isBlank"));
 
-var _iconDefaultFile = _interopRequireDefault(require("@ringcentral/juno/icons/icon-default-file.svg"));
+var _DefaultFile = _interopRequireDefault(require("@ringcentral/juno/icon/DefaultFile"));
 
-var _iconDownload = _interopRequireDefault(require("@ringcentral/juno/icons/icon-download.svg"));
+var _Download = _interopRequireDefault(require("@ringcentral/juno/icon/Download"));
 
 var _juno = require("@ringcentral/juno");
 
@@ -139,7 +139,7 @@ var Message = function Message(_ref) {
       className: _styles["default"].file
     }, /*#__PURE__*/_react["default"].createElement(_juno.RcIcon, {
       size: "small",
-      symbol: _iconDefaultFile["default"]
+      symbol: _DefaultFile["default"]
     }), /*#__PURE__*/_react["default"].createElement("span", {
       className: _styles["default"].fileName
     }, fileName), /*#__PURE__*/_react["default"].createElement("a", {
@@ -155,17 +155,19 @@ var Message = function Message(_ref) {
       href: "".concat(attachment.uri, "&contentDisposition=Attachment")
     }, /*#__PURE__*/_react["default"].createElement(_juno.RcIcon, {
       size: "small",
-      symbol: _iconDownload["default"]
+      symbol: _Download["default"]
     })));
   });
   return /*#__PURE__*/_react["default"].createElement("div", {
     "data-sign": "message",
     className: _styles["default"].message
   }, time ? /*#__PURE__*/_react["default"].createElement("div", {
-    className: _styles["default"].time
+    className: _styles["default"].time,
+    "data-sign": "conversationSendTime"
   }, time) : null, sender && direction === 'Inbound' ? /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].sender
   }, sender) : null, /*#__PURE__*/_react["default"].createElement("div", {
+    "data-sign": "".concat(direction, "Text"),
     className: (0, _classnames["default"])(_styles["default"].messageBody, direction === 'Outbound' ? _styles["default"].outbound : _styles["default"].inbound, subject && subject.length > 500 && _styles["default"].big)
   }, subjectNode, imageAttachments, otherAttachments), /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].clear

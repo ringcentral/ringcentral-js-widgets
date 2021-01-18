@@ -1,0 +1,29 @@
+@import '../../../lib/commonStyles/variable';
+
+.item {
+  display: flex;
+  align-items: center;
+  height: 64px;
+  box-sizing: border-box;
+  padding: 12px 18px;
+  border-bottom: 1px solid rc-palette(border, light);
+}
+
+.info {
+  margin-left: 14px;
+  display: flex;
+  flex-flow: column;
+}
+
+.name {
+  @include rc-typography('body1');
+
+  color: rc-palette(text, dark);
+  margin-bottom: 2px;
+}
+
+.time {
+  @include rc-typography('caption1');
+
+  color: rc-palette(text, subdued);
+}

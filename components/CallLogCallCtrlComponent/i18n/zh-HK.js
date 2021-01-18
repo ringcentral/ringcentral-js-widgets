@@ -19,13 +19,14 @@ var _default = {
   record: "記錄",
   showKeypad: "撥號盤",
   hideKeypad: "隱藏撥號盤",
-  unHold: "不等候",
+  unHold: "取消通話保留",
   forward: "轉接",
   ignore: "略過",
-  voicemail: "語音信箱",
+  voicemail: "轉語音訊息",
   custom: "自訂",
   answerAndEnd: "回答並結束",
-  answerAndHold: "回答並等候"
+  answerAndHold: "回答並等候",
+  answer: "接聽"
 }; // @key: @#@"mute"@#@ @source: @#@"Mute"@#@
 // @key: @#@"unmute"@#@ @source: @#@"Unmute"@#@
 // @key: @#@"hangup"@#@ @source: @#@"Hang up"@#@
@@ -41,10 +42,11 @@ var _default = {
 // @key: @#@"unHold"@#@ @source: @#@"Unhold"@#@
 // @key: @#@"forward"@#@ @source: @#@"Forward"@#@
 // @key: @#@"ignore"@#@ @source: @#@"Ignore"@#@
-// @key: @#@"voicemail"@#@ @source: @#@"Voicemail"@#@
+// @key: @#@"voicemail"@#@ @source: @#@"To Voicemail"@#@
 // @key: @#@"custom"@#@ @source: @#@"Custom"@#@
 // @key: @#@"answerAndEnd"@#@ @source: @#@"Answer & End"@#@
 // @key: @#@"answerAndHold"@#@ @source: @#@"Answer & Hold"@#@
+// @key: @#@"answer"@#@ @source: @#@"Answer"@#@
 
 exports["default"] = _default;
 //# sourceMappingURL=zh-HK.js.map

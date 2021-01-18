@@ -37,6 +37,8 @@ require("core-js/modules/es6.reflect.construct");
 
 require("core-js/modules/es6.object.set-prototype-of");
 
+require("core-js/modules/es6.number.constructor");
+
 var _juno = require("@ringcentral/juno");
 
 var _classnames = _interopRequireDefault(require("classnames"));
@@ -128,18 +130,20 @@ var LogFieldsInput = /*#__PURE__*/function (_Component) {
           _onChange = _this$props.onChange,
           required = _this$props.required,
           error = _this$props.error,
-          rest = _objectWithoutProperties(_this$props, ["onChange", "required", "error"]);
+          type = _this$props.type,
+          rest = _objectWithoutProperties(_this$props, ["onChange", "required", "error", "type"]);
 
       var value = this.state.value;
       var styleRequired = required ? _styles["default"].isRequired : null;
       return /*#__PURE__*/_react["default"].createElement("div", {
         className: (0, _classnames["default"])(styleRequired, _styles["default"].commonStyle)
       }, /*#__PURE__*/_react["default"].createElement(_juno.RcTextField, _extends({}, rest, {
+        type: type,
         required: required,
         error: error,
         value: value,
         onChange: function onChange(e) {
-          return _this2.updateValue(e.target.value, _onChange);
+          return _this2.updateValue(type === 'number' ? Number(e.target.value) : e.target.value, _onChange);
         },
         fullWidth: true,
         clearBtn: false

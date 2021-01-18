@@ -41,7 +41,7 @@ require("core-js/modules/es6.array.filter");
 
 var _juno = require("@ringcentral/juno");
 
-var _iconSearch = _interopRequireDefault(require("@ringcentral/juno/icons/icon-search.svg"));
+var _Search = _interopRequireDefault(require("@ringcentral/juno/icon/Search"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
@@ -190,7 +190,7 @@ var SelectListBasic = function SelectListBasic(_ref) {
     size: "small",
     radiusType: "circle",
     iconPosition: "left",
-    symbol: _iconSearch["default"],
+    symbol: _Search["default"],
     "data-sign": "searchBar",
     onChange: function onChange(event) {
       if (event.target) {
@@ -219,13 +219,15 @@ var SelectListBasic = function SelectListBasic(_ref) {
     "data-sign": "searchResult"
   }, hasResult || showFoundFromServer ? /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement("div", {
     ref: matchElmRef,
-    className: _styles["default"].text
+    className: _styles["default"].text,
+    "data-sign": matchedTitle
   }, matchedTitle && /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].title
   }, matchedTitle, " (", matchOptions.length, ")"), matchOptions.length > 0 && renderListView(matchOptions, 'matched', filter, function (elm, type) {
     return scrollCheck(scrollElmRef, matchElmRef, elm, type);
   })), /*#__PURE__*/_react["default"].createElement("div", {
-    className: _styles["default"].text
+    className: _styles["default"].text,
+    "data-sign": otherTitle
   }, otherTitle && /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].title
   }, otherTitle, " (", matchOtherOptions.length, ")"), matchOtherOptions.length > 0 && renderListView(matchOtherOptions, 'other', filter, function (elm, type) {

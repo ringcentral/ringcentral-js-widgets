@@ -161,17 +161,11 @@ var CallLogPanel = /*#__PURE__*/function (_Component) {
           isWide = _this$props2.isWide,
           showSmallCallControl = _this$props2.showSmallCallControl;
       var call = currentLog.call;
-      var result = call.result,
-          telephonySessionId = call.telephonySessionId,
+      var telephonySessionId = call.telephonySessionId,
           webphoneSession = call.webphoneSession;
-      var isCurrentDeviceCall = !!webphoneSession; // if `result` is exist, call has been disconnect
-      // 'showSmallCallControl || isActive' can be replaced with 'showSmallCallControl'
-      // which include showSmallCallControl permission and isActive judgement(eg: canShowSmallCallControl && isActive) on UI module in the future
-      // Then we can remove the logic from component to UI module like 'engage-voice-widget/modules/EvActivityCallUI/EvActivityCallUI'
+      var isCurrentDeviceCall = !!webphoneSession;
 
-      var isActive = !result;
-
-      if (showSmallCallControl || isActive) {
+      if (showSmallCallControl) {
         return /*#__PURE__*/_react["default"].createElement("div", {
           ref: callLogCallControlRef,
           className: (0, _classnames["default"])(_styles["default"].callControlRoot, callLogCallControl)
@@ -193,7 +187,6 @@ var CallLogPanel = /*#__PURE__*/function (_Component) {
           additionalInfo = _this$props3.additionalInfo,
           subjectDropdownsTracker = _this$props3.subjectDropdownsTracker,
           contactSearch = _this$props3.contactSearch,
-          onBackClick = _this$props3.onBackClick,
           showFoundFromServer = _this$props3.showFoundFromServer,
           appName = _this$props3.appName,
           isSearching = _this$props3.isSearching,
@@ -207,7 +200,6 @@ var CallLogPanel = /*#__PURE__*/function (_Component) {
         additionalInfo: additionalInfo,
         subjectDropdownsTracker: subjectDropdownsTracker,
         contactSearch: contactSearch,
-        onBackClick: onBackClick,
         showFoundFromServer: showFoundFromServer,
         appName: appName,
         isSearching: isSearching,
@@ -296,7 +288,8 @@ var CallLogPanel = /*#__PURE__*/function (_Component) {
           holdAndAnswer = _this$props6.holdAndAnswer,
           toVoicemail = _this$props6.toVoicemail,
           forwardingNumbers = _this$props6.forwardingNumbers,
-          answer = _this$props6.answer;
+          answer = _this$props6.answer,
+          clickForwardTrack = _this$props6.clickForwardTrack;
       var showNotification = logNotification.showNotification,
           call = logNotification.call,
           logName = logNotification.logName;
@@ -322,7 +315,8 @@ var CallLogPanel = /*#__PURE__*/function (_Component) {
           toVoicemail: toVoicemail,
           forwardingNumbers: forwardingNumbers,
           hasActiveSession: !!activeSession,
-          answer: answer
+          answer: answer,
+          clickForwardTrack: clickForwardTrack
         });
       }
 
@@ -381,7 +375,8 @@ var CallLogPanel = /*#__PURE__*/function (_Component) {
           backIcon = _this$props7.backIcon,
           header = _this$props7.header,
           isInTransferPage = _this$props7.isInTransferPage,
-          isWide = _this$props7.isWide;
+          isWide = _this$props7.isWide,
+          children = _this$props7.children;
       if (!currentIdentify || isInTransferPage) return null; // console.log(this.props.currentLog);
 
       return /*#__PURE__*/_react["default"].createElement("div", {
@@ -397,7 +392,7 @@ var CallLogPanel = /*#__PURE__*/function (_Component) {
         onBackClick: function onBackClick() {
           return _this2.goBack();
         }
-      }), this.renderLogSection());
+      }), this.renderLogSection(), children);
     }
   }]);
 

@@ -18,6 +18,7 @@ export type FieldItemOption = {
   enableScrollError?: boolean;
   referenceObjs?: string[];
   defaultValue?: string;
+  renderCondition?: string;
   onChange?: (value?: any) => any;
 } & Pick<RcTextFieldProps, 'helperText' | 'error' | 'disabled' | 'placeholder'>;
 
@@ -29,6 +30,9 @@ export type FieldItemType =
   | 'string'
   | 'integer'
   | 'double'
-  | 'combobox';
+  | 'long'
+  | 'combobox'
+  | 'radio'
+  | 'ticketSelectList';
 
 export type FieldsMap = { [p in FieldItemType]: () => JSX.Element };

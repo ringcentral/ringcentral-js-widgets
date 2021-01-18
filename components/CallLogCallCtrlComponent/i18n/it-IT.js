@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  mute: "Disatt. Audio",
+  mute: "Disatt. audio",
   unmute: "Riattiva audio",
   hangup: "Riaggancia",
   reject: "Rifiuta",
@@ -22,10 +22,11 @@ var _default = {
   unHold: "Interrompi l'attesa",
   forward: "Trasferisci",
   ignore: "Ignora",
-  voicemail: "Segreteria telefonica",
+  voicemail: "Alla segreteria telefonica",
   custom: "Personalizzato",
   answerAndEnd: "Rispondi e termina",
-  answerAndHold: "Rispondi e metti in attesa"
+  answerAndHold: "Rispondi e metti in attesa",
+  answer: "Rispondi"
 }; // @key: @#@"mute"@#@ @source: @#@"Mute"@#@
 // @key: @#@"unmute"@#@ @source: @#@"Unmute"@#@
 // @key: @#@"hangup"@#@ @source: @#@"Hang up"@#@
@@ -41,10 +42,11 @@ var _default = {
 // @key: @#@"unHold"@#@ @source: @#@"Unhold"@#@
 // @key: @#@"forward"@#@ @source: @#@"Forward"@#@
 // @key: @#@"ignore"@#@ @source: @#@"Ignore"@#@
-// @key: @#@"voicemail"@#@ @source: @#@"Voicemail"@#@
+// @key: @#@"voicemail"@#@ @source: @#@"To Voicemail"@#@
 // @key: @#@"custom"@#@ @source: @#@"Custom"@#@
 // @key: @#@"answerAndEnd"@#@ @source: @#@"Answer & End"@#@
 // @key: @#@"answerAndHold"@#@ @source: @#@"Answer & Hold"@#@
+// @key: @#@"answer"@#@ @source: @#@"Answer"@#@
 
 exports["default"] = _default;
 //# sourceMappingURL=it-IT.js.map

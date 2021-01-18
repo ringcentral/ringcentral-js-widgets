@@ -11,9 +11,9 @@ var _default = {
   reply: "Responder",
   ignore: "Ignorar",
   toVoicemail: "Para o correio de voz",
-  answer: "Responder",
-  answerAndEnd: "Responder e terminar",
-  answerAndHold: "Responder e em espera"
+  answer: "Atender",
+  answerAndEnd: "Atender e terminar",
+  answerAndHold: "Atender e em espera"
 }; // @key: @#@"forward"@#@ @source: @#@"Forward"@#@
 // @key: @#@"reply"@#@ @source: @#@"Reply"@#@
 // @key: @#@"ignore"@#@ @source: @#@"Ignore"@#@

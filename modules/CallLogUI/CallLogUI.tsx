@@ -23,7 +23,6 @@ import CallLogCallCtrlContainer from '../../containers/CallLogCallCtrlContainer'
     'CallLogSection',
     'RouterInteraction',
     'ActiveCallControl',
-    'EnvironmentOptions',
     'RolesAndPermissions',
     'ConnectivityMonitor',
     'CallingSettings',
@@ -53,7 +52,6 @@ class CallLogUI<T = {}>
       callLogSection,
       routerInteraction,
       activeCallControl,
-      environmentOptions,
       rolesAndPermissions,
       connectivityMonitor,
       callingSettings,
@@ -134,33 +132,34 @@ class CallLogUI<T = {}>
         return activeCallControl.hangUp(telephonySessionId);
       },
       onIgnore: (telephonySessionId: string) => {
-        callLogSection.closeLogNotification();
         activeCallControl.ignore?.(telephonySessionId);
+        callLogSection.closeLogNotification();
       },
       onForward: (phoneNumber: string, telephonySessionId: string) => {
         if (phoneNumber === 'custom') {
           routerInteraction.push(`/forward/${telephonySessionId}`);
         } else {
-          callLogSection.closeLogNotification();
           activeCallControl.forward?.(phoneNumber, telephonySessionId);
+          callLogSection.closeLogNotification();
         }
       },
       endAndAnswer: (telephonySessionId: string) => {
-        callLogSection.discardAndHandleNotification();
         activeCallControl.answerAndEnd?.(telephonySessionId);
+        callLogSection.discardAndHandleNotification();
       },
       holdAndAnswer: (telephonySessionId: string) => {
-        callLogSection.discardAndHandleNotification();
         activeCallControl.answerAndHold?.(telephonySessionId);
+        callLogSection.discardAndHandleNotification();
       },
       toVoicemail: (telephonySessionId: string) => {
-        callLogSection.closeLogNotification();
         activeCallControl.reject(telephonySessionId);
+        callLogSection.closeLogNotification();
       },
       answer: (telephonySessionId: string) => {
-        callLogSection.discardAndHandleNotification();
         activeCallControl.answer?.(telephonySessionId);
+        callLogSection.discardAndHandleNotification();
       },
+      clickForwardTrack: () => activeCallControl.clickForwardTrack?.(),
     };
   }
 }

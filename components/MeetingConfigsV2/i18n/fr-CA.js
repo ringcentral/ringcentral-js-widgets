@@ -9,11 +9,15 @@ require("core-js/modules/es6.object.define-property");
 
 var _Meeting = require("ringcentral-integration/modules/Meeting");
 
-var _voIPOnly$telephonyOn;
+var _date$time$duration$t;
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-var _default = (_voIPOnly$telephonyOn = {
+var _default = (_date$time$duration$t = {
+  date: "Date",
+  time: "Heure",
+  duration: "Durée",
+  topic: "Titre de la réunion",
   voIPOnly: "Son par Internet seulement",
   telephonyOnly: "Téléphone seulement",
   both: "Téléphone et son par Internet",
@@ -22,7 +26,11 @@ var _default = (_voIPOnly$telephonyOn = {
   video: "Vidéo",
   audio: "Audio",
   scheduleFor: "Planifier au nom de"
-}, _defineProperty(_voIPOnly$telephonyOn, _Meeting.ASSISTED_USERS_MYSELF, "Moi-même"), _defineProperty(_voIPOnly$telephonyOn, "meetingOptions", "Options de meeting"), _defineProperty(_voIPOnly$telephonyOn, "meetingSettings", "Paramètres de la réunion"), _defineProperty(_voIPOnly$telephonyOn, "rcMeetingSettings", "Paramètres de la vidéoconférence"), _defineProperty(_voIPOnly$telephonyOn, "audioOptions", "Options de son"), _defineProperty(_voIPOnly$telephonyOn, "recurringMeeting", "Réunion récurrente"), _defineProperty(_voIPOnly$telephonyOn, "recurringNote", "Remarque : Activez cette option lorsque vous choisissiez « Récurrence »"), _defineProperty(_voIPOnly$telephonyOn, "joinBeforeHost", "Autoriser les participants à se joindre à la réunion avant l'hôte"), _defineProperty(_voIPOnly$telephonyOn, "turnOffCamera", "Éteindre la caméra pour les participants"), _defineProperty(_voIPOnly$telephonyOn, "turnOffHostCamera", "Désactiver la caméra de l'hôte lorsqu'il se joint au meeting"), _defineProperty(_voIPOnly$telephonyOn, "requirePassword", "Exiger un mot de passe"), _defineProperty(_voIPOnly$telephonyOn, "setPassword", "Définir le mot de passe *"), _defineProperty(_voIPOnly$telephonyOn, "passwordEmptyError", "Mot de passe de réunion requis"), _defineProperty(_voIPOnly$telephonyOn, "rcmPasswordInvalidError", "Votre mot de passe doit contenir de 1 à 10 caractères, être composé de chiffres et ne peut pas comporter de symboles autres que @, * ou -"), _defineProperty(_voIPOnly$telephonyOn, "rcmPasswordHintText", "Votre mot de passe devrait contenir de 1 à 10 caractères, être composé de chiffres et ne peut pas comporter de symboles autres que @, * ou -"), _defineProperty(_voIPOnly$telephonyOn, "usePersonalMeetingId", "Utiliser le code de réunion personnel"), _defineProperty(_voIPOnly$telephonyOn, "pmiChangeConfirm", "Pour apporter des changements à votre meeting personnel, "), _defineProperty(_voIPOnly$telephonyOn, "changePmiSettings", "modifiez les paramètres PMI"), _defineProperty(_voIPOnly$telephonyOn, "pmiSettingChangeAlert", "Si vous modifiez les paramètres et planifiez ce meeting, tous les meetings avec le même PMI utiliseront ces paramètres."), _defineProperty(_voIPOnly$telephonyOn, "lockedTooltip", "Ces paramètres sont gérés par votre administrateur"), _voIPOnly$telephonyOn); // @key: @#@"voIPOnly"@#@ @source: @#@"Internet audio only"@#@
+}, _defineProperty(_date$time$duration$t, _Meeting.ASSISTED_USERS_MYSELF, "Moi-même"), _defineProperty(_date$time$duration$t, "meetingOptions", "Options de meeting"), _defineProperty(_date$time$duration$t, "meetingSettings", "Paramètres de la réunion"), _defineProperty(_date$time$duration$t, "rcMeetingSettings", "Paramètres de la vidéoconférence"), _defineProperty(_date$time$duration$t, "audioOptions", "Options de son"), _defineProperty(_date$time$duration$t, "recurringMeeting", "Réunion récurrente"), _defineProperty(_date$time$duration$t, "recurringNote", "Remarque : Activez cette option lorsque vous choisissiez « Récurrence »"), _defineProperty(_date$time$duration$t, "joinBeforeHost", "Autoriser les participants à se joindre à la réunion avant l'hôte"), _defineProperty(_date$time$duration$t, "turnOffCamera", "Éteindre la caméra pour les participants"), _defineProperty(_date$time$duration$t, "turnOffHostCamera", "Désactiver la caméra de l'hôte lorsqu'il se joint au meeting"), _defineProperty(_date$time$duration$t, "requirePassword", "Exiger un mot de passe"), _defineProperty(_date$time$duration$t, "setPassword", "Définir le mot de passe *"), _defineProperty(_date$time$duration$t, "passwordEmptyError", "Mot de passe de réunion requis"), _defineProperty(_date$time$duration$t, "rcmPasswordInvalidError", "Votre mot de passe doit contenir de 1 à 10 caractères, être composé de chiffres et ne peut pas comporter de symboles autres que @, * ou -"), _defineProperty(_date$time$duration$t, "rcmPasswordHintText", "Votre mot de passe devrait contenir de 1 à 10 caractères, être composé de chiffres et ne peut pas comporter de symboles autres que @, * ou -"), _defineProperty(_date$time$duration$t, "usePersonalMeetingId", "Utiliser le code de réunion personnel"), _defineProperty(_date$time$duration$t, "pmiChangeConfirm", "Pour apporter des changements à votre meeting personnel, "), _defineProperty(_date$time$duration$t, "changePmiSettings", "modifiez les paramètres PMI"), _defineProperty(_date$time$duration$t, "pmiSettingChangeAlert", "Si vous modifiez les paramètres et planifiez ce meeting, tous les meetings avec le même PMI utiliseront ces paramètres."), _defineProperty(_date$time$duration$t, "lockedTooltip", "Ces paramètres sont gérés par votre administrateur"), _defineProperty(_date$time$duration$t, "when", "Quand"), _defineProperty(_date$time$duration$t, "recurringDescribe", "N'oubliez pas de vérifier la périodicité ou la répétition dans l'invitation envoyée à vos participants."), _date$time$duration$t); // @key: @#@"date"@#@ @source: @#@"Date"@#@
+// @key: @#@"time"@#@ @source: @#@"Time"@#@
+// @key: @#@"duration"@#@ @source: @#@"Duration"@#@
+// @key: @#@"topic"@#@ @source: @#@"Meeting title"@#@
+// @key: @#@"voIPOnly"@#@ @source: @#@"Internet audio only"@#@
 // @key: @#@"telephonyOnly"@#@ @source: @#@"Telephone only"@#@
 // @key: @#@"both"@#@ @source: @#@"Telephone and Internet Audio"@#@
 // @key: @#@"meetingId"@#@ @source: @#@"Meeting ID"@#@
@@ -50,6 +58,8 @@ var _default = (_voIPOnly$telephonyOn = {
 // @key: @#@"changePmiSettings"@#@ @source: @#@"change PMI settings"@#@
 // @key: @#@"pmiSettingChangeAlert"@#@ @source: @#@"If you change the settings and schedule this meeting, all of meetings with Personal Meeting ID will use the same latest settings."@#@
 // @key: @#@"lockedTooltip"@#@ @source: @#@"This setting is managed by your company admin"@#@
+// @key: @#@"when"@#@ @source: @#@"When"@#@
+// @key: @#@"recurringDescribe"@#@ @source: @#@"Please remember to check recurrence or repeat in your calendar invitation to your attendees."@#@
 
 
 exports["default"] = _default;

@@ -5,7 +5,7 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = ConnectivityBadge;
+exports["default"] = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
@@ -29,7 +29,7 @@ var _OvalLoading = _interopRequireDefault(require("../../assets/images/OvalLoadi
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function ConnectivityBadge(_ref) {
+var ConnectivityBadge = function ConnectivityBadge(_ref) {
   var onClick = _ref.onClick,
       className = _ref.className,
       currentLocale = _ref.currentLocale,
@@ -45,7 +45,7 @@ function ConnectivityBadge(_ref) {
     view = /*#__PURE__*/_react["default"].createElement(_Badge["default"], {
       className: (0, _classnames["default"])(className, _styles["default"].badge, _styles["default"].loading),
       name: _i18n["default"].getString(mode, currentLocale)
-    }, _i18n["default"].getString('Connecting', currentLocale), /*#__PURE__*/_react["default"].createElement(_OvalLoading["default"], {
+    }, _i18n["default"].getString(_connectivityTypes["default"].connecting, currentLocale), /*#__PURE__*/_react["default"].createElement(_OvalLoading["default"], {
       width: 12,
       height: 12
     }));
@@ -63,7 +63,7 @@ function ConnectivityBadge(_ref) {
     className: _styles["default"].root,
     onClick: onClick
   }, view);
-}
+};
 
 ConnectivityBadge.propTypes = {
   className: _propTypes["default"].string,
@@ -80,4 +80,6 @@ ConnectivityBadge.defaultProps = {
   webphoneConnecting: false,
   hasLimitedStatusError: false
 };
+var _default = ConnectivityBadge;
+exports["default"] = _default;
 //# sourceMappingURL=index.js.map

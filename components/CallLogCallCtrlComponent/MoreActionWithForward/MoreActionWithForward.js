@@ -37,7 +37,7 @@ require("core-js/modules/es6.array.map");
 
 var _juno = require("@ringcentral/juno");
 
-var _iconIgnore = _interopRequireDefault(require("@ringcentral/juno/icons/icon-ignore.svg"));
+var _Ignore = _interopRequireDefault(require("@ringcentral/juno/icon/Ignore"));
 
 var _classnames2 = _interopRequireDefault(require("classnames"));
 
@@ -88,7 +88,8 @@ var MoreActionWithForward = function MoreActionWithForward(props) {
       currentLocale = props.currentLocale,
       forwardingNumbers = props.forwardingNumbers,
       forward = props.forward,
-      ignore = props.ignore;
+      ignore = props.ignore,
+      clickForwardTrack = props.clickForwardTrack;
 
   var _useState = (0, _react.useState)(null),
       _useState2 = _slicedToArray(_useState, 2),
@@ -111,6 +112,7 @@ var MoreActionWithForward = function MoreActionWithForward(props) {
   var handleForwardListClick = function handleForwardListClick(event) {
     var _event$currentTarget$;
 
+    clickForwardTrack();
     setForwardListEl((_event$currentTarget$ = event.currentTarget.children) === null || _event$currentTarget$ === void 0 ? void 0 : _event$currentTarget$[0]);
   };
 
@@ -167,7 +169,7 @@ var MoreActionWithForward = function MoreActionWithForward(props) {
     "data-sign": "ignore"
   }, /*#__PURE__*/_react["default"].createElement("span", {
     className: (0, _classnames2["default"])(_styles["default"].itemIconLeft, _styles["default"].ignoreIcon)
-  }, /*#__PURE__*/_react["default"].createElement(_iconIgnore["default"], null)), /*#__PURE__*/_react["default"].createElement("span", {
+  }, /*#__PURE__*/_react["default"].createElement(_Ignore["default"], null)), /*#__PURE__*/_react["default"].createElement("span", {
     className: _styles["default"].itemText
   }, "Ignore")))), /*#__PURE__*/_react["default"].createElement(_juno.RcPopover, {
     open: !!forwardListEl,
@@ -192,7 +194,8 @@ var MoreActionWithForward = function MoreActionWithForward(props) {
     return /*#__PURE__*/_react["default"].createElement(_juno.RcMenuItem, {
       onClick: onForward,
       key: item.phoneNumber,
-      "data-value": item.phoneNumber
+      "data-value": item.phoneNumber,
+      "data-sign": item.phoneNumber
     }, /*#__PURE__*/_react["default"].createElement("div", {
       className: _styles["default"].forwardNumberItem
     }, /*#__PURE__*/_react["default"].createElement("span", {

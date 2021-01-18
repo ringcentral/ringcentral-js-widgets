@@ -131,7 +131,7 @@ var DialerUI = (_dec = (0, _di.Module)({
   }, 'CallingSettings', 'ConnectivityManager', {
     dep: 'ContactSearch',
     optional: true
-  }, 'Locale', 'RateLimiter', 'RegionSettings', 'Alert', 'Call', {
+  }, 'Locale', 'RateLimiter', 'RegionSettings', 'Alert', 'Call', 'RolesAndPermissions', {
     dep: 'ConferenceCall',
     optional: true
   }, {
@@ -156,9 +156,10 @@ var DialerUI = (_dec = (0, _di.Module)({
         locale = _ref.locale,
         rateLimiter = _ref.rateLimiter,
         regionSettings = _ref.regionSettings,
+        rolesAndPermissions = _ref.rolesAndPermissions,
         _ref$useV = _ref.useV2,
         useV2 = _ref$useV === void 0 ? false : _ref$useV,
-        options = _objectWithoutProperties(_ref, ["alert", "audioSettings", "call", "callingSettings", "conferenceCall", "connectivityManager", "contactSearch", "locale", "rateLimiter", "regionSettings", "useV2"]);
+        options = _objectWithoutProperties(_ref, ["alert", "audioSettings", "call", "callingSettings", "conferenceCall", "connectivityManager", "contactSearch", "locale", "rateLimiter", "regionSettings", "rolesAndPermissions", "useV2"]);
 
     _classCallCheck(this, DialerUI);
 
@@ -178,6 +179,7 @@ var DialerUI = (_dec = (0, _di.Module)({
     _this._locale = locale;
     _this._rateLimiter = rateLimiter;
     _this._regionSettings = regionSettings;
+    _this._rolesAndPermissions = rolesAndPermissions;
     _this._reducer = (0, _getReducer["default"])(_this.actionTypes);
     _this._useV2 = useV2;
     _this._callHooks = [];
@@ -535,6 +537,7 @@ var DialerUI = (_dec = (0, _di.Module)({
         dialButtonVolume: this._audioSettings ? this._audioSettings.dialButtonVolume : 1,
         dialButtonMuted: this._audioSettings ? this._audioSettings.dialButtonMuted : false,
         isLastInputFromDialpad: this.isLastInputFromDialpad,
+        disableFromField: this.disableFromField,
         useV2: this._useV2
       };
     }
@@ -601,12 +604,17 @@ var DialerUI = (_dec = (0, _di.Module)({
   }, {
     key: "showSpinner",
     get: function get() {
-      return !(this._call.ready && this._callingSettings.ready && this._locale.ready && this._connectivityManager.ready && (!this._audioSettings || this._audioSettings.ready) && !this._connectivityManager.isWebphoneInitializing);
+      return !(this._call.ready && this._callingSettings.ready && this._locale.ready && this._rolesAndPermissions.ready && this._connectivityManager.ready && (!this._audioSettings || this._audioSettings.ready) && !this._connectivityManager.isWebphoneInitializing);
     }
   }, {
     key: "isLastInputFromDialpad",
     get: function get() {
       return this.state.isLastInputFromDialpad;
+    }
+  }, {
+    key: "disableFromField",
+    get: function get() {
+      return this._rolesAndPermissions.ready && !this._rolesAndPermissions.permissions.OutboundCallerId;
     }
   }]);
 

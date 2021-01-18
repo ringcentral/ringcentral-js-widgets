@@ -35,9 +35,9 @@ require("core-js/modules/es6.array.is-array");
 
 var _juno = require("@ringcentral/juno");
 
-var _iconChevron_left = _interopRequireDefault(require("@ringcentral/juno/icons/icon-chevron_left.svg"));
+var _ChevronLeft = _interopRequireDefault(require("@ringcentral/juno/icon/ChevronLeft"));
 
-var _iconChevron_right = _interopRequireDefault(require("@ringcentral/juno/icons/icon-chevron_right.svg"));
+var _ChevronRight = _interopRequireDefault(require("@ringcentral/juno/icon/ChevronRight"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
@@ -122,7 +122,7 @@ var BasicCallInfo = function BasicCallInfo(_ref) {
     variant: "round",
     size: "small",
     color: "grey.700",
-    symbol: _iconChevron_right["default"],
+    symbol: _ChevronRight["default"],
     "data-sign": "detailButton",
     onClick: toggleOpen
   }))), /*#__PURE__*/_react["default"].createElement(_ShinyBar.ShinyBar, {
@@ -141,7 +141,7 @@ var BasicCallInfo = function BasicCallInfo(_ref) {
     variant: "round",
     size: "small",
     color: "grey.700",
-    symbol: _iconChevron_left["default"],
+    symbol: _ChevronLeft["default"],
     "data-sign": "backButton",
     onClick: toggleOpen
   })), /*#__PURE__*/_react["default"].createElement("main", null, /*#__PURE__*/_react["default"].createElement(_BasicCallInfoMain.BasicCallInfoMain, {

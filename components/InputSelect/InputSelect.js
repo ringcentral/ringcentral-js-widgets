@@ -37,7 +37,7 @@ require("core-js/modules/es6.array.map");
 
 var _juno = require("@ringcentral/juno");
 
-var _iconArrow_down = _interopRequireDefault(require("@ringcentral/juno/icons/icon-arrow_down.svg"));
+var _ArrowDown = _interopRequireDefault(require("@ringcentral/juno/icon/ArrowDown2"));
 
 var _react = _interopRequireWildcard(require("react"));
 
@@ -215,7 +215,7 @@ var InputSelect = /*#__PURE__*/function (_Component) {
         },
         InputProps: {
           endAdornment: subjectPicklist.length > 0 && /*#__PURE__*/_react["default"].createElement(_CustomArrowButton.CustomArrowButton, {
-            symbol: _iconArrow_down["default"],
+            symbol: _ArrowDown["default"],
             onClick: this.toggleDropDownList,
             size: "large"
           })

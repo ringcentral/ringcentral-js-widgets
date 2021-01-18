@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useCallback } from 'react';
 import { RcIconButton, styled, spacing } from '@ringcentral/juno';
-import CopyIcon from '@ringcentral/juno/icons/icon-copy.svg';
+import CopyIcon from '@ringcentral/juno/icon/Copy';
 import CopyToClipboard from '../CopyToClipboard';
 import i18n from './i18n';
 import { ICopyBtnProps, InnerBtnProps } from './interface';
@@ -17,7 +17,7 @@ const InnerBtn: FunctionComponent<InnerBtnProps> = (props) => {
     <RcIconButton
       variant="round"
       size="small"
-      color="grey.400"
+      color="text.subdued"
       data-sign="copyBtn"
       symbol={CopyIcon}
       tooltipTitle={i18n.getString('copy', currentLocale)}
@@ -35,7 +35,7 @@ export const CopyBtn: FunctionComponent<ICopyBtnProps> = (props) => {
     [currentLocale],
   );
   return (
-    <BtnContainer>
+    <BtnContainer aria-disabled>
       <CopyToClipboard
         currentLocale={currentLocale}
         copiedText={value}

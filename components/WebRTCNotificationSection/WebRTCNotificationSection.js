@@ -41,9 +41,9 @@ var _react = _interopRequireWildcard(require("react"));
 
 var _callDirections = _interopRequireDefault(require("ringcentral-integration/enums/callDirections"));
 
-var _iconIgnore = _interopRequireDefault(require("@ringcentral/juno/icons/icon-ignore.svg"));
+var _Ignore = _interopRequireDefault(require("@ringcentral/juno/icon/Ignore"));
 
-var _iconVoicemail = _interopRequireDefault(require("@ringcentral/juno/icons/icon-voicemail.svg"));
+var _Voicemail = _interopRequireDefault(require("@ringcentral/juno/icon/Voicemail"));
 
 var _juno = require("@ringcentral/juno");
 
@@ -96,7 +96,9 @@ var WebRTCNotificationSection = function WebRTCNotificationSection(_ref) {
       hasActiveSession = _ref.hasActiveSession,
       answer = _ref.answer,
       forwardingNumbers = _ref.forwardingNumbers,
-      onForward = _ref.onForward;
+      onForward = _ref.onForward,
+      _ref$clickForwardTrac = _ref.clickForwardTrack,
+      clickForwardTrack = _ref$clickForwardTrac === void 0 ? function () {} : _ref$clickForwardTrac;
 
   var _useState = (0, _react.useState)(null),
       _useState2 = _slicedToArray(_useState, 2),
@@ -122,6 +124,7 @@ var WebRTCNotificationSection = function WebRTCNotificationSection(_ref) {
     var formatNumber = formatPhone(number);
 
     var handleClick = function handleClick(event) {
+      clickForwardTrack();
       setAnchorEl(event.currentTarget);
     };
 
@@ -131,6 +134,7 @@ var WebRTCNotificationSection = function WebRTCNotificationSection(_ref) {
       "data-sign": "inboundNotification",
       className: (0, _classnames2["default"])(!isWide ? _styles["default"].classic : null, _styles["default"].content)
     }, /*#__PURE__*/_react["default"].createElement("div", {
+      title: logName,
       className: _styles["default"].contact
     }, logName), /*#__PURE__*/_react["default"].createElement("div", {
       className: _styles["default"].number
@@ -142,7 +146,7 @@ var WebRTCNotificationSection = function WebRTCNotificationSection(_ref) {
       className: _styles["default"].callButton
     }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
       dataSign: "ignore",
-      icon: _iconIgnore["default"],
+      icon: _Ignore["default"],
       iconWidth: 250,
       iconHeight: 250,
       iconX: 125,
@@ -152,21 +156,23 @@ var WebRTCNotificationSection = function WebRTCNotificationSection(_ref) {
         return onIgnore(telephonySessionId);
       }
     }), /*#__PURE__*/_react["default"].createElement("span", {
-      className: _styles["default"].text
+      title: _i18n["default"].getString('ignore', currentLocale),
+      className: _styles["default"].firstLineText
     }, _i18n["default"].getString('ignore', currentLocale))), /*#__PURE__*/_react["default"].createElement("li", {
       className: _styles["default"].callButton
     }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
-      dataSign: "forward",
+      dataSign: !anchorEl ? 'forward' : 'forwardActive',
       icon: _Forward_white["default"],
       className: _styles["default"].button,
       onClick: handleClick
     }), /*#__PURE__*/_react["default"].createElement("span", {
-      className: _styles["default"].text
+      title: _i18n["default"].getString('forward', currentLocale),
+      className: _styles["default"].firstLineText
     }, _i18n["default"].getString('forward', currentLocale))), !isWide && hasActiveSession && /*#__PURE__*/_react["default"].createElement("li", {
       className: (0, _classnames2["default"])(_styles["default"].callButton, _styles["default"].voicemail)
     }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
       dataSign: "toVoicemail",
-      icon: _iconVoicemail["default"],
+      icon: _Voicemail["default"],
       className: (0, _classnames2["default"])(_styles["default"].button, _styles["default"].hangup),
       showBorder: false,
       iconWidth: 250,
@@ -177,7 +183,8 @@ var WebRTCNotificationSection = function WebRTCNotificationSection(_ref) {
         return toVoicemail(telephonySessionId);
       }
     }), /*#__PURE__*/_react["default"].createElement("span", {
-      className: _styles["default"].text
+      title: _i18n["default"].getString('toVoicemail', currentLocale),
+      className: _styles["default"].firstLineText
     }, _i18n["default"].getString('toVoicemail', currentLocale)))), /*#__PURE__*/_react["default"].createElement("ul", {
       className: _styles["default"].buttonsGroup
     }, !hasActiveSession && /*#__PURE__*/_react["default"].createElement("li", {
@@ -191,7 +198,8 @@ var WebRTCNotificationSection = function WebRTCNotificationSection(_ref) {
         return answer(telephonySessionId);
       }
     }), /*#__PURE__*/_react["default"].createElement("span", {
-      className: _styles["default"].text
+      title: _i18n["default"].getString('answer', currentLocale),
+      className: _styles["default"].secondLineText
     }, _i18n["default"].getString('answer', currentLocale))), hasActiveSession && /*#__PURE__*/_react["default"].createElement("li", {
       className: _styles["default"].callButton
     }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
@@ -207,12 +215,13 @@ var WebRTCNotificationSection = function WebRTCNotificationSection(_ref) {
         return endAndAnswer(telephonySessionId);
       }
     }), /*#__PURE__*/_react["default"].createElement("span", {
-      className: _styles["default"].text
+      title: _i18n["default"].getString('endAndAnswer', currentLocale),
+      className: _styles["default"].secondLineText
     }, _i18n["default"].getString('endAndAnswer', currentLocale))), (isWide || !hasActiveSession) && /*#__PURE__*/_react["default"].createElement("li", {
       className: _styles["default"].callButton
     }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
       dataSign: "toVoicemail",
-      icon: _iconVoicemail["default"],
+      icon: _Voicemail["default"],
       className: (0, _classnames2["default"])(_styles["default"].button, _styles["default"].hangup),
       showBorder: false,
       iconWidth: 250,
@@ -223,7 +232,8 @@ var WebRTCNotificationSection = function WebRTCNotificationSection(_ref) {
         return toVoicemail(telephonySessionId);
       }
     }), /*#__PURE__*/_react["default"].createElement("span", {
-      className: _styles["default"].text
+      title: _i18n["default"].getString('toVoicemail', currentLocale),
+      className: _styles["default"].secondLineText
     }, _i18n["default"].getString('toVoicemail', currentLocale))), hasActiveSession && /*#__PURE__*/_react["default"].createElement("li", {
       className: _styles["default"].callButton
     }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
@@ -239,7 +249,8 @@ var WebRTCNotificationSection = function WebRTCNotificationSection(_ref) {
         return holdAndAnswer(telephonySessionId);
       }
     }), /*#__PURE__*/_react["default"].createElement("span", {
-      className: _styles["default"].text
+      title: _i18n["default"].getString('holdAndAnswer', currentLocale),
+      className: _styles["default"].secondLineText
     }, _i18n["default"].getString('holdAndAnswer', currentLocale)))))));
   };
 
@@ -287,6 +298,8 @@ var WebRTCNotificationSection = function WebRTCNotificationSection(_ref) {
       classes: {
         paper: _styles["default"].forwardPopover
       }
+    }, /*#__PURE__*/_react["default"].createElement("div", {
+      "data-sign": "forwardActiveList"
     }, /*#__PURE__*/_react["default"].createElement(_juno.RcMenuList, null, forwardList.map(function (_ref2) {
       var text = _ref2.text,
           subText = _ref2.subText,
@@ -305,7 +318,7 @@ var WebRTCNotificationSection = function WebRTCNotificationSection(_ref) {
       }, text), subText && /*#__PURE__*/_react["default"].createElement("span", {
         className: _styles["default"].subText
       }, subText, " ")));
-    })));
+    }))));
   };
 
   return /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, renderLogSection(), renderForwardList());

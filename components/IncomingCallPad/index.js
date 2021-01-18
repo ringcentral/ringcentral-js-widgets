@@ -229,7 +229,7 @@ var IncomingCallPad = /*#__PURE__*/function (_Component) {
         iconWidth: 274,
         iconX: 116,
         showBorder: !this.state.toVoiceMailEnabled,
-        dataSign: "toVoicemail",
+        dataSign: "toVoiceMail",
         className: _styles["default"].callButton,
         disabled: !this.state.toVoiceMailEnabled
       }), /*#__PURE__*/_react["default"].createElement(_MultiCallAnswerButton["default"], {

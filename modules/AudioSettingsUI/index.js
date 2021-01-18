@@ -86,6 +86,9 @@ var AudioSettingsUI = (_dec = (0, _di.Module)({
   deps: ['AudioSettings', 'Locale', 'CallingSettings', 'RouterInteraction', {
     dep: 'Webphone',
     optional: true
+  }, {
+    dep: 'CallMonitor',
+    optional: true
   }]
 }), _dec(_class = /*#__PURE__*/function (_RcUIModule) {
   _inherits(AudioSettingsUI, _RcUIModule);
@@ -100,7 +103,8 @@ var AudioSettingsUI = (_dec = (0, _di.Module)({
         callingSettings = _ref.callingSettings,
         routerInteraction = _ref.routerInteraction,
         webphone = _ref.webphone,
-        options = _objectWithoutProperties(_ref, ["audioSettings", "locale", "callingSettings", "routerInteraction", "webphone"]);
+        callMonitor = _ref.callMonitor,
+        options = _objectWithoutProperties(_ref, ["audioSettings", "locale", "callingSettings", "routerInteraction", "webphone", "callMonitor"]);
 
     _classCallCheck(this, AudioSettingsUI);
 
@@ -110,6 +114,7 @@ var AudioSettingsUI = (_dec = (0, _di.Module)({
     _this._callingSettings = callingSettings;
     _this._routerInteraction = routerInteraction;
     _this._webphone = webphone;
+    _this._callMonitor = callMonitor;
     return _this;
   }
 
@@ -131,7 +136,7 @@ var AudioSettingsUI = (_dec = (0, _di.Module)({
         userMedia: this._audioSettings.userMedia,
         isWebRTC: this._callingSettings.callWith === _callingOptions["default"].browser,
         outputDeviceDisabled: !this._audioSettings.availableOutputDevices.length,
-        inputDeviceDisabled: !!(!this._audioSettings.availableInputDevices.length || this._webphone && this._webphone.sessions.length > 0)
+        inputDeviceDisabled: !!(!this._audioSettings.availableInputDevices.length || this._webphone && this._webphone.sessions.length > 0 || this._callMonitor && this._callMonitor.useTelephonySession && this._callMonitor.activeRingCalls.length + this._callMonitor.activeOnHoldCalls.length + this._callMonitor.activeCurrentCalls.length > 0)
       };
     }
   }, {

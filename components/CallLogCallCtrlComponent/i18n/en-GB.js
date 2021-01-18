@@ -22,10 +22,11 @@ var _default = {
   unHold: "Unhold",
   forward: "Forward",
   ignore: "Ignore",
-  voicemail: "Voicemail",
+  voicemail: "To voicemail",
   custom: "Custom",
   answerAndEnd: "Answer & End",
-  answerAndHold: "Answer & Hold"
+  answerAndHold: "Answer & Hold",
+  answer: "Answer"
 }; // @key: @#@"mute"@#@ @source: @#@"Mute"@#@
 // @key: @#@"unmute"@#@ @source: @#@"Unmute"@#@
 // @key: @#@"hangup"@#@ @source: @#@"Hang up"@#@
@@ -41,10 +42,11 @@ var _default = {
 // @key: @#@"unHold"@#@ @source: @#@"Unhold"@#@
 // @key: @#@"forward"@#@ @source: @#@"Forward"@#@
 // @key: @#@"ignore"@#@ @source: @#@"Ignore"@#@
-// @key: @#@"voicemail"@#@ @source: @#@"Voicemail"@#@
+// @key: @#@"voicemail"@#@ @source: @#@"To Voicemail"@#@
 // @key: @#@"custom"@#@ @source: @#@"Custom"@#@
 // @key: @#@"answerAndEnd"@#@ @source: @#@"Answer & End"@#@
 // @key: @#@"answerAndHold"@#@ @source: @#@"Answer & Hold"@#@
+// @key: @#@"answer"@#@ @source: @#@"Answer"@#@
 
 exports["default"] = _default;
 //# sourceMappingURL=en-GB.js.map

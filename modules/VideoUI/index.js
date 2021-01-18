@@ -138,7 +138,8 @@ var VideoUI = (_dec = (0, _di.Module)({
         showSaveAsDefault: this._rcVideo.showSaveAsDefault,
         disableSaveAsDefault: !this._rcVideo.isPreferencesChanged,
         brandName: this._brand.name,
-        disabled: this._rcVideo.isScheduling || disabled || !this._connectivityMonitor.connectivity || this._rateLimiter && this._rateLimiter.throttling
+        disabled: this._rcVideo.isScheduling || disabled || !this._connectivityMonitor.connectivity || this._rateLimiter && this._rateLimiter.throttling,
+        hasSettingsChanged: this._rcVideo.hasSettingsChanged
       };
     }
   }, {
@@ -205,6 +206,7 @@ var VideoUI = (_dec = (0, _di.Module)({
 
           return schedule;
         }(),
+        updateHasSettingsChanged: this._rcVideo.updateHasSettingsChanged,
         init: function init() {
           _this2._rcVideo.init();
         }

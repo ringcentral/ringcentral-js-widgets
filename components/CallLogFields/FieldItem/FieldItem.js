@@ -1,13 +1,23 @@
 "use strict";
 
-require("core-js/modules/es6.array.iterator");
-
 require("core-js/modules/es6.weak-map");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.FieldItem = void 0;
+
+require("core-js/modules/es6.object.define-properties");
+
+require("core-js/modules/es7.object.get-own-property-descriptors");
+
+require("core-js/modules/es6.array.for-each");
+
+require("core-js/modules/es6.array.filter");
+
+require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.object.assign");
 
@@ -55,6 +65,8 @@ var _juno = require("@ringcentral/juno");
 
 var _react = _interopRequireWildcard(require("react"));
 
+var _classnames = _interopRequireDefault(require("classnames"));
+
 var _timeFormatHelper = require("../../../lib/timeFormatHelper");
 
 var _InputSelect = _interopRequireDefault(require("../../InputSelect"));
@@ -65,6 +77,8 @@ var _LogFieldsInput = require("./LogFieldsInput");
 
 var _SelectField = require("./SelectField");
 
+var _RadioField = require("./RadioField");
+
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -72,6 +86,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -313,7 +331,7 @@ var FieldItem = /*#__PURE__*/function (_Component) {
           required = _this$props5$fieldOpt.required,
           onSave = _this$props5.onSave;
       var fieldSize = _this.props.fieldSize;
-      var date = _this.currentValue ? new Date(_this.currentValue) : null;
+      var date = _this.currentValue ? (0, _timeFormatHelper.getDateFromUTCDay)(_this.currentValue) : null;
       return /*#__PURE__*/_react["default"].createElement(_juno.RcDatePicker, {
         fullWidth: true,
         size: fieldSize,
@@ -328,7 +346,7 @@ var FieldItem = /*#__PURE__*/function (_Component) {
               while (1) {
                 switch (_context2.prev = _context2.next) {
                   case 0:
-                    timeStamp = (0, _timeFormatHelper.setUTCTime)(value);
+                    timeStamp = value ? (0, _timeFormatHelper.setUTCTime)(value) : value;
                     _context2.next = 3;
                     return _this.onInputSelectChange(fieldValue)(timeStamp);
 
@@ -383,7 +401,6 @@ var FieldItem = /*#__PURE__*/function (_Component) {
           fieldValue = _this$props8$fieldOpt.value,
           picklistOptions = _this$props8$fieldOpt.picklistOptions,
           required = _this$props8$fieldOpt.required,
-          defaultValue = _this$props8$fieldOpt.defaultValue,
           helperText = _this$props8$fieldOpt.helperText,
           error = _this$props8$fieldOpt.error,
           onChange = _this$props8$fieldOpt.onChange,
@@ -457,16 +474,134 @@ var FieldItem = /*#__PURE__*/function (_Component) {
       });
     };
 
+    _this.renderRadio = function () {
+      var _this$props9 = _this.props,
+          picklistOptions = _this$props9.fieldOption.picklistOptions,
+          currentLog = _this$props9.currentLog;
+      var task = currentLog.task;
+      var options = [{
+        value: picklistOptions[0].value,
+        label: picklistOptions[0].label,
+        disabled: false
+      }, {
+        value: picklistOptions[1].value,
+        label: picklistOptions[1].label,
+        disabled: !!(!task.tickets || task.tickets && task.tickets.length === 0)
+      }];
+      var defaultOption = task.option || picklistOptions[0].value;
+      return /*#__PURE__*/_react["default"].createElement(_RadioField.RadioField, {
+        value: defaultOption,
+        options: options,
+        onChange: _this.onRadioChange
+      });
+    };
+
+    _this.onRadioChange = /*#__PURE__*/function () {
+      var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(event, value) {
+        var _this$props10, currentLog, onUpdateCallLog, currentSessionId, _currentLog$task, task;
+
+        return regeneratorRuntime.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                _this$props10 = _this.props, currentLog = _this$props10.currentLog, onUpdateCallLog = _this$props10.onUpdateCallLog;
+                currentSessionId = currentLog.currentSessionId, _currentLog$task = currentLog.task, task = _currentLog$task === void 0 ? {} : _currentLog$task;
+                _context4.next = 4;
+                return onUpdateCallLog(_objectSpread(_objectSpread({}, currentLog), {}, {
+                  task: _objectSpread(_objectSpread({}, task), {}, {
+                    option: value,
+                    ticketId: task.ticketId || task.tickets[0]
+                  })
+                }), currentSessionId);
+
+              case 4:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4);
+      }));
+
+      return function (_x4, _x5) {
+        return _ref5.apply(this, arguments);
+      };
+    }();
+
+    _this.renderTicketSelectList = function () {
+      var _task$tickets$;
+
+      var _this$props11 = _this.props,
+          currentLog = _this$props11.currentLog,
+          fieldOption = _this$props11.fieldOption;
+      var renderCondition = fieldOption.renderCondition,
+          label = fieldOption.label;
+      var task = currentLog.task;
+
+      if (task.option !== renderCondition) {
+        return null;
+      }
+
+      var options = task.tickets ? task.tickets.map(function (ticket) {
+        return {
+          value: ticket.id,
+          label: "#".concat(ticket.id, " ").concat(ticket.subject)
+        };
+      }) : []; // TODO: need to double check the logic here
+
+      var defaultValue = task.ticketId || task.tickets && ((_task$tickets$ = task.tickets[0]) === null || _task$tickets$ === void 0 ? void 0 : _task$tickets$.id) || '';
+      return /*#__PURE__*/_react["default"].createElement(_SelectField.SelectField, {
+        options: options,
+        disabled: options.length === 0,
+        value: defaultValue,
+        label: label,
+        classes: {
+          root: (0, _classnames["default"])(_styles["default"].ticketSelectList, _styles["default"].tickets, _styles["default"].selectList)
+        },
+        onChange: _this.onSelectChange
+      });
+    };
+
+    _this.onSelectChange = /*#__PURE__*/function () {
+      var _ref6 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(event) {
+        var value, _this$props12, currentLog, onUpdateCallLog, currentSessionId, _currentLog$task2, task;
+
+        return regeneratorRuntime.wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                value = event.target.value;
+                _this$props12 = _this.props, currentLog = _this$props12.currentLog, onUpdateCallLog = _this$props12.onUpdateCallLog;
+                currentSessionId = currentLog.currentSessionId, _currentLog$task2 = currentLog.task, task = _currentLog$task2 === void 0 ? {} : _currentLog$task2;
+                _context5.next = 5;
+                return onUpdateCallLog(_objectSpread(_objectSpread({}, currentLog), {}, {
+                  task: _objectSpread(_objectSpread({}, task), {}, {
+                    ticketId: value
+                  })
+                }), currentSessionId);
+
+              case 5:
+              case "end":
+                return _context5.stop();
+            }
+          }
+        }, _callee5);
+      }));
+
+      return function (_x6) {
+        return _ref6.apply(this, arguments);
+      };
+    }();
+
     _this.onInputSelectChange = function (value) {
       return /*#__PURE__*/function () {
-        var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(item) {
-          var _this$props9, _this$props9$currentL, currentSessionId, _this$props9$currentL2, task, onUpdateCallLog, customInputDataStruct, defaultLogData, logData;
+        var _ref7 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(item) {
+          var _this$props13, _this$props13$current, currentSessionId, _this$props13$current2, task, onUpdateCallLog, customInputDataStruct, defaultLogData, logData;
 
-          return regeneratorRuntime.wrap(function _callee4$(_context4) {
+          return regeneratorRuntime.wrap(function _callee6$(_context6) {
             while (1) {
-              switch (_context4.prev = _context4.next) {
+              switch (_context6.prev = _context6.next) {
                 case 0:
-                  _this$props9 = _this.props, _this$props9$currentL = _this$props9.currentLog, currentSessionId = _this$props9$currentL.currentSessionId, _this$props9$currentL2 = _this$props9$currentL.task, task = _this$props9$currentL2 === void 0 ? {} : _this$props9$currentL2, onUpdateCallLog = _this$props9.onUpdateCallLog, customInputDataStruct = _this$props9.customInputDataStruct;
+                  _this$props13 = _this.props, _this$props13$current = _this$props13.currentLog, currentSessionId = _this$props13$current.currentSessionId, _this$props13$current2 = _this$props13$current.task, task = _this$props13$current2 === void 0 ? {} : _this$props13$current2, onUpdateCallLog = _this$props13.onUpdateCallLog, customInputDataStruct = _this$props13.customInputDataStruct;
                   defaultLogData = {
                     isSaved: false,
                     task: _defineProperty({}, value, item || '')
@@ -477,19 +612,19 @@ var FieldItem = /*#__PURE__*/function (_Component) {
                     task: task,
                     currentSessionId: currentSessionId
                   }) || defaultLogData;
-                  _context4.next = 5;
+                  _context6.next = 5;
                   return onUpdateCallLog(logData, currentSessionId);
 
                 case 5:
                 case "end":
-                  return _context4.stop();
+                  return _context6.stop();
               }
             }
-          }, _callee4);
+          }, _callee6);
         }));
 
-        return function (_x4) {
-          return _ref5.apply(this, arguments);
+        return function (_x7) {
+          return _ref7.apply(this, arguments);
         };
       }();
     };
@@ -502,7 +637,10 @@ var FieldItem = /*#__PURE__*/function (_Component) {
       string: _this.renderInput,
       integer: _this.renderInput,
       "double": _this.renderInput,
-      combobox: _this.renderSubjectField
+      "long": _this.renderInput,
+      combobox: _this.renderSubjectField,
+      radio: _this.renderRadio,
+      ticketSelectList: _this.renderTicketSelectList
     };
     return _this;
   }
@@ -517,13 +655,13 @@ var FieldItem = /*#__PURE__*/function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this$props10 = this.props,
-          _this$props10$fieldOp = _this$props10.fieldOption,
-          value = _this$props10$fieldOp.value,
-          type = _this$props10$fieldOp.type,
-          error = _this$props10$fieldOp.error,
-          enableScrollError = _this$props10$fieldOp.enableScrollError,
-          editSectionScrollBy = _this$props10.editSectionScrollBy;
+      var _this$props14 = this.props,
+          _this$props14$fieldOp = _this$props14.fieldOption,
+          value = _this$props14$fieldOp.value,
+          type = _this$props14$fieldOp.type,
+          error = _this$props14$fieldOp.error,
+          enableScrollError = _this$props14$fieldOp.enableScrollError,
+          editSectionScrollBy = _this$props14.editSectionScrollBy;
 
       if (this.fieldsRenderMap[type]) {
         if (error && enableScrollError && this.fieldItemRef.current) {

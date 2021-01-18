@@ -41,13 +41,13 @@ var _react = _interopRequireDefault(require("react"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
+var _juno = require("@ringcentral/juno");
+
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
 var _Button = require("../Button");
-
-var _CheckBox = _interopRequireDefault(require("../CheckBox"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -124,18 +124,23 @@ var MeetingScheduleButton = /*#__PURE__*/function (_React$Component) {
         className: (0, _classnames["default"])(_styles["default"].inviteBox, !hidden ? _styles["default"].withShadow : _styles["default"].onlyButton)
       }, hidden ? /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].actionPrompt
-      }, this.getI18nPromptString()) : null, showSaveAsDefault ? /*#__PURE__*/_react["default"].createElement(_CheckBox["default"], {
-        dataSign: "saveAsDefault",
-        checked: meeting.saveAsDefault,
+      }, this.getI18nPromptString()) : null, showSaveAsDefault ? /*#__PURE__*/_react["default"].createElement(_juno.RcCheckbox, {
+        "data-sign": "saveAsDefault",
+        checked: meeting === null || meeting === void 0 ? void 0 : meeting.saveAsDefault,
         disabled: disableSaveAsDefault,
-        onChecked: function onChecked() {
+        className: _styles["default"].saveAsDefault,
+        formControlLabelProps: {
+          classes: {
+            label: _styles["default"].saveAsDefaultLabel
+          }
+        },
+        onChange: function onChange() {
           return update(_objectSpread(_objectSpread({}, meeting), {}, {
-            saveAsDefault: !meeting.saveAsDefault
+            saveAsDefault: !(meeting === null || meeting === void 0 ? void 0 : meeting.saveAsDefault)
           }));
         },
-        type: "checkbox",
-        className: _styles["default"].notShowAgain
-      }, _i18n["default"].getString('saveAsDefault', currentLocale)) : null, /*#__PURE__*/_react["default"].createElement(_Button.Button, {
+        label: _i18n["default"].getString('saveAsDefault', currentLocale)
+      }) : null, /*#__PURE__*/_react["default"].createElement(_Button.Button, {
         onClick: onClick,
         className: (0, _classnames["default"])(_styles["default"].isContainedType, disabled ? _styles["default"].isContainedTypeDisabled : null),
         dataSign: "meetingScheduleButton"

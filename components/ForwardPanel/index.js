@@ -176,7 +176,8 @@ var ForwardPanel = /*#__PURE__*/function (_PureComponent) {
     value: function render() {
       var _this$props2 = this.props,
           onBackClick = _this$props2.onBackClick,
-          currentLocale = _this$props2.currentLocale;
+          currentLocale = _this$props2.currentLocale,
+          children = _this$props2.children;
       var forwarding = this.state.forwarding;
       return /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].root
@@ -207,7 +208,7 @@ var ForwardPanel = /*#__PURE__*/function (_PureComponent) {
         onClick: this.onForward,
         icon: _Forward_white["default"],
         className: (0, _classnames2["default"])(_styles["default"].forwardIcon, _defineProperty({}, _styles["default"].forwardIconDisable, forwarding))
-      })))));
+      })))), children);
     }
   }]);
 
@@ -219,6 +220,7 @@ ForwardPanel.propTypes = {
   onForward: _propTypes["default"].func.isRequired,
   currentLocale: _propTypes["default"].string.isRequired,
   onBackClick: _propTypes["default"].func.isRequired,
-  telephonySessionId: _propTypes["default"].string.isRequired
+  telephonySessionId: _propTypes["default"].string.isRequired,
+  children: _propTypes["default"].node.isRequired
 };
 //# sourceMappingURL=index.js.map

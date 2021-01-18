@@ -9,7 +9,7 @@ require("core-js/modules/es6.object.define-property");
 
 var _callControlError = _interopRequireDefault(require("ringcentral-integration/modules/ActiveCallControl/callControlError"));
 
-var _muteConflictError$ho;
+var _muteConflictError$un;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -22,10 +22,10 @@ var holdConflictError = _callControlError["default"].holdConflictError,
     generalError = _callControlError["default"].generalError,
     forwardSuccess = _callControlError["default"].forwardSuccess;
 
-var _default = (_muteConflictError$ho = {}, _defineProperty(_muteConflictError$ho, muteConflictError, "O som desta chamada foi desativado noutro dispositivo. Ative o som da chamada antes de assumir o controlo nesta aplicação."), _defineProperty(_muteConflictError$ho, holdConflictError, "Esta chamada foi colocada em espera noutro dispositivo. Retome a chamada antes de assumir o controlo nesta aplicação."), _defineProperty(_muteConflictError$ho, unMuteConflictError, "O som desta chamada foi ativado noutro dispositivo. Desative o som da chamada antes de assumir o controlo nesta aplicação."), _defineProperty(_muteConflictError$ho, unHoldConflictError, "Esta chamada foi retomada noutro dispositivo. Coloque a chamada em espera antes de assumir o controlo nesta aplicação."), _defineProperty(_muteConflictError$ho, generalError, "Erro de servidor inesperado. Tente novamente mais tarde."), _defineProperty(_muteConflictError$ho, forwardSuccess, "Chamada reencaminhada"), _muteConflictError$ho); // @key: @#@"muteConflictError"@#@ @source: @#@"This call had been muted on other device. Please unmute the call before you control in this App."@#@
-// @key: @#@"holdConflictError"@#@ @source: @#@"This call had been held on other device. Please unhold the call before you control in this App."@#@
+var _default = (_muteConflictError$un = {}, _defineProperty(_muteConflictError$un, muteConflictError, "O som desta chamada foi desativado noutro dispositivo. Ative o som da chamada antes de assumir o controlo nesta aplicação."), _defineProperty(_muteConflictError$un, unHoldConflictError, "Esta chamada foi colocada em espera noutro dispositivo. Retome a chamada antes de assumir o controlo nesta aplicação."), _defineProperty(_muteConflictError$un, unMuteConflictError, "O som desta chamada foi ativado noutro dispositivo. Desative o som da chamada antes de assumir o controlo nesta aplicação."), _defineProperty(_muteConflictError$un, holdConflictError, "Esta chamada foi retomada noutro dispositivo. Coloque a chamada em espera antes de assumir o controlo nesta aplicação."), _defineProperty(_muteConflictError$un, generalError, "Erro de servidor inesperado. Tente novamente mais tarde."), _defineProperty(_muteConflictError$un, forwardSuccess, "Chamada reencaminhada"), _muteConflictError$un); // @key: @#@"muteConflictError"@#@ @source: @#@"This call had been muted on other device. Please unmute the call before you control in this App."@#@
+// @key: @#@"unHoldConflictError"@#@ @source: @#@"This call had been held on other device. Please unhold the call before you control in this App."@#@
 // @key: @#@"unMuteConflictError"@#@ @source: @#@"This call had been unmuted on other device. Please mute the call before you control in this App."@#@
-// @key: @#@"unHoldConflictError"@#@ @source: @#@"This call had been unheld on other device. Please hold the call before you control in this App."@#@
+// @key: @#@"holdConflictError"@#@ @source: @#@"This call had been unheld on other device. Please hold the call before you control in this App."@#@
 // @key: @#@"generalError"@#@ @source: @#@"Unexpected server error. Please try again later."@#@
 // @key: @#@"forwardSuccess"@#@ @source: @#@"Call forwarded"@#@
 

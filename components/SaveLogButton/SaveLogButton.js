@@ -9,7 +9,7 @@ exports["default"] = SaveLogButton;
 
 var _juno = require("@ringcentral/juno");
 
-var _iconCheck = _interopRequireDefault(require("@ringcentral/juno/icons/icon-check.svg"));
+var _Check = _interopRequireDefault(require("@ringcentral/juno/icon/Check"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
@@ -39,7 +39,7 @@ function SaveLogButton(_ref) {
   var getContent = function getContent(buttonContent) {
     return /*#__PURE__*/_react["default"].createElement("span", null, buttonContent === 'saved' && /*#__PURE__*/_react["default"].createElement(_juno.RcIcon, {
       color: ['primary', 'main'],
-      symbol: _iconCheck["default"],
+      symbol: _Check["default"],
       size: "small"
     }), buttonContent === 'saving' && /*#__PURE__*/_react["default"].createElement(_juno.RcCircularProgress, {
       size: 20

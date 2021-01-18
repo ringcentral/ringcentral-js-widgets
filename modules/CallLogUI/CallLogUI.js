@@ -91,7 +91,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 var CallLogUI = (_dec = (0, _di.Module)({
   name: 'CallLogUI',
-  deps: ['Locale', 'CallLogger', 'RateLimiter', 'RegionSettings', 'DateTimeFormat', 'CallLogSection', 'RouterInteraction', 'ActiveCallControl', 'EnvironmentOptions', 'RolesAndPermissions', 'ConnectivityMonitor', 'CallingSettings', 'ForwardingNumber', {
+  deps: ['Locale', 'CallLogger', 'RateLimiter', 'RegionSettings', 'DateTimeFormat', 'CallLogSection', 'RouterInteraction', 'ActiveCallControl', 'RolesAndPermissions', 'ConnectivityMonitor', 'CallingSettings', 'ForwardingNumber', {
     dep: 'CallLogUIOptions',
     optional: true
   }]
@@ -124,7 +124,6 @@ var CallLogUI = (_dec = (0, _di.Module)({
           callLogSection = _this$_deps.callLogSection,
           routerInteraction = _this$_deps.routerInteraction,
           activeCallControl = _this$_deps.activeCallControl,
-          environmentOptions = _this$_deps.environmentOptions,
           rolesAndPermissions = _this$_deps.rolesAndPermissions,
           connectivityMonitor = _this$_deps.connectivityMonitor,
           callingSettings = _this$_deps.callingSettings,
@@ -199,8 +198,8 @@ var CallLogUI = (_dec = (0, _di.Module)({
         onIgnore: function onIgnore(telephonySessionId) {
           var _activeCallControl$ig;
 
-          callLogSection.closeLogNotification();
           (_activeCallControl$ig = activeCallControl.ignore) === null || _activeCallControl$ig === void 0 ? void 0 : _activeCallControl$ig.call(activeCallControl, telephonySessionId);
+          callLogSection.closeLogNotification();
         },
         onForward: function onForward(phoneNumber, telephonySessionId) {
           if (phoneNumber === 'custom') {
@@ -208,31 +207,36 @@ var CallLogUI = (_dec = (0, _di.Module)({
           } else {
             var _activeCallControl$fo;
 
-            callLogSection.closeLogNotification();
             (_activeCallControl$fo = activeCallControl.forward) === null || _activeCallControl$fo === void 0 ? void 0 : _activeCallControl$fo.call(activeCallControl, phoneNumber, telephonySessionId);
+            callLogSection.closeLogNotification();
           }
         },
         endAndAnswer: function endAndAnswer(telephonySessionId) {
           var _activeCallControl$an;
 
-          callLogSection.discardAndHandleNotification();
           (_activeCallControl$an = activeCallControl.answerAndEnd) === null || _activeCallControl$an === void 0 ? void 0 : _activeCallControl$an.call(activeCallControl, telephonySessionId);
+          callLogSection.discardAndHandleNotification();
         },
         holdAndAnswer: function holdAndAnswer(telephonySessionId) {
           var _activeCallControl$an2;
 
-          callLogSection.discardAndHandleNotification();
           (_activeCallControl$an2 = activeCallControl.answerAndHold) === null || _activeCallControl$an2 === void 0 ? void 0 : _activeCallControl$an2.call(activeCallControl, telephonySessionId);
+          callLogSection.discardAndHandleNotification();
         },
         toVoicemail: function toVoicemail(telephonySessionId) {
-          callLogSection.closeLogNotification();
           activeCallControl.reject(telephonySessionId);
+          callLogSection.closeLogNotification();
         },
         answer: function answer(telephonySessionId) {
           var _activeCallControl$an3;
 
-          callLogSection.discardAndHandleNotification();
           (_activeCallControl$an3 = activeCallControl.answer) === null || _activeCallControl$an3 === void 0 ? void 0 : _activeCallControl$an3.call(activeCallControl, telephonySessionId);
+          callLogSection.discardAndHandleNotification();
+        },
+        clickForwardTrack: function clickForwardTrack() {
+          var _activeCallControl$cl;
+
+          return (_activeCallControl$cl = activeCallControl.clickForwardTrack) === null || _activeCallControl$cl === void 0 ? void 0 : _activeCallControl$cl.call(activeCallControl);
         }
       };
     }

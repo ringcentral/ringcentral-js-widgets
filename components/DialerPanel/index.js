@@ -51,7 +51,7 @@ function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return 
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
-function DialerPanel(_ref) {
+var DialerPanel = function DialerPanel(_ref) {
   var currentLocale = _ref.currentLocale,
       callButtonDisabled = _ref.callButtonDisabled,
       className = _ref.className,
@@ -81,6 +81,8 @@ function DialerPanel(_ref) {
       autoFocus = _ref.autoFocus,
       _ref$showFromField = _ref.showFromField,
       showFromField = _ref$showFromField === void 0 ? true : _ref$showFromField,
+      _ref$disableFromField = _ref.disableFromField,
+      disableFromField = _ref$disableFromField === void 0 ? false : _ref$disableFromField,
       children = _ref.children,
       withTabs = _ref.withTabs,
       inConference = _ref.inConference,
@@ -140,7 +142,8 @@ function DialerPanel(_ref) {
     onChange: changeFromNumber,
     formatPhone: formatPhone,
     currentLocale: currentLocale,
-    hidden: !isWebphoneMode
+    hidden: !isWebphoneMode,
+    disabled: disableFromField
   })) : null, /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])(_styles["default"].dialButtons, dialButtonsClassName)
   }, /*#__PURE__*/_react["default"].createElement(_DialPad["default"], {
@@ -166,7 +169,7 @@ function DialerPanel(_ref) {
     icon: _Answer["default"],
     showBorder: false
   })))), showSpinner ? /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay.SpinnerOverlay, null) : null, children);
-}
+};
 
 DialerPanel.propTypes = {
   currentLocale: _propTypes["default"].string.isRequired,
@@ -211,6 +214,7 @@ DialerPanel.propTypes = {
   recipientsContactPhoneRenderer: _propTypes["default"].func,
   autoFocus: _propTypes["default"].bool,
   showFromField: _propTypes["default"].bool,
+  disableFromField: _propTypes["default"].bool,
   children: _propTypes["default"].node,
   withTabs: _propTypes["default"].bool,
   inConference: _propTypes["default"].bool,
@@ -244,6 +248,7 @@ DialerPanel.defaultProps = {
   recipientsContactPhoneRenderer: undefined,
   autoFocus: false,
   showFromField: true,
+  disableFromField: false,
   children: undefined,
   withTabs: false,
   inConference: false,

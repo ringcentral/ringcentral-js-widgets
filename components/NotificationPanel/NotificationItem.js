@@ -25,7 +25,7 @@ exports.NotificationItem = void 0;
 
 var _juno = require("@ringcentral/juno");
 
-var _iconClose = _interopRequireDefault(require("@ringcentral/juno/icons/icon-close.svg"));
+var _Close = _interopRequireDefault(require("@ringcentral/juno/icon/Close"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
@@ -118,7 +118,7 @@ var NotificationItem = /*#__PURE__*/(0, _react.memo)(function (_ref) {
     }),
     action: action !== null && action !== void 0 ? action : /*#__PURE__*/_react["default"].createElement(_juno.RcSnackbarAction, {
       variant: "icon",
-      symbol: _iconClose["default"],
+      symbol: _Close["default"],
       size: "small",
       onClick: function onClick() {
         dismiss(id);

@@ -170,7 +170,8 @@ var DropdownSelect = /*#__PURE__*/function (_Component) {
         return;
       }
 
-      onToggle(!_this.state.open);
+      var isPrevOpen = _this.state.open;
+      onToggle && onToggle(!isPrevOpen);
 
       _this.setState(function (preState) {
         return {
@@ -380,12 +381,15 @@ var DropdownSelect = /*#__PURE__*/function (_Component) {
           _this2.dropdownMenu = _ref;
         }
       }, currentOptions.map(function (option, idx) {
+        var _option$disabled;
+
         var currentValue = _this2.valueFunction(option, idx);
 
         var className = (0, _classnames["default"])(_styles["default"].dropdownItem, value === currentValue ? _styles["default"].selected : null);
 
         var display = _this2.renderFunction(option, idx);
 
+        var isOptionDisabled = (_option$disabled = option === null || option === void 0 ? void 0 : option.disabled) !== null && _option$disabled !== void 0 ? _option$disabled : false;
         return /*#__PURE__*/_react["default"].createElement("li", {
           "data-sign": "selectMenuItem",
           key: currentValue || idx,
@@ -393,7 +397,9 @@ var DropdownSelect = /*#__PURE__*/function (_Component) {
           value: currentValue,
           title: _this2.renderTitle(option, option.value || display),
           onClick: function onClick(e) {
-            return _this2.onChange(e, option, idx);
+            if (!isOptionDisabled) {
+              _this2.onChange(e, option, idx);
+            }
           }
         }, display);
       }));

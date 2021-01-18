@@ -22,6 +22,9 @@ var _default = {
   meetingOptions: "Meetingsopties",
   requirePassword: "Wachtwoord voor meeting verplicht",
   password: "Wachtwoord",
+  rcmPasswordHintText: "Uw wachtwoord moet 1-10 tekens en cijfers lang zijn en mag geen symbolen bevatten, behalve @, * of -",
+  passwordEmptyError: "Wachtwoord meeting vereist",
+  rcmPasswordInvalidError: "Uw wachtwoord moet 1-10 teken en cijfers lang zijn en mag geen symbolen bevatten, behalve @, * of -",
   enableJoinBeforeHost: "Aanmelden voor host inschakelen",
   telephonyOnly: "Alleen telefonie",
   hostVideoOn: "Video van host aan",
@@ -51,6 +54,9 @@ var _default = {
 // @key: @#@"meetingOptions"@#@ @source: @#@"Meeting options"@#@
 // @key: @#@"requirePassword"@#@ @source: @#@"Require meeting password"@#@
 // @key: @#@"password"@#@ @source: @#@"Password"@#@
+// @key: @#@"rcmPasswordHintText"@#@ @source: @#@"Your password should be 1-10 characters, numbers long and cannot have symbols except @, * or -"@#@
+// @key: @#@"passwordEmptyError"@#@ @source: @#@"Meeting password required"@#@
+// @key: @#@"rcmPasswordInvalidError"@#@ @source: @#@"Your password must be 1-10 characters, numbers long and cannot have symbols except @, * or -"@#@
 // @key: @#@"enableJoinBeforeHost"@#@ @source: @#@"Enable join before host"@#@
 // @key: @#@"telephonyOnly"@#@ @source: @#@"Telephony Only"@#@
 // @key: @#@"hostVideoOn"@#@ @source: @#@"Host Video On"@#@

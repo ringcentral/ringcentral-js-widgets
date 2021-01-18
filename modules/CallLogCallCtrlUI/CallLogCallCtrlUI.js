@@ -115,6 +115,8 @@ var CallLogCallCtrlUI = (_dec = (0, _di.Module)({
     _this._callMonitor = void 0;
 
     _this.onTransfer = function (telephonySessionId) {
+      _this._activeCallControl.clickTransferTrack();
+
       return _this._routerInteraction.push("/transfer/".concat(telephonySessionId, "/active"));
     };
 
@@ -131,11 +133,15 @@ var CallLogCallCtrlUI = (_dec = (0, _di.Module)({
   _createClass(CallLogCallCtrlUI, [{
     key: "getUIProps",
     value: function getUIProps(_ref2) {
+      var _this$_activeCallCont, _this$_activeCallCont2, _this$_activeCallCont3;
+
       var telephonySessionId = _ref2.telephonySessionId;
       var isWebphone = this._callingSettings.callingMode === _callingModes["default"].webphone;
 
-      var currentSession = this._activeCallControl.getActiveSession(telephonySessionId);
+      var currentSession = this._activeCallControl.getActiveSession(telephonySessionId); // we can get real callee call status from telephony session
 
+
+      var realOutboundCallStatus = (_this$_activeCallCont = this._activeCallControl) === null || _this$_activeCallCont === void 0 ? void 0 : (_this$_activeCallCont2 = _this$_activeCallCont.getRcCallSession(telephonySessionId)) === null || _this$_activeCallCont2 === void 0 ? void 0 : (_this$_activeCallCont3 = _this$_activeCallCont2.otherParties[0]) === null || _this$_activeCallCont3 === void 0 ? void 0 : _this$_activeCallCont3['status']['code'];
       var _this$_callMonitor = this._callMonitor,
           activeOnHoldCalls = _this$_callMonitor.activeOnHoldCalls,
           activeCurrentCalls = _this$_callMonitor.activeCurrentCalls;
@@ -148,7 +154,8 @@ var CallLogCallCtrlUI = (_dec = (0, _di.Module)({
         disableLinks: !this._connectivityMonitor.connectivity || this._rateLimiter.throttling,
         telephonySessionId: telephonySessionId,
         forwardingNumbers: this._forwardingNumber.forwardingNumbers,
-        otherActiveCalls: otherActiveCalls
+        otherActiveCalls: otherActiveCalls,
+        realOutboundCallStatus: realOutboundCallStatus
       };
     }
   }, {
@@ -179,7 +186,15 @@ var CallLogCallCtrlUI = (_dec = (0, _di.Module)({
         },
         ignore: this._activeCallControl.ignore.bind(this._activeCallControl),
         answerAndHold: this._activeCallControl.answerAndHold.bind(this._activeCallControl),
-        answerAndEnd: this._activeCallControl.answerAndEnd.bind(this._activeCallControl)
+        answerAndEnd: this._activeCallControl.answerAndEnd.bind(this._activeCallControl),
+        dialpadToggleTrack: function dialpadToggleTrack(open) {
+          if (open) {
+            _this2._activeCallControl.dialpadOpenTrack();
+          } else {
+            _this2._activeCallControl.dialpadCloseTrack();
+          }
+        },
+        clickForwardTrack: this._activeCallControl.clickForwardTrack.bind(this._activeCallControl)
       };
     }
   }]);

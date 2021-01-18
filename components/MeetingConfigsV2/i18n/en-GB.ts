@@ -1,5 +1,9 @@
 import { ASSISTED_USERS_MYSELF } from 'ringcentral-integration/modules/Meeting';
 export default {
+  date: "Date",
+  time: "Time",
+  duration: "Duration",
+  topic: "Meeting title",
   voIPOnly: "Internet audio only",
   telephonyOnly: "Telephone only",
   both: "Telephone and Internet Audio",
@@ -27,9 +31,15 @@ export default {
   pmiChangeConfirm: "If you want to make changes for your Personal Meeting, ",
   changePmiSettings: "change PMI settings",
   pmiSettingChangeAlert: "If you change the settings and schedule this meeting, all of meetings with Personal Meeting ID will use the same latest settings.",
-  lockedTooltip: "This setting is managed by your company admin"
+  lockedTooltip: "This setting is managed by your company admin",
+  when: "When",
+  recurringDescribe: "Please remember to check for recurrences or repeats in your calendar invitations to your attendees."
 };
 
+// @key: @#@"date"@#@ @source: @#@"Date"@#@
+// @key: @#@"time"@#@ @source: @#@"Time"@#@
+// @key: @#@"duration"@#@ @source: @#@"Duration"@#@
+// @key: @#@"topic"@#@ @source: @#@"Meeting title"@#@
 // @key: @#@"voIPOnly"@#@ @source: @#@"Internet audio only"@#@
 // @key: @#@"telephonyOnly"@#@ @source: @#@"Telephone only"@#@
 // @key: @#@"both"@#@ @source: @#@"Telephone and Internet Audio"@#@
@@ -58,3 +68,5 @@ export default {
 // @key: @#@"changePmiSettings"@#@ @source: @#@"change PMI settings"@#@
 // @key: @#@"pmiSettingChangeAlert"@#@ @source: @#@"If you change the settings and schedule this meeting, all of meetings with Personal Meeting ID will use the same latest settings."@#@
 // @key: @#@"lockedTooltip"@#@ @source: @#@"This setting is managed by your company admin"@#@
+// @key: @#@"when"@#@ @source: @#@"When"@#@
+// @key: @#@"recurringDescribe"@#@ @source: @#@"Please remember to check recurrence or repeat in your calendar invitation to your attendees."@#@

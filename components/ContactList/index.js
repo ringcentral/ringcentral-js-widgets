@@ -265,7 +265,7 @@ var ContactList = /*#__PURE__*/function (_Component) {
   }, {
     key: "isBottomNoticeRow",
     value: function isBottomNoticeRow(rowIndex) {
-      return this.props.bottomNotice && rowIndex === this.state.count;
+      return this.props.bottomNotice && rowIndex === this.state.rowCount;
     }
   }, {
     key: "resetScrollTop",
@@ -283,7 +283,7 @@ var ContactList = /*#__PURE__*/function (_Component) {
         headerHeight: CAPTION_HEIGHT,
         width: this.props.width,
         height: this.props.height,
-        rowCount: this.state.count + (this.props.bottomNotice ? 1 : 0),
+        rowCount: this.state.rowCount + (this.props.bottomNotice ? 1 : 0),
         rowHeight: this.calculateRowHeight,
         rowGetter: this.rowGetter,
         onRowsRendered: this.onRowsRendered,
@@ -324,7 +324,9 @@ var ContactList = /*#__PURE__*/function (_Component) {
       }
 
       return /*#__PURE__*/_react["default"].createElement("div", {
-        className: _styles["default"].root
+        className: _styles["default"].root,
+        "data-sign": "contactList",
+        "data-contact-count": this.state.contactCount
       }, content);
     }
   }], [{
@@ -342,20 +344,22 @@ var ContactList = /*#__PURE__*/function (_Component) {
           var rowOffset = nextState.groups.length !== 0 ? 1 : 0;
 
           if (rowOffset) {
-            nextState.captionRows[nextState.count] = group.caption;
+            nextState.captionRows[nextState.rowCount] = group.caption;
           }
 
           nextState.groups.push(_objectSpread(_objectSpread({}, group), {}, {
-            startIndex: nextState.count + rowOffset
+            startIndex: nextState.rowCount + rowOffset
           }));
-          nextState.count += group.contacts.length + rowOffset; // with caption row
+          nextState.rowCount += group.contacts.length + rowOffset; // with caption row
 
+          nextState.contactCount += group.contacts.length;
           return nextState;
         }, _objectSpread(_objectSpread({}, state), {}, {
           groups: [],
           captions: [],
           captionRows: {},
-          count: 0
+          rowCount: 0,
+          contactCount: 0
         }), props.contactGroups)), {}, {
           lastContactGroups: props.contactGroups
         });

@@ -13,7 +13,7 @@ var _react = _interopRequireDefault(require("react"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _ActiveCallItemV = _interopRequireDefault(require("../ActiveCallItemV2"));
+var _ActiveCallItemV = require("../ActiveCallItemV2");
 
 var _CircleButton = _interopRequireDefault(require("../CircleButton"));
 
@@ -65,7 +65,7 @@ function CallsOnholdContainer(_ref) {
   }, backHeader, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].callList
   }, calls.length ? calls.map(function (call) {
-    return /*#__PURE__*/_react["default"].createElement(_ActiveCallItemV["default"], {
+    return /*#__PURE__*/_react["default"].createElement(_ActiveCallItemV.ActiveCallItem, {
       call: call,
       key: call.id,
       showMergeCall: true,

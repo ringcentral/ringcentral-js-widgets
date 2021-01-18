@@ -29,8 +29,8 @@ var _default = {
   from: "Da",
   to: "A",
   hangup: "Riaggancia",
-  accept: "Accetta",
-  toVoicemail: "Invia alla segreteria telefonica",
+  accept: "Rispondi",
+  toVoicemail: "Alla segreteria telefonica",
   anonymous: "Anonimo",
   mergeToConference: "Unisci",
   hold: "Attesa",
@@ -41,7 +41,9 @@ var _default = {
   callSwitch: "Commutazione chiamata",
   comfirmContext: "Al momento sei in una chiamata attiva con {displayName}. Vuoi continuare la chiamata su questo dispositivo?",
   comfirmCancelButton: "Annulla",
-  comfirmOKButton: "Commuta"
+  comfirmOKButton: "Commuta",
+  ignore: "Ignora",
+  holdAndAnswer: "Metti in attesa e rispondi"
 }; // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
 // @key: @#@"logCall"@#@ @source: @#@"Log Call"@#@
 // @key: @#@"editLog"@#@ @source: @#@"Edit Log"@#@
@@ -64,8 +66,8 @@ var _default = {
 // @key: @#@"from"@#@ @source: @#@"From"@#@
 // @key: @#@"to"@#@ @source: @#@"To"@#@
 // @key: @#@"hangup"@#@ @source: @#@"Hang up"@#@
-// @key: @#@"accept"@#@ @source: @#@"Accept"@#@
-// @key: @#@"toVoicemail"@#@ @source: @#@"Send to Voicemail"@#@
+// @key: @#@"accept"@#@ @source: @#@"Answer"@#@
+// @key: @#@"toVoicemail"@#@ @source: @#@"To Voicemail"@#@
 // @key: @#@"anonymous"@#@ @source: @#@"Anonymous"@#@
 // @key: @#@"mergeToConference"@#@ @source: @#@"Merge"@#@
 // @key: @#@"hold"@#@ @source: @#@"Hold"@#@
@@ -77,6 +79,8 @@ var _default = {
 // @key: @#@"comfirmContext"@#@ @source: @#@"You're currently on an active call with {displayName}. Would you like to continue the call on this device?"@#@
 // @key: @#@"comfirmCancelButton"@#@ @source: @#@"Cancel"@#@
 // @key: @#@"comfirmOKButton"@#@ @source: @#@"Switch"@#@
+// @key: @#@"ignore"@#@ @source: @#@"Ignore"@#@
+// @key: @#@"holdAndAnswer"@#@ @source: @#@"Hold & Answer"@#@
 
 exports["default"] = _default;
 //# sourceMappingURL=it-IT.js.map

@@ -7,12 +7,12 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  forward: "Reencaminhar",
+  forward: "Reencam.",
   ignore: "Ignorar",
-  toVoicemail: "Para correio de voz",
-  answer: "Responder",
-  endAndAnswer: "Terminar e responder",
-  holdAndAnswer: "Em espera e responder",
+  toVoicemail: "P/ correio voz",
+  answer: "Atender",
+  endAndAnswer: "Term e atender",
+  holdAndAnswer: "Esp e atender",
   custom: "Personalizado"
 }; // @key: @#@"forward"@#@ @source: @#@"Forward"@#@
 // @key: @#@"ignore"@#@ @source: @#@"Ignore"@#@

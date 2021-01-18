@@ -47,7 +47,8 @@ var Header = function Header(_ref) {
       buttons = _ref.buttons,
       children = _ref.children;
   var label = children ? /*#__PURE__*/_react["default"].createElement("div", {
-    className: _styles["default"].label
+    className: _styles["default"].label,
+    "data-sign": "headerTitle"
   }, children) : null;
 
   var _addIndex = (0, _ramda.addIndex)(_ramda.reduce)(function (acc, _ref2, idx) {
@@ -81,7 +82,8 @@ var Header = function Header(_ref) {
 
   return /*#__PURE__*/_react["default"].createElement("header", {
     className: (0, _classnames["default"])(_styles["default"].root, className),
-    onClick: onClick
+    onClick: onClick,
+    "data-sign": "header"
   }, label, leftButtons.length ? /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])(_styles["default"].buttonGroup, _styles["default"].leftButtons)
   }, leftButtons) : null, rightButtons.length ? /*#__PURE__*/_react["default"].createElement("div", {

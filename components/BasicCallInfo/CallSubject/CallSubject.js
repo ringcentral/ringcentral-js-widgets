@@ -26,7 +26,8 @@ var CallSubject = function CallSubject(_ref) {
     title: subject,
     enterDelay: _toolTipDelayTime.TOOLTIP_LONG_DELAY_TIME
   }, /*#__PURE__*/_react["default"].createElement("div", {
-    className: _styles["default"].matchName
+    className: _styles["default"].matchName,
+    "data-sign": "matchName"
   }, subject)));
 };
 

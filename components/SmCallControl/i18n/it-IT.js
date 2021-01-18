@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  mute: "Disatt. Audio",
+  mute: "Disatt. audio",
   unmute: "Riattiva audio",
   hangup: "Riaggancia",
   reject: "Rifiuta"

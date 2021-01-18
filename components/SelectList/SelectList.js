@@ -133,6 +133,7 @@ var SelectList = function SelectList(props) {
     "data-sign": "select-list-panel"
   }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].field,
+    "data-sign": "select-list-open",
     onClick: function onClick(e) {
       e.preventDefault();
       e.stopPropagation();

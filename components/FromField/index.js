@@ -63,7 +63,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToAr
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-function PhoneNumber(_ref) {
+var PhoneNumber = function PhoneNumber(_ref) {
   var formatPhone = _ref.formatPhone,
       usageType = _ref.usageType,
       currentLocale = _ref.currentLocale,
@@ -74,7 +74,7 @@ function PhoneNumber(_ref) {
   return /*#__PURE__*/_react["default"].createElement("span", {
     className: _styles["default"].phoneNumber
   }, usageTypeDom, /*#__PURE__*/_react["default"].createElement("span", null, formatPhone(phoneNumber)));
-}
+};
 
 PhoneNumber.propTypes = {
   formatPhone: _propTypes["default"].func.isRequired,
@@ -95,6 +95,7 @@ var FromField = /*#__PURE__*/(0, _react.memo)(function FromField(_ref2) {
       onChange = _ref2.onChange,
       formatPhone = _ref2.formatPhone,
       hidden = _ref2.hidden,
+      disabled = _ref2.disabled,
       showAnonymous = _ref2.showAnonymous,
       currentLocale = _ref2.currentLocale;
 
@@ -117,6 +118,7 @@ var FromField = /*#__PURE__*/(0, _react.memo)(function FromField(_ref2) {
     label: "".concat(_i18n["default"].getString('from', currentLocale), ":"),
     onChange: onChange,
     options: options,
+    disabled: disabled,
     renderValue: function renderValue(value) {
       if (value === 'anonymous') {
         return /*#__PURE__*/_react["default"].createElement("span", null, _i18n["default"].getString('Blocked', currentLocale));
@@ -156,12 +158,14 @@ FromField.propTypes = {
   currentLocale: _propTypes["default"].string.isRequired,
   hidden: _propTypes["default"].bool.isRequired,
   showAnonymous: _propTypes["default"].bool,
-  className: _propTypes["default"].string
+  className: _propTypes["default"].string,
+  disabled: _propTypes["default"].bool
 };
 FromField.defaultProps = {
   fromNumber: null,
   className: undefined,
-  showAnonymous: true
+  showAnonymous: true,
+  disabled: false
 };
 var _default = FromField;
 exports["default"] = _default;

@@ -9,11 +9,15 @@ require("core-js/modules/es6.object.define-property");
 
 var _Meeting = require("ringcentral-integration/modules/Meeting");
 
-var _voIPOnly$telephonyOn;
+var _date$time$duration$t;
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-var _default = (_voIPOnly$telephonyOn = {
+var _default = (_date$time$duration$t = {
+  date: "Data",
+  time: "Horário",
+  duration: "Duração",
+  topic: "Título da reunião",
   voIPOnly: "Apenas áudio da Internet",
   telephonyOnly: "Apenas telefone",
   both: "Áudio de telefone e da Internet",
@@ -22,7 +26,11 @@ var _default = (_voIPOnly$telephonyOn = {
   video: "Vídeo",
   audio: "Áudio",
   scheduleFor: "Agendar em nome de"
-}, _defineProperty(_voIPOnly$telephonyOn, _Meeting.ASSISTED_USERS_MYSELF, "Eu mesmo"), _defineProperty(_voIPOnly$telephonyOn, "meetingOptions", "Opções de reunião"), _defineProperty(_voIPOnly$telephonyOn, "meetingSettings", "Configurações da reunião"), _defineProperty(_voIPOnly$telephonyOn, "rcMeetingSettings", "Configurações da reunião por vídeo"), _defineProperty(_voIPOnly$telephonyOn, "audioOptions", "Opções de áudio"), _defineProperty(_voIPOnly$telephonyOn, "recurringMeeting", "Reunião recorrente"), _defineProperty(_voIPOnly$telephonyOn, "recurringNote", "Nota: Habilite esta opção ao escolher “Recorrente”"), _defineProperty(_voIPOnly$telephonyOn, "joinBeforeHost", "Permitir que os participantes entrem antes do host"), _defineProperty(_voIPOnly$telephonyOn, "turnOffCamera", "Desativar a câmera dos participantes"), _defineProperty(_voIPOnly$telephonyOn, "turnOffHostCamera", "Desligar a câmera do host ao entrar na reunião"), _defineProperty(_voIPOnly$telephonyOn, "requirePassword", "Exigir senha"), _defineProperty(_voIPOnly$telephonyOn, "setPassword", "Definir senha *"), _defineProperty(_voIPOnly$telephonyOn, "passwordEmptyError", "Necessária senha da reunião"), _defineProperty(_voIPOnly$telephonyOn, "rcmPasswordInvalidError", "Sua senha deve ter de 1 a 10 caracteres ou números e não pode conter símbolos, exceto @, * ou -"), _defineProperty(_voIPOnly$telephonyOn, "rcmPasswordHintText", "Sua senha deve ter de 1 a 10 caracteres ou números e não pode conter símbolos, exceto @, * ou -"), _defineProperty(_voIPOnly$telephonyOn, "usePersonalMeetingId", "Usar ID de reunião pessoal"), _defineProperty(_voIPOnly$telephonyOn, "pmiChangeConfirm", "Se quiser fazer alterações em sua reunião pessoal, "), _defineProperty(_voIPOnly$telephonyOn, "changePmiSettings", "altere as configurações de PMI."), _defineProperty(_voIPOnly$telephonyOn, "pmiSettingChangeAlert", "Se você alterar as configurações e agendar esta reunião, todas as reuniões com ID da reunião pessoal usarão essas mesmas configurações mais recentes."), _defineProperty(_voIPOnly$telephonyOn, "lockedTooltip", "Esta configuração é gerenciada pelo administrador da sua empresa"), _voIPOnly$telephonyOn); // @key: @#@"voIPOnly"@#@ @source: @#@"Internet audio only"@#@
+}, _defineProperty(_date$time$duration$t, _Meeting.ASSISTED_USERS_MYSELF, "Eu mesmo"), _defineProperty(_date$time$duration$t, "meetingOptions", "Opções de reunião"), _defineProperty(_date$time$duration$t, "meetingSettings", "Configurações da reunião"), _defineProperty(_date$time$duration$t, "rcMeetingSettings", "Configurações da reunião por vídeo"), _defineProperty(_date$time$duration$t, "audioOptions", "Opções de áudio"), _defineProperty(_date$time$duration$t, "recurringMeeting", "Reunião recorrente"), _defineProperty(_date$time$duration$t, "recurringNote", "Nota: Habilite esta opção ao escolher “Recorrente”"), _defineProperty(_date$time$duration$t, "joinBeforeHost", "Permitir que os participantes entrem antes do host"), _defineProperty(_date$time$duration$t, "turnOffCamera", "Desativar a câmera dos participantes"), _defineProperty(_date$time$duration$t, "turnOffHostCamera", "Desligar a câmera do host ao entrar na reunião"), _defineProperty(_date$time$duration$t, "requirePassword", "Exigir senha"), _defineProperty(_date$time$duration$t, "setPassword", "Definir senha *"), _defineProperty(_date$time$duration$t, "passwordEmptyError", "Necessária senha da reunião"), _defineProperty(_date$time$duration$t, "rcmPasswordInvalidError", "Sua senha deve ter de 1 a 10 caracteres ou números e não pode conter símbolos, exceto @, * ou -"), _defineProperty(_date$time$duration$t, "rcmPasswordHintText", "Sua senha deve ter de 1 a 10 caracteres ou números e não pode conter símbolos, exceto @, * ou -"), _defineProperty(_date$time$duration$t, "usePersonalMeetingId", "Usar ID de reunião pessoal"), _defineProperty(_date$time$duration$t, "pmiChangeConfirm", "Se quiser fazer alterações em sua reunião pessoal, "), _defineProperty(_date$time$duration$t, "changePmiSettings", "altere as configurações de PMI."), _defineProperty(_date$time$duration$t, "pmiSettingChangeAlert", "Se você alterar as configurações e agendar esta reunião, todas as reuniões com ID da reunião pessoal usarão essas mesmas configurações mais recentes."), _defineProperty(_date$time$duration$t, "lockedTooltip", "Esta configuração é gerenciada pelo administrador da sua empresa"), _defineProperty(_date$time$duration$t, "when", "Quando"), _defineProperty(_date$time$duration$t, "recurringDescribe", "Lembre-se de verificar a recorrência ou repetir no convite de calendário para os participantes."), _date$time$duration$t); // @key: @#@"date"@#@ @source: @#@"Date"@#@
+// @key: @#@"time"@#@ @source: @#@"Time"@#@
+// @key: @#@"duration"@#@ @source: @#@"Duration"@#@
+// @key: @#@"topic"@#@ @source: @#@"Meeting title"@#@
+// @key: @#@"voIPOnly"@#@ @source: @#@"Internet audio only"@#@
 // @key: @#@"telephonyOnly"@#@ @source: @#@"Telephone only"@#@
 // @key: @#@"both"@#@ @source: @#@"Telephone and Internet Audio"@#@
 // @key: @#@"meetingId"@#@ @source: @#@"Meeting ID"@#@
@@ -50,6 +58,8 @@ var _default = (_voIPOnly$telephonyOn = {
 // @key: @#@"changePmiSettings"@#@ @source: @#@"change PMI settings"@#@
 // @key: @#@"pmiSettingChangeAlert"@#@ @source: @#@"If you change the settings and schedule this meeting, all of meetings with Personal Meeting ID will use the same latest settings."@#@
 // @key: @#@"lockedTooltip"@#@ @source: @#@"This setting is managed by your company admin"@#@
+// @key: @#@"when"@#@ @source: @#@"When"@#@
+// @key: @#@"recurringDescribe"@#@ @source: @#@"Please remember to check recurrence or repeat in your calendar invitation to your attendees."@#@
 
 
 exports["default"] = _default;

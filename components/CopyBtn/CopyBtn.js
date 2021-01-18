@@ -31,7 +31,7 @@ var _react = _interopRequireWildcard(require("react"));
 
 var _juno = require("@ringcentral/juno");
 
-var _iconCopy = _interopRequireDefault(require("@ringcentral/juno/icons/icon-copy.svg"));
+var _Copy = _interopRequireDefault(require("@ringcentral/juno/icon/Copy"));
 
 var _CopyToClipboard = _interopRequireDefault(require("../CopyToClipboard"));
 
@@ -63,9 +63,9 @@ var InnerBtn = function InnerBtn(props) {
   return /*#__PURE__*/_react["default"].createElement(_juno.RcIconButton, {
     variant: "round",
     size: "small",
-    color: "grey.400",
+    color: "text.subdued",
     "data-sign": "copyBtn",
-    symbol: _iconCopy["default"],
+    symbol: _Copy["default"],
     tooltipTitle: _i18n["default"].getString('copy', currentLocale),
     onClick: executeCopy
   });
@@ -83,7 +83,9 @@ var CopyBtn = function CopyBtn(props) {
       executeCopy: executeCopy
     });
   }, [currentLocale]);
-  return /*#__PURE__*/_react["default"].createElement(BtnContainer, null, /*#__PURE__*/_react["default"].createElement(_CopyToClipboard["default"], {
+  return /*#__PURE__*/_react["default"].createElement(BtnContainer, {
+    "aria-disabled": true
+  }, /*#__PURE__*/_react["default"].createElement(_CopyToClipboard["default"], {
     currentLocale: currentLocale,
     copiedText: value,
     button: memoizedBtn,

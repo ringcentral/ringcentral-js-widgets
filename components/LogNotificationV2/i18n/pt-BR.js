@@ -11,7 +11,7 @@ var _default = {
   save: "Salvar e novo",
   discard: "Descartar e novo",
   hangup: "Desligar",
-  reject: "Para caixa postal"
+  reject: "P/ caixa postal"
 }; // @key: @#@"log"@#@ @source: @#@"Log"@#@
 // @key: @#@"save"@#@ @source: @#@"Save and new"@#@
 // @key: @#@"discard"@#@ @source: @#@"Discard and new"@#@

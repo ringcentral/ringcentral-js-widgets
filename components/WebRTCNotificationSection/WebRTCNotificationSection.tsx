@@ -1,8 +1,8 @@
 import classnames from 'classnames';
 import React, { FunctionComponent, useState, useEffect } from 'react';
 import callDirections from 'ringcentral-integration/enums/callDirections';
-import IgnoreIcon from '@ringcentral/juno/icons/icon-ignore.svg';
-import VoicemailIcon from '@ringcentral/juno/icons/icon-voicemail.svg';
+import IgnoreIcon from '@ringcentral/juno/icon/Ignore';
+import VoicemailIcon from '@ringcentral/juno/icon/Voicemail';
 import { RcPopover, RcMenuList, RcMenuItem } from '@ringcentral/juno';
 import ForwardIcon from '../../assets/images/Forward_white.svg';
 import HoldAnswerIcon from '../../assets/images/HoldAnswer.svg';
@@ -29,6 +29,7 @@ export const WebRTCNotificationSection: FunctionComponent<WebRTCNotificationProp
   answer,
   forwardingNumbers,
   onForward,
+  clickForwardTrack = () => {},
 }) => {
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -49,6 +50,7 @@ export const WebRTCNotificationSection: FunctionComponent<WebRTCNotificationProp
         : from && (from.phoneNumber || from.extensionNumber);
     const formatNumber = formatPhone(number);
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+      clickForwardTrack();
       setAnchorEl(event.currentTarget);
     };
     return (
@@ -60,7 +62,9 @@ export const WebRTCNotificationSection: FunctionComponent<WebRTCNotificationProp
             styles.content,
           )}
         >
-          <div className={styles.contact}>{logName}</div>
+          <div title={logName} className={styles.contact}>
+            {logName}
+          </div>
           <div className={styles.number}>{formatNumber}</div>
           <div className={styles.control}>
             <ul
@@ -79,18 +83,24 @@ export const WebRTCNotificationSection: FunctionComponent<WebRTCNotificationProp
                   className={styles.button}
                   onClick={() => onIgnore(telephonySessionId)}
                 />
-                <span className={styles.text}>
+                <span
+                  title={i18n.getString('ignore', currentLocale)}
+                  className={styles.firstLineText}
+                >
                   {i18n.getString('ignore', currentLocale)}
                 </span>
               </li>
               <li className={styles.callButton}>
                 <CircleButton
-                  dataSign="forward"
+                  dataSign={!anchorEl ? 'forward' : 'forwardActive'}
                   icon={ForwardIcon}
                   className={styles.button}
                   onClick={handleClick}
                 />
-                <span className={styles.text}>
+                <span
+                  title={i18n.getString('forward', currentLocale)}
+                  className={styles.firstLineText}
+                >
                   {i18n.getString('forward', currentLocale)}
                 </span>
               </li>
@@ -107,7 +117,10 @@ export const WebRTCNotificationSection: FunctionComponent<WebRTCNotificationProp
                     iconY={125}
                     onClick={() => toVoicemail(telephonySessionId)}
                   />
-                  <span className={styles.text}>
+                  <span
+                    title={i18n.getString('toVoicemail', currentLocale)}
+                    className={styles.firstLineText}
+                  >
                     {i18n.getString('toVoicemail', currentLocale)}
                   </span>
                 </li>
@@ -125,7 +138,10 @@ export const WebRTCNotificationSection: FunctionComponent<WebRTCNotificationProp
                     showBorder={false}
                     onClick={() => answer(telephonySessionId)}
                   />
-                  <span className={styles.text}>
+                  <span
+                    title={i18n.getString('answer', currentLocale)}
+                    className={styles.secondLineText}
+                  >
                     {i18n.getString('answer', currentLocale)}
                   </span>
                 </li>
@@ -143,7 +159,10 @@ export const WebRTCNotificationSection: FunctionComponent<WebRTCNotificationProp
                     iconY={0}
                     onClick={() => endAndAnswer(telephonySessionId)}
                   />
-                  <span className={styles.text}>
+                  <span
+                    title={i18n.getString('endAndAnswer', currentLocale)}
+                    className={styles.secondLineText}
+                  >
                     {i18n.getString('endAndAnswer', currentLocale)}
                   </span>
                 </li>
@@ -161,7 +180,10 @@ export const WebRTCNotificationSection: FunctionComponent<WebRTCNotificationProp
                     iconY={125}
                     onClick={() => toVoicemail(telephonySessionId)}
                   />
-                  <span className={styles.text}>
+                  <span
+                    title={i18n.getString('toVoicemail', currentLocale)}
+                    className={styles.secondLineText}
+                  >
                     {i18n.getString('toVoicemail', currentLocale)}
                   </span>
                 </li>
@@ -179,7 +201,10 @@ export const WebRTCNotificationSection: FunctionComponent<WebRTCNotificationProp
                     iconY={0}
                     onClick={() => holdAndAnswer(telephonySessionId)}
                   />
-                  <span className={styles.text}>
+                  <span
+                    title={i18n.getString('holdAndAnswer', currentLocale)}
+                    className={styles.secondLineText}
+                  >
                     {i18n.getString('holdAndAnswer', currentLocale)}
                   </span>
                 </li>
@@ -231,21 +256,25 @@ export const WebRTCNotificationSection: FunctionComponent<WebRTCNotificationProp
         onClose={() => handleClose()}
         classes={{ paper: styles.forwardPopover }}
       >
-        <RcMenuList>
-          {forwardList.map(({ text, subText, onClick, key }) => (
-            <RcMenuItem
-              key={key}
-              onClick={onClick}
-              maxWidth={170}
-              data-value={key}
-            >
-              <div className={styles.moreActionItem} data-sign={key}>
-                {text && <span className={styles.actionText}>{text}</span>}
-                {subText && <span className={styles.subText}>{subText} </span>}
-              </div>
-            </RcMenuItem>
-          ))}
-        </RcMenuList>
+        <div data-sign="forwardActiveList">
+          <RcMenuList>
+            {forwardList.map(({ text, subText, onClick, key }) => (
+              <RcMenuItem
+                key={key}
+                onClick={onClick}
+                maxWidth={170}
+                data-value={key}
+              >
+                <div className={styles.moreActionItem} data-sign={key}>
+                  {text && <span className={styles.actionText}>{text}</span>}
+                  {subText && (
+                    <span className={styles.subText}>{subText} </span>
+                  )}
+                </div>
+              </RcMenuItem>
+            ))}
+          </RcMenuList>
+        </div>
       </RcPopover>
     );
   };

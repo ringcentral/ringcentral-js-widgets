@@ -1,12 +1,26 @@
-import { RcmInvitationInfo } from 'ringcentral-integration/modules/Meeting/Meeting';
+import { RcmInvitationInfo } from 'ringcentral-integration/modules/Meeting';
+import { MeetingTypeV } from 'ringcentral-integration/helpers/meetingHelper.interface';
+import { RcVDialInNumberObj } from 'ringcentral-integration/interfaces/Rcv.model';
 
 interface RcmMeeting {
   id: string;
   password: string;
+  topic: string;
+  meetingType: MeetingTypeV;
+  schedule: {
+    startTime: Date;
+    durationInMinutes: number;
+    timeZone: {
+      id: string;
+    };
+  };
   links: { joinUri: string };
 }
 
 interface RcvMeeting {
+  name: string;
+  startTime: Date;
+  duration: number;
   joinUri: string;
   shortId: string;
   links: { joinUri: string };
@@ -43,7 +57,7 @@ export interface RcmMainParams {
 export interface RcvMainParams {
   meeting: RcvMeeting;
   extensionInfo: CommonExtensionInfo;
-  dialInNumber: string;
+  dialInNumber: string | RcVDialInNumberObj[];
 }
 
 export interface TplResult {

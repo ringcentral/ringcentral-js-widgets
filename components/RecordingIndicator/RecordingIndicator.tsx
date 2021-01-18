@@ -60,7 +60,7 @@ export const RecordingIndicator: FunctionComponent<RecordingIndicatorProps> = ({
 
   return show ? (
     <RcIcon
-      iconSize="small"
+      size="small"
       symbol={RecordIconActive}
       className={classnames(
         styles.recordingIndicator,

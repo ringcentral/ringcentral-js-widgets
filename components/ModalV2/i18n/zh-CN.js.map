@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/ModalV2/i18n/zh-CN.js"],"names":["close"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,KAAK,EAAE;AADM,C,EAIf","sourcesContent":["export default {\n  close: \"关闭\"\n};\n\n// @key: @#@\"close\"@#@ @source: @#@\"Close\"@#@\n"],"file":"zh-CN.js"}

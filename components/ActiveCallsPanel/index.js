@@ -231,7 +231,8 @@ var ActiveCallsPanel = /*#__PURE__*/function (_Component) {
           showIgnoreBtn = _this$props2.showIgnoreBtn,
           showHoldAnswerBtn = _this$props2.showHoldAnswerBtn,
           useCallDetailV2 = _this$props2.useCallDetailV2,
-          newCallIcon = _this$props2.newCallIcon;
+          newCallIcon = _this$props2.newCallIcon,
+          clickSwitchTrack = _this$props2.clickSwitchTrack;
       return /*#__PURE__*/_react["default"].createElement(_ActiveCallList["default"], {
         title: title,
         calls: calls,
@@ -289,7 +290,8 @@ var ActiveCallsPanel = /*#__PURE__*/function (_Component) {
         showIgnoreBtn: showIgnoreBtn,
         showHoldAnswerBtn: showHoldAnswerBtn,
         useCallDetailV2: useCallDetailV2,
-        newCallIcon: newCallIcon
+        newCallIcon: newCallIcon,
+        clickSwitchTrack: clickSwitchTrack
       });
     }
   }, {
@@ -419,7 +421,8 @@ ActiveCallsPanel.propTypes = {
   showIgnoreBtn: _propTypes["default"].bool,
   showHoldAnswerBtn: _propTypes["default"].bool,
   useCallDetailV2: _propTypes["default"].bool,
-  newCallIcon: _propTypes["default"].bool
+  newCallIcon: _propTypes["default"].bool,
+  clickSwitchTrack: _propTypes["default"].func
 };
 ActiveCallsPanel.defaultProps = {
   className: undefined,
@@ -497,6 +500,7 @@ ActiveCallsPanel.defaultProps = {
   showIgnoreBtn: false,
   showHoldAnswerBtn: false,
   useCallDetailV2: false,
-  newCallIcon: false
+  newCallIcon: false,
+  clickSwitchTrack: function clickSwitchTrack() {}
 };
 //# sourceMappingURL=index.js.map

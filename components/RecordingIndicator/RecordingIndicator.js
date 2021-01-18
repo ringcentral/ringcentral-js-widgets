@@ -112,7 +112,7 @@ var RecordingIndicator = function RecordingIndicator(_ref2) {
     }, 0);
   }, [count]);
   return show ? /*#__PURE__*/_react["default"].createElement(_juno.RcIcon, {
-    iconSize: "small",
+    size: "small",
     symbol: _RecordOn["default"],
     className: (0, _classnames["default"])(_styles["default"].recordingIndicator, !!customClass && customClass)
   }) : null;

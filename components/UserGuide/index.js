@@ -195,7 +195,8 @@ var UserGuide = /*#__PURE__*/function (_React$Component) {
       var _this2 = this;
 
       return /*#__PURE__*/_react["default"].createElement("div", {
-        className: _styles["default"].intro
+        className: _styles["default"].intro,
+        "data-sign": "userGuide"
       }, /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].introBg,
         style: {
@@ -248,7 +249,8 @@ var UserGuide = /*#__PURE__*/function (_React$Component) {
         onClick: function onClick() {
           _this3.exit();
         },
-        className: (0, _classnames["default"])(_styles["default"].secondaryButton)
+        className: (0, _classnames["default"])(_styles["default"].secondaryButton),
+        dataSign: "skipButton"
       }, _i18n["default"].getString('skip', this.props.currentLocale));
 
       var nextButton = /*#__PURE__*/_react["default"].createElement(_Button.Button, {

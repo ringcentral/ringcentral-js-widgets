@@ -43,8 +43,6 @@ require("core-js/modules/es6.object.set-prototype-of");
 
 require("regenerator-runtime/runtime");
 
-require("core-js/modules/es6.function.name");
-
 var _di = require("ringcentral-integration/lib/di");
 
 var _RcUIModule2 = _interopRequireDefault(require("../../lib/RcUIModule"));
@@ -91,7 +89,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 var GenericMeetingUI = (_dec = (0, _di.Module)({
   name: 'GenericMeetingUI',
-  deps: ['GenericMeeting', 'Locale', 'RateLimiter', 'ConnectivityMonitor', 'Brand']
+  deps: ['GenericMeeting', 'Locale', 'RateLimiter', 'ConnectivityMonitor']
 }), _dec(_class = (_temp = /*#__PURE__*/function (_RcUIModule) {
   _inherits(GenericMeetingUI, _RcUIModule);
 
@@ -104,8 +102,7 @@ var GenericMeetingUI = (_dec = (0, _di.Module)({
         locale = _ref.locale,
         rateLimiter = _ref.rateLimiter,
         connectivityMonitor = _ref.connectivityMonitor,
-        brand = _ref.brand,
-        options = _objectWithoutProperties(_ref, ["genericMeeting", "locale", "rateLimiter", "connectivityMonitor", "brand"]);
+        options = _objectWithoutProperties(_ref, ["genericMeeting", "locale", "rateLimiter", "connectivityMonitor"]);
 
     _classCallCheck(this, GenericMeetingUI);
 
@@ -114,12 +111,10 @@ var GenericMeetingUI = (_dec = (0, _di.Module)({
     _this._locale = void 0;
     _this._rateLimiter = void 0;
     _this._connectivityMonitor = void 0;
-    _this._brand = void 0;
     _this._genericMeeting = genericMeeting;
     _this._locale = locale;
     _this._rateLimiter = rateLimiter;
     _this._connectivityMonitor = connectivityMonitor;
-    _this._brand = brand;
     return _this;
   }
 
@@ -149,6 +144,7 @@ var GenericMeetingUI = (_dec = (0, _di.Module)({
         timePickerSize: timePickerSize,
         currentLocale: this._locale.currentLocale,
         disabled: !!(disabled || invalidPassowrd || this._genericMeeting.ready && this._genericMeeting.isScheduling || this._connectivityMonitor && !this._connectivityMonitor.connectivity || this._rateLimiter && this._rateLimiter.throttling),
+        configDisabled: false,
         showTopic: showTopic,
         showWhen: showWhen,
         showDuration: showDuration,
@@ -165,13 +161,15 @@ var GenericMeetingUI = (_dec = (0, _di.Module)({
         isRCM: this._genericMeeting.isRCM,
         isRCV: this._genericMeeting.isRCV,
         scheduleButton: scheduleButton,
-        brandName: this._brand.name,
         showAdminLock: this._genericMeeting.ready && this._genericMeeting.showAdminLock,
+        enableServiceWebSettings: this._genericMeeting.ready && this._genericMeeting.enableServiceWebSettings,
         enablePersonalMeeting: this._genericMeeting.ready && this._genericMeeting.enablePersonalMeeting,
         enableWaitingRoom: this._genericMeeting.ready && this._genericMeeting.enableWaitingRoom,
         personalMeetingId: this._genericMeeting.ready && this._genericMeeting.personalMeetingId,
+        putRecurringMeetingInMiddle: this._genericMeeting.ready && this._genericMeeting.putRecurringMeetingInMiddle,
         showSpinner: !!(!this._locale.ready || !this._genericMeeting.ready || !this._genericMeeting.isRCM && !this._genericMeeting.isRCV || !this._genericMeeting.meeting || this._connectivityMonitor && !this._connectivityMonitor.ready || this._rateLimiter && !this._rateLimiter.ready),
-        showSpinnerInConfigPanel: this._genericMeeting.isUpdating
+        showSpinnerInConfigPanel: this._genericMeeting.isUpdating,
+        hasSettingsChanged: this._genericMeeting.hasSettingsChanged
       };
     }
   }, {
@@ -183,6 +181,9 @@ var GenericMeetingUI = (_dec = (0, _di.Module)({
       return {
         switchUsePersonalMeetingId: function switchUsePersonalMeetingId(usePersonalMeetingId) {
           return _this2._genericMeeting.switchUsePersonalMeetingId(usePersonalMeetingId);
+        },
+        updateHasSettingsChanged: function updateHasSettingsChanged(isChanged) {
+          _this2._genericMeeting.updateHasSettingsChanged(isChanged);
         },
         updateScheduleFor: function updateScheduleFor(userExtensionId) {
           return _this2._genericMeeting.updateScheduleFor(userExtensionId);

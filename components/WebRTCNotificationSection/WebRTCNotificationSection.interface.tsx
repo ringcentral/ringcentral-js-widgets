@@ -14,6 +14,7 @@ export interface WebRTCNotificationProps {
   forwardingNumbers: any[];
   hasActiveSession: boolean;
   answer: (telephonySession: string) => any;
+  clickForwardTrack?: () => any;
 }
 
 export interface Call {

@@ -16,7 +16,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 var _default = (_addLog$editLog$viewD = {
-  addLog: "Loggen",
+  addLog: "Log",
   editLog: "Log bewerken",
   viewDetails: "Details weergeven",
   addEntity: "Nieuw maken",

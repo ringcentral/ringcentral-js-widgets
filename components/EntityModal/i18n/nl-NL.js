@@ -11,7 +11,7 @@ var _default = {
   contact: "Contactpersoon",
   lead: "Lead",
   opportunity: "Kans",
-  chooseEntity: "Selecteer het soort entiteit",
+  chooseEntity: "Selecteer entiteit",
   create: "Maken"
 }; // @key: @#@"account"@#@ @source: @#@"Account"@#@
 // @key: @#@"contact"@#@ @source: @#@"Contact"@#@

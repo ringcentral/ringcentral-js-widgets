@@ -16,16 +16,17 @@ var _default = {
   transfer: "Transferir",
   more: "Mais",
   stopRecord: "Parar de gravar",
-  record: "Gravação",
+  record: "Gravar",
   showKeypad: "Teclado",
   hideKeypad: "Ocultar teclado",
   unHold: "Retomar",
-  forward: "Reencaminhar",
+  forward: "Reencam.",
   ignore: "Ignorar",
-  voicemail: "Correio de voz",
+  voicemail: "Para Correio de voz",
   custom: "Personalizado",
-  answerAndEnd: "Responder e terminar",
-  answerAndHold: "Responder e em espera"
+  answerAndEnd: "Atender e terminar",
+  answerAndHold: "Atender e em espera",
+  answer: "Atender"
 }; // @key: @#@"mute"@#@ @source: @#@"Mute"@#@
 // @key: @#@"unmute"@#@ @source: @#@"Unmute"@#@
 // @key: @#@"hangup"@#@ @source: @#@"Hang up"@#@
@@ -41,10 +42,11 @@ var _default = {
 // @key: @#@"unHold"@#@ @source: @#@"Unhold"@#@
 // @key: @#@"forward"@#@ @source: @#@"Forward"@#@
 // @key: @#@"ignore"@#@ @source: @#@"Ignore"@#@
-// @key: @#@"voicemail"@#@ @source: @#@"Voicemail"@#@
+// @key: @#@"voicemail"@#@ @source: @#@"To Voicemail"@#@
 // @key: @#@"custom"@#@ @source: @#@"Custom"@#@
 // @key: @#@"answerAndEnd"@#@ @source: @#@"Answer & End"@#@
 // @key: @#@"answerAndHold"@#@ @source: @#@"Answer & Hold"@#@
+// @key: @#@"answer"@#@ @source: @#@"Answer"@#@
 
 exports["default"] = _default;
 //# sourceMappingURL=pt-PT.js.map

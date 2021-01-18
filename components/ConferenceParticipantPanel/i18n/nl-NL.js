@@ -8,12 +8,12 @@ Object.defineProperty(exports, "__esModule", {
 exports["default"] = void 0;
 var _default = {
   removeParticipant: "Deelnemer verwijderen",
-  confirmStr1: "Weet u zeker dat u wilt verwijderen",
-  confirmStr2: "uit deze oproep?",
+  confirmStr1: "Weet u zeker dat u",
+  confirmStr2: "wilt verwijderen uit deze oproep?",
   remove: "Verwijderen",
   cancel: "Annuleren",
-  participants: "Deelnemers",
-  participant: "Deelnemer",
+  participants: "deelnemers",
+  participant: "deelnemer",
   conferenceCall: "Conferencecall",
   unknownNumber: "Anoniem"
 }; // @key: @#@"removeParticipant"@#@ @source: @#@"Remove Participant"@#@

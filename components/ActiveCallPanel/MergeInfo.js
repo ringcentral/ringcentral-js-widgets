@@ -213,7 +213,8 @@ var MergeInfo = /*#__PURE__*/function (_Component) {
       }) : /*#__PURE__*/_react["default"].createElement(_CallAvatar["default"], {
         avatarUrl: null
       })), /*#__PURE__*/_react["default"].createElement("div", {
-        className: _styles["default"].callee_name_active
+        className: _styles["default"].callee_name_active,
+        "data-sign": "activeCalleeName"
       }, /*#__PURE__*/_react["default"].createElement("span", {
         title: currentCallTitle
       }, currentCallTitle)), /*#__PURE__*/_react["default"].createElement("div", {

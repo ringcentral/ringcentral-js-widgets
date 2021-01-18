@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  log: "Loggen",
+  log: "Log",
   save: "Opslaan en nieuw",
   discard: "Weggooien en nieuw",
   hangup: "Ophangen",

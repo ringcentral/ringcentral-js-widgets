@@ -35,7 +35,7 @@ require("core-js/modules/es6.array.is-array");
 
 require("core-js/modules/es6.array.filter");
 
-var _iconSearch = _interopRequireDefault(require("@ringcentral/juno/icons/icon-search.svg"));
+var _Search = _interopRequireDefault(require("@ringcentral/juno/icon/Search"));
 
 var _react = _interopRequireWildcard(require("react"));
 
@@ -102,7 +102,7 @@ var SearchPanel = function SearchPanel(_ref) {
     size: "small",
     radiusType: "circle",
     iconPosition: "left",
-    symbol: _iconSearch["default"],
+    symbol: _Search["default"],
     "data-sign": "searchBar",
     onChange: function onChange(event) {
       if (event.target) {

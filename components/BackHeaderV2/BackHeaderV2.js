@@ -35,7 +35,7 @@ require("core-js/modules/es6.array.is-array");
 
 var _juno = require("@ringcentral/juno");
 
-var _iconChevron_left = _interopRequireDefault(require("@ringcentral/juno/icons/icon-chevron_left.svg"));
+var _ChevronLeft = _interopRequireDefault(require("@ringcentral/juno/icon/ChevronLeft"));
 
 var _classnames2 = _interopRequireDefault(require("classnames"));
 
@@ -121,7 +121,7 @@ var BackHeader = function BackHeader(_ref) {
 BackHeader.defaultProps = {
   title: '',
   rightIcon: null,
-  backIcon: _iconChevron_left["default"],
+  backIcon: _ChevronLeft["default"],
   className: null,
   currentLocale: 'en-US',
   isWide: true

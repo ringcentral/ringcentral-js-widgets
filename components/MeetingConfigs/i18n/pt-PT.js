@@ -22,6 +22,9 @@ var _default = {
   meetingOptions: "Opções da reunião",
   requirePassword: "Exigir palavra-passe da reunião",
   password: "Palavra-passe",
+  rcmPasswordHintText: "A sua palavra-passe tem de ter 1–10 carateres e números e não pode conter símbolos, exceto @, * ou -",
+  passwordEmptyError: "Palavra-passe da reunião obrigatória",
+  rcmPasswordInvalidError: "A sua palavra-passe tem de ter 1–10 carateres e números e não pode conter símbolos, exceto @, * ou -",
   enableJoinBeforeHost: "Ativar entrada antes do anfitrião",
   telephonyOnly: "Apenas telefone",
   hostVideoOn: "Vídeo do anfitrião ligado",
@@ -51,6 +54,9 @@ var _default = {
 // @key: @#@"meetingOptions"@#@ @source: @#@"Meeting options"@#@
 // @key: @#@"requirePassword"@#@ @source: @#@"Require meeting password"@#@
 // @key: @#@"password"@#@ @source: @#@"Password"@#@
+// @key: @#@"rcmPasswordHintText"@#@ @source: @#@"Your password should be 1-10 characters, numbers long and cannot have symbols except @, * or -"@#@
+// @key: @#@"passwordEmptyError"@#@ @source: @#@"Meeting password required"@#@
+// @key: @#@"rcmPasswordInvalidError"@#@ @source: @#@"Your password must be 1-10 characters, numbers long and cannot have symbols except @, * or -"@#@
 // @key: @#@"enableJoinBeforeHost"@#@ @source: @#@"Enable join before host"@#@
 // @key: @#@"telephonyOnly"@#@ @source: @#@"Telephony Only"@#@
 // @key: @#@"hostVideoOn"@#@ @source: @#@"Host Video On"@#@

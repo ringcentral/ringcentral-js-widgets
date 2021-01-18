@@ -13,9 +13,9 @@ var _react = _interopRequireDefault(require("react"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _FormattedMessage = _interopRequireDefault(require("ringcentral-widgets/components/FormattedMessage"));
-
 var _permissionsMessages = require("ringcentral-integration/modules/RolesAndPermissions/permissionsMessages");
+
+var _FormattedMessage = _interopRequireDefault(require("../../FormattedMessage"));
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 

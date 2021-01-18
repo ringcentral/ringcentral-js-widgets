@@ -41,6 +41,12 @@ var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
+var _juno = require("@ringcentral/juno");
+
+var _icon = require("@ringcentral/juno/icon");
+
+var _Tooltip = require("../Rcui/Tooltip");
+
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
 var _phoneTypeNames = _interopRequireDefault(require("../../lib/phoneTypeNames"));
@@ -77,42 +83,70 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 var spliter = '|';
 
-function ContactInfo(_ref) {
+var ContactInfo = function ContactInfo(_ref) {
   var name = _ref.name,
       entityType = _ref.entityType,
       titleEnabled = _ref.titleEnabled,
-      phoneSourceNameRenderer = _ref.phoneSourceNameRenderer;
+      phoneSourceNameRenderer = _ref.phoneSourceNameRenderer,
+      doNotCall = _ref.doNotCall;
   var phoneSourceName = phoneSourceNameRenderer ? phoneSourceNameRenderer(entityType) : _phoneSourceNames["default"].getString(entityType);
   var nameTitle = "".concat(name, " ").concat(spliter, " ").concat(phoneSourceName);
   return /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].nameSection,
-    title: titleEnabled && nameTitle
+    title: titleEnabled && nameTitle,
+    "data-sign": "contactNameSection"
   }, /*#__PURE__*/_react["default"].createElement("span", {
     className: _styles["default"].name
   }, name), /*#__PURE__*/_react["default"].createElement("span", {
     className: _styles["default"].spliter
   }, spliter), /*#__PURE__*/_react["default"].createElement("span", {
     className: _styles["default"].label
-  }, phoneSourceName));
-}
+  }, phoneSourceName), /*#__PURE__*/_react["default"].createElement(DoNotCallIndicator, {
+    doNotCall: doNotCall
+  }));
+};
 
 ContactInfo.propTypes = {
   name: _propTypes["default"].string.isRequired,
   entityType: _propTypes["default"].string.isRequired,
   titleEnabled: _propTypes["default"].bool,
-  phoneSourceNameRenderer: _propTypes["default"].func
+  phoneSourceNameRenderer: _propTypes["default"].func,
+  doNotCall: _propTypes["default"].bool
 };
 ContactInfo.defaultProps = {
   titleEnabled: undefined,
-  phoneSourceNameRenderer: undefined
+  phoneSourceNameRenderer: undefined,
+  doNotCall: false
 };
 
-function ContactPhone(_ref2) {
-  var phoneType = _ref2.phoneType,
-      phoneNumber = _ref2.phoneNumber,
-      formatContactPhone = _ref2.formatContactPhone,
-      titleEnabled = _ref2.titleEnabled,
-      phoneTypeRenderer = _ref2.phoneTypeRenderer;
+var DoNotCallIndicator = function DoNotCallIndicator(_ref2) {
+  var doNotCall = _ref2.doNotCall;
+  if (!doNotCall) return null;
+  return /*#__PURE__*/_react["default"].createElement("div", {
+    className: _styles["default"].doNotCall,
+    "data-sign": "doNotCall"
+  }, /*#__PURE__*/_react["default"].createElement(_Tooltip.Tooltip, {
+    title: "Do Not Contact",
+    size: "medium"
+  }, /*#__PURE__*/_react["default"].createElement(_juno.RcIcon, {
+    symbol: _icon.Blocked,
+    size: "small"
+  })));
+};
+
+DoNotCallIndicator.propTypes = {
+  doNotCall: _propTypes["default"].bool
+};
+DoNotCallIndicator.defaultProps = {
+  doNotCall: false
+};
+
+var ContactPhone = function ContactPhone(_ref3) {
+  var phoneType = _ref3.phoneType,
+      phoneNumber = _ref3.phoneNumber,
+      formatContactPhone = _ref3.formatContactPhone,
+      titleEnabled = _ref3.titleEnabled,
+      phoneTypeRenderer = _ref3.phoneTypeRenderer;
   var phoneTypeName = phoneTypeRenderer ? phoneTypeRenderer(phoneType) : _phoneTypeNames["default"].getString(phoneType);
   var phoneNumberTitle = "".concat(formatContactPhone(phoneNumber), " ").concat(spliter, " ").concat(phoneTypeName);
   return /*#__PURE__*/_react["default"].createElement("div", {
@@ -125,7 +159,7 @@ function ContactPhone(_ref2) {
   }, spliter), /*#__PURE__*/_react["default"].createElement("span", {
     className: _styles["default"].label
   }, phoneTypeName));
-}
+};
 
 ContactPhone.propTypes = {
   phoneType: _propTypes["default"].string.isRequired,
@@ -139,21 +173,22 @@ ContactPhone.defaultProps = {
   phoneTypeRenderer: undefined
 };
 
-function ContactItem(_ref3) {
-  var currentLocale = _ref3.currentLocale,
-      active = _ref3.active,
-      onHover = _ref3.onHover,
-      onClick = _ref3.onClick,
-      name = _ref3.name,
-      entityType = _ref3.entityType,
-      phoneType = _ref3.phoneType,
-      phoneNumber = _ref3.phoneNumber,
-      formatContactPhone = _ref3.formatContactPhone,
-      titleEnabled = _ref3.titleEnabled,
-      phoneTypeRenderer = _ref3.phoneTypeRenderer,
-      phoneSourceNameRenderer = _ref3.phoneSourceNameRenderer,
-      ContactInfoRenderer = _ref3.contactInfoRenderer,
-      ContactPhoneRenderer = _ref3.contactPhoneRenderer;
+var ContactItem = function ContactItem(_ref4) {
+  var currentLocale = _ref4.currentLocale,
+      active = _ref4.active,
+      onHover = _ref4.onHover,
+      onClick = _ref4.onClick,
+      name = _ref4.name,
+      entityType = _ref4.entityType,
+      phoneType = _ref4.phoneType,
+      phoneNumber = _ref4.phoneNumber,
+      formatContactPhone = _ref4.formatContactPhone,
+      titleEnabled = _ref4.titleEnabled,
+      doNotCall = _ref4.doNotCall,
+      phoneTypeRenderer = _ref4.phoneTypeRenderer,
+      phoneSourceNameRenderer = _ref4.phoneSourceNameRenderer,
+      ContactInfoRenderer = _ref4.contactInfoRenderer,
+      ContactPhoneRenderer = _ref4.contactPhoneRenderer;
   var className = (0, _classnames["default"])(_styles["default"].contactItem, active ? _styles["default"].active : null);
 
   if (!ContactInfoRenderer) {
@@ -166,7 +201,8 @@ function ContactItem(_ref3) {
 
   return /*#__PURE__*/_react["default"].createElement("li", {
     className: className,
-    onMouseOver: onHover
+    onMouseOver: onHover,
+    "data-sign": "contactItem"
   }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].clickable,
     onClick: onClick
@@ -179,7 +215,8 @@ function ContactItem(_ref3) {
     formatContactPhone: formatContactPhone,
     phoneTypeRenderer: phoneTypeRenderer,
     phoneSourceNameRenderer: phoneSourceNameRenderer,
-    titleEnabled: titleEnabled
+    titleEnabled: titleEnabled,
+    doNotCall: doNotCall
   }), /*#__PURE__*/_react["default"].createElement(ContactPhoneRenderer, {
     currentLocale: currentLocale,
     name: name,
@@ -191,7 +228,7 @@ function ContactItem(_ref3) {
     phoneSourceNameRenderer: phoneSourceNameRenderer,
     titleEnabled: titleEnabled
   })));
-}
+};
 
 ContactItem.propTypes = {
   currentLocale: _propTypes["default"].string.isRequired,
@@ -207,14 +244,16 @@ ContactItem.propTypes = {
   phoneTypeRenderer: _propTypes["default"].func,
   phoneSourceNameRenderer: _propTypes["default"].func,
   contactInfoRenderer: _propTypes["default"].func,
-  contactPhoneRenderer: _propTypes["default"].func
+  contactPhoneRenderer: _propTypes["default"].func,
+  doNotCall: _propTypes["default"].bool
 };
 ContactItem.defaultProps = {
   titleEnabled: undefined,
   phoneTypeRenderer: undefined,
   phoneSourceNameRenderer: undefined,
   contactInfoRenderer: undefined,
-  contactPhoneRenderer: undefined
+  contactPhoneRenderer: undefined,
+  doNotCall: false
 };
 
 var ContactDropdownList = /*#__PURE__*/function (_Component) {
@@ -287,7 +326,8 @@ var ContactDropdownList = /*#__PURE__*/function (_Component) {
           if (typeof listRef === 'function') {
             listRef(c);
           }
-        }
+        },
+        "data-sign": "contactDropdownList"
       }, items.map(function (item, index) {
         return /*#__PURE__*/_react["default"].createElement(ContactItem, {
           currentLocale: currentLocale,
@@ -308,7 +348,8 @@ var ContactDropdownList = /*#__PURE__*/function (_Component) {
           key: "".concat(index).concat(item.phoneNumber).concat(item.name).concat(item.phoneType),
           titleEnabled: titleEnabled,
           contactInfoRenderer: contactInfoRenderer,
-          contactPhoneRenderer: contactPhoneRenderer
+          contactPhoneRenderer: contactPhoneRenderer,
+          doNotCall: item.doNotCall
         });
       }));
     }

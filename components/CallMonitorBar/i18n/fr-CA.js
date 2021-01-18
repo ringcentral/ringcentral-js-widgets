@@ -14,8 +14,8 @@ var _default = {
   incomingCalls: "{numberOf} appels entrants",
   callOnHold: "{numberOf} appel en attente",
   callsOnHold: "{numberOf} appels en attente",
-  otherDeviceCall: "{numberOf}Appeler sur d'autres appareils",
-  otherDeviceCalls: "{numberOf}Appeler sur d'autres appareils"
+  otherDeviceCall: "{numberOf}appel sur d'autres appareils",
+  otherDeviceCalls: "{numberOf}appels sur d'autres appareils"
 }; // @key: @#@"currentCall"@#@ @source: @#@"Current Call"@#@
 // @key: @#@"viewCalls"@#@ @source: @#@"View Calls"@#@
 // @key: @#@"view"@#@ @source: @#@"View"@#@

@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  forward: "转发",
+  forward: "转移",
   cancel: "取消",
   customNumber: "自定义号码"
 }; // @key: @#@"forward"@#@ @source: @#@"Forward"@#@

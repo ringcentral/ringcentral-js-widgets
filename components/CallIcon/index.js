@@ -15,9 +15,9 @@ var _classnames2 = _interopRequireDefault(require("classnames"));
 
 var _callDirections = _interopRequireDefault(require("ringcentral-integration/enums/callDirections"));
 
-var _iconOutcall_border = _interopRequireDefault(require("@ringcentral/juno/icons/icon-outcall_border.svg"));
+var _OutcallBorder = _interopRequireDefault(require("@ringcentral/juno/icon/OutcallBorder"));
 
-var _iconIncall_border = _interopRequireDefault(require("@ringcentral/juno/icons/icon-incall_border.svg"));
+var _IncallBorder = _interopRequireDefault(require("@ringcentral/juno/icon/IncallBorder"));
 
 var _CallAvatar = _interopRequireDefault(require("../CallAvatar"));
 
@@ -32,7 +32,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 var callIconMap = (_callIconMap = {}, _defineProperty(_callIconMap, _callDirections["default"].inbound, _DynamicsFont["default"].inbound), _defineProperty(_callIconMap, _callDirections["default"].outbound, _DynamicsFont["default"].outbound), _callIconMap);
-var newCallIconMap = (_newCallIconMap = {}, _defineProperty(_newCallIconMap, _callDirections["default"].inbound, _iconIncall_border["default"]), _defineProperty(_newCallIconMap, _callDirections["default"].outbound, _iconOutcall_border["default"]), _newCallIconMap);
+var newCallIconMap = (_newCallIconMap = {}, _defineProperty(_newCallIconMap, _callDirections["default"].inbound, _IncallBorder["default"]), _defineProperty(_newCallIconMap, _callDirections["default"].outbound, _OutcallBorder["default"]), _newCallIconMap);
 
 function CallIcon(_ref) {
   var direction = _ref.direction,

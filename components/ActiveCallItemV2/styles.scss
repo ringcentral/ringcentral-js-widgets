@@ -36,6 +36,7 @@ $ringout-button-size: 24px;
     overflow: visible;
 
     .content {
+      overflow: hidden;
       flex-shrink: 1;
       width: calc(100% - #{$avatar-basis} - #{$button-basis});
     }
@@ -237,6 +238,10 @@ $ringout-button-size: 24px;
   display: flex;
   justify-content: center;
   padding: 10px 0;
+}
+
+.switchDialogContent{
+  word-break: break-word;
 }
 
 .answerHoldButton {

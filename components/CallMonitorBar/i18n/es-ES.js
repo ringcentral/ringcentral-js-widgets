@@ -14,8 +14,8 @@ var _default = {
   incomingCalls: "{numberOf} llamadas entrantes",
   callOnHold: "{numberOf} llamada en espera",
   callsOnHold: "{numberOf} llamadas en espera",
-  otherDeviceCall: "{numberOf}Llamar a otros dispositivos",
-  otherDeviceCalls: "{numberOf}Llama a otros dispositivos"
+  otherDeviceCall: "{numberOf} llamada a otros disp.",
+  otherDeviceCalls: "{numberOf} llamadas a otros disp."
 }; // @key: @#@"currentCall"@#@ @source: @#@"Current Call"@#@
 // @key: @#@"viewCalls"@#@ @source: @#@"View Calls"@#@
 // @key: @#@"view"@#@ @source: @#@"View"@#@

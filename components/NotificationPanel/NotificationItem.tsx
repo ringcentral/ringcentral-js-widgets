@@ -5,7 +5,7 @@ import {
   RcSnackbarContentProps,
   RcSnackbarContentType,
 } from '@ringcentral/juno';
-import closeSvg from '@ringcentral/juno/icons/icon-close.svg';
+import closeSvg from '@ringcentral/juno/icon/Close';
 import classNames from 'classnames';
 import React, { DOMAttributes, FunctionComponent, memo, useMemo } from 'react';
 

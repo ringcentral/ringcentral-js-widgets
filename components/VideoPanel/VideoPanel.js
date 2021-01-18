@@ -109,7 +109,8 @@ var VideoPanel = function VideoPanel(_ref) {
       enablePersonalMeeting = _ref.enablePersonalMeeting,
       enableJoinAfterMeCopy = _ref.enableJoinAfterMeCopy,
       personalMeetingId = _ref.personalMeetingId,
-      switchUsePersonalMeetingId = _ref.switchUsePersonalMeetingId;
+      switchUsePersonalMeetingId = _ref.switchUsePersonalMeetingId,
+      updateHasSettingsChanged = _ref.updateHasSettingsChanged;
 
   var _useState = (0, _react.useState)(null),
       _useState2 = _slicedToArray(_useState, 2),
@@ -134,7 +135,8 @@ var VideoPanel = function VideoPanel(_ref) {
     enablePersonalMeeting: enablePersonalMeeting,
     enableJoinAfterMeCopy: enableJoinAfterMeCopy,
     personalMeetingId: personalMeetingId,
-    switchUsePersonalMeetingId: switchUsePersonalMeetingId
+    switchUsePersonalMeetingId: switchUsePersonalMeetingId,
+    updateHasSettingsChanged: updateHasSettingsChanged
   }, /*#__PURE__*/_react["default"].createElement(_VideoConfig.Topic, {
     name: meeting.name,
     updateMeetingTopic: function updateMeetingTopic(name) {

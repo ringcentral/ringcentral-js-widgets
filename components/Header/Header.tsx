@@ -28,7 +28,9 @@ export const Header: FunctionComponent<HeaderProps> = ({
   children,
 }) => {
   const label = children ? (
-    <div className={styles.label}>{children}</div>
+    <div className={styles.label} data-sign="headerTitle">
+      {children}
+    </div>
   ) : null;
 
   const { leftButtons, rightButtons } = addIndex<
@@ -62,7 +64,11 @@ export const Header: FunctionComponent<HeaderProps> = ({
     buttons,
   );
   return (
-    <header className={classnames(styles.root, className)} onClick={onClick}>
+    <header
+      className={classnames(styles.root, className)}
+      onClick={onClick}
+      data-sign="header"
+    >
       {label}
       {leftButtons.length ? (
         <div className={classnames(styles.buttonGroup, styles.leftButtons)}>

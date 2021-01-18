@@ -1,1 +1,1 @@
-{"version":3,"sources":["components/ActiveCallItemV2/index.ts"],"names":["ActiveCallItem"],"mappings":";;;;;;;;;AAAA;;eAEeA,8B","sourcesContent":["import { ActiveCallItem } from './ActiveCallItem';\n\nexport default ActiveCallItem;\n"],"file":"index.js"}
+{"version":3,"sources":["components/ActiveCallItemV2/index.ts"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;AAAA;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA","sourcesContent":["export * from './ActiveCallItem';\n"],"file":"index.js"}

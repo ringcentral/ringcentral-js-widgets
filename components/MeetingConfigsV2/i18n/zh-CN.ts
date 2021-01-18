@@ -1,5 +1,9 @@
 import { ASSISTED_USERS_MYSELF } from 'ringcentral-integration/modules/Meeting';
 export default {
+  date: "日期",
+  time: "时间",
+  duration: "时长",
+  topic: "会议标题",
   voIPOnly: "仅网络音频",
   telephonyOnly: "仅电话",
   both: "电话和网络音频",
@@ -27,9 +31,15 @@ export default {
   pmiChangeConfirm: "要对个人会议进行更改， ",
   changePmiSettings: "更改 PMI 设置",
   pmiSettingChangeAlert: "您更改设置并安排会议时间后，使用个人会议 ID 的所有会议都会改为使用最新设置。",
-  lockedTooltip: "此设置由公司管理员管理"
+  lockedTooltip: "此设置由公司管理员管理",
+  when: "时间",
+  recurringDescribe: "请记得检查通过日历向参与者发送的邀请中是否存在重复。"
 };
 
+// @key: @#@"date"@#@ @source: @#@"Date"@#@
+// @key: @#@"time"@#@ @source: @#@"Time"@#@
+// @key: @#@"duration"@#@ @source: @#@"Duration"@#@
+// @key: @#@"topic"@#@ @source: @#@"Meeting title"@#@
 // @key: @#@"voIPOnly"@#@ @source: @#@"Internet audio only"@#@
 // @key: @#@"telephonyOnly"@#@ @source: @#@"Telephone only"@#@
 // @key: @#@"both"@#@ @source: @#@"Telephone and Internet Audio"@#@
@@ -58,3 +68,5 @@ export default {
 // @key: @#@"changePmiSettings"@#@ @source: @#@"change PMI settings"@#@
 // @key: @#@"pmiSettingChangeAlert"@#@ @source: @#@"If you change the settings and schedule this meeting, all of meetings with Personal Meeting ID will use the same latest settings."@#@
 // @key: @#@"lockedTooltip"@#@ @source: @#@"This setting is managed by your company admin"@#@
+// @key: @#@"when"@#@ @source: @#@"When"@#@
+// @key: @#@"recurringDescribe"@#@ @source: @#@"Please remember to check recurrence or repeat in your calendar invitation to your attendees."@#@
