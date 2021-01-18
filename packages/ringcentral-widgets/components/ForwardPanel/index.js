@@ -15,6 +15,7 @@ export default class ForwardPanel extends PureComponent {
     currentLocale: PropTypes.string.isRequired,
     onBackClick: PropTypes.func.isRequired,
     telephonySessionId: PropTypes.string.isRequired,
+    children: PropTypes.node.isRequired,
   };
 
   constructor(props) {
@@ -61,7 +62,7 @@ export default class ForwardPanel extends PureComponent {
   };
 
   render() {
-    const { onBackClick, currentLocale } = this.props;
+    const { onBackClick, currentLocale, children } = this.props;
     const { forwarding } = this.state;
     return (
       <div className={styles.root}>
@@ -96,6 +97,7 @@ export default class ForwardPanel extends PureComponent {
             </div>
           </div>
         </div>
+        {children}
       </div>
     );
   }

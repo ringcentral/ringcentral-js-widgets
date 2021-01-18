@@ -3,6 +3,7 @@ export default {
   rcvInviteMeetingContent: "{accountName} vous a invité à une réunion {brandName}.\n\nInscrivez-vous en utilisant le lien :\n\t{joinUri}{passwordTpl}",
   rcvRCBrandInviteMeetingContent: "{accountName} vous a invité à participer à une réunion {productName}.\n\nVeuillez la rejoindre en utilisant ce lien :\n\t{joinUri}{passwordTpl}",
   rcvInviteMeetingContentDial: "\n\nAppuyer une seule fois pour rejoindre l'audio uniquement à partir d'un smartphone :\n\t{smartphones}\n\nOu composer le :\n\tComposer : {dialNumber}\n\tCode d'accès/ID de réunion : {pinNumber} ",
+  rcvInviteMeetingContentCountryDial: "\n\nAppuyer une seule fois pour rejoindre l'audio uniquement à partir d'un smartphone :\n\t{smartphones}\n\nOu composer :\n\t{dialNumber}\n\tCode d'accès/ID de réunion : {pinNumber} ",
   rcvTeleconference: "\n\nNuméros internationaux disponibles : {teleconference} ",
   doNotModify: "===== Ne pas modifier ce texte =====",
   password: "\n\nMot de passe",
@@ -13,6 +14,7 @@ export default {
 // @key: @#@"rcvInviteMeetingContent"@#@ @source: @#@"{accountName} has invited you to a {brandName} Meeting.\n\nPlease join using this link:\n\t{joinUri}{passwordTpl}"@#@
 // @key: @#@"rcvRCBrandInviteMeetingContent"@#@ @source: @#@"{accountName} has invited you to a {productName} meeting.\n\nPlease join using this link:\n\t{joinUri}{passwordTpl}"@#@
 // @key: @#@"rcvInviteMeetingContentDial"@#@ @source: @#@"\n\nOne tap to join audio only from a smartphone:\n\t{smartphones}\n\nOr dial:\n\tDial: {dialNumber}\n\tAccess Code / Meeting ID: {pinNumber} "@#@
+// @key: @#@"rcvInviteMeetingContentCountryDial"@#@ @source: @#@"\n\nOne tap to join audio only from a smartphone:\n\t{smartphones}\n\nOr dial:\n\t{dialNumber}\n\tAccess Code / Meeting ID: {pinNumber} "@#@
 // @key: @#@"rcvTeleconference"@#@ @source: @#@"\n\nInternational numbers available: {teleconference} "@#@
 // @key: @#@"doNotModify"@#@ @source: @#@"===== Do not modify this text ====="@#@
 // @key: @#@"password"@#@ @source: @#@"\n\nPassword"@#@

@@ -21,8 +21,8 @@ export default {
   from: "De",
   to: "Para",
   hangup: "Desligar",
-  accept: "Aceitar",
-  toVoicemail: "Enviar para caixa postal",
+  accept: "Atender",
+  toVoicemail: "P/ cx. postal",
   anonymous: "Anônimo",
   mergeToConference: "Mesclar",
   hold: "Aguardar",
@@ -33,7 +33,9 @@ export default {
   callSwitch: "Trocar a chamada",
   comfirmContext: "Você está em uma chamada ativa com {displayName}. Você gostaria de continuar a chamada neste dispositivo?",
   comfirmCancelButton: "Cancelar",
-  comfirmOKButton: "Trocar"
+  comfirmOKButton: "Trocar",
+  ignore: "Ignorar",
+  holdAndAnswer: "Esp. e resp."
 };
 
 // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
@@ -58,8 +60,8 @@ export default {
 // @key: @#@"from"@#@ @source: @#@"From"@#@
 // @key: @#@"to"@#@ @source: @#@"To"@#@
 // @key: @#@"hangup"@#@ @source: @#@"Hang up"@#@
-// @key: @#@"accept"@#@ @source: @#@"Accept"@#@
-// @key: @#@"toVoicemail"@#@ @source: @#@"Send to Voicemail"@#@
+// @key: @#@"accept"@#@ @source: @#@"Answer"@#@
+// @key: @#@"toVoicemail"@#@ @source: @#@"To Voicemail"@#@
 // @key: @#@"anonymous"@#@ @source: @#@"Anonymous"@#@
 // @key: @#@"mergeToConference"@#@ @source: @#@"Merge"@#@
 // @key: @#@"hold"@#@ @source: @#@"Hold"@#@
@@ -71,3 +73,5 @@ export default {
 // @key: @#@"comfirmContext"@#@ @source: @#@"You're currently on an active call with {displayName}. Would you like to continue the call on this device?"@#@
 // @key: @#@"comfirmCancelButton"@#@ @source: @#@"Cancel"@#@
 // @key: @#@"comfirmOKButton"@#@ @source: @#@"Switch"@#@
+// @key: @#@"ignore"@#@ @source: @#@"Ignore"@#@
+// @key: @#@"holdAndAnswer"@#@ @source: @#@"Hold & Answer"@#@

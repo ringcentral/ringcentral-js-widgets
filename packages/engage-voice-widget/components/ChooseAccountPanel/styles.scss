@@ -1,0 +1,37 @@
+@import '../../scss/variables.scss';
+
+.root {
+  height: 100%;
+  .svgStyle {
+    display: block;
+    margin: 0 auto;
+  }
+
+  .wrapperStyle {
+    position: inherit;
+    padding: 20px 0;
+  }
+
+  .title {
+    text-align: center;
+    margin: 8px 0 32px;
+    color: rc-palette(text, subdued);
+  }
+
+  .accountName {
+    color: rc-palette(text, dark);
+  }
+
+  .agentType {
+    color: rc-palette(text, subdued);
+  }
+
+  div.listItem.listItem {
+    height: 56px;
+  }
+
+  .accountName {
+    padding-bottom: 4px;
+  }
+
+}

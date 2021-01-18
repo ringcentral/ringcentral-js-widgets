@@ -88,7 +88,7 @@ export class Alert extends RcModuleV2<Deps> {
     backdrop = false,
     classes,
     onBackdropClick,
-    action,
+    action = this._deps.alertOptions?.action,
   }: Options & AlertLevel) {
     const id = uuid.v4();
     this._alert({

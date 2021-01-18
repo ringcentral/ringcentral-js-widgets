@@ -29,6 +29,7 @@ const DEFAULT_TIME = 0;
  */
 @Module({
   deps: [
+    'Auth',
     'Client',
     { dep: 'Environment', optional: true },
     { dep: 'AvailabilityMonitorOptions', optional: true },
@@ -38,10 +39,11 @@ export default class AvailabilityMonitor extends RcModule {
   /**
    * @constructor
    * @param {Object} params - params object
+   * @param {Auth} params.auth - auth module instance
    * @param {Client} params.client - client module instance
    * @param {Environment} params.environment - environment module instance
    */
-  constructor({ alert, client, environment, enabled = false, ...options }) {
+  constructor({ auth, client, environment, enabled = false, ...options }) {
     super({
       actionTypes,
       enabled,
@@ -49,6 +51,7 @@ export default class AvailabilityMonitor extends RcModule {
     });
 
     this._enabled = enabled;
+    this._auth = auth;
     this._client = ensureExist.call(this, client, 'client');
     this._environment = environment;
     this._lastEnvironmentCounter = 0;
@@ -65,6 +68,7 @@ export default class AvailabilityMonitor extends RcModule {
     this._randomTime = DEFAULT_TIME;
     this._limitedTimeout = null;
     this._normalTimeout = null;
+    this._promise = null;
   }
 
   _shouldInit() {
@@ -265,6 +269,7 @@ export default class AvailabilityMonitor extends RcModule {
         type: this.actionTypes.VoIPOnlyReset,
       });
     }
+    this._clearLimitedTimeout();
   }
 
   _switchToVoIPOnlyMode() {
@@ -317,9 +322,20 @@ export default class AvailabilityMonitor extends RcModule {
   }
 
   async _getStatus() {
+    // !!This API must be always called with OAuth token in Authorization  header (same as in case of regular API calls) in order to ensure the request is routed to proper POD/partition.
+    // Client app can even continue use expired access token with this API - backend will pass such requests through.
+    // The result of the API call is unpredictable when it is called without access token!
+    //
+    // Reference: https://wiki.ringcentral.com/display/PLAT/High+Availability+Guidelines+for+API+Clients
+
     const res = await this._client.service
       .platform()
-      .get('/restapi/v1.0/status', null, { skipAuthCheck: true });
+      .get('/restapi/v1.0/status', null, {
+        skipAuthCheck: true,
+        headers: {
+          Authorization: `Bearer ${this._auth.accessToken}`,
+        },
+      });
     return res;
   }
 
@@ -337,16 +353,32 @@ export default class AvailabilityMonitor extends RcModule {
    * @returns
    * @memberof AvailabilityMonitor
    */
-  async _healthCheck() {
+  async _healthCheck({ manual = false } = {}) {
+    if (this._promise) return;
     try {
-      const response = await this._getStatus();
+      this._promise = this._getStatus();
+      const response = await this._promise;
       if (!response || response.status !== 200) {
         return;
       }
     } catch (err) {
       console.error('error from request of /restapi/v1.0/status.');
       return;
+    } finally {
+      this._promise = null;
     }
+    if (manual) {
+      this._clearNormalTimeout();
+      this._switchToNormalMode();
+      return;
+    }
+    // In the described situation Client Application should follow an "Exponential Backoff" approach:
+    // The retries exponentially increase the waiting time up to a certain threshold.
+    // The idea is that if the server is down temporarily,
+    // it is not overwhelmed with requests hitting at the same time when it comes back up.
+    //
+    // Reference: https://wiki.ringcentral.com/display/PLAT/Error+Handling+Guidelines+for+API+Clients
+
     this._randomTime = this._randomTime || generateRandomNumber(); // Generate random seconds (1 ~ 121)
     this._normalTimeout = setTimeout(() => {
       this._clearNormalTimeout();
@@ -360,7 +392,7 @@ export default class AvailabilityMonitor extends RcModule {
   async healthCheck() {
     if (!this._throttledHealthCheck) {
       this._throttledHealthCheck = throttle(async () => {
-        await this._healthCheck();
+        await this._healthCheck({ manual: true });
       });
     }
 

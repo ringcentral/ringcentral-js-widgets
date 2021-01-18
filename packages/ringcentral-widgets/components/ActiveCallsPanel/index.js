@@ -183,6 +183,7 @@ export default class ActiveCallsPanel extends Component {
       showHoldAnswerBtn,
       useCallDetailV2,
       newCallIcon,
+      clickSwitchTrack,
     } = this.props;
 
     return (
@@ -243,6 +244,7 @@ export default class ActiveCallsPanel extends Component {
         showHoldAnswerBtn={showHoldAnswerBtn}
         useCallDetailV2={useCallDetailV2}
         newCallIcon={newCallIcon}
+        clickSwitchTrack={clickSwitchTrack}
       />
     );
   }
@@ -395,6 +397,7 @@ ActiveCallsPanel.propTypes = {
   showHoldAnswerBtn: PropTypes.bool,
   useCallDetailV2: PropTypes.bool,
   newCallIcon: PropTypes.bool,
+  clickSwitchTrack: PropTypes.func,
 };
 
 ActiveCallsPanel.defaultProps = {
@@ -468,4 +471,5 @@ ActiveCallsPanel.defaultProps = {
   showHoldAnswerBtn: false,
   useCallDetailV2: false,
   newCallIcon: false,
+  clickSwitchTrack() {},
 };

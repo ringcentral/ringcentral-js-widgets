@@ -10,6 +10,7 @@ import RcUIModule from '../../lib/RcUIModule';
     'CallingSettings',
     'RouterInteraction',
     { dep: 'Webphone', optional: true },
+    { dep: 'CallMonitor', optional: true },
   ],
 })
 export default class AudioSettingsUI extends RcUIModule {
@@ -19,6 +20,7 @@ export default class AudioSettingsUI extends RcUIModule {
     callingSettings,
     routerInteraction,
     webphone,
+    callMonitor,
     ...options
   }) {
     super({
@@ -29,6 +31,7 @@ export default class AudioSettingsUI extends RcUIModule {
     this._callingSettings = callingSettings;
     this._routerInteraction = routerInteraction;
     this._webphone = webphone;
+    this._callMonitor = callMonitor;
   }
 
   getUIProps() {
@@ -49,7 +52,13 @@ export default class AudioSettingsUI extends RcUIModule {
       outputDeviceDisabled: !this._audioSettings.availableOutputDevices.length,
       inputDeviceDisabled: !!(
         !this._audioSettings.availableInputDevices.length ||
-        (this._webphone && this._webphone.sessions.length > 0)
+        (this._webphone && this._webphone.sessions.length > 0) ||
+        (this._callMonitor &&
+          this._callMonitor.useTelephonySession &&
+          this._callMonitor.activeRingCalls.length +
+            this._callMonitor.activeOnHoldCalls.length +
+            this._callMonitor.activeCurrentCalls.length >
+            0)
       ),
     };
   }

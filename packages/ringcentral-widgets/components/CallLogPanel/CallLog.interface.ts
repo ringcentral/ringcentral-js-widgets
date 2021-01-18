@@ -103,6 +103,9 @@ export interface CurrentLogCall {
 }
 
 export interface Task {
+  tickets?: any;
+  option?: string;
+  ticketId?: string;
   id?: string;
   priority?: string;
   external_whoid__c?: string;

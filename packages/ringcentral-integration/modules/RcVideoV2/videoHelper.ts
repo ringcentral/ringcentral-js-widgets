@@ -1,4 +1,6 @@
 import { pick } from 'ramda';
+import formatMessage from 'format-message';
+import i18n from './i18n';
 import {
   MeetingProviderTypesProps,
   RcVideoTypesProps,
@@ -186,11 +188,20 @@ function getDefaultVideoSettings({
   };
 }
 
-function getTopic(extensionName: string, brandName: string) {
+function getTopic(
+  extensionName: string,
+  brandName: string,
+  currentLocale: string,
+) {
   if (brandName === 'RingCentral') {
-    return `${extensionName}'s ${brandName} Video Meeting`;
+    return formatMessage(i18n.getString('videoMeeting', currentLocale), {
+      extensionName,
+    });
   }
-  return `${extensionName}'s ${brandName} Meeting`;
+  return formatMessage(i18n.getString('videoMeetingWithBrand', currentLocale), {
+    extensionName,
+    brandName,
+  });
 }
 
 /**
@@ -326,6 +337,7 @@ function getAvaliableWaitingRoomOpions(
         RCV_WAITING_ROOM_MODE.notcoworker,
       ];
 }
+
 function patchWaitingRoomRelated(
   settings: RcVMeetingModel,
   { waitingRoomMode }: RcVPreferences,

@@ -43,7 +43,7 @@ import { PhoneProvider } from 'ringcentral-widgets/lib/phoneContext';
 import MainView from '../MainView';
 import AppView from '../AppView';
 
-export default function App({ phone, icon }) {
+const App = ({ phone, icon }) => {
   const sourceIcons = {
     brandIcon: icon,
   };
@@ -283,10 +283,7 @@ export default function App({ phone, icon }) {
                         navigateTo={(path) => {
                           phone.routerInteraction.push(path);
                         }}
-                        contact={phone.contactDetailsUI.getContact({
-                          id: routerProps.params.contactId,
-                          type: routerProps.params.contactType,
-                        })}
+                        contact={phone.contactDetailsUI.currentContact}
                         useContact
                       />
                     </ContactDetailsPage>
@@ -328,7 +325,7 @@ export default function App({ phone, icon }) {
       </Provider>
     </PhoneProvider>
   );
-}
+};
 
 App.propTypes = {
   phone: PropTypes.object.isRequired,
@@ -338,3 +335,5 @@ App.propTypes = {
 App.defaultProps = {
   icon: undefined,
 };
+
+export default App;

@@ -1,5 +1,5 @@
 export default {
-  log: "Loggen"
+  log: "Log"
 };
 
 // @key: @#@"log"@#@ @source: @#@"Log"@#@

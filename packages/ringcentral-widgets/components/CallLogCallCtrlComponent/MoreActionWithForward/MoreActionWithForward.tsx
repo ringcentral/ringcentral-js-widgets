@@ -1,5 +1,5 @@
 import { RcMenuItem, RcMenuList, RcPopover } from '@ringcentral/juno';
-import IgnoreIcon from '@ringcentral/juno/icons/icon-ignore.svg';
+import IgnoreIcon from '@ringcentral/juno/icon/Ignore';
 import classnames from 'classnames';
 import React, { FunctionComponent, useState } from 'react';
 
@@ -14,7 +14,14 @@ import styles from './styles.scss';
 const MoreActionWithForward: FunctionComponent<MoreActionWithForwardProps> = (
   props,
 ) => {
-  const { disabled, currentLocale, forwardingNumbers, forward, ignore } = props;
+  const {
+    disabled,
+    currentLocale,
+    forwardingNumbers,
+    forward,
+    ignore,
+    clickForwardTrack,
+  } = props;
   const [anchorEl, setAnchorEl] = useState(null);
   const [forwardListEl, setForwardListEl] = useState(null);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -26,6 +33,7 @@ const MoreActionWithForward: FunctionComponent<MoreActionWithForwardProps> = (
   const handleForwardListClick = (
     event: React.MouseEvent<HTMLButtonElement>,
   ) => {
+    clickForwardTrack();
     setForwardListEl(event.currentTarget.children?.[0]);
   };
   const handleForwardListClose = () => {
@@ -119,6 +127,7 @@ const MoreActionWithForward: FunctionComponent<MoreActionWithForwardProps> = (
                 onClick={onForward}
                 key={item.phoneNumber}
                 data-value={item.phoneNumber}
+                data-sign={item.phoneNumber}
               >
                 <div className={styles.forwardNumberItem}>
                   <span className={styles.actionText}>{item.label}</span>

@@ -82,7 +82,7 @@ export default class UserGuide extends React.Component {
 
   getIntroView() {
     return (
-      <div className={styles.intro}>
+      <div className={styles.intro} data-sign="userGuide">
         <div
           className={styles.introBg}
           style={{ backgroundImage: `url(${this.props.guides[0]})` }}
@@ -142,6 +142,7 @@ export default class UserGuide extends React.Component {
           this.exit();
         }}
         className={classnames(styles.secondaryButton)}
+        dataSign="skipButton"
       >
         {i18n.getString('skip', this.props.currentLocale)}
       </Button>

@@ -6,6 +6,7 @@ import { AccountInfo } from '../AccountInfoV2';
 import { ExtensionInfo } from '../ExtensionInfoV2';
 import AvailabilityMonitor from '../AvailabilityMonitor';
 import { VideoConfiguration } from '../VideoConfiguration';
+import { Locale } from '../LocaleV2';
 
 export interface RcvDelegator {
   extensionId: string;
@@ -22,6 +23,7 @@ export interface RcVideoOptions {
   enableWaitingRoom?: boolean;
   enablePersonalMeeting?: boolean;
   enableScheduleOnBehalf?: boolean;
+  enableHostCountryDialinNumbers?: boolean;
   enableReloadAfterSchedule?: boolean;
 }
 
@@ -35,4 +37,5 @@ export interface Deps {
   videoConfiguration: VideoConfiguration;
   availabilityMonitor?: AvailabilityMonitor;
   rcVideoOptions?: RcVideoOptions;
+  locale: Locale;
 }

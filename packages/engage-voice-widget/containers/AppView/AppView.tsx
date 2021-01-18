@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import Environment from 'ringcentral-widgets/components/Environment';
 import withPhone from 'ringcentral-widgets/lib/withPhone';
 
-import styles from './styles.scss';
 import { EvPhone } from '../../interfaces';
+import styles from './styles.scss';
 
 interface AppViewProps {
   server: string;
@@ -32,10 +32,11 @@ const AppViewPanel: FunctionComponent<AppViewProps> = ({
     const currentPath = phone.routerInteraction.currentPath;
     switch (currentPath) {
       case '/sessionUpdate':
-        couldNotAccess = phone.evAuth.agent.agentConfig.agentPermissions
-          .allowLoginUpdates
-          ? false
-          : true;
+        couldNotAccess = !phone.evAuth.agent.agentConfig.agentPermissions
+          .allowLoginUpdates;
+        break;
+      default:
+        break;
     }
   }
   if (couldNotAccess) {

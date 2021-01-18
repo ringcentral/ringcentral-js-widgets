@@ -5,6 +5,7 @@ import {
   SessionConfigPanel,
   SessionConfigPanelProps,
 } from './SessionConfigPanel';
+import { EvAgent } from '../../lib/EvClient';
 
 let wrapper;
 const currentLocale = 'en-US';
@@ -39,6 +40,34 @@ const defaultLoginTypeList = [
   },
 ];
 
+const defaultSelectedAgent: EvAgent = {
+  accountId: '15240001',
+  accountName: 'RC Internal QA C02',
+  agentGroupId: null,
+  agentId: '1364338',
+  agentRank: null,
+  agentType: 'AGENT',
+  allowLoginControl: true,
+  allowLoginUpdates: true,
+  altDefaultLoginDest: null,
+  directAgentExtension: null,
+  email: 'kiwi.lin+11564@ringcentral.onmicrosoft.com',
+  enableSoftphone: null,
+  externalAgentId: null,
+  firstName: 'Kiwi',
+  ghostRnaAction: null,
+  initLoginBaseState: null,
+  lastName: 'Lin',
+  location: null,
+  manualOutboundDefaultCallerId: null,
+  maxChats: null,
+  password: null,
+  phoneLoginPin: null,
+  rcUserId: 62710741028,
+  team: null,
+  username: 'kiwi.lin+11564+15240001_1364338@ringcentral.com',
+};
+
 function setup({
   selectedSkillProfileId = '1002',
   skillProfileList = defaultSkillProfileList,
@@ -67,10 +96,15 @@ function setup({
   showInboundQueues = true,
   showSkillProfile = true,
   showAutoAnswer = true,
+  onAccountReChoose = () => {},
+  selectedAgent = defaultSelectedAgent,
+  showReChooseAccount = true,
 }: Partial<SessionConfigPanelProps>) {
   return mount(
     <RcThemeProvider>
       <SessionConfigPanel
+        onAccountReChoose={onAccountReChoose}
+        selectedAgent={selectedAgent}
         currentLocale={currentLocale}
         selectedSkillProfileId={selectedSkillProfileId}
         skillProfileList={skillProfileList}
@@ -84,6 +118,7 @@ function setup({
         inboundQueuesFieldText={inboundQueuesFieldText}
         isExtensionNumber={isExtensionNumber}
         isLoading={isLoading}
+        showReChooseAccount={showReChooseAccount}
         // takingCall={takingCall}
         // setTakingCall={setTakingCall}
         autoAnswer={autoAnswer}
@@ -105,10 +140,7 @@ function setup({
 }
 
 const getConfigureButton = () =>
-  wrapper
-    .find('RcButton[data-sign="setConfigure"]')
-    .at(0)
-    .find('button');
+  wrapper.find('RcButton[data-sign="setConfigure"]').at(0).find('button');
 
 afterEach(async () => {
   wrapper.unmount();

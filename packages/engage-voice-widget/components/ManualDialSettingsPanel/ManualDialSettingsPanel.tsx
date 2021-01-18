@@ -45,6 +45,7 @@ export const ManualDialSettingsPanel: FunctionComponent<ManualDialSettingsPanelP
                   InputProps={{
                     value: select.renderValue,
                     required: select.required,
+                    'data-sign': dataSign,
                   }}
                   options={select.options}
                   currentLocale={currentLocale}

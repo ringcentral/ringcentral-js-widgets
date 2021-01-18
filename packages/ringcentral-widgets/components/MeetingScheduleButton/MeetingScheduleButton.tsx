@@ -1,11 +1,11 @@
 import React from 'react';
 import classnames from 'classnames';
-import { RcMMeetingModel } from 'ringcentral-integration/modules/Meeting/Meeting';
+import { RcMMeetingModel } from 'ringcentral-integration/modules/MeetingV2';
 
+import { RcCheckbox } from '@ringcentral/juno';
 import styles from './styles.scss';
 import i18n from './i18n';
 import { Button } from '../Button';
-import CheckBox from '../CheckBox';
 
 type Props = {
   currentLocale: string;
@@ -74,21 +74,24 @@ export class MeetingScheduleButton extends React.Component<Props, {}> {
           </div>
         ) : null}
         {showSaveAsDefault ? (
-          <CheckBox
-            dataSign="saveAsDefault"
-            checked={meeting.saveAsDefault}
+          <RcCheckbox
+            data-sign="saveAsDefault"
+            checked={meeting?.saveAsDefault}
             disabled={disableSaveAsDefault}
-            onChecked={() =>
+            className={styles.saveAsDefault}
+            formControlLabelProps={{
+              classes: {
+                label: styles.saveAsDefaultLabel,
+              },
+            }}
+            onChange={() =>
               update({
                 ...meeting,
-                saveAsDefault: !meeting.saveAsDefault,
+                saveAsDefault: !meeting?.saveAsDefault,
               })
             }
-            type="checkbox"
-            className={styles.notShowAgain}
-          >
-            {i18n.getString('saveAsDefault', currentLocale)}
-          </CheckBox>
+            label={i18n.getString('saveAsDefault', currentLocale)}
+          />
         ) : null}
         <Button
           onClick={onClick}

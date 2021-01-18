@@ -14,6 +14,9 @@ export default {
   meetingOptions: "Opções de reunião",
   requirePassword: "Exigir senha da reunião",
   password: "Senha",
+  rcmPasswordHintText: "Sua senha deve ter de 1 a 10 caracteres ou números e não pode conter símbolos, exceto @, * ou -",
+  passwordEmptyError: "Senha da reunião exigida",
+  rcmPasswordInvalidError: "Sua senha deve ter de 1 a 10 caracteres ou números e não pode conter símbolos, exceto @, * ou -",
   enableJoinBeforeHost: "Ativar participação antes de organizar",
   telephonyOnly: "Somente telefonia",
   hostVideoOn: "Vídeo do organizador ativado",
@@ -45,6 +48,9 @@ export default {
 // @key: @#@"meetingOptions"@#@ @source: @#@"Meeting options"@#@
 // @key: @#@"requirePassword"@#@ @source: @#@"Require meeting password"@#@
 // @key: @#@"password"@#@ @source: @#@"Password"@#@
+// @key: @#@"rcmPasswordHintText"@#@ @source: @#@"Your password should be 1-10 characters, numbers long and cannot have symbols except @, * or -"@#@
+// @key: @#@"passwordEmptyError"@#@ @source: @#@"Meeting password required"@#@
+// @key: @#@"rcmPasswordInvalidError"@#@ @source: @#@"Your password must be 1-10 characters, numbers long and cannot have symbols except @, * or -"@#@
 // @key: @#@"enableJoinBeforeHost"@#@ @source: @#@"Enable join before host"@#@
 // @key: @#@"telephonyOnly"@#@ @source: @#@"Telephony Only"@#@
 // @key: @#@"hostVideoOn"@#@ @source: @#@"Host Video On"@#@

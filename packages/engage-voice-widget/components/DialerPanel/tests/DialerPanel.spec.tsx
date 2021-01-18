@@ -121,7 +121,7 @@ describe('<DialerPanel />', async () => {
     const manualDialSettings = wrapper
       .find('[data-sign="manualDialSettings"]')
       .at(0);
-    manualDialSettings.find('span').at(0).simulate('click');
+    manualDialSettings.simulate('click');
     expect(goToManualDialSettings).toBeCalled();
   });
 

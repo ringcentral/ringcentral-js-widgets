@@ -14,6 +14,9 @@ export default {
   meetingOptions: "Besprechungsoptionen",
   requirePassword: "Meetingkennwort erforderlich",
   password: "Kennwort",
+  rcmPasswordHintText: "Ihr Kennwort sollte 1–10 Zeichen oder Ziffern lang sein und darf keine Symbole außer @, * oder - enthalten",
+  passwordEmptyError: "Besprechungskennwort erforderlich",
+  rcmPasswordInvalidError: "Ihr Kennwort muss 1–10 Zeichen oder Ziffern lang sein und darf keine Symbole außer @, * oder - enthalten",
   enableJoinBeforeHost: "Beitritt vor Host ermöglichen",
   telephonyOnly: "Nur Telefonie",
   hostVideoOn: "Host-Video ein",
@@ -45,6 +48,9 @@ export default {
 // @key: @#@"meetingOptions"@#@ @source: @#@"Meeting options"@#@
 // @key: @#@"requirePassword"@#@ @source: @#@"Require meeting password"@#@
 // @key: @#@"password"@#@ @source: @#@"Password"@#@
+// @key: @#@"rcmPasswordHintText"@#@ @source: @#@"Your password should be 1-10 characters, numbers long and cannot have symbols except @, * or -"@#@
+// @key: @#@"passwordEmptyError"@#@ @source: @#@"Meeting password required"@#@
+// @key: @#@"rcmPasswordInvalidError"@#@ @source: @#@"Your password must be 1-10 characters, numbers long and cannot have symbols except @, * or -"@#@
 // @key: @#@"enableJoinBeforeHost"@#@ @source: @#@"Enable join before host"@#@
 // @key: @#@"telephonyOnly"@#@ @source: @#@"Telephony Only"@#@
 // @key: @#@"hostVideoOn"@#@ @source: @#@"Host Video On"@#@

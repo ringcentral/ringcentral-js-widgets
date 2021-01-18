@@ -6,7 +6,7 @@ import {
   RcIconButton,
   RcFormGroup,
 } from '@ringcentral/juno';
-import arrowDownSvg from '@ringcentral/juno/icons/icon-arrow_down.svg';
+import arrowDownSvg from '@ringcentral/juno/icon/ArrowDown2';
 import styles from './styles.scss';
 
 interface SettingGroupProps {

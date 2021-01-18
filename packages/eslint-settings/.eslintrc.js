@@ -91,11 +91,7 @@ module.exports = {
     'jsx-a11y/anchor-is-valid': 0,
     'jsx-a11y/media-has-caption': 0,
     'linebreak-style': 'off',
-    'lines-between-class-members': [
-      'error',
-      'always',
-      { exceptAfterSingleLine: true },
-    ],
+    'lines-between-class-members': 0, // function overloading in ts can be interrupted by this
     'no-await-in-loop': 0,
     'no-console': 0,
     'no-empty-function': 0,
@@ -104,6 +100,7 @@ module.exports = {
     'no-underscore-dangle': 0,
     'no-unused-vars': 1,
     'no-mixed-operators': 0,
+    'no-void': 0,
     'no-restricted-syntax': [
       2,
       'DebuggerStatement',
@@ -202,6 +199,7 @@ module.exports = {
         '@typescript-eslint/no-useless-constructor': 2,
         'object-shorthand': [2, 'always'],
         '@typescript-eslint/no-unused-vars': 1,
+        'no-dupe-class-members': 0, // ts already checks this, disable this to allow overloading
       },
     },
   ],

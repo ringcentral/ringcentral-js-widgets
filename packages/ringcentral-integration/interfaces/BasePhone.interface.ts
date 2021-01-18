@@ -5,8 +5,7 @@ import { BlockUI } from '../../ringcentral-widgets/modules/BlockUI';
 import ConnectivityBadgeUI from '../../ringcentral-widgets/modules/ConnectivityBadgeUI';
 import ConnectivityManager from '../../ringcentral-widgets/modules/ConnectivityManager';
 import LoginUI from '../../ringcentral-widgets/modules/LoginUI';
-import { Modal } from '../../ringcentral-widgets/modules/Modal';
-import { ModalUI } from '../../ringcentral-widgets/modules/ModalUI';
+import { ModalUI } from '../../ringcentral-widgets/modules/ModalUIV2';
 import OAuth from '../../ringcentral-widgets/modules/ProxyFrameOAuth';
 import RegionSettingsUI from '../../ringcentral-widgets/modules/RegionSettingsUI';
 import RouterInteraction from '../../ringcentral-widgets/modules/RouterInteraction';
@@ -34,7 +33,6 @@ import TabManager from '../modules/TabManager';
 export interface BasePhone {
   alert: Alert;
   auth: Auth;
-  modal: Modal;
   block: Block;
   brand: Brand;
   accountInfo: AccountInfo;

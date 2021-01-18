@@ -1,4 +1,4 @@
-import holdSvg from '@ringcentral/juno/icons/icon-hold.svg';
+import holdSvg from '@ringcentral/juno/icon/Hold';
 import React, { FunctionComponent } from 'react';
 
 import { CircleIconButton } from '../../CircleIconButton';
@@ -21,12 +21,14 @@ export const HoldCallButton: FunctionComponent<HoldCallButtonProps> = ({
   size,
   disableHold,
   className,
+  dataSign,
 }) => {
   const { holdTitle } = getCircleIconButtonTitle({
     isOnHold,
   });
   return (
     <CircleIconButton
+      dataSign={dataSign}
       data-icon="hold"
       symbol={holdSvg}
       title={i18n.getString(holdTitle, currentLocale)}
@@ -45,4 +47,5 @@ HoldCallButton.defaultProps = {
   onUnHold() {},
   disableHold: false,
   currentLocale: 'en-US',
+  dataSign: 'holdCall',
 };

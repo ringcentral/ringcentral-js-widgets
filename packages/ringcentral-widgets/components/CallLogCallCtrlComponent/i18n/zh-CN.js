@@ -14,10 +14,11 @@ export default {
   unHold: "解除呼叫保持",
   forward: "转移",
   ignore: "忽略",
-  voicemail: "语音邮件",
+  voicemail: "转语音邮件",
   custom: "自定义",
   answerAndEnd: "接听并结束",
-  answerAndHold: "接听并保持"
+  answerAndHold: "接听并保持",
+  answer: "接听"
 };
 
 // @key: @#@"mute"@#@ @source: @#@"Mute"@#@
@@ -35,7 +36,8 @@ export default {
 // @key: @#@"unHold"@#@ @source: @#@"Unhold"@#@
 // @key: @#@"forward"@#@ @source: @#@"Forward"@#@
 // @key: @#@"ignore"@#@ @source: @#@"Ignore"@#@
-// @key: @#@"voicemail"@#@ @source: @#@"Voicemail"@#@
+// @key: @#@"voicemail"@#@ @source: @#@"To Voicemail"@#@
 // @key: @#@"custom"@#@ @source: @#@"Custom"@#@
 // @key: @#@"answerAndEnd"@#@ @source: @#@"Answer & End"@#@
 // @key: @#@"answerAndHold"@#@ @source: @#@"Answer & Hold"@#@
+// @key: @#@"answer"@#@ @source: @#@"Answer"@#@

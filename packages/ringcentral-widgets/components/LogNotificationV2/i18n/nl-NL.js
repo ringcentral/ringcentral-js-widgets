@@ -1,5 +1,5 @@
 export default {
-  log: "Loggen",
+  log: "Log",
   save: "Opslaan en nieuw",
   discard: "Weggooien en nieuw",
   hangup: "Ophangen",

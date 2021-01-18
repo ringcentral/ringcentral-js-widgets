@@ -4,7 +4,7 @@ export default {
   toVoicemail: "Naar voicemail",
   answer: "Beantwoorden",
   endAndAnswer: "Beëindigen en beantwoorden",
-  holdAndAnswer: "Wachtstand en antwoord",
+  holdAndAnswer: "In wacht en beantwoorden",
   custom: "Aangepast"
 };
 

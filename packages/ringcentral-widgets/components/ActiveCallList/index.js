@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import ActiveCallItem from '../ActiveCallItem';
-import ActiveCallItemV2 from '../ActiveCallItemV2';
+import { ActiveCallItem as ActiveCallItemV2 } from '../ActiveCallItemV2';
 import styles from './styles.scss';
 
 function isConferenceCall(normalizedCall) {
@@ -71,6 +71,7 @@ const ActiveCallList = ({
   showHoldAnswerBtn,
   useCallDetailV2,
   newCallIcon,
+  clickSwitchTrack,
 }) => {
   if (!calls.length) {
     return null;
@@ -79,7 +80,7 @@ const ActiveCallList = ({
   const Component = useV2 ? ActiveCallItemV2 : ActiveCallItem;
 
   return (
-    <div className={classnames(styles.list, className)}>
+    <div className={classnames(styles.list, className)} data-sign="callList">
       <div
         className={styles.listTitle}
         style={{
@@ -152,6 +153,7 @@ const ActiveCallList = ({
             showHoldAnswerBtn={showHoldAnswerBtn}
             useCallDetailV2={useCallDetailV2}
             newCallIcon={newCallIcon}
+            clickSwitchTrack={clickSwitchTrack}
           />
         );
       })}
@@ -215,6 +217,7 @@ ActiveCallList.propTypes = {
   showHoldAnswerBtn: PropTypes.bool,
   useCallDetailV2: PropTypes.bool,
   newCallIcon: PropTypes.bool,
+  clickSwitchTrack: PropTypes.func,
 };
 
 ActiveCallList.defaultProps = {
@@ -267,6 +270,7 @@ ActiveCallList.defaultProps = {
   showHoldAnswerBtn: false,
   useCallDetailV2: false,
   newCallIcon: false,
+  clickSwitchTrack() {},
 };
 
 export default ActiveCallList;

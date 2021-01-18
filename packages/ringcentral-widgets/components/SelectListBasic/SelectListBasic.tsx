@@ -1,5 +1,5 @@
 import { RcOutlineTextField } from '@ringcentral/juno';
-import searchSvg from '@ringcentral/juno/icons/icon-search.svg';
+import searchSvg from '@ringcentral/juno/icon/Search';
 import classNames from 'classnames';
 import formatMessage from 'format-message';
 import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
@@ -209,7 +209,11 @@ const SelectListBasic: FunctionComponent<SelectListBasicProps> = ({
             >
               {hasResult || showFoundFromServer ? (
                 <>
-                  <div ref={matchElmRef} className={styles.text}>
+                  <div
+                    ref={matchElmRef}
+                    className={styles.text}
+                    data-sign={matchedTitle}
+                  >
                     {matchedTitle && (
                       <div className={styles.title}>
                         {matchedTitle} ({matchOptions.length})
@@ -224,7 +228,7 @@ const SelectListBasic: FunctionComponent<SelectListBasicProps> = ({
                           scrollCheck(scrollElmRef, matchElmRef, elm, type),
                       )}
                   </div>
-                  <div className={styles.text}>
+                  <div className={styles.text} data-sign={otherTitle}>
                     {otherTitle && (
                       <div className={styles.title}>
                         {otherTitle} ({matchOtherOptions.length})

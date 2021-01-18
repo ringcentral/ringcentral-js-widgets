@@ -1,5 +1,7 @@
-import sleep from 'ringcentral-integration/lib/sleep';
 import React, { useState } from 'react';
+import sleep from 'ringcentral-integration/lib/sleep';
+import { RcMMeetingModel } from 'ringcentral-integration/modules/MeetingV2';
+import { RcVMeetingModel } from 'ringcentral-integration/interfaces/Rcv.model';
 import { SpinnerOverlay } from '../SpinnerOverlay';
 import MeetingConfigs from '../MeetingConfigs';
 import isSafari from '../../lib/isSafari';
@@ -9,8 +11,6 @@ import { MeetingConfigs as MeetingConfigsV2 } from '../MeetingConfigsV2';
 
 import { GenericMeetingPanelProps } from './interface';
 import styles from './styles.scss';
-import { RcMMeetingModel } from '../../../ringcentral-integration/modules/Meeting';
-import { RcVMeetingModel } from '../../../ringcentral-integration/interfaces/Rcv.model';
 
 const GenericMeetingPanel: React.ComponentType<GenericMeetingPanelProps> = (
   props,
@@ -26,6 +26,7 @@ const GenericMeetingPanel: React.ComponentType<GenericMeetingPanelProps> = (
     useRcmV2,
     meeting,
     disabled,
+    configDisabled,
     currentLocale,
     scheduleButton: ScheduleButton,
     recipientsSection,
@@ -52,26 +53,26 @@ const GenericMeetingPanel: React.ComponentType<GenericMeetingPanelProps> = (
     scheduleButtonLabel,
     appCode,
     schedule,
-    brandName,
     showSpinner,
     showAdminLock,
     showPmiAlert,
     enablePersonalMeeting,
     enableWaitingRoom,
-    enableJoinAfterMeCopy,
     personalMeetingId,
     switchUsePersonalMeetingId,
+    updateHasSettingsChanged,
     showScheduleOnBehalf,
     delegators,
     updateScheduleFor,
     labelPlacement,
     showSpinnerInConfigPanel,
+    enableServiceWebSettings,
+    putRecurringMeetingInMiddle,
   } = props;
 
   if (showSpinner) {
     return <SpinnerOverlay />;
   }
-
   return (
     <div className={styles.wrapper}>
       {isRCM && !useRcmV2 && (
@@ -80,7 +81,7 @@ const GenericMeetingPanel: React.ComponentType<GenericMeetingPanelProps> = (
           update={updateMeetingSettings}
           init={init}
           meeting={meeting as RcMMeetingModel}
-          disabled={disabled}
+          disabled={configDisabled}
           currentLocale={currentLocale}
           recipientsSection={recipientsSection}
           showWhen={showWhen}
@@ -97,6 +98,7 @@ const GenericMeetingPanel: React.ComponentType<GenericMeetingPanelProps> = (
       )}
       {isRCM && useRcmV2 && (
         <MeetingConfigsV2
+          disabled={configDisabled}
           showSpinnerInConfigPanel={showSpinnerInConfigPanel}
           updateMeetingSettings={updateMeetingSettings}
           personalMeetingId={personalMeetingId}
@@ -115,10 +117,13 @@ const GenericMeetingPanel: React.ComponentType<GenericMeetingPanelProps> = (
           showScheduleOnBehalf={showScheduleOnBehalf}
           delegators={delegators}
           updateScheduleFor={updateScheduleFor}
+          enableServiceWebSettings={enableServiceWebSettings}
+          putRecurringMeetingInMiddle={putRecurringMeetingInMiddle}
         />
       )}
       {isRCV && (
         <VideoConfig
+          disabled={configDisabled}
           currentLocale={currentLocale}
           labelPlacement={labelPlacement}
           meeting={meeting as RcVMeetingModel}
@@ -132,14 +137,13 @@ const GenericMeetingPanel: React.ComponentType<GenericMeetingPanelProps> = (
           init={init}
           datePickerSize={datePickerSize}
           timePickerSize={timePickerSize}
-          brandName={brandName}
           showAdminLock={showAdminLock}
           showPmiAlert={showPmiAlert}
           enableWaitingRoom={enableWaitingRoom}
           enablePersonalMeeting={enablePersonalMeeting}
-          enableJoinAfterMeCopy={enableJoinAfterMeCopy}
           personalMeetingId={personalMeetingId}
           switchUsePersonalMeetingId={switchUsePersonalMeetingId}
+          updateHasSettingsChanged={updateHasSettingsChanged}
           showScheduleOnBehalf={showScheduleOnBehalf}
           showSpinnerInConfigPanel={showSpinnerInConfigPanel}
           delegators={delegators}
@@ -205,7 +209,6 @@ GenericMeetingPanel.defaultProps = {
   showPmiAlert: false,
   enableWaitingRoom: false,
   enablePersonalMeeting: false,
-  enableJoinAfterMeCopy: false,
   showSaveAsDefault: true,
   disableSaveAsDefault: false,
   showCustom: false,
@@ -216,6 +219,8 @@ GenericMeetingPanel.defaultProps = {
   showSpinner: false,
   useRcmV2: false,
   labelPlacement: 'start',
+  enableServiceWebSettings: false,
+  putRecurringMeetingInMiddle: false,
 };
 
 export { GenericMeetingPanel };

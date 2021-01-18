@@ -6,8 +6,9 @@ interface ExtendedTooltipProps {
   hasScrollBar: boolean;
 }
 
-export const ExtendedTooltip: React.FunctionComponent<ExtendedTooltipProps &
-  RcTooltipProps> = ({ hasScrollBar, children, ...res }) => {
+export const ExtendedTooltip: React.FunctionComponent<
+  ExtendedTooltipProps & RcTooltipProps
+> = ({ hasScrollBar, children, ...res }) => {
   const isMac = navigator.platform.includes('Mac');
   return (
     <RcTooltip

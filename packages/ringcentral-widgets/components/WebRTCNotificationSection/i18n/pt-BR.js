@@ -1,10 +1,10 @@
 export default {
   forward: "Encaminhar",
   ignore: "Ignorar",
-  toVoicemail: "Para caixa postal",
+  toVoicemail: "P/ caixa postal",
   answer: "Responder",
-  endAndAnswer: "Terminar e responder",
-  holdAndAnswer: "Colocar em espera e responder",
+  endAndAnswer: "Term. e resp.",
+  holdAndAnswer: "Esp. e resp.",
   custom: "Personalizar"
 };
 

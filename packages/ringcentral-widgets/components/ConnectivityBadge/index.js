@@ -9,14 +9,14 @@ import styles from './styles.scss';
 import RetryIcon from '../../assets/images/RetryIcon.svg';
 import OvalLoading from '../../assets/images/OvalLoading.svg';
 
-export default function ConnectivityBadge({
+const ConnectivityBadge = ({
   onClick,
   className,
   currentLocale,
   mode,
   webphoneConnecting,
   hasLimitedStatusError,
-}) {
+}) => {
   if (!mode) return null;
 
   const isWebphoneConnecting =
@@ -31,7 +31,7 @@ export default function ConnectivityBadge({
         className={classnames(className, styles.badge, styles.loading)}
         name={i18n.getString(mode, currentLocale)}
       >
-        {i18n.getString('Connecting', currentLocale)}
+        {i18n.getString(connectivityTypes.connecting, currentLocale)}
         <OvalLoading width={12} height={12} />
       </Badge>
     );
@@ -51,7 +51,7 @@ export default function ConnectivityBadge({
       {view}
     </Draggable>
   );
-}
+};
 
 ConnectivityBadge.propTypes = {
   className: PropTypes.string,
@@ -69,3 +69,5 @@ ConnectivityBadge.defaultProps = {
   webphoneConnecting: false,
   hasLimitedStatusError: false,
 };
+
+export default ConnectivityBadge;

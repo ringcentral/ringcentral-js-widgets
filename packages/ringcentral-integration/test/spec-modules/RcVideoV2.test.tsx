@@ -90,6 +90,7 @@ const getMockModule = () => ({
   delegators: [] as RcvDelegator[],
   state: {},
   _dispatch: () => {},
+  parentModule: {},
 });
 
 const CreateRcVideoModule: StepFunction<{

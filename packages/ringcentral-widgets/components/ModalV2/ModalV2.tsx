@@ -1,23 +1,28 @@
-import { RcModal, RcModalProps } from '@ringcentral/juno';
+import { RcDialogProps, RcModal } from '@ringcentral/juno';
+import { map, mergeDeepLeft } from 'ramda';
 import React, { FunctionComponent } from 'react';
-
-export type ModalV2Props = {
-  modals: (RcModalProps & { children: React.ReactNode })[];
-} & Pick<RcModalProps, 'dialogProps'>;
+import { ModalV2Props } from './interface';
 
 export const ModalV2: FunctionComponent<ModalV2Props> = ({
   modals,
-  ...rest
+  dialogProps = {},
 }) => {
   return (
     <>
-      {modals.map(({ children, ...restModalProps }, i) => {
-        return (
-          <RcModal {...rest} {...restModalProps} key={i}>
-            {children}
-          </RcModal>
-        );
-      })}
+      {map(
+        ({ key, dialogProps: modalDialogProps = {}, ...modalProps }) => (
+          <RcModal
+            dialogProps={
+              mergeDeepLeft(modalDialogProps, dialogProps) as Partial<
+                RcDialogProps
+              >
+            }
+            {...modalProps}
+            key={key}
+          />
+        ),
+        modals,
+      )}
     </>
   );
 };

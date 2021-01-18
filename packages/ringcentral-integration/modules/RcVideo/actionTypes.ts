@@ -24,6 +24,7 @@ export default ObjectMap.prefixKeys(
     'updateMeetingPreferences',
     'updateMeetingSettingLocks',
     'saveMeetingPreferencesState',
+    'saveHasSettingChanged',
   ],
   'RcVideo',
 );
@@ -46,4 +47,5 @@ export interface RcVideoActionTypes extends ModuleActionTypes {
   saveMeetingPreferencesState: string;
   updateMeetingSettingLocks: string;
   updateDelegator: string;
+  saveHasSettingChanged: string;
 }

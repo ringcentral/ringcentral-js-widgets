@@ -42,7 +42,7 @@ const SIP_MAX_CONNECTING_TIME = SECOND * 30;
     'EvAuth',
     'Block',
     'Auth',
-    'Modal',
+    'ModalUI',
     'Alert',
     { dep: 'TabManager', optional: true },
     { dep: 'EvIntegratedSoftphoneOptions', optional: true },
@@ -183,6 +183,17 @@ class EvIntegratedSoftphone
       }
     });
 
+    this._deps.evAgentSession.onConfigSuccess(() => {
+      if (
+        this._deps.tabManager.hasMultipleTabs &&
+        !this._deps.tabManager.isMainTab &&
+        this._deps.evAgentSession.isConfigTabAlive()
+      ) {
+        console.log('setSipRegisterSuccess in onConfigSuccess~~');
+        this.setSipRegisterSuccess(true);
+      }
+    });
+
     this._deps.evAgentSession.onReConfigFail(() => {
       if (this._deps.evAgentSession.isIntegratedSoftphone) {
         this._emitRegistrationFailed();
@@ -244,7 +255,7 @@ class EvIntegratedSoftphone
           break;
         case tabManagerEvents.SIP_RINGING_MODAL:
           // that event call from modal ok or cancel, that auto close modal
-          this._deps.modal.close(this._answerModalId);
+          this._deps.modalUI.close(this._answerModalId);
           if (data) {
             this.answerCall();
           } else {
@@ -346,6 +357,7 @@ class EvIntegratedSoftphone
   }
 
   private _bindingIntegratedSoftphone() {
+    console.log('_bindingIntegratedSoftphone~~');
     this._deps.evSubscription.subscribe(EvCallbackTypes.SIP_REGISTERED, () => {
       // That will call several times when reconnected.
       console.log('!!!!!!!SIP_REGISTERED');
@@ -479,10 +491,11 @@ class EvIntegratedSoftphone
     //   allowDuplicates: false,
     // });
 
-    this._deps.modal.alert({
+    this._deps.modalUI.alert({
       title: 'Registration failed',
       content: 'Will reload your pages and tabs for you',
       okText: 'Ok',
+      size: 'xsmall',
       onOK: () => {
         this._sendTabManager(tabManagerEvents.SIP_REGISTRATION_FAILED_RELOAD);
         this._reloadApp();
@@ -550,7 +563,7 @@ class EvIntegratedSoftphone
 
     const { currentLocale } = this._deps.locale;
 
-    this._answerModalId = this._deps.modal.confirm({
+    this._answerModalId = this._deps.modalUI.confirm({
       title: i18n.getString('inviteModalTitle', currentLocale),
       content: formatMessage(
         i18n.getString('inviteModalContent', currentLocale),
@@ -568,6 +581,7 @@ class EvIntegratedSoftphone
         this._sendTabManager(tabManagerEvents.SIP_RINGING_MODAL, false);
         this.rejectCall();
       },
+      size: 'xsmall',
     });
   }
 
@@ -620,7 +634,7 @@ class EvIntegratedSoftphone
         message: EvSoftphoneEvents.CALL_REJECTED,
         ttl: 0,
       });
-      this._deps.modal.close(this._answerModalId);
+      this._deps.modalUI.close(this._answerModalId);
       this._answerModalId = null;
       this._stopAudio();
     }

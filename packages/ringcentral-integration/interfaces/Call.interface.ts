@@ -25,7 +25,7 @@ export interface NormalizedCall {
   startTime?: number;
   sessionId?: string;
   webphoneSession?: NormalizedSession;
-  telephonyStatus?: string;
+  telephonyStatus?: ActiveCall['telephonyStatus'];
 }
 
 export type NormalizedCalls = NormalizedCall[];

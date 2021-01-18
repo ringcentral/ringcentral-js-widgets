@@ -27,6 +27,7 @@ import {
   isChrome,
   isEnableMidLinesInSDP,
 } from './webphoneHelper';
+import { EVENTS } from './events';
 import { trackEvents } from '../Analytics';
 import { WebphoneSession } from '../../interfaces/Webphone.interface';
 
@@ -892,6 +893,7 @@ export class WebphoneBase extends RcModuleV2<Deps> {
     });
     this._hideRegisterErrorAlert();
     this._setCurrentInstanceAsActiveWebphone();
+    this._eventEmitter.emit(EVENTS.webphoneRegistered);
   }
 
   _onWebphoneUnregistered() {
@@ -908,6 +910,7 @@ export class WebphoneBase extends RcModuleV2<Deps> {
     }
     // unavailable, unregistered by some errors
     this._setStateOnConnectError();
+    this._eventEmitter.emit(EVENTS.webphoneUnregistered);
   }
 
   _setCurrentInstanceAsActiveWebphone() {
@@ -1149,10 +1152,10 @@ export class WebphoneBase extends RcModuleV2<Deps> {
       outgoingAudioFile === DEFAULT_AUDIO &&
       outgoingAudio === defaultOutgoingAudio;
     this._setRingtoneIntoStorage(
-      isIncomingDefault ? null : incomingAudio,
       isIncomingDefault ? DEFAULT_AUDIO : incomingAudioFile,
-      isOutgoingDefault ? null : outgoingAudio,
+      isIncomingDefault ? null : incomingAudio,
       isOutgoingDefault ? DEFAULT_AUDIO : outgoingAudioFile,
+      isOutgoingDefault ? null : outgoingAudio,
     );
     this.loadAudio();
   }

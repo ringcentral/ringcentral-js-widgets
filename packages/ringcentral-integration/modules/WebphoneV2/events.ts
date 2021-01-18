@@ -9,4 +9,6 @@ export const EVENTS = ObjectMap.fromKeys([
   'beforeCallResume',
   'beforeCallEnd',
   'callInit',
+  'webphoneRegistered',
+  'webphoneUnregistered',
 ]);

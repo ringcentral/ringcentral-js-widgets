@@ -14,10 +14,11 @@ export default {
   unHold: "대기 해제",
   forward: "전달",
   ignore: "무시",
-  voicemail: "음성 사서함",
+  voicemail: "음성 사서함에 보내기",
   custom: "사용자 지정",
   answerAndEnd: "응답 후 종료",
-  answerAndHold: "응답 후 대기"
+  answerAndHold: "응답 후 대기",
+  answer: "응답"
 };
 
 // @key: @#@"mute"@#@ @source: @#@"Mute"@#@
@@ -35,7 +36,8 @@ export default {
 // @key: @#@"unHold"@#@ @source: @#@"Unhold"@#@
 // @key: @#@"forward"@#@ @source: @#@"Forward"@#@
 // @key: @#@"ignore"@#@ @source: @#@"Ignore"@#@
-// @key: @#@"voicemail"@#@ @source: @#@"Voicemail"@#@
+// @key: @#@"voicemail"@#@ @source: @#@"To Voicemail"@#@
 // @key: @#@"custom"@#@ @source: @#@"Custom"@#@
 // @key: @#@"answerAndEnd"@#@ @source: @#@"Answer & End"@#@
 // @key: @#@"answerAndHold"@#@ @source: @#@"Answer & Hold"@#@
+// @key: @#@"answer"@#@ @source: @#@"Answer"@#@

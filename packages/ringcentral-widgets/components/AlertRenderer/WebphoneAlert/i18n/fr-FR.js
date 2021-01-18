@@ -2,7 +2,7 @@ import webphoneErrors from 'ringcentral-integration/modules/Webphone/webphoneErr
 import webphoneMessages from 'ringcentral-integration/modules/Webphone/webphoneMessages';
 export default {
   [webphoneErrors.connectFailed]: "Désolé, les fonctionnalités du téléphone ne sont pas disponibles actuellement. Veuillez réessayer plus tard. ",
-  [webphoneErrors.connected]: "Web phone enregistré.",
+  [webphoneErrors.connected]: "Téléphone Web enregistré.",
   [webphoneErrors.browserNotSupported]: "Désolé, passer des appels à l'aide de ce navigateur n'est pas pris en charge.",
   [webphoneErrors.webphoneCountOverLimit]: "Il est possible d'enregistrer jusqu'à 5 appels.",
   [webphoneErrors.checkDLError]: "Impossible de passer un appel sortant. Contactez {brandName} pour de l'aide si cette erreur persiste.",

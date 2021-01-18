@@ -3,7 +3,7 @@ export default {
   save: "Enregistrer et nouveau",
   discard: "Ignorer et nouveau",
   hangup: "Raccrocher",
-  reject: "Vers la messagerie vocale"
+  reject: "Vers messag."
 };
 
 // @key: @#@"log"@#@ @source: @#@"Log"@#@

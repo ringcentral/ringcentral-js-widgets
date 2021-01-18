@@ -1,4 +1,4 @@
-import activeCallSvg from '@ringcentral/juno/icons/icon-active-call.svg';
+import activeCallSvg from '@ringcentral/juno/icon/ActiveCall';
 import React, { FunctionComponent } from 'react';
 
 import { CircleIconButton } from '../../CircleIconButton';
@@ -8,6 +8,7 @@ import i18n from '../i18n';
 export type ActiveCallButtonProps = CallButtonsProps & {
   onActive?(): void;
   disableActive?: boolean;
+  dataSign?: string;
 };
 
 export const ActiveCallButton: FunctionComponent<ActiveCallButtonProps> = ({
@@ -15,9 +16,11 @@ export const ActiveCallButton: FunctionComponent<ActiveCallButtonProps> = ({
   disableActive,
   onActive,
   size,
+  dataSign,
 }) => {
   return (
     <CircleIconButton
+      dataSign={dataSign}
       symbol={activeCallSvg}
       title={i18n.getString('activeCall', currentLocale)}
       onClick={onActive}
@@ -32,4 +35,5 @@ ActiveCallButton.defaultProps = {
   onActive() {},
   disableActive: false,
   currentLocale: 'en-US',
+  dataSign: 'activeCall',
 };

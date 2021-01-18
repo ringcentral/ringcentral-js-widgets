@@ -14,6 +14,9 @@ export default {
   meetingOptions: "모임 옵션",
   requirePassword: "모임 비밀번호가 필요함",
   password: "비밀번호",
+  rcmPasswordHintText: "비밀번호는 1~10자의 문자 및 숫자여야 하며 기호(@, *, -)를 제외한 기호는 포함하지 않아야 합니다.",
+  passwordEmptyError: "모임 비밀번호 필요",
+  rcmPasswordInvalidError: "비밀번호는 1~10자의 문자 및 숫자여야 하며 기호(@, *, -)를 제외한 기호는 포함하지 않아야 합니다.",
   enableJoinBeforeHost: "호스트보다 먼저 참가 사용",
   telephonyOnly: "전화 통신만",
   hostVideoOn: "호스트 비디오 켜기",
@@ -45,6 +48,9 @@ export default {
 // @key: @#@"meetingOptions"@#@ @source: @#@"Meeting options"@#@
 // @key: @#@"requirePassword"@#@ @source: @#@"Require meeting password"@#@
 // @key: @#@"password"@#@ @source: @#@"Password"@#@
+// @key: @#@"rcmPasswordHintText"@#@ @source: @#@"Your password should be 1-10 characters, numbers long and cannot have symbols except @, * or -"@#@
+// @key: @#@"passwordEmptyError"@#@ @source: @#@"Meeting password required"@#@
+// @key: @#@"rcmPasswordInvalidError"@#@ @source: @#@"Your password must be 1-10 characters, numbers long and cannot have symbols except @, * or -"@#@
 // @key: @#@"enableJoinBeforeHost"@#@ @source: @#@"Enable join before host"@#@
 // @key: @#@"telephonyOnly"@#@ @source: @#@"Telephony Only"@#@
 // @key: @#@"hostVideoOn"@#@ @source: @#@"Host Video On"@#@

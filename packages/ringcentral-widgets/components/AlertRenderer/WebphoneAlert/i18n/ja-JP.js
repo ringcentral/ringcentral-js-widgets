@@ -6,7 +6,7 @@ export default {
   [webphoneErrors.browserNotSupported]: "申し訳ございません。このブラウザーを使用して通話を行うことはできません。",
   [webphoneErrors.webphoneCountOverLimit]: "登録できるウェブ電話は最大5台です。",
   [webphoneErrors.checkDLError]: "外線通話ができません。このエラーが表示され続ける場合は、{brandName} サポートにお問い合わせください。",
-  [webphoneErrors.noOutboundCallWithoutDL]: "お使いの内線は、現在、ブラウザーを使用した通話発信を許可されていません。アップグレードについてアカウント担当者にお問い合わせください。",
+  [webphoneErrors.noOutboundCallWithoutDL]: "お使いの内線は現在ブラウザーを使用した通話発信を許可されていません。アップグレードについてアカウント担当者にお問い合わせください。",
   [webphoneErrors.provisionUpdate]: "申し訳ございません。こちら側で問題が発生しました。まもなく自動的に再接続を試みます。",
   [webphoneErrors.serverConnecting]: "申し訳ございません。電話サーバーへの接続に問題があります。",
   [webphoneErrors.toVoiceMailError]: "内部エラーにより、通話をボイスメールに送信できません",

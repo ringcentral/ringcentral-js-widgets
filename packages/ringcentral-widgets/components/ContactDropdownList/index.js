@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import { RcIcon } from '@ringcentral/juno';
+import { Blocked } from '@ringcentral/juno/icon';
+import { Tooltip } from '../Rcui/Tooltip';
 import styles from './styles.scss';
 
 import phoneTypeNames from '../../lib/phoneTypeNames';
@@ -8,42 +11,67 @@ import phoneSourceNames from '../../lib/phoneSourceNames';
 
 const spliter = '|';
 
-function ContactInfo({
+const ContactInfo = ({
   name,
   entityType,
   titleEnabled,
   phoneSourceNameRenderer,
-}) {
+  doNotCall,
+}) => {
   const phoneSourceName = phoneSourceNameRenderer
     ? phoneSourceNameRenderer(entityType)
     : phoneSourceNames.getString(entityType);
   const nameTitle = `${name} ${spliter} ${phoneSourceName}`;
   return (
-    <div className={styles.nameSection} title={titleEnabled && nameTitle}>
+    <div
+      className={styles.nameSection}
+      title={titleEnabled && nameTitle}
+      data-sign="contactNameSection"
+    >
       <span className={styles.name}>{name}</span>
       <span className={styles.spliter}>{spliter}</span>
       <span className={styles.label}>{phoneSourceName}</span>
+      <DoNotCallIndicator doNotCall={doNotCall} />
     </div>
   );
-}
+};
 ContactInfo.propTypes = {
   name: PropTypes.string.isRequired,
   entityType: PropTypes.string.isRequired,
   titleEnabled: PropTypes.bool,
   phoneSourceNameRenderer: PropTypes.func,
+  doNotCall: PropTypes.bool,
 };
 ContactInfo.defaultProps = {
   titleEnabled: undefined,
   phoneSourceNameRenderer: undefined,
+  doNotCall: false,
 };
 
-function ContactPhone({
+const DoNotCallIndicator = ({ doNotCall }) => {
+  if (!doNotCall) return null;
+  return (
+    <div className={styles.doNotCall} data-sign="doNotCall">
+      <Tooltip title="Do Not Contact" size="medium">
+        <RcIcon symbol={Blocked} size="small" />
+      </Tooltip>
+    </div>
+  );
+};
+DoNotCallIndicator.propTypes = {
+  doNotCall: PropTypes.bool,
+};
+DoNotCallIndicator.defaultProps = {
+  doNotCall: false,
+};
+
+const ContactPhone = ({
   phoneType,
   phoneNumber,
   formatContactPhone,
   titleEnabled,
   phoneTypeRenderer,
-}) {
+}) => {
   const phoneTypeName = phoneTypeRenderer
     ? phoneTypeRenderer(phoneType)
     : phoneTypeNames.getString(phoneType);
@@ -62,7 +90,7 @@ function ContactPhone({
       <span className={styles.label}>{phoneTypeName}</span>
     </div>
   );
-}
+};
 ContactPhone.propTypes = {
   phoneType: PropTypes.string.isRequired,
   phoneNumber: PropTypes.string.isRequired,
@@ -75,7 +103,7 @@ ContactPhone.defaultProps = {
   phoneTypeRenderer: undefined,
 };
 
-function ContactItem({
+const ContactItem = ({
   currentLocale,
   active,
   onHover,
@@ -86,11 +114,12 @@ function ContactItem({
   phoneNumber,
   formatContactPhone,
   titleEnabled,
+  doNotCall,
   phoneTypeRenderer,
   phoneSourceNameRenderer,
   contactInfoRenderer: ContactInfoRenderer,
   contactPhoneRenderer: ContactPhoneRenderer,
-}) {
+}) => {
   const className = classnames(
     styles.contactItem,
     active ? styles.active : null,
@@ -102,7 +131,7 @@ function ContactItem({
     ContactPhoneRenderer = ContactPhone;
   }
   return (
-    <li className={className} onMouseOver={onHover}>
+    <li className={className} onMouseOver={onHover} data-sign="contactItem">
       <div className={styles.clickable} onClick={onClick}>
         <ContactInfoRenderer
           currentLocale={currentLocale}
@@ -114,6 +143,7 @@ function ContactItem({
           phoneTypeRenderer={phoneTypeRenderer}
           phoneSourceNameRenderer={phoneSourceNameRenderer}
           titleEnabled={titleEnabled}
+          doNotCall={doNotCall}
         />
         <ContactPhoneRenderer
           currentLocale={currentLocale}
@@ -129,7 +159,7 @@ function ContactItem({
       </div>
     </li>
   );
-}
+};
 ContactItem.propTypes = {
   currentLocale: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
@@ -145,6 +175,7 @@ ContactItem.propTypes = {
   phoneSourceNameRenderer: PropTypes.func,
   contactInfoRenderer: PropTypes.func,
   contactPhoneRenderer: PropTypes.func,
+  doNotCall: PropTypes.bool,
 };
 ContactItem.defaultProps = {
   titleEnabled: undefined,
@@ -152,6 +183,7 @@ ContactItem.defaultProps = {
   phoneSourceNameRenderer: undefined,
   contactInfoRenderer: undefined,
   contactPhoneRenderer: undefined,
+  doNotCall: false,
 };
 
 class ContactDropdownList extends Component {
@@ -207,6 +239,7 @@ class ContactDropdownList extends Component {
             listRef(c);
           }
         }}
+        data-sign="contactDropdownList"
       >
         {items.map((item, index) => (
           <ContactItem
@@ -225,6 +258,7 @@ class ContactDropdownList extends Component {
             titleEnabled={titleEnabled}
             contactInfoRenderer={contactInfoRenderer}
             contactPhoneRenderer={contactPhoneRenderer}
+            doNotCall={item.doNotCall}
           />
         ))}
       </ul>

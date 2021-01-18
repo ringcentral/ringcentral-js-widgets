@@ -21,19 +21,21 @@ export default {
   from: "発信元",
   to: "宛先",
   hangup: "通話終了",
-  accept: "同意する",
-  toVoicemail: "ボイスメールへ送信",
+  accept: "応答",
+  toVoicemail: "ボイスメールへ",
   anonymous: "匿名",
   mergeToConference: "マージ",
   hold: "保留",
   unhold: "保留解除",
   transfer: "転送",
   reject: "拒否",
-  switchCall: "このアプリに通話を変更",
+  switchCall: "このアプリに通話を切り替え",
   callSwitch: "通話の切り替え",
   comfirmContext: "現在、{displayName}とのアクティブな通話中です。このデバイスで通話を続けますか？",
   comfirmCancelButton: "キャンセル",
-  comfirmOKButton: "切り替え"
+  comfirmOKButton: "切り替え",
+  ignore: "無視",
+  holdAndAnswer: "保留/応答"
 };
 
 // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
@@ -58,8 +60,8 @@ export default {
 // @key: @#@"from"@#@ @source: @#@"From"@#@
 // @key: @#@"to"@#@ @source: @#@"To"@#@
 // @key: @#@"hangup"@#@ @source: @#@"Hang up"@#@
-// @key: @#@"accept"@#@ @source: @#@"Accept"@#@
-// @key: @#@"toVoicemail"@#@ @source: @#@"Send to Voicemail"@#@
+// @key: @#@"accept"@#@ @source: @#@"Answer"@#@
+// @key: @#@"toVoicemail"@#@ @source: @#@"To Voicemail"@#@
 // @key: @#@"anonymous"@#@ @source: @#@"Anonymous"@#@
 // @key: @#@"mergeToConference"@#@ @source: @#@"Merge"@#@
 // @key: @#@"hold"@#@ @source: @#@"Hold"@#@
@@ -71,3 +73,5 @@ export default {
 // @key: @#@"comfirmContext"@#@ @source: @#@"You're currently on an active call with {displayName}. Would you like to continue the call on this device?"@#@
 // @key: @#@"comfirmCancelButton"@#@ @source: @#@"Cancel"@#@
 // @key: @#@"comfirmOKButton"@#@ @source: @#@"Switch"@#@
+// @key: @#@"ignore"@#@ @source: @#@"Ignore"@#@
+// @key: @#@"holdAndAnswer"@#@ @source: @#@"Hold & Answer"@#@

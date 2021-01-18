@@ -55,7 +55,7 @@ import i18n from './i18n';
     'EvSubscription',
     'EvWorkingState',
     'Storage',
-    'Modal',
+    'ModalUI',
     'EvAuth',
     'Locale',
     'Alert',
@@ -436,11 +436,11 @@ class EvTransferCall extends RcModuleV2<Deps> implements TransferCall {
   closeModals() {
     // close send voice modal.
     if (this._sendVoiceMailModalId) {
-      this._deps.modal.close(this._sendVoiceMailModalId);
+      this._deps.modalUI.close(this._sendVoiceMailModalId);
     }
     // close ignore/accept transfer modal.
     if (this._incomingTransferCallModalId) {
-      this._deps.modal.close(this._incomingTransferCallModalId);
+      this._deps.modalUI.close(this._incomingTransferCallModalId);
     }
   }
 
@@ -712,7 +712,7 @@ class EvTransferCall extends RcModuleV2<Deps> implements TransferCall {
 
     const content = this.getErrorContent(data);
 
-    this._sendVoiceMailModalId = this._deps.modal.confirm({
+    this._sendVoiceMailModalId = this._deps.modalUI.confirm({
       title: i18n.getString('transferModalTitle', currentLocale),
       okText: i18n.getString('sendVoicemail', currentLocale),
       content: i18n.getString(content, currentLocale),
@@ -720,6 +720,7 @@ class EvTransferCall extends RcModuleV2<Deps> implements TransferCall {
       onOK: () => {
         this.sendVoicemailToAgent();
       },
+      size: 'xsmall',
     });
   }
 
@@ -746,7 +747,7 @@ class EvTransferCall extends RcModuleV2<Deps> implements TransferCall {
   private _showIncomingTransferCallModal() {
     const { currentLocale } = this._deps.locale;
 
-    this._incomingTransferCallModalId = this._deps.modal.confirm({
+    this._incomingTransferCallModalId = this._deps.modalUI.confirm({
       title: i18n.getString('incomingTransferTitle', currentLocale),
       content: i18n.getString('incomingTransferContent', currentLocale),
       okText: i18n.getString('acceptIncomingTransfer', currentLocale),
@@ -757,6 +758,7 @@ class EvTransferCall extends RcModuleV2<Deps> implements TransferCall {
       onCancel: () => {
         this.rejectTransferCall();
       },
+      size: 'xsmall',
     });
   }
 }

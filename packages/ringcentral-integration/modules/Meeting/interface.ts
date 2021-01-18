@@ -1,5 +1,6 @@
 import MeetingScheduleResource from 'ringcentral-client/build/definitions/MeetingScheduleResource';
 import { MeetingTypeV } from '../../helpers/meetingHelper.interface';
+import { RcMMeetingModel } from '../MeetingV2';
 
 export const AUDIO_OPTIONS = {
   ComputerAudio: 'ComputerAudio',
@@ -82,29 +83,6 @@ export type RcMMeetingSettingLock = Pick<
 > & {
   audioOptions: boolean;
 };
-
-export interface RcMMeetingModel {
-  allowJoinBeforeHost: boolean;
-  audioOptions: AudioOptions;
-  host: HostInfo;
-  meetingType: MeetingTypeV;
-  password: string;
-  schedule?: MeetingScheduleResource;
-  _pmiPassword?: string;
-  recurrence?: RecurrenceOptions;
-  // duration: number;
-  startHostVideo: boolean;
-  startParticipantsVideo: boolean;
-  topic: string;
-  settingLock?: RcMMeetingSettingLock;
-  _requireMeetingPassword: boolean;
-  _lockRequireMeetingPassword?: boolean;
-  _saved: boolean;
-  _showDate: boolean;
-  _showTime: boolean;
-  usePersonalMeetingId: boolean;
-  isMeetingPasswordValid?: boolean;
-}
 
 export interface MeetingInitialExtraData {
   userSettings: Partial<RcMMeetingModel>;

@@ -100,17 +100,6 @@ export function isCurrentDeviceEndCall(sessions, callItem) {
   return sessions.indexOf(callItem.telephonySessionId) !== -1;
 }
 
-export function matchTelephonySessionWithActiveCall(callItem) {
-  if (callItem) {
-    return {
-      status: callItem.status,
-      id: callItem.id,
-      direction: callItem.direction,
-    };
-  }
-  return undefined;
-}
-
 // telephony session status match presence telephonyStatus
 export function mapTelephonyStatus(telephonySessionStatus) {
   let result = null;

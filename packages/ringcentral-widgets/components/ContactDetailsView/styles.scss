@@ -1,6 +1,7 @@
 @import '../../lib/commonStyles/full-size.scss';
 @import '../../lib/commonStyles/layout.scss';
 @import '../../lib/commonStyles/reset.scss';
+@import '../../lib/commonStyles/colors.scss';
 
 .root {
   @include full-size;
@@ -19,4 +20,11 @@
 
 .header {
   background: #fff;
+}
+
+.placeholder {
+  color: $darkgray;
+  font-size: 14px;
+  text-align: center;
+  margin-top: 40px;
 }

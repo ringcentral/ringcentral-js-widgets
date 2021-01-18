@@ -9,6 +9,7 @@ export interface MoreActionItem {
 }
 
 export interface MoreActionComponentProps {
+  dataSign: string;
   currentLocale: string;
   actionsList: MoreActionItem[];
   disabled: boolean;

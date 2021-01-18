@@ -3,7 +3,7 @@ export default {
   save: "Guardar y abrir nuevo",
   discard: "Desechar y abrir nuevo",
   hangup: "Colgar",
-  reject: "A buzón de voz"
+  reject: "Enviar al buzón"
 };
 
 // @key: @#@"log"@#@ @source: @#@"Log"@#@

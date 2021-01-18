@@ -216,7 +216,6 @@ class EvCall extends RcModuleV2<Deps> implements Call {
         ringTime: this.ringTime,
       });
 
-      this.setDialoutStatus(dialoutStatuses.callConnected);
     } catch (error) {
       this.setPhonedIdle();
     }
@@ -293,6 +292,7 @@ class EvCall extends RcModuleV2<Deps> implements Call {
         this._deps.evSettings.isOffhook ||
         (offhookInitResult && offhookInitResult.status === 'OK')
       ) {
+        console.log('manualOutdial~~')
         await this._deps.evClient.manualOutdial({
           callerId,
           countryId,

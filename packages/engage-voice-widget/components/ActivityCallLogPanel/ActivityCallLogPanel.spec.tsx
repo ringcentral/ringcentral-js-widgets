@@ -69,6 +69,7 @@ function setup(
     onActive = () => {},
     showMuteButton = false,
     ivrAlertData = defaultIVRAlertData,
+    showSmallCallControl = true,
   }: Partial<ActivityCallLogPanelProps> = {} as any,
 ) {
   return mount(
@@ -107,6 +108,7 @@ function setup(
         showMuteButton={showMuteButton}
         ivrAlertData={ivrAlertData}
         onCopySuccess={() => {}}
+        showSmallCallControl={showSmallCallControl}
       />
     </RcThemeProvider>,
   );
@@ -135,12 +137,7 @@ const getControlButton = (type) => {
     click: () => isExist && button.find('button').simulate('click'),
     title: isExist && button.find('CircleIconButton').prop('title'),
     isActive: isExist && button.find('button').hasClass('buttonActive'),
-    isDisabled:
-      isExist &&
-      !!button
-        .find('button')
-        .render()
-        .attr('disabled'),
+    isDisabled: isExist && !!button.find('button').render().attr('disabled'),
   };
 };
 
@@ -371,16 +368,10 @@ describe('<ActivityCallLogPanel />', async () => {
     expect(wrapper.find('ActiveCallButton')).toHaveLength(1);
     expect(getControlButton('HandUpButton').isExist).toBe(false);
     expect(
-      wrapper
-        .find('ActiveCallButton')
-        .find('button')
-        .hasClass('buttonActive'),
+      wrapper.find('ActiveCallButton').find('button').hasClass('buttonActive'),
     ).toBe(true);
 
-    wrapper
-      .find('ActiveCallButton')
-      .find('button')
-      .simulate('click');
+    wrapper.find('ActiveCallButton').find('button').simulate('click');
     expect(onActive).toBeCalled();
   });
 
@@ -438,12 +429,7 @@ describe('<ActivityCallLogPanel />', async () => {
         isOnActive: disableControl === 'disableActive',
         showMuteButton: true,
       });
-      expect(
-        wrapper
-          .find(domTag)
-          .find('button')
-          .prop('disabled'),
-      ).toBe(true);
+      expect(wrapper.find(domTag).find('button').prop('disabled')).toBe(true);
     }),
   );
 
@@ -477,25 +463,12 @@ describe('<ActivityCallLogPanel />', async () => {
         const item = wrapper.find('.item');
         for (let i = 0; i < ivrAlertData.length; i++) {
           if (i !== 0) {
-            expect(
-              item
-                .at(i)
-                .find('.subject')
-                .text(),
-            ).toBe(ivrAlertData[i].subject);
-            expect(
-              item
-                .at(i)
-                .find('.body')
-                .text(),
-            ).toBe(ivrAlertData[i].body);
+            expect(item.at(i).find('.subject').text()).toBe(
+              ivrAlertData[i].subject,
+            );
+            expect(item.at(i).find('.body').text()).toBe(ivrAlertData[i].body);
           } else {
-            expect(
-              item
-                .at(0)
-                .find('.body')
-                .text(),
-            ).toBe(ivrAlertData[0].body);
+            expect(item.at(0).find('.body').text()).toBe(ivrAlertData[0].body);
           }
         }
         expect(wrapper.find(RcExpansionPanelSummary).text()).toBe(subject);
@@ -506,26 +479,17 @@ describe('<ActivityCallLogPanel />', async () => {
       wrapper = setup({
         status: 'active',
       });
-      wrapper
-        .find(RcExpansionPanelSummary)
-        .find('RcIcon')
-        .simulate('click');
+      wrapper.find(RcExpansionPanelSummary).find('RcIcon').simulate('click');
       wrapper.update();
       expect(
-        wrapper
-          .find(RcExpansionPanel)
-          .find('.expanded')
-          .exists(),
+        wrapper.find(RcExpansionPanel).find('.expanded').exists(),
       ).toBeTruthy();
       wrapper = setup({
         status: 'callEnd',
       });
       wrapper.update();
       expect(
-        wrapper
-          .find(RcExpansionPanel)
-          .find('.expanded')
-          .exists(),
+        wrapper.find(RcExpansionPanel).find('.expanded').exists(),
       ).toBeFalsy();
     });
     return null;

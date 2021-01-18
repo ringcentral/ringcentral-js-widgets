@@ -1,6 +1,6 @@
 import { meetingProviderTypesProps } from '../MeetingProvider/interface';
 import { RcVMeetingModel } from '../../interfaces/Rcv.model';
-import { MeetingDelegators, RcMMeetingModel } from '../Meeting';
+import { MeetingDelegator, RcMMeetingModel } from '../MeetingV2';
 
 export type ExtensionInfo = {
   contact: object;
@@ -111,7 +111,7 @@ export interface IGenericMeeting {
   isPreferencesChanged: boolean;
   brandName: string;
   status: object;
-  delegators: MeetingDelegators[];
+  delegators: MeetingDelegator[];
 
   initialize(): void;
 

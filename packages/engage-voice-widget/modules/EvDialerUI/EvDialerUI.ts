@@ -4,6 +4,7 @@ import {
   RcUIModuleV2,
   state,
   storage,
+  watch,
 } from '@ringcentral-integration/core';
 import { Module } from 'ringcentral-integration/lib/di';
 
@@ -77,11 +78,24 @@ class EvDialerUI extends RcUIModuleV2<Deps> implements DialerUI {
 
   onInitOnce() {
     this._deps.evAuth.beforeAgentLogout(() => {
-      this.reset();
+      // * if that logout is not from update session
+      if (!this._deps.evAgentSession.isAgentUpdating) {
+        this.reset();
+      }
     });
+
+    watch(
+      this,
+      () => this._deps.routerInteraction.currentPath,
+      (newValue) => {
+        if (newValue === '/dialer') {
+          this.checkOnCall();
+        }
+      },
+    );
   }
 
-  async checkOnCall() {
+  checkOnCall() {
     // onCall or not yet disposed call, it should navigate to the `activityCallLog/:id` router.
     const [call] = this._deps.evCallMonitor.calls;
     const { isPendingDisposition } = this._deps.evWorkingState;
@@ -124,7 +138,6 @@ class EvDialerUI extends RcUIModuleV2<Deps> implements DialerUI {
       goToManualDialSettings: () => {
         this._deps.routerInteraction.push('/manualDialSettings');
       },
-      checkOnCall: () => this.checkOnCall(),
       hangup: () => {
         if (!this._deps.evSettings.isManualOffhook) {
           this._deps.evClient.offhookTerm();

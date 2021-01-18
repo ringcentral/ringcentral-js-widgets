@@ -1,7 +1,7 @@
 import { RcFabIconButton, RcLink } from '@ringcentral/juno';
-import handUpSvg from '@ringcentral/juno/icons/icon-hand-up.svg';
-import phoneSvg from '@ringcentral/juno/icons/icon-phone.svg';
-import React, { FunctionComponent, useEffect } from 'react';
+import handUpSvg from '@ringcentral/juno/icon/HandUp';
+import phoneSvg from '@ringcentral/juno/icon/Phone';
+import React, { FunctionComponent } from 'react';
 
 import {
   EvDialerUIFunctions,
@@ -28,18 +28,10 @@ const DialerPanel: FunctionComponent<DialerPanelProps> = ({
   hasDialer,
   setToNumber,
   goToManualDialSettings,
-  checkOnCall,
   dialoutStatus,
   dialButtonDisabled,
   hangup,
 }) => {
-  useEffect(() => {
-    if (hasDialer) {
-      checkOnCall();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   if (!hasDialer) {
     return null;
   }

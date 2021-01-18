@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import FormattedMessage from 'ringcentral-widgets/components/FormattedMessage';
 import { permissionsMessages } from 'ringcentral-integration/modules/RolesAndPermissions/permissionsMessages';
+import FormattedMessage from '../../FormattedMessage';
 import i18n from './i18n';
 
 export default function CallInfo({

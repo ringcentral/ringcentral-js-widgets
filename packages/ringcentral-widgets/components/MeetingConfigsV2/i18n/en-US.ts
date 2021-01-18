@@ -1,6 +1,10 @@
 import { ASSISTED_USERS_MYSELF } from 'ringcentral-integration/modules/Meeting';
 
 export default {
+  date: 'Date',
+  time: 'Time',
+  duration: 'Duration',
+  topic: 'Meeting title',
   voIPOnly: 'Internet audio only',
   telephonyOnly: 'Telephone only',
   both: 'Telephone and Internet Audio',
@@ -32,4 +36,7 @@ export default {
   pmiSettingChangeAlert:
     'If you change the settings and schedule this meeting, all of meetings with Personal Meeting ID will use the same latest settings.',
   lockedTooltip: 'This setting is managed by your company admin',
+  when: 'When',
+  recurringDescribe:
+    'Please remember to check recurrence or repeat in your calendar invitation to your attendees.',
 };

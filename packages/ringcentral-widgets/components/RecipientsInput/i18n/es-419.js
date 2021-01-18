@@ -1,6 +1,6 @@
 export default {
   to: "A",
-  enterNameOrNumber: "Nombre o número"
+  enterNameOrNumber: "Introduzca el nombre o número"
 };
 
 // @key: @#@"to"@#@ @source: @#@"To"@#@

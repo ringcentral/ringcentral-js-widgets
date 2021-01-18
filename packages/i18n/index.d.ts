@@ -17,5 +17,6 @@ export default class I18n {
   getString(key: any, locale?: string): any;
   readonly currentLocale: string;
   static readonly setLocale: typeof setLocale;
+  static setDefaultLocale: (locale: string) => void;
 }
 export {};

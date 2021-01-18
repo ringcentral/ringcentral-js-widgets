@@ -1,28 +1,13 @@
-import {
-  RcModuleV2,
-  state,
-  action,
-  computed,
-} from '@ringcentral-integration/core';
+import { RcModuleV2, computed } from '@ringcentral-integration/core';
 import { Module } from '../../lib/di';
-import isBlank from '../../lib/isBlank';
-import {
-  uniqueContactItems,
-  sortContactItemsByName,
-  groupByFirstLetterOfName,
-  getFilterContacts,
-  AllContactSourceName,
-} from '../../lib/contactHelper';
 import proxify from '../../lib/proxy/proxify';
-import { Deps, UpdateFilterOptions } from './Contacts.interface';
+import { Deps } from './Contacts.interface';
 import {
   IContact,
   TypedContact,
   TypedPhoneNumber,
   ContactSource,
 } from '../../interfaces/Contact.model';
-
-export const DEFAULT_SOURCE_FILTER = 'all';
 
 @Module({
   name: 'Contacts',
@@ -51,36 +36,12 @@ export class Contacts extends RcModuleV2<Deps> {
     }
   }
 
-  @state
-  searchFilter = '';
-
-  @state
-  sourceFilter = DEFAULT_SOURCE_FILTER;
-
-  @action
-  protected _updateFilter({ sourceFilter, searchFilter }: UpdateFilterOptions) {
-    this.searchFilter = searchFilter ?? this.searchFilter;
-    this.sourceFilter = sourceFilter ?? this.sourceFilter;
-  }
-
-  onReset() {
-    this._updateFilter({
-      sourceFilter: DEFAULT_SOURCE_FILTER,
-      searchFilter: '',
-    });
-  }
-
   _shouldInit() {
     return this._deps.auth.loggedIn && this.sourceModuleReady && this.pending;
   }
 
   _shouldReset() {
     return (!this._deps.auth.loggedIn || !this.sourceModuleReady) && this.ready;
-  }
-
-  @proxify
-  async updateFilter({ sourceFilter, searchFilter }: UpdateFilterOptions) {
-    this._updateFilter({ sourceFilter, searchFilter });
   }
 
   addSource(source: ContactSource) {
@@ -105,17 +66,22 @@ export class Contacts extends RcModuleV2<Deps> {
         `[Contacts > ContactSource(${source.sourceName}) > getProfileImage] must be a function`,
       );
     }
+    if (source.findContact && typeof source.findContact !== 'function') {
+      throw new Error(
+        `[Contacts > ContactSource(${source.sourceName}) > findContact] must be a function`,
+      );
+    }
+    if (source.filterContacts && typeof source.filterContacts !== 'function') {
+      throw new Error(
+        `[Contacts > ContactSource(${source.sourceName}) > filterContacts] must be a function`,
+      );
+    }
     if (
       source.searchForPhoneNumbers &&
       typeof source.searchForPhoneNumbers !== 'function'
     ) {
       throw new Error(
         `[Contacts > ContactSource(${source.sourceName}) > searchForPhoneNumbers] must be a function`,
-      );
-    }
-    if (source.filterContacts && typeof source.filterContacts !== 'function') {
-      throw new Error(
-        `[Contacts > ContactSource(${source.sourceName}) > filterContacts] must be a function`,
       );
     }
     if (
@@ -151,6 +117,27 @@ export class Contacts extends RcModuleV2<Deps> {
       this._sourcesUpdatedAt = Date.now();
     }
     return this._sourcesUpdatedAt;
+  }
+
+  async findContact({
+    sourceName,
+    contactId,
+  }: {
+    sourceName: string;
+    contactId: string;
+  }) {
+    let contact = null;
+    const source = this._contactSources.get(sourceName);
+    if (source && typeof source.findContact === 'function') {
+      try {
+        contact = await source.findContact(contactId);
+      } catch (error) {
+        console.error(
+          `[Contacts > ContactSource(${source.sourceName}) > findContact] ${error}`,
+        );
+      }
+    }
+    return contact;
   }
 
   async filterContacts(searchFilter: string) {
@@ -236,15 +223,6 @@ export class Contacts extends RcModuleV2<Deps> {
     return result;
   }
 
-  find({ type, id }: { type: string; id: string }) {
-    const contactId = (id || '').toString();
-    const source = this._contactSources.get(type);
-    if (source) {
-      return source.contacts.find((x) => x.id.toString() === contactId);
-    }
-    return null;
-  }
-
   @proxify
   async getProfileImage(contact: IContact, useCache = true) {
     const source = this._contactSources.get(contact && contact.type);
@@ -283,25 +261,10 @@ export class Contacts extends RcModuleV2<Deps> {
       const source = this._contactSources.get(sourceName);
       if (!source.ready) {
         ready = false;
+        break;
       }
     }
     return ready;
-  }
-
-  get companyContacts() {
-    const source = this._contactSources.get('company');
-    if (source) {
-      return source.contacts;
-    }
-    return [];
-  }
-
-  get personalContacts() {
-    const source = this._contactSources.get('personal');
-    if (source) {
-      return source.contacts;
-    }
-    return [];
   }
 
   @computed<Contacts>((that) => [
@@ -309,7 +272,7 @@ export class Contacts extends RcModuleV2<Deps> {
     that.checkSourceUpdated(),
   ])
   get sourceNames() {
-    const names = [AllContactSourceName];
+    const names = [];
     for (const sourceName of Array.from(this._contactSources.keys())) {
       const source = this._contactSources.get(sourceName);
       if (source.sourceReady) {
@@ -327,46 +290,6 @@ export class Contacts extends RcModuleV2<Deps> {
       if (source.sourceReady) {
         contacts = contacts.concat(source.contacts);
       }
-    }
-    return contacts;
-  }
-
-  @computed<Contacts>(({ filteredContacts }) => [filteredContacts])
-  get contactGroups() {
-    return groupByFirstLetterOfName(
-      sortContactItemsByName(uniqueContactItems(this.filteredContacts)),
-    );
-  }
-
-  @computed<Contacts>((that) => [
-    that.searchFilter,
-    that.sourceFilter,
-    that.checkSourceUpdated(),
-  ])
-  get filteredContacts() {
-    let contacts: IContact[];
-    if (
-      isBlank(this.searchFilter) &&
-      (this.sourceFilter === AllContactSourceName || isBlank(this.sourceFilter))
-    ) {
-      return this.allContacts;
-    }
-    if (
-      this.sourceFilter !== AllContactSourceName &&
-      !isBlank(this.sourceFilter)
-    ) {
-      const source = this._contactSources.get(this.sourceFilter);
-      if (source && source.sourceReady) {
-        /* eslint { "prefer-destructuring": 0 } */
-        contacts = source.contacts;
-      } else {
-        contacts = [];
-      }
-    } else {
-      contacts = this.allContacts;
-    }
-    if (!isBlank(this.searchFilter)) {
-      contacts = getFilterContacts(contacts, this.searchFilter);
     }
     return contacts;
   }

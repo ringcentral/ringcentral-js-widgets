@@ -1,5 +1,9 @@
 import { ASSISTED_USERS_MYSELF } from 'ringcentral-integration/modules/Meeting';
 export default {
+  date: "Date",
+  time: "Heure",
+  duration: "Durée",
+  topic: "Titre de la réunion",
   voIPOnly: "Audio sur Internet uniquement",
   telephonyOnly: "Téléphone uniquement",
   both: "Téléphone et audio sur Internet",
@@ -27,9 +31,15 @@ export default {
   pmiChangeConfirm: "Si vous souhaitez apporter des modifications à votre réunion personnelle, ",
   changePmiSettings: "modifiez les paramètres PMI",
   pmiSettingChangeAlert: "Si vous modifiez les paramètres et programmez la réunion, toutes les réunions avec ID personnel de réunion utiliseront ces mêmes paramètres.",
-  lockedTooltip: "Ce paramètre est géré par l'administrateur de votre entreprise"
+  lockedTooltip: "Ce paramètre est géré par l'administrateur de votre entreprise",
+  when: "Date",
+  recurringDescribe: "N'oubliez pas de vérifier la récurrence ou de renouveler votre invitation aux participants."
 };
 
+// @key: @#@"date"@#@ @source: @#@"Date"@#@
+// @key: @#@"time"@#@ @source: @#@"Time"@#@
+// @key: @#@"duration"@#@ @source: @#@"Duration"@#@
+// @key: @#@"topic"@#@ @source: @#@"Meeting title"@#@
 // @key: @#@"voIPOnly"@#@ @source: @#@"Internet audio only"@#@
 // @key: @#@"telephonyOnly"@#@ @source: @#@"Telephone only"@#@
 // @key: @#@"both"@#@ @source: @#@"Telephone and Internet Audio"@#@
@@ -58,3 +68,5 @@ export default {
 // @key: @#@"changePmiSettings"@#@ @source: @#@"change PMI settings"@#@
 // @key: @#@"pmiSettingChangeAlert"@#@ @source: @#@"If you change the settings and schedule this meeting, all of meetings with Personal Meeting ID will use the same latest settings."@#@
 // @key: @#@"lockedTooltip"@#@ @source: @#@"This setting is managed by your company admin"@#@
+// @key: @#@"when"@#@ @source: @#@"When"@#@
+// @key: @#@"recurringDescribe"@#@ @source: @#@"Please remember to check recurrence or repeat in your calendar invitation to your attendees."@#@

@@ -12,6 +12,7 @@ export type CircleIconButtonProps = {
   active?: boolean;
   normal?: boolean;
   className?: string;
+  dataSign?: string;
 } & Pick<
   RcFabIconButtonProps,
   | 'color'
@@ -36,12 +37,14 @@ export const CircleIconButton: FunctionComponent<CircleIconButtonProps> = ({
   normal,
   className,
   placement,
+  dataSign,
 }) => {
   // this div provides ref for RcTooltip because RcFabIconButton can't
   return (
     <Tooltip title={title} placement={placement}>
       <div>
         <RcFabIconButton
+          data-sign={dataSign}
           color={color}
           symbol={symbol}
           size={size}
@@ -67,4 +70,5 @@ CircleIconButton.defaultProps = {
   normal: false,
   className: undefined,
   placement: 'bottom',
+  dataSign: undefined,
 };

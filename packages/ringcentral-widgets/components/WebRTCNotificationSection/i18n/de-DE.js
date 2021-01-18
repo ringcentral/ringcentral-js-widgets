@@ -3,8 +3,8 @@ export default {
   ignore: "Ignorieren",
   toVoicemail: "An Voicemail",
   answer: "Antworten",
-  endAndAnswer: "Beenden & beantworten",
-  holdAndAnswer: "Halten & beantworten",
+  endAndAnswer: "Beend. & beantw.",
+  holdAndAnswer: "Halten & beantw.",
   custom: "Benutzerdefiniert"
 };
 

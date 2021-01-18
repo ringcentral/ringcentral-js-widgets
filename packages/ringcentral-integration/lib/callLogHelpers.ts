@@ -93,23 +93,25 @@ export function sortBySessionId(
   if (a.sessionId === b.sessionId) return 0;
   return a.sessionId > b.sessionId ? 1 : -1;
 }
+
+// TODO: fix `ActiveCall` startTime optional type
 export function sortByStartTime(
-  a: { startTime: number | string },
-  b: { startTime: number | string },
+  a: { startTime?: number | string },
+  b: { startTime?: number | string },
 ) {
   if (a.startTime === b.startTime) return 0;
   return a.startTime > b.startTime ? -1 : 1;
 }
 
-export function normalizeStartTime(call: ActiveCall) {
-  const result: ActiveCall = {
-    ...call,
+export function normalizeStartTime<T extends { startTime?: number }>(item: T) {
+  const result: T = {
+    ...item,
   };
-  if (call.startTime) {
+  if (item.startTime) {
     // Fix: Safari doesn't support timezone offset
     // `startTime` might switch between `2019-10-18T08:18:47.972+0000`
     // and `2019-10-18T08:18:47.972Z`
-    result.startTime = moment(call.startTime).valueOf();
+    result.startTime = moment(item.startTime).valueOf();
   }
   return result;
 }
@@ -127,7 +129,9 @@ export function normalizeFromTo(call: ActiveCall) {
 export function areTwoLegs(inbound: ActiveCall, outbound: ActiveCall) {
   if (isInbound(inbound) && isOutbound(outbound)) {
     switch (
-      Math.abs(parseInt(inbound.sessionId) - parseInt(outbound.sessionId))
+      Math.abs(
+        parseInt(inbound.sessionId, 10) - parseInt(outbound.sessionId, 10),
+      )
     ) {
       case 1000:
       case 2000:

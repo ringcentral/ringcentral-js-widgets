@@ -138,7 +138,7 @@ class EvAgentScript<T = {}>
   }
 
   getIsAgentScript(call: EvBaseCall) {
-    return !!(this.isDisplayAgentScript && call.scriptId);
+    return !!(this.isDisplayAgentScript && call?.scriptId);
   }
 
   private _bindChannel() {
@@ -258,7 +258,7 @@ class EvAgentScript<T = {}>
   /**
    * @param call - the corresponding chat or call object
    */
-  async saveScriptResult(call: EvCallData) {
+  saveScriptResult(call: EvCallData) {
     const scriptResult = this.callScriptResultMapping[
       this._deps.evClient.encodeUii({
         uii: call.uii,
@@ -268,17 +268,7 @@ class EvAgentScript<T = {}>
 
     if (scriptResult) {
       const result = this._formatScriptResult(scriptResult);
-
-      try {
-        const res = await this._deps.evClient.saveScriptResult(
-          call.uii,
-          call.scriptId,
-          result,
-        );
-        return res;
-      } catch (error) {
-        console.log('saveScriptResult fail', error);
-      }
+      this._deps.evClient.saveScriptResult(call.uii, call.scriptId, result);
     }
   }
 

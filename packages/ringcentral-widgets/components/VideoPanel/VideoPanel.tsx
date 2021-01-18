@@ -31,6 +31,7 @@ export const VideoPanel: React.FunctionComponent<VideoPanelProps> = ({
   enableJoinAfterMeCopy,
   personalMeetingId,
   switchUsePersonalMeetingId,
+  updateHasSettingsChanged,
 }) => {
   const [topicRef, setTopicRef] = useState(null);
   return (
@@ -52,6 +53,7 @@ export const VideoPanel: React.FunctionComponent<VideoPanelProps> = ({
         enableJoinAfterMeCopy={enableJoinAfterMeCopy}
         personalMeetingId={personalMeetingId}
         switchUsePersonalMeetingId={switchUsePersonalMeetingId}
+        updateHasSettingsChanged={updateHasSettingsChanged}
       >
         <Topic
           name={meeting.name}
@@ -118,4 +120,5 @@ interface VideoPanelProps {
   enableJoinAfterMeCopy?: boolean;
   personalMeetingId: string;
   switchUsePersonalMeetingId: (usePersonalMeetingId: boolean) => any;
+  updateHasSettingsChanged: (isChanged: boolean) => void;
 }

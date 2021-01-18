@@ -17,6 +17,7 @@ import { Deps } from './Locale.interface';
 export class Locale extends RcModuleV2<Deps> {
   constructor(deps: Deps) {
     super({ deps });
+    I18n.setDefaultLocale(deps.localeOptions?.defaultLocale ?? DEFAULT_LOCALE);
   }
 
   get _defaultLocale() {
@@ -35,9 +36,9 @@ export class Locale extends RcModuleV2<Deps> {
     return this._deps.localeOptions?.pollingInterval ?? 2000;
   }
 
-  @proxyState(
-    async (that: Locale, locale: string) => await that._setLocale(locale),
-  )
+  @proxyState(async (that: Locale, locale: string) => {
+    await that._setLocale(locale);
+  })
   @state
   locale: string = null;
 

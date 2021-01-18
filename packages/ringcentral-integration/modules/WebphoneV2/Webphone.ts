@@ -25,6 +25,7 @@ import {
   BeforeCallEndHandler,
   BeforeCallResumeHandler,
   CallHoldHandler,
+  OffEventHandler,
 } from './Webphone.interface';
 import { WebphoneBase } from './WebphoneBase';
 import {
@@ -1123,6 +1124,24 @@ export class Webphone extends WebphoneBase {
   onBeforeCallEnd(handler: BeforeCallEndHandler) {
     if (typeof handler === 'function') {
       this._eventEmitter.on(EVENTS.beforeCallEnd, handler);
+    }
+  }
+
+  onWebphoneRegistered(handler: () => void): OffEventHandler {
+    if (typeof handler === 'function') {
+      this._eventEmitter.on(EVENTS.webphoneRegistered, handler);
+      return () => {
+        this._eventEmitter.off(EVENTS.webphoneRegistered, handler);
+      };
+    }
+  }
+
+  onWebphoneUnregistered(handler: () => void): OffEventHandler {
+    if (typeof handler === 'function') {
+      this._eventEmitter.on(EVENTS.webphoneUnregistered, handler);
+      return () => {
+        this._eventEmitter.off(EVENTS.webphoneUnregistered, handler);
+      };
     }
   }
 

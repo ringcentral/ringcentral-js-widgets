@@ -1,11 +1,13 @@
-import { CallRecording, Error } from '@rc-ex/core/definitions';
+import { CallRecording } from '@rc-ex/core/definitions';
 import {
   SessionData,
   Party,
   PartyStatusCode,
 } from 'ringcentral-call-control/lib/Session';
+import { Session } from 'ringcentral-call/lib/Session';
 // eslint-disable-next-line import/no-named-as-default
-import recordStatus from '../Webphone/recordStatus';
+import { find } from 'ramda';
+import { recordStatus } from '../Webphone/recordStatus';
 // eslint-disable-next-line import/no-named-as-default
 import callResults from '../../enums/callResults';
 import callDirections from '../../enums/callDirections';
@@ -85,11 +87,18 @@ export function normalizeSession({
   return formatValue;
 }
 
-export async function conflictError(error: Error): Promise<boolean> {
+export function conflictError({
+  message,
+  response,
+}: {
+  message: string;
+  response: any;
+}) {
   const conflictErrRgx = /409/g;
   const conflictMsgRgx = /Incorrect State/g;
-  return !!(
-    conflictErrRgx.test(error.message) && conflictMsgRgx.test(error.errorCode)
+  return (
+    conflictErrRgx.test(message) &&
+    conflictMsgRgx.test(response && response._text)
   );
 }
 
@@ -119,4 +128,30 @@ export function isForwardedToVoiceMail(session: any) {
 
 export function isOnSetupStage(session: any) {
   return session.status === PartyStatusCode.setup;
+}
+
+// call to main company number but still at inputting extension number prompt tone stage
+export function isAtMainNumberPromptToneStage(session: Session) {
+  if (!session) return false;
+  const { otherParties = [], direction, status } = session;
+  if (
+    direction === callDirections.outbound &&
+    status === PartyStatusCode.answered &&
+    !otherParties.length
+  ) {
+    return true;
+  }
+  return false;
+}
+
+export function getInboundSwitchedParty(parties: Party[]) {
+  if (!parties.length) return false;
+  const result = find((party: Party) => {
+    return (
+      party.direction === callDirections.inbound &&
+      party.status.code === PartyStatusCode.disconnected &&
+      party.status.reason === 'CallSwitch'
+    );
+  }, parties);
+  return result;
 }

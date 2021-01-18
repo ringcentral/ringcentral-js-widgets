@@ -6,11 +6,11 @@ export default {
   onHold: "Em espera",
   park: "Parquear",
   stopRecord: "Parar",
-  record: "Gravação",
+  record: "Gravar",
   add: "Adicionar",
   transfer: "Transferir",
   flip: "Transferência",
-  more: "Ações de chamada",
+  more: "Ações chamada",
   mergeToConference: "Unir"
 };
 

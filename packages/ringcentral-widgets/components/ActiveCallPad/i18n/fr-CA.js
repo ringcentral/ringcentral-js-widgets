@@ -8,7 +8,7 @@ export default {
   stopRecord: "Arrêter",
   record: "Enregistrer",
   add: "Ajouter",
-  transfer: "Transfert",
+  transfer: "Transférer",
   flip: "Renvoi\ninstantané",
   more: "Actions d'appel",
   mergeToConference: "Fusionner"

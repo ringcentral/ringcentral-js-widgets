@@ -42,23 +42,29 @@ export class LogFieldsInput extends Component<
     this.checkPropsUpdate(nextProps, 'value');
   }
 
-  updateValue(value: string, onChange: LogFieldsInputProps['onChange']) {
+  updateValue(value: string | number, onChange: LogFieldsInputProps['onChange']) {
     this.setState({ value });
     this.debounce(() => onChange(value));
   }
 
   render() {
-    const { onChange, required, error, ...rest } = this.props;
+    const { onChange, required, error, type, ...rest } = this.props;
     const { value } = this.state;
     const styleRequired = required ? styles.isRequired : null;
     return (
       <div className={classnames(styleRequired, styles.commonStyle)}>
         <RcTextField
           {...rest}
+          type={type}
           required={required}
           error={error}
           value={value}
-          onChange={(e) => this.updateValue(e.target.value, onChange)}
+          onChange={(e) =>
+            this.updateValue(
+              type === 'number' ? Number(e.target.value) : e.target.value,
+              onChange,
+            )
+          }
           fullWidth
           clearBtn={false}
         />

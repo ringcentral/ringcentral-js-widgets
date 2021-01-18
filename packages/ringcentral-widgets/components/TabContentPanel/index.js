@@ -6,10 +6,10 @@ import NavigationBar from '../../components/NavigationBar';
 import MessageTabButton from '../../components/MessageTabButton';
 import styles from './styles.scss';
 
-function TabTitle({ label, isActive }) {
+function TabTitle({ label, isActive, ...rest }) {
   return (
     <span
-      data-sign="allCalls"
+      {...rest}
       className={classnames(styles.tabTitle, isActive() ? styles.active : null)}
     >
       {label}
@@ -42,7 +42,13 @@ function TabContentPanel({
   }
 
   const formattedTabs = tabs.map((tab) => ({
-    icon: <TabTitle label={tab.label} isActive={tab.isActive} />,
+    icon: (
+      <TabTitle
+        label={tab.label}
+        isActive={tab.isActive}
+        data-sign={tab.dataSign}
+      />
+    ),
     label: tab.label,
     path: tab.path,
     isActive: tab.isActive,

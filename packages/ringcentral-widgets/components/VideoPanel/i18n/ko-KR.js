@@ -7,8 +7,8 @@ export default {
   scheduleFor: "다음 사람 대신 예약",
   meetingSettings: "모임 설정",
   [ASSISTED_USERS_MYSELF]: "나",
-  rcMeetingSettings: "화상 모임 설정",
   joinBeforeHost: "참가자가 호스트보다 먼저 참가하도록 허용",
+  enableWaitingRoom: "대기실 소용",
   waitingRoom: "다음 기간에 대기실 사용",
   waitingRoomNotCoworker: "회사 외부의 사람",
   waitingRoomGuest: "로그인하지 않은 사람",
@@ -19,8 +19,9 @@ export default {
   turnOffCamera: "참가자의 카메라 끄기",
   requirePassword: "비밀번호가 필요함",
   setPassword: "비밀번호 설정 *",
+  setPasswordNotSymbol: "비밀번호 설정",
   passwordEmptyError: "모임 비밀번호 필요",
-  passwordInvalidError: "영문자와 숫자를 포함하지만 기호를 포함하지 않는 1~10자 사용",
+  passwordInvalidError: "비밀번호는 1~10자의 문자 및 숫자여야 하며 기호를 포함하지 않아야 합니다.",
   passwordHintText: "비밀번호는 1~10자의 문자 및 숫자여야 하며 기호를 포함하지 않아야 합니다.",
   usePersonalMeetingId: "개인 모임 ID 사용",
   meetingSettingsSecurity: "보안",
@@ -39,8 +40,8 @@ export default {
 // @key: @#@"scheduleFor"@#@ @source: @#@"Schedule on behalf of"@#@
 // @key: @#@"meetingSettings"@#@ @source: @#@"Meeting settings"@#@
 // @key: @#@"ASSISTED_USERS_MYSELF"@#@ @source: @#@"Myself"@#@
-// @key: @#@"rcMeetingSettings"@#@ @source: @#@"Video Meeting settings"@#@
 // @key: @#@"joinBeforeHost"@#@ @source: @#@"Allow participants to join before host"@#@
+// @key: @#@"enableWaitingRoom"@#@ @source: @#@"Enable waiting room"@#@
 // @key: @#@"waitingRoom"@#@ @source: @#@"Enable waiting room for"@#@
 // @key: @#@"waitingRoomNotCoworker"@#@ @source: @#@"Anyone outside my company"@#@
 // @key: @#@"waitingRoomGuest"@#@ @source: @#@"Anyone not signed in"@#@
@@ -51,9 +52,10 @@ export default {
 // @key: @#@"turnOffCamera"@#@ @source: @#@"Turn off camera for participants"@#@
 // @key: @#@"requirePassword"@#@ @source: @#@"Require password"@#@
 // @key: @#@"setPassword"@#@ @source: @#@"Set password *"@#@
+// @key: @#@"setPasswordNotSymbol"@#@ @source: @#@"Set password"@#@
 // @key: @#@"passwordEmptyError"@#@ @source: @#@"Meeting password required"@#@
-// @key: @#@"passwordInvalidError"@#@ @source: @#@"Use 1 to 10 characters which include alphabets and numbers but no symbols"@#@
-// @key: @#@"passwordHintText"@#@ @source: @#@"Your password should be 1-10 letters and numbers long but not contain symbols"@#@
+// @key: @#@"passwordInvalidError"@#@ @source: @#@"Your password must be 1-10 letters and numbers long but cannot contain symbols"@#@
+// @key: @#@"passwordHintText"@#@ @source: @#@"Your password should be 1-10 letters and numbers long but cannot contain symbols"@#@
 // @key: @#@"usePersonalMeetingId"@#@ @source: @#@"Use Personal Meeting ID"@#@
 // @key: @#@"meetingSettingsSecurity"@#@ @source: @#@"Security"@#@
 // @key: @#@"onlyAuthUserJoin"@#@ @source: @#@"Only authenticated users can join"@#@

@@ -20,9 +20,9 @@ import normalizeNumber from '../../lib/normalizeNumber';
 import {
   matchWephoneSessionWithAcitveCall,
   isCurrentDeviceEndCall,
-  matchTelephonySessionWithActiveCall,
   mapTelephonyStatus,
 } from './callMonitorHelper';
+import { normalizeTelephonySession } from '../CallMonitorV2/callMonitorHelper';
 import { selector } from '../../lib/selector';
 
 import {
@@ -629,7 +629,7 @@ export default class CallMonitor extends RcModule {
           const toName = to?.name;
           const fromName = from?.name;
           const partyId = party?.id;
-          const telephonySession = matchTelephonySessionWithActiveCall(
+          const telephonySession = normalizeTelephonySession(
             currentRcCallSession,
           );
           const telephonyStatus = mapTelephonyStatus(party?.status.code);

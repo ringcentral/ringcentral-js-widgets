@@ -1,6 +1,5 @@
 import { RcThemeProvider, RcThemeProviderProps } from '@ringcentral/juno';
-import React, { FunctionComponent } from 'react';
-import { connect } from 'react-redux';
+import React from 'react';
 
 import { defaultTheme } from './theme';
 
@@ -9,7 +8,8 @@ export interface PhoneProviderProps<T = any> {
   theme?: RcThemeProviderProps['theme'];
 }
 
-const PhoneContext = React.createContext(null);
+export const PhoneContext = React.createContext(null);
+
 export default PhoneContext;
 
 export const PhoneProvider: React.FunctionComponent<PhoneProviderProps> = ({
@@ -24,30 +24,13 @@ export const PhoneProvider: React.FunctionComponent<PhoneProviderProps> = ({
   );
 };
 
-export function withPhone(Comp) {
-  function WithPhone(props) {
+export function withPhone(Comp: any) {
+  // eslint-disable-next-line func-names
+  return function (props: any) {
     return (
       <PhoneContext.Consumer>
         {(phone) => <Comp phone={phone} {...props} />}
       </PhoneContext.Consumer>
     );
-  }
-  return WithPhone;
-}
-
-export type connectModuleProps<T> = (props: T) => any;
-
-// router properties
-export function connectModule<T = any, K = any>(fn: connectModuleProps<T>) {
-  return (Comp) => {
-    const WithModule = connect(
-      (_, props: any) => fn(props.phone).getUIProps(props),
-      (_, props: any) => fn(props.phone).getUIFunctions(props),
-    )(Comp);
-    return (((props: K) => (
-      <PhoneContext.Consumer>
-        {(phone) => <WithModule phone={phone} {...props} />}
-      </PhoneContext.Consumer>
-    )) as any) as FunctionComponent<K>;
   };
 }

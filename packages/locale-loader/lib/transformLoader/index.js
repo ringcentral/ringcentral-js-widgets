@@ -5,7 +5,10 @@ import generateLoaderContent from '../generateLoaderContent';
 import isLocaleFile from '../isLocaleFile';
 import isLoaderFile, { noChunks } from '../isLoaderFile';
 
-export default function transformLoader({ noChunk = false } = {}) {
+export default function transformLoader({
+  noChunk = false,
+  supportedLocales = [],
+} = {}) {
   return through.obj(async function transform(file, enc, done) {
     const content = file.contents.toString(enc);
     if (isLoaderFile(content)) {
@@ -14,6 +17,7 @@ export default function transformLoader({ noChunk = false } = {}) {
       const loader = generateLoaderContent({
         files,
         noChunk: noChunk || noChunks(content),
+        supportedLocales,
       });
       file.contents = Buffer.from(loader, 'utf8');
     }

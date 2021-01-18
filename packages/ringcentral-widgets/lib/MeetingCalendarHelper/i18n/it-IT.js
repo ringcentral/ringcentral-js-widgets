@@ -3,6 +3,7 @@ export default {
   rcvInviteMeetingContent: "{accountName} ti ha invitato a una riunione di {brandName}.\n\nPartecipa attraverso questo collegamento:\n\t{joinUri}{passwordTpl}",
   rcvRCBrandInviteMeetingContent: "{accountName} ti sta invitando a una riunione {productName}.\n\nAccedi con questo collegamento:\n\t{joinUri}{passwordTpl}",
   rcvInviteMeetingContentDial: "\n\nUn solo tocco per aggiungere l'audio, solo da smartphone:\n\t{smartphones}\n\nO componi:\n\tComponi: {dialNumber}\n\tCodice di accesso / ID riunione: {pinNumber} ",
+  rcvInviteMeetingContentCountryDial: "\n\nAccedi con un tocco da smartphone per partecipare solo in modalità audio:\n\t{smartphones}\n\nO componi:\n\t{dialNumber}\n\tCodice di accesso/ID riunione: {pinNumber} ",
   rcvTeleconference: "\n\nNumeri internazionali disponibili: {teleconference} ",
   doNotModify: "===== Non modificare questo testo =====",
   password: "\n\nPassword",
@@ -13,6 +14,7 @@ export default {
 // @key: @#@"rcvInviteMeetingContent"@#@ @source: @#@"{accountName} has invited you to a {brandName} Meeting.\n\nPlease join using this link:\n\t{joinUri}{passwordTpl}"@#@
 // @key: @#@"rcvRCBrandInviteMeetingContent"@#@ @source: @#@"{accountName} has invited you to a {productName} meeting.\n\nPlease join using this link:\n\t{joinUri}{passwordTpl}"@#@
 // @key: @#@"rcvInviteMeetingContentDial"@#@ @source: @#@"\n\nOne tap to join audio only from a smartphone:\n\t{smartphones}\n\nOr dial:\n\tDial: {dialNumber}\n\tAccess Code / Meeting ID: {pinNumber} "@#@
+// @key: @#@"rcvInviteMeetingContentCountryDial"@#@ @source: @#@"\n\nOne tap to join audio only from a smartphone:\n\t{smartphones}\n\nOr dial:\n\t{dialNumber}\n\tAccess Code / Meeting ID: {pinNumber} "@#@
 // @key: @#@"rcvTeleconference"@#@ @source: @#@"\n\nInternational numbers available: {teleconference} "@#@
 // @key: @#@"doNotModify"@#@ @source: @#@"===== Do not modify this text ====="@#@
 // @key: @#@"password"@#@ @source: @#@"\n\nPassword"@#@

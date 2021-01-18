@@ -1,4 +1,4 @@
-import transferCallSvg from '@ringcentral/juno/icons/icon-transfer-call.svg';
+import transferCallSvg from '@ringcentral/juno/icon/TransferCall';
 import React, { FunctionComponent } from 'react';
 
 import { CircleIconButton } from '../../CircleIconButton';
@@ -20,9 +20,11 @@ export const TransferCallButton: FunctionComponent<TransferCallButtonProps> = ({
   disableTransfer,
   size,
   className,
+  dataSign,
 }) => {
   return (
     <CircleIconButton
+      dataSign={dataSign}
       data-icon="transfer-call"
       symbol={transferCallSvg}
       title={i18n.getString('transfer', currentLocale)}
@@ -41,4 +43,5 @@ TransferCallButton.defaultProps = {
   onTransfer() {},
   disableTransfer: false,
   currentLocale: 'en-US',
+  dataSign: 'transferCall',
 };

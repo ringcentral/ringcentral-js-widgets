@@ -28,6 +28,7 @@ class TabContentView extends Component {
         {
           path: '/dialer',
           label: i18n.getString('dialer', currentLocale),
+          dataSign: 'dialer',
           isActive() {
             return currentPath === '/dialer';
           },
@@ -35,6 +36,7 @@ class TabContentView extends Component {
         {
           path: '/calls',
           label: i18n.getString('allCalls', currentLocale),
+          dataSign: 'allCalls',
           isActive() {
             return currentPath === '/calls';
           },

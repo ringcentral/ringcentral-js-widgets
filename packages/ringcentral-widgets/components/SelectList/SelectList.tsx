@@ -1,5 +1,10 @@
 import formatMessage from 'format-message';
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, {
+  ComponentProps,
+  FunctionComponent,
+  useEffect,
+  useState,
+} from 'react';
 
 import { SelectListBasic, SelectListBasicProps } from '../SelectListBasic';
 import i18n from './i18n';
@@ -43,6 +48,10 @@ export type SelectListProps = {
     'foundFromServerEntities' | 'foundFromServerTitle' | 'showFoundFromServer'
   >;
 
+type RenderListView = ComponentProps<
+  typeof SelectListBasicWithScrollCheck
+>['renderListView'];
+
 export const SelectList: FunctionComponent<SelectListProps> = (props) => {
   const {
     field,
@@ -69,7 +78,8 @@ export const SelectList: FunctionComponent<SelectListProps> = (props) => {
   useEffect(() => {
     onSelectViewVisible(open, field);
   }, [field, onSelectViewVisible, open]);
-  const renderListView = (data, type, filter, scrollCheck) => (
+
+  const renderListView: RenderListView = (data, type, filter, scrollCheck) => (
     <ListView
       filter={filter}
       options={data}
@@ -91,6 +101,7 @@ export const SelectList: FunctionComponent<SelectListProps> = (props) => {
       startAdornment={startAdornment}
     />
   );
+
   return (
     <div
       className={disabled ? styles.disabled : null}
@@ -98,6 +109,7 @@ export const SelectList: FunctionComponent<SelectListProps> = (props) => {
     >
       <div
         className={styles.field}
+        data-sign="select-list-open"
         onClick={(e) => {
           e.preventDefault();
           e.stopPropagation();

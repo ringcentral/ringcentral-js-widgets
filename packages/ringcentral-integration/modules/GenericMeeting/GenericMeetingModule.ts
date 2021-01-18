@@ -1,7 +1,8 @@
 import { EventEmitter } from 'events';
 import RcModule from '../../lib/RcModule';
 import { Module } from '../../lib/di';
-import Meeting, { RcMMeetingModel } from '../Meeting';
+import Meeting from '../Meeting';
+import { RcMMeetingModel } from '../MeetingV2';
 import Brand from '../Brand';
 import ExtensionInfo from '../ExtensionInfo';
 import proxify from '../../lib/proxy/proxify';
@@ -205,6 +206,17 @@ export class GenericMeeting extends RcModule implements IGenericMeeting {
     return this._meetingModule.validatePasswordSettings(password, isSecret);
   }
 
+  updateHasSettingsChanged(isChanged: boolean) {
+    if (this.isRCM) {
+      // rcm doedn't support update disabled status yet
+      return;
+    }
+    return (
+      this.isRCV &&
+      (this._meetingModule as RcVideo).updateHasSettingsChanged(isChanged)
+    );
+  }
+
   generateRcvMeetingPassword() {
     return this._rcVideo.generateRandomPassword();
   }
@@ -322,6 +334,10 @@ export class GenericMeeting extends RcModule implements IGenericMeeting {
     return !!this._meetingModule.showAdminLock;
   }
 
+  get enableServiceWebSettings(): boolean {
+    return !!this._meetingModule.enableServiceWebSettings;
+  }
+
   get enablePersonalMeeting(): boolean {
     return !!this._meetingModule.enablePersonalMeeting;
   }
@@ -353,5 +369,13 @@ export class GenericMeeting extends RcModule implements IGenericMeeting {
 
   get isUpdating() {
     return this.state.updatingStatus === genericMeetingStatus.updating;
+  }
+
+  get hasSettingsChanged() {
+    if (this.isRCM) {
+      // rcm doesn't support update button disabled status yet
+      return true;
+    }
+    return this.isRCV && (this._meetingModule as RcVideo).hasSettingsChanged;
   }
 }

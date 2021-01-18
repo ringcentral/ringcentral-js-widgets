@@ -1,4 +1,4 @@
-export const MeetingType = {
+const MeetingType = {
   SCHEDULED: 'Scheduled',
   RECURRING: 'Recurring',
   SCHEDULED_RECURRING: 'ScheduledRecurring',
@@ -6,4 +6,8 @@ export const MeetingType = {
   PMI: 'PMI',
 } as const;
 
-export type MeetingTypeV = typeof MeetingType[keyof typeof MeetingType];
+type MeetingTypeV = typeof MeetingType[keyof typeof MeetingType];
+
+// TODO: will remove this when google app script could support export seperately
+// export together because google app script not fully support export
+export { MeetingType, MeetingTypeV };

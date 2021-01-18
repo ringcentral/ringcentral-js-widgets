@@ -1,12 +1,12 @@
 export default {
   currentCall: "Huidige oproep",
-  viewCalls: "Oproepen bekijken",
+  viewCalls: "Oproep bekijken",
   view: "Weergeven",
   incomingCall: "{numberOf} inkomende oproep",
   incomingCalls: "{numberOf} inkomende oproepen",
-  callOnHold: "{numberOf} oproep staat in de wacht",
+  callOnHold: "{numberOf} oproep in de wacht",
   callsOnHold: "{numberOf} oproepen staan in de wacht",
-  otherDeviceCall: "{numberOf} oproep op andere apparaten",
+  otherDeviceCall: "{numberOf} andere oproep",
   otherDeviceCalls: "{numberOf} oproepen op andere apparaten"
 };
 

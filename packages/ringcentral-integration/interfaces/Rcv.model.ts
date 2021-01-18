@@ -22,17 +22,19 @@ export interface RcvGSuiteMeetingModel {
   meetingPassword?: string;
 }
 
+export interface RcVDialInNumberObj {
+  phoneNumber: string;
+  country: {
+    name: string;
+    isoCode: string;
+    callingCode: string;
+  };
+  default: boolean;
+  location: string;
+}
+
 export interface RcVDialInNumberGET {
-  phoneNumbers: Array<{
-    phoneNumber: string;
-    country: {
-      name: string;
-      isoCode: string;
-      callingCode: string;
-    };
-    default: boolean;
-    location: string;
-  }>;
+  phoneNumbers: Array<RcVDialInNumberObj>;
 }
 
 export interface RcVideoAPI {

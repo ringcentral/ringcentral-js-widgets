@@ -29,6 +29,7 @@
 }
 
 .contact {
+  @extend .overflowEllipsis;
   font-size: 24px;
   line-height: 32px;
   margin-top: 28px;
@@ -45,11 +46,17 @@
   margin-top: 24px;
 }
 
+.buttonsGroup{
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
 .buttonsGroup+.buttonsGroup {
   margin-top: 36px;
 
   .callButton {
-    margin: 0 8px;
+    margin: 0 5px;
   }
 
   .answerButton {
@@ -66,7 +73,7 @@
   display: inline-block;
   font-size: 0;
   margin: 0 20px;
-  max-width: 72px;
+  max-width: 80px;
 }
 
 .button {
@@ -116,10 +123,23 @@
   display: block;
   font-size: 12px;
   transform: scale(0.9);
-  white-space: nowrap;
   line-height: 13px;
   margin-top: 4px;
   color: #616161;
+}
+
+.firstLineText {
+  @extend .text;
+  @extend .overflowEllipsis;
+}
+
+.secondLineText {
+  @extend .text;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 2;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
 }
 
 .forwardPopover {
@@ -132,7 +152,6 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  text-align: left;
 }
 
 .moreActionItem {
@@ -153,6 +172,7 @@
     letter-spacing: 0px;
     line-height: 22px;
     @extend .overflowEllipsis;
+    text-align: left;
   }
 
   .subText {
@@ -162,6 +182,7 @@
     letter-spacing: 0px;
     line-height: 16px;
     @extend .overflowEllipsis;
+    text-align: left;
   }
 }
 
@@ -171,6 +192,7 @@
   height: 267px;
 
   .contact {
+    @extend .overflowEllipsis;
     font-size: 20px;
     line-height: 28px;
     margin-top: 36px;

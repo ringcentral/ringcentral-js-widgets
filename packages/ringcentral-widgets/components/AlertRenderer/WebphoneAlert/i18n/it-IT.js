@@ -6,7 +6,7 @@ export default {
   [webphoneErrors.browserNotSupported]: "Le chiamate mediante questo browser non sono supportate.",
   [webphoneErrors.webphoneCountOverLimit]: "È possibile registrare fino a 5 telefoni web.",
   [webphoneErrors.checkDLError]: "Impossibile effettuare una chiamata in uscita. Se l'errore persiste, contatta {brandName} per assistenza.",
-  [webphoneErrors.noOutboundCallWithoutDL]: "Con questo interno non è attualmente consentito effettuare chiamate in uscita con il browser. Contatta il rappresentante dell'account per un aggiornamento",
+  [webphoneErrors.noOutboundCallWithoutDL]: "Con questo interno non è attualmente consentito effettuare chiamate in uscita con il browser. Contatta il rappresentante dell'account per un upgrade.",
   [webphoneErrors.provisionUpdate]: "Spiacenti, si è verificato un problema. Tenteremo la riconnessione automatica a breve.",
   [webphoneErrors.serverConnecting]: "Si è verificato un problema durante la connessione al server telefonico.",
   [webphoneErrors.toVoiceMailError]: "Impossibile inviare la chiamata alla segreteria telefonica a causa di un errore interno",

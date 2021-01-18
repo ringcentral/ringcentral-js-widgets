@@ -22,5 +22,7 @@ export interface ContactDetailsViewFunctionProps
     clickToDial,
     clickToSMS,
     sourceNodeRenderer {
-  onBackClick(): any;
+  onBackClick?: () => any;
+  onVisitPage?: () => any;
+  onLeavingPage?: () => any;
 }

@@ -11,7 +11,7 @@ export default {
   OutboundDirection: "Uitgaand naar:",
   [telephonyStatuses.noCall]: "Verbinding verbroken",
   [telephonyStatuses.callConnected]: "Verbonden",
-  [telephonyStatuses.ringing]: "Aan het bellen",
+  [telephonyStatuses.ringing]: "Gaat over",
   [telephonyStatuses.onHold]: "In wacht",
   [telephonyStatuses.parkedCall]: "Geparkeerd",
   [callResults.unknown]: "Onbekend",

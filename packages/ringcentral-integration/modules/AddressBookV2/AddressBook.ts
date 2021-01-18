@@ -113,6 +113,11 @@ export class AddressBook
   }
 
   // interface of ContactSource
+  findContact(contactId: string) {
+    return this.contacts.find((x) => x.id === contactId);
+  }
+
+  // interface of ContactSource
   filterContacts(searchFilter: string) {
     return getFilterContacts(this.contacts, searchFilter);
   }

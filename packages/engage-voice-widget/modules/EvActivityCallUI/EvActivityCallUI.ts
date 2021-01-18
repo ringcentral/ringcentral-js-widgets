@@ -227,6 +227,7 @@ class EvActivityCallUI<T = {}>
         isFailed: false,
         isAutoSave: false,
         isCreated: false,
+        phoneNumber: currentCall.ani,
       },
       customLogFields:
         dispositionPickList.length === 0
@@ -498,19 +499,15 @@ class EvActivityCallUI<T = {}>
   }
 
   async disposeCall() {
-    const promises: Promise<any>[] = [
-      this._deps.evCallDisposition.disposeCall(this.callId),
-    ];
+    this._deps.evCallDisposition.disposeCall(this.callId);
 
     const { evAgentScript } = this._deps;
     const call = this.currentEvCall;
     // evAgentScript.isDisplayAgentScript &&
     if (call.scriptId) {
       evAgentScript.setCurrentCallScript(null);
-      promises.push(evAgentScript.saveScriptResult(call));
+      evAgentScript.saveScriptResult(call);
     }
-
-    await Promise.all(promises);
   }
 
   private _checkTabManagerEvent() {

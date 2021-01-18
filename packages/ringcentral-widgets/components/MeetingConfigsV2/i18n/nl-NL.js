@@ -1,5 +1,9 @@
 import { ASSISTED_USERS_MYSELF } from 'ringcentral-integration/modules/Meeting';
 export default {
+  date: "Datum",
+  time: "Tijdstip",
+  duration: "Duur",
+  topic: "Titel meeting",
   voIPOnly: "Alleen internetaudio",
   telephonyOnly: "Alleen telefoon",
   both: "Telefoon- en internetaudio",
@@ -27,9 +31,15 @@ export default {
   pmiChangeConfirm: "Als u wijzigingen wilt aanbrengen voor uw persoonlijke meeting, ",
   changePmiSettings: "PMI-instellingen wijzigen",
   pmiSettingChangeAlert: "Als u de instellingen wijzigt en deze meetings plant, gebruiken alle meetings met persoonlijke meeting-ID dezelfde nieuwe instellingen.",
-  lockedTooltip: "Deze instelling wordt beheerd door uw bedrijfsbeheerder"
+  lockedTooltip: "Deze instelling wordt beheerd door uw bedrijfsbeheerder",
+  when: "Wanneer",
+  recurringDescribe: "Vergeet niet om terugkeren of herhaling aan te vinken in uw agenda-uitnodiging voor uw bezoekers."
 };
 
+// @key: @#@"date"@#@ @source: @#@"Date"@#@
+// @key: @#@"time"@#@ @source: @#@"Time"@#@
+// @key: @#@"duration"@#@ @source: @#@"Duration"@#@
+// @key: @#@"topic"@#@ @source: @#@"Meeting title"@#@
 // @key: @#@"voIPOnly"@#@ @source: @#@"Internet audio only"@#@
 // @key: @#@"telephonyOnly"@#@ @source: @#@"Telephone only"@#@
 // @key: @#@"both"@#@ @source: @#@"Telephone and Internet Audio"@#@
@@ -58,3 +68,5 @@ export default {
 // @key: @#@"changePmiSettings"@#@ @source: @#@"change PMI settings"@#@
 // @key: @#@"pmiSettingChangeAlert"@#@ @source: @#@"If you change the settings and schedule this meeting, all of meetings with Personal Meeting ID will use the same latest settings."@#@
 // @key: @#@"lockedTooltip"@#@ @source: @#@"This setting is managed by your company admin"@#@
+// @key: @#@"when"@#@ @source: @#@"When"@#@
+// @key: @#@"recurringDescribe"@#@ @source: @#@"Please remember to check recurrence or repeat in your calendar invitation to your attendees."@#@

@@ -14,10 +14,11 @@ export default {
   unHold: "Wiederaufnehmen",
   forward: "Weiterleiten",
   ignore: "Ignorieren",
-  voicemail: "Voicemail",
+  voicemail: "An Voicemail",
   custom: "Benutzerdefiniert",
   answerAndEnd: "Beantworten & beenden",
-  answerAndHold: "Beantworten & halten"
+  answerAndHold: "Beantworten & halten",
+  answer: "Antworten"
 };
 
 // @key: @#@"mute"@#@ @source: @#@"Mute"@#@
@@ -35,7 +36,8 @@ export default {
 // @key: @#@"unHold"@#@ @source: @#@"Unhold"@#@
 // @key: @#@"forward"@#@ @source: @#@"Forward"@#@
 // @key: @#@"ignore"@#@ @source: @#@"Ignore"@#@
-// @key: @#@"voicemail"@#@ @source: @#@"Voicemail"@#@
+// @key: @#@"voicemail"@#@ @source: @#@"To Voicemail"@#@
 // @key: @#@"custom"@#@ @source: @#@"Custom"@#@
 // @key: @#@"answerAndEnd"@#@ @source: @#@"Answer & End"@#@
 // @key: @#@"answerAndHold"@#@ @source: @#@"Answer & Hold"@#@
+// @key: @#@"answer"@#@ @source: @#@"Answer"@#@

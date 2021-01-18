@@ -56,6 +56,7 @@ export const ActivityCallLogPanel: FunctionComponent<ActivityCallLogPanelProps> 
   ivrAlertData,
   onCopySuccess,
   scrollTo,
+  referenceFieldOptions,
   ...rest
 }) => {
   const transferRef = useRef(null);
@@ -79,12 +80,14 @@ export const ActivityCallLogPanel: FunctionComponent<ActivityCallLogPanelProps> 
   const editLogSection = useCallback(
     (props) => (
       <EditLogSection
+        isWide={isWide}
         {...props}
         scrollTo={scrollTo}
         rootRef={rootRef.current?.editSectionRef}
+        referenceFieldOptions={referenceFieldOptions}
       />
     ),
-    [scrollTo],
+    [isWide, scrollTo, referenceFieldOptions],
   );
 
   return (
@@ -136,7 +139,78 @@ export const ActivityCallLogPanel: FunctionComponent<ActivityCallLogPanelProps> 
       }}
       renderCallLogCallControl={() => {
         const isOnTransfer = Boolean(transferEl);
-        return isCallEnd ? (
+        return (
+          !isCallEnd && (
+            <>
+              <RcMenu
+                classes={{ paper: styles.paper }}
+                anchorEl={transferEl}
+                open={isOnTransfer}
+                onClose={handleTransferClose}
+                data-sign="transferMenu"
+              >
+                <RcMenuItem
+                  onClick={() => goToTransferCallPage(transferTypes.internal)}
+                  disabled={!allowTransferCall || disableInternalTransfer}
+                  data-sign="transferItem-internalTransfer"
+                >
+                  {i18n.getString('internalTransfer', currentLocale)}
+                </RcMenuItem>
+                <RcMenuItem
+                  onClick={() => goToTransferCallPage(transferTypes.phoneBook)}
+                  disabled={!allowTransferCall}
+                  data-sign="transferItem-phoneBookTransfer"
+                >
+                  {i18n.getString('phoneBookTransfer', currentLocale)}
+                </RcMenuItem>
+                <RcMenuItem
+                  onClick={() => goToRequeueCallPage()}
+                  disabled={!allowRequeueCall}
+                  data-sign="transferItem-queueTransfer"
+                >
+                  {i18n.getString('queueTransfer', currentLocale)}
+                </RcMenuItem>
+                <RcMenuItem
+                  onClick={() =>
+                    goToTransferCallPage(transferTypes.manualEntry)
+                  }
+                  disabled={!allowTransferCall}
+                  data-sign="transferItem-enterANumber"
+                >
+                  {i18n.getString('enterANumber', currentLocale)}
+                </RcMenuItem>
+              </RcMenu>
+              <EvSmallCallControl
+                onMute={onMute}
+                onUnmute={onUnmute}
+                onHangup={onHangup}
+                onReject={onReject}
+                onHold={onHold}
+                onTransfer={onTransfer}
+                onUnHold={onUnHold}
+                onActive={onActive}
+                isOnMute={isOnMute}
+                currentLocale={currentLocale}
+                isOnTransfer={isOnActive || isOnTransfer}
+                isOnHold={isOnHold}
+                transferRef={transferRef}
+                size={smallCallControlSize}
+                isInComingCall={isInComingCall}
+                disableTransfer={disableTransfer}
+                disableHold={disableHold}
+                disableHangup={disableHangup}
+                disableMute={disableMute}
+                disableActive={disableActive}
+                isOnActive={isOnActive}
+                showMuteButton={showMuteButton}
+              />
+            </>
+          )
+        );
+      }}
+    >
+      {isCallEnd && (
+        <div className={classNames(styles.submitButton)}>
           <RcButton
             data-sign="submit"
             size="large"
@@ -147,72 +221,9 @@ export const ActivityCallLogPanel: FunctionComponent<ActivityCallLogPanelProps> 
           >
             {getButtonText(saveStatus, currentLocale)}
           </RcButton>
-        ) : (
-          <>
-            <RcMenu
-              classes={{ paper: styles.paper }}
-              anchorEl={transferEl}
-              open={isOnTransfer}
-              onClose={handleTransferClose}
-              data-sign="transferMenu"
-            >
-              <RcMenuItem
-                onClick={() => goToTransferCallPage(transferTypes.internal)}
-                disabled={!allowTransferCall || disableInternalTransfer}
-                data-sign="transferItem-internalTransfer"
-              >
-                {i18n.getString('internalTransfer', currentLocale)}
-              </RcMenuItem>
-              <RcMenuItem
-                onClick={() => goToTransferCallPage(transferTypes.phoneBook)}
-                disabled={!allowTransferCall}
-                data-sign="transferItem-phoneBookTransfer"
-              >
-                {i18n.getString('phoneBookTransfer', currentLocale)}
-              </RcMenuItem>
-              <RcMenuItem
-                onClick={() => goToRequeueCallPage()}
-                disabled={!allowRequeueCall}
-                data-sign="transferItem-queueTransfer"
-              >
-                {i18n.getString('queueTransfer', currentLocale)}
-              </RcMenuItem>
-              <RcMenuItem
-                onClick={() => goToTransferCallPage(transferTypes.manualEntry)}
-                disabled={!allowTransferCall}
-                data-sign="transferItem-enterANumber"
-              >
-                {i18n.getString('enterANumber', currentLocale)}
-              </RcMenuItem>
-            </RcMenu>
-            <EvSmallCallControl
-              onMute={onMute}
-              onUnmute={onUnmute}
-              onHangup={onHangup}
-              onReject={onReject}
-              onHold={onHold}
-              onTransfer={onTransfer}
-              onUnHold={onUnHold}
-              onActive={onActive}
-              isOnMute={isOnMute}
-              currentLocale={currentLocale}
-              isOnTransfer={isOnActive || isOnTransfer}
-              isOnHold={isOnHold}
-              transferRef={transferRef}
-              size={smallCallControlSize}
-              isInComingCall={isInComingCall}
-              disableTransfer={disableTransfer}
-              disableHold={disableHold}
-              disableHangup={disableHangup}
-              disableMute={disableMute}
-              disableActive={disableActive}
-              isOnActive={isOnActive}
-              showMuteButton={showMuteButton}
-            />
-          </>
-        );
-      }}
-    />
+        </div>
+      )}
+    </CallLogPanel>
   );
 };
 

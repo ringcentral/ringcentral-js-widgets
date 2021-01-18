@@ -1,8 +1,8 @@
 export default {
-  unmute: "Sonido",
+  unmute: "Act. sonido",
   mute: "Silenciar",
   keypad: "Teclado",
-  hold: "Retener",
+  hold: "En espera",
   onHold: "En espera",
   park: "Estacionar",
   stopRecord: "Parar",

@@ -1,10 +1,10 @@
 export default {
   forward: "Reenviar",
   ignore: "Ignorar",
-  toVoicemail: "A buzón de voz",
+  toVoicemail: "Enviar al buzón de voz",
   answer: "Responder",
-  endAndAnswer: "Finalizar y responder",
-  holdAndAnswer: "Poner en espera y responder",
+  endAndAnswer: "Colgar y atender",
+  holdAndAnswer: "En espera y atender",
   custom: "Personalizar"
 };
 

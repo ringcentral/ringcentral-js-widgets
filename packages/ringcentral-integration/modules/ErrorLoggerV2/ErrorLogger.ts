@@ -64,7 +64,7 @@ export class ErrorLogger extends RcModuleV2<Deps> {
     this._sentryInitialized = true;
   }
 
-  onStateChange() {
+  onInitOnce() {
     if (this._sentryInitialized && this._deps.auth) {
       watch(
         this,

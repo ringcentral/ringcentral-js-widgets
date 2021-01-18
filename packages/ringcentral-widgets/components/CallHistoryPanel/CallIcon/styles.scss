@@ -1,0 +1,13 @@
+@import '../../../lib/commonStyles/variable';
+
+.icon {
+  color: rc-palette(icon, default);
+
+  &.missed {
+    color: rc-palette(semantic, negative);
+  }
+
+  &.active {
+    color: rc-palette(semantic, positive);
+  }
+}

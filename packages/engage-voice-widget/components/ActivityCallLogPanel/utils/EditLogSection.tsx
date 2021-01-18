@@ -5,113 +5,15 @@ import React, {
   useRef,
 } from 'react';
 import CallLogFields, {
-  FieldItemProps,
+  CallLogFieldsProps,
 } from 'ringcentral-widgets/components/CallLogFields';
-import { CallLogFieldsProps } from 'ringcentral-widgets/components/CallLogFields/CallLogFields.interface';
 import { CallLogPanelProps } from 'ringcentral-widgets/components/CallLogPanel';
-
-import i18n from '../i18n';
 import styles from './styles.scss';
-
-const rightIconRender = () => {
-  return <div className={styles.fillRight} />;
-};
-
-const _getReferenceFieldOptions = (
-  currentLocale: string,
-): CallLogFieldsProps['referenceFieldOptions'] => {
-  const getNameLabel = (item: any = {}, length: number) => {
-    const { id, name, type } = item;
-    if (!id) {
-      return length > 1
-        ? `${i18n.getString('multipleNameMatch', currentLocale)} (${length})`
-        : i18n.getString('none', currentLocale);
-    }
-    return name ? `${name}` : `${type}(${id})`;
-  };
-
-  const getRelatedToLabel = (item: any = {}, length: number) => {
-    const { caseNumber, name, type } = item;
-    if (Object.keys(item).length === 0) {
-      return length > 1
-        ? `${i18n.getString(
-            'multipleRelatedToMatch',
-            currentLocale,
-          )} (${length})`
-        : i18n.getString('none', currentLocale);
-    }
-    return name ? `${name}` : `${type}(${caseNumber})`;
-  };
-
-  const onNameChange = ({
-    currentLog: { task, currentSessionId },
-    onUpdateCallLog,
-  }: FieldItemProps) => async (item: any) => {
-    const id = item.id;
-    const relatedTo = task.whatid;
-    await onUpdateCallLog(
-      {
-        isSaved: false,
-        task: {
-          whoid: id || '',
-          whatid: relatedTo || '',
-        },
-      },
-      currentSessionId,
-    );
-  };
-
-  const onRelatedToChange = ({
-    currentLog: { currentSessionId },
-    onUpdateCallLog,
-  }: FieldItemProps) => async (item: any) => {
-    const id = (typeof item === 'object' ? item.id : item) || null;
-    await onUpdateCallLog(
-      {
-        isSaved: false,
-        task: {
-          whatid: id || '',
-        },
-      },
-      currentSessionId,
-    );
-  };
-
-  return {
-    whoid: {
-      getLabel: getNameLabel,
-      onChange: onNameChange,
-      metadata: {
-        title: i18n.getString('name', currentLocale),
-        placeholder: i18n.getString('namePlaceholder', currentLocale),
-        valueField: 'whoid',
-      },
-      currentOptionFinder: (task) => (item) => item.id === task.whoid,
-      matchedEntitiesGetter: ({ nameEntities }) => nameEntities,
-      otherEntitiesGetter: ({ navigateToEntities: { name } }) => name,
-      rightIconRender,
-      backHeaderClassName: styles.backHeader,
-    },
-    whatid: {
-      getLabel: getRelatedToLabel,
-      onChange: onRelatedToChange,
-      metadata: {
-        title: i18n.getString('relatedTo', currentLocale),
-        placeholder: i18n.getString('relatedToPlaceholder', currentLocale),
-        valueField: 'whatid',
-      },
-      currentOptionFinder: (task) => (item) => item.id === task.whatid,
-      matchedEntitiesGetter: ({ relatedToEntities }) => relatedToEntities,
-      otherEntitiesGetter: ({ navigateToEntities: { relatedTo } }) => relatedTo,
-      rightIconRender,
-      backHeaderClassName: styles.backHeader,
-    },
-  };
-};
 
 type EditLogSectionProps = {
   scrollTo: string;
   rootRef: MutableRefObject<HTMLElement>;
+  referenceFieldOptions?: CallLogFieldsProps['referenceFieldOptions'];
 } & Parameters<CallLogPanelProps['renderEditLogSection']>[0];
 
 export const EditLogSection: FunctionComponent<EditLogSectionProps> = ({
@@ -123,7 +25,9 @@ export const EditLogSection: FunctionComponent<EditLogSectionProps> = ({
   editSectionScrollBy,
   startAdornmentRender,
   scrollTo,
+  isWide,
   rootRef,
+  referenceFieldOptions,
 }) => {
   const dispositionIdRef = useRef<HTMLDivElement>(null);
 
@@ -146,7 +50,8 @@ export const EditLogSection: FunctionComponent<EditLogSectionProps> = ({
 
   return (
     <CallLogFields
-      referenceFieldOptions={_getReferenceFieldOptions(currentLocale)}
+      fieldSize={isWide ? 'medium' : 'small'}
+      referenceFieldOptions={referenceFieldOptions}
       subjectDropdownsTracker={subjectDropdownsTracker}
       onUpdateCallLog={onUpdateCallLog}
       onSaveCallLog={onSaveCallLog}
@@ -162,4 +67,8 @@ export const EditLogSection: FunctionComponent<EditLogSectionProps> = ({
       }}
     />
   );
+};
+
+EditLogSection.defaultProps = {
+  referenceFieldOptions: {},
 };

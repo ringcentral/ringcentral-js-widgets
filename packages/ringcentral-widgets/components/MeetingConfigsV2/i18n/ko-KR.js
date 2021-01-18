@@ -1,5 +1,9 @@
 import { ASSISTED_USERS_MYSELF } from 'ringcentral-integration/modules/Meeting';
 export default {
+  date: "날짜",
+  time: "시간",
+  duration: "지속 시간",
+  topic: "모임 제목",
   voIPOnly: "인터넷 오디오만",
   telephonyOnly: "전화만",
   both: "전화 및 인터넷 오디오",
@@ -27,9 +31,15 @@ export default {
   pmiChangeConfirm: "개인 모임을 변경하려면 ",
   changePmiSettings: "PMI 설정 변경",
   pmiSettingChangeAlert: "설정을 변경하고 이 모임을 예약하면 개인 모임 ID가 있는 모든 모임이 동일한 최신 설정을 사용합니다.",
-  lockedTooltip: "이 설정은 회사 관리자가 관리합니다."
+  lockedTooltip: "이 설정은 회사 관리자가 관리합니다.",
+  when: "일시",
+  recurringDescribe: "참석자에게 보낸 일정 초대장에서 되풀이 또는 반복 일정을 확인하세요."
 };
 
+// @key: @#@"date"@#@ @source: @#@"Date"@#@
+// @key: @#@"time"@#@ @source: @#@"Time"@#@
+// @key: @#@"duration"@#@ @source: @#@"Duration"@#@
+// @key: @#@"topic"@#@ @source: @#@"Meeting title"@#@
 // @key: @#@"voIPOnly"@#@ @source: @#@"Internet audio only"@#@
 // @key: @#@"telephonyOnly"@#@ @source: @#@"Telephone only"@#@
 // @key: @#@"both"@#@ @source: @#@"Telephone and Internet Audio"@#@
@@ -58,3 +68,5 @@ export default {
 // @key: @#@"changePmiSettings"@#@ @source: @#@"change PMI settings"@#@
 // @key: @#@"pmiSettingChangeAlert"@#@ @source: @#@"If you change the settings and schedule this meeting, all of meetings with Personal Meeting ID will use the same latest settings."@#@
 // @key: @#@"lockedTooltip"@#@ @source: @#@"This setting is managed by your company admin"@#@
+// @key: @#@"when"@#@ @source: @#@"When"@#@
+// @key: @#@"recurringDescribe"@#@ @source: @#@"Please remember to check recurrence or repeat in your calendar invitation to your attendees."@#@

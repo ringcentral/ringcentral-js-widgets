@@ -15,7 +15,9 @@ export const CallSubject: React.FunctionComponent<CallSubjectProps> = ({
   return (
     <div className={styles.subject}>
       <Tooltip title={subject} enterDelay={TOOLTIP_LONG_DELAY_TIME}>
-        <div className={styles.matchName}>{subject}</div>
+        <div className={styles.matchName} data-sign="matchName">
+          {subject}
+        </div>
       </Tooltip>
     </div>
   );

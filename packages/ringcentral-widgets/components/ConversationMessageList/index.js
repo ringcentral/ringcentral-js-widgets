@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import isBlank from 'ringcentral-integration/lib/isBlank';
-import fileSvg from '@ringcentral/juno/icons/icon-default-file.svg';
-import downloadSvg from '@ringcentral/juno/icons/icon-download.svg';
+import fileSvg from '@ringcentral/juno/icon/DefaultFile';
+import downloadSvg from '@ringcentral/juno/icon/Download';
 import { RcIcon } from '@ringcentral/juno';
 
 import styles from './styles.scss';
@@ -73,11 +73,16 @@ export const Message = ({
     });
   return (
     <div data-sign="message" className={styles.message}>
-      {time ? <div className={styles.time}>{time}</div> : null}
+      {time ? (
+        <div className={styles.time} data-sign="conversationSendTime">
+          {time}
+        </div>
+      ) : null}
       {sender && direction === 'Inbound' ? (
         <div className={styles.sender}>{sender}</div>
       ) : null}
       <div
+        data-sign={`${direction}Text`}
         className={classnames(
           styles.messageBody,
           direction === 'Outbound' ? styles.outbound : styles.inbound,

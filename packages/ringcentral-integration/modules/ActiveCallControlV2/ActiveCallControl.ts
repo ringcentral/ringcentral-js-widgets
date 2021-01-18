@@ -21,14 +21,13 @@ import {
 import { WebPhoneSession } from 'ringcentral-web-phone/lib/session';
 import { filter, sort, forEach } from 'ramda';
 import { v4 as uuidV4 } from 'uuid';
-import {
-  ExtensionTelephonySessionsEvent,
-  TelephonySessionsEventPartyInfo,
-} from '@rc-ex/core/definitions';
+import { ExtensionTelephonySessionsEvent } from '@rc-ex/core/definitions';
+import { callDirection } from '../../enums/callDirections';
 import { Module } from '../../lib/di';
 // eslint-disable-next-line import/no-named-as-default
 import subscriptionFilters from '../../enums/subscriptionFilters';
 import callErrors from '../Call/callErrors';
+import { webphoneErrors } from '../WebphoneV2/webphoneErrors';
 import {
   normalizeSession,
   conflictError,
@@ -36,12 +35,13 @@ import {
   isHolding,
   ActiveCallControlSessionData,
   isRinging,
+  isAtMainNumberPromptToneStage,
+  getInboundSwitchedParty,
 } from './helpers';
 import { trackEvents } from '../Analytics';
 import callControlError from '../ActiveCallControl/callControlError';
 import { Deps, ModuleMakeCallParams } from './ActiveCallControl.interface';
 import validateNumbers from '../../lib/validateNumbers';
-import { webphoneErrors } from '../Webphone/webphoneErrors';
 import {
   normalizeSession as normalizeWebphoneSession,
   sortByCreationTimeDesc,
@@ -76,6 +76,7 @@ const subscribeEvent = subscriptionFilters.telephonySessions;
     { dep: 'AudioSettings', optional: true },
     { dep: 'AvailabilityMonitor', optional: true },
     { dep: 'ActiveCallControlOptions', optional: true },
+    { dep: 'RouterInteraction', optional: true },
   ],
 })
 export class ActiveCallControl extends RcModuleV2<Deps> {
@@ -88,13 +89,14 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
   private _tabActive: boolean;
   private _connectivity: boolean;
   private _onCallEndFunc: () => void;
-  private _timeoutId: number;
+  private _timeoutId: ReturnType<typeof setTimeout> = null;
   private _lastSubscriptionMessage: string;
   private _permissionCheck: boolean;
   private _autoMergeSignCallIdKey: string;
   private _autoMergeCallsKey: string;
   private _enableAutoSwitchFeature: boolean;
-
+  private _autoMergeWebphoneSessionsMap: Map<WebPhoneSession, boolean>;
+  private _onCallSwitchedFunc: (args: any) => any;
   constructor(deps: Deps) {
     super({
       deps,
@@ -114,6 +116,7 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
       activeCallControlOptions?.enableAutoSwitchFeature ?? false;
     this._autoMergeSignCallIdKey = `${deps.prefix}-auto-merge-sign-call-id-key`;
     this._autoMergeCallsKey = `${deps.prefix}-auto-merge-calls-key`;
+    this._autoMergeWebphoneSessionsMap = new Map();
   }
 
   async onStateChange() {
@@ -205,11 +208,21 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
         .filter((item: any) => !!item);
 
       if (callsList.length) {
-        callsList.forEach((activeCall: ActiveCallInfo) => {
+        callsList.forEach(async (activeCall: ActiveCallInfo) => {
+          await this.transferUnmuteHandler(activeCall.telephonySessionId);
           const switchSession = this._rcCall.switchCallFromActiveCall(
             activeCall,
+            {
+              homeCountryId: this._deps.regionSettings.homeCountryId,
+            },
           );
+          this._autoMergeWebphoneSessionsMap.set(
+            switchSession.webphoneSession,
+            true,
+          );
+          switchSession.webphoneSession.mute();
           switchSession.webphoneSession.once('accepted', async () => {
+            switchSession.webphoneSession.unmute();
             await switchSession.webphoneSession.hold();
             this._addTrackToActiveSession();
           });
@@ -241,22 +254,6 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
       const { _remoteVideo, _localVideo } = this._deps.webphone;
       activeRCCallSession.webphoneSession.addTrack(_remoteVideo, _localVideo);
     }
-  }
-
-  get activeSessionId() {
-    return this.data.activeSessionId;
-  }
-
-  get busyTimestamp() {
-    return this.data.busyTimestamp;
-  }
-
-  get timestamp() {
-    return this.data.timestamp;
-  }
-
-  get sessions() {
-    return this.data.sessions;
   }
 
   @storage
@@ -309,6 +306,9 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
       callEvents.WEBPHONE_INVITE_SENT,
       (session: WebPhoneSession) => this._onWebphoneInvite(session),
     );
+    // workaround of bug:
+    // WebRTC outbound call with wrong sequences of telephony sessions then call log section will not show
+    this._rcCall?._callControl?.on('new', this._updateSessionsHandler);
     this._tabActive = this._deps.tabManager?.active;
     if (this._shouldFetch()) {
       try {
@@ -321,6 +321,9 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
     } else {
       this._retry();
     }
+  }
+
+  onInitOnce() {
     if (this._deps.webphone) {
       watch(
         this,
@@ -375,6 +378,7 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
       message = this._checkRingOutCallDirection(message);
       this._lastSubscriptionMessage = message;
       if (this._rcCall) {
+        console.log('notification event:', JSON.stringify(message, null, 2));
         this._rcCall.onNotificationEvent(message);
       }
     }
@@ -566,6 +570,25 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
     }
   }
 
+  _getTrackEventName(name: string) {
+    const currentPath = this._deps.routerInteraction?.currentPath;
+    const showCallLog = this.parentModule.callLogSection?.show;
+    const showNotification = this.parentModule.callLogSection?.showNotification;
+    if (showNotification) {
+      return `${name}/Call notification page`;
+    }
+    if (showCallLog) {
+      return `${name}/Call log page`;
+    }
+    if (currentPath === '/calls') {
+      return `${name}/All calls page`;
+    }
+    if (currentPath.includes('/simplifycallctrl')) {
+      return `${name}/Small call control`;
+    }
+    return name;
+  }
+
   @action
   setCallControlBusyTimestamp() {
     this.data.busyTimestamp = Date.now();
@@ -576,7 +599,9 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
     this.data.busyTimestamp = 0;
   }
 
-  @track(trackEvents.mute)
+  @track((that: ActiveCallControl) => [
+    that._getTrackEventName(trackEvents.mute),
+  ])
   async mute(telephonySessionId: string) {
     try {
       this.setCallControlBusyTimestamp();
@@ -586,7 +611,10 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
       await session.mute();
       this.clearCallControlBusyTimestamp();
     } catch (error) {
-      if (await conflictError(error)) {
+      if (error.response && !error.response._text) {
+        error.response._text = await error.response.clone().text();
+      }
+      if (conflictError(error)) {
         this._deps.alert.warning({
           message: callControlError.muteConflictError,
         });
@@ -599,7 +627,9 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
     }
   }
 
-  @track(trackEvents.unmute)
+  @track((that: ActiveCallControl) => [
+    that._getTrackEventName(trackEvents.unmute),
+  ])
   async unmute(telephonySessionId: string) {
     try {
       this.setCallControlBusyTimestamp();
@@ -609,7 +639,10 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
       await session.unmute();
       this.clearCallControlBusyTimestamp();
     } catch (error) {
-      if (await conflictError(error)) {
+      if (error.response && !error.response._text) {
+        error.response._text = await error.response.clone().text();
+      }
+      if (conflictError(error)) {
         this._deps.alert.warning({
           message: callControlError.unMuteConflictError,
         });
@@ -622,6 +655,23 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
     }
   }
 
+  async transferUnmuteHandler(telephonySessionId: string) {
+    try {
+      const session = this._rcCall.sessions.find(
+        (s: Session) => s.id === telephonySessionId,
+      );
+      if (session?.telephonySession?.party?.muted) {
+        await session.unmute();
+      }
+    } catch (error) {
+      // https://jira.ringcentral.com/browse/NTP-1308
+      // Unmute before transfer due to we can not sync the mute status after transfer.
+    }
+  }
+
+  @track((that: ActiveCallControl) => [
+    that._getTrackEventName(trackEvents.record),
+  ])
   async startRecord(telephonySessionId: string) {
     try {
       this.setCallControlBusyTimestamp();
@@ -634,6 +684,18 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
       return true;
     } catch (error) {
       this.clearCallControlBusyTimestamp();
+      const { errors = [] } = (await error.response.clone().json()) || {};
+      if (errors.length) {
+        for (const error of errors) {
+          console.error('record fail:', error);
+        }
+        this._deps.alert.danger({
+          message: webphoneErrors.recordError,
+          payload: {
+            errorCode: errors[0].errorCode,
+          },
+        });
+      }
     }
   }
 
@@ -643,6 +705,9 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
     return recodingId;
   }
 
+  @track((that: ActiveCallControl) => [
+    that._getTrackEventName(trackEvents.stopRecord),
+  ])
   async stopRecord(telephonySessionId: string) {
     try {
       this.setCallControlBusyTimestamp();
@@ -659,7 +724,9 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
     }
   }
 
-  @track(trackEvents.hangup)
+  @track((that: ActiveCallControl) => [
+    that._getTrackEventName(trackEvents.hangup),
+  ])
   async hangUp(telephonySessionId: string) {
     try {
       this.setCallControlBusyTimestamp();
@@ -680,6 +747,9 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
     }
   }
 
+  @track((that: ActiveCallControl) => [
+    that._getTrackEventName(trackEvents.voicemail),
+  ])
   async reject(telephonySessionId: string) {
     try {
       this.setCallControlBusyTimestamp();
@@ -699,14 +769,25 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
     }
   }
 
+  @track((that: ActiveCallControl) => [
+    that._getTrackEventName(trackEvents.confirmSwitch),
+  ])
   async switch(telephonySessionId: string) {
     try {
-      this._triggerAutoMergeEvent(telephonySessionId);
-
       this.setCallControlBusyTimestamp();
-      await this._rcCall.switchCall(telephonySessionId);
+      await this.transferUnmuteHandler(telephonySessionId);
+      const switchedSession = await this._rcCall.switchCall(
+        telephonySessionId,
+        {
+          homeCountryId: this._deps.regionSettings.homeCountryId,
+        },
+      );
+      this._triggerAutoMergeEvent(telephonySessionId);
       await this._holdOtherCalls(telephonySessionId);
       this.clearCallControlBusyTimestamp();
+      if (typeof this._onCallSwitchedFunc === 'function') {
+        this._onCallSwitchedFunc(switchedSession.sessionId);
+      }
     } catch (error) {
       if (!(await this._deps.availabilityMonitor?.checkIfHAError(error))) {
         this._deps.alert.warning({ message: callControlError.generalError });
@@ -715,21 +796,37 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
     }
   }
 
-  @track(trackEvents.hold)
+  @track((that: ActiveCallControl) => [
+    that._getTrackEventName(trackEvents.hold),
+  ])
   async hold(telephonySessionId: string) {
     try {
       this.setCallControlBusyTimestamp();
       const session = this._rcCall.sessions.find(
         (s: Session) => s.id === telephonySessionId,
       );
-      await session.hold();
-      const { webphoneSession } = session;
+      const { webphoneSession, otherParties = [] } = session;
+      if (
+        // when call is connecting or in voicemail then call control's Hold API will not work
+        // so use webphone hold here
+        (session.direction === callDirection.outbound &&
+          (otherParties[0]?.status.code === PartyStatusCode.proceeding ||
+            otherParties[0]?.status.code === PartyStatusCode.voicemail)) ||
+        isAtMainNumberPromptToneStage(session)
+      ) {
+        await webphoneSession.hold();
+      } else {
+        await session.hold();
+      }
       if (webphoneSession && webphoneSession.__rc_callStatus) {
         webphoneSession.__rc_callStatus = sessionStatus.onHold;
       }
       this.clearCallControlBusyTimestamp();
     } catch (error) {
-      if (await conflictError(error)) {
+      if (error.response && !error.response._text) {
+        error.response._text = await error.response.clone().text();
+      }
+      if (conflictError(error)) {
         this._deps.alert.warning({
           message: callControlError.holdConflictError,
         });
@@ -742,7 +839,9 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
     }
   }
 
-  @track(trackEvents.unhold)
+  @track((that: ActiveCallControl) => [
+    that._getTrackEventName(trackEvents.unhold),
+  ])
   async unhold(telephonySessionId: string) {
     try {
       this.setCallControlBusyTimestamp();
@@ -759,7 +858,10 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
       this._addTrackToActiveSession();
       this.clearCallControlBusyTimestamp();
     } catch (error) {
-      if (await conflictError(error)) {
+      if (error.response && !error.response._text) {
+        error.response._text = await error.response.clone().text();
+      }
+      if (conflictError(error)) {
         this._deps.alert.warning({
           message: callControlError.unHoldConflictError,
         });
@@ -838,6 +940,9 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
     }
   }
 
+  @track((that: ActiveCallControl) => [
+    that._getTrackEventName(trackEvents.confirmForward),
+  ])
   async forward(forwardNumber: string, telephonySessionId: string) {
     const { regionSettings, brand } = this._deps;
     const session = this._rcCall.sessions.find((s: Session) => {
@@ -924,7 +1029,7 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
     }
     webphoneSession.on('terminated', () => {
       console.log('Call Event: terminated');
-      //this.setLastEndedSessionIds(webphoneSession);
+      // this.setLastEndedSessionIds(webphoneSession);
       const { telephonySessionId } =
         this.rcCallSessions.find(
           (s: Session) => s.webphoneSession === webphoneSession,
@@ -936,7 +1041,11 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
         this.rcCallSessions.find(
           (s: Session) => s.webphoneSession === webphoneSession,
         ) || {};
-      this.setActiveSessionId(telephonySessionId);
+      if (this._autoMergeWebphoneSessionsMap.get(webphoneSession)) {
+        this._autoMergeWebphoneSessionsMap.delete(webphoneSession);
+      } else {
+        this.setActiveSessionId(telephonySessionId);
+      }
       this.updateActiveSessions();
     });
   }
@@ -968,21 +1077,32 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
   }
 
   async _holdOtherCalls(telephonySessionId?: string) {
-    const otherSessions = filter(
-      (s: Session) =>
+    const otherSessions = filter((s: Session) => {
+      return (
         s.telephonySessionId !== telephonySessionId &&
         s.status === PartyStatusCode.answered &&
         s.webphoneSession &&
-        !s.webphoneSession.localHold,
-      this._rcCall.sessions,
-    );
+        !s.webphoneSession.localHold
+      );
+    }, this._rcCall.sessions);
     if (!otherSessions.length) {
       return;
     }
     const holdOtherSessions = otherSessions.map(async (session) => {
+      const { webphoneSession, otherParties = [] } = session;
       try {
-        await session.hold();
-        const { webphoneSession } = session;
+        if (
+          // when call is connecting or in voicemail then call control's Hold API will not work
+          // so use webphone hold here
+          (session.direction === callDirection.outbound &&
+            (otherParties[0]?.status.code === PartyStatusCode.proceeding ||
+              otherParties[0]?.status.code === PartyStatusCode.voicemail)) ||
+          isAtMainNumberPromptToneStage(session)
+        ) {
+          await webphoneSession.hold();
+        } else {
+          await session.hold();
+        }
         if (webphoneSession && webphoneSession.__rc_callStatus) {
           webphoneSession.__rc_callStatus = sessionStatus.onHold;
         }
@@ -993,23 +1113,42 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
     await Promise.all(holdOtherSessions);
   }
 
+  async _answer(telephonySessionId: string) {
+    this._triggerAutoMergeEvent(telephonySessionId);
+    this.setCallControlBusyTimestamp();
+    const session = this._rcCall.sessions.find((s: Session) => {
+      return s.id === telephonySessionId;
+    });
+    await this._holdOtherCalls(telephonySessionId);
+    const { webphoneSession } = session;
+    const deviceId = this._deps.webphone?.device?.id;
+    await session.answer({ deviceId });
+    if (webphoneSession && webphoneSession.__rc_callStatus) {
+      webphoneSession.__rc_callStatus = sessionStatus.connected;
+    }
+    this.clearCallControlBusyTimestamp();
+  }
+
+  @track((that: ActiveCallControl) => [
+    that._getTrackEventName(trackEvents.answer),
+  ])
   async answer(telephonySessionId: string) {
     try {
-      this._triggerAutoMergeEvent(telephonySessionId);
-      this.setCallControlBusyTimestamp();
-      const session = this._rcCall.sessions.find((s: Session) => {
-        return s.id === telephonySessionId;
-      });
-      await this._holdOtherCalls(telephonySessionId);
-      const { webphoneSession } = session;
-      const deviceId = this._deps.webphone?.device?.id;
-      await session.answer({ deviceId });
-      if (webphoneSession && webphoneSession.__rc_callStatus) {
-        webphoneSession.__rc_callStatus = sessionStatus.connected;
-      }
-      this.clearCallControlBusyTimestamp();
+      await this._answer(telephonySessionId);
     } catch (error) {
       console.log('answer failed.');
+    }
+  }
+
+  @track((that: ActiveCallControl) => [
+    that._getTrackEventName(trackEvents.holdAndAnswer),
+  ])
+  async answerAndHold(telephonySessionId: string) {
+    // currently, the logic is same as answer
+    try {
+      await this._answer(telephonySessionId);
+    } catch (error) {
+      console.log('answer hold failed.', error);
     }
   }
 
@@ -1020,6 +1159,9 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
    * @param {string} telephonySessionId
    * @memberof ActiveCallControl
    */
+  @track((that: ActiveCallControl) => [
+    that._getTrackEventName(trackEvents.ignore),
+  ])
   async ignore(telephonySessionId: string) {
     try {
       this.setCallControlBusyTimestamp();
@@ -1036,15 +1178,9 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
     }
   }
 
-  async answerAndHold(telephonySessionId: string) {
-    // currently, the logic is same as answer
-    try {
-      await this.answer(telephonySessionId);
-    } catch (error) {
-      console.log('answer hold failed.', error);
-    }
-  }
-
+  @track((that: ActiveCallControl) => [
+    that._getTrackEventName(trackEvents.endAndAnswer),
+  ])
   async answerAndEnd(telephonySessionId: string) {
     try {
       if (this.busy) return;
@@ -1089,7 +1225,6 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
           return null;
         }
       }
-      this._triggerAutoMergeEvent();
       await this._holdOtherCalls();
       const sdkMakeCallParams: MakeCallParams = {
         // type 'callControl' not support webphone's sip device currently.
@@ -1099,6 +1234,7 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
         homeCountryId: params.homeCountryId,
       };
       const session = await this._rcCall.makeCall(sdkMakeCallParams);
+      this._triggerAutoMergeEvent();
       return session;
     } catch (error) {
       console.log('make call fail.', error);
@@ -1125,6 +1261,12 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
 
   getActiveSession(telephonySessionId: string) {
     return this.activeSessions[telephonySessionId];
+  }
+
+  getRcCallSession(telephoneSessionId: string) {
+    return this.rcCallSessions.find(
+      (session: Session) => session.telephonySessionId === telephoneSessionId,
+    );
   }
 
   @computed(({ activeSessionId, activeSessions }: ActiveCallControl) => [
@@ -1196,6 +1338,59 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
   }
 
   get rcCallSessions() {
-    return this._rcCall?.sessions || [];
+    // workaround of bug:
+    // switch an inbound call then call direction will change to outbound
+    return filter((session: Session) => {
+      const { party, otherParties, direction, status } = session;
+      if (
+        direction === callDirection.outbound &&
+        status !== PartyStatusCode.disconnected
+      ) {
+        const inboundSwitchedParty = getInboundSwitchedParty(otherParties);
+        if (inboundSwitchedParty) {
+          party.direction = inboundSwitchedParty.direction;
+          party.to = inboundSwitchedParty.to;
+          party.from = inboundSwitchedParty.from;
+        }
+      }
+      return session.status !== PartyStatusCode.disconnected;
+    }, this._rcCall?.sessions || []);
   }
+
+  get activeSessionId() {
+    return this.data.activeSessionId;
+  }
+
+  get busyTimestamp() {
+    return this.data.busyTimestamp;
+  }
+
+  get timestamp() {
+    return this.data.timestamp;
+  }
+
+  get sessions() {
+    return this.data.sessions;
+  }
+
+  @track(trackEvents.dialpadOpen)
+  dialpadOpenTrack() {}
+
+  @track(trackEvents.dialpadClose)
+  dialpadCloseTrack() {}
+
+  @track((that: ActiveCallControl) => [
+    that._getTrackEventName(trackEvents.clickTransfer),
+  ])
+  clickTransferTrack() {}
+
+  @track((that: ActiveCallControl) => [
+    that._getTrackEventName(trackEvents.forward),
+  ])
+  clickForwardTrack() {}
+
+  @track((that: ActiveCallControl) => [
+    that._getTrackEventName(trackEvents.switch),
+  ])
+  clickSwitchTrack() {}
 }

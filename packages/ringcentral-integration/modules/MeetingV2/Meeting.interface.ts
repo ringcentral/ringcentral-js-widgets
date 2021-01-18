@@ -8,6 +8,7 @@ import { Brand } from '../BrandV2';
 import { ExtensionInfo as ExtensionInfoV2 } from '../ExtensionInfoV2';
 import { VideoConfiguration } from '../VideoConfiguration';
 import { Storage } from '../StorageV2';
+import { Locale } from '../LocaleV2';
 
 export interface MeetingScheduleResource {
   startTime?: number | string;
@@ -23,6 +24,7 @@ export interface MeetingOptions {
   enableServiceWebSettings?: boolean;
   enableScheduleOnBehalf?: boolean;
   enableCustomTimezone?: boolean;
+  putRecurringMeetingInMiddle?: boolean;
 }
 
 export interface Deps {
@@ -34,6 +36,7 @@ export interface Deps {
   videoConfiguration: VideoConfiguration;
   availabilityMonitor?: AvailabilityMonitor;
   meetingOptions?: MeetingOptions;
+  locale: Locale;
 }
 
 export interface MeetingDelegator {
@@ -187,6 +190,7 @@ export interface RcMMeetingModel {
   _showTime: boolean;
   usePersonalMeetingId: boolean;
   isMeetingPasswordValid?: boolean;
+  saveAsDefault?: boolean;
 }
 
 export interface MeetingInitialExtraData {

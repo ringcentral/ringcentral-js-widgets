@@ -73,6 +73,8 @@ export interface SwitchCallActiveCallParams {
   };
 }
 
+export type OffEventHandler = () => void;
+
 export type CallStartHandler = (
   session: NormalizedSession,
   activeSession: NormalizedSession,

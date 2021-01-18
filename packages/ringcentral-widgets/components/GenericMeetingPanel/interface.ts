@@ -1,9 +1,10 @@
 import { RcDatePickerSize, RcTimePickerSize } from '@ringcentral/juno';
 import { RcVMeetingModel } from 'ringcentral-integration/interfaces/Rcv.model';
+import { RcvDelegator } from 'ringcentral-integration/modules/RcVideoV2/RcVideo.interface';
 import {
   RcMMeetingModel,
-  MeetingDelegators,
-} from 'ringcentral-integration/modules/Meeting';
+  MeetingDelegator,
+} from 'ringcentral-integration/modules/MeetingV2';
 
 export interface ScheduleButtonProps {
   currentLocale: string;
@@ -33,13 +34,14 @@ export interface CommonProps {
   openNewWindow?: boolean;
   currentLocale: string;
   disabled?: boolean;
+  configDisabled?: boolean;
   onOK?: () => any;
   init: () => any;
   schedule?: (meeting: any, opener: any) => any;
-  showAdminLock?: boolean;
   showPmiAlert?: boolean;
   enableWaitingRoom?: boolean;
   enablePersonalMeeting?: boolean;
+  hasSettingsChanged?: boolean;
   personalMeetingId: string;
   switchUsePersonalMeetingId: (usePersonalMeetingId: boolean) => any;
 }
@@ -47,10 +49,11 @@ export interface CommonProps {
 export interface VideoPanelProps extends CommonProps {
   // TODO: any is reserved for RcM
   updateMeetingSettings: (meeting: RcVMeetingModel | any) => void;
+  updateHasSettingsChanged: (isChanged: boolean) => void;
   validatePasswordSettings: (password: string, isSecret: boolean) => boolean;
   datePickerSize?: RcDatePickerSize;
   timePickerSize?: RcTimePickerSize;
-  enableJoinAfterMeCopy?: boolean;
+  showAdminLock?: boolean;
   delegators?: RcvDelegator[];
 }
 
@@ -64,9 +67,11 @@ export interface MeetingPanelProps extends CommonProps {
   showLaunchMeetingBtn: boolean;
   scheduleButtonLabel: string;
   appCode: string;
-  delegators: MeetingDelegators[];
   updateScheduleFor: (userExtensionId: string) => any;
   extensionId: number;
+  putRecurringMeetingInMiddle?: boolean;
+  enableServiceWebSettings?: boolean;
+  delegators?: RcvDelegator[];
 }
 
 export interface GenericMeetingPanelProps

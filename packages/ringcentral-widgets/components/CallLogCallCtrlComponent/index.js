@@ -4,10 +4,11 @@ import React, { useState, useEffect } from 'react';
 import callDirections from 'ringcentral-integration/enums/callDirections';
 import telephonyStatuses from 'ringcentral-integration/enums/telephonyStatus';
 import recordStatusEnum from 'ringcentral-integration/modules/Webphone/recordStatus';
-import TransferSmallIcon from '@ringcentral/juno/icons/icon-transfer-call.svg';
-import HoldIconInAction from '@ringcentral/juno/icons/icon-hold.svg';
-import IgnoreIcon from '@ringcentral/juno/icons/icon-ignore.svg';
-import VoicemailIcon from '@ringcentral/juno/icons/icon-voicemail.svg';
+import TransferSmallIcon from '@ringcentral/juno/icon/TransferCall';
+import HoldIconInAction from '@ringcentral/juno/icon/Hold';
+import IgnoreIcon from '@ringcentral/juno/icon/Ignore';
+import VoicemailIcon from '@ringcentral/juno/icon/Voicemail';
+import { telephonySessionStatus } from 'ringcentral-integration/enums/telephonySessionStatus';
 import ForwardIcon from '../../assets/images/Forward_white.svg';
 import RecordIcon from '../../assets/images/RecordOff.svg';
 import RecordIconActive from '../../assets/images/RecordOn.svg';
@@ -60,13 +61,20 @@ const CallLogCallCtrlComponent = (props) => {
     otherActiveCalls,
     answerAndHold,
     answerAndEnd,
+    realOutboundCallStatus,
+    dialpadToggleTrack,
+    clickForwardTrack,
   } = props;
 
   // reject conditions: call direction is inbound & call status is ringing
   const isInComingCall =
     callDirections.inbound === callDirection &&
     telephonyStatuses.ringing === callStatus;
-
+  // real outbound call status
+  const isOutboundCallConnecting =
+    realOutboundCallStatus === telephonySessionStatus.proceeding;
+  const isOutboundCallOnVoiceMail =
+    realOutboundCallStatus === telephonySessionStatus.voicemail;
   const muteIcon = isOnMute ? MuteIcon : UnmuteIcon;
   const muteAction = isOnMute ? onUnmute : onMute;
   const muteTitle = isOnMute ? 'unmute' : 'mute';
@@ -77,6 +85,7 @@ const CallLogCallCtrlComponent = (props) => {
   const disabledCtrl = callStatus === telephonyStatuses.ringing;
   const [dialpadShow, onDialpadShow] = useState(false);
   const toggleDialpadShow = () => {
+    dialpadToggleTrack(!dialpadShow);
     onDialpadShow(!dialpadShow);
   };
   // WebRTC logic
@@ -115,6 +124,12 @@ const CallLogCallCtrlComponent = (props) => {
     const recordAction = isRecording ? stopRecord : startRecordAction;
     const keypadText = dialpadShow ? 'hideKeypad' : 'showKeypad';
     const onHoldText = isOnHold ? 'unHold' : 'hold';
+    const recordDisabled =
+      recordPendingState ||
+      isOnHold ||
+      isOutboundCallConnecting ||
+      isOutboundCallOnVoiceMail;
+    const holdDisabled = disableLinks || isOutboundCallConnecting;
     const moreActions = [
       {
         icon: TransferSmallIcon,
@@ -133,6 +148,7 @@ const CallLogCallCtrlComponent = (props) => {
           [styles.moreActionIcon]: true,
           [styles.holdActive]: isOnHold,
         }),
+        disabled: holdDisabled,
         text: i18n.getString(onHoldText, currentLocale),
       },
       {
@@ -144,7 +160,7 @@ const CallLogCallCtrlComponent = (props) => {
           [styles.recordingIcon]: true,
           [styles.recordingDisabled]: recordPendingState,
         }),
-        disabled: recordPendingState || isOnHold,
+        disabled: recordDisabled,
         text: i18n.getString(recordingText, currentLocale),
       },
     ];
@@ -183,6 +199,7 @@ const CallLogCallCtrlComponent = (props) => {
             />
           </span>
           <MoreActionComponent
+            dataSign="more"
             rootButtonProps={rootButtonProps}
             actionsList={moreActions}
             currentLocale={currentLocale}
@@ -224,9 +241,6 @@ const CallLogCallCtrlComponent = (props) => {
 
   if (isWebRTCCall && isInComingCall && !onGoingActiveCalls) {
     const forwardTitle = i18n.getString('forward', currentLocale);
-    const ignoreTitle = i18n.getString('ignore', currentLocale);
-    const voicemailTitle = i18n.getString('voicemail', currentLocale);
-    const answerTitle = i18n.getString('answer', currentLocale);
     const onForward = (e) => {
       e.stopPropagation();
       handleClose();
@@ -254,18 +268,22 @@ const CallLogCallCtrlComponent = (props) => {
     return (
       <div className={classnames(!isWide ? styles.classic : null, styles.root)}>
         <MoreActionComponent
+          dataSign={!anchorEl ? 'forward' : 'forwardActive'}
           rootButtonProps={rootButtonProps}
           actionsList={forwardList}
           currentLocale={currentLocale}
-          handleClick={handleClick}
+          handleClick={(e) => {
+            clickForwardTrack();
+            handleClick(e);
+          }}
           handleClose={handleClose}
           anchorEl={anchorEl}
           withSubText
           popoverClasses={{ paper: styles.forwardPopover }}
         />
-        <span title={ignoreTitle}>
+        <span title={i18n.getString('ignore', currentLocale)}>
           <CircleButton
-            dataSign={ignoreTitle}
+            dataSign="ignore"
             icon={IgnoreIcon}
             iconWidth={250}
             iconHeight={250}
@@ -278,9 +296,9 @@ const CallLogCallCtrlComponent = (props) => {
             onClick={ignore}
           />
         </span>
-        <span title={voicemailTitle}>
+        <span title={i18n.getString('voicemail', currentLocale)}>
           <CircleButton
-            dataSign={voicemailTitle}
+            dataSign="voicemail"
             showBorder={false}
             icon={VoicemailIcon}
             iconWidth={250}
@@ -296,9 +314,9 @@ const CallLogCallCtrlComponent = (props) => {
             disabled={disableLinks}
           />
         </span>
-        <span title={answerTitle}>
+        <span title={i18n.getString('answer', currentLocale)}>
           <CircleButton
-            dataSign={answerTitle}
+            dataSign="answer"
             showBorder={false}
             icon={AnswerIcon}
             onClick={answer}
@@ -315,19 +333,19 @@ const CallLogCallCtrlComponent = (props) => {
   }
 
   if (isWebRTCCall && onGoingActiveCalls && isInComingCall) {
-    const voicemailTitle = i18n.getString('voicemail', currentLocale);
     return (
       <div className={classnames(!isWide ? styles.classic : null, styles.root)}>
         <span
+          data-sign="endAndAnswer"
           title={i18n.getString('answerAndEnd', currentLocale)}
           className={styles.answerButton}
           onClick={answerAndEnd}
         >
           <EndAnswerIcon />
         </span>
-        <span title={voicemailTitle}>
+        <span title={i18n.getString('voicemail', currentLocale)}>
           <CircleButton
-            dataSign={voicemailTitle}
+            dataSign="voicemail"
             showBorder={false}
             icon={VoicemailIcon}
             iconWidth={250}
@@ -344,6 +362,7 @@ const CallLogCallCtrlComponent = (props) => {
           />
         </span>
         <span
+          data-sign="holdAndAnswer"
           title={i18n.getString('answerAndHold', currentLocale)}
           className={styles.answerButton}
           onClick={answerAndHold}
@@ -356,6 +375,7 @@ const CallLogCallCtrlComponent = (props) => {
           forwardingNumbers={forwardingNumbers}
           forward={forward}
           ignore={ignore}
+          clickForwardTrack={clickForwardTrack}
         />
       </div>
     );
@@ -396,9 +416,10 @@ const CallLogCallCtrlComponent = (props) => {
           className={classnames({
             [styles.button]: true,
             [styles.buttonActive]: isOnHold,
-            [styles.buttonDisabled]: isInComingCall || disableLinks,
+            [styles.buttonDisabled]:
+              isInComingCall || disableLinks || isOutboundCallConnecting,
           })}
-          disabled={disableLinks || isInComingCall}
+          disabled={disableLinks || isInComingCall || isOutboundCallConnecting}
         />
       </span>
       <span title={i18n.getString(endTitle, currentLocale)}>
@@ -451,6 +472,9 @@ CallLogCallCtrlComponent.propTypes = {
   otherActiveCalls: PropTypes.bool,
   answerAndHold: PropTypes.func,
   answerAndEnd: PropTypes.func,
+  dialpadToggleTrack: PropTypes.func,
+  clickForwardTrack: PropTypes.func,
+  realOutboundCallStatus: PropTypes.string,
 };
 CallLogCallCtrlComponent.defaultProps = {
   onMute() {},
@@ -478,6 +502,9 @@ CallLogCallCtrlComponent.defaultProps = {
   otherActiveCalls: false,
   answerAndEnd() {},
   answerAndHold() {},
+  dialpadToggleTrack(i) {},
+  clickForwardTrack() {},
+  realOutboundCallStatus: '',
 };
 
 export default CallLogCallCtrlComponent;

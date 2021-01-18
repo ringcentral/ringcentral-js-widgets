@@ -66,6 +66,8 @@ const EVENTS = ObjectMap.fromKeys([
   'beforeCallResume',
   'beforeCallEnd',
   'callInit',
+  'webphoneRegistered',
+  'webphoneUnregistered',
 ]);
 
 const registerErrors = [
@@ -390,11 +392,7 @@ export default class Webphone extends RcModule {
   }
 
   async _fetchDL() {
-    const response = await this._client
-      .account()
-      .extension()
-      .device()
-      .list();
+    const response = await this._client.account().extension().device().list();
     const devices = response.records;
     let phoneLines = [];
     devices.forEach((device) => {
@@ -846,6 +844,7 @@ export default class Webphone extends RcModule {
     });
     this._hideRegisterErrorAlert();
     this._setCurrentInstanceAsActiveWebphone();
+    this._eventEmitter.emit(EVENTS.webphoneRegistered);
   }
 
   _onWebphoneUnregistered() {
@@ -864,6 +863,7 @@ export default class Webphone extends RcModule {
     this.store.dispatch({
       type: this.actionTypes.connectError,
     });
+    this._eventEmitter.emit(EVENTS.webphoneUnregistered);
   }
 
   _setCurrentInstanceAsActiveWebphone() {
@@ -1913,6 +1913,24 @@ export default class Webphone extends RcModule {
   onBeforeCallEnd(handler) {
     if (typeof handler === 'function') {
       this._eventEmitter.on(EVENTS.beforeCallEnd, handler);
+    }
+  }
+
+  onWebphoneRegistered(handler) {
+    if (typeof handler === 'function') {
+      this._eventEmitter.on(EVENTS.webphoneRegistered, handler);
+      return () => {
+        this._eventEmitter.off(EVENTS.webphoneRegistered, handler);
+      };
+    }
+  }
+
+  onWebphoneUnregistered(handler) {
+    if (typeof handler === 'function') {
+      this._eventEmitter.on(EVENTS.webphoneUnregistered, handler);
+      return () => {
+        this._eventEmitter.off(EVENTS.webphoneUnregistered, handler);
+      };
     }
   }
 

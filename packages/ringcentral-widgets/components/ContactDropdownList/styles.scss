@@ -70,3 +70,12 @@
 .clickable {
   cursor: pointer;
 }
+
+.doNotCall {
+  display: inline;
+  color: #6a7186;
+  margin-left: 5px;
+  span {
+    vertical-align: text-bottom;
+  }
+}

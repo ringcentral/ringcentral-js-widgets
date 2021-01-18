@@ -5,4 +5,6 @@ export const syncTypes = ObjectMap.fromObject({
   iSync: 'ISync',
 } as const);
 
+export type SyncType = typeof syncTypes[keyof typeof syncTypes];
+
 export default syncTypes;

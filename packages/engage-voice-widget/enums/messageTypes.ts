@@ -2,7 +2,6 @@ import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 
 export const messageTypes = ObjectMap.fromKeys([
   'OPEN_SOCKET',
-  'AGENT_LOGIN',
   'AGENT_LOGOUT',
   'CALL_HOLD',
   'CONFIGURE_AGENT',
@@ -19,7 +18,7 @@ export const messageTypes = ObjectMap.fromKeys([
   'INVALID_STATE_CHANGE',
   'INVALID_PHONE_NUMBER',
   'EMPTY_PHONE_NUMBER',
-  'NO_AGENT_SELECTED',
+  'NOT_INBOUND_QUEUE_SELECTED',
   'INVALID_PHONE_NUMBER',
   'AGENT_CONFIG_ERROR',
   'AGENT_CONFIG_DETAIL_ERROR',

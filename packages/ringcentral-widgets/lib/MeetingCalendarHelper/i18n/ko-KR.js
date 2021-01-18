@@ -3,6 +3,7 @@ export default {
   rcvInviteMeetingContent: "{accountName} 님이 회원님을 {brandName} 모임에 초대했습니다.\n\n다음 링크를 사용하여 참가하세요.\n\t{joinUri}{passwordTpl}",
   rcvRCBrandInviteMeetingContent: "{accountName} 님이 회원님을 {productName} 모임에 초대했습니다.\n\n다음 링크를 사용하여 참가하세요.\n\t{joinUri}{passwordTpl}",
   rcvInviteMeetingContentDial: "\n\n스마트폰에서 오디오로만 참가하려면 한 번 탭하세요:\n\t{smartphones}\n\n또는 전화 걸기:\n\t전화 걸기: {dialNumber}\n\t액세스 코드 / 모임 iD: {pinNumber} ",
+  rcvInviteMeetingContentCountryDial: "\n\n스마트폰에서 오디오로만 참가하려면 다음에서 한 번 탭하세요.\n\t{smartphones}\n\n또는 전화 걸기:\n\t{dialNumber}\n\t액세스 코드 / 모임 ID: {pinNumber} ",
   rcvTeleconference: "\n\n사용 가능한 국제 번호: {teleconference} ",
   doNotModify: "===== 이 텍스트를 수정하지 마세요. =====",
   password: "\n\n비밀번호",
@@ -13,6 +14,7 @@ export default {
 // @key: @#@"rcvInviteMeetingContent"@#@ @source: @#@"{accountName} has invited you to a {brandName} Meeting.\n\nPlease join using this link:\n\t{joinUri}{passwordTpl}"@#@
 // @key: @#@"rcvRCBrandInviteMeetingContent"@#@ @source: @#@"{accountName} has invited you to a {productName} meeting.\n\nPlease join using this link:\n\t{joinUri}{passwordTpl}"@#@
 // @key: @#@"rcvInviteMeetingContentDial"@#@ @source: @#@"\n\nOne tap to join audio only from a smartphone:\n\t{smartphones}\n\nOr dial:\n\tDial: {dialNumber}\n\tAccess Code / Meeting ID: {pinNumber} "@#@
+// @key: @#@"rcvInviteMeetingContentCountryDial"@#@ @source: @#@"\n\nOne tap to join audio only from a smartphone:\n\t{smartphones}\n\nOr dial:\n\t{dialNumber}\n\tAccess Code / Meeting ID: {pinNumber} "@#@
 // @key: @#@"rcvTeleconference"@#@ @source: @#@"\n\nInternational numbers available: {teleconference} "@#@
 // @key: @#@"doNotModify"@#@ @source: @#@"===== Do not modify this text ====="@#@
 // @key: @#@"password"@#@ @source: @#@"\n\nPassword"@#@

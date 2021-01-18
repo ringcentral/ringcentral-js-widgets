@@ -7,4 +7,7 @@ export default {
   answerCalls: 'Auto answer calls',
   continue: 'Continue',
   enterYourPhoneNumber: 'Enter your phone number',
+  switchAccount: 'Switch account',
+  agent: 'Agent',
+  supervisor: 'Supervisor'
 };

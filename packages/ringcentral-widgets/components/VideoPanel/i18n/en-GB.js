@@ -7,8 +7,8 @@ export default {
   scheduleFor: "Schedule on behalf of",
   meetingSettings: "Meeting settings",
   [ASSISTED_USERS_MYSELF]: "Myself",
-  rcMeetingSettings: "Video meeting settings",
   joinBeforeHost: "Allow participants to join before host",
+  enableWaitingRoom: "Enable waiting room",
   waitingRoom: "Enable waiting room for",
   waitingRoomNotCoworker: "Anyone outside my company",
   waitingRoomGuest: "Anyone not signed in",
@@ -19,9 +19,10 @@ export default {
   turnOffCamera: "Turn off camera for participants",
   requirePassword: "Require password",
   setPassword: "Set password *",
+  setPasswordNotSymbol: "Set password",
   passwordEmptyError: "Meeting password required",
-  passwordInvalidError: "Use 1 to 10 characters which include letters and numbers but no symbols",
-  passwordHintText: "Your password should be 1 - 10 letters and numbers but cannot contain symbols",
+  passwordInvalidError: "Your password must be 1-10 letters and numbers long but cannot contain symbols",
+  passwordHintText: "Your password should be 1-10 letters and numbers long but cannot contain symbols",
   usePersonalMeetingId: "Use Personal Meeting ID",
   meetingSettingsSecurity: "Security",
   onlyAuthUserJoin: "Only authenticated users can join",
@@ -39,8 +40,8 @@ export default {
 // @key: @#@"scheduleFor"@#@ @source: @#@"Schedule on behalf of"@#@
 // @key: @#@"meetingSettings"@#@ @source: @#@"Meeting settings"@#@
 // @key: @#@"ASSISTED_USERS_MYSELF"@#@ @source: @#@"Myself"@#@
-// @key: @#@"rcMeetingSettings"@#@ @source: @#@"Video Meeting settings"@#@
 // @key: @#@"joinBeforeHost"@#@ @source: @#@"Allow participants to join before host"@#@
+// @key: @#@"enableWaitingRoom"@#@ @source: @#@"Enable waiting room"@#@
 // @key: @#@"waitingRoom"@#@ @source: @#@"Enable waiting room for"@#@
 // @key: @#@"waitingRoomNotCoworker"@#@ @source: @#@"Anyone outside my company"@#@
 // @key: @#@"waitingRoomGuest"@#@ @source: @#@"Anyone not signed in"@#@
@@ -51,9 +52,10 @@ export default {
 // @key: @#@"turnOffCamera"@#@ @source: @#@"Turn off camera for participants"@#@
 // @key: @#@"requirePassword"@#@ @source: @#@"Require password"@#@
 // @key: @#@"setPassword"@#@ @source: @#@"Set password *"@#@
+// @key: @#@"setPasswordNotSymbol"@#@ @source: @#@"Set password"@#@
 // @key: @#@"passwordEmptyError"@#@ @source: @#@"Meeting password required"@#@
-// @key: @#@"passwordInvalidError"@#@ @source: @#@"Use 1 to 10 characters which include alphabets and numbers but no symbols"@#@
-// @key: @#@"passwordHintText"@#@ @source: @#@"Your password should be 1-10 letters and numbers long but not contain symbols"@#@
+// @key: @#@"passwordInvalidError"@#@ @source: @#@"Your password must be 1-10 letters and numbers long but cannot contain symbols"@#@
+// @key: @#@"passwordHintText"@#@ @source: @#@"Your password should be 1-10 letters and numbers long but cannot contain symbols"@#@
 // @key: @#@"usePersonalMeetingId"@#@ @source: @#@"Use Personal Meeting ID"@#@
 // @key: @#@"meetingSettingsSecurity"@#@ @source: @#@"Security"@#@
 // @key: @#@"onlyAuthUserJoin"@#@ @source: @#@"Only authenticated users can join"@#@
