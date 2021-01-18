@@ -45,6 +45,8 @@ require("core-js/modules/es6.array.for-each");
 
 require("core-js/modules/es6.array.map");
 
+require("core-js/modules/es6.array.find");
+
 require("core-js/modules/es6.promise");
 
 require("core-js/modules/es6.object.to-string");
@@ -354,6 +356,14 @@ var AccountContacts = (_dec = (0, _di.Module)({
             _this3._getPresenceContexts = null;
           }, 1000);
         }
+      });
+    } // interface of ContactSource
+
+  }, {
+    key: "findContact",
+    value: function findContact(contactId) {
+      return this.contacts.find(function (x) {
+        return x.id === contactId;
       });
     } // interface of ContactSource
 

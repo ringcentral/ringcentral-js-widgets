@@ -71,7 +71,13 @@ require("core-js/modules/es6.function.name");
 
 var _ramda = require("ramda");
 
+var _formatMessage = _interopRequireDefault(require("format-message"));
+
+var _i18n = _interopRequireDefault(require("./i18n"));
+
 var _constants = require("./constants");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
@@ -232,12 +238,17 @@ function getDefaultVideoSettings(_ref) {
   };
 }
 
-function getTopic(extensionName, brandName) {
+function getTopic(extensionName, brandName, currentLocale) {
   if (brandName === 'RingCentral') {
-    return "".concat(extensionName, "'s ").concat(brandName, " Video Meeting");
+    return (0, _formatMessage["default"])(_i18n["default"].getString('videoMeeting', currentLocale), {
+      extensionName: extensionName
+    });
   }
 
-  return "".concat(extensionName, "'s ").concat(brandName, " Meeting");
+  return (0, _formatMessage["default"])(_i18n["default"].getString('videoMeetingWithBrand', currentLocale), {
+    extensionName: extensionName,
+    brandName: brandName
+  });
 }
 /**
  * Remove client side properties before sending to RCV API

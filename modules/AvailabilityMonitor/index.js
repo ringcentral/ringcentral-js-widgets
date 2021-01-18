@@ -123,7 +123,7 @@ var DEFAULT_TIME = 0;
  */
 
 var AvailabilityMonitor = (_dec = (0, _di.Module)({
-  deps: ['Client', {
+  deps: ['Auth', 'Client', {
     dep: 'Environment',
     optional: true
   }, {
@@ -138,18 +138,19 @@ var AvailabilityMonitor = (_dec = (0, _di.Module)({
   /**
    * @constructor
    * @param {Object} params - params object
+   * @param {Auth} params.auth - auth module instance
    * @param {Client} params.client - client module instance
    * @param {Environment} params.environment - environment module instance
    */
   function AvailabilityMonitor(_ref) {
     var _this;
 
-    var alert = _ref.alert,
+    var auth = _ref.auth,
         client = _ref.client,
         environment = _ref.environment,
         _ref$enabled = _ref.enabled,
         enabled = _ref$enabled === void 0 ? false : _ref$enabled,
-        options = _objectWithoutProperties(_ref, ["alert", "client", "environment", "enabled"]);
+        options = _objectWithoutProperties(_ref, ["auth", "client", "environment", "enabled"]);
 
     _classCallCheck(this, AvailabilityMonitor);
 
@@ -158,6 +159,7 @@ var AvailabilityMonitor = (_dec = (0, _di.Module)({
       enabled: enabled
     }, options));
     _this._enabled = enabled;
+    _this._auth = auth;
     _this._client = _ensureExist["default"].call(_assertThisInitialized(_this), client, 'client');
     _this._environment = environment;
     _this._lastEnvironmentCounter = 0;
@@ -173,6 +175,7 @@ var AvailabilityMonitor = (_dec = (0, _di.Module)({
     _this._randomTime = DEFAULT_TIME;
     _this._limitedTimeout = null;
     _this._normalTimeout = null;
+    _this._promise = null;
     return _this;
   }
 
@@ -427,6 +430,8 @@ var AvailabilityMonitor = (_dec = (0, _di.Module)({
           type: this.actionTypes.VoIPOnlyReset
         });
       }
+
+      this._clearLimitedTimeout();
     }
   }, {
     key: "_switchToVoIPOnlyMode",
@@ -495,7 +500,10 @@ var AvailabilityMonitor = (_dec = (0, _di.Module)({
               case 0:
                 _context3.next = 2;
                 return this._client.service.platform().get('/restapi/v1.0/status', null, {
-                  skipAuthCheck: true
+                  skipAuthCheck: true,
+                  headers: {
+                    Authorization: "Bearer ".concat(this._auth.accessToken)
+                  }
                 });
 
               case 2:
@@ -541,36 +549,75 @@ var AvailabilityMonitor = (_dec = (0, _di.Module)({
       var _healthCheck2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
         var _this5 = this;
 
-        var response;
+        var _ref2,
+            _ref2$manual,
+            manual,
+            response,
+            _args4 = arguments;
+
         return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                _context4.prev = 0;
-                _context4.next = 3;
-                return this._getStatus();
+                _ref2 = _args4.length > 0 && _args4[0] !== undefined ? _args4[0] : {}, _ref2$manual = _ref2.manual, manual = _ref2$manual === void 0 ? false : _ref2$manual;
 
-              case 3:
-                response = _context4.sent;
-
-                if (!(!response || response.status !== 200)) {
-                  _context4.next = 6;
+                if (!this._promise) {
+                  _context4.next = 3;
                   break;
                 }
 
                 return _context4.abrupt("return");
 
-              case 6:
-                _context4.next = 12;
+              case 3:
+                _context4.prev = 3;
+                this._promise = this._getStatus();
+                _context4.next = 7;
+                return this._promise;
+
+              case 7:
+                response = _context4.sent;
+
+                if (!(!response || response.status !== 200)) {
+                  _context4.next = 10;
+                  break;
+                }
+
+                return _context4.abrupt("return");
+
+              case 10:
+                _context4.next = 16;
                 break;
 
-              case 8:
-                _context4.prev = 8;
-                _context4.t0 = _context4["catch"](0);
+              case 12:
+                _context4.prev = 12;
+                _context4.t0 = _context4["catch"](3);
                 console.error('error from request of /restapi/v1.0/status.');
                 return _context4.abrupt("return");
 
-              case 12:
+              case 16:
+                _context4.prev = 16;
+                this._promise = null;
+                return _context4.finish(16);
+
+              case 19:
+                if (!manual) {
+                  _context4.next = 23;
+                  break;
+                }
+
+                this._clearNormalTimeout();
+
+                this._switchToNormalMode();
+
+                return _context4.abrupt("return");
+
+              case 23:
+                // In the described situation Client Application should follow an "Exponential Backoff" approach:
+                // The retries exponentially increase the waiting time up to a certain threshold.
+                // The idea is that if the server is down temporarily,
+                // it is not overwhelmed with requests hitting at the same time when it comes back up.
+                //
+                // Reference: https://wiki.ringcentral.com/display/PLAT/Error+Handling+Guidelines+for+API+Clients
                 this._randomTime = this._randomTime || (0, _availabilityMonitorHelper.generateRandomNumber)(); // Generate random seconds (1 ~ 121)
 
                 this._normalTimeout = setTimeout(function () {
@@ -579,12 +626,12 @@ var AvailabilityMonitor = (_dec = (0, _di.Module)({
                   _this5._switchToNormalMode();
                 }, this._randomTime * 1000);
 
-              case 14:
+              case 25:
               case "end":
                 return _context4.stop();
             }
           }
-        }, _callee4, this, [[0, 8]]);
+        }, _callee4, this, [[3, 12, 16, 19]]);
       }));
 
       function _healthCheck() {
@@ -614,7 +661,9 @@ var AvailabilityMonitor = (_dec = (0, _di.Module)({
                         switch (_context5.prev = _context5.next) {
                           case 0:
                             _context5.next = 2;
-                            return _this6._healthCheck();
+                            return _this6._healthCheck({
+                              manual: true
+                            });
 
                           case 2:
                           case "end":

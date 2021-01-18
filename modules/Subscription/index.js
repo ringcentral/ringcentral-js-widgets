@@ -463,7 +463,7 @@ var Subscription = (_dec = (0, _di.Module)({
                   oldFilters = this.filters;
                   this.store.dispatch({
                     type: this.actionTypes.removeFilters,
-                    fiters: [].concat(events)
+                    filters: [].concat(events)
                   });
 
                   if (this.filters.length === 0) {

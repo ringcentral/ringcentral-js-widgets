@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Contacts = exports.DEFAULT_SOURCE_FILTER = void 0;
+exports.Contacts = void 0;
 
 require("core-js/modules/es6.array.is-array");
 
@@ -14,6 +14,10 @@ require("core-js/modules/es6.symbol");
 require("core-js/modules/es6.function.name");
 
 require("core-js/modules/es6.object.create");
+
+require("core-js/modules/es6.regexp.to-string");
+
+require("core-js/modules/es6.date.to-string");
 
 require("core-js/modules/es6.reflect.construct");
 
@@ -27,21 +31,15 @@ require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.for-each");
 
-require("core-js/modules/es6.array.find");
-
-require("core-js/modules/es6.regexp.to-string");
-
-require("core-js/modules/es6.date.to-string");
-
 require("core-js/modules/es6.array.map");
 
 require("core-js/modules/es6.promise");
 
 require("core-js/modules/es6.array.filter");
 
-require("core-js/modules/es6.array.from");
-
 require("regenerator-runtime/runtime");
+
+require("core-js/modules/es6.array.from");
 
 require("core-js/modules/es6.date.now");
 
@@ -59,13 +57,9 @@ var _core = require("@ringcentral-integration/core");
 
 var _di = require("../../lib/di");
 
-var _isBlank = _interopRequireDefault(require("../../lib/isBlank"));
-
-var _contactHelper = require("../../lib/contactHelper");
-
 var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
 
-var _dec, _dec2, _dec3, _dec4, _dec5, _class, _class2, _descriptor, _descriptor2, _temp;
+var _dec, _dec2, _dec3, _class, _class2, _temp;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -80,8 +74,6 @@ function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symb
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -105,10 +97,6 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
 
-function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and runs after the decorators transform.'); }
-
-var DEFAULT_SOURCE_FILTER = 'all';
-exports.DEFAULT_SOURCE_FILTER = DEFAULT_SOURCE_FILTER;
 var Contacts = (_dec = (0, _di.Module)({
   name: 'Contacts',
   deps: ['Auth', {
@@ -122,11 +110,6 @@ var Contacts = (_dec = (0, _di.Module)({
   return [that._contactSources.size, that.checkSourceUpdated()];
 }), _dec3 = (0, _core.computed)(function (that) {
   return [that.checkSourceUpdated()];
-}), _dec4 = (0, _core.computed)(function (_ref) {
-  var filteredContacts = _ref.filteredContacts;
-  return [filteredContacts];
-}), _dec5 = (0, _core.computed)(function (that) {
-  return [that.searchFilter, that.sourceFilter, that.checkSourceUpdated()];
 }), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcModuleV) {
   _inherits(Contacts, _RcModuleV);
 
@@ -145,10 +128,6 @@ var Contacts = (_dec = (0, _di.Module)({
     _this._contactSources = new Map();
     _this._sourcesLastStatus = new Map();
     _this._sourcesUpdatedAt = Date.now();
-
-    _initializerDefineProperty(_this, "searchFilter", _descriptor, _assertThisInitialized(_this));
-
-    _initializerDefineProperty(_this, "sourceFilter", _descriptor2, _assertThisInitialized(_this));
 
     var _iterator = _createForOfIteratorHelper((_this$_deps$contactSo = _this._deps.contactSources) !== null && _this$_deps$contactSo !== void 0 ? _this$_deps$contactSo : []),
         _step;
@@ -169,22 +148,6 @@ var Contacts = (_dec = (0, _di.Module)({
   }
 
   _createClass(Contacts, [{
-    key: "_updateFilter",
-    value: function _updateFilter(_ref2) {
-      var sourceFilter = _ref2.sourceFilter,
-          searchFilter = _ref2.searchFilter;
-      this.searchFilter = searchFilter !== null && searchFilter !== void 0 ? searchFilter : this.searchFilter;
-      this.sourceFilter = sourceFilter !== null && sourceFilter !== void 0 ? sourceFilter : this.sourceFilter;
-    }
-  }, {
-    key: "onReset",
-    value: function onReset() {
-      this._updateFilter({
-        sourceFilter: DEFAULT_SOURCE_FILTER,
-        searchFilter: ''
-      });
-    }
-  }, {
     key: "_shouldInit",
     value: function _shouldInit() {
       return this._deps.auth.loggedIn && this.sourceModuleReady && this.pending;
@@ -194,36 +157,6 @@ var Contacts = (_dec = (0, _di.Module)({
     value: function _shouldReset() {
       return (!this._deps.auth.loggedIn || !this.sourceModuleReady) && this.ready;
     }
-  }, {
-    key: "updateFilter",
-    value: function () {
-      var _updateFilter2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(_ref3) {
-        var sourceFilter, searchFilter;
-        return regeneratorRuntime.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                sourceFilter = _ref3.sourceFilter, searchFilter = _ref3.searchFilter;
-
-                this._updateFilter({
-                  sourceFilter: sourceFilter,
-                  searchFilter: searchFilter
-                });
-
-              case 2:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee, this);
-      }));
-
-      function updateFilter(_x) {
-        return _updateFilter2.apply(this, arguments);
-      }
-
-      return updateFilter;
-    }()
   }, {
     key: "addSource",
     value: function addSource(source) {
@@ -243,12 +176,16 @@ var Contacts = (_dec = (0, _di.Module)({
         throw new Error("[Contacts > ContactSource(".concat(source.sourceName, ") > getProfileImage] must be a function"));
       }
 
-      if (source.searchForPhoneNumbers && typeof source.searchForPhoneNumbers !== 'function') {
-        throw new Error("[Contacts > ContactSource(".concat(source.sourceName, ") > searchForPhoneNumbers] must be a function"));
+      if (source.findContact && typeof source.findContact !== 'function') {
+        throw new Error("[Contacts > ContactSource(".concat(source.sourceName, ") > findContact] must be a function"));
       }
 
       if (source.filterContacts && typeof source.filterContacts !== 'function') {
         throw new Error("[Contacts > ContactSource(".concat(source.sourceName, ") > filterContacts] must be a function"));
+      }
+
+      if (source.searchForPhoneNumbers && typeof source.searchForPhoneNumbers !== 'function') {
+        throw new Error("[Contacts > ContactSource(".concat(source.sourceName, ") > searchForPhoneNumbers] must be a function"));
       }
 
       if (source.matchContactsByPhoneNumber && typeof source.matchContactsByPhoneNumber !== 'function') {
@@ -289,6 +226,55 @@ var Contacts = (_dec = (0, _di.Module)({
 
       return this._sourcesUpdatedAt;
     }
+  }, {
+    key: "findContact",
+    value: function () {
+      var _findContact = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(_ref) {
+        var sourceName, contactId, contact, source;
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                sourceName = _ref.sourceName, contactId = _ref.contactId;
+                contact = null;
+                source = this._contactSources.get(sourceName);
+
+                if (!(source && typeof source.findContact === 'function')) {
+                  _context.next = 13;
+                  break;
+                }
+
+                _context.prev = 4;
+                _context.next = 7;
+                return source.findContact(contactId);
+
+              case 7:
+                contact = _context.sent;
+                _context.next = 13;
+                break;
+
+              case 10:
+                _context.prev = 10;
+                _context.t0 = _context["catch"](4);
+                console.error("[Contacts > ContactSource(".concat(source.sourceName, ") > findContact] ").concat(_context.t0));
+
+              case 13:
+                return _context.abrupt("return", contact);
+
+              case 14:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this, [[4, 10]]);
+      }));
+
+      function findContact(_x) {
+        return _findContact.apply(this, arguments);
+      }
+
+      return findContact;
+    }()
   }, {
     key: "filterContacts",
     value: function () {
@@ -412,7 +398,7 @@ var Contacts = (_dec = (0, _di.Module)({
   }, {
     key: "matchContacts",
     value: function () {
-      var _matchContacts = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(_ref4) {
+      var _matchContacts = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(_ref2) {
         var _this2 = this;
 
         var phoneNumbers, result;
@@ -420,7 +406,7 @@ var Contacts = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
-                phoneNumbers = _ref4.phoneNumbers;
+                phoneNumbers = _ref2.phoneNumbers;
                 result = {};
                 _context5.next = 4;
                 return Promise.all(phoneNumbers.map(function (phoneNumber) {
@@ -448,23 +434,6 @@ var Contacts = (_dec = (0, _di.Module)({
 
       return matchContacts;
     }()
-  }, {
-    key: "find",
-    value: function find(_ref5) {
-      var type = _ref5.type,
-          id = _ref5.id;
-      var contactId = (id || '').toString();
-
-      var source = this._contactSources.get(type);
-
-      if (source) {
-        return source.contacts.find(function (x) {
-          return x.id.toString() === contactId;
-        });
-      }
-
-      return null;
-    }
   }, {
     key: "getProfileImage",
     value: function () {
@@ -608,37 +577,16 @@ var Contacts = (_dec = (0, _di.Module)({
 
         if (!source.ready) {
           ready = false;
+          break;
         }
       }
 
       return ready;
     }
   }, {
-    key: "companyContacts",
-    get: function get() {
-      var source = this._contactSources.get('company');
-
-      if (source) {
-        return source.contacts;
-      }
-
-      return [];
-    }
-  }, {
-    key: "personalContacts",
-    get: function get() {
-      var source = this._contactSources.get('personal');
-
-      if (source) {
-        return source.contacts;
-      }
-
-      return [];
-    }
-  }, {
     key: "sourceNames",
     get: function get() {
-      var names = [_contactHelper.AllContactSourceName];
+      var names = [];
 
       for (var _i4 = 0, _Array$from4 = Array.from(this._contactSources.keys()); _i4 < _Array$from4.length; _i4++) {
         var sourceName = _Array$from4[_i4];
@@ -669,56 +617,9 @@ var Contacts = (_dec = (0, _di.Module)({
 
       return contacts;
     }
-  }, {
-    key: "contactGroups",
-    get: function get() {
-      return (0, _contactHelper.groupByFirstLetterOfName)((0, _contactHelper.sortContactItemsByName)((0, _contactHelper.uniqueContactItems)(this.filteredContacts)));
-    }
-  }, {
-    key: "filteredContacts",
-    get: function get() {
-      var contacts;
-
-      if ((0, _isBlank["default"])(this.searchFilter) && (this.sourceFilter === _contactHelper.AllContactSourceName || (0, _isBlank["default"])(this.sourceFilter))) {
-        return this.allContacts;
-      }
-
-      if (this.sourceFilter !== _contactHelper.AllContactSourceName && !(0, _isBlank["default"])(this.sourceFilter)) {
-        var source = this._contactSources.get(this.sourceFilter);
-
-        if (source && source.sourceReady) {
-          /* eslint { "prefer-destructuring": 0 } */
-          contacts = source.contacts;
-        } else {
-          contacts = [];
-        }
-      } else {
-        contacts = this.allContacts;
-      }
-
-      if (!(0, _isBlank["default"])(this.searchFilter)) {
-        contacts = (0, _contactHelper.getFilterContacts)(contacts, this.searchFilter);
-      }
-
-      return contacts;
-    }
   }]);
 
   return Contacts;
-}(_core.RcModuleV2), _temp), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "searchFilter", [_core.state], {
-  configurable: true,
-  enumerable: true,
-  writable: true,
-  initializer: function initializer() {
-    return '';
-  }
-}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, "sourceFilter", [_core.state], {
-  configurable: true,
-  enumerable: true,
-  writable: true,
-  initializer: function initializer() {
-    return DEFAULT_SOURCE_FILTER;
-  }
-}), _applyDecoratedDescriptor(_class2.prototype, "_updateFilter", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_updateFilter"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateFilter", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "updateFilter"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getProfileImage", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "getProfileImage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getPresence", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "getPresence"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "sync", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "sync"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "sourceNames", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "sourceNames"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "allContacts", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "allContacts"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "contactGroups", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "contactGroups"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "filteredContacts", [_dec5], Object.getOwnPropertyDescriptor(_class2.prototype, "filteredContacts"), _class2.prototype)), _class2)) || _class);
+}(_core.RcModuleV2), _temp), (_applyDecoratedDescriptor(_class2.prototype, "getProfileImage", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "getProfileImage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getPresence", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "getPresence"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "sync", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "sync"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "sourceNames", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "sourceNames"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "allContacts", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "allContacts"), _class2.prototype)), _class2)) || _class);
 exports.Contacts = Contacts;
 //# sourceMappingURL=Contacts.js.map

@@ -46,7 +46,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToAr
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
 var _default = _ObjectMap.ObjectMap.prefixKeys([].concat(_toConsumableArray(_ObjectMap.ObjectMap.keys(_moduleActionTypes.moduleActionTypes)), ['initSettingsStart', 'initSettingsEnd', 'initCreating', 'created', 'resetCreating', // for Office...TODO:
-'initUpdating', 'updated', 'resetUpdating', 'updateDelegator', 'updateDelegatorList', 'updateMeetingSettings', 'saveAsDefaultSetting', 'savePersonalMeeting', 'resetPersonalMeeting', 'updateMeetingPreferences', 'updateMeetingSettingLocks', 'saveMeetingPreferencesState']), 'RcVideo');
+'initUpdating', 'updated', 'resetUpdating', 'updateDelegator', 'updateDelegatorList', 'updateMeetingSettings', 'saveAsDefaultSetting', 'savePersonalMeeting', 'resetPersonalMeeting', 'updateMeetingPreferences', 'updateMeetingSettingLocks', 'saveMeetingPreferencesState', 'saveHasSettingChanged']), 'RcVideo');
 
 exports["default"] = _default;
 //# sourceMappingURL=actionTypes.js.map

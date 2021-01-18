@@ -186,6 +186,9 @@ _dec = (0, _di.Module)({
     _this._detectBrowser = detectBrowser;
     _this._polling = polling;
     _this._pollingInterval = pollingInterval;
+
+    _i18n["default"].setDefaultLocale(_this._defaultLocale);
+
     return _this;
   }
 

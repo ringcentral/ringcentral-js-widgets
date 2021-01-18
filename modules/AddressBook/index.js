@@ -47,6 +47,8 @@ require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.function.name");
 
+require("core-js/modules/es6.array.find");
+
 require("core-js/modules/es6.array.for-each");
 
 require("core-js/modules/es6.array.is-array");
@@ -696,6 +698,14 @@ var AddressBook = (_dec = (0, _di.Module)({
     value: function _cleanUp() {
       this.store.dispatch({
         type: this.actionTypes.cleanUp
+      });
+    } // interface of ContactSource
+
+  }, {
+    key: "findContact",
+    value: function findContact(contactId) {
+      return this.contacts.find(function (x) {
+        return x.id === contactId;
       });
     } // interface of ContactSource
 

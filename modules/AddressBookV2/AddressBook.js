@@ -45,6 +45,8 @@ require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.index-of");
 
+require("core-js/modules/es6.array.find");
+
 require("regenerator-runtime/runtime");
 
 var _core = require("@ringcentral-integration/core");
@@ -311,6 +313,14 @@ var AddressBook = (_dec = (0, _di.Module)({
 
       return sync;
     }() // interface of ContactSource
+
+  }, {
+    key: "findContact",
+    value: function findContact(contactId) {
+      return this.contacts.find(function (x) {
+        return x.id === contactId;
+      });
+    } // interface of ContactSource
 
   }, {
     key: "filterContacts",

@@ -83,6 +83,8 @@ var _normalizeNumber = _interopRequireDefault(require("../../lib/normalizeNumber
 
 var _callMonitorHelper = require("./callMonitorHelper");
 
+var _callMonitorHelper2 = require("../CallMonitorV2/callMonitorHelper");
+
 var _selector = require("../../lib/selector");
 
 var _callLogHelpers = require("../../lib/callLogHelpers");
@@ -832,7 +834,7 @@ _dec = (0, _di.Module)({
         var toName = to === null || to === void 0 ? void 0 : to.name;
         var fromName = from === null || from === void 0 ? void 0 : from.name;
         var partyId = party === null || party === void 0 ? void 0 : party.id;
-        var telephonySession = (0, _callMonitorHelper.matchTelephonySessionWithActiveCall)(currentRcCallSession);
+        var telephonySession = (0, _callMonitorHelper2.normalizeTelephonySession)(currentRcCallSession);
         var telephonyStatus = (0, _callMonitorHelper.mapTelephonyStatus)(party === null || party === void 0 ? void 0 : party.status.code); // TODO: add sipData here
         // const sipData = {};
 

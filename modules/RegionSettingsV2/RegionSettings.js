@@ -158,7 +158,7 @@ var RegionSettings = (_dec = (0, _di.Module)({
       (0, _core.watch)(this, function () {
         return _this2.availableCountries;
       }, function () {
-        if (!_this2._deps.tabManager || _this2._deps.tabManager.active) {
+        if (_this2.ready && (!_this2._deps.tabManager || _this2._deps.tabManager.active)) {
           _this2.checkRegionSettings();
         }
       });

@@ -39,6 +39,8 @@ require("core-js/modules/es6.string.iterator");
 
 require("core-js/modules/es6.array.map");
 
+require("core-js/modules/es6.array.find");
+
 require("core-js/modules/es6.promise");
 
 require("regenerator-runtime/runtime");
@@ -360,6 +362,14 @@ var AccountContacts = (_dec = (0, _di.Module)({
             _this5._getPresenceContexts = null;
           }, 1000);
         }
+      });
+    } // interface of ContactSource
+
+  }, {
+    key: "findContact",
+    value: function findContact(contactId) {
+      return this.contacts.find(function (x) {
+        return x.id === contactId;
       });
     } // interface of ContactSource
 

@@ -11,11 +11,25 @@ var _ObjectMap = require("@ringcentral-integration/core/lib/ObjectMap");
 
 var trackEvents = _ObjectMap.ObjectMap.fromObject({
   outbound: 'Outbound Call',
-  mute: 'Call Control: Mute/Call log page',
-  unmute: 'Call Control: Unmute/Call log page',
-  hold: 'Call Control: Hold/Call log page',
-  unhold: 'Call Control: Unhold/Call log page',
-  hangup: 'Call Control: Hang up/Call log page',
+  mute: 'Call Control: Mute',
+  unmute: 'Call Control: Unmute',
+  hold: 'Call Control: Hold',
+  unhold: 'Call Control: Unhold',
+  record: 'Call Control: Record',
+  stopRecord: 'Call Control: Stop Record',
+  hangup: 'Call Control: Hang up',
+  answer: 'Call Control: Answer',
+  voicemail: 'Call Control: To voicemail',
+  ignore: 'Call Control: Ignore',
+  holdAndAnswer: 'Call Control: Hold and answer',
+  endAndAnswer: 'Call Control: End and answer',
+  "switch": 'Call Control: Switch',
+  confirmSwitch: 'Call Control: Confirm switch',
+  forward: 'Call Control: Forward',
+  confirmForward: 'Call Control: Confirm forward',
+  dialpadOpen: 'Call Control: Open dialpad/Call log page',
+  dialpadClose: 'Call Control: Close dialpad/Call log page',
+  clickTransfer: 'Call Control: Transfer',
   transfer: 'Call Control: Cold transfer/Transfer page',
   authentication: 'Authentication',
   logout: 'Logout',
@@ -46,6 +60,7 @@ var trackEvents = _ObjectMap.ObjectMap.fromObject({
   clickToDialContactDetails: 'Click To Dial (Contact Details)',
   clickToSMSContactDetails: 'Click To SMS (Contact Details)',
   clickToDialCallHistory: 'Click To dial (Call History)',
+  clickToDialCallHistoryWithRingOut: 'Call: Place RingOut call/Call history',
   clickToSMSCallHistory: 'Click To SMS (Call History)',
   inviteWithTextConference: 'Invite With Text (Conference)',
   selectAdditionalDialInNumber: 'Select Additional Dial-in Number (Conference)',
@@ -69,7 +84,8 @@ var trackEvents = _ObjectMap.ObjectMap.fromObject({
   cancelRemoveRemoveParticipantsModal: 'Cancel Remove (RemoveParticipants Modal)',
   clickHangupParticipantList: 'Click Hangup (Participant List)',
   clickParticipantAreaCallControl: 'Click Participant Area (Call Control)',
-  clickHangupCallsOnHold: 'Click Hangup (Calls OnHold)'
+  clickHangupCallsOnHold: 'Click Hangup (Calls OnHold)',
+  clickMeetingSchedulePage: 'Meeting: Click Schedule/Meeting schedule page'
 });
 
 exports.trackEvents = trackEvents;

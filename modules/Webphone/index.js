@@ -187,7 +187,7 @@ var INCOMING_CALL_INVALID_STATE_ERROR_CODE = 2;
 
 var extendedControlStatus = _ObjectMap.ObjectMap.fromKeys(['pending', 'playing', 'stopped']);
 
-var EVENTS = _ObjectMap.ObjectMap.fromKeys(['callRing', 'callStart', 'callEnd', 'callHold', 'callResume', 'beforeCallResume', 'beforeCallEnd', 'callInit']);
+var EVENTS = _ObjectMap.ObjectMap.fromKeys(['callRing', 'callStart', 'callEnd', 'callHold', 'callResume', 'beforeCallResume', 'beforeCallEnd', 'callInit', 'webphoneRegistered', 'webphoneUnregistered']);
 
 var registerErrors = [_webphoneErrors["default"].sipProvisionError, _webphoneErrors["default"].webphoneCountOverLimit, _webphoneErrors["default"].webphoneForbidden, _webphoneErrors["default"].requestTimeout, _webphoneErrors["default"].internalServerError, _webphoneErrors["default"].serverTimeout, _webphoneErrors["default"].unknownError, _webphoneErrors["default"].connectFailed, _webphoneErrors["default"].provisionUpdate, _webphoneErrors["default"].serverConnecting];
 /**
@@ -1379,6 +1379,8 @@ var Webphone = (_dec = (0, _di.Module)({
       this._hideRegisterErrorAlert();
 
       this._setCurrentInstanceAsActiveWebphone();
+
+      this._eventEmitter.emit(EVENTS.webphoneRegistered);
     }
   }, {
     key: "_onWebphoneUnregistered",
@@ -1394,6 +1396,8 @@ var Webphone = (_dec = (0, _di.Module)({
       this.store.dispatch({
         type: this.actionTypes.connectError
       });
+
+      this._eventEmitter.emit(EVENTS.webphoneUnregistered);
     }
   }, {
     key: "_setCurrentInstanceAsActiveWebphone",
@@ -3594,6 +3598,32 @@ var Webphone = (_dec = (0, _di.Module)({
       }
     }
   }, {
+    key: "onWebphoneRegistered",
+    value: function onWebphoneRegistered(handler) {
+      var _this17 = this;
+
+      if (typeof handler === 'function') {
+        this._eventEmitter.on(EVENTS.webphoneRegistered, handler);
+
+        return function () {
+          _this17._eventEmitter.off(EVENTS.webphoneRegistered, handler);
+        };
+      }
+    }
+  }, {
+    key: "onWebphoneUnregistered",
+    value: function onWebphoneUnregistered(handler) {
+      var _this18 = this;
+
+      if (typeof handler === 'function') {
+        this._eventEmitter.on(EVENTS.webphoneUnregistered, handler);
+
+        return function () {
+          _this18._eventEmitter.off(EVENTS.webphoneUnregistered, handler);
+        };
+      }
+    }
+  }, {
     key: "loadAudio",
     value: function loadAudio() {
       if (this._webphone && this._webphone.userAgent && this._webphone.userAgent.audioHelper) {
@@ -3870,10 +3900,10 @@ var Webphone = (_dec = (0, _di.Module)({
   enumerable: true,
   writable: true,
   initializer: function initializer() {
-    var _this17 = this;
+    var _this19 = this;
 
     return [function () {
-      return _this17.sessions;
+      return _this19.sessions;
     }, function (sessions) {
       var outputs = [];
       sessions.forEach(function (session) {
@@ -3888,12 +3918,12 @@ var Webphone = (_dec = (0, _di.Module)({
   enumerable: true,
   writable: true,
   initializer: function initializer() {
-    var _this18 = this;
+    var _this20 = this;
 
     return [function () {
-      return _this18.activeSessionId;
+      return _this20.activeSessionId;
     }, function () {
-      return _this18.sessions;
+      return _this20.sessions;
     }, function (activeSessionId, sessions) {
       if (!activeSessionId) {
         return null;
@@ -3910,12 +3940,12 @@ var Webphone = (_dec = (0, _di.Module)({
   enumerable: true,
   writable: true,
   initializer: function initializer() {
-    var _this19 = this;
+    var _this21 = this;
 
     return [function () {
-      return _this19.ringSessionId;
+      return _this21.ringSessionId;
     }, function () {
-      return _this19.sessions;
+      return _this21.sessions;
     }, function (ringSessionId, sessions) {
       if (!ringSessionId) {
         return null;
@@ -3932,10 +3962,10 @@ var Webphone = (_dec = (0, _di.Module)({
   enumerable: true,
   writable: true,
   initializer: function initializer() {
-    var _this20 = this;
+    var _this22 = this;
 
     return [function () {
-      return _this20.sessions;
+      return _this22.sessions;
     }, function (sessions) {
       return (0, _ramda.filter)(function (session) {
         return (0, _webphoneHelper.isRing)(session);
@@ -3947,10 +3977,10 @@ var Webphone = (_dec = (0, _di.Module)({
   enumerable: true,
   writable: true,
   initializer: function initializer() {
-    var _this21 = this;
+    var _this23 = this;
 
     return [function () {
-      return _this21.sessions;
+      return _this23.sessions;
     }, function (sessions) {
       return (0, _ramda.filter)(function (session) {
         return (0, _webphoneHelper.isOnHold)(session);
@@ -3962,10 +3992,10 @@ var Webphone = (_dec = (0, _di.Module)({
   enumerable: true,
   writable: true,
   initializer: function initializer() {
-    var _this22 = this;
+    var _this24 = this;
 
     return [function () {
-      return _this22.sessions;
+      return _this24.sessions;
     }, function (sessions) {
       return (0, _ramda.filter)(function (session) {
         return session.cached;
@@ -3977,10 +4007,10 @@ var Webphone = (_dec = (0, _di.Module)({
   enumerable: true,
   writable: true,
   initializer: function initializer() {
-    var _this23 = this;
+    var _this25 = this;
 
     return [function () {
-      return _this23.ringSessions;
+      return _this25.ringSessions;
     }, function (sessions) {
       return (0, _ramda.find)(function (session) {
         return !session.minimized;

@@ -281,7 +281,9 @@ var Analytics = (_dec = (0, _di.Module)({
         lingerThreshold = _ref$lingerThreshold === void 0 ? 1000 : _ref$lingerThreshold,
         callLogSection = _ref.callLogSection,
         activeCallControl = _ref.activeCallControl,
-        options = _objectWithoutProperties(_ref, ["analyticsKey", "appName", "appVersion", "brandCode", "adapter", "auth", "call", "callingSettings", "accountInfo", "extensionInfo", "rolesAndPermissions", "callHistory", "callMonitor", "conference", "conferenceCall", "contactDetailsUI", "messageSender", "messageStore", "routerInteraction", "userGuide", "webphone", "locale", "meeting", "rcVideo", "dialerUI", "useLog", "lingerThreshold", "callLogSection", "activeCallControl"]);
+        _ref$enablePendo = _ref.enablePendo,
+        enablePendo = _ref$enablePendo === void 0 ? false : _ref$enablePendo,
+        options = _objectWithoutProperties(_ref, ["analyticsKey", "appName", "appVersion", "brandCode", "adapter", "auth", "call", "callingSettings", "accountInfo", "extensionInfo", "rolesAndPermissions", "callHistory", "callMonitor", "conference", "conferenceCall", "contactDetailsUI", "messageSender", "messageStore", "routerInteraction", "userGuide", "webphone", "locale", "meeting", "rcVideo", "dialerUI", "useLog", "lingerThreshold", "callLogSection", "activeCallControl", "enablePendo"]);
 
     _classCallCheck(this, Analytics);
 
@@ -324,6 +326,7 @@ var Analytics = (_dec = (0, _di.Module)({
     _this._promise = void 0;
     _this._callLogSection = void 0;
     _this._activeCallControl = void 0;
+    _this._enablePendo = void 0;
     _this._analyticsKey = analyticsKey;
     _this._appName = appName;
     _this._appVersion = appVersion;
@@ -358,6 +361,7 @@ var Analytics = (_dec = (0, _di.Module)({
     _this._trackList = [].concat(TRACK_LIST);
     _this._useLog = useLog;
     _this._lingerThreshold = lingerThreshold;
+    _this._enablePendo = enablePendo;
     return _this;
   }
 
@@ -368,7 +372,17 @@ var Analytics = (_dec = (0, _di.Module)({
           props = _objectWithoutProperties(_ref2, ["userId"]);
 
       if (this.analytics) {
-        this.analytics.identify(userId, props);
+        var _this$_extensionInfo, _this$_extensionInfo$, _this$_extensionInfo$2;
+
+        this.analytics.identify(userId, _objectSpread(_objectSpread({}, props), {}, {
+          companyName: (_this$_extensionInfo = this._extensionInfo) === null || _this$_extensionInfo === void 0 ? void 0 : (_this$_extensionInfo$ = _this$_extensionInfo.info) === null || _this$_extensionInfo$ === void 0 ? void 0 : (_this$_extensionInfo$2 = _this$_extensionInfo$.contact) === null || _this$_extensionInfo$2 === void 0 ? void 0 : _this$_extensionInfo$2.company
+        }), {
+          integrations: {
+            All: true,
+            Mixpanel: true,
+            Pendo: this._enablePendo
+          }
+        });
       }
     }
   }, {
@@ -382,7 +396,13 @@ var Analytics = (_dec = (0, _di.Module)({
 
       var trackProps = _objectSpread(_objectSpread({}, this.trackProps), properties);
 
-      this.analytics.track(event, trackProps);
+      this.analytics.track(event, trackProps, {
+        integrations: {
+          All: true,
+          Mixpanel: true,
+          Pendo: this._enablePendo
+        }
+      });
 
       if (this._useLog) {
         this._logs.push({
@@ -455,8 +475,14 @@ var Analytics = (_dec = (0, _di.Module)({
                     type: this.actionTypes.init
                   });
 
-                  if (this._analyticsKey) {
-                    this._segment.load(this._analyticsKey);
+                  if (this._analyticsKey && this._segment) {
+                    this._segment.load(this._analyticsKey, {
+                      integrations: {
+                        All: true,
+                        Mixpanel: true,
+                        Pendo: this._enablePendo
+                      }
+                    });
                   }
 
                   this.store.dispatch({
@@ -1053,7 +1079,11 @@ var Analytics = (_dec = (0, _di.Module)({
     }
   }, {
     key: "_getTrackTarget",
-    value: function _getTrackTarget(path) {
+    value: function _getTrackTarget() {
+      var _this$_routerInteract2;
+
+      var path = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : (_this$_routerInteract2 = this._routerInteraction) === null || _this$_routerInteract2 === void 0 ? void 0 : _this$_routerInteract2.currentPath;
+
       if (!path) {
         return null;
       }
@@ -1125,9 +1155,9 @@ var Analytics = (_dec = (0, _di.Module)({
       var _this$_meeting, _this$_rcVideo;
 
       if (((_this$_meeting = this._meeting) === null || _this$_meeting === void 0 ? void 0 : _this$_meeting.actionTypes.initScheduling) === action.type || ((_this$_rcVideo = this._rcVideo) === null || _this$_rcVideo === void 0 ? void 0 : _this$_rcVideo.actionTypes.initCreating) === action.type) {
-        var _this$_routerInteract2;
+        var _this$_routerInteract3;
 
-        var target = this._getTrackTarget((_this$_routerInteract2 = this._routerInteraction) === null || _this$_routerInteract2 === void 0 ? void 0 : _this$_routerInteract2.currentPath);
+        var target = this._getTrackTarget((_this$_routerInteract3 = this._routerInteraction) === null || _this$_routerInteract3 === void 0 ? void 0 : _this$_routerInteract3.currentPath);
 
         if (target) {
           this.trackSchedule(target);
@@ -1155,36 +1185,36 @@ var Analytics = (_dec = (0, _di.Module)({
   }, {
     key: "_muteOnSimpleCallControl",
     value: function _muteOnSimpleCallControl(action) {
-      var _this$_activeCallCont, _this$_routerInteract3;
+      var _this$_activeCallCont, _this$_routerInteract4;
 
-      if (((_this$_activeCallCont = this._activeCallControl) === null || _this$_activeCallCont === void 0 ? void 0 : _this$_activeCallCont.actionTypes.mute) === action.type && ((_this$_routerInteract3 = this._routerInteraction) === null || _this$_routerInteract3 === void 0 ? void 0 : _this$_routerInteract3.currentPath.includes('/simplifycallctrl'))) {
+      if (((_this$_activeCallCont = this._activeCallControl) === null || _this$_activeCallCont === void 0 ? void 0 : _this$_activeCallCont.actionTypes.mute) === action.type && ((_this$_routerInteract4 = this._routerInteraction) === null || _this$_routerInteract4 === void 0 ? void 0 : _this$_routerInteract4.currentPath.includes('/simplifycallctrl'))) {
         this.track('Call Control: Mute/Small call control');
       }
     }
   }, {
     key: "_unmuteOnSimpleCallControl",
     value: function _unmuteOnSimpleCallControl(action) {
-      var _this$_activeCallCont2, _this$_routerInteract4;
+      var _this$_activeCallCont2, _this$_routerInteract5;
 
-      if (((_this$_activeCallCont2 = this._activeCallControl) === null || _this$_activeCallCont2 === void 0 ? void 0 : _this$_activeCallCont2.actionTypes.unmute) === action.type && ((_this$_routerInteract4 = this._routerInteraction) === null || _this$_routerInteract4 === void 0 ? void 0 : _this$_routerInteract4.currentPath.includes('/simplifycallctrl'))) {
+      if (((_this$_activeCallCont2 = this._activeCallControl) === null || _this$_activeCallCont2 === void 0 ? void 0 : _this$_activeCallCont2.actionTypes.unmute) === action.type && ((_this$_routerInteract5 = this._routerInteraction) === null || _this$_routerInteract5 === void 0 ? void 0 : _this$_routerInteract5.currentPath.includes('/simplifycallctrl'))) {
         this.track('Call Control: Unmute/Small call control');
       }
     }
   }, {
     key: "_holdOnSimpleCallControl",
     value: function _holdOnSimpleCallControl(action) {
-      var _this$_activeCallCont3, _this$_routerInteract5;
+      var _this$_activeCallCont3, _this$_routerInteract6;
 
-      if (((_this$_activeCallCont3 = this._activeCallControl) === null || _this$_activeCallCont3 === void 0 ? void 0 : _this$_activeCallCont3.actionTypes.hold) === action.type && ((_this$_routerInteract5 = this._routerInteraction) === null || _this$_routerInteract5 === void 0 ? void 0 : _this$_routerInteract5.currentPath.includes('/simplifycallctrl'))) {
+      if (((_this$_activeCallCont3 = this._activeCallControl) === null || _this$_activeCallCont3 === void 0 ? void 0 : _this$_activeCallCont3.actionTypes.hold) === action.type && ((_this$_routerInteract6 = this._routerInteraction) === null || _this$_routerInteract6 === void 0 ? void 0 : _this$_routerInteract6.currentPath.includes('/simplifycallctrl'))) {
         this.track('Call Control: Hold/Small call control');
       }
     }
   }, {
     key: "_unholdOnSimpleCallControl",
     value: function _unholdOnSimpleCallControl(action) {
-      var _this$_activeCallCont4, _this$_routerInteract6;
+      var _this$_activeCallCont4, _this$_routerInteract7;
 
-      if (((_this$_activeCallCont4 = this._activeCallControl) === null || _this$_activeCallCont4 === void 0 ? void 0 : _this$_activeCallCont4.actionTypes.unhold) === action.type && ((_this$_routerInteract6 = this._routerInteraction) === null || _this$_routerInteract6 === void 0 ? void 0 : _this$_routerInteract6.currentPath.includes('/simplifycallctrl'))) {
+      if (((_this$_activeCallCont4 = this._activeCallControl) === null || _this$_activeCallCont4 === void 0 ? void 0 : _this$_activeCallCont4.actionTypes.unhold) === action.type && ((_this$_routerInteract7 = this._routerInteraction) === null || _this$_routerInteract7 === void 0 ? void 0 : _this$_routerInteract7.currentPath.includes('/simplifycallctrl'))) {
         this.track('Call Control: Unhold/Small call control');
       }
     }
@@ -1302,7 +1332,7 @@ var Analytics = (_dec = (0, _di.Module)({
   }, {
     key: "trackProps",
     get: function get() {
-      var _this$_locale, _this$_locale2, _this$_extensionInfo;
+      var _this$_locale, _this$_locale2, _this$_extensionInfo2;
 
       return {
         appName: this._appName,
@@ -1310,7 +1340,7 @@ var Analytics = (_dec = (0, _di.Module)({
         brand: this._brandCode,
         'App Language': ((_this$_locale = this._locale) === null || _this$_locale === void 0 ? void 0 : _this$_locale.currentLocale) || '',
         'Browser Language': ((_this$_locale2 = this._locale) === null || _this$_locale2 === void 0 ? void 0 : _this$_locale2.browserLocale) || '',
-        'Extension Type': ((_this$_extensionInfo = this._extensionInfo) === null || _this$_extensionInfo === void 0 ? void 0 : _this$_extensionInfo.info.type) || ''
+        'Extension Type': ((_this$_extensionInfo2 = this._extensionInfo) === null || _this$_extensionInfo2 === void 0 ? void 0 : _this$_extensionInfo2.info.type) || ''
       };
     }
   }]);

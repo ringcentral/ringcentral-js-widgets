@@ -7,8 +7,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.matchWephoneSessionWithAcitveCall = matchWephoneSessionWithAcitveCall;
 exports.isCurrentDeviceEndCall = isCurrentDeviceEndCall;
-exports.matchTelephonySessionWithActiveCall = matchTelephonySessionWithActiveCall;
 exports.mapTelephonyStatus = mapTelephonyStatus;
+exports.normalizeTelephonySession = normalizeTelephonySession;
 
 require("core-js/modules/es6.array.sort");
 
@@ -125,18 +125,6 @@ function matchWephoneSessionWithAcitveCall(sessions, callItem) {
 
 function isCurrentDeviceEndCall(sessions, callItem) {
   return sessions.indexOf(callItem.telephonySessionId) !== -1;
-}
-
-function matchTelephonySessionWithActiveCall(callItem) {
-  if (callItem) {
-    return {
-      status: callItem.status,
-      id: callItem.id,
-      direction: callItem.direction
-    };
-  }
-
-  return undefined;
 } // telephony session status match presence telephonyStatus
 
 
@@ -158,5 +146,14 @@ function mapTelephonyStatus(telephonySessionStatus) {
     default:
       return _telephonyStatus.telephonyStatus.noCall;
   }
+}
+
+function normalizeTelephonySession(session) {
+  return {
+    status: session.status,
+    id: session.id,
+    direction: session.direction,
+    otherParties: session.otherParties
+  };
 }
 //# sourceMappingURL=callMonitorHelper.js.map

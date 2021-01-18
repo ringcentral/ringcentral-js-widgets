@@ -304,7 +304,7 @@ var CallMonitor = (_dec = (0, _di.Module)({
       }, function (uniqueNumbers, lastProcessedNumbers) {
         var _this2$_deps$tabManag;
 
-        if (!((_this2$_deps$tabManag = _this2._deps.tabManager) === null || _this2$_deps$tabManag === void 0 ? void 0 : _this2$_deps$tabManag.active)) return;
+        if (!_this2.ready || !((_this2$_deps$tabManag = _this2._deps.tabManager) === null || _this2$_deps$tabManag === void 0 ? void 0 : _this2$_deps$tabManag.active)) return;
         var newNumbers = (0, _ramda.difference)(uniqueNumbers, lastProcessedNumbers || []);
 
         if (_this2._deps.contactMatcher && _this2._deps.contactMatcher.ready) {
@@ -319,7 +319,7 @@ var CallMonitor = (_dec = (0, _di.Module)({
       }, function (sessionIds, lastProcessedIds) {
         var _this2$_deps$tabManag2;
 
-        if (!((_this2$_deps$tabManag2 = _this2._deps.tabManager) === null || _this2$_deps$tabManag2 === void 0 ? void 0 : _this2$_deps$tabManag2.active)) return;
+        if (!_this2.ready || !((_this2$_deps$tabManag2 = _this2._deps.tabManager) === null || _this2$_deps$tabManag2 === void 0 ? void 0 : _this2$_deps$tabManag2.active)) return;
         var newSessions = (0, _ramda.difference)(sessionIds, lastProcessedIds || []);
 
         if (_this2._deps.activityMatcher && _this2._deps.activityMatcher.ready) {
@@ -333,6 +333,8 @@ var CallMonitor = (_dec = (0, _di.Module)({
         return _this2.calls;
       }, function (_, lastProcessedCalls) {
         var _lastProcessedCalls$s;
+
+        if (!_this2.ready) return;
 
         _this2.handleCalls((_lastProcessedCalls$s = lastProcessedCalls === null || lastProcessedCalls === void 0 ? void 0 : lastProcessedCalls.slice()) !== null && _lastProcessedCalls$s !== void 0 ? _lastProcessedCalls$s : []);
       });
@@ -634,7 +636,7 @@ var CallMonitor = (_dec = (0, _di.Module)({
         var toName = to === null || to === void 0 ? void 0 : to.name;
         var fromName = from === null || from === void 0 ? void 0 : from.name;
         var partyId = party === null || party === void 0 ? void 0 : party.id;
-        var telephonySession = (0, _callMonitorHelper.matchTelephonySessionWithActiveCall)(currentRcCallSession);
+        var telephonySession = (0, _callMonitorHelper.normalizeTelephonySession)(currentRcCallSession);
         var telephonyStatus = (0, _callMonitorHelper.mapTelephonyStatus)(party === null || party === void 0 ? void 0 : party.status.code); // TODO: add sipData here
         // const sipData = {};
 

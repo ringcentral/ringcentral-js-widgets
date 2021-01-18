@@ -16,7 +16,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _WebSocketSubscription = require("./WebSocketSubscription");
+var _WebSocketSubscription = require("./WebSocketSubscription.interface");
 
 Object.keys(_WebSocketSubscription).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
@@ -29,7 +29,7 @@ Object.keys(_WebSocketSubscription).forEach(function (key) {
   });
 });
 
-var _WebSocketSubscription2 = require("./WebSocketSubscription.interface");
+var _WebSocketSubscription2 = require("./WebSocketSubscription");
 
 Object.keys(_WebSocketSubscription2).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;

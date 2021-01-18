@@ -196,6 +196,8 @@ var Alert = (_dec = (0, _di.Module)({
      * Add alert message to the state.
      */
     value: function alert(_ref4) {
+      var _this$_deps$alertOpti2;
+
       var message = _ref4.message,
           payload = _ref4.payload,
           _ref4$level = _ref4.level,
@@ -210,7 +212,8 @@ var Alert = (_dec = (0, _di.Module)({
           backdrop = _ref4$backdrop === void 0 ? false : _ref4$backdrop,
           classes = _ref4.classes,
           onBackdropClick = _ref4.onBackdropClick,
-          action = _ref4.action;
+          _ref4$action = _ref4.action,
+          action = _ref4$action === void 0 ? (_this$_deps$alertOpti2 = this._deps.alertOptions) === null || _this$_deps$alertOpti2 === void 0 ? void 0 : _this$_deps$alertOpti2.action : _ref4$action;
       var id = uuid.v4();
 
       this._alert({

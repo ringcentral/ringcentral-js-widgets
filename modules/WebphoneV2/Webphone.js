@@ -2289,6 +2289,32 @@ var Webphone = (_dec = (0, _di.Module)({
       }
     }
   }, {
+    key: "onWebphoneRegistered",
+    value: function onWebphoneRegistered(handler) {
+      var _this13 = this;
+
+      if (typeof handler === 'function') {
+        this._eventEmitter.on(_events.EVENTS.webphoneRegistered, handler);
+
+        return function () {
+          _this13._eventEmitter.off(_events.EVENTS.webphoneRegistered, handler);
+        };
+      }
+    }
+  }, {
+    key: "onWebphoneUnregistered",
+    value: function onWebphoneUnregistered(handler) {
+      var _this14 = this;
+
+      if (typeof handler === 'function') {
+        this._eventEmitter.on(_events.EVENTS.webphoneUnregistered, handler);
+
+        return function () {
+          _this14._eventEmitter.off(_events.EVENTS.webphoneUnregistered, handler);
+        };
+      }
+    }
+  }, {
     key: "_disconnect",
     value: function () {
       var _disconnect2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee31() {
@@ -2333,14 +2359,14 @@ var Webphone = (_dec = (0, _di.Module)({
   }, {
     key: "activeSession",
     get: function get() {
-      var _this13 = this;
+      var _this15 = this;
 
       if (!this.activeSessionId) {
         return null;
       }
 
       var activeSession = (0, _ramda.find)(function (session) {
-        return session.id === _this13.activeSessionId;
+        return session.id === _this15.activeSessionId;
       }, this.sessions);
       return activeSession;
     }
@@ -2351,14 +2377,14 @@ var Webphone = (_dec = (0, _di.Module)({
   }, {
     key: "ringSession",
     get: function get() {
-      var _this14 = this;
+      var _this16 = this;
 
       if (!this.ringSessionId) {
         return null;
       }
 
       var session = (0, _ramda.find)(function (session) {
-        return session.id === _this14.ringSessionId;
+        return session.id === _this16.ringSessionId;
       }, this.sessions);
       return session;
     }

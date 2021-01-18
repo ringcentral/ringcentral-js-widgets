@@ -77,6 +77,8 @@ var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
 
 var _webphoneHelper = require("./webphoneHelper");
 
+var _events2 = require("./events");
+
 var _Analytics = require("../Analytics");
 
 var _dec, _dec2, _dec3, _dec4, _dec5, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7, _temp;
@@ -1280,6 +1282,8 @@ var WebphoneBase = (_dec = (0, _di.Module)({
       this._hideRegisterErrorAlert();
 
       this._setCurrentInstanceAsActiveWebphone();
+
+      this._eventEmitter.emit(_events2.EVENTS.webphoneRegistered);
     }
   }, {
     key: "_onWebphoneUnregistered",
@@ -1293,6 +1297,8 @@ var WebphoneBase = (_dec = (0, _di.Module)({
 
 
       this._setStateOnConnectError();
+
+      this._eventEmitter.emit(_events2.EVENTS.webphoneUnregistered);
     }
   }, {
     key: "_setCurrentInstanceAsActiveWebphone",
@@ -1739,7 +1745,7 @@ var WebphoneBase = (_dec = (0, _di.Module)({
                 isIncomingDefault = incomingAudioFile === DEFAULT_AUDIO && incomingAudio === _incoming["default"];
                 isOutgoingDefault = outgoingAudioFile === DEFAULT_AUDIO && outgoingAudio === _outgoing["default"];
 
-                this._setRingtoneIntoStorage(isIncomingDefault ? null : incomingAudio, isIncomingDefault ? DEFAULT_AUDIO : incomingAudioFile, isOutgoingDefault ? null : outgoingAudio, isOutgoingDefault ? DEFAULT_AUDIO : outgoingAudioFile);
+                this._setRingtoneIntoStorage(isIncomingDefault ? DEFAULT_AUDIO : incomingAudioFile, isIncomingDefault ? null : incomingAudio, isOutgoingDefault ? DEFAULT_AUDIO : outgoingAudioFile, isOutgoingDefault ? null : outgoingAudio);
 
                 this.loadAudio();
 

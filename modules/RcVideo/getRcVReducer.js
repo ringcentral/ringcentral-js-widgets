@@ -12,6 +12,7 @@ exports.getRcVideoPreferencesReducer = getRcVideoPreferencesReducer;
 exports.getRcVideoPreferencesStateReducer = getRcVideoPreferencesStateReducer;
 exports.getDelegatorListReducer = getDelegatorListReducer;
 exports.getDelegatorReducer = getDelegatorReducer;
+exports.getHasSettingChangedReducer = getHasSettingChangedReducer;
 exports["default"] = void 0;
 
 require("core-js/modules/es6.object.define-properties");
@@ -238,6 +239,24 @@ function getDelegatorReducer(types) {
   };
 }
 
+function getHasSettingChangedReducer(types) {
+  return function () {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+
+    var _ref10 = arguments.length > 1 ? arguments[1] : undefined,
+        type = _ref10.type,
+        isChanged = _ref10.isChanged;
+
+    switch (type) {
+      case types.saveHasSettingChanged:
+        return isChanged;
+
+      default:
+        return state;
+    }
+  };
+}
+
 var _default = function _default(types, reducers) {
   return (0, _redux.combineReducers)(_objectSpread(_objectSpread({}, reducers), {}, {
     meeting: getRcVideoInfoReducer(types),
@@ -247,7 +266,8 @@ var _default = function _default(types, reducers) {
     preferences: getRcVideoPreferencesReducer(types),
     isPreferencesChanged: getRcVideoPreferencesStateReducer(types),
     settingLocks: getRcVideoSettingLocksReducer(types),
-    delegator: getDelegatorReducer(types)
+    delegator: getDelegatorReducer(types),
+    hasSettingsChanged: getHasSettingChangedReducer(types)
   }));
 };
 

@@ -1,26 +1,31 @@
 "use strict";
 
+require("core-js/modules/web.dom.iterable");
+
+require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.object.to-string");
+
+require("core-js/modules/es6.object.keys");
+
+require("core-js/modules/es6.array.for-each");
+
 require("core-js/modules/es6.object.define-property");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.RCV_WAITING_ROOM_MODE_REVERSE = exports.RCV_WAITING_ROOM_MODE = exports.ASSISTED_USERS_MYSELF = void 0;
-var ASSISTED_USERS_MYSELF = 'ASSISTED_USERS_MYSELF';
-exports.ASSISTED_USERS_MYSELF = ASSISTED_USERS_MYSELF;
-var RCV_WAITING_ROOM_MODE = {
-  off: 0,
-  all: 1,
-  guests: 2,
-  notcoworker: 3
-}; // eslint-disable-next-line max-len
 
-exports.RCV_WAITING_ROOM_MODE = RCV_WAITING_ROOM_MODE;
-var RCV_WAITING_ROOM_MODE_REVERSE = {
-  0: 'all',
-  1: 'all',
-  2: 'guests',
-  3: 'notcoworker'
-};
-exports.RCV_WAITING_ROOM_MODE_REVERSE = RCV_WAITING_ROOM_MODE_REVERSE;
+var _constants = require("../RcVideoV2/constants");
+
+Object.keys(_constants).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _constants[key]) return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _constants[key];
+    }
+  });
+});
 //# sourceMappingURL=constants.js.map

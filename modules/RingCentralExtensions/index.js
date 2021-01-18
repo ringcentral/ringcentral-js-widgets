@@ -16,28 +16,28 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _ContactList = require("./ContactList");
+var _RingCentralExtensions = require("./RingCentralExtensions.interface");
 
-Object.keys(_ContactList).forEach(function (key) {
+Object.keys(_RingCentralExtensions).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
-  if (key in exports && exports[key] === _ContactList[key]) return;
+  if (key in exports && exports[key] === _RingCentralExtensions[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {
-      return _ContactList[key];
+      return _RingCentralExtensions[key];
     }
   });
 });
 
-var _ContactList2 = require("./ContactList.interface");
+var _RingCentralExtensions2 = require("./RingCentralExtensions");
 
-Object.keys(_ContactList2).forEach(function (key) {
+Object.keys(_RingCentralExtensions2).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
-  if (key in exports && exports[key] === _ContactList2[key]) return;
+  if (key in exports && exports[key] === _RingCentralExtensions2[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {
-      return _ContactList2[key];
+      return _RingCentralExtensions2[key];
     }
   });
 });

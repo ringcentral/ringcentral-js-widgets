@@ -140,7 +140,7 @@ var LoginStatusChangeEvent = 'loginStatusChange';
  */
 
 var Auth = (_dec = (0, _di.Module)({
-  deps: ['Client', 'Alert', 'Brand', 'Locale', {
+  deps: ['Client', 'Alert', 'Locale', {
     dep: 'TabManager',
     optional: true
   }, {
@@ -175,13 +175,12 @@ var Auth = (_dec = (0, _di.Module)({
 
     var client = _ref.client,
         alert = _ref.alert,
-        brand = _ref.brand,
         locale = _ref.locale,
         tabManager = _ref.tabManager,
         environment = _ref.environment,
         _ref$usePKCE = _ref.usePKCE,
         usePKCE = _ref$usePKCE === void 0 ? false : _ref$usePKCE,
-        options = _objectWithoutProperties(_ref, ["client", "alert", "brand", "locale", "tabManager", "environment", "usePKCE"]);
+        options = _objectWithoutProperties(_ref, ["client", "alert", "locale", "tabManager", "environment", "usePKCE"]);
 
     _classCallCheck(this, Auth);
 
@@ -190,7 +189,6 @@ var Auth = (_dec = (0, _di.Module)({
     }));
     _this._client = void 0;
     _this._alert = void 0;
-    _this._brand = void 0;
     _this._locale = void 0;
     _this._tabManager = void 0;
     _this._environment = void 0;
@@ -205,7 +203,6 @@ var Auth = (_dec = (0, _di.Module)({
     _this._usePKCE = void 0;
     _this._client = (0, _ensureExist["default"])(client, 'client');
     _this._alert = (0, _ensureExist["default"])(alert, 'alert');
-    _this._brand = (0, _ensureExist["default"])(brand, 'brand');
     _this._locale = (0, _ensureExist["default"])(locale, 'locale');
     _this._tabManager = tabManager;
     _this._environment = environment;
@@ -671,6 +668,9 @@ var Auth = (_dec = (0, _di.Module)({
           brandId = _ref7.brandId,
           display = _ref7.display,
           prompt = _ref7.prompt,
+          uiOptions = _ref7.uiOptions,
+          uiLocales = _ref7.uiLocales,
+          localeId = _ref7.localeId,
           force = _ref7.force,
           _ref7$implicit = _ref7.implicit,
           implicit = _ref7$implicit === void 0 ? false : _ref7$implicit;
@@ -686,9 +686,12 @@ var Auth = (_dec = (0, _di.Module)({
         brandId: brandId,
         display: display,
         prompt: prompt,
+        uiOptions: uiOptions,
+        uiLocales: uiLocales,
+        localeId: localeId,
         implicit: implicit,
         usePKCE: this.usePKCE
-      })).concat(force ? '&force' : '');
+      })).concat(force ? '&force=true' : '');
     }
     /**
      * @function

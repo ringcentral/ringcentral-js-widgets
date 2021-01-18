@@ -5,6 +5,14 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Auth = exports.LoginStatusChangeEvent = void 0;
 
+require("core-js/modules/es6.object.define-properties");
+
+require("core-js/modules/es7.object.get-own-property-descriptors");
+
+require("core-js/modules/es6.array.filter");
+
+require("core-js/modules/es6.array.index-of");
+
 require("core-js/modules/es6.array.from");
 
 require("core-js/modules/es7.symbol.async-iterator");
@@ -70,6 +78,16 @@ var _dec, _dec2, _dec3, _class, _class2, _descriptor, _descriptor2, _descriptor3
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 
 function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
 
@@ -732,28 +750,21 @@ var Auth = (_dec = (0, _di.Module)({
     key: "getLoginUrl",
     value: function getLoginUrl(_ref6) {
       var redirectUri = _ref6.redirectUri,
-          state = _ref6.state,
-          brandId = _ref6.brandId,
-          display = _ref6.display,
-          prompt = _ref6.prompt,
           force = _ref6.force,
           _ref6$implicit = _ref6.implicit,
-          implicit = _ref6$implicit === void 0 ? false : _ref6$implicit;
+          implicit = _ref6$implicit === void 0 ? false : _ref6$implicit,
+          options = _objectWithoutProperties(_ref6, ["redirectUri", "force", "implicit"]);
 
       // TODO: support to set redirectUri in js sdk v4 login function
       if (!this._deps.client.service.platform()._redirectUri) {
         this._deps.client.service.platform()._redirectUri = redirectUri;
       }
 
-      return "".concat(this._deps.client.service.platform().loginUrl({
+      return "".concat(this._deps.client.service.platform().loginUrl(_objectSpread(_objectSpread({}, options), {}, {
         redirectUri: redirectUri,
-        state: state,
-        brandId: brandId,
-        display: display,
-        prompt: prompt,
         implicit: implicit,
         usePKCE: this.usePKCE
-      })).concat(force ? '&force' : '');
+      }))).concat(force ? '&force=true' : '');
     }
     /**
      * @description Triggers the beforeLogoutHandlers to run

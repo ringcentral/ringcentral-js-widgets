@@ -128,18 +128,23 @@ _dec = (0, _di.Module)({
    * @constructor
    * @param {Object} params - params object
    * @param {Number} params.ttl - Default time-to-live for alert messages.
+   * @param {React.ReactNode} params.action - action template(right area) with new notification
    */
   function Alert(_ref) {
     var _this;
 
     var _ref$ttl = _ref.ttl,
         ttl = _ref$ttl === void 0 ? 5000 : _ref$ttl,
-        options = _objectWithoutProperties(_ref, ["ttl"]);
+        alertOptions = _ref.alertOptions,
+        options = _objectWithoutProperties(_ref, ["ttl", "alertOptions"]);
 
     _classCallCheck(this, Alert);
 
-    _this = _super.call(this, _objectSpread({}, options));
+    _this = _super.call(this, _objectSpread({
+      alertOptions: alertOptions
+    }, options));
     _this._ttl = void 0;
+    _this._action = void 0;
 
     _this._autoDismiss = function () {
       var now = Date.now();
@@ -157,6 +162,7 @@ _dec = (0, _di.Module)({
 
     _this._reducer = (0, _getAlertReducer["default"])(_this.actionTypes);
     _this._ttl = ttl;
+    _this._action = alertOptions === null || alertOptions === void 0 ? void 0 : alertOptions.action;
     return _this;
   }
 
@@ -193,7 +199,8 @@ _dec = (0, _di.Module)({
           backdrop = _ref2$backdrop === void 0 ? false : _ref2$backdrop,
           classes = _ref2.classes,
           onBackdropClick = _ref2.onBackdropClick,
-          action = _ref2.action;
+          _ref2$action = _ref2.action,
+          action = _ref2$action === void 0 ? this._action : _ref2$action;
       var id = uuid.v4();
       this.store.dispatch({
         type: this.actionTypes.alert,

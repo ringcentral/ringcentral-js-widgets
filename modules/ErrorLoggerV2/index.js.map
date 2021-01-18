@@ -1,1 +1,1 @@
-{"version":3,"sources":["modules/ErrorLoggerV2/index.ts"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;AAAA;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA","sourcesContent":["export * from './ErrorLogger';\n"],"file":"index.js"}
+{"version":3,"sources":["modules/ErrorLoggerV2/index.ts"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;AAAA;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;;AACA;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA","sourcesContent":["export * from './ErrorLogger';\nexport * from './ErrorLogger.interface';\n"],"file":"index.js"}

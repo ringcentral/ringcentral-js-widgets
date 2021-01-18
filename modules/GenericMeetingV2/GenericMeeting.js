@@ -529,6 +529,16 @@ var GenericMeeting = (_dec = (0, _di.Module)({
       return this._meetingModule.validatePasswordSettings(password, isSecret);
     }
   }, {
+    key: "updateHasSettingsChanged",
+    value: function updateHasSettingsChanged(isChanged) {
+      if (this.isRCM) {
+        // rcm doedn't support update disabled status yet
+        return;
+      }
+
+      return this.isRCV && this._meetingModule.updateHasSettingsChanged(isChanged);
+    }
+  }, {
     key: "generateRcvMeetingPassword",
     value: function generateRcvMeetingPassword() {
       return (0, _RcVideoV.generateRandomPassword)();
@@ -625,6 +635,16 @@ var GenericMeeting = (_dec = (0, _di.Module)({
       return !!this._meetingModule.showAdminLock;
     }
   }, {
+    key: "enableServiceWebSettings",
+    get: function get() {
+      return !!this._meetingModule.enableServiceWebSettings;
+    }
+  }, {
+    key: "putRecurringMeetingInMiddle",
+    get: function get() {
+      return !!this._meetingModule.putRecurringMeetingInMiddle;
+    }
+  }, {
     key: "enablePersonalMeeting",
     get: function get() {
       return !!this._meetingModule.enablePersonalMeeting;
@@ -667,6 +687,16 @@ var GenericMeeting = (_dec = (0, _di.Module)({
     key: "isUpdating",
     get: function get() {
       return this.updatingStatus === _genericMeetingStatus.genericMeetingStatus.updating;
+    }
+  }, {
+    key: "hasSettingsChanged",
+    get: function get() {
+      if (this.isRCM) {
+        // rcm doesn't support update button disabled status yet
+        return true;
+      }
+
+      return this.isRCV && this._meetingModule.hasSettingsChanged;
     }
   }]);
 

@@ -2,6 +2,8 @@
 
 require("core-js/modules/es6.object.define-property");
 
+require("core-js/modules/es6.array.find");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -15,18 +17,16 @@ exports.isHolding = isHolding;
 exports.isRecording = isRecording;
 exports.isForwardedToVoiceMail = isForwardedToVoiceMail;
 exports.isOnSetupStage = isOnSetupStage;
-
-require("regenerator-runtime/runtime");
-
-require("core-js/modules/es6.promise");
-
-require("core-js/modules/es6.object.to-string");
+exports.isAtMainNumberPromptToneStage = isAtMainNumberPromptToneStage;
+exports.getInboundSwitchedParty = getInboundSwitchedParty;
 
 require("core-js/modules/es6.function.name");
 
 var _Session = require("ringcentral-call-control/lib/Session");
 
-var _recordStatus = _interopRequireDefault(require("../Webphone/recordStatus"));
+var _ramda = require("ramda");
+
+var _recordStatus = require("../Webphone/recordStatus");
 
 var _callResults = _interopRequireDefault(require("../../enums/callResults"));
 
@@ -38,10 +38,9 @@ var _callMonitorHelper = require("../CallMonitor/callMonitorHelper");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
+// eslint-disable-next-line import/no-named-as-default
+// eslint-disable-next-line import/no-named-as-default
+// eslint-disable-next-line import/no-named-as-default
 function isHangUp(code) {
   return code === _callResults["default"].disconnected;
 }
@@ -98,7 +97,7 @@ function normalizeSession(_ref2) {
     isToVoicemail: false,
     lastHoldingTime: 0,
     minimized: false,
-    recordStatus: isOnRecording(recordings) ? _recordStatus["default"].recording : _recordStatus["default"].idle,
+    recordStatus: isOnRecording(recordings) ? _recordStatus.recordStatus.recording : _recordStatus.recordStatus.idle,
     removed: false,
     isReject: isRejectCode({
       direction: direction,
@@ -108,29 +107,12 @@ function normalizeSession(_ref2) {
   return formatValue;
 }
 
-function conflictError(_x) {
-  return _conflictError.apply(this, arguments);
-}
-
-function _conflictError() {
-  _conflictError = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(error) {
-    var conflictErrRgx, conflictMsgRgx;
-    return regeneratorRuntime.wrap(function _callee$(_context) {
-      while (1) {
-        switch (_context.prev = _context.next) {
-          case 0:
-            conflictErrRgx = /409/g;
-            conflictMsgRgx = /Incorrect State/g;
-            return _context.abrupt("return", !!(conflictErrRgx.test(error.message) && conflictMsgRgx.test(error.errorCode)));
-
-          case 3:
-          case "end":
-            return _context.stop();
-        }
-      }
-    }, _callee);
-  }));
-  return _conflictError.apply(this, arguments);
+function conflictError(_ref3) {
+  var message = _ref3.message,
+      response = _ref3.response;
+  var conflictErrRgx = /409/g;
+  var conflictMsgRgx = /Incorrect State/g;
+  return conflictErrRgx.test(message) && conflictMsgRgx.test(response && response._text);
 }
 
 function isRinging(telephonySession) {
@@ -154,5 +136,28 @@ function isForwardedToVoiceMail(session) {
 
 function isOnSetupStage(session) {
   return session.status === _Session.PartyStatusCode.setup;
+} // call to main company number but still at inputting extension number prompt tone stage
+
+
+function isAtMainNumberPromptToneStage(session) {
+  if (!session) return false;
+  var _session$otherParties = session.otherParties,
+      otherParties = _session$otherParties === void 0 ? [] : _session$otherParties,
+      direction = session.direction,
+      status = session.status;
+
+  if (direction === _callDirections["default"].outbound && status === _Session.PartyStatusCode.answered && !otherParties.length) {
+    return true;
+  }
+
+  return false;
+}
+
+function getInboundSwitchedParty(parties) {
+  if (!parties.length) return false;
+  var result = (0, _ramda.find)(function (party) {
+    return party.direction === _callDirections["default"].inbound && party.status.code === _Session.PartyStatusCode.disconnected && party.status.reason === 'CallSwitch';
+  }, parties);
+  return result;
 }
 //# sourceMappingURL=helpers.js.map

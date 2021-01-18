@@ -30,6 +30,8 @@ exports.prunePreferencesObject = prunePreferencesObject;
 exports.comparePreferences = comparePreferences;
 exports.isRecurringMeeting = isRecurringMeeting;
 exports.generateRandomPassword = generateRandomPassword;
+exports.updateFullYear = updateFullYear;
+exports.updateFullTime = updateFullTime;
 Object.defineProperty(exports, "MeetingType", {
   enumerable: true,
   get: function get() {
@@ -44,7 +46,13 @@ var _format = _interopRequireWildcard(require("@ringcentral-integration/phone-nu
 
 var _ramda = require("ramda");
 
+var _formatMessage = _interopRequireDefault(require("format-message"));
+
 var _meetingHelper = require("./meetingHelper.interface");
+
+var _i18n = _interopRequireDefault(require("../modules/MeetingV2/i18n"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
@@ -87,9 +95,13 @@ function getMeetingSettings(_ref3) {
       _ref3$durationInMinut = _ref3.durationInMinutes,
       durationInMinutes = _ref3$durationInMinut === void 0 ? 60 : _ref3$durationInMinut,
       _ref3$topic = _ref3.topic,
-      topic = _ref3$topic === void 0 ? '' : _ref3$topic;
+      topic = _ref3$topic === void 0 ? '' : _ref3$topic,
+      _ref3$currentLocale = _ref3.currentLocale,
+      currentLocale = _ref3$currentLocale === void 0 ? 'en-US' : _ref3$currentLocale;
   return {
-    topic: topic || "".concat(extensionName, "'s Meeting"),
+    topic: topic || (0, _formatMessage["default"])(_i18n["default"].getString('meetingTitle', currentLocale), {
+      extensionName: extensionName
+    }),
     meetingType: _meetingHelper.MeetingType.SCHEDULED,
     password: '',
     schedule: {
@@ -110,9 +122,14 @@ function getMeetingSettings(_ref3) {
 } // Basic default meeting type information
 
 
-function getDefaultMeetingSettings(extensionName, startTime, hostId) {
+function getDefaultMeetingSettings(extensionName) {
+  var currentLocale = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'en-US';
+  var startTime = arguments.length > 2 ? arguments[2] : undefined;
+  var hostId = arguments.length > 3 ? arguments[3] : undefined;
   return {
-    topic: "".concat(extensionName, "'s Meeting"),
+    topic: (0, _formatMessage["default"])(_i18n["default"].getString('meetingTitle', currentLocale), {
+      extensionName: extensionName
+    }),
     meetingType: _meetingHelper.MeetingType.SCHEDULED,
     password: '',
     schedule: {
@@ -176,5 +193,23 @@ function generateRandomPassword() {
   }
 
   return retVal;
-}
+} // only update the date part (container year, month, day)
+
+
+function updateFullYear(preTime, currTime) {
+  var y = currTime.getFullYear();
+  var m = currTime.getMonth();
+  var d = currTime.getDate();
+  return preTime.setFullYear(y, m, d);
+} // only update the time part (container hour, minute, second)
+
+
+function updateFullTime(preTime, currTime) {
+  var newTime = new Date(currTime);
+  preTime.setHours(newTime.getHours());
+  preTime.setMinutes(newTime.getMinutes());
+  preTime.setSeconds(newTime.getSeconds());
+  return preTime;
+} // TODO: will remove this when google app script could support export seperately
+// export together because google app script not fully support export
 //# sourceMappingURL=meetingHelper.js.map

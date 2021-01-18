@@ -34,7 +34,7 @@ require("core-js/modules/es6.function.name");
 
 require("core-js/modules/es6.array.find");
 
-var _recordStatus = _interopRequireDefault(require("../../modules/Webphone/recordStatus"));
+var _recordStatus = _interopRequireDefault(require("../Webphone/recordStatus"));
 
 var _callResults = _interopRequireDefault(require("../../enums/callResults"));
 

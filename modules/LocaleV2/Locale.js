@@ -111,9 +111,6 @@ var Locale = (_dec = (0, _di.Module)({
             return that._setLocale(locale);
 
           case 2:
-            return _context.abrupt("return", _context.sent);
-
-          case 3:
           case "end":
             return _context.stop();
         }
@@ -130,6 +127,8 @@ var Locale = (_dec = (0, _di.Module)({
   var _super = _createSuper(Locale);
 
   function Locale(deps) {
+    var _deps$localeOptions$d, _deps$localeOptions;
+
     var _this;
 
     _classCallCheck(this, Locale);
@@ -141,6 +140,8 @@ var Locale = (_dec = (0, _di.Module)({
     _initializerDefineProperty(_this, "locale", _descriptor, _assertThisInitialized(_this));
 
     _initializerDefineProperty(_this, "debugMode", _descriptor2, _assertThisInitialized(_this));
+
+    _i18n["default"].setDefaultLocale((_deps$localeOptions$d = (_deps$localeOptions = deps.localeOptions) === null || _deps$localeOptions === void 0 ? void 0 : _deps$localeOptions.defaultLocale) !== null && _deps$localeOptions$d !== void 0 ? _deps$localeOptions$d : _i18n.DEFAULT_LOCALE);
 
     return _this;
   }

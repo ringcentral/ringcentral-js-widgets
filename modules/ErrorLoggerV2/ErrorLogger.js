@@ -133,8 +133,8 @@ var ErrorLogger = (_dec = (0, _di.Module)({
       this._sentryInitialized = true;
     }
   }, {
-    key: "onStateChange",
-    value: function onStateChange() {
+    key: "onInitOnce",
+    value: function onInitOnce() {
       var _this2 = this;
 
       if (this._sentryInitialized && this._deps.auth) {
