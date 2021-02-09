@@ -18,7 +18,7 @@
   "homepage": "https://github.com/ringcentral/ringcentral-js-widgets/tree/master/packages/ringcentral-widgets-cli#readme",
   "dependencies": {
     "commander": "^2.19.0",
-    "ejs": "^2.6.1",
+    "ejs": "^3.1.6",
     "inquirer": "^6.2.0"
   }
 }
