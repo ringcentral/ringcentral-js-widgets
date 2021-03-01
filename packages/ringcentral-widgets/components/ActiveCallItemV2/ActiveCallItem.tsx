@@ -104,6 +104,7 @@ const WebphoneButtons: FunctionComponent<WebphoneButtonsProps> = ({
         ) : (
           <span
             title={i18n.getString('holdAndAnswer', currentLocale)}
+            data-sign="holdAndAnswer"
             onClick={(e) => {
               e.stopPropagation();
               webphoneAnswer(session.id, telephonySessionId, true);
@@ -593,7 +594,7 @@ export class ActiveCallItem extends Component<
     );
     if (useCallDetailV2) {
       return (
-        <div className={styles.callDetail}>
+        <div className={styles.callDetail} data-sign="duration">
           <DurationCounter startTime={startTime} offset={offset} />
         </div>
       );

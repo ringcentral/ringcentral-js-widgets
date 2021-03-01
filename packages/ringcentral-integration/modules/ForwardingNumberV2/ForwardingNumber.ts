@@ -28,14 +28,23 @@ export class ForwardingNumber extends DataFetcherV2Consumer<
       ...deps.forwardingNumberOptions,
       key: 'forwardingNumber',
       cleanOnReset: true,
-      fetchFunction: async (): Promise<ForwardingNumberInfo[]> =>
-        fetchList((params: any) =>
-          this._deps.client
-            .account()
-            .extension()
-            .forwardingNumber()
-            .list(params),
-        ),
+      fetchFunction: async (): Promise<ForwardingNumberInfo[]> => {
+        try {
+          const forwardingNumbers = await fetchList((params: any) =>
+            this._deps.client
+              .account()
+              .extension()
+              .forwardingNumber()
+              .list(params),
+          );
+          return forwardingNumbers;
+        } catch (error) {
+          if (error.response?.status === 403) {
+            return [];
+          }
+          throw error;
+        }
+      },
       readyCheckFunction: () => this._deps.rolesAndPermissions.ready,
       permissionCheckFunction: () =>
         !!this._deps.rolesAndPermissions.permissions

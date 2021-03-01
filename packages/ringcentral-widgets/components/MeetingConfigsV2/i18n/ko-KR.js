@@ -23,6 +23,7 @@ export default {
   turnOffCamera: "참가자의 카메라 끄기",
   turnOffHostCamera: "모임에 참가할 때 호스트용 카메라 끄기",
   requirePassword: "비밀번호가 필요함",
+  enterPassword: "비밀번호 입력",
   setPassword: "비밀번호 설정 *",
   passwordEmptyError: "모임 비밀번호 필요",
   rcmPasswordInvalidError: "비밀번호는 1~10자 길이의 문자, 숫자여야 하며 @, * or -를 제외한 기호를 포함할 수 없습니다.",
@@ -59,6 +60,7 @@ export default {
 // @key: @#@"turnOffCamera"@#@ @source: @#@"Turn off camera for participants"@#@
 // @key: @#@"turnOffHostCamera"@#@ @source: @#@"Turn off camera for host when joining meeting"@#@
 // @key: @#@"requirePassword"@#@ @source: @#@"Require password"@#@
+// @key: @#@"enterPassword"@#@ @source: @#@"Enter Password"@#@
 // @key: @#@"setPassword"@#@ @source: @#@"Set password *"@#@
 // @key: @#@"passwordEmptyError"@#@ @source: @#@"Meeting password required"@#@
 // @key: @#@"rcmPasswordInvalidError"@#@ @source: @#@"Your password must be 1-10 characters, numbers long and cannot have symbols except @, * or -"@#@

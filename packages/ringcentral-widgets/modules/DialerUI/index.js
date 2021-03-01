@@ -141,6 +141,11 @@ export default class DialerUI extends RcUIModule {
         recipient,
       });
       await this.triggerHook({ phoneNumber, recipient, fromNumber });
+      const continueCall = this.callVerify
+        ? await this.callVerify({ phoneNumber, recipient })
+        : true;
+      if (!continueCall) return;
+
       try {
         await this._call.call({
           phoneNumber: this.toNumberField,

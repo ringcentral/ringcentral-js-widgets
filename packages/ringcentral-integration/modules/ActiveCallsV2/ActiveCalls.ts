@@ -48,11 +48,7 @@ export class ActiveCalls extends DataFetcherV2Consumer<
       ttl,
       fetchFunction: async (): Promise<UserCallLogRecord[]> =>
         fetchList((params: any) =>
-          this._deps.client
-            .account()
-            .extension()
-            .activeCalls()
-            .list(params),
+          this._deps.client.account().extension().activeCalls().list(params),
         ),
       readyCheckFunction: () =>
         !!(

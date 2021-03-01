@@ -38,7 +38,6 @@ import {
   getRecipientNumbersFromMessage,
   messageIsUnread,
   normalizeRecord,
-  NormalizedMessageRecord,
   Correspondent,
 } from '../../lib/messageHelper';
 
@@ -53,13 +52,11 @@ import {
   CorrespondentMatch,
   CorrespondentResponse,
 } from './Conversations.interface';
+import { Message } from '../../interfaces/MessageStore.model';
 
-function mergeMessages(
-  messages: NormalizedMessageRecord[],
-  oldMessages: NormalizedMessageRecord[],
-): NormalizedMessageRecord[] {
+function mergeMessages(messages: Message[], oldMessages: Message[]): Message[] {
   const tmp: { [key: string]: number } = {};
-  const currentMessages: NormalizedMessageRecord[] = [];
+  const currentMessages: Message[] = [];
   messages.forEach((element) => {
     currentMessages.push(element);
     tmp[element.id] = 1;
@@ -73,7 +70,7 @@ function mergeMessages(
   return currentMessages;
 }
 
-function getEarliestTime(messages: NormalizedMessageRecord[]) {
+function getEarliestTime(messages: Message[]) {
   let newTime = Date.now();
   messages.forEach((message) => {
     const creationTime = new Date(message.creationTime).getTime();
@@ -84,7 +81,7 @@ function getEarliestTime(messages: NormalizedMessageRecord[]) {
   return newTime;
 }
 
-function getUniqueNumbers(conversations: NormalizedMessageRecord[]): string[] {
+function getUniqueNumbers(conversations: Message[]): string[] {
   const output: string[] = [];
   const numberMap: { [key: string]: boolean } = {};
   function addIfNotExist(number: string) {
@@ -180,28 +177,31 @@ export class Conversations extends RcModuleV2<Deps> {
   typeFilter: ObjectMapValue<typeof messageTypes> = messageTypes.all;
 
   @state
-  oldConversations: NormalizedMessageRecord[] = [];
+  oldConversations: Message[] = [];
 
   @state
   currentPage: number = 1;
 
   @state
-  fetchConversationsStatus: ObjectMapValue<typeof conversationsStatus> = conversationsStatus.idle;
+  fetchConversationsStatus: ObjectMapValue<typeof conversationsStatus> =
+    conversationsStatus.idle;
 
   @state
   currentConversationId?: string = null;
 
   @state
-  oldMessages: NormalizedMessageRecord[] = [];
+  oldMessages: Message[] = [];
 
   @state
-  fetchMessagesStatus: ObjectMapValue<typeof conversationsStatus> = conversationsStatus.idle;
+  fetchMessagesStatus: ObjectMapValue<typeof conversationsStatus> =
+    conversationsStatus.idle;
 
   @state
   inputContents: InputContent[] = [];
 
   @state
-  conversationStatus: ObjectMapValue<typeof conversationsStatus> = conversationsStatus.idle;
+  conversationStatus: ObjectMapValue<typeof conversationsStatus> =
+    conversationsStatus.idle;
 
   @state
   correspondentMatch: CorrespondentMatch[] = [];
@@ -355,7 +355,7 @@ export class Conversations extends RcModuleV2<Deps> {
 
   @action
   _addCorrespondentResponses(
-    responses: NormalizedMessageRecord[] = [],
+    responses: Message[] = [],
     phoneNumber: string = '',
   ) {
     this.correspondentResponse = responses.reduce(
@@ -517,7 +517,9 @@ export class Conversations extends RcModuleV2<Deps> {
       params.messageType = [typeFilter];
     }
     try {
-      const { records } : GetMessageList = await this._deps.client
+      const {
+        records,
+      }: GetMessageList = await this._deps.client
         .account()
         .extension()
         .messageStore()
@@ -606,7 +608,9 @@ export class Conversations extends RcModuleV2<Deps> {
       dateTo: dateTo.toISOString(),
     };
     try {
-      const { records }: GetMessageList = await this._deps.client
+      const {
+        records,
+      }: GetMessageList = await this._deps.client
         .account()
         .extension()
         .messageStore()
@@ -752,15 +756,15 @@ export class Conversations extends RcModuleV2<Deps> {
     that._deps.messageStore.allConversations,
     that.oldConversations,
   ])
-  get allConversations(): NormalizedMessageRecord[] {
+  get allConversations(): Message[] {
     const conversations = this._deps.messageStore.allConversations;
     const oldConversations = this.oldConversations;
     if (oldConversations.length === 0) {
       return conversations;
     }
-    const newConversations: NormalizedMessageRecord[] = [];
+    const newConversations: Message[] = [];
     const conversationMap: { [key: string]: number } = {};
-    const pushConversation = (c: NormalizedMessageRecord) => {
+    const pushConversation = (c: Message) => {
       // use conversationId when available, use id for VoiceMail/Fax/etc..
       const cid = c.conversationId || c.id;
       if (conversationMap[cid]) {
@@ -788,7 +792,7 @@ export class Conversations extends RcModuleV2<Deps> {
   get effectiveSearchString() {
     if (this.searchInput.length >= 3) {
       return this.searchInput;
-    };
+    }
     return '';
   }
 
@@ -853,7 +857,9 @@ export class Conversations extends RcModuleV2<Deps> {
         (matches: CorrespondentMatch[], contact: Correspondent) => {
           const number =
             contact && (contact.phoneNumber || contact.extensionNumber);
-          return number && contactMapping[number] && contactMapping[number].length
+          return number &&
+            contactMapping[number] &&
+            contactMapping[number].length
             ? matches.concat(contactMapping[number])
             : matches;
         },
@@ -973,9 +979,9 @@ export class Conversations extends RcModuleV2<Deps> {
         });
         return;
       }
-      const messageList: NormalizedMessageRecord[] =
+      const messageList: Message[] =
         this._deps.messageStore.conversationStore[message.conversationId] || [];
-      const matchedMessage: NormalizedMessageRecord = messageList.find(
+      const matchedMessage: Message = messageList.find(
         (item) => (item.subject || '').toLowerCase().indexOf(searchString) > -1,
       );
       if (matchedMessage) {
@@ -1038,7 +1044,7 @@ export class Conversations extends RcModuleV2<Deps> {
     const conversation = conversations.find(
       (c) => c.conversationId === conversationId,
     );
-    const messages: NormalizedMessageRecord[] = [].concat(
+    const messages: Message[] = [].concat(
       conversationStore[conversationId] || [],
     );
     const currentConversation = {
@@ -1138,7 +1144,7 @@ export class Conversations extends RcModuleV2<Deps> {
     this._removeCorrespondentMatchEntity(entity);
   }
 
-  addResponses(responses: NormalizedMessageRecord[]) {
+  addResponses(responses: Message[]) {
     this._addCorrespondentResponses(responses);
   }
 
@@ -1146,7 +1152,7 @@ export class Conversations extends RcModuleV2<Deps> {
     this._removeCorrespondentResponses(phoneNumber);
   }
 
-  relateCorrespondentEntity(responses: NormalizedMessageRecord[]) {
+  relateCorrespondentEntity(responses: Message[]) {
     if (
       !this._deps.contactMatcher ||
       !this._deps.conversationLogger ||

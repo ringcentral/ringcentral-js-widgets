@@ -186,11 +186,15 @@ export class RcVideo extends RcModuleV2<Deps> implements IMeeting {
 
   @track((that: RcVideo, status: string) => {
     if (status !== videoStatus.creating) return;
-    // TODO: fix analytics V2
-    const target = (that.parentModule as any).analytics?._getTrackTarget();
-    if (target) {
-      return [trackEvents.clickMeetingSchedulePage, { router: target.router }];
-    }
+    return (analytics) => {
+      const target = analytics.getTrackTarget();
+      if (target) {
+        return [
+          trackEvents.clickMeetingSchedulePage,
+          { router: target.router },
+        ];
+      }
+    };
   })
   @action
   protected _updateVideoStatus(status: ObjectMapValue<typeof videoStatus>) {
@@ -818,6 +822,11 @@ export class RcVideo extends RcModuleV2<Deps> implements IMeeting {
     return this._isInstantMeeting;
   }
 
+  @computed<RcVideo>((that) => [that._deps.locale.currentLocale])
+  get currentLocale() {
+    return this._deps.locale.currentLocale || DEFAULT_LOCALE;
+  }
+
   @computed<RcVideo>(({ preferences, isInstantMeeting }) => [
     preferences,
     isInstantMeeting,
@@ -908,24 +917,34 @@ export class RcVideo extends RcModuleV2<Deps> implements IMeeting {
     };
   }
 
-  @computed<RcVideo>(({ currentUser, extensionName, brandName }) => [
+  @computed<RcVideo>(({ currentUser, defaultTopic }) => [
     currentUser,
-    extensionName,
-    brandName,
+    defaultTopic,
   ])
   get initialVideoSetting(): RcVMeetingModel {
     const startTime = getInitializedStartTime();
-    let extensionName = this.extensionName;
-    if (this.currentUser?.extensionId !== `${this.extensionId}`) {
-      extensionName = this.currentUser?.name;
-    }
-    const topic = getTopic(extensionName, this.brandName, this._currentLocale);
     return getDefaultVideoSettings({
-      topic,
+      topic: this.defaultTopic,
       startTime: new Date(startTime),
       accountId: this.currentUser.accountId,
       extensionId: this.currentUser.extensionId,
     });
+  }
+
+  @computed<RcVideo>(
+    ({ currentUser, extensionName, brandName, currentLocale }) => [
+      currentUser,
+      extensionName,
+      brandName,
+      currentLocale,
+    ],
+  )
+  get defaultTopic(): string {
+    let extensionName = this.extensionName;
+    if (this.currentUser?.extensionId !== `${this.extensionId}`) {
+      extensionName = this.currentUser?.name;
+    }
+    return getTopic(extensionName, this.brandName, this.currentLocale);
   }
 
   @computed<RcVideo>(({ extensionId, accountId }) => [extensionId, accountId])

@@ -10,11 +10,12 @@ import {
 import moment from 'moment';
 import { filter, find, isEmpty, pick } from 'ramda';
 import { DEFAULT_LOCALE } from '@ringcentral-integration/i18n';
-
+import { Analytics } from '../AnalyticsV2';
 import {
   comparePreferences,
   generateRandomPassword,
   getDefaultMeetingSettings,
+  getDefaultTopic,
   getInitializedStartTime,
   getMobileDialingNumberTpl,
   getPhoneDialingNumberTpl,
@@ -121,6 +122,18 @@ export class Meeting extends RcModuleV2<Deps> implements IMeeting {
 
   @state
   isPreferencesChanged: boolean = false;
+
+  get extensionName(): string {
+    return this._deps.extensionInfo.info?.name;
+  }
+
+  @computed<Meeting>(({ extensionName, currentLocale }) => [
+    extensionName,
+    currentLocale,
+  ])
+  get defaultTopic(): string {
+    return getDefaultTopic(this.extensionName, this.currentLocale);
+  }
 
   @computed<Meeting>((that) => [that.userSettings?.scheduleMeeting])
   get scheduleUserSettings(): Partial<UserScheduleMeetingSettingResponse> {
@@ -382,11 +395,15 @@ export class Meeting extends RcModuleV2<Deps> implements IMeeting {
 
   @track((that: Meeting, isScheduling: boolean) => {
     if (!isScheduling) return;
-    // TODO: fix analytics V2
-    const target = (that.parentModule as any).analytics?._getTrackTarget();
-    if (target) {
-      return [trackEvents.clickMeetingSchedulePage, { router: target.router }];
-    }
+    return (analytics: Analytics) => {
+      const target = analytics.getTrackTarget();
+      if (target) {
+        return [
+          trackEvents.clickMeetingSchedulePage,
+          { router: target.router },
+        ];
+      }
+    };
   })
   @action
   protected _updateIsScheduling(isScheduling: boolean) {

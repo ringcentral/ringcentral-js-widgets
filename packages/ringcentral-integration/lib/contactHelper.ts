@@ -114,7 +114,11 @@ export function isSearchHitContact({
 }): boolean {
   return (
     // search names
-    `${contact.firstName} ${contact.lastName} ${contact.name}`
+    (!!contact.name && contact.name.toLowerCase().includes(lowerSearch)) ||
+    [contact.firstName, contact.lastName]
+      .map((x) => x && x.trim())
+      .filter((x) => !!x)
+      .join(' ')
       .toLowerCase()
       .includes(lowerSearch) ||
     // search phones
@@ -123,7 +127,7 @@ export function isSearchHitContact({
         (x) => x.phoneNumber && x.phoneNumber.includes(lowerSearch),
       )) ||
     // search emails
-    (contact.email && contact.email.toLowerCase() === lowerSearch) ||
+    (!!contact.email && contact.email.toLowerCase() === lowerSearch) ||
     (Array.isArray(contact.emails) &&
       contact.emails.map((x) => x && x.toLowerCase()).includes(lowerSearch))
   );

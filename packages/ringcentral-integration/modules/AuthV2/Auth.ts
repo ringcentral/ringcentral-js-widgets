@@ -6,18 +6,17 @@ import {
   track,
 } from '@ringcentral-integration/core';
 import url from 'url';
-
 import moduleStatuses from '../../enums/moduleStatuses';
 import { Module } from '../../lib/di';
-import proxify from '../../lib/proxy/proxify';
+import { proxify } from '../../lib/proxy/proxify';
 import validateIsOffline from '../../lib/validateIsOffline';
 import { trackEvents } from '../Analytics';
 import {
   Deps,
   LoginOptions,
+  LoginUrlOptions,
   Token,
   TokenInfo,
-  LoginUrlOptions,
 } from './Auth.interface';
 import { authMessages } from './authMessages';
 import { loginStatus } from './loginStatus';
@@ -59,7 +58,10 @@ class Auth extends RcModuleV2<Deps> {
   @state
   token: Token = {};
 
-  @track(trackEvents.authentication)
+  @track(() => (analytics) => {
+    analytics.setUserId();
+    return [trackEvents.authentication];
+  })
   @action
   setLoginSuccess(token: TokenInfo) {
     this.loginStatus = loginStatus.loggedIn;
@@ -71,10 +73,6 @@ class Auth extends RcModuleV2<Deps> {
       expiresIn: token.expires_in,
       scope: token.scope,
     };
-    // TODO: refactor for Analytics V2
-    (this.parentModule as any).analytics?._identify?.({
-      userId: token.owner_id,
-    });
   }
 
   @action
@@ -185,15 +183,9 @@ class Auth extends RcModuleV2<Deps> {
     const onLogoutSuccess = () => {
       this.setLogoutSuccess();
     };
-    const onLogoutError = (error: Error) => {
+    const onLogoutError = () => {
       platform._cache.clean();
       this.setLogoutError();
-      if (error) {
-        this._deps.alert.danger({
-          message: authMessages.logoutError,
-          payload: error,
-        });
-      }
     };
     const onRefreshSuccess = async () => {
       const token: TokenInfo = await platform.auth().data();
@@ -426,10 +418,6 @@ class Auth extends RcModuleV2<Deps> {
       }
     } catch (error) {
       console.error(error);
-      this._deps.alert.danger({
-        message: authMessages.beforeLogoutError,
-        payload: error,
-      });
     }
     this.setLogout();
     if (this.isImplicit) {

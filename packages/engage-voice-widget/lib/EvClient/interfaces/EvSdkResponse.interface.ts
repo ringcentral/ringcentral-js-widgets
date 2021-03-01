@@ -205,6 +205,7 @@ export interface EvAddSessionNotification {
   monitoring: boolean;
   agentId: string;
   agentName: string;
+  recordingUrl: string;
   transferSessions: {
     [P: string]: {
       sessionId: string;

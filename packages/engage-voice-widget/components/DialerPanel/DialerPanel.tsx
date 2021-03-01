@@ -18,6 +18,12 @@ const dialoutStatusMapping = {
   idle: ['semantic', 'positive'],
 } as const;
 
+const LinkSizeMapping = {
+  small: 'caption1',
+  medium: 'body1',
+  large: 'headline',
+} as const;
+
 export type DialerPanelProps = EvDialerUIProps & EvDialerUIFunctions;
 
 const DialerPanel: FunctionComponent<DialerPanelProps> = ({
@@ -71,8 +77,8 @@ const DialerPanel: FunctionComponent<DialerPanelProps> = ({
       <i className={styles.flexFill} />
       <div className={styles.link}>
         <RcLink
-          size={size}
-          handleOnClick={goToManualDialSettings}
+          variant={LinkSizeMapping[size]}
+          onClick={goToManualDialSettings}
           data-sign="manualDialSettings"
         >
           {i18n.getString('manualDialSettings', currentLocale)}

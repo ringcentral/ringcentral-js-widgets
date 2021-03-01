@@ -12,7 +12,7 @@ import { Deps } from './Storage.interface';
     { dep: 'StorageOptions', optional: true },
   ],
 })
-export class Storage extends StorageBase<Deps> {
+export class Storage<T = {}> extends StorageBase<Deps & T> {
   /* migration storage v1 to v2 */
   public migrationMapping: Record<string, string | Record<string, string>> = {};
   /* migration storage v1 to v2 */
@@ -105,24 +105,7 @@ export class Storage extends StorageBase<Deps> {
           this._deps.auth.notLoggedIn) &&
         this.ready
       ) {
-        this.store.dispatch({
-          type: this._storageActionTypes.reset,
-        });
-        if (this._storageHandler) {
-          if (this._storage.off) {
-            this._storage.off('storage', this._storageHandler);
-          } else if (this._storage.removeListener) {
-            this._storage.removeListener('storage', this._storageHandler);
-          }
-          this._storageHandler = null;
-        }
-        if (this._storage) {
-          this._storage.destroy();
-          this._storage = null;
-        }
-        this.store.dispatch({
-          type: this._storageActionTypes.resetSuccess,
-        });
+        this.resetStorage();
       }
       if (
         this.status === moduleStatuses.ready &&
@@ -139,6 +122,27 @@ export class Storage extends StorageBase<Deps> {
           }
         }
       }
+    });
+  }
+
+  public resetStorage() {
+    this.store.dispatch({
+      type: this._storageActionTypes.reset,
+    });
+    if (this._storageHandler) {
+      if (this._storage.off) {
+        this._storage.off('storage', this._storageHandler);
+      } else if (this._storage.removeListener) {
+        this._storage.removeListener('storage', this._storageHandler);
+      }
+      this._storageHandler = null;
+    }
+    if (this._storage) {
+      this._storage.destroy();
+      this._storage = null;
+    }
+    this.store.dispatch({
+      type: this._storageActionTypes.resetSuccess,
     });
   }
 }

@@ -1,5 +1,4 @@
 import Locale from 'ringcentral-integration/modules/Locale';
-import Storage from 'ringcentral-integration/modules/Storage';
 import { ModalUI } from 'ringcentral-widgets/modules/ModalUIV2';
 import { Block } from 'ringcentral-widgets/modules/Block';
 import RouterInteraction from 'ringcentral-widgets/modules/RouterInteraction';
@@ -10,6 +9,7 @@ import { EvAuth } from '../EvAuth';
 import { EvSettings } from '../EvSettings';
 import { EvWorkingState } from '../EvWorkingState';
 import { EvTabManager } from '../EvTabManager';
+import { EvStorage } from '../EvStorage';
 
 export interface State {
   isLoading: boolean;
@@ -26,7 +26,7 @@ export interface Deps {
   evSettings: EvSettings;
   evWorkingState: EvWorkingState;
   evAgentSession: EvAgentSession;
-  storage: Storage;
+  storage: EvStorage;
   evAgentSessionUIOptions?: EvAgentSessionUIOptions;
   modalUI: ModalUI;
   block: Block;

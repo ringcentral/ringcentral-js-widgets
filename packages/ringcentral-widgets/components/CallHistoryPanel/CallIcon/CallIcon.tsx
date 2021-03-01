@@ -39,14 +39,15 @@ export const CallIcon: FunctionComponent<CallIconProps> = ({
   }, [missed, direction]);
 
   return (
-    <span title={title}>
-      <RcIcon
-        symbol={icon}
-        className={classNames(styles.icon, {
-          [styles.active]: active,
-          [styles.missed]: missed,
-        })}
-      />
-    </span>
+    <RcIcon
+      data-sign="callIcon"
+      title={title || direction}
+      symbol={icon}
+      size="medium"
+      className={classNames(styles.icon, {
+        [styles.active]: active,
+        [styles.missed]: missed,
+      })}
+    />
   );
 };

@@ -28,25 +28,33 @@ export const ChooseAccountPanel: FunctionComponent<ChooseAccountPanelProps> = ({
       <RcTypography variant="caption2" className={styles.title}>
         {i18n.getString('chooseAccount', currentLocale)}
       </RcTypography>
-      {agents.map((agent) => {
-        return (
-          <ListItem
-            onClick={() => onAccountItemClick(agent.agentId)}
-            key={agent.agentId}
-            className={styles.listItem}
-          >
-            <div>
-              <RcTypography variant="body1" className={styles.accountName}>
-                {agent.accountName}
-              </RcTypography>
-              <RcTypography variant="caption1" className={styles.agentType}>
-                {i18n.getString(agent.agentType, currentLocale)}
-              </RcTypography>
-            </div>
-            <CustomArrowButton />
-          </ListItem>
-        );
-      })}
+      <div className={styles.lists}>
+        {agents.map((agent) => {
+          return (
+            <ListItem
+              onClick={() => onAccountItemClick(agent.agentId)}
+              key={agent.agentId}
+              className={styles.listItem}
+            >
+              <div className={styles.content} data-sign="subAccount">
+                <div>
+                  <RcTypography variant="body1" className={styles.accountName}>
+                    {agent.accountName}
+                  </RcTypography>
+                  <RcTypography
+                    variant="caption1"
+                    className={styles.agentType}
+                    data-sign={agent.agentType}
+                  >
+                    {i18n.getString(agent.agentType, currentLocale)}
+                  </RcTypography>
+                </div>
+                <CustomArrowButton />
+              </div>
+            </ListItem>
+          );
+        })}
+      </div>
     </div>
   );
 };

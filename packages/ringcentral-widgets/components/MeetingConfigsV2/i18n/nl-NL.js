@@ -23,6 +23,7 @@ export default {
   turnOffCamera: "Camera uitschakelen voor deelnemers",
   turnOffHostCamera: "Schakel camera uit voor host wanneer u deelneemt aan een meeting",
   requirePassword: "Wachtwoord verplichten",
+  enterPassword: "Wachtwoord invoeren",
   setPassword: "Wachtwoord instellen *",
   passwordEmptyError: "Wachtwoord voor meeting verplicht",
   rcmPasswordInvalidError: "Uw wachtwoord moet 1-10 tekens en cijfers lang zijn en mag geen symbolen bevatten, behalve @, * of -",
@@ -59,6 +60,7 @@ export default {
 // @key: @#@"turnOffCamera"@#@ @source: @#@"Turn off camera for participants"@#@
 // @key: @#@"turnOffHostCamera"@#@ @source: @#@"Turn off camera for host when joining meeting"@#@
 // @key: @#@"requirePassword"@#@ @source: @#@"Require password"@#@
+// @key: @#@"enterPassword"@#@ @source: @#@"Enter Password"@#@
 // @key: @#@"setPassword"@#@ @source: @#@"Set password *"@#@
 // @key: @#@"passwordEmptyError"@#@ @source: @#@"Meeting password required"@#@
 // @key: @#@"rcmPasswordInvalidError"@#@ @source: @#@"Your password must be 1-10 characters, numbers long and cannot have symbols except @, * or -"@#@

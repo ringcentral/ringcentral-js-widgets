@@ -1,4 +1,5 @@
 @import '../../lib/commonStyles/full-size';
+@import '../../lib/commonStyles/variable';
 
 .root {
   @include full-size;
@@ -19,7 +20,8 @@
 
 .mask {
   @include full-size;
-  background-color: rgba(0, 0, 0, 0.7);
+  background: rc-palette(background, default);
+  opacity: rc-opacity('48');
 }
 
 @media only screen and (max-width: 50px) {

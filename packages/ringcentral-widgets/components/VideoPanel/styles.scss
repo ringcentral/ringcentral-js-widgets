@@ -119,10 +119,6 @@ label.labelPlacementEndRoot {
   }
 
   input {
-    // TODO: will remove it after Juno updated
-    &[class*="Mui-disabled"] {
-      -webkit-text-fill-color: rc-palette(text, 'disabled');
-    }
     @extend .normalFontSize;
   }
 }
@@ -139,10 +135,12 @@ label.labelPlacementEndRoot {
 
 .boxSelect {
   max-width: 100% !important;
-
-  & > div > div {
-    display: block !important;
-    @extend .normalFontSize;
+  & > div {
+    margin-top: 0 !important;
+    & > div {
+      display: block !important;
+      @extend .normalFontSize;
+    }
   }
 }
 
@@ -186,7 +184,7 @@ $win-scroll-bar-width: 17px;
 }
 
 .pmiAlertContainer {
-  margin: 0 $content-padding;
+  margin: 4px $content-padding 8px;
   padding: 8px !important;
 }
 

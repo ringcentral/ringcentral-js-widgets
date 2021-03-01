@@ -1,7 +1,6 @@
 import Alert from 'ringcentral-integration/modules/Alert';
 import { Auth } from 'ringcentral-integration/modules/AuthV2';
 import Locale from 'ringcentral-integration/modules/Locale';
-import Storage from 'ringcentral-integration/modules/Storage';
 import { Beforeunload } from 'ringcentral-widgets/modules/Beforeunload';
 import { Block } from 'ringcentral-widgets/modules/Block';
 import { ModalUI } from 'ringcentral-widgets/modules/ModalUIV2';
@@ -11,6 +10,7 @@ import { LoginTypes } from '../../enums';
 import { EvClient } from '../../lib/EvClient';
 import { EvAuth } from '../EvAuth';
 import { EvPresence } from '../EvPresence';
+import { EvStorage } from '../EvStorage';
 import { EvTabManager } from '../EvTabManager';
 
 export interface EvAgentSessionOptions {}
@@ -29,7 +29,7 @@ export type FormGroup = Partial<
 export interface Deps {
   evAuth: EvAuth;
   evClient: EvClient;
-  storage: Storage;
+  storage: EvStorage;
   alert: Alert;
   auth: Auth;
   modalUI: ModalUI;

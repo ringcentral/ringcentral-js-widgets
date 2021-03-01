@@ -52,6 +52,11 @@ export interface FeedbackProps {
   onFeedbackSettingsLinkClick?(): any;
 }
 
+export interface ShareIdeaProps {
+  showShareIdea?: boolean;
+  onShareIdeaClick?(): any;
+}
+
 export interface QuickAccessLinkProps {
   showQuickAccess?: boolean;
   onQuickAccessLinkClick?(): any;

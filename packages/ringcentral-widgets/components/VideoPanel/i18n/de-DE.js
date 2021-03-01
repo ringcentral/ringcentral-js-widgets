@@ -13,6 +13,7 @@ export default {
   waitingRoomNotCoworker: "Jeder außerhalb meines Unternehmens",
   waitingRoomGuest: "Jeder, der nicht angemeldet ist",
   waitingRoomAll: "Alle",
+  enterPassword: "Kennwort eingeben",
   onlyJoinAfterMe: "Teilnehmer können erst nach mir teilnehmen",
   onlyJoinAfterHost: "Teilnehmer können erst nach dem Gastgeber teilnehmen",
   muteAudio: "Ton für Teilnehmer ausschalten",
@@ -29,7 +30,7 @@ export default {
   signedInUsers: "Angemeldete Benutzer",
   signedInCoWorkers: "Angemeldete Kollegen",
   limitScreenSharing: "Nur Gastgeber & Moderatoren können den Bildschirm freigeben",
-  lockTooltip: "Diese Einstellung wird vom Admin Ihres Unternehmens verwaltet",
+  lockTooltip: "Ihr Unternehmens-Admin verwaltet diese Einstellung",
   pmiSettingAlert: "Diese Einstellungen gelten für alle Meetings, die mit PMI erstellt werden"
 };
 
@@ -46,6 +47,7 @@ export default {
 // @key: @#@"waitingRoomNotCoworker"@#@ @source: @#@"Anyone outside my company"@#@
 // @key: @#@"waitingRoomGuest"@#@ @source: @#@"Anyone not signed in"@#@
 // @key: @#@"waitingRoomAll"@#@ @source: @#@"Everyone"@#@
+// @key: @#@"enterPassword"@#@ @source: @#@"Enter Password"@#@
 // @key: @#@"onlyJoinAfterMe"@#@ @source: @#@"Participants can only join after me"@#@
 // @key: @#@"onlyJoinAfterHost"@#@ @source: @#@"Participants can only join after host"@#@
 // @key: @#@"muteAudio"@#@ @source: @#@"Mute audio for participants"@#@

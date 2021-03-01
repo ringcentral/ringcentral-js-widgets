@@ -14,6 +14,7 @@ export default {
   waitingRoomNotCoworker: 'Anyone outside my company',
   waitingRoomGuest: 'Anyone not signed in',
   waitingRoomAll: 'Everyone',
+  enterPassword: 'Enter Password',
   onlyJoinAfterMe: 'Participants can only join after me',
   onlyJoinAfterHost: 'Participants can only join after host',
   muteAudio: 'Mute audio for participants',

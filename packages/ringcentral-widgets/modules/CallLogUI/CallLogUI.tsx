@@ -11,6 +11,7 @@ import {
 } from './CallLogUI.interface';
 
 import CallLogCallCtrlContainer from '../../containers/CallLogCallCtrlContainer';
+import i18n from './i18n';
 
 @Module({
   name: 'CallLogUI',
@@ -101,8 +102,11 @@ class CallLogUI<T = {}>
           phoneNumber,
           areaCode: regionSettings.areaCode,
           countryCode: regionSettings.countryCode,
-        }) || 'Unknown',
-      goBack: () => callLogSection.closeLogSection(),
+        }) || i18n.getString('unKnown', locale.currentLocale),
+      goBack: () => {
+        callLogSection.closeLogSection();
+        callLogSection.closeLogNotification();
+      },
       renderCallLogCallControl: (
         currentTelephonySessionId,
         isWide,

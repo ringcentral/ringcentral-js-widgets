@@ -5,8 +5,8 @@ import ensureExist from 'ringcentral-integration/lib/ensureExist';
 import * as uuid from 'uuid';
 
 import popWindow from '../../lib/popWindow';
-
 import OAuthBase from '../../lib/OAuthBase';
+import { isElectron } from '../../lib/isElectron';
 
 @Module({
   name: 'OAuth',
@@ -16,6 +16,7 @@ export default class OAuth extends OAuthBase {
   constructor({
     loginPath = '/',
     redirectUri = './redirect.html',
+    restrictSameOriginRedirectUri = true,
     routerInteraction,
     ...options
   }) {
@@ -30,6 +31,8 @@ export default class OAuth extends OAuthBase {
     this._loginPath = loginPath;
     this._loginWindow = null;
     this._redirectCheckTimeout = null;
+    this._isInElectron = isElectron();
+    this._restrictSameOriginRedirectUri = restrictSameOriginRedirectUri;
     this._uuid = uuid.v4();
   }
 
@@ -147,12 +150,14 @@ export default class OAuth extends OAuthBase {
       this._redirectCheckTimeout = null;
       if (
         !this._loginWindow ||
-        !this._loginWindow.window ||
-        this._loginWindow.closed
+        this._loginWindow.closed ||
+        // for electron, the .window is always undefined
+        (!this._isInElectron && !this._loginWindow.window)
       ) {
         this._loginWindow = null;
         return;
       }
+
       try {
         const callbackUri = this._loginWindow.location.href;
         if (callbackUri.indexOf(this.redirectUri) !== -1) {
@@ -170,7 +175,9 @@ export default class OAuth extends OAuthBase {
   }
 
   get isRedirectUriSameOrigin() {
-    return this.redirectUri.indexOf(window.origin) === 0;
+    return this.restrictSameOriginRedirectUri
+      ? this.redirectUri.indexOf(window.origin) === 0
+      : true;
   }
 
   get authState() {

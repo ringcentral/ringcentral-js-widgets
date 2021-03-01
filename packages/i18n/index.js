@@ -8,19 +8,40 @@ export const RUNTIME = {
   instances: new Set(),
   padRatio: 0.3,
   fallbackLocale: DEFAULT_LOCALE,
+  languageDefaults: null,
 };
 
 /**
  * @function
- * @description Set currrent runtime locale and load the locale files accordingly
+ * @description Set current runtime locale and load the locale files accordingly
  * @param {String} locale - The desired locale.
  * @return Promise<undefined>
  */
 async function setLocale(locale) {
   RUNTIME.locale = locale;
+  await reloadLocales();
+}
+
+async function reloadLocales() {
   for (const i of RUNTIME.instances) {
     await i.load();
   }
+}
+
+async function setDefaultLocale(locale) {
+  RUNTIME.defaultLocale = locale;
+  await reloadLocales();
+}
+
+async function setLanguageDefaults(defaults) {
+  RUNTIME.languageDefaults = defaults;
+  await reloadLocales();
+}
+
+function checkDefaults(locale) {
+  return (
+    (RUNTIME.languageDefaults && RUNTIME.languageDefaults[locale]) || locale
+  );
 }
 
 /**
@@ -56,9 +77,9 @@ export default class I18n {
     }
   }
   async load() {
-    await this._load(RUNTIME.fallbackLocale);
-    await this._load(RUNTIME.defaultLocale);
-    await this._load(RUNTIME.locale);
+    await this._load(checkDefaults(RUNTIME.fallbackLocale));
+    await this._load(checkDefaults(RUNTIME.defaultLocale));
+    await this._load(checkDefaults(RUNTIME.locale));
   }
   _getString(key, locale) {
     if (
@@ -95,14 +116,21 @@ export default class I18n {
         padRatio: RUNTIME.padRatio,
       });
     }
-    return this._getString(key, locale);
+    return this._getString(key, checkDefaults(locale));
   }
 
-  // eslint-disable-next-line class-methods-use-this
+  static checkDefaults(locale) {
+    return checkDefaults(locale);
+  }
+
+  checkDefaults(locale) {
+    return checkDefaults(locale);
+  }
+
   get currentLocale() {
     return RUNTIME.locale;
   }
-  // eslint-disable-next-line class-methods-use-this
+
   get setLocale() {
     return setLocale;
   }
@@ -129,5 +157,21 @@ export default class I18n {
 
   static setDefaultLocale(locale) {
     RUNTIME.defaultLocale = locale;
+  }
+
+  static async setDefaultLocale(locale) {
+    return setDefaultLocale(locale);
+  }
+
+  async setDefaultLocale(locale) {
+    return setDefaultLocale(locale);
+  }
+
+  static async setLanguageDefaults(defaults) {
+    return setLanguageDefaults(defaults);
+  }
+
+  async setLanguageDefaults(defaults) {
+    return setLanguageDefaults(defaults);
   }
 }

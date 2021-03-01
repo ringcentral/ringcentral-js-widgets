@@ -29,6 +29,7 @@ export interface WebphoneSession extends WebphoneSessionBase {
   __rc_lastActiveTime: number;
   __rc_extendedControls: string;
   __rc_extendedControlStatus: ObjectMapValue<typeof extendedControlStatus>;
+  __rc_transferSessionId: string;
 }
 
 export interface NormalizedSession {
@@ -60,4 +61,5 @@ export interface NormalizedSession {
   cached: boolean;
   removed: boolean;
   callQueueName: string;
+  warmTransferSessionId: string;
 }

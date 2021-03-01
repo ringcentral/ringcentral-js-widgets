@@ -54,7 +54,7 @@ export class DateTimeFormat extends RcModuleV2<Deps> {
     utcTimestamp,
     locale = this._deps.locale.currentLocale,
     type,
-  }: FormatDateTimeOptions) {
+  }: Partial<FormatDateTimeOptions>) {
     if (name && typeof this._formatters[name] === 'function') {
       return this._formatters[name]({
         utcTimestamp,

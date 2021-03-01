@@ -70,6 +70,7 @@ export const BasicSessionPanel: FunctionComponent<BasicSessionPanelProps> = ({
         {showInboundQueues && (
           <RcTextField
             label={i18n.getString('inboundQueues', currentLocale)}
+            gutterBottom
             title={inboundQueuesFieldText}
             value={inboundQueuesFieldText}
             fullWidth
@@ -107,6 +108,7 @@ export const BasicSessionPanel: FunctionComponent<BasicSessionPanelProps> = ({
         />
         {isExtensionNumber && (
           <RcTextField
+            gutterBottom
             label={i18n.getString('extensionNumber', currentLocale)}
             fullWidth
             value={extensionNumber}
@@ -142,6 +144,7 @@ export const BasicSessionPanel: FunctionComponent<BasicSessionPanelProps> = ({
         {showAutoAnswer && (
           <RcSwitch
             data-sign="autoAnswer"
+            className={styles.switchRoot}
             formControlLabelProps={{
               labelPlacement: 'start',
               classes: {

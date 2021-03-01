@@ -1,0 +1,13 @@
+@import '../../../lib/commonStyles/variable';
+
+.actions {
+  @include display_flex;
+
+  align-items: center;
+  justify-content: space-between;
+  width: 96px;
+
+  &.classic {
+    width: 68px;
+  }
+}

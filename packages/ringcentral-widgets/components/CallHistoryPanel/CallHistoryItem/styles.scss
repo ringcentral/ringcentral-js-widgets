@@ -3,20 +3,37 @@
 .item {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   height: 64px;
   box-sizing: border-box;
-  padding: 12px 18px;
+  padding: 12px 16px;
   border-bottom: 1px solid rc-palette(border, light);
+
+  &.classic {
+    padding: 12px;
+  }
+}
+
+.left {
+  @include display_flex;
+  @include flex_center;
 }
 
 .info {
   margin-left: 14px;
   display: flex;
   flex-flow: column;
+  overflow: hidden;
+
+  &.classic {
+    max-width: 60px;
+    margin-left: 12px;
+  }
 }
 
 .name {
   @include rc-typography('body1');
+  @include text-ellipsis;
 
   color: rc-palette(text, dark);
   margin-bottom: 2px;

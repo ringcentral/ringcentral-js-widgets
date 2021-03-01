@@ -1,9 +1,10 @@
-import React from 'react';
-import { StepFunction } from 'crius-test';
 import { RcThemeProvider } from '@ringcentral/juno';
+import { StepFunction } from 'crius-test';
 import { mount } from 'enzyme';
-import { InternalPanel, InternalPanelProps } from './InternalPanel';
+import React from 'react';
+
 import { EvDirectAgentListItem } from '../../../lib/EvClient';
+import { InternalPanel, InternalPanelProps } from './InternalPanel';
 
 let wrapper;
 const currentLocale = 'en-US';
@@ -87,16 +88,9 @@ function setup({
 }
 
 const getAgentItems = () =>
-  wrapper
-    .find('RcList')
-    .at(0)
-    .find('div[data-sign="agentItem"]');
+  wrapper.find('RcList').at(0).find('div[data-sign="agentItem"]');
 
-const getSearchInput = () =>
-  wrapper
-    .find('RcOutlineTextField')
-    .at(0)
-    .find('input');
+const getSearchInput = () => wrapper.find('RcTextField').at(0).find('input');
 
 export const UTAgentListCheckBackButton: StepFunction = () => {
   const goBack = jest.fn(() => {});
@@ -129,12 +123,9 @@ export const UTAgentListDisplayAndHighlight: StepFunction = () => {
   const selectedIndex = defaultTransferAgentList.findIndex(
     (x) => x.agentId === transferAgentId,
   );
-  expect(
-    agentItems
-      .at(selectedIndex)
-      .render()
-      .attr('class'),
-  ).toMatch(/Mui-selected/g);
+  expect(agentItems.at(selectedIndex).render().attr('class')).toMatch(
+    /Mui-selected/g,
+  );
 };
 
 export const UTAgentListSearchCases = [
@@ -181,10 +172,7 @@ export const UTAgentListSearch: StepFunction<UTAgentListSearchProps> = ({
   if (Array.isArray(matchedResult)) {
     expect(agentItems).toHaveLength(matchedResult.length);
     const resultItems = agentItems.map((el) =>
-      el
-        .find('.agentName')
-        .text()
-        .trim(),
+      el.find('.agentName').text().trim(),
     );
     expect(resultItems).toStrictEqual(matchedResult);
   } else {
@@ -247,11 +235,7 @@ export const UTCheckTransferAgentSelect: StepFunction<UTCheckTransferAgentSelect
   });
   const selectIndex = 0;
   const agentItems = getAgentItems();
-  agentItems
-    .at(selectIndex)
-    .find('[role="button"]')
-    .at(0)
-    .simulate('click');
+  agentItems.at(selectIndex).find('[role="button"]').at(0).simulate('click');
   expect(changeTransferAgentId).toBeCalledWith(agentId);
 };
 
@@ -349,18 +333,8 @@ export const UTCheckAgentListRender: StepFunction<UTCheckAgentListRenderProps> =
     ],
   });
   const agentItem = wrapper.find('[data-sign="agentItem"]');
-  expect(
-    agentItem
-      .find('.agentName')
-      .text()
-      .trim(),
-  ).toBe(recipient);
-  expect(
-    agentItem
-      .find('.statusText')
-      .text()
-      .trim(),
-  ).toBe(availableStatus);
+  expect(agentItem.find('.agentName').text().trim()).toBe(recipient);
+  expect(agentItem.find('.statusText').text().trim()).toBe(availableStatus);
   if (statusColor === 'green') {
     expect(agentItem.find('.available')).toHaveLength(1);
   } else if (statusColor === 'gray') {

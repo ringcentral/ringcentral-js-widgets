@@ -6,8 +6,7 @@ import I18n, {
 import formatMessage from 'format-message';
 import detectBrowserLocale from '../../lib/detectBrowserLocale';
 import { Module } from '../../lib/di';
-import proxify from '../../lib/proxy/proxify';
-import { proxyState } from '../../lib/proxy/proxyState';
+import { proxify } from '../../lib/proxy/proxify';
 import { Deps } from './Locale.interface';
 
 @Module({
@@ -36,11 +35,21 @@ export class Locale extends RcModuleV2<Deps> {
     return this._deps.localeOptions?.pollingInterval ?? 2000;
   }
 
-  @proxyState(async (that: Locale, locale: string) => {
-    await that._setLocale(locale);
-  })
   @state
   locale: string = null;
+
+  @state
+  proxyLocale: string = null;
+
+  @action
+  _setProxyLocaleSuccess(locale: string) {
+    this.proxyLocale = locale;
+  }
+
+  @proxify
+  async setProxyLocaleSuccess(locale: string) {
+    this._setProxyLocaleSuccess(locale);
+  }
 
   @state
   debugMode = false;
@@ -62,6 +71,17 @@ export class Locale extends RcModuleV2<Deps> {
     if (this._polling) {
       this._syncBrowserLocale();
     }
+  }
+
+  async initializeProxy() {
+    await this._setLocale(this.currentLocale);
+    this.setProxyLocaleSuccess(this.currentLocale);
+    this.store.subscribe(async () => {
+      if (this.locale !== this.proxyLocale) {
+        await this._setLocale(this.locale);
+        this.setProxyLocaleSuccess(this.locale);
+      }
+    });
   }
 
   async onInit() {
@@ -88,7 +108,9 @@ export class Locale extends RcModuleV2<Deps> {
   }
 
   get currentLocale() {
-    return this.locale || this._defaultLocale;
+    return (
+      (this._transport ? this.proxyLocale : this.locale) ?? this._defaultLocale
+    );
   }
 
   get browserLocale() {

@@ -1,14 +1,14 @@
-import { find, filter } from 'ramda';
 import {
   action,
+  computed,
   RcModuleV2,
   state,
   storage,
-  computed,
 } from '@ringcentral-integration/core';
-import proxify from '../../lib/proxy/proxify';
+import { filter, find } from 'ramda';
 import { Module } from '../../lib/di';
-import { Deps, AudioSettingsData } from './AudioSettings.interface';
+import { proxify } from '../../lib/proxy/proxify';
+import { AudioSettingsData, Deps } from './AudioSettings.interface';
 import { audioSettingsErrors } from './audioSettingsErrors';
 
 function polyfillGetUserMedia() {

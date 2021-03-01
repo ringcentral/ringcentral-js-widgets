@@ -5,7 +5,7 @@ import {
 import { Locale } from '../LocaleV2';
 
 interface NameOptions {
-  name: string;
+  name?: string;
 }
 
 export interface AddFormatterOptions extends NameOptions {

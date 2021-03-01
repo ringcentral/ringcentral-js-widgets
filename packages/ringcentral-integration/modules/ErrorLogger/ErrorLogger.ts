@@ -32,7 +32,7 @@ export enum Severity {
 })
 export class ErrorLogger extends RcModule {
   private _auth: any;
-  private _loggedIn?: boolean;
+  private _loggedIn?: boolean = false;
   private _sentryInitialized: boolean = false;
 
   constructor({

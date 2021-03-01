@@ -1,3 +1,4 @@
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 import { BasicCallInfoProps } from 'ringcentral-widgets/components/BasicCallInfo';
 import { CallLogFieldsProps } from 'ringcentral-widgets/components/CallLogFields';
 import {
@@ -19,7 +20,16 @@ export type EvCallLogTask = CallLogPanelCurrentLog['task'] & {
 export type EvCurrentLog = CallLogPanelCurrentLog & {
   currentEvRawCall: EvCallData;
   task: { [key: string]: any };
+  showInfoMeta?: {
+    entity: any;
+    title: string;
+  };
 };
+
+export const callLogMethods = ObjectMap.fromKeys(['create', 'update']);
+export type CallLogMethods = keyof typeof callLogMethods;
+export const saveStatus = ObjectMap.fromKeys(['saved', 'saving', 'submit']);
+export type SaveStatus = keyof typeof saveStatus;
 
 export type EvActivityCallUIProps = {
   scrollTo: string;
@@ -32,7 +42,7 @@ export type EvActivityCallUIProps = {
   currentEvCall: EvCallData;
   status: CallStatus;
   disableDispose: boolean;
-  saveStatus: 'saved' | 'saving' | 'submit';
+  saveStatus: SaveStatus | CallLogMethods;
   smallCallControlSize: 'medium' | 'small';
   currentCallControlPermission: {
     allowHangupCall?: boolean;

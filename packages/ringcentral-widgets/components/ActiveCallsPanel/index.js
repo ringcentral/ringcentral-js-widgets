@@ -173,6 +173,7 @@ export default class ActiveCallsPanel extends Component {
       ringoutReject,
       disableLinks,
       showRingoutCallControl,
+      showMultipleMatch,
       showSwitchCall,
       showTransferCall,
       showHoldOnOtherDevice,
@@ -236,6 +237,7 @@ export default class ActiveCallsPanel extends Component {
         ringoutReject={ringoutReject}
         disableLinks={disableLinks}
         showRingoutCallControl={showRingoutCallControl}
+        showMultipleMatch={showMultipleMatch}
         showSwitchCall={showSwitchCall}
         showTransferCall={showTransferCall}
         showHoldOnOtherDevice={showHoldOnOtherDevice}
@@ -386,6 +388,7 @@ ActiveCallsPanel.propTypes = {
   ringoutReject: PropTypes.func,
   disableLinks: PropTypes.bool,
   showRingoutCallControl: PropTypes.bool,
+  showMultipleMatch: PropTypes.bool,
   showSwitchCall: PropTypes.bool,
   showTransferCall: PropTypes.bool,
   showHoldOnOtherDevice: PropTypes.bool,
@@ -460,6 +463,7 @@ ActiveCallsPanel.defaultProps = {
   ringoutReject: undefined,
   disableLinks: false,
   showRingoutCallControl: false,
+  showMultipleMatch: true,
   showSwitchCall: false,
   showTransferCall: true,
   showHoldOnOtherDevice: false,

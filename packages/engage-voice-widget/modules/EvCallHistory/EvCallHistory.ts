@@ -8,12 +8,14 @@ import { makeCallsUniqueIdentifies } from '../../lib/callUniqueIdentifies';
 import { contactMatchIdentifyEncode } from '../../lib/contactMatchIdentify';
 import { EvCallbackTypes } from '../../lib/EvClient/enums/callbackTypes';
 import { CallHistory, Deps } from './EvCallHistory.interface';
+import { formatPhoneNumber } from '../../lib/FormatPhoneNumber';
 
 @Module({
   name: 'EvCallHistory',
   deps: [
     'EvCallMonitor',
     'EvSubscription',
+    'Locale',
     { dep: 'ContactMatcher', optional: true },
     { dep: 'ActivityMatcher', optional: true },
   ],
@@ -59,7 +61,7 @@ class EvCallHistory extends RcModuleV2<Deps> implements CallHistory {
     that.contactMatches,
     that.activityMatches,
   ])
-  get calls() {
+  get formattedCalls() {
     const lastWeekDayTimestamp = this._getLastWeekDayTimestamp();
     // max 250 and 7 days
     const calls = this.rawCalls
@@ -81,14 +83,16 @@ class EvCallHistory extends RcModuleV2<Deps> implements CallHistory {
       const activityMatches = this.activityMatches[id] || [];
       const agent = {
         name: call.agentId,
-        phoneNumber: call.agentId,
+        phoneNumber: this._formatPhoneNumber(call.agentId),
       };
 
       let name = '';
       if (contactMatches.length && activityMatches.length) {
-        const activity = activityMatches[0];
+        // need to convert 18 digit ID to 15 for compatible in classic mode
+        // https://developer.salesforce.com/forums/?id=906F0000000BQGnIAO
+        const activity = activityMatches[0].slice(0, 15);
         const matched = contactMatches.find(
-          (match: { id: string }) => match.id === activity,
+          (match: { id: string }) => match.id.slice(0, 15) === activity,
         );
         if (matched) {
           name = matched.name;
@@ -96,7 +100,7 @@ class EvCallHistory extends RcModuleV2<Deps> implements CallHistory {
       }
       const contact = {
         name,
-        phoneNumber: call.ani,
+        phoneNumber: this._formatPhoneNumber(call.ani),
       };
 
       return {
@@ -120,9 +124,18 @@ class EvCallHistory extends RcModuleV2<Deps> implements CallHistory {
     });
   }
 
-  @computed((that: EvCallHistory) => [that.calls])
+  private _formatPhoneNumber(phoneNumber: string) {
+    // TODO: support countryCode
+    return formatPhoneNumber({
+      phoneNumber,
+      countryCode: 'US',
+      currentLocale: this._deps.locale.currentLocale,
+    });
+  }
+
+  @computed((that: EvCallHistory) => [that.formattedCalls])
   get lastEndedCall() {
-    return this.calls.length > 0 ? this.calls[0] : null;
+    return this.formattedCalls.length > 0 ? this.formattedCalls[0] : null;
   }
 
   @computed((that: EvCallHistory) => [that.rawCalls])

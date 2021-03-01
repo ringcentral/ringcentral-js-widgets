@@ -17,6 +17,7 @@ export default {
   language: 'Language',
   feedback: 'Feedback',
   userGuide: "What's New",
-  quickAccess: "Quick Access Setting",
-  report: "Analytics Report",
+  quickAccess: 'Quick Access Setting',
+  report: 'Analytics Report',
+  shareIdea: 'Share idea',
 };

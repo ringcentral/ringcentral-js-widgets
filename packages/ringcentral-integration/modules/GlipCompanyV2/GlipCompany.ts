@@ -23,10 +23,7 @@ export class GlipCompany extends DataFetcherV2Consumer<Deps, GlipCompanyType> {
       ...deps.glipCompanyOptions,
       key: 'glipCompany',
       fetchFunction: async (): Promise<GlipCompanyType> => {
-        const response = await this._deps.client
-          .glip()
-          .companies('~')
-          .get();
+        const response = await this._deps.client.glip().companies('~').get();
         return response;
       },
       readyCheckFunction: () => this._deps.rolesAndPermissions.ready,

@@ -1,8 +1,8 @@
 export default {
   inviteMeetingContent: "{accountName} está convidando você para uma reunião do {brandName}.\n\nEntre em um PC, Mac, iOS ou Android: {joinUri}{passwordTpl}\n\nOu pelo toque do iPhone:\n\t{mobileDialingNumberTpl}\n\nOu pelo telefone:\n\tDisque: {phoneDialingNumberTpl}\n\tID da reunião: {meetingId}\n\tNúmeros internacionais disponíveis: {teleconference} ",
   rcvInviteMeetingContent: "{accountName} convidou você para uma reunião {brandName}.\n\nEntre usando este link:\n\t{joinUri}{passwordTpl}",
-  rcvRCBrandInviteMeetingContent: "{accountName} Convidou você para uma reunião da {productName}.\n\nEntre usando este link:\n\t{joinUri}{passwordTpl}",
-  rcvInviteMeetingContentDial: "\n\nUm toque para acessar o áudio apenas de um smartphone:\n\t{smartphones}\n\nOu ligue para:\n\tLigue: {dialNumber}\n\tCódigo de acesso/ID da reunião: {pinNumber} ",
+  rcvRCBrandInviteMeetingContent: "{accountName} convidou você para uma reunião da {productName}.\n\nEntre usando este link:\n\t{joinUri}{passwordTpl}",
+  rcvInviteMeetingContentDial: "\n\nUm toque para participar apenas com áudio por um smartphone:\n\t{smartphones}\n\nOu ligue para:\n\tLigue: {dialNumber}\n\tCódigo de acesso/ID da reunião: {pinNumber} ",
   rcvInviteMeetingContentCountryDial: "\n\nUm toque para acessar o áudio apenas de um smartphone:\n\t{smartphones}\n\nOu ligue para:\n\t{dialNumber}\n\tCódigo de acesso/ID da reunião: {pinNumber} ",
   rcvTeleconference: "\n\nNúmeros internacionais disponíveis: {teleconference} ",
   doNotModify: "===== Não modifique este texto =====",

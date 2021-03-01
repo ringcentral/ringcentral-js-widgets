@@ -357,7 +357,7 @@ export class FieldItem extends Component<FieldItemProps, {}> {
         task: {
           ...task,
           option: value,
-          ticketId: task.ticketId || task.tickets[0],
+          ticketId: task.ticketId || task.tickets[0]?.id,
         },
       },
       currentSessionId,
@@ -369,6 +369,7 @@ export class FieldItem extends Component<FieldItemProps, {}> {
     const { currentLog, fieldOption } = this.props;
     const { renderCondition, label } = fieldOption;
     const { task } = currentLog;
+    // TODO: consider move this logic to zendesk
     if (task.option !== renderCondition) {
       return null;
     }
@@ -380,9 +381,10 @@ export class FieldItem extends Component<FieldItemProps, {}> {
           };
         })
       : [];
-    // TODO: need to double check the logic here
-    const defaultValue =
-      task.ticketId || (task.tickets && task.tickets[0]?.id) || '';
+    const defaultTicket =
+      task.tickets.find((ticket: any) => ticket.id === task.ticketId) ||
+      (task.tickets && task.tickets[0]);
+    const defaultValue = defaultTicket?.id || '';
     return (
       <SelectField
         options={options}

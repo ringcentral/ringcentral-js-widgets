@@ -6,7 +6,7 @@ import { computed, watch } from '@ringcentral-integration/core';
 import { filter, find } from 'ramda';
 import { Unsubscribe } from 'redux';
 
-import { usageTypes } from '../../constants/usageTypes';
+import { usageTypes } from '../../enums/usageTypes';
 import { subscriptionFilters } from '../../enums/subscriptionFilters';
 import { subscriptionHints } from '../../enums/subscriptionHints';
 import { Module } from '../../lib/di';

@@ -6,7 +6,7 @@ import {
   watch,
 } from '@ringcentral-integration/core';
 import { Module } from '../../lib/di';
-import proxify from '../../lib/proxy/proxify';
+import { proxify } from '../../lib/proxy/proxify';
 import { debounce } from '../../lib/debounce-throttle';
 import { SubscriptionFilter } from '../../enums/subscriptionFilters';
 import { webSocketReadyStates } from '../RingCentralExtensions/webSocketReadyStates';
@@ -67,6 +67,9 @@ export class WebSocketSubscription extends RcModuleV2<Deps> {
   }
 
   private async _createSubscription() {
+    if (!this._deps.ringCentralExtensions.webSocketExtension.ws) {
+      return;
+    }
     this._wsSubscription = await this._deps.ringCentralExtensions.webSocketExtension.subscribe(
       this.filters,
       (message) => {

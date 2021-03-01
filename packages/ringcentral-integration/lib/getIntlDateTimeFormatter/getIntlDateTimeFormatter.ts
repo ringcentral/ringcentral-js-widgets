@@ -1,8 +1,27 @@
 import isToday from '../isToday';
 
-export const formatterCache = {};
+export const formatterCache: Record<string, Intl.DateTimeFormat> = {};
 
-export function getFormatter(locale, options) {
+interface DateTimeFormatOptions {
+  localeMatcher?: string;
+  weekday?: string;
+  era?: string;
+  year?: string;
+  month?: string;
+  day?: string;
+  hour?: string;
+  minute?: string;
+  second?: string;
+  timeZoneName?: string;
+  formatMatcher?: string;
+  hour12?: boolean;
+  timeZone?: string;
+}
+
+export function getFormatter(
+  locale: string,
+  options: DateTimeFormatOptions,
+): Intl.DateTimeFormat {
   const key = JSON.stringify([locale, options]);
   if (!formatterCache[key]) {
     formatterCache[key] = new Intl.DateTimeFormat(locale, { ...options });

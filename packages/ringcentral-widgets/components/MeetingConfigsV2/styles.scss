@@ -184,10 +184,6 @@ div.expansionPanel div.toggleGroup label.labelPlacementEnd {
     width: 100% !important;
   }
   input {
-    // TODO: will remove it after Juno updated
-    &[class*="Mui-disabled"] {
-      -webkit-text-fill-color: rc-palette(text, 'disabled');
-    }
     @extend .normalFontSize;
   }
   input::-ms-clear {
@@ -216,16 +212,20 @@ div.expansionPanel div.toggleGroup label.labelPlacementEnd {
   }
 }
 
-.scheduleForBoxSelect {
-  & > div > div {
-    display: block !important;
-    line-height: 18px;
-    @extend .normalFontSize;
+.boxSelect {
+  & > div {
+    margin-top: 0 !important;
+    & > div {
+      display: block !important;
+      line-height: 18px;
+      @extend .normalFontSize;
+    }
   }
 }
 
 .autoFullWidth {
   max-width: none !important;
+  width: 100% !important;
   & > div {
     @extend .forceFullWidth;
   }

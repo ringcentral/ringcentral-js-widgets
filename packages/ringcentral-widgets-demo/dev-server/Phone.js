@@ -33,22 +33,23 @@ import { Storage } from 'ringcentral-integration/modules/StorageV2';
 import { Subscription } from 'ringcentral-integration/modules/SubscriptionV2';
 import { TabManager } from 'ringcentral-integration/modules/TabManagerV2';
 import { NumberValidate } from 'ringcentral-integration/modules/NumberValidateV2';
-import MessageStore from 'ringcentral-integration/modules/MessageStore';
+import { MessageStore } from 'ringcentral-integration/modules/MessageStoreV2';
 import { ContactSearch } from 'ringcentral-integration/modules/ContactSearchV2';
 import { DateTimeFormat } from 'ringcentral-integration/modules/DateTimeFormatV2';
 import Conference from 'ringcentral-integration/modules/Conference';
+// import { ConferenceCall } from 'ringcentral-integration/modules/ConferenceCallV2';
 import ConferenceCall from 'ringcentral-integration/modules/ConferenceCall';
 import { QuickAccess } from 'ringcentral-integration/modules/QuickAccessV2';
 import { CallLog } from 'ringcentral-integration/modules/CallLogV2';
 import { CallMonitor } from 'ringcentral-integration/modules/CallMonitorV2';
 import { CallHistory } from 'ringcentral-integration/modules/CallHistoryV2';
-import RecentMessages from 'ringcentral-integration/modules/RecentMessages';
+import { RecentMessages } from 'ringcentral-integration/modules/RecentMessagesV2';
 import { RecentCalls } from 'ringcentral-integration/modules/RecentCallsV2';
 import { AudioSettings } from 'ringcentral-integration/modules/AudioSettingsV2';
 import Meeting from 'ringcentral-integration/modules/Meeting';
 import { LocaleSettings } from 'ringcentral-integration/modules/LocaleSettingsV2';
 import { ContactMatcher } from 'ringcentral-integration/modules/ContactMatcherV2';
-import { Analytics } from 'ringcentral-integration/modules/Analytics';
+import { Analytics } from 'ringcentral-integration/modules/AnalyticsV2';
 import { Feedback } from 'ringcentral-integration/modules/FeedbackV2';
 import { UserGuide } from 'ringcentral-integration/modules/UserGuideV2';
 import { SleepDetector } from 'ringcentral-integration/modules/SleepDetectorV2';
@@ -245,7 +246,6 @@ const history =
         conversationsLoadLength: 10,
         conversationLoadLength: 15,
       },
-      spread: true,
     },
     {
       provide: 'ConversationsOptions',
@@ -299,9 +299,10 @@ const history =
     {
       provide: 'AnalyticsOptions',
       useValue: {
+        analyticsKey: '',
+        appVersion: '',
         useLog: true,
       },
-      spread: true,
     },
     { provide: 'AuthOptions', useValue: { usePKCE: true } },
   ],

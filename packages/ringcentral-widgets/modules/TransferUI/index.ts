@@ -34,7 +34,10 @@ export default class TransferUI extends RcUIModule {
     this._routerInteraction = routerInteraction;
   }
 
-  getUIProps({ params: { sessionId, type = 'active' } }) {
+  getUIProps({
+    params: { sessionId, type = 'active' },
+    enableWarmTransfer = false,
+  }) {
     let session = null;
     if (type === 'active' && this._activeCallControl) {
       session = this._activeCallControl.activeSession;
@@ -52,6 +55,7 @@ export default class TransferUI extends RcUIModule {
       session,
       controlBusy:
         (this._activeCallControl && this._activeCallControl.busy) || false,
+      enableWarmTransfer: enableWarmTransfer && !!this._webphone,
     };
   }
 
@@ -63,16 +67,21 @@ export default class TransferUI extends RcUIModule {
     phoneTypeRenderer,
   }) {
     return {
-      setActiveSessionId: (sessionId) => {
+      setActiveSessionId: (sessionId: string) => {
         if (type === 'active' && this._activeCallControl) {
           this._activeCallControl.setActiveSessionId(sessionId);
         }
       },
-      onTransfer: (transferNumber, sessionId) => {
+      onTransfer: (transferNumber: string, sessionId: string) => {
         if (type === 'active' && this._activeCallControl) {
           this._activeCallControl.transfer(transferNumber, sessionId);
         } else if (type === 'webphone' && this._webphone) {
           this._webphone.transfer(transferNumber, sessionId);
+        }
+      },
+      onWarmTransfer: (transferNumber: string, sessionId: string) => {
+        if (this._webphone) {
+          this._webphone.startWarmTransfer(transferNumber, sessionId);
         }
       },
       onBack: () => {

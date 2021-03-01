@@ -12,7 +12,7 @@ const separator = '_';
 export const contactMatchIdentifyEncode = ({
   phoneNumber,
   callType,
-}: ContactMatchQuery<CallTypeRaw>) =>
+}: ContactMatchQuery<CallTypeRaw | CallType>) =>
   `${phoneNumber}${separator}${callType}`.toLocaleLowerCase();
 
 export const contactMatchIdentifyDecode = (identify: string) => {

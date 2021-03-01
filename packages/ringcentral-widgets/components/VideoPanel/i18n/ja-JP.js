@@ -13,6 +13,7 @@ export default {
   waitingRoomNotCoworker: "すべての社外ユーザー",
   waitingRoomGuest: "すべての未サインインユーザー",
   waitingRoomAll: "全員",
+  enterPassword: "パスワードを入力",
   onlyJoinAfterMe: "自分の後にのみ参加者が参加可能にする",
   onlyJoinAfterHost: "ホストの後にのみ参加者が参加可能にする",
   muteAudio: "参加者のオーディオをミュートする",
@@ -46,6 +47,7 @@ export default {
 // @key: @#@"waitingRoomNotCoworker"@#@ @source: @#@"Anyone outside my company"@#@
 // @key: @#@"waitingRoomGuest"@#@ @source: @#@"Anyone not signed in"@#@
 // @key: @#@"waitingRoomAll"@#@ @source: @#@"Everyone"@#@
+// @key: @#@"enterPassword"@#@ @source: @#@"Enter Password"@#@
 // @key: @#@"onlyJoinAfterMe"@#@ @source: @#@"Participants can only join after me"@#@
 // @key: @#@"onlyJoinAfterHost"@#@ @source: @#@"Participants can only join after host"@#@
 // @key: @#@"muteAudio"@#@ @source: @#@"Mute audio for participants"@#@

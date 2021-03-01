@@ -143,6 +143,7 @@ export function normalizeSession(session) {
       toUserName: session.request.to.displayName,
       fromUserName: session.request.from.displayName,
     }),
+    warmTransferSessionId: session.__rc_transferSessionId,
   };
 }
 

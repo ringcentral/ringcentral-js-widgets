@@ -1,5 +1,5 @@
 export interface BeforeunloadOptions {
-  orginWindow?: Window;
+  originWindow?: Window;
 }
 
 export interface Deps {

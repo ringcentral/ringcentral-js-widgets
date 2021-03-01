@@ -18,7 +18,8 @@ export default {
   feedback: "Feedback",
   userGuide: "Nieuw",
   quickAccess: "Instelling snelle toegang",
-  report: "Analyserapport"
+  report: "Analyserapport",
+  shareIdea: "Deel idee"
 };
 
 // @key: @#@"region"@#@ @source: @#@"Region"@#@
@@ -41,3 +42,4 @@ export default {
 // @key: @#@"userGuide"@#@ @source: @#@"What's New"@#@
 // @key: @#@"quickAccess"@#@ @source: @#@"Quick Access Setting"@#@
 // @key: @#@"report"@#@ @source: @#@"Analytics Report"@#@
+// @key: @#@"shareIdea"@#@ @source: @#@"Share idea"@#@

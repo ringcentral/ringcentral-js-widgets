@@ -54,9 +54,9 @@ function preBuild() {
   return gulp
     .src([
       './**/*.js',
-      './**/*.jsx',
       './**/*.ts',
       './**/*.tsx',
+      './**/*.jsx',
       '!./**/*.test.js',
       '!./test{/**,}',
       '!./coverage{/**,}',

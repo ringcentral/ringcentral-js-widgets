@@ -168,6 +168,10 @@ class EvClient extends RcModuleV2<Deps> {
     }
   }
 
+  onInitOnce() {
+    this.initSDK();
+  }
+
   initSDK() {
     console.log('initSDK');
     const { _Sdk: Sdk } = this;

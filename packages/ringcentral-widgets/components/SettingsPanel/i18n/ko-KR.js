@@ -18,7 +18,8 @@ export default {
   feedback: "피드백",
   userGuide: "새로운 기능",
   quickAccess: "빠른 액세스 설정",
-  report: "분석 보고서"
+  report: "분석 보고서",
+  shareIdea: "아이디어 공유"
 };
 
 // @key: @#@"region"@#@ @source: @#@"Region"@#@
@@ -41,3 +42,4 @@ export default {
 // @key: @#@"userGuide"@#@ @source: @#@"What's New"@#@
 // @key: @#@"quickAccess"@#@ @source: @#@"Quick Access Setting"@#@
 // @key: @#@"report"@#@ @source: @#@"Analytics Report"@#@
+// @key: @#@"shareIdea"@#@ @source: @#@"Share idea"@#@

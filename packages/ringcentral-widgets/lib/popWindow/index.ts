@@ -1,9 +1,18 @@
-export default function popWindow(url, id, w, h) {
+export default function popWindow(
+  url: string,
+  id: string,
+  w: number,
+  h: number,
+) {
   // Fixes dual-screen position                         Most browsers      Firefox
   const dualScreenLeft =
-    window.screenLeft !== undefined ? window.screenLeft : window.screen.left;
+    window.screenLeft !== undefined
+      ? window.screenLeft
+      : (window.screen as any).left;
   const dualScreenTop =
-    window.screenTop !== undefined ? window.screenTop : window.screen.top;
+    window.screenTop !== undefined
+      ? window.screenTop
+      : (window.screen as any).top;
 
   const width = window.screen.width || window.outerWidth;
   const height = window.screen.height || window.innerHeight;

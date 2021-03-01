@@ -1,6 +1,5 @@
 import Alert from 'ringcentral-integration/modules/Alert';
 import Locale from 'ringcentral-integration/modules/Locale';
-import Storage from 'ringcentral-integration/modules/Storage';
 import { ModalUI } from 'ringcentral-widgets/modules/ModalUIV2';
 
 import { DirectTransferTypes } from '../../enums/directTransferTypes';
@@ -15,6 +14,7 @@ import { EvAgentSession } from '../EvAgentSession';
 import { EvAuth } from '../EvAuth';
 import { EvCall } from '../EvCall';
 import { EvCallMonitor } from '../EvCallMonitor';
+import { EvStorage } from '../EvStorage';
 import { EvSubscription } from '../EvSubscription';
 import { EvWorkingState } from '../EvWorkingState';
 
@@ -75,7 +75,7 @@ export interface Deps {
   evCall: EvCall;
   evSubscription: EvSubscription;
   evWorkingState: EvWorkingState;
-  storage: Storage;
+  storage: EvStorage;
   modalUI: ModalUI;
   locale: Locale;
   alert: Alert;

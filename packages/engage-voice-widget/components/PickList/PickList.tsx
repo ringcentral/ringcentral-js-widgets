@@ -1,9 +1,9 @@
-import { RcLineSelect, RcLineSelectProps, RcMenuItem } from '@ringcentral/juno';
+import { RcMenuItem, RcSelect, RcSelectProps } from '@ringcentral/juno';
 import React, { FunctionComponent, ReactNode } from 'react';
 
 import styles from './styles.scss';
 
-export interface PickListProps extends Pick<RcLineSelectProps, 'InputProps'> {
+export interface PickListProps extends Pick<RcSelectProps, 'InputProps'> {
   options: any[];
   /**
    * the option value with key of options, default is 'id'
@@ -37,9 +37,10 @@ export const PickList: FunctionComponent<PickListProps> = ({
   ...rest
 }) => {
   return (
-    <RcLineSelect
+    <RcSelect
       data-sign={dataSign}
       fullWidth
+      gutterBottom
       required={required}
       label={label}
       value={value}
@@ -68,6 +69,6 @@ export const PickList: FunctionComponent<PickListProps> = ({
           </RcMenuItem>
         );
       })}
-    </RcLineSelect>
+    </RcSelect>
   );
 };

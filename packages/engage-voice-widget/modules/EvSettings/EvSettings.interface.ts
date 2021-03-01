@@ -1,9 +1,8 @@
-import Storage from 'ringcentral-integration/modules/Storage';
-
 import { EvClient } from '../../lib/EvClient';
 import { EvAgentSession } from '../EvAgentSession';
 import { EvAuth } from '../EvAuth';
 import { EvPresence } from '../EvPresence';
+import { EvStorage } from '../EvStorage';
 
 export interface State {}
 
@@ -15,7 +14,7 @@ export interface Deps {
   evClient: EvClient;
   evAuth: EvAuth;
   evAgentSession: EvAgentSession;
-  storage: Storage;
+  storage: EvStorage;
   presence: EvPresence;
   evSettingsOptions?: EvSettingsOptions;
 }

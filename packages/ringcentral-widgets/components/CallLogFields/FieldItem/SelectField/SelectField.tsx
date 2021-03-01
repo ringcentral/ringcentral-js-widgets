@@ -1,4 +1,4 @@
-import { RcLineSelect, RcLineSelectProps, RcMenuItem } from '@ringcentral/juno';
+import { RcMenuItem, RcSelect, RcSelectProps } from '@ringcentral/juno';
 import React, { FunctionComponent } from 'react';
 
 export type SelectFieldProps = {
@@ -7,14 +7,14 @@ export type SelectFieldProps = {
     value: string;
     disabled: boolean;
   }[];
-} & RcLineSelectProps;
+} & RcSelectProps;
 
 export const SelectField: FunctionComponent<SelectFieldProps> = ({
   options,
   ...rest
 }) => {
   return (
-    <RcLineSelect {...rest}>
+    <RcSelect gutterBottom {...rest}>
       {options.map((item, i) => (
         <RcMenuItem
           key={i}
@@ -25,6 +25,6 @@ export const SelectField: FunctionComponent<SelectFieldProps> = ({
           {item.label}
         </RcMenuItem>
       ))}
-    </RcLineSelect>
+    </RcSelect>
   );
 };

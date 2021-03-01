@@ -120,6 +120,7 @@ export default class GenericMeetingUI extends RcUIModule {
       ),
       showSpinnerInConfigPanel: this._genericMeeting.isUpdating,
       hasSettingsChanged: this._genericMeeting.hasSettingsChanged,
+      defaultTopic: this._genericMeeting.defaultTopic,
     };
   }
 

@@ -26,12 +26,29 @@
     color: rc-palette(text, subdued);
   }
 
+  .lists {
+    height: calc(100% - 136px);
+    overflow-y: auto;
+  }
+
   div.listItem.listItem {
     height: 56px;
+    width: 100%;
+
+    .content {
+      height: 56px;
+      width: 100%;
+      border-bottom: 1px solid rc-palette(border, light);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      div {
+        display: inline-block;
+      }
+    }
   }
 
   .accountName {
     padding-bottom: 4px;
   }
-
 }

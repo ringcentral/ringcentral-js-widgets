@@ -24,6 +24,7 @@ export default {
   turnOffCamera: 'Turn off camera for participants',
   turnOffHostCamera: 'Turn off camera for host when joining meeting',
   requirePassword: 'Require password',
+  enterPassword: 'Enter Password',
   setPassword: 'Set password *',
   passwordEmptyError: 'Meeting password required',
   rcmPasswordInvalidError:

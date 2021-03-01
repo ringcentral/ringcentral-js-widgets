@@ -107,7 +107,7 @@ export const WebRTCNotificationSection: FunctionComponent<WebRTCNotificationProp
               {!isWide && hasActiveSession && (
                 <li className={classnames(styles.callButton, styles.voicemail)}>
                   <CircleButton
-                    dataSign="toVoicemail"
+                    dataSign="toVoiceMail"
                     icon={VoicemailIcon}
                     className={classnames(styles.button, styles.hangup)}
                     showBorder={false}
@@ -170,7 +170,7 @@ export const WebRTCNotificationSection: FunctionComponent<WebRTCNotificationProp
               {(isWide || !hasActiveSession) && (
                 <li className={styles.callButton}>
                   <CircleButton
-                    dataSign="toVoicemail"
+                    dataSign="toVoiceMail"
                     icon={VoicemailIcon}
                     className={classnames(styles.button, styles.hangup)}
                     showBorder={false}

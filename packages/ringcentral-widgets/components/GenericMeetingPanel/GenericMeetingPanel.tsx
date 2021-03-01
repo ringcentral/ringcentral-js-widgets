@@ -6,7 +6,8 @@ import { SpinnerOverlay } from '../SpinnerOverlay';
 import MeetingConfigs from '../MeetingConfigs';
 import isSafari from '../../lib/isSafari';
 
-import { VideoConfig, Topic } from '../VideoPanel/VideoConfig';
+import { VideoConfig } from '../VideoPanel/VideoConfig';
+import { Topic } from '../InnerTopic';
 import { MeetingConfigs as MeetingConfigsV2 } from '../MeetingConfigsV2';
 
 import { GenericMeetingPanelProps } from './interface';
@@ -68,6 +69,7 @@ const GenericMeetingPanel: React.ComponentType<GenericMeetingPanelProps> = (
     showSpinnerInConfigPanel,
     enableServiceWebSettings,
     putRecurringMeetingInMiddle,
+    defaultTopic,
   } = props;
 
   if (showSpinner) {
@@ -99,6 +101,7 @@ const GenericMeetingPanel: React.ComponentType<GenericMeetingPanelProps> = (
       {isRCM && useRcmV2 && (
         <MeetingConfigsV2
           disabled={configDisabled}
+          defaultTopic={defaultTopic}
           showSpinnerInConfigPanel={showSpinnerInConfigPanel}
           updateMeetingSettings={updateMeetingSettings}
           personalMeetingId={personalMeetingId}
@@ -156,6 +159,7 @@ const GenericMeetingPanel: React.ComponentType<GenericMeetingPanelProps> = (
               }}
               currentLocale={currentLocale}
               setTopicRef={setTopicRef}
+              defaultTopic={defaultTopic}
             />
           )}
         </VideoConfig>

@@ -5,7 +5,7 @@ import { Storage as StorageV2 } from 'ringcentral-integration/modules/StorageV2'
 import { GlobalStorage as GlobalStorageV2 } from 'ringcentral-integration/modules/GlobalStorageV2';
 import Storage from 'ringcentral-integration/modules/Storage';
 import GlobalStorage from 'ringcentral-integration/modules/GlobalStorage';
-import { Analytics } from 'ringcentral-integration/modules/Analytics';
+import { Analytics } from 'ringcentral-integration/modules/AnalyticsV2';
 import BaseModule, { state, action } from '../usm-redux';
 import { moduleStatuses } from '../../enums/moduleStatuses';
 import { Params } from '../usm/core/module';
@@ -42,7 +42,11 @@ function storage(
   return descriptor;
 }
 
-type TrackEvent = string | ((...args: any) => [string, object?]);
+type TrackEvent =
+  | string
+  | ((
+      ...args: any
+    ) => [string, object?] | ((analytics: Analytics) => [string, object?]));
 
 /**
  * decorate a method with `Analytics` Module
@@ -75,7 +79,11 @@ function track(trackEvent: TrackEvent) {
           if (typeof trackEvent === 'string') {
             analytics.track(trackEvent);
           } else {
-            const [event, trackProps] = trackEvent(this, ...args) ?? [];
+            let trackReturn = trackEvent(this, ...args);
+            if (typeof trackReturn === 'function') {
+              trackReturn = trackReturn(analytics);
+            }
+            const [event, trackProps] = trackReturn ?? [];
             if (event) {
               analytics.track(event, trackProps);
             }
@@ -123,6 +131,7 @@ class RcModuleV2<
   S extends Record<string, any> = {}
 > extends BaseModule<T> {
   __$$state$$__: any;
+  protected initializeProxy?(): Promise<void> | void;
   /**
    * `onInit` life cycle for current initialization before all deps modules are all ready.
    */

@@ -19,6 +19,7 @@ export const SelectListTextField: FunctionComponent<SelectListTextFieldProps> = 
       {...rest}
       title={`${value}`}
       value={value}
+      gutterBottom
       disabled={disabled}
       InputProps={{
         classes: {

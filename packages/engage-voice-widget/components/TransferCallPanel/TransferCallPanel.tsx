@@ -105,6 +105,7 @@ const TransferCallPanel: FunctionComponent<TransferCallPanelProps> = ({
             ) => (
               <RcTextField
                 key={index}
+                gutterBottom
                 data-sign={`callRecipient${index}`}
                 disabled={disabled}
                 label={label}

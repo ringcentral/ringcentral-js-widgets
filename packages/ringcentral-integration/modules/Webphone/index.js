@@ -753,6 +753,7 @@ export default class Webphone extends RcModule {
       // Pause video elements to release system Video Wake Lock RCINT-15582
       if (!this._remoteVideo.paused) {
         this._remoteVideo.pause();
+        this._remoteVideo.srcObject = null;
       }
       if (!this._localVideo.paused) {
         this._localVideo.pause();
@@ -1218,13 +1219,22 @@ export default class Webphone extends RcModule {
       await session.forward(validPhoneNumber, this.acceptOptions);
       console.log('Forwarded');
       this._onCallEnd(session);
+      this._addTrackAfterForward();
       return true;
     } catch (e) {
       console.error(e);
       this._alert.warning({
         message: webphoneErrors.forwardError,
       });
+      this._addTrackAfterForward();
       return false;
+    }
+  }
+
+  _addTrackAfterForward() {
+    if (this.activeSession && !this.activeSession.isOnHold) {
+      const rawActiveSession = this._sessions.get(this.activeSession.id);
+      this._addTrack(rawActiveSession);
     }
   }
 
@@ -1463,28 +1473,63 @@ export default class Webphone extends RcModule {
   }
 
   @proxify
-  async transferWarm(transferNumber, sessionId) {
+  async startWarmTransfer(transferNumber, sessionId) {
     const session = this._sessions.get(sessionId);
     if (!session) {
       return;
     }
     try {
-      await session.hold();
-      const newSession = session.ua.invite(transferNumber, {
-        sessionDescriptionHandlerOptions: this.acceptOptions
-          .sessionDescriptionHandlerOptions,
-      });
-      newSession.once('accepted', async () => {
-        try {
-          await session.warmTransfer(newSession);
-          console.log('Transferred');
-          this._onCallEnd(session);
-        } catch (e) {
-          console.error(e);
-        }
+      session.__rc_isOnTransfer = true;
+      this._updateSessions();
+      const numberResult = validateNumbers(
+        [transferNumber],
+        this._regionSettings,
+        this._brand.id,
+      );
+      const validPhoneNumber = numberResult && numberResult[0];
+      const fromNumber =
+        session.__rc_direction === callDirections.outbound
+          ? session.request.from.uri.user
+          : session.request.to.uri.user;
+      await this.makeCall({
+        toNumber: validPhoneNumber,
+        fromNumber,
+        homeCountryId: this._regionSettings.homeCountryId,
+        extendedControls: '',
+        transferSessionId: sessionId,
       });
     } catch (e) {
       console.error(e);
+      session.__rc_isOnTransfer = false;
+      this._updateSessions();
+      this._alert.danger({
+        message: webphoneErrors.transferError,
+      });
+    }
+  }
+
+  @proxify
+  async completeWarmTransfer(newSessionId) {
+    const newSession = this._sessions.get(newSessionId);
+    if (!newSession) {
+      return;
+    }
+    const oldSessionId = newSession.__rc_transferSessionId;
+    const oldSession = this._sessions.get(oldSessionId);
+    if (!oldSession) {
+      return;
+    }
+    newSession.__rc_isOnTransfer = true;
+    this._updateSessions();
+    try {
+      await oldSession.warmTransfer(newSession);
+    } catch (e) {
+      console.error(e);
+      newSession.__rc_isOnTransfer = false;
+      this._updateSessions();
+      this._alert.danger({
+        message: webphoneErrors.transferError,
+      });
     }
   }
 
@@ -1574,6 +1619,12 @@ export default class Webphone extends RcModule {
     }
   }
 
+  _addTrack(rawSession) {
+    if (rawSession) {
+      rawSession.addTrack(this._remoteVideo, this._localVideo);
+    }
+  }
+
   _sessionHandleWithId(sessionId, func) {
     const session = this._sessions.get(sessionId);
     if (!session) {
@@ -1582,7 +1633,10 @@ export default class Webphone extends RcModule {
     return func(session);
   }
 
-  async _invite(toNumber, { inviteOptions, extendedControls }) {
+  async _invite(
+    toNumber,
+    { inviteOptions, extendedControls, transferSessionId },
+  ) {
     if (!this._webphone) {
       this._alert.warning({
         message: this.errorCode,
@@ -1612,6 +1666,7 @@ export default class Webphone extends RcModule {
     session.__rc_fromNumber = inviteOptions.fromNumber;
     session.__rc_extendedControls = extendedControls;
     session.__rc_extendedControlStatus = extendedControlStatus.pending;
+    session.__rc_transferSessionId = transferSessionId;
     this._onAccepted(session);
     this._onCallInit(session);
     return session;
@@ -1624,7 +1679,13 @@ export default class Webphone extends RcModule {
    * @param {homeCountryId} homeCountry Id
    */
   @proxify
-  async makeCall({ toNumber, fromNumber, homeCountryId, extendedControls }) {
+  async makeCall({
+    toNumber,
+    fromNumber,
+    homeCountryId,
+    extendedControls,
+    transferSessionId,
+  }) {
     const inviteOptions = {
       sessionDescriptionHandlerOptions: this.acceptOptions
         .sessionDescriptionHandlerOptions,
@@ -1634,6 +1695,7 @@ export default class Webphone extends RcModule {
     const result = await this._invite(toNumber, {
       inviteOptions,
       extendedControls,
+      transferSessionId,
     });
     return result;
   }
@@ -1800,6 +1862,14 @@ export default class Webphone extends RcModule {
     const normalizedSession = find((x) => x.id === session.id, this.sessions);
     if (!normalizedSession) {
       return;
+    }
+    if (session.__rc_transferSessionId) {
+      const transferSession = this._sessions.get(
+        session.__rc_transferSessionId,
+      );
+      if (transferSession) {
+        transferSession.__rc_isOnTransfer = false;
+      }
     }
     this._removeSession(session);
     this.store.dispatch({

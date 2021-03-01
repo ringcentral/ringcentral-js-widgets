@@ -1,6 +1,6 @@
 import RouterInteraction from '../../../ringcentral-widgets/modules/RouterInteraction';
 import moduleStatuses from '../../enums/moduleStatuses';
-import { Segment } from '../../lib/Analytics';
+import { Segment, Pendo } from '../../lib/Analytics';
 import { Module } from '../../lib/di';
 import RcModule from '../../lib/RcModule';
 import saveBlob from '../../lib/saveBlob';
@@ -36,6 +36,7 @@ export interface TrackAction {
   fromType?: string;
   callSettingMode?: string;
   phoneNumber?: string;
+  recipient?: any;
 }
 
 export interface TrackLog {
@@ -52,6 +53,23 @@ export interface TrackItem {
   tagName: string;
   funcName: string;
   funcImpl: TrackImpl;
+}
+
+export interface PendoAgent {
+  visitor: {
+    id: string;
+    appName: string;
+    appVersion: string;
+    appBrand: string;
+    plaBrand: string;
+    countryCode?: string;
+    companyName?: string;
+    [key: string]: string;
+  };
+  account: {
+    id: string;
+    [key: string]: string;
+  };
 }
 
 function warn() {
@@ -136,6 +154,7 @@ export class Analytics extends RcModule<
 > {
   // TODO: add state interface
   private _analyticsKey: string;
+  private _pendoApiKey: string;
   private _appName: string;
   private _appVersion: string;
   private _brandCode: string;
@@ -163,6 +182,7 @@ export class Analytics extends RcModule<
   private _dialerUI: any;
 
   private _segment: any;
+  private _pendo: any;
   private _trackList: TrackItem[];
   private _useLog: boolean;
   private _logs: TrackLog[] = [];
@@ -173,10 +193,13 @@ export class Analytics extends RcModule<
   private _callLogSection: any;
   private _activeCallControl: any;
   private _enablePendo: boolean;
+  private _waitPendoCount: number;
+  private _pendoTimeout: ReturnType<typeof setTimeout>;
 
   constructor({
     // config
     analyticsKey,
+    pendoApiKey,
     appName,
     appVersion,
     brandCode,
@@ -218,6 +241,7 @@ export class Analytics extends RcModule<
 
     // config
     this._analyticsKey = analyticsKey;
+    this._pendoApiKey = pendoApiKey;
     this._appName = appName;
     this._appVersion = appVersion;
     this._brandCode = brandCode;
@@ -254,9 +278,17 @@ export class Analytics extends RcModule<
     this._useLog = useLog;
     this._lingerThreshold = lingerThreshold;
     this._enablePendo = enablePendo;
+    this._pendo = null;
+    this._waitPendoCount = 0;
+    this._pendoTimeout = null;
+    if (this._enablePendo && this._pendoApiKey) {
+      Pendo.init(this._pendoApiKey, (pendoInstance: any) => {
+        this._pendo = pendoInstance;
+      });
+    }
   }
 
-  private _identify({
+  protected _identify({
     userId,
     ...props
   }: { userId: string } & Record<string, any>) {
@@ -271,11 +303,57 @@ export class Analytics extends RcModule<
           integrations: {
             All: true,
             Mixpanel: true,
-            Pendo: this._enablePendo,
           },
         },
       );
     }
+    if (this._enablePendo && this._pendoApiKey) {
+      this._pendoInitialize({ userId, ...props });
+    }
+  }
+
+  protected _pendoInitialize({
+    userId,
+    ...props
+  }: { userId: string } & Record<string, any>) {
+    if (!this._accountInfo || !this._accountInfo.id || !userId) {
+      return;
+    }
+    if (this._pendoTimeout) {
+      clearTimeout(this._pendoTimeout);
+    }
+    if (this._waitPendoCount > 3) {
+      return;
+    }
+    if (!this._pendo) {
+      this._pendoTimeout = setTimeout(() => {
+        this._waitPendoCount += 1;
+        this._pendoInitialize({ userId, ...props });
+      }, 5 * 1000);
+      return;
+    }
+    const initializeFunc = !this._pendo.isReady()
+      ? this._pendo.initialize
+      : this._pendo.updateOptions;
+    const pendoAgent: PendoAgent = {
+      visitor: {
+        id: userId,
+        ...props,
+        companyName: this._extensionInfo?.info?.contact?.company,
+        appName: this._appName,
+        appVersion: this._appVersion,
+        appBrand: this._brandCode,
+        plaBrand: this._accountInfo?.serviceInfo?.brand?.name,
+        countryCode: this._accountInfo?.countryCode,
+      },
+      account: {
+        id: this._accountInfo.id,
+      },
+    };
+    typeof initializeFunc === 'function' &&
+      initializeFunc({
+        ...pendoAgent,
+      });
   }
 
   track(event: string, properties: any = {}) {
@@ -290,7 +368,6 @@ export class Analytics extends RcModule<
       integrations: {
         All: true,
         Mixpanel: true,
-        Pendo: this._enablePendo,
       },
     });
     if (this._useLog) {
@@ -354,7 +431,6 @@ export class Analytics extends RcModule<
           integrations: {
             All: true,
             Mixpanel: true,
-            Pendo: this._enablePendo,
           },
         });
       }
@@ -391,9 +467,7 @@ export class Analytics extends RcModule<
   @tracking
   private _authentication(action: TrackAction) {
     if (this._auth?.actionTypes.loginSuccess === action.type) {
-      this._identify({
-        userId: this._auth.ownerId,
-      });
+      this.setUserId();
       this.track('Authentication');
     }
   }
@@ -544,7 +618,7 @@ export class Analytics extends RcModule<
   private _navigate(action: TrackAction) {
     if (this._routerInteraction?.actionTypes.locationChange === action.type) {
       const path = action.payload && action.payload.pathname;
-      const target = this._getTrackTarget(path);
+      const target = this.getTrackTarget(path);
       if (target) {
         this.trackNavigation(target);
       }
@@ -846,9 +920,13 @@ export class Analytics extends RcModule<
     }
   }
 
-  private _getTrackTarget(
-    path = this._routerInteraction?.currentPath,
-  ): TrackTarget {
+  setUserId() {
+    this._identify({
+      userId: this._auth.ownerId,
+    });
+  }
+
+  getTrackTarget(path = this._routerInteraction?.currentPath): TrackTarget {
     if (!path) {
       return null;
     }
@@ -935,7 +1013,7 @@ export class Analytics extends RcModule<
       this._meeting?.actionTypes.initScheduling === action.type ||
       this._rcVideo?.actionTypes.initCreating === action.type
     ) {
-      const target = this._getTrackTarget(this._routerInteraction?.currentPath);
+      const target = this.getTrackTarget(this._routerInteraction?.currentPath);
       if (target) {
         this.trackSchedule(target);
       }
@@ -1057,9 +1135,11 @@ export class Analytics extends RcModule<
   private _smsHistoryPlaceRingOutCall(action: TrackAction) {
     if (
       this._messageStore?.actionTypes.clickToCall === action.type &&
-      this._callingSettings.callingMode === callingModes.ringout
+      this._callingSettings.callingMode !== callingModes.webphone
     ) {
-      this.track('Call: Place RingOut call/SMS history');
+      this.track('Call: Place RingOut call/SMS history', {
+        'RingOut type': this._callingSettings?.callWith,
+      });
     }
   }
 
@@ -1067,9 +1147,11 @@ export class Analytics extends RcModule<
   private _callHistoryPlaceRingOutCall(action: TrackAction) {
     if (
       this._callHistory?.actionTypes.clickToCall === action.type &&
-      this._callingSettings.callingMode === callingModes.ringout
+      this._callingSettings.callingMode !== callingModes.webphone
     ) {
-      this.track('Call: Place RingOut call/Call history');
+      this.track('Call: Place RingOut call/Call history', {
+        'RingOut type': this._callingSettings?.callWith,
+      });
     }
   }
 
@@ -1077,10 +1159,12 @@ export class Analytics extends RcModule<
   private _dialerPlaceRingOutCall(action: TrackAction) {
     if (
       this._dialerUI?.actionTypes.call === action.type &&
-      action.phoneNumber?.length > 0 &&
-      this._callingSettings.callingMode === callingModes.ringout
+      (action.phoneNumber?.length > 0 || action.recipient) &&
+      this._callingSettings.callingMode !== callingModes.webphone
     ) {
-      this.track('Call: Place RingOut call/Dialer');
+      this.track('Call: Place RingOut call/Dialer', {
+        'RingOut type': this._callingSettings?.callWith,
+      });
     }
   }
 

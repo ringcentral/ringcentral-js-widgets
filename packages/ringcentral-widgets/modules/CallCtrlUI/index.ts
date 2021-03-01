@@ -4,8 +4,29 @@ import callDirections from 'ringcentral-integration/enums/callDirections';
 import callingModes from 'ringcentral-integration/modules/CallingSettings/callingModes';
 import sessionStatus from 'ringcentral-integration/modules/Webphone/sessionStatus';
 import formatNumber from 'ringcentral-integration/lib/formatNumber';
+import calleeTypes from 'ringcentral-integration/enums/calleeTypes';
+
 import callCtrlLayouts from '../../enums/callCtrlLayouts';
 import RcUIModule from '../../lib/RcUIModule';
+
+function getLastCallInfoFromWebphoneSession(webphoneSession) {
+  const sessionNumber =
+    webphoneSession.direction === callDirections.outbound
+      ? webphoneSession.to
+      : webphoneSession.from;
+  const sessionStatus = webphoneSession.callStatus;
+  const matchedContact = webphoneSession.contactMatch;
+  const calleeType = matchedContact
+    ? calleeTypes.contacts
+    : calleeTypes.unknown;
+  return {
+    calleeType,
+    avatarUrl: matchedContact && matchedContact.profileImageUrl,
+    name: matchedContact && matchedContact.name,
+    status: sessionStatus,
+    phoneNumber: sessionNumber,
+  };
+}
 
 @Module({
   name: 'CallCtrlUI',
@@ -98,7 +119,7 @@ export default class CallCtrlUI extends RcUIModule {
     let isMerging = false;
     let conferenceCallParties;
     let conferenceCallId = null;
-    const lastCallInfo =
+    let lastCallInfo =
       this._conferenceCall && this._conferenceCall.lastCallInfo;
     let isConferenceCallOverload = false;
     const conferenceCallEquipped = !!(
@@ -135,6 +156,12 @@ export default class CallCtrlUI extends RcUIModule {
         // for mergeCtrl page, we don't show any children (container) component.
         children = null;
       }
+    }
+    if (currentSession.warmTransferSessionId) {
+      const warmTransferSession = this._webphone.sessions.find(
+        (session) => session.id === currentSession.warmTransferSessionId,
+      );
+      lastCallInfo = getLastCallInfoFromWebphoneSession(warmTransferSession);
     }
 
     const disableLinks = !!(
@@ -182,7 +209,9 @@ export default class CallCtrlUI extends RcUIModule {
         session,
       }) => {
         let layout = callCtrlLayouts.normalCtrl;
-
+        if (session.warmTransferSessionId) {
+          return callCtrlLayouts.completeTransferCtrl;
+        }
         if (!conferenceCallEquipped) {
           return layout;
         }
@@ -251,6 +280,9 @@ export default class CallCtrlUI extends RcUIModule {
       },
       onTransfer: (sessionId) => {
         this._routerInteraction.push(`/transfer/${sessionId}/webphone`);
+      },
+      onCompleteTransfer: (sessionId) => {
+        this._webphone.completeWarmTransfer(sessionId);
       },
       onPark: (sessionId) => this._webphone.park(sessionId),
       searchContact: (searchString) =>

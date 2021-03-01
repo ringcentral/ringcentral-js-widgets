@@ -1,9 +1,8 @@
 import url from 'url';
-
 import moduleStatuses from '../../enums/moduleStatuses';
 import { Module } from '../../lib/di';
 import ensureExist from '../../lib/ensureExist';
-import proxify from '../../lib/proxy/proxify';
+import { proxify } from '../../lib/proxy/proxify';
 import RcModule from '../../lib/RcModule';
 import validateIsOffline from '../../lib/validateIsOffline';
 import actionTypes from './actionTypes';
@@ -89,7 +88,7 @@ export default class Auth extends RcModule {
 
     const platform = this._client.service.platform();
     const client = this._client.service._client;
-    const onRequestError = (error) => {
+    const onRequestError = (error: any) => {
       if (error instanceof Error && error.message === 'Token revoked') {
         this.logout();
       }
@@ -105,7 +104,7 @@ export default class Auth extends RcModule {
         handler();
       }
     };
-    const onLoginError = (error) => {
+    const onLoginError = (error: any) => {
       this.store.dispatch({
         type: this.actionTypes.loginError,
         error,
@@ -116,18 +115,12 @@ export default class Auth extends RcModule {
         type: this.actionTypes.logoutSuccess,
       });
     };
-    const onLogoutError = (error) => {
+    const onLogoutError = (error: any) => {
       platform._cache.clean();
       this.store.dispatch({
         type: this.actionTypes.logoutError,
         error,
       });
-      if (error) {
-        this._alert.danger({
-          message: authMessages.logoutError,
-          payload: error,
-        });
-      }
     };
     const onRefreshSuccess = async () => {
       this.store.dispatch({
@@ -135,7 +128,7 @@ export default class Auth extends RcModule {
         token: await platform.auth().data(),
       });
     };
-    const onRefreshError = async (error) => {
+    const onRefreshError = async (error: any) => {
       // user is still considered logged in if the refreshToken is still valid
       const isOffline = validateIsOffline(error.message);
 
@@ -181,7 +174,7 @@ export default class Auth extends RcModule {
   }
 
   initialize() {
-    let loggedIn;
+    let loggedIn: boolean;
     this.store.subscribe(async () => {
       if (
         this.status === moduleStatuses.pending &&
@@ -219,10 +212,7 @@ export default class Auth extends RcModule {
             type: this.actionTypes.tabSync,
             loggedIn,
             token: loggedIn
-              ? (await this._client.service
-                  .platform()
-                  .auth()
-                  .data())
+              ? await this._client.service.platform().auth().data()
               : null,
           });
         }
@@ -302,26 +292,20 @@ export default class Auth extends RcModule {
     endpointId,
     tokenType,
     scope,
-  }) {
+  }: any) {
     this.store.dispatch({
       type: this.actionTypes.login,
     });
     let ownerId;
     if (accessToken) {
-      await this._client.service
-        .platform()
-        .auth()
-        .setData({
-          token_type: tokenType,
-          access_token: accessToken,
-          expires_in: expiresIn,
-          refresh_token_expires_in: expiresIn,
-          scope,
-        });
-      const extensionData = await this._client
-        .account()
-        .extension()
-        .get();
+      await this._client.service.platform().auth().setData({
+        token_type: tokenType,
+        access_token: accessToken,
+        expires_in: expiresIn,
+        refresh_token_expires_in: expiresIn,
+        scope,
+      });
+      const extensionData = await this._client.account().extension().get();
       ownerId = extensionData.id;
     }
     // TODO: support to set redirectUri in js sdk v4 login function
@@ -363,7 +347,7 @@ export default class Auth extends RcModule {
     localeId,
     force,
     implicit = false,
-  }) {
+  }: any) {
     // TODO: support to set redirectUri in js sdk v4 login function
     if (!this._client.service.platform()._redirectUri) {
       this._client.service.platform()._redirectUri = redirectUri;
@@ -414,10 +398,6 @@ export default class Auth extends RcModule {
       }
     } catch (error) {
       console.error(error);
-      this._alert.danger({
-        message: authMessages.beforeLogoutError,
-        payload: error,
-      });
     }
     this.store.dispatch({
       type: this.actionTypes.logout,
@@ -437,7 +417,7 @@ export default class Auth extends RcModule {
    * @param {Function} handler
    * @returns {Function} return that delete handler event, call that will delete that event
    */
-  addBeforeLogoutHandler(handler: Function): Function {
+  addBeforeLogoutHandler(handler: (...args: any[]) => any) {
     this._beforeLogoutHandlers.add(handler);
     return () => {
       this.removeBeforeLogoutHandler(handler);
@@ -448,11 +428,11 @@ export default class Auth extends RcModule {
    * @function
    * @param {Function} handler
    */
-  removeBeforeLogoutHandler(handler: Function) {
+  removeBeforeLogoutHandler(handler: (...args: any[]) => any) {
     this._beforeLogoutHandlers.delete(handler);
   }
 
-  addAfterLoggedInHandler(handler) {
+  addAfterLoggedInHandler(handler: (...args: any[]) => any) {
     this._afterLoggedInHandlers.add(handler);
     return () => {
       this._afterLoggedInHandlers.delete(handler);
@@ -465,12 +445,9 @@ export default class Auth extends RcModule {
     accessToken,
     expiresIn,
     endpointId,
-  }) {
+  }: any) {
     try {
-      const extensionData = await this._client
-        .account()
-        .extension()
-        .get();
+      const extensionData = await this._client.account().extension().get();
       const ownerId = String(extensionData.id);
       if (ownerId !== String(this.ownerId)) {
         return;

@@ -1,17 +1,23 @@
 import moment from 'moment';
 import { AutoSizer } from 'react-virtualized';
 import React, { FunctionComponent, useMemo, useCallback } from 'react';
+import {
+  CallLog,
+  CallLogMenu,
+} from 'ringcentral-integration/interfaces/CallLog.interface';
 
 import { CallHistoryItem } from './CallHistoryItem';
 import { StickyVirtualizedList } from './StickyVirtualizedList';
 import { RowRendererProps } from './StickyVirtualizedList/StickyVirtualizedList.interface';
-import { Call, CallsTree } from './CallHistoryPanel.interface';
+import { CallsTree } from './CallHistoryPanel.interface';
 import styles from './styles.scss';
 import i18n from './i18n';
 
 export type CallHistoryPanelProps = {
-  calls: Call[];
+  calls: CallLog[];
   currentLocale: string;
+  getActionMenu?: (call: CallLog) => CallLogMenu;
+  isWide?: boolean;
 };
 
 const DATE_ITEM_HEIGHT = 32; // ./styles.scss .date
@@ -39,12 +45,14 @@ function formatCallDate(timestamp: number) {
 }
 
 function formatCallTime(timestamp: number) {
-  return moment(timestamp).format('h:mmA');
+  return moment(timestamp).format('h:mm A');
 }
 
 export const CallHistoryPanel: FunctionComponent<CallHistoryPanelProps> = ({
   calls,
   currentLocale,
+  getActionMenu,
+  isWide = true,
 }) => {
   const tree = useMemo(() => {
     const _tree: CallsTree = {
@@ -55,7 +63,7 @@ export const CallHistoryPanel: FunctionComponent<CallHistoryPanelProps> = ({
       },
     };
 
-    calls.forEach((call: Call) => {
+    calls.forEach((call: CallLog) => {
       const { id, startTime } = call;
 
       const callDate = formatCallDate(startTime);
@@ -119,14 +127,23 @@ export const CallHistoryPanel: FunctionComponent<CallHistoryPanelProps> = ({
 
       if (node.children) {
         return (
-          <div className={styles.date} style={style} key={node.name}>
+          <div
+            data-sign={node.name}
+            className={styles.date}
+            style={style}
+            key={node.name}
+          >
             {i18n.getString(node.name, currentLocale)}
           </div>
         );
       }
       return (
-        <div style={style} key={node.call.id}>
-          <CallHistoryItem call={node.call} />
+        <div data-sign="historyItem" style={style} key={node.call.id}>
+          <CallHistoryItem
+            call={node.call}
+            actionMenu={getActionMenu(node.call)}
+            isWide={isWide}
+          />
         </div>
       );
     },
@@ -155,4 +172,9 @@ export const CallHistoryPanel: FunctionComponent<CallHistoryPanelProps> = ({
       )}
     </div>
   );
+};
+
+CallHistoryPanel.defaultProps = {
+  calls: [],
+  getActionMenu: () => [],
 };

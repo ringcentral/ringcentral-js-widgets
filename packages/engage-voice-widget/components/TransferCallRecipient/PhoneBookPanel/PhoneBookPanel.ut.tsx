@@ -1,10 +1,11 @@
-import React from 'react';
-import { StepFunction } from 'crius-test';
-import { RcThemeProvider } from '@ringcentral/juno';
 import { format } from '@ringcentral-integration/phone-number';
+import { RcThemeProvider } from '@ringcentral/juno';
+import { StepFunction } from 'crius-test';
 import { mount } from 'enzyme';
-import { PhoneBookPanel, PhoneBookPanelProps } from './PhoneBookPanel';
+import React from 'react';
+
 import { EvTransferPhoneBookItem } from '../../../lib/EvClient';
+import { PhoneBookPanel, PhoneBookPanelProps } from './PhoneBookPanel';
 
 let wrapper;
 const currentLocale = 'en-US';
@@ -59,16 +60,9 @@ function setup({
 }
 
 const getPhoneContacts = () =>
-  wrapper
-    .find('RcList')
-    .at(0)
-    .find('div[data-sign="phoneContact"]');
+  wrapper.find('RcList').at(0).find('div[data-sign="phoneContact"]');
 
-const getSearchInput = () =>
-  wrapper
-    .find('RcOutlineTextField')
-    .at(0)
-    .find('input');
+const getSearchInput = () => wrapper.find('RcTextField').at(0).find('input');
 
 export const UTPhoneBookCheckBackButton: StepFunction = () => {
   const goBack = jest.fn(() => {});
@@ -89,10 +83,7 @@ export const UTPhoneBookContactListDisplayAndHighlight: StepFunction = () => {
   const phoneContacts = getPhoneContacts();
   expect(phoneContacts.length).toBe(defaultTransferPhoneBook.length);
   expect(
-    phoneContacts
-      .at(transferPhoneBookSelectedIndex)
-      .render()
-      .attr('class'),
+    phoneContacts.at(transferPhoneBookSelectedIndex).render().attr('class'),
   ).toMatch(/Mui-selected/g);
 };
 

@@ -63,6 +63,12 @@
   @include text-ellipsis;
 }
 
+.dncNameSection {
+  display: inline-block;
+  max-width: 220px;
+  vertical-align: middle;
+}
+
 .phoneNumberSection {
   @include text-ellipsis;
 }
@@ -72,10 +78,14 @@
 }
 
 .doNotCall {
-  display: inline;
+  display: inline-block;
   color: #6a7186;
-  margin-left: 5px;
-  span {
-    vertical-align: text-bottom;
+  padding: 6px;
+  border-radius: 50%;
+  vertical-align: middle;
+  font-size: 0;
+  margin: -3px 0 -2px;
+  &:hover {
+    background-color: rgba(106, 113, 134, 0.08);
   }
 }

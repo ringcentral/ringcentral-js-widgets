@@ -105,6 +105,7 @@ export default class InputSelect extends Component<
         <RcTextField
           label={label || 'Subject'}
           data-sign="subject"
+          gutterBottom
           title={subject}
           fullWidth
           clearBtn={false}

@@ -84,7 +84,7 @@ function getPasswordTpl(
  * Then replace it into <a href="http://www.example.com">http://www.example.com </a>
  * @param input
  */
-export function replaceTextLinksToAnchors(input: string): string {
+function replaceTextLinksToAnchors(input: string): string {
   /**
    * [^<>\]]+ means should match any characters except < or > or ]
    * (?!\s*<\/a>) means url should not be followed by either "</a>" or "     </a>"
@@ -101,11 +101,11 @@ export function replaceTextLinksToAnchors(input: string): string {
   });
 }
 
-export const htmlNewLine: string = '<br>';
-export const htmlIndentation: string = '&nbsp;';
-export const htmlTabIndentation: string = htmlIndentation.repeat(4);
+const htmlNewLine: string = '<br>';
+const htmlIndentation: string = '&nbsp;';
+const htmlTabIndentation: string = htmlIndentation.repeat(4);
 
-export function formatTextToHtml(
+function formatTextToHtml(
   plantText: string,
   options: FormatToHtmlOptions = {},
 ): string {
@@ -195,7 +195,7 @@ function getBaseRcmTpl(
   };
 }
 
-export function getRcmEventTpl(
+function getRcmEventTpl(
   mainInfo: RcmMainParams,
   brand: CommonBrand,
   currentLocale: string,
@@ -204,7 +204,7 @@ export function getRcmEventTpl(
   return tplResult.formattedMsg;
 }
 
-export function getRcmHtmlEventTpl(
+function getRcmHtmlEventTpl(
   mainInfo: RcmMainParams,
   brand: CommonBrand,
   currentLocale: string,
@@ -292,7 +292,7 @@ function getBaseRcvTpl(
   };
 }
 
-export function getRcvEventTpl(
+function getRcvEventTpl(
   mainInfo: RcvMainParams,
   brand: CommonBrand,
   currentLocale: string,
@@ -301,7 +301,7 @@ export function getRcvEventTpl(
   return tplResult.formattedMsg;
 }
 
-export function getRcvHtmlEventTpl(
+function getRcvHtmlEventTpl(
   mainInfo: RcvMainParams,
   brand: CommonBrand,
   currentLocale: string,
@@ -312,7 +312,7 @@ export function getRcvHtmlEventTpl(
   });
 }
 
-export function getMeetingId(meetingUri: string): string {
+function getMeetingId(meetingUri: string): string {
   if (meetingUri) {
     const regs = [MEETING_URI_REGEXP.RCM, MEETING_URI_REGEXP.RCV];
     for (let i = 0; i < regs.length; i += 1) {
@@ -333,4 +333,37 @@ export function getMeetingId(meetingUri: string): string {
   return null;
 }
 
-export { formatMeetingId };
+function stripMeetingLinks(text: string): string {
+  let result = text;
+  [MEETING_URI_REGEXP.RCM, MEETING_URI_REGEXP.RCV].forEach((reg) => {
+    while (reg.test(result)) {
+      result = result.replace(reg, '');
+    }
+  });
+  return result;
+}
+
+function meetingLinkContains(
+  text?: string,
+): { hasRCM: boolean; hasRCV: boolean } {
+  return {
+    hasRCM: MEETING_URI_REGEXP.RCM.test(text ?? ''),
+    hasRCV: MEETING_URI_REGEXP.RCV.test(text ?? ''),
+  };
+}
+
+export {
+  formatMeetingId,
+  stripMeetingLinks,
+  meetingLinkContains,
+  replaceTextLinksToAnchors,
+  htmlNewLine,
+  htmlIndentation,
+  htmlTabIndentation,
+  formatTextToHtml,
+  getRcmEventTpl,
+  getRcmHtmlEventTpl,
+  getRcvEventTpl,
+  getRcvHtmlEventTpl,
+  getMeetingId,
+};

@@ -13,6 +13,7 @@ export default {
   waitingRoomNotCoworker: "公司以外任何人",
   waitingRoomGuest: "未登入的任何人",
   waitingRoomAll: "任何人",
+  enterPassword: "輸入密碼",
   onlyJoinAfterMe: "參與者只能在我之後加入",
   onlyJoinAfterHost: "參與者只能在主持人之後加入",
   muteAudio: "靜音參與者的音訊",
@@ -46,6 +47,7 @@ export default {
 // @key: @#@"waitingRoomNotCoworker"@#@ @source: @#@"Anyone outside my company"@#@
 // @key: @#@"waitingRoomGuest"@#@ @source: @#@"Anyone not signed in"@#@
 // @key: @#@"waitingRoomAll"@#@ @source: @#@"Everyone"@#@
+// @key: @#@"enterPassword"@#@ @source: @#@"Enter Password"@#@
 // @key: @#@"onlyJoinAfterMe"@#@ @source: @#@"Participants can only join after me"@#@
 // @key: @#@"onlyJoinAfterHost"@#@ @source: @#@"Participants can only join after host"@#@
 // @key: @#@"muteAudio"@#@ @source: @#@"Mute audio for participants"@#@

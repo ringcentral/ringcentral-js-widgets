@@ -23,6 +23,7 @@ export default {
   turnOffCamera: "Apagar la cámara de los participantes",
   turnOffHostCamera: "Apagar la cámara del anfitrión cuando se une a la reunión",
   requirePassword: "Solicitar contraseña",
+  enterPassword: "Ingrese la contraseña",
   setPassword: "Configurar contraseña *",
   passwordEmptyError: "Se requiere la contraseña de la reunión",
   rcmPasswordInvalidError: "Su contraseña debe contener de 1 a 10 caracteres o números y no puede tener símbolos, salvo @, * o -",
@@ -59,6 +60,7 @@ export default {
 // @key: @#@"turnOffCamera"@#@ @source: @#@"Turn off camera for participants"@#@
 // @key: @#@"turnOffHostCamera"@#@ @source: @#@"Turn off camera for host when joining meeting"@#@
 // @key: @#@"requirePassword"@#@ @source: @#@"Require password"@#@
+// @key: @#@"enterPassword"@#@ @source: @#@"Enter Password"@#@
 // @key: @#@"setPassword"@#@ @source: @#@"Set password *"@#@
 // @key: @#@"passwordEmptyError"@#@ @source: @#@"Meeting password required"@#@
 // @key: @#@"rcmPasswordInvalidError"@#@ @source: @#@"Your password must be 1-10 characters, numbers long and cannot have symbols except @, * or -"@#@

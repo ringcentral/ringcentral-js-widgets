@@ -8,17 +8,8 @@ interface ErrorResponse extends Response {
   _text?: string;
 }
 
-/**
- * Response from client's requests
- */
 export interface ClientError {
   response?: ErrorResponse;
   message?: string;
   retryAfter?: number;
 }
-
-export class Alert {}
-
-export interface Client {}
-
-export class Environment {}
