@@ -79,7 +79,7 @@ var _trackEvents = require("../../lib/trackEvents");
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
-var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _class, _class2, _descriptor, _descriptor2, _descriptor3, _temp;
+var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _temp;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -140,7 +140,7 @@ function _initializerWarningHelper(descriptor, context) { throw new Error('Decor
 var DEFAULT_COUNTRIES = ['USA', 'CAN'];
 var EvAuth = (_dec = (0, _di.Module)({
   name: 'EvAuth',
-  deps: ['EvClient', 'Auth', 'Storage', 'Block', 'Alert', 'Locale', 'RouterInteraction', 'EvSubscription', 'TabManager', 'GlobalStorage', {
+  deps: ['EvClient', 'Auth', 'Block', 'Alert', 'Locale', 'RouterInteraction', 'EvSubscription', 'TabManager', 'GlobalStorage', {
     dep: 'EvAuthOptions',
     optional: true
   }]
@@ -193,7 +193,6 @@ var EvAuth = (_dec = (0, _di.Module)({
 
     _this = _super.call(this, {
       deps: deps,
-      enableCache: true,
       storageKey: 'EvAuth',
       enableGlobalCache: true
     });
@@ -213,14 +212,33 @@ var EvAuth = (_dec = (0, _di.Module)({
         }
       }, _callee);
     }));
+    _this._logout = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+      return regeneratorRuntime.wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              _context2.next = 2;
+              return _this._deps.auth.logout({
+                dismissAllAlert: false
+              });
 
-    _this._logout = function () {
-      return _this._deps.auth.logout({
-        dismissAllAlert: false
-      });
-    };
+            case 2:
+              _this.setNotAuth();
 
+              if (_this.tabManagerEnabled) {
+                _this._deps.tabManager.send(_enums.tabManagerEvents.LOGGED_OUT);
+              }
+
+            case 4:
+            case "end":
+              return _context2.stop();
+          }
+        }
+      }, _callee2);
+    }));
     _this._logoutByOtherTab = false;
+    _this._authenticateResponseWatcher = null;
+    _this._agentConfigWatcher = null;
 
     _initializerDefineProperty(_this, "connected", _descriptor, _assertThisInitialized(_this));
 
@@ -228,38 +246,43 @@ var EvAuth = (_dec = (0, _di.Module)({
 
     _initializerDefineProperty(_this, "agentId", _descriptor3, _assertThisInitialized(_this));
 
-    _this.loginAgent = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+    _initializerDefineProperty(_this, "loginStatus", _descriptor4, _assertThisInitialized(_this));
+
+    _this.loginAgent = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
       var token,
           authenticateRes,
-          _args2 = arguments;
-      return regeneratorRuntime.wrap(function _callee2$(_context2) {
+          _args3 = arguments;
+      return regeneratorRuntime.wrap(function _callee3$(_context3) {
         while (1) {
-          switch (_context2.prev = _context2.next) {
+          switch (_context3.prev = _context3.next) {
             case 0:
-              token = _args2.length > 0 && _args2[0] !== undefined ? _args2[0] : _this._deps.auth.accessToken;
-              _context2.next = 3;
-              return _this.authenticateWithToken(token);
+              token = _args3.length > 0 && _args3[0] !== undefined ? _args3[0] : _this._deps.auth.accessToken;
+              _context3.next = 3;
+              return _this.authenticateWithToken({
+                rcAccessToken: token,
+                shouldEmitAuthSuccess: false
+              });
 
             case 3:
-              authenticateRes = _context2.sent;
+              authenticateRes = _context3.sent;
 
               if (authenticateRes) {
-                _context2.next = 6;
+                _context3.next = 6;
                 break;
               }
 
-              return _context2.abrupt("return");
+              return _context3.abrupt("return");
 
             case 6:
-              _context2.next = 8;
+              _context3.next = 8;
               return _this.openSocketWithSelectedAgentId();
 
             case 8:
             case "end":
-              return _context2.stop();
+              return _context3.stop();
           }
         }
-      }, _callee2);
+      }, _callee3);
     }));
     return _this;
   }
@@ -267,25 +290,15 @@ var EvAuth = (_dec = (0, _di.Module)({
   _createClass(EvAuth, [{
     key: "setAgentId",
     value: function setAgentId(agentId) {
-      var syncTabs = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
       this.agentId = agentId;
-
-      if (syncTabs) {
-        this._deps.tabManager.send(_enums.tabManagerEvents.SET_AGENT_ID, agentId);
-      }
     }
   }, {
     key: "setConnectionData",
-    value: function setConnectionData(_ref4) {
-      var connected = _ref4.connected,
-          agent = _ref4.agent;
+    value: function setConnectionData(_ref5) {
+      var connected = _ref5.connected,
+          agent = _ref5.agent;
       // ! agent must be set before connected
       this.agent = agent;
-      this.connected = connected;
-    }
-  }, {
-    key: "setConnected",
-    value: function setConnected(connected) {
       this.connected = connected;
     }
   }, {
@@ -294,14 +307,29 @@ var EvAuth = (_dec = (0, _di.Module)({
       this.agent = agent;
     }
   }, {
+    key: "setConnected",
+    value: function setConnected(connected) {
+      this.connected = connected;
+    }
+  }, {
     key: "clearAgentId",
     value: function clearAgentId() {
-      var syncTabs = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
       this.agentId = '';
-
-      if (syncTabs) {
-        this._deps.tabManager.send(_enums.tabManagerEvents.SET_AGENT_ID, '');
-      }
+    }
+  }, {
+    key: "setAuthSuccess",
+    value: function setAuthSuccess() {
+      this.loginStatus = _enums.loginStatus.AUTH_SUCCESS;
+    }
+  }, {
+    key: "setLoginSuccess",
+    value: function setLoginSuccess() {
+      this.loginStatus = _enums.loginStatus.LOGIN_SUCCESS;
+    }
+  }, {
+    key: "setNotAuth",
+    value: function setNotAuth() {
+      this.loginStatus = _enums.loginStatus.NOT_AUTH;
     }
   }, {
     key: "_shouldInit",
@@ -309,31 +337,27 @@ var EvAuth = (_dec = (0, _di.Module)({
       return _get(_getPrototypeOf(EvAuth.prototype), "_shouldInit", this).call(this) && this._deps.auth.loggedIn && this.connected;
     }
   }, {
-    key: "onBeforeRCLogout",
-    value: function onBeforeRCLogout() {
-      console.log('_onBeforeRCLogout~');
-      this.clearAgentId();
-    }
-  }, {
     key: "onInitOnce",
     value: function onInitOnce() {
       var _this2 = this;
 
-      this._deps.auth.addBeforeLogoutHandler(function () {
-        return _this2.onBeforeRCLogout();
+      this._deps.auth.addAfterLoggedInHandler(function () {
+        console.log('addAfterLoggedInHandler~~');
+
+        _this2.clearAgentId();
       });
 
-      this._deps.evSubscription.subscribe(_enums2.EvCallbackTypes.LOGOUT, /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
-        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+      this._deps.evSubscription.subscribe(_enums2.EvCallbackTypes.LOGOUT, /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
+        return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context4.prev = _context4.next) {
               case 0:
                 _this2._emitLogoutBefore(); // if that is logout by same browser that will only trigger emit
                 // if there is logout by other browser, that need redirect to home page,
 
 
                 if (_this2._logoutByOtherTab) {
-                  _context3.next = 6;
+                  _context4.next = 6;
                   break;
                 }
 
@@ -342,66 +366,65 @@ var EvAuth = (_dec = (0, _di.Module)({
                 });
 
                 _this2._logoutByOtherTab = false;
-                _context3.next = 6;
+                _context4.next = 6;
                 return _this2.newReconnect();
 
               case 6:
               case "end":
-                return _context3.stop();
+                return _context4.stop();
             }
           }
-        }, _callee3);
+        }, _callee4);
       })));
     }
   }, {
     key: "onStateChange",
     value: function () {
-      var _onStateChange = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
-        return regeneratorRuntime.wrap(function _callee4$(_context4) {
+      var _onStateChange = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
+        return regeneratorRuntime.wrap(function _callee5$(_context5) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context5.prev = _context5.next) {
               case 0:
                 if (!(this.tabManagerEnabled && this._deps.tabManager.ready)) {
-                  _context4.next = 3;
+                  _context5.next = 3;
                   break;
                 }
 
-                _context4.next = 3;
+                _context5.next = 3;
                 return this._checkTabManagerEvent();
 
               case 3:
-                if (!(this._deps.auth.loggedIn && !this.connected && !this.connecting)) {
-                  _context4.next = 14;
+                if (!(this._deps.auth.loggedIn && this.loginStatus !== _enums.loginStatus.AUTH_SUCCESS && this.loginStatus !== _enums.loginStatus.LOGIN_SUCCESS && !this.connecting)) {
+                  _context5.next = 13;
                   break;
                 }
 
-                console.log('evAuth onStateChange~~');
                 this.connecting = true; // when login make sure the logoutByOtherTab is false
 
                 this._logoutByOtherTab = false;
 
                 if (!this.agentId) {
-                  _context4.next = 12;
+                  _context5.next = 11;
                   break;
                 }
 
-                _context4.next = 10;
+                _context5.next = 9;
                 return this.loginAgent();
 
-              case 10:
-                _context4.next = 14;
+              case 9:
+                _context5.next = 13;
                 break;
 
-              case 12:
-                _context4.next = 14;
+              case 11:
+                _context5.next = 13;
                 return this.authenticateWithToken();
 
-              case 14:
+              case 13:
               case "end":
-                return _context4.stop();
+                return _context5.stop();
             }
           }
-        }, _callee4, this);
+        }, _callee5, this);
       }));
 
       function onStateChange() {
@@ -418,35 +441,36 @@ var EvAuth = (_dec = (0, _di.Module)({
   }, {
     key: "logout",
     value: function () {
-      var _logout = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
+      var _logout = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
         var agentId, logoutAgentResponse;
-        return regeneratorRuntime.wrap(function _callee5$(_context5) {
+        return regeneratorRuntime.wrap(function _callee6$(_context6) {
           while (1) {
-            switch (_context5.prev = _context5.next) {
+            switch (_context6.prev = _context6.next) {
               case 0:
-                _context5.next = 2;
+                _context6.next = 2;
                 return this.canUserLogoutFn();
 
               case 2:
-                if (_context5.sent) {
-                  _context5.next = 4;
+                if (_context6.sent) {
+                  _context6.next = 4;
                   break;
                 }
 
-                return _context5.abrupt("return");
+                return _context6.abrupt("return");
 
               case 4:
+                console.log('logout~~');
                 agentId = this.agentId;
                 this.sendLogoutTabEvent();
-                _context5.next = 8;
+                _context6.next = 9;
                 return this._deps.block.next(this._logout);
 
-              case 8:
-                _context5.next = 10;
+              case 9:
+                _context6.next = 11;
                 return this.logoutAgent(agentId);
 
-              case 10:
-                logoutAgentResponse = _context5.sent;
+              case 11:
+                logoutAgentResponse = _context6.sent;
 
                 // TODO: error handle when logout fail
                 // TODO: when failed need tell other tab not logout => this._deps.tabManager.send(tabManagerEvents.LOGOUT);
@@ -459,12 +483,12 @@ var EvAuth = (_dec = (0, _di.Module)({
                   agent: null
                 });
 
-              case 13:
+              case 14:
               case "end":
-                return _context5.stop();
+                return _context6.stop();
             }
           }
-        }, _callee5, this);
+        }, _callee6, this);
       }));
 
       function logout() {
@@ -491,7 +515,7 @@ var EvAuth = (_dec = (0, _di.Module)({
   }, {
     key: "beforeAgentLogout",
     value: function beforeAgentLogout(callback) {
-      this._eventEmitter.on(_enums.authStatus.LOGOUT_BEFORE, callback);
+      this._eventEmitter.on(_enums.loginStatus.LOGOUT_BEFORE, callback);
     }
   }, {
     key: "newReconnect",
@@ -506,72 +530,95 @@ var EvAuth = (_dec = (0, _di.Module)({
   }, {
     key: "authenticateWithToken",
     value: function () {
-      var _authenticateWithToken = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
-        var rcAccessToken,
+      var _authenticateWithToken = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
+        var _this3 = this;
+
+        var _ref7,
+            _ref7$rcAccessToken,
+            rcAccessToken,
+            _ref7$tokenType,
             tokenType,
+            _ref7$shouldEmitAuthS,
+            shouldEmitAuthSuccess,
             authenticateResponse,
             agent,
-            _args6 = arguments;
-        return regeneratorRuntime.wrap(function _callee6$(_context6) {
+            _args7 = arguments;
+
+        return regeneratorRuntime.wrap(function _callee7$(_context7) {
           while (1) {
-            switch (_context6.prev = _context6.next) {
+            switch (_context7.prev = _context7.next) {
               case 0:
-                rcAccessToken = _args6.length > 0 && _args6[0] !== undefined ? _args6[0] : this._deps.auth.accessToken;
-                tokenType = _args6.length > 1 && _args6[1] !== undefined ? _args6[1] : 'Bearer';
-                _context6.prev = 2;
+                _ref7 = _args7.length > 0 && _args7[0] !== undefined ? _args7[0] : {}, _ref7$rcAccessToken = _ref7.rcAccessToken, rcAccessToken = _ref7$rcAccessToken === void 0 ? this._deps.auth.accessToken : _ref7$rcAccessToken, _ref7$tokenType = _ref7.tokenType, tokenType = _ref7$tokenType === void 0 ? 'Bearer' : _ref7$tokenType, _ref7$shouldEmitAuthS = _ref7.shouldEmitAuthSuccess, shouldEmitAuthSuccess = _ref7$shouldEmitAuthS === void 0 ? true : _ref7$shouldEmitAuthS;
+                console.log('authenticateWithToken', shouldEmitAuthSuccess);
+                _context7.prev = 2;
 
                 this._deps.evClient.initSDK();
 
-                _context6.next = 6;
+                _context7.next = 6;
                 return this._deps.evClient.getAndHandleAuthenticateResponse(rcAccessToken, tokenType);
 
               case 6:
-                authenticateResponse = _context6.sent;
+                authenticateResponse = _context7.sent;
                 agent = _objectSpread(_objectSpread({}, this.agent), {}, {
                   authenticateResponse: authenticateResponse
                 });
+
+                if (shouldEmitAuthSuccess && !this._authenticateResponseWatcher) {
+                  this._authenticateResponseWatcher = (0, _core.watch)(this, function () {
+                    var _this3$agent;
+
+                    return (_this3$agent = _this3.agent) === null || _this3$agent === void 0 ? void 0 : _this3$agent.authenticateResponse;
+                  }, function (authenticateResponse) {
+                    if (authenticateResponse) {
+                      _this3._emitAuthSuccess();
+
+                      _this3._authenticateResponseWatcher();
+
+                      _this3._authenticateResponseWatcher = null;
+                    }
+                  });
+                }
+
                 this.setAgent(agent);
+                this.setAuthSuccess();
+                return _context7.abrupt("return", authenticateResponse);
 
-                this._emitAuthSuccess();
-
-                return _context6.abrupt("return", authenticateResponse);
-
-              case 13:
-                _context6.prev = 13;
-                _context6.t0 = _context6["catch"](2);
-                _context6.t1 = _context6.t0.type;
-                _context6.next = _context6.t1 === _enums.messageTypes.NO_AGENT ? 18 : _context6.t1 === _enums.messageTypes.CONNECT_TIMEOUT ? 20 : _context6.t1 === _enums.messageTypes.UNEXPECTED_AGENT ? 20 : 22;
+              case 14:
+                _context7.prev = 14;
+                _context7.t0 = _context7["catch"](2);
+                _context7.t1 = _context7.t0.type;
+                _context7.next = _context7.t1 === _enums.messageTypes.NO_AGENT ? 19 : _context7.t1 === _enums.messageTypes.CONNECT_TIMEOUT ? 21 : _context7.t1 === _enums.messageTypes.UNEXPECTED_AGENT ? 21 : 23;
                 break;
 
-              case 18:
+              case 19:
                 this._deps.alert.warning({
-                  message: _context6.t0.type
+                  message: _context7.t0.type
                 });
 
-                return _context6.abrupt("break", 23);
+                return _context7.abrupt("break", 24);
 
-              case 20:
+              case 21:
                 this._deps.alert.danger({
-                  message: _context6.t0.type
+                  message: _context7.t0.type
                 });
 
-                return _context6.abrupt("break", 23);
+                return _context7.abrupt("break", 24);
 
-              case 22:
+              case 23:
                 this._deps.alert.danger({
                   message: _enums.messageTypes.CONNECT_ERROR
                 });
 
-              case 23:
-                _context6.next = 25;
+              case 24:
+                _context7.next = 26;
                 return this._logout();
 
-              case 25:
+              case 26:
               case "end":
-                return _context6.stop();
+                return _context7.stop();
             }
           }
-        }, _callee6, this, [[2, 13]]);
+        }, _callee7, this, [[2, 14]]);
       }));
 
       function authenticateWithToken() {
@@ -583,13 +630,13 @@ var EvAuth = (_dec = (0, _di.Module)({
   }, {
     key: "openSocketWithSelectedAgentId",
     value: function () {
-      var _openSocketWithSelectedAgentId = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
-        var _this3 = this;
+      var _openSocketWithSelectedAgentId = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8() {
+        var _this4 = this;
 
-        var _ref6,
-            _ref6$syncOtherTabs,
+        var _ref8,
+            _ref8$syncOtherTabs,
             syncOtherTabs,
-            _ref6$retryOpenSocket,
+            _ref8$retryOpenSocket,
             retryOpenSocket,
             getAgentConfig,
             selectedAgentId,
@@ -600,23 +647,23 @@ var EvAuth = (_dec = (0, _di.Module)({
             openSocketRes,
             agentConfig,
             agent,
-            _args7 = arguments;
+            _args8 = arguments;
 
-        return regeneratorRuntime.wrap(function _callee7$(_context7) {
+        return regeneratorRuntime.wrap(function _callee8$(_context8) {
           while (1) {
-            switch (_context7.prev = _context7.next) {
+            switch (_context8.prev = _context8.next) {
               case 0:
-                _ref6 = _args7.length > 0 && _args7[0] !== undefined ? _args7[0] : {}, _ref6$syncOtherTabs = _ref6.syncOtherTabs, syncOtherTabs = _ref6$syncOtherTabs === void 0 ? false : _ref6$syncOtherTabs, _ref6$retryOpenSocket = _ref6.retryOpenSocket, retryOpenSocket = _ref6$retryOpenSocket === void 0 ? false : _ref6$retryOpenSocket;
-                _context7.prev = 1;
+                _ref8 = _args8.length > 0 && _args8[0] !== undefined ? _args8[0] : {}, _ref8$syncOtherTabs = _ref8.syncOtherTabs, syncOtherTabs = _ref8$syncOtherTabs === void 0 ? false : _ref8$syncOtherTabs, _ref8$retryOpenSocket = _ref8.retryOpenSocket, retryOpenSocket = _ref8$retryOpenSocket === void 0 ? false : _ref8$retryOpenSocket;
+                console.log('openSocketWithSelectedAgentId', syncOtherTabs, retryOpenSocket);
+                _context8.prev = 2;
                 // TODO: here need check time when no message come back, that will block app.
                 getAgentConfig = new Promise(function (resolve) {
-                  _this3._deps.evClient.on(_enums2.EvCallbackTypes.LOGIN_PHASE_1, resolve);
+                  _this4._deps.evClient.on(_enums2.EvCallbackTypes.LOGIN_PHASE_1, resolve);
                 });
                 selectedAgentId = this.agentId;
-                console.log('selectedAgentId~~~', selectedAgentId);
 
                 if (selectedAgentId) {
-                  _context7.next = 7;
+                  _context8.next = 7;
                   break;
                 }
 
@@ -625,55 +672,58 @@ var EvAuth = (_dec = (0, _di.Module)({
                 });
 
               case 7:
-                _context7.next = 9;
+                _context8.next = 9;
                 return this._deps.evClient.openSocket(selectedAgentId);
 
               case 9:
-                openSocketResult = _context7.sent;
-                _context7.next = 12;
+                openSocketResult = _context8.sent;
+                _context8.next = 12;
                 return (0, _sleep["default"])(0);
 
               case 12:
                 if (!openSocketResult.error) {
-                  _context7.next = 29;
+                  _context8.next = 29;
                   break;
                 }
 
                 console.log('retryOpenSocket~~', retryOpenSocket);
 
                 if (!retryOpenSocket) {
-                  _context7.next = 28;
+                  _context8.next = 28;
                   break;
                 }
 
-                _context7.next = 17;
+                _context8.next = 17;
                 return this._deps.auth.refreshToken();
 
               case 17:
-                _yield$this$_deps$aut = _context7.sent;
+                _yield$this$_deps$aut = _context8.sent;
                 access_token = _yield$this$_deps$aut.access_token;
-                _context7.next = 21;
-                return this.authenticateWithToken(access_token);
+                _context8.next = 21;
+                return this.authenticateWithToken({
+                  rcAccessToken: access_token,
+                  shouldEmitAuthSuccess: false
+                });
 
               case 21:
-                authenticateRes = _context7.sent;
+                authenticateRes = _context8.sent;
 
                 if (authenticateRes) {
-                  _context7.next = 24;
+                  _context8.next = 24;
                   break;
                 }
 
-                return _context7.abrupt("return");
+                return _context8.abrupt("return");
 
               case 24:
-                _context7.next = 26;
+                _context8.next = 26;
                 return this.openSocketWithSelectedAgentId({
                   syncOtherTabs: syncOtherTabs
                 });
 
               case 26:
-                openSocketRes = _context7.sent;
-                return _context7.abrupt("return", openSocketRes);
+                openSocketRes = _context8.sent;
+                return _context8.abrupt("return", openSocketRes);
 
               case 28:
                 throw new _EvTypeError.EvTypeError({
@@ -686,60 +736,75 @@ var EvAuth = (_dec = (0, _di.Module)({
                   this._deps.tabManager.send(_enums.tabManagerEvents.OPEN_SOCKET);
                 }
 
-                _context7.next = 32;
+                _context8.next = 32;
                 return getAgentConfig;
 
               case 32:
-                agentConfig = _context7.sent;
+                agentConfig = _context8.sent;
                 agent = _objectSpread(_objectSpread({}, this.agent), {}, {
                   agentConfig: agentConfig
                 });
+
+                if (!this._agentConfigWatcher) {
+                  this._agentConfigWatcher = (0, _core.watch)(this, function () {
+                    var _this4$agent;
+
+                    return (_this4$agent = _this4.agent) === null || _this4$agent === void 0 ? void 0 : _this4$agent.agentConfig;
+                  }, function (agentConfig) {
+                    if (agentConfig) {
+                      _this4._emitLoginSuccess();
+
+                      _this4._agentConfigWatcher();
+
+                      _this4._agentConfigWatcher = null;
+                    }
+                  });
+                }
+
                 this.setConnectionData({
                   agent: agent,
                   connected: true
                 });
                 this.connecting = false;
+                this.setLoginSuccess();
+                return _context8.abrupt("return", agentConfig);
 
-                this._emitLoginSuccess();
-
-                return _context7.abrupt("return", agentConfig);
-
-              case 40:
-                _context7.prev = 40;
-                _context7.t0 = _context7["catch"](1);
-                _context7.t1 = _context7.t0.type;
-                _context7.next = _context7.t1 === _enums.messageTypes.NO_AGENT ? 45 : _context7.t1 === _enums.messageTypes.INVALID_BROWSER ? 47 : _context7.t1 === _enums.messageTypes.OPEN_SOCKET_ERROR ? 47 : 49;
+              case 41:
+                _context8.prev = 41;
+                _context8.t0 = _context8["catch"](2);
+                _context8.t1 = _context8.t0.type;
+                _context8.next = _context8.t1 === _enums.messageTypes.NO_AGENT ? 46 : _context8.t1 === _enums.messageTypes.INVALID_BROWSER ? 48 : _context8.t1 === _enums.messageTypes.OPEN_SOCKET_ERROR ? 48 : 50;
                 break;
 
-              case 45:
+              case 46:
                 this._deps.alert.warning({
-                  message: _context7.t0.type
+                  message: _context8.t0.type
                 });
 
-                return _context7.abrupt("break", 50);
+                return _context8.abrupt("break", 51);
 
-              case 47:
+              case 48:
                 this._deps.alert.danger({
-                  message: _context7.t0.type
+                  message: _context8.t0.type
                 });
 
-                return _context7.abrupt("break", 50);
+                return _context8.abrupt("break", 51);
 
-              case 49:
+              case 50:
                 this._deps.alert.danger({
                   message: _enums.messageTypes.CONNECT_ERROR
                 });
 
-              case 50:
-                _context7.next = 52;
+              case 51:
+                _context8.next = 53;
                 return this._logout();
 
-              case 52:
+              case 53:
               case "end":
-                return _context7.stop();
+                return _context8.stop();
             }
           }
-        }, _callee7, this, [[1, 40]]);
+        }, _callee8, this, [[2, 41]]);
       }));
 
       function openSocketWithSelectedAgentId() {
@@ -749,101 +814,92 @@ var EvAuth = (_dec = (0, _di.Module)({
       return openSocketWithSelectedAgentId;
     }()
   }, {
-    key: "onLoginSuccess",
-    value: function onLoginSuccess(callback) {
-      this._eventEmitter.on(_enums.authStatus.LOGIN_SUCCESS, callback);
-    }
-  }, {
     key: "onceLoginSuccess",
     value: function onceLoginSuccess(callback) {
-      this._eventEmitter.once(_enums.authStatus.LOGIN_SUCCESS, callback);
+      this._eventEmitter.once(_enums.loginStatus.LOGIN_SUCCESS, callback);
     }
   }, {
     key: "onAuthSuccess",
     value: function onAuthSuccess(callback) {
-      this._eventEmitter.on(_enums.authStatus.AUTH_SUCCESS, callback);
+      this._eventEmitter.on(_enums.loginStatus.AUTH_SUCCESS, callback);
     }
   }, {
     key: "_emitLogoutBefore",
     value: function _emitLogoutBefore() {
-      this._eventEmitter.emit(_enums.authStatus.LOGOUT_BEFORE);
+      this._eventEmitter.emit(_enums.loginStatus.LOGOUT_BEFORE);
     }
   }, {
     key: "_emitLoginSuccess",
     value: function _emitLoginSuccess() {
-      this._eventEmitter.emit(_enums.authStatus.LOGIN_SUCCESS);
+      this._eventEmitter.emit(_enums.loginStatus.LOGIN_SUCCESS);
     }
   }, {
     key: "_emitAuthSuccess",
     value: function _emitAuthSuccess() {
-      console.log('_emitAuthSuccess~~');
-
-      this._eventEmitter.emit(_enums.authStatus.AUTH_SUCCESS);
+      this._eventEmitter.emit(_enums.loginStatus.AUTH_SUCCESS);
     }
   }, {
     key: "_checkTabManagerEvent",
     value: function () {
-      var _checkTabManagerEvent2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9() {
-        var _this4 = this;
+      var _checkTabManagerEvent2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10() {
+        var _this5 = this;
 
-        var event, data;
-        return regeneratorRuntime.wrap(function _callee9$(_context9) {
+        var event;
+        return regeneratorRuntime.wrap(function _callee10$(_context10) {
           while (1) {
-            switch (_context9.prev = _context9.next) {
+            switch (_context10.prev = _context10.next) {
               case 0:
                 event = this._deps.tabManager.event;
 
                 if (!event) {
-                  _context9.next = 15;
+                  _context10.next = 13;
                   break;
                 }
 
-                data = event.args[0];
-                _context9.t0 = event.name;
-                _context9.next = _context9.t0 === _enums.tabManagerEvents.LOGOUT ? 6 : _context9.t0 === _enums.tabManagerEvents.OPEN_SOCKET ? 8 : _context9.t0 === _enums.tabManagerEvents.SET_AGENT_ID ? 12 : 14;
+                _context10.t0 = event.name;
+                _context10.next = _context10.t0 === _enums.tabManagerEvents.LOGOUT ? 5 : _context10.t0 === _enums.tabManagerEvents.OPEN_SOCKET ? 7 : _context10.t0 === _enums.tabManagerEvents.LOGGED_OUT ? 10 : 12;
                 break;
 
-              case 6:
+              case 5:
                 this._logoutByOtherTab = true;
-                return _context9.abrupt("break", 15);
+                return _context10.abrupt("break", 13);
 
-              case 8:
-                console.log('tabManagerEvents.OPEN_SOCKET~~');
-                _context9.next = 11;
-                return this._deps.block.next( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8() {
-                  return regeneratorRuntime.wrap(function _callee8$(_context8) {
+              case 7:
+                _context10.next = 9;
+                return this._deps.block.next( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9() {
+                  return regeneratorRuntime.wrap(function _callee9$(_context9) {
                     while (1) {
-                      switch (_context8.prev = _context8.next) {
+                      switch (_context9.prev = _context9.next) {
                         case 0:
-                          _context8.next = 2;
-                          return _this4.openSocketWithSelectedAgentId({
+                          _context9.next = 2;
+                          return _this5.openSocketWithSelectedAgentId({
                             retryOpenSocket: true
                           });
 
                         case 2:
                         case "end":
-                          return _context8.stop();
+                          return _context9.stop();
                       }
                     }
-                  }, _callee8);
+                  }, _callee9);
                 })));
 
-              case 11:
-                return _context9.abrupt("break", 15);
+              case 9:
+                return _context10.abrupt("break", 13);
+
+              case 10:
+                this.setNotAuth();
+                return _context10.abrupt("break", 13);
 
               case 12:
-                this.setAgentId(data);
-                return _context9.abrupt("break", 15);
+                return _context10.abrupt("break", 13);
 
-              case 14:
-                return _context9.abrupt("break", 15);
-
-              case 15:
+              case 13:
               case "end":
-                return _context9.stop();
+                return _context10.stop();
             }
           }
-        }, _callee9, this);
+        }, _callee10, this);
       }));
 
       function _checkTabManagerEvent() {
@@ -874,12 +930,16 @@ var EvAuth = (_dec = (0, _di.Module)({
   }, {
     key: "agentSettings",
     get: function get() {
-      return this.agentConfig.agentSettings;
+      var _this$agentConfig;
+
+      return (_this$agentConfig = this.agentConfig) === null || _this$agentConfig === void 0 ? void 0 : _this$agentConfig.agentSettings;
     }
   }, {
     key: "outboundManualDefaultRingtime",
     get: function get() {
-      return this.agentSettings.outboundManualDefaultRingtime;
+      var _this$agentSettings;
+
+      return (_this$agentSettings = this.agentSettings) === null || _this$agentSettings === void 0 ? void 0 : _this$agentSettings.outboundManualDefaultRingtime;
     }
   }, {
     key: "inboundSettings",
@@ -900,7 +960,9 @@ var EvAuth = (_dec = (0, _di.Module)({
   }, {
     key: "agentPermissions",
     get: function get() {
-      return this.agentConfig.agentPermissions;
+      var _this$agentConfig2;
+
+      return (_this$agentConfig2 = this.agentConfig) === null || _this$agentConfig2 === void 0 ? void 0 : _this$agentConfig2.agentPermissions;
     }
   }, {
     key: "availableQueues",
@@ -934,10 +996,14 @@ var EvAuth = (_dec = (0, _di.Module)({
   }, {
     key: "availableCountries",
     get: function get() {
-      var availableCountries = this.agentConfig.applicationSettings.availableCountries; // The default Engage Voice service area is `USA` and `CAN` with `+1` international code.
+      var _this$agentConfig3;
 
-      var countriesUsaCan = availableCountries.filter(function (_ref8) {
-        var countryId = _ref8.countryId;
+      var _this$agentConfig$app = (_this$agentConfig3 = this.agentConfig) === null || _this$agentConfig3 === void 0 ? void 0 : _this$agentConfig3.applicationSettings,
+          availableCountries = _this$agentConfig$app.availableCountries; // The default Engage Voice service area is `USA` and `CAN` with `+1` international code.
+
+
+      var countriesUsaCan = availableCountries.filter(function (_ref10) {
+        var countryId = _ref10.countryId;
         return DEFAULT_COUNTRIES.includes(countryId);
       });
       return countriesUsaCan.length > 0 ? countriesUsaCan : [{
@@ -945,17 +1011,22 @@ var EvAuth = (_dec = (0, _di.Module)({
         countryName: _i18n["default"].getString('us', this._deps.locale.currentLocale)
       }];
     }
+  }, {
+    key: "isEvLogged",
+    get: function get() {
+      return this.loginStatus === _enums.loginStatus.LOGIN_SUCCESS;
+    }
   }]);
 
   return EvAuth;
-}(_core.RcModuleV2), _temp), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "connected", [_core.storage, _core.state], {
+}(_core.RcModuleV2), _temp), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "connected", [_core.globalStorage, _core.state], {
   configurable: true,
   enumerable: true,
   writable: true,
   initializer: function initializer() {
     return false;
   }
-}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, "agent", [_core.storage, _core.state], {
+}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, "agent", [_core.globalStorage, _core.state], {
   configurable: true,
   enumerable: true,
   writable: true,
@@ -969,6 +1040,13 @@ var EvAuth = (_dec = (0, _di.Module)({
   initializer: function initializer() {
     return '';
   }
-}), _applyDecoratedDescriptor(_class2.prototype, "setAgentId", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setAgentId"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "availableQueues", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "availableQueues"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "availableRequeueQueues", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "availableRequeueQueues"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "callerIds", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "callerIds"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "availableCountries", [_dec5], Object.getOwnPropertyDescriptor(_class2.prototype, "availableCountries"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setConnectionData", [_dec6, _core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setConnectionData"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setConnected", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setConnected"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setAgent", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setAgent"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "clearAgentId", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "clearAgentId"), _class2.prototype)), _class2)) || _class);
+}), _applyDecoratedDescriptor(_class2.prototype, "setAgentId", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setAgentId"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "availableQueues", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "availableQueues"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "availableRequeueQueues", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "availableRequeueQueues"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "callerIds", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "callerIds"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "availableCountries", [_dec5], Object.getOwnPropertyDescriptor(_class2.prototype, "availableCountries"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setConnectionData", [_dec6, _core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setConnectionData"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setAgent", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setAgent"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setConnected", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setConnected"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "clearAgentId", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "clearAgentId"), _class2.prototype), _descriptor4 = _applyDecoratedDescriptor(_class2.prototype, "loginStatus", [_core.state], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: function initializer() {
+    return null;
+  }
+}), _applyDecoratedDescriptor(_class2.prototype, "setAuthSuccess", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setAuthSuccess"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setLoginSuccess", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setLoginSuccess"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setNotAuth", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setNotAuth"), _class2.prototype)), _class2)) || _class);
 exports.EvAuth = EvAuth;
 //# sourceMappingURL=EvAuth.js.map

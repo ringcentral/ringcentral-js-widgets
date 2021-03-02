@@ -25,7 +25,9 @@ var _juno = require("@ringcentral/juno");
 
 var _react = _interopRequireDefault(require("react"));
 
-var _ChevronLeft = _interopRequireDefault(require("@ringcentral/juno/icon/ChevronLeft"));
+var _ArrowLeft = _interopRequireDefault(require("@ringcentral/juno/icon/ArrowLeft2"));
+
+var _classnames = _interopRequireDefault(require("classnames"));
 
 var _EvLoginHeader = require("../EvLoginHeader");
 
@@ -57,29 +59,31 @@ var SessionConfigPanel = function SessionConfigPanel(_ref) {
   }, /*#__PURE__*/_react["default"].createElement(_EvLoginHeader.EvLoginHeader, {
     wrapperStyle: _styles["default"].wrapperStyle,
     svgStyle: _styles["default"].svgStyle
-  }), showReChooseAccount && /*#__PURE__*/_react["default"].createElement("div", {
-    className: _styles["default"].goBackBg
+  }), /*#__PURE__*/_react["default"].createElement("div", {
+    className: (0, _classnames["default"])(_styles["default"].goBackBg, !showReChooseAccount && _styles["default"].hideGoBack)
   }, /*#__PURE__*/_react["default"].createElement("div", {
     onClick: onAccountReChoose,
     className: _styles["default"].goBack
   }, /*#__PURE__*/_react["default"].createElement(_juno.RcIconButton, {
     className: _styles["default"].back,
     variant: "round",
-    size: "small",
-    symbol: _ChevronLeft["default"],
+    size: "medium",
+    symbol: _ArrowLeft["default"],
     color: "primary",
     "data-sign": "reChooseAccountButton"
   }), /*#__PURE__*/_react["default"].createElement(_juno.RcTypography, {
     variant: "body1",
     className: _styles["default"].backText
   }, _i18n["default"].getString('switchAccount', currentLocale)))), /*#__PURE__*/_react["default"].createElement("div", {
+    "data-sign": "accountInfo",
     className: _styles["default"].accountInfo
   }, /*#__PURE__*/_react["default"].createElement(_juno.RcTypography, {
     variant: "body1",
     className: _styles["default"].accountName
   }, selectedAgent === null || selectedAgent === void 0 ? void 0 : selectedAgent.accountName), /*#__PURE__*/_react["default"].createElement(_juno.RcTypography, {
     variant: "caption1",
-    className: _styles["default"].agentType
+    className: _styles["default"].agentType,
+    "data-sign": "agentType"
   }, _i18n["default"].getString(selectedAgent === null || selectedAgent === void 0 ? void 0 : selectedAgent.agentType, currentLocale))), /*#__PURE__*/_react["default"].createElement(_BasicSessionPanel.BasicSessionPanel, _extends({
     classes: {
       root: _styles["default"].basicSession

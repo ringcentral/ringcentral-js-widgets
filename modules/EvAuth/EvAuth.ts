@@ -3,22 +3,28 @@ import {
   computed,
   RcModuleV2,
   state,
-  storage,
   track,
   globalStorage,
+  watch,
 } from '@ringcentral-integration/core';
 import format from '@ringcentral-integration/phone-number/lib/format';
 import { EventEmitter } from 'events';
+import { Unsubscribe } from 'redux';
 import { Module } from 'ringcentral-integration/lib/di';
 import sleep from 'ringcentral-integration/lib/sleep';
 
-import { authStatus, messageTypes, tabManagerEvents } from '../../enums';
-import { EvAgentConfig, EvAgentData, EvTokenType } from '../../lib/EvClient';
+import { loginStatus, messageTypes, tabManagerEvents } from '../../enums';
+import { EvAgentConfig, EvAgentData } from '../../lib/EvClient';
 import { EvCallbackTypes } from '../../lib/EvClient/enums';
 import { EvTypeError } from '../../lib/EvTypeError';
 import { sortByName } from '../../lib/sortByName';
 import { trackEvents } from '../../lib/trackEvents';
-import { Auth, Deps, State } from './EvAuth.interface';
+import {
+  Auth,
+  Deps,
+  State,
+  AuthenticateWithTokenType,
+} from './EvAuth.interface';
 import i18n from './i18n';
 
 const DEFAULT_COUNTRIES = ['USA', 'CAN'];
@@ -28,7 +34,6 @@ const DEFAULT_COUNTRIES = ['USA', 'CAN'];
   deps: [
     'EvClient',
     'Auth',
-    'Storage',
     'Block',
     'Alert',
     'Locale',
@@ -46,11 +51,18 @@ class EvAuth extends RcModuleV2<Deps> implements Auth {
 
   public canUserLogoutFn: () => Promise<boolean> = async () => true;
 
-  private _logout = () => {
-    return this._deps.auth.logout({ dismissAllAlert: false });
+  private _logout = async () => {
+    await this._deps.auth.logout({ dismissAllAlert: false });
+    this.setNotAuth();
+    if (this.tabManagerEnabled) {
+      this._deps.tabManager.send(tabManagerEvents.LOGGED_OUT);
+    }
   };
 
   private _logoutByOtherTab = false;
+
+  private _authenticateResponseWatcher: Unsubscribe = null;
+  private _agentConfigWatcher: Unsubscribe = null;
 
   get tabManagerEnabled() {
     return this._deps.tabManager?.enable;
@@ -63,17 +75,16 @@ class EvAuth extends RcModuleV2<Deps> implements Auth {
   constructor(deps: Deps) {
     super({
       deps,
-      enableCache: true,
       storageKey: 'EvAuth',
       enableGlobalCache: true,
     });
   }
 
-  @storage
+  @globalStorage
   @state
   connected = false;
 
-  @storage
+  @globalStorage
   @state
   agent: EvAgentData = null;
 
@@ -82,11 +93,8 @@ class EvAuth extends RcModuleV2<Deps> implements Auth {
   agentId = '';
 
   @action
-  setAgentId(agentId: string, syncTabs = false) {
+  setAgentId(agentId: string) {
     this.agentId = agentId;
-    if (syncTabs) {
-      this._deps.tabManager.send(tabManagerEvents.SET_AGENT_ID, agentId);
-    }
   }
 
   get isFreshLogin() {
@@ -102,11 +110,11 @@ class EvAuth extends RcModuleV2<Deps> implements Auth {
   }
 
   get agentSettings() {
-    return this.agentConfig.agentSettings;
+    return this.agentConfig?.agentSettings;
   }
 
   get outboundManualDefaultRingtime() {
-    return this.agentSettings.outboundManualDefaultRingtime;
+    return this.agentSettings?.outboundManualDefaultRingtime;
   }
 
   get inboundSettings() {
@@ -126,7 +134,7 @@ class EvAuth extends RcModuleV2<Deps> implements Auth {
   }
 
   get agentPermissions() {
-    return this.agentConfig.agentPermissions;
+    return this.agentConfig?.agentPermissions;
   }
 
   @computed((that: EvAuth) => [that.inboundSettings.availableQueues])
@@ -171,7 +179,7 @@ class EvAuth extends RcModuleV2<Deps> implements Auth {
     that._deps.locale.currentLocale,
   ])
   get availableCountries() {
-    const { availableCountries } = this.agentConfig.applicationSettings;
+    const { availableCountries } = this.agentConfig?.applicationSettings;
     // The default Engage Voice service area is `USA` and `CAN` with `+1` international code.
     const countriesUsaCan = availableCountries.filter(({ countryId }) =>
       DEFAULT_COUNTRIES.includes(countryId),
@@ -209,34 +217,51 @@ class EvAuth extends RcModuleV2<Deps> implements Auth {
   }
 
   @action
-  setConnected(connected: boolean) {
-    this.connected = connected;
-  }
-
-  @action
   setAgent(agent: EvAgentData) {
     this.agent = agent;
   }
 
   @action
-  clearAgentId(syncTabs = false) {
+  setConnected(connected: boolean) {
+    this.connected = connected;
+  }
+
+  @action
+  clearAgentId() {
     this.agentId = '';
-    if (syncTabs) {
-      this._deps.tabManager.send(tabManagerEvents.SET_AGENT_ID, '');
-    }
+  }
+
+  @state
+  loginStatus: string = null;
+
+  @action
+  setAuthSuccess() {
+    this.loginStatus = loginStatus.AUTH_SUCCESS;
+  }
+
+  @action
+  setLoginSuccess() {
+    this.loginStatus = loginStatus.LOGIN_SUCCESS;
+  }
+
+  get isEvLogged() {
+    return this.loginStatus === loginStatus.LOGIN_SUCCESS;
+  }
+
+  @action
+  setNotAuth() {
+    this.loginStatus = loginStatus.NOT_AUTH;
   }
 
   _shouldInit() {
     return super._shouldInit() && this._deps.auth.loggedIn && this.connected;
   }
 
-  onBeforeRCLogout() {
-    console.log('_onBeforeRCLogout~');
-    this.clearAgentId();
-  }
-
   onInitOnce() {
-    this._deps.auth.addBeforeLogoutHandler(() => this.onBeforeRCLogout());
+    this._deps.auth.addAfterLoggedInHandler(() => {
+      console.log('addAfterLoggedInHandler~~');
+      this.clearAgentId();
+    });
     this._deps.evSubscription.subscribe(EvCallbackTypes.LOGOUT, async () => {
       this._emitLogoutBefore();
 
@@ -260,8 +285,12 @@ class EvAuth extends RcModuleV2<Deps> implements Auth {
       await this._checkTabManagerEvent();
     }
 
-    if (this._deps.auth.loggedIn && !this.connected && !this.connecting) {
-      console.log('evAuth onStateChange~~');
+    if (
+      this._deps.auth.loggedIn &&
+      this.loginStatus !== loginStatus.AUTH_SUCCESS &&
+      this.loginStatus !== loginStatus.LOGIN_SUCCESS &&
+      !this.connecting
+    ) {
       this.connecting = true;
       // when login make sure the logoutByOtherTab is false
       this._logoutByOtherTab = false;
@@ -282,6 +311,7 @@ class EvAuth extends RcModuleV2<Deps> implements Auth {
     if (!(await this.canUserLogoutFn())) {
       return;
     }
+    console.log('logout~~');
 
     const agentId = this.agentId;
 
@@ -311,7 +341,7 @@ class EvAuth extends RcModuleV2<Deps> implements Auth {
   }
 
   beforeAgentLogout(callback: () => void) {
-    this._eventEmitter.on(authStatus.LOGOUT_BEFORE, callback);
+    this._eventEmitter.on(loginStatus.LOGOUT_BEFORE, callback);
   }
 
   newReconnect(isBlock: boolean = true) {
@@ -322,10 +352,12 @@ class EvAuth extends RcModuleV2<Deps> implements Auth {
     return isBlock ? this._deps.block.next(fn) : fn();
   }
 
-  async authenticateWithToken(
+  async authenticateWithToken({
     rcAccessToken = this._deps.auth.accessToken,
-    tokenType: EvTokenType = 'Bearer',
-  ) {
+    tokenType = 'Bearer',
+    shouldEmitAuthSuccess = true,
+  }: AuthenticateWithTokenType = {}) {
+    console.log('authenticateWithToken', shouldEmitAuthSuccess);
     try {
       this._deps.evClient.initSDK();
 
@@ -334,9 +366,21 @@ class EvAuth extends RcModuleV2<Deps> implements Auth {
         tokenType,
       );
       const agent = { ...this.agent, authenticateResponse };
+      if (shouldEmitAuthSuccess && !this._authenticateResponseWatcher) {
+        this._authenticateResponseWatcher = watch(
+          this,
+          () => this.agent?.authenticateResponse,
+          (authenticateResponse) => {
+            if (authenticateResponse) {
+              this._emitAuthSuccess();
+              this._authenticateResponseWatcher();
+              this._authenticateResponseWatcher = null;
+            }
+          },
+        );
+      }
       this.setAgent(agent);
-      this._emitAuthSuccess();
-
+      this.setAuthSuccess();
       return authenticateResponse;
     } catch (error) {
       switch (error.type) {
@@ -364,6 +408,11 @@ class EvAuth extends RcModuleV2<Deps> implements Auth {
     syncOtherTabs = false,
     retryOpenSocket = false,
   } = {}) {
+    console.log(
+      'openSocketWithSelectedAgentId',
+      syncOtherTabs,
+      retryOpenSocket,
+    );
     try {
       // TODO: here need check time when no message come back, that will block app.
       const getAgentConfig = new Promise<EvAgentConfig>((resolve) => {
@@ -371,7 +420,6 @@ class EvAuth extends RcModuleV2<Deps> implements Auth {
       });
 
       const selectedAgentId = this.agentId;
-      console.log('selectedAgentId~~~', selectedAgentId);
       if (!selectedAgentId) {
         throw new EvTypeError({
           type: messageTypes.NO_AGENT,
@@ -387,9 +435,10 @@ class EvAuth extends RcModuleV2<Deps> implements Auth {
         console.log('retryOpenSocket~~', retryOpenSocket);
         if (retryOpenSocket) {
           const { access_token } = await this._deps.auth.refreshToken();
-          const authenticateRes = await this.authenticateWithToken(
-            access_token,
-          );
+          const authenticateRes = await this.authenticateWithToken({
+            rcAccessToken: access_token,
+            shouldEmitAuthSuccess: false,
+          });
           if (!authenticateRes) return;
           const openSocketRes: any = await this.openSocketWithSelectedAgentId({
             syncOtherTabs,
@@ -410,11 +459,26 @@ class EvAuth extends RcModuleV2<Deps> implements Auth {
 
       const agent = { ...this.agent, agentConfig };
 
+      if (!this._agentConfigWatcher) {
+        this._agentConfigWatcher = watch(
+          this,
+          () => this.agent?.agentConfig,
+          (agentConfig) => {
+            if (agentConfig) {
+              this._emitLoginSuccess();
+              this._agentConfigWatcher();
+              this._agentConfigWatcher = null;
+            }
+          },
+        );
+      }
+
       this.setConnectionData({ agent, connected: true });
 
       this.connecting = false;
 
-      this._emitLoginSuccess();
+      this.setLoginSuccess();
+
       return agentConfig;
     } catch (error) {
       switch (error.type) {
@@ -440,54 +504,50 @@ class EvAuth extends RcModuleV2<Deps> implements Auth {
   }
 
   loginAgent = async (token: string = this._deps.auth.accessToken) => {
-    const authenticateRes = await this.authenticateWithToken(token);
+    const authenticateRes = await this.authenticateWithToken({
+      rcAccessToken: token,
+      shouldEmitAuthSuccess: false,
+    });
     if (!authenticateRes) return;
     await this.openSocketWithSelectedAgentId();
   };
 
-  onLoginSuccess(callback: () => void) {
-    this._eventEmitter.on(authStatus.LOGIN_SUCCESS, callback);
-  }
-
   onceLoginSuccess(callback: () => void) {
-    this._eventEmitter.once(authStatus.LOGIN_SUCCESS, callback);
+    this._eventEmitter.once(loginStatus.LOGIN_SUCCESS, callback);
   }
 
   onAuthSuccess(callback: () => void) {
-    this._eventEmitter.on(authStatus.AUTH_SUCCESS, callback);
+    this._eventEmitter.on(loginStatus.AUTH_SUCCESS, callback);
   }
 
   private _emitLogoutBefore() {
-    this._eventEmitter.emit(authStatus.LOGOUT_BEFORE);
+    this._eventEmitter.emit(loginStatus.LOGOUT_BEFORE);
   }
 
   private _emitLoginSuccess() {
-    this._eventEmitter.emit(authStatus.LOGIN_SUCCESS);
+    this._eventEmitter.emit(loginStatus.LOGIN_SUCCESS);
   }
 
   private _emitAuthSuccess() {
-    console.log('_emitAuthSuccess~~');
-    this._eventEmitter.emit(authStatus.AUTH_SUCCESS);
+    this._eventEmitter.emit(loginStatus.AUTH_SUCCESS);
   }
 
   private async _checkTabManagerEvent() {
     const { event } = this._deps.tabManager;
     if (event) {
-      const data = event.args[0];
       switch (event.name) {
         case tabManagerEvents.LOGOUT:
           this._logoutByOtherTab = true;
           break;
         case tabManagerEvents.OPEN_SOCKET:
-          console.log('tabManagerEvents.OPEN_SOCKET~~');
           await this._deps.block.next(async () => {
             await this.openSocketWithSelectedAgentId({
               retryOpenSocket: true,
             });
           });
           break;
-        case tabManagerEvents.SET_AGENT_ID:
-          this.setAgentId(data);
+        case tabManagerEvents.LOGGED_OUT:
+          this.setNotAuth();
           break;
         default:
           break;

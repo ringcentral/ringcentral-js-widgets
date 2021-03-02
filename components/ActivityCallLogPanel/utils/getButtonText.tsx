@@ -14,6 +14,10 @@ export function getButtonText(
       return <RcIcon symbol={checkSvg} />;
     case 'saving':
       return null;
+    case 'create':
+      return i18n.getString('create', currentLocale);
+    case 'update':
+      return i18n.getString('update', currentLocale);
     case 'submit':
     default:
       return i18n.getString('submit', currentLocale);

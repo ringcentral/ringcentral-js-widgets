@@ -37,21 +37,27 @@ var ChooseAccountPanel = function ChooseAccountPanel(_ref) {
   }), /*#__PURE__*/_react["default"].createElement(_juno.RcTypography, {
     variant: "caption2",
     className: _styles["default"].title
-  }, _i18n["default"].getString('chooseAccount', currentLocale)), agents.map(function (agent) {
+  }, _i18n["default"].getString('chooseAccount', currentLocale)), /*#__PURE__*/_react["default"].createElement("div", {
+    className: _styles["default"].lists
+  }, agents.map(function (agent) {
     return /*#__PURE__*/_react["default"].createElement(_SelectList.ListItem, {
       onClick: function onClick() {
         return onAccountItemClick(agent.agentId);
       },
       key: agent.agentId,
       className: _styles["default"].listItem
+    }, /*#__PURE__*/_react["default"].createElement("div", {
+      className: _styles["default"].content,
+      "data-sign": "subAccount"
     }, /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement(_juno.RcTypography, {
       variant: "body1",
       className: _styles["default"].accountName
     }, agent.accountName), /*#__PURE__*/_react["default"].createElement(_juno.RcTypography, {
       variant: "caption1",
-      className: _styles["default"].agentType
-    }, _i18n["default"].getString(agent.agentType, currentLocale))), /*#__PURE__*/_react["default"].createElement(_CustomArrowButton.CustomArrowButton, null));
-  }));
+      className: _styles["default"].agentType,
+      "data-sign": agent.agentType
+    }, _i18n["default"].getString(agent.agentType, currentLocale))), /*#__PURE__*/_react["default"].createElement(_CustomArrowButton.CustomArrowButton, null)));
+  })));
 };
 
 exports.ChooseAccountPanel = ChooseAccountPanel;

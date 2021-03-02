@@ -45,22 +45,15 @@ const getGroupItems = () =>
     .at(0)
     .find('RcList')
     .at(0)
-    .find('RcListItem');;
+    .find('RcListItem');
 
-const getSearchInput = () =>
-  wrapper
-    .find('RcOutlineTextField')
-    .at(0)
-    .find('input');
+const getSearchInput = () => wrapper.find('RcTextField').at(0).find('input');
 
 describe('<RequeueCallGroupPanel />', async () => {
   it('Has no available Requeue Group', () => {
     wrapper = setup({ queueGroups: [] });
     expect(
-      wrapper
-        .find('[data-sign="searchResult"]')
-        .at(0)
-        .find('RcList').length,
+      wrapper.find('[data-sign="searchResult"]').at(0).find('RcList').length,
     ).toBe(0);
   });
 
@@ -96,10 +89,7 @@ describe('<RequeueCallGroupPanel />', async () => {
     const goToRequeueGroupDetailPage = jest.fn(() => {});
     wrapper = setup({ goToRequeueGroupDetailPage });
     const selectIndex = 1;
-    getGroupItems()
-      .at(selectIndex)
-      .find('[role="button"]')
-      .simulate('click');
+    getGroupItems().at(selectIndex).find('[role="button"]').simulate('click');
 
     expect(goToRequeueGroupDetailPage).toBeCalledWith({
       groupId: defaultQueueGroups[selectIndex].gateGroupId,
@@ -122,12 +112,7 @@ describe('<RequeueCallGroupPanel />', async () => {
 
     expect(getGroupItems().length).toBe(0);
     expect(
-      wrapper
-        .find('[data-sign="searchResult"]')
-        .at(0)
-        .find('div')
-        .at(0)
-        .text(),
+      wrapper.find('[data-sign="searchResult"]').at(0).find('div').at(0).text(),
     ).toBe(`No result found for "${searchText}"`);
   });
 });

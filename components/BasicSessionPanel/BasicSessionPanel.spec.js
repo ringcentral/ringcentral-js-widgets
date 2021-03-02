@@ -236,7 +236,7 @@ describe('<BasicSessionPanel />', /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/r
             });
             var skillProfilePickList = wrapper.find('PickList[data-sign="skillProfile"]');
             expect(skillProfilePickList.prop('value')).toBe(selectedSkillProfileId);
-            expect(skillProfilePickList.find('.RcLineSelect-select').text()).toBe(defaultSkillProfileList.find(function (x) {
+            expect(skillProfilePickList.find('RcSelect').find('[aria-haspopup="listbox"]').text()).toBe(defaultSkillProfileList.find(function (x) {
               return x.profileId === selectedSkillProfileId;
             }).profileName);
             expect(skillProfilePickList.prop('options')).toHaveLength(defaultSkillProfileList.length);

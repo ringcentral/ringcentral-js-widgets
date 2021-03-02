@@ -53,9 +53,10 @@ var PickList = function PickList(_ref) {
       InputProps = _ref.InputProps,
       rest = _objectWithoutProperties(_ref, ["options", "optionValueKey", "optionLabelKey", "label", "value", "required", "onChange", "dataSign", "renderItem", "renderValue", "InputProps"]);
 
-  return /*#__PURE__*/_react["default"].createElement(_juno.RcLineSelect, _extends({
+  return /*#__PURE__*/_react["default"].createElement(_juno.RcSelect, _extends({
     "data-sign": dataSign,
     fullWidth: true,
+    gutterBottom: true,
     required: required,
     label: label,
     value: value,

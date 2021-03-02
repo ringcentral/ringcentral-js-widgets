@@ -22,6 +22,10 @@ p.warning {
   display: flex;
   margin-left: 0;
   margin-bottom: 16px;
+
+  .switchRoot.switchRoot {
+    margin: 0;
+  }
 }
 
 .label {

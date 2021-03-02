@@ -1,5 +1,5 @@
 import Locale from 'ringcentral-integration/modules/Locale';
-import Storage from 'ringcentral-integration/modules/Storage';
+
 import RouterInteraction from 'ringcentral-widgets/modules/RouterInteraction';
 
 import { EvEnvironment } from '../../interfaces/Environment.interface';
@@ -10,6 +10,7 @@ import { EvCall } from '../EvCall';
 import { EvCallMonitor } from '../EvCallMonitor';
 import { EvIntegratedSoftphone } from '../EvIntegratedSoftphone';
 import { EvSettings } from '../EvSettings';
+import { EvStorage } from '../EvStorage';
 import { EvWorkingState } from '../EvWorkingState';
 
 export interface State {
@@ -25,7 +26,7 @@ export interface Deps {
   evCall: EvCall;
   locale: Locale;
   evAuth: EvAuth;
-  storage: Storage;
+  storage: EvStorage;
   routerInteraction: RouterInteraction;
   evSettings: EvSettings;
   evClient: EvClient;

@@ -25,6 +25,6 @@ function EvIntegratedSoftphoneAlert(_ref) {
 
 EvIntegratedSoftphoneAlert.handleMessage = function (_ref2) {
   var message = _ref2.message;
-  return (0, _ramda.contains)(message, [_enums2.EvCallbackTypes.SIP_REGISTRATION_FAILED, _enums.EvSoftphoneEvents.AUDIO_STREAM_REJECTED, _enums.EvSoftphoneEvents.CALL_REJECTED, _enums.tabManagerEvents.SIP_CONNECTING, _enums.tabManagerEvents.SIP_RECONNECTING_WHEN_CALL_CONNECTED, _enums.tabManagerEvents.ASK_AUDIO_PERMISSION]);
+  return (0, _ramda.contains)(message, [_enums2.EvCallbackTypes.SIP_REGISTRATION_FAILED, _enums.EvSoftphoneEvents.AUDIO_STREAM_REJECTED, _enums.EvSoftphoneEvents.CALL_REJECTED, _enums.tabManagerEvents.SIP_CONNECTING, _enums.tabManagerEvents.SIP_RECONNECTING_WHEN_CALL_CONNECTED, _enums.tabManagerEvents.ASK_AUDIO_PERMISSION, _enums.tabManagerEvents.NOTIFY_ACTIVE_TAB_CALL_ACTIVE]);
 };
 //# sourceMappingURL=EvIntegratedSoftphoneAlert.js.map

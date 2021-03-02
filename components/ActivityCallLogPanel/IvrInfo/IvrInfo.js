@@ -124,7 +124,7 @@ var IvrInfo = function IvrInfo(_ref) {
       if (body.length > 0) {
         if (onClick) {
           return /*#__PURE__*/_react["default"].createElement(_juno.RcLink, {
-            handleOnClick: onClick
+            onClick: onClick
           }, body);
         }
 

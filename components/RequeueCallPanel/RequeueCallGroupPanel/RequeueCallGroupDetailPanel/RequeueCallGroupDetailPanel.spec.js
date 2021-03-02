@@ -12,11 +12,11 @@ require("core-js/modules/es7.array.includes");
 
 require("core-js/modules/es6.string.includes");
 
-var _react = _interopRequireDefault(require("react"));
-
 var _juno = require("@ringcentral/juno");
 
 var _enzyme = require("enzyme");
+
+var _react = _interopRequireDefault(require("react"));
 
 var _RequeueCallGroupDetailPanel = require("./RequeueCallGroupDetailPanel");
 
@@ -71,7 +71,7 @@ function setup() {
 }
 
 var getSearchInput = function getSearchInput() {
-  return wrapper.find('RcOutlineTextField').at(0).find('input');
+  return wrapper.find('RcTextField').at(0).find('input');
 };
 
 var getDetailItems = function getDetailItems() {

@@ -124,6 +124,7 @@ var ManualDialSettingsPanel = function ManualDialSettingsPanel(_ref) {
           return _onChange(e.target.value);
         },
         fullWidth: true,
+        gutterBottom: true,
         InputProps: {
           endAdornment: /*#__PURE__*/_react["default"].createElement("span", null, _i18n2["default"].getString('second', currentLocale))
         }

@@ -71,10 +71,8 @@ var getGroupItems = function getGroupItems() {
   return wrapper.find('[data-sign="searchResult"]').at(0).find('RcList').at(0).find('RcListItem');
 };
 
-;
-
 var getSearchInput = function getSearchInput() {
-  return wrapper.find('RcOutlineTextField').at(0).find('input');
+  return wrapper.find('RcTextField').at(0).find('input');
 };
 
 describe('<RequeueCallGroupPanel />', /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {

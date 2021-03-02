@@ -70,7 +70,7 @@ export const IvrInfo: FunctionComponent<IvrInfoProps> = ({
               const bodyRender = () => {
                 if (body.length > 0) {
                   if (onClick) {
-                    return <RcLink handleOnClick={onClick}>{body}</RcLink>;
+                    return <RcLink onClick={onClick}>{body}</RcLink>;
                   }
                   return <div className={styles.body}>{body}</div>;
                 }

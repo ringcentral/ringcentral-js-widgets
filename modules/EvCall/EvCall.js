@@ -65,7 +65,7 @@ var _parseNumber = require("../../lib/parseNumber");
 
 var _trackEvents = require("../../lib/trackEvents");
 
-var _dec, _dec2, _dec3, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _temp;
+var _dec, _dec2, _dec3, _dec4, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _temp;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -124,7 +124,9 @@ var EvCall = (_dec = (0, _di.Module)({
   }]
 }), _dec2 = (0, _core.computed)(function (that) {
   return [that.activityCallId, that._deps.evCallMonitor.callsMapping];
-}), _dec3 = (0, _core.track)(_trackEvents.trackEvents.outbound), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcModuleV) {
+}), _dec3 = (0, _core.computed)(function (that) {
+  return [that._deps.evAuth.isEvLogged, that.ready];
+}), _dec4 = (0, _core.track)(_trackEvents.trackEvents.outbound), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcModuleV) {
   _inherits(EvCall, _RcModuleV);
 
   var _super = _createSuper(EvCall);
@@ -201,8 +203,12 @@ var EvCall = (_dec = (0, _di.Module)({
     value: function onInitOnce() {
       var _this2 = this;
 
-      this._deps.evAuth.onLoginSuccess(function () {
-        _this2.resetForm();
+      (0, _core.watch)(this, function () {
+        return _this2.isOnLoginSuccess;
+      }, function (isOnLoginSuccess) {
+        if (isOnLoginSuccess) {
+          _this2.resetForm();
+        }
       });
 
       this._deps.evCallMonitor.onCallEnded(function () {
@@ -503,6 +509,11 @@ var EvCall = (_dec = (0, _di.Module)({
       return this.activityCallId && call ? call : null;
     }
   }, {
+    key: "isOnLoginSuccess",
+    get: function get() {
+      return this.ready && this._deps.evAuth.isEvLogged;
+    }
+  }, {
     key: "isInbound",
     get: function get() {
       var _this$currentCall;
@@ -547,6 +558,6 @@ var EvCall = (_dec = (0, _di.Module)({
   initializer: function initializer() {
     return DEFAULT_OUTBOUND_SETTING;
   }
-}), _applyDecoratedDescriptor(_class2.prototype, "currentCall", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "currentCall"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setFormGroup", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setFormGroup"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "saveForm", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "saveForm"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "resetOutBoundDialSetting", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "resetOutBoundDialSetting"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "dialout", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "dialout"), _class2.prototype)), _class2)) || _class);
+}), _applyDecoratedDescriptor(_class2.prototype, "currentCall", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "currentCall"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setFormGroup", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setFormGroup"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "saveForm", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "saveForm"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "resetOutBoundDialSetting", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "resetOutBoundDialSetting"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "isOnLoginSuccess", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "isOnLoginSuccess"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "dialout", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "dialout"), _class2.prototype)), _class2)) || _class);
 exports.EvCall = EvCall;
 //# sourceMappingURL=EvCall.js.map

@@ -10,7 +10,8 @@ var _default = {
   inviteModalTitle: 'Start session',
   inviteModalContent: 'Incoming call from {displayName}',
   inviteModalAnswer: 'Answer',
-  inviteModalReject: 'Reject'
+  inviteModalReject: 'Reject',
+  activeCallTip: 'To complete answering the call, click continue'
 };
 exports["default"] = _default;
 //# sourceMappingURL=en-US.js.map

@@ -379,6 +379,8 @@ var EvCallMonitor = (_dec = (0, _di.Module)({
           contactMatches = this.contactMatches,
           activityMatches = this.activityMatches;
       return Object.entries(callsDataMapping).reduce(function (mapping, _ref4) {
+        var _call$session;
+
         var _ref5 = _slicedToArray(_ref4, 2),
             key = _ref5[0],
             call = _ref5[1];
@@ -388,6 +390,7 @@ var EvCallMonitor = (_dec = (0, _di.Module)({
           callType: call.callType
         });
         var id = call.session ? _this2.getCallId(call.session) : null;
+        var recordingUrl = (_call$session = call.session) === null || _call$session === void 0 ? void 0 : _call$session.recordingUrl;
 
         var _ref6 = call.baggage || {},
             agentFirstName = _ref6.agentFirstName,
@@ -395,6 +398,7 @@ var EvCallMonitor = (_dec = (0, _di.Module)({
 
         var agentName = agentFirstName && agentLastName ? "".concat(agentFirstName, " ").concat(agentLastName) : null;
         return _objectSpread(_objectSpread({}, mapping), {}, _defineProperty({}, key, _objectSpread(_objectSpread({}, call), {}, {
+          recordingUrl: recordingUrl,
           agentName: agentName,
           // TODO confirm about using `toMatches` & `fromMatches`?
           contactMatches: contactMatches[contactMatchIdentify] || [],

@@ -27,6 +27,12 @@ function getButtonText(status, currentLocale) {
     case 'saving':
       return null;
 
+    case 'create':
+      return _i18n["default"].getString('create', currentLocale);
+
+    case 'update':
+      return _i18n["default"].getString('update', currentLocale);
+
     case 'submit':
     default:
       return _i18n["default"].getString('submit', currentLocale);

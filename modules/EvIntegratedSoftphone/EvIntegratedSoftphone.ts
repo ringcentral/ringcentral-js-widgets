@@ -53,6 +53,8 @@ class EvIntegratedSoftphone
   implements IntegratedSoftphone {
   autoAnswerCheckFn: () => boolean;
 
+  private _isFirefox: boolean;
+
   private _audio: HTMLAudioElement;
 
   private _eventEmitter = new EventEmitter();
@@ -100,6 +102,8 @@ class EvIntegratedSoftphone
     this._deps.beforeunload.onAfterUnload(() => {
       this._sendTabManager(tabManagerEvents.CLOSE_WHEN_CALL_CONNECTED);
     });
+
+    this._isFirefox = navigator.userAgent.indexOf('Firefox') !== -1;
   }
 
   // @state
@@ -175,7 +179,7 @@ class EvIntegratedSoftphone
 
     this._deps.tabManager.onSetMainTabComplete(async () => {
       console.log(
-        'onSettedMainTab~~',
+        'onSetMainTabComplete~~',
         this._deps.evAgentSession.isIntegratedSoftphone,
       );
       if (this._deps.evAgentSession.isIntegratedSoftphone) {
@@ -257,7 +261,7 @@ class EvIntegratedSoftphone
           // that event call from modal ok or cancel, that auto close modal
           this._deps.modalUI.close(this._answerModalId);
           if (data) {
-            this.answerCall();
+            await this.answerCall();
           } else {
             this.rejectCall();
           }
@@ -294,6 +298,15 @@ class EvIntegratedSoftphone
         case tabManagerEvents.CLOSE_WHEN_CALL_CONNECTED:
           this._isCloseWhenCallConnected = true;
           break;
+        case tabManagerEvents.NOTIFY_ACTIVE_TAB_CALL_ACTIVE:
+          if (this._deps.tabManager.active) {
+            this._deps.alert.warning({
+              message: tabManagerEvents.NOTIFY_ACTIVE_TAB_CALL_ACTIVE,
+              backdrop: true,
+              ttl: 0,
+            });
+          }
+          break;
         default:
           break;
       }
@@ -314,6 +327,7 @@ class EvIntegratedSoftphone
   }
 
   async askAudioPermission(showMask: boolean = true) {
+    console.log('askAudioPermission~~', showMask);
     try {
       if (showMask) {
         if (!this.audioPermission) {
@@ -573,9 +587,9 @@ class EvIntegratedSoftphone
       ),
       okText: i18n.getString('inviteModalAnswer', currentLocale),
       cancelText: i18n.getString('inviteModalReject', currentLocale),
-      onOK: () => {
+      onOK: async () => {
         this._sendTabManager(tabManagerEvents.SIP_RINGING_MODAL, true);
-        this.answerCall();
+        await this.answerCall();
       },
       onCancel: () => {
         this._sendTabManager(tabManagerEvents.SIP_RINGING_MODAL, false);
@@ -585,9 +599,14 @@ class EvIntegratedSoftphone
     });
   }
 
-  private answerCall() {
+  private async answerCall() {
     this._resetRingingModal();
-    this._sipAnswer();
+    if (
+      !this.tabManagerEnabled ||
+      (this.tabManagerEnabled && this._deps.tabManager.isMainTab)
+    ) {
+      await this._sipAnswer();
+    }
   }
 
   private rejectCall() {
@@ -693,7 +712,28 @@ class EvIntegratedSoftphone
     this._answerModalId = null;
   }
 
-  private _sipAnswer() {
+  private async _sipAnswer() {
+    if (this._isFirefox) {
+      await raceTimeout(
+        navigator.mediaDevices.getUserMedia({
+          audio: true,
+        }),
+        {
+          timeout: 2000,
+          onTimeout: (resolve, reject) => {
+            this._sendTabManager(
+              tabManagerEvents.NOTIFY_ACTIVE_TAB_CALL_ACTIVE,
+            );
+            // eslint-disable-next-line no-alert
+            alert(
+              i18n.getString('activeCallTip', this._deps.locale.currentLocale),
+            );
+            reject(null);
+          },
+        },
+      );
+    }
+
     this._deps.evClient.sipAnswer();
   }
 

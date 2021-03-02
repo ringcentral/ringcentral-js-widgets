@@ -1,6 +1,7 @@
 import { RcButton, RcIconButton, RcTypography } from '@ringcentral/juno';
 import React, { FunctionComponent } from 'react';
-import chevronLeftSvg from '@ringcentral/juno/icon/ChevronLeft';
+import arrowLeftSvg from '@ringcentral/juno/icon/ArrowLeft2';
+import classNames from 'classnames';
 
 import {
   EvAgentSessionUIFunctions,
@@ -39,28 +40,35 @@ export const SessionConfigPanel: FunctionComponent<SessionConfigPanelProps> = ({
         wrapperStyle={styles.wrapperStyle}
         svgStyle={styles.svgStyle}
       />
-      {showReChooseAccount && (
-        <div className={styles.goBackBg}>
-          <div onClick={onAccountReChoose} className={styles.goBack}>
-            <RcIconButton
-              className={styles.back}
-              variant="round"
-              size="small"
-              symbol={chevronLeftSvg}
-              color="primary"
-              data-sign="reChooseAccountButton"
-            />
-            <RcTypography variant="body1" className={styles.backText}>
-              {i18n.getString('switchAccount', currentLocale)}
-            </RcTypography>
-          </div>
+      <div
+        className={classNames(
+          styles.goBackBg,
+          !showReChooseAccount && styles.hideGoBack,
+        )}
+      >
+        <div onClick={onAccountReChoose} className={styles.goBack}>
+          <RcIconButton
+            className={styles.back}
+            variant="round"
+            size="medium"
+            symbol={arrowLeftSvg}
+            color="primary"
+            data-sign="reChooseAccountButton"
+          />
+          <RcTypography variant="body1" className={styles.backText}>
+            {i18n.getString('switchAccount', currentLocale)}
+          </RcTypography>
         </div>
-      )}
-      <div className={styles.accountInfo}>
+      </div>
+      <div data-sign="accountInfo" className={styles.accountInfo}>
         <RcTypography variant="body1" className={styles.accountName}>
           {selectedAgent?.accountName}
         </RcTypography>
-        <RcTypography variant="caption1" className={styles.agentType}>
+        <RcTypography
+          variant="caption1"
+          className={styles.agentType}
+          data-sign="agentType"
+        >
           {i18n.getString(selectedAgent?.agentType, currentLocale)}
         </RcTypography>
       </div>

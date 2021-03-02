@@ -57,6 +57,8 @@ var _contactMatchIdentify = require("../../lib/contactMatchIdentify");
 
 var _callbackTypes = require("../../lib/EvClient/enums/callbackTypes");
 
+var _FormatPhoneNumber = require("../../lib/FormatPhoneNumber");
+
 var _dec, _dec2, _dec3, _dec4, _class, _class2;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -87,7 +89,7 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
 
 var EvCallHistory = (_dec = (0, _di.Module)({
   name: 'EvCallHistory',
-  deps: ['EvCallMonitor', 'EvSubscription', {
+  deps: ['EvCallMonitor', 'EvSubscription', 'Locale', {
     dep: 'ContactMatcher',
     optional: true
   }, {
@@ -97,7 +99,7 @@ var EvCallHistory = (_dec = (0, _di.Module)({
 }), _dec2 = (0, _core.computed)(function (that) {
   return [that.rawCalls, that.contactMatches, that.activityMatches];
 }), _dec3 = (0, _core.computed)(function (that) {
-  return [that.calls];
+  return [that.formattedCalls];
 }), _dec4 = (0, _core.computed)(function (that) {
   return [that.rawCalls];
 }), _dec(_class = (_class2 = /*#__PURE__*/function (_RcModuleV) {
@@ -136,6 +138,16 @@ var EvCallHistory = (_dec = (0, _di.Module)({
 
 
   _createClass(EvCallHistory, [{
+    key: "_formatPhoneNumber",
+    value: function _formatPhoneNumber(phoneNumber) {
+      // TODO: support countryCode
+      return (0, _FormatPhoneNumber.formatPhoneNumber)({
+        phoneNumber: phoneNumber,
+        countryCode: 'US',
+        currentLocale: this._deps.locale.currentLocale
+      });
+    }
+  }, {
     key: "_getLastWeekDayTimestamp",
     value: function _getLastWeekDayTimestamp() {
       var now = (0, _moment["default"])();
@@ -176,7 +188,7 @@ var EvCallHistory = (_dec = (0, _di.Module)({
       return this._deps.evCallMonitor.callsMapping;
     }
   }, {
-    key: "calls",
+    key: "formattedCalls",
     get: function get() {
       var _this2 = this;
 
@@ -199,14 +211,16 @@ var EvCallHistory = (_dec = (0, _di.Module)({
         var activityMatches = _this2.activityMatches[id] || [];
         var agent = {
           name: call.agentId,
-          phoneNumber: call.agentId
+          phoneNumber: _this2._formatPhoneNumber(call.agentId)
         };
         var name = '';
 
         if (contactMatches.length && activityMatches.length) {
-          var activity = activityMatches[0];
+          // need to convert 18 digit ID to 15 for compatible in classic mode
+          // https://developer.salesforce.com/forums/?id=906F0000000BQGnIAO
+          var activity = activityMatches[0].slice(0, 15);
           var matched = contactMatches.find(function (match) {
-            return match.id === activity;
+            return match.id.slice(0, 15) === activity;
           });
 
           if (matched) {
@@ -216,7 +230,7 @@ var EvCallHistory = (_dec = (0, _di.Module)({
 
         var contact = {
           name: name,
-          phoneNumber: call.ani
+          phoneNumber: _this2._formatPhoneNumber(call.ani)
         };
         return {
           id: id,
@@ -235,7 +249,7 @@ var EvCallHistory = (_dec = (0, _di.Module)({
   }, {
     key: "lastEndedCall",
     get: function get() {
-      return this.calls.length > 0 ? this.calls[0] : null;
+      return this.formattedCalls.length > 0 ? this.formattedCalls[0] : null;
     }
   }, {
     key: "uniqueIdentifies",
@@ -245,6 +259,6 @@ var EvCallHistory = (_dec = (0, _di.Module)({
   }]);
 
   return EvCallHistory;
-}(_core.RcModuleV2), (_applyDecoratedDescriptor(_class2.prototype, "calls", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "calls"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "lastEndedCall", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "lastEndedCall"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "uniqueIdentifies", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "uniqueIdentifies"), _class2.prototype)), _class2)) || _class);
+}(_core.RcModuleV2), (_applyDecoratedDescriptor(_class2.prototype, "formattedCalls", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "formattedCalls"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "lastEndedCall", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "lastEndedCall"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "uniqueIdentifies", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "uniqueIdentifies"), _class2.prototype)), _class2)) || _class);
 exports.EvCallHistory = EvCallHistory;
 //# sourceMappingURL=EvCallHistory.js.map

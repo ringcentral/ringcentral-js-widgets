@@ -2,7 +2,6 @@ import Alert from 'ringcentral-integration/modules/Alert';
 import ConnectivityMonitor from 'ringcentral-integration/modules/ConnectivityMonitor';
 import Locale from 'ringcentral-integration/modules/Locale';
 import RateLimiter from 'ringcentral-integration/modules/RateLimiter';
-import Storage from 'ringcentral-integration/modules/Storage';
 import RouterInteraction from 'ringcentral-widgets/modules/RouterInteraction';
 import { EvTabManager } from '../EvTabManager';
 
@@ -18,6 +17,7 @@ import { EvIntegratedSoftphone } from '../EvIntegratedSoftphone';
 import { EvRequeueCall } from '../EvRequeueCall';
 import { EvTransferCall } from '../EvTransferCall';
 import { EvWorkingState } from '../EvWorkingState';
+import { EvStorage } from '../EvStorage';
 
 export interface State {
   saveStatus: string;
@@ -47,7 +47,7 @@ export interface Deps {
   connectivityMonitor: ConnectivityMonitor;
   rateLimiter: RateLimiter;
   environment: EvEnvironment;
-  storage: Storage;
+  storage: EvStorage;
   evAuth: EvAuth;
   tabManager?: EvTabManager;
   evActivityCallUIOptions?: EvActivityCallUIOptions;

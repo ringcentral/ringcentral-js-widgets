@@ -5,6 +5,7 @@ import {
   state,
   storage,
   track,
+  watch,
 } from '@ringcentral-integration/core';
 import { Module } from 'ringcentral-integration/lib/di';
 import callErrors from 'ringcentral-integration/modules/Call/callErrors';
@@ -156,10 +157,21 @@ class EvCall extends RcModuleV2<Deps> implements Call {
     });
   }
 
+  @computed<EvCall>((that) => [that._deps.evAuth.isEvLogged, that.ready])
+  get isOnLoginSuccess() {
+    return this.ready && this._deps.evAuth.isEvLogged;
+  }
+
   onInitOnce() {
-    this._deps.evAuth.onLoginSuccess(() => {
-      this.resetForm();
-    });
+    watch(
+      this,
+      () => this.isOnLoginSuccess,
+      (isOnLoginSuccess) => {
+        if (isOnLoginSuccess) {
+          this.resetForm();
+        }
+      },
+    );
 
     this._deps.evCallMonitor.onCallEnded(() => {
       this.setDialoutStatus(dialoutStatuses.idle);
@@ -215,7 +227,6 @@ class EvCall extends RcModuleV2<Deps> implements Call {
         queueId: this.queueId,
         ringTime: this.ringTime,
       });
-
     } catch (error) {
       this.setPhonedIdle();
     }
@@ -292,7 +303,7 @@ class EvCall extends RcModuleV2<Deps> implements Call {
         this._deps.evSettings.isOffhook ||
         (offhookInitResult && offhookInitResult.status === 'OK')
       ) {
-        console.log('manualOutdial~~')
+        console.log('manualOutdial~~');
         await this._deps.evClient.manualOutdial({
           callerId,
           countryId,

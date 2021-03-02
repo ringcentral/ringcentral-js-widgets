@@ -20,7 +20,7 @@ class EvChooseAccountUI extends RcUIModuleV2<Deps> implements ChooseAccountUI {
 
   async _onAccountItemClick(agentId: string) {
     await this._deps.block.next(async () => {
-      this._deps.evAuth.setAgentId(agentId, true);
+      this._deps.evAuth.setAgentId(agentId);
       await this._deps.evAuth.openSocketWithSelectedAgentId({
         syncOtherTabs: true,
         retryOpenSocket: true,

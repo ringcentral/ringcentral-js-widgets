@@ -59,6 +59,8 @@ var _di = require("ringcentral-integration/lib/di");
 
 var _enums = require("../../enums");
 
+var _EvActivityCallUI = require("../../interfaces/EvActivityCallUI.interface");
+
 var _i18n = _interopRequireDefault(require("./i18n"));
 
 var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _dec10, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _temp;
@@ -222,7 +224,7 @@ var EvActivityCallUI = (_dec = (0, _di.Module)({
         notes: false
       };
       this.disabled = {};
-      this.saveStatus = 'submit';
+      this.saveStatus = _EvActivityCallUI.saveStatus.submit;
     }
   }, {
     key: "onStateChange",
@@ -281,9 +283,12 @@ var EvActivityCallUI = (_dec = (0, _di.Module)({
       this._deps.routerInteraction.push("/activityCallLog/".concat(this.callId).concat(url));
     }
   }, {
-    key: "goDialer",
-    value: function goDialer() {
-      this._deps.routerInteraction.push('/dialer');
+    key: "goBack",
+    value: function goBack() {
+      // set status to 'idle' in case of EvCallMonitor does not emit ENDED
+      this._deps.evCall.setDialoutStatus(_enums.dialoutStatuses.idle);
+
+      this._deps.routerInteraction.goBack();
 
       this.reset();
       this._deps.evCall.activityCallId = null;
@@ -377,7 +382,7 @@ var EvActivityCallUI = (_dec = (0, _di.Module)({
                 return _context2.abrupt("return");
 
               case 5:
-                this.changeSavingStatus('saving');
+                this.changeSavingStatus(_EvActivityCallUI.saveStatus.saving);
                 _context2.next = 8;
                 return this.disposeCall();
 
@@ -398,7 +403,7 @@ var EvActivityCallUI = (_dec = (0, _di.Module)({
                   ttl: 0
                 });
 
-                this.changeSavingStatus('submit');
+                this.changeSavingStatus(_EvActivityCallUI.saveStatus.submit);
                 throw _context2.t0;
 
               case 17:
@@ -420,7 +425,7 @@ var EvActivityCallUI = (_dec = (0, _di.Module)({
     value: function _dispositionSuccess() {
       var _this3 = this;
 
-      this.changeSavingStatus('saved');
+      this.changeSavingStatus(_EvActivityCallUI.saveStatus.saved);
 
       this._deps.alert.success({
         message: _enums.logTypes.CALL_DISPOSITION_SUCCESS
@@ -428,7 +433,7 @@ var EvActivityCallUI = (_dec = (0, _di.Module)({
 
 
       setTimeout(function () {
-        return _this3.goDialer();
+        return _this3.goBack();
       }, 1000);
 
       this._deps.evWorkingState.setIsPendingDisposition(false);
@@ -471,7 +476,7 @@ var EvActivityCallUI = (_dec = (0, _di.Module)({
         isInComingCall: this.isInComingCall,
         smallCallControlSize: this._deps.environment.isWide ? 'medium' : 'small',
         currentCallControlPermission: this.currentCallControlPermission,
-        disableDispose: this.disableLinks || this.saveStatus === 'saving',
+        disableDispose: this.disableLinks || this.saveStatus === _EvActivityCallUI.saveStatus.saving,
         disableTransfer: this.disableLinks || this.isInComingCall || !this.allowTransfer,
         disableInternalTransfer: this.disableLinks || this.isInComingCall || !this.allowTransfer || !this._deps.evTransferCall.allowInternalTransfer,
         disableHold: this.disableLinks || this.isInComingCall || !this.currentCallControlPermission.allowHoldCall,
@@ -488,7 +493,9 @@ var EvActivityCallUI = (_dec = (0, _di.Module)({
       var _this4 = this;
 
       return {
-        goBack: function goBack() {},
+        goBack: function goBack() {
+          return _this4.goBack();
+        },
         onMute: function onMute() {
           return _this4._deps.activeCallControl.mute();
         },
@@ -519,12 +526,12 @@ var EvActivityCallUI = (_dec = (0, _di.Module)({
               while (1) {
                 switch (_context3.prev = _context3.next) {
                   case 0:
-                    if (!(_this4.saveStatus === 'saved')) {
+                    if (!(_this4.saveStatus === _EvActivityCallUI.saveStatus.saved)) {
                       _context3.next = 2;
                       break;
                     }
 
-                    return _context3.abrupt("return", _this4.goDialer());
+                    return _context3.abrupt("return", _this4.goBack());
 
                   case 2:
                     _context3.next = 4;
@@ -857,7 +864,7 @@ var EvActivityCallUI = (_dec = (0, _di.Module)({
   enumerable: true,
   writable: true,
   initializer: function initializer() {
-    return 'submit';
+    return _EvActivityCallUI.saveStatus.submit;
   }
 }), _descriptor5 = _applyDecoratedDescriptor(_class2.prototype, "scrollTo", [_core.storage, _core.state], {
   configurable: true,

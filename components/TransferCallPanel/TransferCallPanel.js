@@ -107,6 +107,7 @@ var TransferCallPanel = function TransferCallPanel(_ref) {
         router = _ref2.router;
     return /*#__PURE__*/_react["default"].createElement(_juno.RcTextField, {
       key: index,
+      gutterBottom: true,
       "data-sign": "callRecipient".concat(index),
       disabled: disabled,
       label: label,

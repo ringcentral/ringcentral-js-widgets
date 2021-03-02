@@ -45,11 +45,11 @@ require("core-js/modules/es6.string.includes");
 
 require("core-js/modules/es6.regexp.replace");
 
-var _react = _interopRequireDefault(require("react"));
-
 var _juno = require("@ringcentral/juno");
 
 var _enzyme = require("enzyme");
+
+var _react = _interopRequireDefault(require("react"));
 
 var _InternalPanel = require("./InternalPanel");
 
@@ -146,7 +146,7 @@ var getAgentItems = function getAgentItems() {
 };
 
 var getSearchInput = function getSearchInput() {
-  return wrapper.find('RcOutlineTextField').at(0).find('input');
+  return wrapper.find('RcTextField').at(0).find('input');
 };
 
 var UTAgentListCheckBackButton = function UTAgentListCheckBackButton() {

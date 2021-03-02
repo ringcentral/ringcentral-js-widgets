@@ -91,7 +91,7 @@ var EvChooseAccountUI = (_dec = (0, _di.Module)({
                     while (1) {
                       switch (_context.prev = _context.next) {
                         case 0:
-                          _this._deps.evAuth.setAgentId(agentId, true);
+                          _this._deps.evAuth.setAgentId(agentId);
 
                           _context.next = 3;
                           return _this._deps.evAuth.openSocketWithSelectedAgentId({

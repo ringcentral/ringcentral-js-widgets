@@ -118,6 +118,7 @@ var BasicSessionPanel = function BasicSessionPanel(_ref) {
     className: classes.root
   }, showInboundQueues && /*#__PURE__*/_react["default"].createElement(_juno.RcTextField, {
     label: _i18n["default"].getString('inboundQueues', currentLocale),
+    gutterBottom: true,
     title: inboundQueuesFieldText,
     value: inboundQueuesFieldText,
     fullWidth: true,
@@ -150,6 +151,7 @@ var BasicSessionPanel = function BasicSessionPanel(_ref) {
     value: loginType,
     onChange: setLoginType
   }), isExtensionNumber && /*#__PURE__*/_react["default"].createElement(_juno.RcTextField, {
+    gutterBottom: true,
     label: _i18n["default"].getString('extensionNumber', currentLocale),
     fullWidth: true,
     value: extensionNumber,
@@ -168,6 +170,7 @@ var BasicSessionPanel = function BasicSessionPanel(_ref) {
     }
   }), showAutoAnswer && /*#__PURE__*/_react["default"].createElement(_juno.RcSwitch, {
     "data-sign": "autoAnswer",
+    className: _styles["default"].switchRoot,
     formControlLabelProps: {
       labelPlacement: 'start',
       classes: {

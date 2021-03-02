@@ -25,13 +25,13 @@ require("core-js/modules/es6.string.includes");
 
 require("core-js/modules/es6.function.name");
 
-var _react = _interopRequireDefault(require("react"));
+var _phoneNumber = require("@ringcentral-integration/phone-number");
 
 var _juno = require("@ringcentral/juno");
 
-var _phoneNumber = require("@ringcentral-integration/phone-number");
-
 var _enzyme = require("enzyme");
+
+var _react = _interopRequireDefault(require("react"));
 
 var _PhoneBookPanel = require("./PhoneBookPanel");
 
@@ -120,7 +120,7 @@ var getPhoneContacts = function getPhoneContacts() {
 };
 
 var getSearchInput = function getSearchInput() {
-  return wrapper.find('RcOutlineTextField').at(0).find('input');
+  return wrapper.find('RcTextField').at(0).find('input');
 };
 
 var UTPhoneBookCheckBackButton = function UTPhoneBookCheckBackButton() {

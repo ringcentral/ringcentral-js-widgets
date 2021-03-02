@@ -132,9 +132,6 @@ var WorkingStateButton = function WorkingStateButton(_ref) {
     var selected = optionIndex === i;
     return /*#__PURE__*/_react["default"].createElement(_juno.RcMenuItem, {
       key: i,
-      classes: {
-        root: _styles["default"].item
-      },
       onClick: function onClick() {
         handleClose();
         onChange(state);

@@ -446,14 +446,17 @@ var EvAgentSessionUI = (_dec = (0, _di.Module)({
             switch (_context7.prev = _context7.next) {
               case 0:
                 syncAllTabs = _args7.length > 0 && _args7[0] !== undefined ? _args7[0] : false;
-                _context7.next = 3;
+                console.log('_onAccountReChoose~~', syncAllTabs);
+                _context7.next = 4;
                 return this._deps.block.next( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
                   return regeneratorRuntime.wrap(function _callee6$(_context6) {
                     while (1) {
                       switch (_context6.prev = _context6.next) {
                         case 0:
-                          if (syncAllTabs) {
+                          if (syncAllTabs && _this4._deps.tabManager.hasMultipleTabs) {
                             _this4._deps.tabManager.send(_enums.tabManagerEvents.RE_CHOOSE_ACCOUNT);
+
+                            _this4._deps.storage.resetStorage();
                           }
 
                           if (_this4._deps.evClient.ifSocketExist) {
@@ -475,7 +478,7 @@ var EvAgentSessionUI = (_dec = (0, _di.Module)({
                   }, _callee6);
                 })));
 
-              case 3:
+              case 4:
               case "end":
                 return _context7.stop();
             }

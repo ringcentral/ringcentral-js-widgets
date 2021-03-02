@@ -1,9 +1,9 @@
-import Storage from 'ringcentral-integration/modules/Storage';
 import { Mapping } from 'ringcentral-widgets/typings';
 
 import { EvCallData } from '../../interfaces/EvData.interface';
 import { EvClient } from '../../lib/EvClient';
 import { EvAuth } from '../EvAuth';
+import { EvStorage } from '../EvStorage';
 
 export interface State {
   /** current agent ongoing session calls list with callId (encodeUii({ uii, sessionId })) */
@@ -21,7 +21,7 @@ export interface State {
 
 export interface EvCallDataSourceOptions {}
 export interface Deps {
-  storage: Storage;
+  storage: EvStorage;
   evClient: EvClient;
   evAuth: EvAuth;
 }

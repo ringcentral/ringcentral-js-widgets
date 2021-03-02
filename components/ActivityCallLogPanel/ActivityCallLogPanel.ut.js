@@ -27,7 +27,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 var UTActivityCallLogPanel = /*#__PURE__*/function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(props, context) {
-    var id, wrapper, index, getSelectList, openField, addMenuIcon, menuItems, entityName;
+    var id, wrapper, index, getSelectList, openField, addMenuIcon, menuItems;
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
@@ -48,14 +48,13 @@ var UTActivityCallLogPanel = /*#__PURE__*/function () {
 
             openField = getSelectList().find('[data-sign="select-list-open"]').at(0);
             openField.simulate('click');
-            addMenuIcon = getSelectList().find('RcIconButton[data-sign="addEntityMenu"]');
+            addMenuIcon = getSelectList().find('RcIconButton[data-sign="addEntityMenu"]').find('button');
             addMenuIcon.simulate('click');
             menuItems = getSelectList().find('RcMenuItem');
-            entityName = props.entityName.toLowerCase();
-            menuItems.find("[title=\"Create ".concat(entityName, "\"]")).simulate('click');
+            menuItems.find("[title=\"New ".concat(props.entityName, "\"]")).simulate('click');
             wrapper.unmount();
 
-          case 13:
+          case 12:
           case "end":
             return _context.stop();
         }

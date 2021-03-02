@@ -1,7 +1,6 @@
 import Alert from 'ringcentral-integration/modules/Alert';
-import Storage from 'ringcentral-integration/modules/Storage';
-import { EvTabManager } from '../EvTabManager';
 
+import { EvTabManager } from '../EvTabManager';
 import { EvClient } from '../../lib/EvClient';
 import { EvAgentSession } from '../EvAgentSession';
 import { EvAuth } from '../EvAuth';
@@ -10,6 +9,7 @@ import { EvIntegratedSoftphone } from '../EvIntegratedSoftphone';
 import { EvPresence } from '../EvPresence';
 import { EvSettings } from '../EvSettings';
 import { EvSubscription } from '../EvSubscription';
+import { EvStorage } from '../EvStorage';
 
 export interface State {
   dialoutCallerId: string;
@@ -34,7 +34,7 @@ export interface Deps {
   alert: Alert;
   evAuth: EvAuth;
   evSubscription: EvSubscription;
-  storage: Storage;
+  storage: EvStorage;
   evClient: EvClient;
   evAgentSession: EvAgentSession;
   evIntegratedSoftphone: EvIntegratedSoftphone;

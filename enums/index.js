@@ -81,15 +81,15 @@ Object.keys(_agentStatesTexts).forEach(function (key) {
   });
 });
 
-var _authStatus = require("./authStatus");
+var _loginStatus = require("./loginStatus");
 
-Object.keys(_authStatus).forEach(function (key) {
+Object.keys(_loginStatus).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
-  if (key in exports && exports[key] === _authStatus[key]) return;
+  if (key in exports && exports[key] === _loginStatus[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {
-      return _authStatus[key];
+      return _loginStatus[key];
     }
   });
 });

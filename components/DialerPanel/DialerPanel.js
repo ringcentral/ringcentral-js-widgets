@@ -30,6 +30,11 @@ var dialoutStatusMapping = {
   callConnected: ['semantic', 'negative'],
   idle: ['semantic', 'positive']
 };
+var LinkSizeMapping = {
+  small: 'caption1',
+  medium: 'body1',
+  large: 'headline'
+};
 
 var DialerPanel = function DialerPanel(_ref) {
   var dialout = _ref.dialout,
@@ -74,8 +79,8 @@ var DialerPanel = function DialerPanel(_ref) {
   }), /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].link
   }, /*#__PURE__*/_react["default"].createElement(_juno.RcLink, {
-    size: size,
-    handleOnClick: goToManualDialSettings,
+    variant: LinkSizeMapping[size],
+    onClick: goToManualDialSettings,
     "data-sign": "manualDialSettings"
   }, _i18n["default"].getString('manualDialSettings', currentLocale))));
 };

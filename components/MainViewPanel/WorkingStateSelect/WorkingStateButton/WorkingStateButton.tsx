@@ -84,7 +84,6 @@ export const WorkingStateButton: FunctionComponent<WorkingStateButtonProps> = ({
           return (
             <RcMenuItem
               key={i}
-              classes={{ root: styles.item }}
               onClick={() => {
                 handleClose();
                 onChange(state);
