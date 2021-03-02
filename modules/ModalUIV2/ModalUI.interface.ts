@@ -1,4 +1,3 @@
-import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 import { RcButtonProps } from '@ringcentral/juno';
 import { Locale } from 'ringcentral-integration/modules/LocaleV2';
 import { ModalProps } from '../../components/ModalV2/interface';
@@ -22,6 +21,7 @@ export type ModalOptions = Pick<
   | 'size'
   | 'fillContent'
   | 'loading'
+  | 'showLoadingOverlay'
   | 'okText'
   | 'okVariant'
   | 'okType'
@@ -42,6 +42,7 @@ export type ModalOptions = Pick<
   footerProps?: Record<string, any>;
   dialogOptions?: SimpleDialogProps;
   variant?: 'alert' | 'confirm' | 'info';
+  useLoadingOverlay?: boolean;
 };
 
 export type ConfirmModalOptions = Omit<ModalOptions, 'variant'>;

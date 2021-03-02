@@ -1,5 +1,9 @@
 export default {
-  close: "Schließen"
+  cancel: "Abbrechen",
+  close: "Schließen",
+  ok: "OK"
 };
 
+// @key: @#@"cancel"@#@ @source: @#@"Cancel"@#@
 // @key: @#@"close"@#@ @source: @#@"Close"@#@
+// @key: @#@"ok"@#@ @source: @#@"OK"@#@

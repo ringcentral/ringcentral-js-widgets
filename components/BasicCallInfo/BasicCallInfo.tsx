@@ -43,7 +43,7 @@ export const BasicCallInfo: FunctionComponent<BasicCallInfoProps> = ({
   const toggleOpen = () => setOpen(!open);
 
   useEffect(() => {
-    if (callControlRef.current) {
+    if (callControlRef?.current) {
       setPanelHeight(`calc(100% - ${callControlRef.current.clientHeight}px)`);
     }
   }, [callControlRef, status]);

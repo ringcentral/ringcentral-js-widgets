@@ -35,6 +35,7 @@ import {
   InfoModalOptions,
   ModalOptions,
 } from './ModalUI.interface';
+
 export const defaultOKRendererID = 'ModalUI.defaultOKRendererID';
 export const defaultCancelRendererID = 'ModalUI.defaultCancelRendererID';
 export const infoTitleRendererID = 'ModalUI.infoTitleRendererID';
@@ -109,10 +110,22 @@ export class ModalUI extends RcUIModuleV2<Deps> {
     return this._handlerRegister.get(id)?.get(handlerID)?.(...args);
   }
 
+  @action
+  private _setLoading(id: string, loading: boolean) {
+    const idx = findIndex((item) => item.id === id, this._modals);
+    if (this._modals[idx].useLoadingOverlay) {
+      this._modals[idx].showLoadingOverlay = loading;
+    } else {
+      this._modals[idx].loading = loading;
+    }
+  }
+
   @proxify
   private async _onOK(id: string, onOK?: string) {
+    this._setLoading(id, true);
     const handler = this._handlerRegister.get(id).get(onOK);
     if (handler && (await handler()) === false) {
+      this._setLoading(id, false);
       return;
     }
     this._promises.get(id).resolve(true);

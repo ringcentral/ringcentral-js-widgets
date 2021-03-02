@@ -35,6 +35,10 @@ var _react = _interopRequireWildcard(require("react"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
+var _classnames = _interopRequireDefault(require("classnames"));
+
+var _Askfirst = _interopRequireDefault(require("@ringcentral/juno/icon/Askfirst"));
+
 var _DialPad = _interopRequireDefault(require("../DialPad"));
 
 var _RecipientsInput = _interopRequireDefault(require("../RecipientsInput"));
@@ -42,6 +46,8 @@ var _RecipientsInput = _interopRequireDefault(require("../RecipientsInput"));
 var _BackHeader = _interopRequireDefault(require("../BackHeader"));
 
 var _CircleButton = _interopRequireDefault(require("../CircleButton"));
+
+var _ActiveCallButton = _interopRequireDefault(require("../ActiveCallButton"));
 
 var _Transfer = _interopRequireDefault(require("../../assets/images/Transfer.svg"));
 
@@ -108,6 +114,10 @@ var TransferPanel = /*#__PURE__*/function (_PureComponent) {
 
     _this.onTransfer = function () {
       _this.props.onTransfer(_this._getTransferNumber(), _this.props.sessionId);
+    };
+
+    _this.onWarmTransfer = function () {
+      _this.props.onWarmTransfer(_this._getTransferNumber(), _this.props.sessionId);
     };
 
     _this.onToNumberChange = function (toNumber) {
@@ -181,13 +191,50 @@ var TransferPanel = /*#__PURE__*/function (_PureComponent) {
           phoneSourceNameRenderer = _this$props.phoneSourceNameRenderer,
           recipientsContactInfoRenderer = _this$props.recipientsContactInfoRenderer,
           recipientsContactPhoneRenderer = _this$props.recipientsContactPhoneRenderer,
-          autoFocus = _this$props.autoFocus;
+          autoFocus = _this$props.autoFocus,
+          enableWarmTransfer = _this$props.enableWarmTransfer;
 
       if (!session) {
         return null;
       }
 
       var isOnTransfer = !!session.isOnTransfer;
+      var transferButton;
+      var warmTransferButton;
+
+      if (enableWarmTransfer) {
+        transferButton = /*#__PURE__*/_react["default"].createElement("div", {
+          className: (0, _classnames["default"])(_styles["default"].button, _styles["default"].buttonGroupItem)
+        }, /*#__PURE__*/_react["default"].createElement(_ActiveCallButton["default"], {
+          dataSign: "transferBtn",
+          className: isOnTransfer ? _styles["default"].disabled : undefined,
+          onClick: this.onTransfer,
+          icon: _Transfer["default"],
+          disabled: isOnTransfer || controlBusy,
+          title: _i18n["default"].getString('blindTransfer', currentLocale)
+        }));
+        warmTransferButton = /*#__PURE__*/_react["default"].createElement("div", {
+          className: (0, _classnames["default"])(_styles["default"].button, _styles["default"].buttonGroupItem)
+        }, /*#__PURE__*/_react["default"].createElement(_ActiveCallButton["default"], {
+          dataSign: "warnTransferBtn",
+          className: isOnTransfer ? _styles["default"].disabled : undefined,
+          onClick: this.onWarmTransfer,
+          icon: _Askfirst["default"],
+          disabled: isOnTransfer || controlBusy,
+          title: _i18n["default"].getString('warmTransfer', currentLocale)
+        }));
+      } else {
+        transferButton = /*#__PURE__*/_react["default"].createElement("div", {
+          className: _styles["default"].button
+        }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
+          dataSign: "transferBtn",
+          className: isOnTransfer ? _styles["default"].disabled : undefined,
+          onClick: this.onTransfer,
+          icon: _Transfer["default"],
+          disabled: isOnTransfer || controlBusy
+        }));
+      }
+
       return /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].root
       }, /*#__PURE__*/_react["default"].createElement(_BackHeader["default"], {
@@ -219,15 +266,7 @@ var TransferPanel = /*#__PURE__*/function (_PureComponent) {
         onButtonOutput: this.onButtonOutput
       }), /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].buttonRow
-      }, /*#__PURE__*/_react["default"].createElement("div", {
-        className: _styles["default"].button
-      }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
-        dataSign: "transferBtn",
-        className: isOnTransfer ? _styles["default"].disabled : undefined,
-        onClick: this.onTransfer,
-        icon: _Transfer["default"],
-        disabled: isOnTransfer || controlBusy
-      })))));
+      }, warmTransferButton, transferButton)));
     }
   }]);
 
@@ -251,7 +290,8 @@ TransferPanel.propTypes = {
   autoFocus: _propTypes["default"].bool,
   sessionId: _propTypes["default"].string.isRequired,
   session: _propTypes["default"].object,
-  controlBusy: _propTypes["default"].bool
+  controlBusy: _propTypes["default"].bool,
+  enableWarmTransfer: _propTypes["default"].bool
 };
 TransferPanel.defaultProps = {
   setActiveSessionId: null,
@@ -262,6 +302,7 @@ TransferPanel.defaultProps = {
   autoFocus: true,
   session: null,
   searchContactList: [],
-  controlBusy: false
+  controlBusy: false,
+  enableWarmTransfer: false
 };
 //# sourceMappingURL=index.js.map

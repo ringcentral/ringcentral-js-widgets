@@ -45,6 +45,7 @@ var SelectListTextField = function SelectListTextField(_ref) {
   return /*#__PURE__*/_react["default"].createElement(_juno.RcTextField, _extends({}, rest, {
     title: "".concat(value),
     value: value,
+    gutterBottom: true,
     disabled: disabled,
     InputProps: {
       classes: {

@@ -10,6 +10,7 @@ var _default = {
   to: 'To:',
   transferTo: 'Transfer to',
   blindTransfer: 'Transfer',
+  warmTransfer: 'Ask first',
   enterNameOrNumber: 'Enter Number'
 };
 exports["default"] = _default;

@@ -374,6 +374,7 @@ var CallLogPanel = /*#__PURE__*/function (_Component) {
           rootRef = _this$props7.refs.root,
           backIcon = _this$props7.backIcon,
           header = _this$props7.header,
+          headerTitle = _this$props7.headerTitle,
           isInTransferPage = _this$props7.isInTransferPage,
           isWide = _this$props7.isWide,
           children = _this$props7.children;
@@ -387,7 +388,7 @@ var CallLogPanel = /*#__PURE__*/function (_Component) {
         backIcon: backIcon,
         isWide: isWide,
         rightIcon: this.genSaveLogButtonV2(),
-        title: _i18n["default"].getString('createCallLog', currentLocale),
+        title: _i18n["default"].getString(headerTitle, currentLocale),
         className: (0, _classnames["default"])(_styles["default"].header, backHeader),
         onBackClick: function onBackClick() {
           return _this2.goBack();
@@ -416,6 +417,7 @@ CallLogPanel.defaultProps = {
     return null;
   },
   header: true,
+  headerTitle: 'createCallLog',
   showSmallCallControl: false,
   isInTransferPage: false,
   showSpinner: true,

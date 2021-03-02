@@ -138,7 +138,7 @@ var Beforeunload = (_dec = (0, _di.Module)({
       delete event.returnValue;
     };
 
-    _this._window = (_this$_deps$beforeunl = (_this$_deps$beforeunl2 = _this._deps.beforeunloadOptions) === null || _this$_deps$beforeunl2 === void 0 ? void 0 : _this$_deps$beforeunl2.orginWindow) !== null && _this$_deps$beforeunl !== void 0 ? _this$_deps$beforeunl : window;
+    _this._window = (_this$_deps$beforeunl = (_this$_deps$beforeunl2 = _this._deps.beforeunloadOptions) === null || _this$_deps$beforeunl2 === void 0 ? void 0 : _this$_deps$beforeunl2.originWindow) !== null && _this$_deps$beforeunl !== void 0 ? _this$_deps$beforeunl : window;
     return _this;
   }
   /**

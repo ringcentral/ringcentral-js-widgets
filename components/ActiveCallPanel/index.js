@@ -37,7 +37,7 @@ var _styles = _interopRequireDefault(require("./styles.scss"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function ActiveCallPanel(_ref) {
+var ActiveCallPanel = function ActiveCallPanel(_ref) {
   var showBackButton = _ref.showBackButton,
       backButtonLabel = _ref.backButtonLabel,
       onBackButtonClick = _ref.onBackButtonClick,
@@ -89,7 +89,10 @@ function ActiveCallPanel(_ref) {
       getAvatarUrl = _ref.getAvatarUrl,
       actions = _ref.actions,
       controlBusy = _ref.controlBusy,
-      callQueueName = _ref.callQueueName;
+      callQueueName = _ref.callQueueName,
+      isOnTransfer = _ref.isOnTransfer,
+      isOnWaitingTransfer = _ref.isOnWaitingTransfer,
+      onCompleteTransfer = _ref.onCompleteTransfer;
   var backHeader = showBackButton ? /*#__PURE__*/_react["default"].createElement(_BackHeader["default"], {
     onBackClick: onBackButtonClick,
     backButton: /*#__PURE__*/_react["default"].createElement(_BackButton["default"], {
@@ -110,6 +113,7 @@ function ActiveCallPanel(_ref) {
   var callInfo;
 
   switch (layout) {
+    case _callCtrlLayouts["default"].completeTransferCtrl:
     case _callCtrlLayouts["default"].mergeCtrl:
       callInfo = /*#__PURE__*/_react["default"].createElement(_MergeInfo["default"], {
         currentLocale: currentLocale,
@@ -153,12 +157,13 @@ function ActiveCallPanel(_ref) {
       break;
   }
 
+  var showTimeCounter = layout !== _callCtrlLayouts["default"].mergeCtrl && layout !== _callCtrlLayouts["default"].completeTransferCtrl;
   return /*#__PURE__*/_react["default"].createElement("div", {
     "data-sign": "activeCallPanel",
     className: _styles["default"].root
   }, backHeader, /*#__PURE__*/_react["default"].createElement(_Panel["default"], {
     className: _styles["default"].panel
-  }, layout !== _callCtrlLayouts["default"].mergeCtrl ? timeCounter : null, callInfo, /*#__PURE__*/_react["default"].createElement(_ActiveCallPad["default"], {
+  }, showTimeCounter ? timeCounter : null, callInfo, /*#__PURE__*/_react["default"].createElement(_ActiveCallPad["default"], {
     className: _styles["default"].callPad,
     currentLocale: currentLocale,
     isOnMute: isOnMute,
@@ -186,9 +191,12 @@ function ActiveCallPanel(_ref) {
     conferenceCallEquipped: conferenceCallEquipped,
     hasConferenceCall: hasConferenceCall,
     actions: actions,
-    controlBusy: controlBusy
+    controlBusy: controlBusy,
+    isOnTransfer: isOnTransfer,
+    isOnWaitingTransfer: isOnWaitingTransfer,
+    onCompleteTransfer: onCompleteTransfer
   }), children));
-}
+};
 
 ActiveCallPanel.propTypes = {
   phoneNumber: _propTypes["default"].string,
@@ -241,7 +249,10 @@ ActiveCallPanel.propTypes = {
   getAvatarUrl: _propTypes["default"].func,
   actions: _propTypes["default"].array,
   controlBusy: _propTypes["default"].bool,
-  callQueueName: _propTypes["default"].string
+  callQueueName: _propTypes["default"].string,
+  isOnWaitingTransfer: _propTypes["default"].bool,
+  onCompleteTransfer: _propTypes["default"].func,
+  isOnTransfer: _propTypes["default"].bool
 };
 ActiveCallPanel.defaultProps = {
   startTime: null,
@@ -269,6 +280,9 @@ ActiveCallPanel.defaultProps = {
   gotoParticipantsCtrl: function gotoParticipantsCtrl() {
     return null;
   },
+  onCompleteTransfer: function onCompleteTransfer() {
+    return null;
+  },
   sourceIcons: undefined,
   phoneTypeRenderer: undefined,
   phoneSourceNameRenderer: undefined,
@@ -284,7 +298,9 @@ ActiveCallPanel.defaultProps = {
   },
   actions: [],
   controlBusy: false,
-  callQueueName: null
+  callQueueName: null,
+  isOnWaitingTransfer: false,
+  isOnTransfer: false
 };
 var _default = ActiveCallPanel;
 exports["default"] = _default;

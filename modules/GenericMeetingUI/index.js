@@ -169,7 +169,8 @@ var GenericMeetingUI = (_dec = (0, _di.Module)({
         putRecurringMeetingInMiddle: this._genericMeeting.ready && this._genericMeeting.putRecurringMeetingInMiddle,
         showSpinner: !!(!this._locale.ready || !this._genericMeeting.ready || !this._genericMeeting.isRCM && !this._genericMeeting.isRCV || !this._genericMeeting.meeting || this._connectivityMonitor && !this._connectivityMonitor.ready || this._rateLimiter && !this._rateLimiter.ready),
         showSpinnerInConfigPanel: this._genericMeeting.isUpdating,
-        hasSettingsChanged: this._genericMeeting.hasSettingsChanged
+        hasSettingsChanged: this._genericMeeting.hasSettingsChanged,
+        defaultTopic: this._genericMeeting.defaultTopic
       };
     }
   }, {

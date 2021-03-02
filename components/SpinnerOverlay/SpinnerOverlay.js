@@ -11,11 +11,17 @@ var _classnames = _interopRequireDefault(require("classnames"));
 
 var _react = _interopRequireDefault(require("react"));
 
-var _Spinner = _interopRequireDefault(require("../Spinner"));
+var _juno = require("@ringcentral/juno");
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+var JunoSpinnerWrapper = function JunoSpinnerWrapper() {
+  return /*#__PURE__*/_react["default"].createElement(_juno.RcCircularProgress, {
+    size: 43
+  });
+};
 
 var SpinnerOverlay = function SpinnerOverlay(_ref) {
   var className = _ref.className,
@@ -36,7 +42,7 @@ var _default = SpinnerOverlay;
 exports["default"] = _default;
 SpinnerOverlay.defaultProps = {
   className: undefined,
-  custom: _Spinner["default"],
+  custom: JunoSpinnerWrapper,
   classes: {}
 };
 //# sourceMappingURL=SpinnerOverlay.js.map

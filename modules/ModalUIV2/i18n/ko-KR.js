@@ -7,8 +7,12 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  close: "닫기"
-}; // @key: @#@"close"@#@ @source: @#@"Close"@#@
+  cancel: "취소",
+  close: "닫기",
+  ok: "확인"
+}; // @key: @#@"cancel"@#@ @source: @#@"Cancel"@#@
+// @key: @#@"close"@#@ @source: @#@"Close"@#@
+// @key: @#@"ok"@#@ @source: @#@"OK"@#@
 
 exports["default"] = _default;
 //# sourceMappingURL=ko-KR.js.map

@@ -171,7 +171,7 @@ var WebRTCNotificationSection = function WebRTCNotificationSection(_ref) {
     }, _i18n["default"].getString('forward', currentLocale))), !isWide && hasActiveSession && /*#__PURE__*/_react["default"].createElement("li", {
       className: (0, _classnames2["default"])(_styles["default"].callButton, _styles["default"].voicemail)
     }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
-      dataSign: "toVoicemail",
+      dataSign: "toVoiceMail",
       icon: _Voicemail["default"],
       className: (0, _classnames2["default"])(_styles["default"].button, _styles["default"].hangup),
       showBorder: false,
@@ -220,7 +220,7 @@ var WebRTCNotificationSection = function WebRTCNotificationSection(_ref) {
     }, _i18n["default"].getString('endAndAnswer', currentLocale))), (isWide || !hasActiveSession) && /*#__PURE__*/_react["default"].createElement("li", {
       className: _styles["default"].callButton
     }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
-      dataSign: "toVoicemail",
+      dataSign: "toVoiceMail",
       icon: _Voicemail["default"],
       className: (0, _classnames2["default"])(_styles["default"].button, _styles["default"].hangup),
       showBorder: false,

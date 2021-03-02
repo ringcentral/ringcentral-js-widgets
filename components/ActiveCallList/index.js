@@ -85,7 +85,8 @@ var ActiveCallList = function ActiveCallList(_ref) {
       showHoldAnswerBtn = _ref.showHoldAnswerBtn,
       useCallDetailV2 = _ref.useCallDetailV2,
       newCallIcon = _ref.newCallIcon,
-      clickSwitchTrack = _ref.clickSwitchTrack;
+      clickSwitchTrack = _ref.clickSwitchTrack,
+      showMultipleMatch = _ref.showMultipleMatch;
 
   if (!calls.length) {
     return null;
@@ -154,7 +155,7 @@ var ActiveCallList = function ActiveCallList(_ref) {
       ringoutReject: ringoutReject,
       disableLinks: disableLinks,
       showRingoutCallControl: showRingoutCallControl,
-      showMultipleMatch: !showRingoutCallControl // disabled for salesforce
+      showMultipleMatch: !showRingoutCallControl && showMultipleMatch // disabled for salesforce
       ,
       showSwitchCall: showSwitchCall,
       showTransferCall: showTransferCall,
@@ -218,6 +219,7 @@ ActiveCallList.propTypes = {
   ringoutReject: _propTypes["default"].func,
   disableLinks: _propTypes["default"].bool,
   showRingoutCallControl: _propTypes["default"].bool,
+  showMultipleMatch: _propTypes["default"].bool,
   showSwitchCall: _propTypes["default"].bool,
   showTransferCall: _propTypes["default"].bool,
   showHoldOnOtherDevice: _propTypes["default"].bool,
@@ -278,6 +280,7 @@ ActiveCallList.defaultProps = {
   ringoutReject: undefined,
   disableLinks: false,
   showRingoutCallControl: false,
+  showMultipleMatch: true,
   showSwitchCall: false,
   showTransferCall: true,
   showHoldOnOtherDevice: false,

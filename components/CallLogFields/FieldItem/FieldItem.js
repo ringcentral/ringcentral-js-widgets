@@ -498,6 +498,8 @@ var FieldItem = /*#__PURE__*/function (_Component) {
 
     _this.onRadioChange = /*#__PURE__*/function () {
       var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(event, value) {
+        var _task$tickets$;
+
         var _this$props10, currentLog, onUpdateCallLog, currentSessionId, _currentLog$task, task;
 
         return regeneratorRuntime.wrap(function _callee4$(_context4) {
@@ -510,7 +512,7 @@ var FieldItem = /*#__PURE__*/function (_Component) {
                 return onUpdateCallLog(_objectSpread(_objectSpread({}, currentLog), {}, {
                   task: _objectSpread(_objectSpread({}, task), {}, {
                     option: value,
-                    ticketId: task.ticketId || task.tickets[0]
+                    ticketId: task.ticketId || ((_task$tickets$ = task.tickets[0]) === null || _task$tickets$ === void 0 ? void 0 : _task$tickets$.id)
                   })
                 }), currentSessionId);
 
@@ -528,14 +530,12 @@ var FieldItem = /*#__PURE__*/function (_Component) {
     }();
 
     _this.renderTicketSelectList = function () {
-      var _task$tickets$;
-
       var _this$props11 = _this.props,
           currentLog = _this$props11.currentLog,
           fieldOption = _this$props11.fieldOption;
       var renderCondition = fieldOption.renderCondition,
           label = fieldOption.label;
-      var task = currentLog.task;
+      var task = currentLog.task; // TODO: consider move this logic to zendesk
 
       if (task.option !== renderCondition) {
         return null;
@@ -546,9 +546,11 @@ var FieldItem = /*#__PURE__*/function (_Component) {
           value: ticket.id,
           label: "#".concat(ticket.id, " ").concat(ticket.subject)
         };
-      }) : []; // TODO: need to double check the logic here
-
-      var defaultValue = task.ticketId || task.tickets && ((_task$tickets$ = task.tickets[0]) === null || _task$tickets$ === void 0 ? void 0 : _task$tickets$.id) || '';
+      }) : [];
+      var defaultTicket = task.tickets.find(function (ticket) {
+        return ticket.id === task.ticketId;
+      }) || task.tickets && task.tickets[0];
+      var defaultValue = (defaultTicket === null || defaultTicket === void 0 ? void 0 : defaultTicket.id) || '';
       return /*#__PURE__*/_react["default"].createElement(_SelectField.SelectField, {
         options: options,
         disabled: options.length === 0,

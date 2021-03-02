@@ -1,1 +1,1 @@
-{"version":3,"sources":["components/CallLogPanel/i18n/en-US.js"],"names":["createCallLog"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,aAAa,EAAE;AADF,C","sourcesContent":["export default {\n  createCallLog: 'Create call log'\n};\n\n"],"file":"en-US.js"}
+{"version":3,"sources":["components/CallLogPanel/i18n/en-US.js"],"names":["createCallLog","updateCallLog"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,aAAa,EAAE,iBADF;AAEbC,EAAAA,aAAa,EAAE;AAFF,C","sourcesContent":["export default {\n  createCallLog: 'Create call log',\n  updateCallLog: 'Update call log',\n};\n"],"file":"en-US.js"}

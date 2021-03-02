@@ -27,6 +27,7 @@ import {
   FeedbackProps,
   QuickAccessLinkProps,
   UserGuideProps,
+  ShareIdeaProps,
 } from './SettingsPanel.interface';
 
 export interface SettingsPanelProps
@@ -47,6 +48,7 @@ export interface SettingsPanelProps
     QuickAccessLinkProps,
     UserGuideProps,
     PresenceSettingProps,
+    ShareIdeaProps,
     EulaRenderer {
   children?: ReactNode;
   currentLocale: string;
@@ -68,6 +70,7 @@ const SettingsPanel: FunctionComponent<SettingsPanelProps> = ({
   onFeedbackSettingsLinkClick,
   onQuickAccessLinkClick,
   onUserGuideClick,
+  onShareIdeaClick,
   showCalling,
   showAutoLog,
   showAutoLogNotes,
@@ -107,6 +110,7 @@ const SettingsPanel: FunctionComponent<SettingsPanelProps> = ({
   showFeedback,
   showQuickAccess,
   showUserGuide,
+  showShareIdea,
   additional,
   supportedLocales,
   savedLocale,
@@ -228,6 +232,12 @@ const SettingsPanel: FunctionComponent<SettingsPanelProps> = ({
         onClick={onFeedbackSettingsLinkClick}
       />
       <LinkLineItem
+        name="shareIdea"
+        show={showShareIdea}
+        currentLocale={currentLocale}
+        onClick={onShareIdeaClick}
+      />
+      <LinkLineItem
         name="quickAccess"
         show={showQuickAccess}
         currentLocale={currentLocale}
@@ -271,6 +281,7 @@ export const baseDefaultProps = {
   openPresenceSettings: false,
   showPresenceSettings: true,
   showFeedback: true,
+  showShareIdea: false,
   showQuickAccess: false,
   clickToDialTitle: null,
   onReportLinkClick: () => null,

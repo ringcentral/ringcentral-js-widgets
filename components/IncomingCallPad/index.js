@@ -250,7 +250,7 @@ var IncomingCallPad = /*#__PURE__*/function (_Component) {
         iconWidth: 274,
         iconX: 116,
         showBorder: !this.state.toVoiceMailEnabled,
-        dataSign: "toVoicemail",
+        dataSign: "toVoiceMail",
         className: _styles["default"].bigCallButton,
         disabled: !this.state.toVoiceMailEnabled
       }), /*#__PURE__*/_react["default"].createElement(_ActiveCallButton["default"], {

@@ -1,38 +1,36 @@
 import {
   RcAlert,
-  RcBoxSelect,
   RcCheckbox,
   RcDatePicker,
   RcDatePickerProps,
-  RcLineSelect,
   RcMenuItem,
+  RcSelect,
   RcTextField,
-  RcOutlineTextField,
   RcTimePicker,
   RcTimePickerProps,
 } from '@ringcentral/juno';
-import { find, reduce } from 'ramda';
 import classnames from 'classnames';
+import { find, reduce } from 'ramda';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
+import {
+  updateFullTime,
+  updateFullYear,
+} from 'ringcentral-integration/helpers/meetingHelper';
 import { RcVMeetingModel } from 'ringcentral-integration/interfaces/Rcv.model';
 import {
-  RcvDelegator,
   ASSISTED_USERS_MYSELF,
   RCV_WAITING_ROOM_MODE,
+  RcvDelegator,
   RcvWaitingRoomModeProps,
 } from 'ringcentral-integration/modules/RcVideo';
 
-import {
-  updateFullYear,
-  updateFullTime,
-} from 'ringcentral-integration/helpers/meetingHelper';
 import { formatMeetingId } from '../../lib/MeetingCalendarHelper';
 import { useDebounce } from '../../react-hooks';
+import { SpinnerOverlay } from '../SpinnerOverlay';
 import i18n from './i18n';
 import { SettingGroup } from './SettingGroup';
 import styles from './styles.scss';
 import { VideoSecuritySettingsItem } from './VideoSecuritySettingItem';
-import { SpinnerOverlay } from '../SpinnerOverlay';
 
 export const MINUTE_SCALE: number = 4;
 export const HOUR_SCALE: number = 13;
@@ -277,8 +275,8 @@ export const VideoConfig: React.FunctionComponent<VideoConfigProps> = (
         {showDuration ? (
           <div className={styles.meetingSection}>
             <div className={styles.hourDuration}>
-              <RcLineSelect
-                // size="small"
+              <RcSelect
+                gutterBottom
                 data-sign="durationHour"
                 value={Math.floor(meeting.duration / 60)}
                 onChange={(e) => {
@@ -304,10 +302,11 @@ export const VideoConfig: React.FunctionComponent<VideoConfigProps> = (
                     {item !== null ? item.text : 'defaultValue'}
                   </RcMenuItem>
                 ))}
-              </RcLineSelect>
+              </RcSelect>
             </div>
             <div className={styles.minuteDuration}>
-              <RcLineSelect
+              <RcSelect
+                gutterBottom
                 data-sign="durationMinute"
                 required
                 value={Math.floor(meeting.duration % 60)}
@@ -334,7 +333,7 @@ export const VideoConfig: React.FunctionComponent<VideoConfigProps> = (
                     {item !== null ? item.text : 'defaultValue'}
                   </RcMenuItem>
                 ))}
-              </RcLineSelect>
+              </RcSelect>
             </div>
           </div>
         ) : null}
@@ -345,7 +344,8 @@ export const VideoConfig: React.FunctionComponent<VideoConfigProps> = (
             summary={i18n.getString('scheduleFor', currentLocale)}
           >
             <div className={styles.boxSelectWrapper}>
-              <RcBoxSelect
+              <RcSelect
+                variant="box"
                 fullWidth
                 className={styles.boxSelect}
                 data-sign="scheduleFor"
@@ -372,7 +372,7 @@ export const VideoConfig: React.FunctionComponent<VideoConfigProps> = (
                     </RcMenuItem>
                   );
                 })}
-              </RcBoxSelect>
+              </RcSelect>
             </div>
           </SettingGroup>
         ) : null}
@@ -490,10 +490,12 @@ export const VideoConfig: React.FunctionComponent<VideoConfigProps> = (
                 [styles.subPrefixPadding]: labelPlacement === 'end',
               })}
             >
-              <RcOutlineTextField
+              <RcTextField
+                variant="outline"
+                fullWidth
                 disabled={disabled}
                 size="small"
-                placeholder={i18n.getString('Enter Password', currentLocale)}
+                placeholder={i18n.getString('enterPassword', currentLocale)}
                 error={!meeting.isMeetingPasswordValid}
                 helperText={getHelperTextForPasswordField(
                   meeting,
@@ -582,9 +584,10 @@ export const VideoConfig: React.FunctionComponent<VideoConfigProps> = (
                     [styles.subPrefixPadding]: labelPlacement === 'end',
                   })}
                 >
-                  <RcBoxSelect
+                  <RcSelect
+                    variant="box"
                     data-sign="waitingRoom"
-                    automationId="waitingRoom"
+                    data-test-automation-id="waitingRoom"
                     className={styles.boxSelect}
                     fullWidth
                     disabled={
@@ -619,7 +622,7 @@ export const VideoConfig: React.FunctionComponent<VideoConfigProps> = (
                     >
                       {i18n.getString('waitingRoomAll', currentLocale)}
                     </RcMenuItem>
-                  </RcBoxSelect>
+                  </RcSelect>
                 </div>
               ) : null}
             </>
@@ -655,9 +658,10 @@ export const VideoConfig: React.FunctionComponent<VideoConfigProps> = (
                 [styles.subPrefixPadding]: labelPlacement === 'end',
               })}
             >
-              <RcBoxSelect
+              <RcSelect
+                variant="box"
+                data-test-automation-id="authUserType"
                 data-sign="authUserType"
-                automationId="authUserType"
                 disabled={
                   disabled ||
                   (showAdminLock && meeting.settingLock.isOnlyCoworkersJoin)
@@ -678,7 +682,7 @@ export const VideoConfig: React.FunctionComponent<VideoConfigProps> = (
                 <RcMenuItem value="signedInCoWorkers">
                   {i18n.getString('signedInCoWorkers', currentLocale)}
                 </RcMenuItem>
-              </RcBoxSelect>
+              </RcSelect>
             </div>
           ) : null}
 
@@ -709,50 +713,6 @@ export const VideoConfig: React.FunctionComponent<VideoConfigProps> = (
     </div>
   );
 };
-
-const InnerTopic: React.FunctionComponent<{
-  name: string;
-  currentLocale: string;
-  setTopicRef: (ref: any) => void;
-  updateMeetingTopic: (name: string) => void;
-}> = ({ name, currentLocale, setTopicRef, updateMeetingTopic }) => {
-  const [topic, setTopic] = useState(name);
-  const topicRef = useRef();
-  useEffect(() => {
-    setTopic(name);
-    setTopicRef(topicRef);
-  }, [name, setTopicRef]);
-  return (
-    <RcTextField
-      ref={topicRef}
-      // size="small"
-      label={i18n.getString('topic', currentLocale)}
-      data-sign="topic"
-      fullWidth
-      clearBtn={false}
-      value={topic}
-      inputProps={{
-        maxLength: 255,
-      }}
-      onChange={(e) => {
-        setTopic(e.target.value);
-      }}
-      onBlur={() => {
-        updateMeetingTopic(topic);
-      }}
-      classes={{
-        root: styles.input,
-      }}
-    />
-  );
-};
-
-export const Topic = React.memo(
-  InnerTopic,
-  (prevProps, nextProps) =>
-    prevProps.name === nextProps.name &&
-    prevProps.currentLocale === nextProps.currentLocale,
-);
 
 VideoConfig.defaultProps = {
   recipientsSection: undefined,

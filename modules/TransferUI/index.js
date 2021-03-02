@@ -131,7 +131,9 @@ var TransferUI = (_dec = (0, _module["default"])({
       var _ref2$params = _ref2.params,
           sessionId = _ref2$params.sessionId,
           _ref2$params$type = _ref2$params.type,
-          type = _ref2$params$type === void 0 ? 'active' : _ref2$params$type;
+          type = _ref2$params$type === void 0 ? 'active' : _ref2$params$type,
+          _ref2$enableWarmTrans = _ref2.enableWarmTransfer,
+          enableWarmTransfer = _ref2$enableWarmTrans === void 0 ? false : _ref2$enableWarmTrans;
       var session = null;
 
       if (type === 'active' && this._activeCallControl) {
@@ -147,7 +149,8 @@ var TransferUI = (_dec = (0, _module["default"])({
         currentLocale: this._locale.currentLocale,
         searchContactList: this._contactSearch && this._contactSearch.sortedResult,
         session: session,
-        controlBusy: this._activeCallControl && this._activeCallControl.busy || false
+        controlBusy: this._activeCallControl && this._activeCallControl.busy || false,
+        enableWarmTransfer: enableWarmTransfer && !!this._webphone
       };
     }
   }, {
@@ -172,6 +175,11 @@ var TransferUI = (_dec = (0, _module["default"])({
             _this2._activeCallControl.transfer(transferNumber, sessionId);
           } else if (type === 'webphone' && _this2._webphone) {
             _this2._webphone.transfer(transferNumber, sessionId);
+          }
+        },
+        onWarmTransfer: function onWarmTransfer(transferNumber, sessionId) {
+          if (_this2._webphone) {
+            _this2._webphone.startWarmTransfer(transferNumber, sessionId);
           }
         },
         onBack: function onBack() {

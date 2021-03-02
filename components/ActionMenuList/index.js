@@ -563,7 +563,7 @@ var ActionMenuList = /*#__PURE__*/function (_Component) {
         onClickToDial: onClickToDial,
         phoneNumber: phoneNumber,
         disableLinks: disableLinks,
-        disableCallButton: disableCallButton,
+        disableCallButton: disableLinks || disableCallButton,
         disableClickToDial: disableClickToDial,
         currentLocale: currentLocale,
         title: callTitle

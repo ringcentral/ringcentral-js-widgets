@@ -98,7 +98,7 @@ var BasicCallInfo = function BasicCallInfo(_ref) {
   };
 
   (0, _react.useEffect)(function () {
-    if (callControlRef.current) {
+    if (callControlRef === null || callControlRef === void 0 ? void 0 : callControlRef.current) {
       setPanelHeight("calc(100% - ".concat(callControlRef.current.clientHeight, "px)"));
     }
   }, [callControlRef, status]); // when ringing state change, close that info view

@@ -67,6 +67,8 @@ var _popWindow = _interopRequireDefault(require("../../lib/popWindow"));
 
 var _OAuthBase2 = _interopRequireDefault(require("../../lib/OAuthBase"));
 
+var _isElectron = require("../../lib/isElectron");
+
 var _dec, _class, _class2;
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
@@ -135,8 +137,10 @@ var OAuth = (_dec = (0, _di.Module)({
         loginPath = _ref$loginPath === void 0 ? '/' : _ref$loginPath,
         _ref$redirectUri = _ref.redirectUri,
         redirectUri = _ref$redirectUri === void 0 ? './redirect.html' : _ref$redirectUri,
+        _ref$restrictSameOrig = _ref.restrictSameOriginRedirectUri,
+        restrictSameOriginRedirectUri = _ref$restrictSameOrig === void 0 ? true : _ref$restrictSameOrig,
         routerInteraction = _ref.routerInteraction,
-        options = _objectWithoutProperties(_ref, ["loginPath", "redirectUri", "routerInteraction"]);
+        options = _objectWithoutProperties(_ref, ["loginPath", "redirectUri", "restrictSameOriginRedirectUri", "routerInteraction"]);
 
     _classCallCheck(this, OAuth);
 
@@ -147,6 +151,8 @@ var OAuth = (_dec = (0, _di.Module)({
     _this._loginPath = loginPath;
     _this._loginWindow = null;
     _this._redirectCheckTimeout = null;
+    _this._isInElectron = (0, _isElectron.isElectron)();
+    _this._restrictSameOriginRedirectUri = restrictSameOriginRedirectUri;
     _this._uuid = uuid.v4();
     return _this;
   }
@@ -314,7 +320,8 @@ var OAuth = (_dec = (0, _di.Module)({
       this._redirectCheckTimeout = setTimeout(function () {
         _this4._redirectCheckTimeout = null;
 
-        if (!_this4._loginWindow || !_this4._loginWindow.window || _this4._loginWindow.closed) {
+        if (!_this4._loginWindow || _this4._loginWindow.closed || // for electron, the .window is always undefined
+        !_this4._isInElectron && !_this4._loginWindow.window) {
           _this4._loginWindow = null;
           return;
         }
@@ -346,7 +353,7 @@ var OAuth = (_dec = (0, _di.Module)({
   }, {
     key: "isRedirectUriSameOrigin",
     get: function get() {
-      return this.redirectUri.indexOf(window.origin) === 0;
+      return this.restrictSameOriginRedirectUri ? this.redirectUri.indexOf(window.origin) === 0 : true;
     }
   }, {
     key: "authState",

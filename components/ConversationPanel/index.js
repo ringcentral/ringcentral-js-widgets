@@ -47,6 +47,8 @@ var _react = _interopRequireWildcard(require("react"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
+var _juno = require("@ringcentral/juno");
+
 var _DynamicsFont = _interopRequireDefault(require("../../assets/DynamicsFont/DynamicsFont.scss"));
 
 var _SpinnerOverlay = require("../SpinnerOverlay");
@@ -166,8 +168,8 @@ var ConversationPanel = /*#__PURE__*/function (_Component) {
       this._mounted = true;
     }
   }, {
-    key: "componentWillReceiveProps",
-    value: function componentWillReceiveProps(nextProps) {
+    key: "UNSAFE_componentWillReceiveProps",
+    value: function UNSAFE_componentWillReceiveProps(nextProps) {
       if (!this._userSelection && this.props.conversation && nextProps.conversation && (nextProps.conversation.conversationMatches !== this.props.conversation.conversationMatches || nextProps.conversation.correspondentMatches !== this.props.conversation.correspondentMatches)) {
         this.setState({
           selected: this.getInitialContactIndex(nextProps)
@@ -200,7 +202,15 @@ var ConversationPanel = /*#__PURE__*/function (_Component) {
   }, {
     key: "getMessageListHeight",
     value: function getMessageListHeight() {
+      var _this$props$restrictS, _this$props2;
+
       var headerHeight = 41;
+      var alertHeight = 88;
+
+      if ((_this$props$restrictS = (_this$props2 = this.props).restrictSendMessage) === null || _this$props$restrictS === void 0 ? void 0 : _this$props$restrictS.call(_this$props2, this.getSelectedContact())) {
+        return "calc(100% - ".concat(alertHeight + headerHeight, "px)");
+      }
+
       return "calc(100% - ".concat(this.state.inputHeight + headerHeight, "px)");
     }
   }, {
@@ -319,7 +329,9 @@ var ConversationPanel = /*#__PURE__*/function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this2 = this;
+      var _this2 = this,
+          _this$props$restrictS2,
+          _this$props4;
 
       if (!this.state.loaded) {
         return /*#__PURE__*/_react["default"].createElement("div", {
@@ -329,9 +341,9 @@ var ConversationPanel = /*#__PURE__*/function (_Component) {
 
       var conversationBody = null;
       var loading = this.props.showSpinner;
-      var _this$props2 = this.props,
-          recipients = _this$props2.recipients,
-          messageSubjectRenderer = _this$props2.messageSubjectRenderer;
+      var _this$props3 = this.props,
+          recipients = _this$props3.recipients,
+          messageSubjectRenderer = _this$props3.messageSubjectRenderer;
 
       if (!loading) {
         conversationBody = /*#__PURE__*/_react["default"].createElement(_ConversationMessageList["default"], {
@@ -405,7 +417,10 @@ var ConversationPanel = /*#__PURE__*/function (_Component) {
         className: _DynamicsFont["default"].arrow
       })), extraButton && /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].logButton
-      }, extraButton), logButton), conversationBody, /*#__PURE__*/_react["default"].createElement(_MessageInput["default"], {
+      }, extraButton), logButton), conversationBody, ((_this$props$restrictS2 = (_this$props4 = this.props).restrictSendMessage) === null || _this$props$restrictS2 === void 0 ? void 0 : _this$props$restrictS2.call(_this$props4, this.getSelectedContact())) ? /*#__PURE__*/_react["default"].createElement(_juno.RcAlert, {
+        severity: "error",
+        className: _styles["default"].alert
+      }, "This contact is on a Do Not Contact list.") : /*#__PURE__*/_react["default"].createElement(_MessageInput["default"], {
         value: this.props.messageText,
         onChange: this.props.updateMessageText,
         disabled: this.props.sendButtonDisabled,
@@ -470,7 +485,8 @@ ConversationPanel.propTypes = {
   supportAttachment: _propTypes["default"].bool,
   addAttachment: _propTypes["default"].func,
   removeAttachment: _propTypes["default"].func,
-  onAttachmentDownload: _propTypes["default"].func
+  onAttachmentDownload: _propTypes["default"].func,
+  restrictSendMessage: _propTypes["default"].func
 };
 ConversationPanel.defaultProps = {
   disableLinks: false,
@@ -502,7 +518,8 @@ ConversationPanel.defaultProps = {
   removeAttachment: function removeAttachment() {
     return null;
   },
-  onAttachmentDownload: undefined
+  onAttachmentDownload: undefined,
+  restrictSendMessage: undefined
 };
 var _default = ConversationPanel;
 exports["default"] = _default;

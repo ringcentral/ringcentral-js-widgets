@@ -23,6 +23,7 @@ export default {
   turnOffCamera: "参加者のカメラをオフにする",
   turnOffHostCamera: "会議への参加時にホストのカメラをオフにする",
   requirePassword: "パスワードを必須にする",
+  enterPassword: "パスワードを入力",
   setPassword: "パスワードを設定*",
   passwordEmptyError: "会議パスワードが必要です",
   rcmPasswordInvalidError: "パスワードの長さは1～10文字で、文字および数字と@*-のみ使用できます",
@@ -59,6 +60,7 @@ export default {
 // @key: @#@"turnOffCamera"@#@ @source: @#@"Turn off camera for participants"@#@
 // @key: @#@"turnOffHostCamera"@#@ @source: @#@"Turn off camera for host when joining meeting"@#@
 // @key: @#@"requirePassword"@#@ @source: @#@"Require password"@#@
+// @key: @#@"enterPassword"@#@ @source: @#@"Enter Password"@#@
 // @key: @#@"setPassword"@#@ @source: @#@"Set password *"@#@
 // @key: @#@"passwordEmptyError"@#@ @source: @#@"Meeting password required"@#@
 // @key: @#@"rcmPasswordInvalidError"@#@ @source: @#@"Your password must be 1-10 characters, numbers long and cannot have symbols except @, * or -"@#@

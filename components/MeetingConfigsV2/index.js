@@ -11,7 +11,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.getMinutesList = getMinutesList;
 exports.getHoursList = getHoursList;
-exports.Topic = exports.MeetingConfigs = exports.HOUR_SCALE = exports.MINUTE_SCALE = void 0;
+exports.MeetingConfigs = exports.HOUR_SCALE = exports.MINUTE_SCALE = void 0;
 
 require("core-js/modules/es6.object.assign");
 
@@ -59,9 +59,9 @@ require("core-js/modules/es6.regexp.split");
 
 var _juno = require("@ringcentral/juno");
 
-var _ramda = require("ramda");
-
 var _classnames4 = _interopRequireDefault(require("classnames"));
+
+var _ramda = require("ramda");
 
 var _react = _interopRequireWildcard(require("react"));
 
@@ -70,6 +70,8 @@ var _meetingHelper = require("ringcentral-integration/helpers/meetingHelper");
 var _Meeting = require("ringcentral-integration/modules/Meeting");
 
 var _MeetingCalendarHelper = require("../../lib/MeetingCalendarHelper");
+
+var _InnerTopic = require("../InnerTopic");
 
 var _SpinnerOverlay = require("../SpinnerOverlay");
 
@@ -183,16 +185,20 @@ var MeetingOptionLabel = function MeetingOptionLabel(_ref) {
       _ref$hasScrollBar = _ref.hasScrollBar,
       hasScrollBar = _ref$hasScrollBar === void 0 ? false : _ref$hasScrollBar,
       _ref$className = _ref.className,
-      className = _ref$className === void 0 ? '' : _ref$className;
+      className = _ref$className === void 0 ? '' : _ref$className,
+      _ref$dataSign = _ref.dataSign,
+      dataSign = _ref$dataSign === void 0 ? '' : _ref$dataSign;
   return /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].labelContent
   }, /*#__PURE__*/_react["default"].createElement("div", {
+    "data-sign": "".concat(dataSign, "_label"),
     className: (0, _classnames4["default"])(_styles["default"].placementLeft, _defineProperty({}, _styles["default"].optionLabel, labelPlacement === 'start'), className)
   }, children), isLocked ? /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].placementRight
   }, /*#__PURE__*/_react["default"].createElement(_ExtendedTooltip.ExtendedTooltip, {
+    "data-sign": "".concat(dataSign, "_lock"),
     hasScrollBar: hasScrollBar,
-    title: /*#__PURE__*/_react["default"].createElement("span", null, _i18n["default"].getString('lockedTooltip', currentLocale))
+    title: _i18n["default"].getString('lockedTooltip', currentLocale)
   }, /*#__PURE__*/_react["default"].createElement(_juno.RcIcon, {
     size: "small",
     symbol: _iconLock_border["default"]
@@ -226,7 +232,8 @@ var MeetingConfigs = function MeetingConfigs(_ref2) {
       timePickerSize = _ref2.timePickerSize,
       showSpinnerInConfigPanel = _ref2.showSpinnerInConfigPanel,
       enableServiceWebSettings = _ref2.enableServiceWebSettings,
-      putRecurringMeetingInMiddle = _ref2.putRecurringMeetingInMiddle;
+      putRecurringMeetingInMiddle = _ref2.putRecurringMeetingInMiddle,
+      defaultTopic = _ref2.defaultTopic;
   (0, _react.useEffect)(function () {
     if (init) {
       init();
@@ -347,13 +354,14 @@ var MeetingConfigs = function MeetingConfigs(_ref2) {
     className: _styles["default"].meetingContent
   }, showSpinnerInConfigPanel ? /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay.SpinnerOverlay, null) : null, showTopic ? /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames4["default"])(_styles["default"].meetingSection, _styles["default"].meetingTitle)
-  }, /*#__PURE__*/_react["default"].createElement(Topic, {
+  }, /*#__PURE__*/_react["default"].createElement(_InnerTopic.Topic, {
     name: meeting.topic,
     updateMeetingTopic: function updateMeetingTopic(topic) {
       update({
         topic: topic
       });
     },
+    defaultTopic: defaultTopic,
     currentLocale: currentLocale,
     setTopicRef: setTopicRef
   })) : null, recipientsSection ? /*#__PURE__*/_react["default"].createElement("div", {
@@ -398,7 +406,8 @@ var MeetingConfigs = function MeetingConfigs(_ref2) {
     className: _styles["default"].meetingSection
   }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].hourDuration
-  }, /*#__PURE__*/_react["default"].createElement(_juno.RcLineSelect, {
+  }, /*#__PURE__*/_react["default"].createElement(_juno.RcSelect, {
+    gutterBottom: true,
     "data-sign": "durationHour",
     value: Math.floor(meeting.schedule.durationInMinutes / 60),
     onChange: function onChange(e) {
@@ -424,7 +433,8 @@ var MeetingConfigs = function MeetingConfigs(_ref2) {
     }, item !== null ? item.text : 'defaultValue');
   }))), /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].minuteDuration
-  }, /*#__PURE__*/_react["default"].createElement(_juno.RcLineSelect, {
+  }, /*#__PURE__*/_react["default"].createElement(_juno.RcSelect, {
+    gutterBottom: true,
     "data-sign": "durationMinute",
     required: true,
     value: Math.floor(meeting.schedule.durationInMinutes % 60),
@@ -460,6 +470,7 @@ var MeetingConfigs = function MeetingConfigs(_ref2) {
       toggleRecurring(!isRecurring);
     },
     label: /*#__PURE__*/_react["default"].createElement(MeetingOptionLabel, {
+      dataSign: "recurringMeeting",
       labelPlacement: labelPlacement
     }, _i18n["default"].getString('recurringMeeting', currentLocale))
   })), isRecurring ? /*#__PURE__*/_react["default"].createElement(_juno.RcTypography, {
@@ -471,11 +482,12 @@ var MeetingConfigs = function MeetingConfigs(_ref2) {
     summary: _i18n["default"].getString('scheduleFor', currentLocale)
   }, /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames4["default"])(_styles["default"].sideMargin, _styles["default"].selectOption)
-  }, /*#__PURE__*/_react["default"].createElement(_juno.RcBoxSelect, {
+  }, /*#__PURE__*/_react["default"].createElement(_juno.RcSelect, {
+    variant: "box",
+    "data-test-automation-id": "scheduleFor",
     disabled: disabled,
-    className: (0, _classnames4["default"])(_styles["default"].scheduleForBoxSelect, _styles["default"].autoFullWidth),
+    className: (0, _classnames4["default"])(_styles["default"].boxSelect, _styles["default"].autoFullWidth),
     "data-sign": "scheduleFor",
-    automationId: "scheduleFor",
     onChange: function onChange(e) {
       updateScheduleFor(e.target.value);
     },
@@ -511,6 +523,7 @@ var MeetingConfigs = function MeetingConfigs(_ref2) {
       }, _callee2);
     })),
     label: /*#__PURE__*/_react["default"].createElement(MeetingOptionLabel, {
+      dataSign: "usePersonalMeetingId",
       labelPlacement: labelPlacement,
       className: _styles["default"].pmiLabel
     }, _i18n["default"].getString('usePersonalMeetingId', currentLocale), "\xA0", /*#__PURE__*/_react["default"].createElement("span", {
@@ -520,7 +533,7 @@ var MeetingConfigs = function MeetingConfigs(_ref2) {
     severity: "info",
     className: _styles["default"].alertContainer
   }, isPmiConfirm ? _i18n["default"].getString('pmiSettingChangeAlert', currentLocale) : /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, _i18n["default"].getString('pmiChangeConfirm', currentLocale), /*#__PURE__*/_react["default"].createElement(_juno.RcLink, {
-    handleOnClick: function handleOnClick() {
+    onClick: function onClick() {
       return setPmiConfirm(!isPmiConfirm);
     },
     "data-sign": "setPmiConfirm"
@@ -547,6 +560,7 @@ var MeetingConfigs = function MeetingConfigs(_ref2) {
       });
     },
     label: /*#__PURE__*/_react["default"].createElement(MeetingOptionLabel, {
+      dataSign: "requirePassword",
       labelPlacement: labelPlacement,
       isLocked: meeting._lockRequireMeetingPassword,
       currentLocale: currentLocale,
@@ -554,9 +568,11 @@ var MeetingConfigs = function MeetingConfigs(_ref2) {
     }, _i18n["default"].getString('requirePassword', currentLocale))
   })), meeting._requireMeetingPassword ? /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames4["default"])(_styles["default"].passwordField, _styles["default"].noBottomMargin, _defineProperty({}, _styles["default"].subPrefixPadding, labelPlacement === 'end'))
-  }, /*#__PURE__*/_react["default"].createElement(_juno.RcOutlineTextField, {
+  }, /*#__PURE__*/_react["default"].createElement(_juno.RcTextField, {
     size: "small",
-    placeholder: _i18n["default"].getString('Enter Password', currentLocale),
+    variant: "outline",
+    fullWidth: true,
+    placeholder: _i18n["default"].getString('enterPassword', currentLocale),
     disabled: isDisabled,
     error: !meeting.isMeetingPasswordValid,
     helperText: getHelperTextForPasswordField(meeting, currentLocale, isPasswordFocus),
@@ -591,6 +607,7 @@ var MeetingConfigs = function MeetingConfigs(_ref2) {
       });
     },
     label: /*#__PURE__*/_react["default"].createElement(MeetingOptionLabel, {
+      dataSign: "turnOffCamera",
       labelPlacement: labelPlacement,
       isLocked: enableServiceWebSettings && ((_meeting$settingLock2 = meeting.settingLock) === null || _meeting$settingLock2 === void 0 ? void 0 : _meeting$settingLock2.startParticipantsVideo),
       currentLocale: currentLocale,
@@ -606,6 +623,7 @@ var MeetingConfigs = function MeetingConfigs(_ref2) {
       });
     },
     label: /*#__PURE__*/_react["default"].createElement(MeetingOptionLabel, {
+      dataSign: "turnOffHostCamera",
       labelPlacement: labelPlacement,
       isLocked: enableServiceWebSettings && ((_meeting$settingLock4 = meeting.settingLock) === null || _meeting$settingLock4 === void 0 ? void 0 : _meeting$settingLock4.startHostVideo),
       currentLocale: currentLocale,
@@ -619,32 +637,38 @@ var MeetingConfigs = function MeetingConfigs(_ref2) {
     className: (0, _classnames4["default"])(_styles["default"].selectOption, _styles["default"].labelContent, _styles["default"].sideMargin)
   }, /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames4["default"])(_styles["default"].placementLeft, _styles["default"].hackWidth)
-  }, /*#__PURE__*/_react["default"].createElement(_juno.RcBoxSelect, {
+  }, /*#__PURE__*/_react["default"].createElement(_juno.RcSelect, {
+    variant: "box",
+    "data-test-automation-id": "audioOptions",
+    "data-sign": "audioOptions",
     disabled: isDisabled || enableServiceWebSettings && ((_meeting$settingLock5 = meeting.settingLock) === null || _meeting$settingLock5 === void 0 ? void 0 : _meeting$settingLock5.audioOptions),
     title: _i18n["default"].getString(audioHelpTextMap[audioOptions], currentLocale),
     classes: {
       root: _styles["default"].boxSelectWrapper
     },
-    className: _styles["default"].autoFullWidth,
-    automationId: "audioOptions",
+    className: (0, _classnames4["default"])(_styles["default"].boxSelect, _styles["default"].autoFullWidth),
     onChange: function onChange(e) {
       updateAudioOptions(e.target.value);
     },
     value: audioOptions
   }, /*#__PURE__*/_react["default"].createElement(_juno.RcMenuItem, {
+    "data-sign": "Phone",
     value: "Phone",
     className: _styles["default"].boxSelectMenuItem
   }, _i18n["default"].getString('telephonyOnly', currentLocale)), /*#__PURE__*/_react["default"].createElement(_juno.RcMenuItem, {
+    "data-sign": "ComputerAudio",
     value: "ComputerAudio",
     className: _styles["default"].boxSelectMenuItem
   }, _i18n["default"].getString('voIPOnly', currentLocale)), /*#__PURE__*/_react["default"].createElement(_juno.RcMenuItem, {
+    "data-sign": "Phone_ComputerAudio",
     value: "Phone_ComputerAudio",
     className: _styles["default"].boxSelectMenuItem
   }, _i18n["default"].getString('both', currentLocale)))), enableServiceWebSettings && ((_meeting$settingLock6 = meeting.settingLock) === null || _meeting$settingLock6 === void 0 ? void 0 : _meeting$settingLock6.audioOptions) ? /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames4["default"])(_styles["default"].placementRight, _styles["default"].lockedIcon)
   }, /*#__PURE__*/_react["default"].createElement(_ExtendedTooltip.ExtendedTooltip, {
+    "data-sign": "audioSection_lock",
     hasScrollBar: hasScrollBar,
-    title: /*#__PURE__*/_react["default"].createElement("span", null, _i18n["default"].getString('lockedTooltip', currentLocale))
+    title: _i18n["default"].getString('lockedTooltip', currentLocale)
   }, /*#__PURE__*/_react["default"].createElement(_juno.RcIcon, {
     size: "small",
     symbol: _iconLock_border["default"]
@@ -662,6 +686,7 @@ var MeetingConfigs = function MeetingConfigs(_ref2) {
       });
     },
     label: /*#__PURE__*/_react["default"].createElement(MeetingOptionLabel, {
+      dataSign: "enableJoinToggle",
       labelPlacement: labelPlacement,
       isLocked: enableServiceWebSettings && ((_meeting$settingLock8 = meeting.settingLock) === null || _meeting$settingLock8 === void 0 ? void 0 : _meeting$settingLock8.allowJoinBeforeHost),
       currentLocale: currentLocale,
@@ -675,6 +700,7 @@ var MeetingConfigs = function MeetingConfigs(_ref2) {
       toggleRecurring(!isRecurring);
     },
     label: /*#__PURE__*/_react["default"].createElement(MeetingOptionLabel, {
+      dataSign: "recurringMeeting",
       labelPlacement: labelPlacement
     }, _i18n["default"].getString('recurringMeeting', currentLocale))
   })), /*#__PURE__*/_react["default"].createElement(_juno.RcTypography, {
@@ -690,49 +716,4 @@ MeetingConfigs.defaultProps = {
   datePickerSize: 'medium',
   timePickerSize: 'medium'
 };
-
-var InnerTopic = function InnerTopic(_ref5) {
-  var name = _ref5.name,
-      currentLocale = _ref5.currentLocale,
-      setTopicRef = _ref5.setTopicRef,
-      updateMeetingTopic = _ref5.updateMeetingTopic;
-
-  var _useState13 = (0, _react.useState)(name),
-      _useState14 = _slicedToArray(_useState13, 2),
-      topic = _useState14[0],
-      setTopic = _useState14[1];
-
-  var topicRef = (0, _react.useRef)();
-  (0, _react.useEffect)(function () {
-    setTopic(name);
-    setTopicRef(topicRef);
-  }, [name, setTopicRef]);
-  return /*#__PURE__*/_react["default"].createElement(_juno.RcTextField, {
-    ref: topicRef // size="small"
-    ,
-    label: _i18n["default"].getString('topic', currentLocale),
-    "data-sign": "topic",
-    fullWidth: true,
-    clearBtn: false,
-    value: topic,
-    inputProps: {
-      maxLength: 255
-    },
-    onChange: function onChange(e) {
-      setTopic(e.target.value);
-    },
-    onBlur: function onBlur() {
-      updateMeetingTopic(topic);
-    },
-    classes: {
-      root: _styles["default"].input
-    }
-  });
-};
-
-var Topic = /*#__PURE__*/_react["default"].memo(InnerTopic, function (prevProps, nextProps) {
-  return prevProps.name === nextProps.name && prevProps.currentLocale === nextProps.currentLocale;
-});
-
-exports.Topic = Topic;
 //# sourceMappingURL=index.js.map

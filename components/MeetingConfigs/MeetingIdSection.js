@@ -63,7 +63,7 @@ var MeetingIdSection = function MeetingIdSection(_ref) {
   }, _i18n["default"].getString('pmiSettingChangeAlert', currentLocale)) : null, meeting.usePersonalMeetingId && !isChangePmiConfirmed ? /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].pmiHintContainer
   }, _i18n["default"].getString('pmiChangeConfirm', currentLocale), /*#__PURE__*/_react["default"].createElement(_juno.RcLink, {
-    handleOnClick: function handleOnClick() {
+    onClick: function onClick() {
       return handlePmiConfirmed(true);
     }
   }, _i18n["default"].getString('changePmiSettings', currentLocale)), ".") : null));

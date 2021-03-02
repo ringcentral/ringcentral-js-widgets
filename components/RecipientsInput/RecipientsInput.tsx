@@ -168,6 +168,7 @@ class RecipientsInput extends Component<
             phoneNumber: this.state.value.replace(',', ''),
           });
         }
+        this.setState({ value: '' });
       }
     };
   }

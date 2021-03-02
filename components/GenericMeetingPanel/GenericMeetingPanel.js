@@ -59,6 +59,8 @@ var _isSafari = _interopRequireDefault(require("../../lib/isSafari"));
 
 var _VideoConfig = require("../VideoPanel/VideoConfig");
 
+var _InnerTopic = require("../InnerTopic");
+
 var _MeetingConfigsV = require("../MeetingConfigsV2");
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
@@ -148,7 +150,8 @@ var GenericMeetingPanel = function GenericMeetingPanel(props) {
       labelPlacement = props.labelPlacement,
       showSpinnerInConfigPanel = props.showSpinnerInConfigPanel,
       enableServiceWebSettings = props.enableServiceWebSettings,
-      putRecurringMeetingInMiddle = props.putRecurringMeetingInMiddle;
+      putRecurringMeetingInMiddle = props.putRecurringMeetingInMiddle,
+      defaultTopic = props.defaultTopic;
 
   if (showSpinner) {
     return /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay.SpinnerOverlay, null);
@@ -176,6 +179,7 @@ var GenericMeetingPanel = function GenericMeetingPanel(props) {
     switchUsePersonalMeetingId: switchUsePersonalMeetingId
   }), isRCM && useRcmV2 && /*#__PURE__*/_react["default"].createElement(_MeetingConfigsV.MeetingConfigs, {
     disabled: configDisabled,
+    defaultTopic: defaultTopic,
     showSpinnerInConfigPanel: showSpinnerInConfigPanel,
     updateMeetingSettings: updateMeetingSettings,
     personalMeetingId: personalMeetingId,
@@ -221,7 +225,7 @@ var GenericMeetingPanel = function GenericMeetingPanel(props) {
     showScheduleOnBehalf: showScheduleOnBehalf,
     showSpinnerInConfigPanel: showSpinnerInConfigPanel,
     delegators: delegators
-  }, showTopic && /*#__PURE__*/_react["default"].createElement(_VideoConfig.Topic, {
+  }, showTopic && /*#__PURE__*/_react["default"].createElement(_InnerTopic.Topic, {
     name: meeting.name,
     updateMeetingTopic: function updateMeetingTopic(name) {
       updateMeetingSettings({
@@ -229,7 +233,8 @@ var GenericMeetingPanel = function GenericMeetingPanel(props) {
       });
     },
     currentLocale: currentLocale,
-    setTopicRef: setTopicRef
+    setTopicRef: setTopicRef,
+    defaultTopic: defaultTopic
   })), (isRCM || isRCV) && ScheduleButton && /*#__PURE__*/_react["default"].createElement(ScheduleButton, {
     currentLocale: currentLocale,
     disabled: disabled,

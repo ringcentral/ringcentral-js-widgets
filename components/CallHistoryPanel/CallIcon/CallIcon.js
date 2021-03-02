@@ -66,12 +66,13 @@ var CallIcon = function CallIcon(_ref) {
         return null;
     }
   }, [missed, direction]);
-  return /*#__PURE__*/_react["default"].createElement("span", {
-    title: title
-  }, /*#__PURE__*/_react["default"].createElement(_juno.RcIcon, {
+  return /*#__PURE__*/_react["default"].createElement(_juno.RcIcon, {
+    "data-sign": "callIcon",
+    title: title || direction,
     symbol: icon,
+    size: "medium",
     className: (0, _classnames["default"])(_styles["default"].icon, (_classNames = {}, _defineProperty(_classNames, _styles["default"].active, active), _defineProperty(_classNames, _styles["default"].missed, missed), _classNames))
-  }));
+  });
 };
 
 exports.CallIcon = CallIcon;

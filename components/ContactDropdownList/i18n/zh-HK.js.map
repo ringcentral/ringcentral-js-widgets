@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/ContactDropdownList/i18n/zh-HK.js"],"names":["doNotCall"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,SAAS,EAAE;AADE,C,EAIf","sourcesContent":["export default {\n  doNotCall: \"請勿聯絡\"\n};\n\n// @key: @#@\"doNotCall\"@#@ @source: @#@\"Do Not Contact\"@#@\n"],"file":"zh-HK.js"}

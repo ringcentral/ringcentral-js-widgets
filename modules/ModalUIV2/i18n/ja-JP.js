@@ -7,8 +7,12 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  close: "閉じる"
-}; // @key: @#@"close"@#@ @source: @#@"Close"@#@
+  cancel: "キャンセル",
+  close: "閉じる",
+  ok: "OK"
+}; // @key: @#@"cancel"@#@ @source: @#@"Cancel"@#@
+// @key: @#@"close"@#@ @source: @#@"Close"@#@
+// @key: @#@"ok"@#@ @source: @#@"OK"@#@
 
 exports["default"] = _default;
 //# sourceMappingURL=ja-JP.js.map

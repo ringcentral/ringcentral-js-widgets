@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/InnerTopic/i18n/nl-NL.js"],"names":["topic"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,KAAK,EAAE;AADM,C,EAIf","sourcesContent":["export default {\n  topic: \"Meetingtitel\"\n};\n\n// @key: @#@\"topic\"@#@ @source: @#@\"Meeting title\"@#@\n"],"file":"nl-NL.js"}

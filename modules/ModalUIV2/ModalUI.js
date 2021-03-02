@@ -253,6 +253,19 @@ var ModalUI = (_dec = (0, _di.Module)({
       return _genericHandler;
     }()
   }, {
+    key: "_setLoading",
+    value: function _setLoading(id, loading) {
+      var idx = (0, _ramda.findIndex)(function (item) {
+        return item.id === id;
+      }, this._modals);
+
+      if (this._modals[idx].useLoadingOverlay) {
+        this._modals[idx].showLoadingOverlay = loading;
+      } else {
+        this._modals[idx].loading = loading;
+      }
+    }
+  }, {
     key: "_onOK",
     value: function () {
       var _onOK2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(id, onOK) {
@@ -261,37 +274,41 @@ var ModalUI = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
+                this._setLoading(id, true);
+
                 handler = this._handlerRegister.get(id).get(onOK);
                 _context2.t0 = handler;
 
                 if (!_context2.t0) {
-                  _context2.next = 7;
+                  _context2.next = 8;
                   break;
                 }
 
-                _context2.next = 5;
+                _context2.next = 6;
                 return handler();
 
-              case 5:
+              case 6:
                 _context2.t1 = _context2.sent;
                 _context2.t0 = _context2.t1 === false;
 
-              case 7:
+              case 8:
                 if (!_context2.t0) {
-                  _context2.next = 9;
+                  _context2.next = 11;
                   break;
                 }
 
+                this._setLoading(id, false);
+
                 return _context2.abrupt("return");
 
-              case 9:
+              case 11:
                 this._promises.get(id).resolve(true);
 
                 this._promises["delete"](id);
 
                 this.close(id);
 
-              case 12:
+              case 14:
               case "end":
                 return _context2.stop();
             }
@@ -718,6 +735,6 @@ var ModalUI = (_dec = (0, _di.Module)({
   initializer: function initializer() {
     return [];
   }
-}), _applyDecoratedDescriptor(_class2.prototype, "_addModal", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_addModal"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_updateModal", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_updateModal"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_removeModal", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_removeModal"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_genericHandler", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_genericHandler"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_onOK", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_onOK"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_onExited", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_onExited"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_onCancel", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_onCancel"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "open", [_background["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "open"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "update", [_background["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "update"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "close", [_background["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "close"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "confirm", [_background["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "confirm"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "alert", [_background["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "alert"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "info", [_background["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "info"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "modals", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "modals"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getPromise", [_background["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "getPromise"), _class2.prototype)), _class2)) || _class);
+}), _applyDecoratedDescriptor(_class2.prototype, "_addModal", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_addModal"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_updateModal", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_updateModal"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_removeModal", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_removeModal"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_genericHandler", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_genericHandler"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_setLoading", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setLoading"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_onOK", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_onOK"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_onExited", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_onExited"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_onCancel", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_onCancel"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "open", [_background["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "open"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "update", [_background["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "update"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "close", [_background["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "close"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "confirm", [_background["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "confirm"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "alert", [_background["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "alert"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "info", [_background["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "info"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "modals", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "modals"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getPromise", [_background["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "getPromise"), _class2.prototype)), _class2)) || _class);
 exports.ModalUI = ModalUI;
 //# sourceMappingURL=ModalUI.js.map

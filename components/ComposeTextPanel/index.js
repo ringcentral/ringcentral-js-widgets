@@ -153,8 +153,8 @@ var ComposeTextPanel = /*#__PURE__*/function (_Component) {
   }
 
   _createClass(ComposeTextPanel, [{
-    key: "componentWillReceiveProps",
-    value: function componentWillReceiveProps(nextProps) {
+    key: "UNSAFE_componentWillReceiveProps",
+    value: function UNSAFE_componentWillReceiveProps(nextProps) {
       if (nextProps.messageText !== this.state.messageText) {
         this.setState({
           messageText: nextProps.messageText

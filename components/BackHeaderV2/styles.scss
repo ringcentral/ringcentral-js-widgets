@@ -38,10 +38,10 @@ $back-margin-left-classic: 6px;
     top: 0;
     width: 100%;
     height: 100%;
-    font-weight: 500;
     overflow: hidden;
     span {
-      @include text-ellipsis;
+      @include rc-typography('body2');
+      color: rc-palette('text', 'Dark');
     }
   }
   // 32px is back icon's width

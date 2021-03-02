@@ -35,21 +35,21 @@ require("core-js/modules/es6.array.is-array");
 
 require("core-js/modules/es6.array.filter");
 
-var _Search = _interopRequireDefault(require("@ringcentral/juno/icon/Search"));
-
-var _react = _interopRequireWildcard(require("react"));
-
 var _juno = require("@ringcentral/juno");
+
+var _Search = _interopRequireDefault(require("@ringcentral/juno/icon/Search"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
-var _SearchResult = require("./SearchResult");
+var _react = _interopRequireWildcard(require("react"));
 
 var _contexts = require("../../contexts");
 
-var _styles = _interopRequireDefault(require("./styles.scss"));
-
 var _i18n = _interopRequireDefault(require("./i18n"));
+
+var _SearchResult = require("./SearchResult");
+
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
@@ -98,11 +98,19 @@ var SearchPanel = function SearchPanel(_ref) {
   // IE polyfill
   _react["default"].createElement("span", {
     className: (0, _classnames["default"])(_styles["default"].placeholder, classes.placeholder)
-  }, placeholder || _i18n["default"].getString('search', currentLocale)), /*#__PURE__*/_react["default"].createElement(_juno.RcOutlineTextField, {
+  }, placeholder || _i18n["default"].getString('search', currentLocale)), /*#__PURE__*/_react["default"].createElement(_juno.RcTextField, {
     size: "small",
-    radiusType: "circle",
-    iconPosition: "left",
-    symbol: _Search["default"],
+    fullWidth: true,
+    variant: "outline",
+    radius: "round",
+    value: filter,
+    InputProps: {
+      startAdornment: /*#__PURE__*/_react["default"].createElement(_juno.RcIcon, {
+        symbol: _Search["default"],
+        size: "small",
+        color: "icon.subdued"
+      })
+    },
     "data-sign": "searchBar",
     onChange: function onChange(event) {
       if (event.target) {

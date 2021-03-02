@@ -113,6 +113,9 @@ var DialerPanel = function DialerPanel(_ref) {
     titleEnabled: true,
     className: !showFromField ? (0, _classnames["default"])(_styles["default"].inputField, _styles["default"].recipientsField) : null
   }) : /*#__PURE__*/_react["default"].createElement(_RecipientsInput["default"], {
+    inputRef: function inputRef(element) {
+      inputEl.current = element;
+    },
     value: toNumber,
     onChange: onToNumberChange,
     onClean: clearToNumber,

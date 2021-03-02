@@ -95,12 +95,15 @@ function formatCallDate(timestamp) {
 }
 
 function formatCallTime(timestamp) {
-  return (0, _moment["default"])(timestamp).format('h:mmA');
+  return (0, _moment["default"])(timestamp).format('h:mm A');
 }
 
 var CallHistoryPanel = function CallHistoryPanel(_ref) {
   var calls = _ref.calls,
-      currentLocale = _ref.currentLocale;
+      currentLocale = _ref.currentLocale,
+      getActionMenu = _ref.getActionMenu,
+      _ref$isWide = _ref.isWide,
+      isWide = _ref$isWide === void 0 ? true : _ref$isWide;
   var tree = (0, _react.useMemo)(function () {
     var _tree = {
       root: {
@@ -169,6 +172,7 @@ var CallHistoryPanel = function CallHistoryPanel(_ref) {
 
     if (node.children) {
       return /*#__PURE__*/_react["default"].createElement("div", {
+        "data-sign": node.name,
         className: _styles["default"].date,
         style: style,
         key: node.name
@@ -176,10 +180,13 @@ var CallHistoryPanel = function CallHistoryPanel(_ref) {
     }
 
     return /*#__PURE__*/_react["default"].createElement("div", {
+      "data-sign": "historyItem",
       style: style,
       key: node.call.id
     }, /*#__PURE__*/_react["default"].createElement(_CallHistoryItem.CallHistoryItem, {
-      call: node.call
+      call: node.call,
+      actionMenu: getActionMenu(node.call),
+      isWide: isWide
     }));
   }, [tree, currentLocale]);
   return /*#__PURE__*/_react["default"].createElement("div", {
@@ -201,4 +208,10 @@ var CallHistoryPanel = function CallHistoryPanel(_ref) {
 };
 
 exports.CallHistoryPanel = CallHistoryPanel;
+CallHistoryPanel.defaultProps = {
+  calls: [],
+  getActionMenu: function getActionMenu() {
+    return [];
+  }
+};
 //# sourceMappingURL=CallHistoryPanel.js.map

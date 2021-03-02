@@ -7,8 +7,12 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  close: "Fechar"
-}; // @key: @#@"close"@#@ @source: @#@"Close"@#@
+  cancel: "Cancelar",
+  close: "Fechar",
+  ok: "OK"
+}; // @key: @#@"cancel"@#@ @source: @#@"Cancel"@#@
+// @key: @#@"close"@#@ @source: @#@"Close"@#@
+// @key: @#@"ok"@#@ @source: @#@"OK"@#@
 
 exports["default"] = _default;
 //# sourceMappingURL=pt-PT.js.map

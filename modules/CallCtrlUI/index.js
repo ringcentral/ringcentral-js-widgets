@@ -47,6 +47,8 @@ require("core-js/modules/es7.object.values");
 
 require("core-js/modules/es6.array.find");
 
+require("core-js/modules/es6.function.name");
+
 var _ramda = require("ramda");
 
 var _di = require("ringcentral-integration/lib/di");
@@ -58,6 +60,8 @@ var _callingModes = _interopRequireDefault(require("ringcentral-integration/modu
 var _sessionStatus = _interopRequireDefault(require("ringcentral-integration/modules/Webphone/sessionStatus"));
 
 var _formatNumber = _interopRequireDefault(require("ringcentral-integration/lib/formatNumber"));
+
+var _calleeTypes = _interopRequireDefault(require("ringcentral-integration/enums/calleeTypes"));
 
 var _callCtrlLayouts = _interopRequireDefault(require("../../enums/callCtrlLayouts"));
 
@@ -102,6 +106,20 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function getLastCallInfoFromWebphoneSession(webphoneSession) {
+  var sessionNumber = webphoneSession.direction === _callDirections["default"].outbound ? webphoneSession.to : webphoneSession.from;
+  var sessionStatus = webphoneSession.callStatus;
+  var matchedContact = webphoneSession.contactMatch;
+  var calleeType = matchedContact ? _calleeTypes["default"].contacts : _calleeTypes["default"].unknown;
+  return {
+    calleeType: calleeType,
+    avatarUrl: matchedContact && matchedContact.profileImageUrl,
+    name: matchedContact && matchedContact.name,
+    status: sessionStatus,
+    phoneNumber: sessionNumber
+  };
+}
 
 var CallCtrlUI = (_dec = (0, _di.Module)({
   name: 'CallCtrlUI',
@@ -211,6 +229,14 @@ var CallCtrlUI = (_dec = (0, _di.Module)({
         }
       }
 
+      if (currentSession.warmTransferSessionId) {
+        var warmTransferSession = this._webphone.sessions.find(function (session) {
+          return session.id === currentSession.warmTransferSessionId;
+        });
+
+        lastCallInfo = getLastCallInfoFromWebphoneSession(warmTransferSession);
+      }
+
       var disableLinks = !!(this._connectivityManager.isOfflineMode || this._connectivityManager.isVoipOnlyMode);
       return {
         brand: this._brand.fullName,
@@ -254,6 +280,10 @@ var CallCtrlUI = (_dec = (0, _di.Module)({
               lastCallInfo = _ref4.lastCallInfo,
               session = _ref4.session;
           var layout = _callCtrlLayouts["default"].normalCtrl;
+
+          if (session.warmTransferSessionId) {
+            return _callCtrlLayouts["default"].completeTransferCtrl;
+          }
 
           if (!conferenceCallEquipped) {
             return layout;
@@ -326,6 +356,9 @@ var CallCtrlUI = (_dec = (0, _di.Module)({
         },
         onTransfer: function onTransfer(sessionId) {
           _this2._routerInteraction.push("/transfer/".concat(sessionId, "/webphone"));
+        },
+        onCompleteTransfer: function onCompleteTransfer(sessionId) {
+          _this2._webphone.completeWarmTransfer(sessionId);
         },
         onPark: function onPark(sessionId) {
           return _this2._webphone.park(sessionId);

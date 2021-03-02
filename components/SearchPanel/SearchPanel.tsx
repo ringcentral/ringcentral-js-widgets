@@ -1,12 +1,12 @@
+import { RcIcon, RcTextField } from '@ringcentral/juno';
 import searchSvg from '@ringcentral/juno/icon/Search';
-import React, { useState, FunctionComponent, useContext } from 'react';
-import { RcOutlineTextField } from '@ringcentral/juno';
 import classNames from 'classnames';
-import { SearchResult, SearchResultProps } from './SearchResult';
-import { SelectListContext } from '../../contexts';
+import React, { FunctionComponent, useContext, useState } from 'react';
 
-import styles from './styles.scss';
+import { SelectListContext } from '../../contexts';
 import i18n from './i18n';
+import { SearchResult, SearchResultProps } from './SearchResult';
+import styles from './styles.scss';
 
 interface SearchPanelClasses {
   root?: string;
@@ -46,11 +46,17 @@ export const SearchPanel: FunctionComponent<SearchPanelProps> = ({
             {placeholder || i18n.getString('search', currentLocale)}
           </span>
         )}
-        <RcOutlineTextField
+        <RcTextField
           size="small"
-          radiusType="circle"
-          iconPosition="left"
-          symbol={searchSvg}
+          fullWidth
+          variant="outline"
+          radius="round"
+          value={filter}
+          InputProps={{
+            startAdornment: (
+              <RcIcon symbol={searchSvg} size="small" color="icon.subdued" />
+            ),
+          }}
           data-sign="searchBar"
           onChange={(
             event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,

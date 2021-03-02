@@ -195,6 +195,10 @@ var CallCtrlContainer = /*#__PURE__*/function (_Component) {
       return _this.props.gotoParticipantsCtrl(_this.props.session.id);
     };
 
+    _this.onCompleteTransfer = function () {
+      return _this.props.onCompleteTransfer(_this.props.session.id);
+    };
+
     return _this;
   }
 
@@ -420,6 +424,8 @@ var CallCtrlContainer = /*#__PURE__*/function (_Component) {
         startTime: session.startTime,
         isOnMute: session.isOnMute,
         isOnHold: session.isOnHold,
+        isOnTransfer: session.isOnTransfer,
+        isOnWaitingTransfer: !!session.warmTransferSessionId,
         recordStatus: session.recordStatus,
         showBackButton: this.props.showBackButton,
         backButtonLabel: backButtonLabel,
@@ -437,6 +443,7 @@ var CallCtrlContainer = /*#__PURE__*/function (_Component) {
         onBeforeMerge: this.onBeforeMerge,
         onFlip: this.props.onFlip,
         onTransfer: this.props.onTransfer,
+        onCompleteTransfer: this.onCompleteTransfer,
         onPark: this.onPark,
         disableFlip: this.props.disableFlip,
         showPark: this.props.showPark,
@@ -492,7 +499,8 @@ CallCtrlContainer.propTypes = {
     recordStatus: _propTypes["default"].string,
     to: _propTypes["default"].string,
     from: _propTypes["default"].string,
-    contactMatch: _propTypes["default"].object
+    contactMatch: _propTypes["default"].object,
+    warmTransferSessionId: _propTypes["default"].string
   }).isRequired,
   currentLocale: _propTypes["default"].string.isRequired,
   onMute: _propTypes["default"].func.isRequired,
@@ -542,7 +550,8 @@ CallCtrlContainer.propTypes = {
   afterConfirmMerge: _propTypes["default"].func,
   afterOnMerge: _propTypes["default"].func,
   disableFlip: _propTypes["default"].bool,
-  showCallQueueName: _propTypes["default"].bool
+  showCallQueueName: _propTypes["default"].bool,
+  onCompleteTransfer: _propTypes["default"].func
 };
 CallCtrlContainer.defaultProps = {
   children: undefined,
@@ -587,7 +596,10 @@ CallCtrlContainer.defaultProps = {
     return null;
   },
   disableFlip: false,
-  showCallQueueName: false
+  showCallQueueName: false,
+  onCompleteTransfer: function onCompleteTransfer() {
+    return null;
+  }
 };
 var _default = CallCtrlContainer;
 exports["default"] = _default;

@@ -40,6 +40,7 @@ var SettingsPanel = function SettingsPanel(_ref) {
       onFeedbackSettingsLinkClick = _ref.onFeedbackSettingsLinkClick,
       onQuickAccessLinkClick = _ref.onQuickAccessLinkClick,
       onUserGuideClick = _ref.onUserGuideClick,
+      onShareIdeaClick = _ref.onShareIdeaClick,
       showCalling = _ref.showCalling,
       showAutoLog = _ref.showAutoLog,
       showAutoLogNotes = _ref.showAutoLogNotes,
@@ -79,6 +80,7 @@ var SettingsPanel = function SettingsPanel(_ref) {
       showFeedback = _ref.showFeedback,
       showQuickAccess = _ref.showQuickAccess,
       showUserGuide = _ref.showUserGuide,
+      showShareIdea = _ref.showShareIdea,
       additional = _ref.additional,
       supportedLocales = _ref.supportedLocales,
       savedLocale = _ref.savedLocale,
@@ -183,6 +185,11 @@ var SettingsPanel = function SettingsPanel(_ref) {
     currentLocale: currentLocale,
     onClick: onFeedbackSettingsLinkClick
   }), /*#__PURE__*/_react["default"].createElement(_LinkLineItem.LinkLineItem, {
+    name: "shareIdea",
+    show: showShareIdea,
+    currentLocale: currentLocale,
+    onClick: onShareIdeaClick
+  }), /*#__PURE__*/_react["default"].createElement(_LinkLineItem.LinkLineItem, {
     name: "quickAccess",
     show: showQuickAccess,
     currentLocale: currentLocale,
@@ -223,6 +230,7 @@ var baseDefaultProps = {
   openPresenceSettings: false,
   showPresenceSettings: true,
   showFeedback: true,
+  showShareIdea: false,
   showQuickAccess: false,
   clickToDialTitle: null,
   onReportLinkClick: function onReportLinkClick() {

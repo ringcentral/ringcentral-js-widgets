@@ -23,6 +23,7 @@ export default {
   turnOffCamera: "關閉參與者的相機",
   turnOffHostCamera: "主持人加入會議時請關閉攝影機",
   requirePassword: "需要密碼",
+  enterPassword: "輸入密碼",
   setPassword: "請設定密碼 *",
   passwordEmptyError: "必須提供會議密碼",
   rcmPasswordInvalidError: "您的密碼必須包含 1 到 10 個字元和數字，並且不得包含任何符號 (除 @、* 或 - 以外)",
@@ -59,6 +60,7 @@ export default {
 // @key: @#@"turnOffCamera"@#@ @source: @#@"Turn off camera for participants"@#@
 // @key: @#@"turnOffHostCamera"@#@ @source: @#@"Turn off camera for host when joining meeting"@#@
 // @key: @#@"requirePassword"@#@ @source: @#@"Require password"@#@
+// @key: @#@"enterPassword"@#@ @source: @#@"Enter Password"@#@
 // @key: @#@"setPassword"@#@ @source: @#@"Set password *"@#@
 // @key: @#@"passwordEmptyError"@#@ @source: @#@"Meeting password required"@#@
 // @key: @#@"rcmPasswordInvalidError"@#@ @source: @#@"Your password must be 1-10 characters, numbers long and cannot have symbols except @, * or -"@#@

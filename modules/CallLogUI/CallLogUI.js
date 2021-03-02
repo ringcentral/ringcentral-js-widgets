@@ -53,6 +53,8 @@ var _react = _interopRequireDefault(require("react"));
 
 var _CallLogCallCtrlContainer = _interopRequireDefault(require("../../containers/CallLogCallCtrlContainer"));
 
+var _i18n = _interopRequireDefault(require("./i18n"));
+
 var _dec, _class;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -161,10 +163,11 @@ var CallLogUI = (_dec = (0, _di.Module)({
             phoneNumber: phoneNumber,
             areaCode: regionSettings.areaCode,
             countryCode: regionSettings.countryCode
-          }) || 'Unknown';
+          }) || _i18n["default"].getString('unKnown', locale.currentLocale);
         },
         goBack: function goBack() {
-          return callLogSection.closeLogSection();
+          callLogSection.closeLogSection();
+          callLogSection.closeLogNotification();
         },
         renderCallLogCallControl: function renderCallLogCallControl(currentTelephonySessionId, isWide, isCurrentDeviceCall) {
           return /*#__PURE__*/_react["default"].createElement(_CallLogCallCtrlContainer["default"], {

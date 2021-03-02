@@ -26,7 +26,8 @@ var _default = {
   feedback: "Comentarios",
   userGuide: "Novedades",
   quickAccess: "Configuración de acceso rápido",
-  report: "Informe de análisis"
+  report: "Informe de análisis",
+  shareIdea: "Compartir idea"
 }; // @key: @#@"region"@#@ @source: @#@"Region"@#@
 // @key: @#@"calling"@#@ @source: @#@"Calling"@#@
 // @key: @#@"logout"@#@ @source: @#@"Logout"@#@
@@ -47,6 +48,7 @@ var _default = {
 // @key: @#@"userGuide"@#@ @source: @#@"What's New"@#@
 // @key: @#@"quickAccess"@#@ @source: @#@"Quick Access Setting"@#@
 // @key: @#@"report"@#@ @source: @#@"Analytics Report"@#@
+// @key: @#@"shareIdea"@#@ @source: @#@"Share idea"@#@
 
 exports["default"] = _default;
 //# sourceMappingURL=es-ES.js.map

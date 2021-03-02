@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/ContactDropdownList/i18n/pt-PT.js"],"names":["doNotCall"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,SAAS,EAAE;AADE,C,EAIf","sourcesContent":["export default {\n  doNotCall: \"Não contactar\"\n};\n\n// @key: @#@\"doNotCall\"@#@ @source: @#@\"Do Not Contact\"@#@\n"],"file":"pt-PT.js"}

@@ -225,7 +225,10 @@ var CallCtrlPanel = /*#__PURE__*/function (_Component) {
           startTime = _this$props.startTime,
           disableFlip = _this$props.disableFlip,
           callQueueName = _this$props.callQueueName,
-          showPark = _this$props.showPark;
+          showPark = _this$props.showPark,
+          isOnWaitingTransfer = _this$props.isOnWaitingTransfer,
+          onCompleteTransfer = _this$props.onCompleteTransfer,
+          isOnTransfer = _this$props.isOnTransfer;
       var _this$state = this.state,
           isShowKeyPad = _this$state.isShowKeyPad,
           isShowMergeConfirm = _this$state.isShowMergeConfirm;
@@ -251,6 +254,8 @@ var CallCtrlPanel = /*#__PURE__*/function (_Component) {
         startTime: startTime,
         isOnMute: isOnMute,
         isOnHold: isOnHold,
+        isOnTransfer: isOnTransfer,
+        isOnWaitingTransfer: isOnWaitingTransfer,
         recordStatus: recordStatus,
         onMute: onMute,
         onUnmute: onUnmute,
@@ -263,6 +268,7 @@ var CallCtrlPanel = /*#__PURE__*/function (_Component) {
         onPark: onPark,
         onAdd: onAdd,
         onMerge: this.onMerge,
+        onCompleteTransfer: onCompleteTransfer,
         nameMatches: nameMatches,
         fallBackName: fallBackName,
         areaCode: areaCode,
@@ -363,7 +369,10 @@ CallCtrlPanel.propTypes = {
   actions: _propTypes["default"].array,
   controlBusy: _propTypes["default"].bool,
   callQueueName: _propTypes["default"].string,
-  showPark: _propTypes["default"].bool
+  showPark: _propTypes["default"].bool,
+  onCompleteTransfer: _propTypes["default"].func,
+  isOnWaitingTransfer: _propTypes["default"].bool,
+  isOnTransfer: _propTypes["default"].bool
 };
 CallCtrlPanel.defaultProps = {
   startTime: null,
@@ -426,12 +435,17 @@ CallCtrlPanel.defaultProps = {
   onSelectMatcherName: function onSelectMatcherName() {
     return null;
   },
+  onCompleteTransfer: function onCompleteTransfer() {
+    return null;
+  },
   actions: [],
   recordStatus: '',
   controlBusy: false,
   disableFlip: false,
   callQueueName: null,
-  showPark: false
+  showPark: false,
+  isOnWaitingTransfer: false,
+  isOnTransfer: false
 };
 var _default = CallCtrlPanel;
 exports["default"] = _default;

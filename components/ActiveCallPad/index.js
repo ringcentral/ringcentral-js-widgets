@@ -47,7 +47,7 @@ var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
-var _recordStatus = _interopRequireDefault(require("ringcentral-integration/modules/Webphone/recordStatus"));
+var _recordStatus = require("ringcentral-integration/modules/Webphone/recordStatus");
 
 var _is_type = require("ringcentral-integration/lib/di/utils/is_type");
 
@@ -134,7 +134,8 @@ var ACTIONS_CTRL_MAP = {
   recordCtrl: 'recordCtrl',
   transferCtrl: 'transferCtrl',
   flipCtrl: 'flipCtrl',
-  parkCtrl: 'parkCtrl'
+  parkCtrl: 'parkCtrl',
+  completeTransferCtrl: 'completeTransferCtrl'
 };
 exports.ACTIONS_CTRL_MAP = ACTIONS_CTRL_MAP;
 
@@ -227,24 +228,54 @@ var ActiveCallPad = /*#__PURE__*/function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      var controlBusy = this.props.controlBusy;
+      var _this$props = this.props,
+          controlBusy = _this$props.controlBusy,
+          actions = _this$props.actions,
+          currentLocale = _this$props.currentLocale,
+          isOnWaitingTransfer = _this$props.isOnWaitingTransfer,
+          onHangup = _this$props.onHangup,
+          onCompleteTransfer = _this$props.onCompleteTransfer,
+          conferenceCallEquipped = _this$props.conferenceCallEquipped,
+          isOnMute = _this$props.isOnMute,
+          isOnHold = _this$props.isOnHold,
+          onUnmute = _this$props.onUnmute,
+          onMute = _this$props.onMute,
+          onShowKeyPad = _this$props.onShowKeyPad,
+          layout = _this$props.layout,
+          onUnhold = _this$props.onUnhold,
+          onHold = _this$props.onHold,
+          hasConferenceCall = _this$props.hasConferenceCall,
+          mergeDisabled = _this$props.mergeDisabled,
+          onMerge = _this$props.onMerge,
+          addDisabled = _this$props.addDisabled,
+          onAdd = _this$props.onAdd,
+          recordStatus = _this$props.recordStatus,
+          onStopRecord = _this$props.onStopRecord,
+          onRecord = _this$props.onRecord,
+          onTransfer = _this$props.onTransfer,
+          disableFlip = _this$props.disableFlip,
+          onFlip = _this$props.onFlip,
+          showPark = _this$props.showPark,
+          onPark = _this$props.onPark,
+          className = _this$props.className,
+          isOnTransfer = _this$props.isOnTransfer;
       var buttons = [];
       /* --------------------- Mute/Unmute --------------------------- */
 
-      buttons.push(this.props.isOnMute ? {
+      buttons.push(isOnMute ? {
         icon: _Mute["default"],
         id: ACTIONS_CTRL_MAP.muteCtrl,
         dataSign: 'mute',
-        title: _i18n["default"].getString('unmute', this.props.currentLocale),
-        disabled: this.props.isOnHold || controlBusy,
-        onClick: this.props.onUnmute
+        title: _i18n["default"].getString('unmute', currentLocale),
+        disabled: isOnHold || controlBusy,
+        onClick: onUnmute
       } : {
         icon: _Unmute["default"],
         id: ACTIONS_CTRL_MAP.muteCtrl,
         dataSign: 'unmute',
-        title: _i18n["default"].getString('mute', this.props.currentLocale),
-        disabled: this.props.isOnHold || controlBusy,
-        onClick: this.props.onMute
+        title: _i18n["default"].getString('mute', currentLocale),
+        disabled: isOnHold || controlBusy,
+        onClick: onMute
       });
       /* --------------------- keyPad --------------------------- */
 
@@ -252,9 +283,9 @@ var ActiveCallPad = /*#__PURE__*/function (_Component) {
         icon: _Dialpad["default"],
         id: ACTIONS_CTRL_MAP.keypadCtrl,
         dataSign: 'keypad',
-        title: _i18n["default"].getString('keypad', this.props.currentLocale),
-        onClick: this.props.onShowKeyPad,
-        disabled: this.props.layout === _callCtrlLayouts["default"].conferenceCtrl
+        title: _i18n["default"].getString('keypad', currentLocale),
+        onClick: onShowKeyPad,
+        disabled: layout === _callCtrlLayouts["default"].conferenceCtrl
       });
       /* --------------------- Hold/Unhold --------------------------- */
 
@@ -265,31 +296,44 @@ var ActiveCallPad = /*#__PURE__*/function (_Component) {
         iconHeight: 160,
         iconX: 190,
         iconY: 165,
-        dataSign: this.props.isOnHold ? 'onHold' : 'hold',
-        title: this.props.isOnHold ? _i18n["default"].getString('onHold', this.props.currentLocale) : _i18n["default"].getString('hold', this.props.currentLocale),
-        active: this.props.isOnHold,
-        onClick: this.props.isOnHold ? this.props.onUnhold : this.props.onHold,
+        dataSign: isOnHold ? 'onHold' : 'hold',
+        title: isOnHold ? _i18n["default"].getString('onHold', currentLocale) : _i18n["default"].getString('hold', currentLocale),
+        active: isOnHold,
+        onClick: isOnHold ? onUnhold : onHold,
         disabled: controlBusy
       });
+
+      if (isOnWaitingTransfer) {
+        buttons.push({
+          icon: _Transfer["default"],
+          id: ACTIONS_CTRL_MAP.completeTransferCtrl,
+          dataSign: 'completeTransfer',
+          title: _i18n["default"].getString('completeTransfer', currentLocale),
+          disabled: isOnTransfer || controlBusy,
+          onClick: onCompleteTransfer,
+          showRipple: true
+        });
+      }
       /* --------------------- Add/Merge --------------------------- */
 
-      if (this.props.conferenceCallEquipped) {
-        var showMerge = this.props.layout === _callCtrlLayouts["default"].mergeCtrl || this.props.layout === _callCtrlLayouts["default"].normalCtrl && this.props.hasConferenceCall;
+
+      if (!isOnWaitingTransfer && conferenceCallEquipped) {
+        var showMerge = layout === _callCtrlLayouts["default"].mergeCtrl || layout === _callCtrlLayouts["default"].normalCtrl && hasConferenceCall;
         buttons.push(showMerge ? {
           icon: _MergeIntoConferenceIcon["default"],
           id: ACTIONS_CTRL_MAP.mergeOrAddCtrl,
           dataSign: 'merge',
-          title: _i18n["default"].getString('mergeToConference', this.props.currentLocale),
-          disabled: this.props.mergeDisabled || controlBusy,
-          onClick: this.props.onMerge,
-          showRipple: !this.props.mergeDisabled
+          title: _i18n["default"].getString('mergeToConference', currentLocale),
+          disabled: mergeDisabled || controlBusy,
+          onClick: onMerge,
+          showRipple: !mergeDisabled
         } : {
           icon: _Combine["default"],
           id: ACTIONS_CTRL_MAP.mergeOrAddCtrl,
           dataSign: 'add',
-          title: _i18n["default"].getString('add', this.props.currentLocale),
-          disabled: this.props.addDisabled || controlBusy,
-          onClick: this.props.onAdd
+          title: _i18n["default"].getString('add', currentLocale),
+          disabled: addDisabled || controlBusy,
+          onClick: onAdd
         });
       }
       /* --------------------- Record/Stop --------------------------- */
@@ -298,50 +342,52 @@ var ActiveCallPad = /*#__PURE__*/function (_Component) {
       buttons.push({
         icon: _Record["default"],
         id: ACTIONS_CTRL_MAP.recordCtrl,
-        dataSign: this.props.recordStatus === _recordStatus["default"].recording ? 'stopRecord' : 'record',
-        title: this.props.recordStatus === _recordStatus["default"].recording ? _i18n["default"].getString('stopRecord', this.props.currentLocale) : _i18n["default"].getString('record', this.props.currentLocale),
-        active: this.props.recordStatus === _recordStatus["default"].recording,
-        disabled: this.props.isOnHold || this.props.recordStatus === _recordStatus["default"].pending || this.props.layout === _callCtrlLayouts["default"].mergeCtrl || this.props.recordStatus === _recordStatus["default"].noAccess || controlBusy,
-        onClick: this.props.recordStatus === _recordStatus["default"].recording ? this.props.onStopRecord : this.props.onRecord
+        dataSign: recordStatus === _recordStatus.recordStatus.recording ? 'stopRecord' : 'record',
+        title: recordStatus === _recordStatus.recordStatus.recording ? _i18n["default"].getString('stopRecord', currentLocale) : _i18n["default"].getString('record', currentLocale),
+        active: recordStatus === _recordStatus.recordStatus.recording,
+        disabled: isOnHold || recordStatus === _recordStatus.recordStatus.pending || layout === _callCtrlLayouts["default"].mergeCtrl || recordStatus === _recordStatus.recordStatus.noAccess || controlBusy,
+        onClick: recordStatus === _recordStatus.recordStatus.recording ? onStopRecord : onRecord
       });
       /* --------------------- Transfer --------------------------- */
 
-      var disabledTransfer = this.props.layout !== _callCtrlLayouts["default"].normalCtrl;
-      buttons.push({
-        icon: _Transfer["default"],
-        id: ACTIONS_CTRL_MAP.transferCtrl,
-        dataSign: 'transfer',
-        title: _i18n["default"].getString('transfer', this.props.currentLocale),
-        disabled: disabledTransfer || controlBusy,
-        onClick: this.props.onTransfer
-      });
+      var disabledTransfer = layout !== _callCtrlLayouts["default"].normalCtrl;
+
+      if (!isOnWaitingTransfer) {
+        buttons.push({
+          icon: _Transfer["default"],
+          id: ACTIONS_CTRL_MAP.transferCtrl,
+          dataSign: 'transfer',
+          title: _i18n["default"].getString('transfer', currentLocale),
+          disabled: disabledTransfer || controlBusy,
+          onClick: onTransfer
+        });
+      }
       /* --------------------- Flip --------------------------- */
 
-      var disableControlButton = this.props.isOnHold || this.props.layout !== _callCtrlLayouts["default"].normalCtrl;
-      var disabledFlip = this.props.disableFlip || disableControlButton;
+
+      var disableControlButton = isOnHold || layout !== _callCtrlLayouts["default"].normalCtrl;
+      var disabledFlip = disableFlip || disableControlButton;
       buttons.push({
         icon: _Flip["default"],
         id: ACTIONS_CTRL_MAP.flipCtrl,
         dataSign: 'flip',
-        title: _i18n["default"].getString('flip', this.props.currentLocale),
+        title: _i18n["default"].getString('flip', currentLocale),
         disabled: disabledFlip || controlBusy,
-        onClick: this.props.onFlip
+        onClick: onFlip
       });
       /* --------------------- Park --------------------------- */
 
-      if (this.props.showPark) {
+      if (showPark) {
         buttons.push({
           icon: _Park["default"],
           id: ACTIONS_CTRL_MAP.parkCtrl,
           dataSign: 'park',
-          title: _i18n["default"].getString('park', this.props.currentLocale),
+          title: _i18n["default"].getString('park', currentLocale),
           disabled: disableControlButton || controlBusy,
-          onClick: this.props.onPark
+          onClick: onPark
         });
       } // filter actions
 
-
-      var actions = this.props.actions;
 
       if (actions.length > 0) {
         buttons = (0, _utils.pickElements)(actions, buttons);
@@ -352,15 +398,16 @@ var ActiveCallPad = /*#__PURE__*/function (_Component) {
       var moreActions = null;
 
       if (buttons.length > DisplayButtonNumber) {
+        var disableMoreButton = isOnWaitingTransfer || disabledFlip && disabledTransfer || controlBusy;
         moreActions = /*#__PURE__*/_react["default"].createElement("span", {
           className: _styles["default"].moreButtonContainer,
           ref: this.moreButton
         }, /*#__PURE__*/_react["default"].createElement(_ActiveCallButton["default"], {
           onClick: this.toggleMore,
-          title: _i18n["default"].getString('more', this.props.currentLocale),
+          title: _i18n["default"].getString('more', currentLocale),
           active: this.state.expandMore,
           className: (0, _classnames["default"])(_styles["default"].moreButton, _styles["default"].callButton),
-          disabled: disabledFlip && disabledTransfer || controlBusy,
+          disabled: disableMoreButton,
           icon: _MoreIcon["default"],
           dataSign: "callActions"
         }), /*#__PURE__*/_react["default"].createElement(_Tooltip["default"], {
@@ -383,7 +430,7 @@ var ActiveCallPad = /*#__PURE__*/function (_Component) {
 
       var isLessBtn = buttons.length <= 3 && moreActions === null;
       return /*#__PURE__*/_react["default"].createElement("div", {
-        className: (0, _classnames["default"])(_styles["default"].root, this.props.className)
+        className: (0, _classnames["default"])(_styles["default"].root, className)
       }, /*#__PURE__*/_react["default"].createElement("div", {
         className: (0, _classnames["default"])(_styles["default"].callCtrlButtonGroup, isLessBtn && _styles["default"].biggerButton)
       }, /*#__PURE__*/_react["default"].createElement("div", {
@@ -399,7 +446,7 @@ var ActiveCallPad = /*#__PURE__*/function (_Component) {
         className: _styles["default"].button
       }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
         className: (0, _classnames["default"])(_styles["default"].stopButton, controlBusy && _styles["default"].disabled),
-        onClick: this.props.onHangup,
+        onClick: onHangup,
         icon: _End["default"],
         showBorder: false,
         iconWidth: 250,
@@ -440,7 +487,11 @@ ActiveCallPad.propTypes = {
   conferenceCallEquipped: _propTypes["default"].bool,
   hasConferenceCall: _propTypes["default"].bool,
   expandMore: _propTypes["default"].bool,
-  actions: _propTypes["default"].array
+  actions: _propTypes["default"].array,
+  isOnTransfer: _propTypes["default"].bool,
+  isOnWaitingTransfer: _propTypes["default"].bool,
+  onCompleteTransfer: _propTypes["default"].func.isRequired,
+  controlBusy: _propTypes["default"].bool
 };
 ActiveCallPad.defaultProps = {
   className: null,
@@ -456,7 +507,10 @@ ActiveCallPad.defaultProps = {
   expandMore: false,
   disableFlip: false,
   showPark: false,
-  actions: []
+  actions: [],
+  isOnTransfer: false,
+  isOnWaitingTransfer: false,
+  controlBusy: false
 };
 var _default = ActiveCallPad;
 exports["default"] = _default;

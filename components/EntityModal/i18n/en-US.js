@@ -11,6 +11,7 @@ var _default = {
   contact: 'Contact',
   lead: 'Lead',
   opportunity: 'Opportunity',
+  "case": 'Case',
   chooseEntity: 'Please select entity type',
   create: 'Create'
 };

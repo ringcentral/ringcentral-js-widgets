@@ -19,7 +19,9 @@ var _default = {
   transfer: 'Transfer',
   flip: 'Flip',
   more: 'Call Actions',
-  mergeToConference: 'Merge'
+  mergeToConference: 'Merge',
+  end: 'End',
+  completeTransfer: 'Complete\nTransfer'
 };
 exports["default"] = _default;
 //# sourceMappingURL=en-US.js.map

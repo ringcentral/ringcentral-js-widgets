@@ -331,6 +331,10 @@ var RecipientsInput = /*#__PURE__*/function (_Component) {
             phoneNumber: _this.state.value.replace(',', '')
           });
         }
+
+        _this.setState({
+          value: ''
+        });
       }
     };
 

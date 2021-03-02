@@ -191,6 +191,7 @@ var WebphoneButtons = function WebphoneButtons(_ref2) {
       disabled: disableLinks
     }) : /*#__PURE__*/_react["default"].createElement("span", {
       title: _i18n["default"].getString('holdAndAnswer', currentLocale),
+      "data-sign": "holdAndAnswer",
       onClick: function onClick(e) {
         e.stopPropagation();
         webphoneAnswer(session.id, telephonySessionId, true);
@@ -688,7 +689,8 @@ var ActiveCallItem = /*#__PURE__*/function (_Component) {
 
       if (useCallDetailV2) {
         return /*#__PURE__*/_react["default"].createElement("div", {
-          className: _styles["default"].callDetail
+          className: _styles["default"].callDetail,
+          "data-sign": "duration"
         }, /*#__PURE__*/_react["default"].createElement(_DurationCounter["default"], {
           startTime: startTime,
           offset: offset

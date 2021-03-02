@@ -142,6 +142,7 @@ var LogFieldsInput = /*#__PURE__*/function (_Component) {
         required: required,
         error: error,
         value: value,
+        gutterBottom: true,
         onChange: function onChange(e) {
           return _this2.updateValue(type === 'number' ? Number(e.target.value) : e.target.value, _onChange);
         },

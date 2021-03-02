@@ -33,13 +33,21 @@ Notice: the media query(200px) is for salesforce classics mode
     display: flex;
     flex-direction: column;
     line-height: 1.5;
+    max-width: calc(100% - 30px);
+    overflow: hidden;
+    text-overflow: ellipsis;
+
     .contactName {
       font-weight: 500;
       color: #212121;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     .phoneNumber {
       color: #757575;
       font-size: 12px;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     @media screen and(max-width: 200px) {
       .contactName {

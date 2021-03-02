@@ -21,7 +21,8 @@ var ShinyBar = function ShinyBar(_ref) {
       _ref$status = _ref.status,
       status = _ref$status === void 0 ? 'callEnd' : _ref$status;
   return /*#__PURE__*/_react["default"].createElement("div", {
-    className: (0, _classnames["default"])(_ShinyBar["default"].shinyBar, _ShinyBar["default"][status], isRinging && _ShinyBar["default"].ringing, className)
+    className: (0, _classnames["default"])(_ShinyBar["default"].shinyBar, _ShinyBar["default"][status], isRinging && _ShinyBar["default"].ringing, className),
+    "data-sign": "shinyBar-".concat(status)
   }, /*#__PURE__*/_react["default"].createElement("div", null));
 };
 

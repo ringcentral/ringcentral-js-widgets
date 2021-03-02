@@ -204,6 +204,7 @@ var InputSelect = /*#__PURE__*/function (_Component) {
       }, /*#__PURE__*/_react["default"].createElement(_juno.RcTextField, {
         label: label || 'Subject',
         "data-sign": "subject",
+        gutterBottom: true,
         title: subject,
         fullWidth: true,
         clearBtn: false,

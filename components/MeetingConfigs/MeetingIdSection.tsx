@@ -66,7 +66,7 @@ export const MeetingIdSection: FunctionComponent<MeetingIdSectionProps> = ({
         {meeting.usePersonalMeetingId && !isChangePmiConfirmed ? (
           <div className={styles.pmiHintContainer}>
             {i18n.getString('pmiChangeConfirm', currentLocale)}
-            <RcLink handleOnClick={() => handlePmiConfirmed(true)}>
+            <RcLink onClick={() => handlePmiConfirmed(true)}>
               {i18n.getString('changePmiSettings', currentLocale)}
             </RcLink>
             .

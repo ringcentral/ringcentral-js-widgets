@@ -186,11 +186,18 @@ var SelectListBasic = function SelectListBasic(_ref) {
     className: (0, _classnames["default"])(_styles["default"].search, classes.searchInput)
   }, !filter && /*#__PURE__*/_react["default"].createElement("span", {
     className: (0, _classnames["default"])(_styles["default"].placeholder, classes.placeholder)
-  }, placeholder), /*#__PURE__*/_react["default"].createElement(_juno.RcOutlineTextField, {
+  }, placeholder), /*#__PURE__*/_react["default"].createElement(_juno.RcTextField, {
+    variant: "outline",
     size: "small",
-    radiusType: "circle",
-    iconPosition: "left",
-    symbol: _Search["default"],
+    fullWidth: true,
+    radius: "round",
+    InputProps: {
+      startAdornment: /*#__PURE__*/_react["default"].createElement(_juno.RcIcon, {
+        symbol: _Search["default"],
+        color: "icon.subdued",
+        size: "small"
+      })
+    },
     "data-sign": "searchBar",
     onChange: function onChange(event) {
       if (event.target) {

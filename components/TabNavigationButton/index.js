@@ -29,7 +29,8 @@ var NavigationButton = function NavigationButton(_ref) {
       keepStyle = _ref.keepStyle,
       className = _ref.className,
       activeClassName = _ref.activeClassName,
-      inActiveClassName = _ref.inActiveClassName;
+      inActiveClassName = _ref.inActiveClassName,
+      id = _ref.id;
   var notice = null;
 
   if (noticeCounts && noticeCounts > 0) {
@@ -50,7 +51,8 @@ var NavigationButton = function NavigationButton(_ref) {
     style: {
       width: width,
       height: height
-    }
+    },
+    id: id
   }, /*#__PURE__*/_react["default"].createElement(_Tooltip.Tooltip, {
     title: label
   }, /*#__PURE__*/_react["default"].createElement("div", {
