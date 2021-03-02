@@ -70,11 +70,12 @@ var RUNTIME = {
   defaultLocale: DEFAULT_LOCALE,
   instances: new Set(),
   padRatio: 0.3,
-  fallbackLocale: DEFAULT_LOCALE
+  fallbackLocale: DEFAULT_LOCALE,
+  languageDefaults: null
 };
 /**
  * @function
- * @description Set currrent runtime locale and load the locale files accordingly
+ * @description Set current runtime locale and load the locale files accordingly
  * @param {String} locale - The desired locale.
  * @return Promise<undefined>
  */
@@ -84,66 +85,141 @@ exports.RUNTIME = RUNTIME;
 function setLocale(_x) {
   return _setLocale.apply(this, arguments);
 }
+
+function _setLocale() {
+  _setLocale = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8(locale) {
+    return regeneratorRuntime.wrap(function _callee8$(_context8) {
+      while (1) {
+        switch (_context8.prev = _context8.next) {
+          case 0:
+            RUNTIME.locale = locale;
+            _context8.next = 3;
+            return reloadLocales();
+
+          case 3:
+          case "end":
+            return _context8.stop();
+        }
+      }
+    }, _callee8);
+  }));
+  return _setLocale.apply(this, arguments);
+}
+
+function reloadLocales() {
+  return _reloadLocales.apply(this, arguments);
+}
+
+function _reloadLocales() {
+  _reloadLocales = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9() {
+    var _iterator, _step, i;
+
+    return regeneratorRuntime.wrap(function _callee9$(_context9) {
+      while (1) {
+        switch (_context9.prev = _context9.next) {
+          case 0:
+            _iterator = _createForOfIteratorHelper(RUNTIME.instances);
+            _context9.prev = 1;
+
+            _iterator.s();
+
+          case 3:
+            if ((_step = _iterator.n()).done) {
+              _context9.next = 9;
+              break;
+            }
+
+            i = _step.value;
+            _context9.next = 7;
+            return i.load();
+
+          case 7:
+            _context9.next = 3;
+            break;
+
+          case 9:
+            _context9.next = 14;
+            break;
+
+          case 11:
+            _context9.prev = 11;
+            _context9.t0 = _context9["catch"](1);
+
+            _iterator.e(_context9.t0);
+
+          case 14:
+            _context9.prev = 14;
+
+            _iterator.f();
+
+            return _context9.finish(14);
+
+          case 17:
+          case "end":
+            return _context9.stop();
+        }
+      }
+    }, _callee9, null, [[1, 11, 14, 17]]);
+  }));
+  return _reloadLocales.apply(this, arguments);
+}
+
+function _setDefaultLocale2(_x2) {
+  return _setDefaultLocale.apply(this, arguments);
+}
+
+function _setDefaultLocale() {
+  _setDefaultLocale = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10(locale) {
+    return regeneratorRuntime.wrap(function _callee10$(_context10) {
+      while (1) {
+        switch (_context10.prev = _context10.next) {
+          case 0:
+            RUNTIME.defaultLocale = locale;
+            _context10.next = 3;
+            return reloadLocales();
+
+          case 3:
+          case "end":
+            return _context10.stop();
+        }
+      }
+    }, _callee10);
+  }));
+  return _setDefaultLocale.apply(this, arguments);
+}
+
+function _setLanguageDefaults2(_x3) {
+  return _setLanguageDefaults.apply(this, arguments);
+}
+
+function _setLanguageDefaults() {
+  _setLanguageDefaults = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee11(defaults) {
+    return regeneratorRuntime.wrap(function _callee11$(_context11) {
+      while (1) {
+        switch (_context11.prev = _context11.next) {
+          case 0:
+            RUNTIME.languageDefaults = defaults;
+            _context11.next = 3;
+            return reloadLocales();
+
+          case 3:
+          case "end":
+            return _context11.stop();
+        }
+      }
+    }, _callee11);
+  }));
+  return _setLanguageDefaults.apply(this, arguments);
+}
+
+function _checkDefaults(locale) {
+  return RUNTIME.languageDefaults && RUNTIME.languageDefaults[locale] || locale;
+}
 /**
  * @class
  * @description I18n is a simple localizations helper class that represents a set of locale files.
  */
 
-
-function _setLocale() {
-  _setLocale = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(locale) {
-    var _iterator, _step, i;
-
-    return regeneratorRuntime.wrap(function _callee4$(_context4) {
-      while (1) {
-        switch (_context4.prev = _context4.next) {
-          case 0:
-            RUNTIME.locale = locale;
-            _iterator = _createForOfIteratorHelper(RUNTIME.instances);
-            _context4.prev = 2;
-
-            _iterator.s();
-
-          case 4:
-            if ((_step = _iterator.n()).done) {
-              _context4.next = 10;
-              break;
-            }
-
-            i = _step.value;
-            _context4.next = 8;
-            return i.load();
-
-          case 8:
-            _context4.next = 4;
-            break;
-
-          case 10:
-            _context4.next = 15;
-            break;
-
-          case 12:
-            _context4.prev = 12;
-            _context4.t0 = _context4["catch"](2);
-
-            _iterator.e(_context4.t0);
-
-          case 15:
-            _context4.prev = 15;
-
-            _iterator.f();
-
-            return _context4.finish(15);
-
-          case 18:
-          case "end":
-            return _context4.stop();
-        }
-      }
-    }, _callee4, null, [[2, 12, 15, 18]]);
-  }));
-  return _setLocale.apply(this, arguments);
-}
 
 var I18n = /*#__PURE__*/function () {
   /**
@@ -221,7 +297,7 @@ var I18n = /*#__PURE__*/function () {
         }, _callee2, this, [[1, 7]]);
       }));
 
-      function _load(_x2) {
+      function _load(_x4) {
         return _load2.apply(this, arguments);
       }
 
@@ -236,15 +312,15 @@ var I18n = /*#__PURE__*/function () {
             switch (_context3.prev = _context3.next) {
               case 0:
                 _context3.next = 2;
-                return this._load(RUNTIME.fallbackLocale);
+                return this._load(_checkDefaults(RUNTIME.fallbackLocale));
 
               case 2:
                 _context3.next = 4;
-                return this._load(RUNTIME.defaultLocale);
+                return this._load(_checkDefaults(RUNTIME.defaultLocale));
 
               case 4:
                 _context3.next = 6;
-                return this._load(RUNTIME.locale);
+                return this._load(_checkDefaults(RUNTIME.locale));
 
               case 6:
               case "end":
@@ -289,25 +365,129 @@ var I18n = /*#__PURE__*/function () {
         });
       }
 
-      return this._getString(key, locale);
-    } // eslint-disable-next-line class-methods-use-this
+      return this._getString(key, _checkDefaults(locale));
+    }
+  }, {
+    key: "checkDefaults",
+    value: function checkDefaults(locale) {
+      return _checkDefaults(locale);
+    }
+  }, {
+    key: "setDefaultLocale",
+    value: function () {
+      var _setDefaultLocale3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(locale) {
+        return regeneratorRuntime.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                return _context4.abrupt("return", _setDefaultLocale2(locale));
 
+              case 1:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4);
+      }));
+
+      function setDefaultLocale(_x5) {
+        return _setDefaultLocale3.apply(this, arguments);
+      }
+
+      return setDefaultLocale;
+    }()
+  }, {
+    key: "setLanguageDefaults",
+    value: function () {
+      var _setLanguageDefaults3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(defaults) {
+        return regeneratorRuntime.wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                return _context5.abrupt("return", _setLanguageDefaults2(defaults));
+
+              case 1:
+              case "end":
+                return _context5.stop();
+            }
+          }
+        }, _callee5);
+      }));
+
+      function setLanguageDefaults(_x6) {
+        return _setLanguageDefaults3.apply(this, arguments);
+      }
+
+      return setLanguageDefaults;
+    }()
   }, {
     key: "currentLocale",
     get: function get() {
       return RUNTIME.locale;
-    } // eslint-disable-next-line class-methods-use-this
-
+    }
   }, {
     key: "setLocale",
     get: function get() {
       return setLocale;
     }
   }], [{
+    key: "checkDefaults",
+    value: function checkDefaults(locale) {
+      return _checkDefaults(locale);
+    }
+  }, {
     key: "setDefaultLocale",
     value: function setDefaultLocale(locale) {
       RUNTIME.defaultLocale = locale;
     }
+  }, {
+    key: "setDefaultLocale",
+    value: function () {
+      var _setDefaultLocale4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(locale) {
+        return regeneratorRuntime.wrap(function _callee6$(_context6) {
+          while (1) {
+            switch (_context6.prev = _context6.next) {
+              case 0:
+                return _context6.abrupt("return", _setDefaultLocale2(locale));
+
+              case 1:
+              case "end":
+                return _context6.stop();
+            }
+          }
+        }, _callee6);
+      }));
+
+      function setDefaultLocale(_x7) {
+        return _setDefaultLocale4.apply(this, arguments);
+      }
+
+      return setDefaultLocale;
+    }()
+  }, {
+    key: "setLanguageDefaults",
+    value: function () {
+      var _setLanguageDefaults4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7(defaults) {
+        return regeneratorRuntime.wrap(function _callee7$(_context7) {
+          while (1) {
+            switch (_context7.prev = _context7.next) {
+              case 0:
+                return _context7.abrupt("return", _setLanguageDefaults2(defaults));
+
+              case 1:
+              case "end":
+                return _context7.stop();
+            }
+          }
+        }, _callee7);
+      }));
+
+      function setLanguageDefaults(_x8) {
+        return _setLanguageDefaults4.apply(this, arguments);
+      }
+
+      return setLanguageDefaults;
+    }()
   }, {
     key: "currentLocale",
     get: function get() {
