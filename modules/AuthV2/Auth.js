@@ -63,7 +63,7 @@ var _moduleStatuses = _interopRequireDefault(require("../../enums/moduleStatuses
 
 var _di = require("../../lib/di");
 
-var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
+var _proxify = require("../../lib/proxy/proxify");
 
 var _validateIsOffline = _interopRequireDefault(require("../../lib/validateIsOffline"));
 
@@ -147,7 +147,12 @@ var Auth = (_dec = (0, _di.Module)({
     dep: 'AuthOptions',
     optional: true
   }]
-}), _dec2 = (0, _core.track)(_Analytics.trackEvents.authentication), _dec3 = (0, _core.track)(_Analytics.trackEvents.logout), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcModuleV) {
+}), _dec2 = (0, _core.track)(function () {
+  return function (analytics) {
+    analytics.setUserId();
+    return [_Analytics.trackEvents.authentication];
+  };
+}), _dec3 = (0, _core.track)(_Analytics.trackEvents.logout), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcModuleV) {
   _inherits(Auth, _RcModuleV);
 
   var _super = _createSuper(Auth);
@@ -180,8 +185,6 @@ var Auth = (_dec = (0, _di.Module)({
   _createClass(Auth, [{
     key: "setLoginSuccess",
     value: function setLoginSuccess(token) {
-      var _analytics, _analytics$_identify;
-
       this.loginStatus = _loginStatus.loginStatus.loggedIn;
       this.token = {
         ownerId: token.owner_id,
@@ -190,11 +193,7 @@ var Auth = (_dec = (0, _di.Module)({
         expireTime: token.expire_time,
         expiresIn: token.expires_in,
         scope: token.scope
-      }; // TODO: refactor for Analytics V2
-
-      (_analytics = this.parentModule.analytics) === null || _analytics === void 0 ? void 0 : (_analytics$_identify = _analytics._identify) === null || _analytics$_identify === void 0 ? void 0 : _analytics$_identify.call(_analytics, {
-        userId: token.owner_id
-      });
+      };
     }
   }, {
     key: "setLoginError",
@@ -345,17 +344,10 @@ var Auth = (_dec = (0, _di.Module)({
         _this2.setLogoutSuccess();
       };
 
-      var onLogoutError = function onLogoutError(error) {
+      var onLogoutError = function onLogoutError() {
         platform._cache.clean();
 
         _this2.setLogoutError();
-
-        if (error) {
-          _this2._deps.alert.danger({
-            message: _authMessages.authMessages.logoutError,
-            payload: error
-          });
-        }
       };
 
       var onRefreshSuccess = /*#__PURE__*/function () {
@@ -898,7 +890,7 @@ var Auth = (_dec = (0, _di.Module)({
                 return _context12.finish(22);
 
               case 25:
-                _context12.next = 31;
+                _context12.next = 30;
                 break;
 
               case 27:
@@ -906,16 +898,11 @@ var Auth = (_dec = (0, _di.Module)({
                 _context12.t2 = _context12["catch"](4);
                 console.error(_context12.t2);
 
-                this._deps.alert.danger({
-                  message: _authMessages.authMessages.beforeLogoutError,
-                  payload: _context12.t2
-                });
-
-              case 31:
+              case 30:
                 this.setLogout();
 
                 if (!this.isImplicit) {
-                  _context12.next = 36;
+                  _context12.next = 35;
                   break;
                 }
 
@@ -924,10 +911,10 @@ var Auth = (_dec = (0, _di.Module)({
                 this.setLogoutSuccess();
                 return _context12.abrupt("return", null);
 
-              case 36:
+              case 35:
                 return _context12.abrupt("return", this._deps.client.service.platform().logout());
 
-              case 37:
+              case 36:
               case "end":
                 return _context12.stop();
             }
@@ -1136,6 +1123,6 @@ var Auth = (_dec = (0, _di.Module)({
   initializer: function initializer() {
     return {};
   }
-}), _applyDecoratedDescriptor(_class2.prototype, "setLoginSuccess", [_dec2, _core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setLoginSuccess"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setLoginError", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setLoginError"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setLogoutSuccess", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setLogoutSuccess"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setRefreshSuccess", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setRefreshSuccess"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setRefreshError", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setRefreshError"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setLogoutError", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setLogoutError"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setLogin", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setLogin"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setBeforeLogout", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setBeforeLogout"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setCancelLogout", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setCancelLogout"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setLogout", [_dec3, _core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setLogout"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setInitLogin", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setInitLogin"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "login", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "login"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "refreshToken", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "refreshToken"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "logout", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "logout"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "refreshImplicitToken", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "refreshImplicitToken"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "checkIsLoggedIn", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "checkIsLoggedIn"), _class2.prototype)), _class2)) || _class);
+}), _applyDecoratedDescriptor(_class2.prototype, "setLoginSuccess", [_dec2, _core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setLoginSuccess"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setLoginError", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setLoginError"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setLogoutSuccess", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setLogoutSuccess"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setRefreshSuccess", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setRefreshSuccess"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setRefreshError", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setRefreshError"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setLogoutError", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setLogoutError"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setLogin", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setLogin"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setBeforeLogout", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setBeforeLogout"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setCancelLogout", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setCancelLogout"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setLogout", [_dec3, _core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setLogout"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setInitLogin", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setInitLogin"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "login", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "login"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "refreshToken", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "refreshToken"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "logout", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "logout"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "refreshImplicitToken", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "refreshImplicitToken"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "checkIsLoggedIn", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "checkIsLoggedIn"), _class2.prototype)), _class2)) || _class);
 exports.Auth = Auth;
 //# sourceMappingURL=Auth.js.map

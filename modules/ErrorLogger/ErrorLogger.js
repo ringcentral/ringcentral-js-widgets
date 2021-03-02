@@ -132,7 +132,7 @@ var ErrorLogger = (_dec = (0, _di.Module)({
 
     _this = _super.call(this, _objectSpread({}, options));
     _this._auth = void 0;
-    _this._loggedIn = void 0;
+    _this._loggedIn = false;
     _this._sentryInitialized = false;
     _this._auth = auth;
 

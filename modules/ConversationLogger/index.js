@@ -41,6 +41,8 @@ require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es7.object.values");
 
+require("core-js/modules/es6.array.find-index");
+
 require("core-js/modules/es6.array.for-each");
 
 require("core-js/modules/es6.regexp.match");
@@ -272,7 +274,6 @@ var ConversationLogger = (_dec = (0, _di.Module)({
       }
     });
 
-    _this._lastProcessedConversationLogMap = null;
     _this._autoLogQueue = [];
     _this._autoLogPromise = null;
     return _this;
@@ -456,7 +457,7 @@ var ConversationLogger = (_dec = (0, _di.Module)({
 
               case 16:
                 selfNumber = conversation.self && (conversation.self.phoneNumber || conversation.self.extensionNumber);
-                selfMatches = selfNumber && this._contactMatcher.dataMapping[conversation.self] || [];
+                selfMatches = selfNumber && this._contactMatcher.dataMapping[selfNumber] || [];
                 correspondentMatches = this._getCorrespondentMatches(conversation);
                 selfEntity = selfMatches && selfMatches.length === 1 && selfMatches[0] || null;
                 correspondentEntity = this.getLastMatchedCorrespondentEntity(conversation);
@@ -608,7 +609,7 @@ var ConversationLogger = (_dec = (0, _di.Module)({
                 return Promise.all(Object.keys(this.conversationLogMap[conversationId]).map(function (date) {
                   return _this6.conversationLogMap[conversationId][date];
                 }).sort(_messageHelper.sortByDate).map(function (conversation, idx) {
-                  var queueIndex = _this6._autoLogQueue.find(function (item) {
+                  var queueIndex = _this6._autoLogQueue.findIndex(function (item) {
                     return item.conversationLogId === conversation.conversationLogId;
                   });
 

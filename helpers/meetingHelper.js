@@ -32,6 +32,7 @@ exports.isRecurringMeeting = isRecurringMeeting;
 exports.generateRandomPassword = generateRandomPassword;
 exports.updateFullYear = updateFullYear;
 exports.updateFullTime = updateFullTime;
+exports.getDefaultTopic = getDefaultTopic;
 Object.defineProperty(exports, "MeetingType", {
   enumerable: true,
   get: function get() {
@@ -119,6 +120,13 @@ function getMeetingSettings(_ref3) {
     startParticipantsVideo: false,
     audioOptions: ['Phone', 'ComputerAudio']
   };
+}
+
+function getDefaultTopic(extensionName) {
+  var currentLocale = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'en-US';
+  return (0, _formatMessage["default"])(_i18n["default"].getString('meetingTitle', currentLocale), {
+    extensionName: extensionName
+  });
 } // Basic default meeting type information
 
 
@@ -127,9 +135,7 @@ function getDefaultMeetingSettings(extensionName) {
   var startTime = arguments.length > 2 ? arguments[2] : undefined;
   var hostId = arguments.length > 3 ? arguments[3] : undefined;
   return {
-    topic: (0, _formatMessage["default"])(_i18n["default"].getString('meetingTitle', currentLocale), {
-      extensionName: extensionName
-    }),
+    topic: getDefaultTopic(extensionName, currentLocale),
     meetingType: _meetingHelper.MeetingType.SCHEDULED,
     password: '',
     schedule: {

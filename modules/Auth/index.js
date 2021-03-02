@@ -63,7 +63,7 @@ var _di = require("../../lib/di");
 
 var _ensureExist = _interopRequireDefault(require("../../lib/ensureExist"));
 
-var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
+var _proxify = require("../../lib/proxy/proxify");
 
 var _RcModule2 = _interopRequireDefault(require("../../lib/RcModule"));
 
@@ -303,13 +303,6 @@ var Auth = (_dec = (0, _di.Module)({
           type: _this2.actionTypes.logoutError,
           error: error
         });
-
-        if (error) {
-          _this2._alert.danger({
-            message: _authMessages["default"].logoutError,
-            payload: error
-          });
-        }
       };
 
       var onRefreshSuccess = /*#__PURE__*/function () {
@@ -830,7 +823,7 @@ var Auth = (_dec = (0, _di.Module)({
                 return _context8.finish(22);
 
               case 25:
-                _context8.next = 31;
+                _context8.next = 30;
                 break;
 
               case 27:
@@ -838,18 +831,13 @@ var Auth = (_dec = (0, _di.Module)({
                 _context8.t2 = _context8["catch"](4);
                 console.error(_context8.t2);
 
-                this._alert.danger({
-                  message: _authMessages["default"].beforeLogoutError,
-                  payload: _context8.t2
-                });
-
-              case 31:
+              case 30:
                 this.store.dispatch({
                   type: this.actionTypes.logout
                 });
 
                 if (!this.isImplicit) {
-                  _context8.next = 36;
+                  _context8.next = 35;
                   break;
                 }
 
@@ -860,10 +848,10 @@ var Auth = (_dec = (0, _di.Module)({
                 });
                 return _context8.abrupt("return", null);
 
-              case 36:
+              case 35:
                 return _context8.abrupt("return", this._client.service.platform().logout());
 
-              case 37:
+              case 36:
               case "end":
                 return _context8.stop();
             }
@@ -1074,6 +1062,6 @@ var Auth = (_dec = (0, _di.Module)({
   }]);
 
   return Auth;
-}(_RcModule2["default"]), _temp), (_applyDecoratedDescriptor(_class2.prototype, "login", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "login"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "logout", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "logout"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "refreshImplicitToken", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "refreshImplicitToken"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "checkIsLoggedIn", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "checkIsLoggedIn"), _class2.prototype)), _class2)) || _class);
+}(_RcModule2["default"]), _temp), (_applyDecoratedDescriptor(_class2.prototype, "login", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "login"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "logout", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "logout"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "refreshImplicitToken", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "refreshImplicitToken"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "checkIsLoggedIn", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "checkIsLoggedIn"), _class2.prototype)), _class2)) || _class);
 exports["default"] = Auth;
 //# sourceMappingURL=index.js.map

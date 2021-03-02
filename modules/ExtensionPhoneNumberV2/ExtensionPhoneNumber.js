@@ -55,7 +55,7 @@ var _core = require("@ringcentral-integration/core");
 
 var _ramda = require("ramda");
 
-var _usageTypes = require("../../constants/usageTypes");
+var _usageTypes = require("../../enums/usageTypes");
 
 var _subscriptionFilters = require("../../enums/subscriptionFilters");
 

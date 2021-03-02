@@ -53,7 +53,7 @@ var _core2 = require("@ringcentral-integration/core");
 
 var _isomorphicWs = _interopRequireDefault(require("isomorphic-ws"));
 
-var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
+var _proxify = require("../../lib/proxy/proxify");
 
 var _di = require("../../lib/di");
 
@@ -518,7 +518,7 @@ var RingCentralExtensions = (_dec = (0, _di.Module)({
   initializer: function initializer() {
     return false;
   }
-}), _applyDecoratedDescriptor(_class2.prototype, "recoverWebSocketConnection", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "recoverWebSocketConnection"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "revokeWebSocketConnection", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "revokeWebSocketConnection"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_syncWebSocketReadyState", [_core2.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_syncWebSocketReadyState"), _class2.prototype), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, "webSocketReadyState", [_core2.state], {
+}), _applyDecoratedDescriptor(_class2.prototype, "recoverWebSocketConnection", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "recoverWebSocketConnection"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "revokeWebSocketConnection", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "revokeWebSocketConnection"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_syncWebSocketReadyState", [_core2.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_syncWebSocketReadyState"), _class2.prototype), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, "webSocketReadyState", [_core2.state], {
   configurable: true,
   enumerable: true,
   writable: true,

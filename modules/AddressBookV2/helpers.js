@@ -8,7 +8,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.decodeName = decodeName;
-exports.decodeAddressBookResponse = decodeAddressBookResponse;
+exports.processAddressBookResponse = processAddressBookResponse;
 exports.getSyncParams = getSyncParams;
 
 require("core-js/modules/es6.array.is-array");
@@ -39,7 +39,7 @@ function decodeName(str) {
   });
 }
 
-function decodeAddressBookResponse(data) {
+function processAddressBookResponse(data) {
   if (Array.isArray(data === null || data === void 0 ? void 0 : data.records)) {
     (0, _ramda.forEach)(function (record) {
       if (record.firstName) {
@@ -48,7 +48,10 @@ function decodeAddressBookResponse(data) {
 
       if (record.lastName) {
         record.lastName = decodeName(record.lastName);
-      }
+      } // remove uri from record to reduce size
+
+
+      delete record.uri;
     }, data.records);
   }
 

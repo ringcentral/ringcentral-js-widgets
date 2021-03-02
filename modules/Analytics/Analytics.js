@@ -61,6 +61,8 @@ require("regenerator-runtime/runtime");
 
 require("core-js/modules/es6.date.to-iso-string");
 
+require("core-js/modules/es6.function.name");
+
 require("core-js/modules/es6.array.find-index");
 
 var _moduleStatuses = _interopRequireDefault(require("../../enums/moduleStatuses"));
@@ -251,6 +253,7 @@ var Analytics = (_dec = (0, _di.Module)({
     var _this;
 
     var analyticsKey = _ref.analyticsKey,
+        pendoApiKey = _ref.pendoApiKey,
         appName = _ref.appName,
         appVersion = _ref.appVersion,
         brandCode = _ref.brandCode,
@@ -283,7 +286,7 @@ var Analytics = (_dec = (0, _di.Module)({
         activeCallControl = _ref.activeCallControl,
         _ref$enablePendo = _ref.enablePendo,
         enablePendo = _ref$enablePendo === void 0 ? false : _ref$enablePendo,
-        options = _objectWithoutProperties(_ref, ["analyticsKey", "appName", "appVersion", "brandCode", "adapter", "auth", "call", "callingSettings", "accountInfo", "extensionInfo", "rolesAndPermissions", "callHistory", "callMonitor", "conference", "conferenceCall", "contactDetailsUI", "messageSender", "messageStore", "routerInteraction", "userGuide", "webphone", "locale", "meeting", "rcVideo", "dialerUI", "useLog", "lingerThreshold", "callLogSection", "activeCallControl", "enablePendo"]);
+        options = _objectWithoutProperties(_ref, ["analyticsKey", "pendoApiKey", "appName", "appVersion", "brandCode", "adapter", "auth", "call", "callingSettings", "accountInfo", "extensionInfo", "rolesAndPermissions", "callHistory", "callMonitor", "conference", "conferenceCall", "contactDetailsUI", "messageSender", "messageStore", "routerInteraction", "userGuide", "webphone", "locale", "meeting", "rcVideo", "dialerUI", "useLog", "lingerThreshold", "callLogSection", "activeCallControl", "enablePendo"]);
 
     _classCallCheck(this, Analytics);
 
@@ -293,6 +296,7 @@ var Analytics = (_dec = (0, _di.Module)({
     })); // config
 
     _this._analyticsKey = void 0;
+    _this._pendoApiKey = void 0;
     _this._appName = void 0;
     _this._appVersion = void 0;
     _this._brandCode = void 0;
@@ -318,6 +322,7 @@ var Analytics = (_dec = (0, _di.Module)({
     _this._rcVideo = void 0;
     _this._dialerUI = void 0;
     _this._segment = void 0;
+    _this._pendo = void 0;
     _this._trackList = void 0;
     _this._useLog = void 0;
     _this._logs = [];
@@ -327,7 +332,10 @@ var Analytics = (_dec = (0, _di.Module)({
     _this._callLogSection = void 0;
     _this._activeCallControl = void 0;
     _this._enablePendo = void 0;
+    _this._waitPendoCount = void 0;
+    _this._pendoTimeout = void 0;
     _this._analyticsKey = analyticsKey;
+    _this._pendoApiKey = pendoApiKey;
     _this._appName = appName;
     _this._appVersion = appVersion;
     _this._brandCode = brandCode; // modules
@@ -362,6 +370,16 @@ var Analytics = (_dec = (0, _di.Module)({
     _this._useLog = useLog;
     _this._lingerThreshold = lingerThreshold;
     _this._enablePendo = enablePendo;
+    _this._pendo = null;
+    _this._waitPendoCount = 0;
+    _this._pendoTimeout = null;
+
+    if (_this._enablePendo && _this._pendoApiKey) {
+      _Analytics.Pendo.init(_this._pendoApiKey, function (pendoInstance) {
+        _this._pendo = pendoInstance;
+      });
+    }
+
     return _this;
   }
 
@@ -379,11 +397,72 @@ var Analytics = (_dec = (0, _di.Module)({
         }), {
           integrations: {
             All: true,
-            Mixpanel: true,
-            Pendo: this._enablePendo
+            Mixpanel: true
           }
         });
       }
+
+      if (this._enablePendo && this._pendoApiKey) {
+        this._pendoInitialize(_objectSpread({
+          userId: userId
+        }, props));
+      }
+    }
+  }, {
+    key: "_pendoInitialize",
+    value: function _pendoInitialize(_ref3) {
+      var _this2 = this,
+          _this$_extensionInfo2,
+          _this$_extensionInfo3,
+          _this$_extensionInfo4,
+          _this$_accountInfo,
+          _this$_accountInfo$se,
+          _this$_accountInfo$se2,
+          _this$_accountInfo2;
+
+      var userId = _ref3.userId,
+          props = _objectWithoutProperties(_ref3, ["userId"]);
+
+      if (!this._accountInfo || !this._accountInfo.id || !userId) {
+        return;
+      }
+
+      if (this._pendoTimeout) {
+        clearTimeout(this._pendoTimeout);
+      }
+
+      if (this._waitPendoCount > 3) {
+        return;
+      }
+
+      if (!this._pendo) {
+        this._pendoTimeout = setTimeout(function () {
+          _this2._waitPendoCount += 1;
+
+          _this2._pendoInitialize(_objectSpread({
+            userId: userId
+          }, props));
+        }, 5 * 1000);
+        return;
+      }
+
+      var initializeFunc = !this._pendo.isReady() ? this._pendo.initialize : this._pendo.updateOptions;
+      var pendoAgent = {
+        visitor: _objectSpread(_objectSpread({
+          id: userId
+        }, props), {}, {
+          companyName: (_this$_extensionInfo2 = this._extensionInfo) === null || _this$_extensionInfo2 === void 0 ? void 0 : (_this$_extensionInfo3 = _this$_extensionInfo2.info) === null || _this$_extensionInfo3 === void 0 ? void 0 : (_this$_extensionInfo4 = _this$_extensionInfo3.contact) === null || _this$_extensionInfo4 === void 0 ? void 0 : _this$_extensionInfo4.company,
+          appName: this._appName,
+          appVersion: this._appVersion,
+          appBrand: this._brandCode,
+          plaBrand: (_this$_accountInfo = this._accountInfo) === null || _this$_accountInfo === void 0 ? void 0 : (_this$_accountInfo$se = _this$_accountInfo.serviceInfo) === null || _this$_accountInfo$se === void 0 ? void 0 : (_this$_accountInfo$se2 = _this$_accountInfo$se.brand) === null || _this$_accountInfo$se2 === void 0 ? void 0 : _this$_accountInfo$se2.name,
+          countryCode: (_this$_accountInfo2 = this._accountInfo) === null || _this$_accountInfo2 === void 0 ? void 0 : _this$_accountInfo2.countryCode
+        }),
+        account: {
+          id: this._accountInfo.id
+        }
+      };
+      typeof initializeFunc === 'function' && initializeFunc(_objectSpread({}, pendoAgent));
     }
   }, {
     key: "track",
@@ -399,8 +478,7 @@ var Analytics = (_dec = (0, _di.Module)({
       this.analytics.track(event, trackProps, {
         integrations: {
           All: true,
-          Mixpanel: true,
-          Pendo: this._enablePendo
+          Mixpanel: true
         }
       });
 
@@ -426,9 +504,9 @@ var Analytics = (_dec = (0, _di.Module)({
     }
   }, {
     key: "trackNavigation",
-    value: function trackNavigation(_ref3) {
-      var router = _ref3.router,
-          eventPostfix = _ref3.eventPostfix;
+    value: function trackNavigation(_ref4) {
+      var router = _ref4.router,
+          eventPostfix = _ref4.eventPostfix;
       var trackProps = {
         router: router,
         appName: this._appName,
@@ -439,9 +517,9 @@ var Analytics = (_dec = (0, _di.Module)({
     }
   }, {
     key: "trackLinger",
-    value: function trackLinger(_ref4) {
-      var router = _ref4.router,
-          eventPostfix = _ref4.eventPostfix;
+    value: function trackLinger(_ref5) {
+      var router = _ref5.router,
+          eventPostfix = _ref5.eventPostfix;
       var trackProps = {
         router: router,
         appName: this._appName,
@@ -452,8 +530,8 @@ var Analytics = (_dec = (0, _di.Module)({
     }
   }, {
     key: "trackSchedule",
-    value: function trackSchedule(_ref5) {
-      var router = _ref5.router;
+    value: function trackSchedule(_ref6) {
+      var router = _ref6.router;
       var trackProps = {
         router: router,
         appName: this._appName,
@@ -479,8 +557,7 @@ var Analytics = (_dec = (0, _di.Module)({
                     this._segment.load(this._analyticsKey, {
                       integrations: {
                         All: true,
-                        Mixpanel: true,
-                        Pendo: this._enablePendo
+                        Mixpanel: true
                       }
                     });
                   }
@@ -512,7 +589,7 @@ var Analytics = (_dec = (0, _di.Module)({
     key: "_processActions",
     value: function () {
       var _processActions2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
-        var _this2 = this;
+        var _this3 = this;
 
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
@@ -528,7 +605,7 @@ var Analytics = (_dec = (0, _di.Module)({
 
               case 3:
                 this.lastActions.forEach(function (action) {
-                  _this2.processAction(action);
+                  _this3.processAction(action);
                 });
                 this.store.dispatch({
                   type: this.actionTypes.clear
@@ -552,13 +629,13 @@ var Analytics = (_dec = (0, _di.Module)({
   }, {
     key: "processAction",
     value: function processAction(action) {
-      var _this3 = this;
+      var _this4 = this;
 
-      (this.trackList || []).forEach(function (_ref6) {
-        var funcImpl = _ref6.funcImpl;
+      (this.trackList || []).forEach(function (_ref7) {
+        var funcImpl = _ref7.funcImpl;
 
         if (typeof funcImpl === 'function') {
-          funcImpl.call(_this3, action);
+          funcImpl.call(_this4, action);
         }
       });
     }
@@ -568,10 +645,7 @@ var Analytics = (_dec = (0, _di.Module)({
       var _this$_auth;
 
       if (((_this$_auth = this._auth) === null || _this$_auth === void 0 ? void 0 : _this$_auth.actionTypes.loginSuccess) === action.type) {
-        this._identify({
-          userId: this._auth.ownerId
-        });
-
+        this.setUserId();
         this.track('Authentication');
       }
     }
@@ -587,9 +661,9 @@ var Analytics = (_dec = (0, _di.Module)({
   }, {
     key: "_accountInfoReady",
     value: function _accountInfoReady(action) {
-      var _this$_accountInfo;
+      var _this$_accountInfo3;
 
-      if (((_this$_accountInfo = this._accountInfo) === null || _this$_accountInfo === void 0 ? void 0 : _this$_accountInfo.actionTypes.initSuccess) === action.type) {
+      if (((_this$_accountInfo3 = this._accountInfo) === null || _this$_accountInfo3 === void 0 ? void 0 : _this$_accountInfo3.actionTypes.initSuccess) === action.type) {
         var _this$_auth3, _this$_rolesAndPermis;
 
         this._identify({
@@ -756,12 +830,11 @@ var Analytics = (_dec = (0, _di.Module)({
     key: "_navigate",
     value: function _navigate(action) {
       var _this$_routerInteract,
-          _this4 = this;
+          _this5 = this;
 
       if (((_this$_routerInteract = this._routerInteraction) === null || _this$_routerInteract === void 0 ? void 0 : _this$_routerInteract.actionTypes.locationChange) === action.type) {
         var path = action.payload && action.payload.pathname;
-
-        var target = this._getTrackTarget(path);
+        var target = this.getTrackTarget(path);
 
         if (target) {
           this.trackNavigation(target);
@@ -772,10 +845,10 @@ var Analytics = (_dec = (0, _di.Module)({
         }
 
         this._lingerTimeout = setTimeout(function () {
-          _this4._lingerTimeout = null;
+          _this5._lingerTimeout = null;
 
-          if (target && _this4._routerInteraction.currentPath === path) {
-            _this4.trackLinger(target);
+          if (target && _this5._routerInteraction.currentPath === path) {
+            _this5.trackLinger(target);
           }
         }, this._lingerThreshold);
       }
@@ -1078,8 +1151,15 @@ var Analytics = (_dec = (0, _di.Module)({
       }
     }
   }, {
-    key: "_getTrackTarget",
-    value: function _getTrackTarget() {
+    key: "setUserId",
+    value: function setUserId() {
+      this._identify({
+        userId: this._auth.ownerId
+      });
+    }
+  }, {
+    key: "getTrackTarget",
+    value: function getTrackTarget() {
       var _this$_routerInteract2;
 
       var path = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : (_this$_routerInteract2 = this._routerInteraction) === null || _this$_routerInteract2 === void 0 ? void 0 : _this$_routerInteract2.currentPath;
@@ -1157,7 +1237,7 @@ var Analytics = (_dec = (0, _di.Module)({
       if (((_this$_meeting = this._meeting) === null || _this$_meeting === void 0 ? void 0 : _this$_meeting.actionTypes.initScheduling) === action.type || ((_this$_rcVideo = this._rcVideo) === null || _this$_rcVideo === void 0 ? void 0 : _this$_rcVideo.actionTypes.initCreating) === action.type) {
         var _this$_routerInteract3;
 
-        var target = this._getTrackTarget((_this$_routerInteract3 = this._routerInteraction) === null || _this$_routerInteract3 === void 0 ? void 0 : _this$_routerInteract3.currentPath);
+        var target = this.getTrackTarget((_this$_routerInteract3 = this._routerInteraction) === null || _this$_routerInteract3 === void 0 ? void 0 : _this$_routerInteract3.currentPath);
 
         if (target) {
           this.trackSchedule(target);
@@ -1277,8 +1357,12 @@ var Analytics = (_dec = (0, _di.Module)({
     value: function _smsHistoryPlaceRingOutCall(action) {
       var _this$_messageStore6;
 
-      if (((_this$_messageStore6 = this._messageStore) === null || _this$_messageStore6 === void 0 ? void 0 : _this$_messageStore6.actionTypes.clickToCall) === action.type && this._callingSettings.callingMode === _callingModes["default"].ringout) {
-        this.track('Call: Place RingOut call/SMS history');
+      if (((_this$_messageStore6 = this._messageStore) === null || _this$_messageStore6 === void 0 ? void 0 : _this$_messageStore6.actionTypes.clickToCall) === action.type && this._callingSettings.callingMode !== _callingModes["default"].webphone) {
+        var _this$_callingSetting2;
+
+        this.track('Call: Place RingOut call/SMS history', {
+          'RingOut type': (_this$_callingSetting2 = this._callingSettings) === null || _this$_callingSetting2 === void 0 ? void 0 : _this$_callingSetting2.callWith
+        });
       }
     }
   }, {
@@ -1286,8 +1370,12 @@ var Analytics = (_dec = (0, _di.Module)({
     value: function _callHistoryPlaceRingOutCall(action) {
       var _this$_callHistory3;
 
-      if (((_this$_callHistory3 = this._callHistory) === null || _this$_callHistory3 === void 0 ? void 0 : _this$_callHistory3.actionTypes.clickToCall) === action.type && this._callingSettings.callingMode === _callingModes["default"].ringout) {
-        this.track('Call: Place RingOut call/Call history');
+      if (((_this$_callHistory3 = this._callHistory) === null || _this$_callHistory3 === void 0 ? void 0 : _this$_callHistory3.actionTypes.clickToCall) === action.type && this._callingSettings.callingMode !== _callingModes["default"].webphone) {
+        var _this$_callingSetting3;
+
+        this.track('Call: Place RingOut call/Call history', {
+          'RingOut type': (_this$_callingSetting3 = this._callingSettings) === null || _this$_callingSetting3 === void 0 ? void 0 : _this$_callingSetting3.callWith
+        });
       }
     }
   }, {
@@ -1295,8 +1383,12 @@ var Analytics = (_dec = (0, _di.Module)({
     value: function _dialerPlaceRingOutCall(action) {
       var _this$_dialerUI, _action$phoneNumber;
 
-      if (((_this$_dialerUI = this._dialerUI) === null || _this$_dialerUI === void 0 ? void 0 : _this$_dialerUI.actionTypes.call) === action.type && ((_action$phoneNumber = action.phoneNumber) === null || _action$phoneNumber === void 0 ? void 0 : _action$phoneNumber.length) > 0 && this._callingSettings.callingMode === _callingModes["default"].ringout) {
-        this.track('Call: Place RingOut call/Dialer');
+      if (((_this$_dialerUI = this._dialerUI) === null || _this$_dialerUI === void 0 ? void 0 : _this$_dialerUI.actionTypes.call) === action.type && (((_action$phoneNumber = action.phoneNumber) === null || _action$phoneNumber === void 0 ? void 0 : _action$phoneNumber.length) > 0 || action.recipient) && this._callingSettings.callingMode !== _callingModes["default"].webphone) {
+        var _this$_callingSetting4;
+
+        this.track('Call: Place RingOut call/Dialer', {
+          'RingOut type': (_this$_callingSetting4 = this._callingSettings) === null || _this$_callingSetting4 === void 0 ? void 0 : _this$_callingSetting4.callWith
+        });
       }
     }
   }, {
@@ -1332,7 +1424,7 @@ var Analytics = (_dec = (0, _di.Module)({
   }, {
     key: "trackProps",
     get: function get() {
-      var _this$_locale, _this$_locale2, _this$_extensionInfo2;
+      var _this$_locale, _this$_locale2, _this$_extensionInfo5;
 
       return {
         appName: this._appName,
@@ -1340,7 +1432,7 @@ var Analytics = (_dec = (0, _di.Module)({
         brand: this._brandCode,
         'App Language': ((_this$_locale = this._locale) === null || _this$_locale === void 0 ? void 0 : _this$_locale.currentLocale) || '',
         'Browser Language': ((_this$_locale2 = this._locale) === null || _this$_locale2 === void 0 ? void 0 : _this$_locale2.browserLocale) || '',
-        'Extension Type': ((_this$_extensionInfo2 = this._extensionInfo) === null || _this$_extensionInfo2 === void 0 ? void 0 : _this$_extensionInfo2.info.type) || ''
+        'Extension Type': ((_this$_extensionInfo5 = this._extensionInfo) === null || _this$_extensionInfo5 === void 0 ? void 0 : _this$_extensionInfo5.info.type) || ''
       };
     }
   }]);

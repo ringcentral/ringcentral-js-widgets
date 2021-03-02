@@ -1,0 +1,1 @@
+{"version":3,"sources":["modules/MeetingV2/i18n/en-GB.js"],"names":["meetingTitle"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,YAAY,EAAE;AADD,C,EAIf","sourcesContent":["export default {\n  meetingTitle: \"{extensionName}'s Meeting\"\n};\n\n// @key: @#@\"meetingTitle\"@#@ @source: @#@\"{extensionName}'s Meeting\"@#@\n"],"file":"en-GB.js"}

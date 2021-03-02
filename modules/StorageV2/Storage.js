@@ -239,29 +239,7 @@ var Storage = (_dec = (0, _di.Module)({
 
                         case 22:
                           if ((!!_this2._deps.tabManager && !_this2._deps.tabManager.ready || _this2._deps.auth.notLoggedIn) && _this2.ready) {
-                            _this2.store.dispatch({
-                              type: _this2._storageActionTypes.reset
-                            });
-
-                            if (_this2._storageHandler) {
-                              if (_this2._storage.off) {
-                                _this2._storage.off('storage', _this2._storageHandler);
-                              } else if (_this2._storage.removeListener) {
-                                _this2._storage.removeListener('storage', _this2._storageHandler);
-                              }
-
-                              _this2._storageHandler = null;
-                            }
-
-                            if (_this2._storage) {
-                              _this2._storage.destroy();
-
-                              _this2._storage = null;
-                            }
-
-                            _this2.store.dispatch({
-                              type: _this2._storageActionTypes.resetSuccess
-                            });
+                            _this2.resetStorage();
                           }
 
                         case 23:
@@ -300,6 +278,33 @@ var Storage = (_dec = (0, _di.Module)({
 
       return initModule;
     }()
+  }, {
+    key: "resetStorage",
+    value: function resetStorage() {
+      this.store.dispatch({
+        type: this._storageActionTypes.reset
+      });
+
+      if (this._storageHandler) {
+        if (this._storage.off) {
+          this._storage.off('storage', this._storageHandler);
+        } else if (this._storage.removeListener) {
+          this._storage.removeListener('storage', this._storageHandler);
+        }
+
+        this._storageHandler = null;
+      }
+
+      if (this._storage) {
+        this._storage.destroy();
+
+        this._storage = null;
+      }
+
+      this.store.dispatch({
+        type: this._storageActionTypes.resetSuccess
+      });
+    }
   }]);
 
   return Storage;

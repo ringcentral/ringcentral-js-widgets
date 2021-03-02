@@ -592,6 +592,11 @@ var GenericMeeting = (_dec = (0, _di.Module)({
       return this._meetingModule.meeting;
     }
   }, {
+    key: "defaultTopic",
+    get: function get() {
+      return this._meetingModule.defaultTopic;
+    }
+  }, {
     key: "delegators",
     get: function get() {
       return this._meetingModule.delegators;

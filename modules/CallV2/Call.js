@@ -47,6 +47,10 @@ require("core-js/modules/es6.array.find-index");
 
 require("core-js/modules/es6.array.map");
 
+require("core-js/modules/es7.array.includes");
+
+require("core-js/modules/es6.string.includes");
+
 require("core-js/modules/es6.string.trim");
 
 require("regenerator-runtime/runtime");
@@ -489,6 +493,12 @@ var Call = (_dec = (0, _di.Module)({
                   this._deps.alert.danger({
                     message: _callErrors.callErrors.networkError,
                     payload: _context4.t0
+                  });
+                } else if (typeof _context4.t0.message === 'string' && _context4.t0.message.includes('[InternationalCalls] is not available')) {
+                  // ringout call may not have international permission, then first leg can't be create
+                  // directly, customer will not be able to hear the voice prompt, so show a warning
+                  this._deps.alert.danger({
+                    message: _callErrors.callErrors.noInternational
                   });
                 } else if (_context4.t0.message !== 'Refresh token has expired') {
                   if (!this._deps.availabilityMonitor || !this._deps.availabilityMonitor.checkIfHAError(_context4.t0)) {

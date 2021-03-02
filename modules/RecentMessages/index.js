@@ -33,8 +33,6 @@ require("core-js/modules/es6.array.for-each");
 
 require("core-js/modules/es6.array.map");
 
-require("core-js/modules/es6.object.assign");
-
 require("core-js/modules/es6.array.reduce");
 
 require("core-js/modules/es6.array.sort");
@@ -187,8 +185,8 @@ _dec = (0, _di.Module)({
         });
       } else if (Object.keys(this.messages).length > 0) {
         // Listen to messageStore state changes
-        if (this._messageStore.updatedTimestamp !== this._prevMessageStoreTimestamp) {
-          this._prevMessageStoreTimestamp = this._messageStore.updatedTimestamp; // for (const contact of Object.values(this.contacts)) {
+        if (this._messageStore.timestamp !== this._prevMessageStoreTimestamp) {
+          this._prevMessageStoreTimestamp = this._messageStore.timestamp; // for (const contact of Object.values(this.contacts)) {
           //   this.getMessages(contact, false, true);
           // }
 
@@ -234,7 +232,7 @@ _dec = (0, _di.Module)({
                 return _context.abrupt("return");
 
               case 6:
-                this._prevMessageStoreTimestamp = this._messageStore.updatedTimestamp;
+                this._prevMessageStoreTimestamp = this._messageStore.timestamp;
                 this.store.dispatch({
                   type: this.actionTypes.initLoad
                 });
@@ -420,7 +418,7 @@ _dec = (0, _di.Module)({
         var phoneNumber = _ref7.phoneNumber;
 
         if (phoneNumber) {
-          var promise = _this3._fetchMessageList(Object.assign({}, params, {
+          var promise = _this3._fetchMessageList(_objectSpread(_objectSpread({}, params), {}, {
             phoneNumber: phoneNumber
           }));
 

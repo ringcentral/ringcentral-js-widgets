@@ -569,6 +569,11 @@ _dec = (0, _di.Module)({
 
       return this.state.endedCalls;
     }
+  }, {
+    key: "endedCalls",
+    get: function get() {
+      return this.recentlyEndedCalls;
+    }
   }]);
 
   return CallHistory;

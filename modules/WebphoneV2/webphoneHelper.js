@@ -217,7 +217,8 @@ function normalizeSession(session) {
       direction: session.__rc_direction,
       toUserName: session.request.to.displayName,
       fromUserName: session.request.from.displayName
-    })
+    }),
+    warmTransferSessionId: session.__rc_transferSessionId
   };
 }
 

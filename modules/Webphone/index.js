@@ -1234,6 +1234,8 @@ var Webphone = (_dec = (0, _di.Module)({
         // Pause video elements to release system Video Wake Lock RCINT-15582
         if (!this._remoteVideo.paused) {
           this._remoteVideo.pause();
+
+          this._remoteVideo.srcObject = null;
         }
 
         if (!this._localVideo.paused) {
@@ -2066,10 +2068,12 @@ var Webphone = (_dec = (0, _di.Module)({
 
                 this._onCallEnd(session);
 
+                this._addTrackAfterForward();
+
                 return _context19.abrupt("return", true);
 
-              case 24:
-                _context19.prev = 24;
+              case 25:
+                _context19.prev = 25;
                 _context19.t0 = _context19["catch"](3);
                 console.error(_context19.t0);
 
@@ -2077,14 +2081,16 @@ var Webphone = (_dec = (0, _di.Module)({
                   message: _webphoneErrors["default"].forwardError
                 });
 
+                this._addTrackAfterForward();
+
                 return _context19.abrupt("return", false);
 
-              case 29:
+              case 31:
               case "end":
                 return _context19.stop();
             }
           }
-        }, _callee19, this, [[3, 24]]);
+        }, _callee19, this, [[3, 25]]);
       }));
 
       function forward(_x7, _x8) {
@@ -2093,6 +2099,15 @@ var Webphone = (_dec = (0, _di.Module)({
 
       return forward;
     }()
+  }, {
+    key: "_addTrackAfterForward",
+    value: function _addTrackAfterForward() {
+      if (this.activeSession && !this.activeSession.isOnHold) {
+        var rawActiveSession = this._sessions.get(this.activeSession.id);
+
+        this._addTrack(rawActiveSession);
+      }
+    }
   }, {
     key: "mute",
     value: function () {
@@ -2711,19 +2726,83 @@ var Webphone = (_dec = (0, _di.Module)({
       return transfer;
     }()
   }, {
-    key: "transferWarm",
+    key: "startWarmTransfer",
     value: function () {
-      var _transferWarm = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee31(transferNumber, sessionId) {
-        var _this14 = this;
-
-        var session, newSession;
-        return regeneratorRuntime.wrap(function _callee31$(_context31) {
+      var _startWarmTransfer = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee30(transferNumber, sessionId) {
+        var session, numberResult, validPhoneNumber, fromNumber;
+        return regeneratorRuntime.wrap(function _callee30$(_context30) {
           while (1) {
-            switch (_context31.prev = _context31.next) {
+            switch (_context30.prev = _context30.next) {
               case 0:
                 session = this._sessions.get(sessionId);
 
                 if (session) {
+                  _context30.next = 3;
+                  break;
+                }
+
+                return _context30.abrupt("return");
+
+              case 3:
+                _context30.prev = 3;
+                session.__rc_isOnTransfer = true;
+
+                this._updateSessions();
+
+                numberResult = (0, _validateNumbers["default"])([transferNumber], this._regionSettings, this._brand.id);
+                validPhoneNumber = numberResult && numberResult[0];
+                fromNumber = session.__rc_direction === _callDirections["default"].outbound ? session.request.from.uri.user : session.request.to.uri.user;
+                _context30.next = 11;
+                return this.makeCall({
+                  toNumber: validPhoneNumber,
+                  fromNumber: fromNumber,
+                  homeCountryId: this._regionSettings.homeCountryId,
+                  extendedControls: '',
+                  transferSessionId: sessionId
+                });
+
+              case 11:
+                _context30.next = 19;
+                break;
+
+              case 13:
+                _context30.prev = 13;
+                _context30.t0 = _context30["catch"](3);
+                console.error(_context30.t0);
+                session.__rc_isOnTransfer = false;
+
+                this._updateSessions();
+
+                this._alert.danger({
+                  message: _webphoneErrors["default"].transferError
+                });
+
+              case 19:
+              case "end":
+                return _context30.stop();
+            }
+          }
+        }, _callee30, this, [[3, 13]]);
+      }));
+
+      function startWarmTransfer(_x20, _x21) {
+        return _startWarmTransfer.apply(this, arguments);
+      }
+
+      return startWarmTransfer;
+    }()
+  }, {
+    key: "completeWarmTransfer",
+    value: function () {
+      var _completeWarmTransfer = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee31(newSessionId) {
+        var newSession, oldSessionId, oldSession;
+        return regeneratorRuntime.wrap(function _callee31$(_context31) {
+          while (1) {
+            switch (_context31.prev = _context31.next) {
+              case 0:
+                newSession = this._sessions.get(newSessionId);
+
+                if (newSession) {
                   _context31.next = 3;
                   break;
                 }
@@ -2731,64 +2810,54 @@ var Webphone = (_dec = (0, _di.Module)({
                 return _context31.abrupt("return");
 
               case 3:
-                _context31.prev = 3;
-                _context31.next = 6;
-                return session.hold();
+                oldSessionId = newSession.__rc_transferSessionId;
+                oldSession = this._sessions.get(oldSessionId);
 
-              case 6:
-                newSession = session.ua.invite(transferNumber, {
-                  sessionDescriptionHandlerOptions: this.acceptOptions.sessionDescriptionHandlerOptions
-                });
-                newSession.once('accepted', /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee30() {
-                  return regeneratorRuntime.wrap(function _callee30$(_context30) {
-                    while (1) {
-                      switch (_context30.prev = _context30.next) {
-                        case 0:
-                          _context30.prev = 0;
-                          _context30.next = 3;
-                          return session.warmTransfer(newSession);
+                if (oldSession) {
+                  _context31.next = 7;
+                  break;
+                }
 
-                        case 3:
-                          console.log('Transferred');
+                return _context31.abrupt("return");
 
-                          _this14._onCallEnd(session);
+              case 7:
+                newSession.__rc_isOnTransfer = true;
 
-                          _context30.next = 10;
-                          break;
+                this._updateSessions();
 
-                        case 7:
-                          _context30.prev = 7;
-                          _context30.t0 = _context30["catch"](0);
-                          console.error(_context30.t0);
+                _context31.prev = 9;
+                _context31.next = 12;
+                return oldSession.warmTransfer(newSession);
 
-                        case 10:
-                        case "end":
-                          return _context30.stop();
-                      }
-                    }
-                  }, _callee30, null, [[0, 7]]);
-                })));
-                _context31.next = 13;
+              case 12:
+                _context31.next = 20;
                 break;
 
-              case 10:
-                _context31.prev = 10;
-                _context31.t0 = _context31["catch"](3);
+              case 14:
+                _context31.prev = 14;
+                _context31.t0 = _context31["catch"](9);
                 console.error(_context31.t0);
+                newSession.__rc_isOnTransfer = false;
 
-              case 13:
+                this._updateSessions();
+
+                this._alert.danger({
+                  message: _webphoneErrors["default"].transferError
+                });
+
+              case 20:
               case "end":
                 return _context31.stop();
             }
           }
-        }, _callee31, this, [[3, 10]]);
+        }, _callee31, this, [[9, 14]]);
       }));
 
-      function transferWarm(_x20, _x21) {
-        return _transferWarm.apply(this, arguments);
+      function completeWarmTransfer(_x22) {
+        return _completeWarmTransfer.apply(this, arguments);
       }
 
-      return transferWarm;
+      return completeWarmTransfer;
     }()
   }, {
     key: "flip",
@@ -2842,7 +2911,7 @@ var Webphone = (_dec = (0, _di.Module)({
         }, _callee32, this, [[3, 10]]);
       }));
 
-      function flip(_x22, _x23) {
+      function flip(_x23, _x24) {
         return _flip.apply(this, arguments);
       }
 
@@ -2877,7 +2946,7 @@ var Webphone = (_dec = (0, _di.Module)({
         }, _callee33, null, [[0, 5]]);
       }));
 
-      function _sendDTMF(_x24, _x25) {
+      function _sendDTMF(_x25, _x26) {
         return _sendDTMF2.apply(this, arguments);
       }
 
@@ -2910,7 +2979,7 @@ var Webphone = (_dec = (0, _di.Module)({
         }, _callee34, this);
       }));
 
-      function sendDTMF(_x26, _x27) {
+      function sendDTMF(_x27, _x28) {
         return _sendDTMF3.apply(this, arguments);
       }
 
@@ -2961,7 +3030,7 @@ var Webphone = (_dec = (0, _di.Module)({
         }, _callee35, this, [[3, 9]]);
       }));
 
-      function hangup(_x28) {
+      function hangup(_x29) {
         return _hangup.apply(this, arguments);
       }
 
@@ -3014,7 +3083,7 @@ var Webphone = (_dec = (0, _di.Module)({
         }, _callee36, this, [[3, 9]]);
       }));
 
-      function toVoiceMail(_x29) {
+      function toVoiceMail(_x30) {
         return _toVoiceMail.apply(this, arguments);
       }
 
@@ -3063,12 +3132,19 @@ var Webphone = (_dec = (0, _di.Module)({
         }, _callee37, this, [[3, 9]]);
       }));
 
-      function replyWithMessage(_x30, _x31) {
+      function replyWithMessage(_x31, _x32) {
         return _replyWithMessage.apply(this, arguments);
       }
 
       return replyWithMessage;
     }()
+  }, {
+    key: "_addTrack",
+    value: function _addTrack(rawSession) {
+      if (rawSession) {
+        rawSession.addTrack(this._remoteVideo, this._localVideo);
+      }
+    }
   }, {
     key: "_sessionHandleWithId",
     value: function _sessionHandleWithId(sessionId, func) {
@@ -3083,13 +3159,13 @@ var Webphone = (_dec = (0, _di.Module)({
   }, {
     key: "_invite",
     value: function () {
-      var _invite2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee38(toNumber, _ref10) {
-        var inviteOptions, extendedControls, phoneLines, session;
+      var _invite2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee38(toNumber, _ref9) {
+        var inviteOptions, extendedControls, transferSessionId, phoneLines, session;
         return regeneratorRuntime.wrap(function _callee38$(_context38) {
           while (1) {
             switch (_context38.prev = _context38.next) {
               case 0:
-                inviteOptions = _ref10.inviteOptions, extendedControls = _ref10.extendedControls;
+                inviteOptions = _ref9.inviteOptions, extendedControls = _ref9.extendedControls, transferSessionId = _ref9.transferSessionId;
 
                 if (this._webphone) {
                   _context38.next = 4;
@@ -3138,6 +3214,7 @@ var Webphone = (_dec = (0, _di.Module)({
                 session.__rc_fromNumber = inviteOptions.fromNumber;
                 session.__rc_extendedControls = extendedControls;
                 session.__rc_extendedControlStatus = extendedControlStatus.pending;
+                session.__rc_transferSessionId = transferSessionId;
 
                 this._onAccepted(session);
 
@@ -3145,7 +3222,7 @@ var Webphone = (_dec = (0, _di.Module)({
 
                 return _context38.abrupt("return", session);
 
-              case 24:
+              case 25:
               case "end":
                 return _context38.stop();
             }
@@ -3153,7 +3230,7 @@ var Webphone = (_dec = (0, _di.Module)({
         }, _callee38, this);
       }));
 
-      function _invite(_x32, _x33) {
+      function _invite(_x33, _x34) {
         return _invite2.apply(this, arguments);
       }
 
@@ -3169,13 +3246,13 @@ var Webphone = (_dec = (0, _di.Module)({
   }, {
     key: "makeCall",
     value: function () {
-      var _makeCall = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee39(_ref11) {
-        var toNumber, fromNumber, homeCountryId, extendedControls, inviteOptions, result;
+      var _makeCall = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee39(_ref10) {
+        var toNumber, fromNumber, homeCountryId, extendedControls, transferSessionId, inviteOptions, result;
         return regeneratorRuntime.wrap(function _callee39$(_context39) {
           while (1) {
             switch (_context39.prev = _context39.next) {
               case 0:
-                toNumber = _ref11.toNumber, fromNumber = _ref11.fromNumber, homeCountryId = _ref11.homeCountryId, extendedControls = _ref11.extendedControls;
+                toNumber = _ref10.toNumber, fromNumber = _ref10.fromNumber, homeCountryId = _ref10.homeCountryId, extendedControls = _ref10.extendedControls, transferSessionId = _ref10.transferSessionId;
                 inviteOptions = {
                   sessionDescriptionHandlerOptions: this.acceptOptions.sessionDescriptionHandlerOptions,
                   fromNumber: fromNumber,
@@ -3184,7 +3261,8 @@ var Webphone = (_dec = (0, _di.Module)({
                 _context39.next = 4;
                 return this._invite(toNumber, {
                   inviteOptions: inviteOptions,
-                  extendedControls: extendedControls
+                  extendedControls: extendedControls,
+                  transferSessionId: transferSessionId
                 });
 
               case 4:
@@ -3199,7 +3277,7 @@ var Webphone = (_dec = (0, _di.Module)({
         }, _callee39, this);
       }));
 
-      function makeCall(_x34) {
+      function makeCall(_x35) {
         return _makeCall.apply(this, arguments);
       }
 
@@ -3212,13 +3290,13 @@ var Webphone = (_dec = (0, _di.Module)({
   }, {
     key: "switchCall",
     value: function () {
-      var _switchCall = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee40(_ref12, homeCountryId) {
+      var _switchCall = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee40(_ref11, homeCountryId) {
         var id, from, direction, to, sipData, extraHeaders, toNumber, fromNumber, inviteOptions, session;
         return regeneratorRuntime.wrap(function _callee40$(_context40) {
           while (1) {
             switch (_context40.prev = _context40.next) {
               case 0:
-                id = _ref12.id, from = _ref12.from, direction = _ref12.direction, to = _ref12.to, sipData = _ref12.sipData;
+                id = _ref11.id, from = _ref11.from, direction = _ref11.direction, to = _ref11.to, sipData = _ref11.sipData;
                 extraHeaders = [];
                 extraHeaders.push("Replaces: ".concat(id, ";to-tag=").concat(sipData.fromTag, ";from-tag=").concat(sipData.toTag));
                 extraHeaders.push('RC-call-type: replace');
@@ -3247,7 +3325,7 @@ var Webphone = (_dec = (0, _di.Module)({
         }, _callee40, this);
       }));
 
-      function switchCall(_x35, _x36) {
+      function switchCall(_x36, _x37) {
         return _switchCall.apply(this, arguments);
       }
 
@@ -3257,7 +3335,7 @@ var Webphone = (_dec = (0, _di.Module)({
     key: "updateSessionMatchedContact",
     value: function () {
       var _updateSessionMatchedContact = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee41(sessionId, contact) {
-        var _this15 = this;
+        var _this14 = this;
 
         return regeneratorRuntime.wrap(function _callee41$(_context41) {
           while (1) {
@@ -3266,7 +3344,7 @@ var Webphone = (_dec = (0, _di.Module)({
                 this._sessionHandleWithId(sessionId, function (session) {
                   session.__rc_contactMatch = contact;
 
-                  _this15._updateSessions();
+                  _this14._updateSessions();
                 });
 
               case 1:
@@ -3277,7 +3355,7 @@ var Webphone = (_dec = (0, _di.Module)({
         }, _callee41, this);
       }));
 
-      function updateSessionMatchedContact(_x37, _x38) {
+      function updateSessionMatchedContact(_x38, _x39) {
         return _updateSessionMatchedContact.apply(this, arguments);
       }
 
@@ -3325,7 +3403,7 @@ var Webphone = (_dec = (0, _di.Module)({
     key: "toggleMinimized",
     value: function () {
       var _toggleMinimized = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee42(sessionId) {
-        var _this16 = this;
+        var _this15 = this;
 
         return regeneratorRuntime.wrap(function _callee42$(_context42) {
           while (1) {
@@ -3334,7 +3412,7 @@ var Webphone = (_dec = (0, _di.Module)({
                 this._sessionHandleWithId(sessionId, function (session) {
                   session.__rc_minimized = !session.__rc_minimized;
 
-                  _this16._updateSessions();
+                  _this15._updateSessions();
                 });
 
               case 1:
@@ -3345,7 +3423,7 @@ var Webphone = (_dec = (0, _di.Module)({
         }, _callee42, this);
       }));
 
-      function toggleMinimized(_x39) {
+      function toggleMinimized(_x40) {
         return _toggleMinimized.apply(this, arguments);
       }
 
@@ -3447,6 +3525,14 @@ var Webphone = (_dec = (0, _di.Module)({
 
       if (!normalizedSession) {
         return;
+      }
+
+      if (session.__rc_transferSessionId) {
+        var transferSession = this._sessions.get(session.__rc_transferSessionId);
+
+        if (transferSession) {
+          transferSession.__rc_isOnTransfer = false;
+        }
       }
 
       this._removeSession(session);
@@ -3600,26 +3686,26 @@ var Webphone = (_dec = (0, _di.Module)({
   }, {
     key: "onWebphoneRegistered",
     value: function onWebphoneRegistered(handler) {
-      var _this17 = this;
+      var _this16 = this;
 
       if (typeof handler === 'function') {
         this._eventEmitter.on(EVENTS.webphoneRegistered, handler);
 
         return function () {
-          _this17._eventEmitter.off(EVENTS.webphoneRegistered, handler);
+          _this16._eventEmitter.off(EVENTS.webphoneRegistered, handler);
         };
       }
     }
   }, {
     key: "onWebphoneUnregistered",
     value: function onWebphoneUnregistered(handler) {
-      var _this18 = this;
+      var _this17 = this;
 
       if (typeof handler === 'function') {
         this._eventEmitter.on(EVENTS.webphoneUnregistered, handler);
 
         return function () {
-          _this18._eventEmitter.off(EVENTS.webphoneUnregistered, handler);
+          _this17._eventEmitter.off(EVENTS.webphoneUnregistered, handler);
         };
       }
     }
@@ -3635,9 +3721,9 @@ var Webphone = (_dec = (0, _di.Module)({
     }
   }, {
     key: "setOutgoingAudio",
-    value: function setOutgoingAudio(_ref13) {
-      var fileName = _ref13.fileName,
-          dataUrl = _ref13.dataUrl;
+    value: function setOutgoingAudio(_ref12) {
+      var fileName = _ref12.fileName,
+          dataUrl = _ref12.dataUrl;
       // TODO validate filePath?
       this.store.dispatch({
         type: this.actionTypes.setOutgoingAudio,
@@ -3656,9 +3742,9 @@ var Webphone = (_dec = (0, _di.Module)({
     }
   }, {
     key: "setIncomingAudio",
-    value: function setIncomingAudio(_ref14) {
-      var fileName = _ref14.fileName,
-          dataUrl = _ref14.dataUrl;
+    value: function setIncomingAudio(_ref13) {
+      var fileName = _ref13.fileName,
+          dataUrl = _ref13.dataUrl;
       // TODO validate filePath?
       this.store.dispatch({
         type: this.actionTypes.setIncomingAudio,
@@ -3677,11 +3763,11 @@ var Webphone = (_dec = (0, _di.Module)({
     }
   }, {
     key: "setRingtone",
-    value: function setRingtone(_ref15) {
-      var incomingAudio = _ref15.incomingAudio,
-          incomingAudioFile = _ref15.incomingAudioFile,
-          outgoingAudio = _ref15.outgoingAudio,
-          outgoingAudioFile = _ref15.outgoingAudioFile;
+    value: function setRingtone(_ref14) {
+      var incomingAudio = _ref14.incomingAudio,
+          incomingAudioFile = _ref14.incomingAudioFile,
+          outgoingAudio = _ref14.outgoingAudio,
+          outgoingAudioFile = _ref14.outgoingAudioFile;
       var isIncomingDefault = incomingAudioFile === _getWebphoneReducer.DEFAULT_AUDIO && incomingAudio === _incoming["default"];
       var isOutgoingDefault = outgoingAudioFile === _getWebphoneReducer.DEFAULT_AUDIO && outgoingAudio === _outgoing["default"];
       this.store.dispatch({
@@ -3895,15 +3981,15 @@ var Webphone = (_dec = (0, _di.Module)({
   }]);
 
   return Webphone;
-}(_RcModule2["default"]), _temp), (_applyDecoratedDescriptor(_class2.prototype, "_sipProvision", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_sipProvision"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_connect", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_connect"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "connect", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "connect"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "disconnect", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "disconnect"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "answer", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "answer"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "reject", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "reject"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "resume", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "resume"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "forward", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "forward"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "mute", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "mute"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "unmute", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "unmute"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "hold", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "hold"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "unhold", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "unhold"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "startRecord", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "startRecord"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "stopRecord", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "stopRecord"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "park", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "park"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "transfer", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "transfer"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "transferWarm", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "transferWarm"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "flip", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "flip"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_sendDTMF", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_sendDTMF"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "sendDTMF", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "sendDTMF"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "hangup", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "hangup"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "toVoiceMail", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "toVoiceMail"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "replyWithMessage", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "replyWithMessage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "makeCall", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "makeCall"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "switchCall", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "switchCall"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateSessionMatchedContact", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "updateSessionMatchedContact"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setSessionCaching", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "setSessionCaching"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "clearSessionCaching", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "clearSessionCaching"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "toggleMinimized", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "toggleMinimized"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "showAlert", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "showAlert"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setOutgoingAudio", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "setOutgoingAudio"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "resetOutgoingAudio", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "resetOutgoingAudio"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setIncomingAudio", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "setIncomingAudio"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "resetIncomingAudio", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "resetIncomingAudio"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setRingtone", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "setRingtone"), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, "sessionPhoneNumbers", [_selector.selector], {
+}(_RcModule2["default"]), _temp), (_applyDecoratedDescriptor(_class2.prototype, "_sipProvision", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_sipProvision"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_connect", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_connect"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "connect", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "connect"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "disconnect", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "disconnect"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "answer", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "answer"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "reject", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "reject"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "resume", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "resume"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "forward", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "forward"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "mute", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "mute"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "unmute", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "unmute"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "hold", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "hold"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "unhold", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "unhold"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "startRecord", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "startRecord"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "stopRecord", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "stopRecord"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "park", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "park"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "transfer", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "transfer"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "startWarmTransfer", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "startWarmTransfer"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "completeWarmTransfer", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "completeWarmTransfer"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "flip", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "flip"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_sendDTMF", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_sendDTMF"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "sendDTMF", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "sendDTMF"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "hangup", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "hangup"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "toVoiceMail", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "toVoiceMail"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "replyWithMessage", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "replyWithMessage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "makeCall", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "makeCall"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "switchCall", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "switchCall"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateSessionMatchedContact", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "updateSessionMatchedContact"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setSessionCaching", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "setSessionCaching"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "clearSessionCaching", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "clearSessionCaching"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "toggleMinimized", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "toggleMinimized"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "showAlert", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "showAlert"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setOutgoingAudio", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "setOutgoingAudio"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "resetOutgoingAudio", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "resetOutgoingAudio"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setIncomingAudio", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "setIncomingAudio"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "resetIncomingAudio", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "resetIncomingAudio"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setRingtone", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "setRingtone"), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, "sessionPhoneNumbers", [_selector.selector], {
   configurable: true,
   enumerable: true,
   writable: true,
   initializer: function initializer() {
-    var _this19 = this;
+    var _this18 = this;
 
     return [function () {
-      return _this19.sessions;
+      return _this18.sessions;
     }, function (sessions) {
       var outputs = [];
       sessions.forEach(function (session) {
@@ -3918,12 +4004,12 @@ var Webphone = (_dec = (0, _di.Module)({
   enumerable: true,
   writable: true,
   initializer: function initializer() {
-    var _this20 = this;
+    var _this19 = this;
 
     return [function () {
-      return _this20.activeSessionId;
+      return _this19.activeSessionId;
     }, function () {
-      return _this20.sessions;
+      return _this19.sessions;
     }, function (activeSessionId, sessions) {
       if (!activeSessionId) {
         return null;
@@ -3940,12 +4026,12 @@ var Webphone = (_dec = (0, _di.Module)({
   enumerable: true,
   writable: true,
   initializer: function initializer() {
-    var _this21 = this;
+    var _this20 = this;
 
     return [function () {
-      return _this21.ringSessionId;
+      return _this20.ringSessionId;
     }, function () {
-      return _this21.sessions;
+      return _this20.sessions;
     }, function (ringSessionId, sessions) {
       if (!ringSessionId) {
         return null;
@@ -3962,10 +4048,10 @@ var Webphone = (_dec = (0, _di.Module)({
   enumerable: true,
   writable: true,
   initializer: function initializer() {
-    var _this22 = this;
+    var _this21 = this;
 
     return [function () {
-      return _this22.sessions;
+      return _this21.sessions;
     }, function (sessions) {
       return (0, _ramda.filter)(function (session) {
         return (0, _webphoneHelper.isRing)(session);
@@ -3977,10 +4063,10 @@ var Webphone = (_dec = (0, _di.Module)({
   enumerable: true,
   writable: true,
   initializer: function initializer() {
-    var _this23 = this;
+    var _this22 = this;
 
     return [function () {
-      return _this23.sessions;
+      return _this22.sessions;
     }, function (sessions) {
       return (0, _ramda.filter)(function (session) {
         return (0, _webphoneHelper.isOnHold)(session);
@@ -3992,10 +4078,10 @@ var Webphone = (_dec = (0, _di.Module)({
   enumerable: true,
   writable: true,
   initializer: function initializer() {
-    var _this24 = this;
+    var _this23 = this;
 
     return [function () {
-      return _this24.sessions;
+      return _this23.sessions;
     }, function (sessions) {
       return (0, _ramda.filter)(function (session) {
         return session.cached;
@@ -4007,10 +4093,10 @@ var Webphone = (_dec = (0, _di.Module)({
   enumerable: true,
   writable: true,
   initializer: function initializer() {
-    var _this25 = this;
+    var _this24 = this;
 
     return [function () {
-      return _this25.ringSessions;
+      return _this24.ringSessions;
     }, function (sessions) {
       return (0, _ramda.find)(function (session) {
         return !session.minimized;

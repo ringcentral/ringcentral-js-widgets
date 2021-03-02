@@ -634,6 +634,7 @@ var CallHistory = (_dec = (0, _di.Module)({
     } // TODO: remove recentlyEndedCalls getter, instead of `endedCalls`.
 
     /**
+     * !!Please use `endedCalls` instead of it.
      * @deprecated
      */
 

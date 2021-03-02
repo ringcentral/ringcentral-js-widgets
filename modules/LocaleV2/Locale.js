@@ -13,6 +13,8 @@ require("core-js/modules/es7.symbol.async-iterator");
 
 require("core-js/modules/es6.symbol");
 
+require("core-js/modules/es6.promise");
+
 require("core-js/modules/es6.object.create");
 
 require("core-js/modules/es6.regexp.to-string");
@@ -31,13 +33,11 @@ require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
 
+require("core-js/modules/es6.object.to-string");
+
 require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.for-each");
-
-require("core-js/modules/es6.promise");
-
-require("core-js/modules/es6.object.to-string");
 
 require("regenerator-runtime/runtime");
 
@@ -51,11 +51,9 @@ var _detectBrowserLocale = _interopRequireDefault(require("../../lib/detectBrows
 
 var _di = require("../../lib/di");
 
-var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
+var _proxify = require("../../lib/proxy/proxify");
 
-var _proxyState = require("../../lib/proxy/proxyState");
-
-var _dec, _dec2, _class, _class2, _descriptor, _descriptor2, _temp;
+var _dec, _class, _class2, _descriptor, _descriptor2, _descriptor3, _temp;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -64,6 +62,10 @@ function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
 
@@ -91,37 +93,13 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
 
 function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and runs after the decorators transform.'); }
 
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
 var Locale = (_dec = (0, _di.Module)({
   name: 'Locale',
   deps: [{
     dep: 'LocaleOptions',
     optional: true
   }]
-}), _dec2 = (0, _proxyState.proxyState)( /*#__PURE__*/function () {
-  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(that, locale) {
-    return regeneratorRuntime.wrap(function _callee$(_context) {
-      while (1) {
-        switch (_context.prev = _context.next) {
-          case 0:
-            _context.next = 2;
-            return that._setLocale(locale);
-
-          case 2:
-          case "end":
-            return _context.stop();
-        }
-      }
-    }, _callee);
-  }));
-
-  return function (_x, _x2) {
-    return _ref.apply(this, arguments);
-  };
-}()), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcModuleV) {
+}), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcModuleV) {
   _inherits(Locale, _RcModuleV);
 
   var _super = _createSuper(Locale);
@@ -139,7 +117,9 @@ var Locale = (_dec = (0, _di.Module)({
 
     _initializerDefineProperty(_this, "locale", _descriptor, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "debugMode", _descriptor2, _assertThisInitialized(_this));
+    _initializerDefineProperty(_this, "proxyLocale", _descriptor2, _assertThisInitialized(_this));
+
+    _initializerDefineProperty(_this, "debugMode", _descriptor3, _assertThisInitialized(_this));
 
     _i18n["default"].setDefaultLocale((_deps$localeOptions$d = (_deps$localeOptions = deps.localeOptions) === null || _deps$localeOptions === void 0 ? void 0 : _deps$localeOptions.defaultLocale) !== null && _deps$localeOptions$d !== void 0 ? _deps$localeOptions$d : _i18n.DEFAULT_LOCALE);
 
@@ -147,6 +127,35 @@ var Locale = (_dec = (0, _di.Module)({
   }
 
   _createClass(Locale, [{
+    key: "_setProxyLocaleSuccess",
+    value: function _setProxyLocaleSuccess(locale) {
+      this.proxyLocale = locale;
+    }
+  }, {
+    key: "setProxyLocaleSuccess",
+    value: function () {
+      var _setProxyLocaleSuccess2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(locale) {
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                this._setProxyLocaleSuccess(locale);
+
+              case 1:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function setProxyLocaleSuccess(_x) {
+        return _setProxyLocaleSuccess2.apply(this, arguments);
+      }
+
+      return setProxyLocaleSuccess;
+    }()
+  }, {
     key: "_toggleDebugMode",
     value: function _toggleDebugMode() {
       this.debugMode = !this.debugMode;
@@ -168,22 +177,75 @@ var Locale = (_dec = (0, _di.Module)({
       }
     }
   }, {
+    key: "initializeProxy",
+    value: function () {
+      var _initializeProxy = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
+        var _this2 = this;
+
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.next = 2;
+                return this._setLocale(this.currentLocale);
+
+              case 2:
+                this.setProxyLocaleSuccess(this.currentLocale);
+                this.store.subscribe( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+                  return regeneratorRuntime.wrap(function _callee2$(_context2) {
+                    while (1) {
+                      switch (_context2.prev = _context2.next) {
+                        case 0:
+                          if (!(_this2.locale !== _this2.proxyLocale)) {
+                            _context2.next = 4;
+                            break;
+                          }
+
+                          _context2.next = 3;
+                          return _this2._setLocale(_this2.locale);
+
+                        case 3:
+                          _this2.setProxyLocaleSuccess(_this2.locale);
+
+                        case 4:
+                        case "end":
+                          return _context2.stop();
+                      }
+                    }
+                  }, _callee2);
+                })));
+
+              case 4:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3, this);
+      }));
+
+      function initializeProxy() {
+        return _initializeProxy.apply(this, arguments);
+      }
+
+      return initializeProxy;
+    }()
+  }, {
     key: "onInit",
     value: function () {
-      var _onInit = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
-        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+      var _onInit = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
+        return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context4.prev = _context4.next) {
               case 0:
-                _context2.next = 2;
+                _context4.next = 2;
                 return this.setLocale(this._detectBrowser ? this.browserLocale : this._defaultLocale);
 
               case 2:
               case "end":
-                return _context2.stop();
+                return _context4.stop();
             }
           }
-        }, _callee2, this);
+        }, _callee4, this);
       }));
 
       function onInit() {
@@ -195,32 +257,32 @@ var Locale = (_dec = (0, _di.Module)({
   }, {
     key: "_syncBrowserLocale",
     value: function () {
-      var _syncBrowserLocale2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
-        var _this2 = this;
+      var _syncBrowserLocale2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
+        var _this3 = this;
 
-        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+        return regeneratorRuntime.wrap(function _callee5$(_context5) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context5.prev = _context5.next) {
               case 0:
                 if (!(!this.debugMode && this.browserLocale !== this.currentLocale)) {
-                  _context3.next = 3;
+                  _context5.next = 3;
                   break;
                 }
 
-                _context3.next = 3;
+                _context5.next = 3;
                 return this.setLocale(this.browserLocale);
 
               case 3:
                 setTimeout(function () {
-                  return _this2._syncBrowserLocale();
+                  return _this3._syncBrowserLocale();
                 }, this._pollingInterval);
 
               case 4:
               case "end":
-                return _context3.stop();
+                return _context5.stop();
             }
           }
-        }, _callee3, this);
+        }, _callee5, this);
       }));
 
       function _syncBrowserLocale() {
@@ -232,12 +294,12 @@ var Locale = (_dec = (0, _di.Module)({
   }, {
     key: "_setLocale",
     value: function () {
-      var _setLocale2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(locale) {
-        return regeneratorRuntime.wrap(function _callee4$(_context4) {
+      var _setLocale2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(locale) {
+        return regeneratorRuntime.wrap(function _callee6$(_context6) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context6.prev = _context6.next) {
               case 0:
-                _context4.next = 2;
+                _context6.next = 2;
                 return _i18n["default"].setLocale(locale);
 
               case 2:
@@ -247,13 +309,13 @@ var Locale = (_dec = (0, _di.Module)({
 
               case 3:
               case "end":
-                return _context4.stop();
+                return _context6.stop();
             }
           }
-        }, _callee4, this);
+        }, _callee6, this);
       }));
 
-      function _setLocale(_x3) {
+      function _setLocale(_x2) {
         return _setLocale2.apply(this, arguments);
       }
 
@@ -262,19 +324,19 @@ var Locale = (_dec = (0, _di.Module)({
   }, {
     key: "toggleDebugMode",
     value: function () {
-      var _toggleDebugMode2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
-        return regeneratorRuntime.wrap(function _callee5$(_context5) {
+      var _toggleDebugMode2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
+        return regeneratorRuntime.wrap(function _callee7$(_context7) {
           while (1) {
-            switch (_context5.prev = _context5.next) {
+            switch (_context7.prev = _context7.next) {
               case 0:
                 this._toggleDebugMode();
 
               case 1:
               case "end":
-                return _context5.stop();
+                return _context7.stop();
             }
           }
-        }, _callee5, this);
+        }, _callee7, this);
       }));
 
       function toggleDebugMode() {
@@ -292,35 +354,35 @@ var Locale = (_dec = (0, _di.Module)({
   }, {
     key: "setLocale",
     value: function () {
-      var _setLocale3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(locale) {
-        return regeneratorRuntime.wrap(function _callee6$(_context6) {
+      var _setLocale3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8(locale) {
+        return regeneratorRuntime.wrap(function _callee8$(_context8) {
           while (1) {
-            switch (_context6.prev = _context6.next) {
+            switch (_context8.prev = _context8.next) {
               case 0:
-                _context6.prev = 0;
-                _context6.next = 3;
+                _context8.prev = 0;
+                _context8.next = 3;
                 return this._setLocale(locale);
 
               case 3:
                 this._setLocaleSuccess(locale);
 
-                _context6.next = 9;
+                _context8.next = 9;
                 break;
 
               case 6:
-                _context6.prev = 6;
-                _context6.t0 = _context6["catch"](0);
-                console.log(_context6.t0);
+                _context8.prev = 6;
+                _context8.t0 = _context8["catch"](0);
+                console.log(_context8.t0);
 
               case 9:
               case "end":
-                return _context6.stop();
+                return _context8.stop();
             }
           }
-        }, _callee6, this, [[0, 6]]);
+        }, _callee8, this, [[0, 6]]);
       }));
 
-      function setLocale(_x4) {
+      function setLocale(_x3) {
         return _setLocale3.apply(this, arguments);
       }
 
@@ -357,7 +419,9 @@ var Locale = (_dec = (0, _di.Module)({
   }, {
     key: "currentLocale",
     get: function get() {
-      return this.locale || this._defaultLocale;
+      var _ref2;
+
+      return (_ref2 = this._transport ? this.proxyLocale : this.locale) !== null && _ref2 !== void 0 ? _ref2 : this._defaultLocale;
     }
   }, {
     key: "browserLocale",
@@ -367,20 +431,27 @@ var Locale = (_dec = (0, _di.Module)({
   }]);
 
   return Locale;
-}(_core.RcModuleV2), _temp), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "locale", [_dec2, _core.state], {
+}(_core.RcModuleV2), _temp), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "locale", [_core.state], {
   configurable: true,
   enumerable: true,
   writable: true,
   initializer: function initializer() {
     return null;
   }
-}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, "debugMode", [_core.state], {
+}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, "proxyLocale", [_core.state], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: function initializer() {
+    return null;
+  }
+}), _applyDecoratedDescriptor(_class2.prototype, "_setProxyLocaleSuccess", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setProxyLocaleSuccess"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setProxyLocaleSuccess", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "setProxyLocaleSuccess"), _class2.prototype), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, "debugMode", [_core.state], {
   configurable: true,
   enumerable: true,
   writable: true,
   initializer: function initializer() {
     return false;
   }
-}), _applyDecoratedDescriptor(_class2.prototype, "_toggleDebugMode", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_toggleDebugMode"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_setLocaleSuccess", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setLocaleSuccess"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "toggleDebugMode", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "toggleDebugMode"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setLocale", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "setLocale"), _class2.prototype)), _class2)) || _class);
+}), _applyDecoratedDescriptor(_class2.prototype, "_toggleDebugMode", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_toggleDebugMode"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_setLocaleSuccess", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setLocaleSuccess"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "toggleDebugMode", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "toggleDebugMode"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setLocale", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "setLocale"), _class2.prototype)), _class2)) || _class);
 exports.Locale = Locale;
 //# sourceMappingURL=Locale.js.map

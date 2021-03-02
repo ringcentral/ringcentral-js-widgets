@@ -53,7 +53,7 @@ var _core = require("@ringcentral-integration/core");
 
 var _di = require("../../lib/di");
 
-var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
+var _proxify = require("../../lib/proxy/proxify");
 
 var _debounceThrottle = require("../../lib/debounce-throttle");
 
@@ -62,8 +62,6 @@ var _webSocketReadyStates = require("../RingCentralExtensions/webSocketReadyStat
 var _normalizeEventFilter = require("./normalizeEventFilter");
 
 var _dec, _class, _class2, _descriptor, _descriptor2, _temp;
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -222,15 +220,23 @@ var WebSocketSubscription = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                _context3.next = 2;
+                if (this._deps.ringCentralExtensions.webSocketExtension.ws) {
+                  _context3.next = 2;
+                  break;
+                }
+
+                return _context3.abrupt("return");
+
+              case 2:
+                _context3.next = 4;
                 return this._deps.ringCentralExtensions.webSocketExtension.subscribe(this.filters, function (message) {
                   _this3._notifyMessage(message);
                 });
 
-              case 2:
+              case 4:
                 this._wsSubscription = _context3.sent;
 
-              case 3:
+              case 5:
               case "end":
                 return _context3.stop();
             }
@@ -493,7 +499,7 @@ var WebSocketSubscription = (_dec = (0, _di.Module)({
   }]);
 
   return WebSocketSubscription;
-}(_core.RcModuleV2), _temp), (_applyDecoratedDescriptor(_class2.prototype, "subscribe", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "subscribe"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "unsubscribe", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "unsubscribe"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_addFilters", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_addFilters"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_removeFilters", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_removeFilters"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_notifyMessage", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_notifyMessage"), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, "filters", [_core.state], {
+}(_core.RcModuleV2), _temp), (_applyDecoratedDescriptor(_class2.prototype, "subscribe", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "subscribe"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "unsubscribe", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "unsubscribe"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_addFilters", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_addFilters"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_removeFilters", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_removeFilters"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_notifyMessage", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_notifyMessage"), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, "filters", [_core.state], {
   configurable: true,
   enumerable: true,
   writable: true,

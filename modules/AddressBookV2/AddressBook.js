@@ -53,6 +53,8 @@ var _core = require("@ringcentral-integration/core");
 
 var _ramda = require("ramda");
 
+var _availabilityTypes = require("../../enums/availabilityTypes");
+
 var _phoneSources = require("../../enums/phoneSources");
 
 var _contactHelper = require("../../lib/contactHelper");
@@ -191,7 +193,7 @@ var AddressBook = (_dec = (0, _di.Module)({
                   syncToken: syncToken,
                   pageId: pageId
                 });
-                _context2.t0 = _helpers.decodeAddressBookResponse;
+                _context2.t0 = _helpers.processAddressBookResponse;
                 _context2.next = 4;
                 return this._deps.client.account().extension().addressBookSync().list(params);
 
@@ -213,6 +215,31 @@ var AddressBook = (_dec = (0, _di.Module)({
 
       return _fetch;
     }()
+  }, {
+    key: "_processISyncData",
+    value: function _processISyncData(records) {
+      if ((records === null || records === void 0 ? void 0 : records.length) > 0) {
+        var updatedRecords = [];
+        var processedIDMap = {};
+        (0, _ramda.forEach)(function (record) {
+          if (record.availability === _availabilityTypes.availabilityTypes.alive) {
+            // Only keep entries that is 'alive', omit 'purged' and 'deleted'
+            updatedRecords.push(record);
+          }
+
+          processedIDMap[record.id] = true;
+        }, records);
+        (0, _ramda.forEach)(function (record) {
+          if (!processedIDMap[record.id]) {
+            // record has no updates
+            updatedRecords.push(record);
+          }
+        }, this.data.records);
+        return updatedRecords;
+      }
+
+      return this.data.records;
+    }
   }, {
     key: "_sync",
     value: function () {
@@ -254,31 +281,35 @@ var AddressBook = (_dec = (0, _di.Module)({
                 break;
 
               case 17:
+                if (response.syncInfo.syncType === 'ISync') {
+                  records = this._processISyncData(records);
+                }
+
                 return _context3.abrupt("return", {
-                  syncInfo: response.syncInfo,
+                  syncToken: response.syncInfo.syncToken,
                   records: records
                 });
 
-              case 20:
-                _context3.prev = 20;
+              case 21:
+                _context3.prev = 21;
                 _context3.t0 = _context3["catch"](0);
 
                 if (!((_context3.t0 === null || _context3.t0 === void 0 ? void 0 : (_error$response = _context3.t0.response) === null || _error$response === void 0 ? void 0 : _error$response.status) === 403)) {
-                  _context3.next = 24;
+                  _context3.next = 25;
                   break;
                 }
 
-                return _context3.abrupt("return", null);
-
-              case 24:
-                throw _context3.t0;
+                return _context3.abrupt("return", {});
 
               case 25:
+                throw _context3.t0;
+
+              case 26:
               case "end":
                 return _context3.stop();
             }
           }
-        }, _callee3, this, [[0, 20]]);
+        }, _callee3, this, [[0, 21]]);
       }));
 
       function _sync() {
@@ -297,7 +328,7 @@ var AddressBook = (_dec = (0, _di.Module)({
             switch (_context4.prev = _context4.next) {
               case 0:
                 _context4.next = 2;
-                return this._sync();
+                return this._deps.dataFetcherV2.fetchData(this._source);
 
               case 2:
               case "end":
@@ -366,9 +397,9 @@ var AddressBook = (_dec = (0, _di.Module)({
   }, {
     key: "syncToken",
     get: function get() {
-      var _this$data, _this$data$syncInfo;
+      var _this$data;
 
-      return (_this$data = this.data) === null || _this$data === void 0 ? void 0 : (_this$data$syncInfo = _this$data.syncInfo) === null || _this$data$syncInfo === void 0 ? void 0 : _this$data$syncInfo.syncToken;
+      return (_this$data = this.data) === null || _this$data === void 0 ? void 0 : _this$data.syncToken;
     }
   }, {
     key: "sourceName",

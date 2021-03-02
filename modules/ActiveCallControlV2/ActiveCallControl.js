@@ -265,6 +265,7 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
     _this._enableAutoSwitchFeature = void 0;
     _this._autoMergeWebphoneSessionsMap = void 0;
     _this._onCallSwitchedFunc = void 0;
+    _this._activeSession = void 0;
 
     _initializerDefineProperty(_this, "data", _descriptor, _assertThisInitialized(_this));
 
@@ -548,9 +549,10 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
     key: "_addTrackToActiveSession",
     value: function _addTrackToActiveSession() {
       var telephonySessionId = this.activeSessionId;
+
       var activeRCCallSession = this.rcCallSessions.find(function (s) {
         return s.telephonySessionId === telephonySessionId;
-      });
+      }) || this._activeSession;
 
       if (activeRCCallSession && activeRCCallSession.webphoneSession) {
         var _this$_deps$webphone = this._deps.webphone,
@@ -741,8 +743,6 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
         this._lastSubscriptionMessage = message;
 
         if (this._rcCall) {
-          console.log('notification event:', JSON.stringify(message, null, 2));
-
           this._rcCall.onNotificationEvent(message);
         }
       }
@@ -1049,6 +1049,7 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
     value: function _getTrackEventName(name) {
       var _this$_deps$routerInt, _this$parentModule$ca, _this$parentModule$ca2;
 
+      // TODO: refactor to remove `this.parentModule`.
       var currentPath = (_this$_deps$routerInt = this._deps.routerInteraction) === null || _this$_deps$routerInt === void 0 ? void 0 : _this$_deps$routerInt.currentPath;
       var showCallLog = (_this$parentModule$ca = this.parentModule.callLogSection) === null || _this$parentModule$ca === void 0 ? void 0 : _this$parentModule$ca.show;
       var showNotification = (_this$parentModule$ca2 = this.parentModule.callLogSection) === null || _this$parentModule$ca2 === void 0 ? void 0 : _this$parentModule$ca2.showNotification;
@@ -1745,6 +1746,7 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
                 return session.unhold();
 
               case 7:
+                this._activeSession = session;
                 webphoneSession = session.webphoneSession;
 
                 if (webphoneSession && webphoneSession.__rc_callStatus) {
@@ -1756,27 +1758,27 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
                 this._addTrackToActiveSession();
 
                 this.clearCallControlBusyTimestamp();
-                _context20.next = 29;
+                _context20.next = 30;
                 break;
 
-              case 14:
-                _context20.prev = 14;
+              case 15:
+                _context20.prev = 15;
                 _context20.t0 = _context20["catch"](0);
 
                 if (!(_context20.t0.response && !_context20.t0.response._text)) {
-                  _context20.next = 20;
+                  _context20.next = 21;
                   break;
                 }
 
-                _context20.next = 19;
+                _context20.next = 20;
                 return _context20.t0.response.clone().text();
 
-              case 19:
+              case 20:
                 _context20.t0.response._text = _context20.sent;
 
-              case 20:
+              case 21:
                 if (!(0, _helpers.conflictError)(_context20.t0)) {
-                  _context20.next = 24;
+                  _context20.next = 25;
                   break;
                 }
 
@@ -1784,16 +1786,16 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
                   message: _callControlError["default"].unHoldConflictError
                 });
 
-                _context20.next = 28;
+                _context20.next = 29;
                 break;
 
-              case 24:
-                _context20.next = 26;
+              case 25:
+                _context20.next = 27;
                 return (_this$_deps$availabil7 = this._deps.availabilityMonitor) === null || _this$_deps$availabil7 === void 0 ? void 0 : _this$_deps$availabil7.checkIfHAError(_context20.t0);
 
-              case 26:
+              case 27:
                 if (_context20.sent) {
-                  _context20.next = 28;
+                  _context20.next = 29;
                   break;
                 }
 
@@ -1801,15 +1803,15 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
                   message: _callControlError["default"].generalError
                 });
 
-              case 28:
+              case 29:
                 this.clearCallControlBusyTimestamp();
 
-              case 29:
+              case 30:
               case "end":
                 return _context20.stop();
             }
           }
-        }, _callee20, this, [[0, 14]]);
+        }, _callee20, this, [[0, 15]]);
       }));
 
       function unhold(_x12) {
@@ -2169,6 +2171,10 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
           _this12._autoMergeWebphoneSessionsMap["delete"](webphoneSession);
         } else {
           _this12.setActiveSessionId(telephonySessionId);
+
+          _this12._holdOtherCalls(telephonySessionId);
+
+          _this12._addTrackToActiveSession();
         }
 
         _this12.updateActiveSessions();
@@ -2307,25 +2313,26 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
                 session = this._rcCall.sessions.find(function (s) {
                   return s.id === telephonySessionId;
                 });
-                _context28.next = 5;
+                this._activeSession = session;
+                _context28.next = 6;
                 return this._holdOtherCalls(telephonySessionId);
 
-              case 5:
+              case 6:
                 webphoneSession = session.webphoneSession;
                 deviceId = (_this$_deps$webphone3 = this._deps.webphone) === null || _this$_deps$webphone3 === void 0 ? void 0 : (_this$_deps$webphone4 = _this$_deps$webphone3.device) === null || _this$_deps$webphone4 === void 0 ? void 0 : _this$_deps$webphone4.id;
-                _context28.next = 9;
+                _context28.next = 10;
                 return session.answer({
                   deviceId: deviceId
                 });
 
-              case 9:
+              case 10:
                 if (webphoneSession && webphoneSession.__rc_callStatus) {
                   webphoneSession.__rc_callStatus = _sessionStatus.sessionStatus.connected;
                 }
 
                 this.clearCallControlBusyTimestamp();
 
-              case 11:
+              case 12:
               case "end":
                 return _context28.stop();
             }
@@ -2543,6 +2550,8 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
     key: "makeCall",
     value: function () {
       var _makeCall = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee33(params) {
+        var _this14 = this;
+
         var phoneLines, sdkMakeCallParams, session;
         return regeneratorRuntime.wrap(function _callee33$(_context33) {
           while (1) {
@@ -2589,22 +2598,28 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
 
               case 13:
                 session = _context33.sent;
+                this._activeSession = session;
+                session.webphoneSession.on('progress', function () {
+                  if (session.telephonySessionId && _this14.activeSessionId !== session.telephonySessionId) {
+                    _this14.setActiveSessionId(session.telephonySessionId);
+                  }
+                });
 
                 this._triggerAutoMergeEvent();
 
                 return _context33.abrupt("return", session);
 
-              case 18:
-                _context33.prev = 18;
+              case 20:
+                _context33.prev = 20;
                 _context33.t0 = _context33["catch"](0);
                 console.log('make call fail.', _context33.t0);
 
-              case 21:
+              case 23:
               case "end":
                 return _context33.stop();
             }
           }
-        }, _callee33, this, [[0, 18]]);
+        }, _callee33, this, [[0, 20]]);
       }));
 
       function makeCall(_x29) {

@@ -1402,7 +1402,6 @@ var Conversations = (_dec = (0, _di.Module)({
         return this.searchInput;
       }
 
-      ;
       return '';
     }
   }, {

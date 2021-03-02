@@ -126,20 +126,42 @@ var ForwardingNumber = (_dec = (0, _di.Module)({
       cleanOnReset: true,
       fetchFunction: function () {
         var _fetchFunction = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+          var forwardingNumbers, _error$response;
+
           return regeneratorRuntime.wrap(function _callee$(_context) {
             while (1) {
               switch (_context.prev = _context.next) {
                 case 0:
-                  return _context.abrupt("return", (0, _fetchList["default"])(function (params) {
+                  _context.prev = 0;
+                  _context.next = 3;
+                  return (0, _fetchList["default"])(function (params) {
                     return _this._deps.client.account().extension().forwardingNumber().list(params);
-                  }));
+                  });
 
-                case 1:
+                case 3:
+                  forwardingNumbers = _context.sent;
+                  return _context.abrupt("return", forwardingNumbers);
+
+                case 7:
+                  _context.prev = 7;
+                  _context.t0 = _context["catch"](0);
+
+                  if (!(((_error$response = _context.t0.response) === null || _error$response === void 0 ? void 0 : _error$response.status) === 403)) {
+                    _context.next = 11;
+                    break;
+                  }
+
+                  return _context.abrupt("return", []);
+
+                case 11:
+                  throw _context.t0;
+
+                case 12:
                 case "end":
                   return _context.stop();
               }
             }
-          }, _callee);
+          }, _callee, null, [[0, 7]]);
         }));
 
         function fetchFunction() {
