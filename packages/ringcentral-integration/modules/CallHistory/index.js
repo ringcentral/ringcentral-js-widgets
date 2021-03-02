@@ -527,4 +527,8 @@ export default class CallHistory extends RcModule {
     }
     return this.state.endedCalls;
   }
+
+  get endedCalls() {
+    return this.recentlyEndedCalls;
+  }
 }

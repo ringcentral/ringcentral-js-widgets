@@ -7,7 +7,7 @@ interface RcmMeeting {
   password: string;
   topic: string;
   meetingType: MeetingTypeV;
-  schedule: {
+  schedule?: {
     startTime: Date;
     durationInMinutes: number;
     timeZone: {

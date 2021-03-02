@@ -30,29 +30,8 @@ class Module<T extends Record<string, any> = {}> extends BaseModule<T> {
       this._actionTypes.forEach((name) => {
         this._reducersMaps[name] = (types) => (
           _state = this._initialValue[name],
-          { type, states, __proxyState__ },
-        ) => {
-          if (type.indexOf(types[name]) > -1 && __proxyState__) {
-            return __proxyState__[name];
-          } else if (type.indexOf(types[name]) > -1 && states) {
-            if (this._transport && this.__proxyState__?.[name]) {
-              // sync up state with async proxy callback
-              (async () => {
-                await this.__proxyState__[name](this, states[name]);
-                this._dispatch({
-                  type: this.parentModule.__proxyAction__,
-                  action: {
-                    type: [types[name]],
-                    __proxyState__: { [name]: states[name] },
-                  },
-                });
-              })();
-              return _state;
-            }
-            return states[name];
-          }
-          return _state;
-        };
+          { type, states },
+        ) => (type.indexOf(types[name]) > -1 && states ? states[name] : _state);
       });
     }
     super._makeInstance(params);

@@ -1,4 +1,4 @@
-export default function proxify(
+export function proxify(
   prototype: object,
   property: string,
   descriptor: TypedPropertyDescriptor<(...args: any) => Promise<any>>,
@@ -32,3 +32,5 @@ export default function proxify(
     value: proxyFn,
   };
 }
+
+export default proxify;

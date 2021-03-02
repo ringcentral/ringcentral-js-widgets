@@ -74,6 +74,15 @@ function getMeetingSettings({
   };
 }
 
+function getDefaultTopic(
+  extensionName: string,
+  currentLocale: string = 'en-US',
+) {
+  return formatMessage(i18n.getString('meetingTitle', currentLocale), {
+    extensionName,
+  });
+}
+
 // Basic default meeting type information
 function getDefaultMeetingSettings(
   extensionName: string,
@@ -82,9 +91,7 @@ function getDefaultMeetingSettings(
   hostId?: string,
 ): RcMMeetingModel {
   return {
-    topic: formatMessage(i18n.getString('meetingTitle', currentLocale), {
-      extensionName,
-    }),
+    topic: getDefaultTopic(extensionName, currentLocale),
     meetingType: MeetingType.SCHEDULED,
     password: '',
     schedule: {
@@ -183,4 +190,5 @@ export {
   generateRandomPassword,
   updateFullYear,
   updateFullTime,
+  getDefaultTopic,
 };

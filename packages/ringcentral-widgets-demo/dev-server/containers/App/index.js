@@ -186,7 +186,10 @@ const App = ({ phone, icon }) => {
               <Route
                 path="/transfer/:sessionId(/:type)"
                 component={(routerProps) => (
-                  <TransferPage params={routerProps.params} />
+                  <TransferPage
+                    params={routerProps.params}
+                    enableWarmTransfer
+                  />
                 )}
               />
               <Route

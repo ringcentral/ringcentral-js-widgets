@@ -97,6 +97,8 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
   private _enableAutoSwitchFeature: boolean;
   private _autoMergeWebphoneSessionsMap: Map<WebPhoneSession, boolean>;
   private _onCallSwitchedFunc: (args: any) => any;
+  private _activeSession: Session;
+
   constructor(deps: Deps) {
     super({
       deps,
@@ -247,9 +249,10 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
 
   _addTrackToActiveSession() {
     const telephonySessionId = this.activeSessionId;
-    const activeRCCallSession = this.rcCallSessions.find(
-      (s) => s.telephonySessionId === telephonySessionId,
-    );
+    const activeRCCallSession =
+      this.rcCallSessions.find(
+        (s) => s.telephonySessionId === telephonySessionId,
+      ) || this._activeSession;
     if (activeRCCallSession && activeRCCallSession.webphoneSession) {
       const { _remoteVideo, _localVideo } = this._deps.webphone;
       activeRCCallSession.webphoneSession.addTrack(_remoteVideo, _localVideo);
@@ -378,7 +381,6 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
       message = this._checkRingOutCallDirection(message);
       this._lastSubscriptionMessage = message;
       if (this._rcCall) {
-        console.log('notification event:', JSON.stringify(message, null, 2));
         this._rcCall.onNotificationEvent(message);
       }
     }
@@ -571,6 +573,7 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
   }
 
   _getTrackEventName(name: string) {
+    // TODO: refactor to remove `this.parentModule`.
     const currentPath = this._deps.routerInteraction?.currentPath;
     const showCallLog = this.parentModule.callLogSection?.show;
     const showNotification = this.parentModule.callLogSection?.showNotification;
@@ -850,6 +853,7 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
       );
       await this._holdOtherCalls(telephonySessionId);
       await session.unhold();
+      this._activeSession = session;
       const { webphoneSession } = session;
       if (webphoneSession && webphoneSession.__rc_callStatus) {
         webphoneSession.__rc_callStatus = sessionStatus.connected;
@@ -1045,6 +1049,8 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
         this._autoMergeWebphoneSessionsMap.delete(webphoneSession);
       } else {
         this.setActiveSessionId(telephonySessionId);
+        this._holdOtherCalls(telephonySessionId);
+        this._addTrackToActiveSession();
       }
       this.updateActiveSessions();
     });
@@ -1119,6 +1125,7 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
     const session = this._rcCall.sessions.find((s: Session) => {
       return s.id === telephonySessionId;
     });
+    this._activeSession = session;
     await this._holdOtherCalls(telephonySessionId);
     const { webphoneSession } = session;
     const deviceId = this._deps.webphone?.device?.id;
@@ -1234,6 +1241,15 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
         homeCountryId: params.homeCountryId,
       };
       const session = await this._rcCall.makeCall(sdkMakeCallParams);
+      this._activeSession = session;
+      session.webphoneSession.on('progress', () => {
+        if (
+          session.telephonySessionId &&
+          this.activeSessionId !== session.telephonySessionId
+        ) {
+          this.setActiveSessionId(session.telephonySessionId);
+        }
+      });
       this._triggerAutoMergeEvent();
       return session;
     } catch (error) {

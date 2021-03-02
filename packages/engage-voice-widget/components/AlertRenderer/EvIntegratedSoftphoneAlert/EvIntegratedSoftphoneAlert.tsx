@@ -26,4 +26,5 @@ EvIntegratedSoftphoneAlert.handleMessage = ({ message }: { message: string }) =>
     tabManagerEvents.SIP_CONNECTING,
     tabManagerEvents.SIP_RECONNECTING_WHEN_CALL_CONNECTED,
     tabManagerEvents.ASK_AUDIO_PERMISSION,
+    tabManagerEvents.NOTIFY_ACTIVE_TAB_CALL_ACTIVE,
   ]);

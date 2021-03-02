@@ -64,7 +64,7 @@ export default {
   TW: "Taïwan",
   UA: "Ukraine",
   US: "États-Unis",
-  VN: "Vietnam",
+  VN: "Viêt Nam",
   ZA: "Afrique du Sud"
 };
 

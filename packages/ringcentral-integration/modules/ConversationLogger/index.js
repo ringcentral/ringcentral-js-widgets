@@ -123,7 +123,6 @@ export default class ConversationLogger extends LoggerBase {
       readyCheckFn: () => this._messageStore.ready && this._extensionInfo.ready,
     });
 
-    this._lastProcessedConversationLogMap = null;
     this._autoLogQueue = [];
     this._autoLogPromise = null;
   }
@@ -262,8 +261,7 @@ export default class ConversationLogger extends LoggerBase {
         conversation.self &&
         (conversation.self.phoneNumber || conversation.self.extensionNumber);
       const selfMatches =
-        (selfNumber && this._contactMatcher.dataMapping[conversation.self]) ||
-        [];
+        (selfNumber && this._contactMatcher.dataMapping[selfNumber]) || [];
       const correspondentMatches = this._getCorrespondentMatches(conversation);
 
       const selfEntity =
@@ -367,7 +365,7 @@ export default class ConversationLogger extends LoggerBase {
           .map((date) => this.conversationLogMap[conversationId][date])
           .sort(sortByDate)
           .map((conversation, idx) => {
-            const queueIndex = this._autoLogQueue.find(
+            const queueIndex = this._autoLogQueue.findIndex(
               (item) =>
                 item.conversationLogId === conversation.conversationLogId,
             );

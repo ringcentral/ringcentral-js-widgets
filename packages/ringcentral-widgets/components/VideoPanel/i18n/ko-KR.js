@@ -8,11 +8,12 @@ export default {
   meetingSettings: "모임 설정",
   [ASSISTED_USERS_MYSELF]: "나",
   joinBeforeHost: "참가자가 호스트보다 먼저 참가하도록 허용",
-  enableWaitingRoom: "대기실 소용",
-  waitingRoom: "다음 기간에 대기실 사용",
+  enableWaitingRoom: "대기실 사용",
+  waitingRoom: "다음 사람을 위해 대기실 허용",
   waitingRoomNotCoworker: "회사 외부의 사람",
   waitingRoomGuest: "로그인하지 않은 사람",
   waitingRoomAll: "모두",
+  enterPassword: "비밀번호 입력",
   onlyJoinAfterMe: "참가자는 내가 참가한 이후에만 참가할 수 있습니다.",
   onlyJoinAfterHost: "참가자는 호스트가 참가한 이후에만 참가할 수 있습니다.",
   muteAudio: "참가자의 오디오 음소거",
@@ -46,6 +47,7 @@ export default {
 // @key: @#@"waitingRoomNotCoworker"@#@ @source: @#@"Anyone outside my company"@#@
 // @key: @#@"waitingRoomGuest"@#@ @source: @#@"Anyone not signed in"@#@
 // @key: @#@"waitingRoomAll"@#@ @source: @#@"Everyone"@#@
+// @key: @#@"enterPassword"@#@ @source: @#@"Enter Password"@#@
 // @key: @#@"onlyJoinAfterMe"@#@ @source: @#@"Participants can only join after me"@#@
 // @key: @#@"onlyJoinAfterHost"@#@ @source: @#@"Participants can only join after host"@#@
 // @key: @#@"muteAudio"@#@ @source: @#@"Mute audio for participants"@#@

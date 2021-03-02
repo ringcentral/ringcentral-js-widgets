@@ -18,7 +18,8 @@ export default {
   feedback: "フィードバック",
   userGuide: "新着情報",
   quickAccess: "クイックアクセスの設定",
-  report: "分析レポート"
+  report: "分析レポート",
+  shareIdea: "アイデアの共有"
 };
 
 // @key: @#@"region"@#@ @source: @#@"Region"@#@
@@ -41,3 +42,4 @@ export default {
 // @key: @#@"userGuide"@#@ @source: @#@"What's New"@#@
 // @key: @#@"quickAccess"@#@ @source: @#@"Quick Access Setting"@#@
 // @key: @#@"report"@#@ @source: @#@"Analytics Report"@#@
+// @key: @#@"shareIdea"@#@ @source: @#@"Share idea"@#@

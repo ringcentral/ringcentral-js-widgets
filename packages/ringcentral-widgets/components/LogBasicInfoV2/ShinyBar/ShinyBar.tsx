@@ -22,6 +22,7 @@ export const ShinyBar: React.FunctionComponent<ShinyBarProps> = ({
       isRinging && styles.ringing,
       className,
     )}
+    data-sign={`shinyBar-${status}`}
   >
     <div />
   </div>

@@ -22,7 +22,7 @@ export function decodeName(str: string) {
   });
 }
 
-export function decodeAddressBookResponse(data: AddressBookSync) {
+export function processAddressBookResponse(data: AddressBookSync) {
   if (Array.isArray(data?.records)) {
     forEach((record) => {
       if (record.firstName) {
@@ -31,6 +31,8 @@ export function decodeAddressBookResponse(data: AddressBookSync) {
       if (record.lastName) {
         record.lastName = decodeName(record.lastName);
       }
+      // remove uri from record to reduce size
+      delete record.uri;
     }, data.records);
   }
   return data;

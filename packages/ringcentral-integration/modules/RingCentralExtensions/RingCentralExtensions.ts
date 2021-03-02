@@ -11,7 +11,7 @@ import {
   watch,
 } from '@ringcentral-integration/core';
 import WebSocket from 'isomorphic-ws';
-import proxify from '../../lib/proxy/proxify';
+import { proxify } from '../../lib/proxy/proxify';
 import { Module } from '../../lib/di';
 import {
   WebSocketReadyState,

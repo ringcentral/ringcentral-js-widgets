@@ -44,6 +44,7 @@ export interface CommonProps {
   hasSettingsChanged?: boolean;
   personalMeetingId: string;
   switchUsePersonalMeetingId: (usePersonalMeetingId: boolean) => any;
+  defaultTopic: string;
 }
 
 export interface VideoPanelProps extends CommonProps {

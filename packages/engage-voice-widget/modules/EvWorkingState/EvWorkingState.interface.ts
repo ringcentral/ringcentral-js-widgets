@@ -1,14 +1,14 @@
 import Alert from 'ringcentral-integration/modules/Alert';
 import { Auth } from 'ringcentral-integration/modules/AuthV2';
-import Storage from 'ringcentral-integration/modules/Storage';
-import { EvTabManager } from '../EvTabManager';
 
+import { EvTabManager } from '../EvTabManager';
 import { EvAgentState, EvClient } from '../../lib/EvClient';
 import { EvAgentSession } from '../EvAgentSession';
 import { EvAuth } from '../EvAuth';
 import { EvCallMonitor } from '../EvCallMonitor';
 import { EvPresence } from '../EvPresence';
 import { EvSubscription } from '../EvSubscription';
+import { EvStorage } from '../EvStorage';
 
 export interface State {
   agentState: EvAgentState;
@@ -28,7 +28,7 @@ export interface Deps {
   evCallMonitor: EvCallMonitor;
   evClient: EvClient;
   presence: EvPresence;
-  storage: Storage;
+  storage: EvStorage;
   alert: Alert;
   tabManager?: EvTabManager;
   evWorkingStateOptions?: EvWorkingStateOptions;

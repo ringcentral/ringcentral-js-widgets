@@ -1,7 +1,6 @@
 import { MessageAttachmentInfo } from '@rc-ex/core/definitions';
 
 import {
-  NormalizedMessageRecord,
   Correspondent,
   VoicemailAttachment,
   FaxAttachment,
@@ -12,11 +11,12 @@ import { Auth } from '../AuthV2';
 import { RingCentralClient } from '../../lib/RingCentralClient';
 import { ExtensionInfo } from '../ExtensionInfoV2';
 import { MessageSender, Attachment } from '../MessageSenderV2';
-import MessageStore from '../MessageStore';
+import { MessageStore } from '../MessageStoreV2';
 import { RolesAndPermissions } from '../RolesAndPermissionsV2';
 import RegionSettings from '../RegionSettings';
 import ContactMatcher from '../ContactMatcher';
 import ConversationLogger from '../ConversationLogger';
+import { Message } from '../../interfaces/MessageStore.model';
 
 export interface Deps {
   alert: Alert;
@@ -45,7 +45,7 @@ export interface InputContent {
   attachments?: Attachment[];
 }
 
-export interface FormattedConversation extends NormalizedMessageRecord {
+export interface FormattedConversation extends Message {
   unreadCounts: number;
   self: Correspondent;
   voicemailAttachment?: VoicemailAttachment;
@@ -60,7 +60,7 @@ export interface FormattedConversation extends NormalizedMessageRecord {
 
 export interface FilteredConversation extends FormattedConversation {
   matchOrder?: number;
-  matchedMessage?: NormalizedMessageRecord;
+  matchedMessage?: Message;
 }
 
 export interface CorrespondentMatch {
@@ -79,7 +79,7 @@ export interface CorrespondentResponse {
 }
 
 export interface CurrentConversation extends FormattedConversation {
-  messages: NormalizedMessageRecord[]; 
+  messages: Message[];
   senderNumber: Correspondent;
   recipients: Correspondent[];
 }

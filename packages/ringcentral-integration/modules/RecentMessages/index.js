@@ -50,10 +50,8 @@ export default class RecentMessages extends RcModule {
       });
     } else if (Object.keys(this.messages).length > 0) {
       // Listen to messageStore state changes
-      if (
-        this._messageStore.updatedTimestamp !== this._prevMessageStoreTimestamp
-      ) {
-        this._prevMessageStoreTimestamp = this._messageStore.updatedTimestamp;
+      if (this._messageStore.timestamp !== this._prevMessageStoreTimestamp) {
+        this._prevMessageStoreTimestamp = this._messageStore.timestamp;
         // for (const contact of Object.values(this.contacts)) {
         //   this.getMessages(contact, false, true);
         // }
@@ -112,7 +110,7 @@ export default class RecentMessages extends RcModule {
     ) {
       return;
     }
-    this._prevMessageStoreTimestamp = this._messageStore.updatedTimestamp;
+    this._prevMessageStoreTimestamp = this._messageStore.timestamp;
     this.store.dispatch({
       type: this.actionTypes.initLoad,
     });
@@ -251,11 +249,10 @@ export default class RecentMessages extends RcModule {
     const recentMessagesPromise = phoneNumbers.reduce(
       (acc, { phoneNumber }) => {
         if (phoneNumber) {
-          const promise = this._fetchMessageList(
-            Object.assign({}, params, {
-              phoneNumber,
-            }),
-          );
+          const promise = this._fetchMessageList({
+            ...params,
+            phoneNumber,
+          });
           return acc.concat(promise);
         }
         return acc;
@@ -272,12 +269,7 @@ export default class RecentMessages extends RcModule {
   }
 
   _fetchMessageList(params) {
-    return () =>
-      this._client
-        .account()
-        .extension()
-        .messageStore()
-        .list(params);
+    return () => this._client.account().extension().messageStore().list(params);
   }
 
   _countUnreadMessages(messages) {

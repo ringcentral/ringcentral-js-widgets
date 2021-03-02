@@ -1,5 +1,4 @@
 import Alert from 'ringcentral-integration/modules/Alert';
-import Storage from 'ringcentral-integration/modules/Storage';
 import { Beforeunload } from 'ringcentral-widgets/modules/Beforeunload';
 import { Mapping } from 'ringcentral-widgets/typings';
 
@@ -7,6 +6,7 @@ import { DialoutStatusesType } from '../../enums';
 import { EvCallData } from '../../interfaces/EvData.interface';
 import { EvClient } from '../../lib/EvClient';
 import { EvCallDataSource } from '../EvCallDataSource';
+import { EvStorage } from '../EvStorage';
 import { EvSubscription } from '../EvSubscription';
 
 export interface State {
@@ -35,7 +35,7 @@ export interface PresenceOptions {
 export interface Deps {
   evSubscription: EvSubscription;
   evClient: EvClient;
-  storage: Storage;
+  storage: EvStorage;
   alert: Alert;
   beforeunload: Beforeunload;
   evCallDataSource: EvCallDataSource;

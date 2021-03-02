@@ -51,7 +51,7 @@ export interface RcVideoAPI {
   muteAudio: boolean;
   muteVideo: boolean;
   isMeetingSecret: boolean;
-  meetingPassword: string;
+  meetingPassword?: string;
   isOnlyAuthUserJoin: boolean;
   isOnlyCoworkersJoin: boolean;
   allowScreenSharing: boolean;
@@ -78,7 +78,7 @@ export interface RcVideoAPIResponse extends RcVideoAPI {
   accountId: string;
   extensionId: string;
   phoneGroup: string;
-  meetingPassword?: string;
+  // meetingPassword?: string;
   meetingPasswordPSTN?: string;
   meetingPasswordMasked?: string;
   isMeetingSecret: boolean;

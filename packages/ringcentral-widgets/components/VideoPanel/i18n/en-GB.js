@@ -13,6 +13,7 @@ export default {
   waitingRoomNotCoworker: "Anyone outside my company",
   waitingRoomGuest: "Anyone not signed in",
   waitingRoomAll: "Everyone",
+  enterPassword: "Enter Password",
   onlyJoinAfterMe: "Participants can only join after me",
   onlyJoinAfterHost: "Participants can only join after host",
   muteAudio: "Mute audio for participants",
@@ -46,6 +47,7 @@ export default {
 // @key: @#@"waitingRoomNotCoworker"@#@ @source: @#@"Anyone outside my company"@#@
 // @key: @#@"waitingRoomGuest"@#@ @source: @#@"Anyone not signed in"@#@
 // @key: @#@"waitingRoomAll"@#@ @source: @#@"Everyone"@#@
+// @key: @#@"enterPassword"@#@ @source: @#@"Enter Password"@#@
 // @key: @#@"onlyJoinAfterMe"@#@ @source: @#@"Participants can only join after me"@#@
 // @key: @#@"onlyJoinAfterHost"@#@ @source: @#@"Participants can only join after host"@#@
 // @key: @#@"muteAudio"@#@ @source: @#@"Mute audio for participants"@#@

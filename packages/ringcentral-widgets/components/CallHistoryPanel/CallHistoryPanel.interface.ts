@@ -1,15 +1,11 @@
-import { Call as OriginCall } from 'ringcentral-integration/interfaces/Call.interface';
-
-export interface Call extends OriginCall {
-  callTime?: string;
-  callDate?: string;
-}
+import { CallLog } from 'ringcentral-integration/interfaces/CallLog.interface';
+import { SvgSymbol } from '@ringcentral/juno';
 
 export interface CallsTreeNode {
   name: string;
   depth: number;
   children?: string[];
-  call?: Call;
+  call?: CallLog;
 }
 
 export interface CallsTree {

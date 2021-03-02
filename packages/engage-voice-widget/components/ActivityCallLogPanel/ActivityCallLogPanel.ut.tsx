@@ -33,15 +33,14 @@ export const UTActivityCallLogPanel: StepFunction<any, any> = async (
 
   openField.simulate('click');
 
-  const addMenuIcon = getSelectList().find(
-    'RcIconButton[data-sign="addEntityMenu"]',
-  );
+  const addMenuIcon = getSelectList()
+    .find('RcIconButton[data-sign="addEntityMenu"]')
+    .find('button');
 
   addMenuIcon.simulate('click');
 
   const menuItems = getSelectList().find('RcMenuItem');
 
-  const entityName = props.entityName.toLowerCase();
-  menuItems.find(`[title="Create ${entityName}"]`).simulate('click');
+  menuItems.find(`[title="New ${props.entityName}"]`).simulate('click');
   wrapper.unmount();
 };

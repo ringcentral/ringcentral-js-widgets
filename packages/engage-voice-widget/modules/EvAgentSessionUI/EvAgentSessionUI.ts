@@ -19,7 +19,6 @@ import {
   EvAgentSessionUIProps,
 } from '../../interfaces/EvAgentSessionUI.interface';
 import { AvailableQueue } from '../../interfaces/SelectableQueue.interface';
-import { EvAgent } from '../../lib/EvClient';
 import { sortByName } from '../../lib/sortByName';
 import { Deps, SessionConfigUI } from './EvAgentSessionUI.interface';
 import i18n from './i18n';
@@ -256,9 +255,11 @@ class EvAgentSessionUI extends RcUIModuleV2<Deps> implements SessionConfigUI {
   }
 
   async _onAccountReChoose(syncAllTabs = false) {
+    console.log('_onAccountReChoose~~', syncAllTabs);
     await this._deps.block.next(async () => {
-      if (syncAllTabs) {
+      if (syncAllTabs && this._deps.tabManager.hasMultipleTabs) {
         this._deps.tabManager.send(tabManagerEvents.RE_CHOOSE_ACCOUNT);
+        this._deps.storage.resetStorage();
       }
       if (this._deps.evClient.ifSocketExist) {
         this._deps.evClient.closeSocket();

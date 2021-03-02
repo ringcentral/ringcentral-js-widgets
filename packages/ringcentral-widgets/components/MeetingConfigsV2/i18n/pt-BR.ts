@@ -23,6 +23,7 @@ export default {
   turnOffCamera: "Desativar a câmera dos participantes",
   turnOffHostCamera: "Desligar a câmera do host ao entrar na reunião",
   requirePassword: "Exigir senha",
+  enterPassword: "Insira a senha",
   setPassword: "Definir senha *",
   passwordEmptyError: "Necessária senha da reunião",
   rcmPasswordInvalidError: "Sua senha deve ter de 1 a 10 caracteres ou números e não pode conter símbolos, exceto @, * ou -",
@@ -31,7 +32,7 @@ export default {
   pmiChangeConfirm: "Se quiser fazer alterações em sua reunião pessoal, ",
   changePmiSettings: "altere as configurações de PMI.",
   pmiSettingChangeAlert: "Se você alterar as configurações e agendar esta reunião, todas as reuniões com ID da reunião pessoal usarão essas mesmas configurações mais recentes.",
-  lockedTooltip: "Esta configuração é gerenciada pelo administrador da sua empresa",
+  lockedTooltip: "Configuração gerenciada pelo administrador da empresa.",
   when: "Quando",
   recurringDescribe: "Lembre-se de verificar a recorrência ou repetir no convite de calendário para os participantes."
 };
@@ -59,6 +60,7 @@ export default {
 // @key: @#@"turnOffCamera"@#@ @source: @#@"Turn off camera for participants"@#@
 // @key: @#@"turnOffHostCamera"@#@ @source: @#@"Turn off camera for host when joining meeting"@#@
 // @key: @#@"requirePassword"@#@ @source: @#@"Require password"@#@
+// @key: @#@"enterPassword"@#@ @source: @#@"Enter Password"@#@
 // @key: @#@"setPassword"@#@ @source: @#@"Set password *"@#@
 // @key: @#@"passwordEmptyError"@#@ @source: @#@"Meeting password required"@#@
 // @key: @#@"rcmPasswordInvalidError"@#@ @source: @#@"Your password must be 1-10 characters, numbers long and cannot have symbols except @, * or -"@#@

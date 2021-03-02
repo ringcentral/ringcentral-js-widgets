@@ -32,11 +32,7 @@ export class ExtensionDevice extends DataFetcherV2Consumer<
       cleanOnReset: true,
       fetchFunction: async (): Promise<ExtensionDeviceResponse[]> =>
         fetchList((params: any) =>
-          this._deps.client
-            .account()
-            .extension()
-            .device()
-            .list(params),
+          this._deps.client.account().extension().device().list(params),
         ),
     });
     this._deps.dataFetcherV2.register(this._source);

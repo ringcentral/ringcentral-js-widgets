@@ -10,6 +10,7 @@ import { Module } from 'ringcentral-integration/lib/di';
 import { CallLogPanelProps } from 'ringcentral-widgets/components/CallLogPanel';
 
 import {
+  dialoutStatuses,
   EvTransferType,
   logTypes,
   MessageTypes,
@@ -21,6 +22,9 @@ import {
   EvActivityCallUIFunctions,
   EvActivityCallUIProps,
   EvCurrentLog,
+  CallLogMethods,
+  SaveStatus,
+  saveStatus,
 } from '../../interfaces/EvActivityCallUI.interface';
 import { EvIvrData } from '../../interfaces/EvData.interface';
 import { EvBaggage } from '../../lib/EvClient';
@@ -97,7 +101,7 @@ class EvActivityCallUI<T = {}>
 
   @storage
   @state
-  saveStatus: EvActivityCallUIProps['saveStatus'] = 'submit';
+  saveStatus: SaveStatus | CallLogMethods = saveStatus.submit;
 
   @storage
   @state
@@ -391,7 +395,7 @@ class EvActivityCallUI<T = {}>
   }
 
   @action
-  changeSavingStatus(status: EvActivityCallUIProps['saveStatus']) {
+  changeSavingStatus(status: SaveStatus | CallLogMethods) {
     this.saveStatus = status;
   }
 
@@ -432,7 +436,7 @@ class EvActivityCallUI<T = {}>
       notes: false,
     };
     this.disabled = {};
-    this.saveStatus = 'submit';
+    this.saveStatus = saveStatus.submit;
   }
 
   onStateChange() {
@@ -492,8 +496,11 @@ class EvActivityCallUI<T = {}>
     this._deps.routerInteraction.push(`/activityCallLog/${this.callId}${url}`);
   }
 
-  goDialer() {
-    this._deps.routerInteraction.push('/dialer');
+  goBack() {
+    // set status to 'idle' in case of EvCallMonitor does not emit ENDED
+    this._deps.evCall.setDialoutStatus(dialoutStatuses.idle);
+
+    this._deps.routerInteraction.goBack();
     this.reset();
     this._deps.evCall.activityCallId = null;
   }
@@ -546,7 +553,7 @@ class EvActivityCallUI<T = {}>
       if (this._hasError()) {
         return;
       }
-      this.changeSavingStatus('saving');
+      this.changeSavingStatus(saveStatus.saving);
       await this.disposeCall();
 
       this._sendTabManager(tabManagerEvents.CALL_DISPOSITION_SUCCESS);
@@ -556,19 +563,19 @@ class EvActivityCallUI<T = {}>
         message: logTypes.CALL_DISPOSITION_FAILURE,
         ttl: 0,
       });
-      this.changeSavingStatus('submit');
+      this.changeSavingStatus(saveStatus.submit);
       throw e;
     }
   }
 
   private _dispositionSuccess() {
-    this.changeSavingStatus('saved');
+    this.changeSavingStatus(saveStatus.saved);
 
     this._deps.alert.success({
       message: logTypes.CALL_DISPOSITION_SUCCESS,
     });
     // delay for animation with loading ui.
-    setTimeout(() => this.goDialer(), 1000);
+    setTimeout(() => this.goBack(), 1000);
 
     this._deps.evWorkingState.setIsPendingDisposition(false);
   }
@@ -602,7 +609,8 @@ class EvActivityCallUI<T = {}>
       isInComingCall: this.isInComingCall,
       smallCallControlSize: this._deps.environment.isWide ? 'medium' : 'small',
       currentCallControlPermission: this.currentCallControlPermission,
-      disableDispose: this.disableLinks || this.saveStatus === 'saving',
+      disableDispose:
+        this.disableLinks || this.saveStatus === saveStatus.saving,
       disableTransfer:
         this.disableLinks || this.isInComingCall || !this.allowTransfer,
       disableInternalTransfer:
@@ -626,7 +634,7 @@ class EvActivityCallUI<T = {}>
 
   getUIFunctions(): EvActivityCallUIFunctions {
     return {
-      goBack: () => {},
+      goBack: () => this.goBack(),
       onMute: () => this._deps.activeCallControl.mute(),
       onUnmute: () => this._deps.activeCallControl.unmute(),
       onHangup: () =>
@@ -639,8 +647,8 @@ class EvActivityCallUI<T = {}>
       onActive: () => this.goToActivityCallListPage(),
       onUpdateCallLog: (data, id) => this.onUpdateCallLog(data, id),
       disposeCall: async () => {
-        if (this.saveStatus === 'saved') {
-          return this.goDialer();
+        if (this.saveStatus === saveStatus.saved) {
+          return this.goBack();
         }
         await this._submitData(this.callId);
       },

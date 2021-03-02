@@ -13,6 +13,7 @@ export default {
   waitingRoomNotCoworker: "Util. extérieure à mon entreprise",
   waitingRoomGuest: "Util. non connectée",
   waitingRoomAll: "Tout le monde",
+  enterPassword: "Entrer le mot de passe",
   onlyJoinAfterMe: "Les participants ne peuvent rejoindre la réunion qu'après moi",
   onlyJoinAfterHost: "Les participants ne peuvent rejoindre la réunion qu'après l'hôte",
   muteAudio: "Activer le mode silencieux pour les participants",
@@ -46,6 +47,7 @@ export default {
 // @key: @#@"waitingRoomNotCoworker"@#@ @source: @#@"Anyone outside my company"@#@
 // @key: @#@"waitingRoomGuest"@#@ @source: @#@"Anyone not signed in"@#@
 // @key: @#@"waitingRoomAll"@#@ @source: @#@"Everyone"@#@
+// @key: @#@"enterPassword"@#@ @source: @#@"Enter Password"@#@
 // @key: @#@"onlyJoinAfterMe"@#@ @source: @#@"Participants can only join after me"@#@
 // @key: @#@"onlyJoinAfterHost"@#@ @source: @#@"Participants can only join after host"@#@
 // @key: @#@"muteAudio"@#@ @source: @#@"Mute audio for participants"@#@

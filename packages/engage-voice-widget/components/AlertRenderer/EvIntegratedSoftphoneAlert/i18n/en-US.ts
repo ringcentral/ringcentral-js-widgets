@@ -12,6 +12,8 @@ export default {
   [tabManagerEvents.SIP_RECONNECTING_WHEN_CALL_CONNECTED]:
     'Try to reconnect Integrated Softphone...',
   [tabManagerEvents.ASK_AUDIO_PERMISSION]: 'Wait for accept audio permission.',
+  [tabManagerEvents.NOTIFY_ACTIVE_TAB_CALL_ACTIVE]:
+    'You have an incoming call. Switch to the browser tab with the blue flashing dot to answer the call',
 
   // Attempt to dequeue call to agent failed! Outdial to destination [16503990023*106] failed after [2] seconds with disposition [INTERCEPT]
 };

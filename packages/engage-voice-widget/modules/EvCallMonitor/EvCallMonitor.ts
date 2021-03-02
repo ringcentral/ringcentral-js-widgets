@@ -110,6 +110,7 @@ class EvCallMonitor extends RcModuleV2<Deps> implements CallMonitor {
         });
 
         const id = call.session ? this.getCallId(call.session) : null;
+        const recordingUrl = call.session?.recordingUrl;
         const { agentFirstName, agentLastName } = call.baggage || {};
 
         const agentName =
@@ -121,6 +122,7 @@ class EvCallMonitor extends RcModuleV2<Deps> implements CallMonitor {
           ...mapping,
           [key]: {
             ...call,
+            recordingUrl,
             agentName,
             // TODO confirm about using `toMatches` & `fromMatches`?
             contactMatches: contactMatches[contactMatchIdentify] || [],

@@ -63,6 +63,8 @@ class CallCtrlContainer extends Component {
     this.onBeforeMerge = () => this.props.onBeforeMerge(this.props.session.id);
     this.gotoParticipantsCtrl = () =>
       this.props.gotoParticipantsCtrl(this.props.session.id);
+    this.onCompleteTransfer = () =>
+      this.props.onCompleteTransfer(this.props.session.id);
   }
 
   static isLastCallEnded({ lastCallInfo }) {
@@ -260,6 +262,8 @@ class CallCtrlContainer extends Component {
         startTime={session.startTime}
         isOnMute={session.isOnMute}
         isOnHold={session.isOnHold}
+        isOnTransfer={session.isOnTransfer}
+        isOnWaitingTransfer={!!session.warmTransferSessionId}
         recordStatus={session.recordStatus}
         showBackButton={this.props.showBackButton}
         backButtonLabel={backButtonLabel}
@@ -277,6 +281,7 @@ class CallCtrlContainer extends Component {
         onBeforeMerge={this.onBeforeMerge}
         onFlip={this.props.onFlip}
         onTransfer={this.props.onTransfer}
+        onCompleteTransfer={this.onCompleteTransfer}
         onPark={this.onPark}
         disableFlip={this.props.disableFlip}
         showPark={this.props.showPark}
@@ -327,6 +332,7 @@ CallCtrlContainer.propTypes = {
     to: PropTypes.string,
     from: PropTypes.string,
     contactMatch: PropTypes.object,
+    warmTransferSessionId: PropTypes.string,
   }).isRequired,
   currentLocale: PropTypes.string.isRequired,
   onMute: PropTypes.func.isRequired,
@@ -377,6 +383,7 @@ CallCtrlContainer.propTypes = {
   afterOnMerge: PropTypes.func,
   disableFlip: PropTypes.bool,
   showCallQueueName: PropTypes.bool,
+  onCompleteTransfer: PropTypes.func,
 };
 
 CallCtrlContainer.defaultProps = {
@@ -409,6 +416,7 @@ CallCtrlContainer.defaultProps = {
   afterOnMerge: () => null,
   disableFlip: false,
   showCallQueueName: false,
+  onCompleteTransfer: () => null,
 };
 
 export default CallCtrlContainer;

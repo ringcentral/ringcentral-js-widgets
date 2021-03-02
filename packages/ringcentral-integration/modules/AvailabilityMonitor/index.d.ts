@@ -1,7 +1,7 @@
 import Client from 'ringcentral-client';
 
 import RcModule from '../../lib/RcModule';
-import { ClientError } from '../../shared/clientResponse';
+import { ClientError } from '../../interfaces/ClientResponse';
 import Alert from '../Alert';
 import Environment from '../Environment';
 

@@ -35,7 +35,7 @@ class ComposeTextPanel extends Component {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.messageText !== this.state.messageText) {
       this.setState({
         messageText: nextProps.messageText,

@@ -1,10 +1,10 @@
 import Alert from 'ringcentral-integration/modules/Alert';
-import Storage from 'ringcentral-integration/modules/Storage';
 
 import { EvClient } from '../../lib/EvClient';
 import { EvActiveCallControl } from '../EvActiveCallControl';
 import { EvAuth } from '../EvAuth';
 import { EvCall } from '../EvCall';
+import { EvStorage } from '../EvStorage';
 
 export interface State {
   requeuing: boolean;
@@ -18,7 +18,7 @@ export interface EvRequeueCallOptions {
 }
 
 export interface Deps {
-  storage: Storage;
+  storage: EvStorage;
   evClient: EvClient;
   activeCallControl: EvActiveCallControl;
   evAuth: EvAuth;

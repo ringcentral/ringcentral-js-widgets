@@ -42,7 +42,10 @@ export class LogFieldsInput extends Component<
     this.checkPropsUpdate(nextProps, 'value');
   }
 
-  updateValue(value: string | number, onChange: LogFieldsInputProps['onChange']) {
+  updateValue(
+    value: string | number,
+    onChange: LogFieldsInputProps['onChange'],
+  ) {
     this.setState({ value });
     this.debounce(() => onChange(value));
   }
@@ -59,6 +62,7 @@ export class LogFieldsInput extends Component<
           required={required}
           error={error}
           value={value}
+          gutterBottom
           onChange={(e) =>
             this.updateValue(
               type === 'number' ? Number(e.target.value) : e.target.value,

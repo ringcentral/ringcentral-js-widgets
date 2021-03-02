@@ -17,7 +17,6 @@ yarn add @ringcentral-integration/core
       - [state API](#state-api)
       - [action API](#action-api)
       - [computed API](#computed-api)
-      - [proxyState API](#proxystate-api)
     - [RcUIModule APIs](#rcuimodule-apis)
     - [Dependency Injection](#dependency-injection)
     - [Storage and GlobalStorage APIs](#storage-and-globalstorage-apis)
@@ -26,7 +25,7 @@ yarn add @ringcentral-integration/core
 
 ### RcModule APIs
 
-`@ringcentral-integration/core` provides `RcModuleV2` base module, decorators `state`, `action`, `computed`, `storage` and `globalStorage`, `proxyState`.
+`@ringcentral-integration/core` provides `RcModuleV2` base module, decorators `state`, `action`, `computed`, `storage` and `globalStorage`.
 
 The decorator `storage` depends on `Storage` Module, And  The decorator `globalStorage` depends on `GlobalStorage` Module.
 
@@ -121,10 +120,6 @@ class Auth extends RcModuleV2<Deps> {
   }
 }
 ```
-
-#### proxyState API
-
-`@proxyState` is used for asynchronous state changes of the browser client, and its parameter must be an asynchronous function and cannot be used with `@storage`/`@globalStorage`.
 
 ### RcUIModule APIs
 
@@ -253,16 +248,28 @@ class Call extends RcModuleV2<Deps> {
     });
   }
 
+  // Pass a tracking event type
   @track(trackEvents.inbound)
   inboundCall() {
     //
   }
 
+  // Pass a function that returns an array `[customTrackEvent, trackProps]`
   @track((that: Call, phoneNumber: string) => [
     trackEvents.outbound,
     { loginType: that.callType, phoneNumber },
   ])
   async dialout(phoneNumber: string) {
+    //
+  }
+
+  // Pass a higher-order function and the sub-function has access to the `analytics` module
+  @track(() => (analytics) => {
+    analytics.setUserId();
+    return [trackEvents.authentication];
+  })
+  @action
+  setLoginSuccess(token: TokenInfo) {
     //
   }
 }

@@ -5,6 +5,7 @@ import {
   state,
   storage,
   track,
+  watch,
 } from '@ringcentral-integration/core';
 import { format, parse } from '@ringcentral-integration/phone-number';
 import { EventEmitter } from 'events';
@@ -22,11 +23,7 @@ import {
   tabManagerEvents,
 } from '../../enums';
 import { LoginType } from '../../interfaces/EvAgentSessionUI.interface';
-import {
-  EvAgentConfig,
-  EvAvailableSkillProfile,
-  EvConfigureAgentOptions,
-} from '../../lib/EvClient';
+import { EvConfigureAgentOptions } from '../../lib/EvClient';
 import { TabLife } from '../../lib/tabLife';
 import { trackEvents } from '../../lib/trackEvents';
 import { AgentSession, Deps, FormGroup } from './EvAgentSession.interface';
@@ -71,7 +68,6 @@ type ConfigureAgentParams = {
     'EvClient',
     'Auth',
     'EvAuth',
-    'Storage',
     'Alert',
     'Auth',
     'Locale',
@@ -80,6 +76,7 @@ type ConfigureAgentParams = {
     'ModalUI',
     'Block',
     'Beforeunload',
+    'Storage',
     { dep: 'TabManager', optional: true },
     { dep: 'EvAgentSessionOptions', optional: true },
   ],
@@ -219,7 +216,7 @@ class EvAgentSession extends RcModuleV2<Deps> implements AgentSession {
   }
 
   @computed((that: EvAgentSession) => [
-    that._deps.evAuth.agent,
+    that._deps.evAuth.agentConfig,
     that._deps.auth.isFreshLogin,
   ])
   get inboundQueues() {
@@ -600,22 +597,41 @@ class EvAgentSession extends RcModuleV2<Deps> implements AgentSession {
     }, 3000);
   }
 
+  @computed<EvAgentSession>((that) => [
+    that._deps.evAuth.isEvLogged,
+    that.ready,
+  ])
+  get isOnLoginSuccess() {
+    return this.ready && this._deps.evAuth.isEvLogged;
+  }
+
   private async _init() {
     if (this._isLogin) {
-      this._initTabLife();
-      await this._initAgentSession();
+      await this.initAgentSession();
     }
     // ! that must call after onInitOnce, because when that is not in init once,
     // ! that configured will some times to be false because storage block
-    this._deps.evAuth.onLoginSuccess(() => {
-      // when that is seconds time get onLoginSuccess
-      console.log('----------onLoginSuccess2');
+    watch(
+      this,
+      () => this.isOnLoginSuccess,
+      async (isOnLoginSuccess) => {
+        if (isOnLoginSuccess) {
+          // when that is seconds time get onLoginSuccess
+          console.log('----------onLoginSuccess2');
+          await this.initAgentSession();
+        }
+      },
+    );
+  }
+
+  async initAgentSession() {
+    await this._deps.block.next(async () => {
       this._initTabLife();
-      this._initAgentSession();
+      await this._initAgentSession();
     });
   }
 
-  private _initAgentSession() {
+  private async _initAgentSession() {
     console.log('_initAgentSession~', this.isAgentUpdating);
     if (this.isAgentUpdating) {
       return;
@@ -915,7 +931,11 @@ class EvAgentSession extends RcModuleV2<Deps> implements AgentSession {
           voiceConnectionChanged,
         );
 
-        if (voiceConnectionChanged) await this.reLoginAgent();
+        const extensionNumberChanged =
+          this.extensionNumber !== this.formGroup.extensionNumber;
+
+        if (voiceConnectionChanged || extensionNumberChanged)
+          await this.reLoginAgent();
 
         config.isForce = true;
         const result = await this._connectEvServer(config);
@@ -1188,7 +1208,7 @@ class EvAgentSession extends RcModuleV2<Deps> implements AgentSession {
   }
 
   private async _connectEvServer(config: EvConfigureAgentOptions) {
-    console.log('configure ev agent in _connectEvServer~~');
+    console.log('configure ev agent in _connectEvServer~~', config);
     let result = await this._deps.evClient.configureAgent(config);
     const { status } = result.data;
 

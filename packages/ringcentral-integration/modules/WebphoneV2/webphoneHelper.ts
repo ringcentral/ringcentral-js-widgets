@@ -160,6 +160,7 @@ export function normalizeSession(session: WebphoneSession): NormalizedSession {
       toUserName: session.request.to.displayName,
       fromUserName: session.request.from.displayName,
     }),
+    warmTransferSessionId: session.__rc_transferSessionId,
   };
 }
 

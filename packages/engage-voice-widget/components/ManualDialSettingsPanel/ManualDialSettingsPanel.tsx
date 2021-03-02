@@ -100,6 +100,7 @@ export const ManualDialSettingsPanel: FunctionComponent<ManualDialSettingsPanelP
                   onBlur={() => onBlur()}
                   onChange={(e) => onChange(e.target.value)}
                   fullWidth
+                  gutterBottom
                   InputProps={{
                     endAdornment: (
                       <span>

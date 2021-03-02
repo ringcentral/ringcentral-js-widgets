@@ -17,6 +17,7 @@ export interface NavigationButtonProps {
   activeClassName: string;
   inActiveClassName: string;
   className?: string;
+  id?: string;
 }
 
 const NavigationButton: FunctionComponent<NavigationButtonProps> = ({
@@ -32,6 +33,7 @@ const NavigationButton: FunctionComponent<NavigationButtonProps> = ({
   className,
   activeClassName,
   inActiveClassName,
+  id,
 }) => {
   let notice = null;
   if (noticeCounts && noticeCounts > 0) {
@@ -50,6 +52,7 @@ const NavigationButton: FunctionComponent<NavigationButtonProps> = ({
         width,
         height,
       }}
+      id={id}
     >
       <Tooltip title={label}>
         <div className={styles.iconHolder} data-sign={label}>

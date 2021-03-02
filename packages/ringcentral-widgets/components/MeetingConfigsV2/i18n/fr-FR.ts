@@ -23,6 +23,7 @@ export default {
   turnOffCamera: "Désactiver la caméra pour les participants",
   turnOffHostCamera: "Désactiver la caméra de l'hôte lorsqu'il rejoint la réunion",
   requirePassword: "Exiger un mot de passe",
+  enterPassword: "Entrer le mot de passe",
   setPassword: "Définir un mot de passe *",
   passwordEmptyError: "Mot de passe de la réunion requis",
   rcmPasswordInvalidError: "Votre mot de passe doit être composé de 1 à 10 lettres et chiffres et ne peut pas comporter de symboles autres que @, * ou -",
@@ -59,6 +60,7 @@ export default {
 // @key: @#@"turnOffCamera"@#@ @source: @#@"Turn off camera for participants"@#@
 // @key: @#@"turnOffHostCamera"@#@ @source: @#@"Turn off camera for host when joining meeting"@#@
 // @key: @#@"requirePassword"@#@ @source: @#@"Require password"@#@
+// @key: @#@"enterPassword"@#@ @source: @#@"Enter Password"@#@
 // @key: @#@"setPassword"@#@ @source: @#@"Set password *"@#@
 // @key: @#@"passwordEmptyError"@#@ @source: @#@"Meeting password required"@#@
 // @key: @#@"rcmPasswordInvalidError"@#@ @source: @#@"Your password must be 1-10 characters, numbers long and cannot have symbols except @, * or -"@#@

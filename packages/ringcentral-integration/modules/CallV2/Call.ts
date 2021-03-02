@@ -283,6 +283,15 @@ export class Call extends RcModuleV2<Deps> {
               message: callErrors.networkError,
               payload: error,
             });
+          } else if (
+            typeof error.message === 'string' &&
+            error.message.includes('[InternationalCalls] is not available')
+          ) {
+            // ringout call may not have international permission, then first leg can't be create
+            // directly, customer will not be able to hear the voice prompt, so show a warning
+            this._deps.alert.danger({
+              message: callErrors.noInternational,
+            });
           } else if (error.message !== 'Refresh token has expired') {
             if (
               !this._deps.availabilityMonitor ||

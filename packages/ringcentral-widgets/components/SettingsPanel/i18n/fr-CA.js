@@ -18,7 +18,8 @@ export default {
   feedback: "Commentaires",
   userGuide: "Nouveautés",
   quickAccess: "Paramètre d'accès rapide",
-  report: "Rapport d'analyse"
+  report: "Rapport d'analyse",
+  shareIdea: "Partager une idée"
 };
 
 // @key: @#@"region"@#@ @source: @#@"Region"@#@
@@ -41,3 +42,4 @@ export default {
 // @key: @#@"userGuide"@#@ @source: @#@"What's New"@#@
 // @key: @#@"quickAccess"@#@ @source: @#@"Quick Access Setting"@#@
 // @key: @#@"report"@#@ @source: @#@"Analytics Report"@#@
+// @key: @#@"shareIdea"@#@ @source: @#@"Share idea"@#@

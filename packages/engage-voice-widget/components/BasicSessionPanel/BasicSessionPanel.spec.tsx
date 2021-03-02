@@ -4,7 +4,7 @@ import React from 'react';
 
 import { BasicSessionPanel, BasicSessionPanelProps } from './BasicSessionPanel';
 
-let wrapper;
+let wrapper: ReturnType<typeof mount>;
 const currentLocale = 'en-US';
 const defaultSkillProfileList = [
   {
@@ -203,7 +203,12 @@ describe('<BasicSessionPanel />', async () => {
     );
 
     expect(skillProfilePickList.prop('value')).toBe(selectedSkillProfileId);
-    expect(skillProfilePickList.find('.RcLineSelect-select').text()).toBe(
+    expect(
+      skillProfilePickList
+        .find('RcSelect')
+        .find('[aria-haspopup="listbox"]')
+        .text(),
+    ).toBe(
       defaultSkillProfileList.find(
         (x) => x.profileId === selectedSkillProfileId,
       ).profileName,

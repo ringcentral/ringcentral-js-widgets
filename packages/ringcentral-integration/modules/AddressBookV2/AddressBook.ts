@@ -1,6 +1,6 @@
-import { AddressBookSync } from '@rc-ex/core/definitions';
 import { computed } from '@ringcentral-integration/core';
 import { forEach, map } from 'ramda';
+import { availabilityTypes } from '../../enums/availabilityTypes';
 
 import { phoneSources } from '../../enums/phoneSources';
 import { ContactModel, ContactSource } from '../../interfaces/Contact.model';
@@ -14,11 +14,20 @@ import { Module } from '../../lib/di';
 import proxify from '../../lib/proxy/proxify';
 import sleep from '../../lib/sleep';
 import { DataFetcherV2Consumer, DataSource } from '../DataFetcherV2';
-import { Deps } from './AddressBook.interface';
-import { decodeAddressBookResponse, getSyncParams } from './helpers';
+import {
+  AddressBookData,
+  Deps,
+  PersonalContactResource,
+} from './AddressBook.interface';
+import { processAddressBookResponse, getSyncParams } from './helpers';
 
 export const DEFAULT_FETCH_INTERVAL = 1000;
 export const DEFAULT_CONTACTS_PER_PAGE = 250;
+
+interface AddressBookUpdate {
+  deleted: Record<PersonalContactResource['id'], true>;
+  upsert: Record<PersonalContactResource['id'], PersonalContactResource>;
+}
 
 @Module({
   name: 'AddressBook',
@@ -30,10 +39,7 @@ export const DEFAULT_CONTACTS_PER_PAGE = 250;
   ],
 })
 export class AddressBook
-  extends DataFetcherV2Consumer<
-    Deps,
-    Pick<AddressBookSync, 'syncInfo' | 'records'>
-  >
+  extends DataFetcherV2Consumer<Deps, AddressBookData>
   implements ContactSource {
   constructor(deps: Deps) {
     super({
@@ -64,7 +70,7 @@ export class AddressBook
   }
 
   get syncToken() {
-    return this.data?.syncInfo?.syncToken;
+    return this.data?.syncToken;
   }
 
   protected async _fetch(perPage: number, syncToken: string, pageId?: number) {
@@ -73,7 +79,7 @@ export class AddressBook
       syncToken,
       pageId,
     });
-    return decodeAddressBookResponse(
+    return processAddressBookResponse(
       await this._deps.client
         .account()
         .extension()
@@ -82,11 +88,33 @@ export class AddressBook
     );
   }
 
-  protected async _sync() {
+  protected _processISyncData(records: PersonalContactResource[]) {
+    if (records?.length > 0) {
+      const updatedRecords: PersonalContactResource[] = [];
+      const processedIDMap: Record<PersonalContactResource['id'], true> = {};
+      forEach((record) => {
+        if (record.availability === availabilityTypes.alive) {
+          // Only keep entries that is 'alive', omit 'purged' and 'deleted'
+          updatedRecords.push(record);
+        }
+        processedIDMap[record.id] = true;
+      }, records);
+      forEach((record) => {
+        if (!processedIDMap[record.id]) {
+          // record has no updates
+          updatedRecords.push(record);
+        }
+      }, this.data.records);
+      return updatedRecords;
+    }
+    return this.data.records;
+  }
+
+  protected async _sync(): Promise<AddressBookData> {
     try {
       const syncToken = this.syncToken;
       const perPage = this._perPage;
-      let records: AddressBookSync['records'] = [];
+      let records: PersonalContactResource[] = [];
       let response = await this._fetch(perPage, syncToken);
       records = records.concat(response.records ?? []);
       while (response.nextPageId) {
@@ -94,13 +122,16 @@ export class AddressBook
         response = await this._fetch(perPage, syncToken, response.nextPageId);
         records = records.concat(response.records ?? []);
       }
+      if (response.syncInfo.syncType === 'ISync') {
+        records = this._processISyncData(records);
+      }
       return {
-        syncInfo: response.syncInfo,
+        syncToken: response.syncInfo.syncToken,
         records,
       };
     } catch (error) {
       if (error?.response?.status === 403) {
-        return null;
+        return {} as AddressBookData;
       }
       throw error;
     }
@@ -109,7 +140,7 @@ export class AddressBook
   // interface of ContactSource
   @proxify
   async sync() {
-    await this._sync();
+    await this._deps.dataFetcherV2.fetchData(this._source);
   }
 
   // interface of ContactSource

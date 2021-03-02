@@ -42,17 +42,6 @@ export class AccountInfo extends DataFetcherV2Consumer<
     return !!this._deps.rolesAndPermissions.permissions?.ReadCompanyInfo;
   }
 
-  onInitSuccess() {
-    // TODO: refactor for Analytics V2
-    (this.parentModule as any).analytics?._identify?.({
-      userId: this._deps.auth?.ownerId,
-      accountId: this.id,
-      servicePlanId: this.servicePlan.id,
-      edition: this.servicePlan.edition,
-      CRMEnabled: this._deps.rolesAndPermissions.tierEnabled,
-    });
-  }
-
   async onStateChange() {
     if (
       this._deps.auth.loginStatus === loginStatus.loggedIn &&

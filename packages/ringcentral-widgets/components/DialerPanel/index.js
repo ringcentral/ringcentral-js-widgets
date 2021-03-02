@@ -53,7 +53,6 @@ const DialerPanel = ({
       inputEl.current.focus();
     }
   }, []);
-
   const input = useV2 ? (
     <RecipientsInputV2
       ref={inputEl}
@@ -80,6 +79,9 @@ const DialerPanel = ({
     />
   ) : (
     <RecipientsInput
+      inputRef={(element) => {
+        inputEl.current = element;
+      }}
       value={toNumber}
       onChange={onToNumberChange}
       onClean={clearToNumber}
@@ -158,7 +160,7 @@ const DialerPanel = ({
       {children}
     </div>
   );
-}
+};
 
 DialerPanel.propTypes = {
   currentLocale: PropTypes.string.isRequired,

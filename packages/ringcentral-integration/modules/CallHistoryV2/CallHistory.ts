@@ -412,6 +412,7 @@ export class CallHistory extends RcModuleV2<Deps> {
 
   // TODO: remove recentlyEndedCalls getter, instead of `endedCalls`.
   /**
+   * !!Please use `endedCalls` instead of it.
    * @deprecated
    */
   get recentlyEndedCalls() {

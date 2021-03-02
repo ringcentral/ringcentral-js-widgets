@@ -14,10 +14,11 @@ export type EvCallData = EvBaseCall & {
   isHold?: boolean;
   agentName?: string;
   /** transform queueDts from time zone date to timeStamp */
-  timestamp: number;
-  gate: EvEvRequeueCallGate;
+  timestamp?: number;
+  gate?: EvEvRequeueCallGate;
   ivrString?: string;
   id?: string;
+  recordingUrl?: string;
   CALL_UNIQUE_ID__c?: string;
 };
 

@@ -269,6 +269,10 @@ export class GenericMeeting<T = {}> extends RcModuleV2<Deps & T> {
     return this._meetingModule.meeting;
   }
 
+  get defaultTopic() {
+    return this._meetingModule.defaultTopic;
+  }
+
   get delegators() {
     return this._meetingModule.delegators;
   }

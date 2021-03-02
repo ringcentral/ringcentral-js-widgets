@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { RcAlert } from '@ringcentral/juno';
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 
 import { SpinnerOverlay } from '../SpinnerOverlay';
@@ -29,7 +30,7 @@ class ConversationPanel extends Component {
     this._mounted = true;
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (
       !this._userSelection &&
       this.props.conversation &&
@@ -89,6 +90,10 @@ class ConversationPanel extends Component {
 
   getMessageListHeight() {
     const headerHeight = 41;
+    const alertHeight = 88;
+    if (this.props.restrictSendMessage?.(this.getSelectedContact())) {
+      return `calc(100% - ${alertHeight + headerHeight}px)`;
+    }
     return `calc(100% - ${this.state.inputHeight + headerHeight}px)`;
   }
 
@@ -271,19 +276,25 @@ class ConversationPanel extends Component {
           {logButton}
         </div>
         {conversationBody}
-        <MessageInput
-          value={this.props.messageText}
-          onChange={this.props.updateMessageText}
-          disabled={this.props.sendButtonDisabled}
-          currentLocale={this.props.currentLocale}
-          onSend={this.onSend}
-          onHeightChange={this.onInputHeightChange}
-          inputExpandable={this.props.inputExpandable}
-          attachments={this.props.attachments}
-          supportAttachment={this.props.supportAttachment}
-          addAttachment={this.props.addAttachment}
-          removeAttachment={this.props.removeAttachment}
-        />
+        {this.props.restrictSendMessage?.(this.getSelectedContact()) ? (
+          <RcAlert severity="error" className={styles.alert}>
+            This contact is on a Do Not Contact list.
+          </RcAlert>
+        ) : (
+          <MessageInput
+            value={this.props.messageText}
+            onChange={this.props.updateMessageText}
+            disabled={this.props.sendButtonDisabled}
+            currentLocale={this.props.currentLocale}
+            onSend={this.onSend}
+            onHeightChange={this.onInputHeightChange}
+            inputExpandable={this.props.inputExpandable}
+            attachments={this.props.attachments}
+            supportAttachment={this.props.supportAttachment}
+            addAttachment={this.props.addAttachment}
+            removeAttachment={this.props.removeAttachment}
+          />
+        )}
       </div>
     );
   }
@@ -340,6 +351,7 @@ ConversationPanel.propTypes = {
   addAttachment: PropTypes.func,
   removeAttachment: PropTypes.func,
   onAttachmentDownload: PropTypes.func,
+  restrictSendMessage: PropTypes.func,
 };
 ConversationPanel.defaultProps = {
   disableLinks: false,
@@ -364,6 +376,7 @@ ConversationPanel.defaultProps = {
   addAttachment: () => null,
   removeAttachment: () => null,
   onAttachmentDownload: undefined,
+  restrictSendMessage: undefined,
 };
 
 export default ConversationPanel;

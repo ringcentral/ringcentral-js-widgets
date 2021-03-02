@@ -1,6 +1,7 @@
-import React from 'react';
 import { RcThemeProvider } from '@ringcentral/juno';
 import { mount } from 'enzyme';
+import React from 'react';
+
 import { RequeueCallGroupDetailPanel } from './RequeueCallGroupDetailPanel';
 
 let wrapper;
@@ -42,8 +43,7 @@ function setup({
   );
 }
 
-const getSearchInput = () =>
-  wrapper.find('RcOutlineTextField').at(0).find('input');
+const getSearchInput = () => wrapper.find('RcTextField').at(0).find('input');
 
 const getDetailItems = () => wrapper.find('RcList').at(0).find('RcListItem');
 

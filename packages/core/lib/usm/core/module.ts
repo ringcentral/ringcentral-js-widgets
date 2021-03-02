@@ -18,7 +18,6 @@ export interface Params<T = {}> {
 export interface Action {
   type: string[] | string;
   states?: Properties;
-  __proxyState__?: Record<string, any>;
   [K: string]: any;
 }
 
@@ -39,10 +38,6 @@ interface Module {
    * Used by browser client to transport data.
    */
   _transport?: any;
-  /**
-   * browser client's proxy state.
-   */
-  __proxyState__: Record<string, (...args: any) => any>;
   /**
    * Used by browser client to dispatch.
    */

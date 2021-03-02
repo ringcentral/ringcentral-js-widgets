@@ -4,10 +4,10 @@ import {
 } from '@rc-ex/core/definitions';
 
 import { messageTypes } from '../../enums/messageTypes';
+import { Message } from '../../interfaces/MessageStore.model';
 import removeUri from '../removeUri';
 
 import {
-  NormalizedMessageRecord,
   Correspondent,
   VoicemailAttachment,
   FaxAttachment,
@@ -26,27 +26,27 @@ export function filterNumbers(
   });
 }
 
-export function messageIsDeleted(message: NormalizedMessageRecord) {
+export function messageIsDeleted(message: Message) {
   return (
     message.availability === 'Deleted' || message.availability === 'Purged'
   );
 }
 
-export function messageIsTextMessage(message: NormalizedMessageRecord) {
+export function messageIsTextMessage(message: Message) {
   return (
     message.type !== messageTypes.fax && message.type !== messageTypes.voiceMail
   );
 }
 
-export function messageIsFax(message: NormalizedMessageRecord) {
+export function messageIsFax(message: Message) {
   return message.type === messageTypes.fax;
 }
 
-export function messageIsVoicemail(message: NormalizedMessageRecord) {
+export function messageIsVoicemail(message: Message) {
   return message.type === messageTypes.voiceMail;
 }
 
-export function messageIsAcceptable(message: NormalizedMessageRecord) {
+export function messageIsAcceptable(message: Message) {
   // do not show submitted faxes or sending failed faxes now
   // do not show deleted messages
   return (
@@ -57,7 +57,7 @@ export function messageIsAcceptable(message: NormalizedMessageRecord) {
   );
 }
 
-export function getMessageType(message: NormalizedMessageRecord) {
+export function getMessageType(message: Message) {
   if (messageIsTextMessage(message)) {
     return messageTypes.text;
   }
@@ -74,7 +74,7 @@ export function getMyNumberFromMessage({
   message,
   myExtensionNumber,
 }: {
-  message: NormalizedMessageRecord;
+  message: Message;
   myExtensionNumber: string;
 }) {
   if (!message) {
@@ -113,7 +113,7 @@ export function getRecipientNumbersFromMessage({
   message,
   myNumber,
 }: {
-  message: NormalizedMessageRecord;
+  message: Message;
   myNumber: Correspondent;
 }) {
   if (!message) {
@@ -138,7 +138,7 @@ export function getRecipients({
   message,
   myExtensionNumber,
 }: {
-  message: NormalizedMessageRecord;
+  message: Message;
   myExtensionNumber: string;
 }) {
   const myNumber = getMyNumberFromMessage({
@@ -156,7 +156,7 @@ export function getNumbersFromMessage({
   message,
 }: {
   extensionNumber: string;
-  message: NormalizedMessageRecord;
+  message: Message;
 }) {
   if (!message) {
     return {};
@@ -220,7 +220,7 @@ export function sortSearchResults(a: SortEntity, b: SortEntity) {
 }
 
 export function getVoicemailAttachment(
-  message: NormalizedMessageRecord,
+  message: Message,
   accessToken: string,
 ): VoicemailAttachment {
   const attachment = message.attachments && message.attachments[0];
@@ -238,7 +238,7 @@ export function getVoicemailAttachment(
 }
 
 export function getFaxAttachment(
-  message: NormalizedMessageRecord,
+  message: Message,
   accessToken: string,
 ): FaxAttachment {
   const attachment = message.attachments && message.attachments[0];
@@ -254,7 +254,7 @@ export function getFaxAttachment(
 }
 
 export function getMMSAttachments(
-  message: NormalizedMessageRecord,
+  message: Message,
   accessToken: string,
 ): MessageAttachmentInfo[] {
   if (!message.attachments || message.attachments.length === 0) {
@@ -280,17 +280,15 @@ export function getConversationId(record: GetMessageInfoResponse) {
   return conversationId.toString();
 }
 
-export function sortByCreationTime(
-  a: NormalizedMessageRecord,
-  b: NormalizedMessageRecord,
+export function sortByCreationTime<T extends { creationTime: number }>(
+  a: T,
+  b: T,
 ) {
   if (a.creationTime === b.creationTime) return 0;
   return a.creationTime > b.creationTime ? -1 : 1;
 }
 
-export function normalizeRecord(
-  record: GetMessageInfoResponse,
-): NormalizedMessageRecord {
+export function normalizeRecord(record: GetMessageInfoResponse): Message {
   const newRecord = removeUri(record) as GetMessageInfoResponse;
   const conversationId = getConversationId(record);
   delete newRecord.conversation;
@@ -302,7 +300,7 @@ export function normalizeRecord(
   };
 }
 
-export function messageIsUnread(message: NormalizedMessageRecord) {
+export function messageIsUnread(message: Message) {
   return (
     message.direction === 'Inbound' &&
     message.readStatus !== 'Read' &&
@@ -316,11 +314,11 @@ export function messageIsUnread(message: NormalizedMessageRecord) {
  * total(SMS, Pager, Text): 250
  * @param {*} records
  */
-export const filterMessages = (messages: NormalizedMessageRecord[]) => {
-  function sortByCreationTime(records: NormalizedMessageRecord[]) {
+export const filterMessages = (messages: Message[]) => {
+  function sortByCreationTime(records: Message[]) {
     return records.sort((a, b) => sortByDate(a, b));
   }
-  function groupMessages(records: NormalizedMessageRecord[]) {
+  function groupMessages(records: Message[]) {
     const faxRecords = records.filter(messageIsFax);
     const voiceMailRecords = records.filter(messageIsVoicemail);
     const textRecords = records.filter(messageIsTextMessage);

@@ -4,6 +4,7 @@ export const tabManagerEvents = ObjectMap.prefixKeys(
   [
     'MUTE',
     'MUTE_STATE_CHANGE',
+    'NOTIFY_ACTIVE_TAB_CALL_ACTIVE',
     // Session config related
     'SET_MIAN_TAB_ID',
     'MAIN_TAB_WILL_UNLOAD',
@@ -31,11 +32,11 @@ export const tabManagerEvents = ObjectMap.prefixKeys(
     'CLOSE_WHEN_CALL_CONNECTED',
     // Auth related
     'LOGOUT',
+    'LOGGED_OUT',
     'OPEN_SOCKET',
     'RELOGIN',
     'CONFIGURE_FAIL',
     'RE_CHOOSE_ACCOUNT',
-    'SET_AGENT_ID',
   ],
   'tabManager',
 );

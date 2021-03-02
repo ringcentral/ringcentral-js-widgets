@@ -1,46 +1,46 @@
-import { find, filter } from 'ramda';
-import { state, action, computed, track } from '@ringcentral-integration/core';
+import { action, computed, state, track } from '@ringcentral-integration/core';
 import { ObjectMapKey } from '@ringcentral-integration/core/lib/ObjectMap';
+import { filter, find } from 'ramda';
 import { InviteOptions } from 'ringcentral-web-phone/lib/userAgent';
-import { Module } from '../../lib/di';
-import sleep from '../../lib/sleep';
-import { sessionStatus } from './sessionStatus';
-import { recordStatus } from './recordStatus';
 import callDirections from '../../enums/callDirections';
-import { webphoneErrors } from './webphoneErrors';
-import { webphoneMessages } from './webphoneMessages';
-import { EVENTS } from './events';
-import { callErrors } from '../CallV2/callErrors';
-import proxify from '../../lib/proxy/proxify';
-import validateNumbers from '../../lib/validateNumbers';
-import {
-  Deps,
-  SwitchCallActiveCallParams,
-  SessionReplyOptions,
-  CallStartHandler,
-  CallEndHandler,
-  CallResumeHandler,
-  CallRingHandler,
-  CallInitHandler,
-  BeforeCallEndHandler,
-  BeforeCallResumeHandler,
-  CallHoldHandler,
-  OffEventHandler,
-} from './Webphone.interface';
-import { WebphoneBase } from './WebphoneBase';
-import {
-  normalizeSession,
-  isRing,
-  isOnHold,
-  extractHeadersData,
-  sortByLastActiveTimeDesc,
-} from './webphoneHelper';
-import { trackEvents } from '../Analytics';
 import { extendedControlStatus } from '../../enums/extendedControlStatus';
 import {
   NormalizedSession,
   WebphoneSession,
 } from '../../interfaces/Webphone.interface';
+import { Module } from '../../lib/di';
+import { proxify } from '../../lib/proxy/proxify';
+import sleep from '../../lib/sleep';
+import validateNumbers from '../../lib/validateNumbers';
+import { trackEvents } from '../Analytics';
+import { callErrors } from '../CallV2/callErrors';
+import { EVENTS } from './events';
+import { recordStatus } from './recordStatus';
+import { sessionStatus } from './sessionStatus';
+import {
+  BeforeCallEndHandler,
+  BeforeCallResumeHandler,
+  CallEndHandler,
+  CallHoldHandler,
+  CallInitHandler,
+  CallResumeHandler,
+  CallRingHandler,
+  CallStartHandler,
+  Deps,
+  OffEventHandler,
+  SessionReplyOptions,
+  SwitchCallActiveCallParams,
+} from './Webphone.interface';
+import { WebphoneBase } from './WebphoneBase';
+import { webphoneErrors } from './webphoneErrors';
+import {
+  extractHeadersData,
+  isOnHold,
+  isRing,
+  normalizeSession,
+  sortByLastActiveTimeDesc,
+} from './webphoneHelper';
+import { webphoneMessages } from './webphoneMessages';
 
 export const INCOMING_CALL_INVALID_STATE_ERROR_CODE = 2;
 
@@ -421,13 +421,22 @@ export class Webphone extends WebphoneBase {
       await session.forward(validPhoneNumber, this.acceptOptions, {});
       console.log('Forwarded');
       this._onCallEnd(session);
+      this._addTrackAfterForward();
       return true;
     } catch (e) {
       console.error(e);
       this._deps.alert.warning({
         message: webphoneErrors.forwardError,
       });
+      this._addTrackAfterForward();
       return false;
+    }
+  }
+
+  _addTrackAfterForward() {
+    if (this.activeSession && !this.activeSession.isOnHold) {
+      const rawActiveSession = this.originalSessions[this.activeSession.id];
+      this._addTrack(rawActiveSession);
     }
   }
 
@@ -667,28 +676,63 @@ export class Webphone extends WebphoneBase {
   }
 
   @proxify
-  async transferWarm(transferNumber: string, sessionId: string) {
+  async startWarmTransfer(transferNumber: string, sessionId: string) {
     const session = this.originalSessions[sessionId];
     if (!session) {
       return;
     }
     try {
-      await session.hold();
-      const newSession = session.ua.invite(transferNumber, {
-        sessionDescriptionHandlerOptions: this.acceptOptions
-          .sessionDescriptionHandlerOptions,
-      });
-      newSession.once('accepted', async () => {
-        try {
-          await session.warmTransfer(newSession);
-          console.log('Transferred');
-          this._onCallEnd(session);
-        } catch (e) {
-          console.error(e);
-        }
+      session.__rc_isOnTransfer = true;
+      this._updateSessions();
+      const numberResult = validateNumbers(
+        [transferNumber],
+        this._deps.regionSettings,
+        this._deps.brand.id,
+      );
+      const validPhoneNumber = numberResult && numberResult[0];
+      const fromNumber =
+        session.__rc_direction === callDirections.outbound
+          ? session.request.from.uri.user
+          : session.request.to.uri.user;
+      await this.makeCall({
+        toNumber: validPhoneNumber,
+        fromNumber,
+        homeCountryId: this._deps.regionSettings.homeCountryId,
+        extendedControls: '',
+        transferSessionId: sessionId,
       });
     } catch (e) {
       console.error(e);
+      session.__rc_isOnTransfer = false;
+      this._updateSessions();
+      this._deps.alert.danger({
+        message: webphoneErrors.transferError,
+      });
+    }
+  }
+
+  @proxify
+  async completeWarmTransfer(newSessionId: string) {
+    const newSession = this.originalSessions[newSessionId];
+    if (!newSession) {
+      return;
+    }
+    const oldSessionId = newSession.__rc_transferSessionId;
+    const oldSession = this.originalSessions[oldSessionId];
+    if (!oldSession) {
+      return;
+    }
+    newSession.__rc_isOnTransfer = true;
+    this._updateSessions();
+    try {
+      await oldSession.warmTransfer(newSession);
+    } catch (e) {
+      console.error(e);
+      newSession.__rc_isOnTransfer = false;
+      this._updateSessions();
+      this._deps.alert.danger({
+        message: webphoneErrors.transferError,
+      });
     }
   }
 
@@ -778,6 +822,12 @@ export class Webphone extends WebphoneBase {
     }
   }
 
+  _addTrack(rawSession: WebphoneSession) {
+    if (rawSession) {
+      rawSession.addTrack(this._remoteVideo, this._localVideo);
+    }
+  }
+
   _sessionHandleWithId(
     sessionId: string,
     func: (session: WebphoneSession) => void,
@@ -794,9 +844,11 @@ export class Webphone extends WebphoneBase {
     {
       inviteOptions,
       extendedControls,
+      transferSessionId,
     }: {
       inviteOptions: InviteOptions;
       extendedControls?: string;
+      transferSessionId?: string;
     },
   ) {
     if (!this._webphone) {
@@ -831,6 +883,7 @@ export class Webphone extends WebphoneBase {
     session.__rc_fromNumber = inviteOptions.fromNumber;
     session.__rc_extendedControls = extendedControls;
     session.__rc_extendedControlStatus = extendedControlStatus.pending;
+    session.__rc_transferSessionId = transferSessionId;
     this._onAccepted(session);
     this._onCallInit(session);
     return session;
@@ -848,11 +901,13 @@ export class Webphone extends WebphoneBase {
     fromNumber,
     homeCountryId,
     extendedControls,
+    transferSessionId,
   }: {
     toNumber: string;
     fromNumber: string;
     homeCountryId: string;
     extendedControls: string;
+    transferSessionId?: string;
   }) {
     const inviteOptions = {
       sessionDescriptionHandlerOptions: this.acceptOptions
@@ -863,6 +918,7 @@ export class Webphone extends WebphoneBase {
     const result = await this._invite(toNumber, {
       inviteOptions,
       extendedControls,
+      transferSessionId,
     });
     return result;
   }
@@ -1011,6 +1067,7 @@ export class Webphone extends WebphoneBase {
       // Pause video elements to release system Video Wake Lock RCINT-15582
       if (!this._remoteVideo.paused) {
         this._remoteVideo.pause();
+        this._remoteVideo.srcObject = null;
       }
       if (!this._localVideo.paused) {
         this._localVideo.pause();
@@ -1036,6 +1093,14 @@ export class Webphone extends WebphoneBase {
     const normalizedSession = find((x) => x.id === session.id, this.sessions);
     if (!normalizedSession) {
       return;
+    }
+    if (session.__rc_transferSessionId) {
+      const transferSession = this.originalSessions[
+        session.__rc_transferSessionId
+      ];
+      if (transferSession) {
+        transferSession.__rc_isOnTransfer = false;
+      }
     }
     this._updateSessions();
     this._setStateOnCallEnd(normalizedSession);

@@ -22,7 +22,7 @@
     "@ringcentral-integration/i18n": "*",
     "@ringcentral-integration/locale-loader": "*",
     "@ringcentral-integration/phone-number": "*",
-    "@ringcentral/juno": "^1.3.2-beta.3102-608720c9",
+    "@ringcentral/juno": "^1.4.1",
     "autoprefixer": "^9.8.4",
     "babel-loader": "^8.1.0",
     "classnames": "^2.2.5",

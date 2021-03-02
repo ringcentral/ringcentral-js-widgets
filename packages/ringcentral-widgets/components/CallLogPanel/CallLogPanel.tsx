@@ -30,6 +30,7 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
     currentNotificationIdentify: '',
     shrinkNotification: () => null,
     header: true,
+    headerTitle: 'createCallLog',
     showSmallCallControl: false,
     isInTransferPage: false,
     showSpinner: true,
@@ -319,6 +320,7 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
       refs: { root: rootRef },
       backIcon,
       header,
+      headerTitle,
       isInTransferPage,
       isWide,
       children,
@@ -340,7 +342,7 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
             backIcon={backIcon}
             isWide={isWide}
             rightIcon={this.genSaveLogButtonV2()}
-            title={i18n.getString('createCallLog', currentLocale)}
+            title={i18n.getString(headerTitle, currentLocale)}
             className={classnames(styles.header, backHeader)}
             onBackClick={() => this.goBack()}
           />

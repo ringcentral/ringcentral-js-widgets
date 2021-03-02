@@ -1,3 +1,4 @@
+import { AddressBookSync } from '@rc-ex/core/definitions';
 import {
   DataFetcherV2ConsumerBaseDeps,
   DataSourceBaseProps,
@@ -20,4 +21,10 @@ export interface SyncParameters {
   syncType?: 'ISync' | 'FSync';
   syncToken?: string;
   pageId?: number;
+}
+
+export type PersonalContactResource = AddressBookSync['records'][number];
+export interface AddressBookData {
+  records: PersonalContactResource[];
+  syncToken: AddressBookSync['syncInfo']['syncToken'];
 }

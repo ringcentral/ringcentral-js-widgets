@@ -3,7 +3,7 @@ export * from './agentSessionEvents';
 export * from './agentStateTypes';
 export * from './agentStatesColors';
 export * from './agentStatesTexts';
-export * from './authStatus';
+export * from './loginStatus';
 export * from './callStatus';
 export * from './dialoutStatus';
 export * from './directTransferNotificationTypes';

@@ -29,11 +29,7 @@ export class BlockedNumber extends DataFetcherV2Consumer<
       cleanOnReset: true,
       fetchFunction: async (): Promise<BlockedNumberInfo[]> =>
         fetchList((params: any) =>
-          this._deps.client
-            .account()
-            .extension()
-            .blockedNumber()
-            .list(params),
+          this._deps.client.account().extension().blockedNumber().list(params),
         ),
       readyCheckFunction: () =>
         !!(

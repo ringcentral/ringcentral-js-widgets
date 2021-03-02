@@ -1,4 +1,4 @@
-import { RcOutlineTextField } from '@ringcentral/juno';
+import { RcIcon, RcTextField } from '@ringcentral/juno';
 import searchSvg from '@ringcentral/juno/icon/Search';
 import classNames from 'classnames';
 import formatMessage from 'format-message';
@@ -170,11 +170,20 @@ const SelectListBasic: FunctionComponent<SelectListBasicProps> = ({
                     {placeholder}
                   </span>
                 )}
-                <RcOutlineTextField
+                <RcTextField
+                  variant="outline"
                   size="small"
-                  radiusType="circle"
-                  iconPosition="left"
-                  symbol={searchSvg}
+                  fullWidth
+                  radius="round"
+                  InputProps={{
+                    startAdornment: (
+                      <RcIcon
+                        symbol={searchSvg}
+                        color="icon.subdued"
+                        size="small"
+                      />
+                    ),
+                  }}
                   data-sign="searchBar"
                   onChange={(event: any) => {
                     if (event.target) {

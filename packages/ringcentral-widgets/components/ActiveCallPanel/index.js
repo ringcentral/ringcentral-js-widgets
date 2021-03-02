@@ -12,7 +12,7 @@ import ActiveCallPad from '../ActiveCallPad';
 import callCtrlLayouts from '../../enums/callCtrlLayouts';
 import styles from './styles.scss';
 
-function ActiveCallPanel({
+const ActiveCallPanel = ({
   showBackButton,
   backButtonLabel,
   onBackButtonClick,
@@ -65,7 +65,10 @@ function ActiveCallPanel({
   actions,
   controlBusy,
   callQueueName,
-}) {
+  isOnTransfer,
+  isOnWaitingTransfer,
+  onCompleteTransfer,
+}) => {
   const backHeader = showBackButton ? (
     <BackHeader
       onBackClick={onBackButtonClick}
@@ -91,6 +94,7 @@ function ActiveCallPanel({
   let callInfo;
 
   switch (layout) {
+    case callCtrlLayouts.completeTransferCtrl:
     case callCtrlLayouts.mergeCtrl:
       callInfo = (
         <MergeInfo
@@ -139,12 +143,14 @@ function ActiveCallPanel({
       );
       break;
   }
-
+  const showTimeCounter =
+    layout !== callCtrlLayouts.mergeCtrl &&
+    layout !== callCtrlLayouts.completeTransferCtrl;
   return (
     <div data-sign="activeCallPanel" className={styles.root}>
       {backHeader}
       <Panel className={styles.panel}>
-        {layout !== callCtrlLayouts.mergeCtrl ? timeCounter : null}
+        {showTimeCounter ? timeCounter : null}
         {callInfo}
         <ActiveCallPad
           className={styles.callPad}
@@ -175,6 +181,9 @@ function ActiveCallPanel({
           hasConferenceCall={hasConferenceCall}
           actions={actions}
           controlBusy={controlBusy}
+          isOnTransfer={isOnTransfer}
+          isOnWaitingTransfer={isOnWaitingTransfer}
+          onCompleteTransfer={onCompleteTransfer}
         />
         {children}
       </Panel>
@@ -234,6 +243,9 @@ ActiveCallPanel.propTypes = {
   actions: PropTypes.array,
   controlBusy: PropTypes.bool,
   callQueueName: PropTypes.string,
+  isOnWaitingTransfer: PropTypes.bool,
+  onCompleteTransfer: PropTypes.func,
+  isOnTransfer: PropTypes.bool,
 };
 
 ActiveCallPanel.defaultProps = {
@@ -256,6 +268,7 @@ ActiveCallPanel.defaultProps = {
   onFlip: () => null,
   onPark: () => null,
   gotoParticipantsCtrl: () => null,
+  onCompleteTransfer: () => null,
   sourceIcons: undefined,
   phoneTypeRenderer: undefined,
   phoneSourceNameRenderer: undefined,
@@ -270,6 +283,8 @@ ActiveCallPanel.defaultProps = {
   actions: [],
   controlBusy: false,
   callQueueName: null,
+  isOnWaitingTransfer: false,
+  isOnTransfer: false,
 };
 
 export default ActiveCallPanel;

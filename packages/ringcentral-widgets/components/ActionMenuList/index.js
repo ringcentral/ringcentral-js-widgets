@@ -453,7 +453,7 @@ export default class ActionMenuList extends Component {
         onClickToDial={onClickToDial}
         phoneNumber={phoneNumber}
         disableLinks={disableLinks}
-        disableCallButton={disableCallButton}
+        disableCallButton={disableLinks || disableCallButton}
         disableClickToDial={disableClickToDial}
         currentLocale={currentLocale}
         title={callTitle}

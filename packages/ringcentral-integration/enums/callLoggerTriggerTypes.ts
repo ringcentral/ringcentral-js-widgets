@@ -6,4 +6,6 @@ export const callLoggerTriggerTypes = ObjectMap.fromObject({
   callLogSync: 'callLogSync',
 } as const);
 
+export type CallLoggerTriggerType = keyof typeof callLoggerTriggerTypes;
+
 export default callLoggerTriggerTypes;

@@ -5,7 +5,7 @@ function f1(str: string): Array<string> {
   return [str.slice(0, 4), str.slice(4)];
 }
 
-export function formatMeetingId(str: string, delimeter: string = ' '): string {
+function formatMeetingId(str: string, delimiter: string = ' '): string {
   if (!str) {
     return '';
   }
@@ -16,5 +16,8 @@ export function formatMeetingId(str: string, delimeter: string = ' '): string {
   if (nextSlices.length === 1) {
     return `${current}${nextSlices}`;
   }
-  return `${current}${delimeter}${formatMeetingId(nextSlices, delimeter)}`;
+  return `${current}${delimiter}${formatMeetingId(nextSlices, delimiter)}`;
 }
+
+// gsuite is using export at bottom
+export { formatMeetingId };

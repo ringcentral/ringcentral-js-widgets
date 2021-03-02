@@ -44,6 +44,11 @@ $input-height: 43px;
   display: inline-block;
 }
 
+.buttonGroupItem {
+  margin: 0 20px;
+  width: 20%;
+}
+
 .disabled {
   g {
     cursor: not-allowed;

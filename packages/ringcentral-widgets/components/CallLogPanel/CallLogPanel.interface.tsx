@@ -2,7 +2,7 @@ import { RcIconProps } from '@ringcentral/juno';
 import { MutableRefObject } from 'react';
 import { DateTimeFormatter } from 'ringcentral-integration/lib/getIntlDateTimeFormatter';
 
-import { Call, CallLog } from './CallLog.interface';
+import { Call, CallLog, CallLogTitle } from './CallLog.interface';
 
 interface CallLogPanelConfig {
   showSpinner: boolean;
@@ -10,6 +10,7 @@ interface CallLogPanelConfig {
 
   isWide?: boolean;
   header?: boolean;
+  headerTitle?: CallLogTitle;
   showSmallCallControl?: boolean;
   disableLinks?: boolean;
   useNewNotification?: boolean;

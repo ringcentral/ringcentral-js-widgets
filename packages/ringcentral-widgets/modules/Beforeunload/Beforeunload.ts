@@ -10,7 +10,7 @@ type BeforeunloadFn = () => boolean;
   name: 'Beforeunload',
   deps: [{ dep: 'BeforeunloadOptions', optional: true }],
 })
-export class Beforeunload extends RcModuleV2<Deps>  {
+export class Beforeunload extends RcModuleV2<Deps> {
   _window: Window;
 
   private get list() {
@@ -47,7 +47,7 @@ export class Beforeunload extends RcModuleV2<Deps>  {
     super({
       deps: {},
     });
-    this._window = this._deps.beforeunloadOptions?.orginWindow ?? window;
+    this._window = this._deps.beforeunloadOptions?.originWindow ?? window;
   }
 
   /**

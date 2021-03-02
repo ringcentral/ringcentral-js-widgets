@@ -72,6 +72,7 @@ const ActiveCallList = ({
   useCallDetailV2,
   newCallIcon,
   clickSwitchTrack,
+  showMultipleMatch,
 }) => {
   if (!calls.length) {
     return null;
@@ -143,7 +144,7 @@ const ActiveCallList = ({
             ringoutReject={ringoutReject}
             disableLinks={disableLinks}
             showRingoutCallControl={showRingoutCallControl}
-            showMultipleMatch={!showRingoutCallControl} // disabled for salesforce
+            showMultipleMatch={!showRingoutCallControl && showMultipleMatch} // disabled for salesforce
             showSwitchCall={showSwitchCall}
             showTransferCall={showTransferCall}
             showHoldOnOtherDevice={showHoldOnOtherDevice}
@@ -209,6 +210,7 @@ ActiveCallList.propTypes = {
   ringoutReject: PropTypes.func,
   disableLinks: PropTypes.bool,
   showRingoutCallControl: PropTypes.bool,
+  showMultipleMatch: PropTypes.bool,
   showSwitchCall: PropTypes.bool,
   showTransferCall: PropTypes.bool,
   showHoldOnOtherDevice: PropTypes.bool,
@@ -262,6 +264,7 @@ ActiveCallList.defaultProps = {
   ringoutReject: undefined,
   disableLinks: false,
   showRingoutCallControl: false,
+  showMultipleMatch: true,
   showSwitchCall: false,
   showTransferCall: true,
   showHoldOnOtherDevice: false,

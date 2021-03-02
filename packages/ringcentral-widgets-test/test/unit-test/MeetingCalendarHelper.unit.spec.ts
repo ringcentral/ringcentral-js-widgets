@@ -1,5 +1,6 @@
 import {
   formatMeetingId,
+  stripMeetingLinks,
   getMeetingId,
   htmlNewLine,
   htmlIndentation,
@@ -154,6 +155,22 @@ describe('getMeetingId', () => {
     }) => {
       test(meetingLink, () => {
         expect(getMeetingId(meetingLink)).toEqual(meetingId);
+      });
+    },
+  );
+});
+
+describe('stripMeetingLinks', () => {
+  describe.each`
+    text                                                                                                | result
+    ${'https://meetings.ringcentral.com/j/1491234567,http://meetings.btcloudphone.bt.com/j/1481234567'} | ${','}
+    ${'Please join https://v.ringcentral.com/join/148123456'}                                           | ${'Please join '}
+    ${'Please join https://amrupams-shr-1-v.lab.nordigy.ru/join/823808420 post'}                        | ${'Please join  post'}
+  `(
+    'Links of $text should be stripped -> $result',
+    ({ text, result }: { text: string; result: string }) => {
+      test(text, () => {
+        expect(stripMeetingLinks(text)).toEqual(result);
       });
     },
   );

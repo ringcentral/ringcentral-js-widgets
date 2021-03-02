@@ -142,6 +142,9 @@ class CallCtrlPanel extends Component {
       disableFlip,
       callQueueName,
       showPark,
+      isOnWaitingTransfer,
+      onCompleteTransfer,
+      isOnTransfer,
     } = this.props;
     const { isShowKeyPad, isShowMergeConfirm } = this.state;
 
@@ -168,6 +171,8 @@ class CallCtrlPanel extends Component {
         startTime={startTime}
         isOnMute={isOnMute}
         isOnHold={isOnHold}
+        isOnTransfer={isOnTransfer}
+        isOnWaitingTransfer={isOnWaitingTransfer}
         recordStatus={recordStatus}
         onMute={onMute}
         onUnmute={onUnmute}
@@ -180,6 +185,7 @@ class CallCtrlPanel extends Component {
         onPark={onPark}
         onAdd={onAdd}
         onMerge={this.onMerge}
+        onCompleteTransfer={onCompleteTransfer}
         nameMatches={nameMatches}
         fallBackName={fallBackName}
         areaCode={areaCode}
@@ -285,6 +291,9 @@ CallCtrlPanel.propTypes = {
   controlBusy: PropTypes.bool,
   callQueueName: PropTypes.string,
   showPark: PropTypes.bool,
+  onCompleteTransfer: PropTypes.func,
+  isOnWaitingTransfer: PropTypes.bool,
+  isOnTransfer: PropTypes.bool,
 };
 
 CallCtrlPanel.defaultProps = {
@@ -326,12 +335,15 @@ CallCtrlPanel.defaultProps = {
   onPark: () => null,
   onKeyPadChange: () => null,
   onSelectMatcherName: () => null,
+  onCompleteTransfer: () => null,
   actions: [],
   recordStatus: '',
   controlBusy: false,
   disableFlip: false,
   callQueueName: null,
   showPark: false,
+  isOnWaitingTransfer: false,
+  isOnTransfer: false,
 };
 
 export default CallCtrlPanel;

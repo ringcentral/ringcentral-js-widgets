@@ -5,6 +5,7 @@ import { RcIcon } from '@ringcentral/juno';
 import { Blocked } from '@ringcentral/juno/icon';
 import { Tooltip } from '../Rcui/Tooltip';
 import styles from './styles.scss';
+import i18n from './i18n';
 
 import phoneTypeNames from '../../lib/phoneTypeNames';
 import phoneSourceNames from '../../lib/phoneSourceNames';
@@ -24,14 +25,15 @@ const ContactInfo = ({
   const nameTitle = `${name} ${spliter} ${phoneSourceName}`;
   return (
     <div
-      className={styles.nameSection}
+      className={classnames(styles.nameSection, {
+        [styles.dncNameSection]: doNotCall,
+      })}
       title={titleEnabled && nameTitle}
       data-sign="contactNameSection"
     >
       <span className={styles.name}>{name}</span>
       <span className={styles.spliter}>{spliter}</span>
       <span className={styles.label}>{phoneSourceName}</span>
-      <DoNotCallIndicator doNotCall={doNotCall} />
     </div>
   );
 };
@@ -48,18 +50,19 @@ ContactInfo.defaultProps = {
   doNotCall: false,
 };
 
-const DoNotCallIndicator = ({ doNotCall }) => {
+const DoNotCallIndicator = ({ doNotCall, currentLocale }) => {
   if (!doNotCall) return null;
   return (
-    <div className={styles.doNotCall} data-sign="doNotCall">
-      <Tooltip title="Do Not Contact" size="medium">
-        <RcIcon symbol={Blocked} size="small" />
-      </Tooltip>
-    </div>
+    <Tooltip title={i18n.getString('doNotCall', currentLocale)}>
+      <div className={styles.doNotCall} data-sign="doNotCall">
+        <RcIcon symbol={Blocked} size="xsmall" />
+      </div>
+    </Tooltip>
   );
 };
 DoNotCallIndicator.propTypes = {
   doNotCall: PropTypes.bool,
+  currentLocale: PropTypes.string.isRequired,
 };
 DoNotCallIndicator.defaultProps = {
   doNotCall: false,
@@ -144,6 +147,10 @@ const ContactItem = ({
           phoneSourceNameRenderer={phoneSourceNameRenderer}
           titleEnabled={titleEnabled}
           doNotCall={doNotCall}
+        />
+        <DoNotCallIndicator
+          doNotCall={doNotCall}
+          currentLocale={currentLocale}
         />
         <ContactPhoneRenderer
           currentLocale={currentLocale}

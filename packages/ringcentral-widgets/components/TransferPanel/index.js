@@ -1,9 +1,14 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
+
+import WarmTransferIcon from '@ringcentral/juno/icon/Askfirst';
+
 import DialPad from '../DialPad';
 import RecipientsInput from '../RecipientsInput';
 import BackHeader from '../BackHeader';
 import CircleButton from '../CircleButton';
+import ActiveCallButton from '../ActiveCallButton';
 import TransferIcon from '../../assets/images/Transfer.svg';
 import styles from './styles.scss';
 import i18n from './i18n';
@@ -26,6 +31,7 @@ export default class TransferPanel extends PureComponent {
     sessionId: PropTypes.string.isRequired,
     session: PropTypes.object,
     controlBusy: PropTypes.bool,
+    enableWarmTransfer: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -38,6 +44,7 @@ export default class TransferPanel extends PureComponent {
     session: null,
     searchContactList: [],
     controlBusy: false,
+    enableWarmTransfer: false,
   };
 
   constructor(props) {
@@ -87,6 +94,10 @@ export default class TransferPanel extends PureComponent {
     this.props.onTransfer(this._getTransferNumber(), this.props.sessionId);
   };
 
+  onWarmTransfer = () => {
+    this.props.onWarmTransfer(this._getTransferNumber(), this.props.sessionId)
+  }
+
   onToNumberChange = (toNumber) => {
     this.setState({
       isLastInputFromDialpad: false,
@@ -125,11 +136,52 @@ export default class TransferPanel extends PureComponent {
       recipientsContactInfoRenderer,
       recipientsContactPhoneRenderer,
       autoFocus,
+      enableWarmTransfer,
     } = this.props;
     if (!session) {
       return null;
     }
     const isOnTransfer = !!session.isOnTransfer;
+    let transferButton;
+    let warmTransferButton;
+    if (enableWarmTransfer) {
+      transferButton = (
+        <div className={classnames(styles.button, styles.buttonGroupItem)}>
+          <ActiveCallButton
+            dataSign="transferBtn"
+            className={isOnTransfer ? styles.disabled : undefined}
+            onClick={this.onTransfer}
+            icon={TransferIcon}
+            disabled={isOnTransfer || controlBusy}
+            title={i18n.getString('blindTransfer', currentLocale)}
+          />
+        </div>
+      );
+      warmTransferButton = (
+        <div className={classnames(styles.button, styles.buttonGroupItem)}>
+          <ActiveCallButton
+            dataSign="warnTransferBtn"
+            className={isOnTransfer ? styles.disabled : undefined}
+            onClick={this.onWarmTransfer}
+            icon={WarmTransferIcon}
+            disabled={isOnTransfer || controlBusy}
+            title={i18n.getString('warmTransfer', currentLocale)}
+          />
+        </div>
+      );
+    } else {
+      transferButton = (
+        <div className={styles.button}>
+          <CircleButton
+            dataSign="transferBtn"
+            className={isOnTransfer ? styles.disabled : undefined}
+            onClick={this.onTransfer}
+            icon={TransferIcon}
+            disabled={isOnTransfer || controlBusy}
+          />
+        </div>
+      );
+    }
     return (
       <div className={styles.root}>
         <BackHeader onBackClick={onBack}>
@@ -162,15 +214,8 @@ export default class TransferPanel extends PureComponent {
             onButtonOutput={this.onButtonOutput}
           />
           <div className={styles.buttonRow}>
-            <div className={styles.button}>
-              <CircleButton
-                dataSign="transferBtn"
-                className={isOnTransfer ? styles.disabled : undefined}
-                onClick={this.onTransfer}
-                icon={TransferIcon}
-                disabled={isOnTransfer || controlBusy}
-              />
-            </div>
+            {warmTransferButton}
+            {transferButton}
           </div>
         </div>
       </div>
