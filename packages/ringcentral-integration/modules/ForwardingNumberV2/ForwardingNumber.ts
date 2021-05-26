@@ -1,7 +1,6 @@
 import { ForwardingNumberInfo } from '@rc-ex/core/definitions';
 import { computed } from '@ringcentral-integration/core';
 import { filter } from 'ramda';
-
 import { Module } from '../../lib/di';
 import fetchList from '../../lib/fetchList';
 import { DataFetcherV2Consumer, DataSource } from '../DataFetcherV2';
@@ -11,7 +10,7 @@ import { Deps } from './ForwardingNumber.interface';
   name: 'ForwardingNumber',
   deps: [
     'Client',
-    'RolesAndPermissions',
+    'ExtensionFeatures',
     'DataFetcherV2',
     { dep: 'ForwardingNumberOptions', optional: true },
   ],
@@ -45,20 +44,20 @@ export class ForwardingNumber extends DataFetcherV2Consumer<
           throw error;
         }
       },
-      readyCheckFunction: () => this._deps.rolesAndPermissions.ready,
+      readyCheckFunction: () => this._deps.extensionFeatures.ready,
       permissionCheckFunction: () =>
-        !!this._deps.rolesAndPermissions.permissions
-          .ReadUserForwardingFlipNumbers,
+        this._deps.extensionFeatures.features?.ReadExtensionAnsweringRules
+          ?.available ?? false,
     });
     this._deps.dataFetcherV2.register(this._source);
   }
 
-  @computed<ForwardingNumber>(({ data }) => [data])
+  @computed(({ data }: ForwardingNumber) => [data])
   get numbers() {
     return this.data ?? [];
   }
 
-  @computed<ForwardingNumber>(({ numbers }) => [numbers])
+  @computed(({ numbers }: ForwardingNumber) => [numbers])
   get flipNumbers() {
     return filter(
       (phoneNumber) =>
@@ -70,7 +69,7 @@ export class ForwardingNumber extends DataFetcherV2Consumer<
     );
   }
 
-  @computed<ForwardingNumber>(({ numbers }) => [numbers])
+  @computed(({ numbers }: ForwardingNumber) => [numbers])
   get forwardingNumbers() {
     return filter(
       (phoneNumber) =>

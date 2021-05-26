@@ -82,6 +82,14 @@
   display: flex;
   flex-wrap: wrap;
 
+  .warningRecipient{
+    color: #f54c3d;
+    background: #f9ebe9;
+    border-radius: 100px;
+    border: 1px solid #f54c3d;
+    padding: 4px 23px 4px 10px;
+  }
+
   li {
     position: relative;
     color: #fff;
@@ -110,8 +118,7 @@
 
 .removeReceiver {
   position: absolute;
-  bottom: 4px;
-  right: 9px;
+  right: 7px;
   width: 10px;
   color: #ffffff !important;
 }

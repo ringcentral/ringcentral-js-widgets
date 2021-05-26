@@ -71,9 +71,7 @@ const getControlButton = ({ itemIndex, buttonType, dataIcon }) => {
   const callItem = wrapper.find('[data-sign="callItem"]').at(itemIndex);
   const button = callItem.find(buttonType).find('button');
   return {
-    title: callItem
-      .find(`CircleIconButton[data-icon="${dataIcon}"]`)
-      .prop('title'),
+    title: button.prop('title'),
     click: () => button.simulate('click'),
   };
 };
@@ -140,13 +138,13 @@ export const UTHangUpRender: StepFunction = () => {
   const onHangup = jest.fn();
   const itemIndex = 0;
   wrapper = setup({ onHangup });
-  const handUpButton = getControlButton({
+  const HangUpButton = getControlButton({
     itemIndex,
-    buttonType: 'HandUpButton',
+    buttonType: 'HangUpButton',
     dataIcon: 'hand-up',
   });
-  expect(handUpButton.title).toBe(i18n.getString('hangup'));
-  handUpButton.click();
+  expect(HangUpButton.title).toBe(i18n.getString('hangup'));
+  HangUpButton.click();
   expect(onHangup).toBeCalledWith(defaultCallList[itemIndex]);
   wrapperUnmount();
 };

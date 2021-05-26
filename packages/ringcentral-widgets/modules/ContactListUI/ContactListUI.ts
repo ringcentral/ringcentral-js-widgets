@@ -110,12 +110,13 @@ export class ContactListUI extends RcUIModuleV2<Deps> {
       if (
         !lastStatus ||
         lastStatus.sourceReady !== source.sourceReady ||
-        lastStatus.contacts !== source.contacts
+        lastStatus.rawContacts !== source.rawContacts
       ) {
         updated = true;
         this._sourcesLastStatus.set(source.sourceName, {
           sourceReady: source.sourceReady,
           contacts: source.contacts,
+          rawContacts: source.rawContacts,
         });
       }
     }
@@ -138,7 +139,7 @@ export class ContactListUI extends RcUIModuleV2<Deps> {
   isFiltering: boolean = false;
 
   @state
-  filteredContacts: IContact[] = [];
+  filteredContactsList: [string, string][] = [];
 
   @action
   private _updateFilters({ sourceFilter, searchFilter }: FilterCriteria) {
@@ -164,12 +165,37 @@ export class ContactListUI extends RcUIModuleV2<Deps> {
 
   @action
   private _clearFilteredContacts() {
-    this.filteredContacts = [];
+    this.filteredContactsList = [];
   }
 
   @action
-  private _appendFilteredContacts(contacts: IContact[]) {
-    this.filteredContacts = this.filteredContacts.concat(contacts);
+  private _appendFilteredContacts(contacts: IContact[], sourceName: string) {
+    if (contacts.length > 0) {
+      contacts.forEach((contact) => {
+        this.filteredContactsList.push([sourceName, contact.id]);
+      });
+    }
+  }
+
+  @computed((that: ContactListUI) => [
+    that.filteredContactsList,
+    ...Object.values(that._deps.contactSources).map(
+      (source) => source.contacts,
+    ),
+  ])
+  get filteredContacts() {
+    const contactsMap: Record<string, Record<string, IContact>> = {};
+    this._deps.contactSources.forEach((source) => {
+      contactsMap[source.sourceName] = {};
+      source.contacts.forEach((contact) => {
+        contactsMap[source.sourceName][contact.id] = contact;
+      });
+    });
+    const filteredContacts: IContact[] = [];
+    this.filteredContactsList.forEach(([sourceName, id]) => {
+      filteredContacts.push(contactsMap[sourceName][id]);
+    });
+    return filteredContacts;
   }
 
   private _debouncedFilterContactSources = debounce({
@@ -203,7 +229,7 @@ export class ContactListUI extends RcUIModuleV2<Deps> {
               !criteria.filterStamp ||
               criteria.filterStamp === this.filterStamp
             ) {
-              this._appendFilteredContacts(items);
+              this._appendFilteredContacts(items, source.sourceName);
             }
           })
           .catch((error) => {
@@ -256,7 +282,7 @@ export class ContactListUI extends RcUIModuleV2<Deps> {
     return null;
   }
 
-  @computed<ContactListUI>((that) => [that.checkSourcesUpdated()])
+  @computed((that: ContactListUI) => [that.checkSourcesUpdated()])
   get sourceNames() {
     const names = [AllContactSourceName];
     for (const source of this._deps.contactSources) {
@@ -267,7 +293,7 @@ export class ContactListUI extends RcUIModuleV2<Deps> {
     return names;
   }
 
-  @computed<ContactListUI>((that) => [that.filteredContacts])
+  @computed((that: ContactListUI) => [that.filteredContacts])
   get contactGroups() {
     return groupByFirstLetterOfName(
       sortContactItemsByName(uniqueContactItems(this.filteredContacts)),

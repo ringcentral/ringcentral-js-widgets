@@ -17,7 +17,6 @@ export interface RcvDelegator {
 }
 
 export interface RcVideoOptions {
-  showAdminLock?: boolean;
   showSaveAsDefault?: boolean;
   isInstantMeeting?: boolean;
   enableWaitingRoom?: boolean;
@@ -25,6 +24,7 @@ export interface RcVideoOptions {
   enableScheduleOnBehalf?: boolean;
   enableHostCountryDialinNumbers?: boolean;
   enableReloadAfterSchedule?: boolean;
+  enableInvitationApi?: boolean;
 }
 
 export interface Deps {

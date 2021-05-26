@@ -13,7 +13,8 @@ import { CompanyContacts } from 'ringcentral-integration/modules/CompanyContacts
 import { AddressBook } from 'ringcentral-integration/modules/AddressBookV2';
 import { Alert } from 'ringcentral-integration/modules/AlertV2';
 import { Brand } from 'ringcentral-integration/modules/BrandV2';
-import CallCtrlUI from 'ringcentral-widgets/modules/CallCtrlUI';
+import { CallControlUI } from 'ringcentral-widgets/modules/CallControlUIV2';
+// import CallControlUI from 'ringcentral-widgets/modules/CallControlUI';
 import { Contacts } from 'ringcentral-integration/modules/ContactsV2';
 import { ConnectivityMonitor } from 'ringcentral-integration/modules/ConnectivityMonitorV2';
 import { DialingPlan } from 'ringcentral-integration/modules/DialingPlanV2';
@@ -37,8 +38,8 @@ import { MessageStore } from 'ringcentral-integration/modules/MessageStoreV2';
 import { ContactSearch } from 'ringcentral-integration/modules/ContactSearchV2';
 import { DateTimeFormat } from 'ringcentral-integration/modules/DateTimeFormatV2';
 import Conference from 'ringcentral-integration/modules/Conference';
-// import { ConferenceCall } from 'ringcentral-integration/modules/ConferenceCallV2';
-import ConferenceCall from 'ringcentral-integration/modules/ConferenceCall';
+import { ConferenceCall } from 'ringcentral-integration/modules/ConferenceCallV2';
+// import ConferenceCall from 'ringcentral-integration/modules/ConferenceCall';
 import { QuickAccess } from 'ringcentral-integration/modules/QuickAccessV2';
 import { CallLog } from 'ringcentral-integration/modules/CallLogV2';
 import { CallMonitor } from 'ringcentral-integration/modules/CallMonitorV2';
@@ -69,7 +70,7 @@ import ConnectivityManager from 'ringcentral-widgets/modules/ConnectivityManager
 import ConnectivityBadgeUI from 'ringcentral-widgets/modules/ConnectivityBadgeUI';
 import LoginUI from 'ringcentral-widgets/modules/LoginUI';
 import CallBadgeUI from 'ringcentral-widgets/modules/CallBadgeUI';
-import CallHistoryUI from 'ringcentral-widgets/modules/CallHistoryUI';
+import { CallHistoryUI } from 'ringcentral-widgets/modules/CallHistoryUIV2';
 
 import normalizeNumber from 'ringcentral-integration/lib/normalizeNumber';
 import hasActiveCalls from 'ringcentral-widgets/lib/hasActiveCalls';
@@ -77,20 +78,26 @@ import ringoutStatus from 'ringcentral-integration/modules/Ringout/ringoutStatus
 import softphoneStatus from 'ringcentral-integration/modules/Softphone/softphoneStatus';
 import { callingModes } from 'ringcentral-integration/modules/CallingSettingsV2/callingModes';
 import { AvailabilityMonitor } from 'ringcentral-integration/modules/AvailabilityMonitorV2';
-import ActiveCallsUI from 'ringcentral-widgets/modules/ActiveCallsUI';
+import { ActiveCallsUI } from 'ringcentral-widgets/modules/ActiveCallsUI';
 import SettingsUI from 'ringcentral-widgets/modules/SettingsUI';
 import ComposeTextUI from 'ringcentral-widgets/modules/ComposeTextUI';
 import FeedbackUI from 'ringcentral-widgets/modules/FeedbackUI';
 import UserGuideUI from 'ringcentral-widgets/modules/UserGuideUI';
 import { hashHistory } from 'react-router';
-import AlertUI from 'ringcentral-widgets/modules/AlertUI';
+import { AlertUI } from 'ringcentral-widgets/modules/AlertUI';
 import FlipUI from 'ringcentral-widgets/modules/FlipUI';
 import TransferUI from 'ringcentral-widgets/modules/TransferUI';
+import { CallsListUI } from 'ringcentral-widgets/modules/CallsListUI';
+import { ConversationUI } from 'ringcentral-widgets/modules/ConversationUI';
+import { ConversationsUI } from 'ringcentral-widgets/modules/ConversationsUI';
+import { SimpleCallControlUI } from 'ringcentral-widgets/modules/SimpleCallControlUI';
+import { RecentActivityUI } from 'ringcentral-widgets/modules/RecentActivityUI';
+import { CallsOnholdUI } from 'ringcentral-widgets/modules/CallsOnholdUI';
 import 'ringcentral-integration/lib/TabFreezePrevention';
 import { LocalForageStorage } from 'ringcentral-integration/lib/LocalForageStorage';
 import { DataFetcherV2 } from 'ringcentral-integration/modules/DataFetcherV2';
 import { ExtensionInfo } from 'ringcentral-integration/modules/ExtensionInfoV2';
-import { ExtensionFeatures } from 'ringcentral-integration/modules/ExtensionFeaturesV2';
+import { ExtensionFeatures } from 'ringcentral-integration/modules/ExtensionFeatures';
 import { RolesAndPermissions } from 'ringcentral-integration/modules/RolesAndPermissionsV2';
 import { AccountInfo } from 'ringcentral-integration/modules/AccountInfoV2';
 import { Call } from 'ringcentral-integration/modules/CallV2';
@@ -106,6 +113,9 @@ import { ActiveCalls } from 'ringcentral-integration/modules/ActiveCallsV2';
 import { VideoConfiguration } from 'ringcentral-integration/modules/VideoConfiguration';
 import { Conversations } from 'ringcentral-integration/modules/ConversationsV2';
 import { ModalUI } from 'ringcentral-widgets/modules/ModalUIV2';
+import { IncomingCallUI } from 'ringcentral-widgets/modules/IncomingCallUI';
+import { DialerAndCallsTabUI } from 'ringcentral-widgets/modules/DialerAndCallsTabUI';
+import { ConferenceParticipantUI } from 'ringcentral-widgets/modules/ConferenceParticipantUI';
 
 const history =
   global.process &&
@@ -119,6 +129,7 @@ const history =
     { provide: 'ActiveCalls', useClass: ActiveCalls },
     { provide: 'AlertUI', useClass: AlertUI },
     { provide: 'RegionSettingsUI', useClass: RegionSettingsUI },
+    { provide: 'ConferenceParticipantUI', useClass: ConferenceParticipantUI },
     { provide: 'Brand', useClass: Brand },
     { provide: 'Softphone', useClass: Softphone },
     { provide: 'Locale', useClass: Locale },
@@ -132,16 +143,6 @@ const history =
     { provide: 'SleepDetector', useClass: SleepDetector },
     { provide: 'DataFetcherV2', useClass: DataFetcherV2 },
     { provide: 'ModalUI', useClass: ModalUI },
-    // {
-    //   provide: 'OAuthOptions',
-    //   useValue: {
-    //     redirectUri:
-    //       'https://nq4a0ukz22.execute-api.us-west-1.amazonaws.com/production/oauthredirect',
-    //     proxyUri:
-    //       'https://nq4a0ukz22.execute-api.us-west-1.amazonaws.com/production/oauthproxy',
-    //   },
-    //   spread: true,
-    // },
     { provide: 'Ringout', useClass: Ringout },
     { provide: 'ConnectivityMonitor', useClass: ConnectivityMonitor },
     { provide: 'ConnectivityManager', useClass: ConnectivityManager },
@@ -150,6 +151,7 @@ const history =
     { provide: 'Storage', useClass: Storage },
     { provide: 'AudioSettings', useClass: AudioSettings },
     { provide: 'AudioSettingsUI', useClass: AudioSettingsUI },
+    { provide: 'IncomingCallUI', useClass: IncomingCallUI },
     { provide: 'CompanyContacts', useClass: CompanyContacts },
     { provide: 'AccountInfo', useClass: AccountInfo },
     { provide: 'ExtensionDevice', useClass: ExtensionDevice },
@@ -182,7 +184,7 @@ const history =
     { provide: 'RouterInteraction', useClass: RouterInteraction },
     { provide: 'CallLog', useClass: CallLog },
     { provide: 'CallHistory', useClass: CallHistory },
-    { provide: 'CallCtrlUI', useClass: CallCtrlUI },
+    { provide: 'CallControlUI', useClass: CallControlUI },
     { provide: 'AccountContacts', useClass: AccountContacts },
     { provide: 'AddressBook', useClass: AddressBook },
     { provide: 'Contacts', useClass: Contacts },
@@ -213,13 +215,20 @@ const history =
     { provide: 'ActiveCallsUI', useClass: ActiveCallsUI },
     { provide: 'SettingsUI', useClass: SettingsUI },
     { provide: 'ComposeTextUI', useClass: ComposeTextUI },
+    { provide: 'CallsListUI', useClass: CallsListUI },
     { provide: 'FeedbackUI', useClass: FeedbackUI },
     { provide: 'UserGuideUI', useClass: UserGuideUI },
     { provide: 'LoginUI', useClass: LoginUI },
     { provide: 'FlipUI', useClass: FlipUI },
     { provide: 'CallBadgeUI', useClass: CallBadgeUI },
     { provide: 'CallHistoryUI', useClass: CallHistoryUI },
+    { provide: 'DialerAndCallsTabUI', useClass: DialerAndCallsTabUI },
     { provide: 'TransferUI', useClass: TransferUI },
+    { provide: 'ConversationUI', useClass: ConversationUI },
+    { provide: 'ConversationsUI', useClass: ConversationsUI },
+    { provide: 'SimpleCallControlUI', useClass: SimpleCallControlUI },
+    { provide: 'RecentActivityUI', useClass: RecentActivityUI },
+    { provide: 'CallsOnholdUI', useClass: CallsOnholdUI },
     { provide: 'Feedback', useClass: Feedback },
     { provide: 'UserGuide', useClass: UserGuide },
     { provide: 'ActiveCallControl', useClass: ActiveCallControl },
@@ -282,8 +291,8 @@ const history =
         avatarTtl: 5 * 60 * 1000,
         presenceTtl: 5 * 60 * 1000,
         needCheckStatus: false,
+        enableCDC: true,
       },
-      spread: true,
     },
     {
       provide: 'RouterInteractionOptions',
@@ -580,6 +589,7 @@ export function createPhone({
   apiConfig,
   brandConfig,
   clientService,
+  enableDiscovery = true,
 }) {
   @ModuleFactory({
     providers: [
@@ -600,6 +610,9 @@ export function createPhone({
         provide: 'SdkConfig',
         useValue: {
           ...apiConfig,
+          enableDiscovery,
+          discoveryServer: apiConfig.discoveryServer || apiConfig.server,
+          brandId: brandConfig.id,
           appName: 'Widgets Demo App',
           appVersion: 'N/A',
           cachePrefix: `sdk-${prefix}`,
@@ -608,6 +621,13 @@ export function createPhone({
           clientSecret: apiConfig.clientSecret || apiConfig.appSecret,
           redirectUri: url.resolve(window.location.href, './redirect.html'),
         },
+      },
+      {
+        provide: 'OAuthOptions',
+        useValue: {
+          useDiscovery: enableDiscovery,
+        },
+        spread: true,
       },
       {
         // for Brand (V1) deprecated

@@ -97,6 +97,9 @@ export class WebSocketSubscription extends RcModuleV2<Deps> {
       await this._revokeSubscription();
       return;
     }
+    if (!this._isWebSocketOpened()) {
+      return;
+    }
     if (!this._wsSubscription) {
       await this._createSubscription();
     } else if (

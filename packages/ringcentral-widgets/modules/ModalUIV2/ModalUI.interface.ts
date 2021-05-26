@@ -1,80 +1,86 @@
-import { RcButtonProps } from '@ringcentral/juno';
+import { RcBaseProps } from '@ringcentral/juno';
 import { Locale } from 'ringcentral-integration/modules/LocaleV2';
+
 import { ModalProps } from '../../components/ModalV2/interface';
 
 export interface Deps {
   locale: Locale;
 }
 
-export type ModalButtonProps = Pick<
-  RcButtonProps,
-  'size' | 'color' | 'disabled' | 'loading' | 'loadingMode' | 'variant'
->;
-
-export type SimpleDialogProps = Pick<
-  ModalProps['dialogProps'],
-  'className' | 'classes' | 'style'
->;
-
-export type ModalOptions = Pick<
+export type ModalOptions = RcBaseProps<
   ModalProps,
-  | 'size'
-  | 'fillContent'
-  | 'loading'
-  | 'showLoadingOverlay'
-  | 'okText'
-  | 'okVariant'
-  | 'okType'
-  | 'disableBackdropClick'
-  | 'fullScreen'
-  | 'cancelVariant'
-  | 'cancelText'
+  | 'cancelButtonText'
+  | 'confirmButtonText'
+  | 'title'
+  | 'children'
+  | 'key'
+  | 'open'
 > & {
-  okBtnProps?: ModalButtonProps;
-  cancelBtnProps?: ModalButtonProps;
+  /** confirm button text or the id of `registerRenderer` list  */
+  confirmButtonText?: string;
+  /** cancel button text or the id of `registerRenderer` list  */
+  cancelButtonText?: string;
+  /** title text or the id of `registerRenderer` list  */
   title?: string;
-  footer?: string;
-  content?: string;
-  onOK?: HandlerFunction;
-  onCancel?: HandlerFunction;
+  /** when you use id with `title`, that will pass to register title render */
   titleProps?: Record<string, any>;
-  contentProps?: Record<string, any>;
+  /** footer content or the id of `registerRenderer` list  */
+  footer?: string;
+  /** when you use id with `footer`, that will pass to register footer render */
   footerProps?: Record<string, any>;
-  dialogOptions?: SimpleDialogProps;
+  /** main content or the id of `registerRenderer` list  */
+  content?: string;
+  /** when you use id with `content`, that will pass to register content render */
+  contentProps?: Record<string, any>;
+  /** trigger when confirm button click  */
+  onConfirm?: HandlerFunction;
+  /** trigger when cancel button click  */
+  onCancel?: HandlerFunction;
+  /**
+   * variant of modal
+   *
+   * - `alert` alert modal with `confirm` button
+   * - `confirm` confirm modal with `confirm` and `cancel` button
+   * - `info` info modal no with any button, and have `close` button
+   */
   variant?: 'alert' | 'confirm' | 'info';
+  /** auto show loading when `confirm button` click, if that `onConfirm` is promise */
   useLoadingOverlay?: boolean;
 };
 
-export type ConfirmModalOptions = Omit<ModalOptions, 'variant'>;
+export type ConfirmModalOptions = RcBaseProps<ModalOptions, 'variant'>;
 
-export type AlertModalOptions = Omit<
+export type AlertModalOptions = RcBaseProps<
   ConfirmModalOptions,
-  'cancelVariant' | 'cancelBtnProps' | 'cancelText' | 'onCancel' | 'variant'
+  'cancelButtonProps' | 'cancelButtonText' | 'onCancel'
 >;
 
-export type InfoModalOptions = Omit<
+export type InfoModalOptions = RcBaseProps<
   AlertModalOptions,
-  'okVariant' | 'okBtnProps' | 'okText'
+  'confirmButtonProps' | 'confirmButtonText'
 >;
 
-export type DehydratedModalState = Omit<ModalOptions, 'onCancel' | 'onOK'> & {
+export type DehydratedModalState = RcBaseProps<
+  ModalOptions,
+  'onCancel' | 'onConfirm'
+> & {
+  /** current open state */
   open: boolean;
+  /** this modal id */
   id: string;
-  onOK?: string;
+  /** onConfirm function id */
+  onConfirm?: string;
+  /** cancel function id */
   onCancel?: string;
+  /** this modal handler ids */
   handlerIDs: string[];
 };
 
-export interface ModalReturnValue {
-  promise: Promise<boolean>;
-  id: string;
-}
-
 export type CustomRendererProps = {
+  /** current locale */
   currentLocale: string;
-  onOK?: ModalProps['onOK'];
-  onCancel?: ModalProps['onCancel'];
-} & Record<string, any>;
+} & Pick<ModalProps, 'onConfirm' | 'onCancel' | 'title'> &
+  Record<string, any>;
 
 export type CustomRenderer<
   T extends CustomRendererProps = CustomRendererProps

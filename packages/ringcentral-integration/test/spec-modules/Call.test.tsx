@@ -10,17 +10,16 @@ import {
 } from '@ringcentral-integration/test-utils';
 
 import { Call, callStatus, Recipient } from '../../modules/CallV2';
+import { mockModuleGenerator } from '../lib/mockModule';
 
-const getMockModule = () => ({
-  data: {
-    lastPhoneNumber: null as string,
-    lastRecipient: null as Recipient,
-  },
-  callStatus: callStatus.idle,
-  state: {},
-  _dispatch: () => {},
-  parentModule: {},
-});
+const getMockModule = () =>
+  mockModuleGenerator({
+    data: {
+      lastPhoneNumber: null as string,
+      lastRecipient: null as Recipient,
+    },
+    callStatus: callStatus.idle,
+  });
 
 @autorun(test)
 @title('Call Module "connect" action with isConference: ${isConference}')
@@ -37,8 +36,8 @@ export class CallConnect extends Step {
           desc="Create a 'Call' instance and initial state should be null"
           action={() => {
             const call = new Call({} as any);
-            expect(call._initialValue.data.lastPhoneNumber).toBeNull();
-            expect(call._initialValue.data.lastRecipient).toBeNull();
+            expect(call.data.lastPhoneNumber).toBeNull();
+            expect(call.data.lastRecipient).toBeNull();
           }}
         />
         <When
@@ -89,7 +88,7 @@ export class CallStatus extends Step {
           desc="Create a 'Call' instance and initial state should be 'idle'"
           action={() => {
             const call = new Call({} as any);
-            expect(call._initialValue.callStatus).toEqual(callStatus.idle);
+            expect(call.callStatus).toEqual(callStatus.idle);
           }}
         />
         <When

@@ -1,7 +1,7 @@
-import { Storage } from '../StorageV2';
-import { Auth } from '../AuthV2';
 import { Alert } from '../AlertV2';
-import { RolesAndPermissions } from '../RolesAndPermissionsV2';
+import { Auth } from '../AuthV2';
+import { ExtensionFeatures } from '../ExtensionFeatures';
+import { Storage } from '../StorageV2';
 
 export interface AudioSettingsData {
   dialButtonVolume: number;
@@ -20,6 +20,6 @@ export interface Deps {
   auth: Auth;
   alert: Alert;
   storage: Storage;
-  rolesAndPermissions: RolesAndPermissions;
+  extensionFeatures: ExtensionFeatures;
   audioSettingsOptions?: AudioSettingsOptions;
 }

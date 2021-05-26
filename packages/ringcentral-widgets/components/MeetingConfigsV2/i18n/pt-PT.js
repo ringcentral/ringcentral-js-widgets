@@ -2,11 +2,15 @@ import { ASSISTED_USERS_MYSELF } from 'ringcentral-integration/modules/Meeting';
 export default {
   date: "Data",
   time: "Hora",
+  hours: "{howMany} horas",
+  minutes: "{howMany} min.",
+  today: "Hoje",
   duration: "Duração",
   topic: "Título da reunião",
   voIPOnly: "Apenas áudio da Internet",
   telephonyOnly: "Apenas telefone",
-  both: "Áudio de telefone e da Internet",
+  both: "Áudio de telefone e Internet",
+  thirdParty: "Áudio de terceiros",
   meetingId: "ID da reunião",
   password: "Palavra-passe",
   video: "Vídeo",
@@ -22,7 +26,7 @@ export default {
   joinBeforeHost: "Permitir que os participantes entrem antes do anfitrião",
   turnOffCamera: "Desligar a câmara dos participantes",
   turnOffHostCamera: "Desligar a câmara do anfitrião ao entrar na reunião",
-  requirePassword: "Requer palavra-passe",
+  requirePassword: "Exigir palavra-passe",
   enterPassword: "Introduzir palavra-passe",
   setPassword: "Definir palavra-passe *",
   passwordEmptyError: "Palavra-passe da reunião obrigatória",
@@ -39,11 +43,15 @@ export default {
 
 // @key: @#@"date"@#@ @source: @#@"Date"@#@
 // @key: @#@"time"@#@ @source: @#@"Time"@#@
+// @key: @#@"hours"@#@ @source: @#@"{howMany} hr"@#@
+// @key: @#@"minutes"@#@ @source: @#@"{howMany} min"@#@
+// @key: @#@"today"@#@ @source: @#@"Today"@#@
 // @key: @#@"duration"@#@ @source: @#@"Duration"@#@
 // @key: @#@"topic"@#@ @source: @#@"Meeting title"@#@
 // @key: @#@"voIPOnly"@#@ @source: @#@"Internet audio only"@#@
 // @key: @#@"telephonyOnly"@#@ @source: @#@"Telephone only"@#@
-// @key: @#@"both"@#@ @source: @#@"Telephone and Internet Audio"@#@
+// @key: @#@"both"@#@ @source: @#@"Telephone and Internet audio"@#@
+// @key: @#@"thirdParty"@#@ @source: @#@"3rd party audio"@#@
 // @key: @#@"meetingId"@#@ @source: @#@"Meeting ID"@#@
 // @key: @#@"password"@#@ @source: @#@"Password"@#@
 // @key: @#@"video"@#@ @source: @#@"Video"@#@

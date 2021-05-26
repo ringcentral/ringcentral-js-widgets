@@ -10,14 +10,13 @@ import {
 } from '@ringcentral-integration/test-utils';
 
 import { Softphone, softphoneStatus } from '../../modules/SoftphoneV2';
+import { mockModuleGenerator } from '../lib/mockModule';
 
-const getMockModule = () => ({
-  connectingPhoneNumber: null as string,
-  softphoneStatus: softphoneStatus.idle,
-  state: {},
-  _dispatch: () => {},
-  parentModule: {},
-});
+const getMockModule = () =>
+  mockModuleGenerator({
+    connectingPhoneNumber: null as string,
+    softphoneStatus: softphoneStatus.idle,
+  });
 
 @autorun(test)
 @title(

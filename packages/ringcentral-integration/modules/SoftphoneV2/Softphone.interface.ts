@@ -1,9 +1,17 @@
 import { Brand } from '../BrandV2';
-import ContactMatcher from '../ContactMatcher';
+import { ContactMatcher } from '../ContactMatcherV2';
+
+export interface CallHandlerContext {
+  callingMode: string;
+  protocol: string;
+  command: string;
+  uri: string;
+  phoneNumber: string;
+}
 
 export interface SoftphoneOptions {
   extensionMode?: boolean;
-  callHandler?: (...args: any) => any;
+  callHandler?: (context: CallHandlerContext) => any;
 }
 
 export interface Deps {

@@ -37,7 +37,7 @@ polyfillGetUserMedia();
     'Auth',
     'Alert',
     'Storage',
-    'RolesAndPermissions',
+    'ExtensionFeatures',
     { dep: 'AudioSettingsOptions', optional: true },
   ],
 })
@@ -178,7 +178,7 @@ export class AudioSettings extends RcModuleV2<Deps> {
       if (
         this.ready &&
         this._deps.auth.loggedIn &&
-        this._deps.rolesAndPermissions.webphoneEnabled &&
+        this._deps.extensionFeatures.isWebPhoneEnabled &&
         !this.userMedia
       ) {
         // Make sure it only prompts once
@@ -194,8 +194,8 @@ export class AudioSettings extends RcModuleV2<Deps> {
     this.setHasAutoPrompted();
   }
 
-  async initModule() {
-    super.initModule();
+  async _initModule() {
+    super._initModule();
     if (
       navigator &&
       navigator.mediaDevices &&
@@ -334,7 +334,7 @@ export class AudioSettings extends RcModuleV2<Deps> {
     );
   }
 
-  @computed<AudioSettings>(({ availableDevices }) => [availableDevices])
+  @computed(({ availableDevices }: AudioSettings) => [availableDevices])
   get availableOutputDevices() {
     return filter(
       (device) => device.kind === 'audiooutput',
@@ -342,7 +342,7 @@ export class AudioSettings extends RcModuleV2<Deps> {
     );
   }
 
-  @computed<AudioSettings>(({ availableDevices }) => [availableDevices])
+  @computed(({ availableDevices }: AudioSettings) => [availableDevices])
   get availableInputDevices() {
     return filter(
       (device) => device.kind === 'audioinput',

@@ -1,6 +1,6 @@
 import { ASSISTED_USERS_MYSELF } from 'ringcentral-integration/modules/RcVideo/constants';
 export default {
-  topic: "Titel des Meetings",
+  topic: "Titel der Besprechung",
   date: "Datum",
   startTime: "Uhrzeit",
   duration: "Dauer",
@@ -10,7 +10,7 @@ export default {
   joinBeforeHost: "Teilnehmern erlauben, vor dem Gastgeber teilzunehmen",
   enableWaitingRoom: "Wartezimmer aktivieren",
   waitingRoom: "Wartezimmer aktivieren für",
-  waitingRoomNotCoworker: "Jeder außerhalb meines Unternehmens",
+  waitingRoomNotCoworker: "Jeder außerh. meines Unternehmens",
   waitingRoomGuest: "Jeder, der nicht angemeldet ist",
   waitingRoomAll: "Alle",
   enterPassword: "Kennwort eingeben",
@@ -24,7 +24,7 @@ export default {
   passwordEmptyError: "Besprechungskennwort erforderlich",
   passwordInvalidError: "Ihr Kennwort muss 1–10 Buchstaben und Ziffern lang sein und darf keine Symbole enthalten",
   passwordHintText: "Ihr Passwort sollte 1–10 Buchstaben und Ziffern lang sein und darf keine Symbole enthalten",
-  usePersonalMeetingId: "Persönliche Besprechungs-ID verwenden",
+  usePersonalMeetingId: "Persönliche Besprechungs-ID verwenden:",
   meetingSettingsSecurity: "Sicherheit",
   onlyAuthUserJoin: "Nur authentifizierte Benutzer können teilnehmen",
   signedInUsers: "Angemeldete Benutzer",

@@ -11,7 +11,7 @@ import { Deps } from './BlockedNumber.interface';
   deps: [
     'Client',
     'DataFetcherV2',
-    'RolesAndPermissions',
+    'ExtensionFeatures',
     { dep: 'BlockedNumberOptions', optional: true },
   ],
 })
@@ -33,15 +33,16 @@ export class BlockedNumber extends DataFetcherV2Consumer<
         ),
       readyCheckFunction: () =>
         !!(
-          this._deps.rolesAndPermissions.ready && this._deps.dataFetcherV2.ready
+          this._deps.extensionFeatures.ready && this._deps.dataFetcherV2.ready
         ),
       permissionCheckFunction: () =>
-        !!this._deps.rolesAndPermissions.permissions.ReadBlockedNumbers,
+        this._deps.extensionFeatures.features?.ReadBlockedNumbers?.available ??
+        false,
     });
     this._deps.dataFetcherV2.register(this._source);
   }
 
-  @computed<BlockedNumber>(({ data }) => [data])
+  @computed(({ data }: BlockedNumber) => [data])
   get numbers() {
     return this.data ?? [];
   }

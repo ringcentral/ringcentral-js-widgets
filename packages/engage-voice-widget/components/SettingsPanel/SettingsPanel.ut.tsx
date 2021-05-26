@@ -37,7 +37,7 @@ function setup({
   agentName = defaultAgentName,
   userName = defaultUserName,
   disableEditSessionButton = false,
-  showEditSessionButton = true,
+  showEditSessionIcon = true,
 }: Partial<SettingsPanelProps>) {
   return mount(
     <RcThemeProvider>
@@ -50,7 +50,7 @@ function setup({
         agentName={agentName}
         userName={userName}
         disableEditSessionButton={disableEditSessionButton}
-        showEditSessionButton={showEditSessionButton}
+        showEditSessionIcon={showEditSessionIcon}
       />
     </RcThemeProvider>,
   );
@@ -59,6 +59,7 @@ function setup({
 export const UTCheckOptionsRender: StepFunction = async () => {
   wrapper = setup({});
   expect(wrapper.find('[data-sign="editSession"]').exists()).toBeTruthy();
+  expect(wrapper.find('[title="Edit"]').exists()).toBeTruthy();
   expect(wrapper.find('[data-sign="logout"]').exists()).toBeTruthy();
 };
 

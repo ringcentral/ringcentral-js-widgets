@@ -37,10 +37,9 @@ $locked-color: rgba(0, 0, 0, 0.38);
   font-size: $primary-font-size !important;
 }
 
-div.videoConfig div.meetingSettings div.expansionPanel {
+div.videoConfig div.meetingSettings div.accordion {
   background: transparent;
   box-shadow: none;
-  margin: 0;
 }
 
 $date-time-space: 12px;
@@ -80,25 +79,24 @@ $hour-minute-space: 12px;
   }
 }
 
-div.videoConfig div.expansionPanelSummaryDisabled {
+div.videoConfig div.accordionSummaryDisabled {
   opacity: inherit;
   user-select: inherit;
 }
 
-div.videoConfig div.expansionPanel div.expansionPanelSummary {
+div.videoConfig div.accordion div.accordionSummary {
   font-weight: bold;
-  color: $header-font-color;
   height: 32px;
   @extend .normalFontSize;
-  padding: 0 $panel-side-padding;
+  padding: 0 $panel-side-padding !important;
   min-height: 32px;
 }
 
-div.expansionPanelSummaryContent {
+div.accordionSummaryContent {
   margin: 0 0;
 }
 
-div.videoConfig div.expansionPanel div.expansionPanelDetails {
+div.videoConfig div.accordion div.accordionDetails {
   padding: 0;
   border: 0;
   flex-direction: column;
@@ -118,14 +116,14 @@ div.videoConfig div.expansionPanel div.expansionPanelDetails {
     margin-bottom: -4px;
   }
 }
-div.expansionPanel div.toggleGroup label.labelPlacementStart {
+div.accordion div.toggleGroup label.labelPlacementStart {
   @extend .labelPlacement;
   padding: 0
     ($panel-side-padding - $checkbox-ripple-width/2 - $checkbox-right-margin) 0
     $panel-side-padding;
 }
 
-div.expansionPanel div.toggleGroup label.labelPlacementEnd {
+div.accordion div.toggleGroup label.labelPlacementEnd {
   @extend .labelPlacement;
   padding: 0 $panel-side-padding 0
     ($panel-side-padding - $checkbox-ripple-width/2);
@@ -179,6 +177,10 @@ div.expansionPanel div.toggleGroup label.labelPlacementEnd {
 .passwordField {
   padding-top: 4px;
   @extend .sideMargin;
+
+  & > div > div > button {
+    padding: 0 !important;
+  }
 
   label {
     width: 100% !important;
@@ -263,4 +265,9 @@ div.expansionPanel div.toggleGroup label.labelPlacementEnd {
   padding: 8px;
   border-radius: 1px;
   line-height: 20px!important;
+}
+
+.lockButton {
+  color: #6c7489; // need to migrate using juno token "$color-icon-default"
+  padding-top: 2px;
 }

@@ -73,7 +73,7 @@ export class Timezone extends RcModuleV2<Deps> {
     this._updateCacheExpiredIn();
   }
 
-  @computed<Timezone>(({ _localeTimezone, timezones }) => [
+  @computed(({ _localeTimezone, timezones }: Timezone) => [
     _localeTimezone,
     timezones,
   ])

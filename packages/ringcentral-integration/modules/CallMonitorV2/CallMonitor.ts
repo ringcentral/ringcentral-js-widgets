@@ -189,6 +189,18 @@ export class CallMonitor extends RcModuleV2<Deps> {
         this.handleCalls(lastProcessedCalls?.slice() ?? []);
       },
     );
+
+    watch(
+      this,
+      () => this.ready,
+      () => {
+        if (this.ready) {
+          // It is possible that `this.calls` may have changed before the `CallMonitor` module status becomes `true`.
+          // So make sure that in this case, `this.calls` handling must be forced
+          this.handleCalls([]);
+        }
+      },
+    );
   }
 
   handleCalls(oldCalls: Call[]) {
@@ -319,7 +331,7 @@ export class CallMonitor extends RcModuleV2<Deps> {
     return this._useTelephonySession;
   }
 
-  @computed<CallMonitor>((that) => [
+  @computed((that: CallMonitor) => [
     that.normalizedCalls,
     that._deps.contactMatcher?.dataMapping,
     that._deps.activityMatcher?.dataMapping,
@@ -345,7 +357,7 @@ export class CallMonitor extends RcModuleV2<Deps> {
     return calls;
   }
 
-  @computed<CallMonitor>((that) => [
+  @computed((that: CallMonitor) => [
     that.normalizedCallsFromPresence,
     that.normalizedCallsFromTelephonySessions,
     that.useTelephonySession,
@@ -357,7 +369,7 @@ export class CallMonitor extends RcModuleV2<Deps> {
     return this.normalizedCallsFromPresence;
   }
 
-  @computed<CallMonitor>((that) => [
+  @computed((that: CallMonitor) => [
     that._deps.presence.calls,
     that._deps.accountInfo.countryCode,
     that._deps.webphone?.sessions,
@@ -427,7 +439,7 @@ export class CallMonitor extends RcModuleV2<Deps> {
     return this._normalizedCalls;
   }
 
-  @computed<CallMonitor>((that) => [
+  @computed((that: CallMonitor) => [
     that._deps.activeCallControl?.sessions,
     that._deps.accountInfo.countryCode,
     that._deps.presence.calls,
@@ -521,7 +533,7 @@ export class CallMonitor extends RcModuleV2<Deps> {
     return this._normalizedCalls;
   }
 
-  @computed<CallMonitor>((that) => [
+  @computed((that: CallMonitor) => [
     that.allCalls,
     that._deps.conferenceCall?.isMerging,
   ])
@@ -535,7 +547,7 @@ export class CallMonitor extends RcModuleV2<Deps> {
     }, this.allCalls);
   }
 
-  @computed<CallMonitor>((that) => [that.calls, that.useTelephonySession])
+  @computed((that: CallMonitor) => [that.calls, that.useTelephonySession])
   get activeRingCalls() {
     return filter((callItem) => {
       if (this.useTelephonySession) {
@@ -549,7 +561,7 @@ export class CallMonitor extends RcModuleV2<Deps> {
     }, this.calls);
   }
 
-  @computed<CallMonitor>((that) => [that.calls, that.useTelephonySession])
+  @computed((that: CallMonitor) => [that.calls, that.useTelephonySession])
   get _activeOnHoldCalls() {
     if (this.useTelephonySession) {
       return filter(
@@ -567,7 +579,7 @@ export class CallMonitor extends RcModuleV2<Deps> {
     );
   }
 
-  @computed<CallMonitor>((that) => [that.calls, that.useTelephonySession])
+  @computed((that: CallMonitor) => [that.calls, that.useTelephonySession])
   get _activeCurrentCalls() {
     return filter((callItem) => {
       if (this.useTelephonySession) {
@@ -586,7 +598,7 @@ export class CallMonitor extends RcModuleV2<Deps> {
     }, this.calls);
   }
 
-  @computed<CallMonitor>((that) => [
+  @computed((that: CallMonitor) => [
     that._activeOnHoldCalls,
     that._activeCurrentCalls,
   ])
@@ -597,7 +609,7 @@ export class CallMonitor extends RcModuleV2<Deps> {
     return this._activeOnHoldCalls;
   }
 
-  @computed<CallMonitor>((that) => [
+  @computed((that: CallMonitor) => [
     that._activeCurrentCalls,
     that._activeOnHoldCalls,
   ])
@@ -607,7 +619,7 @@ export class CallMonitor extends RcModuleV2<Deps> {
       : this._activeCurrentCalls;
   }
 
-  @computed<CallMonitor>((that) => [
+  @computed((that: CallMonitor) => [
     that.calls,
     that._deps.webphone?.lastEndedSessions,
     that.useTelephonySession,
@@ -652,13 +664,13 @@ export class CallMonitor extends RcModuleV2<Deps> {
         sessionsCache: this.useTelephonySession
           ? this._deps.activeCallControl?.lastEndedSessionIds
           : this._deps.webphone?.lastEndedSessions,
-        res: [],
+        res: [] as Call[],
       },
       this.calls,
     ).res;
   }
 
-  @computed<CallMonitor>((that) => [that.normalizedCalls])
+  @computed((that: CallMonitor) => [that.normalizedCalls])
   get uniqueNumbers() {
     const output: string[] = [];
     const numberMap: Record<string, boolean> = {};
@@ -679,12 +691,12 @@ export class CallMonitor extends RcModuleV2<Deps> {
     return output;
   }
 
-  @computed<CallMonitor>((that) => [that._deps.presence.calls])
+  @computed((that: CallMonitor) => [that._deps.presence.calls])
   get sessionIds() {
     return map((callItem) => callItem.sessionId, this._deps.presence.calls);
   }
 
-  @computed<CallMonitor>((that) => [that.otherDeviceCalls])
+  @computed((that: CallMonitor) => [that.otherDeviceCalls])
   get ringoutRingCalls() {
     return filter(
       (callItem) => isRingingInboundCall(callItem),
@@ -692,7 +704,7 @@ export class CallMonitor extends RcModuleV2<Deps> {
     );
   }
 
-  @computed<CallMonitor>((that) => [that.otherDeviceCalls])
+  @computed((that: CallMonitor) => [that.otherDeviceCalls])
   get ringoutCurrentCalls() {
     return filter(
       (callItem) =>
@@ -701,7 +713,7 @@ export class CallMonitor extends RcModuleV2<Deps> {
     );
   }
 
-  @computed<CallMonitor>((that) => [that.otherDeviceCalls])
+  @computed((that: CallMonitor) => [that.otherDeviceCalls])
   get ringoutOnHoldCalls() {
     return filter(
       (callItem) => isRingOutOnHold(callItem),

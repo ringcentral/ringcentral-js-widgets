@@ -4,7 +4,7 @@ import {
   computed,
   RcModuleV2,
 } from '@ringcentral-integration/core';
-import proxify from '../proxy/proxify';
+import { proxify } from '../proxy/proxify';
 import { defaultIdentityFunction, convertListToMap } from './loggerBaseHelper';
 import { Deps, LogOptions, Options } from './LoggerBase.interface';
 
@@ -19,7 +19,7 @@ export abstract class LoggerBase<T = any> extends RcModuleV2<Deps & T> {
 
   protected _logPromises = new Map<string, Promise<void>>();
 
-  constructor(deps: Deps, options: Options) {
+  constructor(deps: Deps & T, options: Options) {
     super({
       deps,
       ...options,
@@ -51,7 +51,10 @@ export abstract class LoggerBase<T = any> extends RcModuleV2<Deps & T> {
   }
 
   _shouldReset() {
-    return !!(super._shouldReset() || !this._readyCheckFunction());
+    return !!(
+      super._shouldReset() ||
+      (this.ready && !this._readyCheckFunction())
+    );
   }
 
   onReset() {
@@ -101,7 +104,7 @@ export abstract class LoggerBase<T = any> extends RcModuleV2<Deps & T> {
     await this._log({ item, ...options });
   }
 
-  @computed<LoggerBase>((that) => [that.loggingList])
+  @computed((that: LoggerBase) => [that.loggingList])
   get loggingMap() {
     return convertListToMap(this.loggingList);
   }

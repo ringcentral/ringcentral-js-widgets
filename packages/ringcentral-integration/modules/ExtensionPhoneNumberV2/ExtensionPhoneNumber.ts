@@ -5,10 +5,9 @@ import {
 import { computed, watch } from '@ringcentral-integration/core';
 import { filter, find } from 'ramda';
 import { Unsubscribe } from 'redux';
-
-import { usageTypes } from '../../enums/usageTypes';
 import { subscriptionFilters } from '../../enums/subscriptionFilters';
 import { subscriptionHints } from '../../enums/subscriptionHints';
+import { usageTypes } from '../../enums/usageTypes';
 import { Module } from '../../lib/di';
 import fetchList from '../../lib/fetchList';
 import { DataFetcherV2Consumer, DataSource } from '../DataFetcherV2';
@@ -19,7 +18,7 @@ import { Deps } from './ExtensionPhoneNumber.interface';
   deps: [
     'Client',
     'DataFetcherV2',
-    'RolesAndPermissions',
+    'ExtensionFeatures',
     'Subscription',
     { dep: 'TabManager', optional: true },
     { dep: 'ExtensionPhoneNumberOptions', optional: true },
@@ -44,11 +43,10 @@ export class ExtensionPhoneNumber extends DataFetcherV2Consumer<
           this._deps.client.account().extension().phoneNumber().list(params),
         ),
       readyCheckFunction: () =>
-        !!(
-          this._deps.rolesAndPermissions.ready && this._deps.subscription.ready
-        ),
+        !!(this._deps.extensionFeatures.ready && this._deps.subscription.ready),
       permissionCheckFunction: () =>
-        !!this._deps.rolesAndPermissions.permissions.ReadUserPhoneNumbers,
+        this._deps.extensionFeatures.features?.ReadExtensionPhoneNumbers
+          .available ?? false,
     });
     this._deps.dataFetcherV2.register(this._source);
   }
@@ -77,12 +75,12 @@ export class ExtensionPhoneNumber extends DataFetcherV2Consumer<
     this._stopWatching = null;
   }
 
-  @computed<ExtensionPhoneNumber>(({ data }) => [data])
+  @computed(({ data }: ExtensionPhoneNumber) => [data])
   get numbers() {
     return this.data ?? [];
   }
 
-  @computed<ExtensionPhoneNumber>(({ numbers }) => [numbers])
+  @computed(({ numbers }: ExtensionPhoneNumber) => [numbers])
   get companyNumbers() {
     return filter(
       (phoneNumber) => phoneNumber.usageType === usageTypes.CompanyNumber,
@@ -90,7 +88,7 @@ export class ExtensionPhoneNumber extends DataFetcherV2Consumer<
     );
   }
 
-  @computed<ExtensionPhoneNumber>(({ numbers }) => [numbers])
+  @computed(({ numbers }: ExtensionPhoneNumber) => [numbers])
   get mainCompanyNumber() {
     return find(
       (phoneNumber) => phoneNumber.usageType === usageTypes.MainCompanyNumber,
@@ -98,7 +96,7 @@ export class ExtensionPhoneNumber extends DataFetcherV2Consumer<
     );
   }
 
-  @computed<ExtensionPhoneNumber>(({ numbers }) => [numbers])
+  @computed(({ numbers }: ExtensionPhoneNumber) => [numbers])
   get directNumbers() {
     return filter(
       (phoneNumber) => phoneNumber.usageType === usageTypes.DirectNumber,
@@ -106,7 +104,7 @@ export class ExtensionPhoneNumber extends DataFetcherV2Consumer<
     );
   }
 
-  @computed<ExtensionPhoneNumber>(({ numbers }) => [numbers])
+  @computed(({ numbers }: ExtensionPhoneNumber) => [numbers])
   get callerIdNumbers() {
     return filter(
       (phoneNumber) =>
@@ -119,7 +117,7 @@ export class ExtensionPhoneNumber extends DataFetcherV2Consumer<
     );
   }
 
-  @computed<ExtensionPhoneNumber>(({ numbers }) => [numbers])
+  @computed(({ numbers }: ExtensionPhoneNumber) => [numbers])
   get smsSenderNumbers() {
     return filter(
       (phoneNumber) => phoneNumber.features?.indexOf('SmsSender') !== -1,

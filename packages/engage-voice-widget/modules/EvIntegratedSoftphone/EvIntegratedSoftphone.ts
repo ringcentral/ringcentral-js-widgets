@@ -9,6 +9,7 @@ import formatMessage from 'format-message';
 import { Module } from 'ringcentral-integration/lib/di';
 import { raceTimeout } from 'ringcentral-integration/lib/raceTimeout';
 import sleep from 'ringcentral-integration/lib/sleep';
+import { CustomRenderer } from 'ringcentral-widgets/modules/ModalUIV2/ModalUI.interface';
 
 import {
   dialoutStatuses,
@@ -18,14 +19,26 @@ import {
 import { EvSipRingingData } from '../../lib/EvClient';
 import { EvCallbackTypes } from '../../lib/EvClient/enums';
 import { audios } from './audios';
-import { Deps, IntegratedSoftphone } from './EvIntegratedSoftphone.interface';
+import {
+  Deps,
+  IntegratedSoftphone,
+  ShowRingingModalProps,
+} from './EvIntegratedSoftphone.interface';
 import i18n from './i18n';
+import { getModalText } from './IncomingModalText';
 import { runInActivityWebRTCTab } from './runInActivityWebRTCTab.decorator';
 
 const SECOND = 1000;
 const RECONNECT_DEBOUNCE_TIME = SECOND * 5;
 const RECONNECT_DEBOUNCE_TIME_WHEN_CONNECTED = SECOND * 15;
 const SIP_MAX_CONNECTING_TIME = SECOND * 30;
+
+const ModalContentRendererID = 'EvIntegratedSoftphone.ModalContentRenderer';
+const ModalContentRenderer: CustomRenderer = ({
+  isInbound,
+  inboundTextProps,
+  outboundText,
+}) => getModalText({ isInbound, inboundTextProps, outboundText });
 
 @Module({
   name: 'EvIntegratedSoftphone',
@@ -103,6 +116,10 @@ class EvIntegratedSoftphone
       this._sendTabManager(tabManagerEvents.CLOSE_WHEN_CALL_CONNECTED);
     });
 
+    this._deps.modalUI.registerRenderer(
+      ModalContentRendererID,
+      ModalContentRenderer,
+    );
     this._isFirefox = navigator.userAgent.indexOf('Firefox') !== -1;
   }
 
@@ -418,9 +435,24 @@ class EvIntegratedSoftphone
         }
 
         const { displayName } = ringingCall.data.request.from;
+        const queueName = this._deps.evClient.currentCall?.queue?.name;
+        const {
+          dialoutStatus,
+          isOffhooking,
+          isManualOffhook,
+        } = this._deps.presence;
+        // exclude outbound and offhook
+        const isInbound =
+          dialoutStatus !== 'dialing' &&
+          !(isManualOffhook && isOffhooking) &&
+          this._deps.evClient.currentCall?.callType === 'INBOUND';
 
-        this._sendTabManager(tabManagerEvents.SIP_RINGING, displayName);
-        this._showRingingModal(displayName);
+        this._sendTabManager(tabManagerEvents.SIP_RINGING, {
+          displayName,
+          queueName,
+          isInbound,
+        });
+        this._showRingingModal({ displayName, queueName, isInbound });
       },
     );
 
@@ -508,9 +540,9 @@ class EvIntegratedSoftphone
     this._deps.modalUI.alert({
       title: 'Registration failed',
       content: 'Will reload your pages and tabs for you',
-      okText: 'Ok',
+      confirmButtonText: 'Ok',
       size: 'xsmall',
-      onOK: () => {
+      onConfirm: () => {
         this._sendTabManager(tabManagerEvents.SIP_REGISTRATION_FAILED_RELOAD);
         this._reloadApp();
       },
@@ -567,7 +599,11 @@ class EvIntegratedSoftphone
     }
   }
 
-  private _showRingingModal(displayName: string) {
+  private _showRingingModal({
+    displayName,
+    queueName,
+    isInbound,
+  }: ShowRingingModalProps) {
     // prevent open a lot of modal, that sdk event pass a lot of ringing state when re login
     if (this._answerModalId) {
       return;
@@ -579,15 +615,33 @@ class EvIntegratedSoftphone
 
     this._answerModalId = this._deps.modalUI.confirm({
       title: i18n.getString('inviteModalTitle', currentLocale),
-      content: formatMessage(
-        i18n.getString('inviteModalContent', currentLocale),
-        {
-          displayName,
+      content: ModalContentRendererID,
+      contentProps: {
+        isInbound,
+        inboundTextProps: queueName && {
+          incomingText: formatMessage(
+            i18n.getString('incomingText', currentLocale),
+            {
+              displayName,
+            },
+          ),
+          queueNameText: formatMessage(
+            i18n.getString('queueNameText', currentLocale),
+            {
+              queueName,
+            },
+          ),
         },
-      ),
-      okText: i18n.getString('inviteModalAnswer', currentLocale),
-      cancelText: i18n.getString('inviteModalReject', currentLocale),
-      onOK: async () => {
+        outboundText: formatMessage(
+          i18n.getString('outboundText', currentLocale),
+          {
+            displayName,
+          },
+        ),
+      },
+      confirmButtonText: i18n.getString('inviteModalAnswer', currentLocale),
+      cancelButtonText: i18n.getString('inviteModalReject', currentLocale),
+      onConfirm: async () => {
         this._sendTabManager(tabManagerEvents.SIP_RINGING_MODAL, true);
         await this.answerCall();
       },

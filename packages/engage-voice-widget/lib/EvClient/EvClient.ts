@@ -38,6 +38,9 @@ import {
   EvWarmTransferCallResponse,
   EvWarmTransferIntlCallResponse,
   RawEvAuthenticateAgentWithRcAccessTokenRes,
+  RecordResponse,
+  PauseRecordResponse,
+  PauseRecord,
 } from './interfaces';
 
 type ListenerType = typeof EvCallbackTypes['OPEN_SOCKET' | 'CLOSE_SOCKET'];
@@ -432,6 +435,10 @@ class EvClient extends RcModuleV2<Deps> {
     );
   }
 
+  manualOutdialCancel(uii: string) {
+    this._sdk.manualOutdialCancel(uii);
+  }
+
   offhookInit() {
     // we using EvCallbackTypes.OFFHOOK_INIT to catch data, do not pass callback,
     // that will make the message not come back
@@ -444,6 +451,38 @@ class EvClient extends RcModuleV2<Deps> {
 
   hold(holdState: boolean) {
     this._sdk.hold(holdState);
+  }
+
+  pauseRecord(isRecord: boolean) {
+    return new Promise<PauseRecord>((resolve, reject) => {
+      return this._sdk.pauseRecord(
+        isRecord,
+        (response: PauseRecordResponse) => {
+          const formattedResponse = {
+            ...response,
+            pause: response.pause ? Number(response.pause) : null,
+          };
+          if (response.status === 'OK') {
+            resolve(formattedResponse);
+          } else {
+            reject(formattedResponse);
+          }
+        },
+      );
+    });
+  }
+
+  // toggle call recording on/off base on true|false boolean
+  record(state: boolean) {
+    return new Promise<RecordResponse>((resolve, reject) => {
+      return this._sdk.record(state, (response: RecordResponse) => {
+        if (response.status === 'OK') {
+          resolve(response);
+        } else {
+          reject(response);
+        }
+      });
+    });
   }
 
   holdSession({ state, sessionId }: EvClientHoldSessionParams) {

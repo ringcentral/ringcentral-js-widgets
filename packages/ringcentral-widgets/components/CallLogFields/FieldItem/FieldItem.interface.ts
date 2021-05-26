@@ -6,6 +6,19 @@ export type PickListOption = {
   disabled?: boolean;
 };
 
+export type FieldItemType =
+  | 'reference'
+  | 'picklist'
+  | 'textarea'
+  | 'date'
+  | 'string'
+  | 'integer'
+  | 'double'
+  | 'long'
+  | 'combobox'
+  | 'radio'
+  | 'ticketSelectList';
+
 export type FieldItemOption = {
   label: string;
   type: FieldItemType;
@@ -19,20 +32,9 @@ export type FieldItemOption = {
   referenceObjs?: string[];
   defaultValue?: string;
   renderCondition?: string;
+  onlyShowInMultipleMatches?: boolean;
+  showOtherSection?: boolean;
   onChange?: (value?: any) => any;
 } & Pick<RcTextFieldProps, 'helperText' | 'error' | 'disabled' | 'placeholder'>;
-
-export type FieldItemType =
-  | 'reference'
-  | 'picklist'
-  | 'textarea'
-  | 'date'
-  | 'string'
-  | 'integer'
-  | 'double'
-  | 'long'
-  | 'combobox'
-  | 'radio'
-  | 'ticketSelectList';
 
 export type FieldsMap = { [p in FieldItemType]: () => JSX.Element };

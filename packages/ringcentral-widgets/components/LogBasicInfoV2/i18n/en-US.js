@@ -46,5 +46,5 @@ export default {
   [callResults.declined]: 'Declined',
   [callResults.faxReceipt]: 'Fax Receipt',
   [callResults.disconnected]: 'Disconnected',
+  [callResults.notAllowed]: 'Not Allowed',
 };
-

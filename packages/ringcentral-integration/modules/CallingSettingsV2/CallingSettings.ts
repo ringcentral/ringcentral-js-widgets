@@ -1,18 +1,18 @@
 import {
-  state,
   action,
-  storage,
   computed,
   RcModuleV2,
+  state,
+  storage,
 } from '@ringcentral-integration/core';
-import { Deps } from './CallingSettings.interface';
 import { Module } from '../../lib/di';
+import { proxify } from '../../lib/proxy/proxify';
 import { callingModes } from './callingModes';
-import { CallingOptionsType, callingOptions } from './callingOptions';
-import proxify from '../../lib/proxy/proxify';
-import { mapOptionToMode } from './mapOptionToMode';
+import { callingOptions, CallingOptionsType } from './callingOptions';
+import { Deps } from './CallingSettings.interface';
 import { callingSettingsMessages } from './callingSettingsMessages';
 import { deprecatedCallingOptions } from './deprecatedCallingOptions';
+import { mapOptionToMode } from './mapOptionToMode';
 
 const LOCATION_NUMBER_ORDER = ['Other', 'Main'];
 /**
@@ -28,7 +28,7 @@ const LOCATION_NUMBER_ORDER = ['Other', 'Main'];
     'ExtensionInfo',
     'ExtensionDevice',
     'ForwardingNumber',
-    'RolesAndPermissions',
+    'ExtensionFeatures',
     'ExtensionPhoneNumber',
     { dep: 'CallerId', optional: true },
     { dep: 'Webphone', optional: true },
@@ -164,8 +164,8 @@ class CallingSettings extends RcModuleV2<Deps> {
 
   async onStateChange() {
     if (!this._shouldReset() && !this._shouldInit() && this._shouldValidate()) {
-      this._ringoutEnabled = this._deps.rolesAndPermissions.ringoutEnabled;
-      this._webphoneEnabled = this._deps.rolesAndPermissions.webphoneEnabled;
+      this._ringoutEnabled = this._deps.extensionFeatures.isRingOutEnabled;
+      this._webphoneEnabled = this._deps.extensionFeatures.isWebPhoneEnabled;
       this._myPhoneNumbers = this.myPhoneNumbers;
       this._otherPhoneNumbers = this.otherPhoneNumbers;
       await this._validateSettings();
@@ -175,9 +175,9 @@ class CallingSettings extends RcModuleV2<Deps> {
   _shouldValidate() {
     return (
       this.ready &&
-      (this._ringoutEnabled !== this._deps.rolesAndPermissions.ringoutEnabled ||
+      (this._ringoutEnabled !== this._deps.extensionFeatures.isRingOutEnabled ||
         this._webphoneEnabled !==
-          this._deps.rolesAndPermissions.webphoneEnabled ||
+          this._deps.extensionFeatures.isWebPhoneEnabled ||
         this._myPhoneNumbers !== this.myPhoneNumbers ||
         this._otherPhoneNumbers !== this.otherPhoneNumbers)
     );
@@ -192,12 +192,13 @@ class CallingSettings extends RcModuleV2<Deps> {
   }
 
   async _init() {
-    if (!this._deps.rolesAndPermissions.callingEnabled) return;
+    if (!this._deps.extensionFeatures.isCallingEnabled) return;
+
     this._myPhoneNumbers = this.myPhoneNumbers;
     this._otherPhoneNumbers = this.otherPhoneNumbers;
     this._availableNumbers = this.availableNumbers;
-    this._ringoutEnabled = this._deps.rolesAndPermissions.ringoutEnabled;
-    this._webphoneEnabled = this._deps.rolesAndPermissions.webphoneEnabled;
+    this._ringoutEnabled = this._deps.extensionFeatures.isRingOutEnabled;
+    this._webphoneEnabled = this._deps.extensionFeatures.isWebPhoneEnabled;
     if (!this.timestamp) {
       // first time login
       const defaultCallWith = this.callWithOptions && this.callWithOptions[0];
@@ -296,14 +297,14 @@ class CallingSettings extends RcModuleV2<Deps> {
     const mainPhoneNumber = `${mainCompanyNumber.phoneNumber}*${extensionNumber}`;
     let name = null;
     if (devices.length) {
-      let registedWithDevice = false;
+      let registeredWithDevice = false;
       devices.forEach((device) => {
         const { phoneLines } = device;
         if (phoneLines.length) {
-          registedWithDevice = phoneLines.find((phoneLine) => {
+          registeredWithDevice = !!phoneLines.find((phoneLine) => {
             return phoneLine.phoneInfo.phoneNumber === phoneNumber;
           });
-          if (registedWithDevice) {
+          if (registeredWithDevice) {
             name = device.name;
           }
         }
@@ -433,35 +434,39 @@ class CallingSettings extends RcModuleV2<Deps> {
   }
 
   @computed((that: CallingSettings) => [
-    that._deps.rolesAndPermissions.ringoutEnabled,
-    that._deps.rolesAndPermissions.webphoneEnabled,
+    that._deps.extensionFeatures.isRingOutEnabled,
+    that._deps.extensionFeatures.isWebPhoneEnabled,
     that.otherPhoneNumbers.length,
     that._deps.extensionPhoneNumber.numbers.length,
   ])
   get callWithOptions() {
-    const { ringoutEnabled, webphoneEnabled } = this._deps.rolesAndPermissions;
+    const {
+      isRingOutEnabled,
+      isWebPhoneEnabled,
+    } = this._deps.extensionFeatures;
     const hasExtensionPhoneNumber =
       this._deps.extensionPhoneNumber.numbers.length > 0;
     if (!hasExtensionPhoneNumber) {
       return [callingOptions.softphone];
     }
     const callWithOptions = [];
-    if (this._deps.webphone && webphoneEnabled) {
+    if (this._deps.webphone && isWebPhoneEnabled) {
       callWithOptions.push(callingOptions.browser);
     }
-    // only rc brand support call with RingCentral App
+    // rc&att brand support call with RingCentral App
+    const brandReg = /rc|att/;
     if (
       this._deps.brand &&
-      (this._deps.brand.code === 'rc' ||
+      (brandReg.test(this._deps.brand.code) ||
         (this._deps.brand.brandConfig &&
-          this._deps.brand.brandConfig.brandCode === 'rc')) &&
+          brandReg.test(this._deps.brand.brandConfig.brandCode))) &&
       this._showCallWithJupiter
     ) {
       callWithOptions.push(callingOptions.jupiter);
     }
 
     callWithOptions.push(callingOptions.softphone);
-    if (ringoutEnabled) {
+    if (isRingOutEnabled) {
       callWithOptions.push(callingOptions.ringout);
     }
     return callWithOptions;

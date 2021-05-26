@@ -1,19 +1,18 @@
 import {
-  autorun,
-  title,
-  Scenario,
-  Given,
-  When,
-  Then,
   And,
+  autorun,
+  Given,
+  Scenario,
   Step,
+  Then,
+  title,
+  When,
 } from '@ringcentral-integration/test-utils';
-
 import {
   debounce,
   DEFAULT_THRESHOLD,
-  throttle,
   promisedDebounce,
+  throttle,
 } from '../../lib/debounce-throttle';
 import sleep from '../../lib/sleep';
 

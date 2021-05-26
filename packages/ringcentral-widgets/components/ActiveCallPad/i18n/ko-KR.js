@@ -11,7 +11,9 @@ export default {
   transfer: "전달",
   flip: "전환",
   more: "통화 동작",
-  mergeToConference: "병합"
+  mergeToConference: "병합",
+  end: "종료",
+  completeTransfer: "완료\n전달"
 };
 
 // @key: @#@"unmute"@#@ @source: @#@"Unmute"@#@
@@ -27,3 +29,5 @@ export default {
 // @key: @#@"flip"@#@ @source: @#@"Flip"@#@
 // @key: @#@"more"@#@ @source: @#@"Call Actions"@#@
 // @key: @#@"mergeToConference"@#@ @source: @#@"Merge"@#@
+// @key: @#@"end"@#@ @source: @#@"End"@#@
+// @key: @#@"completeTransfer"@#@ @source: @#@"Complete\nTransfer"@#@

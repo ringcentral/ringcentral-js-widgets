@@ -1,45 +1,51 @@
+import {
+  RcUIModuleV2,
+  UIFunctions,
+  UIProps,
+} from '@ringcentral-integration/core';
 import { Module } from 'ringcentral-integration/lib/di';
-import Locale from 'ringcentral-integration/modules/Locale';
-import Brand from 'ringcentral-integration/modules/Brand';
-import Alert from 'ringcentral-integration/modules/Alert';
-import RateLimiter from 'ringcentral-integration/modules/RateLimiter';
-
-import RouterInteraction from '../RouterInteraction';
 import { AlertRenderer } from '../../components/AlertRenderer';
-import RcUIModule from '../../lib/RcUIModule';
+import {
+  NotificationMessage,
+  NotificationPanelProps,
+} from '../../components/NotificationPanel/NotificationPanel.interface';
+import { NotificationContainerProps } from '../../containers/NotificationContainer/NotificationContainer.interface';
+import { Deps } from './AlertUI.interface';
 
 @Module({
   name: 'AlertUI',
-  deps: ['Brand', 'Alert', 'Locale', 'RouterInteraction', 'RateLimiter'],
+  deps: [
+    'Brand',
+    'Alert',
+    'Locale',
+    'RouterInteraction',
+    {
+      dep: 'RateLimiter',
+      optional: true,
+    },
+  ],
 })
-export default class AlertUI extends RcUIModule {
-  private _locale: Locale;
-  private _brand: Brand;
-  private _alert: Alert;
-  private _routerInteraction: RouterInteraction;
-  private _rateLimiter: RateLimiter;
-
-  constructor({
-    locale,
-    brand,
-    alert,
-    routerInteraction,
-    rateLimiter,
-    ...options
-  }) {
-    super({ locale, brand, alert, routerInteraction, rateLimiter, ...options });
-    this._locale = locale;
-    this._brand = brand;
-    this._alert = alert;
-    this._routerInteraction = routerInteraction;
-    this._rateLimiter = rateLimiter;
+export class AlertUI extends RcUIModuleV2<Deps> {
+  constructor(deps: Deps) {
+    super({ deps });
   }
 
-  getUIProps() {
+  getUIProps({
+    className,
+    classes,
+    size,
+    messageAlign,
+    fullWidth,
+  }: NotificationContainerProps): UIProps<NotificationPanelProps> {
     return {
-      currentLocale: this._locale.currentLocale,
-      messages: this._alert.messages,
-      brand: this._brand.fullName,
+      className,
+      classes,
+      size,
+      messageAlign,
+      fullWidth,
+      currentLocale: this._deps.locale.currentLocale,
+      messages: this._deps.alert.messages as NotificationMessage[],
+      brand: this._deps.brand.fullName,
     };
   }
 
@@ -47,27 +53,25 @@ export default class AlertUI extends RcUIModule {
     getAdditionalRenderer,
     regionSettingsUrl,
     callingSettingsUrl,
-    ...rest
-  }) {
+  }: NotificationContainerProps): UIFunctions<NotificationPanelProps> {
     return {
-      getRenderer: (messageObject: object) => {
+      getRenderer: (message: NotificationMessage) => {
         if (getAdditionalRenderer) {
-          const renderer = getAdditionalRenderer()(messageObject);
-
-          if (renderer) return renderer;
+          const renderer = getAdditionalRenderer()(message);
+          if (renderer) {
+            return renderer;
+          }
         }
-
         return AlertRenderer(
-          this._alert,
-          this._brand,
-          this._rateLimiter,
-          this._routerInteraction,
+          this._deps.alert,
+          this._deps.brand,
+          this._deps.rateLimiter,
+          this._deps.routerInteraction,
           regionSettingsUrl,
           callingSettingsUrl,
-        )(messageObject);
+        )(message);
       },
-      dismiss: (id: string) => this._alert.dismiss(id),
-      ...rest,
+      dismiss: (id: string) => this._deps.alert.dismiss(id),
     };
   }
 }

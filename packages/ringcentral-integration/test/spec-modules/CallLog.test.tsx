@@ -8,17 +8,16 @@ import {
   Step,
 } from '@ringcentral-integration/test-utils';
 import { CallLog, CallLogData } from '../../modules/CallLogV2';
+import { mockModuleGenerator } from '../lib/mockModule';
 
-const getMockModule = () => ({
-  data: {
-    list: [],
-    token: null,
-    timestamp: null,
-  } as CallLogData,
-  state: {},
-  _dispatch: () => {},
-  parentModule: {},
-});
+const getMockModule = () =>
+  mockModuleGenerator({
+    data: {
+      list: [],
+      token: null,
+      timestamp: null,
+    } as CallLogData,
+  });
 
 @autorun(test)
 @title('CallLog Module "resetData" action')
@@ -30,7 +29,7 @@ export class ResetData extends Step {
           desc="Create an CallLog instance with default value"
           action={(_: any, context: any) => {
             const instance = new CallLog({} as any);
-            expect(instance._initialValue.data).toEqual({
+            expect(instance.data).toEqual({
               list: [],
               token: null,
               timestamp: null,
@@ -70,7 +69,7 @@ export class ClearToken extends Step {
           desc="Create an CallLog instance with default value"
           action={(_: any, context: any) => {
             const instance = new CallLog({} as any);
-            expect(instance._initialValue.data).toEqual({
+            expect(instance.data).toEqual({
               list: [],
               token: null,
               timestamp: null,
@@ -115,7 +114,7 @@ export class FilterExpiredCalls extends Step {
           desc="Create an CallLog instance with default value"
           action={(_: any, context: any) => {
             const instance = new CallLog({} as any);
-            expect(instance._initialValue.data).toEqual({
+            expect(instance.data).toEqual({
               list: [],
               token: null,
               timestamp: null,
@@ -168,7 +167,7 @@ export class SyncSuccess extends Step {
           desc="Create an CallLog instance with default value"
           action={(_: any, context: any) => {
             const instance = new CallLog({} as any);
-            expect(instance._initialValue.data).toEqual({
+            expect(instance.data).toEqual({
               list: [],
               token: null,
               timestamp: null,

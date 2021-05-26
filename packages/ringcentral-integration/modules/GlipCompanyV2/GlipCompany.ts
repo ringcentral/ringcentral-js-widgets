@@ -1,6 +1,5 @@
 import { GlipCompany as GlipCompanyType } from '@rc-ex/core/definitions';
 import { computed } from '@ringcentral-integration/core';
-
 import { Module } from '../../lib/di';
 import { DataFetcherV2Consumer, DataSource } from '../DataFetcherV2';
 import { Deps } from './GlipCompany.interface';
@@ -10,7 +9,7 @@ import { Deps } from './GlipCompany.interface';
   deps: [
     'Client',
     'DataFetcherV2',
-    'RolesAndPermissions',
+    'ExtensionFeatures',
     { dep: 'GlipCompanyOptions', optional: true },
   ],
 })
@@ -26,14 +25,14 @@ export class GlipCompany extends DataFetcherV2Consumer<Deps, GlipCompanyType> {
         const response = await this._deps.client.glip().companies('~').get();
         return response;
       },
-      readyCheckFunction: () => this._deps.rolesAndPermissions.ready,
+      readyCheckFunction: () => this._deps.extensionFeatures.ready,
       permissionCheckFunction: () =>
-        !!this._deps.rolesAndPermissions.hasGlipPermission,
+        this._deps.extensionFeatures.features?.Glip.available ?? false,
     });
     this._deps.dataFetcherV2.register(this._source);
   }
 
-  @computed<GlipCompany>(({ data }) => [data])
+  @computed(({ data }: GlipCompany) => [data])
   get info() {
     return this.data ?? {};
   }

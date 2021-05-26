@@ -3,6 +3,7 @@ import {
   PhoneNumberResource,
   PresenceInfoResponse,
 } from '@rc-ex/core/definitions';
+import { IContact } from '../../interfaces/Contact.model';
 import { CompanyContacts } from '../CompanyContactsV2';
 import { ExtensionInfo } from '../ExtensionInfoV2';
 
@@ -30,6 +31,11 @@ export interface AccountContactsOptions {
    * interval of query avatar, default 2 seconds
    */
   avatarQueryInterval?: number;
+  /**
+   * EnableCDC will hide hidden contacts from contact list
+   * and contact searching, but still allow contact matching.
+   */
+  enableCDC?: boolean;
 }
 
 export interface ProfileImage {
@@ -49,20 +55,14 @@ export interface Presence {
 
 export type Presences = Record<string, Presence>;
 
-export interface Contact extends ContactResource {
-  type: string;
-  id: string;
-  emails?: string[];
-  hasProfileImage?: boolean;
-  phoneNumbers?: ({
-    phoneNumber?: string;
-    // Type conflict with IContact
-    phoneType?: string;
-  } & PhoneNumberResource)[];
-  extensionNumber?: string;
-  profileImageUrl?: string;
+export interface Contact extends IContact {
   presence?: Presence['presence'];
   contactStatus?: string;
+}
+
+export interface DirectoryContacts {
+  all: Contact[];
+  cdc: Contact[];
 }
 
 export type PresenceContexts = {

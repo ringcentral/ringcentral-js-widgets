@@ -10,6 +10,7 @@ import { EvPresence } from '../EvPresence';
 import { EvSettings } from '../EvSettings';
 import { EvSubscription } from '../EvSubscription';
 import { EvStorage } from '../EvStorage';
+import { EvWorkingState } from '../EvWorkingState';
 
 export interface State {
   dialoutCallerId: string;
@@ -30,6 +31,7 @@ export interface EvCallOptions {
 }
 
 export interface Deps {
+  evWorkingState: EvWorkingState;
   evSettings: EvSettings;
   alert: Alert;
   evAuth: EvAuth;

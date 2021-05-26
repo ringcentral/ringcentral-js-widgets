@@ -22,6 +22,7 @@ import proxify from '../../lib/proxy/proxify';
     'NumberValidate',
     'RolesAndPermissions',
     // { dep: 'Conversations', optional: true },
+    { dep: 'RouterInteraction', optional: true },
     { dep: 'ContactSearch', optional: true },
     { dep: 'ComposeTextOptions', optional: true },
   ],
@@ -46,6 +47,7 @@ export default class ComposeText extends RcModule {
     contactSearch,
     rolesAndPermissions,
     conversations,
+    routerInteraction,
     ...options
   }) {
     super({
@@ -64,6 +66,7 @@ export default class ComposeText extends RcModule {
     this._numberValidate = numberValidate;
     this._contactSearch = contactSearch;
     // this._conversations = conversations;
+    this._routerInteraction = routerInteraction;
     this._lastContactSearchResult = [];
     this.senderNumbersList = [];
     storage.registerReducer({
@@ -214,7 +217,36 @@ export default class ComposeText extends RcModule {
       }
     }
     // this._conversations.addEntities(this.toNumbers);
-    return this._messageSender.send({ fromNumber, toNumbers, text });
+    let timeoutID = setTimeout(() => {
+      if (
+        this._routerInteraction &&
+        this._routerInteraction.currentPath === '/composeText'
+      ) {
+        this.alertMessageSending();
+      }
+      timeoutID = null;
+    }, 10000);
+
+    try {
+      const responses = await this._messageSender.send({
+        fromNumber,
+        toNumbers,
+        text,
+      });
+
+      if (timeoutID) {
+        clearTimeout(timeoutID);
+        timeoutID = null;
+      }
+      this.dismissMessageSending();
+      return responses;
+    } catch (err) {
+      if (timeoutID) {
+        clearTimeout(timeoutID);
+        timeoutID = null;
+      }
+      throw err;
+    }
   }
 
   @proxify

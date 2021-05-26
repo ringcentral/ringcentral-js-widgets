@@ -31,6 +31,7 @@ export default function getProxyServer(
               return this._target[subModule];
             },
           });
+          this[subModule]._getStateV2 = (state, key) => state.target[key];
         }
       }
 

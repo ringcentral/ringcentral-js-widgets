@@ -46,6 +46,10 @@ export interface BrandConfig {
    */
   supportedLocales?: string[];
   /**
+   * App default locales.
+   */
+  defaultLocale?: string;
+  /**
    * Prefered product name for zoom meetings.
    */
   zoomProductName?: string;

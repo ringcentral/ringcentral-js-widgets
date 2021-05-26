@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="352" height="103" viewBox="0 0 352 103">
     <g fill="none" fill-rule="evenodd">
         <g transform="translate(65 41)">
-            <rect width="260" height="35" fill="#0684BD" rx="17.5"/>
+            <rect width="260" height="35" fill="#066FAC" rx="17.5"/>
             <text fill="#FFF" font-family="HelveticaNeue, Helvetica Neue" font-size="13">
                 <tspan x="114" y="22">Normal </tspan>
             </text>

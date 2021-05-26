@@ -1,14 +1,14 @@
 const WRAPPER = Symbol('wrapper');
 
 /**
- * @function
- * @description Decorator function that convert a class method to a getter
+ * @deprecated
  */
 export default function getter(
   prototype,
   property,
   { initializer, value, get },
 ) {
+  console.warn('"@getter" is deprecated. Use "@computed()" instead.');
   return {
     configurable: true,
     enumerable: true,

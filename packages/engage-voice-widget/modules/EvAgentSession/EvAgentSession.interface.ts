@@ -12,6 +12,7 @@ import { EvAuth } from '../EvAuth';
 import { EvPresence } from '../EvPresence';
 import { EvStorage } from '../EvStorage';
 import { EvTabManager } from '../EvTabManager';
+import { EvCallDataSource } from '../EvCallDataSource';
 
 export interface EvAgentSessionOptions {}
 
@@ -35,6 +36,7 @@ export interface Deps {
   modalUI: ModalUI;
   locale: Locale;
   tabManager?: EvTabManager;
+  evCallDataSource: EvCallDataSource;
   evAgentSessionOptions?: EvAgentSessionOptions;
   routerInteraction: RouterInteraction;
   block: Block;

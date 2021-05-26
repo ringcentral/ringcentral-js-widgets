@@ -2,11 +2,11 @@ import moduleStatuses from 'ringcentral-integration/enums/moduleStatuses';
 import Softphone from 'ringcentral-integration/modules/Softphone';
 
 describe.each`
-  brandCode  | spartanProtocol | jupiterProtocol | jupiterUniversalLink
-  ${'att'}   | ${'attvr20'}    | ${null}         | ${null}
-  ${'bt'}    | ${'rcbtmobile'} | ${null}         | ${null}
-  ${'rc'}    | ${'rcmobile'}   | ${'rcapp'}      | ${'https://app.ringcentral.com/r/'}
-  ${'telus'} | ${'rctelus'}    | ${null}         | ${null}
+  brandCode  | spartanProtocol    | jupiterProtocol      | jupiterUniversalLink
+  ${'att'}   | ${'attvr20://'}    | ${'officeathand://'} | ${'https://app.officeathand.att.com/'}
+  ${'bt'}    | ${'rcbtmobile://'} | ${null}              | ${null}
+  ${'rc'}    | ${'rcmobile://'}   | ${'rcapp://'}        | ${'https://app.ringcentral.com/'}
+  ${'telus'} | ${'rctelus://'}    | ${'rctelus://'}      | ${null}
 `(
   'Softphone Unit Test',
   ({ brandCode, spartanProtocol, jupiterProtocol, jupiterUniversalLink }) => {

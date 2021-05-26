@@ -1,11 +1,12 @@
 import { Auth } from '../AuthV2';
+import { ExtensionFeatures } from '../ExtensionFeatures';
 import { Locale } from '../LocaleV2';
-import { RolesAndPermissions } from '../RolesAndPermissionsV2';
 import { Storage } from '../StorageV2';
 import { Webphone } from '../WebphoneV2';
 
 export interface UserGuideOptions {
-  //
+  // TODO: fix type with `@types/webpack-env` - `RequireContext`
+  context: any;
 }
 
 export interface Deps {
@@ -13,8 +14,7 @@ export interface Deps {
   locale: Locale;
   storage: Storage;
   webphone: Webphone;
-  rolesAndPermissions: RolesAndPermissions;
-  context: Context;
+  extensionFeatures: ExtensionFeatures;
   userGuideOptions?: UserGuideOptions;
 }
 
@@ -29,8 +29,3 @@ export interface CarouselState {
 }
 
 export type Guides = Record<string, string[]>;
-
-export interface Context {
-  (path: string): string;
-  keys(): string[];
-}

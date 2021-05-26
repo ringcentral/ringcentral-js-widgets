@@ -1,6 +1,5 @@
 import { GetAccountInfoResponse } from '@rc-ex/core/definitions';
-import { computed } from '@ringcentral-integration/core';
-
+import { computed, track } from '@ringcentral-integration/core';
 import { Module } from '../../lib/di';
 import { loginStatus } from '../AuthV2';
 import { DataFetcherV2Consumer, DataSource } from '../DataFetcherV2';
@@ -12,8 +11,8 @@ import { Deps } from './AccountInfo.interfaces';
   deps: [
     'Auth',
     'Client',
-    'RolesAndPermissions',
     'Alert',
+    'ExtensionFeatures',
     'DataFetcherV2',
     { dep: 'AccountInfoOptions', optional: true },
   ],
@@ -31,7 +30,7 @@ export class AccountInfo extends DataFetcherV2Consumer<
       key: 'accountInfo',
       fetchFunction: async () =>
         (await this._deps.client.account().get()) as GetAccountInfoResponse,
-      readyCheckFunction: () => !!this._deps.rolesAndPermissions.ready,
+      readyCheckFunction: () => !!this._deps.extensionFeatures.ready,
       permissionCheckFunction: () => this._checkPermission(),
       cleanOnReset: true,
     });
@@ -39,7 +38,7 @@ export class AccountInfo extends DataFetcherV2Consumer<
   }
 
   protected _checkPermission() {
-    return !!this._deps.rolesAndPermissions.permissions?.ReadCompanyInfo;
+    return !!this._deps.extensionFeatures.features?.ReadCompanyInfo?.available;
   }
 
   async onStateChange() {
@@ -56,22 +55,33 @@ export class AccountInfo extends DataFetcherV2Consumer<
     }
   }
 
-  @computed<AccountInfo>(({ data }) => [data])
+  @track((that: AccountInfo) => (analytics) => {
+    analytics.identify?.({
+      userId: that._deps.auth?.ownerId,
+      accountId: that.id,
+      servicePlanId: that.servicePlan.id,
+      edition: that.servicePlan.edition,
+      CRMEnabled: that._deps.extensionFeatures.isCRMEnabled,
+    });
+  })
+  onInitSuccess() {}
+
+  @computed(({ data }: AccountInfo) => [data])
   get info() {
     return this.data ?? {};
   }
 
-  @computed<AccountInfo>(({ info }) => [info])
+  @computed(({ info }: AccountInfo) => [info])
   get serviceInfo() {
     return this.info.serviceInfo ?? {};
   }
 
-  @computed<AccountInfo>(({ serviceInfo }) => [serviceInfo])
+  @computed(({ serviceInfo }: AccountInfo) => [serviceInfo])
   get servicePlan() {
     return this.serviceInfo.servicePlan ?? {};
   }
 
-  @computed<AccountInfo>(({ serviceInfo }) => [serviceInfo])
+  @computed(({ serviceInfo }: AccountInfo) => [serviceInfo])
   get billingPlan() {
     return this.serviceInfo.billingPlan ?? {};
   }

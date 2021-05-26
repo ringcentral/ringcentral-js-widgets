@@ -7,15 +7,14 @@ import {
   Step,
 } from '@ringcentral-integration/test-utils';
 import { Auth, Token, loginStatus } from '../../modules/AuthV2';
+import { mockModuleGenerator } from '../lib/mockModule';
 
-const getMockModule = () => ({
-  loginStatus: null as string,
-  isFreshLogin: null as boolean,
-  token: {} as Token,
-  state: {},
-  _dispatch: () => {},
-  parentModule: {},
-});
+const getMockModule = () =>
+  mockModuleGenerator({
+    loginStatus: null as string,
+    isFreshLogin: null as boolean,
+    token: {} as Token,
+  });
 
 @autorun(test)
 @title('Check loginStatus')
@@ -27,7 +26,7 @@ export class CheckLoginStatus extends Step {
           desc="Create a 'Auth' instance and initial state should be 'null'"
           action={() => {
             const auth = new Auth({} as any);
-            expect(auth._initialValue.loginStatus).toBeNull();
+            expect(auth.loginStatus).toBeNull();
           }}
         />
         <Then
@@ -115,7 +114,7 @@ export class CheckToken extends Step {
           desc="Create a 'Auth' instance and initial state should be '{}'"
           action={() => {
             const auth = new Auth({} as any);
-            expect(auth._initialValue.token).toEqual({});
+            expect(auth.token).toEqual({});
           }}
         />
         <Then
@@ -259,7 +258,7 @@ export class CheckIsFreshLogin extends Step {
           desc="Create a 'Auth' instance and initial state should be 'null'"
           action={() => {
             const auth = new Auth({} as any);
-            expect(auth._initialValue.isFreshLogin).toEqual(null);
+            expect(auth.isFreshLogin).toEqual(null);
           }}
         />
         <Then

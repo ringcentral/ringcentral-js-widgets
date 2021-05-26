@@ -69,6 +69,7 @@ export default class Storage extends StorageBase {
           storageKey,
           // To fix same reference in redux store with storedData
           data: {
+            ...this.data,
             ...storedData,
           },
         });

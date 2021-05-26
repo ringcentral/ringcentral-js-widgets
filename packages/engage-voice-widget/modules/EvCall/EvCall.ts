@@ -47,6 +47,7 @@ const DEFAULT_OUTBOUND_SETTING = {
     'EvIntegratedSoftphone',
     { dep: 'TabManager', optional: true },
     { dep: 'EvCallOptions', optional: true },
+    { dep: 'EvWorkingState', optional: true },
   ],
 })
 class EvCall extends RcModuleV2<Deps> implements Call {
@@ -106,6 +107,10 @@ class EvCall extends RcModuleV2<Deps> implements Call {
     return this._deps.presence.dialoutStatus;
   }
 
+  get isDialing() {
+    return this._deps.presence.dialoutStatus === 'dialing';
+  }
+
   private get _isTabActive() {
     return !this._deps.tabManager || this._deps.tabManager.active;
   }
@@ -138,13 +143,13 @@ class EvCall extends RcModuleV2<Deps> implements Call {
     this.dialoutQueueId = DEFAULT_OUTBOUND_SETTING.dialoutQueueId;
     this.dialoutCountryId = DEFAULT_OUTBOUND_SETTING.dialoutCountryId;
     this.dialoutRingTime = DEFAULT_OUTBOUND_SETTING.dialoutRingTime;
-    const defaultRingtime = parseInt(
+    const defaultRingTime = parseInt(
       this._deps.evAuth.outboundManualDefaultRingtime,
       10,
     );
-    if (!Number.isNaN(defaultRingtime)) {
-      this.formGroup.dialoutRingTime = defaultRingtime;
-      this.dialoutRingTime = defaultRingtime;
+    if (!Number.isNaN(defaultRingTime)) {
+      this.formGroup.dialoutRingTime = defaultRingTime;
+      this.dialoutRingTime = defaultRingTime;
     }
   }
 
@@ -157,7 +162,7 @@ class EvCall extends RcModuleV2<Deps> implements Call {
     });
   }
 
-  @computed<EvCall>((that) => [that._deps.evAuth.isEvLogged, that.ready])
+  @computed((that: EvCall) => [that._deps.evAuth.isEvLogged, that.ready])
   get isOnLoginSuccess() {
     return this.ready && this._deps.evAuth.isEvLogged;
   }
@@ -180,13 +185,18 @@ class EvCall extends RcModuleV2<Deps> implements Call {
     this._deps.evSubscription.subscribe(
       EvCallbackTypes.TCPA_SAFE_LEAD_STATE,
       (data) => {
-        if (data.leadState === 'BUSY') {
+        if (['INTERCEPT', 'BUSY', 'NOANSWER'].includes(data.leadState)) {
           // TCPA_SAFE_LEAD_STATE -> BUSY
           // TODO alert message info about busy call.
           if (!this._deps.evSettings.isManualOffhook && this._isTabActive) {
             this._deps.evClient.offhookTerm();
           }
           this.setPhonedIdle();
+          if (data.leadState === 'INTERCEPT') {
+            this._deps.alert.info({
+              message: messageTypes.INTERCEPT,
+            });
+          }
         }
       },
     );
@@ -202,8 +212,12 @@ class EvCall extends RcModuleV2<Deps> implements Call {
     }
   }
 
-  @track(trackEvents.outbound)
+  @track((that: EvCall) => [
+    trackEvents.outbound,
+    { value: that._deps.evAgentSession.loginType },
+  ])
   async dialout(phoneNumber: string) {
+    this._deps.presence.setCurrentCallUii('');
     if (this._deps.evAgentSession.isIntegratedSoftphone) {
       const integratedSoftphone = this._deps.evIntegratedSoftphone;
       try {
@@ -232,6 +246,10 @@ class EvCall extends RcModuleV2<Deps> implements Call {
     }
   }
 
+  outdialCancel() {
+    this._deps.evClient.manualOutdialCancel(this._deps.presence.currentCallUii);
+  }
+
   checkDialoutRingTime() {
     const dialoutRingTime = Math.min(
       Math.max(this.formGroup.dialoutRingTime, this.ringTimeLimit.min),
@@ -240,6 +258,25 @@ class EvCall extends RcModuleV2<Deps> implements Call {
     if (dialoutRingTime !== this.formGroup.dialoutRingTime) {
       this.setFormGroup({ dialoutRingTime });
     }
+  }
+
+  checkIsAbleToCall() {
+    if (
+      this.dialoutStatus !== dialoutStatuses.idle ||
+      this._deps.evCallMonitor.isOnCall ||
+      this._deps.evWorkingState.isPendingDisposition
+    ) {
+      console.log('Unavailable to call, have a call or is PendingDisposition.');
+      if (!this._deps.evCallMonitor.isOnCall) {
+        this.setPhonedIdle();
+      }
+      this._deps.alert.danger({
+        message: messageTypes.FAILED_TO_CALL,
+        ttl: 0,
+      });
+      return false;
+    }
+    return true;
   }
 
   setDialoutStatus(status: DialoutStatusesType) {

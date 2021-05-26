@@ -11,7 +11,7 @@ export default {
   enableWaitingRoom: "Habilitar la sala de espera",
   waitingRoom: "Habiliar la sala de espera para",
   waitingRoomNotCoworker: "Cualquiera fuera de mi empresa",
-  waitingRoomGuest: "Cualquiera que no haya iniciado sesión",
+  waitingRoomGuest: "Cualquiera sin sesión iniciada",
   waitingRoomAll: "Todos",
   enterPassword: "Ingrese la contraseña",
   onlyJoinAfterMe: "Los participantes solo pueden unirse después de mí",
@@ -29,7 +29,7 @@ export default {
   onlyAuthUserJoin: "Solo los usuarios autenticados pueden unirse",
   signedInUsers: "Usuarios que han iniciado sesión",
   signedInCoWorkers: "Compañeros que han iniciado sesión",
-  limitScreenSharing: "Solo el anfitrión y los moderadores pueden compartir pantalla",
+  limitScreenSharing: "Solo el host y los moderadores pueden compartir pantalla",
   lockTooltip: "Esta configuración es gestionada por el administrador de su empresa",
   pmiSettingAlert: "Esta configuración se aplicará para todas las reuniones creadas con el PMI"
 };

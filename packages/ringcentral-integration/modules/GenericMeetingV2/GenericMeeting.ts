@@ -107,7 +107,7 @@ export class GenericMeeting<T = {}> extends RcModuleV2<Deps & T> {
       const rcvMeetingInfo = meeting as RcVMeetingModel;
       if (rcvMeetingInfo.usePersonalMeetingId) {
         result = await this._deps.rcVideo.updateMeeting(
-          this._deps.rcVideo.personalMeeting.id,
+          this._deps.rcVideo.personalMeeting?.id,
           rcvMeetingInfo,
           config,
         );
@@ -303,16 +303,8 @@ export class GenericMeeting<T = {}> extends RcModuleV2<Deps & T> {
     return this._deps.brand.name;
   }
 
-  get showAdminLock() {
-    return !!this._meetingModule.showAdminLock;
-  }
-
   get enableServiceWebSettings(): boolean {
     return !!this._meetingModule.enableServiceWebSettings;
-  }
-
-  get putRecurringMeetingInMiddle(): boolean {
-    return !!this._meetingModule.putRecurringMeetingInMiddle;
   }
 
   get enablePersonalMeeting() {

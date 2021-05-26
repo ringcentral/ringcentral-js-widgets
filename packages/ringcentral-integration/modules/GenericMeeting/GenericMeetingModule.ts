@@ -116,7 +116,7 @@ export class GenericMeeting extends RcModule implements IGenericMeeting {
       const rcvMeetingInfo = meeting as RcVMeetingModel;
       if (rcvMeetingInfo.usePersonalMeetingId) {
         result = await this._rcVideo.updateMeeting(
-          this._rcVideo.personalMeeting.id,
+          this._rcVideo.personalMeeting?.id,
           rcvMeetingInfo,
           config,
         );
@@ -296,6 +296,10 @@ export class GenericMeeting extends RcModule implements IGenericMeeting {
     return this._meetingModule.meeting;
   }
 
+  get defaultTopic() {
+    return this._meetingModule.defaultTopic;
+  }
+
   get delegators() {
     return this._meetingModule.delegators;
   }
@@ -328,10 +332,6 @@ export class GenericMeeting extends RcModule implements IGenericMeeting {
 
   get status() {
     return this.state.status;
-  }
-
-  get showAdminLock(): boolean {
-    return !!this._meetingModule.showAdminLock;
   }
 
   get enableServiceWebSettings(): boolean {

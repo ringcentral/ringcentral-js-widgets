@@ -42,6 +42,10 @@ function isRcBrand(brandCode: string): boolean {
   return brandCode === 'rc';
 }
 
+function isAttBrand(brandCode: string): boolean {
+  return brandCode === 'att';
+}
+
 export function getJupiterAppName(
   brandCode: string,
   brandName: string,
@@ -49,9 +53,12 @@ export function getJupiterAppName(
 ): string {
   return isRcBrand(brandCode)
     ? `${brandName} App`
-    : formatMessage(i18n.getString(callingOptions.jupiter, currentLocale), {
-        brand: brandName,
-      });
+    : `${isAttBrand(brandCode) ? 'AT&T ' : ''}${formatMessage(
+        i18n.getString(callingOptions.jupiter, currentLocale),
+        {
+          brand: brandName,
+        },
+      )}`;
 }
 
 export function getSoftphoneAppName(
@@ -59,11 +66,18 @@ export function getSoftphoneAppName(
   brandName: string,
   currentLocale: string,
 ): string {
-  return isRcBrand(brandCode)
-    ? `${brandName} Phone`
-    : formatMessage(i18n.getString(callingOptions.softphone, currentLocale), {
-        brand: brandName,
-      });
+  if (isRcBrand(brandCode)) {
+    return `${brandName} Phone`;
+  }
+  if (isAttBrand(brandCode)) {
+    return `AT&T ${brandName} Phone`;
+  }
+  return formatMessage(
+    i18n.getString(callingOptions.softphone, currentLocale),
+    {
+      brand: brandName,
+    },
+  );
 }
 
 export function getCallingOptionName(

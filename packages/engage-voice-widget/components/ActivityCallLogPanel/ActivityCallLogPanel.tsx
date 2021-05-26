@@ -1,4 +1,5 @@
-import { RcButton, RcMenu, RcMenuItem } from '@ringcentral/juno';
+import { RcButton, RcIconButton, RcMenu, RcMenuItem } from '@ringcentral/juno';
+import { Transcription } from '@ringcentral/juno/icon';
 import classNames from 'classnames';
 import React, { FunctionComponent, useCallback, useRef, useState } from 'react';
 import { BasicCallInfo } from 'ringcentral-widgets/components/BasicCallInfo';
@@ -54,9 +55,21 @@ export const ActivityCallLogPanel: FunctionComponent<ActivityCallLogPanelProps> 
   isWide,
   showMuteButton,
   ivrAlertData,
+  agentScriptData,
   onCopySuccess,
   scrollTo,
   referenceFieldOptions,
+  showRecordCall,
+  recordPauseCount,
+  disableRecordControl,
+  isRecording,
+  onResumeRecord,
+  timeStamp,
+  onRecord,
+  onPauseRecord,
+  onRestartTimer,
+  onStopRecord,
+  disablePauseRecord,
   ...rest
 }) => {
   const transferRef = useRef(null);
@@ -132,7 +145,22 @@ export const ActivityCallLogPanel: FunctionComponent<ActivityCallLogPanelProps> 
               }}
             />
             {ivrAlertData?.length > 0 && (
-              <IvrInfo isCallEnd={isCallEnd} ivrAlertData={ivrAlertData} />
+              <IvrInfo
+                isCallEnd={isCallEnd}
+                ivrAlertData={ivrAlertData}
+                agentScriptData={agentScriptData}
+              />
+            )}
+            {agentScriptData && (
+              <RcIconButton
+                className={styles.agentScriptIcon}
+                title={i18n.getString('engageScript', currentLocale)}
+                size="medium"
+                variant="contained"
+                color="neutral.f01"
+                symbol={Transcription}
+                onClick={agentScriptData.onClick}
+              />
             )}
           </>
         );
@@ -203,6 +231,17 @@ export const ActivityCallLogPanel: FunctionComponent<ActivityCallLogPanelProps> 
                 disableActive={disableActive}
                 isOnActive={isOnActive}
                 showMuteButton={showMuteButton}
+                showRecordCall={showRecordCall}
+                recordPauseCount={recordPauseCount}
+                disableRecordControl={disableRecordControl}
+                disablePauseRecord={disablePauseRecord}
+                isRecording={isRecording}
+                onResumeRecord={onResumeRecord}
+                onRecord={onRecord}
+                onPauseRecord={onPauseRecord}
+                onRestartTimer={onRestartTimer}
+                onStopRecord={onStopRecord}
+                timeStamp={timeStamp}
               />
             </>
           )

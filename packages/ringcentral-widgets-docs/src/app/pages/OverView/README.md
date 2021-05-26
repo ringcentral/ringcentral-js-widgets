@@ -47,8 +47,6 @@ This is a [demo](https://github.com/embbnux/ringcentral-widgets-demo) and [step-
 
 ## Contribution and Development
 
-We use [Lerna.js](https://github.com/lerna/lerna) to manage packages source. And we require Node.js > 8.
-
 Clone the repo:
 
 ```bash
@@ -60,7 +58,6 @@ Install dependent libraries:
 
 ```bash
 $ yarn install
-$ yarn bootstrap # Bootstrap with lerna
 $ yarn test # Run tests
 ```
 

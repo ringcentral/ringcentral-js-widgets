@@ -43,7 +43,10 @@ class Step<P = {}, C = {}> extends BaseStep<P, C> {
   static get context() {
     return {
       get phone() {
-        return global.instance.phone;
+        return global.instance?.phone ?? null;
+      },
+      get app() {
+        return global.instance?.app ?? null;
       },
       get mockServer() {
         return global.mockServer;

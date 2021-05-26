@@ -6,16 +6,16 @@ import {
   DataFetcherV2ConsumerBaseDeps,
   DataSourceBaseProps,
 } from '../DataFetcherV2';
+import { ExtensionFeatures } from '../ExtensionFeatures';
 import { dndStatus } from '../Presence/dndStatus';
-import { RolesAndPermissions } from '../RolesAndPermissionsV2';
-import Subscription from '../Subscription';
-import TabManager from '../TabManager';
+import { Subscription } from '../SubscriptionV2';
+import { TabManager } from '../TabManagerV2';
 
 export interface Deps extends DataFetcherV2ConsumerBaseDeps {
   auth: Auth;
   client: any;
   connectivityMonitor: ConnectivityMonitor;
-  rolesAndPermissions: RolesAndPermissions;
+  extensionFeatures: ExtensionFeatures;
   subscription: Subscription;
   tabManager?: TabManager;
   presenceOptions?: PresenceOptions;

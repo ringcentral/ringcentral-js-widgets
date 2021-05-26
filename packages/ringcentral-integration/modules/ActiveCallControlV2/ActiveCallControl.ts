@@ -40,7 +40,11 @@ import {
 } from './helpers';
 import { trackEvents } from '../Analytics';
 import callControlError from '../ActiveCallControl/callControlError';
-import { Deps, ModuleMakeCallParams } from './ActiveCallControl.interface';
+import {
+  ActiveSession,
+  Deps,
+  ModuleMakeCallParams,
+} from './ActiveCallControl.interface';
 import validateNumbers from '../../lib/validateNumbers';
 import {
   normalizeSession as normalizeWebphoneSession,
@@ -65,10 +69,10 @@ const subscribeEvent = subscriptionFilters.telephonySessions;
     'AccountInfo',
     'Subscription',
     'ExtensionInfo',
+    'ExtensionFeatures',
     'NumberValidate',
     'RegionSettings',
     'ConnectivityMonitor',
-    'RolesAndPermissions',
     { dep: 'Prefix', optional: true },
     { dep: 'Storage', optional: true },
     { dep: 'Webphone', optional: true },
@@ -129,9 +133,9 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
     }
   }
 
-  async initModule() {
+  async _initModule() {
     this._createOtherInstanceListener();
-    await super.initModule();
+    await super._initModule();
   }
 
   _createOtherInstanceListener() {
@@ -499,10 +503,18 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
       eventsEnum.DISCONNECTED,
       this._updateSessionsHandler,
     );
+    session.removeListener(
+      eventsEnum.WEBPHONE_SESSION_CONNECTED,
+      this._updateSessionsHandler,
+    );
     session.on(eventsEnum.STATUS, this._updateSessionsHandler);
     session.on(eventsEnum.MUTED, this._updateSessionsHandler);
     session.on(eventsEnum.RECORDINGS, this._updateSessionsHandler);
     session.on(eventsEnum.DISCONNECTED, this._updateSessionsHandler);
+    session.on(
+      eventsEnum.WEBPHONE_SESSION_CONNECTED,
+      this._updateSessionsHandler,
+    );
     // Handle the session update at the end of function to reduce the probability of empty rc call
     // sessions
     this._updateSessionsHandler();
@@ -1130,6 +1142,7 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
     const { webphoneSession } = session;
     const deviceId = this._deps.webphone?.device?.id;
     await session.answer({ deviceId });
+    this._trackWebRTCCallAnswer();
     if (webphoneSession && webphoneSession.__rc_callStatus) {
       webphoneSession.__rc_callStatus = sessionStatus.connected;
     }
@@ -1206,6 +1219,7 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
       }
       const deviceId = this._deps.webphone?.device?.id;
       await session.answer({ deviceId });
+      this._trackWebRTCCallAnswer();
       const { webphoneSession } = session;
       if (webphoneSession && webphoneSession.__rc_callStatus) {
         webphoneSession.__rc_callStatus = sessionStatus.connected;
@@ -1295,24 +1309,20 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
 
   @computed((that: ActiveCallControl) => [that.sessions, that.timestamp])
   get activeSessions() {
-    // TODO: add calls type in callMonitor modules
-    const reducer = (accumulator: any, session: any) => {
+    return this.sessions.reduce((accumulator, session) => {
       const { id } = session;
       accumulator[id] = normalizeSession({ session });
       return accumulator;
-    };
-    return this.sessions.reduce(reducer, {});
+    }, {} as Record<string, ActiveSession>);
   }
 
   @computed((that: ActiveCallControl) => [that._deps.presence.calls])
   get sessionIdToTelephonySessionIdMapping() {
-    // TODO: add calls type in callMonitor modules
-    const reducer = (accumulator: any, call: any) => {
+    return this._deps.presence.calls.reduce((accumulator, call) => {
       const { telephonySessionId, sessionId } = call;
       accumulator[sessionId] = telephonySessionId;
       return accumulator;
-    };
-    return this._deps.presence.calls.reduce(reducer, {});
+    }, {} as Record<string, string>);
   }
 
   /**
@@ -1325,7 +1335,7 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
   }
 
   get _hasPermission() {
-    return this._deps.rolesAndPermissions.ringoutEnabled;
+    return this._deps.extensionFeatures.isRingOutEnabled;
   }
 
   get timeToRetry() {
@@ -1388,6 +1398,9 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
   get sessions() {
     return this.data.sessions;
   }
+
+  @track(trackEvents.inboundWebRTCCallConnected)
+  _trackWebRTCCallAnswer() {}
 
   @track(trackEvents.dialpadOpen)
   dialpadOpenTrack() {}

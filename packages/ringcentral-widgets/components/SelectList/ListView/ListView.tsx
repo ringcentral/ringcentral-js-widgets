@@ -10,6 +10,7 @@ export type ListViewProps = {
   ListViewItemProps,
   | 'onSelect'
   | 'renderFunction'
+  | 'secondaryRenderFunction'
   | 'startAdornment'
   | 'filter'
   | 'valueFunction'

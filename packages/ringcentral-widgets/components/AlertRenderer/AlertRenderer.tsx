@@ -81,12 +81,12 @@ export function AlertRenderer(
       return MessageStoreAlert;
     }
 
-    if (RateExceededAlert.handleMessage(message)) {
+    if (RateExceededAlert.handleMessage(message) && rateLimiter?.timestamp) {
       return (props) => (
         <RateExceededAlert
           {...props}
           timestamp={rateLimiter.timestamp}
-          duration={rateLimiter._throttleDuration}
+          duration={rateLimiter.throttleDuration}
         />
       );
     }

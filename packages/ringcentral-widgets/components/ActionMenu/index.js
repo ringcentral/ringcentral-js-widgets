@@ -40,6 +40,7 @@ export default class ActionMenu extends Component {
       disableClickToSms,
       withAnimation,
       selectedMatchContactType,
+      showChooseEntityModal,
     } = this.props;
     return (
       <div ref={reference}>
@@ -84,6 +85,7 @@ export default class ActionMenu extends Component {
             externalViewEntity={externalViewEntity}
             externalHasEntity={externalHasEntity}
             disableClickToSms={disableClickToSms}
+            showChooseEntityModal={showChooseEntityModal}
           />
         </SlideMenu>
       </div>
@@ -129,6 +131,7 @@ ActionMenu.propTypes = {
   disableClickToSms: PropTypes.bool,
   withAnimation: PropTypes.bool,
   selectedMatchContactType: PropTypes.string,
+  showChooseEntityModal: PropTypes.bool,
 };
 ActionMenu.defaultProps = {
   extended: undefined,
@@ -167,4 +170,5 @@ ActionMenu.defaultProps = {
   disableClickToSms: false,
   withAnimation: true,
   selectedMatchContactType: '',
+  showChooseEntityModal: true,
 };

@@ -11,7 +11,9 @@ export default {
   transfer: "Transferir",
   flip: "Traspasar",
   more: "Acc. de llam.",
-  mergeToConference: "Combinar"
+  mergeToConference: "Combinar",
+  end: "Finalizar",
+  completeTransfer: "Completar\ntransferencia"
 };
 
 // @key: @#@"unmute"@#@ @source: @#@"Unmute"@#@
@@ -27,3 +29,5 @@ export default {
 // @key: @#@"flip"@#@ @source: @#@"Flip"@#@
 // @key: @#@"more"@#@ @source: @#@"Call Actions"@#@
 // @key: @#@"mergeToConference"@#@ @source: @#@"Merge"@#@
+// @key: @#@"end"@#@ @source: @#@"End"@#@
+// @key: @#@"completeTransfer"@#@ @source: @#@"Complete\nTransfer"@#@

@@ -1,8 +1,14 @@
-import { action, RcModuleV2, state } from '@ringcentral-integration/core';
+import {
+  action,
+  computed,
+  RcModuleV2,
+  state,
+} from '@ringcentral-integration/core';
 import I18n, {
   DEFAULT_LOCALE,
   PSEUDO_LOCALE,
 } from '@ringcentral-integration/i18n';
+import formatLocale from '@ringcentral-integration/i18n/lib/formatLocale';
 import formatMessage from 'format-message';
 import detectBrowserLocale from '../../lib/detectBrowserLocale';
 import { Module } from '../../lib/di';
@@ -11,7 +17,16 @@ import { Deps } from './Locale.interface';
 
 @Module({
   name: 'Locale',
-  deps: [{ dep: 'LocaleOptions', optional: true }],
+  deps: [
+    {
+      dep: 'Brand',
+      optional: true,
+    },
+    {
+      dep: 'LocaleOptions',
+      optional: true,
+    },
+  ],
 })
 export class Locale extends RcModuleV2<Deps> {
   constructor(deps: Deps) {
@@ -20,7 +35,11 @@ export class Locale extends RcModuleV2<Deps> {
   }
 
   get _defaultLocale() {
-    return this._deps.localeOptions?.defaultLocale ?? DEFAULT_LOCALE;
+    return (
+      this._deps.localeOptions?.defaultLocale ??
+      this._deps.brand?.brandConfig?.defaultLocale ??
+      DEFAULT_LOCALE
+    );
   }
 
   get _detectBrowser() {
@@ -33,6 +52,13 @@ export class Locale extends RcModuleV2<Deps> {
 
   get _pollingInterval() {
     return this._deps.localeOptions?.pollingInterval ?? 2000;
+  }
+
+  @computed((that: Locale) => [that._defaultLocale])
+  get _supportedLocales() {
+    return (
+      this._deps.brand?.brandConfig?.supportedLocales ?? [this._defaultLocale]
+    );
   }
 
   @state
@@ -74,12 +100,15 @@ export class Locale extends RcModuleV2<Deps> {
   }
 
   async initializeProxy() {
+    let setLocalePromise: Promise<void>;
     await this._setLocale(this.currentLocale);
     this.setProxyLocaleSuccess(this.currentLocale);
     this.store.subscribe(async () => {
-      if (this.locale !== this.proxyLocale) {
-        await this._setLocale(this.locale);
+      if (this.locale !== this.proxyLocale && !setLocalePromise) {
+        setLocalePromise = this._setLocale(this.locale);
+        await setLocalePromise;
         this.setProxyLocaleSuccess(this.locale);
+        setLocalePromise = null;
       }
     });
   }
@@ -105,6 +134,15 @@ export class Locale extends RcModuleV2<Deps> {
           ? DEFAULT_LOCALE
           : this.currentLocale,
     });
+  }
+
+  normalizeLocale(inputLocale: string) {
+    const locale = formatLocale(inputLocale);
+
+    const target = this._supportedLocales
+      .map((item) => formatLocale(item))
+      .find((item) => item === locale || item.split('-')[0] === locale);
+    return target ?? this._defaultLocale;
   }
 
   get currentLocale() {

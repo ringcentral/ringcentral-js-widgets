@@ -251,6 +251,8 @@ export class CallLogger<T = any> extends LoggerBase<Deps & T> {
     }
   }
 
+  async _onCallAnswered(call: ActiveCall) {}
+
   onInitOnce() {
     watch(
       this,
@@ -283,6 +285,12 @@ export class CallLogger<T = any> extends LoggerBase<Deps & T> {
                   },
                   callLoggerTriggerTypes.presenceUpdate,
                 );
+                if (
+                  oldCall.telephonyStatus === 'Ringing' &&
+                  call.telephonyStatus === 'CallConnected'
+                ) {
+                  this._onCallAnswered(call);
+                }
               }
               if (
                 (call.from && call.from.phoneNumber) !==
@@ -378,7 +386,7 @@ export class CallLogger<T = any> extends LoggerBase<Deps & T> {
     }
   }
 
-  @computed<CallLogger>((that) => [that.transferredCallsList])
+  @computed((that: CallLogger) => [that.transferredCallsList])
   get transferredCallsMap() {
     return reduce(
       (mapping, matcher) => ({ ...mapping, ...matcher }),

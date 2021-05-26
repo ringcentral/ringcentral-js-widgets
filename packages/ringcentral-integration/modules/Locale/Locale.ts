@@ -18,13 +18,14 @@ import getProxyStatusReducer from '../../lib/getProxyStatusReducer';
 import detectBrowserLocale from '../../lib/detectBrowserLocale';
 import { moduleActionTypes } from '../../enums/moduleActionTypes';
 import { proxyActionTypes } from '../../enums/proxyActionTypes';
+import formatLocale from '@ringcentral-integration/i18n/lib/formatLocale';
 
 /**
  * @class
  * @description Locale managing module
  */
 @Module({
-  deps: [{ dep: 'LocaleOptions', optional: true }],
+  deps: ['Brand', { dep: 'LocaleOptions', optional: true }],
 })
 export default class Locale extends RcModule {
   _defaultLocale: string;
@@ -38,6 +39,7 @@ export default class Locale extends RcModule {
    * @param {String} params.defaultLocale - default 'en-US'
    */
   constructor({
+    brand,
     defaultLocale = DEFAULT_LOCALE,
     detectBrowser = true,
     polling = false,
@@ -47,11 +49,20 @@ export default class Locale extends RcModule {
     super({
       ...options,
     });
+    this._brand = brand;
     this._defaultLocale = defaultLocale;
     this._detectBrowser = detectBrowser;
     this._polling = polling;
     this._pollingInterval = pollingInterval;
     I18n.setDefaultLocale(this._defaultLocale);
+  }
+
+  _onStateChange() {
+    /* do nothing */
+  }
+
+  get _supportedLocales() {
+    return this._brand.brandConfig?.supportedLocales ?? [this._defaultLocale];
   }
 
   get _actionTypes() {
@@ -94,6 +105,15 @@ export default class Locale extends RcModule {
     if (this._polling) {
       this._syncBrowserLocale();
     }
+  }
+
+  normalizeLocale(inputLocale: string) {
+    const locale = formatLocale(inputLocale);
+
+    const target = this._supportedLocales
+      .map((item) => formatLocale(item))
+      .find((item) => item === locale || item.split('-')[0] === locale);
+    return target ?? this._defaultLocale;
   }
 
   async _syncBrowserLocale() {

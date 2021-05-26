@@ -10,6 +10,16 @@ let wrapper: ReactWrapper;
 const getCallButton = () => wrapper.find('[data-sign="callButton"]').at(0);
 const getDeleteButton = () => wrapper.find('[data-sign="deleteButton"]').at(0);
 
+const mockAudio = () => {
+  window.HTMLMediaElement.prototype.play = () => {
+    return new Promise((resolve, reject) => {
+      resolve();
+    });
+  };
+};
+
+mockAudio();
+
 afterEach(async () => {
   wrapper.unmount();
 });
@@ -25,9 +35,7 @@ describe('<DialerPanel />', async () => {
       const recipientsInput = wrapper.find(RecipientsInput).at(0);
       const callButton = getCallButton();
       expect(recipientsInput.prop('value')).toBe(toNumber);
-      expect(callButton.prop<string[]>('color').join(',')).toBe(
-        ['semantic', 'positive'].join(','),
-      );
+      expect(callButton.prop('color')).toBe('semantic.positive');
       expect(callButton.prop('data-icon')).toBe('answer');
       callButton.simulate('click');
       expect(dialout).toBeCalled();
@@ -75,7 +83,7 @@ describe('<DialerPanel />', async () => {
     await act(async () => {
       deleteButton.simulate('mouseDown');
       jest.advanceTimersByTime(1100);
-      // here will hiden deleteButton when clear toNumber, so we don't need mouseUp
+      // here will hidden deleteButton when clear toNumber, so we don't need mouseUp
       // deleteButton.simulate('mouseUp');
     });
     expect(setToNumber).toBeCalledWith('');

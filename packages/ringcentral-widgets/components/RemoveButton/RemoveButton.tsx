@@ -1,18 +1,22 @@
 import React, { MouseEvent, FunctionComponent } from 'react';
 import classnames from 'classnames';
-import rcFont from '../../assets/RcFont/RcFont.scss';
+import RemoveIcon from '../../assets/images/RemoveIcon.svg';
+import DeleteCircleIcon from '../../assets/images/DeleteCircle.svg';
+
 import styles from './styles.scss';
 
 export interface RemoveButtonProps {
   className?: string;
   visibility?: boolean;
   onClick: (ev: MouseEvent) => void;
+  showWarningIcon?: boolean;
 }
 
 export const RemoveButton: FunctionComponent<RemoveButtonProps> = ({
   className,
   onClick,
   visibility,
+  showWarningIcon = false,
 }) => {
   return (
     <span
@@ -24,7 +28,11 @@ export const RemoveButton: FunctionComponent<RemoveButtonProps> = ({
       )}
       onClick={visibility ? onClick : null}
     >
-      <i className={rcFont.uni2471} />
+      {showWarningIcon ? (
+        <DeleteCircleIcon className={styles.deleteIcon} />
+      ) : (
+        <RemoveIcon className={styles.icon} />
+      )}
     </span>
   );
 };

@@ -1,6 +1,5 @@
-import { RcDatePicker } from '@ringcentral/juno';
 import React, { Component } from 'react';
-import classNames from 'classnames';
+import { RcDatePicker, RcTypography } from '@ringcentral/juno';
 
 import { setUTCTime, getDateFromUTCDay } from '../../../lib/timeFormatHelper';
 import InputSelect from '../../InputSelect';
@@ -54,6 +53,8 @@ export class FieldItem extends Component<FieldItemProps, {}> {
         value,
         disabled: currentDisabled,
         onChange: fieldOnChange,
+        onlyShowInMultipleMatches,
+        showOtherSection,
       },
       onSave,
       onSelectViewVisible,
@@ -65,6 +66,7 @@ export class FieldItem extends Component<FieldItemProps, {}> {
       referenceFieldOptions,
       currentLocale,
       showFoundFromServer,
+      disabled,
     } = this.props;
     const {
       task,
@@ -79,6 +81,7 @@ export class FieldItem extends Component<FieldItemProps, {}> {
     }
     const {
       getLabel,
+      getType,
       getValue: _getValue,
       onChange,
       metadata = {} as FieldMetadata,
@@ -96,6 +99,9 @@ export class FieldItem extends Component<FieldItemProps, {}> {
       backHeaderClassName,
     } = referenceFieldOption;
     const matchedEntities = matchedEntitiesGetter(currentLog);
+    if (onlyShowInMultipleMatches && matchedEntities.length <= 1) {
+      return;
+    }
     const otherEntities = otherEntitiesGetter(currentLog);
 
     const foundFromServerEntities =
@@ -118,7 +124,8 @@ export class FieldItem extends Component<FieldItemProps, {}> {
       ...associatedEntities,
       ...foundFromServerEntities,
     ].find(currentOptionFinder(task));
-    const disabled = currentDisabled || shouldDisable(task);
+    const disabledReference =
+      currentDisabled || shouldDisable(task) || disabled;
     const title = metadata.title || label;
     const rightIcon = rightIconRender
       ? rightIconRender(phoneNumber)
@@ -138,6 +145,7 @@ export class FieldItem extends Component<FieldItemProps, {}> {
         options={matchedEntities}
         otherOptions={otherEntities}
         associatedOptions={associatedEntities}
+        showOtherSection={showOtherSection}
         showAssociatedSection={showAssociatedSection}
         startAdornment={startAdornmentRender}
         field={value}
@@ -150,8 +158,9 @@ export class FieldItem extends Component<FieldItemProps, {}> {
         onSelectViewVisible={onSelectViewVisible}
         valueFunction={getValue}
         renderFunction={getLabel}
+        secondaryRenderFunction={getType}
         searchOption={searchOptionFinder}
-        disabled={disabled}
+        disabled={disabledReference}
         currentLocale={currentLocale}
         foundFromServerEntities={foundFromServerEntities}
         contactSearch={contactSearch}
@@ -175,7 +184,7 @@ export class FieldItem extends Component<FieldItemProps, {}> {
         type={type === 'string' ? 'text' : 'number'}
         required={required}
         placeholder={label}
-        value={this.currentValue || ''}
+        value={this.currentValue ?? ''}
         data-sign={value}
         onChange={(args: any) => this._updateValue(value, args, onSave)}
       />
@@ -315,33 +324,49 @@ export class FieldItem extends Component<FieldItemProps, {}> {
 
   private renderRadio = () => {
     const {
-      fieldOption: { picklistOptions },
+      fieldOption: { picklistOptions, label },
       currentLog,
+      disabled: disableAllFields,
     } = this.props;
-    const { task } = currentLog;
+    const { task, disableSaveLog } = currentLog;
     const options = [
       {
         value: (picklistOptions[0] as PickListOption).value,
         label: (picklistOptions[0] as PickListOption).label,
-        disabled: false,
+        disabled: disableAllFields || disableSaveLog,
       },
       {
         value: (picklistOptions[1] as PickListOption).value,
         label: (picklistOptions[1] as PickListOption).label,
         disabled: !!(
           !task.tickets ||
-          (task.tickets && task.tickets.length === 0)
+          task.tickets?.length === 0 ||
+          (task.matches?.length > 1 && !task.whoid) ||
+          disableAllFields
         ),
       },
     ];
     const defaultOption =
       task.option || (picklistOptions[0] as PickListOption).value;
     return (
-      <RadioField
-        value={defaultOption}
-        options={options}
-        onChange={this.onRadioChange}
-      />
+      <>
+        <RcTypography
+          color="inherit"
+          variant="caption2"
+          component="div"
+          className={styles.radioLabel}
+        >
+          {label}
+        </RcTypography>
+        <RadioField
+          value={defaultOption}
+          options={options}
+          onChange={this.onRadioChange}
+          classes={{
+            root: styles.radio,
+          }}
+        />
+      </>
     );
   };
 
@@ -366,50 +391,47 @@ export class FieldItem extends Component<FieldItemProps, {}> {
 
   // this is the dropdown to render ticket lists
   private renderTicketSelectList = () => {
-    const { currentLog, fieldOption } = this.props;
+    const { currentLog, fieldOption, disabled } = this.props;
     const { renderCondition, label } = fieldOption;
     const { task } = currentLog;
     // TODO: consider move this logic to zendesk
-    if (task.option !== renderCondition) {
+    if (task.option !== renderCondition || task.tickets?.length === 0) {
       return null;
     }
-    const options = task.tickets
-      ? task.tickets.map((ticket: any) => {
-          return {
-            value: ticket.id,
-            label: `#${ticket.id} ${ticket.subject}`,
-          };
-        })
-      : [];
-    const defaultTicket =
-      task.tickets.find((ticket: any) => ticket.id === task.ticketId) ||
-      (task.tickets && task.tickets[0]);
-    const defaultValue = defaultTicket?.id || '';
+    const options =
+      task.tickets && task.tickets.length > 0
+        ? task.tickets.map((ticket: any) => {
+            return {
+              value: ticket.id,
+              label: `#${ticket.id} ${ticket.subject}`,
+              title: `#${ticket.id} ${ticket.subject}`,
+            };
+          })
+        : [];
     return (
-      <SelectField
-        options={options}
-        disabled={options.length === 0}
-        value={defaultValue}
-        label={label}
-        classes={{
-          root: classNames(
-            styles.ticketSelectList,
-            styles.tickets,
-            styles.selectList,
-          ),
-        }}
-        onChange={this.onSelectChange}
-      />
+      <div className={styles.ticketSelectList}>
+        <SelectField
+          labelClassName={styles.selectLabel}
+          options={options}
+          fullWidth
+          disabled={options.length === 0 || disabled}
+          value={task.ticketId}
+          label={label}
+          onChange={(
+            event: React.ChangeEvent<{ name?: string; value: unknown }>,
+          ) => this.onSelectChange(event)}
+        />
+      </div>
     );
   };
 
-  private onSelectChange = async (
-    event: React.ChangeEvent<HTMLInputElement>,
+  private onSelectChange = (
+    event: React.ChangeEvent<{ name?: string; value: unknown }>,
   ) => {
     const { value } = event.target;
     const { currentLog, onUpdateCallLog } = this.props;
     const { currentSessionId, task = {} } = currentLog;
-    await onUpdateCallLog(
+    onUpdateCallLog(
       { ...currentLog, task: { ...task, ticketId: value } },
       currentSessionId,
     );
@@ -424,7 +446,7 @@ export class FieldItem extends Component<FieldItemProps, {}> {
     const defaultLogData = {
       isSaved: false,
       task: {
-        [value]: item || '',
+        [value]: item ?? '',
       },
     };
     const logData =
@@ -464,8 +486,7 @@ export class FieldItem extends Component<FieldItemProps, {}> {
       fieldOption: { value, type, error, enableScrollError },
       editSectionScrollBy,
     } = this.props;
-
-    if (this.fieldsRenderMap[type]) {
+    if (this.fieldsRenderMap[type] && this.fieldsRenderMap[type]()) {
       if (error && enableScrollError && this.fieldItemRef.current) {
         editSectionScrollBy(this.fieldItemRef.current.offsetTop);
       }

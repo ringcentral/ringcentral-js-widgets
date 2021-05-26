@@ -90,7 +90,7 @@ module.exports = {
     'jsx-a11y/click-events-have-key-events': 0,
     'jsx-a11y/anchor-is-valid': 0,
     'jsx-a11y/media-has-caption': 0,
-    'linebreak-style': 'off',
+    'linebreak-style': [1, process.platform === 'win32' ? 'windows' : 'unix'],
     'lines-between-class-members': 0, // function overloading in ts can be interrupted by this
     'no-await-in-loop': 0,
     'no-console': 0,
@@ -186,6 +186,10 @@ module.exports = {
         },
       },
       rules: {
+        'no-use-before-define': 'off',
+        '@typescript-eslint/no-use-before-define': ['error'],
+        'no-redeclare': 'off',
+        '@typescript-eslint/no-redeclare': ['error'],
         'no-undef': 0,
         'react/prop-types': 0,
         'import/no-unresolved': [2, { commonjs: true, amd: true }],

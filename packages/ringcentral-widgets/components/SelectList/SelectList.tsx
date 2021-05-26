@@ -22,6 +22,7 @@ export type SelectListProps = {
   title: string;
   otherOptions?: object[];
   associatedOptions?: object[];
+  showOtherSection?: boolean;
   showAssociatedSection?: boolean;
   placeholder?: string;
   searchOption: (...args: any[]) => any;
@@ -41,7 +42,12 @@ export type SelectListProps = {
   onBackClick: () => void;
 } & Pick<
   ListViewProps,
-  'options' | 'valueFunction' | 'renderFunction' | 'startAdornment' | 'onChange'
+  | 'options'
+  | 'valueFunction'
+  | 'renderFunction'
+  | 'startAdornment'
+  | 'onChange'
+  | 'secondaryRenderFunction'
 > &
   Pick<
     SelectListBasicProps,
@@ -72,6 +78,7 @@ export const SelectList: FunctionComponent<SelectListProps> = (props) => {
     backHeaderClassName,
     onSelectViewVisible,
     foundFromServerTitle,
+    secondaryRenderFunction,
   } = props;
   const [open, setOpen] = useState(false);
 
@@ -96,6 +103,7 @@ export const SelectList: FunctionComponent<SelectListProps> = (props) => {
         }
       }}
       renderFunction={renderFunction}
+      secondaryRenderFunction={secondaryRenderFunction}
       valueFunction={valueFunction}
       onSelect={(elm) => scrollCheck(elm, type)}
       startAdornment={startAdornment}

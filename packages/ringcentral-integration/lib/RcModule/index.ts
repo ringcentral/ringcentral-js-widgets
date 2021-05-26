@@ -1,6 +1,10 @@
 import { Store } from 'redux';
 import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
-import { RcModuleV2 } from '@ringcentral-integration/core';
+import {
+  identifierKey,
+  RcModuleV2,
+  storeKey,
+} from '@ringcentral-integration/core';
 import { Injector, Library } from '../di';
 import moduleStatuses from '../../enums/moduleStatuses';
 import proxyStatuses from '../../enums/proxyStatuses';
@@ -254,14 +258,38 @@ export default abstract class RcModule<
         ) {
           const subRcModule: RcModuleV2 = this[subModule] as any;
           subRcModule._initialized = true;
-          subRcModule.initModule();
+          subRcModule._initModule();
         }
       }
     }
   }
 
   static create() {
-    return Injector.bootstrap(this);
+    const instance = Injector.bootstrap(this);
+    for (const key in instance) {
+      if (instance[key] instanceof RcModuleV2) {
+        Object.defineProperties(instance[key], {
+          [identifierKey]: {
+            configurable: false,
+            enumerable: false,
+            writable: false,
+            value: key,
+          },
+          [storeKey]: {
+            configurable: false,
+            enumerable: false,
+            get() {
+              return this.parentModule._store;
+            },
+          },
+        });
+      }
+    }
+    return instance;
+  }
+
+  get [storeKey]() {
+    return this._store;
   }
 
   /**

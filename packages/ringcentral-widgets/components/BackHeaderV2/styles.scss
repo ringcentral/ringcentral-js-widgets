@@ -41,7 +41,7 @@ $back-margin-left-classic: 6px;
     overflow: hidden;
     span {
       @include rc-typography('body2');
-      color: rc-palette('text', 'Dark');
+      color: rc-palette('neutral', 'f06');
     }
   }
   // 32px is back icon's width

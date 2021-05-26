@@ -2,7 +2,7 @@ import { RcButtonBase, RcIcon, RcMenu, RcMenuItem } from '@ringcentral/juno';
 import arrowDownSvg from '@ringcentral/juno/icon/ArrowDown';
 import arrowUpSvg from '@ringcentral/juno/icon/ArrowUp';
 import classNames from 'classnames';
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent, MouseEventHandler, useState } from 'react';
 import { Tooltip } from 'ringcentral-widgets/components/Rcui/Tooltip';
 import { TOOLTIP_LONG_DELAY_TIME } from 'ringcentral-widgets/lib/toolTipDelayTime';
 
@@ -35,11 +35,12 @@ export const WorkingStateButton: FunctionComponent<WorkingStateButtonProps> = ({
 }) => {
   const [anchorEl, setAnchorEl] = useState(null);
 
-  const handleClick = (event) => {
+  const handleClick: MouseEventHandler<HTMLDivElement> = (event) => {
     if (!disabled) {
       setAnchorEl(event.currentTarget);
     }
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -49,6 +50,8 @@ export const WorkingStateButton: FunctionComponent<WorkingStateButtonProps> = ({
   return (
     <>
       <div
+        tabIndex={0}
+        role="button"
         className={classNames(styles.state, styles[color])}
         onClick={handleClick}
       >

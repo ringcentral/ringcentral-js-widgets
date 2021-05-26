@@ -2,7 +2,7 @@ export default {
   logging: "正在记录...",
   logCall: "记录通话",
   editLog: "编辑记录",
-  select: "选择匹配项",
+  select: "选择记录",
   OnHold: "等候接听",
   Ringing: "正在振铃",
   CallConnected: "通话已连接",
@@ -16,7 +16,7 @@ export default {
 // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
 // @key: @#@"logCall"@#@ @source: @#@"Log Call"@#@
 // @key: @#@"editLog"@#@ @source: @#@"Edit Log"@#@
-// @key: @#@"select"@#@ @source: @#@"Select matching"@#@
+// @key: @#@"select"@#@ @source: @#@"Select record"@#@
 // @key: @#@"OnHold"@#@ @source: @#@"On Hold"@#@
 // @key: @#@"Ringing"@#@ @source: @#@"Ringing"@#@
 // @key: @#@"CallConnected"@#@ @source: @#@"Call Connected"@#@

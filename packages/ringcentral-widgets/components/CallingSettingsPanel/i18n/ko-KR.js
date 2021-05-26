@@ -5,7 +5,7 @@ export default {
   [callingOptions.browser]: "브라우저",
   [callingOptions.jupiter]: "{brand}",
   makeCallsWith: "다음으로 내 전화 걸기",
-  ringoutHint: "먼저 내 위치에서 Ring Me한 다음 호출한 상대방에게 연결",
+  ringoutHint: "먼저 내 위치에서 울린 다음 호출한 상대방에게 연결",
   myLocationLabel: "내 위치",
   press1ToStartCallLabel: "통화 연결 전에 1번을 누르도록 알림",
   [`${callingOptions.browser}Tooltip`]: "컴퓨터의 마이크와 스피커를 사용하여 전화를 걸고 받으려면 이 옵션을 사용합니다.",

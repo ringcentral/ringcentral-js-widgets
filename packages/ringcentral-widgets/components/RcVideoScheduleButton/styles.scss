@@ -11,7 +11,7 @@
 }
 
 .withShadow {
-  box-shadow: 0 -1px 4px 0 rgba(0, 0, 0, 0.1);
+  border-top: 1px solid rc-palette('neutral', 'l02');
   position: relative;
   background-color: $snow;
 }
@@ -41,14 +41,14 @@
   */
   color: $snow !important;
   font-size: 13px;
-  &:hover{
-    color: $silver !important;;
+  &:hover {
+    color: $silver !important;
   }
 }
 
 .disabled {
   background-color: $silver;
-  &:hover{
+  &:hover {
     color: $snow !important;
   }
 }

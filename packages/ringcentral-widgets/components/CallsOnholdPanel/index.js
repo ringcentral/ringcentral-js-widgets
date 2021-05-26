@@ -8,7 +8,7 @@ import styles from './styles.scss';
 import i18n from './i18n';
 import CombineIcon from '../../assets/images/Combine.svg';
 
-export default function CallsOnholdContainer({
+const CallsOnholdContainer = ({
   calls,
   currentLocale,
   areaCode,
@@ -30,7 +30,7 @@ export default function CallsOnholdContainer({
   onMerge,
   onAdd,
   getAvatarUrl,
-}) {
+}) => {
   const backHeader = (
     <BackHeader
       className={styles.header}
@@ -97,7 +97,7 @@ export default function CallsOnholdContainer({
       </div>
     </div>
   );
-}
+};
 
 CallsOnholdContainer.propTypes = {
   currentLocale: PropTypes.string.isRequired,
@@ -142,3 +142,5 @@ CallsOnholdContainer.defaultProps = {
   disableMerge: false,
   getAvatarUrl: (i) => i,
 };
+
+export default CallsOnholdContainer;

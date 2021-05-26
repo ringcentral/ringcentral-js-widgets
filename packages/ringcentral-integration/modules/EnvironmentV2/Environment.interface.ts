@@ -1,4 +1,4 @@
-import GlobalStorage from '../GlobalStorage';
+import { GlobalStorage } from '../GlobalStorageV2';
 import { RingCentralClient } from '../../lib/RingCentralClient';
 import { SDKConfig } from '../../lib/createSdkConfig';
 

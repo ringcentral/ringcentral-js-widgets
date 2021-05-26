@@ -7,7 +7,6 @@ import {
   Then,
   Step,
 } from '@ringcentral-integration/test-utils';
-import { createStore } from 'redux';
 import { RcModuleV2, state, action } from '@ringcentral-integration/core';
 import { Module, ModuleFactory } from '../../lib/di';
 import { createApp } from '../../lib/createApp';
@@ -36,16 +35,16 @@ export class CreateAppBasic extends Step {
               }
 
               async onInit() {
-                await new Promise((r) => setTimeout(r, 1000));
+                await sleep(100);
               }
             }
 
             @ModuleFactory({
               providers: [{ provide: 'Counter', useClass: Counter }],
             })
-            class Root extends RcModuleV2 {
-              constructor(public options: any) {
-                super({ deps: options });
+            class Root extends RcModuleV2<{ counter: Counter }> {
+              constructor(deps: { counter: Counter }) {
+                super({ deps });
               }
 
               onStateChange() {
@@ -61,8 +60,6 @@ export class CreateAppBasic extends Step {
             const { Root, fn } = context;
             const root = createApp(Root);
             context.root = root;
-            const store = createStore(root.reducer);
-            root.setStore(store);
             expect(context.fn.mock.calls.length).toBe(0);
             expect(root.ready).toBe(false);
             expect(root.counter.ready).toBe(false);
@@ -74,7 +71,7 @@ export class CreateAppBasic extends Step {
           desc="fn should be called onStateChange and lifecycle"
           action={async (_: any, context: any) => {
             const { root, fn } = context;
-            await sleep(2000);
+            await sleep(500);
             expect(fn.mock.calls.length).toBe(4);
             expect(root.ready).toBe(true);
             expect(root.counter.ready).toBe(true);

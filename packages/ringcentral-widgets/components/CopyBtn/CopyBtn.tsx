@@ -11,28 +11,38 @@ const BtnContainer = styled('div')`
   }
 `;
 
-const InnerBtn: FunctionComponent<InnerBtnProps> = (props) => {
-  const { currentLocale, executeCopy } = props;
-  return (
-    <RcIconButton
-      variant="round"
-      size="small"
-      color="text.subdued"
-      data-sign="copyBtn"
-      symbol={CopyIcon}
-      tooltipTitle={i18n.getString('copy', currentLocale)}
-      onClick={executeCopy}
-    />
-  );
-};
+const InnerBtn: FunctionComponent<InnerBtnProps> = ({
+  size,
+  currentLocale,
+  executeCopy,
+}) => (
+  <RcIconButton
+    variant="round"
+    size={size}
+    color="neutral.f04"
+    data-sign="copyBtn"
+    symbol={CopyIcon}
+    title={i18n.getString('copy', currentLocale)}
+    onClick={executeCopy}
+  />
+);
 
-export const CopyBtn: FunctionComponent<ICopyBtnProps> = (props) => {
-  const { value, currentLocale, handleSuccess, handleFailure } = props;
+export const CopyBtn: FunctionComponent<ICopyBtnProps> = ({
+  value,
+  size,
+  currentLocale,
+  handleSuccess,
+  handleFailure,
+}) => {
   const memoizedBtn = useCallback(
     ({ executeCopy }: Pick<InnerBtnProps, 'executeCopy'>) => (
-      <InnerBtn currentLocale={currentLocale} executeCopy={executeCopy} />
+      <InnerBtn
+        size={size}
+        currentLocale={currentLocale}
+        executeCopy={executeCopy}
+      />
     ),
-    [currentLocale],
+    [size, currentLocale],
   );
   return (
     <BtnContainer aria-disabled>
@@ -52,4 +62,5 @@ CopyBtn.defaultProps = {
   handleFailure: () => {},
   currentLocale: 'en-US',
   value: '',
+  size: 'small',
 };

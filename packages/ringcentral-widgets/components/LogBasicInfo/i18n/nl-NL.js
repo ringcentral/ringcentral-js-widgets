@@ -44,7 +44,8 @@ export default {
   [callResults.abandoned]: "Verlaten",
   [callResults.declined]: "Geweigerd",
   [callResults.faxReceipt]: "Faxbewijs",
-  [callResults.disconnected]: "Verbinding verbroken"
+  [callResults.disconnected]: "Verbinding verbroken",
+  [callResults.notAllowed]: "Niet toegestaan"
 };
 
 // @key: @#@"[callDirections.inbound]"@#@ @source: @#@"Inbound"@#@
@@ -90,3 +91,4 @@ export default {
 // @key: @#@"[callResults.declined]"@#@ @source: @#@"Declined"@#@
 // @key: @#@"[callResults.faxReceipt]"@#@ @source: @#@"Fax Receipt"@#@
 // @key: @#@"[callResults.disconnected]"@#@ @source: @#@"Disconnected"@#@
+// @key: @#@"[callResults.notAllowed]"@#@ @source: @#@"Not Allowed"@#@

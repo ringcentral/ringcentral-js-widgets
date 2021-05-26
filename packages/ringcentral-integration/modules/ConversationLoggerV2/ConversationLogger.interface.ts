@@ -1,16 +1,16 @@
+import { Entity } from '../../interfaces/Entity.interface';
+import { Message } from '../../interfaces/MessageStore.model';
+import { LogOptions as BaseLogOptions } from '../../lib/LoggerBaseV2';
+import { Correspondent } from '../../lib/messageHelper';
 import { Auth } from '../AuthV2';
-import { Storage } from '../StorageV2';
 import { ContactMatcher } from '../ContactMatcherV2';
 import { ConversationMatcher } from '../ConversationMatcherV2';
 import { DateTimeFormat, FormatDateTimeOptions } from '../DateTimeFormatV2';
-import { LogOptions as BaseLogOptions } from '../../lib/LoggerBaseV2';
+import { ExtensionFeatures } from '../ExtensionFeatures';
 import { ExtensionInfo } from '../ExtensionInfoV2';
 import { MessageStore } from '../MessageStoreV2';
-import { RolesAndPermissions } from '../RolesAndPermissionsV2';
+import { Storage } from '../StorageV2';
 import { TabManager } from '../TabManagerV2';
-import { Message } from '../../interfaces/MessageStore.model';
-import { Entity } from '../../interfaces/Entity.interface';
-import { Correspondent } from '../../lib/messageHelper';
 
 export interface ConversationLoggerOptions {
   isLoggedContact?: (
@@ -33,7 +33,7 @@ export interface Deps {
   dateTimeFormat: DateTimeFormat;
   extensionInfo: ExtensionInfo;
   messageStore: MessageStore;
-  rolesAndPermissions: RolesAndPermissions;
+  extensionFeatures: ExtensionFeatures;
   tabManager?: TabManager;
   conversationLoggerOptions: ConversationLoggerOptions;
 }

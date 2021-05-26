@@ -27,7 +27,7 @@ class EvTabManager extends TabManager {
   }
 
   private _sendTabManager(event: string, value?: any) {
-    super.send(event, value);
+    this.send(event, value);
   }
 
   emitSetMainTabComplete() {
@@ -41,10 +41,10 @@ class EvTabManager extends TabManager {
 
   async checkIsMainTabAlive() {
     return (
-      !super.enable ||
+      !this.enable ||
       (this.mainTabId &&
         // check if tab exist by finding in storaged tabs
-        super.checkTabAliveById(this.mainTabId))
+        this.checkTabAliveById(this.mainTabId))
     );
   }
 
@@ -55,7 +55,7 @@ class EvTabManager extends TabManager {
   }
 
   get isMainTab() {
-    return !super.enable || this.mainTabId === super.id;
+    return !this.enable || this.mainTabId === this.id;
   }
 
   get prefix() {

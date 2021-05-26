@@ -1,20 +1,19 @@
-import { contains } from 'ramda';
 import {
   action,
+  computed,
   RcModuleV2,
   state,
   storage,
-  computed,
-  watch,
   track,
+  watch,
 } from '@ringcentral-integration/core';
-import proxify from '../../lib/proxy/proxify';
+import { contains } from 'ramda';
 import { Module } from '../../lib/di';
+import { proxify } from '../../lib/proxy/proxify';
 import { trackEvents } from '../Analytics';
 import {
   CarouselOptions,
   CarouselState,
-  Context,
   Deps,
   Guides,
 } from './UserGuide.interface';
@@ -31,21 +30,17 @@ const SUPPORTED_LOCALES = {
     'Locale',
     'Storage',
     'Webphone',
-    'RolesAndPermissions',
+    'ExtensionFeatures',
     { dep: 'UserGuideOptions', optional: true },
   ],
 })
 export class UserGuide extends RcModuleV2<Deps> {
-  protected _context: Context;
-
   constructor(deps: Deps) {
     super({
       deps,
       enableCache: true,
       storageKey: 'UserGuide',
     });
-    // TODO: refactor providing context without DI
-    this._context = deps.context;
   }
 
   @storage
@@ -97,7 +92,7 @@ export class UserGuide extends RcModuleV2<Deps> {
       this._deps.auth.ready &&
       this._deps.locale.ready &&
       this._deps.storage.ready &&
-      this._deps.rolesAndPermissions.ready &&
+      this._deps.extensionFeatures.ready &&
       this._deps.auth.loggedIn
     );
   }
@@ -108,7 +103,7 @@ export class UserGuide extends RcModuleV2<Deps> {
       (!this._deps.auth.ready ||
         !this._deps.locale.ready ||
         !this._deps.storage.ready ||
-        !this._deps.rolesAndPermissions.ready)
+        !this._deps.extensionFeatures.ready)
     );
   }
 
@@ -147,17 +142,17 @@ export class UserGuide extends RcModuleV2<Deps> {
 
   /**
    * Using webpack `require.context` to load guides files.
-   * Image files will be ordered by file name ascendingly.
+   * Image files will be sorted by file name in ascending order.
    * @return {Map<String, Array<URI>>}
    */
   resolveGuides() {
-    if (this._context && typeof this._context === 'function') {
+    if (typeof this._deps.userGuideOptions?.context === 'function') {
       const locales = Object.keys(SUPPORTED_LOCALES);
-      return this._context
+      return this._deps.userGuideOptions.context
         .keys()
         .sort()
-        .map((key) => this._context(key))
-        .reduce((prev, curr) => {
+        .map((key: string) => this._deps.userGuideOptions.context(key))
+        .reduce((prev: Record<string, string[]>, curr: string) => {
           locales.forEach((locale) => {
             if (!prev[locale]) prev[locale] = [];
             if (contains(locale, curr)) {
@@ -202,9 +197,19 @@ export class UserGuide extends RcModuleV2<Deps> {
     });
   }
 
+  protected _checkPermissions() {
+    // For extensions without calling or read message permissions, most of the content in
+    // the user guide is not applicable to them. So we should not show the user guide for
+    // these extensions.
+    return (
+      this._deps.extensionFeatures.isCallingEnabled ||
+      this._deps.extensionFeatures.hasReadMessagesPermission
+    );
+  }
+
   @proxify
   async initUserGuide() {
-    if (!this._deps.rolesAndPermissions.hasUserGuidePermission) return;
+    if (!this._checkPermissions()) return;
     const prevGuides = this.allGuides;
     const guides = this.resolveGuides();
     // Determine if it needs to be displayed when first log in,
@@ -228,7 +233,7 @@ export class UserGuide extends RcModuleV2<Deps> {
     });
   }
 
-  @computed<UserGuide>((that) => [
+  @computed((that: UserGuide) => [
     that._deps.locale.ready,
     that.allGuides,
     that._deps.locale.currentLocale,

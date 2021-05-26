@@ -1,5 +1,13 @@
-import { action, RcModuleV2, state } from '@ringcentral-integration/core';
-import { AnyAction } from 'redux';
+import {
+  action,
+  identifierKey,
+  RcModuleV2,
+  spawnReducersKey,
+  spawnStorageReducersKey,
+  state,
+  usmAction,
+} from '@ringcentral-integration/core';
+import { combineReducers } from 'redux';
 import { Module } from '../../lib/di';
 import proxify from '../../lib/proxy/proxify';
 import { Tabbie } from '../../lib/Tabbie';
@@ -52,20 +60,26 @@ export class TabManager extends RcModuleV2<Deps> {
     };
   }
 
-  public getReducers(actionTypes: Record<string, string>) {
-    return {
-      ...super.getReducers(actionTypes),
-      event: (state: TabEvent = null, action: AnyAction) => {
-        if (
-          actionTypes.event &&
-          action.type.indexOf(actionTypes.event) > -1 &&
-          action.states
-        ) {
-          return action.states.event;
-        }
-        return null;
-      },
-    };
+  _eventReducer = (state: TabEvent = null, action: any) => {
+    if (action._usm === usmAction) {
+      const { event } = this._getStateV2(action._state, this[identifierKey]);
+      if (event && state === null) return event;
+    }
+    return null;
+  };
+
+  get reducer() {
+    if (this._reducers)
+      return combineReducers({
+        ...this._reducers,
+        event: this._eventReducer,
+      });
+    this[spawnStorageReducersKey]();
+    this[spawnReducersKey]();
+    return combineReducers({
+      ...this._reducers,
+      event: this._eventReducer,
+    });
   }
 
   async onInitOnce() {

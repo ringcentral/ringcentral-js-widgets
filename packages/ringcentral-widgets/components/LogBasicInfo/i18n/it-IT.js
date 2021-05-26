@@ -44,7 +44,8 @@ export default {
   [callResults.abandoned]: "Abbandonata",
   [callResults.declined]: "Rifiutata",
   [callResults.faxReceipt]: "Ricezione fax",
-  [callResults.disconnected]: "Disconnessa"
+  [callResults.disconnected]: "Disconnessa",
+  [callResults.notAllowed]: "Non consentito"
 };
 
 // @key: @#@"[callDirections.inbound]"@#@ @source: @#@"Inbound"@#@
@@ -90,3 +91,4 @@ export default {
 // @key: @#@"[callResults.declined]"@#@ @source: @#@"Declined"@#@
 // @key: @#@"[callResults.faxReceipt]"@#@ @source: @#@"Fax Receipt"@#@
 // @key: @#@"[callResults.disconnected]"@#@ @source: @#@"Disconnected"@#@
+// @key: @#@"[callResults.notAllowed]"@#@ @source: @#@"Not Allowed"@#@

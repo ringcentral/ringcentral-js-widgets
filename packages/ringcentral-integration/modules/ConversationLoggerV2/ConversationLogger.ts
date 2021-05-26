@@ -1,30 +1,30 @@
 import {
-  state,
-  storage,
   action,
   computed,
+  state,
+  storage,
 } from '@ringcentral-integration/core';
+import { messageTypes } from '../../enums/messageTypes';
+import { Entity } from '../../interfaces/Entity.interface';
+import { Message } from '../../interfaces/MessageStore.model';
 import { Module } from '../../lib/di';
 import { LoggerBase } from '../../lib/LoggerBaseV2';
-import { messageTypes } from '../../enums/messageTypes';
 import {
   Correspondent,
   getNumbersFromMessage,
   sortByDate,
 } from '../../lib/messageHelper';
-import sleep from '../../lib/sleep';
 import { proxify } from '../../lib/proxy/proxify';
-import {
-  getLogId,
-  conversationLogIdentityFunction,
-} from './conversationLoggerHelper';
+import sleep from '../../lib/sleep';
 import {
   ConversationLogItem,
   ConversationLogMap,
   Deps,
 } from './ConversationLogger.interface';
-import { Message } from '../../interfaces/MessageStore.model';
-import { Entity } from '../../interfaces/Entity.interface';
+import {
+  conversationLogIdentityFunction,
+  getLogId,
+} from './conversationLoggerHelper';
 
 @Module({
   name: 'ConversationLogger',
@@ -36,7 +36,7 @@ import { Entity } from '../../interfaces/Entity.interface';
     'DateTimeFormat',
     'ExtensionInfo',
     'MessageStore',
-    'RolesAndPermissions',
+    'ExtensionFeatures',
     'ConversationLoggerOptions',
     { dep: 'TabManager', optional: true },
   ],
@@ -109,7 +109,7 @@ export class ConversationLogger<T = any> extends LoggerBase<Deps & T> {
     this.autoLog = autoLog;
   }
 
-  _onReset() {
+  onReset() {
     this._lastProcessedConversations = null;
     this._lastAutoLog = null;
     this._autoLogPromise = null;
@@ -360,13 +360,9 @@ export class ConversationLogger<T = any> extends LoggerBase<Deps & T> {
   }
 
   get available() {
-    const {
-      SMSReceiving,
-      PagerReceiving,
-    } = this._deps.rolesAndPermissions.serviceFeatures;
     return !!(
-      (SMSReceiving && SMSReceiving.enabled) ||
-      (PagerReceiving && PagerReceiving.enabled)
+      this._deps.extensionFeatures.features?.SMSReceiving?.available ||
+      this._deps.extensionFeatures.features?.PagesReceiving?.available
     );
   }
 
@@ -377,7 +373,7 @@ export class ConversationLogger<T = any> extends LoggerBase<Deps & T> {
     }
   }
 
-  @computed<ConversationLogger>((that) => [
+  @computed((that: ConversationLogger) => [
     that._deps.messageStore.conversationStore,
     that._deps.extensionInfo.extensionNumber,
     that._deps.conversationMatcher.dataMapping,
@@ -424,7 +420,7 @@ export class ConversationLogger<T = any> extends LoggerBase<Deps & T> {
     return mapping;
   }
 
-  @computed<ConversationLogger>((that) => [that.conversationLogMap])
+  @computed((that: ConversationLogger) => [that.conversationLogMap])
   get conversationLogIds() {
     const logIds: string[] = [];
     Object.keys(this.conversationLogMap).forEach((conversationId) => {
@@ -437,7 +433,7 @@ export class ConversationLogger<T = any> extends LoggerBase<Deps & T> {
     return logIds;
   }
 
-  @computed<ConversationLogger>((that) => [that.conversationLogMap])
+  @computed((that: ConversationLogger) => [that.conversationLogMap])
   get uniqueNumbers() {
     const output: string[] = [];
     const numberMap: Record<string, boolean> = {};

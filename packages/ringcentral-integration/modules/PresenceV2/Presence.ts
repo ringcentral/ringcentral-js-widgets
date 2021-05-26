@@ -7,7 +7,6 @@ import { computed, watch } from '@ringcentral-integration/core';
 import { ObjectMapValue } from '@ringcentral-integration/core/lib/ObjectMap';
 import { filter, map } from 'ramda';
 import { Unsubscribe } from 'redux';
-
 import { presenceStatus } from '../../enums/presenceStatus.enum';
 import { subscriptionFilters } from '../../enums/subscriptionFilters';
 import { PresenceInfoModel } from '../../interfaces/Presence.model';
@@ -19,7 +18,7 @@ import {
 } from '../../lib/callLogHelpers';
 import { debounce, DebouncedFunction } from '../../lib/debounce-throttle';
 import { Module } from '../../lib/di';
-import proxify from '../../lib/proxy/proxify';
+import { proxify } from '../../lib/proxy/proxify';
 import { DataFetcherV2Consumer, DataSource } from '../DataFetcherV2';
 import { dndStatus } from '../Presence/dndStatus';
 import { removeIntermediateCall } from '../Presence/getPresenceReducer';
@@ -40,7 +39,7 @@ export const detailedPresenceRegExp = /.*\/presence\?detailedTelephonyState=true
     'Client',
     'ConnectivityMonitor',
     'DataFetcherV2',
-    'RolesAndPermissions',
+    'ExtensionFeatures',
     'Subscription',
     { dep: 'TabManager', optional: true },
     { dep: 'PresenceOptions', optional: true },
@@ -99,7 +98,7 @@ export class Presence extends DataFetcherV2Consumer<Deps, PresenceInfoModel> {
         this._deps.auth.ready &&
         this._deps.auth.loggedIn &&
         this._deps.subscription.ready &&
-        this._deps.rolesAndPermissions.ready &&
+        this._deps.extensionFeatures.ready &&
         this._deps.connectivityMonitor.ready &&
         this._deps.dataFetcherV2.ready,
       permissionCheckFunction: () => this._checkPermission(),
@@ -137,7 +136,10 @@ export class Presence extends DataFetcherV2Consumer<Deps, PresenceInfoModel> {
   }
 
   protected _checkPermission() {
-    return this._deps.rolesAndPermissions.hasPresencePermission;
+    return (
+      this._deps.extensionFeatures.features?.ReadPresenceStatus?.available ??
+      false
+    );
   }
 
   _processRawActiveCalls(
@@ -261,12 +263,12 @@ export class Presence extends DataFetcherV2Consumer<Deps, PresenceInfoModel> {
     return this.data?.sequence ?? 0;
   }
 
-  @computed<Presence>(({ data }) => [data])
+  @computed(({ data }: Presence) => [data])
   get activeCalls() {
     return this.data?.activeCalls ?? [];
   }
 
-  @computed<Presence>(({ activeCalls }) => [activeCalls])
+  @computed(({ activeCalls }: Presence) => [activeCalls])
   get calls() {
     return filter(
       (call) => !isEnded(call),
@@ -285,7 +287,7 @@ export class Presence extends DataFetcherV2Consumer<Deps, PresenceInfoModel> {
 
   @proxify
   async _update(params: UpdatePresenceParams) {
-    if (!this._deps.rolesAndPermissions.hasEditPresencePermission) {
+    if (!this._deps.extensionFeatures.features?.EditPresenceStatus?.available) {
       return;
     }
     const ownerId = this._deps.auth.ownerId;
@@ -415,7 +417,7 @@ export class Presence extends DataFetcherV2Consumer<Deps, PresenceInfoModel> {
     }
   }
 
-  @computed<Presence>(({ calls }) => [calls])
+  @computed(({ calls }: Presence) => [calls])
   get sessionIdList() {
     return map((call) => call.sessionId, this.calls);
   }

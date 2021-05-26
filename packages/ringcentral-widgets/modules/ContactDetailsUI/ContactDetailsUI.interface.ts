@@ -1,15 +1,15 @@
-import { Locale } from 'ringcentral-integration/modules/LocaleV2';
+import { Call } from 'ringcentral-integration/modules/CallV2';
+import { ComposeText } from 'ringcentral-integration/modules/ComposeTextV2';
 import { ContactSearch } from 'ringcentral-integration/modules/ContactSearchV2';
 import { Contacts } from 'ringcentral-integration/modules/ContactsV2';
 import { ExtensionInfo } from 'ringcentral-integration/modules/ExtensionInfoV2';
-import { RolesAndPermissions } from 'ringcentral-integration/modules/RolesAndPermissionsV2';
+import { Locale } from 'ringcentral-integration/modules/LocaleV2';
 import { RateLimiter } from 'ringcentral-integration/modules/RateLimiterV2';
 import { RegionSettings } from 'ringcentral-integration/modules/RegionSettingsV2';
-import { Call } from 'ringcentral-integration/modules/CallV2';
-import { ComposeText } from 'ringcentral-integration/modules/ComposeTextV2';
+import { ExtensionFeatures } from '../../../ringcentral-integration/modules/ExtensionFeatures';
 import ConnectivityManager from '../ConnectivityManager';
-import RouterInteraction from '../RouterInteraction';
 import DialerUI from '../DialerUI';
+import { RouterInteraction } from '../RouterInteraction';
 
 export interface ContactDetailsUIOptions {
   composeTextRoute?: string;
@@ -22,7 +22,7 @@ export interface Deps {
   contactSearch: ContactSearch;
   contacts: Contacts;
   extensionInfo: ExtensionInfo;
-  rolesAndPermissions: RolesAndPermissions;
+  extensionFeatures: ExtensionFeatures;
   rateLimiter: RateLimiter;
   connectivityManager: ConnectivityManager;
   regionSettings: RegionSettings;

@@ -3,13 +3,16 @@
 
 .inviteBox {
   flex-shrink: 0;
-  padding: 3px 20px 20px;
+  padding: 3px 20px 16px;
   background-color: transparent;
   box-shadow: none;
+  :first-child[data-sign='meetingScheduleButton'] {
+    margin-top: 13px;
+  }
 }
 
 .withShadow {
-  box-shadow: 0 -1px 4px 0 rgba(0, 0, 0, 0.1);
+  border-top: 1px solid rc-palette('neutral', 'l02');
   position: relative;
   background-color: $snow;
 }
@@ -45,46 +48,13 @@
 .notShowAgain {
   margin-bottom: 10px;
 }
-
-.buttonStyles {
-  outline: none;
-  border: none;
-  font-size: $secondary-font-size;
-  line-height: 36px;
-  text-align: center;
-  border-radius: 100px;
-}
-
-div.isOutlineType {
-  @extend .buttonStyles;
-  border: solid 1px $primary-color-highlight;
-  background-color: $snow;
-}
-
-div.isContainedType {
-  @extend .buttonStyles;
-  border: solid 1px $primary-color;
-  background-color: $primary-color;
-  color: $snow;
-
-  &:hover {
-    color: $silver;
-  }
-}
-
-div.isContainedTypeDisabled {
-  color: $snow;
-  background: $smoke;
-  border: $smoke 1px solid;
-  cursor: not-allowed;
-
-  &:hover {
-    color: $snow;
-  }
-}
 .saveAsDefault {
   margin-left: 1px !important;
 }
 .saveAsDefaultLabel {
   font-size: 14px !important;
+}
+
+.gutter {
+  margin-top: 8px;
 }

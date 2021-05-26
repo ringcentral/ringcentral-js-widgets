@@ -20,8 +20,9 @@ const SANDBOX_ATTRIBUTE_VALUE = [
 // chrome 63 mandate the declaration of this attribute for getUserMedia to work in iframes
 const ALLOW_ATTRIBUTE_VALUE = [
   'microphone',
+  'autoplay',
   // 'camera',
-].join(' ');
+].join('; ');
 
 const urlRegex = /(https:\/\/)?(?:www\.)?outlook\.office(?:365)?\.com\/(mail)\/(deeplink)/;
 const clickEvent = urlRegex.test(window.location.href) ? 'mousedown' : 'click';

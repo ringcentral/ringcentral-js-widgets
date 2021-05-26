@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import classnames from 'classnames';
-import { CallLogMenu } from 'ringcentral-integration/interfaces/CallLog.interface';
+import { CallLogMenu } from '../CallHistoryPanel.interface';
 
 import { ActionButton } from './ActionButton';
 import { MenuButton } from './MenuButton';
@@ -21,7 +21,7 @@ export const CallHistoryActions: FunctionComponent<CallHistoryActionProps> = ({
   return (
     <div className={classnames([styles.actions, !isWide && styles.classic])}>
       {displayedButtons.map(
-        ({ icon, label, disabled, action, subMenu }, index) => {
+        ({ icon, label, disabled, dataSign, action, subMenu }, index) => {
           if (action) {
             return (
               <ActionButton
@@ -30,6 +30,7 @@ export const CallHistoryActions: FunctionComponent<CallHistoryActionProps> = ({
                 disabled={disabled}
                 action={action}
                 key={index}
+                dataSign={dataSign}
               />
             );
           }
@@ -41,6 +42,7 @@ export const CallHistoryActions: FunctionComponent<CallHistoryActionProps> = ({
                 disabled={disabled}
                 subMenu={subMenu}
                 key={index}
+                dataSign={dataSign}
               />
             );
           }

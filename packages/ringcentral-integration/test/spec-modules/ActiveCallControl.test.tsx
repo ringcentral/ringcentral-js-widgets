@@ -10,6 +10,7 @@ import {
 import { SessionData } from 'ringcentral-call-control/lib/Session';
 
 import { ActiveCallControl } from '../../modules/ActiveCallControlV2';
+import { mockModuleGenerator } from '../lib/mockModule';
 
 const mockParty = {};
 
@@ -26,21 +27,20 @@ const mockSession = {
   party: mockParty,
 };
 
-const getMockModule = () => ({
-  state: {},
-  _dispatch: () => {},
-  data: {
-    sessions: [] as SessionData[],
-    activeSessionId: null as string,
-    busyTimestamp: 0,
-    timestamp: 0,
-  },
-  _rcCall: {
-    _callControl: {
-      sessions: [mockSession],
+const getMockModule = () =>
+  mockModuleGenerator({
+    data: {
+      sessions: [] as SessionData[],
+      activeSessionId: null as string,
+      busyTimestamp: 0,
+      timestamp: 0,
     },
-  },
-});
+    _rcCall: {
+      _callControl: {
+        sessions: [mockSession],
+      },
+    },
+  });
 
 @autorun(test)
 @title('ActiveCallControl Module "updateActiveSessions" action')
@@ -52,10 +52,8 @@ export class ActiveCallControlUpdateActiveSessions extends Step {
           desc="Create a 'ActiveCallControl' instance and have initial state 'activeSessions' as []"
           action={() => {
             const activeCallControl = new ActiveCallControl({} as any);
-            expect(activeCallControl._initialValue.data.sessions.length).toBe(
-              0,
-            );
-            expect(activeCallControl._initialValue.data.timestamp).toBe(0);
+            expect(activeCallControl.data.sessions.length).toBe(0);
+            expect(activeCallControl.data.timestamp).toBe(0);
           }}
         />
         <When
@@ -92,7 +90,7 @@ export class ActiveCallControlBusyTimestamp extends Step {
           desc="Create a 'ActiveCallControl' instance and have initial state 'busyTimestamp' as 0"
           action={() => {
             const activeCallControl = new ActiveCallControl({} as any);
-            expect(activeCallControl._initialValue.data.busyTimestamp).toBe(0);
+            expect(activeCallControl.data.busyTimestamp).toBe(0);
           }}
         />
         <When
@@ -143,10 +141,9 @@ export class ActiveCallControlActiveSessionId extends Step {
           desc="Create a 'ActiveCallControl' instance and have initial state 'activeSessions' as []"
           action={() => {
             const activeCallControl = new ActiveCallControl({} as any);
-            expect(activeCallControl._initialValue.data.activeSessionId).toBe(
-              null,
-            );
+            expect(activeCallControl.data.activeSessionId).toBe(null);
           }}
+          ac
         />
         <When
           desc="Execute 'setActiveSessionId' method with mockModule"

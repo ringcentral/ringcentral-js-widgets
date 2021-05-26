@@ -3,6 +3,7 @@ import {
   RcModuleV2,
   state,
   storage,
+  watch,
 } from '@ringcentral-integration/core';
 import { ObjectMapValue } from '@ringcentral-integration/core/lib/ObjectMap';
 import { ApiError } from '@ringcentral/sdk';
@@ -25,6 +26,10 @@ import { Deps, MessageBase } from './Subscription.interface';
 
 const DEFAULT_TIME_TO_RETRY = 60 * 1000;
 const DEFAULT_REGISTER_DELAY = 2 * 1000;
+/**
+ * 5 seconds
+ */
+const DEFAULT_CREATE_DELAY = 5 * 1000;
 
 @Module({
   name: 'Subscription',
@@ -33,6 +38,7 @@ const DEFAULT_REGISTER_DELAY = 2 * 1000;
     'Client',
     'Storage',
     'SleepDetector',
+    { dep: 'TabManager', optional: true },
     { dep: 'SubscriptionOptions', optional: true },
   ],
 })
@@ -109,6 +115,41 @@ export class Subscription extends RcModuleV2<Deps> {
       0,
       this._deps.subscriptionOptions?.registerDelay ?? DEFAULT_REGISTER_DELAY,
     );
+  }
+
+  onInitOnce() {
+    if (this._deps.tabManager) {
+      watch(
+        this,
+        () => this.cachedSubscription,
+        async () => {
+          if (this.ready && !this._deps.tabManager.active) {
+            this._createSubscription();
+          }
+        },
+      );
+      // When closing the current tab before successfully registering a subscription,
+      // app create a subscription and register the subscription at the default delay of 5s on the delayed registration time.
+      // And when registering a subscription request for more than 5s will accidentally trigger a subscription request in other tabs that were once active,
+      // but this is an edge case and only up to two tabs registering for subscriptions is not enough to trigger the subscription limit in server side.
+      const debouncedCreateSubscription = debounce({
+        fn: () => {
+          if (this._deps.tabManager.active) {
+            this._createSubscription();
+          }
+        },
+        threshold: DEFAULT_CREATE_DELAY + this._registerDelay,
+      });
+      watch(
+        this,
+        () => this._deps.tabManager.active,
+        () => {
+          if (!this.cachedSubscription && this._deps.tabManager.active) {
+            debouncedCreateSubscription();
+          }
+        },
+      );
+    }
   }
 
   _shouldInit() {
@@ -313,7 +354,10 @@ export class Subscription extends RcModuleV2<Deps> {
       const oldFiltersCount = this._subscription?.eventFilters().length ?? 0;
       // use [].concat for potential compatibility issue
       this._addFilters([].concat(events));
-      if (oldFiltersCount !== this.filters.length) {
+      if (
+        oldFiltersCount !== this.filters.length &&
+        (!this._deps.tabManager || this._deps.tabManager.active)
+      ) {
         await this._createSubscription();
       }
     }

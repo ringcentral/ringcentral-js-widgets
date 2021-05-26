@@ -1,19 +1,17 @@
 import { WebPhoneOptions } from 'ringcentral-web-phone';
-
-import { Alert } from '../AlertV2';
-import { Auth } from '../AuthV2';
-import { RingCentralClient } from '../../lib/RingCentralClient';
-import NumberValidate from '../NumberValidate';
-import { RolesAndPermissions } from '../RolesAndPermissionsV2';
-import { Brand } from '../BrandV2';
-import RegionSettings from '../RegionSettings';
-import AudioSettings from '../AudioSettings';
-// import Storage from '../Storage';
-import { Storage } from '../StorageV2';
-import AvailabilityMonitor from '../AvailabilityMonitor';
-import { TabManager } from '../TabManagerV2';
-import ContactMatcher from '../ContactMatcher';
 import { NormalizedSession } from '../../interfaces/Webphone.interface';
+import { RingCentralClient } from '../../lib/RingCentralClient';
+import { Alert } from '../AlertV2';
+import { AudioSettings } from '../AudioSettingsV2';
+import { Auth } from '../AuthV2';
+import { AvailabilityMonitor } from '../AvailabilityMonitorV2';
+import { Brand } from '../BrandV2';
+import { ContactMatcher } from '../ContactMatcherV2';
+import { ExtensionFeatures } from '../ExtensionFeatures';
+import { NumberValidate } from '../NumberValidateV2';
+import { RegionSettings } from '../RegionSettingsV2';
+import { Storage } from '../StorageV2';
+import { TabManager } from '../TabManagerV2';
 
 export interface Deps {
   prefix: string;
@@ -21,7 +19,7 @@ export interface Deps {
   auth: Auth;
   client: RingCentralClient;
   numberValidate: NumberValidate;
-  rolesAndPermissions: RolesAndPermissions;
+  extensionFeatures: ExtensionFeatures;
   brand: Brand;
   regionSettings: RegionSettings;
   audioSettings: AudioSettings;

@@ -7,6 +7,7 @@ export interface RecipientProps {
   phoneNumber: string;
   name?: string;
   title?: string;
+  isWarning?: boolean;
   onRemove: (ev: MouseEvent) => void;
 }
 
@@ -14,17 +15,21 @@ const Recipient: FunctionComponent<RecipientProps> = ({
   phoneNumber,
   name = phoneNumber,
   title = name,
+  isWarning = false,
   onRemove,
 }) => {
-  const className =
+  let className =
     phoneNumber.length > 5 ? styles.phoneNumber : styles.extension;
+  if (isWarning) className = styles.warningRecipient;
+
   return (
-    <li className={className} title={title}>
+    <li className={className} title={title} data-sign="recipientItem">
       <span>{name}</span>
       <RemoveButton
         className={styles.removeReceiver}
         onClick={onRemove}
         visibility
+        showWarningIcon={isWarning}
       />
     </li>
   );

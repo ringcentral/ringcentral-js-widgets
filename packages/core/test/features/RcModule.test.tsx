@@ -9,8 +9,16 @@ import {
   Step,
   examples,
 } from '@ringcentral-integration/test-utils';
+import { Reducer } from 'redux';
 
-import { RcModuleV2, state, storage, globalStorage } from '../../lib/RcModule';
+import {
+  RcModuleV2,
+  state,
+  storage,
+  globalStorage,
+  globalStorageStateKey,
+  storageStateKey,
+} from '../../lib/RcModule';
 
 @autorun(test)
 @title('RcModuleV2::addModule compatibility check')
@@ -20,28 +28,28 @@ class AddModuleCompatibilityCheck extends Step {
       <Scenario desc="RcModuleV2::addModule compatibility features">
         <Given
           desc="Generic RcModuleV2 instance fooInstance of class Foo"
-          action={(props, context) => {
+          action={(props: any, context: any) => {
             context.Foo = class Foo extends RcModuleV2 {};
             context.fooInstance = new context.Foo();
           }}
         />
         <And
           desc="Generic RcModuleV2 instance barInstance of class Bar"
-          action={(props, context) => {
+          action={(props: any, context: any) => {
             context.Bar = class Bar extends RcModuleV2 {};
             context.barInstance = new context.Bar();
           }}
         />
         <When
           desc="barInstance is added as sub module 'bar' to fooInstance"
-          action={(props, context) => {
+          action={(props: any, context: any) => {
             expect(typeof context.fooInstance.addModule).toBe('function');
             context.fooInstance.addModule('bar', context.barInstance);
           }}
         />
         <Then
           desc="barInstance should be accessible through fooInstance as 'bar' property"
-          action={(props, context) => {
+          action={(props: any, context: any) => {
             expect(context.fooInstance.bar).toBe(context.barInstance);
           }}
         />
@@ -62,7 +70,7 @@ class AddModuleRedundancyCheck extends Step {
         />
         <Then
           desc="Trying to add another sub module 'bar' to fooInstance should throw error"
-          action={(props, context) => {
+          action={(props: any, context: any) => {
             expect(() => {
               context.fooInstance.addModule('bar', {});
             }).toThrow();
@@ -85,25 +93,25 @@ class AddModuleModulePathCheck extends Step {
         />
         <Then
           desc="barInstance.modulePath should be set to 'root.bar'"
-          action={(props, context) => {
+          action={(props: any, context: any) => {
             expect(context.barInstance.modulePath).toBe('root.bar');
           }}
         />
         <When
           desc="barInstance is added as a sub module with a different name 'bar2'"
-          action={(props, context) => {
+          action={(props: any, context: any) => {
             context.fooInstance.addModule('bar2', context.barInstance);
           }}
         />
         <Then
           desc="barInstance should be accessible through 'bar2' property"
-          action={(props, context) => {
+          action={(props: any, context: any) => {
             expect(context.fooInstance.bar2).toBe(context.barInstance);
           }}
         />
         <And
           desc="modulePath of barInstance should still be 'root.bar'"
-          action={(props, context) => {
+          action={(props: any, context: any) => {
             expect(context.barInstance.modulePath).toBe('root.bar');
           }}
         />
@@ -114,7 +122,7 @@ class AddModuleModulePathCheck extends Step {
 
 /* reducer related tests */
 
-function createStatefulModuleFoo(props, context) {
+function createStatefulModuleFoo(props: any, context: any) {
   class Foo extends RcModuleV2 {
     @state
     counter = 0;
@@ -133,8 +141,8 @@ function createStatefulModuleFoo(props, context) {
 
 class MockStorage {
   _key: string;
-  _reducer: (any) => any;
-  registerReducer({ key, reducer }) {
+  _reducer: Reducer;
+  registerReducer({ key, reducer }: { key: string; reducer: Reducer }) {
     this._key = key;
     this._reducer = reducer;
   }
@@ -149,16 +157,12 @@ interface ModulesType {
   globalStorage?: MockStorage;
 }
 
-function createStorageInstances(props, context) {
+function createStorageInstances(props: any, context: any) {
   context.storageInstance = new MockStorage();
   context.globalStorageInstance = new MockStorage();
 }
 
-function capitalize(str: string) {
-  return `${str.substr(0, 1).toUpperCase()}${str.substr(1)}`;
-}
-
-function getType(isGlobal) {
+function getType(isGlobal: boolean) {
   return isGlobal ? 'globalStorage' : 'storage';
 }
 
@@ -186,29 +190,30 @@ class StateCombineStorageReducers extends Step {
         />
         <When
           desc="Create instance with storage isGlobal = ${isGlobal}, enableCache = ${enableCache} and hasStorage = ${hasStorage}"
-          action={(props, context) => {
+          action={(props: any, context: any) => {
             const {
               Foo,
               example: { isGlobal, enableCache, hasStorage },
             } = context;
             const type = getType(isGlobal);
-            const modules: ModulesType = {};
+            const deps: ModulesType = {};
             if (hasStorage) {
-              modules[type] = context[`${type}Instance`];
+              deps[type] = context[`${type}Instance`];
             }
             context.fooInstance = new Foo({
-              modules,
+              deps,
               [`enable${isGlobal ? 'Global' : ''}Cache`]: enableCache,
               storageKey: 'fooStorageKey',
             });
-            expect(context.fooInstance[`enable${capitalize(type)}`]).toBe(
-              enableCache && hasStorage,
-            );
+            context.enableStorage = !!context.fooInstance[
+              isGlobal ? globalStorageStateKey : storageStateKey
+            ].length;
+            expect(context.enableStorage).toBe(enableCache && hasStorage);
           }}
         />
         <Then
           desc="fooInstance should combine storage states to normal state when storage is not enabled"
-          action={(props, context) => {
+          action={(props: any, context: any) => {
             const {
               fooInstance,
               example: { isGlobal },
@@ -220,7 +225,7 @@ class StateCombineStorageReducers extends Step {
               },
             );
             const type = getType(isGlobal);
-            if (fooInstance[`enable${capitalize(type)}`]) {
+            if (context.enableStorage) {
               expect(state[`${type}Counter`]).toBeUndefined();
               expect(context[`${type}Instance`]._key).toBeDefined();
               expect(context[`${type}Instance`]._reducer).toBeDefined();
@@ -235,7 +240,7 @@ class StateCombineStorageReducers extends Step {
         />
         <And
           desc="fooInstance should combine storage states to normal state when storage is not enabled"
-          action={(props, context) => {
+          action={(props: any, context: any) => {
             const {
               fooInstance,
               example: { isGlobal },
@@ -247,7 +252,7 @@ class StateCombineStorageReducers extends Step {
               },
             );
             const type = getType(isGlobal);
-            if (fooInstance[`enable${capitalize(type)}`]) {
+            if (context.enableStorage) {
               expect(state[`${type}Counter`]).toBeUndefined();
               expect(context[`${type}Instance`]._key).toBeDefined();
               expect(context[`${type}Instance`]._reducer).toBeDefined();

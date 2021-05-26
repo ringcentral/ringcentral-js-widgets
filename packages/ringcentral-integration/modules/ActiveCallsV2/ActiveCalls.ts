@@ -5,7 +5,6 @@ import {
 import { computed, watch } from '@ringcentral-integration/core';
 import { map, sort } from 'ramda';
 import { Unsubscribe } from 'redux';
-
 import { subscriptionFilters } from '../../enums/subscriptionFilters';
 import { normalizeStartTime, sortByStartTime } from '../../lib/callLogHelpers';
 import { debounce, DebouncedFunction } from '../../lib/debounce-throttle';
@@ -22,7 +21,7 @@ const DEFAULT_TTL = 5 * 60 * 1000;
   name: 'ActiveCalls',
   deps: [
     'Client',
-    'RolesAndPermissions',
+    'ExtensionFeatures',
     'DataFetcherV2',
     'Subscription',
     { dep: 'TabManager', optional: true },
@@ -51,11 +50,10 @@ export class ActiveCalls extends DataFetcherV2Consumer<
           this._deps.client.account().extension().activeCalls().list(params),
         ),
       readyCheckFunction: () =>
-        !!(
-          this._deps.rolesAndPermissions.ready && this._deps.subscription.ready
-        ),
+        !!(this._deps.extensionFeatures.ready && this._deps.subscription.ready),
       permissionCheckFunction: () =>
-        !!this._deps.rolesAndPermissions.permissions.ReadCallLog,
+        this._deps.extensionFeatures.features?.ReadExtensionCallLog
+          ?.available ?? false,
     });
     this._deps.dataFetcherV2.register(this._source);
     this._debouncedFetchData = debounce({
@@ -99,7 +97,7 @@ export class ActiveCalls extends DataFetcherV2Consumer<
     this._debouncedFetchData.cancel();
   }
 
-  @computed<ActiveCalls>(({ data }) => [data])
+  @computed(({ data }: ActiveCalls) => [data])
   get calls() {
     return sort(
       sortByStartTime,

@@ -513,12 +513,12 @@ export default class Webphone extends RcModule {
        * Specialties of this flow are next:
        *   6th WebRTC in another browser receives 6th ‘EndpointID’ and 1st ‘InstanceID’,
        *   which has been given previously to the 1st ‘EndpointID’.
-       *   It successfully registers on WSX by moving 1st ‘EndpointID’ to a blacklist state.
+       *   It successfully registers on WSX by moving 1st ‘EndpointID’ to a blocklist state.
        *   When 1st WebRTC client re-registers on expiration timeout,
-       *   WSX defines that 1st ‘EndpointID’ is blacklisted and responds with ‘SIP/2.0 403 Forbidden,
-       *   instance id is intercepted by another registration’ and remove it from black list.
+       *   WSX defines that 1st ‘EndpointID’ is blocklisted and responds with ‘SIP/2.0 403 Forbidden,
+       *   instance id is intercepted by another registration’ and remove it from block list.
        *   So if 1st WebRTC will send re-register again with the same ‘InstanceID’,
-       *   it will be accepted and 6th ‘EndpointID’ will be blacklisted.
+       *   it will be accepted and 6th ‘EndpointID’ will be blocklisted.
        *   (But the WebRTC client must logout on receiving SIP/2.0 403 Forbidden error and in case of login -
        *   provision again via Platform API and receive new InstanceID)
        */

@@ -1,20 +1,19 @@
-import transferCallSvg from '@ringcentral/juno/icon/TransferCall';
 import React, { FunctionComponent } from 'react';
+import { RcIconButton } from '@ringcentral/juno';
+import { TransferCall } from '@ringcentral/juno/icon';
 
-import { CircleIconButton } from '../../CircleIconButton';
 import i18n from '../i18n';
 import { CallButtonsProps } from './CallButtons.interface';
 
 export type TransferCallButtonProps = CallButtonsProps & {
   isOnTransfer?: boolean;
   onTransfer?(): void | Promise<void>;
-  transferRef?: React.RefObject<HTMLSpanElement>;
+  transferRef?: React.RefObject<any>;
   disableTransfer?: boolean;
 };
 
 export const TransferCallButton: FunctionComponent<TransferCallButtonProps> = ({
   currentLocale,
-  isOnTransfer,
   onTransfer,
   transferRef,
   disableTransfer,
@@ -23,18 +22,18 @@ export const TransferCallButton: FunctionComponent<TransferCallButtonProps> = ({
   dataSign,
 }) => {
   return (
-    <CircleIconButton
-      dataSign={dataSign}
-      data-icon="transfer-call"
-      symbol={transferCallSvg}
-      title={i18n.getString('transfer', currentLocale)}
-      active={isOnTransfer}
-      onClick={onTransfer}
-      innerRef={transferRef}
-      disabled={disableTransfer}
+    <RcIconButton
+      ref={transferRef}
       size={size}
+      onClick={onTransfer}
+      symbol={TransferCall}
+      disabled={disableTransfer}
+      data-sign={dataSign}
+      data-icon="transfer-call"
+      title={i18n.getString('transfer', currentLocale)}
+      color={disableTransfer ? 'icon.disabled' : 'icon.dark'}
       className={className}
-      normal
+      shouldPersistBg={disableTransfer}
     />
   );
 };

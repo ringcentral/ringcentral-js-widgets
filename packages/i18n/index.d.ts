@@ -8,13 +8,13 @@ export declare const RUNTIME: {
 };
 declare function setLocale(locale: any): Promise<void>;
 export default class I18n {
-  _loadLocale: any;
-  _cache: any;
-  constructor(loadLocale: any);
-  _load(locale: any): Promise<void>;
+  _loadLocale: string;
+  _cache: Record<string, Record<string, string>>;
+  constructor(loadLocale: string);
+  _load(locale: string): Promise<void>;
   load(): Promise<void>;
-  _getString(key: any, locale: any): any;
-  getString(key: any, locale?: string): any;
+  _getString(key: string, locale: string): string;
+  getString(key: string, locale?: string): string;
   readonly currentLocale: string;
   static readonly setLocale: typeof setLocale;
   static setDefaultLocale: (locale: string) => void;

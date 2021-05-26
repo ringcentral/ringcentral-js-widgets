@@ -94,7 +94,7 @@ export class RolesAndPermissions extends DataFetcherV2Consumer<
     }
   }
 
-  @computed<RolesAndPermissions>(({ data }) => [data])
+  @computed(({ data }: RolesAndPermissions) => [data])
   get permissions() {
     return reduce(
       (acc, item) => {
@@ -123,7 +123,7 @@ export class RolesAndPermissions extends DataFetcherV2Consumer<
     }
   }
 
-  @computed<RolesAndPermissions>(({ ready, data }) => [ready, data])
+  @computed(({ ready, data }: RolesAndPermissions) => [ready, data])
   get _statusAndData(): [boolean, AuthProfileResource] {
     return [this.ready, this.data];
   }

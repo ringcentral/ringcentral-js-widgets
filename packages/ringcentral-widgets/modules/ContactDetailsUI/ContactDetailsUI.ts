@@ -38,7 +38,7 @@ const DEFAULT_COMPOSE_TEXT_ROUTE = '/composeText';
     'ContactSearch',
     'Contacts',
     'ExtensionInfo',
-    'RolesAndPermissions',
+    'ExtensionFeatures',
     'RateLimiter',
     'RegionSettings',
     'ConnectivityManager',
@@ -163,7 +163,7 @@ export class ContactDetailsUI extends RcUIModuleV2<Deps> {
         this.currentContactReadyState === contactReadyStates.loaded &&
         this._deps.locale.ready &&
         this._deps.contactSearch.ready &&
-        this._deps.rolesAndPermissions.ready
+        this._deps.extensionFeatures.ready
       ),
     };
   }
@@ -210,12 +210,10 @@ export class ContactDetailsUI extends RcUIModuleV2<Deps> {
         return phoneNumber;
       },
       canTextButtonShow: (phoneType: string) => {
-        const outboundSmsPermission = !!(
-          this._deps.rolesAndPermissions.permissions.OutboundSMS ?? false
-        );
-        const internalSmsPermission = !!(
-          this._deps.rolesAndPermissions.permissions.InternalSMS ?? false
-        );
+        const outboundSmsPermission = this._deps.extensionFeatures
+          .hasOutboundSMSPermission;
+        const internalSmsPermission = this._deps.extensionFeatures
+          .hasInternalSMSPermission;
         // guess this statement is to avoid exception
         const isClickToTextEnabled = !!this._deps.composeText;
         return (
@@ -228,8 +226,7 @@ export class ContactDetailsUI extends RcUIModuleV2<Deps> {
       },
       canCallButtonShow: (phoneType: string) => {
         const isClickToDialEnabled = !!(
-          this._deps.dialerUI &&
-          (this._deps.rolesAndPermissions.callingEnabled ?? false)
+          this._deps.dialerUI && this._deps.extensionFeatures.isCallingEnabled
         );
         return isClickToDialEnabled && phoneType !== phoneTypes.fax;
       },

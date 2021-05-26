@@ -10,7 +10,7 @@ import { Deps } from './DialingPlan.interface';
   name: 'DialingPlan',
   deps: [
     'Client',
-    'RolesAndPermissions',
+    'ExtensionFeatures',
     'DataFetcherV2',
     { dep: 'DialingPlanOptions', optional: true },
   ],
@@ -33,14 +33,15 @@ export class DialingPlan extends DataFetcherV2Consumer<Deps, CountryInfo[]> {
             .get('/restapi/v1.0/account/~/dialing-plan', params);
           return response.json();
         }),
-      readyCheckFunction: () => this._deps.rolesAndPermissions.ready,
+      readyCheckFunction: () => this._deps.extensionFeatures.ready,
       permissionCheckFunction: () =>
-        !!this._deps.rolesAndPermissions.permissions.ReadCompanyInfo,
+        this._deps.extensionFeatures.features?.ReadCompanyInfo?.available ??
+        false,
     });
     this._deps.dataFetcherV2.register(this._source);
   }
 
-  @computed<DialingPlan>(({ data }) => [data])
+  @computed(({ data }: DialingPlan) => [data])
   get plans() {
     return this.data ?? [];
   }

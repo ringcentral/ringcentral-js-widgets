@@ -1,5 +1,5 @@
 import { DOMAttributes } from 'react';
-import GlobalStorage from '../GlobalStorage';
+import { GlobalStorage } from '../GlobalStorageV2';
 import { AlertLevelType } from './alertLevels';
 
 export interface Deps {

@@ -1,5 +1,5 @@
-import ActivityMatcher from 'ringcentral-integration/modules/ActivityMatcher';
-import ContactMatcher from 'ringcentral-integration/modules/ContactMatcher';
+import { ActivityMatcher } from 'ringcentral-integration/modules/ActivityMatcherV2';
+import { ContactMatcher } from 'ringcentral-integration/modules/ContactMatcherV2';
 import { Beforeunload } from 'ringcentral-widgets/modules/Beforeunload';
 
 import { EvClient } from '../../lib/EvClient';

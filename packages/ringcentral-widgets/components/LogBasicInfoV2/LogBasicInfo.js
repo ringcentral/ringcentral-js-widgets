@@ -124,7 +124,7 @@ export default function LogBasicInfo(props) {
         )}
         <ul className={styles.callDisplay}>
           <li className={styles.info}>
-            <p className={styles.logName} title={logName}>
+            <p className={styles.logName} title={logName} data-sign="logName">
               {logName}
             </p>
             <p className={classnames(styles.follow, styles['text-ellipsis'])}>

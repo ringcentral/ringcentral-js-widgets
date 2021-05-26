@@ -1,3 +1,3 @@
 export default {
-  doNotCall: 'Do Not Contact',
+  doNotCall: 'Do Not Call',
 };

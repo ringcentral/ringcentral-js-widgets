@@ -2,11 +2,15 @@ import { ASSISTED_USERS_MYSELF } from 'ringcentral-integration/modules/Meeting';
 export default {
   date: "Date",
   time: "Heure",
+  hours: "{howMany} h",
+  minutes: "{howMany} min",
+  today: "Aujourd'hui",
   duration: "Durée",
   topic: "Titre de la réunion",
   voIPOnly: "Audio sur Internet uniquement",
   telephonyOnly: "Téléphone uniquement",
   both: "Téléphone et audio sur Internet",
+  thirdParty: "Audio tiers",
   meetingId: "ID de réunion",
   password: "Mot de passe",
   video: "Vidéo",
@@ -21,7 +25,7 @@ export default {
   recurringNote: "Remarque : activez celle-ci lorsque vous sélectionnez « Récurrence ».",
   joinBeforeHost: "Autoriser les participants à se connecter avant l'hôte",
   turnOffCamera: "Désactiver la caméra pour les participants",
-  turnOffHostCamera: "Désactiver la caméra de l'hôte lorsqu'il rejoint la réunion",
+  turnOffHostCamera: "Désactiver la caméra pour l'hôte lorsque vous rejoignez une réunion",
   requirePassword: "Exiger un mot de passe",
   enterPassword: "Entrer le mot de passe",
   setPassword: "Définir un mot de passe *",
@@ -39,11 +43,15 @@ export default {
 
 // @key: @#@"date"@#@ @source: @#@"Date"@#@
 // @key: @#@"time"@#@ @source: @#@"Time"@#@
+// @key: @#@"hours"@#@ @source: @#@"{howMany} hr"@#@
+// @key: @#@"minutes"@#@ @source: @#@"{howMany} min"@#@
+// @key: @#@"today"@#@ @source: @#@"Today"@#@
 // @key: @#@"duration"@#@ @source: @#@"Duration"@#@
 // @key: @#@"topic"@#@ @source: @#@"Meeting title"@#@
 // @key: @#@"voIPOnly"@#@ @source: @#@"Internet audio only"@#@
 // @key: @#@"telephonyOnly"@#@ @source: @#@"Telephone only"@#@
-// @key: @#@"both"@#@ @source: @#@"Telephone and Internet Audio"@#@
+// @key: @#@"both"@#@ @source: @#@"Telephone and Internet audio"@#@
+// @key: @#@"thirdParty"@#@ @source: @#@"3rd party audio"@#@
 // @key: @#@"meetingId"@#@ @source: @#@"Meeting ID"@#@
 // @key: @#@"password"@#@ @source: @#@"Password"@#@
 // @key: @#@"video"@#@ @source: @#@"Video"@#@

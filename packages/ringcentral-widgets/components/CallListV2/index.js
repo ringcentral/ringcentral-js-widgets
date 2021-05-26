@@ -96,6 +96,7 @@ export default class CallListV2 extends React.PureComponent {
       readTextPermission,
       currentSiteCode,
       isMultipleSiteEnabled,
+      showChooseEntityModal,
     } = this.props;
 
     let content;
@@ -154,6 +155,7 @@ export default class CallListV2 extends React.PureComponent {
           onSizeChanged={this._onSizeChanged}
           // disable animation when rendered with react-virtualized
           withAnimation={false}
+          showChooseEntityModal={showChooseEntityModal}
         />
       );
     }
@@ -237,6 +239,7 @@ CallListV2.propTypes = {
   readTextPermission: PropTypes.bool,
   rowHeight: PropTypes.number,
   extendedRowHeight: PropTypes.number,
+  showChooseEntityModal: PropTypes.bool,
 };
 
 CallListV2.defaultProps = {
@@ -275,4 +278,5 @@ CallListV2.defaultProps = {
   readTextPermission: true,
   rowHeight: 65,
   extendedRowHeight: 130,
+  showChooseEntityModal: true,
 };

@@ -16,6 +16,7 @@ export type SelectListBasicProps = {
   options?: object[];
   otherOptions?: object[];
   associatedOptions?: object[];
+  showOtherSection?: boolean;
   showAssociatedSection?: boolean;
   placeholder?: string;
   searchOption: (option: any, text: string) => any;
@@ -62,6 +63,7 @@ const SelectListBasic: FunctionComponent<SelectListBasicProps> = ({
   options,
   otherOptions,
   associatedOptions,
+  showOtherSection,
   showAssociatedSection,
   placeholder,
   searchOption,
@@ -173,13 +175,14 @@ const SelectListBasic: FunctionComponent<SelectListBasicProps> = ({
                 <RcTextField
                   variant="outline"
                   size="small"
+                  value={filter}
                   fullWidth
                   radius="round"
                   InputProps={{
                     startAdornment: (
                       <RcIcon
                         symbol={searchSvg}
-                        color="icon.subdued"
+                        color="neutral.f04"
                         size="small"
                       />
                     ),
@@ -237,21 +240,23 @@ const SelectListBasic: FunctionComponent<SelectListBasicProps> = ({
                           scrollCheck(scrollElmRef, matchElmRef, elm, type),
                       )}
                   </div>
-                  <div className={styles.text} data-sign={otherTitle}>
-                    {otherTitle && (
-                      <div className={styles.title}>
-                        {otherTitle} ({matchOtherOptions.length})
-                      </div>
-                    )}
-                    {matchOtherOptions.length > 0 &&
-                      renderListView(
-                        matchOtherOptions,
-                        'other',
-                        filter,
-                        (elm, type) =>
-                          scrollCheck(scrollElmRef, matchElmRef, elm, type),
+                  {showOtherSection && (
+                    <div className={styles.text} data-sign={otherTitle}>
+                      {otherTitle && (
+                        <div className={styles.title}>
+                          {otherTitle} ({matchOtherOptions.length})
+                        </div>
                       )}
-                  </div>
+                      {matchOtherOptions.length > 0 &&
+                        renderListView(
+                          matchOtherOptions,
+                          'other',
+                          filter,
+                          (elm, type) =>
+                            scrollCheck(scrollElmRef, matchElmRef, elm, type),
+                        )}
+                    </div>
+                  )}
                   {showAssociatedSection && (
                     <div className={styles.text}>
                       {associatedTitle && (
@@ -315,6 +320,7 @@ SelectListBasic.defaultProps = {
   options: [],
   otherOptions: [],
   associatedOptions: [],
+  showOtherSection: true,
   showAssociatedSection: false,
   placeholder: '',
   rightIcon: null,

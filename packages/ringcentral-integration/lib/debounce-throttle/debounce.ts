@@ -24,7 +24,7 @@ export interface DebouncedFunction<F extends (...args: any) => any> {
 }
 
 /**
- * @return {function} debounced - The debounced function. Attached to the function are cancel function and flush function.
+ * @return {function} debounced - The debounced function. Set leading to true and maxThreshold to the same as threshold to have basic throttle function.
  * @return {function} debounced.cancel - Calling the cancel function will return the last known result and cancel the queued invocation if there is one.
  * @return {function} debounce.flush - Calling the flush function will return the last known result if no invocation is queued, or cancel the queue and invoke fn immediately and return the result.
  */

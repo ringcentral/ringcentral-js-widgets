@@ -11,7 +11,9 @@ export default {
   transfer: "転送",
   flip: "フリップ",
   more: "通話アクション",
-  mergeToConference: "マージ"
+  mergeToConference: "マージ",
+  end: "終了",
+  completeTransfer: "転送を\n完了"
 };
 
 // @key: @#@"unmute"@#@ @source: @#@"Unmute"@#@
@@ -27,3 +29,5 @@ export default {
 // @key: @#@"flip"@#@ @source: @#@"Flip"@#@
 // @key: @#@"more"@#@ @source: @#@"Call Actions"@#@
 // @key: @#@"mergeToConference"@#@ @source: @#@"Merge"@#@
+// @key: @#@"end"@#@ @source: @#@"End"@#@
+// @key: @#@"completeTransfer"@#@ @source: @#@"Complete\nTransfer"@#@

@@ -16,12 +16,12 @@ import {
   MESSAGE_MAX_LENGTH,
   MULTIPART_MESSAGE_MAX_LENGTH,
 } from '../../modules/MessageSenderV2';
+import { mockModuleGenerator } from '../lib/mockModule';
 
-const getMockModule = () => ({
-  sendStatus: messageSenderStatus.idle,
-  state: {},
-  _dispatch: () => {},
-});
+const getMockModule = () =>
+  mockModuleGenerator({
+    sendStatus: messageSenderStatus.idle,
+  });
 
 class MockAlert {
   args: any = null;
@@ -83,12 +83,6 @@ class MockExtensionPhoneNumber {
   }
 }
 
-const mockStore = {
-  subscribe: () => {},
-  getState: () => ({}),
-  dispatch: () => {},
-};
-
 @autorun(test)
 @title('Message Sender Module "sendStatus" state with setSendStatus: ${status}')
 export class SendStatus extends Step {
@@ -114,9 +108,7 @@ export class SendStatus extends Step {
               messageSenderOptions: {} as any,
             });
             context.instance = messageSender;
-            expect(messageSender._initialValue.sendStatus).toEqual(
-              messageSenderStatus.idle,
-            );
+            expect(messageSender.sendStatus).toEqual(messageSenderStatus.idle);
           }}
         />
         <When
@@ -396,9 +388,13 @@ export class SendPagerSuccessfully extends Step {
               } as any,
               messageSenderOptions: {} as any,
             });
-            messageSender.setStore(mockStore);
-            messageSender._sendSms = jest.fn();
-            messageSender._validateSenderNumber = jest.fn();
+            Object.assign(
+              messageSender,
+              mockModuleGenerator({
+                _sendSms: jest.fn(),
+                _validateSenderNumber: jest.fn(),
+              } as any),
+            );
             context.instance = messageSender;
           }}
         />
@@ -453,8 +449,12 @@ export class SendSMSSuccessfully extends Step {
               } as any,
               messageSenderOptions: {} as any,
             });
-            messageSender.setStore(mockStore);
-            messageSender._sendPager = jest.fn();
+            Object.assign(
+              messageSender,
+              mockModuleGenerator({
+                _sendPager: jest.fn(),
+              } as any),
+            );
             context.instance = messageSender;
           }}
         />
@@ -506,7 +506,7 @@ export class SendSMSAndPagerSuccessfully extends Step {
               } as any,
               messageSenderOptions: {} as any,
             });
-            messageSender.setStore(mockStore);
+            Object.assign(messageSender, mockModuleGenerator({}));
             context.instance = messageSender;
           }}
         />

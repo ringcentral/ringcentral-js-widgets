@@ -1,5 +1,10 @@
 import { getInitializedStartTime } from '../../../helpers/meetingHelper';
 
+export const MOCK_TURN_OFF_3RD_PARTY_AUDIO = {
+  audioConferenceInfo: '',
+  thirdPartyAudio: false,
+};
+
 export const MOCK_PERSONAL_MEETING = {
   topic: 'RingCentral Meeting',
   meetingType: 'Scheduled',

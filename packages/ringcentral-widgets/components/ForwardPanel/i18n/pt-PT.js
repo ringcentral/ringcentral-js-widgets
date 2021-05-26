@@ -1,5 +1,5 @@
 export default {
-  forward: "Reencaminhar"
+  forward: "Reencam."
 };
 
 // @key: @#@"forward"@#@ @source: @#@"Forward"@#@

@@ -1,5 +1,5 @@
 export default {
-  title: "Audio",
+  title: "Son",
   dialButtonVolume: "Volume du bouton pour composer un numéro",
   ringtoneVolume: "Volume de la sonnerie",
   callVolume: "Volume de l'appel",

@@ -69,6 +69,9 @@ export class RegionSettings extends RcModuleV2<Deps> {
   }
 
   onInitOnce() {
+    if (!this._deps.tabManager || this._deps.tabManager.active) {
+      this.checkRegionSettings();
+    }
     watch(
       this,
       () => this.availableCountries,
@@ -83,7 +86,7 @@ export class RegionSettings extends RcModuleV2<Deps> {
     );
   }
 
-  @computed<RegionSettings>((that) => [
+  @computed((that: RegionSettings) => [
     that._deps.dialingPlan.plans,
     that._deps.extensionInfo.country,
   ])
@@ -159,7 +162,7 @@ export class RegionSettings extends RcModuleV2<Deps> {
     });
   }
 
-  @computed<RegionSettings>(({ availableCountries }) => [availableCountries])
+  @computed(({ availableCountries }: RegionSettings) => [availableCountries])
   get showReginSetting() {
     if (this.availableCountries.length > 1) {
       return true;
@@ -174,7 +177,7 @@ export class RegionSettings extends RcModuleV2<Deps> {
     return false;
   }
 
-  @computed<RegionSettings>(({ availableCountries }) => [availableCountries])
+  @computed(({ availableCountries }: RegionSettings) => [availableCountries])
   get homeCountryId() {
     const homeCountry = this.availableCountries.find(
       (country) => country.isoCode === this.countryCode,

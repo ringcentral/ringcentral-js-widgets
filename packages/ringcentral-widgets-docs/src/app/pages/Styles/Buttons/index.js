@@ -85,7 +85,7 @@ const primaryButtonInPage = {
   textColor: '#FFFFFF',
   textColorName: 'Regular Snow',
   normalStyle: {
-    background: '#0684BD',
+    background: '#066FAC',
     backgroundName: 'RC Blue',
   },
   hoverStyle: {
@@ -110,9 +110,9 @@ const secondaryButtonInPage = {
   textSize: 13,
   normalStyle: {
     background: 'transparent',
-    color: '#0684BD',
+    color: '#066FAC',
     border: 'solid 1px rgba(6, 132, 189, 0.5)',
-    borderColorName: '50% RC Blue #0684BD',
+    borderColorName: '50% RC Blue #066FAC',
   },
   hoverStyle: {
     color: '#FFFFFF',
@@ -143,7 +143,7 @@ const primaryButtonInPopup = {
   textColor: '#FFFFFF',
   textColorName: 'Regular Snow',
   normalStyle: {
-    background: '#0684BD',
+    background: '#066FAC',
     backgroundName: 'RC Blue',
   },
   hoverStyle: {
@@ -168,10 +168,10 @@ const secondaryButtonInPopup = {
   textSize: 12,
   normalStyle: {
     background: 'transparent',
-    color: '#0684BD',
+    color: '#066FAC',
     colorName: 'RC Blue',
     border: 'solid 1px rgba(6, 132, 189, 0.5)',
-    borderColorName: '50% RC Blue #0684BD',
+    borderColorName: '50% RC Blue #066FAC',
   },
   hoverStyle: {
     color: '#FFFFFF',

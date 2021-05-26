@@ -402,12 +402,13 @@ export default class CallingSettings extends RcModule {
       if (this._webphone && webphoneEnabled) {
         callWithOptions.push(callingOptions.browser);
       }
-      // only rc brand support call with RingCentral App
+      // rc&att brand support call with RingCentral App
+      const brandReg = /rc|att/;
       if (
         this._brand &&
-        (this._brand.code === 'rc' ||
+        (brandReg.test(this._brand.code) ||
           (this._brand.brandConfig &&
-            this._brand.brandConfig.brandCode === 'rc')) &&
+            brandReg.test(this._brand.brandConfig.brandCode))) &&
         this._showCallWithJupiter
       ) {
         callWithOptions.push(callingOptions.jupiter);

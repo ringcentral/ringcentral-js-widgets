@@ -1,10 +1,16 @@
 import bowser from 'bowser';
-import { action, RcModuleV2, state } from '@ringcentral-integration/core';
+import {
+  action,
+  identifierKey,
+  noReadyModulesKey,
+  RcModuleV2,
+  state,
+} from '@ringcentral-integration/core';
 import sleep from '../../lib/sleep';
 import { Module } from '../../lib/di';
-import proxify from '../../lib/proxy/proxify';
+import { proxify } from '../../lib/proxy/proxify';
 import callingModes from '../CallingSettings/callingModes';
-import { Deps } from './Softphone.interface';
+import { Deps, CallHandlerContext } from './Softphone.interface';
 import { softphoneStatus } from './softphoneStatus';
 
 /**
@@ -20,7 +26,7 @@ import { softphoneStatus } from './softphoneStatus';
   ],
 })
 export class Softphone extends RcModuleV2<Deps> {
-  protected _callHandler: (...args: any) => any;
+  protected _callHandler: (context: CallHandlerContext) => any;
   protected _extensionMode: boolean;
 
   constructor(deps: Deps) {
@@ -58,63 +64,100 @@ export class Softphone extends RcModuleV2<Deps> {
   get spartanProtocol() {
     switch (this._deps.brand.code) {
       case 'att':
-        return 'attvr20';
+        return 'attvr20://';
       case 'bt':
-        return 'rcbtmobile';
+        return 'rcbtmobile://';
       case 'telus':
-        return 'rctelus';
+        return 'rctelus://';
       default:
-        return 'rcmobile';
+        return 'rcmobile://';
     }
   }
 
-  // currently we only have RingCentral App(rc brand)'s universal link
+  // TODO: move `ContactMatcher` deps to `Call`
+  _shouldInit() {
+    const areAllReady =
+      this[noReadyModulesKey].filter(
+        (module) => module && module[identifierKey] !== 'contactMatcher',
+      ).length === 0;
+    return areAllReady && this.pending;
+  }
+
+  _shouldReset() {
+    const areNotReady =
+      this[noReadyModulesKey].filter(
+        (module) => module && module[identifierKey] !== 'contactMatcher',
+      ).length > 0;
+    return areNotReady && this.ready;
+  }
+
+  // currently we only have RingCentral App(rc brand)'s & AT&T universal link
   get jupiterUniversalLink() {
     switch (this._deps.brand.code) {
       case 'att':
-        return null;
+        return 'https://app.officeathand.att.com/';
       case 'bt':
         return null;
       case 'telus':
         return null;
       default:
-        return 'https://app.ringcentral.com/r/';
+        return 'https://app.ringcentral.com/';
     }
   }
 
-  // currently we only have RingCentral App(rc brand)'s protocol
+  // currently we don't have Bt brand uri scheme
   get jupiterProtocol() {
     switch (this._deps.brand.code) {
       case 'att':
-        return null;
+        return 'officeathand://';
       case 'bt':
         return null;
       case 'telus':
-        return null;
+        return 'rctelus://';
       default:
-        return 'rcapp';
+        return 'rcapp://';
     }
+  }
+
+  getMakeCallUri(
+    phoneNumber: string,
+    callingMode: string,
+  ): { command: string; protocol: string; uri: string } {
+    // spartan
+    let command = `call?number=${encodeURIComponent(phoneNumber)}`;
+    let protocol = this.spartanProtocol;
+
+    // jupiter
+    const isCallWithJupiter = callingMode === callingModes.jupiter;
+    if (isCallWithJupiter) {
+      const isRcBrand = this._deps.brand.code === 'rc';
+      // jupiter doesn't recognize encoded string for now
+      command = `r/call?number=${phoneNumber}`;
+      // rc brand use scheme, partner brand use universal link
+      protocol = isRcBrand ? this.jupiterProtocol : this.jupiterUniversalLink;
+    }
+    return {
+      command,
+      protocol,
+      uri: `${protocol}${command}`,
+    };
   }
 
   @proxify
   async makeCall(phoneNumber: string, callingMode: string) {
     this.startToConnect(phoneNumber);
 
-    const isCallWithJupiter = callingMode === callingModes.jupiter;
-    const protocol = isCallWithJupiter
-      ? this.jupiterProtocol
-      : this.spartanProtocol;
-    const command = isCallWithJupiter
-      ? `call?number=${phoneNumber}` // jupiter doesn't recognize encoded string for now
-      : `call?number=${encodeURIComponent(phoneNumber)}`;
-    const uri = isCallWithJupiter
-      ? `${protocol}://r/${command}`
-      : `${protocol}://${command}`;
+    const { protocol, command, uri } = this.getMakeCallUri(
+      phoneNumber,
+      callingMode,
+    );
 
     if (this._callHandler) {
       this._callHandler({
+        callingMode,
         protocol,
         command,
+        uri,
         phoneNumber,
       });
     } else if (this._extensionMode || this.detectPlatform() !== 'desktop') {

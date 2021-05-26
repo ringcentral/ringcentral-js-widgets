@@ -20,6 +20,7 @@ export default function EvCallAlert({
 EvCallAlert.handleMessage = ({ message }: { message: string }) =>
   contains(message, [
     messageTypes.NO_SUPPORT_COUNTRY,
+    messageTypes.INTERCEPT,
     messageTypes.FAILED_TO_CALL,
     messageTypes.FAILED_TO_CALL,
     messageTypes.OFFHOOK_INIT_ERROR,
@@ -28,4 +29,6 @@ EvCallAlert.handleMessage = ({ message }: { message: string }) =>
     messageTypes.DROP_SESSION_ERROR,
     messageTypes.HOLD_ERROR,
     messageTypes.LOGOUT_FAIL_WITH_CALL_CONNECTED,
+    messageTypes.RECORD_PAUSE,
+    messageTypes.RECORD_RESUME,
   ]);

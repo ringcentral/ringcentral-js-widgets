@@ -1,28 +1,28 @@
-import Alert from '../Alert';
-import Brand from '../Brand';
-import RolesAndPermissions from '../RolesAndPermissions';
-import TabManager from '../TabManager';
-import Webphone from '../Webphone';
-import ExtensionInfo from '../ExtensionInfo';
-import ExtensionPhoneNumber from '../ExtensionPhoneNumber';
-import ForwardingNumber from '../ForwardingNumber';
+import { Alert } from '../AlertV2';
+import { Brand } from '../BrandV2';
+import { CallerId } from '../CallerIdV2';
+import { ExtensionDevice } from '../ExtensionDeviceV2';
+import { ExtensionFeatures } from '../ExtensionFeatures';
+import { ExtensionInfo } from '../ExtensionInfoV2';
+import { ExtensionPhoneNumber } from '../ExtensionPhoneNumberV2';
+import { ForwardingNumber } from '../ForwardingNumberV2';
 import { Storage } from '../StorageV2';
-import { CallerId } from '../CallerId';
-import ExtensionDevice from '../ExtensionDevice';
+import { TabManager } from '../TabManagerV2';
+import { Webphone } from '../WebphoneV2';
 
 export interface Deps {
   alert: Alert;
   brand: Brand;
+  callerId?: CallerId;
+  extensionDevice?: ExtensionDevice;
+  extensionFeatures: ExtensionFeatures;
   extensionInfo: ExtensionInfo;
   extensionPhoneNumber: ExtensionPhoneNumber;
   forwardingNumber: ForwardingNumber;
   storage: Storage;
-  rolesAndPermissions: RolesAndPermissions;
-  callerId?: CallerId;
   tabManager?: TabManager;
   webphone?: Webphone;
   callingSettingsOptions?: CallingSettingsOptions;
-  extensionDevice?: ExtensionDevice;
 }
 
 export interface CallingSettingsOptions {

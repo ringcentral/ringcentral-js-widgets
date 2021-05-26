@@ -1,16 +1,22 @@
-import { EventEmitter } from 'events';
 import { GetMessageInfoResponse } from '@rc-ex/core/definitions';
-import { watch, computed, track } from '@ringcentral-integration/core';
-import { Module } from '../../lib/di';
-import sleep from '../../lib/sleep';
-import { proxify } from '../../lib/proxy/proxify';
+import { computed, track, watch } from '@ringcentral-integration/core';
+import { EventEmitter } from 'events';
 import { subscriptionFilters } from '../../enums/subscriptionFilters';
-import * as messageHelper from '../../lib/messageHelper';
+import {
+  Message,
+  Messages,
+  MessageStoreModel,
+  MessageSyncList,
+} from '../../interfaces/MessageStore.model';
 import { batchPutApi } from '../../lib/batchApiHelper';
-import { messageStoreErrors } from './messageStoreErrors';
 import { debounce } from '../../lib/debounce-throttle';
+import { Module } from '../../lib/di';
+import * as messageHelper from '../../lib/messageHelper';
+import { proxify } from '../../lib/proxy/proxify';
+import sleep from '../../lib/sleep';
+import { trackEvents } from '../Analytics';
+import { callingModes } from '../CallingSettingsV2';
 import { DataFetcherV2Consumer, DataSource } from '../DataFetcherV2';
-import { getSyncParams } from './messageStoreHelper';
 import {
   Deps,
   DispatchedMessageIds,
@@ -20,14 +26,8 @@ import {
   ProcessRawConversationStoreOptions,
   SyncFunctionOptions,
 } from './MessageStore.interface';
-import {
-  Message,
-  Messages,
-  MessageStoreModel,
-  MessageSyncList,
-} from '../../interfaces/MessageStore.model';
-import { trackEvents } from '../Analytics';
-import { callingModes } from '../CallingSettingsV2';
+import { messageStoreErrors } from './messageStoreErrors';
+import { getSyncParams } from './messageStoreHelper';
 
 const DEFAULT_CONVERSATIONS_LOAD_LENGTH = 10;
 const DEFAULT_CONVERSATION_LOAD_LENGTH = 100;
@@ -53,7 +53,7 @@ const UPDATE_MESSAGE_ONCE_COUNT = 20; // Number of messages to be updated in one
     'DataFetcherV2',
     'Subscription',
     'ConnectivityMonitor',
-    'RolesAndPermissions',
+    'ExtensionFeatures',
     { dep: 'AvailabilityMonitor', optional: true },
     { dep: 'TabManager', optional: true },
     { dep: 'MessageStoreOptions', optional: true },
@@ -81,6 +81,8 @@ export class MessageStore extends DataFetcherV2Consumer<
 
   protected _dispatchedMessageIds: DispatchedMessageIds = [];
 
+  protected _handledRecord: GetMessageInfoResponse[] = null;
+
   constructor(deps: Deps) {
     super({
       deps,
@@ -103,7 +105,7 @@ export class MessageStore extends DataFetcherV2Consumer<
       pollingInterval,
       cleanOnReset: true,
       permissionCheckFunction: () => this._hasPermission,
-      readyCheckFunction: () => this._deps.rolesAndPermissions.ready,
+      readyCheckFunction: () => this._deps.extensionFeatures.ready,
       fetchFunction: async () => this._syncData(),
     });
     this._deps.dataFetcherV2.register(this._source);
@@ -356,7 +358,7 @@ export class MessageStore extends DataFetcherV2Consumer<
         const isFSyncSuccess = !syncToken;
         // this is only executed in passive sync mode (aka. invoked by subscription)
         if (passive) {
-          this._dispatchMessageHandlers(records);
+          this._handledRecord = records;
         }
         return {
           conversationList: this._processRawConversationList({
@@ -383,6 +385,10 @@ export class MessageStore extends DataFetcherV2Consumer<
   async fetchData({ passive = false } = {}) {
     const data = await this._syncData({ passive });
     this._updateData(data);
+    if (passive && this._handledRecord) {
+      this._dispatchMessageHandlers(this._handledRecord);
+      this._handledRecord = null;
+    }
   }
 
   onNewInboundMessage(handler: MessageHandler) {
@@ -472,10 +478,7 @@ export class MessageStore extends DataFetcherV2Consumer<
     this.pushMessages([record]);
   }
 
-  async _updateMessageApi(
-    messageId: Message['id'],
-    status: Message['readStatus'],
-  ) {
+  async _updateMessageApi(messageId: string, status: Message['readStatus']) {
     const body = {
       readStatus: status,
     };
@@ -674,7 +677,7 @@ export class MessageStore extends DataFetcherV2Consumer<
    * Set message status to `UNREAD`.
    */
   @proxify
-  async unreadMessage(messageId: Message['id']) {
+  async unreadMessage(messageId: string) {
     this.onUnmarkMessages();
     try {
       const message = await this._updateMessageApi(messageId, 'Unread');
@@ -831,15 +834,16 @@ export class MessageStore extends DataFetcherV2Consumer<
     return this.data?.syncInfo;
   }
 
+  @computed((that: MessageStore) => [that.data?.conversationStore])
   get conversationStore() {
-    return this.data?.conversationStore;
+    return this.data?.conversationStore || {};
   }
 
   get _hasPermission() {
-    return this._deps.rolesAndPermissions.hasReadMessagesPermission;
+    return this._deps.extensionFeatures.hasReadMessagesPermission;
   }
 
-  @computed<MessageStore>((that) => [
+  @computed((that: MessageStore) => [
     that.data?.conversationList,
     that.conversationStore,
   ])
@@ -854,56 +858,56 @@ export class MessageStore extends DataFetcherV2Consumer<
     });
   }
 
-  @computed<MessageStore>((that) => [that.allConversations])
+  @computed((that: MessageStore) => [that.allConversations])
   get textConversations() {
     return this.allConversations.filter((conversation) =>
       messageHelper.messageIsTextMessage(conversation),
     );
   }
 
-  @computed<MessageStore>((that) => [that.textConversations])
+  @computed((that: MessageStore) => [that.textConversations])
   get textUnreadCounts() {
     return this.textConversations.reduce((a, b) => a + b.unreadCounts, 0);
   }
 
-  @computed<MessageStore>((that) => [that.allConversations])
+  @computed((that: MessageStore) => [that.allConversations])
   get faxMessages() {
     return this.allConversations.filter((conversation) =>
       messageHelper.messageIsFax(conversation),
     );
   }
 
-  @computed<MessageStore>((that) => [that.faxMessages])
+  @computed((that: MessageStore) => [that.faxMessages])
   get faxUnreadCounts() {
     return this.faxMessages.reduce((a, b) => a + b.unreadCounts, 0);
   }
 
-  @computed<MessageStore>((that) => [that.allConversations])
+  @computed((that: MessageStore) => [that.allConversations])
   get voicemailMessages() {
     return this.allConversations.filter((conversation) =>
       messageHelper.messageIsVoicemail(conversation),
     );
   }
 
-  @computed<MessageStore>((that) => that.voicemailMessages)
+  @computed((that: MessageStore) => [that.voicemailMessages])
   get voiceUnreadCounts() {
     return this.voicemailMessages.reduce((a, b) => a + b.unreadCounts, 0);
   }
 
-  @computed<MessageStore>((that) => [
+  @computed((that: MessageStore) => [
     that.voiceUnreadCounts,
     that.textUnreadCounts,
     that.faxUnreadCounts,
   ])
   get unreadCounts() {
     let unreadCounts = 0;
-    if (this._deps.rolesAndPermissions.readTextPermissions) {
+    if (this._deps.extensionFeatures.hasReadTextPermission) {
       unreadCounts += this.textUnreadCounts;
     }
-    if (this._deps.rolesAndPermissions.voicemailPermissions) {
+    if (this._deps.extensionFeatures.hasVoicemailPermission) {
       unreadCounts += this.voiceUnreadCounts;
     }
-    if (this._deps.rolesAndPermissions.readFaxPermissions) {
+    if (this._deps.extensionFeatures.hasReadFaxPermission) {
       unreadCounts += this.faxUnreadCounts;
     }
     return unreadCounts;

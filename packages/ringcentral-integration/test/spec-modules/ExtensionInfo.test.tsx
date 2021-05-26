@@ -11,6 +11,7 @@ import {
 
 import { ExtensionInfo } from '../../modules/ExtensionInfoV2';
 import { permissionsMessages } from '../../modules/RolesAndPermissions/permissionsMessages';
+import { mockModuleGenerator } from '../lib/mockModule';
 
 @autorun(test)
 @title('Polling is on by default')
@@ -183,14 +184,14 @@ export class InsufficientPermissionOnRequest extends Step {
         <Then
           desc="logout should be called"
           action={(_: any, context: any) => {
-            expect(context.instance._modules.auth.loggedIn).toBe(false);
+            expect(context.instance._deps.auth.loggedIn).toBe(false);
           }}
         />
         <Then
           desc="Should send an insufficient permission alert"
           action={(_: any, context: any) => {
-            expect(context.instance._modules.alert.args).toBeTruthy();
-            const args = context.instance._modules.alert.args;
+            expect(context.instance._deps.alert.args).toBeTruthy();
+            const args = context.instance._deps.alert.args;
             expect(args[0].message).toBe(
               permissionsMessages.insufficientPrivilege,
             );
@@ -210,26 +211,7 @@ export class InfoFallBack extends Step {
         <Given
           desc="An extensionInfo instance with null data"
           action={(_: any, context: any) => {
-            class MockStore {
-              _state = {
-                extensionInfo: {},
-              };
-
-              getState() {
-                return this._state;
-              }
-            }
-            class ExtensionInfoWithMockStore extends ExtensionInfo {
-              _mockStore = new MockStore() as any;
-              get _store() {
-                return this._mockStore;
-              }
-
-              _getState() {
-                return this._store.getState().extensionInfo;
-              }
-            }
-            context.instance = new ExtensionInfoWithMockStore({
+            context.instance = new ExtensionInfo({
               auth: {} as any,
               client: {} as any,
               subscription: {} as any,
@@ -241,6 +223,12 @@ export class InfoFallBack extends Step {
                 },
               } as any,
             });
+            Object.assign(
+              context.instance,
+              mockModuleGenerator({
+                extensionInfo: {},
+              }),
+            );
           }}
         />
         <Then
@@ -265,25 +253,7 @@ export class ServiceFeaturesRemapping extends Step {
         <Given
           desc="An extensionInfo instance with data"
           action={(_: any, context: any) => {
-            class MockStore {
-              _state = {
-                extensionInfo: {},
-              };
-
-              getState() {
-                return this._state;
-              }
-            }
             class ExtensionInfoWithMockStore extends ExtensionInfo {
-              _mockStore = new MockStore() as any;
-              get _store() {
-                return this._mockStore;
-              }
-
-              _getState() {
-                return this._store.getState().extensionInfo;
-              }
-
               _mockData = {
                 serviceFeatures: [
                   {
@@ -311,6 +281,13 @@ export class ServiceFeaturesRemapping extends Step {
                 register() {},
               } as any,
             });
+
+            Object.assign(
+              context.instance,
+              mockModuleGenerator({
+                extensionInfo: {},
+              }),
+            );
           }}
         />
         <Then

@@ -26,7 +26,8 @@ const DEFAULT_COUNTRY = {
     'Auth',
     'Client',
     'DataFetcherV2',
-    'Subscription',
+    'ExtensionFeatures',
+    { dep: 'Subscription', optional: true },
     'Alert',
     { dep: 'TabManager', optional: true },
     { dep: 'ExtensionInfoOptions', optional: true },
@@ -90,12 +91,14 @@ export class ExtensionInfo extends DataFetcherV2Consumer<
   }
 
   onInit() {
-    this._deps.subscription.subscribe([subscriptionFilters.extensionInfo]);
-    this._stopWatching = watch(
-      this,
-      () => this._deps.subscription.message,
-      (message) => this._handleSubscription(message),
-    );
+    if (this._deps.subscription) {
+      this._deps.subscription.subscribe([subscriptionFilters.extensionInfo]);
+      this._stopWatching = watch(
+        this,
+        () => this._deps.subscription.message,
+        (message) => this._handleSubscription(message),
+      );
+    }
   }
 
   onReset() {
@@ -103,13 +106,14 @@ export class ExtensionInfo extends DataFetcherV2Consumer<
     this._stopWatching = null;
   }
 
-  @computed<ExtensionInfo>(({ data }) => [data])
+  @computed(({ data }: ExtensionInfo) => [data])
   get info(): GetExtensionInfoResponse {
     return this.data ?? {};
   }
 
-  @computed<ExtensionInfo>(({ info }) => [info.serviceFeatures])
+  @computed(({ info }: ExtensionInfo) => [info.serviceFeatures])
   get serviceFeatures() {
+    console.warn('ExtensionInfo.serviceFeatures is deprecated.');
     return reduce(
       (acc, { featureName, enabled, reason }) => {
         acc[featureName] = {
@@ -146,13 +150,16 @@ export class ExtensionInfo extends DataFetcherV2Consumer<
     return !!(this._deps.extensionInfoOptions?.isMultipleSiteEnabled ?? false);
   }
 
-  @computed<ExtensionInfo>(({ info }) => [info])
+  @computed(({ info }: ExtensionInfo) => [info])
   get site() {
     if (!this.isMultipleSiteEnabled) {
       return null;
     }
-    if (this.serviceFeatures.SiteCodes?.enabled && !this.info.site) {
-      console.warn('site code enabled, but connot retrieve site info');
+    if (
+      this._deps.extensionFeatures.features?.SiteCodes?.available &&
+      !this.info.site
+    ) {
+      console.warn('site code enabled, but cannot retrieve site info');
     }
     return this.info.site || null;
   }

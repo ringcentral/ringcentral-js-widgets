@@ -5,3 +5,11 @@
   align-items: center;
   padding: 8px 16px;
 }
+
+.hangup {
+  box-shadow: none !important;
+
+  &:active > span {
+    opacity: 0.8;
+  }
+}

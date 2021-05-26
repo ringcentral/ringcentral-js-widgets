@@ -1,5 +1,9 @@
 import { combineReducers } from 'redux';
-import { RcModuleV2 } from '@ringcentral-integration/core';
+import {
+  RcModuleV2,
+  identifierKey,
+  usmAction,
+} from '@ringcentral-integration/core';
 import Container from './container';
 import Registry from './registry/registry';
 import {
@@ -323,7 +327,7 @@ export class Injector {
         rootClassInstance.addModule(name, module);
         if (module instanceof RcModuleV2) {
           module.parentModule = rootClassInstance;
-          module.__key__ = name;
+          module[identifierKey] = name;
         }
       }
       if (!(rootClassInstance instanceof RcModuleV2)) {
@@ -340,27 +344,31 @@ export class Injector {
           Object.defineProperty(module, STATE_FUNC_LITERAL, {
             value: () => rootClassInstance.state[name],
           });
-          Object.defineProperty(rootClassInstance, REDUCER_LITERAL, {
-            value: combineReducers({
-              ...reducers,
-              // eslint-disable-next-line
-              lastAction: (state = null, action) => action,
-            }),
-          });
         }
         if (module._proxyReducer) {
           Object.defineProperty(module, PROXY_STATE_FUNC_LITERAL, {
             value: () => rootClassInstance.proxyState[name],
           });
-          Object.defineProperty(rootClassInstance, PROXY_REDUCER_LITERAL, {
-            value: combineReducers({
-              ...proxyReducers,
-            }),
-          });
         }
       }
     }
-
+    if (!(rootClassInstance instanceof RcModuleV2)) {
+      Object.defineProperty(rootClassInstance, REDUCER_LITERAL, {
+        value: combineReducers({
+          ...reducers,
+          // eslint-disable-next-line
+          lastAction: (state = null, action) =>
+            action._usm === usmAction ? {} : action,
+        }),
+      });
+      if (rootClassInstance._proxyReducer) {
+        Object.defineProperty(rootClassInstance, PROXY_REDUCER_LITERAL, {
+          value: combineReducers({
+            ...proxyReducers,
+          }),
+        });
+      }
+    }
     return rootClassInstance;
   }
 

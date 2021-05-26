@@ -20,7 +20,7 @@ import { Module } from '../../lib/di';
 import sleep from '../../lib/sleep';
 import { connectionStatus } from './connectionStatus';
 import { webphoneErrors } from './webphoneErrors';
-import proxify from '../../lib/proxy/proxify';
+import { proxify } from '../../lib/proxy/proxify';
 import { Deps } from './Webphone.interface';
 import {
   isBrowserSupport,
@@ -70,7 +70,7 @@ const registerErrors = [
     'Alert',
     'Client',
     'NumberValidate',
-    'RolesAndPermissions',
+    'ExtensionFeatures',
     'Brand',
     'RegionSettings',
     'AudioSettings',
@@ -318,7 +318,7 @@ export class WebphoneBase extends RcModuleV2<Deps> {
     this._setVideoElementPrepared(true);
   }
 
-  async initModule() {
+  async _initModule() {
     if (typeof window !== 'undefined' && typeof document !== 'undefined') {
       if (document.readyState === 'loading') {
         window.addEventListener('load', () => {
@@ -333,7 +333,7 @@ export class WebphoneBase extends RcModuleV2<Deps> {
       });
     }
     this._createOtherWebphoneInstanceListener();
-    await super.initModule();
+    await super._initModule();
   }
 
   onInitOnce() {
@@ -390,7 +390,7 @@ export class WebphoneBase extends RcModuleV2<Deps> {
     );
   }
 
-  @computed<WebphoneBase>((that) => [
+  @computed((that: WebphoneBase) => [
     that.ready,
     that._deps.audioSettings.ringtoneVolume,
     that._deps.audioSettings.ringtoneMuted,
@@ -403,7 +403,7 @@ export class WebphoneBase extends RcModuleV2<Deps> {
     ];
   }
 
-  @computed<WebphoneBase>((that) => [
+  @computed((that: WebphoneBase) => [
     that.ready,
     that._deps.audioSettings.supportDevices,
     that._deps.audioSettings.outputDeviceId,
@@ -416,7 +416,7 @@ export class WebphoneBase extends RcModuleV2<Deps> {
     ];
   }
 
-  @computed<WebphoneBase>((that) => [
+  @computed((that: WebphoneBase) => [
     that.ready,
     that._deps.tabManager?.ready,
     that._deps.tabManager?.active,
@@ -432,7 +432,7 @@ export class WebphoneBase extends RcModuleV2<Deps> {
   _shouldInit() {
     return (
       this._deps.auth.loggedIn &&
-      this._deps.rolesAndPermissions.ready &&
+      this._deps.extensionFeatures.ready &&
       this._deps.numberValidate.ready &&
       this._deps.audioSettings.ready &&
       this._deps.storage.ready &&
@@ -444,7 +444,7 @@ export class WebphoneBase extends RcModuleV2<Deps> {
   _shouldReset() {
     return (
       (!this._deps.auth.loggedIn ||
-        !this._deps.rolesAndPermissions.ready ||
+        !this._deps.extensionFeatures.ready ||
         !this._deps.numberValidate.ready ||
         (!!this._deps.tabManager && !this._deps.tabManager.ready) ||
         !this._deps.audioSettings.ready) &&
@@ -591,12 +591,12 @@ export class WebphoneBase extends RcModuleV2<Deps> {
        * Specialties of this flow are next:
        *   6th WebRTC in another browser receives 6th ‘EndpointID’ and 1st ‘InstanceID’,
        *   which has been given previously to the 1st ‘EndpointID’.
-       *   It successfully registers on WSX by moving 1st ‘EndpointID’ to a blacklist state.
+       *   It successfully registers on WSX by moving 1st ‘EndpointID’ to a blocklist state.
        *   When 1st WebRTC client re-registers on expiration timeout,
-       *   WSX defines that 1st ‘EndpointID’ is blacklisted and responds with ‘SIP/2.0 403 Forbidden,
-       *   instance id is intercepted by another registration’ and remove it from black list.
+       *   WSX defines that 1st ‘EndpointID’ is blocklisted and responds with ‘SIP/2.0 403 Forbidden,
+       *   instance id is intercepted by another registration’ and remove it from block list.
        *   So if 1st WebRTC will send re-register again with the same ‘InstanceID’,
-       *   it will be accepted and 6th ‘EndpointID’ will be blacklisted.
+       *   it will be accepted and 6th ‘EndpointID’ will be blocklisted.
        *   (But the WebRTC client must logout on receiving SIP/2.0 403 Forbidden error and in case of login -
        *   provision again via Platform API and receive new InstanceID)
        */
@@ -715,7 +715,7 @@ export class WebphoneBase extends RcModuleV2<Deps> {
         error.message &&
         error.message.indexOf('Feature [WebPhone] is not available') > -1
       ) {
-        this._deps.rolesAndPermissions.refreshServiceFeatures();
+        this._deps.extensionFeatures.fetchData();
         return;
       }
       this._onConnectError({
@@ -1172,7 +1172,7 @@ export class WebphoneBase extends RcModuleV2<Deps> {
   }
 
   get enabled() {
-    return this._deps.rolesAndPermissions.webphoneEnabled;
+    return this._deps.extensionFeatures.isWebPhoneEnabled;
   }
 
   get disconnecting() {

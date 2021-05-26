@@ -1,22 +1,22 @@
-import { pathOr } from 'ramda';
-import { ApiError } from '@ringcentral/sdk';
 import {
   action,
   RcModuleV2,
   state,
   watch,
 } from '@ringcentral-integration/core';
+import { ApiError } from '@ringcentral/sdk';
+import { pathOr } from 'ramda';
+import { promisedThrottle } from '../../lib/debounce-throttle';
 import { Module } from '../../lib/di';
-import {
-  extractUrl,
-  isHAError,
-  generateRandomNumber,
-  isHAEnabledAPI,
-} from './availabilityMonitorHelper';
-import { errorMessages } from './errorMessages';
-import { throttle } from '../../lib/debounce-throttle';
 import validateIsOffline from '../../lib/validateIsOffline';
 import { Deps, ErrorMessages } from './AvailabilityMonitor.interface';
+import {
+  extractUrl,
+  generateRandomNumber,
+  isHAEnabledAPI,
+  isHAError,
+} from './availabilityMonitorHelper';
+import { errorMessages } from './errorMessages';
 
 export const HEALTH_CHECK_INTERVAL = 60 * 1000;
 export const STATUS_END_POINT = '/restapi/v1.0/status';
@@ -45,8 +45,6 @@ export class AvailabilityMonitor extends RcModuleV2<Deps> {
   protected _healthRetryTime = HEALTH_CHECK_INTERVAL;
 
   protected _unbindHandlers: () => void = null;
-
-  protected _throttledHealthCheck: () => void = null;
 
   constructor(deps: Deps) {
     super({
@@ -393,15 +391,11 @@ export class AvailabilityMonitor extends RcModuleV2<Deps> {
   /**
    * Health check with status API
    */
-  async healthCheck() {
-    if (!this._throttledHealthCheck) {
-      this._throttledHealthCheck = throttle(async () => {
-        await this._healthCheck({ manual: true });
-      });
-    }
-
-    this._throttledHealthCheck();
-  }
+  healthCheck = promisedThrottle({
+    async fn(this: AvailabilityMonitor) {
+      return this._healthCheck({ manual: true });
+    },
+  });
 
   /**
    * Check if the error is Survival Mode error,

@@ -99,7 +99,7 @@ class CallAvatar extends Component {
     const circleBorder = 1;
     const $snow = '#fff';
     const $blueLight = '#cee7f2';
-    const $blue = '#0684bd';
+    const $blue = '#066FAC';
     const $dark = '#e2e2e2';
     const $transparency = '0.8';
     const defaultAvatarStyle = { opacity: +$transparency };

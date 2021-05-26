@@ -22,7 +22,7 @@ async function getVersionFromTag() {
     return tag;
   }
   try {
-    tag = await execa.shell(
+    tag = await execa(
       'git describe --exact-match --tags $(git rev-parse HEAD)',
     );
     tag = tag.stdout.replace(/\r?\n|\r/g, '');
@@ -76,7 +76,7 @@ function preBuild() {
 const build = gulp.series(clean, copy, preBuild);
 async function releaseClean() {
   if (!(await fs.exists(RELEASE_PATH))) {
-    await execa.shell(`mkdir -p ${RELEASE_PATH}`);
+    await execa(`mkdir -p ${RELEASE_PATH}`);
   }
   const files = (await fs.readdir(RELEASE_PATH)).filter(
     (file) => !/^\./.test(file),

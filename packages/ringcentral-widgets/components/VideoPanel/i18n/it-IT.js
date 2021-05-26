@@ -16,7 +16,7 @@ export default {
   enterPassword: "Inserisci password",
   onlyJoinAfterMe: "I partecipanti possono accedere solo dopo di me",
   onlyJoinAfterHost: "I partecipanti possono accedere solo dopo l'host",
-  muteAudio: "Disatt. audio partecipanti",
+  muteAudio: "Disattiva l'audio per i partecipanti",
   turnOffCamera: "Spegni la videocamera per i partecipanti",
   requirePassword: "Richiedi password",
   setPassword: "Imposta la password *",

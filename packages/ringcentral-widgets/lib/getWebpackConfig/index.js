@@ -1,3 +1,6 @@
+import { is, isNil } from 'ramda';
+import { MD5 } from 'crypto-js';
+import { warmup } from 'thread-loader';
 import autoprefixer from 'autoprefixer';
 import path from 'path';
 import webpack from 'webpack';
@@ -8,7 +11,36 @@ function getBaseConfig({
   supportedLocales = [],
   themeFolder,
   fontFileSizeLimit = 15000,
+  multiThread = false,
+  prefixSvgId = false,
+}: {
+  cacheDirectory: boolean,
+  supportedLocales: string[],
+  themeFolder: string,
+  hashPrefix?: string,
+  fontFileSizeLimit?: number,
+  multiThread: boolean | { [key: string]: any },
+  prefixSvgId?: boolean,
 }) {
+  const enableMultiThread = !isNil(multiThread) && multiThread !== false;
+  if (enableMultiThread) {
+    warmup(is(Object, multiThread) ? multiThread : {}, [
+      'source-map-loader',
+      'babel-loader',
+      'sass-loader',
+    ]);
+  }
+  const useMultiThread = enableMultiThread
+    ? [
+        is(Object, multiThread)
+          ? {
+              loader: 'thread-loader',
+              options: multiThread,
+            }
+          : 'thread-loader',
+      ]
+    : [];
+
   return {
     resolve: {
       extensions: ['.ts', '.tsx', '.js', '.jsx'],
@@ -19,7 +51,13 @@ function getBaseConfig({
           enforce: 'pre',
           test: /\.(js|jsx|ts|tsx)$/,
           exclude: /node_modules/,
-          loader: 'source-map-loader',
+          ...(multiThread
+            ? {
+                use: ['source-map-loader', ...useMultiThread],
+              }
+            : {
+                loader: 'source-map-loader',
+              }),
         },
         {
           test: /\.(js|jsx|ts|tsx)$/,
@@ -36,12 +74,13 @@ function getBaseConfig({
                 supportedLocales,
               },
             },
+            ...useMultiThread,
           ],
           exclude: /node_modules/,
         },
         {
           test: /\.css$/i,
-          use: ['style-loader', 'css-loader'],
+          use: ['style-loader', 'css-loader', ...useMultiThread],
         },
         {
           test: /\.woff|\.woff2|.eot|\.ttf/,
@@ -50,7 +89,7 @@ function getBaseConfig({
         {
           test: /\.svg/,
           exclude: /fonts/,
-          use: [
+          use: ({ resource }) => [
             'babel-loader',
             {
               loader: 'react-svg-loader',
@@ -61,6 +100,17 @@ function getBaseConfig({
                     {
                       removeViewBox: false,
                     },
+                    ...(prefixSvgId
+                      ? [
+                          {
+                            cleanupIDs: {
+                              prefix: `${MD5(
+                                path.basename(resource, '.svg'),
+                              )}-`,
+                            },
+                          },
+                        ]
+                      : []),
                   ],
                 },
               },
@@ -96,10 +146,12 @@ function getBaseConfig({
                 includePaths: [
                   themeFolder,
                   path.resolve(process.cwd(), 'node_modules'),
+                  path.resolve(process.cwd(), '../../node_modules'),
                 ],
                 outputStyle: 'expanded',
               },
             },
+            ...useMultiThread,
           ],
         },
         {

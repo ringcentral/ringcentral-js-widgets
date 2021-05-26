@@ -9,13 +9,12 @@ import {
   examples,
 } from '@ringcentral-integration/test-utils';
 import { LocaleSettings } from '../../modules/LocaleSettingsV2';
+import { mockModuleGenerator } from '../lib/mockModule';
 
-const getMockModule = () => ({
-  savedLocale: null as string,
-  state: {},
-  _dispatch: () => {},
-  parentModule: {},
-});
+const getMockModule = () =>
+  mockModuleGenerator({
+    savedLocale: null as string,
+  });
 
 @autorun(test)
 @title('LocaleSettings Module "_saveLocale" action')
@@ -32,7 +31,7 @@ export class SaveLocale extends Step {
           desc="Create an LocaleSettings instance with default value"
           action={(_: any, context: any) => {
             const localeSettings = new LocaleSettings({} as any);
-            expect(localeSettings._initialValue.savedLocale).toBe(null);
+            expect(localeSettings.savedLocale).toBe(null);
             expect(localeSettings.supportedLocales).toEqual(['en-US']);
             context.instance = localeSettings;
           }}

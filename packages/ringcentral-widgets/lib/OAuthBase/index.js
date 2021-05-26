@@ -148,7 +148,7 @@ export default class OAuthBase extends RcModule {
   async destroyOAuth() {}
 
   @required
-  openOAuthPage() {}
+  async openOAuthPage() {}
 
   get oAuthUri() {
     return this._auth.getLoginUrl({

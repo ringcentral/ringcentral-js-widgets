@@ -22,7 +22,7 @@ export default {
   done: "Gereed",
   update: "Bijwerken",
   conferenceSettingsTitle: "{brand} conference-instellingen",
-  videoSettingsTitle: "{brand} meetingsinstellingen",
+  videoSettingsTitle: "Instellingen {brand} Meetings",
   password: "Wachtwoord",
   failedToRetrieveMeeting: "De netwerkverbinding is verbroken. Verwijder deze meeting en probeer het later opnieuw.",
   meetingSettingsTitle: "{brand}-meetings: instellingen",

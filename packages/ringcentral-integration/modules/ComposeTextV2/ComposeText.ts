@@ -9,7 +9,7 @@ import { ObjectMapKey } from '@ringcentral-integration/core/lib/ObjectMap';
 
 import { Module } from '../../lib/di';
 import isBlank from '../../lib/isBlank';
-import proxify from '../../lib/proxy/proxify';
+import { proxify } from '../../lib/proxy/proxify';
 
 import {
   messageSenderMessages,
@@ -31,26 +31,23 @@ import { Deps, ToNumber } from './ComposeText.interface';
     'Storage',
     'MessageSender',
     'NumberValidate',
-    'RolesAndPermissions',
+    'ExtensionFeatures',
     { dep: 'ContactSearch', optional: true },
     { dep: 'ComposeTextOptions', optional: true },
+    { dep: 'RouterInteraction', optional: true },
   ],
 })
-export class ComposeText extends RcModuleV2<Deps> {
+export class ComposeText<T = {}> extends RcModuleV2<Deps & T> {
   protected _lastContactSearchResult: any = null;
+  protected smsVerify?: ({
+    toNumbers,
+    typingToNumber,
+  }: {
+    toNumbers: ToNumber[];
+    typingToNumber: string;
+  }) => Promise<Boolean>;
 
-  /**
-   * @constructor
-   * @param {Object} params - params object
-   * @param {Alert} params.alert - alert module instance
-   * @param {Auth} params.auth - auth module instance
-   * @param {Storage} params.storage - storage module instance
-   * @param {MessageSender} params.messageSender - messageSender module instance
-   * @param {NumberValidate} params.numberValidate - numberValidate module instance
-   * @param {RolesAndPermissions} params.rolesAndPermissions - rolesAndPermissions module instance
-   * @param {ContactSearch} params.contactSearch - contactSearch module instance
-   */
-  constructor(deps: Deps) {
+  constructor(deps: Deps & T) {
     super({
       deps,
       enableCache: true,
@@ -273,7 +270,7 @@ export class ComposeText extends RcModuleV2<Deps> {
   _validateIsOnlyPager(phoneNumber: string) {
     if (
       phoneNumber.length >= 7 &&
-      this._deps.rolesAndPermissions.onlyPagerPermission
+      !this._deps.extensionFeatures.features?.SMSSending?.available
     ) {
       this._alertWarning(messageSenderMessages.noSMSPermission);
       return true;
@@ -282,7 +279,7 @@ export class ComposeText extends RcModuleV2<Deps> {
   }
 
   @proxify
-  validatePhoneNumber(phoneNumber: string) {
+  async validatePhoneNumber(phoneNumber: string) {
     if (this._validateIsOnlyPager(phoneNumber)) {
       return false;
     }
@@ -303,12 +300,40 @@ export class ComposeText extends RcModuleV2<Deps> {
         return null;
       }
     }
-    return this._deps.messageSender.send({
-      fromNumber: this.senderNumber,
-      toNumbers,
-      text,
-      attachments,
-    });
+
+    const continueSend = this.smsVerify
+      ? await this.smsVerify({ toNumbers: this.toNumbers, typingToNumber })
+      : true;
+    if (!continueSend) return null;
+
+    let timeoutID = setTimeout(() => {
+      if (this._deps.routerInteraction?.currentPath === '/composeText') {
+        this.alertMessageSending();
+      }
+      timeoutID = null;
+    }, 10000);
+
+    try {
+      const responses = await this._deps.messageSender.send({
+        fromNumber: this.senderNumber,
+        toNumbers,
+        text,
+        attachments,
+      });
+
+      if (timeoutID) {
+        clearTimeout(timeoutID);
+        timeoutID = null;
+      }
+      this.dismissMessageSending();
+      return responses;
+    } catch (err) {
+      if (timeoutID) {
+        clearTimeout(timeoutID);
+        timeoutID = null;
+      }
+      throw err;
+    }
   }
 
   @proxify

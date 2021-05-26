@@ -1,14 +1,13 @@
 import {
   autorun,
-  title,
-  Scenario,
-  Given,
-  When,
-  Then,
-  Step,
   examples,
+  Given,
+  Scenario,
+  Step,
+  Then,
+  title,
+  When,
 } from '@ringcentral-integration/test-utils';
-
 import { AccountInfo } from '../../modules/AccountInfoV2';
 import { loginStatus } from '../../modules/AuthV2';
 import { permissionsMessages } from '../../modules/RolesAndPermissions/permissionsMessages';
@@ -44,7 +43,7 @@ export class CleanOnReset extends Step {
             context.instance = new AccountInfo({
               auth: {} as any,
               client: {} as any,
-              rolesAndPermissions: {} as any,
+              extensionFeatures: {} as any,
               dataFetcherV2: {
                 register() {},
               } as any,
@@ -96,9 +95,11 @@ export class ReadCompanyInfo extends Step {
             context.instance = new MockRolesAndPermissions({
               auth: new MockAuth() as any,
               client: {} as any,
-              rolesAndPermissions: {
-                permissions: {
-                  ReadCompanyInfo: context.example.ReadCompanyInfo,
+              extensionFeatures: {
+                features: {
+                  ReadCompanyInfo: {
+                    available: context.example.ReadCompanyInfo,
+                  },
                 },
               } as any,
               alert: new MockAlert() as any,

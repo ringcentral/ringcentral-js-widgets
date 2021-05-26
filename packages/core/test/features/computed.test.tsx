@@ -9,7 +9,7 @@ import {
   examples,
 } from '@ringcentral-integration/test-utils';
 
-import { RcModuleV2, state, action, computed } from '../../lib';
+import { RcModuleV2, state, action, computed, createApp } from '../../lib';
 
 const generateModule = (
   numberComputedFn: Function,
@@ -77,13 +77,13 @@ class ModuleComputedCheck extends Step {
             context.numberComputedFn = jest.fn();
             context.listCountComputedFn = jest.fn();
             context.sumComputedFn = jest.fn();
-            context.Foo = generateModule(
+            const Foo = generateModule(
               context.numberComputedFn,
               context.listCountComputedFn,
               context.sumComputedFn,
             );
-            context.fooInstance = context.Foo.create();
-            expect(context.fooInstance instanceof context.Foo).toBe(true);
+            context.fooInstance = createApp({ main: new Foo() });
+            expect(context.fooInstance instanceof Foo).toBe(true);
           }}
         />
         <When
@@ -171,7 +171,10 @@ class ModuleComputedCheckWithInheritance extends Step {
             }
             const baseFoo = new BaseFoo({ deps: {} });
             const foo = new Foo({ deps: {} });
-            context.barInstance = Bar.create({ deps: { baseFoo, foo } } as any);
+            context.barInstance = createApp({
+              main: new Bar({ deps: { baseFoo, foo } }),
+              modules: { baseFoo, foo },
+            });
             expect(context.barInstance instanceof Bar).toBe(true);
           }}
         />

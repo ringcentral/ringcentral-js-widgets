@@ -10,14 +10,13 @@ import {
 } from '@ringcentral-integration/test-utils';
 import { HistoryCall } from '../../modules/CallHistoryV2';
 import { callStatus, RecentCalls } from '../../modules/RecentCallsV2';
+import { mockModuleGenerator } from '../lib/mockModule';
 
-const getMockModule = () => ({
-  calls: {} as Record<string, HistoryCall[]>,
-  callStatus: null as string,
-  state: {},
-  _dispatch: () => {},
-  parentModule: {},
-});
+const getMockModule = () =>
+  mockModuleGenerator({
+    calls: {} as Record<string, HistoryCall[]>,
+    callStatus: null as string,
+  });
 
 @autorun(test)
 @title('RecentCalls Module "initLoad" action')
@@ -29,8 +28,8 @@ export class InitLoad extends Step {
           desc="Create an RecentCalls instance with default value"
           action={(_: any, context: any) => {
             const instance = new RecentCalls({} as any);
-            expect(instance._initialValue.calls).toEqual({});
-            expect(instance._initialValue.callStatus).toBeNull();
+            expect(instance.calls).toEqual({});
+            expect(instance.callStatus).toBeNull();
             context.instance = instance;
           }}
         />
@@ -67,8 +66,8 @@ export class LoadSuccess extends Step {
           desc="Create an RecentCalls instance with default value"
           action={(_: any, context: any) => {
             const instance = new RecentCalls({} as any);
-            expect(instance._initialValue.calls).toEqual({});
-            expect(instance._initialValue.callStatus).toBeNull();
+            expect(instance.calls).toEqual({});
+            expect(instance.callStatus).toBeNull();
             context.instance = instance;
           }}
         />
@@ -117,8 +116,8 @@ export class CleanUpCalls extends Step {
           desc="Create an RecentCalls instance with default value"
           action={(_: any, context: any) => {
             const instance = new RecentCalls({} as any);
-            expect(instance._initialValue.calls).toEqual({});
-            expect(instance._initialValue.callStatus).toBeNull();
+            expect(instance.calls).toEqual({});
+            expect(instance.callStatus).toBeNull();
             context.instance = instance;
           }}
         />

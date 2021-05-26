@@ -6,7 +6,10 @@ import {
   htmlIndentation,
   htmlTabIndentation,
   formatTextToHtml,
+  getRcvEventTpl,
 } from 'ringcentral-widgets/lib/MeetingCalendarHelper';
+import { RcvMainParams } from 'ringcentral-widgets/lib/MeetingCalendarHelper/index.interface';
+import { getDefaultVideoSettings } from 'ringcentral-integration/modules/RcVideoV2';
 
 describe.each`
   meetingId           | expected
@@ -134,6 +137,36 @@ describe('formatTextToHtml', () => {
         searchLinks: true,
       }),
     ).toEqual(outputParts.join(''));
+  });
+
+  test('all tabs replace with space', () => {
+    const defaultMeetingSettings = getDefaultVideoSettings({
+      topic: 'rcv meeting topic',
+      startTime: new Date(),
+      accountId: '111',
+      extensionId: '222',
+    });
+    const mockMeetingInfo = {
+      meeting: defaultMeetingSettings,
+      extensionInfo: {
+        name: 'SystemNew',
+      },
+      dialInNumber: '123456',
+    };
+    const invitation = getRcvEventTpl(
+      mockMeetingInfo,
+      {
+        id: '1210',
+        code: 'rc',
+        name: 'RingCentral',
+        brandConfig: {
+          teleconference: '123',
+        },
+      },
+      'en-US',
+      true,
+    );
+    expect(invitation).not.toContain('\t');
   });
 });
 

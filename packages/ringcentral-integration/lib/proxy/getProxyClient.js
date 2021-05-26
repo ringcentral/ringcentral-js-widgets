@@ -22,7 +22,7 @@ export default function getProxyClient(
         ...options,
       });
       // Used by client to dispatch action.
-      this._target.__proxyAction__ = this.actionTypes.action;
+      // this._target.__proxyAction__ = this.actionTypes.action;
       this._target._getState = () => this.state.target;
       this._target._getProxyState = () => this.state.proxy;
       // this._target = new Target({
@@ -44,6 +44,7 @@ export default function getProxyClient(
               return this._target[subModule];
             },
           });
+          this[subModule]._getStateV2 = (state, key) => state.target[key];
         }
       }
 

@@ -7,8 +7,22 @@
 }
 
 .row {
-  .ticketSelectList.tickets.selectList{
-     width: calc(100% - 31px);
-     margin-left: 31px;
+  .ticketSelectList {
+    width: calc(100% - 31px);
+    margin-left: 31px;
   }
+}
+
+.selectLabel {
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.radio {
+  margin-right: 0;
+  margin-left: -8px;
+}
+
+.radioLabel {
+  margin-bottom: 3.5px;
 }

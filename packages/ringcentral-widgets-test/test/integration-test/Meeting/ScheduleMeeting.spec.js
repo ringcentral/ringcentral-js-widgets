@@ -2,11 +2,8 @@ import moment from 'moment';
 import { MeetingType } from 'ringcentral-integration/modules/Meeting';
 import MeetingSection from 'ringcentral-widgets/components/MeetingSection';
 import NavigationBar from 'ringcentral-widgets/components/NavigationBar';
-import { Button } from 'ringcentral-widgets/components/Button';
 import sleep from 'ringcentral-integration/lib/sleep';
 import { getWrapper } from '../shared';
-
-/* global jasmine */
 
 let app = null;
 beforeAll(async () => {
@@ -122,22 +119,13 @@ describe('Schedule Meeting', () => {
       'ComputerAudio',
     ]);
     const audioField = audio.find('CheckBox');
-    audioField
-      .find('.item')
-      .first()
-      .simulate('click');
+    audioField.find('.item').first().simulate('click');
     expect(app.props().phone.meeting.meeting.audioOptions).toEqual(['Phone']);
-    audioField
-      .find('.item')
-      .at(1)
-      .simulate('click');
+    audioField.find('.item').at(1).simulate('click');
     expect(app.props().phone.meeting.meeting.audioOptions).toEqual([
       'ComputerAudio',
     ]);
-    audioField
-      .find('.item')
-      .at(2)
-      .simulate('click');
+    audioField.find('.item').at(2).simulate('click');
     expect(app.props().phone.meeting.meeting.audioOptions).toEqual([
       'Phone',
       'ComputerAudio',
@@ -176,11 +164,14 @@ describe('Schedule Meeting', () => {
     joinBeforeField.props().onChange(true);
     expect(app.props().phone.meeting.meeting.allowJoinBeforeHost).toBe(true);
   });
-  test('<MeetingScheduleButton />', async () => {
-    const MeetingScheduleButton = app
-      .find('MeetingScheduleButton')
-      .find(Button);
-    expect(MeetingScheduleButton.props().children).toBe('Schedule Meeting');
-    expect(MeetingScheduleButton.props().disabled).toBe(false);
+
+  test.skip('<meetingScheduleButton />', async () => {
+    const buttons = app.find('MeetingScheduleButton');
+    expect(buttons.find('[data-sign="meetingScheduleButton"]').exists()).toBe(
+      true,
+    );
+    expect(buttons.find('[data-sign="meetingScheduleButton"]').text()).toBe(
+      'Schedule Meeting',
+    );
   });
 });

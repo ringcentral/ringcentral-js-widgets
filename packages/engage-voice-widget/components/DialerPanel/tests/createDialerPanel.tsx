@@ -16,7 +16,6 @@ export function createDialerPanel({
   dialoutStatus = 'idle' as DialoutStatusesType,
   goToManualDialSettings = () => {},
   hangup = () => {},
-  checkOnCall = () => {},
   dialButtonDisabled = false,
 } = {}) {
   return mount(
@@ -32,7 +31,6 @@ export function createDialerPanel({
         goToManualDialSettings={goToManualDialSettings}
         dialoutStatus={dialoutStatus}
         hangup={hangup}
-        checkOnCall={checkOnCall}
       />
     </RcThemeProvider>,
   );

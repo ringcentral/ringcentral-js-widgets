@@ -9,50 +9,50 @@ import {
 } from '@ringcentral-integration/test-utils';
 
 import { AccountContacts } from '../../../modules/AccountContactsV2';
+import { mockModuleGenerator } from '../../lib/mockModule';
 
-const getMockModule = () => ({
-  presences: {
-    '3927794004': {
-      presence: {
-        dndStatus: 'TakeAllCalls',
-        presenceStatus: 'Available',
-        telephonyStatus: 'NoCall',
-        userStatus: 'Available',
+const getMockModule = () =>
+  mockModuleGenerator({
+    presences: {
+      '3927794004': {
+        presence: {
+          dndStatus: 'TakeAllCalls',
+          presenceStatus: 'Available',
+          telephonyStatus: 'NoCall',
+          userStatus: 'Available',
+        },
+        timestamp: Date.now(),
       },
-      timestamp: Date.now(),
-    },
-    '3927803004': {
-      presence: {
-        dndStatus: 'TakeAllCalls',
-        presenceStatus: 'Available',
-        telephonyStatus: 'NoCall',
-        userStatus: 'Available',
+      '3927803004': {
+        presence: {
+          dndStatus: 'TakeAllCalls',
+          presenceStatus: 'Available',
+          telephonyStatus: 'NoCall',
+          userStatus: 'Available',
+        },
+        timestamp: 1000,
       },
-      timestamp: 1000,
-    },
-    '3927807004': {
-      presence: {
-        dndStatus: 'TakeAllCalls',
-        presenceStatus: 'Available',
-        telephonyStatus: 'NoCall',
-        userStatus: 'Available',
+      '3927807004': {
+        presence: {
+          dndStatus: 'TakeAllCalls',
+          presenceStatus: 'Available',
+          telephonyStatus: 'NoCall',
+          userStatus: 'Available',
+        },
+        timestamp: 1000,
       },
-      timestamp: 1000,
     },
-  },
-  profileImages: {
-    '1': {
-      imageUrl: 'http://foo',
-      timestamp: Date.now(),
+    profileImages: {
+      '1': {
+        imageUrl: 'http://foo',
+        timestamp: Date.now(),
+      },
+      '2': {
+        imageUrl: 'http://bar',
+        timestamp: 1000,
+      },
     },
-    '2': {
-      imageUrl: 'http://bar',
-      timestamp: 1000,
-    },
-  },
-  state: {},
-  _dispatch: () => {},
-});
+  });
 
 @autorun(test)
 @title('Check fetch image Success in AccountContacts')
@@ -69,7 +69,7 @@ export class CheckFetchImageSuccess extends Step {
               companyContacts: {} as any,
               accountContactsOptions: {} as any,
             });
-            expect(context.instance._initialValue.profileImages).toEqual({});
+            expect(context.instance.profileImages).toEqual({});
           }}
         />
         <When
@@ -117,7 +117,7 @@ export class CheckBatchFetchPresenceSuccess extends Step {
               companyContacts: {} as any,
               accountContactsOptions: {} as any,
             });
-            expect(context.instance._initialValue.presences).toEqual({});
+            expect(context.instance.presences).toEqual({});
           }}
         />
         <When

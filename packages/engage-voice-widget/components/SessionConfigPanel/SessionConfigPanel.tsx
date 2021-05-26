@@ -52,7 +52,7 @@ export const SessionConfigPanel: FunctionComponent<SessionConfigPanelProps> = ({
             variant="round"
             size="medium"
             symbol={arrowLeftSvg}
-            color="primary"
+            color="interactive.b02"
             data-sign="reChooseAccountButton"
           />
           <RcTypography variant="body1" className={styles.backText}>

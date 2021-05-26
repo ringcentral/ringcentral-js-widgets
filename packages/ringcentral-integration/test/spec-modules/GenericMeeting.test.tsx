@@ -12,13 +12,12 @@ import {
   GenericMeeting,
   genericMeetingStatus,
 } from '../../modules/GenericMeetingV2';
+import { mockModuleGenerator } from '../lib/mockModule';
 
-const getMockModule = () => ({
-  updatingStatus: null as string,
-  state: {},
-  _dispatch: () => {},
-  parentModule: {},
-});
+const getMockModule = () =>
+  mockModuleGenerator({
+    updatingStatus: null as string,
+  });
 
 @autorun(test)
 @title('GenericMeeting Module "setUpdatingStatus" action')
@@ -30,7 +29,7 @@ class SetUpdatingStatus extends Step {
           desc="Create an GenericMeeting instance with default value"
           action={(_: any, context: any) => {
             context.instance = new GenericMeeting({} as any);
-            expect(context.instance._initialValue.updatingStatus).toBeNull();
+            expect(context.instance.updatingStatus).toBeNull();
           }}
         />
         <When

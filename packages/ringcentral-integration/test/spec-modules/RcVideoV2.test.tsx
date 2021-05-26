@@ -12,11 +12,13 @@ import {
 } from '@ringcentral-integration/test-utils';
 import videoPersonalSettingsBody from '../../integration-test/mock/data/videoPersonalSettings.json';
 import videoPreferenceBody from '../../integration-test/mock/data/videoPreference.json';
-import delegatorsBody from '../../integration-test/mock/data/delegatorsBody.json';
 import { RcVideo } from '../../modules/RcVideoV2';
 import { videoStatus } from '../../modules/RcVideoV2/videoStatus';
 import { RcvDelegator } from '../../modules/RcVideoV2/RcVideo.interface';
 import { RcVideoAPI } from '../../interfaces/Rcv.model';
+import { mockModuleGenerator } from '../lib/mockModule';
+
+const delegatorsBody = [];
 
 interface Context {
   phone: any;
@@ -55,43 +57,18 @@ class MockStorage extends MockModule {
   }
 }
 
-class MockStore {
-  _state = {
-    RcVideo: {},
-  };
-
-  getState() {
-    return this._state;
-  }
-
-  parentModule: {};
-}
-
-class RcVideoMockStore extends RcVideo {
-  _mockStore = new MockStore() as any;
-  get _store() {
-    return this._mockStore;
-  }
-
-  _getState() {
-    return this._store.getState().RcVideo;
-  }
-}
-
-const getMockModule = () => ({
-  personalVideo: null as RcVideoAPI,
-  savedDefaultSetting: {},
-  meeting: {},
-  videoStatus: videoStatus.idle,
-  preferences: {},
-  isPreferencesChanged: false,
-  settingLocks: {},
-  delegator: null as RcvDelegator,
-  delegators: [] as RcvDelegator[],
-  state: {},
-  _dispatch: () => {},
-  parentModule: {},
-});
+const getMockModule = () =>
+  mockModuleGenerator({
+    personalVideo: null as RcVideoAPI,
+    savedDefaultSetting: {},
+    meeting: null,
+    videoStatus: videoStatus.idle,
+    preferences: {},
+    isPreferencesChanged: false,
+    settingLocks: {},
+    delegator: null as RcvDelegator,
+    delegators: [] as RcvDelegator[],
+  });
 
 const CreateRcVideoModule: StepFunction<{
   rcVideoOptions: any;
@@ -125,7 +102,7 @@ class RcVideoInitialState extends Step {
           action={(_: any, context: any) => {
             expect(context.instance.personalVideo).toBeNull();
             expect(context.instance.savedDefaultSetting).toEqual({});
-            expect(context.instance.meeting).toEqual({});
+            expect(context.instance.meeting).toEqual(null);
             expect(context.instance.videoStatus).toBe(videoStatus.idle);
             expect(context.instance.preferences).toEqual({});
             expect(context.instance.isPreferencesChanged).toBeFalsy();
@@ -144,8 +121,6 @@ class RcVideoInitialState extends Step {
 class RcVideoOptions extends Step {
   @examples(`
     | optionKey                   | optionValue |
-    | 'showAdminLock'             | true        |
-    | 'showAdminLock'             | false       |
     | 'showSaveAsDefault'         | true        |
     | 'showSaveAsDefault'         | false       |
     | 'isInstantMeeting'          | true        |
@@ -276,7 +251,7 @@ class CheckMeeting extends Step {
           desc="Create an RcVideo instance and initial state 'meeting' should be expected"
           action={(_: any, context: any) => {
             context.instance = new RcVideo({} as any);
-            expect(context.instance.meeting).toEqual({});
+            expect(context.instance.meeting).toEqual(null);
           }}
         />
         <When
@@ -517,10 +492,7 @@ class CheckDelegators extends Step {
           desc="Call '_updateDelegatorList' action"
           action={(_: any, context: any) => {
             context.mockModule = getMockModule();
-            context.instance._updateDelegatorList.call(
-              context.mockModule,
-              delegatorsBody,
-            );
+            context.instance._updateDelegatorList.call(context.mockModule, delegatorsBody);
           }}
         />
         <Then
