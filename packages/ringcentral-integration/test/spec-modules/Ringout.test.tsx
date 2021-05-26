@@ -8,13 +8,12 @@ import {
   Step,
 } from '@ringcentral-integration/test-utils';
 import { Ringout, ringoutStatus } from '../../modules/RingoutV2';
+import { mockModuleGenerator } from '../lib/mockModule';
 
-const getMockModule = () => ({
-  ringoutStatus: ringoutStatus.idle,
-  state: {},
-  _dispatch: () => {},
-  parentModule: {},
-});
+const getMockModule = () =>
+  mockModuleGenerator({
+    ringoutStatus: ringoutStatus.idle,
+  });
 
 @autorun(test)
 @title('Ringout Module "setRingoutStatus" action')
@@ -26,9 +25,7 @@ export class SetRingoutStatus extends Step {
           desc="Create an Ringout instance with default value"
           action={(_: any, context: any) => {
             const ringout = new Ringout({} as any);
-            expect(ringout._initialValue.ringoutStatus).toBe(
-              ringoutStatus.idle,
-            );
+            expect(ringout.ringoutStatus).toBe(ringoutStatus.idle);
             context.instance = ringout;
           }}
         />

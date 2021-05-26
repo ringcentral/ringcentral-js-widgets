@@ -13,3 +13,13 @@ declare module '*.scss' {
   const styles: { [className: string]: string };
   export default styles;
 }
+
+declare module 'thread-loader' {
+  const value: any;
+  export default value;
+  export const warmup: any;
+}
+
+declare module 'webpack-bundle-analyzer' {
+  export const BundleAnalyzerPlugin: any;
+}

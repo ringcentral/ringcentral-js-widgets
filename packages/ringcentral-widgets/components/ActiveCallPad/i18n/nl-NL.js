@@ -1,5 +1,5 @@
 export default {
-  unmute: "Dempen uitschakelen",
+  unmute: "Dempen uit",
   mute: "Dempen",
   keypad: "Toetsenbord",
   hold: "Wacht",
@@ -11,7 +11,9 @@ export default {
   transfer: "Doorv.",
   flip: "Omkeren",
   more: "Oproepacties",
-  mergeToConference: "Samenvoegen"
+  mergeToConference: "Samenvoegen",
+  end: "Einde",
+  completeTransfer: "Doorschakelen\nvoltooien"
 };
 
 // @key: @#@"unmute"@#@ @source: @#@"Unmute"@#@
@@ -27,3 +29,5 @@ export default {
 // @key: @#@"flip"@#@ @source: @#@"Flip"@#@
 // @key: @#@"more"@#@ @source: @#@"Call Actions"@#@
 // @key: @#@"mergeToConference"@#@ @source: @#@"Merge"@#@
+// @key: @#@"end"@#@ @source: @#@"End"@#@
+// @key: @#@"completeTransfer"@#@ @source: @#@"Complete\nTransfer"@#@

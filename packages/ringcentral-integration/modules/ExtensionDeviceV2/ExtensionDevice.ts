@@ -38,12 +38,12 @@ export class ExtensionDevice extends DataFetcherV2Consumer<
     this._deps.dataFetcherV2.register(this._source);
   }
 
-  @computed<ExtensionDevice>(({ data }) => [data])
+  @computed(({ data }: ExtensionDevice) => [data])
   get devices() {
     return this.data ?? [];
   }
 
-  @computed<ExtensionDevice>(({ devices }) => [devices])
+  @computed(({ devices }: ExtensionDevice) => [devices])
   get phoneLines() {
     return reduce(
       (acc, device) => {

@@ -1,7 +1,7 @@
 import { RcThemeProvider, RcThemeProviderProps } from '@ringcentral/juno';
 import React from 'react';
 
-import { defaultTheme } from './theme';
+import { brandThemeMapping } from './theme';
 
 export interface PhoneProviderProps<T = any> {
   phone: T;
@@ -14,7 +14,7 @@ export default PhoneContext;
 
 export const PhoneProvider: React.FunctionComponent<PhoneProviderProps> = ({
   phone,
-  theme = defaultTheme,
+  theme = brandThemeMapping.rcBlue,
   children,
 }) => {
   return (

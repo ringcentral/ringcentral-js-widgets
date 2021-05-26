@@ -1,4 +1,4 @@
-import Alert from '../Alert';
+import { Alert } from '../AlertV2';
 import { Auth } from '../AuthV2';
 import {
   DataFetcherV2ConsumerBaseDeps,

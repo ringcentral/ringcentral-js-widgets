@@ -6,7 +6,7 @@ import { RcvDelegator } from './interface';
 import { videoStatus } from './videoStatus';
 
 export function getRcVideoInfoReducer(types: RcVideoActionTypes) {
-  return (state = {}, { type, meeting = null, patch = true }) => {
+  return (state = null, { type, meeting = null, patch = true }) => {
     switch (type) {
       case types.updateMeetingSettings: {
         return patch

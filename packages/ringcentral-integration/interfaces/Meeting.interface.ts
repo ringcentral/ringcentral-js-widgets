@@ -10,7 +10,6 @@ export interface IMeeting {
   isScheduling: boolean;
   showSaveAsDefault: boolean;
   isPreferencesChanged: boolean;
-  showAdminLock: boolean;
   enablePersonalMeeting: boolean;
   personalMeeting: any;
   enableScheduleOnBehalf: boolean;

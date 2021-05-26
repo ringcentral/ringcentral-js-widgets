@@ -96,7 +96,7 @@ export class RecentMessages extends RcModuleV2<Deps> {
     delete this.messages[id];
   }
 
-  @computed<RecentMessages>((that) => [that.messages])
+  @computed((that: RecentMessages) => [that.messages])
   get unreadMessageCounts() {
     return Object.keys(this.messages).reduce((unreadCounts, contactId) => {
       unreadCounts[contactId] = this.messages[contactId].reduce(

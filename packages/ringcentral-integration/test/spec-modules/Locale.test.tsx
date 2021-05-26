@@ -9,14 +9,14 @@ import {
 } from '@ringcentral-integration/test-utils';
 
 import { Locale } from '../../modules/LocaleV2';
+import { mockModuleGenerator } from '../lib/mockModule';
 
-const getMockModule = () => ({
-  locale: null as string,
-  debugMode: false,
-  state: {},
-  _dispatch: () => {},
-  setLocale: jest.fn(),
-});
+const getMockModule = () =>
+  mockModuleGenerator({
+    locale: null as string,
+    debugMode: false,
+    setLocale: jest.fn(),
+  });
 
 @autorun(test)
 @title('Set locale success and toggle debug Mode')
@@ -28,8 +28,8 @@ class CheckLocaleState extends Step {
           desc="Locale should provide the default values"
           action={() => {
             const instance = new Locale({} as any);
-            expect(instance._initialValue.locale).toBe(null);
-            expect(instance._initialValue.debugMode).toBe(false);
+            expect(instance.locale).toBe(null);
+            expect(instance.debugMode).toBe(false);
             expect(instance._defaultLocale).toBe('en-US');
             expect(instance._detectBrowser).toBe(true);
             expect(instance._polling).toBe(false);

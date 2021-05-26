@@ -186,7 +186,9 @@ export default class Contacts extends RcModule {
         const promise = Promise.resolve(source.filterContacts(searchFilter));
         return promise
           .then((items) => {
-            result = result.concat(items);
+            if (items) {
+              result = result.concat(items);
+            }
           })
           .catch((error) => {
             console.error(
@@ -210,7 +212,9 @@ export default class Contacts extends RcModule {
         );
         return promise
           .then((items) => {
-            result = result.concat(items);
+            if (items) {
+              result = result.concat(items);
+            }
           })
           .catch((error) => {
             console.error(
@@ -234,7 +238,9 @@ export default class Contacts extends RcModule {
         );
         return promise
           .then((items) => {
-            result = result.concat(items);
+            if (items) {
+              result = result.concat(items);
+            }
           })
           .catch((error) => {
             console.error(
@@ -360,7 +366,7 @@ export default class Contacts extends RcModule {
       let contacts = [];
       for (const sourceName of Array.from(this._contactSources.keys())) {
         const source = this._contactSources.get(sourceName);
-        if (source.sourceReady) {
+        if (source.sourceReady && source.contacts) {
           contacts = contacts.concat(source.contacts);
         }
       }

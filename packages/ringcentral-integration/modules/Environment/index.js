@@ -88,6 +88,7 @@ export default class Environment extends RcModule {
     if (this.enabled) {
       this._client.service = new SDK({
         ...this._sdkConfig,
+        discoveryServer: this.server,
         server: this.server,
       });
     }
@@ -99,6 +100,7 @@ export default class Environment extends RcModule {
     };
     if (enabled) {
       newConfig.server = server;
+      newConfig.discoveryServer = server;
     }
     this._client.service = new SDK(newConfig);
   }

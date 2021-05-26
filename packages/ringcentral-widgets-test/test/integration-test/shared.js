@@ -44,6 +44,7 @@ const getPhone = async ({
     version,
     clientService,
     subscriptionRegisterDelay: 10,
+    enableDiscovery: false,
   });
 
   const store = createStore(phone.reducer);

@@ -55,7 +55,8 @@ export default class TransferUI extends RcUIModule {
       session,
       controlBusy:
         (this._activeCallControl && this._activeCallControl.busy) || false,
-      enableWarmTransfer: enableWarmTransfer && !!this._webphone,
+      enableWarmTransfer:
+        enableWarmTransfer && type === 'webphone' && !!this._webphone,
     };
   }
 

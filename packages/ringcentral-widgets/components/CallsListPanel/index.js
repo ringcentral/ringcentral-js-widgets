@@ -17,7 +17,7 @@ import i18n from './i18n';
 
 const HEADER_HEIGHT = 38;
 
-function ActiveCallList({
+const ActiveCallList = ({
   calls,
   className,
   currentLocale,
@@ -53,7 +53,7 @@ function ActiveCallList({
   externalViewEntity,
   externalHasEntity,
   readTextPermission,
-}) {
+}) => {
   if (calls.length === 0) {
     return null;
   }
@@ -102,7 +102,7 @@ function ActiveCallList({
       ))}
     </div>
   );
-}
+};
 
 ActiveCallList.propTypes = {
   currentLocale: PropTypes.string.isRequired,
@@ -407,6 +407,7 @@ export default class CallsListPanel extends React.PureComponent {
       readTextPermission,
       children,
       adaptive,
+      showChooseEntityModal,
     } = this.props;
 
     const { contentWidth, contentHeight } = this.state;
@@ -454,6 +455,7 @@ export default class CallsListPanel extends React.PureComponent {
         externalViewEntity={externalViewEntity}
         externalHasEntity={externalHasEntity}
         readTextPermission={isShowMessageIcon}
+        showChooseEntityModal={showChooseEntityModal}
       />
     ) : (
       <CallList
@@ -683,6 +685,7 @@ CallsListPanel.propTypes = {
   children: PropTypes.node,
   onlyHistory: PropTypes.bool,
   adaptive: PropTypes.bool,
+  showChooseEntityModal: PropTypes.bool,
 };
 
 CallsListPanel.defaultProps = {
@@ -744,4 +747,5 @@ CallsListPanel.defaultProps = {
   readTextPermission: true,
   children: null,
   onlyHistory: false,
+  showChooseEntityModal: true,
 };

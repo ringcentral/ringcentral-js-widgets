@@ -107,10 +107,7 @@ describe('Enter to Current Call Page', () => {
     expect(buttons.at(4).text()).toEqual('Record');
     expect(buttons.at(5).text()).toEqual('Call Actions');
     const moreButton = buttons.at(5);
-    moreButton
-      .find(CircleButton)
-      .find('g')
-      .simulate('click');
+    moreButton.find(CircleButton).find('g').simulate('click');
     await timeout(100);
     const transferButton = wrapper
       .find(ActiveCallPad)
@@ -141,10 +138,7 @@ describe('Current Call Control Page - Hang Up', () => {
       .find('.stopButtonGroup')
       .find(CircleButton);
     expect(handupButton.props().className).toEqual('stopButton');
-    handupButton
-      .find(CircleButton)
-      .find('g')
-      .simulate('click');
+    handupButton.find(CircleButton).find('g').simulate('click');
     await timeout(100);
     expect(phone.webphone.sessions).toHaveLength(0);
     expect(phone.routerInteraction.currentPath).toEqual('/dialer');
@@ -159,10 +153,7 @@ describe('Current Call Control Page - Hang Up', () => {
       .find('.stopButtonGroup')
       .find(CircleButton);
     expect(handupButton.props().className).toEqual('stopButton');
-    handupButton
-      .find(CircleButton)
-      .find('g')
-      .simulate('click');
+    handupButton.find(CircleButton).find('g').simulate('click');
     await timeout(100);
     expect(phone.webphone.sessions).toHaveLength(0);
     expect(phone.routerInteraction.currentPath).toEqual('/dialer');
@@ -179,10 +170,7 @@ describe('Current Call Control Page - Keypad', () => {
       .find(ActiveCallPad)
       .find(ActiveCallButton)
       .at(1);
-    keypadButton
-      .find(CircleButton)
-      .find('g')
-      .simulate('click');
+    keypadButton.find(CircleButton).find('g').simulate('click');
     await timeout(100);
     // mock click action
     const zeroDialButton = wrapper
@@ -194,12 +182,9 @@ describe('Current Call Control Page - Keypad', () => {
       .simulate('mousedown', { fromSimulation: true });
     zeroDialButton.find('.btnSvgGroup').simulate('mouseup');
     await timeout(100);
-    expect(
-      wrapper
-        .find(ActiveCallDialPad)
-        .find('input')
-        .props().value,
-    ).toEqual('0');
+    expect(wrapper.find(ActiveCallDialPad).find('input').props().value).toEqual(
+      '0',
+    );
 
     zeroDialButton
       .find('.btnSvgGroup')
@@ -207,12 +192,9 @@ describe('Current Call Control Page - Keypad', () => {
     await timeout(ALTERNATIVE_TIMEOUT);
     zeroDialButton.find('.btnSvgGroup').simulate('mouseup');
     await timeout(100);
-    expect(
-      wrapper
-        .find(ActiveCallDialPad)
-        .find('input')
-        .props().value,
-    ).toEqual('0+');
+    expect(wrapper.find(ActiveCallDialPad).find('input').props().value).toEqual(
+      '0+',
+    );
     await tearDownWrapper(wrapper);
   });
   test('RCI-1712646 Make an outbound call and keep in active call page, click Keypad and "0"', async () => {
@@ -223,10 +205,7 @@ describe('Current Call Control Page - Keypad', () => {
       .find(ActiveCallPad)
       .find(ActiveCallButton)
       .at(1);
-    keypadButton
-      .find(CircleButton)
-      .find('g')
-      .simulate('click');
+    keypadButton.find(CircleButton).find('g').simulate('click');
     await timeout(100);
     const zeroDialButton = wrapper
       .find(ActiveCallDialPad)
@@ -235,23 +214,17 @@ describe('Current Call Control Page - Keypad', () => {
     zeroDialButton.find('.btnSvgGroup').simulate('mousedown');
     zeroDialButton.find('.btnSvgGroup').simulate('mouseup');
     await timeout(100);
-    expect(
-      wrapper
-        .find(ActiveCallDialPad)
-        .find('input')
-        .props().value,
-    ).toEqual('0');
+    expect(wrapper.find(ActiveCallDialPad).find('input').props().value).toEqual(
+      '0',
+    );
 
     zeroDialButton.find('.btnSvgGroup').simulate('mousedown');
     await timeout(ALTERNATIVE_TIMEOUT);
     zeroDialButton.find('.btnSvgGroup').simulate('mouseup');
     await timeout(100);
-    expect(
-      wrapper
-        .find(ActiveCallDialPad)
-        .find('input')
-        .props().value,
-    ).toEqual('0+');
+    expect(wrapper.find(ActiveCallDialPad).find('input').props().value).toEqual(
+      '0+',
+    );
     await tearDownWrapper(wrapper);
   });
   test('RCI-1712646 Answer an inbound call and keep in active call page, click Keypad and Back', async () => {
@@ -262,10 +235,7 @@ describe('Current Call Control Page - Keypad', () => {
       .find(ActiveCallPad)
       .find(ActiveCallButton)
       .at(1);
-    keypadButton
-      .find(CircleButton)
-      .find('g')
-      .simulate('click');
+    keypadButton.find(CircleButton).find('g').simulate('click');
     await timeout(100);
     expect(wrapper.find(ActiveCallDialPad)).toHaveLength(1);
     const backButton = wrapper
@@ -286,10 +256,7 @@ describe('Current Call Control Page - Keypad', () => {
       .find(ActiveCallPad)
       .find(ActiveCallButton)
       .at(1);
-    keypadButton
-      .find(CircleButton)
-      .find('g')
-      .simulate('click');
+    keypadButton.find(CircleButton).find('g').simulate('click');
     await timeout(100);
     expect(wrapper.find(ActiveCallDialPad)).toHaveLength(1);
     const backButton = wrapper
@@ -310,35 +277,20 @@ describe('Current Call Control Page - Hold/Unhold', () => {
     const { wrapper, phone } = await initPhoneWrapper();
     await makeInbountCall(phone, wrapper, sid111, true);
     wrapper.update();
-    holdButton = wrapper
-      .find(ActiveCallPad)
-      .find(ActiveCallButton)
-      .at(2);
+    holdButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(2);
     expect(holdButton.find('.buttonTitle').text()).toEqual('Hold');
 
-    holdButton
-      .find(CircleButton)
-      .find('g')
-      .simulate('click');
+    holdButton.find(CircleButton).find('g').simulate('click');
     await timeout(10);
     wrapper.update();
-    holdButton = wrapper
-      .find(ActiveCallPad)
-      .find(ActiveCallButton)
-      .at(2);
+    holdButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(2);
 
     expect(holdButton.find('.buttonTitle').text()).toEqual('On Hold');
     expect(holdFn.mock.calls[0]).toEqual([sid111]);
-    holdButton
-      .find(CircleButton)
-      .find('g')
-      .simulate('click');
+    holdButton.find(CircleButton).find('g').simulate('click');
     await timeout(10);
     wrapper.update();
-    holdButton = wrapper
-      .find(ActiveCallPad)
-      .find(ActiveCallButton)
-      .at(2);
+    holdButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(2);
 
     expect(holdButton.find('.buttonTitle').text()).toEqual('Hold');
     expect(unholdFn.mock.calls[0]).toEqual([sid111]);
@@ -349,35 +301,20 @@ describe('Current Call Control Page - Hold/Unhold', () => {
     const { wrapper, phone } = await initPhoneWrapper();
     const outboundSession = await makeOutboundCall(phone);
     wrapper.update();
-    holdButton = wrapper
-      .find(ActiveCallPad)
-      .find(ActiveCallButton)
-      .at(2);
+    holdButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(2);
     expect(holdButton.find('.buttonTitle').text()).toEqual('Hold');
 
-    holdButton
-      .find(CircleButton)
-      .find('g')
-      .simulate('click');
+    holdButton.find(CircleButton).find('g').simulate('click');
     await timeout(10);
     wrapper.update();
-    holdButton = wrapper
-      .find(ActiveCallPad)
-      .find(ActiveCallButton)
-      .at(2);
+    holdButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(2);
     expect(holdButton.find('.buttonTitle').text()).toEqual('On Hold');
     expect(holdFn.mock.calls[0]).toEqual([outboundSession.id]);
 
-    holdButton
-      .find(CircleButton)
-      .find('g')
-      .simulate('click');
+    holdButton.find(CircleButton).find('g').simulate('click');
     await timeout(10);
     wrapper.update();
-    holdButton = wrapper
-      .find(ActiveCallPad)
-      .find(ActiveCallButton)
-      .at(2);
+    holdButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(2);
     expect(holdButton.find('.buttonTitle').text()).toEqual('Hold');
     expect(unholdFn.mock.calls[0]).toEqual([outboundSession.id]);
     await tearDownWrapper(wrapper);
@@ -392,36 +329,18 @@ describe('Current Call Control Page - Mute/Unmute', () => {
     await makeInbountCall(phone, wrapper, sid111, true);
     wrapper.update();
     // Click Hold Button
-    holdButton = wrapper
-      .find(ActiveCallPad)
-      .find(ActiveCallButton)
-      .at(2);
-    holdButton
-      .find(CircleButton)
-      .find('g')
-      .simulate('click');
+    holdButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(2);
+    holdButton.find(CircleButton).find('g').simulate('click');
     await timeout(10);
     wrapper.update();
-    muteButton = wrapper
-      .find(ActiveCallPad)
-      .find(ActiveCallButton)
-      .at(0);
+    muteButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(0);
     expect(muteButton.props().disabled).toBe(true);
     // Unhold button
-    holdButton = wrapper
-      .find(ActiveCallPad)
-      .find(ActiveCallButton)
-      .at(2);
-    holdButton
-      .find(CircleButton)
-      .find('g')
-      .simulate('click');
+    holdButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(2);
+    holdButton.find(CircleButton).find('g').simulate('click');
     await timeout(10);
     wrapper.update();
-    muteButton = wrapper
-      .find(ActiveCallPad)
-      .find(ActiveCallButton)
-      .at(0);
+    muteButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(0);
     expect(muteButton.props().disabled).toBe(false);
     await tearDownWrapper(wrapper);
   });
@@ -432,36 +351,18 @@ describe('Current Call Control Page - Mute/Unmute', () => {
     await makeOutboundCall(phone);
     wrapper.update();
     // Click Hold Button
-    holdButton = wrapper
-      .find(ActiveCallPad)
-      .find(ActiveCallButton)
-      .at(2);
-    holdButton
-      .find(CircleButton)
-      .find('g')
-      .simulate('click');
+    holdButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(2);
+    holdButton.find(CircleButton).find('g').simulate('click');
     await timeout(10);
     wrapper.update();
-    muteButton = wrapper
-      .find(ActiveCallPad)
-      .find(ActiveCallButton)
-      .at(0);
+    muteButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(0);
     expect(muteButton.props().disabled).toBe(true);
     // Unhold button
-    holdButton = wrapper
-      .find(ActiveCallPad)
-      .find(ActiveCallButton)
-      .at(2);
-    holdButton
-      .find(CircleButton)
-      .find('g')
-      .simulate('click');
+    holdButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(2);
+    holdButton.find(CircleButton).find('g').simulate('click');
     await timeout(10);
     wrapper.update();
-    muteButton = wrapper
-      .find(ActiveCallPad)
-      .find(ActiveCallButton)
-      .at(0);
+    muteButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(0);
     expect(muteButton.props().disabled).toBe(false);
     await tearDownWrapper(wrapper);
   });
@@ -470,35 +371,20 @@ describe('Current Call Control Page - Mute/Unmute', () => {
     const { wrapper, phone } = await initPhoneWrapper();
     await makeInbountCall(phone, wrapper, sid111, true);
     wrapper.update();
-    muteButton = wrapper
-      .find(ActiveCallPad)
-      .find(ActiveCallButton)
-      .at(0);
+    muteButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(0);
     expect(muteButton.find('.buttonTitle').text()).toEqual('Mute');
 
-    muteButton
-      .find(CircleButton)
-      .find('g')
-      .simulate('click');
+    muteButton.find(CircleButton).find('g').simulate('click');
     await timeout(10);
     wrapper.update();
-    muteButton = wrapper
-      .find(ActiveCallPad)
-      .find(ActiveCallButton)
-      .at(0);
+    muteButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(0);
     expect(muteButton.find('.buttonTitle').text()).toEqual('Unmute');
     expect(muteFn.mock.calls[0]).toEqual([sid111]);
 
-    muteButton
-      .find(CircleButton)
-      .find('g')
-      .simulate('click');
+    muteButton.find(CircleButton).find('g').simulate('click');
     await timeout(10);
     wrapper.update();
-    muteButton = wrapper
-      .find(ActiveCallPad)
-      .find(ActiveCallButton)
-      .at(0);
+    muteButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(0);
     expect(muteButton.find('.buttonTitle').text()).toEqual('Mute');
     expect(unmuteFn.mock.calls[0]).toEqual([sid111]);
     await tearDownWrapper(wrapper);
@@ -508,35 +394,20 @@ describe('Current Call Control Page - Mute/Unmute', () => {
     const { wrapper, phone } = await initPhoneWrapper();
     const outboundSession = await makeOutboundCall(phone);
     wrapper.update();
-    muteButton = wrapper
-      .find(ActiveCallPad)
-      .find(ActiveCallButton)
-      .at(0);
+    muteButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(0);
     expect(muteButton.find('.buttonTitle').text()).toEqual('Mute');
 
-    muteButton
-      .find(CircleButton)
-      .find('g')
-      .simulate('click');
+    muteButton.find(CircleButton).find('g').simulate('click');
     await timeout(10);
     wrapper.update();
-    muteButton = wrapper
-      .find(ActiveCallPad)
-      .find(ActiveCallButton)
-      .at(0);
+    muteButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(0);
     expect(muteButton.find('.buttonTitle').text()).toEqual('Unmute');
     expect(muteFn.mock.calls[0]).toEqual([outboundSession.id]);
 
-    muteButton
-      .find(CircleButton)
-      .find('g')
-      .simulate('click');
+    muteButton.find(CircleButton).find('g').simulate('click');
     await timeout(10);
     wrapper.update();
-    muteButton = wrapper
-      .find(ActiveCallPad)
-      .find(ActiveCallButton)
-      .at(0);
+    muteButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(0);
     expect(muteButton.find('.buttonTitle').text()).toEqual('Mute');
     expect(unmuteFn.mock.calls[0]).toEqual([outboundSession.id]);
     await tearDownWrapper(wrapper);
@@ -551,36 +422,18 @@ describe('Current Call Control Page - Record/Stop', () => {
     await makeInbountCall(phone, wrapper, sid111, true);
     wrapper.update();
     // Click Hold Button
-    holdButton = wrapper
-      .find(ActiveCallPad)
-      .find(ActiveCallButton)
-      .at(2);
-    holdButton
-      .find(CircleButton)
-      .find('g')
-      .simulate('click');
+    holdButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(2);
+    holdButton.find(CircleButton).find('g').simulate('click');
     await timeout(10);
     wrapper.update();
-    recordButton = wrapper
-      .find(ActiveCallPad)
-      .find(ActiveCallButton)
-      .at(4);
+    recordButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(4);
     expect(recordButton.props().disabled).toBe(true);
     // Unhold button
-    holdButton = wrapper
-      .find(ActiveCallPad)
-      .find(ActiveCallButton)
-      .at(2);
-    holdButton
-      .find(CircleButton)
-      .find('g')
-      .simulate('click');
+    holdButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(2);
+    holdButton.find(CircleButton).find('g').simulate('click');
     await timeout(10);
     wrapper.update();
-    recordButton = wrapper
-      .find(ActiveCallPad)
-      .find(ActiveCallButton)
-      .at(4);
+    recordButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(4);
     expect(recordButton.props().disabled).toBe(false);
     await tearDownWrapper(wrapper);
   });
@@ -591,36 +444,18 @@ describe('Current Call Control Page - Record/Stop', () => {
     await makeOutboundCall(phone);
     wrapper.update();
     // Click Hold Button
-    holdButton = wrapper
-      .find(ActiveCallPad)
-      .find(ActiveCallButton)
-      .at(2);
-    holdButton
-      .find(CircleButton)
-      .find('g')
-      .simulate('click');
+    holdButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(2);
+    holdButton.find(CircleButton).find('g').simulate('click');
     await timeout(10);
     wrapper.update();
-    recordButton = wrapper
-      .find(ActiveCallPad)
-      .find(ActiveCallButton)
-      .at(4);
+    recordButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(4);
     expect(recordButton.props().disabled).toBe(true);
     // Unhold button
-    holdButton = wrapper
-      .find(ActiveCallPad)
-      .find(ActiveCallButton)
-      .at(2);
-    holdButton
-      .find(CircleButton)
-      .find('g')
-      .simulate('click');
+    holdButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(2);
+    holdButton.find(CircleButton).find('g').simulate('click');
     await timeout(10);
     wrapper.update();
-    recordButton = wrapper
-      .find(ActiveCallPad)
-      .find(ActiveCallButton)
-      .at(4);
+    recordButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(4);
     expect(recordButton.props().disabled).toBe(false);
     await tearDownWrapper(wrapper);
   });
@@ -632,10 +467,7 @@ describe('Current Call Control Page - Record/Stop', () => {
       .find(ActiveCallPad)
       .find(ActiveCallButton)
       .at(4);
-    recordButton
-      .find(CircleButton)
-      .find('g')
-      .simulate('click');
+    recordButton.find(CircleButton).find('g').simulate('click');
     await timeout(100);
     expect(startRecordFn.mock.calls).toHaveLength(0);
     await tearDownWrapper(wrapper);
@@ -645,35 +477,20 @@ describe('Current Call Control Page - Record/Stop', () => {
     const { wrapper, phone } = await initPhoneWrapper();
     await makeInbountCall(phone, wrapper, sid111, true);
     wrapper.update();
-    recordButton = wrapper
-      .find(ActiveCallPad)
-      .find(ActiveCallButton)
-      .at(4);
+    recordButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(4);
     expect(recordButton.find('.buttonTitle').text()).toEqual('Record');
 
-    recordButton
-      .find(CircleButton)
-      .find('g')
-      .simulate('click');
+    recordButton.find(CircleButton).find('g').simulate('click');
     await timeout(100);
     wrapper.update();
-    recordButton = wrapper
-      .find(ActiveCallPad)
-      .find(ActiveCallButton)
-      .at(4);
+    recordButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(4);
     expect(startRecordFn.mock.calls[0]).toEqual([sid111]);
     expect(recordButton.find('.buttonTitle').text()).toEqual('Stop');
 
-    recordButton
-      .find(CircleButton)
-      .find('g')
-      .simulate('click');
+    recordButton.find(CircleButton).find('g').simulate('click');
     await timeout(100);
     wrapper.update();
-    recordButton = wrapper
-      .find(ActiveCallPad)
-      .find(ActiveCallButton)
-      .at(4);
+    recordButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(4);
     expect(recordButton.find('.buttonTitle').text()).toEqual('Record');
     expect(stopRecordFn.mock.calls[0]).toEqual([sid111]);
     await tearDownWrapper(wrapper);
@@ -684,35 +501,20 @@ describe('Current Call Control Page - Record/Stop', () => {
     const outboundSession = await makeOutboundCall(phone);
     wrapper.update();
     outboundSession.accept(phone.webphone.acceptOptions);
-    recordButton = wrapper
-      .find(ActiveCallPad)
-      .find(ActiveCallButton)
-      .at(4);
+    recordButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(4);
     expect(recordButton.find('.buttonTitle').text()).toEqual('Record');
 
-    recordButton
-      .find(CircleButton)
-      .find('g')
-      .simulate('click');
+    recordButton.find(CircleButton).find('g').simulate('click');
     await timeout(100);
     wrapper.update();
-    recordButton = wrapper
-      .find(ActiveCallPad)
-      .find(ActiveCallButton)
-      .at(4);
+    recordButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(4);
     expect(recordButton.find('.buttonTitle').text()).toEqual('Stop');
     expect(startRecordFn.mock.calls[0]).toEqual([outboundSession.id]);
 
-    recordButton
-      .find(CircleButton)
-      .find('g')
-      .simulate('click');
+    recordButton.find(CircleButton).find('g').simulate('click');
     await timeout(100);
     wrapper.update();
-    recordButton = wrapper
-      .find(ActiveCallPad)
-      .find(ActiveCallButton)
-      .at(4);
+    recordButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(4);
     expect(recordButton.find('.buttonTitle').text()).toEqual('Record');
     expect(stopRecordFn.mock.calls[0]).toEqual([outboundSession.id]);
     await tearDownWrapper(wrapper);
@@ -728,20 +530,11 @@ describe('Current Call Control Page - Merge', () => {
       .find(ActiveCallPad)
       .find(ActiveCallButton)
       .at(4);
-    recordButton
-      .find(CircleButton)
-      .find('g')
-      .simulate('click');
+    recordButton.find(CircleButton).find('g').simulate('click');
     await timeout(10);
     wrapper.update();
-    const holdButton = wrapper
-      .find(ActiveCallPad)
-      .find(ActiveCallButton)
-      .at(2);
-    holdButton
-      .find(CircleButton)
-      .find('g')
-      .simulate('click');
+    const holdButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(2);
+    holdButton.find(CircleButton).find('g').simulate('click');
     await timeout(10);
     wrapper.update();
     await makeOutboundCall(phone);
@@ -750,10 +543,7 @@ describe('Current Call Control Page - Merge', () => {
       .find(ActiveCallPad)
       .find(ActiveCallButton)
       .at(3);
-    mergeButton
-      .find(CircleButton)
-      .find('g')
-      .simulate('click');
+    mergeButton.find(CircleButton).find('g').simulate('click');
     await timeout(10);
     wrapper.update();
     const store = wrapper.props().phone.store;
@@ -781,20 +571,11 @@ describe('Current Call Control Page - Add', () => {
       .find(ActiveCallPad)
       .find(ActiveCallButton)
       .at(4);
-    recordButton
-      .find(CircleButton)
-      .find('g')
-      .simulate('click');
+    recordButton.find(CircleButton).find('g').simulate('click');
     await timeout(10);
     wrapper.update();
-    const addButton = wrapper
-      .find(ActiveCallPad)
-      .find(ActiveCallButton)
-      .at(3);
-    addButton
-      .find(CircleButton)
-      .find('g')
-      .simulate('click');
+    const addButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(3);
+    addButton.find(CircleButton).find('g').simulate('click');
     await timeout(10);
     wrapper.update();
     const store = wrapper.props().phone.store;
@@ -813,14 +594,8 @@ describe('Current Call Control Page - Add', () => {
 
 describe('Current Call Control Page - Transfer', () => {
   async function getTransferButton(wrapper) {
-    const moreButton = wrapper
-      .find(ActiveCallPad)
-      .find(ActiveCallButton)
-      .at(5);
-    moreButton
-      .find(CircleButton)
-      .find('g')
-      .simulate('click');
+    const moreButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(5);
+    moreButton.find(CircleButton).find('g').simulate('click');
     await timeout(100);
     wrapper.update();
     const transferButton = wrapper
@@ -866,17 +641,9 @@ describe('Current Call Control Page - Transfer', () => {
     expect(panel.find('BackHeader').find('Button')).toHaveLength(1);
     expect(panel.find('BackHeader').text()).toEqual('Transfer to');
     expect(panel.find(RecipientsInput)).toHaveLength(1);
+    expect(panel.find(RecipientsInput).find('label').text()).toEqual('To:');
     expect(
-      panel
-        .find(RecipientsInput)
-        .find('label')
-        .text(),
-    ).toEqual('To:');
-    expect(
-      panel
-        .find(RecipientsInput)
-        .find('input')
-        .props().placeholder,
+      panel.find(RecipientsInput).find('input').props().placeholder,
     ).toEqual('Enter Name or Number');
     expect(panel.find(DialPad)).toHaveLength(1);
     expect(panel.find(CircleButton).find(TransferIcon)).toHaveLength(1);
@@ -910,10 +677,7 @@ describe('Current Call Control Page - Transfer', () => {
     transferButton.find('.buttonItem').simulate('click');
     await timeout(10);
     wrapper.update();
-    const transferBtn = wrapper
-      .find(TransferPanel)
-      .find(CircleButton)
-      .last();
+    const transferBtn = wrapper.find(TransferPanel).find(CircleButton).last();
     transferBtn.find('g').simulate('click');
     await timeout(200);
     wrapper.update();
@@ -961,14 +725,8 @@ describe('Current Call Control Page - Transfer', () => {
       .find(RecipientsInput)
       .find('input');
     enterToNumber(domInput, '987654321');
-    const transferBtn = wrapper
-      .find(TransferPanel)
-      .find(CircleButton)
-      .last();
-    transferBtn
-      .find('svg')
-      .find('g')
-      .simulate('click');
+    const transferBtn = wrapper.find(TransferPanel).find(CircleButton).last();
+    transferBtn.find('svg').find('g').simulate('click');
     await timeout(2000);
     const validatedResult = await phone.numberValidate.validateNumbers([
       '987654321',
@@ -983,14 +741,8 @@ describe('Current Call Control Page - Transfer', () => {
 
 describe('Current Call Control Page - Flip', () => {
   async function getFlipButton(wrapper) {
-    const moreButton = wrapper
-      .find(ActiveCallPad)
-      .find(ActiveCallButton)
-      .at(5);
-    moreButton
-      .find(CircleButton)
-      .find('g')
-      .simulate('click');
+    const moreButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(5);
+    moreButton.find(CircleButton).find('g').simulate('click');
     await timeout(10);
     wrapper.update();
     const flipButton = wrapper
@@ -1007,27 +759,15 @@ describe('Current Call Control Page - Flip', () => {
     await makeInbountCall(phone, wrapper, sid111, true);
     wrapper.update();
     // Click Hold Button
-    holdButton = wrapper
-      .find(ActiveCallPad)
-      .find(ActiveCallButton)
-      .at(2);
-    holdButton
-      .find(CircleButton)
-      .find('g')
-      .simulate('click');
+    holdButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(2);
+    holdButton.find(CircleButton).find('g').simulate('click');
     await timeout(10);
     wrapper.update();
     flipButton = await getFlipButton(wrapper);
     expect(flipButton.props().disabled).toBe(true);
     // Unhold button
-    holdButton = wrapper
-      .find(ActiveCallPad)
-      .find(ActiveCallButton)
-      .at(2);
-    holdButton
-      .find(CircleButton)
-      .find('g')
-      .simulate('click');
+    holdButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(2);
+    holdButton.find(CircleButton).find('g').simulate('click');
     await timeout(10);
     wrapper.update();
     flipButton = await getFlipButton(wrapper);
@@ -1041,27 +781,15 @@ describe('Current Call Control Page - Flip', () => {
     await makeOutboundCall(phone);
     wrapper.update();
     // Click Hold Button
-    holdButton = wrapper
-      .find(ActiveCallPad)
-      .find(ActiveCallButton)
-      .at(2);
-    holdButton
-      .find(CircleButton)
-      .find('g')
-      .simulate('click');
+    holdButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(2);
+    holdButton.find(CircleButton).find('g').simulate('click');
     await timeout(10);
     wrapper.update();
     flipButton = await getFlipButton(wrapper);
     expect(flipButton.props().disabled).toBe(true);
     // Unhold button
-    holdButton = wrapper
-      .find(ActiveCallPad)
-      .find(ActiveCallButton)
-      .at(2);
-    holdButton
-      .find(CircleButton)
-      .find('g')
-      .simulate('click');
+    holdButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(2);
+    holdButton.find(CircleButton).find('g').simulate('click');
     await timeout(10);
     wrapper.update();
     flipButton = await getFlipButton(wrapper);
@@ -1121,18 +849,12 @@ describe('Current Call Control Page - Flip', () => {
         .find(FlipPanel)
         .props()
         .formatPhone(item.phoneNumber);
-      expect(
-        radioOptions
-          .at(index)
-          .find('.optionNumber')
-          .text(),
-      ).toEqual(phoneNumber);
-      expect(
-        radioOptions
-          .at(index)
-          .find('.optionLabel')
-          .text(),
-      ).toEqual(item.label);
+      expect(radioOptions.at(index).find('.optionNumber').text()).toEqual(
+        phoneNumber,
+      );
+      expect(radioOptions.at(index).find('.optionLabel').text()).toEqual(
+        item.label,
+      );
     });
     expect(panel.find(CircleButton).find('.btnSvg.flipButton')).toHaveLength(1);
     expect(
@@ -1152,37 +874,19 @@ describe('Current Call Control Page - Flip', () => {
     await timeout(10);
     wrapper.update();
     expect(wrapper.find(FlipPanel)).toHaveLength(1);
-    flipIconButton = wrapper
-      .find(FlipPanel)
-      .find(CircleButton)
-      .at(0);
-    endIconButton = wrapper
-      .find(FlipPanel)
-      .find(CircleButton)
-      .at(1);
+    flipIconButton = wrapper.find(FlipPanel).find(CircleButton).at(0);
+    endIconButton = wrapper.find(FlipPanel).find(CircleButton).at(1);
     expect(flipIconButton.props().disabled).toBe(false);
     expect(endIconButton.props().disabled).toBe(true);
-    flipIconButton
-      .find('svg')
-      .find('g')
-      .simulate('click');
+    flipIconButton.find('svg').find('g').simulate('click');
     await timeout(100);
     wrapper.update();
-    flipIconButton = wrapper
-      .find(FlipPanel)
-      .find(CircleButton)
-      .at(0);
-    endIconButton = wrapper
-      .find(FlipPanel)
-      .find(CircleButton)
-      .at(1);
+    flipIconButton = wrapper.find(FlipPanel).find(CircleButton).at(0);
+    endIconButton = wrapper.find(FlipPanel).find(CircleButton).at(1);
     expect(flipFn.mock.calls[0]).toContain(filpNumbers[0].phoneNumber);
     expect(endIconButton.props().disabled).toBe(false);
     expect(flipIconButton.props().disabled).toBe(true);
-    endIconButton
-      .find('svg')
-      .find('g')
-      .simulate('click');
+    endIconButton.find('svg').find('g').simulate('click');
     await timeout(10);
     wrapper.update();
     expect(phone.routerInteraction.currentPath).toEqual('/dialer');

@@ -1,7 +1,3 @@
-/**
- * @file call control alert
- * it be used in <SimpleActiveCallCtrlPage>
- */
 import callControlError from 'ringcentral-integration/modules/ActiveCallControl/callControlError';
 import i18n from './i18n';
 

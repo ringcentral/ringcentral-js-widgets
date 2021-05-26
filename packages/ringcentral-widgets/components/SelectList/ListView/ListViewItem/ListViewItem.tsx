@@ -19,11 +19,13 @@ export interface ListViewItemProps {
   valueFunction: (value: any) => any;
   startAdornment?: (type: string) => any;
   renderFunction: (option: OptionData) => React.ReactNode;
+  secondaryRenderFunction?: (option: OptionData) => any;
   onSelect: (elm?: HTMLDivElement) => any;
 }
 
 export const ListViewItem: FunctionComponent<ListViewItemProps> = ({
   renderFunction,
+  secondaryRenderFunction,
   startAdornment,
   filter,
   valueFunction,
@@ -71,7 +73,10 @@ export const ListViewItem: FunctionComponent<ListViewItemProps> = ({
         selected={isSelected}
       >
         {startAdornment && startAdornment(type)}
-        <RcListItemText primary={getFilterResult(option)} />
+        <RcListItemText
+          primary={getFilterResult(option)}
+          secondary={secondaryRenderFunction(option)}
+        />
       </RcListItem>
     </div>
   );
@@ -81,4 +86,5 @@ ListViewItem.defaultProps = {
   filter: null,
   onChange() {},
   startAdornment() {},
+  secondaryRenderFunction() {},
 };

@@ -10,6 +10,7 @@ import ContactDisplay from '../ContactDisplay';
 import MessageInput from '../MessageInput';
 
 import styles from './styles.scss';
+import i18n from './i18n';
 
 class ConversationPanel extends Component {
   constructor(props) {
@@ -19,6 +20,7 @@ class ConversationPanel extends Component {
       isLogging: false,
       inputHeight: 63,
       loaded: false,
+      alertHeight: 46,
     };
     this._userSelection = false;
   }
@@ -57,6 +59,7 @@ class ConversationPanel extends Component {
       if (this.props.messages.length < this.props.perPage) {
         this.props.loadPreviousMessages();
       }
+      this.getDncAlertHeight();
     }
   }
 
@@ -65,8 +68,9 @@ class ConversationPanel extends Component {
     this.props.unloadConversation();
   }
 
-  onSend = (...args) => {
-    this.props.replyToReceivers(...args);
+  onSend = (text, attachments) => {
+    const selectedContact = this.getSelectedContact();
+    this.props.replyToReceivers(text, attachments, selectedContact);
   };
 
   onInputHeightChange = (value) => {
@@ -76,25 +80,48 @@ class ConversationPanel extends Component {
   };
 
   onSelectContact = (value, idx) => {
-    const selected = this.props.showContactDisplayPlaceholder
+    const {
+      showContactDisplayPlaceholder,
+      autoLog,
+      conversation,
+      shouldLogSelectRecord,
+      onSelectContact,
+    } = this.props;
+    const selected = showContactDisplayPlaceholder
       ? parseInt(idx, 10) - 1
       : parseInt(idx, 10);
     this._userSelection = true;
     this.setState({
       selected,
     });
-    if (this.props.autoLog) {
+    if (autoLog) {
       this.logConversation({ redirect: false, selected, prefill: false });
+    }
+    if (shouldLogSelectRecord && typeof onSelectContact === 'function') {
+      onSelectContact({
+        correspondentEntity: this.getSelectedContact(selected),
+        conversation,
+      });
     }
   };
 
   getMessageListHeight() {
     const headerHeight = 41;
-    const alertHeight = 88;
+    const alertMargin = 12;
     if (this.props.restrictSendMessage?.(this.getSelectedContact())) {
-      return `calc(100% - ${alertHeight + headerHeight}px)`;
+      return `calc(100% - ${
+        this.state.alertHeight + alertMargin + headerHeight
+      }px)`;
     }
     return `calc(100% - ${this.state.inputHeight + headerHeight}px)`;
+  }
+
+  getDncAlertHeight() {
+    if (this.dncAlert) {
+      this.setState({
+        alertHeight: this.dncAlert.clientHeight,
+      });
+    }
   }
 
   getSelectedContact = (selected = this.state.selected) => {
@@ -259,6 +286,7 @@ class ConversationPanel extends Component {
             showType={false}
             currentLocale={this.props.currentLocale}
             enableContactFallback={this.props.enableContactFallback}
+            placeholder={this.props.contactPlaceholder}
             showPlaceholder={this.props.showContactDisplayPlaceholder}
             sourceIcons={this.props.sourceIcons}
             phoneTypeRenderer={this.props.phoneTypeRenderer}
@@ -277,8 +305,16 @@ class ConversationPanel extends Component {
         </div>
         {conversationBody}
         {this.props.restrictSendMessage?.(this.getSelectedContact()) ? (
-          <RcAlert severity="error" className={styles.alert}>
-            This contact is on a Do Not Contact list.
+          <RcAlert
+            ref={(target) => {
+              this.dncAlert = target;
+            }}
+            severity="error"
+            size="small"
+            className={styles.alert}
+            data-sign="dncAlert"
+          >
+            {i18n.getString('dncAlert', this.props.currentLocale)}
           </RcAlert>
         ) : (
           <MessageInput
@@ -326,6 +362,7 @@ ConversationPanel.propTypes = {
   dateTimeFormatter: PropTypes.func.isRequired,
   goBack: PropTypes.func.isRequired,
   showContactDisplayPlaceholder: PropTypes.bool,
+  contactPlaceholder: PropTypes.string,
   sourceIcons: PropTypes.object,
   phoneTypeRenderer: PropTypes.func,
   phoneSourceNameRenderer: PropTypes.func,
@@ -352,6 +389,8 @@ ConversationPanel.propTypes = {
   removeAttachment: PropTypes.func,
   onAttachmentDownload: PropTypes.func,
   restrictSendMessage: PropTypes.func,
+  shouldLogSelectRecord: PropTypes.bool,
+  onSelectContact: PropTypes.func,
 };
 ConversationPanel.defaultProps = {
   disableLinks: false,
@@ -359,6 +398,7 @@ ConversationPanel.defaultProps = {
   autoLog: false,
   enableContactFallback: undefined,
   showContactDisplayPlaceholder: true,
+  contactPlaceholder: '',
   sourceIcons: undefined,
   phoneTypeRenderer: undefined,
   phoneSourceNameRenderer: undefined,
@@ -377,6 +417,8 @@ ConversationPanel.defaultProps = {
   removeAttachment: () => null,
   onAttachmentDownload: undefined,
   restrictSendMessage: undefined,
+  shouldLogSelectRecord: false,
+  onSelectContact: undefined,
 };
 
 export default ConversationPanel;

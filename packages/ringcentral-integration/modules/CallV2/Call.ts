@@ -1,23 +1,20 @@
-// TODO: fix `@ringcentral-integration/phone-number` type
-// @ts-ignore
-import extractControls from '@ringcentral-integration/phone-number/lib/extractControls';
 import {
+  action,
   RcModuleV2,
   state,
   storage,
-  action,
   track,
 } from '@ringcentral-integration/core';
+import extractControls from '@ringcentral-integration/phone-number/lib/extractControls';
 import { Module } from '../../lib/di';
-import callingModes from '../CallingSettings/callingModes';
-import proxify from '../../lib/proxy/proxify';
-import { Deps, ToNumberMatched, Recipient } from './Call.interface';
-
-import { callStatus } from './callStatus';
-import { callErrors } from './callErrors';
-import { ringoutErrors } from '../Ringout/ringoutErrors';
+import { proxify } from '../../lib/proxy/proxify';
 import validateNumbers from '../../lib/validateNumbers';
 import { trackEvents } from '../Analytics';
+import callingModes from '../CallingSettings/callingModes';
+import { ringoutErrors } from '../Ringout/ringoutErrors';
+import { Deps, Recipient, ToNumberMatched } from './Call.interface';
+import { callErrors } from './callErrors';
+import { callStatus } from './callStatus';
 
 const TO_NUMBER = 'toNumber';
 const FROM_NUMBER = 'fromNumber';
@@ -38,7 +35,7 @@ const ANONYMOUS = 'anonymous';
     'NumberValidate',
     'RegionSettings',
     'CallingSettings',
-    'RolesAndPermissions',
+    'ExtensionFeatures',
     { dep: 'Webphone', optional: true },
     { dep: 'AvailabilityMonitor', optional: true },
     { dep: 'CallOptions', optional: true },
@@ -51,21 +48,6 @@ export class Call extends RcModuleV2<Deps> {
   _callSettingMode: string = null;
   _useCallControlToMakeCall: boolean;
 
-  /**
-   * @constructor
-   * @param {Object} params - params object
-   * @param {Brand} params.brand - brand module instance
-   * @param {Alert} params.alert - alert module instance
-   * @param {Client} params.client - client module instance
-   * @param {Storage} params.storage - storage module instance
-   * @param {CallingSettings} params.callingSettings - callingSettings module instance
-   * @param {Softphone} params.softphone - softphone module instance
-   * @param {Ringout} params.ringout - ringout module instance
-   * @param {Webphone} params.webphone - webphone module instance
-   * @param {NumberValidate} params.numberValidate - numberValidate module instance
-   * @param {RegionSettings} params.regionSettings - regionSettings module instance
-   * @param {ActiveCallControl} params.activeCallControl - ActiveCallControl module instance
-   */
   constructor(deps: Deps) {
     super({
       deps,
@@ -265,6 +247,8 @@ export class Call extends RcModuleV2<Deps> {
             this.connectError();
           }
         } catch (error) {
+          const { feature } = (await error?.response?.clone().json()) || {};
+          const statusCode = error?.response?.status;
           if (!error.message && error.type && (callErrors as any)[error.type]) {
             // validate format error
             this._deps.alert.warning({
@@ -284,8 +268,9 @@ export class Call extends RcModuleV2<Deps> {
               payload: error,
             });
           } else if (
-            typeof error.message === 'string' &&
-            error.message.includes('[InternationalCalls] is not available')
+            feature &&
+            feature.includes('InternationalCalls') &&
+            statusCode === 403
           ) {
             // ringout call may not have international permission, then first leg can't be create
             // directly, customer will not be able to hear the voice prompt, so show a warning
@@ -311,7 +296,6 @@ export class Call extends RcModuleV2<Deps> {
     return session;
   }
 
-  @proxify
   _getNumbers({
     toNumber,
     fromNumber,
@@ -431,7 +415,8 @@ export class Call extends RcModuleV2<Deps> {
         numbers,
       );
       if (!validatedResult.result) {
-        validatedResult.errors.forEach((error) => {
+        validatedResult.errors.forEach((error: any) => {
+          // TODO: determine how to deal with multiple errors
           // this._deps.alert.warning({
           //   message: callErrors[error.type],
           //   payload: {
@@ -456,8 +441,7 @@ export class Call extends RcModuleV2<Deps> {
       if (
         parsedToNumber &&
         parsedToNumber.international &&
-        // TODO: fix `rolesAndPermissions` module type
-        !(this._deps.rolesAndPermissions.permissions as any).InternationalCalls
+        !this._deps.extensionFeatures.features?.InternationalCalling?.available
       ) {
         const error = {
           phoneNumber: parsedToNumber.originalString,

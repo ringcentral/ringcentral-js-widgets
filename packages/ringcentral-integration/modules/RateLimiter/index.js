@@ -1,16 +1,14 @@
-import { pathOr } from 'ramda';
-import RcModule from '../../lib/RcModule';
-import { Module } from '../../lib/di';
-import actionTypes from './actionTypes';
 import moduleStatuses from '../../enums/moduleStatuses';
+import { Module } from '../../lib/di';
+import proxify from '../../lib/proxy/proxify';
+import RcModule from '../../lib/RcModule';
+import { actionTypes } from './actionTypes';
+import { errorMessages } from './errorMessages';
 import getRateLimiterReducer, {
   getTimestampReducer,
 } from './getRateLimiterReducer';
-import errorMessages from './errorMessages';
-import proxify from '../../lib/proxy/proxify';
 
 const DEFAULT_THROTTLE_DURATION = 61 * 1000;
-const DEFAULT_ALERT_TTL = 5 * 1000;
 
 /**
  * @class
@@ -41,6 +39,7 @@ export default class RateLimiter extends RcModule {
     environment,
     globalStorage,
     throttleDuration = DEFAULT_THROTTLE_DURATION,
+    suppressAlerts = false,
     ...options
   }) {
     super({
@@ -52,6 +51,7 @@ export default class RateLimiter extends RcModule {
     this._environment = environment;
     this._storage = globalStorage;
     this._throttleDuration = throttleDuration;
+    this._suppressAlerts = suppressAlerts;
     this._storageKey = 'rateLimiterTimestamp';
     this._reducer = getRateLimiterReducer(this.actionTypes);
     this._storage.registerReducer({
@@ -103,13 +103,13 @@ export default class RateLimiter extends RcModule {
 
   @proxify
   async showAlert() {
-    if (!this.throttling || !this._alert) {
+    if (!this.throttling || !this._alert || this._suppressAlerts) {
       return;
     }
 
     this._alert.warning({
       message: errorMessages.rateLimitReached,
-      ttl: DEFAULT_THROTTLE_DURATION,
+      ttl: this.ttl,
       allowDuplicates: false,
     });
   }
@@ -185,10 +185,7 @@ export default class RateLimiter extends RcModule {
    * Is in throttling status
    */
   get throttling() {
-    return (
-      Date.now() - this._storage.getItem(this._storageKey) <=
-      this._throttleDuration
-    );
+    return Date.now() - this.timestamp <= this._throttleDuration;
   }
 
   get ready() {

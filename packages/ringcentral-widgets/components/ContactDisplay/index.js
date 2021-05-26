@@ -13,10 +13,8 @@ const displayFormatter = ({
   entityName,
   entityType,
   phoneNumber,
-  phoneType,
   currentLocale,
   brand,
-  phoneTypeRenderer,
   phoneSourceNameRenderer,
 }) => {
   let typeName;
@@ -42,12 +40,12 @@ const displayFormatter = ({
   return '';
 };
 
-function ContactDisplayItem({
+const ContactDisplayItem = ({
   entityName,
   entityType,
   phoneNumber,
   sourceIcons,
-}) {
+}) => {
   let SourceIcon = null;
   if (entityType) {
     if (entityType === phoneSources.rcContact) {
@@ -79,7 +77,7 @@ function ContactDisplayItem({
     return <span>{phoneNumber}</span>;
   }
   return null;
-}
+};
 
 ContactDisplayItem.propTypes = {
   entityName: PropTypes.string.isRequired,
@@ -88,7 +86,7 @@ ContactDisplayItem.propTypes = {
   sourceIcons: PropTypes.object.isRequired,
 };
 
-export default function ContactDisplay({
+const ContactDisplay = ({
   reference,
   className,
   contactMatches,
@@ -109,6 +107,7 @@ export default function ContactDisplay({
   selectClassName,
   selectedClassName,
   showPlaceholder,
+  placeholder,
   brand,
   stopPropagation,
   sourceIcons = {},
@@ -118,7 +117,7 @@ export default function ContactDisplay({
   contactName,
   isOnConferenceCall,
   iconClassName,
-}) {
+}) => {
   let contentEl;
   phoneNumber = formatNumber({
     phoneNumber,
@@ -205,10 +204,11 @@ export default function ContactDisplay({
     );
   } else if (contactMatches.length > 1) {
     const options = [...contactMatches];
-    let placeholder;
+    let selectPlaceholder;
     let _selected = selected;
     if (showPlaceholder) {
-      placeholder = i18n.getString('select', currentLocale);
+      selectPlaceholder =
+        placeholder || i18n.getString('select', currentLocale);
     } else {
       _selected = _selected < 0 ? 0 : _selected;
     }
@@ -223,7 +223,7 @@ export default function ContactDisplay({
         onChange={onSelectContact}
         disabled={disabled || isLogging}
         options={options}
-        placeholder={placeholder}
+        placeholder={selectPlaceholder}
         renderFunction={(entity) =>
           ContactDisplayItem({
             entityName: entity.name,
@@ -264,7 +264,7 @@ export default function ContactDisplay({
     );
   }
   return <div className={classnames(styles.root, className)}>{contentEl}</div>;
-}
+};
 
 ContactDisplay.propTypes = {
   isOnConferenceCall: PropTypes.bool,
@@ -288,6 +288,7 @@ ContactDisplay.propTypes = {
   selectClassName: PropTypes.string,
   selectedClassName: PropTypes.string,
   showPlaceholder: PropTypes.bool,
+  placeholder: PropTypes.string,
   brand: PropTypes.string,
   stopPropagation: PropTypes.bool,
   sourceIcons: PropTypes.object,
@@ -314,6 +315,7 @@ ContactDisplay.defaultProps = {
   selectClassName: undefined,
   selectedClassName: undefined,
   showPlaceholder: true,
+  placeholder: '',
   brand: undefined,
   stopPropagation: true,
   sourceIcons: undefined,
@@ -323,3 +325,5 @@ ContactDisplay.defaultProps = {
   contactName: undefined,
   iconClassName: null,
 };
+
+export default ContactDisplay;

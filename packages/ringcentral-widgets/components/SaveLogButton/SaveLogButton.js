@@ -8,13 +8,14 @@ import { getButtonStatus } from './getButtonStatus';
 import i18n from './i18n';
 import styles from './styles.scss';
 
-export default function SaveLogButton({
+const SaveLogButton = ({
   onSaveCallLog,
   currentLocale,
   currentLog,
   loading,
   isWide,
-}) {
+  disabled,
+}) => {
   const { buttonDisabled, buttonContent } = getButtonStatus(
     currentLog.currentLogCall,
   );
@@ -22,7 +23,7 @@ export default function SaveLogButton({
   const getContent = (buttonContent) => (
     <span>
       {buttonContent === 'saved' && (
-        <RcIcon color={['primary', 'main']} symbol={CheckSvg} size="small" />
+        <RcIcon color="interactive.f01" symbol={CheckSvg} size="small" />
       )}
       {buttonContent === 'saving' && <RcCircularProgress size={20} />}
       {buttonContent === 'save' && i18n.getString('save', currentLocale)}
@@ -36,7 +37,7 @@ export default function SaveLogButton({
       className={classnames(styles.button, !isWide && styles.classic)}
       variant="text"
       size="medium"
-      disabled={buttonDisabled || loading}
+      disabled={buttonDisabled || loading || disabled}
       data-sign="saveCall"
       data-state={buttonContent}
       onClick={() => onSaveCallLog(currentLog.call)}
@@ -44,7 +45,7 @@ export default function SaveLogButton({
       {content}
     </RcButton>
   );
-}
+};
 
 SaveLogButton.propTypes = {
   currentLog: PropTypes.object,
@@ -52,6 +53,7 @@ SaveLogButton.propTypes = {
   onSaveCallLog: PropTypes.func,
   loading: PropTypes.bool,
   isWide: PropTypes.bool,
+  disabled: PropTypes.bool,
 };
 
 SaveLogButton.defaultProps = {
@@ -60,4 +62,7 @@ SaveLogButton.defaultProps = {
   onSaveCallLog() {},
   loading: false,
   isWide: true,
+  disabled: false,
 };
+
+export default SaveLogButton;

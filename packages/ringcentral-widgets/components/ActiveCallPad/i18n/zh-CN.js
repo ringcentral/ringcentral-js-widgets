@@ -11,7 +11,9 @@ export default {
   transfer: "转移",
   flip: "切换",
   more: "呼叫操作",
-  mergeToConference: "合并"
+  mergeToConference: "合并",
+  end: "结束",
+  completeTransfer: "完成\n转移"
 };
 
 // @key: @#@"unmute"@#@ @source: @#@"Unmute"@#@
@@ -27,3 +29,5 @@ export default {
 // @key: @#@"flip"@#@ @source: @#@"Flip"@#@
 // @key: @#@"more"@#@ @source: @#@"Call Actions"@#@
 // @key: @#@"mergeToConference"@#@ @source: @#@"Merge"@#@
+// @key: @#@"end"@#@ @source: @#@"End"@#@
+// @key: @#@"completeTransfer"@#@ @source: @#@"Complete\nTransfer"@#@

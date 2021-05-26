@@ -210,6 +210,7 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
       currentLog,
       loading,
       isWide,
+      disabled: currentLog?.disableSaveLog,
     });
   }
 

@@ -4,6 +4,7 @@ import {
   Conversations,
   conversationsStatus,
 } from '../../modules/ConversationsV2';
+import { mockModuleGenerator } from '../lib/mockModule';
 
 class MockModule {
   _ready = true;
@@ -27,7 +28,7 @@ class MockMessageSender extends MockModule {
   get events() {
     return {
       send: 'send',
-    }
+    };
   }
 
   get senderNumbersList() {
@@ -103,39 +104,38 @@ class MockClient {
             return {
               list: async (args: any) => {
                 return { records: [mockMessageRecord] };
-              }
-            }
+              },
+            };
           },
-        }
-      }
-    }
+        };
+      },
+    };
   }
 }
 
-const getMockModule = () => ({
-  searchInput: '',
-  typeFilter: messageTypes.all,
-  oldConversations: [] as any[],
-  currentPage: 1,
-  fetchConversationsStatus: conversationsStatus.idle,
-  currentConversationId: '123456789000',
-  oldMessages: [] as any[],
-  fetchMessagesStatus: conversationsStatus.idle,
-  inputContents: [] as any[],
-  conversationStatus: conversationsStatus.idle,
-  earliestTime: Date.now(),
-  filteredConversations: [] as any[],
-  _olderDataExisted: true,
-  _olderMessagesExisted: true,
-  _perPage: 10,
-  _daySpan: 7,
-  _enableLoadOldMessages: true,
-  _hasPermission: true,
-  currentConversation: { messages: [] },
-  state: {},
-  _dispatch: () => {},
-  _deps: {},
-});
+const getMockModule = () =>
+  mockModuleGenerator({
+    searchInput: '',
+    typeFilter: messageTypes.all,
+    oldConversations: [] as any[],
+    currentPage: 1,
+    fetchConversationsStatus: conversationsStatus.idle,
+    currentConversationId: '123456789000',
+    oldMessages: [] as any[],
+    fetchMessagesStatus: conversationsStatus.idle,
+    inputContents: [] as any[],
+    conversationStatus: conversationsStatus.idle,
+    earliestTime: Date.now(),
+    filteredConversations: [] as any[],
+    _olderDataExisted: true,
+    _olderMessagesExisted: true,
+    _perPage: 10,
+    _daySpan: 7,
+    _enableLoadOldMessages: true,
+    _hasPermission: true,
+    currentConversation: { messages: [] },
+    _deps: {},
+  });
 
 @autorun(test)
 @title('Conversations Module should fetch old conversations successfully')

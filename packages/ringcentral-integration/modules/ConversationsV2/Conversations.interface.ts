@@ -1,34 +1,32 @@
 import { MessageAttachmentInfo } from '@rc-ex/core/definitions';
-
+import { Message } from '../../interfaces/MessageStore.model';
 import {
   Correspondent,
-  VoicemailAttachment,
   FaxAttachment,
+  VoicemailAttachment,
 } from '../../lib/messageHelper';
-
-import Alert from '../Alert';
-import { Auth } from '../AuthV2';
 import { RingCentralClient } from '../../lib/RingCentralClient';
+import { Alert } from '../AlertV2';
+import { Auth } from '../AuthV2';
+import { ContactMatcher } from '../ContactMatcherV2';
+import { ConversationLogger } from '../ConversationLoggerV2';
+import { ExtensionFeatures } from '../ExtensionFeatures';
 import { ExtensionInfo } from '../ExtensionInfoV2';
-import { MessageSender, Attachment } from '../MessageSenderV2';
+import { Attachment, MessageSender } from '../MessageSenderV2';
 import { MessageStore } from '../MessageStoreV2';
-import { RolesAndPermissions } from '../RolesAndPermissionsV2';
-import RegionSettings from '../RegionSettings';
-import ContactMatcher from '../ContactMatcher';
-import ConversationLogger from '../ConversationLogger';
-import { Message } from '../../interfaces/MessageStore.model';
+import { RegionSettings } from '../RegionSettingsV2';
 
 export interface Deps {
   alert: Alert;
   auth: Auth;
   client: RingCentralClient;
-  messageSender: MessageSender;
-  extensionInfo: ExtensionInfo;
-  messageStore: MessageStore;
-  rolesAndPermissions: RolesAndPermissions;
-  regionSettings: RegionSettings;
   contactMatcher?: ContactMatcher;
   conversationLogger?: ConversationLogger;
+  extensionFeatures: ExtensionFeatures;
+  extensionInfo: ExtensionInfo;
+  messageSender: MessageSender;
+  messageStore: MessageStore;
+  regionSettings: RegionSettings;
   conversationsOptions?: ConversationsOptions;
 }
 
@@ -68,6 +66,7 @@ export interface CorrespondentMatch {
   phoneNumber?: string;
   rawId?: string;
   id?: string;
+  doNotCall?: boolean;
 }
 
 export interface ConversationMatch {
@@ -78,8 +77,13 @@ export interface CorrespondentResponse {
   [key: string]: string;
 }
 
+export interface LastMatchedCorrespondentEntity {
+  id: string;
+  name: string;
+}
 export interface CurrentConversation extends FormattedConversation {
   messages: Message[];
   senderNumber: Correspondent;
   recipients: Correspondent[];
+  lastMatchedCorrespondentEntity?: LastMatchedCorrespondentEntity;
 }

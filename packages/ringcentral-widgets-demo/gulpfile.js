@@ -60,6 +60,6 @@ export async function copyConfig() {
     console.log(`Error: ${file} does not exist!`);
   }
   const dest = path.resolve(__dirname, 'dev-server/api-config.js');
-  await fs.copyFile(file, dest);
+  await fs.copy(file, dest);
   console.log(`File ${file} copied to ${dest}`);
 }

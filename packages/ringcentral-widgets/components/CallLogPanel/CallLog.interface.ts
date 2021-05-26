@@ -18,6 +18,7 @@ export interface CallLog {
   type?: string;
   logName?: string;
   customLogFields?: FieldItemOption[];
+  disableSaveLog?: boolean;
 }
 
 export interface Call {
@@ -103,6 +104,7 @@ export interface CurrentLogCall {
 }
 
 export interface Task {
+  matches?: any;
   tickets?: any;
   option?: string;
   ticketId?: string;

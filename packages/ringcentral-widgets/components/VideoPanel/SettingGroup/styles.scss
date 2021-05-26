@@ -1,13 +1,11 @@
 $content-padding: 20px;
 $normal-font-size: 14px;
 
-div.expansionPanel {
+div.accordion {
   box-shadow: none !important;
-  margin-left: 0 !important;
-  margin-right: 0 !important;
   background-color: transparent !important;
 
-  div.expansionPanelSummary {
+  div.accordionSummary {
     font-weight: bold;
     color: #212121;
     height: 32px;
@@ -15,17 +13,17 @@ div.expansionPanel {
     padding: 0 $content-padding;
     min-height: 32px;
 
-    &.expansionPanelSummaryDisabled {
+    &.accordionSummaryDisabled {
       opacity: inherit;
       user-select: inherit;
     }
 
-    div.expansionPanelSummaryContent {
+    div.accordionSummaryContent {
       margin: 0 0;
     }
   }
 
-  div.expansionPanelDetails {
+  div.accordionDetails {
     padding: 0;
     border: 0;
     flex-direction: column;

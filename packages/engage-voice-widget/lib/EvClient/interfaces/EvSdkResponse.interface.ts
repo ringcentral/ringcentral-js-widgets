@@ -129,8 +129,8 @@ export interface EvReceivedTransferCall {
 }
 
 export interface EvAgentRecording {
-  default: string;
-  pause: string;
+  default: 'ON' | 'OFF';
+  pause: number;
   agentRecording: boolean;
 }
 
@@ -256,6 +256,14 @@ export interface EvOffhookTermResponse {
   message: string;
   monitoring: boolean;
   status: string;
+}
+
+export interface EvEarlyUiiResponse {
+  agentId: string;
+  detail: string;
+  message: string;
+  status: EvOkFail;
+  uii: string;
 }
 
 export interface EvAgentConfig {
@@ -581,6 +589,27 @@ export interface EvTransferCallResponse {
   message: string;
   detail: string;
 }
+
+export interface RecordResponse {
+  message: string;
+  detail: string;
+  status: 'FAILURE' | 'OK';
+  uii: string;
+  state: 'RECORDING' | 'STOPPED';
+}
+
+export interface PauseRecordResponse {
+  detail: string;
+  message: string;
+  pause: string;
+  state: 'RECORDING' | 'PAUSED';
+  status: 'OK' | 'FAILURE';
+  uii: string;
+}
+
+export type PauseRecord = Omit<PauseRecordResponse, 'pause'> & {
+  pause: number;
+};
 
 export interface EvColdTransferCallResponse extends EvTransferCallResponse {}
 

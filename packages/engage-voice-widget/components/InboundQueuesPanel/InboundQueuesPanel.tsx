@@ -93,7 +93,10 @@ const InboundQueuesPanel: FunctionComponent<InboundQueuesPanelProps> = ({
         searchOption={searchOption}
         currentLocale={currentLocale}
         renderListItem={renderListView}
-        onBackClick={goBack}
+        onBackClick={() => {
+          setInboundQueuesState(inboundQueueSource);
+          goBack();
+        }}
       />
       <div className={styles.footer}>
         <div className={styles.selected}>

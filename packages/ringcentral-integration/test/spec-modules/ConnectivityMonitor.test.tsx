@@ -8,14 +8,13 @@ import {
   Step,
 } from '@ringcentral-integration/test-utils';
 import { ConnectivityMonitor } from '../../modules/ConnectivityMonitorV2';
+import { mockModuleGenerator } from '../lib/mockModule';
 
-const getMockModule = () => ({
-  connectivity: true,
-  networkLoss: false,
-  state: {},
-  _dispatch: () => {},
-  parentModule: {},
-});
+const getMockModule = () =>
+  mockModuleGenerator({
+    connectivity: true,
+    networkLoss: false,
+  });
 
 @autorun(test)
 @title('ConnectivityMonitor Module "setNetworkLoss" action')
@@ -27,8 +26,8 @@ export class SetNetworkLoss extends Step {
           desc="Create an ConnectivityMonitor instance with default value"
           action={(_: any, context: any) => {
             const connectivityMonitor = new ConnectivityMonitor({} as any);
-            expect(connectivityMonitor._initialValue.connectivity).toBe(true);
-            expect(connectivityMonitor._initialValue.networkLoss).toBe(false);
+            expect(connectivityMonitor.connectivity).toBe(true);
+            expect(connectivityMonitor.networkLoss).toBe(false);
             expect((connectivityMonitor as any)._timeToRetry).toBe(5 * 1000);
             expect((connectivityMonitor as any)._heartBeatInterval).toBe(
               60 * 1000,
@@ -65,8 +64,8 @@ export class SetConnectSuccess extends Step {
           desc="Create an ConnectivityMonitor instance with default value"
           action={(_: any, context: any) => {
             const connectivityMonitor = new ConnectivityMonitor({} as any);
-            expect(connectivityMonitor._initialValue.connectivity).toBe(true);
-            expect(connectivityMonitor._initialValue.networkLoss).toBe(false);
+            expect(connectivityMonitor.connectivity).toBe(true);
+            expect(connectivityMonitor.networkLoss).toBe(false);
             expect((connectivityMonitor as any)._timeToRetry).toBe(5 * 1000);
             expect((connectivityMonitor as any)._heartBeatInterval).toBe(
               60 * 1000,
@@ -106,8 +105,8 @@ export class SetConnectFail extends Step {
           desc="Create an ConnectivityMonitor instance with default value"
           action={(_: any, context: any) => {
             const connectivityMonitor = new ConnectivityMonitor({} as any);
-            expect(connectivityMonitor._initialValue.connectivity).toBe(true);
-            expect(connectivityMonitor._initialValue.networkLoss).toBe(false);
+            expect(connectivityMonitor.connectivity).toBe(true);
+            expect(connectivityMonitor.networkLoss).toBe(false);
             expect((connectivityMonitor as any)._timeToRetry).toBe(5 * 1000);
             expect((connectivityMonitor as any)._heartBeatInterval).toBe(
               60 * 1000,

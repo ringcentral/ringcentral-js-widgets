@@ -1,3 +1,5 @@
+import { usmAction } from '@ringcentral-integration/core';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 import {
   autorun,
   title,
@@ -9,10 +11,7 @@ import {
   Step,
 } from '@ringcentral-integration/test-utils';
 import { Reducer } from 'redux';
-import {
-  getDataReducer,
-  actionTypesBase as actionTypes,
-} from '../../lib/StorageBaseV2';
+import { getDataReducer, actionTypesBase } from '../../lib/StorageBaseV2';
 
 @autorun(test)
 @title('DataReducer::basic')
@@ -31,6 +30,10 @@ export class DataReducerBasic extends Step {
               if (type === 'memorize') return value;
               return state;
             };
+            const actionTypes = ObjectMap.prefixKeys(
+              [...ObjectMap.keys(actionTypesBase)],
+              'storage',
+            );
             const reducer = getDataReducer({
               types: actionTypes,
               reducers: {
@@ -76,58 +79,23 @@ export class DataReducerBasic extends Step {
           }}
         />
         <And
-          desc="should return action.data on initSuccess"
+          desc="should return action.data with usm-redux action"
           action={async (_: any, { reducer, foo, bar }: any) => {
             const data = {};
             expect(
               reducer(
                 {},
                 {
-                  type: actionTypes.initSuccess,
-                  data,
+                  type: 'storage',
+                  _usm: usmAction,
+                  _state: {
+                    storage: {
+                      data,
+                    },
+                  },
                 },
               ),
             ).toEqual(data);
-          }}
-        />
-        <And
-          desc="should sync the values from sync action to state"
-          action={async (_: any, { reducer, foo, bar }: any) => {
-            expect(
-              reducer(
-                {
-                  foo: 0,
-                  bar: null,
-                },
-                {
-                  type: actionTypes.sync,
-                  key: 'foo',
-                  value: 30,
-                },
-              ),
-            ).toEqual({
-              foo: 30,
-              bar: null,
-            });
-          }}
-        />
-        <And
-          desc="should return initial states on resetSuccess"
-          action={async (_: any, { reducer, foo, bar }: any) => {
-            expect(
-              reducer(
-                {
-                  foo: 32,
-                  bar: 'test',
-                },
-                {
-                  type: actionTypes.resetSuccess,
-                },
-              ),
-            ).toEqual({
-              foo: foo(undefined, {}),
-              bar: bar(undefined, {}),
-            });
           }}
         />
         <And

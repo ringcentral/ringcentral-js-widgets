@@ -9,16 +9,15 @@ import {
   examples,
 } from '@ringcentral-integration/test-utils';
 import { RegionSettings } from '../../modules/RegionSettingsV2';
+import { mockModuleGenerator } from '../lib/mockModule';
 
-const getMockModule = () => ({
-  data: {
-    countryCode: 'US',
-    areaCode: '',
-  },
-  state: {},
-  _dispatch: () => {},
-  parentModule: {},
-});
+const getMockModule = () =>
+  mockModuleGenerator({
+    data: {
+      countryCode: 'US',
+      areaCode: '',
+    },
+  });
 
 @autorun(test)
 @title('RegionSettings Module "_setData" action')
@@ -36,8 +35,8 @@ export class SetData extends Step {
           desc="Create an RegionSettings instance with default value"
           action={(_: any, context: any) => {
             const regionSettings = new RegionSettings({} as any);
-            expect(regionSettings._initialValue.data.countryCode).toBe('US');
-            expect(regionSettings._initialValue.data.areaCode).toBe('');
+            expect(regionSettings.data.countryCode).toBe('US');
+            expect(regionSettings.data.areaCode).toBe('');
             context.instance = regionSettings;
           }}
         />

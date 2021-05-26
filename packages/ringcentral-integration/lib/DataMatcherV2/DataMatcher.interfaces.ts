@@ -2,7 +2,6 @@ import { Storage } from '../../modules/StorageV2';
 
 export interface Deps {
   storage?: Storage;
-  dataMatcherOptions?: DataMatcherOptions;
 }
 
 export interface DataMatcherOptions {

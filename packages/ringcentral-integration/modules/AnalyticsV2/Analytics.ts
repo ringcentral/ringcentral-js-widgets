@@ -1,8 +1,15 @@
 import { RcModuleV2, watch } from '@ringcentral-integration/core';
-import { Segment } from '../../lib/Analytics';
+import { Segment, Pendo } from '../../lib/Analytics';
 import { Module } from '../../lib/di';
 import saveBlob from '../../lib/saveBlob';
-import { Deps, TrackLog, TrackProps, TrackRouter } from './Analytics.interface';
+import {
+  Deps,
+  TrackLog,
+  TrackProps,
+  TrackRouter,
+  PendoAgent,
+  IdentifyOptions,
+} from './Analytics.interface';
 import { trackRouters } from './analyticsRouters';
 
 // TODO: refactoring the module against `https://docs.google.com/spreadsheets/d/1xufV6-C-RJR6OJgwFYHYzNQwhIdN4BXXCo8ABs7RT-8/edit#gid=1480480736`
@@ -15,18 +22,19 @@ import { trackRouters } from './analyticsRouters';
     'AnalyticsOptions',
     { dep: 'AccountInfo', optional: true },
     { dep: 'ExtensionInfo', optional: true },
-    { dep: 'RolesAndPermissions', optional: true },
     { dep: 'RouterInteraction', optional: true },
     { dep: 'Locale', optional: true },
   ],
 })
-export class Analytics extends RcModuleV2<Deps> {
+export class Analytics<T = {}> extends RcModuleV2<Deps & T> {
   protected _useLog = this._deps.analyticsOptions.useLog ?? false;
 
   protected _lingerThreshold =
     this._deps.analyticsOptions.lingerThreshold ?? 1000;
 
   protected _enablePendo = this._deps.analyticsOptions.enablePendo ?? false;
+
+  protected _pendoApiKey = this._deps.analyticsOptions.pendoApiKey ?? '';
 
   protected _trackRouters =
     this._deps.analyticsOptions.trackRouters ?? trackRouters;
@@ -37,11 +45,24 @@ export class Analytics extends RcModuleV2<Deps> {
 
   protected _lingerTimeout?: NodeJS.Timeout = null;
 
-  constructor(deps: Deps) {
+  private _pendo: any;
+
+  private _waitPendoCount: number;
+
+  private _pendoTimeout: ReturnType<typeof setTimeout>;
+
+  private _env = this._deps.analyticsOptions.env ?? 'dev';
+
+  constructor(deps: Deps & T) {
     super({
       deps,
     });
     this._segment = Segment();
+    if (this._enablePendo && this._pendoApiKey) {
+      Pendo.init(this._pendoApiKey, (pendoInstance: any) => {
+        this._pendo = pendoInstance;
+      });
+    }
   }
 
   onInitOnce() {
@@ -53,24 +74,6 @@ export class Analytics extends RcModuleV2<Deps> {
         () => this._deps.routerInteraction.currentPath,
         (currentPath) => {
           this.trackRouter(currentPath);
-        },
-      );
-    }
-
-    if (this._deps.accountInfo) {
-      watch(
-        this,
-        () => this._deps.accountInfo.ready,
-        (accountInfoReady) => {
-          if (accountInfoReady) {
-            this._identify({
-              userId: this._deps.auth.ownerId,
-              accountId: this._deps.accountInfo.id,
-              servicePlanId: this._deps.accountInfo.servicePlan.id,
-              edition: this._deps.accountInfo.servicePlan.edition,
-              CRMEnabled: this._deps.rolesAndPermissions?.tierEnabled,
-            });
-          }
         },
       );
     }
@@ -99,7 +102,6 @@ export class Analytics extends RcModuleV2<Deps> {
         integrations: {
           All: true,
           Mixpanel: true,
-          Pendo: this._enablePendo,
         },
       });
     }
@@ -111,10 +113,11 @@ export class Analytics extends RcModuleV2<Deps> {
     });
   }
 
-  protected _identify({
-    userId,
-    ...props
-  }: { userId: string } & Record<string, any>) {
+  identify(options: IdentifyOptions) {
+    this._identify(options);
+  }
+
+  protected _identify({ userId, ...props }: IdentifyOptions) {
     if (this.analytics) {
       this.analytics.identify(
         userId,
@@ -131,6 +134,53 @@ export class Analytics extends RcModuleV2<Deps> {
         },
       );
     }
+    if (this._enablePendo && this._pendoApiKey) {
+      this._pendoInitialize({ userId, ...props, env: this._env });
+    }
+  }
+
+  protected _pendoInitialize({
+    userId,
+    ...props
+  }: { userId: string } & Record<string, any>) {
+    if (!this._deps.accountInfo || !this._deps.accountInfo.id || !userId) {
+      return;
+    }
+    if (this._pendoTimeout) {
+      clearTimeout(this._pendoTimeout);
+    }
+    if (this._waitPendoCount > 3) {
+      return;
+    }
+    if (!this._pendo) {
+      this._pendoTimeout = setTimeout(() => {
+        this._waitPendoCount += 1;
+        this._pendoInitialize({ userId, ...props });
+      }, 5 * 1000);
+      return;
+    }
+    const initializeFunc = !this._pendo.isReady()
+      ? this._pendo.initialize
+      : this._pendo.updateOptions;
+    const pendoAgent: PendoAgent = {
+      visitor: {
+        id: userId,
+        ...props,
+        companyName: this._deps.extensionInfo?.info?.contact?.company,
+        appName: this._deps.brandConfig.appName,
+        appVersion: this._deps.analyticsOptions.appVersion,
+        appBrand: this._deps.brandConfig.brandCode,
+        plaBrand: this._deps.accountInfo?.serviceInfo?.brand?.name,
+        countryCode: this._deps.accountInfo?.countryCode,
+      },
+      account: {
+        id: `${this._deps.accountInfo.id}`,
+      },
+    };
+    typeof initializeFunc === 'function' &&
+      initializeFunc({
+        ...pendoAgent,
+      });
   }
 
   track(event: string, properties: any = {}) {

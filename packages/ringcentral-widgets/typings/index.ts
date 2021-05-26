@@ -1,3 +1,2 @@
-export * from './deStructureArgs';
-export * from './mapping';
-export * from './tupletoUnion';
+export * from './Mapping';
+export * from './TupleUtility';

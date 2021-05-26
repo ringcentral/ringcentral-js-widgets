@@ -25,10 +25,16 @@
 }
 
 .dialerPad {
-  width: 80%;
+  width: 75%;
   margin: 10px auto 6px;
 
   [sf-classic] & {
     width: 90%;
+  }
+
+  // TODO: remove this part after JUNO upgrade
+  button span {
+    right: 0;
+    bottom: 0;
   }
 }

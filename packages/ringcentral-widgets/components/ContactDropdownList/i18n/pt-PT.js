@@ -1,5 +1,5 @@
 export default {
-  doNotCall: "Não contactar"
+  doNotCall: "Não ligar"
 };
 
-// @key: @#@"doNotCall"@#@ @source: @#@"Do Not Contact"@#@
+// @key: @#@"doNotCall"@#@ @source: @#@"Do Not Call"@#@

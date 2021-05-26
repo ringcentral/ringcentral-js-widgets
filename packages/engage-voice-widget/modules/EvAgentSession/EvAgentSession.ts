@@ -23,7 +23,12 @@ import {
   tabManagerEvents,
 } from '../../enums';
 import { LoginType } from '../../interfaces/EvAgentSessionUI.interface';
-import { EvConfigureAgentOptions } from '../../lib/EvClient';
+import {
+  EvAgentConfig,
+  EvAvailableSkillProfile,
+  EvConfigureAgentOptions,
+} from '../../lib/EvClient';
+import { evStatus } from '../../lib/EvClient/enums';
 import { TabLife } from '../../lib/tabLife';
 import { trackEvents } from '../../lib/trackEvents';
 import { AgentSession, Deps, FormGroup } from './EvAgentSession.interface';
@@ -68,6 +73,7 @@ type ConfigureAgentParams = {
     'EvClient',
     'Auth',
     'EvAuth',
+    'EvCallDataSource',
     'Alert',
     'Auth',
     'Locale',
@@ -141,6 +147,15 @@ class EvAgentSession extends RcModuleV2<Deps> implements AgentSession {
     });
 
     this._deps.presence.beforeunloadHandler = () => this.shouldBlockBrowser;
+    watch(
+      this,
+      () => this.configSuccess,
+      (configSuccess) => {
+        if (configSuccess) {
+          this._emitConfigSuccess();
+        }
+      },
+    );
   }
 
   @storage
@@ -318,10 +333,6 @@ class EvAgentSession extends RcModuleV2<Deps> implements AgentSession {
   @action
   setConfigSuccess(status: boolean) {
     console.log('setConfigSuccess~', status);
-    if (status) {
-      this._emitConfigSuccess();
-    }
-
     this.configSuccess = status;
     this.configured = status;
   }
@@ -388,7 +399,7 @@ class EvAgentSession extends RcModuleV2<Deps> implements AgentSession {
     this.configured = false;
 
     this.selectedSkillProfileId = this.defaultSkillProfileId;
-    if (this._modules.evAuth.agentPermissions.allowInbound) {
+    if (this._deps.evAuth.agentPermissions.allowInbound) {
       this.selectedInboundQueueIds = this.inboundQueues.map(
         (inboundQueue) => inboundQueue.gateId,
       );
@@ -479,6 +490,7 @@ class EvAgentSession extends RcModuleV2<Deps> implements AgentSession {
       '_mainTabAfterUnloadHandler~~',
       this._deps.tabManager.firstTabIdExcludeMainTab,
     );
+    this._deps.evCallDataSource.changeCallsLimited(false);
     if (!this.isMainTab) return;
     const firstTabIdExcludeMainTab = this._deps.tabManager
       .firstTabIdExcludeMainTab;
@@ -516,6 +528,10 @@ class EvAgentSession extends RcModuleV2<Deps> implements AgentSession {
       } else {
         console.log('!!!!to Dialer');
         this._deps.routerInteraction.push('/dialer');
+      }
+
+      if (!this._deps.evCallDataSource.callsLimited) {
+        this._deps.evCallDataSource.limitCalls();
       }
     });
   }
@@ -597,7 +613,7 @@ class EvAgentSession extends RcModuleV2<Deps> implements AgentSession {
     }, 3000);
   }
 
-  @computed<EvAgentSession>((that) => [
+  @computed((that: EvAgentSession) => [
     that._deps.evAuth.isEvLogged,
     that.ready,
   ])
@@ -682,6 +698,7 @@ class EvAgentSession extends RcModuleV2<Deps> implements AgentSession {
     this.setConfigSuccess(false);
     this.isReconnected = false;
     this._destroyTabLife();
+    this._deps.evCallDataSource.changeCallsLimited(false);
     this._deps.beforeunload.clear();
     this._deps.beforeunload.removeAfterUnloadListener(
       this._mainTabAfterUnloadHandler,
@@ -894,15 +911,19 @@ class EvAgentSession extends RcModuleV2<Deps> implements AgentSession {
     this._configWorkingAlive();
     console.log('configureAgent~~', triggerEvent);
     this._clearCalls();
-    let result = await this._connectEvServer(config);
-
+    const connectResult = await this._connectEvServer(config);
+    let result = connectResult.result;
+    const existingLoginFound = connectResult.existingLoginFound;
     // Session timeout
     // this will occur when stay in session config page for long time
     if (result.data.status !== 'SUCCESS') {
       this._navigateToSessionConfigPage();
       await this._deps.evAuth.newReconnect(false);
 
-      result = await this._connectEvServer(config);
+      if (existingLoginFound) {
+        config.isForce = true;
+      }
+      result = (await this._connectEvServer(config)).result;
     }
 
     this._handleAgentResult({ config: result.data, needAssignFormGroupValue });
@@ -938,7 +959,7 @@ class EvAgentSession extends RcModuleV2<Deps> implements AgentSession {
           await this.reLoginAgent();
 
         config.isForce = true;
-        const result = await this._connectEvServer(config);
+        const { result } = await this._connectEvServer(config);
         this._handleAgentResult({
           config: result.data,
           isAgentUpdating: true,
@@ -1178,7 +1199,6 @@ class EvAgentSession extends RcModuleV2<Deps> implements AgentSession {
     if (this._deps.tabManager.hasMultipleTabs && needAsyncAllTabs) {
       this._sendTabManager(tabManagerEvents.CONFIGURE_FAIL);
     }
-    this.setConfigSuccess(false);
     this._navigateToSessionConfigPage();
   }
 
@@ -1211,8 +1231,9 @@ class EvAgentSession extends RcModuleV2<Deps> implements AgentSession {
     console.log('configure ev agent in _connectEvServer~~', config);
     let result = await this._deps.evClient.configureAgent(config);
     const { status } = result.data;
+    const existingLoginFound = status === messageTypes.EXISTING_LOGIN_FOUND;
 
-    if (status === messageTypes.EXISTING_LOGIN_FOUND) {
+    if (existingLoginFound) {
       const { currentLocale } = this._deps.locale;
 
       // TODO: think about sync up in all tabs?
@@ -1220,9 +1241,18 @@ class EvAgentSession extends RcModuleV2<Deps> implements AgentSession {
         {
           title: i18n.getString('multipleLoginsTitle', currentLocale),
           content: i18n.getString('multipleLoginsContent', currentLocale),
-          okText: i18n.getString('multipleLoginsConfirm', currentLocale),
-          cancelText: i18n.getString('multipleLoginsCancel', currentLocale),
-          onOK: async () => {
+          confirmButtonText: i18n.getString(
+            'multipleLoginsConfirm',
+            currentLocale,
+          ),
+          cancelButtonText: i18n.getString(
+            'multipleLoginsCancel',
+            currentLocale,
+          ),
+          onConfirm: async () => {
+            if (this._deps.evClient.appStatus === evStatus.CLOSED) {
+              await this._deps.evAuth.loginAgent();
+            }
             result = await this._deps.evClient.configureAgent({
               ...config,
               isForce: true,
@@ -1247,7 +1277,7 @@ class EvAgentSession extends RcModuleV2<Deps> implements AgentSession {
       throw new Error(messageTypes.EXISTING_LOGIN_ENGAGED);
     }
 
-    return result;
+    return { result, existingLoginFound };
   }
 
   private _checkFieldsResult(formGroup: FormGroup): EvConfigureAgentOptions {

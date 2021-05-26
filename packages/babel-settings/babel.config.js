@@ -19,17 +19,26 @@ const plugins = [
   'const-enum',
 ];
 
-module.exports = function baseBabelConfig(api) {
+function normalizePresetEnvOptions({
+  useBuiltIns = 'usage',
+  corejs = 2,
+  ...options
+} = {}) {
+  return {
+    useBuiltIns,
+    corejs,
+    ...options,
+  };
+}
+
+module.exports = function baseBabelConfig(
+  api,
+  { presetEnvOptions, sourceType = 'module' } = {},
+) {
   api.cache(true);
   return {
     presets: [
-      [
-        '@babel/preset-env',
-        {
-          useBuiltIns: 'usage',
-          corejs: 2,
-        },
-      ],
+      ['@babel/preset-env', normalizePresetEnvOptions(presetEnvOptions)],
       '@babel/preset-react',
       [
         '@babel/preset-typescript',
@@ -40,5 +49,6 @@ module.exports = function baseBabelConfig(api) {
       ],
     ],
     plugins,
+    sourceType,
   };
 };

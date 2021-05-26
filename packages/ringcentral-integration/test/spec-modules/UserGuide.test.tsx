@@ -8,20 +8,19 @@ import {
   Step,
 } from '@ringcentral-integration/test-utils';
 import { UserGuide, Guides, CarouselState } from '../../modules/UserGuideV2';
+import { mockModuleGenerator } from '../lib/mockModule';
 
-const getMockModule = () => ({
-  preLoadImageStatus: false,
-  allGuides: {} as Guides,
-  carouselState: {
-    curIdx: 0,
-    entered: false,
-    playing: false,
-  } as CarouselState,
-  firstLogin: false,
-  state: {},
-  _dispatch: () => {},
-  parentModule: {},
-});
+const getMockModule = () =>
+  mockModuleGenerator({
+    preLoadImageStatus: false,
+    allGuides: {} as Guides,
+    carouselState: {
+      curIdx: 0,
+      entered: false,
+      playing: false,
+    } as CarouselState,
+    firstLogin: false,
+  });
 
 @autorun(test)
 @title('UserGuide Module "setPreLoadImageStatus" action')
@@ -33,14 +32,14 @@ export class SetPreLoadImageStatus extends Step {
           desc="Create an UserGuide instance with default value"
           action={(_: any, context: any) => {
             const userGuide = new UserGuide({} as any);
-            expect(userGuide._initialValue.preLoadImageStatus).toBe(false);
-            expect(userGuide._initialValue.allGuides).toEqual({});
-            expect(userGuide._initialValue.carouselState).toEqual({
+            expect(userGuide.preLoadImageStatus).toBe(false);
+            expect(userGuide.allGuides).toEqual({});
+            expect(userGuide.carouselState).toEqual({
               curIdx: 0,
               entered: false,
               playing: false,
             });
-            expect(userGuide._initialValue.firstLogin).toBe(false);
+            expect(userGuide.firstLogin).toBe(false);
             context.instance = userGuide;
           }}
         />
@@ -72,14 +71,14 @@ export class SetGuides extends Step {
           desc="Create an UserGuide instance with default value"
           action={(_: any, context: any) => {
             const userGuide = new UserGuide({} as any);
-            expect(userGuide._initialValue.preLoadImageStatus).toBe(false);
-            expect(userGuide._initialValue.allGuides).toEqual({});
-            expect(userGuide._initialValue.carouselState).toEqual({
+            expect(userGuide.preLoadImageStatus).toBe(false);
+            expect(userGuide.allGuides).toEqual({});
+            expect(userGuide.carouselState).toEqual({
               curIdx: 0,
               entered: false,
               playing: false,
             });
-            expect(userGuide._initialValue.firstLogin).toBe(false);
+            expect(userGuide.firstLogin).toBe(false);
             context.instance = userGuide;
           }}
         />
@@ -133,14 +132,14 @@ export class SetCarousel extends Step {
           desc="Create an UserGuide instance with default value"
           action={(_: any, context: any) => {
             const userGuide = new UserGuide({} as any);
-            expect(userGuide._initialValue.preLoadImageStatus).toBe(false);
-            expect(userGuide._initialValue.allGuides).toEqual({});
-            expect(userGuide._initialValue.carouselState).toEqual({
+            expect(userGuide.preLoadImageStatus).toBe(false);
+            expect(userGuide.allGuides).toEqual({});
+            expect(userGuide.carouselState).toEqual({
               curIdx: 0,
               entered: false,
               playing: false,
             });
-            expect(userGuide._initialValue.firstLogin).toBe(false);
+            expect(userGuide.firstLogin).toBe(false);
             context.instance = userGuide;
           }}
         />

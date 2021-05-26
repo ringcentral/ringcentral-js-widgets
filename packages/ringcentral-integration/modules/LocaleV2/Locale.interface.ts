@@ -1,3 +1,5 @@
+import { Brand } from '../BrandV2';
+
 export interface LocaleOptions {
   defaultLocale?: string;
   detectBrowser?: boolean;
@@ -6,5 +8,6 @@ export interface LocaleOptions {
 }
 
 export interface Deps {
+  brand?: Brand;
   localeOptions?: LocaleOptions;
 }

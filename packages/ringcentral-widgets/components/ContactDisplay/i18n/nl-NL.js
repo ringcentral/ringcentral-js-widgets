@@ -2,7 +2,7 @@ export default {
   logging: "Wordt gelogd...",
   logCall: "Oproep loggen",
   editLog: "Log bewerken",
-  select: "Selecteer overeenkomend",
+  select: "Record selecteren",
   OnHold: "In wacht",
   Ringing: "Gaat over",
   CallConnected: "Oproep verbonden",
@@ -16,7 +16,7 @@ export default {
 // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
 // @key: @#@"logCall"@#@ @source: @#@"Log Call"@#@
 // @key: @#@"editLog"@#@ @source: @#@"Edit Log"@#@
-// @key: @#@"select"@#@ @source: @#@"Select matching"@#@
+// @key: @#@"select"@#@ @source: @#@"Select record"@#@
 // @key: @#@"OnHold"@#@ @source: @#@"On Hold"@#@
 // @key: @#@"Ringing"@#@ @source: @#@"Ringing"@#@
 // @key: @#@"CallConnected"@#@ @source: @#@"Call Connected"@#@

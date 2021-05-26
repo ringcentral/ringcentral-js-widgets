@@ -103,7 +103,9 @@ export function sortByStartTime(
   return a.startTime > b.startTime ? -1 : 1;
 }
 
-export function normalizeStartTime<T extends { startTime?: number }>(item: T) {
+export function normalizeStartTime<T extends { startTime?: number | string }>(
+  item: T,
+) {
   const result: T = {
     ...item,
   };

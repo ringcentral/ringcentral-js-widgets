@@ -32,17 +32,17 @@ export class CallerId extends DataFetcherV2Consumer<
     this._deps.dataFetcherV2.register(this._source);
   }
 
-  @computed<CallerId>(({ data }) => [data])
+  @computed(({ data }: CallerId) => [data])
   get byDevice() {
     return this.data?.byDevice ?? [];
   }
 
-  @computed<CallerId>(({ data }) => [data])
+  @computed(({ data }: CallerId) => [data])
   get byFeature() {
     return this.data?.byFeature ?? [];
   }
 
-  @computed<CallerId>(({ byFeature }) => [byFeature])
+  @computed(({ byFeature }: CallerId) => [byFeature])
   get ringOut() {
     return find((item) => item.feature === 'RingOut', this.byFeature)?.callerId;
   }

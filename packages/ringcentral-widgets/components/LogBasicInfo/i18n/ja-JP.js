@@ -44,7 +44,8 @@ export default {
   [callResults.abandoned]: "放棄済み",
   [callResults.declined]: "拒否済み",
   [callResults.faxReceipt]: "FAX受信",
-  [callResults.disconnected]: "切断済み"
+  [callResults.disconnected]: "切断済み",
+  [callResults.notAllowed]: "不許可"
 };
 
 // @key: @#@"[callDirections.inbound]"@#@ @source: @#@"Inbound"@#@
@@ -90,3 +91,4 @@ export default {
 // @key: @#@"[callResults.declined]"@#@ @source: @#@"Declined"@#@
 // @key: @#@"[callResults.faxReceipt]"@#@ @source: @#@"Fax Receipt"@#@
 // @key: @#@"[callResults.disconnected]"@#@ @source: @#@"Disconnected"@#@
+// @key: @#@"[callResults.notAllowed]"@#@ @source: @#@"Not Allowed"@#@

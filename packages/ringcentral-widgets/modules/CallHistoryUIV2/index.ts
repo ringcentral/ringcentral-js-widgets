@@ -1,2 +1,2 @@
-export * from './CallHistoryUI.interface';
 export * from './CallHistoryUI';
+export * from './CallHistoryUI.interface';

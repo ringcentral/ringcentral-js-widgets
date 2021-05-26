@@ -1,4 +1,4 @@
-import AlertUI from '../../ringcentral-widgets/modules/AlertUI';
+import { AlertUI } from '../../ringcentral-widgets/modules/AlertUI';
 import { Beforeunload } from '../../ringcentral-widgets/modules/Beforeunload';
 import { Block } from '../../ringcentral-widgets/modules/Block';
 import { BlockUI } from '../../ringcentral-widgets/modules/BlockUI';
@@ -26,7 +26,7 @@ import Locale from '../modules/Locale';
 import RateLimiter from '../modules/RateLimiter';
 import RegionSettings from '../modules/RegionSettings';
 import RolesAndPermissions from '../modules/RolesAndPermissions';
-import Storage from '../modules/Storage';
+import { Storage } from '../modules/StorageV2';
 import Subscription from '../modules/Subscription';
 import TabManager from '../modules/TabManager';
 

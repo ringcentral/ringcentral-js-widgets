@@ -1,6 +1,6 @@
 import { RcModuleV2, computed } from '@ringcentral-integration/core';
 import { Module } from '../../lib/di';
-import proxify from '../../lib/proxy/proxify';
+import { proxify } from '../../lib/proxy/proxify';
 import { Deps } from './Contacts.interface';
 import {
   IContact,
@@ -150,7 +150,9 @@ export class Contacts extends RcModuleV2<Deps> {
         const promise = Promise.resolve(source.filterContacts(searchFilter));
         return promise
           .then((items) => {
-            result = result.concat(items);
+            if (items) {
+              result = result.concat(items);
+            }
           })
           .catch((error) => {
             console.error(
@@ -174,7 +176,9 @@ export class Contacts extends RcModuleV2<Deps> {
         );
         return promise
           .then((items) => {
-            result = result.concat(items);
+            if (items) {
+              result = result.concat(items);
+            }
           })
           .catch((error) => {
             console.error(
@@ -198,7 +202,9 @@ export class Contacts extends RcModuleV2<Deps> {
         );
         return promise
           .then((items) => {
-            result = result.concat(items);
+            if (items) {
+              result = result.concat(items);
+            }
           })
           .catch((error) => {
             console.error(
@@ -267,7 +273,7 @@ export class Contacts extends RcModuleV2<Deps> {
     return ready;
   }
 
-  @computed<Contacts>((that) => [
+  @computed((that: Contacts) => [
     that._contactSources.size,
     that.checkSourceUpdated(),
   ])
@@ -282,12 +288,12 @@ export class Contacts extends RcModuleV2<Deps> {
     return names;
   }
 
-  @computed<Contacts>((that) => [that.checkSourceUpdated()])
+  @computed((that: Contacts) => [that.checkSourceUpdated()])
   get allContacts() {
     let contacts: IContact[] = [];
     for (const sourceName of Array.from(this._contactSources.keys())) {
       const source = this._contactSources.get(sourceName);
-      if (source.sourceReady) {
+      if (source.sourceReady && source.contacts) {
         contacts = contacts.concat(source.contacts);
       }
     }

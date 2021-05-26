@@ -1,4 +1,9 @@
-import { RcModuleV2 } from '@ringcentral-integration/core';
+import {
+  RcModuleV2,
+  storage,
+  action,
+  state,
+} from '@ringcentral-integration/core';
 import { Module } from 'ringcentral-integration/lib/di';
 
 import { tabManagerEvents } from '../../enums';
@@ -16,6 +21,8 @@ import { ActiveCallControl, Deps } from './EvActiveCallControl.interface';
     'Presence',
     'EvIntegratedSoftphone',
     'EvAgentSession',
+    'Storage',
+    'EvCallMonitor',
     { dep: 'TabManager', optional: true },
     { dep: 'EvActiveCallControlOptions', optional: true },
   ],
@@ -30,7 +37,62 @@ class EvActiveCallControl
   constructor(deps: Deps) {
     super({
       deps,
+      enableCache: true,
+      storageKey: 'EvActiveCallControl',
     });
+  }
+
+  @storage
+  @state
+  isRecording: boolean = null;
+
+  @action
+  setIsRecording(isRecording: boolean) {
+    this.isRecording = isRecording;
+  }
+
+  @action
+  pauseRecordAction() {
+    this.isRecording = false;
+    this.timeStamp = Date.now();
+  }
+
+  async record() {
+    const { state, message } = await this._deps.evClient.record(true);
+
+    if (state === 'RECORDING') {
+      this.setIsRecording(true);
+    } else {
+      throw new Error(message);
+    }
+  }
+
+  async stopRecord() {
+    const { state, message } = await this._deps.evClient.record(false);
+    if (state === 'STOPPED') {
+      this.setIsRecording(false);
+    } else {
+      throw new Error(message);
+    }
+  }
+
+  @storage
+  @state
+  timeStamp: number = null;
+
+  async pauseRecord() {
+    const { state, message } = await this._deps.evClient.pauseRecord(false);
+    if (state === 'PAUSED') {
+      this.pauseRecordAction();
+    } else {
+      throw new Error(message);
+    }
+  }
+
+  @action
+  resumeRecord() {
+    this.isRecording = true;
+    this.timeStamp = null;
   }
 
   mute() {

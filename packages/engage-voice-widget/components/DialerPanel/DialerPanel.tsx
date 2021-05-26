@@ -1,4 +1,11 @@
-import { RcFabIconButton, RcLink } from '@ringcentral/juno';
+import {
+  RcIconButton,
+  RcLink,
+  RcLinkSize,
+  RcPaletteKeys,
+  RcTypographyVariant,
+  styled,
+} from '@ringcentral/juno';
 import handUpSvg from '@ringcentral/juno/icon/HandUp';
 import phoneSvg from '@ringcentral/juno/icon/Phone';
 import React, { FunctionComponent } from 'react';
@@ -7,24 +14,30 @@ import {
   EvDialerUIFunctions,
   EvDialerUIProps,
 } from '../../interfaces/EvDialerUI.interface';
-import { DeepWriteableValues } from '../../typings/deepWriteableValues';
 import { Dialer } from './Dialer';
 import i18n from './i18n';
 import styles from './styles.scss';
 
-const dialoutStatusMapping = {
-  dialing: ['element', 'disabled'],
-  callConnected: ['semantic', 'negative'],
-  idle: ['semantic', 'positive'],
-} as const;
+const dialoutStatusMapping: Record<
+  'dialing' | 'callConnected' | 'idle',
+  RcPaletteKeys
+> = {
+  dialing: 'danger.b03',
+  callConnected: 'danger.b03',
+  idle: 'success.b03',
+};
 
-const LinkSizeMapping = {
+const LinkSizeMapping: Record<RcLinkSize, RcTypographyVariant> = {
   small: 'caption1',
   medium: 'body1',
   large: 'headline',
-} as const;
+};
 
 export type DialerPanelProps = EvDialerUIProps & EvDialerUIFunctions;
+
+const DialButton = styled(RcIconButton)`
+  box-shadow: none !important;
+`;
 
 const DialerPanel: FunctionComponent<DialerPanelProps> = ({
   dialout,
@@ -34,7 +47,7 @@ const DialerPanel: FunctionComponent<DialerPanelProps> = ({
   hasDialer,
   setToNumber,
   goToManualDialSettings,
-  dialoutStatus,
+  dialoutStatus = 'idle',
   dialButtonDisabled,
   hangup,
 }) => {
@@ -42,12 +55,7 @@ const DialerPanel: FunctionComponent<DialerPanelProps> = ({
     return null;
   }
   const isIdle = dialoutStatus === 'idle';
-  const isCallConnected = dialoutStatus === 'callConnected';
-
-  const color = (dialoutStatusMapping[dialoutStatus] ||
-    dialoutStatusMapping.idle) as DeepWriteableValues<
-    typeof dialoutStatusMapping
-  >;
+  const color = dialoutStatusMapping[dialoutStatus];
 
   return (
     <Dialer
@@ -55,8 +63,9 @@ const DialerPanel: FunctionComponent<DialerPanelProps> = ({
       setValue={setToNumber}
       placeholder={i18n.getString('dialPlaceholder', currentLocale)}
     >
-      <RcFabIconButton
-        size={size}
+      <DialButton
+        size={size === 'medium' ? 'large' : size}
+        variant="contained"
         color={color}
         data-icon={isIdle ? 'answer' : 'hand-up'}
         symbol={isIdle ? phoneSvg : handUpSvg}
@@ -65,15 +74,13 @@ const DialerPanel: FunctionComponent<DialerPanelProps> = ({
         onClick={() => {
           if (isIdle) {
             dialout();
-          } else if (isCallConnected) {
-            hangup();
           } else {
-            // unexpected state
+            hangup();
           }
         }}
       >
         phone
-      </RcFabIconButton>
+      </DialButton>
       <i className={styles.flexFill} />
       <div className={styles.link}>
         <RcLink

@@ -3,9 +3,9 @@ export default {
   [meetingStatus.emptyTopic]: "Geben Sie das Meetingthema ein.",
   [meetingStatus.noPassword]: "Geben Sie das Meetingkennwort ein.",
   [meetingStatus.insufficientPermissions]: "{application} haben keine Berechtigung für {permissionName}.",
-  [meetingStatus.scheduledSuccess]: "Meeting hinzugefügt",
-  [meetingStatus.updatedSuccess]: "Meeting aktualisiert",
-  [meetingStatus.meetingIsDeleted]: "Meeting wurde gelöscht",
+  [meetingStatus.scheduledSuccess]: "Besprechung hinzugefügt",
+  [meetingStatus.updatedSuccess]: "Besprechung aktualisiert",
+  [meetingStatus.meetingIsDeleted]: "Besprechung wurde gelöscht",
   [meetingStatus.internalError]: "Entschuldigung, bei uns ist etwas schiefgelaufen. Versuchen Sie es erneut."
 };
 

@@ -1,6 +1,6 @@
 export default {
   eula: "Contrato de Licença do Utilizador Final",
-  eulaAbbr: "EULA",
+  eulaAbbr: "CLUF",
   serviceTerms: "Termos de Serviço",
   termsOfService: "Termos e Condições."
 };

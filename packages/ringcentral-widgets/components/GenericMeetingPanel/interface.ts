@@ -1,4 +1,8 @@
-import { RcDatePickerSize, RcTimePickerSize } from '@ringcentral/juno';
+import {
+  RcDatePickerSize,
+  RcTimePickerSize,
+  RcCheckboxProps,
+} from '@ringcentral/juno';
 import { RcVMeetingModel } from 'ringcentral-integration/interfaces/Rcv.model';
 import { RcvDelegator } from 'ringcentral-integration/modules/RcVideoV2/RcVideo.interface';
 import {
@@ -54,7 +58,8 @@ export interface VideoPanelProps extends CommonProps {
   validatePasswordSettings: (password: string, isSecret: boolean) => boolean;
   datePickerSize?: RcDatePickerSize;
   timePickerSize?: RcTimePickerSize;
-  showAdminLock?: boolean;
+  checkboxSize?: RcCheckboxProps['size'];
+  showRcvAdminLock?: boolean;
   delegators?: RcvDelegator[];
 }
 
@@ -70,7 +75,7 @@ export interface MeetingPanelProps extends CommonProps {
   appCode: string;
   updateScheduleFor: (userExtensionId: string) => any;
   extensionId: number;
-  putRecurringMeetingInMiddle?: boolean;
+  recurringMeetingPosition?: 'middle' | 'bottom';
   enableServiceWebSettings?: boolean;
   delegators?: RcvDelegator[];
 }

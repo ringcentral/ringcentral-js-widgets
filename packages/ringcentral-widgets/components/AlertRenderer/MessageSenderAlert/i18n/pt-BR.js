@@ -9,7 +9,7 @@ export default {
   [messageSenderMessages.senderEmpty]: "Você deve selecionar um número de telefone para enviar",
   [messageSenderMessages.noToNumber]: "Insira um número de telefone válido.",
   [messageSenderMessages.recipientsEmpty]: "Insira um número de recebimento válido.",
-  [messageSenderMessages.textTooLong]: "O texto é muito longo. Limitado a 1000",
+  [messageSenderMessages.textTooLong]: "Texto longo demais. O limite é de 1000",
   [messageSenderMessages.multipartTextTooLong]: "O texto é muito longo. Limitado a 5000",
   [messageSenderMessages.recipientNumberInvalids]: "Insira um número de telefone válido.",
   [messageSenderMessages.noAreaCode]: "Defina o {areaCodeLink} para usar números de telefone locais de sete dígitos.",

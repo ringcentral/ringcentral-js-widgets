@@ -22,8 +22,8 @@
   "license": "MIT",
   "dependencies": {
     "@ringcentral-integration/babel-settings": "*",
-    "@ringcentral/juno": "^1.4.1",
-    "@testing-library/react": "^11.2.3",
+    "@ringcentral/juno": "^1.8.2-beta.4790-e9e01b7b",
+    "@testing-library/react": "^11.2.6",
     "babel-jest": "^26.3.0",
     "babel-preset-crius": "^1.0.0-alpha.2",
     "cross-env": "^5.1.3",

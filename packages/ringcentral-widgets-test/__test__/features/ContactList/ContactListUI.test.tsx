@@ -9,15 +9,14 @@ import {
   examples,
 } from '@ringcentral-integration/test-utils';
 import { AllContactSourceName } from 'ringcentral-integration/lib/contactHelper';
+import { mockModuleGenerator } from 'ringcentral-integration/test/lib/mockModule';
 import { ContactListUI } from 'ringcentral-widgets/modules/ContactListUI';
 
-const getMockModule = () => ({
-  searchFilter: '',
-  sourceFilter: AllContactSourceName,
-  state: {},
-  _dispatch: () => {},
-  parentModule: {},
-});
+const getMockModule = () =>
+  mockModuleGenerator({
+    searchFilter: '',
+    sourceFilter: AllContactSourceName,
+  });
 
 @autorun(test)
 @title('ContactListUI Module "_updateFilters" action')
@@ -35,10 +34,8 @@ export class UpdateFilter extends Step {
           desc="Create an ContactListUI instance with default value"
           action={(_: any, context: any) => {
             const contactListUI = new ContactListUI({} as any);
-            expect(contactListUI._initialValue.sourceFilter).toBe(
-              AllContactSourceName,
-            );
-            expect(contactListUI._initialValue.searchFilter).toBe('');
+            expect(contactListUI.sourceFilter).toBe(AllContactSourceName);
+            expect(contactListUI.searchFilter).toBe('');
             context.instance = contactListUI;
           }}
         />

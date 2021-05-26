@@ -1,58 +1,55 @@
 import {
+  GetMessageInfoResponse,
+  GetMessageList,
+  ListMessagesParameters,
+  MessageAttachmentInfo,
+} from '@rc-ex/core/definitions';
+import {
+  action,
+  computed,
   RcModuleV2,
   state,
-  action,
   watch,
-  computed,
 } from '@ringcentral-integration/core';
 import { ObjectMapValue } from '@ringcentral-integration/core/lib/ObjectMap';
-import {
-  ListMessagesParameters,
-  GetMessageList,
-  MessageAttachmentInfo,
-  GetMessageInfoResponse,
-} from '@rc-ex/core/definitions';
-
-import normalizeNumber from '../../lib/normalizeNumber';
 import { messageDirection } from '../../enums/messageDirection';
-import { Module } from '../../lib/di';
-import proxify from '../../lib/proxy/proxify';
 import { messageTypes } from '../../enums/messageTypes';
+import { Message } from '../../interfaces/MessageStore.model';
 import cleanNumber from '../../lib/cleanNumber';
+import { Module } from '../../lib/di';
 import {
-  messageSenderMessages,
-  ATTACHMENT_SIZE_LIMITATION,
-  Attachment,
-} from '../MessageSenderV2';
-
-import {
-  getNumbersFromMessage,
-  sortSearchResults,
-  messageIsTextMessage,
-  messageIsVoicemail,
-  getVoicemailAttachment,
+  Correspondent,
   getFaxAttachment,
   getMMSAttachments,
-  messageIsFax,
   getMyNumberFromMessage,
+  getNumbersFromMessage,
   getRecipientNumbersFromMessage,
+  getVoicemailAttachment,
+  messageIsFax,
+  messageIsTextMessage,
   messageIsUnread,
+  messageIsVoicemail,
   normalizeRecord,
-  Correspondent,
+  sortSearchResults,
 } from '../../lib/messageHelper';
-
-import { conversationsStatus } from './conversationsStatus';
-
+import { normalizeNumber } from '../../lib/normalizeNumber';
+import { proxify } from '../../lib/proxy/proxify';
 import {
-  Deps,
-  InputContent,
-  CurrentConversation,
-  FormattedConversation,
-  FilteredConversation,
+  Attachment,
+  ATTACHMENT_SIZE_LIMITATION,
+  messageSenderMessages,
+} from '../MessageSenderV2';
+import { MessageStoreConversations } from '../MessageStoreV2';
+import {
   CorrespondentMatch,
   CorrespondentResponse,
+  CurrentConversation,
+  Deps,
+  FilteredConversation,
+  FormattedConversation,
+  InputContent,
 } from './Conversations.interface';
-import { Message } from '../../interfaces/MessageStore.model';
+import { conversationsStatus } from './conversationsStatus';
 
 function mergeMessages(messages: Message[], oldMessages: Message[]): Message[] {
   const tmp: { [key: string]: number } = {};
@@ -125,7 +122,7 @@ export const DEFAULT_DAY_SPAN = 90;
     'MessageSender',
     'ExtensionInfo',
     'MessageStore',
-    'RolesAndPermissions',
+    'ExtensionFeatures',
     'RegionSettings',
     { dep: 'ContactMatcher', optional: true },
     { dep: 'ConversationLogger', optional: true },
@@ -442,7 +439,10 @@ export class Conversations extends RcModuleV2<Deps> {
     watch(
       this,
       () => this._deps.messageStore.allConversations,
-      (newValue = [], oldValue = []) => {
+      (
+        newValue: MessageStoreConversations = [],
+        oldValue: MessageStoreConversations = [],
+      ) => {
         if (newValue.length < oldValue.length) {
           if (this.oldConversations.length > 0) {
             this._cleanOldConversations();
@@ -453,8 +453,13 @@ export class Conversations extends RcModuleV2<Deps> {
     );
   }
 
-  @computed<Conversations>(
-    ({ allUniqueNumbers, currentPage, typeFilter, effectiveSearchString }) => [
+  @computed(
+    ({
+      allUniqueNumbers,
+      currentPage,
+      typeFilter,
+      effectiveSearchString,
+    }: Conversations) => [
       allUniqueNumbers,
       currentPage,
       typeFilter,
@@ -752,7 +757,7 @@ export class Conversations extends RcModuleV2<Deps> {
     }
   }
 
-  @computed<Conversations>((that: Conversations) => [
+  @computed((that: Conversations) => [
     that._deps.messageStore.allConversations,
     that.oldConversations,
   ])
@@ -778,17 +783,17 @@ export class Conversations extends RcModuleV2<Deps> {
     return newConversations;
   }
 
-  @computed<Conversations>(({ pagingConversations }) => [pagingConversations])
+  @computed(({ pagingConversations }: Conversations) => [pagingConversations])
   get uniqueNumbers() {
     return getUniqueNumbers(this.pagingConversations);
   }
 
-  @computed<Conversations>(({ pagingConversations }) => [pagingConversations])
+  @computed(({ pagingConversations }: Conversations) => [pagingConversations])
   get allUniqueNumbers() {
     return getUniqueNumbers(this.allConversations);
   }
 
-  @computed<Conversations>(({ searchInput }) => [searchInput])
+  @computed(({ searchInput }: Conversations) => [searchInput])
   get effectiveSearchString() {
     if (this.searchInput.length >= 3) {
       return this.searchInput;
@@ -796,7 +801,7 @@ export class Conversations extends RcModuleV2<Deps> {
     return '';
   }
 
-  @computed<Conversations>(({ allConversations, typeFilter }) => [
+  @computed(({ allConversations, typeFilter }: Conversations) => [
     allConversations,
     typeFilter,
   ])
@@ -813,17 +818,17 @@ export class Conversations extends RcModuleV2<Deps> {
       default:
         return allConversations.filter(
           (conversation) =>
-            (this._deps.rolesAndPermissions.readTextPermissions ||
+            (this._deps.extensionFeatures.hasReadTextPermission ||
               !messageIsTextMessage(conversation)) &&
-            (this._deps.rolesAndPermissions.voicemailPermissions ||
+            (this._deps.extensionFeatures.hasVoicemailPermission ||
               !messageIsVoicemail(conversation)) &&
-            (this._deps.rolesAndPermissions.readFaxPermissions ||
+            (this._deps.extensionFeatures.hasReadFaxPermission ||
               !messageIsFax(conversation)),
         );
     }
   }
 
-  @computed<Conversations>((that: Conversations) => [
+  @computed((that: Conversations) => [
     that.typeFilteredConversations,
     that._deps.extensionInfo.extensionNumber,
     that._deps.contactMatcher?.dataMapping,
@@ -910,7 +915,7 @@ export class Conversations extends RcModuleV2<Deps> {
     });
   }
 
-  @computed<Conversations>((that: Conversations) => [
+  @computed((that: Conversations) => [
     that.formattedConversations,
     that.effectiveSearchString,
     that._deps.messageStore.conversationStore,
@@ -995,7 +1000,7 @@ export class Conversations extends RcModuleV2<Deps> {
     return searchResults.sort(sortSearchResults);
   }
 
-  @computed<Conversations>(({ filteredConversations, currentPage }) => [
+  @computed(({ filteredConversations, currentPage }: Conversations) => [
     filteredConversations,
     currentPage,
   ])
@@ -1005,14 +1010,14 @@ export class Conversations extends RcModuleV2<Deps> {
     return this.filteredConversations.slice(0, lastIndex);
   }
 
-  @computed<Conversations>(({ typeFilteredConversations }) => [
+  @computed(({ typeFilteredConversations }: Conversations) => [
     typeFilteredConversations,
   ])
   get earliestTime() {
     return getEarliestTime(this.typeFilteredConversations);
   }
 
-  @computed<Conversations>((that) => [
+  @computed((that: Conversations) => [
     that.currentConversationId,
     that._deps.extensionInfo.extensionNumber,
     that._deps.contactMatcher?.dataMapping,
@@ -1093,10 +1098,17 @@ export class Conversations extends RcModuleV2<Deps> {
     currentConversation.isLogging = !!(
       conversationLogId && loggingMap[conversationLogId]
     );
+    currentConversation.lastMatchedCorrespondentEntity =
+      (this._deps.conversationLogger &&
+        conversation &&
+        this._deps.conversationLogger.getLastMatchedCorrespondentEntity(
+          conversation,
+        )) ||
+      null;
     return currentConversation;
   }
 
-  @computed<Conversations>(({ inputContents, currentConversationId }) => [
+  @computed(({ inputContents, currentConversationId }: Conversations) => [
     inputContents,
     currentConversationId,
   ])
@@ -1108,7 +1120,7 @@ export class Conversations extends RcModuleV2<Deps> {
     return res ? res.text : '';
   }
 
-  @computed<Conversations>(({ inputContents, currentConversationId }) => [
+  @computed(({ inputContents, currentConversationId }: Conversations) => [
     inputContents,
     currentConversationId,
   ])
@@ -1133,7 +1145,7 @@ export class Conversations extends RcModuleV2<Deps> {
   }
 
   get _hasPermission() {
-    return this._deps.rolesAndPermissions.hasReadMessagesPermission;
+    return this._deps.extensionFeatures.hasReadMessagesPermission;
   }
 
   addEntities(entities: CorrespondentMatch[]) {

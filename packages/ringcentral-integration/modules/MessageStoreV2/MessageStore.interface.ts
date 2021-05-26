@@ -1,19 +1,19 @@
 import { GetMessageInfoResponse } from '@rc-ex/core/definitions';
 import {
-  DataFetcherV2ConsumerBaseDeps,
-  DataSourceBaseProps,
-} from '../DataFetcherV2';
-import Alert from '../Alert';
-import { Auth } from '../AuthV2';
-import { Subscription } from '../SubscriptionV2';
-import { ConnectivityMonitor } from '../ConnectivityMonitorV2';
-import { RolesAndPermissions } from '../RolesAndPermissionsV2';
-import { TabManager } from '../TabManagerV2';
-import { AvailabilityMonitor } from '../AvailabilityMonitorV2';
-import {
   Message,
   MessageStoreModel,
 } from '../../interfaces/MessageStore.model';
+import Alert from '../Alert';
+import { Auth } from '../AuthV2';
+import { AvailabilityMonitor } from '../AvailabilityMonitorV2';
+import { ConnectivityMonitor } from '../ConnectivityMonitorV2';
+import {
+  DataFetcherV2ConsumerBaseDeps,
+  DataSourceBaseProps,
+} from '../DataFetcherV2';
+import { ExtensionFeatures } from '../ExtensionFeatures';
+import { Subscription } from '../SubscriptionV2';
+import { TabManager } from '../TabManagerV2';
 
 export interface MessageStoreOptions extends DataSourceBaseProps {
   daySpan?: number;
@@ -28,7 +28,7 @@ export interface Deps extends DataFetcherV2ConsumerBaseDeps {
   client: any;
   subscription: Subscription;
   connectivityMonitor: ConnectivityMonitor;
-  rolesAndPermissions: RolesAndPermissions;
+  extensionFeatures: ExtensionFeatures;
   tabManager?: TabManager;
   availabilityMonitor?: AvailabilityMonitor;
   messageStoreOptions?: MessageStoreOptions;

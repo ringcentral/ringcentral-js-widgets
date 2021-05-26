@@ -35,7 +35,7 @@
     "@ringcentral-integration/locale-loader": "*",
     "@ringcentral-integration/locale-settings": "*",
     "autoprefixer": "^9.8.4",
-    "execa": "^1.0.0",
+    "execa": "^5.0.0",
     "fs-extra": "^9.0.1",
     "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",

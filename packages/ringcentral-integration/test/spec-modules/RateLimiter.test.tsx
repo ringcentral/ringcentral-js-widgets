@@ -9,13 +9,12 @@ import {
 } from '@ringcentral-integration/test-utils';
 
 import { RateLimiter } from '../../modules/RateLimiterV2';
+import { mockModuleGenerator } from '../lib/mockModule';
 
-const getMockModule = () => ({
-  timestamp: null as string,
-  state: {},
-  _dispatch: () => {},
-  parentModule: {},
-});
+const getMockModule = () =>
+  mockModuleGenerator({
+    timestamp: null as string,
+  });
 
 @autorun(test)
 @title('RateLimiter Module "startThrottle" action')
@@ -61,7 +60,7 @@ class StopThrottle extends Step {
           desc="Create an RateLimiter instance with default value"
           action={(_: any, context: any) => {
             context.instance = new RateLimiter({} as any);
-            expect(context.instance._initialValue.timestamp).toBeNull();
+            expect(context.instance.timestamp).toBeNull();
           }}
         />
         <When

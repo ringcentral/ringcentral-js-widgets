@@ -27,6 +27,7 @@ export interface StampedFilterCriteria extends FilterCriteria {
 export interface ContactSourceLastStatus {
   sourceReady: boolean;
   contacts: IContact[];
+  rawContacts: unknown[];
 }
 
 export interface GetUIProps {

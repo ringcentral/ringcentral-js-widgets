@@ -12,6 +12,7 @@ export const CustomArrowButton: FunctionComponent<CustomArrowButtonProps> = ({
   return (
     <RcIconButton
       data-sign="arrow_icon"
+      /* !!!This token not exist! CONFIRM with Designer which one should use */
       color="grey.600"
       variant="plain"
       {...rest}

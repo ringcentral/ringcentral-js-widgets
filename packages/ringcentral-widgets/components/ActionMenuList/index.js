@@ -18,13 +18,13 @@ import Modal from '../Modal';
 import i18n from './i18n';
 import styles from './styles.scss';
 
-export function ConfirmDeleteModal({
+export const ConfirmDeleteModal = ({
   currentLocale,
   show,
   onDelete,
   onCancel,
   type,
-}) {
+}) => {
   let tip;
   if (type === messageTypes.fax) {
     tip = i18n.getString('sureToDeleteFax', currentLocale);
@@ -41,7 +41,7 @@ export function ConfirmDeleteModal({
       <div className={styles.contentText}>{tip}</div>
     </Modal>
   );
-}
+};
 ConfirmDeleteModal.propTypes = {
   currentLocale: PropTypes.string.isRequired,
   show: PropTypes.bool.isRequired,
@@ -56,15 +56,14 @@ ConfirmDeleteModal.defaultProps = {
   type: undefined,
 };
 
-export function ClickToDialButton({
+export const ClickToDialButton = ({
   className,
   onClickToDial,
-  disableLinks,
   disableCallButton,
   disableClickToDial,
   phoneNumber,
   title,
-}) {
+}) => {
   return (
     <Button
       className={classnames(styles.button, styles.clickToDialButton, className)}
@@ -75,11 +74,10 @@ export function ClickToDialButton({
       <span className={dynamicsFont.call} title={title} />
     </Button>
   );
-}
+};
 ClickToDialButton.propTypes = {
   className: PropTypes.string,
   onClickToDial: PropTypes.func,
-  disableLinks: PropTypes.bool,
   disableCallButton: PropTypes.bool,
   disableClickToDial: PropTypes.bool,
   phoneNumber: PropTypes.string,
@@ -88,20 +86,19 @@ ClickToDialButton.propTypes = {
 ClickToDialButton.defaultProps = {
   className: undefined,
   onClickToDial: undefined,
-  disableLinks: false,
   disableCallButton: false,
   disableClickToDial: false,
   phoneNumber: undefined,
   title: undefined,
 };
 
-export function ClickToSmsButton({
+export const ClickToSmsButton = ({
   className,
   onClickToSms,
   disableLinks,
   phoneNumber,
   title,
-}) {
+}) => {
   return (
     <Button
       className={classnames(styles.button, styles.clickToSmsButton, className)}
@@ -112,7 +109,7 @@ export function ClickToSmsButton({
       <span className={dynamicsFont.composeText} title={title} />
     </Button>
   );
-}
+};
 ClickToSmsButton.propTypes = {
   className: PropTypes.string,
   onClickToSms: PropTypes.func,
@@ -128,7 +125,12 @@ ClickToSmsButton.defaultProps = {
   title: undefined,
 };
 
-export function DeleteButton({ className, title, openDeleteModal, disabled }) {
+export const DeleteButton = ({
+  className,
+  title,
+  openDeleteModal,
+  disabled,
+}) => {
   return (
     <Button
       className={classnames(styles.button, styles.svgBtn, className)}
@@ -148,7 +150,7 @@ export function DeleteButton({ className, title, openDeleteModal, disabled }) {
       </span>
     </Button>
   );
-}
+};
 
 DeleteButton.propTypes = {
   className: PropTypes.string,
@@ -162,14 +164,14 @@ DeleteButton.defaultProps = {
   openDeleteModal() {},
 };
 
-export function MarkButton({
+export const MarkButton = ({
   marked,
   className,
   onClick,
   markTitle,
   unmarkTitle,
   disabled,
-}) {
+}) => {
   const Icon = marked ? UnmarkIcon : MarkIcon;
   const title = marked ? unmarkTitle : markTitle;
   const classNames = classnames(
@@ -189,7 +191,7 @@ export function MarkButton({
       </span>
     </Button>
   );
-}
+};
 
 MarkButton.propTypes = {
   className: PropTypes.string,
@@ -205,7 +207,7 @@ MarkButton.defaultProps = {
   unmarkTitle: undefined,
 };
 
-export function PreviewButton({ title, onClick, disabled, className }) {
+export const PreviewButton = ({ title, onClick, disabled, className }) => {
   return (
     <Button
       className={classnames(styles.button, styles.svgBtn, className)}
@@ -222,7 +224,7 @@ export function PreviewButton({ title, onClick, disabled, className }) {
       </span>
     </Button>
   );
-}
+};
 PreviewButton.propTypes = {
   title: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
@@ -372,6 +374,7 @@ export default class ActionMenuList extends Component {
       externalHasEntity,
       disableClickToSms,
       selectedMatchContactType,
+      showChooseEntityModal,
     } = this.props;
     const { deleteModalVisible, disableDelete } = this.state;
     const logButton = onLog ? (
@@ -404,7 +407,11 @@ export default class ActionMenuList extends Component {
         entityButton = (
           <EntityButton
             className={styles.button}
-            onCreateEntity={this.openEntityModal}
+            onCreateEntity={
+              showChooseEntityModal
+                ? this.openEntityModal
+                : () => onCreateEntity()
+            }
             hasEntity={externalHasEntity}
             disableLinks={disableLinks}
             createEntityTitle={createEntityTitle}
@@ -427,7 +434,11 @@ export default class ActionMenuList extends Component {
       entityButton = (
         <EntityButton
           className={styles.button}
-          onCreateEntity={this.openEntityModal}
+          onCreateEntity={
+            showChooseEntityModal
+              ? this.openEntityModal
+              : () => onCreateEntity()
+          }
           hasEntity={hasEntity}
           disableLinks={disableLinks}
           createEntityTitle={createEntityTitle}
@@ -587,6 +598,7 @@ ActionMenuList.propTypes = {
   disableClickToSms: PropTypes.bool,
   onFaxDownload: PropTypes.func,
   selectedMatchContactType: PropTypes.string,
+  showChooseEntityModal: PropTypes.bool,
 };
 ActionMenuList.defaultProps = {
   className: undefined,
@@ -626,4 +638,5 @@ ActionMenuList.defaultProps = {
   disableClickToSms: false,
   onFaxDownload: undefined,
   selectedMatchContactType: '',
+  showChooseEntityModal: true,
 };

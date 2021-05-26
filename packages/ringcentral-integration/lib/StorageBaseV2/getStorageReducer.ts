@@ -1,3 +1,4 @@
+import { usmAction } from '@ringcentral-integration/core';
 import { ReducersMapObject, Reducer } from 'redux';
 import { ActionTypesBase } from './actionTypesBase';
 
@@ -18,34 +19,28 @@ export function getDataReducer({
   reducers: ReducersMapObject;
 }): Reducer {
   return (state = calculateInitialState(reducers), action) => {
-    switch (action.type) {
-      case types.initSuccess:
-        return action.data;
-      case types.sync:
-        return {
-          ...state,
-          [action.key]: action.value,
-        };
-      case types.resetSuccess: {
-        const newState: Record<string, unknown> = {};
-        // reset the data to initial states
-        /* eslint-disable guard-for-in */
-        for (const key in reducers) {
-          newState[key] = reducers[key](undefined, action);
+    if (
+      action._usm === usmAction &&
+      (action.type === 'globalStorage' || action.type === 'storage')
+    ) {
+      // usm-redux update data with generic reducer for globalStorage & storage.
+      const [name] = types.init.split('-');
+      if (name === action.type) {
+        // for proxy storage state
+        if (action._state.target) {
+          return action._state.target[action.type].data;
         }
-        return newState;
-      }
-      default: {
-        const newState: Record<string, unknown> = {};
-        let hasChange = false;
-        // compute new sub states and check for changes
-        /* eslint-disable guard-for-in */
-        for (const key in reducers) {
-          newState[key] = reducers[key](state[key], action);
-          if (newState[key] !== state[key]) hasChange = true;
-        }
-        return hasChange ? newState : state;
+        return action._state[action.type].data;
       }
     }
+    const newState: Record<string, unknown> = {};
+    let hasChange = false;
+    // compute new sub states and check for changes
+    /* eslint-disable guard-for-in */
+    for (const key in reducers) {
+      newState[key] = reducers[key](state[key], action);
+      if (newState[key] !== state[key]) hasChange = true;
+    }
+    return hasChange ? newState : state;
   };
 }

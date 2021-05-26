@@ -1,41 +1,41 @@
 import { ReadUserCallLogParameters } from '@rc-ex/core/definitions';
 import {
+  action,
+  computed,
   RcModuleV2,
   state,
   storage,
-  action,
   watch,
-  computed,
 } from '@ringcentral-integration/core';
-import getDateFrom from '../../lib/getDateFrom';
-import { Module } from '../../lib/di';
-import fetchList from '../../lib/fetchList';
-import sleep from '../../lib/sleep';
+import { callActions } from '../../enums/callActions';
+import { callResults } from '../../enums/callResults';
 import { subscriptionFilters } from '../../enums/subscriptionFilters';
-import { syncTypes, SyncType } from '../../enums/syncTypes';
+import { SyncType, syncTypes } from '../../enums/syncTypes';
 import {
-  sortByStartTime,
   hasEndedCalls,
+  isOutbound,
   removeDuplicateIntermediateCalls,
   removeInboundRingOutLegs,
-  isOutbound,
+  sortByStartTime,
 } from '../../lib/callLogHelpers';
-import { callResults } from '../../enums/callResults';
-import { callActions } from '../../enums/callActions';
-import proxify from '../../lib/proxy/proxify';
+import { Module } from '../../lib/di';
+import fetchList from '../../lib/fetchList';
+import getDateFrom from '../../lib/getDateFrom';
+import { proxify } from '../../lib/proxy/proxify';
+import sleep from '../../lib/sleep';
 import {
-  Deps,
   CallLogData,
-  SyncSuccessOptions,
   CallLogList,
-  CallLogSyncData,
   CallLogRecords,
+  CallLogSyncData,
+  Deps,
+  SyncSuccessOptions,
   UserCallLogResponseData,
 } from './CallLog.interface';
 import {
-  processData,
   getISODateFrom,
   getISODateTo,
+  processData,
   processRecords,
 } from './helper';
 
@@ -59,7 +59,7 @@ const presenceRegExp = /\/presence\?detailedTelephonyState=true/;
     'ExtensionPhoneNumber',
     'ExtensionInfo',
     'Subscription',
-    'RolesAndPermissions',
+    'ExtensionFeatures',
     { dep: 'TabManager', optional: true },
     { dep: 'Storage', optional: true },
     { dep: 'CallLogOptions', optional: true },
@@ -199,7 +199,9 @@ export class CallLog extends RcModuleV2<Deps> {
     ) {
       this.clearToken();
     }
-    if (this._deps.rolesAndPermissions.permissions.ReadCallLog) {
+    if (
+      this._deps.extensionFeatures.features?.ReadExtensionCallLog?.available
+    ) {
       await this._init();
     }
   }
@@ -256,7 +258,7 @@ export class CallLog extends RcModuleV2<Deps> {
     }
   }
 
-  @computed<CallLog>(({ list }) => [list])
+  @computed(({ list }: CallLog) => [list])
   get calls() {
     // TODO: make sure removeDuplicateIntermediateCalls is necessary here
     const calls = removeInboundRingOutLegs(
@@ -345,14 +347,6 @@ export class CallLog extends RcModuleV2<Deps> {
 
   get timeToRetry() {
     return this._timeToRetry;
-  }
-
-  get canReadCallLog() {
-    return !!this._deps.rolesAndPermissions.permissions.ReadCallLog;
-  }
-
-  get canReadPresence() {
-    return !!this._deps.rolesAndPermissions.permissions.ReadPresenceStatus;
   }
 
   @proxify

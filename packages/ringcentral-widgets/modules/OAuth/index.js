@@ -10,7 +10,11 @@ import { isElectron } from '../../lib/isElectron';
 
 @Module({
   name: 'OAuth',
-  deps: ['RouterInteraction', { dep: 'OAuthOptions', optional: true }],
+  deps: [
+    'RouterInteraction',
+    'Client',
+    { dep: 'OAuthOptions', optional: true },
+  ],
 })
 export default class OAuth extends OAuthBase {
   constructor({
@@ -18,6 +22,8 @@ export default class OAuth extends OAuthBase {
     redirectUri = './redirect.html',
     restrictSameOriginRedirectUri = true,
     routerInteraction,
+    useDiscovery,
+    client,
     ...options
   }) {
     super({
@@ -28,12 +34,14 @@ export default class OAuth extends OAuthBase {
       routerInteraction,
       'routerInteraction',
     );
+    this._client = ensureExist(client, 'client');
     this._loginPath = loginPath;
     this._loginWindow = null;
     this._redirectCheckTimeout = null;
     this._isInElectron = isElectron();
     this._restrictSameOriginRedirectUri = restrictSameOriginRedirectUri;
     this._uuid = uuid.v4();
+    this._useDiscovery = useDiscovery;
   }
 
   initialize() {
@@ -120,8 +128,11 @@ export default class OAuth extends OAuthBase {
   }
 
   @proxify
-  openOAuthPage() {
+  async openOAuthPage() {
     if (this.oAuthReady) {
+      if (this._useDiscovery) {
+        await this._client.service.platform().loginUrlWithDiscovery();
+      }
       this._loginWindow = popWindow(this.oAuthUri, 'rc-oauth', 600, 600);
       if (this.isRedirectUriSameOrigin) {
         this._setupRedirectCheckTimeout();
@@ -130,7 +141,10 @@ export default class OAuth extends OAuthBase {
   }
 
   @proxify
-  openOAuthPageInOtherRouter() {
+  async openOAuthPageInOtherRouter() {
+    if (this._useDiscovery) {
+      await this._client.service.platform().loginUrlWithDiscovery();
+    }
     this._loginWindow = popWindow(this.oAuthUri, 'rc-oauth', 600, 600);
     if (this.isRedirectUriSameOrigin) {
       this._setupRedirectCheckTimeout();

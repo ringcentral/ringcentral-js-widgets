@@ -1,4 +1,9 @@
-import { RcIconButton, RcTextField, RcTextFieldProps } from '@ringcentral/juno';
+import {
+  RcIconButton,
+  RcTextField,
+  RcTextFieldProps,
+  useEventCallback,
+} from '@ringcentral/juno';
 import deletenumberSvg from '@ringcentral/juno/icon/Deletenumber';
 import classNames from 'classnames';
 import React, {
@@ -32,11 +37,10 @@ export const RecipientsInput: FunctionComponent<RecipientsInputProps> = ({
   value,
   currentLocale,
   onChange,
-  onFocus,
-  onBlur,
   onDelete,
   onClear,
   className,
+  ...rest
 }) => {
   const inputRef = useRef<HTMLInputElement>();
   const [mouseDownTime, setMouseDownTime] = useState<number>(null);
@@ -44,38 +48,31 @@ export const RecipientsInput: FunctionComponent<RecipientsInputProps> = ({
 
   const haveDeleteButton = !!value;
 
+  const handleMouseDown = useEventCallback(() => {
+    setMouseDownTime(+new Date());
+
+    setTimer(
+      setTimeout(() => {
+        onClear();
+        setTimer(null);
+      }, throttledTime),
+    );
+  });
+
+  const handleMouseUp = useEventCallback(() => {
+    const curTime = +new Date();
+    if (mouseDownTime && curTime - mouseDownTime >= throttledTime) {
+      return;
+    }
+
+    clearTimeout(timer);
+    onDelete();
+  });
+
   useEffect(() => {
     inputRef.current.focus();
-    onFocus(null);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
-
-  const mouseDown = useMemo(
-    () => () => {
-      setMouseDownTime(+new Date());
-
-      setTimer(
-        setTimeout(() => {
-          onClear();
-          setTimer(null);
-        }, throttledTime),
-      );
-    },
-    [onClear],
-  );
-
-  const mouseUp = useMemo(
-    () => () => {
-      const curTime = +new Date();
-      if (mouseDownTime && curTime - mouseDownTime >= throttledTime) {
-        return;
-      }
-
-      clearTimeout(timer);
-      onDelete();
-    },
-    [mouseDownTime, onDelete, timer],
-  );
 
   return (
     <div className={classNames(className, styles.inputRoot)}>
@@ -97,8 +94,6 @@ export const RecipientsInput: FunctionComponent<RecipientsInputProps> = ({
           root: styles.textFieldRoot,
         }}
         data-sign="numberField"
-        onFocus={onFocus}
-        onBlur={onBlur}
         InputProps={{
           disableUnderline: true,
           classes: {
@@ -109,15 +104,16 @@ export const RecipientsInput: FunctionComponent<RecipientsInputProps> = ({
             <RcIconButton
               variant="plain"
               size="large"
-              color="grey.400"
+              color="neutral.f03"
               symbol={deletenumberSvg}
               data-sign="deleteButton"
-              onMouseUp={mouseUp}
-              onMouseDown={mouseDown}
+              onMouseUp={handleMouseUp}
+              onMouseDown={handleMouseDown}
             />
           ),
         }}
         autoComplete="off"
+        {...rest}
       />
     </div>
   );

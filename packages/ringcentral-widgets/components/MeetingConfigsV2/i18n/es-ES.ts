@@ -2,11 +2,15 @@ import { ASSISTED_USERS_MYSELF } from 'ringcentral-integration/modules/Meeting';
 export default {
   date: "Fecha",
   time: "Hora",
+  hours: "{howMany} h",
+  minutes: "{howMany} min",
+  today: "Hoy",
   duration: "Duración",
   topic: "Nombre de la reunión",
   voIPOnly: "Solo audio de internet",
   telephonyOnly: "Solo teléfono",
   both: "Teléfono y audio de internet",
+  thirdParty: "Audio de terceros",
   meetingId: "ID de reunión",
   password: "Contraseña",
   video: "Vídeo",
@@ -39,11 +43,15 @@ export default {
 
 // @key: @#@"date"@#@ @source: @#@"Date"@#@
 // @key: @#@"time"@#@ @source: @#@"Time"@#@
+// @key: @#@"hours"@#@ @source: @#@"{howMany} hr"@#@
+// @key: @#@"minutes"@#@ @source: @#@"{howMany} min"@#@
+// @key: @#@"today"@#@ @source: @#@"Today"@#@
 // @key: @#@"duration"@#@ @source: @#@"Duration"@#@
 // @key: @#@"topic"@#@ @source: @#@"Meeting title"@#@
 // @key: @#@"voIPOnly"@#@ @source: @#@"Internet audio only"@#@
 // @key: @#@"telephonyOnly"@#@ @source: @#@"Telephone only"@#@
-// @key: @#@"both"@#@ @source: @#@"Telephone and Internet Audio"@#@
+// @key: @#@"both"@#@ @source: @#@"Telephone and Internet audio"@#@
+// @key: @#@"thirdParty"@#@ @source: @#@"3rd party audio"@#@
 // @key: @#@"meetingId"@#@ @source: @#@"Meeting ID"@#@
 // @key: @#@"password"@#@ @source: @#@"Password"@#@
 // @key: @#@"video"@#@ @source: @#@"Video"@#@

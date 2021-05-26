@@ -1,6 +1,8 @@
 import {
   PresenceInfoResponse,
   PersonalContactResource,
+  ContactResource,
+  PhoneNumberResource,
 } from '@rc-ex/core/definitions';
 
 export interface ContactGroup {
@@ -9,21 +11,25 @@ export interface ContactGroup {
   id: string;
 }
 
-export interface IContact {
+export interface IContact extends ContactResource {
   id: string;
   type: string;
   firstName?: string;
   lastName?: string;
   name?: string;
   phoneNumber?: string;
-  phoneNumbers?: { phoneNumber?: string; phoneType?: string }[];
+  phoneNumbers?: ({
+    phoneNumber?: string;
+    phoneType?: string;
+    hidden?: boolean;
+  } & PhoneNumberResource)[];
   email?: string;
   emails?: string[];
   hasProfileImage?: boolean;
   extensionNumber?: string;
   profileImageUrl?: string;
+  hidden?: boolean;
 }
-
 export interface TypedPhoneNumber {
   id: string;
   name: string;
@@ -71,6 +77,10 @@ export interface ContactSource {
    * source contacts data
    */
   contacts: IContact[];
+  /**
+   * source contacts raw data
+   */
+  rawContacts: unknown[];
   /**
    * get source presence
    */

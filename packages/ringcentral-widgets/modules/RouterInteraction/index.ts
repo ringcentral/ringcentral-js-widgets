@@ -1,3 +1,3 @@
 import RouterInteraction from './RouterInteraction';
 
-export default RouterInteraction;
+export { RouterInteraction, RouterInteraction as default };

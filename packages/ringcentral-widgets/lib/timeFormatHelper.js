@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-export function setUTCTime(time = new Date()) {
+export function setUTCTime(time = Date.now()) {
   const _time = new Date(time);
   const year = _time.getFullYear();
   const month = _time.getMonth();

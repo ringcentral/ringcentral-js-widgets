@@ -21,6 +21,7 @@ import {
   InsertMatchEntriesOptions,
   MatchQueue,
   MatchPromises,
+  DataMatcherOptions,
 } from './DataMatcher.interfaces';
 
 const DEFAULT_TTL = 30 * 60 * 1000;
@@ -28,17 +29,9 @@ const DEFAULT_NO_MATCH_TTL = 30 * 1000;
 
 @Library({
   name: 'DataMatcher',
-  deps: [
-    { dep: 'Storage', optional: true },
-    { dep: 'DataMatcherOptions', optional: true },
-  ],
+  deps: [{ dep: 'Storage', optional: true }],
 })
-export class DataMatcher<T> extends RcModuleV2<Deps> {
-  protected _ttl = this._deps.dataMatcherOptions?.ttl ?? DEFAULT_TTL;
-
-  protected _noMatchTtl =
-    this._deps.dataMatcherOptions?.noMatchTtl ?? DEFAULT_NO_MATCH_TTL;
-
+abstract class DataMatcher<T, D = {}> extends RcModuleV2<Deps & D> {
   protected _querySources = new Map<
     QuerySourceOptions['getQueriesFn'],
     QuerySourceOptions['readyCheckFn']
@@ -55,10 +48,10 @@ export class DataMatcher<T> extends RcModuleV2<Deps> {
 
   protected _lastCleanUp = 0;
 
-  constructor(deps: Deps, storageKey: string) {
+  constructor(deps: Deps & D, storageKey: string, disableCache?: boolean) {
     super({
       deps,
-      enableCache: !(deps.dataMatcherOptions?.disableCache ?? false),
+      enableCache: !(disableCache ?? false),
       storageKey,
     });
   }
@@ -67,8 +60,17 @@ export class DataMatcher<T> extends RcModuleV2<Deps> {
   @state
   data: MatchData<T> = {};
 
+  abstract get dataMatcherOptions(): DataMatcherOptions;
+
+  protected get _ttl() {
+    return this.dataMatcherOptions?.ttl ?? DEFAULT_TTL;
+  }
+
+  protected get _noMatchTtl() {
+    return this.dataMatcherOptions?.noMatchTtl ?? DEFAULT_NO_MATCH_TTL;
+  }
+
   onReset() {
-    this.data = {};
     this._lastCleanUp = 0;
   }
 
@@ -339,7 +341,7 @@ export class DataMatcher<T> extends RcModuleV2<Deps> {
     });
   }
 
-  @computed<DataMatcher<T>>(({ data, ready, _searchProviders }) => [
+  @computed(({ data, ready, _searchProviders }: DataMatcher<T>) => [
     data,
     ready,
     _searchProviders.size,
@@ -368,3 +370,5 @@ export class DataMatcher<T> extends RcModuleV2<Deps> {
     return dataMap;
   }
 }
+
+export { DataMatcher };

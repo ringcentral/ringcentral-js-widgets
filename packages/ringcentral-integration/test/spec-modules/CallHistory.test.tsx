@@ -14,15 +14,14 @@ import {
   EndedCall,
   HistoryCall,
 } from '../../modules/CallHistoryV2';
+import { mockModuleGenerator } from '../lib/mockModule';
 
-const getMockModule = () => ({
-  endedCalls: [] as EndedCall[],
-  searchInput: '',
-  filteredCalls: [] as HistoryCall[],
-  state: {},
-  _dispatch: () => {},
-  parentModule: {},
-});
+const getMockModule = () =>
+  mockModuleGenerator({
+    endedCalls: [] as EndedCall[],
+    searchInput: '',
+    filteredCalls: [] as HistoryCall[],
+  });
 
 @autorun(test)
 @title('CallHistory Module "filterSuccess" action')
@@ -34,9 +33,9 @@ export class FilterSuccess extends Step {
           desc="Create an CallHistory instance with default value"
           action={(_: any, context: any) => {
             const instance = new CallHistory({} as any);
-            expect(instance._initialValue.endedCalls).toEqual([]);
-            expect(instance._initialValue.searchInput).toBe('');
-            expect(instance._initialValue.filteredCalls).toEqual([]);
+            expect(instance.endedCalls).toEqual([]);
+            expect(instance.searchInput).toBe('');
+            expect(instance.filteredCalls).toEqual([]);
             context.instance = instance;
           }}
         />
@@ -72,9 +71,9 @@ export class SetSearchInput extends Step {
           desc="Create an CallHistory instance with default value"
           action={(_: any, context: any) => {
             const instance = new CallHistory({} as any);
-            expect(instance._initialValue.endedCalls).toEqual([]);
-            expect(instance._initialValue.searchInput).toBe('');
-            expect(instance._initialValue.filteredCalls).toEqual([]);
+            expect(instance.endedCalls).toEqual([]);
+            expect(instance.searchInput).toBe('');
+            expect(instance.filteredCalls).toEqual([]);
             context.instance = instance;
           }}
         />
@@ -110,9 +109,9 @@ export class SetEndedCalls extends Step {
           desc="Create an CallHistory instance with default value"
           action={(_: any, context: any) => {
             const instance = new CallHistory({} as any);
-            expect(instance._initialValue.endedCalls).toEqual([]);
-            expect(instance._initialValue.searchInput).toBe('');
-            expect(instance._initialValue.filteredCalls).toEqual([]);
+            expect(instance.endedCalls).toEqual([]);
+            expect(instance.searchInput).toBe('');
+            expect(instance.filteredCalls).toEqual([]);
             context.instance = instance;
           }}
         />
@@ -167,9 +166,9 @@ export class RemoveEndedCalls extends Step {
           desc="Create an CallHistory instance with default value"
           action={(_: any, context: any) => {
             const instance = new CallHistory({} as any);
-            expect(instance._initialValue.endedCalls).toEqual([]);
-            expect(instance._initialValue.searchInput).toBe('');
-            expect(instance._initialValue.filteredCalls).toEqual([]);
+            expect(instance.endedCalls).toEqual([]);
+            expect(instance.searchInput).toBe('');
+            expect(instance.filteredCalls).toEqual([]);
             context.instance = instance;
           }}
         />

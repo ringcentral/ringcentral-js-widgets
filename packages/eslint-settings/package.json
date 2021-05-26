@@ -15,8 +15,8 @@
   },
   "dependencies": {
     "@ringcentral-integration/locale-settings": "*",
-    "@typescript-eslint/eslint-plugin": "^3.10.0",
-    "@typescript-eslint/parser": "^3.10.0",
+    "@typescript-eslint/eslint-plugin": "^4.16.1",
+    "@typescript-eslint/parser": "^4.16.1",
     "babel-eslint": "^10.1.0",
     "eslint": "^7.7.0",
     "eslint-config-airbnb": "^18.2.0",

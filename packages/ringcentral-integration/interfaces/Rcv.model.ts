@@ -163,3 +163,22 @@ export type RcVSettingLocks = Omit<
 > & {
   waitingRoomMode: boolean;
 };
+
+export interface RcvInvitationRequest {
+  hostName: string;
+  meetingName: string;
+  meetingId: string;
+  meetingUrl: string;
+  participantCode: string;
+  mainPhoneNumber?: string;
+  password?: string;
+  dialInPassword?: string;
+  location?: string;
+  joinBySip?: string;
+  premiumNumbers?: string[];
+}
+
+export interface RcvInvitationInfo {
+  body: string;
+  subject: string;
+}

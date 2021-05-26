@@ -13,6 +13,7 @@ import {
 import { RolesAndPermissions } from '../../modules/RolesAndPermissionsV2';
 import { permissionsMessages } from '../../modules/RolesAndPermissions/permissionsMessages';
 import { loginStatus } from '../../modules/AuthV2';
+import { mockModuleGenerator } from '../lib/mockModule';
 
 class MockAuth {
   loginStatus = loginStatus.loggedIn;
@@ -425,31 +426,11 @@ export class PermissionsRemapping extends Step {
               { permission: { id: 'Tango' } },
               { permission: { id: 'Whisky' } },
             ];
-            class MockStore {
-              _state = {
-                rolesAndPermissions: {},
-              };
-
-              getState() {
-                return this._state;
-              }
-            }
             class MockRolesAndPermissions extends RolesAndPermissions {
-              _mockStore = new MockStore() as any;
-              get _store() {
-                return this._mockStore;
-              }
-
-              _getState() {
-                return this._store.getState().rolesAndPermissions;
-              }
-
-              _mockData = {
-                permissions: context.mockPermissions,
-              };
-
               get data() {
-                return this._mockData as any;
+                return {
+                  permissions: context.mockPermissions,
+                };
               }
             }
             context.instance = new MockRolesAndPermissions({
@@ -461,6 +442,12 @@ export class PermissionsRemapping extends Step {
                 register() {},
               } as any,
             });
+            Object.assign(
+              context.instance,
+              mockModuleGenerator({
+                rolesAndPermissions: {},
+              }),
+            );
           }}
         />
         <Then

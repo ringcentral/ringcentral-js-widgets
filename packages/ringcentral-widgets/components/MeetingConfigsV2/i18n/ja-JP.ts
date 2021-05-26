@@ -2,11 +2,15 @@ import { ASSISTED_USERS_MYSELF } from 'ringcentral-integration/modules/Meeting';
 export default {
   date: "日付",
   time: "時間",
+  hours: "{howMany}時間",
+  minutes: "{howMany}分",
+  today: "今日",
   duration: "所要時間",
   topic: "会議のタイトル",
   voIPOnly: "インターネット音声のみ",
   telephonyOnly: "電話のみ",
-  both: "電話およびインターネット音声",
+  both: "電話とインターネットの音声",
+  thirdParty: "サードパーティー製オーディオ",
   meetingId: "会議ID",
   password: "パスワード",
   video: "ビデオ",
@@ -26,8 +30,8 @@ export default {
   enterPassword: "パスワードを入力",
   setPassword: "パスワードを設定*",
   passwordEmptyError: "会議パスワードが必要です",
-  rcmPasswordInvalidError: "パスワードの長さは1～10文字で、文字および数字と@*-のみ使用できます",
-  rcmPasswordHintText: "パスワードの長さは1～10文字で、文字および数字と@*-のみ使用できます",
+  rcmPasswordInvalidError: "パスワードは1～10文字で英数字と@*-のみ使用できます",
+  rcmPasswordHintText: "パスワードは1～10文字で英数字と@*-のみ使用できます",
   usePersonalMeetingId: "個人会議IDを使用",
   pmiChangeConfirm: "個人会議に変更を加える場合は、 ",
   changePmiSettings: "PMI設定を変更します",
@@ -39,11 +43,15 @@ export default {
 
 // @key: @#@"date"@#@ @source: @#@"Date"@#@
 // @key: @#@"time"@#@ @source: @#@"Time"@#@
+// @key: @#@"hours"@#@ @source: @#@"{howMany} hr"@#@
+// @key: @#@"minutes"@#@ @source: @#@"{howMany} min"@#@
+// @key: @#@"today"@#@ @source: @#@"Today"@#@
 // @key: @#@"duration"@#@ @source: @#@"Duration"@#@
 // @key: @#@"topic"@#@ @source: @#@"Meeting title"@#@
 // @key: @#@"voIPOnly"@#@ @source: @#@"Internet audio only"@#@
 // @key: @#@"telephonyOnly"@#@ @source: @#@"Telephone only"@#@
-// @key: @#@"both"@#@ @source: @#@"Telephone and Internet Audio"@#@
+// @key: @#@"both"@#@ @source: @#@"Telephone and Internet audio"@#@
+// @key: @#@"thirdParty"@#@ @source: @#@"3rd party audio"@#@
 // @key: @#@"meetingId"@#@ @source: @#@"Meeting ID"@#@
 // @key: @#@"password"@#@ @source: @#@"Password"@#@
 // @key: @#@"video"@#@ @source: @#@"Video"@#@

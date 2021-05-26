@@ -2,12 +2,12 @@ import classNames from 'classnames';
 import React, { FunctionComponent } from 'react';
 
 import {
-  HandUpButton,
+  HangUpButton,
   HoldCallButton,
   MuteCallButton,
   TransferCallButton,
   CallButtonsProps,
-  HandUpButtonProps,
+  HangUpButtonProps,
   HoldCallButtonProps,
   MuteCallButtonProps,
   TransferCallButtonProps,
@@ -15,7 +15,7 @@ import {
 import styles from './styles.scss';
 
 export type SmallCallControlProps = CallButtonsProps &
-  HandUpButtonProps &
+  HangUpButtonProps &
   HoldCallButtonProps &
   MuteCallButtonProps &
   TransferCallButtonProps & {
@@ -39,7 +39,7 @@ export const SmallCallControl: FunctionComponent<SmallCallControlProps> = ({
           <MuteCallButton {...rest} />
           <TransferCallButton {...rest} />
           <HoldCallButton {...rest} />
-          <HandUpButton {...rest} />
+          <HangUpButton {...rest} />
         </>
       )}
     </div>

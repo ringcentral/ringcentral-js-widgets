@@ -1,44 +1,46 @@
-import { find, values, is, filter, map } from 'ramda';
-import { EventEmitter } from 'events';
 import {
   action,
+  computed,
   RcModuleV2,
   state,
-  computed,
   track,
 } from '@ringcentral-integration/core';
+import { EventEmitter } from 'events';
+import { filter, find, is, map, values } from 'ramda';
+import callDirections from '../../enums/callDirections';
+import calleeTypes from '../../enums/calleeTypes';
+import {
+  NormalizedSession,
+  WebphoneSession,
+} from '../../interfaces/Webphone.interface';
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
-import calleeTypes from '../../enums/calleeTypes';
-import callDirections from '../../enums/callDirections';
+import { trackEvents } from '../Analytics';
 import callingModes from '../CallingSettings/callingModes';
 import { permissionsMessages } from '../RolesAndPermissions/permissionsMessages';
-import { isConferenceSession, isRecording } from '../Webphone/webphoneHelper';
 import sessionStatusEnum from '../Webphone/sessionStatus';
+import { isConferenceSession, isRecording } from '../Webphone/webphoneHelper';
 import {
-  DEFAULT_TIMEOUT,
-  DEFAULT_TTL,
-  MAXIMUM_CAPACITY,
-  ascendSortParties,
-  conferenceCallStatus,
-  partyStatusCode,
-  mergeParty,
-  mergeEvents,
-} from './lib';
-import {
-  Deps,
-  ConferenceState,
-  ConferencesState,
   Conference,
+  ConferencesState,
+  ConferenceState,
+  Deps,
+  LastCallInfo,
   MergingPair,
+  Party,
   PartyState,
 } from './ConferenceCall.interfaces';
 import { conferenceCallErrors } from './conferenceCallErrors';
 import {
-  WebphoneSession,
-  NormalizedSession,
-} from '../../interfaces/Webphone.interface';
-import { trackEvents } from '../Analytics';
+  ascendSortParties,
+  conferenceCallStatus,
+  DEFAULT_TIMEOUT,
+  DEFAULT_TTL,
+  MAXIMUM_CAPACITY,
+  mergeEvents,
+  mergeParty,
+  partyStatusCode,
+} from './lib';
 
 @Module({
   name: 'ConferenceCall',
@@ -49,23 +51,11 @@ import { trackEvents } from '../Analytics';
     'CallingSettings',
     'ConnectivityMonitor',
     'Client',
-    'RolesAndPermissions',
-    {
-      dep: 'ContactMatcher',
-      optional: true,
-    },
-    {
-      dep: 'Webphone',
-      optional: true,
-    },
-    {
-      dep: 'AvailabilityMonitor',
-      optional: true,
-    },
-    {
-      dep: 'ConferenceCallOptions',
-      optional: true,
-    },
+    'ExtensionFeatures',
+    { dep: 'ContactMatcher', optional: true },
+    { dep: 'Webphone', optional: true },
+    { dep: 'AvailabilityMonitor', optional: true },
+    { dep: 'ConferenceCallOptions', optional: true },
   ],
 })
 export class ConferenceCall extends RcModuleV2<Deps> {
@@ -76,7 +66,7 @@ export class ConferenceCall extends RcModuleV2<Deps> {
 
   private _fromSessionId: string;
   private _ttl: number = DEFAULT_TTL;
-  private _timout: number =
+  private _timeout: number =
     this._deps.conferenceCallOptions?.timeout ?? DEFAULT_TIMEOUT;
   private _capacity: number =
     this._deps.conferenceCallOptions?.capacity ?? MAXIMUM_CAPACITY;
@@ -355,6 +345,7 @@ export class ConferenceCall extends RcModuleV2<Deps> {
       return null;
     }
     if (!this._checkPermission()) {
+      // TODO investigate whether this could potentially show 2 notifications at once
       if (!propagate) {
         alert.danger({
           message: permissionsMessages.insufficientPrivilege,
@@ -520,7 +511,7 @@ export class ConferenceCall extends RcModuleV2<Deps> {
     this.setMergingPair({});
   }
 
-  getOnlinePartyProfiles(id: string) {
+  getOnlinePartyProfiles(id: string): (Party & PartyState)[] {
     const conferenceData = this.conferences[id];
 
     if (!conferenceData) {
@@ -607,7 +598,7 @@ export class ConferenceCall extends RcModuleV2<Deps> {
     if (typeof timeout !== 'number') {
       throw new Error('The timeout must be a number');
     }
-    this._timout = timeout;
+    this._timeout = timeout;
     return timeout;
   }
 
@@ -632,10 +623,16 @@ export class ConferenceCall extends RcModuleV2<Deps> {
     this.resetSuccess();
   }
 
+  get hasPermission() {
+    return (
+      this._deps.extensionFeatures.isRingOutEnabled &&
+      this._deps.extensionFeatures.isWebPhoneEnabled
+    );
+  }
+
   private _checkPermission() {
-    const { rolesAndPermissions, alert } = this._deps;
-    if (!rolesAndPermissions.hasConferenceCallPermission) {
-      alert.danger({
+    if (!this.hasPermission) {
+      this._deps.alert.danger({
         message: permissionsMessages.insufficientPrivilege,
         ttl: 0,
       });
@@ -708,7 +705,7 @@ export class ConferenceCall extends RcModuleV2<Deps> {
             conferenceAccepted
               ? resolve(null)
               : reject(new Error('conferencing timeout')),
-          this._timout,
+          this._timeout,
         );
       }),
     ]);
@@ -810,7 +807,7 @@ export class ConferenceCall extends RcModuleV2<Deps> {
     sessionIdToMergeWith,
   }: {
     sessionId: string;
-    sessionIdToMergeWith: string;
+    sessionIdToMergeWith?: string;
   }) {
     const { webphone } = this._deps;
     const session = find((x) => x.id === sessionId, webphone.sessions);
@@ -929,7 +926,7 @@ export class ConferenceCall extends RcModuleV2<Deps> {
     that.mergingPair.fromSessionId,
     that.partyProfiles,
   ])
-  get lastCallInfo() {
+  get lastCallInfo(): LastCallInfo {
     const { sessions } = this._deps.webphone;
     const {
       partyProfiles,

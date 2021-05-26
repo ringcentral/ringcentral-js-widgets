@@ -24,10 +24,20 @@ export class DateTimeFormat extends RcModuleV2<Deps> {
     });
   }
 
-  onInit() {
+  setDefaultFormatter() {
     if (!this._defaultFormatter) {
       this._defaultFormatter = getIntlDateTimeFormatter();
     }
+  }
+
+  onInit() {
+    this.setDefaultFormatter();
+  }
+
+  initializeProxy() {
+    this.store.subscribe(() => {
+      this.setDefaultFormatter();
+    });
   }
 
   onReset() {

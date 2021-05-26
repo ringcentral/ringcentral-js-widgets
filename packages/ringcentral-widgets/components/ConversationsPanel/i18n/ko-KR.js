@@ -4,10 +4,10 @@ export default {
   search: "검색...",
   composeText: "문자 작성",
   noMessages: "메시지 없음",
-  noSearchResults: "일치하는 레코드를 찾을 수 없음",
+  noSearchResults: "일치하는 기록을 찾을 수 없음",
   [messageTypes.all]: "모두",
   [messageTypes.voiceMail]: "음성",
-  [messageTypes.text]: "텍스트",
+  [messageTypes.text]: "문자",
   [messageTypes.fax]: "팩스"
 };
 

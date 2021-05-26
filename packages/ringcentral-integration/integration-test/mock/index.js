@@ -25,7 +25,6 @@ import lockedSettingsBody from './data/lockedSettings.json';
 import meetingBody from './data/meeting.json';
 import meetingInvitationBody from './data/meetingInvitation.json';
 import assistedUsersBody from './data/assistedUsers.json';
-import delegatorsBody from './data/delegatorsBody.json';
 import meetingProviderRcmBody from './data/meetingProviderRcm.json';
 import meetingProviderRcvBody from './data/meetingProviderRcv.json';
 import messageItemBody from './data/messageItem.json';
@@ -41,12 +40,15 @@ import sipProvisionBody from './data/sipProvision.json';
 import smsBody from './data/sms.json';
 import subscriptionBody from './data/subscription.json';
 import timezoneBody from './data/timezone.json';
+import dialInNumbersBody from './data/dialInNumbers.json';
+import postRcvBridgesBody from './data/postRcvBridges.json';
 import updateConferenceCallBody from './data/updateConference.json';
 import userSettingsBody from './data/userSettings.json';
 import videoConfigurationBody from './data/videoConfiguration.json';
 import meetingPreferenceBody from './data/videoPreference.json';
 import featuresBody from './data/features.json';
 import videoPersonalSettingsBody from './data/videoPersonalSettings.json';
+import rcvMeetingSettingsBody from './data/rcvMeetingSettings.json';
 
 export const mockServer = 'http://whatever';
 export function createSDK(options = {}) {
@@ -493,11 +495,11 @@ export function assistedUsers(mockResponse = {}) {
   });
 }
 
-export function delegators(mockResponse = {}) {
+export function delegators(mockResponse) {
   mockApi({
     method: 'GET',
     url: `${mockServer}/rcvideo/v1/accounts/~/extensions/~/delegators`,
-    body: mockResponse || delegatorsBody,
+    body: mockResponse || [],
   });
 }
 
@@ -688,11 +690,23 @@ export function meeting(mockResponse = {}, extra = {}) {
   });
 }
 
-export function meetingInvitation(meetingId = null, mockResponse = {}) {
+export function meetingInvitation(
+  meetingId = null,
+  mockResponse = {},
+  extraParams = {
+    language: 'en-US',
+  },
+) {
   const id = meetingId || meetingBody.id;
+  let query = '';
+  // eslint-disable-next-line guard-for-in
+  for (const key in extraParams) {
+    query = query.concat(`${key}=${extraParams[key]}`);
+  }
+
   mockApi({
     method: 'GET',
-    url: `${mockServer}/restapi/v1.0/account/~/extension/~/meeting/${id}/invitation`,
+    url: `${mockServer}/restapi/v1.0/account/~/extension/~/meeting/${id}/invitation?${query}`,
     body: {
       ...meetingInvitationBody,
       ...mockResponse,
@@ -734,6 +748,36 @@ export function videoPersonalSettings() {
     method: 'GET',
     url: `${mockServer}/rcvideo/v1/bridges?default=true&accountId=${accountBody.id}&extensionId=${extensionBody.id}`,
     body: videoPersonalSettingsBody,
+    isOnce: false,
+  });
+}
+
+export function getRcvMeetingInfo(shortId) {
+  mockApi({
+    method: 'GET',
+    url: `${mockServer}/rcvideo/v1/bridges?shortId=${shortId}&accountId=${accountBody.id}&extensionId=${extensionBody.id}`,
+    body: rcvMeetingSettingsBody,
+    isOnce: false,
+  });
+}
+
+export function patchRcvMeeting(meetingId, mockResponse = {}) {
+  mockApi({
+    method: 'PATCH',
+    url: `${mockServer}/rcvideo/v1/bridges/${meetingId}`,
+    body: { ...rcvMeetingSettingsBody, ...mockResponse },
+    isOnce: false,
+  });
+}
+
+export function postRcvBridges(mockResponse = {}) {
+  mockApi({
+    method: 'POST',
+    url: `${mockServer}/rcvideo/v1/bridges`,
+    body: {
+      ...postRcvBridgesBody,
+      ...mockResponse,
+    },
     isOnce: false,
   });
 }
@@ -836,8 +880,21 @@ export function timezone(mockResponse = {}) {
   });
 }
 
+export function dialInNumbers(mockResponse = {}) {
+  mockApi({
+    method: 'GET',
+    url: `${mockServer}/rcvideo/v1/dial-in-numbers`,
+    body: {
+      ...dialInNumbersBody,
+      ...mockResponse,
+    },
+    isOnce: false,
+  });
+}
+
 export function mockForLogin({
   mockAuthzProfile = true,
+  mockMeetingInvitation = true,
   mockExtensionInfo = true,
   mockForwardingNumber = true,
   mockMessageSync = true,
@@ -884,6 +941,7 @@ export function mockForLogin({
   addressBook(params.addressBookData);
   sipProvision(params.sipProvisionData);
   fetchDL(params.fetchDLData);
+  dialInNumbers(params.fetchDLData);
   if (mockConferencing) {
     conferencing(params.conferencingData);
   }

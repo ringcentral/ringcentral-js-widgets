@@ -1,32 +1,33 @@
-import { reduce, forEach, map, join, keys } from 'ramda';
+import { PresenceInfoResponse, ValidationError } from '@rc-ex/core/definitions';
 import {
-  RcModuleV2,
-  state,
   action,
   computed,
+  RcModuleV2,
+  state,
 } from '@ringcentral-integration/core';
-import { PresenceInfoResponse, ValidationError } from '@rc-ex/core/definitions';
+import { filter, forEach, join, keys, map, reduce } from 'ramda';
 import { phoneSources } from '../../enums/phoneSources';
 import { phoneTypes } from '../../enums/phoneTypes';
-import { Module } from '../../lib/di';
-import isBlank from '../../lib/isBlank';
+import { ContactSource, IContact } from '../../interfaces/Contact.model';
 import { batchGetApi } from '../../lib/batchApiHelper';
 import {
   getFilterContacts,
-  getSearchForPhoneNumbers,
-  getMatchContactsByPhoneNumber,
   getFindPhoneNumber,
+  getMatchContactsByPhoneNumber,
+  getSearchForPhoneNumbers,
 } from '../../lib/contactHelper';
+import { Module } from '../../lib/di';
+import isBlank from '../../lib/isBlank';
 import proxify from '../../lib/proxy/proxify';
 import {
-  Deps,
-  ProfileImages,
-  Presences,
   Contact,
+  Deps,
+  DirectoryContacts,
   PresenceContexts,
   PresenceMap,
+  Presences,
+  ProfileImages,
 } from './AccountContacts.interfaces';
-import { IContact, ContactSource } from '../../interfaces/Contact.model';
 
 const MaximumBatchGetPresence = 30;
 const DEFAULT_TTL = 30 * 60 * 1000; // 30 mins
@@ -108,6 +109,7 @@ export class AccountContacts extends RcModuleV2<Deps> implements ContactSource {
     });
   }
 
+  @action
   onReset() {
     Object.keys(this.profileImages).forEach((key) => {
       URL.revokeObjectURL(this.profileImages[key].imageUrl);
@@ -135,6 +137,11 @@ export class AccountContacts extends RcModuleV2<Deps> implements ContactSource {
       this._deps.accountContactsOptions?.avatarQueryInterval ??
       DEFAULT_AVATARQUERYINTERVAL
     );
+  }
+
+  get isCDCEnabled() {
+    // TODO: default to true when cdc feature is ready for production.
+    return this._deps.accountContactsOptions?.enableCDC ?? false;
   }
 
   _shouldInit() {
@@ -233,14 +240,21 @@ export class AccountContacts extends RcModuleV2<Deps> implements ContactSource {
 
   // interface of ContactSource
   filterContacts(searchFilter: string) {
-    return getFilterContacts(this.contacts, searchFilter);
+    return getFilterContacts(
+      this.isCDCEnabled
+        ? this.directoryContacts.cdc
+        : this.directoryContacts.all,
+      searchFilter,
+    );
   }
 
   // interface of ContactSource
   searchForPhoneNumbers(searchString: string) {
     const { isMultipleSiteEnabled, site } = this._deps.extensionInfo;
     return getSearchForPhoneNumbers({
-      contacts: this.contacts,
+      contacts: this.isCDCEnabled
+        ? this.directoryContacts.cdc
+        : this.directoryContacts.all,
       searchString,
       entityType: phoneSources.contact,
       options: { isMultipleSiteEnabled, siteCode: site?.code },
@@ -367,60 +381,81 @@ export class AccountContacts extends RcModuleV2<Deps> implements ContactSource {
   }
 
   // interface of ContactSource
-  @computed<AccountContacts>(({ _deps, presences, profileImages }) => [
+  @computed(({ _deps, presences, profileImages }: AccountContacts) => [
     _deps.companyContacts.filteredContacts,
     profileImages,
     presences,
   ])
-  get directoryContacts(): Contact[] {
+  get directoryContacts(): DirectoryContacts {
     return reduce(
       (result, item) => {
-        const id = `${item.id}`;
-        const contact: Contact = {
-          ...item,
-          type: this.sourceName,
-          id,
-          emails: [item.email],
-          extensionNumber: item.extensionNumber,
-          hasProfileImage: !!item.profileImage,
-          phoneNumbers: [
-            {
-              phoneNumber: item.extensionNumber,
-              phoneType: phoneTypes.extension,
-            },
-          ],
-          profileImageUrl:
-            this.profileImages[id] && this.profileImages[id].imageUrl,
-          presence: this.presences[id] && this.presences[id].presence,
-          contactStatus: item.status,
-        };
-        contact.name = item.name
-          ? item.name
-          : `${contact.firstName || ''} ${contact.lastName || ''}`;
-        if (isBlank(contact.extensionNumber)) {
-          return result;
+        if (!isBlank(item.extensionNumber)) {
+          const id = `${item.id}`;
+          const contact: Contact = {
+            ...item,
+            type: this.sourceName,
+            id,
+            name: item.name
+              ? item.name
+              : `${item.firstName || ''} ${item.lastName || ''}`,
+            emails: [item.email],
+            extensionNumber: item.extensionNumber,
+            hasProfileImage: !!item.profileImage,
+            phoneNumbers: [
+              {
+                phoneNumber: item.extensionNumber,
+                phoneType: phoneTypes.extension,
+              },
+            ],
+            profileImageUrl:
+              this.profileImages[id] && this.profileImages[id].imageUrl,
+            presence: this.presences[id] && this.presences[id].presence,
+            contactStatus: item.status,
+          };
+
+          if (item.phoneNumbers && item.phoneNumbers.length > 0) {
+            item.phoneNumbers.forEach((phone) => {
+              if (phone.type) {
+                contact.phoneNumbers.push({
+                  ...phone,
+                  phoneType: phoneTypes.direct,
+                });
+              }
+            });
+          }
+          result.all.push(contact);
+          if (!contact.hidden) {
+            const cdcContact = {
+              ...contact,
+              phoneNumbers: filter(
+                (number) => !number.hidden,
+                contact.phoneNumbers ?? [],
+              ),
+            };
+            result.cdc.push(cdcContact);
+          }
         }
-        if (item.phoneNumbers && item.phoneNumbers.length > 0) {
-          item.phoneNumbers.forEach((phone) => {
-            if (phone.type) {
-              contact.phoneNumbers.push({
-                ...phone,
-                phoneType: phoneTypes.direct,
-              });
-            }
-          });
-        }
-        result.push(contact);
         return result;
       },
-      [],
+      {
+        all: [],
+        cdc: [],
+      } as DirectoryContacts,
       this._deps.companyContacts.filteredContacts,
     );
   }
 
   // interface of ContactSource
   get contacts() {
-    return this.directoryContacts;
+    return this.directoryContacts.all;
+  }
+
+  // interface of ContactSource
+  @computed((that: AccountContacts) => [
+    that._deps.companyContacts.filteredContacts,
+  ])
+  get rawContacts() {
+    return this._deps.companyContacts.filteredContacts;
   }
 
   // interface of ContactSource

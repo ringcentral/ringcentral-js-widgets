@@ -2,36 +2,40 @@ import { ASSISTED_USERS_MYSELF } from 'ringcentral-integration/modules/Meeting';
 export default {
   date: "Datum",
   time: "Uhrzeit",
+  hours: "{howMany} Std.",
+  minutes: "{howMany} Min.",
+  today: "Heute",
   duration: "Dauer",
   topic: "Titel der Besprechung",
   voIPOnly: "Nur Internet-Audio",
   telephonyOnly: "Nur Telefon",
   both: "Telefon und Internet-Audio",
-  meetingId: "Meeting-ID",
+  thirdParty: "Drittanbieter-Audio",
+  meetingId: "Besprechungs-ID",
   password: "Kennwort",
   video: "Video",
   audio: "Audio",
   scheduleFor: "Ansetzen im Namen von",
   [ASSISTED_USERS_MYSELF]: "Mir",
-  meetingOptions: "Meeting-Optionen",
+  meetingOptions: "Besprechungsoptionen",
   meetingSettings: "Besprechungseinstellungen",
   rcMeetingSettings: "Video-Besprechungseinstellungen",
   audioOptions: "Audio-Optionen",
-  recurringMeeting: "Wiederholendes Meeting",
+  recurringMeeting: "Wiederkehrende Besprechung",
   recurringNote: "Hinweis: Diese Option aktivieren, wenn „Wiederholung“ ausgewählt wird",
   joinBeforeHost: "Teilnehmern erlauben, vor dem Gastgeber teilzunehmen",
   turnOffCamera: "Kamera für Teilnehmer ausschalten",
-  turnOffHostCamera: "Kamera für Gastgeber bei Teilnahme an Meeting deaktivieren",
+  turnOffHostCamera: "Kamera für Gastgeber bei Teilnahme an Besprechung deaktivieren",
   requirePassword: "Kennwort erforderlich",
   enterPassword: "Kennwort eingeben",
   setPassword: "Kennwort festlegen *",
   passwordEmptyError: "Besprechungskennwort erforderlich",
   rcmPasswordInvalidError: "Ihr Passwort muss 1–10 Zeichen oder Ziffern lang sein und darf keine Symbole außer @, * oder - enthalten",
   rcmPasswordHintText: "Ihr Passwort sollte 1–10 Zeichen oder Ziffern lang sein und darf keine Symbole außer @, * oder - enthalten",
-  usePersonalMeetingId: "Persönliche Besprechungs-ID verwenden",
-  pmiChangeConfirm: "Wenn Sie an Ihrem persönlichen Meeting Änderungen vornehmen möchten, ",
+  usePersonalMeetingId: "Persönliche Besprechungs-ID verwenden:",
+  pmiChangeConfirm: "Wenn Sie an Ihrer persönlichen Besprechung Änderungen vornehmen möchten, ",
   changePmiSettings: "ändern Sie die PMI-Einstellungen",
-  pmiSettingChangeAlert: "Wenn Sie die Einstellungen ändern und dieses Meeting ansetzen, verwenden alle Meetings mit persönlicher Meeting-ID dieselben aktuellen Einstellungen.",
+  pmiSettingChangeAlert: "Wenn Sie die Einstellungen ändern und diese Besprechung ansetzen, verwenden alle Besprechungen mit persönlicher Besprechungs-ID dieselben aktuellen Einstellungen.",
   lockedTooltip: "Ihr Unternehmens-Admin verwaltet diese Einstellung",
   when: "Wann",
   recurringDescribe: "Aktivieren Sie in der Kalendereinladung für die Teilnehmer die Option für Serien oder Wiederholungen."
@@ -39,11 +43,15 @@ export default {
 
 // @key: @#@"date"@#@ @source: @#@"Date"@#@
 // @key: @#@"time"@#@ @source: @#@"Time"@#@
+// @key: @#@"hours"@#@ @source: @#@"{howMany} hr"@#@
+// @key: @#@"minutes"@#@ @source: @#@"{howMany} min"@#@
+// @key: @#@"today"@#@ @source: @#@"Today"@#@
 // @key: @#@"duration"@#@ @source: @#@"Duration"@#@
 // @key: @#@"topic"@#@ @source: @#@"Meeting title"@#@
 // @key: @#@"voIPOnly"@#@ @source: @#@"Internet audio only"@#@
 // @key: @#@"telephonyOnly"@#@ @source: @#@"Telephone only"@#@
-// @key: @#@"both"@#@ @source: @#@"Telephone and Internet Audio"@#@
+// @key: @#@"both"@#@ @source: @#@"Telephone and Internet audio"@#@
+// @key: @#@"thirdParty"@#@ @source: @#@"3rd party audio"@#@
 // @key: @#@"meetingId"@#@ @source: @#@"Meeting ID"@#@
 // @key: @#@"password"@#@ @source: @#@"Password"@#@
 // @key: @#@"video"@#@ @source: @#@"Video"@#@

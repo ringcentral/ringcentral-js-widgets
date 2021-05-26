@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { ComponentType, FunctionComponent } from 'react';
+import React, { ComponentType, FunctionComponent, memo } from 'react';
 import { RcCircularProgress } from '@ringcentral/juno';
 import styles from './styles.scss';
 
@@ -15,11 +15,9 @@ export interface SpinnerOverlayProps {
 
 const JunoSpinnerWrapper = () => <RcCircularProgress size={43} />;
 
-export const SpinnerOverlay: FunctionComponent<SpinnerOverlayProps> = ({
-  className,
-  custom: SpinnerComponent,
-  classes,
-}) => {
+export const SpinnerOverlay: FunctionComponent<SpinnerOverlayProps> = memo<
+  SpinnerOverlayProps
+>(({ className, custom: SpinnerComponent, classes }) => {
   return (
     <div
       data-sign="spinnerOverlay"
@@ -31,7 +29,7 @@ export const SpinnerOverlay: FunctionComponent<SpinnerOverlayProps> = ({
       </div>
     </div>
   );
-};
+});
 
 export default SpinnerOverlay;
 

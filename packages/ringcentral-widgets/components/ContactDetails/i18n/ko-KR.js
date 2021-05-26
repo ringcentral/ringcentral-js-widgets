@@ -12,7 +12,7 @@ export default {
   [phoneTypes.other]: "기타",
   emailLabel: "전자 메일",
   call: "통화",
-  text: "텍스트",
+  text: "문자",
   [presenceStatus.available]: "통화 가능",
   [presenceStatus.offline]: "오프라인으로 표시",
   [presenceStatus.busy]: "통화 중",

@@ -13,7 +13,7 @@ export default {
   clickToSMS: "Cliquez pour envoyer un texto",
   logSMSContent: "Enregistrer le contenu du texto",
   clickToDialSMS: "Cliquer pour composer ou envoyer un texto",
-  audio: "Audio",
+  audio: "Son",
   language: "Langue",
   feedback: "Commentaires",
   userGuide: "Nouveautés",

@@ -45,3 +45,10 @@ $classic-content-width: 144px;
   padding: 0 $lightning-page-space;
   box-shadow: 0 -2px 5px 0 rgba(0, 0, 0, 0.15);
 }
+
+.agentScriptIcon{
+  position: absolute;
+  right: 16px;
+  top: 50px;
+  z-index: 2;
+}

@@ -7,9 +7,9 @@ import { Auth } from '../AuthV2';
 import { ExtensionPhoneNumber } from '../ExtensionPhoneNumberV2';
 import { ExtensionInfo } from '../ExtensionInfoV2';
 import { Subscription } from '../SubscriptionV2';
-import { RolesAndPermissions } from '../RolesAndPermissionsV2';
 import { TabManager } from '../TabManagerV2';
 import { Storage } from '../StorageV2';
+import { ExtensionFeatures } from '../ExtensionFeatures';
 
 export interface CallLogOptions {
   /**
@@ -57,7 +57,7 @@ export interface Deps {
   extensionPhoneNumber: ExtensionPhoneNumber;
   extensionInfo: ExtensionInfo;
   subscription: Subscription;
-  rolesAndPermissions: RolesAndPermissions;
+  extensionFeatures: ExtensionFeatures;
   tabManager?: TabManager;
   storage?: Storage;
   callLogOptions?: CallLogOptions;

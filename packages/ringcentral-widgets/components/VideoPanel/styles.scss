@@ -45,7 +45,8 @@ $security-margin: 8px;
 }
 
 $hour-minute-space: 12px;
-.hourDuration {
+.hourDuration,
+.datePicker {
   display: inline-flex;
   width: calc(50% - #{$hour-minute-space / 2});
 
@@ -53,7 +54,8 @@ $hour-minute-space: 12px;
     @extend .normalFontSize;
   }
 }
-.minuteDuration {
+.minuteDuration,
+.timePicker {
   display: inline-flex;
   width: calc(50% - #{$hour-minute-space / 2});
   margin-left: $hour-minute-space;
@@ -112,6 +114,11 @@ label.labelPlacementEndRoot {
 
 .passwordInput {
   padding: 4px $content-padding 8px !important;
+
+  & > div > div > button {
+    padding: 0 !important;
+  }
+
   .passwordLabel {
     font-weight: 700 !important;
     font-size: 12px !important;
@@ -186,8 +193,15 @@ $win-scroll-bar-width: 17px;
 .pmiAlertContainer {
   margin: 4px $content-padding 8px;
   padding: 8px !important;
+  & > div[class*='RcAlert-message'] {
+    font-size: 14px !important;
+  }
 }
 
 .extraSecurityMargin {
   margin-bottom: $security-margin;
+}
+
+.gutterTop {
+  padding-top: 16px;
 }

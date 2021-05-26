@@ -1,6 +1,9 @@
 import sleep from './sleep';
 
-export const polling = async (fn: () => boolean, interval: number) => {
+export const polling = async (
+  fn: () => boolean | Promise<boolean>,
+  interval: number,
+) => {
   if (typeof fn !== 'function') return;
   if (await fn()) return;
   await sleep(interval);
@@ -8,7 +11,7 @@ export const polling = async (fn: () => boolean, interval: number) => {
 };
 
 export const waitWithCheck = async (
-  fn: () => boolean,
+  fn: () => boolean | Promise<boolean>,
   { interval = 100, timeout = 1000 * 5 } = {},
 ) => {
   if (typeof fn !== 'function') return;

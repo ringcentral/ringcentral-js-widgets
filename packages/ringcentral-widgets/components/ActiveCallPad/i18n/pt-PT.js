@@ -1,7 +1,7 @@
 export default {
   unmute: "Ativar som",
   mute: "Desat. som",
-  keypad: "Teclado de marcação",
+  keypad: "Teclado",
   hold: "Em espera",
   onHold: "Em espera",
   park: "Parquear",
@@ -11,7 +11,9 @@ export default {
   transfer: "Transferir",
   flip: "Transferência",
   more: "Ações chamada",
-  mergeToConference: "Unir"
+  mergeToConference: "Unir",
+  end: "Terminar",
+  completeTransfer: "Concluir\ntransferência"
 };
 
 // @key: @#@"unmute"@#@ @source: @#@"Unmute"@#@
@@ -27,3 +29,5 @@ export default {
 // @key: @#@"flip"@#@ @source: @#@"Flip"@#@
 // @key: @#@"more"@#@ @source: @#@"Call Actions"@#@
 // @key: @#@"mergeToConference"@#@ @source: @#@"Merge"@#@
+// @key: @#@"end"@#@ @source: @#@"End"@#@
+// @key: @#@"completeTransfer"@#@ @source: @#@"Complete\nTransfer"@#@

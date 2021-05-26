@@ -11,7 +11,9 @@ export default {
   transfer: "Weiterleitung",
   flip: "Umlegen",
   more: "Anrufaktionen",
-  mergeToConference: "Zus.führen"
+  mergeToConference: "Zus.führen",
+  end: "Beenden",
+  completeTransfer: "Übergabe\nabschließen"
 };
 
 // @key: @#@"unmute"@#@ @source: @#@"Unmute"@#@
@@ -27,3 +29,5 @@ export default {
 // @key: @#@"flip"@#@ @source: @#@"Flip"@#@
 // @key: @#@"more"@#@ @source: @#@"Call Actions"@#@
 // @key: @#@"mergeToConference"@#@ @source: @#@"Merge"@#@
+// @key: @#@"end"@#@ @source: @#@"End"@#@
+// @key: @#@"completeTransfer"@#@ @source: @#@"Complete\nTransfer"@#@

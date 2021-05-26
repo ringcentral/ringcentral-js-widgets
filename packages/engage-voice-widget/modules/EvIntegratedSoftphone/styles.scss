@@ -1,0 +1,14 @@
+.text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+
+  [sf-classic] & {
+    -webkit-line-clamp: 3;
+  }
+}
+
+.incomingText{
+  margin-bottom: 8px;
+}

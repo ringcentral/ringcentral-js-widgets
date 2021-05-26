@@ -115,7 +115,7 @@ class EvSettingsUI extends RcUIModuleV2<Deps> implements SettingsUI {
         this._deps.evCallMonitor.isOnCall ||
         this._deps.evSettings.isOffhooking ||
         this._deps.evSettings.isOffhook,
-      showEditSessionButton: agentPermissions.allowLoginUpdates,
+      showEditSessionIcon: agentPermissions.allowLoginUpdates,
     };
   }
 

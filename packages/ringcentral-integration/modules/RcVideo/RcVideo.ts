@@ -5,7 +5,7 @@ import { DEFAULT_LOCALE } from '@ringcentral-integration/i18n';
 import RcModule from '../../lib/RcModule';
 import { Module } from '../../lib/di';
 import background from '../../lib/background';
-import proxify from '../../lib/proxy/proxify';
+import { proxify } from '../../lib/proxy/proxify';
 import { selector } from '../../lib/selector';
 import meetingStatus from '../Meeting/meetingStatus';
 import { MeetingErrors } from '../Meeting';
@@ -46,8 +46,14 @@ import {
   RcVPreferencesAPIResult,
   RcVPreferenceDataItem,
   RcVDialInNumberObj,
+  RcvInvitationRequest,
+  RcvInvitationInfo,
 } from '../../interfaces/Rcv.model';
 import { RcvDelegator } from './interface';
+import {
+  formatMainPhoneNumber,
+  formatPremiumNumbers,
+} from '../RcVideoV2/videoHelper';
 
 @Module({
   deps: [
@@ -77,8 +83,8 @@ export class RcVideo extends RcModule<Record<string, any>, RcVideoActionTypes> {
   private _isInstantMeeting: boolean;
   private _enablePersonalMeeting: boolean;
   private _enableReloadAfterSchedule: boolean;
-  private _showAdminLock: boolean;
   private _enableWaitingRoom: boolean;
+  private _enableInvitationApi: boolean;
 
   private _meetingProvider: any;
   _reducer: any;
@@ -104,8 +110,8 @@ export class RcVideo extends RcModule<Record<string, any>, RcVideoActionTypes> {
     enablePersonalMeeting = false,
     enableReloadAfterSchedule = true,
     enableScheduleOnBehalf = false,
-    showAdminLock = false,
     enableWaitingRoom = false,
+    enableInvitationApi = false,
     enableHostCountryDialinNumbers = false,
     ...options
   }) {
@@ -131,8 +137,8 @@ export class RcVideo extends RcModule<Record<string, any>, RcVideoActionTypes> {
     this._enableScheduleOnBehalf = enableScheduleOnBehalf;
     this._enableHostCountryDialinNumbers = enableHostCountryDialinNumbers;
     this._enableReloadAfterSchedule = enableReloadAfterSchedule;
-    this._showAdminLock = showAdminLock;
     this._enableWaitingRoom = enableWaitingRoom;
+    this._enableInvitationApi = enableInvitationApi;
     if (this._showSaveAsDefault) {
       this._storage.registerReducer({
         key: this._defaultVideoSettingKey,
@@ -456,7 +462,20 @@ export class RcVideo extends RcModule<Record<string, any>, RcVideoActionTypes> {
 
       this.updateHasSettingsChanged(false);
 
+      const invitationInfo = await this.getMeetingInvitation({
+        hostName: extensionInfo.name,
+        meetingName: newMeeting.name,
+        meetingId: newMeeting.id,
+        meetingUrl: newMeeting.joinUri,
+        participantCode: newMeeting.participantCode,
+        mainPhoneNumber: formatMainPhoneNumber(dialInNumber),
+        password: newMeeting.meetingPassword,
+        dialInPassword: newMeeting.meetingPasswordPSTN,
+        premiumNumbers: formatPremiumNumbers(dialInNumber),
+      });
+
       const meetingResponse = {
+        invitationInfo,
         extensionInfo,
         dialInNumber,
         meeting: { ...meeting, ...newMeeting },
@@ -504,30 +523,48 @@ export class RcVideo extends RcModule<Record<string, any>, RcVideoActionTypes> {
     );
   }
 
+  @proxify
+  async getMeetingInvitation(
+    invitationRequest: RcvInvitationRequest,
+  ): Promise<RcvInvitationInfo> {
+    if (!this._enableInvitationApi) {
+      return null;
+    }
+
+    try {
+      const apiResponse = await this._client.service
+        .platform()
+        .post('/rcvideo/v1/invitations/render', invitationRequest);
+      return await apiResponse.json();
+    } catch (ex) {
+      console.warn('failed to get invitation', ex);
+      return null;
+    }
+  }
+
+  @proxify
   private async _getDialinNumbers(): Promise<string | RcVDialInNumberObj[]> {
     const result = await this._client.service
       .platform()
       .get('/rcvideo/v1/dial-in-numbers');
     const { phoneNumbers } = (await result.json()) as RcVDialInNumberGET;
     if (Array.isArray(phoneNumbers)) {
-      const defaultPhoneNumber = find((obj) => obj.default, phoneNumbers);
-      const countryDialinNumbers = filter(
-        (obj) => obj?.country?.isoCode === this.country.isoCode,
-        phoneNumbers,
-      );
-
-      if (
-        this._enableHostCountryDialinNumbers &&
-        countryDialinNumbers.length > 0
-      ) {
-        return countryDialinNumbers;
+      if (this._enableHostCountryDialinNumbers) {
+        const countryDialinNumbers = filter(
+          (obj) => obj?.country?.isoCode === this.country.isoCode,
+          phoneNumbers,
+        );
+        if (countryDialinNumbers.length > 0) {
+          return countryDialinNumbers;
+        }
       }
 
+      const defaultPhoneNumber = find((obj) => obj.default, phoneNumbers);
       if (defaultPhoneNumber) {
         return defaultPhoneNumber.phoneNumber;
       }
     }
-    return null;
+    return [];
   }
 
   private async _getPreferences(
@@ -661,12 +698,25 @@ export class RcVideo extends RcModule<Record<string, any>, RcVideoActionTypes> {
         url: `/rcvideo/v1/bridges/${meeting.id}`,
         body: meetingDetail,
       });
+      const newMeeting = await meetingResult.json();
 
       // After Update
       const dialInNumber = await this._getDialinNumbers();
       const extensionInfo = await this.getExtensionInfo(
         this.currentUser.extensionId,
       );
+      const invitationInfo = await this.getMeetingInvitation({
+        hostName: extensionInfo.name,
+        meetingName: newMeeting.name,
+        meetingId: newMeeting.id,
+        meetingUrl: newMeeting.joinUri,
+        participantCode: newMeeting.participantCode,
+        mainPhoneNumber: formatMainPhoneNumber(dialInNumber),
+        password: newMeeting.meetingPassword,
+        dialInPassword: newMeeting.meetingPasswordPSTN,
+        premiumNumbers: formatPremiumNumbers(dialInNumber),
+      });
+
       if (meeting.saveAsDefault) {
         await this.savePreferencesChanges(meeting, true);
       }
@@ -679,7 +729,6 @@ export class RcVideo extends RcModule<Record<string, any>, RcVideoActionTypes> {
         }, 50);
       }
 
-      const newMeeting = await meetingResult.json();
       this.store.dispatch({
         type: this.actionTypes.updated,
       });
@@ -687,6 +736,7 @@ export class RcVideo extends RcModule<Record<string, any>, RcVideoActionTypes> {
       this.updateHasSettingsChanged(false);
 
       const meetingResponse = {
+        invitationInfo,
         extensionInfo,
         dialInNumber,
         meeting: { ...meeting, ...newMeeting },
@@ -785,6 +835,9 @@ export class RcVideo extends RcModule<Record<string, any>, RcVideoActionTypes> {
           message: meetingStatus.internalError,
         });
       }
+    } else {
+      console.log('errors:', errors);
+      this._alert.danger({ message: meetingStatus.internalError });
     }
   }
 
@@ -970,10 +1023,6 @@ export class RcVideo extends RcModule<Record<string, any>, RcVideoActionTypes> {
     return this._showSaveAsDefault;
   }
 
-  get showAdminLock(): boolean {
-    return this._showAdminLock;
-  }
-
   get enablePersonalMeeting(): boolean {
     return this._enablePersonalMeeting;
   }
@@ -1011,5 +1060,21 @@ export class RcVideo extends RcModule<Record<string, any>, RcVideoActionTypes> {
 
   get currentUser(): RcvDelegator {
     return this.state.delegator || this.loginUser;
+  }
+
+  @computed(
+    ({ currentUser, extensionName, brandName, currentLocale }: RcVideo) => [
+      currentUser,
+      extensionName,
+      brandName,
+      currentLocale,
+    ],
+  )
+  get defaultTopic(): string {
+    let extensionName = this.extensionName;
+    if (this.currentUser?.extensionId !== `${this.extensionId}`) {
+      extensionName = this.currentUser?.name;
+    }
+    return getTopic(extensionName, this.brandName, this.currentLocale);
   }
 }

@@ -1,12 +1,13 @@
 import { combineReducers } from 'redux';
+import { dropStates } from './handleProxyAction';
 
 export function getLastActionReducer({ types }) {
   return (state = null, { type, action, lastAction }) => {
     switch (type) {
       case types.action:
-        return action;
+        return dropStates(action);
       case types.sync:
-        return lastAction;
+        return dropStates(lastAction);
       default:
         return state;
     }

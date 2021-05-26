@@ -1,3 +1,4 @@
+import moment from 'moment';
 import {
   action,
   RcModuleV2,
@@ -26,9 +27,10 @@ import { getTimeStamp } from './helper';
 @Module({
   name: 'EvCallDataSource',
   deps: [
+    'EvAuth',
     'EvClient',
     'Storage',
-    'EvAuth',
+    'TabManager',
     { dep: 'EvCallDataSourceOptions', optional: true },
   ],
 })
@@ -79,8 +81,21 @@ class EvCallDataSource extends RcModuleV2<Deps> implements CallDataSource {
     return this.data.rawCallsMapping;
   }
 
+  get callsLimited() {
+    return window.localStorage?.getItem('callsLimited') === 'true';
+  }
+
+  changeCallsLimited(value: boolean) {
+    window.localStorage?.setItem('callsLimited', value?.toString());
+  }
+
   @action
   addNewCall(call: EvBaseCall) {
+    let rawAgentRecording = call?.agentRecording;
+    rawAgentRecording &&= {
+      ...rawAgentRecording,
+      pause: rawAgentRecording.pause ? Number(rawAgentRecording.pause) : null,
+    };
     // note: rawCallsMapping index is raw call uii.
     this.data.rawCallsMapping[call.uii] = {
       ...call,
@@ -88,17 +103,12 @@ class EvCallDataSource extends RcModuleV2<Deps> implements CallDataSource {
       // default timezone is 'America/New_York'
       timestamp: getTimeStamp(call.queueDts),
       gate: this._getCurrentGateData(call),
+      agentRecording: rawAgentRecording,
     };
   }
 
   @action
-  addNewSession(session: EvAddSessionNotification) {
-    // check with other phone
-    if (session.agentId === '') {
-      // ringing
-      this.eventEmitter.emit(callStatus.RINGING, session);
-    }
-
+  setNewSession(session: EvAddSessionNotification) {
     const id = this._deps.evClient.encodeUii(session);
     if (session.agentId === this._deps.evAuth.agentId) {
       // related to current agent session
@@ -118,6 +128,15 @@ class EvCallDataSource extends RcModuleV2<Deps> implements CallDataSource {
       ...this.rawCallsMapping[session.uii],
       session,
     };
+  }
+
+  addNewSession(session: EvAddSessionNotification) {
+    this.setNewSession(session);
+    // check with other phone
+    if (session.agentId === '') {
+      // ringing
+      this.eventEmitter.emit(callStatus.RINGING, session);
+    }
   }
 
   @action
@@ -144,7 +163,9 @@ class EvCallDataSource extends RcModuleV2<Deps> implements CallDataSource {
       this.data.callLogsIds.unshift(id);
     }
     if (this.callsMapping[id]) {
-      this.data.callsMapping[id].endedCall = endedCall;
+      this.data.callsMapping[id].endedCall = JSON.parse(
+        JSON.stringify(endedCall),
+      );
     }
   }
 
@@ -158,6 +179,64 @@ class EvCallDataSource extends RcModuleV2<Deps> implements CallDataSource {
   setCallHoldStatus(res: EvHoldResponse) {
     const id = this._deps.evClient.encodeUii(res);
     this.data.callsMapping[id].isHold = res.holdState;
+  }
+
+  @action
+  limitCalls() {
+    // max 250 and 7 days
+    const lastWeekDayTimestamp = this._getLastWeekDayTimestamp();
+    const storageCallData: {
+      callIds: string[];
+      otherCallIds: string[];
+      callLogsIds: string[];
+      callsMapping: Mapping<EvCallData>;
+      rawCallsMapping: Mapping<EvCallData>;
+    } = {
+      callIds: [],
+      otherCallIds: [],
+      callLogsIds: [],
+      callsMapping: {},
+      rawCallsMapping: {},
+    };
+
+    const fullCallLogsIds = this.callLogsIds
+      .slice(0, 250)
+      .reduce((acc, curr) => [...acc, curr.substr(0, curr.length - 2)], []);
+
+    // valid rawCallsMapping
+    storageCallData.rawCallsMapping = Object.keys(this.rawCallsMapping).reduce(
+      (acc, id) => {
+        if (
+          fullCallLogsIds.includes(id) &&
+          getTimeStamp(this.rawCallsMapping[id].queueDts) >=
+            lastWeekDayTimestamp
+        ) {
+          acc[id] = this.rawCallsMapping[id];
+        }
+        return acc;
+      },
+      {} as Mapping<EvCallData>,
+    );
+
+    // valid callsMapping
+    storageCallData.callsMapping = Object.keys(this.callsMapping).reduce(
+      (acc, id) => {
+        if (
+          fullCallLogsIds.includes(id.substr(0, id.length - 2)) &&
+          getTimeStamp(this.callsMapping[id].queueDts) >= lastWeekDayTimestamp
+        ) {
+          acc[id] = this.callsMapping[id];
+          if (!id.endsWith('$1')) {
+            storageCallData.callLogsIds.unshift(id);
+          }
+        }
+        return acc;
+      },
+      {} as Mapping<EvCallData>,
+    );
+
+    this.data = storageCallData;
+    this.changeCallsLimited(true);
   }
 
   private _getCallEncodeId(session: Partial<EvAddSessionNotification>) {
@@ -176,5 +255,12 @@ class EvCallDataSource extends RcModuleV2<Deps> implements CallDataSource {
       gateGroupId: currentQueueGroup?.gateGroupId,
     };
   }
+
+  private _getLastWeekDayTimestamp() {
+    const now = moment();
+    const lastWeekDay = now.clone().subtract(7, 'days').startOf('day');
+    return lastWeekDay.valueOf();
+  }
 }
+
 export { EvCallDataSource };

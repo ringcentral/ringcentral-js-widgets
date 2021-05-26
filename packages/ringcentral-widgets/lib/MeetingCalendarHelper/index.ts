@@ -216,14 +216,27 @@ function getRcmHtmlEventTpl(
 }
 
 function getBaseRcvTpl(
-  { meeting, extensionInfo, dialInNumber }: RcvMainParams,
+  { meeting, extensionInfo, dialInNumber, invitationInfo }: RcvMainParams,
   brand: CommonBrand,
   currentLocale: string,
+  enableRcvConnector = false,
 ): TplResult {
+  const joinUri = meeting.joinUri;
+  const isATT = brand.code === 'att';
+  const teleconference = isATT ? rcvAttTeleconference : rcvTeleconference;
+
+  if (invitationInfo?.body) {
+    return {
+      formattedMsg: invitationInfo.body,
+      links: {
+        joinUri,
+        teleconference,
+      },
+    };
+  }
+
   const accountName = extensionInfo.name;
   const { meetingPassword, meetingPasswordPSTN, isMeetingSecret } = meeting;
-  const joinUri = meeting.joinUri;
-  const pinNumber = meeting.shortId;
   let productName;
   const meetingContent: Array<string> = [];
   const showMeetingPasswordPSTN = !!(isMeetingSecret && meetingPasswordPSTN);
@@ -239,6 +252,7 @@ function getBaseRcvTpl(
       i18n.getString('rcvInviteMeetingContent', currentLocale),
     );
   }
+
   if (dialInNumber && dialInNumber.length > 0) {
     /* TODO: after get the translation, remove rcvInviteMeetingContentDial
      * rcvInviteMeetingContentCountryDial is the correct one
@@ -262,25 +276,35 @@ function getBaseRcvTpl(
     ? getPasswordTpl(meetingPassword, currentLocale)
     : '';
 
-  const isATT = brand.code === 'att';
-  const teleconference = isATT ? rcvAttTeleconference : rcvTeleconference;
+  if (enableRcvConnector) {
+    meetingContent.push(`${i18n.getString('rcvSipHeader', currentLocale)}`);
+    const rcvSipContent = isMeetingSecret
+      ? 'rcvSipContentWithPwd'
+      : 'rcvSipContentNoPwd';
+    meetingContent.push(`${i18n.getString(rcvSipContent, currentLocale)}`);
+  }
+
   const brandName = isATT ? `AT&T ${brand.name}` : brand.name;
+  const shortId = meeting.shortId;
+  const meetingId = meeting.id;
 
   const formattedMsg = formatMessage(meetingContent.join(''), {
     accountName,
     brandName,
     joinUri,
     passwordTpl,
+    meetingPasswordPSTN,
+    meetingId,
+    pinNumber: formatMeetingId(meeting.shortId),
+    teleconference,
+    productName,
+    dialNumber: formatDialInNumber(dialInNumber),
     smartphones: formatSmartphones(
       dialInNumber,
-      pinNumber,
+      shortId,
       showMeetingPasswordPSTN,
       meetingPasswordPSTN,
     ),
-    dialNumber: formatDialInNumber(dialInNumber),
-    pinNumber: formatMeetingId(pinNumber),
-    teleconference,
-    productName,
   });
 
   return {
@@ -296,8 +320,14 @@ function getRcvEventTpl(
   mainInfo: RcvMainParams,
   brand: CommonBrand,
   currentLocale: string,
+  enableRcvConnector = false,
 ): string {
-  const tplResult = getBaseRcvTpl(mainInfo, brand, currentLocale);
+  const tplResult = getBaseRcvTpl(
+    mainInfo,
+    brand,
+    currentLocale,
+    enableRcvConnector,
+  );
   return tplResult.formattedMsg;
 }
 

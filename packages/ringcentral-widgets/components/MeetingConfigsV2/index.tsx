@@ -10,6 +10,7 @@ import {
   RcTextField,
   RcTimePicker,
   RcTimePickerProps,
+  RcCheckboxProps,
   RcTypography,
 } from '@ringcentral/juno';
 import classnames from 'classnames';
@@ -29,13 +30,13 @@ import {
   MeetingDelegator,
   RcMMeetingModel,
 } from 'ringcentral-integration/modules/MeetingV2';
+import lockSvg from '@ringcentral/juno/icon/LockBorder';
+import formatMessage from 'format-message';
 
 import { formatMeetingId } from '../../lib/MeetingCalendarHelper';
-import { Topic } from '../InnerTopic';
 import { SpinnerOverlay } from '../SpinnerOverlay';
 import { ExtendedTooltip as MeetingOptionLocked } from './ExtendedTooltip';
 import i18n from './i18n';
-import LockSvg from './icons/icon-lock_border.svg';
 import styles from './styles.scss';
 import { VideoSettingGroup } from './VideoSettingGroup';
 
@@ -68,15 +69,18 @@ export interface MeetingConfigsProps {
   enableServiceWebSettings?: boolean;
   datePickerSize?: RcDatePickerProps['size'];
   timePickerSize?: RcTimePickerProps['size'];
-  putRecurringMeetingInMiddle?: boolean;
+  checkboxSize?: RcCheckboxProps['size'];
+  recurringMeetingPosition?: 'middle' | 'bottom';
   defaultTopic: string;
 }
-export function getMinutesList(MINUTE_SCALE: number) {
+export function getMinutesList(MINUTE_SCALE: number, currentLocale: string) {
   return reduce(
     (result) => {
       const index = result.length;
       const value = (60 / MINUTE_SCALE) * index;
-      const text = `${`${value}0`.slice(0, 2)} min`;
+      const text = formatMessage(i18n.getString('minutes', currentLocale), {
+        howMany: `${value}0`.slice(0, 2),
+      });
       return result.concat({
         value,
         text,
@@ -87,14 +91,16 @@ export function getMinutesList(MINUTE_SCALE: number) {
   );
 }
 
-export function getHoursList(HOUR_SCALE: number) {
+export function getHoursList(HOUR_SCALE: number, currentLocale: string) {
   if (HOUR_SCALE > 23) {
     throw new Error('HOUR_SCALE must be less than 23.');
   }
   return reduce(
     (result) => {
       const value = result.length;
-      const text = `${`0${value}0`.slice(-3, -1)} hr`;
+      const text = formatMessage(i18n.getString('hours', currentLocale), {
+        howMany: `0${value}0`.slice(-3, -1),
+      });
       return result.concat({
         value,
         text,
@@ -109,7 +115,7 @@ function getHelperTextForPasswordField(
   meeting: RcMMeetingModel,
   currentLocale: string,
   isPasswordFocus: boolean,
-): string {
+) {
   if (!meeting.password) {
     return i18n.getString('passwordEmptyError', currentLocale);
   }
@@ -176,7 +182,11 @@ const MeetingOptionLabel: React.FunctionComponent<{
             hasScrollBar={hasScrollBar}
             title={i18n.getString('lockedTooltip', currentLocale)}
           >
-            <RcIcon size="small" symbol={LockSvg} />
+            <RcIcon
+              size="small"
+              className={styles.lockButton}
+              symbol={lockSvg}
+            />
           </MeetingOptionLocked>
         </div>
       ) : null}
@@ -206,9 +216,10 @@ export const MeetingConfigs: React.FunctionComponent<MeetingConfigsProps> = ({
   labelPlacement,
   datePickerSize,
   timePickerSize,
+  checkboxSize,
   showSpinnerInConfigPanel,
   enableServiceWebSettings,
-  putRecurringMeetingInMiddle,
+  recurringMeetingPosition,
   defaultTopic,
 }) => {
   useEffect(() => {
@@ -224,8 +235,6 @@ export const MeetingConfigs: React.FunctionComponent<MeetingConfigsProps> = ({
       ...options,
     });
   };
-
-  const [topicRef, setTopicRef] = useState(null);
 
   const configRef = useRef<HTMLDivElement>();
   const [hasScrollBar, setHasScrollBar] = useState<boolean>(false);
@@ -243,10 +252,12 @@ export const MeetingConfigs: React.FunctionComponent<MeetingConfigsProps> = ({
   const [audioOptions, setAudioOptions] = useState<string>(
     meeting.audioOptions && meeting.audioOptions.join('_'),
   );
+  const enableThirdPartyAudio = meeting?.telephonyUserSettings?.thirdPartyAudio;
   const audioHelpTextMap: { [key: string]: string } = {
     Phone: 'telephonyOnly',
     ComputerAudio: 'voIPOnly',
     Phone_ComputerAudio: 'both',
+    ThirdParty: 'thirdParty',
   };
   const updateAudioOptions = (audioOptions: string) => {
     setAudioOptions(audioOptions);
@@ -290,8 +301,8 @@ export const MeetingConfigs: React.FunctionComponent<MeetingConfigsProps> = ({
     return new Date(meeting.schedule.startTime);
   }, [meeting.schedule.startTime]);
 
-  const hoursList = getHoursList(HOUR_SCALE);
-  const minutesList = getMinutesList(MINUTE_SCALE);
+  const hoursList = getHoursList(HOUR_SCALE, currentLocale);
+  const minutesList = getMinutesList(MINUTE_SCALE, currentLocale);
 
   return (
     <div
@@ -305,17 +316,7 @@ export const MeetingConfigs: React.FunctionComponent<MeetingConfigsProps> = ({
           <div
             className={classnames(styles.meetingSection, styles.meetingTitle)}
           >
-            <Topic
-              name={meeting.topic}
-              updateMeetingTopic={(topic) => {
-                update({
-                  topic,
-                });
-              }}
-              defaultTopic={defaultTopic}
-              currentLocale={currentLocale}
-              setTopicRef={setTopicRef}
-            />
+            {children}
           </div>
         ) : null}
         {recipientsSection ? (
@@ -326,12 +327,16 @@ export const MeetingConfigs: React.FunctionComponent<MeetingConfigsProps> = ({
             <div className={styles.meetingSection}>
               <div className={styles.meetingDatePicker}>
                 <RcDatePicker
+                  fullWidth
+                  gutterBottom
                   label={i18n.getString('date', currentLocale)}
                   data-sign="date"
                   date={startTime}
                   clearBtn={false}
                   formatString="MM/DD/YYYY"
                   size={datePickerSize}
+                  locale={currentLocale}
+                  todayButtonText={i18n.getString('today', currentLocale)}
                   onChange={(value) => {
                     update({
                       schedule: {
@@ -344,6 +349,8 @@ export const MeetingConfigs: React.FunctionComponent<MeetingConfigsProps> = ({
               </div>
               <div className={styles.meetingTimePicker}>
                 <RcTimePicker
+                  fullWidth
+                  gutterBottom
                   clearBtn={false}
                   size={timePickerSize}
                   label={i18n.getString('time', currentLocale)}
@@ -366,6 +373,7 @@ export const MeetingConfigs: React.FunctionComponent<MeetingConfigsProps> = ({
             <div className={styles.meetingSection}>
               <div className={styles.hourDuration}>
                 <RcSelect
+                  fullWidth
                   gutterBottom
                   data-sign="durationHour"
                   value={Math.floor(meeting.schedule.durationInMinutes / 60)}
@@ -381,9 +389,6 @@ export const MeetingConfigs: React.FunctionComponent<MeetingConfigsProps> = ({
                         durationInMinutes,
                       },
                     });
-                  }}
-                  classes={{
-                    root: styles.select,
                   }}
                   className={styles.select}
                   label={i18n.getString('duration', currentLocale)}
@@ -401,6 +406,7 @@ export const MeetingConfigs: React.FunctionComponent<MeetingConfigsProps> = ({
               </div>
               <div className={styles.minuteDuration}>
                 <RcSelect
+                  fullWidth
                   gutterBottom
                   data-sign="durationMinute"
                   required
@@ -420,9 +426,6 @@ export const MeetingConfigs: React.FunctionComponent<MeetingConfigsProps> = ({
                       },
                     });
                   }}
-                  classes={{
-                    root: styles.select,
-                  }}
                 >
                   {minutesList.map((item, i) => (
                     <RcMenuItem
@@ -437,7 +440,7 @@ export const MeetingConfigs: React.FunctionComponent<MeetingConfigsProps> = ({
               </div>
             </div>
           ) : null}
-          {showRecurringMeeting && putRecurringMeetingInMiddle ? (
+          {showRecurringMeeting && recurringMeetingPosition === 'middle' ? (
             <VideoSettingGroup
               dataSign="meetingIdSection"
               expandable={settingsGroupExpandable}
@@ -445,6 +448,7 @@ export const MeetingConfigs: React.FunctionComponent<MeetingConfigsProps> = ({
               <RcCheckbox
                 {...checkboxCommProps}
                 disabled={isDisabled}
+                size={checkboxSize}
                 data-sign="recurringMeeting"
                 checked={isRecurring}
                 onChange={() => {
@@ -480,7 +484,6 @@ export const MeetingConfigs: React.FunctionComponent<MeetingConfigsProps> = ({
               >
                 <RcSelect
                   variant="box"
-                  data-test-automation-id="scheduleFor"
                   disabled={disabled}
                   className={classnames(styles.boxSelect, styles.autoFullWidth)}
                   data-sign="scheduleFor"
@@ -489,7 +492,7 @@ export const MeetingConfigs: React.FunctionComponent<MeetingConfigsProps> = ({
                   }}
                   value={meeting.host.id}
                 >
-                  {delegators.map((item: MeetingDelegator) => {
+                  {delegators.map((item: MeetingDelegator, index: number) => {
                     const userName =
                       item.name === ASSISTED_USERS_MYSELF
                         ? i18n.getString(item.name, currentLocale)
@@ -500,6 +503,7 @@ export const MeetingConfigs: React.FunctionComponent<MeetingConfigsProps> = ({
                         key={item.id}
                         title={userName}
                         className={styles.boxSelectMenuItem}
+                        data-sign={`scheduleForMenuItem${index}`}
                       >
                         {userName}
                       </RcMenuItem>
@@ -520,6 +524,7 @@ export const MeetingConfigs: React.FunctionComponent<MeetingConfigsProps> = ({
                   {...checkboxCommProps}
                   data-sign="usePersonalMeetingId"
                   disabled={disabled}
+                  size={checkboxSize}
                   checked={meeting.usePersonalMeetingId}
                   onChange={async () => {
                     onPmiChange(!meeting.usePersonalMeetingId);
@@ -546,6 +551,7 @@ export const MeetingConfigs: React.FunctionComponent<MeetingConfigsProps> = ({
                       <>
                         {i18n.getString('pmiChangeConfirm', currentLocale)}
                         <RcLink
+                          variant="inherit"
                           onClick={() => setPmiConfirm(!isPmiConfirm)}
                           data-sign="setPmiConfirm"
                         >
@@ -567,6 +573,7 @@ export const MeetingConfigs: React.FunctionComponent<MeetingConfigsProps> = ({
               {...checkboxCommProps}
               data-sign="requirePassword"
               disabled={isDisabled || meeting._lockRequireMeetingPassword}
+              size={checkboxSize}
               checked={meeting._requireMeetingPassword}
               onChange={() => {
                 let password = '';
@@ -650,6 +657,7 @@ export const MeetingConfigs: React.FunctionComponent<MeetingConfigsProps> = ({
                 (enableServiceWebSettings &&
                   meeting.settingLock?.startParticipantsVideo)
               }
+              size={checkboxSize}
               checked={!meeting.startParticipantsVideo}
               onChange={() => {
                 update({
@@ -679,6 +687,7 @@ export const MeetingConfigs: React.FunctionComponent<MeetingConfigsProps> = ({
                 (enableServiceWebSettings &&
                   meeting.settingLock?.startHostVideo)
               }
+              size={checkboxSize}
               checked={!meeting.startHostVideo}
               onChange={() => {
                 update({
@@ -717,8 +726,8 @@ export const MeetingConfigs: React.FunctionComponent<MeetingConfigsProps> = ({
                 className={classnames(styles.placementLeft, styles.hackWidth)}
               >
                 <RcSelect
+                  fullWidth
                   variant="box"
-                  data-test-automation-id="audioOptions"
                   data-sign="audioOptions"
                   disabled={
                     isDisabled ||
@@ -759,6 +768,14 @@ export const MeetingConfigs: React.FunctionComponent<MeetingConfigsProps> = ({
                   >
                     {i18n.getString('both', currentLocale)}
                   </RcMenuItem>
+                  <RcMenuItem
+                    data-sign="ThirdParty"
+                    value="ThirdParty"
+                    className={styles.boxSelectMenuItem}
+                    disabled={!enableThirdPartyAudio}
+                  >
+                    {i18n.getString('thirdParty', currentLocale)}
+                  </RcMenuItem>
                 </RcSelect>
               </div>
               {enableServiceWebSettings && meeting.settingLock?.audioOptions ? (
@@ -773,7 +790,11 @@ export const MeetingConfigs: React.FunctionComponent<MeetingConfigsProps> = ({
                     hasScrollBar={hasScrollBar}
                     title={i18n.getString('lockedTooltip', currentLocale)}
                   >
-                    <RcIcon size="small" symbol={LockSvg} />
+                    <RcIcon
+                      size="small"
+                      symbol={lockSvg}
+                      className={styles.lockButton}
+                    />
                   </MeetingOptionLocked>
                 </div>
               ) : null}
@@ -791,6 +812,7 @@ export const MeetingConfigs: React.FunctionComponent<MeetingConfigsProps> = ({
                 (enableServiceWebSettings &&
                   meeting.settingLock?.allowJoinBeforeHost)
               }
+              size={checkboxSize}
               data-sign="enableJoinToggle"
               checked={meeting.allowJoinBeforeHost}
               onChange={() => {
@@ -813,11 +835,12 @@ export const MeetingConfigs: React.FunctionComponent<MeetingConfigsProps> = ({
                 </MeetingOptionLabel>
               }
             />
-            {showRecurringMeeting && !putRecurringMeetingInMiddle ? (
+            {showRecurringMeeting && recurringMeetingPosition === 'bottom' ? (
               <>
                 <RcCheckbox
                   {...checkboxCommProps}
                   disabled={isDisabled}
+                  size={checkboxSize}
                   data-sign="recurringMeeting"
                   checked={isRecurring}
                   onChange={() => {
@@ -854,4 +877,5 @@ MeetingConfigs.defaultProps = {
   labelPlacement: 'start',
   datePickerSize: 'medium',
   timePickerSize: 'medium',
+  checkboxSize: 'medium',
 };

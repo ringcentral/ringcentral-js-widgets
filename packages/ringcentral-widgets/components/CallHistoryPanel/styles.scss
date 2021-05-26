@@ -3,8 +3,8 @@
 .callHistoryPanel {
   @include flex_column;
 
-  border-top: 1px solid rc-palette(border, light);
-  background-color: rc-palette(background, default);
+  border-top: 1px solid rc-palette('neutral', 'l02');
+  background-color: rc-palette('neutral', 'b01');
   height: 100%;
   box-sizing: border-box;
   overflow: hidden;
@@ -14,14 +14,14 @@
 .date {
   @include rc-typography('caption1');
 
-  color: rc-palette(text, dark);
+  color: rc-palette('neutral', 'f06');
   text-align: center;
   display: block;
   height: 32px;
   line-height: 32px;
-  background: rc-palette(background, default);
+  background: rc-palette('neutral', 'b01');
   box-sizing: border-box;
-  border-bottom: 1px solid rc-palette(border, light);
+  border-bottom: 1px solid rc-palette('neutral', 'l02');
   position: sticky;
   top: 0;
   z-index: 2 !important;

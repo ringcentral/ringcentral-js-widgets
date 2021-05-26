@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
-import sleep from 'ringcentral-integration/lib/sleep';
+import React, { useRef, useState } from 'react';
 import { RcVMeetingModel } from 'ringcentral-integration/interfaces/Rcv.model';
+import sleep from 'ringcentral-integration/lib/sleep';
 
 import isSafari from '../../lib/isSafari';
-import { VideoConfig, Topic } from './VideoConfig';
+import { Topic, TopicRef } from '../InnerTopic';
 import styles from './styles.scss';
+import { VideoConfig } from './VideoConfig';
 
+/** @deprecated */
 export const VideoPanel: React.FunctionComponent<VideoPanelProps> = ({
   scheduleButton: ScheduleButton,
   meeting,
@@ -24,7 +26,7 @@ export const VideoPanel: React.FunctionComponent<VideoPanelProps> = ({
   showWhen,
   showDuration,
   brandName,
-  showAdminLock,
+  showRcvAdminLock,
   showPmiAlert,
   enableWaitingRoom,
   enablePersonalMeeting,
@@ -33,7 +35,8 @@ export const VideoPanel: React.FunctionComponent<VideoPanelProps> = ({
   switchUsePersonalMeetingId,
   updateHasSettingsChanged,
 }) => {
-  const [topicRef, setTopicRef] = useState(null);
+  const topicRef = useRef<TopicRef>(null);
+
   return (
     <div className={styles.videoPanel}>
       <VideoConfig
@@ -46,7 +49,7 @@ export const VideoPanel: React.FunctionComponent<VideoPanelProps> = ({
         showWhen={showWhen}
         showDuration={showDuration}
         brandName={brandName}
-        showAdminLock={showAdminLock}
+        showRcvAdminLock={showRcvAdminLock}
         showPmiAlert={showPmiAlert}
         enableWaitingRoom={enableWaitingRoom}
         enablePersonalMeeting={enablePersonalMeeting}
@@ -61,7 +64,7 @@ export const VideoPanel: React.FunctionComponent<VideoPanelProps> = ({
             updateMeetingSettings({ name });
           }}
           currentLocale={currentLocale}
-          setTopicRef={setTopicRef}
+          ref={topicRef}
         />
       </VideoConfig>
       {ScheduleButton ? (
@@ -78,7 +81,7 @@ export const VideoPanel: React.FunctionComponent<VideoPanelProps> = ({
               await schedule(
                 {
                   ...meeting,
-                  name: topicRef.current.props.value,
+                  name: topicRef.current.value,
                 },
                 opener,
               );
@@ -113,7 +116,7 @@ interface VideoPanelProps {
   recipientsSection?: React.ReactNode;
   showWhen?: boolean;
   showDuration?: boolean;
-  showAdminLock?: boolean;
+  showRcvAdminLock?: boolean;
   showPmiAlert?: boolean;
   enableWaitingRoom?: boolean;
   enablePersonalMeeting?: boolean;

@@ -32,7 +32,7 @@ export const SearchPanel: FunctionComponent<SearchPanelProps> = ({
   renderList,
   classes,
 }) => {
-  const [filter, setFilter] = useState(null);
+  const [filter, setFilter] = useState('');
   const { scrollElmRef } = useContext(SelectListContext);
 
   const filteredOptions = filter
@@ -54,7 +54,7 @@ export const SearchPanel: FunctionComponent<SearchPanelProps> = ({
           value={filter}
           InputProps={{
             startAdornment: (
-              <RcIcon symbol={searchSvg} size="small" color="icon.subdued" />
+              <RcIcon symbol={searchSvg} size="small" color="neutral.f04" />
             ),
           }}
           data-sign="searchBar"

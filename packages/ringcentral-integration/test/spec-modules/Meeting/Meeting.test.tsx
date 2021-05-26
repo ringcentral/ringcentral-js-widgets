@@ -1,3 +1,4 @@
+import { storeKey } from '@ringcentral-integration/core';
 import {
   autorun,
   title,
@@ -10,6 +11,7 @@ import {
 } from '@ringcentral-integration/test-utils';
 
 import { Meeting } from '../../../modules/MeetingV2';
+import { mockModuleGenerator } from '../../lib/mockModule';
 import {
   MOCK_PERSONAL_MEETING,
   SAVED_DEFAULT_MEETING_SETTING,
@@ -18,6 +20,7 @@ import {
   EXPECT_SAVE_AS_DEFAULT_SETTING,
   EXPECT_LAST_MEETING_SETTING,
   EXPECT_GENERAL_DEFAULT_SETTING_WITH_SW_SETTING,
+  MOCK_TURN_OFF_3RD_PARTY_AUDIO,
 } from './mockData';
 
 const mockDeps = {
@@ -48,7 +51,7 @@ export class CheckInitialData extends Step {
             expect(context.instance.meeting).toBeNull();
             expect(context.instance.isScheduling).toEqual(false);
             expect(context.instance.updatingStatus).toEqual([]);
-            expect(context.instance.personalMeeting).toEqual({});
+            expect(context.instance.personalMeeting).toEqual(null);
             expect(context.instance.savedDefaultMeetingSetting).toEqual({});
             expect(context.instance.lastMeetingSetting).toEqual({});
             expect(context.instance.delegators).toEqual([]);
@@ -72,27 +75,7 @@ export class PmiDefaultSettingsWhenEnableSWOff extends Step {
         <When
           desc="Create an Meeting instance with default value"
           action={(_: any, context: any) => {
-            class MockStore {
-              _state = {
-                personalMeeting: MOCK_PERSONAL_MEETING,
-              };
-
-              getState() {
-                return this._state;
-              }
-            }
-            class MeetingWithStore extends Meeting {
-              _mockStore = new MockStore() as any;
-
-              get _store() {
-                return this._mockStore;
-              }
-
-              _getState() {
-                return this._store.getState();
-              }
-            }
-            const meeting = new MeetingWithStore({
+            const meeting = new Meeting({
               ...mockDeps,
               meetingOptions: {
                 enableServiceWebSettings: false,
@@ -102,6 +85,12 @@ export class PmiDefaultSettingsWhenEnableSWOff extends Step {
                 info: { id: 'extensionId', name: 'extensionName' },
               },
             } as any);
+            Object.assign(
+              meeting,
+              mockModuleGenerator({
+                personalMeeting: MOCK_PERSONAL_MEETING,
+              }),
+            );
             context.instance = meeting;
           }}
         />
@@ -133,28 +122,7 @@ export class GeneralDefaultSettingsWhenEnableSWOff extends Step {
         <When
           desc="Create an Meeting instance with default value"
           action={(_: any, context: any) => {
-            class MockStore {
-              _state = {
-                savedDefaultMeetingSetting: SAVED_DEFAULT_MEETING_SETTING,
-                lastMeetingSetting: LAST_MEETING_SETTING,
-              };
-
-              getState() {
-                return this._state;
-              }
-            }
-            class MeetingWithStore extends Meeting {
-              _mockStore = new MockStore() as any;
-
-              get _store() {
-                return this._mockStore;
-              }
-
-              _getState() {
-                return this._store.getState();
-              }
-            }
-            const meeting = new MeetingWithStore({
+            const meeting = new Meeting({
               ...mockDeps,
               meetingOptions: {
                 showSaveAsDefault: context.example.showSaveAsDefault,
@@ -165,6 +133,13 @@ export class GeneralDefaultSettingsWhenEnableSWOff extends Step {
                 info: { id: 'extensionId', name: 'extensionName' },
               },
             } as any);
+            Object.assign(
+              meeting,
+              mockModuleGenerator({
+                savedDefaultMeetingSetting: SAVED_DEFAULT_MEETING_SETTING,
+                lastMeetingSetting: LAST_MEETING_SETTING,
+              }),
+            );
             context.instance = meeting;
           }}
         />
@@ -218,33 +193,7 @@ export class PmiDefaultSettingsWhenEnableSWOn extends Step {
               password: context.example.password,
               allowJoinBeforeHost: context.example.allowJoinBeforeHost,
             };
-            class MockStore {
-              _state = {
-                personalMeeting: mockPMI,
-                userSettings: {
-                  scheduleMeeting: {
-                    requirePasswordForPmiMeetings:
-                      context.example.requirePasswordForPmiMeetings,
-                  },
-                },
-              };
-
-              getState() {
-                return this._state;
-              }
-            }
-            class MeetingWithStore extends Meeting {
-              _mockStore = new MockStore() as any;
-
-              get _store() {
-                return this._mockStore;
-              }
-
-              _getState() {
-                return this._store.getState();
-              }
-            }
-            const meeting = new MeetingWithStore({
+            const meeting = new Meeting({
               ...mockDeps,
               meetingOptions: {
                 enablePersonalMeeting: true,
@@ -254,6 +203,19 @@ export class PmiDefaultSettingsWhenEnableSWOn extends Step {
                 info: { id: 'extensionId', name: 'extensionName' },
               },
             } as any);
+            Object.assign(
+              meeting,
+              mockModuleGenerator({
+                personalMeeting: mockPMI,
+                userSettings: {
+                  scheduleMeeting: {
+                    requirePasswordForPmiMeetings:
+                      context.example.requirePasswordForPmiMeetings,
+                  },
+                  telephony: MOCK_TURN_OFF_3RD_PARTY_AUDIO,
+                },
+              }),
+            );
             context.instance = meeting;
           }}
         />
@@ -277,8 +239,9 @@ export class PmiDefaultSettingsWhenEnableSWOn extends Step {
               ...restMockData
             } = {
               ...EXPECT_PMI_DEFAULT_SETTING_WITH_SW_SETTING,
+              telephonyUserSettings: MOCK_TURN_OFF_3RD_PARTY_AUDIO,
               allowJoinBeforeHost: context.example.allowJoinBeforeHost,
-            };
+            } as any;
             expect(rest).toEqual(restMockData);
             expect(_pmiPassword).toEqual(context.example.password);
             switch (context.example.requirePasswordForPmiMeetings) {
@@ -325,32 +288,7 @@ export class GeneralDefaultSettingsWhenEnableSWOn extends Step {
         <When
           desc="Create an Meeting instance with default value"
           action={(_: any, context: any) => {
-            class MockStore {
-              _state = {
-                userSettings: {
-                  scheduleMeeting: {
-                    requirePasswordForSchedulingNewMeetings:
-                      context.example.requirePasswordForSchedulingNewMeetings,
-                  },
-                },
-              };
-
-              getState() {
-                return this._state;
-              }
-            }
-            class MeetingWithStore extends Meeting {
-              _mockStore = new MockStore() as any;
-
-              get _store() {
-                return this._mockStore;
-              }
-
-              _getState() {
-                return this._store.getState();
-              }
-            }
-            const meeting = new MeetingWithStore({
+            const meeting = new Meeting({
               ...mockDeps,
               meetingOptions: {
                 enablePersonalMeeting: false,
@@ -360,6 +298,18 @@ export class GeneralDefaultSettingsWhenEnableSWOn extends Step {
                 info: { id: 'extensionId', name: 'extensionName' },
               },
             } as any);
+            Object.assign(
+              meeting,
+              mockModuleGenerator({
+                userSettings: {
+                  scheduleMeeting: {
+                    requirePasswordForSchedulingNewMeetings:
+                      context.example.requirePasswordForSchedulingNewMeetings,
+                  },
+                  telephony: MOCK_TURN_OFF_3RD_PARTY_AUDIO,
+                },
+              }),
+            );
             context.instance = meeting;
           }}
         />
@@ -379,7 +329,10 @@ export class GeneralDefaultSettingsWhenEnableSWOn extends Step {
               password: password2,
               _requireMeetingPassword: _requireMeetingPassword2,
               ...restExpect
-            } = EXPECT_GENERAL_DEFAULT_SETTING_WITH_SW_SETTING;
+            } = {
+              ...EXPECT_GENERAL_DEFAULT_SETTING_WITH_SW_SETTING,
+              telephonyUserSettings: MOCK_TURN_OFF_3RD_PARTY_AUDIO,
+            };
 
             expect(rest).toEqual(restExpect);
             expect(_requireMeetingPassword).toEqual(
@@ -425,8 +378,19 @@ export class PmiDefaultSettingsLockDataWhenEnableSWOn extends Step {
               ...MOCK_PERSONAL_MEETING,
               allowJoinBeforeHost: context.example.allowJoinBeforeHost,
             };
-            class MockStore {
-              _state = {
+            const meeting = new Meeting({
+              ...mockDeps,
+              meetingOptions: {
+                enablePersonalMeeting: true,
+                enableServiceWebSettings: true,
+              },
+              extensionInfo: {
+                info: { id: 'extensionId', name: 'extensionName' },
+              },
+            } as any);
+            Object.assign(
+              meeting,
+              mockModuleGenerator({
                 personalMeeting: mockPMI,
                 lockedSettings: {
                   scheduleMeeting: {
@@ -440,33 +404,8 @@ export class PmiDefaultSettingsLockDataWhenEnableSWOn extends Step {
                       context.example.requirePasswordForPmiMeetings,
                   },
                 },
-              };
-
-              getState() {
-                return this._state;
-              }
-            }
-            class MeetingWithStore extends Meeting {
-              _mockStore = new MockStore() as any;
-
-              get _store() {
-                return this._mockStore;
-              }
-
-              _getState() {
-                return this._store.getState();
-              }
-            }
-            const meeting = new MeetingWithStore({
-              ...mockDeps,
-              meetingOptions: {
-                enablePersonalMeeting: true,
-                enableServiceWebSettings: true,
-              },
-              extensionInfo: {
-                info: { id: 'extensionId', name: 'extensionName' },
-              },
-            } as any);
+              }),
+            );
             context.instance = meeting;
           }}
         />
@@ -511,8 +450,19 @@ export class GeneralDefaultSettingsLockDataWhenEnableSWOn extends Step {
         <When
           desc="Create an Meeting instance with default value"
           action={(_: any, context: any) => {
-            class MockStore {
-              _state = {
+            const meeting = new Meeting({
+              ...mockDeps,
+              meetingOptions: {
+                enablePersonalMeeting: false,
+                enableServiceWebSettings: true,
+              },
+              extensionInfo: {
+                info: { id: 'extensionId', name: 'extensionName' },
+              },
+            } as any);
+            Object.assign(
+              meeting,
+              mockModuleGenerator({
                 // userSettings: {
                 //   scheduleMeeting: {
                 //     requirePasswordForSchedulingNewMeetings:
@@ -526,33 +476,8 @@ export class GeneralDefaultSettingsLockDataWhenEnableSWOn extends Step {
                         .lockedRequirePasswordForSchedulingNewMeetings,
                   },
                 },
-              };
-
-              getState() {
-                return this._state;
-              }
-            }
-            class MeetingWithStore extends Meeting {
-              _mockStore = new MockStore() as any;
-
-              get _store() {
-                return this._mockStore;
-              }
-
-              _getState() {
-                return this._store.getState();
-              }
-            }
-            const meeting = new MeetingWithStore({
-              ...mockDeps,
-              meetingOptions: {
-                enablePersonalMeeting: false,
-                enableServiceWebSettings: true,
-              },
-              extensionInfo: {
-                info: { id: 'extensionId', name: 'extensionName' },
-              },
-            } as any);
+              }),
+            );
             context.instance = meeting;
           }}
         />

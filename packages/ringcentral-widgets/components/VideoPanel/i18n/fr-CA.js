@@ -7,17 +7,17 @@ export default {
   scheduleFor: "Planifier au nom de",
   meetingSettings: "Paramètres de la réunion",
   [ASSISTED_USERS_MYSELF]: "Moi-même",
-  joinBeforeHost: "Autoriser les participants à se joindre à la réunion avant l'hôte",
+  joinBeforeHost: "Autoriser les participants à se joindre à la réunion avant l'animateur",
   enableWaitingRoom: "Activer la salle d’attente",
   waitingRoom: "Activer la salle d'attente pour",
   waitingRoomNotCoworker: "Personnes externes",
   waitingRoomGuest: "Personnes non connectées",
   waitingRoomAll: "Tout le monde",
   enterPassword: "Saisissez le mot de passe",
-  onlyJoinAfterMe: "Les participants ne peuvent se joindre au meeting qu'après moi",
-  onlyJoinAfterHost: "Les participants ne peuvent se joindre au meeting qu'après l'hôte",
+  onlyJoinAfterMe: "Les participants ne peuvent se joindre à la réunion qu'après moi",
+  onlyJoinAfterHost: "Les participants ne peuvent se joindre à la réunion qu'après l'animateur",
   muteAudio: "Activer le mode discrétion pour les participants",
-  turnOffCamera: "Éteindre la caméra pour les participants",
+  turnOffCamera: "Désactiver la caméra des participants",
   requirePassword: "Exiger un mot de passe",
   setPassword: "Définir le mot de passe *",
   setPasswordNotSymbol: "Définir le mot de passe",
@@ -29,9 +29,9 @@ export default {
   onlyAuthUserJoin: "Seuls les utilisateurs authentifiés peuvent se joindre",
   signedInUsers: "Utilisateurs connectés",
   signedInCoWorkers: "Collègues connectés",
-  limitScreenSharing: "Seuls l'hôte et les modérateurs peuvent partager leur écran",
+  limitScreenSharing: "Seuls l'animateur et les modérateurs peuvent partager leur écran",
   lockTooltip: "Ces paramètres sont gérés par votre administrateur",
-  pmiSettingAlert: "Ces paramètres s'appliqueront à tous les meetings créés avec le même PMI"
+  pmiSettingAlert: "Ces paramètres s'appliqueront à toutes les réunions créées avec le même PMI"
 };
 
 // @key: @#@"topic"@#@ @source: @#@"Meeting title"@#@

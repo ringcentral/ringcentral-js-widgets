@@ -8,7 +8,7 @@ import {
 import { ApiError } from '@ringcentral/sdk';
 import { Module } from '../../lib/di';
 import { errorMessages } from './errorMessages';
-import proxify from '../../lib/proxy/proxify';
+import { proxify } from '../../lib/proxy/proxify';
 import { Deps } from './RateLimiter.interface';
 
 const DEFAULT_THROTTLE_DURATION = 61 * 1000;
@@ -25,8 +25,8 @@ const DEFAULT_THROTTLE_DURATION = 61 * 1000;
 })
 export class RateLimiter extends RcModuleV2<Deps> {
   protected _timeoutId: NodeJS.Timeout = null;
-  protected _throttleDuration: number;
   protected _unbindHandlers?: () => void;
+  protected _throttleDuration: number = DEFAULT_THROTTLE_DURATION;
 
   constructor(deps: Deps) {
     super({
@@ -37,6 +37,10 @@ export class RateLimiter extends RcModuleV2<Deps> {
     this._throttleDuration =
       this._deps.rateLimiterOptions?.throttleDuration ??
       DEFAULT_THROTTLE_DURATION;
+  }
+
+  get _suppressAlerts() {
+    return this._deps.rateLimiterOptions?.suppressAlerts ?? false;
   }
 
   @globalStorage
@@ -89,13 +93,13 @@ export class RateLimiter extends RcModuleV2<Deps> {
 
   @proxify
   async showAlert() {
-    if (!this.throttling || !this._deps.alert) {
+    if (!this.throttling || !this._deps.alert || this._suppressAlerts) {
       return;
     }
 
     this._deps.alert.warning({
       message: errorMessages.rateLimitReached,
-      ttl: DEFAULT_THROTTLE_DURATION,
+      ttl: this.ttl,
       allowDuplicates: false,
     });
   }

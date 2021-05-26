@@ -1,14 +1,13 @@
 import { RcUIModuleV2 } from '@ringcentral-integration/core';
 import Module from 'ringcentral-integration/lib/di/decorators/module';
 import loginStatus from 'ringcentral-integration/modules/Auth/loginStatus';
-
 import { Deps, GetLoginUIProps } from './LoginUI.interface';
 
 @Module({
   name: 'LoginUI',
   deps: ['Auth', 'ConnectivityMonitor', 'Locale', 'OAuth', 'RateLimiter'],
 })
-export class LoginUI<T = {}> extends RcUIModuleV2<Deps & T> {
+export class LoginUI extends RcUIModuleV2<Deps> {
   constructor({ deps = {}, ...options }: Deps & { deps: Record<string, any> }) {
     super({
       deps: {

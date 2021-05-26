@@ -16,13 +16,13 @@ import Search from './widgets/Search';
 import styles from './styles.scss';
 import i18n from './i18n';
 
-function TabTitle({ type, currentLocale }) {
+const TabTitle = ({ type, currentLocale }) => {
   return (
     <span className={styles.tabTitle}>
       {i18n.getString(type, currentLocale)}
     </span>
   );
-}
+};
 
 TabTitle.propTypes = {
   type: PropTypes.string.isRequired,
@@ -124,6 +124,7 @@ export default class ConversationsPanel extends Component {
       markMessage,
       dateTimeFormatter,
       showContactDisplayPlaceholder,
+      contactPlaceholder,
       sourceIcons,
       phoneTypeRenderer,
       phoneSourceNameRenderer,
@@ -156,6 +157,9 @@ export default class ConversationsPanel extends Component {
       onFaxDownload,
       currentSiteCode,
       isMultipleSiteEnabled,
+      showChooseEntityModal,
+      shouldLogSelectRecord,
+      onSelectContact,
     } = this.props;
     if (showSpinner) {
       return <SpinnerOverlay />;
@@ -197,6 +201,7 @@ export default class ConversationsPanel extends Component {
             readMessage={readMessage}
             markMessage={markMessage}
             dateTimeFormatter={dateTimeFormatter}
+            contactPlaceholder={contactPlaceholder}
             showContactDisplayPlaceholder={showContactDisplayPlaceholder}
             sourceIcons={sourceIcons}
             phoneTypeRenderer={phoneTypeRenderer}
@@ -225,6 +230,9 @@ export default class ConversationsPanel extends Component {
             internalSmsPermission={internalSmsPermission}
             updateTypeFilter={updateTypeFilter}
             onFaxDownload={onFaxDownload}
+            showChooseEntityModal={showChooseEntityModal}
+            shouldLogSelectRecord={shouldLogSelectRecord}
+            onSelectContact={onSelectContact}
           />
         ) : (
           !loadingNextPage &&
@@ -274,6 +282,7 @@ ConversationsPanel.propTypes = {
   currentLocale: PropTypes.string.isRequired,
   showSpinner: PropTypes.bool,
   showTitle: PropTypes.bool,
+  contactPlaceholder: PropTypes.string,
   showContactDisplayPlaceholder: PropTypes.bool,
   sourceIcons: PropTypes.object,
   phoneTypeRenderer: PropTypes.func,
@@ -324,6 +333,9 @@ ConversationsPanel.propTypes = {
   renderSearchTip: PropTypes.func,
   renderNoMessage: PropTypes.func,
   onFaxDownload: PropTypes.func,
+  showChooseEntityModal: PropTypes.bool,
+  shouldLogSelectRecord: PropTypes.bool,
+  onSelectContact: PropTypes.func,
 };
 
 ConversationsPanel.defaultProps = {
@@ -331,6 +343,7 @@ ConversationsPanel.defaultProps = {
   isMultipleSiteEnabled: false,
   showSpinner: false,
   showTitle: false,
+  contactPlaceholder: '',
   showContactDisplayPlaceholder: true,
   sourceIcons: undefined,
   phoneTypeRenderer: undefined,
@@ -368,4 +381,7 @@ ConversationsPanel.defaultProps = {
   renderSearchTip: undefined,
   renderNoMessage: undefined,
   onFaxDownload: undefined,
+  showChooseEntityModal: true,
+  shouldLogSelectRecord: false,
+  onSelectContact: undefined,
 };

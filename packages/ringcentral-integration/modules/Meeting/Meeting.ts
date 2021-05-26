@@ -14,13 +14,14 @@ import {
   MeetingType,
   prunePreferencesObject,
   UTC_TIMEZONE_ID,
+  getDefaultTopic,
 } from '../../helpers/meetingHelper';
 import background from '../../lib/background';
 import { Module } from '../../lib/di';
 import proxify from '../../lib/proxy/proxify';
 import RcModule from '../../lib/RcModule';
 import { selector } from '../../lib/selector';
-import { RcMMeetingModel } from '../MeetingV2';
+import { RcMMeetingModel, RequirePwdTypeForPMI } from '../MeetingV2';
 import { getExtensionName, getHostId } from '../MeetingV2/helper';
 import actionTypes, { MeetingActionTypes } from './actionTypes';
 import {
@@ -358,7 +359,42 @@ export class Meeting extends RcModule<Record<string, any>, MeetingActionTypes> {
     });
   }
 
-  _initDefaultData(
+  enforcePmiPassword(
+    processedMeeting: RcMMeetingModel,
+    requirePwdForPMI: RequirePwdTypeForPMI,
+    requirePwdIsLockedForPMI: boolean,
+  ) {
+    const { allowJoinBeforeHost, password = '' } = processedMeeting;
+    if (password !== '') {
+      // save this for design
+      processedMeeting._pmiPassword = password;
+    }
+
+    let pmiRequiresPwd;
+    switch (requirePwdForPMI) {
+      case PMIRequirePassword.NONE:
+        pmiRequiresPwd = password !== '';
+        break;
+      case PMIRequirePassword.ALL:
+        pmiRequiresPwd = true;
+        break;
+      case PMIRequirePassword.JBH_ONLY:
+        pmiRequiresPwd = allowJoinBeforeHost || password !== '';
+        break;
+      default:
+        pmiRequiresPwd = processedMeeting._requireMeetingPassword;
+    }
+
+    const pmiRequiresPwdLocked =
+      requirePwdForPMI === PMIRequirePassword.JBH_ONLY
+        ? requirePwdIsLockedForPMI && allowJoinBeforeHost
+        : requirePwdIsLockedForPMI;
+
+    processedMeeting._requireMeetingPassword = pmiRequiresPwd;
+    processedMeeting._lockRequireMeetingPassword = pmiRequiresPwdLocked;
+  }
+
+  enforcePassword(
     meeting: RcMMeetingModel,
     { userSettings, personalMeetingSettings }: MeetingInitialExtraData,
     usePmi: boolean,
@@ -367,60 +403,34 @@ export class Meeting extends RcModule<Record<string, any>, MeetingActionTypes> {
       return meeting;
     }
     const {
-      requirePasswordForSchedulingNewMeetings = false,
-      requirePasswordForPmiMeetings,
+      requirePasswordForSchedulingNewMeetings: requirePwdForNonPMI = false,
+      requirePasswordForPmiMeetings: requirePwdForPMI,
     } = this.scheduleUserSettings;
     const {
-      requirePasswordForSchedulingNewMeetings: lockedRequirePasswordForSchedulingNewMeetings,
-      requirePasswordForPmiMeetings: lockedRequirePasswordForPmiMeetings,
+      requirePasswordForSchedulingNewMeetings: requirePwdIsLockedForNonPMI,
+      requirePasswordForPmiMeetings: requirePwdIsLockedForPMI,
     } = this.scheduleLockedSettings;
+
     const processedMeeting = {
       ...meeting,
       ...(usePmi ? personalMeetingSettings : userSettings),
       usePersonalMeetingId: usePmi,
+      telephonyUserSettings: this.telephonyUserSettings,
     };
 
     // For PMI meetings
     if (usePmi) {
-      const { allowJoinBeforeHost, password = '' } = processedMeeting;
-
-      if (password !== '') {
-        processedMeeting._pmiPassword = password;
-      }
-
-      let pmiRequiresPwd;
-      switch (requirePasswordForPmiMeetings) {
-        case PMIRequirePassword.NONE:
-          pmiRequiresPwd = password !== '';
-          break;
-        case PMIRequirePassword.ALL:
-          pmiRequiresPwd = true;
-          break;
-        case PMIRequirePassword.JBH_ONLY:
-          pmiRequiresPwd = allowJoinBeforeHost || password !== '';
-          break;
-        default:
-          pmiRequiresPwd = processedMeeting._requireMeetingPassword;
-      }
-
-      let pmiRequiresPwdLocked = processedMeeting._lockRequireMeetingPassword;
-      if (requirePasswordForPmiMeetings === PMIRequirePassword.JBH_ONLY) {
-        pmiRequiresPwdLocked =
-          lockedRequirePasswordForPmiMeetings && allowJoinBeforeHost;
-      } else if (
-        requirePasswordForPmiMeetings !== PMIRequirePassword.JBH_ONLY
-      ) {
-        pmiRequiresPwdLocked = lockedRequirePasswordForPmiMeetings;
-      }
-
-      processedMeeting._requireMeetingPassword = pmiRequiresPwd;
-      processedMeeting._lockRequireMeetingPassword = pmiRequiresPwdLocked;
+      this.enforcePmiPassword(
+        processedMeeting,
+        requirePwdForPMI,
+        requirePwdIsLockedForPMI,
+      );
     } else {
       // For non-PMI meetings
-      if (requirePasswordForSchedulingNewMeetings) {
+      if (requirePwdForNonPMI) {
         processedMeeting._requireMeetingPassword = true;
       }
-      if (lockedRequirePasswordForSchedulingNewMeetings) {
+      if (requirePwdIsLockedForNonPMI) {
         processedMeeting._lockRequireMeetingPassword = true;
       }
     }
@@ -675,7 +685,7 @@ export class Meeting extends RcModule<Record<string, any>, MeetingActionTypes> {
         .get(
           `/restapi/v1.0/account/~/extension/~/meeting/${meetingId}/invitation`,
           {
-            language: locale,
+            language: this._locale.normalizeLocale(locale),
           },
         );
       const { invitation } = await apiResponse.json();
@@ -696,11 +706,7 @@ export class Meeting extends RcModule<Record<string, any>, MeetingActionTypes> {
         method: 'GET',
         url: `/restapi/v1.0/account/~/extension/${extensionId}/meeting/user-settings`,
       });
-      const { recording = {}, scheduleMeeting = {} } = await apiResponse.json();
-      return {
-        recording,
-        scheduleMeeting,
-      };
+      return apiResponse.json();
     } catch (e) {
       console.warn(e);
       return null;
@@ -1073,13 +1079,13 @@ export class Meeting extends RcModule<Record<string, any>, MeetingActionTypes> {
     };
   }
 
-  @computed<Meeting>(
+  @computed(
     ({
       initialMeetingSetting,
       defaultLockedSettings,
       commonUserSettings,
       commonPersonalMeetingSettings,
-    }) => [
+    }: Meeting) => [
       initialMeetingSetting,
       defaultLockedSettings,
       commonUserSettings,
@@ -1090,7 +1096,7 @@ export class Meeting extends RcModule<Record<string, any>, MeetingActionTypes> {
     if (!this._enableServiceWebSettings) {
       return this.personalMeeting;
     }
-    return this._initDefaultData(
+    return this.enforcePassword(
       {
         ...this.initialMeetingSetting,
         ...this.defaultLockedSettings,
@@ -1114,7 +1120,7 @@ export class Meeting extends RcModule<Record<string, any>, MeetingActionTypes> {
         meetingType: MeetingType.SCHEDULED,
       };
     }
-    return this._initDefaultData(
+    return this.enforcePassword(
       {
         ...this.initialMeetingSetting,
         ...this.defaultLockedSettings,
@@ -1215,6 +1221,18 @@ export class Meeting extends RcModule<Record<string, any>, MeetingActionTypes> {
     );
   }
 
+  get extensionName(): string {
+    return this.extensionInfo?.name;
+  }
+
+  @computed(({ extensionName, currentLocale }: Meeting) => [
+    extensionName,
+    currentLocale,
+  ])
+  get defaultTopic(): string {
+    return getDefaultTopic(this.extensionName, this.currentLocale);
+  }
+
   @computed(({ userSettings }: Meeting) => [userSettings])
   get recordingUserSettings() {
     const { recording = {} } = this.userSettings;
@@ -1225,6 +1243,12 @@ export class Meeting extends RcModule<Record<string, any>, MeetingActionTypes> {
   get scheduleUserSettings() {
     const { scheduleMeeting = {} } = this.userSettings;
     return scheduleMeeting;
+  }
+
+  @computed(({ userSettings }: Meeting) => [userSettings])
+  get telephonyUserSettings() {
+    const { telephony = {} } = this.userSettings;
+    return telephony;
   }
 
   @computed(({ lockedSettings }: Meeting) => [lockedSettings])

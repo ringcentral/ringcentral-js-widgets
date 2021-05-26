@@ -2,26 +2,30 @@ import { ASSISTED_USERS_MYSELF } from 'ringcentral-integration/modules/Meeting';
 export default {
   date: "Date",
   time: "Heure",
+  hours: "{howMany} h",
+  minutes: "{howMany} min",
+  today: "Aujourd'hui",
   duration: "Durée",
   topic: "Titre de la réunion",
   voIPOnly: "Son par Internet seulement",
   telephonyOnly: "Téléphone seulement",
-  both: "Téléphone et son par Internet",
+  both: "Son du téléphone et par Internet",
+  thirdParty: "Son d’un tiers",
   meetingId: "ID de meeting",
   password: "Mot de passe",
   video: "Vidéo",
-  audio: "Audio",
+  audio: "Son",
   scheduleFor: "Planifier au nom de",
   [ASSISTED_USERS_MYSELF]: "Moi-même",
-  meetingOptions: "Options de meeting",
+  meetingOptions: "Options de réunion",
   meetingSettings: "Paramètres de la réunion",
   rcMeetingSettings: "Paramètres de la vidéoconférence",
   audioOptions: "Options de son",
   recurringMeeting: "Réunion récurrente",
   recurringNote: "Remarque : Activez cette option lorsque vous choisissiez « Récurrence »",
-  joinBeforeHost: "Autoriser les participants à se joindre à la réunion avant l'hôte",
-  turnOffCamera: "Éteindre la caméra pour les participants",
-  turnOffHostCamera: "Désactiver la caméra de l'hôte lorsqu'il se joint au meeting",
+  joinBeforeHost: "Autoriser les participants à se joindre à la réunion avant l'animateur",
+  turnOffCamera: "Désactiver la caméra des participants",
+  turnOffHostCamera: "Désactiver la caméra de l'hôte lorsqu'il se joint à la réunion",
   requirePassword: "Exiger un mot de passe",
   enterPassword: "Saisissez le mot de passe",
   setPassword: "Définir le mot de passe *",
@@ -39,11 +43,15 @@ export default {
 
 // @key: @#@"date"@#@ @source: @#@"Date"@#@
 // @key: @#@"time"@#@ @source: @#@"Time"@#@
+// @key: @#@"hours"@#@ @source: @#@"{howMany} hr"@#@
+// @key: @#@"minutes"@#@ @source: @#@"{howMany} min"@#@
+// @key: @#@"today"@#@ @source: @#@"Today"@#@
 // @key: @#@"duration"@#@ @source: @#@"Duration"@#@
 // @key: @#@"topic"@#@ @source: @#@"Meeting title"@#@
 // @key: @#@"voIPOnly"@#@ @source: @#@"Internet audio only"@#@
 // @key: @#@"telephonyOnly"@#@ @source: @#@"Telephone only"@#@
-// @key: @#@"both"@#@ @source: @#@"Telephone and Internet Audio"@#@
+// @key: @#@"both"@#@ @source: @#@"Telephone and Internet audio"@#@
+// @key: @#@"thirdParty"@#@ @source: @#@"3rd party audio"@#@
 // @key: @#@"meetingId"@#@ @source: @#@"Meeting ID"@#@
 // @key: @#@"password"@#@ @source: @#@"Password"@#@
 // @key: @#@"video"@#@ @source: @#@"Video"@#@

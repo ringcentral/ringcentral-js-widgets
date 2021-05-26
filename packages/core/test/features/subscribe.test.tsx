@@ -8,8 +8,14 @@ import {
   Step,
 } from '@ringcentral-integration/test-utils';
 
-import { RcModuleV2, state, action, watch } from '../../lib';
-import { subscribe } from '../../lib/subscribe/subscribe';
+import {
+  RcModuleV2,
+  state,
+  action,
+  watch,
+  subscribe,
+  createApp,
+} from '../../lib';
 
 const generateModule = (subscribeFn: Function, watchFn: Function) => {
   class Counter extends RcModuleV2 {
@@ -66,8 +72,9 @@ class ModuleSubscribeCheck extends Step {
               context.subscribeFn,
               context.watchFn,
             );
-            context.counterInstance = context.Counter.create();
-            context.counterInstance.initModule();
+            context.counterInstance = createApp({
+              main: new context.Counter(),
+            });
             expect(context.counterInstance instanceof context.Counter).toBe(
               true,
             );

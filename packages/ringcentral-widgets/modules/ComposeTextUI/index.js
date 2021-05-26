@@ -90,22 +90,8 @@ export default class ComposeTextUI extends RcUIModule {
   }) {
     return {
       send(...args) {
-        let timeout = setTimeout(() => {
-          if (routerInteraction.currentPath === '/composeText') {
-            composeText.alertMessageSending();
-          }
-          if (timeout) {
-            clearTimeout(timeout);
-            timeout = null;
-          }
-        }, 10000);
         composeText.send(...args).then(
           (responses) => {
-            if (timeout) {
-              clearTimeout(timeout);
-              timeout = null;
-            }
-            composeText.dismissMessageSending();
             if (!responses || responses.length === 0) {
               return null;
             }
@@ -126,11 +112,8 @@ export default class ComposeTextUI extends RcUIModule {
             composeText.clean();
             return null;
           },
-          () => {
-            if (timeout) {
-              clearTimeout(timeout);
-              timeout = null;
-            }
+          (err) => {
+            console.log(err);
           },
         );
       },

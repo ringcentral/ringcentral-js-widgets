@@ -5,7 +5,7 @@ export default {
   viewDetails: "세부 정보 보기",
   addEntity: "새로 만들기",
   call: "통화",
-  text: "텍스트",
+  text: "문자",
   conversation: "대화",
   groupConversation: "그룹 대화",
   voiceMessage: "음성 메시지",

@@ -26,7 +26,7 @@ import {
 import { IMeeting } from '../../interfaces/Meeting.interface';
 import background from '../../lib/background';
 import { Module } from '../../lib/di';
-import proxify from '../../lib/proxy/proxify';
+import { proxify } from '../../lib/proxy/proxify';
 import {
   ASSISTED_USERS_MYSELF,
   COMMON_SETTINGS,
@@ -52,11 +52,13 @@ import {
   Preferences,
   RcmInvitationInfo,
   RcMMeetingModel,
+  RequirePwdTypeForPMI,
   SavedDefaultMeetingSetting,
   ScheduleMeetingLockedSettings,
   ScheduleMeetingResponse,
   UpdatingStatus,
   UserScheduleMeetingSettingResponse,
+  UserTelephonySettingResponse,
   UserSettings,
 } from './Meeting.interface';
 import { MeetingErrors } from './meetingErrors';
@@ -98,7 +100,7 @@ export class Meeting extends RcModuleV2<Deps> implements IMeeting {
 
   @storage
   @state
-  personalMeeting: Partial<RcMMeetingModel> = {};
+  personalMeeting: RcMMeetingModel = null;
 
   @storage
   @state
@@ -127,7 +129,7 @@ export class Meeting extends RcModuleV2<Deps> implements IMeeting {
     return this._deps.extensionInfo.info?.name;
   }
 
-  @computed<Meeting>(({ extensionName, currentLocale }) => [
+  @computed(({ extensionName, currentLocale }: Meeting) => [
     extensionName,
     currentLocale,
   ])
@@ -135,12 +137,17 @@ export class Meeting extends RcModuleV2<Deps> implements IMeeting {
     return getDefaultTopic(this.extensionName, this.currentLocale);
   }
 
-  @computed<Meeting>((that) => [that.userSettings?.scheduleMeeting])
+  @computed((that: Meeting) => [that.userSettings?.scheduleMeeting])
   get scheduleUserSettings(): Partial<UserScheduleMeetingSettingResponse> {
     return this.userSettings?.scheduleMeeting || {};
   }
 
-  @computed<Meeting>((that) => [
+  @computed((that: Meeting) => [that.userSettings?.telephony])
+  get telephonyUserSettings(): Partial<UserTelephonySettingResponse> {
+    return this.userSettings?.telephony || {};
+  }
+
+  @computed((that: Meeting) => [
     that.enablePersonalMeeting,
     that.enableServiceWebSettings,
     that.scheduleUserSettings.usePmiForScheduledMeetings,
@@ -153,7 +160,7 @@ export class Meeting extends RcModuleV2<Deps> implements IMeeting {
     );
   }
 
-  @computed<Meeting>((that) => [that.extensionInfo.info.id])
+  @computed((that: Meeting) => [that.extensionInfo.info.id])
   get loginUser(): MeetingDelegator {
     return {
       id: `${this.extensionInfo.info.id}`,
@@ -162,12 +169,12 @@ export class Meeting extends RcModuleV2<Deps> implements IMeeting {
     };
   }
 
-  @computed<Meeting>((that) => [that.lockedSettings?.scheduleMeeting])
+  @computed((that: Meeting) => [that.lockedSettings?.scheduleMeeting])
   get scheduleLockedSettings(): Partial<ScheduleMeetingLockedSettings> {
     return this.lockedSettings?.scheduleMeeting || {};
   }
 
-  @computed<Meeting>((that) => [
+  @computed((that: Meeting) => [
     that.enableServiceWebSettings,
     that.scheduleLockedSettings,
   ])
@@ -178,7 +185,7 @@ export class Meeting extends RcModuleV2<Deps> implements IMeeting {
     return pick(COMMON_SETTINGS, this.scheduleLockedSettings);
   }
 
-  @computed<Meeting>((that) => [
+  @computed((that: Meeting) => [
     that.enableServiceWebSettings,
     that.scheduleUserSettings,
   ])
@@ -189,7 +196,7 @@ export class Meeting extends RcModuleV2<Deps> implements IMeeting {
     return pick(COMMON_SETTINGS, this.scheduleUserSettings);
   }
 
-  @computed<Meeting>((that) => [
+  @computed((that: Meeting) => [
     that.enablePersonalMeeting,
     that.personalMeeting,
   ])
@@ -200,17 +207,17 @@ export class Meeting extends RcModuleV2<Deps> implements IMeeting {
     return pick([...COMMON_SETTINGS, 'password'], this.personalMeeting);
   }
 
-  @computed<Meeting>((that) => [that._deps.locale.currentLocale])
+  @computed((that: Meeting) => [that._deps.locale.currentLocale])
   get currentLocale() {
     return this._deps.locale.currentLocale || DEFAULT_LOCALE;
   }
 
-  get pmiDefaultSettings(): Partial<RcMMeetingModel> {
+  get pmiDefaultSettings(): RcMMeetingModel {
     if (!this.enableServiceWebSettings) {
       return this.personalMeeting;
     }
 
-    return this._initDefaultData(
+    return this.enforcePassword(
       {
         ...this.initialMeetingSetting,
         settingLock: this.defaultLockedSettings,
@@ -235,7 +242,7 @@ export class Meeting extends RcModuleV2<Deps> implements IMeeting {
       };
     }
 
-    return this._initDefaultData(
+    return this.enforcePassword(
       {
         ...this.initialMeetingSetting,
         settingLock: this.defaultLockedSettings,
@@ -248,22 +255,23 @@ export class Meeting extends RcModuleV2<Deps> implements IMeeting {
     );
   }
 
-  get defaultMeetingSetting(): Partial<RcMMeetingModel> {
+  get defaultMeetingSetting(): RcMMeetingModel {
     const initialSetting = this.initialMeetingSetting;
     const usePmi = this.usePmiDefaultFromSW;
     const userSettings = this.userSettings;
-    const pmiDefaultSettings = this.pmiDefaultSettings;
-    const generalDefaultSettings = this.getGeneralDefaultSettings();
     const savedSetting = this.showSaveAsDefault
       ? this.savedDefaultMeetingSetting
       : this.lastMeetingSetting;
 
     if (this.enableServiceWebSettings) {
       if (!isEmpty(userSettings)) {
-        return usePmi ? pmiDefaultSettings : generalDefaultSettings;
+        return usePmi
+          ? this.pmiDefaultSettings
+          : this.getGeneralDefaultSettings();
       }
       return initialSetting;
     }
+
     const meeting = {
       ...initialSetting,
       ...savedSetting,
@@ -329,10 +337,6 @@ export class Meeting extends RcModuleV2<Deps> implements IMeeting {
     return this._deps.meetingOptions?.enableServiceWebSettings ?? false;
   }
 
-  get putRecurringMeetingInMiddle() {
-    return this._deps.meetingOptions?.putRecurringMeetingInMiddle ?? false;
-  }
-
   get enableScheduleOnBehalf() {
     return this._deps.meetingOptions?.enableScheduleOnBehalf ?? false;
   }
@@ -357,7 +361,7 @@ export class Meeting extends RcModuleV2<Deps> implements IMeeting {
   }
 
   @action
-  protected _updatePersonalMeeting(personalMeeting: Partial<RcMMeetingModel>) {
+  protected _updatePersonalMeeting(personalMeeting: RcMMeetingModel) {
     this.personalMeeting = personalMeeting;
   }
 
@@ -820,7 +824,7 @@ export class Meeting extends RcModuleV2<Deps> implements IMeeting {
 
   @proxify
   async resetPersonalMeeting() {
-    this._updatePersonalMeeting({});
+    this._updatePersonalMeeting(null);
   }
 
   @proxify
@@ -1008,7 +1012,7 @@ export class Meeting extends RcModuleV2<Deps> implements IMeeting {
         .get(
           `/restapi/v1.0/account/~/extension/~/meeting/${meetingId}/invitation`,
           {
-            language: locale,
+            language: this._deps.locale.normalizeLocale(locale),
           },
         );
       const { invitation } = await apiResponse.json();
@@ -1187,7 +1191,42 @@ export class Meeting extends RcModuleV2<Deps> implements IMeeting {
     }
   }
 
-  _initDefaultData(
+  enforcePmiPassword(
+    processedMeeting: RcMMeetingModel,
+    requirePwdForPMI: RequirePwdTypeForPMI,
+    requirePwdIsLockedForPMI: boolean,
+  ) {
+    const { allowJoinBeforeHost, password = '' } = processedMeeting;
+    if (password !== '') {
+      // save this for design
+      processedMeeting._pmiPassword = password;
+    }
+
+    let pmiRequiresPwd;
+    switch (requirePwdForPMI) {
+      case PMIRequirePassword.NONE:
+        pmiRequiresPwd = password !== '';
+        break;
+      case PMIRequirePassword.ALL:
+        pmiRequiresPwd = true;
+        break;
+      case PMIRequirePassword.JBH_ONLY:
+        pmiRequiresPwd = allowJoinBeforeHost || password !== '';
+        break;
+      default:
+        pmiRequiresPwd = processedMeeting._requireMeetingPassword;
+    }
+
+    const pmiRequiresPwdLocked =
+      requirePwdForPMI === PMIRequirePassword.JBH_ONLY
+        ? requirePwdIsLockedForPMI && allowJoinBeforeHost
+        : requirePwdIsLockedForPMI;
+
+    processedMeeting._requireMeetingPassword = pmiRequiresPwd;
+    processedMeeting._lockRequireMeetingPassword = pmiRequiresPwdLocked;
+  }
+
+  enforcePassword(
     meeting: RcMMeetingModel,
     { userSettings, personalMeetingSettings }: MeetingInitialExtraData,
     usePmi: boolean,
@@ -1195,63 +1234,35 @@ export class Meeting extends RcModuleV2<Deps> implements IMeeting {
     if (!this.enableServiceWebSettings) {
       return meeting;
     }
+    const {
+      requirePasswordForSchedulingNewMeetings: requirePwdForNonPMI = false,
+      requirePasswordForPmiMeetings: requirePwdForPMI,
+    } = this.scheduleUserSettings;
+    const {
+      requirePasswordForSchedulingNewMeetings: requirePwdIsLockedForNonPMI,
+      requirePasswordForPmiMeetings: requirePwdIsLockedForPMI,
+    } = this.scheduleLockedSettings;
 
     const processedMeeting = {
       ...meeting,
       ...(usePmi ? personalMeetingSettings : userSettings),
       usePersonalMeetingId: usePmi,
-    };
+      telephonyUserSettings: this.telephonyUserSettings,
+    } as RcMMeetingModel;
 
     // For PMI meetings
     if (usePmi) {
-      const { allowJoinBeforeHost, password = '' } = processedMeeting;
-      const requirePasswordForPmiMeetings = this.scheduleUserSettings
-        .requirePasswordForPmiMeetings;
-
-      if (password !== '') {
-        processedMeeting._pmiPassword = password;
-      }
-
-      let pmiRequiresPwd;
-      switch (requirePasswordForPmiMeetings) {
-        case PMIRequirePassword.NONE:
-          pmiRequiresPwd = password !== '';
-          break;
-        case PMIRequirePassword.ALL:
-          pmiRequiresPwd = true;
-          break;
-        case PMIRequirePassword.JBH_ONLY:
-          pmiRequiresPwd = allowJoinBeforeHost || password !== '';
-          break;
-        default:
-          pmiRequiresPwd = processedMeeting._requireMeetingPassword;
-      }
-
-      const lockedRequirePasswordForPmiMeetings = this.scheduleLockedSettings
-        .requirePasswordForPmiMeetings;
-      let pmiRequiresPwdLocked = processedMeeting._lockRequireMeetingPassword;
-      if (requirePasswordForPmiMeetings === PMIRequirePassword.JBH_ONLY) {
-        pmiRequiresPwdLocked =
-          lockedRequirePasswordForPmiMeetings && allowJoinBeforeHost;
-      } else if (
-        requirePasswordForPmiMeetings !== PMIRequirePassword.JBH_ONLY
-      ) {
-        pmiRequiresPwdLocked = lockedRequirePasswordForPmiMeetings;
-      }
-
-      processedMeeting._requireMeetingPassword = pmiRequiresPwd;
-      processedMeeting._lockRequireMeetingPassword = pmiRequiresPwdLocked;
+      this.enforcePmiPassword(
+        processedMeeting,
+        requirePwdForPMI,
+        requirePwdIsLockedForPMI,
+      );
     } else {
       // For non-PMI meetings
-      const {
-        requirePasswordForSchedulingNewMeetings = false,
-      } = this.scheduleUserSettings;
-      if (requirePasswordForSchedulingNewMeetings) {
+      if (requirePwdForNonPMI) {
         processedMeeting._requireMeetingPassword = true;
       }
-      const lockedRequirePasswordForSchedulingNewMeetings = this
-        .scheduleLockedSettings.requirePasswordForSchedulingNewMeetings;
-      if (lockedRequirePasswordForSchedulingNewMeetings) {
+      if (requirePwdIsLockedForNonPMI) {
         processedMeeting._lockRequireMeetingPassword = true;
       }
     }
@@ -1261,7 +1272,7 @@ export class Meeting extends RcModuleV2<Deps> implements IMeeting {
         processedMeeting._requireMeetingPassword && !processedMeeting.password
           ? generateRandomPassword()
           : processedMeeting.password,
-    };
+    } as RcMMeetingModel;
   }
 
   // use to check meeting is in updating status or not

@@ -9,6 +9,7 @@ import {
 } from '@ringcentral-integration/test-utils';
 
 import { ComposeText } from '../../modules/ComposeTextV2';
+import { mockModuleGenerator } from '../lib/mockModule';
 
 class MockModule {
   _ready = true;
@@ -68,16 +69,17 @@ class MockContactSearch extends MockModule {
   }
 }
 
-const getMockModule = () => ({
-  toNumbers: [{ phoneNumber: '+16579990000' }],
-  senderNumber: '+1234567890',
-  messageText: 'ttttt',
-  attachments: [],
-  typingToNumber: '',
-  state: {},
-  _dispatch: () => {},
-  _deps: {},
-});
+const getMockModule = () =>
+  mockModuleGenerator({
+    toNumbers: [{ phoneNumber: '+16579990000' }],
+    senderNumber: '+1234567890',
+    messageText: 'ttttt',
+    attachments: [],
+    typingToNumber: '',
+    alertMessageSending: () => {},
+    dismissMessageSending: () => {},
+    _deps: {},
+  });
 
 @autorun(test)
 @title('ComposeText Module should send SMS successfully')

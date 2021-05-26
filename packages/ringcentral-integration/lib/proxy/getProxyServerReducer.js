@@ -29,7 +29,7 @@ export default function getProxyServerReducer({
     });
     return {
       target: moduleReducer(state.target, action),
-      lastAction: action,
+      lastAction: dropStates(action),
       actionNumber: nextActionNumber,
     };
   };

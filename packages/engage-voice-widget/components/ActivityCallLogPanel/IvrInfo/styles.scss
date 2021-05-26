@@ -60,6 +60,12 @@ div.panelRoot.panelRoot.panelRoot {
   justify-content: space-between;
   @include space();
 }
+.summaryAgentScriptIconPaddingRight.summaryAgentScriptIconPaddingRight {
+  padding-right: 60px;
+}
+.summaryAgentScriptIconWidth.summaryAgentScriptIconWidth {
+  width: 190px;
+}
 
 .expanded {
   box-shadow: none;
@@ -83,8 +89,8 @@ div.panelRoot.panelRoot.panelRoot {
 
 .summaryContent {
   justify-content: space-between;
-  margin: 0 !important;
-  padding: 0 !important;
+  margin-left: 10px;
+  padding: 0 4px 0 0;
 
   width: $lightning-content-width;
   padding-top: 7.5px !important;

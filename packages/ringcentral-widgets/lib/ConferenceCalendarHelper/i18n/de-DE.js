@@ -1,5 +1,5 @@
 export default {
-  inviteMeetingContent: "{accountName} lädt Sie zu einem {brandName}-Meeting ein.\n\nNehmen Sie mit einem PC, Mac, iOS- oder Android-Gerät teil: {joinUri}{passwordTpl}\n\n Oder mit einmaligem Tippen auf dem iPhone:\n\t    {mobileDialingNumberTpl}\n\n    Oder per Telefon:\n\t     Wählen:\n\t    {phoneDialingNumberTpl}\n\t     Besprechungs-ID: {meetingId}\n\t     Verfügbare internationale Nummern: {teleconference} ",
+  inviteMeetingContent: "{accountName} lädt Sie zu einer {brandName}-Besprechung ein.\n\nNehmen Sie mit einem PC, Mac, iOS- oder Android-Gerät teil: {joinUri}{passwordTpl}\n\n Oder mit einmaligem Tippen auf dem iPhone:\n\t    {mobileDialingNumberTpl}\n\n    Oder per Telefon:\n\t     Wählen:\n\t    {phoneDialingNumberTpl}\n\t     Besprechungs-ID: {meetingId}\n\t     Verfügbare internationale Nummern: {teleconference} ",
   conferenceLocationField: "Konferenzbesprechung, Einwahlnummer: {dialInNumber}",
   scheduleError: "Da ist leider etwas schief gelaufen. Versuchen Sie es erneut.",
   noMeetingPermission: "Sie haben leider nicht die erforderlichen Berechtigungen für {brandName} Meetings. Wenden Sie sich an den Administrator Ihres Unternehmens, um fortzufahren.",
@@ -26,7 +26,7 @@ export default {
   password: "Kennwort",
   failedToRetrieveMeeting: "Die Netzwerkverbindung wurde unterbrochen. Diese Besprechung löschen und später erneut versuchen.",
   meetingSettingsTitle: "Einstellungen für {brand} Meetings",
-  recurringMeeting: "Regelmäßiges Meeting",
+  recurringMeeting: "Wiederkehrende Besprechung",
   meetingOptions: "Besprechungsoptionen",
   schedule: "Zeitplan",
   settingsBtn: "Einstellungen"

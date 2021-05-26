@@ -22,7 +22,7 @@ import { Deps } from './CompanyContacts.interface';
 /**
  * TODO:
  * 1. Consider moving the filters to some UI module for display contact list
- * 2. Find out whether there are other types should be searchable/mactchable, but hidden in contact lists
+ * 2. Find out whether there are other types should be searchable/matchable, but hidden in contact lists
  * 3. Find out whether isAvailableExtension can be better defined in our business logic layer
  * 4. Standardize and remove the IVR contacts special treatments
  */
@@ -53,9 +53,10 @@ const DEFAULT_SELECTED_TYPES: ObjectMapValue<typeof extensionTypes>[] = [
   name: 'CompanyContacts',
   deps: [
     'Client',
-    'RolesAndPermissions',
+    'ExtensionFeatures',
     'DataFetcherV2',
     'Subscription',
+    'Storage',
     { dep: 'TabManager', optional: true },
     { dep: 'CompanyContactsOptions', optional: true },
   ],
@@ -83,9 +84,10 @@ export class CompanyContacts extends DataFetcherV2Consumer<
           this._deps.client.account().directory().contacts().list(params),
         ),
       readyCheckFunction: () =>
-        this._deps.rolesAndPermissions.ready && this._deps.subscription.ready,
+        this._deps.extensionFeatures.ready && this._deps.subscription.ready,
       permissionCheckFunction: () =>
-        !!this._deps.rolesAndPermissions.permissions.ReadExtensions,
+        this._deps.extensionFeatures.features?.ReadExtensions.available ??
+        false,
     });
     this._deps.dataFetcherV2.register(this._source);
   }
@@ -186,8 +188,8 @@ export class CompanyContacts extends DataFetcherV2Consumer<
     );
   }
 
-  @computed<CompanyContacts>(
-    ({ selectedTypes, showDisabled, showNotActivated }) => [
+  @computed(
+    ({ selectedTypes, showDisabled, showNotActivated }: CompanyContacts) => [
       selectedTypes,
       showDisabled,
       showNotActivated,
@@ -214,7 +216,7 @@ export class CompanyContacts extends DataFetcherV2Consumer<
     );
   }
 
-  @computed<CompanyContacts>(({ data, _extensionFilter }) => [
+  @computed(({ data, _extensionFilter }: CompanyContacts) => [
     data,
     _extensionFilter,
   ])
@@ -222,7 +224,7 @@ export class CompanyContacts extends DataFetcherV2Consumer<
     return this._extensionFilter(this.data ?? []);
   }
 
-  @computed<CompanyContacts>(({ data }) => [data])
+  @computed(({ data }: CompanyContacts) => [data])
   get ivrContacts() {
     const ivrContacts = filter(
       (item) => item.type === extensionTypes.ivrMenu,

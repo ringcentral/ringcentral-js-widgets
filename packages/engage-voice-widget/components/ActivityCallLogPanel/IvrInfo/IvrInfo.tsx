@@ -1,10 +1,6 @@
-import {
-  RcExpansionPanel,
-  RcExpansionPanelDetails,
-  RcExpansionPanelSummary,
-  RcIcon,
-  RcLink,
-} from '@ringcentral/juno';
+import { RcAccordion } from '@ringcentral/juno/components/Accordion';
+import { RcAccordionDetails } from '@ringcentral/juno/components/Accordion/AccordionDetails';
+import { RcAccordionSummary } from '@ringcentral/juno/components/Accordion/AccordionSummary';
 import arrowDownSvg from '@ringcentral/juno/icon/ArrowDown2';
 import classNames from 'classnames';
 import React, { FunctionComponent, useEffect, useState } from 'react';
@@ -17,11 +13,12 @@ import styles from './styles.scss';
 
 export type IvrInfoProps = { isCallEnd: boolean } & Pick<
   EvActivityCallUIProps & EvActivityCallUIFunctions,
-  'ivrAlertData'
+  'ivrAlertData' | 'agentScriptData'
 >;
 export const IvrInfo: FunctionComponent<IvrInfoProps> = ({
   isCallEnd,
   ivrAlertData,
+  agentScriptData,
 }) => {
   const [expanded, setExpanded] = useState(false);
 
@@ -35,8 +32,7 @@ export const IvrInfo: FunctionComponent<IvrInfoProps> = ({
     <div className={styles.ivrPanel}>
       <i className={styles.remain} />
       <div className={styles.container}>
-        <RcExpansionPanel
-          square
+        <RcAccordion
           onChange={() => setExpanded(!expanded)}
           expanded={expanded}
           classes={{
@@ -44,34 +40,42 @@ export const IvrInfo: FunctionComponent<IvrInfoProps> = ({
             expanded: styles.expanded,
           }}
         >
-          <RcExpansionPanelSummary
+          <RcAccordionSummary
             classes={{
-              root: styles.summaryRoot,
-              content: styles.summaryContent,
+              root: classNames(
+                styles.summaryRoot,
+                agentScriptData && styles.summaryAgentScriptIconPaddingRight,
+              ),
+              content: classNames(
+                styles.summaryContent,
+                agentScriptData && styles.summaryAgentScriptIconWidth,
+              ),
             }}
             IconButtonProps={{
               size: 'small',
             }}
-            expandIcon={<RcIcon symbol={arrowDownSvg} color={['grey', 500]} />}
+            expandIcon={arrowDownSvg}
           >
-            <span className={styles.ivrMainSubject}>
+            <span
+              className={classNames(
+                styles.ivrMainSubject,
+                agentScriptData && styles.summaryAgentScriptIconWidth,
+              )}
+            >
               {ivrAlertData[0].subject || ''}
             </span>
             {ivrAlertData.length > 1 ? (
               <span className={styles.count}> +{ivrAlertData.length - 1}</span>
             ) : null}
-          </RcExpansionPanelSummary>
-          <RcExpansionPanelDetails
+          </RcAccordionSummary>
+          <RcAccordionDetails
             classes={{
               root: styles.detailsRoot,
             }}
           >
-            {ivrAlertData.map(({ subject = '', body = '', onClick }, i) => {
+            {ivrAlertData.map(({ subject = '', body = '' }, i) => {
               const bodyRender = () => {
                 if (body.length > 0) {
-                  if (onClick) {
-                    return <RcLink onClick={onClick}>{body}</RcLink>;
-                  }
                   return <div className={styles.body}>{body}</div>;
                 }
                 return null;
@@ -86,8 +90,8 @@ export const IvrInfo: FunctionComponent<IvrInfoProps> = ({
                 </div>
               );
             })}
-          </RcExpansionPanelDetails>
-        </RcExpansionPanel>
+          </RcAccordionDetails>
+        </RcAccordion>
       </div>
     </div>
   );

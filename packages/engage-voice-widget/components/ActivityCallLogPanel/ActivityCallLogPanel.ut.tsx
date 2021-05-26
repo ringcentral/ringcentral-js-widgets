@@ -1,8 +1,7 @@
 import { StepFunction } from 'crius-test';
 
-import { getCurrentRouteId } from '../../../salesforce-engage-voice/test/utils/getCurrentRouteId';
 import { ActivityCallLogPage } from '../../containers/ActivityCallLogPage';
-import { moduleUIPageMount } from '../../test/utils';
+import { moduleUIPageMount, getCurrentRouteId } from '../../test/utils';
 
 export const UTActivityCallLogPanel: StepFunction<any, any> = async (
   props,

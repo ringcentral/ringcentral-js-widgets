@@ -14,7 +14,7 @@ props.height = 50;
  * A example of `TabNavigationButton`
  */
 const TabNavigationButtonDemo = () => (
-  <div style={{ width: '200px', height: '46px', background: '#0684bd' }}>
+  <div style={{ width: '200px', height: '46px', background: '#066FAC' }}>
     <TabNavigationButton {...props} />
   </div>
 );

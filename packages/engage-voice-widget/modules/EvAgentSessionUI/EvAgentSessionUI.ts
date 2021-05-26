@@ -133,10 +133,10 @@ class EvAgentSessionUI extends RcUIModuleV2<Deps> implements SessionConfigUI {
     this._deps.modalUI.confirm({
       title: i18n.getString('saveEditionModalTitle', currentLocale),
       content: i18n.getString('saveEditionModalContent', currentLocale),
-      okText: i18n.getString('save', currentLocale),
-      cancelText: i18n.getString('cancel', currentLocale),
+      confirmButtonText: i18n.getString('save', currentLocale),
+      cancelButtonText: i18n.getString('cancel', currentLocale),
       size: 'xsmall',
-      onOK: () => {
+      onConfirm: () => {
         this.onSaveUpdate();
       },
       onCancel: () => {
@@ -259,14 +259,13 @@ class EvAgentSessionUI extends RcUIModuleV2<Deps> implements SessionConfigUI {
     await this._deps.block.next(async () => {
       if (syncAllTabs && this._deps.tabManager.hasMultipleTabs) {
         this._deps.tabManager.send(tabManagerEvents.RE_CHOOSE_ACCOUNT);
-        this._deps.storage.resetStorage();
       }
       if (this._deps.evClient.ifSocketExist) {
         this._deps.evClient.closeSocket();
       }
+      this._deps.evAuth.setNotAuth();
       this._deps.evAuth.clearAgentId();
       this._deps.routerInteraction.push('/chooseAccount');
-      await this._deps.evAuth.authenticateWithToken();
     });
   }
 

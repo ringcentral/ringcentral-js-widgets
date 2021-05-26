@@ -31,11 +31,22 @@ export async function updateConferenceCallEnv(
   const conferenceBodyData = conferencePartiesCount
     ? getConferenceCallBody(conferencePartiesCount)
     : conferenceCallBody;
-  phone.store.dispatch({
-    type: phone.conferenceCall.actionTypes.updateConferenceSucceeded,
-    conference: conferenceBodyData,
-    sessionId: currentConference.sessionId,
-  });
+  if (phone.conferenceCall.setConferencesState) {
+    phone.conferenceCall.setConferencesState({
+      ...phone.conferenceCall.conferences,
+      [conferenceBodyData.id]: {
+        ...phone.conferenceCall.conferences[conferenceBodyData.id],
+        conference: conferenceBodyData,
+        sessionId: currentConference.id,
+      },
+    });
+  } else {
+    phone.store.dispatch({
+      type: phone.conferenceCall.actionTypes.updateConferenceSucceeded,
+      conference: conferenceBodyData,
+      sessionId: currentConference.sessionId,
+    });
+  }
 }
 
 export async function mockConferenceCallEnv(
@@ -70,17 +81,30 @@ export async function mockConferenceCallEnv(
   );
   await timeout(100);
   await mockPresencePubnub(activeCallsBody);
-  /* mock redux datas */
-  phone.store.dispatch({
-    type: phone.conferenceCall.actionTypes.makeConferenceSucceeded,
-    conference: conferenceBodyData,
-    sessionId: conferenceSession.id,
-    parties: [],
-  });
-  phone.store.dispatch({
-    type: phone.conferenceCall.actionTypes.updateCurrentConferenceId,
-    conferenceId: conferenceBodyData.id,
-  });
+  /* mock redux data */
+  if (phone.conferenceCall.setConferencesState) {
+    // v2
+    phone.conferenceCall.setConferencesState({
+      ...phone.conferenceCall.conferences,
+      [conferenceBodyData.id]: {
+        conference: conferenceBodyData,
+        sessionId: conferenceSession.id,
+        profiles: [],
+      },
+    });
+    phone.conferenceCall.setCurrentConferenceId(conferenceBodyData.id);
+  } else {
+    phone.store.dispatch({
+      type: phone.conferenceCall.actionTypes.makeConferenceSucceeded,
+      conference: conferenceBodyData,
+      sessionId: conferenceSession.id,
+      parties: [],
+    });
+    phone.store.dispatch({
+      type: phone.conferenceCall.actionTypes.updateCurrentConferenceId,
+      conferenceId: conferenceBodyData.id,
+    });
+  }
   /* update session status */
   conferenceSession.accept(phone.webphone.acceptOptions);
   /* HACK: Force the CallCtrlPage layout refresh to callCtrlLayouts.conferenceCtrl */
@@ -92,8 +116,11 @@ export function removeParticipant(phone, partyId) {
   if (!partyId) {
     return null;
   }
-  const conferenceBody = Object.values(phone.conferenceCall.conferences)[0]
-    .conference;
+  const conferenceBody = JSON.parse(
+    JSON.stringify(
+      Object.values(phone.conferenceCall.conferences)[0].conference,
+    ),
+  );
   const newConferenceParties = conferenceBody.parties.map(
     (item, index, arr) => {
       if (item.id === partyId) {

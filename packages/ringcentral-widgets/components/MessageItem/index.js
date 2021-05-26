@@ -60,7 +60,7 @@ const ConversationIcon = ({ group, type, currentLocale, direction }) => {
       <span title={title}>{icon}</span>
     </div>
   );
-}
+};
 ConversationIcon.propTypes = {
   group: PropTypes.bool,
   type: PropTypes.string,
@@ -124,15 +124,28 @@ export default class MessageItem extends Component {
   };
 
   onSelectContact = (value, idx) => {
-    const selected = this.props.showContactDisplayPlaceholder
+    const {
+      showContactDisplayPlaceholder,
+      autoLog,
+      conversation,
+      shouldLogSelectRecord,
+      onSelectContact,
+    } = this.props;
+    const selected = showContactDisplayPlaceholder
       ? parseInt(idx, 10) - 1
       : parseInt(idx, 10);
     this._userSelection = true;
     this.setState({
       selected,
     });
-    if (this.props.autoLog) {
+    if (autoLog) {
       this.logConversation({ redirect: false, selected, prefill: false });
+    }
+    if (shouldLogSelectRecord && typeof onSelectContact === 'function') {
+      onSelectContact({
+        correspondentEntity: this.getSelectedContact(selected),
+        conversation,
+      });
     }
   };
 
@@ -452,6 +465,7 @@ export default class MessageItem extends Component {
       onCreateContact,
       createEntityTypes,
       enableContactFallback,
+      contactPlaceholder,
       showContactDisplayPlaceholder,
       sourceIcons,
       phoneTypeRenderer,
@@ -459,6 +473,7 @@ export default class MessageItem extends Component {
       showGroupNumberName,
       renderExtraButton,
       onFaxDownload,
+      showChooseEntityModal,
     } = this.props;
     let disableLinks = parentDisableLinks;
     const isVoicemail = type === messageTypes.voiceMail;
@@ -549,6 +564,7 @@ export default class MessageItem extends Component {
               stopPropagation={false}
               showType={false}
               showPlaceholder={showContactDisplayPlaceholder}
+              placeholder={contactPlaceholder}
               sourceIcons={sourceIcons}
               phoneTypeRenderer={phoneTypeRenderer}
               phoneSourceNameRenderer={phoneSourceNameRenderer}
@@ -641,6 +657,7 @@ export default class MessageItem extends Component {
             previewTitle={i18n.getString('preview', currentLocale)}
             downloadTitle={i18n.getString('download', currentLocale)}
             onFaxDownload={onFaxDownload}
+            showChooseEntityModal={showChooseEntityModal}
           />
         </SlideMenu>
       </div>
@@ -709,6 +726,7 @@ MessageItem.propTypes = {
   autoLog: PropTypes.bool,
   enableContactFallback: PropTypes.bool,
   showContactDisplayPlaceholder: PropTypes.bool,
+  contactPlaceholder: PropTypes.string,
   sourceIcons: PropTypes.object,
   phoneTypeRenderer: PropTypes.func,
   phoneSourceNameRenderer: PropTypes.func,
@@ -720,6 +738,9 @@ MessageItem.propTypes = {
   outboundSmsPermission: PropTypes.bool,
   updateTypeFilter: PropTypes.func,
   onFaxDownload: PropTypes.func,
+  showChooseEntityModal: PropTypes.bool,
+  shouldLogSelectRecord: PropTypes.bool,
+  onSelectContact: PropTypes.func,
 };
 
 MessageItem.defaultProps = {
@@ -737,6 +758,7 @@ MessageItem.defaultProps = {
   autoLog: false,
   enableContactFallback: undefined,
   showContactDisplayPlaceholder: true,
+  contactPlaceholder: '',
   sourceIcons: undefined,
   phoneTypeRenderer: undefined,
   phoneSourceNameRenderer: undefined,
@@ -748,4 +770,7 @@ MessageItem.defaultProps = {
   outboundSmsPermission: true,
   updateTypeFilter: undefined,
   onFaxDownload: undefined,
+  showChooseEntityModal: true,
+  shouldLogSelectRecord: false,
+  onSelectContact: undefined,
 };

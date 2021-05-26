@@ -4,8 +4,10 @@ import {
   ObjectMapValue,
 } from '@ringcentral-integration/core/lib/ObjectMap';
 
-const DEFAULT_INTERVAL = 30 * 1000;
-const DEFAULT_THRESHOLD = 60 * 1000;
+const DEFAULT_INTERVAL = 20 * 1000;
+// For chrome 88 timer-throttling https://developer.chrome.com/blog/timer-throttling-in-chrome-88/
+// need to make sure time diff is more than 1 min
+const DEFAULT_THRESHOLD = 75 * 1000;
 const DEFAULT_MAX_LISTENERS = 30;
 
 export const EVENTS = ObjectMap.fromKeys(['heartbeat', 'detected']);
@@ -57,6 +59,7 @@ export class SleepDetection {
       const endTime = Date.now();
       const sleepTime = endTime - startTime - this._detectionInterval;
       if (sleepTime > this._detectionThreshold) {
+        console.log('==== Sleep Detected =====');
         this._emitter.emit(this.events.detected, startTime, endTime, sleepTime);
       }
       this._timeoutId = null;

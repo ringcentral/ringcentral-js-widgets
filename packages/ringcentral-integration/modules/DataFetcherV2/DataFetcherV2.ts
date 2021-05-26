@@ -6,7 +6,7 @@ import {
 } from '@ringcentral-integration/core';
 import { forEach } from 'ramda';
 import { Module } from '../../lib/di';
-import proxify from '../../lib/proxy/proxify';
+import { proxify } from '../../lib/proxy/proxify';
 import { Deps } from './DataFetcherV2.interface';
 import { SourceStatusType, sourceStatus } from './sourceStatus';
 import { DataSource } from './DataSource';

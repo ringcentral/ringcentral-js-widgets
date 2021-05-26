@@ -847,7 +847,7 @@ export class Webphone extends WebphoneBase {
       transferSessionId,
     }: {
       inviteOptions: InviteOptions;
-      extendedControls?: string;
+      extendedControls?: string[];
       transferSessionId?: string;
     },
   ) {
@@ -906,7 +906,7 @@ export class Webphone extends WebphoneBase {
     toNumber: string;
     fromNumber: string;
     homeCountryId: string;
-    extendedControls: string;
+    extendedControls?: string[];
     transferSessionId?: string;
   }) {
     const inviteOptions = {
@@ -1215,7 +1215,7 @@ export class Webphone extends WebphoneBase {
     this._updateSessions();
   }
 
-  @computed<Webphone>(({ sessions }) => [sessions])
+  @computed(({ sessions }: Webphone) => [sessions])
   get sessionPhoneNumbers(): string[] {
     const outputs: string[] = [];
     this.sessions.forEach((session) => {
@@ -1228,7 +1228,7 @@ export class Webphone extends WebphoneBase {
   /**
    * Current active session(Outbound and InBound that answered)
    */
-  @computed<Webphone>(({ activeSessionId, sessions }) => [
+  @computed(({ activeSessionId, sessions }: Webphone) => [
     activeSessionId,
     sessions,
   ])
@@ -1246,7 +1246,7 @@ export class Webphone extends WebphoneBase {
   /**
    * Current ring session(inbound)
    */
-  @computed<Webphone>(({ ringSessionId, sessions }) => [
+  @computed(({ ringSessionId, sessions }: Webphone) => [
     ringSessionId,
     sessions,
   ])
@@ -1261,17 +1261,17 @@ export class Webphone extends WebphoneBase {
     return session;
   }
 
-  @computed<Webphone>(({ sessions }) => [sessions])
+  @computed(({ sessions }: Webphone) => [sessions])
   get ringSessions(): NormalizedSession[] {
     return filter((session) => isRing(session), this.sessions);
   }
 
-  @computed<Webphone>(({ sessions }) => [sessions])
+  @computed(({ sessions }: Webphone) => [sessions])
   get onHoldSessions(): NormalizedSession[] {
     return filter((session) => isOnHold(session), this.sessions);
   }
 
-  @computed<Webphone>(({ sessions }) => [sessions])
+  @computed(({ sessions }: Webphone) => [sessions])
   get cachedSessions(): NormalizedSession[] {
     return filter((session) => session.cached, this.sessions);
   }
@@ -1293,7 +1293,7 @@ export class Webphone extends WebphoneBase {
     return this.activeSession && this.activeSession.isOnTransfer;
   }
 
-  @computed<Webphone>(({ ringSessions }) => [ringSessions])
+  @computed(({ ringSessions }: Webphone) => [ringSessions])
   get ringingCallOnView(): NormalizedSession {
     return find((session) => !session.minimized, this.ringSessions);
   }

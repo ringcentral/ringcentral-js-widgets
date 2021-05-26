@@ -1,6 +1,7 @@
 import { WebPhoneSession as WebphoneSessionBase } from 'ringcentral-web-phone/lib/session';
 import { ObjectMapValue } from '@ringcentral-integration/core/lib/ObjectMap';
 import { extendedControlStatus } from '../enums/extendedControlStatus';
+import { Entity } from './Entity.interface';
 
 export interface PartyData {
   partyId: string;
@@ -27,7 +28,7 @@ export interface WebphoneSession extends WebphoneSessionBase {
   __rc_minimized: boolean;
   __rc_partyData?: PartyData;
   __rc_lastActiveTime: number;
-  __rc_extendedControls: string;
+  __rc_extendedControls?: string[];
   __rc_extendedControlStatus: ObjectMapValue<typeof extendedControlStatus>;
   __rc_transferSessionId: string;
 }
@@ -54,7 +55,7 @@ export interface NormalizedSession {
   isForwarded: boolean;
   isReplied: boolean;
   recordStatus: string;
-  contactMatch: { id: string };
+  contactMatch: Entity;
   minimized: boolean;
   partyData: PartyData;
   lastActiveTime: number;

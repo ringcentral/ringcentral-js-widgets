@@ -385,6 +385,7 @@ export default class CallItem extends Component {
       externalHasEntity,
       readTextPermission,
       withAnimation,
+      showChooseEntityModal,
     } = this.props;
     const phoneNumber = this.getPhoneNumber();
     const contactMatches = this.getContactMatches();
@@ -524,6 +525,7 @@ export default class CallItem extends Component {
           }
           disableClickToSms={disableClickToSms}
           withAnimation={withAnimation}
+          showChooseEntityModal={showChooseEntityModal}
         />
       </div>
     );
@@ -592,6 +594,7 @@ CallItem.propTypes = {
   withAnimation: PropTypes.bool,
   currentSiteCode: PropTypes.string,
   isMultipleSiteEnabled: PropTypes.bool,
+  showChooseEntityModal: PropTypes.bool,
 };
 
 CallItem.defaultProps = {
@@ -626,4 +629,5 @@ CallItem.defaultProps = {
   readTextPermission: true,
   onSizeChanged: undefined,
   withAnimation: true,
+  showChooseEntityModal: true,
 };

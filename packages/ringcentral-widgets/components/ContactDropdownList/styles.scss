@@ -18,7 +18,7 @@
   background: #ffffff;
   border: 1px solid #efefef;
   border-radius: 4px;
-  box-shadow: 0 4px 12px rgba(0,0,0,.175);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.175);
   max-height: 265px;
   overflow-y: auto;
   overflow-x: hidden;
@@ -65,7 +65,7 @@
 
 .dncNameSection {
   display: inline-block;
-  max-width: 220px;
+  max-width: calc(100% - 24px);
   vertical-align: middle;
 }
 
@@ -79,13 +79,13 @@
 
 .doNotCall {
   display: inline-block;
-  color: #6a7186;
+  color: rc-palette('neutral', 'f04');
   padding: 6px;
   border-radius: 50%;
   vertical-align: middle;
   font-size: 0;
   margin: -3px 0 -2px;
   &:hover {
-    background-color: rgba(106, 113, 134, 0.08);
+    background-color: rgba(101, 108, 128, 0.08);
   }
 }

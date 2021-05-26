@@ -1,4 +1,4 @@
-import { pick } from 'ramda';
+import { map, pick } from 'ramda';
 import formatMessage from 'format-message';
 import i18n from './i18n';
 import {
@@ -13,6 +13,7 @@ import {
   RcVSettingKey,
   RcVPreferences,
   RcVSettingLocks,
+  RcVDialInNumberObj,
 } from '../../interfaces/Rcv.model';
 import {
   RCV_WAITING_ROOM_MODE,
@@ -367,6 +368,41 @@ function patchWaitingRoomRelated(
   return processedSettings;
 }
 
+function formatMainPhoneNumber(
+  dialInNumber: string | RcVDialInNumberObj[],
+): string {
+  if (typeof dialInNumber === 'string') {
+    return dialInNumber;
+  }
+
+  if (!dialInNumber || dialInNumber.length === 0) {
+    return undefined;
+  }
+
+  return dialInNumber[0].phoneNumber;
+}
+
+function formatPremiumNumbers(
+  dialInNumber: string | RcVDialInNumberObj[],
+): string[] {
+  if (typeof dialInNumber === 'string') {
+    return [dialInNumber];
+  }
+
+  if (!dialInNumber || dialInNumber.length === 0) {
+    return [];
+  }
+
+  return map((obj) => {
+    const locationField =
+      obj?.country?.name && obj.location
+        ? `${obj.country.name} (${obj.location})`
+        : obj?.country?.name || '';
+
+    return `${obj.phoneNumber} ${locationField}`;
+  }, dialInNumber);
+}
+
 // TODO: will remove this when google app script could support export seperately
 // export together because google app script not fully support export
 export {
@@ -393,4 +429,6 @@ export {
   transformSettingLocks,
   getLockedPreferences,
   patchWaitingRoomRelated,
+  formatMainPhoneNumber,
+  formatPremiumNumbers,
 };

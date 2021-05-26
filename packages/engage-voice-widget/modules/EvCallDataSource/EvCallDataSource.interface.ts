@@ -4,6 +4,7 @@ import { EvCallData } from '../../interfaces/EvData.interface';
 import { EvClient } from '../../lib/EvClient';
 import { EvAuth } from '../EvAuth';
 import { EvStorage } from '../EvStorage';
+import { EvTabManager } from '../EvTabManager';
 
 export interface State {
   /** current agent ongoing session calls list with callId (encodeUii({ uii, sessionId })) */
@@ -24,6 +25,7 @@ export interface Deps {
   storage: EvStorage;
   evClient: EvClient;
   evAuth: EvAuth;
+  tabManager: EvTabManager;
 }
 
 export interface CallDataSource extends State {}

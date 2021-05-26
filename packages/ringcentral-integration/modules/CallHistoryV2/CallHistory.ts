@@ -229,7 +229,7 @@ export class CallHistory extends RcModuleV2<Deps> {
     this.setSearchInput(input);
   }
 
-  @computed<CallHistory>((that) => [
+  @computed((that: CallHistory) => [
     that._deps.callLog.calls,
     that._deps.accountInfo.countryCode,
   ])
@@ -263,7 +263,7 @@ export class CallHistory extends RcModuleV2<Deps> {
       .sort(sortByStartTime);
   }
 
-  @computed<CallHistory>((that) => [
+  @computed((that: CallHistory) => [
     that.normalizedCalls,
     that.endedCalls,
     that._deps.contactMatcher?.dataMapping,
@@ -358,7 +358,7 @@ export class CallHistory extends RcModuleV2<Deps> {
     this.filterSuccess(data);
   }
 
-  @computed<CallHistory>((that) => [
+  @computed((that: CallHistory) => [
     that.filterCalls,
     that._deps.activityMatcher?.dataMapping,
   ])
@@ -374,7 +374,7 @@ export class CallHistory extends RcModuleV2<Deps> {
     return this.filterCalls;
   }
 
-  @computed<CallHistory>((that) => [that.normalizedCalls, that.endedCalls])
+  @computed((that: CallHistory) => [that.normalizedCalls, that.endedCalls])
   get uniqueNumbers() {
     const output: string[] = [];
     const numberMap: Record<string, boolean> = {};
@@ -383,7 +383,7 @@ export class CallHistory extends RcModuleV2<Deps> {
     return output;
   }
 
-  @computed<CallHistory>((that) => [that._deps.callLog.calls, that.endedCalls])
+  @computed((that: CallHistory) => [that._deps.callLog.calls, that.endedCalls])
   get sessionIds() {
     const sessionIds: Record<string, boolean> = {};
     return this._deps.callLog.calls
@@ -398,7 +398,7 @@ export class CallHistory extends RcModuleV2<Deps> {
       );
   }
 
-  @computed<CallHistory>((that) => [
+  @computed((that: CallHistory) => [
     that.searchInput,
     that.calls,
     that.filteredCalls,

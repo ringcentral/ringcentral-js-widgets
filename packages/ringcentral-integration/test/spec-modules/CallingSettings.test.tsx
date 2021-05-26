@@ -13,18 +13,18 @@ import {
   CallingSettings,
   callingOptions,
 } from '../../modules/CallingSettingsV2';
+import { mockModuleGenerator } from '../lib/mockModule';
 
-const getMockModule = () => ({
-  data: {
-    callWith: null as string,
-    ringoutPrompt: true as boolean,
-    myLocation: '' as string,
-    timestamp: null as number,
-    fromNumber: null as string,
-  },
-  state: {},
-  _dispatch: () => {},
-});
+const getMockModule = () =>
+  mockModuleGenerator({
+    data: {
+      callWith: null as string,
+      ringoutPrompt: true as boolean,
+      myLocation: '' as string,
+      timestamp: null as number,
+      fromNumber: null as string,
+    },
+  });
 
 @autorun(test)
 @title('Save call settings should workable')
@@ -36,10 +36,10 @@ export class SaveCallSettings extends Step {
           desc="Call settings should provide the default settings"
           action={() => {
             const instance = new CallingSettings({} as any);
-            expect(instance._initialValue.data.callWith).toBe(null);
-            expect(instance._initialValue.data.ringoutPrompt).toBe(true);
-            expect(instance._initialValue.data.myLocation).toBe('');
-            expect(instance._initialValue.data.timestamp).toBe(null);
+            expect(instance.data.callWith).toBe(null);
+            expect(instance.data.ringoutPrompt).toBe(true);
+            expect(instance.data.myLocation).toBe('');
+            expect(instance.data.timestamp).toBe(null);
           }}
         />
         <When
@@ -91,7 +91,7 @@ export class FromNumberState extends Step {
           desc="from number state should default to null"
           action={() => {
             const instance = new CallingSettings({} as any);
-            expect(instance._initialValue.data.fromNumber).toBe(null);
+            expect(instance.data.fromNumber).toBe(null);
           }}
         />
         <When

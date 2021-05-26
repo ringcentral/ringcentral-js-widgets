@@ -18,7 +18,7 @@ export interface EvSettingsUIProps {
   userName: string;
   sessionInfo: SessionInfo;
   disableEditSessionButton: boolean;
-  showEditSessionButton: boolean;
+  showEditSessionIcon: boolean;
 }
 
 export interface EvSettingsUIFunctions {

@@ -6,11 +6,10 @@ import {
   track,
 } from '@ringcentral-integration/core';
 import url from 'url';
-import moduleStatuses from '../../enums/moduleStatuses';
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
 import validateIsOffline from '../../lib/validateIsOffline';
-import { trackEvents } from '../Analytics';
+import { trackEvents } from '../Analytics/trackEvents';
 import {
   Deps,
   LoginOptions,
@@ -235,7 +234,7 @@ class Auth extends RcModuleV2<Deps> {
 
   _shouldInit() {
     return (
-      this.status === moduleStatuses.pending &&
+      this.pending &&
       this._deps.locale.ready &&
       (!this._deps.tabManager || this._deps.tabManager.ready) &&
       (!this._deps.environment || this._deps.environment.ready)

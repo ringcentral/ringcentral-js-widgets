@@ -4,7 +4,7 @@ import {
 } from '@ringcentral-integration/core/lib/ObjectMap';
 
 export const callResults = ObjectMap.fromObject({
-  IPPhoneOffline: 'IP Phone offline',
+  IPPhoneOffline: 'IP Phone Offline',
   abandoned: 'Abandoned',
   account: 'Account',
   blocked: 'Blocked',
@@ -46,6 +46,7 @@ export const callResults = ObjectMap.fromObject({
   faxReceipt: 'Fax Receipt',
   suspendedAccount: 'Suspended Account',
   disconnected: 'Disconnected',
+  notAllowed: 'Not Allowed',
 } as const);
 
 export type CallResultsKey = ObjectMapKey<typeof callResults>;

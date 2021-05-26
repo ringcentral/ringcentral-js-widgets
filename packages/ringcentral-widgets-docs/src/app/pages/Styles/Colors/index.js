@@ -6,7 +6,7 @@ import styles from './styles.scss';
 const COLORS_LIST1 = [
   [
     { name: 'Marine', value: '#0570A1' },
-    { name: 'RC Blue', value: '#0684BD' },
+    { name: 'RC Blue', value: '#066FAC' },
     { name: 'Sea', value: '#389DCA' },
     { name: 'Water', value: '#9BCEE5' },
   ],

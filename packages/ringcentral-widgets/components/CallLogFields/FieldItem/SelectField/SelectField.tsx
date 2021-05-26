@@ -6,11 +6,14 @@ export type SelectFieldProps = {
     label: any;
     value: string;
     disabled: boolean;
+    title?: string;
   }[];
+  labelClassName?: string;
 } & RcSelectProps;
 
 export const SelectField: FunctionComponent<SelectFieldProps> = ({
   options,
+  labelClassName,
   ...rest
 }) => {
   return (
@@ -21,8 +24,9 @@ export const SelectField: FunctionComponent<SelectFieldProps> = ({
           value={!item.value ? undefined : `${item.value}`}
           data-sign={`option${i}`}
           disabled={item.disabled}
+          title={item.title}
         >
-          {item.label}
+          <span className={labelClassName}>{item.label}</span>
         </RcMenuItem>
       ))}
     </RcSelect>

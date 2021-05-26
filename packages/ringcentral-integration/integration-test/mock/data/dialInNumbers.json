@@ -1,0 +1,628 @@
+{
+  "phoneNumbers" : [
+    {
+      "phoneNumber" : "+13232382296",
+      "country" : {
+        "name" : "United States",
+        "isoCode" : "US",
+        "callingCode" : "1"
+      },
+      "default" : true,
+      "location" : "San Mateo, CA"
+    },
+    {
+      "phoneNumber" : "+541159842371",
+      "country" : {
+        "name" : "Argentina",
+        "isoCode" : "AR",
+        "callingCode" : "54"
+      },
+      "default" : false,
+      "location" : "Buenos Aires"
+    },
+    {
+      "phoneNumber" : "+61862450610",
+      "country" : {
+        "name" : "Australia",
+        "isoCode" : "AU",
+        "callingCode" : "61"
+      },
+      "default" : false,
+      "location" : "Perth"
+    },
+    {
+      "phoneNumber" : "+61283104136",
+      "country" : {
+        "name" : "Australia",
+        "isoCode" : "AU",
+        "callingCode" : "61"
+      },
+      "default" : false,
+      "location" : "Sydney"
+    },
+    {
+      "phoneNumber" : "+61251103049",
+      "country" : {
+        "name" : "Australia",
+        "isoCode" : "AU",
+        "callingCode" : "61"
+      },
+      "default" : false,
+      "location" : "Canberra"
+    },
+    {
+      "phoneNumber" : "+61370183406",
+      "country" : {
+        "name" : "Australia",
+        "isoCode" : "AU",
+        "callingCode" : "61"
+      },
+      "default" : false,
+      "location" : "Melbourne"
+    },
+    {
+      "phoneNumber" : "+61721022503",
+      "country" : {
+        "name" : "Australia",
+        "isoCode" : "AU",
+        "callingCode" : "61"
+      },
+      "default" : false,
+      "location" : "Brisbane"
+    },
+    {
+      "phoneNumber" : "+4312675024",
+      "country" : {
+        "name" : "Austria",
+        "isoCode" : "AT",
+        "callingCode" : "43"
+      },
+      "default" : false,
+      "location" : "Vienna"
+    },
+    {
+      "phoneNumber" : "+3228959036",
+      "country" : {
+        "name" : "Belgium",
+        "isoCode" : "BE",
+        "callingCode" : "32"
+      },
+      "default" : false,
+      "location" : "Brussels"
+    },
+    {
+      "phoneNumber" : "+22961509862",
+      "country" : {
+        "name" : "Benin",
+        "isoCode" : "BJ",
+        "callingCode" : "229"
+      },
+      "default" : false
+    },
+    {
+      "phoneNumber" : "+556135500673",
+      "country" : {
+        "name" : "Brazil",
+        "isoCode" : "BR",
+        "callingCode" : "55"
+      },
+      "default" : false,
+      "location" : "Brasilia"
+    },
+    {
+      "phoneNumber" : "+35924917819",
+      "country" : {
+        "name" : "Bulgaria",
+        "isoCode" : "BG",
+        "callingCode" : "359"
+      },
+      "default" : false,
+      "location" : "Sofia"
+    },
+    {
+      "phoneNumber" : "+15148191648",
+      "country" : {
+        "name" : "Canada",
+        "isoCode" : "CA",
+        "callingCode" : "1"
+      },
+      "default" : false,
+      "location" : "Montreal, QC"
+    },
+    {
+      "phoneNumber" : "+14318001649",
+      "country" : {
+        "name" : "Canada",
+        "isoCode" : "CA",
+        "callingCode" : "1"
+      },
+      "default" : false,
+      "location" : "Winnipeg, MB"
+    },
+    {
+      "phoneNumber" : "+17782008149",
+      "country" : {
+        "name" : "Canada",
+        "isoCode" : "CA",
+        "callingCode" : "1"
+      },
+      "default" : false,
+      "location" : "Vancouver, BC"
+    },
+    {
+      "phoneNumber" : "+15873153501",
+      "country" : {
+        "name" : "Canada",
+        "isoCode" : "CA",
+        "callingCode" : "1"
+      },
+      "default" : false,
+      "location" : "Calgary, AB"
+    },
+    {
+      "phoneNumber" : "+13065001584",
+      "country" : {
+        "name" : "Canada",
+        "isoCode" : "CA",
+        "callingCode" : "1"
+      },
+      "default" : false,
+      "location" : "Saskatoon, SK"
+    },
+    {
+      "phoneNumber" : "+14378000918",
+      "country" : {
+        "name" : "Canada",
+        "isoCode" : "CA",
+        "callingCode" : "1"
+      },
+      "default" : false,
+      "location" : "Toronto, ON"
+    },
+    {
+      "phoneNumber" : "+56229382089",
+      "country" : {
+        "name" : "Chile",
+        "isoCode" : "CL",
+        "callingCode" : "56"
+      },
+      "default" : false,
+      "location" : "Santiago"
+    },
+    {
+      "phoneNumber" : "+861057897465",
+      "country" : {
+        "name" : "China",
+        "isoCode" : "CN",
+        "callingCode" : "86"
+      },
+      "default" : false,
+      "location" : "Beijing"
+    },
+    {
+      "phoneNumber" : "+5715086583",
+      "country" : {
+        "name" : "Colombia",
+        "isoCode" : "CO",
+        "callingCode" : "57"
+      },
+      "default" : false
+    },
+    {
+      "phoneNumber" : "+35722022567",
+      "country" : {
+        "name" : "Cyprus",
+        "isoCode" : "CY",
+        "callingCode" : "357"
+      },
+      "default" : false,
+      "location" : "Nicosia"
+    },
+    {
+      "phoneNumber" : "+420228881000",
+      "country" : {
+        "name" : "Czech Republic",
+        "isoCode" : "CZ",
+        "callingCode" : "420"
+      },
+      "default" : false,
+      "location" : "Prague"
+    },
+    {
+      "phoneNumber" : "+4578793531",
+      "country" : {
+        "name" : "Denmark",
+        "isoCode" : "DK",
+        "callingCode" : "45"
+      },
+      "default" : false,
+      "location" : "Denmark"
+    },
+    {
+      "phoneNumber" : "+18299560014",
+      "country" : {
+        "name" : "Dominican Republic",
+        "isoCode" : "DO",
+        "callingCode" : "1"
+      },
+      "default" : false,
+      "location" : "Santo Domingo"
+    },
+    {
+      "phoneNumber" : "+50321368214",
+      "country" : {
+        "name" : "El Salvador",
+        "isoCode" : "SV",
+        "callingCode" : "503"
+      },
+      "default" : false,
+      "location" : "San Salvador"
+    },
+    {
+      "phoneNumber" : "+3726681362",
+      "country" : {
+        "name" : "Estonia",
+        "isoCode" : "EE",
+        "callingCode" : "372"
+      },
+      "default" : false,
+      "location" : "Tallinn"
+    },
+    {
+      "phoneNumber" : "+358942704107",
+      "country" : {
+        "name" : "Finland",
+        "isoCode" : "FI",
+        "callingCode" : "358"
+      },
+      "default" : false,
+      "location" : "Helsinki"
+    },
+    {
+      "phoneNumber" : "+13232382296",
+      "country" : {
+        "name" : "France",
+        "isoCode" : "FR",
+        "callingCode" : "33"
+      },
+      "default" : false,
+      "location" : "Paris"
+    },
+    {
+      "phoneNumber" : "+494080903733",
+      "country" : {
+        "name" : "Germany",
+        "isoCode" : "DE",
+        "callingCode" : "49"
+      },
+      "default" : false,
+      "location" : "Hamburg"
+    },
+    {
+      "phoneNumber" : "+233242426080",
+      "country" : {
+        "name" : "Ghana",
+        "isoCode" : "GH",
+        "callingCode" : "233"
+      },
+      "default" : false
+    },
+    {
+      "phoneNumber" : "+302111986749",
+      "country" : {
+        "name" : "Greece",
+        "isoCode" : "GR",
+        "callingCode" : "30"
+      },
+      "default" : false,
+      "location" : "Athens"
+    },
+    {
+      "phoneNumber" : "+224660710304",
+      "country" : {
+        "name" : "Guinea",
+        "isoCode" : "GN",
+        "callingCode" : "224"
+      },
+      "default" : false,
+      "location" : "Conakry"
+    },
+    {
+      "phoneNumber" : "+85258081451",
+      "country" : {
+        "name" : "Hong Kong",
+        "isoCode" : "HK",
+        "callingCode" : "852"
+      },
+      "default" : false
+    },
+    {
+      "phoneNumber" : "+3618480332",
+      "country" : {
+        "name" : "Hungary",
+        "isoCode" : "HU",
+        "callingCode" : "36"
+      },
+      "default" : false,
+      "location" : "Budapest"
+    },
+    {
+      "phoneNumber" : "+35315136078",
+      "country" : {
+        "name" : "Ireland",
+        "isoCode" : "IE",
+        "callingCode" : "353"
+      },
+      "default" : false,
+      "location" : "Dublin"
+    },
+    {
+      "phoneNumber" : "+97239121841",
+      "country" : {
+        "name" : "Israel",
+        "isoCode" : "IL",
+        "callingCode" : "972"
+      },
+      "default" : false,
+      "location" : "Tel Aviv"
+    },
+    {
+      "phoneNumber" : "+390230457083",
+      "country" : {
+        "name" : "Italy",
+        "isoCode" : "IT",
+        "callingCode" : "39"
+      },
+      "default" : false,
+      "location" : "Rome"
+    },
+    {
+      "phoneNumber" : "+81345406728",
+      "country" : {
+        "name" : "Japan",
+        "isoCode" : "JP",
+        "callingCode" : "81"
+      },
+      "default" : false,
+      "location" : "Tokyo"
+    },
+    {
+      "phoneNumber" : "+254207602921",
+      "country" : {
+        "name" : "Kenya",
+        "isoCode" : "KE",
+        "callingCode" : "254"
+      },
+      "default" : false
+    },
+    {
+      "phoneNumber" : "+37166163239",
+      "country" : {
+        "name" : "Latvia",
+        "isoCode" : "LV",
+        "callingCode" : "371"
+      },
+      "default" : false,
+      "location" : "Riga"
+    },
+    {
+      "phoneNumber" : "+37052140076",
+      "country" : {
+        "name" : "Lithuania",
+        "isoCode" : "LT",
+        "callingCode" : "370"
+      },
+      "default" : false,
+      "location" : "Vilnius"
+    },
+    {
+      "phoneNumber" : "+35227862004",
+      "country" : {
+        "name" : "Luxembourg",
+        "isoCode" : "LU",
+        "callingCode" : "352"
+      },
+      "default" : false,
+      "location" : "Luxembourg"
+    },
+    {
+      "phoneNumber" : "+525541629041",
+      "country" : {
+        "name" : "Mexico",
+        "isoCode" : "MX",
+        "callingCode" : "52"
+      },
+      "default" : false,
+      "location" : "Mexico City"
+    },
+    {
+      "phoneNumber" : "+31208086212",
+      "country" : {
+        "name" : "Netherlands",
+        "isoCode" : "NL",
+        "callingCode" : "31"
+      },
+      "default" : false,
+      "location" : "Amsterdam"
+    },
+    {
+      "phoneNumber" : "+6436684372",
+      "country" : {
+        "name" : "New Zealand",
+        "isoCode" : "NZ",
+        "callingCode" : "64"
+      },
+      "default" : false,
+      "location" : "Dunedin"
+    },
+    {
+      "phoneNumber" : "+6442807245",
+      "country" : {
+        "name" : "New Zealand",
+        "isoCode" : "NZ",
+        "callingCode" : "64"
+      },
+      "default" : false,
+      "location" : "Wellington"
+    },
+    {
+      "phoneNumber" : "+5078338516",
+      "country" : {
+        "name" : "Panama",
+        "isoCode" : "PA",
+        "callingCode" : "507"
+      },
+      "default" : false,
+      "location" : "Panama City"
+    },
+    {
+      "phoneNumber" : "+5117097627",
+      "country" : {
+        "name" : "Peru",
+        "isoCode" : "PE",
+        "callingCode" : "51"
+      },
+      "default" : false,
+      "location" : "Lima"
+    },
+    {
+      "phoneNumber" : "+48221168039",
+      "country" : {
+        "name" : "Poland",
+        "isoCode" : "PL",
+        "callingCode" : "48"
+      },
+      "default" : false,
+      "location" : "Warsaw"
+    },
+    {
+      "phoneNumber" : "+351308800106",
+      "country" : {
+        "name" : "Portugal",
+        "isoCode" : "PT",
+        "callingCode" : "351"
+      },
+      "default" : false,
+      "location" : "Lisbon"
+    },
+    {
+      "phoneNumber" : "+17879450660",
+      "country" : {
+        "name" : "Puerto Rico",
+        "isoCode" : "PR",
+        "callingCode" : "1"
+      },
+      "default" : false,
+      "location" : "San Juan"
+    },
+    {
+      "phoneNumber" : "+40377881044",
+      "country" : {
+        "name" : "Romania",
+        "isoCode" : "RO",
+        "callingCode" : "40"
+      },
+      "default" : false,
+      "location" : "Bucharest"
+    },
+    {
+      "phoneNumber" : "+13232382296",
+      "country" : {
+        "name" : "Singapore",
+        "isoCode" : "SG",
+        "callingCode" : "65"
+      },
+      "default" : false
+    },
+    {
+      "phoneNumber" : "+421233325709",
+      "country" : {
+        "name" : "Slovakia",
+        "isoCode" : "SK",
+        "callingCode" : "421"
+      },
+      "default" : false,
+      "location" : "Bratislava"
+    },
+    {
+      "phoneNumber" : "+38618888089",
+      "country" : {
+        "name" : "Slovenia",
+        "isoCode" : "SI",
+        "callingCode" : "386"
+      },
+      "default" : false,
+      "location" : "Ljubljana"
+    },
+    {
+      "phoneNumber" : "+27319412575",
+      "country" : {
+        "name" : "South Africa",
+        "isoCode" : "ZA",
+        "callingCode" : "27"
+      },
+      "default" : false,
+      "location" : "Durban"
+    },
+    {
+      "phoneNumber" : "+82264650392",
+      "country" : {
+        "name" : "South Korea",
+        "isoCode" : "KR",
+        "callingCode" : "82"
+      },
+      "default" : false,
+      "location" : "Seoul"
+    },
+    {
+      "phoneNumber" : "+34911827803",
+      "country" : {
+        "name" : "Spain",
+        "isoCode" : "ES",
+        "callingCode" : "34"
+      },
+      "default" : false,
+      "location" : "Madrid"
+    },
+    {
+      "phoneNumber" : "+46852503839",
+      "country" : {
+        "name" : "Sweden",
+        "isoCode" : "SE",
+        "callingCode" : "46"
+      },
+      "default" : false,
+      "location" : "Stockholm"
+    },
+    {
+      "phoneNumber" : "+41315208019",
+      "country" : {
+        "name" : "Switzerland",
+        "isoCode" : "CH",
+        "callingCode" : "41"
+      },
+      "default" : false,
+      "location" : "Bern"
+    },
+    {
+      "phoneNumber" : "+902129003695",
+      "country" : {
+        "name" : "Turkey",
+        "isoCode" : "TR",
+        "callingCode" : "90"
+      },
+      "default" : false,
+      "location" : "Ankara"
+    },
+    {
+      "phoneNumber" : "+442034096438",
+      "country" : {
+        "name" : "United Kingdom",
+        "isoCode" : "GB",
+        "callingCode" : "44"
+      },
+      "default" : false,
+      "location" : "London"
+    }
+  ]
+}

@@ -129,12 +129,15 @@ export default class Subscription extends RcModule {
   _detectSleep() {
     const t = Date.now();
     this._sleepTimeout = setTimeout(async () => {
-      if (this.ready && this._subscription && Date.now() - t > 20 * 1000) {
+      // For chrome 88 timer-throttling https://developer.chrome.com/blog/timer-throttling-in-chrome-88/
+      // need to make sure time diff is more than 1 min
+      if (this.ready && this._subscription && Date.now() - t > 75 * 1000) {
+        console.log('==== Sleep Detected ====');
         await this.remove();
         await this._subscribe();
       }
       this._detectSleep();
-    }, 10 * 1000);
+    }, 20 * 1000);
   }
 
   _createSubscription() {

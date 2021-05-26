@@ -1,4 +1,5 @@
 import { reduce, forEach, map, join, keys } from 'ramda';
+import { computed } from '@ringcentral-integration/core';
 import { phoneSources } from '../../enums/phoneSources';
 import { phoneTypes } from '../../enums/phoneTypes';
 import RcModule from '../../lib/RcModule';
@@ -383,6 +384,12 @@ export default class AccountContacts extends RcModule {
   // interface of ContactSource
   get contacts() {
     return this.directoryContacts;
+  }
+
+  // interface of ContactSource
+  @computed((that) => [that._companyContacts.filteredContacts])
+  get rawContacts() {
+    return this._companyContacts.filteredContacts;
   }
 
   // interface of ContactSource

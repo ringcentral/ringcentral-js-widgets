@@ -1,17 +1,16 @@
 import { computed } from '@ringcentral-integration/core';
 import { forEach, map } from 'ramda';
 import { availabilityTypes } from '../../enums/availabilityTypes';
-
 import { phoneSources } from '../../enums/phoneSources';
 import { ContactModel, ContactSource } from '../../interfaces/Contact.model';
 import {
-  getFilterContacts,
-  getSearchForPhoneNumbers,
-  getMatchContactsByPhoneNumber,
   addPhoneToContact,
+  getFilterContacts,
+  getMatchContactsByPhoneNumber,
+  getSearchForPhoneNumbers,
 } from '../../lib/contactHelper';
 import { Module } from '../../lib/di';
-import proxify from '../../lib/proxy/proxify';
+import { proxify } from '../../lib/proxy/proxify';
 import sleep from '../../lib/sleep';
 import { DataFetcherV2Consumer, DataSource } from '../DataFetcherV2';
 import {
@@ -19,21 +18,16 @@ import {
   Deps,
   PersonalContactResource,
 } from './AddressBook.interface';
-import { processAddressBookResponse, getSyncParams } from './helpers';
+import { getSyncParams, processAddressBookResponse } from './helpers';
 
 export const DEFAULT_FETCH_INTERVAL = 1000;
 export const DEFAULT_CONTACTS_PER_PAGE = 250;
-
-interface AddressBookUpdate {
-  deleted: Record<PersonalContactResource['id'], true>;
-  upsert: Record<PersonalContactResource['id'], PersonalContactResource>;
-}
 
 @Module({
   name: 'AddressBook',
   deps: [
     'Client',
-    'RolesAndPermissions',
+    'ExtensionFeatures',
     'DataFetcherV2',
     { dep: 'AddressBookOptions', optional: true },
   ],
@@ -52,8 +46,9 @@ export class AddressBook
       polling,
       cleanOnReset: true,
       permissionCheckFunction: () =>
-        !!this._deps.rolesAndPermissions.permissions.ReadPersonalContacts,
-      readyCheckFunction: () => this._deps.rolesAndPermissions.ready,
+        this._deps.extensionFeatures.features?.ReadPersonalContacts.available ??
+        false,
+      readyCheckFunction: () => this._deps.extensionFeatures.ready,
       fetchFunction: async () => this._sync(),
     });
     this._deps.dataFetcherV2.register(this._source);
@@ -178,7 +173,7 @@ export class AddressBook
   }
 
   // interface of ContactSource
-  @computed<AddressBook>(({ data }) => [data])
+  @computed(({ data }: AddressBook) => [data])
   get contacts() {
     return map((rawContact) => {
       const contact: ContactModel = {
@@ -209,6 +204,12 @@ export class AddressBook
       }, Object.keys(contact) as (keyof typeof contact)[]);
       return contact;
     }, this.data?.records ?? []);
+  }
+
+  // interface of ContactSource
+  @computed(({ data }: AddressBook) => [data])
+  get rawContacts() {
+    return this.data?.records ?? [];
   }
 
   // interface of ContactSource

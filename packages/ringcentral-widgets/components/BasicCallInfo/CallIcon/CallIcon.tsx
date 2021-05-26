@@ -14,7 +14,11 @@ export const CallIcon: React.FunctionComponent<CallIconProps> = ({
   isInbound,
 }) => {
   return (
-    <div className={styles.callIcon} title={title}>
+    <div
+      className={styles.callIcon}
+      title={title}
+      data-sign={isInbound ? 'inboundIcon' : 'outboundIcon'}
+    >
       {isInbound ? <InboundCall /> : <OutboundCall />}
     </div>
   );

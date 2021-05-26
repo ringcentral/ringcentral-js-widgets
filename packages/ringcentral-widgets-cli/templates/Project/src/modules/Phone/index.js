@@ -28,7 +28,7 @@ import ConnectivityBadgeUI from 'ringcentral-widgets/modules/ConnectivityBadgeUI
 import SettingsUI from 'ringcentral-widgets/modules/SettingsUI';
 import RegionSettingsUI from 'ringcentral-widgets/modules/RegionSettingsUI';
 import LoginUI from 'ringcentral-widgets/modules/LoginUI';
-import AlertUI from 'ringcentral-widgets/modules/AlertUI';
+import { AlertUI } from 'ringcentral-widgets/modules/AlertUI';
 
 // user Dependency Injection with decorator to create a phone class
 // https://github.com/ringcentral/ringcentral-js-integration-commons/blob/master/docs/dependency-injection.md

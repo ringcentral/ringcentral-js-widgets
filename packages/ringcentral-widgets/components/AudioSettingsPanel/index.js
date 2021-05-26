@@ -34,6 +34,7 @@ export default class AudioSettingsPanel extends Component {
     this._isFirefox = navigator.userAgent.indexOf('Firefox') > -1;
   }
 
+  // eslint-disable-next-line react/no-deprecated
   componentWillReceiveProps(newProps) {
     if (newProps.dialButtonVolume !== this.props.dialButtonVolume) {
       this.setState({
@@ -341,20 +342,23 @@ export default class AudioSettingsPanel extends Component {
         />
       </InputField>
     ) : null;
-
-    const outputDevice = this._isFirefox ? (
-      <InputField
-        className={styles.noHeightInputField}
-        label={<span>{i18n.getString('outputDevice', currentLocale)}</span>}
-        noBorder
-      >
-        <div className={styles.fakeDropdownContainer}>
-          {i18n.getString('defaultOutputDevice', currentLocale)}
-        </div>
-      </InputField>
-    ) : (
-      outputDeviceDropdown
-    );
+    // https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/enumerateDevices
+    // Prior to Firefox 63, enumerateDevices() only returned input devices. Starting with Firefox 63, output devices are also included if the `media.setsinkid.enabled` preference is enabled.
+    // disabledFrom version 63: this feature is behind the `media.setsinkid.enabled` preferences (needs to be set to true). To change preferences in Firefox, visit about:config.
+    const outputDevice =
+      this._isFirefox && !availableOutputDevices?.length ? (
+        <InputField
+          className={styles.noHeightInputField}
+          label={<span>{i18n.getString('outputDevice', currentLocale)}</span>}
+          noBorder
+        >
+          <div className={styles.fakeDropdownContainer}>
+            {i18n.getString('defaultOutputDevice', currentLocale)}
+          </div>
+        </InputField>
+      ) : (
+        outputDeviceDropdown
+      );
 
     const inputTooltip = this.isNoLabel() ? (
       <TooltipCom

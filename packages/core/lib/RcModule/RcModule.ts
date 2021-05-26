@@ -1,136 +1,82 @@
-/* eslint-disable import/no-extraneous-dependencies */
-/* eslint-disable func-names */
-import { Reducer, ReducersMapObject, Action, AnyAction, Store } from 'redux';
-import { Storage as StorageV2 } from 'ringcentral-integration/modules/StorageV2';
-import { GlobalStorage as GlobalStorageV2 } from 'ringcentral-integration/modules/GlobalStorageV2';
-import Storage from 'ringcentral-integration/modules/Storage';
-import GlobalStorage from 'ringcentral-integration/modules/GlobalStorage';
-import { Analytics } from 'ringcentral-integration/modules/AnalyticsV2';
-import BaseModule, { state, action } from '../usm-redux';
-import { moduleStatuses } from '../../enums/moduleStatuses';
-import { Params } from '../usm/core/module';
-import { Properties } from '../usm/utils/flatten';
+import { combineReducers, ReducersMapObject } from 'redux';
+import {
+  state,
+  action,
+  subscribe,
+  computed,
+  createStore,
+  watch,
+  Service,
+  storeKey,
+  identifierKey,
+  Action,
+  stateKey,
+  getStagedState,
+  enablePatches,
+  setPatchesToggle,
+  subscriptionsKey,
+  Subscription,
+  Store,
+  setAutoFreeze,
+  applyPatches,
+  usm as usmAction,
+  enableES5,
+} from '../usm-redux';
 
-export interface Descriptor<T> extends TypedPropertyDescriptor<T> {
-  initializer?(): T;
+setAutoFreeze(false);
+setPatchesToggle(true);
+enablePatches();
+
+export const enum ModuleStatus {
+  Pending = 'PENDING',
+  Initializing = 'INITIALIZING',
+  Ready = 'READY',
+  Resetting = 'RESETTING',
 }
 
-/**
- * decorate global storage state with `GlobalStorage` Module
- */
-function globalStorage(
-  target: RcModuleV2,
-  name: string,
-  descriptor?: Descriptor<any>,
-): any {
-  target._globalStorageSubKeys = [
-    ...(target._globalStorageSubKeys || []),
-    name,
-  ];
-  return descriptor;
-}
+export const onceKey: unique symbol = Symbol('once');
+export const onInitOnceKey: unique symbol = Symbol('onInitOnce');
+export const noReadyModulesKey: unique symbol = Symbol('noReadyModules');
+export const checkStatusChangeKey: unique symbol = Symbol('checkStatusChange');
+export const enableCacheKey: unique symbol = Symbol('enableCache');
+export const enableGlobalCacheKey: unique symbol = Symbol('enableGlobalCache');
+export const storageKey: unique symbol = Symbol('storage');
+export const storageStateKey: unique symbol = Symbol('storageState');
+export const globalStorageStateKey: unique symbol = Symbol(
+  'globalStorageState',
+);
+export const spawnReducersKey: unique symbol = Symbol('spawnReducers');
+export const spawnStorageReducersKey: unique symbol = Symbol(
+  'spawnStorageReducers',
+);
 
-/**
- * decorate storage state with `Storage` Module
- */
-function storage(
-  target: RcModuleV2,
-  name: string,
-  descriptor?: Descriptor<any>,
-): any {
-  target._storageSubKeys = [...(target._storageSubKeys || []), name];
-  return descriptor;
-}
-
-type TrackEvent =
-  | string
-  | ((
-      ...args: any
-    ) => [string, object?] | ((analytics: Analytics) => [string, object?]));
-
-/**
- * decorate a method with `Analytics` Module
- *
- * @param trackEvent define trackEvent for tracking
- */
-function track(trackEvent: TrackEvent) {
-  return (target: RcModuleV2, name: string, descriptor?: Descriptor<any>) => {
-    if (
-      typeof descriptor.value !== 'function' &&
-      typeof descriptor.initializer !== 'function'
-    ) {
-      throw new Error(`@track decorated '${name}' is not a method`);
-    }
-    let fn: (...args: any) => any = descriptor.value;
-    const initializer = descriptor.initializer;
-    const trackedFn = function (this: RcModuleV2, ...args: any) {
-      const { analytics } = this.parentModule as RcModuleV2<Properties<any>> & {
-        analytics: Analytics;
-      };
-      if (typeof initializer === 'function') {
-        fn = initializer.call(this);
-      }
-      const result = fn.apply(this, args);
-      try {
-        if (
-          typeof analytics !== 'undefined' &&
-          typeof analytics.track === 'function'
-        ) {
-          if (typeof trackEvent === 'string') {
-            analytics.track(trackEvent);
-          } else {
-            let trackReturn = trackEvent(this, ...args);
-            if (typeof trackReturn === 'function') {
-              trackReturn = trackReturn(analytics);
-            }
-            const [event, trackProps] = trackReturn ?? [];
-            if (event) {
-              analytics.track(event, trackProps);
-            }
-          }
-        }
-      } catch (e) {
-        console.warn(`Analytics Error: ${target.__name__}.${name}`);
-      }
-      return result;
-    };
-    // the any type is just to be compatible with babel and tsc.
-    return {
-      enumerable: true,
-      configurable: true,
-      value: trackedFn,
-    } as any;
-  };
-}
-
-const getStorageSubKey = (storageKey: string, key: string) =>
-  `${storageKey}-${key}`;
-
-interface RcModuleV2 {
-  _storageSubKeys: string[];
-  _globalStorageSubKeys: string[];
-}
-
-type ReducersMap = ReducersMapObject<
-  any,
-  Action & { states: Record<string, any> }
->;
-
-type Options = {
-  deps?: Record<string, any>;
+interface Options<T> {
+  deps?: T;
   enableCache?: boolean;
   enableGlobalCache?: boolean;
   storageKey?: string;
-};
+}
 
-class RcModuleV2<
-  T extends {
-    storage?: Storage | StorageV2;
-    globalStorage?: GlobalStorage | GlobalStorageV2;
-  } & Record<string, any> = {},
-  S extends Record<string, any> = {}
-> extends BaseModule<T> {
-  __$$state$$__: any;
+interface RcModuleV2 {
+  parentModule: RcModuleV2;
+  [storageStateKey]?: string[];
+  [globalStorageStateKey]?: string[];
+  [stateKey]: Record<string, any>;
+  [identifierKey]: string;
+  [subscriptionsKey]: Subscription[];
+  [storeKey]: Store;
+}
+
+// eslint-disable-next-line no-redeclare
+abstract class RcModuleV2<T = {}> {
+  private [onceKey] = false;
+
+  private [storageKey]: string;
+
+  private [enableCacheKey]: boolean;
+
+  private [enableGlobalCacheKey]: boolean;
+
   protected initializeProxy?(): Promise<void> | void;
   /**
    * `onInit` life cycle for current initialization before all deps modules are all ready.
@@ -149,134 +95,319 @@ class RcModuleV2<
    */
   protected onReset?(): Promise<void> | void;
   /**
-   * `onStateChange` each Redux dispatch action will trigger it once.
+   * Each Redux dispatch action will trigger `onStateChange` once.
    */
   protected onStateChange?(): Promise<void> | void;
-  protected _once = false;
-  public __key__?: string;
-  public __subscriptions__?: (() => void)[];
-  public storageKey: string;
-  public _modulePath?: string;
-  public _initialized = false;
-  public _suppressInit?: boolean;
-  protected _deps: T;
 
-  constructor(options: Options, ...args: any[]) {
-    super(options as any, ...args);
-    this._modulePath = 'root';
-    this._deps = this._modules;
-    if (this.enableStorage) {
-      // TODO replace new way for `storageKey` definition
-      this.storageKey = options.storageKey;
-      this._storageSubKeys.forEach((key) => {
-        const reducer: Reducer<any, AnyAction> = (
-          state = this._initialValue[key],
-          { type, states },
-        ) => {
-          if (
-            type &&
-            type.indexOf((this.actionTypes as Record<string, string>)[key]) > -1
-          ) {
-            return states[key];
-          }
-          return state;
-        };
-        this._modules.storage.registerReducer({
-          key: getStorageSubKey(this.storageKey, key),
-          reducer,
-        });
-      });
-      const properties = this._storageSubKeys.reduce(
-        (propertiesMap: Record<string, PropertyDescriptor>, key) => {
-          propertiesMap[key] = {
-            enumerable: true,
-            configurable: true,
-            get(this: BaseModule) {
-              return this.state[key];
-            },
-            set(this: BaseModule, value: unknown) {
-              if (this._store) {
-                this.state[key] = value;
-              } else {
-                // Support for synchronous updating of initialized state values while in the constructor.
-                this._initialValue[key] = value;
-              }
-            },
-          };
-          return propertiesMap;
-        },
-        {},
-      );
-      Object.defineProperties(this, properties);
+  protected _deps: T & { storage?: any; globalStorage?: any };
+
+  constructor({
+    deps,
+    enableCache = false,
+    enableGlobalCache = false,
+    ...options
+  }: Options<T & { storage?: any; globalStorage?: any }> = {}) {
+    this._deps = deps;
+    this[storageKey] = options.storageKey;
+    this[enableCacheKey] = enableCache;
+    this[enableGlobalCacheKey] = enableGlobalCache;
+    subscribe(this, () => {
+      if (typeof this.onStateChange === 'function') {
+        this.onStateChange();
+      }
+      this[checkStatusChangeKey]();
+    });
+    if (
+      !this[storageStateKey] ||
+      !this[enableCacheKey] ||
+      !this._deps.storage
+    ) {
+      this[storageStateKey] = [];
     }
-    if (this.enableGlobalStorage) {
-      this.storageKey = options.storageKey;
-      this._globalStorageSubKeys.forEach((key) => {
-        const reducer: Reducer<any, AnyAction> = (
-          state = this._initialValue[key],
-          { type, states },
-        ) => {
-          if (
-            type &&
-            type.indexOf((this.actionTypes as Record<string, string>)[key]) > -1
-          ) {
-            return states[key];
-          }
-          return state;
-        };
-        this._modules.globalStorage.registerReducer({
-          key: getStorageSubKey(this.storageKey, key),
-          reducer,
-        });
-      });
-      const properties = this._globalStorageSubKeys.reduce(
-        (propertiesMap: Record<string, PropertyDescriptor>, key) => {
-          propertiesMap[key] = {
-            enumerable: true,
-            configurable: true,
-            get(this: BaseModule) {
-              return this.state[key];
-            },
-            set(this: BaseModule, value: unknown) {
-              if (this._store) {
-                this.state[key] = value;
-              } else {
-                // Support for synchronous updating of initialized state values while in the constructor.
-                this._initialValue[key] = value;
-              }
-            },
-          };
-          return propertiesMap;
-        },
-        {},
-      );
-      Object.defineProperties(this, properties);
+    this[storageStateKey].forEach((key) => delete this[stateKey][key]);
+    if (
+      !this[globalStorageStateKey] ||
+      !this[enableGlobalCacheKey] ||
+      !this._deps.globalStorage
+    ) {
+      this[globalStorageStateKey] = [];
+    }
+    this[globalStorageStateKey].forEach((key) => delete this[stateKey][key]);
+  }
+
+  @state
+  status = ModuleStatus.Pending;
+
+  @action
+  private _setStatus(status: ModuleStatus) {
+    this.status = status;
+  }
+
+  private async [onInitOnceKey]() {
+    if (!this[onceKey]) {
+      this[onceKey] = true;
+      if (typeof this.onInitOnce === 'function') {
+        await this.onInitOnce();
+      }
     }
   }
 
-  public _handleArgs(params?: any): Params<T> {
-    if (typeof params === 'undefined') {
-      return {
-        modules: {} as T,
-      };
+  private async [checkStatusChangeKey]() {
+    if (this._shouldInit()) {
+      this._setStatus(ModuleStatus.Initializing);
+      await this[onInitOnceKey]();
+      if (typeof this.onInit === 'function') {
+        await this.onInit();
+      }
+      this._setStatus(ModuleStatus.Ready);
+      if (typeof this.onInitSuccess === 'function') {
+        await this.onInitSuccess();
+      }
+    } else if (this._shouldReset()) {
+      this._setStatus(ModuleStatus.Resetting);
+      if (typeof this.onReset === 'function') {
+        await this.onReset();
+      }
+      this._setStatus(ModuleStatus.Pending);
     }
-    const { deps, ...rest } = params;
-    return {
-      modules: deps,
-      ...rest,
+  }
+
+  private get [noReadyModulesKey]() {
+    const modules = Object.values(this._deps || {}).filter(
+      // In order to be compatible with RcModuleV1
+      (module: RcModuleV2) => module && typeof module.ready !== 'undefined',
+    );
+    return modules.filter((module: RcModuleV2) => !module.ready);
+  }
+
+  _shouldInit() {
+    const areAllReady = this[noReadyModulesKey].length === 0;
+    return areAllReady && this.pending;
+  }
+
+  _shouldReset() {
+    const areNotReady = this[noReadyModulesKey].length > 0;
+    return areNotReady && this.ready;
+  }
+
+  get pending() {
+    return this.status === ModuleStatus.Pending;
+  }
+
+  get ready() {
+    return this.status === ModuleStatus.Ready;
+  }
+
+  get resetting() {
+    return this.status === ModuleStatus.Resetting;
+  }
+
+  get initializing() {
+    return this.status === ModuleStatus.Initializing;
+  }
+
+  get store() {
+    return this[storeKey];
+  }
+
+  private [spawnStorageReducersKey]() {
+    const descriptors: PropertyDescriptorMap = {};
+    /**
+     * make storage reducer and state
+     */
+    this[storageStateKey].forEach((key) => {
+      const descriptor = Object.getOwnPropertyDescriptor(this, key);
+      if (typeof descriptor === 'undefined') return;
+      const initialState = descriptor.value;
+      const storageReducerKey = `${this[storageKey]}-${key}`;
+      this._deps.storage.registerReducer({
+        key: storageReducerKey,
+        reducer: (state = initialState, action: Action) =>
+          action._usm === usmAction
+            ? this._getStateV2(action._state, 'storage').data[storageReducerKey]
+            : state,
+      });
+      Object.assign(descriptors, {
+        [key]: {
+          enumerable: true,
+          configurable: false,
+          get(this: Service) {
+            const stagedState: any = getStagedState();
+            return stagedState
+              ? this._getStateV2(stagedState, 'storage').data![
+                  storageReducerKey
+                ]
+              : this._deps.storage.data![storageReducerKey];
+          },
+          set(this: Service, value: unknown) {
+            const stagedState = getStagedState();
+            if (stagedState) {
+              this._getStateV2(stagedState, 'storage').data![
+                storageReducerKey
+              ] = value;
+              return;
+            }
+            this._deps.storage.data![storageReducerKey] = value;
+          },
+        },
+      });
+    });
+
+    /**
+     * make global storage reducer and state
+     */
+    this[globalStorageStateKey].forEach((key) => {
+      const descriptor = Object.getOwnPropertyDescriptor(this, key);
+      if (typeof descriptor === 'undefined') return;
+      const initialState = descriptor.value;
+      const storageReducerKey = `${this[storageKey]}-${key}`;
+      this._deps.globalStorage.registerReducer({
+        key: storageReducerKey,
+        reducer: (state = initialState, action: Action) =>
+          action._usm === usmAction
+            ? this._getStateV2(action._state, 'globalStorage').data[
+                storageReducerKey
+              ]
+            : state,
+      });
+      Object.assign(descriptors, {
+        [key]: {
+          enumerable: true,
+          configurable: false,
+          get(this: Service) {
+            const stagedState = getStagedState();
+            return stagedState
+              ? this._getStateV2(stagedState, 'globalStorage').data![
+                  storageReducerKey
+                ]
+              : this._deps.globalStorage.data![storageReducerKey];
+          },
+          set(this: Service, value: unknown) {
+            const stagedState = getStagedState();
+            if (stagedState) {
+              this._getStateV2(stagedState, 'globalStorage').data![
+                storageReducerKey
+              ] = value;
+              return;
+            }
+            this._deps.globalStorage.data![storageReducerKey] = value;
+          },
+        },
+      });
+    });
+
+    Object.defineProperties(this, descriptors);
+  }
+
+  // TODO: Refactor without RcModuleV1
+  // harmony with RcModule V1 for modules initialization
+
+  private _modulePath = 'root';
+
+  private _initialized = false;
+
+  private _suppressInit?: boolean;
+
+  protected _reducers: ReducersMapObject;
+
+  protected _getStateV2 = (state: Record<string, any>, key: string) =>
+    state[key];
+
+  private _setStore() {
+    return this._initModule();
+  }
+
+  get _store() {
+    return this.store;
+  }
+
+  private [spawnReducersKey]() {
+    const descriptors: PropertyDescriptorMap = {
+      [stateKey]: {
+        enumerable: false,
+        configurable: false,
+        get(this: Service) {
+          const stagedState = getStagedState();
+          return this._getStateV2(
+            stagedState ?? this[storeKey]?.getState(),
+            this[identifierKey],
+          );
+        },
+      },
     };
+    this._reducers = Object.keys(this[stateKey] ?? {}).reduce(
+      (serviceReducersMapObject: ReducersMapObject, key) => {
+        const descriptor = Object.getOwnPropertyDescriptor(this, key);
+        if (typeof descriptor === 'undefined') return serviceReducersMapObject;
+        const initialState = descriptor.value;
+        Object.assign(descriptors, {
+          [key]: {
+            enumerable: true,
+            configurable: false,
+            get(this: Service) {
+              return this[stateKey][key];
+            },
+            set(this: Service, value: unknown) {
+              this[stateKey][key] = value;
+            },
+          },
+        });
+        return Object.assign(serviceReducersMapObject, {
+          [key]: (state = initialState, action: Action) =>
+            action._usm === usmAction
+              ? this._getStateV2(action._state, this[identifierKey])[key]
+              : state,
+        });
+      },
+      {},
+    );
+    const stateDescriptor = Object.getOwnPropertyDescriptor(this, stateKey);
+    if (stateDescriptor && typeof stateDescriptor.get === 'function') return;
+    Object.defineProperties(this, descriptors);
   }
 
-  get modulePath() {
+  get reducer() {
+    if (this._reducers) return combineReducers(this._reducers);
+    this[spawnStorageReducersKey]();
+    this[spawnReducersKey]();
+    return combineReducers(this._reducers);
+  }
+
+  async _initModule() {
+    this._initialized = true;
+    if (
+      (this.parentModule && !(this.parentModule instanceof RcModuleV2)) ||
+      (!this.parentModule && !(this instanceof RcModuleV2))
+    ) {
+      for (const subscribe of this[subscriptionsKey] ?? []) {
+        subscribe();
+      }
+      this[subscriptionsKey] = [];
+    }
+    await this[checkStatusChangeKey]();
+    // eslint-disable-next-line guard-for-in
+    for (const subModule in this) {
+      const subRcModule = this[subModule] as any;
+      if (
+        subRcModule &&
+        typeof subRcModule._initModule === 'function' &&
+        !subRcModule._initialized &&
+        !subRcModule._suppressInit
+      ) {
+        subRcModule._initModule();
+      }
+    }
+  }
+
+  private get proxyReady() {
+    return this.ready;
+  }
+
+  private get modulePath() {
     return this._modulePath;
   }
 
-  /**
-   * harmony with RcModule V1 for modules initialization
-   * @param name module key
-   * @param module RcModule
-   */
-  addModule(name: string, module: unknown) {
+  private addModule(name: string, module: unknown) {
     if (Object.prototype.hasOwnProperty.call(this, name)) {
       throw new Error(`Property '${name}' already exists...`);
     }
@@ -291,283 +422,28 @@ class RcModuleV2<
     }
   }
 
-  get enableStorage() {
-    if (
-      this.enableCache &&
-      (typeof this._modules.storage === 'undefined' ||
-        this._modules.storage === null)
-    ) {
-      if (process.env.NODE_ENV === 'development') {
-        console.error(
-          `Dependent 'Storage' module was not imported in the ${this.__key__} module.`,
-        );
-      }
-    }
-    return (
-      this.enableCache &&
-      !!this._modules.storage &&
-      Array.isArray(this._storageSubKeys) &&
-      this._storageSubKeys.length > 0
-    );
+  private get state() {
+    return this[stateKey];
   }
 
-  get enableCache(): boolean {
-    return (this._arguments as any).enableCache;
-  }
-
-  get enableGlobalStorage() {
-    if (
-      this.enableGlobalCache &&
-      (typeof this._modules.globalStorage === 'undefined' ||
-        this._modules.globalStorage === null)
-    ) {
-      if (process.env.NODE_ENV === 'development') {
-        console.error(
-          `Dependent 'GlobalStorage' module was not imported in the module.`,
-        );
-      }
-    }
-    return (
-      this.enableGlobalCache &&
-      !!this._modules.globalStorage &&
-      Array.isArray(this._globalStorageSubKeys) &&
-      this._globalStorageSubKeys.length > 0
-    );
-  }
-
-  get enableGlobalCache(): boolean {
-    return (this._arguments as any).enableGlobalCache;
-  }
-
-  public getReducers(actionTypes: any) {
-    const reducers = super.getReducers(actionTypes);
-    if (!this.enableStorage && !this.enableGlobalStorage) return reducers;
-    return Object.entries(reducers).reduce(
-      (reducers: Properties<Reducer<any, AnyAction>>, [key, reducer]) => {
-        if (
-          (!Array.isArray(this._storageSubKeys) ||
-            this._storageSubKeys.indexOf(key) === -1 ||
-            !this.enableStorage) &&
-          (!Array.isArray(this._globalStorageSubKeys) ||
-            this._globalStorageSubKeys.indexOf(key) === -1 ||
-            !this.enableGlobalStorage)
-        ) {
-          reducers[key] = reducer;
-        }
-        return reducers;
-      },
-      {},
-    );
-  }
-
-  public get state(): S & { __status__: string } {
-    if (this.__$$state$$__) {
-      return this.__$$state$$__;
-    }
-    if (!this.enableStorage && !this.enableGlobalStorage) {
-      return {
-        ...this._getState(),
-      };
-    }
-    return {
-      ...this._getState(),
-      ...this._getStorageState(),
-      ...this._getGlobalStorageState(),
-    };
-  }
-
-  _getStorageState() {
-    if (!this._storageSubKeys || !this.enableStorage) return {};
-    return this._storageSubKeys.reduce((_state, key) => {
-      let value;
-      if (this.enableStorage) {
-        value =
-          this._modules.storage.getItem(
-            getStorageSubKey(this.storageKey, key),
-          ) ?? this._initialValue[key];
-      } else {
-        value = this.state[key];
-      }
-      return Object.assign(_state, {
-        [key]: value,
-      });
-    }, {});
-  }
-
-  _getGlobalStorageState() {
-    if (!this._globalStorageSubKeys || !this.enableGlobalStorage) return {};
-    return this._globalStorageSubKeys.reduce((_state, key) => {
-      let value;
-      if (this.enableGlobalStorage) {
-        value =
-          this._modules.globalStorage.getItem(
-            getStorageSubKey(this.storageKey, key),
-          ) ?? this._initialValue[key];
-      } else {
-        value = this.state[key];
-      }
-      return Object.assign(_state, {
-        [key]: value,
-      });
-    }, {});
-  }
-
-  async _onInitOnce() {
-    if (!this._once) {
-      this._once = true;
-      if (typeof this.onInitOnce === 'function') {
-        await this.onInitOnce();
-      }
-    }
-  }
-
-  protected async _checkStatusChange() {
-    if (this._shouldInit()) {
-      this.__initModule__();
-      await this._onInitOnce();
-      if (typeof this.onInit === 'function') {
-        await this.onInit();
-      }
-      this.__initSuccessModule__();
-      if (typeof this.onInitSuccess === 'function') {
-        await this.onInitSuccess();
-      }
-    } else if (this._shouldReset()) {
-      this.__resetModule__();
-      if (typeof this.onReset === 'function') {
-        await this.onReset();
-      }
-      this.__resetSuccessModule__();
-    }
-  }
-
-  async initModule() {
-    this.parentModule.store.subscribe(async () => {
-      if (typeof this.onStateChange === 'function') {
-        this.onStateChange();
-      }
-      await this._checkStatusChange();
-    });
-    if (Array.isArray(this.__subscriptions__)) {
-      this.__subscriptions__.forEach((subscribe) => subscribe());
-    }
-    await this._checkStatusChange();
-    if (typeof this.__key__ !== 'undefined') return;
-    for (const subModule in this) {
-      if (
-        Object.prototype.hasOwnProperty.call(this, subModule) &&
-        this[subModule] instanceof RcModuleV2 &&
-        !((this[subModule] as any) as RcModuleV2)._initialized &&
-        !((this[subModule] as any) as RcModuleV2)._suppressInit
-      ) {
-        const subRcModule: RcModuleV2 = this[subModule] as any;
-        subRcModule._initialized = true;
-        subRcModule.initModule();
-      }
-    }
-  }
-
-  protected _onStateChange(): void {}
-
-  get noReadyModules() {
-    const modules = Object.values(this._modules || {}).filter(
-      // In order to be compatible with RcModuleV1
-      (module: any) => module && typeof module.ready !== 'undefined',
-    );
-    return modules.filter((module: any) => !module.ready);
-  }
-
-  get noReadyModulesLength() {
-    return this.noReadyModules.length;
-  }
-
-  _shouldInit() {
-    const areAllReady = this.noReadyModulesLength === 0;
-    return areAllReady && this.pending;
-  }
-
-  _shouldReset() {
-    const areNotReady = this.noReadyModulesLength > 0;
-    return areNotReady && this.ready;
-  }
-
-  get _store() {
-    return this.parentModule?.store;
-  }
-
-  protected _setStore(store: Store) {
-    // Compatibility about Factory ModuleV1 and ModuleV2
-    if (typeof this.parentModule === 'undefined') {
-      this.parentModule = {
-        store,
-      } as RcModuleV2;
-    }
-  }
-
-  get reducer() {
-    return this.reducers as Reducer;
-  }
-
-  get _reducer() {
-    return this.reducer;
-  }
-
-  _getState(): S & { __status__: string } {
-    return (this.parentModule as RcModuleV2)._getState
-      ? ((this.parentModule as RcModuleV2)._getState() as Record<string, any>)[
-          this.__key__
-        ]
-      : this.parentModule.store.getState();
-  }
-
-  get __name__() {
-    return this.__key__;
-  }
-
-  @state __status__: string = moduleStatuses.pending;
-
-  @action
-  __initModule__() {
-    this.state.__status__ = moduleStatuses.initializing;
-  }
-
-  @action
-  __initSuccessModule__() {
-    this.state.__status__ = moduleStatuses.ready;
-  }
-
-  @action
-  __resetModule__() {
-    this.state.__status__ = moduleStatuses.resetting;
-  }
-
-  @action
-  __resetSuccessModule__() {
-    this.state.__status__ = moduleStatuses.pending;
-  }
-
-  public get status() {
-    return this.__status__;
-  }
-
-  public get pending() {
-    return this.__status__ === moduleStatuses.pending;
-  }
-
-  public get ready() {
-    return this.__status__ === moduleStatuses.ready;
-  }
-
-  public get resetting() {
-    return this.__status__ === moduleStatuses.resetting;
-  }
-
-  /**
-   * @deprecated make it compatible with proxy state in RcModuleV1
-   */
-  get proxyReady() {
-    return this.ready;
+  private actionTypes() {
+    return {};
   }
 }
 
-export { RcModuleV2, globalStorage, storage, state, action, track };
+export {
+  RcModuleV2,
+  state,
+  action,
+  subscribe,
+  computed,
+  createStore,
+  watch,
+  stateKey,
+  storeKey,
+  identifierKey,
+  applyPatches,
+  usmAction,
+  enableES5,
+  setAutoFreeze,
+};

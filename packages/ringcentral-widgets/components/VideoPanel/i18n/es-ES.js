@@ -11,7 +11,7 @@ export default {
   enableWaitingRoom: "Habilitar sala de espera",
   waitingRoom: "Habilitar sala de espera para",
   waitingRoomNotCoworker: "Cualquier usuario de fuera de mi empresa",
-  waitingRoomGuest: "Cualquier usuario que no haya iniciado sesión",
+  waitingRoomGuest: "Cualquiera sin haber iniciado sesión",
   waitingRoomAll: "Todos",
   enterPassword: "Introducir contraseña",
   onlyJoinAfterMe: "Los participantes solo pueden unirse después de mí",

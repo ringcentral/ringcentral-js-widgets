@@ -66,7 +66,7 @@ export class RingCentralExtensions extends RcModuleV2<Deps> {
     } catch (ex) {
       // It tries to establish connection on install.
       // Catch the connection issue and ignore.
-      console.warn('[RingCentralExtensions] Establish websocket failed', ex);
+      console.error('[RingCentralExtensions] Establish websocket failed', ex);
     }
   }
 
@@ -103,16 +103,25 @@ export class RingCentralExtensions extends RcModuleV2<Deps> {
 
     // expose WebSocket events
     this._exposeConnectionEvents();
+    this._webSocketExtension.eventEmitter.addListener(
+      Events.newWebSocketObject,
+      () => {
+        this._exposeConnectionEvents();
+      },
+    );
     if (this._webSocketExtension.options.autoRecover) {
-      this._webSocketExtension.eventEmitter.on(
+      this._webSocketExtension.eventEmitter.addListener(
         Events.autoRecoverSuccess,
         () => {
           this._exposeConnectionEvents();
         },
       );
-      this._webSocketExtension.eventEmitter.on(Events.autoRecoverFailed, () => {
-        this._exposeConnectionEvents();
-      });
+      this._webSocketExtension.eventEmitter.addListener(
+        Events.autoRecoverFailed,
+        () => {
+          this._exposeConnectionEvents();
+        },
+      );
     }
 
     // register SleepDetector
@@ -132,10 +141,14 @@ export class RingCentralExtensions extends RcModuleV2<Deps> {
         if (!this.ready) {
           return;
         }
-        if (this.isLoggedIn) {
-          this.recoverWebSocketConnection();
-        } else {
-          // this.revokeWebSocketConnection();
+        try {
+          if (this.isLoggedIn) {
+            this.recoverWebSocketConnection();
+          } else {
+            this.revokeWebSocketConnection();
+          }
+        } catch (ex) {
+          console.error('[RingCentralExtensions]', ex);
         }
       },
     );

@@ -1,19 +1,25 @@
 import { Module } from '../../lib/di';
-import { DataMatcher, Deps } from '../../lib/DataMatcherV2';
-import proxify from '../../lib/proxy/proxify';
+import { DataMatcher, DataMatcherOptions } from '../../lib/DataMatcherV2';
+import { proxify } from '../../lib/proxy/proxify';
 import {
   HasMatchNumberOptions,
   ForceMatchBatchNumbersOptions,
   ForceMatchNumberOptions,
+  Deps,
 } from './ContactMatcher.interface';
 import { Entity } from '../../interfaces/Entity.interface';
 
 @Module({
   name: 'ContactMatcher',
+  deps: [{ dep: 'ContactMatcherOptions', optional: true }],
 })
-export class ContactMatcher extends DataMatcher<Entity> {
+class ContactMatcher extends DataMatcher<Entity, Deps> {
   constructor(deps: Deps) {
-    super(deps, 'ContactMatcher');
+    super(deps, 'ContactMatcher', deps.contactMatcherOptions?.disableCache);
+  }
+
+  get dataMatcherOptions() {
+    return this._deps.contactMatcherOptions;
   }
 
   @proxify
@@ -46,3 +52,5 @@ export class ContactMatcher extends DataMatcher<Entity> {
     });
   }
 }
+
+export { ContactMatcher };

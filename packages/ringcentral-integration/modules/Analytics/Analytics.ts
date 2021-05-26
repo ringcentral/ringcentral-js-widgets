@@ -72,6 +72,11 @@ export interface PendoAgent {
   };
 }
 
+interface IdentifyOptions {
+  userId: string;
+  [K: string]: any;
+}
+
 function warn() {
   console.warn('Do NOT call this directly.');
 }
@@ -195,6 +200,7 @@ export class Analytics extends RcModule<
   private _enablePendo: boolean;
   private _waitPendoCount: number;
   private _pendoTimeout: ReturnType<typeof setTimeout>;
+  private _env: string;
 
   constructor({
     // config
@@ -231,6 +237,7 @@ export class Analytics extends RcModule<
     callLogSection,
     activeCallControl,
     enablePendo = false,
+    env = 'dev',
     ...options
   }: Record<string, any>) {
     // TODO: fix type from new modules based on RcModulesV2
@@ -281,6 +288,7 @@ export class Analytics extends RcModule<
     this._pendo = null;
     this._waitPendoCount = 0;
     this._pendoTimeout = null;
+    this._env = env;
     if (this._enablePendo && this._pendoApiKey) {
       Pendo.init(this._pendoApiKey, (pendoInstance: any) => {
         this._pendo = pendoInstance;
@@ -288,10 +296,11 @@ export class Analytics extends RcModule<
     }
   }
 
-  protected _identify({
-    userId,
-    ...props
-  }: { userId: string } & Record<string, any>) {
+  identify(options: IdentifyOptions) {
+    this._identify(options);
+  }
+
+  protected _identify({ userId, ...props }: IdentifyOptions) {
     if (this.analytics) {
       this.analytics.identify(
         userId,
@@ -308,7 +317,7 @@ export class Analytics extends RcModule<
       );
     }
     if (this._enablePendo && this._pendoApiKey) {
-      this._pendoInitialize({ userId, ...props });
+      this._pendoInitialize({ userId, ...props, env: this._env });
     }
   }
 

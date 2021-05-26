@@ -2,11 +2,15 @@ import { ASSISTED_USERS_MYSELF } from 'ringcentral-integration/modules/Meeting';
 export default {
   date: "Data",
   time: "Horário",
+  hours: "{howMany} h",
+  minutes: "{howMany} min.",
+  today: "Hoje",
   duration: "Duração",
   topic: "Título da reunião",
   voIPOnly: "Apenas áudio da Internet",
   telephonyOnly: "Apenas telefone",
   both: "Áudio de telefone e da Internet",
+  thirdParty: "Áudio de terceiros",
   meetingId: "ID da reunião",
   password: "Senha",
   video: "Vídeo",
@@ -19,16 +23,16 @@ export default {
   audioOptions: "Opções de áudio",
   recurringMeeting: "Reunião recorrente",
   recurringNote: "Nota: Habilite esta opção ao escolher “Recorrente”",
-  joinBeforeHost: "Permitir que os participantes entrem antes do host",
+  joinBeforeHost: "Permitir que os participantes entrem antes do organizador",
   turnOffCamera: "Desativar a câmera dos participantes",
-  turnOffHostCamera: "Desligar a câmera do host ao entrar na reunião",
+  turnOffHostCamera: "Desativar a câmera do organizador ao entrar na reunião",
   requirePassword: "Exigir senha",
   enterPassword: "Insira a senha",
   setPassword: "Definir senha *",
   passwordEmptyError: "Necessária senha da reunião",
   rcmPasswordInvalidError: "Sua senha deve ter de 1 a 10 caracteres ou números e não pode conter símbolos, exceto @, * ou -",
   rcmPasswordHintText: "Sua senha deve ter de 1 a 10 caracteres ou números e não pode conter símbolos, exceto @, * ou -",
-  usePersonalMeetingId: "Usar ID de reunião pessoal",
+  usePersonalMeetingId: "Usar ID da reunião pessoal",
   pmiChangeConfirm: "Se quiser fazer alterações em sua reunião pessoal, ",
   changePmiSettings: "altere as configurações de PMI.",
   pmiSettingChangeAlert: "Se você alterar as configurações e agendar esta reunião, todas as reuniões com ID da reunião pessoal usarão essas mesmas configurações mais recentes.",
@@ -39,11 +43,15 @@ export default {
 
 // @key: @#@"date"@#@ @source: @#@"Date"@#@
 // @key: @#@"time"@#@ @source: @#@"Time"@#@
+// @key: @#@"hours"@#@ @source: @#@"{howMany} hr"@#@
+// @key: @#@"minutes"@#@ @source: @#@"{howMany} min"@#@
+// @key: @#@"today"@#@ @source: @#@"Today"@#@
 // @key: @#@"duration"@#@ @source: @#@"Duration"@#@
 // @key: @#@"topic"@#@ @source: @#@"Meeting title"@#@
 // @key: @#@"voIPOnly"@#@ @source: @#@"Internet audio only"@#@
 // @key: @#@"telephonyOnly"@#@ @source: @#@"Telephone only"@#@
-// @key: @#@"both"@#@ @source: @#@"Telephone and Internet Audio"@#@
+// @key: @#@"both"@#@ @source: @#@"Telephone and Internet audio"@#@
+// @key: @#@"thirdParty"@#@ @source: @#@"3rd party audio"@#@
 // @key: @#@"meetingId"@#@ @source: @#@"Meeting ID"@#@
 // @key: @#@"password"@#@ @source: @#@"Password"@#@
 // @key: @#@"video"@#@ @source: @#@"Video"@#@

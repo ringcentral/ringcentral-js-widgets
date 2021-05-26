@@ -1,6 +1,12 @@
 import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
-import { Reducer, ReducersMapObject } from 'redux';
-import { RcModuleV2, state } from '@ringcentral-integration/core';
+import { Reducer, ReducersMapObject, combineReducers, Action } from 'redux';
+import {
+  action,
+  RcModuleV2,
+  spawnReducersKey,
+  spawnStorageReducersKey,
+  stateKey,
+} from '@ringcentral-integration/core';
 import { SynchronizedStorage } from '../SynchronizedStorage';
 import { actionTypesBase, ActionTypesBase } from './actionTypesBase';
 import { getDataReducer } from './getStorageReducer';
@@ -11,7 +17,6 @@ import {
   StorageBaseOptions,
   IStorageBaseOptions,
 } from './StorageBase.interface';
-import getModuleStatusReducer from '../getModuleStatusReducer';
 
 @Module({
   name: 'StorageBase',
@@ -24,7 +29,7 @@ export abstract class StorageBase<T> extends RcModuleV2<Deps & T> {
   protected _StorageProvider: IStorageBaseOptions['StorageProvider'];
   protected _storageActionTypes: ActionTypesBase;
 
-  constructor(deps: Deps, storageBaseOptions: StorageBaseOptions) {
+  constructor(deps: Deps & T, storageBaseOptions: StorageBaseOptions) {
     super({
       deps,
     });
@@ -43,16 +48,43 @@ export abstract class StorageBase<T> extends RcModuleV2<Deps & T> {
     });
   }
 
-  public getReducers(actionTypes: Record<string, string>) {
-    return {
-      ...super.getReducers(actionTypes),
-      data: this._storageReducer,
-      __status__: getModuleStatusReducer(this._storageActionTypes),
-    };
+  @action
+  syncData(key: string, value: any) {
+    this.data[key] = value;
   }
 
-  get data(): Record<string, unknown> {
-    return this._store.getState()[this.__key__].data;
+  @action
+  setData(data: Record<string, any>) {
+    this.data = data;
+  }
+
+  @action
+  resetData() {
+    Object.entries(this._storageReducers).forEach(([key, reducer]) => {
+      this.data[key] = reducer(undefined, {} as Action<any>);
+    });
+  }
+
+  get reducer() {
+    if (this._reducers)
+      return combineReducers({
+        ...this._reducers,
+        data: this._storageReducer,
+      });
+    this[spawnStorageReducersKey]();
+    this[spawnReducersKey]();
+    return combineReducers({
+      ...this._reducers,
+      data: this._storageReducer,
+    });
+  }
+
+  get data() {
+    return this[stateKey].data;
+  }
+
+  set data(value: Record<string, any>) {
+    this[stateKey].data = value;
   }
 
   /**

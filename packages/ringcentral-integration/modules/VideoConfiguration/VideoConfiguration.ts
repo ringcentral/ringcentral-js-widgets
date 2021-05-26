@@ -2,17 +2,17 @@ import {
   ExtensionInfoEvent,
   UserVideoConfiguration,
 } from '@rc-ex/core/definitions';
-import { contains } from 'ramda';
 import { watch } from '@ringcentral-integration/core';
+import { contains } from 'ramda';
 import { Unsubscribe } from 'redux';
 import { subscriptionFilters } from '../../enums/subscriptionFilters';
 import { subscriptionHints } from '../../enums/subscriptionHints';
 import { debounce, DebouncedFunction } from '../../lib/debounce-throttle';
 import { Module } from '../../lib/di';
 import { DataFetcherV2Consumer, DataSource } from '../DataFetcherV2';
-import { videoProviders } from './videoProviders';
-import { Deps } from './VideoConfiguration.interface';
 import { UserLicenseType } from './userLicenseType';
+import { Deps } from './VideoConfiguration.interface';
+import { videoProviders } from './videoProviders';
 
 const DEFAULT_FETCH_DELAY = 5 * 1000;
 
@@ -21,7 +21,7 @@ const DEFAULT_FETCH_DELAY = 5 * 1000;
   deps: [
     'Client',
     'DataFetcherV2',
-    'RolesAndPermissions',
+    'ExtensionFeatures',
     'Subscription',
     { dep: 'TabManager', optional: true },
     { dep: 'VideoConfigurationOptions', optional: true },
@@ -52,9 +52,8 @@ export class VideoConfiguration extends DataFetcherV2Consumer<
         return response.json();
       },
       readyCheckFunction: () =>
-        this._deps.rolesAndPermissions.ready && this._deps.subscription.ready,
-      permissionCheckFunction: () =>
-        !!this._deps.rolesAndPermissions.hasMeetingsPermission,
+        this._deps.extensionFeatures.ready && this._deps.subscription.ready,
+      permissionCheckFunction: () => this._hasPermission,
     });
     this._deps.dataFetcherV2.register(this._source);
     this._debouncedFetchData = debounce({
@@ -121,6 +120,6 @@ export class VideoConfiguration extends DataFetcherV2Consumer<
   }
 
   get _hasPermission() {
-    return !!this._deps.rolesAndPermissions.hasMeetingsPermission;
+    return this._deps.extensionFeatures.features?.Meetings?.available ?? false;
   }
 }

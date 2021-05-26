@@ -13,6 +13,7 @@ import {
   EvDialerUIProps,
 } from '../../interfaces/EvDialerUI.interface';
 import { Deps, DialerUI } from './EvDialerUI.interface';
+import { saveStatus } from '../../interfaces/EvActivityCallUI.interface';
 
 @Module({
   name: 'EvDialerUI',
@@ -29,6 +30,7 @@ import { Deps, DialerUI } from './EvDialerUI.interface';
     'EvAgentSession',
     'EvIntegratedSoftphone',
     'Environment',
+    'EvActivityCallUI',
     { dep: 'EvDialerUIOptions', optional: true },
   ],
 })
@@ -66,14 +68,10 @@ class EvDialerUI extends RcUIModuleV2<Deps> implements DialerUI {
   }
 
   @computed((that: EvDialerUI) => [
-    that._deps.evCall.dialoutStatus,
     that._deps.evIntegratedSoftphone.connectingAlertId,
   ])
   get dialButtonDisabled() {
-    return (
-      this._deps.evCall.dialoutStatus === 'dialing' ||
-      !!this._deps.evIntegratedSoftphone.connectingAlertId
-    );
+    return !!this._deps.evIntegratedSoftphone.connectingAlertId;
   }
 
   onInitOnce() {
@@ -107,6 +105,7 @@ class EvDialerUI extends RcUIModuleV2<Deps> implements DialerUI {
       id = this._deps.evClient.encodeUii(call.session);
     }
     if (id) {
+      this._deps.evActivityCallUI.changeSavingStatus(saveStatus.submit);
       this._deps.routerInteraction.push(`/activityCallLog/${id}`);
     }
   }
@@ -139,6 +138,7 @@ class EvDialerUI extends RcUIModuleV2<Deps> implements DialerUI {
         this._deps.routerInteraction.push('/manualDialSettings');
       },
       hangup: () => {
+        this._deps.evCall.outdialCancel();
         if (!this._deps.evSettings.isManualOffhook) {
           this._deps.evClient.offhookTerm();
         }

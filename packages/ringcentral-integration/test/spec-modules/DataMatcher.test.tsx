@@ -8,15 +8,14 @@ import {
   Step,
 } from '@ringcentral-integration/test-utils';
 import { DataMatcher } from '../../lib/DataMatcherV2';
+import { mockModuleGenerator } from '../lib/mockModule';
 
-const getMockModule = () => ({
-  data: {},
-  state: {},
-  _lastCleanUp: 0,
-  _ttl: 30 * 60 * 1000,
-  _dispatch: () => {},
-  parentModule: {},
-});
+const getMockModule = () =>
+  mockModuleGenerator({
+    data: {},
+    _lastCleanUp: 0,
+    _ttl: 30 * 60 * 1000,
+  });
 
 @autorun(test)
 @title('DataMatcher Module "insertMatchEntries" action')
@@ -28,7 +27,7 @@ export class InsertMatchEntries extends Step {
           desc="Create a 'DataMatcher' instance and initial state should be null"
           action={(_: any, context: any) => {
             const dataMatcher = new DataMatcher({} as any, 'ContactMatcher');
-            expect(dataMatcher._initialValue.data).toEqual({});
+            expect(dataMatcher.data).toEqual({});
             expect((dataMatcher as any)._ttl).toBe(30 * 60 * 1000);
             expect((dataMatcher as any)._noMatchTtl).toBe(30 * 1000);
           }}
@@ -85,7 +84,7 @@ export class CleanUp extends Step {
           desc="Create a 'DataMatcher' instance and initial state should be null"
           action={(_: any, context: any) => {
             const dataMatcher = new DataMatcher({} as any, 'ContactMatcher');
-            expect(dataMatcher._initialValue.data).toEqual({});
+            expect(dataMatcher.data).toEqual({});
           }}
         />
         <When

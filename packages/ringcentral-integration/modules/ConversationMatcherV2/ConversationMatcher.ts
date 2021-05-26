@@ -1,12 +1,24 @@
 import { Module } from '../../lib/di';
-import { DataMatcher, Deps } from '../../lib/DataMatcherV2';
+import { DataMatcher, DataMatcherOptions } from '../../lib/DataMatcherV2';
 import { Entity } from '../../interfaces/Entity.interface';
+import { Deps } from './ConversationMatcher.interface';
 
 @Module({
   name: 'ConversationMatcher',
+  deps: [{ dep: 'ConversationMatcherOptions', optional: true }],
 })
-export class ConversationMatcher extends DataMatcher<Entity> {
+class ConversationMatcher extends DataMatcher<Entity, Deps> {
   constructor(deps: Deps) {
-    super(deps, 'ConversationMatcher');
+    super(
+      deps,
+      'ConversationMatcher',
+      deps.conversationMatcherOptions?.disableCache,
+    );
+  }
+
+  get dataMatcherOptions(): DataMatcherOptions {
+    return this._deps.conversationMatcherOptions;
   }
 }
+
+export { ConversationMatcher };

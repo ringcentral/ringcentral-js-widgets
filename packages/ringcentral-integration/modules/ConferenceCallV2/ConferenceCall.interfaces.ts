@@ -1,15 +1,17 @@
 import { CallParty } from '@rc-ex/core/definitions';
-import { NormalizedCall } from '../../interfaces/Call.interface';
-import { Auth } from '../AuthV2';
-import { Alert } from '../AlertV2';
-import { Call } from '../CallV2';
-import { CallingSettings } from '../CallingSettingsV2';
-import { ConnectivityMonitor } from '../ConnectivityMonitorV2';
-import { Webphone } from '../WebphoneV2';
-import { RolesAndPermissions } from '../RolesAndPermissionsV2';
-import { ContactMatcher } from '../ContactMatcherV2';
-import AvailabilityMonitor from '../AvailabilityMonitor';
+import { ObjectMapValue } from '@ringcentral-integration/core/lib/ObjectMap';
 import calleeTypes from '../../enums/calleeTypes';
+import { NormalizedCall } from '../../interfaces/Call.interface';
+import { Entity } from '../../interfaces/Entity.interface';
+import { Alert } from '../AlertV2';
+import { Auth } from '../AuthV2';
+import { AvailabilityMonitor } from '../AvailabilityMonitorV2';
+import { CallingSettings } from '../CallingSettingsV2';
+import { Call } from '../CallV2';
+import { ConnectivityMonitor } from '../ConnectivityMonitorV2';
+import { ContactMatcher } from '../ContactMatcherV2';
+import { ExtensionFeatures } from '../ExtensionFeatures';
+import { sessionStatus, Webphone } from '../WebphoneV2';
 
 interface ConferenceCallOptions {
   pulling?: boolean;
@@ -18,16 +20,16 @@ interface ConferenceCallOptions {
 }
 
 export interface Deps extends ConferenceCallOptions {
-  auth: Auth;
   alert: Alert;
+  auth: Auth;
+  availabilityMonitor?: AvailabilityMonitor;
   call: Call;
   callingSettings: CallingSettings;
-  connectivityMonitor: ConnectivityMonitor;
   client: any;
-  rolesAndPermissions: RolesAndPermissions;
-  webphone?: Webphone;
+  connectivityMonitor: ConnectivityMonitor;
   contactMatcher?: ContactMatcher;
-  availabilityMonitor?: AvailabilityMonitor;
+  extensionFeatures: ExtensionFeatures;
+  webphone?: Webphone;
   conferenceCallOptions?: ConferenceCallOptions;
 }
 
@@ -59,6 +61,15 @@ export interface PartyState {
   partyNumber: string;
   calleeType: keyof typeof calleeTypes;
   id: string;
+}
+export interface LastCallInfo {
+  calleeType: ObjectMapValue<typeof calleeTypes>;
+  avatarUrl?: string;
+  extraNum?: number;
+  name?: string;
+  phoneNumber?: string;
+  status?: ObjectMapValue<typeof sessionStatus>;
+  lastCallContact?: Entity;
 }
 
 export interface ConferenceState {

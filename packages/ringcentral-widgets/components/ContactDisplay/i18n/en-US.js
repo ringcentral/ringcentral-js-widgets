@@ -2,7 +2,7 @@ export default {
   logging: 'Logging...',
   logCall: 'Log Call',
   editLog: 'Edit Log',
-  select: 'Select matching',
+  select: 'Select record',
   OnHold: 'On Hold',
   Ringing: 'Ringing',
   CallConnected: 'Call Connected',

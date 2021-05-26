@@ -44,7 +44,8 @@ export default {
   [callResults.abandoned]: "중단됨",
   [callResults.declined]: "거부됨",
   [callResults.faxReceipt]: "팩스 수신",
-  [callResults.disconnected]: "연결 끊김"
+  [callResults.disconnected]: "연결 끊김",
+  [callResults.notAllowed]: "허용되지 않음"
 };
 
 // @key: @#@"[callDirections.inbound]"@#@ @source: @#@"Inbound"@#@
@@ -90,3 +91,4 @@ export default {
 // @key: @#@"[callResults.declined]"@#@ @source: @#@"Declined"@#@
 // @key: @#@"[callResults.faxReceipt]"@#@ @source: @#@"Fax Receipt"@#@
 // @key: @#@"[callResults.disconnected]"@#@ @source: @#@"Disconnected"@#@
+// @key: @#@"[callResults.notAllowed]"@#@ @source: @#@"Not Allowed"@#@

@@ -1,8 +1,7 @@
-import micOffSvg from '@ringcentral/juno/icon/MicOff';
-import micSvg from '@ringcentral/juno/icon/Mic';
 import React, { FunctionComponent } from 'react';
+import { RcIconButton } from '@ringcentral/juno';
+import { Mic, MicOff } from '@ringcentral/juno/icon';
 
-import { CircleIconButton } from '../../CircleIconButton';
 import { getCircleIconButtonTitle } from '../help';
 import i18n from '../i18n';
 import { CallButtonsProps } from './CallButtons.interface';
@@ -26,18 +25,25 @@ export const MuteCallButton: FunctionComponent<MuteCallButtonProps> = ({
   const { muteTitle } = getCircleIconButtonTitle({
     isOnMute,
   });
+
+  let color = disableMute ? 'icon.disabled' : 'icon.dark';
+  if (isOnMute) {
+    color = 'icon.primary';
+  }
+
   return (
-    <CircleIconButton
-      dataSign={dataSign}
+    <RcIconButton
+      data-sign={dataSign}
+      symbol={isOnMute ? MicOff : Mic}
       data-icon={isOnMute ? 'mic-off' : 'mic'}
-      symbol={isOnMute ? micOffSvg : micSvg}
       title={i18n.getString(muteTitle, currentLocale)}
-      active={isOnMute}
+      color={color}
+      shouldPersistBg={isOnMute || disableMute}
       onClick={isOnMute ? onUnmute : onMute}
       disabled={disableMute}
       size={size}
       className={className}
-      normal
+      useColorWhenDisabled={isOnMute}
     />
   );
 };

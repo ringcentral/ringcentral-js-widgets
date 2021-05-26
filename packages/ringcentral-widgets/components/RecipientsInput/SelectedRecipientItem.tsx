@@ -8,22 +8,27 @@ type SelectedRecipientItemProps = {
   name?: string;
   title?: string;
   onRemove: (...args: any[]) => any;
+  isWarning?: boolean;
 };
 export const SelectedRecipientItem: React.SFC<SelectedRecipientItemProps> = ({
   phoneNumber,
+  isWarning = false,
   name = phoneNumber,
   title = name,
   onRemove,
 }) => {
-  const className =
+  let className =
     phoneNumber.length > 5 ? styles.phoneNumber : styles.extension;
+  if (isWarning) className = styles.warningRecipient;
+
   return (
-    <li className={className} title={title}>
+    <li className={className} title={title} data-sign="recipientItem">
       <span>{name}</span>
       <RemoveButton
         className={styles.removeReceiver}
         onClick={onRemove}
         visibility
+        showWarningIcon={isWarning}
       />
     </li>
   );

@@ -1,5 +1,5 @@
 export default {
-  topic: "Titel des Meetings"
+  topic: "Titel der Besprechung"
 };
 
 // @key: @#@"topic"@#@ @source: @#@"Meeting title"@#@

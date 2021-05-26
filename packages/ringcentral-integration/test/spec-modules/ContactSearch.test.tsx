@@ -17,18 +17,17 @@ import {
   Searching,
   DefaultMinimalSearchLength,
 } from '../../modules/ContactSearchV2';
+import { mockModuleGenerator } from '../lib/mockModule';
 
 const getMockModule = ({
   searching = DefaultSearchingState,
   contactSearch = {},
-} = {}) => ({
-  contactSearch,
-  searchStatus: contactSearchStatus.idle,
-  searching,
-  state: {},
-  _dispatch: () => {},
-  parentModule: {},
-});
+} = {}) =>
+  mockModuleGenerator({
+    contactSearch,
+    searchStatus: contactSearchStatus.idle,
+    searching,
+  });
 
 @autorun(test)
 @title('ContactSearch Module "setSearchStatus" action')
@@ -40,13 +39,9 @@ export class SetSearchStatus extends Step {
           desc="Create a ContactSearch instance and initial state should be expected"
           action={() => {
             const contactSearch = new ContactSearch({} as any);
-            expect(contactSearch._initialValue.contactSearch).toEqual({});
-            expect(contactSearch._initialValue.searchStatus).toBe(
-              contactSearchStatus.idle,
-            );
-            expect(contactSearch._initialValue.searching).toEqual(
-              DefaultSearchingState,
-            );
+            expect(contactSearch.contactSearch).toEqual({});
+            expect(contactSearch.searchStatus).toBe(contactSearchStatus.idle);
+            expect(contactSearch.searching).toEqual(DefaultSearchingState);
             expect((contactSearch as any)._ttl).toBe(5 * 60 * 1000);
             expect((contactSearch as any)._minimalSearchLength).toBe(
               DefaultMinimalSearchLength,
@@ -86,13 +81,9 @@ export class SetPrepareSearch extends Step {
           desc="Create a ContactSearch instance and initial state should be expected"
           action={() => {
             const contactSearch = new ContactSearch({} as any);
-            expect(contactSearch._initialValue.contactSearch).toEqual({});
-            expect(contactSearch._initialValue.searchStatus).toBe(
-              contactSearchStatus.idle,
-            );
-            expect(contactSearch._initialValue.searching).toEqual(
-              DefaultSearchingState,
-            );
+            expect(contactSearch.contactSearch).toEqual({});
+            expect(contactSearch.searchStatus).toBe(contactSearchStatus.idle);
+            expect(contactSearch.searching).toEqual(DefaultSearchingState);
             expect((contactSearch as any)._ttl).toBe(5 * 60 * 1000);
             expect((contactSearch as any)._minimalSearchLength).toBe(
               DefaultMinimalSearchLength,
@@ -212,13 +203,9 @@ export class SetSearchSuccess extends Step {
           desc="Create a ContactSearch instance and initial state should be expected"
           action={() => {
             const contactSearch = new ContactSearch({} as any);
-            expect(contactSearch._initialValue.contactSearch).toEqual({});
-            expect(contactSearch._initialValue.searchStatus).toBe(
-              contactSearchStatus.idle,
-            );
-            expect(contactSearch._initialValue.searching).toEqual(
-              DefaultSearchingState,
-            );
+            expect(contactSearch.contactSearch).toEqual({});
+            expect(contactSearch.searchStatus).toBe(contactSearchStatus.idle);
+            expect(contactSearch.searching).toEqual(DefaultSearchingState);
             expect((contactSearch as any)._ttl).toBe(5 * 60 * 1000);
             expect((contactSearch as any)._minimalSearchLength).toBe(
               DefaultMinimalSearchLength,
@@ -308,13 +295,9 @@ export class SetContactSearch extends Step {
           desc="Create a ContactSearch instance and initial state should be expected"
           action={() => {
             const contactSearch = new ContactSearch({} as any);
-            expect(contactSearch._initialValue.contactSearch).toEqual({});
-            expect(contactSearch._initialValue.searchStatus).toBe(
-              contactSearchStatus.idle,
-            );
-            expect(contactSearch._initialValue.searching).toEqual(
-              DefaultSearchingState,
-            );
+            expect(contactSearch.contactSearch).toEqual({});
+            expect(contactSearch.searchStatus).toBe(contactSearchStatus.idle);
+            expect(contactSearch.searching).toEqual(DefaultSearchingState);
             expect((contactSearch as any)._ttl).toBe(5 * 60 * 1000);
             expect((contactSearch as any)._minimalSearchLength).toBe(
               DefaultMinimalSearchLength,
@@ -365,13 +348,9 @@ export class CleanUp extends Step {
           desc="Create a ContactSearch instance and initial state should be expected"
           action={() => {
             const contactSearch = new ContactSearch({} as any);
-            expect(contactSearch._initialValue.contactSearch).toEqual({});
-            expect(contactSearch._initialValue.searchStatus).toBe(
-              contactSearchStatus.idle,
-            );
-            expect(contactSearch._initialValue.searching).toEqual(
-              DefaultSearchingState,
-            );
+            expect(contactSearch.contactSearch).toEqual({});
+            expect(contactSearch.searchStatus).toBe(contactSearchStatus.idle);
+            expect(contactSearch.searching).toEqual(DefaultSearchingState);
             expect((contactSearch as any)._ttl).toBe(5 * 60 * 1000);
             expect((contactSearch as any)._minimalSearchLength).toBe(
               DefaultMinimalSearchLength,
@@ -407,13 +386,9 @@ export class ResetContactSearch extends Step {
           desc="Create a ContactSearch instance and initial state should be expected"
           action={() => {
             const contactSearch = new ContactSearch({} as any);
-            expect(contactSearch._initialValue.contactSearch).toEqual({});
-            expect(contactSearch._initialValue.searchStatus).toBe(
-              contactSearchStatus.idle,
-            );
-            expect(contactSearch._initialValue.searching).toEqual(
-              DefaultSearchingState,
-            );
+            expect(contactSearch.contactSearch).toEqual({});
+            expect(contactSearch.searchStatus).toBe(contactSearchStatus.idle);
+            expect(contactSearch.searching).toEqual(DefaultSearchingState);
             expect((contactSearch as any)._ttl).toBe(5 * 60 * 1000);
             expect((contactSearch as any)._minimalSearchLength).toBe(
               DefaultMinimalSearchLength,

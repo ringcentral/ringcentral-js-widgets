@@ -2,7 +2,7 @@ export default {
   logging: "A registar...",
   logCall: "Registar chamada",
   editLog: "Editar registo",
-  select: "Selecionar correspondência",
+  select: "Selecionar registo",
   OnHold: "Em espera",
   Ringing: "A chamar",
   CallConnected: "Chamada ligada",
@@ -16,7 +16,7 @@ export default {
 // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
 // @key: @#@"logCall"@#@ @source: @#@"Log Call"@#@
 // @key: @#@"editLog"@#@ @source: @#@"Edit Log"@#@
-// @key: @#@"select"@#@ @source: @#@"Select matching"@#@
+// @key: @#@"select"@#@ @source: @#@"Select record"@#@
 // @key: @#@"OnHold"@#@ @source: @#@"On Hold"@#@
 // @key: @#@"Ringing"@#@ @source: @#@"Ringing"@#@
 // @key: @#@"CallConnected"@#@ @source: @#@"Call Connected"@#@

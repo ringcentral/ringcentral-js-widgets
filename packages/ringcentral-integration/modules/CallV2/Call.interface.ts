@@ -1,15 +1,15 @@
-import Alert from '../Alert';
-import Storage from '../Storage';
-import Brand from '../Brand';
-import Softphone from '../Softphone';
-import Ringout from '../Ringout';
-import NumberValidate from '../NumberValidate';
-import RegionSettings from '../RegionSettings';
-import { CallingSettings } from '../CallingSettingsV2';
-import RolesAndPermissions from '../RolesAndPermissions';
-import Webphone from '../Webphone';
-import AvailabilityMonitor from '../AvailabilityMonitor';
 import { ActiveCallControl } from '../ActiveCallControlV2';
+import { Alert } from '../AlertV2';
+import { AvailabilityMonitor } from '../AvailabilityMonitorV2';
+import { Brand } from '../BrandV2';
+import { CallingSettings } from '../CallingSettingsV2';
+import { ExtensionFeatures } from '../ExtensionFeatures';
+import { NumberValidate } from '../NumberValidateV2';
+import { RegionSettings } from '../RegionSettingsV2';
+import { Ringout } from '../RingoutV2';
+import { Softphone } from '../SoftphoneV2';
+import { Storage } from '../StorageV2';
+import { Webphone } from '../WebphoneV2';
 
 export interface ToNumberMatched {
   entityId: string;
@@ -23,19 +23,19 @@ export interface CallOptions {
 }
 
 export interface Deps {
+  activeCallControl?: ActiveCallControl;
   alert: Alert;
-  storage: Storage;
+  availabilityMonitor?: AvailabilityMonitor;
   brand: Brand;
-  softphone: Softphone;
-  ringout: Ringout;
+  callingSettings: CallingSettings;
+  extensionFeatures: ExtensionFeatures;
   numberValidate: NumberValidate;
   regionSettings: RegionSettings;
-  callingSettings: CallingSettings;
-  rolesAndPermissions: RolesAndPermissions;
+  ringout: Ringout;
+  softphone: Softphone;
+  storage: Storage;
   webphone?: Webphone;
-  availabilityMonitor?: AvailabilityMonitor;
   callOptions?: CallOptions;
-  activeCallControl?: ActiveCallControl;
 }
 
 export interface Recipient {

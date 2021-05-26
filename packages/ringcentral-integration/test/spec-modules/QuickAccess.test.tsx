@@ -9,13 +9,12 @@ import {
   examples,
 } from '@ringcentral-integration/test-utils';
 import { QuickAccess } from '../../modules/QuickAccessV2';
+import { mockModuleGenerator } from '../lib/mockModule';
 
-const getMockModule = () => ({
-  entered: false,
-  state: {},
-  _dispatch: () => {},
-  parentModule: {},
-});
+const getMockModule = () =>
+  mockModuleGenerator({
+    entered: false,
+  });
 
 @autorun(test)
 @title('QuickAccess Module "updatePageStatus" action')
@@ -33,7 +32,7 @@ export class UpdatePageStatus extends Step {
           desc="Create an QuickAccess instance with default value"
           action={(_: any, context: any) => {
             const quickAccess = new QuickAccess({} as any);
-            expect(quickAccess._initialValue.entered).toBe(false);
+            expect(quickAccess.entered).toBe(false);
             context.instance = quickAccess;
           }}
         />

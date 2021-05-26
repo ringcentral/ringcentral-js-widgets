@@ -352,12 +352,12 @@ export class ContactSearch extends RcModuleV2<Deps> {
     });
   }
 
-  @computed<ContactSearch>(({ searching }) => [searching])
+  @computed(({ searching }: ContactSearch) => [searching])
   get searchResult() {
     return this.searching.result ?? [];
   }
 
-  @computed<ContactSearch>(({ searching }) => [searching])
+  @computed(({ searching }: ContactSearch) => [searching])
   get sortedResult() {
     const { result = [], searchString = '' } = this.searching;
     const list = [...result];

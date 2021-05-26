@@ -1,6 +1,5 @@
 import { BrandConfig } from '../BrandV2';
 import { AccountInfo } from '../AccountInfoV2';
-import { RolesAndPermissions } from '../RolesAndPermissionsV2';
 import { ExtensionInfo } from '../ExtensionInfoV2';
 import { Locale } from '../LocaleV2';
 
@@ -18,7 +17,6 @@ export interface Deps {
   brandConfig: BrandConfig;
   analyticsOptions: AnalyticsOptions;
   accountInfo?: AccountInfo;
-  rolesAndPermissions?: RolesAndPermissions;
   extensionInfo?: ExtensionInfo;
   locale?: Locale;
   routerInteraction?: RouterInteraction;
@@ -38,6 +36,10 @@ export interface AnalyticsOptions {
    */
   enablePendo?: boolean;
   /**
+   * Pendo app key.
+   */
+  pendoApiKey?: string;
+  /**
    * Enable memory log, the default value is `false`.
    */
   useLog?: boolean;
@@ -49,6 +51,8 @@ export interface AnalyticsOptions {
    * Track router list
    */
   trackRouters?: TrackRouter[];
+
+  env?: string;
 }
 
 export interface TrackProps {
@@ -69,4 +73,26 @@ export interface TrackLog {
   timeStamp: string;
   event: string;
   trackProps: TrackProps;
+}
+
+export interface PendoAgent {
+  visitor: {
+    id: string;
+    appName: string;
+    appVersion: string;
+    appBrand: string;
+    plaBrand: string;
+    countryCode?: string;
+    companyName?: string;
+    [key: string]: string;
+  };
+  account: {
+    id: string;
+    [key: string]: string;
+  };
+}
+
+export interface IdentifyOptions {
+  userId: string;
+  [K: string]: any;
 }

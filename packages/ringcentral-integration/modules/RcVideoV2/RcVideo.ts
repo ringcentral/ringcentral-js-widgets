@@ -12,7 +12,7 @@ import { DEFAULT_LOCALE } from '@ringcentral-integration/i18n';
 import { Module } from '../../lib/di';
 import { Deps, RcvDelegator } from './RcVideo.interface';
 import background from '../../lib/background';
-import proxify from '../../lib/proxy/proxify';
+import { proxify } from '../../lib/proxy/proxify';
 import meetingStatus from '../Meeting/meetingStatus';
 import { videoStatus } from './videoStatus';
 import { MeetingErrors } from '../Meeting';
@@ -34,6 +34,8 @@ import {
   RCV_WAITTING_ROOM_API_KEYS,
   patchWaitingRoomRelated,
   assignObject,
+  formatPremiumNumbers,
+  formatMainPhoneNumber,
 } from './videoHelper';
 import {
   RcVideoAPI,
@@ -46,6 +48,8 @@ import {
   RcVPreferencesAPIResult,
   RcVPreferenceDataItem,
   RcVDialInNumberObj,
+  RcvInvitationInfo,
+  RcvInvitationRequest,
 } from '../../interfaces/Rcv.model';
 import { IMeeting } from '../../interfaces/Meeting.interface';
 import { trackEvents } from '../Analytics';
@@ -66,7 +70,6 @@ import { trackEvents } from '../Analytics';
   ],
 })
 export class RcVideo extends RcModuleV2<Deps> implements IMeeting {
-  protected _showAdminLock: boolean;
   protected _showSaveAsDefault: boolean;
   protected _isInstantMeeting: boolean;
   protected _enableWaitingRoom: boolean;
@@ -74,6 +77,7 @@ export class RcVideo extends RcModuleV2<Deps> implements IMeeting {
   protected _enableScheduleOnBehalf: boolean;
   protected _enableHostCountryDialinNumbers: boolean;
   protected _enableReloadAfterSchedule: boolean;
+  protected _enableInvitationApi: boolean;
   protected _currentLocale: string;
   private _createMeetingPromise: any = null;
 
@@ -83,7 +87,9 @@ export class RcVideo extends RcModuleV2<Deps> implements IMeeting {
       storageKey: 'RcVideo',
       deps,
     });
-    this._showAdminLock = this._deps.rcVideoOptions?.showAdminLock ?? false;
+
+    this._enableInvitationApi =
+      this._deps.rcVideoOptions?.enableInvitationApi ?? false;
     this._showSaveAsDefault =
       this._deps.rcVideoOptions?.showSaveAsDefault ?? false;
     this._isInstantMeeting =
@@ -116,7 +122,7 @@ export class RcVideo extends RcModuleV2<Deps> implements IMeeting {
   savedDefaultSetting: Partial<RcVMeetingModel> = {};
 
   @state
-  meeting: Partial<RcVMeetingModel> = {};
+  meeting: Partial<RcVMeetingModel> = null;
 
   @state
   videoStatus: ObjectMapValue<typeof videoStatus> = videoStatus.idle;
@@ -432,6 +438,19 @@ export class RcVideo extends RcModuleV2<Deps> implements IMeeting {
       const extensionInfo = await this.getExtensionInfo(
         this.currentUser.extensionId,
       );
+
+      const invitationInfo = await this.getMeetingInvitation({
+        hostName: extensionInfo.name,
+        meetingName: newMeeting.name,
+        meetingId: newMeeting.id,
+        meetingUrl: newMeeting.joinUri,
+        participantCode: newMeeting.participantCode,
+        mainPhoneNumber: formatMainPhoneNumber(dialInNumber),
+        password: newMeeting.meetingPassword,
+        dialInPassword: newMeeting.meetingPasswordPSTN,
+        premiumNumbers: formatPremiumNumbers(dialInNumber),
+      });
+
       // sync preferences changes to rcv backend
       if (meeting.saveAsDefault) {
         await this.savePreferencesChanges(meeting);
@@ -453,6 +472,7 @@ export class RcVideo extends RcModuleV2<Deps> implements IMeeting {
       this._updateHasSettingsChanged(false);
 
       const meetingResponse = {
+        invitationInfo,
         extensionInfo,
         dialInNumber,
         meeting: { ...meeting, ...newMeeting },
@@ -500,30 +520,48 @@ export class RcVideo extends RcModuleV2<Deps> implements IMeeting {
     );
   }
 
+  @proxify
+  async getMeetingInvitation(
+    invitationRequest: RcvInvitationRequest,
+  ): Promise<RcvInvitationInfo> {
+    if (!this._enableInvitationApi) {
+      return null;
+    }
+
+    try {
+      const apiResponse = await this._deps.client.service
+        .platform()
+        .post('/rcvideo/v1/invitations/render', invitationRequest);
+      return await apiResponse.json();
+    } catch (ex) {
+      console.warn('failed to get invitation', ex);
+      return null;
+    }
+  }
+
+  @proxify
   protected async _getDialinNumbers(): Promise<string | RcVDialInNumberObj[]> {
     const result = await this._deps.client.service
       .platform()
       .get('/rcvideo/v1/dial-in-numbers');
     const { phoneNumbers } = (await result.json()) as RcVDialInNumberGET;
     if (Array.isArray(phoneNumbers)) {
-      const defaultPhoneNumber = find((obj) => obj.default, phoneNumbers);
-      const countryDialinNumbers = filter(
-        (obj) => obj?.country?.isoCode === this.country.isoCode,
-        phoneNumbers,
-      );
-
-      if (
-        this._enableHostCountryDialinNumbers &&
-        countryDialinNumbers.length > 0
-      ) {
-        return countryDialinNumbers;
+      if (this._enableHostCountryDialinNumbers) {
+        const countryDialinNumbers = filter(
+          (obj) => obj?.country?.isoCode === this.country.isoCode,
+          phoneNumbers,
+        );
+        if (countryDialinNumbers.length > 0) {
+          return countryDialinNumbers;
+        }
       }
 
+      const defaultPhoneNumber = find((obj) => obj.default, phoneNumbers);
       if (defaultPhoneNumber) {
         return defaultPhoneNumber.phoneNumber;
       }
     }
-    return null;
+    return [];
   }
 
   protected async _getPreferences(
@@ -652,12 +690,26 @@ export class RcVideo extends RcModuleV2<Deps> implements IMeeting {
         url: `/rcvideo/v1/bridges/${meeting.id}`,
         body: meetingDetail,
       });
+      const newMeeting = await meetingResult.json();
 
       // After Update
       const dialInNumber = await this._getDialinNumbers();
       const extensionInfo = await this.getExtensionInfo(
         this.currentUser.extensionId,
       );
+
+      const invitationInfo = await this.getMeetingInvitation({
+        hostName: extensionInfo.name,
+        meetingName: newMeeting.name,
+        meetingId: newMeeting.id,
+        meetingUrl: newMeeting.joinUri,
+        participantCode: newMeeting.participantCode,
+        mainPhoneNumber: formatMainPhoneNumber(dialInNumber),
+        password: newMeeting.meetingPassword,
+        dialInPassword: newMeeting.meetingPasswordPSTN,
+        premiumNumbers: formatPremiumNumbers(dialInNumber),
+      });
+
       if (meeting.saveAsDefault) {
         await this.savePreferencesChanges(meeting, true);
       }
@@ -670,11 +722,11 @@ export class RcVideo extends RcModuleV2<Deps> implements IMeeting {
         }, 50);
       }
 
-      const newMeeting = await meetingResult.json();
       this._updateVideoStatus(videoStatus.updated);
       this._updateHasSettingsChanged(false);
 
       const meetingResponse = {
+        invitationInfo,
         extensionInfo,
         dialInNumber,
         meeting: { ...meeting, ...newMeeting },
@@ -763,6 +815,9 @@ export class RcVideo extends RcModuleV2<Deps> implements IMeeting {
           message: meetingStatus.internalError,
         });
       }
+    } else {
+      console.log('errors:', errors);
+      this._deps.alert.danger({ message: meetingStatus.internalError });
     }
   }
 
@@ -806,10 +861,6 @@ export class RcVideo extends RcModuleV2<Deps> implements IMeeting {
     return this._showSaveAsDefault;
   }
 
-  get showAdminLock(): boolean {
-    return this._showAdminLock;
-  }
-
   get enablePersonalMeeting(): boolean {
     return this._enablePersonalMeeting;
   }
@@ -822,12 +873,12 @@ export class RcVideo extends RcModuleV2<Deps> implements IMeeting {
     return this._isInstantMeeting;
   }
 
-  @computed<RcVideo>((that) => [that._deps.locale.currentLocale])
+  @computed((that: RcVideo) => [that._deps.locale.currentLocale])
   get currentLocale() {
     return this._deps.locale.currentLocale || DEFAULT_LOCALE;
   }
 
-  @computed<RcVideo>(({ preferences, isInstantMeeting }) => [
+  @computed(({ preferences, isInstantMeeting }: RcVideo) => [
     preferences,
     isInstantMeeting,
   ])
@@ -835,7 +886,7 @@ export class RcVideo extends RcModuleV2<Deps> implements IMeeting {
     return transformPreferences(this.preferences, this.isInstantMeeting);
   }
 
-  @computed<RcVideo>(({ settingLocks, isInstantMeeting }) => [
+  @computed(({ settingLocks, isInstantMeeting }: RcVideo) => [
     settingLocks,
     isInstantMeeting,
   ])
@@ -843,13 +894,13 @@ export class RcVideo extends RcModuleV2<Deps> implements IMeeting {
     return transformSettingLocks(this.settingLocks, this.isInstantMeeting);
   }
 
-  @computed<RcVideo>(
+  @computed(
     ({
       personalMeeting,
       initialVideoSetting,
       transformedPreferences,
       transformedSettingLocks,
-    }) => [
+    }: RcVideo) => [
       personalMeeting,
       initialVideoSetting,
       transformedPreferences,
@@ -888,12 +939,12 @@ export class RcVideo extends RcModuleV2<Deps> implements IMeeting {
     return processedSettings;
   }
 
-  @computed<RcVideo>(
+  @computed(
     ({
       initialVideoSetting,
       transformedPreferences,
       transformedSettingLocks,
-    }) => [
+    }: RcVideo) => [
       initialVideoSetting,
       transformedPreferences,
       transformedSettingLocks,
@@ -917,7 +968,7 @@ export class RcVideo extends RcModuleV2<Deps> implements IMeeting {
     };
   }
 
-  @computed<RcVideo>(({ currentUser, defaultTopic }) => [
+  @computed(({ currentUser, defaultTopic }: RcVideo) => [
     currentUser,
     defaultTopic,
   ])
@@ -931,8 +982,8 @@ export class RcVideo extends RcModuleV2<Deps> implements IMeeting {
     });
   }
 
-  @computed<RcVideo>(
-    ({ currentUser, extensionName, brandName, currentLocale }) => [
+  @computed(
+    ({ currentUser, extensionName, brandName, currentLocale }: RcVideo) => [
       currentUser,
       extensionName,
       brandName,
@@ -947,7 +998,7 @@ export class RcVideo extends RcModuleV2<Deps> implements IMeeting {
     return getTopic(extensionName, this.brandName, this.currentLocale);
   }
 
-  @computed<RcVideo>(({ extensionId, accountId }) => [extensionId, accountId])
+  @computed(({ extensionId, accountId }: RcVideo) => [extensionId, accountId])
   get loginUser(): RcvDelegator {
     return {
       name: ASSISTED_USERS_MYSELF,
@@ -958,7 +1009,7 @@ export class RcVideo extends RcModuleV2<Deps> implements IMeeting {
     };
   }
 
-  @computed<RcVideo>(({ delegator, loginUser }) => [delegator, loginUser])
+  @computed(({ delegator, loginUser }: RcVideo) => [delegator, loginUser])
   get currentUser(): RcvDelegator {
     return this.delegator || this.loginUser;
   }

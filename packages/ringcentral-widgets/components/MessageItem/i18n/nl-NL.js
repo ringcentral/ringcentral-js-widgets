@@ -3,7 +3,7 @@ export default {
   addLog: "Log",
   editLog: "Log bewerken",
   viewDetails: "Details weergeven",
-  addEntity: "Nieuw maken",
+  addEntity: "Nieuwe maken",
   call: "Oproep",
   text: "Tekstbericht",
   conversation: "Gesprek",

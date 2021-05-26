@@ -23,7 +23,7 @@ export default {
   setPasswordNotSymbol: "パスワードを設定",
   passwordEmptyError: "会議パスワードが必要です",
   passwordInvalidError: "パスワードは1～10文字で英数字を使用できます。記号は使用できません",
-  passwordHintText: "パスワードの長さは1～10文字で、文字および数字が使用できますが記号は使用できません",
+  passwordHintText: "パスワードは1～10文字で英数字を使用できます。記号は使用できません",
   usePersonalMeetingId: "個人会議IDを使用",
   meetingSettingsSecurity: "セキュリティ",
   onlyAuthUserJoin: "認証済みユーザーのみ参加可能にする",

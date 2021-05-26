@@ -1,4 +1,4 @@
-import TimezoneResource from '@rc-ex/core/definitions/TimezoneResource';
+import { TimezoneInfo } from '@rc-ex/core/definitions';
 import Client from 'ringcentral-client';
 
 import { MeetingTypeV } from '../../helpers/meetingHelper.interface';
@@ -13,7 +13,7 @@ import { Locale } from '../LocaleV2';
 export interface MeetingScheduleResource {
   startTime?: number | string;
   durationInMinutes?: number;
-  timeZone?: TimezoneResource;
+  timeZone?: TimezoneInfo;
 }
 
 export interface MeetingOptions {
@@ -24,7 +24,6 @@ export interface MeetingOptions {
   enableServiceWebSettings?: boolean;
   enableScheduleOnBehalf?: boolean;
   enableCustomTimezone?: boolean;
-  putRecurringMeetingInMiddle?: boolean;
 }
 
 export interface Deps {
@@ -68,6 +67,8 @@ export interface MeetingLinksInfo {
 }
 
 export type MeetingStatus = 'NotStarted' | 'Started';
+
+export type RequirePwdTypeForPMI = 'jbh_only' | 'all' | 'none';
 
 export interface HostInfo {
   id: string;
@@ -175,20 +176,21 @@ export interface RcMMeetingModel {
   host: HostInfo;
   meetingType: MeetingTypeV;
   password: string;
-  schedule?: MeetingScheduleResource;
-  _pmiPassword?: string;
-  recurrence?: RecurrenceOptions;
+  telephonyUserSettings: UserTelephonySettingResponse;
   // duration: number;
   startHostVideo: boolean;
   startParticipantsVideo: boolean;
   topic: string;
-  settingLock?: DefaultScheduleLockedSettings;
   _requireMeetingPassword: boolean;
-  _lockRequireMeetingPassword?: boolean;
   _saved: boolean;
   _showDate: boolean;
   _showTime: boolean;
   usePersonalMeetingId: boolean;
+  schedule?: MeetingScheduleResource;
+  _pmiPassword?: string;
+  recurrence?: RecurrenceOptions;
+  settingLock?: DefaultScheduleLockedSettings;
+  _lockRequireMeetingPassword?: boolean;
   isMeetingPasswordValid?: boolean;
   saveAsDefault?: boolean;
 }
@@ -371,7 +373,7 @@ export interface UserScheduleMeetingSettingResponse {
   requirePasswordForScheduledMeetings: boolean;
   defaultPasswordForScheduledMeetings: string;
   requirePasswordForInstantMeetings: boolean;
-  requirePasswordForPmiMeetings: string;
+  requirePasswordForPmiMeetings: RequirePwdTypeForPMI;
   pmiPassword: string;
   startHostVideo: boolean;
   startParticipantsVideo: boolean;
@@ -381,8 +383,14 @@ export interface UserScheduleMeetingSettingResponse {
   audioOptions: AudioOptions;
 }
 
+export interface UserTelephonySettingResponse {
+  audioConferenceInfo: string;
+  thirdPartyAudio: boolean;
+}
+
 export interface UserSettings {
   scheduleMeeting: UserScheduleMeetingSettingResponse;
+  telephony: UserTelephonySettingResponse;
 }
 
 export interface ScheduleMeetingLockedSettings {
