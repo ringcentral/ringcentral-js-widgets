@@ -1,9 +1,6 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = exports.DefaultContactListPageSize = void 0;
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 require("core-js/modules/es6.array.is-array");
 
@@ -32,6 +29,11 @@ require("core-js/modules/es6.array.reduce");
 require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.for-each");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = exports.DefaultContactListPageSize = void 0;
 
 require("core-js/modules/es6.array.find");
 
@@ -79,11 +81,9 @@ var _actionTypes = _interopRequireDefault(require("./actionTypes"));
 
 var _getContactsReducer = _interopRequireDefault(require("./getContactsReducer"));
 
-var _dec, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _temp;
+var _dec, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -146,7 +146,7 @@ var Contacts = (_dec = (0, _di.Module)({
     dep: 'ContactsOptions',
     optional: true
   }]
-}), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcModule) {
+}), _dec(_class = (_class2 = /*#__PURE__*/function (_RcModule) {
   _inherits(Contacts, _RcModule);
 
   var _super = _createSuper(Contacts);
@@ -385,7 +385,9 @@ var Contacts = (_dec = (0, _di.Module)({
                 return Promise.all(sources.map(function (source) {
                   var promise = Promise.resolve(source.filterContacts(searchFilter));
                   return promise.then(function (items) {
-                    result = result.concat(items);
+                    if (items) {
+                      result = result.concat(items);
+                    }
                   })["catch"](function (error) {
                     console.error("[Contacts > ContactSource(".concat(source.sourceName, ") > filterContacts] ").concat(error));
                   });
@@ -425,7 +427,9 @@ var Contacts = (_dec = (0, _di.Module)({
                 return Promise.all(sources.map(function (source) {
                   var promise = Promise.resolve(source.searchForPhoneNumbers(searchString));
                   return promise.then(function (items) {
-                    result = result.concat(items);
+                    if (items) {
+                      result = result.concat(items);
+                    }
                   })["catch"](function (error) {
                     console.error("[Contacts > ContactSource(".concat(source.sourceName, ") > searchForPhoneNumbers] ").concat(error));
                   });
@@ -465,7 +469,9 @@ var Contacts = (_dec = (0, _di.Module)({
                 return Promise.all(sources.map(function (source) {
                   var promise = Promise.resolve(source.matchContactsByPhoneNumber(phoneNumber));
                   return promise.then(function (items) {
-                    result = result.concat(items);
+                    if (items) {
+                      result = result.concat(items);
+                    }
                   })["catch"](function (error) {
                     console.error("[Contacts > ContactSource(".concat(source.sourceName, ") > matchContactsByPhoneNumber] ").concat(error));
                   });
@@ -741,7 +747,7 @@ var Contacts = (_dec = (0, _di.Module)({
   }]);
 
   return Contacts;
-}(_RcModule2["default"]), _temp), (_applyDecoratedDescriptor(_class2.prototype, "updateFilter", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "updateFilter"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getProfileImage", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "getProfileImage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getPresence", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "getPresence"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "sync", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "sync"), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, "sourceNames", [_selector.selector], {
+}(_RcModule2["default"]), (_applyDecoratedDescriptor(_class2.prototype, "updateFilter", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "updateFilter"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getProfileImage", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "getProfileImage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getPresence", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "getPresence"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "sync", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "sync"), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, "sourceNames", [_selector.selector], {
   configurable: true,
   enumerable: true,
   writable: true,
@@ -785,7 +791,7 @@ var Contacts = (_dec = (0, _di.Module)({
 
         var source = _this5._contactSources.get(sourceName);
 
-        if (source.sourceReady) {
+        if (source.sourceReady && source.contacts) {
           contacts = contacts.concat(source.contacts);
         }
       }

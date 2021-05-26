@@ -1,13 +1,8 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.TabManager = void 0;
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
-
-require("core-js/modules/es6.promise");
 
 require("core-js/modules/es6.object.define-properties");
 
@@ -17,7 +12,7 @@ require("core-js/modules/es6.array.filter");
 
 require("core-js/modules/es6.symbol");
 
-require("core-js/modules/es6.reflect.get");
+require("core-js/modules/es6.promise");
 
 require("core-js/modules/es6.object.create");
 
@@ -43,11 +38,16 @@ require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.for-each");
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.TabManager = void 0;
+
 require("regenerator-runtime/runtime");
 
-require("core-js/modules/es6.array.index-of");
-
 var _core = require("@ringcentral-integration/core");
+
+var _redux = require("redux");
 
 var _di = require("../../lib/di");
 
@@ -55,21 +55,19 @@ var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
 
 var _Tabbie = require("../../lib/Tabbie");
 
-var _dec, _class, _class2, _descriptor, _descriptor2, _descriptor3, _temp;
+var _dec, _class, _class2, _descriptor, _descriptor2, _descriptor3;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
 
@@ -78,10 +76,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _get(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get(target, property, receiver || target); }
-
-function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
@@ -107,7 +101,7 @@ var TabManager = (_dec = (0, _di.Module)({
     dep: 'TabManagerOptions',
     optional: true
   }]
-}), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcModuleV) {
+}), _dec(_class = (_class2 = /*#__PURE__*/function (_RcModuleV) {
   _inherits(TabManager, _RcModuleV);
 
   var _super = _createSuper(TabManager);
@@ -130,6 +124,20 @@ var TabManager = (_dec = (0, _di.Module)({
     _initializerDefineProperty(_this, "active", _descriptor2, _assertThisInitialized(_this));
 
     _initializerDefineProperty(_this, "event", _descriptor3, _assertThisInitialized(_this));
+
+    _this._eventReducer = function () {
+      var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+      var action = arguments.length > 1 ? arguments[1] : undefined;
+
+      if (action._usm === _core.usmAction) {
+        var _this$_getStateV = _this._getStateV2(action._state, _this[_core.identifierKey]),
+            event = _this$_getStateV.event;
+
+        if (event && state === null) return event;
+      }
+
+      return null;
+    };
 
     _this.tabbie = new _Tabbie.Tabbie({
       prefix: _this._deps.brand.prefix
@@ -159,22 +167,6 @@ var TabManager = (_dec = (0, _di.Module)({
         name: event,
         args: args
       };
-    }
-  }, {
-    key: "getReducers",
-    value: function getReducers(actionTypes) {
-      return _objectSpread(_objectSpread({}, _get(_getPrototypeOf(TabManager.prototype), "getReducers", this).call(this, actionTypes)), {}, {
-        event: function event() {
-          var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-          var action = arguments.length > 1 ? arguments[1] : undefined;
-
-          if (actionTypes.event && action.type.indexOf(actionTypes.event) > -1 && action.states) {
-            return action.states.event;
-          }
-
-          return null;
-        }
-      });
     }
   }, {
     key: "onInitOnce",
@@ -329,6 +321,21 @@ var TabManager = (_dec = (0, _di.Module)({
       return checkTabAliveById;
     }()
   }, {
+    key: "reducer",
+    get: function get() {
+      if (this._reducers) return (0, _redux.combineReducers)(_objectSpread(_objectSpread({}, this._reducers), {}, {
+        event: this._eventReducer
+      }));
+
+      this[_core.spawnStorageReducersKey]();
+
+      this[_core.spawnReducersKey]();
+
+      return (0, _redux.combineReducers)(_objectSpread(_objectSpread({}, this._reducers), {}, {
+        event: this._eventReducer
+      }));
+    }
+  }, {
     key: "hasMultipleTabs",
     get: function get() {
       var _this$tabbie$hasMulti, _this$tabbie2;
@@ -359,7 +366,7 @@ var TabManager = (_dec = (0, _di.Module)({
   }]);
 
   return TabManager;
-}(_core.RcModuleV2), _temp), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "id", [_core.state], {
+}(_core.RcModuleV2), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "id", [_core.state], {
   configurable: true,
   enumerable: true,
   writable: true,

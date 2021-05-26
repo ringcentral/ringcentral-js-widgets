@@ -2,15 +2,6 @@
 
 require("core-js/modules/es6.object.define-property");
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.getCallStatusReducer = getCallStatusReducer;
-exports.getToNumberEntitiesReducer = getToNumberEntitiesReducer;
-exports.getLastPhoneNumberReducer = getLastPhoneNumberReducer;
-exports.getLastRecipientReducer = getLastRecipientReducer;
-exports["default"] = getCallReducer;
-
 require("core-js/modules/es6.function.name");
 
 require("core-js/modules/es6.regexp.to-string");
@@ -30,6 +21,15 @@ require("core-js/modules/es7.symbol.async-iterator");
 require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.array.is-array");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.getCallStatusReducer = getCallStatusReducer;
+exports.getToNumberEntitiesReducer = getToNumberEntitiesReducer;
+exports.getLastPhoneNumberReducer = getLastPhoneNumberReducer;
+exports.getLastRecipientReducer = getLastRecipientReducer;
+exports["default"] = getCallReducer;
 
 var _redux = require("redux");
 

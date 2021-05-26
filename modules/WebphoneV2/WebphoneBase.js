@@ -1,9 +1,6 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.WebphoneBase = exports.DEFAULT_AUDIO = void 0;
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -28,6 +25,11 @@ require("core-js/modules/es6.object.set-prototype-of");
 require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.array.reduce");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.WebphoneBase = exports.DEFAULT_AUDIO = void 0;
 
 require("core-js/modules/es7.object.entries");
 
@@ -73,7 +75,7 @@ var _connectionStatus = require("./connectionStatus");
 
 var _webphoneErrors = require("./webphoneErrors");
 
-var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
+var _proxify = require("../../lib/proxy/proxify");
 
 var _webphoneHelper = require("./webphoneHelper");
 
@@ -81,11 +83,9 @@ var _events2 = require("./events");
 
 var _Analytics = require("../Analytics");
 
-var _dec, _dec2, _dec3, _dec4, _dec5, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7, _temp;
+var _dec, _dec2, _dec3, _dec4, _dec5, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
@@ -139,7 +139,7 @@ var registerErrors = [_webphoneErrors.webphoneErrors.sipProvisionError, _webphon
 
 var WebphoneBase = (_dec = (0, _di.Module)({
   name: 'Webphone',
-  deps: ['Auth', 'Alert', 'Client', 'NumberValidate', 'RolesAndPermissions', 'Brand', 'RegionSettings', 'AudioSettings', 'Storage', {
+  deps: ['Auth', 'Alert', 'Client', 'NumberValidate', 'ExtensionFeatures', 'Brand', 'RegionSettings', 'AudioSettings', 'Storage', {
     dep: 'AvailabilityMonitor',
     optional: true
   }, {
@@ -163,7 +163,7 @@ var WebphoneBase = (_dec = (0, _di.Module)({
   var _that$_deps$tabManage, _that$_deps$tabManage2;
 
   return [that.ready, (_that$_deps$tabManage = that._deps.tabManager) === null || _that$_deps$tabManage === void 0 ? void 0 : _that$_deps$tabManage.ready, (_that$_deps$tabManage2 = that._deps.tabManager) === null || _that$_deps$tabManage2 === void 0 ? void 0 : _that$_deps$tabManage2.active];
-}), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcModuleV) {
+}), _dec(_class = (_class2 = /*#__PURE__*/function (_RcModuleV) {
   _inherits(WebphoneBase, _RcModuleV);
 
   var _super = _createSuper(WebphoneBase);
@@ -372,9 +372,9 @@ var WebphoneBase = (_dec = (0, _di.Module)({
       this._setVideoElementPrepared(true);
     }
   }, {
-    key: "initModule",
+    key: "_initModule",
     value: function () {
-      var _initModule = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+      var _initModule2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
         var _this2 = this;
 
         return regeneratorRuntime.wrap(function _callee$(_context) {
@@ -400,7 +400,7 @@ var WebphoneBase = (_dec = (0, _di.Module)({
                 this._createOtherWebphoneInstanceListener();
 
                 _context.next = 4;
-                return _get(_getPrototypeOf(WebphoneBase.prototype), "initModule", this).call(this);
+                return _get(_getPrototypeOf(WebphoneBase.prototype), "_initModule", this).call(this);
 
               case 4:
               case "end":
@@ -410,11 +410,11 @@ var WebphoneBase = (_dec = (0, _di.Module)({
         }, _callee, this);
       }));
 
-      function initModule() {
-        return _initModule.apply(this, arguments);
+      function _initModule() {
+        return _initModule2.apply(this, arguments);
       }
 
-      return initModule;
+      return _initModule;
     }()
   }, {
     key: "onInitOnce",
@@ -473,12 +473,12 @@ var WebphoneBase = (_dec = (0, _di.Module)({
   }, {
     key: "_shouldInit",
     value: function _shouldInit() {
-      return this._deps.auth.loggedIn && this._deps.rolesAndPermissions.ready && this._deps.numberValidate.ready && this._deps.audioSettings.ready && this._deps.storage.ready && (!this._deps.tabManager || this._deps.tabManager.ready) && this.pending;
+      return this._deps.auth.loggedIn && this._deps.extensionFeatures.ready && this._deps.numberValidate.ready && this._deps.audioSettings.ready && this._deps.storage.ready && (!this._deps.tabManager || this._deps.tabManager.ready) && this.pending;
     }
   }, {
     key: "_shouldReset",
     value: function _shouldReset() {
-      return (!this._deps.auth.loggedIn || !this._deps.rolesAndPermissions.ready || !this._deps.numberValidate.ready || !!this._deps.tabManager && !this._deps.tabManager.ready || !this._deps.audioSettings.ready) && this.ready;
+      return (!this._deps.auth.loggedIn || !this._deps.extensionFeatures.ready || !this._deps.numberValidate.ready || !!this._deps.tabManager && !this._deps.tabManager.ready || !this._deps.audioSettings.ready) && this.ready;
     }
   }, {
     key: "_sipProvision",
@@ -719,12 +719,12 @@ var WebphoneBase = (_dec = (0, _di.Module)({
                    * Specialties of this flow are next:
                    *   6th WebRTC in another browser receives 6th ‘EndpointID’ and 1st ‘InstanceID’,
                    *   which has been given previously to the 1st ‘EndpointID’.
-                   *   It successfully registers on WSX by moving 1st ‘EndpointID’ to a blacklist state.
+                   *   It successfully registers on WSX by moving 1st ‘EndpointID’ to a blocklist state.
                    *   When 1st WebRTC client re-registers on expiration timeout,
-                   *   WSX defines that 1st ‘EndpointID’ is blacklisted and responds with ‘SIP/2.0 403 Forbidden,
-                   *   instance id is intercepted by another registration’ and remove it from black list.
+                   *   WSX defines that 1st ‘EndpointID’ is blocklisted and responds with ‘SIP/2.0 403 Forbidden,
+                   *   instance id is intercepted by another registration’ and remove it from block list.
                    *   So if 1st WebRTC will send re-register again with the same ‘InstanceID’,
-                   *   it will be accepted and 6th ‘EndpointID’ will be blacklisted.
+                   *   it will be accepted and 6th ‘EndpointID’ will be blocklisted.
                    *   (But the WebRTC client must logout on receiving SIP/2.0 403 Forbidden error and in case of login -
                    *   provision again via Platform API and receive new InstanceID)
                    */
@@ -905,7 +905,7 @@ var WebphoneBase = (_dec = (0, _di.Module)({
                   break;
                 }
 
-                this._deps.rolesAndPermissions.refreshServiceFeatures();
+                this._deps.extensionFeatures.fetchData();
 
                 return _context7.abrupt("return");
 
@@ -1816,7 +1816,7 @@ var WebphoneBase = (_dec = (0, _di.Module)({
   }, {
     key: "enabled",
     get: function get() {
-      return this._deps.rolesAndPermissions.webphoneEnabled;
+      return this._deps.extensionFeatures.isWebPhoneEnabled;
     }
   }, {
     key: "disconnecting",
@@ -1906,7 +1906,7 @@ var WebphoneBase = (_dec = (0, _di.Module)({
   }]);
 
   return WebphoneBase;
-}(_core.RcModuleV2), _temp), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "videoElementPrepared", [_core.state], {
+}(_core.RcModuleV2), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "videoElementPrepared", [_core.state], {
   configurable: true,
   enumerable: true,
   writable: true,
@@ -1960,6 +1960,6 @@ var WebphoneBase = (_dec = (0, _di.Module)({
       outgoingAudioDataUrl: null
     };
   }
-}), _applyDecoratedDescriptor(_class2.prototype, "_setRingtoneIntoStorage", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setRingtoneIntoStorage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_setIncomingAudioIntoStorage", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setIncomingAudioIntoStorage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_resetIncomingAudio", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_resetIncomingAudio"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_setOutgoingAudioIntoStorage", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setOutgoingAudioIntoStorage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_resetOutgoingAudio", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_resetOutgoingAudio"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "shouldUpdateRingtoneVolume", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "shouldUpdateRingtoneVolume"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "shouldSetSinkId", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "shouldSetSinkId"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "shouldTriggerOnTabActive", [_dec5], Object.getOwnPropertyDescriptor(_class2.prototype, "shouldTriggerOnTabActive"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_sipProvision", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_sipProvision"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_connect", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_connect"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "connect", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "connect"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "disconnect", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "disconnect"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "showAlert", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "showAlert"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setOutgoingAudio", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "setOutgoingAudio"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "resetOutgoingAudio", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "resetOutgoingAudio"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setIncomingAudio", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "setIncomingAudio"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "resetIncomingAudio", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "resetIncomingAudio"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setRingtone", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "setRingtone"), _class2.prototype)), _class2)) || _class);
+}), _applyDecoratedDescriptor(_class2.prototype, "_setRingtoneIntoStorage", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setRingtoneIntoStorage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_setIncomingAudioIntoStorage", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setIncomingAudioIntoStorage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_resetIncomingAudio", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_resetIncomingAudio"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_setOutgoingAudioIntoStorage", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setOutgoingAudioIntoStorage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_resetOutgoingAudio", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_resetOutgoingAudio"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "shouldUpdateRingtoneVolume", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "shouldUpdateRingtoneVolume"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "shouldSetSinkId", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "shouldSetSinkId"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "shouldTriggerOnTabActive", [_dec5], Object.getOwnPropertyDescriptor(_class2.prototype, "shouldTriggerOnTabActive"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_sipProvision", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "_sipProvision"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_connect", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "_connect"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "connect", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "connect"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "disconnect", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "disconnect"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "showAlert", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "showAlert"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setOutgoingAudio", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "setOutgoingAudio"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "resetOutgoingAudio", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "resetOutgoingAudio"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setIncomingAudio", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "setIncomingAudio"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "resetIncomingAudio", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "resetIncomingAudio"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setRingtone", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "setRingtone"), _class2.prototype)), _class2)) || _class);
 exports.WebphoneBase = WebphoneBase;
 //# sourceMappingURL=WebphoneBase.js.map

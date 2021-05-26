@@ -1,11 +1,6 @@
 "use strict";
 
-require("core-js/modules/es6.array.find-index");
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.CallHistory = void 0;
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 require("core-js/modules/es6.string.iterator");
 
@@ -44,6 +39,13 @@ require("core-js/modules/es6.array.iterator");
 require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.keys");
+
+require("core-js/modules/es6.array.find-index");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.CallHistory = void 0;
 
 require("core-js/modules/es6.array.index-of");
 
@@ -87,11 +89,9 @@ var _Analytics = require("../Analytics");
 
 var _CallingSettingsV = require("../CallingSettingsV2");
 
-var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _class, _class2, _descriptor, _descriptor2, _descriptor3, _temp;
+var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _class, _class2, _descriptor, _descriptor2, _descriptor3;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
@@ -178,7 +178,7 @@ var CallHistory = (_dec = (0, _di.Module)({
   return [that._deps.callLog.calls, that.endedCalls];
 }), _dec9 = (0, _core.computed)(function (that) {
   return [that.searchInput, that.calls, that.filteredCalls];
-}), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcModuleV) {
+}), _dec(_class = (_class2 = /*#__PURE__*/function (_RcModuleV) {
   _inherits(CallHistory, _RcModuleV);
 
   var _super = _createSuper(CallHistory);
@@ -646,7 +646,7 @@ var CallHistory = (_dec = (0, _di.Module)({
   }]);
 
   return CallHistory;
-}(_core.RcModuleV2), _temp), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "endedCalls", [_core.storage, _core.state], {
+}(_core.RcModuleV2), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "endedCalls", [_core.storage, _core.state], {
   configurable: true,
   enumerable: true,
   writable: true,

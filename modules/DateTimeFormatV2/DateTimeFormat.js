@@ -1,9 +1,6 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.DateTimeFormat = void 0;
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -23,6 +20,11 @@ require("core-js/modules/es6.reflect.construct");
 
 require("core-js/modules/es6.object.set-prototype-of");
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.DateTimeFormat = void 0;
+
 require("core-js/modules/es6.function.name");
 
 var _core = require("@ringcentral-integration/core");
@@ -31,11 +33,9 @@ var _di = require("../../lib/di");
 
 var _getIntlDateTimeFormatter = _interopRequireDefault(require("../../lib/getIntlDateTimeFormatter"));
 
-var _dec, _class, _temp;
+var _dec, _class;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -63,7 +63,7 @@ var DateTimeFormat = (_dec = (0, _di.Module)({
     dep: 'DateTimeFormatOptions',
     optional: true
   }]
-}), _dec(_class = (_temp = /*#__PURE__*/function (_RcModuleV) {
+}), _dec(_class = /*#__PURE__*/function (_RcModuleV) {
   _inherits(DateTimeFormat, _RcModuleV);
 
   var _super = _createSuper(DateTimeFormat);
@@ -82,11 +82,25 @@ var DateTimeFormat = (_dec = (0, _di.Module)({
   }
 
   _createClass(DateTimeFormat, [{
-    key: "onInit",
-    value: function onInit() {
+    key: "setDefaultFormatter",
+    value: function setDefaultFormatter() {
       if (!this._defaultFormatter) {
         this._defaultFormatter = (0, _getIntlDateTimeFormatter["default"])();
       }
+    }
+  }, {
+    key: "onInit",
+    value: function onInit() {
+      this.setDefaultFormatter();
+    }
+  }, {
+    key: "initializeProxy",
+    value: function initializeProxy() {
+      var _this2 = this;
+
+      this.store.subscribe(function () {
+        _this2.setDefaultFormatter();
+      });
     }
   }, {
     key: "onReset",
@@ -165,6 +179,6 @@ var DateTimeFormat = (_dec = (0, _di.Module)({
   }]);
 
   return DateTimeFormat;
-}(_core.RcModuleV2), _temp)) || _class);
+}(_core.RcModuleV2)) || _class);
 exports.DateTimeFormat = DateTimeFormat;
 //# sourceMappingURL=DateTimeFormat.js.map

@@ -1,9 +1,6 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = void 0;
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -28,6 +25,11 @@ require("core-js/modules/es6.object.set-prototype-of");
 require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.object.keys");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
 
 require("core-js/modules/es6.array.reduce");
 
@@ -79,11 +81,9 @@ var _helpers = require("./helpers");
 
 var _callControlError = _interopRequireDefault(require("./callControlError"));
 
-var _dec, _class, _class2, _descriptor, _descriptor2, _descriptor3, _temp;
+var _dec, _class, _class2, _descriptor, _descriptor2, _descriptor3;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -145,7 +145,7 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
     dep: 'AvailabilityMonitor',
     optional: true
   }]
-}), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_Pollable) {
+}), _dec(_class = (_class2 = /*#__PURE__*/function (_Pollable) {
   _inherits(ActiveCallControl, _Pollable);
 
   var _super = _createSuper(ActiveCallControl);
@@ -1555,7 +1555,7 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
   }]);
 
   return ActiveCallControl;
-}(_Pollable2["default"]), _temp), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "activeSession", [_selector.selector], {
+}(_Pollable2["default"]), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "activeSession", [_selector.selector], {
   configurable: true,
   enumerable: true,
   writable: true,

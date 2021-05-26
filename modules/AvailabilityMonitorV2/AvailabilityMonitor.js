@@ -1,9 +1,6 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.AvailabilityMonitor = exports.STATUS_END_POINT = exports.HEALTH_CHECK_INTERVAL = void 0;
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -35,31 +32,34 @@ require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.for-each");
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.AvailabilityMonitor = exports.STATUS_END_POINT = exports.HEALTH_CHECK_INTERVAL = void 0;
+
 require("core-js/modules/es6.number.constructor");
 
 require("core-js/modules/es6.number.is-nan");
 
 require("regenerator-runtime/runtime");
 
-var _ramda = require("ramda");
-
 var _core = require("@ringcentral-integration/core");
 
+var _ramda = require("ramda");
+
+var _debounceThrottle = require("../../lib/debounce-throttle");
+
 var _di = require("../../lib/di");
+
+var _validateIsOffline = _interopRequireDefault(require("../../lib/validateIsOffline"));
 
 var _availabilityMonitorHelper = require("./availabilityMonitorHelper");
 
 var _errorMessages = require("./errorMessages");
 
-var _debounceThrottle = require("../../lib/debounce-throttle");
-
-var _validateIsOffline = _interopRequireDefault(require("../../lib/validateIsOffline"));
-
-var _dec, _class, _class2, _descriptor, _descriptor2, _descriptor3, _temp;
+var _dec, _class, _class2, _descriptor, _descriptor2, _descriptor3;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -105,7 +105,7 @@ var AvailabilityMonitor = (_dec = (0, _di.Module)({
     dep: 'AvailabilityMonitorOptions',
     optional: true
   }]
-}), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcModuleV) {
+}), _dec(_class = (_class2 = /*#__PURE__*/function (_RcModuleV) {
   _inherits(AvailabilityMonitor, _RcModuleV);
 
   var _super = _createSuper(AvailabilityMonitor);
@@ -127,7 +127,6 @@ var AvailabilityMonitor = (_dec = (0, _di.Module)({
     _this._promise = null;
     _this._healthRetryTime = HEALTH_CHECK_INTERVAL;
     _this._unbindHandlers = null;
-    _this._throttledHealthCheck = null;
 
     _initializerDefineProperty(_this, "hasLimitedStatusError", _descriptor, _assertThisInitialized(_this));
 
@@ -307,6 +306,28 @@ var AvailabilityMonitor = (_dec = (0, _di.Module)({
       _this._clearNormalTimeout();
     };
 
+    _this.healthCheck = (0, _debounceThrottle.promisedThrottle)({
+      fn: function fn() {
+        var _this2 = this;
+
+        return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
+          return regeneratorRuntime.wrap(function _callee3$(_context3) {
+            while (1) {
+              switch (_context3.prev = _context3.next) {
+                case 0:
+                  return _context3.abrupt("return", _this2._healthCheck({
+                    manual: true
+                  }));
+
+                case 1:
+                case "end":
+                  return _context3.stop();
+              }
+            }
+          }, _callee3);
+        }))();
+      }
+    });
     return _this;
   }
   /**
@@ -349,22 +370,22 @@ var AvailabilityMonitor = (_dec = (0, _di.Module)({
   }, {
     key: "onInitOnce",
     value: function onInitOnce() {
-      var _this2 = this;
+      var _this3 = this;
 
       (0, _core.watch)(this, function () {
-        return _this2._deps.environment.changeCounter;
+        return _this3._deps.environment.changeCounter;
       }, function () {
-        var _this2$_deps$environm;
+        var _this3$_deps$environm;
 
-        if (_this2.ready && ((_this2$_deps$environm = _this2._deps.environment) === null || _this2$_deps$environm === void 0 ? void 0 : _this2$_deps$environm.ready)) {
-          _this2._bindHandlers();
+        if (_this3.ready && ((_this3$_deps$environm = _this3._deps.environment) === null || _this3$_deps$environm === void 0 ? void 0 : _this3$_deps$environm.ready)) {
+          _this3._bindHandlers();
         }
       });
     }
   }, {
     key: "_bindHandlers",
     value: function _bindHandlers() {
-      var _this3 = this;
+      var _this4 = this;
 
       if (this._unbindHandlers) {
         this._unbindHandlers();
@@ -384,14 +405,14 @@ var AvailabilityMonitor = (_dec = (0, _di.Module)({
       platform.addListener(platform.events.refreshSuccess, this._refreshSuccessHandler);
 
       this._unbindHandlers = function () {
-        client.removeListener(client.events.beforeRequest, _this3._beforeRequestHandler);
-        client.removeListener(client.events.requestError, _this3._requestErrorHandler);
-        platform.removeListener(platform.events.loginSuccess, _this3._switchToNormalMode);
-        platform.removeListener(platform.events.logoutSuccess, _this3._switchToNormalMode);
-        platform.removeListener(platform.events.logoutError, _this3._switchToNormalMode);
-        platform.removeListener(platform.events.refreshError, _this3._refreshErrorHandler);
-        platform.removeListener(platform.events.refreshSuccess, _this3._refreshSuccessHandler);
-        _this3._unbindHandlers = null;
+        client.removeListener(client.events.beforeRequest, _this4._beforeRequestHandler);
+        client.removeListener(client.events.requestError, _this4._requestErrorHandler);
+        platform.removeListener(platform.events.loginSuccess, _this4._switchToNormalMode);
+        platform.removeListener(platform.events.logoutSuccess, _this4._switchToNormalMode);
+        platform.removeListener(platform.events.logoutError, _this4._switchToNormalMode);
+        platform.removeListener(platform.events.refreshError, _this4._refreshErrorHandler);
+        platform.removeListener(platform.events.refreshSuccess, _this4._refreshSuccessHandler);
+        _this4._unbindHandlers = null;
       };
     }
   }, {
@@ -442,13 +463,13 @@ var AvailabilityMonitor = (_dec = (0, _di.Module)({
   }, {
     key: "_getStatus",
     value: function () {
-      var _getStatus2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
+      var _getStatus2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
         var res;
-        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+        return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context4.prev = _context4.next) {
               case 0:
-                _context3.next = 2;
+                _context4.next = 2;
                 return this._deps.client.service.platform().get('/restapi/v1.0/status', null, {
                   skipAuthCheck: true,
                   headers: {
@@ -457,15 +478,15 @@ var AvailabilityMonitor = (_dec = (0, _di.Module)({
                 });
 
               case 2:
-                res = _context3.sent;
-                return _context3.abrupt("return", res);
+                res = _context4.sent;
+                return _context4.abrupt("return", res);
 
               case 4:
               case "end":
-                return _context3.stop();
+                return _context4.stop();
             }
           }
-        }, _callee3, this);
+        }, _callee4, this);
       }));
 
       function _getStatus() {
@@ -477,13 +498,13 @@ var AvailabilityMonitor = (_dec = (0, _di.Module)({
   }, {
     key: "_retry",
     value: function _retry() {
-      var _this4 = this;
+      var _this5 = this;
 
       if (!this._limitedTimeout) {
         this._limitedTimeout = setTimeout(function () {
-          _this4._clearLimitedTimeout();
+          _this5._clearLimitedTimeout();
 
-          _this4._healthCheck();
+          _this5._healthCheck();
         }, this._healthRetryTime);
       }
     }
@@ -494,62 +515,62 @@ var AvailabilityMonitor = (_dec = (0, _di.Module)({
   }, {
     key: "_healthCheck",
     value: function () {
-      var _healthCheck2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
-        var _this5 = this;
+      var _healthCheck2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
+        var _this6 = this;
 
         var _ref3,
             _ref3$manual,
             manual,
             response,
-            _args4 = arguments;
+            _args5 = arguments;
 
-        return regeneratorRuntime.wrap(function _callee4$(_context4) {
+        return regeneratorRuntime.wrap(function _callee5$(_context5) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context5.prev = _context5.next) {
               case 0:
-                _ref3 = _args4.length > 0 && _args4[0] !== undefined ? _args4[0] : {}, _ref3$manual = _ref3.manual, manual = _ref3$manual === void 0 ? false : _ref3$manual;
+                _ref3 = _args5.length > 0 && _args5[0] !== undefined ? _args5[0] : {}, _ref3$manual = _ref3.manual, manual = _ref3$manual === void 0 ? false : _ref3$manual;
 
                 if (!this._promise) {
-                  _context4.next = 3;
+                  _context5.next = 3;
                   break;
                 }
 
-                return _context4.abrupt("return");
+                return _context5.abrupt("return");
 
               case 3:
-                _context4.prev = 3;
+                _context5.prev = 3;
                 this._promise = this._getStatus();
-                _context4.next = 7;
+                _context5.next = 7;
                 return this._promise;
 
               case 7:
-                response = _context4.sent;
+                response = _context5.sent;
 
                 if (!(!response || response.status !== 200)) {
-                  _context4.next = 10;
+                  _context5.next = 10;
                   break;
                 }
 
-                return _context4.abrupt("return");
+                return _context5.abrupt("return");
 
               case 10:
-                _context4.next = 16;
+                _context5.next = 16;
                 break;
 
               case 12:
-                _context4.prev = 12;
-                _context4.t0 = _context4["catch"](3);
+                _context5.prev = 12;
+                _context5.t0 = _context5["catch"](3);
                 console.error('error from request of /restapi/v1.0/status.');
-                return _context4.abrupt("return");
+                return _context5.abrupt("return");
 
               case 16:
-                _context4.prev = 16;
+                _context5.prev = 16;
                 this._promise = null;
-                return _context4.finish(16);
+                return _context5.finish(16);
 
               case 19:
                 if (!manual) {
-                  _context4.next = 23;
+                  _context5.next = 23;
                   break;
                 }
 
@@ -557,7 +578,7 @@ var AvailabilityMonitor = (_dec = (0, _di.Module)({
 
                 this._switchToNormalMode();
 
-                return _context4.abrupt("return");
+                return _context5.abrupt("return");
 
               case 23:
                 // In the described situation Client Application should follow an "Exponential Backoff" approach:
@@ -569,17 +590,17 @@ var AvailabilityMonitor = (_dec = (0, _di.Module)({
                 this._randomTime = this._randomTime || (0, _availabilityMonitorHelper.generateRandomNumber)(); // Generate random seconds (1 ~ 121)
 
                 this._normalTimeout = setTimeout(function () {
-                  _this5._clearNormalTimeout();
+                  _this6._clearNormalTimeout();
 
-                  _this5._switchToNormalMode();
+                  _this6._switchToNormalMode();
                 }, this._randomTime * 1000);
 
               case 25:
               case "end":
-                return _context4.stop();
+                return _context5.stop();
             }
           }
-        }, _callee4, this, [[3, 12, 16, 19]]);
+        }, _callee5, this, [[3, 12, 16, 19]]);
       }));
 
       function _healthCheck() {
@@ -593,87 +614,41 @@ var AvailabilityMonitor = (_dec = (0, _di.Module)({
      */
 
   }, {
-    key: "healthCheck",
-    value: function () {
-      var _healthCheck3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
-        var _this6 = this;
+    key: "checkIfHAError",
 
-        return regeneratorRuntime.wrap(function _callee6$(_context6) {
-          while (1) {
-            switch (_context6.prev = _context6.next) {
-              case 0:
-                if (!this._throttledHealthCheck) {
-                  this._throttledHealthCheck = (0, _debounceThrottle.throttle)( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
-                    return regeneratorRuntime.wrap(function _callee5$(_context5) {
-                      while (1) {
-                        switch (_context5.prev = _context5.next) {
-                          case 0:
-                            _context5.next = 2;
-                            return _this6._healthCheck({
-                              manual: true
-                            });
-
-                          case 2:
-                          case "end":
-                            return _context5.stop();
-                        }
-                      }
-                    }, _callee5);
-                  })));
-                }
-
-                this._throttledHealthCheck();
-
-              case 2:
-              case "end":
-                return _context6.stop();
-            }
-          }
-        }, _callee6, this);
-      }));
-
-      function healthCheck() {
-        return _healthCheck3.apply(this, arguments);
-      }
-
-      return healthCheck;
-    }()
     /**
      * Check if the error is Survival Mode error,
      * Or if app is already in Survival Mode and current request is blocked with an error.
      */
-
-  }, {
-    key: "checkIfHAError",
     value: function () {
-      var _checkIfHAError = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7(error) {
+      var _checkIfHAError = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(error) {
         var errMessage;
-        return regeneratorRuntime.wrap(function _callee7$(_context7) {
+        return regeneratorRuntime.wrap(function _callee6$(_context6) {
           while (1) {
-            switch (_context7.prev = _context7.next) {
+            switch (_context6.prev = _context6.next) {
               case 0:
                 errMessage = (0, _ramda.pathOr)(null, ['message'], error);
 
                 if (!error.response) {
-                  _context7.next = 5;
+                  _context6.next = 5;
                   break;
                 }
 
-                _context7.next = 4;
+                _context6.next = 4;
                 return error.response.clone().json();
 
               case 4:
-                error.response._json = _context7.sent;
+                error.response._json = _context6.sent;
 
               case 5:
-                return _context7.abrupt("return", (0, _availabilityMonitorHelper.isHAError)(error) || errMessage === _errorMessages.errorMessages.serviceLimited);
+                return _context6.abrupt("return", (0, _availabilityMonitorHelper.isHAError)(error) || errMessage === _errorMessages.errorMessages.serviceLimited);
 
               case 6:
               case "end":
-                return _context7.stop();
+                return _context6.stop();
             }
           }
-        }, _callee7);
+        }, _callee6);
       }));
 
       function checkIfHAError(_x3) {
@@ -694,7 +669,7 @@ var AvailabilityMonitor = (_dec = (0, _di.Module)({
   }]);
 
   return AvailabilityMonitor;
-}(_core.RcModuleV2), _temp), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "hasLimitedStatusError", [_core.state], {
+}(_core.RcModuleV2), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "hasLimitedStatusError", [_core.state], {
   configurable: true,
   enumerable: true,
   writable: true,

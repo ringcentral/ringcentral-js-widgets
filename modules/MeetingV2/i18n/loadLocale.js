@@ -49,6 +49,23 @@ function loadLocale(locale) {
           break;
         }
 
+      case 'en-AU':
+        {
+          if (typeof require.ensure === 'function') {
+            require.ensure(['./en-AU'], function (require) {
+              var data = require('./en-AU');
+
+              resolve(data.__esModule === true ? data["default"] : data);
+            }, 'en-AU');
+          } else {
+            var _data2 = require('./en-AU');
+
+            resolve(_data2.__esModule === true ? _data2["default"] : _data2);
+          }
+
+          break;
+        }
+
       case 'fr':
       case 'fr-FR':
         {
@@ -59,9 +76,9 @@ function loadLocale(locale) {
               resolve(data.__esModule === true ? data["default"] : data);
             }, 'fr-FR');
           } else {
-            var _data2 = require('./fr-FR');
+            var _data3 = require('./fr-FR');
 
-            resolve(_data2.__esModule === true ? _data2["default"] : _data2);
+            resolve(_data3.__esModule === true ? _data3["default"] : _data3);
           }
 
           break;
@@ -76,9 +93,9 @@ function loadLocale(locale) {
               resolve(data.__esModule === true ? data["default"] : data);
             }, 'fr-CA');
           } else {
-            var _data3 = require('./fr-CA');
+            var _data4 = require('./fr-CA');
 
-            resolve(_data3.__esModule === true ? _data3["default"] : _data3);
+            resolve(_data4.__esModule === true ? _data4["default"] : _data4);
           }
 
           break;
@@ -94,9 +111,9 @@ function loadLocale(locale) {
               resolve(data.__esModule === true ? data["default"] : data);
             }, 'de-DE');
           } else {
-            var _data4 = require('./de-DE');
+            var _data5 = require('./de-DE');
 
-            resolve(_data4.__esModule === true ? _data4["default"] : _data4);
+            resolve(_data5.__esModule === true ? _data5["default"] : _data5);
           }
 
           break;
@@ -112,9 +129,9 @@ function loadLocale(locale) {
               resolve(data.__esModule === true ? data["default"] : data);
             }, 'it-IT');
           } else {
-            var _data5 = require('./it-IT');
+            var _data6 = require('./it-IT');
 
-            resolve(_data5.__esModule === true ? _data5["default"] : _data5);
+            resolve(_data6.__esModule === true ? _data6["default"] : _data6);
           }
 
           break;
@@ -130,9 +147,9 @@ function loadLocale(locale) {
               resolve(data.__esModule === true ? data["default"] : data);
             }, 'es-ES');
           } else {
-            var _data6 = require('./es-ES');
+            var _data7 = require('./es-ES');
 
-            resolve(_data6.__esModule === true ? _data6["default"] : _data6);
+            resolve(_data7.__esModule === true ? _data7["default"] : _data7);
           }
 
           break;
@@ -147,9 +164,9 @@ function loadLocale(locale) {
               resolve(data.__esModule === true ? data["default"] : data);
             }, 'es-419');
           } else {
-            var _data7 = require('./es-419');
+            var _data8 = require('./es-419');
 
-            resolve(_data7.__esModule === true ? _data7["default"] : _data7);
+            resolve(_data8.__esModule === true ? _data8["default"] : _data8);
           }
 
           break;
@@ -165,9 +182,9 @@ function loadLocale(locale) {
               resolve(data.__esModule === true ? data["default"] : data);
             }, 'ja-JP');
           } else {
-            var _data8 = require('./ja-JP');
+            var _data9 = require('./ja-JP');
 
-            resolve(_data8.__esModule === true ? _data8["default"] : _data8);
+            resolve(_data9.__esModule === true ? _data9["default"] : _data9);
           }
 
           break;
@@ -183,9 +200,9 @@ function loadLocale(locale) {
               resolve(data.__esModule === true ? data["default"] : data);
             }, 'pt-PT');
           } else {
-            var _data9 = require('./pt-PT');
+            var _data10 = require('./pt-PT');
 
-            resolve(_data9.__esModule === true ? _data9["default"] : _data9);
+            resolve(_data10.__esModule === true ? _data10["default"] : _data10);
           }
 
           break;
@@ -200,9 +217,9 @@ function loadLocale(locale) {
               resolve(data.__esModule === true ? data["default"] : data);
             }, 'pt-BR');
           } else {
-            var _data10 = require('./pt-BR');
+            var _data11 = require('./pt-BR');
 
-            resolve(_data10.__esModule === true ? _data10["default"] : _data10);
+            resolve(_data11.__esModule === true ? _data11["default"] : _data11);
           }
 
           break;
@@ -218,9 +235,9 @@ function loadLocale(locale) {
               resolve(data.__esModule === true ? data["default"] : data);
             }, 'zh-CN');
           } else {
-            var _data11 = require('./zh-CN');
+            var _data12 = require('./zh-CN');
 
-            resolve(_data11.__esModule === true ? _data11["default"] : _data11);
+            resolve(_data12.__esModule === true ? _data12["default"] : _data12);
           }
 
           break;
@@ -235,9 +252,26 @@ function loadLocale(locale) {
               resolve(data.__esModule === true ? data["default"] : data);
             }, 'zh-TW');
           } else {
-            var _data12 = require('./zh-TW');
+            var _data13 = require('./zh-TW');
 
-            resolve(_data12.__esModule === true ? _data12["default"] : _data12);
+            resolve(_data13.__esModule === true ? _data13["default"] : _data13);
+          }
+
+          break;
+        }
+
+      case 'zh-HK':
+        {
+          if (typeof require.ensure === 'function') {
+            require.ensure(['./zh-HK'], function (require) {
+              var data = require('./zh-HK');
+
+              resolve(data.__esModule === true ? data["default"] : data);
+            }, 'zh-HK');
+          } else {
+            var _data14 = require('./zh-HK');
+
+            resolve(_data14.__esModule === true ? _data14["default"] : _data14);
           }
 
           break;
@@ -253,9 +287,9 @@ function loadLocale(locale) {
               resolve(data.__esModule === true ? data["default"] : data);
             }, 'nl-NL');
           } else {
-            var _data13 = require('./nl-NL');
+            var _data15 = require('./nl-NL');
 
-            resolve(_data13.__esModule === true ? _data13["default"] : _data13);
+            resolve(_data15.__esModule === true ? _data15["default"] : _data15);
           }
 
           break;
@@ -271,9 +305,9 @@ function loadLocale(locale) {
               resolve(data.__esModule === true ? data["default"] : data);
             }, 'ko-KR');
           } else {
-            var _data14 = require('./ko-KR');
+            var _data16 = require('./ko-KR');
 
-            resolve(_data14.__esModule === true ? _data14["default"] : _data14);
+            resolve(_data16.__esModule === true ? _data16["default"] : _data16);
           }
 
           break;

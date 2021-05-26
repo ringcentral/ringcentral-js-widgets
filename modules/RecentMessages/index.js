@@ -1,9 +1,6 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = void 0;
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -30,6 +27,11 @@ require("core-js/modules/es6.object.set-prototype-of");
 require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.array.for-each");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
 
 require("core-js/modules/es6.array.map");
 
@@ -77,11 +79,9 @@ var _concurrentExecute = _interopRequireDefault(require("../../lib/concurrentExe
 
 var _messageHelper = require("../../lib/messageHelper");
 
-var _dec, _class, _class2, _descriptor, _temp;
+var _dec, _class, _class2, _descriptor;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -130,7 +130,7 @@ var RecentMessages = (
  */
 _dec = (0, _di.Module)({
   deps: ['Client', 'MessageStore']
-}), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcModule) {
+}), _dec(_class = (_class2 = /*#__PURE__*/function (_RcModule) {
   _inherits(RecentMessages, _RcModule);
 
   var _super = _createSuper(RecentMessages);
@@ -506,7 +506,7 @@ _dec = (0, _di.Module)({
   }]);
 
   return RecentMessages;
-}(_RcModule2["default"]), _temp), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "unreadMessageCounts", [_selector.selector], {
+}(_RcModule2["default"]), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "unreadMessageCounts", [_selector.selector], {
   configurable: true,
   enumerable: true,
   writable: true,

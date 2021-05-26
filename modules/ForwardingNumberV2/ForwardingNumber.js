@@ -1,9 +1,6 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.ForwardingNumber = void 0;
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -12,8 +9,6 @@ require("core-js/modules/es6.promise");
 require("core-js/modules/es6.object.define-properties");
 
 require("core-js/modules/es7.object.get-own-property-descriptors");
-
-require("core-js/modules/es6.array.filter");
 
 require("core-js/modules/es6.symbol");
 
@@ -41,6 +36,13 @@ require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.for-each");
 
+require("core-js/modules/es6.array.filter");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.ForwardingNumber = void 0;
+
 require("core-js/modules/es6.array.index-of");
 
 require("regenerator-runtime/runtime");
@@ -58,8 +60,6 @@ var _DataFetcherV = require("../DataFetcherV2");
 var _dec, _dec2, _dec3, _dec4, _class, _class2;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -95,7 +95,7 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
 
 var ForwardingNumber = (_dec = (0, _di.Module)({
   name: 'ForwardingNumber',
-  deps: ['Client', 'RolesAndPermissions', 'DataFetcherV2', {
+  deps: ['Client', 'ExtensionFeatures', 'DataFetcherV2', {
     dep: 'ForwardingNumberOptions',
     optional: true
   }]
@@ -171,10 +171,12 @@ var ForwardingNumber = (_dec = (0, _di.Module)({
         return fetchFunction;
       }(),
       readyCheckFunction: function readyCheckFunction() {
-        return _this._deps.rolesAndPermissions.ready;
+        return _this._deps.extensionFeatures.ready;
       },
       permissionCheckFunction: function permissionCheckFunction() {
-        return !!_this._deps.rolesAndPermissions.permissions.ReadUserForwardingFlipNumbers;
+        var _this$_deps$extension, _this$_deps$extension2, _this$_deps$extension3;
+
+        return (_this$_deps$extension = (_this$_deps$extension2 = _this._deps.extensionFeatures.features) === null || _this$_deps$extension2 === void 0 ? void 0 : (_this$_deps$extension3 = _this$_deps$extension2.ReadExtensionAnsweringRules) === null || _this$_deps$extension3 === void 0 ? void 0 : _this$_deps$extension3.available) !== null && _this$_deps$extension !== void 0 ? _this$_deps$extension : false;
       }
     }));
 

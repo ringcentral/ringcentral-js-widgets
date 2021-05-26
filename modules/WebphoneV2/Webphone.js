@@ -1,9 +1,6 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.Webphone = exports.INCOMING_CALL_INVALID_STATE_ERROR_CODE = void 0;
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 require("core-js/modules/es6.function.name");
 
@@ -32,6 +29,11 @@ require("core-js/modules/es6.object.define-property");
 require("core-js/modules/es6.array.reduce");
 
 require("core-js/modules/es6.object.keys");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Webphone = exports.INCOMING_CALL_INVALID_STATE_ERROR_CODE = void 0;
 
 require("core-js/modules/es7.object.values");
 
@@ -93,11 +95,9 @@ var _webphoneHelper = require("./webphoneHelper");
 
 var _webphoneMessages = require("./webphoneMessages");
 
-var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _dec10, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _temp;
+var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _dec10, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
@@ -180,7 +180,7 @@ var Webphone = (_dec = (0, _di.Module)({
 }), _dec10 = (0, _core.computed)(function (_ref7) {
   var ringSessions = _ref7.ringSessions;
   return [ringSessions];
-}), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_WebphoneBase) {
+}), _dec(_class = (_class2 = /*#__PURE__*/function (_WebphoneBase) {
   _inherits(Webphone, _WebphoneBase);
 
   var _super = _createSuper(Webphone);
@@ -2524,7 +2524,7 @@ var Webphone = (_dec = (0, _di.Module)({
   }]);
 
   return Webphone;
-}(_WebphoneBase2.WebphoneBase), _temp), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "activeSessionId", [_core.state], {
+}(_WebphoneBase2.WebphoneBase), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "activeSessionId", [_core.state], {
   configurable: true,
   enumerable: true,
   writable: true,

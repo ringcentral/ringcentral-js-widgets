@@ -5,10 +5,15 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.EXPECT_GENERAL_DEFAULT_SETTING_WITH_SW_SETTING = exports.EXPECT_LAST_MEETING_SETTING = exports.EXPECT_SAVE_AS_DEFAULT_SETTING = exports.LAST_MEETING_SETTING = exports.SAVED_DEFAULT_MEETING_SETTING = exports.EXPECT_PMI_DEFAULT_SETTING_WITH_SW_SETTING = exports.MOCK_PERSONAL_MEETING = void 0;
+exports.EXPECT_GENERAL_DEFAULT_SETTING_WITH_SW_SETTING = exports.EXPECT_LAST_MEETING_SETTING = exports.EXPECT_SAVE_AS_DEFAULT_SETTING = exports.LAST_MEETING_SETTING = exports.SAVED_DEFAULT_MEETING_SETTING = exports.EXPECT_PMI_DEFAULT_SETTING_WITH_SW_SETTING = exports.MOCK_PERSONAL_MEETING = exports.MOCK_TURN_OFF_3RD_PARTY_AUDIO = void 0;
 
 var _meetingHelper = require("../../../helpers/meetingHelper");
 
+var MOCK_TURN_OFF_3RD_PARTY_AUDIO = {
+  audioConferenceInfo: '',
+  thirdPartyAudio: false
+};
+exports.MOCK_TURN_OFF_3RD_PARTY_AUDIO = MOCK_TURN_OFF_3RD_PARTY_AUDIO;
 var MOCK_PERSONAL_MEETING = {
   topic: 'RingCentral Meeting',
   meetingType: 'Scheduled',

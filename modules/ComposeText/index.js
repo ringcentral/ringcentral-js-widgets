@@ -1,9 +1,6 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = void 0;
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -43,6 +40,11 @@ require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.for-each");
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
+
 require("core-js/modules/es6.array.map");
 
 require("regenerator-runtime/runtime");
@@ -70,8 +72,6 @@ var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
 var _dec, _class, _class2;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -117,6 +117,9 @@ var ComposeText = (
 _dec = (0, _di.Module)({
   deps: ['Alert', 'Auth', 'Storage', 'MessageSender', 'NumberValidate', 'RolesAndPermissions', // { dep: 'Conversations', optional: true },
   {
+    dep: 'RouterInteraction',
+    optional: true
+  }, {
     dep: 'ContactSearch',
     optional: true
   }, {
@@ -149,7 +152,8 @@ _dec = (0, _di.Module)({
         contactSearch = _ref.contactSearch,
         rolesAndPermissions = _ref.rolesAndPermissions,
         conversations = _ref.conversations,
-        options = _objectWithoutProperties(_ref, ["alert", "auth", "storage", "messageSender", "numberValidate", "contactSearch", "rolesAndPermissions", "conversations"]);
+        routerInteraction = _ref.routerInteraction,
+        options = _objectWithoutProperties(_ref, ["alert", "auth", "storage", "messageSender", "numberValidate", "contactSearch", "rolesAndPermissions", "conversations", "routerInteraction"]);
 
     _classCallCheck(this, ComposeText);
 
@@ -167,6 +171,7 @@ _dec = (0, _di.Module)({
     _this._numberValidate = numberValidate;
     _this._contactSearch = contactSearch; // this._conversations = conversations;
 
+    _this._routerInteraction = routerInteraction;
     _this._lastContactSearchResult = [];
     _this.senderNumbersList = [];
     storage.registerReducer({
@@ -329,7 +334,9 @@ _dec = (0, _di.Module)({
     key: "send",
     value: function () {
       var _send = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(text) {
-        var fromNumber, toNumbers, typingToNumber;
+        var _this3 = this;
+
+        var fromNumber, toNumbers, typingToNumber, timeoutID, responses;
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -358,18 +365,50 @@ _dec = (0, _di.Module)({
                 return _context.abrupt("return", null);
 
               case 9:
-                return _context.abrupt("return", this._messageSender.send({
+                // this._conversations.addEntities(this.toNumbers);
+                timeoutID = setTimeout(function () {
+                  if (_this3._routerInteraction && _this3._routerInteraction.currentPath === '/composeText') {
+                    _this3.alertMessageSending();
+                  }
+
+                  timeoutID = null;
+                }, 10000);
+                _context.prev = 10;
+                _context.next = 13;
+                return this._messageSender.send({
                   fromNumber: fromNumber,
                   toNumbers: toNumbers,
                   text: text
-                }));
+                });
 
-              case 10:
+              case 13:
+                responses = _context.sent;
+
+                if (timeoutID) {
+                  clearTimeout(timeoutID);
+                  timeoutID = null;
+                }
+
+                this.dismissMessageSending();
+                return _context.abrupt("return", responses);
+
+              case 19:
+                _context.prev = 19;
+                _context.t0 = _context["catch"](10);
+
+                if (timeoutID) {
+                  clearTimeout(timeoutID);
+                  timeoutID = null;
+                }
+
+                throw _context.t0;
+
+              case 23:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, this);
+        }, _callee, this, [[10, 19]]);
       }));
 
       function send(_x) {

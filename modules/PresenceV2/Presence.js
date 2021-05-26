@@ -1,11 +1,6 @@
 "use strict";
 
-require("core-js/modules/es6.array.map");
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.Presence = exports.detailedPresenceRegExp = exports.presenceRegExp = exports.DEFAULT_MAX_FETCH_DELAY = exports.DEFAULT_FETCH_DELAY = exports.DEFAULT_POLLING_INTERVAL = exports.DEFAULT_TTL = void 0;
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -14,8 +9,6 @@ require("core-js/modules/es6.promise");
 require("core-js/modules/es6.object.define-properties");
 
 require("core-js/modules/es7.object.get-own-property-descriptors");
-
-require("core-js/modules/es6.array.filter");
 
 require("core-js/modules/es6.symbol");
 
@@ -43,6 +36,15 @@ require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.for-each");
 
+require("core-js/modules/es6.array.filter");
+
+require("core-js/modules/es6.array.map");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Presence = exports.detailedPresenceRegExp = exports.presenceRegExp = exports.DEFAULT_MAX_FETCH_DELAY = exports.DEFAULT_FETCH_DELAY = exports.DEFAULT_POLLING_INTERVAL = exports.DEFAULT_TTL = void 0;
+
 require("core-js/modules/es6.array.find");
 
 require("core-js/modules/es6.date.now");
@@ -63,7 +65,7 @@ var _debounceThrottle = require("../../lib/debounce-throttle");
 
 var _di = require("../../lib/di");
 
-var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
+var _proxify = require("../../lib/proxy/proxify");
 
 var _DataFetcherV = require("../DataFetcherV2");
 
@@ -71,11 +73,7 @@ var _dndStatus2 = require("../Presence/dndStatus");
 
 var _getPresenceReducer = require("../Presence/getPresenceReducer");
 
-var _dec, _dec2, _dec3, _dec4, _class, _class2, _temp;
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+var _dec, _dec2, _dec3, _dec4, _class, _class2;
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -123,7 +121,7 @@ var detailedPresenceRegExp = /.*\/presence\?detailedTelephonyState=true&sipData=
 exports.detailedPresenceRegExp = detailedPresenceRegExp;
 var Presence = (_dec = (0, _di.Module)({
   name: 'Presence',
-  deps: ['Auth', 'Client', 'ConnectivityMonitor', 'DataFetcherV2', 'RolesAndPermissions', 'Subscription', {
+  deps: ['Auth', 'Client', 'ConnectivityMonitor', 'DataFetcherV2', 'ExtensionFeatures', 'Subscription', {
     dep: 'TabManager',
     optional: true
   }, {
@@ -139,7 +137,7 @@ var Presence = (_dec = (0, _di.Module)({
 }), _dec4 = (0, _core.computed)(function (_ref3) {
   var calls = _ref3.calls;
   return [calls];
-}), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_DataFetcherV2Consume) {
+}), _dec(_class = (_class2 = /*#__PURE__*/function (_DataFetcherV2Consume) {
   _inherits(Presence, _DataFetcherV2Consume);
 
   var _super = _createSuper(Presence);
@@ -213,7 +211,7 @@ var Presence = (_dec = (0, _di.Module)({
         return fetchFunction;
       }(),
       readyCheckFunction: function readyCheckFunction() {
-        return _this._deps.auth.ready && _this._deps.auth.loggedIn && _this._deps.subscription.ready && _this._deps.rolesAndPermissions.ready && _this._deps.connectivityMonitor.ready && _this._deps.dataFetcherV2.ready;
+        return _this._deps.auth.ready && _this._deps.auth.loggedIn && _this._deps.subscription.ready && _this._deps.extensionFeatures.ready && _this._deps.connectivityMonitor.ready && _this._deps.dataFetcherV2.ready;
       },
       permissionCheckFunction: function permissionCheckFunction() {
         return _this._checkPermission();
@@ -233,7 +231,9 @@ var Presence = (_dec = (0, _di.Module)({
   _createClass(Presence, [{
     key: "_checkPermission",
     value: function _checkPermission() {
-      return this._deps.rolesAndPermissions.hasPresencePermission;
+      var _this$_deps$extension, _this$_deps$extension2, _this$_deps$extension3;
+
+      return (_this$_deps$extension = (_this$_deps$extension2 = this._deps.extensionFeatures.features) === null || _this$_deps$extension2 === void 0 ? void 0 : (_this$_deps$extension3 = _this$_deps$extension2.ReadPresenceStatus) === null || _this$_deps$extension3 === void 0 ? void 0 : _this$_deps$extension3.available) !== null && _this$_deps$extension !== void 0 ? _this$_deps$extension : false;
     }
   }, {
     key: "_processRawActiveCalls",
@@ -371,13 +371,15 @@ var Presence = (_dec = (0, _di.Module)({
     key: "_update",
     value: function () {
       var _update2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(params) {
+        var _this$_deps$extension4, _this$_deps$extension5;
+
         var ownerId, response, data, _ref4, newDndStatus;
 
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                if (this._deps.rolesAndPermissions.hasEditPresencePermission) {
+                if ((_this$_deps$extension4 = this._deps.extensionFeatures.features) === null || _this$_deps$extension4 === void 0 ? void 0 : (_this$_deps$extension5 = _this$_deps$extension4.EditPresenceStatus) === null || _this$_deps$extension5 === void 0 ? void 0 : _this$_deps$extension5.available) {
                   _context2.next = 2;
                   break;
                 }
@@ -858,6 +860,6 @@ var Presence = (_dec = (0, _di.Module)({
   }]);
 
   return Presence;
-}(_DataFetcherV.DataFetcherV2Consumer), _temp), (_applyDecoratedDescriptor(_class2.prototype, "activeCalls", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "activeCalls"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "calls", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "calls"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_update", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_update"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_updateData", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_updateData"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "sessionIdList", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "sessionIdList"), _class2.prototype)), _class2)) || _class);
+}(_DataFetcherV.DataFetcherV2Consumer), (_applyDecoratedDescriptor(_class2.prototype, "activeCalls", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "activeCalls"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "calls", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "calls"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_update", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "_update"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_updateData", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "_updateData"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "sessionIdList", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "sessionIdList"), _class2.prototype)), _class2)) || _class);
 exports.Presence = Presence;
 //# sourceMappingURL=Presence.js.map

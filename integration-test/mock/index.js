@@ -1,5 +1,25 @@
 "use strict";
 
+require("core-js/modules/es6.array.index-of");
+
+require("core-js/modules/es6.object.define-properties");
+
+require("core-js/modules/es7.object.get-own-property-descriptors");
+
+require("core-js/modules/es6.array.for-each");
+
+require("core-js/modules/es6.array.filter");
+
+require("core-js/modules/es6.symbol");
+
+require("core-js/modules/web.dom.iterable");
+
+require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.object.to-string");
+
+require("core-js/modules/es6.object.keys");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -57,6 +77,9 @@ exports.meetingInvitation = meetingInvitation;
 exports.meetingInfo = meetingInfo;
 exports.videoPreference = videoPreference;
 exports.videoPersonalSettings = videoPersonalSettings;
+exports.getRcvMeetingInfo = getRcvMeetingInfo;
+exports.patchRcvMeeting = patchRcvMeeting;
+exports.postRcvBridges = postRcvBridges;
 exports.serviceInfo = serviceInfo;
 exports.meetingProvider = meetingProvider;
 exports.meetingProviderRcm = meetingProviderRcm;
@@ -66,28 +89,9 @@ exports.videoConfiguration = videoConfiguration;
 exports.callerId = callerId;
 exports.features = features;
 exports.timezone = timezone;
+exports.dialInNumbers = dialInNumbers;
 exports.mockForLogin = mockForLogin;
 exports.mockServer = void 0;
-
-require("core-js/modules/es6.array.index-of");
-
-require("core-js/modules/es6.object.define-properties");
-
-require("core-js/modules/es7.object.get-own-property-descriptors");
-
-require("core-js/modules/es6.array.for-each");
-
-require("core-js/modules/es6.array.filter");
-
-require("core-js/modules/es6.symbol");
-
-require("core-js/modules/web.dom.iterable");
-
-require("core-js/modules/es6.array.iterator");
-
-require("core-js/modules/es6.object.to-string");
-
-require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.object.define-property");
 
@@ -153,8 +157,6 @@ var _meetingInvitation = _interopRequireDefault(require("./data/meetingInvitatio
 
 var _assistedUsers = _interopRequireDefault(require("./data/assistedUsers.json"));
 
-var _delegatorsBody = _interopRequireDefault(require("./data/delegatorsBody.json"));
-
 var _meetingProviderRcm = _interopRequireDefault(require("./data/meetingProviderRcm.json"));
 
 var _meetingProviderRcv = _interopRequireDefault(require("./data/meetingProviderRcv.json"));
@@ -185,6 +187,10 @@ var _subscription = _interopRequireDefault(require("./data/subscription.json"));
 
 var _timezone = _interopRequireDefault(require("./data/timezone.json"));
 
+var _dialInNumbers = _interopRequireDefault(require("./data/dialInNumbers.json"));
+
+var _postRcvBridges = _interopRequireDefault(require("./data/postRcvBridges.json"));
+
 var _updateConference = _interopRequireDefault(require("./data/updateConference.json"));
 
 var _userSettings = _interopRequireDefault(require("./data/userSettings.json"));
@@ -196,6 +202,8 @@ var _videoPreference = _interopRequireDefault(require("./data/videoPreference.js
 var _features = _interopRequireDefault(require("./data/features.json"));
 
 var _videoPersonalSettings = _interopRequireDefault(require("./data/videoPersonalSettings.json"));
+
+var _rcvMeetingSettings = _interopRequireDefault(require("./data/rcvMeetingSettings.json"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -608,12 +616,11 @@ function assistedUsers() {
   });
 }
 
-function delegators() {
-  var mockResponse = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+function delegators(mockResponse) {
   mockApi({
     method: 'GET',
     url: "".concat(mockServer, "/rcvideo/v1/accounts/~/extensions/~/delegators"),
-    body: mockResponse || _delegatorsBody["default"]
+    body: mockResponse || []
   });
 }
 
@@ -800,10 +807,19 @@ function meeting() {
 function meetingInvitation() {
   var meetingId = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
   var mockResponse = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  var extraParams = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {
+    language: 'en-US'
+  };
   var id = meetingId || _meeting["default"].id;
+  var query = ''; // eslint-disable-next-line guard-for-in
+
+  for (var key in extraParams) {
+    query = query.concat("".concat(key, "=").concat(extraParams[key]));
+  }
+
   mockApi({
     method: 'GET',
-    url: "".concat(mockServer, "/restapi/v1.0/account/~/extension/~/meeting/").concat(id, "/invitation"),
+    url: "".concat(mockServer, "/restapi/v1.0/account/~/extension/~/meeting/").concat(id, "/invitation?").concat(query),
     body: _objectSpread(_objectSpread({}, _meetingInvitation["default"]), mockResponse),
     isOnce: false
   });
@@ -839,6 +855,35 @@ function videoPersonalSettings() {
     method: 'GET',
     url: "".concat(mockServer, "/rcvideo/v1/bridges?default=true&accountId=").concat(_accountInfo["default"].id, "&extensionId=").concat(_extensionInfo["default"].id),
     body: _videoPersonalSettings["default"],
+    isOnce: false
+  });
+}
+
+function getRcvMeetingInfo(shortId) {
+  mockApi({
+    method: 'GET',
+    url: "".concat(mockServer, "/rcvideo/v1/bridges?shortId=").concat(shortId, "&accountId=").concat(_accountInfo["default"].id, "&extensionId=").concat(_extensionInfo["default"].id),
+    body: _rcvMeetingSettings["default"],
+    isOnce: false
+  });
+}
+
+function patchRcvMeeting(meetingId) {
+  var mockResponse = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  mockApi({
+    method: 'PATCH',
+    url: "".concat(mockServer, "/rcvideo/v1/bridges/").concat(meetingId),
+    body: _objectSpread(_objectSpread({}, _rcvMeetingSettings["default"]), mockResponse),
+    isOnce: false
+  });
+}
+
+function postRcvBridges() {
+  var mockResponse = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  mockApi({
+    method: 'POST',
+    url: "".concat(mockServer, "/rcvideo/v1/bridges"),
+    body: _objectSpread(_objectSpread({}, _postRcvBridges["default"]), mockResponse),
     isOnce: false
   });
 }
@@ -925,11 +970,23 @@ function timezone() {
   });
 }
 
+function dialInNumbers() {
+  var mockResponse = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  mockApi({
+    method: 'GET',
+    url: "".concat(mockServer, "/rcvideo/v1/dial-in-numbers"),
+    body: _objectSpread(_objectSpread({}, _dialInNumbers["default"]), mockResponse),
+    isOnce: false
+  });
+}
+
 function mockForLogin() {
   var _ref4 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
   var _ref4$mockAuthzProfil = _ref4.mockAuthzProfile,
       mockAuthzProfile = _ref4$mockAuthzProfil === void 0 ? true : _ref4$mockAuthzProfil,
+      _ref4$mockMeetingInvi = _ref4.mockMeetingInvitation,
+      mockMeetingInvitation = _ref4$mockMeetingInvi === void 0 ? true : _ref4$mockMeetingInvi,
       _ref4$mockExtensionIn = _ref4.mockExtensionInfo,
       mockExtensionInfo = _ref4$mockExtensionIn === void 0 ? true : _ref4$mockExtensionIn,
       _ref4$mockForwardingN = _ref4.mockForwardingNumber,
@@ -952,7 +1009,7 @@ function mockForLogin() {
       mockVideoConfiguration = _ref4$mockVideoConfig === void 0 ? true : _ref4$mockVideoConfig,
       _ref4$mockUserSetting = _ref4.mockUserSetting,
       mockUserSetting = _ref4$mockUserSetting === void 0 ? true : _ref4$mockUserSetting,
-      params = _objectWithoutProperties(_ref4, ["mockAuthzProfile", "mockExtensionInfo", "mockForwardingNumber", "mockMessageSync", "mockConferencing", "mockActiveCalls", "mockUpdateConference", "mockNumberParser", "mockRecentActivity", "mockMessageSyncOnce", "mockVideoConfiguration", "mockUserSetting"]);
+      params = _objectWithoutProperties(_ref4, ["mockAuthzProfile", "mockMeetingInvitation", "mockExtensionInfo", "mockForwardingNumber", "mockMessageSync", "mockConferencing", "mockActiveCalls", "mockUpdateConference", "mockNumberParser", "mockRecentActivity", "mockMessageSyncOnce", "mockVideoConfiguration", "mockUserSetting"]);
 
   authentication();
   logout();
@@ -994,6 +1051,7 @@ function mockForLogin() {
   addressBook(params.addressBookData);
   sipProvision(params.sipProvisionData);
   fetchDL(params.fetchDLData);
+  dialInNumbers(params.fetchDLData);
 
   if (mockConferencing) {
     conferencing(params.conferencingData);

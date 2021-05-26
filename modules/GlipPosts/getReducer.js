@@ -1,17 +1,5 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.getGlipPostsStatusReducer = getGlipPostsStatusReducer;
-exports.getGlipPostsCreateStatusReducer = getGlipPostsCreateStatusReducer;
-exports.getGlipPostsStoreReducer = getGlipPostsStoreReducer;
-exports.getGlipPostsInputsReducer = getGlipPostsInputsReducer;
-exports.getGlipPostsReadTimeReducer = getGlipPostsReadTimeReducer;
-exports.getGlipPostsPageInfoReducer = getGlipPostsPageInfoReducer;
-exports.getGlipPostsFetchTimeReducer = getGlipPostsFetchTimeReducer;
-exports["default"] = getGlipPostsReducer;
-
 require("core-js/modules/es6.function.name");
 
 require("core-js/modules/es6.regexp.to-string");
@@ -41,6 +29,18 @@ require("core-js/modules/es6.array.iterator");
 require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.keys");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.getGlipPostsStatusReducer = getGlipPostsStatusReducer;
+exports.getGlipPostsCreateStatusReducer = getGlipPostsCreateStatusReducer;
+exports.getGlipPostsStoreReducer = getGlipPostsStoreReducer;
+exports.getGlipPostsInputsReducer = getGlipPostsInputsReducer;
+exports.getGlipPostsReadTimeReducer = getGlipPostsReadTimeReducer;
+exports.getGlipPostsPageInfoReducer = getGlipPostsPageInfoReducer;
+exports.getGlipPostsFetchTimeReducer = getGlipPostsFetchTimeReducer;
+exports["default"] = getGlipPostsReducer;
 
 require("core-js/modules/es6.object.define-property");
 

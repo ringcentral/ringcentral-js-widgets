@@ -1,9 +1,6 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.ContactMatcher = void 0;
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -35,6 +32,11 @@ require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.for-each");
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.ContactMatcher = void 0;
+
 require("core-js/modules/es6.regexp.match");
 
 require("regenerator-runtime/runtime");
@@ -43,13 +45,9 @@ var _di = require("../../lib/di");
 
 var _DataMatcherV = require("../../lib/DataMatcherV2");
 
-var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
+var _proxify = require("../../lib/proxy/proxify");
 
 var _dec, _class, _class2;
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -78,16 +76,22 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
 
 var ContactMatcher = (_dec = (0, _di.Module)({
-  name: 'ContactMatcher'
+  name: 'ContactMatcher',
+  deps: [{
+    dep: 'ContactMatcherOptions',
+    optional: true
+  }]
 }), _dec(_class = (_class2 = /*#__PURE__*/function (_DataMatcher) {
   _inherits(ContactMatcher, _DataMatcher);
 
   var _super = _createSuper(ContactMatcher);
 
   function ContactMatcher(deps) {
+    var _deps$contactMatcherO;
+
     _classCallCheck(this, ContactMatcher);
 
-    return _super.call(this, deps, 'ContactMatcher');
+    return _super.call(this, deps, 'ContactMatcher', (_deps$contactMatcherO = deps.contactMatcherOptions) === null || _deps$contactMatcherO === void 0 ? void 0 : _deps$contactMatcherO.disableCache);
   }
 
   _createClass(ContactMatcher, [{
@@ -186,9 +190,14 @@ var ContactMatcher = (_dec = (0, _di.Module)({
 
       return forceMatchNumber;
     }()
+  }, {
+    key: "dataMatcherOptions",
+    get: function get() {
+      return this._deps.contactMatcherOptions;
+    }
   }]);
 
   return ContactMatcher;
-}(_DataMatcherV.DataMatcher), (_applyDecoratedDescriptor(_class2.prototype, "hasMatchNumber", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "hasMatchNumber"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "forceMatchBatchNumbers", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "forceMatchBatchNumbers"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "forceMatchNumber", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "forceMatchNumber"), _class2.prototype)), _class2)) || _class);
+}(_DataMatcherV.DataMatcher), (_applyDecoratedDescriptor(_class2.prototype, "hasMatchNumber", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "hasMatchNumber"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "forceMatchBatchNumbers", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "forceMatchBatchNumbers"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "forceMatchNumber", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "forceMatchNumber"), _class2.prototype)), _class2)) || _class);
 exports.ContactMatcher = ContactMatcher;
 //# sourceMappingURL=ContactMatcher.js.map

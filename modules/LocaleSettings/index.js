@@ -1,9 +1,6 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = void 0;
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 require("core-js/modules/es6.function.name");
 
@@ -45,6 +42,11 @@ require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.for-each");
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
+
 require("core-js/modules/es6.array.sort");
 
 require("core-js/modules/web.dom.iterable");
@@ -77,11 +79,9 @@ var _getModuleStatusReducer = _interopRequireDefault(require("../../lib/getModul
 
 var _reducers = require("./reducers");
 
-var _dec, _class, _class2, _descriptor, _temp;
+var _dec, _class, _class2, _descriptor;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
@@ -148,7 +148,7 @@ _dec = (0, _di.Module)({
     dep: 'LocaleSettingsOptions',
     optional: true
   }]
-}), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcModule) {
+}), _dec(_class = (_class2 = /*#__PURE__*/function (_RcModule) {
   _inherits(LocaleSettings, _RcModule);
 
   var _super = _createSuper(LocaleSettings);
@@ -298,7 +298,7 @@ _dec = (0, _di.Module)({
   }]);
 
   return LocaleSettings;
-}(_RcModule2["default"]), _temp), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "supportedLocales", [_selector.selector], {
+}(_RcModule2["default"]), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "supportedLocales", [_selector.selector], {
   configurable: true,
   enumerable: true,
   writable: true,

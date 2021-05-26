@@ -1,12 +1,5 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.getGlipPersonsStatusReducer = getGlipPersonsStatusReducer;
-exports.getGlipPersonStoreReducer = getGlipPersonStoreReducer;
-exports["default"] = getGlipPostsReducer;
-
 require("core-js/modules/es6.object.define-properties");
 
 require("core-js/modules/es7.object.get-own-property-descriptors");
@@ -22,6 +15,13 @@ require("core-js/modules/es6.array.iterator");
 require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.keys");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.getGlipPersonsStatusReducer = getGlipPersonsStatusReducer;
+exports.getGlipPersonStoreReducer = getGlipPersonStoreReducer;
+exports["default"] = getGlipPostsReducer;
 
 require("core-js/modules/es6.object.define-property");
 

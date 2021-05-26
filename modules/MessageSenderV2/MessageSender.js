@@ -1,13 +1,8 @@
 "use strict";
 
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 require("core-js/modules/es6.weak-map");
-
-require("core-js/modules/es6.array.find");
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.MessageSender = exports.ATTACHMENT_SIZE_LIMITATION = exports.MULTIPART_MESSAGE_MAX_LENGTH = exports.MESSAGE_MAX_LENGTH = void 0;
 
 require("core-js/modules/es6.array.is-array");
 
@@ -44,6 +39,13 @@ require("core-js/modules/es6.array.iterator");
 require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.keys");
+
+require("core-js/modules/es6.array.find");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.MessageSender = exports.ATTACHMENT_SIZE_LIMITATION = exports.MULTIPART_MESSAGE_MAX_LENGTH = exports.MESSAGE_MAX_LENGTH = void 0;
 
 require("core-js/modules/es6.string.starts-with");
 
@@ -83,15 +85,13 @@ var _sleep = _interopRequireDefault(require("../../lib/sleep"));
 
 var _Analytics = require("../Analytics");
 
-var _dec, _dec2, _dec3, _dec4, _class, _class2, _descriptor, _temp;
+var _dec, _dec2, _dec3, _dec4, _class, _class2, _descriptor;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
 
@@ -150,7 +150,7 @@ var MessageSender = (_dec = (0, _di.Module)({
     dep: 'MessageSenderOptions',
     optional: true
   }]
-}), _dec2 = (0, _core.track)(_Analytics.trackEvents.smsAttempt), _dec3 = (0, _core.track)(_Analytics.trackEvents.smsSentSuccessfully), _dec4 = (0, _core.track)(_Analytics.trackEvents.smsSentFailed), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcModuleV) {
+}), _dec2 = (0, _core.track)(_Analytics.trackEvents.smsAttempt), _dec3 = (0, _core.track)(_Analytics.trackEvents.smsSentSuccessfully), _dec4 = (0, _core.track)(_Analytics.trackEvents.smsSentFailed), _dec(_class = (_class2 = /*#__PURE__*/function (_RcModuleV) {
   _inherits(MessageSender, _RcModuleV);
 
   var _super = _createSuper(MessageSender);
@@ -963,7 +963,7 @@ var MessageSender = (_dec = (0, _di.Module)({
   }]);
 
   return MessageSender;
-}(_core.RcModuleV2), _temp), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "sendStatus", [_core.state], {
+}(_core.RcModuleV2), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "sendStatus", [_core.state], {
   configurable: true,
   enumerable: true,
   writable: true,

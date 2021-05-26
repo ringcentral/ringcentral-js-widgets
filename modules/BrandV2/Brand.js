@@ -1,9 +1,6 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.Brand = void 0;
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -23,6 +20,11 @@ require("core-js/modules/es6.reflect.construct");
 
 require("core-js/modules/es6.object.set-prototype-of");
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Brand = void 0;
+
 require("core-js/modules/es6.function.name");
 
 var _core = require("@ringcentral-integration/core");
@@ -31,9 +33,7 @@ var _brandHelper = require("./brandHelper");
 
 var _di = require("../../lib/di");
 
-var _dec, _class, _temp;
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+var _dec, _class;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -61,7 +61,7 @@ var Brand = (_dec = (0, _di.Module)({
     dep: 'Prefix',
     optional: true
   }]
-}), _dec(_class = (_temp = /*#__PURE__*/function (_RcModuleV) {
+}), _dec(_class = /*#__PURE__*/function (_RcModuleV) {
   _inherits(Brand, _RcModuleV);
 
   var _super = _createSuper(Brand);
@@ -133,6 +133,6 @@ var Brand = (_dec = (0, _di.Module)({
   }]);
 
   return Brand;
-}(_core.RcModuleV2), _temp)) || _class);
+}(_core.RcModuleV2)) || _class);
 exports.Brand = Brand;
 //# sourceMappingURL=Brand.js.map

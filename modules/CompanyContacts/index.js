@@ -1,11 +1,6 @@
 "use strict";
 
-require("core-js/modules/es6.array.find");
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = void 0;
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 require("core-js/modules/es6.array.is-array");
 
@@ -39,8 +34,6 @@ require("core-js/modules/es6.object.set-prototype-of");
 
 require("core-js/modules/es6.object.define-property");
 
-require("core-js/modules/es6.array.reduce");
-
 require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
@@ -50,6 +43,15 @@ require("core-js/modules/es6.object.to-string");
 require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.for-each");
+
+require("core-js/modules/es6.array.reduce");
+
+require("core-js/modules/es6.array.find");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
 
 require("core-js/modules/es6.array.filter");
 
@@ -87,11 +89,9 @@ var _phoneTypes = require("../../enums/phoneTypes");
 
 var _extensionStatusTypes = require("../../enums/extensionStatusTypes");
 
-var _dec, _class, _class2, _descriptor, _descriptor2, _descriptor3, _temp;
+var _dec, _class, _class2, _descriptor, _descriptor2, _descriptor3;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
 
@@ -166,7 +166,7 @@ var CompanyContacts = (_dec = (0, _di.Module)({
     dep: 'CompanyContactsOptions',
     optional: true
   }]
-}), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_DataFetcher) {
+}), _dec(_class = (_class2 = /*#__PURE__*/function (_DataFetcher) {
   _inherits(CompanyContacts, _DataFetcher);
 
   var _super = _createSuper(CompanyContacts);
@@ -423,7 +423,7 @@ var CompanyContacts = (_dec = (0, _di.Module)({
   }]);
 
   return CompanyContacts;
-}(_DataFetcher2["default"]), _temp), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "_extensionFilter", [_selector.selector], {
+}(_DataFetcher2["default"]), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "_extensionFilter", [_selector.selector], {
   configurable: true,
   enumerable: true,
   writable: true,

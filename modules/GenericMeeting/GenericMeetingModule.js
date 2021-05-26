@@ -1,9 +1,6 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.GenericMeeting = void 0;
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -43,6 +40,11 @@ require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.for-each");
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.GenericMeeting = void 0;
+
 require("core-js/modules/es6.function.name");
 
 require("regenerator-runtime/runtime");
@@ -65,11 +67,9 @@ var _getGenericMeetingReducer = _interopRequireDefault(require("./getGenericMeet
 
 var _genericMeetingStatus = require("./genericMeetingStatus");
 
-var _dec, _class, _class2, _temp;
+var _dec, _class, _class2;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -109,7 +109,7 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
 
 var GenericMeeting = (_dec = (0, _di.Module)({
   deps: ['MeetingProvider', 'ExtensionInfo', 'Brand', 'Meeting', 'RcVideo']
-}), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcModule) {
+}), _dec(_class = (_class2 = /*#__PURE__*/function (_RcModule) {
   _inherits(GenericMeeting, _RcModule);
 
   var _super = _createSuper(GenericMeeting);
@@ -227,7 +227,8 @@ var GenericMeeting = (_dec = (0, _di.Module)({
     key: "schedule",
     value: function () {
       var _schedule = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(meeting, config, opener) {
-        var result, rcvMeetingInfo;
+        var result, rcvMeetingInfo, _this$_rcVideo$person;
+
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -259,7 +260,7 @@ var GenericMeeting = (_dec = (0, _di.Module)({
                 }
 
                 _context2.next = 11;
-                return this._rcVideo.updateMeeting(this._rcVideo.personalMeeting.id, rcvMeetingInfo, config);
+                return this._rcVideo.updateMeeting((_this$_rcVideo$person = this._rcVideo.personalMeeting) === null || _this$_rcVideo$person === void 0 ? void 0 : _this$_rcVideo$person.id, rcvMeetingInfo, config);
 
               case 11:
                 result = _context2.sent;
@@ -557,6 +558,11 @@ var GenericMeeting = (_dec = (0, _di.Module)({
       return this._meetingModule.meeting;
     }
   }, {
+    key: "defaultTopic",
+    get: function get() {
+      return this._meetingModule.defaultTopic;
+    }
+  }, {
     key: "delegators",
     get: function get() {
       return this._meetingModule.delegators;
@@ -598,11 +604,6 @@ var GenericMeeting = (_dec = (0, _di.Module)({
     key: "status",
     get: function get() {
       return this.state.status;
-    }
-  }, {
-    key: "showAdminLock",
-    get: function get() {
-      return !!this._meetingModule.showAdminLock;
     }
   }, {
     key: "enableServiceWebSettings",
@@ -666,6 +667,6 @@ var GenericMeeting = (_dec = (0, _di.Module)({
   }]);
 
   return GenericMeeting;
-}(_RcModule2["default"]), _temp), (_applyDecoratedDescriptor(_class2.prototype, "init", [_background["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "init"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "reload", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "reload"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "switchUsePersonalMeetingId", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "switchUsePersonalMeetingId"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateScheduleFor", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "updateScheduleFor"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateMeetingSettings", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "updateMeetingSettings"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "schedule", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "schedule"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "startMeeting", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "startMeeting"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getMeeting", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "getMeeting"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getMeetingServiceInfo", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "getMeetingServiceInfo"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateMeeting", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "updateMeeting"), _class2.prototype)), _class2)) || _class);
+}(_RcModule2["default"]), (_applyDecoratedDescriptor(_class2.prototype, "init", [_background["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "init"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "reload", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "reload"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "switchUsePersonalMeetingId", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "switchUsePersonalMeetingId"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateScheduleFor", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "updateScheduleFor"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateMeetingSettings", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "updateMeetingSettings"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "schedule", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "schedule"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "startMeeting", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "startMeeting"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getMeeting", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "getMeeting"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getMeetingServiceInfo", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "getMeetingServiceInfo"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateMeeting", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "updateMeeting"), _class2.prototype)), _class2)) || _class);
 exports.GenericMeeting = GenericMeeting;
 //# sourceMappingURL=GenericMeetingModule.js.map

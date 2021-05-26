@@ -2,6 +2,26 @@
 
 require("core-js/modules/es6.object.define-property");
 
+require("core-js/modules/es6.function.name");
+
+require("core-js/modules/es6.regexp.to-string");
+
+require("core-js/modules/es6.date.to-string");
+
+require("core-js/modules/es6.object.to-string");
+
+require("core-js/modules/es6.string.iterator");
+
+require("core-js/modules/es6.array.from");
+
+require("core-js/modules/web.dom.iterable");
+
+require("core-js/modules/es7.symbol.async-iterator");
+
+require("core-js/modules/es6.symbol");
+
+require("core-js/modules/es6.array.is-array");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -22,26 +42,6 @@ exports.getOutgoingAudioDataUrlReducer = getOutgoingAudioDataUrlReducer;
 exports.getWebphoneStorageReducer = getWebphoneStorageReducer;
 exports["default"] = getWebphoneReducer;
 exports.DEFAULT_AUDIO = void 0;
-
-require("core-js/modules/es6.function.name");
-
-require("core-js/modules/es6.regexp.to-string");
-
-require("core-js/modules/es6.date.to-string");
-
-require("core-js/modules/es6.object.to-string");
-
-require("core-js/modules/es6.string.iterator");
-
-require("core-js/modules/es6.array.from");
-
-require("core-js/modules/web.dom.iterable");
-
-require("core-js/modules/es7.symbol.async-iterator");
-
-require("core-js/modules/es6.symbol");
-
-require("core-js/modules/es6.array.is-array");
 
 require("core-js/modules/es6.array.find");
 

@@ -1,10 +1,5 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.Storage = void 0;
-
 require("core-js/modules/es6.object.define-properties");
 
 require("core-js/modules/es7.object.get-own-property-descriptors");
@@ -33,6 +28,11 @@ require("core-js/modules/es6.reflect.construct");
 
 require("core-js/modules/es6.object.set-prototype-of");
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Storage = void 0;
+
 require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
@@ -47,9 +47,7 @@ var _StorageBaseV = require("../../lib/StorageBaseV2");
 
 var _loginStatus = _interopRequireDefault(require("../Auth/loginStatus"));
 
-var _moduleStatuses = _interopRequireDefault(require("../../enums/moduleStatuses"));
-
-var _dec, _class, _temp;
+var _dec, _class;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -94,7 +92,7 @@ var Storage = (_dec = (0, _di.Module)({
     dep: 'StorageOptions',
     optional: true
   }]
-}), _dec(_class = (_temp = /*#__PURE__*/function (_StorageBase) {
+}), _dec(_class = /*#__PURE__*/function (_StorageBase) {
   _inherits(Storage, _StorageBase);
 
   var _super = _createSuper(Storage);
@@ -117,174 +115,151 @@ var Storage = (_dec = (0, _di.Module)({
     _this._disableInactiveTabsWrite = void 0;
     _this._storage = void 0;
     _this._storageHandler = null;
+    _this.storedData = {};
     _this._disableInactiveTabsWrite = (_this$_deps$storageOp = (_this$_deps$storageOp2 = _this._deps.storageOptions) === null || _this$_deps$storageOp2 === void 0 ? void 0 : _this$_deps$storageOp2.disableInactiveTabsWrite) !== null && _this$_deps$storageOp !== void 0 ? _this$_deps$storageOp : true;
     return _this;
-  } // overridden RcModuleV2 `initModule`
-
+  }
 
   _createClass(Storage, [{
-    key: "initModule",
+    key: "onStateChange",
+    value: function onStateChange() {
+      if (this.ready && this.storageWritable) {
+        var currentData = this.data; // save new data to storage when changed
+
+        for (var key in currentData) {
+          if (this.storedData[key] !== currentData[key]) {
+            this._storage.setItem(key, currentData[key]);
+
+            this.storedData[key] = currentData[key];
+          }
+        }
+      }
+    }
+  }, {
+    key: "onInit",
     value: function () {
-      var _initModule = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
-        var _this2 = this;
+      var _onInit = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+        var newKey, oldKey, index, _this$storedData$newK, key, currentData, _key;
 
-        var storedData;
-        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+        return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context.prev = _context.next) {
               case 0:
-                storedData = null;
-                this.store.subscribe( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-                  var storageKey, newKey, oldKey, index, _storedData$newKey, key, currentData, _key;
+                this._storage = new this._StorageProvider({
+                  storageKey: this.storageKey
+                });
+                _context.next = 3;
+                return this._storage.getData();
 
-                  return regeneratorRuntime.wrap(function _callee$(_context) {
-                    while (1) {
-                      switch (_context.prev = _context.next) {
-                        case 0:
-                          if (!(_this2._deps.auth.loginStatus === _loginStatus["default"].loggedIn && (!_this2._deps.tabManager || _this2._deps.tabManager.ready) && _this2.pending)) {
-                            _context.next = 22;
-                            break;
-                          }
+              case 3:
+                this.storedData = _context.sent;
 
-                          _this2.store.dispatch({
-                            type: _this2._storageActionTypes.init
-                          });
+                /* migration storage v1 to v2 */
 
-                          storageKey = "".concat(_this2.prefix ? "".concat(_this2.prefix, "-") : '', "storage-").concat(_this2._deps.auth.ownerId);
-                          _this2._storage = new _this2._StorageProvider({
-                            storageKey: storageKey
-                          });
-                          _context.next = 6;
-                          return _this2._storage.getData();
+                /* eslint-disable */
+                for (newKey in this.migrationMapping) {
+                  oldKey = this.migrationMapping[newKey];
 
-                        case 6:
-                          storedData = _context.sent;
-
-                          /* migration storage v1 to v2 */
-
-                          /* eslint-disable */
-                          for (newKey in _this2.migrationMapping) {
-                            oldKey = _this2.migrationMapping[newKey];
-
-                            if (typeof oldKey === 'string') {
-                              if (storedData[oldKey]) {
-                                storedData[newKey] = storedData[oldKey];
-                              }
-                            } else if (_typeof(oldKey) === 'object') {
-                              for (index in oldKey) {
-                                if (storedData[oldKey[index]]) {
-                                  storedData[newKey] = (_storedData$newKey = storedData[newKey]) !== null && _storedData$newKey !== void 0 ? _storedData$newKey : {};
-                                  storedData[newKey][index] = storedData[oldKey[index]];
-                                }
-                              }
-                            }
-
-                            _this2._storage.setItem(newKey, storedData[newKey]);
-                          }
-                          /* eslint-enable */
-
-                          /* migration storage v1 to v2 */
-
-
-                          _context.t0 = regeneratorRuntime.keys(storedData);
-
-                        case 9:
-                          if ((_context.t1 = _context.t0()).done) {
-                            _context.next = 17;
-                            break;
-                          }
-
-                          key = _context.t1.value;
-
-                          if (_this2._storageReducers[key]) {
-                            _context.next = 15;
-                            break;
-                          }
-
-                          delete storedData[key];
-                          _context.next = 15;
-                          return _this2._storage.removeItem(key);
-
-                        case 15:
-                          _context.next = 9;
-                          break;
-
-                        case 17:
-                          _this2.store.dispatch({
-                            type: _this2._storageActionTypes.initSuccess,
-                            // storageKey,
-                            // To fix same reference in redux store with storedData
-                            data: _objectSpread({}, storedData)
-                          });
-
-                          _this2._storageHandler = function (_ref2) {
-                            var key = _ref2.key,
-                                value = _ref2.value;
-
-                            if (_this2.ready) {
-                              storedData[key] = value;
-
-                              _this2.store.dispatch({
-                                type: _this2._storageActionTypes.sync,
-                                key: key,
-                                value: value
-                              });
-                            }
-                          };
-
-                          _this2._storage.on('storage', _this2._storageHandler);
-
-                          _context.next = 23;
-                          break;
-
-                        case 22:
-                          if ((!!_this2._deps.tabManager && !_this2._deps.tabManager.ready || _this2._deps.auth.notLoggedIn) && _this2.ready) {
-                            _this2.resetStorage();
-                          }
-
-                        case 23:
-                          if (_this2.status === _moduleStatuses["default"].ready && (!_this2._disableInactiveTabsWrite || !_this2._deps.tabManager || _this2._deps.tabManager.active)) {
-                            // save new data to storage when changed
-                            currentData = _this2.data;
-
-                            for (_key in currentData) {
-                              if (storedData[_key] !== currentData[_key]) {
-                                _this2._storage.setItem(_key, currentData[_key]);
-
-                                storedData[_key] = currentData[_key];
-                              }
-                            }
-                          }
-
-                        case 24:
-                        case "end":
-                          return _context.stop();
+                  if (typeof oldKey === 'string') {
+                    if (this.storedData[oldKey]) {
+                      this.storedData[newKey] = this.storedData[oldKey];
+                    }
+                  } else if (_typeof(oldKey) === 'object') {
+                    for (index in oldKey) {
+                      if (this.storedData[oldKey[index]]) {
+                        this.storedData[newKey] = (_this$storedData$newK = this.storedData[newKey]) !== null && _this$storedData$newK !== void 0 ? _this$storedData$newK : {};
+                        this.storedData[newKey][index] = this.storedData[oldKey[index]];
                       }
                     }
-                  }, _callee);
-                })));
+                  }
 
-              case 2:
+                  if (typeof this.storedData[newKey] !== 'undefined' && this.storageWritable) {
+                    this._storage.setItem(newKey, this.storedData[newKey]);
+                  }
+                }
+                /* eslint-enable */
+
+                /* migration storage v1 to v2 */
+
+
+                _context.t0 = regeneratorRuntime.keys(this.storedData);
+
+              case 6:
+                if ((_context.t1 = _context.t0()).done) {
+                  _context.next = 14;
+                  break;
+                }
+
+                key = _context.t1.value;
+
+                if (this._storageReducers[key]) {
+                  _context.next = 12;
+                  break;
+                }
+
+                delete this.storedData[key];
+                _context.next = 12;
+                return this._storage.removeItem(key);
+
+              case 12:
+                _context.next = 6;
+                break;
+
+              case 14:
+                this.setData(_objectSpread(_objectSpread({}, this.data), this.storedData));
+                currentData = this.data;
+
+                for (_key in currentData) {
+                  if (!Object.prototype.hasOwnProperty.call(this.storedData, _key) && this.storageWritable) {
+                    this._storage.setItem(_key, currentData[_key]);
+                  }
+                }
+
+              case 17:
               case "end":
-                return _context2.stop();
+                return _context.stop();
             }
           }
-        }, _callee2, this);
+        }, _callee, this);
       }));
 
-      function initModule() {
-        return _initModule.apply(this, arguments);
+      function onInit() {
+        return _onInit.apply(this, arguments);
       }
 
-      return initModule;
+      return onInit;
     }()
   }, {
-    key: "resetStorage",
-    value: function resetStorage() {
-      this.store.dispatch({
-        type: this._storageActionTypes.reset
-      });
+    key: "onInitSuccess",
+    value: function onInitSuccess() {
+      var _this2 = this;
 
+      this._storageHandler = function (_ref) {
+        var key = _ref.key,
+            value = _ref.value;
+
+        if (_this2.ready) {
+          _this2.storedData[key] = value;
+
+          _this2.syncData(key, value);
+        }
+      };
+
+      this._storage.on('storage', this._storageHandler);
+    }
+  }, {
+    key: "_shouldInit",
+    value: function _shouldInit() {
+      return this._deps.auth.loginStatus === _loginStatus["default"].loggedIn && (!this._deps.tabManager || this._deps.tabManager.ready) && this.pending;
+    }
+  }, {
+    key: "_shouldReset",
+    value: function _shouldReset() {
+      return (!!this._deps.tabManager && !this._deps.tabManager.ready || this._deps.auth.notLoggedIn) && this.ready;
+    }
+  }, {
+    key: "onReset",
+    value: function onReset() {
       if (this._storageHandler) {
         if (this._storage.off) {
           this._storage.off('storage', this._storageHandler);
@@ -301,13 +276,21 @@ var Storage = (_dec = (0, _di.Module)({
         this._storage = null;
       }
 
-      this.store.dispatch({
-        type: this._storageActionTypes.resetSuccess
-      });
+      this.resetData();
+    }
+  }, {
+    key: "storageWritable",
+    get: function get() {
+      return !this._disableInactiveTabsWrite || !this._deps.tabManager || this._deps.tabManager.active;
+    }
+  }, {
+    key: "storageKey",
+    get: function get() {
+      return "".concat(this.prefix ? "".concat(this.prefix, "-") : '', "storage-").concat(this._deps.auth.ownerId);
     }
   }]);
 
   return Storage;
-}(_StorageBaseV.StorageBase), _temp)) || _class);
+}(_StorageBaseV.StorageBase)) || _class);
 exports.Storage = Storage;
 //# sourceMappingURL=Storage.js.map

@@ -1,20 +1,5 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.getRcVideoInfoReducer = getRcVideoInfoReducer;
-exports.getRcVideoStatusReducer = getRcVideoStatusReducer;
-exports.getDefaultVideoSettingReducer = getDefaultVideoSettingReducer;
-exports.getPersonalMeetingReducer = getPersonalMeetingReducer;
-exports.getRcVideoSettingLocksReducer = getRcVideoSettingLocksReducer;
-exports.getRcVideoPreferencesReducer = getRcVideoPreferencesReducer;
-exports.getRcVideoPreferencesStateReducer = getRcVideoPreferencesStateReducer;
-exports.getDelegatorListReducer = getDelegatorListReducer;
-exports.getDelegatorReducer = getDelegatorReducer;
-exports.getHasSettingChangedReducer = getHasSettingChangedReducer;
-exports["default"] = void 0;
-
 require("core-js/modules/es6.object.define-properties");
 
 require("core-js/modules/es7.object.get-own-property-descriptors");
@@ -32,6 +17,21 @@ require("core-js/modules/es6.array.iterator");
 require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.keys");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.getRcVideoInfoReducer = getRcVideoInfoReducer;
+exports.getRcVideoStatusReducer = getRcVideoStatusReducer;
+exports.getDefaultVideoSettingReducer = getDefaultVideoSettingReducer;
+exports.getPersonalMeetingReducer = getPersonalMeetingReducer;
+exports.getRcVideoSettingLocksReducer = getRcVideoSettingLocksReducer;
+exports.getRcVideoPreferencesReducer = getRcVideoPreferencesReducer;
+exports.getRcVideoPreferencesStateReducer = getRcVideoPreferencesStateReducer;
+exports.getDelegatorListReducer = getDelegatorListReducer;
+exports.getDelegatorReducer = getDelegatorReducer;
+exports.getHasSettingChangedReducer = getHasSettingChangedReducer;
+exports["default"] = void 0;
 
 require("core-js/modules/es6.object.define-property");
 
@@ -51,7 +51,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 function getRcVideoInfoReducer(types) {
   return function () {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
 
     var _ref = arguments.length > 1 ? arguments[1] : undefined,
         type = _ref.type,

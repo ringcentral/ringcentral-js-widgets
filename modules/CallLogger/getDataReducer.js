@@ -1,13 +1,5 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.getLogOnRingingReducer = getLogOnRingingReducer;
-exports.getAutoLogReducer = getAutoLogReducer;
-exports.getTransferredCallsReducer = getTransferredCallsReducer;
-exports["default"] = getDataReducer;
-
 require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.function.name");
@@ -29,6 +21,14 @@ require("core-js/modules/es7.symbol.async-iterator");
 require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.array.is-array");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.getLogOnRingingReducer = getLogOnRingingReducer;
+exports.getAutoLogReducer = getAutoLogReducer;
+exports.getTransferredCallsReducer = getTransferredCallsReducer;
+exports["default"] = getDataReducer;
 
 var _redux = require("redux");
 

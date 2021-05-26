@@ -1,11 +1,6 @@
 "use strict";
 
-require("core-js/modules/es6.array.map");
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.AddressBook = exports.DEFAULT_CONTACTS_PER_PAGE = exports.DEFAULT_FETCH_INTERVAL = void 0;
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -33,7 +28,14 @@ require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.array.reduce");
 
+require("core-js/modules/es6.array.map");
+
 require("core-js/modules/es6.array.for-each");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.AddressBook = exports.DEFAULT_CONTACTS_PER_PAGE = exports.DEFAULT_FETCH_INTERVAL = void 0;
 
 require("core-js/modules/web.dom.iterable");
 
@@ -61,7 +63,7 @@ var _contactHelper = require("../../lib/contactHelper");
 
 var _di = require("../../lib/di");
 
-var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
+var _proxify = require("../../lib/proxy/proxify");
 
 var _sleep = _interopRequireDefault(require("../../lib/sleep"));
 
@@ -69,11 +71,9 @@ var _DataFetcherV = require("../DataFetcherV2");
 
 var _helpers = require("./helpers");
 
-var _dec, _dec2, _class, _class2;
+var _dec, _dec2, _dec3, _class, _class2;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -113,12 +113,15 @@ var DEFAULT_CONTACTS_PER_PAGE = 250;
 exports.DEFAULT_CONTACTS_PER_PAGE = DEFAULT_CONTACTS_PER_PAGE;
 var AddressBook = (_dec = (0, _di.Module)({
   name: 'AddressBook',
-  deps: ['Client', 'RolesAndPermissions', 'DataFetcherV2', {
+  deps: ['Client', 'ExtensionFeatures', 'DataFetcherV2', {
     dep: 'AddressBookOptions',
     optional: true
   }]
 }), _dec2 = (0, _core.computed)(function (_ref) {
   var data = _ref.data;
+  return [data];
+}), _dec3 = (0, _core.computed)(function (_ref2) {
+  var data = _ref2.data;
   return [data];
 }), _dec(_class = (_class2 = /*#__PURE__*/function (_DataFetcherV2Consume) {
   _inherits(AddressBook, _DataFetcherV2Consume);
@@ -136,19 +139,21 @@ var AddressBook = (_dec = (0, _di.Module)({
       deps: deps
     });
 
-    var _ref2 = (_this$_deps$AddressBo = _this._deps.AddressBookOptions) !== null && _this$_deps$AddressBo !== void 0 ? _this$_deps$AddressBo : {},
-        _ref2$polling = _ref2.polling,
-        polling = _ref2$polling === void 0 ? true : _ref2$polling;
+    var _ref3 = (_this$_deps$AddressBo = _this._deps.AddressBookOptions) !== null && _this$_deps$AddressBo !== void 0 ? _this$_deps$AddressBo : {},
+        _ref3$polling = _ref3.polling,
+        polling = _ref3$polling === void 0 ? true : _ref3$polling;
 
     _this._source = new _DataFetcherV.DataSource(_objectSpread(_objectSpread({}, _this._deps.AddressBookOptions), {}, {
       key: 'addressBook',
       polling: polling,
       cleanOnReset: true,
       permissionCheckFunction: function permissionCheckFunction() {
-        return !!_this._deps.rolesAndPermissions.permissions.ReadPersonalContacts;
+        var _this$_deps$extension, _this$_deps$extension2;
+
+        return (_this$_deps$extension = (_this$_deps$extension2 = _this._deps.extensionFeatures.features) === null || _this$_deps$extension2 === void 0 ? void 0 : _this$_deps$extension2.ReadPersonalContacts.available) !== null && _this$_deps$extension !== void 0 ? _this$_deps$extension : false;
       },
       readyCheckFunction: function readyCheckFunction() {
-        return _this._deps.rolesAndPermissions.ready;
+        return _this._deps.extensionFeatures.ready;
       },
       fetchFunction: function () {
         var _fetchFunction = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
@@ -449,6 +454,14 @@ var AddressBook = (_dec = (0, _di.Module)({
     } // interface of ContactSource
 
   }, {
+    key: "rawContacts",
+    get: function get() {
+      var _this$data$records2, _this$data3;
+
+      return (_this$data$records2 = (_this$data3 = this.data) === null || _this$data3 === void 0 ? void 0 : _this$data3.records) !== null && _this$data$records2 !== void 0 ? _this$data$records2 : [];
+    } // interface of ContactSource
+
+  }, {
     key: "sourceReady",
     get: function get() {
       return this.ready;
@@ -456,6 +469,6 @@ var AddressBook = (_dec = (0, _di.Module)({
   }]);
 
   return AddressBook;
-}(_DataFetcherV.DataFetcherV2Consumer), (_applyDecoratedDescriptor(_class2.prototype, "sync", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "sync"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "contacts", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "contacts"), _class2.prototype)), _class2)) || _class);
+}(_DataFetcherV.DataFetcherV2Consumer), (_applyDecoratedDescriptor(_class2.prototype, "sync", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "sync"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "contacts", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "contacts"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "rawContacts", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "rawContacts"), _class2.prototype)), _class2)) || _class);
 exports.AddressBook = AddressBook;
 //# sourceMappingURL=AddressBook.js.map

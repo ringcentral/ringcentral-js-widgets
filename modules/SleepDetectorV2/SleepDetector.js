@@ -1,9 +1,6 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.SleepDetector = void 0;
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -37,15 +34,18 @@ require("core-js/modules/es6.reflect.construct");
 
 require("core-js/modules/es6.object.set-prototype-of");
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.SleepDetector = void 0;
+
 var _core = require("@ringcentral-integration/core");
 
 var _di = require("../../lib/di");
 
 var _SleepDetection = require("../../lib/SleepDetection");
 
-var _dec, _class, _temp;
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+var _dec, _class;
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
@@ -79,7 +79,7 @@ var SleepDetector = (_dec = (0, _di.Module)({
     dep: 'SleepDetectorOptions',
     optional: true
   }]
-}), _dec(_class = (_temp = /*#__PURE__*/function (_RcModuleV) {
+}), _dec(_class = /*#__PURE__*/function (_RcModuleV) {
   _inherits(SleepDetector, _RcModuleV);
 
   var _super = _createSuper(SleepDetector);
@@ -119,6 +119,6 @@ var SleepDetector = (_dec = (0, _di.Module)({
   }]);
 
   return SleepDetector;
-}(_core.RcModuleV2), _temp)) || _class);
+}(_core.RcModuleV2)) || _class);
 exports.SleepDetector = SleepDetector;
 //# sourceMappingURL=SleepDetector.js.map

@@ -1,9 +1,6 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.AccountInfo = void 0;
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -41,6 +38,11 @@ require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.for-each");
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.AccountInfo = void 0;
+
 require("regenerator-runtime/runtime");
 
 var _core = require("@ringcentral-integration/core");
@@ -53,9 +55,7 @@ var _DataFetcherV = require("../DataFetcherV2");
 
 var _permissionsMessages = require("../RolesAndPermissions/permissionsMessages");
 
-var _dec, _dec2, _dec3, _dec4, _dec5, _class, _class2;
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _class, _class2;
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -91,20 +91,32 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
 
 var AccountInfo = (_dec = (0, _di.Module)({
   name: 'AccountInfo',
-  deps: ['Auth', 'Client', 'RolesAndPermissions', 'Alert', 'DataFetcherV2', {
+  deps: ['Auth', 'Client', 'Alert', 'ExtensionFeatures', 'DataFetcherV2', {
     dep: 'AccountInfoOptions',
     optional: true
   }]
-}), _dec2 = (0, _core.computed)(function (_ref) {
+}), _dec2 = (0, _core.track)(function (that) {
+  return function (analytics) {
+    var _analytics$identify, _that$_deps$auth;
+
+    (_analytics$identify = analytics.identify) === null || _analytics$identify === void 0 ? void 0 : _analytics$identify.call(analytics, {
+      userId: (_that$_deps$auth = that._deps.auth) === null || _that$_deps$auth === void 0 ? void 0 : _that$_deps$auth.ownerId,
+      accountId: that.id,
+      servicePlanId: that.servicePlan.id,
+      edition: that.servicePlan.edition,
+      CRMEnabled: that._deps.extensionFeatures.isCRMEnabled
+    });
+  };
+}), _dec3 = (0, _core.computed)(function (_ref) {
   var data = _ref.data;
   return [data];
-}), _dec3 = (0, _core.computed)(function (_ref2) {
+}), _dec4 = (0, _core.computed)(function (_ref2) {
   var info = _ref2.info;
   return [info];
-}), _dec4 = (0, _core.computed)(function (_ref3) {
+}), _dec5 = (0, _core.computed)(function (_ref3) {
   var serviceInfo = _ref3.serviceInfo;
   return [serviceInfo];
-}), _dec5 = (0, _core.computed)(function (_ref4) {
+}), _dec6 = (0, _core.computed)(function (_ref4) {
   var serviceInfo = _ref4.serviceInfo;
   return [serviceInfo];
 }), _dec(_class = (_class2 = /*#__PURE__*/function (_DataFetcherV2Consume) {
@@ -149,7 +161,7 @@ var AccountInfo = (_dec = (0, _di.Module)({
         return fetchFunction;
       }(),
       readyCheckFunction: function readyCheckFunction() {
-        return !!_this._deps.rolesAndPermissions.ready;
+        return !!_this._deps.extensionFeatures.ready;
       },
       permissionCheckFunction: function permissionCheckFunction() {
         return _this._checkPermission();
@@ -165,9 +177,9 @@ var AccountInfo = (_dec = (0, _di.Module)({
   _createClass(AccountInfo, [{
     key: "_checkPermission",
     value: function _checkPermission() {
-      var _this$_deps$rolesAndP;
+      var _this$_deps$extension, _this$_deps$extension2;
 
-      return !!((_this$_deps$rolesAndP = this._deps.rolesAndPermissions.permissions) === null || _this$_deps$rolesAndP === void 0 ? void 0 : _this$_deps$rolesAndP.ReadCompanyInfo);
+      return !!((_this$_deps$extension = this._deps.extensionFeatures.features) === null || _this$_deps$extension === void 0 ? void 0 : (_this$_deps$extension2 = _this$_deps$extension.ReadCompanyInfo) === null || _this$_deps$extension2 === void 0 ? void 0 : _this$_deps$extension2.available);
     }
   }, {
     key: "onStateChange",
@@ -205,6 +217,9 @@ var AccountInfo = (_dec = (0, _di.Module)({
 
       return onStateChange;
     }()
+  }, {
+    key: "onInitSuccess",
+    value: function onInitSuccess() {}
   }, {
     key: "info",
     get: function get() {
@@ -260,6 +275,6 @@ var AccountInfo = (_dec = (0, _di.Module)({
   }]);
 
   return AccountInfo;
-}(_DataFetcherV.DataFetcherV2Consumer), (_applyDecoratedDescriptor(_class2.prototype, "info", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "info"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "serviceInfo", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "serviceInfo"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "servicePlan", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "servicePlan"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "billingPlan", [_dec5], Object.getOwnPropertyDescriptor(_class2.prototype, "billingPlan"), _class2.prototype)), _class2)) || _class);
+}(_DataFetcherV.DataFetcherV2Consumer), (_applyDecoratedDescriptor(_class2.prototype, "onInitSuccess", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "onInitSuccess"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "info", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "info"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "serviceInfo", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "serviceInfo"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "servicePlan", [_dec5], Object.getOwnPropertyDescriptor(_class2.prototype, "servicePlan"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "billingPlan", [_dec6], Object.getOwnPropertyDescriptor(_class2.prototype, "billingPlan"), _class2.prototype)), _class2)) || _class);
 exports.AccountInfo = AccountInfo;
 //# sourceMappingURL=AccountInfo.js.map

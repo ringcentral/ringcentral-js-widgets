@@ -1,11 +1,6 @@
 "use strict";
 
-require("core-js/modules/es6.array.map");
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.Subscription = void 0;
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 require("core-js/modules/es6.function.name");
 
@@ -47,6 +42,13 @@ require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.for-each");
 
+require("core-js/modules/es6.array.map");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Subscription = void 0;
+
 require("core-js/modules/es6.array.sort");
 
 require("regenerator-runtime/runtime");
@@ -67,11 +69,9 @@ var _normalizeEventFilter = require("../Subscription/normalizeEventFilter");
 
 var _subscriptionStatus = require("../Subscription/subscriptionStatus");
 
-var _dec, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _temp;
+var _dec, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
@@ -121,13 +121,21 @@ function _initializerWarningHelper(descriptor, context) { throw new Error('Decor
 
 var DEFAULT_TIME_TO_RETRY = 60 * 1000;
 var DEFAULT_REGISTER_DELAY = 2 * 1000;
+/**
+ * 5 seconds
+ */
+
+var DEFAULT_CREATE_DELAY = 5 * 1000;
 var Subscription = (_dec = (0, _di.Module)({
   name: 'Subscription',
   deps: ['Auth', 'Client', 'Storage', 'SleepDetector', {
+    dep: 'TabManager',
+    optional: true
+  }, {
     dep: 'SubscriptionOptions',
     optional: true
   }]
-}), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcModuleV) {
+}), _dec(_class = (_class2 = /*#__PURE__*/function (_RcModuleV) {
   _inherits(Subscription, _RcModuleV);
 
   var _super = _createSuper(Subscription);
@@ -234,6 +242,51 @@ var Subscription = (_dec = (0, _di.Module)({
       this.cachedSubscription = cachedSubscription;
     }
   }, {
+    key: "onInitOnce",
+    value: function onInitOnce() {
+      var _this2 = this;
+
+      if (this._deps.tabManager) {
+        (0, _core.watch)(this, function () {
+          return _this2.cachedSubscription;
+        }, /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
+          return regeneratorRuntime.wrap(function _callee3$(_context3) {
+            while (1) {
+              switch (_context3.prev = _context3.next) {
+                case 0:
+                  if (_this2.ready && !_this2._deps.tabManager.active) {
+                    _this2._createSubscription();
+                  }
+
+                case 1:
+                case "end":
+                  return _context3.stop();
+              }
+            }
+          }, _callee3);
+        }))); // When closing the current tab before successfully registering a subscription,
+        // app create a subscription and register the subscription at the default delay of 5s on the delayed registration time.
+        // And when registering a subscription request for more than 5s will accidentally trigger a subscription request in other tabs that were once active,
+        // but this is an edge case and only up to two tabs registering for subscriptions is not enough to trigger the subscription limit in server side.
+
+        var debouncedCreateSubscription = (0, _debounceThrottle.debounce)({
+          fn: function fn() {
+            if (_this2._deps.tabManager.active) {
+              _this2._createSubscription();
+            }
+          },
+          threshold: DEFAULT_CREATE_DELAY + this._registerDelay
+        });
+        (0, _core.watch)(this, function () {
+          return _this2._deps.tabManager.active;
+        }, function () {
+          if (!_this2.cachedSubscription && _this2._deps.tabManager.active) {
+            debouncedCreateSubscription();
+          }
+        });
+      }
+    }
+  }, {
     key: "_shouldInit",
     value: function _shouldInit() {
       return _get(_getPrototypeOf(Subscription.prototype), "_shouldInit", this).call(this) && this._deps.auth.loggedIn;
@@ -253,10 +306,10 @@ var Subscription = (_dec = (0, _di.Module)({
   }, {
     key: "onReset",
     value: function () {
-      var _onReset = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
-        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+      var _onReset = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
+        return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context4.prev = _context4.next) {
               case 0:
                 this._setStates({
                   filters: [],
@@ -280,10 +333,10 @@ var Subscription = (_dec = (0, _di.Module)({
 
               case 6:
               case "end":
-                return _context3.stop();
+                return _context4.stop();
             }
           }
-        }, _callee3, this);
+        }, _callee4, this);
       }));
 
       function onReset() {
@@ -371,13 +424,13 @@ var Subscription = (_dec = (0, _di.Module)({
   }, {
     key: "_createSubscription",
     value: function () {
-      var _createSubscription2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
-        var _this2 = this;
+      var _createSubscription2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
+        var _this3 = this;
 
         var sdk;
-        return regeneratorRuntime.wrap(function _callee4$(_context4) {
+        return regeneratorRuntime.wrap(function _callee5$(_context5) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context5.prev = _context5.next) {
               case 0:
                 if (this.ready && !this._subscription) {
                   sdk = this._deps.client.service;
@@ -396,59 +449,59 @@ var Subscription = (_dec = (0, _di.Module)({
                   }
 
                   this._subscription.on(this._subscription.events.notification, function (message) {
-                    return _this2._onNotification(message);
+                    return _this3._onNotification(message);
                   });
 
                   this._subscription.on(this._subscription.events.removeSuccess, function () {
-                    return _this2._onRemoveSuccess();
+                    return _this3._onRemoveSuccess();
                   });
 
                   this._subscription.on(this._subscription.events.removeError, function (error) {
-                    return _this2._onRemoveError(error);
+                    return _this3._onRemoveError(error);
                   });
 
                   this._subscription.on(this._subscription.events.renewSuccess, function () {
-                    return _this2._onRenewSuccess();
+                    return _this3._onRenewSuccess();
                   });
 
                   this._subscription.on(this._subscription.events.renewError, function (error) {
-                    return _this2._onRenewError(error);
+                    return _this3._onRenewError(error);
                   });
 
                   this._subscription.on(this._subscription.events.subscribeSuccess, function () {
-                    return _this2._onSubscribeSuccess();
+                    return _this3._onSubscribeSuccess();
                   });
 
                   this._subscription.on(this._subscription.events.subscribeError, function (error) {
-                    return _this2._onSubscribeError(error);
+                    return _this3._onSubscribeError(error);
                   });
                 }
 
-                _context4.prev = 1;
-                _context4.next = 4;
+                _context5.prev = 1;
+                _context5.next = 4;
                 return this._debouncedRegister();
 
               case 4:
-                _context4.next = 10;
+                _context5.next = 10;
                 break;
 
               case 6:
-                _context4.prev = 6;
-                _context4.t0 = _context4["catch"](1);
+                _context5.prev = 6;
+                _context5.t0 = _context5["catch"](1);
 
-                if (!(_context4.t0.message !== 'cancelled')) {
-                  _context4.next = 10;
+                if (!(_context5.t0.message !== 'cancelled')) {
+                  _context5.next = 10;
                   break;
                 }
 
-                throw _context4.t0;
+                throw _context5.t0;
 
               case 10:
               case "end":
-                return _context4.stop();
+                return _context5.stop();
             }
           }
-        }, _callee4, this, [[1, 6]]);
+        }, _callee5, this, [[1, 6]]);
       }));
 
       function _createSubscription() {
@@ -465,13 +518,13 @@ var Subscription = (_dec = (0, _di.Module)({
   }, {
     key: "_register",
     value: function () {
-      var _register2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
-        return regeneratorRuntime.wrap(function _callee5$(_context5) {
+      var _register2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
+        return regeneratorRuntime.wrap(function _callee6$(_context6) {
           while (1) {
-            switch (_context5.prev = _context5.next) {
+            switch (_context6.prev = _context6.next) {
               case 0:
                 if (!this._shouldUpdateSubscription()) {
-                  _context5.next = 5;
+                  _context6.next = 5;
                   break;
                 }
 
@@ -481,15 +534,15 @@ var Subscription = (_dec = (0, _di.Module)({
 
                 this._subscription.setEventFilters(_toConsumableArray(this.filters));
 
-                _context5.next = 5;
+                _context6.next = 5;
                 return this._subscription.register();
 
               case 5:
               case "end":
-                return _context5.stop();
+                return _context6.stop();
             }
           }
-        }, _callee5, this);
+        }, _callee6, this);
       }));
 
       function _register() {
@@ -501,13 +554,13 @@ var Subscription = (_dec = (0, _di.Module)({
   }, {
     key: "_removeSubscription",
     value: function () {
-      var _removeSubscription2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
-        return regeneratorRuntime.wrap(function _callee6$(_context6) {
+      var _removeSubscription2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
+        return regeneratorRuntime.wrap(function _callee7$(_context7) {
           while (1) {
-            switch (_context6.prev = _context6.next) {
+            switch (_context7.prev = _context7.next) {
               case 0:
                 if (!this._subscription) {
-                  _context6.next = 11;
+                  _context7.next = 11;
                   break;
                 }
 
@@ -515,17 +568,17 @@ var Subscription = (_dec = (0, _di.Module)({
                   status: _subscriptionStatus.subscriptionStatus.unsubscribing
                 });
 
-                _context6.prev = 2;
-                _context6.next = 5;
+                _context7.prev = 2;
+                _context7.next = 5;
                 return this._subscription.remove();
 
               case 5:
-                _context6.next = 9;
+                _context7.next = 9;
                 break;
 
               case 7:
-                _context6.prev = 7;
-                _context6.t0 = _context6["catch"](2);
+                _context7.prev = 7;
+                _context7.t0 = _context7["catch"](2);
 
               case 9:
                 if (this._subscription) {
@@ -540,10 +593,10 @@ var Subscription = (_dec = (0, _di.Module)({
 
               case 11:
               case "end":
-                return _context6.stop();
+                return _context7.stop();
             }
           }
-        }, _callee6, this, [[2, 7]]);
+        }, _callee7, this, [[2, 7]]);
       }));
 
       function _removeSubscription() {
@@ -555,21 +608,21 @@ var Subscription = (_dec = (0, _di.Module)({
   }, {
     key: "subscribe",
     value: function () {
-      var _subscribe = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
+      var _subscribe = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8() {
         var events,
             _this$_subscription$e,
             _this$_subscription,
             oldFiltersCount,
-            _args7 = arguments;
+            _args8 = arguments;
 
-        return regeneratorRuntime.wrap(function _callee7$(_context7) {
+        return regeneratorRuntime.wrap(function _callee8$(_context8) {
           while (1) {
-            switch (_context7.prev = _context7.next) {
+            switch (_context8.prev = _context8.next) {
               case 0:
-                events = _args7.length > 0 && _args7[0] !== undefined ? _args7[0] : [];
+                events = _args8.length > 0 && _args8[0] !== undefined ? _args8[0] : [];
 
                 if (!this.ready) {
-                  _context7.next = 7;
+                  _context8.next = 7;
                   break;
                 }
 
@@ -577,20 +630,20 @@ var Subscription = (_dec = (0, _di.Module)({
 
                 this._addFilters([].concat(events));
 
-                if (!(oldFiltersCount !== this.filters.length)) {
-                  _context7.next = 7;
+                if (!(oldFiltersCount !== this.filters.length && (!this._deps.tabManager || this._deps.tabManager.active))) {
+                  _context8.next = 7;
                   break;
                 }
 
-                _context7.next = 7;
+                _context8.next = 7;
                 return this._createSubscription();
 
               case 7:
               case "end":
-                return _context7.stop();
+                return _context8.stop();
             }
           }
-        }, _callee7, this);
+        }, _callee8, this);
       }));
 
       function subscribe() {
@@ -616,7 +669,7 @@ var Subscription = (_dec = (0, _di.Module)({
   }]);
 
   return Subscription;
-}(_core.RcModuleV2), _temp), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "message", [_core.state], {
+}(_core.RcModuleV2), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "message", [_core.state], {
   configurable: true,
   enumerable: true,
   writable: true,

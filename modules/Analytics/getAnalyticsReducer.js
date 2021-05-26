@@ -2,12 +2,6 @@
 
 require("core-js/modules/es6.object.define-property");
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.getLastActions = getLastActions;
-exports["default"] = getAnalyticsReducer;
-
 require("core-js/modules/es6.function.name");
 
 require("core-js/modules/es6.regexp.to-string");
@@ -27,6 +21,12 @@ require("core-js/modules/es7.symbol.async-iterator");
 require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.array.is-array");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.getLastActions = getLastActions;
+exports["default"] = getAnalyticsReducer;
 
 var _redux = require("redux");
 
@@ -55,7 +55,7 @@ function getLastActions(types) {
       return [];
     }
 
-    if (action.type) {
+    if (action.type && !action._state) {
       return [].concat(_toConsumableArray(state), [action]);
     }
 

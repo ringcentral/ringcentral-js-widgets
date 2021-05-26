@@ -1,11 +1,5 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.containsErrorMessage = containsErrorMessage;
-exports.ensureLogin = ensureLogin;
-
 require("core-js/modules/es6.object.define-properties");
 
 require("core-js/modules/es7.object.get-own-property-descriptors");
@@ -24,11 +18,17 @@ require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.object.define-property");
 
-require("regenerator-runtime/runtime");
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.containsErrorMessage = containsErrorMessage;
+exports.ensureLogin = ensureLogin;
 
 require("core-js/modules/es6.promise");
 
 require("core-js/modules/es6.object.to-string");
+
+require("regenerator-runtime/runtime");
 
 require("core-js/modules/es6.array.find");
 

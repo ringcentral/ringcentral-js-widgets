@@ -1,9 +1,6 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.Timezone = void 0;
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -35,6 +32,11 @@ require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.for-each");
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Timezone = void 0;
+
 require("core-js/modules/es6.date.now");
 
 require("core-js/modules/es6.array.find");
@@ -47,11 +49,9 @@ var _di = require("../../lib/di");
 
 var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
 
-var _dec, _dec2, _class, _class2, _descriptor, _descriptor2, _temp;
+var _dec, _dec2, _class, _class2, _descriptor, _descriptor2;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -94,7 +94,7 @@ var Timezone = (_dec = (0, _di.Module)({
   var _localeTimezone = _ref._localeTimezone,
       timezones = _ref.timezones;
   return [_localeTimezone, timezones];
-}), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcModuleV) {
+}), _dec(_class = (_class2 = /*#__PURE__*/function (_RcModuleV) {
   _inherits(Timezone, _RcModuleV);
 
   var _super = _createSuper(Timezone);
@@ -262,7 +262,7 @@ var Timezone = (_dec = (0, _di.Module)({
   }]);
 
   return Timezone;
-}(_core.RcModuleV2), _temp), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "timezones", [_core.storage, _core.state], {
+}(_core.RcModuleV2), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "timezones", [_core.storage, _core.state], {
   configurable: true,
   enumerable: true,
   writable: true,

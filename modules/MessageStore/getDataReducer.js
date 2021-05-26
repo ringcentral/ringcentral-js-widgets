@@ -8,6 +8,14 @@ require("core-js/modules/es6.string.iterator");
 
 require("core-js/modules/es6.weak-map");
 
+require("core-js/modules/es6.object.define-properties");
+
+require("core-js/modules/es7.object.get-own-property-descriptors");
+
+require("core-js/modules/es6.symbol");
+
+require("core-js/modules/es6.object.define-property");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -16,14 +24,6 @@ exports.getConversationStoreReducer = getConversationStoreReducer;
 exports.getTimestampReducer = getTimestampReducer;
 exports.getSyncInfoReducer = getSyncInfoReducer;
 exports["default"] = getDataReducer;
-
-require("core-js/modules/es6.object.define-properties");
-
-require("core-js/modules/es7.object.get-own-property-descriptors");
-
-require("core-js/modules/es6.symbol");
-
-require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.array.reduce");
 

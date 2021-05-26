@@ -1,9 +1,6 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.DataFetcherV2 = void 0;
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -28,6 +25,11 @@ require("core-js/modules/es6.object.define-property");
 require("core-js/modules/es6.array.reduce");
 
 require("core-js/modules/es6.object.keys");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.DataFetcherV2 = void 0;
 
 require("core-js/modules/es6.array.for-each");
 
@@ -55,15 +57,11 @@ var _ramda = require("ramda");
 
 var _di = require("../../lib/di");
 
-var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
+var _proxify = require("../../lib/proxy/proxify");
 
 var _sourceStatus = require("./sourceStatus");
 
-var _dec, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _temp;
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+var _dec, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5;
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -108,7 +106,7 @@ var DataFetcherV2 = (_dec = (0, _di.Module)({
     dep: 'DataFetcherV2Options',
     optional: true
   }]
-}), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcModuleV) {
+}), _dec(_class = (_class2 = /*#__PURE__*/function (_RcModuleV) {
   _inherits(DataFetcherV2, _RcModuleV);
 
   var _super = _createSuper(DataFetcherV2);
@@ -612,7 +610,7 @@ var DataFetcherV2 = (_dec = (0, _di.Module)({
   }]);
 
   return DataFetcherV2;
-}(_core.RcModuleV2), _temp), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "sourceStatus", [_core.state], {
+}(_core.RcModuleV2), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "sourceStatus", [_core.state], {
   configurable: true,
   enumerable: true,
   writable: true,
@@ -650,6 +648,6 @@ var DataFetcherV2 = (_dec = (0, _di.Module)({
   initializer: function initializer() {
     return {};
   }
-}), _applyDecoratedDescriptor(_class2.prototype, "_setFetching", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setFetching"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_setData", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setData"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_fetchData", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_fetchData"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "fetchData", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "fetchData"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_setSourceStatus", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setSourceStatus"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_deleteKeys", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_deleteKeys"), _class2.prototype)), _class2)) || _class);
+}), _applyDecoratedDescriptor(_class2.prototype, "_setFetching", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setFetching"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_setData", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setData"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_fetchData", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "_fetchData"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "fetchData", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "fetchData"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_setSourceStatus", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setSourceStatus"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_deleteKeys", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_deleteKeys"), _class2.prototype)), _class2)) || _class);
 exports.DataFetcherV2 = DataFetcherV2;
 //# sourceMappingURL=DataFetcherV2.js.map

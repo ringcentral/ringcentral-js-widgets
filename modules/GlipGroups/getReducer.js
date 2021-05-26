@@ -1,14 +1,5 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.getDataReducer = getDataReducer;
-exports.getSearchFilterReducer = getSearchFilterReducer;
-exports.getCurrentGroupIdReducer = getCurrentGroupIdReducer;
-exports.getTimestampReducer = getTimestampReducer;
-exports["default"] = getReducer;
-
 require("core-js/modules/es6.object.define-properties");
 
 require("core-js/modules/es7.object.get-own-property-descriptors");
@@ -26,6 +17,15 @@ require("core-js/modules/es6.object.to-string");
 require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.object.define-property");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.getDataReducer = getDataReducer;
+exports.getSearchFilterReducer = getSearchFilterReducer;
+exports.getCurrentGroupIdReducer = getCurrentGroupIdReducer;
+exports.getTimestampReducer = getTimestampReducer;
+exports["default"] = getReducer;
 
 require("core-js/modules/es6.array.filter");
 

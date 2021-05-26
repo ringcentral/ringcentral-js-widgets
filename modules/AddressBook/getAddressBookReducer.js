@@ -1,14 +1,5 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.getSyncStatusReducer = getSyncStatusReducer;
-exports.getContactListReducer = getContactListReducer;
-exports.getSyncTokenReducer = getSyncTokenReducer;
-exports.getTimestampReducer = getTimestampReducer;
-exports["default"] = getAddressBookReducer;
-
 require("core-js/modules/es6.object.define-properties");
 
 require("core-js/modules/es7.object.get-own-property-descriptors");
@@ -24,6 +15,15 @@ require("core-js/modules/es6.object.to-string");
 require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.object.define-property");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.getSyncStatusReducer = getSyncStatusReducer;
+exports.getContactListReducer = getContactListReducer;
+exports.getSyncTokenReducer = getSyncTokenReducer;
+exports.getTimestampReducer = getTimestampReducer;
+exports["default"] = getAddressBookReducer;
 
 require("core-js/modules/es6.array.filter");
 

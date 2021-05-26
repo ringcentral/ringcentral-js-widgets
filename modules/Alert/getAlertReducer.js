@@ -1,11 +1,5 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.getMessagesReducer = getMessagesReducer;
-exports["default"] = getAlertReducer;
-
 require("core-js/modules/es6.object.define-properties");
 
 require("core-js/modules/es7.object.get-own-property-descriptors");
@@ -37,6 +31,12 @@ require("core-js/modules/es7.symbol.async-iterator");
 require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.array.is-array");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.getMessagesReducer = getMessagesReducer;
+exports["default"] = getAlertReducer;
 
 require("core-js/modules/es6.array.index-of");
 

@@ -1,10 +1,5 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.Auth = exports.LoginStatusChangeEvent = void 0;
-
 require("core-js/modules/es6.object.define-properties");
 
 require("core-js/modules/es7.object.get-own-property-descriptors");
@@ -39,6 +34,11 @@ require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.for-each");
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Auth = exports.LoginStatusChangeEvent = void 0;
+
 require("core-js/modules/es6.promise");
 
 require("core-js/modules/es6.function.name");
@@ -59,21 +59,19 @@ var _core = require("@ringcentral-integration/core");
 
 var _url = _interopRequireDefault(require("url"));
 
-var _moduleStatuses = _interopRequireDefault(require("../../enums/moduleStatuses"));
-
 var _di = require("../../lib/di");
 
 var _proxify = require("../../lib/proxy/proxify");
 
 var _validateIsOffline = _interopRequireDefault(require("../../lib/validateIsOffline"));
 
-var _Analytics = require("../Analytics");
+var _trackEvents = require("../Analytics/trackEvents");
 
 var _authMessages = require("./authMessages");
 
 var _loginStatus = require("./loginStatus");
 
-var _dec, _dec2, _dec3, _class, _class2, _descriptor, _descriptor2, _descriptor3, _temp;
+var _dec, _dec2, _dec3, _class, _class2, _descriptor, _descriptor2, _descriptor3;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -150,9 +148,9 @@ var Auth = (_dec = (0, _di.Module)({
 }), _dec2 = (0, _core.track)(function () {
   return function (analytics) {
     analytics.setUserId();
-    return [_Analytics.trackEvents.authentication];
+    return [_trackEvents.trackEvents.authentication];
   };
-}), _dec3 = (0, _core.track)(_Analytics.trackEvents.logout), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcModuleV) {
+}), _dec3 = (0, _core.track)(_trackEvents.trackEvents.logout), _dec(_class = (_class2 = /*#__PURE__*/function (_RcModuleV) {
   _inherits(Auth, _RcModuleV);
 
   var _super = _createSuper(Auth);
@@ -470,7 +468,7 @@ var Auth = (_dec = (0, _di.Module)({
   }, {
     key: "_shouldInit",
     value: function _shouldInit() {
-      return this.status === _moduleStatuses["default"].pending && this._deps.locale.ready && (!this._deps.tabManager || this._deps.tabManager.ready) && (!this._deps.environment || this._deps.environment.ready);
+      return this.pending && this._deps.locale.ready && (!this._deps.tabManager || this._deps.tabManager.ready) && (!this._deps.environment || this._deps.environment.ready);
     }
   }, {
     key: "onStateChange",
@@ -1102,7 +1100,7 @@ var Auth = (_dec = (0, _di.Module)({
   }]);
 
   return Auth;
-}(_core.RcModuleV2), _temp), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "loginStatus", [_core.state], {
+}(_core.RcModuleV2), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "loginStatus", [_core.state], {
   configurable: true,
   enumerable: true,
   writable: true,

@@ -1,9 +1,6 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = void 0;
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 require("core-js/modules/es6.array.is-array");
 
@@ -49,6 +46,11 @@ require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.keys");
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
+
 require("core-js/modules/es6.array.index-of");
 
 require("regenerator-runtime/runtime");
@@ -67,11 +69,9 @@ var _loginStatus = _interopRequireDefault(require("../Auth/loginStatus"));
 
 var _ensureExist = _interopRequireDefault(require("../../lib/ensureExist"));
 
-var _dec, _class, _class2, _descriptor, _temp;
+var _dec, _class, _class2, _descriptor;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
 
@@ -143,7 +143,7 @@ var RolesAndPermissions = (_dec = (0, _di.Module)({
     dep: 'RolesAndPermissionsOptions',
     optional: true
   }]
-}), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_DataFetcher) {
+}), _dec(_class = (_class2 = /*#__PURE__*/function (_DataFetcher) {
   _inherits(RolesAndPermissions, _DataFetcher);
 
   var _super = _createSuper(RolesAndPermissions);
@@ -452,7 +452,7 @@ var RolesAndPermissions = (_dec = (0, _di.Module)({
   }]);
 
   return RolesAndPermissions;
-}(_DataFetcher2["default"]), _temp), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "permissions", [_selector.selector], {
+}(_DataFetcher2["default"]), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "permissions", [_selector.selector], {
   configurable: true,
   enumerable: true,
   writable: true,

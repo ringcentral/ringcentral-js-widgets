@@ -1,15 +1,5 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.isHangUp = isHangUp;
-exports.isRejectCode = isRejectCode;
-exports.isOnRecording = isOnRecording;
-exports.getSessionsParty = getSessionsParty;
-exports.normalizeSession = normalizeSession;
-exports.conflictError = conflictError;
-
 require("core-js/modules/es6.object.define-properties");
 
 require("core-js/modules/es7.object.get-own-property-descriptors");
@@ -29,6 +19,16 @@ require("core-js/modules/es6.object.to-string");
 require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.object.define-property");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.isHangUp = isHangUp;
+exports.isRejectCode = isRejectCode;
+exports.isOnRecording = isOnRecording;
+exports.getSessionsParty = getSessionsParty;
+exports.normalizeSession = normalizeSession;
+exports.conflictError = conflictError;
 
 require("core-js/modules/es6.function.name");
 

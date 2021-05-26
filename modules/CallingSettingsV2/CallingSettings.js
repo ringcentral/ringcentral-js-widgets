@@ -1,9 +1,6 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.CallingSettings = void 0;
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -33,6 +30,11 @@ require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.keys");
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.CallingSettings = void 0;
+
 require("core-js/modules/es6.array.filter");
 
 require("core-js/modules/es6.array.sort");
@@ -55,23 +57,19 @@ var _core = require("@ringcentral-integration/core");
 
 var _di = require("../../lib/di");
 
+var _proxify = require("../../lib/proxy/proxify");
+
 var _callingModes = require("./callingModes");
 
 var _callingOptions = require("./callingOptions");
-
-var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
-
-var _mapOptionToMode = require("./mapOptionToMode");
 
 var _callingSettingsMessages = require("./callingSettingsMessages");
 
 var _deprecatedCallingOptions = require("./deprecatedCallingOptions");
 
-var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _class, _class2, _descriptor, _temp;
+var _mapOptionToMode = require("./mapOptionToMode");
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _class, _class2, _descriptor;
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -111,7 +109,7 @@ var LOCATION_NUMBER_ORDER = ['Other', 'Main'];
 
 var CallingSettings = (_dec = (0, _di.Module)({
   name: 'CallingSettings',
-  deps: ['Alert', 'Brand', 'Storage', 'ExtensionInfo', 'ExtensionDevice', 'ForwardingNumber', 'RolesAndPermissions', 'ExtensionPhoneNumber', {
+  deps: ['Alert', 'Brand', 'Storage', 'ExtensionInfo', 'ExtensionDevice', 'ForwardingNumber', 'ExtensionFeatures', 'ExtensionPhoneNumber', {
     dep: 'CallerId',
     optional: true
   }, {
@@ -129,14 +127,14 @@ var CallingSettings = (_dec = (0, _di.Module)({
 }), _dec3 = (0, _core.computed)(function (that) {
   return [that._deps.forwardingNumber.flipNumbers, that._deps.extensionPhoneNumber.callerIdNumbers, that._deps.extensionPhoneNumber.directNumbers];
 }), _dec4 = (0, _core.computed)(function (that) {
-  return [that._deps.rolesAndPermissions.ringoutEnabled, that._deps.rolesAndPermissions.webphoneEnabled, that.otherPhoneNumbers.length, that._deps.extensionPhoneNumber.numbers.length];
+  return [that._deps.extensionFeatures.isRingOutEnabled, that._deps.extensionFeatures.isWebPhoneEnabled, that.otherPhoneNumbers.length, that._deps.extensionPhoneNumber.numbers.length];
 }), _dec5 = (0, _core.computed)(function (that) {
   return [that._deps.extensionPhoneNumber.callerIdNumbers];
 }), _dec6 = (0, _core.computed)(function (that) {
   return [that.myPhoneNumbers, that.otherPhoneNumbers];
 }), _dec7 = (0, _core.computed)(function (that) {
   return [that.availableNumbers];
-}), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcModuleV) {
+}), _dec(_class = (_class2 = /*#__PURE__*/function (_RcModuleV) {
   _inherits(CallingSettings, _RcModuleV);
 
   var _super = _createSuper(CallingSettings);
@@ -263,8 +261,8 @@ var CallingSettings = (_dec = (0, _di.Module)({
                   break;
                 }
 
-                this._ringoutEnabled = this._deps.rolesAndPermissions.ringoutEnabled;
-                this._webphoneEnabled = this._deps.rolesAndPermissions.webphoneEnabled;
+                this._ringoutEnabled = this._deps.extensionFeatures.isRingOutEnabled;
+                this._webphoneEnabled = this._deps.extensionFeatures.isWebPhoneEnabled;
                 this._myPhoneNumbers = this.myPhoneNumbers;
                 this._otherPhoneNumbers = this.otherPhoneNumbers;
                 _context2.next = 7;
@@ -287,7 +285,7 @@ var CallingSettings = (_dec = (0, _di.Module)({
   }, {
     key: "_shouldValidate",
     value: function _shouldValidate() {
-      return this.ready && (this._ringoutEnabled !== this._deps.rolesAndPermissions.ringoutEnabled || this._webphoneEnabled !== this._deps.rolesAndPermissions.webphoneEnabled || this._myPhoneNumbers !== this.myPhoneNumbers || this._otherPhoneNumbers !== this.otherPhoneNumbers);
+      return this.ready && (this._ringoutEnabled !== this._deps.extensionFeatures.isRingOutEnabled || this._webphoneEnabled !== this._deps.extensionFeatures.isWebPhoneEnabled || this._myPhoneNumbers !== this.myPhoneNumbers || this._otherPhoneNumbers !== this.otherPhoneNumbers);
     }
   }, {
     key: "onInit",
@@ -328,7 +326,7 @@ var CallingSettings = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                if (this._deps.rolesAndPermissions.callingEnabled) {
+                if (this._deps.extensionFeatures.isCallingEnabled) {
                   _context4.next = 2;
                   break;
                 }
@@ -339,8 +337,8 @@ var CallingSettings = (_dec = (0, _di.Module)({
                 this._myPhoneNumbers = this.myPhoneNumbers;
                 this._otherPhoneNumbers = this.otherPhoneNumbers;
                 this._availableNumbers = this.availableNumbers;
-                this._ringoutEnabled = this._deps.rolesAndPermissions.ringoutEnabled;
-                this._webphoneEnabled = this._deps.rolesAndPermissions.webphoneEnabled;
+                this._ringoutEnabled = this._deps.extensionFeatures.isRingOutEnabled;
+                this._webphoneEnabled = this._deps.extensionFeatures.isWebPhoneEnabled;
 
                 if (!this.timestamp) {
                   // first time login
@@ -540,16 +538,16 @@ var CallingSettings = (_dec = (0, _di.Module)({
       var name = null;
 
       if (devices.length) {
-        var registedWithDevice = false;
+        var registeredWithDevice = false;
         devices.forEach(function (device) {
           var phoneLines = device.phoneLines;
 
           if (phoneLines.length) {
-            registedWithDevice = phoneLines.find(function (phoneLine) {
+            registeredWithDevice = !!phoneLines.find(function (phoneLine) {
               return phoneLine.phoneInfo.phoneNumber === phoneNumber;
             });
 
-            if (registedWithDevice) {
+            if (registeredWithDevice) {
               name = device.name;
             }
           }
@@ -751,9 +749,9 @@ var CallingSettings = (_dec = (0, _di.Module)({
   }, {
     key: "callWithOptions",
     get: function get() {
-      var _this$_deps$rolesAndP = this._deps.rolesAndPermissions,
-          ringoutEnabled = _this$_deps$rolesAndP.ringoutEnabled,
-          webphoneEnabled = _this$_deps$rolesAndP.webphoneEnabled;
+      var _this$_deps$extension3 = this._deps.extensionFeatures,
+          isRingOutEnabled = _this$_deps$extension3.isRingOutEnabled,
+          isWebPhoneEnabled = _this$_deps$extension3.isWebPhoneEnabled;
       var hasExtensionPhoneNumber = this._deps.extensionPhoneNumber.numbers.length > 0;
 
       if (!hasExtensionPhoneNumber) {
@@ -762,18 +760,20 @@ var CallingSettings = (_dec = (0, _di.Module)({
 
       var callWithOptions = [];
 
-      if (this._deps.webphone && webphoneEnabled) {
+      if (this._deps.webphone && isWebPhoneEnabled) {
         callWithOptions.push(_callingOptions.callingOptions.browser);
-      } // only rc brand support call with RingCentral App
+      } // rc&att brand support call with RingCentral App
 
 
-      if (this._deps.brand && (this._deps.brand.code === 'rc' || this._deps.brand.brandConfig && this._deps.brand.brandConfig.brandCode === 'rc') && this._showCallWithJupiter) {
+      var brandReg = /rc|att/;
+
+      if (this._deps.brand && (brandReg.test(this._deps.brand.code) || this._deps.brand.brandConfig && brandReg.test(this._deps.brand.brandConfig.brandCode)) && this._showCallWithJupiter) {
         callWithOptions.push(_callingOptions.callingOptions.jupiter);
       }
 
       callWithOptions.push(_callingOptions.callingOptions.softphone);
 
-      if (ringoutEnabled) {
+      if (isRingOutEnabled) {
         callWithOptions.push(_callingOptions.callingOptions.ringout);
       }
 
@@ -848,7 +848,7 @@ var CallingSettings = (_dec = (0, _di.Module)({
   }]);
 
   return CallingSettings;
-}(_core.RcModuleV2), _temp), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "data", [_core.storage, _core.state], {
+}(_core.RcModuleV2), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "data", [_core.storage, _core.state], {
   configurable: true,
   enumerable: true,
   writable: true,
@@ -862,6 +862,6 @@ var CallingSettings = (_dec = (0, _di.Module)({
       isCustomLocation: false
     };
   }
-}), _applyDecoratedDescriptor(_class2.prototype, "setDataAction", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setDataAction"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_updateFromNumber", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_updateFromNumber"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateFromNumber", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "updateFromNumber"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "resetSuccess", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "resetSuccess"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_warningEmergencyCallingNotAvailable", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_warningEmergencyCallingNotAvailable"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_validateSettings", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_validateSettings"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_setSoftPhoneToCallWith", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_setSoftPhoneToCallWith"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_initFromNumber", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_initFromNumber"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setData", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "setData"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "myPhoneNumbers", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "myPhoneNumbers"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "otherPhoneNumbers", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "otherPhoneNumbers"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "callWithOptions", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "callWithOptions"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "fromNumbers", [_dec5], Object.getOwnPropertyDescriptor(_class2.prototype, "fromNumbers"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "availableNumbers", [_dec6], Object.getOwnPropertyDescriptor(_class2.prototype, "availableNumbers"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "availableNumbersWithLabel", [_dec7], Object.getOwnPropertyDescriptor(_class2.prototype, "availableNumbersWithLabel"), _class2.prototype)), _class2)) || _class);
+}), _applyDecoratedDescriptor(_class2.prototype, "setDataAction", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setDataAction"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_updateFromNumber", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_updateFromNumber"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateFromNumber", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "updateFromNumber"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "resetSuccess", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "resetSuccess"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_warningEmergencyCallingNotAvailable", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "_warningEmergencyCallingNotAvailable"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_validateSettings", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "_validateSettings"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_setSoftPhoneToCallWith", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "_setSoftPhoneToCallWith"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_initFromNumber", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "_initFromNumber"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setData", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "setData"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "myPhoneNumbers", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "myPhoneNumbers"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "otherPhoneNumbers", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "otherPhoneNumbers"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "callWithOptions", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "callWithOptions"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "fromNumbers", [_dec5], Object.getOwnPropertyDescriptor(_class2.prototype, "fromNumbers"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "availableNumbers", [_dec6], Object.getOwnPropertyDescriptor(_class2.prototype, "availableNumbers"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "availableNumbersWithLabel", [_dec7], Object.getOwnPropertyDescriptor(_class2.prototype, "availableNumbersWithLabel"), _class2.prototype)), _class2)) || _class);
 exports.CallingSettings = CallingSettings;
 //# sourceMappingURL=CallingSettings.js.map

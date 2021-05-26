@@ -1,13 +1,13 @@
 "use strict";
 
+require("core-js/modules/es6.promise");
+
+require("core-js/modules/es6.object.to-string");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
-
-require("core-js/modules/es6.promise");
-
-require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.define-property");
 

@@ -1,13 +1,20 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.GlobalStorage = void 0;
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
 
+require("core-js/modules/es6.object.define-properties");
+
+require("core-js/modules/es7.object.get-own-property-descriptors");
+
+require("core-js/modules/es6.array.for-each");
+
+require("core-js/modules/es6.array.filter");
+
 require("core-js/modules/es6.symbol");
+
+require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.promise");
 
@@ -23,6 +30,11 @@ require("core-js/modules/es6.reflect.construct");
 
 require("core-js/modules/es6.object.set-prototype-of");
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.GlobalStorage = void 0;
+
 require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
@@ -31,17 +43,17 @@ require("core-js/modules/es6.object.to-string");
 
 require("regenerator-runtime/runtime");
 
-var _moduleStatuses = _interopRequireDefault(require("../../enums/moduleStatuses"));
-
 var _di = require("../../lib/di");
 
 var _StorageBaseV = require("../../lib/StorageBaseV2");
 
-var _dec, _class, _temp;
+var _dec, _class;
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -73,7 +85,7 @@ var GlobalStorage = (_dec = (0, _di.Module)({
     dep: 'GlobalStorageOptions',
     optional: true
   }]
-}), _dec(_class = (_temp = /*#__PURE__*/function (_StorageBase) {
+}), _dec(_class = /*#__PURE__*/function (_StorageBase) {
   _inherits(GlobalStorage, _StorageBase);
 
   var _super = _createSuper(GlobalStorage);
@@ -91,93 +103,78 @@ var GlobalStorage = (_dec = (0, _di.Module)({
     });
     _this._storage = void 0;
     _this._storageHandler = null;
+    _this.storedData = {};
     return _this;
-  } // overridden RcModuleV2 `initModule`
-
+  }
 
   _createClass(GlobalStorage, [{
-    key: "initModule",
-    value: function () {
-      var _initModule = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-        var _this2 = this;
+    key: "onStateChange",
+    value: function onStateChange() {
+      if (this.ready) {
+        var currentData = this.data; // save new data to storage when changed
 
-        var storedData, storageKey, key;
+        for (var key in currentData) {
+          if (this.storedData[key] !== currentData[key]) {
+            this._storage.setItem(key, currentData[key]);
+
+            this.storedData[key] = currentData[key];
+          }
+        }
+      }
+    }
+  }, {
+    key: "onInit",
+    value: function () {
+      var _onInit = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+        var storageKey, key, currentData, _key;
+
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                storedData = null;
                 storageKey = "".concat(this.prefix ? "".concat(this.prefix, "-") : '', "GlobalStorage");
                 this._storage = new this._StorageProvider({
                   storageKey: storageKey
                 });
-                _context.next = 5;
+                _context.next = 4;
                 return this._storage.getData();
 
-              case 5:
-                storedData = _context.sent;
-                _context.t0 = regeneratorRuntime.keys(storedData);
+              case 4:
+                this.storedData = _context.sent;
+                _context.t0 = regeneratorRuntime.keys(this.storedData);
 
-              case 7:
+              case 6:
                 if ((_context.t1 = _context.t0()).done) {
-                  _context.next = 15;
+                  _context.next = 14;
                   break;
                 }
 
                 key = _context.t1.value;
 
                 if (this._storageReducers[key]) {
-                  _context.next = 13;
+                  _context.next = 12;
                   break;
                 }
 
-                delete storedData[key];
-                _context.next = 13;
+                delete this.storedData[key];
+                _context.next = 12;
                 return this._storage.removeItem(key);
 
-              case 13:
-                _context.next = 7;
+              case 12:
+                _context.next = 6;
                 break;
 
-              case 15:
-                this.store.dispatch({
-                  type: this._storageActionTypes.initSuccess,
-                  data: storedData
-                });
+              case 14:
+                this.setData(_objectSpread(_objectSpread({}, this.data), this.storedData));
+                currentData = this.data;
 
-                this._storageHandler = function (_ref) {
-                  var key = _ref.key,
-                      value = _ref.value;
-
-                  if (_this2.ready) {
-                    storedData[key] = value;
-
-                    _this2.store.dispatch({
-                      type: _this2._storageActionTypes.sync,
-                      key: key,
-                      value: value
-                    });
+                for (_key in currentData) {
+                  if (!Object.prototype.hasOwnProperty.call(this.storedData, _key)) {
+                    this._storage.setItem(_key, currentData[_key]);
                   }
-                };
+                }
 
-                this._storage.on('storage', this._storageHandler);
-
-                this.store.subscribe(function () {
-                  if (_this2.status !== _moduleStatuses["default"].pending) {
-                    // save new data to storage when changed
-                    var currentData = _this2.data;
-
-                    for (var _key in currentData) {
-                      if (storedData[_key] !== currentData[_key]) {
-                        _this2._storage.setItem(_key, currentData[_key]);
-
-                        storedData[_key] = currentData[_key];
-                      }
-                    }
-                  }
-                });
-
-              case 19:
+              case 17:
               case "end":
                 return _context.stop();
             }
@@ -185,15 +182,33 @@ var GlobalStorage = (_dec = (0, _di.Module)({
         }, _callee, this);
       }));
 
-      function initModule() {
-        return _initModule.apply(this, arguments);
+      function onInit() {
+        return _onInit.apply(this, arguments);
       }
 
-      return initModule;
+      return onInit;
     }()
+  }, {
+    key: "onInitSuccess",
+    value: function onInitSuccess() {
+      var _this2 = this;
+
+      this._storageHandler = function (_ref) {
+        var key = _ref.key,
+            value = _ref.value;
+
+        if (_this2.ready) {
+          _this2.storedData[key] = value;
+
+          _this2.syncData(key, value);
+        }
+      };
+
+      this._storage.on('storage', this._storageHandler);
+    }
   }]);
 
   return GlobalStorage;
-}(_StorageBaseV.StorageBase), _temp)) || _class);
+}(_StorageBaseV.StorageBase)) || _class);
 exports.GlobalStorage = GlobalStorage;
 //# sourceMappingURL=GlobalStorage.js.map

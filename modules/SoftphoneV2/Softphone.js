@@ -1,9 +1,6 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.Softphone = void 0;
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -35,7 +32,14 @@ require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.for-each");
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Softphone = void 0;
+
 require("regenerator-runtime/runtime");
+
+require("core-js/modules/es6.array.filter");
 
 var _bowser = _interopRequireDefault(require("bowser"));
 
@@ -45,17 +49,15 @@ var _sleep = _interopRequireDefault(require("../../lib/sleep"));
 
 var _di = require("../../lib/di");
 
-var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
+var _proxify = require("../../lib/proxy/proxify");
 
 var _callingModes = _interopRequireDefault(require("../CallingSettings/callingModes"));
 
 var _softphoneStatus = require("./softphoneStatus");
 
-var _dec, _class, _class2, _descriptor, _descriptor2, _temp;
+var _dec, _class, _class2, _descriptor, _descriptor2;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -100,7 +102,7 @@ var Softphone = (_dec = (0, _di.Module)({
     dep: 'SoftphoneOptions',
     optional: true
   }]
-}), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcModuleV) {
+}), _dec(_class = (_class2 = /*#__PURE__*/function (_RcModuleV) {
   _inherits(Softphone, _RcModuleV);
 
   var _super = _createSuper(Softphone);
@@ -145,38 +147,78 @@ var Softphone = (_dec = (0, _di.Module)({
       return _bowser["default"].parse(window.navigator && window.navigator.userAgent || 'unknown').platform.type;
     }
   }, {
+    key: "_shouldInit",
+    // TODO: move `ContactMatcher` deps to `Call`
+    value: function _shouldInit() {
+      var areAllReady = this[_core.noReadyModulesKey].filter(function (module) {
+        return module && module[_core.identifierKey] !== 'contactMatcher';
+      }).length === 0;
+      return areAllReady && this.pending;
+    }
+  }, {
+    key: "_shouldReset",
+    value: function _shouldReset() {
+      var areNotReady = this[_core.noReadyModulesKey].filter(function (module) {
+        return module && module[_core.identifierKey] !== 'contactMatcher';
+      }).length > 0;
+      return areNotReady && this.ready;
+    } // currently we only have RingCentral App(rc brand)'s & AT&T universal link
+
+  }, {
+    key: "getMakeCallUri",
+    value: function getMakeCallUri(phoneNumber, callingMode) {
+      // spartan
+      var command = "call?number=".concat(encodeURIComponent(phoneNumber));
+      var protocol = this.spartanProtocol; // jupiter
+
+      var isCallWithJupiter = callingMode === _callingModes["default"].jupiter;
+
+      if (isCallWithJupiter) {
+        var isRcBrand = this._deps.brand.code === 'rc'; // jupiter doesn't recognize encoded string for now
+
+        command = "r/call?number=".concat(phoneNumber); // rc brand use scheme, partner brand use universal link
+
+        protocol = isRcBrand ? this.jupiterProtocol : this.jupiterUniversalLink;
+      }
+
+      return {
+        command: command,
+        protocol: protocol,
+        uri: "".concat(protocol).concat(command)
+      };
+    }
+  }, {
     key: "makeCall",
     value: function () {
       var _makeCall = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(phoneNumber, callingMode) {
-        var isCallWithJupiter, protocol, command, uri, frame;
+        var _this$getMakeCallUri, protocol, command, uri, frame;
+
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
                 this.startToConnect(phoneNumber);
-                isCallWithJupiter = callingMode === _callingModes["default"].jupiter;
-                protocol = isCallWithJupiter ? this.jupiterProtocol : this.spartanProtocol;
-                command = isCallWithJupiter ? "call?number=".concat(phoneNumber) // jupiter doesn't recognize encoded string for now
-                : "call?number=".concat(encodeURIComponent(phoneNumber));
-                uri = isCallWithJupiter ? "".concat(protocol, "://r/").concat(command) : "".concat(protocol, "://").concat(command);
+                _this$getMakeCallUri = this.getMakeCallUri(phoneNumber, callingMode), protocol = _this$getMakeCallUri.protocol, command = _this$getMakeCallUri.command, uri = _this$getMakeCallUri.uri;
 
                 if (!this._callHandler) {
-                  _context.next = 9;
+                  _context.next = 6;
                   break;
                 }
 
                 this._callHandler({
+                  callingMode: callingMode,
                   protocol: protocol,
                   command: command,
+                  uri: uri,
                   phoneNumber: phoneNumber
                 });
 
-                _context.next = 30;
+                _context.next = 27;
                 break;
 
-              case 9:
+              case 6:
                 if (!(this._extensionMode || this.detectPlatform() !== 'desktop')) {
-                  _context.next = 13;
+                  _context.next = 10;
                   break;
                 }
 
@@ -185,61 +227,61 @@ var Softphone = (_dec = (0, _di.Module)({
                  * 2. Use window.open in non-desktop platforms
                  */
                 window.open(uri);
-                _context.next = 30;
+                _context.next = 27;
                 break;
 
-              case 13:
+              case 10:
                 if (!window.navigator.msLaunchUri) {
-                  _context.next = 17;
+                  _context.next = 14;
                   break;
                 }
 
                 // to support ie to start the service
                 window.navigator.msLaunchUri(uri);
-                _context.next = 30;
+                _context.next = 27;
                 break;
 
-              case 17:
+              case 14:
                 if (!(window.ActiveXObject || 'ActiveXObject' in window)) {
-                  _context.next = 21;
+                  _context.next = 18;
                   break;
                 }
 
                 // to support ie on Windows < 8
                 window.open(uri);
-                _context.next = 30;
+                _context.next = 27;
                 break;
 
-              case 21:
+              case 18:
                 frame = document.createElement('iframe');
                 frame.style.display = 'none';
                 document.body.appendChild(frame);
-                _context.next = 26;
+                _context.next = 23;
                 return (0, _sleep["default"])(100);
 
-              case 26:
+              case 23:
                 frame.contentWindow.location.href = uri;
-                _context.next = 29;
+                _context.next = 26;
                 return (0, _sleep["default"])(300);
 
-              case 29:
+              case 26:
                 document.body.removeChild(frame);
 
-              case 30:
+              case 27:
                 if (!this._deps.contactMatcher) {
-                  _context.next = 33;
+                  _context.next = 30;
                   break;
                 }
 
-                _context.next = 33;
+                _context.next = 30;
                 return this._deps.contactMatcher.forceMatchNumber({
                   phoneNumber: phoneNumber
                 });
 
-              case 33:
+              case 30:
                 this.connectComplete();
 
-              case 34:
+              case 31:
               case "end":
                 return _context.stop();
             }
@@ -258,25 +300,24 @@ var Softphone = (_dec = (0, _di.Module)({
     get: function get() {
       switch (this._deps.brand.code) {
         case 'att':
-          return 'attvr20';
+          return 'attvr20://';
 
         case 'bt':
-          return 'rcbtmobile';
+          return 'rcbtmobile://';
 
         case 'telus':
-          return 'rctelus';
+          return 'rctelus://';
 
         default:
-          return 'rcmobile';
+          return 'rcmobile://';
       }
-    } // currently we only have RingCentral App(rc brand)'s universal link
-
+    }
   }, {
     key: "jupiterUniversalLink",
     get: function get() {
       switch (this._deps.brand.code) {
         case 'att':
-          return null;
+          return 'https://app.officeathand.att.com/';
 
         case 'bt':
           return null;
@@ -285,31 +326,31 @@ var Softphone = (_dec = (0, _di.Module)({
           return null;
 
         default:
-          return 'https://app.ringcentral.com/r/';
+          return 'https://app.ringcentral.com/';
       }
-    } // currently we only have RingCentral App(rc brand)'s protocol
+    } // currently we don't have Bt brand uri scheme
 
   }, {
     key: "jupiterProtocol",
     get: function get() {
       switch (this._deps.brand.code) {
         case 'att':
-          return null;
+          return 'officeathand://';
 
         case 'bt':
           return null;
 
         case 'telus':
-          return null;
+          return 'rctelus://';
 
         default:
-          return 'rcapp';
+          return 'rcapp://';
       }
     }
   }]);
 
   return Softphone;
-}(_core.RcModuleV2), _temp), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "connectingPhoneNumber", [_core.state], {
+}(_core.RcModuleV2), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "connectingPhoneNumber", [_core.state], {
   configurable: true,
   enumerable: true,
   writable: true,
@@ -323,6 +364,6 @@ var Softphone = (_dec = (0, _di.Module)({
   initializer: function initializer() {
     return _softphoneStatus.softphoneStatus.idle;
   }
-}), _applyDecoratedDescriptor(_class2.prototype, "startToConnect", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "startToConnect"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "connectComplete", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "connectComplete"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "makeCall", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "makeCall"), _class2.prototype)), _class2)) || _class);
+}), _applyDecoratedDescriptor(_class2.prototype, "startToConnect", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "startToConnect"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "connectComplete", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "connectComplete"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "makeCall", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "makeCall"), _class2.prototype)), _class2)) || _class);
 exports.Softphone = Softphone;
 //# sourceMappingURL=Softphone.js.map

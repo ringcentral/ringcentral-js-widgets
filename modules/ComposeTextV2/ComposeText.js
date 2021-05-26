@@ -1,9 +1,6 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.ComposeText = void 0;
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -39,6 +36,11 @@ require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.for-each");
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.ComposeText = void 0;
+
 require("core-js/modules/es6.array.reduce");
 
 require("core-js/modules/es6.array.map");
@@ -59,15 +61,13 @@ var _di = require("../../lib/di");
 
 var _isBlank = _interopRequireDefault(require("../../lib/isBlank"));
 
-var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
+var _proxify = require("../../lib/proxy/proxify");
 
 var _MessageSenderV = require("../MessageSenderV2");
 
-var _dec, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _temp;
+var _dec, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
@@ -115,29 +115,21 @@ function _initializerWarningHelper(descriptor, context) { throw new Error('Decor
  */
 var ComposeText = (_dec = (0, _di.Module)({
   name: 'ComposeText',
-  deps: ['Alert', 'Auth', 'Storage', 'MessageSender', 'NumberValidate', 'RolesAndPermissions', {
+  deps: ['Alert', 'Auth', 'Storage', 'MessageSender', 'NumberValidate', 'ExtensionFeatures', {
     dep: 'ContactSearch',
     optional: true
   }, {
     dep: 'ComposeTextOptions',
     optional: true
+  }, {
+    dep: 'RouterInteraction',
+    optional: true
   }]
-}), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcModuleV) {
+}), _dec(_class = (_class2 = /*#__PURE__*/function (_RcModuleV) {
   _inherits(ComposeText, _RcModuleV);
 
   var _super = _createSuper(ComposeText);
 
-  /**
-   * @constructor
-   * @param {Object} params - params object
-   * @param {Alert} params.alert - alert module instance
-   * @param {Auth} params.auth - auth module instance
-   * @param {Storage} params.storage - storage module instance
-   * @param {MessageSender} params.messageSender - messageSender module instance
-   * @param {NumberValidate} params.numberValidate - numberValidate module instance
-   * @param {RolesAndPermissions} params.rolesAndPermissions - rolesAndPermissions module instance
-   * @param {ContactSearch} params.contactSearch - contactSearch module instance
-   */
   function ComposeText(deps) {
     var _this;
 
@@ -149,6 +141,7 @@ var ComposeText = (_dec = (0, _di.Module)({
       storageKey: 'composeText'
     });
     _this._lastContactSearchResult = null;
+    _this.smsVerify = void 0;
 
     _initializerDefineProperty(_this, "senderNumber", _descriptor, _assertThisInitialized(_this));
 
@@ -411,7 +404,9 @@ var ComposeText = (_dec = (0, _di.Module)({
   }, {
     key: "_validateIsOnlyPager",
     value: function _validateIsOnlyPager(phoneNumber) {
-      if (phoneNumber.length >= 7 && this._deps.rolesAndPermissions.onlyPagerPermission) {
+      var _this$_deps$extension, _this$_deps$extension2;
+
+      if (phoneNumber.length >= 7 && !((_this$_deps$extension = this._deps.extensionFeatures.features) === null || _this$_deps$extension === void 0 ? void 0 : (_this$_deps$extension2 = _this$_deps$extension.SMSSending) === null || _this$_deps$extension2 === void 0 ? void 0 : _this$_deps$extension2.available)) {
         this._alertWarning(_MessageSenderV.messageSenderMessages.noSMSPermission);
 
         return true;
@@ -421,59 +416,25 @@ var ComposeText = (_dec = (0, _di.Module)({
     }
   }, {
     key: "validatePhoneNumber",
-    value: function validatePhoneNumber(phoneNumber) {
-      if (this._validateIsOnlyPager(phoneNumber)) {
-        return false;
-      }
-
-      var validateResult = this._deps.numberValidate.validateFormat([phoneNumber]);
-
-      return !!validateResult.result;
-    }
-  }, {
-    key: "send",
     value: function () {
-      var _send = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(text) {
-        var attachments,
-            toNumbers,
-            typingToNumber,
-            _args3 = arguments;
+      var _validatePhoneNumber2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(phoneNumber) {
+        var validateResult;
         return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                attachments = _args3.length > 1 && _args3[1] !== undefined ? _args3[1] : [];
-                toNumbers = this.toNumbers.map(function (number) {
-                  return number.phoneNumber;
-                });
-                typingToNumber = this.typingToNumber;
-
-                if ((0, _isBlank["default"])(typingToNumber)) {
-                  _context3.next = 9;
+                if (!this._validateIsOnlyPager(phoneNumber)) {
+                  _context3.next = 2;
                   break;
                 }
 
-                if (!this._validatePhoneNumber(typingToNumber)) {
-                  _context3.next = 8;
-                  break;
-                }
+                return _context3.abrupt("return", false);
 
-                toNumbers.push(typingToNumber);
-                _context3.next = 9;
-                break;
+              case 2:
+                validateResult = this._deps.numberValidate.validateFormat([phoneNumber]);
+                return _context3.abrupt("return", !!validateResult.result);
 
-              case 8:
-                return _context3.abrupt("return", null);
-
-              case 9:
-                return _context3.abrupt("return", this._deps.messageSender.send({
-                  fromNumber: this.senderNumber,
-                  toNumbers: toNumbers,
-                  text: text,
-                  attachments: attachments
-                }));
-
-              case 10:
+              case 4:
               case "end":
                 return _context3.stop();
             }
@@ -481,7 +442,132 @@ var ComposeText = (_dec = (0, _di.Module)({
         }, _callee3, this);
       }));
 
-      function send(_x) {
+      function validatePhoneNumber(_x) {
+        return _validatePhoneNumber2.apply(this, arguments);
+      }
+
+      return validatePhoneNumber;
+    }()
+  }, {
+    key: "send",
+    value: function () {
+      var _send = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(text) {
+        var _this3 = this;
+
+        var attachments,
+            toNumbers,
+            typingToNumber,
+            continueSend,
+            timeoutID,
+            responses,
+            _args4 = arguments;
+        return regeneratorRuntime.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                attachments = _args4.length > 1 && _args4[1] !== undefined ? _args4[1] : [];
+                toNumbers = this.toNumbers.map(function (number) {
+                  return number.phoneNumber;
+                });
+                typingToNumber = this.typingToNumber;
+
+                if ((0, _isBlank["default"])(typingToNumber)) {
+                  _context4.next = 9;
+                  break;
+                }
+
+                if (!this._validatePhoneNumber(typingToNumber)) {
+                  _context4.next = 8;
+                  break;
+                }
+
+                toNumbers.push(typingToNumber);
+                _context4.next = 9;
+                break;
+
+              case 8:
+                return _context4.abrupt("return", null);
+
+              case 9:
+                if (!this.smsVerify) {
+                  _context4.next = 15;
+                  break;
+                }
+
+                _context4.next = 12;
+                return this.smsVerify({
+                  toNumbers: this.toNumbers,
+                  typingToNumber: typingToNumber
+                });
+
+              case 12:
+                _context4.t0 = _context4.sent;
+                _context4.next = 16;
+                break;
+
+              case 15:
+                _context4.t0 = true;
+
+              case 16:
+                continueSend = _context4.t0;
+
+                if (continueSend) {
+                  _context4.next = 19;
+                  break;
+                }
+
+                return _context4.abrupt("return", null);
+
+              case 19:
+                timeoutID = setTimeout(function () {
+                  var _this3$_deps$routerIn;
+
+                  if (((_this3$_deps$routerIn = _this3._deps.routerInteraction) === null || _this3$_deps$routerIn === void 0 ? void 0 : _this3$_deps$routerIn.currentPath) === '/composeText') {
+                    _this3.alertMessageSending();
+                  }
+
+                  timeoutID = null;
+                }, 10000);
+                _context4.prev = 20;
+                _context4.next = 23;
+                return this._deps.messageSender.send({
+                  fromNumber: this.senderNumber,
+                  toNumbers: toNumbers,
+                  text: text,
+                  attachments: attachments
+                });
+
+              case 23:
+                responses = _context4.sent;
+
+                if (timeoutID) {
+                  clearTimeout(timeoutID);
+                  timeoutID = null;
+                }
+
+                this.dismissMessageSending();
+                return _context4.abrupt("return", responses);
+
+              case 29:
+                _context4.prev = 29;
+                _context4.t1 = _context4["catch"](20);
+
+                if (timeoutID) {
+                  clearTimeout(timeoutID);
+                  timeoutID = null;
+                }
+
+                throw _context4.t1;
+
+              case 33:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4, this, [[20, 29]]);
+      }));
+
+      function send(_x2) {
         return _send.apply(this, arguments);
       }
 
@@ -490,22 +576,22 @@ var ComposeText = (_dec = (0, _di.Module)({
   }, {
     key: "updateSenderNumber",
     value: function () {
-      var _updateSenderNumber = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(number) {
-        return regeneratorRuntime.wrap(function _callee4$(_context4) {
+      var _updateSenderNumber = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(number) {
+        return regeneratorRuntime.wrap(function _callee5$(_context5) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context5.prev = _context5.next) {
               case 0:
                 this._setSenderNumber(number);
 
               case 1:
               case "end":
-                return _context4.stop();
+                return _context5.stop();
             }
           }
-        }, _callee4, this);
+        }, _callee5, this);
       }));
 
-      function updateSenderNumber(_x2) {
+      function updateSenderNumber(_x3) {
         return _updateSenderNumber.apply(this, arguments);
       }
 
@@ -514,32 +600,32 @@ var ComposeText = (_dec = (0, _di.Module)({
   }, {
     key: "updateTypingToNumber",
     value: function () {
-      var _updateTypingToNumber = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(number) {
-        return regeneratorRuntime.wrap(function _callee5$(_context5) {
+      var _updateTypingToNumber = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(number) {
+        return regeneratorRuntime.wrap(function _callee6$(_context6) {
           while (1) {
-            switch (_context5.prev = _context5.next) {
+            switch (_context6.prev = _context6.next) {
               case 0:
                 if (!(number.length > 30)) {
-                  _context5.next = 3;
+                  _context6.next = 3;
                   break;
                 }
 
                 this._alertWarning(_MessageSenderV.messageSenderMessages.recipientNumberInvalids);
 
-                return _context5.abrupt("return");
+                return _context6.abrupt("return");
 
               case 3:
                 this._setTypingToNumber(number);
 
               case 4:
               case "end":
-                return _context5.stop();
+                return _context6.stop();
             }
           }
-        }, _callee5, this);
+        }, _callee6, this);
       }));
 
-      function updateTypingToNumber(_x3) {
+      function updateTypingToNumber(_x4) {
         return _updateTypingToNumber.apply(this, arguments);
       }
 
@@ -548,11 +634,11 @@ var ComposeText = (_dec = (0, _di.Module)({
   }, {
     key: "onToNumberMatch",
     value: function () {
-      var _onToNumberMatch = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(_ref) {
+      var _onToNumberMatch = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7(_ref) {
         var entityId;
-        return regeneratorRuntime.wrap(function _callee6$(_context6) {
+        return regeneratorRuntime.wrap(function _callee7$(_context7) {
           while (1) {
-            switch (_context6.prev = _context6.next) {
+            switch (_context7.prev = _context7.next) {
               case 0:
                 entityId = _ref.entityId;
 
@@ -560,13 +646,13 @@ var ComposeText = (_dec = (0, _di.Module)({
 
               case 2:
               case "end":
-                return _context6.stop();
+                return _context7.stop();
             }
           }
-        }, _callee6, this);
+        }, _callee7, this);
       }));
 
-      function onToNumberMatch(_x4) {
+      function onToNumberMatch(_x5) {
         return _onToNumberMatch.apply(this, arguments);
       }
 
@@ -575,20 +661,20 @@ var ComposeText = (_dec = (0, _di.Module)({
   }, {
     key: "addToRecipients",
     value: function () {
-      var _addToRecipients = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7(recipient) {
+      var _addToRecipients = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8(recipient) {
         var shouldClean,
             isAdded,
-            _args7 = arguments;
-        return regeneratorRuntime.wrap(function _callee7$(_context7) {
+            _args8 = arguments;
+        return regeneratorRuntime.wrap(function _callee8$(_context8) {
           while (1) {
-            switch (_context7.prev = _context7.next) {
+            switch (_context8.prev = _context8.next) {
               case 0:
-                shouldClean = _args7.length > 1 && _args7[1] !== undefined ? _args7[1] : true;
-                _context7.next = 3;
+                shouldClean = _args8.length > 1 && _args8[1] !== undefined ? _args8[1] : true;
+                _context8.next = 3;
                 return this.addToNumber(recipient);
 
               case 3:
-                isAdded = _context7.sent;
+                isAdded = _context8.sent;
 
                 if (isAdded && shouldClean) {
                   this._setTypingToNumber('');
@@ -596,13 +682,13 @@ var ComposeText = (_dec = (0, _di.Module)({
 
               case 5:
               case "end":
-                return _context7.stop();
+                return _context8.stop();
             }
           }
-        }, _callee7, this);
+        }, _callee8, this);
       }));
 
-      function addToRecipients(_x5) {
+      function addToRecipients(_x6) {
         return _addToRecipients.apply(this, arguments);
       }
 
@@ -611,19 +697,19 @@ var ComposeText = (_dec = (0, _di.Module)({
   }, {
     key: "cleanTypingToNumber",
     value: function () {
-      var _cleanTypingToNumber = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8() {
-        return regeneratorRuntime.wrap(function _callee8$(_context8) {
+      var _cleanTypingToNumber = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9() {
+        return regeneratorRuntime.wrap(function _callee9$(_context9) {
           while (1) {
-            switch (_context8.prev = _context8.next) {
+            switch (_context9.prev = _context9.next) {
               case 0:
                 this._setTypingToNumber('');
 
               case 1:
               case "end":
-                return _context8.stop();
+                return _context9.stop();
             }
           }
-        }, _callee8, this);
+        }, _callee9, this);
       }));
 
       function cleanTypingToNumber() {
@@ -635,40 +721,40 @@ var ComposeText = (_dec = (0, _di.Module)({
   }, {
     key: "addToNumber",
     value: function () {
-      var _addToNumber2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9(number) {
-        return regeneratorRuntime.wrap(function _callee9$(_context9) {
+      var _addToNumber2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10(number) {
+        return regeneratorRuntime.wrap(function _callee10$(_context10) {
           while (1) {
-            switch (_context9.prev = _context9.next) {
+            switch (_context10.prev = _context10.next) {
               case 0:
                 if (!(0, _isBlank["default"])(number.phoneNumber)) {
-                  _context9.next = 2;
+                  _context10.next = 2;
                   break;
                 }
 
-                return _context9.abrupt("return", false);
+                return _context10.abrupt("return", false);
 
               case 2:
                 if (this._validatePhoneNumber(number.phoneNumber)) {
-                  _context9.next = 4;
+                  _context10.next = 4;
                   break;
                 }
 
-                return _context9.abrupt("return", false);
+                return _context10.abrupt("return", false);
 
               case 4:
                 this._addToNumber(number);
 
-                return _context9.abrupt("return", true);
+                return _context10.abrupt("return", true);
 
               case 6:
               case "end":
-                return _context9.stop();
+                return _context10.stop();
             }
           }
-        }, _callee9, this);
+        }, _callee10, this);
       }));
 
-      function addToNumber(_x6) {
+      function addToNumber(_x7) {
         return _addToNumber2.apply(this, arguments);
       }
 
@@ -677,22 +763,22 @@ var ComposeText = (_dec = (0, _di.Module)({
   }, {
     key: "removeToNumber",
     value: function () {
-      var _removeToNumber2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10(number) {
-        return regeneratorRuntime.wrap(function _callee10$(_context10) {
+      var _removeToNumber2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee11(number) {
+        return regeneratorRuntime.wrap(function _callee11$(_context11) {
           while (1) {
-            switch (_context10.prev = _context10.next) {
+            switch (_context11.prev = _context11.next) {
               case 0:
                 this._removeToNumber(number);
 
               case 1:
               case "end":
-                return _context10.stop();
+                return _context11.stop();
             }
           }
-        }, _callee10, this);
+        }, _callee11, this);
       }));
 
-      function removeToNumber(_x7) {
+      function removeToNumber(_x8) {
         return _removeToNumber2.apply(this, arguments);
       }
 
@@ -701,32 +787,32 @@ var ComposeText = (_dec = (0, _di.Module)({
   }, {
     key: "updateMessageText",
     value: function () {
-      var _updateMessageText = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee11(text) {
-        return regeneratorRuntime.wrap(function _callee11$(_context11) {
+      var _updateMessageText = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee12(text) {
+        return regeneratorRuntime.wrap(function _callee12$(_context12) {
           while (1) {
-            switch (_context11.prev = _context11.next) {
+            switch (_context12.prev = _context12.next) {
               case 0:
                 if (!(text.length > 1000)) {
-                  _context11.next = 3;
+                  _context12.next = 3;
                   break;
                 }
 
                 this._alertWarning(_MessageSenderV.messageSenderMessages.textTooLong);
 
-                return _context11.abrupt("return");
+                return _context12.abrupt("return");
 
               case 3:
                 this._setMessageText(text);
 
               case 4:
               case "end":
-                return _context11.stop();
+                return _context12.stop();
             }
           }
-        }, _callee11, this);
+        }, _callee12, this);
       }));
 
-      function updateMessageText(_x8) {
+      function updateMessageText(_x9) {
         return _updateMessageText.apply(this, arguments);
       }
 
@@ -735,20 +821,20 @@ var ComposeText = (_dec = (0, _di.Module)({
   }, {
     key: "addAttachment",
     value: function () {
-      var _addAttachment2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee12(attachment) {
+      var _addAttachment2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee13(attachment) {
         var size;
-        return regeneratorRuntime.wrap(function _callee12$(_context12) {
+        return regeneratorRuntime.wrap(function _callee13$(_context13) {
           while (1) {
-            switch (_context12.prev = _context12.next) {
+            switch (_context13.prev = _context13.next) {
               case 0:
                 if (!(this.attachments.length >= 10)) {
-                  _context12.next = 3;
+                  _context13.next = 3;
                   break;
                 }
 
                 this._alertWarning(_MessageSenderV.messageSenderMessages.attachmentCountLimitation);
 
-                return _context12.abrupt("return");
+                return _context13.abrupt("return");
 
               case 3:
                 size = this.attachments.reduce(function (prev, curr) {
@@ -756,26 +842,26 @@ var ComposeText = (_dec = (0, _di.Module)({
                 }, 0);
 
                 if (!(size + attachment.size > _MessageSenderV.ATTACHMENT_SIZE_LIMITATION)) {
-                  _context12.next = 7;
+                  _context13.next = 7;
                   break;
                 }
 
                 this._alertWarning(_MessageSenderV.messageSenderMessages.attachmentSizeLimitation);
 
-                return _context12.abrupt("return");
+                return _context13.abrupt("return");
 
               case 7:
                 this._addAttachment(attachment);
 
               case 8:
               case "end":
-                return _context12.stop();
+                return _context13.stop();
             }
           }
-        }, _callee12, this);
+        }, _callee13, this);
       }));
 
-      function addAttachment(_x9) {
+      function addAttachment(_x10) {
         return _addAttachment2.apply(this, arguments);
       }
 
@@ -784,22 +870,22 @@ var ComposeText = (_dec = (0, _di.Module)({
   }, {
     key: "removeAttachment",
     value: function () {
-      var _removeAttachment2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee13(attachment) {
-        return regeneratorRuntime.wrap(function _callee13$(_context13) {
+      var _removeAttachment2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee14(attachment) {
+        return regeneratorRuntime.wrap(function _callee14$(_context14) {
           while (1) {
-            switch (_context13.prev = _context13.next) {
+            switch (_context14.prev = _context14.next) {
               case 0:
                 this._removeAttachment(attachment);
 
               case 1:
               case "end":
-                return _context13.stop();
+                return _context14.stop();
             }
           }
-        }, _callee13, this);
+        }, _callee14, this);
       }));
 
-      function removeAttachment(_x10) {
+      function removeAttachment(_x11) {
         return _removeAttachment2.apply(this, arguments);
       }
 
@@ -808,19 +894,19 @@ var ComposeText = (_dec = (0, _di.Module)({
   }, {
     key: "clean",
     value: function () {
-      var _clean2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee14() {
-        return regeneratorRuntime.wrap(function _callee14$(_context14) {
+      var _clean2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee15() {
+        return regeneratorRuntime.wrap(function _callee15$(_context15) {
           while (1) {
-            switch (_context14.prev = _context14.next) {
+            switch (_context15.prev = _context15.next) {
               case 0:
                 this._clean();
 
               case 1:
               case "end":
-                return _context14.stop();
+                return _context15.stop();
             }
           }
-        }, _callee14, this);
+        }, _callee15, this);
       }));
 
       function clean() {
@@ -832,10 +918,10 @@ var ComposeText = (_dec = (0, _di.Module)({
   }, {
     key: "alertMessageSending",
     value: function () {
-      var _alertMessageSending = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee15() {
-        return regeneratorRuntime.wrap(function _callee15$(_context15) {
+      var _alertMessageSending = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee16() {
+        return regeneratorRuntime.wrap(function _callee16$(_context16) {
           while (1) {
-            switch (_context15.prev = _context15.next) {
+            switch (_context16.prev = _context16.next) {
               case 0:
                 this._deps.alert.warning({
                   message: _MessageSenderV.messageSenderMessages.sending,
@@ -844,10 +930,10 @@ var ComposeText = (_dec = (0, _di.Module)({
 
               case 1:
               case "end":
-                return _context15.stop();
+                return _context16.stop();
             }
           }
-        }, _callee15, this);
+        }, _callee16, this);
       }));
 
       function alertMessageSending() {
@@ -859,11 +945,11 @@ var ComposeText = (_dec = (0, _di.Module)({
   }, {
     key: "dismissMessageSending",
     value: function () {
-      var _dismissMessageSending = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee16() {
+      var _dismissMessageSending = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee17() {
         var alertMessage;
-        return regeneratorRuntime.wrap(function _callee16$(_context16) {
+        return regeneratorRuntime.wrap(function _callee17$(_context17) {
           while (1) {
-            switch (_context16.prev = _context16.next) {
+            switch (_context17.prev = _context17.next) {
               case 0:
                 alertMessage = this._deps.alert.messages.find(function (m) {
                   return m.message === _MessageSenderV.messageSenderMessages.sending;
@@ -875,10 +961,10 @@ var ComposeText = (_dec = (0, _di.Module)({
 
               case 2:
               case "end":
-                return _context16.stop();
+                return _context17.stop();
             }
           }
-        }, _callee16, this);
+        }, _callee17, this);
       }));
 
       function dismissMessageSending() {
@@ -895,7 +981,7 @@ var ComposeText = (_dec = (0, _di.Module)({
   }]);
 
   return ComposeText;
-}(_core.RcModuleV2), _temp), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "senderNumber", [_core.storage, _core.state], {
+}(_core.RcModuleV2), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "senderNumber", [_core.storage, _core.state], {
   configurable: true,
   enumerable: true,
   writable: true,
@@ -937,6 +1023,6 @@ var ComposeText = (_dec = (0, _di.Module)({
   initializer: function initializer() {
     return [];
   }
-}), _applyDecoratedDescriptor(_class2.prototype, "_setSenderNumber", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setSenderNumber"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_setTypingToNumber", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setTypingToNumber"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_setToNumberEntity", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setToNumberEntity"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_addToNumber", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_addToNumber"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_removeToNumber", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_removeToNumber"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_setMessageText", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setMessageText"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_addAttachment", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_addAttachment"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_removeAttachment", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_removeAttachment"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_clean", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_clean"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "validatePhoneNumber", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "validatePhoneNumber"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "send", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "send"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateSenderNumber", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "updateSenderNumber"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateTypingToNumber", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "updateTypingToNumber"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "onToNumberMatch", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "onToNumberMatch"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "addToRecipients", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "addToRecipients"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "cleanTypingToNumber", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "cleanTypingToNumber"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "addToNumber", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "addToNumber"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "removeToNumber", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "removeToNumber"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateMessageText", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "updateMessageText"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "addAttachment", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "addAttachment"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "removeAttachment", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "removeAttachment"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "clean", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "clean"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "alertMessageSending", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "alertMessageSending"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "dismissMessageSending", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "dismissMessageSending"), _class2.prototype)), _class2)) || _class);
+}), _applyDecoratedDescriptor(_class2.prototype, "_setSenderNumber", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setSenderNumber"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_setTypingToNumber", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setTypingToNumber"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_setToNumberEntity", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setToNumberEntity"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_addToNumber", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_addToNumber"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_removeToNumber", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_removeToNumber"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_setMessageText", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setMessageText"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_addAttachment", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_addAttachment"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_removeAttachment", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_removeAttachment"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_clean", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_clean"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "validatePhoneNumber", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "validatePhoneNumber"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "send", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "send"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateSenderNumber", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "updateSenderNumber"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateTypingToNumber", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "updateTypingToNumber"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "onToNumberMatch", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "onToNumberMatch"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "addToRecipients", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "addToRecipients"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "cleanTypingToNumber", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "cleanTypingToNumber"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "addToNumber", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "addToNumber"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "removeToNumber", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "removeToNumber"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateMessageText", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "updateMessageText"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "addAttachment", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "addAttachment"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "removeAttachment", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "removeAttachment"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "clean", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "clean"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "alertMessageSending", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "alertMessageSending"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "dismissMessageSending", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "dismissMessageSending"), _class2.prototype)), _class2)) || _class);
 exports.ComposeText = ComposeText;
 //# sourceMappingURL=ComposeText.js.map

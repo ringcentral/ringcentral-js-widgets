@@ -2,11 +2,6 @@
 
 require("core-js/modules/es6.object.define-property");
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.phoneSources = void 0;
-
 require("core-js/modules/es6.function.name");
 
 require("core-js/modules/es6.regexp.to-string");
@@ -22,6 +17,11 @@ require("core-js/modules/es7.symbol.async-iterator");
 require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.array.is-array");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.phoneSources = void 0;
 
 require("core-js/modules/web.dom.iterable");
 

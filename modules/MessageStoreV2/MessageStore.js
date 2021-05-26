@@ -1,11 +1,8 @@
 "use strict";
 
-require("core-js/modules/es6.weak-map");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.MessageStore = void 0;
+require("core-js/modules/es6.weak-map");
 
 require("core-js/modules/es6.object.define-properties");
 
@@ -32,6 +29,11 @@ require("core-js/modules/es7.symbol.async-iterator");
 require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.array.is-array");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.MessageStore = void 0;
 
 require("core-js/modules/es6.promise");
 
@@ -65,43 +67,41 @@ require("core-js/modules/es6.date.now");
 
 require("regenerator-runtime/runtime");
 
-var _events = require("events");
-
 var _core = require("@ringcentral-integration/core");
 
-var _di = require("../../lib/di");
-
-var _sleep = _interopRequireDefault(require("../../lib/sleep"));
-
-var _proxify = require("../../lib/proxy/proxify");
+var _events = require("events");
 
 var _subscriptionFilters = require("../../enums/subscriptionFilters");
 
-var messageHelper = _interopRequireWildcard(require("../../lib/messageHelper"));
-
 var _batchApiHelper = require("../../lib/batchApiHelper");
-
-var _messageStoreErrors = require("./messageStoreErrors");
 
 var _debounceThrottle = require("../../lib/debounce-throttle");
 
-var _DataFetcherV = require("../DataFetcherV2");
+var _di = require("../../lib/di");
 
-var _messageStoreHelper = require("./messageStoreHelper");
+var messageHelper = _interopRequireWildcard(require("../../lib/messageHelper"));
+
+var _proxify = require("../../lib/proxy/proxify");
+
+var _sleep = _interopRequireDefault(require("../../lib/sleep"));
 
 var _Analytics = require("../Analytics");
 
 var _CallingSettingsV = require("../CallingSettingsV2");
 
-var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _dec10, _dec11, _dec12, _dec13, _dec14, _class, _class2, _temp;
+var _DataFetcherV = require("../DataFetcherV2");
+
+var _messageStoreErrors = require("./messageStoreErrors");
+
+var _messageStoreHelper = require("./messageStoreHelper");
+
+var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _dec10, _dec11, _dec12, _dec13, _dec14, _dec15, _class, _class2;
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e2) { throw _e2; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e3) { didErr = true; err = _e3; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
 
@@ -173,7 +173,7 @@ var UPDATE_MESSAGE_ONCE_COUNT = 20; // Number of messages to be updated in one t
 
 var MessageStore = (_dec = (0, _di.Module)({
   name: 'MessageStore',
-  deps: ['Alert', 'Auth', 'Client', 'DataFetcherV2', 'Subscription', 'ConnectivityMonitor', 'RolesAndPermissions', {
+  deps: ['Alert', 'Auth', 'Client', 'DataFetcherV2', 'Subscription', 'ConnectivityMonitor', 'ExtensionFeatures', {
     dep: 'AvailabilityMonitor',
     optional: true
   }, {
@@ -217,22 +217,26 @@ var MessageStore = (_dec = (0, _di.Module)({
 }), _dec7 = (0, _core.computed)(function (that) {
   var _that$data;
 
-  return [(_that$data = that.data) === null || _that$data === void 0 ? void 0 : _that$data.conversationList, that.conversationStore];
+  return [(_that$data = that.data) === null || _that$data === void 0 ? void 0 : _that$data.conversationStore];
 }), _dec8 = (0, _core.computed)(function (that) {
-  return [that.allConversations];
+  var _that$data2;
+
+  return [(_that$data2 = that.data) === null || _that$data2 === void 0 ? void 0 : _that$data2.conversationList, that.conversationStore];
 }), _dec9 = (0, _core.computed)(function (that) {
-  return [that.textConversations];
+  return [that.allConversations];
 }), _dec10 = (0, _core.computed)(function (that) {
-  return [that.allConversations];
+  return [that.textConversations];
 }), _dec11 = (0, _core.computed)(function (that) {
-  return [that.faxMessages];
-}), _dec12 = (0, _core.computed)(function (that) {
   return [that.allConversations];
+}), _dec12 = (0, _core.computed)(function (that) {
+  return [that.faxMessages];
 }), _dec13 = (0, _core.computed)(function (that) {
-  return that.voicemailMessages;
+  return [that.allConversations];
 }), _dec14 = (0, _core.computed)(function (that) {
+  return [that.voicemailMessages];
+}), _dec15 = (0, _core.computed)(function (that) {
   return [that.voiceUnreadCounts, that.textUnreadCounts, that.faxUnreadCounts];
-}), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_DataFetcherV2Consume) {
+}), _dec(_class = (_class2 = /*#__PURE__*/function (_DataFetcherV2Consume) {
   _inherits(MessageStore, _DataFetcherV2Consume);
 
   var _super = _createSuper(MessageStore);
@@ -253,6 +257,7 @@ var MessageStore = (_dec = (0, _di.Module)({
     _this._daySpan = (_this$_deps$messageSt7 = (_this$_deps$messageSt8 = _this._deps.messageStoreOptions) === null || _this$_deps$messageSt8 === void 0 ? void 0 : _this$_deps$messageSt8.daySpan) !== null && _this$_deps$messageSt7 !== void 0 ? _this$_deps$messageSt7 : DEFAULT_DAY_SPAN;
     _this._eventEmitter = new _events.EventEmitter();
     _this._dispatchedMessageIds = [];
+    _this._handledRecord = null;
     _this._debouncedSetConversationAsRead = (0, _debounceThrottle.debounce)({
       fn: _this._setConversationAsRead,
       threshold: 500,
@@ -283,7 +288,7 @@ var MessageStore = (_dec = (0, _di.Module)({
         return _this._hasPermission;
       },
       readyCheckFunction: function readyCheckFunction() {
-        return _this._deps.rolesAndPermissions.ready;
+        return _this._deps.extensionFeatures.ready;
       },
       fetchFunction: function () {
         var _fetchFunction = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
@@ -682,7 +687,7 @@ var MessageStore = (_dec = (0, _di.Module)({
                 isFSyncSuccess = !syncToken; // this is only executed in passive sync mode (aka. invoked by subscription)
 
                 if (passive) {
-                  this._dispatchMessageHandlers(records);
+                  this._handledRecord = records;
                 }
 
                 return _context4.abrupt("return", {
@@ -753,7 +758,13 @@ var MessageStore = (_dec = (0, _di.Module)({
 
                 this._updateData(data);
 
-              case 5:
+                if (passive && this._handledRecord) {
+                  this._dispatchMessageHandlers(this._handledRecord);
+
+                  this._handledRecord = null;
+                }
+
+              case 6:
               case "end":
                 return _context5.stop();
             }
@@ -1672,12 +1683,12 @@ var MessageStore = (_dec = (0, _di.Module)({
     get: function get() {
       var _this$data6;
 
-      return (_this$data6 = this.data) === null || _this$data6 === void 0 ? void 0 : _this$data6.conversationStore;
+      return ((_this$data6 = this.data) === null || _this$data6 === void 0 ? void 0 : _this$data6.conversationStore) || {};
     }
   }, {
     key: "_hasPermission",
     get: function get() {
-      return this._deps.rolesAndPermissions.hasReadMessagesPermission;
+      return this._deps.extensionFeatures.hasReadMessagesPermission;
     }
   }, {
     key: "allConversations",
@@ -1743,15 +1754,15 @@ var MessageStore = (_dec = (0, _di.Module)({
     get: function get() {
       var unreadCounts = 0;
 
-      if (this._deps.rolesAndPermissions.readTextPermissions) {
+      if (this._deps.extensionFeatures.hasReadTextPermission) {
         unreadCounts += this.textUnreadCounts;
       }
 
-      if (this._deps.rolesAndPermissions.voicemailPermissions) {
+      if (this._deps.extensionFeatures.hasVoicemailPermission) {
         unreadCounts += this.voiceUnreadCounts;
       }
 
-      if (this._deps.rolesAndPermissions.readFaxPermissions) {
+      if (this._deps.extensionFeatures.hasReadFaxPermission) {
         unreadCounts += this.faxUnreadCounts;
       }
 
@@ -1760,6 +1771,6 @@ var MessageStore = (_dec = (0, _di.Module)({
   }]);
 
   return MessageStore;
-}(_DataFetcherV.DataFetcherV2Consumer), _temp), (_applyDecoratedDescriptor(_class2.prototype, "_updateData", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "_updateData"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "fetchData", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "fetchData"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "pushMessages", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "pushMessages"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "readMessages", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "readMessages"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "unreadMessage", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "unreadMessage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "onUnmarkMessages", [_dec2, _proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "onUnmarkMessages"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "onDeleteConversation", [_dec3, _proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "onDeleteConversation"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "deleteConversationMessages", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "deleteConversationMessages"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "deleteConversation", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "deleteConversation"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "onClickToSMS", [_dec4, _proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "onClickToSMS"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "onClickToCall", [_dec5, _proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "onClickToCall"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "onClickToCallWithRingout", [_dec6, _proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "onClickToCallWithRingout"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "allConversations", [_dec7], Object.getOwnPropertyDescriptor(_class2.prototype, "allConversations"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "textConversations", [_dec8], Object.getOwnPropertyDescriptor(_class2.prototype, "textConversations"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "textUnreadCounts", [_dec9], Object.getOwnPropertyDescriptor(_class2.prototype, "textUnreadCounts"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "faxMessages", [_dec10], Object.getOwnPropertyDescriptor(_class2.prototype, "faxMessages"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "faxUnreadCounts", [_dec11], Object.getOwnPropertyDescriptor(_class2.prototype, "faxUnreadCounts"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "voicemailMessages", [_dec12], Object.getOwnPropertyDescriptor(_class2.prototype, "voicemailMessages"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "voiceUnreadCounts", [_dec13], Object.getOwnPropertyDescriptor(_class2.prototype, "voiceUnreadCounts"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "unreadCounts", [_dec14], Object.getOwnPropertyDescriptor(_class2.prototype, "unreadCounts"), _class2.prototype)), _class2)) || _class);
+}(_DataFetcherV.DataFetcherV2Consumer), (_applyDecoratedDescriptor(_class2.prototype, "_updateData", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "_updateData"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "fetchData", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "fetchData"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "pushMessages", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "pushMessages"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "readMessages", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "readMessages"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "unreadMessage", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "unreadMessage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "onUnmarkMessages", [_dec2, _proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "onUnmarkMessages"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "onDeleteConversation", [_dec3, _proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "onDeleteConversation"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "deleteConversationMessages", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "deleteConversationMessages"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "deleteConversation", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "deleteConversation"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "onClickToSMS", [_dec4, _proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "onClickToSMS"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "onClickToCall", [_dec5, _proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "onClickToCall"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "onClickToCallWithRingout", [_dec6, _proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "onClickToCallWithRingout"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "conversationStore", [_dec7], Object.getOwnPropertyDescriptor(_class2.prototype, "conversationStore"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "allConversations", [_dec8], Object.getOwnPropertyDescriptor(_class2.prototype, "allConversations"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "textConversations", [_dec9], Object.getOwnPropertyDescriptor(_class2.prototype, "textConversations"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "textUnreadCounts", [_dec10], Object.getOwnPropertyDescriptor(_class2.prototype, "textUnreadCounts"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "faxMessages", [_dec11], Object.getOwnPropertyDescriptor(_class2.prototype, "faxMessages"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "faxUnreadCounts", [_dec12], Object.getOwnPropertyDescriptor(_class2.prototype, "faxUnreadCounts"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "voicemailMessages", [_dec13], Object.getOwnPropertyDescriptor(_class2.prototype, "voicemailMessages"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "voiceUnreadCounts", [_dec14], Object.getOwnPropertyDescriptor(_class2.prototype, "voiceUnreadCounts"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "unreadCounts", [_dec15], Object.getOwnPropertyDescriptor(_class2.prototype, "unreadCounts"), _class2.prototype)), _class2)) || _class);
 exports.MessageStore = MessageStore;
 //# sourceMappingURL=MessageStore.js.map

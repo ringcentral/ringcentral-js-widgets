@@ -1,9 +1,6 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.Analytics = void 0;
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -37,6 +34,11 @@ require("core-js/modules/es6.reflect.construct");
 
 require("core-js/modules/es6.object.set-prototype-of");
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Analytics = void 0;
+
 require("core-js/modules/es6.array.find");
 
 require("core-js/modules/es6.array.index-of");
@@ -44,6 +46,8 @@ require("core-js/modules/es6.array.index-of");
 require("core-js/modules/es6.regexp.split");
 
 require("core-js/modules/es6.date.to-iso-string");
+
+require("core-js/modules/es6.function.name");
 
 var _core = require("@ringcentral-integration/core");
 
@@ -55,11 +59,9 @@ var _saveBlob = _interopRequireDefault(require("../../lib/saveBlob"));
 
 var _analyticsRouters = require("./analyticsRouters");
 
-var _dec, _class, _temp;
+var _dec, _class;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
@@ -102,22 +104,19 @@ var Analytics = (_dec = (0, _di.Module)({
     dep: 'ExtensionInfo',
     optional: true
   }, {
-    dep: 'RolesAndPermissions',
-    optional: true
-  }, {
     dep: 'RouterInteraction',
     optional: true
   }, {
     dep: 'Locale',
     optional: true
   }]
-}), _dec(_class = (_temp = /*#__PURE__*/function (_RcModuleV) {
+}), _dec(_class = /*#__PURE__*/function (_RcModuleV) {
   _inherits(Analytics, _RcModuleV);
 
   var _super = _createSuper(Analytics);
 
   function Analytics(deps) {
-    var _this$_deps$analytics, _this$_deps$analytics2, _this$_deps$analytics3, _this$_deps$analytics4;
+    var _this$_deps$analytics, _this$_deps$analytics2, _this$_deps$analytics3, _this$_deps$analytics4, _this$_deps$analytics5, _this$_deps$analytics6;
 
     var _this;
 
@@ -129,11 +128,23 @@ var Analytics = (_dec = (0, _di.Module)({
     _this._useLog = (_this$_deps$analytics = _this._deps.analyticsOptions.useLog) !== null && _this$_deps$analytics !== void 0 ? _this$_deps$analytics : false;
     _this._lingerThreshold = (_this$_deps$analytics2 = _this._deps.analyticsOptions.lingerThreshold) !== null && _this$_deps$analytics2 !== void 0 ? _this$_deps$analytics2 : 1000;
     _this._enablePendo = (_this$_deps$analytics3 = _this._deps.analyticsOptions.enablePendo) !== null && _this$_deps$analytics3 !== void 0 ? _this$_deps$analytics3 : false;
-    _this._trackRouters = (_this$_deps$analytics4 = _this._deps.analyticsOptions.trackRouters) !== null && _this$_deps$analytics4 !== void 0 ? _this$_deps$analytics4 : _analyticsRouters.trackRouters;
+    _this._pendoApiKey = (_this$_deps$analytics4 = _this._deps.analyticsOptions.pendoApiKey) !== null && _this$_deps$analytics4 !== void 0 ? _this$_deps$analytics4 : '';
+    _this._trackRouters = (_this$_deps$analytics5 = _this._deps.analyticsOptions.trackRouters) !== null && _this$_deps$analytics5 !== void 0 ? _this$_deps$analytics5 : _analyticsRouters.trackRouters;
     _this._segment = void 0;
     _this._logs = [];
     _this._lingerTimeout = null;
+    _this._pendo = void 0;
+    _this._waitPendoCount = void 0;
+    _this._pendoTimeout = void 0;
+    _this._env = (_this$_deps$analytics6 = _this._deps.analyticsOptions.env) !== null && _this$_deps$analytics6 !== void 0 ? _this$_deps$analytics6 : 'dev';
     _this._segment = (0, _Analytics.Segment)();
+
+    if (_this._enablePendo && _this._pendoApiKey) {
+      _Analytics.Pendo.init(_this._pendoApiKey, function (pendoInstance) {
+        _this._pendo = pendoInstance;
+      });
+    }
+
     return _this;
   }
 
@@ -149,24 +160,6 @@ var Analytics = (_dec = (0, _di.Module)({
           return _this2._deps.routerInteraction.currentPath;
         }, function (currentPath) {
           _this2.trackRouter(currentPath);
-        });
-      }
-
-      if (this._deps.accountInfo) {
-        (0, _core.watch)(this, function () {
-          return _this2._deps.accountInfo.ready;
-        }, function (accountInfoReady) {
-          if (accountInfoReady) {
-            var _this2$_deps$rolesAnd;
-
-            _this2._identify({
-              userId: _this2._deps.auth.ownerId,
-              accountId: _this2._deps.accountInfo.id,
-              servicePlanId: _this2._deps.accountInfo.servicePlan.id,
-              edition: _this2._deps.accountInfo.servicePlan.edition,
-              CRMEnabled: (_this2$_deps$rolesAnd = _this2._deps.rolesAndPermissions) === null || _this2$_deps$rolesAnd === void 0 ? void 0 : _this2$_deps$rolesAnd.tierEnabled
-            });
-          }
         });
       }
     }
@@ -201,8 +194,7 @@ var Analytics = (_dec = (0, _di.Module)({
         this._segment.load(this._deps.analyticsOptions.analyticsKey, {
           integrations: {
             All: true,
-            Mixpanel: true,
-            Pendo: this._enablePendo
+            Mixpanel: true
           }
         });
       }
@@ -213,6 +205,11 @@ var Analytics = (_dec = (0, _di.Module)({
       this._identify({
         userId: this._deps.auth.ownerId
       });
+    }
+  }, {
+    key: "identify",
+    value: function identify(options) {
+      this._identify(options);
     }
   }, {
     key: "_identify",
@@ -233,6 +230,70 @@ var Analytics = (_dec = (0, _di.Module)({
           }
         });
       }
+
+      if (this._enablePendo && this._pendoApiKey) {
+        this._pendoInitialize(_objectSpread(_objectSpread({
+          userId: userId
+        }, props), {}, {
+          env: this._env
+        }));
+      }
+    }
+  }, {
+    key: "_pendoInitialize",
+    value: function _pendoInitialize(_ref2) {
+      var _this4 = this,
+          _this$_deps$extension4,
+          _this$_deps$extension5,
+          _this$_deps$extension6,
+          _this$_deps$accountIn,
+          _this$_deps$accountIn2,
+          _this$_deps$accountIn3,
+          _this$_deps$accountIn4;
+
+      var userId = _ref2.userId,
+          props = _objectWithoutProperties(_ref2, ["userId"]);
+
+      if (!this._deps.accountInfo || !this._deps.accountInfo.id || !userId) {
+        return;
+      }
+
+      if (this._pendoTimeout) {
+        clearTimeout(this._pendoTimeout);
+      }
+
+      if (this._waitPendoCount > 3) {
+        return;
+      }
+
+      if (!this._pendo) {
+        this._pendoTimeout = setTimeout(function () {
+          _this4._waitPendoCount += 1;
+
+          _this4._pendoInitialize(_objectSpread({
+            userId: userId
+          }, props));
+        }, 5 * 1000);
+        return;
+      }
+
+      var initializeFunc = !this._pendo.isReady() ? this._pendo.initialize : this._pendo.updateOptions;
+      var pendoAgent = {
+        visitor: _objectSpread(_objectSpread({
+          id: userId
+        }, props), {}, {
+          companyName: (_this$_deps$extension4 = this._deps.extensionInfo) === null || _this$_deps$extension4 === void 0 ? void 0 : (_this$_deps$extension5 = _this$_deps$extension4.info) === null || _this$_deps$extension5 === void 0 ? void 0 : (_this$_deps$extension6 = _this$_deps$extension5.contact) === null || _this$_deps$extension6 === void 0 ? void 0 : _this$_deps$extension6.company,
+          appName: this._deps.brandConfig.appName,
+          appVersion: this._deps.analyticsOptions.appVersion,
+          appBrand: this._deps.brandConfig.brandCode,
+          plaBrand: (_this$_deps$accountIn = this._deps.accountInfo) === null || _this$_deps$accountIn === void 0 ? void 0 : (_this$_deps$accountIn2 = _this$_deps$accountIn.serviceInfo) === null || _this$_deps$accountIn2 === void 0 ? void 0 : (_this$_deps$accountIn3 = _this$_deps$accountIn2.brand) === null || _this$_deps$accountIn3 === void 0 ? void 0 : _this$_deps$accountIn3.name,
+          countryCode: (_this$_deps$accountIn4 = this._deps.accountInfo) === null || _this$_deps$accountIn4 === void 0 ? void 0 : _this$_deps$accountIn4.countryCode
+        }),
+        account: {
+          id: "".concat(this._deps.accountInfo.id)
+        }
+      };
+      typeof initializeFunc === 'function' && initializeFunc(_objectSpread({}, pendoAgent));
     }
   }, {
     key: "track",
@@ -275,9 +336,9 @@ var Analytics = (_dec = (0, _di.Module)({
     }
   }, {
     key: "trackNavigation",
-    value: function trackNavigation(_ref2) {
-      var router = _ref2.router,
-          eventPostfix = _ref2.eventPostfix;
+    value: function trackNavigation(_ref3) {
+      var router = _ref3.router,
+          eventPostfix = _ref3.eventPostfix;
       var trackProps = {
         router: router,
         appName: this._deps.brandConfig.appName,
@@ -288,9 +349,9 @@ var Analytics = (_dec = (0, _di.Module)({
     }
   }, {
     key: "trackLinger",
-    value: function trackLinger(_ref3) {
-      var router = _ref3.router,
-          eventPostfix = _ref3.eventPostfix;
+    value: function trackLinger(_ref4) {
+      var router = _ref4.router,
+          eventPostfix = _ref4.eventPostfix;
       var trackProps = {
         router: router,
         appName: this._deps.brandConfig.appName,
@@ -334,7 +395,7 @@ var Analytics = (_dec = (0, _di.Module)({
   }, {
     key: "trackProps",
     get: function get() {
-      var _this$_deps$locale, _this$_deps$locale2, _this$_deps$extension4;
+      var _this$_deps$locale, _this$_deps$locale2, _this$_deps$extension7;
 
       return {
         appName: this._deps.brandConfig.appName,
@@ -342,12 +403,12 @@ var Analytics = (_dec = (0, _di.Module)({
         brand: this._deps.brandConfig.brandCode,
         'App Language': ((_this$_deps$locale = this._deps.locale) === null || _this$_deps$locale === void 0 ? void 0 : _this$_deps$locale.currentLocale) || '',
         'Browser Language': ((_this$_deps$locale2 = this._deps.locale) === null || _this$_deps$locale2 === void 0 ? void 0 : _this$_deps$locale2.browserLocale) || '',
-        'Extension Type': ((_this$_deps$extension4 = this._deps.extensionInfo) === null || _this$_deps$extension4 === void 0 ? void 0 : _this$_deps$extension4.info.type) || ''
+        'Extension Type': ((_this$_deps$extension7 = this._deps.extensionInfo) === null || _this$_deps$extension7 === void 0 ? void 0 : _this$_deps$extension7.info.type) || ''
       };
     }
   }]);
 
   return Analytics;
-}(_core.RcModuleV2), _temp)) || _class);
+}(_core.RcModuleV2)) || _class);
 exports.Analytics = Analytics;
 //# sourceMappingURL=Analytics.js.map

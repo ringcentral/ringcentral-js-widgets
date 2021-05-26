@@ -1,9 +1,6 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.CallLogger = void 0;
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 require("core-js/modules/es6.object.define-properties");
 
@@ -41,8 +38,6 @@ require("core-js/modules/es6.object.set-prototype-of");
 
 require("core-js/modules/es6.object.define-property");
 
-require("core-js/modules/es6.array.reduce");
-
 require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
@@ -50,6 +45,13 @@ require("core-js/modules/es6.array.iterator");
 require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.keys");
+
+require("core-js/modules/es6.array.reduce");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.CallLogger = void 0;
 
 require("core-js/modules/es6.array.find-index");
 
@@ -79,11 +81,9 @@ var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
 
 var _callLoggerHelper = require("./callLoggerHelper");
 
-var _dec, _dec2, _class, _class2, _descriptor, _descriptor2, _descriptor3, _temp;
+var _dec, _dec2, _class, _class2, _descriptor, _descriptor2, _descriptor3;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
@@ -156,7 +156,7 @@ var CallLogger = (_dec = (0, _di.Module)({
   }]
 }), _dec2 = (0, _core.computed)(function (that) {
   return [that.transferredCallsList];
-}), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_LoggerBase) {
+}), _dec(_class = (_class2 = /*#__PURE__*/function (_LoggerBase) {
   _inherits(CallLogger, _LoggerBase);
 
   var _super = _createSuper(CallLogger);
@@ -574,6 +574,27 @@ var CallLogger = (_dec = (0, _di.Module)({
       return _onCallUpdated;
     }()
   }, {
+    key: "_onCallAnswered",
+    value: function () {
+      var _onCallAnswered2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9(call) {
+        return regeneratorRuntime.wrap(function _callee9$(_context9) {
+          while (1) {
+            switch (_context9.prev = _context9.next) {
+              case 0:
+              case "end":
+                return _context9.stop();
+            }
+          }
+        }, _callee9);
+      }));
+
+      function _onCallAnswered(_x10) {
+        return _onCallAnswered2.apply(this, arguments);
+      }
+
+      return _onCallAnswered;
+    }()
+  }, {
     key: "onInitOnce",
     value: function onInitOnce() {
       var _this2 = this;
@@ -601,6 +622,10 @@ var CallLogger = (_dec = (0, _di.Module)({
                   isTransferredCall: !!_this2.transferredCallsMap[call.sessionId],
                   transferredMiddleNumber: _this2.transferredCallsMap[call.sessionId] ? _this2.transferredCallsMap[call.sessionId].transferredMiddleNumber : null
                 }), _callLoggerTriggerTypes.callLoggerTriggerTypes.presenceUpdate);
+
+                if (oldCall.telephonyStatus === 'Ringing' && call.telephonyStatus === 'CallConnected') {
+                  _this2._onCallAnswered(call);
+                }
               }
 
               if ((call.from && call.from.phoneNumber) !== (oldCall.from && oldCall.from.phoneNumber)) {
@@ -656,39 +681,13 @@ var CallLogger = (_dec = (0, _di.Module)({
   }, {
     key: "setAutoLog",
     value: function () {
-      var _setAutoLog2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9(autoLog) {
-        return regeneratorRuntime.wrap(function _callee9$(_context9) {
-          while (1) {
-            switch (_context9.prev = _context9.next) {
-              case 0:
-                if (this.ready && autoLog !== this.autoLog) {
-                  this._setAutoLog(autoLog);
-                }
-
-              case 1:
-              case "end":
-                return _context9.stop();
-            }
-          }
-        }, _callee9, this);
-      }));
-
-      function setAutoLog(_x10) {
-        return _setAutoLog2.apply(this, arguments);
-      }
-
-      return setAutoLog;
-    }()
-  }, {
-    key: "setLogOnRinging",
-    value: function () {
-      var _setLogOnRinging2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10(logOnRinging) {
+      var _setAutoLog2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10(autoLog) {
         return regeneratorRuntime.wrap(function _callee10$(_context10) {
           while (1) {
             switch (_context10.prev = _context10.next) {
               case 0:
-                if (this.ready && logOnRinging !== this.logOnRinging) {
-                  this._setLogOnRinging(logOnRinging);
+                if (this.ready && autoLog !== this.autoLog) {
+                  this._setAutoLog(autoLog);
                 }
 
               case 1:
@@ -699,7 +698,33 @@ var CallLogger = (_dec = (0, _di.Module)({
         }, _callee10, this);
       }));
 
-      function setLogOnRinging(_x11) {
+      function setAutoLog(_x11) {
+        return _setAutoLog2.apply(this, arguments);
+      }
+
+      return setAutoLog;
+    }()
+  }, {
+    key: "setLogOnRinging",
+    value: function () {
+      var _setLogOnRinging2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee11(logOnRinging) {
+        return regeneratorRuntime.wrap(function _callee11$(_context11) {
+          while (1) {
+            switch (_context11.prev = _context11.next) {
+              case 0:
+                if (this.ready && logOnRinging !== this.logOnRinging) {
+                  this._setLogOnRinging(logOnRinging);
+                }
+
+              case 1:
+              case "end":
+                return _context11.stop();
+            }
+          }
+        }, _callee11, this);
+      }));
+
+      function setLogOnRinging(_x12) {
         return _setLogOnRinging2.apply(this, arguments);
       }
 
@@ -715,7 +740,7 @@ var CallLogger = (_dec = (0, _di.Module)({
   }]);
 
   return CallLogger;
-}(_LoggerBaseV.LoggerBase), _temp), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "autoLog", [_core.storage, _core.state], {
+}(_LoggerBaseV.LoggerBase), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "autoLog", [_core.storage, _core.state], {
   configurable: true,
   enumerable: true,
   writable: true,

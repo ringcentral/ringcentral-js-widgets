@@ -1,9 +1,6 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = void 0;
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 require("core-js/modules/es6.function.name");
 
@@ -45,6 +42,11 @@ require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.for-each");
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
+
 require("core-js/modules/es6.array.map");
 
 require("core-js/modules/es6.array.filter");
@@ -83,11 +85,9 @@ var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
 
 var _ensureExist = _interopRequireDefault(require("../../lib/ensureExist"));
 
-var _dec, _class, _class2, _descriptor, _descriptor2, _descriptor3, _temp;
+var _dec, _class, _class2, _descriptor, _descriptor2, _descriptor3;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
@@ -155,7 +155,7 @@ var Presence = (_dec = (0, _di.Module)({
     dep: 'PresenceOptions',
     optional: true
   }]
-}), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_DataFetcher) {
+}), _dec(_class = (_class2 = /*#__PURE__*/function (_DataFetcher) {
   _inherits(Presence, _DataFetcher);
 
   var _super = _createSuper(Presence);
@@ -718,7 +718,7 @@ var Presence = (_dec = (0, _di.Module)({
   }]);
 
   return Presence;
-}(_DataFetcher2["default"]), _temp), (_applyDecoratedDescriptor(_class2.prototype, "_update", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_update"), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, "activeCalls", [_selector.selector], {
+}(_DataFetcher2["default"]), (_applyDecoratedDescriptor(_class2.prototype, "_update", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_update"), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, "activeCalls", [_selector.selector], {
   configurable: true,
   enumerable: true,
   writable: true,

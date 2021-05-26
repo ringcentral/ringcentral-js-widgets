@@ -1,13 +1,6 @@
 "use strict";
 
-require("core-js/modules/es6.array.map");
-
-require("core-js/modules/es6.array.sort");
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.ActiveCalls = void 0;
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -45,6 +38,15 @@ require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.for-each");
 
+require("core-js/modules/es6.array.map");
+
+require("core-js/modules/es6.array.sort");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.ActiveCalls = void 0;
+
 require("regenerator-runtime/runtime");
 
 var _core = require("@ringcentral-integration/core");
@@ -63,11 +65,9 @@ var _fetchList = _interopRequireDefault(require("../../lib/fetchList"));
 
 var _DataFetcherV = require("../DataFetcherV2");
 
-var _dec, _dec2, _class, _class2, _temp;
+var _dec, _dec2, _class, _class2;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -106,7 +106,7 @@ var DEFAULT_FETCH_DELAY = 1000;
 var DEFAULT_TTL = 5 * 60 * 1000;
 var ActiveCalls = (_dec = (0, _di.Module)({
   name: 'ActiveCalls',
-  deps: ['Client', 'RolesAndPermissions', 'DataFetcherV2', 'Subscription', {
+  deps: ['Client', 'ExtensionFeatures', 'DataFetcherV2', 'Subscription', {
     dep: 'TabManager',
     optional: true
   }, {
@@ -116,7 +116,7 @@ var ActiveCalls = (_dec = (0, _di.Module)({
 }), _dec2 = (0, _core.computed)(function (_ref) {
   var data = _ref.data;
   return [data];
-}), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_DataFetcherV2Consume) {
+}), _dec(_class = (_class2 = /*#__PURE__*/function (_DataFetcherV2Consume) {
   _inherits(ActiveCalls, _DataFetcherV2Consume);
 
   var _super = _createSuper(ActiveCalls);
@@ -165,10 +165,12 @@ var ActiveCalls = (_dec = (0, _di.Module)({
         return fetchFunction;
       }(),
       readyCheckFunction: function readyCheckFunction() {
-        return !!(_this._deps.rolesAndPermissions.ready && _this._deps.subscription.ready);
+        return !!(_this._deps.extensionFeatures.ready && _this._deps.subscription.ready);
       },
       permissionCheckFunction: function permissionCheckFunction() {
-        return !!_this._deps.rolesAndPermissions.permissions.ReadCallLog;
+        var _this$_deps$extension, _this$_deps$extension2, _this$_deps$extension3;
+
+        return (_this$_deps$extension = (_this$_deps$extension2 = _this._deps.extensionFeatures.features) === null || _this$_deps$extension2 === void 0 ? void 0 : (_this$_deps$extension3 = _this$_deps$extension2.ReadExtensionCallLog) === null || _this$_deps$extension3 === void 0 ? void 0 : _this$_deps$extension3.available) !== null && _this$_deps$extension !== void 0 ? _this$_deps$extension : false;
       }
     }));
 
@@ -236,6 +238,6 @@ var ActiveCalls = (_dec = (0, _di.Module)({
   }]);
 
   return ActiveCalls;
-}(_DataFetcherV.DataFetcherV2Consumer), _temp), (_applyDecoratedDescriptor(_class2.prototype, "calls", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "calls"), _class2.prototype)), _class2)) || _class);
+}(_DataFetcherV.DataFetcherV2Consumer), (_applyDecoratedDescriptor(_class2.prototype, "calls", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "calls"), _class2.prototype)), _class2)) || _class);
 exports.ActiveCalls = ActiveCalls;
 //# sourceMappingURL=ActiveCalls.js.map

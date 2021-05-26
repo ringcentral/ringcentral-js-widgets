@@ -1,11 +1,6 @@
 "use strict";
 
-require("core-js/modules/es6.array.find");
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = void 0;
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -41,6 +36,13 @@ require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.for-each");
 
+require("core-js/modules/es6.array.find");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
+
 require("core-js/modules/es6.array.index-of");
 
 require("core-js/modules/es6.array.filter");
@@ -71,11 +73,9 @@ var _subscriptionHints = _interopRequireDefault(require("../../enums/subscriptio
 
 var _subscriptionFilters = _interopRequireDefault(require("../../enums/subscriptionFilters"));
 
-var _dec, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _temp;
+var _dec, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
 
@@ -127,7 +127,7 @@ _dec = (0, _di.Module)({
     dep: 'ExtensionPhoneNumberOptions',
     optional: true
   }]
-}), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_DataFetcher) {
+}), _dec(_class = (_class2 = /*#__PURE__*/function (_DataFetcher) {
   _inherits(ExtensionPhoneNumber, _DataFetcher);
 
   var _super = _createSuper(ExtensionPhoneNumber);
@@ -269,7 +269,7 @@ _dec = (0, _di.Module)({
   }]);
 
   return ExtensionPhoneNumber;
-}(_DataFetcher2["default"]), _temp), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "numbers", [_selector.selector], {
+}(_DataFetcher2["default"]), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "numbers", [_selector.selector], {
   configurable: true,
   enumerable: true,
   writable: true,

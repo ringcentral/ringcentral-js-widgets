@@ -1,15 +1,6 @@
 "use strict";
 
-require("core-js/modules/es6.array.map");
-
-require("core-js/modules/es6.array.find-index");
-
-require("core-js/modules/es6.array.sort");
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.CallMonitor = void 0;
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 require("core-js/modules/es6.string.iterator");
 
@@ -37,11 +28,22 @@ require("core-js/modules/es6.object.set-prototype-of");
 
 require("core-js/modules/es6.object.define-property");
 
-require("core-js/modules/es6.array.reduce");
-
 require("core-js/modules/es6.object.keys");
 
+require("core-js/modules/es6.array.reduce");
+
+require("core-js/modules/es6.array.map");
+
+require("core-js/modules/es6.array.find-index");
+
 require("core-js/modules/es6.array.for-each");
+
+require("core-js/modules/es6.array.sort");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.CallMonitor = void 0;
 
 require("core-js/modules/es6.function.name");
 
@@ -83,11 +85,9 @@ var _helpers = require("../ActiveCallControlV2/helpers");
 
 var _callEvents = require("./callEvents");
 
-var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _dec10, _dec11, _dec12, _dec13, _dec14, _dec15, _dec16, _dec17, _dec18, _dec19, _dec20, _dec21, _dec22, _dec23, _dec24, _dec25, _dec26, _dec27, _dec28, _dec29, _dec30, _dec31, _dec32, _class, _class2, _descriptor, _temp;
+var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _dec10, _dec11, _dec12, _dec13, _dec14, _dec15, _dec16, _dec17, _dec18, _dec19, _dec20, _dec21, _dec22, _dec23, _dec24, _dec25, _dec26, _dec27, _dec28, _dec29, _dec30, _dec31, _dec32, _class, _class2, _descriptor;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
@@ -206,7 +206,7 @@ var CallMonitor = (_dec = (0, _di.Module)({
   return [that.otherDeviceCalls];
 }), _dec32 = (0, _core.computed)(function (that) {
   return [that.otherDeviceCalls];
-}), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcModuleV) {
+}), _dec(_class = (_class2 = /*#__PURE__*/function (_RcModuleV) {
   _inherits(CallMonitor, _RcModuleV);
 
   var _super = _createSuper(CallMonitor);
@@ -337,6 +337,15 @@ var CallMonitor = (_dec = (0, _di.Module)({
         if (!_this2.ready) return;
 
         _this2.handleCalls((_lastProcessedCalls$s = lastProcessedCalls === null || lastProcessedCalls === void 0 ? void 0 : lastProcessedCalls.slice()) !== null && _lastProcessedCalls$s !== void 0 ? _lastProcessedCalls$s : []);
+      });
+      (0, _core.watch)(this, function () {
+        return _this2.ready;
+      }, function () {
+        if (_this2.ready) {
+          // It is possible that `this.calls` may have changed before the `CallMonitor` module status becomes `true`.
+          // So make sure that in this case, `this.calls` handling must be forced
+          _this2.handleCalls([]);
+        }
       });
     }
   }, {
@@ -869,7 +878,7 @@ var CallMonitor = (_dec = (0, _di.Module)({
   }]);
 
   return CallMonitor;
-}(_core.RcModuleV2), _temp), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "callMatched", [_core.storage, _core.state], {
+}(_core.RcModuleV2), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "callMatched", [_core.storage, _core.state], {
   configurable: true,
   enumerable: true,
   writable: true,

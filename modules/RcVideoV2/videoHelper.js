@@ -1,32 +1,5 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.assignObject = assignObject;
-exports.getDefaultChars = getDefaultChars;
-exports.validateRandomPassword = validateRandomPassword;
-exports.generateRandomPassword = generateRandomPassword;
-exports.validatePasswordSettings = validatePasswordSettings;
-exports.getVideoSettings = getVideoSettings;
-exports.getDefaultVideoSettings = getDefaultVideoSettings;
-exports.getTopic = getTopic;
-exports.pruneMeetingObject = pruneMeetingObject;
-exports.transformPreferences = transformPreferences;
-exports.reversePreferences = reversePreferences;
-exports.prunePreferencesObject = prunePreferencesObject;
-exports.comparePreferences = comparePreferences;
-exports.transformSettingLocks = transformSettingLocks;
-exports.getLockedPreferences = getLockedPreferences;
-exports.patchWaitingRoomRelated = patchWaitingRoomRelated;
-Object.defineProperty(exports, "RCV_WAITING_ROOM_MODE", {
-  enumerable: true,
-  get: function get() {
-    return _constants.RCV_WAITING_ROOM_MODE;
-  }
-});
-exports.meetingProviderTypes = exports.RcVideoTypes = exports.RCV_WAITTING_ROOM_API_KEYS = exports.RCV_PREFERENCES_KEYS = exports.RCV_PREFERENCES_IDS = exports.RCV_PASSWORD_REGEX = void 0;
-
 require("core-js/modules/es6.string.iterator");
 
 require("core-js/modules/es6.array.from");
@@ -50,6 +23,37 @@ require("core-js/modules/es6.array.filter");
 require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.symbol");
+
+require("core-js/modules/es6.array.map");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.assignObject = assignObject;
+exports.getDefaultChars = getDefaultChars;
+exports.validateRandomPassword = validateRandomPassword;
+exports.generateRandomPassword = generateRandomPassword;
+exports.validatePasswordSettings = validatePasswordSettings;
+exports.getVideoSettings = getVideoSettings;
+exports.getDefaultVideoSettings = getDefaultVideoSettings;
+exports.getTopic = getTopic;
+exports.pruneMeetingObject = pruneMeetingObject;
+exports.transformPreferences = transformPreferences;
+exports.reversePreferences = reversePreferences;
+exports.prunePreferencesObject = prunePreferencesObject;
+exports.comparePreferences = comparePreferences;
+exports.transformSettingLocks = transformSettingLocks;
+exports.getLockedPreferences = getLockedPreferences;
+exports.patchWaitingRoomRelated = patchWaitingRoomRelated;
+exports.formatMainPhoneNumber = formatMainPhoneNumber;
+exports.formatPremiumNumbers = formatPremiumNumbers;
+Object.defineProperty(exports, "RCV_WAITING_ROOM_MODE", {
+  enumerable: true,
+  get: function get() {
+    return _constants.RCV_WAITING_ROOM_MODE;
+  }
+});
+exports.meetingProviderTypes = exports.RcVideoTypes = exports.RCV_WAITTING_ROOM_API_KEYS = exports.RCV_PREFERENCES_KEYS = exports.RCV_PREFERENCES_IDS = exports.RCV_PASSWORD_REGEX = void 0;
 
 require("core-js/modules/es6.array.index-of");
 
@@ -382,6 +386,35 @@ function patchWaitingRoomRelated(settings, _ref2) {
   }
 
   return processedSettings;
+}
+
+function formatMainPhoneNumber(dialInNumber) {
+  if (typeof dialInNumber === 'string') {
+    return dialInNumber;
+  }
+
+  if (!dialInNumber || dialInNumber.length === 0) {
+    return undefined;
+  }
+
+  return dialInNumber[0].phoneNumber;
+}
+
+function formatPremiumNumbers(dialInNumber) {
+  if (typeof dialInNumber === 'string') {
+    return [dialInNumber];
+  }
+
+  if (!dialInNumber || dialInNumber.length === 0) {
+    return [];
+  }
+
+  return (0, _ramda.map)(function (obj) {
+    var _obj$country, _obj$country2;
+
+    var locationField = (obj === null || obj === void 0 ? void 0 : (_obj$country = obj.country) === null || _obj$country === void 0 ? void 0 : _obj$country.name) && obj.location ? "".concat(obj.country.name, " (").concat(obj.location, ")") : (obj === null || obj === void 0 ? void 0 : (_obj$country2 = obj.country) === null || _obj$country2 === void 0 ? void 0 : _obj$country2.name) || '';
+    return "".concat(obj.phoneNumber, " ").concat(locationField);
+  }, dialInNumber);
 } // TODO: will remove this when google app script could support export seperately
 // export together because google app script not fully support export
 //# sourceMappingURL=videoHelper.js.map

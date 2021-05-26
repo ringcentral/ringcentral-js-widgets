@@ -1,13 +1,6 @@
 "use strict";
 
-require("core-js/modules/es6.array.map");
-
-require("core-js/modules/es6.array.find");
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.CompanyContacts = void 0;
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 require("core-js/modules/es6.function.name");
 
@@ -27,8 +20,6 @@ require("core-js/modules/es6.object.define-properties");
 
 require("core-js/modules/es7.object.get-own-property-descriptors");
 
-require("core-js/modules/es6.array.filter");
-
 require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.object.create");
@@ -43,8 +34,6 @@ require("core-js/modules/es6.object.set-prototype-of");
 
 require("core-js/modules/es6.object.define-property");
 
-require("core-js/modules/es6.array.reduce");
-
 require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
@@ -53,7 +42,20 @@ require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.keys");
 
+require("core-js/modules/es6.array.map");
+
+require("core-js/modules/es6.array.filter");
+
+require("core-js/modules/es6.array.reduce");
+
+require("core-js/modules/es6.array.find");
+
 require("core-js/modules/es6.array.for-each");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.CompanyContacts = void 0;
 
 require("core-js/modules/es6.date.now");
 
@@ -77,11 +79,9 @@ var _fetchList = _interopRequireDefault(require("../../lib/fetchList"));
 
 var _DataFetcherV = require("../DataFetcherV2");
 
-var _dec, _dec2, _dec3, _dec4, _class, _class2, _descriptor, _descriptor2, _descriptor3, _temp;
+var _dec, _dec2, _dec3, _dec4, _class, _class2, _descriptor, _descriptor2, _descriptor3;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
@@ -138,7 +138,7 @@ function _initializerWarningHelper(descriptor, context) { throw new Error('Decor
 /**
  * TODO:
  * 1. Consider moving the filters to some UI module for display contact list
- * 2. Find out whether there are other types should be searchable/mactchable, but hidden in contact lists
+ * 2. Find out whether there are other types should be searchable/matchable, but hidden in contact lists
  * 3. Find out whether isAvailableExtension can be better defined in our business logic layer
  * 4. Standardize and remove the IVR contacts special treatments
  */
@@ -159,7 +159,7 @@ var DEFAULT_SELECTED_TYPES = [_extensionTypes.extensionTypes.digitalUser, _exten
 ];
 var CompanyContacts = (_dec = (0, _di.Module)({
   name: 'CompanyContacts',
-  deps: ['Client', 'RolesAndPermissions', 'DataFetcherV2', 'Subscription', {
+  deps: ['Client', 'ExtensionFeatures', 'DataFetcherV2', 'Subscription', 'Storage', {
     dep: 'TabManager',
     optional: true
   }, {
@@ -178,7 +178,7 @@ var CompanyContacts = (_dec = (0, _di.Module)({
 }), _dec4 = (0, _core.computed)(function (_ref3) {
   var data = _ref3.data;
   return [data];
-}), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_DataFetcherV2Consume) {
+}), _dec(_class = (_class2 = /*#__PURE__*/function (_DataFetcherV2Consume) {
   _inherits(CompanyContacts, _DataFetcherV2Consume);
 
   var _super = _createSuper(CompanyContacts);
@@ -237,10 +237,12 @@ var CompanyContacts = (_dec = (0, _di.Module)({
         return fetchFunction;
       }(),
       readyCheckFunction: function readyCheckFunction() {
-        return _this._deps.rolesAndPermissions.ready && _this._deps.subscription.ready;
+        return _this._deps.extensionFeatures.ready && _this._deps.subscription.ready;
       },
       permissionCheckFunction: function permissionCheckFunction() {
-        return !!_this._deps.rolesAndPermissions.permissions.ReadExtensions;
+        var _this$_deps$extension, _this$_deps$extension2;
+
+        return (_this$_deps$extension = (_this$_deps$extension2 = _this._deps.extensionFeatures.features) === null || _this$_deps$extension2 === void 0 ? void 0 : _this$_deps$extension2.ReadExtensions.available) !== null && _this$_deps$extension !== void 0 ? _this$_deps$extension : false;
       }
     }));
 
@@ -393,7 +395,7 @@ var CompanyContacts = (_dec = (0, _di.Module)({
   }]);
 
   return CompanyContacts;
-}(_DataFetcherV.DataFetcherV2Consumer), _temp), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "_showDisabled", [_core.storage, _core.state], {
+}(_DataFetcherV.DataFetcherV2Consumer), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "_showDisabled", [_core.storage, _core.state], {
   configurable: true,
   enumerable: true,
   writable: true,

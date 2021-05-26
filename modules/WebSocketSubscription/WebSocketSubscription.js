@@ -1,9 +1,6 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.WebSocketSubscription = void 0;
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -35,6 +32,11 @@ require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.for-each");
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.WebSocketSubscription = void 0;
+
 require("core-js/modules/es7.array.includes");
 
 require("core-js/modules/es6.string.includes");
@@ -61,9 +63,7 @@ var _webSocketReadyStates = require("../RingCentralExtensions/webSocketReadyStat
 
 var _normalizeEventFilter = require("./normalizeEventFilter");
 
-var _dec, _class, _class2, _descriptor, _descriptor2, _temp;
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+var _dec, _class, _class2, _descriptor, _descriptor2;
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -101,7 +101,7 @@ var WebSocketSubscription = (_dec = (0, _di.Module)({
     dep: 'WebSocketSubscriptionOptions',
     optional: true
   }]
-}), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcModuleV) {
+}), _dec(_class = (_class2 = /*#__PURE__*/function (_RcModuleV) {
   _inherits(WebSocketSubscription, _RcModuleV);
 
   var _super = _createSuper(WebSocketSubscription);
@@ -336,32 +336,40 @@ var WebSocketSubscription = (_dec = (0, _di.Module)({
                 return _context6.abrupt("return");
 
               case 4:
-                if (this._wsSubscription) {
-                  _context6.next = 9;
+                if (this._isWebSocketOpened()) {
+                  _context6.next = 6;
                   break;
                 }
 
-                _context6.next = 7;
+                return _context6.abrupt("return");
+
+              case 6:
+                if (this._wsSubscription) {
+                  _context6.next = 11;
+                  break;
+                }
+
+                _context6.next = 9;
                 return this._createSubscription();
 
-              case 7:
-                _context6.next = 12;
+              case 9:
+                _context6.next = 14;
                 break;
 
-              case 9:
+              case 11:
                 if (!(this.filters.map(function (x) {
                   return (0, _normalizeEventFilter.normalizeEventFilter)(x);
                 }).sort().join(',') !== ((_this$_wsSubscription = this._wsSubscription.subscriptionInfo) === null || _this$_wsSubscription === void 0 ? void 0 : _this$_wsSubscription.eventFilters.map(function (x) {
                   return (0, _normalizeEventFilter.normalizeEventFilter)(x);
                 }).sort().join(',')))) {
-                  _context6.next = 12;
+                  _context6.next = 14;
                   break;
                 }
 
-                _context6.next = 12;
+                _context6.next = 14;
                 return this._refreshSubscription();
 
-              case 12:
+              case 14:
               case "end":
                 return _context6.stop();
             }
@@ -499,7 +507,7 @@ var WebSocketSubscription = (_dec = (0, _di.Module)({
   }]);
 
   return WebSocketSubscription;
-}(_core.RcModuleV2), _temp), (_applyDecoratedDescriptor(_class2.prototype, "subscribe", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "subscribe"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "unsubscribe", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "unsubscribe"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_addFilters", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_addFilters"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_removeFilters", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_removeFilters"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_notifyMessage", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_notifyMessage"), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, "filters", [_core.state], {
+}(_core.RcModuleV2), (_applyDecoratedDescriptor(_class2.prototype, "subscribe", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "subscribe"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "unsubscribe", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "unsubscribe"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_addFilters", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_addFilters"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_removeFilters", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_removeFilters"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_notifyMessage", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_notifyMessage"), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, "filters", [_core.state], {
   configurable: true,
   enumerable: true,
   writable: true,

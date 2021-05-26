@@ -1,10 +1,5 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.ConferenceCall = void 0;
-
 require("core-js/modules/es6.array.from");
 
 require("core-js/modules/es7.symbol.async-iterator");
@@ -28,6 +23,11 @@ require("core-js/modules/es6.object.set-prototype-of");
 require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.object.keys");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.ConferenceCall = void 0;
 
 require("core-js/modules/es6.array.find");
 
@@ -59,35 +59,35 @@ require("core-js/modules/es6.object.to-string");
 
 require("regenerator-runtime/runtime");
 
-var _ramda = require("ramda");
+var _core = require("@ringcentral-integration/core");
 
 var _events = require("events");
 
-var _core = require("@ringcentral-integration/core");
+var _ramda = require("ramda");
+
+var _callDirections = _interopRequireDefault(require("../../enums/callDirections"));
+
+var _calleeTypes = _interopRequireDefault(require("../../enums/calleeTypes"));
 
 var _di = require("../../lib/di");
 
 var _proxify = require("../../lib/proxy/proxify");
 
-var _calleeTypes = _interopRequireDefault(require("../../enums/calleeTypes"));
-
-var _callDirections = _interopRequireDefault(require("../../enums/callDirections"));
+var _Analytics = require("../Analytics");
 
 var _callingModes = _interopRequireDefault(require("../CallingSettings/callingModes"));
 
 var _permissionsMessages = require("../RolesAndPermissions/permissionsMessages");
 
-var _webphoneHelper = require("../Webphone/webphoneHelper");
-
 var _sessionStatus = _interopRequireDefault(require("../Webphone/sessionStatus"));
 
-var _lib = require("./lib");
+var _webphoneHelper = require("../Webphone/webphoneHelper");
 
 var _conferenceCallErrors = require("./conferenceCallErrors");
 
-var _Analytics = require("../Analytics");
+var _lib = require("./lib");
 
-var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _temp;
+var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -149,7 +149,7 @@ function _initializerWarningHelper(descriptor, context) { throw new Error('Decor
 
 var ConferenceCall = (_dec = (0, _di.Module)({
   name: 'ConferenceCall',
-  deps: ['Auth', 'Alert', 'Call', 'CallingSettings', 'ConnectivityMonitor', 'Client', 'RolesAndPermissions', {
+  deps: ['Auth', 'Alert', 'Call', 'CallingSettings', 'ConnectivityMonitor', 'Client', 'ExtensionFeatures', {
     dep: 'ContactMatcher',
     optional: true
   }, {
@@ -166,7 +166,7 @@ var ConferenceCall = (_dec = (0, _di.Module)({
   return [that._deps.webphone.sessions, that.mergingPair.fromSessionId, that.partyProfiles];
 }), _dec6 = (0, _core.computed)(function (that) {
   return [that.currentConferenceId, that.conferences];
-}), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcModuleV) {
+}), _dec(_class = (_class2 = /*#__PURE__*/function (_RcModuleV) {
   _inherits(ConferenceCall, _RcModuleV);
 
   var _super = _createSuper(ConferenceCall);
@@ -185,7 +185,7 @@ var ConferenceCall = (_dec = (0, _di.Module)({
     _this._timers = {};
     _this._fromSessionId = void 0;
     _this._ttl = _lib.DEFAULT_TTL;
-    _this._timout = (_this$_deps$conferenc = (_this$_deps$conferenc2 = _this._deps.conferenceCallOptions) === null || _this$_deps$conferenc2 === void 0 ? void 0 : _this$_deps$conferenc2.timeout) !== null && _this$_deps$conferenc !== void 0 ? _this$_deps$conferenc : _lib.DEFAULT_TIMEOUT;
+    _this._timeout = (_this$_deps$conferenc = (_this$_deps$conferenc2 = _this._deps.conferenceCallOptions) === null || _this$_deps$conferenc2 === void 0 ? void 0 : _this$_deps$conferenc2.timeout) !== null && _this$_deps$conferenc !== void 0 ? _this$_deps$conferenc : _lib.DEFAULT_TIMEOUT;
     _this._capacity = (_this$_deps$conferenc3 = (_this$_deps$conferenc4 = _this._deps.conferenceCallOptions) === null || _this$_deps$conferenc4 === void 0 ? void 0 : _this$_deps$conferenc4.capacity) !== null && _this$_deps$conferenc3 !== void 0 ? _this$_deps$conferenc3 : _lib.MAXIMUM_CAPACITY;
     _this._pulling = (_this$_deps$conferenc5 = (_this$_deps$conferenc6 = _this._deps.conferenceCallOptions) === null || _this$_deps$conferenc6 === void 0 ? void 0 : _this$_deps$conferenc6.pulling) !== null && _this$_deps$conferenc5 !== void 0 ? _this$_deps$conferenc5 : true;
     _this._lastCallInfo = void 0;
@@ -644,6 +644,7 @@ var ConferenceCall = (_dec = (0, _di.Module)({
                   break;
                 }
 
+                // TODO investigate whether this could potentially show 2 notifications at once
                 if (!propagate) {
                   alert.danger({
                     message: _permissionsMessages.permissionsMessages.insufficientPrivilege,
@@ -790,6 +791,10 @@ var ConferenceCall = (_dec = (0, _di.Module)({
                    *  then terminate the conference.
                    */
 
+                  /**
+                   * if create conference successfully but failed to bring-in,
+                   *  then terminate the conference.
+                   */
                   if (conferenceState && conferenceState.profiles.length < 1) {
                     _this2.terminateConference(conferenceState.conference.id);
                   }
@@ -1100,7 +1105,7 @@ var ConferenceCall = (_dec = (0, _di.Module)({
         throw new Error('The timeout must be a number');
       }
 
-      this._timout = timeout;
+      this._timeout = timeout;
       return timeout;
     }
   }, {
@@ -1151,15 +1156,12 @@ var ConferenceCall = (_dec = (0, _di.Module)({
   }, {
     key: "_checkPermission",
     value: function _checkPermission() {
-      var _this$_deps6 = this._deps,
-          rolesAndPermissions = _this$_deps6.rolesAndPermissions,
-          alert = _this$_deps6.alert;
-
-      if (!rolesAndPermissions.hasConferenceCallPermission) {
-        alert.danger({
+      if (!this.hasPermission) {
+        this._deps.alert.danger({
           message: _permissionsMessages.permissionsMessages.insufficientPrivilege,
           ttl: 0
         });
+
         return false;
       }
 
@@ -1317,7 +1319,7 @@ var ConferenceCall = (_dec = (0, _di.Module)({
                 }), new Promise(function (resolve, reject) {
                   setTimeout(function () {
                     return conferenceAccepted ? resolve(null) : reject(new Error('conferencing timeout'));
-                  }, _this5._timout);
+                  }, _this5._timeout);
                 })]);
 
               case 34:
@@ -1346,7 +1348,7 @@ var ConferenceCall = (_dec = (0, _di.Module)({
     value: function () {
       var _makeConference3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee15() {
         var propagate,
-            _this$_deps7,
+            _this$_deps6,
             client,
             call,
             availabilityMonitor,
@@ -1363,7 +1365,7 @@ var ConferenceCall = (_dec = (0, _di.Module)({
             switch (_context15.prev = _context15.next) {
               case 0:
                 propagate = _args15.length > 0 && _args15[0] !== undefined ? _args15[0] : false;
-                _this$_deps7 = this._deps, client = _this$_deps7.client, call = _this$_deps7.call, availabilityMonitor = _this$_deps7.availabilityMonitor, alert = _this$_deps7.alert;
+                _this$_deps6 = this._deps, client = _this$_deps6.client, call = _this$_deps6.call, availabilityMonitor = _this$_deps6.availabilityMonitor, alert = _this$_deps6.alert;
                 this.setConferenceCallStatus(_lib.conferenceCallStatus.requesting);
                 _context15.prev = 3;
                 _context15.next = 6;
@@ -1450,9 +1452,9 @@ var ConferenceCall = (_dec = (0, _di.Module)({
   }, {
     key: "_getProfile",
     value: function _getProfile(sessionId) {
-      var _this$_deps8 = this._deps,
-          webphone = _this$_deps8.webphone,
-          contactMatcher = _this$_deps8.contactMatcher;
+      var _this$_deps7 = this._deps,
+          webphone = _this$_deps7.webphone,
+          contactMatcher = _this$_deps7.contactMatcher;
       var session = (0, _ramda.find)(function (session) {
         return session.id === sessionId;
       }, webphone.sessions);
@@ -1674,6 +1676,11 @@ var ConferenceCall = (_dec = (0, _di.Module)({
       return _get(_getPrototypeOf(ConferenceCall.prototype), "_shouldReset", this).call(this) || this.ready && !auth.loggedIn;
     }
   }, {
+    key: "hasPermission",
+    get: function get() {
+      return this._deps.extensionFeatures.isRingOutEnabled && this._deps.extensionFeatures.isWebPhoneEnabled;
+    }
+  }, {
     key: "lastCallInfo",
     get: function get() {
       var sessions = this._deps.webphone.sessions;
@@ -1793,7 +1800,7 @@ var ConferenceCall = (_dec = (0, _di.Module)({
   }]);
 
   return ConferenceCall;
-}(_core.RcModuleV2), _temp), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "conferences", [_core.state], {
+}(_core.RcModuleV2), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "conferences", [_core.state], {
   configurable: true,
   enumerable: true,
   writable: true,

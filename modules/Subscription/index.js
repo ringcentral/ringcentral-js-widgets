@@ -1,17 +1,12 @@
 "use strict";
 
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+require("core-js/modules/es7.symbol.async-iterator");
+
 require("core-js/modules/es6.string.iterator");
 
 require("core-js/modules/es6.weak-map");
-
-require("core-js/modules/es6.array.map");
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = void 0;
-
-require("core-js/modules/es7.symbol.async-iterator");
 
 require("core-js/modules/es6.promise");
 
@@ -49,6 +44,13 @@ require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.for-each");
 
+require("core-js/modules/es6.array.map");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
+
 require("core-js/modules/es6.array.sort");
 
 require("core-js/modules/es6.date.now");
@@ -82,8 +84,6 @@ function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -255,28 +255,29 @@ var Subscription = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                if (!(_this3.ready && _this3._subscription && Date.now() - t > 20 * 1000)) {
-                  _context3.next = 5;
+                if (!(_this3.ready && _this3._subscription && Date.now() - t > 75 * 1000)) {
+                  _context3.next = 6;
                   break;
                 }
 
-                _context3.next = 3;
+                console.log('==== Sleep Detected ====');
+                _context3.next = 4;
                 return _this3.remove();
 
-              case 3:
-                _context3.next = 5;
+              case 4:
+                _context3.next = 6;
                 return _this3._subscribe();
 
-              case 5:
+              case 6:
                 _this3._detectSleep();
 
-              case 6:
+              case 7:
               case "end":
                 return _context3.stop();
             }
           }
         }, _callee3);
-      })), 10 * 1000);
+      })), 20 * 1000);
     }
   }, {
     key: "_createSubscription",

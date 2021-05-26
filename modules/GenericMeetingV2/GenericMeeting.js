@@ -1,9 +1,6 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.GenericMeeting = void 0;
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -35,6 +32,11 @@ require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.for-each");
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.GenericMeeting = void 0;
+
 require("core-js/modules/es6.function.name");
 
 require("regenerator-runtime/runtime");
@@ -55,11 +57,9 @@ var _genericMeetingStatus = require("./genericMeetingStatus");
 
 var _RcVideoV = require("../RcVideoV2");
 
-var _dec, _class, _class2, _descriptor, _temp;
+var _dec, _class, _class2, _descriptor;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -97,7 +97,7 @@ var GenericMeeting = (_dec = (0, _di.Module)({
     dep: 'GenericMeetingOptions',
     optional: true
   }]
-}), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcModuleV) {
+}), _dec(_class = (_class2 = /*#__PURE__*/function (_RcModuleV) {
   _inherits(GenericMeeting, _RcModuleV);
 
   var _super = _createSuper(GenericMeeting);
@@ -277,7 +277,8 @@ var GenericMeeting = (_dec = (0, _di.Module)({
     key: "schedule",
     value: function () {
       var _schedule = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(meeting, config, opener) {
-        var result, rcvMeetingInfo;
+        var result, rcvMeetingInfo, _this$_deps$rcVideo$p;
+
         return regeneratorRuntime.wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
@@ -309,7 +310,7 @@ var GenericMeeting = (_dec = (0, _di.Module)({
                 }
 
                 _context5.next = 11;
-                return this._deps.rcVideo.updateMeeting(this._deps.rcVideo.personalMeeting.id, rcvMeetingInfo, config);
+                return this._deps.rcVideo.updateMeeting((_this$_deps$rcVideo$p = this._deps.rcVideo.personalMeeting) === null || _this$_deps$rcVideo$p === void 0 ? void 0 : _this$_deps$rcVideo$p.id, rcvMeetingInfo, config);
 
               case 11:
                 result = _context5.sent;
@@ -635,19 +636,9 @@ var GenericMeeting = (_dec = (0, _di.Module)({
       return this._deps.brand.name;
     }
   }, {
-    key: "showAdminLock",
-    get: function get() {
-      return !!this._meetingModule.showAdminLock;
-    }
-  }, {
     key: "enableServiceWebSettings",
     get: function get() {
       return !!this._meetingModule.enableServiceWebSettings;
-    }
-  }, {
-    key: "putRecurringMeetingInMiddle",
-    get: function get() {
-      return !!this._meetingModule.putRecurringMeetingInMiddle;
     }
   }, {
     key: "enablePersonalMeeting",
@@ -706,7 +697,7 @@ var GenericMeeting = (_dec = (0, _di.Module)({
   }]);
 
   return GenericMeeting;
-}(_core.RcModuleV2), _temp), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "updatingStatus", [_core.state], {
+}(_core.RcModuleV2), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "updatingStatus", [_core.state], {
   configurable: true,
   enumerable: true,
   writable: true,

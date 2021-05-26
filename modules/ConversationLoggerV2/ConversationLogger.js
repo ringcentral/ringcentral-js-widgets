@@ -1,9 +1,6 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.ConversationLogger = void 0;
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 require("core-js/modules/es6.function.name");
 
@@ -37,6 +34,11 @@ require("core-js/modules/es6.object.set-prototype-of");
 
 require("core-js/modules/es6.object.define-property");
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.ConversationLogger = void 0;
+
 require("core-js/modules/es7.object.values");
 
 require("core-js/modules/es6.array.find-index");
@@ -69,25 +71,23 @@ require("regenerator-runtime/runtime");
 
 var _core = require("@ringcentral-integration/core");
 
+var _messageTypes = require("../../enums/messageTypes");
+
 var _di = require("../../lib/di");
 
 var _LoggerBaseV = require("../../lib/LoggerBaseV2");
 
-var _messageTypes = require("../../enums/messageTypes");
-
 var _messageHelper = require("../../lib/messageHelper");
-
-var _sleep = _interopRequireDefault(require("../../lib/sleep"));
 
 var _proxify = require("../../lib/proxy/proxify");
 
+var _sleep = _interopRequireDefault(require("../../lib/sleep"));
+
 var _conversationLoggerHelper = require("./conversationLoggerHelper");
 
-var _dec, _dec2, _dec3, _dec4, _class, _class2, _descriptor, _temp;
+var _dec, _dec2, _dec3, _dec4, _class, _class2, _descriptor;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
@@ -147,7 +147,7 @@ function _initializerWarningHelper(descriptor, context) { throw new Error('Decor
 
 var ConversationLogger = (_dec = (0, _di.Module)({
   name: 'ConversationLogger',
-  deps: ['Auth', 'Storage', 'ContactMatcher', 'ConversationMatcher', 'DateTimeFormat', 'ExtensionInfo', 'MessageStore', 'RolesAndPermissions', 'ConversationLoggerOptions', {
+  deps: ['Auth', 'Storage', 'ContactMatcher', 'ConversationMatcher', 'DateTimeFormat', 'ExtensionInfo', 'MessageStore', 'ExtensionFeatures', 'ConversationLoggerOptions', {
     dep: 'TabManager',
     optional: true
   }]
@@ -157,7 +157,7 @@ var ConversationLogger = (_dec = (0, _di.Module)({
   return [that.conversationLogMap];
 }), _dec4 = (0, _core.computed)(function (that) {
   return [that.conversationLogMap];
-}), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_LoggerBase) {
+}), _dec(_class = (_class2 = /*#__PURE__*/function (_LoggerBase) {
   _inherits(ConversationLogger, _LoggerBase);
 
   var _super = _createSuper(ConversationLogger);
@@ -234,8 +234,8 @@ var ConversationLogger = (_dec = (0, _di.Module)({
       this.autoLog = autoLog;
     }
   }, {
-    key: "_onReset",
-    value: function _onReset() {
+    key: "onReset",
+    value: function onReset() {
       this._lastProcessedConversations = null;
       this._lastAutoLog = null;
       this._autoLogPromise = null;
@@ -633,10 +633,9 @@ var ConversationLogger = (_dec = (0, _di.Module)({
   }, {
     key: "available",
     get: function get() {
-      var _this$_deps$rolesAndP = this._deps.rolesAndPermissions.serviceFeatures,
-          SMSReceiving = _this$_deps$rolesAndP.SMSReceiving,
-          PagerReceiving = _this$_deps$rolesAndP.PagerReceiving;
-      return !!(SMSReceiving && SMSReceiving.enabled || PagerReceiving && PagerReceiving.enabled);
+      var _this$_deps$extension, _this$_deps$extension2, _this$_deps$extension3, _this$_deps$extension4;
+
+      return !!(((_this$_deps$extension = this._deps.extensionFeatures.features) === null || _this$_deps$extension === void 0 ? void 0 : (_this$_deps$extension2 = _this$_deps$extension.SMSReceiving) === null || _this$_deps$extension2 === void 0 ? void 0 : _this$_deps$extension2.available) || ((_this$_deps$extension3 = this._deps.extensionFeatures.features) === null || _this$_deps$extension3 === void 0 ? void 0 : (_this$_deps$extension4 = _this$_deps$extension3.PagesReceiving) === null || _this$_deps$extension4 === void 0 ? void 0 : _this$_deps$extension4.available));
     }
   }, {
     key: "conversationLogMap",
@@ -735,7 +734,7 @@ var ConversationLogger = (_dec = (0, _di.Module)({
   }]);
 
   return ConversationLogger;
-}(_LoggerBaseV.LoggerBase), _temp), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "autoLog", [_core.storage, _core.state], {
+}(_LoggerBaseV.LoggerBase), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "autoLog", [_core.storage, _core.state], {
   configurable: true,
   enumerable: true,
   writable: true,

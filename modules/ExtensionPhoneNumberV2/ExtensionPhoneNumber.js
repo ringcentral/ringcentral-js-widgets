@@ -1,11 +1,6 @@
 "use strict";
 
-require("core-js/modules/es6.array.find");
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.ExtensionPhoneNumber = void 0;
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -14,8 +9,6 @@ require("core-js/modules/es6.promise");
 require("core-js/modules/es6.object.define-properties");
 
 require("core-js/modules/es7.object.get-own-property-descriptors");
-
-require("core-js/modules/es6.array.filter");
 
 require("core-js/modules/es6.symbol");
 
@@ -43,6 +36,15 @@ require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.for-each");
 
+require("core-js/modules/es6.array.find");
+
+require("core-js/modules/es6.array.filter");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.ExtensionPhoneNumber = void 0;
+
 require("core-js/modules/es6.array.index-of");
 
 require("core-js/modules/es7.array.includes");
@@ -55,11 +57,11 @@ var _core = require("@ringcentral-integration/core");
 
 var _ramda = require("ramda");
 
-var _usageTypes = require("../../enums/usageTypes");
-
 var _subscriptionFilters = require("../../enums/subscriptionFilters");
 
 var _subscriptionHints = require("../../enums/subscriptionHints");
+
+var _usageTypes = require("../../enums/usageTypes");
 
 var _di = require("../../lib/di");
 
@@ -67,11 +69,9 @@ var _fetchList = _interopRequireDefault(require("../../lib/fetchList"));
 
 var _DataFetcherV = require("../DataFetcherV2");
 
-var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _class, _class2, _temp;
+var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _class, _class2;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -107,7 +107,7 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
 
 var ExtensionPhoneNumber = (_dec = (0, _di.Module)({
   name: 'ExtensionPhoneNumber',
-  deps: ['Client', 'DataFetcherV2', 'RolesAndPermissions', 'Subscription', {
+  deps: ['Client', 'DataFetcherV2', 'ExtensionFeatures', 'Subscription', {
     dep: 'TabManager',
     optional: true
   }, {
@@ -132,7 +132,7 @@ var ExtensionPhoneNumber = (_dec = (0, _di.Module)({
 }), _dec7 = (0, _core.computed)(function (_ref6) {
   var numbers = _ref6.numbers;
   return [numbers];
-}), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_DataFetcherV2Consume) {
+}), _dec(_class = (_class2 = /*#__PURE__*/function (_DataFetcherV2Consume) {
   _inherits(ExtensionPhoneNumber, _DataFetcherV2Consume);
 
   var _super = _createSuper(ExtensionPhoneNumber);
@@ -174,10 +174,12 @@ var ExtensionPhoneNumber = (_dec = (0, _di.Module)({
         return fetchFunction;
       }(),
       readyCheckFunction: function readyCheckFunction() {
-        return !!(_this._deps.rolesAndPermissions.ready && _this._deps.subscription.ready);
+        return !!(_this._deps.extensionFeatures.ready && _this._deps.subscription.ready);
       },
       permissionCheckFunction: function permissionCheckFunction() {
-        return !!_this._deps.rolesAndPermissions.permissions.ReadUserPhoneNumbers;
+        var _this$_deps$extension, _this$_deps$extension2;
+
+        return (_this$_deps$extension = (_this$_deps$extension2 = _this._deps.extensionFeatures.features) === null || _this$_deps$extension2 === void 0 ? void 0 : _this$_deps$extension2.ReadExtensionPhoneNumbers.available) !== null && _this$_deps$extension !== void 0 ? _this$_deps$extension : false;
       }
     }));
 
@@ -265,6 +267,6 @@ var ExtensionPhoneNumber = (_dec = (0, _di.Module)({
   }]);
 
   return ExtensionPhoneNumber;
-}(_DataFetcherV.DataFetcherV2Consumer), _temp), (_applyDecoratedDescriptor(_class2.prototype, "numbers", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "numbers"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "companyNumbers", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "companyNumbers"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "mainCompanyNumber", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "mainCompanyNumber"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "directNumbers", [_dec5], Object.getOwnPropertyDescriptor(_class2.prototype, "directNumbers"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "callerIdNumbers", [_dec6], Object.getOwnPropertyDescriptor(_class2.prototype, "callerIdNumbers"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "smsSenderNumbers", [_dec7], Object.getOwnPropertyDescriptor(_class2.prototype, "smsSenderNumbers"), _class2.prototype)), _class2)) || _class);
+}(_DataFetcherV.DataFetcherV2Consumer), (_applyDecoratedDescriptor(_class2.prototype, "numbers", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "numbers"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "companyNumbers", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "companyNumbers"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "mainCompanyNumber", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "mainCompanyNumber"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "directNumbers", [_dec5], Object.getOwnPropertyDescriptor(_class2.prototype, "directNumbers"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "callerIdNumbers", [_dec6], Object.getOwnPropertyDescriptor(_class2.prototype, "callerIdNumbers"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "smsSenderNumbers", [_dec7], Object.getOwnPropertyDescriptor(_class2.prototype, "smsSenderNumbers"), _class2.prototype)), _class2)) || _class);
 exports.ExtensionPhoneNumber = ExtensionPhoneNumber;
 //# sourceMappingURL=ExtensionPhoneNumber.js.map

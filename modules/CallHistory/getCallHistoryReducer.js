@@ -1,20 +1,8 @@
 "use strict";
 
-require("core-js/modules/es6.array.find-index");
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.getEndedCallsReducer = getEndedCallsReducer;
-exports.getSearchInputReducer = getSearchInputReducer;
-exports.getCallsFilterReducer = getCallsFilterReducer;
-exports["default"] = getCallHistoryReducer;
-
 require("core-js/modules/es6.object.define-properties");
 
 require("core-js/modules/es7.object.get-own-property-descriptors");
-
-require("core-js/modules/es6.array.for-each");
 
 require("core-js/modules/es6.symbol");
 
@@ -25,6 +13,18 @@ require("core-js/modules/es6.array.iterator");
 require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.keys");
+
+require("core-js/modules/es6.array.find-index");
+
+require("core-js/modules/es6.array.for-each");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.getEndedCallsReducer = getEndedCallsReducer;
+exports.getSearchInputReducer = getSearchInputReducer;
+exports.getCallsFilterReducer = getCallsFilterReducer;
+exports["default"] = getCallHistoryReducer;
 
 require("core-js/modules/es6.object.define-property");
 

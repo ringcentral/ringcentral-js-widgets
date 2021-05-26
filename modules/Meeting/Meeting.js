@@ -1,17 +1,10 @@
 "use strict";
 
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 require("core-js/modules/es6.weak-map");
 
-require("core-js/modules/es6.array.find");
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.Meeting = void 0;
-
 require("core-js/modules/es6.array.from");
-
-require("core-js/modules/es6.function.name");
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -42,6 +35,15 @@ require("core-js/modules/es6.array.reduce");
 require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.for-each");
+
+require("core-js/modules/es6.array.find");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Meeting = void 0;
+
+require("core-js/modules/es6.function.name");
 
 require("core-js/modules/es6.array.index-of");
 
@@ -91,15 +93,13 @@ var _meetingStatus = _interopRequireDefault(require("./meetingStatus"));
 
 var _scheduleStatus = _interopRequireDefault(require("./scheduleStatus"));
 
-var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _dec10, _dec11, _dec12, _dec13, _dec14, _dec15, _class, _class2, _descriptor, _temp;
+var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _dec10, _dec11, _dec12, _dec13, _dec14, _dec15, _dec16, _dec17, _class, _class2, _descriptor;
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
@@ -199,63 +199,70 @@ var Meeting = (_dec = (0, _di.Module)({
       scheduleUserSettings = _ref6.scheduleUserSettings;
   return [_enablePersonalMeeting, _enableServiceWebSettings, scheduleUserSettings];
 }), _dec8 = (0, _core.computed)(function (_ref7) {
-  var userSettings = _ref7.userSettings;
-  return [userSettings];
+  var extensionName = _ref7.extensionName,
+      currentLocale = _ref7.currentLocale;
+  return [extensionName, currentLocale];
 }), _dec9 = (0, _core.computed)(function (_ref8) {
   var userSettings = _ref8.userSettings;
   return [userSettings];
 }), _dec10 = (0, _core.computed)(function (_ref9) {
-  var lockedSettings = _ref9.lockedSettings;
-  return [lockedSettings];
+  var userSettings = _ref9.userSettings;
+  return [userSettings];
 }), _dec11 = (0, _core.computed)(function (_ref10) {
-  var lockedSettings = _ref10.lockedSettings;
-  return [lockedSettings];
+  var userSettings = _ref10.userSettings;
+  return [userSettings];
 }), _dec12 = (0, _core.computed)(function (_ref11) {
-  var state = _ref11.state;
-  return [state.userSettings];
+  var lockedSettings = _ref11.lockedSettings;
+  return [lockedSettings];
 }), _dec13 = (0, _core.computed)(function (_ref12) {
-  var state = _ref12.state;
-  return [state.lockedSettings];
+  var lockedSettings = _ref12.lockedSettings;
+  return [lockedSettings];
 }), _dec14 = (0, _core.computed)(function (_ref13) {
-  var state = _ref13.state,
-      loginUser = _ref13.loginUser;
-  return [state, loginUser];
+  var state = _ref13.state;
+  return [state.userSettings];
 }), _dec15 = (0, _core.computed)(function (_ref14) {
-  var extensionInfo = _ref14.extensionInfo;
+  var state = _ref14.state;
+  return [state.lockedSettings];
+}), _dec16 = (0, _core.computed)(function (_ref15) {
+  var state = _ref15.state,
+      loginUser = _ref15.loginUser;
+  return [state, loginUser];
+}), _dec17 = (0, _core.computed)(function (_ref16) {
+  var extensionInfo = _ref16.extensionInfo;
   return [extensionInfo];
-}), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcModule) {
+}), _dec(_class = (_class2 = /*#__PURE__*/function (_RcModule) {
   _inherits(Meeting, _RcModule);
 
   var _super = _createSuper(Meeting);
 
   // TODO: add state interface
-  function Meeting(_ref15) {
+  function Meeting(_ref17) {
     var _this;
 
-    var brand = _ref15.brand,
-        alert = _ref15.alert,
-        client = _ref15.client,
-        extensionInfo = _ref15.extensionInfo,
-        storage = _ref15.storage,
-        availabilityMonitor = _ref15.availabilityMonitor,
-        reducers = _ref15.reducers,
-        meetingProvider = _ref15.meetingProvider,
-        locale = _ref15.locale,
-        _ref15$showSaveAsDefa = _ref15.showSaveAsDefault,
-        showSaveAsDefault = _ref15$showSaveAsDefa === void 0 ? false : _ref15$showSaveAsDefa,
-        _ref15$enableInvitati = _ref15.enableInvitationApi,
-        enableInvitationApi = _ref15$enableInvitati === void 0 ? false : _ref15$enableInvitati,
-        _ref15$enablePersonal = _ref15.enablePersonalMeeting,
-        enablePersonalMeeting = _ref15$enablePersonal === void 0 ? false : _ref15$enablePersonal,
-        _ref15$enableReloadAf = _ref15.enableReloadAfterSchedule,
-        enableReloadAfterSchedule = _ref15$enableReloadAf === void 0 ? true : _ref15$enableReloadAf,
-        _ref15$enableServiceW = _ref15.enableServiceWebSettings,
-        enableServiceWebSettings = _ref15$enableServiceW === void 0 ? false : _ref15$enableServiceW,
-        _ref15$enableSchedule = _ref15.enableScheduleOnBehalf,
-        enableScheduleOnBehalf = _ref15$enableSchedule === void 0 ? false : _ref15$enableSchedule,
-        _ref15$enableCustomTi = _ref15.enableCustomTimezone,
-        enableCustomTimezone = _ref15$enableCustomTi === void 0 ? false : _ref15$enableCustomTi,
-        options = _objectWithoutProperties(_ref15, ["brand", "alert", "client", "extensionInfo", "storage", "availabilityMonitor", "reducers", "meetingProvider", "locale", "showSaveAsDefault", "enableInvitationApi", "enablePersonalMeeting", "enableReloadAfterSchedule", "enableServiceWebSettings", "enableScheduleOnBehalf", "enableCustomTimezone"]);
+    var brand = _ref17.brand,
+        alert = _ref17.alert,
+        client = _ref17.client,
+        extensionInfo = _ref17.extensionInfo,
+        storage = _ref17.storage,
+        availabilityMonitor = _ref17.availabilityMonitor,
+        reducers = _ref17.reducers,
+        meetingProvider = _ref17.meetingProvider,
+        locale = _ref17.locale,
+        _ref17$showSaveAsDefa = _ref17.showSaveAsDefault,
+        showSaveAsDefault = _ref17$showSaveAsDefa === void 0 ? false : _ref17$showSaveAsDefa,
+        _ref17$enableInvitati = _ref17.enableInvitationApi,
+        enableInvitationApi = _ref17$enableInvitati === void 0 ? false : _ref17$enableInvitati,
+        _ref17$enablePersonal = _ref17.enablePersonalMeeting,
+        enablePersonalMeeting = _ref17$enablePersonal === void 0 ? false : _ref17$enablePersonal,
+        _ref17$enableReloadAf = _ref17.enableReloadAfterSchedule,
+        enableReloadAfterSchedule = _ref17$enableReloadAf === void 0 ? true : _ref17$enableReloadAf,
+        _ref17$enableServiceW = _ref17.enableServiceWebSettings,
+        enableServiceWebSettings = _ref17$enableServiceW === void 0 ? false : _ref17$enableServiceW,
+        _ref17$enableSchedule = _ref17.enableScheduleOnBehalf,
+        enableScheduleOnBehalf = _ref17$enableSchedule === void 0 ? false : _ref17$enableSchedule,
+        _ref17$enableCustomTi = _ref17.enableCustomTimezone,
+        enableCustomTimezone = _ref17$enableCustomTi === void 0 ? false : _ref17$enableCustomTi,
+        options = _objectWithoutProperties(_ref17, ["brand", "alert", "client", "extensionInfo", "storage", "availabilityMonitor", "reducers", "meetingProvider", "locale", "showSaveAsDefault", "enableInvitationApi", "enablePersonalMeeting", "enableReloadAfterSchedule", "enableServiceWebSettings", "enableScheduleOnBehalf", "enableCustomTimezone"]);
 
     _classCallCheck(this, Meeting);
 
@@ -756,10 +763,45 @@ var Meeting = (_dec = (0, _di.Module)({
       return _updateServiceWebSettings;
     }()
   }, {
-    key: "_initDefaultData",
-    value: function _initDefaultData(meeting, _ref16, usePmi) {
-      var userSettings = _ref16.userSettings,
-          personalMeetingSettings = _ref16.personalMeetingSettings;
+    key: "enforcePmiPassword",
+    value: function enforcePmiPassword(processedMeeting, requirePwdForPMI, requirePwdIsLockedForPMI) {
+      var allowJoinBeforeHost = processedMeeting.allowJoinBeforeHost,
+          _processedMeeting$pas = processedMeeting.password,
+          password = _processedMeeting$pas === void 0 ? '' : _processedMeeting$pas;
+
+      if (password !== '') {
+        // save this for design
+        processedMeeting._pmiPassword = password;
+      }
+
+      var pmiRequiresPwd;
+
+      switch (requirePwdForPMI) {
+        case _constants.PMIRequirePassword.NONE:
+          pmiRequiresPwd = password !== '';
+          break;
+
+        case _constants.PMIRequirePassword.ALL:
+          pmiRequiresPwd = true;
+          break;
+
+        case _constants.PMIRequirePassword.JBH_ONLY:
+          pmiRequiresPwd = allowJoinBeforeHost || password !== '';
+          break;
+
+        default:
+          pmiRequiresPwd = processedMeeting._requireMeetingPassword;
+      }
+
+      var pmiRequiresPwdLocked = requirePwdForPMI === _constants.PMIRequirePassword.JBH_ONLY ? requirePwdIsLockedForPMI && allowJoinBeforeHost : requirePwdIsLockedForPMI;
+      processedMeeting._requireMeetingPassword = pmiRequiresPwd;
+      processedMeeting._lockRequireMeetingPassword = pmiRequiresPwdLocked;
+    }
+  }, {
+    key: "enforcePassword",
+    value: function enforcePassword(meeting, _ref18, usePmi) {
+      var userSettings = _ref18.userSettings,
+          personalMeetingSettings = _ref18.personalMeetingSettings;
 
       if (!this._enableServiceWebSettings) {
         return meeting;
@@ -767,62 +809,27 @@ var Meeting = (_dec = (0, _di.Module)({
 
       var _this$scheduleUserSet = this.scheduleUserSettings,
           _this$scheduleUserSet2 = _this$scheduleUserSet.requirePasswordForSchedulingNewMeetings,
-          requirePasswordForSchedulingNewMeetings = _this$scheduleUserSet2 === void 0 ? false : _this$scheduleUserSet2,
-          requirePasswordForPmiMeetings = _this$scheduleUserSet.requirePasswordForPmiMeetings;
+          requirePwdForNonPMI = _this$scheduleUserSet2 === void 0 ? false : _this$scheduleUserSet2,
+          requirePwdForPMI = _this$scheduleUserSet.requirePasswordForPmiMeetings;
       var _this$scheduleLockedS = this.scheduleLockedSettings,
-          lockedRequirePasswordForSchedulingNewMeetings = _this$scheduleLockedS.requirePasswordForSchedulingNewMeetings,
-          lockedRequirePasswordForPmiMeetings = _this$scheduleLockedS.requirePasswordForPmiMeetings;
+          requirePwdIsLockedForNonPMI = _this$scheduleLockedS.requirePasswordForSchedulingNewMeetings,
+          requirePwdIsLockedForPMI = _this$scheduleLockedS.requirePasswordForPmiMeetings;
 
       var processedMeeting = _objectSpread(_objectSpread(_objectSpread({}, meeting), usePmi ? personalMeetingSettings : userSettings), {}, {
-        usePersonalMeetingId: usePmi
+        usePersonalMeetingId: usePmi,
+        telephonyUserSettings: this.telephonyUserSettings
       }); // For PMI meetings
 
 
       if (usePmi) {
-        var allowJoinBeforeHost = processedMeeting.allowJoinBeforeHost,
-            _processedMeeting$pas = processedMeeting.password,
-            password = _processedMeeting$pas === void 0 ? '' : _processedMeeting$pas;
-
-        if (password !== '') {
-          processedMeeting._pmiPassword = password;
-        }
-
-        var pmiRequiresPwd;
-
-        switch (requirePasswordForPmiMeetings) {
-          case _constants.PMIRequirePassword.NONE:
-            pmiRequiresPwd = password !== '';
-            break;
-
-          case _constants.PMIRequirePassword.ALL:
-            pmiRequiresPwd = true;
-            break;
-
-          case _constants.PMIRequirePassword.JBH_ONLY:
-            pmiRequiresPwd = allowJoinBeforeHost || password !== '';
-            break;
-
-          default:
-            pmiRequiresPwd = processedMeeting._requireMeetingPassword;
-        }
-
-        var pmiRequiresPwdLocked = processedMeeting._lockRequireMeetingPassword;
-
-        if (requirePasswordForPmiMeetings === _constants.PMIRequirePassword.JBH_ONLY) {
-          pmiRequiresPwdLocked = lockedRequirePasswordForPmiMeetings && allowJoinBeforeHost;
-        } else if (requirePasswordForPmiMeetings !== _constants.PMIRequirePassword.JBH_ONLY) {
-          pmiRequiresPwdLocked = lockedRequirePasswordForPmiMeetings;
-        }
-
-        processedMeeting._requireMeetingPassword = pmiRequiresPwd;
-        processedMeeting._lockRequireMeetingPassword = pmiRequiresPwdLocked;
+        this.enforcePmiPassword(processedMeeting, requirePwdForPMI, requirePwdIsLockedForPMI);
       } else {
         // For non-PMI meetings
-        if (requirePasswordForSchedulingNewMeetings) {
+        if (requirePwdForNonPMI) {
           processedMeeting._requireMeetingPassword = true;
         }
 
-        if (lockedRequirePasswordForSchedulingNewMeetings) {
+        if (requirePwdIsLockedForNonPMI) {
           processedMeeting._lockRequireMeetingPassword = true;
         }
       }
@@ -944,8 +951,8 @@ var Meeting = (_dec = (0, _di.Module)({
       var _scheduleDirectly = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee11(meeting) {
         var _this5 = this;
 
-        var _ref17,
-            _ref17$isAlertSuccess,
+        var _ref19,
+            _ref19$isAlertSuccess,
             isAlertSuccess,
             _meeting$host,
             formattedMeeting,
@@ -961,7 +968,7 @@ var Meeting = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context11.prev = _context11.next) {
               case 0:
-                _ref17 = _args11.length > 1 && _args11[1] !== undefined ? _args11[1] : {}, _ref17$isAlertSuccess = _ref17.isAlertSuccess, isAlertSuccess = _ref17$isAlertSuccess === void 0 ? true : _ref17$isAlertSuccess;
+                _ref19 = _args11.length > 1 && _args11[1] !== undefined ? _args11[1] : {}, _ref19$isAlertSuccess = _ref19.isAlertSuccess, isAlertSuccess = _ref19$isAlertSuccess === void 0 ? true : _ref19$isAlertSuccess;
                 _context11.prev = 1;
                 meeting = meeting || this.meeting;
                 this.store.dispatch({
@@ -1062,8 +1069,8 @@ var Meeting = (_dec = (0, _di.Module)({
     key: "schedule",
     value: function () {
       var _schedule2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee12(meeting) {
-        var _ref18,
-            _ref18$isAlertSuccess,
+        var _ref20,
+            _ref20$isAlertSuccess,
             isAlertSuccess,
             result,
             _args12 = arguments;
@@ -1072,7 +1079,7 @@ var Meeting = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context12.prev = _context12.next) {
               case 0:
-                _ref18 = _args12.length > 1 && _args12[1] !== undefined ? _args12[1] : {}, _ref18$isAlertSuccess = _ref18.isAlertSuccess, isAlertSuccess = _ref18$isAlertSuccess === void 0 ? true : _ref18$isAlertSuccess;
+                _ref20 = _args12.length > 1 && _args12[1] !== undefined ? _args12[1] : {}, _ref20$isAlertSuccess = _ref20.isAlertSuccess, isAlertSuccess = _ref20$isAlertSuccess === void 0 ? true : _ref20$isAlertSuccess;
 
                 if (!this.isScheduling) {
                   _context12.next = 3;
@@ -1137,8 +1144,8 @@ var Meeting = (_dec = (0, _di.Module)({
       var _getMeeting = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee14(meetingId) {
         var _this6 = this;
 
-        var _ref19,
-            _ref19$isAlertError,
+        var _ref21,
+            _ref21$isAlertError,
             isAlertError,
             settings,
             _yield$e$response$clo,
@@ -1151,7 +1158,7 @@ var Meeting = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context14.prev = _context14.next) {
               case 0:
-                _ref19 = _args14.length > 1 && _args14[1] !== undefined ? _args14[1] : {}, _ref19$isAlertError = _ref19.isAlertError, isAlertError = _ref19$isAlertError === void 0 ? true : _ref19$isAlertError;
+                _ref21 = _args14.length > 1 && _args14[1] !== undefined ? _args14[1] : {}, _ref21$isAlertError = _ref21.isAlertError, isAlertError = _ref21$isAlertError === void 0 ? true : _ref21$isAlertError;
                 _context14.prev = 1;
                 _context14.next = 4;
                 return this._client.account().extension().meeting(meetingId).get();
@@ -1312,7 +1319,7 @@ var Meeting = (_dec = (0, _di.Module)({
                 _context18.prev = 5;
                 _context18.next = 8;
                 return this._client.service.platform().get("/restapi/v1.0/account/~/extension/~/meeting/".concat(meetingId, "/invitation"), {
-                  language: locale
+                  language: this._locale.normalizeLocale(locale)
                 });
 
               case 8:
@@ -1354,13 +1361,7 @@ var Meeting = (_dec = (0, _di.Module)({
         var extensionId,
             platform,
             apiResponse,
-            _yield$apiResponse$js2,
-            _yield$apiResponse$js3,
-            recording,
-            _yield$apiResponse$js4,
-            scheduleMeeting,
             _args19 = arguments;
-
         return regeneratorRuntime.wrap(function _callee19$(_context19) {
           while (1) {
             switch (_context19.prev = _context19.next) {
@@ -1376,32 +1377,20 @@ var Meeting = (_dec = (0, _di.Module)({
 
               case 5:
                 apiResponse = _context19.sent;
-                _context19.next = 8;
-                return apiResponse.json();
+                return _context19.abrupt("return", apiResponse.json());
 
-              case 8:
-                _yield$apiResponse$js2 = _context19.sent;
-                _yield$apiResponse$js3 = _yield$apiResponse$js2.recording;
-                recording = _yield$apiResponse$js3 === void 0 ? {} : _yield$apiResponse$js3;
-                _yield$apiResponse$js4 = _yield$apiResponse$js2.scheduleMeeting;
-                scheduleMeeting = _yield$apiResponse$js4 === void 0 ? {} : _yield$apiResponse$js4;
-                return _context19.abrupt("return", {
-                  recording: recording,
-                  scheduleMeeting: scheduleMeeting
-                });
-
-              case 16:
-                _context19.prev = 16;
+              case 9:
+                _context19.prev = 9;
                 _context19.t0 = _context19["catch"](1);
                 console.warn(_context19.t0);
                 return _context19.abrupt("return", null);
 
-              case 20:
+              case 13:
               case "end":
                 return _context19.stop();
             }
           }
-        }, _callee19, this, [[1, 16]]);
+        }, _callee19, this, [[1, 9]]);
       }));
 
       function getUserSettings() {
@@ -1414,7 +1403,7 @@ var Meeting = (_dec = (0, _di.Module)({
     key: "getLockedSettings",
     value: function () {
       var _getLockedSettings = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee20() {
-        var platform, apiResponse, _yield$apiResponse$js5, _yield$apiResponse$js6, recording, _yield$apiResponse$js7, scheduleMeeting, startParticipantsVideo, startParticipantVideo, restScheduleOptions, processedScheduleMeeting;
+        var platform, apiResponse, _yield$apiResponse$js2, _yield$apiResponse$js3, recording, _yield$apiResponse$js4, scheduleMeeting, startParticipantsVideo, startParticipantVideo, restScheduleOptions, processedScheduleMeeting;
 
         return regeneratorRuntime.wrap(function _callee20$(_context20) {
           while (1) {
@@ -1434,11 +1423,11 @@ var Meeting = (_dec = (0, _di.Module)({
                 return apiResponse.json();
 
               case 7:
-                _yield$apiResponse$js5 = _context20.sent;
-                _yield$apiResponse$js6 = _yield$apiResponse$js5.recording;
-                recording = _yield$apiResponse$js6 === void 0 ? {} : _yield$apiResponse$js6;
-                _yield$apiResponse$js7 = _yield$apiResponse$js5.scheduleMeeting;
-                scheduleMeeting = _yield$apiResponse$js7 === void 0 ? {} : _yield$apiResponse$js7;
+                _yield$apiResponse$js2 = _context20.sent;
+                _yield$apiResponse$js3 = _yield$apiResponse$js2.recording;
+                recording = _yield$apiResponse$js3 === void 0 ? {} : _yield$apiResponse$js3;
+                _yield$apiResponse$js4 = _yield$apiResponse$js2.scheduleMeeting;
+                scheduleMeeting = _yield$apiResponse$js4 === void 0 ? {} : _yield$apiResponse$js4;
                 startParticipantsVideo = scheduleMeeting.startParticipantsVideo, startParticipantVideo = scheduleMeeting.startParticipantVideo, restScheduleOptions = _objectWithoutProperties(scheduleMeeting, ["startParticipantsVideo", "startParticipantVideo"]);
                 processedScheduleMeeting = _objectSpread(_objectSpread({}, restScheduleOptions), {}, {
                   startParticipantsVideo: startParticipantsVideo || startParticipantVideo || false
@@ -1474,8 +1463,8 @@ var Meeting = (_dec = (0, _di.Module)({
       var _updateMeeting = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee21(meetingId, meeting) {
         var _this7 = this;
 
-        var _ref20,
-            _ref20$isAlertSuccess,
+        var _ref22,
+            _ref22$isAlertSuccess,
             isAlertSuccess,
             _meeting$host2,
             formattedMeeting,
@@ -1491,7 +1480,7 @@ var Meeting = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context21.prev = _context21.next) {
               case 0:
-                _ref20 = _args21.length > 2 && _args21[2] !== undefined ? _args21[2] : {}, _ref20$isAlertSuccess = _ref20.isAlertSuccess, isAlertSuccess = _ref20$isAlertSuccess === void 0 ? false : _ref20$isAlertSuccess;
+                _ref22 = _args21.length > 2 && _args21[2] !== undefined ? _args21[2] : {}, _ref22$isAlertSuccess = _ref22.isAlertSuccess, isAlertSuccess = _ref22$isAlertSuccess === void 0 ? false : _ref22$isAlertSuccess;
 
                 if (!this._isUpdating(meetingId)) {
                   _context21.next = 3;
@@ -1904,7 +1893,7 @@ var Meeting = (_dec = (0, _di.Module)({
         });
       }
 
-      return this._initDefaultData(_objectSpread(_objectSpread({}, this.initialMeetingSetting), this.defaultLockedSettings), {
+      return this.enforcePassword(_objectSpread(_objectSpread({}, this.initialMeetingSetting), this.defaultLockedSettings), {
         userSettings: this.commonUserSettings,
         personalMeetingSettings: this.commonPersonalMeetingSettings
       }, false);
@@ -2007,7 +1996,7 @@ var Meeting = (_dec = (0, _di.Module)({
         return this.personalMeeting;
       }
 
-      return this._initDefaultData(_objectSpread(_objectSpread({}, this.initialMeetingSetting), this.defaultLockedSettings), {
+      return this.enforcePassword(_objectSpread(_objectSpread({}, this.initialMeetingSetting), this.defaultLockedSettings), {
         userSettings: this.commonUserSettings,
         personalMeetingSettings: this.commonPersonalMeetingSettings
       }, true);
@@ -2023,6 +2012,18 @@ var Meeting = (_dec = (0, _di.Module)({
       return this._enablePersonalMeeting && this._enableServiceWebSettings && this.scheduleUserSettings.usePmiForScheduledMeetings;
     }
   }, {
+    key: "extensionName",
+    get: function get() {
+      var _this$extensionInfo;
+
+      return (_this$extensionInfo = this.extensionInfo) === null || _this$extensionInfo === void 0 ? void 0 : _this$extensionInfo.name;
+    }
+  }, {
+    key: "defaultTopic",
+    get: function get() {
+      return (0, _meetingHelper.getDefaultTopic)(this.extensionName, this.currentLocale);
+    }
+  }, {
     key: "recordingUserSettings",
     get: function get() {
       var _this$userSettings$re = this.userSettings.recording,
@@ -2035,6 +2036,13 @@ var Meeting = (_dec = (0, _di.Module)({
       var _this$userSettings$sc = this.userSettings.scheduleMeeting,
           scheduleMeeting = _this$userSettings$sc === void 0 ? {} : _this$userSettings$sc;
       return scheduleMeeting;
+    }
+  }, {
+    key: "telephonyUserSettings",
+    get: function get() {
+      var _this$userSettings$te = this.userSettings.telephony,
+          telephony = _this$userSettings$te === void 0 ? {} : _this$userSettings$te;
+      return telephony;
     }
   }, {
     key: "recordingLockedSettings",
@@ -2117,7 +2125,7 @@ var Meeting = (_dec = (0, _di.Module)({
   }]);
 
   return Meeting;
-}(_RcModule2["default"]), _temp), (_applyDecoratedDescriptor(_class2.prototype, "init", [_background["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "init"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "reload", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "reload"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "update", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "update"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "switchUsePersonalMeetingId", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "switchUsePersonalMeetingId"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateScheduleFor", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "updateScheduleFor"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_updateServiceWebSettings", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_updateServiceWebSettings"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "fetchPersonalMeeting", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "fetchPersonalMeeting"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setDelegators", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "setDelegators"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "scheduleDirectly", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "scheduleDirectly"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "schedule", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "schedule"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getMeetingServiceInfo", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "getMeetingServiceInfo"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getMeeting", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "getMeeting"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "putMeeting", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "putMeeting"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getDelegators", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "getDelegators"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getMeetingInvitation", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "getMeetingInvitation"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getUserSettings", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "getUserSettings"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getLockedSettings", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "getLockedSettings"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateMeeting", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "updateMeeting"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "currentLocale", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "currentLocale"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "commonUserSettings", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "commonUserSettings"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "commonPersonalMeetingSettings", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "commonPersonalMeetingSettings"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "defaultLockedSettings", [_dec5], Object.getOwnPropertyDescriptor(_class2.prototype, "defaultLockedSettings"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "pmiDefaultSettings", [_dec6], Object.getOwnPropertyDescriptor(_class2.prototype, "pmiDefaultSettings"), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, "defaultMeetingSetting", [_selector.selector], {
+}(_RcModule2["default"]), (_applyDecoratedDescriptor(_class2.prototype, "init", [_background["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "init"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "reload", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "reload"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "update", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "update"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "switchUsePersonalMeetingId", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "switchUsePersonalMeetingId"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateScheduleFor", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "updateScheduleFor"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_updateServiceWebSettings", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_updateServiceWebSettings"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "fetchPersonalMeeting", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "fetchPersonalMeeting"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setDelegators", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "setDelegators"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "scheduleDirectly", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "scheduleDirectly"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "schedule", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "schedule"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getMeetingServiceInfo", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "getMeetingServiceInfo"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getMeeting", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "getMeeting"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "putMeeting", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "putMeeting"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getDelegators", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "getDelegators"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getMeetingInvitation", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "getMeetingInvitation"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getUserSettings", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "getUserSettings"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getLockedSettings", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "getLockedSettings"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateMeeting", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "updateMeeting"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "currentLocale", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "currentLocale"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "commonUserSettings", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "commonUserSettings"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "commonPersonalMeetingSettings", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "commonPersonalMeetingSettings"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "defaultLockedSettings", [_dec5], Object.getOwnPropertyDescriptor(_class2.prototype, "defaultLockedSettings"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "pmiDefaultSettings", [_dec6], Object.getOwnPropertyDescriptor(_class2.prototype, "pmiDefaultSettings"), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, "defaultMeetingSetting", [_selector.selector], {
   configurable: true,
   enumerable: true,
   writable: true,
@@ -2153,6 +2161,6 @@ var Meeting = (_dec = (0, _di.Module)({
       return meeting;
     }];
   }
-}), _applyDecoratedDescriptor(_class2.prototype, "usePmiDefaultFromSW", [_dec7], Object.getOwnPropertyDescriptor(_class2.prototype, "usePmiDefaultFromSW"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "recordingUserSettings", [_dec8], Object.getOwnPropertyDescriptor(_class2.prototype, "recordingUserSettings"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "scheduleUserSettings", [_dec9], Object.getOwnPropertyDescriptor(_class2.prototype, "scheduleUserSettings"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "recordingLockedSettings", [_dec10], Object.getOwnPropertyDescriptor(_class2.prototype, "recordingLockedSettings"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "scheduleLockedSettings", [_dec11], Object.getOwnPropertyDescriptor(_class2.prototype, "scheduleLockedSettings"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "userSettings", [_dec12], Object.getOwnPropertyDescriptor(_class2.prototype, "userSettings"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "lockedSettings", [_dec13], Object.getOwnPropertyDescriptor(_class2.prototype, "lockedSettings"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "delegators", [_dec14], Object.getOwnPropertyDescriptor(_class2.prototype, "delegators"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "loginUser", [_dec15], Object.getOwnPropertyDescriptor(_class2.prototype, "loginUser"), _class2.prototype)), _class2)) || _class);
+}), _applyDecoratedDescriptor(_class2.prototype, "usePmiDefaultFromSW", [_dec7], Object.getOwnPropertyDescriptor(_class2.prototype, "usePmiDefaultFromSW"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "defaultTopic", [_dec8], Object.getOwnPropertyDescriptor(_class2.prototype, "defaultTopic"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "recordingUserSettings", [_dec9], Object.getOwnPropertyDescriptor(_class2.prototype, "recordingUserSettings"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "scheduleUserSettings", [_dec10], Object.getOwnPropertyDescriptor(_class2.prototype, "scheduleUserSettings"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "telephonyUserSettings", [_dec11], Object.getOwnPropertyDescriptor(_class2.prototype, "telephonyUserSettings"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "recordingLockedSettings", [_dec12], Object.getOwnPropertyDescriptor(_class2.prototype, "recordingLockedSettings"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "scheduleLockedSettings", [_dec13], Object.getOwnPropertyDescriptor(_class2.prototype, "scheduleLockedSettings"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "userSettings", [_dec14], Object.getOwnPropertyDescriptor(_class2.prototype, "userSettings"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "lockedSettings", [_dec15], Object.getOwnPropertyDescriptor(_class2.prototype, "lockedSettings"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "delegators", [_dec16], Object.getOwnPropertyDescriptor(_class2.prototype, "delegators"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "loginUser", [_dec17], Object.getOwnPropertyDescriptor(_class2.prototype, "loginUser"), _class2.prototype)), _class2)) || _class);
 exports.Meeting = Meeting;
 //# sourceMappingURL=Meeting.js.map

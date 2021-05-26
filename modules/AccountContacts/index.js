@@ -1,9 +1,6 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = void 0;
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -29,9 +26,14 @@ require("core-js/modules/es6.object.set-prototype-of");
 
 require("core-js/modules/es6.object.define-property");
 
+require("core-js/modules/es6.object.keys");
+
 require("core-js/modules/es6.array.reduce");
 
-require("core-js/modules/es6.object.keys");
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
 
 require("core-js/modules/es6.function.name");
 
@@ -57,6 +59,8 @@ require("regenerator-runtime/runtime");
 
 var _ramda = require("ramda");
 
+var _core = require("@ringcentral-integration/core");
+
 var _phoneSources = require("../../enums/phoneSources");
 
 var _phoneTypes = require("../../enums/phoneTypes");
@@ -81,11 +85,9 @@ var _actionTypes = require("./actionTypes");
 
 var _getReducer = _interopRequireDefault(require("./getReducer"));
 
-var _dec, _class, _class2, _descriptor, _temp;
+var _dec, _dec2, _class, _class2, _descriptor;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -148,7 +150,9 @@ var AccountContacts = (_dec = (0, _di.Module)({
     dep: 'AccountContactsOptions',
     optional: true
   }]
-}), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcModule) {
+}), _dec2 = (0, _core.computed)(function (that) {
+  return [that._companyContacts.filteredContacts];
+}), _dec(_class = (_class2 = /*#__PURE__*/function (_RcModule) {
   _inherits(AccountContacts, _RcModule);
 
   var _super = _createSuper(AccountContacts);
@@ -629,6 +633,12 @@ var AccountContacts = (_dec = (0, _di.Module)({
     } // interface of ContactSource
 
   }, {
+    key: "rawContacts",
+    get: function get() {
+      return this._companyContacts.filteredContacts;
+    } // interface of ContactSource
+
+  }, {
     key: "sourceReady",
     get: function get() {
       return this.ready;
@@ -636,7 +646,7 @@ var AccountContacts = (_dec = (0, _di.Module)({
   }]);
 
   return AccountContacts;
-}(_RcModule2["default"]), _temp), (_applyDecoratedDescriptor(_class2.prototype, "getProfileImage", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "getProfileImage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getPresence", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "getPresence"), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, "directoryContacts", [_selector.selector], {
+}(_RcModule2["default"]), (_applyDecoratedDescriptor(_class2.prototype, "getProfileImage", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "getProfileImage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getPresence", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "getPresence"), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, "directoryContacts", [_selector.selector], {
   configurable: true,
   enumerable: true,
   writable: true,
@@ -689,6 +699,6 @@ var AccountContacts = (_dec = (0, _di.Module)({
       }, [], contacts);
     }];
   }
-})), _class2)) || _class);
+}), _applyDecoratedDescriptor(_class2.prototype, "rawContacts", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "rawContacts"), _class2.prototype)), _class2)) || _class);
 exports["default"] = AccountContacts;
 //# sourceMappingURL=index.js.map

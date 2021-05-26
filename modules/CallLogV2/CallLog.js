@@ -1,9 +1,6 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.CallLog = void 0;
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -39,6 +36,11 @@ require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.keys");
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.CallLog = void 0;
+
 require("core-js/modules/es6.array.index-of");
 
 require("core-js/modules/es6.array.map");
@@ -55,13 +57,9 @@ require("core-js/modules/es6.array.filter");
 
 var _core = require("@ringcentral-integration/core");
 
-var _getDateFrom = _interopRequireDefault(require("../../lib/getDateFrom"));
+var _callActions = require("../../enums/callActions");
 
-var _di = require("../../lib/di");
-
-var _fetchList = _interopRequireDefault(require("../../lib/fetchList"));
-
-var _sleep = _interopRequireDefault(require("../../lib/sleep"));
+var _callResults = require("../../enums/callResults");
 
 var _subscriptionFilters = require("../../enums/subscriptionFilters");
 
@@ -69,19 +67,21 @@ var _syncTypes = require("../../enums/syncTypes");
 
 var _callLogHelpers = require("../../lib/callLogHelpers");
 
-var _callResults = require("../../enums/callResults");
+var _di = require("../../lib/di");
 
-var _callActions = require("../../enums/callActions");
+var _fetchList = _interopRequireDefault(require("../../lib/fetchList"));
 
-var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
+var _getDateFrom = _interopRequireDefault(require("../../lib/getDateFrom"));
+
+var _proxify = require("../../lib/proxy/proxify");
+
+var _sleep = _interopRequireDefault(require("../../lib/sleep"));
 
 var _helper = require("./helper");
 
-var _dec, _dec2, _class, _class2, _descriptor, _temp;
+var _dec, _dec2, _class, _class2, _descriptor;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
@@ -136,7 +136,7 @@ var SYNC_DELAY = 30 * 1000; // to not use $ at the end, presence with sipData ha
 var presenceRegExp = /\/presence\?detailedTelephonyState=true/;
 var CallLog = (_dec = (0, _di.Module)({
   name: 'CallLog',
-  deps: ['Auth', 'Client', 'ExtensionPhoneNumber', 'ExtensionInfo', 'Subscription', 'RolesAndPermissions', {
+  deps: ['Auth', 'Client', 'ExtensionPhoneNumber', 'ExtensionInfo', 'Subscription', 'ExtensionFeatures', {
     dep: 'TabManager',
     optional: true
   }, {
@@ -149,7 +149,7 @@ var CallLog = (_dec = (0, _di.Module)({
 }), _dec2 = (0, _core.computed)(function (_ref) {
   var list = _ref.list;
   return [list];
-}), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcModuleV) {
+}), _dec(_class = (_class2 = /*#__PURE__*/function (_RcModuleV) {
   _inherits(CallLog, _RcModuleV);
 
   var _super = _createSuper(CallLog);
@@ -248,6 +248,8 @@ var CallLog = (_dec = (0, _di.Module)({
     key: "onInit",
     value: function () {
       var _onInit = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+        var _this$_deps$extension, _this$_deps$extension2;
+
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -258,7 +260,7 @@ var CallLog = (_dec = (0, _di.Module)({
                   this.clearToken();
                 }
 
-                if (!this._deps.rolesAndPermissions.permissions.ReadCallLog) {
+                if (!((_this$_deps$extension = this._deps.extensionFeatures.features) === null || _this$_deps$extension === void 0 ? void 0 : (_this$_deps$extension2 = _this$_deps$extension.ReadExtensionCallLog) === null || _this$_deps$extension2 === void 0 ? void 0 : _this$_deps$extension2.available)) {
                   _context.next = 5;
                   break;
                 }
@@ -921,16 +923,6 @@ var CallLog = (_dec = (0, _di.Module)({
       return this._timeToRetry;
     }
   }, {
-    key: "canReadCallLog",
-    get: function get() {
-      return !!this._deps.rolesAndPermissions.permissions.ReadCallLog;
-    }
-  }, {
-    key: "canReadPresence",
-    get: function get() {
-      return !!this._deps.rolesAndPermissions.permissions.ReadPresenceStatus;
-    }
-  }, {
     key: "mainCompanyNumbers",
     get: function get() {
       return this._deps.extensionPhoneNumber.numbers.filter(function (_ref7) {
@@ -949,7 +941,7 @@ var CallLog = (_dec = (0, _di.Module)({
   }]);
 
   return CallLog;
-}(_core.RcModuleV2), _temp), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "data", [_core.storage, _core.state], {
+}(_core.RcModuleV2), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "data", [_core.storage, _core.state], {
   configurable: true,
   enumerable: true,
   writable: true,
@@ -960,6 +952,6 @@ var CallLog = (_dec = (0, _di.Module)({
       timestamp: null
     };
   }
-}), _applyDecoratedDescriptor(_class2.prototype, "resetData", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "resetData"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "clearToken", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "clearToken"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "filterExpiredCalls", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "filterExpiredCalls"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "syncSuccess", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "syncSuccess"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "calls", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "calls"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_fetch", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_fetch"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_iSync", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_iSync"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_fSync", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_fSync"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_sync", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_sync"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "sync", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "sync"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "fetchData", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "fetchData"), _class2.prototype)), _class2)) || _class);
+}), _applyDecoratedDescriptor(_class2.prototype, "resetData", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "resetData"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "clearToken", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "clearToken"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "filterExpiredCalls", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "filterExpiredCalls"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "syncSuccess", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "syncSuccess"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "calls", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "calls"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_fetch", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "_fetch"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_iSync", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "_iSync"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_fSync", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "_fSync"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_sync", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "_sync"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "sync", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "sync"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "fetchData", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "fetchData"), _class2.prototype)), _class2)) || _class);
 exports.CallLog = CallLog;
 //# sourceMappingURL=CallLog.js.map

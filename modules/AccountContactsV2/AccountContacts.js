@@ -1,15 +1,10 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.AccountContacts = void 0;
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 require("core-js/modules/es6.object.define-properties");
 
 require("core-js/modules/es7.object.get-own-property-descriptors");
-
-require("core-js/modules/es6.array.filter");
 
 require("core-js/modules/es6.array.from");
 
@@ -31,7 +26,14 @@ require("core-js/modules/es6.object.set-prototype-of");
 
 require("core-js/modules/es6.object.define-property");
 
+require("core-js/modules/es6.array.filter");
+
 require("core-js/modules/es6.array.reduce");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.AccountContacts = void 0;
 
 require("core-js/modules/es6.function.name");
 
@@ -57,29 +59,27 @@ require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.for-each");
 
-var _ramda = require("ramda");
-
 var _core = require("@ringcentral-integration/core");
+
+var _ramda = require("ramda");
 
 var _phoneSources = require("../../enums/phoneSources");
 
 var _phoneTypes = require("../../enums/phoneTypes");
 
-var _di = require("../../lib/di");
-
-var _isBlank = _interopRequireDefault(require("../../lib/isBlank"));
-
 var _batchApiHelper = require("../../lib/batchApiHelper");
 
 var _contactHelper = require("../../lib/contactHelper");
 
+var _di = require("../../lib/di");
+
+var _isBlank = _interopRequireDefault(require("../../lib/isBlank"));
+
 var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
 
-var _dec, _dec2, _class, _class2, _descriptor, _descriptor2, _temp;
+var _dec, _dec2, _dec3, _class, _class2, _descriptor, _descriptor2;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
@@ -151,7 +151,9 @@ var AccountContacts = (_dec = (0, _di.Module)({
       presences = _ref.presences,
       profileImages = _ref.profileImages;
   return [_deps.companyContacts.filteredContacts, profileImages, presences];
-}), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcModuleV) {
+}), _dec3 = (0, _core.computed)(function (that) {
+  return [that._deps.companyContacts.filteredContacts];
+}), _dec(_class = (_class2 = /*#__PURE__*/function (_RcModuleV) {
   _inherits(AccountContacts, _RcModuleV);
 
   var _super = _createSuper(AccountContacts);
@@ -376,7 +378,7 @@ var AccountContacts = (_dec = (0, _di.Module)({
   }, {
     key: "filterContacts",
     value: function filterContacts(searchFilter) {
-      return (0, _contactHelper.getFilterContacts)(this.contacts, searchFilter);
+      return (0, _contactHelper.getFilterContacts)(this.isCDCEnabled ? this.directoryContacts.cdc : this.directoryContacts.all, searchFilter);
     } // interface of ContactSource
 
   }, {
@@ -386,7 +388,7 @@ var AccountContacts = (_dec = (0, _di.Module)({
           isMultipleSiteEnabled = _this$_deps$extension.isMultipleSiteEnabled,
           site = _this$_deps$extension.site;
       return (0, _contactHelper.getSearchForPhoneNumbers)({
-        contacts: this.contacts,
+        contacts: this.isCDCEnabled ? this.directoryContacts.cdc : this.directoryContacts.all,
         searchString: searchString,
         entityType: _phoneSources.phoneSources.contact,
         options: {
@@ -636,6 +638,14 @@ var AccountContacts = (_dec = (0, _di.Module)({
       return (_this$_deps$accountCo7 = (_this$_deps$accountCo8 = this._deps.accountContactsOptions) === null || _this$_deps$accountCo8 === void 0 ? void 0 : _this$_deps$accountCo8.avatarQueryInterval) !== null && _this$_deps$accountCo7 !== void 0 ? _this$_deps$accountCo7 : DEFAULT_AVATARQUERYINTERVAL;
     }
   }, {
+    key: "isCDCEnabled",
+    get: function get() {
+      var _this$_deps$accountCo9, _this$_deps$accountCo10;
+
+      // TODO: default to true when cdc feature is ready for production.
+      return (_this$_deps$accountCo9 = (_this$_deps$accountCo10 = this._deps.accountContactsOptions) === null || _this$_deps$accountCo10 === void 0 ? void 0 : _this$_deps$accountCo10.enableCDC) !== null && _this$_deps$accountCo9 !== void 0 ? _this$_deps$accountCo9 : false;
+    }
+  }, {
     key: "sourceName",
     get: function get() {
       return 'company';
@@ -647,48 +657,67 @@ var AccountContacts = (_dec = (0, _di.Module)({
       var _this7 = this;
 
       return (0, _ramda.reduce)(function (result, item) {
-        var id = "".concat(item.id);
+        if (!(0, _isBlank["default"])(item.extensionNumber)) {
+          var id = "".concat(item.id);
 
-        var contact = _objectSpread(_objectSpread({}, item), {}, {
-          type: _this7.sourceName,
-          id: id,
-          emails: [item.email],
-          extensionNumber: item.extensionNumber,
-          hasProfileImage: !!item.profileImage,
-          phoneNumbers: [{
-            phoneNumber: item.extensionNumber,
-            phoneType: _phoneTypes.phoneTypes.extension
-          }],
-          profileImageUrl: _this7.profileImages[id] && _this7.profileImages[id].imageUrl,
-          presence: _this7.presences[id] && _this7.presences[id].presence,
-          contactStatus: item.status
-        });
-
-        contact.name = item.name ? item.name : "".concat(contact.firstName || '', " ").concat(contact.lastName || '');
-
-        if ((0, _isBlank["default"])(contact.extensionNumber)) {
-          return result;
-        }
-
-        if (item.phoneNumbers && item.phoneNumbers.length > 0) {
-          item.phoneNumbers.forEach(function (phone) {
-            if (phone.type) {
-              contact.phoneNumbers.push(_objectSpread(_objectSpread({}, phone), {}, {
-                phoneType: _phoneTypes.phoneTypes.direct
-              }));
-            }
+          var contact = _objectSpread(_objectSpread({}, item), {}, {
+            type: _this7.sourceName,
+            id: id,
+            name: item.name ? item.name : "".concat(item.firstName || '', " ").concat(item.lastName || ''),
+            emails: [item.email],
+            extensionNumber: item.extensionNumber,
+            hasProfileImage: !!item.profileImage,
+            phoneNumbers: [{
+              phoneNumber: item.extensionNumber,
+              phoneType: _phoneTypes.phoneTypes.extension
+            }],
+            profileImageUrl: _this7.profileImages[id] && _this7.profileImages[id].imageUrl,
+            presence: _this7.presences[id] && _this7.presences[id].presence,
+            contactStatus: item.status
           });
+
+          if (item.phoneNumbers && item.phoneNumbers.length > 0) {
+            item.phoneNumbers.forEach(function (phone) {
+              if (phone.type) {
+                contact.phoneNumbers.push(_objectSpread(_objectSpread({}, phone), {}, {
+                  phoneType: _phoneTypes.phoneTypes.direct
+                }));
+              }
+            });
+          }
+
+          result.all.push(contact);
+
+          if (!contact.hidden) {
+            var _contact$phoneNumbers;
+
+            var cdcContact = _objectSpread(_objectSpread({}, contact), {}, {
+              phoneNumbers: (0, _ramda.filter)(function (number) {
+                return !number.hidden;
+              }, (_contact$phoneNumbers = contact.phoneNumbers) !== null && _contact$phoneNumbers !== void 0 ? _contact$phoneNumbers : [])
+            });
+
+            result.cdc.push(cdcContact);
+          }
         }
 
-        result.push(contact);
         return result;
-      }, [], this._deps.companyContacts.filteredContacts);
+      }, {
+        all: [],
+        cdc: []
+      }, this._deps.companyContacts.filteredContacts);
     } // interface of ContactSource
 
   }, {
     key: "contacts",
     get: function get() {
-      return this.directoryContacts;
+      return this.directoryContacts.all;
+    } // interface of ContactSource
+
+  }, {
+    key: "rawContacts",
+    get: function get() {
+      return this._deps.companyContacts.filteredContacts;
     } // interface of ContactSource
 
   }, {
@@ -699,7 +728,7 @@ var AccountContacts = (_dec = (0, _di.Module)({
   }]);
 
   return AccountContacts;
-}(_core.RcModuleV2), _temp), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "profileImages", [_core.state], {
+}(_core.RcModuleV2), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "profileImages", [_core.state], {
   configurable: true,
   enumerable: true,
   writable: true,
@@ -713,6 +742,6 @@ var AccountContacts = (_dec = (0, _di.Module)({
   initializer: function initializer() {
     return {};
   }
-}), _applyDecoratedDescriptor(_class2.prototype, "fetchImageSuccess", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "fetchImageSuccess"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "batchFetchPresenceSuccess", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "batchFetchPresenceSuccess"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getProfileImage", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "getProfileImage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getPresence", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "getPresence"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "directoryContacts", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "directoryContacts"), _class2.prototype)), _class2)) || _class);
+}), _applyDecoratedDescriptor(_class2.prototype, "fetchImageSuccess", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "fetchImageSuccess"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "batchFetchPresenceSuccess", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "batchFetchPresenceSuccess"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "onReset", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "onReset"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getProfileImage", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "getProfileImage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getPresence", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "getPresence"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "directoryContacts", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "directoryContacts"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "rawContacts", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "rawContacts"), _class2.prototype)), _class2)) || _class);
 exports.AccountContacts = AccountContacts;
 //# sourceMappingURL=AccountContacts.js.map

@@ -1,15 +1,5 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.getConferenceCallStatusReducer = getConferenceCallStatusReducer;
-exports.getMakeConferenceCallReducer = getMakeConferenceCallReducer;
-exports.getMergingStatusReducer = getMergingStatusReducer;
-exports.getMergingPairReducer = getMergingPairReducer;
-exports.getCurrentConferenceIdReducer = getCurrentConferenceIdReducer;
-exports["default"] = getConferenceCallReducer;
-
 require("core-js/modules/es6.function.name");
 
 require("core-js/modules/es6.regexp.to-string");
@@ -41,6 +31,16 @@ require("core-js/modules/es6.array.iterator");
 require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.keys");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.getConferenceCallStatusReducer = getConferenceCallStatusReducer;
+exports.getMakeConferenceCallReducer = getMakeConferenceCallReducer;
+exports.getMergingStatusReducer = getMergingStatusReducer;
+exports.getMergingPairReducer = getMergingPairReducer;
+exports.getCurrentConferenceIdReducer = getCurrentConferenceIdReducer;
+exports["default"] = getConferenceCallReducer;
 
 require("core-js/modules/es6.object.define-property");
 

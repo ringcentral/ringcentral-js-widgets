@@ -1,15 +1,12 @@
 "use strict";
 
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+require("core-js/modules/es7.symbol.async-iterator");
+
 require("core-js/modules/es6.string.iterator");
 
 require("core-js/modules/es6.weak-map");
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = void 0;
-
-require("core-js/modules/es7.symbol.async-iterator");
 
 require("core-js/modules/es6.promise");
 
@@ -47,6 +44,11 @@ require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.for-each");
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
+
 require("regenerator-runtime/runtime");
 
 require("core-js/modules/es6.date.now");
@@ -55,29 +57,27 @@ require("core-js/modules/es6.number.constructor");
 
 require("core-js/modules/es6.number.parse-int");
 
-var _RcModule2 = _interopRequireDefault(require("../../lib/RcModule"));
+var _moduleStatuses = _interopRequireDefault(require("../../enums/moduleStatuses"));
 
 var _di = require("../../lib/di");
 
-var _actionTypes = _interopRequireDefault(require("./actionTypes"));
+var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
 
-var _moduleStatuses = _interopRequireDefault(require("../../enums/moduleStatuses"));
+var _RcModule2 = _interopRequireDefault(require("../../lib/RcModule"));
+
+var _actionTypes = require("./actionTypes");
+
+var _errorMessages = require("./errorMessages");
 
 var _getRateLimiterReducer = _interopRequireWildcard(require("./getRateLimiterReducer"));
 
-var _errorMessages = _interopRequireDefault(require("./errorMessages"));
-
-var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
-
-var _dec, _class, _class2, _temp;
+var _dec, _class, _class2;
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -116,7 +116,6 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
 
 var DEFAULT_THROTTLE_DURATION = 61 * 1000;
-var DEFAULT_ALERT_TTL = 5 * 1000;
 /**
  * @class
  * @description Rate limiter managing module
@@ -130,7 +129,7 @@ var RateLimiter = (_dec = (0, _di.Module)({
     dep: 'RateLimiterOptions',
     optional: true
   }]
-}), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcModule) {
+}), _dec(_class = (_class2 = /*#__PURE__*/function (_RcModule) {
   _inherits(RateLimiter, _RcModule);
 
   var _super = _createSuper(RateLimiter);
@@ -153,17 +152,19 @@ var RateLimiter = (_dec = (0, _di.Module)({
         globalStorage = _ref.globalStorage,
         _ref$throttleDuration = _ref.throttleDuration,
         throttleDuration = _ref$throttleDuration === void 0 ? DEFAULT_THROTTLE_DURATION : _ref$throttleDuration,
-        options = _objectWithoutProperties(_ref, ["alert", "client", "environment", "globalStorage", "throttleDuration"]);
+        _ref$suppressAlerts = _ref.suppressAlerts,
+        suppressAlerts = _ref$suppressAlerts === void 0 ? false : _ref$suppressAlerts,
+        options = _objectWithoutProperties(_ref, ["alert", "client", "environment", "globalStorage", "throttleDuration", "suppressAlerts"]);
 
     _classCallCheck(this, RateLimiter);
 
     _this = _super.call(this, _objectSpread(_objectSpread({}, options), {}, {
-      actionTypes: _actionTypes["default"]
+      actionTypes: _actionTypes.actionTypes
     }));
 
     _this._beforeRequestHandler = function () {
       if (_this.throttling) {
-        throw new Error(_errorMessages["default"].rateLimitReached);
+        throw new Error(_errorMessages.errorMessages.rateLimitReached);
       }
     };
 
@@ -210,6 +211,7 @@ var RateLimiter = (_dec = (0, _di.Module)({
     _this._environment = environment;
     _this._storage = globalStorage;
     _this._throttleDuration = throttleDuration;
+    _this._suppressAlerts = suppressAlerts;
     _this._storageKey = 'rateLimiterTimestamp';
     _this._reducer = (0, _getRateLimiterReducer["default"])(_this.actionTypes);
 
@@ -265,7 +267,7 @@ var RateLimiter = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                if (!(!this.throttling || !this._alert)) {
+                if (!(!this.throttling || !this._alert || this._suppressAlerts)) {
                   _context2.next = 2;
                   break;
                 }
@@ -274,8 +276,8 @@ var RateLimiter = (_dec = (0, _di.Module)({
 
               case 2:
                 this._alert.warning({
-                  message: _errorMessages["default"].rateLimitReached,
-                  ttl: DEFAULT_THROTTLE_DURATION,
+                  message: _errorMessages.errorMessages.rateLimitReached,
+                  ttl: this.ttl,
                   allowDuplicates: false
                 });
 
@@ -341,7 +343,7 @@ var RateLimiter = (_dec = (0, _di.Module)({
   }, {
     key: "throttling",
     get: function get() {
-      return Date.now() - this._storage.getItem(this._storageKey) <= this._throttleDuration;
+      return Date.now() - this.timestamp <= this._throttleDuration;
     }
   }, {
     key: "ready",
@@ -351,6 +353,6 @@ var RateLimiter = (_dec = (0, _di.Module)({
   }]);
 
   return RateLimiter;
-}(_RcModule2["default"]), _temp), (_applyDecoratedDescriptor(_class2.prototype, "showAlert", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "showAlert"), _class2.prototype)), _class2)) || _class);
+}(_RcModule2["default"]), (_applyDecoratedDescriptor(_class2.prototype, "showAlert", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "showAlert"), _class2.prototype)), _class2)) || _class);
 exports["default"] = RateLimiter;
 //# sourceMappingURL=index.js.map

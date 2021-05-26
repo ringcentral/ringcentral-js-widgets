@@ -1,17 +1,14 @@
 "use strict";
 
-require("core-js/modules/es6.string.iterator");
-
-require("core-js/modules/es6.weak-map");
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.RingCentralExtensions = void 0;
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
 
 require("core-js/modules/es6.symbol");
+
+require("core-js/modules/es6.string.iterator");
+
+require("core-js/modules/es6.weak-map");
 
 require("core-js/modules/es6.promise");
 
@@ -39,6 +36,11 @@ require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.for-each");
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.RingCentralExtensions = void 0;
+
 require("regenerator-runtime/runtime");
 
 var _core = _interopRequireDefault(require("@rc-ex/core"));
@@ -59,15 +61,13 @@ var _di = require("../../lib/di");
 
 var _webSocketReadyStates = require("./webSocketReadyStates");
 
-var _dec, _class, _class2, _descriptor, _descriptor2, _temp;
+var _dec, _class, _class2, _descriptor, _descriptor2;
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -108,7 +108,7 @@ var RingCentralExtensions = (_dec = (0, _di.Module)({
     dep: 'RingCentralExtensionsOptions',
     optional: true
   }]
-}), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcModuleV) {
+}), _dec(_class = (_class2 = /*#__PURE__*/function (_RcModuleV) {
   _inherits(RingCentralExtensions, _RcModuleV);
 
   var _super = _createSuper(RingCentralExtensions);
@@ -195,7 +195,7 @@ var RingCentralExtensions = (_dec = (0, _di.Module)({
                 _context.t0 = _context["catch"](10);
                 // It tries to establish connection on install.
                 // Catch the connection issue and ignore.
-                console.warn('[RingCentralExtensions] Establish websocket failed', _context.t0);
+                console.error('[RingCentralExtensions] Establish websocket failed', _context.t0);
 
               case 18:
               case "end":
@@ -253,12 +253,16 @@ var RingCentralExtensions = (_dec = (0, _di.Module)({
                 // expose WebSocket events
                 this._exposeConnectionEvents();
 
+                this._webSocketExtension.eventEmitter.addListener(_ws.Events.newWebSocketObject, function () {
+                  _this2._exposeConnectionEvents();
+                });
+
                 if (this._webSocketExtension.options.autoRecover) {
-                  this._webSocketExtension.eventEmitter.on(_ws.Events.autoRecoverSuccess, function () {
+                  this._webSocketExtension.eventEmitter.addListener(_ws.Events.autoRecoverSuccess, function () {
                     _this2._exposeConnectionEvents();
                   });
 
-                  this._webSocketExtension.eventEmitter.on(_ws.Events.autoRecoverFailed, function () {
+                  this._webSocketExtension.eventEmitter.addListener(_ws.Events.autoRecoverFailed, function () {
                     _this2._exposeConnectionEvents();
                   });
                 } // register SleepDetector
@@ -291,13 +295,18 @@ var RingCentralExtensions = (_dec = (0, _di.Module)({
                     return;
                   }
 
-                  if (_this2.isLoggedIn) {
-                    _this2.recoverWebSocketConnection();
-                  } else {// this.revokeWebSocketConnection();
+                  try {
+                    if (_this2.isLoggedIn) {
+                      _this2.recoverWebSocketConnection();
+                    } else {
+                      _this2.revokeWebSocketConnection();
+                    }
+                  } catch (ex) {
+                    console.error('[RingCentralExtensions]', ex);
                   }
                 });
 
-              case 6:
+              case 7:
               case "end":
                 return _context3.stop();
             }
@@ -511,7 +520,7 @@ var RingCentralExtensions = (_dec = (0, _di.Module)({
   }]);
 
   return RingCentralExtensions;
-}(_core2.RcModuleV2), _temp), (_applyDecoratedDescriptor(_class2.prototype, "_setLoggedIn", [_core2.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setLoggedIn"), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, "isLoggedIn", [_core2.state], {
+}(_core2.RcModuleV2), (_applyDecoratedDescriptor(_class2.prototype, "_setLoggedIn", [_core2.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setLoggedIn"), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, "isLoggedIn", [_core2.state], {
   configurable: true,
   enumerable: true,
   writable: true,

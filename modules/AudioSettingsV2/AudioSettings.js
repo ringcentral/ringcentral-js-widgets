@@ -1,13 +1,6 @@
 "use strict";
 
-require("core-js/modules/es6.array.filter");
-
-require("core-js/modules/es6.array.find");
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.AudioSettings = void 0;
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -35,6 +28,15 @@ require("core-js/modules/es6.array.iterator");
 
 require("core-js/modules/es6.object.keys");
 
+require("core-js/modules/es6.array.filter");
+
+require("core-js/modules/es6.array.find");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.AudioSettings = void 0;
+
 require("core-js/modules/es6.array.index-of");
 
 require("core-js/modules/es6.array.for-each");
@@ -59,9 +61,7 @@ var _proxify = require("../../lib/proxy/proxify");
 
 var _audioSettingsErrors = require("./audioSettingsErrors");
 
-var _dec, _dec2, _dec3, _class, _class2, _descriptor, _descriptor2, _descriptor3, _temp;
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+var _dec, _dec2, _dec3, _class, _class2, _descriptor, _descriptor2, _descriptor3;
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -118,7 +118,7 @@ function polyfillGetUserMedia() {
 polyfillGetUserMedia();
 var AudioSettings = (_dec = (0, _di.Module)({
   name: 'AudioSettings',
-  deps: ['Auth', 'Alert', 'Storage', 'RolesAndPermissions', {
+  deps: ['Auth', 'Alert', 'Storage', 'ExtensionFeatures', {
     dep: 'AudioSettingsOptions',
     optional: true
   }]
@@ -128,7 +128,7 @@ var AudioSettings = (_dec = (0, _di.Module)({
 }), _dec3 = (0, _core.computed)(function (_ref2) {
   var availableDevices = _ref2.availableDevices;
   return [availableDevices];
-}), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcModuleV) {
+}), _dec(_class = (_class2 = /*#__PURE__*/function (_RcModuleV) {
   _inherits(AudioSettings, _RcModuleV);
 
   var _super = _createSuper(AudioSettings);
@@ -266,7 +266,7 @@ var AudioSettings = (_dec = (0, _di.Module)({
       }
 
       this.parentModule.store.subscribe(function () {
-        if (_this3.ready && _this3._deps.auth.loggedIn && _this3._deps.rolesAndPermissions.webphoneEnabled && !_this3.userMedia) {
+        if (_this3.ready && _this3._deps.auth.loggedIn && _this3._deps.extensionFeatures.isWebPhoneEnabled && !_this3.userMedia) {
           // Make sure it only prompts once
           if (_this3.hasAutoPrompted) return;
 
@@ -301,16 +301,16 @@ var AudioSettings = (_dec = (0, _di.Module)({
       return markAutoPrompted;
     }()
   }, {
-    key: "initModule",
+    key: "_initModule",
     value: function () {
-      var _initModule = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+      var _initModule2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
         var _this4 = this;
 
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                _get(_getPrototypeOf(AudioSettings.prototype), "initModule", this).call(this);
+                _get(_getPrototypeOf(AudioSettings.prototype), "_initModule", this).call(this);
 
                 if (navigator && navigator.mediaDevices && navigator.mediaDevices.addEventListener) {
                   navigator.mediaDevices.addEventListener('devicechange', function () {
@@ -326,11 +326,11 @@ var AudioSettings = (_dec = (0, _di.Module)({
         }, _callee2, this);
       }));
 
-      function initModule() {
-        return _initModule.apply(this, arguments);
+      function _initModule() {
+        return _initModule2.apply(this, arguments);
       }
 
-      return initModule;
+      return _initModule;
     }()
   }, {
     key: "onInit",
@@ -685,7 +685,7 @@ var AudioSettings = (_dec = (0, _di.Module)({
   }]);
 
   return AudioSettings;
-}(_core.RcModuleV2), _temp), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "data", [_core.storage, _core.state], {
+}(_core.RcModuleV2), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "data", [_core.storage, _core.state], {
   configurable: true,
   enumerable: true,
   writable: true,

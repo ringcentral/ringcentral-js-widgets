@@ -1,9 +1,6 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.ExtensionInfo = void 0;
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -29,8 +26,6 @@ require("core-js/modules/es6.object.set-prototype-of");
 
 require("core-js/modules/es6.object.define-property");
 
-require("core-js/modules/es6.array.reduce");
-
 require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
@@ -40,6 +35,13 @@ require("core-js/modules/es6.object.to-string");
 require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.for-each");
+
+require("core-js/modules/es6.array.reduce");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.ExtensionInfo = void 0;
 
 require("core-js/modules/es6.array.is-array");
 
@@ -63,9 +65,7 @@ var _DataFetcherV = require("../DataFetcherV2");
 
 var _permissionsMessages = require("../RolesAndPermissions/permissionsMessages");
 
-var _dec, _dec2, _dec3, _dec4, _class, _class2, _temp;
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+var _dec, _dec2, _dec3, _dec4, _class, _class2;
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -107,7 +107,10 @@ var DEFAULT_COUNTRY = {
 };
 var ExtensionInfo = (_dec = (0, _di.Module)({
   name: 'ExtensionInfo',
-  deps: ['Auth', 'Client', 'DataFetcherV2', 'Subscription', 'Alert', {
+  deps: ['Auth', 'Client', 'DataFetcherV2', 'ExtensionFeatures', {
+    dep: 'Subscription',
+    optional: true
+  }, 'Alert', {
     dep: 'TabManager',
     optional: true
   }, {
@@ -123,7 +126,7 @@ var ExtensionInfo = (_dec = (0, _di.Module)({
 }), _dec4 = (0, _core.computed)(function (_ref3) {
   var info = _ref3.info;
   return [info];
-}), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_DataFetcherV2Consume) {
+}), _dec(_class = (_class2 = /*#__PURE__*/function (_DataFetcherV2Consume) {
   _inherits(ExtensionInfo, _DataFetcherV2Consume);
 
   var _super = _createSuper(ExtensionInfo);
@@ -223,13 +226,15 @@ var ExtensionInfo = (_dec = (0, _di.Module)({
     value: function onInit() {
       var _this2 = this;
 
-      this._deps.subscription.subscribe([_subscriptionFilters.subscriptionFilters.extensionInfo]);
+      if (this._deps.subscription) {
+        this._deps.subscription.subscribe([_subscriptionFilters.subscriptionFilters.extensionInfo]);
 
-      this._stopWatching = (0, _core.watch)(this, function () {
-        return _this2._deps.subscription.message;
-      }, function (message) {
-        return _this2._handleSubscription(message);
-      });
+        this._stopWatching = (0, _core.watch)(this, function () {
+          return _this2._deps.subscription.message;
+        }, function (message) {
+          return _this2._handleSubscription(message);
+        });
+      }
     }
   }, {
     key: "onReset",
@@ -251,6 +256,7 @@ var ExtensionInfo = (_dec = (0, _di.Module)({
     get: function get() {
       var _this$info$serviceFea;
 
+      console.warn('ExtensionInfo.serviceFeatures is deprecated.');
       return (0, _ramda.reduce)(function (acc, _ref4) {
         var featureName = _ref4.featureName,
             enabled = _ref4.enabled,
@@ -299,14 +305,14 @@ var ExtensionInfo = (_dec = (0, _di.Module)({
   }, {
     key: "site",
     get: function get() {
-      var _this$serviceFeatures;
+      var _this$_deps$extension4, _this$_deps$extension5;
 
       if (!this.isMultipleSiteEnabled) {
         return null;
       }
 
-      if (((_this$serviceFeatures = this.serviceFeatures.SiteCodes) === null || _this$serviceFeatures === void 0 ? void 0 : _this$serviceFeatures.enabled) && !this.info.site) {
-        console.warn('site code enabled, but connot retrieve site info');
+      if (((_this$_deps$extension4 = this._deps.extensionFeatures.features) === null || _this$_deps$extension4 === void 0 ? void 0 : (_this$_deps$extension5 = _this$_deps$extension4.SiteCodes) === null || _this$_deps$extension5 === void 0 ? void 0 : _this$_deps$extension5.available) && !this.info.site) {
+        console.warn('site code enabled, but cannot retrieve site info');
       }
 
       return this.info.site || null;
@@ -319,6 +325,6 @@ var ExtensionInfo = (_dec = (0, _di.Module)({
   }]);
 
   return ExtensionInfo;
-}(_DataFetcherV.DataFetcherV2Consumer), _temp), (_applyDecoratedDescriptor(_class2.prototype, "info", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "info"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "serviceFeatures", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "serviceFeatures"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "site", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "site"), _class2.prototype)), _class2)) || _class);
+}(_DataFetcherV.DataFetcherV2Consumer), (_applyDecoratedDescriptor(_class2.prototype, "info", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "info"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "serviceFeatures", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "serviceFeatures"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "site", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "site"), _class2.prototype)), _class2)) || _class);
 exports.ExtensionInfo = ExtensionInfo;
 //# sourceMappingURL=ExtensionInfo.js.map

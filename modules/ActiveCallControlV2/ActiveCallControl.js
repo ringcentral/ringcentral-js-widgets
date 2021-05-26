@@ -1,11 +1,6 @@
 "use strict";
 
-require("core-js/modules/es6.array.sort");
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.ActiveCallControl = void 0;
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -34,6 +29,13 @@ require("core-js/modules/es6.object.set-prototype-of");
 require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.object.keys");
+
+require("core-js/modules/es6.array.sort");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.ActiveCallControl = void 0;
 
 require("core-js/modules/es6.array.some");
 
@@ -105,11 +107,9 @@ var _webphoneHelper = require("../Webphone/webphoneHelper");
 
 var _sessionStatus = require("../Webphone/sessionStatus");
 
-var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _dec10, _dec11, _dec12, _dec13, _dec14, _dec15, _dec16, _dec17, _dec18, _dec19, _dec20, _dec21, _dec22, _dec23, _dec24, _class, _class2, _descriptor, _descriptor2, _descriptor3, _temp;
+var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _dec10, _dec11, _dec12, _dec13, _dec14, _dec15, _dec16, _dec17, _dec18, _dec19, _dec20, _dec21, _dec22, _dec23, _dec24, _dec25, _class, _class2, _descriptor, _descriptor2, _descriptor3;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
 
@@ -164,7 +164,7 @@ var telephonySessionsEndPoint = /\/telephony\/sessions$/;
 var subscribeEvent = _subscriptionFilters["default"].telephonySessions;
 var ActiveCallControl = (_dec = (0, _di.Module)({
   name: 'ActiveCallControl',
-  deps: ['Auth', 'Alert', 'Brand', 'Client', 'Presence', 'AccountInfo', 'Subscription', 'ExtensionInfo', 'NumberValidate', 'RegionSettings', 'ConnectivityMonitor', 'RolesAndPermissions', {
+  deps: ['Auth', 'Alert', 'Brand', 'Client', 'Presence', 'AccountInfo', 'Subscription', 'ExtensionInfo', 'ExtensionFeatures', 'NumberValidate', 'RegionSettings', 'ConnectivityMonitor', {
     dep: 'Prefix',
     optional: true
   }, {
@@ -225,13 +225,13 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
   return [that.sessions, that.timestamp];
 }), _dec19 = (0, _core.computed)(function (that) {
   return [that._deps.presence.calls];
-}), _dec20 = (0, _core.track)(_Analytics.trackEvents.dialpadOpen), _dec21 = (0, _core.track)(_Analytics.trackEvents.dialpadClose), _dec22 = (0, _core.track)(function (that) {
+}), _dec20 = (0, _core.track)(_Analytics.trackEvents.inboundWebRTCCallConnected), _dec21 = (0, _core.track)(_Analytics.trackEvents.dialpadOpen), _dec22 = (0, _core.track)(_Analytics.trackEvents.dialpadClose), _dec23 = (0, _core.track)(function (that) {
   return [that._getTrackEventName(_Analytics.trackEvents.clickTransfer)];
-}), _dec23 = (0, _core.track)(function (that) {
-  return [that._getTrackEventName(_Analytics.trackEvents.forward)];
 }), _dec24 = (0, _core.track)(function (that) {
+  return [that._getTrackEventName(_Analytics.trackEvents.forward)];
+}), _dec25 = (0, _core.track)(function (that) {
   return [that._getTrackEventName(_Analytics.trackEvents["switch"])];
-}), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcModuleV) {
+}), _dec(_class = (_class2 = /*#__PURE__*/function (_RcModuleV) {
   _inherits(ActiveCallControl, _RcModuleV);
 
   var _super = _createSuper(ActiveCallControl);
@@ -327,9 +327,9 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
       return onStateChange;
     }()
   }, {
-    key: "initModule",
+    key: "_initModule",
     value: function () {
-      var _initModule = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+      var _initModule2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -337,7 +337,7 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
                 this._createOtherInstanceListener();
 
                 _context2.next = 3;
-                return _get(_getPrototypeOf(ActiveCallControl.prototype), "initModule", this).call(this);
+                return _get(_getPrototypeOf(ActiveCallControl.prototype), "_initModule", this).call(this);
 
               case 3:
               case "end":
@@ -347,11 +347,11 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
         }, _callee2, this);
       }));
 
-      function initModule() {
-        return _initModule.apply(this, arguments);
+      function _initModule() {
+        return _initModule2.apply(this, arguments);
       }
 
-      return initModule;
+      return _initModule;
     }()
   }, {
     key: "_createOtherInstanceListener",
@@ -938,10 +938,12 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
       session.removeListener(_Session.events.MUTED, this._updateSessionsHandler);
       session.removeListener(_Session.events.RECORDINGS, this._updateSessionsHandler);
       session.removeListener(_Session.events.DISCONNECTED, this._updateSessionsHandler);
+      session.removeListener(_Session.events.WEBPHONE_SESSION_CONNECTED, this._updateSessionsHandler);
       session.on(_Session.events.STATUS, this._updateSessionsHandler);
       session.on(_Session.events.MUTED, this._updateSessionsHandler);
       session.on(_Session.events.RECORDINGS, this._updateSessionsHandler);
-      session.on(_Session.events.DISCONNECTED, this._updateSessionsHandler); // Handle the session update at the end of function to reduce the probability of empty rc call
+      session.on(_Session.events.DISCONNECTED, this._updateSessionsHandler);
+      session.on(_Session.events.WEBPHONE_SESSION_CONNECTED, this._updateSessionsHandler); // Handle the session update at the end of function to reduce the probability of empty rc call
       // sessions
 
       this._updateSessionsHandler();
@@ -2326,13 +2328,15 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
                 });
 
               case 10:
+                this._trackWebRTCCallAnswer();
+
                 if (webphoneSession && webphoneSession.__rc_callStatus) {
                   webphoneSession.__rc_callStatus = _sessionStatus.sessionStatus.connected;
                 }
 
                 this.clearCallControlBusyTimestamp();
 
-              case 12:
+              case 13:
               case "end":
                 return _context28.stop();
             }
@@ -2516,6 +2520,8 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
                 });
 
               case 12:
+                this._trackWebRTCCallAnswer();
+
                 webphoneSession = session.webphoneSession;
 
                 if (webphoneSession && webphoneSession.__rc_callStatus) {
@@ -2523,21 +2529,21 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
                 }
 
                 this.clearCallControlBusyTimestamp();
-                _context32.next = 21;
+                _context32.next = 22;
                 break;
 
-              case 17:
-                _context32.prev = 17;
+              case 18:
+                _context32.prev = 18;
                 _context32.t0 = _context32["catch"](0);
                 console.log('answer and end fail.');
                 console.error(_context32.t0);
 
-              case 21:
+              case 22:
               case "end":
                 return _context32.stop();
             }
           }
-        }, _callee32, this, [[0, 17]]);
+        }, _callee32, this, [[0, 18]]);
       }));
 
       function answerAndEnd(_x28) {
@@ -2681,6 +2687,9 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
       });
     }
   }, {
+    key: "_trackWebRTCCallAnswer",
+    value: function _trackWebRTCCallAnswer() {}
+  }, {
     key: "dialpadOpenTrack",
     value: function dialpadOpenTrack() {}
   }, {
@@ -2703,29 +2712,23 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
   }, {
     key: "activeSessions",
     get: function get() {
-      // TODO: add calls type in callMonitor modules
-      var reducer = function reducer(accumulator, session) {
+      return this.sessions.reduce(function (accumulator, session) {
         var id = session.id;
         accumulator[id] = (0, _helpers.normalizeSession)({
           session: session
         });
         return accumulator;
-      };
-
-      return this.sessions.reduce(reducer, {});
+      }, {});
     }
   }, {
     key: "sessionIdToTelephonySessionIdMapping",
     get: function get() {
-      // TODO: add calls type in callMonitor modules
-      var reducer = function reducer(accumulator, call) {
+      return this._deps.presence.calls.reduce(function (accumulator, call) {
         var telephonySessionId = call.telephonySessionId,
             sessionId = call.sessionId;
         accumulator[sessionId] = telephonySessionId;
         return accumulator;
-      };
-
-      return this._deps.presence.calls.reduce(reducer, {});
+      }, {});
     }
     /**
      * Mitigation strategy for avoiding 404/409 on call control endpoings.
@@ -2741,7 +2744,7 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
   }, {
     key: "_hasPermission",
     get: function get() {
-      return this._deps.rolesAndPermissions.ringoutEnabled;
+      return this._deps.extensionFeatures.isRingOutEnabled;
     }
   }, {
     key: "timeToRetry",
@@ -2825,7 +2828,7 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
   }]);
 
   return ActiveCallControl;
-}(_core.RcModuleV2), _temp), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "data", [_core.storage, _core.state], {
+}(_core.RcModuleV2), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "data", [_core.storage, _core.state], {
   configurable: true,
   enumerable: true,
   writable: true,
@@ -2851,6 +2854,6 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
   initializer: function initializer() {
     return [];
   }
-}), _applyDecoratedDescriptor(_class2.prototype, "resetState", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "resetState"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateActiveSessions", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "updateActiveSessions"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "removeActiveSession", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "removeActiveSession"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setActiveSessionId", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setActiveSessionId"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setLastEndedSessionIds", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setLastEndedSessionIds"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setCallControlBusyTimestamp", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setCallControlBusyTimestamp"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "clearCallControlBusyTimestamp", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "clearCallControlBusyTimestamp"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "mute", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "mute"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "unmute", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "unmute"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "startRecord", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "startRecord"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "stopRecord", [_dec5], Object.getOwnPropertyDescriptor(_class2.prototype, "stopRecord"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "hangUp", [_dec6], Object.getOwnPropertyDescriptor(_class2.prototype, "hangUp"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "reject", [_dec7], Object.getOwnPropertyDescriptor(_class2.prototype, "reject"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "switch", [_dec8], Object.getOwnPropertyDescriptor(_class2.prototype, "switch"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "hold", [_dec9], Object.getOwnPropertyDescriptor(_class2.prototype, "hold"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "unhold", [_dec10], Object.getOwnPropertyDescriptor(_class2.prototype, "unhold"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "transfer", [_dec11], Object.getOwnPropertyDescriptor(_class2.prototype, "transfer"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "forward", [_dec12], Object.getOwnPropertyDescriptor(_class2.prototype, "forward"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "answer", [_dec13], Object.getOwnPropertyDescriptor(_class2.prototype, "answer"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "answerAndHold", [_dec14], Object.getOwnPropertyDescriptor(_class2.prototype, "answerAndHold"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "ignore", [_dec15], Object.getOwnPropertyDescriptor(_class2.prototype, "ignore"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "answerAndEnd", [_dec16], Object.getOwnPropertyDescriptor(_class2.prototype, "answerAndEnd"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "activeSession", [_dec17], Object.getOwnPropertyDescriptor(_class2.prototype, "activeSession"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "activeSessions", [_dec18], Object.getOwnPropertyDescriptor(_class2.prototype, "activeSessions"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "sessionIdToTelephonySessionIdMapping", [_dec19], Object.getOwnPropertyDescriptor(_class2.prototype, "sessionIdToTelephonySessionIdMapping"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "dialpadOpenTrack", [_dec20], Object.getOwnPropertyDescriptor(_class2.prototype, "dialpadOpenTrack"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "dialpadCloseTrack", [_dec21], Object.getOwnPropertyDescriptor(_class2.prototype, "dialpadCloseTrack"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "clickTransferTrack", [_dec22], Object.getOwnPropertyDescriptor(_class2.prototype, "clickTransferTrack"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "clickForwardTrack", [_dec23], Object.getOwnPropertyDescriptor(_class2.prototype, "clickForwardTrack"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "clickSwitchTrack", [_dec24], Object.getOwnPropertyDescriptor(_class2.prototype, "clickSwitchTrack"), _class2.prototype)), _class2)) || _class);
+}), _applyDecoratedDescriptor(_class2.prototype, "resetState", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "resetState"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateActiveSessions", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "updateActiveSessions"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "removeActiveSession", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "removeActiveSession"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setActiveSessionId", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setActiveSessionId"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setLastEndedSessionIds", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setLastEndedSessionIds"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setCallControlBusyTimestamp", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setCallControlBusyTimestamp"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "clearCallControlBusyTimestamp", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "clearCallControlBusyTimestamp"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "mute", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "mute"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "unmute", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "unmute"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "startRecord", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "startRecord"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "stopRecord", [_dec5], Object.getOwnPropertyDescriptor(_class2.prototype, "stopRecord"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "hangUp", [_dec6], Object.getOwnPropertyDescriptor(_class2.prototype, "hangUp"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "reject", [_dec7], Object.getOwnPropertyDescriptor(_class2.prototype, "reject"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "switch", [_dec8], Object.getOwnPropertyDescriptor(_class2.prototype, "switch"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "hold", [_dec9], Object.getOwnPropertyDescriptor(_class2.prototype, "hold"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "unhold", [_dec10], Object.getOwnPropertyDescriptor(_class2.prototype, "unhold"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "transfer", [_dec11], Object.getOwnPropertyDescriptor(_class2.prototype, "transfer"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "forward", [_dec12], Object.getOwnPropertyDescriptor(_class2.prototype, "forward"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "answer", [_dec13], Object.getOwnPropertyDescriptor(_class2.prototype, "answer"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "answerAndHold", [_dec14], Object.getOwnPropertyDescriptor(_class2.prototype, "answerAndHold"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "ignore", [_dec15], Object.getOwnPropertyDescriptor(_class2.prototype, "ignore"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "answerAndEnd", [_dec16], Object.getOwnPropertyDescriptor(_class2.prototype, "answerAndEnd"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "activeSession", [_dec17], Object.getOwnPropertyDescriptor(_class2.prototype, "activeSession"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "activeSessions", [_dec18], Object.getOwnPropertyDescriptor(_class2.prototype, "activeSessions"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "sessionIdToTelephonySessionIdMapping", [_dec19], Object.getOwnPropertyDescriptor(_class2.prototype, "sessionIdToTelephonySessionIdMapping"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_trackWebRTCCallAnswer", [_dec20], Object.getOwnPropertyDescriptor(_class2.prototype, "_trackWebRTCCallAnswer"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "dialpadOpenTrack", [_dec21], Object.getOwnPropertyDescriptor(_class2.prototype, "dialpadOpenTrack"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "dialpadCloseTrack", [_dec22], Object.getOwnPropertyDescriptor(_class2.prototype, "dialpadCloseTrack"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "clickTransferTrack", [_dec23], Object.getOwnPropertyDescriptor(_class2.prototype, "clickTransferTrack"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "clickForwardTrack", [_dec24], Object.getOwnPropertyDescriptor(_class2.prototype, "clickForwardTrack"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "clickSwitchTrack", [_dec25], Object.getOwnPropertyDescriptor(_class2.prototype, "clickSwitchTrack"), _class2.prototype)), _class2)) || _class);
 exports.ActiveCallControl = ActiveCallControl;
 //# sourceMappingURL=ActiveCallControl.js.map

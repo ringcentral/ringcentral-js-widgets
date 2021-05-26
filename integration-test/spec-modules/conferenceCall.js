@@ -10,12 +10,12 @@ require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.weak-map");
 
+require("core-js/modules/es6.promise");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
-
-require("core-js/modules/es6.promise");
 
 require("core-js/modules/es7.object.values");
 

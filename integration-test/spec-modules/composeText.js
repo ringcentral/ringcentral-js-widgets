@@ -1,10 +1,5 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = void 0;
-
 require("core-js/modules/es6.object.define-properties");
 
 require("core-js/modules/es7.object.get-own-property-descriptors");
@@ -20,6 +15,11 @@ require("core-js/modules/es6.object.keys");
 require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.promise");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
 
 require("core-js/modules/web.dom.iterable");
 

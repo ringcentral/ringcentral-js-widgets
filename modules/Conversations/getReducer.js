@@ -1,22 +1,5 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.getSearchInputReducer = getSearchInputReducer;
-exports.getTypeFilterReducer = getTypeFilterReducer;
-exports.getOldConversationsReducer = getOldConversationsReducer;
-exports.getFetchConversationsStatusReducer = getFetchConversationsStatusReducer;
-exports.getCurrentPageReducer = getCurrentPageReducer;
-exports.getCurrentConversationIdReducer = getCurrentConversationIdReducer;
-exports.getOldMessagesReducer = getOldMessagesReducer;
-exports.getFetchMessagesStatusReducer = getFetchMessagesStatusReducer;
-exports.getMessageTextsReducer = getMessageTextsReducer;
-exports.getConversationStatusReducer = getConversationStatusReducer;
-exports.getCorrespondentMatch = getCorrespondentMatch;
-exports.getCorrespondentResponse = getCorrespondentResponse;
-exports["default"] = getReducer;
-
 require("core-js/modules/es6.object.define-properties");
 
 require("core-js/modules/es7.object.get-own-property-descriptors");
@@ -48,6 +31,23 @@ require("core-js/modules/es6.array.is-array");
 require("core-js/modules/es7.symbol.async-iterator");
 
 require("core-js/modules/es6.symbol");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.getSearchInputReducer = getSearchInputReducer;
+exports.getTypeFilterReducer = getTypeFilterReducer;
+exports.getOldConversationsReducer = getOldConversationsReducer;
+exports.getFetchConversationsStatusReducer = getFetchConversationsStatusReducer;
+exports.getCurrentPageReducer = getCurrentPageReducer;
+exports.getCurrentConversationIdReducer = getCurrentConversationIdReducer;
+exports.getOldMessagesReducer = getOldMessagesReducer;
+exports.getFetchMessagesStatusReducer = getFetchMessagesStatusReducer;
+exports.getMessageTextsReducer = getMessageTextsReducer;
+exports.getConversationStatusReducer = getConversationStatusReducer;
+exports.getCorrespondentMatch = getCorrespondentMatch;
+exports.getCorrespondentResponse = getCorrespondentResponse;
+exports["default"] = getReducer;
 
 require("core-js/modules/es6.array.reduce");
 

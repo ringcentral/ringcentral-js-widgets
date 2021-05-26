@@ -1,17 +1,14 @@
 "use strict";
 
-require("core-js/modules/es6.string.iterator");
-
-require("core-js/modules/es6.weak-map");
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.Locale = void 0;
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
 
 require("core-js/modules/es6.symbol");
+
+require("core-js/modules/es6.string.iterator");
+
+require("core-js/modules/es6.weak-map");
 
 require("core-js/modules/es6.promise");
 
@@ -39,11 +36,24 @@ require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.for-each");
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Locale = void 0;
+
+require("core-js/modules/es6.regexp.split");
+
+require("core-js/modules/es6.array.map");
+
+require("core-js/modules/es6.array.find");
+
 require("regenerator-runtime/runtime");
 
 var _core = require("@ringcentral-integration/core");
 
 var _i18n = _interopRequireWildcard(require("@ringcentral-integration/i18n"));
+
+var _formatLocale = _interopRequireDefault(require("@ringcentral-integration/i18n/lib/formatLocale"));
 
 var _formatMessage = _interopRequireDefault(require("format-message"));
 
@@ -53,15 +63,13 @@ var _di = require("../../lib/di");
 
 var _proxify = require("../../lib/proxy/proxify");
 
-var _dec, _class, _class2, _descriptor, _descriptor2, _descriptor3, _temp;
+var _dec, _dec2, _class, _class2, _descriptor, _descriptor2, _descriptor3;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -89,17 +97,22 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
-
 function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and runs after the decorators transform.'); }
+
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
 
 var Locale = (_dec = (0, _di.Module)({
   name: 'Locale',
   deps: [{
+    dep: 'Brand',
+    optional: true
+  }, {
     dep: 'LocaleOptions',
     optional: true
   }]
-}), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcModuleV) {
+}), _dec2 = (0, _core.computed)(function (that) {
+  return [that._defaultLocale];
+}), _dec(_class = (_class2 = /*#__PURE__*/function (_RcModuleV) {
   _inherits(Locale, _RcModuleV);
 
   var _super = _createSuper(Locale);
@@ -182,6 +195,7 @@ var Locale = (_dec = (0, _di.Module)({
       var _initializeProxy = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
         var _this2 = this;
 
+        var setLocalePromise;
         return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
@@ -196,18 +210,21 @@ var Locale = (_dec = (0, _di.Module)({
                     while (1) {
                       switch (_context2.prev = _context2.next) {
                         case 0:
-                          if (!(_this2.locale !== _this2.proxyLocale)) {
-                            _context2.next = 4;
+                          if (!(_this2.locale !== _this2.proxyLocale && !setLocalePromise)) {
+                            _context2.next = 6;
                             break;
                           }
 
-                          _context2.next = 3;
-                          return _this2._setLocale(_this2.locale);
-
-                        case 3:
-                          _this2.setProxyLocaleSuccess(_this2.locale);
+                          setLocalePromise = _this2._setLocale(_this2.locale);
+                          _context2.next = 4;
+                          return setLocalePromise;
 
                         case 4:
+                          _this2.setProxyLocaleSuccess(_this2.locale);
+
+                          setLocalePromise = null;
+
+                        case 6:
                         case "end":
                           return _context2.stop();
                       }
@@ -322,6 +339,19 @@ var Locale = (_dec = (0, _di.Module)({
       return _setLocale;
     }()
   }, {
+    key: "normalizeLocale",
+    value: function normalizeLocale(inputLocale) {
+      var locale = (0, _formatLocale["default"])(inputLocale);
+
+      var target = this._supportedLocales.map(function (item) {
+        return (0, _formatLocale["default"])(item);
+      }).find(function (item) {
+        return item === locale || item.split('-')[0] === locale;
+      });
+
+      return target !== null && target !== void 0 ? target : this._defaultLocale;
+    }
+  }, {
     key: "toggleDebugMode",
     value: function () {
       var _toggleDebugMode2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
@@ -391,9 +421,9 @@ var Locale = (_dec = (0, _di.Module)({
   }, {
     key: "_defaultLocale",
     get: function get() {
-      var _this$_deps$localeOpt, _this$_deps$localeOpt2;
+      var _ref2, _this$_deps$localeOpt, _this$_deps$localeOpt2, _this$_deps$brand, _this$_deps$brand$bra;
 
-      return (_this$_deps$localeOpt = (_this$_deps$localeOpt2 = this._deps.localeOptions) === null || _this$_deps$localeOpt2 === void 0 ? void 0 : _this$_deps$localeOpt2.defaultLocale) !== null && _this$_deps$localeOpt !== void 0 ? _this$_deps$localeOpt : _i18n.DEFAULT_LOCALE;
+      return (_ref2 = (_this$_deps$localeOpt = (_this$_deps$localeOpt2 = this._deps.localeOptions) === null || _this$_deps$localeOpt2 === void 0 ? void 0 : _this$_deps$localeOpt2.defaultLocale) !== null && _this$_deps$localeOpt !== void 0 ? _this$_deps$localeOpt : (_this$_deps$brand = this._deps.brand) === null || _this$_deps$brand === void 0 ? void 0 : (_this$_deps$brand$bra = _this$_deps$brand.brandConfig) === null || _this$_deps$brand$bra === void 0 ? void 0 : _this$_deps$brand$bra.defaultLocale) !== null && _ref2 !== void 0 ? _ref2 : _i18n.DEFAULT_LOCALE;
     }
   }, {
     key: "_detectBrowser",
@@ -417,11 +447,18 @@ var Locale = (_dec = (0, _di.Module)({
       return (_this$_deps$localeOpt7 = (_this$_deps$localeOpt8 = this._deps.localeOptions) === null || _this$_deps$localeOpt8 === void 0 ? void 0 : _this$_deps$localeOpt8.pollingInterval) !== null && _this$_deps$localeOpt7 !== void 0 ? _this$_deps$localeOpt7 : 2000;
     }
   }, {
+    key: "_supportedLocales",
+    get: function get() {
+      var _this$_deps$brand$bra2, _this$_deps$brand2, _this$_deps$brand2$br;
+
+      return (_this$_deps$brand$bra2 = (_this$_deps$brand2 = this._deps.brand) === null || _this$_deps$brand2 === void 0 ? void 0 : (_this$_deps$brand2$br = _this$_deps$brand2.brandConfig) === null || _this$_deps$brand2$br === void 0 ? void 0 : _this$_deps$brand2$br.supportedLocales) !== null && _this$_deps$brand$bra2 !== void 0 ? _this$_deps$brand$bra2 : [this._defaultLocale];
+    }
+  }, {
     key: "currentLocale",
     get: function get() {
-      var _ref2;
+      var _ref3;
 
-      return (_ref2 = this._transport ? this.proxyLocale : this.locale) !== null && _ref2 !== void 0 ? _ref2 : this._defaultLocale;
+      return (_ref3 = this._transport ? this.proxyLocale : this.locale) !== null && _ref3 !== void 0 ? _ref3 : this._defaultLocale;
     }
   }, {
     key: "browserLocale",
@@ -431,7 +468,7 @@ var Locale = (_dec = (0, _di.Module)({
   }]);
 
   return Locale;
-}(_core.RcModuleV2), _temp), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "locale", [_core.state], {
+}(_core.RcModuleV2), (_applyDecoratedDescriptor(_class2.prototype, "_supportedLocales", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "_supportedLocales"), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, "locale", [_core.state], {
   configurable: true,
   enumerable: true,
   writable: true,

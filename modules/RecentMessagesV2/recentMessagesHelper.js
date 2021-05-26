@@ -1,10 +1,5 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.dedup = exports.markAsRemoteMessage = exports.sortMessages = exports.flattenToMessageRecords = exports.filterPhoneNumber = void 0;
-
 require("core-js/modules/es6.object.define-properties");
 
 require("core-js/modules/es7.object.get-own-property-descriptors");
@@ -24,6 +19,11 @@ require("core-js/modules/es6.object.to-string");
 require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.object.define-property");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.dedup = exports.markAsRemoteMessage = exports.sortMessages = exports.flattenToMessageRecords = exports.filterPhoneNumber = void 0;
 
 require("core-js/modules/es6.array.map");
 

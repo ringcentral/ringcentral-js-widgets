@@ -1,11 +1,6 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.getLogId = getLogId;
-exports.conversationLogIdentityFunction = conversationLogIdentityFunction;
-exports["default"] = void 0;
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 require("core-js/modules/es6.function.name");
 
@@ -38,6 +33,13 @@ require("core-js/modules/es6.reflect.construct");
 require("core-js/modules/es6.object.set-prototype-of");
 
 require("core-js/modules/es6.object.define-property");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.getLogId = getLogId;
+exports.conversationLogIdentityFunction = conversationLogIdentityFunction;
+exports["default"] = void 0;
 
 require("core-js/modules/es7.object.values");
 
@@ -89,11 +91,9 @@ var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
 
 var _selector = require("../../lib/selector");
 
-var _dec, _class, _class2, _descriptor, _descriptor2, _descriptor3, _temp;
+var _dec, _class, _class2, _descriptor, _descriptor2, _descriptor3;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
@@ -174,7 +174,7 @@ var ConversationLogger = (_dec = (0, _di.Module)({
     dep: 'ConversationLoggerOptions',
     optional: false
   }]
-}), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_LoggerBase) {
+}), _dec(_class = (_class2 = /*#__PURE__*/function (_LoggerBase) {
   _inherits(ConversationLogger, _LoggerBase);
 
   var _super = _createSuper(ConversationLogger);
@@ -708,7 +708,7 @@ var ConversationLogger = (_dec = (0, _di.Module)({
   }]);
 
   return ConversationLogger;
-}(_LoggerBase2["default"]), _temp), (_applyDecoratedDescriptor(_class2.prototype, "log", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "log"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "logConversation", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "logConversation"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setAutoLog", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "setAutoLog"), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, "conversationLogMap", [_selector.selector], {
+}(_LoggerBase2["default"]), (_applyDecoratedDescriptor(_class2.prototype, "log", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "log"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "logConversation", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "logConversation"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setAutoLog", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "setAutoLog"), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, "conversationLogMap", [_selector.selector], {
   configurable: true,
   enumerable: true,
   writable: true,

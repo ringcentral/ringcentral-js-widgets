@@ -1,23 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.array.map");
-
-require("core-js/modules/es6.array.reduce");
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.getDndStatusReducer = getDndStatusReducer;
-exports.getMeetingStatusReducer = getMeetingStatusReducer;
-exports.getLastNotDisturbDndStatusReducer = getLastNotDisturbDndStatusReducer;
-exports.getPresenceStatusReducer = getPresenceStatusReducer;
-exports.getUserStatusReducer = getUserStatusReducer;
-exports.getActiveCallsReducer = getActiveCallsReducer;
-exports.getTelephonyStatusReducer = getTelephonyStatusReducer;
-exports.getSequenceReducer = getSequenceReducer;
-exports.getDataReducer = getDataReducer;
-exports.removeIntermediateCall = void 0;
-
 require("core-js/modules/es6.object.define-properties");
 
 require("core-js/modules/es7.object.get-own-property-descriptors");
@@ -37,6 +19,24 @@ require("core-js/modules/es6.object.to-string");
 require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.object.define-property");
+
+require("core-js/modules/es6.array.map");
+
+require("core-js/modules/es6.array.reduce");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.getDndStatusReducer = getDndStatusReducer;
+exports.getMeetingStatusReducer = getMeetingStatusReducer;
+exports.getLastNotDisturbDndStatusReducer = getLastNotDisturbDndStatusReducer;
+exports.getPresenceStatusReducer = getPresenceStatusReducer;
+exports.getUserStatusReducer = getUserStatusReducer;
+exports.getActiveCallsReducer = getActiveCallsReducer;
+exports.getTelephonyStatusReducer = getTelephonyStatusReducer;
+exports.getSequenceReducer = getSequenceReducer;
+exports.getDataReducer = getDataReducer;
+exports.removeIntermediateCall = void 0;
 
 require("core-js/modules/es6.array.find");
 

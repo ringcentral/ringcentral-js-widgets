@@ -1,9 +1,6 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.RegionSettings = void 0;
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -35,6 +32,11 @@ require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.for-each");
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.RegionSettings = void 0;
+
 require("core-js/modules/es6.array.find");
 
 require("core-js/modules/es6.string.trim");
@@ -53,11 +55,9 @@ var _validateAreaCode = _interopRequireDefault(require("../../lib/validateAreaCo
 
 var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
 
-var _dec, _dec2, _dec3, _dec4, _class, _class2, _descriptor, _temp;
+var _dec, _dec2, _dec3, _dec4, _class, _class2, _descriptor;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -106,7 +106,7 @@ var RegionSettings = (_dec = (0, _di.Module)({
 }), _dec4 = (0, _core.computed)(function (_ref2) {
   var availableCountries = _ref2.availableCountries;
   return [availableCountries];
-}), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcModuleV) {
+}), _dec(_class = (_class2 = /*#__PURE__*/function (_RcModuleV) {
   _inherits(RegionSettings, _RcModuleV);
 
   var _super = _createSuper(RegionSettings);
@@ -154,6 +154,10 @@ var RegionSettings = (_dec = (0, _di.Module)({
     key: "onInitOnce",
     value: function onInitOnce() {
       var _this2 = this;
+
+      if (!this._deps.tabManager || this._deps.tabManager.active) {
+        this.checkRegionSettings();
+      }
 
       (0, _core.watch)(this, function () {
         return _this2.availableCountries;
@@ -330,7 +334,7 @@ var RegionSettings = (_dec = (0, _di.Module)({
   }]);
 
   return RegionSettings;
-}(_core.RcModuleV2), _temp), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "data", [_core.storage, _core.state], {
+}(_core.RcModuleV2), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "data", [_core.storage, _core.state], {
   configurable: true,
   enumerable: true,
   writable: true,

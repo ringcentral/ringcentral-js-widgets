@@ -1,9 +1,6 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.Contacts = void 0;
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 require("core-js/modules/es6.array.is-array");
 
@@ -31,6 +28,11 @@ require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.for-each");
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Contacts = void 0;
+
 require("core-js/modules/es6.array.map");
 
 require("core-js/modules/es6.promise");
@@ -57,13 +59,9 @@ var _core = require("@ringcentral-integration/core");
 
 var _di = require("../../lib/di");
 
-var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
+var _proxify = require("../../lib/proxy/proxify");
 
-var _dec, _dec2, _dec3, _class, _class2, _temp;
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+var _dec, _dec2, _dec3, _class, _class2;
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -110,7 +108,7 @@ var Contacts = (_dec = (0, _di.Module)({
   return [that._contactSources.size, that.checkSourceUpdated()];
 }), _dec3 = (0, _core.computed)(function (that) {
   return [that.checkSourceUpdated()];
-}), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcModuleV) {
+}), _dec(_class = (_class2 = /*#__PURE__*/function (_RcModuleV) {
   _inherits(Contacts, _RcModuleV);
 
   var _super = _createSuper(Contacts);
@@ -292,7 +290,9 @@ var Contacts = (_dec = (0, _di.Module)({
                 return Promise.all(sources.map(function (source) {
                   var promise = Promise.resolve(source.filterContacts(searchFilter));
                   return promise.then(function (items) {
-                    result = result.concat(items);
+                    if (items) {
+                      result = result.concat(items);
+                    }
                   })["catch"](function (error) {
                     console.error("[Contacts > ContactSource(".concat(source.sourceName, ") > filterContacts] ").concat(error));
                   });
@@ -332,7 +332,9 @@ var Contacts = (_dec = (0, _di.Module)({
                 return Promise.all(sources.map(function (source) {
                   var promise = Promise.resolve(source.searchForPhoneNumbers(searchString));
                   return promise.then(function (items) {
-                    result = result.concat(items);
+                    if (items) {
+                      result = result.concat(items);
+                    }
                   })["catch"](function (error) {
                     console.error("[Contacts > ContactSource(".concat(source.sourceName, ") > searchForPhoneNumbers] ").concat(error));
                   });
@@ -372,7 +374,9 @@ var Contacts = (_dec = (0, _di.Module)({
                 return Promise.all(sources.map(function (source) {
                   var promise = Promise.resolve(source.matchContactsByPhoneNumber(phoneNumber));
                   return promise.then(function (items) {
-                    result = result.concat(items);
+                    if (items) {
+                      result = result.concat(items);
+                    }
                   })["catch"](function (error) {
                     console.error("[Contacts > ContactSource(".concat(source.sourceName, ") > matchContactsByPhoneNumber] ").concat(error));
                   });
@@ -610,7 +614,7 @@ var Contacts = (_dec = (0, _di.Module)({
 
         var source = this._contactSources.get(sourceName);
 
-        if (source.sourceReady) {
+        if (source.sourceReady && source.contacts) {
           contacts = contacts.concat(source.contacts);
         }
       }
@@ -620,6 +624,6 @@ var Contacts = (_dec = (0, _di.Module)({
   }]);
 
   return Contacts;
-}(_core.RcModuleV2), _temp), (_applyDecoratedDescriptor(_class2.prototype, "getProfileImage", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "getProfileImage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getPresence", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "getPresence"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "sync", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "sync"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "sourceNames", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "sourceNames"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "allContacts", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "allContacts"), _class2.prototype)), _class2)) || _class);
+}(_core.RcModuleV2), (_applyDecoratedDescriptor(_class2.prototype, "getProfileImage", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "getProfileImage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getPresence", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "getPresence"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "sync", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "sync"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "sourceNames", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "sourceNames"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "allContacts", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "allContacts"), _class2.prototype)), _class2)) || _class);
 exports.Contacts = Contacts;
 //# sourceMappingURL=Contacts.js.map

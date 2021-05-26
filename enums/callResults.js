@@ -10,7 +10,7 @@ exports["default"] = exports.callResults = void 0;
 var _ObjectMap = require("@ringcentral-integration/core/lib/ObjectMap");
 
 var callResults = _ObjectMap.ObjectMap.fromObject({
-  IPPhoneOffline: 'IP Phone offline',
+  IPPhoneOffline: 'IP Phone Offline',
   abandoned: 'Abandoned',
   account: 'Account',
   blocked: 'Blocked',
@@ -52,7 +52,8 @@ var callResults = _ObjectMap.ObjectMap.fromObject({
   wrongNumber: 'Wrong Number',
   faxReceipt: 'Fax Receipt',
   suspendedAccount: 'Suspended Account',
-  disconnected: 'Disconnected'
+  disconnected: 'Disconnected',
+  notAllowed: 'Not Allowed'
 });
 
 exports.callResults = callResults;

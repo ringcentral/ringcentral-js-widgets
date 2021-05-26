@@ -1,9 +1,6 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.UserGuide = void 0;
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -22,6 +19,11 @@ require("core-js/modules/es6.reflect.construct");
 require("core-js/modules/es6.object.set-prototype-of");
 
 require("core-js/modules/es6.object.define-property");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.UserGuide = void 0;
 
 require("core-js/modules/es6.array.for-each");
 
@@ -43,21 +45,17 @@ require("core-js/modules/es6.object.to-string");
 
 require("regenerator-runtime/runtime");
 
-var _ramda = require("ramda");
-
 var _core = require("@ringcentral-integration/core");
 
-var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
+var _ramda = require("ramda");
 
 var _di = require("../../lib/di");
 
+var _proxify = require("../../lib/proxy/proxify");
+
 var _Analytics = require("../Analytics");
 
-var _dec, _dec2, _dec3, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _temp;
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+var _dec, _dec2, _dec3, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4;
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -99,7 +97,7 @@ var SUPPORTED_LOCALES = {
 };
 var UserGuide = (_dec = (0, _di.Module)({
   name: 'UserGuide',
-  deps: ['Auth', 'Locale', 'Storage', 'Webphone', 'RolesAndPermissions', {
+  deps: ['Auth', 'Locale', 'Storage', 'Webphone', 'ExtensionFeatures', {
     dep: 'UserGuideOptions',
     optional: true
   }]
@@ -109,7 +107,7 @@ var UserGuide = (_dec = (0, _di.Module)({
   }
 }), _dec3 = (0, _core.computed)(function (that) {
   return [that._deps.locale.ready, that.allGuides, that._deps.locale.currentLocale];
-}), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcModuleV) {
+}), _dec(_class = (_class2 = /*#__PURE__*/function (_RcModuleV) {
   _inherits(UserGuide, _RcModuleV);
 
   var _super = _createSuper(UserGuide);
@@ -123,9 +121,7 @@ var UserGuide = (_dec = (0, _di.Module)({
       deps: deps,
       enableCache: true,
       storageKey: 'UserGuide'
-    }); // TODO: refactor providing context without DI
-
-    _this._context = void 0;
+    });
 
     _initializerDefineProperty(_this, "allGuides", _descriptor, _assertThisInitialized(_this));
 
@@ -135,7 +131,6 @@ var UserGuide = (_dec = (0, _di.Module)({
 
     _initializerDefineProperty(_this, "firstLogin", _descriptor4, _assertThisInitialized(_this));
 
-    _this._context = deps.context;
     return _this;
   }
 
@@ -190,12 +185,12 @@ var UserGuide = (_dec = (0, _di.Module)({
   }, {
     key: "_shouldInit",
     value: function _shouldInit() {
-      return !!(this.pending && this._deps.auth.ready && this._deps.locale.ready && this._deps.storage.ready && this._deps.rolesAndPermissions.ready && this._deps.auth.loggedIn);
+      return !!(this.pending && this._deps.auth.ready && this._deps.locale.ready && this._deps.storage.ready && this._deps.extensionFeatures.ready && this._deps.auth.loggedIn);
     }
   }, {
     key: "_shouldReset",
     value: function _shouldReset() {
-      return !!(this.ready && (!this._deps.auth.ready || !this._deps.locale.ready || !this._deps.storage.ready || !this._deps.rolesAndPermissions.ready));
+      return !!(this.ready && (!this._deps.auth.ready || !this._deps.locale.ready || !this._deps.storage.ready || !this._deps.extensionFeatures.ready));
     }
   }, {
     key: "onInitOnce",
@@ -280,19 +275,20 @@ var UserGuide = (_dec = (0, _di.Module)({
     }()
     /**
      * Using webpack `require.context` to load guides files.
-     * Image files will be ordered by file name ascendingly.
+     * Image files will be sorted by file name in ascending order.
      * @return {Map<String, Array<URI>>}
      */
 
   }, {
     key: "resolveGuides",
     value: function resolveGuides() {
-      var _this3 = this;
+      var _this$_deps$userGuide,
+          _this3 = this;
 
-      if (this._context && typeof this._context === 'function') {
+      if (typeof ((_this$_deps$userGuide = this._deps.userGuideOptions) === null || _this$_deps$userGuide === void 0 ? void 0 : _this$_deps$userGuide.context) === 'function') {
         var locales = Object.keys(SUPPORTED_LOCALES);
-        return this._context.keys().sort().map(function (key) {
-          return _this3._context(key);
+        return this._deps.userGuideOptions.context.keys().sort().map(function (key) {
+          return _this3._deps.userGuideOptions.context(key);
         }).reduce(function (prev, curr) {
           locales.forEach(function (locale) {
             if (!prev[locale]) prev[locale] = [];
@@ -395,6 +391,14 @@ var UserGuide = (_dec = (0, _di.Module)({
       return updateCarousel;
     }()
   }, {
+    key: "_checkPermissions",
+    value: function _checkPermissions() {
+      // For extensions without calling or read message permissions, most of the content in
+      // the user guide is not applicable to them. So we should not show the user guide for
+      // these extensions.
+      return this._deps.extensionFeatures.isCallingEnabled || this._deps.extensionFeatures.hasReadMessagesPermission;
+    }
+  }, {
     key: "initUserGuide",
     value: function () {
       var _initUserGuide = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
@@ -403,7 +407,7 @@ var UserGuide = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context7.prev = _context7.next) {
               case 0:
-                if (this._deps.rolesAndPermissions.hasUserGuidePermission) {
+                if (this._checkPermissions()) {
                   _context7.next = 2;
                   break;
                 }
@@ -498,7 +502,7 @@ var UserGuide = (_dec = (0, _di.Module)({
   }]);
 
   return UserGuide;
-}(_core.RcModuleV2), _temp), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "allGuides", [_core.storage, _core.state], {
+}(_core.RcModuleV2), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "allGuides", [_core.storage, _core.state], {
   configurable: true,
   enumerable: true,
   writable: true,
@@ -530,6 +534,6 @@ var UserGuide = (_dec = (0, _di.Module)({
   initializer: function initializer() {
     return false;
   }
-}), _applyDecoratedDescriptor(_class2.prototype, "setPreLoadImageStatus", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setPreLoadImageStatus"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setGuides", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setGuides"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setCarousel", [_dec2, _core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setCarousel"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_preLoadImage", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_preLoadImage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "preLoadImage", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "preLoadImage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "dismiss", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "dismiss"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "loadGuides", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "loadGuides"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateCarousel", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "updateCarousel"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "initUserGuide", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "initUserGuide"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "start", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "start"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "guides", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "guides"), _class2.prototype)), _class2)) || _class);
+}), _applyDecoratedDescriptor(_class2.prototype, "setPreLoadImageStatus", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setPreLoadImageStatus"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setGuides", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setGuides"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setCarousel", [_dec2, _core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setCarousel"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_preLoadImage", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "_preLoadImage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "preLoadImage", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "preLoadImage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "dismiss", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "dismiss"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "loadGuides", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "loadGuides"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateCarousel", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "updateCarousel"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "initUserGuide", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "initUserGuide"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "start", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "start"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "guides", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "guides"), _class2.prototype)), _class2)) || _class);
 exports.UserGuide = UserGuide;
 //# sourceMappingURL=UserGuide.js.map
