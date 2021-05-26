@@ -1,10 +1,5 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = exports.RUNTIME = exports.PSEUDO_LOCALE = exports.DEFAULT_LOCALE = void 0;
-
 require("core-js/modules/es6.array.is-array");
 
 require("core-js/modules/es7.symbol.async-iterator");
@@ -19,9 +14,14 @@ require("core-js/modules/es6.regexp.to-string");
 
 require("core-js/modules/es6.date.to-string");
 
+require("core-js/modules/es6.object.define-property");
+
 require("core-js/modules/es6.promise");
 
-require("core-js/modules/es6.object.define-property");
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = exports.RUNTIME = exports.PSEUDO_LOCALE = exports.DEFAULT_LOCALE = void 0;
 
 require("core-js/modules/es6.number.parse-float");
 
