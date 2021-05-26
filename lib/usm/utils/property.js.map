@@ -1,1 +1,0 @@
-{"version":3,"sources":["lib/usm/utils/property.ts"],"names":["configurable","enumerable","writable"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,YAAY,EAAE,KADD;AAEbC,EAAAA,UAAU,EAAE,KAFC;AAGbC,EAAAA,QAAQ,EAAE;AAHG,C","sourcesContent":["export default {\n  configurable: false,\n  enumerable: false,\n  writable: false,\n};\n"],"file":"property.js"}

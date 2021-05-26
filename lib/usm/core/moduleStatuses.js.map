@@ -1,1 +1,0 @@
-{"version":3,"sources":["lib/usm/core/moduleStatuses.ts"],"names":[],"mappings":";;;;;;;;;AAAA;;eAEe,sBACb,CAAC,SAAD,EAAY,SAAZ,EAAuB,OAAvB,EAAgC,WAAhC,CADa,EAEb,QAFa,C","sourcesContent":["import { createEnum } from '../utils/enum';\n\nexport default createEnum(\n  ['initial', 'pending', 'ready', 'resetting'],\n  'module',\n);\n"],"file":"moduleStatuses.js"}
