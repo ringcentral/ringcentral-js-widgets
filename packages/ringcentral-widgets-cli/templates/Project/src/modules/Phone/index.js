@@ -16,6 +16,7 @@ import Environment from 'ringcentral-integration/modules/Environment';
 import GlobalStorage from 'ringcentral-integration/modules/GlobalStorage';
 import Locale from 'ringcentral-integration/modules/Locale';
 import RolesAndPermissions from 'ringcentral-integration/modules/RolesAndPermissions';
+import { ExtensionFeatures } from 'ringcentral-integration/modules/ExtensionFeatures';
 import RegionSettings from 'ringcentral-integration/modules/RegionSettings';
 import RateLimiter from 'ringcentral-integration/modules/RateLimiter';
 import Subscription from 'ringcentral-integration/modules/Subscription';
@@ -56,6 +57,7 @@ import { AlertUI } from 'ringcentral-widgets/modules/AlertUI';
     { provide: 'Environment', useClass: Environment },
     { provide: 'RegionSettings', useClass: RegionSettings },
     { provide: 'RolesAndPermissions', useClass: RolesAndPermissions },
+    { provide: 'ExtensionFeatures', useClass: ExtensionFeatures },
     { provide: 'ExtensionInfo', useClass: ExtensionInfo },
     { provide: 'DialingPlan', useClass: DialingPlan },
     {

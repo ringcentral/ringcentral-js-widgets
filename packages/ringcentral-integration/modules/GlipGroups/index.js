@@ -1,14 +1,13 @@
-import { Module } from '../../lib/di';
-import Pollable from '../../lib/Pollable';
-import isBlank from '../../lib/isBlank';
-import sleep from '../../lib/sleep';
 import moduleStatuses from '../../enums/moduleStatuses';
+import { Module } from '../../lib/di';
 import ensureExist from '../../lib/ensureExist';
-import { selector } from '../../lib/selector';
+import isBlank from '../../lib/isBlank';
+import Pollable from '../../lib/Pollable';
 import proxify from '../../lib/proxy/proxify';
-
+import { selector } from '../../lib/selector';
+import sleep from '../../lib/sleep';
+import { actionTypes } from './actionTypes';
 import getReducer, { getDataReducer, getTimestampReducer } from './getReducer';
-import actionTypes from './actionTypes';
 
 const glipGroupRegExp = /glip\/groups$/;
 const subscriptionFilter = '/restapi/v1.0/glip/groups';
@@ -98,7 +97,7 @@ function searchPosts(searchFilter, posts) {
     'Auth',
     'Client',
     'Subscription',
-    'RolesAndPermissions',
+    'ExtensionFeatures',
     { dep: 'ConnectivityMonitor', optional: true },
     { dep: 'Storage', optional: true },
     { dep: 'TabManager', optional: true },
@@ -108,18 +107,6 @@ function searchPosts(searchFilter, posts) {
   ],
 })
 export default class GlipGroups extends Pollable {
-  /**
-   * @constructor
-   * @param {Object} params - params object
-   * @param {Client} params.client - client module instance
-   * @param {Auth} params.auth - auth module instance
-   * @param {RolesAndPermissions} params.rolesAndPermissions - rolesAndPermission module instance
-   * @param {Subscription} params.subscription - subscription module instance
-   * @param {TabManager} params.tabManager - tabManager module instance
-   * @param {GlipPersons} params.glipPersons - glipPersons module instance
-   * @param {GlipPosts} params.glipPosts - glipPosts module instance
-   * @param {Storage} params.storage - storage module instance
-   */
   constructor({
     auth,
     subscription,
@@ -128,7 +115,7 @@ export default class GlipGroups extends Pollable {
     glipPersons,
     glipPosts,
     storage,
-    rolesAndPermissions,
+    extensionFeatures,
     connectivityMonitor,
     timeToRetry = DEFAULT_RETRY,
     ttl = DEFAULT_TTL,
@@ -147,11 +134,7 @@ export default class GlipGroups extends Pollable {
     this._auth = ensureExist.call(this, auth, 'auth');
     this._client = ensureExist.call(this, client, 'client');
     this._subscription = ensureExist.call(this, subscription, 'subscription');
-    this._rolesAndPermissions = ensureExist.call(
-      this,
-      rolesAndPermissions,
-      'rolesAndPermissions',
-    );
+    this._extensionFeatures = extensionFeatures;
     this._connectivityMonitor = connectivityMonitor;
     this._glipPersons = glipPersons;
     this._glipPosts = glipPosts;
@@ -244,7 +227,7 @@ export default class GlipGroups extends Pollable {
   _shouldInit() {
     return !!(
       this._auth.loggedIn &&
-      this._rolesAndPermissions.ready &&
+      this._extensionFeatures.ready &&
       (!this._connectivityMonitor || this._connectivityMonitor.ready) &&
       (!this._storage || this._storage.ready) &&
       (!this._readyCheckFn || this._readyCheckFn()) &&
@@ -259,7 +242,7 @@ export default class GlipGroups extends Pollable {
   _shouldReset() {
     return !!(
       (!this._auth.loggedIn ||
-        !this._rolesAndPermissions.ready ||
+        !this._extensionFeatures.ready ||
         (this._storage && !this._storage.ready) ||
         (this._readyCheckFn && !this._readyCheckFn()) ||
         (this._subscription && !this._subscription.ready) ||
@@ -363,20 +346,22 @@ export default class GlipGroups extends Pollable {
     const groups = this.groups.slice(0, 20);
     for (const group of groups) {
       if (!this._glipPosts) {
-        break;
+        return;
       }
-      if (this._preloadedPosts[group.id]) {
-        continue;
-      }
-      this._preloadedPosts[group.id] = true;
-      if (!this._glipPosts.postsMap[group.id] || force) {
-        await sleep(this._preloadPostsDelayTtl);
+      if (!this._preloadedPosts[group.id]) {
+        this._preloadedPosts[group.id] = true;
         if (!this._glipPosts.postsMap[group.id] || force) {
-          await this._glipPosts.fetchPosts(group.id);
+          await sleep(this._preloadPostsDelayTtl);
+          if (!this._glipPosts.postsMap[group.id] || force) {
+            await this._glipPosts.fetchPosts(group.id);
+          }
         }
-      }
-      if (!this._glipPosts.readTimeMap[group.id]) {
-        this._glipPosts.updateReadTime(group.id, Date.now() - 1000 * 3600 * 2);
+        if (!this._glipPosts.readTimeMap[group.id]) {
+          this._glipPosts.updateReadTime(
+            group.id,
+            Date.now() - 1000 * 3600 * 2,
+          );
+        }
       }
     }
   }
@@ -420,12 +405,9 @@ export default class GlipGroups extends Pollable {
   }
 
   async _fetchFunction() {
-    const result = await this._client
-      .glip()
-      .groups()
-      .list({
-        recordCount: this._recordCountPerReq,
-      });
+    const result = await this._client.glip().groups().list({
+      recordCount: this._recordCountPerReq,
+    });
     return result;
   }
 
@@ -505,16 +487,13 @@ export default class GlipGroups extends Pollable {
   }
 
   async createTeam(name, members, type = 'Team') {
-    const group = await this._client
-      .glip()
-      .groups()
-      .post({
-        type,
-        name,
-        members,
-        isPublic: true,
-        description: '',
-      });
+    const group = await this._client.glip().groups().post({
+      type,
+      name,
+      members,
+      isPublic: true,
+      description: '',
+    });
     return group.id;
   }
 
@@ -683,6 +662,6 @@ export default class GlipGroups extends Pollable {
   }
 
   get _hasPermission() {
-    return !!this._rolesAndPermissions.hasGlipPermission;
+    return !!this._extensionFeatures.features?.Glip?.available;
   }
 }

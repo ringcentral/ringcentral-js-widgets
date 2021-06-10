@@ -104,7 +104,7 @@ export const initPhoneWrapper = async (options = {}) => {
 export const tearDownWrapper = async (wrapper) => {
   const phone = wrapper.props().phone;
   await phone.auth.logout();
-  window.__stopAllTimers();
+  jest.clearAllTimers();
   global.clientHistoryRequest = null;
   mock.restore();
   wrapper.unmount();

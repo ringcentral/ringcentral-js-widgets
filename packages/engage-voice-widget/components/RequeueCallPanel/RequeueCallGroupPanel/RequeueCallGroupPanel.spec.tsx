@@ -49,7 +49,7 @@ const getGroupItems = () =>
 
 const getSearchInput = () => wrapper.find('RcTextField').at(0).find('input');
 
-describe('<RequeueCallGroupPanel />', async () => {
+describe('<RequeueCallGroupPanel />', () => {
   it('Has no available Requeue Group', () => {
     wrapper = setup({ queueGroups: [] });
     expect(

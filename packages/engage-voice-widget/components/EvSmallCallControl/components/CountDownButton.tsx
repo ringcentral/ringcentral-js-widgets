@@ -1,5 +1,6 @@
 import { RcIconButton, RcText } from '@ringcentral/juno';
 import React, { FunctionComponent, useEffect, useState } from 'react';
+import sleep from 'ringcentral-integration/lib/sleep';
 
 import i18n from '../i18n';
 import { CallButtonsProps } from '../../SmallCallControl';
@@ -10,7 +11,11 @@ type CountDownProps = {
 export const CountDown: FunctionComponent<CountDownProps> = ({ data }) => {
   const count = data > 99 ? '99+' : data;
   return (
-    <RcText color="danger.f02" variant="subheading1">
+    <RcText
+      color="text.negative"
+      variant="subheading1"
+      data-sign="CountDownText"
+    >
       {count}
     </RcText>
   );
@@ -38,12 +43,15 @@ export const CountDownButton: FunctionComponent<CountDownButtonProps> = ({
   useEffect(() => {
     if (!timeStamp) return;
     let clearTimerSet = () => {};
-    const handleTime = () => {
+    const handleTime = async () => {
       const time = Math.ceil(
         recordPauseCount + (timeStamp - Date.now()) / 1000,
       );
       if (time < 0) {
         clearTimerSet();
+        // to handle other tabs had not execute this part code because this Component destroyed
+        await sleep(1000);
+
         onResumeRecord();
         return;
       }

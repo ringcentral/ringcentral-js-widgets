@@ -175,6 +175,12 @@ export class RingCentralExtensions extends RcModuleV2<Deps> {
 
   @proxify
   async recoverWebSocketConnection() {
+    if (this.webSocketReadyState === webSocketReadyStates.connecting) {
+      console.log(
+        '[RingCentralExtensions] > recoverWebSocketConnection > already connecting',
+      );
+      return;
+    }
     await this._webSocketExtension.recover();
     this._exposeConnectionEvents();
   }

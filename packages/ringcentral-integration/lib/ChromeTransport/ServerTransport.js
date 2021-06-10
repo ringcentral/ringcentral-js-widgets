@@ -1,4 +1,5 @@
 import TransportBase from '../TransportBase';
+import sleep from '../sleep';
 
 /* global chrome */
 
@@ -14,8 +15,10 @@ export default class ServerTransport extends TransportBase {
     // Keep active tabs up to date
     this._activeTabs = [];
     this._getActiveTabs();
-    chrome.tabs.onActivated.addListener(() => {
-      this._getActiveTabs();
+    chrome.tabs.onActivated.addListener(async () => {
+      // execute `chrome.tabs.query` synchronously in callback of this event from Chrome v91,
+      // it will probably get unexpected tabs data.
+      await this.ensureActiveTabs(5);
     });
     chrome.runtime.onConnect.addListener((port) => {
       if (port.name === 'transport') {
@@ -58,7 +61,7 @@ export default class ServerTransport extends TransportBase {
       // Ensure tabs are still accessible (may be closed)
       // otherwise, give up pushing messages to that tab at this point
       if (port.sender && port.sender.tab) {
-        return !!this._activeTabs.find(
+        return !!this._activeTabs?.find(
           (tab) => tab && tab.id === port.sender.tab.id,
         );
       }
@@ -71,13 +74,27 @@ export default class ServerTransport extends TransportBase {
       .forEach((port) => port.postMessage(message));
   }
 
-  _getActiveTabs() {
-    try {
-      chrome.tabs.query({ active: true }, (tabs) => {
-        this._activeTabs = tabs;
-      });
-    } catch (error) {
-      console.log(error);
+  async ensureActiveTabs(checkTime = 1) {
+    if (checkTime > 0) {
+      await sleep(100);
+      const isValid = await this._getActiveTabs();
+      if (!isValid) {
+        await this.ensureActiveTabs(checkTime - 1);
+      }
     }
+  }
+
+  _getActiveTabs() {
+    return new Promise((resolve) => {
+      try {
+        chrome.tabs.query({ active: true }, (tabs) => {
+          this._activeTabs = tabs;
+          resolve(Array.isArray(tabs));
+        });
+      } catch (error) {
+        console.log(error);
+        resolve(false);
+      }
+    });
   }
 }

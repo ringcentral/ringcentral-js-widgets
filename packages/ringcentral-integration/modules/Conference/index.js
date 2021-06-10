@@ -3,7 +3,7 @@ import { Module } from '../../lib/di';
 import DataFetcher from '../../lib/DataFetcher';
 import createSimpleReducer from '../../lib/createSimpleReducer';
 import callControlError from '../ActiveCallControl/callControlError';
-import actionTypes from './actionTypes';
+import { actionTypes } from './actionTypes';
 import proxify from '../../lib/proxy/proxify';
 import {
   updateJoinBeforeHost,
@@ -24,7 +24,7 @@ const DEFAULT_MASK =
     'Client',
     'Storage',
     'RegionSettings',
-    'RolesAndPermissions',
+    'ExtensionFeatures',
     'ExtensionInfo',
     'Locale',
     { dep: 'AvailabilityMonitor', optional: true },
@@ -43,7 +43,7 @@ export default class Conference extends DataFetcher {
     client,
     regionSettings,
     storage,
-    rolesAndPermissions,
+    extensionFeatures,
     availabilityMonitor,
     showSaveAsDefault = false,
     extensionInfo,
@@ -62,7 +62,7 @@ export default class Conference extends DataFetcher {
     this._additionalNumbersStorageKey = 'conferenceAdditionalNumbers';
     this._savedStorageKey = 'conferenceSaveCurrentSettings';
     this._regionSettings = regionSettings;
-    this._rolesAndPermissions = rolesAndPermissions;
+    this._extensionFeatures = extensionFeatures;
     this._availabilityMonitor = availabilityMonitor;
     this._lastCountryCode = null;
     this._showSaveAsDefault = showSaveAsDefault;
@@ -123,7 +123,7 @@ export default class Conference extends DataFetcher {
   _shouldInit() {
     return (
       super._shouldInit() &&
-      this._rolesAndPermissions.ready &&
+      this._extensionFeatures.ready &&
       this._alert.ready &&
       (!this._availabilityMonitor || this._availabilityMonitor.ready) &&
       this._extensionInfo.ready &&
@@ -235,7 +235,7 @@ export default class Conference extends DataFetcher {
   }
 
   get _hasPermission() {
-    return !!this._rolesAndPermissions.permissions.OrganizeConference;
+    return !!this._extensionFeatures.features.Conferencing?.available;
   }
 
   get showSaveAsDefault() {

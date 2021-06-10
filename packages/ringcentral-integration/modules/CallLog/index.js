@@ -5,7 +5,7 @@ import Pollable from '../../lib/Pollable';
 import fetchList from '../../lib/fetchList';
 import moduleStatuses from '../../enums/moduleStatuses';
 import getDateFrom from '../../lib/getDateFrom';
-import actionTypes from './actionTypes';
+import { actionTypes } from './actionTypes';
 import getCallLogReducer, {
   getDataReducer,
   getTimestampReducer,
@@ -26,7 +26,7 @@ import proxify from '../../lib/proxy/proxify';
 import { selector } from '../../lib/selector';
 
 const DEFAULT_TTL = 5 * 60 * 1000;
-// Lock fetching on app refresh if lst fetch happened less than this timespan
+// Lock fetching on app refresh if lst fetch happened less than this time span
 const DEFAULT_REFRESH_LOCK = 3 * 60 * 1000;
 const DEFAULT_TOKEN_EXPIRES_IN = 60 * 60 * 1000;
 const DEFAULT_DAY_SPAN = 7;
@@ -69,30 +69,13 @@ const presenceRegExp = /\/presence\?detailedTelephonyState=true/;
     'ExtensionPhoneNumber',
     'ExtensionInfo',
     'Subscription',
-    'RolesAndPermissions',
+    'ExtensionFeatures',
     { dep: 'TabManager', optional: true },
     { dep: 'Storage', optional: true },
     { dep: 'CallLogOptions', optional: true },
   ],
 })
 export default class CallLog extends Pollable {
-  /**
-   * @constructor
-   * @param {Object} params - params object
-   * @param {Auth} params.auth - auth module instance
-   * @param {Client} params.client - client module instance
-   * @param {Storage} params.storage - storage module instance
-   * @param {ExtensionPhoneNumber} params.extensionPhoneNumber - extensionPhoneNumber module instance
-   * @param {ExtensionInfo} params.extensionPhoneNumber - extensionPhoneNumber module instance
-   * @param {Subscription} params.subscription - subscription module instance
-   * @param {RolesAndPermissions} params.rolesAndPermissions - rolesAndPermissions module instance
-   * @param {Number} params.ttl - local cache time
-   * @param {Number} params.tokenExpiresIn - time for token expire
-   * @param {Number} params.timeToRetry - waiting time to retry
-   * @param {Number} params.daySpan - day span of call log
-   * @param {Bool} params.polling - polling flag
-   * @param {Bool} params.disableCache - disable cache flag, default false
-   */
   constructor({
     auth,
     client,
@@ -100,7 +83,7 @@ export default class CallLog extends Pollable {
     extensionPhoneNumber,
     extensionInfo,
     subscription,
-    rolesAndPermissions,
+    extensionFeatures,
     tabManager,
     ttl = DEFAULT_TTL,
     refreshLock = DEFAULT_REFRESH_LOCK,
@@ -125,7 +108,7 @@ export default class CallLog extends Pollable {
     this._extensionPhoneNumber = extensionPhoneNumber;
     this._extensionInfo = extensionInfo;
     this._subscription = subscription;
-    this._rolesAndPermissions = rolesAndPermissions;
+    this._extensionFeatures = extensionFeatures;
     this._tabManager = tabManager;
     this._isLimitList = isLimitList;
     this._listRecordCount = listRecordCount;
@@ -184,7 +167,7 @@ export default class CallLog extends Pollable {
       (!this._extensionPhoneNumber || this._extensionPhoneNumber.ready) &&
       (!this._extensionInfo || this._extensionInfo.ready) &&
       (!this._tabManager || this._tabManager.ready) &&
-      this._rolesAndPermissions.ready &&
+      this._extensionFeatures.ready &&
       this.status === moduleStatuses.pending
     ) {
       this.store.dispatch({
@@ -199,7 +182,7 @@ export default class CallLog extends Pollable {
           type: this.actionTypes.clearToken,
         });
       }
-      if (this._rolesAndPermissions.permissions.ReadCallLog) {
+      if (this._extensionFeatures.features?.ReadExtensionCallLog?.available) {
         await this._init();
       }
       this.store.dispatch({
@@ -212,7 +195,7 @@ export default class CallLog extends Pollable {
         (this._extensionInfo && !this._extensionInfo.ready) ||
         (this._subscription && !this._subscription.ready) ||
         (this._tabManager && !this._tabManager.ready) ||
-        !this._rolesAndPermissions.ready) &&
+        !this._extensionFeatures.ready) &&
       this.ready
     ) {
       this.store.dispatch({
@@ -365,14 +348,6 @@ export default class CallLog extends Pollable {
     return this._timeToRetry;
   }
 
-  get canReadCallLog() {
-    return !!this._rolesAndPermissions.permissions.ReadCallLog;
-  }
-
-  get canReadPresence() {
-    return !!this._rolesAndPermissions.permissions.ReadPresenceStatus;
-  }
-
   @proxify
   async _fetch({ dateFrom, dateTo }) {
     const perPageParam = this._isLimitList
@@ -394,14 +369,10 @@ export default class CallLog extends Pollable {
       this.store.dispatch({
         type: this.actionTypes.iSync,
       });
-      const data = await this._client
-        .account()
-        .extension()
-        .callLogSync()
-        .list({
-          syncType: syncTypes.iSync,
-          syncToken: this.token,
-        });
+      const data = await this._client.account().extension().callLogSync().list({
+        syncType: syncTypes.iSync,
+        syncToken: this.token,
+      });
       if (ownerId !== this._auth.ownerId) throw Error('request aborted');
       this.store.dispatch({
         type: this.actionTypes.iSyncSuccess,
@@ -428,15 +399,11 @@ export default class CallLog extends Pollable {
       });
 
       const dateFrom = getISODateFrom(this._daySpan);
-      const data = await this._client
-        .account()
-        .extension()
-        .callLogSync()
-        .list({
-          recordCount: RECORD_COUNT,
-          syncType: syncTypes.fSync,
-          dateFrom,
-        });
+      const data = await this._client.account().extension().callLogSync().list({
+        recordCount: RECORD_COUNT,
+        syncType: syncTypes.fSync,
+        dateFrom,
+      });
       if (ownerId !== this._auth.ownerId) throw Error('request aborted');
       let supplementRecords;
       const { records, timestamp, syncToken } = processData(data);

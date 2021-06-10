@@ -8,7 +8,7 @@ import {
   storage,
 } from '@ringcentral-integration/core';
 import { Module } from '../../lib/di';
-import proxify from '../../lib/proxy/proxify';
+import { proxify } from '../../lib/proxy/proxify';
 import { debounce } from '../../lib/debounce-throttle';
 import {
   Deps,

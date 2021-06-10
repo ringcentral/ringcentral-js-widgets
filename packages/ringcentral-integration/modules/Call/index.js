@@ -35,7 +35,7 @@ const ANONYMOUS = 'anonymous';
     'NumberValidate',
     'RegionSettings',
     'CallingSettings',
-    'RolesAndPermissions',
+    'ExtensionFeatures',
     { dep: 'Webphone', optional: true },
     { dep: 'AvailabilityMonitor', optional: true },
     { dep: 'CallOptions', optional: true },
@@ -66,7 +66,7 @@ export default class Call extends RcModule {
     webphone,
     numberValidate,
     regionSettings,
-    rolesAndPermissions,
+    extensionFeatures,
     internationalCheck = true,
     permissionCheck = true,
     availabilityMonitor,
@@ -101,11 +101,7 @@ export default class Call extends RcModule {
       regionSettings,
       'regionSettings',
     );
-    this._rolesAndPermissions = ensureExist.call(
-      this,
-      rolesAndPermissions,
-      'rolesAndPermissions',
-    );
+    this._extensionFeatures = extensionFeatures;
     this._internationalCheck = internationalCheck;
     this._availabilityMonitor = availabilityMonitor;
     this._callSettingMode = null;
@@ -150,7 +146,7 @@ export default class Call extends RcModule {
       (!this._availabilityMonitor || this._availabilityMonitor.ready) &&
       this._ringout.ready &&
       this._softphone.ready &&
-      this._rolesAndPermissions.ready &&
+      this._extensionFeatures.ready &&
       this.pending
     );
   }
@@ -164,7 +160,7 @@ export default class Call extends RcModule {
         (!!this._availabilityMonitor && !this._availabilityMonitor.ready) ||
         !this._ringout.ready ||
         !this._softphone.ready ||
-        !this._rolesAndPermissions.ready ||
+        !this._extensionFeatures.ready ||
         !this._storage.ready) &&
       this.ready
     );
@@ -447,7 +443,7 @@ export default class Call extends RcModule {
       if (
         parsedToNumber &&
         parsedToNumber.international &&
-        !this._rolesAndPermissions.permissions.InternationalCalls
+        !this._extensionFeatures.features?.InternationalCalling?.available
       ) {
         const error = {
           phoneNumber: parsedToNumber.originalString,

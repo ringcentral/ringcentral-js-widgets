@@ -270,7 +270,7 @@ export class ComposeText<T = {}> extends RcModuleV2<Deps & T> {
   _validateIsOnlyPager(phoneNumber: string) {
     if (
       phoneNumber.length >= 7 &&
-      !this._deps.extensionFeatures.features?.SMSSending?.available
+      !this._deps.extensionFeatures.hasOutboundSMSPermission
     ) {
       this._alertWarning(messageSenderMessages.noSMSPermission);
       return true;

@@ -41,13 +41,17 @@ export const SettingsPanel: FunctionComponent<SettingsPanelProps> = ({
         <div className={styles.infoTitle}>
           <span>{i18n.getString('sessionInfo', currentLocale)}</span>
           {showEditSessionIcon && (
-            <span className={classNames(styles.pointerWrap)}>
+            <span
+              className={classNames({
+                [styles.pointerWrap]: disableEditSessionButton,
+                [styles.alignRight]: true,
+              })}
+            >
               <RcIconButton
                 data-sign="editSession"
                 title={i18n.getString('edit', currentLocale)}
                 disabled={disableEditSessionButton}
                 onClick={goToSessionUpdatePage}
-                classes={{ root: styles.editSession }}
                 size="small"
                 symbol={Edit}
               />

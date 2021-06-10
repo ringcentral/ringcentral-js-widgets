@@ -1,18 +1,18 @@
-import RcModule from '../../lib/RcModule';
+import moduleStatuses from '../../enums/moduleStatuses';
 import { Module } from '../../lib/di';
+import proxify from '../../lib/proxy/proxify';
+import RcModule from '../../lib/RcModule';
+import { selector } from '../../lib/selector';
+import { actionTypes } from './actionTypes';
+import callingModes from './callingModes';
+import callingOptions from './callingOptions';
+import { callingSettingsMessages } from './callingSettingsMessages';
+import deprecatedCallingOptions from './deprecatedCallingOptions';
 import {
   getCallingSettingsReducer,
   getCallingSettingsStorageReducer,
 } from './getCallingSettingsReducer';
-import moduleStatuses from '../../enums/moduleStatuses';
 import mapOptionToMode from './mapOptionToMode';
-import callingOptions from './callingOptions';
-import deprecatedCallingOptions from './deprecatedCallingOptions';
-import callingModes from './callingModes';
-import callingSettingsMessages from './callingSettingsMessages';
-import actionTypes from './actionTypes';
-import proxify from '../../lib/proxy/proxify';
-import { selector } from '../../lib/selector';
 
 const LOCATION_NUMBER_ORDER = ['Other', 'Main'];
 /**
@@ -27,7 +27,7 @@ const LOCATION_NUMBER_ORDER = ['Other', 'Main'];
     'ExtensionPhoneNumber',
     'ForwardingNumber',
     'Storage',
-    'RolesAndPermissions',
+    'ExtensionFeatures',
     'ExtensionDevice',
     { dep: 'CallerId', optional: true },
     { dep: 'TabManager', optional: true },
@@ -36,20 +36,6 @@ const LOCATION_NUMBER_ORDER = ['Other', 'Main'];
   ],
 })
 export default class CallingSettings extends RcModule {
-  /**
-   * @constructor
-   * @param {Object} params - params object
-   * @param {Alert} params.alert - alert module instance
-   * @param {Brand} params.brand - brand module instance
-   * @param {ExtensionInfo} params.extensionInfo - extensionInfo module instance
-   * @param {ExtensionPhoneNumber} params.extensionPhoneNumber - extensionPhoneNumber module instance
-   * @param {ForwardingNumber} params.forwardingNumber - forwardingNumber module instance
-   * @param {Storage} params.storage - storage module instance
-   * @param {RolesAndPermissions} params.rolesAndPermissions - rolesAndPermissions module instance
-   * @param {TabManager} params.tabManager - tabManager module instance
-   * @param {Webphone} params.webphone - webphone module instance
-   * @param {Function} params.onFirstLogin - func on first login
-   */
   constructor({
     alert,
     brand,
@@ -57,7 +43,7 @@ export default class CallingSettings extends RcModule {
     extensionPhoneNumber,
     forwardingNumber,
     storage,
-    rolesAndPermissions,
+    extensionFeatures,
     tabManager,
     onFirstLogin,
     webphone,
@@ -78,7 +64,7 @@ export default class CallingSettings extends RcModule {
     this._extensionPhoneNumber = extensionPhoneNumber;
     this._forwardingNumber = forwardingNumber;
     this._storage = storage;
-    this._rolesAndPermissions = rolesAndPermissions;
+    this._extensionFeatures = extensionFeatures;
     this._tabManager = tabManager;
     this._webphone = webphone;
     this._callerId = callerId;
@@ -113,8 +99,8 @@ export default class CallingSettings extends RcModule {
     } else if (this._shouldReset()) {
       this._reset();
     } else if (this._shouldValidate()) {
-      this._ringoutEnabled = this._rolesAndPermissions.ringoutEnabled;
-      this._webphoneEnabled = this._rolesAndPermissions.webphoneEnabled;
+      this._ringoutEnabled = this._extensionFeatures.isRingOutEnabled;
+      this._webphoneEnabled = this._extensionFeatures.isWebPhoneEnabled;
       this._myPhoneNumbers = this.myPhoneNumbers;
       this._otherPhoneNumbers = this.otherPhoneNumbers;
       await this._validateSettings();
@@ -128,7 +114,7 @@ export default class CallingSettings extends RcModule {
       this._extensionPhoneNumber.ready &&
       this._forwardingNumber.ready &&
       (!this._callerId || this._callerId.ready) &&
-      this._rolesAndPermissions.ready &&
+      this._extensionFeatures.ready &&
       this._extensionDevice.ready &&
       this.pending
     );
@@ -141,7 +127,7 @@ export default class CallingSettings extends RcModule {
         !this._extensionInfo.ready ||
         !this._extensionPhoneNumber.ready ||
         !this._forwardingNumber.ready ||
-        !this._rolesAndPermissions.ready ||
+        !this._extensionFeatures.ready ||
         (this._callerId && !this._callerId.ready) ||
         !this._extensionDevice.ready)
     );
@@ -150,20 +136,20 @@ export default class CallingSettings extends RcModule {
   _shouldValidate() {
     return (
       this.ready &&
-      (this._ringoutEnabled !== this._rolesAndPermissions.ringoutEnabled ||
-        this._webphoneEnabled !== this._rolesAndPermissions.webphoneEnabled ||
+      (this._ringoutEnabled !== this._extensionFeatures.isRingOutEnabled ||
+        this._webphoneEnabled !== this._extensionFeatures.isWebPhoneEnabled ||
         this._myPhoneNumbers !== this.myPhoneNumbers ||
         this._otherPhoneNumbers !== this.otherPhoneNumbers)
     );
   }
 
   async _init() {
-    if (!this._rolesAndPermissions.callingEnabled) return;
+    if (!this._extensionFeatures.isCallingEnabled) return;
     this._myPhoneNumbers = this.myPhoneNumbers;
     this._otherPhoneNumbers = this.otherPhoneNumbers;
     this._availableNumbers = this.availableNumbers;
-    this._ringoutEnabled = this._rolesAndPermissions.ringoutEnabled;
-    this._webphoneEnabled = this._rolesAndPermissions.webphoneEnabled;
+    this._ringoutEnabled = this._extensionFeatures.isRingOutEnabled;
+    this._webphoneEnabled = this._extensionFeatures.isWebPhoneEnabled;
     if (!this.timestamp) {
       // first time login
       const defaultCallWith = this.callWithOptions && this.callWithOptions[0];
@@ -385,8 +371,8 @@ export default class CallingSettings extends RcModule {
 
   @selector
   callWithOptions = [
-    () => this._rolesAndPermissions.ringoutEnabled,
-    () => this._rolesAndPermissions.webphoneEnabled,
+    () => this._extensionFeatures.isRingOutEnabled,
+    () => this._extensionFeatures.isWebPhoneEnabled,
     () => this.otherPhoneNumbers.length > 0,
     () => this._extensionPhoneNumber.numbers.length > 0,
     (

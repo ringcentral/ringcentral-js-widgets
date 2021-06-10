@@ -1,13 +1,13 @@
-import { Module } from '../../lib/di';
-import LoggerBase from '../../lib/LoggerBase';
-import ensureExist from '../../lib/ensureExist';
-import actionTypes from './actionTypes';
-import getDataReducer from './getDataReducer';
 import messageTypes from '../../enums/messageTypes';
+import { Module } from '../../lib/di';
+import ensureExist from '../../lib/ensureExist';
+import LoggerBase from '../../lib/LoggerBase';
 import { getNumbersFromMessage, sortByDate } from '../../lib/messageHelper';
-import sleep from '../../lib/sleep';
 import proxify from '../../lib/proxy/proxify';
 import { selector } from '../../lib/selector';
+import sleep from '../../lib/sleep';
+import { actionTypes } from './actionTypes';
+import getDataReducer from './getDataReducer';
 
 export function getLogId({ conversationId, date }) {
   return `${conversationId}/${date}`;
@@ -31,25 +31,11 @@ export function conversationLogIdentityFunction(conversation) {
     'DateTimeFormat',
     'ExtensionInfo',
     'MessageStore',
-    'RolesAndPermissions',
+    'ExtensionFeatures',
     { dep: 'ConversationLoggerOptions', optional: false },
   ],
 })
 export default class ConversationLogger extends LoggerBase {
-  /**
-   * @constructor
-   * @param {Object} params - params object
-   * @param {Auth} params.auth - auth module instance
-   * @param {ContactMatcher} params.contactMatcher - contactMatcher module instance
-   * @param {ConversationMatcher} params.conversationMatcher - conversationMatcher module instance
-   * @param {DateTimeFormat} params.dateTimeFormat - dateTimeFormat module instance
-   * @param {MessageStore} params.messageStore - messageStore module instance
-   * @param {RolesAndPermissions} params.rolesAndPermissions - rolesAndPermissions module instance
-   * @param {Storage} params.storage - storage module instance
-   * @param {TabManager} params.tabManager - tabManager module instance
-   * @param {Function} params.isLoggedContact - get if contact is logged
-   * @param {Function} params.formatDateTime - data time format
-   */
   constructor({
     auth,
     contactMatcher,
@@ -57,7 +43,7 @@ export default class ConversationLogger extends LoggerBase {
     dateTimeFormat,
     extensionInfo,
     messageStore,
-    rolesAndPermissions,
+    extensionFeatures,
     storage,
     tabManager,
     isLoggedContact = () => false,
@@ -94,11 +80,7 @@ export default class ConversationLogger extends LoggerBase {
       'extensionInfo',
     );
     this._messageStore = ensureExist.call(this, messageStore, 'messageStore');
-    this._rolesAndPermissions = ensureExist.call(
-      this,
-      rolesAndPermissions,
-      'rolesAndPermissions',
-    );
+    this._extensionFeatures = extensionFeatures;
     this._storage = ensureExist.call(this, storage, 'storage');
     this._tabManager = tabManager;
     this._isLoggedContact = isLoggedContact;
@@ -135,7 +117,7 @@ export default class ConversationLogger extends LoggerBase {
       this._dateTimeFormat.ready &&
       this._extensionInfo.ready &&
       this._messageStore.ready &&
-      this._rolesAndPermissions.ready &&
+      this._extensionFeatures.ready &&
       this._storage.ready &&
       (!this._tabManager || this._tabManager.ready) &&
       this._readyCheckFunction()
@@ -150,7 +132,7 @@ export default class ConversationLogger extends LoggerBase {
         !this._dateTimeFormat.ready ||
         !this._extensionInfo.ready ||
         !this._messageStore.ready ||
-        !this._rolesAndPermissions.ready ||
+        !this._extensionFeatures.ready ||
         !this._storage.ready ||
         (this._tabManager && !this._tabManager.ready) ||
         !this._readyCheckFunction())
@@ -384,13 +366,9 @@ export default class ConversationLogger extends LoggerBase {
   }
 
   get available() {
-    const {
-      SMSReceiving,
-      PagerReceiving,
-    } = this._rolesAndPermissions.serviceFeatures;
     return !!(
-      (SMSReceiving && SMSReceiving.enabled) ||
-      (PagerReceiving && PagerReceiving.enabled)
+      this.extensionFeatures.features?.SMSReceiving?.available ||
+      this.extensionFeatures.features?.PagesReceiving?.available
     );
   }
 

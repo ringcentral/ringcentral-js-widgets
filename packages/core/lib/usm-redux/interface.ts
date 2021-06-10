@@ -61,3 +61,9 @@ export type Watch = <T>(
   selector: () => T,
   watcher: (newValue: T, oldValue: T) => void,
 ) => Unsubscribe;
+
+export type WatchEffect = <T extends any[]>(
+  module: any,
+  selector: () => [...T],
+  watcher: (newValue: T, oldValue: T) => void,
+) => Unsubscribe;

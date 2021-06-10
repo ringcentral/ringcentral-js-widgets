@@ -146,7 +146,7 @@ afterEach(async () => {
   wrapper.unmount();
 });
 
-describe('<SessionConfigPanel />', async () => {
+describe('<SessionConfigPanel />', () => {
   it('When user click setConfigure Button, setConfigure is to be called', () => {
     const setConfigure = jest.fn();
     wrapper = setup({

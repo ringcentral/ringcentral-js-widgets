@@ -326,6 +326,8 @@ class Auth extends RcModuleV2<Deps> {
     endpointId,
     tokenType,
     scope,
+    tokenUri,
+    discoveryUri,
   }: LoginOptions) {
     this.setLogin();
     let ownerId: number;
@@ -359,6 +361,8 @@ class Auth extends RcModuleV2<Deps> {
       access_token: accessToken,
       token_type: tokenType,
       owner_id: ownerId,
+      token_uri: tokenUri,
+      discovery_uri: discoveryUri,
     });
   }
 

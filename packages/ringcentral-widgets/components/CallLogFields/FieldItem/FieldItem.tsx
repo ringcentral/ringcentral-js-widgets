@@ -230,7 +230,7 @@ export class FieldItem extends Component<FieldItemProps, {}> {
         data-sign={fieldValue}
         required={required}
         label={label}
-        date={date}
+        value={date}
         onChange={async (value) => {
           const timeStamp = value ? setUTCTime(value) : value;
           await this.onInputSelectChange(fieldValue)(timeStamp);
@@ -446,7 +446,7 @@ export class FieldItem extends Component<FieldItemProps, {}> {
     const defaultLogData = {
       isSaved: false,
       task: {
-        [value]: item ?? '',
+        [value]: item,
       },
     };
     const logData =

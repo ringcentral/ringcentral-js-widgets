@@ -1,6 +1,7 @@
 import { parseNumber } from 'libphonenumber-js';
 import cleanNumber from '../cleanNumber';
 import extractControls from '../extractControls';
+import { ParseResult } from './parse.interface';
 
 const invalidCharsRegExp = /[^\d*+#\-(). ]/;
 const plusRegex = /\+/g;
@@ -113,10 +114,10 @@ export default function parse({
 }: {
   input: string;
   countryCode?: string;
-}) {
+}): ParseResult {
   const { phoneNumber, extendedControls } = extractControls(input);
   const cleanInput = cleanNumber(phoneNumber);
-  const result = {
+  const result: ParseResult = {
     input,
     parsedCountry: null,
     parsedNumber: null,

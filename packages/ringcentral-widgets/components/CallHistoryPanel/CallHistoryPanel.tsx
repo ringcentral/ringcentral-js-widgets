@@ -74,7 +74,6 @@ export const CallHistoryPanel: FunctionComponent<CallHistoryPanelProps> = ({
         children: [],
       },
     };
-
     calls.forEach((call: CallLog) => {
       const { id, startTime } = call;
 
@@ -113,6 +112,7 @@ export const CallHistoryPanel: FunctionComponent<CallHistoryPanelProps> = ({
   const getChildren = useCallback(
     (id: string) => {
       const node = tree[id];
+
       if (node.children) {
         return node.children.map((childId: string) => {
           const childNode = tree[childId];
@@ -136,7 +136,6 @@ export const CallHistoryPanel: FunctionComponent<CallHistoryPanelProps> = ({
   const rowRenderer = useCallback(
     ({ id, style }: RowRendererProps) => {
       const node = tree[id];
-
       if (node.children) {
         return (
           <div

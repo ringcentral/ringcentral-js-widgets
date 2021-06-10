@@ -35,7 +35,7 @@ const RcVideoTypes: RcVideoTypesProps = {
 };
 
 const RCV_PASSWORD_REGEX = /^[A-Za-z0-9]{1,10}$/;
-const RCV_WAITTING_ROOM_API_KEYS = 'waitingRoomMode';
+const RCV_WAITING_ROOM_API_KEYS = 'waitingRoomMode';
 const RCV_CREATE_API_KEYS: Array<keyof RcVideoAPI> = [
   'name',
   'type',
@@ -52,7 +52,7 @@ const RCV_CREATE_API_KEYS: Array<keyof RcVideoAPI> = [
   'isOnlyAuthUserJoin',
   'isOnlyCoworkersJoin',
   'allowScreenSharing',
-  RCV_WAITTING_ROOM_API_KEYS,
+  RCV_WAITING_ROOM_API_KEYS,
 ];
 
 const RCV_PREFERENCES_IDS: Array<RcVSettingId> = [
@@ -75,7 +75,7 @@ const RCV_PREFERENCES_KEYS: Array<RcVSettingKey> = [
   'isOnlyAuthUserJoin',
   'isOnlyCoworkersJoin',
   'allowScreenSharing',
-  RCV_WAITTING_ROOM_API_KEYS,
+  RCV_WAITING_ROOM_API_KEYS,
 ];
 
 /* RCINT-14566
@@ -409,7 +409,7 @@ export {
   RCV_PASSWORD_REGEX,
   RCV_PREFERENCES_IDS,
   RCV_PREFERENCES_KEYS,
-  RCV_WAITTING_ROOM_API_KEYS,
+  RCV_WAITING_ROOM_API_KEYS,
   RcVideoTypes,
   meetingProviderTypes,
   RCV_WAITING_ROOM_MODE,

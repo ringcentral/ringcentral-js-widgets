@@ -1,4 +1,4 @@
-import ComposeTextUI from './index';
+import { ComposeTextUI } from './ComposeTextUI';
 
 describe('detectPhoneNumbers', () => {
   const phone = {

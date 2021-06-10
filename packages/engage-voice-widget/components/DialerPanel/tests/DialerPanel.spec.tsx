@@ -1,18 +1,19 @@
+import {
+  render,
+  fireEvent,
+} from '@ringcentral-integration/test-utils/lib/test-utils';
 import { ReactWrapper } from 'enzyme';
+import React from 'react';
 import { act } from 'react-dom/test-utils';
 import { RecipientsInput } from 'ringcentral-widgets/components/Rcui/RecipientsInput';
 
 import { DialoutStatusesType } from '../../../enums/dialoutStatus';
+import { DialerPanel } from '../DialerPanel';
 import { createDialerPanel } from './createDialerPanel';
-
-let wrapper: ReactWrapper;
-
-const getCallButton = () => wrapper.find('[data-sign="callButton"]').at(0);
-const getDeleteButton = () => wrapper.find('[data-sign="deleteButton"]').at(0);
 
 const mockAudio = () => {
   window.HTMLMediaElement.prototype.play = () => {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       resolve();
     });
   };
@@ -20,11 +21,17 @@ const mockAudio = () => {
 
 mockAudio();
 
-afterEach(async () => {
-  wrapper.unmount();
-});
+describe('<DialerPanel />', () => {
+  let wrapper: ReactWrapper;
 
-describe('<DialerPanel />', async () => {
+  const getCallButton = () => wrapper.find('[data-sign="callButton"]').at(0);
+  const getDeleteButton = () =>
+    wrapper.find('button[data-sign="deleteButton"]').last();
+
+  afterEach(async () => {
+    wrapper.unmount();
+  });
+
   [
     { toNumber: '', desc: 'with no number filled' },
     { toNumber: '6508652493', desc: 'without number filled' },
@@ -35,7 +42,7 @@ describe('<DialerPanel />', async () => {
       const recipientsInput = wrapper.find(RecipientsInput).at(0);
       const callButton = getCallButton();
       expect(recipientsInput.prop('value')).toBe(toNumber);
-      expect(callButton.prop('color')).toBe('semantic.positive');
+      expect(callButton.prop('color')).toBe('success.b03');
       expect(callButton.prop('data-icon')).toBe('answer');
       callButton.simulate('click');
       expect(dialout).toBeCalled();
@@ -61,32 +68,6 @@ describe('<DialerPanel />', async () => {
 
     wrapper = createDialerPanel({ dialButtonDisabled: false });
     expect(getDialButtonDisabled()).toBe(undefined);
-  });
-
-  it('Click Delete Button', async () => {
-    const toNumber = '6508652493';
-    const setToNumber = jest.fn(() => {});
-    wrapper = createDialerPanel({ toNumber, setToNumber });
-
-    const deleteButton = getDeleteButton();
-    deleteButton.simulate('mouseDown');
-    deleteButton.simulate('mouseUp');
-    expect(setToNumber).toBeCalledWith(toNumber.slice(0, -1));
-  });
-
-  it('Long press Delete Button', async () => {
-    jest.useFakeTimers();
-    const toNumber = '6508652493';
-    const setToNumber = jest.fn(() => {});
-    wrapper = createDialerPanel({ toNumber, setToNumber });
-    const deleteButton = getDeleteButton();
-    await act(async () => {
-      deleteButton.simulate('mouseDown');
-      jest.advanceTimersByTime(1100);
-      // here will hidden deleteButton when clear toNumber, so we don't need mouseUp
-      // deleteButton.simulate('mouseUp');
-    });
-    expect(setToNumber).toBeCalledWith('');
   });
 
   it('Delete button show switch', async () => {
@@ -171,5 +152,64 @@ describe('<DialerPanel />', async () => {
     buttonZero.simulate('mouseup');
 
     expect(setToNumber).toBeCalledWith('1234+');
+  });
+});
+
+describe('<DialerPanel />', () => {
+  it('Click Delete Button', async () => {
+    const toNumber = '6508652493';
+    const setToNumber = jest.fn(() => {});
+
+    const { container } = render(
+      <DialerPanel
+        currentLocale="en-US"
+        dialout={() => {}}
+        toNumber={toNumber}
+        size="small"
+        dialButtonDisabled={false}
+        hasDialer
+        setToNumber={setToNumber}
+        goToManualDialSettings={() => {}}
+        dialoutStatus="idle"
+        hangup={() => {}}
+      />,
+    );
+    const deleteButton = container.querySelector('button');
+
+    fireEvent.mouseDown(deleteButton);
+    fireEvent.mouseUp(deleteButton);
+
+    expect(setToNumber).toBeCalledWith(toNumber.slice(0, -1));
+  });
+
+  it('Long press Delete Button', async () => {
+    jest.useFakeTimers();
+    const toNumber = '6508652493';
+    const setToNumber = jest.fn(() => {});
+
+    const { container } = render(
+      <DialerPanel
+        currentLocale="en-US"
+        dialout={() => {}}
+        toNumber={toNumber}
+        size="small"
+        dialButtonDisabled={false}
+        hasDialer
+        setToNumber={setToNumber}
+        goToManualDialSettings={() => {}}
+        dialoutStatus="idle"
+        hangup={() => {}}
+      />,
+    );
+    const deleteButton = container.querySelector('button');
+
+    fireEvent.mouseDown(deleteButton);
+
+    await act(async () => {
+      jest.advanceTimersByTime(1100);
+      // here will hidden deleteButton when clear toNumber, so we don't need mouseUp
+      // deleteButton.simulate('mouseUp');
+    });
+    expect(setToNumber).toBeCalledWith('');
   });
 });

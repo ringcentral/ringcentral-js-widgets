@@ -46,6 +46,7 @@ export interface CommonBrand {
   id: string;
   code: string;
   name: string;
+  rcvProductName?: string;
   brandConfig: {
     teleconference: string;
   };

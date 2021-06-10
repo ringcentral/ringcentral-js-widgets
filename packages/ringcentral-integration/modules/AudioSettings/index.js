@@ -4,10 +4,10 @@ import proxify from '../../lib/proxy/proxify';
 import { selector } from '../../lib/selector';
 import { Module } from '../../lib/di';
 import ensureExist from '../../lib/ensureExist';
-import actionTypes from './actionTypes';
+import { actionTypes } from './actionTypes';
 import getAudioSettingsReducer from './getAudioSettingsReducer';
 import getStorageReducer from './getStorageReducer';
-import audioSettingsErrors from './audioSettingsErrors';
+import { audioSettingsErrors } from './audioSettingsErrors';
 
 function polyfillGetUserMedia() {
   if (navigator.mediaDevices === undefined) {
@@ -34,10 +34,10 @@ polyfillGetUserMedia();
  * @description AudioSettings module.
  */
 @Module({
-  deps: ['Auth', 'Alert', 'Storage', 'RolesAndPermissions'],
+  deps: ['Auth', 'Alert', 'Storage', 'ExtensionFeatures'],
 })
 export default class AudioSettings extends RcModule {
-  constructor({ auth, alert, storage, rolesAndPermissions, ...options }) {
+  constructor({ auth, alert, storage, extensionFeatures, ...options }) {
     super({
       ...options,
       actionTypes,
@@ -45,11 +45,7 @@ export default class AudioSettings extends RcModule {
     this._storage = ensureExist.call(this, storage, 'storage');
     this._auth = ensureExist.call(this, auth, 'auth');
     this._alert = ensureExist.call(this, alert, 'alert');
-    this._rolesAndPermissions = ensureExist.call(
-      this,
-      rolesAndPermissions,
-      'rolesAndPermissions',
-    );
+    this._extensionFeatures = extensionFeatures;
     this._storageKey = 'audioSettings';
     this._storage.registerReducer({
       key: this._storageKey,
@@ -67,7 +63,7 @@ export default class AudioSettings extends RcModule {
       if (
         this.ready &&
         this._auth.loggedIn &&
-        this._rolesAndPermissions.webphoneEnabled &&
+        this._extensionFeatures.isWebPhoneEnabled &&
         !this.userMedia
       ) {
         // Make sure it only prompts once
@@ -103,7 +99,7 @@ export default class AudioSettings extends RcModule {
       this.pending &&
       this._storage.ready &&
       this._auth.ready &&
-      this._rolesAndPermissions.ready
+      this._extensionFeatures.ready
     );
   }
 
@@ -112,7 +108,7 @@ export default class AudioSettings extends RcModule {
       this.ready &&
       (!this._auth.ready ||
         !this._storage.ready ||
-        !this._rolesAndPermissions.ready)
+        !this._extensionFeatures.ready)
     );
   }
 

@@ -4,6 +4,7 @@ import proxify from 'ringcentral-integration/lib/proxy/proxify';
 import ensureExist from 'ringcentral-integration/lib/ensureExist';
 import moduleStatuses from 'ringcentral-integration/enums/moduleStatuses';
 import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
+import { getModuleStatusReducer } from 'ringcentral-integration/lib/getModuleStatusReducer';
 import { baseMessageTypes } from '../AdapterCore/baseMessageTypes';
 import { baseActionTypes } from './baseActionTypes';
 import getDefaultGlobalStorageReducer from './getDefaultGlobalStorageReducer';
@@ -59,6 +60,8 @@ export default class AdapterModuleCoreBase extends RcModule {
       key: this._storageKey,
       reducer: getGlobalStorageReducer(this.actionTypes),
     });
+
+    this._reducer = getModuleStatusReducer(this.actionTypes);
   }
 
   initialize() {
@@ -190,6 +193,9 @@ export default class AdapterModuleCoreBase extends RcModule {
         case this._messageTypes.navigateToViewCalls:
           this._onNavigateToViewCalls();
           break;
+        case this._messageTypes.popOut:
+          this._onPopOut();
+          break;
         default:
           break;
       }
@@ -250,8 +256,16 @@ export default class AdapterModuleCoreBase extends RcModule {
     throw new Error('Should implement the _onNavigateToViewCalls function.');
   }
 
+  @proxify
+  _onPopOut() {
+    if (typeof this.showClientWindow === 'function') {
+      this.showClientWindow();
+    }
+  }
+
   get status() {
-    return this.state.status;
+    // * compatibility other sub-module
+    return this.state.status || this.state;
   }
 
   get ready() {

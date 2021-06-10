@@ -33,12 +33,12 @@
     "webpack-dev-server": "^3.1.14"
   },
   "dependencies": {
-    "@ringcentral-integration/core": "^0.12.0",
+    "@ringcentral-integration/core": "^0.13.0",
     "@ringcentral-integration/i18n": "^2.0.1",
     "@ringcentral-integration/phone-number": "^1.0.2",
-    "@ringcentral/juno": "^1.8.2-beta.4790-e9e01b7b",
-    "@ringcentral/sdk": "^4.4.2",
-    "@ringcentral/subscriptions": "^4.4.2",
+    "@ringcentral/juno": "^1.8.3-beta.4905-adf6ee90",
+    "@ringcentral/sdk": "^4.5.0",
+    "@ringcentral/subscriptions": "^4.5.0",
     "classnames": "^2.2.5",
     "format-message": "^5.1.2",
     "isomorphic-fetch": "^2.2.1",
@@ -52,8 +52,8 @@
     "react-router-redux": "^4.0.7",
     "redux": "^4.0.4",
     "ringcentral-client": "^1.0.0-beta.2",
-    "ringcentral-integration": "^0.12.0",
-    "ringcentral-widgets": "^0.12.0",
+    "ringcentral-integration": "^0.13.0",
+    "ringcentral-widgets": "^0.13.0",
     "styled-components": "^5.2.0"
   }
 }

@@ -10,7 +10,8 @@ export default {
   rcvSipContentNoPwd: "\n    {meetingId}@rcv.com",
   doNotModify: "===== Ne modifiez pas ce texto =====",
   password: "\n\nMot de passe",
-  passwordPstn: "\n\nMot de passe à composer:"
+  passwordPstn: "\n\nMot de passe à composer :",
+  'TELUS Business Connect': "Connexion Affaires de TELUS"
 };
 
 // @key: @#@"inviteMeetingContent"@#@ @source: @#@"{accountName} is inviting you to a {brandName} meeting.\n\nJoin from PC, Mac, iOS or Android: {joinUri}{passwordTpl}\n\nOr iPhone one-tap:\n    {mobileDialingNumberTpl}\n\nOr Telephone:\n    Dial: {phoneDialingNumberTpl}\n    Meeting ID: {meetingId}\n    International numbers available: {teleconference} "@#@
@@ -25,3 +26,4 @@ export default {
 // @key: @#@"doNotModify"@#@ @source: @#@"===== Do not modify this text ====="@#@
 // @key: @#@"password"@#@ @source: @#@"\n\nPassword"@#@
 // @key: @#@"passwordPstn"@#@ @source: @#@"\n\nDial-in password:"@#@
+// @key: @#@"'TELUS Business Connect'"@#@ @source: @#@"TELUS Business Connect"@#@

@@ -5,6 +5,7 @@ const __CI__ = process.env.NODE_ENV === 'ci';
 module.exports = {
   roots: ['<rootDir>/test'],
   testRunner: 'jest-circus/runner',
+  testEnvironment: 'jsdom',
   transform: {
     'loadLocale\\.(js|jsx|ts|tsx)$': `${nodeModules}@ringcentral-integration/test-utils/mock/loadLocale.js`,
     '^.+\\.(js|jsx|ts|tsx)$': `${nodeModules}@ringcentral-integration/test-utils/scripts/babel-crius.js`,
@@ -31,6 +32,22 @@ module.exports = {
               publicPath: './html-report',
               filename: 'crius-report.html',
               expand: true,
+            },
+          ],
+          [
+            'jest-junit',
+            {
+              suiteName: 'jest tests',
+              outputDirectory: './junit-report',
+              outputName: './junit.xml',
+              classNameTemplate: (vars) => {
+                return vars.filename.indexOf('RCI-') > -1
+                  ? vars.filename.match(/(RCI-[0-9]+)/g)[0]
+                  : vars.filename;
+              },
+              titleTemplate: '{filename}-{title}',
+              ancestorSeparator: ' › ',
+              usePathForSuiteName: 'true',
             },
           ],
         ],

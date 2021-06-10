@@ -47,7 +47,7 @@ function ascendSortParties(parties) {
     'ConnectivityMonitor',
     'Client',
     'Webphone',
-    'RolesAndPermissions',
+    'ExtensionFeatures',
     {
       dep: 'ContactMatcher',
       optional: true,
@@ -79,7 +79,7 @@ export default class ConferenceCall extends RcModule {
     call,
     callingSettings,
     client,
-    rolesAndPermissions,
+    extensionFeatures,
     contactMatcher,
     webphone,
     availabilityMonitor,
@@ -109,11 +109,7 @@ export default class ConferenceCall extends RcModule {
     this._webphone = webphone;
     this._connectivityMonitor = connectivityMonitor;
     this._contactMatcher = contactMatcher;
-    this._rolesAndPermissions = ensureExist.call(
-      this,
-      rolesAndPermissions,
-      'rolesAndPermissions',
-    );
+    this._extensionFeatures = extensionFeatures;
     // we need the constructed actions
     this._reducer = getConferenceCallReducer(this.actionTypes);
     this._ttl = DEFAULT_TTL;
@@ -683,7 +679,7 @@ export default class ConferenceCall extends RcModule {
       this._alert.ready &&
       this._callingSettings.ready &&
       this._call.ready &&
-      this._rolesAndPermissions.ready &&
+      this._extensionFeatures.ready &&
       this._connectivityMonitor.ready &&
       (!this._availabilityMonitor || this._availabilityMonitor.ready) &&
       this.pending
@@ -697,15 +693,22 @@ export default class ConferenceCall extends RcModule {
         !this._alert.ready ||
         !this._callingSettings.ready ||
         !this._call.ready ||
-        !this._rolesAndPermissions.ready ||
+        !this._extensionFeatures.ready ||
         !this._connectivityMonitor.ready ||
         (!!this._availabilityMonitor && !this._availabilityMonitor.ready)) &&
       this.ready
     );
   }
 
+  get hasPermission() {
+    return (
+      this._extensionFeatures.isRingOutEnabled &&
+      this._extensionFeatures.isWebPhoneEnabled
+    );
+  }
+
   _checkPermission() {
-    if (!this._rolesAndPermissions.hasConferenceCallPermission) {
+    if (!this.hasPermission) {
       this._alert.danger({
         message: permissionsMessages.insufficientPrivilege,
         ttl: 0,

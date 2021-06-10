@@ -1,12 +1,11 @@
-import { Module } from '../../lib/di';
-import RcModule from '../../lib/RcModule';
-import sleep from '../../lib/sleep';
 import moduleStatuses from '../../enums/moduleStatuses';
 import { batchGetApi } from '../../lib/batchApiHelper';
-import proxify from '../../lib/proxy/proxify';
+import { Module } from '../../lib/di';
 import ensureExist from '../../lib/ensureExist';
-
-import actionTypes from './actionTypes';
+import proxify from '../../lib/proxy/proxify';
+import RcModule from '../../lib/RcModule';
+import sleep from '../../lib/sleep';
+import { actionTypes } from './actionTypes';
 import getReducer, { getGlipPersonStoreReducer } from './getReducer';
 
 const MaximumBatchGetPersons = 30;
@@ -16,28 +15,19 @@ const DEFAULT_BATCH_FETCH_DELAY = 500;
   deps: [
     'Client',
     'Auth',
-    'RolesAndPermissions',
+    'ExtensionFeatures',
     { dep: 'Storage', optional: true },
     { dep: 'TabManager', optional: true },
     { dep: 'GlipPersonsOptions', optional: true },
   ],
 })
 export default class GlipPersons extends RcModule {
-  /**
-   * @constructor
-   * @param {Object} params - params object
-   * @param {Client} params.client - client module instance
-   * @param {Auth} params.auth - auth module instance
-   * @param {RolesAndPermissions} params.rolesAndPermissions - rolesAndPermission module instance
-   * @param {Storage} params.storage - storage module instance
-   * @param {TabManager} params.tabManager - tabManager module instance
-   */
   constructor({
     client,
     auth,
     storage,
     tabManager,
-    rolesAndPermissions,
+    extensionFeatures,
     batchFetchDelay = DEFAULT_BATCH_FETCH_DELAY,
     ...options
   }) {
@@ -46,11 +36,7 @@ export default class GlipPersons extends RcModule {
       actionTypes,
     });
 
-    this._rolesAndPermissions = ensureExist.call(
-      this,
-      rolesAndPermissions,
-      'rolesAndPermissions',
-    );
+    this._extensionFeatures = extensionFeatures;
     this._client = ensureExist.call(this, client, 'client');
     this._auth = ensureExist.call(this, auth, 'auth');
     this._tabManager = tabManager;
@@ -102,7 +88,7 @@ export default class GlipPersons extends RcModule {
   _shouldInit() {
     return (
       this._auth.loggedIn &&
-      this._rolesAndPermissions.ready &&
+      this._extensionFeatures.ready &&
       (!this._storage || this._storage.ready) &&
       (!this._tabManager || this._tabManager.ready) &&
       this.pending
@@ -113,7 +99,7 @@ export default class GlipPersons extends RcModule {
     return (
       ((this._storage && !this._storage.ready) ||
         (this._tabManager && !this._tabManager.ready) ||
-        !this._rolesAndPermissions.ready ||
+        !this._extensionFeatures.ready ||
         !this._auth.loggedIn) &&
       this.ready
     );
@@ -130,10 +116,7 @@ export default class GlipPersons extends RcModule {
       this.store.dispatch({
         type: this.actionTypes.fetch,
       });
-      const person = await this._client
-        .glip()
-        .persons(id)
-        .get();
+      const person = await this._client.glip().persons(id).get();
       this.store.dispatch({
         type: this.actionTypes.fetchSuccess,
         person,
@@ -202,10 +185,7 @@ export default class GlipPersons extends RcModule {
       return [];
     }
     if (personIds.length === 1) {
-      const response = await this._client
-        .glip()
-        .persons(personIds[0])
-        .get();
+      const response = await this._client.glip().persons(personIds[0]).get();
       return [response];
     }
     const ids = personIds.join(',');
@@ -243,6 +223,6 @@ export default class GlipPersons extends RcModule {
   }
 
   get _hasPermission() {
-    return this._rolesAndPermissions.hasGlipPermission;
+    return !!this._extensionFeatures.features?.Glip?.available;
   }
 }

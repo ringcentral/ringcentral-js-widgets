@@ -16,4 +16,5 @@ export default {
   doNotModify: '===== Do not modify this text =====',
   password: '\n\nPassword',
   passwordPstn: '\n\nDial-in password:',
+  'TELUS Business Connect': 'TELUS Business Connect',
 };

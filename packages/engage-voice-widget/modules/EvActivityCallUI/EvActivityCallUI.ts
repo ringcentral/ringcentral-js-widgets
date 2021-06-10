@@ -154,8 +154,10 @@ class EvActivityCallUI<T = {}>
   async onPauseRecord() {
     try {
       await this._deps.activeCallControl.pauseRecord();
+      this._sendTabManager(tabManagerEvents.RECORD_PAUSED);
+
       this._deps.alert.success({
-        message: messageTypes.RECORD_PAUSE,
+        message: messageTypes.RECORD_PAUSED,
       });
     } catch (error) {
       console.error(error?.message);
@@ -637,6 +639,11 @@ class EvActivityCallUI<T = {}>
         case tabManagerEvents.CALL_DISPOSITION_SUCCESS:
         case tabManagerEvents.CALL_LOG_CREATE_SUCCESS:
           this._dispositionSuccess();
+          break;
+        case tabManagerEvents.RECORD_PAUSED:
+          this._deps.alert.success({
+            message: messageTypes.RECORD_PAUSED,
+          });
           break;
         default:
           break;

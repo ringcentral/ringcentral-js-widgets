@@ -25,6 +25,39 @@ const mockSessionData = {
 const mockSession = {
   data: mockSessionData,
   party: mockParty,
+  activeCallId: 'testActiveCallId',
+  direction: 'testDirection',
+  from: 'testFrom',
+  id: 'testId',
+  otherParties: {},
+  recordings: {},
+  sessionId: 'testSessionId',
+  startTime: 'testStartTime',
+  status: 'testStatus',
+  telephonySessionId: 'testTelephonySessionId',
+  to: 'testto',
+  webphoneSessionConnected: false,
+};
+
+const sessionState = {
+  id: 'testId',
+  extensionId: 'testExtensionId',
+  accountId: 'testAccountId',
+  parties: [] as [],
+  party: mockParty,
+  activeCallId: 'testActiveCallId',
+  direction: 'testDirection',
+  from: 'testFrom',
+  otherParties: {},
+  recordings: {},
+  sessionId: 'testSessionId',
+  startTime: 'testStartTime',
+  status: 'testStatus',
+  telephonySessionId: 'testTelephonySessionId',
+  telephonySession: {},
+  to: 'testto',
+  webphoneSessionConnected: false,
+  webphoneSession: {},
 };
 
 const getMockModule = () =>
@@ -36,9 +69,7 @@ const getMockModule = () =>
       timestamp: 0,
     },
     _rcCall: {
-      _callControl: {
-        sessions: [mockSession],
-      },
+      sessions: [mockSession],
     },
   });
 
@@ -69,7 +100,7 @@ export class ActiveCallControlUpdateActiveSessions extends Step {
         <Then
           desc="The mockModule 'sessions' should be the expected values"
           action={(_: any, context: any) => {
-            expect(context.mockModule.data.sessions).toEqual([mockSessionData]);
+            expect(context.mockModule.data.sessions).toEqual([sessionState]);
             expect(context.mockModule.data.timestamp).toEqual(1234567);
           }}
         />

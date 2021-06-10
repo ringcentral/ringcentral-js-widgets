@@ -18,6 +18,7 @@ export const baseMessageTypes = ObjectMap.fromKeys([
   'pushOnAllCallsPath',
   'navigateToCurrentCall',
   'navigateToViewCalls',
+  'popOut',
 ]);
 
 export default baseMessageTypes;

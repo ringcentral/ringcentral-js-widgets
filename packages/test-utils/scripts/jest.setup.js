@@ -7,6 +7,8 @@ configure({ adapter });
 /* global jest, __CI__ */
 
 window.Audio.prototype.pause = () => {};
+window.HTMLMediaElement.prototype.play = async () => {};
+window.setImmediate = (cb) => setTimeout(cb, 0);
 window.authData = null;
 window.URL = {
   createObjectURL: jest.fn(),
@@ -21,3 +23,7 @@ if (__CI__) {
   // eslint-disable-next-line
   console = new Proxy({}, { get: () => () => {} });
 }
+
+process.on('unhandledRejection', (error) => {
+  // todo: check unhandledRejection error for debugging
+});

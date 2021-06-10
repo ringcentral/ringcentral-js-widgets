@@ -21,7 +21,7 @@ import i18n from './i18n';
     'ConnectivityMonitor',
     'RateLimiter',
     'DateTimeFormat',
-    'RolesAndPermissions',
+    'ExtensionFeatures',
     { dep: 'CallLogger', optional: true },
     { dep: 'Call', optional: true },
     { dep: 'ComposeText', optional: true },

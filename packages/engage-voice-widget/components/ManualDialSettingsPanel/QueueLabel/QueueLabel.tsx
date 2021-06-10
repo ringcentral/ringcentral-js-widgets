@@ -1,4 +1,5 @@
 import React, { FunctionComponent } from 'react';
+import { RcText } from '@ringcentral/juno';
 import i18n from '../i18n';
 import styles from './styles.scss';
 
@@ -15,7 +16,14 @@ const QueueLabel: FunctionComponent<QueueLabelProps> = ({
 }) => {
   return (
     <div className={styles.item}>
-      <p>{gateName}</p>
+      <RcText
+        variant="inherit"
+        component="p"
+        title={gateName}
+        titleWhenOverflow
+      >
+        {gateName}
+      </RcText>
       {gateId !== '-1' ? (
         <p className={styles.sub}>
           {i18n.getString('queueID', currentLocale)}: {gateId}

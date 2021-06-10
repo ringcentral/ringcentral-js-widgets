@@ -46,22 +46,6 @@ class CallingSettings extends RcModuleV2<Deps> {
   _showCallWithJupiter?: boolean;
   _emergencyCallAvailable?: boolean;
   _availableNumbers: string[];
-
-  /**
-   * @constructor
-   * @param {Object} params - params object
-   * @param {Alert} params.alert - alert module instance
-   * @param {Brand} params.brand - brand module instance
-   * @param {ExtensionInfo} params.extensionInfo - extensionInfo module instance
-   * @param {ExtensionPhoneNumber} params.extensionPhoneNumber - extensionPhoneNumber module instance
-   * @param {ForwardingNumber} params.forwardingNumber - forwardingNumber module instance
-   * @param {Storage} params.storage - storage module instance
-   * @param {RolesAndPermissions} params.rolesAndPermissions - rolesAndPermissions module instance
-   * @param {TabManager} params.tabManager - tabManager module instance
-   * @param {Webphone} params.webphone - webphone module instance
-   * @param {Function} params.onFirstLogin - func on first login
-   */
-
   constructor(deps: Deps) {
     super({
       deps,

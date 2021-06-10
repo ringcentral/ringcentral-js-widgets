@@ -1,5 +1,5 @@
 export default {
-  unKnown: "알 수 없음"
+  unknown: "알 수 없음"
 };
 
-// @key: @#@"unKnown"@#@ @source: @#@"Unknown"@#@
+// @key: @#@"unknown"@#@ @source: @#@"Unknown"@#@

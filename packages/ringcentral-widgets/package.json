@@ -1,6 +1,6 @@
 {
   "name": "ringcentral-widgets",
-  "version": "0.12.0",
+  "version": "0.13.0",
   "description": "RingCentral Integration Widget Library",
   "main": "index.js",
   "scripts": {
@@ -50,9 +50,9 @@
     "@ringcentral-integration/locale-loader": "*",
     "@ringcentral-integration/locale-settings": "*",
     "@ringcentral-integration/phone-number": "*",
-    "@ringcentral/juno": "^1.8.2-beta.4790-e9e01b7b",
-    "@ringcentral/sdk": "^4.4.2",
-    "@ringcentral/subscriptions": "^4.4.2",
+    "@ringcentral/juno": "^1.8.3-beta.4905-adf6ee90",
+    "@ringcentral/sdk": "^4.5.0",
+    "@ringcentral/subscriptions": "^4.5.0",
     "@testing-library/jest-dom": "^5.11.2",
     "@testing-library/react": "^11.2.6",
     "@types/autoprefixer": "^9.7.2",
@@ -90,12 +90,12 @@
   },
   "peerDependencies": {
     "@rc-ex/core": "^0.8.1",
-    "@ringcentral-integration/core": "^0.12.0",
+    "@ringcentral-integration/core": "^0.13.0",
     "@ringcentral-integration/i18n": "^2.0.1",
     "@ringcentral-integration/phone-number": "^1.0.4",
-    "@ringcentral/juno": "^1.8.2-beta.4790-e9e01b7b",
-    "@ringcentral/sdk": "^4.4.2",
-    "@ringcentral/subscriptions": "^4.4.2",
+    "@ringcentral/juno": "^1.8.3-beta.4905-adf6ee90",
+    "@ringcentral/sdk": "^4.5.0",
+    "@ringcentral/subscriptions": "^4.5.0",
     "format-message": "^6.2.3",
     "isomorphic-fetch": "^2.2.1",
     "moment": "^2.24.0",
@@ -106,7 +106,7 @@
     "react-router-redux": "^4.0.7",
     "redux": "^4.0.5",
     "ringcentral-client": "^1.0.0-beta.2",
-    "ringcentral-integration": "^0.12.0"
+    "ringcentral-integration": "^0.13.0"
   },
   "ci": {
     "ringcentral-js-widgets": "**"

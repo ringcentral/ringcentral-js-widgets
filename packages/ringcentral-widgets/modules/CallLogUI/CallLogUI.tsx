@@ -1,17 +1,30 @@
-import { RcUIModuleV2 } from '@ringcentral-integration/core';
+import { RcModuleOptions, RcUIModuleV2 } from '@ringcentral-integration/core';
+import React from 'react';
 import { Module } from 'ringcentral-integration/lib/di';
 import formatNumber from 'ringcentral-integration/lib/formatNumber';
 import { callingOptions } from 'ringcentral-integration/modules/CallingSettingsV2/callingOptions';
-import React from 'react';
-import {
-  CallLogUIInterface,
-  Deps,
-  CallLogUIProps,
-  CallLogUIFunctions,
-} from './CallLogUI.interface';
-
 import CallLogCallCtrlContainer from '../../containers/CallLogCallCtrlContainer';
+import {
+  CallLogUIFunctions,
+  CallLogUIInterface,
+  CallLogUIProps,
+  Deps,
+} from './CallLogUI.interface';
 import i18n from './i18n';
+
+const CallLogCallControlRenderer = (
+  currentLocale: string,
+  telephonySessionId: string,
+  isWide: boolean,
+  isCurrentDeviceCall: boolean,
+) => (
+  <CallLogCallCtrlContainer
+    currentLocale={currentLocale}
+    telephonySessionId={telephonySessionId}
+    isCurrentDeviceCall={isCurrentDeviceCall}
+    isWide={isWide}
+  />
+);
 
 @Module({
   name: 'CallLogUI',
@@ -24,22 +37,20 @@ import i18n from './i18n';
     'CallLogSection',
     'RouterInteraction',
     'ActiveCallControl',
-    'RolesAndPermissions',
+    'ExtensionFeatures',
     'ConnectivityMonitor',
     'CallingSettings',
     'ForwardingNumber',
     { dep: 'CallLogUIOptions', optional: true },
   ],
 })
-class CallLogUI<T = {}>
+export abstract class CallLogUIBase<T = {}>
   extends RcUIModuleV2<Deps & T>
   implements CallLogUIInterface {
-  constructor({ deps = {}, ...options }: Deps & { deps: Record<string, any> }) {
+  constructor({ deps, ...options }: RcModuleOptions<Deps & T>) {
     super({
-      deps: {
-        ...options,
-        ...deps,
-      },
+      deps,
+      ...options,
     });
   }
 
@@ -53,7 +64,7 @@ class CallLogUI<T = {}>
       callLogSection,
       routerInteraction,
       activeCallControl,
-      rolesAndPermissions,
+      extensionFeatures,
       connectivityMonitor,
       callingSettings,
       forwardingNumber,
@@ -69,7 +80,7 @@ class CallLogUI<T = {}>
         locale.ready &&
         regionSettings.ready &&
         dateTimeFormat.ready &&
-        (!rolesAndPermissions || rolesAndPermissions.ready) &&
+        extensionFeatures.ready &&
         (!callLogger || callLogger.ready)
       ),
       isInTransferPage,
@@ -102,23 +113,22 @@ class CallLogUI<T = {}>
           phoneNumber,
           areaCode: regionSettings.areaCode,
           countryCode: regionSettings.countryCode,
-        }) || i18n.getString('unKnown', locale.currentLocale),
+        }) || i18n.getString('unknown', locale.currentLocale),
       goBack: () => {
         callLogSection.closeLogSection();
         callLogSection.closeLogNotification();
       },
       renderCallLogCallControl: (
-        currentTelephonySessionId,
+        telephonySessionId,
         isWide,
         isCurrentDeviceCall,
-      ) => (
-        <CallLogCallCtrlContainer
-          currentLocale={locale.currentLocale}
-          telephonySessionId={currentTelephonySessionId}
-          isCurrentDeviceCall={isCurrentDeviceCall}
-          isWide={isWide}
-        />
-      ),
+      ) =>
+        CallLogCallControlRenderer(
+          locale.currentLocale,
+          telephonySessionId,
+          isWide,
+          isCurrentDeviceCall,
+        ),
       // notification props
       onSaveNotification: () => callLogSection.saveAndHandleNotification(),
       onDiscardNotification: () =>
@@ -168,4 +178,11 @@ class CallLogUI<T = {}>
   }
 }
 
-export { CallLogUI };
+@Module()
+export class CallLogUI extends CallLogUIBase {
+  constructor(deps: Deps) {
+    super({
+      deps,
+    });
+  }
+}

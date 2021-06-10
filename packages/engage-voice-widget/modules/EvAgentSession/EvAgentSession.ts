@@ -331,6 +331,11 @@ class EvAgentSession extends RcModuleV2<Deps> implements AgentSession {
   }
 
   @action
+  _setConfigSuccess(status: boolean) {
+    this.configSuccess = status;
+  }
+
+  @action
   setConfigSuccess(status: boolean) {
     console.log('setConfigSuccess~', status);
     this.configSuccess = status;
@@ -528,10 +533,6 @@ class EvAgentSession extends RcModuleV2<Deps> implements AgentSession {
       } else {
         console.log('!!!!to Dialer');
         this._deps.routerInteraction.push('/dialer');
-      }
-
-      if (!this._deps.evCallDataSource.callsLimited) {
-        this._deps.evCallDataSource.limitCalls();
       }
     });
   }
@@ -1200,6 +1201,7 @@ class EvAgentSession extends RcModuleV2<Deps> implements AgentSession {
       this._sendTabManager(tabManagerEvents.CONFIGURE_FAIL);
     }
     this._navigateToSessionConfigPage();
+    this._setConfigSuccess(false);
   }
 
   async _othersTabConfigureAgent() {

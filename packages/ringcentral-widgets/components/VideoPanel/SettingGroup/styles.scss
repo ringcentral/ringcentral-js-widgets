@@ -10,7 +10,7 @@ div.accordion {
     color: #212121;
     height: 32px;
     font-size: $normal-font-size;
-    padding: 0 $content-padding;
+    padding: 0 $content-padding !important;
     min-height: 32px;
 
     &.accordionSummaryDisabled {

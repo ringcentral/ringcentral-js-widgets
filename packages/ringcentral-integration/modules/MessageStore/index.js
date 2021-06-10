@@ -1,27 +1,26 @@
+import moduleStatuses from '../../enums/moduleStatuses';
+import subscriptionFilters from '../../enums/subscriptionFilters';
+import syncTypes from '../../enums/syncTypes';
+import { batchPutApi } from '../../lib/batchApiHelper';
+import debounce from '../../lib/debounce';
 import { Module } from '../../lib/di';
-import Pollable from '../../lib/Pollable';
 import ensureExist from '../../lib/ensureExist';
+import * as messageHelper from '../../lib/messageHelper';
+import Pollable from '../../lib/Pollable';
+import proxify from '../../lib/proxy/proxify';
 import { selector } from '../../lib/selector';
 import sleep from '../../lib/sleep';
-import proxify from '../../lib/proxy/proxify';
-import moduleStatuses from '../../enums/moduleStatuses';
-import syncTypes from '../../enums/syncTypes';
-import subscriptionFilters from '../../enums/subscriptionFilters';
-import * as messageHelper from '../../lib/messageHelper';
-import { batchPutApi } from '../../lib/batchApiHelper';
-
-import actionTypes from './actionTypes';
-import getReducer from './getReducer';
-import getDataReducer from './getDataReducer';
+import { actionTypes } from './actionTypes';
 import messageStoreErrors from './errors';
-import debounce from '../../lib/debounce';
+import getDataReducer from './getDataReducer';
+import getReducer from './getReducer';
 
 const DEFAULT_CONVERSATIONS_LOAD_LENGTH = 10;
 const DEFAULT_CONVERSATION_LOAD_LENGTH = 100;
 const DEFAULT_TTL = 30 * 60 * 1000;
 const DEFAULT_REFRESH_LOCK = 5 * 60 * 1000;
 const DEFAULT_RETRY = 62 * 1000;
-const DEFAULT_DAYSPAN = 7; // default to load 7 days's messages
+const DEFAULT_DAYSPAN = 7; // default to load 7 days' messages
 const DEFAULT_MESSAGES_FILTER = (list) => list;
 // Number of messages to be updated in one time
 const UPDATE_MESSAGE_ONCE_COUNT = 20;
@@ -69,7 +68,7 @@ function getSyncParams({
     'Auth',
     'Subscription',
     'ConnectivityMonitor',
-    'RolesAndPermissions',
+    'ExtensionFeatures',
     { dep: 'AvailabilityMonitor', optional: true },
     { dep: 'TabManager', optional: true },
     { dep: 'Storage', optional: true },
@@ -84,7 +83,7 @@ export default class MessageStore extends Pollable {
     subscription,
     storage,
     tabManager,
-    rolesAndPermissions,
+    extensionFeatures,
     connectivityMonitor,
     availabilityMonitor,
     ttl = DEFAULT_TTL,
@@ -107,11 +106,7 @@ export default class MessageStore extends Pollable {
     this._alert = ensureExist.call(this, alert, 'alert');
     this._client = ensureExist.call(this, client, 'client');
     this._subscription = ensureExist.call(this, subscription, 'subscription');
-    this._rolesAndPermissions = ensureExist.call(
-      this,
-      rolesAndPermissions,
-      'rolesAndPermissions',
-    );
+    this._extensionFeatures = extensionFeatures;
 
     if (!disableCache) {
       this._storage = storage;
@@ -192,7 +187,7 @@ export default class MessageStore extends Pollable {
       (!this._tabManager || this._tabManager.ready) &&
       (!this._connectivityMonitor || this._connectivityMonitor.ready) &&
       this._subscription.ready &&
-      this._rolesAndPermissions.ready &&
+      this._extensionFeatures.ready &&
       (!this._availabilityMonitor || this._availabilityMonitor.ready) &&
       this.pending
     );
@@ -204,7 +199,7 @@ export default class MessageStore extends Pollable {
         (this._storage && !this._storage.ready) ||
         !this._subscription.ready ||
         (!!this._connectivityMonitor && !this._connectivityMonitor.ready) ||
-        !this._rolesAndPermissions.ready ||
+        !this._extensionFeatures.ready ||
         (this._tabManager && !this._tabManager.ready) ||
         (this._availabilityMonitor && !this._availabilityMonitor.ready)) &&
       this.ready
@@ -251,12 +246,12 @@ export default class MessageStore extends Pollable {
     if (this._storage && this._tabManager && !this._tabManager.active) {
       return;
     }
-    const accountExtesionEndPoint = /\/message-store$/;
+    const accountExtensionEndPoint = /\/message-store$/;
     const { message } = this._subscription;
     if (
       message &&
       message !== this._lastSubscriptionMessage &&
-      accountExtesionEndPoint.test(message.event) &&
+      accountExtensionEndPoint.test(message.event) &&
       message.body &&
       message.body.changes
     ) {
@@ -293,11 +288,10 @@ export default class MessageStore extends Pollable {
       dateTo,
       syncToken,
     });
-    const { records, syncInfo } = await this._client
-      .account()
-      .extension()
-      .messageSync()
-      .list(params);
+    const {
+      records,
+      syncInfo,
+    } = await this._client.account().extension().messageSync().list(params);
     receivedRecordsLength += records.length;
     if (!syncInfo.olderRecordsExist || receivedRecordsLength >= recordCount) {
       return { records, syncInfo };
@@ -315,7 +309,7 @@ export default class MessageStore extends Pollable {
     };
   }
 
-  getSyncActionType({ dateTo, syncToken }) {
+  getSyncActionType({ syncToken }) {
     if (syncToken) {
       return this.actionTypes.conversationsISyncSuccess;
     }
@@ -778,13 +772,9 @@ export default class MessageStore extends Pollable {
       return;
     }
     try {
-      await this._client
-        .account()
-        .extension()
-        .messageStore()
-        .delete({
-          conversationId,
-        });
+      await this._client.account().extension().messageStore().delete({
+        conversationId,
+      });
       this.store.dispatch({
         type: this.actionTypes.deleteConversation,
         conversationId,
@@ -853,7 +843,7 @@ export default class MessageStore extends Pollable {
   }
 
   get _hasPermission() {
-    return this._rolesAndPermissions.hasReadMessagesPermission;
+    return this._extensionFeatures.hasReadMessagesPermission;
   }
 
   @selector
@@ -923,13 +913,13 @@ export default class MessageStore extends Pollable {
     () => this.faxUnreadCounts,
     (voiceUnreadCounts, textUnreadCounts, faxUnreadCounts) => {
       let unreadCounts = 0;
-      if (this._rolesAndPermissions.readTextPermissions) {
+      if (this._extensionFeatures.hasReadTextPermission) {
         unreadCounts += textUnreadCounts;
       }
-      if (this._rolesAndPermissions.voicemailPermissions) {
+      if (this._extensionFeatures.hasVoicemailPermission) {
         unreadCounts += voiceUnreadCounts;
       }
-      if (this._rolesAndPermissions.readFaxPermissions) {
+      if (this._extensionFeatures.hasReadFaxPermission) {
         unreadCounts += faxUnreadCounts;
       }
       return unreadCounts;

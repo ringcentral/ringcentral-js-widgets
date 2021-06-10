@@ -208,6 +208,7 @@ class EvIntegratedSoftphone
       if (
         this._deps.tabManager.hasMultipleTabs &&
         !this._deps.tabManager.isMainTab &&
+        this._deps.evAgentSession.isIntegratedSoftphone &&
         this._deps.evAgentSession.isConfigTabAlive()
       ) {
         console.log('setSipRegisterSuccess in onConfigSuccess~~');

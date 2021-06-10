@@ -134,7 +134,7 @@ export const tracking = track(DEFAULT_TAG_NAME);
     { dep: 'CallingSettings', optional: true },
     { dep: 'AccountInfo', optional: true },
     { dep: 'ExtensionInfo', optional: true },
-    { dep: 'RolesAndPermissions', optional: true },
+    { dep: 'ExtensionFeatures', optional: true },
     { dep: 'CallHistory', optional: true },
     { dep: 'CallMonitor', optional: true },
     { dep: 'Conference', optional: true },
@@ -170,7 +170,7 @@ export class Analytics extends RcModule<
   protected _callingSettings: any;
   protected _accountInfo: any;
   protected _extensionInfo: ExtensionInfo;
-  protected _rolesAndPermissions: any;
+  protected _extensionFeatures: any;
   protected _callHistory: any;
   protected _callMonitor: any;
   protected _conference: any;
@@ -216,7 +216,7 @@ export class Analytics extends RcModule<
     callingSettings,
     accountInfo,
     extensionInfo,
-    rolesAndPermissions,
+    extensionFeatures,
     callHistory,
     callMonitor,
     conference,
@@ -260,7 +260,7 @@ export class Analytics extends RcModule<
     this._callingSettings = callingSettings;
     this._accountInfo = accountInfo;
     this._extensionInfo = extensionInfo;
-    this._rolesAndPermissions = rolesAndPermissions;
+    this._extensionFeatures = extensionFeatures;
     this._callHistory = callHistory;
     this._callMonitor = callMonitor;
     this._conference = conference;
@@ -496,7 +496,7 @@ export class Analytics extends RcModule<
         accountId: this._accountInfo.id,
         servicePlanId: this._accountInfo.servicePlan.id,
         edition: this._accountInfo.servicePlan.edition,
-        CRMEnabled: this._rolesAndPermissions?.tierEnabled,
+        CRMEnabled: this._extensionFeatures?.isCRMEnabled,
       });
     }
   }

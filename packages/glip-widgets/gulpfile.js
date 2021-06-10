@@ -13,8 +13,11 @@ async function getVersionFromTag() {
     return tag;
   }
   try {
-    tag = await execa.shell(
+    tag = await execa.command(
       'git describe --exact-match --tags $(git rev-parse HEAD)',
+      {
+        shell: true,
+      },
     );
     tag = tag.replace(/\r?\n|\r/g, '');
     if (/^\d+.\d+.\d+/.test(tag)) {
@@ -69,7 +72,7 @@ const RELEASE_PATH = path.resolve(__dirname, '../../release/glip-widgets');
 
 export async function releaseClean() {
   if (!(await fs.exists(RELEASE_PATH))) {
-    await execa.shell(`mkdir -p ${RELEASE_PATH}`);
+    await execa.command(`mkdir -p ${RELEASE_PATH}`, { shell: true });
   }
   const files = (await fs.readdir(RELEASE_PATH)).filter(
     (file) => !/^\./.test(file),

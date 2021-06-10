@@ -1,10 +1,10 @@
 import { PartyStatusCode } from 'ringcentral-call-control/lib/Session';
-import { Session } from 'ringcentral-call/lib/Session';
 import callDirections from '../../enums/callDirections';
 import { telephonyStatus } from '../../enums/telephonyStatus';
 import { Call } from '../../interfaces/Call.interface';
 import { ActiveCall } from '../../interfaces/Presence.model';
 import { NormalizedSession } from '../../interfaces/Webphone.interface';
+import { ActiveCallControlSessionData } from '../ActiveCallControlV2/ActiveCallControl.interface';
 
 function getSessionStartTime(session: NormalizedSession) {
   let webphoneStartTime;
@@ -127,7 +127,9 @@ export function mapTelephonyStatus(telephonySessionStatus: PartyStatusCode) {
   }
 }
 
-export function normalizeTelephonySession(session: Session) {
+export function normalizeTelephonySession(
+  session: ActiveCallControlSessionData,
+) {
   return {
     status: session.status,
     id: session.id,
