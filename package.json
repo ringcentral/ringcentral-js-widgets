@@ -1,6 +1,6 @@
 {
   "name": "@ringcentral-integration/core",
-  "version": "0.12.0",
+  "version": "0.13.0",
   "description": "The foundation package for RingCentral Integration products.",
   "main": "index.js",
   "directories": {

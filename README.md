@@ -333,6 +333,45 @@ class Counter extends RcModuleV2<Deps> {
 }
 ```
 
+- `watchEffect`
+
+It is used to watch multiple states, where the callback with the second parameter returns an array of dependency collection.
+
+
+```ts
+class Counter extends RcModuleV2<Deps> {
+  constructor(deps: Deps) {
+    super({
+      deps,
+    });
+    const dispose = watchEffect(
+      this,
+      () => [this.a, this.b],
+      (newValue, oldValue) => {
+        // do something
+      },
+    );
+  }
+
+  @state
+  a = 0;
+
+  @state
+  b = 0;
+
+  @action
+  increaseA() {
+    this.a += 1;
+  }
+
+  @action
+  increaseB() {
+    this.b += 1;
+  }
+}
+```
+
+
 - `subscribe`
 
 The subscribed function will be triggered after each Redux dispatch action update event. It has a similar mechanism to the RcModuleV2 API `onStateChange()`, except that `onStateChange()` cannot be unsubscribed, but the unsubscribed function returned by `subscribe()` can be used to cancel the subscription.
