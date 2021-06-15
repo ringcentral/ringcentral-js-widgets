@@ -14,15 +14,13 @@ require("core-js/modules/es6.reflect.get");
 
 require("core-js/modules/es6.object.create");
 
-require("core-js/modules/es6.regexp.to-string");
-
-require("core-js/modules/es6.date.to-string");
-
 require("core-js/modules/es6.reflect.construct");
 
 require("core-js/modules/es6.object.set-prototype-of");
 
 require("core-js/modules/es6.object.define-property");
+
+require("core-js/modules/es6.array.slice");
 
 require("core-js/modules/es6.array.reduce");
 
@@ -57,6 +55,8 @@ require("core-js/modules/es6.array.for-each");
 
 require("regenerator-runtime/runtime");
 
+var _core = require("@ringcentral-integration/core");
+
 var _events = require("events");
 
 var _ringcentralWebPhone = _interopRequireDefault(require("ringcentral-web-phone"));
@@ -65,29 +65,27 @@ var _incoming = _interopRequireDefault(require("ringcentral-web-phone/audio/inco
 
 var _outgoing = _interopRequireDefault(require("ringcentral-web-phone/audio/outgoing.ogg"));
 
-var _core = require("@ringcentral-integration/core");
-
 var _di = require("../../lib/di");
-
-var _sleep = _interopRequireDefault(require("../../lib/sleep"));
-
-var _connectionStatus = require("./connectionStatus");
-
-var _webphoneErrors = require("./webphoneErrors");
 
 var _proxify = require("../../lib/proxy/proxify");
 
-var _webphoneHelper = require("./webphoneHelper");
+var _sleep = _interopRequireDefault(require("../../lib/sleep"));
+
+var _Analytics = require("../Analytics");
+
+var _connectionStatus = require("./connectionStatus");
 
 var _events2 = require("./events");
 
-var _Analytics = require("../Analytics");
+var _webphoneErrors = require("./webphoneErrors");
+
+var _webphoneHelper = require("./webphoneHelper");
 
 var _dec, _dec2, _dec3, _dec4, _dec5, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
@@ -119,7 +117,7 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
@@ -169,7 +167,7 @@ var WebphoneBase = (_dec = (0, _di.Module)({
   var _super = _createSuper(WebphoneBase);
 
   function WebphoneBase(deps) {
-    var _deps$webphoneOptions;
+    var _deps$webphoneOptions, _deps$webphoneOptions2;
 
     var _this;
 
@@ -207,7 +205,7 @@ var WebphoneBase = (_dec = (0, _di.Module)({
 
     _initializerDefineProperty(_this, "data", _descriptor7, _assertThisInitialized(_this));
 
-    _this._disconnectOnInactive = (_deps$webphoneOptions = deps.webphoneOptions.disconnectOnInactive) !== null && _deps$webphoneOptions !== void 0 ? _deps$webphoneOptions : false;
+    _this._disconnectOnInactive = (_deps$webphoneOptions = (_deps$webphoneOptions2 = deps.webphoneOptions) === null || _deps$webphoneOptions2 === void 0 ? void 0 : _deps$webphoneOptions2.disconnectOnInactive) !== null && _deps$webphoneOptions !== void 0 ? _deps$webphoneOptions : false;
     _this._activeWebphoneKey = "".concat(deps.prefix, "-active-webphone-key");
     _this._webphone = null;
     _this._remoteVideo = null;

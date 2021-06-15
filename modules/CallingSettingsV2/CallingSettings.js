@@ -10,15 +10,13 @@ require("core-js/modules/es6.promise");
 
 require("core-js/modules/es6.object.create");
 
-require("core-js/modules/es6.regexp.to-string");
-
-require("core-js/modules/es6.date.to-string");
-
 require("core-js/modules/es6.reflect.construct");
 
 require("core-js/modules/es6.object.set-prototype-of");
 
 require("core-js/modules/es6.object.define-property");
+
+require("core-js/modules/es6.array.slice");
 
 require("core-js/modules/es6.array.reduce");
 
@@ -93,7 +91,7 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
@@ -139,20 +137,6 @@ var CallingSettings = (_dec = (0, _di.Module)({
 
   var _super = _createSuper(CallingSettings);
 
-  /**
-   * @constructor
-   * @param {Object} params - params object
-   * @param {Alert} params.alert - alert module instance
-   * @param {Brand} params.brand - brand module instance
-   * @param {ExtensionInfo} params.extensionInfo - extensionInfo module instance
-   * @param {ExtensionPhoneNumber} params.extensionPhoneNumber - extensionPhoneNumber module instance
-   * @param {ForwardingNumber} params.forwardingNumber - forwardingNumber module instance
-   * @param {Storage} params.storage - storage module instance
-   * @param {RolesAndPermissions} params.rolesAndPermissions - rolesAndPermissions module instance
-   * @param {TabManager} params.tabManager - tabManager module instance
-   * @param {Webphone} params.webphone - webphone module instance
-   * @param {Function} params.onFirstLogin - func on first login
-   */
   function CallingSettings(deps) {
     var _this$_deps$callingSe, _this$_deps$callingSe2, _this$_deps$callingSe3, _this$_deps$callingSe4, _this$_deps$callingSe5, _this$_deps$callingSe6;
 

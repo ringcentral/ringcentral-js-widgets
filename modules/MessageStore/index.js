@@ -12,6 +12,10 @@ require("core-js/modules/es6.array.from");
 
 require("core-js/modules/es6.function.name");
 
+require("core-js/modules/es6.regexp.to-string");
+
+require("core-js/modules/es6.date.to-string");
+
 require("core-js/modules/es6.object.define-properties");
 
 require("core-js/modules/es7.object.get-own-property-descriptors");
@@ -21,10 +25,6 @@ require("core-js/modules/es6.symbol");
 require("core-js/modules/es6.array.index-of");
 
 require("core-js/modules/es6.object.create");
-
-require("core-js/modules/es6.regexp.to-string");
-
-require("core-js/modules/es6.date.to-string");
 
 require("core-js/modules/es6.reflect.construct");
 
@@ -59,6 +59,8 @@ require("core-js/modules/es6.array.some");
 
 require("core-js/modules/es6.array.for-each");
 
+require("core-js/modules/es6.array.slice");
+
 require("core-js/modules/es6.array.sort");
 
 require("core-js/modules/es6.date.now");
@@ -67,47 +69,47 @@ require("regenerator-runtime/runtime");
 
 require("core-js/modules/es6.date.to-iso-string");
 
+var _moduleStatuses = _interopRequireDefault(require("../../enums/moduleStatuses"));
+
+var _subscriptionFilters = _interopRequireDefault(require("../../enums/subscriptionFilters"));
+
+var _syncTypes = _interopRequireDefault(require("../../enums/syncTypes"));
+
+var _batchApiHelper = require("../../lib/batchApiHelper");
+
+var _debounce = _interopRequireDefault(require("../../lib/debounce"));
+
 var _di = require("../../lib/di");
+
+var _ensureExist = _interopRequireDefault(require("../../lib/ensureExist"));
+
+var messageHelper = _interopRequireWildcard(require("../../lib/messageHelper"));
 
 var _Pollable2 = _interopRequireDefault(require("../../lib/Pollable"));
 
-var _ensureExist = _interopRequireDefault(require("../../lib/ensureExist"));
+var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
 
 var _selector = require("../../lib/selector");
 
 var _sleep = _interopRequireDefault(require("../../lib/sleep"));
 
-var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
-
-var _moduleStatuses = _interopRequireDefault(require("../../enums/moduleStatuses"));
-
-var _syncTypes = _interopRequireDefault(require("../../enums/syncTypes"));
-
-var _subscriptionFilters = _interopRequireDefault(require("../../enums/subscriptionFilters"));
-
-var messageHelper = _interopRequireWildcard(require("../../lib/messageHelper"));
-
-var _batchApiHelper = require("../../lib/batchApiHelper");
-
-var _actionTypes = _interopRequireDefault(require("./actionTypes"));
-
-var _getReducer = _interopRequireDefault(require("./getReducer"));
-
-var _getDataReducer = _interopRequireDefault(require("./getDataReducer"));
+var _actionTypes = require("./actionTypes");
 
 var _errors = _interopRequireDefault(require("./errors"));
 
-var _debounce = _interopRequireDefault(require("../../lib/debounce"));
+var _getDataReducer = _interopRequireDefault(require("./getDataReducer"));
+
+var _getReducer = _interopRequireDefault(require("./getReducer"));
 
 var _dec, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7, _descriptor8;
 
-function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
+function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
+function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
 
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 
@@ -119,7 +121,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
@@ -145,7 +147,7 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
@@ -158,7 +160,7 @@ var DEFAULT_CONVERSATION_LOAD_LENGTH = 100;
 var DEFAULT_TTL = 30 * 60 * 1000;
 var DEFAULT_REFRESH_LOCK = 5 * 60 * 1000;
 var DEFAULT_RETRY = 62 * 1000;
-var DEFAULT_DAYSPAN = 7; // default to load 7 days's messages
+var DEFAULT_DAYSPAN = 7; // default to load 7 days' messages
 
 var DEFAULT_MESSAGES_FILTER = function DEFAULT_MESSAGES_FILTER(list) {
   return list;
@@ -210,7 +212,7 @@ function getSyncParams(_ref) {
 
 
 var MessageStore = (_dec = (0, _di.Module)({
-  deps: ['Alert', 'Client', 'Auth', 'Subscription', 'ConnectivityMonitor', 'RolesAndPermissions', {
+  deps: ['Alert', 'Client', 'Auth', 'Subscription', 'ConnectivityMonitor', 'ExtensionFeatures', {
     dep: 'AvailabilityMonitor',
     optional: true
   }, {
@@ -237,7 +239,7 @@ var MessageStore = (_dec = (0, _di.Module)({
         subscription = _ref2.subscription,
         storage = _ref2.storage,
         tabManager = _ref2.tabManager,
-        rolesAndPermissions = _ref2.rolesAndPermissions,
+        extensionFeatures = _ref2.extensionFeatures,
         connectivityMonitor = _ref2.connectivityMonitor,
         availabilityMonitor = _ref2.availabilityMonitor,
         _ref2$ttl = _ref2.ttl,
@@ -258,12 +260,12 @@ var MessageStore = (_dec = (0, _di.Module)({
         conversationLoadLength = _ref2$conversationLoa === void 0 ? DEFAULT_CONVERSATION_LOAD_LENGTH : _ref2$conversationLoa,
         _ref2$messagesFilter = _ref2.messagesFilter,
         messagesFilter = _ref2$messagesFilter === void 0 ? DEFAULT_MESSAGES_FILTER : _ref2$messagesFilter,
-        options = _objectWithoutProperties(_ref2, ["auth", "alert", "client", "subscription", "storage", "tabManager", "rolesAndPermissions", "connectivityMonitor", "availabilityMonitor", "ttl", "refreshLock", "polling", "disableCache", "timeToRetry", "daySpan", "conversationsLoadLength", "conversationLoadLength", "messagesFilter"]);
+        options = _objectWithoutProperties(_ref2, ["auth", "alert", "client", "subscription", "storage", "tabManager", "extensionFeatures", "connectivityMonitor", "availabilityMonitor", "ttl", "refreshLock", "polling", "disableCache", "timeToRetry", "daySpan", "conversationsLoadLength", "conversationLoadLength", "messagesFilter"]);
 
     _classCallCheck(this, MessageStore);
 
     _this = _super.call(this, _objectSpread(_objectSpread({}, options), {}, {
-      actionTypes: _actionTypes["default"]
+      actionTypes: _actionTypes.actionTypes
     }));
     _this._debouncedSetConversationAsRead = (0, _debounce["default"])(_this._setConversationAsRead, 500, true);
 
@@ -287,7 +289,7 @@ var MessageStore = (_dec = (0, _di.Module)({
     _this._alert = _ensureExist["default"].call(_assertThisInitialized(_this), alert, 'alert');
     _this._client = _ensureExist["default"].call(_assertThisInitialized(_this), client, 'client');
     _this._subscription = _ensureExist["default"].call(_assertThisInitialized(_this), subscription, 'subscription');
-    _this._rolesAndPermissions = _ensureExist["default"].call(_assertThisInitialized(_this), rolesAndPermissions, 'rolesAndPermissions');
+    _this._extensionFeatures = extensionFeatures;
 
     if (!disableCache) {
       _this._storage = storage;
@@ -403,12 +405,12 @@ var MessageStore = (_dec = (0, _di.Module)({
   }, {
     key: "_shouldInit",
     value: function _shouldInit() {
-      return !!(this._auth.loggedIn && (!this._storage || this._storage.ready) && (!this._tabManager || this._tabManager.ready) && (!this._connectivityMonitor || this._connectivityMonitor.ready) && this._subscription.ready && this._rolesAndPermissions.ready && (!this._availabilityMonitor || this._availabilityMonitor.ready) && this.pending);
+      return !!(this._auth.loggedIn && (!this._storage || this._storage.ready) && (!this._tabManager || this._tabManager.ready) && (!this._connectivityMonitor || this._connectivityMonitor.ready) && this._subscription.ready && this._extensionFeatures.ready && (!this._availabilityMonitor || this._availabilityMonitor.ready) && this.pending);
     }
   }, {
     key: "_shouldReset",
     value: function _shouldReset() {
-      return !!((!this._auth.loggedIn || this._storage && !this._storage.ready || !this._subscription.ready || !!this._connectivityMonitor && !this._connectivityMonitor.ready || !this._rolesAndPermissions.ready || this._tabManager && !this._tabManager.ready || this._availabilityMonitor && !this._availabilityMonitor.ready) && this.ready);
+      return !!((!this._auth.loggedIn || this._storage && !this._storage.ready || !this._subscription.ready || !!this._connectivityMonitor && !this._connectivityMonitor.ready || !this._extensionFeatures.ready || this._tabManager && !this._tabManager.ready || this._availabilityMonitor && !this._availabilityMonitor.ready) && this.ready);
     }
   }, {
     key: "_isDataReady",
@@ -495,10 +497,10 @@ var MessageStore = (_dec = (0, _di.Module)({
         return;
       }
 
-      var accountExtesionEndPoint = /\/message-store$/;
+      var accountExtensionEndPoint = /\/message-store$/;
       var message = this._subscription.message;
 
-      if (message && message !== this._lastSubscriptionMessage && accountExtesionEndPoint.test(message.event) && message.body && message.body.changes) {
+      if (message && message !== this._lastSubscriptionMessage && accountExtensionEndPoint.test(message.event) && message.body && message.body.changes) {
         this._lastSubscriptionMessage = this._subscription.message;
         this.fetchData({
           passive: true
@@ -590,8 +592,7 @@ var MessageStore = (_dec = (0, _di.Module)({
   }, {
     key: "getSyncActionType",
     value: function getSyncActionType(_ref4) {
-      var dateTo = _ref4.dateTo,
-          syncToken = _ref4.syncToken;
+      var syncToken = _ref4.syncToken;
 
       if (syncToken) {
         return this.actionTypes.conversationsISyncSuccess;
@@ -1701,7 +1702,7 @@ var MessageStore = (_dec = (0, _di.Module)({
   }, {
     key: "_hasPermission",
     get: function get() {
-      return this._rolesAndPermissions.hasReadMessagesPermission;
+      return this._extensionFeatures.hasReadMessagesPermission;
     }
   }]);
 
@@ -1834,15 +1835,15 @@ var MessageStore = (_dec = (0, _di.Module)({
     }, function (voiceUnreadCounts, textUnreadCounts, faxUnreadCounts) {
       var unreadCounts = 0;
 
-      if (_this13._rolesAndPermissions.readTextPermissions) {
+      if (_this13._extensionFeatures.hasReadTextPermission) {
         unreadCounts += textUnreadCounts;
       }
 
-      if (_this13._rolesAndPermissions.voicemailPermissions) {
+      if (_this13._extensionFeatures.hasVoicemailPermission) {
         unreadCounts += voiceUnreadCounts;
       }
 
-      if (_this13._rolesAndPermissions.readFaxPermissions) {
+      if (_this13._extensionFeatures.hasReadFaxPermission) {
         unreadCounts += faxUnreadCounts;
       }
 

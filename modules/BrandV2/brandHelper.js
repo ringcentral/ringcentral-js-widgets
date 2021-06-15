@@ -7,6 +7,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.camelcase = void 0;
 
+require("core-js/modules/es6.array.slice");
+
 require("core-js/modules/es6.regexp.replace");
 
 require("core-js/modules/es6.string.trim");

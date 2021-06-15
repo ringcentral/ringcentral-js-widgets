@@ -4,6 +4,10 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
 require("core-js/modules/es6.function.name");
 
+require("core-js/modules/es6.regexp.to-string");
+
+require("core-js/modules/es6.date.to-string");
+
 require("core-js/modules/es6.string.iterator");
 
 require("core-js/modules/es6.array.from");
@@ -26,15 +30,13 @@ require("core-js/modules/es6.reflect.get");
 
 require("core-js/modules/es6.object.create");
 
-require("core-js/modules/es6.regexp.to-string");
-
-require("core-js/modules/es6.date.to-string");
-
 require("core-js/modules/es6.reflect.construct");
 
 require("core-js/modules/es6.object.set-prototype-of");
 
 require("core-js/modules/es6.object.define-property");
+
+require("core-js/modules/es6.array.slice");
 
 require("core-js/modules/es6.array.reduce");
 
@@ -63,27 +65,27 @@ require("regenerator-runtime/runtime");
 
 var _ObjectMap = require("@ringcentral-integration/core/lib/ObjectMap");
 
-var _DataFetcher2 = _interopRequireDefault(require("../../lib/DataFetcher"));
-
-var _di = require("../../lib/di");
-
-var _selector = require("../../lib/selector");
-
-var _callLogHelpers = require("../../lib/callLogHelpers");
-
-var _debounce = _interopRequireDefault(require("../../lib/debounce"));
-
-var _getPresenceReducer = require("./getPresenceReducer");
+var _presenceStatus = require("../../enums/presenceStatus.enum");
 
 var _subscriptionFilters = _interopRequireDefault(require("../../enums/subscriptionFilters"));
 
-var _dndStatus = _interopRequireDefault(require("./dndStatus"));
+var _callLogHelpers = require("../../lib/callLogHelpers");
 
-var _presenceStatus = require("../../enums/presenceStatus.enum");
+var _DataFetcher2 = _interopRequireDefault(require("../../lib/DataFetcher"));
+
+var _debounce = _interopRequireDefault(require("../../lib/debounce"));
+
+var _di = require("../../lib/di");
+
+var _ensureExist = _interopRequireDefault(require("../../lib/ensureExist"));
 
 var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
 
-var _ensureExist = _interopRequireDefault(require("../../lib/ensureExist"));
+var _selector = require("../../lib/selector");
+
+var _dndStatus = _interopRequireDefault(require("./dndStatus"));
+
+var _getPresenceReducer = require("./getPresenceReducer");
 
 var _dec, _class, _class2, _descriptor, _descriptor2, _descriptor3;
 
@@ -95,7 +97,7 @@ function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread n
 
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
 
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
 
@@ -107,7 +109,7 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
@@ -137,7 +139,7 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
@@ -148,7 +150,7 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
 var presenceRegExp = /.*\/presence(\?.*)?/;
 var detailedPresenceRegExp = /.*\/presence\?detailedTelephonyState=true&sipData=true/;
 var Presence = (_dec = (0, _di.Module)({
-  deps: ['RolesAndPermissions', 'ConnectivityMonitor', {
+  deps: ['ExtensionFeatures', 'ConnectivityMonitor', {
     dep: 'Storage',
     optional: true
   }, {
@@ -174,8 +176,8 @@ var Presence = (_dec = (0, _di.Module)({
         _ref$pollingInterval = _ref.pollingInterval,
         pollingInterval = _ref$pollingInterval === void 0 ? 3 * 60 * 1000 : _ref$pollingInterval,
         connectivityMonitor = _ref.connectivityMonitor,
-        rolesAndPermissions = _ref.rolesAndPermissions,
-        options = _objectWithoutProperties(_ref, ["detailed", "fetchRemainingDelay", "ttl", "polling", "pollingInterval", "connectivityMonitor", "rolesAndPermissions"]);
+        extensionFeatures = _ref.extensionFeatures,
+        options = _objectWithoutProperties(_ref, ["detailed", "fetchRemainingDelay", "ttl", "polling", "pollingInterval", "connectivityMonitor", "extensionFeatures"]);
 
     _classCallCheck(this, Presence);
 
@@ -250,7 +252,7 @@ var Presence = (_dec = (0, _di.Module)({
         }
       },
       readyCheckFn: function readyCheckFn() {
-        return _this._rolesAndPermissions.ready && _this._connectivityMonitor.ready;
+        return _this._extensionFeatures.ready && _this._connectivityMonitor.ready;
       }
     }));
 
@@ -262,7 +264,7 @@ var Presence = (_dec = (0, _di.Module)({
 
     _this._detailed = true;
     _this._connectivityMonitor = _ensureExist["default"].call(_assertThisInitialized(_this), connectivityMonitor, 'connectivityMonitor');
-    _this._rolesAndPermissions = _ensureExist["default"].call(_assertThisInitialized(_this), rolesAndPermissions, 'rolesAndPermissions');
+    _this._extensionFeatures = extensionFeatures;
     _this._fetchRemainingCalls = (0, _debounce["default"])(function () {
       return _this.fetchData();
     }, fetchRemainingDelay);
@@ -309,12 +311,14 @@ var Presence = (_dec = (0, _di.Module)({
     key: "_update",
     value: function () {
       var _update2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(params) {
+        var _this$_extensionFeatu, _this$_extensionFeatu2;
+
         var ownerId, platform, response, data;
         return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                if (this._rolesAndPermissions.hasEditPresencePermission) {
+                if ((_this$_extensionFeatu = this._extensionFeatures.features) === null || _this$_extensionFeatu === void 0 ? void 0 : (_this$_extensionFeatu2 = _this$_extensionFeatu.EditPresenceStatus) === null || _this$_extensionFeatu2 === void 0 ? void 0 : _this$_extensionFeatu2.available) {
                   _context3.next = 2;
                   break;
                 }
@@ -713,7 +717,9 @@ var Presence = (_dec = (0, _di.Module)({
   }, {
     key: "_hasPermission",
     get: function get() {
-      return this._rolesAndPermissions.hasPresencePermission;
+      var _this$_extensionFeatu3, _this$_extensionFeatu4;
+
+      return !!((_this$_extensionFeatu3 = this._extensionFeatures.features) === null || _this$_extensionFeatu3 === void 0 ? void 0 : (_this$_extensionFeatu4 = _this$_extensionFeatu3.ReadPresenceStatus) === null || _this$_extensionFeatu4 === void 0 ? void 0 : _this$_extensionFeatu4.available);
     }
   }]);
 

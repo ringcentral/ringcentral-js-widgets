@@ -12,15 +12,13 @@ require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.object.create");
 
-require("core-js/modules/es6.regexp.to-string");
-
-require("core-js/modules/es6.date.to-string");
-
 require("core-js/modules/es6.reflect.construct");
 
 require("core-js/modules/es6.object.set-prototype-of");
 
 require("core-js/modules/es6.object.define-property");
+
+require("core-js/modules/es6.array.slice");
 
 require("core-js/modules/es6.array.reduce");
 
@@ -63,13 +61,13 @@ var _di = require("../../lib/di");
 
 var _ensureExist = _interopRequireDefault(require("../../lib/ensureExist"));
 
-var _actionTypes = _interopRequireDefault(require("./actionTypes"));
+var _actionTypes = require("./actionTypes");
 
 var _getAudioSettingsReducer = _interopRequireDefault(require("./getAudioSettingsReducer"));
 
 var _getStorageReducer = _interopRequireDefault(require("./getStorageReducer"));
 
-var _audioSettingsErrors = _interopRequireDefault(require("./audioSettingsErrors"));
+var _audioSettingsErrors = require("./audioSettingsErrors");
 
 var _dec, _class, _class2, _descriptor, _descriptor2;
 
@@ -81,7 +79,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
@@ -107,7 +105,7 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
@@ -138,7 +136,7 @@ polyfillGetUserMedia();
  */
 
 var AudioSettings = (_dec = (0, _di.Module)({
-  deps: ['Auth', 'Alert', 'Storage', 'RolesAndPermissions']
+  deps: ['Auth', 'Alert', 'Storage', 'ExtensionFeatures']
 }), _dec(_class = (_class2 = /*#__PURE__*/function (_RcModule) {
   _inherits(AudioSettings, _RcModule);
 
@@ -150,13 +148,13 @@ var AudioSettings = (_dec = (0, _di.Module)({
     var auth = _ref.auth,
         alert = _ref.alert,
         storage = _ref.storage,
-        rolesAndPermissions = _ref.rolesAndPermissions,
-        options = _objectWithoutProperties(_ref, ["auth", "alert", "storage", "rolesAndPermissions"]);
+        extensionFeatures = _ref.extensionFeatures,
+        options = _objectWithoutProperties(_ref, ["auth", "alert", "storage", "extensionFeatures"]);
 
     _classCallCheck(this, AudioSettings);
 
     _this = _super.call(this, _objectSpread(_objectSpread({}, options), {}, {
-      actionTypes: _actionTypes["default"]
+      actionTypes: _actionTypes.actionTypes
     }));
 
     _initializerDefineProperty(_this, "availableOutputDevices", _descriptor, _assertThisInitialized(_this));
@@ -166,7 +164,7 @@ var AudioSettings = (_dec = (0, _di.Module)({
     _this._storage = _ensureExist["default"].call(_assertThisInitialized(_this), storage, 'storage');
     _this._auth = _ensureExist["default"].call(_assertThisInitialized(_this), auth, 'auth');
     _this._alert = _ensureExist["default"].call(_assertThisInitialized(_this), alert, 'alert');
-    _this._rolesAndPermissions = _ensureExist["default"].call(_assertThisInitialized(_this), rolesAndPermissions, 'rolesAndPermissions');
+    _this._extensionFeatures = extensionFeatures;
     _this._storageKey = 'audioSettings';
 
     _this._storage.registerReducer({
@@ -189,7 +187,7 @@ var AudioSettings = (_dec = (0, _di.Module)({
       }
 
       this.store.subscribe(function () {
-        if (_this2.ready && _this2._auth.loggedIn && _this2._rolesAndPermissions.webphoneEnabled && !_this2.userMedia) {
+        if (_this2.ready && _this2._auth.loggedIn && _this2._extensionFeatures.isWebPhoneEnabled && !_this2.userMedia) {
           // Make sure it only prompts once
           if (_this2.hasAutoPrompted) return;
 
@@ -243,12 +241,12 @@ var AudioSettings = (_dec = (0, _di.Module)({
   }, {
     key: "_shouldInit",
     value: function _shouldInit() {
-      return !!(this.pending && this._storage.ready && this._auth.ready && this._rolesAndPermissions.ready);
+      return !!(this.pending && this._storage.ready && this._auth.ready && this._extensionFeatures.ready);
     }
   }, {
     key: "_shouldReset",
     value: function _shouldReset() {
-      return !!(this.ready && (!this._auth.ready || !this._storage.ready || !this._rolesAndPermissions.ready));
+      return !!(this.ready && (!this._auth.ready || !this._storage.ready || !this._extensionFeatures.ready));
     }
   }, {
     key: "_onStateChange",
@@ -418,7 +416,7 @@ var AudioSettings = (_dec = (0, _di.Module)({
             switch (_context5.prev = _context5.next) {
               case 0:
                 userMediaAlert = (0, _ramda.find)(function (item) {
-                  return item.message === _audioSettingsErrors["default"].userMediaPermission;
+                  return item.message === _audioSettingsErrors.audioSettingsErrors.userMediaPermission;
                 }, this._alert.messages);
 
                 if (userMediaAlert) {
@@ -459,7 +457,7 @@ var AudioSettings = (_dec = (0, _di.Module)({
                 });
 
                 this._alert.danger({
-                  message: _audioSettingsErrors["default"].userMediaPermission,
+                  message: _audioSettingsErrors.audioSettingsErrors.userMediaPermission,
                   allowDuplicates: false
                 });
 
@@ -487,7 +485,7 @@ var AudioSettings = (_dec = (0, _di.Module)({
               case 0:
                 if (!this.userMedia) {
                   this._alert.danger({
-                    message: _audioSettingsErrors["default"].userMediaPermission,
+                    message: _audioSettingsErrors.audioSettingsErrors.userMediaPermission,
                     allowDuplicates: false,
                     ttl: 30 * 1000
                   });

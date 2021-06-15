@@ -18,10 +18,6 @@ require("core-js/modules/es6.array.index-of");
 
 require("core-js/modules/es6.object.create");
 
-require("core-js/modules/es6.regexp.to-string");
-
-require("core-js/modules/es6.date.to-string");
-
 require("core-js/modules/es6.reflect.construct");
 
 require("core-js/modules/es6.object.set-prototype-of");
@@ -49,6 +45,8 @@ require("core-js/modules/es6.array.map");
 
 require("regenerator-runtime/runtime");
 
+require("core-js/modules/es6.array.slice");
+
 require("core-js/modules/es6.array.find");
 
 var _di = require("../../lib/di");
@@ -65,7 +63,7 @@ var _getComposeTextReducer = _interopRequireDefault(require("./getComposeTextRed
 
 var _getCacheReducer = _interopRequireDefault(require("./getCacheReducer"));
 
-var _messageSenderMessages = _interopRequireDefault(require("../MessageSender/messageSenderMessages"));
+var _messageSenderMessages = require("../MessageSender/messageSenderMessages");
 
 var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
 
@@ -77,7 +75,7 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
@@ -103,7 +101,7 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
@@ -115,7 +113,7 @@ var ComposeText = (
  * @description Compose text managing module
  */
 _dec = (0, _di.Module)({
-  deps: ['Alert', 'Auth', 'Storage', 'MessageSender', 'NumberValidate', 'RolesAndPermissions', // { dep: 'Conversations', optional: true },
+  deps: ['Alert', 'Auth', 'Storage', 'MessageSender', 'NumberValidate', 'ExtensionFeatures', // { dep: 'Conversations', optional: true },
   {
     dep: 'RouterInteraction',
     optional: true
@@ -150,10 +148,10 @@ _dec = (0, _di.Module)({
         messageSender = _ref.messageSender,
         numberValidate = _ref.numberValidate,
         contactSearch = _ref.contactSearch,
-        rolesAndPermissions = _ref.rolesAndPermissions,
+        extensionFeatures = _ref.extensionFeatures,
         conversations = _ref.conversations,
         routerInteraction = _ref.routerInteraction,
-        options = _objectWithoutProperties(_ref, ["alert", "auth", "storage", "messageSender", "numberValidate", "contactSearch", "rolesAndPermissions", "conversations", "routerInteraction"]);
+        options = _objectWithoutProperties(_ref, ["alert", "auth", "storage", "messageSender", "numberValidate", "contactSearch", "extensionFeatures", "conversations", "routerInteraction"]);
 
     _classCallCheck(this, ComposeText);
 
@@ -163,7 +161,7 @@ _dec = (0, _di.Module)({
     _this._alert = alert;
     _this._auth = auth;
     _this._storage = storage;
-    _this._rolesAndPermissions = rolesAndPermissions;
+    _this._extensionFeatures = extensionFeatures;
     _this._storageKey = 'composeText';
     _this._reducer = (0, _getComposeTextReducer["default"])(_this.actionTypes);
     _this._cacheReducer = (0, _getCacheReducer["default"])(_this.actionTypes);
@@ -271,7 +269,7 @@ _dec = (0, _di.Module)({
     key: "_alertWarning",
     value: function _alertWarning(message) {
       if (message) {
-        var ttlConfig = message !== _messageSenderMessages["default"].noAreaCode ? {
+        var ttlConfig = message !== _messageSenderMessages.messageSenderMessages.noAreaCode ? {
           ttl: 0
         } : null;
 
@@ -297,11 +295,11 @@ _dec = (0, _di.Module)({
       if (!validateResult.result) {
         var error = validateResult.errors[0];
 
-        if (error && this._alertWarning(_messageSenderMessages["default"][error.type])) {
+        if (error && this._alertWarning(_messageSenderMessages.messageSenderMessages[error.type])) {
           return false;
         }
 
-        this._alertWarning(_messageSenderMessages["default"].recipientNumberInvalids);
+        this._alertWarning(_messageSenderMessages.messageSenderMessages.recipientNumberInvalids);
 
         return false;
       }
@@ -311,8 +309,8 @@ _dec = (0, _di.Module)({
   }, {
     key: "_validateIsOnlyPager",
     value: function _validateIsOnlyPager(phoneNumber) {
-      if (phoneNumber.length >= 7 && this._rolesAndPermissions.onlyPagerPermission) {
-        this._alertWarning(_messageSenderMessages["default"].noSMSPermission);
+      if (phoneNumber.length >= 7 && !this._extensionFeatures.hasOutboundSMSPermission) {
+        this._alertWarning(_messageSenderMessages.messageSenderMessages.noSMSPermission);
 
         return true;
       }
@@ -457,7 +455,7 @@ _dec = (0, _di.Module)({
                   break;
                 }
 
-                this._alertWarning(_messageSenderMessages["default"].recipientNumberInvalids);
+                this._alertWarning(_messageSenderMessages.messageSenderMessages.recipientNumberInvalids);
 
                 return _context3.abrupt("return");
 
@@ -660,7 +658,7 @@ _dec = (0, _di.Module)({
                   break;
                 }
 
-                this._alertWarning(_messageSenderMessages["default"].textTooLong);
+                this._alertWarning(_messageSenderMessages.messageSenderMessages.textTooLong);
 
                 return _context9.abrupt("return");
 
@@ -719,7 +717,7 @@ _dec = (0, _di.Module)({
             switch (_context11.prev = _context11.next) {
               case 0:
                 this._alert.warning({
-                  message: _messageSenderMessages["default"].sending,
+                  message: _messageSenderMessages.messageSenderMessages.sending,
                   ttl: 0
                 });
 
@@ -747,7 +745,7 @@ _dec = (0, _di.Module)({
             switch (_context12.prev = _context12.next) {
               case 0:
                 alertMessage = this._alert.messages.find(function (m) {
-                  return m.message === _messageSenderMessages["default"].sending;
+                  return m.message === _messageSenderMessages.messageSenderMessages.sending;
                 });
 
                 if (alertMessage && alertMessage.id) {

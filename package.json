@@ -1,6 +1,6 @@
 {
   "name": "ringcentral-integration",
-  "version": "0.12.0",
+  "version": "0.13.0",
   "description": "RingCentral Integration Common Javascript Core Library",
   "main": "rc-phone.js",
   "repository": {
@@ -24,8 +24,8 @@
     "@ringcentral-integration/locale-settings": "*",
     "@ringcentral-integration/phone-number": "*",
     "@ringcentral-integration/test-utils": "*",
-    "@ringcentral/sdk": "^4.4.2",
-    "@ringcentral/subscriptions": "^4.4.2",
+    "@ringcentral/sdk": "^4.5.0",
+    "@ringcentral/subscriptions": "^4.5.0",
     "babel-istanbul": "^0.12.1",
     "babelify": "^7.3.0",
     "browserify": "^14.4.0",
@@ -58,11 +58,11 @@
     "yargs": "^14.0.0"
   },
   "peerDependencies": {
-    "@ringcentral-integration/core": "^0.12.0",
+    "@ringcentral-integration/core": "^0.13.0",
     "@ringcentral-integration/i18n": "^2.0.1",
     "@ringcentral-integration/phone-number": "^1.0.4",
-    "@ringcentral/sdk": "^4.4.2",
-    "@ringcentral/subscriptions": "^4.4.2",
+    "@ringcentral/sdk": "^4.5.0",
+    "@ringcentral/subscriptions": "^4.5.0",
     "format-message": "^6.2.3",
     "isomorphic-fetch": "^2.2.1",
     "isomorphic-ws": "^4.0.1",
@@ -82,7 +82,7 @@
     "ramda": "^0.27.0",
     "redux": "^4.0.5",
     "reselect": "^2.5.4",
-    "ringcentral-call": "^0.2.12",
+    "ringcentral-call": "^0.2.13",
     "ringcentral-call-control": "^0.2.5",
     "ringcentral-web-phone": "^0.8.6",
     "url-loader": "^1.1.2",

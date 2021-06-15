@@ -18,10 +18,6 @@ require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.object.create");
 
-require("core-js/modules/es6.regexp.to-string");
-
-require("core-js/modules/es6.date.to-string");
-
 require("core-js/modules/es6.reflect.construct");
 
 require("core-js/modules/es6.object.set-prototype-of");
@@ -45,6 +41,8 @@ exports.processData = processData;
 exports.getISODateFrom = getISODateFrom;
 exports.getISODateTo = getISODateTo;
 exports["default"] = void 0;
+
+require("core-js/modules/es6.array.slice");
 
 require("core-js/modules/es6.array.index-of");
 
@@ -72,7 +70,7 @@ var _moduleStatuses = _interopRequireDefault(require("../../enums/moduleStatuses
 
 var _getDateFrom = _interopRequireDefault(require("../../lib/getDateFrom"));
 
-var _actionTypes = _interopRequireDefault(require("./actionTypes"));
+var _actionTypes = require("./actionTypes");
 
 var _getCallLogReducer = _interopRequireWildcard(require("./getCallLogReducer"));
 
@@ -94,9 +92,9 @@ var _selector = require("../../lib/selector");
 
 var _dec, _class, _class2, _descriptor;
 
-function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
+function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -106,7 +104,7 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
@@ -132,7 +130,7 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
@@ -140,7 +138,7 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
 
 function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and runs after the decorators transform.'); }
 
-var DEFAULT_TTL = 5 * 60 * 1000; // Lock fetching on app refresh if lst fetch happened less than this timespan
+var DEFAULT_TTL = 5 * 60 * 1000; // Lock fetching on app refresh if lst fetch happened less than this time span
 
 var DEFAULT_REFRESH_LOCK = 3 * 60 * 1000;
 var DEFAULT_TOKEN_EXPIRES_IN = 60 * 60 * 1000;
@@ -179,7 +177,7 @@ var presenceRegExp = /\/presence\?detailedTelephonyState=true/;
  */
 
 var CallLog = (_dec = (0, _di.Module)({
-  deps: ['Auth', 'Client', 'ExtensionPhoneNumber', 'ExtensionInfo', 'Subscription', 'RolesAndPermissions', {
+  deps: ['Auth', 'Client', 'ExtensionPhoneNumber', 'ExtensionInfo', 'Subscription', 'ExtensionFeatures', {
     dep: 'TabManager',
     optional: true
   }, {
@@ -194,23 +192,6 @@ var CallLog = (_dec = (0, _di.Module)({
 
   var _super = _createSuper(CallLog);
 
-  /**
-   * @constructor
-   * @param {Object} params - params object
-   * @param {Auth} params.auth - auth module instance
-   * @param {Client} params.client - client module instance
-   * @param {Storage} params.storage - storage module instance
-   * @param {ExtensionPhoneNumber} params.extensionPhoneNumber - extensionPhoneNumber module instance
-   * @param {ExtensionInfo} params.extensionPhoneNumber - extensionPhoneNumber module instance
-   * @param {Subscription} params.subscription - subscription module instance
-   * @param {RolesAndPermissions} params.rolesAndPermissions - rolesAndPermissions module instance
-   * @param {Number} params.ttl - local cache time
-   * @param {Number} params.tokenExpiresIn - time for token expire
-   * @param {Number} params.timeToRetry - waiting time to retry
-   * @param {Number} params.daySpan - day span of call log
-   * @param {Bool} params.polling - polling flag
-   * @param {Bool} params.disableCache - disable cache flag, default false
-   */
   function CallLog(_ref) {
     var _this;
 
@@ -220,7 +201,7 @@ var CallLog = (_dec = (0, _di.Module)({
         extensionPhoneNumber = _ref.extensionPhoneNumber,
         extensionInfo = _ref.extensionInfo,
         subscription = _ref.subscription,
-        rolesAndPermissions = _ref.rolesAndPermissions,
+        extensionFeatures = _ref.extensionFeatures,
         tabManager = _ref.tabManager,
         _ref$ttl = _ref.ttl,
         ttl = _ref$ttl === void 0 ? DEFAULT_TTL : _ref$ttl,
@@ -240,12 +221,12 @@ var CallLog = (_dec = (0, _di.Module)({
         isLimitList = _ref$isLimitList === void 0 ? false : _ref$isLimitList,
         _ref$listRecordCount = _ref.listRecordCount,
         listRecordCount = _ref$listRecordCount === void 0 ? LIST_RECORD_COUNT : _ref$listRecordCount,
-        options = _objectWithoutProperties(_ref, ["auth", "client", "storage", "extensionPhoneNumber", "extensionInfo", "subscription", "rolesAndPermissions", "tabManager", "ttl", "refreshLock", "tokenExpiresIn", "timeToRetry", "daySpan", "polling", "disableCache", "isLimitList", "listRecordCount"]);
+        options = _objectWithoutProperties(_ref, ["auth", "client", "storage", "extensionPhoneNumber", "extensionInfo", "subscription", "extensionFeatures", "tabManager", "ttl", "refreshLock", "tokenExpiresIn", "timeToRetry", "daySpan", "polling", "disableCache", "isLimitList", "listRecordCount"]);
 
     _classCallCheck(this, CallLog);
 
     _this = _super.call(this, _objectSpread(_objectSpread({}, options), {}, {
-      actionTypes: _actionTypes["default"]
+      actionTypes: _actionTypes.actionTypes
     }));
 
     _this._subscriptionHandler = /*#__PURE__*/function () {
@@ -283,11 +264,13 @@ var CallLog = (_dec = (0, _di.Module)({
     }();
 
     _this._onStateChange = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+      var _this$_extensionFeatu, _this$_extensionFeatu2;
+
       return regeneratorRuntime.wrap(function _callee2$(_context2) {
         while (1) {
           switch (_context2.prev = _context2.next) {
             case 0:
-              if (!(_this._auth.loggedIn && (!_this._storage || _this._storage.ready) && (!_this._subscription || _this._subscription.ready) && (!_this._extensionPhoneNumber || _this._extensionPhoneNumber.ready) && (!_this._extensionInfo || _this._extensionInfo.ready) && (!_this._tabManager || _this._tabManager.ready) && _this._rolesAndPermissions.ready && _this.status === _moduleStatuses["default"].pending)) {
+              if (!(_this._auth.loggedIn && (!_this._storage || _this._storage.ready) && (!_this._subscription || _this._subscription.ready) && (!_this._extensionPhoneNumber || _this._extensionPhoneNumber.ready) && (!_this._extensionInfo || _this._extensionInfo.ready) && (!_this._tabManager || _this._tabManager.ready) && _this._extensionFeatures.ready && _this.status === _moduleStatuses["default"].pending)) {
                 _context2.next = 9;
                 break;
               }
@@ -303,7 +286,7 @@ var CallLog = (_dec = (0, _di.Module)({
                 });
               }
 
-              if (!_this._rolesAndPermissions.permissions.ReadCallLog) {
+              if (!((_this$_extensionFeatu = _this._extensionFeatures.features) === null || _this$_extensionFeatu === void 0 ? void 0 : (_this$_extensionFeatu2 = _this$_extensionFeatu.ReadExtensionCallLog) === null || _this$_extensionFeatu2 === void 0 ? void 0 : _this$_extensionFeatu2.available)) {
                 _context2.next = 6;
                 break;
               }
@@ -320,7 +303,7 @@ var CallLog = (_dec = (0, _di.Module)({
               break;
 
             case 9:
-              if ((!_this._auth.loggedIn || !!_this._storage && !_this._storage.ready || _this._extensionPhoneNumber && !_this._extensionPhoneNumber.ready || _this._extensionInfo && !_this._extensionInfo.ready || _this._subscription && !_this._subscription.ready || _this._tabManager && !_this._tabManager.ready || !_this._rolesAndPermissions.ready) && _this.ready) {
+              if ((!_this._auth.loggedIn || !!_this._storage && !_this._storage.ready || _this._extensionPhoneNumber && !_this._extensionPhoneNumber.ready || _this._extensionInfo && !_this._extensionInfo.ready || _this._subscription && !_this._subscription.ready || _this._tabManager && !_this._tabManager.ready || !_this._extensionFeatures.ready) && _this.ready) {
                 _this.store.dispatch({
                   type: _this.actionTypes.reset
                 });
@@ -358,7 +341,7 @@ var CallLog = (_dec = (0, _di.Module)({
     _this._extensionPhoneNumber = extensionPhoneNumber;
     _this._extensionInfo = extensionInfo;
     _this._subscription = subscription;
-    _this._rolesAndPermissions = rolesAndPermissions;
+    _this._extensionFeatures = extensionFeatures;
     _this._tabManager = tabManager;
     _this._isLimitList = isLimitList;
     _this._listRecordCount = listRecordCount;
@@ -875,16 +858,6 @@ var CallLog = (_dec = (0, _di.Module)({
     key: "timeToRetry",
     get: function get() {
       return this._timeToRetry;
-    }
-  }, {
-    key: "canReadCallLog",
-    get: function get() {
-      return !!this._rolesAndPermissions.permissions.ReadCallLog;
-    }
-  }, {
-    key: "canReadPresence",
-    get: function get() {
-      return !!this._rolesAndPermissions.permissions.ReadPresenceStatus;
     }
   }, {
     key: "mainCompanyNumbers",

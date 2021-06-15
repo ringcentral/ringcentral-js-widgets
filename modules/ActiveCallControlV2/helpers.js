@@ -1,6 +1,22 @@
 "use strict";
 
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+require("core-js/modules/es7.symbol.async-iterator");
+
+require("core-js/modules/es6.symbol");
+
 require("core-js/modules/es6.object.define-property");
+
+require("core-js/modules/web.dom.iterable");
+
+require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.object.to-string");
+
+require("core-js/modules/es6.string.iterator");
+
+require("core-js/modules/es6.weak-map");
 
 require("core-js/modules/es6.array.find");
 
@@ -19,6 +35,8 @@ exports.isForwardedToVoiceMail = isForwardedToVoiceMail;
 exports.isOnSetupStage = isOnSetupStage;
 exports.isAtMainNumberPromptToneStage = isAtMainNumberPromptToneStage;
 exports.getInboundSwitchedParty = getInboundSwitchedParty;
+exports.filterDisconnectedCalls = filterDisconnectedCalls;
+exports.normalizeTelephonySession = normalizeTelephonySession;
 
 require("core-js/modules/es6.function.name");
 
@@ -30,11 +48,15 @@ var _recordStatus = require("../Webphone/recordStatus");
 
 var _callResults = _interopRequireDefault(require("../../enums/callResults"));
 
-var _callDirections = _interopRequireDefault(require("../../enums/callDirections"));
+var _callDirections = _interopRequireWildcard(require("../../enums/callDirections"));
 
 var _activeCallControlStatus = _interopRequireDefault(require("../../enums/activeCallControlStatus"));
 
 var _callMonitorHelper = require("../CallMonitor/callMonitorHelper");
+
+function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
+
+function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -159,5 +181,49 @@ function getInboundSwitchedParty(parties) {
     return party.direction === _callDirections["default"].inbound && party.status.code === _Session.PartyStatusCode.disconnected && party.status.reason === 'CallSwitch';
   }, parties);
   return result;
+}
+
+function filterDisconnectedCalls(session) {
+  // workaround of bug:
+  // switch an inbound call then call direction will change to outbound
+  var party = session.party,
+      otherParties = session.otherParties,
+      direction = session.direction,
+      status = session.status;
+
+  if (direction === _callDirections.callDirection.outbound && status !== _Session.PartyStatusCode.disconnected) {
+    var inboundSwitchedParty = getInboundSwitchedParty(otherParties);
+
+    if (inboundSwitchedParty) {
+      party.direction = inboundSwitchedParty.direction;
+      party.to = inboundSwitchedParty.to;
+      party.from = inboundSwitchedParty.from;
+    }
+  }
+
+  return session.status !== _Session.PartyStatusCode.disconnected;
+}
+
+function normalizeTelephonySession(session) {
+  if (!session) {
+    return {};
+  }
+
+  return {
+    accountId: session.accountId,
+    creationTime: session.creationTime,
+    data: session.data,
+    extensionId: session.extensionId,
+    id: session.id,
+    origin: session.origin,
+    otherParties: session.otherParties,
+    parties: session.parties,
+    party: session.party,
+    recordings: session.recordings,
+    requestOptions: session.requestOptions,
+    serverId: session.serverId,
+    sessionId: session.sessionId,
+    voiceCallToken: session.voiceCallToken
+  };
 }
 //# sourceMappingURL=helpers.js.map

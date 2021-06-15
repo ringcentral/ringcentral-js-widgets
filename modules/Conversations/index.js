@@ -12,10 +12,6 @@ require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.object.create");
 
-require("core-js/modules/es6.regexp.to-string");
-
-require("core-js/modules/es6.date.to-string");
-
 require("core-js/modules/es6.reflect.construct");
 
 require("core-js/modules/es6.object.set-prototype-of");
@@ -34,6 +30,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+
+require("core-js/modules/es6.array.slice");
 
 require("core-js/modules/es6.array.sort");
 
@@ -59,27 +57,27 @@ require("core-js/modules/es6.date.now");
 
 require("core-js/modules/es6.array.for-each");
 
-var _normalizeNumber = _interopRequireDefault(require("../../lib/normalizeNumber"));
-
 var _messageDirection = _interopRequireDefault(require("../../enums/messageDirection"));
-
-var _RcModule2 = _interopRequireDefault(require("../../lib/RcModule"));
-
-var _di = require("../../lib/di");
-
-var _ensureExist = _interopRequireDefault(require("../../lib/ensureExist"));
-
-var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
 
 var _messageTypes = _interopRequireDefault(require("../../enums/messageTypes"));
 
 var _cleanNumber = _interopRequireDefault(require("../../lib/cleanNumber"));
 
+var _di = require("../../lib/di");
+
+var _ensureExist = _interopRequireDefault(require("../../lib/ensureExist"));
+
+var _messageHelper = require("../../lib/messageHelper");
+
+var _normalizeNumber = _interopRequireDefault(require("../../lib/normalizeNumber"));
+
+var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
+
+var _RcModule2 = _interopRequireDefault(require("../../lib/RcModule"));
+
 var _selector = require("../../lib/selector");
 
 var _messageSenderMessages = require("../MessageSender/messageSenderMessages");
-
-var _messageHelper = require("../../lib/messageHelper");
 
 var _actionTypes = require("./actionTypes");
 
@@ -99,7 +97,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
@@ -125,7 +123,7 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
@@ -194,7 +192,7 @@ function getUniqueNumbers(conversations) {
 var DEFAULT_PER_PAGE = 20;
 var DEFAULT_DAY_SPAN = 90;
 var Conversations = (_dec = (0, _di.Module)({
-  deps: ['Alert', 'Auth', 'Client', 'MessageSender', 'ExtensionInfo', 'MessageStore', 'RolesAndPermissions', {
+  deps: ['Alert', 'Auth', 'Client', 'MessageSender', 'ExtensionInfo', 'MessageStore', 'ExtensionFeatures', {
     dep: 'RegionSettings',
     optional: true
   }, {
@@ -221,7 +219,7 @@ var Conversations = (_dec = (0, _di.Module)({
         messageSender = _ref.messageSender,
         extensionInfo = _ref.extensionInfo,
         messageStore = _ref.messageStore,
-        rolesAndPermissions = _ref.rolesAndPermissions,
+        extensionFeatures = _ref.extensionFeatures,
         contactMatcher = _ref.contactMatcher,
         conversationLogger = _ref.conversationLogger,
         regionSettings = _ref.regionSettings,
@@ -233,7 +231,7 @@ var Conversations = (_dec = (0, _di.Module)({
         enableLoadOldMessages = _ref$enableLoadOldMes === void 0 ? false : _ref$enableLoadOldMes,
         _ref$showMMSAttachmen = _ref.showMMSAttachment,
         showMMSAttachment = _ref$showMMSAttachmen === void 0 ? false : _ref$showMMSAttachmen,
-        options = _objectWithoutProperties(_ref, ["alert", "auth", "client", "messageSender", "extensionInfo", "messageStore", "rolesAndPermissions", "contactMatcher", "conversationLogger", "regionSettings", "perPage", "daySpan", "enableLoadOldMessages", "showMMSAttachment"]);
+        options = _objectWithoutProperties(_ref, ["alert", "auth", "client", "messageSender", "extensionInfo", "messageStore", "extensionFeatures", "contactMatcher", "conversationLogger", "regionSettings", "perPage", "daySpan", "enableLoadOldMessages", "showMMSAttachment"]);
 
     _classCallCheck(this, Conversations);
 
@@ -269,7 +267,7 @@ var Conversations = (_dec = (0, _di.Module)({
     _this._messageSender = _ensureExist["default"].call(_assertThisInitialized(_this), messageSender, 'messageSender');
     _this._extensionInfo = _ensureExist["default"].call(_assertThisInitialized(_this), extensionInfo, 'extensionInfo');
     _this._messageStore = _ensureExist["default"].call(_assertThisInitialized(_this), messageStore, 'messageStore');
-    _this._rolesAndPermissions = _ensureExist["default"].call(_assertThisInitialized(_this), rolesAndPermissions, 'rolesAndPermissions');
+    _this._extensionFeatures = extensionFeatures;
     _this._contactMatcher = contactMatcher;
     _this._conversationLogger = conversationLogger;
     _this._regionSettings = regionSettings;
@@ -345,12 +343,12 @@ var Conversations = (_dec = (0, _di.Module)({
   }, {
     key: "_shouldInit",
     value: function _shouldInit() {
-      return this._auth.loggedIn && this._extensionInfo.ready && this._messageSender.ready && this._messageStore.ready && this._rolesAndPermissions.ready && (!this._contactMatcher || this._contactMatcher.ready) && (!this._conversationLogger || this._conversationLogger.ready) && this.pending;
+      return this._auth.loggedIn && this._extensionInfo.ready && this._messageSender.ready && this._messageStore.ready && this._extensionFeatures.ready && (!this._contactMatcher || this._contactMatcher.ready) && (!this._conversationLogger || this._conversationLogger.ready) && this.pending;
     }
   }, {
     key: "_shouldReset",
     value: function _shouldReset() {
-      return (!this._auth.loggedIn || !this._extensionInfo.ready || !this._messageSender.ready || !this._rolesAndPermissions || !this._messageStore.ready || this._contactMatcher && !this._contactMatcher.ready || this._conversationLogger && !this._conversationLogger.ready) && this.ready;
+      return (!this._auth.loggedIn || !this._extensionInfo.ready || !this._messageSender.ready || !this._extensionFeatures.ready || !this._messageStore.ready || this._contactMatcher && !this._contactMatcher.ready || this._conversationLogger && !this._conversationLogger.ready) && this.ready;
     }
   }, {
     key: "_init",
@@ -1190,7 +1188,7 @@ var Conversations = (_dec = (0, _di.Module)({
   }, {
     key: "_hasPermission",
     get: function get() {
-      return this._rolesAndPermissions.hasReadMessagesPermission;
+      return this._extensionFeatures.hasReadMessagesPermission;
     }
   }, {
     key: "correspondentMatch",
@@ -1301,7 +1299,7 @@ var Conversations = (_dec = (0, _di.Module)({
 
         default:
           return allConversations.filter(function (conversation) {
-            return (_this8._rolesAndPermissions.readTextPermissions || !(0, _messageHelper.messageIsTextMessage)(conversation)) && (_this8._rolesAndPermissions.voicemailPermissions || !(0, _messageHelper.messageIsVoicemail)(conversation)) && (_this8._rolesAndPermissions.readFaxPermissions || !(0, _messageHelper.messageIsFax)(conversation));
+            return (_this8._extensionFeatures.hasReadMessagesPermission || !(0, _messageHelper.messageIsTextMessage)(conversation)) && (_this8._extensionFeatures.hasVoicemailPermission || !(0, _messageHelper.messageIsVoicemail)(conversation)) && (_this8._extensionFeatures.hasReadFaxPermission || !(0, _messageHelper.messageIsFax)(conversation));
           });
       }
     }];

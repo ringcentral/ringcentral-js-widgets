@@ -10,15 +10,13 @@ require("core-js/modules/es6.promise");
 
 require("core-js/modules/es6.object.create");
 
-require("core-js/modules/es6.regexp.to-string");
-
-require("core-js/modules/es6.date.to-string");
-
 require("core-js/modules/es6.reflect.construct");
 
 require("core-js/modules/es6.object.set-prototype-of");
 
 require("core-js/modules/es6.object.define-property");
+
+require("core-js/modules/es6.array.slice");
 
 require("core-js/modules/es6.array.reduce");
 
@@ -81,7 +79,7 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
@@ -169,21 +167,22 @@ var Softphone = (_dec = (0, _di.Module)({
     value: function getMakeCallUri(phoneNumber, callingMode) {
       // spartan
       var command = "call?number=".concat(encodeURIComponent(phoneNumber));
-      var protocol = this.spartanProtocol; // jupiter
+      var protocol = this.spartanProtocol;
+      var isJupiterUniversalLink = false; // jupiter
 
       var isCallWithJupiter = callingMode === _callingModes["default"].jupiter;
 
       if (isCallWithJupiter) {
-        var isRcBrand = this._deps.brand.code === 'rc'; // jupiter doesn't recognize encoded string for now
-
-        command = "r/call?number=".concat(phoneNumber); // rc brand use scheme, partner brand use universal link
-
-        protocol = isRcBrand ? this.jupiterProtocol : this.jupiterUniversalLink;
+        // jupiter doesn't recognize encoded string for now
+        command = "r/call?number=".concat(phoneNumber);
+        isJupiterUniversalLink = this.useJupiterUniversalLink;
+        protocol = isJupiterUniversalLink ? this.jupiterUniversalLink : this.jupiterProtocol;
       }
 
       return {
         command: command,
         protocol: protocol,
+        isJupiterUniversalLink: isJupiterUniversalLink,
         uri: "".concat(protocol).concat(command)
       };
     }
@@ -191,14 +190,14 @@ var Softphone = (_dec = (0, _di.Module)({
     key: "makeCall",
     value: function () {
       var _makeCall = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(phoneNumber, callingMode) {
-        var _this$getMakeCallUri, protocol, command, uri, frame;
+        var _this$getMakeCallUri, protocol, command, uri, isJupiterUniversalLink, openLink, frame;
 
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
                 this.startToConnect(phoneNumber);
-                _this$getMakeCallUri = this.getMakeCallUri(phoneNumber, callingMode), protocol = _this$getMakeCallUri.protocol, command = _this$getMakeCallUri.command, uri = _this$getMakeCallUri.uri;
+                _this$getMakeCallUri = this.getMakeCallUri(phoneNumber, callingMode), protocol = _this$getMakeCallUri.protocol, command = _this$getMakeCallUri.command, uri = _this$getMakeCallUri.uri, isJupiterUniversalLink = _this$getMakeCallUri.isJupiterUniversalLink;
 
                 if (!this._callHandler) {
                   _context.next = 6;
@@ -210,78 +209,73 @@ var Softphone = (_dec = (0, _di.Module)({
                   protocol: protocol,
                   command: command,
                   uri: uri,
+                  isJupiterUniversalLink: isJupiterUniversalLink,
                   phoneNumber: phoneNumber
                 });
 
-                _context.next = 27;
+                _context.next = 24;
                 break;
 
               case 6:
-                if (!(this._extensionMode || this.detectPlatform() !== 'desktop')) {
-                  _context.next = 10;
-                  break;
-                }
-
                 /**
                  * 1. Use window.open in extension background scripts to avoid crashing Browsers
                  * 2. Use window.open in non-desktop platforms
+                 * 3. to support ie on Windows < 8
+                 * 4. for Jupiter universal link, should open link directly
                  */
+                openLink = isJupiterUniversalLink || this._extensionMode || this.detectPlatform() !== 'desktop' || window.ActiveXObject || 'ActiveXObject' in window;
+
+                if (!openLink) {
+                  _context.next = 11;
+                  break;
+                }
+
                 window.open(uri);
-                _context.next = 27;
+                _context.next = 24;
                 break;
 
-              case 10:
+              case 11:
                 if (!window.navigator.msLaunchUri) {
-                  _context.next = 14;
+                  _context.next = 15;
                   break;
                 }
 
                 // to support ie to start the service
                 window.navigator.msLaunchUri(uri);
-                _context.next = 27;
+                _context.next = 24;
                 break;
 
-              case 14:
-                if (!(window.ActiveXObject || 'ActiveXObject' in window)) {
-                  _context.next = 18;
-                  break;
-                }
-
-                // to support ie on Windows < 8
-                window.open(uri);
-                _context.next = 27;
-                break;
-
-              case 18:
+              case 15:
+                // open via iframe
                 frame = document.createElement('iframe');
                 frame.style.display = 'none';
                 document.body.appendChild(frame);
-                _context.next = 23;
+                _context.next = 20;
                 return (0, _sleep["default"])(100);
 
-              case 23:
+              case 20:
                 frame.contentWindow.location.href = uri;
-                _context.next = 26;
+                _context.next = 23;
                 return (0, _sleep["default"])(300);
 
-              case 26:
+              case 23:
                 document.body.removeChild(frame);
 
-              case 27:
+              case 24:
                 if (!this._deps.contactMatcher) {
-                  _context.next = 30;
+                  _context.next = 27;
                   break;
                 }
 
-                _context.next = 30;
+                _context.next = 27;
                 return this._deps.contactMatcher.forceMatchNumber({
                   phoneNumber: phoneNumber
                 });
 
-              case 30:
+              case 27:
                 this.connectComplete();
 
-              case 31:
+              case 28:
               case "end":
                 return _context.stop();
             }
@@ -346,6 +340,14 @@ var Softphone = (_dec = (0, _di.Module)({
         default:
           return 'rcapp://';
       }
+    }
+  }, {
+    key: "useJupiterUniversalLink",
+    get: function get() {
+      var _this$_deps$softphone4, _this$_deps$softphone5;
+
+      // rc brand use scheme, partner brand use universal link
+      return (_this$_deps$softphone4 = (_this$_deps$softphone5 = this._deps.softphoneOptions) === null || _this$_deps$softphone5 === void 0 ? void 0 : _this$_deps$softphone5.useJupiterUniversalLink) !== null && _this$_deps$softphone4 !== void 0 ? _this$_deps$softphone4 : this._deps.brand.code !== 'rc';
     }
   }]);
 

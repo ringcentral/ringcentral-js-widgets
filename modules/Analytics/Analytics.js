@@ -10,13 +10,11 @@ require("core-js/modules/es6.promise");
 
 require("core-js/modules/es6.object.create");
 
-require("core-js/modules/es6.regexp.to-string");
-
-require("core-js/modules/es6.date.to-string");
-
 require("core-js/modules/es6.reflect.construct");
 
 require("core-js/modules/es6.object.set-prototype-of");
+
+require("core-js/modules/es6.array.slice");
 
 require("core-js/modules/es6.array.reduce");
 
@@ -109,13 +107,13 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
@@ -192,7 +190,7 @@ var Analytics = (_dec = (0, _di.Module)({
     dep: 'ExtensionInfo',
     optional: true
   }, {
-    dep: 'RolesAndPermissions',
+    dep: 'ExtensionFeatures',
     optional: true
   }, {
     dep: 'CallHistory',
@@ -263,7 +261,7 @@ var Analytics = (_dec = (0, _di.Module)({
         callingSettings = _ref.callingSettings,
         accountInfo = _ref.accountInfo,
         extensionInfo = _ref.extensionInfo,
-        rolesAndPermissions = _ref.rolesAndPermissions,
+        extensionFeatures = _ref.extensionFeatures,
         callHistory = _ref.callHistory,
         callMonitor = _ref.callMonitor,
         conference = _ref.conference,
@@ -288,7 +286,7 @@ var Analytics = (_dec = (0, _di.Module)({
         enablePendo = _ref$enablePendo === void 0 ? false : _ref$enablePendo,
         _ref$env = _ref.env,
         env = _ref$env === void 0 ? 'dev' : _ref$env,
-        options = _objectWithoutProperties(_ref, ["analyticsKey", "pendoApiKey", "appName", "appVersion", "brandCode", "adapter", "auth", "call", "callingSettings", "accountInfo", "extensionInfo", "rolesAndPermissions", "callHistory", "callMonitor", "conference", "conferenceCall", "contactDetailsUI", "messageSender", "messageStore", "routerInteraction", "userGuide", "webphone", "locale", "meeting", "rcVideo", "dialerUI", "useLog", "lingerThreshold", "callLogSection", "activeCallControl", "enablePendo", "env"]);
+        options = _objectWithoutProperties(_ref, ["analyticsKey", "pendoApiKey", "appName", "appVersion", "brandCode", "adapter", "auth", "call", "callingSettings", "accountInfo", "extensionInfo", "extensionFeatures", "callHistory", "callMonitor", "conference", "conferenceCall", "contactDetailsUI", "messageSender", "messageStore", "routerInteraction", "userGuide", "webphone", "locale", "meeting", "rcVideo", "dialerUI", "useLog", "lingerThreshold", "callLogSection", "activeCallControl", "enablePendo", "env"]);
 
     _classCallCheck(this, Analytics);
 
@@ -308,7 +306,7 @@ var Analytics = (_dec = (0, _di.Module)({
     _this._callingSettings = void 0;
     _this._accountInfo = void 0;
     _this._extensionInfo = void 0;
-    _this._rolesAndPermissions = void 0;
+    _this._extensionFeatures = void 0;
     _this._callHistory = void 0;
     _this._callMonitor = void 0;
     _this._conference = void 0;
@@ -349,7 +347,7 @@ var Analytics = (_dec = (0, _di.Module)({
     _this._callingSettings = callingSettings;
     _this._accountInfo = accountInfo;
     _this._extensionInfo = extensionInfo;
-    _this._rolesAndPermissions = rolesAndPermissions;
+    _this._extensionFeatures = extensionFeatures;
     _this._callHistory = callHistory;
     _this._callMonitor = callMonitor;
     _this._conference = conference;
@@ -675,14 +673,14 @@ var Analytics = (_dec = (0, _di.Module)({
       var _this$_accountInfo3;
 
       if (((_this$_accountInfo3 = this._accountInfo) === null || _this$_accountInfo3 === void 0 ? void 0 : _this$_accountInfo3.actionTypes.initSuccess) === action.type) {
-        var _this$_auth3, _this$_rolesAndPermis;
+        var _this$_auth3, _this$_extensionFeatu;
 
         this._identify({
           userId: (_this$_auth3 = this._auth) === null || _this$_auth3 === void 0 ? void 0 : _this$_auth3.ownerId,
           accountId: this._accountInfo.id,
           servicePlanId: this._accountInfo.servicePlan.id,
           edition: this._accountInfo.servicePlan.edition,
-          CRMEnabled: (_this$_rolesAndPermis = this._rolesAndPermissions) === null || _this$_rolesAndPermis === void 0 ? void 0 : _this$_rolesAndPermis.tierEnabled
+          CRMEnabled: (_this$_extensionFeatu = this._extensionFeatures) === null || _this$_extensionFeatu === void 0 ? void 0 : _this$_extensionFeatu.isCRMEnabled
         });
       }
     }

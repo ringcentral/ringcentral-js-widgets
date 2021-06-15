@@ -18,6 +18,8 @@ require("core-js/modules/es6.array.find");
 
 require("core-js/modules/es6.array.find-index");
 
+require("core-js/modules/es6.array.slice");
+
 var _redux = require("redux");
 
 var _getModuleStatusReducer = _interopRequireDefault(require("../../lib/getModuleStatusReducer"));

@@ -20,15 +20,13 @@ require("core-js/modules/es6.array.index-of");
 
 require("core-js/modules/es6.object.create");
 
-require("core-js/modules/es6.regexp.to-string");
-
-require("core-js/modules/es6.date.to-string");
-
 require("core-js/modules/es6.reflect.construct");
 
 require("core-js/modules/es6.object.set-prototype-of");
 
 require("core-js/modules/es6.object.define-property");
+
+require("core-js/modules/es6.array.slice");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -57,21 +55,21 @@ require("regenerator-runtime/runtime");
 
 var _ramda = require("ramda");
 
-var _RcModule2 = _interopRequireDefault(require("../../lib/RcModule"));
+var _di = require("../../lib/di");
 
 var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
 
-var _di = require("../../lib/di");
+var _RcModule2 = _interopRequireDefault(require("../../lib/RcModule"));
 
-var _actionTypes = _interopRequireDefault(require("./actionTypes"));
+var _actionTypes = require("./actionTypes");
 
 var _getUserGuideReducer = _interopRequireWildcard(require("./getUserGuideReducer"));
 
 var _dec, _class, _class2;
 
-function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
+function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -79,7 +77,7 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
@@ -105,7 +103,7 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
@@ -119,7 +117,7 @@ var SUPPORTED_LOCALES = {
   'fr-CA': 'fr-CA'
 };
 var UserGuide = (_dec = (0, _di.Module)({
-  deps: ['Auth', 'Locale', 'Storage', 'Webphone', 'RolesAndPermissions', {
+  deps: ['Auth', 'Locale', 'Storage', 'Webphone', 'ExtensionFeatures', {
     dep: 'UserGuideOptions',
     optional: true
   }]
@@ -135,19 +133,19 @@ var UserGuide = (_dec = (0, _di.Module)({
         locale = _ref.locale,
         storage = _ref.storage,
         webphone = _ref.webphone,
-        rolesAndPermissions = _ref.rolesAndPermissions,
-        options = _objectWithoutProperties(_ref, ["auth", "locale", "storage", "webphone", "rolesAndPermissions"]);
+        extensionFeatures = _ref.extensionFeatures,
+        options = _objectWithoutProperties(_ref, ["auth", "locale", "storage", "webphone", "extensionFeatures"]);
 
     _classCallCheck(this, UserGuide);
 
     _this = _super.call(this, _objectSpread({
-      actionTypes: _actionTypes["default"]
+      actionTypes: _actionTypes.actionTypes
     }, options));
     _this._auth = auth;
     _this._locale = locale;
     _this._storage = storage;
     _this._webphone = webphone;
-    _this._rolesAndPermissions = rolesAndPermissions;
+    _this._extensionFeatures = extensionFeatures;
     _this._reducer = (0, _getUserGuideReducer["default"])(_this.actionTypes);
     _this._context = options.context;
     _this._storageKey = 'userGuide';
@@ -178,7 +176,7 @@ var UserGuide = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                if (!(this.pending && this._auth.ready && this._locale.ready && this._storage.ready && this._rolesAndPermissions.ready && this._auth.loggedIn)) {
+                if (!(this.pending && this._auth.ready && this._locale.ready && this._storage.ready && this._extensionFeatures.ready && this._auth.loggedIn)) {
                   _context.next = 8;
                   break;
                 }
@@ -198,7 +196,7 @@ var UserGuide = (_dec = (0, _di.Module)({
                 break;
 
               case 8:
-                if (this.ready && (!this._auth.ready || !this._locale.ready || !this._storage.ready || !this._rolesAndPermissions.ready)) {
+                if (this.ready && (!this._auth.ready || !this._locale.ready || !this._storage.ready || !this._extensionFeatures.ready)) {
                   this.store.dispatch({
                     type: this.actionTypes.resetSuccess
                   });
@@ -235,7 +233,7 @@ var UserGuide = (_dec = (0, _di.Module)({
             switch (_context2.prev = _context2.next) {
               case 0:
                 _context2.next = 2;
-                return new Promise(function (resolve, reject) {
+                return new Promise(function (resolve) {
                   var img = new Image();
                   img.src = url;
                   img.onload = resolve;
@@ -404,7 +402,7 @@ var UserGuide = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context6.prev = _context6.next) {
               case 0:
-                if (this._rolesAndPermissions.hasUserGuidePermission) {
+                if (this.hasPermission) {
                   _context6.next = 2;
                   break;
                 }
@@ -480,6 +478,11 @@ var UserGuide = (_dec = (0, _di.Module)({
 
       return start;
     }()
+  }, {
+    key: "hasPermission",
+    get: function get() {
+      return this._extensionFeatures.isCallingEnabled || this._extensionFeatures.hasReadMessagePermission;
+    }
   }, {
     key: "guides",
     get: function get() {

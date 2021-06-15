@@ -2,6 +2,10 @@
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
+require("core-js/modules/es6.regexp.to-string");
+
+require("core-js/modules/es6.date.to-string");
+
 require("core-js/modules/es6.string.iterator");
 
 require("core-js/modules/es6.array.from");
@@ -17,10 +21,6 @@ require("core-js/modules/es7.object.get-own-property-descriptors");
 require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.object.create");
-
-require("core-js/modules/es6.regexp.to-string");
-
-require("core-js/modules/es6.date.to-string");
 
 require("core-js/modules/es6.reflect.construct");
 
@@ -52,6 +52,8 @@ require("core-js/modules/es6.array.find");
 require("core-js/modules/es6.array.filter");
 
 require("core-js/modules/es6.array.index-of");
+
+require("core-js/modules/es6.array.slice");
 
 require("core-js/modules/es6.regexp.match");
 
@@ -95,13 +97,13 @@ function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread n
 
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
 
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
@@ -125,7 +127,7 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
@@ -602,27 +604,21 @@ var CallMonitor = (_dec = (0, _di.Module)({
       this._normalizedCalls = (0, _ramda.sort)(function (l, r) {
         return (0, _webphoneHelper.sortByLastActiveTimeDesc)(l.webphoneSession, r.webphoneSession);
       }, (0, _ramda.map)(function (callItem) {
-        var _this6$_deps$activeCa;
-
-        var currentRcCallSession = (_this6$_deps$activeCa = _this6._deps.activeCallControl.rcCallSessions) === null || _this6$_deps$activeCa === void 0 ? void 0 : _this6$_deps$activeCa.find(function (x) {
-          return x.id === callItem.id;
-        }); // sessionId arrives when telephony session event push and it's a required
+        // sessionId arrives when telephony session event push and it's a required
         // reference https://github.com/ringcentral/ringcentral-call-js/blob/master/src/Session.ts
-
-        if (!currentRcCallSession || !currentRcCallSession.sessionId || (0, _helpers.isForwardedToVoiceMail)(currentRcCallSession) || (0, _callLogHelpers.isInbound)(currentRcCallSession) && (0, _helpers.isOnSetupStage)(currentRcCallSession)) {
+        if (!callItem || !callItem.sessionId || (0, _helpers.isForwardedToVoiceMail)(callItem) || (0, _callLogHelpers.isInbound)(callItem) && (0, _helpers.isOnSetupStage)(callItem)) {
           return null;
         }
 
-        var to = currentRcCallSession.to,
-            from = currentRcCallSession.from,
-            direction = currentRcCallSession.direction,
-            party = currentRcCallSession.party,
-            telephonySessionId = currentRcCallSession.telephonySessionId,
-            sessionId = currentRcCallSession.sessionId,
-            startTime = currentRcCallSession.startTime,
-            originalWebphoneSession = currentRcCallSession.webphoneSession;
-        var _ref2 = currentRcCallSession,
-            id = _ref2._activeCallId; // find id from presence call one time, due to telephony session event not push call id back
+        var to = callItem.to,
+            from = callItem.from,
+            direction = callItem.direction,
+            party = callItem.party,
+            telephonySessionId = callItem.telephonySessionId,
+            sessionId = callItem.sessionId,
+            startTime = callItem.startTime,
+            webphoneSession = callItem.webphoneSession;
+        var id = callItem.activeCallId; // find id from presence call one time, due to telephony session event not push call id back
         // with ringout call
 
         if (!id) {
@@ -641,11 +637,9 @@ var CallMonitor = (_dec = (0, _di.Module)({
           phoneNumber: to === null || to === void 0 ? void 0 : to.phoneNumber,
           countryCode: _this6._deps.accountInfo.countryCode
         });
-        var webphoneSession = originalWebphoneSession ? (0, _webphoneHelper.normalizeSession)(originalWebphoneSession) : null;
         var toName = to === null || to === void 0 ? void 0 : to.name;
         var fromName = from === null || from === void 0 ? void 0 : from.name;
         var partyId = party === null || party === void 0 ? void 0 : party.id;
-        var telephonySession = (0, _callMonitorHelper.normalizeTelephonySession)(currentRcCallSession);
         var telephonyStatus = (0, _callMonitorHelper.mapTelephonyStatus)(party === null || party === void 0 ? void 0 : party.status.code); // TODO: add sipData here
         // const sipData = {};
 
@@ -653,7 +647,7 @@ var CallMonitor = (_dec = (0, _di.Module)({
           id: id,
           partyId: partyId,
           direction: direction,
-          telephonySession: telephonySession,
+          telephonySession: callItem,
           telephonySessionId: telephonySessionId,
           toName: toName,
           fromName: fromName,
@@ -749,9 +743,9 @@ var CallMonitor = (_dec = (0, _di.Module)({
           _this$_deps$activeCal3,
           _this$_deps$webphone3;
 
-      return (0, _ramda.reduce)(function (_ref3, callItem) {
-        var sessionsCache = _ref3.sessionsCache,
-            res = _ref3.res;
+      return (0, _ramda.reduce)(function (_ref2, callItem) {
+        var sessionsCache = _ref2.sessionsCache,
+            res = _ref2.res;
 
         if (callItem.webphoneSession) {
           return {

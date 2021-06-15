@@ -12,6 +12,8 @@ require("core-js/modules/es6.regexp.to-string");
 
 require("core-js/modules/es6.date.to-string");
 
+require("core-js/modules/es6.array.slice");
+
 require("core-js/modules/es7.symbol.async-iterator");
 
 require("core-js/modules/es6.symbol");
@@ -75,7 +77,7 @@ function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o =
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+function _iterableToArrayLimit(arr, i) { var _i = arr && (typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]); if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
@@ -185,16 +187,24 @@ function getCallQueueName(_ref3) {
 }
 
 function normalizeSession(session) {
+  var _session$request, _session$request$to, _session$request2, _session$request2$fro, _session$request3, _session$request3$to, _session$request3$to$, _session$request4, _session$request4$fro, _session$request4$fro2;
+
+  if (!session) {
+    return {};
+  }
+
+  var toUserName = (_session$request = session.request) === null || _session$request === void 0 ? void 0 : (_session$request$to = _session$request.to) === null || _session$request$to === void 0 ? void 0 : _session$request$to.displayName;
+  var fromUserName = (_session$request2 = session.request) === null || _session$request2 === void 0 ? void 0 : (_session$request2$fro = _session$request2.from) === null || _session$request2$fro === void 0 ? void 0 : _session$request2$fro.displayName;
   return {
     id: session.id,
     callId: session.__rc_callId,
     direction: session.__rc_direction,
     callStatus: session.__rc_callStatus,
-    to: session.request.to.uri.user,
-    toUserName: session.request.to.displayName,
-    from: session.request.from.uri.user,
+    to: (_session$request3 = session.request) === null || _session$request3 === void 0 ? void 0 : (_session$request3$to = _session$request3.to) === null || _session$request3$to === void 0 ? void 0 : (_session$request3$to$ = _session$request3$to.uri) === null || _session$request3$to$ === void 0 ? void 0 : _session$request3$to$.user,
+    toUserName: toUserName,
+    from: (_session$request4 = session.request) === null || _session$request4 === void 0 ? void 0 : (_session$request4$fro = _session$request4.from) === null || _session$request4$fro === void 0 ? void 0 : (_session$request4$fro2 = _session$request4$fro.uri) === null || _session$request4$fro2 === void 0 ? void 0 : _session$request4$fro2.user,
     fromNumber: session.__rc_fromNumber,
-    fromUserName: session.request.from.displayName,
+    fromUserName: fromUserName,
     fromTag: session.fromTag,
     toTag: session.toTag,
     startTime: session.startTime && new Date(session.startTime).getTime(),
@@ -215,8 +225,8 @@ function normalizeSession(session) {
     removed: false,
     callQueueName: getCallQueueName({
       direction: session.__rc_direction,
-      toUserName: session.request.to.displayName,
-      fromUserName: session.request.from.displayName
+      toUserName: toUserName,
+      fromUserName: fromUserName
     }),
     warmTransferSessionId: session.__rc_transferSessionId
   };

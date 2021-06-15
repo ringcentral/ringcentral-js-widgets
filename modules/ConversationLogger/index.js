@@ -4,6 +4,10 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
 require("core-js/modules/es6.function.name");
 
+require("core-js/modules/es6.regexp.to-string");
+
+require("core-js/modules/es6.date.to-string");
+
 require("core-js/modules/es6.array.from");
 
 require("core-js/modules/es7.symbol.async-iterator");
@@ -24,10 +28,6 @@ require("core-js/modules/es6.reflect.get");
 
 require("core-js/modules/es6.object.create");
 
-require("core-js/modules/es6.regexp.to-string");
-
-require("core-js/modules/es6.date.to-string");
-
 require("core-js/modules/es6.reflect.construct");
 
 require("core-js/modules/es6.object.set-prototype-of");
@@ -40,6 +40,8 @@ Object.defineProperty(exports, "__esModule", {
 exports.getLogId = getLogId;
 exports.conversationLogIdentityFunction = conversationLogIdentityFunction;
 exports["default"] = void 0;
+
+require("core-js/modules/es6.array.slice");
 
 require("core-js/modules/es7.object.values");
 
@@ -71,25 +73,25 @@ require("core-js/modules/es6.string.iterator");
 
 require("regenerator-runtime/runtime");
 
-var _di = require("../../lib/di");
+var _messageTypes = _interopRequireDefault(require("../../enums/messageTypes"));
 
-var _LoggerBase2 = _interopRequireDefault(require("../../lib/LoggerBase"));
+var _di = require("../../lib/di");
 
 var _ensureExist = _interopRequireDefault(require("../../lib/ensureExist"));
 
-var _actionTypes = _interopRequireDefault(require("./actionTypes"));
-
-var _getDataReducer = _interopRequireDefault(require("./getDataReducer"));
-
-var _messageTypes = _interopRequireDefault(require("../../enums/messageTypes"));
+var _LoggerBase2 = _interopRequireDefault(require("../../lib/LoggerBase"));
 
 var _messageHelper = require("../../lib/messageHelper");
-
-var _sleep = _interopRequireDefault(require("../../lib/sleep"));
 
 var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
 
 var _selector = require("../../lib/selector");
+
+var _sleep = _interopRequireDefault(require("../../lib/sleep"));
+
+var _actionTypes = require("./actionTypes");
+
+var _getDataReducer = _interopRequireDefault(require("./getDataReducer"));
 
 var _dec, _class, _class2, _descriptor, _descriptor2, _descriptor3;
 
@@ -101,7 +103,7 @@ function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread n
 
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
 
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
 
@@ -113,7 +115,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
@@ -143,7 +145,7 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
@@ -170,7 +172,7 @@ var ConversationLogger = (_dec = (0, _di.Module)({
   deps: ['Auth', 'Storage', {
     dep: 'TabManager',
     optional: true
-  }, 'ContactMatcher', 'ConversationMatcher', 'DateTimeFormat', 'ExtensionInfo', 'MessageStore', 'RolesAndPermissions', {
+  }, 'ContactMatcher', 'ConversationMatcher', 'DateTimeFormat', 'ExtensionInfo', 'MessageStore', 'ExtensionFeatures', {
     dep: 'ConversationLoggerOptions',
     optional: false
   }]
@@ -179,20 +181,6 @@ var ConversationLogger = (_dec = (0, _di.Module)({
 
   var _super = _createSuper(ConversationLogger);
 
-  /**
-   * @constructor
-   * @param {Object} params - params object
-   * @param {Auth} params.auth - auth module instance
-   * @param {ContactMatcher} params.contactMatcher - contactMatcher module instance
-   * @param {ConversationMatcher} params.conversationMatcher - conversationMatcher module instance
-   * @param {DateTimeFormat} params.dateTimeFormat - dateTimeFormat module instance
-   * @param {MessageStore} params.messageStore - messageStore module instance
-   * @param {RolesAndPermissions} params.rolesAndPermissions - rolesAndPermissions module instance
-   * @param {Storage} params.storage - storage module instance
-   * @param {TabManager} params.tabManager - tabManager module instance
-   * @param {Function} params.isLoggedContact - get if contact is logged
-   * @param {Function} params.formatDateTime - data time format
-   */
   function ConversationLogger(_ref2) {
     var _this;
 
@@ -202,7 +190,7 @@ var ConversationLogger = (_dec = (0, _di.Module)({
         dateTimeFormat = _ref2.dateTimeFormat,
         extensionInfo = _ref2.extensionInfo,
         messageStore = _ref2.messageStore,
-        rolesAndPermissions = _ref2.rolesAndPermissions,
+        extensionFeatures = _ref2.extensionFeatures,
         storage = _ref2.storage,
         tabManager = _ref2.tabManager,
         _ref2$isLoggedContact = _ref2.isLoggedContact,
@@ -216,13 +204,13 @@ var ConversationLogger = (_dec = (0, _di.Module)({
       return dateTimeFormat.formatDateTime.apply(dateTimeFormat, arguments);
     } : _ref2$formatDateTime,
         accordWithLogRequirement = _ref2.accordWithLogRequirement,
-        options = _objectWithoutProperties(_ref2, ["auth", "contactMatcher", "conversationMatcher", "dateTimeFormat", "extensionInfo", "messageStore", "rolesAndPermissions", "storage", "tabManager", "isLoggedContact", "isAutoUpdate", "formatDateTime", "accordWithLogRequirement"]);
+        options = _objectWithoutProperties(_ref2, ["auth", "contactMatcher", "conversationMatcher", "dateTimeFormat", "extensionInfo", "messageStore", "extensionFeatures", "storage", "tabManager", "isLoggedContact", "isAutoUpdate", "formatDateTime", "accordWithLogRequirement"]);
 
     _classCallCheck(this, ConversationLogger);
 
     _this = _super.call(this, _objectSpread(_objectSpread({}, options), {}, {
       name: 'conversationLogger',
-      actionTypes: _actionTypes["default"],
+      actionTypes: _actionTypes.actionTypes,
       identityFunction: conversationLogIdentityFunction
     }));
 
@@ -238,7 +226,7 @@ var ConversationLogger = (_dec = (0, _di.Module)({
     _this._dateTimeFormat = _ensureExist["default"].call(_assertThisInitialized(_this), dateTimeFormat, 'dateTimeFormat');
     _this._extensionInfo = _ensureExist["default"].call(_assertThisInitialized(_this), extensionInfo, 'extensionInfo');
     _this._messageStore = _ensureExist["default"].call(_assertThisInitialized(_this), messageStore, 'messageStore');
-    _this._rolesAndPermissions = _ensureExist["default"].call(_assertThisInitialized(_this), rolesAndPermissions, 'rolesAndPermissions');
+    _this._extensionFeatures = extensionFeatures;
     _this._storage = _ensureExist["default"].call(_assertThisInitialized(_this), storage, 'storage');
     _this._tabManager = tabManager;
     _this._isLoggedContact = isLoggedContact;
@@ -282,12 +270,12 @@ var ConversationLogger = (_dec = (0, _di.Module)({
   _createClass(ConversationLogger, [{
     key: "_shouldInit",
     value: function _shouldInit() {
-      return this.pending && this._contactMatcher.ready && this._conversationMatcher.ready && this._dateTimeFormat.ready && this._extensionInfo.ready && this._messageStore.ready && this._rolesAndPermissions.ready && this._storage.ready && (!this._tabManager || this._tabManager.ready) && this._readyCheckFunction();
+      return this.pending && this._contactMatcher.ready && this._conversationMatcher.ready && this._dateTimeFormat.ready && this._extensionInfo.ready && this._messageStore.ready && this._extensionFeatures.ready && this._storage.ready && (!this._tabManager || this._tabManager.ready) && this._readyCheckFunction();
     }
   }, {
     key: "_shouldReset",
     value: function _shouldReset() {
-      return this.ready && (!this._contactMatcher.ready || !this._conversationMatcher.ready || !this._dateTimeFormat.ready || !this._extensionInfo.ready || !this._messageStore.ready || !this._rolesAndPermissions.ready || !this._storage.ready || this._tabManager && !this._tabManager.ready || !this._readyCheckFunction());
+      return this.ready && (!this._contactMatcher.ready || !this._conversationMatcher.ready || !this._dateTimeFormat.ready || !this._extensionInfo.ready || !this._messageStore.ready || !this._extensionFeatures.ready || !this._storage.ready || this._tabManager && !this._tabManager.ready || !this._readyCheckFunction());
     }
   }, {
     key: "_onReset",
@@ -690,10 +678,9 @@ var ConversationLogger = (_dec = (0, _di.Module)({
   }, {
     key: "available",
     get: function get() {
-      var _this$_rolesAndPermis = this._rolesAndPermissions.serviceFeatures,
-          SMSReceiving = _this$_rolesAndPermis.SMSReceiving,
-          PagerReceiving = _this$_rolesAndPermis.PagerReceiving;
-      return !!(SMSReceiving && SMSReceiving.enabled || PagerReceiving && PagerReceiving.enabled);
+      var _this$extensionFeatur, _this$extensionFeatur2, _this$extensionFeatur3, _this$extensionFeatur4;
+
+      return !!(((_this$extensionFeatur = this.extensionFeatures.features) === null || _this$extensionFeatur === void 0 ? void 0 : (_this$extensionFeatur2 = _this$extensionFeatur.SMSReceiving) === null || _this$extensionFeatur2 === void 0 ? void 0 : _this$extensionFeatur2.available) || ((_this$extensionFeatur3 = this.extensionFeatures.features) === null || _this$extensionFeatur3 === void 0 ? void 0 : (_this$extensionFeatur4 = _this$extensionFeatur3.PagesReceiving) === null || _this$extensionFeatur4 === void 0 ? void 0 : _this$extensionFeatur4.available));
     }
   }, {
     key: "autoLog",

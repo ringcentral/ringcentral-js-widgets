@@ -10,15 +10,13 @@ require("core-js/modules/es6.array.index-of");
 
 require("core-js/modules/es6.object.create");
 
-require("core-js/modules/es6.regexp.to-string");
-
-require("core-js/modules/es6.date.to-string");
-
 require("core-js/modules/es6.reflect.construct");
 
 require("core-js/modules/es6.object.set-prototype-of");
 
 require("core-js/modules/es6.object.define-property");
+
+require("core-js/modules/es6.array.slice");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -83,7 +81,7 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
@@ -391,14 +389,6 @@ var UserGuide = (_dec = (0, _di.Module)({
       return updateCarousel;
     }()
   }, {
-    key: "_checkPermissions",
-    value: function _checkPermissions() {
-      // For extensions without calling or read message permissions, most of the content in
-      // the user guide is not applicable to them. So we should not show the user guide for
-      // these extensions.
-      return this._deps.extensionFeatures.isCallingEnabled || this._deps.extensionFeatures.hasReadMessagesPermission;
-    }
-  }, {
     key: "initUserGuide",
     value: function () {
       var _initUserGuide = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
@@ -407,7 +397,7 @@ var UserGuide = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context7.prev = _context7.next) {
               case 0:
-                if (this._checkPermissions()) {
+                if (this.hasPermission) {
                   _context7.next = 2;
                   break;
                 }
@@ -481,6 +471,14 @@ var UserGuide = (_dec = (0, _di.Module)({
 
       return start;
     }()
+  }, {
+    key: "hasPermission",
+    get: function get() {
+      // For extensions without calling or read message permissions, most of the content in
+      // the user guide is not applicable to them. So we should not show the user guide for
+      // these extensions.
+      return this._deps.extensionFeatures.isCallingEnabled || this._deps.extensionFeatures.hasReadMessagesPermission;
+    }
   }, {
     key: "guides",
     get: function get() {

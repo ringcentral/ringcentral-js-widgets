@@ -20,15 +20,13 @@ require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.object.create");
 
-require("core-js/modules/es6.regexp.to-string");
-
-require("core-js/modules/es6.date.to-string");
-
 require("core-js/modules/es6.reflect.construct");
 
 require("core-js/modules/es6.object.set-prototype-of");
 
 require("core-js/modules/es6.object.define-property");
+
+require("core-js/modules/es6.array.slice");
 
 require("core-js/modules/es6.array.reduce");
 
@@ -67,17 +65,17 @@ var _isBlank = _interopRequireDefault(require("../../lib/isBlank"));
 
 var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
 
-var _actionTypes = _interopRequireDefault(require("./actionTypes"));
+var _actionTypes = require("./actionTypes");
 
 var _getReducer = _interopRequireWildcard(require("./getReducer"));
 
-var _status = _interopRequireDefault(require("./status"));
+var _status = require("./status");
 
 var _dec, _class, _class2;
 
-function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
+function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -85,7 +83,7 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
@@ -111,7 +109,7 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
@@ -122,7 +120,7 @@ var glipGroupRegExp = /glip\/groups$/;
 var subscriptionFilter = '/restapi/v1.0/glip/posts';
 var DEFAULT_LOAD_TTL = 30 * 60 * 1000;
 var GlipPosts = (_dec = (0, _di.Module)({
-  deps: ['Client', 'Auth', 'Subscription', 'Storage', 'RolesAndPermissions', {
+  deps: ['Client', 'Auth', 'Subscription', 'Storage', 'ExtensionFeatures', {
     dep: 'GlipPostsOptions',
     optional: true
   }]
@@ -131,14 +129,6 @@ var GlipPosts = (_dec = (0, _di.Module)({
 
   var _super = _createSuper(GlipPosts);
 
-  /**
-   * @constructor
-   * @param {Object} params - params object
-   * @param {Client} params.client - client module instance
-   * @param {Auth} params.auth - auth module instance
-   * @param {RolesAndPermissions} params.rolesAndPermissions - rolesAndPermission module instance
-   * @param {Subscription} params.subscription - subscription module instance
-   */
   function GlipPosts(_ref) {
     var _this;
 
@@ -146,20 +136,20 @@ var GlipPosts = (_dec = (0, _di.Module)({
         auth = _ref.auth,
         subscription = _ref.subscription,
         storage = _ref.storage,
-        rolesAndPermissions = _ref.rolesAndPermissions,
+        extensionFeatures = _ref.extensionFeatures,
         _ref$loadTtl = _ref.loadTtl,
         loadTtl = _ref$loadTtl === void 0 ? DEFAULT_LOAD_TTL : _ref$loadTtl,
-        options = _objectWithoutProperties(_ref, ["client", "auth", "subscription", "storage", "rolesAndPermissions", "loadTtl"]);
+        options = _objectWithoutProperties(_ref, ["client", "auth", "subscription", "storage", "extensionFeatures", "loadTtl"]);
 
     _classCallCheck(this, GlipPosts);
 
     _this = _super.call(this, _objectSpread(_objectSpread({}, options), {}, {
-      actionTypes: _actionTypes["default"]
+      actionTypes: _actionTypes.actionTypes
     }));
     _this._reducer = (0, _getReducer["default"])(_this.actionTypes);
     _this._client = _ensureExist["default"].call(_assertThisInitialized(_this), client, 'client');
     _this._auth = _ensureExist["default"].call(_assertThisInitialized(_this), auth, 'auth');
-    _this._rolesAndPermissions = _ensureExist["default"].call(_assertThisInitialized(_this), rolesAndPermissions, 'rolesAndPermissions');
+    _this._extensionFeatures = extensionFeatures;
     _this._subscription = _ensureExist["default"].call(_assertThisInitialized(_this), subscription, 'subscription');
     _this._fetchPromises = {};
     _this._lastMessage = null;
@@ -253,12 +243,12 @@ var GlipPosts = (_dec = (0, _di.Module)({
   }, {
     key: "_shouldInit",
     value: function _shouldInit() {
-      return this._auth.loggedIn && this._subscription.ready && this._rolesAndPermissions.ready && this.pending;
+      return this._auth.loggedIn && this._subscription.ready && this._extensionFeatures.ready && this.pending;
     }
   }, {
     key: "_shouldReset",
     value: function _shouldReset() {
-      return (!this._auth.loggedIn || !this._rolesAndPermissions.ready || !this._subscription.ready) && this.ready;
+      return (!this._auth.loggedIn || !this._extensionFeatures.ready || !this._subscription.ready) && this.ready;
     }
   }, {
     key: "_shouldHandleSubscriptionMessage",
@@ -514,7 +504,7 @@ var GlipPosts = (_dec = (0, _di.Module)({
                   id: fakeId,
                   groupId: groupId,
                   creatorId: this._auth.ownerId,
-                  sendStatus: _status["default"].creating,
+                  sendStatus: _status.status.creating,
                   creationTime: "".concat(new Date(Date.now())),
                   text: text,
                   type: 'TextMessage'
@@ -549,7 +539,7 @@ var GlipPosts = (_dec = (0, _di.Module)({
               case 17:
                 _context6.prev = 17;
                 _context6.t0 = _context6["catch"](8);
-                fakeRecord.sendStatus = _status["default"].createError;
+                fakeRecord.sendStatus = _status.status.createError;
                 this.store.dispatch({
                   type: this.actionTypes.createError,
                   record: fakeRecord,
@@ -685,7 +675,9 @@ var GlipPosts = (_dec = (0, _di.Module)({
   }, {
     key: "_hasPermission",
     get: function get() {
-      return this._rolesAndPermissions.hasGlipPermission;
+      var _this$_extensionFeatu, _this$_extensionFeatu2;
+
+      return !!((_this$_extensionFeatu = this._extensionFeatures.features) === null || _this$_extensionFeatu === void 0 ? void 0 : (_this$_extensionFeatu2 = _this$_extensionFeatu.Glip) === null || _this$_extensionFeatu2 === void 0 ? void 0 : _this$_extensionFeatu2.available);
     }
   }]);
 

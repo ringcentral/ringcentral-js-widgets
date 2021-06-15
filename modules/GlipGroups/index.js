@@ -55,6 +55,8 @@ require("core-js/modules/es6.array.filter");
 
 require("core-js/modules/es6.date.now");
 
+require("core-js/modules/es6.array.slice");
+
 require("regenerator-runtime/runtime");
 
 require("core-js/modules/es6.function.name");
@@ -65,31 +67,31 @@ require("core-js/modules/es6.array.index-of");
 
 require("core-js/modules/es6.array.for-each");
 
-var _di = require("../../lib/di");
-
-var _Pollable2 = _interopRequireDefault(require("../../lib/Pollable"));
-
-var _isBlank = _interopRequireDefault(require("../../lib/isBlank"));
-
-var _sleep = _interopRequireDefault(require("../../lib/sleep"));
-
 var _moduleStatuses = _interopRequireDefault(require("../../enums/moduleStatuses"));
+
+var _di = require("../../lib/di");
 
 var _ensureExist = _interopRequireDefault(require("../../lib/ensureExist"));
 
-var _selector = require("../../lib/selector");
+var _isBlank = _interopRequireDefault(require("../../lib/isBlank"));
+
+var _Pollable2 = _interopRequireDefault(require("../../lib/Pollable"));
 
 var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
 
-var _getReducer = _interopRequireWildcard(require("./getReducer"));
+var _selector = require("../../lib/selector");
 
-var _actionTypes = _interopRequireDefault(require("./actionTypes"));
+var _sleep = _interopRequireDefault(require("../../lib/sleep"));
+
+var _actionTypes = require("./actionTypes");
+
+var _getReducer = _interopRequireWildcard(require("./getReducer"));
 
 var _dec, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7, _descriptor8, _descriptor9;
 
-function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
+function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -119,7 +121,7 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
@@ -127,13 +129,13 @@ function _initializerWarningHelper(descriptor, context) { throw new Error('Decor
 
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
 
-function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
+function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
 
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
@@ -245,7 +247,7 @@ function searchPosts(searchFilter, posts) {
 
 
 var GlipGroups = (_dec = (0, _di.Module)({
-  deps: ['Auth', 'Client', 'Subscription', 'RolesAndPermissions', {
+  deps: ['Auth', 'Client', 'Subscription', 'ExtensionFeatures', {
     dep: 'ConnectivityMonitor',
     optional: true
   }, {
@@ -269,18 +271,6 @@ var GlipGroups = (_dec = (0, _di.Module)({
 
   var _super = _createSuper(GlipGroups);
 
-  /**
-   * @constructor
-   * @param {Object} params - params object
-   * @param {Client} params.client - client module instance
-   * @param {Auth} params.auth - auth module instance
-   * @param {RolesAndPermissions} params.rolesAndPermissions - rolesAndPermission module instance
-   * @param {Subscription} params.subscription - subscription module instance
-   * @param {TabManager} params.tabManager - tabManager module instance
-   * @param {GlipPersons} params.glipPersons - glipPersons module instance
-   * @param {GlipPosts} params.glipPosts - glipPosts module instance
-   * @param {Storage} params.storage - storage module instance
-   */
   function GlipGroups(_ref) {
     var _this;
 
@@ -291,7 +281,7 @@ var GlipGroups = (_dec = (0, _di.Module)({
         glipPersons = _ref.glipPersons,
         glipPosts = _ref.glipPosts,
         storage = _ref.storage,
-        rolesAndPermissions = _ref.rolesAndPermissions,
+        extensionFeatures = _ref.extensionFeatures,
         connectivityMonitor = _ref.connectivityMonitor,
         _ref$timeToRetry = _ref.timeToRetry,
         timeToRetry = _ref$timeToRetry === void 0 ? DEFAULT_RETRY : _ref$timeToRetry,
@@ -309,12 +299,12 @@ var GlipGroups = (_dec = (0, _di.Module)({
         preloadPosts = _ref$preloadPosts === void 0 ? true : _ref$preloadPosts,
         _ref$preloadPostsDela = _ref.preloadPostsDelayTtl,
         preloadPostsDelayTtl = _ref$preloadPostsDela === void 0 ? DEFAULT_PRELOAD_POSTS_DELAY_TTL : _ref$preloadPostsDela,
-        options = _objectWithoutProperties(_ref, ["auth", "subscription", "client", "tabManager", "glipPersons", "glipPosts", "storage", "rolesAndPermissions", "connectivityMonitor", "timeToRetry", "ttl", "polling", "disableCache", "perPage", "recordCountPerReq", "preloadPosts", "preloadPostsDelayTtl"]);
+        options = _objectWithoutProperties(_ref, ["auth", "subscription", "client", "tabManager", "glipPersons", "glipPosts", "storage", "extensionFeatures", "connectivityMonitor", "timeToRetry", "ttl", "polling", "disableCache", "perPage", "recordCountPerReq", "preloadPosts", "preloadPostsDelayTtl"]);
 
     _classCallCheck(this, GlipGroups);
 
     _this = _super.call(this, _objectSpread(_objectSpread({}, options), {}, {
-      actionTypes: _actionTypes["default"]
+      actionTypes: _actionTypes.actionTypes
     }));
 
     _initializerDefineProperty(_this, "allGroups", _descriptor, _assertThisInitialized(_this));
@@ -338,7 +328,7 @@ var GlipGroups = (_dec = (0, _di.Module)({
     _this._auth = _ensureExist["default"].call(_assertThisInitialized(_this), auth, 'auth');
     _this._client = _ensureExist["default"].call(_assertThisInitialized(_this), client, 'client');
     _this._subscription = _ensureExist["default"].call(_assertThisInitialized(_this), subscription, 'subscription');
-    _this._rolesAndPermissions = _ensureExist["default"].call(_assertThisInitialized(_this), rolesAndPermissions, 'rolesAndPermissions');
+    _this._extensionFeatures = extensionFeatures;
     _this._connectivityMonitor = connectivityMonitor;
     _this._glipPersons = glipPersons;
     _this._glipPosts = glipPosts;
@@ -506,12 +496,12 @@ var GlipGroups = (_dec = (0, _di.Module)({
   }, {
     key: "_shouldInit",
     value: function _shouldInit() {
-      return !!(this._auth.loggedIn && this._rolesAndPermissions.ready && (!this._connectivityMonitor || this._connectivityMonitor.ready) && (!this._storage || this._storage.ready) && (!this._readyCheckFn || this._readyCheckFn()) && (!this._subscription || this._subscription.ready) && (!this._glipPosts || this._glipPosts.ready) && (!this._glipPersons || this._glipPersons.ready) && (!this._tabManager || this._tabManager.ready) && this.pending);
+      return !!(this._auth.loggedIn && this._extensionFeatures.ready && (!this._connectivityMonitor || this._connectivityMonitor.ready) && (!this._storage || this._storage.ready) && (!this._readyCheckFn || this._readyCheckFn()) && (!this._subscription || this._subscription.ready) && (!this._glipPosts || this._glipPosts.ready) && (!this._glipPersons || this._glipPersons.ready) && (!this._tabManager || this._tabManager.ready) && this.pending);
     }
   }, {
     key: "_shouldReset",
     value: function _shouldReset() {
-      return !!((!this._auth.loggedIn || !this._rolesAndPermissions.ready || this._storage && !this._storage.ready || this._readyCheckFn && !this._readyCheckFn() || this._subscription && !this._subscription.ready || this._glipPosts && !this._glipPosts.ready || this._glipPersons && !this._glipPersons.ready || this._connectivityMonitor && !this._connectivityMonitor.ready || this._tabManager && !this._tabManager.ready) && this.ready);
+      return !!((!this._auth.loggedIn || !this._extensionFeatures.ready || this._storage && !this._storage.ready || this._readyCheckFn && !this._readyCheckFn() || this._subscription && !this._subscription.ready || this._glipPosts && !this._glipPosts.ready || this._glipPersons && !this._glipPersons.ready || this._connectivityMonitor && !this._connectivityMonitor.ready || this._tabManager && !this._tabManager.ready) && this.ready);
     }
   }, {
     key: "_shouldHandleSubscriptionMessage",
@@ -698,7 +688,7 @@ var GlipGroups = (_dec = (0, _di.Module)({
 
               case 4:
                 if ((_step2 = _iterator2.n()).done) {
-                  _context4.next = 20;
+                  _context4.next = 19;
                   break;
                 }
 
@@ -709,68 +699,65 @@ var GlipGroups = (_dec = (0, _di.Module)({
                   break;
                 }
 
-                return _context4.abrupt("break", 20);
+                return _context4.abrupt("return");
 
               case 8:
-                if (!this._preloadedPosts[group.id]) {
-                  _context4.next = 10;
+                if (this._preloadedPosts[group.id]) {
+                  _context4.next = 17;
                   break;
                 }
 
-                return _context4.abrupt("continue", 18);
-
-              case 10:
                 this._preloadedPosts[group.id] = true;
 
                 if (!(!this._glipPosts.postsMap[group.id] || force)) {
-                  _context4.next = 17;
+                  _context4.next = 16;
                   break;
                 }
 
-                _context4.next = 14;
+                _context4.next = 13;
                 return (0, _sleep["default"])(this._preloadPostsDelayTtl);
 
-              case 14:
+              case 13:
                 if (!(!this._glipPosts.postsMap[group.id] || force)) {
-                  _context4.next = 17;
+                  _context4.next = 16;
                   break;
                 }
 
-                _context4.next = 17;
+                _context4.next = 16;
                 return this._glipPosts.fetchPosts(group.id);
 
-              case 17:
+              case 16:
                 if (!this._glipPosts.readTimeMap[group.id]) {
                   this._glipPosts.updateReadTime(group.id, Date.now() - 1000 * 3600 * 2);
                 }
 
-              case 18:
+              case 17:
                 _context4.next = 4;
                 break;
 
-              case 20:
-                _context4.next = 25;
+              case 19:
+                _context4.next = 24;
                 break;
 
-              case 22:
-                _context4.prev = 22;
+              case 21:
+                _context4.prev = 21;
                 _context4.t0 = _context4["catch"](2);
 
                 _iterator2.e(_context4.t0);
 
-              case 25:
-                _context4.prev = 25;
+              case 24:
+                _context4.prev = 24;
 
                 _iterator2.f();
 
-                return _context4.finish(25);
+                return _context4.finish(24);
 
-              case 28:
+              case 27:
               case "end":
                 return _context4.stop();
             }
           }
-        }, _callee4, this, [[2, 22, 25, 28]]);
+        }, _callee4, this, [[2, 21, 24, 27]]);
       }));
 
       function _preloadGroupPosts(_x2) {
@@ -1103,7 +1090,9 @@ var GlipGroups = (_dec = (0, _di.Module)({
   }, {
     key: "_hasPermission",
     get: function get() {
-      return !!this._rolesAndPermissions.hasGlipPermission;
+      var _this$_extensionFeatu, _this$_extensionFeatu2;
+
+      return !!((_this$_extensionFeatu = this._extensionFeatures.features) === null || _this$_extensionFeatu === void 0 ? void 0 : (_this$_extensionFeatu2 = _this$_extensionFeatu.Glip) === null || _this$_extensionFeatu2 === void 0 ? void 0 : _this$_extensionFeatu2.available);
     }
   }]);
 

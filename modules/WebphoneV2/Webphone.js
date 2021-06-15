@@ -4,6 +4,10 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
 require("core-js/modules/es6.function.name");
 
+require("core-js/modules/es6.regexp.to-string");
+
+require("core-js/modules/es6.date.to-string");
+
 require("core-js/modules/es6.array.from");
 
 require("core-js/modules/es7.symbol.async-iterator");
@@ -15,10 +19,6 @@ require("core-js/modules/es6.array.is-array");
 require("core-js/modules/es6.reflect.get");
 
 require("core-js/modules/es6.object.create");
-
-require("core-js/modules/es6.regexp.to-string");
-
-require("core-js/modules/es6.date.to-string");
 
 require("core-js/modules/es6.reflect.construct");
 
@@ -52,6 +52,8 @@ require("core-js/modules/es6.string.iterator");
 require("regenerator-runtime/runtime");
 
 require("core-js/modules/es6.date.now");
+
+require("core-js/modules/es6.array.slice");
 
 require("core-js/modules/es6.array.sort");
 
@@ -105,7 +107,7 @@ function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread n
 
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
 
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
 
@@ -137,7 +139,7 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
@@ -186,7 +188,7 @@ var Webphone = (_dec = (0, _di.Module)({
   var _super = _createSuper(Webphone);
 
   function Webphone(deps) {
-    var _this$_deps$webphoneO;
+    var _this$_deps$webphoneO, _this$_deps$webphoneO2, _deps$webphoneOptions, _deps$webphoneOptions3, _deps$webphoneOptions5, _deps$webphoneOptions7, _deps$webphoneOptions9, _deps$webphoneOptions11, _deps$webphoneOptions13, _deps$webphoneOptions15;
 
     var _this;
 
@@ -205,38 +207,54 @@ var Webphone = (_dec = (0, _di.Module)({
     _initializerDefineProperty(_this, "sessions", _descriptor4, _assertThisInitialized(_this));
 
     _this._activeWebphoneActiveCallKey = "".concat(deps.prefix, "-active-webphone-active-call-key");
-    _this._permissionCheck = (_this$_deps$webphoneO = _this._deps.webphoneOptions.permissionCheck) !== null && _this$_deps$webphoneO !== void 0 ? _this$_deps$webphoneO : true;
+    _this._permissionCheck = (_this$_deps$webphoneO = (_this$_deps$webphoneO2 = _this._deps.webphoneOptions) === null || _this$_deps$webphoneO2 === void 0 ? void 0 : _this$_deps$webphoneO2.permissionCheck) !== null && _this$_deps$webphoneO !== void 0 ? _this$_deps$webphoneO : true;
 
-    if (typeof deps.webphoneOptions.onCallEnd === 'function') {
-      _this._eventEmitter.on(_events.EVENTS.callEnd, deps.webphoneOptions.onCallEnd);
+    if (typeof ((_deps$webphoneOptions = deps.webphoneOptions) === null || _deps$webphoneOptions === void 0 ? void 0 : _deps$webphoneOptions.onCallEnd) === 'function') {
+      var _deps$webphoneOptions2;
+
+      _this._eventEmitter.on(_events.EVENTS.callEnd, (_deps$webphoneOptions2 = deps.webphoneOptions) === null || _deps$webphoneOptions2 === void 0 ? void 0 : _deps$webphoneOptions2.onCallEnd);
     }
 
-    if (typeof deps.webphoneOptions.onCallRing === 'function') {
-      _this._eventEmitter.on(_events.EVENTS.callRing, deps.webphoneOptions.onCallRing);
+    if (typeof ((_deps$webphoneOptions3 = deps.webphoneOptions) === null || _deps$webphoneOptions3 === void 0 ? void 0 : _deps$webphoneOptions3.onCallRing) === 'function') {
+      var _deps$webphoneOptions4;
+
+      _this._eventEmitter.on(_events.EVENTS.callRing, (_deps$webphoneOptions4 = deps.webphoneOptions) === null || _deps$webphoneOptions4 === void 0 ? void 0 : _deps$webphoneOptions4.onCallRing);
     }
 
-    if (typeof deps.webphoneOptions.onCallStart === 'function') {
-      _this._eventEmitter.on(_events.EVENTS.callStart, deps.webphoneOptions.onCallStart);
+    if (typeof ((_deps$webphoneOptions5 = deps.webphoneOptions) === null || _deps$webphoneOptions5 === void 0 ? void 0 : _deps$webphoneOptions5.onCallStart) === 'function') {
+      var _deps$webphoneOptions6;
+
+      _this._eventEmitter.on(_events.EVENTS.callStart, (_deps$webphoneOptions6 = deps.webphoneOptions) === null || _deps$webphoneOptions6 === void 0 ? void 0 : _deps$webphoneOptions6.onCallStart);
     }
 
-    if (typeof deps.webphoneOptions.onCallResume === 'function') {
-      _this._eventEmitter.on(_events.EVENTS.callResume, deps.webphoneOptions.onCallResume);
+    if (typeof ((_deps$webphoneOptions7 = deps.webphoneOptions) === null || _deps$webphoneOptions7 === void 0 ? void 0 : _deps$webphoneOptions7.onCallResume) === 'function') {
+      var _deps$webphoneOptions8;
+
+      _this._eventEmitter.on(_events.EVENTS.callResume, (_deps$webphoneOptions8 = deps.webphoneOptions) === null || _deps$webphoneOptions8 === void 0 ? void 0 : _deps$webphoneOptions8.onCallResume);
     }
 
-    if (typeof deps.webphoneOptions.onCallHold === 'function') {
-      _this._eventEmitter.on(_events.EVENTS.callHold, deps.webphoneOptions.onCallHold);
+    if (typeof ((_deps$webphoneOptions9 = deps.webphoneOptions) === null || _deps$webphoneOptions9 === void 0 ? void 0 : _deps$webphoneOptions9.onCallHold) === 'function') {
+      var _deps$webphoneOptions10;
+
+      _this._eventEmitter.on(_events.EVENTS.callHold, (_deps$webphoneOptions10 = deps.webphoneOptions) === null || _deps$webphoneOptions10 === void 0 ? void 0 : _deps$webphoneOptions10.onCallHold);
     }
 
-    if (typeof deps.webphoneOptions.onCallInit === 'function') {
-      _this._eventEmitter.on(_events.EVENTS.callInit, deps.webphoneOptions.onCallInit);
+    if (typeof ((_deps$webphoneOptions11 = deps.webphoneOptions) === null || _deps$webphoneOptions11 === void 0 ? void 0 : _deps$webphoneOptions11.onCallInit) === 'function') {
+      var _deps$webphoneOptions12;
+
+      _this._eventEmitter.on(_events.EVENTS.callInit, (_deps$webphoneOptions12 = deps.webphoneOptions) === null || _deps$webphoneOptions12 === void 0 ? void 0 : _deps$webphoneOptions12.onCallInit);
     }
 
-    if (typeof deps.webphoneOptions.onBeforeCallResume === 'function') {
-      _this._eventEmitter.on(_events.EVENTS.beforeCallResume, deps.webphoneOptions.onBeforeCallResume);
+    if (typeof ((_deps$webphoneOptions13 = deps.webphoneOptions) === null || _deps$webphoneOptions13 === void 0 ? void 0 : _deps$webphoneOptions13.onBeforeCallResume) === 'function') {
+      var _deps$webphoneOptions14;
+
+      _this._eventEmitter.on(_events.EVENTS.beforeCallResume, (_deps$webphoneOptions14 = deps.webphoneOptions) === null || _deps$webphoneOptions14 === void 0 ? void 0 : _deps$webphoneOptions14.onBeforeCallResume);
     }
 
-    if (typeof deps.webphoneOptions.onBeforeCallEnd === 'function') {
-      _this._eventEmitter.on(_events.EVENTS.beforeCallEnd, deps.webphoneOptions.onBeforeCallEnd);
+    if (typeof ((_deps$webphoneOptions15 = deps.webphoneOptions) === null || _deps$webphoneOptions15 === void 0 ? void 0 : _deps$webphoneOptions15.onBeforeCallEnd) === 'function') {
+      var _deps$webphoneOptions16;
+
+      _this._eventEmitter.on(_events.EVENTS.beforeCallEnd, (_deps$webphoneOptions16 = deps.webphoneOptions) === null || _deps$webphoneOptions16 === void 0 ? void 0 : _deps$webphoneOptions16.onBeforeCallEnd);
     }
 
     _this._reconnectAfterSessionEnd = null;

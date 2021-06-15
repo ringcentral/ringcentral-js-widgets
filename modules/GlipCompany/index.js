@@ -18,15 +18,13 @@ require("core-js/modules/es6.array.index-of");
 
 require("core-js/modules/es6.object.create");
 
-require("core-js/modules/es6.regexp.to-string");
-
-require("core-js/modules/es6.date.to-string");
-
 require("core-js/modules/es6.reflect.construct");
 
 require("core-js/modules/es6.object.set-prototype-of");
 
 require("core-js/modules/es6.object.define-property");
+
+require("core-js/modules/es6.array.slice");
 
 require("core-js/modules/es6.array.reduce");
 
@@ -49,13 +47,11 @@ require("core-js/modules/es6.function.name");
 
 require("regenerator-runtime/runtime");
 
-var _di = require("../../lib/di");
-
 var _DataFetcher2 = _interopRequireDefault(require("../../lib/DataFetcher"));
 
-var _selector = require("../../lib/selector");
+var _di = require("../../lib/di");
 
-var _ensureExist = _interopRequireDefault(require("../../lib/ensureExist"));
+var _selector = require("../../lib/selector");
 
 var _dec, _class, _class2, _descriptor;
 
@@ -67,7 +63,7 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
@@ -93,7 +89,7 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
@@ -107,7 +103,7 @@ var GlipCompany = (
  * @description Glip Company managing module.
  */
 _dec = (0, _di.Module)({
-  deps: ['Client', 'RolesAndPermissions', {
+  deps: ['Client', 'ExtensionFeatures', {
     dep: 'GLipCompanyOptions',
     optional: true
   }]
@@ -125,8 +121,8 @@ _dec = (0, _di.Module)({
     var _this;
 
     var client = _ref.client,
-        rolesAndPermissions = _ref.rolesAndPermissions,
-        options = _objectWithoutProperties(_ref, ["client", "rolesAndPermissions"]);
+        extensionFeatures = _ref.extensionFeatures,
+        options = _objectWithoutProperties(_ref, ["client", "extensionFeatures"]);
 
     _classCallCheck(this, GlipCompany);
 
@@ -161,14 +157,14 @@ _dec = (0, _di.Module)({
         return fetchFunction;
       }(),
       readyCheckFn: function readyCheckFn() {
-        return _this._rolesAndPermissions.ready;
+        return _this._extensionFeatures.ready;
       },
       cleanOnReset: true
     }, options));
 
     _initializerDefineProperty(_this, "info", _descriptor, _assertThisInitialized(_this));
 
-    _this._rolesAndPermissions = _ensureExist["default"].call(_assertThisInitialized(_this), rolesAndPermissions, 'rolesAndPermissions');
+    _this._extensionFeatures = extensionFeatures;
     return _this;
   }
 
@@ -195,7 +191,9 @@ _dec = (0, _di.Module)({
   }, {
     key: "_hasPermission",
     get: function get() {
-      return !!this._rolesAndPermissions.hasGlipPermission;
+      var _this$_extensionFeatu, _this$_extensionFeatu2;
+
+      return !!((_this$_extensionFeatu = this._extensionFeatures.features) === null || _this$_extensionFeatu === void 0 ? void 0 : (_this$_extensionFeatu2 = _this$_extensionFeatu.Glip) === null || _this$_extensionFeatu2 === void 0 ? void 0 : _this$_extensionFeatu2.available);
     }
   }]);
 

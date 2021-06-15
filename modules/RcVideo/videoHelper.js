@@ -23,10 +23,10 @@ Object.defineProperty(exports, "RCV_PREFERENCES_KEYS", {
     return _videoHelper.RCV_PREFERENCES_KEYS;
   }
 });
-Object.defineProperty(exports, "RCV_WAITTING_ROOM_API_KEYS", {
+Object.defineProperty(exports, "RCV_WAITING_ROOM_API_KEYS", {
   enumerable: true,
   get: function get() {
-    return _videoHelper.RCV_WAITTING_ROOM_API_KEYS;
+    return _videoHelper.RCV_WAITING_ROOM_API_KEYS;
   }
 });
 Object.defineProperty(exports, "RcVideoTypes", {

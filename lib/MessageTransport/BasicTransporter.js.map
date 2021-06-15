@@ -1,0 +1,1 @@
+{"version":3,"sources":["lib/MessageTransport/BasicTransporter.ts"],"names":["BasicTransporter"],"mappings":";;;;;;;;;;;IAA8BA,gB","sourcesContent":["export default abstract class BasicTransporter {\n  abstract addReceiver(args: any): any;\n\n  abstract createEmitter(args: any): any;\n}\n"],"file":"BasicTransporter.js"}
