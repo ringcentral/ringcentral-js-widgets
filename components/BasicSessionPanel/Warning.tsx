@@ -13,11 +13,8 @@ export const Warning: FunctionComponent<WarningProps> = ({
 }) => (
   <RcTypography
     variant={isWide ? 'body1' : 'caption1'}
-    // TODO: Juno UI hasn't add the font color we need, it is wip by designer, so just custom in ev briefly
-    // color="secondary"
-    classes={{
-      root: styles.warning,
-    }}
+    color="highlight.f02"
+    className={styles.warning}
   >
     {children}
   </RcTypography>

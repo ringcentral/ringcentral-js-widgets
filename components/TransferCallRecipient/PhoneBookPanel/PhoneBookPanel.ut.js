@@ -2,14 +2,14 @@
 
 require("core-js/modules/es6.object.define-property");
 
+require("core-js/modules/es6.promise");
+
+require("core-js/modules/es6.object.to-string");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.UTCheckPhoneBookPanelRender = exports.UTPhoneBookListSearch = exports.UTPhoneBookListSearchNoResultCases = exports.UTPhoneBookListSearchCases = exports.UTPhoneBookContactCanBeClicked = exports.UTPhoneBookContactListDisplayAndHighlight = exports.UTPhoneBookCheckBackButton = void 0;
-
-require("core-js/modules/es6.promise");
-
-require("core-js/modules/es6.object.to-string");
 
 require("regenerator-runtime/runtime");
 
@@ -153,7 +153,7 @@ var UTPhoneBookContactCanBeClicked = function UTPhoneBookContactCanBeClicked() {
   });
   var selectIndex = 1;
   getPhoneContacts().at(selectIndex).find('[role="button"]').at(0).simulate('click');
-  expect(changeTransferPhoneBookSelected).toBeCalledWith(selectIndex);
+  expect(changeTransferPhoneBookSelected).toBeCalled();
 };
 
 exports.UTPhoneBookContactCanBeClicked = UTPhoneBookContactCanBeClicked;

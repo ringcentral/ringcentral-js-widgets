@@ -1,9 +1,6 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.EvIntegratedSoftphone = void 0;
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -11,15 +8,13 @@ require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.object.create");
 
-require("core-js/modules/es6.regexp.to-string");
-
-require("core-js/modules/es6.date.to-string");
-
 require("core-js/modules/es6.reflect.construct");
 
 require("core-js/modules/es6.object.set-prototype-of");
 
 require("core-js/modules/es6.object.define-property");
+
+require("core-js/modules/es6.array.slice");
 
 require("core-js/modules/es6.array.reduce");
 
@@ -30,6 +25,11 @@ require("core-js/modules/es6.array.iterator");
 require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.for-each");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.EvIntegratedSoftphone = void 0;
 
 require("core-js/modules/es6.promise");
 
@@ -61,13 +61,13 @@ var _audios = require("./audios");
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
+var _IncomingModalText = require("./IncomingModalText");
+
 var _runInActivityWebRTCTab = require("./runInActivityWebRTCTab.decorator");
 
-var _dec, _dec2, _dec3, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _temp;
+var _dec, _dec2, _dec3, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -91,7 +91,7 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
@@ -103,6 +103,19 @@ var SECOND = 1000;
 var RECONNECT_DEBOUNCE_TIME = SECOND * 5;
 var RECONNECT_DEBOUNCE_TIME_WHEN_CONNECTED = SECOND * 15;
 var SIP_MAX_CONNECTING_TIME = SECOND * 30;
+var ModalContentRendererID = 'EvIntegratedSoftphone.ModalContentRenderer';
+
+var ModalContentRenderer = function ModalContentRenderer(_ref) {
+  var isInbound = _ref.isInbound,
+      inboundTextProps = _ref.inboundTextProps,
+      outboundText = _ref.outboundText;
+  return (0, _IncomingModalText.getModalText)({
+    isInbound: isInbound,
+    inboundTextProps: inboundTextProps,
+    outboundText: outboundText
+  });
+};
+
 var EvIntegratedSoftphone = (_dec = (0, _di.Module)({
   name: 'EvIntegratedSoftphone',
   deps: ['Locale', 'RouterInteraction', 'EvAgentSession', 'EvSubscription', 'Beforeunload', 'EvSettings', 'EvClient', 'Presence', 'Storage', 'EvAuth', 'Block', 'Auth', 'ModalUI', 'Alert', {
@@ -112,7 +125,7 @@ var EvIntegratedSoftphone = (_dec = (0, _di.Module)({
     dep: 'EvIntegratedSoftphoneOptions',
     optional: true
   }]
-}), _dec2 = (0, _runInActivityWebRTCTab.runInActivityWebRTCTab)(), _dec3 = (0, _runInActivityWebRTCTab.runInActivityWebRTCTab)(), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcModuleV) {
+}), _dec2 = (0, _runInActivityWebRTCTab.runInActivityWebRTCTab)(), _dec3 = (0, _runInActivityWebRTCTab.runInActivityWebRTCTab)(), _dec(_class = (_class2 = /*#__PURE__*/function (_RcModuleV) {
   _inherits(EvIntegratedSoftphone, _RcModuleV);
 
   var _super = _createSuper(EvIntegratedSoftphone);
@@ -181,6 +194,8 @@ var EvIntegratedSoftphone = (_dec = (0, _di.Module)({
     _this._deps.beforeunload.onAfterUnload(function () {
       _this._sendTabManager(_enums.tabManagerEvents.CLOSE_WHEN_CALL_CONNECTED);
     });
+
+    _this._deps.modalUI.registerRenderer(ModalContentRendererID, ModalContentRenderer);
 
     _this._isFirefox = navigator.userAgent.indexOf('Firefox') !== -1;
     return _this;
@@ -265,7 +280,7 @@ var EvIntegratedSoftphone = (_dec = (0, _di.Module)({
       })));
 
       this._deps.evAgentSession.onConfigSuccess(function () {
-        if (_this2._deps.tabManager.hasMultipleTabs && !_this2._deps.tabManager.isMainTab && _this2._deps.evAgentSession.isConfigTabAlive()) {
+        if (_this2._deps.tabManager.hasMultipleTabs && !_this2._deps.tabManager.isMainTab && _this2._deps.evAgentSession.isIntegratedSoftphone && _this2._deps.evAgentSession.isConfigTabAlive()) {
           console.log('setSipRegisterSuccess in onConfigSuccess~~');
 
           _this2.setSipRegisterSuccess(true);
@@ -654,6 +669,8 @@ var EvIntegratedSoftphone = (_dec = (0, _di.Module)({
       })));
 
       this._deps.evSubscription.subscribe(_enums2.EvCallbackTypes.SIP_RINGING, function (ringingCall) {
+        var _this3$_deps$evClient, _this3$_deps$evClient2, _this3$_deps$evClient3;
+
         _this3.bindBeforeunload();
 
         console.log('!!!!!!!SIP_RINGING');
@@ -665,10 +682,25 @@ var EvIntegratedSoftphone = (_dec = (0, _di.Module)({
         }
 
         var displayName = ringingCall.data.request.from.displayName;
+        var queueName = (_this3$_deps$evClient = _this3._deps.evClient.currentCall) === null || _this3$_deps$evClient === void 0 ? void 0 : (_this3$_deps$evClient2 = _this3$_deps$evClient.queue) === null || _this3$_deps$evClient2 === void 0 ? void 0 : _this3$_deps$evClient2.name;
+        var _this3$_deps$presence = _this3._deps.presence,
+            dialoutStatus = _this3$_deps$presence.dialoutStatus,
+            isOffhooking = _this3$_deps$presence.isOffhooking,
+            isManualOffhook = _this3$_deps$presence.isManualOffhook; // exclude outbound and offhook
 
-        _this3._sendTabManager(_enums.tabManagerEvents.SIP_RINGING, displayName);
+        var isInbound = dialoutStatus !== 'dialing' && !(isManualOffhook && isOffhooking) && ((_this3$_deps$evClient3 = _this3._deps.evClient.currentCall) === null || _this3$_deps$evClient3 === void 0 ? void 0 : _this3$_deps$evClient3.callType) === 'INBOUND';
 
-        _this3._showRingingModal(displayName);
+        _this3._sendTabManager(_enums.tabManagerEvents.SIP_RINGING, {
+          displayName: displayName,
+          queueName: queueName,
+          isInbound: isInbound
+        });
+
+        _this3._showRingingModal({
+          displayName: displayName,
+          queueName: queueName,
+          isInbound: isInbound
+        });
       });
 
       this._deps.evSubscription.subscribe(_enums2.EvCallbackTypes.SIP_CONNECTED, function () {
@@ -772,9 +804,9 @@ var EvIntegratedSoftphone = (_dec = (0, _di.Module)({
       this._deps.modalUI.alert({
         title: 'Registration failed',
         content: 'Will reload your pages and tabs for you',
-        okText: 'Ok',
+        confirmButtonText: 'Ok',
         size: 'xsmall',
-        onOK: function onOK() {
+        onConfirm: function onConfirm() {
           _this4._sendTabManager(_enums.tabManagerEvents.SIP_REGISTRATION_FAILED_RELOAD);
 
           _this4._reloadApp();
@@ -840,8 +872,12 @@ var EvIntegratedSoftphone = (_dec = (0, _di.Module)({
     }
   }, {
     key: "_showRingingModal",
-    value: function _showRingingModal(displayName) {
+    value: function _showRingingModal(_ref4) {
       var _this5 = this;
+
+      var displayName = _ref4.displayName,
+          queueName = _ref4.queueName,
+          isInbound = _ref4.isInbound;
 
       // prevent open a lot of modal, that sdk event pass a lot of ringing state when re login
       if (this._answerModalId) {
@@ -853,13 +889,25 @@ var EvIntegratedSoftphone = (_dec = (0, _di.Module)({
       var currentLocale = this._deps.locale.currentLocale;
       this._answerModalId = this._deps.modalUI.confirm({
         title: _i18n["default"].getString('inviteModalTitle', currentLocale),
-        content: (0, _formatMessage["default"])(_i18n["default"].getString('inviteModalContent', currentLocale), {
-          displayName: displayName
-        }),
-        okText: _i18n["default"].getString('inviteModalAnswer', currentLocale),
-        cancelText: _i18n["default"].getString('inviteModalReject', currentLocale),
-        onOK: function () {
-          var _onOK = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
+        content: ModalContentRendererID,
+        contentProps: {
+          isInbound: isInbound,
+          inboundTextProps: queueName && {
+            incomingText: (0, _formatMessage["default"])(_i18n["default"].getString('incomingText', currentLocale), {
+              displayName: displayName
+            }),
+            queueNameText: (0, _formatMessage["default"])(_i18n["default"].getString('queueNameText', currentLocale), {
+              queueName: queueName
+            })
+          },
+          outboundText: (0, _formatMessage["default"])(_i18n["default"].getString('outboundText', currentLocale), {
+            displayName: displayName
+          })
+        },
+        confirmButtonText: _i18n["default"].getString('inviteModalAnswer', currentLocale),
+        cancelButtonText: _i18n["default"].getString('inviteModalReject', currentLocale),
+        onConfirm: function () {
+          var _onConfirm = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
             return regeneratorRuntime.wrap(function _callee7$(_context7) {
               while (1) {
                 switch (_context7.prev = _context7.next) {
@@ -877,11 +925,11 @@ var EvIntegratedSoftphone = (_dec = (0, _di.Module)({
             }, _callee7);
           }));
 
-          function onOK() {
-            return _onOK.apply(this, arguments);
+          function onConfirm() {
+            return _onConfirm.apply(this, arguments);
           }
 
-          return onOK;
+          return onConfirm;
         }(),
         onCancel: function onCancel() {
           _this5._sendTabManager(_enums.tabManagerEvents.SIP_RINGING_MODAL, false);
@@ -1123,6 +1171,7 @@ var EvIntegratedSoftphone = (_dec = (0, _di.Module)({
                     _this7._sendTabManager(_enums.tabManagerEvents.NOTIFY_ACTIVE_TAB_CALL_ACTIVE); // eslint-disable-next-line no-alert
 
 
+                    // eslint-disable-next-line no-alert
                     alert(_i18n["default"].getString('activeCallTip', _this7._deps.locale.currentLocale));
                     reject(null);
                   }
@@ -1194,7 +1243,7 @@ var EvIntegratedSoftphone = (_dec = (0, _di.Module)({
   }]);
 
   return EvIntegratedSoftphone;
-}(_core.RcModuleV2), _temp), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "audioPermission", [_core.storage, _core.state], {
+}(_core.RcModuleV2), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "audioPermission", [_core.storage, _core.state], {
   configurable: true,
   enumerable: true,
   writable: true,

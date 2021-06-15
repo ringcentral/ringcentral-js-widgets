@@ -4,6 +4,7 @@ import {
   RcModuleV2,
   state,
   storage,
+  track,
 } from '@ringcentral-integration/core';
 import { EventEmitter } from 'events';
 import { Module } from 'ringcentral-integration/lib/di';
@@ -13,11 +14,14 @@ import {
   DialoutStatusesType,
   messageTypes,
 } from '../../enums';
+import { trackEvents } from '../../lib/trackEvents';
 import { EvCallbackTypes } from '../../lib/EvClient/enums/callbackTypes';
 import {
   EvAddSessionNotification,
+  EvAgentRecording,
   EvBaseCall,
   EvDropSessionNotification,
+  EvEarlyUiiResponse,
   EvEndedCall,
   EvHoldResponse,
   EvOffhookInitResponse,
@@ -75,6 +79,10 @@ class EvPresence extends RcModuleV2<Deps> implements Presence {
 
   @storage
   @state
+  currentCallUii = '';
+
+  @storage
+  @state
   isOffhook = false;
 
   @storage
@@ -88,6 +96,11 @@ class EvPresence extends RcModuleV2<Deps> implements Presence {
   @storage
   @state
   dialoutStatus: DialoutStatusesType = dialoutStatuses.idle;
+
+  @action
+  setCurrentCallUii(uii: string) {
+    this.currentCallUii = uii;
+  }
 
   @computed((that: EvPresence) => [that.callIds, that.callsMapping])
   get calls() {
@@ -144,6 +157,20 @@ class EvPresence extends RcModuleV2<Deps> implements Presence {
     this.isOffhooking = offhooking;
   }
 
+  @track((that: EvPresence, call: EvBaseCall) => (analytics) => {
+    const recordingSetting = that.getRecordingSettings(call.agentRecording);
+    return [
+      call.callType === 'INBOUND'
+        ? trackEvents.callInboundCallConnected
+        : trackEvents.outboundCallConnected,
+      {
+        recordingSetting,
+        voiceConnection: analytics.loginType,
+        isOffhook: that.isOffhook,
+        isOffhooking: that.isOffhooking,
+      },
+    ];
+  })
   addNewCall(call: EvBaseCall) {
     this._deps.evCallDataSource.addNewCall(call);
   }
@@ -172,6 +199,28 @@ class EvPresence extends RcModuleV2<Deps> implements Presence {
     this._bindSubscription();
   }
 
+  getRecordingSettings(record: EvAgentRecording) {
+    let recordingSetting = '';
+    if (record.agentRecording) {
+      if (record.default === 'ON') {
+        if (record.pause) {
+          recordingSetting = 'Yes - Record Call (Agent Pause)';
+        } else {
+          recordingSetting = 'Agent Triggered (Default: Record)';
+        }
+      } else {
+        recordingSetting = "Agent Triggered (Default: Don't Record)";
+      }
+    } else if (!record.agentRecording) {
+      if (record.default === 'ON') {
+        recordingSetting = 'Yes - Record Full Call';
+      } else {
+        recordingSetting = "No - Don't Record Call";
+      }
+    }
+    return recordingSetting;
+  }
+
   private _bindSubscription() {
     this._deps.evSubscription
       .subscribe(
@@ -192,6 +241,11 @@ class EvPresence extends RcModuleV2<Deps> implements Presence {
           }
         },
       )
+      .subscribe(EvCallbackTypes.EARLY_UII, (data: EvEarlyUiiResponse) => {
+        if (data.status === 'OK') {
+          this.setCurrentCallUii(data.uii);
+        }
+      })
       .subscribe(
         EvCallbackTypes.OFFHOOK_TERM,
         (data: EvOffhookTermResponse) => {

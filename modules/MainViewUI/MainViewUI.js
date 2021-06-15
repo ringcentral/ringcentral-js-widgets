@@ -1,9 +1,6 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.MainViewUI = void 0;
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -17,15 +14,13 @@ require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.object.create");
 
-require("core-js/modules/es6.regexp.to-string");
-
-require("core-js/modules/es6.date.to-string");
-
 require("core-js/modules/es6.reflect.construct");
 
 require("core-js/modules/es6.object.set-prototype-of");
 
 require("core-js/modules/es6.object.define-property");
+
+require("core-js/modules/es6.array.slice");
 
 require("core-js/modules/es6.array.reduce");
 
@@ -39,6 +34,11 @@ require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.for-each");
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.MainViewUI = void 0;
+
 require("core-js/modules/es6.array.find-index");
 
 require("core-js/modules/es6.array.map");
@@ -51,11 +51,9 @@ var _enums = require("../../enums");
 
 var _time = require("../../lib/time");
 
-var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _class, _class2, _temp;
+var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _class, _class2;
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
@@ -77,7 +75,7 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
@@ -85,7 +83,7 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
 
 var MainViewUI = (_dec = (0, _di.Module)({
   name: 'MainViewUI',
-  deps: ['Locale', 'RouterInteraction', 'EvWorkingState', 'EvSettings', 'EvCallMonitor', 'EvAuth', 'Environment']
+  deps: ['Locale', 'RouterInteraction', 'EvWorkingState', 'EvSettings', 'EvCallMonitor', 'EvAuth', 'Environment', 'EvCall']
 }), _dec2 = (0, _core.computed)(function (that) {
   return [that._deps.evWorkingState.agentStates];
 }), _dec3 = (0, _core.computed)(function (that) {
@@ -95,10 +93,10 @@ var MainViewUI = (_dec = (0, _di.Module)({
 }), _dec5 = (0, _core.computed)(function (that) {
   return [that._deps.evWorkingState.workingState];
 }), _dec6 = (0, _core.computed)(function (that) {
-  return [that._deps.evSettings.isOffhooking, that._deps.evCallMonitor.isOnCall, that._deps.evAuth.agentPermissions.allowOffHook];
+  return [that._deps.evSettings.isOffhooking, that._deps.evCallMonitor.isOnCall, that._deps.evCall.isDialing, that._deps.evAuth.agentPermissions.allowOffHook];
 }), _dec7 = (0, _core.computed)(function (that) {
   return [that._deps.evAuth.agentPermissions.allowOffHook];
-}), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcUIModuleV) {
+}), _dec(_class = (_class2 = /*#__PURE__*/function (_RcUIModuleV) {
   _inherits(MainViewUI, _RcUIModuleV);
 
   var _super = _createSuper(MainViewUI);
@@ -251,7 +249,7 @@ var MainViewUI = (_dec = (0, _di.Module)({
   }, {
     key: "isOffHookDisable",
     get: function get() {
-      return this._deps.evSettings.isOffhooking || this._deps.evCallMonitor.isOnCall || !this._deps.evAuth.agentPermissions.allowOffHook;
+      return this._deps.evSettings.isOffhooking || this._deps.evCallMonitor.isOnCall || this._deps.evCall.isDialing || !this._deps.evAuth.agentPermissions.allowOffHook;
     }
   }, {
     key: "hideOffHookBtn",
@@ -261,6 +259,6 @@ var MainViewUI = (_dec = (0, _di.Module)({
   }]);
 
   return MainViewUI;
-}(_core.RcUIModuleV2), _temp), (_applyDecoratedDescriptor(_class2.prototype, "agentStates", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "agentStates"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "currentStateIndex", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "currentStateIndex"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "stateText", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "stateText"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "isBreak", [_dec5], Object.getOwnPropertyDescriptor(_class2.prototype, "isBreak"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "isOffHookDisable", [_dec6], Object.getOwnPropertyDescriptor(_class2.prototype, "isOffHookDisable"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "hideOffHookBtn", [_dec7], Object.getOwnPropertyDescriptor(_class2.prototype, "hideOffHookBtn"), _class2.prototype)), _class2)) || _class);
+}(_core.RcUIModuleV2), (_applyDecoratedDescriptor(_class2.prototype, "agentStates", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "agentStates"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "currentStateIndex", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "currentStateIndex"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "stateText", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "stateText"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "isBreak", [_dec5], Object.getOwnPropertyDescriptor(_class2.prototype, "isBreak"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "isOffHookDisable", [_dec6], Object.getOwnPropertyDescriptor(_class2.prototype, "isOffHookDisable"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "hideOffHookBtn", [_dec7], Object.getOwnPropertyDescriptor(_class2.prototype, "hideOffHookBtn"), _class2.prototype)), _class2)) || _class);
 exports.MainViewUI = MainViewUI;
 //# sourceMappingURL=MainViewUI.js.map

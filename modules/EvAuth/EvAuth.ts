@@ -53,10 +53,7 @@ class EvAuth extends RcModuleV2<Deps> implements Auth {
 
   private _logout = async () => {
     await this._deps.auth.logout({ dismissAllAlert: false });
-    this.setNotAuth();
-    if (this.tabManagerEnabled) {
-      this._deps.tabManager.send(tabManagerEvents.LOGGED_OUT);
-    }
+    this.setNotAuth(true);
   };
 
   private _logoutByOtherTab = false;
@@ -77,6 +74,15 @@ class EvAuth extends RcModuleV2<Deps> implements Auth {
       deps,
       storageKey: 'EvAuth',
       enableGlobalCache: true,
+    });
+    this._deps.auth.addAfterLoggedInHandler(() => {
+      console.log('addAfterLoggedInHandler~~');
+      this.clearAgentId();
+    });
+
+    this._deps.auth.addBeforeLogoutHandler(() => {
+      console.log('addBeforeLogoutHandler~~');
+      this.clearAgentId();
     });
   }
 
@@ -144,13 +150,16 @@ class EvAuth extends RcModuleV2<Deps> implements Auth {
         gateId: '-1',
         gateName: i18n.getString('default', this._deps.locale.currentLocale),
       },
-      ...sortByName(this.inboundSettings.availableQueues, 'gateName'),
+      ...sortByName([...this.inboundSettings.availableQueues], 'gateName'),
     ];
   }
 
   @computed((that: EvAuth) => [that.inboundSettings.availableRequeueQueues])
   get availableRequeueQueues() {
-    return sortByName(this.inboundSettings.availableRequeueQueues, 'groupName');
+    return sortByName(
+      [...this.inboundSettings.availableRequeueQueues],
+      'groupName',
+    );
   }
 
   @computed((that: EvAuth) => [that.agentSettings.callerIds])
@@ -222,11 +231,6 @@ class EvAuth extends RcModuleV2<Deps> implements Auth {
   }
 
   @action
-  setConnected(connected: boolean) {
-    this.connected = connected;
-  }
-
-  @action
   clearAgentId() {
     this.agentId = '';
   }
@@ -249,8 +253,11 @@ class EvAuth extends RcModuleV2<Deps> implements Auth {
   }
 
   @action
-  setNotAuth() {
+  setNotAuth(asyncAllTabs = false) {
     this.loginStatus = loginStatus.NOT_AUTH;
+    if (asyncAllTabs && this.tabManagerEnabled) {
+      this._deps.tabManager.send(tabManagerEvents.LOGGED_OUT);
+    }
   }
 
   _shouldInit() {
@@ -258,10 +265,6 @@ class EvAuth extends RcModuleV2<Deps> implements Auth {
   }
 
   onInitOnce() {
-    this._deps.auth.addAfterLoggedInHandler(() => {
-      console.log('addAfterLoggedInHandler~~');
-      this.clearAgentId();
-    });
     this._deps.evSubscription.subscribe(EvCallbackTypes.LOGOUT, async () => {
       this._emitLogoutBefore();
 
@@ -294,12 +297,13 @@ class EvAuth extends RcModuleV2<Deps> implements Auth {
       this.connecting = true;
       // when login make sure the logoutByOtherTab is false
       this._logoutByOtherTab = false;
-
-      if (this.agentId) {
-        await this.loginAgent();
-      } else {
-        await this.authenticateWithToken();
-      }
+      await this._deps.block.next(async () => {
+        if (this.agentId) {
+          await this.loginAgent();
+        } else {
+          await this.authenticateWithToken();
+        }
+      });
     }
   }
 
@@ -366,21 +370,24 @@ class EvAuth extends RcModuleV2<Deps> implements Auth {
         tokenType,
       );
       const agent = { ...this.agent, authenticateResponse };
-      if (shouldEmitAuthSuccess && !this._authenticateResponseWatcher) {
-        this._authenticateResponseWatcher = watch(
-          this,
-          () => this.agent?.authenticateResponse,
-          (authenticateResponse) => {
-            if (authenticateResponse) {
-              this._emitAuthSuccess();
-              this._authenticateResponseWatcher();
-              this._authenticateResponseWatcher = null;
-            }
-          },
-        );
-      }
+      // if (shouldEmitAuthSuccess && !this._authenticateResponseWatcher) {
+      //   this._authenticateResponseWatcher = watch(
+      //     this,
+      //     () => this.agent?.authenticateResponse,
+      //     (authenticateResponse) => {
+      //       if (authenticateResponse) {
+      //         this._emitAuthSuccess();
+      //         this._authenticateResponseWatcher();
+      //         this._authenticateResponseWatcher = null;
+      //       }
+      //     },
+      //   );
+      // }
       this.setAgent(agent);
       this.setAuthSuccess();
+      if (shouldEmitAuthSuccess) {
+        this._emitAuthSuccess();
+      }
       return authenticateResponse;
     } catch (error) {
       switch (error.type) {
@@ -459,25 +466,27 @@ class EvAuth extends RcModuleV2<Deps> implements Auth {
 
       const agent = { ...this.agent, agentConfig };
 
-      if (!this._agentConfigWatcher) {
-        this._agentConfigWatcher = watch(
-          this,
-          () => this.agent?.agentConfig,
-          (agentConfig) => {
-            if (agentConfig) {
-              this._emitLoginSuccess();
-              this._agentConfigWatcher();
-              this._agentConfigWatcher = null;
-            }
-          },
-        );
-      }
+      // if (!this._agentConfigWatcher) {
+      //   this._agentConfigWatcher = watch(
+      //     this,
+      //     () => this.agent?.agentConfig,
+      //     (agentConfig) => {
+      //       if (agentConfig) {
+      //         this._emitLoginSuccess();
+      //         this._agentConfigWatcher();
+      //         this._agentConfigWatcher = null;
+      //       }
+      //     },
+      //   );
+      // }
 
       this.setConnectionData({ agent, connected: true });
 
       this.connecting = false;
 
       this.setLoginSuccess();
+
+      this._emitLoginSuccess();
 
       return agentConfig;
     } catch (error) {

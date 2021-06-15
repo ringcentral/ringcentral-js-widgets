@@ -1,9 +1,6 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.EvCall = void 0;
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -17,15 +14,13 @@ require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.object.create");
 
-require("core-js/modules/es6.regexp.to-string");
-
-require("core-js/modules/es6.date.to-string");
-
 require("core-js/modules/es6.reflect.construct");
 
 require("core-js/modules/es6.object.set-prototype-of");
 
 require("core-js/modules/es6.object.define-property");
+
+require("core-js/modules/es6.array.slice");
 
 require("core-js/modules/es6.array.reduce");
 
@@ -37,11 +32,20 @@ require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.for-each");
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.EvCall = void 0;
+
 require("core-js/modules/es6.promise");
 
 require("core-js/modules/es6.object.to-string");
 
 require("regenerator-runtime/runtime");
+
+require("core-js/modules/es7.array.includes");
+
+require("core-js/modules/es6.string.includes");
 
 require("core-js/modules/es6.number.constructor");
 
@@ -65,17 +69,15 @@ var _parseNumber = require("../../lib/parseNumber");
 
 var _trackEvents = require("../../lib/trackEvents");
 
-var _dec, _dec2, _dec3, _dec4, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _temp;
+var _dec, _dec2, _dec3, _dec4, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
@@ -99,7 +101,7 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
@@ -121,12 +123,19 @@ var EvCall = (_dec = (0, _di.Module)({
   }, {
     dep: 'EvCallOptions',
     optional: true
+  }, {
+    dep: 'EvWorkingState',
+    optional: true
   }]
 }), _dec2 = (0, _core.computed)(function (that) {
   return [that.activityCallId, that._deps.evCallMonitor.callsMapping];
 }), _dec3 = (0, _core.computed)(function (that) {
   return [that._deps.evAuth.isEvLogged, that.ready];
-}), _dec4 = (0, _core.track)(_trackEvents.trackEvents.outbound), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcModuleV) {
+}), _dec4 = (0, _core.track)(function (that) {
+  return [_trackEvents.trackEvents.outbound, {
+    value: that._deps.evAgentSession.loginType
+  }];
+}), _dec(_class = (_class2 = /*#__PURE__*/function (_RcModuleV) {
   _inherits(EvCall, _RcModuleV);
 
   var _super = _createSuper(EvCall);
@@ -181,11 +190,11 @@ var EvCall = (_dec = (0, _di.Module)({
       this.dialoutQueueId = DEFAULT_OUTBOUND_SETTING.dialoutQueueId;
       this.dialoutCountryId = DEFAULT_OUTBOUND_SETTING.dialoutCountryId;
       this.dialoutRingTime = DEFAULT_OUTBOUND_SETTING.dialoutRingTime;
-      var defaultRingtime = parseInt(this._deps.evAuth.outboundManualDefaultRingtime, 10);
+      var defaultRingTime = parseInt(this._deps.evAuth.outboundManualDefaultRingtime, 10);
 
-      if (!Number.isNaN(defaultRingtime)) {
-        this.formGroup.dialoutRingTime = defaultRingtime;
-        this.dialoutRingTime = defaultRingtime;
+      if (!Number.isNaN(defaultRingTime)) {
+        this.formGroup.dialoutRingTime = defaultRingTime;
+        this.dialoutRingTime = defaultRingTime;
       }
     }
   }, {
@@ -216,7 +225,7 @@ var EvCall = (_dec = (0, _di.Module)({
       });
 
       this._deps.evSubscription.subscribe(_callbackTypes.EvCallbackTypes.TCPA_SAFE_LEAD_STATE, function (data) {
-        if (data.leadState === 'BUSY') {
+        if (['INTERCEPT', 'BUSY', 'NOANSWER'].includes(data.leadState)) {
           // TCPA_SAFE_LEAD_STATE -> BUSY
           // TODO alert message info about busy call.
           if (!_this2._deps.evSettings.isManualOffhook && _this2._isTabActive) {
@@ -224,6 +233,12 @@ var EvCall = (_dec = (0, _di.Module)({
           }
 
           _this2.setPhonedIdle();
+
+          if (data.leadState === 'INTERCEPT') {
+            _this2._deps.alert.info({
+              message: _enums.messageTypes.INTERCEPT
+            });
+          }
         }
       });
 
@@ -247,47 +262,49 @@ var EvCall = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
+                this._deps.presence.setCurrentCallUii('');
+
                 if (!this._deps.evAgentSession.isIntegratedSoftphone) {
-                  _context.next = 17;
+                  _context.next = 18;
                   break;
                 }
 
                 integratedSoftphone = this._deps.evIntegratedSoftphone;
-                _context.prev = 2;
+                _context.prev = 3;
 
                 if (!integratedSoftphone.sipRegisterSuccess) {
-                  _context.next = 8;
+                  _context.next = 9;
                   break;
                 }
 
-                _context.next = 6;
+                _context.next = 7;
                 return integratedSoftphone.askAudioPermission(false);
 
-              case 6:
-                _context.next = 12;
+              case 7:
+                _context.next = 13;
                 break;
 
-              case 8:
-                _context.next = 10;
+              case 9:
+                _context.next = 11;
                 return this._deps.evAgentSession.configureAgent();
 
-              case 10:
-                _context.next = 12;
+              case 11:
+                _context.next = 13;
                 return integratedSoftphone.onceRegistered();
 
-              case 12:
-                _context.next = 17;
+              case 13:
+                _context.next = 18;
                 break;
 
-              case 14:
-                _context.prev = 14;
-                _context.t0 = _context["catch"](2);
+              case 15:
+                _context.prev = 15;
+                _context.t0 = _context["catch"](3);
                 return _context.abrupt("return");
 
-              case 17:
-                _context.prev = 17;
+              case 18:
+                _context.prev = 18;
                 destination = this._checkAndParseNumber(phoneNumber);
-                _context.next = 21;
+                _context.next = 22;
                 return this._manualOutdial({
                   destination: destination,
                   callerId: this.callerId,
@@ -296,21 +313,21 @@ var EvCall = (_dec = (0, _di.Module)({
                   ringTime: this.ringTime
                 });
 
-              case 21:
-                _context.next = 26;
+              case 22:
+                _context.next = 27;
                 break;
 
-              case 23:
-                _context.prev = 23;
-                _context.t1 = _context["catch"](17);
+              case 24:
+                _context.prev = 24;
+                _context.t1 = _context["catch"](18);
                 this.setPhonedIdle();
 
-              case 26:
+              case 27:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, this, [[2, 14], [17, 23]]);
+        }, _callee, this, [[3, 15], [18, 24]]);
       }));
 
       function dialout(_x) {
@@ -319,6 +336,11 @@ var EvCall = (_dec = (0, _di.Module)({
 
       return dialout;
     }()
+  }, {
+    key: "outdialCancel",
+    value: function outdialCancel() {
+      this._deps.evClient.manualOutdialCancel(this._deps.presence.currentCallUii);
+    }
   }, {
     key: "checkDialoutRingTime",
     value: function checkDialoutRingTime() {
@@ -329,6 +351,26 @@ var EvCall = (_dec = (0, _di.Module)({
           dialoutRingTime: dialoutRingTime
         });
       }
+    }
+  }, {
+    key: "checkIsAbleToCall",
+    value: function checkIsAbleToCall() {
+      if (this.dialoutStatus !== _dialoutStatus.dialoutStatuses.idle || this._deps.evCallMonitor.isOnCall || this._deps.evWorkingState.isPendingDisposition) {
+        console.log('Unavailable to call, have a call or is PendingDisposition.');
+
+        if (!this._deps.evCallMonitor.isOnCall) {
+          this.setPhonedIdle();
+        }
+
+        this._deps.alert.danger({
+          message: _enums.messageTypes.FAILED_TO_CALL,
+          ttl: 0
+        });
+
+        return false;
+      }
+
+      return true;
     }
   }, {
     key: "setDialoutStatus",
@@ -498,6 +540,11 @@ var EvCall = (_dec = (0, _di.Module)({
       return this._deps.presence.dialoutStatus;
     }
   }, {
+    key: "isDialing",
+    get: function get() {
+      return this._deps.presence.dialoutStatus === 'dialing';
+    }
+  }, {
     key: "_isTabActive",
     get: function get() {
       return !this._deps.tabManager || this._deps.tabManager.active;
@@ -523,7 +570,7 @@ var EvCall = (_dec = (0, _di.Module)({
   }]);
 
   return EvCall;
-}(_core.RcModuleV2), _temp), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "dialoutCallerId", [_core.storage, _core.state], {
+}(_core.RcModuleV2), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "dialoutCallerId", [_core.storage, _core.state], {
   configurable: true,
   enumerable: true,
   writable: true,

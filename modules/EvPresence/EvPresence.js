@@ -1,9 +1,6 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.EvPresence = void 0;
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -11,15 +8,13 @@ require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.object.create");
 
-require("core-js/modules/es6.regexp.to-string");
-
-require("core-js/modules/es6.date.to-string");
-
 require("core-js/modules/es6.reflect.construct");
 
 require("core-js/modules/es6.object.set-prototype-of");
 
 require("core-js/modules/es6.object.define-property");
+
+require("core-js/modules/es6.array.slice");
 
 require("core-js/modules/es6.array.reduce");
 
@@ -33,6 +28,11 @@ require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.for-each");
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.EvPresence = void 0;
+
 require("core-js/modules/es6.array.map");
 
 require("core-js/modules/es6.array.filter");
@@ -45,11 +45,11 @@ var _di = require("ringcentral-integration/lib/di");
 
 var _enums = require("../../enums");
 
+var _trackEvents = require("../../lib/trackEvents");
+
 var _callbackTypes = require("../../lib/EvClient/enums/callbackTypes");
 
-var _dec, _dec2, _dec3, _dec4, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _temp;
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+var _dec, _dec2, _dec3, _dec4, _dec5, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5;
 
 function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
 
@@ -69,7 +69,7 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
@@ -89,7 +89,17 @@ var EvPresence = (_dec = (0, _di.Module)({
   return [that.otherCallIds, that.callsMapping];
 }), _dec4 = (0, _core.computed)(function (that) {
   return [that.callLogsIds, that.callsMapping];
-}), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcModuleV) {
+}), _dec5 = (0, _core.track)(function (that, call) {
+  return function (analytics) {
+    var recordingSetting = that.getRecordingSettings(call.agentRecording);
+    return [call.callType === 'INBOUND' ? _trackEvents.trackEvents.callInboundCallConnected : _trackEvents.trackEvents.outboundCallConnected, {
+      recordingSetting: recordingSetting,
+      voiceConnection: analytics.loginType,
+      isOffhook: that.isOffhook,
+      isOffhooking: that.isOffhooking
+    }];
+  };
+}), _dec(_class = (_class2 = /*#__PURE__*/function (_RcModuleV) {
   _inherits(EvPresence, _RcModuleV);
 
   var _super = _createSuper(EvPresence);
@@ -140,18 +150,25 @@ var EvPresence = (_dec = (0, _di.Module)({
     _this.evPresenceEvents = new _events.EventEmitter();
     _this.showOffHookInitError = true;
 
-    _initializerDefineProperty(_this, "isOffhook", _descriptor, _assertThisInitialized(_this));
+    _initializerDefineProperty(_this, "currentCallUii", _descriptor, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "isManualOffhook", _descriptor2, _assertThisInitialized(_this));
+    _initializerDefineProperty(_this, "isOffhook", _descriptor2, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "isOffhooking", _descriptor3, _assertThisInitialized(_this));
+    _initializerDefineProperty(_this, "isManualOffhook", _descriptor3, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "dialoutStatus", _descriptor4, _assertThisInitialized(_this));
+    _initializerDefineProperty(_this, "isOffhooking", _descriptor4, _assertThisInitialized(_this));
+
+    _initializerDefineProperty(_this, "dialoutStatus", _descriptor5, _assertThisInitialized(_this));
 
     return _this;
   }
 
   _createClass(EvPresence, [{
+    key: "setCurrentCallUii",
+    value: function setCurrentCallUii(uii) {
+      this.currentCallUii = uii;
+    }
+  }, {
     key: "setDialoutStatus",
     value: function setDialoutStatus(status) {
       if (this.dialoutStatus !== status) {
@@ -228,6 +245,31 @@ var EvPresence = (_dec = (0, _di.Module)({
       this._bindSubscription();
     }
   }, {
+    key: "getRecordingSettings",
+    value: function getRecordingSettings(record) {
+      var recordingSetting = '';
+
+      if (record.agentRecording) {
+        if (record["default"] === 'ON') {
+          if (record.pause) {
+            recordingSetting = 'Yes - Record Call (Agent Pause)';
+          } else {
+            recordingSetting = 'Agent Triggered (Default: Record)';
+          }
+        } else {
+          recordingSetting = "Agent Triggered (Default: Don't Record)";
+        }
+      } else if (!record.agentRecording) {
+        if (record["default"] === 'ON') {
+          recordingSetting = 'Yes - Record Full Call';
+        } else {
+          recordingSetting = "No - Don't Record Call";
+        }
+      }
+
+      return recordingSetting;
+    }
+  }, {
     key: "_bindSubscription",
     value: function _bindSubscription() {
       var _this2 = this;
@@ -248,6 +290,10 @@ var EvPresence = (_dec = (0, _di.Module)({
           _this2.setOffhookTerm();
 
           _this2.showOffHookInitError = true;
+        }
+      }).subscribe(_callbackTypes.EvCallbackTypes.EARLY_UII, function (data) {
+        if (data.status === 'OK') {
+          _this2.setCurrentCallUii(data.uii);
         }
       }).subscribe(_callbackTypes.EvCallbackTypes.OFFHOOK_TERM, function (data) {
         if (data.status === 'OK') {
@@ -343,34 +389,41 @@ var EvPresence = (_dec = (0, _di.Module)({
   }]);
 
   return EvPresence;
-}(_core.RcModuleV2), _temp), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "isOffhook", [_core.storage, _core.state], {
+}(_core.RcModuleV2), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "currentCallUii", [_core.storage, _core.state], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: function initializer() {
+    return '';
+  }
+}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, "isOffhook", [_core.storage, _core.state], {
   configurable: true,
   enumerable: true,
   writable: true,
   initializer: function initializer() {
     return false;
   }
-}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, "isManualOffhook", [_core.storage, _core.state], {
+}), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, "isManualOffhook", [_core.storage, _core.state], {
   configurable: true,
   enumerable: true,
   writable: true,
   initializer: function initializer() {
     return false;
   }
-}), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, "isOffhooking", [_core.storage, _core.state], {
+}), _descriptor4 = _applyDecoratedDescriptor(_class2.prototype, "isOffhooking", [_core.storage, _core.state], {
   configurable: true,
   enumerable: true,
   writable: true,
   initializer: function initializer() {
     return false;
   }
-}), _descriptor4 = _applyDecoratedDescriptor(_class2.prototype, "dialoutStatus", [_core.storage, _core.state], {
+}), _descriptor5 = _applyDecoratedDescriptor(_class2.prototype, "dialoutStatus", [_core.storage, _core.state], {
   configurable: true,
   enumerable: true,
   writable: true,
   initializer: function initializer() {
     return _enums.dialoutStatuses.idle;
   }
-}), _applyDecoratedDescriptor(_class2.prototype, "calls", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "calls"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "otherCalls", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "otherCalls"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "callLogs", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "callLogs"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setDialoutStatus", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setDialoutStatus"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setOffhookInit", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setOffhookInit"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setOffhookTerm", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setOffhookTerm"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setIsManualOffhook", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setIsManualOffhook"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setOffhook", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setOffhook"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setOffhooking", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setOffhooking"), _class2.prototype)), _class2)) || _class);
+}), _applyDecoratedDescriptor(_class2.prototype, "setCurrentCallUii", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setCurrentCallUii"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "calls", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "calls"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "otherCalls", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "otherCalls"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "callLogs", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "callLogs"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setDialoutStatus", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setDialoutStatus"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setOffhookInit", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setOffhookInit"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setOffhookTerm", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setOffhookTerm"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setIsManualOffhook", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setIsManualOffhook"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setOffhook", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setOffhook"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setOffhooking", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setOffhooking"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "addNewCall", [_dec5], Object.getOwnPropertyDescriptor(_class2.prototype, "addNewCall"), _class2.prototype)), _class2)) || _class);
 exports.EvPresence = EvPresence;
 //# sourceMappingURL=EvPresence.js.map

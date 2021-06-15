@@ -1,27 +1,43 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.EvActiveCallControl = void 0;
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
 
 require("core-js/modules/es6.symbol");
 
-require("core-js/modules/es6.object.define-property");
+require("core-js/modules/es6.promise");
 
 require("core-js/modules/es6.object.create");
-
-require("core-js/modules/es6.regexp.to-string");
-
-require("core-js/modules/es6.date.to-string");
-
-require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.reflect.construct");
 
 require("core-js/modules/es6.object.set-prototype-of");
+
+require("core-js/modules/es6.object.define-property");
+
+require("core-js/modules/es6.array.slice");
+
+require("core-js/modules/es6.array.reduce");
+
+require("core-js/modules/web.dom.iterable");
+
+require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.object.to-string");
+
+require("core-js/modules/es6.object.keys");
+
+require("core-js/modules/es6.array.for-each");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.EvActiveCallControl = void 0;
+
+require("regenerator-runtime/runtime");
+
+require("core-js/modules/es6.date.now");
 
 var _core = require("@ringcentral-integration/core");
 
@@ -29,9 +45,13 @@ var _di = require("ringcentral-integration/lib/di");
 
 var _enums = require("../../enums");
 
-var _dec, _class;
+var _dec, _class, _class2, _descriptor, _descriptor2;
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -49,20 +69,24 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
+
+function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and runs after the decorators transform.'); }
+
 var EvActiveCallControl = (_dec = (0, _di.Module)({
   name: 'EvActiveCallControl',
-  deps: ['EvClient', 'EvSettings', 'Presence', 'EvIntegratedSoftphone', 'EvAgentSession', {
+  deps: ['EvClient', 'EvSettings', 'Presence', 'EvIntegratedSoftphone', 'EvAgentSession', 'Storage', 'EvCallMonitor', {
     dep: 'TabManager',
     optional: true
   }, {
     dep: 'EvActiveCallControlOptions',
     optional: true
   }]
-}), _dec(_class = /*#__PURE__*/function (_RcModuleV) {
+}), _dec(_class = (_class2 = /*#__PURE__*/function (_RcModuleV) {
   _inherits(EvActiveCallControl, _RcModuleV);
 
   var _super = _createSuper(EvActiveCallControl);
@@ -77,14 +101,173 @@ var EvActiveCallControl = (_dec = (0, _di.Module)({
   }]);
 
   function EvActiveCallControl(deps) {
+    var _this;
+
     _classCallCheck(this, EvActiveCallControl);
 
-    return _super.call(this, {
-      deps: deps
+    _this = _super.call(this, {
+      deps: deps,
+      enableCache: true,
+      storageKey: 'EvActiveCallControl'
     });
+
+    _initializerDefineProperty(_this, "isRecording", _descriptor, _assertThisInitialized(_this));
+
+    _initializerDefineProperty(_this, "timeStamp", _descriptor2, _assertThisInitialized(_this));
+
+    return _this;
   }
 
   _createClass(EvActiveCallControl, [{
+    key: "setIsRecording",
+    value: function setIsRecording(isRecording) {
+      this.isRecording = isRecording;
+    }
+  }, {
+    key: "pauseRecordAction",
+    value: function pauseRecordAction() {
+      this.isRecording = false;
+      this.timeStamp = Date.now();
+    }
+  }, {
+    key: "record",
+    value: function () {
+      var _record = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+        var _yield$this$_deps$evC, state, message;
+
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return this._deps.evClient.record(true);
+
+              case 2:
+                _yield$this$_deps$evC = _context.sent;
+                state = _yield$this$_deps$evC.state;
+                message = _yield$this$_deps$evC.message;
+
+                if (!(state === 'RECORDING')) {
+                  _context.next = 9;
+                  break;
+                }
+
+                this.setIsRecording(true);
+                _context.next = 10;
+                break;
+
+              case 9:
+                throw new Error(message);
+
+              case 10:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function record() {
+        return _record.apply(this, arguments);
+      }
+
+      return record;
+    }()
+  }, {
+    key: "stopRecord",
+    value: function () {
+      var _stopRecord = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+        var _yield$this$_deps$evC2, state, message;
+
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return this._deps.evClient.record(false);
+
+              case 2:
+                _yield$this$_deps$evC2 = _context2.sent;
+                state = _yield$this$_deps$evC2.state;
+                message = _yield$this$_deps$evC2.message;
+
+                if (!(state === 'STOPPED')) {
+                  _context2.next = 9;
+                  break;
+                }
+
+                this.setIsRecording(false);
+                _context2.next = 10;
+                break;
+
+              case 9:
+                throw new Error(message);
+
+              case 10:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function stopRecord() {
+        return _stopRecord.apply(this, arguments);
+      }
+
+      return stopRecord;
+    }()
+  }, {
+    key: "pauseRecord",
+    value: function () {
+      var _pauseRecord = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
+        var _yield$this$_deps$evC3, state, message;
+
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.next = 2;
+                return this._deps.evClient.pauseRecord(false);
+
+              case 2:
+                _yield$this$_deps$evC3 = _context3.sent;
+                state = _yield$this$_deps$evC3.state;
+                message = _yield$this$_deps$evC3.message;
+
+                if (!(state === 'PAUSED')) {
+                  _context3.next = 9;
+                  break;
+                }
+
+                this.pauseRecordAction();
+                _context3.next = 10;
+                break;
+
+              case 9:
+                throw new Error(message);
+
+              case 10:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3, this);
+      }));
+
+      function pauseRecord() {
+        return _pauseRecord.apply(this, arguments);
+      }
+
+      return pauseRecord;
+    }()
+  }, {
+    key: "resumeRecord",
+    value: function resumeRecord() {
+      this.isRecording = true;
+      this.timeStamp = null;
+    }
+  }, {
     key: "mute",
     value: function mute() {
       this._sipToggleMute(true);
@@ -162,6 +345,20 @@ var EvActiveCallControl = (_dec = (0, _di.Module)({
   }]);
 
   return EvActiveCallControl;
-}(_core.RcModuleV2)) || _class);
+}(_core.RcModuleV2), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "isRecording", [_core.storage, _core.state], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: function initializer() {
+    return null;
+  }
+}), _applyDecoratedDescriptor(_class2.prototype, "setIsRecording", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setIsRecording"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "pauseRecordAction", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "pauseRecordAction"), _class2.prototype), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, "timeStamp", [_core.storage, _core.state], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: function initializer() {
+    return null;
+  }
+}), _applyDecoratedDescriptor(_class2.prototype, "resumeRecord", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "resumeRecord"), _class2.prototype)), _class2)) || _class);
 exports.EvActiveCallControl = EvActiveCallControl;
 //# sourceMappingURL=EvActiveCallControl.js.map

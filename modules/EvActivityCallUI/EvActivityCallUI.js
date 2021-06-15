@@ -1,13 +1,8 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.EvActivityCallUI = void 0;
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
-
-require("core-js/modules/es6.promise");
 
 require("core-js/modules/es6.object.define-properties");
 
@@ -17,11 +12,9 @@ require("core-js/modules/es6.array.filter");
 
 require("core-js/modules/es6.symbol");
 
+require("core-js/modules/es6.promise");
+
 require("core-js/modules/es6.object.create");
-
-require("core-js/modules/es6.regexp.to-string");
-
-require("core-js/modules/es6.date.to-string");
 
 require("core-js/modules/es6.reflect.construct");
 
@@ -29,7 +22,13 @@ require("core-js/modules/es6.object.set-prototype-of");
 
 require("core-js/modules/es6.object.define-property");
 
+require("core-js/modules/es6.array.slice");
+
 require("core-js/modules/es6.array.reduce");
+
+require("core-js/modules/es6.object.keys");
+
+require("core-js/modules/es6.array.for-each");
 
 require("core-js/modules/web.dom.iterable");
 
@@ -37,9 +36,10 @@ require("core-js/modules/es6.array.iterator");
 
 require("core-js/modules/es6.object.to-string");
 
-require("core-js/modules/es6.object.keys");
-
-require("core-js/modules/es6.array.for-each");
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.EvActivityCallUI = void 0;
 
 require("core-js/modules/es6.array.find");
 
@@ -48,6 +48,8 @@ require("core-js/modules/es6.array.map");
 require("core-js/modules/es6.array.some");
 
 require("core-js/modules/es6.function.name");
+
+require("core-js/modules/es6.array.index-of");
 
 require("regenerator-runtime/runtime");
 
@@ -63,21 +65,19 @@ var _EvActivityCallUI = require("../../interfaces/EvActivityCallUI.interface");
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
-var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _dec10, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _temp;
+var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _dec10, _dec11, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
 
@@ -97,7 +97,7 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
@@ -115,7 +115,9 @@ var EvActivityCallUI = (_dec = (0, _di.Module)({
     optional: true
   }]
 }), _dec2 = (0, _core.computed)(function (that) {
-  return [that._deps.evTransferCall.allowTransferCall, that._deps.evRequeueCall.allowRequeueCall, that.currentEvMainCall];
+  var _that$agentRecording, _that$agentRecording2;
+
+  return [that._deps.evTransferCall.allowTransferCall, that._deps.evRequeueCall.allowRequeueCall, that.currentEvMainCall, (_that$agentRecording = that.agentRecording) === null || _that$agentRecording === void 0 ? void 0 : _that$agentRecording.agentRecording, (_that$agentRecording2 = that.agentRecording) === null || _that$agentRecording2 === void 0 ? void 0 : _that$agentRecording2.pause];
 }), _dec3 = (0, _core.computed)(function (that) {
   return [that.currentEvCall];
 }), _dec4 = (0, _core.computed)(function (that) {
@@ -131,8 +133,10 @@ var EvActivityCallUI = (_dec = (0, _di.Module)({
 }), _dec9 = (0, _core.computed)(function (that) {
   return [that.isMultipleCalls, that.callList, that._deps.evAuth.agentId, that.currentEvMainCall];
 }), _dec10 = (0, _core.computed)(function (that) {
-  return [that.currentEvCall, that._deps.locale];
-}), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcUIModuleV) {
+  return [that.currentEvCall];
+}), _dec11 = (0, _core.computed)(function (that) {
+  return [that.currentEvCall];
+}), _dec(_class = (_class2 = /*#__PURE__*/function (_RcUIModuleV) {
   _inherits(EvActivityCallUI, _RcUIModuleV);
 
   var _super = _createSuper(EvActivityCallUI);
@@ -158,6 +162,7 @@ var EvActivityCallUI = (_dec = (0, _di.Module)({
     });
     _this.isFirstTimeHandled = false;
     _this.pickUpDirectly = true;
+    _this._stopWatching = null;
 
     _initializerDefineProperty(_this, "validated", _descriptor, _assertThisInitialized(_this));
 
@@ -185,6 +190,180 @@ var EvActivityCallUI = (_dec = (0, _di.Module)({
   }
 
   _createClass(EvActivityCallUI, [{
+    key: "onInitOnce",
+    value: function onInitOnce() {
+      var _this2 = this;
+
+      this._deps.evCallMonitor.onCallRinging(function () {
+        _this2._stopWatching = (0, _core.watch)(_this2, function () {
+          return _this2.currentEvMainCall;
+        }, function (currentEvMainCall) {
+          if (currentEvMainCall) {
+            _this2._deps.activeCallControl.setIsRecording(_this2.isDefaultRecord);
+          }
+
+          _this2._stopWatching();
+
+          _this2._stopWatching = null;
+        });
+      });
+    }
+  }, {
+    key: "onRecord",
+    value: function () {
+      var _onRecord = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.prev = 0;
+                _context.next = 3;
+                return this._deps.activeCallControl.record();
+
+              case 3:
+                _context.next = 8;
+                break;
+
+              case 5:
+                _context.prev = 5;
+                _context.t0 = _context["catch"](0);
+                console.error(_context.t0 === null || _context.t0 === void 0 ? void 0 : _context.t0.message);
+
+              case 8:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this, [[0, 5]]);
+      }));
+
+      function onRecord() {
+        return _onRecord.apply(this, arguments);
+      }
+
+      return onRecord;
+    }()
+  }, {
+    key: "onStopRecord",
+    value: function () {
+      var _onStopRecord = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.prev = 0;
+                _context2.next = 3;
+                return this._deps.activeCallControl.stopRecord();
+
+              case 3:
+                _context2.next = 8;
+                break;
+
+              case 5:
+                _context2.prev = 5;
+                _context2.t0 = _context2["catch"](0);
+                console.error(_context2.t0 === null || _context2.t0 === void 0 ? void 0 : _context2.t0.message);
+
+              case 8:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this, [[0, 5]]);
+      }));
+
+      function onStopRecord() {
+        return _onStopRecord.apply(this, arguments);
+      }
+
+      return onStopRecord;
+    }()
+  }, {
+    key: "onPauseRecord",
+    value: function () {
+      var _onPauseRecord = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.prev = 0;
+                _context3.next = 3;
+                return this._deps.activeCallControl.pauseRecord();
+
+              case 3:
+                this._sendTabManager(_enums.tabManagerEvents.RECORD_PAUSED);
+
+                this._deps.alert.success({
+                  message: _enums.messageTypes.RECORD_PAUSED
+                });
+
+                _context3.next = 10;
+                break;
+
+              case 7:
+                _context3.prev = 7;
+                _context3.t0 = _context3["catch"](0);
+                console.error(_context3.t0 === null || _context3.t0 === void 0 ? void 0 : _context3.t0.message);
+
+              case 10:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3, this, [[0, 7]]);
+      }));
+
+      function onPauseRecord() {
+        return _onPauseRecord.apply(this, arguments);
+      }
+
+      return onPauseRecord;
+    }()
+  }, {
+    key: "onRestartTimer",
+    value: function () {
+      var _onRestartTimer = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
+        return regeneratorRuntime.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                _context4.prev = 0;
+                _context4.next = 3;
+                return this._deps.activeCallControl.pauseRecord();
+
+              case 3:
+                _context4.next = 8;
+                break;
+
+              case 5:
+                _context4.prev = 5;
+                _context4.t0 = _context4["catch"](0);
+                console.error(_context4.t0 === null || _context4.t0 === void 0 ? void 0 : _context4.t0.message);
+
+              case 8:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4, this, [[0, 5]]);
+      }));
+
+      function onRestartTimer() {
+        return _onRestartTimer.apply(this, arguments);
+      }
+
+      return onRestartTimer;
+    }()
+  }, {
+    key: "onResumeRecord",
+    value: function onResumeRecord() {
+      this._deps.activeCallControl.resumeRecord();
+
+      this._deps.alert.success({
+        message: _enums.messageTypes.RECORD_RESUME
+      });
+    }
+  }, {
     key: "changeSavingStatus",
     value: function changeSavingStatus(status) {
       this.saveStatus = status;
@@ -288,19 +467,54 @@ var EvActivityCallUI = (_dec = (0, _di.Module)({
       // set status to 'idle' in case of EvCallMonitor does not emit ENDED
       this._deps.evCall.setDialoutStatus(_enums.dialoutStatuses.idle);
 
-      this._deps.routerInteraction.goBack();
+      var _this$getPageRole = this.getPageRole(),
+          backUrl = _this$getPageRole.backUrl;
+
+      this._deps.routerInteraction.push(backUrl);
 
       this.reset();
       this._deps.evCall.activityCallId = null;
     }
   }, {
+    key: "getPageRole",
+    value: function getPageRole() {
+      var pageRoles = {
+        activityCallLog: {
+          initSaveStatus: _EvActivityCallUI.saveStatus.submit,
+          backUrl: '/dialer',
+          tabManagerEventSuccess: _enums.tabManagerEvents.CALL_DISPOSITION_SUCCESS,
+          logTypesEventSuccess: _enums.logTypes.CALL_DISPOSITION_SUCCESS,
+          logTypesEventFailure: _enums.logTypes.CALL_DISPOSITION_FAILURE
+        },
+        callLogCreate: {
+          initSaveStatus: _EvActivityCallUI.callLogMethods.create,
+          backUrl: '/history',
+          tabManagerEventSuccess: _enums.tabManagerEvents.CALL_DISPOSITION_SUCCESS,
+          logTypesEventSuccess: _enums.logTypes.CALL_LOG_CREATE_SUCCESS,
+          logTypesEventFailure: _enums.logTypes.CALL_LOG_CREATE_FAILURE
+        }
+      };
+      var currentPath = this._deps.routerInteraction.currentPath;
+
+      if (currentPath.indexOf('/activityCallLog') > -1) {
+        return pageRoles.activityCallLog;
+      }
+
+      if (/^\/history\/callLog\/.*\/create$/.test(currentPath)) {
+        return pageRoles.callLogCreate;
+      } // return activityCallLog by default
+
+
+      return pageRoles.activityCallLog;
+    }
+  }, {
     key: "disposeCall",
     value: function () {
-      var _disposeCall = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+      var _disposeCall = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
         var evAgentScript, call;
-        return regeneratorRuntime.wrap(function _callee$(_context) {
+        return regeneratorRuntime.wrap(function _callee5$(_context5) {
           while (1) {
-            switch (_context.prev = _context.next) {
+            switch (_context5.prev = _context5.next) {
               case 0:
                 this._deps.evCallDisposition.disposeCall(this.callId);
 
@@ -314,10 +528,10 @@ var EvActivityCallUI = (_dec = (0, _di.Module)({
 
               case 4:
               case "end":
-                return _context.stop();
+                return _context5.stop();
             }
           }
-        }, _callee, this);
+        }, _callee5, this);
       }));
 
       function disposeCall() {
@@ -335,7 +549,15 @@ var EvActivityCallUI = (_dec = (0, _di.Module)({
         // const data = event.args[0];
         switch (event.name) {
           case _enums.tabManagerEvents.CALL_DISPOSITION_SUCCESS:
+          case _enums.tabManagerEvents.CALL_LOG_CREATE_SUCCESS:
             this._dispositionSuccess();
+
+            break;
+
+          case _enums.tabManagerEvents.RECORD_PAUSED:
+            this._deps.alert.success({
+              message: _enums.messageTypes.RECORD_PAUSED
+            });
 
             break;
 
@@ -347,22 +569,23 @@ var EvActivityCallUI = (_dec = (0, _di.Module)({
   }, {
     key: "_hasError",
     value: function _hasError() {
-      var _this2 = this;
+      var _this3 = this;
 
       return (0, _ramda.keys)(this.validated).some(function (key) {
-        return !_this2.validated[key];
+        return !_this3.validated[key];
       });
     }
   }, {
     key: "_submitData",
     value: function () {
-      var _submitData2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(id) {
-        var saveFields;
-        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+      var _submitData2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(id) {
+        var saveFields, _this$getPageRole2, tabManagerEventSuccess, _this$getPageRole3, logTypesEventFailure, initSaveStatus;
+
+        return regeneratorRuntime.wrap(function _callee6$(_context6) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context6.prev = _context6.next) {
               case 0:
-                _context2.prev = 0;
+                _context6.prev = 0;
                 saveFields = this._deps.evCallDisposition.callsMapping[id];
 
                 if (saveFields) {
@@ -375,43 +598,46 @@ var EvActivityCallUI = (_dec = (0, _di.Module)({
                 }
 
                 if (!this._hasError()) {
-                  _context2.next = 5;
+                  _context6.next = 5;
                   break;
                 }
 
-                return _context2.abrupt("return");
+                return _context6.abrupt("return");
 
               case 5:
                 this.changeSavingStatus(_EvActivityCallUI.saveStatus.saving);
-                _context2.next = 8;
+                _context6.next = 8;
                 return this.disposeCall();
 
               case 8:
-                this._sendTabManager(_enums.tabManagerEvents.CALL_DISPOSITION_SUCCESS);
+                _this$getPageRole2 = this.getPageRole(), tabManagerEventSuccess = _this$getPageRole2.tabManagerEventSuccess;
+
+                this._sendTabManager(tabManagerEventSuccess);
 
                 this._dispositionSuccess();
 
-                _context2.next = 17;
+                _context6.next = 19;
                 break;
 
-              case 12:
-                _context2.prev = 12;
-                _context2.t0 = _context2["catch"](0);
+              case 13:
+                _context6.prev = 13;
+                _context6.t0 = _context6["catch"](0);
+                _this$getPageRole3 = this.getPageRole(), logTypesEventFailure = _this$getPageRole3.logTypesEventFailure, initSaveStatus = _this$getPageRole3.initSaveStatus;
 
                 this._deps.alert.danger({
-                  message: _enums.logTypes.CALL_DISPOSITION_FAILURE,
+                  message: logTypesEventFailure,
                   ttl: 0
                 });
 
-                this.changeSavingStatus(_EvActivityCallUI.saveStatus.submit);
-                throw _context2.t0;
+                this.changeSavingStatus(initSaveStatus);
+                throw _context6.t0;
 
-              case 17:
+              case 19:
               case "end":
-                return _context2.stop();
+                return _context6.stop();
             }
           }
-        }, _callee2, this, [[0, 12]]);
+        }, _callee6, this, [[0, 13]]);
       }));
 
       function _submitData(_x) {
@@ -423,17 +649,20 @@ var EvActivityCallUI = (_dec = (0, _di.Module)({
   }, {
     key: "_dispositionSuccess",
     value: function _dispositionSuccess() {
-      var _this3 = this;
+      var _this4 = this;
 
       this.changeSavingStatus(_EvActivityCallUI.saveStatus.saved);
 
+      var _this$getPageRole4 = this.getPageRole(),
+          logTypesEventSuccess = _this$getPageRole4.logTypesEventSuccess;
+
       this._deps.alert.success({
-        message: _enums.logTypes.CALL_DISPOSITION_SUCCESS
+        message: logTypesEventSuccess
       }); // delay for animation with loading ui.
 
 
       setTimeout(function () {
-        return _this3.goBack();
+        return _this4.goBack();
       }, 1000);
 
       this._deps.evWorkingState.setIsPendingDisposition(false);
@@ -455,9 +684,37 @@ var EvActivityCallUI = (_dec = (0, _di.Module)({
       (_this$_deps$tabManage = this._deps.tabManager) === null || _this$_deps$tabManage === void 0 ? void 0 : _this$_deps$tabManage.send(event, value);
     }
   }, {
+    key: "onHangup",
+    value: function () {
+      var _onHangup = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
+        return regeneratorRuntime.wrap(function _callee7$(_context7) {
+          while (1) {
+            switch (_context7.prev = _context7.next) {
+              case 0:
+                _context7.next = 2;
+                return this._deps.activeCallControl.hangUp(this.currentEvCall.session.sessionId);
+
+              case 2:
+                this.changeSavingStatus(_EvActivityCallUI.saveStatus.submit);
+
+              case 3:
+              case "end":
+                return _context7.stop();
+            }
+          }
+        }, _callee7, this);
+      }));
+
+      function onHangup() {
+        return _onHangup.apply(this, arguments);
+      }
+
+      return onHangup;
+    }()
+  }, {
     key: "getUIProps",
     value: function getUIProps(_ref3) {
-      var _this$activityCallLog, _this$activityCallLog2;
+      var _this$activityCallLog, _this$activityCallLog2, _this$agentRecording;
 
       var id = _ref3.id;
       this._deps.evCall.activityCallId = id;
@@ -483,66 +740,88 @@ var EvActivityCallUI = (_dec = (0, _di.Module)({
         disableHangup: this.disableLinks || !this.currentCallControlPermission.allowHangupCall,
         disableMute: !this._deps.evAgentSession.isIntegratedSoftphone || this.disableLinks,
         showMuteButton: this._deps.evAgentSession.isIntegratedSoftphone,
+        showRecordCall: this.currentCallControlPermission.allowRecordControl || this.isDefaultRecord,
         disableActive: this.disableLinks,
-        ivrAlertData: this.ivrAlertData
+        isRecording: this._deps.activeCallControl.isRecording,
+        disableRecordControl: this.disableLinks || !this.currentCallControlPermission.allowRecordControl,
+        ivrAlertData: this.ivrAlertData,
+        disablePauseRecord: this.disableLinks || !this.currentCallControlPermission.allowPauseRecord,
+        agentScriptData: this.agentScriptData,
+        recordPauseCount: (_this$agentRecording = this.agentRecording) === null || _this$agentRecording === void 0 ? void 0 : _this$agentRecording.pause,
+        timeStamp: this._deps.activeCallControl.timeStamp
       };
     }
   }, {
     key: "getUIFunctions",
     value: function getUIFunctions() {
-      var _this4 = this;
+      var _this5 = this;
 
       return {
         goBack: function goBack() {
-          return _this4.goBack();
+          return _this5.goBack();
         },
         onMute: function onMute() {
-          return _this4._deps.activeCallControl.mute();
+          return _this5._deps.activeCallControl.mute();
         },
         onUnmute: function onUnmute() {
-          return _this4._deps.activeCallControl.unmute();
+          return _this5._deps.activeCallControl.unmute();
         },
         onHangup: function onHangup() {
-          return _this4._deps.activeCallControl.hangUp(_this4.currentEvCall.session.sessionId);
+          return _this5.onHangup();
         },
         onReject: function onReject() {
-          return _this4._deps.activeCallControl.reject();
+          return _this5._deps.activeCallControl.reject();
         },
         onHold: function onHold() {
-          return _this4._onHoldOrUnHold('hold');
+          return _this5._onHoldOrUnHold('hold');
         },
         onUnHold: function onUnHold() {
-          return _this4._onHoldOrUnHold('unhold');
+          return _this5._onHoldOrUnHold('unhold');
         },
         onActive: function onActive() {
-          return _this4.goToActivityCallListPage();
+          return _this5.goToActivityCallListPage();
+        },
+        onRecord: function onRecord() {
+          return _this5.onRecord();
+        },
+        onStopRecord: function onStopRecord() {
+          return _this5.onStopRecord();
+        },
+        onPauseRecord: function onPauseRecord() {
+          return _this5.onPauseRecord();
+        },
+        onRestartTimer: function onRestartTimer() {
+          return _this5.onRestartTimer();
+        },
+        onResumeRecord: function onResumeRecord() {
+          return _this5.onResumeRecord();
         },
         onUpdateCallLog: function onUpdateCallLog(data, id) {
-          return _this4.onUpdateCallLog(data, id);
+          return _this5.onUpdateCallLog(data, id);
         },
         disposeCall: function () {
-          var _disposeCall2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
-            return regeneratorRuntime.wrap(function _callee3$(_context3) {
+          var _disposeCall2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8() {
+            return regeneratorRuntime.wrap(function _callee8$(_context8) {
               while (1) {
-                switch (_context3.prev = _context3.next) {
+                switch (_context8.prev = _context8.next) {
                   case 0:
-                    if (!(_this4.saveStatus === _EvActivityCallUI.saveStatus.saved)) {
-                      _context3.next = 2;
+                    if (!(_this5.saveStatus === _EvActivityCallUI.saveStatus.saved)) {
+                      _context8.next = 2;
                       break;
                     }
 
-                    return _context3.abrupt("return", _this4.goBack());
+                    return _context8.abrupt("return", _this5.goBack());
 
                   case 2:
-                    _context3.next = 4;
-                    return _this4._submitData(_this4.callId);
+                    _context8.next = 4;
+                    return _this5._submitData(_this5.callId);
 
                   case 4:
                   case "end":
-                    return _context3.stop();
+                    return _context8.stop();
                 }
               }
-            }, _callee3);
+            }, _callee8);
           }));
 
           function disposeCall() {
@@ -554,18 +833,25 @@ var EvActivityCallUI = (_dec = (0, _di.Module)({
         onCopySuccess: function onCopySuccess(name) {
           name = name.toUpperCase();
 
-          _this4._deps.alert.info({
+          _this5._deps.alert.info({
             message: _enums.messageTypes["COPY_".concat(name, "_SUCCESS")],
             action: ''
           });
         },
         goToRequeueCallPage: function goToRequeueCallPage() {
-          return _this4.goToRequeueCallPage();
+          return _this5.goToRequeueCallPage();
         },
         goToTransferCallPage: function goToTransferCallPage(transferType) {
-          return _this4.goToTransferCallPage(transferType);
+          return _this5.goToTransferCallPage(transferType);
         }
       };
+    }
+  }, {
+    key: "isDefaultRecord",
+    get: function get() {
+      var _this$agentRecording2;
+
+      return ((_this$agentRecording2 = this.agentRecording) === null || _this$agentRecording2 === void 0 ? void 0 : _this$agentRecording2["default"]) === 'ON';
     }
   }, {
     key: "callId",
@@ -604,13 +890,15 @@ var EvActivityCallUI = (_dec = (0, _di.Module)({
   }, {
     key: "currentCallControlPermission",
     get: function get() {
-      var _this$currentEvMainCa, _this$currentEvMainCa2;
+      var _this$currentEvMainCa, _this$currentEvMainCa2, _this$agentRecording3, _this$agentRecording4;
 
       return {
         allowTransferCall: this._deps.evTransferCall.allowTransferCall,
         allowRequeueCall: this._deps.evRequeueCall.allowRequeueCall,
         allowHoldCall: (_this$currentEvMainCa = this.currentEvMainCall) === null || _this$currentEvMainCa === void 0 ? void 0 : _this$currentEvMainCa.allowHold,
-        allowHangupCall: (_this$currentEvMainCa2 = this.currentEvMainCall) === null || _this$currentEvMainCa2 === void 0 ? void 0 : _this$currentEvMainCa2.allowHangup
+        allowHangupCall: (_this$currentEvMainCa2 = this.currentEvMainCall) === null || _this$currentEvMainCa2 === void 0 ? void 0 : _this$currentEvMainCa2.allowHangup,
+        allowRecordControl: (_this$agentRecording3 = this.agentRecording) === null || _this$agentRecording3 === void 0 ? void 0 : _this$agentRecording3.agentRecording,
+        allowPauseRecord: typeof ((_this$agentRecording4 = this.agentRecording) === null || _this$agentRecording4 === void 0 ? void 0 : _this$agentRecording4.pause) === 'number'
       };
     }
   }, {
@@ -629,7 +917,7 @@ var EvActivityCallUI = (_dec = (0, _di.Module)({
   }, {
     key: "activityCallLog",
     get: function get() {
-      var _this5 = this;
+      var _this6 = this;
 
       var callId = this.callId,
           currentCall = this.currentEvCall,
@@ -700,13 +988,13 @@ var EvActivityCallUI = (_dec = (0, _di.Module)({
           error: !validated.notes,
           onChange: function onChange(value) {
             if (required.notes) {
-              _this5.changeFormStatus({
+              _this6.changeFormStatus({
                 validated: {
                   notes: !!value
                 }
               });
             } else {
-              _this5.changeFormStatus({
+              _this6.changeFormStatus({
                 validated: {
                   notes: true
                 }
@@ -730,7 +1018,7 @@ var EvActivityCallUI = (_dec = (0, _di.Module)({
             });
             var noteRequired = currentDisposition && currentDisposition.requireNote;
 
-            _this5.changeFormStatus({
+            _this6.changeFormStatus({
               validated: {
                 dispositionId: !!value,
                 notes: !noteRequired || noteRequired && !!notes
@@ -784,7 +1072,7 @@ var EvActivityCallUI = (_dec = (0, _di.Module)({
   }, {
     key: "isOnHold",
     get: function get() {
-      var _this6 = this;
+      var _this7 = this;
 
       var isMultipleCalls = this.isMultipleCalls,
           callList = this.callList,
@@ -792,30 +1080,35 @@ var EvActivityCallUI = (_dec = (0, _di.Module)({
 
       if (isMultipleCalls) {
         return !!callList.find(function (call) {
-          return !(call.session.agentId === _this6._deps.evAuth.agentId) && !!call.isHold;
+          return !(call.session.agentId === _this7._deps.evAuth.agentId) && !!call.isHold;
         });
       }
 
       return currentEvMainCall === null || currentEvMainCall === void 0 ? void 0 : currentEvMainCall.isHold;
     }
   }, {
-    key: "ivrAlertData",
+    key: "agentScriptData",
     get: function get() {
-      var _this7 = this;
+      var _this8 = this;
 
       var call = this.currentEvCall;
-      var currentLocale = this._deps.locale.currentLocale;
-      var ivrAlertData = [];
+      var agentScriptData = null;
 
       if (this._deps.environment.isWide && this._deps.evAgentScript.getIsAgentScript(call)) {
-        ivrAlertData.push({
-          subject: _i18n["default"].getString('agentScriptTitle', currentLocale),
-          body: _i18n["default"].getString('agentScriptContent', currentLocale),
+        agentScriptData = {
           onClick: function onClick() {
-            return _this7.openAgentScriptTab();
+            return _this8.openAgentScriptTab();
           }
-        });
+        };
       }
+
+      return agentScriptData;
+    }
+  }, {
+    key: "ivrAlertData",
+    get: function get() {
+      var call = this.currentEvCall;
+      var ivrAlertData = [];
 
       if (call === null || call === void 0 ? void 0 : call.baggage) {
         for (var i = 1; i <= 3; i++) {
@@ -830,10 +1123,17 @@ var EvActivityCallUI = (_dec = (0, _di.Module)({
 
       return ivrAlertData;
     }
+  }, {
+    key: "agentRecording",
+    get: function get() {
+      var _this$currentEvMainCa4;
+
+      return (_this$currentEvMainCa4 = this.currentEvMainCall) === null || _this$currentEvMainCa4 === void 0 ? void 0 : _this$currentEvMainCa4.agentRecording;
+    }
   }]);
 
   return EvActivityCallUI;
-}(_core.RcUIModuleV2), _temp), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "validated", [_core.storage, _core.state], {
+}(_core.RcUIModuleV2), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "validated", [_core.storage, _core.state], {
   configurable: true,
   enumerable: true,
   writable: true,
@@ -873,6 +1173,6 @@ var EvActivityCallUI = (_dec = (0, _di.Module)({
   initializer: function initializer() {
     return null;
   }
-}), _applyDecoratedDescriptor(_class2.prototype, "currentCallControlPermission", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "currentCallControlPermission"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "dispositionPickList", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "dispositionPickList"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "activityCallLog", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "activityCallLog"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "callStatus", [_dec5], Object.getOwnPropertyDescriptor(_class2.prototype, "callStatus"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "currentEvMainCall", [_dec6], Object.getOwnPropertyDescriptor(_class2.prototype, "currentEvMainCall"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "callList", [_dec7], Object.getOwnPropertyDescriptor(_class2.prototype, "callList"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "isMultipleCalls", [_dec8], Object.getOwnPropertyDescriptor(_class2.prototype, "isMultipleCalls"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "isOnHold", [_dec9], Object.getOwnPropertyDescriptor(_class2.prototype, "isOnHold"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "ivrAlertData", [_dec10], Object.getOwnPropertyDescriptor(_class2.prototype, "ivrAlertData"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "changeSavingStatus", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "changeSavingStatus"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "changeFormStatus", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "changeFormStatus"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setScrollTo", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setScrollTo"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "reset", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "reset"), _class2.prototype)), _class2)) || _class);
+}), _applyDecoratedDescriptor(_class2.prototype, "currentCallControlPermission", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "currentCallControlPermission"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "dispositionPickList", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "dispositionPickList"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "activityCallLog", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "activityCallLog"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "callStatus", [_dec5], Object.getOwnPropertyDescriptor(_class2.prototype, "callStatus"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "currentEvMainCall", [_dec6], Object.getOwnPropertyDescriptor(_class2.prototype, "currentEvMainCall"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "callList", [_dec7], Object.getOwnPropertyDescriptor(_class2.prototype, "callList"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "isMultipleCalls", [_dec8], Object.getOwnPropertyDescriptor(_class2.prototype, "isMultipleCalls"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "isOnHold", [_dec9], Object.getOwnPropertyDescriptor(_class2.prototype, "isOnHold"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "agentScriptData", [_dec10], Object.getOwnPropertyDescriptor(_class2.prototype, "agentScriptData"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "ivrAlertData", [_dec11], Object.getOwnPropertyDescriptor(_class2.prototype, "ivrAlertData"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "changeSavingStatus", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "changeSavingStatus"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "changeFormStatus", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "changeFormStatus"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setScrollTo", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setScrollTo"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "reset", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "reset"), _class2.prototype)), _class2)) || _class);
 exports.EvActivityCallUI = EvActivityCallUI;
 //# sourceMappingURL=EvActivityCallUI.js.map

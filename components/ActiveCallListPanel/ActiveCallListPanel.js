@@ -2,11 +2,6 @@
 
 require("core-js/modules/es6.object.define-property");
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.ActiveCallListPanel = void 0;
-
 require("core-js/modules/es6.function.name");
 
 require("core-js/modules/es6.regexp.to-string");
@@ -19,15 +14,20 @@ require("core-js/modules/es6.string.iterator");
 
 require("core-js/modules/es6.array.from");
 
-require("core-js/modules/web.dom.iterable");
-
 require("core-js/modules/es7.symbol.async-iterator");
 
 require("core-js/modules/es6.symbol");
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.ActiveCallListPanel = void 0;
+
 require("core-js/modules/es6.array.is-array");
 
 require("core-js/modules/es6.array.map");
+
+require("core-js/modules/es6.array.slice");
 
 var _react = _interopRequireDefault(require("react"));
 
@@ -53,7 +53,7 @@ function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o =
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
@@ -86,7 +86,7 @@ var ActiveCallListPanel = function ActiveCallListPanel(_ref) {
       className: _styles["default"].emphasisCallInfo
     }, _i18n["default"].getString('everyone', currentLocale)), /*#__PURE__*/_react["default"].createElement("div", {
       className: _styles["default"].controlButtons
-    }, /*#__PURE__*/_react["default"].createElement(_SmallCallControl.HandUpButton, {
+    }, /*#__PURE__*/_react["default"].createElement(_SmallCallControl.HangUpButton, {
       currentLocale: currentLocale,
       onHangup: function onHangup() {
         return _onHangup(everyoneCaller);
@@ -114,7 +114,7 @@ var ActiveCallListPanel = function ActiveCallListPanel(_ref) {
       },
       className: _styles["default"].button,
       size: "small"
-    }), /*#__PURE__*/_react["default"].createElement(_SmallCallControl.HandUpButton, {
+    }), /*#__PURE__*/_react["default"].createElement(_SmallCallControl.HangUpButton, {
       currentLocale: currentLocale,
       onHangup: function onHangup() {
         return _onHangup(everyoneCaller);
@@ -135,7 +135,7 @@ var ActiveCallListPanel = function ActiveCallListPanel(_ref) {
       currentLocale: currentLocale,
       className: _styles["default"].button,
       size: "small"
-    }), /*#__PURE__*/_react["default"].createElement(_SmallCallControl.HandUpButton, {
+    }), /*#__PURE__*/_react["default"].createElement(_SmallCallControl.HangUpButton, {
       currentLocale: currentLocale,
       onHangup: function onHangup() {
         return _onHangup(ownCall);
@@ -168,7 +168,7 @@ var ActiveCallListPanel = function ActiveCallListPanel(_ref) {
         },
         className: _styles["default"].button,
         size: "small"
-      }), /*#__PURE__*/_react["default"].createElement(_SmallCallControl.HandUpButton, {
+      }), /*#__PURE__*/_react["default"].createElement(_SmallCallControl.HangUpButton, {
         currentLocale: currentLocale,
         onHangup: function onHangup() {
           return _onHangup(callItem);

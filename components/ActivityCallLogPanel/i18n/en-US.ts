@@ -7,4 +7,5 @@ export default {
   phoneBookTransfer: 'Phone book transfer',
   queueTransfer: 'Queue transfer',
   enterANumber: 'Enter a number',
+  engageScript: 'Engage script',
 };

@@ -1,15 +1,16 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.EvDialerUI = void 0;
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 require("core-js/modules/es6.string.iterator");
 
 require("core-js/modules/es6.array.from");
 
 require("core-js/modules/es6.function.name");
+
+require("core-js/modules/es6.regexp.to-string");
+
+require("core-js/modules/es6.date.to-string");
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -19,15 +20,13 @@ require("core-js/modules/es6.array.is-array");
 
 require("core-js/modules/es6.object.create");
 
-require("core-js/modules/es6.regexp.to-string");
-
-require("core-js/modules/es6.date.to-string");
-
 require("core-js/modules/es6.reflect.construct");
 
 require("core-js/modules/es6.object.set-prototype-of");
 
 require("core-js/modules/es6.object.define-property");
+
+require("core-js/modules/es6.array.slice");
 
 require("core-js/modules/es6.array.reduce");
 
@@ -41,13 +40,18 @@ require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.for-each");
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.EvDialerUI = void 0;
+
 var _core = require("@ringcentral-integration/core");
 
 var _di = require("ringcentral-integration/lib/di");
 
-var _dec, _dec2, _class, _class2, _descriptor, _descriptor2, _temp;
+var _EvActivityCallUI = require("../../interfaces/EvActivityCallUI.interface");
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+var _dec, _dec2, _class, _class2, _descriptor, _descriptor2;
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
@@ -57,7 +61,7 @@ function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o =
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+function _iterableToArrayLimit(arr, i) { var _i = arr && (typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]); if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
@@ -79,7 +83,7 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
@@ -89,13 +93,13 @@ function _initializerWarningHelper(descriptor, context) { throw new Error('Decor
 
 var EvDialerUI = (_dec = (0, _di.Module)({
   name: 'EvDialerUI',
-  deps: ['EvCall', 'Locale', 'Storage', 'EvAuth', 'RouterInteraction', 'EvSettings', 'EvClient', 'EvCallMonitor', 'EvWorkingState', 'EvAgentSession', 'EvIntegratedSoftphone', 'Environment', {
+  deps: ['EvCall', 'Locale', 'Storage', 'EvAuth', 'RouterInteraction', 'EvSettings', 'EvClient', 'EvCallMonitor', 'EvWorkingState', 'EvAgentSession', 'EvIntegratedSoftphone', 'Environment', 'EvActivityCallUI', {
     dep: 'EvDialerUIOptions',
     optional: true
   }]
 }), _dec2 = (0, _core.computed)(function (that) {
-  return [that._deps.evCall.dialoutStatus, that._deps.evIntegratedSoftphone.connectingAlertId];
-}), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcUIModuleV) {
+  return [that._deps.evIntegratedSoftphone.connectingAlertId];
+}), _dec(_class = (_class2 = /*#__PURE__*/function (_RcUIModuleV) {
   _inherits(EvDialerUI, _RcUIModuleV);
 
   var _super = _createSuper(EvDialerUI);
@@ -173,6 +177,8 @@ var EvDialerUI = (_dec = (0, _di.Module)({
       }
 
       if (id) {
+        this._deps.evActivityCallUI.changeSavingStatus(_EvActivityCallUI.saveStatus.submit);
+
         this._deps.routerInteraction.push("/activityCallLog/".concat(id));
       }
     }
@@ -212,6 +218,8 @@ var EvDialerUI = (_dec = (0, _di.Module)({
           _this3._deps.routerInteraction.push('/manualDialSettings');
         },
         hangup: function hangup() {
+          _this3._deps.evCall.outdialCancel();
+
           if (!_this3._deps.evSettings.isManualOffhook) {
             _this3._deps.evClient.offhookTerm();
           }
@@ -221,12 +229,12 @@ var EvDialerUI = (_dec = (0, _di.Module)({
   }, {
     key: "dialButtonDisabled",
     get: function get() {
-      return this._deps.evCall.dialoutStatus === 'dialing' || !!this._deps.evIntegratedSoftphone.connectingAlertId;
+      return !!this._deps.evIntegratedSoftphone.connectingAlertId;
     }
   }]);
 
   return EvDialerUI;
-}(_core.RcUIModuleV2), _temp), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "toNumber", [_core.storage, _core.state], {
+}(_core.RcUIModuleV2), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "toNumber", [_core.storage, _core.state], {
   configurable: true,
   enumerable: true,
   writable: true,

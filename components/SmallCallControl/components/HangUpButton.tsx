@@ -1,19 +1,21 @@
-import handUpSvg from '@ringcentral/juno/icon/HandUp';
 import React, { FunctionComponent } from 'react';
+import { RcIconButton } from '@ringcentral/juno';
+import { HandUp } from '@ringcentral/juno/icon';
+import classnames from 'classnames';
 
-import { CircleIconButton } from '../../CircleIconButton';
 import { getCircleIconButtonTitle } from '../help';
 import i18n from '../i18n';
 import { CallButtonsProps } from './CallButtons.interface';
+import styles from '../styles.scss';
 
-export type HandUpButtonProps = CallButtonsProps & {
+export type HangUpButtonProps = CallButtonsProps & {
   onReject?(): void | Promise<void>;
   onHangup?(): void | Promise<void>;
   disableHangup?: boolean;
   isInComingCall?: boolean;
 };
 
-export const HandUpButton: FunctionComponent<HandUpButtonProps> = ({
+export const HangUpButton: FunctionComponent<HangUpButtonProps> = ({
   currentLocale,
   onReject,
   onHangup,
@@ -27,25 +29,27 @@ export const HandUpButton: FunctionComponent<HandUpButtonProps> = ({
     isInComingCall,
   });
   return (
-    <CircleIconButton
-      dataSign={dataSign}
+    <RcIconButton
+      symbol={HandUp}
+      variant="contained"
       data-icon="hand-up"
-      symbol={handUpSvg}
       title={i18n.getString(endTitle, currentLocale)}
-      color={['semantic', 'negative']}
+      color="danger.b03"
       onClick={isInComingCall ? onReject : onHangup}
       disabled={disableHangup}
       size={size}
-      className={className}
+      className={classnames(styles.hangup, className)}
+      disableRipple
+      data-sign={dataSign}
     />
   );
 };
 
-HandUpButton.defaultProps = {
+HangUpButton.defaultProps = {
   onReject() {},
   onHangup() {},
   disableHangup: false,
   isInComingCall: false,
   currentLocale: 'en-US',
-  dataSign: 'handUp',
+  dataSign: 'hangup',
 };

@@ -54,7 +54,7 @@ angular.module('render', ['ui.select', 'ngSanitize', 'angular-growl', 'pascalpre
   setTimeout(function () {
     if (!$scope.config) {
       $scope.$apply(function () {
-        $scope.showMessage = 'No Agent Script';
+        $scope.showMessage = 'No Engage Script';
       });
     }
   }, initDebounceTime);

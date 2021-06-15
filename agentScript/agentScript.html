@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="render">
+<html lang="en" ng-app="render" data-sign="agentScript">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Engage Voice Agent Script</title>
+    <title>Engage Voice Engage Script</title>
     <link href="agentScript/assets/css/cf-icon.css" rel="stylesheet" />
     <link href="agentScript/assets/css/engage-icons.css" rel="stylesheet" />
     <link href="agentScript/assets/css/font-awesome.css" rel="stylesheet" />
@@ -41,8 +41,6 @@
       data-config="config"
       data-callbacks="callbacks"
     ></script-render>
-    <div ng-if="!config">
-      {{showMessage}}
-    </div>
+    <div ng-if="!config">{{showMessage}}</div>
   </body>
 </html>

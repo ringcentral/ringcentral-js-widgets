@@ -2,14 +2,14 @@
 
 require("core-js/modules/es6.object.define-property");
 
+require("core-js/modules/es6.promise");
+
+require("core-js/modules/es6.object.to-string");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.UTUnMuteRender = exports.UTMuteRender = exports.UTHangUpRender = exports.UTUnholdRender = exports.UTHoldRender = exports.UTNoCall = exports.UTGoBackPage = exports.wrapperUnmount = void 0;
-
-require("core-js/modules/es6.promise");
-
-require("core-js/modules/es6.object.to-string");
 
 require("regenerator-runtime/runtime");
 
@@ -104,7 +104,7 @@ var getControlButton = function getControlButton(_ref2) {
   var callItem = wrapper.find('[data-sign="callItem"]').at(itemIndex);
   var button = callItem.find(buttonType).find('button');
   return {
-    title: callItem.find("CircleIconButton[data-icon=\"".concat(dataIcon, "\"]")).prop('title'),
+    title: button.prop('title'),
     click: function click() {
       return button.simulate('click');
     }
@@ -202,13 +202,13 @@ var UTHangUpRender = function UTHangUpRender() {
   wrapper = setup({
     onHangup: onHangup
   });
-  var handUpButton = getControlButton({
+  var HangUpButton = getControlButton({
     itemIndex: itemIndex,
-    buttonType: 'HandUpButton',
+    buttonType: 'HangUpButton',
     dataIcon: 'hand-up'
   });
-  expect(handUpButton.title).toBe(_i18n["default"].getString('hangup'));
-  handUpButton.click();
+  expect(HangUpButton.title).toBe(_i18n["default"].getString('hangup'));
+  HangUpButton.click();
   expect(onHangup).toBeCalledWith(defaultCallList[itemIndex]);
   wrapperUnmount();
 };

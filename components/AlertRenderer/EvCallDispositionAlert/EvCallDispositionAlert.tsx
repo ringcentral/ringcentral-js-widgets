@@ -26,4 +26,8 @@ EvCallDispositionAlert.handleMessage = ({ message }: HandleMessage): boolean =>
   contains(message, [
     logTypes.CALL_DISPOSITION_FAILURE,
     logTypes.CALL_DISPOSITION_SUCCESS,
+    logTypes.CALL_LOG_CREATE_FAILURE,
+    logTypes.CALL_LOG_CREATE_SUCCESS,
+    logTypes.CALL_LOG_UPDATE_FAILURE,
+    logTypes.CALL_LOG_UPDATE_SUCCESS,
   ]);

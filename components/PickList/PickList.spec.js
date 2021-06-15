@@ -99,181 +99,170 @@ afterEach( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(
     }
   }, _callee);
 })));
-describe('<PickList />', /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
-  return regeneratorRuntime.wrap(function _callee2$(_context2) {
-    while (1) {
-      switch (_context2.prev = _context2.next) {
-        case 0:
-          it('PickList can render correctly with selection, and can be selected to change', function () {
-            var onChange = jest.fn();
-            var label = 'pickListTest2';
-            var value = '102';
-            wrapper = setup({
-              label: label,
-              value: value,
-              onChange: onChange
-            });
-            expect(wrapper.find('label').text()).toBe(label);
-            expect(wrapper.find('label').text()).not.toContain('*');
-            expect(wrapper.find('label').hasClass('Mui-required')).toBe(false);
-            expect(wrapper.find('input').prop('value')).toBe(value);
-            var baseButton = wrapper.find('[role="button"]');
-            expect(baseButton.text()).toBe(defaultOptions.find(function (option) {
-              return option.id === value;
-            }).label); // baseButton.simulate('click');
-            // const menuItems = document.body.querySelectorAll<HTMLInputElement>(
-            //   '[role="presentation"] li[role="option"]',
-            // );
-            // expect(menuItems).toHaveLength(defaultOptions.length);
-            // menuItems.forEach((el, index) => {
-            //   expect(el.textContent).toBe(defaultOptions[index].label);
-            //   expect(el.dataset.value).toBe(defaultOptions[index].id);
-            // });
-            // const selectIndex = 2;
-            // menuItems[selectIndex].click();
-            // expect(onChange).toBeCalledWith(defaultOptions[selectIndex].id);
-          });
-          it('PickList can render correctly without selection, and can be selected to change.', function () {
-            var onChange = jest.fn();
-            var label = 'pickListTest2';
-            wrapper = setup({
-              label: label,
-              onChange: onChange,
-              required: true
-            });
-            expect(wrapper.find('label').text()).toContain(label);
-            expect(wrapper.find('label').text()).toContain('*');
-            expect(wrapper.find('label').hasClass('Mui-required')).toBe(true);
-            expect(wrapper.find('input').prop('value')).toBe('');
-            var baseButton = wrapper.find('[role="button"]');
-            expect(baseButton.text()).toBe('​'); // baseButton.simulate('click');
-            // const menuItems = document.body.querySelectorAll<HTMLInputElement>(
-            //   '[role="presentation"] li[role="option"]',
-            // );
-            // expect(menuItems).toHaveLength(defaultOptions.length);
-            // const selectIndex = 2;
-            // menuItems[selectIndex].click();
-            // expect(onChange).toBeCalledWith(defaultOptions[selectIndex].id);
-          });
-          it('PickList can display by using renderValue', function () {
-            var onChange = jest.fn();
-            var renderValue = jest.fn(function (key) {
-              return defaultOptions.find(function (item) {
-                return item.id === key;
-              }).name;
-            });
-            var value = '102';
-            wrapper = setup({
-              onChange: onChange,
-              renderValue: renderValue,
-              value: value
-            });
-            expect(wrapper.find('input').prop('value')).toBe(value);
-            expect(renderValue).toBeCalledWith(value);
-            var baseButton = wrapper.find('[role="button"]');
-            expect(baseButton.text()).toBe(renderValue(value)); // baseButton.simulate('click');
-            // const menuItems = document.body.querySelectorAll<HTMLInputElement>(
-            //   '[role="presentation"] li[role="option"]',
-            // );
-            // expect(menuItems).toHaveLength(defaultOptions.length);
-            // menuItems.forEach((el, index) => {
-            //   expect(el.textContent).toBe(defaultOptions[index].label);
-            //   expect(el.dataset.value).toBe(defaultOptions[index].id);
-            // });
-          });
-          it('PickList can display by using renderItem', function () {
-            var onChange = jest.fn();
-            var renderItem = jest.fn(function (item) {
-              return item.wholeName;
-            });
-            var value = '102';
-            wrapper = setup({
-              onChange: onChange,
-              renderItem: renderItem,
-              value: value
-            });
-            expect(wrapper.find('input').prop('value')).toBe(value);
-            var baseButton = wrapper.find('[role="button"]');
-            expect(baseButton.text()).toBe(defaultOptions.find(function (option) {
-              return option.id === value;
-            }).wholeName); // baseButton.simulate('click');
-            // const menuItems = document.body.querySelectorAll<HTMLInputElement>(
-            //   '[role="presentation"] li[role="option"]',
-            // );
-            // expect(renderItem).toBeCalledTimes(defaultOptions.length);
-            // expect(menuItems).toHaveLength(defaultOptions.length);
-            // menuItems.forEach((el, index) => {
-            //   expect(el.textContent).toBe(defaultOptions[index].wholeName);
-            //   expect(el.dataset.value).toBe(defaultOptions[index].id);
-            // });
-          });
-          it('PickList can using custom value, label to render.', function () {
-            var onChange = jest.fn();
-            var value = '102';
-            var optionValueKey = 'key';
-            var optionLabelKey = 'name';
-            wrapper = setup({
-              options: customOptions,
-              optionValueKey: optionValueKey,
-              optionLabelKey: optionLabelKey,
-              onChange: onChange,
-              value: value
-            });
-            expect(wrapper.find('input').prop('value')).toBe(value);
-            var baseButton = wrapper.find('[role="button"]');
-            expect(baseButton.text()).toBe(customOptions.find(function (option) {
-              return option[optionValueKey] === value;
-            })[optionLabelKey]); // baseButton.simulate('click');
-            // const menuItems = document.body.querySelectorAll<HTMLInputElement>(
-            //   '[role="presentation"] li[role="option"]',
-            // );
-            // expect(menuItems).toHaveLength(customOptions.length);
-            // menuItems.forEach((el, index) => {
-            //   expect(el.textContent).toBe(customOptions[index][optionLabelKey]);
-            //   expect(el.dataset.value).toBe(customOptions[index][optionValueKey]);
-            // });
-          });
-          it('When PickList use custom value, label, can also use renderValue, renderItem to render correctly', function () {
-            var onChange = jest.fn();
-            var renderValue = jest.fn(function (n) {
-              return customOptions.find(function (item) {
-                return item.key === n;
-              }).name;
-            });
-            var renderItem = jest.fn(function (item) {
-              return item.wholeName;
-            });
-            var value = '102';
-            var optionValueKey = 'key';
-            var optionLabelKey = 'name';
-            wrapper = setup({
-              options: customOptions,
-              optionValueKey: optionValueKey,
-              optionLabelKey: optionLabelKey,
-              onChange: onChange,
-              renderValue: renderValue,
-              renderItem: renderItem,
-              value: value
-            });
-            expect(wrapper.find('input').prop('value')).toBe(value);
-            var baseButton = wrapper.find('[role="button"]');
-            expect(baseButton.text()).toBe(renderValue(value)); // baseButton.simulate('click');
-            // const menuItems = document.body.querySelectorAll<HTMLInputElement>(
-            //   '[role="presentation"] li[role="option"]',
-            // );
-            // expect(renderItem).toBeCalledTimes(customOptions.length);
-            // expect(menuItems).toHaveLength(customOptions.length);
-            // menuItems.forEach((el, index) => {
-            //   expect(el.textContent).toBe(customOptions[index].wholeName);
-            //   expect(el.dataset.value).toBe(customOptions[index][optionValueKey]);
-            // });
-          });
-
-        case 6:
-        case "end":
-          return _context2.stop();
-      }
-    }
-  }, _callee2);
-})));
+describe('<PickList />', function () {
+  it('PickList can render correctly with selection, and can be selected to change', function () {
+    var onChange = jest.fn();
+    var label = 'pickListTest2';
+    var value = '102';
+    wrapper = setup({
+      label: label,
+      value: value,
+      onChange: onChange
+    });
+    expect(wrapper.find('label').text()).toBe(label);
+    expect(wrapper.find('label').text()).not.toContain('*');
+    expect(wrapper.find('label').hasClass('Mui-required')).toBe(false);
+    expect(wrapper.find('input').prop('value')).toBe(value);
+    var baseButton = wrapper.find('[role="button"]');
+    expect(baseButton.text()).toBe(defaultOptions.find(function (option) {
+      return option.id === value;
+    }).label); // baseButton.simulate('click');
+    // const menuItems = document.body.querySelectorAll<HTMLInputElement>(
+    //   '[role="presentation"] li[role="option"]',
+    // );
+    // expect(menuItems).toHaveLength(defaultOptions.length);
+    // menuItems.forEach((el, index) => {
+    //   expect(el.textContent).toBe(defaultOptions[index].label);
+    //   expect(el.dataset.value).toBe(defaultOptions[index].id);
+    // });
+    // const selectIndex = 2;
+    // menuItems[selectIndex].click();
+    // expect(onChange).toBeCalledWith(defaultOptions[selectIndex].id);
+  });
+  it('PickList can render correctly without selection, and can be selected to change.', function () {
+    var onChange = jest.fn();
+    var label = 'pickListTest2';
+    wrapper = setup({
+      label: label,
+      onChange: onChange,
+      required: true
+    });
+    expect(wrapper.find('label').text()).toContain(label);
+    expect(wrapper.find('label').text()).toContain('*');
+    expect(wrapper.find('label').hasClass('Mui-required')).toBe(true);
+    expect(wrapper.find('input').prop('value')).toBe('');
+    var baseButton = wrapper.find('[role="button"]');
+    expect(baseButton.text()).toBe('​'); // baseButton.simulate('click');
+    // const menuItems = document.body.querySelectorAll<HTMLInputElement>(
+    //   '[role="presentation"] li[role="option"]',
+    // );
+    // expect(menuItems).toHaveLength(defaultOptions.length);
+    // const selectIndex = 2;
+    // menuItems[selectIndex].click();
+    // expect(onChange).toBeCalledWith(defaultOptions[selectIndex].id);
+  });
+  it('PickList can display by using renderValue', function () {
+    var onChange = jest.fn();
+    var renderValue = jest.fn(function (key) {
+      return defaultOptions.find(function (item) {
+        return item.id === key;
+      }).name;
+    });
+    var value = '102';
+    wrapper = setup({
+      onChange: onChange,
+      renderValue: renderValue,
+      value: value
+    });
+    expect(wrapper.find('input').prop('value')).toBe(value);
+    expect(renderValue).toBeCalledWith(value);
+    var baseButton = wrapper.find('[role="button"]');
+    expect(baseButton.text()).toBe(renderValue(value)); // baseButton.simulate('click');
+    // const menuItems = document.body.querySelectorAll<HTMLInputElement>(
+    //   '[role="presentation"] li[role="option"]',
+    // );
+    // expect(menuItems).toHaveLength(defaultOptions.length);
+    // menuItems.forEach((el, index) => {
+    //   expect(el.textContent).toBe(defaultOptions[index].label);
+    //   expect(el.dataset.value).toBe(defaultOptions[index].id);
+    // });
+  });
+  it('PickList can display by using renderItem', function () {
+    var onChange = jest.fn();
+    var renderItem = jest.fn(function (item) {
+      return item.wholeName;
+    });
+    var value = '102';
+    wrapper = setup({
+      onChange: onChange,
+      renderItem: renderItem,
+      value: value
+    });
+    expect(wrapper.find('input').prop('value')).toBe(value);
+    var baseButton = wrapper.find('[role="button"]');
+    expect(baseButton.text()).toBe(defaultOptions.find(function (option) {
+      return option.id === value;
+    }).wholeName); // baseButton.simulate('click');
+    // const menuItems = document.body.querySelectorAll<HTMLInputElement>(
+    //   '[role="presentation"] li[role="option"]',
+    // );
+    // expect(renderItem).toBeCalledTimes(defaultOptions.length);
+    // expect(menuItems).toHaveLength(defaultOptions.length);
+    // menuItems.forEach((el, index) => {
+    //   expect(el.textContent).toBe(defaultOptions[index].wholeName);
+    //   expect(el.dataset.value).toBe(defaultOptions[index].id);
+    // });
+  });
+  it('PickList can using custom value, label to render.', function () {
+    var onChange = jest.fn();
+    var value = '102';
+    var optionValueKey = 'key';
+    var optionLabelKey = 'name';
+    wrapper = setup({
+      options: customOptions,
+      optionValueKey: optionValueKey,
+      optionLabelKey: optionLabelKey,
+      onChange: onChange,
+      value: value
+    });
+    expect(wrapper.find('input').prop('value')).toBe(value);
+    var baseButton = wrapper.find('[role="button"]');
+    expect(baseButton.text()).toBe(customOptions.find(function (option) {
+      return option[optionValueKey] === value;
+    })[optionLabelKey]); // baseButton.simulate('click');
+    // const menuItems = document.body.querySelectorAll<HTMLInputElement>(
+    //   '[role="presentation"] li[role="option"]',
+    // );
+    // expect(menuItems).toHaveLength(customOptions.length);
+    // menuItems.forEach((el, index) => {
+    //   expect(el.textContent).toBe(customOptions[index][optionLabelKey]);
+    //   expect(el.dataset.value).toBe(customOptions[index][optionValueKey]);
+    // });
+  });
+  it('When PickList use custom value, label, can also use renderValue, renderItem to render correctly', function () {
+    var onChange = jest.fn();
+    var renderValue = jest.fn(function (n) {
+      return customOptions.find(function (item) {
+        return item.key === n;
+      }).name;
+    });
+    var renderItem = jest.fn(function (item) {
+      return item.wholeName;
+    });
+    var value = '102';
+    var optionValueKey = 'key';
+    var optionLabelKey = 'name';
+    wrapper = setup({
+      options: customOptions,
+      optionValueKey: optionValueKey,
+      optionLabelKey: optionLabelKey,
+      onChange: onChange,
+      renderValue: renderValue,
+      renderItem: renderItem,
+      value: value
+    });
+    expect(wrapper.find('input').prop('value')).toBe(value);
+    var baseButton = wrapper.find('[role="button"]');
+    expect(baseButton.text()).toBe(renderValue(value)); // baseButton.simulate('click');
+    // const menuItems = document.body.querySelectorAll<HTMLInputElement>(
+    //   '[role="presentation"] li[role="option"]',
+    // );
+    // expect(renderItem).toBeCalledTimes(customOptions.length);
+    // expect(menuItems).toHaveLength(customOptions.length);
+    // menuItems.forEach((el, index) => {
+    //   expect(el.textContent).toBe(customOptions[index].wholeName);
+    //   expect(el.dataset.value).toBe(customOptions[index][optionValueKey]);
+    // });
+  });
+});
 //# sourceMappingURL=PickList.spec.js.map

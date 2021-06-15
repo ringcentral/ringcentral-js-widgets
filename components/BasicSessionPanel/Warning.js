@@ -19,12 +19,9 @@ var Warning = function Warning(_ref) {
   var children = _ref.children,
       isWide = _ref.isWide;
   return /*#__PURE__*/_react["default"].createElement(_juno.RcTypography, {
-    variant: isWide ? 'body1' : 'caption1' // TODO: Juno UI hasn't add the font color we need, it is wip by designer, so just custom in ev briefly
-    // color="secondary"
-    ,
-    classes: {
-      root: _styles["default"].warning
-    }
+    variant: isWide ? 'body1' : 'caption1',
+    color: "highlight.f02",
+    className: _styles["default"].warning
   }, children);
 };
 

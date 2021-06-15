@@ -1,9 +1,6 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.EvTransferCall = void 0;
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -17,15 +14,13 @@ require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.object.create");
 
-require("core-js/modules/es6.regexp.to-string");
-
-require("core-js/modules/es6.date.to-string");
-
 require("core-js/modules/es6.reflect.construct");
 
 require("core-js/modules/es6.object.set-prototype-of");
 
 require("core-js/modules/es6.object.define-property");
+
+require("core-js/modules/es6.array.slice");
 
 require("core-js/modules/web.dom.iterable");
 
@@ -34,6 +29,11 @@ require("core-js/modules/es6.array.iterator");
 require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.for-each");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.EvTransferCall = void 0;
 
 require("core-js/modules/es6.function.name");
 
@@ -77,13 +77,11 @@ var _parseNumber = require("../../lib/parseNumber");
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
-var _dec, _dec2, _dec3, _dec4, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7, _descriptor8, _descriptor9, _descriptor10, _temp;
+var _dec, _dec2, _dec3, _dec4, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7, _descriptor8, _descriptor9, _descriptor10;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
@@ -111,7 +109,7 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
@@ -131,7 +129,7 @@ var EvTransferCall = (_dec = (0, _di.Module)({
   return [that._deps.evCall.currentCall];
 }), _dec4 = (0, _core.computed)(function (that) {
   return [that.transferAgentList, that.transferAgentId];
-}), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcModuleV) {
+}), _dec(_class = (_class2 = /*#__PURE__*/function (_RcModuleV) {
   _inherits(EvTransferCall, _RcModuleV);
 
   var _super = _createSuper(EvTransferCall);
@@ -1049,10 +1047,10 @@ var EvTransferCall = (_dec = (0, _di.Module)({
       var content = this.getErrorContent(data);
       this._sendVoiceMailModalId = this._deps.modalUI.confirm({
         title: _i18n["default"].getString('transferModalTitle', currentLocale),
-        okText: _i18n["default"].getString('sendVoicemail', currentLocale),
         content: _i18n["default"].getString(content, currentLocale),
-        cancelText: _i18n["default"].getString('selectOtherAgents', currentLocale),
-        onOK: function onOK() {
+        confirmButtonText: _i18n["default"].getString('sendVoicemail', currentLocale),
+        cancelButtonText: _i18n["default"].getString('selectOtherAgents', currentLocale),
+        onConfirm: function onConfirm() {
           _this8.sendVoicemailToAgent();
         },
         size: 'xsmall'
@@ -1089,9 +1087,9 @@ var EvTransferCall = (_dec = (0, _di.Module)({
       this._incomingTransferCallModalId = this._deps.modalUI.confirm({
         title: _i18n["default"].getString('incomingTransferTitle', currentLocale),
         content: _i18n["default"].getString('incomingTransferContent', currentLocale),
-        okText: _i18n["default"].getString('acceptIncomingTransfer', currentLocale),
-        cancelText: _i18n["default"].getString('ignoreIncomingTransfer', currentLocale),
-        onOK: function onOK() {
+        confirmButtonText: _i18n["default"].getString('acceptIncomingTransfer', currentLocale),
+        cancelButtonText: _i18n["default"].getString('ignoreIncomingTransfer', currentLocale),
+        onConfirm: function onConfirm() {
           _this9.acceptTransferCall();
         },
         onCancel: function onCancel() {
@@ -1136,7 +1134,7 @@ var EvTransferCall = (_dec = (0, _di.Module)({
           _this$_deps$evCall$cu4,
           _this10 = this;
 
-      return ((_this$_deps$evCall$cu3 = this._deps.evCall.currentCall) === null || _this$_deps$evCall$cu3 === void 0 ? void 0 : (_this$_deps$evCall$cu4 = _this$_deps$evCall$cu3.transferPhoneBook) === null || _this$_deps$evCall$cu4 === void 0 ? void 0 : _this$_deps$evCall$cu4.reduce(function (prev, bookItem) {
+      return ((_this$_deps$evCall$cu3 = this._deps.evCall.currentCall) === null || _this$_deps$evCall$cu3 === void 0 ? void 0 : (_this$_deps$evCall$cu4 = _this$_deps$evCall$cu3.transferPhoneBook) === null || _this$_deps$evCall$cu4 === void 0 ? void 0 : _this$_deps$evCall$cu4.reduce(function (prev, bookItem, index) {
         var countryId = bookItem.countryId,
             destination = bookItem.destination,
             name = bookItem.name;
@@ -1164,7 +1162,8 @@ var EvTransferCall = (_dec = (0, _di.Module)({
         var phoneBookName = "".concat(name, " ").concat(countryName);
         prev.push(_objectSpread(_objectSpread({}, bookItem), {}, {
           phoneBookName: phoneBookName,
-          parsedDestination: parsedDestination
+          parsedDestination: parsedDestination,
+          phoneBookItemIndex: index
         }));
         return prev;
       }, [])) || [];
@@ -1187,7 +1186,7 @@ var EvTransferCall = (_dec = (0, _di.Module)({
   }]);
 
   return EvTransferCall;
-}(_core.RcModuleV2), _temp), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "receivedCall", [_core.storage, _core.state], {
+}(_core.RcModuleV2), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "receivedCall", [_core.storage, _core.state], {
   configurable: true,
   enumerable: true,
   writable: true,

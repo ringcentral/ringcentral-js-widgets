@@ -23,6 +23,6 @@ function EvCallDispositionAlert(_ref) {
 
 EvCallDispositionAlert.handleMessage = function (_ref2) {
   var message = _ref2.message;
-  return (0, _ramda.contains)(message, [_logTypes.logTypes.CALL_DISPOSITION_FAILURE, _logTypes.logTypes.CALL_DISPOSITION_SUCCESS]);
+  return (0, _ramda.contains)(message, [_logTypes.logTypes.CALL_DISPOSITION_FAILURE, _logTypes.logTypes.CALL_DISPOSITION_SUCCESS, _logTypes.logTypes.CALL_LOG_CREATE_FAILURE, _logTypes.logTypes.CALL_LOG_CREATE_SUCCESS, _logTypes.logTypes.CALL_LOG_UPDATE_FAILURE, _logTypes.logTypes.CALL_LOG_UPDATE_SUCCESS]);
 };
 //# sourceMappingURL=EvCallDispositionAlert.js.map

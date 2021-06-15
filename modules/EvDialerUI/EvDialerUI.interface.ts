@@ -12,6 +12,7 @@ import { EvIntegratedSoftphone } from '../EvIntegratedSoftphone';
 import { EvSettings } from '../EvSettings';
 import { EvStorage } from '../EvStorage';
 import { EvWorkingState } from '../EvWorkingState';
+import { EvActivityCallUI } from '../EvActivityCallUI';
 
 export interface State {
   toNumber: string;
@@ -35,6 +36,7 @@ export interface Deps {
   evAgentSession: EvAgentSession;
   evIntegratedSoftphone: EvIntegratedSoftphone;
   environment: EvEnvironment;
+  evActivityCallUI: EvActivityCallUI;
   evDialerUIOptions?: EvDialerUIOptions;
 }
 

@@ -78,6 +78,7 @@ export interface EvTransferCallUIFunctions {
 export type EvTransferViewPhoneBookItem = {
   phoneBookName: string;
   parsedDestination: string;
+  phoneBookItemIndex: number;
 } & EvTransferPhoneBookItem;
 
 export interface GoToRequeueGroupDetailPageParams {

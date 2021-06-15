@@ -7,10 +7,9 @@ import {
 } from '@ringcentral-integration/core';
 import { EventEmitter } from 'events';
 import { clone, reduce } from 'ramda';
-import { Debounce } from 'ringcentral-integration/lib/debounce-throttle';
+import { debounce } from 'ringcentral-integration/lib/debounce-throttle';
 import { Module } from 'ringcentral-integration/lib/di';
 import { SingleTabBroadcastChannel } from 'ringcentral-integration/lib/SingleTabBroadcastChannel';
-
 import {
   agentScriptEvents,
   EV_AGENT_SCRIPT_BROADCAST_KEY,
@@ -52,7 +51,7 @@ class EvAgentScript<T = {}>
   protected _eventEmitter = new EventEmitter();
   private _hadResponse = false;
 
-  constructor(deps: Deps) {
+  constructor(deps: Deps & T) {
     super({
       deps,
       enableCache: true,
@@ -84,12 +83,13 @@ class EvAgentScript<T = {}>
     this.currentCallScript = script;
   }
 
-  @Debounce()
   @action
   setCallScriptResult(id: string, data: EvAgentScriptResult) {
     this.callScriptResultMapping[id] = data;
     this._eventEmitter.emit(agentScriptEvents.SET_SCRIPT_RESULT, id, data);
   }
+
+  debouncedSetCallScriptResult = debounce({ fn: this.setCallScriptResult });
 
   reset() {
     console.log('!!!EvAgentScript reset');
@@ -174,7 +174,7 @@ class EvAgentScript<T = {}>
             this._responseInitScript();
             break;
           case agentScriptEvents.SET_SCRIPT_RESULT:
-            this.setCallScriptResult(activityCallId, value);
+            this.debouncedSetCallScriptResult(activityCallId, value);
             break;
           case agentScriptEvents.GET_KNOWLEDGE_BASE_ARTICLES:
             this._getKnowledgeBaseGroups(value);

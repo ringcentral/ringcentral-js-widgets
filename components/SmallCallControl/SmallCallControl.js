@@ -2,12 +2,12 @@
 
 require("core-js/modules/es6.object.define-property");
 
+require("core-js/modules/es6.symbol");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.SmallCallControl = void 0;
-
-require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.array.index-of");
 
@@ -41,7 +41,7 @@ var SmallCallControl = function SmallCallControl(_ref) {
   return /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])(_styles["default"].root, classes === null || classes === void 0 ? void 0 : classes.root),
     "data-sign": "smallCallControl"
-  }, children || /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement(_components.MuteCallButton, rest), /*#__PURE__*/_react["default"].createElement(_components.TransferCallButton, rest), /*#__PURE__*/_react["default"].createElement(_components.HoldCallButton, rest), /*#__PURE__*/_react["default"].createElement(_components.HandUpButton, rest)));
+  }, children || /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement(_components.MuteCallButton, rest), /*#__PURE__*/_react["default"].createElement(_components.TransferCallButton, rest), /*#__PURE__*/_react["default"].createElement(_components.HoldCallButton, rest), /*#__PURE__*/_react["default"].createElement(_components.HangUpButton, rest)));
 };
 
 exports.SmallCallControl = SmallCallControl;

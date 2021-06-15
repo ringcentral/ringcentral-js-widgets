@@ -36,8 +36,6 @@ function createDialerPanel() {
       goToManualDialSettings = _ref$goToManualDialSe === void 0 ? function () {} : _ref$goToManualDialSe,
       _ref$hangup = _ref.hangup,
       hangup = _ref$hangup === void 0 ? function () {} : _ref$hangup,
-      _ref$checkOnCall = _ref.checkOnCall,
-      checkOnCall = _ref$checkOnCall === void 0 ? function () {} : _ref$checkOnCall,
       _ref$dialButtonDisabl = _ref.dialButtonDisabled,
       dialButtonDisabled = _ref$dialButtonDisabl === void 0 ? false : _ref$dialButtonDisabl;
 
@@ -51,8 +49,7 @@ function createDialerPanel() {
     setToNumber: setToNumber,
     goToManualDialSettings: goToManualDialSettings,
     dialoutStatus: dialoutStatus,
-    hangup: hangup,
-    checkOnCall: checkOnCall
+    hangup: hangup
   })));
 }
 //# sourceMappingURL=createDialerPanel.js.map

@@ -13,6 +13,8 @@ require("core-js/modules/es6.function.name");
 
 var _juno = require("@ringcentral/juno");
 
+var _icon = require("@ringcentral/juno/icon");
+
 var _classnames = _interopRequireDefault(require("classnames"));
 
 var _react = _interopRequireDefault(require("react"));
@@ -27,7 +29,11 @@ var _styles = _interopRequireDefault(require("./styles.scss"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 var SettingsPanel = function SettingsPanel(_ref) {
+  var _classNames;
+
   var onLogout = _ref.onLogout,
       currentLocale = _ref.currentLocale,
       version = _ref.version,
@@ -36,7 +42,7 @@ var SettingsPanel = function SettingsPanel(_ref) {
       sessionInfo = _ref.sessionInfo,
       goToSessionUpdatePage = _ref.goToSessionUpdatePage,
       disableEditSessionButton = _ref.disableEditSessionButton,
-      showEditSessionButton = _ref.showEditSessionButton;
+      showEditSessionIcon = _ref.showEditSessionIcon;
   return /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].settingsPanel
   }, /*#__PURE__*/_react["default"].createElement("div", {
@@ -55,7 +61,18 @@ var SettingsPanel = function SettingsPanel(_ref) {
     className: (0, _classnames["default"])(_styles["default"].info, _styles["default"].item)
   }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].infoTitle
-  }, _i18n["default"].getString('sessionInfo', currentLocale)), sessionInfo.map(function (_ref2) {
+  }, /*#__PURE__*/_react["default"].createElement("span", null, _i18n["default"].getString('sessionInfo', currentLocale)), showEditSessionIcon && /*#__PURE__*/_react["default"].createElement("span", {
+    className: (0, _classnames["default"])((_classNames = {}, _defineProperty(_classNames, _styles["default"].pointerWrap, disableEditSessionButton), _defineProperty(_classNames, _styles["default"].alignRight, true), _classNames))
+  }, /*#__PURE__*/_react["default"].createElement(_juno.RcIconButton, {
+    "data-sign": "editSession",
+    title: _i18n["default"].getString('edit', currentLocale),
+    disabled: disableEditSessionButton,
+    onClick: goToSessionUpdatePage,
+    size: "small",
+    symbol: _icon.Edit
+  }))), /*#__PURE__*/_react["default"].createElement("div", {
+    className: (0, _classnames["default"])(_styles["default"].infoWrap)
+  }, sessionInfo.map(function (_ref2) {
     var value = _ref2.value,
         label = _ref2.label;
     return /*#__PURE__*/_react["default"].createElement("div", {
@@ -68,25 +85,16 @@ var SettingsPanel = function SettingsPanel(_ref) {
       variant: "body1",
       className: _styles["default"].value
     }, value));
-  }), showEditSessionButton && /*#__PURE__*/_react["default"].createElement(_juno.RcButton, {
-    "data-sign": "editSession",
-    disabled: disableEditSessionButton,
-    onClick: goToSessionUpdatePage,
-    classes: {
-      root: _styles["default"].editSession
-    },
-    size: "medium",
-    fullWidth: true
-  }, _i18n["default"].getString('editSession', currentLocale))), /*#__PURE__*/_react["default"].createElement("div", {
+  }), /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])(_styles["default"].version, _styles["default"].item)
-  }, _i18n["default"].getString('version', currentLocale), /*#__PURE__*/_react["default"].createElement("span", null, version)), /*#__PURE__*/_react["default"].createElement("div", {
-    className: (0, _classnames["default"])(_styles["default"].logout, _styles["default"].item)
+  }, _i18n["default"].getString('version', currentLocale), /*#__PURE__*/_react["default"].createElement("span", null, version)))), /*#__PURE__*/_react["default"].createElement("div", {
+    className: (0, _classnames["default"])(_styles["default"].logout)
   }, /*#__PURE__*/_react["default"].createElement(_juno.RcButton, {
     "data-sign": "logout",
     variant: "outlined",
     fullWidth: true,
     onClick: onLogout,
-    size: "medium"
+    size: "large"
   }, _i18n["default"].getString('logout', currentLocale))));
 };
 

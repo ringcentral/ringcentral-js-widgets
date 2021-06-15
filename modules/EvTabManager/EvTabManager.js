@@ -1,9 +1,6 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.EvTabManager = void 0;
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -11,19 +8,15 @@ require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.promise");
 
-require("core-js/modules/es6.reflect.get");
-
 require("core-js/modules/es6.object.create");
-
-require("core-js/modules/es6.regexp.to-string");
-
-require("core-js/modules/es6.date.to-string");
 
 require("core-js/modules/es6.reflect.construct");
 
 require("core-js/modules/es6.object.set-prototype-of");
 
 require("core-js/modules/es6.object.define-property");
+
+require("core-js/modules/es6.array.slice");
 
 require("core-js/modules/es6.array.reduce");
 
@@ -36,6 +29,11 @@ require("core-js/modules/es6.object.to-string");
 require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.for-each");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.EvTabManager = void 0;
 
 require("core-js/modules/es6.array.find");
 
@@ -51,9 +49,7 @@ var _events = require("events");
 
 var _enums = require("../../enums");
 
-var _dec, _class, _class2, _descriptor, _temp;
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+var _dec, _class, _class2, _descriptor;
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -67,10 +63,6 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-function _get(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get(target, property, receiver || target); }
-
-function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
-
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
@@ -81,7 +73,7 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
@@ -92,7 +84,7 @@ function _initializerWarningHelper(descriptor, context) { throw new Error('Decor
 var EvTabManager = (_dec = (0, _di.Module)({
   name: 'TabManager',
   deps: ['GlobalStorage']
-}), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_TabManager) {
+}), _dec(_class = (_class2 = /*#__PURE__*/function (_TabManager) {
   _inherits(EvTabManager, _TabManager);
 
   var _super = _createSuper(EvTabManager);
@@ -129,7 +121,7 @@ var EvTabManager = (_dec = (0, _di.Module)({
   }, {
     key: "_sendTabManager",
     value: function _sendTabManager(event, value) {
-      _get(_getPrototypeOf(EvTabManager.prototype), "send", this).call(this, event, value);
+      this.send(event, value);
     }
   }, {
     key: "emitSetMainTabComplete",
@@ -151,8 +143,8 @@ var EvTabManager = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                return _context.abrupt("return", !_get(_getPrototypeOf(EvTabManager.prototype), "enable", this) || this.mainTabId && // check if tab exist by finding in storaged tabs
-                _get(_getPrototypeOf(EvTabManager.prototype), "checkTabAliveById", this).call(this, this.mainTabId));
+                return _context.abrupt("return", !this.enable || this.mainTabId && // check if tab exist by finding in storaged tabs
+                this.checkTabAliveById(this.mainTabId));
 
               case 1:
               case "end":
@@ -180,7 +172,7 @@ var EvTabManager = (_dec = (0, _di.Module)({
   }, {
     key: "isMainTab",
     get: function get() {
-      return !_get(_getPrototypeOf(EvTabManager.prototype), "enable", this) || this.mainTabId === _get(_getPrototypeOf(EvTabManager.prototype), "id", this);
+      return !this.enable || this.mainTabId === this.id;
     }
   }, {
     key: "prefix",
@@ -190,7 +182,7 @@ var EvTabManager = (_dec = (0, _di.Module)({
   }]);
 
   return EvTabManager;
-}(_TabManagerV.TabManager), _temp), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "mainTabId", [_core.globalStorage, _core.state], {
+}(_TabManagerV.TabManager), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "mainTabId", [_core.globalStorage, _core.state], {
   configurable: true,
   enumerable: true,
   writable: true,

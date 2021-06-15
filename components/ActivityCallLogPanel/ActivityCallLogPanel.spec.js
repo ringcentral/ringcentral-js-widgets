@@ -16,6 +16,10 @@ var _react = _interopRequireDefault(require("react"));
 
 var _juno = require("@ringcentral/juno");
 
+var _Accordion = require("@ringcentral/juno/components/Accordion");
+
+var _AccordionSummary = require("@ringcentral/juno/components/Accordion/AccordionSummary");
+
 var _enzyme = require("enzyme");
 
 var _ActivityCallLogPanel = require("./ActivityCallLogPanel");
@@ -212,356 +216,327 @@ var getControlButton = function getControlButton(type) {
     click: function click() {
       return isExist && button.find('button').simulate('click');
     },
-    title: isExist && button.find('CircleIconButton').prop('title'),
-    isActive: isExist && button.find('button').hasClass('buttonActive'),
+    title: isExist && button.find('button').prop('title'),
     isDisabled: isExist && !!button.find('button').render().attr('disabled')
   };
 };
 
-describe('<ActivityCallLogPanel />:: Call Disposition', /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
-  var status;
-  return regeneratorRuntime.wrap(function _callee2$(_context2) {
-    while (1) {
-      switch (_context2.prev = _context2.next) {
-        case 0:
-          status = 'callEnd';
-          it('When call is ended, user will on disposition page and can dispose the call', function () {
-            var disposeCall = jest.fn();
-            wrapper = setup({
-              disposeCall: disposeCall,
-              status: status,
-              saveStatus: 'submit'
-            });
-            var dispositionButton = getDispositionButton();
-            expect(dispositionButton.isExist).toBe(true);
-            dispositionButton.click();
-            expect(disposeCall).toBeCalled();
-          });
-          it('When User click the Disposition Button, Submit Button is in loading status and cannot be clicked', function () {
-            var disposeCall = jest.fn();
-            wrapper = setup({
-              disposeCall: disposeCall,
-              status: status,
-              saveStatus: 'saving',
-              disableDispose: true
-            });
-            var dispositionButton = getDispositionButton();
-            expect(dispositionButton.isInLoadingStatus).toBe(true);
-            expect(dispositionButton.isDisabled).toBe(true);
-            dispositionButton.click();
-            expect(disposeCall).not.toBeCalled();
-          });
-          it('When disposition is saved, Submit Button is back in normal state: enabled and can be clicked', function () {
-            var disposeCall = jest.fn();
-            wrapper = setup({
-              disposeCall: disposeCall,
-              status: status,
-              saveStatus: 'saved'
-            });
-            var dispositionButton = getDispositionButton();
-            expect(dispositionButton.isInLoadingStatus).toBe(false);
-            expect(dispositionButton.isDisabled).toBe(false);
-            dispositionButton.click();
-            expect(disposeCall).toBeCalled();
-          });
-          it('When disableDispose, Disposition Button should be disabled and cannot be clicked', function () {
-            var disposeCall = jest.fn();
-            wrapper = setup({
-              status: status,
-              saveStatus: 'saved',
-              disableDispose: true
-            });
-            var dispositionButton = getDispositionButton();
-            expect(dispositionButton.isDisabled).toBe(true);
-            dispositionButton.click();
-            expect(disposeCall).not.toBeCalled();
-          });
-
-        case 5:
-        case "end":
-          return _context2.stop();
+describe('<ActivityCallLogPanel />:: Call Disposition', function () {
+  var status = 'callEnd';
+  it('When call is ended, user will on disposition page and can dispose the call', function () {
+    var disposeCall = jest.fn();
+    wrapper = setup({
+      disposeCall: disposeCall,
+      status: status,
+      saveStatus: 'submit'
+    });
+    var dispositionButton = getDispositionButton();
+    expect(dispositionButton.isExist).toBe(true);
+    dispositionButton.click();
+    expect(disposeCall).toBeCalled();
+  });
+  it('When User click the Disposition Button, Submit Button is in loading status and cannot be clicked', function () {
+    var disposeCall = jest.fn();
+    wrapper = setup({
+      disposeCall: disposeCall,
+      status: status,
+      saveStatus: 'saving',
+      disableDispose: true
+    });
+    var dispositionButton = getDispositionButton();
+    expect(dispositionButton.isInLoadingStatus).toBe(true);
+    expect(dispositionButton.isDisabled).toBe(true);
+    dispositionButton.click();
+    expect(disposeCall).not.toBeCalled();
+  });
+  it('When disposition is saved, Submit Button is back in normal state: enabled and can be clicked', function () {
+    var disposeCall = jest.fn();
+    wrapper = setup({
+      disposeCall: disposeCall,
+      status: status,
+      saveStatus: 'saved'
+    });
+    var dispositionButton = getDispositionButton();
+    expect(dispositionButton.isInLoadingStatus).toBe(false);
+    expect(dispositionButton.isDisabled).toBe(false);
+    dispositionButton.click();
+    expect(disposeCall).toBeCalled();
+  });
+  it('When disableDispose, Disposition Button should be disabled and cannot be clicked', function () {
+    var disposeCall = jest.fn();
+    wrapper = setup({
+      status: status,
+      saveStatus: 'saved',
+      disableDispose: true
+    });
+    var dispositionButton = getDispositionButton();
+    expect(dispositionButton.isDisabled).toBe(true);
+    dispositionButton.click();
+    expect(disposeCall).not.toBeCalled();
+  });
+});
+describe('<ActivityCallLogPanel />', function () {
+  it('When call is onHold, HoldCallButton should display and work correctly', function () {
+    var onHold = jest.fn();
+    var onUnHold = jest.fn();
+    wrapper = setup({
+      status: 'active',
+      saveStatus: 'submit',
+      onHold: onHold,
+      onUnHold: onUnHold,
+      isOnHold: true
+    });
+    var holdButton = getControlButton('HoldCallButton');
+    holdButton.click();
+    expect(holdButton.title).toBe(_i18n["default"].getString('onHold'));
+    expect(onUnHold).toBeCalled();
+    expect(onHold).not.toBeCalled();
+  });
+  it('When call is unHold, HoldCallButton should display and work correctly', function () {
+    var onHold = jest.fn();
+    var onUnHold = jest.fn();
+    wrapper = setup({
+      status: 'active',
+      saveStatus: 'submit',
+      onHold: onHold,
+      onUnHold: onUnHold,
+      isOnHold: false
+    });
+    var holdButton = getControlButton('HoldCallButton');
+    holdButton.click();
+    expect(holdButton.title).toBe(_i18n["default"].getString('hold'));
+    expect(onUnHold).not.toBeCalled();
+    expect(onHold).toBeCalled();
+  });
+  [{
+    isIntegratedSoftphone: true,
+    muteCallButtonNumber: 1
+  }, {
+    isIntegratedSoftphone: false,
+    muteCallButtonNumber: 0
+  }].map(function (_ref3) {
+    var isIntegratedSoftphone = _ref3.isIntegratedSoftphone,
+        muteCallButtonNumber = _ref3.muteCallButtonNumber;
+    return it("When the call is IntegratedSoftphone is ".concat(isIntegratedSoftphone, ", can see ").concat(muteCallButtonNumber, " mute button"), function () {
+      wrapper = setup({
+        showMuteButton: isIntegratedSoftphone
+      });
+      expect(wrapper.find('MuteCallButton').find('button').length).toBe(muteCallButtonNumber);
+    });
+  });
+  it('When call is OnMute, MuteCallButton should display and work correctly', function () {
+    var onMute = jest.fn();
+    var onUnmute = jest.fn();
+    wrapper = setup({
+      status: 'active',
+      saveStatus: 'submit',
+      onMute: onMute,
+      onUnmute: onUnmute,
+      isOnMute: true,
+      showMuteButton: true
+    });
+    var muteButton = getControlButton('MuteCallButton');
+    muteButton.click();
+    expect(muteButton.title).toBe(_i18n["default"].getString('unmute'));
+    expect(onUnmute).toBeCalled();
+    expect(onMute).not.toBeCalled();
+  });
+  it('When call is unMute, MuteCallButton should display and work correctly', function () {
+    var onMute = jest.fn();
+    var onUnmute = jest.fn();
+    wrapper = setup({
+      status: 'active',
+      saveStatus: 'submit',
+      onMute: onMute,
+      onUnmute: onUnmute,
+      isOnMute: false,
+      showMuteButton: true
+    });
+    var muteButton = getControlButton('MuteCallButton');
+    muteButton.click();
+    expect(muteButton.title).toBe(_i18n["default"].getString('mute'));
+    expect(onUnmute).not.toBeCalled();
+    expect(onMute).toBeCalled();
+  });
+  it('User can transfer an Call', function () {
+    wrapper = setup({
+      status: 'active',
+      saveStatus: 'submit'
+    });
+    expect(getControlButton('TransferCallButton').isDisabled).toBe(false);
+  });
+  it('When User has mutiple calls, should hightlight transfer button', function () {
+    wrapper = setup({
+      status: 'active',
+      saveStatus: 'submit',
+      isOnActive: true
+    });
+    var transferButton = getControlButton('TransferCallButton');
+    expect(transferButton.isDisabled).toBe(false);
+  });
+  it("When not allow to transfer or requeue a call, then shouldn't be able to", function () {
+    wrapper = setup({
+      status: 'active',
+      saveStatus: 'submit',
+      disableTransfer: true
+    });
+    expect(getControlButton('TransferCallButton').isDisabled).toBe(true);
+  });
+  it('when user not allow to Requeue a Call', function () {
+    wrapper = setup({
+      status: 'active',
+      saveStatus: 'submit',
+      currentCallControlPermission: {
+        allowRequeueCall: false
       }
-    }
-  }, _callee2);
-})));
-describe('<ActivityCallLogPanel />', /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
-  return regeneratorRuntime.wrap(function _callee3$(_context3) {
-    while (1) {
-      switch (_context3.prev = _context3.next) {
-        case 0:
-          it('When call is onHold, HoldCallButton should display and work correctly', function () {
-            var onHold = jest.fn();
-            var onUnHold = jest.fn();
-            wrapper = setup({
-              status: 'active',
-              saveStatus: 'submit',
-              onHold: onHold,
-              onUnHold: onUnHold,
-              isOnHold: true
-            });
-            var holdButton = getControlButton('HoldCallButton');
-            holdButton.click();
-            expect(holdButton.title).toBe(_i18n["default"].getString('onHold'));
-            expect(holdButton.isActive).toBe(true);
-            expect(onUnHold).toBeCalled();
-            expect(onHold).not.toBeCalled();
-          });
-          it('When call is unHold, HoldCallButton should display and work correctly', function () {
-            var onHold = jest.fn();
-            var onUnHold = jest.fn();
-            wrapper = setup({
-              status: 'active',
-              saveStatus: 'submit',
-              onHold: onHold,
-              onUnHold: onUnHold,
-              isOnHold: false
-            });
-            var holdButton = getControlButton('HoldCallButton');
-            holdButton.click();
-            expect(holdButton.title).toBe(_i18n["default"].getString('hold'));
-            expect(holdButton.isActive).toBe(false);
-            expect(onUnHold).not.toBeCalled();
-            expect(onHold).toBeCalled();
-          });
-          [{
-            isIntegratedSoftphone: true,
-            muteCallButtonNumber: 1
-          }, {
-            isIntegratedSoftphone: false,
-            muteCallButtonNumber: 0
-          }].map(function (_ref5) {
-            var isIntegratedSoftphone = _ref5.isIntegratedSoftphone,
-                muteCallButtonNumber = _ref5.muteCallButtonNumber;
-            return it("When the call is IntegratedSoftphone is ".concat(isIntegratedSoftphone, ", can see ").concat(muteCallButtonNumber, " mute button"), function () {
-              wrapper = setup({
-                showMuteButton: isIntegratedSoftphone
-              });
-              expect(wrapper.find('MuteCallButton').find('button').length).toBe(muteCallButtonNumber);
-            });
-          });
-          it('When call is OnMute, MuteCallButton should display and work correctly', function () {
-            var onMute = jest.fn();
-            var onUnmute = jest.fn();
-            wrapper = setup({
-              status: 'active',
-              saveStatus: 'submit',
-              onMute: onMute,
-              onUnmute: onUnmute,
-              isOnMute: true,
-              showMuteButton: true
-            });
-            var muteButton = getControlButton('MuteCallButton');
-            muteButton.click();
-            expect(muteButton.title).toBe(_i18n["default"].getString('unmute'));
-            expect(muteButton.isActive).toBe(true);
-            expect(onUnmute).toBeCalled();
-            expect(onMute).not.toBeCalled();
-          });
-          it('When call is unMute, MuteCallButton should display and work correctly', function () {
-            var onMute = jest.fn();
-            var onUnmute = jest.fn();
-            wrapper = setup({
-              status: 'active',
-              saveStatus: 'submit',
-              onMute: onMute,
-              onUnmute: onUnmute,
-              isOnMute: false,
-              showMuteButton: true
-            });
-            var muteButton = getControlButton('MuteCallButton');
-            muteButton.click();
-            expect(muteButton.title).toBe(_i18n["default"].getString('mute'));
-            expect(muteButton.isActive).toBe(false);
-            expect(onUnmute).not.toBeCalled();
-            expect(onMute).toBeCalled();
-          });
-          it('User can transfer an Call', function () {
-            wrapper = setup({
-              status: 'active',
-              saveStatus: 'submit'
-            });
-            expect(getControlButton('TransferCallButton').isDisabled).toBe(false);
-          });
-          it('When User has mutiple calls, should hightlight transfer button', function () {
-            wrapper = setup({
-              status: 'active',
-              saveStatus: 'submit',
-              isOnActive: true
-            });
-            var transferButton = getControlButton('TransferCallButton');
-            expect(transferButton.isActive).toBe(true);
-            expect(transferButton.isDisabled).toBe(false);
-          });
-          it("When not allow to transfer or requeue a call, then shouldn't be able to", function () {
-            wrapper = setup({
-              status: 'active',
-              saveStatus: 'submit',
-              disableTransfer: true
-            });
-            expect(getControlButton('TransferCallButton').isDisabled).toBe(true);
-          });
-          it('when user not allow to Requeue a Call', function () {
-            wrapper = setup({
-              status: 'active',
-              saveStatus: 'submit',
-              currentCallControlPermission: {
-                allowRequeueCall: false
-              }
-            });
-            getControlButton('TransferCallButton').click();
-            expect(wrapper.find('RcMenuItem[data-sign="transferItem-queueTransfer"]').prop('disabled')).toBe(true); // for simulate issue: https://github.com/enzymejs/enzyme/issues/386
-          });
-          it('when user not allow to Transfer a Call', function () {
-            wrapper = setup({
-              status: 'active',
-              saveStatus: 'submit',
-              currentCallControlPermission: {
-                allowTransferCall: false
-              }
-            });
-            getControlButton('TransferCallButton').click();
-            expect(wrapper.find('RcMenuItem[data-sign="transferItem-internalTransfer"]').prop('disabled')).toBe(true); // for simulate issue: https://github.com/enzymejs/enzyme/issues/386
-          });
-          it('When user has multiple calls, display ActiveCallButton, not HandUpButton', function () {
-            var onActive = jest.fn();
-            wrapper = setup({
-              status: 'active',
-              saveStatus: 'submit',
-              isOnActive: true,
-              onActive: onActive
-            });
-            expect(wrapper.find('ActiveCallButton')).toHaveLength(1);
-            expect(getControlButton('HandUpButton').isExist).toBe(false);
-            expect(wrapper.find('ActiveCallButton').find('button').hasClass('buttonActive')).toBe(true);
-            wrapper.find('ActiveCallButton').find('button').simulate('click');
-            expect(onActive).toBeCalled();
-          });
-          it('When user on the InComing Call, can see the Reject Button', function () {
-            var onReject = jest.fn();
-            wrapper = setup({
-              status: 'active',
-              saveStatus: 'submit',
-              isInComingCall: true,
-              onReject: onReject
-            });
-            var hangupButton = getControlButton('HandUpButton');
-            expect(hangupButton.title).toBe(_i18n["default"].getString('reject'));
-            hangupButton.click();
-            expect(onReject).toBeCalled();
-          });
-          it('When the call is not InComing Call, can see the Hangup button', function () {
-            var onHangup = jest.fn();
-            wrapper = setup({
-              status: 'active',
-              saveStatus: 'submit',
-              isInComingCall: false,
-              onHangup: onHangup
-            });
-            var hangupButton = getControlButton('HandUpButton');
-            expect(hangupButton.title).toBe(_i18n["default"].getString('hangup'));
-            hangupButton.click();
-            expect(onHangup).toBeCalled();
-          });
-          [{
-            disableControl: 'disableHold',
-            domTag: 'HoldCallButton'
-          }, {
-            disableControl: 'disableHangup',
-            domTag: 'HandUpButton'
-          }, {
-            disableControl: 'disableMute',
-            domTag: 'MuteCallButton'
-          }, {
-            disableControl: 'disableActive',
-            domTag: 'ActiveCallButton'
-          }].map(function (_ref6) {
-            var disableControl = _ref6.disableControl,
-                domTag = _ref6.domTag;
-            return it("Verify permission of ".concat(disableControl), function () {
-              var _setup;
-
-              wrapper = setup((_setup = {
-                status: 'active',
-                saveStatus: 'submit'
-              }, _defineProperty(_setup, disableControl, true), _defineProperty(_setup, "isOnActive", disableControl === 'disableActive'), _defineProperty(_setup, "showMuteButton", true), _setup));
-              expect(wrapper.find(domTag).find('button').prop('disabled')).toBe(true);
-            });
-          });
-          [{
-            ivrAlertData: []
-          }, {
-            ivrAlertData: [{
-              subject: 'I am subject 1',
-              body: 'I am body 1'
-            }],
-            subject: 'I am subject 1'
-          }, {
-            ivrAlertData: [{
-              subject: 'I am subject 1',
-              body: 'I am body 1'
-            }, {
-              subject: 'I am subject 2',
-              body: 'I am body 2'
-            }],
-            subject: 'I am subject 1 +1'
-          }, {
-            ivrAlertData: [{
-              subject: 'I am subject 1',
-              body: 'I am body 1'
-            }, {
-              subject: 'I am subject 2',
-              body: 'I am body 2'
-            }, {
-              subject: 'I am subject 3',
-              body: 'I am body 3'
-            }],
-            subject: 'I am subject 1 +2'
-          }].map(function (_ref7) {
-            var ivrAlertData = _ref7.ivrAlertData,
-                subject = _ref7.subject;
-            it("Verify ivr panel display of ".concat(subject), function () {
-              wrapper = setup({
-                ivrAlertData: ivrAlertData
-              });
-
-              if (ivrAlertData.length === 0) {
-                expect(wrapper.find('.ivrPanel').exists()).toBeFalsy();
-              } else {
-                var item = wrapper.find('.item');
-
-                for (var i = 0; i < ivrAlertData.length; i++) {
-                  if (i !== 0) {
-                    expect(item.at(i).find('.subject').text()).toBe(ivrAlertData[i].subject);
-                    expect(item.at(i).find('.body').text()).toBe(ivrAlertData[i].body);
-                  } else {
-                    expect(item.at(0).find('.body').text()).toBe(ivrAlertData[0].body);
-                  }
-                }
-
-                expect(wrapper.find(_juno.RcExpansionPanelSummary).text()).toBe(subject);
-              }
-            });
-            it('When the call is end, ivr panel should be shrunk', function () {
-              wrapper = setup({
-                status: 'active'
-              });
-              wrapper.find(_juno.RcExpansionPanelSummary).find('RcIcon').simulate('click');
-              wrapper.update();
-              expect(wrapper.find(_juno.RcExpansionPanel).find('.expanded').exists()).toBeTruthy();
-              wrapper = setup({
-                status: 'callEnd'
-              });
-              wrapper.update();
-              expect(wrapper.find(_juno.RcExpansionPanel).find('.expanded').exists()).toBeFalsy();
-            });
-            return null;
-          });
-
-        case 15:
-        case "end":
-          return _context3.stop();
+    });
+    getControlButton('TransferCallButton').click();
+    expect(wrapper.find('RcMenuItem[data-sign="transferItem-queueTransfer"]').prop('disabled')).toBe(true); // for simulate issue: https://github.com/enzymejs/enzyme/issues/386
+  });
+  it('when user not allow to Transfer a Call', function () {
+    wrapper = setup({
+      status: 'active',
+      saveStatus: 'submit',
+      currentCallControlPermission: {
+        allowTransferCall: false
       }
-    }
-  }, _callee3);
-})));
+    });
+    getControlButton('TransferCallButton').click();
+    expect(wrapper.find('RcMenuItem[data-sign="transferItem-internalTransfer"]').prop('disabled')).toBe(true); // for simulate issue: https://github.com/enzymejs/enzyme/issues/386
+  });
+  it('When user has multiple calls, display ActiveCallButton, not HangUpButton', function () {
+    var onActive = jest.fn();
+    wrapper = setup({
+      status: 'active',
+      saveStatus: 'submit',
+      isOnActive: true,
+      onActive: onActive
+    });
+    expect(wrapper.find('ActiveCallButton')).toHaveLength(1);
+    expect(getControlButton('HangUpButton').isExist).toBe(false);
+    expect(wrapper.find('ActiveCallButton').find('button').hasClass('buttonActive')).toBe(true);
+    wrapper.find('ActiveCallButton').find('button').simulate('click');
+    expect(onActive).toBeCalled();
+  });
+  it('When user on the InComing Call, can see the Reject Button', function () {
+    var onReject = jest.fn();
+    wrapper = setup({
+      status: 'active',
+      saveStatus: 'submit',
+      isInComingCall: true,
+      onReject: onReject
+    });
+    var hangupButton = getControlButton('HangUpButton');
+    expect(hangupButton.title).toBe(_i18n["default"].getString('reject'));
+    hangupButton.click();
+    expect(onReject).toBeCalled();
+  });
+  it('When the call is not InComing Call, can see the Hangup button', function () {
+    var onHangup = jest.fn();
+    wrapper = setup({
+      status: 'active',
+      saveStatus: 'submit',
+      isInComingCall: false,
+      onHangup: onHangup
+    });
+    var hangupButton = getControlButton('HangUpButton');
+    expect(hangupButton.title).toBe(_i18n["default"].getString('hangup'));
+    hangupButton.click();
+    expect(onHangup).toBeCalled();
+  });
+  [{
+    disableControl: 'disableHold',
+    domTag: 'HoldCallButton'
+  }, {
+    disableControl: 'disableHangup',
+    domTag: 'HangUpButton'
+  }, {
+    disableControl: 'disableMute',
+    domTag: 'MuteCallButton'
+  }, {
+    disableControl: 'disableActive',
+    domTag: 'ActiveCallButton'
+  }].map(function (_ref4) {
+    var disableControl = _ref4.disableControl,
+        domTag = _ref4.domTag;
+    return it("Verify permission of ".concat(disableControl), function () {
+      var _setup;
+
+      wrapper = setup((_setup = {
+        status: 'active',
+        saveStatus: 'submit'
+      }, _defineProperty(_setup, disableControl, true), _defineProperty(_setup, "isOnActive", disableControl === 'disableActive'), _defineProperty(_setup, "showMuteButton", true), _setup));
+      expect(wrapper.find(domTag).find('button').prop('disabled')).toBe(true);
+    });
+  });
+  [{
+    ivrAlertData: []
+  }, {
+    ivrAlertData: [{
+      subject: 'I am subject 1',
+      body: 'I am body 1'
+    }],
+    subject: 'I am subject 1'
+  }, {
+    ivrAlertData: [{
+      subject: 'I am subject 1',
+      body: 'I am body 1'
+    }, {
+      subject: 'I am subject 2',
+      body: 'I am body 2'
+    }],
+    subject: 'I am subject 1 +1'
+  }, {
+    ivrAlertData: [{
+      subject: 'I am subject 1',
+      body: 'I am body 1'
+    }, {
+      subject: 'I am subject 2',
+      body: 'I am body 2'
+    }, {
+      subject: 'I am subject 3',
+      body: 'I am body 3'
+    }],
+    subject: 'I am subject 1 +2'
+  }].map(function (_ref5) {
+    var ivrAlertData = _ref5.ivrAlertData,
+        subject = _ref5.subject;
+    it("Verify ivr panel display of ".concat(subject), function () {
+      wrapper = setup({
+        ivrAlertData: ivrAlertData
+      });
+
+      if (ivrAlertData.length === 0) {
+        expect(wrapper.find('.ivrPanel').exists()).toBeFalsy();
+      } else {
+        var item = wrapper.find('.item');
+
+        for (var i = 0; i < ivrAlertData.length; i++) {
+          if (i !== 0) {
+            expect(item.at(i).find('.subject').text()).toBe(ivrAlertData[i].subject);
+            expect(item.at(i).find('.body').text()).toBe(ivrAlertData[i].body);
+          } else {
+            expect(item.at(0).find('.body').text()).toBe(ivrAlertData[0].body);
+          }
+        }
+
+        expect(wrapper.find(_AccordionSummary.RcAccordionSummary).text()).toBe(subject);
+      }
+    });
+    it('When the call is end, ivr panel should be shrunk', function () {
+      wrapper = setup({
+        status: 'active'
+      });
+      wrapper.find(_AccordionSummary.RcAccordionSummary).find('RcIcon').simulate('click');
+      wrapper.update();
+      expect(wrapper.find(_Accordion.RcAccordion).find('.expanded').exists()).toBeTruthy();
+      wrapper = setup({
+        status: 'callEnd'
+      });
+      wrapper.update();
+      expect(wrapper.find(_Accordion.RcAccordion).find('.expanded').exists()).toBeFalsy();
+    });
+    return null;
+  });
+});
 //# sourceMappingURL=ActivityCallLogPanel.spec.js.map

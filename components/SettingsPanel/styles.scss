@@ -8,19 +8,37 @@ $font-wight: 700;
 
   background-color: $snow;
   height: 100%;
-  overflow: auto;
 
   .item {
     & + .item {
       border-top: 16px $margin-color solid;
     }
   }
+  .infoWrap {
+    width: 100%;
+    height: calc(100% - 115.5px);
+    overflow: auto;
+  }
+  .pointerWrap {
+    cursor: not-allowed;
+  }
+  .alignRight {
+    float: right;
+  }
 
   .name,
-  .info,
-  .version,
-  .logout {
+  .version{
     @include pageSpace('padding');
+  }
+
+  .logout {
+    position: fixed;
+    bottom: 0;
+    padding: 0 16px;
+    width: 100%;
+    background-color: $snow;
+    box-shadow: 0px -2px 5px 0px rgba(0, 0, 0, 0.15);
+    box-sizing: border-box;
   }
 
   .name {
@@ -48,14 +66,20 @@ $font-wight: 700;
 
     .infoTitle {
       padding-top: 8px;
-      padding-bottom: 20px;
+      padding-bottom: 24px;
       font-size: 14px;
       color: rgb(108, 108, 108);
+      @include pageSpace('padding');
+      span{
+        vertical-align: -webkit-baseline-middle;
+        display: inline-block;
+      }
     }
     background-color: $snow;
     word-break: break-all;
     .infoItem {
       margin-bottom: 10px;
+      @include pageSpace('padding');
       .label {
         color: rgb(129, 146, 175);
         padding-bottom: 4px;
@@ -63,9 +87,6 @@ $font-wight: 700;
       .value {
         font-weight: $font-wight;
       }
-    }
-    .editSession {
-      margin: 6px 0 16px;
     }
   }
 
@@ -75,6 +96,8 @@ $font-wight: 700;
     color: rgb(33, 33, 33);
     display: flex;
     justify-content: space-between;
+    border-top: 16px #f9f9f9 solid;
+    border-bottom: 16px #f9f9f9 solid;
     span {
       color: rgb(97, 97, 97);
       font-size: 12px;
@@ -82,7 +105,7 @@ $font-wight: 700;
   }
 
   .logout {
-    padding-top: 20px;
-    padding-bottom: 20px;
+    padding-top: 13px;
+    padding-bottom: 12px;
   }
 }

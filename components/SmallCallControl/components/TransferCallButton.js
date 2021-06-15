@@ -7,11 +7,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.TransferCallButton = void 0;
 
-var _TransferCall = _interopRequireDefault(require("@ringcentral/juno/icon/TransferCall"));
-
 var _react = _interopRequireDefault(require("react"));
 
-var _CircleIconButton = require("../../CircleIconButton");
+var _juno = require("@ringcentral/juno");
+
+var _icon = require("@ringcentral/juno/icon");
 
 var _i18n = _interopRequireDefault(require("../i18n"));
 
@@ -19,25 +19,24 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 
 var TransferCallButton = function TransferCallButton(_ref) {
   var currentLocale = _ref.currentLocale,
-      isOnTransfer = _ref.isOnTransfer,
       onTransfer = _ref.onTransfer,
       transferRef = _ref.transferRef,
       disableTransfer = _ref.disableTransfer,
       size = _ref.size,
       className = _ref.className,
       dataSign = _ref.dataSign;
-  return /*#__PURE__*/_react["default"].createElement(_CircleIconButton.CircleIconButton, {
-    dataSign: dataSign,
-    "data-icon": "transfer-call",
-    symbol: _TransferCall["default"],
-    title: _i18n["default"].getString('transfer', currentLocale),
-    active: isOnTransfer,
-    onClick: onTransfer,
-    innerRef: transferRef,
-    disabled: disableTransfer,
+  return /*#__PURE__*/_react["default"].createElement(_juno.RcIconButton, {
+    ref: transferRef,
     size: size,
+    onClick: onTransfer,
+    symbol: _icon.TransferCall,
+    disabled: disableTransfer,
+    "data-sign": dataSign,
+    "data-icon": "transfer-call",
+    title: _i18n["default"].getString('transfer', currentLocale),
+    color: disableTransfer ? 'icon.disabled' : 'icon.dark',
     className: className,
-    normal: true
+    shouldPersistBg: disableTransfer
   });
 };
 

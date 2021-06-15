@@ -9,7 +9,7 @@ exports.saveStatus = exports.callLogMethods = void 0;
 
 var _ObjectMap = require("@ringcentral-integration/core/lib/ObjectMap");
 
-var callLogMethods = _ObjectMap.ObjectMap.fromKeys(['create', 'update']);
+var callLogMethods = _ObjectMap.ObjectMap.fromKeys(['create']);
 
 exports.callLogMethods = callLogMethods;
 

@@ -4,8 +4,10 @@ import {
   RcUIModuleV2,
   state,
   storage,
+  watch,
 } from '@ringcentral-integration/core';
 import { keys } from 'ramda';
+import { Unsubscribe } from 'redux';
 import { Module } from 'ringcentral-integration/lib/di';
 import { CallLogPanelProps } from 'ringcentral-widgets/components/CallLogPanel';
 
@@ -19,14 +21,19 @@ import {
   transferTypes,
 } from '../../enums';
 import {
+  CallLogMethods,
+  callLogMethods,
   EvActivityCallUIFunctions,
   EvActivityCallUIProps,
   EvCurrentLog,
-  CallLogMethods,
   SaveStatus,
   saveStatus,
 } from '../../interfaces/EvActivityCallUI.interface';
-import { EvIvrData } from '../../interfaces/EvData.interface';
+import {
+  EvAgentScriptData,
+  EvCallData,
+  EvIvrData,
+} from '../../interfaces/EvData.interface';
 import { EvBaggage } from '../../lib/EvClient';
 import { ActivityCallUI, Deps } from './EvActivityCallUI.interface';
 import i18n from './i18n';
@@ -69,12 +76,13 @@ class EvActivityCallUI<T = {}>
 
   /** Is the call pick up directly */
   pickUpDirectly = true;
+  protected _stopWatching: Unsubscribe = null;
 
   protected openAgentScriptTab() {
     console.warn('this should be implement in extend module');
   }
 
-  constructor(deps: Deps) {
+  constructor(deps: Deps & T) {
     super({
       deps,
       enableCache: true,
@@ -106,6 +114,70 @@ class EvActivityCallUI<T = {}>
   @storage
   @state
   scrollTo: string = null;
+
+  get isDefaultRecord() {
+    return this.agentRecording?.default === 'ON';
+  }
+
+  onInitOnce() {
+    this._deps.evCallMonitor.onCallRinging(() => {
+      this._stopWatching = watch(
+        this,
+        () => this.currentEvMainCall,
+        (currentEvMainCall: EvCallData) => {
+          if (currentEvMainCall) {
+            this._deps.activeCallControl.setIsRecording(this.isDefaultRecord);
+          }
+          this._stopWatching();
+          this._stopWatching = null;
+        },
+      );
+    });
+  }
+
+  async onRecord() {
+    try {
+      await this._deps.activeCallControl.record();
+    } catch (error) {
+      console.error(error?.message);
+    }
+  }
+
+  async onStopRecord() {
+    try {
+      await this._deps.activeCallControl.stopRecord();
+    } catch (error) {
+      console.error(error?.message);
+    }
+  }
+
+  async onPauseRecord() {
+    try {
+      await this._deps.activeCallControl.pauseRecord();
+      this._sendTabManager(tabManagerEvents.RECORD_PAUSED);
+
+      this._deps.alert.success({
+        message: messageTypes.RECORD_PAUSED,
+      });
+    } catch (error) {
+      console.error(error?.message);
+    }
+  }
+
+  async onRestartTimer() {
+    try {
+      await this._deps.activeCallControl.pauseRecord();
+    } catch (error) {
+      console.error(error?.message);
+    }
+  }
+
+  onResumeRecord() {
+    this._deps.activeCallControl.resumeRecord();
+    this._deps.alert.success({
+      message: messageTypes.RECORD_RESUME,
+    });
+  }
 
   get callId() {
     return this._deps.evCall.activityCallId;
@@ -144,6 +216,8 @@ class EvActivityCallUI<T = {}>
     that._deps.evTransferCall.allowTransferCall,
     that._deps.evRequeueCall.allowRequeueCall,
     that.currentEvMainCall,
+    that.agentRecording?.agentRecording,
+    that.agentRecording?.pause,
   ])
   get currentCallControlPermission() {
     return {
@@ -151,6 +225,8 @@ class EvActivityCallUI<T = {}>
       allowRequeueCall: this._deps.evRequeueCall.allowRequeueCall,
       allowHoldCall: this.currentEvMainCall?.allowHold,
       allowHangupCall: this.currentEvMainCall?.allowHangup,
+      allowRecordControl: this.agentRecording?.agentRecording,
+      allowPauseRecord: typeof this.agentRecording?.pause === 'number',
     };
   }
 
@@ -361,22 +437,23 @@ class EvActivityCallUI<T = {}>
     return currentEvMainCall?.isHold;
   }
 
-  @computed((that: EvActivityCallUI) => [that.currentEvCall, that._deps.locale])
-  get ivrAlertData() {
+  @computed((that: EvActivityCallUI) => [that.currentEvCall])
+  get agentScriptData() {
     const call = this.currentEvCall;
-    const { currentLocale } = this._deps.locale;
-    const ivrAlertData: EvIvrData[] = [];
-
+    let agentScriptData: EvAgentScriptData = null;
     if (
       this._deps.environment.isWide &&
       this._deps.evAgentScript.getIsAgentScript(call)
     ) {
-      ivrAlertData.push({
-        subject: i18n.getString('agentScriptTitle', currentLocale),
-        body: i18n.getString('agentScriptContent', currentLocale),
-        onClick: () => this.openAgentScriptTab(),
-      });
+      agentScriptData = { onClick: () => this.openAgentScriptTab() };
     }
+    return agentScriptData;
+  }
+
+  @computed((that: EvActivityCallUI) => [that.currentEvCall])
+  get ivrAlertData() {
+    const call = this.currentEvCall;
+    const ivrAlertData: EvIvrData[] = [];
 
     if (call?.baggage) {
       for (let i = 1; i <= 3; i++) {
@@ -500,9 +577,46 @@ class EvActivityCallUI<T = {}>
     // set status to 'idle' in case of EvCallMonitor does not emit ENDED
     this._deps.evCall.setDialoutStatus(dialoutStatuses.idle);
 
-    this._deps.routerInteraction.goBack();
+    const { backUrl } = this.getPageRole();
+    this._deps.routerInteraction.push(backUrl);
     this.reset();
     this._deps.evCall.activityCallId = null;
+  }
+
+  private getPageRole(): {
+    initSaveStatus: SaveStatus | CallLogMethods;
+    backUrl: string;
+    tabManagerEventSuccess: string;
+    logTypesEventSuccess: string;
+    logTypesEventFailure: string;
+  } {
+    const pageRoles = {
+      activityCallLog: {
+        initSaveStatus: saveStatus.submit,
+        backUrl: '/dialer',
+        tabManagerEventSuccess: tabManagerEvents.CALL_DISPOSITION_SUCCESS,
+        logTypesEventSuccess: logTypes.CALL_DISPOSITION_SUCCESS,
+        logTypesEventFailure: logTypes.CALL_DISPOSITION_FAILURE,
+      },
+      callLogCreate: {
+        initSaveStatus: callLogMethods.create,
+        backUrl: '/history',
+        tabManagerEventSuccess: tabManagerEvents.CALL_DISPOSITION_SUCCESS,
+        logTypesEventSuccess: logTypes.CALL_LOG_CREATE_SUCCESS,
+        logTypesEventFailure: logTypes.CALL_LOG_CREATE_FAILURE,
+      },
+    };
+
+    const { currentPath } = this._deps.routerInteraction;
+    if (currentPath.indexOf('/activityCallLog') > -1) {
+      return pageRoles.activityCallLog;
+    }
+    if (/^\/history\/callLog\/.*\/create$/.test(currentPath)) {
+      return pageRoles.callLogCreate;
+    }
+
+    // return activityCallLog by default
+    return pageRoles.activityCallLog;
   }
 
   async disposeCall() {
@@ -523,7 +637,13 @@ class EvActivityCallUI<T = {}>
       // const data = event.args[0];
       switch (event.name) {
         case tabManagerEvents.CALL_DISPOSITION_SUCCESS:
+        case tabManagerEvents.CALL_LOG_CREATE_SUCCESS:
           this._dispositionSuccess();
+          break;
+        case tabManagerEvents.RECORD_PAUSED:
+          this._deps.alert.success({
+            message: messageTypes.RECORD_PAUSED,
+          });
           break;
         default:
           break;
@@ -556,14 +676,16 @@ class EvActivityCallUI<T = {}>
       this.changeSavingStatus(saveStatus.saving);
       await this.disposeCall();
 
-      this._sendTabManager(tabManagerEvents.CALL_DISPOSITION_SUCCESS);
+      const { tabManagerEventSuccess } = this.getPageRole();
+      this._sendTabManager(tabManagerEventSuccess);
       this._dispositionSuccess();
     } catch (e) {
+      const { logTypesEventFailure, initSaveStatus } = this.getPageRole();
       this._deps.alert.danger({
-        message: logTypes.CALL_DISPOSITION_FAILURE,
+        message: logTypesEventFailure,
         ttl: 0,
       });
-      this.changeSavingStatus(saveStatus.submit);
+      this.changeSavingStatus(initSaveStatus);
       throw e;
     }
   }
@@ -571,8 +693,9 @@ class EvActivityCallUI<T = {}>
   private _dispositionSuccess() {
     this.changeSavingStatus(saveStatus.saved);
 
+    const { logTypesEventSuccess } = this.getPageRole();
     this._deps.alert.success({
-      message: logTypes.CALL_DISPOSITION_SUCCESS,
+      message: logTypesEventSuccess,
     });
     // delay for animation with loading ui.
     setTimeout(() => this.goBack(), 1000);
@@ -589,6 +712,17 @@ class EvActivityCallUI<T = {}>
 
   private _sendTabManager(event: string, value?: any) {
     this._deps.tabManager?.send(event, value);
+  }
+
+  async onHangup() {
+    await this._deps.activeCallControl.hangUp(
+      this.currentEvCall.session.sessionId,
+    );
+    this.changeSavingStatus(saveStatus.submit);
+  }
+
+  get agentRecording() {
+    return this.currentEvMainCall?.agentRecording;
   }
 
   getUIProps({ id }: { id: string }): EvActivityCallUIProps {
@@ -627,8 +761,21 @@ class EvActivityCallUI<T = {}>
       disableMute:
         !this._deps.evAgentSession.isIntegratedSoftphone || this.disableLinks,
       showMuteButton: this._deps.evAgentSession.isIntegratedSoftphone,
+      showRecordCall:
+        this.currentCallControlPermission.allowRecordControl ||
+        this.isDefaultRecord,
       disableActive: this.disableLinks,
+      isRecording: this._deps.activeCallControl.isRecording,
+      disableRecordControl:
+        this.disableLinks ||
+        !this.currentCallControlPermission.allowRecordControl,
       ivrAlertData: this.ivrAlertData,
+      disablePauseRecord:
+        this.disableLinks ||
+        !this.currentCallControlPermission.allowPauseRecord,
+      agentScriptData: this.agentScriptData,
+      recordPauseCount: this.agentRecording?.pause,
+      timeStamp: this._deps.activeCallControl.timeStamp,
     };
   }
 
@@ -637,14 +784,16 @@ class EvActivityCallUI<T = {}>
       goBack: () => this.goBack(),
       onMute: () => this._deps.activeCallControl.mute(),
       onUnmute: () => this._deps.activeCallControl.unmute(),
-      onHangup: () =>
-        this._deps.activeCallControl.hangUp(
-          this.currentEvCall.session.sessionId,
-        ),
+      onHangup: () => this.onHangup(),
       onReject: () => this._deps.activeCallControl.reject(),
       onHold: () => this._onHoldOrUnHold('hold'),
       onUnHold: () => this._onHoldOrUnHold('unhold'),
       onActive: () => this.goToActivityCallListPage(),
+      onRecord: () => this.onRecord(),
+      onStopRecord: () => this.onStopRecord(),
+      onPauseRecord: () => this.onPauseRecord(),
+      onRestartTimer: () => this.onRestartTimer(),
+      onResumeRecord: () => this.onResumeRecord(),
       onUpdateCallLog: (data, id) => this.onUpdateCallLog(data, id),
       disposeCall: async () => {
         if (this.saveStatus === saveStatus.saved) {

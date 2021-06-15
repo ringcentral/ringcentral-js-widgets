@@ -141,131 +141,120 @@ afterEach( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(
     }
   }, _callee);
 })));
-describe('<BasicSessionPanel />', /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
-  return regeneratorRuntime.wrap(function _callee2$(_context2) {
-    while (1) {
-      switch (_context2.prev = _context2.next) {
-        case 0:
-          // TODO
-          // it("Page display user's selected Inbound queue, and navigate to InboundQueuesPage when click the field.", () => {
-          //   const gotoInboundQueuesPage = jest.fn();
-          //   const inboundQueuesFieldText = 'AmyTestQueue';
-          //   wrapper = setup({
-          //     inboundQueuesFieldText,
-          //     gotoInboundQueuesPage,
-          //   });
-          //   const inboundQueuesField = wrapper
-          //     .find('RcTextField[data-sign="inboundQueues"]')
-          //     .at(0)
-          //     .find('input')
-          //     .at(0);
-          //   expect(inboundQueuesField.prop('value')).toEqual(inboundQueuesFieldText);
-          //   inboundQueuesField.simulate('click');
-          //   expect(gotoInboundQueuesPage).toBeCalled();
-          // });
-          it('Can display extensionNumber correctly, and can be changed.', function () {
-            var setExtensionNumber = jest.fn();
-            var extensionNumber = '65787344333';
-            wrapper = setup({
-              setExtensionNumber: setExtensionNumber,
-              extensionNumber: extensionNumber,
-              isExtensionNumber: true
-            });
+describe('<BasicSessionPanel />', function () {
+  // TODO
+  // it("Page display user's selected Inbound queue, and navigate to InboundQueuesPage when click the field.", () => {
+  //   const gotoInboundQueuesPage = jest.fn();
+  //   const inboundQueuesFieldText = 'AmyTestQueue';
+  //   wrapper = setup({
+  //     inboundQueuesFieldText,
+  //     gotoInboundQueuesPage,
+  //   });
+  //   const inboundQueuesField = wrapper
+  //     .find('RcTextField[data-sign="inboundQueues"]')
+  //     .at(0)
+  //     .find('input')
+  //     .at(0);
+  //   expect(inboundQueuesField.prop('value')).toEqual(inboundQueuesFieldText);
+  //   inboundQueuesField.simulate('click');
+  //   expect(gotoInboundQueuesPage).toBeCalled();
+  // });
+  it('Can display extensionNumber correctly, and can be changed.', function () {
+    var setExtensionNumber = jest.fn();
+    var extensionNumber = '65787344333';
+    wrapper = setup({
+      setExtensionNumber: setExtensionNumber,
+      extensionNumber: extensionNumber,
+      isExtensionNumber: true
+    });
 
-            var extensionNumberFieldFn = function extensionNumberFieldFn() {
-              return wrapper.find('input[data-sign="extensionNumber"]').at(0);
-            };
+    var extensionNumberFieldFn = function extensionNumberFieldFn() {
+      return wrapper.find('input[data-sign="extensionNumber"]').at(0);
+    };
 
-            var extensionNumberField = extensionNumberFieldFn();
-            expect(extensionNumberField.prop('value')).toEqual(extensionNumber);
-            var newExtensionNumber = '65787344366';
-            extensionNumberField.simulate('change', {
-              target: {
-                value: newExtensionNumber
-              }
-            });
-            expect(setExtensionNumber).toBeCalledWith(newExtensionNumber);
-            wrapper = setup({
-              setExtensionNumber: setExtensionNumber,
-              extensionNumber: extensionNumber,
-              isExtensionNumber: false
-            });
-            var extensionNumberField2 = extensionNumberFieldFn();
-            expect(extensionNumberField2).toHaveLength(0);
-          }); // [true, false].forEach((takingCall) => {
-          //   it(`When click the takingCall, setTakingCall to be called. (with initial state: ${takingCall})`, () => {
-          //     const setTakingCall = jest.fn();
-          //     wrapper = setup({
-          //       takingCall,
-          //       setTakingCall,
-          //     });
-          //     const takingCallToggle = wrapper
-          //       .find('ToggleButton[data-sign="takingCall"]')
-          //       .at(0)
-          //       .find('input[type="checkbox"]')
-          //       .at(0);
-          //     expect(takingCallToggle.prop('checked')).toEqual(takingCall);
-          //     takingCallToggle.simulate('change', { target: { value: !takingCall } });
-          //     expect(setTakingCall).toBeCalledWith(!takingCall);
-          //   });
-          // });
-          // [true, false].forEach((autoAnswer) => {
-          //   it(`When click the autoAnswer, setAutoAnswer to be called. (with initial state: ${autoAnswer})`, () => {
-          //     const setAutoAnswer = jest.fn();
-          //     wrapper = setup({
-          //       autoAnswer,
-          //       setAutoAnswer,
-          //     });
-          //     const autoAnswerToggle = wrapper
-          //       .find('ToggleButton[data-sign="autoAnswer"]')
-          //       .at(0)
-          //       .find('input[type="checkbox"]')
-          //       .at(0);
-          //     expect(autoAnswerToggle.prop('checked')).toEqual(autoAnswer);
-          //     autoAnswerToggle.simulate('change', { target: { value: !autoAnswer } });
-          //     expect(setAutoAnswer).toBeCalledWith(!autoAnswer);
-          //   });
-          // });
-
-          it('Can display skillProfile correctly, and can be changed.', function () {
-            var setSkillProfileId = jest.fn();
-            var selectedSkillProfileId = '1002';
-            wrapper = setup({
-              setSkillProfileId: setSkillProfileId,
-              selectedSkillProfileId: selectedSkillProfileId
-            });
-            var skillProfilePickList = wrapper.find('PickList[data-sign="skillProfile"]');
-            expect(skillProfilePickList.prop('value')).toBe(selectedSkillProfileId);
-            expect(skillProfilePickList.find('RcSelect').find('[aria-haspopup="listbox"]').text()).toBe(defaultSkillProfileList.find(function (x) {
-              return x.profileId === selectedSkillProfileId;
-            }).profileName);
-            expect(skillProfilePickList.prop('options')).toHaveLength(defaultSkillProfileList.length);
-          });
-          it.skip('Can display loginType correctly, and can be changed.', function () {
-            var setLoginType = jest.fn();
-            var loginType = '102';
-            wrapper = setup({
-              setLoginType: setLoginType,
-              loginType: loginType
-            });
-            var loginTypePickList = wrapper.find('PickList[data-sign="loginType"]');
-            expect(loginTypePickList.prop('value')).toBe(loginType);
-            expect(loginTypePickList.find('[role="button"]').text()).toBe(defaultLoginTypeList.find(function (x) {
-              return x.id === loginType;
-            }).label);
-            var changeLoginType = '101';
-            loginTypePickList.find('[role="button"]').simulate('click');
-            var menuItems = document.body.querySelectorAll('[role="presentation"] li[role="option"]');
-            expect(menuItems).toHaveLength(defaultLoginTypeList.length);
-            document.body.querySelector("li[data-value=\"".concat(changeLoginType, "\"]")).click();
-            expect(setLoginType).toBeCalledWith(changeLoginType);
-          });
-
-        case 3:
-        case "end":
-          return _context2.stop();
+    var extensionNumberField = extensionNumberFieldFn();
+    expect(extensionNumberField.prop('value')).toEqual(extensionNumber);
+    var newExtensionNumber = '65787344366';
+    extensionNumberField.simulate('change', {
+      target: {
+        value: newExtensionNumber
       }
-    }
-  }, _callee2);
-})));
+    });
+    expect(setExtensionNumber).toBeCalledWith(newExtensionNumber);
+    wrapper = setup({
+      setExtensionNumber: setExtensionNumber,
+      extensionNumber: extensionNumber,
+      isExtensionNumber: false
+    });
+    var extensionNumberField2 = extensionNumberFieldFn();
+    expect(extensionNumberField2).toHaveLength(0);
+  }); // [true, false].forEach((takingCall) => {
+  //   it(`When click the takingCall, setTakingCall to be called. (with initial state: ${takingCall})`, () => {
+  //     const setTakingCall = jest.fn();
+  //     wrapper = setup({
+  //       takingCall,
+  //       setTakingCall,
+  //     });
+  //     const takingCallToggle = wrapper
+  //       .find('ToggleButton[data-sign="takingCall"]')
+  //       .at(0)
+  //       .find('input[type="checkbox"]')
+  //       .at(0);
+  //     expect(takingCallToggle.prop('checked')).toEqual(takingCall);
+  //     takingCallToggle.simulate('change', { target: { value: !takingCall } });
+  //     expect(setTakingCall).toBeCalledWith(!takingCall);
+  //   });
+  // });
+  // [true, false].forEach((autoAnswer) => {
+  //   it(`When click the autoAnswer, setAutoAnswer to be called. (with initial state: ${autoAnswer})`, () => {
+  //     const setAutoAnswer = jest.fn();
+  //     wrapper = setup({
+  //       autoAnswer,
+  //       setAutoAnswer,
+  //     });
+  //     const autoAnswerToggle = wrapper
+  //       .find('ToggleButton[data-sign="autoAnswer"]')
+  //       .at(0)
+  //       .find('input[type="checkbox"]')
+  //       .at(0);
+  //     expect(autoAnswerToggle.prop('checked')).toEqual(autoAnswer);
+  //     autoAnswerToggle.simulate('change', { target: { value: !autoAnswer } });
+  //     expect(setAutoAnswer).toBeCalledWith(!autoAnswer);
+  //   });
+  // });
+
+  it('Can display skillProfile correctly, and can be changed.', function () {
+    var setSkillProfileId = jest.fn();
+    var selectedSkillProfileId = '1002';
+    wrapper = setup({
+      setSkillProfileId: setSkillProfileId,
+      selectedSkillProfileId: selectedSkillProfileId
+    });
+    var skillProfilePickList = wrapper.find('PickList[data-sign="skillProfile"]');
+    expect(skillProfilePickList.prop('value')).toBe(selectedSkillProfileId);
+    expect(skillProfilePickList.find('RcSelect').find('[aria-haspopup="listbox"]').text()).toBe(defaultSkillProfileList.find(function (x) {
+      return x.profileId === selectedSkillProfileId;
+    }).profileName);
+    expect(skillProfilePickList.prop('options')).toHaveLength(defaultSkillProfileList.length);
+  });
+  it.skip('Can display loginType correctly, and can be changed.', function () {
+    var setLoginType = jest.fn();
+    var loginType = '102';
+    wrapper = setup({
+      setLoginType: setLoginType,
+      loginType: loginType
+    });
+    var loginTypePickList = wrapper.find('PickList[data-sign="loginType"]');
+    expect(loginTypePickList.prop('value')).toBe(loginType);
+    expect(loginTypePickList.find('[role="button"]').text()).toBe(defaultLoginTypeList.find(function (x) {
+      return x.id === loginType;
+    }).label);
+    var changeLoginType = '101';
+    loginTypePickList.find('[role="button"]').simulate('click');
+    var menuItems = document.body.querySelectorAll('[role="presentation"] li[role="option"]');
+    expect(menuItems).toHaveLength(defaultLoginTypeList.length);
+    document.body.querySelector("li[data-value=\"".concat(changeLoginType, "\"]")).click();
+    expect(setLoginType).toBeCalledWith(changeLoginType);
+  });
+});
 //# sourceMappingURL=BasicSessionPanel.spec.js.map

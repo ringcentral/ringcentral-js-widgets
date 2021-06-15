@@ -67,8 +67,8 @@ function setup(_ref) {
       userName = _ref$userName === void 0 ? defaultUserName : _ref$userName,
       _ref$disableEditSessi = _ref.disableEditSessionButton,
       disableEditSessionButton = _ref$disableEditSessi === void 0 ? false : _ref$disableEditSessi,
-      _ref$showEditSessionB = _ref.showEditSessionButton,
-      showEditSessionButton = _ref$showEditSessionB === void 0 ? true : _ref$showEditSessionB;
+      _ref$showEditSessionI = _ref.showEditSessionIcon,
+      showEditSessionIcon = _ref$showEditSessionI === void 0 ? true : _ref$showEditSessionI;
   return (0, _enzyme.mount)( /*#__PURE__*/_react["default"].createElement(_juno.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_.SettingsPanel, {
     currentLocale: currentLocale,
     onLogout: onLogout,
@@ -78,7 +78,7 @@ function setup(_ref) {
     agentName: agentName,
     userName: userName,
     disableEditSessionButton: disableEditSessionButton,
-    showEditSessionButton: showEditSessionButton
+    showEditSessionIcon: showEditSessionIcon
   })));
 }
 
@@ -90,9 +90,10 @@ var UTCheckOptionsRender = /*#__PURE__*/function () {
           case 0:
             wrapper = setup({});
             expect(wrapper.find('[data-sign="editSession"]').exists()).toBeTruthy();
+            expect(wrapper.find('[title="Edit"]').exists()).toBeTruthy();
             expect(wrapper.find('[data-sign="logout"]').exists()).toBeTruthy();
 
-          case 3:
+          case 4:
           case "end":
             return _context.stop();
         }

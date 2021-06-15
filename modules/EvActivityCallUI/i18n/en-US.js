@@ -15,7 +15,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 var _default = (_dispositionError$dro = {
   dispositionError: 'Please choose a disposition before submitting.'
-}, _defineProperty(_dispositionError$dro, _enums.dropDownOptions.None, 'None'), _defineProperty(_dispositionError$dro, "pleaseSelect", 'Please select'), _defineProperty(_dispositionError$dro, "agentScriptTitle", 'Find agent script setting'), _defineProperty(_dispositionError$dro, "agentScriptContent", 'Click to agent script page'), _dispositionError$dro);
+}, _defineProperty(_dispositionError$dro, _enums.dropDownOptions.None, 'None'), _defineProperty(_dispositionError$dro, "pleaseSelect", 'Please select'), _dispositionError$dro);
 
 exports["default"] = _default;
 //# sourceMappingURL=en-US.js.map

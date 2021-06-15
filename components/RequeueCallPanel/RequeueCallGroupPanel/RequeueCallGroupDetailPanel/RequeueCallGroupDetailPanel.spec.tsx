@@ -50,7 +50,7 @@ const getDetailItems = () => wrapper.find('RcList').at(0).find('RcListItem');
 const getSubmitButton = () =>
   wrapper.find('RcButton[data-sign="select-group-item"]').at(0).find('button');
 
-describe('<RequeueCallGroupPanel />', async () => {
+describe('<RequeueCallGroupPanel />', () => {
   it('Can display selected Queue Group Name and all the Queues', () => {
     wrapper = setup({});
     expect(wrapper.find('BackHeader').at(0).prop('title')).toBe(

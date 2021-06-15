@@ -7,13 +7,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.MuteCallButton = void 0;
 
-var _MicOff = _interopRequireDefault(require("@ringcentral/juno/icon/MicOff"));
-
-var _Mic = _interopRequireDefault(require("@ringcentral/juno/icon/Mic"));
-
 var _react = _interopRequireDefault(require("react"));
 
-var _CircleIconButton = require("../../CircleIconButton");
+var _juno = require("@ringcentral/juno");
+
+var _icon = require("@ringcentral/juno/icon");
 
 var _help = require("../help");
 
@@ -36,17 +34,24 @@ var MuteCallButton = function MuteCallButton(_ref) {
   }),
       muteTitle = _getCircleIconButtonT.muteTitle;
 
-  return /*#__PURE__*/_react["default"].createElement(_CircleIconButton.CircleIconButton, {
-    dataSign: dataSign,
+  var color = disableMute ? 'icon.disabled' : 'icon.dark';
+
+  if (isOnMute) {
+    color = 'icon.primary';
+  }
+
+  return /*#__PURE__*/_react["default"].createElement(_juno.RcIconButton, {
+    "data-sign": dataSign,
+    symbol: isOnMute ? _icon.MicOff : _icon.Mic,
     "data-icon": isOnMute ? 'mic-off' : 'mic',
-    symbol: isOnMute ? _MicOff["default"] : _Mic["default"],
     title: _i18n["default"].getString(muteTitle, currentLocale),
-    active: isOnMute,
+    color: color,
+    shouldPersistBg: isOnMute || disableMute,
     onClick: isOnMute ? onUnmute : onMute,
     disabled: disableMute,
     size: size,
     className: className,
-    normal: true
+    useColorWhenDisabled: isOnMute
   });
 };
 

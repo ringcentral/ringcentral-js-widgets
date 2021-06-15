@@ -8,4 +8,5 @@ export default {
   disconnecting: 'Disconnecting',
   sessionInfo: 'Session info',
   editSession: 'Edit Session',
+  edit: 'Edit',
 };

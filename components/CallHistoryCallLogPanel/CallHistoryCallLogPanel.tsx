@@ -12,6 +12,7 @@ import {
   EvActivityCallUIFunctions,
   EvActivityCallUIProps,
   CallLogMethods,
+  callLogMethods,
   saveStatus as saveStatusValue,
 } from '../../interfaces/EvActivityCallUI.interface';
 import { IvrInfo } from '../ActivityCallLogPanel/IvrInfo';
@@ -57,6 +58,16 @@ export const CallHistoryCallLogPanel: FunctionComponent<CallHistoryCallLogPanelP
     ),
     [isWide, scrollTo, referenceFieldOptions],
   );
+
+  let buttonText;
+  if (
+    saveStatus === callLogMethods.create ||
+    saveStatus === saveStatusValue.submit
+  ) {
+    buttonText = callLogMethods.create;
+  } else {
+    buttonText = saveStatus;
+  }
 
   return (
     <CallLogPanel
@@ -115,7 +126,7 @@ export const CallHistoryCallLogPanel: FunctionComponent<CallHistoryCallLogPanelP
           loading={isLoading}
           onClick={disposeCall}
         >
-          {getButtonText(saveStatus, currentLocale)}
+          {getButtonText(buttonText, currentLocale)}
         </RcButton>
       </div>
     </CallLogPanel>

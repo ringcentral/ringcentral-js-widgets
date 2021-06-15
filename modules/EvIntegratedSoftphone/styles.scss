@@ -1,0 +1,16 @@
+.text {
+  overflow: hidden;
+  display: -webkit-box;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  word-break: break-all;
+
+  [sf-classic] & {
+    -webkit-line-clamp: 3;
+  }
+}
+
+.incomingText{
+  margin-bottom: 8px;
+}

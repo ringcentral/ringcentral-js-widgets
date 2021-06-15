@@ -1,10 +1,5 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.UTCheckAgentListRender = exports.UTCheckAgentListRenderCases = exports.UTCheckTransferAgentSelect = exports.UTCheckTransferAgentSelectCases = exports.UTCheckInternalPanelRender = exports.UTAgentListSearch = exports.UTAgentListSearchCases = exports.UTAgentListDisplayAndHighlight = exports.UTAgentListAutoSync = exports.UTAgentListCheckBackButton = void 0;
-
 require("core-js/modules/es6.promise");
 
 require("core-js/modules/es6.object.define-properties");
@@ -24,6 +19,11 @@ require("core-js/modules/es6.array.iterator");
 require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.keys");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.UTCheckAgentListRender = exports.UTCheckAgentListRenderCases = exports.UTCheckTransferAgentSelect = exports.UTCheckTransferAgentSelectCases = exports.UTCheckInternalPanelRender = exports.UTAgentListSearch = exports.UTAgentListSearchCases = exports.UTAgentListDisplayAndHighlight = exports.UTAgentListAutoSync = exports.UTAgentListCheckBackButton = void 0;
 
 require("core-js/modules/es6.object.define-property");
 
@@ -59,7 +59,7 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 

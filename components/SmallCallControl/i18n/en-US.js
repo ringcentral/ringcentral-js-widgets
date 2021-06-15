@@ -12,7 +12,7 @@ var _default = {
   hangup: 'Hang up',
   reject: 'Reject',
   hold: 'Hold',
-  onHold: 'On Hold',
+  onHold: 'Unhold',
   transfer: 'Transfer'
 };
 exports["default"] = _default;

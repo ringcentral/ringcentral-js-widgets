@@ -1,9 +1,10 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.EvTransferCallUI = void 0;
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+require("core-js/modules/es6.regexp.to-string");
+
+require("core-js/modules/es6.date.to-string");
 
 require("core-js/modules/es6.string.iterator");
 
@@ -19,15 +20,13 @@ require("core-js/modules/es6.promise");
 
 require("core-js/modules/es6.object.create");
 
-require("core-js/modules/es6.regexp.to-string");
-
-require("core-js/modules/es6.date.to-string");
-
 require("core-js/modules/es6.reflect.construct");
 
 require("core-js/modules/es6.object.set-prototype-of");
 
 require("core-js/modules/es6.object.define-property");
+
+require("core-js/modules/es6.array.slice");
 
 require("core-js/modules/es6.array.reduce");
 
@@ -40,6 +39,11 @@ require("core-js/modules/es6.object.to-string");
 require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.for-each");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.EvTransferCallUI = void 0;
 
 require("core-js/modules/es6.function.name");
 
@@ -69,11 +73,9 @@ var _i18n = _interopRequireDefault(require("./i18n"));
 
 var _util = require("./util");
 
-var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _class, _class2, _temp;
+var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _class, _class2;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
@@ -81,7 +83,7 @@ function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread n
 
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
 
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
 
@@ -107,7 +109,7 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
@@ -133,7 +135,7 @@ var EvTransferCallUI = (_dec = (0, _di.Module)({
   return [that.transferOptions, that.evTransferCall.transferType];
 }), _dec8 = (0, _core.computed)(function (that) {
   return [that.isQueueTransfer, that._deps.evRequeueCall.stayOnCall, that.evTransferCall.stayOnCall];
-}), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcUIModuleV) {
+}), _dec(_class = (_class2 = /*#__PURE__*/function (_RcUIModuleV) {
   _inherits(EvTransferCallUI, _RcUIModuleV);
 
   var _super = _createSuper(EvTransferCallUI);
@@ -624,6 +626,6 @@ var EvTransferCallUI = (_dec = (0, _di.Module)({
   }]);
 
   return EvTransferCallUI;
-}(_core.RcUIModuleV2), _temp), (_applyDecoratedDescriptor(_class2.prototype, "selectedQueueGroup", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "selectedQueueGroup"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "selectedGate", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "selectedGate"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "transferOptions", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "transferOptions"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "selectedCallRecipient", [_dec5], Object.getOwnPropertyDescriptor(_class2.prototype, "selectedCallRecipient"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "transferCallDisabled", [_dec6], Object.getOwnPropertyDescriptor(_class2.prototype, "transferCallDisabled"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "textFields", [_dec7], Object.getOwnPropertyDescriptor(_class2.prototype, "textFields"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "stayOnCall", [_dec8], Object.getOwnPropertyDescriptor(_class2.prototype, "stayOnCall"), _class2.prototype)), _class2)) || _class);
+}(_core.RcUIModuleV2), (_applyDecoratedDescriptor(_class2.prototype, "selectedQueueGroup", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "selectedQueueGroup"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "selectedGate", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "selectedGate"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "transferOptions", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "transferOptions"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "selectedCallRecipient", [_dec5], Object.getOwnPropertyDescriptor(_class2.prototype, "selectedCallRecipient"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "transferCallDisabled", [_dec6], Object.getOwnPropertyDescriptor(_class2.prototype, "transferCallDisabled"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "textFields", [_dec7], Object.getOwnPropertyDescriptor(_class2.prototype, "textFields"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "stayOnCall", [_dec8], Object.getOwnPropertyDescriptor(_class2.prototype, "stayOnCall"), _class2.prototype)), _class2)) || _class);
 exports.EvTransferCallUI = EvTransferCallUI;
 //# sourceMappingURL=EvTransferCallUI.js.map

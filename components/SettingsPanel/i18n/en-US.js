@@ -15,7 +15,8 @@ var _default = {
   disconnected: 'Disconnected',
   disconnecting: 'Disconnecting',
   sessionInfo: 'Session info',
-  editSession: 'Edit Session'
+  editSession: 'Edit Session',
+  edit: 'Edit'
 };
 exports["default"] = _default;
 //# sourceMappingURL=en-US.js.map

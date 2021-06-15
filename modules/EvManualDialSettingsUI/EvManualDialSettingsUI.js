@@ -1,9 +1,6 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.EvManualDialSettingsUI = void 0;
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 require("core-js/modules/es6.object.define-properties");
 
@@ -12,6 +9,10 @@ require("core-js/modules/es7.object.get-own-property-descriptors");
 require("core-js/modules/es6.array.filter");
 
 require("core-js/modules/es6.function.name");
+
+require("core-js/modules/es6.regexp.to-string");
+
+require("core-js/modules/es6.date.to-string");
 
 require("core-js/modules/es6.string.iterator");
 
@@ -25,15 +26,13 @@ require("core-js/modules/es6.array.is-array");
 
 require("core-js/modules/es6.object.create");
 
-require("core-js/modules/es6.regexp.to-string");
-
-require("core-js/modules/es6.date.to-string");
-
 require("core-js/modules/es6.reflect.construct");
 
 require("core-js/modules/es6.object.set-prototype-of");
 
 require("core-js/modules/es6.object.define-property");
+
+require("core-js/modules/es6.array.slice");
 
 require("core-js/modules/es6.array.reduce");
 
@@ -47,6 +46,11 @@ require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.for-each");
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.EvManualDialSettingsUI = void 0;
+
 require("core-js/modules/es6.array.find");
 
 require("core-js/modules/es7.array.includes");
@@ -59,13 +63,11 @@ var _di = require("ringcentral-integration/lib/di");
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
-var _dec, _dec2, _dec3, _dec4, _dec5, _class, _class2, _temp;
+var _dec, _dec2, _dec3, _dec4, _dec5, _class, _class2;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
@@ -77,7 +79,7 @@ function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread n
 
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
 
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
 
@@ -99,7 +101,7 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
@@ -116,7 +118,7 @@ var EvManualDialSettingsUI = (_dec = (0, _di.Module)({
   return [that._deps.evAuth.availableCountries, that._deps.evCall.formGroup.dialoutCountryId];
 }), _dec5 = (0, _core.computed)(function (that) {
   return [that.queue, that.country, that.callerId, that._deps.evCall.formGroup.dialoutRingTime, that._deps.evCall.ringTimeLimit, that._deps.evAuth.callerIds, that._deps.evAuth.availableQueues, that._deps.evAuth.availableCountries, that._deps.evAuth.agentPermissions.allowManualOutboundGates, that._deps.evAuth.agentPermissions.allowManualIntlCalls, that._deps.locale.currentLocale];
-}), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcUIModuleV) {
+}), _dec(_class = (_class2 = /*#__PURE__*/function (_RcUIModuleV) {
   _inherits(EvManualDialSettingsUI, _RcUIModuleV);
 
   var _super = _createSuper(EvManualDialSettingsUI);
@@ -309,6 +311,6 @@ var EvManualDialSettingsUI = (_dec = (0, _di.Module)({
   }]);
 
   return EvManualDialSettingsUI;
-}(_core.RcUIModuleV2), _temp), (_applyDecoratedDescriptor(_class2.prototype, "callerId", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "callerId"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "queue", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "queue"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "country", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "country"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "settingFields", [_dec5], Object.getOwnPropertyDescriptor(_class2.prototype, "settingFields"), _class2.prototype)), _class2)) || _class);
+}(_core.RcUIModuleV2), (_applyDecoratedDescriptor(_class2.prototype, "callerId", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "callerId"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "queue", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "queue"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "country", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "country"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "settingFields", [_dec5], Object.getOwnPropertyDescriptor(_class2.prototype, "settingFields"), _class2.prototype)), _class2)) || _class);
 exports.EvManualDialSettingsUI = EvManualDialSettingsUI;
 //# sourceMappingURL=EvManualDialSettingsUI.js.map

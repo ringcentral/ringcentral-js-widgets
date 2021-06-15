@@ -86,40 +86,29 @@ afterEach( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(
     }
   }, _callee);
 })));
-describe('<ManualEntryPanel />', /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
-  return regeneratorRuntime.wrap(function _callee2$(_context2) {
-    while (1) {
-      switch (_context2.prev = _context2.next) {
-        case 0:
-          it('Display Back Button and when user click it, function goBack will be called', function () {
-            var goBack = jest.fn(function () {});
-            wrapper = setup({
-              goBack: goBack
-            });
-            wrapper.find('[data-sign="backButton"]').at(0).find('button').simulate('click');
-            expect(goBack).toBeCalled();
-          });
-          it('Display Next Button and when user click it, function changeRecipientNumber will be called', function () {
-            var changeRecipientNumber = jest.fn(function () {});
-            wrapper = setup({
-              changeRecipientNumber: changeRecipientNumber
-            });
-            var userInput = '343535435';
-            var eventObj = {
-              target: {
-                value: userInput
-              }
-            };
-            wrapper.find('RecipientsInput').at(0).find('input').simulate('change', eventObj);
-            wrapper.find('[data-sign="nextButton"]').at(0).find('button').simulate('click');
-            expect(changeRecipientNumber).toBeCalledWith(userInput);
-          });
-
-        case 2:
-        case "end":
-          return _context2.stop();
+describe('<ManualEntryPanel />', function () {
+  it('Display Back Button and when user click it, function goBack will be called', function () {
+    var goBack = jest.fn(function () {});
+    wrapper = setup({
+      goBack: goBack
+    });
+    wrapper.find('[data-sign="backButton"]').at(0).find('button').simulate('click');
+    expect(goBack).toBeCalled();
+  });
+  it('Display Next Button and when user click it, function changeRecipientNumber will be called', function () {
+    var changeRecipientNumber = jest.fn(function () {});
+    wrapper = setup({
+      changeRecipientNumber: changeRecipientNumber
+    });
+    var userInput = '343535435';
+    var eventObj = {
+      target: {
+        value: userInput
       }
-    }
-  }, _callee2);
-})));
+    };
+    wrapper.find('RecipientsInput').at(0).find('input').simulate('change', eventObj);
+    wrapper.find('[data-sign="nextButton"]').at(0).find('button').simulate('click');
+    expect(changeRecipientNumber).toBeCalledWith(userInput);
+  });
+});
 //# sourceMappingURL=ManualEntryPanel.spec.js.map

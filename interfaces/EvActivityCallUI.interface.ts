@@ -8,7 +8,7 @@ import {
 
 import { EvSmallCallControlProps } from '../components/EvSmallCallControl';
 import { EvTransferType } from '../enums';
-import { EvCallData, EvIvrData } from './EvData.interface';
+import { EvAgentScriptData, EvCallData, EvIvrData } from './EvData.interface';
 
 type CallLogPanelCurrentLog = CallLogPanelProps['currentLog'];
 
@@ -26,7 +26,7 @@ export type EvCurrentLog = CallLogPanelCurrentLog & {
   };
 };
 
-export const callLogMethods = ObjectMap.fromKeys(['create', 'update']);
+export const callLogMethods = ObjectMap.fromKeys(['create']);
 export type CallLogMethods = keyof typeof callLogMethods;
 export const saveStatus = ObjectMap.fromKeys(['saved', 'saving', 'submit']);
 export type SaveStatus = keyof typeof saveStatus;
@@ -34,6 +34,10 @@ export type SaveStatus = keyof typeof saveStatus;
 export type EvActivityCallUIProps = {
   scrollTo: string;
   currentLog: EvCurrentLog;
+  showRecordCall: boolean;
+  isRecording: boolean;
+  disableRecordControl: boolean;
+  disablePauseRecord: boolean;
   /** The subject for call log info */
   basicInfo?: {
     subject?: string;
@@ -49,11 +53,16 @@ export type EvActivityCallUIProps = {
     allowRequeueCall?: boolean;
     allowTransferCall?: boolean;
     allowHoldCall?: boolean;
+    allowRecordControl?: boolean;
+    allowPauseRecord?: boolean;
   };
   disableInternalTransfer: boolean;
   showMuteButton: boolean;
   ivrAlertData: EvIvrData[];
+  agentScriptData: EvAgentScriptData;
   referenceFieldOptions?: CallLogFieldsProps['referenceFieldOptions'];
+  recordPauseCount: number;
+  timeStamp: number;
 } & Pick<
   CallLogPanelProps,
   'currentLocale' | 'showSmallCallControl' | 'isWide'
@@ -86,4 +95,9 @@ export type EvActivityCallUIFunctions = {
     | 'onHold'
     | 'onUnHold'
     | 'onActive'
+    | 'onRecord'
+    | 'onStopRecord'
+    | 'onResumeRecord'
+    | 'onPauseRecord'
+    | 'onRestartTimer'
   >;

@@ -47,11 +47,11 @@ const PhoneBookPanel: FunctionComponent<PhoneBookPanelProps> = ({
         option: EvTransferCallUIProps['transferPhoneBook'][number];
         index: number;
       }) => {
-        const { destination, phoneBookName } = option;
+        const { destination, phoneBookName, phoneBookItemIndex } = option;
 
         return (
           <ListItem
-            onClick={() => changeTransferPhoneBookSelected(i)}
+            onClick={() => changeTransferPhoneBookSelected(phoneBookItemIndex)}
             selected={i === transferPhoneBookSelectedIndex}
             key={i}
             className={transferCallStyles.listItem}

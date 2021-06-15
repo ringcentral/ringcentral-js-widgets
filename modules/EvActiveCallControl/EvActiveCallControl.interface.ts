@@ -5,6 +5,7 @@ import { EvAgentSession } from '../EvAgentSession';
 import { EvIntegratedSoftphone } from '../EvIntegratedSoftphone';
 import { EvPresence } from '../EvPresence';
 import { EvSettings } from '../EvSettings';
+import { EvCallMonitor } from '../EvCallMonitor';
 
 interface State {
   //
@@ -22,6 +23,7 @@ export interface Deps {
   evSettings: EvSettings;
   evAgentSession: EvAgentSession;
   evActiveCallControlOptions?: EvActiveCallControlOptions;
+  evCallMonitor: EvCallMonitor;
 }
 
 export interface ActiveCallControl extends State {

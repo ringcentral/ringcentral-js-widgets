@@ -47,10 +47,11 @@ var PhoneBookPanel = function PhoneBookPanel(_ref) {
       var option = _ref2.option,
           i = _ref2.index;
       var destination = option.destination,
-          phoneBookName = option.phoneBookName;
+          phoneBookName = option.phoneBookName,
+          phoneBookItemIndex = option.phoneBookItemIndex;
       return /*#__PURE__*/_react["default"].createElement(_SelectList.ListItem, {
         onClick: function onClick() {
-          return changeTransferPhoneBookSelected(i);
+          return changeTransferPhoneBookSelected(phoneBookItemIndex);
         },
         selected: i === transferPhoneBookSelectedIndex,
         key: i,

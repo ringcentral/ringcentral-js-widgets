@@ -6,7 +6,7 @@ import {
   EvActiveCallListUIProps,
 } from '../../interfaces';
 import {
-  HandUpButton,
+  HangUpButton,
   HoldCallButton,
   MuteCallButton,
 } from '../SmallCallControl';
@@ -42,7 +42,7 @@ const ActiveCallListPanel: FunctionComponent<ActiveCallListPanelProps> = ({
             {i18n.getString('everyone', currentLocale)}
           </span>
           <div className={styles.controlButtons}>
-            <HandUpButton
+            <HangUpButton
               currentLocale={currentLocale}
               onHangup={() => onHangup(everyoneCaller)}
               className={styles.button}
@@ -70,7 +70,7 @@ const ActiveCallListPanel: FunctionComponent<ActiveCallListPanelProps> = ({
               className={styles.button}
               size="small"
             />
-            <HandUpButton
+            <HangUpButton
               currentLocale={currentLocale}
               onHangup={() => onHangup(everyoneCaller)}
               className={styles.button}
@@ -98,7 +98,7 @@ const ActiveCallListPanel: FunctionComponent<ActiveCallListPanelProps> = ({
                 size="small"
               />
             )}
-            <HandUpButton
+            <HangUpButton
               currentLocale={currentLocale}
               onHangup={() => onHangup(ownCall)}
               className={styles.button}
@@ -129,7 +129,7 @@ const ActiveCallListPanel: FunctionComponent<ActiveCallListPanelProps> = ({
                   className={styles.button}
                   size="small"
                 />
-                <HandUpButton
+                <HangUpButton
                   currentLocale={currentLocale}
                   onHangup={() => onHangup(callItem)}
                   className={styles.button}

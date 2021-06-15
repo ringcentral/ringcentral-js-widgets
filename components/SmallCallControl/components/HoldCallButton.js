@@ -7,11 +7,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.HoldCallButton = void 0;
 
-var _Hold = _interopRequireDefault(require("@ringcentral/juno/icon/Hold"));
-
 var _react = _interopRequireDefault(require("react"));
 
-var _CircleIconButton = require("../../CircleIconButton");
+var _juno = require("@ringcentral/juno");
+
+var _icon = require("@ringcentral/juno/icon");
 
 var _help = require("../help");
 
@@ -34,17 +34,24 @@ var HoldCallButton = function HoldCallButton(_ref) {
   }),
       holdTitle = _getCircleIconButtonT.holdTitle;
 
-  return /*#__PURE__*/_react["default"].createElement(_CircleIconButton.CircleIconButton, {
-    dataSign: dataSign,
+  var color = disableHold ? 'icon.disabled' : 'icon.dark';
+
+  if (isOnHold) {
+    color = 'icon.primary';
+  }
+
+  return /*#__PURE__*/_react["default"].createElement(_juno.RcIconButton, {
+    symbol: _icon.Hold,
     "data-icon": "hold",
-    symbol: _Hold["default"],
     title: _i18n["default"].getString(holdTitle, currentLocale),
-    active: isOnHold,
+    color: color,
+    shouldPersistBg: isOnHold || disableHold,
     onClick: isOnHold ? onUnHold : onHold,
     disabled: disableHold,
     size: size,
     className: className,
-    normal: true
+    useColorWhenDisabled: isOnHold,
+    "data-sign": dataSign
   });
 };
 

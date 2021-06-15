@@ -19,6 +19,7 @@ import { Deps, MainView } from './MainViewUI.interface';
     'EvCallMonitor',
     'EvAuth',
     'Environment',
+    'EvCall',
   ],
 })
 class MainViewUI extends RcUIModuleV2<Deps> implements MainView {
@@ -71,12 +72,14 @@ class MainViewUI extends RcUIModuleV2<Deps> implements MainView {
   @computed((that: MainViewUI) => [
     that._deps.evSettings.isOffhooking,
     that._deps.evCallMonitor.isOnCall,
+    that._deps.evCall.isDialing,
     that._deps.evAuth.agentPermissions.allowOffHook,
   ])
   get isOffHookDisable() {
     return (
       this._deps.evSettings.isOffhooking ||
       this._deps.evCallMonitor.isOnCall ||
+      this._deps.evCall.isDialing ||
       !this._deps.evAuth.agentPermissions.allowOffHook
     );
   }

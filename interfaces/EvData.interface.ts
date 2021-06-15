@@ -35,5 +35,7 @@ export interface EvEvRequeueCallGate {
 export interface EvIvrData {
   subject: string;
   body: string;
+}
+export interface EvAgentScriptData {
   onClick?: () => void;
 }

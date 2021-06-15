@@ -1,19 +1,12 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.EvCallHistory = void 0;
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
 
 require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.object.create");
-
-require("core-js/modules/es6.regexp.to-string");
-
-require("core-js/modules/es6.date.to-string");
 
 require("core-js/modules/es6.reflect.construct");
 
@@ -33,15 +26,16 @@ require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.for-each");
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.EvCallHistory = void 0;
+
 require("core-js/modules/es6.function.name");
 
-require("core-js/modules/es6.array.find");
+require("core-js/modules/es6.array.slice");
 
 require("core-js/modules/es6.array.map");
-
-require("core-js/modules/es6.array.filter");
-
-var _moment = _interopRequireDefault(require("moment"));
 
 var _core = require("@ringcentral-integration/core");
 
@@ -61,10 +55,6 @@ var _FormatPhoneNumber = require("../../lib/FormatPhoneNumber");
 
 var _dec, _dec2, _dec3, _dec4, _class, _class2;
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -81,7 +71,7 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
@@ -89,7 +79,7 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
 
 var EvCallHistory = (_dec = (0, _di.Module)({
   name: 'EvCallHistory',
-  deps: ['EvCallMonitor', 'EvSubscription', 'Locale', {
+  deps: ['EvCallMonitor', 'EvSubscription', 'Locale', 'EvAgentSession', {
     dep: 'ContactMatcher',
     optional: true
   }, {
@@ -134,8 +124,7 @@ var EvCallHistory = (_dec = (0, _di.Module)({
       }
     });
     return _this;
-  } // TODO: dataMapping type
-
+  }
 
   _createClass(EvCallHistory, [{
     key: "_formatPhoneNumber",
@@ -148,23 +137,27 @@ var EvCallHistory = (_dec = (0, _di.Module)({
       });
     }
   }, {
-    key: "_getLastWeekDayTimestamp",
-    value: function _getLastWeekDayTimestamp() {
-      var now = (0, _moment["default"])();
-      var lastWeekDay = now.clone().subtract(7, 'days').startOf('day');
-      return lastWeekDay.valueOf();
-    }
-  }, {
     key: "onInitOnce",
     value: function onInitOnce() {
+      var _this2 = this;
+
       this._deps.evSubscription.subscribe(_callbackTypes.EvCallbackTypes.DIRECT_AGENT_TRANSFER_NOTIF, function (data) {
         if (data.status === _directTransferNotificationTypes.directTransferNotificationTypes.VOICEMAIL) {// TODO add `data` for list and alert message about 'Direct Transfer: data.ani, Click to view call detail.'
+        }
+      });
+
+      (0, _core.watch)(this, function () {
+        return _this2._deps.evAgentSession.configSuccess;
+      }, function (configSuccess) {
+        if (configSuccess && !_this2._deps.evCallMonitor.callsLimited && !_this2._deps.evCallMonitor.calls.length) {
+          _this2._deps.evCallMonitor.limitCalls();
         }
       });
     }
   }, {
     key: "contactMatches",
     get: function get() {
+      // TODO: create EvContactMatcher with specific entity type instead of ContactMatcher in Phone DI
       return this._deps.contactMatcher.dataMapping || {};
     }
   }, {
@@ -190,59 +183,43 @@ var EvCallHistory = (_dec = (0, _di.Module)({
   }, {
     key: "formattedCalls",
     get: function get() {
-      var _this2 = this;
+      var _this3 = this;
 
-      var lastWeekDayTimestamp = this._getLastWeekDayTimestamp(); // max 250 and 7 days
-
-
-      var calls = this.rawCalls.slice(0, 250).filter(function (call) {
-        return call.timestamp >= lastWeekDayTimestamp;
-      });
-      return calls.map(function (call) {
+      return this.rawCalls.slice(0, 250).map(function (call) {
         var contactMatchIdentify = (0, _contactMatchIdentify.contactMatchIdentifyEncode)({
           phoneNumber: call.ani,
           callType: call.callType
         });
 
-        var id = _this2._deps.evCallMonitor.getCallId(call.session);
+        var id = _this3._deps.evCallMonitor.getCallId(call.session);
 
         var direction = call.callType.toLowerCase() === 'outbound' ? _callDirections.callDirection.outbound : _callDirections.callDirection.inbound;
-        var contactMatches = _this2.contactMatches[contactMatchIdentify] || [];
-        var activityMatches = _this2.activityMatches[id] || [];
+        var contactMatches = _this3.contactMatches[contactMatchIdentify] || [];
+        var activityMatches = _this3.activityMatches[id] || [];
         var agent = {
           name: call.agentId,
-          phoneNumber: _this2._formatPhoneNumber(call.agentId)
+          phoneNumber: _this3._formatPhoneNumber(call.agentId)
         };
-        var name = '';
-
-        if (contactMatches.length && activityMatches.length) {
-          // need to convert 18 digit ID to 15 for compatible in classic mode
-          // https://developer.salesforce.com/forums/?id=906F0000000BQGnIAO
-          var activity = activityMatches[0].slice(0, 15);
-          var matched = contactMatches.find(function (match) {
-            return match.id.slice(0, 15) === activity;
-          });
-
-          if (matched) {
-            name = matched.name;
-          }
-        }
-
         var contact = {
-          name: name,
-          phoneNumber: _this2._formatPhoneNumber(call.ani)
+          name: _this3._formatPhoneNumber(call.ani),
+          phoneNumber: _this3._formatPhoneNumber(call.ani)
         };
+        var from = direction === _callDirections.callDirection.outbound ? agent : contact;
+        var to = direction === _callDirections.callDirection.outbound ? contact : agent;
         return {
           id: id,
           direction: direction,
-          from: direction === _callDirections.callDirection.outbound ? agent : contact,
-          to: direction === _callDirections.callDirection.outbound ? contact : agent,
-          fromName: direction === _callDirections.callDirection.outbound ? agent.name || agent.phoneNumber : contact.name || contact.phoneNumber,
-          toName: direction === _callDirections.callDirection.outbound ? contact.name || contact.phoneNumber : agent.name || agent.phoneNumber,
+          agent: agent,
+          contact: contact,
+          from: from,
+          to: to,
+          fromName: from.name,
+          toName: to.name,
           fromMatches: contactMatches,
           toMatches: contactMatches,
           activityMatches: activityMatches,
-          startTime: call.timestamp
+          startTime: call.timestamp,
+          isDisposed: false
         };
       });
     }

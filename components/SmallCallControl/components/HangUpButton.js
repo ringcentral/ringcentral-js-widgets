@@ -5,21 +5,25 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.HandUpButton = void 0;
-
-var _HandUp = _interopRequireDefault(require("@ringcentral/juno/icon/HandUp"));
+exports.HangUpButton = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
-var _CircleIconButton = require("../../CircleIconButton");
+var _juno = require("@ringcentral/juno");
+
+var _icon = require("@ringcentral/juno/icon");
+
+var _classnames = _interopRequireDefault(require("classnames"));
 
 var _help = require("../help");
 
 var _i18n = _interopRequireDefault(require("../i18n"));
 
+var _styles = _interopRequireDefault(require("../styles.scss"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-var HandUpButton = function HandUpButton(_ref) {
+var HangUpButton = function HangUpButton(_ref) {
   var currentLocale = _ref.currentLocale,
       onReject = _ref.onReject,
       onHangup = _ref.onHangup,
@@ -34,26 +38,28 @@ var HandUpButton = function HandUpButton(_ref) {
   }),
       endTitle = _getCircleIconButtonT.endTitle;
 
-  return /*#__PURE__*/_react["default"].createElement(_CircleIconButton.CircleIconButton, {
-    dataSign: dataSign,
+  return /*#__PURE__*/_react["default"].createElement(_juno.RcIconButton, {
+    symbol: _icon.HandUp,
+    variant: "contained",
     "data-icon": "hand-up",
-    symbol: _HandUp["default"],
     title: _i18n["default"].getString(endTitle, currentLocale),
-    color: ['semantic', 'negative'],
+    color: "danger.b03",
     onClick: isInComingCall ? onReject : onHangup,
     disabled: disableHangup,
     size: size,
-    className: className
+    className: (0, _classnames["default"])(_styles["default"].hangup, className),
+    disableRipple: true,
+    "data-sign": dataSign
   });
 };
 
-exports.HandUpButton = HandUpButton;
-HandUpButton.defaultProps = {
+exports.HangUpButton = HangUpButton;
+HangUpButton.defaultProps = {
   onReject: function onReject() {},
   onHangup: function onHangup() {},
   disableHangup: false,
   isInComingCall: false,
   currentLocale: 'en-US',
-  dataSign: 'handUp'
+  dataSign: 'hangup'
 };
-//# sourceMappingURL=HandUpButton.js.map
+//# sourceMappingURL=HangUpButton.js.map

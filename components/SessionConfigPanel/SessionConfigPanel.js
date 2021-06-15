@@ -2,14 +2,14 @@
 
 require("core-js/modules/es6.object.define-property");
 
+require("core-js/modules/es6.object.assign");
+
+require("core-js/modules/es6.symbol");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.SessionConfigPanel = void 0;
-
-require("core-js/modules/es6.object.assign");
-
-require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.array.index-of");
 
@@ -69,7 +69,7 @@ var SessionConfigPanel = function SessionConfigPanel(_ref) {
     variant: "round",
     size: "medium",
     symbol: _ArrowLeft["default"],
-    color: "primary",
+    color: "interactive.b02",
     "data-sign": "reChooseAccountButton"
   }), /*#__PURE__*/_react["default"].createElement(_juno.RcTypography, {
     variant: "body1",

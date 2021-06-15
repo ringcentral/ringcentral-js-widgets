@@ -105,7 +105,7 @@ function getSelectedItem(): any {
   return getAgentStateList().find('li.Mui-selected');
 }
 
-describe('<WorkingStateSelect />', async () => {
+describe('<WorkingStateSelect />', () => {
   it('when no initiative agent state', () => {
     const stateText = null;
     const currentStateIndex = -1;

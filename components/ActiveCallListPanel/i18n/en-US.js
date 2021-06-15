@@ -12,7 +12,7 @@ var _default = {
   everyone: 'Everyone',
   caller: 'Caller',
   callee: 'Callee',
-  unKnown: 'Unknown'
+  unknown: 'Unknown'
 };
 exports["default"] = _default;
 //# sourceMappingURL=en-US.js.map

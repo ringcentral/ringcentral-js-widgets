@@ -1,7 +1,7 @@
-import holdSvg from '@ringcentral/juno/icon/Hold';
 import React, { FunctionComponent } from 'react';
+import { RcIconButton } from '@ringcentral/juno';
+import { Hold } from '@ringcentral/juno/icon';
 
-import { CircleIconButton } from '../../CircleIconButton';
 import { getCircleIconButtonTitle } from '../help';
 import i18n from '../i18n';
 import { CallButtonsProps } from './CallButtons.interface';
@@ -26,18 +26,25 @@ export const HoldCallButton: FunctionComponent<HoldCallButtonProps> = ({
   const { holdTitle } = getCircleIconButtonTitle({
     isOnHold,
   });
+
+  let color = disableHold ? 'icon.disabled' : 'icon.dark';
+  if (isOnHold) {
+    color = 'icon.primary';
+  }
+
   return (
-    <CircleIconButton
-      dataSign={dataSign}
+    <RcIconButton
+      symbol={Hold}
       data-icon="hold"
-      symbol={holdSvg}
       title={i18n.getString(holdTitle, currentLocale)}
-      active={isOnHold}
+      color={color}
+      shouldPersistBg={isOnHold || disableHold}
       onClick={isOnHold ? onUnHold : onHold}
       disabled={disableHold}
       size={size}
       className={className}
-      normal
+      useColorWhenDisabled={isOnHold}
+      data-sign={dataSign}
     />
   );
 };

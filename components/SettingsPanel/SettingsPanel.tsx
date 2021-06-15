@@ -1,4 +1,5 @@
-import { RcButton, RcTypography } from '@ringcentral/juno';
+import { RcButton, RcIconButton, RcTypography } from '@ringcentral/juno';
+import { Edit } from '@ringcentral/juno/icon';
 import classNames from 'classnames';
 import React, { FunctionComponent } from 'react';
 import { Tooltip } from 'ringcentral-widgets/components/Rcui/Tooltip';
@@ -22,7 +23,7 @@ export const SettingsPanel: FunctionComponent<SettingsPanelProps> = ({
   sessionInfo,
   goToSessionUpdatePage,
   disableEditSessionButton,
-  showEditSessionButton,
+  showEditSessionIcon,
 }) => {
   return (
     <div className={styles.settingsPanel}>
@@ -38,42 +39,50 @@ export const SettingsPanel: FunctionComponent<SettingsPanelProps> = ({
       </div>
       <div className={classNames(styles.info, styles.item)}>
         <div className={styles.infoTitle}>
-          {i18n.getString('sessionInfo', currentLocale)}
+          <span>{i18n.getString('sessionInfo', currentLocale)}</span>
+          {showEditSessionIcon && (
+            <span
+              className={classNames({
+                [styles.pointerWrap]: disableEditSessionButton,
+                [styles.alignRight]: true,
+              })}
+            >
+              <RcIconButton
+                data-sign="editSession"
+                title={i18n.getString('edit', currentLocale)}
+                disabled={disableEditSessionButton}
+                onClick={goToSessionUpdatePage}
+                size="small"
+                symbol={Edit}
+              />
+            </span>
+          )}
         </div>
-        {sessionInfo.map(({ value, label }) => (
-          <div className={styles.infoItem} key={value}>
-            <RcTypography variant="caption1" className={styles.label}>
-              {label}
-            </RcTypography>
-            <RcTypography variant="body1" className={styles.value}>
-              {value}
-            </RcTypography>
+        <div className={classNames(styles.infoWrap)}>
+          {sessionInfo.map(({ value, label }) => (
+            <div className={styles.infoItem} key={value}>
+              <RcTypography variant="caption1" className={styles.label}>
+                {label}
+              </RcTypography>
+              <RcTypography variant="body1" className={styles.value}>
+                {value}
+              </RcTypography>
+            </div>
+          ))}
+          <div className={classNames(styles.version, styles.item)}>
+            {i18n.getString('version', currentLocale)}
+            <span>{version}</span>
           </div>
-        ))}
-        {showEditSessionButton && (
-          <RcButton
-            data-sign="editSession"
-            disabled={disableEditSessionButton}
-            onClick={goToSessionUpdatePage}
-            classes={{ root: styles.editSession }}
-            size="medium"
-            fullWidth
-          >
-            {i18n.getString('editSession', currentLocale)}
-          </RcButton>
-        )}
+        </div>
       </div>
-      <div className={classNames(styles.version, styles.item)}>
-        {i18n.getString('version', currentLocale)}
-        <span>{version}</span>
-      </div>
-      <div className={classNames(styles.logout, styles.item)}>
+
+      <div className={classNames(styles.logout)}>
         <RcButton
           data-sign="logout"
           variant="outlined"
           fullWidth
           onClick={onLogout}
-          size="medium"
+          size="large"
         >
           {i18n.getString('logout', currentLocale)}
         </RcButton>

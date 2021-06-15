@@ -15,7 +15,7 @@ var _default = {
   integratedPhone: 'Integrated Phone',
   ringCentralPhone: 'RingCentral Phone',
   externalPhone: 'External Phone',
-  unKnown: 'Unknown'
+  unknown: 'Unknown'
 };
 exports["default"] = _default;
 //# sourceMappingURL=en-US.js.map

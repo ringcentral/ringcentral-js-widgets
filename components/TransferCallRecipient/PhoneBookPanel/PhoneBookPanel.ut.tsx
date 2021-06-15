@@ -96,7 +96,7 @@ export const UTPhoneBookContactCanBeClicked: StepFunction = () => {
     .find('[role="button"]')
     .at(0)
     .simulate('click');
-  expect(changeTransferPhoneBookSelected).toBeCalledWith(selectIndex);
+  expect(changeTransferPhoneBookSelected).toBeCalled();
 };
 
 export const UTPhoneBookListSearchCases = [

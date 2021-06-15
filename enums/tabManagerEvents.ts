@@ -29,6 +29,7 @@ export const tabManagerEvents = ObjectMap.prefixKeys(
     'SIP_REGISTRATION_FAILED_RELOAD',
     // Disposition related
     'CALL_DISPOSITION_SUCCESS',
+    'CALL_LOG_CREATE_SUCCESS',
     'CLOSE_WHEN_CALL_CONNECTED',
     // Auth related
     'LOGOUT',
@@ -37,6 +38,7 @@ export const tabManagerEvents = ObjectMap.prefixKeys(
     'RELOGIN',
     'CONFIGURE_FAIL',
     'RE_CHOOSE_ACCOUNT',
+    'RECORD_PAUSED',
   ],
   'tabManager',
 );

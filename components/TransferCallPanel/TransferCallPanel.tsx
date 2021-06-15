@@ -69,7 +69,7 @@ const TransferCallPanel: FunctionComponent<TransferCallPanelProps> = ({
       selectedTransferType === 'manualEntry' ? (
         <RcIconButton
           size="medium"
-          color={['primary', 'main'] as any}
+          color="interactive.f01"
           variant="plain"
           symbol={dialerSvg}
         />

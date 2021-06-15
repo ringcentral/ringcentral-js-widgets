@@ -1,4 +1,5 @@
-import React, { FunctionComponent, useState } from 'react';
+import { RcDialPadAction } from '@ringcentral/juno';
+import React, { FunctionComponent, useRef } from 'react';
 import { DialPad } from 'ringcentral-widgets/components/Rcui/DialPad';
 import {
   RecipientsInput,
@@ -18,7 +19,7 @@ export const Dialer: FunctionComponent<DialerProps> = ({
   children,
   placeholder,
 }) => {
-  const [inputFocus, setInputFocus] = useState(false);
+  const actionRef = useRef<RcDialPadAction>(null);
 
   return (
     <div className={styles.dialerWrapper}>
@@ -26,9 +27,11 @@ export const Dialer: FunctionComponent<DialerProps> = ({
         <RecipientsInput
           value={value}
           className={styles.recipientInput}
-          onChange={(value) => setValue(value)}
-          onFocus={() => setInputFocus(true)}
-          onBlur={() => setInputFocus(false)}
+          onChange={(value) => {
+            setValue(value);
+
+            actionRef.current?.playAudio(value[value.length - 1]);
+          }}
           onDelete={() => {
             if (value?.length) {
               setValue(value.substring(0, value.length - 1));
@@ -41,7 +44,7 @@ export const Dialer: FunctionComponent<DialerProps> = ({
       <div className={styles.dialerPad}>
         <DialPad
           onChange={(addValue) => setValue(`${value}${addValue}`)}
-          shouldHandleKeyboardEvts={inputFocus}
+          action={actionRef}
         />
       </div>
       {children}

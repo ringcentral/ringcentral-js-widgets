@@ -151,7 +151,7 @@ class EvTransferCall extends RcModuleV2<Deps> implements TransferCall {
     return (
       this._deps.evCall.currentCall?.transferPhoneBook?.reduce<
         EvTransferViewPhoneBookItem[]
-      >((prev, bookItem) => {
+      >((prev, bookItem, index) => {
         const { countryId, destination, name } = bookItem;
         const country = this._deps.evAuth.availableCountries.find(
           (country) => country.countryId === countryId,
@@ -183,6 +183,7 @@ class EvTransferCall extends RcModuleV2<Deps> implements TransferCall {
           ...bookItem,
           phoneBookName,
           parsedDestination,
+          phoneBookItemIndex: index,
         });
 
         return prev;
@@ -714,10 +715,10 @@ class EvTransferCall extends RcModuleV2<Deps> implements TransferCall {
 
     this._sendVoiceMailModalId = this._deps.modalUI.confirm({
       title: i18n.getString('transferModalTitle', currentLocale),
-      okText: i18n.getString('sendVoicemail', currentLocale),
       content: i18n.getString(content, currentLocale),
-      cancelText: i18n.getString('selectOtherAgents', currentLocale),
-      onOK: () => {
+      confirmButtonText: i18n.getString('sendVoicemail', currentLocale),
+      cancelButtonText: i18n.getString('selectOtherAgents', currentLocale),
+      onConfirm: () => {
         this.sendVoicemailToAgent();
       },
       size: 'xsmall',
@@ -750,9 +751,12 @@ class EvTransferCall extends RcModuleV2<Deps> implements TransferCall {
     this._incomingTransferCallModalId = this._deps.modalUI.confirm({
       title: i18n.getString('incomingTransferTitle', currentLocale),
       content: i18n.getString('incomingTransferContent', currentLocale),
-      okText: i18n.getString('acceptIncomingTransfer', currentLocale),
-      cancelText: i18n.getString('ignoreIncomingTransfer', currentLocale),
-      onOK: () => {
+      confirmButtonText: i18n.getString(
+        'acceptIncomingTransfer',
+        currentLocale,
+      ),
+      cancelButtonText: i18n.getString('ignoreIncomingTransfer', currentLocale),
+      onConfirm: () => {
         this.acceptTransferCall();
       },
       onCancel: () => {

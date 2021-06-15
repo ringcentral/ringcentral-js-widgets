@@ -16,15 +16,15 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _HandUpButton = require("./HandUpButton");
+var _HangUpButton = require("./HangUpButton");
 
-Object.keys(_HandUpButton).forEach(function (key) {
+Object.keys(_HangUpButton).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
-  if (key in exports && exports[key] === _HandUpButton[key]) return;
+  if (key in exports && exports[key] === _HangUpButton[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {
-      return _HandUpButton[key];
+      return _HangUpButton[key];
     }
   });
 });

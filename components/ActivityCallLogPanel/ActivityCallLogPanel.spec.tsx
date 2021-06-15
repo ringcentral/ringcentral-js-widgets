@@ -1,9 +1,7 @@
 import React from 'react';
-import {
-  RcThemeProvider,
-  RcExpansionPanelSummary,
-  RcExpansionPanel,
-} from '@ringcentral/juno';
+import { RcThemeProvider } from '@ringcentral/juno';
+import { RcAccordion } from '@ringcentral/juno/components/Accordion';
+import { RcAccordionSummary } from '@ringcentral/juno/components/Accordion/AccordionSummary';
 import { mount } from 'enzyme';
 import {
   ActivityCallLogPanel,
@@ -135,13 +133,12 @@ const getControlButton = (type) => {
   return {
     isExist,
     click: () => isExist && button.find('button').simulate('click'),
-    title: isExist && button.find('CircleIconButton').prop('title'),
-    isActive: isExist && button.find('button').hasClass('buttonActive'),
+    title: isExist && button.find('button').prop('title'),
     isDisabled: isExist && !!button.find('button').render().attr('disabled'),
   };
 };
 
-describe('<ActivityCallLogPanel />:: Call Disposition', async () => {
+describe('<ActivityCallLogPanel />:: Call Disposition', () => {
   const status = 'callEnd';
   it('When call is ended, user will on disposition page and can dispose the call', () => {
     const disposeCall = jest.fn();
@@ -199,7 +196,7 @@ describe('<ActivityCallLogPanel />:: Call Disposition', async () => {
   });
 });
 
-describe('<ActivityCallLogPanel />', async () => {
+describe('<ActivityCallLogPanel />', () => {
   it('When call is onHold, HoldCallButton should display and work correctly', () => {
     const onHold = jest.fn();
     const onUnHold = jest.fn();
@@ -213,7 +210,6 @@ describe('<ActivityCallLogPanel />', async () => {
     const holdButton = getControlButton('HoldCallButton');
     holdButton.click();
     expect(holdButton.title).toBe(i18n.getString('onHold'));
-    expect(holdButton.isActive).toBe(true);
     expect(onUnHold).toBeCalled();
     expect(onHold).not.toBeCalled();
   });
@@ -232,7 +228,6 @@ describe('<ActivityCallLogPanel />', async () => {
     holdButton.click();
 
     expect(holdButton.title).toBe(i18n.getString('hold'));
-    expect(holdButton.isActive).toBe(false);
     expect(onUnHold).not.toBeCalled();
     expect(onHold).toBeCalled();
   });
@@ -270,7 +265,6 @@ describe('<ActivityCallLogPanel />', async () => {
     muteButton.click();
 
     expect(muteButton.title).toBe(i18n.getString('unmute'));
-    expect(muteButton.isActive).toBe(true);
     expect(onUnmute).toBeCalled();
     expect(onMute).not.toBeCalled();
   });
@@ -289,7 +283,6 @@ describe('<ActivityCallLogPanel />', async () => {
     const muteButton = getControlButton('MuteCallButton');
     muteButton.click();
     expect(muteButton.title).toBe(i18n.getString('mute'));
-    expect(muteButton.isActive).toBe(false);
     expect(onUnmute).not.toBeCalled();
     expect(onMute).toBeCalled();
   });
@@ -309,7 +302,6 @@ describe('<ActivityCallLogPanel />', async () => {
       isOnActive: true,
     });
     const transferButton = getControlButton('TransferCallButton');
-    expect(transferButton.isActive).toBe(true);
     expect(transferButton.isDisabled).toBe(false);
   });
 
@@ -356,7 +348,7 @@ describe('<ActivityCallLogPanel />', async () => {
     // for simulate issue: https://github.com/enzymejs/enzyme/issues/386
   });
 
-  it('When user has multiple calls, display ActiveCallButton, not HandUpButton', () => {
+  it('When user has multiple calls, display ActiveCallButton, not HangUpButton', () => {
     const onActive = jest.fn();
     wrapper = setup({
       status: 'active',
@@ -366,7 +358,7 @@ describe('<ActivityCallLogPanel />', async () => {
     });
 
     expect(wrapper.find('ActiveCallButton')).toHaveLength(1);
-    expect(getControlButton('HandUpButton').isExist).toBe(false);
+    expect(getControlButton('HangUpButton').isExist).toBe(false);
     expect(
       wrapper.find('ActiveCallButton').find('button').hasClass('buttonActive'),
     ).toBe(true);
@@ -383,7 +375,7 @@ describe('<ActivityCallLogPanel />', async () => {
       isInComingCall: true,
       onReject,
     });
-    const hangupButton = getControlButton('HandUpButton');
+    const hangupButton = getControlButton('HangUpButton');
     expect(hangupButton.title).toBe(i18n.getString('reject'));
     hangupButton.click();
     expect(onReject).toBeCalled();
@@ -397,7 +389,7 @@ describe('<ActivityCallLogPanel />', async () => {
       isInComingCall: false,
       onHangup,
     });
-    const hangupButton = getControlButton('HandUpButton');
+    const hangupButton = getControlButton('HangUpButton');
     expect(hangupButton.title).toBe(i18n.getString('hangup'));
     hangupButton.click();
     expect(onHangup).toBeCalled();
@@ -410,7 +402,7 @@ describe('<ActivityCallLogPanel />', async () => {
     },
     {
       disableControl: 'disableHangup',
-      domTag: 'HandUpButton',
+      domTag: 'HangUpButton',
     },
     {
       disableControl: 'disableMute',
@@ -471,7 +463,7 @@ describe('<ActivityCallLogPanel />', async () => {
             expect(item.at(0).find('.body').text()).toBe(ivrAlertData[0].body);
           }
         }
-        expect(wrapper.find(RcExpansionPanelSummary).text()).toBe(subject);
+        expect(wrapper.find(RcAccordionSummary).text()).toBe(subject);
       }
     });
 
@@ -479,18 +471,14 @@ describe('<ActivityCallLogPanel />', async () => {
       wrapper = setup({
         status: 'active',
       });
-      wrapper.find(RcExpansionPanelSummary).find('RcIcon').simulate('click');
+      wrapper.find(RcAccordionSummary).find('RcIcon').simulate('click');
       wrapper.update();
-      expect(
-        wrapper.find(RcExpansionPanel).find('.expanded').exists(),
-      ).toBeTruthy();
+      expect(wrapper.find(RcAccordion).find('.expanded').exists()).toBeTruthy();
       wrapper = setup({
         status: 'callEnd',
       });
       wrapper.update();
-      expect(
-        wrapper.find(RcExpansionPanel).find('.expanded').exists(),
-      ).toBeFalsy();
+      expect(wrapper.find(RcAccordion).find('.expanded').exists()).toBeFalsy();
     });
     return null;
   });

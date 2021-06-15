@@ -15,8 +15,6 @@ require("core-js/modules/es6.array.find");
 
 require("regenerator-runtime/runtime");
 
-var _getCurrentRouteId = require("../../../salesforce-engage-voice/test/utils/getCurrentRouteId");
-
 var _ActivityCallLogPage = require("../../containers/ActivityCallLogPage");
 
 var _utils = require("../../test/utils");
@@ -32,7 +30,7 @@ var UTActivityCallLogPanel = /*#__PURE__*/function () {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            id = (0, _getCurrentRouteId.getCurrentRouteId)(context.phone.routerInteraction.currentPath);
+            id = (0, _utils.getCurrentRouteId)(context.phone.routerInteraction.currentPath);
             wrapper = (0, _utils.moduleUIPageMount)(_ActivityCallLogPage.ActivityCallLogPage, {
               id: id
             });

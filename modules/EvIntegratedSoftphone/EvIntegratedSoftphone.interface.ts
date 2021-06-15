@@ -47,3 +47,9 @@ export interface Deps {
 export interface IntegratedSoftphone extends State {
   isWebRTCTab: boolean;
 }
+
+export type ShowRingingModalProps = {
+  displayName: string;
+  queueName: string;
+  isInbound: boolean;
+};

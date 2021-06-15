@@ -189,39 +189,28 @@ afterEach( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(
     }
   }, _callee);
 })));
-describe('<SessionConfigPanel />', /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
-  return regeneratorRuntime.wrap(function _callee2$(_context2) {
-    while (1) {
-      switch (_context2.prev = _context2.next) {
-        case 0:
-          it('When user click setConfigure Button, setConfigure is to be called', function () {
-            var setConfigure = jest.fn();
-            wrapper = setup({
-              setConfigure: setConfigure
-            });
-            var configureButton = getConfigureButton();
-            configureButton.simulate('click');
-            expect(setConfigure).toBeCalled();
-          });
-          it('When loading, setConfigure Button is in loading state, and setConfigure cannot be fired', function () {
-            var setConfigure = jest.fn();
-            var isLoading = true;
-            wrapper = setup({
-              setConfigure: setConfigure,
-              isLoading: isLoading
-            });
-            var configureButton = getConfigureButton();
-            expect(configureButton.find('RcCircularProgress')).toHaveLength(1);
-            expect(configureButton.prop('disabled')).toBe(isLoading);
-            configureButton.simulate('click');
-            expect(setConfigure).not.toBeCalled();
-          });
-
-        case 2:
-        case "end":
-          return _context2.stop();
-      }
-    }
-  }, _callee2);
-})));
+describe('<SessionConfigPanel />', function () {
+  it('When user click setConfigure Button, setConfigure is to be called', function () {
+    var setConfigure = jest.fn();
+    wrapper = setup({
+      setConfigure: setConfigure
+    });
+    var configureButton = getConfigureButton();
+    configureButton.simulate('click');
+    expect(setConfigure).toBeCalled();
+  });
+  it('When loading, setConfigure Button is in loading state, and setConfigure cannot be fired', function () {
+    var setConfigure = jest.fn();
+    var isLoading = true;
+    wrapper = setup({
+      setConfigure: setConfigure,
+      isLoading: isLoading
+    });
+    var configureButton = getConfigureButton();
+    expect(configureButton.find('RcCircularProgress')).toHaveLength(1);
+    expect(configureButton.prop('disabled')).toBe(isLoading);
+    configureButton.simulate('click');
+    expect(setConfigure).not.toBeCalled();
+  });
+});
 //# sourceMappingURL=SessionConfigPanel.spec.js.map

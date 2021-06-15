@@ -14,7 +14,8 @@ var _default = {
   internalTransfer: 'Internal transfer',
   phoneBookTransfer: 'Phone book transfer',
   queueTransfer: 'Queue transfer',
-  enterANumber: 'Enter a number'
+  enterANumber: 'Enter a number',
+  engageScript: 'Engage script'
 };
 exports["default"] = _default;
 //# sourceMappingURL=en-US.js.map

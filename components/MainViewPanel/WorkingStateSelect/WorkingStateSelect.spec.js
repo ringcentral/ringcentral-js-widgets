@@ -151,131 +151,120 @@ function getSelectedItem() {
   return getAgentStateList().find('li.Mui-selected');
 }
 
-describe('<WorkingStateSelect />', /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
-  return regeneratorRuntime.wrap(function _callee5$(_context5) {
-    while (1) {
-      switch (_context5.prev = _context5.next) {
-        case 0:
-          it('when no initiative agent state', function () {
-            var stateText = null;
-            var currentStateIndex = -1;
+describe('<WorkingStateSelect />', function () {
+  it('when no initiative agent state', function () {
+    var stateText = null;
+    var currentStateIndex = -1;
+    wrapper = setup({
+      stateText: stateText,
+      currentStateIndex: currentStateIndex
+    });
+    var agentStateButton = getAgentStateButton();
+    expect(agentStateButton.text).toBe('');
+    agentStateButton.click();
+    var selectedItems = getSelectedItem();
+    expect(selectedItems).toHaveLength(0);
+  });
+  it('Can display initiative agent state', function () {
+    var currentStateIndex = 3;
+    var stateText = 'haha';
+    wrapper = setup({
+      currentStateIndex: currentStateIndex,
+      stateText: stateText
+    });
+    var agentStateButton = getAgentStateButton();
+    expect(agentStateButton.text).toBe(stateText);
+    agentStateButton.click();
+    var agentStateList = getAgentStateList();
+    expect(agentStateList).toHaveLength(agentStates.length);
+    var selectedItems = getSelectedItem();
+    expect(selectedItems).toHaveLength(1);
+    expect(agentStateList.at(currentStateIndex).prop('selected')).toBeTruthy();
+  });
+  it('User can select from agent state list to change', /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+    var changeWorkingState, currentStateIndex, currentState;
+    return regeneratorRuntime.wrap(function _callee2$(_context2) {
+      while (1) {
+        switch (_context2.prev = _context2.next) {
+          case 0:
+            jest.useFakeTimers();
+            changeWorkingState = jest.fn(function () {});
+            currentStateIndex = 3;
             wrapper = setup({
-              stateText: stateText,
-              currentStateIndex: currentStateIndex
+              changeWorkingState: changeWorkingState
             });
-            var agentStateButton = getAgentStateButton();
-            expect(agentStateButton.text).toBe('');
-            agentStateButton.click();
-            var selectedItems = getSelectedItem();
-            expect(selectedItems).toHaveLength(0);
-          });
-          it('Can display initiative agent state', function () {
-            var currentStateIndex = 3;
-            var stateText = 'haha';
-            wrapper = setup({
-              currentStateIndex: currentStateIndex,
-              stateText: stateText
+            (0, _testUtils.act)(function () {
+              return jest.advanceTimersByTime(2100);
             });
-            var agentStateButton = getAgentStateButton();
-            expect(agentStateButton.text).toBe(stateText);
-            agentStateButton.click();
-            var agentStateList = getAgentStateList();
-            expect(agentStateList).toHaveLength(agentStates.length);
-            var selectedItems = getSelectedItem();
-            expect(selectedItems).toHaveLength(1);
-            expect(agentStateList.at(currentStateIndex).prop('selected')).toBeTruthy();
-          });
-          it('User can select from agent state list to change', /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
-            var changeWorkingState, currentStateIndex, currentState;
-            return regeneratorRuntime.wrap(function _callee2$(_context2) {
-              while (1) {
-                switch (_context2.prev = _context2.next) {
-                  case 0:
-                    jest.useFakeTimers();
-                    changeWorkingState = jest.fn(function () {});
-                    currentStateIndex = 3;
-                    wrapper = setup({
-                      changeWorkingState: changeWorkingState
-                    });
-                    (0, _testUtils.act)(function () {
-                      return jest.advanceTimersByTime(2100);
-                    });
-                    getAgentStateButton().click();
-                    getAgentStateList().at(currentStateIndex).simulate('click');
-                    currentState = agentStates[currentStateIndex];
-                    expect(changeWorkingState).toBeCalledWith(currentState);
+            getAgentStateButton().click();
+            getAgentStateList().at(currentStateIndex).simulate('click');
+            currentState = agentStates[currentStateIndex];
+            expect(changeWorkingState).toBeCalledWith(currentState);
 
-                  case 9:
-                  case "end":
-                    return _context2.stop();
-                }
-              }
-            }, _callee2);
-          })));
-          it('Time label will update itself in every minute', /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
-            var handleWithIntervalTime, time, timer, calledIntervalTime1, calledIntervalTime2, calledIntervalTime3;
-            return regeneratorRuntime.wrap(function _callee3$(_context3) {
-              while (1) {
-                switch (_context3.prev = _context3.next) {
-                  case 0:
-                    jest.useFakeTimers();
-                    handleWithIntervalTime = jest.fn(function () {});
-                    time = Date.now();
-                    wrapper = setup({
-                      time: time,
-                      handleWithIntervalTime: handleWithIntervalTime
-                    });
-                    timer = wrapper.find('[data-sign="timer"]');
-                    (0, _testUtils.act)(function () {
-                      return jest.runOnlyPendingTimers();
-                    });
-                    calledIntervalTime1 = Number(timer.text());
-                    (0, _testUtils.act)(function () {
-                      return jest.runOnlyPendingTimers();
-                    });
-                    calledIntervalTime2 = Number(timer.text());
-                    (0, _testUtils.act)(function () {
-                      return jest.runOnlyPendingTimers();
-                    });
-                    calledIntervalTime3 = Number(timer.text());
-                    expect(calledIntervalTime2).toBeGreaterThan(calledIntervalTime1);
-                    expect(calledIntervalTime3).toBeGreaterThan(calledIntervalTime2);
-
-                  case 13:
-                  case "end":
-                    return _context3.stop();
-                }
-              }
-            }, _callee3);
-          })));
-          it('When disabled, click WorkingStateButton should has no response', /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
-            var agentStateButton;
-            return regeneratorRuntime.wrap(function _callee4$(_context4) {
-              while (1) {
-                switch (_context4.prev = _context4.next) {
-                  case 0:
-                    jest.useFakeTimers();
-                    wrapper = setup({
-                      disabled: true
-                    });
-                    agentStateButton = getAgentStateButton();
-                    expect(agentStateButton.button.prop('disabled')).toBe(true);
-                    agentStateButton.click();
-                    expect(getAgentStateList()).toHaveLength(0);
-
-                  case 6:
-                  case "end":
-                    return _context4.stop();
-                }
-              }
-            }, _callee4);
-          })));
-
-        case 5:
-        case "end":
-          return _context5.stop();
+          case 9:
+          case "end":
+            return _context2.stop();
+        }
       }
-    }
-  }, _callee5);
-})));
+    }, _callee2);
+  })));
+  it('Time label will update itself in every minute', /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
+    var handleWithIntervalTime, time, timer, calledIntervalTime1, calledIntervalTime2, calledIntervalTime3;
+    return regeneratorRuntime.wrap(function _callee3$(_context3) {
+      while (1) {
+        switch (_context3.prev = _context3.next) {
+          case 0:
+            jest.useFakeTimers();
+            handleWithIntervalTime = jest.fn(function () {});
+            time = Date.now();
+            wrapper = setup({
+              time: time,
+              handleWithIntervalTime: handleWithIntervalTime
+            });
+            timer = wrapper.find('[data-sign="timer"]');
+            (0, _testUtils.act)(function () {
+              return jest.runOnlyPendingTimers();
+            });
+            calledIntervalTime1 = Number(timer.text());
+            (0, _testUtils.act)(function () {
+              return jest.runOnlyPendingTimers();
+            });
+            calledIntervalTime2 = Number(timer.text());
+            (0, _testUtils.act)(function () {
+              return jest.runOnlyPendingTimers();
+            });
+            calledIntervalTime3 = Number(timer.text());
+            expect(calledIntervalTime2).toBeGreaterThan(calledIntervalTime1);
+            expect(calledIntervalTime3).toBeGreaterThan(calledIntervalTime2);
+
+          case 13:
+          case "end":
+            return _context3.stop();
+        }
+      }
+    }, _callee3);
+  })));
+  it('When disabled, click WorkingStateButton should has no response', /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
+    var agentStateButton;
+    return regeneratorRuntime.wrap(function _callee4$(_context4) {
+      while (1) {
+        switch (_context4.prev = _context4.next) {
+          case 0:
+            jest.useFakeTimers();
+            wrapper = setup({
+              disabled: true
+            });
+            agentStateButton = getAgentStateButton();
+            expect(agentStateButton.button.prop('disabled')).toBe(true);
+            agentStateButton.click();
+            expect(getAgentStateList()).toHaveLength(0);
+
+          case 6:
+          case "end":
+            return _context4.stop();
+        }
+      }
+    }, _callee4);
+  })));
+});
 //# sourceMappingURL=WorkingStateSelect.spec.js.map

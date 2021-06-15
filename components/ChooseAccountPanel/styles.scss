@@ -15,15 +15,15 @@
   .title {
     text-align: center;
     margin: 8px 0 32px;
-    color: rc-palette(text, subdued);
+    color: rc-palette('neutral', 'f04');
   }
 
   .accountName {
-    color: rc-palette(text, dark);
+    color: rc-palette('neutral', 'f06');
   }
 
   .agentType {
-    color: rc-palette(text, subdued);
+    color: rc-palette('neutral', 'f04');
   }
 
   .lists {
@@ -38,7 +38,7 @@
     .content {
       height: 56px;
       width: 100%;
-      border-bottom: 1px solid rc-palette(border, light);
+      border-bottom: 1px solid rc-palette('neutral', 'l02');
       display: flex;
       align-items: center;
       justify-content: space-between;
