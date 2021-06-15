@@ -9,6 +9,8 @@ exports["default"] = void 0;
 
 require("core-js/modules/es6.string.small");
 
+require("core-js/modules/es6.array.slice");
+
 require("core-js/modules/es6.array.map");
 
 require("core-js/modules/es6.string.big");
