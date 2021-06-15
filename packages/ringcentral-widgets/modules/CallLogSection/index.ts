@@ -12,6 +12,7 @@ import { Module } from 'ringcentral-integration/lib/di';
 import ensureExist from 'ringcentral-integration/lib/ensureExist';
 import RcModule from 'ringcentral-integration/lib/RcModule';
 import { selector } from 'ringcentral-integration/lib/selector';
+import { proxify } from 'ringcentral-integration/lib/proxy/proxify';
 
 import { Mapping } from '../../typings';
 import actionTypes from './actionTypes';
@@ -102,7 +103,8 @@ export default class CallLogSection extends RcModule {
     if (typeof this._onError === 'function') this._onError(identify, ...args);
   }
 
-  _showLogSection(identify) {
+  @proxify
+  async _showLogSection(identify: string) {
     if (!this.show || identify !== this.currentIdentify) {
       this.store.dispatch({
         type: this.actionTypes.showLogSection,
@@ -111,7 +113,8 @@ export default class CallLogSection extends RcModule {
     }
   }
 
-  _showLogNotification(identify) {
+  @proxify
+  async _showLogNotification(identify: string) {
     if (
       !this.showNotification ||
       identify !== this.currentNotificationIdentify
@@ -141,6 +144,7 @@ export default class CallLogSection extends RcModule {
     this._onError = onError;
   }
 
+  @proxify
   async updateCallLog(identify, ...args) {
     this.store.dispatch({
       type: this.actionTypes.update,
@@ -149,6 +153,7 @@ export default class CallLogSection extends RcModule {
     await this._onUpdate(identify, ...args);
   }
 
+  @proxify
   async saveCallLog(identify, ...args) {
     if (
       identify &&
@@ -174,19 +179,21 @@ export default class CallLogSection extends RcModule {
     return null;
   }
 
-  handleLogSection(identify) {
+  @proxify
+  async handleLogSection(identify: string) {
     // prevent `isSameCall` for repeat run more time.
     const isSameCall = this.currentIdentify === identify;
     if (!this.show) {
       // Preferentially show call log section.
-      this._showLogSection(identify);
+      await this._showLogSection(identify);
     } else if (!this.notificationIsExpand && !isSameCall) {
       // Check it to show log notification when the call log notification isn't expanded.
-      this._showLogNotification(identify);
+      await this._showLogNotification(identify);
     }
   }
 
-  closeLogSection() {
+  @proxify
+  async closeLogSection() {
     if (this.show) {
       this.store.dispatch({
         type: this.actionTypes.closeLogSection,
@@ -194,23 +201,26 @@ export default class CallLogSection extends RcModule {
     }
   }
 
-  discardAndHandleNotification() {
+  @proxify
+  async discardAndHandleNotification() {
     const currentNotificationIdentify = this.currentNotificationIdentify;
-    this.closeLogNotification();
-    this.closeLogSection();
-    this._showLogSection(currentNotificationIdentify);
+    await this.closeLogNotification();
+    await this.closeLogSection();
+    await this._showLogSection(currentNotificationIdentify);
   }
 
+  @proxify
   async saveAndHandleNotification() {
     const currentNotificationIdentify = this.currentNotificationIdentify;
     const currentIdentify = this.currentIdentify;
     await this.saveCallLog(currentIdentify);
-    this.closeLogNotification();
-    this.closeLogSection();
-    this._showLogSection(currentNotificationIdentify);
+    await this.closeLogNotification();
+    await this.closeLogSection();
+    await this._showLogSection(currentNotificationIdentify);
   }
 
-  closeLogNotification() {
+  @proxify
+  async closeLogNotification() {
     if (this.showNotification) {
       this.store.dispatch({
         type: this.actionTypes.closeLogNotification,
@@ -219,7 +229,8 @@ export default class CallLogSection extends RcModule {
   }
 
   // shrink the popover menu appear when click log button at call notificaiton
-  shrinkNotification() {
+  @proxify
+  async shrinkNotification() {
     if (this.notificationIsExpand) {
       this.store.dispatch({
         type: this.actionTypes.shrinkNotification,
@@ -227,10 +238,11 @@ export default class CallLogSection extends RcModule {
     }
   }
 
-  expandLogNotification() {
+  @proxify
+  async expandLogNotification() {
     if (!this.show) {
-      this._showLogSection(this.currentNotificationIdentify);
-      this.closeLogNotification();
+      await this._showLogSection(this.currentNotificationIdentify);
+      await this.closeLogNotification();
     } else if (!this.notificationIsExpand) {
       this.store.dispatch({
         type: this.actionTypes.expandNotification,

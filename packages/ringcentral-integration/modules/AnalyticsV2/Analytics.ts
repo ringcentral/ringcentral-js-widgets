@@ -39,7 +39,7 @@ export class Analytics<T = {}> extends RcModuleV2<Deps & T> {
   protected _trackRouters =
     this._deps.analyticsOptions.trackRouters ?? trackRouters;
 
-  private _segment: any;
+  protected _segment: any;
 
   protected _logs: TrackLog[] = [];
 

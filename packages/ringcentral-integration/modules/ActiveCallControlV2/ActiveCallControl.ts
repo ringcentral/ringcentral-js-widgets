@@ -19,7 +19,7 @@ import {
   PartyStatusCode,
 } from 'ringcentral-call-control/lib/Session';
 import { WebPhoneSession } from 'ringcentral-web-phone/lib/session';
-import { filter, sort, forEach } from 'ramda';
+import { filter, sort, forEach, isEmpty } from 'ramda';
 import { v4 as uuidV4 } from 'uuid';
 import { ExtensionTelephonySessionsEvent } from '@rc-ex/core/definitions';
 import { callDirection } from '../../enums/callDirections';
@@ -33,14 +33,15 @@ import {
   conflictError,
   isRecording,
   isHolding,
-  ActiveCallControlSessionData,
   isRinging,
   isAtMainNumberPromptToneStage,
-  getInboundSwitchedParty,
+  filterDisconnectedCalls,
+  normalizeTelephonySession,
 } from './helpers';
 import { trackEvents } from '../Analytics';
 import callControlError from '../ActiveCallControl/callControlError';
 import {
+  ActiveCallControlSessionData,
   ActiveSession,
   Deps,
   ModuleMakeCallParams,
@@ -49,8 +50,9 @@ import validateNumbers from '../../lib/validateNumbers';
 import {
   normalizeSession as normalizeWebphoneSession,
   sortByCreationTimeDesc,
-} from '../Webphone/webphoneHelper';
-import { sessionStatus } from '../Webphone/sessionStatus';
+} from '../WebphoneV2/webphoneHelper';
+import { sessionStatus } from '../WebphoneV2/sessionStatus';
+import proxify from '../../lib/proxy/proxify';
 
 const DEFAULT_TTL = 30 * 60 * 1000;
 const DEFAULT_TIME_TO_RETRY = 62 * 1000;
@@ -165,14 +167,14 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
       const { telephoneSessionId }: { telephoneSessionId: string } = JSON.parse(
         e.newValue,
       );
-      const ids = this.rcCallSessions
+      const ids = this.sessions
         .filter(
-          (s: Session) =>
+          (s: ActiveCallControlSessionData) =>
             !isRinging(s) &&
             !!s.webphoneSession &&
             s.telephonySessionId !== telephoneSessionId,
         )
-        .map((s: Session) => s.telephonySessionId);
+        .map((s: ActiveCallControlSessionData) => s.telephonySessionId);
       const id = uuidV4();
       const data = { id, ids };
       if (ids.length) {
@@ -196,8 +198,11 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
       const callsList = ids
         // filter calls which are already in current instance.
         .filter((id) =>
-          this.rcCallSessions.find(
-            (item) => item.telephonySessionId === id && !!item.telephonySession,
+          this.sessions.find(
+            (item: ActiveCallControlSessionData) =>
+              item.telephonySessionId === id &&
+              !!item.telephonySession &&
+              !isEmpty(item.telephonySession),
           ),
         )
         // transfer id to ActiveCallInfo.
@@ -284,6 +289,7 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
   @state
   cachedSessions: object[] = [];
 
+  @proxify
   async onInit() {
     if (!this._hasPermission) return;
     this._deps.subscription.subscribe([subscribeEvent]);
@@ -360,6 +366,7 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
     return !this._deps.tabManager || this._deps.tabManager.active;
   }
 
+  @proxify
   async fetchData() {
     if (!this._promise) {
       this._promise = this._fetchData();
@@ -430,6 +437,7 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
     }, t);
   }
 
+  @proxify
   async _fetchData() {
     try {
       await this._syncData();
@@ -487,11 +495,29 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
   @action
   updateActiveSessions() {
     this.data.timestamp = Date.now();
-    const callControlSessions = this._rcCall?._callControl?.sessions.map(
-      (session: TelephonySession) => {
-        return { ...session.data, party: session.party || {} };
-      },
-    );
+    const callControlSessions = (this._rcCall?.sessions || [])
+      .filter((session: Session) => filterDisconnectedCalls(session))
+      .map((session: Session) => {
+        return {
+          ...session.data,
+          activeCallId: session.activeCallId,
+          direction: session.direction,
+          from: session.from,
+          id: session.id,
+          otherParties: session.otherParties,
+          party: session.party || {},
+          recordings: session.recordings,
+          sessionId: session.sessionId,
+          startTime: session.startTime,
+          status: session.status,
+          telephonySessionId: session.telephonySessionId,
+          telephonySession: normalizeTelephonySession(session.telephonySession),
+          to: session.to,
+          webphoneSessionConnected: session.webphoneSessionConnected,
+          webphoneSession: normalizeWebphoneSession(session.webphoneSession),
+        };
+      });
+
     this.data.sessions = callControlSessions || [];
   }
 
@@ -617,6 +643,7 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
   @track((that: ActiveCallControl) => [
     that._getTrackEventName(trackEvents.mute),
   ])
+  @proxify
   async mute(telephonySessionId: string) {
     try {
       this.setCallControlBusyTimestamp();
@@ -645,6 +672,7 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
   @track((that: ActiveCallControl) => [
     that._getTrackEventName(trackEvents.unmute),
   ])
+  @proxify
   async unmute(telephonySessionId: string) {
     try {
       this.setCallControlBusyTimestamp();
@@ -687,6 +715,7 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
   @track((that: ActiveCallControl) => [
     that._getTrackEventName(trackEvents.record),
   ])
+  @proxify
   async startRecord(telephonySessionId: string) {
     try {
       this.setCallControlBusyTimestamp();
@@ -723,6 +752,7 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
   @track((that: ActiveCallControl) => [
     that._getTrackEventName(trackEvents.stopRecord),
   ])
+  @proxify
   async stopRecord(telephonySessionId: string) {
     try {
       this.setCallControlBusyTimestamp();
@@ -742,6 +772,7 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
   @track((that: ActiveCallControl) => [
     that._getTrackEventName(trackEvents.hangup),
   ])
+  @proxify
   async hangUp(telephonySessionId: string) {
     try {
       this.setCallControlBusyTimestamp();
@@ -765,6 +796,7 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
   @track((that: ActiveCallControl) => [
     that._getTrackEventName(trackEvents.voicemail),
   ])
+  @proxify
   async reject(telephonySessionId: string) {
     try {
       this.setCallControlBusyTimestamp();
@@ -787,6 +819,7 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
   @track((that: ActiveCallControl) => [
     that._getTrackEventName(trackEvents.confirmSwitch),
   ])
+  @proxify
   async switch(telephonySessionId: string) {
     try {
       this.setCallControlBusyTimestamp();
@@ -814,6 +847,7 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
   @track((that: ActiveCallControl) => [
     that._getTrackEventName(trackEvents.hold),
   ])
+  @proxify
   async hold(telephonySessionId: string) {
     try {
       this.setCallControlBusyTimestamp();
@@ -857,6 +891,7 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
   @track((that: ActiveCallControl) => [
     that._getTrackEventName(trackEvents.unhold),
   ])
+  @proxify
   async unhold(telephonySessionId: string) {
     try {
       this.setCallControlBusyTimestamp();
@@ -893,6 +928,7 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
   }
 
   @track(trackEvents.transfer)
+  @proxify
   async transfer(transferNumber: string, telephonySessionId: string) {
     try {
       this.setCallControlBusyTimestamp();
@@ -940,7 +976,8 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
     }
   }
 
-  // Incomplete Implementation?
+  // FIXME: Incomplete Implementation?
+  @proxify
   async flip(flipValue: string, telephonySessionId: string) {
     try {
       this.setCallControlBusyTimestamp();
@@ -959,6 +996,7 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
   @track((that: ActiveCallControl) => [
     that._getTrackEventName(trackEvents.confirmForward),
   ])
+  @proxify
   async forward(forwardNumber: string, telephonySessionId: string) {
     const { regionSettings, brand } = this._deps;
     const session = this._rcCall.sessions.find((s: Session) => {
@@ -1018,6 +1056,7 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
   }
 
   // DTMF handing by webphone session temporary, due to rc call session doesn't support currently
+  @proxify
   async sendDTMF(dtmfValue: string, telephonySessionId: string) {
     try {
       const session = this._rcCall.sessions.find((s: Session) => {
@@ -1077,15 +1116,16 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
   _setActiveSessionIdFromOnHoldCalls(telephonySessionId: string) {
     if (!telephonySessionId) return;
     if (this.activeSessionId === telephonySessionId) {
-      const onHoldSessions: Session[] = sort(
+      const onHoldSessions: ActiveCallControlSessionData[] = sort(
         (l, r) =>
           sortByCreationTimeDesc(
             normalizeWebphoneSession(l.webphoneSession),
             normalizeWebphoneSession(r.webphoneSession),
           ),
         filter(
-          (s: Session) => isHolding(s) && !!s.webphoneSession,
-          this.rcCallSessions,
+          (s: ActiveCallControlSessionData) =>
+            isHolding(s) && !!s.webphoneSession,
+          this.sessions,
         ),
       );
       if (onHoldSessions.length) {
@@ -1094,6 +1134,7 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
     }
   }
 
+  @proxify
   async _holdOtherCalls(telephonySessionId?: string) {
     const otherSessions = filter((s: Session) => {
       return (
@@ -1131,6 +1172,7 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
     await Promise.all(holdOtherSessions);
   }
 
+  @proxify
   async _answer(telephonySessionId: string) {
     this._triggerAutoMergeEvent(telephonySessionId);
     this.setCallControlBusyTimestamp();
@@ -1152,6 +1194,7 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
   @track((that: ActiveCallControl) => [
     that._getTrackEventName(trackEvents.answer),
   ])
+  @proxify
   async answer(telephonySessionId: string) {
     try {
       await this._answer(telephonySessionId);
@@ -1163,6 +1206,7 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
   @track((that: ActiveCallControl) => [
     that._getTrackEventName(trackEvents.holdAndAnswer),
   ])
+  @proxify
   async answerAndHold(telephonySessionId: string) {
     // currently, the logic is same as answer
     try {
@@ -1182,6 +1226,7 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
   @track((that: ActiveCallControl) => [
     that._getTrackEventName(trackEvents.ignore),
   ])
+  @proxify
   async ignore(telephonySessionId: string) {
     try {
       this.setCallControlBusyTimestamp();
@@ -1201,6 +1246,7 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
   @track((that: ActiveCallControl) => [
     that._getTrackEventName(trackEvents.endAndAnswer),
   ])
+  @proxify
   async answerAndEnd(telephonySessionId: string) {
     try {
       if (this.busy) return;
@@ -1231,6 +1277,7 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
     }
   }
 
+  @proxify
   async makeCall(params: ModuleMakeCallParams) {
     try {
       if (
@@ -1363,24 +1410,12 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
     return this.sessions.some((session) => isRecording(session));
   }
 
+  // TODO:refactor, use this.sessions instead
   get rcCallSessions() {
-    // workaround of bug:
-    // switch an inbound call then call direction will change to outbound
-    return filter((session: Session) => {
-      const { party, otherParties, direction, status } = session;
-      if (
-        direction === callDirection.outbound &&
-        status !== PartyStatusCode.disconnected
-      ) {
-        const inboundSwitchedParty = getInboundSwitchedParty(otherParties);
-        if (inboundSwitchedParty) {
-          party.direction = inboundSwitchedParty.direction;
-          party.to = inboundSwitchedParty.to;
-          party.from = inboundSwitchedParty.from;
-        }
-      }
-      return session.status !== PartyStatusCode.disconnected;
-    }, this._rcCall?.sessions || []);
+    return filter(
+      (session: Session) => filterDisconnectedCalls(session),
+      this._rcCall?.sessions || [],
+    );
   }
 
   get activeSessionId() {

@@ -1,35 +1,35 @@
-import { EventEmitter } from 'events';
-import RingCentralWebphone from 'ringcentral-web-phone';
-import { WebPhoneUserAgent } from 'ringcentral-web-phone/lib/userAgent';
 import CreateSipRegistrationResponse from '@rc-ex/core/definitions/CreateSipRegistrationResponse';
 import SipRegistrationDeviceInfo from '@rc-ex/core/definitions/SipRegistrationDeviceInfo';
-import PhoneLinesInfo from 'ringcentral-client/build/definitions/PhoneLinesInfo';
-import defaultIncomingAudio from 'ringcentral-web-phone/audio/incoming.ogg';
-import defaultOutgoingAudio from 'ringcentral-web-phone/audio/outgoing.ogg';
-import { ObjectMapValue } from '@ringcentral-integration/core/lib/ObjectMap';
 import {
+  action,
+  computed,
   RcModuleV2,
   state,
-  action,
-  watch,
-  computed,
   storage,
   track,
+  watch,
 } from '@ringcentral-integration/core';
+import { ObjectMapValue } from '@ringcentral-integration/core/lib/ObjectMap';
+import { EventEmitter } from 'events';
+import PhoneLinesInfo from 'ringcentral-client/build/definitions/PhoneLinesInfo';
+import RingCentralWebphone from 'ringcentral-web-phone';
+import defaultIncomingAudio from 'ringcentral-web-phone/audio/incoming.ogg';
+import defaultOutgoingAudio from 'ringcentral-web-phone/audio/outgoing.ogg';
+import { WebPhoneUserAgent } from 'ringcentral-web-phone/lib/userAgent';
+import { WebphoneSession } from '../../interfaces/Webphone.interface';
 import { Module } from '../../lib/di';
-import sleep from '../../lib/sleep';
-import { connectionStatus } from './connectionStatus';
-import { webphoneErrors } from './webphoneErrors';
 import { proxify } from '../../lib/proxy/proxify';
+import sleep from '../../lib/sleep';
+import { trackEvents } from '../Analytics';
+import { connectionStatus } from './connectionStatus';
+import { EVENTS } from './events';
 import { Deps } from './Webphone.interface';
+import { webphoneErrors } from './webphoneErrors';
 import {
   isBrowserSupport,
   isChrome,
   isEnableMidLinesInSDP,
 } from './webphoneHelper';
-import { EVENTS } from './events';
-import { trackEvents } from '../Analytics';
-import { WebphoneSession } from '../../interfaces/Webphone.interface';
 
 export const DEFAULT_AUDIO = 'default';
 
@@ -105,7 +105,7 @@ export class WebphoneBase extends RcModuleV2<Deps> {
       storageKey: 'Webphone',
     });
     this._disconnectOnInactive =
-      deps.webphoneOptions.disconnectOnInactive ?? false;
+      deps.webphoneOptions?.disconnectOnInactive ?? false;
     this._activeWebphoneKey = `${deps.prefix}-active-webphone-key`;
 
     this._webphone = null;

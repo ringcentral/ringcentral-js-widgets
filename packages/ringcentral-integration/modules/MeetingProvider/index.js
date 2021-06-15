@@ -1,5 +1,4 @@
 import { contains } from 'ramda';
-
 import subscriptionFilters from '../../enums/subscriptionFilters';
 import subscriptionHints from '../../enums/subscriptionHints';
 import DataFetcher from '../../lib/DataFetcher';
@@ -9,21 +8,21 @@ import { meetingProviderTypes } from './interface';
 import { getMeetingProvider } from './service';
 
 /**
- * @class
- * @description: just check meeting provider from RC PLA
+ * MeetingProviderV2 is renamed to VideoConfigurations.
  */
+
 @Module({
-  deps: ['RolesAndPermissions'],
+  deps: ['Client', 'ExtensionFeatures'],
 })
 export default class MeetingProvider extends DataFetcher {
-  constructor({ rolesAndPermissions, ...options }) {
+  constructor({ extensionFeatures, ...options }) {
     super({
       ...options,
       subscriptionFilters: [subscriptionFilters.extensionInfo],
       subscriptionHandler: async (message) => {
         await this._subscriptionHandleFn(message);
       },
-      readyCheckFn: () => this._rolesAndPermissions.ready,
+      readyCheckFn: () => this._extensionFeatures.ready,
       async fetchFunction() {
         const data = await getMeetingProvider(this._client);
         return data;
@@ -31,7 +30,7 @@ export default class MeetingProvider extends DataFetcher {
       disableCache: true,
       cleanOnReset: true,
     });
-    this._rolesAndPermissions = rolesAndPermissions;
+    this._extensionFeatures = extensionFeatures;
   }
 
   async _subscriptionHandleFn(message) {
@@ -65,7 +64,7 @@ export default class MeetingProvider extends DataFetcher {
   }
 
   get _hasPermission() {
-    return !!this._rolesAndPermissions.hasMeetingsPermission;
+    return !!this._extensionFeatures.features?.Meetings?.available;
   }
 
   get _name() {

@@ -7,7 +7,7 @@ import composeTextActionTypes from './actionTypes';
 import getComposeTextReducer from './getComposeTextReducer';
 import getCacheReducer from './getCacheReducer';
 
-import messageSenderMessages from '../MessageSender/messageSenderMessages';
+import { messageSenderMessages } from '../MessageSender/messageSenderMessages';
 import proxify from '../../lib/proxy/proxify';
 /**
  * @class
@@ -20,7 +20,7 @@ import proxify from '../../lib/proxy/proxify';
     'Storage',
     'MessageSender',
     'NumberValidate',
-    'RolesAndPermissions',
+    'ExtensionFeatures',
     // { dep: 'Conversations', optional: true },
     { dep: 'RouterInteraction', optional: true },
     { dep: 'ContactSearch', optional: true },
@@ -45,7 +45,7 @@ export default class ComposeText extends RcModule {
     messageSender,
     numberValidate,
     contactSearch,
-    rolesAndPermissions,
+    extensionFeatures,
     conversations,
     routerInteraction,
     ...options
@@ -58,7 +58,7 @@ export default class ComposeText extends RcModule {
     this._alert = alert;
     this._auth = auth;
     this._storage = storage;
-    this._rolesAndPermissions = rolesAndPermissions;
+    this._extensionFeatures = extensionFeatures;
     this._storageKey = 'composeText';
     this._reducer = getComposeTextReducer(this.actionTypes);
     this._cacheReducer = getCacheReducer(this.actionTypes);
@@ -187,7 +187,7 @@ export default class ComposeText extends RcModule {
   _validateIsOnlyPager(phoneNumber) {
     if (
       phoneNumber.length >= 7 &&
-      this._rolesAndPermissions.onlyPagerPermission
+      !this._extensionFeatures.hasOutboundSMSPermission
     ) {
       this._alertWarning(messageSenderMessages.noSMSPermission);
       return true;

@@ -1,10 +1,8 @@
-import { Module } from '../../lib/di';
 import DataFetcher from '../../lib/DataFetcher';
-import ensureExist from '../../lib/ensureExist';
+import { Module } from '../../lib/di';
 import { selector } from '../../lib/selector';
-
 import loginStatus from '../Auth/loginStatus';
-import permissionsMessages from '../RolesAndPermissions/permissionsMessages';
+import { permissionsMessages } from '../RolesAndPermissions/permissionsMessages';
 
 /**
  * @class
@@ -13,7 +11,7 @@ import permissionsMessages from '../RolesAndPermissions/permissionsMessages';
 @Module({
   deps: [
     'Client',
-    'RolesAndPermissions',
+    'ExtensionFeatures',
     'Alert',
     { dep: 'AccountInfoOptions', optional: true },
   ],
@@ -25,22 +23,17 @@ export default class AccountInfo extends DataFetcher {
    * @param {Object} params - params object
    * @param {Client} params.client - client module instance
    */
-  constructor({ client, rolesAndPermissions, alert, ...options }) {
+  constructor({ client, extensionFeatures, alert, ...options }) {
     super({
       client,
       fetchFunction: async () => client.account().get(),
-      readyCheckFn: () => this._rolesAndPermissions.ready,
+      readyCheckFn: () => this._extensionFeatures.ready,
       ...options,
     });
     console.warn(
       'AccountInfo is deprecated, please evaluate and transition to use AccountInfoV2',
     );
-
-    this._rolesAndPermissions = ensureExist.call(
-      this,
-      rolesAndPermissions,
-      'rolesAndPermissions',
-    );
+    this._extensionFeatures = extensionFeatures;
     this._alert = alert;
   }
 
@@ -98,6 +91,6 @@ export default class AccountInfo extends DataFetcher {
   }
 
   get _hasPermission() {
-    return !!this._rolesAndPermissions.permissions.ReadCompanyInfo;
+    return !!this._extensionFeatures.features?.ReadCompanyInfo?.available;
   }
 }

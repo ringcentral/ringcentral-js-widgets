@@ -60,39 +60,42 @@ export class Webphone extends WebphoneBase {
     super(deps);
 
     this._activeWebphoneActiveCallKey = `${deps.prefix}-active-webphone-active-call-key`;
-    this._permissionCheck = this._deps.webphoneOptions.permissionCheck ?? true;
+    this._permissionCheck = this._deps.webphoneOptions?.permissionCheck ?? true;
 
-    if (typeof deps.webphoneOptions.onCallEnd === 'function') {
-      this._eventEmitter.on(EVENTS.callEnd, deps.webphoneOptions.onCallEnd);
+    if (typeof deps.webphoneOptions?.onCallEnd === 'function') {
+      this._eventEmitter.on(EVENTS.callEnd, deps.webphoneOptions?.onCallEnd);
     }
-    if (typeof deps.webphoneOptions.onCallRing === 'function') {
-      this._eventEmitter.on(EVENTS.callRing, deps.webphoneOptions.onCallRing);
+    if (typeof deps.webphoneOptions?.onCallRing === 'function') {
+      this._eventEmitter.on(EVENTS.callRing, deps.webphoneOptions?.onCallRing);
     }
-    if (typeof deps.webphoneOptions.onCallStart === 'function') {
-      this._eventEmitter.on(EVENTS.callStart, deps.webphoneOptions.onCallStart);
+    if (typeof deps.webphoneOptions?.onCallStart === 'function') {
+      this._eventEmitter.on(
+        EVENTS.callStart,
+        deps.webphoneOptions?.onCallStart,
+      );
     }
-    if (typeof deps.webphoneOptions.onCallResume === 'function') {
+    if (typeof deps.webphoneOptions?.onCallResume === 'function') {
       this._eventEmitter.on(
         EVENTS.callResume,
-        deps.webphoneOptions.onCallResume,
+        deps.webphoneOptions?.onCallResume,
       );
     }
-    if (typeof deps.webphoneOptions.onCallHold === 'function') {
-      this._eventEmitter.on(EVENTS.callHold, deps.webphoneOptions.onCallHold);
+    if (typeof deps.webphoneOptions?.onCallHold === 'function') {
+      this._eventEmitter.on(EVENTS.callHold, deps.webphoneOptions?.onCallHold);
     }
-    if (typeof deps.webphoneOptions.onCallInit === 'function') {
-      this._eventEmitter.on(EVENTS.callInit, deps.webphoneOptions.onCallInit);
+    if (typeof deps.webphoneOptions?.onCallInit === 'function') {
+      this._eventEmitter.on(EVENTS.callInit, deps.webphoneOptions?.onCallInit);
     }
-    if (typeof deps.webphoneOptions.onBeforeCallResume === 'function') {
+    if (typeof deps.webphoneOptions?.onBeforeCallResume === 'function') {
       this._eventEmitter.on(
         EVENTS.beforeCallResume,
-        deps.webphoneOptions.onBeforeCallResume,
+        deps.webphoneOptions?.onBeforeCallResume,
       );
     }
-    if (typeof deps.webphoneOptions.onBeforeCallEnd === 'function') {
+    if (typeof deps.webphoneOptions?.onBeforeCallEnd === 'function') {
       this._eventEmitter.on(
         EVENTS.beforeCallEnd,
-        deps.webphoneOptions.onBeforeCallEnd,
+        deps.webphoneOptions?.onBeforeCallEnd,
       );
     }
 

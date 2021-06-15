@@ -24,8 +24,8 @@
     "@ringcentral-integration/i18n": "*",
     "@ringcentral-integration/locale-loader": "*",
     "@ringcentral-integration/phone-number": "*",
-    "@ringcentral/sdk": "^4.4.2",
-    "@ringcentral/subscriptions": "^4.4.2",
+    "@ringcentral/sdk": "^4.5.0",
+    "@ringcentral/subscriptions": "^4.5.0",
     "autoprefixer": "^9.8.4",
     "babel-istanbul": "^0.12.1",
     "babel-loader": "^8.1.0",
@@ -65,7 +65,7 @@
     "url-loader": "^1.1.2",
     "webpack": "^4.29.0",
     "webpack-dev-server": "^3.1.14",
-    "yargs": "^14.0.0"
+    "yargs": "^16.0.0"
   },
   "peerDependencies": {}
 }

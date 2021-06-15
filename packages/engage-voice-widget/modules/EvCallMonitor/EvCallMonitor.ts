@@ -17,6 +17,7 @@ import { CallMonitor, Deps } from './EvCallMonitor.interface';
     'Beforeunload',
     'EvAgentSession',
     'EvIntegratedSoftphone',
+    'EvCallDataSource',
     { dep: 'ContactMatcher', optional: true },
     { dep: 'ActivityMatcher', optional: true },
   ],
@@ -143,6 +144,14 @@ class EvCallMonitor extends RcModuleV2<Deps> implements CallMonitor {
   getMainCall(uii: string) {
     const id = this._deps.evClient.getMainId(uii);
     return this._deps.presence.callsMapping[id];
+  }
+
+  get callsLimited() {
+    return this._deps.evCallDataSource.callsLimited;
+  }
+
+  limitCalls() {
+    return this._deps.evCallDataSource.limitCalls();
   }
 
   onStateChange() {

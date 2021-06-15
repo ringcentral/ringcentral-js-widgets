@@ -1,7 +1,6 @@
-import { Module } from '../../lib/di';
 import DataFetcher from '../../lib/DataFetcher';
+import { Module } from '../../lib/di';
 import { selector } from '../../lib/selector';
-import ensureExist from '../../lib/ensureExist';
 
 /**
  * @class
@@ -10,7 +9,7 @@ import ensureExist from '../../lib/ensureExist';
 @Module({
   deps: [
     'Client',
-    'RolesAndPermissions',
+    'ExtensionFeatures',
     { dep: 'GLipCompanyOptions', optional: true },
   ],
 })
@@ -20,25 +19,18 @@ export default class GlipCompany extends DataFetcher {
    * @param {Object} params - params object
    * @param {Client} params.client - client module instance
    */
-  constructor({ client, rolesAndPermissions, ...options }) {
+  constructor({ client, extensionFeatures, ...options }) {
     super({
       client,
       fetchFunction: async () => {
-        const response = await this._client
-          .glip()
-          .companies('~')
-          .get();
+        const response = await this._client.glip().companies('~').get();
         return response;
       },
-      readyCheckFn: () => this._rolesAndPermissions.ready,
+      readyCheckFn: () => this._extensionFeatures.ready,
       cleanOnReset: true,
       ...options,
     });
-    this._rolesAndPermissions = ensureExist.call(
-      this,
-      rolesAndPermissions,
-      'rolesAndPermissions',
-    );
+    this._extensionFeatures = extensionFeatures;
   }
 
   get _name() {
@@ -61,6 +53,6 @@ export default class GlipCompany extends DataFetcher {
   }
 
   get _hasPermission() {
-    return !!this._rolesAndPermissions.hasGlipPermission;
+    return !!this._extensionFeatures.features?.Glip?.available;
   }
 }

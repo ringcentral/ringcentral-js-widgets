@@ -1,8 +1,7 @@
+import moduleStatuses from '../../enums/moduleStatuses';
+import DataFetcher from '../../lib/DataFetcher';
 import { Module } from '../../lib/di';
 import fetchList from '../../lib/fetchList';
-import DataFetcher from '../../lib/DataFetcher';
-import moduleStatuses from '../../enums/moduleStatuses';
-import ensureExist from '../../lib/ensureExist';
 import { selector } from '../../lib/selector';
 
 /**
@@ -12,7 +11,7 @@ import { selector } from '../../lib/selector';
 @Module({
   deps: [
     'Client',
-    'RolesAndPermissions',
+    'ExtensionFeatures',
     { dep: 'DialingPlanOptions', optional: true },
   ],
 })
@@ -22,7 +21,7 @@ export default class DialingPlan extends DataFetcher {
    * @param {Object} params - params object
    * @param {Client} params.client - client module instance
    */
-  constructor({ client, rolesAndPermissions, ...options }) {
+  constructor({ client, extensionFeatures, ...options }) {
     super({
       client,
       polling: true,
@@ -41,15 +40,11 @@ export default class DialingPlan extends DataFetcher {
           isoCode: p.isoCode,
           callingCode: p.callingCode,
         })),
-      readyCheckFn: () => this._rolesAndPermissions.ready,
+      readyCheckFn: () => this._extensionFeatures.ready,
       ...options,
     });
 
-    this._rolesAndPermissions = ensureExist.call(
-      this,
-      rolesAndPermissions,
-      'rolesAndPermissions',
-    );
+    this._extensionFeatures = extensionFeatures;
   }
 
   get _name() {
@@ -68,6 +63,6 @@ export default class DialingPlan extends DataFetcher {
   }
 
   get _hasPermission() {
-    return !!this._rolesAndPermissions.permissions.ReadCompanyInfo;
+    return !!this._extensionFeatures.features?.ReadCompanyInfo?.available;
   }
 }

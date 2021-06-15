@@ -1,12 +1,9 @@
 import * as mock from 'ringcentral-integration/integration-test/mock';
 import messageSyncBody from 'ringcentral-integration/integration-test/mock/data/messageSync.json';
-import { waitUntilEqual } from 'ringcentral-integration/integration-test/utils/WaitUtil';
-import { subscriptionStatus } from 'ringcentral-integration/modules/Subscription/subscriptionStatus';
 import ConversationsPanel from 'ringcentral-widgets/components/ConversationsPanel';
 import MessageItem from 'ringcentral-widgets/components/MessageItem';
 import NavigationBar from 'ringcentral-widgets/components/NavigationBar';
 import { SearchInput } from 'ringcentral-widgets/components/SearchInput';
-
 import { getWrapper, tearDownWrapper, timeout } from '../shared';
 import { mockPubnub } from './helper.js';
 
@@ -21,7 +18,7 @@ beforeEach(async () => {
   wrapper.update();
   panel = wrapper.find(ConversationsPanel).first();
   const phone = wrapper.props().phone;
-  Object.defineProperty(phone.rolesAndPermissions, 'readFaxPermissions', {
+  Object.defineProperty(phone.extensionFeatures, 'hasReadFaxPermission', {
     value: true,
   });
   // Object.defineProperty(phone.tabManager, 'active', {

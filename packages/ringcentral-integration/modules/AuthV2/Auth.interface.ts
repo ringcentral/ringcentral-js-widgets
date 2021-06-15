@@ -43,6 +43,8 @@ export interface LoginOptions {
   endpointId: TokenInfo['endpoint_id'];
   tokenType: TokenInfo['token_type'];
   scope: TokenInfo['scope'];
+  tokenUri: string;
+  discoveryUri: string;
 }
 
 export interface LoginUrlOptions extends SdkLoginUrlOptions {

@@ -29,12 +29,12 @@ function numberFormat(phoneNumbers, regionSettings, brandId) {
 }
 
 export default function validateNumbers(phoneNumbers, regionSettings, brandId) {
-  const formatedResult = numberFormat(phoneNumbers, regionSettings, brandId);
-  if (!formatedResult.result) {
-    formatedResult.errors.forEach((error) => {
+  const formattedResult = numberFormat(phoneNumbers, regionSettings, brandId);
+  if (!formattedResult.result) {
+    formattedResult.errors.forEach((error) => {
       throw error;
     });
-    return formatedResult;
+    return formattedResult;
   }
   const parsedResult = numberParser(phoneNumbers, regionSettings);
   return parsedResult;

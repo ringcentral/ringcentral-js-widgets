@@ -10,7 +10,7 @@ import countryNames from '../../lib/countryNames';
     'RegionSettings',
     'Locale',
     'ComposeText',
-    'ExtensionInfo',
+    'ExtensionFeatures',
     'Brand',
     'Alert',
     'RouterInteraction',
@@ -23,7 +23,7 @@ export default class ConferenceUI extends RcUIModule {
     regionSettings,
     locale,
     composeText,
-    extensionInfo,
+    extensionFeatures,
     brand,
     alert,
     routerInteraction,
@@ -37,7 +37,7 @@ export default class ConferenceUI extends RcUIModule {
     this._regionSettings = regionSettings;
     this._locale = locale;
     this._composeText = composeText;
-    this._extensionInfo = extensionInfo;
+    this._extensionFeatures = extensionFeatures;
     this._brand = brand;
     this._alert = alert;
     this._routerInteraction = routerInteraction;
@@ -73,10 +73,6 @@ export default class ConferenceUI extends RcUIModule {
     }, phoneNumbers);
   }
 
-  get serviceFeatures() {
-    return this._extensionInfo.serviceFeatures;
-  }
-
   getUIProps() {
     const {
       hostCode = '',
@@ -91,9 +87,10 @@ export default class ConferenceUI extends RcUIModule {
       participantCode,
       allowJoinBeforeHost,
       additionalNumbers: this._conference.additionalNumbers,
-      disableTxtBtn:
-        (!this.serviceFeatures.SMS || !this.serviceFeatures.SMS.enabled) &&
-        (!this.serviceFeatures.Pager || !this.serviceFeatures.Pager.enabled),
+      disableTxtBtn: !(
+        this._extensionFeatures.hasOutboundSMSPermission ||
+        this._extensionFeatures.hasInternalSMSPermission
+      ),
       countryCode: this._regionSettings.countryCode,
       areaCode: this._regionSettings.areaCode,
       currentLocale: this._locale.currentLocale,

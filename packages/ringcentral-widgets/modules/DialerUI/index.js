@@ -20,7 +20,7 @@ import getReducer from './getReducer';
     'RegionSettings',
     'Alert',
     'Call',
-    'RolesAndPermissions',
+    'ExtensionFeatures',
     { dep: 'ConferenceCall', optional: true },
     { dep: 'DialerUIOptions', optional: true },
   ],
@@ -37,7 +37,7 @@ export default class DialerUI extends RcUIModule {
     locale,
     rateLimiter,
     regionSettings,
-    rolesAndPermissions,
+    extensionFeatures,
     useV2 = false,
     ...options
   }) {
@@ -54,7 +54,7 @@ export default class DialerUI extends RcUIModule {
     this._locale = locale;
     this._rateLimiter = rateLimiter;
     this._regionSettings = regionSettings;
-    this._rolesAndPermissions = rolesAndPermissions;
+    this._extensionFeatures = extensionFeatures;
     this._reducer = getReducer(this.actionTypes);
     this._useV2 = useV2;
     this._callHooks = [];
@@ -232,7 +232,7 @@ export default class DialerUI extends RcUIModule {
       this._call.ready &&
       this._callingSettings.ready &&
       this._locale.ready &&
-      this._rolesAndPermissions.ready &&
+      this._extensionFeatures.ready &&
       this._connectivityManager.ready &&
       (!this._audioSettings || this._audioSettings.ready) &&
       !this._connectivityManager.isWebphoneInitializing
@@ -253,8 +253,8 @@ export default class DialerUI extends RcUIModule {
 
   get disableFromField() {
     return (
-      this._rolesAndPermissions.ready &&
-      !this._rolesAndPermissions.permissions.OutboundCallerId
+      this._extensionFeatures.ready &&
+      !this._extensionFeatures.features?.EditOutboundCallerId?.available
     );
   }
 

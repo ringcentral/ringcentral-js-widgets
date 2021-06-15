@@ -32,7 +32,7 @@ import {
   transformSettingLocks,
   getLockedPreferences,
   RCV_PREFERENCES_IDS,
-  RCV_WAITTING_ROOM_API_KEYS,
+  RCV_WAITING_ROOM_API_KEYS,
   patchWaitingRoomRelated,
 } from './videoHelper';
 import {
@@ -421,7 +421,7 @@ export class RcVideo extends RcModule<Record<string, any>, RcVideoActionTypes> {
       }
 
       if (!this.enableWaitingRoom) {
-        meetingDetail = omit([RCV_WAITTING_ROOM_API_KEYS], meetingDetail);
+        meetingDetail = omit([RCV_WAITING_ROOM_API_KEYS], meetingDetail);
       }
 
       const meetingResult = await this._client.service
@@ -688,7 +688,7 @@ export class RcVideo extends RcModule<Record<string, any>, RcVideoActionTypes> {
       }
 
       if (!this.enableWaitingRoom) {
-        meetingDetail = omit([RCV_WAITTING_ROOM_API_KEYS], meetingDetail);
+        meetingDetail = omit([RCV_WAITING_ROOM_API_KEYS], meetingDetail);
       }
       if (this._showSaveAsDefault && meeting.saveAsDefault) {
         this.saveAsDefaultSetting(meeting);

@@ -1,5 +1,5 @@
 export default {
-  unKnown: "Desconhecido"
+  unknown: "Desconhecido"
 };
 
-// @key: @#@"unKnown"@#@ @source: @#@"Unknown"@#@
+// @key: @#@"unknown"@#@ @source: @#@"Unknown"@#@

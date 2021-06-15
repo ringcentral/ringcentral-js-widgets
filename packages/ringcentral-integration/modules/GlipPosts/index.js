@@ -5,9 +5,9 @@ import ensureExist from '../../lib/ensureExist';
 import isBlank from '../../lib/isBlank';
 import proxify from '../../lib/proxy/proxify';
 
-import actionTypes from './actionTypes';
+import { actionTypes } from './actionTypes';
 import getReducer, { getGlipPostsReadTimeReducer } from './getReducer';
-import status from './status';
+import { status } from './status';
 
 const glipPostsRegExp = /glip\/posts$/;
 const glipGroupRegExp = /glip\/groups$/;
@@ -22,25 +22,17 @@ const DEFAULT_LOAD_TTL = 30 * 60 * 1000;
     'Auth',
     'Subscription',
     'Storage',
-    'RolesAndPermissions',
+    'ExtensionFeatures',
     { dep: 'GlipPostsOptions', optional: true },
   ],
 })
 export default class GlipPosts extends RcModule {
-  /**
-   * @constructor
-   * @param {Object} params - params object
-   * @param {Client} params.client - client module instance
-   * @param {Auth} params.auth - auth module instance
-   * @param {RolesAndPermissions} params.rolesAndPermissions - rolesAndPermission module instance
-   * @param {Subscription} params.subscription - subscription module instance
-   */
   constructor({
     client,
     auth,
     subscription,
     storage,
-    rolesAndPermissions,
+    extensionFeatures,
     loadTtl = DEFAULT_LOAD_TTL,
     ...options
   }) {
@@ -52,11 +44,7 @@ export default class GlipPosts extends RcModule {
 
     this._client = ensureExist.call(this, client, 'client');
     this._auth = ensureExist.call(this, auth, 'auth');
-    this._rolesAndPermissions = ensureExist.call(
-      this,
-      rolesAndPermissions,
-      'rolesAndPermissions',
-    );
+    this._extensionFeatures = extensionFeatures;
     this._subscription = ensureExist.call(this, subscription, 'subscription');
     this._fetchPromises = {};
     this._lastMessage = null;
@@ -105,7 +93,7 @@ export default class GlipPosts extends RcModule {
     return (
       this._auth.loggedIn &&
       this._subscription.ready &&
-      this._rolesAndPermissions.ready &&
+      this._extensionFeatures.ready &&
       this.pending
     );
   }
@@ -113,7 +101,7 @@ export default class GlipPosts extends RcModule {
   _shouldReset() {
     return (
       (!this._auth.loggedIn ||
-        !this._rolesAndPermissions.ready ||
+        !this._extensionFeatures.ready ||
         !this._subscription.ready) &&
       this.ready
     );
@@ -256,13 +244,9 @@ export default class GlipPosts extends RcModule {
         record: fakeRecord,
       });
       this.updatePostInput({ text: '', groupId, mentions: [] });
-      const record = await this._client
-        .glip()
-        .groups(groupId)
-        .posts()
-        .post({
-          text,
-        });
+      const record = await this._client.glip().groups(groupId).posts().post({
+        text,
+      });
       this.store.dispatch({
         type: this.actionTypes.createSuccess,
         groupId,
@@ -351,6 +335,6 @@ export default class GlipPosts extends RcModule {
   }
 
   get _hasPermission() {
-    return this._rolesAndPermissions.hasGlipPermission;
+    return !!this._extensionFeatures.features?.Glip?.available;
   }
 }

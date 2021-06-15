@@ -102,7 +102,7 @@ afterEach(async () => {
   wrapper.unmount();
 });
 
-describe('<BasicSessionPanel />', async () => {
+describe('<BasicSessionPanel />', () => {
   // TODO
 
   // it("Page display user's selected Inbound queue, and navigate to InboundQueuesPage when click the field.", () => {

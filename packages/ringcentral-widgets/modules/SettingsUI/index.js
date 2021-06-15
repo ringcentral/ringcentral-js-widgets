@@ -25,7 +25,7 @@ const DEFAULT_FEEDBACK_SETTINGS_URL = '/settings/feedback';
     'AccountInfo',
     'ExtensionInfo',
     'RegionSettings',
-    'RolesAndPermissions',
+    'ExtensionFeatures',
     'RouterInteraction',
     {
       dep: 'CallingSettings',
@@ -61,8 +61,9 @@ export default class SettingsUI extends RcUIModule {
       regionSettings,
       callingSettings,
       version,
-      rolesAndPermissions,
+      extensionFeatures,
       presence,
+      userGuide,
     },
     showRegion = true,
     showCalling = true,
@@ -108,25 +109,25 @@ export default class SettingsUI extends RcUIModule {
         locale.ready &&
         regionSettings.ready &&
         (!callingSettings || callingSettings.ready) &&
-        rolesAndPermissions.ready &&
+        extensionFeatures.ready &&
         (!presence || presence.ready) &&
         (!localeSettings || localeSettings.ready)
       ),
       showCalling:
-        showCalling && callingSettings && rolesAndPermissions.callingEnabled,
-      showAudio: showAudio && rolesAndPermissions.callingEnabled,
+        showCalling && callingSettings && extensionFeatures.isCallingEnabled,
+      showAudio: showAudio && extensionFeatures.isCallingEnabled,
       showRegion:
         loggedIn &&
         brand.code === 'rc' &&
         regionSettings.showReginSetting &&
-        rolesAndPermissions.callingEnabled &&
+        extensionFeatures.isCallingEnabled &&
         showRegion,
       currentLocale: locale.currentLocale,
       brandId: brand.id,
-      ringoutEnabled: rolesAndPermissions.ringoutEnabled,
+      ringoutEnabled: extensionFeatures.isRingOutEnabled,
       outboundSMS:
-        !!rolesAndPermissions.permissions.OutboundSMS ||
-        !!rolesAndPermissions.permissions.InternalSMS,
+        !!extensionFeatures.hasOutboundSMSPermission ||
+        !!extensionFeatures.hasInternalSMSPermission,
       isCallQueueMember: extensionInfo.isCallQueueMember,
       dndStatus: presence && presence.dndStatus,
       userStatus: presence && presence.userStatus,
@@ -136,11 +137,11 @@ export default class SettingsUI extends RcUIModule {
         params.showPresenceSettings
       ),
       showPresenceSettings:
-        showPresenceSettings && rolesAndPermissions.hasEditPresencePermission,
+        showPresenceSettings &&
+        !!extensionFeatures.features?.EditPresenceStatus?.available,
       supportedLocales: localeSettings && localeSettings.supportedLocales,
       savedLocale: localeSettings && localeSettings.savedLocale,
-      showUserGuide:
-        showUserGuide && rolesAndPermissions.hasUserGuidePermission,
+      showUserGuide: showUserGuide && !!userGuide?.hasPermission,
     };
   }
 

@@ -175,7 +175,7 @@ function getBaseRcmTpl(
       i18n.getString('inviteMeetingContent', currentLocale),
       {
         accountName,
-        brandName: brand.name,
+        brandName: i18n.getString(brand.name),
         joinUri,
         passwordTpl,
         mobileDialingNumberTpl,
@@ -284,13 +284,12 @@ function getBaseRcvTpl(
     meetingContent.push(`${i18n.getString(rcvSipContent, currentLocale)}`);
   }
 
-  const brandName = isATT ? `AT&T ${brand.name}` : brand.name;
   const shortId = meeting.shortId;
   const meetingId = meeting.id;
 
   const formattedMsg = formatMessage(meetingContent.join(''), {
     accountName,
-    brandName,
+    brandName: isATT ? `AT&T ${brand.name}` : i18n.getString(brand.name),
     joinUri,
     passwordTpl,
     meetingPasswordPSTN,

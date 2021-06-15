@@ -126,6 +126,8 @@ export default class OAuthBase extends RcModule {
       redirectUri: this.redirectUri,
       tokenType: query.token_type,
       scope: query.scope,
+      tokenUri: query.token_uri,
+      discoveryUri: query.discovery_uri,
     });
   }
 

@@ -1,8 +1,8 @@
 import { CallRecording } from '@rc-ex/core/definitions';
 import {
-  SessionData,
   Party,
   PartyStatusCode,
+  Session as TelephonySession,
 } from 'ringcentral-call-control/lib/Session';
 import { Session } from 'ringcentral-call/lib/Session';
 // eslint-disable-next-line import/no-named-as-default
@@ -10,14 +10,11 @@ import { find } from 'ramda';
 import { recordStatus } from '../Webphone/recordStatus';
 // eslint-disable-next-line import/no-named-as-default
 import callResults from '../../enums/callResults';
-import callDirections from '../../enums/callDirections';
+import callDirections, { callDirection } from '../../enums/callDirections';
 // eslint-disable-next-line import/no-named-as-default
 import activeCallControlStatus from '../../enums/activeCallControlStatus';
 import { mapTelephonyStatus } from '../CallMonitor/callMonitorHelper';
-
-export interface ActiveCallControlSessionData extends SessionData {
-  party: Party;
-}
+import { ActiveCallControlSessionData } from './ActiveCallControl.interface';
 
 export function isHangUp(code: string) {
   return code === callResults.disconnected;
@@ -154,4 +151,46 @@ export function getInboundSwitchedParty(parties: Party[]) {
     );
   }, parties);
   return result;
+}
+
+export function filterDisconnectedCalls(
+  session: Session | ActiveCallControlSessionData,
+) {
+  // workaround of bug:
+  // switch an inbound call then call direction will change to outbound
+  const { party, otherParties, direction, status } = session;
+  if (
+    direction === callDirection.outbound &&
+    status !== PartyStatusCode.disconnected
+  ) {
+    const inboundSwitchedParty = getInboundSwitchedParty(otherParties);
+    if (inboundSwitchedParty) {
+      party.direction = inboundSwitchedParty.direction;
+      party.to = inboundSwitchedParty.to;
+      party.from = inboundSwitchedParty.from;
+    }
+  }
+  return session.status !== PartyStatusCode.disconnected;
+}
+
+export function normalizeTelephonySession(session?: TelephonySession) {
+  if (!session) {
+    return {};
+  }
+  return {
+    accountId: session.accountId,
+    creationTime: session.creationTime,
+    data: session.data,
+    extensionId: session.extensionId,
+    id: session.id,
+    origin: session.origin,
+    otherParties: session.otherParties,
+    parties: session.parties,
+    party: session.party,
+    recordings: session.recordings,
+    requestOptions: session.requestOptions,
+    serverId: session.serverId,
+    sessionId: session.sessionId,
+    voiceCallToken: session.voiceCallToken,
+  };
 }

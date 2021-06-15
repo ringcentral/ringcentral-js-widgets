@@ -17,6 +17,7 @@ import {
   watch,
   subscribe,
   Store,
+  watchEffect,
 } from '../../lib/usm-redux/index';
 
 @autorun(test)
@@ -687,6 +688,133 @@ export class WatchBasic extends Step {
             const newState = Object.values(store.getState())[0] as Counter;
             expect(newState.count).toEqual({ sum: 1 });
             expect(fn.mock.calls).toEqual([[1, 0]]);
+          }}
+        />
+      </Scenario>
+    );
+  }
+}
+
+@autorun(test)
+@title('watchEffect::basic')
+export class WatchEffect extends Step {
+  run() {
+    const fn = jest.fn();
+    class Counter {
+      constructor() {
+        watchEffect(
+          this,
+          () => [this.count.sum, this.a],
+          (...args) => {
+            fn(...args);
+          },
+        );
+      }
+
+      @state
+      count = { sum: 0 };
+
+      @state
+      a = 0;
+
+      @state
+      b = 0;
+
+      @action
+      increaseA() {
+        this.a += 1;
+      }
+
+      @action
+      increaseB() {
+        this.b += 1;
+      }
+
+      @action
+      increase() {
+        this.count.sum += 1;
+      }
+    }
+    let counter: Counter;
+    let store: Store;
+    return (
+      <Scenario desc="">
+        <Given
+          desc="create instances and create store"
+          action={() => {
+            counter = new Counter();
+
+            store = createStore({
+              modules: [counter],
+            });
+
+            const oldState = Object.values(store.getState())[0] as Counter;
+            expect(oldState.count).toEqual({ sum: 0 });
+          }}
+        />
+        <When
+          desc="call counter 'increase'"
+          action={() => {
+            counter.increase();
+          }}
+        />
+        <Then
+          desc="'count' in counter should be updated and 'watchEffect' should be triggered"
+          action={() => {
+            const newState = Object.values(store.getState())[0] as Counter;
+            expect(newState.count).toEqual({ sum: 1 });
+            expect(fn.mock.calls).toEqual([
+              [
+                [1, 0],
+                [0, 0],
+              ],
+            ]);
+          }}
+        />
+        <When
+          desc="call counter 'increaseA'"
+          action={() => {
+            counter.increaseA();
+          }}
+        />
+        <Then
+          desc="'a' in counter should be updated and 'watchEffect' should be triggered"
+          action={() => {
+            const newState = Object.values(store.getState())[0] as Counter;
+            expect(newState.a).toEqual(1);
+            expect(fn.mock.calls).toEqual([
+              [
+                [1, 0],
+                [0, 0],
+              ],
+              [
+                [1, 1],
+                [1, 0],
+              ],
+            ]);
+          }}
+        />
+        <When
+          desc="call counter 'increaseB'"
+          action={() => {
+            counter.increaseB();
+          }}
+        />
+        <Then
+          desc="'b' in counter should be updated and 'watchEffect' should not be triggered"
+          action={() => {
+            const newState = Object.values(store.getState())[0] as Counter;
+            expect(newState.b).toEqual(1);
+            expect(fn.mock.calls).toEqual([
+              [
+                [1, 0],
+                [0, 0],
+              ],
+              [
+                [1, 1],
+                [1, 0],
+              ],
+            ]);
           }}
         />
       </Scenario>

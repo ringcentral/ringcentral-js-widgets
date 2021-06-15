@@ -4,6 +4,7 @@ import {
   Unsubscribe,
   Subscription,
   Service,
+  WatchEffect,
 } from './interface';
 import { storeKey, subscriptionsKey } from './constant';
 import { isEqual } from './utils/index';
@@ -60,4 +61,32 @@ const watch: Watch = (module, selector, watcher) => {
   });
 };
 
-export { subscribe, watch };
+const watchEffect: WatchEffect = (module, selector, watcher) => {
+  if (typeof watcher !== 'function') {
+    const className = Object.getPrototypeOf(module).constructor.name;
+    throw new Error(
+      `The 'watcher' should be a function in the class '${className}'.`,
+    );
+  }
+  let oldValues = selector();
+  if (!Array.isArray(oldValues)) {
+    const className = Object.getPrototypeOf(module).constructor.name;
+    throw new Error(
+      `The 'selector' should be a function that returns an array in the class '${className}'.`,
+    );
+  }
+  return subscribe(module, () => {
+    const newValues = selector();
+    const length = oldValues.length;
+    for (let i = 0; i < length; i++) {
+      if (!isEqual(newValues[i], oldValues[i])) {
+        const lastValues = oldValues;
+        oldValues = newValues;
+        watcher(newValues, lastValues);
+        break;
+      }
+    }
+  });
+};
+
+export { subscribe, watch, watchEffect };

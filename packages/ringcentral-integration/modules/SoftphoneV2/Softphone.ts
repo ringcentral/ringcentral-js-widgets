@@ -10,7 +10,7 @@ import sleep from '../../lib/sleep';
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
 import callingModes from '../CallingSettings/callingModes';
-import { Deps, CallHandlerContext } from './Softphone.interface';
+import { Deps, CallHandlerContext, CallUriInfo } from './Softphone.interface';
 import { softphoneStatus } from './softphoneStatus';
 
 /**
@@ -119,38 +119,47 @@ export class Softphone extends RcModuleV2<Deps> {
     }
   }
 
-  getMakeCallUri(
-    phoneNumber: string,
-    callingMode: string,
-  ): { command: string; protocol: string; uri: string } {
+  getMakeCallUri(phoneNumber: string, callingMode: string): CallUriInfo {
     // spartan
     let command = `call?number=${encodeURIComponent(phoneNumber)}`;
     let protocol = this.spartanProtocol;
-
+    let isJupiterUniversalLink = false;
     // jupiter
     const isCallWithJupiter = callingMode === callingModes.jupiter;
     if (isCallWithJupiter) {
-      const isRcBrand = this._deps.brand.code === 'rc';
       // jupiter doesn't recognize encoded string for now
       command = `r/call?number=${phoneNumber}`;
-      // rc brand use scheme, partner brand use universal link
-      protocol = isRcBrand ? this.jupiterProtocol : this.jupiterUniversalLink;
+      isJupiterUniversalLink = this.useJupiterUniversalLink;
+      protocol = isJupiterUniversalLink
+        ? this.jupiterUniversalLink
+        : this.jupiterProtocol;
     }
     return {
       command,
       protocol,
+      isJupiterUniversalLink,
       uri: `${protocol}${command}`,
     };
+  }
+
+  get useJupiterUniversalLink() {
+    // rc brand use scheme, partner brand use universal link
+    return (
+      this._deps.softphoneOptions?.useJupiterUniversalLink ??
+      this._deps.brand.code !== 'rc'
+    );
   }
 
   @proxify
   async makeCall(phoneNumber: string, callingMode: string) {
     this.startToConnect(phoneNumber);
 
-    const { protocol, command, uri } = this.getMakeCallUri(
-      phoneNumber,
-      callingMode,
-    );
+    const {
+      protocol,
+      command,
+      uri,
+      isJupiterUniversalLink,
+    } = this.getMakeCallUri(phoneNumber, callingMode);
 
     if (this._callHandler) {
       this._callHandler({
@@ -158,28 +167,38 @@ export class Softphone extends RcModuleV2<Deps> {
         protocol,
         command,
         uri,
+        isJupiterUniversalLink,
         phoneNumber,
       });
-    } else if (this._extensionMode || this.detectPlatform() !== 'desktop') {
+    } else {
       /**
        * 1. Use window.open in extension background scripts to avoid crashing Browsers
        * 2. Use window.open in non-desktop platforms
+       * 3. to support ie on Windows < 8
+       * 4. for Jupiter universal link, should open link directly
        */
-      window.open(uri);
-    } else if (window.navigator.msLaunchUri) {
-      // to support ie to start the service
-      window.navigator.msLaunchUri(uri);
-    } else if ((window as any).ActiveXObject || 'ActiveXObject' in window) {
-      // to support ie on Windows < 8
-      window.open(uri);
-    } else {
-      const frame = document.createElement('iframe');
-      frame.style.display = 'none';
-      document.body.appendChild(frame);
-      await sleep(100);
-      frame.contentWindow.location.href = uri;
-      await sleep(300);
-      document.body.removeChild(frame);
+      const openLink =
+        isJupiterUniversalLink ||
+        this._extensionMode ||
+        this.detectPlatform() !== 'desktop' ||
+        (window as any).ActiveXObject ||
+        'ActiveXObject' in window;
+
+      if (openLink) {
+        window.open(uri);
+      } else if (window.navigator.msLaunchUri) {
+        // to support ie to start the service
+        window.navigator.msLaunchUri(uri);
+      } else {
+        // open via iframe
+        const frame = document.createElement('iframe');
+        frame.style.display = 'none';
+        document.body.appendChild(frame);
+        await sleep(100);
+        frame.contentWindow.location.href = uri;
+        await sleep(300);
+        document.body.removeChild(frame);
+      }
     }
 
     if (this._deps.contactMatcher) {

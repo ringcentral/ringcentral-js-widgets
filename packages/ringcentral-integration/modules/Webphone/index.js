@@ -93,7 +93,7 @@ const registerErrors = [
     'Alert',
     'Client',
     'NumberValidate',
-    'RolesAndPermissions',
+    'ExtensionFeatures',
     'Brand',
     'RegionSettings',
     'AudioSettings',
@@ -105,33 +105,6 @@ const registerErrors = [
   ],
 })
 export default class Webphone extends RcModule {
-  /**
-   * @constructor
-   * @param {Object} params - params object
-   * @param {Brand} params.brand - app brand
-   * @param {RegionSettings} params.regionSettings - regionSettings
-   * @param {String} params.appKey - app key
-   * @param {String} params.appName - app name
-   * @param {String} params.appVersion - app version
-   * @param {Number} params.webphoneLogLevel - log Level
-   * @param {Alert} params.alert - alert module instance
-   * @param {Auth} params.auth - auth module instance
-   * @param {Client} params.client - client module instance
-   * @param {RolesAndPermissions} params.rolesAndPermissions - rolesAndPermissions module instance
-   * @param {Storage} params.storage - storage module instance
-   * @param {GlobalStorage} params.globalStorage - globalStorage module instance
-   * @param {NumberValidate} params.numberValidate - numberValidate module instance
-   * @param {ContactMatcher} params.contactMatcher - contactMatcher module instance, optional
-   * @param {Function} params.onCallEnd - callback on a call end
-   * @param {Function} params.onCallRing - callback on a call ring
-   * @param {Function} params.onCallStart - callback on a call accpeted by callee
-   * @param {Function} params.onCallInit - callback on create a new call
-   * @param {Function} params.onCallResume - callback on a call resume
-   * @param {Function} params.onCallHold - callback on a call holded
-   * @param {Function} params.onBeforeCallResume - callback before a call resume
-   * @param {Function} params.onBeforeCallEnd - callback before a call hangup
-   * @param {Object} params.webphoneSDKOptions - callback before a call hangup
-   */
   constructor({
     appKey,
     appName,
@@ -140,7 +113,7 @@ export default class Webphone extends RcModule {
     auth,
     client,
     storage,
-    rolesAndPermissions,
+    extensionFeatures,
     webphoneLogLevel = 1,
     contactMatcher,
     numberValidate,
@@ -180,11 +153,7 @@ export default class Webphone extends RcModule {
     this._webphoneLogLevel = webphoneLogLevel;
     this._auth = ensureExist.call(this, auth, 'auth');
     this._client = ensureExist.call(this, client, 'client');
-    this._rolesAndPermissions = ensureExist.call(
-      this,
-      rolesAndPermissions,
-      'rolesAndPermissions',
-    );
+    this._extensionFeatures = extensionFeatures;
     this._numberValidate = ensureExist.call(
       this,
       numberValidate,
@@ -361,7 +330,7 @@ export default class Webphone extends RcModule {
   _shouldInit() {
     return (
       this._auth.loggedIn &&
-      this._rolesAndPermissions.ready &&
+      this._extensionFeatures.ready &&
       this._numberValidate.ready &&
       this._audioSettings.ready &&
       this._storage.ready &&
@@ -373,7 +342,7 @@ export default class Webphone extends RcModule {
   _shouldReset() {
     return (
       (!this._auth.loggedIn ||
-        !this._rolesAndPermissions.ready ||
+        !this._extensionFeatures.ready ||
         !this._numberValidate.ready ||
         (!!this._tabManager && !this._tabManager.ready) ||
         !this._audioSettings.ready) &&
@@ -635,7 +604,7 @@ export default class Webphone extends RcModule {
         error.message &&
         error.message.indexOf('Feature [WebPhone] is not available') > -1
       ) {
-        this._rolesAndPermissions.refreshServiceFeatures();
+        this._extensionFeatures.fetchData();
         return;
       }
       this._onConnectError({
@@ -2184,7 +2153,7 @@ export default class Webphone extends RcModule {
   }
 
   get enabled() {
-    return this._rolesAndPermissions.webphoneEnabled;
+    return this._extensionFeatures.isWebPhoneEnabled;
   }
 
   get connectionStatus() {

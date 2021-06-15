@@ -144,6 +144,8 @@ export const createStore = (
         },
         {},
       );
+      // support custom reducers
+      service._reducers = serviceReducers;
       const reducer = combineReducers(serviceReducers);
       Object.assign(reducers, {
         [identifier]: reducer,

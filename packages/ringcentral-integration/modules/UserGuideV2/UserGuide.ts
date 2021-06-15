@@ -197,7 +197,7 @@ export class UserGuide extends RcModuleV2<Deps> {
     });
   }
 
-  protected _checkPermissions() {
+  get hasPermission() {
     // For extensions without calling or read message permissions, most of the content in
     // the user guide is not applicable to them. So we should not show the user guide for
     // these extensions.
@@ -209,7 +209,7 @@ export class UserGuide extends RcModuleV2<Deps> {
 
   @proxify
   async initUserGuide() {
-    if (!this._checkPermissions()) return;
+    if (!this.hasPermission) return;
     const prevGuides = this.allGuides;
     const guides = this.resolveGuides();
     // Determine if it needs to be displayed when first log in,

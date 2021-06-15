@@ -4,6 +4,7 @@ import { Beforeunload } from 'ringcentral-widgets/modules/Beforeunload';
 
 import { EvClient } from '../../lib/EvClient';
 import { EvAgentSession } from '../EvAgentSession';
+import { EvCallDataSource } from '../EvCallDataSource';
 import { EvIntegratedSoftphone } from '../EvIntegratedSoftphone';
 import { EvPresence } from '../EvPresence';
 
@@ -19,6 +20,7 @@ export interface Deps {
   beforeunload: Beforeunload;
   contactMatcher?: ContactMatcher;
   activityMatcher?: ActivityMatcher;
+  evCallDataSource: EvCallDataSource;
 }
 
 export interface CallMonitor extends State {

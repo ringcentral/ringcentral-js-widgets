@@ -65,7 +65,7 @@ afterEach(async () => {
   wrapper.unmount();
 });
 
-describe('<PickList />', async () => {
+describe('<PickList />', () => {
   it('PickList can render correctly with selection, and can be selected to change', () => {
     const onChange = jest.fn();
     const label = 'pickListTest2';

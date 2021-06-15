@@ -14,7 +14,7 @@ export default {
   [messageTypes.HOLD_ERROR]: 'Internal error hold/unhold call occurred.',
   [messageTypes.LOGOUT_FAIL_WITH_CALL_CONNECTED]:
     'Logout is not working while the call is still connected.',
-  [messageTypes.RECORD_PAUSE]: 'Call recording paused.',
+  [messageTypes.RECORD_PAUSED]: 'Call recording paused.',
   [messageTypes.RECORD_RESUME]: 'Call recording resumed.',
   [messageTypes.INTERCEPT]:
     'The dial result for your manual outbound call was INTERCEPT.',

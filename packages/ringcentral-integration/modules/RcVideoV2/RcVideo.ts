@@ -31,7 +31,7 @@ import {
   transformSettingLocks,
   getLockedPreferences,
   RCV_PREFERENCES_IDS,
-  RCV_WAITTING_ROOM_API_KEYS,
+  RCV_WAITING_ROOM_API_KEYS,
   patchWaitingRoomRelated,
   assignObject,
   formatPremiumNumbers,
@@ -419,7 +419,7 @@ export class RcVideo extends RcModuleV2<Deps> implements IMeeting {
       }
 
       if (!this.enableWaitingRoom) {
-        meetingDetail = omit([RCV_WAITTING_ROOM_API_KEYS], meetingDetail);
+        meetingDetail = omit([RCV_WAITING_ROOM_API_KEYS], meetingDetail);
       }
 
       const result = await this._deps.client.service
@@ -680,7 +680,7 @@ export class RcVideo extends RcModuleV2<Deps> implements IMeeting {
       }
 
       if (!this.enableWaitingRoom) {
-        meetingDetail = omit([RCV_WAITTING_ROOM_API_KEYS], meetingDetail);
+        meetingDetail = omit([RCV_WAITING_ROOM_API_KEYS], meetingDetail);
       }
       if (this._showSaveAsDefault && meeting.saveAsDefault) {
         this.saveAsDefaultSetting(meeting);

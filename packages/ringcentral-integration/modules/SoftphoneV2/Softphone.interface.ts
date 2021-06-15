@@ -1,16 +1,27 @@
 import { Brand } from '../BrandV2';
 import { ContactMatcher } from '../ContactMatcherV2';
 
-export interface CallHandlerContext {
-  callingMode: string;
-  protocol: string;
+export interface CallUriInfo {
   command: string;
+  isJupiterUniversalLink: boolean;
+  protocol: string;
   uri: string;
-  phoneNumber: string;
 }
 
+export type CallHandlerContext = CallUriInfo & {
+  callingMode: string;
+  phoneNumber: string;
+};
+
 export interface SoftphoneOptions {
+  /**
+   * whether it is in extension mode, default is false
+   */
   extensionMode?: boolean;
+  /**
+   ** whether to use universal link in callingMode.jupiter, default is only for partner brands.
+   */
+  useJupiterUniversalLink?: boolean;
   callHandler?: (context: CallHandlerContext) => any;
 }
 

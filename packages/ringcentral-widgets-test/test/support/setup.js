@@ -6,6 +6,7 @@ configure({ adapter: new Adapter() });
 
 require('dotenv').config({ path: path.join(__dirname, '.env') });
 
+window.setImmediate = (cb) => setTimeout(cb, 0);
 console.log = () => {};
 console.debug = () => {};
 

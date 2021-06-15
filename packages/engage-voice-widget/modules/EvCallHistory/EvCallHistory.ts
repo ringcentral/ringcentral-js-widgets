@@ -1,4 +1,4 @@
-import { computed, RcModuleV2 } from '@ringcentral-integration/core';
+import { computed, RcModuleV2, watch } from '@ringcentral-integration/core';
 import { Module } from 'ringcentral-integration/lib/di';
 import { callDirection } from 'ringcentral-integration/enums/callDirections';
 
@@ -15,6 +15,7 @@ import { formatPhoneNumber } from '../../lib/FormatPhoneNumber';
     'EvCallMonitor',
     'EvSubscription',
     'Locale',
+    'EvAgentSession',
     { dep: 'ContactMatcher', optional: true },
     { dep: 'ActivityMatcher', optional: true },
   ],
@@ -132,6 +133,20 @@ class EvCallHistory extends RcModuleV2<Deps> implements CallHistory {
       (data) => {
         if (data.status === directTransferNotificationTypes.VOICEMAIL) {
           // TODO add `data` for list and alert message about 'Direct Transfer: data.ani, Click to view call detail.'
+        }
+      },
+    );
+
+    watch(
+      this,
+      () => this._deps.evAgentSession.configSuccess,
+      (configSuccess) => {
+        if (
+          configSuccess &&
+          !this._deps.evCallMonitor.callsLimited &&
+          !this._deps.evCallMonitor.calls.length
+        ) {
+          this._deps.evCallMonitor.limitCalls();
         }
       },
     );

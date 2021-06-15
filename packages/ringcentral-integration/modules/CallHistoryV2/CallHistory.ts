@@ -30,8 +30,8 @@ const DEFAULT_CLEAN_TIME = 24 * 60 * 60 * 1000; // 1 day
   deps: [
     'AccountInfo',
     'CallLog',
-    'CallMonitor',
     'Storage',
+    { dep: 'CallMonitor', optional: true },
     { dep: 'ActivityMatcher', optional: true },
     { dep: 'ContactMatcher', optional: true },
     { dep: 'TabManager', optional: true },
@@ -50,7 +50,7 @@ export class CallHistory extends RcModuleV2<Deps> {
     this._deps.contactMatcher?.addQuerySource({
       getQueriesFn: () => this.uniqueNumbers,
       readyCheckFn: () =>
-        this._deps.callMonitor.ready &&
+        (!this._deps.callMonitor || this._deps.callMonitor.ready) &&
         (!this._deps.tabManager || this._deps.tabManager.ready) &&
         this._deps.callLog.ready &&
         this._deps.accountInfo.ready,
@@ -58,7 +58,7 @@ export class CallHistory extends RcModuleV2<Deps> {
     this._deps.activityMatcher?.addQuerySource({
       getQueriesFn: () => this.sessionIds,
       readyCheckFn: () =>
-        this._deps.callMonitor.ready &&
+        (!this._deps.callMonitor || this._deps.callMonitor.ready) &&
         (!this._deps.tabManager || this._deps.tabManager.ready) &&
         this._deps.callLog.ready,
     });
@@ -152,28 +152,29 @@ export class CallHistory extends RcModuleV2<Deps> {
       );
     }
 
-    watch(
-      this,
-      () => this._deps.callMonitor.calls,
-      (newMonitorCalls, oldMonitorCalls) => {
-        if (!this.ready) return;
-        const endedCalls = (oldMonitorCalls || []).filter(
-          (call) =>
-            !newMonitorCalls.find(
-              (currentCall) =>
-                call.telephonySessionId === currentCall.telephonySessionId,
-            ) &&
-            // if the call's callLog has been fetch, skip
-            !this._deps.callLog.calls.find(
-              (currentCall) =>
-                call.telephonySessionId === currentCall.telephonySessionId,
-            ),
-        );
-        if (endedCalls.length) {
-          this._addEndedCalls(endedCalls);
-        }
-      },
-    );
+    this._deps.callMonitor &&
+      watch(
+        this,
+        () => this._deps.callMonitor.calls,
+        (newMonitorCalls, oldMonitorCalls) => {
+          if (!this.ready) return;
+          const endedCalls = (oldMonitorCalls || []).filter(
+            (call) =>
+              !newMonitorCalls.find(
+                (currentCall) =>
+                  call.telephonySessionId === currentCall.telephonySessionId,
+              ) &&
+              // if the call's callLog has been fetch, skip
+              !this._deps.callLog.calls.find(
+                (currentCall) =>
+                  call.telephonySessionId === currentCall.telephonySessionId,
+              ),
+          );
+          if (endedCalls.length) {
+            this._addEndedCalls(endedCalls);
+          }
+        },
+      );
 
     watch(
       this,

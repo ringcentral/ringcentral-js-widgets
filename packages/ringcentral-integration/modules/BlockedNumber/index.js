@@ -1,7 +1,6 @@
-import { Module } from '../../lib/di';
 import DataFetcher from '../../lib/DataFetcher';
+import { Module } from '../../lib/di';
 import fetchList from '../../lib/fetchList';
-import ensureExist from '../../lib/ensureExist';
 import { selector } from '../../lib/selector';
 /**
  * @class
@@ -10,7 +9,7 @@ import { selector } from '../../lib/selector';
 @Module({
   deps: [
     'Client',
-    'RolesAndPermissions',
+    'ExtensionFeatures',
     { dep: 'BlockedNumberOptions', optional: true },
   ],
 })
@@ -20,27 +19,19 @@ export default class BlockedNumber extends DataFetcher {
    * @param {Object} params - params object
    * @param {Client} params.client - client module instance
    */
-  constructor({ client, rolesAndPermissions, ...options }) {
+  constructor({ client, extensionFeatures, ...options }) {
     super({
       ...options,
       client,
       fetchFunction: async () =>
         fetchList((params) =>
-          this._client
-            .account()
-            .extension()
-            .blockedNumber()
-            .list(params),
+          this._client.account().extension().blockedNumber().list(params),
         ),
-      readyCheckFn: () => this._rolesAndPermissions.ready,
+      readyCheckFn: () => this._extensionFeatures.ready,
       cleanOnReset: true,
     });
 
-    this._rolesAndPermissions = ensureExist.call(
-      this,
-      rolesAndPermissions,
-      'rolesAndPermissions',
-    );
+    this._extensionFeatures = extensionFeatures;
   }
 
   get _name() {
@@ -51,6 +42,8 @@ export default class BlockedNumber extends DataFetcher {
   numbers = [() => this.data, (data) => data || []];
 
   get _hasPermission() {
-    return !!this._rolesAndPermissions.permissions.ReadBlockedNumbers;
+    return (
+      this._extensionFeatures.features?.ReadBlockedNumbers?.available ?? false
+    );
   }
 }

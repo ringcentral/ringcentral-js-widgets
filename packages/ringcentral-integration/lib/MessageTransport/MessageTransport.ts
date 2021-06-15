@@ -3,6 +3,12 @@ import * as uuid from 'uuid';
 import TransportBase from '../TransportBase';
 import { TransportBaseProps } from '../TransportBase/TransportBase';
 import { TransportResponseData } from '../TransportInteractionBase';
+import {
+  EventEmitterTransporter,
+  PostMessageTransporter,
+  TRANSPORTER_DIRECTION,
+  TransporterDirection,
+} from './MessageTransporters';
 
 type MessageTransportListener<T = any, K = {}> = (params: {
   requestId: string;
@@ -14,53 +20,45 @@ export type MessageTransportPayload<T = any, K = {}> = {
   data?: T;
 } & K;
 
-const DEFAULT_DEVICE = {
-  addReceiver(receiveMessage: any, { useCapture = false } = {}) {
-    window.addEventListener('message', receiveMessage, useCapture);
-  },
-  createEmitter(sendTarget: Window) {
-    // Always specify an exact target origin, not *,
-    // when you use postMessage to send data to other windows.
-    // A malicious site can change the location of the window without your knowledge,
-    // and therefore it can intercept the data sent using postMessage.
-    return (message: string, { targetOrigin = '*', callback } = {} as any) => {
-      sendTarget.postMessage(message, targetOrigin);
-      if (typeof callback === 'function') callback();
-    };
-  },
-};
 export interface MessageTransportResponse {
   requestId: string;
   result: any;
   error?: Error | string;
 }
 
-type AddReceiver = typeof DEFAULT_DEVICE.addReceiver;
-type CreateEmitter = typeof DEFAULT_DEVICE.createEmitter;
+export const TRANSPORTER_TYPES = {
+  POST_MESSAGE: 'postMessage',
+  EVENT_EMITTER: 'eventEmitter',
+} as const;
+
+export type TransporterTypes = typeof TRANSPORTER_TYPES[keyof typeof TRANSPORTER_TYPES];
 
 export interface MessageTransportProps {
-  addReceiver?: AddReceiver;
-  createEmitter?: CreateEmitter;
-  targetWindow: Window;
+  transporterDirection?: TransporterDirection;
+  targetWindow?: Window;
   origin?: string;
+  transporterType?: TransporterTypes;
 }
 
 type MessageTransportRequestData<T = any, K = {}> = {
   payload: MessageTransportPayload<T, K>;
 };
 
+type Transporter = EventEmitterTransporter | PostMessageTransporter;
+
 export default class MessageTransport extends TransportBase {
-  private _addReceiver: AddReceiver;
-  private _createEmitter: CreateEmitter;
+  private _addReceiver: Transporter['addReceiver'];
+  private _createEmitter: Transporter['createEmitter'];
   private _targetWindow: Window;
   private _origin: string;
   private _myRequests: Map<any, any>;
   private _othersRequests: Map<any, any>;
   private _postMessage: any;
+  private _transporter: Transporter;
 
   constructor({
-    addReceiver = DEFAULT_DEVICE.addReceiver,
-    createEmitter = DEFAULT_DEVICE.createEmitter,
+    transporterType = TRANSPORTER_TYPES.POST_MESSAGE,
+    transporterDirection = TRANSPORTER_DIRECTION.TO_EXTERNAL,
     targetWindow = window,
     origin,
     ...options
@@ -69,14 +67,27 @@ export default class MessageTransport extends TransportBase {
       ...options,
       name: 'MessageTransport',
     });
-    this._addReceiver = addReceiver;
-    this._createEmitter = createEmitter;
+    switch (transporterType) {
+      case TRANSPORTER_TYPES.EVENT_EMITTER:
+        this._transporter = new EventEmitterTransporter({
+          direction: transporterDirection,
+        });
+        break;
+      default:
+      case TRANSPORTER_TYPES.POST_MESSAGE:
+        this._transporter = new PostMessageTransporter();
+        break;
+    }
+
+    this._addReceiver = this._transporter.addReceiver;
+    this._createEmitter = this._transporter.createEmitter;
+
     this._targetWindow = targetWindow;
     this._origin = origin;
     this._myRequests = new Map();
     this._othersRequests = new Map();
     this._postMessage = this._createEmitter(this._targetWindow);
-    this._addReceiver(this._onMessage.bind(this));
+    this._addReceiver(this._onMessage);
   }
 
   _onMessage = (event: MessageEvent) => {

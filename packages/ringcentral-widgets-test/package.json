@@ -29,12 +29,12 @@
     "@ringcentral-integration/i18n": "*",
     "@ringcentral-integration/locale-loader": "*",
     "@ringcentral-integration/phone-number": "*",
-    "@ringcentral/juno": "^1.8.2-beta.4790-e9e01b7b",
+    "@ringcentral/juno": "^1.8.3-beta.4905-adf6ee90",
     "@ringcentral-integration/test-utils": "*",
-    "@ringcentral/sdk": "^4.4.2",
-    "@ringcentral/subscriptions": "^4.4.2",
+    "@ringcentral/sdk": "^4.5.0",
+    "@ringcentral/subscriptions": "^4.5.0",
     "babel-istanbul": "^0.12.1",
-    "babel-jest": "^26.3.0",
+    "babel-jest": "^27.0.1",
     "coveralls": "^3.0.4",
     "dotenv": "^6.2.0",
     "enzyme": "^3.7.0",
@@ -65,6 +65,8 @@
   },
   "jest": {
     "roots": ["<rootDir>/test"],
+    "testRunner": "jasmine2",
+    "testEnvironment": "jsdom",
     "moduleNameMapper": {
       "assets/images/.+?\\.svg$": "<rootDir>/test/__mocks__/svgMock.js",
       "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga|ogg)$": "<rootDir>/test/__mocks__/fileMock.js",
@@ -97,8 +99,8 @@
     ]
   },
   "devDependencies": {
-    "@types/jest": "^26.0.13",
-    "jest": "^26.3.0",
+    "@types/jest": "^26.0.23",
+    "jest": "^27.0.1",
     "react-test-renderer": "^16.8.3"
   },
   "ci": {

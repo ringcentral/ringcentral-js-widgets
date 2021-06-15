@@ -69,7 +69,7 @@ afterEach(async () => {
   wrapper.unmount();
 });
 
-describe('<ManualDialSettingsPanel />', async () => {
+describe('<ManualDialSettingsPanel />', () => {
   it('Display Back Button and when user click it, function goBack will be called', () => {
     const goBack = jest.fn();
     wrapper = setup({ goBack });

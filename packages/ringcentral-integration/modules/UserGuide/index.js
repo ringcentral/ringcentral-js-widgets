@@ -1,8 +1,8 @@
 import { contains } from 'ramda';
-import RcModule from '../../lib/RcModule';
-import proxify from '../../lib/proxy/proxify';
 import { Module } from '../../lib/di';
-import actionTypes from './actionTypes';
+import proxify from '../../lib/proxy/proxify';
+import RcModule from '../../lib/RcModule';
+import { actionTypes } from './actionTypes';
 import getUserGuideReducer, { getGuidesReducer } from './getUserGuideReducer';
 
 /**
@@ -19,7 +19,7 @@ const SUPPORTED_LOCALES = {
     'Locale',
     'Storage',
     'Webphone',
-    'RolesAndPermissions',
+    'ExtensionFeatures',
     { dep: 'UserGuideOptions', optional: true },
   ],
 })
@@ -29,7 +29,7 @@ export default class UserGuide extends RcModule {
     locale,
     storage,
     webphone,
-    rolesAndPermissions,
+    extensionFeatures,
     ...options
   }) {
     super({
@@ -40,7 +40,7 @@ export default class UserGuide extends RcModule {
     this._locale = locale;
     this._storage = storage;
     this._webphone = webphone;
-    this._rolesAndPermissions = rolesAndPermissions;
+    this._extensionFeatures = extensionFeatures;
     this._reducer = getUserGuideReducer(this.actionTypes);
 
     this._context = options.context;
@@ -63,7 +63,7 @@ export default class UserGuide extends RcModule {
       this._auth.ready &&
       this._locale.ready &&
       this._storage.ready &&
-      this._rolesAndPermissions.ready &&
+      this._extensionFeatures.ready &&
       this._auth.loggedIn
     ) {
       this.store.dispatch({
@@ -76,7 +76,7 @@ export default class UserGuide extends RcModule {
       (!this._auth.ready ||
         !this._locale.ready ||
         !this._storage.ready ||
-        !this._rolesAndPermissions.ready)
+        !this._extensionFeatures.ready)
     ) {
       this.store.dispatch({
         type: this.actionTypes.resetSuccess,
@@ -96,7 +96,7 @@ export default class UserGuide extends RcModule {
 
   @proxify
   async _preLoadImage(url) {
-    await new Promise((resolve, reject) => {
+    await new Promise((resolve) => {
       const img = new Image();
       img.src = url;
       img.onload = resolve;
@@ -176,9 +176,16 @@ export default class UserGuide extends RcModule {
     });
   }
 
+  get hasPermission() {
+    return (
+      this._extensionFeatures.isCallingEnabled ||
+      this._extensionFeatures.hasReadMessagePermission
+    );
+  }
+
   @proxify
   async initUserGuide() {
-    if (!this._rolesAndPermissions.hasUserGuidePermission) return;
+    if (!this.hasPermission) return;
     // eslint-disable-next-line
     const prevGuides = this.allGuides;
     const guides = this.resolveGuides();

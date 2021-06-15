@@ -188,6 +188,7 @@ export function getSearchForPhoneNumbers({
           type: contact.type,
           phoneNumber,
           phoneType: phoneType.replace('Phone', ''),
+          profileImageUrl: contact.profileImage?.uri,
           entityType,
         });
       }
@@ -200,14 +201,12 @@ export function getMatchContactsByPhoneNumber({
   contacts,
   phoneNumber,
   entityType,
-  normalizeNumber = (number) => number,
   findPhoneNumber = (item: IContact['phoneNumbers'][number]) =>
-    normalizeNumber(item.phoneNumber) === phoneNumber,
+    item.phoneNumber === phoneNumber,
 }: {
   contacts: IContact[];
   phoneNumber: string;
   entityType: string;
-  normalizeNumber?: (number: string) => string;
   findPhoneNumber?: (item: IContact['phoneNumbers'][number]) => boolean;
 }): TypedContact[] {
   const result: TypedContact[] = [];

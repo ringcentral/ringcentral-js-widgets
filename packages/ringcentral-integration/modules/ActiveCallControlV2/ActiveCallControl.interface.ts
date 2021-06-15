@@ -1,4 +1,9 @@
-import { Direction } from 'ringcentral-call-control/lib/Session';
+import {
+  Direction,
+  SessionData,
+  Party,
+  PartyStatusCode,
+} from 'ringcentral-call-control/lib/Session';
 import { Session } from 'ringcentral-call/lib/Session';
 import { WebPhoneSession } from 'ringcentral-web-phone/lib/session';
 import { RouterInteraction } from '../../../ringcentral-widgets/modules/RouterInteraction';
@@ -10,7 +15,6 @@ import AudioSettings from '../AudioSettings';
 import Auth from '../Auth';
 import AvailabilityMonitor from '../AvailabilityMonitor';
 import Brand from '../Brand';
-import CallMonitor from '../CallMonitor';
 import ConnectivityMonitor from '../ConnectivityMonitor';
 import { ExtensionFeatures } from '../ExtensionFeatures';
 import ExtensionInfo from '../ExtensionInfo';
@@ -39,7 +43,6 @@ export interface Deps {
   auth: Auth;
   availabilityMonitor?: AvailabilityMonitor;
   brand: Brand;
-  callMonitor: CallMonitor;
   client: RingCentralClient;
   connectivityMonitor: ConnectivityMonitor;
   extensionFeatures: ExtensionFeatures;
@@ -89,6 +92,23 @@ export interface ActiveSession {
   recordStatus: string;
   removed: boolean;
   isReject: boolean;
+}
+
+export interface ActiveCallControlSessionData extends SessionData {
+  party: Party;
+  webphoneSessionConnected: boolean;
+  telephonySessionId: string;
+  telephonySession?: any;
+  sessionId: string;
+  activeCallId: string;
+  status: PartyStatusCode;
+  direction: any;
+  otherParties: any;
+  recordings: any;
+  from: any;
+  to: any;
+  startTime: number;
+  webphoneSession: any;
 }
 
 export { Session, WebPhoneSession };

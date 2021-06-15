@@ -126,17 +126,22 @@ export function getCallQueueName({
   return queueName;
 }
 
-export function normalizeSession(session: WebphoneSession): NormalizedSession {
+export function normalizeSession(session?: WebphoneSession): NormalizedSession {
+  if (!session) {
+    return {};
+  }
+  const toUserName = session.request?.to?.displayName;
+  const fromUserName = session.request?.from?.displayName;
   return {
     id: session.id,
     callId: session.__rc_callId,
     direction: session.__rc_direction,
     callStatus: session.__rc_callStatus,
-    to: session.request.to.uri.user,
-    toUserName: session.request.to.displayName,
-    from: session.request.from.uri.user,
+    to: session.request?.to?.uri?.user,
+    toUserName,
+    from: session.request?.from?.uri?.user,
     fromNumber: session.__rc_fromNumber,
-    fromUserName: session.request.from.displayName,
+    fromUserName,
     fromTag: session.fromTag,
     toTag: session.toTag,
     startTime: session.startTime && new Date(session.startTime).getTime(),
@@ -157,8 +162,8 @@ export function normalizeSession(session: WebphoneSession): NormalizedSession {
     removed: false,
     callQueueName: getCallQueueName({
       direction: session.__rc_direction,
-      toUserName: session.request.to.displayName,
-      fromUserName: session.request.from.displayName,
+      toUserName,
+      fromUserName,
     }),
     warmTransferSessionId: session.__rc_transferSessionId,
   };

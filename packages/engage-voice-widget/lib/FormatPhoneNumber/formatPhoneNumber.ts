@@ -17,5 +17,5 @@ export const formatPhoneNumber = ({
         phoneNumber,
         countryCode,
       }) || phoneNumber
-    : i18n.getString('unKnown', currentLocale);
+    : i18n.getString('unknown', currentLocale);
 };

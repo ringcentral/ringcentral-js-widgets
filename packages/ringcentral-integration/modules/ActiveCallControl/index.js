@@ -8,7 +8,7 @@ import moduleStatuses from '../../enums/moduleStatuses';
 import subscriptionFilters from '../../enums/subscriptionFilters';
 import callErrors from '../Call/callErrors';
 import ensureExist from '../../lib/ensureExist';
-import actionTypes from './actionTypes';
+import { actionTypes } from './actionTypes';
 import getActiveCallControlReducer from './getActiveCallControlReducer';
 import getDataReducer from './getDataReducer';
 import { normalizeSession, conflictError } from './helpers';
@@ -27,7 +27,7 @@ const subscribeEvent = subscriptionFilters.telephonySessions;
     'Auth',
     'Subscription',
     'ConnectivityMonitor',
-    'RolesAndPermissions',
+    'ExtensionFeatures',
     'Presence',
     'Alert',
     'NumberValidate',
@@ -48,7 +48,7 @@ export default class ActiveCallControl extends Pollable {
     storage,
     subscription,
     connectivityMonitor,
-    rolesAndPermissions,
+    extensionFeatures,
     availabilityMonitor,
     tabManager,
     presence,
@@ -74,11 +74,7 @@ export default class ActiveCallControl extends Pollable {
       connectivityMonitor,
       'connectivityMonitor',
     );
-    this._rolesAndPermissions = ensureExist.call(
-      this,
-      rolesAndPermissions,
-      'rolesAndPermissions',
-    );
+    this._extensionFeatures = extensionFeatures;
     this._availabilityMonitor = availabilityMonitor;
     this._presence = ensureExist.call(this, presence, 'presence');
     this._tabManager = tabManager;
@@ -144,7 +140,7 @@ export default class ActiveCallControl extends Pollable {
       this._connectivityMonitor.ready &&
       this._presence.ready &&
       (!this._tabManager || this._tabManager.ready) &&
-      this._rolesAndPermissions.ready &&
+      this._extensionFeatures.ready &&
       (!this._availabilityMonitor || this._availabilityMonitor.ready) &&
       this.pending
     );
@@ -160,7 +156,7 @@ export default class ActiveCallControl extends Pollable {
         (!!this._tabManager && !this._tabManager.ready) ||
         !this._connectivityMonitor.ready ||
         !this._presence.ready ||
-        !this._rolesAndPermissions.ready ||
+        !this._extensionFeatures.ready ||
         (!!this._availabilityMonitor && !this._availabilityMonitor.ready)) &&
       this.ready
     );
@@ -173,7 +169,7 @@ export default class ActiveCallControl extends Pollable {
   }
 
   get _hasPermission() {
-    return this._rolesAndPermissions.ringoutEnabled;
+    return this._extensionFeatures.isRingOutEnabled;
   }
 
   _shouldFetch() {

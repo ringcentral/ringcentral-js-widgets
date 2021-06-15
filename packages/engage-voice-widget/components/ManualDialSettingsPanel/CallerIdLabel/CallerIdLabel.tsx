@@ -1,4 +1,5 @@
 import React, { FunctionComponent } from 'react';
+import { RcText } from '@ringcentral/juno';
 import styles from './styles.scss';
 
 export interface CallerIdLabelProps {
@@ -12,7 +13,15 @@ const CallerIdLabel: FunctionComponent<CallerIdLabelProps> = ({
 }) => {
   return (
     <div className={styles.item}>
-      <p className={styles.title}>{description}</p>
+      <RcText
+        className={styles.title}
+        variant="inherit"
+        component="p"
+        title={description}
+        titleWhenOverflow
+      >
+        {description}
+      </RcText>
       {number !== '-1' && <p className={styles.sub}>{number}</p>}
     </div>
   );

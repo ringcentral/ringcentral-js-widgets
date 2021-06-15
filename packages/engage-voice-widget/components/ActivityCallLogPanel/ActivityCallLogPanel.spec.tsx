@@ -138,7 +138,7 @@ const getControlButton = (type) => {
   };
 };
 
-describe('<ActivityCallLogPanel />:: Call Disposition', async () => {
+describe('<ActivityCallLogPanel />:: Call Disposition', () => {
   const status = 'callEnd';
   it('When call is ended, user will on disposition page and can dispose the call', () => {
     const disposeCall = jest.fn();
@@ -196,7 +196,7 @@ describe('<ActivityCallLogPanel />:: Call Disposition', async () => {
   });
 });
 
-describe('<ActivityCallLogPanel />', async () => {
+describe('<ActivityCallLogPanel />', () => {
   it('When call is onHold, HoldCallButton should display and work correctly', () => {
     const onHold = jest.fn();
     const onUnHold = jest.fn();

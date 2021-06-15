@@ -5,7 +5,7 @@ import sleep from '../../lib/sleep';
 import moduleStatuses from '../../enums/moduleStatuses';
 import { phoneSources } from '../../enums/phoneSources';
 import syncTypes from '../../enums/syncTypes';
-import actionTypes from './actionTypes';
+import { actionTypes } from './actionTypes';
 import proxify from '../../lib/proxy/proxify';
 import { selector } from '../../lib/selector';
 import {
@@ -56,7 +56,7 @@ function getSyncParams(syncToken, pageId) {
   deps: [
     'Client',
     'Auth',
-    'RolesAndPermissions',
+    'ExtensionFeatures',
     { dep: 'Storage', optional: true },
     { dep: 'TabManager', optional: true },
     { dep: 'AddressBookOptions', optional: true },
@@ -80,7 +80,7 @@ export default class AddressBook extends Pollable {
     auth,
     storage,
     tabManager,
-    rolesAndPermissions,
+    extensionFeatures,
     ttl = DEFAULT_TTL,
     timeToRetry = DEFAULT_TIME_TO_RETRY,
     polling = true,
@@ -98,7 +98,7 @@ export default class AddressBook extends Pollable {
     this._auth = auth;
     this._tabManager = tabManager;
     this._ttl = ttl;
-    this._rolesAndPermissions = rolesAndPermissions;
+    this._extensionFeatures = extensionFeatures;
     this._timeToRetry = timeToRetry;
     this._polling = polling;
     this._promise = null;
@@ -154,7 +154,7 @@ export default class AddressBook extends Pollable {
     return (
       (!this._storage || this._storage.ready) &&
       (!this._tabManager || this._tabManager.ready) &&
-      this._rolesAndPermissions.ready &&
+      this._extensionFeatures.ready &&
       this._auth.loggedIn &&
       this.pending
     );
@@ -164,7 +164,7 @@ export default class AddressBook extends Pollable {
     return (
       ((!!this._storage && !this._storage.ready) ||
         (!!this._tabManager && !this._tabManager.ready) ||
-        !this._rolesAndPermissions.ready ||
+        !this._extensionFeatures.ready ||
         !this._auth.loggedIn) &&
       this.ready
     );
@@ -209,7 +209,9 @@ export default class AddressBook extends Pollable {
   }
 
   get _hasPermission() {
-    return !!this._rolesAndPermissions.permissions.ReadPersonalContacts;
+    return (
+      this._extensionFeatures.features?.ReadPersonalContacts.available ?? false
+    );
   }
 
   _resetModuleStatus() {

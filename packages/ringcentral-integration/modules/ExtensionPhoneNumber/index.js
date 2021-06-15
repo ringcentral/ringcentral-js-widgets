@@ -1,12 +1,11 @@
 import { find } from 'ramda';
+import subscriptionFilters from '../../enums/subscriptionFilters';
+import subscriptionHints from '../../enums/subscriptionHints';
+import DataFetcher from '../../lib/DataFetcher';
 import { Module } from '../../lib/di';
 import fetchList from '../../lib/fetchList';
 import removeUri from '../../lib/removeUri';
-import DataFetcher from '../../lib/DataFetcher';
-import ensureExist from '../../lib/ensureExist';
 import { selector } from '../../lib/selector';
-import subscriptionHints from '../../enums/subscriptionHints';
-import subscriptionFilters from '../../enums/subscriptionFilters';
 
 /**
  * @class
@@ -15,7 +14,7 @@ import subscriptionFilters from '../../enums/subscriptionFilters';
 @Module({
   deps: [
     'Client',
-    'RolesAndPermissions',
+    'ExtensionFeatures',
     { dep: 'ExtensionPhoneNumberOptions', optional: true },
   ],
 })
@@ -25,7 +24,7 @@ export default class ExtensionPhoneNumber extends DataFetcher {
    * @param {Object} params - params object
    * @param {Client} params.client - client module instance
    */
-  constructor({ client, rolesAndPermissions, ...options }) {
+  constructor({ client, extensionFeatures, ...options }) {
     super({
       client,
       subscriptionFilters: [subscriptionFilters.extensionInfo],
@@ -35,26 +34,18 @@ export default class ExtensionPhoneNumber extends DataFetcher {
       fetchFunction: async () =>
         (
           await fetchList((params) =>
-            client
-              .account()
-              .extension()
-              .phoneNumber()
-              .list(params),
+            client.account().extension().phoneNumber().list(params),
           )
         ).map((number) => ({
           ...number,
           country: removeUri(number.country),
         })),
-      readyCheckFn: () => this._rolesAndPermissions.ready,
+      readyCheckFn: () => this._extensionFeatures.ready,
       cleanOnReset: true,
       ...options,
     });
 
-    this._rolesAndPermissions = ensureExist.call(
-      this,
-      rolesAndPermissions,
-      'rolesAndPermissions',
-    );
+    this._extensionFeatures = extensionFeatures;
   }
 
   get _name() {
@@ -122,6 +113,7 @@ export default class ExtensionPhoneNumber extends DataFetcher {
   ];
 
   get _hasPermission() {
-    return !!this._rolesAndPermissions.permissions.ReadUserPhoneNumbers;
+    return !!this._extensionFeatures.features?.ReadExtensionPhoneNumbers
+      ?.available;
   }
 }

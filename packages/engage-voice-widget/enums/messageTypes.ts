@@ -40,7 +40,7 @@ export const messageTypes = ObjectMap.fromKeys([
   'HOLD_ERROR',
   // auth
   'LOGOUT_FAIL_WITH_CALL_CONNECTED',
-  'RECORD_PAUSE',
+  'RECORD_PAUSED',
   'RECORD_RESUME',
   // TCPA_SAFE_LEAD_STATE
   'INTERCEPT',

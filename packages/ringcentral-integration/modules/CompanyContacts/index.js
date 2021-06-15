@@ -51,7 +51,7 @@ const DEFAULT_TYPE_FILTERS = [
 @Module({
   deps: [
     'Client',
-    'RolesAndPermissions',
+    'ExtensionFeatures',
     { dep: 'CompanyContactsOptions', optional: true },
   ],
 })
@@ -64,7 +64,7 @@ export default class CompanyContacts extends DataFetcher {
    */
   constructor({
     client,
-    rolesAndPermissions,
+    extensionFeatures,
     storage,
     ttl = DEFAULT_TTL,
     polling = true,
@@ -115,7 +115,7 @@ export default class CompanyContacts extends DataFetcher {
         fetchList((params) =>
           this._client.account().directory().contacts().list(params),
         ),
-      readyCheckFn: () => this._rolesAndPermissions.ready,
+      readyCheckFn: () => this._extensionFeatures.ready,
     });
     this._allowSettings = allowSettings;
 
@@ -137,11 +137,7 @@ export default class CompanyContacts extends DataFetcher {
         }),
       });
     }
-    this._rolesAndPermissions = ensureExist.call(
-      this,
-      rolesAndPermissions,
-      'rolesAndPermissions',
-    );
+    this._extensionFeatures = extensionFeatures;
   }
 
   get _name() {
@@ -246,7 +242,7 @@ export default class CompanyContacts extends DataFetcher {
   ];
 
   get _hasPermission() {
-    return !!this._rolesAndPermissions.permissions.ReadExtensions;
+    return this._extensionFeatures.features?.ReadExtensions.available ?? false;
   }
 
   get allowSettings() {

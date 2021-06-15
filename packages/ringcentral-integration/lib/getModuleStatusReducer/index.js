@@ -20,3 +20,5 @@ export default function getModuleStatusReducer(types) {
     }
   };
 }
+
+export { getModuleStatusReducer };

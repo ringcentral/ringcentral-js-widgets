@@ -59,6 +59,7 @@ export const track = (trackEvent: TrackEvent) => {
         }
       } catch (e) {
         console.warn(`Analytics Error: ${target[identifierKey]}.${name}`);
+        console.error(e);
       }
       return result;
     };

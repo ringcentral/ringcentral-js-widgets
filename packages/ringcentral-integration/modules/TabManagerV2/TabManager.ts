@@ -63,7 +63,14 @@ export class TabManager extends RcModuleV2<Deps> {
   _eventReducer = (state: TabEvent = null, action: any) => {
     if (action._usm === usmAction) {
       const { event } = this._getStateV2(action._state, this[identifierKey]);
-      if (event && state === null) return event;
+      if (
+        event &&
+        // It needs to match the exact modification event about `@action _setEvent()` in this module for Redux state.
+        // And it is a one-time state in Redux store.
+        action.method === '_setEvent' &&
+        action.type === this[identifierKey]
+      )
+        return event;
     }
     return null;
   };

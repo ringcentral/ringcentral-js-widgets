@@ -6,6 +6,7 @@ import {
   computed,
   createStore,
   watch,
+  watchEffect,
   Service,
   storeKey,
   identifierKey,
@@ -50,8 +51,11 @@ export const spawnStorageReducersKey: unique symbol = Symbol(
   'spawnStorageReducers',
 );
 
-interface Options<T> {
-  deps?: T;
+export interface RcModuleOptions<T> {
+  deps?: T & {
+    storage?: any;
+    globalStorage?: any;
+  };
   enableCache?: boolean;
   enableGlobalCache?: boolean;
   storageKey?: string;
@@ -106,7 +110,7 @@ abstract class RcModuleV2<T = {}> {
     enableCache = false,
     enableGlobalCache = false,
     ...options
-  }: Options<T & { storage?: any; globalStorage?: any }> = {}) {
+  }: RcModuleOptions<T> = {}) {
     this._deps = deps;
     this[storageKey] = options.storageKey;
     this[enableCacheKey] = enableCache;
@@ -439,6 +443,7 @@ export {
   computed,
   createStore,
   watch,
+  watchEffect,
   stateKey,
   storeKey,
   identifierKey,

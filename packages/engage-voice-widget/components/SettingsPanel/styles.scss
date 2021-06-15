@@ -21,6 +21,8 @@ $font-wight: 700;
   }
   .pointerWrap {
     cursor: not-allowed;
+  }
+  .alignRight {
     float: right;
   }
 
@@ -85,9 +87,6 @@ $font-wight: 700;
       .value {
         font-weight: $font-wight;
       }
-    }
-    .editSession {
-      float: right;
     }
   }
 

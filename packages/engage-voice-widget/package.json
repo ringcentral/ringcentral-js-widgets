@@ -35,20 +35,21 @@
   "peerDependencies": {
     "@ringcentral-integration/core": "^0.12.0",
     "@ringcentral-integration/phone-number": "^1.0.4",
-    "@ringcentral/juno": "^1.8.2-beta.4790-e9e01b7b",
+    "@ringcentral/juno": "^1.8.3-beta.4905-adf6ee90",
     "ringcentral-integration": "^0.12.0",
     "ringcentral-widgets": "^0.12.0"
   },
   "devDependencies": {
+    "@ringcentral-integration/test-utils": "*",
     "@ringcentral-integration/babel-settings": "*",
     "@ringcentral-integration/core": "*",
     "@ringcentral-integration/locale-loader": "*",
     "@ringcentral-integration/locale-settings": "*",
     "@ringcentral-integration/phone-number": "*",
-    "@ringcentral/juno": "^1.8.2-beta.4790-e9e01b7b",
+    "@ringcentral/juno": "^1.8.3-beta.4905-adf6ee90",
     "@testing-library/react": "^11.2.6",
     "crius-test": "^1.2.0",
-    "enzyme": "^3.10.0",
+    "enzyme": "^3.7.0",
     "enzyme-adapter-react-16": "^1.15.1",
     "execa": "^5.0.0",
     "fs-extra": "^9.0.1",
@@ -76,6 +77,7 @@
     "sip.js": "0.11.6"
   },
   "jest": {
+    "testEnvironment": "jsdom",
     "moduleNameMapper": {
       "\\.svg$": "<rootDir>/test/__mocks__/svgMock.js",
       "\\.(jpg|jpeg|png|gif|eot|otf|webp|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga|ogg)$": "<rootDir>/test/__mocks__/fileMock.js",

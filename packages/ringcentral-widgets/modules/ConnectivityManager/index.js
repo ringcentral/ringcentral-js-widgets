@@ -94,8 +94,8 @@ export default class ConnectivityManager extends RcModule {
   checkWebphoneAndConnect() {
     if (
       !this._callingSettings ||
-      !this._callingSettings.ready ||
-      !this._callingSettings.isWebphoneMode
+      (this._callingSettings &&
+        (!this._callingSettings.ready || !this._callingSettings.isWebphoneMode))
     ) {
       return;
     }
@@ -181,7 +181,7 @@ export default class ConnectivityManager extends RcModule {
 
   get isWebphoneInitializing() {
     return (
-      this._callingSettings.isWebphoneMode &&
+      !!this._callingSettings?.isWebphoneMode &&
       (!this._webphone.ready ||
         this._webphone.disconnected ||
         this._webphone.connecting ||
@@ -191,8 +191,7 @@ export default class ConnectivityManager extends RcModule {
 
   get webphoneConnecting() {
     return (
-      this._webphone &&
-      this._webphone.ready &&
+      !!this._webphone?.ready &&
       (this._webphone.connecting || this._webphone.reconnecting)
     );
   }
@@ -207,9 +206,9 @@ export default class ConnectivityManager extends RcModule {
       this._auth.loggedIn &&
       this._callingSettings.isWebphoneMode &&
       (!this._audioSettings.userMedia ||
-        (this._webphone.reconnecting ||
-          this._webphone.connectError ||
-          this._webphone.inactive))
+        this._webphone.reconnecting ||
+        this._webphone.connectError ||
+        this._webphone.inactive)
     );
   }
 

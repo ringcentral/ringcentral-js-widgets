@@ -292,6 +292,8 @@ export default class Auth extends RcModule {
     endpointId,
     tokenType,
     scope,
+    tokenUri,
+    discoveryUri,
   }: any) {
     this.store.dispatch({
       type: this.actionTypes.login,
@@ -324,6 +326,8 @@ export default class Auth extends RcModule {
       access_token: accessToken,
       token_type: tokenType,
       owner_id: ownerId,
+      token_uri: tokenUri,
+      discovery_uri: discoveryUri,
     });
   }
 

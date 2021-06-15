@@ -38,6 +38,7 @@ export const tabManagerEvents = ObjectMap.prefixKeys(
     'RELOGIN',
     'CONFIGURE_FAIL',
     'RE_CHOOSE_ACCOUNT',
+    'RECORD_PAUSED',
   ],
   'tabManager',
 );

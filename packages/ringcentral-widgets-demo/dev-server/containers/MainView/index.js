@@ -1,36 +1,32 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 import { connect } from 'react-redux';
-import { withPhone } from 'ringcentral-widgets/lib/phoneContext';
-import hasActiveCalls from 'ringcentral-widgets/lib/hasActiveCalls';
-
 import callingOptions from 'ringcentral-integration/modules/CallingSettings/callingOptions';
-import TabNavigationView from 'ringcentral-widgets/components/TabNavigationView';
-
-import DialPadIcon from 'ringcentral-widgets/assets/images/DialPadNav.svg';
-import CallsIcon from 'ringcentral-widgets/assets/images/Calls.svg';
 import HistoryIcon from 'ringcentral-widgets/assets/images/CallHistory.svg';
-import MessageIcon from 'ringcentral-widgets/assets/images/Messages.svg';
-import MoreMenuIcon from 'ringcentral-widgets/assets/images/MoreMenu.svg';
-import ContactIcon from 'ringcentral-widgets/assets/images/Contact.svg';
-import MeetingIcon from 'ringcentral-widgets/assets/images/Meeting.svg';
-import ConferenceIcon from 'ringcentral-widgets/assets/images/Conference.svg';
-import SettingsIcon from 'ringcentral-widgets/assets/images/Settings.svg';
-
-import DialPadHoverIcon from 'ringcentral-widgets/assets/images/DialPadHover.svg';
-import CallsHoverIcon from 'ringcentral-widgets/assets/images/CallsHover.svg';
 import HistoryHoverIcon from 'ringcentral-widgets/assets/images/CallHistoryHover.svg';
-import MessageHoverIcon from 'ringcentral-widgets/assets/images/MessagesHover.svg';
-import MoreMenuHoverIcon from 'ringcentral-widgets/assets/images/MoreMenuHover.svg';
-import ContactHoverIcon from 'ringcentral-widgets/assets/images/ContactHover.svg';
-import MeetingHoverIcon from 'ringcentral-widgets/assets/images/MeetingHover.svg';
+import CallsIcon from 'ringcentral-widgets/assets/images/Calls.svg';
+import CallsHoverIcon from 'ringcentral-widgets/assets/images/CallsHover.svg';
+import ConferenceIcon from 'ringcentral-widgets/assets/images/Conference.svg';
 import ConferenceHoverIcon from 'ringcentral-widgets/assets/images/ConferenceHover.svg';
-import SettingsHoverIcon from 'ringcentral-widgets/assets/images/SettingsHover.svg';
-
-import ContactNavIcon from 'ringcentral-widgets/assets/images/ContactsNavigation.svg';
-import MeetingNavIcon from 'ringcentral-widgets/assets/images/MeetingNavigation.svg';
 import ConferenceNavIcon from 'ringcentral-widgets/assets/images/ConferenceNavigation.svg';
+import ContactIcon from 'ringcentral-widgets/assets/images/Contact.svg';
+import ContactHoverIcon from 'ringcentral-widgets/assets/images/ContactHover.svg';
+import ContactNavIcon from 'ringcentral-widgets/assets/images/ContactsNavigation.svg';
+import DialPadHoverIcon from 'ringcentral-widgets/assets/images/DialPadHover.svg';
+import DialPadIcon from 'ringcentral-widgets/assets/images/DialPadNav.svg';
+import MeetingIcon from 'ringcentral-widgets/assets/images/Meeting.svg';
+import MeetingHoverIcon from 'ringcentral-widgets/assets/images/MeetingHover.svg';
+import MeetingNavIcon from 'ringcentral-widgets/assets/images/MeetingNavigation.svg';
+import MessageIcon from 'ringcentral-widgets/assets/images/Messages.svg';
+import MessageHoverIcon from 'ringcentral-widgets/assets/images/MessagesHover.svg';
+import MoreMenuIcon from 'ringcentral-widgets/assets/images/MoreMenu.svg';
+import MoreMenuHoverIcon from 'ringcentral-widgets/assets/images/MoreMenuHover.svg';
+import SettingsIcon from 'ringcentral-widgets/assets/images/Settings.svg';
+import SettingsHoverIcon from 'ringcentral-widgets/assets/images/SettingsHover.svg';
 import SettingsNavIcon from 'ringcentral-widgets/assets/images/SettingsNavigation.svg';
-
+import TabNavigationView from 'ringcentral-widgets/components/TabNavigationView';
+import hasActiveCalls from 'ringcentral-widgets/lib/hasActiveCalls';
+import { withPhone } from 'ringcentral-widgets/lib/phoneContext';
 import i18n from './i18n';
 
 function getTabs({
@@ -156,7 +152,7 @@ function mapToProps(
     phone: {
       locale,
       messageStore,
-      rolesAndPermissions,
+      extensionFeatures,
       routerInteraction,
       callingSettings,
       conference,
@@ -166,26 +162,28 @@ function mapToProps(
 ) {
   const unreadCounts = messageStore.unreadCounts || 0;
   const showDialPad =
-    rolesAndPermissions.ready && rolesAndPermissions.callingEnabled;
+    extensionFeatures.ready && extensionFeatures.isCallingEnabled;
   const showCalls =
-    rolesAndPermissions.ready &&
-    rolesAndPermissions.callingEnabled &&
+    extensionFeatures.ready &&
+    extensionFeatures.isCallingEnabled &&
     callingSettings.ready &&
     callingSettings.callWith !== callingOptions.browser;
   const showHistory =
-    rolesAndPermissions.ready && rolesAndPermissions.permissions.ReadCallLog;
+    extensionFeatures.ready &&
+    !!extensionFeatures.features?.ReadExtensionCallLog?.available;
   const showContact =
-    rolesAndPermissions.ready &&
-    (rolesAndPermissions.callingEnabled ||
-      rolesAndPermissions.hasReadMessagesPermission);
+    extensionFeatures.ready &&
+    (extensionFeatures.isCallingEnabled ||
+      extensionFeatures.hasReadMessagesPermission);
   const showMessages =
-    rolesAndPermissions.ready && rolesAndPermissions.hasReadMessagesPermission;
+    extensionFeatures.ready && extensionFeatures.hasReadMessagesPermission;
   const showConference =
-    rolesAndPermissions.ready &&
+    extensionFeatures.ready &&
     conference.data &&
-    rolesAndPermissions.permissions.OrganizeConference;
+    !!extensionFeatures.features?.Conferencing?.available;
   const showMeeting =
-    rolesAndPermissions.ready && rolesAndPermissions.hasMeetingsPermission;
+    extensionFeatures.ready &&
+    !!extensionFeatures.features?.Meetings?.available;
   const currentLocale = locale.currentLocale;
   const conferenceCallEquipped = !!conferenceCall;
   const tabs = getTabs({
@@ -223,10 +221,7 @@ function mapToFunctions(_, { phone, phone: { routerInteraction } }) {
 }
 
 const MainView = withPhone(
-  connect(
-    mapToProps,
-    mapToFunctions,
-  )(TabNavigationView),
+  connect(mapToProps, mapToFunctions)(TabNavigationView),
 );
 
 export default MainView;

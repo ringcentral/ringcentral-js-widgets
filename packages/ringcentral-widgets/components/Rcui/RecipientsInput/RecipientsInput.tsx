@@ -1,18 +1,15 @@
 import {
+  combineProps,
+  RcBaseProps,
   RcIconButton,
+  RcIconButtonProps,
   RcTextField,
   RcTextFieldProps,
   useEventCallback,
 } from '@ringcentral/juno';
 import deletenumberSvg from '@ringcentral/juno/icon/Deletenumber';
 import classNames from 'classnames';
-import React, {
-  FunctionComponent,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
 
 import i18n from './i18n';
 import styles from './styles.scss';
@@ -27,6 +24,8 @@ export type RecipientsInputProps = {
   onChange(value?: string): any;
   onDelete(): any;
   onClear(): any;
+  /** props for `deleteIcon` */
+  deleteIconProps?: RcBaseProps<RcIconButtonProps, 'variant' | 'size'>;
   className?: string;
 } & Omit<RcTextFieldProps, 'onChange'>;
 
@@ -40,6 +39,7 @@ export const RecipientsInput: FunctionComponent<RecipientsInputProps> = ({
   onDelete,
   onClear,
   className,
+  deleteIconProps,
   ...rest
 }) => {
   const inputRef = useRef<HTMLInputElement>();
@@ -102,13 +102,19 @@ export const RecipientsInput: FunctionComponent<RecipientsInputProps> = ({
           },
           endAdornment: haveDeleteButton && (
             <RcIconButton
-              variant="plain"
-              size="large"
               color="neutral.f03"
               symbol={deletenumberSvg}
               data-sign="deleteButton"
-              onMouseUp={handleMouseUp}
-              onMouseDown={handleMouseDown}
+              title="delete"
+              {...combineProps(
+                {
+                  onMouseUp: handleMouseUp,
+                  onMouseDown: handleMouseDown,
+                },
+                deleteIconProps,
+              )}
+              variant="plain"
+              size="large"
             />
           ),
         }}

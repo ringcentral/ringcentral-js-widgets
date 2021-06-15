@@ -18,7 +18,7 @@ const DEFAULT_TTL = 5 * 60 * 1000;
 @Module({
   deps: [
     'Client',
-    'RolesAndPermissions',
+    'ExtensionFeatures',
     { dep: 'TabManager', optional: true },
     { dep: 'ActiveCallsOptions', optional: true },
   ],
@@ -32,7 +32,7 @@ export default class ActiveCalls extends DataFetcher {
    */
   constructor({
     client,
-    rolesAndPermissions,
+    extensionFeatures,
     tabManager, // do not pass tabManager to DataFetcher as data is not shared in localStorage
     fetchDelay = FETCH_DELAY,
     ttl = DEFAULT_TTL,
@@ -55,18 +55,14 @@ export default class ActiveCalls extends DataFetcher {
       },
       fetchFunction: async () =>
         fetchList((params) =>
-          this._client
-            .account()
-            .extension()
-            .activeCalls()
-            .list(params),
+          this._client.account().extension().activeCalls().list(params),
         ),
     });
     console.warn(
       'ActiveCalls module is deprecated, please use Presence module with detailed mode',
     );
     this._fetchDelay = fetchDelay;
-    this._rolesAndPermissions = rolesAndPermissions;
+    this._extensionFeatures = extensionFeatures;
   }
 
   get _name() {
@@ -74,11 +70,13 @@ export default class ActiveCalls extends DataFetcher {
   }
 
   _shouldInit() {
-    return super._shouldInit() && this._rolesAndPermissions.ready;
+    return super._shouldInit() && this._extensionFeatures.ready;
   }
 
   get _hasPermission() {
-    return this._rolesAndPermissions.permissions.ReadCallLog;
+    return (
+      this._extensionFeatures.features?.ReadExtensionCallLog?.available ?? false
+    );
   }
 
   @selector

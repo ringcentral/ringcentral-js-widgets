@@ -453,17 +453,13 @@ export class CallMonitor extends RcModuleV2<Deps> {
     this._normalizedCalls = sort(
       (l, r) => sortByLastActiveTimeDesc(l.webphoneSession, r.webphoneSession),
       map((callItem) => {
-        const currentRcCallSession = this._deps.activeCallControl.rcCallSessions?.find(
-          (x) => x.id === callItem.id,
-        );
         // sessionId arrives when telephony session event push and it's a required
         // reference https://github.com/ringcentral/ringcentral-call-js/blob/master/src/Session.ts
         if (
-          !currentRcCallSession ||
-          !currentRcCallSession.sessionId ||
-          isForwardedToVoiceMail(currentRcCallSession) ||
-          (isInbound(currentRcCallSession) &&
-            isOnSetupStage(currentRcCallSession))
+          !callItem ||
+          !callItem.sessionId ||
+          isForwardedToVoiceMail(callItem) ||
+          (isInbound(callItem) && isOnSetupStage(callItem))
         ) {
           return null;
         }
@@ -475,11 +471,9 @@ export class CallMonitor extends RcModuleV2<Deps> {
           telephonySessionId,
           sessionId,
           startTime,
-          webphoneSession: originalWebphoneSession,
-        } = currentRcCallSession;
-        let { _activeCallId: id } = (currentRcCallSession as any) as {
-          _activeCallId: string;
-        };
+          webphoneSession,
+        } = callItem;
+        let { activeCallId: id } = callItem;
         // find id from presence call one time, due to telephony session event not push call id back
         // with ringout call
         if (!id) {
@@ -496,15 +490,9 @@ export class CallMonitor extends RcModuleV2<Deps> {
           phoneNumber: to?.phoneNumber,
           countryCode: this._deps.accountInfo.countryCode,
         });
-        const webphoneSession = originalWebphoneSession
-          ? normalizeWebphoneSession(originalWebphoneSession)
-          : null;
         const toName = to?.name;
         const fromName = from?.name;
         const partyId = party?.id;
-        const telephonySession = normalizeTelephonySession(
-          currentRcCallSession,
-        );
         const telephonyStatus = mapTelephonyStatus(party?.status.code);
 
         // TODO: add sipData here
@@ -513,7 +501,7 @@ export class CallMonitor extends RcModuleV2<Deps> {
           id,
           partyId,
           direction,
-          telephonySession,
+          telephonySession: callItem,
           telephonySessionId,
           toName,
           fromName,

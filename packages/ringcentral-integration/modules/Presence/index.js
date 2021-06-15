@@ -1,24 +1,22 @@
 import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
-
-import DataFetcher from '../../lib/DataFetcher';
-import { Module } from '../../lib/di';
-import { selector } from '../../lib/selector';
-import { isEnded, removeInboundRingOutLegs } from '../../lib/callLogHelpers';
-import debounce from '../../lib/debounce';
-
-import { getDataReducer } from './getPresenceReducer';
-import subscriptionFilters from '../../enums/subscriptionFilters';
-import dndStatus from './dndStatus';
 import { presenceStatus } from '../../enums/presenceStatus.enum';
-import proxify from '../../lib/proxy/proxify';
+import subscriptionFilters from '../../enums/subscriptionFilters';
+import { isEnded, removeInboundRingOutLegs } from '../../lib/callLogHelpers';
+import DataFetcher from '../../lib/DataFetcher';
+import debounce from '../../lib/debounce';
+import { Module } from '../../lib/di';
 import ensureExist from '../../lib/ensureExist';
+import proxify from '../../lib/proxy/proxify';
+import { selector } from '../../lib/selector';
+import dndStatus from './dndStatus';
+import { getDataReducer } from './getPresenceReducer';
 
 const presenceRegExp = /.*\/presence(\?.*)?/;
 const detailedPresenceRegExp = /.*\/presence\?detailedTelephonyState=true&sipData=true/;
 
 @Module({
   deps: [
-    'RolesAndPermissions',
+    'ExtensionFeatures',
     'ConnectivityMonitor',
     { dep: 'Storage', optional: true },
     { dep: 'PresenceOptions', optional: true },
@@ -32,7 +30,7 @@ export default class Presence extends DataFetcher {
     polling = false,
     pollingInterval = 3 * 60 * 1000,
     connectivityMonitor,
-    rolesAndPermissions,
+    extensionFeatures,
     ...options
   }) {
     super({
@@ -81,7 +79,7 @@ export default class Presence extends DataFetcher {
         }
       },
       readyCheckFn: () =>
-        this._rolesAndPermissions.ready && this._connectivityMonitor.ready,
+        this._extensionFeatures.ready && this._connectivityMonitor.ready,
     });
     this._detailed = true;
     this._connectivityMonitor = ensureExist.call(
@@ -89,11 +87,7 @@ export default class Presence extends DataFetcher {
       connectivityMonitor,
       'connectivityMonitor',
     );
-    this._rolesAndPermissions = ensureExist.call(
-      this,
-      rolesAndPermissions,
-      'rolesAndPermissions',
-    );
+    this._extensionFeatures = extensionFeatures;
     this._fetchRemainingCalls = debounce(
       () => this.fetchData(),
       fetchRemainingDelay,
@@ -138,7 +132,7 @@ export default class Presence extends DataFetcher {
 
   @proxify
   async _update(params) {
-    if (!this._rolesAndPermissions.hasEditPresencePermission) {
+    if (!this._extensionFeatures.features?.EditPresenceStatus?.available) {
       return;
     }
     try {
@@ -344,6 +338,6 @@ export default class Presence extends DataFetcher {
   }
 
   get _hasPermission() {
-    return this._rolesAndPermissions.hasPresencePermission;
+    return !!this._extensionFeatures.features?.ReadPresenceStatus?.available;
   }
 }
