@@ -24,7 +24,7 @@ var _default = {
   inviteText_bt: "Veuillez joindre la téléconférence {brandName}.\n\nNuméro à composer : {formattedDialInNumber} \n{additionalNumbersSection} \nAccès du participant : {participantCode} \n\nAutres numéros à composer {dialInNumbersLinks}",
   inviteText_rc: "Veuillez joindre la téléconférence {brandName}.\n\nNuméro à composer : {formattedDialInNumber} \n{additionalNumbersSection} \nAccès du participant : {participantCode} \n\nVous avez besoin d'un numéro à composer international? Veuillez visiter le {dialInNumbersLinks} \n\nCette téléconférence est rendue possible grâce au service de téléconférences {brandName}.",
   inviteText_telus: "Veuillez joindre la téléconférence {brandName}.\n\nNuméro à composer : {formattedDialInNumber} \n{additionalNumbersSection} \nAccès du participant : {participantCode} \n\nAutres numéros à composer {dialInNumbersLinks}",
-  saveAsDefault: "Enregistrer comme valeur par défaut"
+  saveAsDefault: "Enregistrer comme valeurs par défaut"
 }; // @key: @#@"newConference"@#@ @source: @#@"New Conference"@#@
 // @key: @#@"dialInNumber"@#@ @source: @#@"Dial-in Number"@#@
 // @key: @#@"hostAccess"@#@ @source: @#@"Host Access"@#@

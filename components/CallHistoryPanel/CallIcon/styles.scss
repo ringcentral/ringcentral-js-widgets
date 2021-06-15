@@ -1,13 +1,15 @@
 @import '../../../lib/commonStyles/variable';
 
 .icon {
-  color: rc-palette(icon, default);
+  color: rc-palette('neutral', 'f04');
 
   &.missed {
-    color: rc-palette(semantic, negative);
+    /* please confirm with designer that color */
+    color: rc-palette('danger', 'b04');
   }
 
   &.active {
-    color: rc-palette(semantic, positive);
+    /* please confirm with designer that color */
+    color: rc-palette('success', 'b04');
   }
 }

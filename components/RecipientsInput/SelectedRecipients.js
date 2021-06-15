@@ -2,6 +2,8 @@
 
 require("core-js/modules/es6.object.define-property");
 
+require("core-js/modules/es6.object.assign");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -21,6 +23,8 @@ var _styles = _interopRequireDefault(require("./styles.scss"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
 var SelectedRecipients = function SelectedRecipients(_ref) {
   var recipient = _ref.recipient,
       recipients = _ref.recipients,
@@ -32,28 +36,28 @@ var SelectedRecipients = function SelectedRecipients(_ref) {
     return /*#__PURE__*/_react["default"].createElement("ul", {
       className: (0, _classnames["default"])(className, _styles["default"].selectReceivers)
     }, recipients.map(function (item) {
-      return /*#__PURE__*/_react["default"].createElement(_SelectedRecipientItem.SelectedRecipientItem, {
+      return /*#__PURE__*/_react["default"].createElement(_SelectedRecipientItem.SelectedRecipientItem, _extends({}, item, {
         key: item.phoneNumber,
         name: item.name,
         phoneNumber: item.phoneNumber,
         onRemove: function onRemove() {
           return _onRemove(item.phoneNumber);
         }
-      });
+      }));
     }));
   }
 
   if (!multiple && recipient) {
     return /*#__PURE__*/_react["default"].createElement("ul", {
       className: (0, _classnames["default"])(className, _styles["default"].selectReceivers)
-    }, /*#__PURE__*/_react["default"].createElement(_SelectedRecipientItem.SelectedRecipientItem, {
+    }, /*#__PURE__*/_react["default"].createElement(_SelectedRecipientItem.SelectedRecipientItem, _extends({}, recipient, {
       key: recipient.phoneNumber,
       name: recipient.name,
       phoneNumber: recipient.phoneNumber,
       onRemove: function onRemove() {
         return _onRemove(recipient.phoneNumber);
       }
-    }));
+    })));
   }
 
   return null;

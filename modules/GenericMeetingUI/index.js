@@ -1,9 +1,6 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = void 0;
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -25,21 +22,22 @@ require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
 
+require("core-js/modules/es6.object.to-string");
+
 require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.object.create");
 
-require("core-js/modules/es6.regexp.to-string");
-
-require("core-js/modules/es6.date.to-string");
-
-require("core-js/modules/es6.object.to-string");
-
 require("core-js/modules/es6.reflect.construct");
 
 require("core-js/modules/es6.object.set-prototype-of");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
 
 require("regenerator-runtime/runtime");
 
@@ -47,17 +45,15 @@ var _di = require("ringcentral-integration/lib/di");
 
 var _RcUIModule2 = _interopRequireDefault(require("../../lib/RcUIModule"));
 
-var _dec, _class, _temp;
+var _dec, _class;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
@@ -83,14 +79,14 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 var GenericMeetingUI = (_dec = (0, _di.Module)({
   name: 'GenericMeetingUI',
   deps: ['GenericMeeting', 'Locale', 'RateLimiter', 'ConnectivityMonitor']
-}), _dec(_class = (_temp = /*#__PURE__*/function (_RcUIModule) {
+}), _dec(_class = /*#__PURE__*/function (_RcUIModule) {
   _inherits(GenericMeetingUI, _RcUIModule);
 
   var _super = _createSuper(GenericMeetingUI);
@@ -131,7 +127,10 @@ var GenericMeetingUI = (_dec = (0, _di.Module)({
           showRecurringMeeting = _ref2.showRecurringMeeting,
           scheduleButton = _ref2.scheduleButton,
           datePickerSize = _ref2.datePickerSize,
-          timePickerSize = _ref2.timePickerSize;
+          timePickerSize = _ref2.timePickerSize,
+          recurringMeetingPosition = _ref2.recurringMeetingPosition,
+          _ref2$showRcvAdminLoc = _ref2.showRcvAdminLock,
+          showRcvAdminLock = _ref2$showRcvAdminLoc === void 0 ? false : _ref2$showRcvAdminLoc;
       var invalidPassowrd = this._genericMeeting.ready && this._genericMeeting.meeting && (this._genericMeeting.isRCV || this._genericMeeting.isRCM) && !this._genericMeeting.validatePasswordSettings(this._genericMeeting.isRCV ? this._genericMeeting.meeting.meetingPassword : this._genericMeeting.meeting.password, this._genericMeeting.isRCV ? this._genericMeeting.meeting.isMeetingSecret : this._genericMeeting.meeting._requireMeetingPassword);
       var meeting = this._genericMeeting.ready && this._genericMeeting.meeting || {};
       var delegators = this._genericMeeting.ready && this._genericMeeting.delegators || [];
@@ -142,6 +141,8 @@ var GenericMeetingUI = (_dec = (0, _di.Module)({
         labelPlacement: labelPlacement,
         datePickerSize: datePickerSize,
         timePickerSize: timePickerSize,
+        recurringMeetingPosition: recurringMeetingPosition,
+        showRcvAdminLock: showRcvAdminLock,
         currentLocale: this._locale.currentLocale,
         disabled: !!(disabled || invalidPassowrd || this._genericMeeting.ready && this._genericMeeting.isScheduling || this._connectivityMonitor && !this._connectivityMonitor.connectivity || this._rateLimiter && this._rateLimiter.throttling),
         configDisabled: false,
@@ -161,16 +162,14 @@ var GenericMeetingUI = (_dec = (0, _di.Module)({
         isRCM: this._genericMeeting.isRCM,
         isRCV: this._genericMeeting.isRCV,
         scheduleButton: scheduleButton,
-        showAdminLock: this._genericMeeting.ready && this._genericMeeting.showAdminLock,
         enableServiceWebSettings: this._genericMeeting.ready && this._genericMeeting.enableServiceWebSettings,
         enablePersonalMeeting: this._genericMeeting.ready && this._genericMeeting.enablePersonalMeeting,
         enableWaitingRoom: this._genericMeeting.ready && this._genericMeeting.enableWaitingRoom,
         personalMeetingId: this._genericMeeting.ready && this._genericMeeting.personalMeetingId,
-        putRecurringMeetingInMiddle: this._genericMeeting.ready && this._genericMeeting.putRecurringMeetingInMiddle,
         showSpinner: !!(!this._locale.ready || !this._genericMeeting.ready || !this._genericMeeting.isRCM && !this._genericMeeting.isRCV || !this._genericMeeting.meeting || this._connectivityMonitor && !this._connectivityMonitor.ready || this._rateLimiter && !this._rateLimiter.ready),
         showSpinnerInConfigPanel: this._genericMeeting.isUpdating,
         hasSettingsChanged: this._genericMeeting.hasSettingsChanged,
-        defaultTopic: this._genericMeeting.defaultTopic
+        defaultTopic: this._genericMeeting.ready ? this._genericMeeting.defaultTopic : ''
       };
     }
   }, {
@@ -239,6 +238,6 @@ var GenericMeetingUI = (_dec = (0, _di.Module)({
   }]);
 
   return GenericMeetingUI;
-}(_RcUIModule2["default"]), _temp)) || _class);
+}(_RcUIModule2["default"])) || _class);
 exports["default"] = GenericMeetingUI;
 //# sourceMappingURL=index.js.map

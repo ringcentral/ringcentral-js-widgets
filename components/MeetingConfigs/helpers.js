@@ -10,6 +10,8 @@ Object.defineProperty(exports, "__esModule", {
 exports.getMinutesList = getMinutesList;
 exports.getHoursList = getHoursList;
 
+require("core-js/modules/es6.array.slice");
+
 var _ramda = require("ramda");
 
 function getMinutesList(MINUTE_SCALE) {

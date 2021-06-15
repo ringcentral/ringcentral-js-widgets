@@ -1,15 +1,12 @@
 "use strict";
 
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+require("core-js/modules/es7.symbol.async-iterator");
+
 require("core-js/modules/es6.string.iterator");
 
 require("core-js/modules/es6.weak-map");
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = void 0;
-
-require("core-js/modules/es7.symbol.async-iterator");
 
 require("core-js/modules/es6.promise");
 
@@ -25,19 +22,20 @@ require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
 
+require("core-js/modules/es6.object.to-string");
+
 require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.object.create");
 
-require("core-js/modules/es6.regexp.to-string");
-
-require("core-js/modules/es6.date.to-string");
-
-require("core-js/modules/es6.object.to-string");
-
 require("core-js/modules/es6.reflect.construct");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
 
 require("core-js/modules/es6.object.set-prototype-of");
 
@@ -99,17 +97,15 @@ var _i18n = _interopRequireDefault(require("./i18n"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
+function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
@@ -131,7 +127,7 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
@@ -213,18 +209,31 @@ var MessageItem = /*#__PURE__*/function (_Component) {
     };
 
     _this.onSelectContact = function (value, idx) {
-      var selected = _this.props.showContactDisplayPlaceholder ? parseInt(idx, 10) - 1 : parseInt(idx, 10);
+      var _this$props = _this.props,
+          showContactDisplayPlaceholder = _this$props.showContactDisplayPlaceholder,
+          autoLog = _this$props.autoLog,
+          conversation = _this$props.conversation,
+          shouldLogSelectRecord = _this$props.shouldLogSelectRecord,
+          onSelectContact = _this$props.onSelectContact;
+      var selected = showContactDisplayPlaceholder ? parseInt(idx, 10) - 1 : parseInt(idx, 10);
       _this._userSelection = true;
 
       _this.setState({
         selected: selected
       });
 
-      if (_this.props.autoLog) {
+      if (autoLog) {
         _this.logConversation({
           redirect: false,
           selected: selected,
           prefill: false
+        });
+      }
+
+      if (shouldLogSelectRecord && typeof onSelectContact === 'function') {
+        onSelectContact({
+          correspondentEntity: _this.getSelectedContact(selected),
+          conversation: conversation
         });
       }
     };
@@ -325,12 +334,12 @@ var MessageItem = /*#__PURE__*/function (_Component) {
     };
 
     _this.getDisableClickToSms = function () {
-      var _this$props = _this.props,
-          areaCode = _this$props.areaCode,
-          countryCode = _this$props.countryCode,
-          onClickToSms = _this$props.onClickToSms,
-          internalSmsPermission = _this$props.internalSmsPermission,
-          outboundSmsPermission = _this$props.outboundSmsPermission;
+      var _this$props2 = _this.props,
+          areaCode = _this$props2.areaCode,
+          countryCode = _this$props2.countryCode,
+          onClickToSms = _this$props2.onClickToSms,
+          internalSmsPermission = _this$props2.internalSmsPermission,
+          outboundSmsPermission = _this$props2.outboundSmsPermission;
 
       var phoneNumber = _this.getPhoneNumber();
 
@@ -547,9 +556,9 @@ var MessageItem = /*#__PURE__*/function (_Component) {
   }, {
     key: "getDetail",
     value: function getDetail() {
-      var _this$props2 = this.props,
-          conversation = _this$props2.conversation,
-          currentLocale = _this$props2.currentLocale;
+      var _this$props3 = this.props,
+          conversation = _this$props3.conversation,
+          currentLocale = _this$props3.currentLocale;
 
       if ((0, _messageHelper.messageIsTextMessage)(conversation)) {
         if (conversation.mmsAttachments && conversation.mmsAttachments.length > 0) {
@@ -607,42 +616,44 @@ var MessageItem = /*#__PURE__*/function (_Component) {
           _this$getSelectedCont,
           _this$getSelectedCont2;
 
-      var _this$props3 = this.props,
-          areaCode = _this$props3.areaCode,
-          brand = _this$props3.brand,
-          countryCode = _this$props3.countryCode,
-          currentLocale = _this$props3.currentLocale,
-          currentSiteCode = _this$props3.currentSiteCode,
-          isMultipleSiteEnabled = _this$props3.isMultipleSiteEnabled,
-          _this$props3$conversa = _this$props3.conversation,
-          conversationId = _this$props3$conversa.conversationId,
-          unreadCounts = _this$props3$conversa.unreadCounts,
-          correspondents = _this$props3$conversa.correspondents,
-          correspondentMatches = _this$props3$conversa.correspondentMatches,
-          creationTime = _this$props3$conversa.creationTime,
-          isLogging = _this$props3$conversa.isLogging,
-          conversationMatches = _this$props3$conversa.conversationMatches,
-          type = _this$props3$conversa.type,
-          direction = _this$props3$conversa.direction,
-          voicemailAttachment = _this$props3$conversa.voicemailAttachment,
-          faxAttachment = _this$props3$conversa.faxAttachment,
-          parentDisableLinks = _this$props3.disableLinks,
-          disableCallButton = _this$props3.disableCallButton,
-          disableClickToDial = _this$props3.disableClickToDial,
-          onClickToDial = _this$props3.onClickToDial,
-          onClickToSms = _this$props3.onClickToSms,
-          onLogConversation = _this$props3.onLogConversation,
-          onViewContact = _this$props3.onViewContact,
-          onCreateContact = _this$props3.onCreateContact,
-          createEntityTypes = _this$props3.createEntityTypes,
-          enableContactFallback = _this$props3.enableContactFallback,
-          showContactDisplayPlaceholder = _this$props3.showContactDisplayPlaceholder,
-          sourceIcons = _this$props3.sourceIcons,
-          phoneTypeRenderer = _this$props3.phoneTypeRenderer,
-          phoneSourceNameRenderer = _this$props3.phoneSourceNameRenderer,
-          showGroupNumberName = _this$props3.showGroupNumberName,
-          renderExtraButton = _this$props3.renderExtraButton,
-          onFaxDownload = _this$props3.onFaxDownload;
+      var _this$props4 = this.props,
+          areaCode = _this$props4.areaCode,
+          brand = _this$props4.brand,
+          countryCode = _this$props4.countryCode,
+          currentLocale = _this$props4.currentLocale,
+          currentSiteCode = _this$props4.currentSiteCode,
+          isMultipleSiteEnabled = _this$props4.isMultipleSiteEnabled,
+          _this$props4$conversa = _this$props4.conversation,
+          conversationId = _this$props4$conversa.conversationId,
+          unreadCounts = _this$props4$conversa.unreadCounts,
+          correspondents = _this$props4$conversa.correspondents,
+          correspondentMatches = _this$props4$conversa.correspondentMatches,
+          creationTime = _this$props4$conversa.creationTime,
+          isLogging = _this$props4$conversa.isLogging,
+          conversationMatches = _this$props4$conversa.conversationMatches,
+          type = _this$props4$conversa.type,
+          direction = _this$props4$conversa.direction,
+          voicemailAttachment = _this$props4$conversa.voicemailAttachment,
+          faxAttachment = _this$props4$conversa.faxAttachment,
+          parentDisableLinks = _this$props4.disableLinks,
+          disableCallButton = _this$props4.disableCallButton,
+          disableClickToDial = _this$props4.disableClickToDial,
+          onClickToDial = _this$props4.onClickToDial,
+          onClickToSms = _this$props4.onClickToSms,
+          onLogConversation = _this$props4.onLogConversation,
+          onViewContact = _this$props4.onViewContact,
+          onCreateContact = _this$props4.onCreateContact,
+          createEntityTypes = _this$props4.createEntityTypes,
+          enableContactFallback = _this$props4.enableContactFallback,
+          contactPlaceholder = _this$props4.contactPlaceholder,
+          showContactDisplayPlaceholder = _this$props4.showContactDisplayPlaceholder,
+          sourceIcons = _this$props4.sourceIcons,
+          phoneTypeRenderer = _this$props4.phoneTypeRenderer,
+          phoneSourceNameRenderer = _this$props4.phoneSourceNameRenderer,
+          showGroupNumberName = _this$props4.showGroupNumberName,
+          renderExtraButton = _this$props4.renderExtraButton,
+          onFaxDownload = _this$props4.onFaxDownload,
+          showChooseEntityModal = _this$props4.showChooseEntityModal;
       var disableLinks = parentDisableLinks;
       var isVoicemail = type === _messageTypes["default"].voiceMail;
       var isFax = type === _messageTypes["default"].fax;
@@ -722,6 +733,7 @@ var MessageItem = /*#__PURE__*/function (_Component) {
         stopPropagation: false,
         showType: false,
         showPlaceholder: showContactDisplayPlaceholder,
+        placeholder: contactPlaceholder,
         sourceIcons: sourceIcons,
         phoneTypeRenderer: phoneTypeRenderer,
         phoneSourceNameRenderer: phoneSourceNameRenderer
@@ -783,7 +795,8 @@ var MessageItem = /*#__PURE__*/function (_Component) {
         faxAttachment: faxAttachment,
         previewTitle: _i18n["default"].getString('preview', currentLocale),
         downloadTitle: _i18n["default"].getString('download', currentLocale),
-        onFaxDownload: onFaxDownload
+        onFaxDownload: onFaxDownload,
+        showChooseEntityModal: showChooseEntityModal
       })));
     }
   }]);
@@ -847,6 +860,7 @@ MessageItem.propTypes = {
   autoLog: _propTypes["default"].bool,
   enableContactFallback: _propTypes["default"].bool,
   showContactDisplayPlaceholder: _propTypes["default"].bool,
+  contactPlaceholder: _propTypes["default"].string,
   sourceIcons: _propTypes["default"].object,
   phoneTypeRenderer: _propTypes["default"].func,
   phoneSourceNameRenderer: _propTypes["default"].func,
@@ -857,7 +871,10 @@ MessageItem.propTypes = {
   internalSmsPermission: _propTypes["default"].bool,
   outboundSmsPermission: _propTypes["default"].bool,
   updateTypeFilter: _propTypes["default"].func,
-  onFaxDownload: _propTypes["default"].func
+  onFaxDownload: _propTypes["default"].func,
+  showChooseEntityModal: _propTypes["default"].bool,
+  shouldLogSelectRecord: _propTypes["default"].bool,
+  onSelectContact: _propTypes["default"].func
 };
 MessageItem.defaultProps = {
   currentSiteCode: '',
@@ -874,6 +891,7 @@ MessageItem.defaultProps = {
   autoLog: false,
   enableContactFallback: undefined,
   showContactDisplayPlaceholder: true,
+  contactPlaceholder: '',
   sourceIcons: undefined,
   phoneTypeRenderer: undefined,
   phoneSourceNameRenderer: undefined,
@@ -884,6 +902,9 @@ MessageItem.defaultProps = {
   internalSmsPermission: true,
   outboundSmsPermission: true,
   updateTypeFilter: undefined,
-  onFaxDownload: undefined
+  onFaxDownload: undefined,
+  showChooseEntityModal: true,
+  shouldLogSelectRecord: false,
+  onSelectContact: undefined
 };
 //# sourceMappingURL=index.js.map

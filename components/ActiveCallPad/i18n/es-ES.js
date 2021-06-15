@@ -19,7 +19,9 @@ var _default = {
   transfer: "Transferir",
   flip: "Traspasar",
   more: "Acc. de llam.",
-  mergeToConference: "Combinar"
+  mergeToConference: "Combinar",
+  end: "Finalizar",
+  completeTransfer: "Completar\ntransferencia"
 }; // @key: @#@"unmute"@#@ @source: @#@"Unmute"@#@
 // @key: @#@"mute"@#@ @source: @#@"Mute"@#@
 // @key: @#@"keypad"@#@ @source: @#@"Keypad"@#@
@@ -33,6 +35,8 @@ var _default = {
 // @key: @#@"flip"@#@ @source: @#@"Flip"@#@
 // @key: @#@"more"@#@ @source: @#@"Call Actions"@#@
 // @key: @#@"mergeToConference"@#@ @source: @#@"Merge"@#@
+// @key: @#@"end"@#@ @source: @#@"End"@#@
+// @key: @#@"completeTransfer"@#@ @source: @#@"Complete\nTransfer"@#@
 
 exports["default"] = _default;
 //# sourceMappingURL=es-ES.js.map

@@ -4,10 +4,26 @@
   @include display_flex;
 
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   width: 96px;
+
+  & > * {
+    margin-right: 16px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
 
   &.classic {
     width: 68px;
+
+    & > * {
+      margin-right: 4px;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
   }
 }

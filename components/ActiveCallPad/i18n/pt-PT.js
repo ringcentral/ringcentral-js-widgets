@@ -9,7 +9,7 @@ exports["default"] = void 0;
 var _default = {
   unmute: "Ativar som",
   mute: "Desat. som",
-  keypad: "Teclado de marcação",
+  keypad: "Teclado",
   hold: "Em espera",
   onHold: "Em espera",
   park: "Parquear",
@@ -19,7 +19,9 @@ var _default = {
   transfer: "Transferir",
   flip: "Transferência",
   more: "Ações chamada",
-  mergeToConference: "Unir"
+  mergeToConference: "Unir",
+  end: "Terminar",
+  completeTransfer: "Concluir\ntransferência"
 }; // @key: @#@"unmute"@#@ @source: @#@"Unmute"@#@
 // @key: @#@"mute"@#@ @source: @#@"Mute"@#@
 // @key: @#@"keypad"@#@ @source: @#@"Keypad"@#@
@@ -33,6 +35,8 @@ var _default = {
 // @key: @#@"flip"@#@ @source: @#@"Flip"@#@
 // @key: @#@"more"@#@ @source: @#@"Call Actions"@#@
 // @key: @#@"mergeToConference"@#@ @source: @#@"Merge"@#@
+// @key: @#@"end"@#@ @source: @#@"End"@#@
+// @key: @#@"completeTransfer"@#@ @source: @#@"Complete\nTransfer"@#@
 
 exports["default"] = _default;
 //# sourceMappingURL=pt-PT.js.map

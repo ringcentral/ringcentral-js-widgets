@@ -20,7 +20,7 @@ var _phoneContext = require("../../lib/phoneContext");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var CallCtrlPage = (0, _phoneContext.connectModule)(function (phone) {
-  return phone.callCtrlUI;
+  return phone.callControlUI;
 })(_CallCtrlContainer["default"]);
 exports["default"] = CallCtrlPage;
 //# sourceMappingURL=index.js.map

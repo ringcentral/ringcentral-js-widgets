@@ -1,11 +1,8 @@
 import React from 'react';
-import {
-  RcExpansionPanel,
-  RcExpansionPanelDetails,
-  RcExpansionPanelSummary,
-  RcIconButton,
-  RcFormGroup,
-} from '@ringcentral/juno';
+import { RcIconButton, RcFormGroup } from '@ringcentral/juno';
+import { RcAccordion } from '@ringcentral/juno/components/Accordion';
+import { RcAccordionDetails } from '@ringcentral/juno/components/Accordion/AccordionDetails';
+import { RcAccordionSummary } from '@ringcentral/juno/components/Accordion/AccordionSummary';
 import arrowDownSvg from '@ringcentral/juno/icon/ArrowDown2';
 import styles from './styles.scss';
 
@@ -24,36 +21,30 @@ export const VideoSettingGroup: React.FunctionComponent<VideoSettingGroupProps> 
   children,
 }) => {
   return (
-    <RcExpansionPanel
+    <RcAccordion
       classes={{
-        root: styles.expansionPanel,
+        root: styles.accordion,
       }}
       defaultExpanded={defaultExpanded}
       disabled={!expandable}
     >
       {summary ? (
-        <RcExpansionPanelSummary
+        <RcAccordionSummary
           classes={{
-            root: styles.expansionPanelSummary,
-            content: styles.expansionPanelSummaryContent,
-            disabled: expandable ? null : styles.expansionPanelSummaryDisabled,
+            root: styles.accordionSummary,
+            disabled: expandable ? null : styles.accordionSummaryDisabled,
           }}
-          expandIcon={
-            expandable ? (
-              <RcIconButton variant="round" symbol={arrowDownSvg} />
-            ) : null
-          }
+          expandIcon={expandable ? arrowDownSvg : undefined}
           data-sign={`${dataSign}Summary`}
         >
           {summary}
-        </RcExpansionPanelSummary>
+        </RcAccordionSummary>
       ) : null}
-      <RcExpansionPanelDetails
+      <RcAccordionDetails
         classes={{
-          root: styles.expansionPanelDetails,
+          root: styles.accordionDetails,
         }}
         data-sign={`${dataSign}Details`}
-        className={styles.expansionPanelDetailsDirection}
       >
         <RcFormGroup
           classes={{
@@ -62,7 +53,7 @@ export const VideoSettingGroup: React.FunctionComponent<VideoSettingGroupProps> 
         >
           {children}
         </RcFormGroup>
-      </RcExpansionPanelDetails>
-    </RcExpansionPanel>
+      </RcAccordionDetails>
+    </RcAccordion>
   );
 };

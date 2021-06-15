@@ -2,11 +2,6 @@
 
 require("core-js/modules/es6.weak-map");
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.FieldItem = void 0;
-
 require("core-js/modules/es6.object.define-properties");
 
 require("core-js/modules/es7.object.get-own-property-descriptors");
@@ -14,6 +9,8 @@ require("core-js/modules/es7.object.get-own-property-descriptors");
 require("core-js/modules/es6.array.for-each");
 
 require("core-js/modules/es6.array.filter");
+
+require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
 
@@ -23,11 +20,17 @@ require("core-js/modules/es6.object.assign");
 
 require("core-js/modules/es6.promise");
 
+require("core-js/modules/es6.regexp.to-string");
+
+require("core-js/modules/es6.date.to-string");
+
+require("core-js/modules/es6.object.to-string");
+
+require("core-js/modules/es6.array.slice");
+
 require("core-js/modules/es6.string.iterator");
 
 require("core-js/modules/es6.array.from");
-
-require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.is-array");
 
@@ -35,15 +38,14 @@ require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.object.create");
 
-require("core-js/modules/es6.regexp.to-string");
-
-require("core-js/modules/es6.date.to-string");
-
-require("core-js/modules/es6.object.to-string");
-
 require("core-js/modules/es6.reflect.construct");
 
 require("core-js/modules/es6.object.set-prototype-of");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.FieldItem = void 0;
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -61,11 +63,9 @@ require("core-js/modules/es6.string.includes");
 
 require("core-js/modules/es6.function.name");
 
-var _juno = require("@ringcentral/juno");
-
 var _react = _interopRequireWildcard(require("react"));
 
-var _classnames = _interopRequireDefault(require("classnames"));
+var _juno = require("@ringcentral/juno");
 
 var _timeFormatHelper = require("../../../lib/timeFormatHelper");
 
@@ -83,11 +83,11 @@ var _styles = _interopRequireDefault(require("./styles.scss"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
+function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
@@ -105,7 +105,7 @@ function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread n
 
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
 
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
 
@@ -127,7 +127,7 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
@@ -167,6 +167,8 @@ var FieldItem = /*#__PURE__*/function (_Component) {
           value = _this$props$fieldOpti.value,
           currentDisabled = _this$props$fieldOpti.disabled,
           fieldOnChange = _this$props$fieldOpti.onChange,
+          onlyShowInMultipleMatches = _this$props$fieldOpti.onlyShowInMultipleMatches,
+          showOtherSection = _this$props$fieldOpti.showOtherSection,
           onSave = _this$props.onSave,
           onSelectViewVisible = _this$props.onSelectViewVisible,
           contactSearch = _this$props.contactSearch;
@@ -175,7 +177,8 @@ var FieldItem = /*#__PURE__*/function (_Component) {
           startAdornmentRender = _this$props2.startAdornmentRender,
           referenceFieldOptions = _this$props2.referenceFieldOptions,
           currentLocale = _this$props2.currentLocale,
-          showFoundFromServer = _this$props2.showFoundFromServer;
+          showFoundFromServer = _this$props2.showFoundFromServer,
+          disabled = _this$props2.disabled;
       var task = currentLog.task,
           phoneNumber = currentLog.currentLogCall.phoneNumber;
       var referenceFieldOption = referenceFieldOptions[value];
@@ -186,6 +189,7 @@ var FieldItem = /*#__PURE__*/function (_Component) {
       }
 
       var getLabel = referenceFieldOption.getLabel,
+          getType = referenceFieldOption.getType,
           _getValue = referenceFieldOption.getValue,
           onChange = referenceFieldOption.onChange,
           _referenceFieldOption = referenceFieldOption.metadata,
@@ -207,6 +211,11 @@ var FieldItem = /*#__PURE__*/function (_Component) {
           onBackClick = referenceFieldOption.onBackClick,
           backHeaderClassName = referenceFieldOption.backHeaderClassName;
       var matchedEntities = matchedEntitiesGetter(currentLog);
+
+      if (onlyShowInMultipleMatches && matchedEntities.length <= 1) {
+        return;
+      }
+
       var otherEntities = otherEntitiesGetter(currentLog);
       var foundFromServerEntities = typeof foundFromServerEntityGetter === 'function' ? foundFromServerEntityGetter(currentLog) : [];
       var showAssociatedSection = shouldShowAssociatedSection ? shouldShowAssociatedSection(currentLog) : false;
@@ -214,7 +223,7 @@ var FieldItem = /*#__PURE__*/function (_Component) {
       var getValue = _getValue || DEFAULT_FINDER.getValue;
       var searchOptionFinder = _searchOptionFinder || DEFAULT_FINDER.searchOption;
       var currentOption = [].concat(_toConsumableArray(matchedEntities), _toConsumableArray(otherEntities), _toConsumableArray(associatedEntities), _toConsumableArray(foundFromServerEntities)).find(currentOptionFinder(task));
-      var disabled = currentDisabled || shouldDisable(task);
+      var disabledReference = currentDisabled || shouldDisable(task) || disabled;
       var title = metadata.title || label;
       var rightIcon = rightIconRender ? rightIconRender(phoneNumber) : undefined;
       var currentValue = getLabel(currentOption, matchedEntities.length, currentLog) || '';
@@ -227,6 +236,7 @@ var FieldItem = /*#__PURE__*/function (_Component) {
         options: matchedEntities,
         otherOptions: otherEntities,
         associatedOptions: associatedEntities,
+        showOtherSection: showOtherSection,
         showAssociatedSection: showAssociatedSection,
         startAdornment: startAdornmentRender,
         field: value,
@@ -262,8 +272,9 @@ var FieldItem = /*#__PURE__*/function (_Component) {
         onSelectViewVisible: onSelectViewVisible,
         valueFunction: getValue,
         renderFunction: getLabel,
+        secondaryRenderFunction: getType,
         searchOption: searchOptionFinder,
-        disabled: disabled,
+        disabled: disabledReference,
         currentLocale: currentLocale,
         foundFromServerEntities: foundFromServerEntities,
         contactSearch: contactSearch,
@@ -276,6 +287,8 @@ var FieldItem = /*#__PURE__*/function (_Component) {
     };
 
     _this.renderInput = function () {
+      var _this$currentValue;
+
       var _this$props3 = _this.props,
           _this$props3$fieldOpt = _this$props3.fieldOption,
           label = _this$props3$fieldOpt.label,
@@ -288,7 +301,7 @@ var FieldItem = /*#__PURE__*/function (_Component) {
         type: type === 'string' ? 'text' : 'number',
         required: required,
         placeholder: label,
-        value: _this.currentValue || '',
+        value: (_this$currentValue = _this.currentValue) !== null && _this$currentValue !== void 0 ? _this$currentValue : '',
         "data-sign": value,
         onChange: function onChange(args) {
           return _this._updateValue(value, args, onSave);
@@ -338,7 +351,7 @@ var FieldItem = /*#__PURE__*/function (_Component) {
         "data-sign": fieldValue,
         required: required,
         label: label,
-        date: date,
+        value: date,
         onChange: /*#__PURE__*/function () {
           var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(value) {
             var timeStamp;
@@ -475,25 +488,39 @@ var FieldItem = /*#__PURE__*/function (_Component) {
     };
 
     _this.renderRadio = function () {
+      var _task$tickets, _task$matches;
+
       var _this$props9 = _this.props,
-          picklistOptions = _this$props9.fieldOption.picklistOptions,
-          currentLog = _this$props9.currentLog;
-      var task = currentLog.task;
+          _this$props9$fieldOpt = _this$props9.fieldOption,
+          picklistOptions = _this$props9$fieldOpt.picklistOptions,
+          label = _this$props9$fieldOpt.label,
+          currentLog = _this$props9.currentLog,
+          disableAllFields = _this$props9.disabled;
+      var task = currentLog.task,
+          disableSaveLog = currentLog.disableSaveLog;
       var options = [{
         value: picklistOptions[0].value,
         label: picklistOptions[0].label,
-        disabled: false
+        disabled: disableAllFields || disableSaveLog
       }, {
         value: picklistOptions[1].value,
         label: picklistOptions[1].label,
-        disabled: !!(!task.tickets || task.tickets && task.tickets.length === 0)
+        disabled: !!(!task.tickets || ((_task$tickets = task.tickets) === null || _task$tickets === void 0 ? void 0 : _task$tickets.length) === 0 || ((_task$matches = task.matches) === null || _task$matches === void 0 ? void 0 : _task$matches.length) > 1 && !task.whoid || disableAllFields)
       }];
       var defaultOption = task.option || picklistOptions[0].value;
-      return /*#__PURE__*/_react["default"].createElement(_RadioField.RadioField, {
+      return /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement(_juno.RcTypography, {
+        color: "inherit",
+        variant: "caption2",
+        component: "div",
+        className: _styles["default"].radioLabel
+      }, label), /*#__PURE__*/_react["default"].createElement(_RadioField.RadioField, {
         value: defaultOption,
         options: options,
-        onChange: _this.onRadioChange
-      });
+        onChange: _this.onRadioChange,
+        classes: {
+          root: _styles["default"].radio
+        }
+      }));
     };
 
     _this.onRadioChange = /*#__PURE__*/function () {
@@ -530,83 +557,70 @@ var FieldItem = /*#__PURE__*/function (_Component) {
     }();
 
     _this.renderTicketSelectList = function () {
+      var _task$tickets2;
+
       var _this$props11 = _this.props,
           currentLog = _this$props11.currentLog,
-          fieldOption = _this$props11.fieldOption;
+          fieldOption = _this$props11.fieldOption,
+          disabled = _this$props11.disabled;
       var renderCondition = fieldOption.renderCondition,
           label = fieldOption.label;
       var task = currentLog.task; // TODO: consider move this logic to zendesk
 
-      if (task.option !== renderCondition) {
+      if (task.option !== renderCondition || ((_task$tickets2 = task.tickets) === null || _task$tickets2 === void 0 ? void 0 : _task$tickets2.length) === 0) {
         return null;
       }
 
-      var options = task.tickets ? task.tickets.map(function (ticket) {
+      var options = task.tickets && task.tickets.length > 0 ? task.tickets.map(function (ticket) {
         return {
           value: ticket.id,
-          label: "#".concat(ticket.id, " ").concat(ticket.subject)
+          label: "#".concat(ticket.id, " ").concat(ticket.subject),
+          title: "#".concat(ticket.id, " ").concat(ticket.subject)
         };
       }) : [];
-      var defaultTicket = task.tickets.find(function (ticket) {
-        return ticket.id === task.ticketId;
-      }) || task.tickets && task.tickets[0];
-      var defaultValue = (defaultTicket === null || defaultTicket === void 0 ? void 0 : defaultTicket.id) || '';
-      return /*#__PURE__*/_react["default"].createElement(_SelectField.SelectField, {
+      return /*#__PURE__*/_react["default"].createElement("div", {
+        className: _styles["default"].ticketSelectList
+      }, /*#__PURE__*/_react["default"].createElement(_SelectField.SelectField, {
+        labelClassName: _styles["default"].selectLabel,
         options: options,
-        disabled: options.length === 0,
-        value: defaultValue,
+        fullWidth: true,
+        disabled: options.length === 0 || disabled,
+        value: task.ticketId,
         label: label,
-        classes: {
-          root: (0, _classnames["default"])(_styles["default"].ticketSelectList, _styles["default"].tickets, _styles["default"].selectList)
-        },
-        onChange: _this.onSelectChange
-      });
+        onChange: function onChange(event) {
+          return _this.onSelectChange(event);
+        }
+      }));
     };
 
-    _this.onSelectChange = /*#__PURE__*/function () {
-      var _ref6 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(event) {
-        var value, _this$props12, currentLog, onUpdateCallLog, currentSessionId, _currentLog$task2, task;
-
-        return regeneratorRuntime.wrap(function _callee5$(_context5) {
-          while (1) {
-            switch (_context5.prev = _context5.next) {
-              case 0:
-                value = event.target.value;
-                _this$props12 = _this.props, currentLog = _this$props12.currentLog, onUpdateCallLog = _this$props12.onUpdateCallLog;
-                currentSessionId = currentLog.currentSessionId, _currentLog$task2 = currentLog.task, task = _currentLog$task2 === void 0 ? {} : _currentLog$task2;
-                _context5.next = 5;
-                return onUpdateCallLog(_objectSpread(_objectSpread({}, currentLog), {}, {
-                  task: _objectSpread(_objectSpread({}, task), {}, {
-                    ticketId: value
-                  })
-                }), currentSessionId);
-
-              case 5:
-              case "end":
-                return _context5.stop();
-            }
-          }
-        }, _callee5);
-      }));
-
-      return function (_x6) {
-        return _ref6.apply(this, arguments);
-      };
-    }();
+    _this.onSelectChange = function (event) {
+      var value = event.target.value;
+      var _this$props12 = _this.props,
+          currentLog = _this$props12.currentLog,
+          onUpdateCallLog = _this$props12.onUpdateCallLog;
+      var currentSessionId = currentLog.currentSessionId,
+          _currentLog$task2 = currentLog.task,
+          task = _currentLog$task2 === void 0 ? {} : _currentLog$task2;
+      onUpdateCallLog(_objectSpread(_objectSpread({}, currentLog), {}, {
+        task: _objectSpread(_objectSpread({}, task), {}, {
+          ticketId: value
+        })
+      }), currentSessionId);
+    };
 
     _this.onInputSelectChange = function (value) {
       return /*#__PURE__*/function () {
-        var _ref7 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(item) {
+        var _ref6 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(item) {
           var _this$props13, _this$props13$current, currentSessionId, _this$props13$current2, task, onUpdateCallLog, customInputDataStruct, defaultLogData, logData;
 
-          return regeneratorRuntime.wrap(function _callee6$(_context6) {
+          return regeneratorRuntime.wrap(function _callee5$(_context5) {
             while (1) {
-              switch (_context6.prev = _context6.next) {
+              switch (_context5.prev = _context5.next) {
                 case 0:
                   _this$props13 = _this.props, _this$props13$current = _this$props13.currentLog, currentSessionId = _this$props13$current.currentSessionId, _this$props13$current2 = _this$props13$current.task, task = _this$props13$current2 === void 0 ? {} : _this$props13$current2, onUpdateCallLog = _this$props13.onUpdateCallLog, customInputDataStruct = _this$props13.customInputDataStruct;
                   defaultLogData = {
                     isSaved: false,
-                    task: _defineProperty({}, value, item || '')
+                    task: _defineProperty({}, value, item)
                   };
                   logData = customInputDataStruct && customInputDataStruct({
                     value: value,
@@ -614,19 +628,19 @@ var FieldItem = /*#__PURE__*/function (_Component) {
                     task: task,
                     currentSessionId: currentSessionId
                   }) || defaultLogData;
-                  _context6.next = 5;
+                  _context5.next = 5;
                   return onUpdateCallLog(logData, currentSessionId);
 
                 case 5:
                 case "end":
-                  return _context6.stop();
+                  return _context5.stop();
               }
             }
-          }, _callee6);
+          }, _callee5);
         }));
 
-        return function (_x7) {
-          return _ref7.apply(this, arguments);
+        return function (_x6) {
+          return _ref6.apply(this, arguments);
         };
       }();
     };
@@ -665,7 +679,7 @@ var FieldItem = /*#__PURE__*/function (_Component) {
           enableScrollError = _this$props14$fieldOp.enableScrollError,
           editSectionScrollBy = _this$props14.editSectionScrollBy;
 
-      if (this.fieldsRenderMap[type]) {
+      if (this.fieldsRenderMap[type] && this.fieldsRenderMap[type]()) {
         if (error && enableScrollError && this.fieldItemRef.current) {
           editSectionScrollBy(this.fieldItemRef.current.offsetTop);
         }

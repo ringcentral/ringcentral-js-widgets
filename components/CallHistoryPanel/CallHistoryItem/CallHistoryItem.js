@@ -32,7 +32,7 @@ var CallHistoryItem = function CallHistoryItem(_ref) {
   return /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])([_styles["default"].item, !isWide && _styles["default"].classic])
   }, /*#__PURE__*/_react["default"].createElement("div", {
-    className: _styles["default"].left
+    className: (0, _classnames["default"])([_styles["default"].left, !isWide && _styles["default"].classic])
   }, /*#__PURE__*/_react["default"].createElement(_CallIcon.CallIcon, call), /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])([_styles["default"].info, !isWide && _styles["default"].classic])
   }, /*#__PURE__*/_react["default"].createElement("span", {

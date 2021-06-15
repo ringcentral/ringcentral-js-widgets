@@ -12,7 +12,8 @@
   overflow: hidden;
   box-sizing: border-box;
   margin-left: 5px;
-  transform: translateZ(0);
+  // Safari will have strange behavior so disable it
+  // transform: translateZ(0);
 }
 
 .withAnimation {

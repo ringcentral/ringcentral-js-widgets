@@ -10,7 +10,7 @@ var _default = {
   logging: "Iniciando sesión...",
   logCall: "Registrar llamada",
   editLog: "Editar registro",
-  select: "Selec. emparej.",
+  select: "Seleccionar registro",
   OnHold: "En espera",
   Ringing: "Llamando",
   CallConnected: "Llamada conectada",
@@ -22,7 +22,7 @@ var _default = {
 }; // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
 // @key: @#@"logCall"@#@ @source: @#@"Log Call"@#@
 // @key: @#@"editLog"@#@ @source: @#@"Edit Log"@#@
-// @key: @#@"select"@#@ @source: @#@"Select matching"@#@
+// @key: @#@"select"@#@ @source: @#@"Select record"@#@
 // @key: @#@"OnHold"@#@ @source: @#@"On Hold"@#@
 // @key: @#@"Ringing"@#@ @source: @#@"Ringing"@#@
 // @key: @#@"CallConnected"@#@ @source: @#@"Call Connected"@#@

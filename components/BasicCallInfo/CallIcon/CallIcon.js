@@ -22,7 +22,8 @@ var CallIcon = function CallIcon(_ref) {
       isInbound = _ref.isInbound;
   return /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].callIcon,
-    title: title
+    title: title,
+    "data-sign": isInbound ? 'inboundIcon' : 'outboundIcon'
   }, isInbound ? /*#__PURE__*/_react["default"].createElement(_InboundCall["default"], null) : /*#__PURE__*/_react["default"].createElement(_OutboundCall["default"], null));
 };
 

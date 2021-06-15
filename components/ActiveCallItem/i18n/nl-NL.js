@@ -18,7 +18,7 @@ var _default = {
   unknownNumber: "Anoniem",
   unavailable: "Niet beschikbaar",
   viewDetails: "Details weergeven",
-  addEntity: "Nieuw maken",
+  addEntity: "Nieuwe maken",
   addLog: "Log",
   text: "Tekstbericht",
   call: "Oproep",

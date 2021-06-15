@@ -37,7 +37,7 @@ export default class CallLogFields extends Component<CallLogFieldsProps, {}> {
       onSaveCallLog,
     } = this.props;
     const onSave = () => isAutoSave && task.id && onSaveCallLog(call);
-    return customLogFields
+    return [...customLogFields]
       .sort((a, b) => a.sort - b.sort)
       .map((fieldOption, i) => {
         return (

@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  unmute: "Dempen uitschakelen",
+  unmute: "Dempen uit",
   mute: "Dempen",
   keypad: "Toetsenbord",
   hold: "Wacht",
@@ -19,7 +19,9 @@ var _default = {
   transfer: "Doorv.",
   flip: "Omkeren",
   more: "Oproepacties",
-  mergeToConference: "Samenvoegen"
+  mergeToConference: "Samenvoegen",
+  end: "Einde",
+  completeTransfer: "Doorschakelen\nvoltooien"
 }; // @key: @#@"unmute"@#@ @source: @#@"Unmute"@#@
 // @key: @#@"mute"@#@ @source: @#@"Mute"@#@
 // @key: @#@"keypad"@#@ @source: @#@"Keypad"@#@
@@ -33,6 +35,8 @@ var _default = {
 // @key: @#@"flip"@#@ @source: @#@"Flip"@#@
 // @key: @#@"more"@#@ @source: @#@"Call Actions"@#@
 // @key: @#@"mergeToConference"@#@ @source: @#@"Merge"@#@
+// @key: @#@"end"@#@ @source: @#@"End"@#@
+// @key: @#@"completeTransfer"@#@ @source: @#@"Complete\nTransfer"@#@
 
 exports["default"] = _default;
 //# sourceMappingURL=nl-NL.js.map

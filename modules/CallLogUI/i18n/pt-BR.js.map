@@ -1,0 +1,1 @@
+{"version":3,"sources":["modules/CallLogUI/i18n/pt-BR.js"],"names":["unknown"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,OAAO,EAAE;AADI,C,EAIf","sourcesContent":["export default {\n  unknown: \"Desconhecido\"\n};\n\n// @key: @#@\"unknown\"@#@ @source: @#@\"Unknown\"@#@\n"],"file":"pt-BR.js"}

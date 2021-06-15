@@ -1,1 +1,1 @@
-{"version":3,"sources":["modules/CallHistoryUI/i18n/ja-JP.js"],"names":["title"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,KAAK,EAAE;AADM,C,EAIf","sourcesContent":["export default {\n  title: \"履歴\"\n};\n\n// @key: @#@\"title\"@#@ @source: @#@\"History\"@#@\n"],"file":"ja-JP.js"}
+{"version":3,"sources":["modules/CallHistoryUI/i18n/ja-JP.ts"],"names":["title"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,KAAK,EAAE;AADM,C,EAIf","sourcesContent":["export default {\n  title: \"履歴\"\n};\n\n// @key: @#@\"title\"@#@ @source: @#@\"History\"@#@\n"],"file":"ja-JP.js"}

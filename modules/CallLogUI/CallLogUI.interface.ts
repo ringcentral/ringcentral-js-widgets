@@ -1,16 +1,16 @@
-import Locale from 'ringcentral-integration/modules/Locale';
+import { ActiveCallControl } from 'ringcentral-integration/modules/ActiveCallControlV2';
+import { CallingSettings } from 'ringcentral-integration/modules/CallingSettingsV2';
 import CallLogger from 'ringcentral-integration/modules/CallLogger';
+import ConnectivityMonitor from 'ringcentral-integration/modules/ConnectivityMonitor';
+import DateTimeFormat from 'ringcentral-integration/modules/DateTimeFormat';
+import { ForwardingNumber } from 'ringcentral-integration/modules/ForwardingNumberV2';
+import Locale from 'ringcentral-integration/modules/Locale';
 import RateLimiter from 'ringcentral-integration/modules/RateLimiter';
 import RegionSettings from 'ringcentral-integration/modules/RegionSettings';
-import DateTimeFormat from 'ringcentral-integration/modules/DateTimeFormat';
-import { ActiveCallControl } from 'ringcentral-integration/modules/ActiveCallControlV2';
-import RolesAndPermissions from 'ringcentral-integration/modules/RolesAndPermissions';
-import ConnectivityMonitor from 'ringcentral-integration/modules/ConnectivityMonitor';
-import { CallingSettings } from 'ringcentral-integration/modules/CallingSettingsV2';
-import { ForwardingNumber } from 'ringcentral-integration/modules/ForwardingNumberV2';
-import RouterInteraction from '../RouterInteraction';
-import CallLogSection from '../CallLogSection';
+import { ExtensionFeatures } from '../../../ringcentral-integration/modules/ExtensionFeatures';
 import { CallLogPanelProps } from '../../components/CallLogPanel';
+import CallLogSection from '../CallLogSection';
+import { RouterInteraction } from '../RouterInteraction';
 
 export interface State {}
 
@@ -27,7 +27,7 @@ export interface Deps {
   callLogSection: CallLogSection;
   routerInteraction: RouterInteraction;
   activeCallControl: ActiveCallControl;
-  rolesAndPermissions: RolesAndPermissions;
+  extensionFeatures: ExtensionFeatures;
   connectivityMonitor: ConnectivityMonitor;
   callingSettings: CallingSettings;
   forwardingNumber: ForwardingNumber;

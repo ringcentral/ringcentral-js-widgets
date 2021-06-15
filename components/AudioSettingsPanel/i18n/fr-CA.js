@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  title: "Audio",
+  title: "Son",
   dialButtonVolume: "Volume du bouton pour composer un numéro",
   ringtoneVolume: "Volume de la sonnerie",
   callVolume: "Volume de l'appel",

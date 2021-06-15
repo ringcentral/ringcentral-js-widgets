@@ -16,41 +16,28 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _deStructureArgs = require("./deStructureArgs");
+var _Mapping = require("./Mapping");
 
-Object.keys(_deStructureArgs).forEach(function (key) {
+Object.keys(_Mapping).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
-  if (key in exports && exports[key] === _deStructureArgs[key]) return;
+  if (key in exports && exports[key] === _Mapping[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {
-      return _deStructureArgs[key];
+      return _Mapping[key];
     }
   });
 });
 
-var _mapping = require("./mapping");
+var _TupleUtility = require("./TupleUtility");
 
-Object.keys(_mapping).forEach(function (key) {
+Object.keys(_TupleUtility).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
-  if (key in exports && exports[key] === _mapping[key]) return;
+  if (key in exports && exports[key] === _TupleUtility[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {
-      return _mapping[key];
-    }
-  });
-});
-
-var _tupletoUnion = require("./tupletoUnion");
-
-Object.keys(_tupletoUnion).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  if (key in exports && exports[key] === _tupletoUnion[key]) return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function get() {
-      return _tupletoUnion[key];
+      return _TupleUtility[key];
     }
   });
 });

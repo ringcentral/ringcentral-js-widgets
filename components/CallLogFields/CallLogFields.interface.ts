@@ -24,10 +24,12 @@ export type CallLogFieldsProps = {
   refs?: {
     [key: string]: MutableRefObject<any>;
   };
+  disabled: boolean;
 };
 
 export interface FieldOption {
   getLabel: (item: any, length?: number, currentLog?: CallLog) => string;
+  getType: (item: any) => string;
   onChange: (item: any) => any;
   metadata?: FieldMetadata;
   currentOptionFinder: (task: Task) => (item: any) => boolean;

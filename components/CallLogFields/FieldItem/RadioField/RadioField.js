@@ -18,6 +18,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 var RadioField = function RadioField(_ref) {
   var value = _ref.value,
       options = _ref.options,
+      classes = _ref.classes,
       onChange = _ref.onChange;
   return /*#__PURE__*/_react["default"].createElement(_juno.RcRadioGroup, {
     value: value,
@@ -27,10 +28,12 @@ var RadioField = function RadioField(_ref) {
       key: "label-".concat(i),
       value: item.value,
       control: /*#__PURE__*/_react["default"].createElement(_juno.RcRadio, {
-        key: "radio-".concat(i)
+        key: "radio-".concat(i),
+        size: "small"
       }),
       label: item.label,
-      disabled: item.disabled
+      disabled: item.disabled,
+      classes: classes
     });
   }));
 };

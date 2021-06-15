@@ -2,28 +2,28 @@
 
 require("core-js/modules/es6.object.define-property");
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = ContactDisplay;
-
 require("core-js/modules/es6.regexp.to-string");
 
 require("core-js/modules/es6.date.to-string");
 
 require("core-js/modules/es6.object.to-string");
 
+require("core-js/modules/es6.array.slice");
+
 require("core-js/modules/es6.string.iterator");
 
 require("core-js/modules/es6.array.from");
-
-require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es7.symbol.async-iterator");
 
 require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.array.is-array");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
 
 require("core-js/modules/es6.function.name");
 
@@ -59,7 +59,7 @@ function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread n
 
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
 
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
 
@@ -69,10 +69,8 @@ var displayFormatter = function displayFormatter(_ref) {
   var entityName = _ref.entityName,
       entityType = _ref.entityType,
       phoneNumber = _ref.phoneNumber,
-      phoneType = _ref.phoneType,
       currentLocale = _ref.currentLocale,
       brand = _ref.brand,
-      phoneTypeRenderer = _ref.phoneTypeRenderer,
       phoneSourceNameRenderer = _ref.phoneSourceNameRenderer;
   var typeName;
 
@@ -101,7 +99,7 @@ var displayFormatter = function displayFormatter(_ref) {
   return '';
 };
 
-function ContactDisplayItem(_ref2) {
+var ContactDisplayItem = function ContactDisplayItem(_ref2) {
   var entityName = _ref2.entityName,
       entityType = _ref2.entityType,
       phoneNumber = _ref2.phoneNumber,
@@ -145,7 +143,7 @@ function ContactDisplayItem(_ref2) {
   }
 
   return null;
-}
+};
 
 ContactDisplayItem.propTypes = {
   entityName: _propTypes["default"].string.isRequired,
@@ -154,7 +152,7 @@ ContactDisplayItem.propTypes = {
   sourceIcons: _propTypes["default"].object.isRequired
 };
 
-function ContactDisplay(_ref3) {
+var ContactDisplay = function ContactDisplay(_ref3) {
   var reference = _ref3.reference,
       className = _ref3.className,
       contactMatches = _ref3.contactMatches,
@@ -175,6 +173,7 @@ function ContactDisplay(_ref3) {
       selectClassName = _ref3.selectClassName,
       selectedClassName = _ref3.selectedClassName,
       showPlaceholder = _ref3.showPlaceholder,
+      placeholder = _ref3.placeholder,
       brand = _ref3.brand,
       stopPropagation = _ref3.stopPropagation,
       _ref3$sourceIcons = _ref3.sourceIcons,
@@ -259,11 +258,11 @@ function ContactDisplay(_ref3) {
   } else if (contactMatches.length > 1) {
     var options = _toConsumableArray(contactMatches);
 
-    var placeholder;
+    var selectPlaceholder;
     var _selected = selected;
 
     if (showPlaceholder) {
-      placeholder = _i18n["default"].getString('select', currentLocale);
+      selectPlaceholder = placeholder || _i18n["default"].getString('select', currentLocale);
     } else {
       _selected = _selected < 0 ? 0 : _selected;
     }
@@ -278,7 +277,7 @@ function ContactDisplay(_ref3) {
       onChange: onSelectContact,
       disabled: disabled || isLogging,
       options: options,
-      placeholder: placeholder,
+      placeholder: selectPlaceholder,
       renderFunction: function renderFunction(entity) {
         return ContactDisplayItem({
           entityName: entity.name,
@@ -319,7 +318,7 @@ function ContactDisplay(_ref3) {
   return /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])(_styles["default"].root, className)
   }, contentEl);
-}
+};
 
 ContactDisplay.propTypes = {
   isOnConferenceCall: _propTypes["default"].bool,
@@ -343,6 +342,7 @@ ContactDisplay.propTypes = {
   selectClassName: _propTypes["default"].string,
   selectedClassName: _propTypes["default"].string,
   showPlaceholder: _propTypes["default"].bool,
+  placeholder: _propTypes["default"].string,
   brand: _propTypes["default"].string,
   stopPropagation: _propTypes["default"].bool,
   sourceIcons: _propTypes["default"].object,
@@ -368,6 +368,7 @@ ContactDisplay.defaultProps = {
   selectClassName: undefined,
   selectedClassName: undefined,
   showPlaceholder: true,
+  placeholder: '',
   brand: undefined,
   stopPropagation: true,
   sourceIcons: undefined,
@@ -377,4 +378,6 @@ ContactDisplay.defaultProps = {
   contactName: undefined,
   iconClassName: null
 };
+var _default = ContactDisplay;
+exports["default"] = _default;
 //# sourceMappingURL=index.js.map

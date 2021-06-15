@@ -1,10 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import classnames from 'classnames';
 import { callDirection } from 'ringcentral-integration/enums/callDirections';
-import {
-  CallLog,
-  CallLogMenu,
-} from 'ringcentral-integration/interfaces/CallLog.interface';
+import { CallLog, CallLogMenu } from '../CallHistoryPanel.interface';
 
 import { CallIcon } from '../CallIcon';
 import { CallHistoryActions } from '../CallHistoryActions';
@@ -26,7 +23,7 @@ export const CallHistoryItem: FunctionComponent<CallHistoryItemProps> = ({
 
   return (
     <div className={classnames([styles.item, !isWide && styles.classic])}>
-      <div className={styles.left}>
+      <div className={classnames([styles.left, !isWide && styles.classic])}>
         <CallIcon {...call} />
         <div className={classnames([styles.info, !isWide && styles.classic])}>
           <span

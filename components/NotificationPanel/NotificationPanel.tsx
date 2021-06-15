@@ -1,30 +1,12 @@
 import 'animate.css/animate.min.css';
-
 import classNames from 'classnames';
 import React, { FunctionComponent, useEffect, useState } from 'react';
-
+import { NotificationItem } from './NotificationItem';
 import {
-  NotificationItem,
-  NotificationItemProps,
   NotificationMessage,
-} from './NotificationItem';
+  NotificationPanelProps,
+} from './NotificationPanel.interface';
 import styles from './styles.scss';
-
-export type NotificationPanelProps = {
-  messages: NotificationMessage[];
-  exitAnimation?: string;
-  entranceAnimation: string;
-
-  backdropEntranceAnimation?: string;
-  backdropExitAnimation?: string;
-
-  dismiss: (id: string) => void;
-
-  className?: string;
-  currentLocale: string;
-
-  brand: string;
-} & NotificationItemProps;
 
 export const NotificationPanel: FunctionComponent<NotificationPanelProps> = ({
   messages,
@@ -37,24 +19,28 @@ export const NotificationPanel: FunctionComponent<NotificationPanelProps> = ({
   ...rest
 }) => {
   const [currentMessages, setCurrentMessages] = useState(messages);
-
   const [timer, setTimer] = useState(null);
 
   useEffect(() => {
+    const updatedMessages: NotificationMessage[] = [];
     // if length is grater means that is delete item.
     if (currentMessages.length > messages.length) {
-      currentMessages.forEach((cm) => {
+      currentMessages.forEach((currentMessage) => {
+        const updatedMessage = {
+          ...currentMessage,
+        };
         // if that can't find this id, that means that is delete
-        if (!messages.some((m) => m.id === cm.id)) {
-          cm.animation = exitAnimation;
-          cm.backdropAnimation = backdropExitAnimation;
+        if (!messages.some((m) => m.id === currentMessage.id)) {
+          updatedMessage.animation = exitAnimation;
+          updatedMessage.backdropAnimation = backdropExitAnimation;
         } else {
-          cm.animation = '';
-          cm.backdropAnimation = '';
+          updatedMessage.animation = '';
+          updatedMessage.backdropAnimation = '';
         }
+        updatedMessages.push(updatedMessage);
       });
 
-      setCurrentMessages([...currentMessages]);
+      setCurrentMessages(updatedMessages);
 
       if (duration > 0) {
         const timerId = setTimeout(() => {

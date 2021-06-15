@@ -7,8 +7,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  doNotCall: "Ne pas contacter"
-}; // @key: @#@"doNotCall"@#@ @source: @#@"Do Not Contact"@#@
+  doNotCall: "Ne pas appeler"
+}; // @key: @#@"doNotCall"@#@ @source: @#@"Do Not Call"@#@
 
 exports["default"] = _default;
 //# sourceMappingURL=fr-CA.js.map

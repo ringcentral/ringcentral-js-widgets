@@ -2,14 +2,14 @@
 
 require("core-js/modules/es6.object.define-property");
 
+require("core-js/modules/es6.object.assign");
+
+require("core-js/modules/es6.symbol");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.SelectField = void 0;
-
-require("core-js/modules/es6.object.assign");
-
-require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.array.index-of");
 
@@ -37,7 +37,8 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
 
 var SelectField = function SelectField(_ref) {
   var options = _ref.options,
-      rest = _objectWithoutProperties(_ref, ["options"]);
+      labelClassName = _ref.labelClassName,
+      rest = _objectWithoutProperties(_ref, ["options", "labelClassName"]);
 
   return /*#__PURE__*/_react["default"].createElement(_juno.RcSelect, _extends({
     gutterBottom: true
@@ -46,8 +47,11 @@ var SelectField = function SelectField(_ref) {
       key: i,
       value: !item.value ? undefined : "".concat(item.value),
       "data-sign": "option".concat(i),
-      disabled: item.disabled
-    }, item.label);
+      disabled: item.disabled,
+      title: item.title
+    }, /*#__PURE__*/_react["default"].createElement("span", {
+      className: labelClassName
+    }, item.label));
   }));
 };
 

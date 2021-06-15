@@ -37,7 +37,6 @@ export default class VideoUI extends RcUIModule {
     return {
       currentLocale: this._locale.currentLocale,
       meeting: this._rcVideo.meeting,
-      showAdminLock: this._rcVideo.showAdminLock,
       enablePersonalMeeting: this._rcVideo.enablePersonalMeeting,
       personalMeetingId:
         this._rcVideo.ready && this._rcVideo.personalMeeting?.shortId,

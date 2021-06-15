@@ -1,64 +1,39 @@
 import { RcThemeInput } from '@ringcentral/juno';
 
-const defaultMainColor = '#0684bd';
+import attRich from './brands/attRich/theme.json';
+import btRich from './brands/btRich/theme.json';
+import rcBlue from './brands/rcBlue/theme.json';
+import rcJupiterBlue from './brands/rcJupiterBlue/theme.json';
+import telusRich from './brands/telusRich/theme.json';
 
-function getThemeColor(color: string = defaultMainColor): RcThemeInput {
-  return {
-    palette: {
-      primary: {
-        main: color,
-        '700': color,
-        '600': color,
-      },
-      bg: {
-        primary: color,
-      },
-      element: {
-        primary: color,
-      },
-      border: {
-        primary: color,
-      },
-      text: {
-        info: color,
-        button: color,
-      },
-      icon: {
-        primary: color,
-        bookmark: color,
-      },
-      label: {
-        blue: {
-          icon: color,
-          text: color,
-        },
-      },
-      globalHeader: {
-        bgDark: color,
-        bgDefault: color,
-      },
-      action: {
-        primary: color,
-      },
-      accent: {
-        blue: color,
-      },
-    },
-  };
-}
+// TODO: temporary import all, wait dynamic load way implement
+export const brandThemeMapping = {
+  jupiterBlue: rcJupiterBlue as RcThemeInput,
+  rcBlue: rcBlue as RcThemeInput,
+  att: attRich as RcThemeInput,
+  telus: telusRich as RcThemeInput,
+  bt: btRich as RcThemeInput,
+} as const;
 
-export const defaultTheme: RcThemeInput = getThemeColor();
+export type BrandTheme = keyof typeof brandThemeMapping | 'rc';
 
-export const getBrandTheme = (
-  brand: string = 'rc',
-  rcMainColor: string = null,
+const innerGetBrandTheme = (
+  brand: BrandTheme = 'rc',
+  defaultTheme: RcThemeInput,
 ): RcThemeInput => {
-  const color: string = ({
-    rc: rcMainColor || defaultMainColor,
-    bt: '#5514B4',
-    att: '#067AB4',
-    telus: '#57a708',
-  } as any)[brand];
+  if (brand === 'rc') {
+    return defaultTheme;
+  }
 
-  return getThemeColor(color);
+  return brandThemeMapping[brand] || defaultTheme;
+};
+
+export const getBrandTheme = (brand: BrandTheme = 'rc'): RcThemeInput => {
+  return innerGetBrandTheme(brand, brandThemeMapping.rcBlue);
+};
+
+export const getBrandThemeWithJupiterBlue = (
+  brand: BrandTheme = 'rc',
+): RcThemeInput => {
+  return innerGetBrandTheme(brand, brandThemeMapping.jupiterBlue);
 };

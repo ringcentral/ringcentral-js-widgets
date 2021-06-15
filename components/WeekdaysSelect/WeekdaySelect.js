@@ -1,17 +1,19 @@
 "use strict";
 
+require("core-js/modules/es6.object.define-property");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.WeekdaysSelect = void 0;
-
-require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.array.is-array");
 
 require("core-js/modules/es6.array.map");
 
 require("core-js/modules/es6.array.index-of");
+
+require("core-js/modules/es6.array.slice");
 
 var _react = _interopRequireDefault(require("react"));
 

@@ -131,7 +131,8 @@ function LogBasicInfo(props) {
     className: _styles["default"].info
   }, /*#__PURE__*/_react["default"].createElement("p", {
     className: _styles["default"].logName,
-    title: logName
+    title: logName,
+    "data-sign": "logName"
   }, logName), /*#__PURE__*/_react["default"].createElement("p", {
     className: (0, _classnames["default"])(_styles["default"].follow, _styles["default"]['text-ellipsis'])
   }, /*#__PURE__*/_react["default"].createElement("span", {

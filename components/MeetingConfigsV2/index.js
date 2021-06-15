@@ -4,15 +4,6 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
 require("core-js/modules/es6.weak-map");
 
-require("core-js/modules/es6.array.reduce");
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.getMinutesList = getMinutesList;
-exports.getHoursList = getHoursList;
-exports.MeetingConfigs = exports.HOUR_SCALE = exports.MINUTE_SCALE = void 0;
-
 require("core-js/modules/es6.object.assign");
 
 require("core-js/modules/es6.promise");
@@ -49,6 +40,15 @@ require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.object.define-property");
 
+require("core-js/modules/es6.array.reduce");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.getMinutesList = getMinutesList;
+exports.getHoursList = getHoursList;
+exports.MeetingConfigs = exports.HOUR_SCALE = exports.MINUTE_SCALE = void 0;
+
 require("core-js/modules/es6.function.name");
 
 require("core-js/modules/es6.array.map");
@@ -56,6 +56,8 @@ require("core-js/modules/es6.array.map");
 require("regenerator-runtime/runtime");
 
 require("core-js/modules/es6.regexp.split");
+
+require("core-js/modules/es6.array.slice");
 
 var _juno = require("@ringcentral/juno");
 
@@ -69,9 +71,11 @@ var _meetingHelper = require("ringcentral-integration/helpers/meetingHelper");
 
 var _Meeting = require("ringcentral-integration/modules/Meeting");
 
-var _MeetingCalendarHelper = require("../../lib/MeetingCalendarHelper");
+var _LockBorder = _interopRequireDefault(require("@ringcentral/juno/icon/LockBorder"));
 
-var _InnerTopic = require("../InnerTopic");
+var _formatMessage = _interopRequireDefault(require("format-message"));
+
+var _MeetingCalendarHelper = require("../../lib/MeetingCalendarHelper");
 
 var _SpinnerOverlay = require("../SpinnerOverlay");
 
@@ -79,15 +83,13 @@ var _ExtendedTooltip = require("./ExtendedTooltip");
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
-var _iconLock_border = _interopRequireDefault(require("./icons/icon-lock_border.svg"));
-
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
 var _VideoSettingGroup = require("./VideoSettingGroup");
 
-function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
+function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -105,11 +107,11 @@ function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o =
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+function _iterableToArrayLimit(arr, i) { var _i = arr && (typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]); if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
@@ -120,11 +122,13 @@ exports.MINUTE_SCALE = MINUTE_SCALE;
 var HOUR_SCALE = 13;
 exports.HOUR_SCALE = HOUR_SCALE;
 
-function getMinutesList(MINUTE_SCALE) {
+function getMinutesList(MINUTE_SCALE, currentLocale) {
   return (0, _ramda.reduce)(function (result) {
     var index = result.length;
     var value = 60 / MINUTE_SCALE * index;
-    var text = "".concat("".concat(value, "0").slice(0, 2), " min");
+    var text = (0, _formatMessage["default"])(_i18n["default"].getString('minutes', currentLocale), {
+      howMany: "".concat(value, "0").slice(0, 2)
+    });
     return result.concat({
       value: value,
       text: text
@@ -132,14 +136,16 @@ function getMinutesList(MINUTE_SCALE) {
   }, [], new Array(MINUTE_SCALE));
 }
 
-function getHoursList(HOUR_SCALE) {
+function getHoursList(HOUR_SCALE, currentLocale) {
   if (HOUR_SCALE > 23) {
     throw new Error('HOUR_SCALE must be less than 23.');
   }
 
   return (0, _ramda.reduce)(function (result) {
     var value = result.length;
-    var text = "".concat("0".concat(value, "0").slice(-3, -1), " hr");
+    var text = (0, _formatMessage["default"])(_i18n["default"].getString('hours', currentLocale), {
+      howMany: "0".concat(value, "0").slice(-3, -1)
+    });
     return result.concat({
       value: value,
       text: text
@@ -201,12 +207,13 @@ var MeetingOptionLabel = function MeetingOptionLabel(_ref) {
     title: _i18n["default"].getString('lockedTooltip', currentLocale)
   }, /*#__PURE__*/_react["default"].createElement(_juno.RcIcon, {
     size: "small",
-    symbol: _iconLock_border["default"]
+    className: _styles["default"].lockButton,
+    symbol: _LockBorder["default"]
   }))) : null);
 };
 
 var MeetingConfigs = function MeetingConfigs(_ref2) {
-  var _meeting$settingLock, _meeting$settingLock2, _meeting$settingLock3, _meeting$settingLock4, _meeting$settingLock5, _meeting$settingLock6, _meeting$settingLock7, _meeting$settingLock8;
+  var _meeting$telephonyUse, _meeting$settingLock, _meeting$settingLock2, _meeting$settingLock3, _meeting$settingLock4, _meeting$settingLock5, _meeting$settingLock6, _meeting$settingLock7, _meeting$settingLock8;
 
   var updateMeetingSettings = _ref2.updateMeetingSettings,
       disabled = _ref2.disabled,
@@ -230,9 +237,10 @@ var MeetingConfigs = function MeetingConfigs(_ref2) {
       labelPlacement = _ref2.labelPlacement,
       datePickerSize = _ref2.datePickerSize,
       timePickerSize = _ref2.timePickerSize,
+      checkboxSize = _ref2.checkboxSize,
       showSpinnerInConfigPanel = _ref2.showSpinnerInConfigPanel,
       enableServiceWebSettings = _ref2.enableServiceWebSettings,
-      putRecurringMeetingInMiddle = _ref2.putRecurringMeetingInMiddle,
+      recurringMeetingPosition = _ref2.recurringMeetingPosition,
       defaultTopic = _ref2.defaultTopic;
   (0, _react.useEffect)(function () {
     if (init) {
@@ -245,39 +253,36 @@ var MeetingConfigs = function MeetingConfigs(_ref2) {
     return updateMeetingSettings(_objectSpread(_objectSpread({}, meeting), options));
   };
 
-  var _useState = (0, _react.useState)(null),
-      _useState2 = _slicedToArray(_useState, 2),
-      topicRef = _useState2[0],
-      setTopicRef = _useState2[1];
-
   var configRef = (0, _react.useRef)();
 
-  var _useState3 = (0, _react.useState)(false),
-      _useState4 = _slicedToArray(_useState3, 2),
-      hasScrollBar = _useState4[0],
-      setHasScrollBar = _useState4[1];
+  var _useState = (0, _react.useState)(false),
+      _useState2 = _slicedToArray(_useState, 2),
+      hasScrollBar = _useState2[0],
+      setHasScrollBar = _useState2[1];
 
   (0, _react.useEffect)(function () {
     setHasScrollBar(configRef.current.scrollHeight > configRef.current.clientHeight);
   }, []);
   /* Password */
 
-  var _useState5 = (0, _react.useState)(false),
-      _useState6 = _slicedToArray(_useState5, 2),
-      isPasswordFocus = _useState6[0],
-      setPasswordFocus = _useState6[1];
+  var _useState3 = (0, _react.useState)(false),
+      _useState4 = _slicedToArray(_useState3, 2),
+      isPasswordFocus = _useState4[0],
+      setPasswordFocus = _useState4[1];
   /* AudioOptions */
 
 
-  var _useState7 = (0, _react.useState)(meeting.audioOptions && meeting.audioOptions.join('_')),
-      _useState8 = _slicedToArray(_useState7, 2),
-      audioOptions = _useState8[0],
-      setAudioOptions = _useState8[1];
+  var _useState5 = (0, _react.useState)(meeting.audioOptions && meeting.audioOptions.join('_')),
+      _useState6 = _slicedToArray(_useState5, 2),
+      audioOptions = _useState6[0],
+      setAudioOptions = _useState6[1];
 
+  var enableThirdPartyAudio = meeting === null || meeting === void 0 ? void 0 : (_meeting$telephonyUse = meeting.telephonyUserSettings) === null || _meeting$telephonyUse === void 0 ? void 0 : _meeting$telephonyUse.thirdPartyAudio;
   var audioHelpTextMap = {
     Phone: 'telephonyOnly',
     ComputerAudio: 'voIPOnly',
-    Phone_ComputerAudio: 'both'
+    Phone_ComputerAudio: 'both',
+    ThirdParty: 'thirdParty'
   };
 
   var updateAudioOptions = function updateAudioOptions(audioOptions) {
@@ -292,10 +297,10 @@ var MeetingConfigs = function MeetingConfigs(_ref2) {
   }, [meeting.audioOptions]);
   /* Recurring */
 
-  var _useState9 = (0, _react.useState)((0, _Meeting.isRecurringMeeting)(meeting.meetingType)),
-      _useState10 = _slicedToArray(_useState9, 2),
-      isRecurring = _useState10[0],
-      setIsRecurring = _useState10[1];
+  var _useState7 = (0, _react.useState)((0, _Meeting.isRecurringMeeting)(meeting.meetingType)),
+      _useState8 = _slicedToArray(_useState7, 2),
+      isRecurring = _useState8[0],
+      setIsRecurring = _useState8[1];
 
   var toggleRecurring = function toggleRecurring(isRecurring) {
     update({
@@ -308,10 +313,10 @@ var MeetingConfigs = function MeetingConfigs(_ref2) {
   }, [meeting.meetingType]);
   /* Use Personal MeetingId */
 
-  var _useState11 = (0, _react.useState)(false),
-      _useState12 = _slicedToArray(_useState11, 2),
-      isPmiConfirm = _useState12[0],
-      setPmiConfirm = _useState12[1];
+  var _useState9 = (0, _react.useState)(false),
+      _useState10 = _slicedToArray(_useState9, 2),
+      isPmiConfirm = _useState10[0],
+      setPmiConfirm = _useState10[1];
 
   var onPmiChange = /*#__PURE__*/function () {
     var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(usePersonalMeetingId) {
@@ -344,8 +349,8 @@ var MeetingConfigs = function MeetingConfigs(_ref2) {
   var startTime = (0, _react.useMemo)(function () {
     return new Date(meeting.schedule.startTime);
   }, [meeting.schedule.startTime]);
-  var hoursList = getHoursList(HOUR_SCALE);
-  var minutesList = getMinutesList(MINUTE_SCALE);
+  var hoursList = getHoursList(HOUR_SCALE, currentLocale);
+  var minutesList = getMinutesList(MINUTE_SCALE, currentLocale);
   return /*#__PURE__*/_react["default"].createElement("div", {
     ref: configRef,
     className: _styles["default"].videoConfig,
@@ -354,17 +359,7 @@ var MeetingConfigs = function MeetingConfigs(_ref2) {
     className: _styles["default"].meetingContent
   }, showSpinnerInConfigPanel ? /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay.SpinnerOverlay, null) : null, showTopic ? /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames4["default"])(_styles["default"].meetingSection, _styles["default"].meetingTitle)
-  }, /*#__PURE__*/_react["default"].createElement(_InnerTopic.Topic, {
-    name: meeting.topic,
-    updateMeetingTopic: function updateMeetingTopic(topic) {
-      update({
-        topic: topic
-      });
-    },
-    defaultTopic: defaultTopic,
-    currentLocale: currentLocale,
-    setTopicRef: setTopicRef
-  })) : null, recipientsSection ? /*#__PURE__*/_react["default"].createElement("div", {
+  }, children) : null, recipientsSection ? /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].meetingSection
   }, recipientsSection) : null, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].meetingSettings
@@ -373,12 +368,16 @@ var MeetingConfigs = function MeetingConfigs(_ref2) {
   }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].meetingDatePicker
   }, /*#__PURE__*/_react["default"].createElement(_juno.RcDatePicker, {
+    fullWidth: true,
+    gutterBottom: true,
     label: _i18n["default"].getString('date', currentLocale),
     "data-sign": "date",
     date: startTime,
     clearBtn: false,
     formatString: "MM/DD/YYYY",
     size: datePickerSize,
+    locale: currentLocale,
+    todayButtonText: _i18n["default"].getString('today', currentLocale),
     onChange: function onChange(value) {
       update({
         schedule: _objectSpread(_objectSpread({}, meeting.schedule), {}, {
@@ -389,6 +388,8 @@ var MeetingConfigs = function MeetingConfigs(_ref2) {
   })), /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].meetingTimePicker
   }, /*#__PURE__*/_react["default"].createElement(_juno.RcTimePicker, {
+    fullWidth: true,
+    gutterBottom: true,
     clearBtn: false,
     size: timePickerSize,
     label: _i18n["default"].getString('time', currentLocale),
@@ -407,6 +408,7 @@ var MeetingConfigs = function MeetingConfigs(_ref2) {
   }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].hourDuration
   }, /*#__PURE__*/_react["default"].createElement(_juno.RcSelect, {
+    fullWidth: true,
     gutterBottom: true,
     "data-sign": "durationHour",
     value: Math.floor(meeting.schedule.durationInMinutes / 60),
@@ -420,9 +422,6 @@ var MeetingConfigs = function MeetingConfigs(_ref2) {
         })
       });
     },
-    classes: {
-      root: _styles["default"].select
-    },
     className: _styles["default"].select,
     label: _i18n["default"].getString('duration', currentLocale)
   }, hoursList.map(function (item, i) {
@@ -434,6 +433,7 @@ var MeetingConfigs = function MeetingConfigs(_ref2) {
   }))), /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].minuteDuration
   }, /*#__PURE__*/_react["default"].createElement(_juno.RcSelect, {
+    fullWidth: true,
     gutterBottom: true,
     "data-sign": "durationMinute",
     required: true,
@@ -449,9 +449,6 @@ var MeetingConfigs = function MeetingConfigs(_ref2) {
           durationInMinutes: durationInMinutes
         })
       });
-    },
-    classes: {
-      root: _styles["default"].select
     }
   }, minutesList.map(function (item, i) {
     return /*#__PURE__*/_react["default"].createElement(_juno.RcMenuItem, {
@@ -459,11 +456,12 @@ var MeetingConfigs = function MeetingConfigs(_ref2) {
       value: item.value,
       "data-sign": "option".concat(i)
     }, item !== null ? item.text : 'defaultValue');
-  })))) : null, showRecurringMeeting && putRecurringMeetingInMiddle ? /*#__PURE__*/_react["default"].createElement(_VideoSettingGroup.VideoSettingGroup, {
+  })))) : null, showRecurringMeeting && recurringMeetingPosition === 'middle' ? /*#__PURE__*/_react["default"].createElement(_VideoSettingGroup.VideoSettingGroup, {
     dataSign: "meetingIdSection",
     expandable: settingsGroupExpandable
   }, /*#__PURE__*/_react["default"].createElement(_juno.RcCheckbox, _extends({}, checkboxCommProps, {
     disabled: isDisabled,
+    size: checkboxSize,
     "data-sign": "recurringMeeting",
     checked: isRecurring,
     onChange: function onChange() {
@@ -484,7 +482,6 @@ var MeetingConfigs = function MeetingConfigs(_ref2) {
     className: (0, _classnames4["default"])(_styles["default"].sideMargin, _styles["default"].selectOption)
   }, /*#__PURE__*/_react["default"].createElement(_juno.RcSelect, {
     variant: "box",
-    "data-test-automation-id": "scheduleFor",
     disabled: disabled,
     className: (0, _classnames4["default"])(_styles["default"].boxSelect, _styles["default"].autoFullWidth),
     "data-sign": "scheduleFor",
@@ -492,13 +489,14 @@ var MeetingConfigs = function MeetingConfigs(_ref2) {
       updateScheduleFor(e.target.value);
     },
     value: meeting.host.id
-  }, delegators.map(function (item) {
+  }, delegators.map(function (item, index) {
     var userName = item.name === _Meeting.ASSISTED_USERS_MYSELF ? _i18n["default"].getString(item.name, currentLocale) : item.name;
     return /*#__PURE__*/_react["default"].createElement(_juno.RcMenuItem, {
       value: item.id,
       key: item.id,
       title: userName,
-      className: _styles["default"].boxSelectMenuItem
+      className: _styles["default"].boxSelectMenuItem,
+      "data-sign": "scheduleForMenuItem".concat(index)
     }, userName);
   })))) : null, personalMeetingId ? /*#__PURE__*/_react["default"].createElement(_VideoSettingGroup.VideoSettingGroup, {
     dataSign: "meetingIdSection",
@@ -507,6 +505,7 @@ var MeetingConfigs = function MeetingConfigs(_ref2) {
   }, /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement(_juno.RcCheckbox, _extends({}, checkboxCommProps, {
     "data-sign": "usePersonalMeetingId",
     disabled: disabled,
+    size: checkboxSize,
     checked: meeting.usePersonalMeetingId,
     onChange: /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
       return regeneratorRuntime.wrap(function _callee2$(_context2) {
@@ -533,6 +532,7 @@ var MeetingConfigs = function MeetingConfigs(_ref2) {
     severity: "info",
     className: _styles["default"].alertContainer
   }, isPmiConfirm ? _i18n["default"].getString('pmiSettingChangeAlert', currentLocale) : /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, _i18n["default"].getString('pmiChangeConfirm', currentLocale), /*#__PURE__*/_react["default"].createElement(_juno.RcLink, {
+    variant: "inherit",
     onClick: function onClick() {
       return setPmiConfirm(!isPmiConfirm);
     },
@@ -544,6 +544,7 @@ var MeetingConfigs = function MeetingConfigs(_ref2) {
   }, /*#__PURE__*/_react["default"].createElement(_juno.RcCheckbox, _extends({}, checkboxCommProps, {
     "data-sign": "requirePassword",
     disabled: isDisabled || meeting._lockRequireMeetingPassword,
+    size: checkboxSize,
     checked: meeting._requireMeetingPassword,
     onChange: function onChange() {
       var password = ''; // checked before
@@ -600,6 +601,7 @@ var MeetingConfigs = function MeetingConfigs(_ref2) {
   }, /*#__PURE__*/_react["default"].createElement(_juno.RcCheckbox, _extends({}, checkboxCommProps, {
     "data-sign": "turnOffCamera",
     disabled: isDisabled || enableServiceWebSettings && ((_meeting$settingLock = meeting.settingLock) === null || _meeting$settingLock === void 0 ? void 0 : _meeting$settingLock.startParticipantsVideo),
+    size: checkboxSize,
     checked: !meeting.startParticipantsVideo,
     onChange: function onChange() {
       update({
@@ -616,6 +618,7 @@ var MeetingConfigs = function MeetingConfigs(_ref2) {
   })), /*#__PURE__*/_react["default"].createElement(_juno.RcCheckbox, _extends({}, checkboxCommProps, {
     "data-sign": "turnOffHostCamera",
     disabled: isDisabled || enableServiceWebSettings && ((_meeting$settingLock3 = meeting.settingLock) === null || _meeting$settingLock3 === void 0 ? void 0 : _meeting$settingLock3.startHostVideo),
+    size: checkboxSize,
     checked: !meeting.startHostVideo,
     onChange: function onChange() {
       update({
@@ -638,8 +641,8 @@ var MeetingConfigs = function MeetingConfigs(_ref2) {
   }, /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames4["default"])(_styles["default"].placementLeft, _styles["default"].hackWidth)
   }, /*#__PURE__*/_react["default"].createElement(_juno.RcSelect, {
+    fullWidth: true,
     variant: "box",
-    "data-test-automation-id": "audioOptions",
     "data-sign": "audioOptions",
     disabled: isDisabled || enableServiceWebSettings && ((_meeting$settingLock5 = meeting.settingLock) === null || _meeting$settingLock5 === void 0 ? void 0 : _meeting$settingLock5.audioOptions),
     title: _i18n["default"].getString(audioHelpTextMap[audioOptions], currentLocale),
@@ -663,7 +666,12 @@ var MeetingConfigs = function MeetingConfigs(_ref2) {
     "data-sign": "Phone_ComputerAudio",
     value: "Phone_ComputerAudio",
     className: _styles["default"].boxSelectMenuItem
-  }, _i18n["default"].getString('both', currentLocale)))), enableServiceWebSettings && ((_meeting$settingLock6 = meeting.settingLock) === null || _meeting$settingLock6 === void 0 ? void 0 : _meeting$settingLock6.audioOptions) ? /*#__PURE__*/_react["default"].createElement("div", {
+  }, _i18n["default"].getString('both', currentLocale)), /*#__PURE__*/_react["default"].createElement(_juno.RcMenuItem, {
+    "data-sign": "ThirdParty",
+    value: "ThirdParty",
+    className: _styles["default"].boxSelectMenuItem,
+    disabled: !enableThirdPartyAudio
+  }, _i18n["default"].getString('thirdParty', currentLocale)))), enableServiceWebSettings && ((_meeting$settingLock6 = meeting.settingLock) === null || _meeting$settingLock6 === void 0 ? void 0 : _meeting$settingLock6.audioOptions) ? /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames4["default"])(_styles["default"].placementRight, _styles["default"].lockedIcon)
   }, /*#__PURE__*/_react["default"].createElement(_ExtendedTooltip.ExtendedTooltip, {
     "data-sign": "audioSection_lock",
@@ -671,13 +679,15 @@ var MeetingConfigs = function MeetingConfigs(_ref2) {
     title: _i18n["default"].getString('lockedTooltip', currentLocale)
   }, /*#__PURE__*/_react["default"].createElement(_juno.RcIcon, {
     size: "small",
-    symbol: _iconLock_border["default"]
+    symbol: _LockBorder["default"],
+    className: _styles["default"].lockButton
   }))) : null)), /*#__PURE__*/_react["default"].createElement(_VideoSettingGroup.VideoSettingGroup, {
     dataSign: "meetingOptionsSection",
     expandable: settingsGroupExpandable,
     summary: _i18n["default"].getString('meetingOptions', currentLocale)
   }, /*#__PURE__*/_react["default"].createElement(_juno.RcCheckbox, _extends({}, checkboxCommProps, {
     disabled: isDisabled || enableServiceWebSettings && ((_meeting$settingLock7 = meeting.settingLock) === null || _meeting$settingLock7 === void 0 ? void 0 : _meeting$settingLock7.allowJoinBeforeHost),
+    size: checkboxSize,
     "data-sign": "enableJoinToggle",
     checked: meeting.allowJoinBeforeHost,
     onChange: function onChange() {
@@ -692,8 +702,9 @@ var MeetingConfigs = function MeetingConfigs(_ref2) {
       currentLocale: currentLocale,
       hasScrollBar: hasScrollBar
     }, _i18n["default"].getString('joinBeforeHost', currentLocale))
-  })), showRecurringMeeting && !putRecurringMeetingInMiddle ? /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement(_juno.RcCheckbox, _extends({}, checkboxCommProps, {
+  })), showRecurringMeeting && recurringMeetingPosition === 'bottom' ? /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement(_juno.RcCheckbox, _extends({}, checkboxCommProps, {
     disabled: isDisabled,
+    size: checkboxSize,
     "data-sign": "recurringMeeting",
     checked: isRecurring,
     onChange: function onChange() {
@@ -714,6 +725,7 @@ MeetingConfigs.defaultProps = {
   showRecurringMeeting: true,
   labelPlacement: 'start',
   datePickerSize: 'medium',
-  timePickerSize: 'medium'
+  timePickerSize: 'medium',
+  checkboxSize: 'medium'
 };
 //# sourceMappingURL=index.js.map

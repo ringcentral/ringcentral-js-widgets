@@ -1,0 +1,1 @@
+{"version":3,"sources":["modules/CallLogUI/i18n/it-IT.js"],"names":["unknown"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,OAAO,EAAE;AADI,C,EAIf","sourcesContent":["export default {\n  unknown: \"Sconosciuto\"\n};\n\n// @key: @#@\"unknown\"@#@ @source: @#@\"Unknown\"@#@\n"],"file":"it-IT.js"}

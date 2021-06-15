@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  forward: "Reencaminhar"
+  forward: "Reencam."
 }; // @key: @#@"forward"@#@ @source: @#@"Forward"@#@
 
 exports["default"] = _default;

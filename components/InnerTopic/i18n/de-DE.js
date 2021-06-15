@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  topic: "Titel des Meetings"
+  topic: "Titel der Besprechung"
 }; // @key: @#@"topic"@#@ @source: @#@"Meeting title"@#@
 
 exports["default"] = _default;

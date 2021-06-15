@@ -4,15 +4,7 @@ import {
   RcUIModuleV2,
   state,
 } from '@ringcentral-integration/core';
-import {
-  RcDialogHeader,
-  RcDialogHeaderActions,
-  RcDialogHeaderTitle,
-  RcIconButton,
-} from '@ringcentral/juno';
-import close from '@ringcentral/juno/icon/Close';
 import { filter, find, findIndex, map } from 'ramda';
-import React from 'react';
 import background from 'ringcentral-integration/lib/background';
 import { Module } from 'ringcentral-integration/lib/di';
 import proxify from 'ringcentral-integration/lib/proxy/proxify';
@@ -23,7 +15,6 @@ import {
   ModalV2UIFunctions,
   ModalV2UIProps,
 } from '../../components/ModalV2/interface';
-import i18n from './i18n';
 import {
   AlertModalOptions,
   ConfirmModalOptions,
@@ -35,33 +26,15 @@ import {
   InfoModalOptions,
   ModalOptions,
 } from './ModalUI.interface';
+import {
+  defaultCancelRenderer,
+  defaultCancelRendererID,
+  defaultOKRenderer,
+  defaultOKRendererID,
+  infoTitleRenderer,
+  infoTitleRendererID,
+} from './utils';
 
-export const defaultOKRendererID = 'ModalUI.defaultOKRendererID';
-export const defaultCancelRendererID = 'ModalUI.defaultCancelRendererID';
-export const infoTitleRendererID = 'ModalUI.infoTitleRendererID';
-
-export const defaultOKRenderer: CustomRenderer = ({ currentLocale }) =>
-  i18n.getString('ok', currentLocale);
-
-export const defaultCancelRenderer: CustomRenderer = ({ currentLocale }) =>
-  i18n.getString('cancel', currentLocale);
-
-export const infoTitleRenderer: CustomRenderer = ({
-  currentLocale,
-  onOK,
-  title,
-}) => (
-  <RcDialogHeader>
-    <RcDialogHeaderTitle>{title}</RcDialogHeaderTitle>
-    <RcDialogHeaderActions overlapSize={2.5}>
-      <RcIconButton
-        tooltipTitle={i18n.getString('close', currentLocale)}
-        symbol={close}
-        onClick={onOK}
-      />
-    </RcDialogHeaderActions>
-  </RcDialogHeader>
-);
 @Module({
   name: 'ModalUI',
   deps: ['Locale'],
@@ -114,20 +87,26 @@ export class ModalUI extends RcUIModuleV2<Deps> {
   private _setLoading(id: string, loading: boolean) {
     const idx = findIndex((item) => item.id === id, this._modals);
     if (this._modals[idx].useLoadingOverlay) {
-      this._modals[idx].showLoadingOverlay = loading;
+      this._modals[idx].loadingOverlay = loading;
     } else {
       this._modals[idx].loading = loading;
     }
   }
 
   @proxify
-  private async _onOK(id: string, onOK?: string) {
+  private async _onConfirm(id: string, onConfirm?: string) {
+    // here we assume the handler is async and set the loading status
+    // detecting whether the handler is async or not is unreliable and can be dangerous
+    // for most non-async functions the loading status will occur too briefly
+    // so that the UI will not really render the loading status at all
     this._setLoading(id, true);
-    const handler = this._handlerRegister.get(id).get(onOK);
+    const handler = this._handlerRegister.get(id).get(onConfirm);
+
     if (handler && (await handler()) === false) {
       this._setLoading(id, false);
       return;
     }
+
     this._promises.get(id).resolve(true);
     this._promises.delete(id);
     this.close(id);
@@ -157,6 +136,16 @@ export class ModalUI extends RcUIModuleV2<Deps> {
     this._handlerRegister.get(id).delete(handlerID);
   }
 
+  /**
+   * register render method for custom render if you want
+   *
+   * @example
+   *
+   * ```tsx
+   * const defaultOKRenderer: CustomRenderer = ({ currentLocale }) =>
+   *  <span>{i18n.getString('ok', currentLocale)}</span>
+   * ```
+   */
   registerRenderer<T extends CustomRendererProps = CustomRendererProps>(
     id: string,
     renderer: CustomRenderer<T>,
@@ -248,6 +237,7 @@ export class ModalUI extends RcUIModuleV2<Deps> {
       ...this._dehydrateFunctions(props.id, props, handlerIDs, oldState),
       handlerIDs,
     };
+
     if (titleProps !== undefined) {
       dehydratedState.titleProps = this._dehydrateFunctions(
         props.id,
@@ -256,6 +246,7 @@ export class ModalUI extends RcUIModuleV2<Deps> {
         oldState?.titleProps,
       );
     }
+
     if (contentProps !== undefined) {
       dehydratedState.contentProps = this._dehydrateFunctions(
         props.id,
@@ -264,6 +255,7 @@ export class ModalUI extends RcUIModuleV2<Deps> {
         oldState?.contentProps,
       );
     }
+
     if (footerProps !== undefined) {
       dehydratedState.footerProps = this._dehydrateFunctions(
         props.id,
@@ -272,6 +264,7 @@ export class ModalUI extends RcUIModuleV2<Deps> {
         oldState?.footerProps,
       );
     }
+
     return dehydratedState;
   }
 
@@ -293,14 +286,18 @@ export class ModalUI extends RcUIModuleV2<Deps> {
     });
 
     this._addModal(dehydratedState);
+
     let resolveFn;
+
     const promise = new Promise<boolean>((resolve) => {
       resolveFn = resolve;
     });
+
     this._promises.set(id, {
       promise,
       resolve: resolveFn,
     });
+
     return usePromise ? promise : id;
   }
 
@@ -323,13 +320,14 @@ export class ModalUI extends RcUIModuleV2<Deps> {
   close(id: string) {
     const dehydratedState = find((item) => item.id === id, this._modals);
     if (!dehydratedState) {
-      throw new Error(`modal id "${id} not found`);
+      return false;
     }
     const updatedState = {
       ...dehydratedState,
       open: false,
     };
     this._updateModal(updatedState);
+    return true;
   }
 
   public confirm(props: ConfirmModalOptions): string;
@@ -341,8 +339,8 @@ export class ModalUI extends RcUIModuleV2<Deps> {
   confirm(props: ConfirmModalOptions = {}, usePromise?: true) {
     return this.open(
       {
-        okText: defaultOKRendererID,
-        cancelText: defaultCancelRendererID,
+        confirmButtonText: defaultOKRendererID,
+        cancelButtonText: defaultCancelRendererID,
         ...props,
         variant: 'confirm',
       },
@@ -356,7 +354,7 @@ export class ModalUI extends RcUIModuleV2<Deps> {
   alert(props: AlertModalOptions = {}, usePromise?: true) {
     return this.open(
       {
-        okText: defaultOKRendererID,
+        confirmButtonText: defaultOKRendererID,
         ...props,
         variant: 'alert',
       },
@@ -377,7 +375,7 @@ export class ModalUI extends RcUIModuleV2<Deps> {
     ) as any;
   }
 
-  @computed<ModalUI>(({ _modals, _deps: { locale: { currentLocale } } }) => [
+  @computed(({ _modals, _deps: { locale: { currentLocale } } }: ModalUI) => [
     _modals,
     currentLocale,
   ])
@@ -386,50 +384,62 @@ export class ModalUI extends RcUIModuleV2<Deps> {
     return map(
       ({
         id,
-        onOK,
+        onConfirm,
         onCancel,
         title,
         content,
         footer,
-        okText,
-        cancelText,
+        confirmButtonText,
+        cancelButtonText,
         titleProps = {},
         contentProps = {},
         footerProps = {},
         variant,
         handlerIDs,
-        ...props
+        // * just pick this field out of rest
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        useLoadingOverlay,
+        ...rest
       }) => {
         const uiProps: ModalProps = {
-          ...props,
+          ...rest,
           key: id,
-          onOK: () => this._onOK(id, onOK),
+          onConfirm: () => this._onConfirm(id, onConfirm),
           onExited: () => this._onExited(id),
         };
-        if (onCancel || cancelText) {
+
+        if (onCancel || cancelButtonText) {
           uiProps.onCancel = () => this._onCancel(id, onCancel);
         }
+
         const renderedTitle =
           this._rendererRegister.get(title)?.({
             currentLocale,
             ...this._rehydrateFunctions(id, titleProps, handlerIDs),
-            onOK: uiProps.onOK,
+            onConfirm: uiProps.onConfirm,
             onCancel: uiProps.onCancel,
           }) ?? title;
-        uiProps.title =
-          variant === 'info'
-            ? this._rendererRegister.get(infoTitleRendererID)({
-                title: renderedTitle,
-                onOK: uiProps.onOK,
-                currentLocale,
-              })
-            : renderedTitle;
 
-        uiProps.content =
+        if (variant === 'info') {
+          uiProps.title = this._rendererRegister.get(infoTitleRendererID)({
+            title: renderedTitle,
+            onConfirm: uiProps.onConfirm,
+            currentLocale,
+          });
+          uiProps.TitleProps = {
+            disableTypography: true,
+            display: 'flex',
+            space: [0, 6],
+          };
+        } else {
+          uiProps.title = renderedTitle;
+        }
+
+        uiProps.children =
           this._rendererRegister.get(content)?.({
             currentLocale,
             ...this._rehydrateFunctions(id, contentProps, handlerIDs),
-            onOK: uiProps.onOK,
+            onConfirm: uiProps.onConfirm,
             onCancel: uiProps.onCancel,
           }) ?? content;
 
@@ -439,23 +449,23 @@ export class ModalUI extends RcUIModuleV2<Deps> {
             : this._rendererRegister.get(footer)?.({
                 currentLocale,
                 ...this._rehydrateFunctions(id, footerProps, handlerIDs),
-                onOK: uiProps.onOK,
+                onConfirm: uiProps.onConfirm,
                 onCancel: uiProps.onCancel,
               }) ?? footer;
 
-        uiProps.okText =
-          (this._rendererRegister.get(okText)?.({
+        uiProps.confirmButtonText =
+          (this._rendererRegister.get(confirmButtonText)?.({
             currentLocale,
-            onOK: uiProps.onOK,
+            onConfirm: uiProps.onConfirm,
             onCancel: uiProps.onCancel,
-          }) as string) ?? okText;
+          }) as string) ?? confirmButtonText;
 
-        uiProps.cancelText =
-          (this._rendererRegister.get(cancelText)?.({
+        uiProps.cancelButtonText =
+          (this._rendererRegister.get(cancelButtonText)?.({
             currentLocale,
-            onOK: uiProps.onOK,
+            onConfirm: uiProps.onConfirm,
             onCancel: uiProps.onCancel,
-          }) as string) ?? cancelText;
+          }) as string) ?? cancelButtonText;
 
         return uiProps;
       },

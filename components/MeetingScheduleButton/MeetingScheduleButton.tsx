@@ -2,10 +2,9 @@ import React from 'react';
 import classnames from 'classnames';
 import { RcMMeetingModel } from 'ringcentral-integration/modules/MeetingV2';
 
-import { RcCheckbox } from '@ringcentral/juno';
+import { RcCheckbox, RcButton } from '@ringcentral/juno';
 import styles from './styles.scss';
 import i18n from './i18n';
-import { Button } from '../Button';
 
 type Props = {
   currentLocale: string;
@@ -93,24 +92,24 @@ export class MeetingScheduleButton extends React.Component<Props, {}> {
             label={i18n.getString('saveAsDefault', currentLocale)}
           />
         ) : null}
-        <Button
+        <RcButton
           onClick={onClick}
-          className={classnames(
-            styles.isContainedType,
-            disabled ? styles.isContainedTypeDisabled : null,
-          )}
-          dataSign="meetingScheduleButton"
+          disabled={disabled}
+          data-sign="meetingScheduleButton"
+          fullWidth
         >
           {scheduleButtonLabel || this.getI18nButtonString()}
-        </Button>
+        </RcButton>
         {showLaunchMeetingBtn ? (
-          <Button
-            dataSign="launchMeetingButton"
-            className={classnames(styles.isOutlineType)}
+          <RcButton
+            className={styles.gutter}
             onClick={() => launchMeeting(meeting)}
+            data-sign="launchMeetingButton"
+            variant="text"
+            fullWidth
           >
             {i18n.getString('launchMeeting', currentLocale)}
-          </Button>
+          </RcButton>
         ) : null}
       </div>
     );

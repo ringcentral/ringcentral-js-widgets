@@ -9,6 +9,8 @@ exports.CallHistoryActions = void 0;
 
 require("core-js/modules/es6.array.map");
 
+require("core-js/modules/es6.array.slice");
+
 var _react = _interopRequireDefault(require("react"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
@@ -34,6 +36,7 @@ var CallHistoryActions = function CallHistoryActions(_ref) {
     var icon = _ref2.icon,
         label = _ref2.label,
         disabled = _ref2.disabled,
+        dataSign = _ref2.dataSign,
         action = _ref2.action,
         subMenu = _ref2.subMenu;
 
@@ -43,7 +46,8 @@ var CallHistoryActions = function CallHistoryActions(_ref) {
         label: label,
         disabled: disabled,
         action: action,
-        key: index
+        key: index,
+        dataSign: dataSign
       });
     }
 
@@ -53,7 +57,8 @@ var CallHistoryActions = function CallHistoryActions(_ref) {
         label: label,
         disabled: disabled,
         subMenu: subMenu,
-        key: index
+        key: index,
+        dataSign: dataSign
       });
     }
 

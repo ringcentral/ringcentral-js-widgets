@@ -65,7 +65,9 @@ export class LogFieldsInput extends Component<
           gutterBottom
           onChange={(e) =>
             this.updateValue(
-              type === 'number' ? Number(e.target.value) : e.target.value,
+              type === 'number' && e.target.value !== ''
+                ? Number(e.target.value)
+                : e.target.value,
               onChange,
             )
           }

@@ -1,27 +1,10 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.ContactListUI = exports.FILTER_THRESHOLD = void 0;
-
-require("core-js/modules/es6.array.is-array");
-
-require("core-js/modules/es7.symbol.async-iterator");
-
-require("core-js/modules/es6.symbol");
-
-require("core-js/modules/es6.array.from");
-
-require("core-js/modules/es6.function.name");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 require("core-js/modules/es6.reflect.get");
 
 require("core-js/modules/es6.object.create");
-
-require("core-js/modules/es6.regexp.to-string");
-
-require("core-js/modules/es6.date.to-string");
 
 require("core-js/modules/es6.reflect.construct");
 
@@ -33,11 +16,28 @@ require("core-js/modules/es6.array.reduce");
 
 require("core-js/modules/es6.object.keys");
 
-require("core-js/modules/es6.array.for-each");
+require("core-js/modules/es6.function.name");
+
+require("core-js/modules/es6.regexp.to-string");
+
+require("core-js/modules/es6.date.to-string");
+
+require("core-js/modules/es6.array.slice");
+
+require("core-js/modules/es6.array.from");
+
+require("core-js/modules/es7.symbol.async-iterator");
+
+require("core-js/modules/es6.symbol");
+
+require("core-js/modules/es6.array.is-array");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.ContactListUI = exports.FILTER_THRESHOLD = void 0;
 
 require("core-js/modules/es6.array.find");
-
-require("core-js/modules/es6.array.map");
 
 require("core-js/modules/es6.promise");
 
@@ -45,7 +45,13 @@ require("core-js/modules/es6.array.filter");
 
 require("regenerator-runtime/runtime");
 
+require("core-js/modules/es6.array.for-each");
+
 require("core-js/modules/es6.date.now");
+
+require("core-js/modules/es6.string.iterator");
+
+require("core-js/modules/es6.map");
 
 require("core-js/modules/web.dom.iterable");
 
@@ -53,9 +59,9 @@ require("core-js/modules/es6.array.iterator");
 
 require("core-js/modules/es6.object.to-string");
 
-require("core-js/modules/es6.string.iterator");
+require("core-js/modules/es7.object.values");
 
-require("core-js/modules/es6.map");
+require("core-js/modules/es6.array.map");
 
 var _core = require("@ringcentral-integration/core");
 
@@ -67,21 +73,23 @@ var _debounceThrottle = require("ringcentral-integration/lib/debounce-throttle")
 
 var _contactHelper = require("ringcentral-integration/lib/contactHelper");
 
-var _dec, _dec2, _dec3, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _temp;
+var _dec, _dec2, _dec3, _dec4, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr && (typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]); if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e2) { throw _e2; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e3) { didErr = true; err = _e3; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
 
 function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
 
@@ -105,13 +113,25 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
 
 function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and runs after the decorators transform.'); }
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
 var FILTER_THRESHOLD = 500;
 exports.FILTER_THRESHOLD = FILTER_THRESHOLD;
@@ -122,10 +142,14 @@ var ContactListUI = (_dec = (0, _di.Module)({
     optional: true
   }]
 }), _dec2 = (0, _core.computed)(function (that) {
-  return [that.checkSourcesUpdated()];
+  return [that.filteredContactsList].concat(_toConsumableArray(Object.values(that._deps.contactSources).map(function (source) {
+    return source.contacts;
+  })));
 }), _dec3 = (0, _core.computed)(function (that) {
+  return [that.checkSourcesUpdated()];
+}), _dec4 = (0, _core.computed)(function (that) {
   return [that.filteredContacts];
-}), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcUIModuleV) {
+}), _dec(_class = (_class2 = /*#__PURE__*/function (_RcUIModuleV) {
   _inherits(ContactListUI, _RcUIModuleV);
 
   var _super = _createSuper(ContactListUI);
@@ -151,7 +175,7 @@ var ContactListUI = (_dec = (0, _di.Module)({
 
     _initializerDefineProperty(_this, "isFiltering", _descriptor4, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "filteredContacts", _descriptor5, _assertThisInitialized(_this));
+    _initializerDefineProperty(_this, "filteredContactsList", _descriptor5, _assertThisInitialized(_this));
 
     _this._debouncedFilterContactSources = (0, _debounceThrottle.debounce)({
       fn: _this._filterContactSources,
@@ -245,12 +269,13 @@ var ContactListUI = (_dec = (0, _di.Module)({
 
           var lastStatus = this._sourcesLastStatus.get(source.sourceName);
 
-          if (!lastStatus || lastStatus.sourceReady !== source.sourceReady || lastStatus.contacts !== source.contacts) {
+          if (!lastStatus || lastStatus.sourceReady !== source.sourceReady || lastStatus.rawContacts !== source.rawContacts) {
             updated = true;
 
             this._sourcesLastStatus.set(source.sourceName, {
               sourceReady: source.sourceReady,
-              contacts: source.contacts
+              contacts: source.contacts,
+              rawContacts: source.rawContacts
             });
           }
         }
@@ -293,18 +318,24 @@ var ContactListUI = (_dec = (0, _di.Module)({
   }, {
     key: "_clearFilteredContacts",
     value: function _clearFilteredContacts() {
-      this.filteredContacts = [];
+      this.filteredContactsList = [];
     }
   }, {
     key: "_appendFilteredContacts",
-    value: function _appendFilteredContacts(contacts) {
-      this.filteredContacts = this.filteredContacts.concat(contacts);
+    value: function _appendFilteredContacts(contacts, sourceName) {
+      var _this3 = this;
+
+      if (contacts.length > 0) {
+        contacts.forEach(function (contact) {
+          _this3.filteredContactsList.push([sourceName, contact.id]);
+        });
+      }
     }
   }, {
     key: "_filterContactSources",
     value: function () {
       var _filterContactSources2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(criteria) {
-        var _this3 = this;
+        var _this4 = this;
 
         var sources, next;
         return regeneratorRuntime.wrap(function _callee$(_context) {
@@ -332,8 +363,8 @@ var ContactListUI = (_dec = (0, _di.Module)({
                 return Promise.all(sources.map(function (source) {
                   var promise = Promise.resolve(source.filterContacts(criteria.searchFilter));
                   return promise.then(function (items) {
-                    if (!criteria.filterStamp || criteria.filterStamp === _this3.filterStamp) {
-                      _this3._appendFilteredContacts(items);
+                    if (!criteria.filterStamp || criteria.filterStamp === _this4.filterStamp) {
+                      _this4._appendFilteredContacts(items, source.sourceName);
                     }
                   })["catch"](function (error) {
                     console.error("[ContactListUI > ContactSource(".concat(source.sourceName, ") > filterContacts] ").concat(error));
@@ -478,7 +509,7 @@ var ContactListUI = (_dec = (0, _di.Module)({
   }, {
     key: "getUIFunctions",
     value: function getUIFunctions(_ref4) {
-      var _this4 = this;
+      var _this5 = this;
 
       var _onVisitPage = _ref4.onVisitPage,
           onRefresh = _ref4.onRefresh,
@@ -488,7 +519,7 @@ var ContactListUI = (_dec = (0, _di.Module)({
           return null;
         },
         getPresence: function getPresence(contact) {
-          return _this4.getPresence(contact);
+          return _this5.getPresence(contact);
         },
         onItemSelect: onItemSelect || /*#__PURE__*/function () {
           var _ref6 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(_ref5) {
@@ -499,8 +530,8 @@ var ContactListUI = (_dec = (0, _di.Module)({
                   case 0:
                     type = _ref5.type, id = _ref5.id;
 
-                    if (_this4._deps.contactDetailsUI) {
-                      _this4._deps.contactDetailsUI.showContactDetails({
+                    if (_this5._deps.contactDetailsUI) {
+                      _this5._deps.contactDetailsUI.showContactDetails({
                         type: type,
                         id: id
                       });
@@ -522,7 +553,7 @@ var ContactListUI = (_dec = (0, _di.Module)({
           var searchSource = _ref7.searchSource,
               searchString = _ref7.searchString;
 
-          _this4.applyFilters({
+          _this5.applyFilters({
             sourceFilter: searchSource,
             searchFilter: searchString
           });
@@ -533,12 +564,34 @@ var ContactListUI = (_dec = (0, _di.Module)({
           } // fire filtering contacts if not yet
 
 
-          if (!_this4.filterStamp) {
-            _this4.applyFilters();
+          if (!_this5.filterStamp) {
+            _this5.applyFilters();
           }
         },
         onRefresh: onRefresh
       };
+    }
+  }, {
+    key: "filteredContacts",
+    get: function get() {
+      var contactsMap = {};
+
+      this._deps.contactSources.forEach(function (source) {
+        contactsMap[source.sourceName] = {};
+        source.contacts.forEach(function (contact) {
+          contactsMap[source.sourceName][contact.id] = contact;
+        });
+      });
+
+      var filteredContacts = [];
+      this.filteredContactsList.forEach(function (_ref8) {
+        var _ref9 = _slicedToArray(_ref8, 2),
+            sourceName = _ref9[0],
+            id = _ref9[1];
+
+        filteredContacts.push(contactsMap[sourceName][id]);
+      });
+      return filteredContacts;
     }
   }, {
     key: "sourceNames",
@@ -572,7 +625,7 @@ var ContactListUI = (_dec = (0, _di.Module)({
   }]);
 
   return ContactListUI;
-}(_core.RcUIModuleV2), _temp), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "sourceFilter", [_core.state], {
+}(_core.RcUIModuleV2), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "sourceFilter", [_core.state], {
   configurable: true,
   enumerable: true,
   writable: true,
@@ -600,13 +653,13 @@ var ContactListUI = (_dec = (0, _di.Module)({
   initializer: function initializer() {
     return false;
   }
-}), _descriptor5 = _applyDecoratedDescriptor(_class2.prototype, "filteredContacts", [_core.state], {
+}), _descriptor5 = _applyDecoratedDescriptor(_class2.prototype, "filteredContactsList", [_core.state], {
   configurable: true,
   enumerable: true,
   writable: true,
   initializer: function initializer() {
     return [];
   }
-}), _applyDecoratedDescriptor(_class2.prototype, "_updateFilters", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_updateFilters"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_resetFilters", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_resetFilters"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_setIsFiltering", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setIsFiltering"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_clearFilteredContacts", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_clearFilteredContacts"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_appendFilteredContacts", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_appendFilteredContacts"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "applyFilters", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "applyFilters"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getPresence", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "getPresence"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "sourceNames", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "sourceNames"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "contactGroups", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "contactGroups"), _class2.prototype)), _class2)) || _class);
+}), _applyDecoratedDescriptor(_class2.prototype, "_updateFilters", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_updateFilters"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_resetFilters", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_resetFilters"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_setIsFiltering", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setIsFiltering"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_clearFilteredContacts", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_clearFilteredContacts"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_appendFilteredContacts", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_appendFilteredContacts"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "filteredContacts", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "filteredContacts"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "applyFilters", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "applyFilters"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getPresence", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "getPresence"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "sourceNames", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "sourceNames"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "contactGroups", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "contactGroups"), _class2.prototype)), _class2)) || _class);
 exports.ContactListUI = ContactListUI;
 //# sourceMappingURL=ContactListUI.js.map

@@ -1,15 +1,17 @@
 import moment from 'moment';
 import { AutoSizer } from 'react-virtualized';
-import React, { FunctionComponent, useMemo, useCallback } from 'react';
-import {
-  CallLog,
-  CallLogMenu,
-} from 'ringcentral-integration/interfaces/CallLog.interface';
+import React, {
+  FunctionComponent,
+  useMemo,
+  useCallback,
+  useRef,
+  useEffect,
+} from 'react';
 
 import { CallHistoryItem } from './CallHistoryItem';
 import { StickyVirtualizedList } from './StickyVirtualizedList';
 import { RowRendererProps } from './StickyVirtualizedList/StickyVirtualizedList.interface';
-import { CallsTree } from './CallHistoryPanel.interface';
+import { CallLog, CallLogMenu, CallsTree } from './CallHistoryPanel.interface';
 import styles from './styles.scss';
 import i18n from './i18n';
 
@@ -18,6 +20,8 @@ export type CallHistoryPanelProps = {
   currentLocale: string;
   getActionMenu?: (call: CallLog) => CallLogMenu;
   isWide?: boolean;
+  listScrollTop?: number;
+  changeListScrollTop?: (scrollTop: number) => void;
 };
 
 const DATE_ITEM_HEIGHT = 32; // ./styles.scss .date
@@ -53,7 +57,15 @@ export const CallHistoryPanel: FunctionComponent<CallHistoryPanelProps> = ({
   currentLocale,
   getActionMenu,
   isWide = true,
+  listScrollTop = 0,
+  changeListScrollTop = () => {},
 }) => {
+  const listRef = useRef(null);
+
+  useEffect(() => {
+    listRef.current?.setScrollTop(listScrollTop);
+  }, []);
+
   const tree = useMemo(() => {
     const _tree: CallsTree = {
       root: {
@@ -62,7 +74,6 @@ export const CallHistoryPanel: FunctionComponent<CallHistoryPanelProps> = ({
         children: [],
       },
     };
-
     calls.forEach((call: CallLog) => {
       const { id, startTime } = call;
 
@@ -101,6 +112,7 @@ export const CallHistoryPanel: FunctionComponent<CallHistoryPanelProps> = ({
   const getChildren = useCallback(
     (id: string) => {
       const node = tree[id];
+
       if (node.children) {
         return node.children.map((childId: string) => {
           const childNode = tree[childId];
@@ -124,7 +136,6 @@ export const CallHistoryPanel: FunctionComponent<CallHistoryPanelProps> = ({
   const rowRenderer = useCallback(
     ({ id, style }: RowRendererProps) => {
       const node = tree[id];
-
       if (node.children) {
         return (
           <div
@@ -153,18 +164,19 @@ export const CallHistoryPanel: FunctionComponent<CallHistoryPanelProps> = ({
   return (
     <div className={styles.callHistoryPanel}>
       {tree.root.children.length ? (
-        <AutoSizer>
-          {({ width, height }) => (
-            <StickyVirtualizedList
-              root={ROOT_NODE}
-              getChildren={getChildren}
-              rowRenderer={rowRenderer}
-              defaultRowHeight={64}
-              width={width}
-              height={height}
-            />
-          )}
-        </AutoSizer>
+        <StickyVirtualizedList
+          overscanRowCount={20}
+          root={ROOT_NODE}
+          getChildren={getChildren}
+          rowRenderer={rowRenderer}
+          defaultRowHeight={64}
+          width={window.innerWidth}
+          height={window.innerHeight}
+          onScroll={({ scrollTop }) => {
+            changeListScrollTop(scrollTop);
+          }}
+          ref={listRef}
+        />
       ) : (
         <div className={styles.empty}>
           {i18n.getString('empty', currentLocale)}

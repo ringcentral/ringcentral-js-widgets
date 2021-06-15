@@ -5,7 +5,7 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = SaveLogButton;
+exports["default"] = void 0;
 
 var _juno = require("@ringcentral/juno");
 
@@ -25,12 +25,13 @@ var _styles = _interopRequireDefault(require("./styles.scss"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function SaveLogButton(_ref) {
+var SaveLogButton = function SaveLogButton(_ref) {
   var onSaveCallLog = _ref.onSaveCallLog,
       currentLocale = _ref.currentLocale,
       currentLog = _ref.currentLog,
       loading = _ref.loading,
-      isWide = _ref.isWide;
+      isWide = _ref.isWide,
+      disabled = _ref.disabled;
 
   var _getButtonStatus = (0, _getButtonStatus2.getButtonStatus)(currentLog.currentLogCall),
       buttonDisabled = _getButtonStatus.buttonDisabled,
@@ -38,7 +39,7 @@ function SaveLogButton(_ref) {
 
   var getContent = function getContent(buttonContent) {
     return /*#__PURE__*/_react["default"].createElement("span", null, buttonContent === 'saved' && /*#__PURE__*/_react["default"].createElement(_juno.RcIcon, {
-      color: ['primary', 'main'],
+      color: "interactive.f01",
       symbol: _Check["default"],
       size: "small"
     }), buttonContent === 'saving' && /*#__PURE__*/_react["default"].createElement(_juno.RcCircularProgress, {
@@ -51,27 +52,31 @@ function SaveLogButton(_ref) {
     className: (0, _classnames["default"])(_styles["default"].button, !isWide && _styles["default"].classic),
     variant: "text",
     size: "medium",
-    disabled: buttonDisabled || loading,
+    disabled: buttonDisabled || loading || disabled,
     "data-sign": "saveCall",
     "data-state": buttonContent,
     onClick: function onClick() {
       return onSaveCallLog(currentLog.call);
     }
   }, content);
-}
+};
 
 SaveLogButton.propTypes = {
   currentLog: _propTypes["default"].object,
   currentLocale: _propTypes["default"].string,
   onSaveCallLog: _propTypes["default"].func,
   loading: _propTypes["default"].bool,
-  isWide: _propTypes["default"].bool
+  isWide: _propTypes["default"].bool,
+  disabled: _propTypes["default"].bool
 };
 SaveLogButton.defaultProps = {
   currentLog: null,
   currentLocale: null,
   onSaveCallLog: function onSaveCallLog() {},
   loading: false,
-  isWide: true
+  isWide: true,
+  disabled: false
 };
+var _default = SaveLogButton;
+exports["default"] = _default;
 //# sourceMappingURL=SaveLogButton.js.map

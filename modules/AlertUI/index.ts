@@ -1,3 +1,1 @@
-import AlertUI from './AlertUI';
-
-export default AlertUI;
+export * from './AlertUI';

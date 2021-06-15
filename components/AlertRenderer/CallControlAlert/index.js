@@ -13,10 +13,6 @@ var _i18n = _interopRequireDefault(require("./i18n"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-/**
- * @file call control alert
- * it be used in <SimpleActiveCallCtrlPage>
- */
 function CallControlAlert(_ref) {
   var message = _ref.message.message,
       currentLocale = _ref.currentLocale;

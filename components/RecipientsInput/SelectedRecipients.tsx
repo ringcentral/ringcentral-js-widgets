@@ -29,6 +29,7 @@ export const SelectedRecipients: React.SFC<SelectedRecipientsProps> = ({
       <ul className={classnames(className, styles.selectReceivers)}>
         {recipients.map((item) => (
           <SelectedRecipientItem
+            {...item}
             key={item.phoneNumber}
             name={item.name}
             phoneNumber={item.phoneNumber}
@@ -42,6 +43,7 @@ export const SelectedRecipients: React.SFC<SelectedRecipientsProps> = ({
     return (
       <ul className={classnames(className, styles.selectReceivers)}>
         <SelectedRecipientItem
+          {...recipient}
           key={recipient.phoneNumber}
           name={recipient.name}
           phoneNumber={recipient.phoneNumber}

@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/ConversationPanel/i18n/pt-BR.js"],"names":["dncAlert"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,QAAQ,EAAE;AADG,C,EAIf","sourcesContent":["export default {\n  dncAlert: \"Este contato está em uma lista de Não ligar.\"\n};\n\n// @key: @#@\"dncAlert\"@#@ @source: @#@\"This contact is on a Do Not Call list.\"@#@\n"],"file":"pt-BR.js"}

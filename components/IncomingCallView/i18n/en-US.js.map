@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/IncomingCallView/i18n/en-US.ts"],"names":["unknown","anonymous","activeCall"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,OAAO,EAAE,SADI;AAEbC,EAAAA,SAAS,EAAE,WAFE;AAGbC,EAAAA,UAAU,EAAE;AAHC,C","sourcesContent":["export default {\n  unknown: 'Unknown',\n  anonymous: 'Anonymous',\n  activeCall: 'Active Call',\n};\n"],"file":"en-US.js"}

@@ -20,7 +20,7 @@ var _default = {
   viewDetails: "세부 정보 보기",
   addEntity: "새로 만들기",
   addLog: "기록",
-  text: "텍스트",
+  text: "문자",
   call: "통화",
   addContact: "연락처 추가",
   missedCall: "부재중",

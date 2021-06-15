@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef } from 'react';
 import sleep from 'ringcentral-integration/lib/sleep';
 import { RcMMeetingModel } from 'ringcentral-integration/modules/MeetingV2';
 import { RcVMeetingModel } from 'ringcentral-integration/interfaces/Rcv.model';
@@ -7,7 +7,7 @@ import MeetingConfigs from '../MeetingConfigs';
 import isSafari from '../../lib/isSafari';
 
 import { VideoConfig } from '../VideoPanel/VideoConfig';
-import { Topic } from '../InnerTopic';
+import { Topic, TopicRef } from '../InnerTopic';
 import { MeetingConfigs as MeetingConfigsV2 } from '../MeetingConfigsV2';
 
 import { GenericMeetingPanelProps } from './interface';
@@ -16,7 +16,7 @@ import styles from './styles.scss';
 const GenericMeetingPanel: React.ComponentType<GenericMeetingPanelProps> = (
   props,
 ) => {
-  const [topicRef, setTopicRef] = useState(null);
+  const topicRef = useRef<TopicRef>(null);
 
   const { showCustom, CustomPanel } = props;
   if (showCustom) {
@@ -49,13 +49,14 @@ const GenericMeetingPanel: React.ComponentType<GenericMeetingPanelProps> = (
     isRCV,
     datePickerSize,
     timePickerSize,
+    checkboxSize,
     showLaunchMeetingBtn,
     launchMeeting,
     scheduleButtonLabel,
     appCode,
     schedule,
     showSpinner,
-    showAdminLock,
+    showRcvAdminLock,
     showPmiAlert,
     enablePersonalMeeting,
     enableWaitingRoom,
@@ -68,7 +69,7 @@ const GenericMeetingPanel: React.ComponentType<GenericMeetingPanelProps> = (
     labelPlacement,
     showSpinnerInConfigPanel,
     enableServiceWebSettings,
-    putRecurringMeetingInMiddle,
+    recurringMeetingPosition,
     defaultTopic,
   } = props;
 
@@ -121,8 +122,23 @@ const GenericMeetingPanel: React.ComponentType<GenericMeetingPanelProps> = (
           delegators={delegators}
           updateScheduleFor={updateScheduleFor}
           enableServiceWebSettings={enableServiceWebSettings}
-          putRecurringMeetingInMiddle={putRecurringMeetingInMiddle}
-        />
+          recurringMeetingPosition={recurringMeetingPosition}
+          datePickerSize={datePickerSize}
+          timePickerSize={timePickerSize}
+          checkboxSize={checkboxSize}
+        >
+          {showTopic && (
+            <Topic
+              name={(meeting as RcMMeetingModel).topic}
+              updateMeetingTopic={(topic) => {
+                updateMeetingSettings({ ...meeting, topic });
+              }}
+              currentLocale={currentLocale}
+              ref={topicRef}
+              defaultTopic={defaultTopic}
+            />
+          )}
+        </MeetingConfigsV2>
       )}
       {isRCV && (
         <VideoConfig
@@ -140,7 +156,8 @@ const GenericMeetingPanel: React.ComponentType<GenericMeetingPanelProps> = (
           init={init}
           datePickerSize={datePickerSize}
           timePickerSize={timePickerSize}
-          showAdminLock={showAdminLock}
+          checkboxSize={checkboxSize}
+          showRcvAdminLock={showRcvAdminLock}
           showPmiAlert={showPmiAlert}
           enableWaitingRoom={enableWaitingRoom}
           enablePersonalMeeting={enablePersonalMeeting}
@@ -158,7 +175,7 @@ const GenericMeetingPanel: React.ComponentType<GenericMeetingPanelProps> = (
                 updateMeetingSettings({ name });
               }}
               currentLocale={currentLocale}
-              setTopicRef={setTopicRef}
+              ref={topicRef}
               defaultTopic={defaultTopic}
             />
           )}
@@ -174,11 +191,15 @@ const GenericMeetingPanel: React.ComponentType<GenericMeetingPanelProps> = (
             if (!disabled) {
               await sleep(100);
               const opener = openNewWindow && isSafari() ? window.open() : null;
+
               const meetingSetting = isRCM
-                ? meeting
+                ? {
+                    ...meeting,
+                    topic: useRcmV2 ? topicRef.current?.value : meeting.topic,
+                  }
                 : {
                     ...meeting,
-                    name: topicRef.current.props.value,
+                    name: topicRef.current?.value,
                   };
               await schedule(meetingSetting, opener);
             }
@@ -209,7 +230,7 @@ GenericMeetingPanel.defaultProps = {
   audioOptionToggle: false,
   onOK: undefined,
   scheduleButton: undefined,
-  showAdminLock: false,
+  showRcvAdminLock: false,
   showPmiAlert: false,
   enableWaitingRoom: false,
   enablePersonalMeeting: false,
@@ -224,7 +245,7 @@ GenericMeetingPanel.defaultProps = {
   useRcmV2: false,
   labelPlacement: 'start',
   enableServiceWebSettings: false,
-  putRecurringMeetingInMiddle: false,
+  recurringMeetingPosition: 'middle',
 };
 
 export { GenericMeetingPanel };

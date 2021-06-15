@@ -3,6 +3,7 @@ import {
   RcRadioGroup,
   RcFormControlLabel,
   RcRadioGroupProps,
+  RcTypography,
 } from '@ringcentral/juno';
 import React, { FunctionComponent } from 'react';
 
@@ -18,6 +19,7 @@ export type RadioFieldProps = {
 export const RadioField: FunctionComponent<RadioFieldProps> = ({
   value,
   options,
+  classes,
   onChange,
 }) => {
   return (
@@ -26,9 +28,10 @@ export const RadioField: FunctionComponent<RadioFieldProps> = ({
         <RcFormControlLabel
           key={`label-${i}`}
           value={item.value}
-          control={<RcRadio key={`radio-${i}`} />}
+          control={<RcRadio key={`radio-${i}`} size="small" />}
           label={item.label}
           disabled={item.disabled}
+          classes={classes}
         />
       ))}
     </RcRadioGroup>

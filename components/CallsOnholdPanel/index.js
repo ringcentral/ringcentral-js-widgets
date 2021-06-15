@@ -5,7 +5,7 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = CallsOnholdContainer;
+exports["default"] = void 0;
 
 require("core-js/modules/es6.array.map");
 
@@ -29,7 +29,7 @@ var _Combine = _interopRequireDefault(require("../../assets/images/Combine.svg")
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function CallsOnholdContainer(_ref) {
+var CallsOnholdContainer = function CallsOnholdContainer(_ref) {
   var calls = _ref.calls,
       currentLocale = _ref.currentLocale,
       areaCode = _ref.areaCode,
@@ -106,7 +106,7 @@ function CallsOnholdContainer(_ref) {
     showBorder: false,
     onClick: onAdd
   })))));
-}
+};
 
 CallsOnholdContainer.propTypes = {
   currentLocale: _propTypes["default"].string.isRequired,
@@ -152,4 +152,6 @@ CallsOnholdContainer.defaultProps = {
     return i;
   }
 };
+var _default = CallsOnholdContainer;
+exports["default"] = _default;
 //# sourceMappingURL=index.js.map

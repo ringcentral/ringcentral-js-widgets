@@ -8,7 +8,7 @@ Object.defineProperty(exports, "__esModule", {
 exports["default"] = void 0;
 var _default = {
   eula: "Contrato de Licença do Utilizador Final",
-  eulaAbbr: "EULA",
+  eulaAbbr: "CLUF",
   serviceTerms: "Termos de Serviço",
   termsOfService: "Termos e Condições."
 }; // @key: @#@"eula"@#@ @source: @#@"End User License Agreement"@#@

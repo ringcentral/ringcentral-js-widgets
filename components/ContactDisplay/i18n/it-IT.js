@@ -10,7 +10,7 @@ var _default = {
   logging: "Connessione...",
   logCall: "Registra chiamata",
   editLog: "Modifica registro",
-  select: "Scegli corrisp.",
+  select: "Seleziona registrazione",
   OnHold: "In attesa",
   Ringing: "Squillo",
   CallConnected: "Chiamata connessa",
@@ -22,7 +22,7 @@ var _default = {
 }; // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
 // @key: @#@"logCall"@#@ @source: @#@"Log Call"@#@
 // @key: @#@"editLog"@#@ @source: @#@"Edit Log"@#@
-// @key: @#@"select"@#@ @source: @#@"Select matching"@#@
+// @key: @#@"select"@#@ @source: @#@"Select record"@#@
 // @key: @#@"OnHold"@#@ @source: @#@"On Hold"@#@
 // @key: @#@"Ringing"@#@ @source: @#@"Ringing"@#@
 // @key: @#@"CallConnected"@#@ @source: @#@"Call Connected"@#@

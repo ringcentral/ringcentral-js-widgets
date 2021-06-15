@@ -1,1 +1,1 @@
-{"version":3,"sources":["modules/CallHistoryUI/i18n/it-IT.js"],"names":["title"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,KAAK,EAAE;AADM,C,EAIf","sourcesContent":["export default {\n  title: \"Cronologia\"\n};\n\n// @key: @#@\"title\"@#@ @source: @#@\"History\"@#@\n"],"file":"it-IT.js"}
+{"version":3,"sources":["modules/CallHistoryUI/i18n/it-IT.ts"],"names":["title"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,KAAK,EAAE;AADM,C,EAIf","sourcesContent":["export default {\n  title: \"Cronologia\"\n};\n\n// @key: @#@\"title\"@#@ @source: @#@\"History\"@#@\n"],"file":"it-IT.js"}

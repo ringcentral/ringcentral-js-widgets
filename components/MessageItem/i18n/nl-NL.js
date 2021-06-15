@@ -19,7 +19,7 @@ var _default = (_addLog$editLog$viewD = {
   addLog: "Log",
   editLog: "Log bewerken",
   viewDetails: "Details weergeven",
-  addEntity: "Nieuw maken",
+  addEntity: "Nieuwe maken",
   call: "Oproep",
   text: "Tekstbericht",
   conversation: "Gesprek",

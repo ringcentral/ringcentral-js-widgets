@@ -4,17 +4,6 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
 require("core-js/modules/es6.weak-map");
 
-require("core-js/modules/es6.array.find");
-
-require("core-js/modules/es6.array.reduce");
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.getMinutesList = getMinutesList;
-exports.getHoursList = getHoursList;
-exports.VideoConfig = exports.HOUR_SCALE = exports.MINUTE_SCALE = void 0;
-
 require("core-js/modules/es6.object.define-properties");
 
 require("core-js/modules/es7.object.get-own-property-descriptors");
@@ -22,6 +11,8 @@ require("core-js/modules/es7.object.get-own-property-descriptors");
 require("core-js/modules/es6.array.for-each");
 
 require("core-js/modules/es6.array.filter");
+
+require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
 
@@ -39,17 +30,28 @@ require("core-js/modules/es6.date.to-string");
 
 require("core-js/modules/es6.object.to-string");
 
-require("core-js/modules/web.dom.iterable");
-
 require("core-js/modules/es7.symbol.async-iterator");
 
 require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.array.is-array");
 
+require("core-js/modules/es6.array.find");
+
+require("core-js/modules/es6.array.reduce");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.getMinutesList = getMinutesList;
+exports.getHoursList = getHoursList;
+exports.VideoConfig = exports.HOUR_SCALE = exports.MINUTE_SCALE = void 0;
+
 require("core-js/modules/es6.function.name");
 
 require("core-js/modules/es6.array.map");
+
+require("core-js/modules/es6.array.slice");
 
 var _juno = require("@ringcentral/juno");
 
@@ -77,13 +79,13 @@ var _styles = _interopRequireDefault(require("./styles.scss"));
 
 var _VideoSecuritySettingItem = require("./VideoSecuritySettingItem");
 
-function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
+function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
@@ -97,7 +99,7 @@ function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o =
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+function _iterableToArrayLimit(arr, i) { var _i = arr && (typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]); if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
@@ -162,7 +164,7 @@ var VideoConfig = function VideoConfig(props) {
       showTopic = props.showTopic,
       showWhen = props.showWhen,
       showDuration = props.showDuration,
-      showAdminLock = props.showAdminLock,
+      showRcvAdminLock = props.showRcvAdminLock,
       showPmiAlert = props.showPmiAlert,
       enableWaitingRoom = props.enableWaitingRoom,
       enablePersonalMeeting = props.enablePersonalMeeting,
@@ -171,6 +173,7 @@ var VideoConfig = function VideoConfig(props) {
       updateHasSettingsChanged = props.updateHasSettingsChanged,
       datePickerSize = props.datePickerSize,
       timePickerSize = props.timePickerSize,
+      checkboxSize = props.checkboxSize,
       labelPlacement = props.labelPlacement,
       delegators = props.delegators,
       showScheduleOnBehalf = props.showScheduleOnBehalf,
@@ -261,16 +264,19 @@ var VideoConfig = function VideoConfig(props) {
   }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].meetingContent
   }, showSpinnerInConfigPanel ? /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay.SpinnerOverlay, null) : null, /*#__PURE__*/_react["default"].createElement("div", {
-    className: _styles["default"].meetingSection
+    className: (0, _classnames4["default"])(_styles["default"].meetingSection, _styles["default"].gutterTop)
   }, children), recipientsSection ? /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].meetingSection
   }, recipientsSection) : null, showWhen ? /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].meetingSection
+  }, /*#__PURE__*/_react["default"].createElement("div", {
+    className: _styles["default"].datePicker
   }, /*#__PURE__*/_react["default"].createElement(_juno.RcDatePicker, {
+    fullWidth: true,
+    gutterBottom: true,
     label: _i18n["default"].getString('date', currentLocale),
     "data-sign": "date",
     date: startTime,
-    fullWidth: true,
     clearBtn: false,
     formatString: "MM/DD/YYYY",
     size: datePickerSize,
@@ -279,10 +285,11 @@ var VideoConfig = function VideoConfig(props) {
         startTime: (0, _meetingHelper.updateFullYear)(startTime, value)
       });
     }
-  })) : null, showWhen ? /*#__PURE__*/_react["default"].createElement("div", {
-    className: _styles["default"].meetingSection
+  })), /*#__PURE__*/_react["default"].createElement("div", {
+    className: _styles["default"].timePicker
   }, /*#__PURE__*/_react["default"].createElement(_juno.RcTimePicker, {
     fullWidth: true,
+    gutterBottom: true,
     clearBtn: false,
     size: timePickerSize,
     label: _i18n["default"].getString('startTime', currentLocale),
@@ -294,11 +301,12 @@ var VideoConfig = function VideoConfig(props) {
         startTime: (0, _meetingHelper.updateFullTime)(startTime, value)
       });
     }
-  })) : null, showDuration ? /*#__PURE__*/_react["default"].createElement("div", {
+  }))) : null, showDuration ? /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].meetingSection
   }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].hourDuration
   }, /*#__PURE__*/_react["default"].createElement(_juno.RcSelect, {
+    fullWidth: true,
     gutterBottom: true,
     "data-sign": "durationHour",
     value: Math.floor(meeting.duration / 60),
@@ -309,9 +317,6 @@ var VideoConfig = function VideoConfig(props) {
       update({
         duration: durationInMinutes
       });
-    },
-    classes: {
-      root: _styles["default"].select
     },
     className: _styles["default"].select,
     label: _i18n["default"].getString('duration', currentLocale)
@@ -324,6 +329,7 @@ var VideoConfig = function VideoConfig(props) {
   }))), /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].minuteDuration
   }, /*#__PURE__*/_react["default"].createElement(_juno.RcSelect, {
+    fullWidth: true,
     gutterBottom: true,
     "data-sign": "durationMinute",
     required: true,
@@ -337,9 +343,6 @@ var VideoConfig = function VideoConfig(props) {
       update({
         duration: durationInMinutes
       });
-    },
-    classes: {
-      root: _styles["default"].select
     }
   }, minutesList.map(function (item, i) {
     return /*#__PURE__*/_react["default"].createElement(_juno.RcMenuItem, {
@@ -389,6 +392,7 @@ var VideoConfig = function VideoConfig(props) {
   }, /*#__PURE__*/_react["default"].createElement(_juno.RcCheckbox, {
     "data-sign": "usePersonalMeetingId",
     disabled: disabled,
+    size: checkboxSize,
     checked: meeting.usePersonalMeetingId,
     onChange: function onChange(ev, checked) {
       switchUsePersonalMeetingId(checked);
@@ -407,6 +411,7 @@ var VideoConfig = function VideoConfig(props) {
   }, /*#__PURE__*/_react["default"].createElement(_juno.RcCheckbox, {
     "data-sign": "muteAudio",
     disabled: disabled,
+    size: checkboxSize,
     checked: meeting.muteAudio,
     onChange: function onChange() {
       update({
@@ -422,6 +427,7 @@ var VideoConfig = function VideoConfig(props) {
   }, /*#__PURE__*/_react["default"].createElement(_juno.RcCheckbox, {
     "data-sign": "turnOffCamera",
     disabled: disabled,
+    size: checkboxSize,
     checked: meeting.muteVideo,
     onChange: function onChange() {
       update({
@@ -436,13 +442,14 @@ var VideoConfig = function VideoConfig(props) {
     labelPlacement: labelPlacement,
     dataSign: "requirePasswordWrapper",
     hasScrollBar: hasScrollBar,
-    isLock: showAdminLock && meeting.settingLock.isMeetingSecret,
+    isLock: showRcvAdminLock && meeting.settingLock.isMeetingSecret,
     currentLocale: currentLocale,
     label: _i18n["default"].getString('requirePassword', currentLocale)
   }, /*#__PURE__*/_react["default"].createElement(_juno.RcCheckbox, {
     "data-sign": "requirePassword",
     checked: meeting.isMeetingSecret,
-    disabled: disabled || showAdminLock && meeting.settingLock.isMeetingSecret,
+    disabled: disabled || showRcvAdminLock && meeting.settingLock.isMeetingSecret,
+    size: checkboxSize,
     onChange: function onChange() {
       var next = !meeting.isMeetingSecret;
       update({
@@ -483,13 +490,14 @@ var VideoConfig = function VideoConfig(props) {
     labelPlacement: labelPlacement,
     dataSign: "allowJoinBeforeHostWrapper",
     hasScrollBar: hasScrollBar,
-    isLock: showAdminLock && meeting.settingLock.allowJoinBeforeHost,
+    isLock: showRcvAdminLock && meeting.settingLock.allowJoinBeforeHost,
     currentLocale: currentLocale,
     label: _i18n["default"].getString(joinBeforeHostLabel, currentLocale)
   }, /*#__PURE__*/_react["default"].createElement(_juno.RcCheckbox, {
     "data-sign": "allowJoinBeforeHost",
     checked: !meeting.allowJoinBeforeHost,
-    disabled: showAdminLock && meeting.settingLock.allowJoinBeforeHost || enableWaitingRoom && meeting.waitingRoomMode === _RcVideo.RCV_WAITING_ROOM_MODE.all || disabled,
+    disabled: showRcvAdminLock && meeting.settingLock.allowJoinBeforeHost || enableWaitingRoom && meeting.waitingRoomMode === _RcVideo.RCV_WAITING_ROOM_MODE.all || disabled,
+    size: checkboxSize,
     onChange: function onChange() {
       update({
         allowJoinBeforeHost: !meeting.allowJoinBeforeHost
@@ -499,13 +507,14 @@ var VideoConfig = function VideoConfig(props) {
     labelPlacement: labelPlacement,
     dataSign: "isWaitingRoomWrapper",
     hasScrollBar: hasScrollBar,
-    isLock: showAdminLock && meeting.settingLock.waitingRoomMode,
+    isLock: showRcvAdminLock && meeting.settingLock.waitingRoomMode,
     currentLocale: currentLocale,
     label: _i18n["default"].getString(meeting.waitingRoomMode ? 'waitingRoom' : 'enableWaitingRoom', currentLocale)
   }, /*#__PURE__*/_react["default"].createElement(_juno.RcCheckbox, {
     "data-sign": "enableWaitingRoom",
     checked: !!meeting.waitingRoomMode,
-    disabled: disabled || showAdminLock && meeting.settingLock.waitingRoomMode,
+    disabled: disabled || showRcvAdminLock && meeting.settingLock.waitingRoomMode,
+    size: checkboxSize,
     onChange: function onChange(ev, checked) {
       update({
         waitingRoomMode: checked ? _RcVideo.RCV_WAITING_ROOM_MODE.notcoworker : _RcVideo.RCV_WAITING_ROOM_MODE.off
@@ -519,7 +528,7 @@ var VideoConfig = function VideoConfig(props) {
     "data-test-automation-id": "waitingRoom",
     className: _styles["default"].boxSelect,
     fullWidth: true,
-    disabled: disabled || showAdminLock && meeting.settingLock.waitingRoomMode,
+    disabled: disabled || showRcvAdminLock && meeting.settingLock.waitingRoomMode,
     onChange: function onChange(e) {
       update({
         waitingRoomMode: e.target.value
@@ -529,25 +538,29 @@ var VideoConfig = function VideoConfig(props) {
   }, /*#__PURE__*/_react["default"].createElement(_juno.RcMenuItem, {
     "data-sign": "waitingRoomNotCoworker",
     disabled: meeting.isOnlyCoworkersJoin,
-    value: _RcVideo.RCV_WAITING_ROOM_MODE.notcoworker
+    value: _RcVideo.RCV_WAITING_ROOM_MODE.notcoworker,
+    className: _styles["default"].boxSelectMenuItem
   }, _i18n["default"].getString('waitingRoomNotCoworker', currentLocale)), /*#__PURE__*/_react["default"].createElement(_juno.RcMenuItem, {
     "data-sign": "waitingRoomGuest",
     disabled: meeting.isOnlyAuthUserJoin,
-    value: _RcVideo.RCV_WAITING_ROOM_MODE.guests
+    value: _RcVideo.RCV_WAITING_ROOM_MODE.guests,
+    className: _styles["default"].boxSelectMenuItem
   }, _i18n["default"].getString('waitingRoomGuest', currentLocale)), /*#__PURE__*/_react["default"].createElement(_juno.RcMenuItem, {
     "data-sign": "waitingRoomAll",
-    value: _RcVideo.RCV_WAITING_ROOM_MODE.all
+    value: _RcVideo.RCV_WAITING_ROOM_MODE.all,
+    className: _styles["default"].boxSelectMenuItem
   }, _i18n["default"].getString('waitingRoomAll', currentLocale)))) : null) : null, /*#__PURE__*/_react["default"].createElement(_VideoSecuritySettingItem.VideoSecuritySettingsItem, {
     labelPlacement: labelPlacement,
     dataSign: "isOnlyAuthUserJoinWrapper",
     hasScrollBar: hasScrollBar,
-    isLock: showAdminLock && meeting.settingLock.isOnlyAuthUserJoin,
+    isLock: showRcvAdminLock && meeting.settingLock.isOnlyAuthUserJoin,
     currentLocale: currentLocale,
     label: _i18n["default"].getString('onlyAuthUserJoin', currentLocale)
   }, /*#__PURE__*/_react["default"].createElement(_juno.RcCheckbox, {
     "data-sign": "isOnlyAuthUserJoin",
     checked: meeting.isOnlyAuthUserJoin,
-    disabled: disabled || showAdminLock && meeting.settingLock.isOnlyAuthUserJoin,
+    disabled: disabled || showRcvAdminLock && meeting.settingLock.isOnlyAuthUserJoin,
+    size: checkboxSize,
     onChange: function onChange(ev, checked) {
       update({
         isOnlyAuthUserJoin: checked,
@@ -560,7 +573,7 @@ var VideoConfig = function VideoConfig(props) {
     variant: "box",
     "data-test-automation-id": "authUserType",
     "data-sign": "authUserType",
-    disabled: disabled || showAdminLock && meeting.settingLock.isOnlyCoworkersJoin,
+    disabled: disabled || showRcvAdminLock && meeting.settingLock.isOnlyCoworkersJoin,
     className: _styles["default"].boxSelect,
     fullWidth: true,
     onChange: function onChange(e) {
@@ -578,13 +591,14 @@ var VideoConfig = function VideoConfig(props) {
     labelPlacement: labelPlacement,
     dataSign: "limitScreenSharingWrapper",
     hasScrollBar: hasScrollBar,
-    isLock: showAdminLock && meeting.settingLock.allowScreenSharing,
+    isLock: showRcvAdminLock && meeting.settingLock.allowScreenSharing,
     currentLocale: currentLocale,
     label: _i18n["default"].getString('limitScreenSharing', currentLocale)
   }, /*#__PURE__*/_react["default"].createElement(_juno.RcCheckbox, {
     "data-sign": "limitScreenSharing",
     checked: !meeting.allowScreenSharing,
-    disabled: disabled || showAdminLock && meeting.settingLock.allowScreenSharing,
+    disabled: disabled || showRcvAdminLock && meeting.settingLock.allowScreenSharing,
+    size: checkboxSize,
     onChange: function onChange() {
       update({
         allowScreenSharing: !meeting.allowScreenSharing
@@ -599,12 +613,13 @@ VideoConfig.defaultProps = {
   showTopic: true,
   showWhen: true,
   showDuration: true,
-  showAdminLock: false,
+  showRcvAdminLock: false,
   showPmiAlert: false,
   enablePersonalMeeting: false,
   enableWaitingRoom: false,
   datePickerSize: 'medium',
   timePickerSize: 'medium',
-  labelPlacement: 'start'
+  labelPlacement: 'start',
+  checkboxSize: 'medium'
 };
 //# sourceMappingURL=VideoConfig.js.map

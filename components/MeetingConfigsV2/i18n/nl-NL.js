@@ -9,30 +9,38 @@ require("core-js/modules/es6.object.define-property");
 
 var _Meeting = require("ringcentral-integration/modules/Meeting");
 
-var _date$time$duration$t;
+var _date$time$hours$minu;
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-var _default = (_date$time$duration$t = {
+var _default = (_date$time$hours$minu = {
   date: "Datum",
   time: "Tijdstip",
+  hours: "{howMany} u.",
+  minutes: "{howMany} min.",
+  today: "Vandaag",
   duration: "Duur",
   topic: "Titel meeting",
   voIPOnly: "Alleen internetaudio",
   telephonyOnly: "Alleen telefoon",
-  both: "Telefoon- en internetaudio",
+  both: "Audio telefoon en internet",
+  thirdParty: "Audio derde partij",
   meetingId: "Meeting-ID",
   password: "Wachtwoord",
   video: "Video",
   audio: "Audio",
   scheduleFor: "Plan namens"
-}, _defineProperty(_date$time$duration$t, _Meeting.ASSISTED_USERS_MYSELF, "Ikzelf"), _defineProperty(_date$time$duration$t, "meetingOptions", "Meetingsopties"), _defineProperty(_date$time$duration$t, "meetingSettings", "Meetingsinstellingen"), _defineProperty(_date$time$duration$t, "rcMeetingSettings", "Instellingen videovergaderingen"), _defineProperty(_date$time$duration$t, "audioOptions", "Audio-opties"), _defineProperty(_date$time$duration$t, "recurringMeeting", "Terugkerende meeting"), _defineProperty(_date$time$duration$t, "recurringNote", "Opmerking: schakel deze in bij het kiezen van 'Terugkerend'"), _defineProperty(_date$time$duration$t, "joinBeforeHost", "Deelnemers toestaan voor de host binnen te komen"), _defineProperty(_date$time$duration$t, "turnOffCamera", "Camera uitschakelen voor deelnemers"), _defineProperty(_date$time$duration$t, "turnOffHostCamera", "Schakel camera uit voor host wanneer u deelneemt aan een meeting"), _defineProperty(_date$time$duration$t, "requirePassword", "Wachtwoord verplichten"), _defineProperty(_date$time$duration$t, "enterPassword", "Wachtwoord invoeren"), _defineProperty(_date$time$duration$t, "setPassword", "Wachtwoord instellen *"), _defineProperty(_date$time$duration$t, "passwordEmptyError", "Wachtwoord voor meeting verplicht"), _defineProperty(_date$time$duration$t, "rcmPasswordInvalidError", "Uw wachtwoord moet 1-10 tekens en cijfers lang zijn en mag geen symbolen bevatten, behalve @, * of -"), _defineProperty(_date$time$duration$t, "rcmPasswordHintText", "Uw wachtwoord moet 1-10 tekens en cijfers lang zijn en mag geen symbolen bevatten, behalve @, * of -"), _defineProperty(_date$time$duration$t, "usePersonalMeetingId", "Persoonlijke meeting-ID gebruiken"), _defineProperty(_date$time$duration$t, "pmiChangeConfirm", "Als u wijzigingen wilt aanbrengen voor uw persoonlijke meeting, "), _defineProperty(_date$time$duration$t, "changePmiSettings", "PMI-instellingen wijzigen"), _defineProperty(_date$time$duration$t, "pmiSettingChangeAlert", "Als u de instellingen wijzigt en deze meetings plant, gebruiken alle meetings met persoonlijke meeting-ID dezelfde nieuwe instellingen."), _defineProperty(_date$time$duration$t, "lockedTooltip", "Deze instelling wordt beheerd door uw bedrijfsbeheerder"), _defineProperty(_date$time$duration$t, "when", "Wanneer"), _defineProperty(_date$time$duration$t, "recurringDescribe", "Vergeet niet om terugkeren of herhaling aan te vinken in uw agenda-uitnodiging voor uw bezoekers."), _date$time$duration$t); // @key: @#@"date"@#@ @source: @#@"Date"@#@
+}, _defineProperty(_date$time$hours$minu, _Meeting.ASSISTED_USERS_MYSELF, "Ikzelf"), _defineProperty(_date$time$hours$minu, "meetingOptions", "Meetingsopties"), _defineProperty(_date$time$hours$minu, "meetingSettings", "Meetingsinstellingen"), _defineProperty(_date$time$hours$minu, "rcMeetingSettings", "Instellingen videovergaderingen"), _defineProperty(_date$time$hours$minu, "audioOptions", "Audio-opties"), _defineProperty(_date$time$hours$minu, "recurringMeeting", "Terugkerende meeting"), _defineProperty(_date$time$hours$minu, "recurringNote", "Opmerking: schakel deze in bij het kiezen van 'Terugkerend'"), _defineProperty(_date$time$hours$minu, "joinBeforeHost", "Deelnemers toestaan voor de host binnen te komen"), _defineProperty(_date$time$hours$minu, "turnOffCamera", "Camera uitschakelen voor deelnemers"), _defineProperty(_date$time$hours$minu, "turnOffHostCamera", "Schakel camera uit voor host wanneer u deelneemt aan een meeting"), _defineProperty(_date$time$hours$minu, "requirePassword", "Wachtwoord verplichten"), _defineProperty(_date$time$hours$minu, "enterPassword", "Wachtwoord invoeren"), _defineProperty(_date$time$hours$minu, "setPassword", "Wachtwoord instellen *"), _defineProperty(_date$time$hours$minu, "passwordEmptyError", "Wachtwoord voor meeting verplicht"), _defineProperty(_date$time$hours$minu, "rcmPasswordInvalidError", "Uw wachtwoord moet 1-10 tekens en cijfers lang zijn en mag geen symbolen bevatten, behalve @, * of -"), _defineProperty(_date$time$hours$minu, "rcmPasswordHintText", "Uw wachtwoord moet 1-10 tekens en cijfers lang zijn en mag geen symbolen bevatten, behalve @, * of -"), _defineProperty(_date$time$hours$minu, "usePersonalMeetingId", "Persoonlijke meeting-ID gebruiken"), _defineProperty(_date$time$hours$minu, "pmiChangeConfirm", "Als u wijzigingen wilt aanbrengen voor uw persoonlijke meeting, "), _defineProperty(_date$time$hours$minu, "changePmiSettings", "PMI-instellingen wijzigen"), _defineProperty(_date$time$hours$minu, "pmiSettingChangeAlert", "Als u de instellingen wijzigt en deze meetings plant, gebruiken alle meetings met persoonlijke meeting-ID dezelfde nieuwe instellingen."), _defineProperty(_date$time$hours$minu, "lockedTooltip", "Deze instelling wordt beheerd door uw bedrijfsbeheerder"), _defineProperty(_date$time$hours$minu, "when", "Wanneer"), _defineProperty(_date$time$hours$minu, "recurringDescribe", "Vergeet niet om terugkeren of herhaling aan te vinken in uw agenda-uitnodiging voor uw bezoekers."), _date$time$hours$minu); // @key: @#@"date"@#@ @source: @#@"Date"@#@
 // @key: @#@"time"@#@ @source: @#@"Time"@#@
+// @key: @#@"hours"@#@ @source: @#@"{howMany} hr"@#@
+// @key: @#@"minutes"@#@ @source: @#@"{howMany} min"@#@
+// @key: @#@"today"@#@ @source: @#@"Today"@#@
 // @key: @#@"duration"@#@ @source: @#@"Duration"@#@
 // @key: @#@"topic"@#@ @source: @#@"Meeting title"@#@
 // @key: @#@"voIPOnly"@#@ @source: @#@"Internet audio only"@#@
 // @key: @#@"telephonyOnly"@#@ @source: @#@"Telephone only"@#@
-// @key: @#@"both"@#@ @source: @#@"Telephone and Internet Audio"@#@
+// @key: @#@"both"@#@ @source: @#@"Telephone and Internet audio"@#@
+// @key: @#@"thirdParty"@#@ @source: @#@"3rd party audio"@#@
 // @key: @#@"meetingId"@#@ @source: @#@"Meeting ID"@#@
 // @key: @#@"password"@#@ @source: @#@"Password"@#@
 // @key: @#@"video"@#@ @source: @#@"Video"@#@

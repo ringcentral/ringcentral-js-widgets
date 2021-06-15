@@ -1,9 +1,6 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.ContactDetailsUI = void 0;
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -25,6 +22,8 @@ require("core-js/modules/es6.object.set-prototype-of");
 
 require("core-js/modules/es6.object.define-property");
 
+require("core-js/modules/es6.array.slice");
+
 require("core-js/modules/es6.array.reduce");
 
 require("core-js/modules/web.dom.iterable");
@@ -34,6 +33,11 @@ require("core-js/modules/es6.array.iterator");
 require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.for-each");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.ContactDetailsUI = void 0;
 
 require("core-js/modules/es6.regexp.to-string");
 
@@ -61,13 +65,11 @@ var _trackEvents = require("./trackEvents");
 
 var _contactReadyStates = require("./contactReadyStates");
 
-var _dec, _dec2, _dec3, _class, _class2, _descriptor, _descriptor2, _temp;
+var _dec, _dec2, _dec3, _class, _class2, _descriptor, _descriptor2;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
@@ -95,7 +97,7 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
@@ -107,11 +109,11 @@ var DEFAULT_DIALER_ROUTE = '/dialer';
 var DEFAULT_COMPOSE_TEXT_ROUTE = '/composeText';
 var ContactDetailsUI = (_dec = (0, _di.Module)({
   name: 'ContactDetailsUI',
-  deps: ['Locale', 'RouterInteraction', 'ContactSearch', 'Contacts', 'ExtensionInfo', 'RolesAndPermissions', 'RateLimiter', 'RegionSettings', 'ConnectivityManager', 'Call', 'DialerUI', 'ComposeText', {
+  deps: ['Locale', 'RouterInteraction', 'ContactSearch', 'Contacts', 'ExtensionInfo', 'ExtensionFeatures', 'RateLimiter', 'RegionSettings', 'ConnectivityManager', 'Call', 'DialerUI', 'ComposeText', {
     dep: 'ContactDetailsUIOptions',
     optional: true
   }]
-}), _dec2 = (0, _core.track)(_trackEvents.trackEvents.clickToCall), _dec3 = (0, _core.track)(_trackEvents.trackEvents.clickToSMS), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcUIModuleV) {
+}), _dec2 = (0, _core.track)(_trackEvents.trackEvents.clickToCall), _dec3 = (0, _core.track)(_trackEvents.trackEvents.clickToSMS), _dec(_class = (_class2 = /*#__PURE__*/function (_RcUIModuleV) {
   _inherits(ContactDetailsUI, _RcUIModuleV);
 
   var _super = _createSuper(ContactDetailsUI);
@@ -344,7 +346,7 @@ var ContactDetailsUI = (_dec = (0, _di.Module)({
         isMultipleSiteEnabled: (_this$_deps$extension = this._deps.extensionInfo.isMultipleSiteEnabled) !== null && _this$_deps$extension !== void 0 ? _this$_deps$extension : false,
         isCallButtonDisabled: !!(((_this$_deps$connectiv = this._deps.connectivityManager) === null || _this$_deps$connectiv === void 0 ? void 0 : _this$_deps$connectiv.isOfflineMode) || ((_this$_deps$connectiv2 = this._deps.connectivityManager) === null || _this$_deps$connectiv2 === void 0 ? void 0 : _this$_deps$connectiv2.isWebphoneUnavailableMode) || ((_this$_deps$connectiv3 = this._deps.connectivityManager) === null || _this$_deps$connectiv3 === void 0 ? void 0 : _this$_deps$connectiv3.isWebphoneInitializing) || ((_this$_deps$rateLimit = this._deps.rateLimiter) === null || _this$_deps$rateLimit === void 0 ? void 0 : _this$_deps$rateLimit.throttling)),
         disableLinks: !!(((_this$_deps$connectiv4 = this._deps.connectivityManager) === null || _this$_deps$connectiv4 === void 0 ? void 0 : _this$_deps$connectiv4.isOfflineMode) || ((_this$_deps$connectiv5 = this._deps.connectivityManager) === null || _this$_deps$connectiv5 === void 0 ? void 0 : _this$_deps$connectiv5.isVoipOnlyMode) || ((_this$_deps$rateLimit2 = this._deps.rateLimiter) === null || _this$_deps$rateLimit2 === void 0 ? void 0 : _this$_deps$rateLimit2.throttling)),
-        showSpinner: !(this.currentContactReadyState === _contactReadyStates.contactReadyStates.loaded && this._deps.locale.ready && this._deps.contactSearch.ready && this._deps.rolesAndPermissions.ready)
+        showSpinner: !(this.currentContactReadyState === _contactReadyStates.contactReadyStates.loaded && this._deps.locale.ready && this._deps.contactSearch.ready && this._deps.extensionFeatures.ready)
       };
     }
   }, {
@@ -399,18 +401,14 @@ var ContactDetailsUI = (_dec = (0, _di.Module)({
           return phoneNumber;
         },
         canTextButtonShow: function canTextButtonShow(phoneType) {
-          var _this2$_deps$rolesAnd, _this2$_deps$rolesAnd2;
-
-          var outboundSmsPermission = !!((_this2$_deps$rolesAnd = _this2._deps.rolesAndPermissions.permissions.OutboundSMS) !== null && _this2$_deps$rolesAnd !== void 0 ? _this2$_deps$rolesAnd : false);
-          var internalSmsPermission = !!((_this2$_deps$rolesAnd2 = _this2._deps.rolesAndPermissions.permissions.InternalSMS) !== null && _this2$_deps$rolesAnd2 !== void 0 ? _this2$_deps$rolesAnd2 : false); // guess this statement is to avoid exception
+          var outboundSmsPermission = _this2._deps.extensionFeatures.hasOutboundSMSPermission;
+          var internalSmsPermission = _this2._deps.extensionFeatures.hasInternalSMSPermission; // guess this statement is to avoid exception
 
           var isClickToTextEnabled = !!_this2._deps.composeText;
           return isClickToTextEnabled && phoneType !== _phoneTypes.phoneTypes.fax && (phoneType === _phoneTypes.phoneTypes.extension ? internalSmsPermission : outboundSmsPermission);
         },
         canCallButtonShow: function canCallButtonShow(phoneType) {
-          var _this2$_deps$rolesAnd3;
-
-          var isClickToDialEnabled = !!(_this2._deps.dialerUI && ((_this2$_deps$rolesAnd3 = _this2._deps.rolesAndPermissions.callingEnabled) !== null && _this2$_deps$rolesAnd3 !== void 0 ? _this2$_deps$rolesAnd3 : false));
+          var isClickToDialEnabled = !!(_this2._deps.dialerUI && _this2._deps.extensionFeatures.isCallingEnabled);
           return isClickToDialEnabled && phoneType !== _phoneTypes.phoneTypes.fax;
         },
         onBackClick: function onBackClick() {
@@ -427,7 +425,7 @@ var ContactDetailsUI = (_dec = (0, _di.Module)({
   }]);
 
   return ContactDetailsUI;
-}(_core.RcUIModuleV2), _temp), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "currentContact", [_core.state], {
+}(_core.RcUIModuleV2), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "currentContact", [_core.state], {
   configurable: true,
   enumerable: true,
   writable: true,

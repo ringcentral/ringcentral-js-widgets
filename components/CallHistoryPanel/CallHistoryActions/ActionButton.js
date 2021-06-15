@@ -17,15 +17,17 @@ var ActionButton = function ActionButton(_ref) {
   var icon = _ref.icon,
       label = _ref.label,
       disabled = _ref.disabled,
-      action = _ref.action;
+      action = _ref.action,
+      dataSign = _ref.dataSign;
   return /*#__PURE__*/_react["default"].createElement(_juno.RcIconButton, {
     symbol: icon,
-    color: "icon.primary",
+    color: "interactive.f01",
     size: "medium",
     variant: "plain",
     title: label,
     onClick: action,
-    disabled: disabled
+    disabled: disabled,
+    "data-sign": dataSign
   });
 };
 

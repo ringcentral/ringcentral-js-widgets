@@ -7,8 +7,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  createCallLog: "Maak een oproeplijst"
+  createCallLog: "Maak een oproeplijst",
+  viewInSalesforce: "Bekijken in Salesforce"
 }; // @key: @#@"createCallLog"@#@ @source: @#@"Create call log"@#@
+// @key: @#@"viewInSalesforce"@#@ @source: @#@"View in Salesforce"@#@
 
 exports["default"] = _default;
 //# sourceMappingURL=nl-NL.js.map

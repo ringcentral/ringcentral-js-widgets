@@ -6,12 +6,12 @@ import {
   RcMenuItem,
   RcSubMenu,
 } from '@ringcentral/juno';
-import { CallLogMenuItem } from 'ringcentral-integration/interfaces/CallLog.interface';
+import { CallLogMenuItem } from '../CallHistoryPanel.interface';
 
 import styles from './styles.scss';
 
 export const MenuButton: FunctionComponent<CallLogMenuItem> = memo(
-  ({ icon, label, disabled, subMenu }) => {
+  ({ icon, label, disabled, subMenu, dataSign }) => {
     const [anchorEl, setAnchorEl] = useState(null);
 
     const handleClick = (event: any) => {
@@ -28,6 +28,7 @@ export const MenuButton: FunctionComponent<CallLogMenuItem> = memo(
       disabled,
       action,
       subMenu,
+      dataSign,
     }: CallLogMenuItem) => {
       const menuIcon = icon && <RcIcon symbol={icon} size="small" />;
 
@@ -38,6 +39,7 @@ export const MenuButton: FunctionComponent<CallLogMenuItem> = memo(
             icon={menuIcon}
             key={label}
             disabled={disabled}
+            data-sign={dataSign}
           >
             {label}
           </RcMenuItem>
@@ -48,9 +50,10 @@ export const MenuButton: FunctionComponent<CallLogMenuItem> = memo(
         return (
           <RcSubMenu
             title={label}
-            titleIcon={menuIcon}
+            icon={menuIcon}
             key={label}
             disabled={disabled}
+            data-sign={dataSign}
           >
             {subMenu.map(renderMenuItem)}
           </RcSubMenu>
@@ -59,14 +62,14 @@ export const MenuButton: FunctionComponent<CallLogMenuItem> = memo(
     };
 
     return (
-      <div className={styles.menu}>
+      <>
         <RcIconButton
           onClick={handleClick}
           symbol={icon}
           size="medium"
           variant="plain"
-          title={label}
           disabled={disabled}
+          data-sign={dataSign}
         />
         <RcMenu
           anchorEl={anchorEl}
@@ -77,7 +80,7 @@ export const MenuButton: FunctionComponent<CallLogMenuItem> = memo(
         >
           {subMenu.map(renderMenuItem)}
         </RcMenu>
-      </div>
+      </>
     );
   },
 );

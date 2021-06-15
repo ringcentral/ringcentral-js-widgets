@@ -2,12 +2,12 @@
 
 require("core-js/modules/es6.object.define-property");
 
+require("core-js/modules/es6.symbol");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.AnimationMessage = void 0;
-
-require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.array.index-of");
 

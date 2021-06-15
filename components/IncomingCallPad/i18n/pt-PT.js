@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  forward: "Reencaminhar",
+  forward: "Reencam.",
   reply: "Responder",
   ignore: "Ignorar",
   toVoicemail: "Para o correio de voz",

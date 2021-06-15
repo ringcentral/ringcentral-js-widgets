@@ -1,15 +1,15 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = void 0;
-
 require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.object.assign");
 
 require("core-js/modules/es6.symbol");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
 
 require("core-js/modules/es6.array.index-of");
 

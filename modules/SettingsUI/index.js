@@ -1,9 +1,6 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = void 0;
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -11,19 +8,20 @@ require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.promise");
 
+require("core-js/modules/es6.object.to-string");
+
 require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.object.create");
 
-require("core-js/modules/es6.regexp.to-string");
-
-require("core-js/modules/es6.date.to-string");
-
-require("core-js/modules/es6.object.to-string");
-
 require("core-js/modules/es6.reflect.construct");
 
 require("core-js/modules/es6.object.set-prototype-of");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
 
 require("regenerator-runtime/runtime");
 
@@ -40,8 +38,6 @@ var _RcUIModule2 = _interopRequireDefault(require("../../lib/RcUIModule"));
 var _dec, _class;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -63,7 +59,7 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
@@ -79,7 +75,7 @@ var SettingsUI = (_dec = (0, _di.Module)({
   }, {
     dep: 'Presence',
     optional: true
-  }, 'AccountInfo', 'ExtensionInfo', 'RegionSettings', 'RolesAndPermissions', 'RouterInteraction', {
+  }, 'AccountInfo', 'ExtensionInfo', 'RegionSettings', 'ExtensionFeatures', 'RouterInteraction', {
     dep: 'CallingSettings',
     optional: true
   }, {
@@ -109,6 +105,8 @@ var SettingsUI = (_dec = (0, _di.Module)({
   _createClass(SettingsUI, [{
     key: "getUIProps",
     value: function getUIProps(_ref) {
+      var _extensionFeatures$fe, _extensionFeatures$fe2;
+
       var _ref$phone = _ref.phone,
           accountInfo = _ref$phone.accountInfo,
           auth = _ref$phone.auth,
@@ -119,8 +117,9 @@ var SettingsUI = (_dec = (0, _di.Module)({
           regionSettings = _ref$phone.regionSettings,
           callingSettings = _ref$phone.callingSettings,
           version = _ref$phone.version,
-          rolesAndPermissions = _ref$phone.rolesAndPermissions,
+          extensionFeatures = _ref$phone.extensionFeatures,
           presence = _ref$phone.presence,
+          userGuide = _ref$phone.userGuide,
           _ref$showRegion = _ref.showRegion,
           showRegion = _ref$showRegion === void 0 ? true : _ref$showRegion,
           _ref$showCalling = _ref.showCalling,
@@ -155,22 +154,22 @@ var SettingsUI = (_dec = (0, _di.Module)({
         loginNumber: loginNumber,
         showFeedback: showFeedback,
         showQuickAccess: showQuickAccess,
-        showSpinner: !(accountInfo.ready && auth.ready && loggedIn && extensionInfo.ready && locale.ready && regionSettings.ready && (!callingSettings || callingSettings.ready) && rolesAndPermissions.ready && (!presence || presence.ready) && (!localeSettings || localeSettings.ready)),
-        showCalling: showCalling && callingSettings && rolesAndPermissions.callingEnabled,
-        showAudio: showAudio && rolesAndPermissions.callingEnabled,
-        showRegion: loggedIn && brand.code === 'rc' && regionSettings.showReginSetting && rolesAndPermissions.callingEnabled && showRegion,
+        showSpinner: !(accountInfo.ready && auth.ready && loggedIn && extensionInfo.ready && locale.ready && regionSettings.ready && (!callingSettings || callingSettings.ready) && extensionFeatures.ready && (!presence || presence.ready) && (!localeSettings || localeSettings.ready)),
+        showCalling: showCalling && callingSettings && extensionFeatures.isCallingEnabled,
+        showAudio: showAudio && extensionFeatures.isCallingEnabled,
+        showRegion: loggedIn && brand.code === 'rc' && regionSettings.showReginSetting && extensionFeatures.isCallingEnabled && showRegion,
         currentLocale: locale.currentLocale,
         brandId: brand.id,
-        ringoutEnabled: rolesAndPermissions.ringoutEnabled,
-        outboundSMS: !!rolesAndPermissions.permissions.OutboundSMS || !!rolesAndPermissions.permissions.InternalSMS,
+        ringoutEnabled: extensionFeatures.isRingOutEnabled,
+        outboundSMS: !!extensionFeatures.hasOutboundSMSPermission || !!extensionFeatures.hasInternalSMSPermission,
         isCallQueueMember: extensionInfo.isCallQueueMember,
         dndStatus: presence && presence.dndStatus,
         userStatus: presence && presence.userStatus,
         openPresenceSettings: !!(presence && params && params.showPresenceSettings),
-        showPresenceSettings: showPresenceSettings && rolesAndPermissions.hasEditPresencePermission,
+        showPresenceSettings: showPresenceSettings && !!((_extensionFeatures$fe = extensionFeatures.features) === null || _extensionFeatures$fe === void 0 ? void 0 : (_extensionFeatures$fe2 = _extensionFeatures$fe.EditPresenceStatus) === null || _extensionFeatures$fe2 === void 0 ? void 0 : _extensionFeatures$fe2.available),
         supportedLocales: localeSettings && localeSettings.supportedLocales,
         savedLocale: localeSettings && localeSettings.savedLocale,
-        showUserGuide: showUserGuide && rolesAndPermissions.hasUserGuidePermission
+        showUserGuide: showUserGuide && !!(userGuide === null || userGuide === void 0 ? void 0 : userGuide.hasPermission)
       };
     }
   }, {

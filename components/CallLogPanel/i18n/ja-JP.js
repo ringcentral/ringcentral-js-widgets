@@ -7,8 +7,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  createCallLog: "通話ログの作成"
+  createCallLog: "通話ログの作成",
+  viewInSalesforce: "Salesforceで表示"
 }; // @key: @#@"createCallLog"@#@ @source: @#@"Create call log"@#@
+// @key: @#@"viewInSalesforce"@#@ @source: @#@"View in Salesforce"@#@
 
 exports["default"] = _default;
 //# sourceMappingURL=ja-JP.js.map

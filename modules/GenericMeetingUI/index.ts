@@ -43,6 +43,8 @@ export default class GenericMeetingUI extends RcUIModule {
     scheduleButton,
     datePickerSize,
     timePickerSize,
+    recurringMeetingPosition,
+    showRcvAdminLock = false,
   }) {
     const invalidPassowrd =
       this._genericMeeting.ready &&
@@ -60,6 +62,7 @@ export default class GenericMeetingUI extends RcUIModule {
       (this._genericMeeting.ready && this._genericMeeting.meeting) || {};
     const delegators =
       (this._genericMeeting.ready && this._genericMeeting.delegators) || [];
+
     return {
       meeting,
       useRcmV2,
@@ -67,6 +70,8 @@ export default class GenericMeetingUI extends RcUIModule {
       labelPlacement,
       datePickerSize,
       timePickerSize,
+      recurringMeetingPosition,
+      showRcvAdminLock,
       currentLocale: this._locale.currentLocale,
       disabled: !!(
         disabled ||
@@ -95,8 +100,6 @@ export default class GenericMeetingUI extends RcUIModule {
       isRCM: this._genericMeeting.isRCM,
       isRCV: this._genericMeeting.isRCV,
       scheduleButton,
-      showAdminLock:
-        this._genericMeeting.ready && this._genericMeeting.showAdminLock,
       enableServiceWebSettings:
         this._genericMeeting.ready &&
         this._genericMeeting.enableServiceWebSettings,
@@ -107,9 +110,6 @@ export default class GenericMeetingUI extends RcUIModule {
         this._genericMeeting.ready && this._genericMeeting.enableWaitingRoom,
       personalMeetingId:
         this._genericMeeting.ready && this._genericMeeting.personalMeetingId,
-      putRecurringMeetingInMiddle:
-        this._genericMeeting.ready &&
-        this._genericMeeting.putRecurringMeetingInMiddle,
       showSpinner: !!(
         !this._locale.ready ||
         !this._genericMeeting.ready ||
@@ -120,7 +120,9 @@ export default class GenericMeetingUI extends RcUIModule {
       ),
       showSpinnerInConfigPanel: this._genericMeeting.isUpdating,
       hasSettingsChanged: this._genericMeeting.hasSettingsChanged,
-      defaultTopic: this._genericMeeting.defaultTopic,
+      defaultTopic: this._genericMeeting.ready
+        ? this._genericMeeting.defaultTopic
+        : '',
     };
   }
 

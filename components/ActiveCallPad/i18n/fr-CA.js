@@ -19,7 +19,9 @@ var _default = {
   transfer: "Transférer",
   flip: "Renvoi\ninstantané",
   more: "Actions d'appel",
-  mergeToConference: "Fusionner"
+  mergeToConference: "Fusionner",
+  end: "Terminer",
+  completeTransfer: "Exécuter\nle transfert"
 }; // @key: @#@"unmute"@#@ @source: @#@"Unmute"@#@
 // @key: @#@"mute"@#@ @source: @#@"Mute"@#@
 // @key: @#@"keypad"@#@ @source: @#@"Keypad"@#@
@@ -33,6 +35,8 @@ var _default = {
 // @key: @#@"flip"@#@ @source: @#@"Flip"@#@
 // @key: @#@"more"@#@ @source: @#@"Call Actions"@#@
 // @key: @#@"mergeToConference"@#@ @source: @#@"Merge"@#@
+// @key: @#@"end"@#@ @source: @#@"End"@#@
+// @key: @#@"completeTransfer"@#@ @source: @#@"Complete\nTransfer"@#@
 
 exports["default"] = _default;
 //# sourceMappingURL=fr-CA.js.map

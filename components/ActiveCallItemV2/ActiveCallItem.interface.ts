@@ -2,6 +2,7 @@ import {
   Session,
   WebPhoneSession,
 } from 'ringcentral-integration/modules/ActiveCallControlV2';
+import { ConfirmModalOptions } from '../../modules/ModalUIV2/ModalUI.interface';
 
 export interface ModalContentProps {
   currentLocale: string;
@@ -150,7 +151,7 @@ export interface ActiveCallItemProps {
   isOnHold?: (session: object) => boolean;
   webphoneSwitchCall: (call: Call) => any;
   webphoneIgnore: (telephonySessionId: string) => any;
-  modalConfirm: (...args: any[]) => any;
+  modalConfirm: (props: ConfirmModalOptions, usePromise?: true) => any;
   modalClose: (id: string) => any;
   // new Juno call direction icon
   newCallIcon: boolean;

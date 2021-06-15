@@ -10,7 +10,7 @@ var _default = {
   logging: "기록 중...",
   logCall: "통화 기록",
   editLog: "기록 편집",
-  select: "일치하는 항목 선택",
+  select: "기록 선택",
   OnHold: "대기 중",
   Ringing: "벨 울림",
   CallConnected: "통화 연결됨",
@@ -22,7 +22,7 @@ var _default = {
 }; // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
 // @key: @#@"logCall"@#@ @source: @#@"Log Call"@#@
 // @key: @#@"editLog"@#@ @source: @#@"Edit Log"@#@
-// @key: @#@"select"@#@ @source: @#@"Select matching"@#@
+// @key: @#@"select"@#@ @source: @#@"Select record"@#@
 // @key: @#@"OnHold"@#@ @source: @#@"On Hold"@#@
 // @key: @#@"Ringing"@#@ @source: @#@"Ringing"@#@
 // @key: @#@"CallConnected"@#@ @source: @#@"Call Connected"@#@

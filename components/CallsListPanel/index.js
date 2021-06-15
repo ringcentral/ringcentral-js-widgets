@@ -1,9 +1,6 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = void 0;
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -13,15 +10,14 @@ require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.object.create");
 
-require("core-js/modules/es6.regexp.to-string");
-
-require("core-js/modules/es6.date.to-string");
-
-require("core-js/modules/es6.object.to-string");
-
 require("core-js/modules/es6.reflect.construct");
 
 require("core-js/modules/es6.object.set-prototype-of");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
 
 require("core-js/modules/es6.array.map");
 
@@ -55,8 +51,6 @@ var _i18n = _interopRequireDefault(require("./i18n"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -73,14 +67,14 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 // TODO it is ActiveCallsPanel's function is the same, and remove ActiveCallsPanel after migration.
 var HEADER_HEIGHT = 38;
 
-function ActiveCallList(_ref) {
+var ActiveCallList = function ActiveCallList(_ref) {
   var calls = _ref.calls,
       className = _ref.className,
       currentLocale = _ref.currentLocale,
@@ -165,7 +159,7 @@ function ActiveCallList(_ref) {
       readTextPermission: readTextPermission
     });
   }));
-}
+};
 
 ActiveCallList.propTypes = {
   currentLocale: _propTypes["default"].string.isRequired,
@@ -449,7 +443,8 @@ var CallsListPanel = /*#__PURE__*/function (_React$PureComponent) {
           externalHasEntity = _this$props2.externalHasEntity,
           readTextPermission = _this$props2.readTextPermission,
           children = _this$props2.children,
-          adaptive = _this$props2.adaptive;
+          adaptive = _this$props2.adaptive,
+          showChooseEntityModal = _this$props2.showChooseEntityModal;
       var _this$state = this.state,
           contentWidth = _this$state.contentWidth,
           contentHeight = _this$state.contentHeight;
@@ -496,7 +491,8 @@ var CallsListPanel = /*#__PURE__*/function (_React$PureComponent) {
         contactDisplayStyle: contactDisplayStyle,
         externalViewEntity: externalViewEntity,
         externalHasEntity: externalHasEntity,
-        readTextPermission: isShowMessageIcon
+        readTextPermission: isShowMessageIcon,
+        showChooseEntityModal: showChooseEntityModal
       }) : /*#__PURE__*/_react["default"].createElement(_CallList["default"], {
         brand: brand,
         currentLocale: currentLocale,
@@ -678,7 +674,8 @@ CallsListPanel.propTypes = {
   readTextPermission: _propTypes["default"].bool,
   children: _propTypes["default"].node,
   onlyHistory: _propTypes["default"].bool,
-  adaptive: _propTypes["default"].bool
+  adaptive: _propTypes["default"].bool,
+  showChooseEntityModal: _propTypes["default"].bool
 };
 CallsListPanel.defaultProps = {
   adaptive: false,
@@ -738,6 +735,7 @@ CallsListPanel.defaultProps = {
   externalHasEntity: undefined,
   readTextPermission: true,
   children: null,
-  onlyHistory: false
+  onlyHistory: false,
+  showChooseEntityModal: true
 };
 //# sourceMappingURL=index.js.map

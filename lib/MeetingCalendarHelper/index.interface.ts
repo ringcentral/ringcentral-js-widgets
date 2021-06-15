@@ -1,6 +1,9 @@
 import { RcmInvitationInfo } from 'ringcentral-integration/modules/Meeting';
 import { MeetingTypeV } from 'ringcentral-integration/helpers/meetingHelper.interface';
-import { RcVDialInNumberObj } from 'ringcentral-integration/interfaces/Rcv.model';
+import {
+  RcvInvitationInfo,
+  RcVDialInNumberObj,
+} from 'ringcentral-integration/interfaces/Rcv.model';
 
 interface RcmMeeting {
   id: string;
@@ -18,6 +21,7 @@ interface RcmMeeting {
 }
 
 interface RcvMeeting {
+  id: string;
   name: string;
   startTime: Date;
   duration: number;
@@ -42,6 +46,7 @@ export interface CommonBrand {
   id: string;
   code: string;
   name: string;
+  rcvProductName?: string;
   brandConfig: {
     teleconference: string;
   };
@@ -58,6 +63,10 @@ export interface RcvMainParams {
   meeting: RcvMeeting;
   extensionInfo: CommonExtensionInfo;
   dialInNumber: string | RcVDialInNumberObj[];
+  /**
+   * provide this as the alternative invitation result, e.g. from rcv api
+   */
+  invitationInfo?: RcvInvitationInfo;
 }
 
 export interface TplResult {

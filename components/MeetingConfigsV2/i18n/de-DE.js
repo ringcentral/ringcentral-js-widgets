@@ -9,30 +9,38 @@ require("core-js/modules/es6.object.define-property");
 
 var _Meeting = require("ringcentral-integration/modules/Meeting");
 
-var _date$time$duration$t;
+var _date$time$hours$minu;
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-var _default = (_date$time$duration$t = {
+var _default = (_date$time$hours$minu = {
   date: "Datum",
   time: "Uhrzeit",
+  hours: "{howMany} Std.",
+  minutes: "{howMany} Min.",
+  today: "Heute",
   duration: "Dauer",
   topic: "Titel der Besprechung",
   voIPOnly: "Nur Internet-Audio",
   telephonyOnly: "Nur Telefon",
   both: "Telefon und Internet-Audio",
-  meetingId: "Meeting-ID",
+  thirdParty: "Drittanbieter-Audio",
+  meetingId: "Besprechungs-ID",
   password: "Kennwort",
   video: "Video",
   audio: "Audio",
   scheduleFor: "Ansetzen im Namen von"
-}, _defineProperty(_date$time$duration$t, _Meeting.ASSISTED_USERS_MYSELF, "Mir"), _defineProperty(_date$time$duration$t, "meetingOptions", "Meeting-Optionen"), _defineProperty(_date$time$duration$t, "meetingSettings", "Besprechungseinstellungen"), _defineProperty(_date$time$duration$t, "rcMeetingSettings", "Video-Besprechungseinstellungen"), _defineProperty(_date$time$duration$t, "audioOptions", "Audio-Optionen"), _defineProperty(_date$time$duration$t, "recurringMeeting", "Wiederholendes Meeting"), _defineProperty(_date$time$duration$t, "recurringNote", "Hinweis: Diese Option aktivieren, wenn „Wiederholung“ ausgewählt wird"), _defineProperty(_date$time$duration$t, "joinBeforeHost", "Teilnehmern erlauben, vor dem Gastgeber teilzunehmen"), _defineProperty(_date$time$duration$t, "turnOffCamera", "Kamera für Teilnehmer ausschalten"), _defineProperty(_date$time$duration$t, "turnOffHostCamera", "Kamera für Gastgeber bei Teilnahme an Meeting deaktivieren"), _defineProperty(_date$time$duration$t, "requirePassword", "Kennwort erforderlich"), _defineProperty(_date$time$duration$t, "enterPassword", "Kennwort eingeben"), _defineProperty(_date$time$duration$t, "setPassword", "Kennwort festlegen *"), _defineProperty(_date$time$duration$t, "passwordEmptyError", "Besprechungskennwort erforderlich"), _defineProperty(_date$time$duration$t, "rcmPasswordInvalidError", "Ihr Passwort muss 1–10 Zeichen oder Ziffern lang sein und darf keine Symbole außer @, * oder - enthalten"), _defineProperty(_date$time$duration$t, "rcmPasswordHintText", "Ihr Passwort sollte 1–10 Zeichen oder Ziffern lang sein und darf keine Symbole außer @, * oder - enthalten"), _defineProperty(_date$time$duration$t, "usePersonalMeetingId", "Persönliche Besprechungs-ID verwenden"), _defineProperty(_date$time$duration$t, "pmiChangeConfirm", "Wenn Sie an Ihrem persönlichen Meeting Änderungen vornehmen möchten, "), _defineProperty(_date$time$duration$t, "changePmiSettings", "ändern Sie die PMI-Einstellungen"), _defineProperty(_date$time$duration$t, "pmiSettingChangeAlert", "Wenn Sie die Einstellungen ändern und dieses Meeting ansetzen, verwenden alle Meetings mit persönlicher Meeting-ID dieselben aktuellen Einstellungen."), _defineProperty(_date$time$duration$t, "lockedTooltip", "Ihr Unternehmens-Admin verwaltet diese Einstellung"), _defineProperty(_date$time$duration$t, "when", "Wann"), _defineProperty(_date$time$duration$t, "recurringDescribe", "Aktivieren Sie in der Kalendereinladung für die Teilnehmer die Option für Serien oder Wiederholungen."), _date$time$duration$t); // @key: @#@"date"@#@ @source: @#@"Date"@#@
+}, _defineProperty(_date$time$hours$minu, _Meeting.ASSISTED_USERS_MYSELF, "Mir"), _defineProperty(_date$time$hours$minu, "meetingOptions", "Besprechungsoptionen"), _defineProperty(_date$time$hours$minu, "meetingSettings", "Besprechungseinstellungen"), _defineProperty(_date$time$hours$minu, "rcMeetingSettings", "Video-Besprechungseinstellungen"), _defineProperty(_date$time$hours$minu, "audioOptions", "Audio-Optionen"), _defineProperty(_date$time$hours$minu, "recurringMeeting", "Wiederkehrende Besprechung"), _defineProperty(_date$time$hours$minu, "recurringNote", "Hinweis: Diese Option aktivieren, wenn „Wiederholung“ ausgewählt wird"), _defineProperty(_date$time$hours$minu, "joinBeforeHost", "Teilnehmern erlauben, vor dem Gastgeber teilzunehmen"), _defineProperty(_date$time$hours$minu, "turnOffCamera", "Kamera für Teilnehmer ausschalten"), _defineProperty(_date$time$hours$minu, "turnOffHostCamera", "Kamera für Gastgeber bei Teilnahme an Besprechung deaktivieren"), _defineProperty(_date$time$hours$minu, "requirePassword", "Kennwort erforderlich"), _defineProperty(_date$time$hours$minu, "enterPassword", "Kennwort eingeben"), _defineProperty(_date$time$hours$minu, "setPassword", "Kennwort festlegen *"), _defineProperty(_date$time$hours$minu, "passwordEmptyError", "Besprechungskennwort erforderlich"), _defineProperty(_date$time$hours$minu, "rcmPasswordInvalidError", "Ihr Passwort muss 1–10 Zeichen oder Ziffern lang sein und darf keine Symbole außer @, * oder - enthalten"), _defineProperty(_date$time$hours$minu, "rcmPasswordHintText", "Ihr Passwort sollte 1–10 Zeichen oder Ziffern lang sein und darf keine Symbole außer @, * oder - enthalten"), _defineProperty(_date$time$hours$minu, "usePersonalMeetingId", "Persönliche Besprechungs-ID verwenden:"), _defineProperty(_date$time$hours$minu, "pmiChangeConfirm", "Wenn Sie an Ihrer persönlichen Besprechung Änderungen vornehmen möchten, "), _defineProperty(_date$time$hours$minu, "changePmiSettings", "ändern Sie die PMI-Einstellungen"), _defineProperty(_date$time$hours$minu, "pmiSettingChangeAlert", "Wenn Sie die Einstellungen ändern und diese Besprechung ansetzen, verwenden alle Besprechungen mit persönlicher Besprechungs-ID dieselben aktuellen Einstellungen."), _defineProperty(_date$time$hours$minu, "lockedTooltip", "Ihr Unternehmens-Admin verwaltet diese Einstellung"), _defineProperty(_date$time$hours$minu, "when", "Wann"), _defineProperty(_date$time$hours$minu, "recurringDescribe", "Aktivieren Sie in der Kalendereinladung für die Teilnehmer die Option für Serien oder Wiederholungen."), _date$time$hours$minu); // @key: @#@"date"@#@ @source: @#@"Date"@#@
 // @key: @#@"time"@#@ @source: @#@"Time"@#@
+// @key: @#@"hours"@#@ @source: @#@"{howMany} hr"@#@
+// @key: @#@"minutes"@#@ @source: @#@"{howMany} min"@#@
+// @key: @#@"today"@#@ @source: @#@"Today"@#@
 // @key: @#@"duration"@#@ @source: @#@"Duration"@#@
 // @key: @#@"topic"@#@ @source: @#@"Meeting title"@#@
 // @key: @#@"voIPOnly"@#@ @source: @#@"Internet audio only"@#@
 // @key: @#@"telephonyOnly"@#@ @source: @#@"Telephone only"@#@
-// @key: @#@"both"@#@ @source: @#@"Telephone and Internet Audio"@#@
+// @key: @#@"both"@#@ @source: @#@"Telephone and Internet audio"@#@
+// @key: @#@"thirdParty"@#@ @source: @#@"3rd party audio"@#@
 // @key: @#@"meetingId"@#@ @source: @#@"Meeting ID"@#@
 // @key: @#@"password"@#@ @source: @#@"Password"@#@
 // @key: @#@"video"@#@ @source: @#@"Video"@#@

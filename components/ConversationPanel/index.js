@@ -1,5 +1,11 @@
 "use strict";
 
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+require("core-js/modules/es7.symbol.async-iterator");
+
+require("core-js/modules/es6.symbol");
+
 require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
@@ -8,28 +14,20 @@ require("core-js/modules/es6.string.iterator");
 
 require("core-js/modules/es6.weak-map");
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = void 0;
-
-require("core-js/modules/es7.symbol.async-iterator");
-
-require("core-js/modules/es6.symbol");
-
 require("core-js/modules/es6.promise");
+
+require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.object.create");
 
-require("core-js/modules/es6.regexp.to-string");
-
-require("core-js/modules/es6.date.to-string");
-
-require("core-js/modules/es6.object.to-string");
-
 require("core-js/modules/es6.reflect.construct");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
 
 require("core-js/modules/es6.object.set-prototype-of");
 
@@ -63,13 +61,13 @@ var _MessageInput = _interopRequireDefault(require("../MessageInput"));
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
+var _i18n = _interopRequireDefault(require("./i18n"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
+function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -91,7 +89,7 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
@@ -107,10 +105,10 @@ var ConversationPanel = /*#__PURE__*/function (_Component) {
 
     _this = _super.call(this, props);
 
-    _this.onSend = function () {
-      var _this$props;
+    _this.onSend = function (text, attachments) {
+      var selectedContact = _this.getSelectedContact();
 
-      (_this$props = _this.props).replyToReceivers.apply(_this$props, arguments);
+      _this.props.replyToReceivers(text, attachments, selectedContact);
     };
 
     _this.onInputHeightChange = function (value) {
@@ -120,18 +118,31 @@ var ConversationPanel = /*#__PURE__*/function (_Component) {
     };
 
     _this.onSelectContact = function (value, idx) {
-      var selected = _this.props.showContactDisplayPlaceholder ? parseInt(idx, 10) - 1 : parseInt(idx, 10);
+      var _this$props = _this.props,
+          showContactDisplayPlaceholder = _this$props.showContactDisplayPlaceholder,
+          autoLog = _this$props.autoLog,
+          conversation = _this$props.conversation,
+          shouldLogSelectRecord = _this$props.shouldLogSelectRecord,
+          onSelectContact = _this$props.onSelectContact;
+      var selected = showContactDisplayPlaceholder ? parseInt(idx, 10) - 1 : parseInt(idx, 10);
       _this._userSelection = true;
 
       _this.setState({
         selected: selected
       });
 
-      if (_this.props.autoLog) {
+      if (autoLog) {
         _this.logConversation({
           redirect: false,
           selected: selected,
           prefill: false
+        });
+      }
+
+      if (shouldLogSelectRecord && typeof onSelectContact === 'function') {
+        onSelectContact({
+          correspondentEntity: _this.getSelectedContact(selected),
+          conversation: conversation
         });
       }
     };
@@ -152,7 +163,8 @@ var ConversationPanel = /*#__PURE__*/function (_Component) {
       selected: _this.getInitialContactIndex(),
       isLogging: false,
       inputHeight: 63,
-      loaded: false
+      loaded: false,
+      alertHeight: 46
     };
     _this._userSelection = false;
     return _this;
@@ -191,6 +203,8 @@ var ConversationPanel = /*#__PURE__*/function (_Component) {
         if (this.props.messages.length < this.props.perPage) {
           this.props.loadPreviousMessages();
         }
+
+        this.getDncAlertHeight();
       }
     }
   }, {
@@ -205,13 +219,22 @@ var ConversationPanel = /*#__PURE__*/function (_Component) {
       var _this$props$restrictS, _this$props2;
 
       var headerHeight = 41;
-      var alertHeight = 88;
+      var alertMargin = 12;
 
       if ((_this$props$restrictS = (_this$props2 = this.props).restrictSendMessage) === null || _this$props$restrictS === void 0 ? void 0 : _this$props$restrictS.call(_this$props2, this.getSelectedContact())) {
-        return "calc(100% - ".concat(alertHeight + headerHeight, "px)");
+        return "calc(100% - ".concat(this.state.alertHeight + alertMargin + headerHeight, "px)");
       }
 
       return "calc(100% - ".concat(this.state.inputHeight + headerHeight, "px)");
+    }
+  }, {
+    key: "getDncAlertHeight",
+    value: function getDncAlertHeight() {
+      if (this.dncAlert) {
+        this.setState({
+          alertHeight: this.dncAlert.clientHeight
+        });
+      }
     }
   }, {
     key: "getInitialContactIndex",
@@ -402,6 +425,7 @@ var ConversationPanel = /*#__PURE__*/function (_Component) {
         showType: false,
         currentLocale: this.props.currentLocale,
         enableContactFallback: this.props.enableContactFallback,
+        placeholder: this.props.contactPlaceholder,
         showPlaceholder: this.props.showContactDisplayPlaceholder,
         sourceIcons: this.props.sourceIcons,
         phoneTypeRenderer: this.props.phoneTypeRenderer,
@@ -418,9 +442,14 @@ var ConversationPanel = /*#__PURE__*/function (_Component) {
       })), extraButton && /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].logButton
       }, extraButton), logButton), conversationBody, ((_this$props$restrictS2 = (_this$props4 = this.props).restrictSendMessage) === null || _this$props$restrictS2 === void 0 ? void 0 : _this$props$restrictS2.call(_this$props4, this.getSelectedContact())) ? /*#__PURE__*/_react["default"].createElement(_juno.RcAlert, {
+        ref: function ref(target) {
+          _this2.dncAlert = target;
+        },
         severity: "error",
-        className: _styles["default"].alert
-      }, "This contact is on a Do Not Contact list.") : /*#__PURE__*/_react["default"].createElement(_MessageInput["default"], {
+        size: "small",
+        className: _styles["default"].alert,
+        "data-sign": "dncAlert"
+      }, _i18n["default"].getString('dncAlert', this.props.currentLocale)) : /*#__PURE__*/_react["default"].createElement(_MessageInput["default"], {
         value: this.props.messageText,
         onChange: this.props.updateMessageText,
         disabled: this.props.sendButtonDisabled,
@@ -463,6 +492,7 @@ ConversationPanel.propTypes = {
   dateTimeFormatter: _propTypes["default"].func.isRequired,
   goBack: _propTypes["default"].func.isRequired,
   showContactDisplayPlaceholder: _propTypes["default"].bool,
+  contactPlaceholder: _propTypes["default"].string,
   sourceIcons: _propTypes["default"].object,
   phoneTypeRenderer: _propTypes["default"].func,
   phoneSourceNameRenderer: _propTypes["default"].func,
@@ -486,7 +516,9 @@ ConversationPanel.propTypes = {
   addAttachment: _propTypes["default"].func,
   removeAttachment: _propTypes["default"].func,
   onAttachmentDownload: _propTypes["default"].func,
-  restrictSendMessage: _propTypes["default"].func
+  restrictSendMessage: _propTypes["default"].func,
+  shouldLogSelectRecord: _propTypes["default"].bool,
+  onSelectContact: _propTypes["default"].func
 };
 ConversationPanel.defaultProps = {
   disableLinks: false,
@@ -494,6 +526,7 @@ ConversationPanel.defaultProps = {
   autoLog: false,
   enableContactFallback: undefined,
   showContactDisplayPlaceholder: true,
+  contactPlaceholder: '',
   sourceIcons: undefined,
   phoneTypeRenderer: undefined,
   phoneSourceNameRenderer: undefined,
@@ -519,7 +552,9 @@ ConversationPanel.defaultProps = {
     return null;
   },
   onAttachmentDownload: undefined,
-  restrictSendMessage: undefined
+  restrictSendMessage: undefined,
+  shouldLogSelectRecord: false,
+  onSelectContact: undefined
 };
 var _default = ConversationPanel;
 exports["default"] = _default;

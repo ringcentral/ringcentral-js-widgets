@@ -1,9 +1,6 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.CallLogUI = void 0;
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -23,25 +20,28 @@ require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
 
+require("core-js/modules/es6.object.to-string");
+
 require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.object.create");
 
-require("core-js/modules/es6.regexp.to-string");
-
-require("core-js/modules/es6.date.to-string");
-
-require("core-js/modules/es6.object.to-string");
-
 require("core-js/modules/es6.reflect.construct");
 
 require("core-js/modules/es6.object.set-prototype-of");
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.CallLogUI = exports.CallLogUIBase = void 0;
+
 require("core-js/modules/es6.regexp.match");
 
 var _core = require("@ringcentral-integration/core");
+
+var _react = _interopRequireDefault(require("react"));
 
 var _di = require("ringcentral-integration/lib/di");
 
@@ -49,19 +49,15 @@ var _formatNumber = _interopRequireDefault(require("ringcentral-integration/lib/
 
 var _callingOptions = require("ringcentral-integration/modules/CallingSettingsV2/callingOptions");
 
-var _react = _interopRequireDefault(require("react"));
-
 var _CallLogCallCtrlContainer = _interopRequireDefault(require("../../containers/CallLogCallCtrlContainer"));
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
-var _dec, _class;
+var _dec, _class, _dec2, _class2;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
@@ -87,34 +83,42 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
-var CallLogUI = (_dec = (0, _di.Module)({
+var CallLogCallControlRenderer = function CallLogCallControlRenderer(currentLocale, telephonySessionId, isWide, isCurrentDeviceCall) {
+  return /*#__PURE__*/_react["default"].createElement(_CallLogCallCtrlContainer["default"], {
+    currentLocale: currentLocale,
+    telephonySessionId: telephonySessionId,
+    isCurrentDeviceCall: isCurrentDeviceCall,
+    isWide: isWide
+  });
+};
+
+var CallLogUIBase = (_dec = (0, _di.Module)({
   name: 'CallLogUI',
-  deps: ['Locale', 'CallLogger', 'RateLimiter', 'RegionSettings', 'DateTimeFormat', 'CallLogSection', 'RouterInteraction', 'ActiveCallControl', 'RolesAndPermissions', 'ConnectivityMonitor', 'CallingSettings', 'ForwardingNumber', {
+  deps: ['Locale', 'CallLogger', 'RateLimiter', 'RegionSettings', 'DateTimeFormat', 'CallLogSection', 'RouterInteraction', 'ActiveCallControl', 'ExtensionFeatures', 'ConnectivityMonitor', 'CallingSettings', 'ForwardingNumber', {
     dep: 'CallLogUIOptions',
     optional: true
   }]
 }), _dec(_class = /*#__PURE__*/function (_RcUIModuleV) {
-  _inherits(CallLogUI, _RcUIModuleV);
+  _inherits(CallLogUIBase, _RcUIModuleV);
 
-  var _super = _createSuper(CallLogUI);
+  var _super = _createSuper(CallLogUIBase);
 
-  function CallLogUI(_ref) {
-    var _ref$deps = _ref.deps,
-        deps = _ref$deps === void 0 ? {} : _ref$deps,
+  function CallLogUIBase(_ref) {
+    var deps = _ref.deps,
         options = _objectWithoutProperties(_ref, ["deps"]);
 
-    _classCallCheck(this, CallLogUI);
+    _classCallCheck(this, CallLogUIBase);
 
-    return _super.call(this, {
-      deps: _objectSpread(_objectSpread({}, options), deps)
-    });
+    return _super.call(this, _objectSpread({
+      deps: deps
+    }, options));
   }
 
-  _createClass(CallLogUI, [{
+  _createClass(CallLogUIBase, [{
     key: "getUIProps",
     value: function getUIProps() {
       var _this$_deps = this._deps,
@@ -126,7 +130,7 @@ var CallLogUI = (_dec = (0, _di.Module)({
           callLogSection = _this$_deps.callLogSection,
           routerInteraction = _this$_deps.routerInteraction,
           activeCallControl = _this$_deps.activeCallControl,
-          rolesAndPermissions = _this$_deps.rolesAndPermissions,
+          extensionFeatures = _this$_deps.extensionFeatures,
           connectivityMonitor = _this$_deps.connectivityMonitor,
           callingSettings = _this$_deps.callingSettings,
           forwardingNumber = _this$_deps.forwardingNumber;
@@ -136,7 +140,7 @@ var CallLogUI = (_dec = (0, _di.Module)({
       return {
         currentLocale: locale.currentLocale,
         header: true,
-        showSpinner: !(locale.ready && regionSettings.ready && dateTimeFormat.ready && (!rolesAndPermissions || rolesAndPermissions.ready) && (!callLogger || callLogger.ready)),
+        showSpinner: !(locale.ready && regionSettings.ready && dateTimeFormat.ready && extensionFeatures.ready && (!callLogger || callLogger.ready)),
         isInTransferPage: isInTransferPage,
         disableLinks: !connectivityMonitor.connectivity || rateLimiter.throttling,
         currentIdentify: currentIdentify,
@@ -163,19 +167,14 @@ var CallLogUI = (_dec = (0, _di.Module)({
             phoneNumber: phoneNumber,
             areaCode: regionSettings.areaCode,
             countryCode: regionSettings.countryCode
-          }) || _i18n["default"].getString('unKnown', locale.currentLocale);
+          }) || _i18n["default"].getString('unknown', locale.currentLocale);
         },
         goBack: function goBack() {
           callLogSection.closeLogSection();
           callLogSection.closeLogNotification();
         },
-        renderCallLogCallControl: function renderCallLogCallControl(currentTelephonySessionId, isWide, isCurrentDeviceCall) {
-          return /*#__PURE__*/_react["default"].createElement(_CallLogCallCtrlContainer["default"], {
-            currentLocale: locale.currentLocale,
-            telephonySessionId: currentTelephonySessionId,
-            isCurrentDeviceCall: isCurrentDeviceCall,
-            isWide: isWide
-          });
+        renderCallLogCallControl: function renderCallLogCallControl(telephonySessionId, isWide, isCurrentDeviceCall) {
+          return CallLogCallControlRenderer(locale.currentLocale, telephonySessionId, isWide, isCurrentDeviceCall);
         },
         // notification props
         onSaveNotification: function onSaveNotification() {
@@ -245,7 +244,23 @@ var CallLogUI = (_dec = (0, _di.Module)({
     }
   }]);
 
-  return CallLogUI;
+  return CallLogUIBase;
 }(_core.RcUIModuleV2)) || _class);
+exports.CallLogUIBase = CallLogUIBase;
+var CallLogUI = (_dec2 = (0, _di.Module)(), _dec2(_class2 = /*#__PURE__*/function (_CallLogUIBase) {
+  _inherits(CallLogUI, _CallLogUIBase);
+
+  var _super2 = _createSuper(CallLogUI);
+
+  function CallLogUI(deps) {
+    _classCallCheck(this, CallLogUI);
+
+    return _super2.call(this, {
+      deps: deps
+    });
+  }
+
+  return CallLogUI;
+}(CallLogUIBase)) || _class2);
 exports.CallLogUI = CallLogUI;
 //# sourceMappingURL=CallLogUI.js.map

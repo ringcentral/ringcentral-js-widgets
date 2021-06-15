@@ -20,7 +20,7 @@
 
 .mask {
   @include full-size;
-  background: rc-palette(background, default);
+  background: rc-palette('neutral', 'b01');
   opacity: rc-opacity('48');
 }
 
@@ -28,5 +28,19 @@
   .container {
     width: 30px;
     height: 30px;
+  }
+}
+
+// fix animation freeze a bit under high load
+div[class*='MuiCircularProgress-indeterminate'] {
+  animation: circular-rotate 1.4s linear infinite;
+}
+
+@keyframes circular-rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }

@@ -20,8 +20,8 @@ var _default = (_title$search$compose = {
   search: "검색...",
   composeText: "문자 작성",
   noMessages: "메시지 없음",
-  noSearchResults: "일치하는 레코드를 찾을 수 없음"
-}, _defineProperty(_title$search$compose, _messageTypes["default"].all, "모두"), _defineProperty(_title$search$compose, _messageTypes["default"].voiceMail, "음성"), _defineProperty(_title$search$compose, _messageTypes["default"].text, "텍스트"), _defineProperty(_title$search$compose, _messageTypes["default"].fax, "팩스"), _title$search$compose); // @key: @#@"title"@#@ @source: @#@"Messages"@#@
+  noSearchResults: "일치하는 기록을 찾을 수 없음"
+}, _defineProperty(_title$search$compose, _messageTypes["default"].all, "모두"), _defineProperty(_title$search$compose, _messageTypes["default"].voiceMail, "음성"), _defineProperty(_title$search$compose, _messageTypes["default"].text, "문자"), _defineProperty(_title$search$compose, _messageTypes["default"].fax, "팩스"), _title$search$compose); // @key: @#@"title"@#@ @source: @#@"Messages"@#@
 // @key: @#@"search"@#@ @source: @#@"Search..."@#@
 // @key: @#@"composeText"@#@ @source: @#@"Compose Text"@#@
 // @key: @#@"noMessages"@#@ @source: @#@"No Messages"@#@

@@ -684,20 +684,30 @@ export class ActiveCallItem extends Component<
       typeof this.props.renderContactName === 'function'
         ? this.props.renderContactName(this.props.call)
         : undefined;
-    // TODO: Consider refactoring modalConfirm out of UI components
+    // !refactor
+    // TODO: Consider refactoring modalConfirm out of UI components!!!!!!!!!!!!!!
     this.modalId = this.props.modalConfirm({
       size: 'small',
       title: i18n.getString('callSwitch', this.props.currentLocale),
-      dialogProps: { className: styles.switchDialog },
+      className: styles.switchDialog,
       contentProps: {
-        contactName,
+        contactName: contactName || this.getPhoneNumber(),
       },
-      okText: i18n.getString('comfirmOKButton', this.props.currentLocale),
-      cancelText: i18n.getString(
+      confirmButtonText: i18n.getString(
+        'comfirmOKButton',
+        this.props.currentLocale,
+      ),
+      cancelButtonText: i18n.getString(
         'comfirmCancelButton',
         this.props.currentLocale,
       ),
-      onOK: () => this.props.webphoneSwitchCall(this.props.call),
+      onConfirm: () => {
+        this.props.webphoneSwitchCall(this.props.call);
+        this.modalId = null;
+      },
+      onCancel: () => {
+        this.modalId = null;
+      },
     });
   };
 

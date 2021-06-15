@@ -27,6 +27,8 @@ require("core-js/modules/es6.object.define-properties");
 
 require("core-js/modules/es6.object.freeze");
 
+require("core-js/modules/es6.array.slice");
+
 var _react = _interopRequireWildcard(require("react"));
 
 var _juno = require("@ringcentral/juno");
@@ -39,9 +41,9 @@ var _i18n = _interopRequireDefault(require("./i18n"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
+function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function _templateObject() {
   var data = _taggedTemplateLiteral(["\n  & {\n    width: ", ";\n  }\n"]);
@@ -57,32 +59,35 @@ function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(
 
 var BtnContainer = (0, _juno.styled)('div')(_templateObject(), (0, _juno.spacing)(8));
 
-var InnerBtn = function InnerBtn(props) {
-  var currentLocale = props.currentLocale,
-      executeCopy = props.executeCopy;
+var InnerBtn = function InnerBtn(_ref) {
+  var size = _ref.size,
+      currentLocale = _ref.currentLocale,
+      executeCopy = _ref.executeCopy;
   return /*#__PURE__*/_react["default"].createElement(_juno.RcIconButton, {
     variant: "round",
-    size: "small",
-    color: "text.subdued",
+    size: size,
+    color: "neutral.f04",
     "data-sign": "copyBtn",
     symbol: _Copy["default"],
-    tooltipTitle: _i18n["default"].getString('copy', currentLocale),
+    title: _i18n["default"].getString('copy', currentLocale),
     onClick: executeCopy
   });
 };
 
-var CopyBtn = function CopyBtn(props) {
-  var value = props.value,
-      currentLocale = props.currentLocale,
-      handleSuccess = props.handleSuccess,
-      handleFailure = props.handleFailure;
-  var memoizedBtn = (0, _react.useCallback)(function (_ref) {
-    var executeCopy = _ref.executeCopy;
+var CopyBtn = function CopyBtn(_ref2) {
+  var value = _ref2.value,
+      size = _ref2.size,
+      currentLocale = _ref2.currentLocale,
+      handleSuccess = _ref2.handleSuccess,
+      handleFailure = _ref2.handleFailure;
+  var memoizedBtn = (0, _react.useCallback)(function (_ref3) {
+    var executeCopy = _ref3.executeCopy;
     return /*#__PURE__*/_react["default"].createElement(InnerBtn, {
+      size: size,
       currentLocale: currentLocale,
       executeCopy: executeCopy
     });
-  }, [currentLocale]);
+  }, [size, currentLocale]);
   return /*#__PURE__*/_react["default"].createElement(BtnContainer, {
     "aria-disabled": true
   }, /*#__PURE__*/_react["default"].createElement(_CopyToClipboard["default"], {
@@ -99,6 +104,7 @@ CopyBtn.defaultProps = {
   handleSuccess: function handleSuccess() {},
   handleFailure: function handleFailure() {},
   currentLocale: 'en-US',
-  value: ''
+  value: '',
+  size: 'small'
 };
 //# sourceMappingURL=CopyBtn.js.map

@@ -7,8 +7,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  doNotCall: "연락하지 마십시오"
-}; // @key: @#@"doNotCall"@#@ @source: @#@"Do Not Contact"@#@
+  doNotCall: "발신 금지"
+}; // @key: @#@"doNotCall"@#@ @source: @#@"Do Not Call"@#@
 
 exports["default"] = _default;
 //# sourceMappingURL=ko-KR.js.map

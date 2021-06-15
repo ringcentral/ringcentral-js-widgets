@@ -116,11 +116,11 @@ routerInteraction) {
       return _MessageStoreAlert["default"];
     }
 
-    if (_RateExceededAlert["default"].handleMessage(message)) {
+    if (_RateExceededAlert["default"].handleMessage(message) && (rateLimiter === null || rateLimiter === void 0 ? void 0 : rateLimiter.timestamp)) {
       return function (props) {
         return /*#__PURE__*/_react["default"].createElement(_RateExceededAlert["default"], _extends({}, props, {
           timestamp: rateLimiter.timestamp,
-          duration: rateLimiter._throttleDuration
+          duration: rateLimiter.throttleDuration
         }));
       };
     }

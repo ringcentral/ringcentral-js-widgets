@@ -10,10 +10,10 @@ var _default = {
   topic: "Thema",
   when: "Wann",
   duration: "Dauer",
-  recurringMeeting: "Regelmäßiges Meeting",
+  recurringMeeting: "Wiederkehrende Besprechung",
   recurringDescribe: "Aktivieren Sie in der Kalendereinladung für die Teilnehmer die Option für Serien oder Wiederholungen.",
   video: "Video",
-  videoDescribe: "Beim Beitritt zu einem Meeting",
+  videoDescribe: "Beim Beitritt zu einer Besprechung",
   host: "Host-Video ein",
   participants: "Teilnehmer-Video ein",
   audioOptions: "Audio-Optionen",
@@ -33,12 +33,12 @@ var _default = {
   recurrenceType: "Wiederholungstyp",
   recurrenceEndDate: "Enddatum",
   currentLocale: "Tag(e)",
-  meetingId: "Meeting-ID",
+  meetingId: "Besprechungs-ID",
   generateAutomatically: "Automatisch generieren",
-  usePmi: "Persönliche Meeting-ID (PMI): {meetingId}",
-  pmiChangeConfirm: "Wenn Sie an Ihrem persönlichen Meeting Änderungen vornehmen möchten, ",
+  usePmi: "Persönliche Besprechungs-ID (PMI): {meetingId}",
+  pmiChangeConfirm: "Wenn Sie an Ihrer persönlichen Besprechung Änderungen vornehmen möchten, ",
   changePmiSettings: "ändern Sie die PMI-Einstellungen",
-  pmiSettingChangeAlert: "Wenn Sie die Einstellungen ändern und dieses Meeting ansetzen, verwenden alle Meetings mit persönlicher Meeting-ID dieselben aktuellen Einstellungen."
+  pmiSettingChangeAlert: "Wenn Sie die Einstellungen ändern und diese Besprechung ansetzen, verwenden alle Besprechungen mit persönlicher Besprechungs-ID dieselben aktuellen Einstellungen."
 }; // @key: @#@"topic"@#@ @source: @#@"Topic"@#@
 // @key: @#@"when"@#@ @source: @#@"When"@#@
 // @key: @#@"duration"@#@ @source: @#@"Duration"@#@

@@ -1,1 +1,0 @@
-{"version":3,"sources":["modules/CallMonitorUI/i18n/en-GB.js"],"names":["title"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,KAAK,EAAE;AADM,C,EAIf","sourcesContent":["export default {\n  title: \"Calls\"\n};\n\n// @key: @#@\"title\"@#@ @source: @#@\"Calls\"@#@\n"],"file":"en-GB.js"}

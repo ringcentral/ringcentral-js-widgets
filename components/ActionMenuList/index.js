@@ -1,5 +1,11 @@
 "use strict";
 
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+require("core-js/modules/es7.symbol.async-iterator");
+
+require("core-js/modules/es6.symbol");
+
 require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
@@ -8,34 +14,20 @@ require("core-js/modules/es6.string.iterator");
 
 require("core-js/modules/es6.weak-map");
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.ConfirmDeleteModal = ConfirmDeleteModal;
-exports.ClickToDialButton = ClickToDialButton;
-exports.ClickToSmsButton = ClickToSmsButton;
-exports.DeleteButton = DeleteButton;
-exports.MarkButton = MarkButton;
-exports.PreviewButton = PreviewButton;
-exports["default"] = void 0;
-
-require("core-js/modules/es7.symbol.async-iterator");
-
-require("core-js/modules/es6.symbol");
-
 require("core-js/modules/es6.promise");
+
+require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.object.create");
 
-require("core-js/modules/es6.regexp.to-string");
-
-require("core-js/modules/es6.date.to-string");
-
-require("core-js/modules/es6.object.to-string");
-
 require("core-js/modules/es6.reflect.construct");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = exports.PreviewButton = exports.MarkButton = exports.DeleteButton = exports.ClickToSmsButton = exports.ClickToDialButton = exports.ConfirmDeleteModal = void 0;
 
 require("core-js/modules/es6.object.set-prototype-of");
 
@@ -77,13 +69,11 @@ var _i18n = _interopRequireDefault(require("./i18n"));
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
-function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
+function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -105,11 +95,11 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
-function ConfirmDeleteModal(_ref) {
+var ConfirmDeleteModal = function ConfirmDeleteModal(_ref) {
   var currentLocale = _ref.currentLocale,
       show = _ref.show,
       onDelete = _ref.onDelete,
@@ -131,8 +121,9 @@ function ConfirmDeleteModal(_ref) {
   }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].contentText
   }, tip));
-}
+};
 
+exports.ConfirmDeleteModal = ConfirmDeleteModal;
 ConfirmDeleteModal.propTypes = {
   currentLocale: _propTypes["default"].string.isRequired,
   show: _propTypes["default"].bool.isRequired,
@@ -146,10 +137,9 @@ ConfirmDeleteModal.defaultProps = {
   type: undefined
 };
 
-function ClickToDialButton(_ref2) {
+var ClickToDialButton = function ClickToDialButton(_ref2) {
   var className = _ref2.className,
       onClickToDial = _ref2.onClickToDial,
-      disableLinks = _ref2.disableLinks,
       disableCallButton = _ref2.disableCallButton,
       disableClickToDial = _ref2.disableClickToDial,
       phoneNumber = _ref2.phoneNumber,
@@ -163,12 +153,12 @@ function ClickToDialButton(_ref2) {
     className: _DynamicsFont["default"].call,
     title: title
   }));
-}
+};
 
+exports.ClickToDialButton = ClickToDialButton;
 ClickToDialButton.propTypes = {
   className: _propTypes["default"].string,
   onClickToDial: _propTypes["default"].func,
-  disableLinks: _propTypes["default"].bool,
   disableCallButton: _propTypes["default"].bool,
   disableClickToDial: _propTypes["default"].bool,
   phoneNumber: _propTypes["default"].string,
@@ -177,14 +167,13 @@ ClickToDialButton.propTypes = {
 ClickToDialButton.defaultProps = {
   className: undefined,
   onClickToDial: undefined,
-  disableLinks: false,
   disableCallButton: false,
   disableClickToDial: false,
   phoneNumber: undefined,
   title: undefined
 };
 
-function ClickToSmsButton(_ref3) {
+var ClickToSmsButton = function ClickToSmsButton(_ref3) {
   var className = _ref3.className,
       onClickToSms = _ref3.onClickToSms,
       disableLinks = _ref3.disableLinks,
@@ -199,8 +188,9 @@ function ClickToSmsButton(_ref3) {
     className: _DynamicsFont["default"].composeText,
     title: title
   }));
-}
+};
 
+exports.ClickToSmsButton = ClickToSmsButton;
 ClickToSmsButton.propTypes = {
   className: _propTypes["default"].string,
   onClickToSms: _propTypes["default"].func,
@@ -216,7 +206,7 @@ ClickToSmsButton.defaultProps = {
   title: undefined
 };
 
-function DeleteButton(_ref4) {
+var DeleteButton = function DeleteButton(_ref4) {
   var className = _ref4.className,
       title = _ref4.title,
       openDeleteModal = _ref4.openDeleteModal,
@@ -233,8 +223,9 @@ function DeleteButton(_ref4) {
     height: 17,
     className: (0, _classnames["default"])(_styles["default"].svgFillIcon, disabled ? _styles["default"].disabled : null)
   })));
-}
+};
 
+exports.DeleteButton = DeleteButton;
 DeleteButton.propTypes = {
   className: _propTypes["default"].string,
   title: _propTypes["default"].string,
@@ -247,7 +238,7 @@ DeleteButton.defaultProps = {
   openDeleteModal: function openDeleteModal() {}
 };
 
-function MarkButton(_ref5) {
+var MarkButton = function MarkButton(_ref5) {
   var marked = _ref5.marked,
       className = _ref5.className,
       onClick = _ref5.onClick,
@@ -270,8 +261,9 @@ function MarkButton(_ref5) {
     title: title,
     className: classNames
   })));
-}
+};
 
+exports.MarkButton = MarkButton;
 MarkButton.propTypes = {
   className: _propTypes["default"].string,
   markTitle: _propTypes["default"].string,
@@ -286,7 +278,7 @@ MarkButton.defaultProps = {
   unmarkTitle: undefined
 };
 
-function PreviewButton(_ref6) {
+var PreviewButton = function PreviewButton(_ref6) {
   var title = _ref6.title,
       onClick = _ref6.onClick,
       disabled = _ref6.disabled,
@@ -300,8 +292,9 @@ function PreviewButton(_ref6) {
   }, /*#__PURE__*/_react["default"].createElement(_Preview["default"], {
     className: (0, _classnames["default"])(_styles["default"].svgFillIcon, disabled ? _styles["default"].disabled : null)
   })));
-}
+};
 
+exports.PreviewButton = PreviewButton;
 PreviewButton.propTypes = {
   title: _propTypes["default"].string.isRequired,
   onClick: _propTypes["default"].func.isRequired,
@@ -495,7 +488,8 @@ var ActionMenuList = /*#__PURE__*/function (_Component) {
           externalViewEntity = _this$props3.externalViewEntity,
           externalHasEntity = _this$props3.externalHasEntity,
           disableClickToSms = _this$props3.disableClickToSms,
-          selectedMatchContactType = _this$props3.selectedMatchContactType;
+          selectedMatchContactType = _this$props3.selectedMatchContactType,
+          showChooseEntityModal = _this$props3.showChooseEntityModal;
       var _this$state = this.state,
           deleteModalVisible = _this$state.deleteModalVisible,
           disableDelete = _this$state.disableDelete;
@@ -524,7 +518,9 @@ var ActionMenuList = /*#__PURE__*/function (_Component) {
         } else if (phoneNumber && onCreateEntity) {
           entityButton = /*#__PURE__*/_react["default"].createElement(_EntityButton["default"], {
             className: _styles["default"].button,
-            onCreateEntity: this.openEntityModal,
+            onCreateEntity: showChooseEntityModal ? this.openEntityModal : function () {
+              return onCreateEntity();
+            },
             hasEntity: externalHasEntity,
             disableLinks: disableLinks,
             createEntityTitle: createEntityTitle
@@ -543,7 +539,9 @@ var ActionMenuList = /*#__PURE__*/function (_Component) {
       } else if (!hasEntity && phoneNumber && onCreateEntity) {
         entityButton = /*#__PURE__*/_react["default"].createElement(_EntityButton["default"], {
           className: _styles["default"].button,
-          onCreateEntity: this.openEntityModal,
+          onCreateEntity: showChooseEntityModal ? this.openEntityModal : function () {
+            return onCreateEntity();
+          },
           hasEntity: hasEntity,
           disableLinks: disableLinks,
           createEntityTitle: createEntityTitle
@@ -665,7 +663,8 @@ ActionMenuList.propTypes = {
   externalHasEntity: _propTypes["default"].bool,
   disableClickToSms: _propTypes["default"].bool,
   onFaxDownload: _propTypes["default"].func,
-  selectedMatchContactType: _propTypes["default"].string
+  selectedMatchContactType: _propTypes["default"].string,
+  showChooseEntityModal: _propTypes["default"].bool
 };
 ActionMenuList.defaultProps = {
   className: undefined,
@@ -704,6 +703,7 @@ ActionMenuList.defaultProps = {
   externalHasEntity: undefined,
   disableClickToSms: false,
   onFaxDownload: undefined,
-  selectedMatchContactType: ''
+  selectedMatchContactType: '',
+  showChooseEntityModal: true
 };
 //# sourceMappingURL=index.js.map

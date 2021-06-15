@@ -7,8 +7,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  doNotCall: "请勿联系"
-}; // @key: @#@"doNotCall"@#@ @source: @#@"Do Not Contact"@#@
+  doNotCall: "谢绝来电"
+}; // @key: @#@"doNotCall"@#@ @source: @#@"Do Not Call"@#@
 
 exports["default"] = _default;
 //# sourceMappingURL=zh-CN.js.map

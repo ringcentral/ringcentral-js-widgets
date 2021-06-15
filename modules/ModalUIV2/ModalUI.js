@@ -1,13 +1,6 @@
 "use strict";
 
-require("core-js/modules/es6.array.map");
-
-require("core-js/modules/es6.array.find");
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.ModalUI = exports.infoTitleRenderer = exports.defaultCancelRenderer = exports.defaultOKRenderer = exports.infoTitleRendererID = exports.defaultCancelRendererID = exports.defaultOKRendererID = void 0;
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -17,15 +10,9 @@ require("core-js/modules/es6.object.define-properties");
 
 require("core-js/modules/es7.object.get-own-property-descriptors");
 
-require("core-js/modules/es6.array.filter");
-
 require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.object.create");
-
-require("core-js/modules/es6.regexp.to-string");
-
-require("core-js/modules/es6.date.to-string");
 
 require("core-js/modules/es6.reflect.construct");
 
@@ -39,7 +26,20 @@ require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.for-each");
 
+require("core-js/modules/es6.array.map");
+
+require("core-js/modules/es6.array.find");
+
+require("core-js/modules/es6.array.filter");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.ModalUI = void 0;
+
 require("core-js/modules/es6.promise");
+
+require("core-js/modules/es6.array.slice");
 
 require("core-js/modules/es6.array.find-index");
 
@@ -57,13 +57,7 @@ require("core-js/modules/es6.map");
 
 var _core = require("@ringcentral-integration/core");
 
-var _juno = require("@ringcentral/juno");
-
-var _Close = _interopRequireDefault(require("@ringcentral/juno/icon/Close"));
-
 var _ramda = require("ramda");
-
-var _react = _interopRequireDefault(require("react"));
 
 var _background = _interopRequireDefault(require("ringcentral-integration/lib/background"));
 
@@ -73,19 +67,17 @@ var _proxify = _interopRequireDefault(require("ringcentral-integration/lib/proxy
 
 var _uuid = require("uuid");
 
-var _i18n = _interopRequireDefault(require("./i18n"));
+var _utils = require("./utils");
 
-var _dec, _dec2, _class, _class2, _descriptor, _temp;
+var _dec, _dec2, _class, _class2, _descriptor;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
 
 function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
@@ -113,7 +105,7 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
@@ -121,49 +113,14 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
 
 function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and runs after the decorators transform.'); }
 
-var defaultOKRendererID = 'ModalUI.defaultOKRendererID';
-exports.defaultOKRendererID = defaultOKRendererID;
-var defaultCancelRendererID = 'ModalUI.defaultCancelRendererID';
-exports.defaultCancelRendererID = defaultCancelRendererID;
-var infoTitleRendererID = 'ModalUI.infoTitleRendererID';
-exports.infoTitleRendererID = infoTitleRendererID;
-
-var defaultOKRenderer = function defaultOKRenderer(_ref) {
-  var currentLocale = _ref.currentLocale;
-  return _i18n["default"].getString('ok', currentLocale);
-};
-
-exports.defaultOKRenderer = defaultOKRenderer;
-
-var defaultCancelRenderer = function defaultCancelRenderer(_ref2) {
-  var currentLocale = _ref2.currentLocale;
-  return _i18n["default"].getString('cancel', currentLocale);
-};
-
-exports.defaultCancelRenderer = defaultCancelRenderer;
-
-var infoTitleRenderer = function infoTitleRenderer(_ref3) {
-  var currentLocale = _ref3.currentLocale,
-      onOK = _ref3.onOK,
-      title = _ref3.title;
-  return /*#__PURE__*/_react["default"].createElement(_juno.RcDialogHeader, null, /*#__PURE__*/_react["default"].createElement(_juno.RcDialogHeaderTitle, null, title), /*#__PURE__*/_react["default"].createElement(_juno.RcDialogHeaderActions, {
-    overlapSize: 2.5
-  }, /*#__PURE__*/_react["default"].createElement(_juno.RcIconButton, {
-    tooltipTitle: _i18n["default"].getString('close', currentLocale),
-    symbol: _Close["default"],
-    onClick: onOK
-  })));
-};
-
-exports.infoTitleRenderer = infoTitleRenderer;
 var ModalUI = (_dec = (0, _di.Module)({
   name: 'ModalUI',
   deps: ['Locale']
-}), _dec2 = (0, _core.computed)(function (_ref4) {
-  var _modals = _ref4._modals,
-      currentLocale = _ref4._deps.locale.currentLocale;
+}), _dec2 = (0, _core.computed)(function (_ref) {
+  var _modals = _ref._modals,
+      currentLocale = _ref._deps.locale.currentLocale;
   return [_modals, currentLocale];
-}), _dec(_class = (_class2 = (_temp = /*#__PURE__*/function (_RcUIModuleV) {
+}), _dec(_class = (_class2 = /*#__PURE__*/function (_RcUIModuleV) {
   _inherits(ModalUI, _RcUIModuleV);
 
   var _super = _createSuper(ModalUI);
@@ -183,11 +140,11 @@ var ModalUI = (_dec = (0, _di.Module)({
     _this._handlerRegister = new Map();
     _this._promises = new Map();
 
-    _this.registerRenderer(defaultOKRendererID, defaultOKRenderer);
+    _this.registerRenderer(_utils.defaultOKRendererID, _utils.defaultOKRenderer);
 
-    _this.registerRenderer(defaultCancelRendererID, defaultCancelRenderer);
+    _this.registerRenderer(_utils.defaultCancelRendererID, _utils.defaultCancelRenderer);
 
-    _this.registerRenderer(infoTitleRendererID, infoTitleRenderer);
+    _this.registerRenderer(_utils.infoTitleRendererID, _utils.infoTitleRenderer);
 
     return _this;
   }
@@ -260,23 +217,27 @@ var ModalUI = (_dec = (0, _di.Module)({
       }, this._modals);
 
       if (this._modals[idx].useLoadingOverlay) {
-        this._modals[idx].showLoadingOverlay = loading;
+        this._modals[idx].loadingOverlay = loading;
       } else {
         this._modals[idx].loading = loading;
       }
     }
   }, {
-    key: "_onOK",
+    key: "_onConfirm",
     value: function () {
-      var _onOK2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(id, onOK) {
+      var _onConfirm2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(id, onConfirm) {
         var handler;
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
+                // here we assume the handler is async and set the loading status
+                // detecting whether the handler is async or not is unreliable and can be dangerous
+                // for most non-async functions the loading status will occur too briefly
+                // so that the UI will not really render the loading status at all
                 this._setLoading(id, true);
 
-                handler = this._handlerRegister.get(id).get(onOK);
+                handler = this._handlerRegister.get(id).get(onConfirm);
                 _context2.t0 = handler;
 
                 if (!_context2.t0) {
@@ -316,11 +277,11 @@ var ModalUI = (_dec = (0, _di.Module)({
         }, _callee2, this);
       }));
 
-      function _onOK(_x3, _x4) {
-        return _onOK2.apply(this, arguments);
+      function _onConfirm(_x3, _x4) {
+        return _onConfirm2.apply(this, arguments);
       }
 
-      return _onOK;
+      return _onConfirm;
     }()
   }, {
     key: "_onExited",
@@ -395,6 +356,17 @@ var ModalUI = (_dec = (0, _di.Module)({
     value: function _removeHandler(id, handlerID) {
       this._handlerRegister.get(id)["delete"](handlerID);
     }
+    /**
+     * register render method for custom render if you want
+     *
+     * @example
+     *
+     * ```tsx
+     * const defaultOKRenderer: CustomRenderer = ({ currentLocale }) =>
+     *  <span>{i18n.getString('ok', currentLocale)}</span>
+     * ```
+     */
+
   }, {
     key: "registerRenderer",
     value: function registerRenderer(id, renderer) {
@@ -498,13 +470,13 @@ var ModalUI = (_dec = (0, _di.Module)({
     }
   }, {
     key: "_getDehydratedState",
-    value: function _getDehydratedState(_ref5, oldState) {
+    value: function _getDehydratedState(_ref2, oldState) {
       var _oldState$handlerIDs$, _oldState$handlerIDs;
 
-      var titleProps = _ref5.titleProps,
-          contentProps = _ref5.contentProps,
-          footerProps = _ref5.footerProps,
-          props = _objectWithoutProperties(_ref5, ["titleProps", "contentProps", "footerProps"]);
+      var titleProps = _ref2.titleProps,
+          contentProps = _ref2.contentProps,
+          footerProps = _ref2.footerProps,
+          props = _objectWithoutProperties(_ref2, ["titleProps", "contentProps", "footerProps"]);
 
       var handlerIDs = (_oldState$handlerIDs$ = oldState === null || oldState === void 0 ? void 0 : (_oldState$handlerIDs = oldState.handlerIDs) === null || _oldState$handlerIDs === void 0 ? void 0 : _oldState$handlerIDs.slice()) !== null && _oldState$handlerIDs$ !== void 0 ? _oldState$handlerIDs$ : [];
 
@@ -528,12 +500,12 @@ var ModalUI = (_dec = (0, _di.Module)({
     }
   }, {
     key: "open",
-    value: function open(_ref6, usePromise) {
-      var _ref6$disableBackdrop = _ref6.disableBackdropClick,
-          disableBackdropClick = _ref6$disableBackdrop === void 0 ? true : _ref6$disableBackdrop,
-          _ref6$fullScreen = _ref6.fullScreen,
-          fullScreen = _ref6$fullScreen === void 0 ? false : _ref6$fullScreen,
-          props = _objectWithoutProperties(_ref6, ["disableBackdropClick", "fullScreen"]);
+    value: function open(_ref3, usePromise) {
+      var _ref3$disableBackdrop = _ref3.disableBackdropClick,
+          disableBackdropClick = _ref3$disableBackdrop === void 0 ? true : _ref3$disableBackdrop,
+          _ref3$fullScreen = _ref3.fullScreen,
+          fullScreen = _ref3$fullScreen === void 0 ? false : _ref3$fullScreen,
+          props = _objectWithoutProperties(_ref3, ["disableBackdropClick", "fullScreen"]);
 
       var id = (0, _uuid.v4)();
 
@@ -590,7 +562,7 @@ var ModalUI = (_dec = (0, _di.Module)({
       }, this._modals);
 
       if (!dehydratedState) {
-        throw new Error("modal id \"".concat(id, " not found"));
+        return false;
       }
 
       var updatedState = _objectSpread(_objectSpread({}, dehydratedState), {}, {
@@ -598,6 +570,8 @@ var ModalUI = (_dec = (0, _di.Module)({
       });
 
       this._updateModal(updatedState);
+
+      return true;
     }
   }, {
     key: "confirm",
@@ -605,8 +579,8 @@ var ModalUI = (_dec = (0, _di.Module)({
       var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
       var usePromise = arguments.length > 1 ? arguments[1] : undefined;
       return this.open(_objectSpread(_objectSpread({
-        okText: defaultOKRendererID,
-        cancelText: defaultCancelRendererID
+        confirmButtonText: _utils.defaultOKRendererID,
+        cancelButtonText: _utils.defaultCancelRendererID
       }, props), {}, {
         variant: 'confirm'
       }), usePromise);
@@ -617,7 +591,7 @@ var ModalUI = (_dec = (0, _di.Module)({
       var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
       var usePromise = arguments.length > 1 ? arguments[1] : undefined;
       return this.open(_objectSpread(_objectSpread({
-        okText: defaultOKRendererID
+        confirmButtonText: _utils.defaultOKRendererID
       }, props), {}, {
         variant: 'alert'
       }), usePromise);
@@ -652,38 +626,39 @@ var ModalUI = (_dec = (0, _di.Module)({
       var _this4 = this;
 
       var currentLocale = this._deps.locale.currentLocale;
-      return (0, _ramda.map)(function (_ref7) {
-        var _this4$_rendererRegis, _this4$_rendererRegis2, _this4$_rendererRegis3, _this4$_rendererRegis4, _this4$_rendererRegis5, _this4$_rendererRegis6, _ref8, _this4$_rendererRegis7, _ref9, _this4$_rendererRegis8;
+      return (0, _ramda.map)(function (_ref4) {
+        var _this4$_rendererRegis, _this4$_rendererRegis2, _this4$_rendererRegis3, _this4$_rendererRegis4, _this4$_rendererRegis5, _this4$_rendererRegis6, _ref5, _this4$_rendererRegis7, _ref6, _this4$_rendererRegis8;
 
-        var id = _ref7.id,
-            _onOK3 = _ref7.onOK,
-            onCancel = _ref7.onCancel,
-            title = _ref7.title,
-            content = _ref7.content,
-            footer = _ref7.footer,
-            okText = _ref7.okText,
-            cancelText = _ref7.cancelText,
-            _ref7$titleProps = _ref7.titleProps,
-            titleProps = _ref7$titleProps === void 0 ? {} : _ref7$titleProps,
-            _ref7$contentProps = _ref7.contentProps,
-            contentProps = _ref7$contentProps === void 0 ? {} : _ref7$contentProps,
-            _ref7$footerProps = _ref7.footerProps,
-            footerProps = _ref7$footerProps === void 0 ? {} : _ref7$footerProps,
-            variant = _ref7.variant,
-            handlerIDs = _ref7.handlerIDs,
-            props = _objectWithoutProperties(_ref7, ["id", "onOK", "onCancel", "title", "content", "footer", "okText", "cancelText", "titleProps", "contentProps", "footerProps", "variant", "handlerIDs"]);
+        var id = _ref4.id,
+            _onConfirm3 = _ref4.onConfirm,
+            onCancel = _ref4.onCancel,
+            title = _ref4.title,
+            content = _ref4.content,
+            footer = _ref4.footer,
+            confirmButtonText = _ref4.confirmButtonText,
+            cancelButtonText = _ref4.cancelButtonText,
+            _ref4$titleProps = _ref4.titleProps,
+            titleProps = _ref4$titleProps === void 0 ? {} : _ref4$titleProps,
+            _ref4$contentProps = _ref4.contentProps,
+            contentProps = _ref4$contentProps === void 0 ? {} : _ref4$contentProps,
+            _ref4$footerProps = _ref4.footerProps,
+            footerProps = _ref4$footerProps === void 0 ? {} : _ref4$footerProps,
+            variant = _ref4.variant,
+            handlerIDs = _ref4.handlerIDs,
+            useLoadingOverlay = _ref4.useLoadingOverlay,
+            rest = _objectWithoutProperties(_ref4, ["id", "onConfirm", "onCancel", "title", "content", "footer", "confirmButtonText", "cancelButtonText", "titleProps", "contentProps", "footerProps", "variant", "handlerIDs", "useLoadingOverlay"]);
 
-        var uiProps = _objectSpread(_objectSpread({}, props), {}, {
+        var uiProps = _objectSpread(_objectSpread({}, rest), {}, {
           key: id,
-          onOK: function onOK() {
-            return _this4._onOK(id, _onOK3);
+          onConfirm: function onConfirm() {
+            return _this4._onConfirm(id, _onConfirm3);
           },
           onExited: function onExited() {
             return _this4._onExited(id);
           }
         });
 
-        if (onCancel || cancelText) {
+        if (onCancel || cancelButtonText) {
           uiProps.onCancel = function () {
             return _this4._onCancel(id, onCancel);
           };
@@ -692,49 +667,60 @@ var ModalUI = (_dec = (0, _di.Module)({
         var renderedTitle = (_this4$_rendererRegis = (_this4$_rendererRegis2 = _this4._rendererRegister.get(title)) === null || _this4$_rendererRegis2 === void 0 ? void 0 : _this4$_rendererRegis2(_objectSpread(_objectSpread({
           currentLocale: currentLocale
         }, _this4._rehydrateFunctions(id, titleProps, handlerIDs)), {}, {
-          onOK: uiProps.onOK,
+          onConfirm: uiProps.onConfirm,
           onCancel: uiProps.onCancel
         }))) !== null && _this4$_rendererRegis !== void 0 ? _this4$_rendererRegis : title;
-        uiProps.title = variant === 'info' ? _this4._rendererRegister.get(infoTitleRendererID)({
-          title: renderedTitle,
-          onOK: uiProps.onOK,
-          currentLocale: currentLocale
-        }) : renderedTitle;
-        uiProps.content = (_this4$_rendererRegis3 = (_this4$_rendererRegis4 = _this4._rendererRegister.get(content)) === null || _this4$_rendererRegis4 === void 0 ? void 0 : _this4$_rendererRegis4(_objectSpread(_objectSpread({
+
+        if (variant === 'info') {
+          uiProps.title = _this4._rendererRegister.get(_utils.infoTitleRendererID)({
+            title: renderedTitle,
+            onConfirm: uiProps.onConfirm,
+            currentLocale: currentLocale
+          });
+          uiProps.TitleProps = {
+            disableTypography: true,
+            display: 'flex',
+            space: [0, 6]
+          };
+        } else {
+          uiProps.title = renderedTitle;
+        }
+
+        uiProps.children = (_this4$_rendererRegis3 = (_this4$_rendererRegis4 = _this4._rendererRegister.get(content)) === null || _this4$_rendererRegis4 === void 0 ? void 0 : _this4$_rendererRegis4(_objectSpread(_objectSpread({
           currentLocale: currentLocale
         }, _this4._rehydrateFunctions(id, contentProps, handlerIDs)), {}, {
-          onOK: uiProps.onOK,
+          onConfirm: uiProps.onConfirm,
           onCancel: uiProps.onCancel
         }))) !== null && _this4$_rendererRegis3 !== void 0 ? _this4$_rendererRegis3 : content;
         uiProps.footer = variant === 'info' ? null : (_this4$_rendererRegis5 = (_this4$_rendererRegis6 = _this4._rendererRegister.get(footer)) === null || _this4$_rendererRegis6 === void 0 ? void 0 : _this4$_rendererRegis6(_objectSpread(_objectSpread({
           currentLocale: currentLocale
         }, _this4._rehydrateFunctions(id, footerProps, handlerIDs)), {}, {
-          onOK: uiProps.onOK,
+          onConfirm: uiProps.onConfirm,
           onCancel: uiProps.onCancel
         }))) !== null && _this4$_rendererRegis5 !== void 0 ? _this4$_rendererRegis5 : footer;
-        uiProps.okText = (_ref8 = (_this4$_rendererRegis7 = _this4._rendererRegister.get(okText)) === null || _this4$_rendererRegis7 === void 0 ? void 0 : _this4$_rendererRegis7({
+        uiProps.confirmButtonText = (_ref5 = (_this4$_rendererRegis7 = _this4._rendererRegister.get(confirmButtonText)) === null || _this4$_rendererRegis7 === void 0 ? void 0 : _this4$_rendererRegis7({
           currentLocale: currentLocale,
-          onOK: uiProps.onOK,
+          onConfirm: uiProps.onConfirm,
           onCancel: uiProps.onCancel
-        })) !== null && _ref8 !== void 0 ? _ref8 : okText;
-        uiProps.cancelText = (_ref9 = (_this4$_rendererRegis8 = _this4._rendererRegister.get(cancelText)) === null || _this4$_rendererRegis8 === void 0 ? void 0 : _this4$_rendererRegis8({
+        })) !== null && _ref5 !== void 0 ? _ref5 : confirmButtonText;
+        uiProps.cancelButtonText = (_ref6 = (_this4$_rendererRegis8 = _this4._rendererRegister.get(cancelButtonText)) === null || _this4$_rendererRegis8 === void 0 ? void 0 : _this4$_rendererRegis8({
           currentLocale: currentLocale,
-          onOK: uiProps.onOK,
+          onConfirm: uiProps.onConfirm,
           onCancel: uiProps.onCancel
-        })) !== null && _ref9 !== void 0 ? _ref9 : cancelText;
+        })) !== null && _ref6 !== void 0 ? _ref6 : cancelButtonText;
         return uiProps;
       }, this._modals);
     }
   }]);
 
   return ModalUI;
-}(_core.RcUIModuleV2), _temp), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "_modals", [_core.state], {
+}(_core.RcUIModuleV2), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "_modals", [_core.state], {
   configurable: true,
   enumerable: true,
   writable: true,
   initializer: function initializer() {
     return [];
   }
-}), _applyDecoratedDescriptor(_class2.prototype, "_addModal", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_addModal"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_updateModal", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_updateModal"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_removeModal", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_removeModal"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_genericHandler", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_genericHandler"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_setLoading", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setLoading"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_onOK", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_onOK"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_onExited", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_onExited"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_onCancel", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_onCancel"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "open", [_background["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "open"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "update", [_background["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "update"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "close", [_background["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "close"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "confirm", [_background["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "confirm"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "alert", [_background["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "alert"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "info", [_background["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "info"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "modals", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "modals"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getPromise", [_background["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "getPromise"), _class2.prototype)), _class2)) || _class);
+}), _applyDecoratedDescriptor(_class2.prototype, "_addModal", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_addModal"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_updateModal", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_updateModal"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_removeModal", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_removeModal"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_genericHandler", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_genericHandler"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_setLoading", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setLoading"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_onConfirm", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_onConfirm"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_onExited", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_onExited"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_onCancel", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_onCancel"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "open", [_background["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "open"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "update", [_background["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "update"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "close", [_background["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "close"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "confirm", [_background["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "confirm"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "alert", [_background["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "alert"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "info", [_background["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "info"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "modals", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "modals"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getPromise", [_background["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "getPromise"), _class2.prototype)), _class2)) || _class);
 exports.ModalUI = ModalUI;
 //# sourceMappingURL=ModalUI.js.map
