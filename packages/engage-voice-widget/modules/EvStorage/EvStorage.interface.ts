@@ -1,6 +1,6 @@
-import { Auth } from 'ringcentral-integration/modules/AuthV2';
-import { StorageOptions } from 'ringcentral-integration/modules/StorageV2';
-import { TabManager } from 'ringcentral-integration/modules/TabManagerV2';
+import { Auth } from '@ringcentral-integration/commons/modules/AuthV2';
+import { StorageOptions } from '@ringcentral-integration/commons/modules/StorageV2';
+import { TabManager } from '@ringcentral-integration/commons/modules/TabManagerV2';
 import { EvAuth } from '../EvAuth';
 
 export type EvStorageOptions = StorageOptions;

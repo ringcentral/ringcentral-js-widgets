@@ -1,4 +1,4 @@
-import authMessages from 'ringcentral-integration/modules/Auth/authMessages';
+import authMessages from '@ringcentral-integration/commons/modules/Auth/authMessages';
 export default {
   [authMessages.internalError]: "Inloggen is mislukt vanwege interne fouten. Probeer het later opnieuw.",
   [authMessages.accessDenied]: "Toegang geweigerd. Neem contact op met support.",

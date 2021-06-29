@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import callDirections from 'ringcentral-integration/enums/callDirections';
-import sessionStatus from 'ringcentral-integration/modules/Webphone/sessionStatus';
+import callDirections from '@ringcentral-integration/commons/enums/callDirections';
+import sessionStatus from '@ringcentral-integration/commons/modules/Webphone/sessionStatus';
 import { CallBadgeProps, CallBadgeState } from './types';
 import ActiveCallBadge from '../ActiveCallBadge';
 import i18n from './i18n';

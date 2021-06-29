@@ -9,7 +9,7 @@ import { Unsubscribe } from 'redux';
 import { Module } from '../../lib/di';
 import { loginStatus } from '../AuthV2';
 import { DataFetcherV2Consumer, DataSource } from '../DataFetcherV2';
-import { permissionsMessages } from '../RolesAndPermissions/permissionsMessages';
+import { permissionsMessages } from '../../enums/permissionsMessages';
 import { Deps } from './RolesAndPermissions.interface';
 
 const DEFAULT_TTL = 24 * 60 * 60 * 1000;

@@ -1,10 +1,10 @@
-import connectivityTypes from '../../../modules/ConnectivityManager/connectivityTypes';
+import { connectivityTypes } from '../../../modules/ConnectivityManager';
 export default {
-  [connectivityTypes.webphoneUnavailable]: "Webtelefon nicht verfügbar",
-  [connectivityTypes.offline]: "Offline",
-  [connectivityTypes.voipOnly]: "Nur VoIP",
-  [connectivityTypes.survival]: "Eingeschränkter Modus",
-  [connectivityTypes.connecting]: "Verbindung wird hergestellt"
+  [connectivityTypes.webphoneUnavailable]: 'Webtelefon nicht verfügbar',
+  [connectivityTypes.offline]: 'Offline',
+  [connectivityTypes.voipOnly]: 'Nur VoIP',
+  [connectivityTypes.survival]: 'Eingeschränkter Modus',
+  [connectivityTypes.connecting]: 'Verbindung wird hergestellt',
 };
 
 // @key: @#@"[connectivityTypes.webphoneUnavailable]"@#@ @source: @#@"Web Phone Unavailable"@#@

@@ -1,4 +1,4 @@
-import meetingStatus from 'ringcentral-integration/modules/Meeting/meetingStatus';
+import meetingStatus from '@ringcentral-integration/commons/modules/Meeting/meetingStatus';
 export default {
   [meetingStatus.emptyTopic]: "Geben Sie das Meetingthema ein.",
   [meetingStatus.noPassword]: "Geben Sie das Meetingkennwort ein.",

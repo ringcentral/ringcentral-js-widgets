@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { createStore } from 'redux';
-import { ClientTransport } from 'ringcentral-integration/lib/ChromeTransport';
-import getProxyClient from 'ringcentral-integration/lib/proxy/getProxyClient';
+import { ClientTransport } from '@ringcentral-integration/commons/lib/ChromeTransport';
+import getProxyClient from '@ringcentral-integration/commons/lib/proxy/getProxyClient';
 import Phone from '../dev-server/Phone';
 import App from '../dev-server/containers/App';
 import apiConfig from '../dev-server/api-config';

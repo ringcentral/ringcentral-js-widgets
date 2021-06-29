@@ -1,9 +1,9 @@
-import NavigationBar from 'ringcentral-widgets/components/NavigationBar';
-import CallsPanel from 'ringcentral-widgets/components/CallsPanel';
-import CallItem from 'ringcentral-widgets/components/CallItem';
-import LogButton from 'ringcentral-widgets/components/LogButton';
-import { Button } from 'ringcentral-widgets/components/Button';
-import Spinner from 'ringcentral-widgets/components/Spinner';
+import NavigationBar from '@ringcentral-integration/widgets/components/NavigationBar';
+import CallsPanel from '@ringcentral-integration/widgets/components/CallsPanel';
+import CallItem from '@ringcentral-integration/widgets/components/CallItem';
+import LogButton from '@ringcentral-integration/widgets/components/LogButton';
+import { Button } from '@ringcentral-integration/widgets/components/Button';
+import Spinner from '@ringcentral-integration/widgets/components/Spinner';
 
 import { getWrapper, timeout } from '../shared';
 

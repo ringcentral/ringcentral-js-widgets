@@ -1,4 +1,4 @@
-import { phoneTypes } from 'ringcentral-integration/enums/phoneTypes';
+import { phoneTypes } from '@ringcentral-integration/commons/enums/phoneTypes';
 export default {
   [phoneTypes.business]: "비즈니스 전화",
   [phoneTypes.extension]: "내선 번호",

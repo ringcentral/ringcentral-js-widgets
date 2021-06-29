@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { isArray } from 'ringcentral-integration/lib/di/utils/is_type';
+import { isArray } from '@ringcentral-integration/commons/lib/di/utils/is_type';
 import CallInfo from './CallInfo';
 import MergeInfo from './MergeInfo';
 import ConferenceInfo from './ConferenceInfo';

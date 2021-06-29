@@ -120,6 +120,6 @@ export class VideoConfiguration extends DataFetcherV2Consumer<
   }
 
   get _hasPermission() {
-    return this._deps.extensionFeatures.features?.Meetings?.available ?? false;
+    return this._deps.extensionFeatures.hasMeetingsPermission;
   }
 }

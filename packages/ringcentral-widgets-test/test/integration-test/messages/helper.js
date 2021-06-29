@@ -1,8 +1,8 @@
-import messageSyncBody from 'ringcentral-integration/integration-test/mock/data/messageSync.json';
-import messageFaxItemBody from 'ringcentral-integration/integration-test/mock/data/messageFaxItem.json';
-import subscriptionBody from 'ringcentral-integration/integration-test/mock/data/subscription.json';
-import pubnubMsg from 'ringcentral-integration/integration-test/mock/data/pubnub.json';
-import * as mock from 'ringcentral-integration/integration-test/mock';
+import messageSyncBody from '@ringcentral-integration/commons/integration-test/mock/data/messageSync.json';
+import messageFaxItemBody from '@ringcentral-integration/commons/integration-test/mock/data/messageFaxItem.json';
+import subscriptionBody from '@ringcentral-integration/commons/integration-test/mock/data/subscription.json';
+import pubnubMsg from '@ringcentral-integration/commons/integration-test/mock/data/pubnub.json';
+import * as mock from '@ringcentral-integration/commons/integration-test/mock';
 import { timeout } from '../shared';
 import { getLastPubnub } from '../../__mocks__/pubnub';
 

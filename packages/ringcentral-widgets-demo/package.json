@@ -1,5 +1,5 @@
 {
-  "name": "ringcentral-widgets-demo",
+  "name": "@ringcentral-integration/widgets-demo",
   "version": "0.0.1",
   "private": true,
   "description": "Demo for RingCentral JS Widgets",
@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "@rc-ex/core": "^0.8.1",
+    "@ringcentral-integration/commons": "*",
     "@ringcentral-integration/core": "*",
     "@ringcentral-integration/babel-settings": "*",
     "@ringcentral-integration/i18n": "*",
@@ -56,8 +57,7 @@
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.2.0",
     "ringcentral-client": "^1.0.0-beta.2",
-    "ringcentral-integration": "*",
-    "ringcentral-widgets": "*",
+    "@ringcentral-integration/widgets": "*",
     "sass-loader": "^7.1.0",
     "source-map-loader": "^0.2.4",
     "style-loader": "^0.23.1",

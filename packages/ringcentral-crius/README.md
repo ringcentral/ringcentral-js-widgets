@@ -1,10 +1,10 @@
-# ringcentral-crius
+# @ringcentral-integration/crius
 
 A test lib based on Crius for RingCentral Integration
 
 ## Usage
 
-Add `ringcentral-crius` to the development dependencies in the specified project.
+Add `@ringcentral-integration/crius` to the development dependencies in the specified project.
 
 ## CLI
 

@@ -3,15 +3,15 @@ import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
 import { Router, Route } from 'react-router';
 
-import PhoneProvider from 'ringcentral-widgets/lib/PhoneProvider';
+import PhoneProvider from '@ringcentral-integration/widgets/lib/PhoneProvider';
 
-import RegionSettingsPage from 'ringcentral-widgets/containers/RegionSettingsPage';
+import RegionSettingsPage from '@ringcentral-integration/widgets/containers/RegionSettingsPage';
 
-import SettingsPage from 'ringcentral-widgets/containers/SettingsPage';
-import LoginPage from 'ringcentral-widgets/containers/LoginPage';
+import SettingsPage from '@ringcentral-integration/widgets/containers/SettingsPage';
+import LoginPage from '@ringcentral-integration/widgets/containers/LoginPage';
 
-import AlertContainer from 'ringcentral-widgets/containers/AlertContainer';
-import ConnectivityBadgeContainer from 'ringcentral-widgets/containers/ConnectivityBadgeContainer';
+import AlertContainer from '@ringcentral-integration/widgets/containers/AlertContainer';
+import ConnectivityBadgeContainer from '@ringcentral-integration/widgets/containers/ConnectivityBadgeContainer';
 
 import MainView from '../MainView';
 import AppView from '../AppView';

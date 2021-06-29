@@ -1,12 +1,12 @@
 import React from 'react';
 import { mount } from 'enzyme';
-import LogBasicInfoV2 from 'ringcentral-widgets/components/LogBasicInfoV2';
-import callDirections from 'ringcentral-integration/enums/callDirections';
+import LogBasicInfoV2 from '@ringcentral-integration/widgets/components/LogBasicInfoV2';
+import callDirections from '@ringcentral-integration/commons/enums/callDirections';
 import getIntlDateTimeFormatter, {
   DEFAULT_TIME_OPTIONS,
-} from 'ringcentral-integration/lib/getIntlDateTimeFormatter';
-import callResults from 'ringcentral-integration/enums/callResults';
-import telephonyStatuses from 'ringcentral-integration/enums/telephonyStatus';
+} from '@ringcentral-integration/commons/lib/getIntlDateTimeFormatter';
+import callResults from '@ringcentral-integration/commons/enums/callResults';
+import telephonyStatuses from '@ringcentral-integration/commons/enums/telephonyStatus';
 
 const setup = (props) => {
   const { call, logName } = props;

@@ -2,7 +2,7 @@ import { ensureLogin, containsErrorMessage } from '../utils/HelpUtil';
 import { waitInSeconds } from '../utils/WaitUtil';
 import ClientHistoryRequest from '../utils/ClientHistoryRequest';
 import * as mock from '../mock';
-import permissionsMessages from '../../modules/RolesAndPermissions/permissionsMessages';
+import { permissionsMessages } from '../../enums/permissionsMessages';
 
 export default (auth, client, extensionInfo, account, alert) => {
   describe('ExtensionInfo:', () => {

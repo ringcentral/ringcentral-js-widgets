@@ -1,8 +1,8 @@
 import { contains } from 'ramda';
-import ConferenceInfo from 'ringcentral-widgets/components/ActiveCallPanel/ConferenceInfo';
-import ParticipantItem from 'ringcentral-widgets/components/ConferenceParticipantPanel/ParticipantItem';
-import ConfirmRemoveModal from 'ringcentral-widgets/components/ConferenceParticipantPanel/ConfirmRemoveModal';
-import * as mock from 'ringcentral-integration/integration-test/mock';
+import ConferenceInfo from '@ringcentral-integration/widgets/components/ActiveCallPanel/ConferenceInfo';
+import ParticipantItem from '@ringcentral-integration/widgets/components/ConferenceParticipantPanel/ParticipantItem';
+import ConfirmRemoveModal from '@ringcentral-integration/widgets/components/ConferenceParticipantPanel/ConfirmRemoveModal';
+import * as mock from '@ringcentral-integration/commons/integration-test/mock';
 import { mockConferenceCallEnv, removeParticipant } from './helper';
 import { initPhoneWrapper, timeout } from '../shared';
 

@@ -1,6 +1,6 @@
 import { RcModuleV2 } from '@ringcentral-integration/core';
 import { EventEmitter } from 'events';
-import { Module } from 'ringcentral-integration/lib/di';
+import { Module } from '@ringcentral-integration/commons/lib/di';
 
 import {
   EvClientCallBackValueType,

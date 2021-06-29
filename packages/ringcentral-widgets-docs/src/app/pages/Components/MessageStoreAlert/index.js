@@ -8,7 +8,7 @@ import Demo from './Demo';
 // eslint-disable-next-line
 import demoCode from '!raw-loader!./Demo';
 // eslint-disable-next-line
-import componentCode from '!raw-loader!ringcentral-widgets/components/AlertRenderer/MessageStoreAlert';
+import componentCode from '!raw-loader!@ringcentral-integration/widgets/components/AlertRenderer/MessageStoreAlert';
 
 const MessageStoreAlertPage = () => {
   const info = parse(componentCode);

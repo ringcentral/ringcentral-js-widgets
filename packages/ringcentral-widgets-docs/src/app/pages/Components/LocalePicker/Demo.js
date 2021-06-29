@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import LocalePicker from 'ringcentral-widgets/components/LocalePicker';
+import LocalePicker from '@ringcentral-integration/widgets/components/LocalePicker';
 
 const props = {};
 props.value = 'test string';

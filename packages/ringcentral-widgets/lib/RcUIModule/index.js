@@ -1,5 +1,5 @@
-import RcModule from 'ringcentral-integration/lib/RcModule';
-import moduleStatuses from 'ringcentral-integration/enums/moduleStatuses';
+import RcModule from '@ringcentral-integration/commons/lib/RcModule';
+import moduleStatuses from '@ringcentral-integration/commons/enums/moduleStatuses';
 
 export default class RcUIModule extends RcModule {
   get status() {

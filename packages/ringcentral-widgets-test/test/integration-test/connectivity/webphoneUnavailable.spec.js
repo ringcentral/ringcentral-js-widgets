@@ -1,12 +1,12 @@
 import { contains } from 'ramda';
-import sleep from 'ringcentral-integration/lib/sleep';
-import audioSettingsErrors from 'ringcentral-integration/modules/AudioSettings/audioSettingsErrors';
-import ConnectivityBadge from 'ringcentral-widgets/components/ConnectivityBadge';
-import CircleButton from 'ringcentral-widgets/components/CircleButton';
-import WebphoneAlert from 'ringcentral-widgets/components/AlertRenderer/WebphoneAlert';
-import AudioSettingsAlert from 'ringcentral-widgets/components/AlertRenderer/AudioSettingsAlert';
-import * as mock from 'ringcentral-integration/integration-test/mock';
-import { waitUntilEqual } from 'ringcentral-integration/integration-test/utils/WaitUtil';
+import sleep from '@ringcentral-integration/commons/lib/sleep';
+import audioSettingsErrors from '@ringcentral-integration/commons/modules/AudioSettings/audioSettingsErrors';
+import ConnectivityBadge from '@ringcentral-integration/widgets/components/ConnectivityBadge';
+import CircleButton from '@ringcentral-integration/widgets/components/CircleButton';
+import WebphoneAlert from '@ringcentral-integration/widgets/components/AlertRenderer/WebphoneAlert';
+import AudioSettingsAlert from '@ringcentral-integration/widgets/components/AlertRenderer/AudioSettingsAlert';
+import * as mock from '@ringcentral-integration/commons/integration-test/mock';
+import { waitUntilEqual } from '@ringcentral-integration/commons/integration-test/utils/WaitUtil';
 import { getWrapper, timeout, tearDownWrapper } from '../shared';
 
 describe('Webphone badge', () => {

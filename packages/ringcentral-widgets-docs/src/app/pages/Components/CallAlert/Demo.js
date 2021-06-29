@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import CallAlert from 'ringcentral-widgets/components/AlertRenderer/CallAlert';
+import CallAlert from '@ringcentral-integration/widgets/components/AlertRenderer/CallAlert';
 
 const props = {};
 props.regionSettingsUrl = 'test string';

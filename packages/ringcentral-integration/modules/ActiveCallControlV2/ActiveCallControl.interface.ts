@@ -1,8 +1,8 @@
 import {
   Direction,
-  SessionData,
   Party,
   PartyStatusCode,
+  SessionData,
 } from 'ringcentral-call-control/lib/Session';
 import { Session } from 'ringcentral-call/lib/Session';
 import { WebPhoneSession } from 'ringcentral-web-phone/lib/session';
@@ -14,9 +14,8 @@ import Alert from '../Alert';
 import AudioSettings from '../AudioSettings';
 import Auth from '../Auth';
 import AvailabilityMonitor from '../AvailabilityMonitor';
-import Brand from '../Brand';
+import { Brand } from '../BrandV2';
 import ConnectivityMonitor from '../ConnectivityMonitor';
-import { ExtensionFeatures } from '../ExtensionFeatures';
 import ExtensionInfo from '../ExtensionInfo';
 import NumberValidate from '../NumberValidate';
 import { Presence } from '../PresenceV2';
@@ -45,7 +44,6 @@ export interface Deps {
   brand: Brand;
   client: RingCentralClient;
   connectivityMonitor: ConnectivityMonitor;
-  extensionFeatures: ExtensionFeatures;
   extensionInfo: ExtensionInfo;
   numberValidate: NumberValidate;
   presence: Presence;
@@ -109,6 +107,7 @@ export interface ActiveCallControlSessionData extends SessionData {
   to: any;
   startTime: number;
   webphoneSession: any;
+  webphoneSessionId: string;
 }
 
 export { Session, WebPhoneSession };

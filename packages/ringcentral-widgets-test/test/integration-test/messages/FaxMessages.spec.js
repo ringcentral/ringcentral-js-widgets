@@ -1,20 +1,20 @@
-import { phoneTypes } from 'ringcentral-integration/enums/phoneTypes';
-import { phoneSources } from 'ringcentral-integration/enums/phoneSources';
-import messageTypes from 'ringcentral-integration/enums/messageTypes';
-import * as mock from 'ringcentral-integration/integration-test/mock';
-import messageSyncBody from 'ringcentral-integration/integration-test/mock/data/messageSync.json';
-import { ensureLogin } from 'ringcentral-integration/integration-test/utils/HelpUtil';
-import { waitUntil } from 'ringcentral-integration/lib/waitUntil';
+import { phoneTypes } from '@ringcentral-integration/commons/enums/phoneTypes';
+import { phoneSources } from '@ringcentral-integration/commons/enums/phoneSources';
+import messageTypes from '@ringcentral-integration/commons/enums/messageTypes';
+import * as mock from '@ringcentral-integration/commons/integration-test/mock';
+import messageSyncBody from '@ringcentral-integration/commons/integration-test/mock/data/messageSync.json';
+import { ensureLogin } from '@ringcentral-integration/commons/integration-test/utils/HelpUtil';
+import { waitUntil } from '@ringcentral-integration/commons/lib/waitUntil';
 
-import NavigationBar from 'ringcentral-widgets/components/NavigationBar';
-import ConversationsPanel from 'ringcentral-widgets/components/ConversationsPanel';
-import MessageItem from 'ringcentral-widgets/components/MessageItem';
-import ContactDisplay from 'ringcentral-widgets/components/ContactDisplay';
+import NavigationBar from '@ringcentral-integration/widgets/components/NavigationBar';
+import ConversationsPanel from '@ringcentral-integration/widgets/components/ConversationsPanel';
+import MessageItem from '@ringcentral-integration/widgets/components/MessageItem';
+import ContactDisplay from '@ringcentral-integration/widgets/components/ContactDisplay';
 import {
   MarkButton,
   PreviewButton,
-} from 'ringcentral-widgets/components/ActionMenuList';
-import EntityButton from 'ringcentral-widgets/components/EntityButton';
+} from '@ringcentral-integration/widgets/components/ActionMenuList';
+import EntityButton from '@ringcentral-integration/widgets/components/EntityButton';
 
 import { getWrapper, timeout, tearDownWrapper } from '../shared';
 import {

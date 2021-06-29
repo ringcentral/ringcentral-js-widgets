@@ -1,6 +1,6 @@
 import { mount, shallow } from 'enzyme';
 import React from 'react';
-import DropdownSelect from 'ringcentral-widgets/components/DropdownSelect';
+import DropdownSelect from '@ringcentral-integration/widgets/components/DropdownSelect';
 
 const Options = ['123', '456', '789']
 const OptionsWithLabel = [{label:'aaa',value:'123'}, {label:'bbb',value:'456'}, {label:'ccc',value:'789'}]

@@ -1,5 +1,5 @@
-import webphoneErrors from 'ringcentral-integration/modules/Webphone/webphoneErrors';
-import webphoneMessages from 'ringcentral-integration/modules/Webphone/webphoneMessages';
+import webphoneErrors from '@ringcentral-integration/commons/modules/Webphone/webphoneErrors';
+import webphoneMessages from '@ringcentral-integration/commons/modules/Webphone/webphoneMessages';
 export default {
   [webphoneErrors.connectFailed]: "申し訳ございません。現在、電話機能は使用できません。後でやり直してください。 ",
   [webphoneErrors.connected]: "ウェブ電話は登録されています。",

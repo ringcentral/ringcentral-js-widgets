@@ -416,7 +416,7 @@ describe('Dependency Injection Features', () => {
 
   it('should inheritant deps correctly', () => {
     @Module({
-      deps: [{ dep: 'ModuleOptions', optional: true }],
+      deps: [{ dep: 'Prefix', optional: true }],
     })
     class ModuleA {}
 

@@ -1,4 +1,4 @@
-import regionSettingsMessages from 'ringcentral-integration/modules/RegionSettings/regionSettingsMessages';
+import regionSettingsMessages from '@ringcentral-integration/commons/modules/RegionSettings/regionSettingsMessages';
 export default {
   region: "Região",
   [regionSettingsMessages.saveSuccess]: "Definições guardadas com sucesso.",

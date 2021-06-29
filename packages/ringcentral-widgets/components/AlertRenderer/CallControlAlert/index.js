@@ -1,4 +1,4 @@
-import callControlError from 'ringcentral-integration/modules/ActiveCallControl/callControlError';
+import callControlError from '@ringcentral-integration/commons/modules/ActiveCallControl/callControlError';
 import i18n from './i18n';
 
 export default function CallControlAlert({

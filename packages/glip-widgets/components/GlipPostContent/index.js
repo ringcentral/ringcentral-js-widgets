@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
-import DownloadIcon from 'ringcentral-widgets/assets/images/Download.svg';
+import DownloadIcon from '@ringcentral-integration/widgets/assets/images/Download.svg';
 
 import isPicture from '../../lib/isPicture';
 

@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import MeetingSection from 'ringcentral-widgets/components/MeetingSection';
+import MeetingSection from '@ringcentral-integration/widgets/components/MeetingSection';
 
 /**
  * A example of `MeetingSection`

@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import IncomingCallPad from 'ringcentral-widgets/components/IncomingCallPad';
+import IncomingCallPad from '@ringcentral-integration/widgets/components/IncomingCallPad';
 
 const props = {};
 props.answer = () => null;

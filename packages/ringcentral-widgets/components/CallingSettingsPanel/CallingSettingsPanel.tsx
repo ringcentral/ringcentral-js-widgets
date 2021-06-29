@@ -2,16 +2,14 @@
 import React, {
   FunctionComponent,
   useState,
-  ReactNode,
   useRef,
-  MutableRefObject,
   ChangeEvent,
   useEffect,
 } from 'react';
 import classnames from 'classnames';
 import formatMessage from 'format-message';
 
-import callingOptions from 'ringcentral-integration/modules/CallingSettings/callingOptions';
+import callingOptions from '@ringcentral-integration/commons/modules/CallingSettings/callingOptions';
 import TooltipBase from 'rc-tooltip';
 import 'rc-tooltip/assets/bootstrap_white.css';
 
@@ -33,64 +31,70 @@ import { RingTone } from '../Ringtone';
 import {
   CallingSettingsPanelProps,
   CallingSettingsProps,
+  GetCallingOptionProps,
+  GetOptionNameProps,
+  TooltipProps,
+  CallWithProps,
 } from './CallingSettingsPenal.interface';
 
 const TooltipBaseComp =
   typeof TooltipBase === 'function' ? TooltipBase : TooltipBase.default;
 
-function isRcBrand(brandCode: string): boolean {
-  return brandCode === 'rc';
-}
-
-function isAttBrand(brandCode: string): boolean {
-  return brandCode === 'att';
-}
-
-export function getJupiterAppName(
-  brandCode: string,
-  brandName: string,
-  currentLocale: string,
-): string {
-  return isRcBrand(brandCode)
-    ? `${brandName} App`
-    : `${isAttBrand(brandCode) ? 'AT&T ' : ''}${formatMessage(
-        i18n.getString(callingOptions.jupiter, currentLocale),
-        {
-          brand: brandName,
-        },
-      )}`;
-}
-
-export function getSoftphoneAppName(
-  brandCode: string,
-  brandName: string,
-  currentLocale: string,
-): string {
-  if (isRcBrand(brandCode)) {
-    return `${brandName} Phone`;
+export function getJupiterAppName({
+  brandCode,
+  brandName,
+  shortBrandName,
+  fullBrandName,
+}: GetOptionNameProps): string {
+  switch (brandCode) {
+    case 'att':
+      return fullBrandName;
+    case 'telus':
+      return `${shortBrandName} App`;
+    default:
+      return `${brandName} App`;
   }
-  if (isAttBrand(brandCode)) {
-    return `AT&T ${brandName} Phone`;
-  }
-  return formatMessage(
-    i18n.getString(callingOptions.softphone, currentLocale),
-    {
-      brand: brandName,
-    },
-  );
 }
 
-export function getCallingOptionName(
-  callingOption: string,
-  brandCode: string,
-  brandName: string,
-  currentLocale: string,
-) {
+export function getSoftphoneAppName({
+  brandCode,
+  brandName,
+  shortBrandName,
+  fullBrandName,
+}: GetOptionNameProps): string {
+  switch (brandCode) {
+    case 'att':
+      return `${fullBrandName} Phone`;
+    case 'telus':
+      return `${shortBrandName} Phone`;
+    default:
+      return `${brandName} Phone`;
+  }
+}
+
+export function getCallingOptionName({
+  callingOption,
+  brandCode,
+  brandName,
+  shortBrandName,
+  fullBrandName,
+  currentLocale,
+}: GetCallingOptionProps) {
   if (callingOption === callingOptions.softphone) {
-    return getSoftphoneAppName(brandCode, brandName, currentLocale);
+    return getSoftphoneAppName({
+      brandCode,
+      brandName,
+      shortBrandName,
+      fullBrandName,
+    });
   }
   if (callingOption === callingOptions.jupiter) {
-    return getJupiterAppName(brandCode, brandName, currentLocale);
+    return getJupiterAppName({
+      brandCode,
+      brandName,
+      shortBrandName,
+      fullBrandName,
+    });
   }
   if (callingOption === callingOptions.ringout) {
     // Not to translate
@@ -99,29 +103,14 @@ export function getCallingOptionName(
   return i18n.getString(callingOption, currentLocale);
 }
 
-interface CallWithProps {
-  brandCode: string;
-  brandName: string;
-  currentLocale: string;
-  callWithOptions: string[];
-  disabled: boolean;
-  callWith: string;
-  onCallWithChange: (newCallWith: string) => void;
-}
-interface TooltipProps {
-  brandCode: string;
-  brandName: string;
-  callWith: string;
-  currentLocale: string;
-  tooltipContainerRef: MutableRefObject<ReactNode>;
-}
-
 const Tooltip: FunctionComponent<TooltipProps> = ({
   brandCode,
   brandName,
   callWith,
   currentLocale,
   tooltipContainerRef,
+  shortBrandName,
+  fullBrandName,
 }) => {
   const keys = [`${callWith}Tooltip`];
   if (
@@ -131,12 +120,14 @@ const Tooltip: FunctionComponent<TooltipProps> = ({
   ) {
     keys.push(`${callWith}Tooltip1`);
   }
-  const optionName = getCallingOptionName(
-    callWith,
+  const optionName = getCallingOptionName({
+    callingOption: callWith,
     brandCode,
     brandName,
     currentLocale,
-  );
+    shortBrandName,
+    fullBrandName,
+  });
   const overlay = (
     <div>
       {keys.map((key) => (
@@ -167,6 +158,8 @@ const Tooltip: FunctionComponent<TooltipProps> = ({
 const CallWithSettings: FunctionComponent<CallWithProps> = ({
   brandCode,
   brandName,
+  shortBrandName,
+  fullBrandName,
   callWith,
   callWithOptions,
   currentLocale,
@@ -176,12 +169,14 @@ const CallWithSettings: FunctionComponent<CallWithProps> = ({
   const tooltipContainerRef = useRef(null);
 
   const optionRenderer = (option: string) => {
-    const optionName = getCallingOptionName(
-      option,
+    const optionName = getCallingOptionName({
+      callingOption: option,
       brandCode,
       brandName,
       currentLocale,
-    );
+      shortBrandName,
+      fullBrandName,
+    });
     return optionName;
   };
 
@@ -197,6 +192,8 @@ const CallWithSettings: FunctionComponent<CallWithProps> = ({
               callWith,
               currentLocale,
               tooltipContainerRef,
+              shortBrandName,
+              fullBrandName,
             }}
           />
         </span>
@@ -327,6 +324,8 @@ const CallingSettings: FunctionComponent<CallingSettingsProps> = ({
   defaultIncomingAudioFile,
   defaultOutgoingAudio,
   defaultOutgoingAudioFile,
+  shortBrandName,
+  fullBrandName,
 }) => {
   const [callWithState, setCallWithState] = useState(callWith);
   const [ringoutPromptState, setRingoutPromptState] = useState(ringoutPrompt);
@@ -367,6 +366,8 @@ const CallingSettings: FunctionComponent<CallingSettingsProps> = ({
           callWithOptions,
           currentLocale,
           disabled,
+          shortBrandName,
+          fullBrandName,
           onCallWithChange: (newCallWith: string) => {
             setCallWithState(newCallWith);
             if (newCallWith === callWith) {

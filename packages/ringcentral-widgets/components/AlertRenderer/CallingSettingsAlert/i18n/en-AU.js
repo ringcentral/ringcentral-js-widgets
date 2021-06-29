@@ -1,4 +1,4 @@
-import callingSettingsMessages from 'ringcentral-integration/modules/CallingSettings/callingSettingsMessages';
+import callingSettingsMessages from '@ringcentral-integration/commons/modules/CallingSettings/callingSettingsMessages';
 export default {
   [callingSettingsMessages.saveSuccess]: "Settings saved successfully.",
   [callingSettingsMessages.saveSuccessWithSoftphone]: "Settings saved successfully. Please make sure you have {brand} installed in your computer.",

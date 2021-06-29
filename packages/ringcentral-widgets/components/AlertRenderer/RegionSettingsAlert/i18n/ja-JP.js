@@ -1,4 +1,4 @@
-import regionSettingsMessages from 'ringcentral-integration/modules/RegionSettings/regionSettingsMessages';
+import regionSettingsMessages from '@ringcentral-integration/commons/modules/RegionSettings/regionSettingsMessages';
 export default {
   region: "地域",
   [regionSettingsMessages.saveSuccess]: "設定が正常に保存されました。",

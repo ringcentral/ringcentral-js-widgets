@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import ConferenceCommands from 'ringcentral-widgets/components/ConferenceCommands';
+import ConferenceCommands from '@ringcentral-integration/widgets/components/ConferenceCommands';
 
 /**
  * A example of `ConferenceCommands`

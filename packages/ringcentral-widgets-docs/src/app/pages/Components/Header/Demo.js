@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import { Header } from 'ringcentral-widgets/components/Header';
+import { Header } from '@ringcentral-integration/widgets/components/Header';
 
 const props = {};
 

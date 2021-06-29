@@ -1,9 +1,9 @@
-import { Module } from '../../lib/di';
-import { selector } from '../../lib/selector';
+import permissionsMessages from '../../enums/permissionsMessages';
 import DataFetcher from '../../lib/DataFetcher';
-import permissionsMessages from './permissionsMessages';
-import loginStatus from '../Auth/loginStatus';
+import { Module } from '../../lib/di';
 import ensureExist from '../../lib/ensureExist';
+import { selector } from '../../lib/selector';
+import loginStatus from '../Auth/loginStatus';
 
 const DEFAULT_TTL = 24 * 60 * 60 * 1000;
 
@@ -53,11 +53,7 @@ export default class RolesAndPermissions extends DataFetcher {
       ttl,
       fetchFunction: async () =>
         extractData(
-          await this._client
-            .account()
-            .extension()
-            .authzProfile()
-            .get(),
+          await this._client.account().extension().authzProfile().get(),
         ),
       readyCheckFn: () => this._extensionInfo.ready,
       forbiddenHandler: async () => {

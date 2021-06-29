@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import Eula from 'ringcentral-widgets/components/Eula';
+import Eula from '@ringcentral-integration/widgets/components/Eula';
 
 const props = {};
 props.brandId = 'test string';

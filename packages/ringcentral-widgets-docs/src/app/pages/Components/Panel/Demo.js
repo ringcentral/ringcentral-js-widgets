@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import Panel from 'ringcentral-widgets/components/Panel';
+import Panel from '@ringcentral-integration/widgets/components/Panel';
 
 const props = {};
 

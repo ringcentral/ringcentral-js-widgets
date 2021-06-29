@@ -1,5 +1,5 @@
-import webphoneErrors from 'ringcentral-integration/modules/Webphone/webphoneErrors';
-import webphoneMessages from 'ringcentral-integration/modules/Webphone/webphoneMessages';
+import webphoneErrors from '@ringcentral-integration/commons/modules/Webphone/webphoneErrors';
+import webphoneMessages from '@ringcentral-integration/commons/modules/Webphone/webphoneMessages';
 export default {
   [webphoneErrors.connectFailed]: "No momento, os recursos do telefone estão indisponíveis. Tente mais tarde. ",
   [webphoneErrors.connected]: "Telefone da Web registrado.",

@@ -1,10 +1,15 @@
-import connectivityTypes from '../../../../modules/ConnectivityManager/connectivityTypes';
+import { connectivityTypes } from '../../../../modules/ConnectivityManager';
 export default {
-  [connectivityTypes.networkLoss]: "Er is iets fout gegaan, controleer uw netwerkverbinding en probeer het opnieuw.",
-  [connectivityTypes.offline]: "Kan niet verbinden met de server. Probeer het later opnieuw.",
-  [connectivityTypes.serverUnavailable]: "Er is bij ons iets fout gegaan. Probeer het later opnieuw.",
-  [connectivityTypes.voipOnly]: "Er is bij ons iets fout gegaan. We zijn druk bezig om dit op te lossen. U kunt nog steeds bellen, maar andere functies zijn momenteel beperkt.",
-  [connectivityTypes.survival]: "Er is bij ons iets fout gegaan. We zijn druk bezig om dit op te lossen. U hebt beperkt toegang tot enkele functies. De app zal automatisch herstellen zodra deze beschikbaar is."
+  [connectivityTypes.networkLoss]:
+    'Er is iets fout gegaan, controleer uw netwerkverbinding en probeer het opnieuw.',
+  [connectivityTypes.offline]:
+    'Kan niet verbinden met de server. Probeer het later opnieuw.',
+  [connectivityTypes.serverUnavailable]:
+    'Er is bij ons iets fout gegaan. Probeer het later opnieuw.',
+  [connectivityTypes.voipOnly]:
+    'Er is bij ons iets fout gegaan. We zijn druk bezig om dit op te lossen. U kunt nog steeds bellen, maar andere functies zijn momenteel beperkt.',
+  [connectivityTypes.survival]:
+    'Er is bij ons iets fout gegaan. We zijn druk bezig om dit op te lossen. U hebt beperkt toegang tot enkele functies. De app zal automatisch herstellen zodra deze beschikbaar is.',
 };
 
 // @key: @#@"[connectivityTypes.networkLoss]"@#@ @source: @#@"Sorry, something went wrong, check your network connection and try again."@#@

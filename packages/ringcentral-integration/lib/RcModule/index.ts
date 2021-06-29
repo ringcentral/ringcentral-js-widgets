@@ -48,7 +48,7 @@ export interface RcModuleOptions<S, T> {
  * @description Base module class.
  */
 @Library({
-  deps: [{ dep: 'ModuleOptions', optional: true }],
+  deps: [{ dep: 'Prefix', optional: true }],
 })
 export default abstract class RcModule<
   S extends Record<string, any> = Record<string, any>,

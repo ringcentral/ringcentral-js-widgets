@@ -1,5 +1,5 @@
 import { RcBaseProps } from '@ringcentral/juno';
-import { Locale } from 'ringcentral-integration/modules/LocaleV2';
+import { Locale } from '@ringcentral-integration/commons/modules/LocaleV2';
 
 import { ModalProps } from '../../components/ModalV2/interface';
 

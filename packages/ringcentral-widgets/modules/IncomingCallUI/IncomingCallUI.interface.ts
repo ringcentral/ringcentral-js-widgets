@@ -1,16 +1,16 @@
 import { ComponentType, ReactElement } from 'react';
-import { Webphone } from 'ringcentral-integration/modules/WebphoneV2';
-import { Locale } from 'ringcentral-integration/modules/LocaleV2';
-import { ContactSearch } from 'ringcentral-integration/modules/ContactSearchV2';
-import { RegionSettings } from 'ringcentral-integration/modules/RegionSettingsV2';
-import { ForwardingNumber } from 'ringcentral-integration/modules/ForwardingNumberV2';
-import { Brand } from 'ringcentral-integration/modules/BrandV2';
-import { ExtensionInfo } from 'ringcentral-integration/modules/ExtensionInfoV2';
-import { ConferenceCall } from 'ringcentral-integration/modules/ConferenceCallV2';
-import { ContactMatcher } from 'ringcentral-integration/modules/ContactMatcherV2';
-import { IContact } from 'ringcentral-integration/interfaces/Contact.model';
-import { Entity } from 'ringcentral-integration/interfaces/Entity.interface';
-import { NormalizedSession } from 'ringcentral-integration/interfaces/Webphone.interface';
+import { Webphone } from '@ringcentral-integration/commons/modules/WebphoneV2';
+import { Locale } from '@ringcentral-integration/commons/modules/LocaleV2';
+import { ContactSearch } from '@ringcentral-integration/commons/modules/ContactSearchV2';
+import { RegionSettings } from '@ringcentral-integration/commons/modules/RegionSettingsV2';
+import { ForwardingNumber } from '@ringcentral-integration/commons/modules/ForwardingNumberV2';
+import { Brand } from '@ringcentral-integration/commons/modules/BrandV2';
+import { ExtensionInfo } from '@ringcentral-integration/commons/modules/ExtensionInfoV2';
+import { ConferenceCall } from '@ringcentral-integration/commons/modules/ConferenceCallV2';
+import { ContactMatcher } from '@ringcentral-integration/commons/modules/ContactMatcherV2';
+import { IContact } from '@ringcentral-integration/commons/interfaces/Contact.model';
+import { Entity } from '@ringcentral-integration/commons/interfaces/Entity.interface';
+import { NormalizedSession } from '@ringcentral-integration/commons/interfaces/Webphone.interface';
 import { ForwardingNumberInfo } from '@rc-ex/core/definitions';
 
 export interface IncomingCallUIOptions {

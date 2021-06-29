@@ -1,5 +1,5 @@
-import RcModule from 'ringcentral-integration/lib/RcModule';
-import { Module } from 'ringcentral-integration/lib/di';
+import RcModule from '@ringcentral-integration/commons/lib/RcModule';
+import { Module } from '@ringcentral-integration/commons/lib/di';
 
 <% if (dependencies.length > 0) { %>
 import getReducer from './getReducer';

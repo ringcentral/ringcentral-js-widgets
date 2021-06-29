@@ -6,8 +6,8 @@ import React, {
 } from 'react';
 import CallLogFields, {
   CallLogFieldsProps,
-} from 'ringcentral-widgets/components/CallLogFields';
-import { CallLogPanelProps } from 'ringcentral-widgets/components/CallLogPanel';
+} from '@ringcentral-integration/widgets/components/CallLogFields';
+import { CallLogPanelProps } from '@ringcentral-integration/widgets/components/CallLogPanel';
 import styles from './styles.scss';
 
 type EditLogSectionProps = {

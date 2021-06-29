@@ -531,7 +531,7 @@ const main = createApp({
 Example of `createApp()` with DI:
 
 ```ts
-import { createApp } from 'ringcentral-integration/lib/createApp';
+import { createApp } from '@ringcentral-integration/commons/lib/createApp';
 
 @Module({
   name: 'Todo',

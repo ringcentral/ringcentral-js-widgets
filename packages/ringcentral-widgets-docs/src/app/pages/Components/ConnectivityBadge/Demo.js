@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import ConnectivityBadge from 'ringcentral-widgets/components/ConnectivityBadge';
+import ConnectivityBadge from '@ringcentral-integration/widgets/components/ConnectivityBadge';
 
 const props = {};
 props.currentLocale = 'en-US';

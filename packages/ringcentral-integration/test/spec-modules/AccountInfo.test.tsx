@@ -10,7 +10,7 @@ import {
 } from '@ringcentral-integration/test-utils';
 import { AccountInfo } from '../../modules/AccountInfoV2';
 import { loginStatus } from '../../modules/AuthV2';
-import { permissionsMessages } from '../../modules/RolesAndPermissions/permissionsMessages';
+import { permissionsMessages } from '../../enums/permissionsMessages';
 
 class MockAuth {
   loginStatus = loginStatus.loggedIn;

@@ -1,4 +1,4 @@
-import { ContactModel } from 'ringcentral-integration/interfaces/Contact.model';
+import { ContactModel } from '@ringcentral-integration/commons/interfaces/Contact.model';
 import {
   formatNumber,
   onClickMailTo,

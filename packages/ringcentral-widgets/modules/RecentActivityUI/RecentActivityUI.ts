@@ -3,8 +3,8 @@ import {
   UIFunctions,
   UIProps,
 } from '@ringcentral-integration/core';
-import callDirections from 'ringcentral-integration/enums/callDirections';
-import { Module } from 'ringcentral-integration/lib/di';
+import callDirections from '@ringcentral-integration/commons/enums/callDirections';
+import { Module } from '@ringcentral-integration/commons/lib/di';
 import i18n from './i18n';
 import { getTabs, GetTabsOptions } from './getTabs';
 import {

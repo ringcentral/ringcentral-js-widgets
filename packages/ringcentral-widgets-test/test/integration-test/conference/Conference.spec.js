@@ -1,5 +1,5 @@
-import NavigationBar from 'ringcentral-widgets/components/NavigationBar';
-import ConferencePanel from 'ringcentral-widgets/components/ConferencePanel';
+import NavigationBar from '@ringcentral-integration/widgets/components/NavigationBar';
+import ConferencePanel from '@ringcentral-integration/widgets/components/ConferencePanel';
 
 import { getWrapper } from '../shared';
 

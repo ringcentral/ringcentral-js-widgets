@@ -1,10 +1,10 @@
-import NavigationBar from 'ringcentral-widgets/components/NavigationBar';
-import DialerPanel from 'ringcentral-widgets/components/DialerPanel';
-import RecipientsInput from 'ringcentral-widgets/components/RecipientsInput';
-import { RemoveButton } from 'ringcentral-widgets/components/RemoveButton';
-import DialButton from 'ringcentral-widgets/components/DialButton';
-import DialPad from 'ringcentral-widgets/components/DialPad';
-import DropdownSelect from 'ringcentral-widgets/components/DropdownSelect';
+import NavigationBar from '@ringcentral-integration/widgets/components/NavigationBar';
+import DialerPanel from '@ringcentral-integration/widgets/components/DialerPanel';
+import RecipientsInput from '@ringcentral-integration/widgets/components/RecipientsInput';
+import { RemoveButton } from '@ringcentral-integration/widgets/components/RemoveButton';
+import DialButton from '@ringcentral-integration/widgets/components/DialButton';
+import DialPad from '@ringcentral-integration/widgets/components/DialPad';
+import DropdownSelect from '@ringcentral-integration/widgets/components/DropdownSelect';
 
 import { getWrapper, timeout } from '../shared';
 

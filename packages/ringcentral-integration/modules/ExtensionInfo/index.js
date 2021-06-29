@@ -1,11 +1,11 @@
 import mask from 'json-mask';
 import { path } from 'ramda';
+import { permissionsMessages } from '../../enums/permissionsMessages';
+import subscriptionFilters from '../../enums/subscriptionFilters';
+import subscriptionHints from '../../enums/subscriptionHints';
+import DataFetcher from '../../lib/DataFetcher';
 import { Module } from '../../lib/di';
 import { selector } from '../../lib/selector';
-import DataFetcher from '../../lib/DataFetcher';
-import subscriptionHints from '../../enums/subscriptionHints';
-import subscriptionFilters from '../../enums/subscriptionFilters';
-import permissionsMessages from '../RolesAndPermissions/permissionsMessages';
 
 const DEFAULT_MASK = [
   'id',
@@ -91,12 +91,7 @@ export default class ExtensionInfo extends DataFetcher {
       },
       cleanOnReset: true,
       fetchFunction: async () =>
-        extractData(
-          await this._client
-            .account()
-            .extension()
-            .get(),
-        ),
+        extractData(await this._client.account().extension().get()),
       forbiddenHandler: async () => {
         await this._auth.logout();
         if (this._alert) {

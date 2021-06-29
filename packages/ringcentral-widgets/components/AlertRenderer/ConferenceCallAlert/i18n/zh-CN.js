@@ -1,4 +1,4 @@
-import conferenceCallErrors from 'ringcentral-integration/modules/ConferenceCall/conferenceCallErrors';
+import conferenceCallErrors from '@ringcentral-integration/commons/modules/ConferenceCall/conferenceCallErrors';
 export default {
   [conferenceCallErrors.bringInFailed]: "由于意外错误，合并通话失败。请稍后重试。",
   [conferenceCallErrors.makeConferenceFailed]: "由于意外错误，合并通话失败。请稍后重试。",

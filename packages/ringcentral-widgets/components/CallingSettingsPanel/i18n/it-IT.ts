@@ -1,4 +1,4 @@
-import callingOptions from 'ringcentral-integration/modules/CallingSettings/callingOptions';
+import callingOptions from '@ringcentral-integration/commons/modules/CallingSettings/callingOptions';
 export default {
   title: "Chiamata",
   [callingOptions.softphone]: "{brand} per desktop",

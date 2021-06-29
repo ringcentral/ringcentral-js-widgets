@@ -9,7 +9,7 @@ import callDirections from '../../enums/callDirections';
 import { selector } from '../../lib/selector';
 
 import callingModes from '../CallingSettings/callingModes';
-import permissionsMessages from '../RolesAndPermissions/permissionsMessages';
+import { permissionsMessages } from '../../enums/permissionsMessages';
 import { isConferenceSession, isRecording } from '../Webphone/webphoneHelper';
 import sessionStatusEnum from '../Webphone/sessionStatus';
 

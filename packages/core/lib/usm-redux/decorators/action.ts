@@ -41,8 +41,9 @@ export const action = (
           state = produce(lastState, recipe);
         }
         setStagedState(undefined);
+        const changed = lastState !== state;
         if (process.env.NODE_ENV === 'development') {
-          if (lastState === state) {
+          if (!changed) {
             console.warn(
               `There are no state updates to method '${
                 this[identifierKey]
@@ -60,19 +61,22 @@ export const action = (
             );
           // performance detail: https://immerjs.github.io/immer/docs/performance
         }
-        this[storeKey].dispatch({
-          type: this[identifierKey],
-          method: key,
-          params: args,
-          _state: state,
-          _usm: usm,
-          ...(enablePatches
-            ? {
-                _patches: patches,
-                _inversePatches: inversePatches,
-              }
-            : {}),
-        } as Action);
+
+        if (changed) {
+          this[storeKey].dispatch({
+            type: this[identifierKey],
+            method: key,
+            params: args,
+            _state: state,
+            _usm: usm,
+            ...(enablePatches
+              ? {
+                  _patches: patches,
+                  _inversePatches: inversePatches,
+                }
+              : {}),
+          } as Action);
+        }
       } finally {
         setStagedState(undefined);
       }

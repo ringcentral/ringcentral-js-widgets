@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import LoginPanel from 'ringcentral-widgets/components/LoginPanel';
+import LoginPanel from '@ringcentral-integration/widgets/components/LoginPanel';
 
 const props = {};
 props.currentLocale = 'en-US';

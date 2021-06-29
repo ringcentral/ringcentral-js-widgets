@@ -1,8 +1,8 @@
 import React, { FunctionComponent } from 'react';
 import classnames from 'classnames';
-import { ContactModel } from 'ringcentral-integration/interfaces/Contact.model';
-import { extensionStatusTypes } from 'ringcentral-integration/enums/extensionStatusTypes';
-import { PresenceModel } from 'ringcentral-integration/interfaces/Presence.model';
+import { ContactModel } from '@ringcentral-integration/commons/interfaces/Contact.model';
+import { extensionStatusTypes } from '@ringcentral-integration/commons/enums/extensionStatusTypes';
+import { PresenceModel } from '@ringcentral-integration/commons/interfaces/Presence.model';
 import { Avatar } from './Avatar';
 import styles from '../styles.scss';
 import i18n from '../i18n';

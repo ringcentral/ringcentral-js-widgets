@@ -97,9 +97,9 @@ export class Softphone extends RcModuleV2<Deps> {
       case 'att':
         return 'https://app.officeathand.att.com/';
       case 'bt':
-        return null;
+        return 'http://app.cloudwork.bt.com/';
       case 'telus':
-        return null;
+        return 'https://app.businessconnect.telus.com/';
       default:
         return 'https://app.ringcentral.com/';
     }
@@ -111,7 +111,7 @@ export class Softphone extends RcModuleV2<Deps> {
       case 'att':
         return 'officeathand://';
       case 'bt':
-        return null;
+        return 'com.bt.cloudwork.app://';
       case 'telus':
         return 'rctelus://';
       default:

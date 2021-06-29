@@ -1,4 +1,4 @@
-import authMessages from 'ringcentral-integration/modules/Auth/authMessages';
+import authMessages from '@ringcentral-integration/commons/modules/Auth/authMessages';
 export default {
   [authMessages.internalError]: "Fehler bei der Anmeldung aufgrund interner Fehler. Versuchen Sie es später erneut.",
   [authMessages.accessDenied]: "Der Zugriff wurde verweigert. Wenden Sie sich an den Kundendienst.",

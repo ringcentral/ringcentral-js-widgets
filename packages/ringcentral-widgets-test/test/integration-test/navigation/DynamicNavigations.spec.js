@@ -1,8 +1,8 @@
-import * as mock from 'ringcentral-integration/integration-test/mock';
-import NavigationBar from 'ringcentral-widgets/components/NavigationBar';
-import TabNavigationButton from 'ringcentral-widgets/components/TabNavigationButton';
-import DropdownNavigationView from 'ringcentral-widgets/components/DropdownNavigationView';
-import DropdownNavigationItem from 'ringcentral-widgets/components/DropdownNavigationItem';
+import * as mock from '@ringcentral-integration/commons/integration-test/mock';
+import NavigationBar from '@ringcentral-integration/widgets/components/NavigationBar';
+import TabNavigationButton from '@ringcentral-integration/widgets/components/TabNavigationButton';
+import DropdownNavigationView from '@ringcentral-integration/widgets/components/DropdownNavigationView';
+import DropdownNavigationItem from '@ringcentral-integration/widgets/components/DropdownNavigationItem';
 
 import { getWrapper } from '../shared';
 

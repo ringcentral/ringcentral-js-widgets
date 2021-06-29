@@ -2,7 +2,7 @@ import 'animate.css/animate.min.css';
 
 import { contains } from 'ramda';
 import React, { Component } from 'react';
-import sleep from 'ringcentral-integration/lib/sleep';
+import sleep from '@ringcentral-integration/commons/lib/sleep';
 
 import AlertDisplay, { AlertDisplayProps } from '../AlertDisplay';
 import { ANIMATION_DURATION } from './AnimationAlertUtils';

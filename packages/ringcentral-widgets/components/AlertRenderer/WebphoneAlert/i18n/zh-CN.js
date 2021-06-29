@@ -1,5 +1,5 @@
-import webphoneErrors from 'ringcentral-integration/modules/Webphone/webphoneErrors';
-import webphoneMessages from 'ringcentral-integration/modules/Webphone/webphoneMessages';
+import webphoneErrors from '@ringcentral-integration/commons/modules/Webphone/webphoneErrors';
+import webphoneMessages from '@ringcentral-integration/commons/modules/Webphone/webphoneMessages';
 export default {
   [webphoneErrors.connectFailed]: "抱歉，电话功能当前不可用。请稍后再试。",
   [webphoneErrors.connected]: "网络电话已注册。",

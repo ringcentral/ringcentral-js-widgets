@@ -5,6 +5,7 @@ import I18n, {
   DEFAULT_LOCALE,
   PSEUDO_LOCALE,
 } from '@ringcentral-integration/i18n';
+import formatLocale from '@ringcentral-integration/i18n/lib/formatLocale';
 import RcModule from '../../lib/RcModule';
 import proxify from '../../lib/proxy/proxify';
 import { Module } from '../../lib/di';
@@ -18,7 +19,6 @@ import getProxyStatusReducer from '../../lib/getProxyStatusReducer';
 import detectBrowserLocale from '../../lib/detectBrowserLocale';
 import { moduleActionTypes } from '../../enums/moduleActionTypes';
 import { proxyActionTypes } from '../../enums/proxyActionTypes';
-import formatLocale from '@ringcentral-integration/i18n/lib/formatLocale';
 
 /**
  * @class
@@ -38,17 +38,16 @@ export default class Locale extends RcModule {
    * @param {Object} params - params object
    * @param {String} params.defaultLocale - default 'en-US'
    */
-  constructor({
-    brand,
-    defaultLocale = DEFAULT_LOCALE,
-    detectBrowser = true,
-    polling = false,
-    pollingInterval = 2000,
-    ...options
-  } = {}) {
+  constructor({ brand, localeOptions = {}, ...options } = {}) {
     super({
       ...options,
     });
+    const {
+      defaultLocale = DEFAULT_LOCALE,
+      detectBrowser = true,
+      polling = false,
+      pollingInterval = 2000,
+    } = localeOptions;
     this._brand = brand;
     this._defaultLocale = defaultLocale;
     this._detectBrowser = detectBrowser;

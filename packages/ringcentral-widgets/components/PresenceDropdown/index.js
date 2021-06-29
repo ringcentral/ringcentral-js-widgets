@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { presenceStatus } from 'ringcentral-integration/enums/presenceStatus.enum';
-import DndStatus from 'ringcentral-integration/modules/Presence/dndStatus';
+import { presenceStatus } from '@ringcentral-integration/commons/enums/presenceStatus.enum';
+import DndStatus from '@ringcentral-integration/commons/modules/Presence/dndStatus';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import Line from '../Line';

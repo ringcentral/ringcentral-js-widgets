@@ -15,7 +15,12 @@ import getEnvironmentReducer, {
  * @description Environment module manages which api server the app calls.
  */
 @Module({
-  deps: ['Client', 'GlobalStorage', { dep: 'EnvironmentOptions' }],
+  deps: [
+    'Client',
+    'GlobalStorage',
+    'SdkConfig',
+    { dep: 'EnvironmentOptions', optional: true },
+  ],
 })
 export default class Environment extends RcModule {
   /**
@@ -23,13 +28,13 @@ export default class Environment extends RcModule {
    * @param {Object} params - params object
    * @param {Client} params.client - client module instance
    * @param {GlobalStorage} params.globalStorage - globalStorage module instance
-   * @param {String} params.defaultRecordingHost - default recording host uri
+   * @param {String} params.environmentOptions - default recording host uri
    * @param {Object} params.sdkConfig - sdk config
    */
   constructor({
     client,
     globalStorage,
-    defaultRecordingHost,
+    environmentOptions = {},
     sdkConfig,
     ...options
   }) {
@@ -45,7 +50,7 @@ export default class Environment extends RcModule {
     this._recordingHostStoragekey = 'environmentRecordingHost';
     this._enabledStorageKey = 'environmentEnabled';
     this._defaultRecordingHost =
-      defaultRecordingHost ||
+      environmentOptions.defaultRecordingHost ??
       'https://s3.ap-northeast-2.amazonaws.com/fetch-call-recording/test/index.html';
     this._globalStorage.registerReducer({
       key: this._serverStorageKey,

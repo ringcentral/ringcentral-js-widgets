@@ -1,10 +1,10 @@
-import RcModule from 'ringcentral-integration/lib/RcModule';
-import { Module } from 'ringcentral-integration/lib/di';
-import proxify from 'ringcentral-integration/lib/proxy/proxify';
-import ensureExist from 'ringcentral-integration/lib/ensureExist';
-import moduleStatuses from 'ringcentral-integration/enums/moduleStatuses';
+import RcModule from '@ringcentral-integration/commons/lib/RcModule';
+import { Module } from '@ringcentral-integration/commons/lib/di';
+import proxify from '@ringcentral-integration/commons/lib/proxy/proxify';
+import ensureExist from '@ringcentral-integration/commons/lib/ensureExist';
+import moduleStatuses from '@ringcentral-integration/commons/enums/moduleStatuses';
 import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
-import { getModuleStatusReducer } from 'ringcentral-integration/lib/getModuleStatusReducer';
+import { getModuleStatusReducer } from '@ringcentral-integration/commons/lib/getModuleStatusReducer';
 import { baseMessageTypes } from '../AdapterCore/baseMessageTypes';
 import { baseActionTypes } from './baseActionTypes';
 import getDefaultGlobalStorageReducer from './getDefaultGlobalStorageReducer';

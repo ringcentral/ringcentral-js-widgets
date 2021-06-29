@@ -1,4 +1,4 @@
-import callLogMessages from 'ringcentral-integration/enums/callLogMessages';
+import callLogMessages from '@ringcentral-integration/commons/enums/callLogMessages';
 export default {
   [callLogMessages.logCallLogFailed]: "Kan oproeplog niet laden vanwege een onverwachte fout. Vernieuw de pagina en probeer het opnieuw.",
   // New version of log failed message

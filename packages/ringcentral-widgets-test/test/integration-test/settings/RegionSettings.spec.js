@@ -1,7 +1,7 @@
-import NavigationBar from 'ringcentral-widgets/components/NavigationBar';
-import SettingsPanel from 'ringcentral-widgets/components/SettingsPanel';
-import RegionSettings from 'ringcentral-widgets/components/RegionSettingsPanel';
-import LinkLine from 'ringcentral-widgets/components/LinkLine';
+import NavigationBar from '@ringcentral-integration/widgets/components/NavigationBar';
+import SettingsPanel from '@ringcentral-integration/widgets/components/SettingsPanel';
+import RegionSettings from '@ringcentral-integration/widgets/components/RegionSettingsPanel';
+import LinkLine from '@ringcentral-integration/widgets/components/LinkLine';
 
 import { getWrapper, timeout } from '../shared';
 

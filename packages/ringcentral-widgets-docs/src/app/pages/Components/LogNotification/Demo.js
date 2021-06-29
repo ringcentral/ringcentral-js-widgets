@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import LogNotification from 'ringcentral-widgets/components/LogNotification';
+import LogNotification from '@ringcentral-integration/widgets/components/LogNotification';
 
 /**
  * A example of `LogNotification`

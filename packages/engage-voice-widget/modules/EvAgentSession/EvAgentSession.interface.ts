@@ -1,10 +1,10 @@
-import Alert from 'ringcentral-integration/modules/Alert';
-import { Auth } from 'ringcentral-integration/modules/AuthV2';
-import Locale from 'ringcentral-integration/modules/Locale';
-import { Beforeunload } from 'ringcentral-widgets/modules/Beforeunload';
-import { Block } from 'ringcentral-widgets/modules/Block';
-import { ModalUI } from 'ringcentral-widgets/modules/ModalUIV2';
-import RouterInteraction from 'ringcentral-widgets/modules/RouterInteraction';
+import Alert from '@ringcentral-integration/commons/modules/Alert';
+import { Auth } from '@ringcentral-integration/commons/modules/AuthV2';
+import Locale from '@ringcentral-integration/commons/modules/Locale';
+import { Beforeunload } from '@ringcentral-integration/widgets/modules/Beforeunload';
+import { Block } from '@ringcentral-integration/widgets/modules/Block';
+import { ModalUI } from '@ringcentral-integration/widgets/modules/ModalUIV2';
+import RouterInteraction from '@ringcentral-integration/widgets/modules/RouterInteraction';
 
 import { LoginTypes } from '../../enums';
 import { EvClient } from '../../lib/EvClient';

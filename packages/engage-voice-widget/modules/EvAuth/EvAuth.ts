@@ -10,8 +10,8 @@ import {
 import format from '@ringcentral-integration/phone-number/lib/format';
 import { EventEmitter } from 'events';
 import { Unsubscribe } from 'redux';
-import { Module } from 'ringcentral-integration/lib/di';
-import sleep from 'ringcentral-integration/lib/sleep';
+import { Module } from '@ringcentral-integration/commons/lib/di';
+import sleep from '@ringcentral-integration/commons/lib/sleep';
 
 import { loginStatus, messageTypes, tabManagerEvents } from '../../enums';
 import { EvAgentConfig, EvAgentData } from '../../lib/EvClient';

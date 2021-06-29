@@ -1,4 +1,4 @@
-import { createBrandConfig } from 'ringcentral-integration/modules/BrandV2/createBrandConfig';
+import { createBrandConfig } from '@ringcentral-integration/commons/modules/BrandV2/createBrandConfig';
 
 export const brandConfig = createBrandConfig({
   id: '1210',

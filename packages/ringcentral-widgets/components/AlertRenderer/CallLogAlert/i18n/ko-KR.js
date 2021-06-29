@@ -1,4 +1,4 @@
-import callLogMessages from 'ringcentral-integration/enums/callLogMessages';
+import callLogMessages from '@ringcentral-integration/commons/enums/callLogMessages';
 export default {
   [callLogMessages.logCallLogFailed]: "예기치 않은 오류로 인해 통화 기록을 로드하지 못했습니다. 페이지를 새로 고치고 다시 시도하세요.",
   // New version of log failed message

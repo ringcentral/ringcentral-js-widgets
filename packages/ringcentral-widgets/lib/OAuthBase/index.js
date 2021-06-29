@@ -1,10 +1,10 @@
-import RcModule from 'ringcentral-integration/lib/RcModule';
+import RcModule from '@ringcentral-integration/commons/lib/RcModule';
 import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
-import { Module } from 'ringcentral-integration/lib/di';
-import ensureExist from 'ringcentral-integration/lib/ensureExist';
-import proxify from 'ringcentral-integration/lib/proxy/proxify';
-import authMessages from 'ringcentral-integration/modules/Auth/authMessages';
-import required from 'ringcentral-integration/lib/required';
+import { Module } from '@ringcentral-integration/commons/lib/di';
+import ensureExist from '@ringcentral-integration/commons/lib/ensureExist';
+import proxify from '@ringcentral-integration/commons/lib/proxy/proxify';
+import authMessages from '@ringcentral-integration/commons/modules/Auth/authMessages';
+import required from '@ringcentral-integration/commons/lib/required';
 import url from 'url';
 
 import parseCallbackUri from '../parseCallbackUri';

@@ -1,5 +1,5 @@
-import webphoneErrors from 'ringcentral-integration/modules/Webphone/webphoneErrors';
-import webphoneMessages from 'ringcentral-integration/modules/Webphone/webphoneMessages';
+import webphoneErrors from '@ringcentral-integration/commons/modules/Webphone/webphoneErrors';
+import webphoneMessages from '@ringcentral-integration/commons/modules/Webphone/webphoneMessages';
 export default {
   [webphoneErrors.connectFailed]: "Le funzioni telefoniche non sono attualmente disponibili. Riprova più tardi. ",
   [webphoneErrors.connected]: "Telefono web registrato.",

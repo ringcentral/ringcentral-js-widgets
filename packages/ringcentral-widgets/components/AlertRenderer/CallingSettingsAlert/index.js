@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import callingSettingsMessages from 'ringcentral-integration/modules/CallingSettings/callingSettingsMessages';
+import callingSettingsMessages from '@ringcentral-integration/commons/modules/CallingSettings/callingSettingsMessages';
 import {
   getJupiterAppName,
   getSoftphoneAppName,

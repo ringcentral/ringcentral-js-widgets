@@ -1,6 +1,6 @@
-import { Module } from 'ringcentral-integration/lib/di';
-import formatNumber from 'ringcentral-integration/lib/formatNumber';
-import loginStatus from 'ringcentral-integration/modules/Auth/loginStatus';
+import { Module } from '@ringcentral-integration/commons/lib/di';
+import formatNumber from '@ringcentral-integration/commons/lib/formatNumber';
+import loginStatus from '@ringcentral-integration/commons/modules/Auth/loginStatus';
 import RcUIModule from '../../lib/RcUIModule';
 
 const DEFAULT_REGION_SETTINGS_URL = '/settings/region';

@@ -36,6 +36,7 @@ export interface TypedPhoneNumber {
   type: string;
   phoneNumber: string;
   phoneType: string;
+  contactId: string;
   profileImageUrl?: string;
   entityType: string;
 }

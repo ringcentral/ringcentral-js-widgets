@@ -2,8 +2,8 @@ import { RcButton, RcIconButton, RcTypography } from '@ringcentral/juno';
 import { Edit } from '@ringcentral/juno/icon';
 import classNames from 'classnames';
 import React, { FunctionComponent } from 'react';
-import { Tooltip } from 'ringcentral-widgets/components/Rcui/Tooltip';
-import { TOOLTIP_LONG_DELAY_TIME } from 'ringcentral-widgets/lib/toolTipDelayTime';
+import { Tooltip } from '@ringcentral-integration/widgets/components/Rcui/Tooltip';
+import { TOOLTIP_LONG_DELAY_TIME } from '@ringcentral-integration/widgets/lib/toolTipDelayTime';
 
 import {
   EvSettingsUIFunctions,

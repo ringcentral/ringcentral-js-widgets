@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import Select from 'ringcentral-widgets/components/Select';
+import Select from '@ringcentral-integration/widgets/components/Select';
 
 const props = {};
 props.options = [];

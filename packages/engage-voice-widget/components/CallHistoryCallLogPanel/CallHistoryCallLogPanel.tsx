@@ -2,11 +2,11 @@ import React, { FunctionComponent, useCallback, useRef } from 'react';
 import classNames from 'classnames';
 import { RcButton } from '@ringcentral/juno';
 
-import { BasicCallInfo } from 'ringcentral-widgets/components/BasicCallInfo';
-import { CallLogTitle } from 'ringcentral-widgets/components/CallLogPanel/CallLog.interface';
+import { BasicCallInfo } from '@ringcentral-integration/widgets/components/BasicCallInfo';
+import { CallLogTitle } from '@ringcentral-integration/widgets/components/CallLogPanel/CallLog.interface';
 import CallLogPanel, {
   CallLogPanelProps,
-} from 'ringcentral-widgets/components/CallLogPanel';
+} from '@ringcentral-integration/widgets/components/CallLogPanel';
 
 import {
   EvActivityCallUIFunctions,

@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import SettingsPanel from 'ringcentral-widgets/components/SettingsPanel';
+import SettingsPanel from '@ringcentral-integration/widgets/components/SettingsPanel';
 
 const props = {};
 props.brandId = 'test string';

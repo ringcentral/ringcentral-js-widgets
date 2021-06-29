@@ -215,8 +215,8 @@ export class AvailabilityMonitor extends RcModuleV2<Deps> {
       error.response &&
       !(error.response as ApiError['response'] & ErrorMessages)._json
     ) {
-      (error.response as ApiError['response'] &
-        ErrorMessages)._json = await error.response.clone().json();
+      (error.response as ApiError['response'] & ErrorMessages)._json =
+        await error.response.clone().json();
     }
     const requestUrl = pathOr<ApiError['request']['url']>(
       '',
@@ -404,8 +404,8 @@ export class AvailabilityMonitor extends RcModuleV2<Deps> {
   async checkIfHAError(error: ApiError) {
     const errMessage = pathOr<string>(null, ['message'], error);
     if (error.response) {
-      (error.response as ApiError['response'] &
-        ErrorMessages)._json = await error.response.clone().json();
+      (error.response as ApiError['response'] & ErrorMessages)._json =
+        await error.response.clone().json();
     }
     return isHAError(error) || errMessage === errorMessages.serviceLimited;
   }

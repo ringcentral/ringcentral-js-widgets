@@ -1,5 +1,5 @@
 import { computed, RcUIModuleV2 } from '@ringcentral-integration/core';
-import { Module } from 'ringcentral-integration/lib/di';
+import { Module } from '@ringcentral-integration/commons/lib/di';
 
 import { EvTransferType, transferTypes } from '../../enums/transferTypes';
 import {

@@ -1,13 +1,13 @@
-import IncomingCallPanel from 'ringcentral-widgets/components/IncomingCallPanel';
-import IncomingCallPad from 'ringcentral-widgets/components/IncomingCallPad';
-import NavigationBar from 'ringcentral-widgets/components/NavigationBar';
-import ActiveCallList from 'ringcentral-widgets/components/ActiveCallList';
-import { ActiveCallItem as ActiveCallItemV2 } from 'ringcentral-widgets/components/ActiveCallItemV2';
-import ActiveCallItem from 'ringcentral-widgets/components/ActiveCallItem';
-import ActiveCallsPanel from 'ringcentral-widgets/components/ActiveCallsPanel';
-import MultiCallAnswerButton from 'ringcentral-widgets/components/MultiCallAnswerButton';
-import ActiveCallPad from 'ringcentral-widgets/components/ActiveCallPad';
-import ActiveCallButton from 'ringcentral-widgets/components/ActiveCallButton';
+import IncomingCallPanel from '@ringcentral-integration/widgets/components/IncomingCallPanel';
+import IncomingCallPad from '@ringcentral-integration/widgets/components/IncomingCallPad';
+import NavigationBar from '@ringcentral-integration/widgets/components/NavigationBar';
+import ActiveCallList from '@ringcentral-integration/widgets/components/ActiveCallList';
+import { ActiveCallItem as ActiveCallItemV2 } from '@ringcentral-integration/widgets/components/ActiveCallItemV2';
+import ActiveCallItem from '@ringcentral-integration/widgets/components/ActiveCallItem';
+import ActiveCallsPanel from '@ringcentral-integration/widgets/components/ActiveCallsPanel';
+import MultiCallAnswerButton from '@ringcentral-integration/widgets/components/MultiCallAnswerButton';
+import ActiveCallPad from '@ringcentral-integration/widgets/components/ActiveCallPad';
+import ActiveCallButton from '@ringcentral-integration/widgets/components/ActiveCallButton';
 import { timeout, initPhoneWrapper, tearDownWrapper } from '../shared';
 
 import { mockActiveCallPanelData } from './helper';

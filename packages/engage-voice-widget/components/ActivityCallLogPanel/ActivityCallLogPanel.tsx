@@ -2,10 +2,10 @@ import { RcButton, RcIconButton, RcMenu, RcMenuItem } from '@ringcentral/juno';
 import { Transcription } from '@ringcentral/juno/icon';
 import classNames from 'classnames';
 import React, { FunctionComponent, useCallback, useRef, useState } from 'react';
-import { BasicCallInfo } from 'ringcentral-widgets/components/BasicCallInfo';
+import { BasicCallInfo } from '@ringcentral-integration/widgets/components/BasicCallInfo';
 import CallLogPanel, {
   CallLogPanelProps,
-} from 'ringcentral-widgets/components/CallLogPanel';
+} from '@ringcentral-integration/widgets/components/CallLogPanel';
 
 import { transferTypes } from '../../enums';
 import {
@@ -15,6 +15,7 @@ import {
 import { EvSmallCallControl } from '../EvSmallCallControl';
 import i18n from './i18n';
 import { IvrInfo } from './IvrInfo';
+import { KeypadCollapse } from './KeypadCollapse';
 import styles from './styles.scss';
 import { EditLogSection, getButtonText } from './utils';
 
@@ -70,11 +71,14 @@ export const ActivityCallLogPanel: FunctionComponent<ActivityCallLogPanelProps> 
   onRestartTimer,
   onStopRecord,
   disablePauseRecord,
+  isKeypadOpen,
+  keypadValue,
+  setKeypadIsOpen,
+  setKeypadValue,
   ...rest
 }) => {
   const transferRef = useRef(null);
   const rootRef = useRef<CallLogPanel>(null);
-
   const [transferEl, setTransferRef] = useState(null);
   const isActivity = status === 'active';
   const isCallEnd = status === 'callEnd';
@@ -163,6 +167,21 @@ export const ActivityCallLogPanel: FunctionComponent<ActivityCallLogPanelProps> 
               />
             )}
           </>
+        );
+      }}
+      renderKeypadPanel={() => {
+        return (
+          !isCallEnd && (
+            <>
+              <KeypadCollapse
+                isKeypadOpen={isKeypadOpen}
+                currentLocale={currentLocale}
+                setKeypadIsOpen={setKeypadIsOpen}
+                keypadValue={keypadValue}
+                setKeypadValue={setKeypadValue}
+              />
+            </>
+          )
         );
       }}
       renderCallLogCallControl={() => {

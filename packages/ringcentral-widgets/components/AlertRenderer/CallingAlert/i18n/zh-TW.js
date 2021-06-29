@@ -1,4 +1,4 @@
-import { permissionsMessages } from 'ringcentral-integration/modules/RolesAndPermissions/permissionsMessages';
+import { permissionsMessages } from '@ringcentral-integration/commons/enums/permissionsMessages';
 export default {
   [permissionsMessages.callingDisable]: "您沒有撥出通話的權限。請聯絡您的 {brand} 帳戶管理員進行升級。"
 };

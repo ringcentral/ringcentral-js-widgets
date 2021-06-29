@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import messageTypes from 'ringcentral-integration/enums/messageTypes';
+import messageTypes from '@ringcentral-integration/commons/enums/messageTypes';
 import { Header } from '../Header';
 import { SpinnerOverlay } from '../SpinnerOverlay';
 import MessageTabButton from '../MessageTabButton';

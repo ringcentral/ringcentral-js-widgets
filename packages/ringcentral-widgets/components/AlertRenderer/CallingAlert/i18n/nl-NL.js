@@ -1,4 +1,4 @@
-import { permissionsMessages } from 'ringcentral-integration/modules/RolesAndPermissions/permissionsMessages';
+import { permissionsMessages } from '@ringcentral-integration/commons/enums/permissionsMessages';
 export default {
   [permissionsMessages.callingDisable]: "U hebt onvoldoende machtigingen om uitgaande oproepen te plaatsen. Neem contact op met uw {brand}-beheerder voor een upgrade."
 };

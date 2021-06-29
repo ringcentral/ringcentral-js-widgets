@@ -21,13 +21,13 @@
   "homepage": "https://github.com/ringcentral/ringcentral-js-widgets#readme",
   "peerDependencies": {
     "@ringcentral-integration/core": "^0.13.0",
+    "@ringcentral-integration/commons": "^0.13.0",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
     "react-redux": "^5.1.1",
     "react-router": "^3.0.0",
     "react-router-redux": "^4.0.7",
-    "ringcentral-integration": "^0.13.0",
-    "ringcentral-widgets": "^0.13.0"
+    "@ringcentral-integration/widgets": "^0.13.0"
   },
   "devDependencies": {
     "@ringcentral-integration/core": "*",

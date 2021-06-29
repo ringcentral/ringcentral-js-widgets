@@ -1,6 +1,6 @@
 function mockFunctions() {
   const original = jest.requireActual(
-    'ringcentral-integration/modules/RcVideo/videoHelper',
+    '@ringcentral-integration/commons/modules/RcVideo/videoHelper',
   );
   return {
     ...original,
@@ -10,10 +10,10 @@ function mockFunctions() {
   };
 }
 
-jest.mock('ringcentral-integration/modules/RcVideo/videoHelper', () =>
+jest.mock('@ringcentral-integration/commons/modules/RcVideo/videoHelper', () =>
   mockFunctions(),
 );
-const generator = require('ringcentral-integration/modules/RcVideo/videoHelper');
+const generator = require('@ringcentral-integration/commons/modules/RcVideo/videoHelper');
 
 describe.each`
   password        | expected

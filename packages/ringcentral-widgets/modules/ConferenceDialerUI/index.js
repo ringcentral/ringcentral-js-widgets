@@ -1,5 +1,5 @@
-import { Module } from 'ringcentral-integration/lib/di';
-import proxify from 'ringcentral-integration/lib/proxy/proxify';
+import { Module } from '@ringcentral-integration/commons/lib/di';
+import proxify from '@ringcentral-integration/commons/lib/proxy/proxify';
 import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 
 import DialerUI from '../DialerUI';

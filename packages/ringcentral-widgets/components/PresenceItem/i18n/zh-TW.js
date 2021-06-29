@@ -1,5 +1,5 @@
-import { presenceStatus } from 'ringcentral-integration/enums/presenceStatus.enum';
-import dndStatus from 'ringcentral-integration/modules/Presence/dndStatus';
+import { presenceStatus } from '@ringcentral-integration/commons/enums/presenceStatus.enum';
+import dndStatus from '@ringcentral-integration/commons/modules/Presence/dndStatus';
 export default {
   [presenceStatus.available]: "線上",
   [presenceStatus.busy]: "忙碌",

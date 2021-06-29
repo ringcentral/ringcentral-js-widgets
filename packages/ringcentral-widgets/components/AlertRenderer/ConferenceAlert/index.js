@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import messages from 'ringcentral-integration/modules/Conference/messages';
+import messages from '@ringcentral-integration/commons/modules/Conference/messages';
 import i18n from './i18n';
 
 export default function ConferenceAlert(props) {

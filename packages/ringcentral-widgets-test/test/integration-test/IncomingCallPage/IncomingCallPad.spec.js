@@ -1,15 +1,15 @@
 import Tooltip from 'rc-tooltip';
-import * as mock from 'ringcentral-integration/integration-test/mock';
-import { Button } from 'ringcentral-widgets/components/Button';
-import ForwardForm from 'ringcentral-widgets/components/ForwardForm';
-import CircleButton from 'ringcentral-widgets/components/CircleButton';
-import ActiveCallPanel from 'ringcentral-widgets/components/ActiveCallPanel';
-import IncomingCallPad from 'ringcentral-widgets/components/IncomingCallPad';
-import ActiveCallButton from 'ringcentral-widgets/components/ActiveCallButton';
-import ReplyWithMessage from 'ringcentral-widgets/components/ReplyWithMessage';
-import IncomingCallPanel from 'ringcentral-widgets/components/IncomingCallPanel';
-import sessionStatus from 'ringcentral-integration/modules/Webphone/sessionStatus';
-import MultiCallAnswerButton from 'ringcentral-widgets/components/MultiCallAnswerButton';
+import * as mock from '@ringcentral-integration/commons/integration-test/mock';
+import { Button } from '@ringcentral-integration/widgets/components/Button';
+import ForwardForm from '@ringcentral-integration/widgets/components/ForwardForm';
+import CircleButton from '@ringcentral-integration/widgets/components/CircleButton';
+import ActiveCallPanel from '@ringcentral-integration/widgets/components/ActiveCallPanel';
+import IncomingCallPad from '@ringcentral-integration/widgets/components/IncomingCallPad';
+import ActiveCallButton from '@ringcentral-integration/widgets/components/ActiveCallButton';
+import ReplyWithMessage from '@ringcentral-integration/widgets/components/ReplyWithMessage';
+import IncomingCallPanel from '@ringcentral-integration/widgets/components/IncomingCallPanel';
+import sessionStatus from '@ringcentral-integration/commons/modules/Webphone/sessionStatus';
+import MultiCallAnswerButton from '@ringcentral-integration/widgets/components/MultiCallAnswerButton';
 
 import deviceBody from './data/device';
 import forwardingNumberBody from './data/forwardingNumber';

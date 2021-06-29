@@ -1,6 +1,6 @@
 import { computed, RcUIModuleV2 } from '@ringcentral-integration/core';
 import moment from 'moment';
-import { Module } from 'ringcentral-integration/lib/di';
+import { Module } from '@ringcentral-integration/commons/lib/di';
 
 import {
   EvSettingsUIFunctions,
@@ -68,8 +68,10 @@ class EvSettingsUI extends RcUIModuleV2<Deps> implements SettingsUI {
 
     return [
       {
-        label: getLocalString(LOGIN_TYPE[type as LoginType]),
-        value: formatedPhoneNumber,
+        label: getLocalString(
+          LOGIN_TYPE[type as LoginType] ?? 'integratedPhone',
+        ),
+        value: LOGIN_TYPE[type as LoginType] ? formatedPhoneNumber : dialDest,
       },
       {
         label: getLocalString('loginStyle'),

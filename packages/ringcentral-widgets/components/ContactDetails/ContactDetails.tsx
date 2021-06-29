@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { ContactModel } from 'ringcentral-integration/interfaces/Contact.model';
+import { ContactModel } from '@ringcentral-integration/commons/interfaces/Contact.model';
 import { CompanyInfo } from './components/CompanyInfo';
 import { Emails } from './components/Emails';
 import { Profile } from './components/Profile';

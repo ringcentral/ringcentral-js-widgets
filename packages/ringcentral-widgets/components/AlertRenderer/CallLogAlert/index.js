@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import callLogMessages from 'ringcentral-integration/enums/callLogMessages';
+import callLogMessages from '@ringcentral-integration/commons/enums/callLogMessages';
 import i18n from './i18n';
 
 export default function CallLogAlert({ message: { message }, currentLocale }) {

@@ -1,6 +1,6 @@
 import { RcUIModuleV2 } from '@ringcentral-integration/core';
-import Module from 'ringcentral-integration/lib/di/decorators/module';
-import loginStatus from 'ringcentral-integration/modules/Auth/loginStatus';
+import Module from '@ringcentral-integration/commons/lib/di/decorators/module';
+import loginStatus from '@ringcentral-integration/commons/modules/Auth/loginStatus';
 import { Deps, GetLoginUIProps } from './LoginUI.interface';
 
 @Module({

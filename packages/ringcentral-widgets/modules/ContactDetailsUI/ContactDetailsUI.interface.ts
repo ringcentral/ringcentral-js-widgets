@@ -1,13 +1,13 @@
-import { Call } from 'ringcentral-integration/modules/CallV2';
-import { ComposeText } from 'ringcentral-integration/modules/ComposeTextV2';
-import { ContactSearch } from 'ringcentral-integration/modules/ContactSearchV2';
-import { Contacts } from 'ringcentral-integration/modules/ContactsV2';
-import { ExtensionInfo } from 'ringcentral-integration/modules/ExtensionInfoV2';
-import { Locale } from 'ringcentral-integration/modules/LocaleV2';
-import { RateLimiter } from 'ringcentral-integration/modules/RateLimiterV2';
-import { RegionSettings } from 'ringcentral-integration/modules/RegionSettingsV2';
+import { Call } from '@ringcentral-integration/commons/modules/CallV2';
+import { ComposeText } from '@ringcentral-integration/commons/modules/ComposeTextV2';
+import { ContactSearch } from '@ringcentral-integration/commons/modules/ContactSearchV2';
+import { Contacts } from '@ringcentral-integration/commons/modules/ContactsV2';
+import { ExtensionInfo } from '@ringcentral-integration/commons/modules/ExtensionInfoV2';
+import { Locale } from '@ringcentral-integration/commons/modules/LocaleV2';
+import { RateLimiter } from '@ringcentral-integration/commons/modules/RateLimiterV2';
+import { RegionSettings } from '@ringcentral-integration/commons/modules/RegionSettingsV2';
 import { ExtensionFeatures } from '../../../ringcentral-integration/modules/ExtensionFeatures';
-import ConnectivityManager from '../ConnectivityManager';
+import { ConnectivityManager } from '../ConnectivityManager';
 import DialerUI from '../DialerUI';
 import { RouterInteraction } from '../RouterInteraction';
 

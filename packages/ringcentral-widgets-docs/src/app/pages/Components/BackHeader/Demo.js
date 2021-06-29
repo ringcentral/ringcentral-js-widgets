@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import BackHeader from 'ringcentral-widgets/components/BackHeader';
+import BackHeader from '@ringcentral-integration/widgets/components/BackHeader';
 
 const props = {};
 

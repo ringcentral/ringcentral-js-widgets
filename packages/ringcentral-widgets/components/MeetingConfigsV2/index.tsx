@@ -20,16 +20,16 @@ import {
   generateRandomPassword,
   updateFullTime,
   updateFullYear,
-} from 'ringcentral-integration/helpers/meetingHelper';
+} from '@ringcentral-integration/commons/helpers/meetingHelper';
 import {
   ASSISTED_USERS_MYSELF,
   isRecurringMeeting,
   MeetingType,
-} from 'ringcentral-integration/modules/Meeting';
+} from '@ringcentral-integration/commons/modules/Meeting';
 import {
   MeetingDelegator,
   RcMMeetingModel,
-} from 'ringcentral-integration/modules/MeetingV2';
+} from '@ringcentral-integration/commons/modules/MeetingV2';
 import lockSvg from '@ringcentral/juno/icon/LockBorder';
 import formatMessage from 'format-message';
 

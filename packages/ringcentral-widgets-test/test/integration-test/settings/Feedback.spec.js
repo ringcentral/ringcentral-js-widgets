@@ -1,12 +1,12 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 import { wrap } from 'module';
-import FeedbackPanel from 'ringcentral-widgets/components/FeedbackPanel';
-import SettingsPanel from 'ringcentral-widgets/components/SettingsPanel';
-import NavigationBar from 'ringcentral-widgets/components/NavigationBar';
-import BackHeader from 'ringcentral-widgets/components/BackHeader';
-import TextInput from 'ringcentral-widgets/components/TextInput';
-import Select from 'ringcentral-widgets/components/DropdownSelect';
+import FeedbackPanel from '@ringcentral-integration/widgets/components/FeedbackPanel';
+import SettingsPanel from '@ringcentral-integration/widgets/components/SettingsPanel';
+import NavigationBar from '@ringcentral-integration/widgets/components/NavigationBar';
+import BackHeader from '@ringcentral-integration/widgets/components/BackHeader';
+import TextInput from '@ringcentral-integration/widgets/components/TextInput';
+import Select from '@ringcentral-integration/widgets/components/DropdownSelect';
 
 import { getWrapper, timeout } from '../shared';
 

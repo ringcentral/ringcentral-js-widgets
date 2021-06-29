@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import telephonyStatuses from 'ringcentral-integration/enums/telephonyStatus';
-import callDirections from 'ringcentral-integration/enums/callDirections';
-import { isRingingInboundCall } from 'ringcentral-integration/lib/callLogHelpers';
+import telephonyStatuses from '@ringcentral-integration/commons/enums/telephonyStatus';
+import callDirections from '@ringcentral-integration/commons/enums/callDirections';
+import { isRingingInboundCall } from '@ringcentral-integration/commons/lib/callLogHelpers';
 
 import { SpinnerOverlay } from '../SpinnerOverlay';
 import { Button } from '../Button';

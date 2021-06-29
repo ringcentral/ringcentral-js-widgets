@@ -1,6 +1,6 @@
 import { RcIconProps } from '@ringcentral/juno';
 import { MutableRefObject } from 'react';
-import { DateTimeFormatter } from 'ringcentral-integration/lib/getIntlDateTimeFormatter';
+import { DateTimeFormatter } from '@ringcentral-integration/commons/lib/getIntlDateTimeFormatter';
 
 import { Call, CallLog, CallLogTitle } from './CallLog.interface';
 
@@ -32,6 +32,7 @@ export interface CallLogPanelProps extends CallLogPanelConfig {
   formatPhone: (...args: any[]) => any;
   onReject: (...args: any[]) => any;
   onHangup: (...args: any[]) => any;
+  renderKeypadPanel: (...args: any[]) => any;
   renderSaveLogButton: (...args: any[]) => JSX.Element;
 
   additionalInfo?: object;
@@ -65,6 +66,7 @@ export interface CallLogPanelProps extends CallLogPanelConfig {
       | 'isSearching'
       | 'startAdornmentRender'
       | 'isWide'
+      | 'objectTypeIconsMap'
     > & {
       editSectionScrollBy?: (top: number) => void;
     },
@@ -96,6 +98,12 @@ export interface CallLogPanelProps extends CallLogPanelConfig {
   appName?: string;
   isSearching?: boolean;
   startAdornmentRender?: (...args: any[]) => any;
+  objectTypeIconsMap?: {
+    [type: string]: {
+      icon: string;
+      color: string;
+    };
+  };
   isWebRTC: boolean;
   onIgnore: (telephonySession: string) => any;
   endAndAnswer: (telephonySession: string) => any;

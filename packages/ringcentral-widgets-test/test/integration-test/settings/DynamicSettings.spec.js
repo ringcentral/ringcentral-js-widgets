@@ -1,6 +1,6 @@
-import NavigationBar from 'ringcentral-widgets/components/NavigationBar';
-import SettingsPanel from 'ringcentral-widgets/components/SettingsPanel';
-import LinkLine from 'ringcentral-widgets/components/LinkLine';
+import NavigationBar from '@ringcentral-integration/widgets/components/NavigationBar';
+import SettingsPanel from '@ringcentral-integration/widgets/components/SettingsPanel';
+import LinkLine from '@ringcentral-integration/widgets/components/LinkLine';
 
 import { getWrapper } from '../shared';
 

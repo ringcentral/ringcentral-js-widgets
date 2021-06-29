@@ -9,7 +9,7 @@
 
 RingCentral integration widgets aim to provide reusable UI components to allow developers to integrate RingCentral unified communication service into third party processes or tools more easily.
 
-This project is built based on [RingCentral Integration Common Library](https://www.npmjs.com/package/ringcentral-integration) and [React](https://facebook.github.io/react/). The basic idea is to connect modules in RingCentral Integration Common Library with React components to provide ready to use UI widgets.
+This project is built based on [RingCentral Integration Common Library](https://www.npmjs.com/package/@ringcentral-integration/commons) and [React](https://facebook.github.io/react/). The basic idea is to connect modules in RingCentral Integration Common Library with React components to provide ready to use UI widgets.
 
 
 ## Get Started

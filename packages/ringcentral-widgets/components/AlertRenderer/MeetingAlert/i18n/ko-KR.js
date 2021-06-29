@@ -1,4 +1,4 @@
-import meetingStatus from 'ringcentral-integration/modules/Meeting/meetingStatus';
+import meetingStatus from '@ringcentral-integration/commons/modules/Meeting/meetingStatus';
 export default {
   [meetingStatus.emptyTopic]: "모임 주제를 입력하세요.",
   [meetingStatus.noPassword]: "모임 비밀번호를 제공하세요.",

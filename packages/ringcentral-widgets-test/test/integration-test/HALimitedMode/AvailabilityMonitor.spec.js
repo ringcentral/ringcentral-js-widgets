@@ -1,10 +1,10 @@
 import React from 'react';
-import NavigationBar from 'ringcentral-widgets/components/NavigationBar';
-import SettingsPanel from 'ringcentral-widgets/components/SettingsPanel';
-import ComposeTextPanel from 'ringcentral-widgets/components/ComposeTextPanel';
-import PresenceSettingSection from 'ringcentral-widgets/components/PresenceSettingSection';
-import PresenceItem from 'ringcentral-widgets/components/PresenceItem';
-import ConnectivityBadge from 'ringcentral-widgets/components/ConnectivityBadge';
+import NavigationBar from '@ringcentral-integration/widgets/components/NavigationBar';
+import SettingsPanel from '@ringcentral-integration/widgets/components/SettingsPanel';
+import ComposeTextPanel from '@ringcentral-integration/widgets/components/ComposeTextPanel';
+import PresenceSettingSection from '@ringcentral-integration/widgets/components/PresenceSettingSection';
+import PresenceItem from '@ringcentral-integration/widgets/components/PresenceItem';
+import ConnectivityBadge from '@ringcentral-integration/widgets/components/ConnectivityBadge';
 
 import { initPhoneWrapper, timeout, tearDownWrapper } from '../shared';
 import { HAMocks } from './mockLimited';

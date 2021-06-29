@@ -1,7 +1,6 @@
 {
-  "name": "ringcentral-crius",
-  "private": true,
-  "version": "1.0.0",
+  "name": "@ringcentral-integration/crius",
+  "version": "0.13.0",
   "description": "A test lib based on Crius for RingCentral Integration",
   "main": "index.ts",
   "scripts": {

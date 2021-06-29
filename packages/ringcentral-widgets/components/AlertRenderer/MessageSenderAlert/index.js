@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import messageSenderMessages from 'ringcentral-integration/modules/MessageSender/messageSenderMessages';
-import messageSenderMessagesV2 from 'ringcentral-integration/modules/MessageSenderV2/messageSenderMessages';
+import messageSenderMessages from '@ringcentral-integration/commons/modules/MessageSender/messageSenderMessages';
+import messageSenderMessagesV2 from '@ringcentral-integration/commons/modules/MessageSenderV2/messageSenderMessages';
 
 import FormattedMessage from '../../FormattedMessage';
 

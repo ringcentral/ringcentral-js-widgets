@@ -2,7 +2,7 @@ import {
   mockLimited,
   mockApi,
   mockServer,
-} from 'ringcentral-integration/integration-test/mock';
+} from '@ringcentral-integration/commons/integration-test/mock';
 
 const contentType = { 'Content-Type': 'application/json' };
 

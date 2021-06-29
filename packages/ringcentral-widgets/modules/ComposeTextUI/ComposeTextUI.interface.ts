@@ -1,9 +1,9 @@
-import { Brand } from 'ringcentral-integration/modules/BrandV2';
+import { Brand } from '@ringcentral-integration/commons/modules/BrandV2';
 import {
   ComposeText,
   ToNumber,
-} from 'ringcentral-integration/modules/ComposeTextV2';
-import { ConnectivityMonitor } from 'ringcentral-integration/modules/ConnectivityMonitorV2';
+} from '@ringcentral-integration/commons/modules/ComposeTextV2';
+import { ConnectivityMonitor } from '@ringcentral-integration/commons/modules/ConnectivityMonitorV2';
 import {
   ContactSearch,
   Entities,

@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import FromField from 'ringcentral-widgets/components/FromField';
+import FromField from '@ringcentral-integration/widgets/components/FromField';
 
 const props = {};
 props.fromNumber = '123456';

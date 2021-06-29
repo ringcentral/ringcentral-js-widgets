@@ -10,7 +10,7 @@ import { subscriptionFilters } from '../../enums/subscriptionFilters';
 import { subscriptionHints } from '../../enums/subscriptionHints';
 import { Module } from '../../lib/di';
 import { DataFetcherV2Consumer, DataSource } from '../DataFetcherV2';
-import { permissionsMessages } from '../RolesAndPermissions/permissionsMessages';
+import { permissionsMessages } from '../../enums/permissionsMessages';
 import { Deps, RemappedServiceInfo } from './ExtensionInfo.interface';
 
 const extensionRegExp = /.*\/extension\/\d+$/;

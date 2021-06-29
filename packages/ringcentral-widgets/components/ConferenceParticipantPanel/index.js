@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import calleeTypes from 'ringcentral-integration/enums/calleeTypes';
+import calleeTypes from '@ringcentral-integration/commons/enums/calleeTypes';
 
 import BackButton from '../BackButton';
 import BackHeader from '../BackHeader';

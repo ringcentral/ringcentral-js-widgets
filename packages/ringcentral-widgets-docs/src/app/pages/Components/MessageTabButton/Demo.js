@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import MessageTabButton from 'ringcentral-widgets/components/MessageTabButton';
+import MessageTabButton from '@ringcentral-integration/widgets/components/MessageTabButton';
 
 const props = {};
 props.icon = <span>Node</span>;

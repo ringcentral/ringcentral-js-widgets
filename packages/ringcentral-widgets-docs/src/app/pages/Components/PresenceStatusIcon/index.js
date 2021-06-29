@@ -8,7 +8,7 @@ import Demo from './Demo';
 // eslint-disable-next-line
 import demoCode from '!raw-loader!./Demo';
 // eslint-disable-next-line
-import componentCode from '!raw-loader!ringcentral-widgets/components/PresenceStatusIcon';
+import componentCode from '!raw-loader!@ringcentral-integration/widgets/components/PresenceStatusIcon';
 
 const PresenceStatusIconPage = () => {
   const info = parse(componentCode);

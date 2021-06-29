@@ -1,6 +1,6 @@
 {
   "name": "@ringcentral-integration/engage-voice-widgets",
-  "version": "0.12.0",
+  "version": "0.13.0",
   "description": "RingCentral Engage Voice Integration Widget Library",
   "main": "index.js",
   "directories": {
@@ -33,20 +33,21 @@
   "author": "RingCentral Integrations Team",
   "license": "MIT",
   "peerDependencies": {
-    "@ringcentral-integration/core": "^0.12.0",
+    "@ringcentral-integration/commons": "^0.13.0",
+    "@ringcentral-integration/core": "^0.13.0",
     "@ringcentral-integration/phone-number": "^1.0.4",
-    "@ringcentral/juno": "^1.8.3-beta.4905-adf6ee90",
-    "ringcentral-integration": "^0.12.0",
-    "ringcentral-widgets": "^0.12.0"
+    "@ringcentral/juno": "^1.8.5-beta.5034-128a9f16",
+    "@ringcentral-integration/widgets": "^0.13.0"
   },
   "devDependencies": {
     "@ringcentral-integration/test-utils": "*",
     "@ringcentral-integration/babel-settings": "*",
+    "@ringcentral-integration/commons": "*",
     "@ringcentral-integration/core": "*",
     "@ringcentral-integration/locale-loader": "*",
     "@ringcentral-integration/locale-settings": "*",
     "@ringcentral-integration/phone-number": "*",
-    "@ringcentral/juno": "^1.8.3-beta.4905-adf6ee90",
+    "@ringcentral/juno": "^1.8.5-beta.5034-128a9f16",
     "@testing-library/react": "^11.2.6",
     "crius-test": "^1.2.0",
     "enzyme": "^3.7.0",
@@ -58,8 +59,7 @@
     "gulp-istanbul": "^1.1.1",
     "gulp-sourcemaps": "^2.6.5",
     "jest-html-reporters": "2.0.3",
-    "ringcentral-integration": "*",
-    "ringcentral-widgets": "*"
+    "@ringcentral-integration/widgets": "*"
   },
   "dependencies": {
     "classnames": "^2.2.6",

@@ -7,11 +7,12 @@ $font-wight: 700;
   @include flex_column;
 
   background-color: $snow;
-  height: 100%;
+  height: calc(100% - 36px);
 
   .item {
     & + .item {
       border-top: 16px $margin-color solid;
+      height: calc(100% - 83px);
     }
   }
   .infoWrap {

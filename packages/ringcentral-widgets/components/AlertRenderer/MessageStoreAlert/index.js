@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import messageStoreErrors from 'ringcentral-integration/modules/MessageStore/errors';
+import messageStoreErrors from '@ringcentral-integration/commons/modules/MessageStore/errors';
 import FormattedMessage from '../../FormattedMessage';
 
 import i18n from './i18n';

@@ -1,10 +1,15 @@
-import connectivityTypes from '../../../../modules/ConnectivityManager/connectivityTypes';
+import { connectivityTypes } from '../../../../modules/ConnectivityManager';
 export default {
-  [connectivityTypes.networkLoss]: "Lo sentimos, se produjo un error; verifique su conexión de red y vuelva a intentarlo.",
-  [connectivityTypes.offline]: "No se puede conectar al servidor. Vuelva a intentarlo más tarde.",
-  [connectivityTypes.serverUnavailable]: "Lo sentimos, cometimos un error. Vuelva a intentarlo más tarde.",
-  [connectivityTypes.voipOnly]: "Lo sentimos, cometimos un error, pero estamos trabajando arduamente para solucionarlo. Aún puede hacer llamadas, pero otras funciones están actualmente limitadas.",
-  [connectivityTypes.survival]: "Lo sentimos, cometimos un error, pero estamos trabajando arduamente para solucionarlo. Es posible que tenga acceso limitado a ciertas funciones. La aplicación se recuperará automáticamente tan pronto como esté disponible."
+  [connectivityTypes.networkLoss]:
+    'Lo sentimos, se produjo un error; verifique su conexión de red y vuelva a intentarlo.',
+  [connectivityTypes.offline]:
+    'No se puede conectar al servidor. Vuelva a intentarlo más tarde.',
+  [connectivityTypes.serverUnavailable]:
+    'Lo sentimos, cometimos un error. Vuelva a intentarlo más tarde.',
+  [connectivityTypes.voipOnly]:
+    'Lo sentimos, cometimos un error, pero estamos trabajando arduamente para solucionarlo. Aún puede hacer llamadas, pero otras funciones están actualmente limitadas.',
+  [connectivityTypes.survival]:
+    'Lo sentimos, cometimos un error, pero estamos trabajando arduamente para solucionarlo. Es posible que tenga acceso limitado a ciertas funciones. La aplicación se recuperará automáticamente tan pronto como esté disponible.',
 };
 
 // @key: @#@"[connectivityTypes.networkLoss]"@#@ @source: @#@"Sorry, something went wrong, check your network connection and try again."@#@

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 // eslint-disable-next-line
-import DialerPanel from 'ringcentral-widgets/components/DialerPanel';
+import DialerPanel from '@ringcentral-integration/widgets/components/DialerPanel';
 import styles from './styles.scss';
 /**
  * A example of `DialerPanel`

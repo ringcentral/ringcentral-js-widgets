@@ -1,6 +1,6 @@
 import { shallow } from 'enzyme';
 import React, { Component } from 'react';
-import LogIcon from 'ringcentral-widgets/components/LogIcon';
+import LogIcon from '@ringcentral-integration/widgets/components/LogIcon';
 
 const setup = (props) => {
   const wrapper = shallow(<LogIcon currentLocale="en-US" {...props} />);

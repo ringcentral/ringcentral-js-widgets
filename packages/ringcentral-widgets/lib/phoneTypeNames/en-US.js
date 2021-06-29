@@ -1,4 +1,4 @@
-import { phoneTypes } from 'ringcentral-integration/enums/phoneTypes';
+import { phoneTypes } from '@ringcentral-integration/commons/enums/phoneTypes';
 
 export default {
   [phoneTypes.business]: 'Business Phone',

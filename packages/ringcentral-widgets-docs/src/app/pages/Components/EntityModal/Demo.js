@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 // eslint-disable-next-line
-import EntityModal from 'ringcentral-widgets/components/EntityModal';
-import { Button } from 'ringcentral-widgets/components/Button';
+import EntityModal from '@ringcentral-integration/widgets/components/EntityModal';
+import { Button } from '@ringcentral-integration/widgets/components/Button';
 
 const props = {};
 props.currentLocale = 'en-US';

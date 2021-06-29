@@ -1,10 +1,10 @@
 import { shallow } from 'enzyme';
 import React from 'react';
-import callDirections from 'ringcentral-integration/enums/callDirections';
-import callResults from 'ringcentral-integration/enums/callResults';
-import telephonyStatuses from 'ringcentral-integration/enums/telephonyStatus';
-import LogNotification from 'ringcentral-widgets/components/LogNotification';
-import { Button } from 'ringcentral-widgets/components/Button';
+import callDirections from '@ringcentral-integration/commons/enums/callDirections';
+import callResults from '@ringcentral-integration/commons/enums/callResults';
+import telephonyStatuses from '@ringcentral-integration/commons/enums/telephonyStatus';
+import LogNotification from '@ringcentral-integration/widgets/components/LogNotification';
+import { Button } from '@ringcentral-integration/widgets/components/Button';
 
 const setup = (props) => {
   const currentLog = {

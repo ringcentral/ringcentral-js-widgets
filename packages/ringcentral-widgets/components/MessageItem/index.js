@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import formatMessage from 'format-message';
-import messageTypes from 'ringcentral-integration/enums/messageTypes';
-import { extensionTypes } from 'ringcentral-integration/enums/extensionTypes';
-import messageDirection from 'ringcentral-integration/enums/messageDirection';
-import parseNumber from 'ringcentral-integration/lib/parseNumber';
+import messageTypes from '@ringcentral-integration/commons/enums/messageTypes';
+import { extensionTypes } from '@ringcentral-integration/commons/enums/extensionTypes';
+import messageDirection from '@ringcentral-integration/commons/enums/messageDirection';
+import parseNumber from '@ringcentral-integration/commons/lib/parseNumber';
 import {
   messageIsTextMessage,
   messageIsFax,
-} from 'ringcentral-integration/lib/messageHelper';
+} from '@ringcentral-integration/commons/lib/messageHelper';
 
 import formatDuration from '../../lib/formatDuration';
 

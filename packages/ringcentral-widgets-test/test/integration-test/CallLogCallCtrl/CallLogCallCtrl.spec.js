@@ -1,6 +1,6 @@
 import { mount } from 'enzyme';
 import React from 'react';
-import CallLogCallCtrl from 'ringcentral-widgets/components/CallLogCallCtrlComponent';
+import CallLogCallCtrl from '@ringcentral-integration/widgets/components/CallLogCallCtrlComponent';
 
 const setup = (props) => {
   const ctrlPoprs = {

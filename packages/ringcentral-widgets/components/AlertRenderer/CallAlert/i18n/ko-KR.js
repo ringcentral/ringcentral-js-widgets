@@ -1,4 +1,4 @@
-import callErrors from 'ringcentral-integration/modules/Call/callErrors';
+import callErrors from '@ringcentral-integration/commons/modules/Call/callErrors';
 export default {
   [callErrors.noToNumber]: "유효한 전화번호를 입력하세요.",
   [callErrors.noAreaCode]: "7자리 지역 전화번호를 사용하도록 {areaCodeLink}을(를) 설정하세요.",

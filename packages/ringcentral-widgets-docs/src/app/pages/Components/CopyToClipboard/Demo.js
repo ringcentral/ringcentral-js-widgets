@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import CopyToClipboard from 'ringcentral-widgets/components/CopyToClipboard';
+import CopyToClipboard from '@ringcentral-integration/widgets/components/CopyToClipboard';
 
 const props = {};
 props.currentLocale = 'en-US';

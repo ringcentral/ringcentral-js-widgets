@@ -1,4 +1,4 @@
-import messages from 'ringcentral-integration/modules/Conference/messages';
+import messages from '@ringcentral-integration/commons/modules/Conference/messages';
 export default {
   [messages.requireAdditionalNumbers]: "请选择附加拨入号码。",
   [messages.scheduledSuccess]: "电话会议已排定。"

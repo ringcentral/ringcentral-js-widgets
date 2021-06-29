@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import Message from 'ringcentral-widgets/components/Message';
+import Message from '@ringcentral-integration/widgets/components/Message';
 
 const props = {};
 props.level = 'warning';

@@ -8,7 +8,7 @@ import Demo from './Demo';
 // eslint-disable-next-line
 import demoCode from '!raw-loader!./Demo';
 // eslint-disable-next-line
-import componentCode from '!raw-loader!ringcentral-widgets/components/ToField';
+import componentCode from '!raw-loader!@ringcentral-integration/widgets/components/ToField';
 
 const ToFieldPage = () => {
   const info = parse(componentCode);

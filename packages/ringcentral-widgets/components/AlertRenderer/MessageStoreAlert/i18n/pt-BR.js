@@ -1,4 +1,4 @@
-import messageStoreErrors from 'ringcentral-integration/modules/MessageStore/errors';
+import messageStoreErrors from '@ringcentral-integration/commons/modules/MessageStore/errors';
 export default {
   [messageStoreErrors.deleteFailed]: "Não é possível excluir a caixa postal devido a um erro interno de servidor."
 };

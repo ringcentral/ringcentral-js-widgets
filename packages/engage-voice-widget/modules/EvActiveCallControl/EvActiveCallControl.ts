@@ -4,7 +4,7 @@ import {
   action,
   state,
 } from '@ringcentral-integration/core';
-import { Module } from 'ringcentral-integration/lib/di';
+import { Module } from '@ringcentral-integration/commons/lib/di';
 
 import { tabManagerEvents } from '../../enums';
 import {
@@ -74,6 +74,10 @@ class EvActiveCallControl
     } else {
       throw new Error(message);
     }
+  }
+
+  onKeypadClick(value: string) {
+    this._deps.evClient.sipSendDTMF(value);
   }
 
   @storage

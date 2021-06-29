@@ -1,8 +1,8 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import { phoneTypes } from 'ringcentral-integration/enums/phoneTypes';
-import { phoneSources } from 'ringcentral-integration/enums/phoneSources';
-import ContactDisplay from 'ringcentral-widgets/components/ContactDisplay';
+import { phoneTypes } from '@ringcentral-integration/commons/enums/phoneTypes';
+import { phoneSources } from '@ringcentral-integration/commons/enums/phoneSources';
+import ContactDisplay from '@ringcentral-integration/widgets/components/ContactDisplay';
 
 const DEFAULT_PROPS = {
   currentLocale: 'en-US',

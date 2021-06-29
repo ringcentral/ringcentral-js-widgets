@@ -1,7 +1,7 @@
 import React from 'react';
 import { mount } from 'enzyme';
-import NotificationSection from 'ringcentral-widgets/components/NotificationSection';
-import formatNumber from 'ringcentral-integration/lib/formatNumber';
+import NotificationSection from '@ringcentral-integration/widgets/components/NotificationSection';
+import formatNumber from '@ringcentral-integration/commons/lib/formatNumber';
 
 const setup = (props) => {
   const { logNotification } = props;

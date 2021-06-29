@@ -185,6 +185,17 @@ export default class MessageTransport extends TransportBase {
       });
   }
 
+  /**
+   * Send message without response
+   * @param {payload}
+   */
+  send<T = any>({ payload }: MessageTransportRequestData<T>): void {
+    this._postMessage({
+      type: this._events.push,
+      payload,
+    });
+  }
+
   response({
     requestId,
     result,

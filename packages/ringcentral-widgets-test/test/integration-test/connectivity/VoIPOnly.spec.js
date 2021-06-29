@@ -1,7 +1,7 @@
 import { contains } from 'ramda';
-import ConnectivityBadge from 'ringcentral-widgets/components/ConnectivityBadge';
-import ConnectivityAlert from 'ringcentral-widgets/components/AlertRenderer/ConnectivityAlert';
-import CircleButton from 'ringcentral-widgets/components/CircleButton';
+import ConnectivityBadge from '@ringcentral-integration/widgets/components/ConnectivityBadge';
+import ConnectivityAlert from '@ringcentral-integration/widgets/components/AlertRenderer/ConnectivityAlert';
+import CircleButton from '@ringcentral-integration/widgets/components/CircleButton';
 import { HAMocks } from '../HALimitedMode/mockLimited';
 import { getWrapper, timeout, tearDownWrapper } from '../shared';
 

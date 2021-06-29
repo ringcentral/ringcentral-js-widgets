@@ -1,6 +1,6 @@
 import { EventEmitter } from 'events';
-import { raceTimeout } from 'ringcentral-integration/lib/raceTimeout';
-import sleep from 'ringcentral-integration/lib/sleep';
+import { raceTimeout } from '@ringcentral-integration/commons/lib/raceTimeout';
+import sleep from '@ringcentral-integration/commons/lib/sleep';
 
 const TAB_CHANNEL_KEY = 'channel$$';
 

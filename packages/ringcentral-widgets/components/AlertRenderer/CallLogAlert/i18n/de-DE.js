@@ -1,4 +1,4 @@
-import callLogMessages from 'ringcentral-integration/enums/callLogMessages';
+import callLogMessages from '@ringcentral-integration/commons/enums/callLogMessages';
 export default {
   [callLogMessages.logCallLogFailed]: "Fehler beim Laden des Anruflistenformulars aufgrund eines unerwarteten Fehlers. Bitte aktualisieren Sie die Seite und versuchen Sie es erneut.",
   // New version of log failed message

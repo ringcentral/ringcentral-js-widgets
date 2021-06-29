@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import formatNumber from 'ringcentral-integration/lib/formatNumber';
-import { phoneSources } from 'ringcentral-integration/enums/phoneSources';
+import formatNumber from '@ringcentral-integration/commons/lib/formatNumber';
+import { phoneSources } from '@ringcentral-integration/commons/enums/phoneSources';
 import formatMessage from 'format-message';
 import DropdownSelect from '../DropdownSelect';
 import i18n from './i18n';

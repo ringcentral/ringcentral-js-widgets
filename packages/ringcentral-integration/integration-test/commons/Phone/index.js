@@ -12,7 +12,7 @@ import AudioSettings from '../../../modules/AudioSettings';
 import Auth from '../../../modules/Auth';
 import AvailabilityMonitor from '../../../modules/AvailabilityMonitor';
 import BlockedNumber from '../../../modules/BlockedNumber';
-import Brand from '../../../modules/Brand';
+import { Brand } from '../../../modules/BrandV2';
 import Call from '../../../modules/Call';
 import CallHistory from '../../../modules/CallHistory';
 import CallingSettings from '../../../modules/CallingSettings';
@@ -181,11 +181,8 @@ export function createPhone({
   @ModuleFactory({
     providers: [
       {
-        provide: 'ModuleOptions',
-        useValue: {
-          prefix,
-        },
-        spread: true,
+        provide: 'Prefix',
+        useValue: prefix,
       },
       {
         provide: 'SdkConfig',
@@ -196,19 +193,7 @@ export function createPhone({
         },
       },
       {
-        provide: 'EnvironmentOptions',
-        useValue: {
-          sdkConfig: {
-            ...apiConfig,
-            cachePrefix: 'sdk-rc',
-            clearCacheOnRefreshError: false,
-          },
-        },
-        spread: true,
-      },
-      {
-        provide: 'BrandOptions',
-        spread: true,
+        provide: 'BrandConfig',
         useValue: brandConfig,
       },
       {

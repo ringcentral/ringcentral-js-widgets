@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import FormattedMessage from 'ringcentral-widgets/components/FormattedMessage';
+import FormattedMessage from '@ringcentral-integration/widgets/components/FormattedMessage';
 
 const props = {};
 props.message = 'test string: {param}';

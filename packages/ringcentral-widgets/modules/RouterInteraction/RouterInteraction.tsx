@@ -4,10 +4,10 @@ import {
   routerReducer,
   syncHistoryWithStore,
 } from 'react-router-redux';
-import moduleStatuses from 'ringcentral-integration/enums/moduleStatuses';
-import { Module } from 'ringcentral-integration/lib/di';
-import proxify from 'ringcentral-integration/lib/proxy/proxify';
-import RcModule from 'ringcentral-integration/lib/RcModule';
+import moduleStatuses from '@ringcentral-integration/commons/enums/moduleStatuses';
+import { Module } from '@ringcentral-integration/commons/lib/di';
+import proxify from '@ringcentral-integration/commons/lib/proxy/proxify';
+import RcModule from '@ringcentral-integration/commons/lib/RcModule';
 
 function getDefaultHistory() {
   return useRouterHistory(createMemoryHistory)();

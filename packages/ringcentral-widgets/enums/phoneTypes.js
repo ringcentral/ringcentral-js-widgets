@@ -1,4 +1,4 @@
-export * from 'ringcentral-integration/enums/phoneTypes';
+export * from '@ringcentral-integration/commons/enums/phoneTypes';
 
 // Don't use this anymore.
 // We keep this only for 3rd-party compatible.

@@ -1,4 +1,4 @@
-import { formatNumber as mockFormatNumber } from 'ringcentral-integration/lib/formatNumber';
+import { formatNumber as mockFormatNumber } from '@ringcentral-integration/commons/lib/formatNumber';
 import {
   isE164 as mockIsE164,
   parseIncompletePhoneNumber as mockParseIncompletePhoneNumber,
@@ -11,7 +11,7 @@ jest.mock('@ringcentral-integration/phone-number', () => ({
   parseIncompletePhoneNumber: jest.fn(),
 }));
 
-jest.mock('ringcentral-integration/lib/formatNumber', () => ({
+jest.mock('@ringcentral-integration/commons/lib/formatNumber', () => ({
   formatNumber: jest.fn(),
 }));
 

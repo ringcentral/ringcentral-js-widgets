@@ -1,4 +1,4 @@
-import { phoneSources } from 'ringcentral-integration/enums/phoneSources';
+import { phoneSources } from '@ringcentral-integration/commons/enums/phoneSources';
 export default {
   [phoneSources.account]: "Cuenta",
   [phoneSources.contact]: "Contacto",

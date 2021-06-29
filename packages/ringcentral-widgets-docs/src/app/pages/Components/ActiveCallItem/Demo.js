@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import ActiveCallItem from 'ringcentral-widgets/components/ActiveCallItem';
+import ActiveCallItem from '@ringcentral-integration/widgets/components/ActiveCallItem';
 
 const props = {};
 props.call = {

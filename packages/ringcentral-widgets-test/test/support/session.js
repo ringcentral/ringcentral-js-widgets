@@ -2,10 +2,10 @@ import { contains } from 'ramda';
 import {
   isConferenceSession,
   normalizeSession,
-} from 'ringcentral-integration/modules/Webphone/webphoneHelper';
-import telephonyStatuses from 'ringcentral-integration/enums/telephonyStatus';
-import sessionStatus from 'ringcentral-integration/modules/Webphone/sessionStatus';
-import recordStatus from 'ringcentral-integration/modules/Webphone/recordStatus';
+} from '@ringcentral-integration/commons/modules/Webphone/webphoneHelper';
+import telephonyStatuses from '@ringcentral-integration/commons/enums/telephonyStatus';
+import sessionStatus from '@ringcentral-integration/commons/modules/Webphone/sessionStatus';
+import recordStatus from '@ringcentral-integration/commons/modules/Webphone/recordStatus';
 
 export const CONFERENCE_SESSION_ID =
   'Y3MxNzI2MjI1NTQzODI0MzUzM0AxMC43NC4yLjIxOA';

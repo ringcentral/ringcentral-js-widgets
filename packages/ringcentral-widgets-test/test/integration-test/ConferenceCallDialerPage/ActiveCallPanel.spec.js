@@ -1,19 +1,19 @@
-import * as mock from 'ringcentral-integration/integration-test/mock';
-import { CallCtrlContainer } from 'ringcentral-widgets/containers/CallCtrlPage';
-import MergeInfo from 'ringcentral-widgets/components/ActiveCallPanel/MergeInfo';
-import CallAvatar from 'ringcentral-widgets/components/CallAvatar';
-import DurationCounter from 'ringcentral-widgets/components/DurationCounter';
-import ActiveCallPad from 'ringcentral-widgets/components/ActiveCallPad/';
-import ActiveCallButton from 'ringcentral-widgets/components/ActiveCallButton';
-import CircleButton from 'ringcentral-widgets/components/CircleButton';
-import FromField from 'ringcentral-widgets/components/FromField';
-import BackHeader from 'ringcentral-widgets/components/BackHeader';
-import BackButton from 'ringcentral-widgets/components/BackButton';
-import RecipientsInput from 'ringcentral-widgets/components/RecipientsInput';
-import ContactDropdownList from 'ringcentral-widgets/components/ContactDropdownList';
-import { waitUntilEqual } from 'ringcentral-integration/integration-test/utils/WaitUtil';
-import updateConferenceCallBody from 'ringcentral-integration/integration-test/mock/data/updateConference';
-import DropdownSelect from 'ringcentral-widgets/components/DropdownSelect';
+import * as mock from '@ringcentral-integration/commons/integration-test/mock';
+import { CallCtrlContainer } from '@ringcentral-integration/widgets/containers/CallCtrlPage';
+import MergeInfo from '@ringcentral-integration/widgets/components/ActiveCallPanel/MergeInfo';
+import CallAvatar from '@ringcentral-integration/widgets/components/CallAvatar';
+import DurationCounter from '@ringcentral-integration/widgets/components/DurationCounter';
+import ActiveCallPad from '@ringcentral-integration/widgets/components/ActiveCallPad/';
+import ActiveCallButton from '@ringcentral-integration/widgets/components/ActiveCallButton';
+import CircleButton from '@ringcentral-integration/widgets/components/CircleButton';
+import FromField from '@ringcentral-integration/widgets/components/FromField';
+import BackHeader from '@ringcentral-integration/widgets/components/BackHeader';
+import BackButton from '@ringcentral-integration/widgets/components/BackButton';
+import RecipientsInput from '@ringcentral-integration/widgets/components/RecipientsInput';
+import ContactDropdownList from '@ringcentral-integration/widgets/components/ContactDropdownList';
+import { waitUntilEqual } from '@ringcentral-integration/commons/integration-test/utils/WaitUtil';
+import updateConferenceCallBody from '@ringcentral-integration/commons/integration-test/mock/data/updateConference';
+import DropdownSelect from '@ringcentral-integration/widgets/components/DropdownSelect';
 import { initPhoneWrapper, timeout, tearDownWrapper } from '../shared';
 import {
   CONFERENCE_SESSION_ID,

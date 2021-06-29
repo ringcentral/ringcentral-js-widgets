@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import UserGuide from 'ringcentral-widgets/components/UserGuide';
+import UserGuide from '@ringcentral-integration/widgets/components/UserGuide';
 
 const props = {};
 props.guides = [];

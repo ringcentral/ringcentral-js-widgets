@@ -1,4 +1,4 @@
-import { ASSISTED_USERS_MYSELF } from 'ringcentral-integration/modules/Meeting';
+import { ASSISTED_USERS_MYSELF } from '@ringcentral-integration/commons/modules/Meeting';
 export default {
   date: "Date",
   time: "Heure",

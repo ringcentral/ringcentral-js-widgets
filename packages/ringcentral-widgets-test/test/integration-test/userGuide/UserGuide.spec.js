@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
-import UserGuide from 'ringcentral-widgets/components/UserGuide';
+import UserGuide from '@ringcentral-integration/widgets/components/UserGuide';
 
 describe('<UserGuide />', () => {
   it('should render corretcly', () => {

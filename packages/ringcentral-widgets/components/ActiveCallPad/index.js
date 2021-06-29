@@ -1,8 +1,8 @@
 import React, { Component, createRef } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import { recordStatus as recordStatuses } from 'ringcentral-integration/modules/Webphone/recordStatus';
-import { isObject } from 'ringcentral-integration/lib/di/utils/is_type';
+import { recordStatus as recordStatuses } from '@ringcentral-integration/commons/modules/Webphone/recordStatus';
+import { isObject } from '@ringcentral-integration/commons/lib/di/utils/is_type';
 
 import CircleButton from '../CircleButton';
 import Tooltip from '../Tooltip';

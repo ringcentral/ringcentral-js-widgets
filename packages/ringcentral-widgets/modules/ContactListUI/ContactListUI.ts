@@ -5,19 +5,19 @@ import {
   computed,
   RcUIModuleV2,
 } from '@ringcentral-integration/core';
-import { Module } from 'ringcentral-integration/lib/di';
-import proxify from 'ringcentral-integration/lib/proxy/proxify';
-import { debounce } from 'ringcentral-integration/lib/debounce-throttle';
+import { Module } from '@ringcentral-integration/commons/lib/di';
+import proxify from '@ringcentral-integration/commons/lib/proxy/proxify';
+import { debounce } from '@ringcentral-integration/commons/lib/debounce-throttle';
 import {
   uniqueContactItems,
   sortContactItemsByName,
   groupByFirstLetterOfName,
   AllContactSourceName,
-} from 'ringcentral-integration/lib/contactHelper';
+} from '@ringcentral-integration/commons/lib/contactHelper';
 import {
   IContact,
   ContactPresence,
-} from 'ringcentral-integration/interfaces/Contact.model';
+} from '@ringcentral-integration/commons/interfaces/Contact.model';
 import { RouteParams } from '../ContactDetailsUI';
 import {
   Deps,

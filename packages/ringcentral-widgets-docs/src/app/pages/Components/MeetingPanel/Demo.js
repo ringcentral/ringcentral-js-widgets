@@ -1,7 +1,7 @@
 import React from 'react';
 // eslint-disable-next-line
-import MeetingPanel from 'ringcentral-widgets/components/MeetingPanel';
-import MeetingScheduleButton from 'ringcentral-widgets/components/MeetingScheduleButton';
+import MeetingPanel from '@ringcentral-integration/widgets/components/MeetingPanel';
+import MeetingScheduleButton from '@ringcentral-integration/widgets/components/MeetingScheduleButton';
 
 const props = {};
 props.update = () => null;

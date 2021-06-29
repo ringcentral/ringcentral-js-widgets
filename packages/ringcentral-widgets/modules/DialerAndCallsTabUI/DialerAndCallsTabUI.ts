@@ -4,7 +4,7 @@ import {
   UIProps,
   UIFunctions,
 } from '@ringcentral-integration/core';
-import { Module } from 'ringcentral-integration/lib/di';
+import { Module } from '@ringcentral-integration/commons/lib/di';
 import { TabContentViewProps } from '../../components/TabContentView/TabContentView';
 import { hasActiveCalls } from '../../lib/hasActiveCalls';
 import {

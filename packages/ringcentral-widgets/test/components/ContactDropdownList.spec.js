@@ -1,8 +1,8 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { toContainElement } from '@testing-library/jest-dom/matchers';
-import { phoneSources } from 'ringcentral-integration/enums/phoneSources';
-import { phoneTypes } from 'ringcentral-integration/enums/phoneTypes';
+import { phoneSources } from '@ringcentral-integration/commons/enums/phoneSources';
+import { phoneTypes } from '@ringcentral-integration/commons/enums/phoneTypes';
 import ContactDropdownList from '../../components/ContactDropdownList';
 
 expect.extend({ toContainElement });

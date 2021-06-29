@@ -8,7 +8,7 @@ import Demo from './Demo';
 // eslint-disable-next-line
 import demoCode from '!raw-loader!./Demo';
 // eslint-disable-next-line
-import componentCode from '!raw-loader!ringcentral-widgets/components/Header';
+import componentCode from '!raw-loader!@ringcentral-integration/widgets/components/Header';
 
 const HeaderPage = () => {
   const info = parse(componentCode);

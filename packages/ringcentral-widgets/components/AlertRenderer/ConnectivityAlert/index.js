@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import connectivityTypes from '../../../modules/ConnectivityManager/connectivityTypes';
+import { connectivityTypes } from '../../../modules/ConnectivityManager';
 import i18n from './i18n';
 
 export default function ConnectivityAlert({

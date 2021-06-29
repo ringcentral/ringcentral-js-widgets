@@ -1,9 +1,9 @@
 import classnames from 'classnames';
 import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
-import ensureExist from 'ringcentral-integration/lib/ensureExist';
-import debounce from 'ringcentral-integration/lib/debounce';
-import { presenceStatus } from 'ringcentral-integration/enums/presenceStatus.enum';
-import dndStatus from 'ringcentral-integration/modules/Presence/dndStatus';
+import ensureExist from '@ringcentral-integration/commons/lib/ensureExist';
+import debounce from '@ringcentral-integration/commons/lib/debounce';
+import { presenceStatus } from '@ringcentral-integration/commons/enums/presenceStatus.enum';
+import dndStatus from '@ringcentral-integration/commons/modules/Presence/dndStatus';
 import formatDuration from '../formatDuration';
 import { baseMessageTypes } from './baseMessageTypes';
 

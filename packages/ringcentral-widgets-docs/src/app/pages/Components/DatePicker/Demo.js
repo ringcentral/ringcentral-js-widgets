@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import DatePicker from 'ringcentral-widgets/components/DatePicker';
+import DatePicker from '@ringcentral-integration/widgets/components/DatePicker';
 
 const props = {};
 

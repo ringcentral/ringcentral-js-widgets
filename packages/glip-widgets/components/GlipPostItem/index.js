@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import status from 'ringcentral-integration/modules/GlipPosts/status';
+import status from '@ringcentral-integration/commons/modules/GlipPosts/status';
 
 import defaultAvatar from '../../assets/images/default_avatar.png';
 import styles from './styles.scss';

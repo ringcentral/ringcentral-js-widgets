@@ -1,6 +1,6 @@
-import { presenceStatus } from 'ringcentral-integration/enums/presenceStatus.enum';
-import dndStatus from 'ringcentral-integration/modules/Presence/dndStatus';
-import { phoneTypes } from 'ringcentral-integration/enums/phoneTypes';
+import { presenceStatus } from '@ringcentral-integration/commons/enums/presenceStatus.enum';
+import dndStatus from '@ringcentral-integration/commons/modules/Presence/dndStatus';
+import { phoneTypes } from '@ringcentral-integration/commons/enums/phoneTypes';
 export default {
   [phoneTypes.extension]: "Ext.",
   [phoneTypes.direct]: "Rechtstreeks",

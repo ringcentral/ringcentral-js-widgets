@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import sessionStatus from 'ringcentral-integration/modules/Webphone/sessionStatus';
-import calleeTypes from 'ringcentral-integration/enums/calleeTypes';
+import sessionStatus from '@ringcentral-integration/commons/modules/Webphone/sessionStatus';
+import calleeTypes from '@ringcentral-integration/commons/enums/calleeTypes';
 import styles from './styles.scss';
 import i18n from './i18n';
 import CallAvatar from '../CallAvatar';

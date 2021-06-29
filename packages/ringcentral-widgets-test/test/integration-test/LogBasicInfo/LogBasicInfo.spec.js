@@ -1,9 +1,9 @@
 import { mount } from 'enzyme';
 import React from 'react';
-import callDirections from 'ringcentral-integration/enums/callDirections';
-import callResults from 'ringcentral-integration/enums/callResults';
-import telephonyStatuses from 'ringcentral-integration/enums/telephonyStatus';
-import LogBasicInfo from 'ringcentral-widgets/components/LogBasicInfo';
+import callDirections from '@ringcentral-integration/commons/enums/callDirections';
+import callResults from '@ringcentral-integration/commons/enums/callResults';
+import telephonyStatuses from '@ringcentral-integration/commons/enums/telephonyStatus';
+import LogBasicInfo from '@ringcentral-integration/widgets/components/LogBasicInfo';
 
 const setup = (props) => {
   const { call } = props;

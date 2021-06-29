@@ -150,4 +150,8 @@ export class ExtensionFeatures extends DataFetcherV2Consumer<
   get hasInternalSMSPermission() {
     return this.features?.PagesSending?.available ?? false;
   }
+
+  get hasMeetingsPermission() {
+    return this.features?.Meetings?.available ?? false;
+  }
 }

@@ -3,10 +3,10 @@ import {
   UIFunctions,
   UIProps,
 } from '@ringcentral-integration/core';
-import { Module } from 'ringcentral-integration/lib/di';
-import { formatNumber } from 'ringcentral-integration/lib/formatNumber';
-import { Attachment } from 'ringcentral-integration/modules/MessageSenderV2';
-import { FormatDateTimeOptions } from 'ringcentral-integration/modules/DateTimeFormatV2';
+import { Module } from '@ringcentral-integration/commons/lib/di';
+import { formatNumber } from '@ringcentral-integration/commons/lib/formatNumber';
+import { Attachment } from '@ringcentral-integration/commons/modules/MessageSenderV2';
+import { FormatDateTimeOptions } from '@ringcentral-integration/commons/modules/DateTimeFormatV2';
 import {
   Deps,
   ConversationContainerProps,

@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import CheckBox from 'ringcentral-widgets/components/CheckBox';
+import CheckBox from '@ringcentral-integration/widgets/components/CheckBox';
 
 const props = {};
 props.selected = 2;

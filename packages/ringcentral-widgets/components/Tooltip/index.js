@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import { isFunction } from 'ringcentral-integration/lib/di/utils/is_type';
+import { isFunction } from '@ringcentral-integration/commons/lib/di/utils/is_type';
 import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 
 import styles from './styles.scss';

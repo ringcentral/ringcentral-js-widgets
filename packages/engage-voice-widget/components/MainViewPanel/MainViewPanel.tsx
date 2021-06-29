@@ -7,9 +7,9 @@ import settingsSvg from '@ringcentral/juno/icon/Settings';
 import settingsBorderSvg from '@ringcentral/juno/icon/SettingsBorder';
 import classNames from 'classnames';
 import React, { FunctionComponent, useMemo } from 'react';
-import { TabPropTypes } from 'ringcentral-widgets/components/NavigationBar';
-import { Tooltip } from 'ringcentral-widgets/components/Rcui/Tooltip';
-import TabNavigationView from 'ringcentral-widgets/components/TabNavigationView';
+import { TabPropTypes } from '@ringcentral-integration/widgets/components/NavigationBar';
+import { Tooltip } from '@ringcentral-integration/widgets/components/Rcui/Tooltip';
+import TabNavigationView from '@ringcentral-integration/widgets/components/TabNavigationView';
 
 import offHookSvgConnecting from '../../assets/icons/icon-pvc-connecting.svg';
 import offHookSvgDisabled from '../../assets/icons/icon-pvc-disabled.svg';

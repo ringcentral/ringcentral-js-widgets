@@ -3,9 +3,9 @@ import React, { FunctionComponent, ReactNode, useState } from 'react';
 import {
   SelectListTextField,
   SelectListTextFieldProps,
-} from 'ringcentral-widgets/components/CallLogFields';
-import { SelectListBasicWithScrollCheck } from 'ringcentral-widgets/components/SelectList';
-import { SelectListBasicProps } from 'ringcentral-widgets/components/SelectListBasic';
+} from '@ringcentral-integration/widgets/components/CallLogFields';
+import { SelectListBasicWithScrollCheck } from '@ringcentral-integration/widgets/components/SelectList';
+import { SelectListBasicProps } from '@ringcentral-integration/widgets/components/SelectListBasic';
 import i18n from './i18n';
 import styles from './styles.scss';
 

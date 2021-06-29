@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import regionSettingsMessages from 'ringcentral-integration/modules/RegionSettings/regionSettingsMessages';
+import regionSettingsMessages from '@ringcentral-integration/commons/modules/RegionSettings/regionSettingsMessages';
 import FormattedMessage from '../../FormattedMessage';
 import styles from './styles.scss';
 import i18n from './i18n';

@@ -10,7 +10,7 @@ import {
 } from '@ringcentral-integration/test-utils';
 
 import { ExtensionInfo } from '../../modules/ExtensionInfoV2';
-import { permissionsMessages } from '../../modules/RolesAndPermissions/permissionsMessages';
+import { permissionsMessages } from '../../enums/permissionsMessages';
 import { mockModuleGenerator } from '../lib/mockModule';
 
 @autorun(test)

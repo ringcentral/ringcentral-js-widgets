@@ -1,5 +1,5 @@
-import messageSenderMessages from 'ringcentral-integration/modules/MessageSender/messageSenderMessages';
-import messageSenderMessagesV2 from 'ringcentral-integration/modules/MessageSenderV2/messageSenderMessages';
+import messageSenderMessages from '@ringcentral-integration/commons/modules/MessageSender/messageSenderMessages';
+import messageSenderMessagesV2 from '@ringcentral-integration/commons/modules/MessageSenderV2/messageSenderMessages';
 export default {
   [messageSenderMessages.sendSuccess]: "보내기 성공",
   [messageSenderMessages.sendError]: "메시지를 보낼 때 문제가 발생했습니다.",

@@ -1,7 +1,7 @@
 import {
   Session,
   WebPhoneSession,
-} from 'ringcentral-integration/modules/ActiveCallControlV2';
+} from '@ringcentral-integration/commons/modules/ActiveCallControlV2';
 import { ConfirmModalOptions } from '../../modules/ModalUIV2/ModalUI.interface';
 
 export interface ModalContentProps {

@@ -1,6 +1,6 @@
 import classnames from 'classnames';
 import React, { FunctionComponent, useState, useEffect } from 'react';
-import callDirections from 'ringcentral-integration/enums/callDirections';
+import callDirections from '@ringcentral-integration/commons/enums/callDirections';
 import IgnoreIcon from '@ringcentral/juno/icon/Ignore';
 import VoicemailIcon from '@ringcentral/juno/icon/Voicemail';
 import { RcPopover, RcMenuList, RcMenuItem } from '@ringcentral/juno';

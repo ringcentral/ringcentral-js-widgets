@@ -86,7 +86,7 @@ export class CompanyContacts extends DataFetcherV2Consumer<
       readyCheckFunction: () =>
         this._deps.extensionFeatures.ready && this._deps.subscription.ready,
       permissionCheckFunction: () =>
-        this._deps.extensionFeatures.features?.ReadExtensions.available ??
+        this._deps.extensionFeatures.features?.ReadExtensions?.available ??
         false,
     });
     this._deps.dataFetcherV2.register(this._source);

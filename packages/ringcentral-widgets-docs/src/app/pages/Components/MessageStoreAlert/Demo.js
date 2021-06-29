@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import MessageStoreAlert from 'ringcentral-widgets/components/AlertRenderer/MessageStoreAlert';
+import MessageStoreAlert from '@ringcentral-integration/widgets/components/AlertRenderer/MessageStoreAlert';
 
 const props = {};
 props.currentLocale = 'en-US';

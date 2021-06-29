@@ -1,35 +1,35 @@
 import { SDK } from '@ringcentral/sdk';
-import { RingCentralClient } from 'ringcentral-integration/lib/RingCentralClient';
+import { RingCentralClient } from '@ringcentral-integration/commons/lib/RingCentralClient';
 
-import { ModuleFactory } from 'ringcentral-integration/lib/di';
-import RcModule from 'ringcentral-integration/lib/RcModule';
+import { ModuleFactory } from '@ringcentral-integration/commons/lib/di';
+import RcModule from '@ringcentral-integration/commons/lib/RcModule';
 
-import Alert from 'ringcentral-integration/modules/Alert';
-import Auth from 'ringcentral-integration/modules/Auth';
-import Brand from 'ringcentral-integration/modules/Brand';
-import AccountInfo from 'ringcentral-integration/modules/AccountInfo';
-import ConnectivityMonitor from 'ringcentral-integration/modules/ConnectivityMonitor';
-import DateTimeFormat from 'ringcentral-integration/modules/DateTimeFormat';
-import DialingPlan from 'ringcentral-integration/modules/DialingPlan';
-import ExtensionInfo from 'ringcentral-integration/modules/ExtensionInfo';
-import Environment from 'ringcentral-integration/modules/Environment';
-import GlobalStorage from 'ringcentral-integration/modules/GlobalStorage';
-import Locale from 'ringcentral-integration/modules/Locale';
-import RolesAndPermissions from 'ringcentral-integration/modules/RolesAndPermissions';
-import { ExtensionFeatures } from 'ringcentral-integration/modules/ExtensionFeatures';
-import RegionSettings from 'ringcentral-integration/modules/RegionSettings';
-import RateLimiter from 'ringcentral-integration/modules/RateLimiter';
-import Subscription from 'ringcentral-integration/modules/Subscription';
-import Storage from 'ringcentral-integration/modules/Storage';
+import Alert from '@ringcentral-integration/commons/modules/Alert';
+import Auth from '@ringcentral-integration/commons/modules/Auth';
+import { Brand } from '@ringcentral-integration/commons/modules/BrandV2';
+import AccountInfo from '@ringcentral-integration/commons/modules/AccountInfo';
+import ConnectivityMonitor from '@ringcentral-integration/commons/modules/ConnectivityMonitor';
+import DateTimeFormat from '@ringcentral-integration/commons/modules/DateTimeFormat';
+import DialingPlan from '@ringcentral-integration/commons/modules/DialingPlan';
+import ExtensionInfo from '@ringcentral-integration/commons/modules/ExtensionInfo';
+import Environment from '@ringcentral-integration/commons/modules/Environment';
+import GlobalStorage from '@ringcentral-integration/commons/modules/GlobalStorage';
+import Locale from '@ringcentral-integration/commons/modules/Locale';
+import RolesAndPermissions from '@ringcentral-integration/commons/modules/RolesAndPermissions';
+import { ExtensionFeatures } from '@ringcentral-integration/commons/modules/ExtensionFeatures';
+import RegionSettings from '@ringcentral-integration/commons/modules/RegionSettings';
+import RateLimiter from '@ringcentral-integration/commons/modules/RateLimiter';
+import Subscription from '@ringcentral-integration/commons/modules/Subscription';
+import Storage from '@ringcentral-integration/commons/modules/Storage';
 
-import OAuth from 'ringcentral-widgets/modules/ProxyFrameOAuth';
-import RouterInteraction from 'ringcentral-widgets/modules/RouterInteraction';
-import ConnectivityManager from 'ringcentral-widgets/modules/ConnectivityManager';
-import ConnectivityBadgeUI from 'ringcentral-widgets/modules/ConnectivityBadgeUI';
-import SettingsUI from 'ringcentral-widgets/modules/SettingsUI';
-import RegionSettingsUI from 'ringcentral-widgets/modules/RegionSettingsUI';
-import LoginUI from 'ringcentral-widgets/modules/LoginUI';
-import { AlertUI } from 'ringcentral-widgets/modules/AlertUI';
+import OAuth from '@ringcentral-integration/widgets/modules/ProxyFrameOAuth';
+import RouterInteraction from '@ringcentral-integration/widgets/modules/RouterInteraction';
+import { ConnectivityManager } from '@ringcentral-integration/widgets/modules/ConnectivityManager';
+import ConnectivityBadgeUI from '@ringcentral-integration/widgets/modules/ConnectivityBadgeUI';
+import SettingsUI from '@ringcentral-integration/widgets/modules/SettingsUI';
+import RegionSettingsUI from '@ringcentral-integration/widgets/modules/RegionSettingsUI';
+import LoginUI from '@ringcentral-integration/widgets/modules/LoginUI';
+import { AlertUI } from '@ringcentral-integration/widgets/modules/AlertUI';
 
 // user Dependency Injection with decorator to create a phone class
 // https://github.com/ringcentral/ringcentral-js-integration-commons/blob/master/docs/dependency-injection.md
@@ -60,11 +60,6 @@ import { AlertUI } from 'ringcentral-widgets/modules/AlertUI';
     { provide: 'ExtensionFeatures', useClass: ExtensionFeatures },
     { provide: 'ExtensionInfo', useClass: ExtensionInfo },
     { provide: 'DialingPlan', useClass: DialingPlan },
-    {
-      provide: 'EnvironmentOptions',
-      useFactory: ({ sdkConfig }) => sdkConfig,
-      deps: [{ dep: 'SdkConfig' }],
-    },
     {
       provide: 'Client',
       useFactory: ({ sdkConfig }) => new RingCentralClient(new SDK(sdkConfig)),
@@ -116,7 +111,10 @@ export function createPhone({
 }) {
   @ModuleFactory({
     providers: [
-      { provide: 'ModuleOptions', useValue: { prefix }, spread: true },
+      {
+        provide: 'Prefix',
+        useValue: prefix,
+      },
       {
         provide: 'SdkConfig',
         useValue: {
@@ -129,7 +127,7 @@ export function createPhone({
         provide: 'AppConfig',
         useValue: { name: brandConfig.appName, version: appVersion },
       },
-      { provide: 'BrandOptions', useValue: brandConfig, spread: true },
+      { provide: 'BrandConfig', useValue: brandConfig },
       { provide: 'OAuthOptions', useValue: { redirectUri }, spread: true },
     ],
   })

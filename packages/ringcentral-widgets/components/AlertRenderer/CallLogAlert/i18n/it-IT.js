@@ -1,4 +1,4 @@
-import callLogMessages from 'ringcentral-integration/enums/callLogMessages';
+import callLogMessages from '@ringcentral-integration/commons/enums/callLogMessages';
 export default {
   [callLogMessages.logCallLogFailed]: "Impossibile caricare il registro chiamate a causa di un errore imprevisto. Aggiorna la pagina e riprova.",
   // New version of log failed message

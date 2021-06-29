@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import LinkLine from 'ringcentral-widgets/components/LinkLine';
+import LinkLine from '@ringcentral-integration/widgets/components/LinkLine';
 
 /**
  * A example of `LinkLine`

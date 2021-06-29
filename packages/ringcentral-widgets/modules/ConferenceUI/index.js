@@ -1,4 +1,4 @@
-import { Module } from 'ringcentral-integration/lib/di';
+import { Module } from '@ringcentral-integration/commons/lib/di';
 import { reduce, map } from 'ramda';
 import RcUIModule from '../../lib/RcUIModule';
 import countryNames from '../../lib/countryNames';

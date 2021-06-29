@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import ConversationPanel from 'ringcentral-widgets/components/ConversationPanel';
+import ConversationPanel from '@ringcentral-integration/widgets/components/ConversationPanel';
 
 const props = {};
 props.replyToReceivers = () => null;

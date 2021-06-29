@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import AlertDisplay from 'ringcentral-widgets/components/AlertDisplay';
+import AlertDisplay from '@ringcentral-integration/widgets/components/AlertDisplay';
 import styles from './styles.scss';
 
 const props = {};

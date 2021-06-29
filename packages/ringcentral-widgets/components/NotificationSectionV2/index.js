@@ -1,8 +1,8 @@
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import telephonyStatuses from 'ringcentral-integration/enums/telephonyStatus';
-import callDirections from 'ringcentral-integration/enums/callDirections';
+import telephonyStatuses from '@ringcentral-integration/commons/enums/telephonyStatus';
+import callDirections from '@ringcentral-integration/commons/enums/callDirections';
 import CloseIcon from '../../assets/images/CloseIcon.svg';
 import { Button } from '../Button';
 import LogNotification from '../LogNotificationV2';

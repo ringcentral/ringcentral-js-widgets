@@ -3,7 +3,7 @@ import RcModule from '../../lib/RcModule';
 import { Module } from '../../lib/di';
 import Meeting from '../Meeting';
 import { RcMMeetingModel } from '../MeetingV2';
-import Brand from '../Brand';
+import { Brand } from '../BrandV2';
 import ExtensionInfo from '../ExtensionInfo';
 import proxify from '../../lib/proxy/proxify';
 import background from '../../lib/background';

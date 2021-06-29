@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import attachmentSvg from '@ringcentral/juno/icon/Attachment';
 import removeSvg from '@ringcentral/juno/icon/Close';
 import { RcIconButton } from '@ringcentral/juno';
-import { debounce } from 'ringcentral-integration/lib/debounce-throttle/debounce';
+import { debounce } from '@ringcentral-integration/commons/lib/debounce-throttle/debounce';
 
 import i18n from './i18n';
 import styles from './styles.scss';

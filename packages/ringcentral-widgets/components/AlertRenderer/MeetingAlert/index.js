@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import meetingStatus from 'ringcentral-integration/modules/Meeting/meetingStatus';
+import meetingStatus from '@ringcentral-integration/commons/modules/Meeting/meetingStatus';
 import FormattedMessage from '../../FormattedMessage';
 
 import i18n from './i18n';

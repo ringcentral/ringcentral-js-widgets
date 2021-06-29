@@ -1,12 +1,12 @@
-import moduleStatuses from 'ringcentral-integration/enums/moduleStatuses';
-import Softphone from 'ringcentral-integration/modules/Softphone';
+import moduleStatuses from '@ringcentral-integration/commons/enums/moduleStatuses';
+import Softphone from '@ringcentral-integration/commons/modules/Softphone';
 
 describe.each`
-  brandCode  | spartanProtocol    | jupiterProtocol      | jupiterUniversalLink
-  ${'att'}   | ${'attvr20://'}    | ${'officeathand://'} | ${'https://app.officeathand.att.com/'}
-  ${'bt'}    | ${'rcbtmobile://'} | ${null}              | ${null}
-  ${'rc'}    | ${'rcmobile://'}   | ${'rcapp://'}        | ${'https://app.ringcentral.com/'}
-  ${'telus'} | ${'rctelus://'}    | ${'rctelus://'}      | ${null}
+  brandCode  | spartanProtocol    | jupiterProtocol              | jupiterUniversalLink
+  ${'att'}   | ${'attvr20://'}    | ${'officeathand://'}         | ${'https://app.officeathand.att.com/'}
+  ${'bt'}    | ${'rcbtmobile://'} | ${'com.bt.cloudwork.app://'} | ${'http://app.cloudwork.bt.com/'}
+  ${'rc'}    | ${'rcmobile://'}   | ${'rcapp://'}                | ${'https://app.ringcentral.com/'}
+  ${'telus'} | ${'rctelus://'}    | ${'rctelus://'}              | ${'https://app.businessconnect.telus.com/'}
 `(
   'Softphone Unit Test',
   ({ brandCode, spartanProtocol, jupiterProtocol, jupiterUniversalLink }) => {

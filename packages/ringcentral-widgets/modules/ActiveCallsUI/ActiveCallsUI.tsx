@@ -4,15 +4,15 @@ import {
   UIFunctions,
   UIProps,
 } from '@ringcentral-integration/core';
-import { Module } from 'ringcentral-integration/lib/di';
-import formatNumber from 'ringcentral-integration/lib/formatNumber';
-import callDirections from 'ringcentral-integration/enums/callDirections';
-import { isRingingInboundCall } from 'ringcentral-integration/lib/callLogHelpers';
-import callingModes from 'ringcentral-integration/modules/CallingSettings/callingModes';
-import { isOnHold } from 'ringcentral-integration/modules/Webphone/webphoneHelper';
-import { isHolding } from 'ringcentral-integration/modules/ActiveCallControlV2/helpers';
-import { ActiveSession } from 'ringcentral-integration/modules/ActiveCallControlV2';
-import { SwitchCallActiveCallParams } from 'ringcentral-integration/modules/WebphoneV2';
+import { Module } from '@ringcentral-integration/commons/lib/di';
+import formatNumber from '@ringcentral-integration/commons/lib/formatNumber';
+import callDirections from '@ringcentral-integration/commons/enums/callDirections';
+import { isRingingInboundCall } from '@ringcentral-integration/commons/lib/callLogHelpers';
+import callingModes from '@ringcentral-integration/commons/modules/CallingSettings/callingModes';
+import { isOnHold } from '@ringcentral-integration/commons/modules/Webphone/webphoneHelper';
+import { isHolding } from '@ringcentral-integration/commons/modules/ActiveCallControlV2/helpers';
+import { ActiveSession } from '@ringcentral-integration/commons/modules/ActiveCallControlV2';
+import { SwitchCallActiveCallParams } from '@ringcentral-integration/commons/modules/WebphoneV2';
 import { ModalContent } from '../../components/ActiveCallItemV2';
 import {
   Deps,

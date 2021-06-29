@@ -1,5 +1,5 @@
 import regionSettingsMessages from
-  'ringcentral-integration/modules/RegionSettings/regionSettingsMessages';
+  '@ringcentral-integration/commons/modules/RegionSettings/regionSettingsMessages';
 
 export default {
   region: 'Region',

@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import sessionStatus from 'ringcentral-integration/modules/Webphone/sessionStatus';
-import callDirections from 'ringcentral-integration/enums/callDirections';
+import sessionStatus from '@ringcentral-integration/commons/modules/Webphone/sessionStatus';
+import callDirections from '@ringcentral-integration/commons/enums/callDirections';
 import {
   isInbound,
   isRinging,
-} from 'ringcentral-integration/lib/callLogHelpers';
-import parseNumber from 'ringcentral-integration/lib/parseNumber';
+} from '@ringcentral-integration/commons/lib/callLogHelpers';
+import parseNumber from '@ringcentral-integration/commons/lib/parseNumber';
 
 import DurationCounter from '../DurationCounter';
 import ContactDisplay from '../ContactDisplay';

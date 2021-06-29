@@ -1,4 +1,4 @@
-import { camelize } from 'ringcentral-integration/lib/di/utils/utils';
+import { camelize } from '@ringcentral-integration/commons/lib/di/utils/utils';
 
 const getProps = <T>(example, props: T) => {
   const camelizeObj = Object.keys(example).reduce((prev, key) => {

@@ -15,7 +15,7 @@ export class Brand extends RcModuleV2<Deps> {
       deps,
     });
     this._prefix = `${this._deps.brandConfig.brandCode}-${camelcase(
-      this._deps.brandConfig.application,
+      this._deps.brandConfig.application ?? '',
     )}`;
   }
 

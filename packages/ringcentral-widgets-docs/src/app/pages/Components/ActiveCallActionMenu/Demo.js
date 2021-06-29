@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import ActiveCallActionMenu from 'ringcentral-widgets/components/ActiveCallActionMenu';
+import ActiveCallActionMenu from '@ringcentral-integration/widgets/components/ActiveCallActionMenu';
 
 /**
  * A example of `ActiveCallActionMenu`

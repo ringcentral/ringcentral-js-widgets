@@ -16,14 +16,14 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {
   updateFullTime,
   updateFullYear,
-} from 'ringcentral-integration/helpers/meetingHelper';
-import { RcVMeetingModel } from 'ringcentral-integration/interfaces/Rcv.model';
+} from '@ringcentral-integration/commons/helpers/meetingHelper';
+import { RcVMeetingModel } from '@ringcentral-integration/commons/interfaces/Rcv.model';
 import {
   ASSISTED_USERS_MYSELF,
   RCV_WAITING_ROOM_MODE,
   RcvDelegator,
   RcvWaitingRoomModeProps,
-} from 'ringcentral-integration/modules/RcVideo';
+} from '@ringcentral-integration/commons/modules/RcVideo';
 
 import { formatMeetingId } from '../../lib/MeetingCalendarHelper';
 import { useDebounce } from '../../react-hooks';
@@ -231,7 +231,7 @@ export const VideoConfig: React.FunctionComponent<VideoConfigProps> = (
     <div
       ref={configRef}
       className={styles.videoConfig}
-      data-sign="videoConfigPanel"
+      data-sign="videoConfigsPanel"
     >
       <div className={styles.meetingContent}>
         {showSpinnerInConfigPanel ? <SpinnerOverlay /> : null}
