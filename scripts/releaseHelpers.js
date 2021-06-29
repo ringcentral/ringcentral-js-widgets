@@ -3,6 +3,12 @@ import execa from 'execa';
 
 function getPackageFolderName(packageName) {
   let packageFolder = packageName;
+  if (packageName === '@ringcentral-integration/commons') {
+    return 'ringcentral-integration';
+  }
+  if (packageName === '@ringcentral-integration/widgets') {
+    return 'ringcentral-widgets';
+  }
   const splitedPackageNames = packageName.split('/');
   if (splitedPackageNames.length > 1) {
     packageFolder = splitedPackageNames[splitedPackageNames.length - 1];
