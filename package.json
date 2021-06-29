@@ -10,7 +10,7 @@
   "scripts": {
     "setup": "echo \"Error: no setup specified\" && exit 0",
     "test": "./scripts/runAllTests.sh",
-    "start": "yarn workspace ringcentral-widgets-demo start",
+    "start": "yarn workspace @ringcentral-integration/widgets-demo start",
     "release": "yarn workspace @ringcentral-integration/widgets release && yarn workspace @ringcentral-integration/commons release",
     "commons:test": "yarn workspace @ringcentral-integration/commons test",
     "widgets:test": "yarn workspace ringcentral-widgets-test test",
