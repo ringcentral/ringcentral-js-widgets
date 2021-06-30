@@ -10,8 +10,8 @@ import {
 import { format, parse } from '@ringcentral-integration/phone-number';
 import { EventEmitter } from 'events';
 import { equals } from 'ramda';
-import { Module } from 'ringcentral-integration/lib/di';
-import sleep from 'ringcentral-integration/lib/sleep';
+import { Module } from '@ringcentral-integration/commons/lib/di';
+import sleep from '@ringcentral-integration/commons/lib/sleep';
 
 import {
   agentSessionEvents,

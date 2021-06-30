@@ -2,8 +2,8 @@ import { action, RcModuleV2, state } from '@ringcentral-integration/core';
 // eslint-disable-next-line import/no-unresolved
 import AgentLibrary from '@SDK';
 import { EventEmitter } from 'events';
-import { Module } from 'ringcentral-integration/lib/di';
-import { raceTimeout } from 'ringcentral-integration/lib/raceTimeout';
+import { Module } from '@ringcentral-integration/commons/lib/di';
+import { raceTimeout } from '@ringcentral-integration/commons/lib/raceTimeout';
 
 import { AGENT_TYPES, messageTypes } from '../../enums';
 import { _encodeSymbol } from '../constant';

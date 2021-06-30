@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import telephonyStatuses from 'ringcentral-integration/enums/telephonyStatus';
-import callDirections from 'ringcentral-integration/enums/callDirections';
+import telephonyStatuses from '@ringcentral-integration/commons/enums/telephonyStatus';
+import callDirections from '@ringcentral-integration/commons/enums/callDirections';
 
 import CircleButton from '../CircleButton';
 import EndIcon from '../../assets/images/End.svg';

@@ -8,8 +8,8 @@ import {
 } from '@ringcentral-integration/core';
 import { keys } from 'ramda';
 import { Unsubscribe } from 'redux';
-import { Module } from 'ringcentral-integration/lib/di';
-import { CallLogPanelProps } from 'ringcentral-widgets/components/CallLogPanel';
+import { Module } from '@ringcentral-integration/commons/lib/di';
+import { CallLogPanelProps } from '@ringcentral-integration/widgets/components/CallLogPanel';
 
 import {
   dialoutStatuses,
@@ -115,11 +115,42 @@ class EvActivityCallUI<T = {}>
   @state
   scrollTo: string = null;
 
+  @storage
+  @state
+  isKeypadOpen: boolean = false;
+
+  @storage
+  @state
+  keypadValue: string = '';
+
+  @action
+  setKeypadValue(value: string) {
+    this.keypadValue = value;
+    try {
+      this._deps.activeCallControl.onKeypadClick(value.match(/.$/).pop());
+    } catch (error) {
+      console.error(error?.message);
+    }
+  }
+
+  @action
+  setKeypadIsOpen(status: boolean) {
+    this.isKeypadOpen = status;
+  }
+
   get isDefaultRecord() {
     return this.agentRecording?.default === 'ON';
   }
 
+  @action
+  resetKeypadStatus() {
+    this.keypadValue = '';
+    this.isKeypadOpen = false;
+  }
+
   onInitOnce() {
+    this.resetKeypadStatus();
+
     this._deps.evCallMonitor.onCallRinging(() => {
       this._stopWatching = watch(
         this,
@@ -514,11 +545,17 @@ class EvActivityCallUI<T = {}>
     };
     this.disabled = {};
     this.saveStatus = saveStatus.submit;
+    this.resetKeypadStatus();
   }
 
   onStateChange() {
     if (this.ready && this.tabManagerEnabled && this._deps.tabManager.ready) {
       this._checkTabManagerEvent();
+
+      // * when call end reset keypad status
+      if (this.callStatus === 'callEnd') {
+        this.resetKeypadStatus();
+      }
     }
   }
 
@@ -776,6 +813,8 @@ class EvActivityCallUI<T = {}>
       agentScriptData: this.agentScriptData,
       recordPauseCount: this.agentRecording?.pause,
       timeStamp: this._deps.activeCallControl.timeStamp,
+      isKeypadOpen: this.isKeypadOpen,
+      keypadValue: this.keypadValue,
     };
   }
 
@@ -794,6 +833,8 @@ class EvActivityCallUI<T = {}>
       onPauseRecord: () => this.onPauseRecord(),
       onRestartTimer: () => this.onRestartTimer(),
       onResumeRecord: () => this.onResumeRecord(),
+      setKeypadIsOpen: (status) => this.setKeypadIsOpen(status),
+      setKeypadValue: (value) => this.setKeypadValue(value),
       onUpdateCallLog: (data, id) => this.onUpdateCallLog(data, id),
       disposeCall: async () => {
         if (this.saveStatus === saveStatus.saved) {

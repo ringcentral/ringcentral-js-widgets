@@ -1,8 +1,8 @@
 import { prepareRelease } from './releaseHelpers';
 
 const packageNames = [
-  'ringcentral-integration',
-  'ringcentral-widgets',
+  '@ringcentral-integration/commons',
+  '@ringcentral-integration/widgets',
   '@ringcentral-integration/i18n',
   '@ringcentral-integration/locale-loader',
   '@ringcentral-integration/phone-number',

@@ -1,4 +1,4 @@
-import callLogMessages from 'ringcentral-integration/enums/callLogMessages';
+import callLogMessages from '@ringcentral-integration/commons/enums/callLogMessages';
 export default {
   [callLogMessages.logCallLogFailed]: "予期しないエラーにより、通話ログフォームを読み込めませんでした。ページを更新してもう一度やり直してください。",
   // New version of log failed message

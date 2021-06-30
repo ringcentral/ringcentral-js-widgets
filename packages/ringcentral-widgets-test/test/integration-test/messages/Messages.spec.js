@@ -1,14 +1,14 @@
-import NavigationBar from 'ringcentral-widgets/components/NavigationBar';
-import ConversationList from 'ringcentral-widgets/components/ConversationList';
-import ConversationsPanel from 'ringcentral-widgets/components/ConversationsPanel';
-import ContactDisplay from 'ringcentral-widgets/components/ContactDisplay';
-import { SearchInput } from 'ringcentral-widgets/components/SearchInput';
-import MessageItem from 'ringcentral-widgets/components/MessageItem';
-import ConversationPanel from 'ringcentral-widgets/components/ConversationPanel';
-import LogButton from 'ringcentral-widgets/components/LogButton';
-import { Button } from 'ringcentral-widgets/components/Button';
-import Spinner from 'ringcentral-widgets/components/Spinner';
-import * as mock from 'ringcentral-integration/integration-test/mock';
+import NavigationBar from '@ringcentral-integration/widgets/components/NavigationBar';
+import ConversationList from '@ringcentral-integration/widgets/components/ConversationList';
+import ConversationsPanel from '@ringcentral-integration/widgets/components/ConversationsPanel';
+import ContactDisplay from '@ringcentral-integration/widgets/components/ContactDisplay';
+import { SearchInput } from '@ringcentral-integration/widgets/components/SearchInput';
+import MessageItem from '@ringcentral-integration/widgets/components/MessageItem';
+import ConversationPanel from '@ringcentral-integration/widgets/components/ConversationPanel';
+import LogButton from '@ringcentral-integration/widgets/components/LogButton';
+import { Button } from '@ringcentral-integration/widgets/components/Button';
+import Spinner from '@ringcentral-integration/widgets/components/Spinner';
+import * as mock from '@ringcentral-integration/commons/integration-test/mock';
 
 import { getWrapper, timeout, tearDownWrapper } from '../shared';
 

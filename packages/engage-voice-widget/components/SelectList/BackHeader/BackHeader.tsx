@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import BasicBackHeader, {
   BackHeaderProps,
-} from 'ringcentral-widgets/components/BackHeaderV2';
+} from '@ringcentral-integration/widgets/components/BackHeaderV2';
 
 import styles from '../styles.scss';
 

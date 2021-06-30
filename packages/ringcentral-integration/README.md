@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/ringcentral/ringcentral-js-widgets.svg?branch=master)](https://travis-ci.org/ringcentral/ringcentral-js-widgets)
 [![Coverage Status](https://coveralls.io/repos/github/ringcentral/ringcentral-js-widgets/badge.svg?branch=master)](https://coveralls.io/github/ringcentral/ringcentral-js-widgets?branch=master)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/39f7f85c990b4eeab98702c89cdd31d3)](https://www.codacy.com/app/RingCentral/ringcentral-js-widgets?utm_source=github.com&utm_medium=referral&utm_content=ringcentral/ringcentral-js-widgets&utm_campaign=badger)
-[![NPM Version](https://img.shields.io/npm/v/ringcentral-integration.svg?style=flat-square)](https://www.npmjs.com/package/ringcentral-integration)
+[![NPM Version](https://img.shields.io/npm/v/@ringcentral-integration/commons.svg?style=flat-square)](https://www.npmjs.com/package/@ringcentral-integration/commons)
 
 
 ## Introduction
@@ -19,7 +19,7 @@ To use this library, please follow below steps
 Install from NPM
 
 ```bash
-npm install ringcentral-integration
+npm install @ringcentral-integration/commons
 ```
 
 Create your own Phone object by adding modules
@@ -64,10 +64,10 @@ There are three kind of modules:
 
 ### Root Module
 
-All needed common modules which are provided by `ringcentral-integration` can be listed here. And also other modules composed by you.
+All needed common modules which are provided by `@ringcentral-integration/commons` can be listed here. And also other modules composed by you.
 ```javascript
-import Alert from 'ringcentral-integration/modules/Alert';
-import Brand from 'ringcentral-integration/modules/Brand';
+import { Alert } from '@ringcentral-integration/commons/modules/AlertV2';
+import { Brand } from '@ringcentral-integration/commons/modules/BrandV2';
 
 // import other libs
 // other variables initialized here
@@ -76,13 +76,6 @@ import Brand from 'ringcentral-integration/modules/Brand';
   providers: [
     { provide: 'Alert', useClass: Alert },
     { provide: 'Brand', useClass: Brand },
-    {
-      provide: 'EnvironmentOptions',
-      useFactory: ({ sdkConfig }) => sdkConfig,
-      deps: [
-        { dep: 'SdkConfig' },
-      ],
-    },
     {
       provide: 'SdkConfig',
       useValue: {

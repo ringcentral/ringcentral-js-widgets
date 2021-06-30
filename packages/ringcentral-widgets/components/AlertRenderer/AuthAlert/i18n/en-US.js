@@ -1,4 +1,4 @@
-import authMessages from 'ringcentral-integration/modules/Auth/authMessages';
+import authMessages from '@ringcentral-integration/commons/modules/Auth/authMessages';
 
 export default {
   [authMessages.internalError]: 'Login failed due to internal errors. Please try again later.',

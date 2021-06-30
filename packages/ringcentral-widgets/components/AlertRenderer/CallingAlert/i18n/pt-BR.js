@@ -1,4 +1,4 @@
-import { permissionsMessages } from 'ringcentral-integration/modules/RolesAndPermissions/permissionsMessages';
+import { permissionsMessages } from '@ringcentral-integration/commons/enums/permissionsMessages';
 export default {
   [permissionsMessages.callingDisable]: "Você não tem permissões para fazer chamadas de saída. Entre em contato com o administrador da conta {brand} para obter uma atualização."
 };

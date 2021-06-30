@@ -8,7 +8,7 @@ import Demo from './Demo';
 // eslint-disable-next-line
 import demoCode from '!raw-loader!./Demo';
 // eslint-disable-next-line
-import componentCode from '!raw-loader!ringcentral-widgets/components/CallAvatar';
+import componentCode from '!raw-loader!@ringcentral-integration/widgets/components/CallAvatar';
 
 const CallAvatarPage = () => {
   const info = parse(componentCode);

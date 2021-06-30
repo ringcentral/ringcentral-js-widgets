@@ -1,4 +1,4 @@
-import authMessages from 'ringcentral-integration/modules/Auth/authMessages';
+import authMessages from '@ringcentral-integration/commons/modules/Auth/authMessages';
 export default {
   [authMessages.internalError]: "内部エラーにより、ログインに失敗しました。後でもう一度やり直してください。",
   [authMessages.accessDenied]: "アクセスが拒否されました。サポートにお問い合わせください。",

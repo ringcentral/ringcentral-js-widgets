@@ -80,7 +80,9 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
       currentLog,
       renderEditLogSection,
       classes: { editSection },
+      renderKeypadPanel,
     } = this.props;
+
     if (!currentLog) return null;
     const { showSpinner } = this.props;
     if (currentLog.showSpinner || showSpinner) {
@@ -96,6 +98,7 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
         >
           {renderEditLogSection && this.getEditLogSection()}
         </div>
+        {renderKeypadPanel && renderKeypadPanel()}
         {this.getCallControlButtons()}
       </>
     );
@@ -146,6 +149,7 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
       appName,
       isSearching,
       startAdornmentRender,
+      objectTypeIconsMap,
     } = this.props;
     return renderEditLogSection({
       currentLocale,
@@ -161,6 +165,7 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
       isSearching,
       editSectionScrollBy: this.editSectionScrollBy,
       startAdornmentRender,
+      objectTypeIconsMap,
     });
   }
 
@@ -327,7 +332,7 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
       children,
     } = this.props;
     if (!currentIdentify || isInTransferPage) return null;
-    // console.log(this.props.currentLog);
+
     return (
       <div
         ref={rootRef}

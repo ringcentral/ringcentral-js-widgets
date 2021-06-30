@@ -1,12 +1,12 @@
 import { RcUIModuleV2 } from '@ringcentral-integration/core';
 import { ObjectMapValue } from '@ringcentral-integration/core/lib/ObjectMap';
 import { filter, find, values } from 'ramda';
-import { Module } from 'ringcentral-integration/lib/di';
+import { Module } from '@ringcentral-integration/commons/lib/di';
 import {
   ConferenceCall,
   LastCallInfo,
-} from 'ringcentral-integration/modules/ConferenceCallV2';
-import { Webphone } from 'ringcentral-integration/modules/WebphoneV2';
+} from '@ringcentral-integration/commons/modules/ConferenceCallV2';
+import { Webphone } from '@ringcentral-integration/commons/modules/WebphoneV2';
 import callDirections from '../../../ringcentral-integration/enums/callDirections';
 import { NormalizedSession } from '../../../ringcentral-integration/interfaces/Webphone.interface';
 import { formatNumber } from '../../../ringcentral-integration/lib/formatNumber';

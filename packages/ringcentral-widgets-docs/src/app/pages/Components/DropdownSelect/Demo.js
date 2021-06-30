@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 // eslint-disable-next-line
-import DropdownSelect from 'ringcentral-widgets/components/DropdownSelect';
+import DropdownSelect from '@ringcentral-integration/widgets/components/DropdownSelect';
 
 /**
  * A example of `DropdownSelect`

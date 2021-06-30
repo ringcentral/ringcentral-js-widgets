@@ -3,8 +3,8 @@ import {
   UIProps,
   UIFunctions,
 } from '@ringcentral-integration/core';
-import { Module } from 'ringcentral-integration/lib/di';
-import formatNumber from 'ringcentral-integration/lib/formatNumber';
+import { Module } from '@ringcentral-integration/commons/lib/di';
+import formatNumber from '@ringcentral-integration/commons/lib/formatNumber';
 import {
   ConferenceParticipantPanelProps,
   Deps,

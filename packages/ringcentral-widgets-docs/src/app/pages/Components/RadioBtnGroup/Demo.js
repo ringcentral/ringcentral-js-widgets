@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import RadioBtnGroup from 'ringcentral-widgets/components/RadioBtnGroup';
+import RadioBtnGroup from '@ringcentral-integration/widgets/components/RadioBtnGroup';
 
 const props = {};
 props.className = 'test string';

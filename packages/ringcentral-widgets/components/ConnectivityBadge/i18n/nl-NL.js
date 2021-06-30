@@ -1,10 +1,10 @@
-import connectivityTypes from '../../../modules/ConnectivityManager/connectivityTypes';
+import { connectivityTypes } from '../../../modules/ConnectivityManager';
 export default {
-  [connectivityTypes.webphoneUnavailable]: "Webtelefoon niet beschikbaar",
-  [connectivityTypes.offline]: "Offline",
-  [connectivityTypes.voipOnly]: "Alleen VoIP",
-  [connectivityTypes.survival]: "Beperkte modus",
-  [connectivityTypes.connecting]: "Bezig met verbinden"
+  [connectivityTypes.webphoneUnavailable]: 'Webtelefoon niet beschikbaar',
+  [connectivityTypes.offline]: 'Offline',
+  [connectivityTypes.voipOnly]: 'Alleen VoIP',
+  [connectivityTypes.survival]: 'Beperkte modus',
+  [connectivityTypes.connecting]: 'Bezig met verbinden',
 };
 
 // @key: @#@"[connectivityTypes.webphoneUnavailable]"@#@ @source: @#@"Web Phone Unavailable"@#@

@@ -7,8 +7,8 @@ import {
 import {
   PhoneType,
   phoneTypes,
-} from 'ringcentral-integration/enums/phoneTypes';
-import { ContactModel } from 'ringcentral-integration/interfaces/Contact.model';
+} from '@ringcentral-integration/commons/enums/phoneTypes';
+import { ContactModel } from '@ringcentral-integration/commons/interfaces/Contact.model';
 import { ContactDetailsView } from '../../../components/ContactDetailsView';
 import {
   ContactDetailsViewFunctionProps,

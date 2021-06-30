@@ -7,9 +7,9 @@ import {
   htmlTabIndentation,
   formatTextToHtml,
   getRcvEventTpl,
-} from 'ringcentral-widgets/lib/MeetingCalendarHelper';
-import { RcvMainParams } from 'ringcentral-widgets/lib/MeetingCalendarHelper/index.interface';
-import { getDefaultVideoSettings } from 'ringcentral-integration/modules/RcVideoV2';
+} from '@ringcentral-integration/widgets/lib/MeetingCalendarHelper';
+import { RcvMainParams } from '@ringcentral-integration/widgets/lib/MeetingCalendarHelper/index.interface';
+import { getDefaultVideoSettings } from '@ringcentral-integration/commons/modules/RcVideoV2';
 
 describe.each`
   meetingId           | expected

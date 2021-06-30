@@ -1,7 +1,7 @@
 import { RcUIModuleV2 } from '@ringcentral-integration/core';
-import { Module } from 'ringcentral-integration/lib/di';
-import formatNumber from 'ringcentral-integration/lib/formatNumber';
-import { FormatDateTimeOptions } from 'ringcentral-integration/modules/DateTimeFormatV2';
+import { Module } from '@ringcentral-integration/commons/lib/di';
+import formatNumber from '@ringcentral-integration/commons/lib/formatNumber';
+import { FormatDateTimeOptions } from '@ringcentral-integration/commons/modules/DateTimeFormatV2';
 import { ToNumber } from '../../../ringcentral-integration/modules/ComposeTextV2';
 import { RouteParams } from '../ContactDetailsUI';
 import {

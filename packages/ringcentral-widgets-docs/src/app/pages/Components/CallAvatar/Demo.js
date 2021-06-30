@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import CallAvatar from 'ringcentral-widgets/components/CallAvatar';
+import CallAvatar from '@ringcentral-integration/widgets/components/CallAvatar';
 
 import styles from './styles.scss';
 

@@ -4,16 +4,16 @@ import {
   action,
   RcUIModuleV2,
 } from '@ringcentral-integration/core';
-import { Module } from 'ringcentral-integration/lib/di';
-import background from 'ringcentral-integration/lib/background';
-import proxify from 'ringcentral-integration/lib/proxy/proxify';
+import { Module } from '@ringcentral-integration/commons/lib/di';
+import background from '@ringcentral-integration/commons/lib/background';
+import proxify from '@ringcentral-integration/commons/lib/proxy/proxify';
 import {
   isE164,
   parseIncompletePhoneNumber,
 } from '@ringcentral-integration/phone-number';
-import { phoneTypes } from 'ringcentral-integration/enums/phoneTypes';
-import { formatNumber } from 'ringcentral-integration/lib/formatNumber';
-import { ContactModel } from 'ringcentral-integration/interfaces/Contact.model';
+import { phoneTypes } from '@ringcentral-integration/commons/enums/phoneTypes';
+import { formatNumber } from '@ringcentral-integration/commons/lib/formatNumber';
+import { ContactModel } from '@ringcentral-integration/commons/interfaces/Contact.model';
 import {
   ContactDetailsViewProps,
   ContactDetailsViewFunctionProps,

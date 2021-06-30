@@ -1,58 +1,55 @@
+import { ExtensionTelephonySessionsEvent } from '@rc-ex/core/definitions';
 import {
+  action,
+  computed,
   RcModuleV2,
   state,
-  action,
   storage,
-  computed,
   track,
   watch,
 } from '@ringcentral-integration/core';
+import { filter, forEach, isEmpty, sort, find } from 'ramda';
 import {
-  RingCentralCall,
+  ActiveCallInfo,
   events as callEvents,
   MakeCallParams,
-  ActiveCallInfo,
+  RingCentralCall,
 } from 'ringcentral-call';
-import { Session, events as eventsEnum } from 'ringcentral-call/lib/Session';
-import {
-  Session as TelephonySession,
-  PartyStatusCode,
-} from 'ringcentral-call-control/lib/Session';
+import { PartyStatusCode } from 'ringcentral-call-control/lib/Session';
+import { events as eventsEnum, Session } from 'ringcentral-call/lib/Session';
 import { WebPhoneSession } from 'ringcentral-web-phone/lib/session';
-import { filter, sort, forEach, isEmpty } from 'ramda';
 import { v4 as uuidV4 } from 'uuid';
-import { ExtensionTelephonySessionsEvent } from '@rc-ex/core/definitions';
 import { callDirection } from '../../enums/callDirections';
-import { Module } from '../../lib/di';
 // eslint-disable-next-line import/no-named-as-default
 import subscriptionFilters from '../../enums/subscriptionFilters';
+import { Module } from '../../lib/di';
+import { proxify } from '../../lib/proxy/proxify';
+import validateNumbers from '../../lib/validateNumbers';
+import callControlError from '../ActiveCallControl/callControlError';
+import { trackEvents } from '../Analytics';
 import callErrors from '../Call/callErrors';
+import { sessionStatus } from '../WebphoneV2/sessionStatus';
 import { webphoneErrors } from '../WebphoneV2/webphoneErrors';
 import {
-  normalizeSession,
-  conflictError,
-  isRecording,
-  isHolding,
-  isRinging,
-  isAtMainNumberPromptToneStage,
-  filterDisconnectedCalls,
-  normalizeTelephonySession,
-} from './helpers';
-import { trackEvents } from '../Analytics';
-import callControlError from '../ActiveCallControl/callControlError';
+  normalizeSession as normalizeWebphoneSession,
+  sortByCreationTimeDesc,
+} from '../WebphoneV2/webphoneHelper';
 import {
   ActiveCallControlSessionData,
   ActiveSession,
   Deps,
   ModuleMakeCallParams,
 } from './ActiveCallControl.interface';
-import validateNumbers from '../../lib/validateNumbers';
 import {
-  normalizeSession as normalizeWebphoneSession,
-  sortByCreationTimeDesc,
-} from '../WebphoneV2/webphoneHelper';
-import { sessionStatus } from '../WebphoneV2/sessionStatus';
-import proxify from '../../lib/proxy/proxify';
+  conflictError,
+  filterDisconnectedCalls,
+  isAtMainNumberPromptToneStage,
+  isHolding,
+  isRecording,
+  isRinging,
+  normalizeSession,
+  normalizeTelephonySession,
+} from './helpers';
 
 const DEFAULT_TTL = 30 * 60 * 1000;
 const DEFAULT_TIME_TO_RETRY = 62 * 1000;
@@ -71,7 +68,6 @@ const subscribeEvent = subscriptionFilters.telephonySessions;
     'AccountInfo',
     'Subscription',
     'ExtensionInfo',
-    'ExtensionFeatures',
     'NumberValidate',
     'RegionSettings',
     'ConnectivityMonitor',
@@ -128,7 +124,7 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
   }
 
   async onStateChange() {
-    if (this.ready && this._hasPermission) {
+    if (this.ready && this.hasPermission) {
       this._subscriptionHandler();
       this._checkConnectivity();
       await this._checkTabActive();
@@ -275,11 +271,13 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
     busyTimestamp: number;
     timestamp: number;
     sessions: ActiveCallControlSessionData[];
+    ringSessionId: string;
   } = {
     activeSessionId: null,
     busyTimestamp: 0,
     timestamp: 0,
     sessions: [],
+    ringSessionId: null,
   };
 
   @state
@@ -291,7 +289,7 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
 
   @proxify
   async onInit() {
-    if (!this._hasPermission) return;
+    if (!this.hasPermission) return;
     this._deps.subscription.subscribe([subscribeEvent]);
     this._rcCall = new RingCentralCall({
       sdk: this._deps.client.service,
@@ -321,7 +319,9 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
     );
     // workaround of bug:
     // WebRTC outbound call with wrong sequences of telephony sessions then call log section will not show
-    this._rcCall?._callControl?.on('new', this._updateSessionsHandler);
+    this._rcCall?._callControl?.on('new', (session: Session) =>
+      this._onNewCall(session),
+    );
     this._tabActive = this._deps.tabManager?.active;
     if (this._shouldFetch()) {
       try {
@@ -492,6 +492,24 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
     this.updateActiveSessions();
   };
 
+  @proxify
+  async _onNewCall(session: Session) {
+    this.updateActiveSessions();
+    const ringSession = find(
+      (x) => isRinging(x) && x.id === session.id,
+      this.sessions,
+    );
+    this._setRingSessionId(ringSession?.id);
+  }
+
+  @action
+  _onCallAccepted(telephonySessionId: string) {
+    if (this.ringSessionId === telephonySessionId) {
+      const ringSessions = this.sessions.filter((x) => isRinging(x));
+      this.data.ringSessionId = (ringSessions[0] && ringSessions[0].id) || null;
+    }
+  }
+
   @action
   updateActiveSessions() {
     this.data.timestamp = Date.now();
@@ -515,9 +533,9 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
           to: session.to,
           webphoneSessionConnected: session.webphoneSessionConnected,
           webphoneSession: normalizeWebphoneSession(session.webphoneSession),
+          webphoneSessionId: session.webphoneSession?.id,
         };
       });
-
     this.data.sessions = callControlSessions || [];
   }
 
@@ -940,9 +958,8 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
       ]);
       if (!validatedResult.result) {
         validatedResult.errors.forEach(async (error) => {
-          const isHAError: boolean = await this._deps.availabilityMonitor?.checkIfHAError(
-            error,
-          );
+          const isHAError: boolean =
+            await this._deps.availabilityMonitor?.checkIfHAError(error);
           if (!isHAError) {
             // TODO: fix `callErrors` type
             this._deps.alert.warning({
@@ -1100,11 +1117,17 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
         this._autoMergeWebphoneSessionsMap.delete(webphoneSession);
       } else {
         this.setActiveSessionId(telephonySessionId);
+        this._onCallAccepted(telephonySessionId);
         this._holdOtherCalls(telephonySessionId);
         this._addTrackToActiveSession();
       }
       this.updateActiveSessions();
     });
+  }
+
+  @action
+  _setRingSessionId(sessionId: string) {
+    this.data.ringSessionId = sessionId;
   }
 
   /**
@@ -1337,6 +1360,9 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
   }
 
   getActiveSession(telephonySessionId: string) {
+    if (!telephonySessionId) {
+      return null;
+    }
     return this.activeSessions[telephonySessionId];
   }
 
@@ -1352,6 +1378,24 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
   ])
   get activeSession() {
     return this.getActiveSession(this.activeSessionId);
+  }
+
+  @computed(({ ringSessionId, activeSessions }: ActiveCallControl) => [
+    ringSessionId,
+    activeSessions,
+  ])
+  get ringSession() {
+    return this.getActiveSession(this.ringSessionId);
+  }
+
+  @computed(({ sessions }: ActiveCallControl) => [sessions])
+  get ringSessions() {
+    if (!this.sessions) {
+      return [];
+    }
+    return this.sessions.filter((session: ActiveCallControlSessionData) =>
+      isRinging(session),
+    );
   }
 
   @computed((that: ActiveCallControl) => [that.sessions, that.timestamp])
@@ -1373,7 +1417,7 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
   }
 
   /**
-   * Mitigation strategy for avoiding 404/409 on call control endpoings.
+   * Mitigation strategy for avoiding 404/409 on call control endpoints.
    * This should gradually move towards per session controls rather than
    * a global busy timeout.
    */
@@ -1381,8 +1425,12 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
     return Date.now() - this.busyTimestamp < DEFAULT_BUSY_TIMEOUT;
   }
 
-  get _hasPermission() {
-    return this._deps.extensionFeatures.isRingOutEnabled;
+  // This should reflect on the app permissions setting in DWP
+  get hasPermission() {
+    return (
+      this._deps.auth.token.scope?.indexOf('CallControl') > -1 ||
+      this._deps.auth.token.scope?.indexOf('TelephonySession') > -1
+    );
   }
 
   get timeToRetry() {
@@ -1432,6 +1480,10 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
 
   get sessions() {
     return this.data.sessions;
+  }
+
+  get ringSessionId() {
+    return this.data.ringSessionId;
   }
 
   @track(trackEvents.inboundWebRTCCallConnected)

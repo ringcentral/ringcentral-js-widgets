@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import debounce from 'ringcentral-integration/lib/debounce';
+import debounce from '@ringcentral-integration/commons/lib/debounce';
 
 import CallAvatar from '../CallAvatar';
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';

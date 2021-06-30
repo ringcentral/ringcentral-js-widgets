@@ -3,7 +3,7 @@ import { computed, track } from '@ringcentral-integration/core';
 import { Module } from '../../lib/di';
 import { loginStatus } from '../AuthV2';
 import { DataFetcherV2Consumer, DataSource } from '../DataFetcherV2';
-import { permissionsMessages } from '../RolesAndPermissions/permissionsMessages';
+import { permissionsMessages } from '../../enums/permissionsMessages';
 import { Deps } from './AccountInfo.interfaces';
 
 @Module({

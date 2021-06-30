@@ -2,8 +2,8 @@ import { RcMenuItem, RcMenuList, RcPopover } from '@ringcentral/juno';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
-import callDirections from 'ringcentral-integration/enums/callDirections';
-import telephonyStatuses from 'ringcentral-integration/enums/telephonyStatus';
+import callDirections from '@ringcentral-integration/commons/enums/callDirections';
+import telephonyStatuses from '@ringcentral-integration/commons/enums/telephonyStatus';
 
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import EndIcon from '../../assets/images/Hangup.svg';

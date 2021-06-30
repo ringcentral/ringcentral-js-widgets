@@ -89,7 +89,7 @@ const config = {
       },
       {
         test: /\.png|\.jpg|\.gif|\.svg/,
-        exclude: /ringcentral-widgets(\/|\\)assets(\/|\\)images(\/|\\).+\.svg/,
+        exclude: /@ringcentral-integration\/widgets(\/|\\)assets(\/|\\)images(\/|\\).+\.svg/,
         use:
           'url-loader?limit=20000&publicPath=./&name=images/[name]_[hash].[ext]',
       },

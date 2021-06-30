@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import DialPad from 'ringcentral-widgets/components/DialPad';
+import DialPad from '@ringcentral-integration/widgets/components/DialPad';
 
 const props = {};
 

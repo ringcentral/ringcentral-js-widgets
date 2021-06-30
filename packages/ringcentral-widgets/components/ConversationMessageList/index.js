@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import isBlank from 'ringcentral-integration/lib/isBlank';
+import isBlank from '@ringcentral-integration/commons/lib/isBlank';
 import fileSvg from '@ringcentral/juno/icon/DefaultFile';
 import downloadSvg from '@ringcentral/juno/icon/Download';
 import { RcIcon } from '@ringcentral/juno';

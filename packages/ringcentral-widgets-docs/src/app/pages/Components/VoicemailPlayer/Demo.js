@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import VoicemailPlayer from 'ringcentral-widgets/components/VoicemailPlayer';
+import VoicemailPlayer from '@ringcentral-integration/widgets/components/VoicemailPlayer';
 
 const props = {};
 props.uri = 'test string';

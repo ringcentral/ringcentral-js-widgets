@@ -1,7 +1,7 @@
-import ConferenceInfo from 'ringcentral-widgets/components/ActiveCallPanel/ConferenceInfo';
-import ActiveCallButton from 'ringcentral-widgets/components/ActiveCallButton';
-import ActiveCallPad from 'ringcentral-widgets/components/ActiveCallPad';
-import CircleButton from 'ringcentral-widgets/components/CircleButton';
+import ConferenceInfo from '@ringcentral-integration/widgets/components/ActiveCallPanel/ConferenceInfo';
+import ActiveCallButton from '@ringcentral-integration/widgets/components/ActiveCallButton';
+import ActiveCallPad from '@ringcentral-integration/widgets/components/ActiveCallPad';
+import CircleButton from '@ringcentral-integration/widgets/components/CircleButton';
 import {
   makeOutboundCall,
   mockConferenceCallEnv,

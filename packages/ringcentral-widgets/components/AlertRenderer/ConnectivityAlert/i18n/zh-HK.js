@@ -1,10 +1,14 @@
-import connectivityTypes from '../../../../modules/ConnectivityManager/connectivityTypes';
+import { connectivityTypes } from '../../../../modules/ConnectivityManager';
 export default {
-  [connectivityTypes.networkLoss]: "抱歉，出了一些問題，請檢查您的網路連接並再試一次。",
-  [connectivityTypes.offline]: "無法連線伺服器。請稍後再試一次。",
-  [connectivityTypes.serverUnavailable]: "抱歉，我們這邊出了一些問題。請稍後再試一次。",
-  [connectivityTypes.voipOnly]: "抱歉，我們這邊出了一些問題，但我們正在努力進行修復。您仍然可以撥打電話，但其他功能目前受到限制。",
-  [connectivityTypes.survival]: "抱歉，我們這邊出了一些問題，但我們正在努力進行修復。特定功能可能受到限制。應用程式將在可以使用時自動復原。"
+  [connectivityTypes.networkLoss]:
+    '抱歉，出了一些問題，請檢查您的網路連接並再試一次。',
+  [connectivityTypes.offline]: '無法連線伺服器。請稍後再試一次。',
+  [connectivityTypes.serverUnavailable]:
+    '抱歉，我們這邊出了一些問題。請稍後再試一次。',
+  [connectivityTypes.voipOnly]:
+    '抱歉，我們這邊出了一些問題，但我們正在努力進行修復。您仍然可以撥打電話，但其他功能目前受到限制。',
+  [connectivityTypes.survival]:
+    '抱歉，我們這邊出了一些問題，但我們正在努力進行修復。特定功能可能受到限制。應用程式將在可以使用時自動復原。',
 };
 
 // @key: @#@"[connectivityTypes.networkLoss]"@#@ @source: @#@"Sorry, something went wrong, check your network connection and try again."@#@

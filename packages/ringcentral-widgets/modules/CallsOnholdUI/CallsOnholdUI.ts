@@ -1,6 +1,6 @@
 import { computed, UIProps, UIFunctions } from '@ringcentral-integration/core';
 import { filter } from 'ramda';
-import { Module } from 'ringcentral-integration/lib/di';
+import { Module } from '@ringcentral-integration/commons/lib/di';
 import { ActiveCallsUI } from '../ActiveCallsUI';
 import {
   Deps,

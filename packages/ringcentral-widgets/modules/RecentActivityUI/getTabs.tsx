@@ -1,13 +1,13 @@
 import React, { ReactElement } from 'react';
-import { Message } from 'ringcentral-integration/interfaces/MessageStore.model';
-import { HistoryCall } from 'ringcentral-integration/modules/CallHistoryV2';
-import { FormatDateTimeOptions } from 'ringcentral-integration/modules/DateTimeFormatV2';
-import { Entity } from 'ringcentral-integration/interfaces/Entity.interface';
+import { Message } from '@ringcentral-integration/commons/interfaces/MessageStore.model';
+import { HistoryCall } from '@ringcentral-integration/commons/modules/CallHistoryV2';
+import { FormatDateTimeOptions } from '@ringcentral-integration/commons/modules/DateTimeFormatV2';
+import { Entity } from '@ringcentral-integration/commons/interfaces/Entity.interface';
 import {
   RecentMessage,
   RecentMessages,
-} from 'ringcentral-integration/modules/RecentMessagesV2';
-import { RecentCalls } from 'ringcentral-integration/modules/RecentCallsV2';
+} from '@ringcentral-integration/commons/modules/RecentMessagesV2';
+import { RecentCalls } from '@ringcentral-integration/commons/modules/RecentCallsV2';
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import RecentActivityMessages from '../../components/RecentActivityMessages';
 import RecentActivityCalls from '../../components/RecentActivityCalls';

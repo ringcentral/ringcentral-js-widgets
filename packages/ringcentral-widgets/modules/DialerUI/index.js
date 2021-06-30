@@ -1,9 +1,9 @@
-import { Module } from 'ringcentral-integration/lib/di';
-import proxify from 'ringcentral-integration/lib/proxy/proxify';
-import callErrors from 'ringcentral-integration/modules/Call/callErrors';
+import { Module } from '@ringcentral-integration/commons/lib/di';
+import proxify from '@ringcentral-integration/commons/lib/proxy/proxify';
+import callErrors from '@ringcentral-integration/commons/modules/Call/callErrors';
 import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
-import formatNumber from 'ringcentral-integration/lib/formatNumber';
-import { selector } from 'ringcentral-integration/lib/selector';
+import formatNumber from '@ringcentral-integration/commons/lib/formatNumber';
+import { selector } from '@ringcentral-integration/commons/lib/selector';
 import RcUIModule from '../../lib/RcUIModule';
 import getReducer from './getReducer';
 

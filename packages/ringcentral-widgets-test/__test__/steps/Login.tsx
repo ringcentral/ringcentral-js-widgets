@@ -1,7 +1,7 @@
-import * as mock from 'ringcentral-integration/integration-test/mock';
+import * as mock from '@ringcentral-integration/commons/integration-test/mock';
 import { StepFunction } from '.';
 import { getInstance } from '../lib/getInstance';
-import { waitWithCheck } from 'ringcentral-integration/lib/time';
+import { waitWithCheck } from '@ringcentral-integration/commons/lib/time';
 
 interface LoginProps {
   username?: string;

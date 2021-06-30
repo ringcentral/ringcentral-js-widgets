@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import dndStatus from 'ringcentral-integration/modules/Presence/dndStatus';
+import dndStatus from '@ringcentral-integration/commons/modules/Presence/dndStatus';
 
 import PresenceStatusIcon from '../PresenceStatusIcon';
 import styles from './styles.scss';

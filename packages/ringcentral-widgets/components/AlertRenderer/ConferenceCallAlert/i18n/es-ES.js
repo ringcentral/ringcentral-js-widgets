@@ -1,4 +1,4 @@
-import conferenceCallErrors from 'ringcentral-integration/modules/ConferenceCall/conferenceCallErrors';
+import conferenceCallErrors from '@ringcentral-integration/commons/modules/ConferenceCall/conferenceCallErrors';
 export default {
   [conferenceCallErrors.bringInFailed]: "No se han podido combinar las llamadas debido a errores inesperados. Inténtelo de nuevo más tarde.",
   [conferenceCallErrors.makeConferenceFailed]: "No se han podido combinar las llamadas debido a errores inesperados. Inténtelo de nuevo más tarde.",

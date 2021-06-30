@@ -1,32 +1,32 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 import { connect } from 'react-redux';
-import callingOptions from 'ringcentral-integration/modules/CallingSettings/callingOptions';
-import HistoryIcon from 'ringcentral-widgets/assets/images/CallHistory.svg';
-import HistoryHoverIcon from 'ringcentral-widgets/assets/images/CallHistoryHover.svg';
-import CallsIcon from 'ringcentral-widgets/assets/images/Calls.svg';
-import CallsHoverIcon from 'ringcentral-widgets/assets/images/CallsHover.svg';
-import ConferenceIcon from 'ringcentral-widgets/assets/images/Conference.svg';
-import ConferenceHoverIcon from 'ringcentral-widgets/assets/images/ConferenceHover.svg';
-import ConferenceNavIcon from 'ringcentral-widgets/assets/images/ConferenceNavigation.svg';
-import ContactIcon from 'ringcentral-widgets/assets/images/Contact.svg';
-import ContactHoverIcon from 'ringcentral-widgets/assets/images/ContactHover.svg';
-import ContactNavIcon from 'ringcentral-widgets/assets/images/ContactsNavigation.svg';
-import DialPadHoverIcon from 'ringcentral-widgets/assets/images/DialPadHover.svg';
-import DialPadIcon from 'ringcentral-widgets/assets/images/DialPadNav.svg';
-import MeetingIcon from 'ringcentral-widgets/assets/images/Meeting.svg';
-import MeetingHoverIcon from 'ringcentral-widgets/assets/images/MeetingHover.svg';
-import MeetingNavIcon from 'ringcentral-widgets/assets/images/MeetingNavigation.svg';
-import MessageIcon from 'ringcentral-widgets/assets/images/Messages.svg';
-import MessageHoverIcon from 'ringcentral-widgets/assets/images/MessagesHover.svg';
-import MoreMenuIcon from 'ringcentral-widgets/assets/images/MoreMenu.svg';
-import MoreMenuHoverIcon from 'ringcentral-widgets/assets/images/MoreMenuHover.svg';
-import SettingsIcon from 'ringcentral-widgets/assets/images/Settings.svg';
-import SettingsHoverIcon from 'ringcentral-widgets/assets/images/SettingsHover.svg';
-import SettingsNavIcon from 'ringcentral-widgets/assets/images/SettingsNavigation.svg';
-import TabNavigationView from 'ringcentral-widgets/components/TabNavigationView';
-import hasActiveCalls from 'ringcentral-widgets/lib/hasActiveCalls';
-import { withPhone } from 'ringcentral-widgets/lib/phoneContext';
+import callingOptions from '@ringcentral-integration/commons/modules/CallingSettings/callingOptions';
+import HistoryIcon from '@ringcentral-integration/widgets/assets/images/CallHistory.svg';
+import HistoryHoverIcon from '@ringcentral-integration/widgets/assets/images/CallHistoryHover.svg';
+import CallsIcon from '@ringcentral-integration/widgets/assets/images/Calls.svg';
+import CallsHoverIcon from '@ringcentral-integration/widgets/assets/images/CallsHover.svg';
+import ConferenceIcon from '@ringcentral-integration/widgets/assets/images/Conference.svg';
+import ConferenceHoverIcon from '@ringcentral-integration/widgets/assets/images/ConferenceHover.svg';
+import ConferenceNavIcon from '@ringcentral-integration/widgets/assets/images/ConferenceNavigation.svg';
+import ContactIcon from '@ringcentral-integration/widgets/assets/images/Contact.svg';
+import ContactHoverIcon from '@ringcentral-integration/widgets/assets/images/ContactHover.svg';
+import ContactNavIcon from '@ringcentral-integration/widgets/assets/images/ContactsNavigation.svg';
+import DialPadHoverIcon from '@ringcentral-integration/widgets/assets/images/DialPadHover.svg';
+import DialPadIcon from '@ringcentral-integration/widgets/assets/images/DialPadNav.svg';
+import MeetingIcon from '@ringcentral-integration/widgets/assets/images/Meeting.svg';
+import MeetingHoverIcon from '@ringcentral-integration/widgets/assets/images/MeetingHover.svg';
+import MeetingNavIcon from '@ringcentral-integration/widgets/assets/images/MeetingNavigation.svg';
+import MessageIcon from '@ringcentral-integration/widgets/assets/images/Messages.svg';
+import MessageHoverIcon from '@ringcentral-integration/widgets/assets/images/MessagesHover.svg';
+import MoreMenuIcon from '@ringcentral-integration/widgets/assets/images/MoreMenu.svg';
+import MoreMenuHoverIcon from '@ringcentral-integration/widgets/assets/images/MoreMenuHover.svg';
+import SettingsIcon from '@ringcentral-integration/widgets/assets/images/Settings.svg';
+import SettingsHoverIcon from '@ringcentral-integration/widgets/assets/images/SettingsHover.svg';
+import SettingsNavIcon from '@ringcentral-integration/widgets/assets/images/SettingsNavigation.svg';
+import TabNavigationView from '@ringcentral-integration/widgets/components/TabNavigationView';
+import hasActiveCalls from '@ringcentral-integration/widgets/lib/hasActiveCalls';
+import { withPhone } from '@ringcentral-integration/widgets/lib/phoneContext';
 import i18n from './i18n';
 
 function getTabs({
@@ -182,8 +182,7 @@ function mapToProps(
     conference.data &&
     !!extensionFeatures.features?.Conferencing?.available;
   const showMeeting =
-    extensionFeatures.ready &&
-    !!extensionFeatures.features?.Meetings?.available;
+    extensionFeatures.ready && extensionFeatures.hasMeetingsPermission;
   const currentLocale = locale.currentLocale;
   const conferenceCallEquipped = !!conferenceCall;
   const tabs = getTabs({

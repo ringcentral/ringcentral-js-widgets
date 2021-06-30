@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import MessageInput from 'ringcentral-widgets/components/MessageInput';
+import MessageInput from '@ringcentral-integration/widgets/components/MessageInput';
 
 const props = {};
 props.value = 'test string';

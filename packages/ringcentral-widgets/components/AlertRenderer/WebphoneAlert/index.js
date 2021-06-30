@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import webphoneErrors from 'ringcentral-integration/modules/Webphone/webphoneErrors';
-import webphoneMessages from 'ringcentral-integration/modules/Webphone/webphoneMessages';
+import webphoneErrors from '@ringcentral-integration/commons/modules/Webphone/webphoneErrors';
+import webphoneMessages from '@ringcentral-integration/commons/modules/Webphone/webphoneMessages';
 import FormattedMessage from '../../FormattedMessage';
 import i18n from './i18n';
 

@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import AudioSettingsPanel from 'ringcentral-widgets/components/AudioSettingsPanel';
+import AudioSettingsPanel from '@ringcentral-integration/widgets/components/AudioSettingsPanel';
 
 const props = {};
 props.currentLocale = 'en-US';

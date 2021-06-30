@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { contains } from 'ramda';
 import React from 'react';
-import authMessages from 'ringcentral-integration/modules/Auth/authMessages';
+import authMessages from '@ringcentral-integration/commons/modules/Auth/authMessages';
 
 import i18n from './i18n';
 

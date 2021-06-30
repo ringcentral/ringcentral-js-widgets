@@ -1,11 +1,11 @@
-import * as mock from 'ringcentral-integration/integration-test/mock';
-import SettingsPanel from 'ringcentral-widgets/components/SettingsPanel';
-import LinkLine from 'ringcentral-widgets/components/LinkLine';
-import IconLine from 'ringcentral-widgets/components/IconLine';
-import PresenceSettingSection from 'ringcentral-widgets/components/PresenceSettingSection';
-import PresenceItem from 'ringcentral-widgets/components/PresenceItem';
-import Eula from 'ringcentral-widgets/components/Eula';
-import NavigationBar from 'ringcentral-widgets/components/NavigationBar';
+import * as mock from '@ringcentral-integration/commons/integration-test/mock';
+import SettingsPanel from '@ringcentral-integration/widgets/components/SettingsPanel';
+import LinkLine from '@ringcentral-integration/widgets/components/LinkLine';
+import IconLine from '@ringcentral-integration/widgets/components/IconLine';
+import PresenceSettingSection from '@ringcentral-integration/widgets/components/PresenceSettingSection';
+import PresenceItem from '@ringcentral-integration/widgets/components/PresenceItem';
+import Eula from '@ringcentral-integration/widgets/components/Eula';
+import NavigationBar from '@ringcentral-integration/widgets/components/NavigationBar';
 
 import { getWrapper } from '../shared';
 

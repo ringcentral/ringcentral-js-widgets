@@ -1,6 +1,6 @@
 import { action, state, globalStorage } from '@ringcentral-integration/core';
-import { Module } from 'ringcentral-integration/lib/di';
-import { TabManager } from 'ringcentral-integration/modules/TabManagerV2';
+import { Module } from '@ringcentral-integration/commons/lib/di';
+import { TabManager } from '@ringcentral-integration/commons/modules/TabManagerV2';
 import { EventEmitter } from 'events';
 import { tabManagerEvents } from '../../enums';
 

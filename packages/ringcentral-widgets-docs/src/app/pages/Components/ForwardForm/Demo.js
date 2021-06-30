@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import ForwardForm from 'ringcentral-widgets/components/ForwardForm';
+import ForwardForm from '@ringcentral-integration/widgets/components/ForwardForm';
 
 const props = {};
 props.onCancel = () => null;

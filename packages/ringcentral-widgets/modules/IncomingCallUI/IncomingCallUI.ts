@@ -3,10 +3,10 @@ import {
   UIProps,
   UIFunctions,
 } from '@ringcentral-integration/core';
-import { Module } from 'ringcentral-integration/lib/di';
-import formatNumber from 'ringcentral-integration/lib/formatNumber';
-import callDirections from 'ringcentral-integration/enums/callDirections';
-import { NormalizedSession } from 'ringcentral-integration/interfaces/Webphone.interface';
+import { Module } from '@ringcentral-integration/commons/lib/di';
+import formatNumber from '@ringcentral-integration/commons/lib/formatNumber';
+import callDirections from '@ringcentral-integration/commons/enums/callDirections';
+import { NormalizedSession } from '@ringcentral-integration/commons/interfaces/Webphone.interface';
 import {
   Deps,
   IncomingCallContainerProps,

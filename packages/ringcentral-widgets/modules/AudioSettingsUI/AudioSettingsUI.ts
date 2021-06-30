@@ -3,8 +3,8 @@ import {
   UIFunctions,
   UIProps,
 } from '@ringcentral-integration/core';
-import { Module } from 'ringcentral-integration/lib/di';
-import callingOptions from 'ringcentral-integration/modules/CallingSettings/callingOptions';
+import { Module } from '@ringcentral-integration/commons/lib/di';
+import callingOptions from '@ringcentral-integration/commons/modules/CallingSettings/callingOptions';
 import { Deps, AudioSettingsPanelProps } from './AudioSettingsUI.interface';
 
 @Module({

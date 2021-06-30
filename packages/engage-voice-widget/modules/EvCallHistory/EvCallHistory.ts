@@ -1,6 +1,6 @@
 import { computed, RcModuleV2, watch } from '@ringcentral-integration/core';
-import { Module } from 'ringcentral-integration/lib/di';
-import { callDirection } from 'ringcentral-integration/enums/callDirections';
+import { Module } from '@ringcentral-integration/commons/lib/di';
+import { callDirection } from '@ringcentral-integration/commons/enums/callDirections';
 
 import { directTransferNotificationTypes } from '../../enums/directTransferNotificationTypes';
 import { makeCallsUniqueIdentifies } from '../../lib/callUniqueIdentifies';

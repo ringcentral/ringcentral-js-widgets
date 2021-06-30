@@ -99,7 +99,7 @@ export function conflictError({
   );
 }
 
-export function isRinging(telephonySession: any) {
+export function isRinging(telephonySession: ActiveCallControlSessionData) {
   return (
     telephonySession &&
     (telephonySession.status === PartyStatusCode.proceeding ||
@@ -108,7 +108,7 @@ export function isRinging(telephonySession: any) {
   );
 }
 
-export function isHolding(telephonySession: any) {
+export function isHolding(telephonySession: ActiveCallControlSessionData) {
   return telephonySession.status === PartyStatusCode.hold;
 }
 
@@ -117,13 +117,11 @@ export function isRecording(session: ActiveCallControlSessionData) {
   return isOnRecording(party.recordings);
 }
 
-export function isForwardedToVoiceMail(session: any) {
-  // TODO: fix this for call control js
-  // return session.status === PartyStatusCode.voicemail;
-  return session.status === 'Voicemail';
+export function isForwardedToVoiceMail(session: ActiveCallControlSessionData) {
+  return session.status === PartyStatusCode.voicemail;
 }
 
-export function isOnSetupStage(session: any) {
+export function isOnSetupStage(session: ActiveCallControlSessionData) {
   return session.status === PartyStatusCode.setup;
 }
 
@@ -173,7 +171,9 @@ export function filterDisconnectedCalls(
   return session.status !== PartyStatusCode.disconnected;
 }
 
-export function normalizeTelephonySession(session?: TelephonySession) {
+export function normalizeTelephonySession(
+  session?: TelephonySession,
+): ActiveCallControlSessionData {
   if (!session) {
     return {};
   }

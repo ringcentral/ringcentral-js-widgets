@@ -1,4 +1,4 @@
-import callingSettingsMessages from 'ringcentral-integration/modules/CallingSettings/callingSettingsMessages';
+import callingSettingsMessages from '@ringcentral-integration/commons/modules/CallingSettings/callingSettingsMessages';
 export default {
   [callingSettingsMessages.saveSuccess]: "设置已成功保存。",
   [callingSettingsMessages.saveSuccessWithSoftphone]: "设置已成功保存。请确保您的计算机上已安装 {brand}。",

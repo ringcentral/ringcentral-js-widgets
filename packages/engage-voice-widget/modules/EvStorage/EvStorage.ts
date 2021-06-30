@@ -1,6 +1,6 @@
-import { Module } from 'ringcentral-integration/lib/di';
-import { Storage } from 'ringcentral-integration/modules/StorageV2';
-import loginStatus from 'ringcentral-integration/modules/Auth/loginStatus';
+import { Module } from '@ringcentral-integration/commons/lib/di';
+import { Storage } from '@ringcentral-integration/commons/modules/StorageV2';
+import loginStatus from '@ringcentral-integration/commons/modules/Auth/loginStatus';
 import { ModuleStatus } from '@ringcentral-integration/core';
 import { Deps } from './EvStorage.interface';
 import { loginStatus as evLoginStatus } from '../../enums/loginStatus';

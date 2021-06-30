@@ -1,8 +1,8 @@
-import Alert from 'ringcentral-integration/modules/Alert';
-import { Auth as RcAuth } from 'ringcentral-integration/modules/AuthV2';
-import Locale from 'ringcentral-integration/modules/Locale';
-import { Block } from 'ringcentral-widgets/modules/Block';
-import RouterInteraction from 'ringcentral-widgets/modules/RouterInteraction';
+import Alert from '@ringcentral-integration/commons/modules/Alert';
+import { Auth as RcAuth } from '@ringcentral-integration/commons/modules/AuthV2';
+import Locale from '@ringcentral-integration/commons/modules/Locale';
+import { Block } from '@ringcentral-integration/widgets/modules/Block';
+import RouterInteraction from '@ringcentral-integration/widgets/modules/RouterInteraction';
 
 import { EvAgentData, EvClient, EvTokenType } from '../../lib/EvClient';
 import { EvSubscription } from '../EvSubscription';

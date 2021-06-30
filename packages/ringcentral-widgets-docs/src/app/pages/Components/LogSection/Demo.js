@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import LogSection from 'ringcentral-widgets/components/LogSection';
+import LogSection from '@ringcentral-integration/widgets/components/LogSection';
 
 /**
  * A example of `LogSection`

@@ -1,16 +1,16 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import { createStore } from 'redux';
-import * as mock from 'ringcentral-integration/integration-test/mock';
-import { ensureLogin } from 'ringcentral-integration/integration-test/utils/HelpUtil';
-import SimulateWindowObject from 'ringcentral-integration/integration-test/utils/SimulateWindowObject';
-import ClientHistoryRequest from 'ringcentral-integration/integration-test/utils/ClientHistoryRequest';
-import { waitUntilEqual } from 'ringcentral-integration/integration-test/utils/WaitUtil';
+import * as mock from '@ringcentral-integration/commons/integration-test/mock';
+import { ensureLogin } from '@ringcentral-integration/commons/integration-test/utils/HelpUtil';
+import SimulateWindowObject from '@ringcentral-integration/commons/integration-test/utils/SimulateWindowObject';
+import ClientHistoryRequest from '@ringcentral-integration/commons/integration-test/utils/ClientHistoryRequest';
+import { waitUntilEqual } from '@ringcentral-integration/commons/integration-test/utils/WaitUtil';
 
-import { createPhone } from 'ringcentral-widgets-demo/dev-server/Phone';
-import brandConfig from 'ringcentral-widgets-demo/dev-server/brandConfig';
-import version from 'ringcentral-widgets-demo/dev-server/version';
-import prefix from 'ringcentral-widgets-demo/dev-server/prefix';
+import { createPhone } from '@ringcentral-integration/widgets-demo/dev-server/Phone';
+import brandConfig from '@ringcentral-integration/widgets-demo/dev-server/brandConfig';
+import version from '@ringcentral-integration/widgets-demo/dev-server/version';
+import prefix from '@ringcentral-integration/widgets-demo/dev-server/prefix';
 
 jest.setTimeout(30 * 1000);
 

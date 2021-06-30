@@ -1,4 +1,4 @@
-import callingOptions from 'ringcentral-integration/modules/CallingSettings/callingOptions';
+import callingOptions from '@ringcentral-integration/commons/modules/CallingSettings/callingOptions';
 export default {
   title: "통화",
   [callingOptions.softphone]: "데스크톱용 {brand}",

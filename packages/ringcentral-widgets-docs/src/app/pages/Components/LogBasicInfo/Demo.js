@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import LogBasicInfo from 'ringcentral-widgets/components/LogBasicInfo';
+import LogBasicInfo from '@ringcentral-integration/widgets/components/LogBasicInfo';
 
 const props = {};
 props.currentLocale = 'en-US';

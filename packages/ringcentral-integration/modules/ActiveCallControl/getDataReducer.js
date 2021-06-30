@@ -67,10 +67,10 @@ function getBusyReducer(types) {
 }
 
 function getSessionsReducer(types) {
-  return (state = [], { type, sessionDatas }) => {
+  return (state = [], { type, sessionData }) => {
     switch (type) {
       case types.updateActiveSessions:
-        return sessionDatas;
+        return sessionData;
       case types.resetSuccess:
         return [];
       default:

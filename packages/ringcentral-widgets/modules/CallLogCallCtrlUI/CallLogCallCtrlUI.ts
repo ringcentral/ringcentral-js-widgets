@@ -1,6 +1,15 @@
-import { Module } from 'ringcentral-integration/lib/di';
-import callingModes from 'ringcentral-integration/modules/CallingSettings/callingModes';
-import RcUIModule from '../../lib/RcUIModule';
+import { Module } from '@ringcentral-integration/commons/lib/di';
+import callingModes from '@ringcentral-integration/commons/modules/CallingSettings/callingModes';
+import {
+  RcUIModuleV2,
+  UIProps,
+  UIFunctions,
+} from '@ringcentral-integration/core';
+import {
+  CallLogCallCtrlContainerProps,
+  CallLogCallCtrlPanelProps,
+  Deps,
+} from './CallLogCallCtrlUI.interface';
 
 @Module({
   name: 'CallLogCallCtrlUI',
@@ -14,53 +23,31 @@ import RcUIModule from '../../lib/RcUIModule';
     'CallMonitor',
   ],
 })
-export default class CallLogCallCtrlUI extends RcUIModule {
-  private _activeCallControl: any;
-  private _connectivityMonitor: any;
-  private _rateLimiter: any;
-  private _routerInteraction: any;
-  private _callingSettings: any;
-  private _forwardingNumber: any;
-  private _callMonitor: any;
-
-  constructor({
-    activeCallControl,
-    connectivityMonitor,
-    rateLimiter,
-    routerInteraction,
-    callingSettings,
-    forwardingNumber,
-    callMonitor,
-    ...options
-  }) {
-    super({ ...options });
-    this._activeCallControl = activeCallControl;
-    this._connectivityMonitor = connectivityMonitor;
-    this._rateLimiter = rateLimiter;
-    this._routerInteraction = routerInteraction;
-    this._callingSettings = callingSettings;
-    this._forwardingNumber = forwardingNumber;
-    this._callMonitor = callMonitor;
+class CallLogCallCtrlUI extends RcUIModuleV2<Deps> {
+  constructor(deps: Deps) {
+    super({ deps });
   }
 
-  private onTransfer = (telephonySessionId: string) => {
-    this._activeCallControl.clickTransferTrack();
-    return this._routerInteraction.push(
+  private _onTransfer = (telephonySessionId: string) => {
+    this._deps.activeCallControl.clickTransferTrack();
+    return this._deps.routerInteraction.push(
       `/transfer/${telephonySessionId}/active`,
     );
   };
 
-  getUIProps({ telephonySessionId }: { telephonySessionId: string }) {
+  getUIProps({
+    telephonySessionId,
+  }: CallLogCallCtrlContainerProps): UIProps<CallLogCallCtrlPanelProps> {
     const isWebphone =
-      this._callingSettings.callingMode === callingModes.webphone;
-    const currentSession = this._activeCallControl.getActiveSession(
+      this._deps.callingSettings.callingMode === callingModes.webphone;
+    const currentSession = this._deps.activeCallControl.getActiveSession(
       telephonySessionId,
     );
     // we can get real callee call status from telephony session
-    const realOutboundCallStatus = this._activeCallControl?.getRcCallSession(
+    const realOutboundCallStatus: string = this._deps.activeCallControl?.getRcCallSession(
       telephonySessionId,
-    )?.otherParties[0]?.['status']['code'];
-    const { activeOnHoldCalls, activeCurrentCalls } = this._callMonitor;
+    )?.otherParties[0]?.status.code;
+    const { activeOnHoldCalls, activeCurrentCalls } = this._deps.callMonitor;
     const otherActiveCalls =
       currentSession &&
       !!activeOnHoldCalls
@@ -71,60 +58,79 @@ export default class CallLogCallCtrlUI extends RcUIModule {
       isWebphone,
       currentSession,
       disableLinks:
-        !this._connectivityMonitor.connectivity || this._rateLimiter.throttling,
+        !this._deps.connectivityMonitor.connectivity ||
+        this._deps.rateLimiter.throttling,
       telephonySessionId,
-      forwardingNumbers: this._forwardingNumber.forwardingNumbers,
+      forwardingNumbers: this._deps.forwardingNumber.forwardingNumbers,
       otherActiveCalls,
       realOutboundCallStatus,
     };
   }
 
-  getUIFunctions() {
+  getUIFunctions(): UIFunctions<CallLogCallCtrlPanelProps> {
     return {
-      mute: this._activeCallControl.mute.bind(this._activeCallControl),
-      unmute: this._activeCallControl.unmute.bind(this._activeCallControl),
-      hangUp: this._activeCallControl.hangUp.bind(this._activeCallControl),
-      reject: this._activeCallControl.reject.bind(this._activeCallControl),
-      onHold: this._activeCallControl.hold.bind(this._activeCallControl),
-      onUnHold: this._activeCallControl.unhold.bind(this._activeCallControl),
-      startRecord: this._activeCallControl.startRecord.bind(
-        this._activeCallControl,
+      mute: this._deps.activeCallControl.mute.bind(
+        this._deps.activeCallControl,
       ),
-      stopRecord: this._activeCallControl.stopRecord.bind(
-        this._activeCallControl,
+      unmute: this._deps.activeCallControl.unmute.bind(
+        this._deps.activeCallControl,
       ),
-      onTransfer: this.onTransfer,
-      sendDTMF: (dtmfValue: string, telephonySessionId: string) =>
-        this._activeCallControl.sendDTMF(dtmfValue, telephonySessionId),
-      answer: this._activeCallControl.answer.bind(this._activeCallControl),
-      forward: (phoneNumber: string, telephonySessionId: string) => {
+      hangUp: this._deps.activeCallControl.hangUp.bind(
+        this._deps.activeCallControl,
+      ),
+      reject: this._deps.activeCallControl.reject.bind(
+        this._deps.activeCallControl,
+      ),
+      onHold: this._deps.activeCallControl.hold.bind(
+        this._deps.activeCallControl,
+      ),
+      onUnHold: this._deps.activeCallControl.unhold.bind(
+        this._deps.activeCallControl,
+      ),
+      startRecord: this._deps.activeCallControl.startRecord.bind(
+        this._deps.activeCallControl,
+      ),
+      stopRecord: this._deps.activeCallControl.stopRecord.bind(
+        this._deps.activeCallControl,
+      ),
+      onTransfer: this._onTransfer,
+      sendDTMF: (dtmfValue, telephonySessionId) =>
+        this._deps.activeCallControl.sendDTMF(dtmfValue, telephonySessionId),
+      answer: this._deps.activeCallControl.answer.bind(
+        this._deps.activeCallControl,
+      ),
+      forward: (phoneNumber, telephonySessionId) => {
         if (phoneNumber === 'custom') {
-          this._routerInteraction.push(`/forward/${telephonySessionId}`);
+          this._deps.routerInteraction.push(`/forward/${telephonySessionId}`);
         } else {
-          this._activeCallControl.forward.call(
-            this._activeCallControl,
+          this._deps.activeCallControl.forward.call(
+            this._deps.activeCallControl,
             phoneNumber,
             telephonySessionId,
           );
         }
       },
-      ignore: this._activeCallControl.ignore.bind(this._activeCallControl),
-      answerAndHold: this._activeCallControl.answerAndHold.bind(
-        this._activeCallControl,
+      ignore: this._deps.activeCallControl.ignore.bind(
+        this._deps.activeCallControl,
       ),
-      answerAndEnd: this._activeCallControl.answerAndEnd.bind(
-        this._activeCallControl,
+      answerAndHold: this._deps.activeCallControl.answerAndHold.bind(
+        this._deps.activeCallControl,
       ),
-      dialpadToggleTrack: (open: boolean) => {
+      answerAndEnd: this._deps.activeCallControl.answerAndEnd.bind(
+        this._deps.activeCallControl,
+      ),
+      dialpadToggleTrack: (open) => {
         if (open) {
-          this._activeCallControl.dialpadOpenTrack();
+          this._deps.activeCallControl.dialpadOpenTrack();
         } else {
-          this._activeCallControl.dialpadCloseTrack();
+          this._deps.activeCallControl.dialpadCloseTrack();
         }
       },
-      clickForwardTrack: this._activeCallControl.clickForwardTrack.bind(
-        this._activeCallControl,
+      clickForwardTrack: this._deps.activeCallControl.clickForwardTrack.bind(
+        this._deps.activeCallControl,
       ),
     };
   }
 }
+
+export { CallLogCallCtrlUI };

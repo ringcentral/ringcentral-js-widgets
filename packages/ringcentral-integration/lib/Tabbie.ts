@@ -114,6 +114,11 @@ export class Tabbie {
       } else if (!this.mainTabId) {
         this._setFirstTabAsMainTab();
       }
+      window.addEventListener('unload', () => {
+        if (this.isMainTab) {
+          localStorage.removeItem(this._mainTabKey);
+        }
+      });
     }
   }
 

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import sleep from 'ringcentral-integration/lib/sleep';
-import calleeTypes from 'ringcentral-integration/enums/calleeTypes';
-import callDirections from 'ringcentral-integration/enums/callDirections';
-import sessionStatus from 'ringcentral-integration/modules/Webphone/sessionStatus';
+import sleep from '@ringcentral-integration/commons/lib/sleep';
+import calleeTypes from '@ringcentral-integration/commons/enums/calleeTypes';
+import callDirections from '@ringcentral-integration/commons/enums/callDirections';
+import sessionStatus from '@ringcentral-integration/commons/modules/Webphone/sessionStatus';
 import callCtrlLayouts from '../../enums/callCtrlLayouts';
 import CallCtrlPanel from '../../components/CallCtrlPanel';
 import i18n from './i18n';

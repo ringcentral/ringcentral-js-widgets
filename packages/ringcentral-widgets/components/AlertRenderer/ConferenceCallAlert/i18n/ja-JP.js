@@ -1,4 +1,4 @@
-import conferenceCallErrors from 'ringcentral-integration/modules/ConferenceCall/conferenceCallErrors';
+import conferenceCallErrors from '@ringcentral-integration/commons/modules/ConferenceCall/conferenceCallErrors';
 export default {
   [conferenceCallErrors.bringInFailed]: "予期しないエラーにより、通話をマージできませんでした。後でもう一度やり直してください。",
   [conferenceCallErrors.makeConferenceFailed]: "予期しないエラーにより、通話をマージできませんでした。後でもう一度やり直してください。",

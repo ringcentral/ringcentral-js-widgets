@@ -2,16 +2,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import callDirections from 'ringcentral-integration/enums/callDirections';
-import messageTypes from 'ringcentral-integration/enums/messageTypes';
-import messageDirection from 'ringcentral-integration/enums/messageDirection';
+import callDirections from '@ringcentral-integration/commons/enums/callDirections';
+import messageTypes from '@ringcentral-integration/commons/enums/messageTypes';
+import messageDirection from '@ringcentral-integration/commons/enums/messageDirection';
 import {
   isInbound,
   isRinging,
   isMissed,
-} from 'ringcentral-integration/lib/callLogHelpers';
-import parseNumber from 'ringcentral-integration/lib/parseNumber';
-import formatNumber from 'ringcentral-integration/lib/formatNumber';
+} from '@ringcentral-integration/commons/lib/callLogHelpers';
+import parseNumber from '@ringcentral-integration/commons/lib/parseNumber';
+import formatNumber from '@ringcentral-integration/commons/lib/formatNumber';
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import DurationCounter from '../DurationCounter';
 import ContactDisplay from '../ContactDisplay';

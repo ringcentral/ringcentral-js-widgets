@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import Draggable from 'ringcentral-widgets/components/Draggable';
+import Draggable from '@ringcentral-integration/widgets/components/Draggable';
 
 const props = {};
 

@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import PresenceSettingSection from 'ringcentral-widgets/components/PresenceSettingSection';
+import PresenceSettingSection from '@ringcentral-integration/widgets/components/PresenceSettingSection';
 
 const props = {};
 props.currentLocale = 'en-US';

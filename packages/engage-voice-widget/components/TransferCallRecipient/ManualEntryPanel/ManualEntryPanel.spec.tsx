@@ -62,7 +62,7 @@ describe('<ManualEntryPanel />', () => {
     const userInput = '343535435';
     const eventObj = { target: { value: userInput } };
     wrapper
-      .find('RecipientsInput')
+      .find('RcDialTextField')
       .at(0)
       .find('input')
       .simulate('change', eventObj);

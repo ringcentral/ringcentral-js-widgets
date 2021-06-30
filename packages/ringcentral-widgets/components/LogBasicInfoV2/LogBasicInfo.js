@@ -1,11 +1,11 @@
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
-import callDirections from 'ringcentral-integration/enums/callDirections';
-import callResults from 'ringcentral-integration/enums/callResults';
-import telephonyStatuses from 'ringcentral-integration/enums/telephonyStatus';
-import recordStatusEnum from 'ringcentral-integration/modules/Webphone/recordStatus';
-import { isMissed } from 'ringcentral-integration/lib/callLogHelpers';
+import callDirections from '@ringcentral-integration/commons/enums/callDirections';
+import callResults from '@ringcentral-integration/commons/enums/callResults';
+import telephonyStatuses from '@ringcentral-integration/commons/enums/telephonyStatus';
+import recordStatusEnum from '@ringcentral-integration/commons/modules/Webphone/recordStatus';
+import { isMissed } from '@ringcentral-integration/commons/lib/callLogHelpers';
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import DurationCounter from '../DurationCounter';
 import { RecordingIndicator } from '../RecordingIndicator';

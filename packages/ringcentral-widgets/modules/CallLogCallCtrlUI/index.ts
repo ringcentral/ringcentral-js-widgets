@@ -1,3 +1,2 @@
-import CallLogCallCtrlUI from './CallLogCallCtrlUI';
-
-export default CallLogCallCtrlUI;
+export * from './CallLogCallCtrlUI';
+export * from './CallLogCallCtrlUI.interface';

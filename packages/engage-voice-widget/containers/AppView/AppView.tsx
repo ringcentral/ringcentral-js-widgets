@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import { connect } from 'react-redux';
-import Environment from 'ringcentral-widgets/components/Environment';
-import withPhone from 'ringcentral-widgets/lib/withPhone';
+import Environment from '@ringcentral-integration/widgets/components/Environment';
+import withPhone from '@ringcentral-integration/widgets/lib/withPhone';
 
 import { EvPhone } from '../../interfaces';
 import styles from './styles.scss';

@@ -1,8 +1,8 @@
 import { contains } from 'ramda';
-import subscriptionBody from 'ringcentral-integration/integration-test/mock/data/subscription.json';
-import { isConferenceSession } from 'ringcentral-integration/modules/Webphone/webphoneHelper';
-import telephonyStatuses from 'ringcentral-integration/enums/telephonyStatus';
-import * as mock from 'ringcentral-integration/integration-test/mock';
+import subscriptionBody from '@ringcentral-integration/commons/integration-test/mock/data/subscription.json';
+import { isConferenceSession } from '@ringcentral-integration/commons/modules/Webphone/webphoneHelper';
+import telephonyStatuses from '@ringcentral-integration/commons/enums/telephonyStatus';
+import * as mock from '@ringcentral-integration/commons/integration-test/mock';
 import { getLastPubnub } from '../__mocks__/pubnub';
 import Session, { CONFERENCE_SESSION_ID } from './session';
 import { timeout } from '../integration-test/shared';

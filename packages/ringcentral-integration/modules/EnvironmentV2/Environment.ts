@@ -13,8 +13,6 @@ import { Deps, SetDataOptions } from './Environment.interface';
 const DEFAULT_RECORDING_HOST =
   'https://s3.ap-northeast-2.amazonaws.com/fetch-call-recording/test/index.html';
 
-// Tips: there is a difference between v1 and v2 which make EnvironmentV2 depend on SdkConfig,
-// instead of making SdkConfig a property of EnvironmentOptions
 @Module({
   name: 'Environment',
   deps: [

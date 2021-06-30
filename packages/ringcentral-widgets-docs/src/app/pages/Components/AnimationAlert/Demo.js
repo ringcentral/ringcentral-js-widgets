@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import AnimationAlert from 'ringcentral-widgets/components/AnimationAlert';
+import AnimationAlert from '@ringcentral-integration/widgets/components/AnimationAlert';
 
 const props = {};
 props.dismiss = () => null;

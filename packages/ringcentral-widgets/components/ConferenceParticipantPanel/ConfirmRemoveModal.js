@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import calleeTypes from 'ringcentral-integration/enums/calleeTypes';
+import calleeTypes from '@ringcentral-integration/commons/enums/calleeTypes';
 
 import i18n from './i18n';
 import styles from './styles.scss';

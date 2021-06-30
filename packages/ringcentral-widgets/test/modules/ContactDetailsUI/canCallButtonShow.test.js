@@ -1,4 +1,4 @@
-import { phoneTypes } from 'ringcentral-integration/enums/phoneTypes';
+import { phoneTypes } from '@ringcentral-integration/commons/enums/phoneTypes';
 import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 import { ContactDetailsUI } from '../../../modules/ContactDetailsUI/ContactDetailsUI';
 import { phone } from './testUtils';

@@ -8,7 +8,7 @@ import Demo from './Demo';
 // eslint-disable-next-line
 import demoCode from '!raw-loader!./Demo';
 // eslint-disable-next-line
-import componentCode from '!raw-loader!ringcentral-widgets/components/CopyToClipboard';
+import componentCode from '!raw-loader!@ringcentral-integration/widgets/components/CopyToClipboard';
 
 const CopyToClipboardPage = () => {
   const info = parse(componentCode);

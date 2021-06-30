@@ -1,7 +1,7 @@
-import background from 'ringcentral-integration/lib/background';
-import { Module } from 'ringcentral-integration/lib/di';
-import proxify from 'ringcentral-integration/lib/proxy/proxify';
-import ensureExist from 'ringcentral-integration/lib/ensureExist';
+import background from '@ringcentral-integration/commons/lib/background';
+import { Module } from '@ringcentral-integration/commons/lib/di';
+import proxify from '@ringcentral-integration/commons/lib/proxy/proxify';
+import ensureExist from '@ringcentral-integration/commons/lib/ensureExist';
 import * as uuid from 'uuid';
 
 import popWindow from '../../lib/popWindow';

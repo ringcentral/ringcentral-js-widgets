@@ -1,4 +1,4 @@
-import messageStoreErrors from 'ringcentral-integration/modules/MessageStore/errors';
+import messageStoreErrors from '@ringcentral-integration/commons/modules/MessageStore/errors';
 export default {
   [messageStoreErrors.deleteFailed]: "No se puede eliminar el mensaje de voz a causa de un error del servidor interno."
 };

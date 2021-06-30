@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import ActiveCallBadge from 'ringcentral-widgets/components/ActiveCallBadge';
+import ActiveCallBadge from '@ringcentral-integration/widgets/components/ActiveCallBadge';
 
 const props = {};
 props.onClick = (e) => {

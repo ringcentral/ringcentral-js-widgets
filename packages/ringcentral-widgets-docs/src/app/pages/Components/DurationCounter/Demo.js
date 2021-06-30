@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import DurationCounter from 'ringcentral-widgets/components/DurationCounter';
+import DurationCounter from '@ringcentral-integration/widgets/components/DurationCounter';
 
 const props = {};
 props.startTime = 0;

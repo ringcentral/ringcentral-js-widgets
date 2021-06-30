@@ -1,1 +1,1 @@
-module.exports = require('ringcentral-integration/integration-test/mock/pubnub');
+module.exports = require('@ringcentral-integration/commons/integration-test/mock/pubnub');

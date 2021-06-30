@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import Environment from 'ringcentral-widgets/components/Environment';
+import Environment from '@ringcentral-integration/widgets/components/Environment';
 
 const props = {};
 props.server = 'test string';

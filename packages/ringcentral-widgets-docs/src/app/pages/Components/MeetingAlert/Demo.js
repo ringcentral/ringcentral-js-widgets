@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import MeetingAlert from 'ringcentral-widgets/components/AlertRenderer/MeetingAlert';
+import MeetingAlert from '@ringcentral-integration/widgets/components/AlertRenderer/MeetingAlert';
 
 const props = {};
 props.currentLocale = 'en-US';

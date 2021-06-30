@@ -2,7 +2,7 @@ import classnames from 'classnames';
 import { RcButton, RcCheckbox } from '@ringcentral/juno';
 import React from 'react';
 
-import { RcVMeetingModel } from 'ringcentral-integration/interfaces/Rcv.model';
+import { RcVMeetingModel } from '@ringcentral-integration/commons/interfaces/Rcv.model';
 
 import i18n from './i18n';
 import styles from './styles.scss';

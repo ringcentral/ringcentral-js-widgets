@@ -124,7 +124,7 @@ export function authentication() {
       expires_in: 3600,
       refresh_token: 'REFRESH_TOKEN',
       refresh_token_expires_in: 60480,
-      scope: 'SMS RCM Foo Boo',
+      scope: 'SMS RCM Foo Boo CallControl TelephonySessions',
       expireTime: new Date().getTime() + 3600000,
       owner_id: '23231231"',
       endpoint_id: '3213213131',
@@ -241,13 +241,24 @@ export function removeFromConference(id, partyId) {
   });
 }
 
-export function extensionList(mockResponse = {}) {
+export function extensionList(
+  mockResponse = {},
+  extraParams = {},
+  isEmptyRes = false,
+) {
+  let query = '';
+  // eslint-disable-next-line guard-for-in
+  for (const key in extraParams) {
+    query = query.concat(`${key}=${extraParams[key]}`);
+  }
   mockApi({
-    url: `begin:${mockServer}/restapi/v1.0/account/~/extension?`,
-    body: {
-      ...extensionListBody,
-      ...mockResponse,
-    },
+    url: `begin:${mockServer}/restapi/v1.0/account/~/extension?${query}`,
+    body: isEmptyRes
+      ? {}
+      : {
+          ...extensionListBody,
+          ...mockResponse,
+        },
   });
 }
 
@@ -500,6 +511,7 @@ export function delegators(mockResponse) {
     method: 'GET',
     url: `${mockServer}/rcvideo/v1/accounts/~/extensions/~/delegators`,
     body: mockResponse || [],
+    isOnce: false,
   });
 }
 
@@ -922,7 +934,11 @@ export function mockForLogin({
     authzProfile(params.authzProfileData);
   }
   device(params.deviceData);
-  extensionList(params.extensionListData);
+  extensionList(
+    params.extensionListData,
+    params.extensionListQuery,
+    params.isExtensionListEmptyRes,
+  );
   companyContactList(params.extensionsListData);
   // accountPhoneNumber(params.accountPhoneNumberData);
   blockedNumber(params.blockedNumberData);
@@ -968,6 +984,6 @@ export function mockForLogin({
   lockedSettings(params.lockedSettingsData);
   features(params.featuresData);
   assistedUsers(params.mockAssistedUsers);
-  delegators();
+  delegators(params.mockDelegators);
   videoPersonalSettings();
 }

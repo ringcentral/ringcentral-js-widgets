@@ -1,40 +1,40 @@
 import { ComponentType } from 'react';
-import { Brand } from 'ringcentral-integration/modules/BrandV2';
-import { Locale } from 'ringcentral-integration/modules/LocaleV2';
-import { CallMonitor } from 'ringcentral-integration/modules/CallMonitorV2';
-import { RateLimiter } from 'ringcentral-integration/modules/RateLimiterV2';
-import { ContactSearch } from 'ringcentral-integration/modules/ContactSearchV2';
-import { RegionSettings } from 'ringcentral-integration/modules/RegionSettingsV2';
-import { ContactMatcher } from 'ringcentral-integration/modules/ContactMatcherV2';
-import { CallingSettings } from 'ringcentral-integration/modules/CallingSettingsV2';
-import { ExtensionFeatures } from 'ringcentral-integration/modules/ExtensionFeatures';
-import { ConnectivityMonitor } from 'ringcentral-integration/modules/ConnectivityMonitorV2';
+import { Brand } from '@ringcentral-integration/commons/modules/BrandV2';
+import { Locale } from '@ringcentral-integration/commons/modules/LocaleV2';
+import { CallMonitor } from '@ringcentral-integration/commons/modules/CallMonitorV2';
+import { RateLimiter } from '@ringcentral-integration/commons/modules/RateLimiterV2';
+import { ContactSearch } from '@ringcentral-integration/commons/modules/ContactSearchV2';
+import { RegionSettings } from '@ringcentral-integration/commons/modules/RegionSettingsV2';
+import { ContactMatcher } from '@ringcentral-integration/commons/modules/ContactMatcherV2';
+import { CallingSettings } from '@ringcentral-integration/commons/modules/CallingSettingsV2';
+import { ExtensionFeatures } from '@ringcentral-integration/commons/modules/ExtensionFeatures';
+import { ConnectivityMonitor } from '@ringcentral-integration/commons/modules/ConnectivityMonitorV2';
 import {
   SwitchCallActiveCallParams,
   Webphone,
-} from 'ringcentral-integration/modules/WebphoneV2';
-import { CallLogger } from 'ringcentral-integration/modules/CallLoggerV2';
+} from '@ringcentral-integration/commons/modules/WebphoneV2';
+import { CallLogger } from '@ringcentral-integration/commons/modules/CallLoggerV2';
 import {
   ComposeText,
   ToNumber,
-} from 'ringcentral-integration/modules/ComposeTextV2';
+} from '@ringcentral-integration/commons/modules/ComposeTextV2';
 import {
   ConferenceCall,
   Party,
   PartyState,
-} from 'ringcentral-integration/modules/ConferenceCallV2';
+} from '@ringcentral-integration/commons/modules/ConferenceCallV2';
 import {
   ActiveCallControl,
   ActiveSession,
-} from 'ringcentral-integration/modules/ActiveCallControlV2';
+} from '@ringcentral-integration/commons/modules/ActiveCallControlV2';
 import {
   NormalizedSession,
   WebphoneSession,
-} from 'ringcentral-integration/interfaces/Webphone.interface';
-import { Entity } from 'ringcentral-integration/interfaces/Entity.interface';
-import { HistoryCall } from 'ringcentral-integration/modules/CallHistoryV2';
-import { ActiveCall } from 'ringcentral-integration/interfaces/Presence.model';
-import { Call } from 'ringcentral-integration/interfaces/Call.interface';
+} from '@ringcentral-integration/commons/interfaces/Webphone.interface';
+import { Entity } from '@ringcentral-integration/commons/interfaces/Entity.interface';
+import { HistoryCall } from '@ringcentral-integration/commons/modules/CallHistoryV2';
+import { ActiveCall } from '@ringcentral-integration/commons/interfaces/Presence.model';
+import { Call } from '@ringcentral-integration/commons/interfaces/Call.interface';
 import RouterInteraction from '../RouterInteraction';
 import { ModalUI } from '../ModalUIV2';
 import { ContactDetailsUI, RouteParams } from '../ContactDetailsUI';

@@ -1,12 +1,12 @@
 import React, { FunctionComponent } from 'react';
 import classnames from 'classnames';
 import { map, reduce, keys } from 'ramda';
-import { PhoneType } from 'ringcentral-integration/enums/phoneTypes';
+import { PhoneType } from '@ringcentral-integration/commons/enums/phoneTypes';
 import {
   sortByPhoneTypes,
   filterByPhoneTypes,
-} from 'ringcentral-integration/lib/phoneTypeHelper';
-import { ContactModel } from 'ringcentral-integration/interfaces/Contact.model';
+} from '@ringcentral-integration/commons/lib/phoneTypeHelper';
+import { ContactModel } from '@ringcentral-integration/commons/interfaces/Contact.model';
 import dynamicsFont from '../../../assets/DynamicsFont/DynamicsFont.scss';
 import styles from '../styles.scss';
 import i18n from '../i18n';

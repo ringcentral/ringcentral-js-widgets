@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import MultiCallAnswerButton from 'ringcentral-widgets/components/MultiCallAnswerButton';
+import MultiCallAnswerButton from '@ringcentral-integration/widgets/components/MultiCallAnswerButton';
 
 const props = {};
 props.title = 'Answer and End';

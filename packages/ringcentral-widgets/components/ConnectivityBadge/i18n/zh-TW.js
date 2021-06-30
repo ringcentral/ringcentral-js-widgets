@@ -1,10 +1,10 @@
-import connectivityTypes from '../../../modules/ConnectivityManager/connectivityTypes';
+import { connectivityTypes } from '../../../modules/ConnectivityManager';
 export default {
-  [connectivityTypes.webphoneUnavailable]: "網路電話不可用",
-  [connectivityTypes.offline]: "離線",
-  [connectivityTypes.voipOnly]: "僅網路電話",
-  [connectivityTypes.survival]: "限制模式",
-  [connectivityTypes.connecting]: "正在連線"
+  [connectivityTypes.webphoneUnavailable]: '網路電話不可用',
+  [connectivityTypes.offline]: '離線',
+  [connectivityTypes.voipOnly]: '僅網路電話',
+  [connectivityTypes.survival]: '限制模式',
+  [connectivityTypes.connecting]: '正在連線',
 };
 
 // @key: @#@"[connectivityTypes.webphoneUnavailable]"@#@ @source: @#@"Web Phone Unavailable"@#@

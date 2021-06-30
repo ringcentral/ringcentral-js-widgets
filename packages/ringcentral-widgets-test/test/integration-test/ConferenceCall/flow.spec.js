@@ -1,15 +1,15 @@
-import ConferenceInfo from 'ringcentral-widgets/components/ActiveCallPanel/ConferenceInfo';
-import MergeInfo from 'ringcentral-widgets/components/ActiveCallPanel/MergeInfo';
-import ConfirmMergeModal from 'ringcentral-widgets/components/ConfirmMergeModal';
-import CallsOnholdPanel from 'ringcentral-widgets/components/CallsOnholdPanel';
-import { ActiveCallItem } from 'ringcentral-widgets/components/ActiveCallItemV2';
-import * as mock from 'ringcentral-integration/integration-test/mock';
-import updateConferenceCallBody from 'ringcentral-integration/integration-test/mock/data/updateConference';
-import DialerPanel from 'ringcentral-widgets/components/DialerPanel';
-import ActiveCallPad from 'ringcentral-widgets/components/ActiveCallPad';
-import ActiveCallButton from 'ringcentral-widgets/components/ActiveCallButton';
-import CircleButton from 'ringcentral-widgets/components/CircleButton';
-import RecipientsInput from 'ringcentral-widgets/components/RecipientsInput';
+import ConferenceInfo from '@ringcentral-integration/widgets/components/ActiveCallPanel/ConferenceInfo';
+import MergeInfo from '@ringcentral-integration/widgets/components/ActiveCallPanel/MergeInfo';
+import ConfirmMergeModal from '@ringcentral-integration/widgets/components/ConfirmMergeModal';
+import CallsOnholdPanel from '@ringcentral-integration/widgets/components/CallsOnholdPanel';
+import { ActiveCallItem } from '@ringcentral-integration/widgets/components/ActiveCallItemV2';
+import * as mock from '@ringcentral-integration/commons/integration-test/mock';
+import updateConferenceCallBody from '@ringcentral-integration/commons/integration-test/mock/data/updateConference';
+import DialerPanel from '@ringcentral-integration/widgets/components/DialerPanel';
+import ActiveCallPad from '@ringcentral-integration/widgets/components/ActiveCallPad';
+import ActiveCallButton from '@ringcentral-integration/widgets/components/ActiveCallButton';
+import CircleButton from '@ringcentral-integration/widgets/components/CircleButton';
+import RecipientsInput from '@ringcentral-integration/widgets/components/RecipientsInput';
 import { mockConferenceCallEnv } from '../CallCtrlPage/helper.js';
 import {
   makeCall,

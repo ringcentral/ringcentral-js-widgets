@@ -3,7 +3,7 @@ import { waitInSeconds } from '../utils/WaitUtil';
 import ClientHistoryRequest from '../utils/ClientHistoryRequest';
 import * as mock from '../mock';
 
-import permissionsMessages from '../../modules/RolesAndPermissions/permissionsMessages';
+import { permissionsMessages } from '../../enums/permissionsMessages';
 
 const authzProfileBody = require('../mock/data/authzProfile');
 

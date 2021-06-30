@@ -64,7 +64,7 @@ export default class MeetingProvider extends DataFetcher {
   }
 
   get _hasPermission() {
-    return !!this._extensionFeatures.features?.Meetings?.available;
+    return this._extensionFeatures.hasMeetingsPermission;
   }
 
   get _name() {

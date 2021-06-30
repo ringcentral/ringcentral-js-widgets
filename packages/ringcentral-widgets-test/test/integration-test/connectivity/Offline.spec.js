@@ -1,8 +1,8 @@
 import { contains } from 'ramda';
-import ConnectivityBadge from 'ringcentral-widgets/components/ConnectivityBadge';
-import ConnectivityAlert from 'ringcentral-widgets/components/AlertRenderer/ConnectivityAlert';
-import CircleButton from 'ringcentral-widgets/components/CircleButton';
-import callingModes from 'ringcentral-integration/modules/CallingSettings/callingModes';
+import ConnectivityBadge from '@ringcentral-integration/widgets/components/ConnectivityBadge';
+import ConnectivityAlert from '@ringcentral-integration/widgets/components/AlertRenderer/ConnectivityAlert';
+import CircleButton from '@ringcentral-integration/widgets/components/CircleButton';
+import callingModes from '@ringcentral-integration/commons/modules/CallingSettings/callingModes';
 import { getWrapper, timeout } from '../shared';
 
 let wrapper = null;

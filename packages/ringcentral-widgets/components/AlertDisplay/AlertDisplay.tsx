@@ -1,6 +1,6 @@
 import classnames from 'classnames';
 import React, { FunctionComponent } from 'react';
-import { AlertLevelType } from 'ringcentral-integration/modules/Alert/alertLevels';
+import { AlertLevelType } from '@ringcentral-integration/commons/modules/Alert/alertLevels';
 
 import Message from '../Message';
 import styles from './styles.scss';

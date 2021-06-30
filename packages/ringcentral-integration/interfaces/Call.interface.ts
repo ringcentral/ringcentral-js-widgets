@@ -16,10 +16,12 @@ export interface NormalizedCall {
   fromName?: string;
   from?: {
     phoneNumber?: string;
+    extensionId?: string; // for 1. call data from CallLog
     extensionNumber?: string;
   };
   to?: {
     phoneNumber?: string;
+    extensionId?: string; // for 1. call data from CallLog
     extensionNumber?: string;
   };
   startTime?: number;

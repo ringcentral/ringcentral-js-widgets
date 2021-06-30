@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import LogButton from 'ringcentral-widgets/components/LogButton';
+import LogButton from '@ringcentral-integration/widgets/components/LogButton';
 
 const props = {};
 props.currentLocale = 'en-US';

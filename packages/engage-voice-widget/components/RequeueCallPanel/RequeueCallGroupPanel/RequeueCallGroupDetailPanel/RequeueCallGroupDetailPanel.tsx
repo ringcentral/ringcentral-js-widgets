@@ -1,7 +1,7 @@
 import { RcButton } from '@ringcentral/juno';
 import React, { FunctionComponent, useState } from 'react';
-import { Tooltip } from 'ringcentral-widgets/components/Rcui/Tooltip';
-import { TOOLTIP_LONG_DELAY_TIME } from 'ringcentral-widgets/lib/toolTipDelayTime';
+import { Tooltip } from '@ringcentral-integration/widgets/components/Rcui/Tooltip';
+import { TOOLTIP_LONG_DELAY_TIME } from '@ringcentral-integration/widgets/lib/toolTipDelayTime';
 
 import { EvGate } from '../../../../lib/EvClient';
 import { SelectList, ListItem } from '../../../SelectList';

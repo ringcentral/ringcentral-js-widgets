@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { permissionsMessages } from 'ringcentral-integration/modules/RolesAndPermissions/permissionsMessages';
+import { permissionsMessages } from '@ringcentral-integration/commons/enums/permissionsMessages';
 import FormattedMessage from '../../FormattedMessage';
 import i18n from './i18n';
 

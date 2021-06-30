@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
-import { ContactModel } from 'ringcentral-integration/interfaces/Contact.model';
-import { PhoneType } from 'ringcentral-integration/enums/phoneTypes';
+import { ContactModel } from '@ringcentral-integration/commons/interfaces/Contact.model';
+import { PhoneType } from '@ringcentral-integration/commons/enums/phoneTypes';
 
 export interface onClickMailTo {
   onClickMailTo?(email: string, contactType: string): any;

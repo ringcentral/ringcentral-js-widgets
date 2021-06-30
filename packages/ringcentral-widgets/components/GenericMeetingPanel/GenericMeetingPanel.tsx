@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
-import sleep from 'ringcentral-integration/lib/sleep';
-import { RcMMeetingModel } from 'ringcentral-integration/modules/MeetingV2';
-import { RcVMeetingModel } from 'ringcentral-integration/interfaces/Rcv.model';
+import sleep from '@ringcentral-integration/commons/lib/sleep';
+import { RcMMeetingModel } from '@ringcentral-integration/commons/modules/MeetingV2';
+import { RcVMeetingModel } from '@ringcentral-integration/commons/interfaces/Rcv.model';
 import { SpinnerOverlay } from '../SpinnerOverlay';
 import MeetingConfigs from '../MeetingConfigs';
 import isSafari from '../../lib/isSafari';

@@ -1,22 +1,22 @@
 import React, { Component } from 'react';
 // eslint-disable-next-line
-import TabNavigationView from 'ringcentral-widgets/components/TabNavigationView';
-import DialPadIcon from 'ringcentral-widgets/assets/images/DialPadNav.svg';
-import CallsIcon from 'ringcentral-widgets/assets/images/Calls.svg';
-import MessageIcon from 'ringcentral-widgets/assets/images/Messages.svg';
-import SettingsIcon from 'ringcentral-widgets/assets/images/Settings.svg';
-import ContactIcon from 'ringcentral-widgets/assets/images/Contact.svg';
-import MoreMenuIcon from 'ringcentral-widgets/assets/images/MoreMenu.svg';
+import TabNavigationView from '@ringcentral-integration/widgets/components/TabNavigationView';
+import DialPadIcon from '@ringcentral-integration/widgets/assets/images/DialPadNav.svg';
+import CallsIcon from '@ringcentral-integration/widgets/assets/images/Calls.svg';
+import MessageIcon from '@ringcentral-integration/widgets/assets/images/Messages.svg';
+import SettingsIcon from '@ringcentral-integration/widgets/assets/images/Settings.svg';
+import ContactIcon from '@ringcentral-integration/widgets/assets/images/Contact.svg';
+import MoreMenuIcon from '@ringcentral-integration/widgets/assets/images/MoreMenu.svg';
 
-import DialPadHoverIcon from 'ringcentral-widgets/assets/images/DialPadHover.svg';
-import CallsHoverIcon from 'ringcentral-widgets/assets/images/CallsHover.svg';
-import MessageHoverIcon from 'ringcentral-widgets/assets/images/MessagesHover.svg';
-import SettingsHoverIcon from 'ringcentral-widgets/assets/images/SettingsHover.svg';
-import ContactHoverIcon from 'ringcentral-widgets/assets/images/ContactHover.svg';
-import MoreMenuHoverIcon from 'ringcentral-widgets/assets/images/MoreMenuHover.svg';
+import DialPadHoverIcon from '@ringcentral-integration/widgets/assets/images/DialPadHover.svg';
+import CallsHoverIcon from '@ringcentral-integration/widgets/assets/images/CallsHover.svg';
+import MessageHoverIcon from '@ringcentral-integration/widgets/assets/images/MessagesHover.svg';
+import SettingsHoverIcon from '@ringcentral-integration/widgets/assets/images/SettingsHover.svg';
+import ContactHoverIcon from '@ringcentral-integration/widgets/assets/images/ContactHover.svg';
+import MoreMenuHoverIcon from '@ringcentral-integration/widgets/assets/images/MoreMenuHover.svg';
 
-import ContactNavIcon from 'ringcentral-widgets/assets/images/ContactsNavigation.svg';
-import SettingsNavIcon from 'ringcentral-widgets/assets/images/SettingsNavigation.svg';
+import ContactNavIcon from '@ringcentral-integration/widgets/assets/images/ContactsNavigation.svg';
+import SettingsNavIcon from '@ringcentral-integration/widgets/assets/images/SettingsNavigation.svg';
 
 const tabs = [
   {

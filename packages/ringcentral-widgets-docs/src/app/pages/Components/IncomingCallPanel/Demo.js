@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import IncomingCallPanel from 'ringcentral-widgets/components/IncomingCallPanel';
+import IncomingCallPanel from '@ringcentral-integration/widgets/components/IncomingCallPanel';
 
 const props = {};
 props.currentLocale = 'en-US';

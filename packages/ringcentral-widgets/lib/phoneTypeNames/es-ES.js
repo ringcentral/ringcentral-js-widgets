@@ -1,4 +1,4 @@
-import { phoneTypes } from 'ringcentral-integration/enums/phoneTypes';
+import { phoneTypes } from '@ringcentral-integration/commons/enums/phoneTypes';
 export default {
   [phoneTypes.business]: "Teléfono del trabajo",
   [phoneTypes.extension]: "Número de extensión",

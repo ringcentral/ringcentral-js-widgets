@@ -1,17 +1,21 @@
-import { RcDialPadAction } from '@ringcentral/juno';
-import React, { FunctionComponent, useRef } from 'react';
-import { DialPad } from 'ringcentral-widgets/components/Rcui/DialPad';
 import {
-  RecipientsInput,
-  RecipientsInputProps,
-} from 'ringcentral-widgets/components/Rcui/RecipientsInput';
+  RcDialDelete,
+  RcDialer,
+  RcDialerPadSounds,
+  RcDialPad,
+  RcDialTextField,
+  RcDialTextFieldProps,
+  RcIconButton,
+} from '@ringcentral/juno';
+import { Deletenumber } from '@ringcentral/juno/icon';
+import React, { FunctionComponent } from 'react';
 
-import styles from './styles.scss';
+import { DialerWrapper, DialPadWrapper, TextFieldWrapper } from './styles';
 
 export type DialerProps = {
   value: string;
   setValue: (value: string) => void;
-} & Pick<RecipientsInputProps, 'placeholder'>;
+} & Pick<RcDialTextFieldProps, 'placeholder'>;
 
 export const Dialer: FunctionComponent<DialerProps> = ({
   value,
@@ -19,35 +23,42 @@ export const Dialer: FunctionComponent<DialerProps> = ({
   children,
   placeholder,
 }) => {
-  const actionRef = useRef<RcDialPadAction>(null);
+  const isHaveValue = value.length > 0;
 
   return (
-    <div className={styles.dialerWrapper}>
-      <div className={styles.recipient}>
-        <RecipientsInput
-          value={value}
-          className={styles.recipientInput}
-          onChange={(value) => {
-            setValue(value);
-
-            actionRef.current?.playAudio(value[value.length - 1]);
-          }}
-          onDelete={() => {
-            if (value?.length) {
-              setValue(value.substring(0, value.length - 1));
-            }
-          }}
-          onClear={() => setValue('')}
-          placeholder={placeholder}
-        />
-      </div>
-      <div className={styles.dialerPad}>
-        <DialPad
-          onChange={(addValue) => setValue(`${value}${addValue}`)}
-          action={actionRef}
-        />
-      </div>
-      {children}
-    </div>
+    <RcDialer>
+      <DialerWrapper>
+        <TextFieldWrapper isHaveValue={isHaveValue}>
+          <RcDialTextField
+            data-sign="numberField"
+            value={value}
+            textVariant="subheading1"
+            align="center"
+            placeholder={placeholder}
+            fullWidth
+            onlyAllowKeypadValue
+            onChange={setValue}
+            InputProps={{
+              endAdornment: value.length > 0 && (
+                <RcDialDelete>
+                  <RcIconButton
+                    symbol={Deletenumber}
+                    data-sign="deleteButton"
+                    color="neutral.f03"
+                    title="delete"
+                    variant="plain"
+                    size="large"
+                  />
+                </RcDialDelete>
+              ),
+            }}
+          />
+        </TextFieldWrapper>
+        <DialPadWrapper>
+          <RcDialPad data-sign="DialPad" sounds={RcDialerPadSounds} />
+        </DialPadWrapper>
+        {children}
+      </DialerWrapper>
+    </RcDialer>
   );
 };

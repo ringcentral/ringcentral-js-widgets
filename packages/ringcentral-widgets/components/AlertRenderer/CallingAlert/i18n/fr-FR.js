@@ -1,4 +1,4 @@
-import { permissionsMessages } from 'ringcentral-integration/modules/RolesAndPermissions/permissionsMessages';
+import { permissionsMessages } from '@ringcentral-integration/commons/enums/permissionsMessages';
 export default {
   [permissionsMessages.callingDisable]: "Vous ne disposez pas des autorisations nécessaires pour émettre des appels sortants. Veuillez contacter votre administrateur de compte {brand} pour une mise à niveau."
 };

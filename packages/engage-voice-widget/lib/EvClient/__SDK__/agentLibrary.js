@@ -7,8 +7,8 @@ import SIP from 'sip.js';
    * @fileoverview CFSimpleSip
    */
 
-  /* CFSimpleSip
-   * @class CFSimpleSip
+  /*
+   * @param {Object} options
    */
 
   var C = {
@@ -18,10 +18,11 @@ import SIP from 'sip.js';
     STATUS_CONNECTED: 3,
     STATUS_COMPLETED: 4,
   };
-
-  /*
+  /**
+   * @property {Class} CFSimpleSip it is use for interacting to sip.js
    * @param {Object} options
    */
+
   var CFSimpleSip = function (options) {
     /*
      *  {
@@ -39,7 +40,6 @@ import SIP from 'sip.js';
      *    }
      *  }
      */
-
     if (options.media.remote.video) {
       this.video = true;
     } else {
@@ -60,12 +60,12 @@ import SIP from 'sip.js';
       );
     }
 
-    this.options = options;
+    this.options = options; // https://stackoverflow.com/questions/7944460/detect-safari-browser
 
-    // https://stackoverflow.com/questions/7944460/detect-safari-browser
     var browserUa = window.navigator.userAgent.toLowerCase();
     var isSafari = false;
     var isFirefox = false;
+
     if (browserUa.indexOf('safari') > -1 && browserUa.indexOf('chrome') < 0) {
       isSafari = true;
     } else if (
@@ -74,18 +74,26 @@ import SIP from 'sip.js';
     ) {
       isFirefox = true;
     }
+
     var sessionDescriptionHandlerFactoryOptions = {
       peerConnectionOptions: {
         iceCheckingTimeout: 500,
         rtcConfiguration: {
           iceServers: [
-            { urls: 'stun:stun.l.google.com:19302' },
-            { urls: 'stun:stun.vacd.biz:19302' },
-            { urls: 'stun:stun.virtualacd.biz:3478' },
+            {
+              urls: 'stun:stun.l.google.com:19302',
+            },
+            {
+              urls: 'stun:stun.vacd.biz:19302',
+            },
+            {
+              urls: 'stun:stun.virtualacd.biz:3478',
+            },
           ],
         },
       },
     };
+
     if (isSafari) {
       sessionDescriptionHandlerFactoryOptions.modifiers = [
         SIP.Web.Modifiers.stripG722,
@@ -122,32 +130,26 @@ import SIP from 'sip.js';
       },
       dtmfType: SIP.C.dtmfType.RTP,
     });
-
     this.state = C.STATUS_NULL;
-
     this.logger = this.ua.getLogger('sip.simple');
-
     this.ua.on(
       'registered',
       function () {
         this.emit('registered', this.ua);
       }.bind(this),
     );
-
     this.ua.on(
       'unregistered',
       function () {
         this.emit('unregistered', this.ua);
       }.bind(this),
     );
-
     this.ua.on(
       'failed',
       function () {
         this.emit('unregistered', this.ua);
       }.bind(this),
     );
-
     this.ua.on(
       'invite',
       function (session) {
@@ -159,47 +161,53 @@ import SIP from 'sip.js';
           session.reject();
           return;
         }
+
         this.session = session;
         this.setupSession();
         this.emit('ringing', this.session);
       }.bind(this),
     );
-
     this.ua.on(
       'message',
       function (message) {
         this.emit('message', message);
       }.bind(this),
     );
-
     return this;
   };
 
+  /**
+   * @property {Method} call
+   * @param {destination}
+   */
+
   CFSimpleSip.prototype = Object.create(SIP.EventEmitter.prototype);
   CFSimpleSip.C = C;
-
-  // Public
 
   CFSimpleSip.prototype.call = function (destination) {
     if (!this.ua || !this.checkRegistration()) {
       this.logger.warn('A registered UA is required for calling');
       return;
     }
+
     if (this.state !== C.STATUS_NULL && this.state !== C.STATUS_COMPLETED) {
       this.logger.warn('Cannot make more than a single call with CFSimpleSip');
       return;
-    }
-    // Safari hack, because you cannot call .play() from a non user action
+    } // Safari hack, because you cannot call .play() from a non user action
+
     if (this.options.media.remote.audio) {
       this.options.media.remote.audio.autoplay = true;
     }
+
     if (this.options.media.remote.video) {
       this.options.media.remote.video.autoplay = true;
     }
+
     if (this.options.media.local && this.options.media.local.video) {
       this.options.media.local.video.autoplay = true;
       this.options.media.local.video.volume = 0;
     }
+
     this.session = this.ua.invite(destination, {
       sessionDescriptionHandlerOptions: {
         constraints: {
@@ -209,22 +217,26 @@ import SIP from 'sip.js';
       },
     });
     this.setupSession();
-
     return this.session;
   };
+  /**
+   * @property {Method} answer
+   */
 
   CFSimpleSip.prototype.answer = function () {
     if (this.state !== C.STATUS_NEW && this.state !== C.STATUS_CONNECTING) {
       this.logger.warn('No call to answer');
       return;
-    }
-    // Safari hack, because you cannot call .play() from a non user action
+    } // Safari hack, because you cannot call .play() from a non user action
+
     if (this.options.media.remote.audio) {
       this.options.media.remote.audio.autoplay = true;
     }
+
     if (this.options.media.remote.video) {
       this.options.media.remote.video.autoplay = true;
     }
+
     return this.session.accept({
       sessionDescriptionHandlerOptions: {
         constraints: {
@@ -232,17 +244,23 @@ import SIP from 'sip.js';
           video: this.video,
         },
       },
-    });
-    // emit call is active
+    }); // emit call is active
   };
+  /**
+   * @property {Method} reject
+   */
 
   CFSimpleSip.prototype.reject = function () {
     if (this.state !== C.STATUS_NEW && this.state !== C.STATUS_CONNECTING) {
       this.logger.warn('Call is already answered');
       return;
     }
+
     return this.session.reject();
   };
+  /**
+   * @property {Method} hangup
+   */
 
   CFSimpleSip.prototype.hangup = function () {
     if (
@@ -253,81 +271,115 @@ import SIP from 'sip.js';
       this.logger.warn('No active call to hang up on');
       return;
     }
+
     if (this.state !== C.STATUS_CONNECTED) {
       return this.session.cancel();
     } else {
       return this.session.bye();
     }
   };
+  /**
+   * @property {Method} hold
+   */
 
   CFSimpleSip.prototype.hold = function () {
     if (this.state !== C.STATUS_CONNECTED || this.session.local_hold) {
       this.logger.warn('Cannot put call on hold');
       return;
     }
+
     this.mute();
     this.logger.log('Placing session on hold');
     return this.session.hold();
   };
+  /**
+   * @property {Method} unhold
+   */
 
   CFSimpleSip.prototype.unhold = function () {
     if (this.state !== C.STATUS_CONNECTED || !this.session.local_hold) {
       this.logger.warn('Cannot unhold a call that is not on hold');
       return;
     }
+
     this.unmute();
     this.logger.log('Placing call off hold');
     return this.session.unhold();
   };
+  /**
+   * @property {Method} mute
+   */
 
   CFSimpleSip.prototype.mute = function () {
     if (this.state !== C.STATUS_CONNECTED) {
       this.logger.warn('An acitve call is required to mute audio');
       return;
     }
+
     this.logger.log('Muting Audio');
     this.toggleMute(true);
     this.emit('mute', this);
   };
+  /**
+   * @property {Method} unmute
+   */
 
   CFSimpleSip.prototype.unmute = function () {
     if (this.state !== C.STATUS_CONNECTED) {
       this.logger.warn('An active call is required to unmute audio');
       return;
     }
+
     this.logger.log('Unmuting Audio');
     this.toggleMute(false);
     this.emit('unmute', this);
   };
+  /**
+   * @property {Method} message
+   * @param {tone}
+   */
 
   CFSimpleSip.prototype.sendDTMF = function (tone) {
     if (this.state !== C.STATUS_CONNECTED) {
       this.logger.warn('An active call is required to send a DTMF tone');
       return;
     }
+
     this.logger.log('Sending DTMF tone: ' + tone);
     this.session.dtmf(tone);
   };
+  /**
+   * @property {Method} message
+   * @param {destination}
+   * @param {message}
+   */
 
-  CFSimpleSip.prototype.message = function (destination, message) {
+  CFSimpleSip.prototype.message = function (destination, _message) {
     if (!this.ua || !this.checkRegistration()) {
       this.logger.warn('A registered UA is required to send a message');
       return;
     }
-    if (!destination || !message) {
+
+    if (!destination || !_message) {
       this.logger.warn(
         'A destination and message are required to send a message',
       );
       return;
     }
-    this.ua.message(destination, message);
-  };
 
-  // Private Helpers
+    this.ua.message(destination, _message);
+  }; // Private Helpers
+
+  /**
+   * @property {Method} checkRegistration
+   */
 
   CFSimpleSip.prototype.checkRegistration = function () {
     return this.anonymous || (this.ua && this.ua.isRegistered());
   };
+  /**
+   * @property {Method} setupRemoteMedia
+   */
 
   CFSimpleSip.prototype.setupRemoteMedia = function () {
     // If there is a video track, it will attach the video and audio to the same element
@@ -338,6 +390,7 @@ import SIP from 'sip.js';
       remoteStream = new window.window.MediaStream();
       pc.getReceivers().forEach(function (receiver) {
         var track = receiver.track;
+
         if (track) {
           remoteStream.addTrack(track);
         }
@@ -345,6 +398,7 @@ import SIP from 'sip.js';
     } else {
       remoteStream = pc.getRemoteStreams()[0];
     }
+
     if (this.video) {
       this.options.media.remote.video.srcObject = remoteStream;
       this.options.media.remote.video.play().catch(
@@ -361,6 +415,9 @@ import SIP from 'sip.js';
       );
     }
   };
+  /**
+   * @property {Method} setupLocalMedia
+   */
 
   CFSimpleSip.prototype.setupLocalMedia = function () {
     if (
@@ -370,10 +427,12 @@ import SIP from 'sip.js';
     ) {
       var pc = this.session.sessionDescriptionHandler.peerConnection;
       var localStream;
+
       if (pc.getSenders) {
         localStream = new window.window.MediaStream();
         pc.getSenders().forEach(function (sender) {
           var track = sender.track;
+
           if (track && track.kind === 'video') {
             localStream.addTrack(track);
           }
@@ -381,44 +440,61 @@ import SIP from 'sip.js';
       } else {
         localStream = pc.getLocalStreams()[0];
       }
+
       this.options.media.local.video.srcObject = localStream;
       this.options.media.local.video.volume = 0;
       this.options.media.local.video.play();
     }
   };
+  /**
+   * @property {Method} cleanupMedia
+   */
 
   CFSimpleSip.prototype.cleanupMedia = function () {
     if (this.video) {
       this.options.media.remote.video.srcObject = null;
       this.options.media.remote.video.pause();
+
       if (this.options.media.local && this.options.media.local.video) {
         this.options.media.local.video.srcObject = null;
         this.options.media.local.video.pause();
       }
     }
+
     if (this.audio) {
       this.options.media.remote.audio.srcObject = null;
       this.options.media.remote.audio.pause();
     }
   };
+  /**
+   * @property {Method} setupSession
+   */
 
   CFSimpleSip.prototype.setupSession = function () {
     this.state = C.STATUS_NEW;
     this.emit('new', this.session);
-
     this.session.on('progress', this.onProgress.bind(this));
     this.session.on('accepted', this.onAccepted.bind(this));
     this.session.on('rejected', this.onEnded.bind(this));
     this.session.on('failed', this.onFailed.bind(this));
     this.session.on('terminated', this.onEnded.bind(this));
   };
+  /**
+   * @property {Method} destroyMedia
+   * @param {mute}
+   */
 
   CFSimpleSip.prototype.destroyMedia = function () {
     this.session.sessionDescriptionHandler.close();
   };
+  /**
+   * @property {Method} toggleMute
+   * @param {mute}
+   */
 
   CFSimpleSip.prototype.toggleMute = function (mute) {
     var pc = this.session.sessionDescriptionHandler.peerConnection;
+
     if (pc.getSenders) {
       pc.getSenders().forEach(function (sender) {
         if (sender.track) {
@@ -436,11 +512,13 @@ import SIP from 'sip.js';
       });
     }
   };
+  /**
+   * @property {Method} onAccepted
+   */
 
   CFSimpleSip.prototype.onAccepted = function () {
     this.state = C.STATUS_CONNECTED;
     this.emit('connected', this.session);
-
     this.setupLocalMedia();
     this.setupRemoteMedia();
     this.session.sessionDescriptionHandler.on(
@@ -452,7 +530,6 @@ import SIP from 'sip.js';
         this.setupRemoteMedia();
       }.bind(this),
     );
-
     this.session.sessionDescriptionHandler.on(
       'addStream',
       function () {
@@ -462,7 +539,6 @@ import SIP from 'sip.js';
         this.setupRemoteMedia();
       }.bind(this),
     );
-
     this.session.on(
       'hold',
       function () {
@@ -483,22 +559,30 @@ import SIP from 'sip.js';
     );
     this.session.on('bye', this.onEnded.bind(this));
   };
+  /**
+   * @property {Method} onProgress
+   */
 
   CFSimpleSip.prototype.onProgress = function () {
     this.state = C.STATUS_CONNECTING;
     this.emit('connecting', this.session);
   };
+  /**
+   * @property {Method} onFailed
+   */
 
   CFSimpleSip.prototype.onFailed = function () {
     this.onEnded();
   };
+  /**
+   * @property {Method} onEnded
+   */
 
   CFSimpleSip.prototype.onEnded = function () {
     this.state = C.STATUS_COMPLETED;
     this.emit('ended', this.session);
     this.cleanupMedia();
   };
-
   window.CFSimpleSip = CFSimpleSip;
   return CFSimpleSip;
 })();
@@ -506,7 +590,6 @@ import SIP from 'sip.js';
 export default (function () {
   /**
    * @fileOverview Exposed functionality for Contact Center AgentUI.
-   * @version 3.0.14
    * @namespace AgentLibrary
    */
 
@@ -1197,6 +1280,7 @@ export default (function () {
         notif,
         'hangup_on_disposition',
       );
+      newCall.callerName = utils.getText(notif, 'caller_name');
 
       if (newCall.isMonitoring) {
         newCall.monitoringType = utils.getText(notif, 'monitoring_type'); // FULL, COACHING, MONITOR
@@ -1662,8 +1746,8 @@ export default (function () {
 
     var AgentStateRequest = function (agentState, agentAuxState) {
       if (
-        agentState.toUpperCase() == 'ON-BREAK' &&
-        UIModel.getInstance().onCall == true
+        agentState.toUpperCase() === 'ON-BREAK' &&
+        UIModel.getInstance().agentSettings.onCall === true
       ) {
         this.agentState = 'BREAK-AFTER-CALL';
         this.agentAuxState = '';
@@ -3584,6 +3668,7 @@ export default (function () {
       var message = '';
       var formattedResponse = utils.buildDefaultResponse(response);
       var Lib = UIModel.getInstance().libraryInstance;
+      var isReconnect = false;
 
       if (detail === 'Logon Session Configuration Updated!') {
         // this is an update login packet
@@ -3650,12 +3735,10 @@ export default (function () {
             setSkillProfileSettings(response);
           } else {
             // this was a reconnect
+            isReconnect = true;
             message = 'Processed a Layer 2 Reconnect Successfully';
 
-            model.connectionSettings.isOnCall = utils.getText(
-              resp,
-              'is_on_call',
-            );
+            model.agentSettings.onCall = utils.getText(resp, 'is_on_call');
             model.connectionSettings.activeCallUii = utils.getText(
               resp,
               'active_call_uii',
@@ -3665,7 +3748,7 @@ export default (function () {
               'is_pending_disp',
             );
 
-            if (model.connectionSettings.isOnCall === false) {
+            if (model.agentSettings.onCall === false) {
               if (model.currentCall.uii) {
                 var mockEndCallPacket = {
                   ui_notification: {
@@ -3697,7 +3780,7 @@ export default (function () {
                 Lib.offhookTerm(agentProcessOffhookCallback);
               }
             } else if (
-              model.connectionSettings.isOnCall &&
+              model.agentSettings.onCall &&
               (model.currentCall.uii !==
                 model.connectionSettings.activeCallUii ||
                 Lib.waitingForAddSession === true)
@@ -3738,6 +3821,7 @@ export default (function () {
           utils.getText(resp, 'guid') || model.agentSettings.guid;
         model.dataStore.save('agent_id', utils.getText(resp, 'agent_id'));
         model.dataStore.save('hash_code', utils.getText(resp, 'hash_code'));
+
         formattedResponse.agentSettings = model.agentSettings;
         formattedResponse.agentPermissions = model.agentPermissions;
         formattedResponse.applicationSettings = model.applicationSettings;
@@ -3746,6 +3830,7 @@ export default (function () {
         formattedResponse.inboundSettings = model.inboundSettings;
         formattedResponse.outboundSettings = model.outboundSettings;
         formattedResponse.scriptSettings = model.scriptSettings;
+        formattedResponse.isReconnect = isReconnect;
       } else {
         // Login failed
         if (formattedResponse.message === '') {
@@ -3908,6 +3993,7 @@ export default (function () {
      *      "iq_port":{"#text":"1313"},
      *      "iq_ssl_port":{"#text":"1213"},
      *      "iq_secret_key":{"#text":"F-OFF"},
+     *      "enable_call_contact_history":{"#text":"TRUE"|"FALSE"},
      *      "allow_inbound":{"#text":"1"},
      *      "allow_outbound":{"#text":"1"},
      *      "allow_chat":{"#text":"1"},
@@ -4023,10 +4109,15 @@ export default (function () {
           model.loginPhase1Packet = response;
           model.applicationSettings.isLoggedInIS = true;
           model.applicationSettings.isSso = utils.getText(resp, 'is_sso');
+          model.applicationSettings.isFlr = utils.getText(resp, 'is_flr');
           model.applicationSettings.isTcpaSafeMode =
             utils.getText(resp, 'tcpa_safe_mode') === '1';
           model.applicationSettings.pciEnabled =
             utils.getText(resp, 'pci_enabled') === '1';
+          model.applicationSettings.enableCallContactHistory = utils.getText(
+            resp,
+            'enable_call_contact_history',
+          );
           model.chatSettings.alias =
             utils.getText(resp, 'first_name') +
             ' ' +
@@ -5586,6 +5677,7 @@ export default (function () {
       UIModel.getInstance().WebRTCRequest = this;
       _getSipRegistrationInfo('sip/sipRegistrationInfo', {
         agentId: UIModel.getInstance().agentSettings.agentId,
+        ssoLogin: UIModel.getInstance().applicationSettings.isSso,
       });
     };
 
@@ -6916,6 +7008,7 @@ when agent submits a chat end request, send "CHAT-AGENT-END" request to IntelliQ
      *          "uii":{"#text":"201608161200240139000000000120"},
      *          "channel_type":{"#text":"email"},
      *          "allow_accept":{"#text":"TRUE|FALSE"},
+     *          "is_reconnect":{"#text":"TRUE|FALSE"}
      *          "ed_source_id":{"#text":"5ec6d788f3b1490008773a10"},
      *          "ed_category_ids":{"#text": "5ec6b48ff3b14900087739eb,5ec6b4c2f3b14900087739f1,5f11dff7fcd72e0007c53b3e"},
      *          "ed_language_id":{"#text":"en"},
@@ -6934,6 +7027,7 @@ when agent submits a chat end request, send "CHAT-AGENT-END" request to IntelliQ
       var taskId = utils.getText(notif, 'task_id');
       var model = UIModel.getInstance();
       var edSourceName = '';
+      var edSourceColor = 0;
       var edLanguage = '';
       var edCategories = [];
       var processedResponse;
@@ -6974,6 +7068,7 @@ when agent submits a chat end request, send "CHAT-AGENT-END" request to IntelliQ
 
             if (sourceCache.isCached) {
               edSourceName = sourceCache.name;
+              edSourceColor = sourceCache.color;
             } else {
               sourcePromise = _buildEtrHttpRequest(
                 edProxyPath + '/sources',
@@ -7007,7 +7102,10 @@ when agent submits a chat end request, send "CHAT-AGENT-END" request to IntelliQ
                     model.applicationSettings.edSources[
                       mainAccountId
                     ] = sourceList; // store returned sources in memory for later use
-                    edSourceName = _getEdValue(sourceList, edSourceId).name;
+
+                    var currentSource = _getEdValue(sourceList, edSourceId);
+                    edSourceName = currentSource.name;
+                    edSourceColor = currentSource.color || 0;
                   } catch (err) {
                     utils.logMessage(LOG_LEVELS.WARN, sourceErrorMsg, err);
                   }
@@ -7068,6 +7166,7 @@ when agent submits a chat end request, send "CHAT-AGENT-END" request to IntelliQ
                 processedResponse = _buildPresentedResponse(
                   notification,
                   edSourceName,
+                  edSourceColor,
                   edLanguage,
                   edCategories,
                 );
@@ -7087,6 +7186,7 @@ when agent submits a chat end request, send "CHAT-AGENT-END" request to IntelliQ
                 processedResponse = _buildPresentedResponse(
                   notification,
                   edSourceName,
+                  edSourceColor,
                   edLanguage,
                   edCategories,
                 );
@@ -7102,11 +7202,13 @@ when agent submits a chat end request, send "CHAT-AGENT-END" request to IntelliQ
         } else {
           // all values cached
           edSourceName = sourceCache.name;
+          edSourceColor = sourceCache.color;
           edLanguage = languageCache.name;
           edCategories = categoryCache.names;
           processedResponse = _buildPresentedResponse(
             notification,
             edSourceName,
+            edSourceColor,
             edLanguage,
             edCategories,
           );
@@ -7122,6 +7224,7 @@ when agent submits a chat end request, send "CHAT-AGENT-END" request to IntelliQ
         processedResponse = _buildPresentedResponse(
           notification,
           edSourceName,
+          edSourceColor,
           edLanguage,
           edCategories,
         );
@@ -7151,17 +7254,26 @@ when agent submits a chat end request, send "CHAT-AGENT-END" request to IntelliQ
       var idx;
       var isCached = false;
       var name = '';
+      var color; // only present for source objects
 
       if (list) {
         for (idx = 0; idx < list.length; idx++) {
           if (list[idx].id === id) {
             name = list[idx].name;
             isCached = true;
+            if (list[idx].color) {
+              color = list[idx].color;
+            }
           }
         }
       }
 
-      return { isCached: isCached, name: name };
+      var returnObj = { isCached: isCached, name: name };
+      if (color) {
+        returnObj.color = color;
+      }
+
+      return returnObj;
     }
 
     function _getMultiEdValues(searchList, ids) {
@@ -7185,6 +7297,7 @@ when agent submits a chat end request, send "CHAT-AGENT-END" request to IntelliQ
     function _buildPresentedResponse(
       notification,
       edSourceName,
+      edSourceColor,
       edLanguage,
       edCategories,
     ) {
@@ -7201,12 +7314,14 @@ when agent submits a chat end request, send "CHAT-AGENT-END" request to IntelliQ
       formattedResponse.chatQueueId = utils.getText(notif, 'chat_queue_id');
       formattedResponse.chatQueueName = utils.getText(notif, 'chat_queue_name');
       formattedResponse.allowAccept = utils.getText(notif, 'allow_accept');
+      formattedResponse.isReconnect = utils.getText(notif, 'is_reconnect');
       formattedResponse.edAuthorScreenName = utils.getText(
         notif,
         'ed_author_screen_name',
       );
       formattedResponse.edCreatedAt = utils.getText(notif, 'ed_created_at');
       formattedResponse.edSourceName = edSourceName;
+      formattedResponse.sourceColor = edSourceColor;
       formattedResponse.edLanguage = edLanguage;
       formattedResponse.edCategories = edCategories;
 
@@ -8134,6 +8249,7 @@ when agent submits a chat end request, send "CHAT-AGENT-END" request to IntelliQ
             socketDest: '',
             isTcpaSafeMode: false, // Comes in at the account-level - will get set to true if this interface should be in tcpa-safe-mode only.
             isSso: false, // Passed in on phase 1 login response, if agent signed in through RC single sign-on path set to true
+            isFlr: false, // Check of Force legacy registration for dialing destination type
             dialDestType: '', // What type of phone are we setting up: e.g. "RC_SOFTPHONE", "LEGACY_SOFTPHONE", "RC_PHONE" (for RC office ext)// Comes in at the account-level - will get set to true if this interface should be in tcpa-safe-mode only.
             allowMultiSocket: false, // Determines whether agent can open a new socket under the same login
             edSources: {}, // Cache for ED sources, loaded when first task received. Object indexed by mainAccountId, then array of all sources
@@ -10042,6 +10158,7 @@ when agent submits a chat end request, send "CHAT-AGENT-END" request to IntelliQ
             loginHashcode: model.connectionSettings.hashCode,
             agentId: model.agentSettings.agentId,
             platformId: model.authenticateRequest.platformId,
+            isSso: model.applicationSettings.isSso,
           },
         };
 
@@ -11394,6 +11511,7 @@ when agent submits a chat end request, send "CHAT-AGENT-END" request to IntelliQ
             loginHashcode: model.connectionSettings.hashCode,
             agentId: model.agentSettings.agentId,
             platformId: model.authenticateRequest.platformId,
+            isSso: model.applicationSettings.isSso,
           },
         };
 
@@ -11557,14 +11675,18 @@ when agent submits a chat end request, send "CHAT-AGENT-END" request to IntelliQ
           isForce: isForce,
         };
         var instance = this;
+
         // if dialDest is set to `integrated`, we are doing an integrated softphone
         // and need to get SIP credentials
         if (config.dialDest === 'integrated') {
           // set up some global variables to track dial dest type for later offhook init
-          if (model.applicationSettings.isSso) {
-            model.applicationSettings.dialDestType = 'RC_SOFTPHONE';
-          } else {
+          if (
+            model.applicationSettings.isFlr ||
+            !model.applicationSettings.isSso
+          ) {
             model.applicationSettings.dialDestType = 'LEGACY_SOFTPHONE';
+          } else {
+            model.applicationSettings.dialDestType = 'RC_SOFTPHONE';
           }
 
           if (model.softphoneSettings.sipInfo.length === 0) {
@@ -13600,6 +13722,15 @@ when agent submits a chat end request, send "CHAT-AGENT-END" request to IntelliQ
       'use strict';
 
       var AgentLibrary = context.AgentLibrary;
+      // var agentAuthRequest = UIModel.getInstance().authenticateRequest;
+      // // Auth token ,agentId,dialDest will be passed in init() function when sipInit is initialized in AgentJs.
+      // var serviceInstance = new SoftphoneService({
+      //     authToken: agentAuthRequest && agentAuthRequest.engageAccessToken,
+      //     agentId: UIModel.getInstance().agentSettings.agentId,
+      // });
+
+      // // set the softphone instance on the Lib
+      // AgentLibrary.prototype._SoftphoneService = serviceInstance;
 
       //////////////////////
       // PUBLIC FUNCTIONS //
@@ -13650,7 +13781,7 @@ when agent submits a chat end request, send "CHAT-AGENT-END" request to IntelliQ
 
       /**
        * clear webRtc settings, hangup, unregister
-       * @memberof AgentLibrary.Softphone
+       * @memberof SoftphoneLibrary
        * @returns boolean - success state
        */
       AgentLibrary.prototype.sipTerminate = function () {
@@ -13688,7 +13819,6 @@ when agent submits a chat end request, send "CHAT-AGENT-END" request to IntelliQ
         console.warn('sipTerminate: sip rtc settings or ua missing', webRtc);
         return false;
       };
-
       /**
        * Sends a session.accept response to a SIP invite event.
        * @memberof AgentLibrary.Softphone
@@ -13854,7 +13984,6 @@ when agent submits a chat end request, send "CHAT-AGENT-END" request to IntelliQ
         }
       };
 
-      ////////////////////////
       // INTERNAL FUNCTIONS //
       ////////////////////////
       /* These functions are globally available to the AgentSDK app */
@@ -14138,6 +14267,14 @@ when agent submits a chat end request, send "CHAT-AGENT-END" request to IntelliQ
       function _unmute() {
         UIModel.getInstance().softphoneSettings.muteActive = false;
       }
+      /**
+       * Initializes the SIP library, sets up callback functions
+       * Request microphone access, if already registered, call hangup
+       * @memberof AgentLibrary.Softphone
+       */
+      // AgentLibrary.prototype.sipInitAndRegister = serviceInstance.sipInitAndRegister.bind(
+      //     serviceInstance
+      // );
     }
 
     var initAgentLibrary = function (context) {

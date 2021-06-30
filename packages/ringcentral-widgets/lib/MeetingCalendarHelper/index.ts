@@ -1,5 +1,5 @@
 import formatMessage from 'format-message';
-import { RcVDialInNumberObj } from 'ringcentral-integration/interfaces/Rcv.model';
+import { RcVDialInNumberObj } from '@ringcentral-integration/commons/interfaces/Rcv.model';
 
 import {
   MEETING_URI_REGEXP,
@@ -334,8 +334,14 @@ function getRcvHtmlEventTpl(
   mainInfo: RcvMainParams,
   brand: CommonBrand,
   currentLocale: string,
+  enableRcvConnector = false,
 ): string {
-  const tplResult = getBaseRcvTpl(mainInfo, brand, currentLocale);
+  const tplResult = getBaseRcvTpl(
+    mainInfo,
+    brand,
+    currentLocale,
+    enableRcvConnector,
+  );
   return formatTextToHtml(tplResult.formattedMsg, {
     links: [tplResult.links.joinUri, tplResult.links.teleconference],
   });

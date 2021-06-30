@@ -1,7 +1,7 @@
 import React from 'react';
 // eslint-disable-next-line
-import ActiveCallPanel from 'ringcentral-widgets/components/ActiveCallPanel';
-import callCtrlLayouts from 'ringcentral-widgets/enums/callCtrlLayouts';
+import ActiveCallPanel from '@ringcentral-integration/widgets/components/ActiveCallPanel';
+import callCtrlLayouts from '@ringcentral-integration/widgets/enums/callCtrlLayouts';
 
 const props = {};
 props.currentLocale = 'en-US';

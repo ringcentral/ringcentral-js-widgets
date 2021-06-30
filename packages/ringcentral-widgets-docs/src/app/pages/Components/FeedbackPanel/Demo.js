@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import FeedbackPanel from 'ringcentral-widgets/components/FeedbackPanel';
+import FeedbackPanel from '@ringcentral-integration/widgets/components/FeedbackPanel';
 
 const props = {};
 props.brandName = 'test string';

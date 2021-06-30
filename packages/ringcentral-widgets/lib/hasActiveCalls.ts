@@ -1,7 +1,7 @@
-import callingModes from 'ringcentral-integration/modules/CallingSettings/callingModes';
-import { CallingSettings } from 'ringcentral-integration/modules/CallingSettingsV2';
-import { Webphone } from 'ringcentral-integration/modules/WebphoneV2';
-import { CallMonitor } from 'ringcentral-integration/modules/CallMonitorV2';
+import callingModes from '@ringcentral-integration/commons/modules/CallingSettings/callingModes';
+import { CallingSettings } from '@ringcentral-integration/commons/modules/CallingSettingsV2';
+import { Webphone } from '@ringcentral-integration/commons/modules/WebphoneV2';
+import { CallMonitor } from '@ringcentral-integration/commons/modules/CallMonitorV2';
 
 function hasActiveCalls({
   callingSettings,

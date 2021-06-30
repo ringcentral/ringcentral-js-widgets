@@ -1,4 +1,4 @@
-import { permissionsMessages } from 'ringcentral-integration/modules/RolesAndPermissions/permissionsMessages';
+import { permissionsMessages } from '@ringcentral-integration/commons/enums/permissionsMessages';
 export default {
   [permissionsMessages.callingDisable]: "Non sei autorizzato a effettuare chiamate in uscita. Contatta l'amministratore dell'account {brand} per effettuare un upgrade."
 };

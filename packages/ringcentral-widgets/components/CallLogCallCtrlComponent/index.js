@@ -1,14 +1,14 @@
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
-import callDirections from 'ringcentral-integration/enums/callDirections';
-import telephonyStatuses from 'ringcentral-integration/enums/telephonyStatus';
-import recordStatusEnum from 'ringcentral-integration/modules/Webphone/recordStatus';
+import callDirections from '@ringcentral-integration/commons/enums/callDirections';
+import telephonyStatuses from '@ringcentral-integration/commons/enums/telephonyStatus';
+import recordStatusEnum from '@ringcentral-integration/commons/modules/Webphone/recordStatus';
 import TransferSmallIcon from '@ringcentral/juno/icon/TransferCall';
 import HoldIconInAction from '@ringcentral/juno/icon/Hold';
 import IgnoreIcon from '@ringcentral/juno/icon/Ignore';
 import VoicemailIcon from '@ringcentral/juno/icon/Voicemail';
-import { telephonySessionStatus } from 'ringcentral-integration/enums/telephonySessionStatus';
+import { telephonySessionStatus } from '@ringcentral-integration/commons/enums/telephonySessionStatus';
 import ForwardIcon from '../../assets/images/Forward_white.svg';
 import RecordIcon from '../../assets/images/RecordOff.svg';
 import RecordIconActive from '../../assets/images/RecordOn.svg';

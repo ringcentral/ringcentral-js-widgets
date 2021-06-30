@@ -1,4 +1,4 @@
-import callDirection from 'ringcentral-integration/enums/callDirections';
+import callDirection from '@ringcentral-integration/commons/enums/callDirections';
 import i18n from './i18n';
 
 export const pickEleByProps = (props = {}, list = []) => {

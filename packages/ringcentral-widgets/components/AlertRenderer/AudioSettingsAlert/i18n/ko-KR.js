@@ -1,4 +1,4 @@
-import audioSettingsErrors from 'ringcentral-integration/modules/AudioSettings/audioSettingsErrors';
+import audioSettingsErrors from '@ringcentral-integration/commons/modules/AudioSettings/audioSettingsErrors';
 export default {
   [audioSettingsErrors.userMediaPermission]: "오디오에 액세스할 수 있도록 {application}에 권한을 부여하세요."
 };

@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import ConferenceAlert from 'ringcentral-widgets/components/AlertRenderer/ConferenceAlert';
+import ConferenceAlert from '@ringcentral-integration/widgets/components/AlertRenderer/ConferenceAlert';
 
 const props = {};
 props.currentLocale = 'en-US';

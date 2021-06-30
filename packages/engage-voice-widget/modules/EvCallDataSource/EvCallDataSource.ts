@@ -6,8 +6,8 @@ import {
   storage,
 } from '@ringcentral-integration/core';
 import { EventEmitter } from 'events';
-import { Module } from 'ringcentral-integration/lib/di';
-import { Mapping } from 'ringcentral-widgets/typings';
+import { Module } from '@ringcentral-integration/commons/lib/di';
+import { Mapping } from '@ringcentral-integration/widgets/typings';
 
 import { callStatus } from '../../enums';
 import {

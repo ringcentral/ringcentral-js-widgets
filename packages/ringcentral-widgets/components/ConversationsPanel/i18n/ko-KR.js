@@ -1,4 +1,4 @@
-import messageTypes from 'ringcentral-integration/enums/messageTypes';
+import messageTypes from '@ringcentral-integration/commons/enums/messageTypes';
 export default {
   title: "메시지",
   search: "검색...",

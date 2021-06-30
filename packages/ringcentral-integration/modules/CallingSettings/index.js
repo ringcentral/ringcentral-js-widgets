@@ -388,15 +388,7 @@ export default class CallingSettings extends RcModule {
       if (this._webphone && webphoneEnabled) {
         callWithOptions.push(callingOptions.browser);
       }
-      // rc&att brand support call with RingCentral App
-      const brandReg = /rc|att/;
-      if (
-        this._brand &&
-        (brandReg.test(this._brand.code) ||
-          (this._brand.brandConfig &&
-            brandReg.test(this._brand.brandConfig.brandCode))) &&
-        this._showCallWithJupiter
-      ) {
+      if (this._brand && this._showCallWithJupiter) {
         callWithOptions.push(callingOptions.jupiter);
       }
 

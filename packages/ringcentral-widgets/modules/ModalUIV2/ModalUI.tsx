@@ -5,9 +5,9 @@ import {
   state,
 } from '@ringcentral-integration/core';
 import { filter, find, findIndex, map } from 'ramda';
-import background from 'ringcentral-integration/lib/background';
-import { Module } from 'ringcentral-integration/lib/di';
-import proxify from 'ringcentral-integration/lib/proxy/proxify';
+import background from '@ringcentral-integration/commons/lib/background';
+import { Module } from '@ringcentral-integration/commons/lib/di';
+import proxify from '@ringcentral-integration/commons/lib/proxy/proxify';
 import { v4 } from 'uuid';
 
 import {

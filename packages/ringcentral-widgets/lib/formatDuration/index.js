@@ -1,4 +1,4 @@
-import padLeft from 'ringcentral-integration/lib/padLeft';
+import padLeft from '@ringcentral-integration/commons/lib/padLeft';
 
 export default function formatDuration(duration) {
   if (Number.isNaN(duration)) {

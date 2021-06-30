@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
-import { RcVMeetingModel } from 'ringcentral-integration/interfaces/Rcv.model';
-import sleep from 'ringcentral-integration/lib/sleep';
+import { RcVMeetingModel } from '@ringcentral-integration/commons/interfaces/Rcv.model';
+import sleep from '@ringcentral-integration/commons/lib/sleep';
 
 import isSafari from '../../lib/isSafari';
 import { Topic, TopicRef } from '../InnerTopic';

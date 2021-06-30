@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import formatMessage from 'format-message';
-import formatNumber from 'ringcentral-integration/lib/formatNumber';
+import formatNumber from '@ringcentral-integration/commons/lib/formatNumber';
 import Switch from '../Switch';
 import Select from '../DropdownSelect';
 import BackHeader from '../BackHeader';

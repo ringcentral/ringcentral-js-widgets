@@ -1,8 +1,8 @@
-import NavigationBar from 'ringcentral-widgets/components/NavigationBar';
-import ActiveCallItem from 'ringcentral-widgets/components/ActiveCallItem';
-import ActiveCallList from 'ringcentral-widgets/components/ActiveCallList';
-import { ActiveCallItem as ActiveCallItemV2 } from 'ringcentral-widgets/components/ActiveCallItemV2';
-import ActiveCallsPanel from 'ringcentral-widgets/components/ActiveCallsPanel';
+import NavigationBar from '@ringcentral-integration/widgets/components/NavigationBar';
+import ActiveCallItem from '@ringcentral-integration/widgets/components/ActiveCallItem';
+import ActiveCallList from '@ringcentral-integration/widgets/components/ActiveCallList';
+import { ActiveCallItem as ActiveCallItemV2 } from '@ringcentral-integration/widgets/components/ActiveCallItemV2';
+import ActiveCallsPanel from '@ringcentral-integration/widgets/components/ActiveCallsPanel';
 
 import { mockMultiActiveCalls } from './helper';
 import { initPhoneWrapper, tearDownWrapper } from '../shared';

@@ -1,1 +1,1 @@
-import 'ringcentral-widgets/lib/oAuthProxy';
+import '@ringcentral-integration/widgets/lib/oAuthProxy';

@@ -1,6 +1,6 @@
-import { IContact } from 'ringcentral-integration/interfaces/Contact.model';
-import { phoneTypes } from 'ringcentral-integration/enums/phoneTypes';
-import { getSearchForPhoneNumbers } from 'ringcentral-integration/lib/contactHelper';
+import { IContact } from '@ringcentral-integration/commons/interfaces/Contact.model';
+import { phoneTypes } from '@ringcentral-integration/commons/enums/phoneTypes';
+import { getSearchForPhoneNumbers } from '@ringcentral-integration/commons/lib/contactHelper';
 
 const currentSite = { name: 'US', code: '22' };
 const otherSite = { name: 'Canada', code: '37' };

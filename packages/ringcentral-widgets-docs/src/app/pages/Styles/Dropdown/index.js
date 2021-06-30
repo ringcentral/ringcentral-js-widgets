@@ -2,11 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
-import SettingsIcon from 'ringcentral-widgets/assets/images/Settings.svg';
-import MeetingIcon from 'ringcentral-widgets/assets/images/Meeting.svg';
-import ContactIcon from 'ringcentral-widgets/assets/images/Contact.svg';
-import MeetingHoverIcon from 'ringcentral-widgets/assets/images/MeetingHover.svg';
-import RcIcon from 'ringcentral-widgets/assets/images/RcIcon.svg';
+import SettingsIcon from '@ringcentral-integration/widgets/assets/images/Settings.svg';
+import MeetingIcon from '@ringcentral-integration/widgets/assets/images/Meeting.svg';
+import ContactIcon from '@ringcentral-integration/widgets/assets/images/Contact.svg';
+import MeetingHoverIcon from '@ringcentral-integration/widgets/assets/images/MeetingHover.svg';
+import RcIcon from '@ringcentral-integration/widgets/assets/images/RcIcon.svg';
 
 import Markdown from '../../../components/Markdown';
 import styles from './styles.scss';

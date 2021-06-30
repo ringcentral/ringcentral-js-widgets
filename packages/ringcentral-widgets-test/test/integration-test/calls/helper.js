@@ -1,6 +1,6 @@
-import telephonyStatuses from 'ringcentral-integration/enums/telephonyStatus';
-import * as mock from 'ringcentral-integration/integration-test/mock';
-import { waitUntilEqual } from 'ringcentral-integration/integration-test/utils/WaitUtil';
+import telephonyStatuses from '@ringcentral-integration/commons/enums/telephonyStatus';
+import * as mock from '@ringcentral-integration/commons/integration-test/mock';
+import { waitUntilEqual } from '@ringcentral-integration/commons/integration-test/utils/WaitUtil';
 
 import deviceBody from './data/device';
 

@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import FlipPanel from 'ringcentral-widgets/components/FlipPanel';
+import FlipPanel from '@ringcentral-integration/widgets/components/FlipPanel';
 
 const props = {};
 props.isOnFlip = false;

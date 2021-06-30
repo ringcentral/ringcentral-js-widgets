@@ -1,1 +1,1 @@
-export * from 'ringcentral-crius';
+export * from '@ringcentral-integration/crius';

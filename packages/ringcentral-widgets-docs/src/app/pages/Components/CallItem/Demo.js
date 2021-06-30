@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import CallItem from 'ringcentral-widgets/components/CallItem';
+import CallItem from '@ringcentral-integration/widgets/components/CallItem';
 
 const props = {};
 props.call = {

@@ -4,5 +4,3 @@ export const permissionsMessages = ObjectMap.prefixKeys(
   ['invalidTier', 'insufficientPrivilege', 'callingDisable'],
   'permissionsMessages',
 );
-
-export default permissionsMessages;

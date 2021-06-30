@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import ConferencePanel from 'ringcentral-widgets/components/ConferencePanel';
+import ConferencePanel from '@ringcentral-integration/widgets/components/ConferencePanel';
 
 const props = {};
 props.conferenceNumbers = {};

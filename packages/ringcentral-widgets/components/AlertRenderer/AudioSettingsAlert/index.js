@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import audioSettingsErrors from 'ringcentral-integration/modules/AudioSettings/audioSettingsErrors';
+import audioSettingsErrors from '@ringcentral-integration/commons/modules/AudioSettings/audioSettingsErrors';
 import FormattedMessage from '../../FormattedMessage';
 import i18n from './i18n';
 

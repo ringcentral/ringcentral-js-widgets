@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import isBlank from 'ringcentral-integration/lib/isBlank';
+import isBlank from '@ringcentral-integration/commons/lib/isBlank';
 
 import { Button } from '../Button';
 

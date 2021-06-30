@@ -1,4 +1,4 @@
-import Alert from 'ringcentral-integration/modules/Alert';
+import Alert from '@ringcentral-integration/commons/modules/Alert';
 
 import { EvTabManager } from '../EvTabManager';
 import { EvClient } from '../../lib/EvClient';

@@ -1,4 +1,4 @@
-import sessionStatus from 'ringcentral-integration/modules/Webphone/sessionStatus';
+import sessionStatus from '@ringcentral-integration/commons/modules/Webphone/sessionStatus';
 
 type SessionProps = {
   id: string;

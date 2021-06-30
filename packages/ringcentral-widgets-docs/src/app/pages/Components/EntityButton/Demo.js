@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import EntityButton from 'ringcentral-widgets/components/EntityButton';
+import EntityButton from '@ringcentral-integration/widgets/components/EntityButton';
 
 const props = {};
 

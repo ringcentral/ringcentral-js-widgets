@@ -98,7 +98,7 @@ export async function generatePackage() {
   console.log('version:', version);
   if (version) {
     packageInfo.version = version;
-    packageInfo.name = 'ringcentral-widgets';
+    packageInfo.name = '@ringcentral-integration/glip-widgets';
   }
   await fs.writeFile(
     path.resolve(RELEASE_PATH, 'package.json'),

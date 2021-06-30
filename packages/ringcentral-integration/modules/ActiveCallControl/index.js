@@ -1,18 +1,16 @@
 import { RingCentralCallControl } from 'ringcentral-call-control';
-
-import { selector } from '../../lib/selector';
-
-import { Module } from '../../lib/di';
-import Pollable from '../../lib/Pollable';
 import moduleStatuses from '../../enums/moduleStatuses';
 import subscriptionFilters from '../../enums/subscriptionFilters';
-import callErrors from '../Call/callErrors';
+import { Module } from '../../lib/di';
 import ensureExist from '../../lib/ensureExist';
+import Pollable from '../../lib/Pollable';
+import { selector } from '../../lib/selector';
+import callErrors from '../Call/callErrors';
 import { actionTypes } from './actionTypes';
+import callControlError from './callControlError';
 import getActiveCallControlReducer from './getActiveCallControlReducer';
 import getDataReducer from './getDataReducer';
-import { normalizeSession, conflictError } from './helpers';
-import callControlError from './callControlError';
+import { conflictError, normalizeSession } from './helpers';
 
 const DEFAULT_TTL = 30 * 60 * 1000;
 const DEFAULT_TIME_TO_RETRY = 62 * 1000;
@@ -27,7 +25,6 @@ const subscribeEvent = subscriptionFilters.telephonySessions;
     'Auth',
     'Subscription',
     'ConnectivityMonitor',
-    'ExtensionFeatures',
     'Presence',
     'Alert',
     'NumberValidate',
@@ -48,7 +45,6 @@ export default class ActiveCallControl extends Pollable {
     storage,
     subscription,
     connectivityMonitor,
-    extensionFeatures,
     availabilityMonitor,
     tabManager,
     presence,
@@ -74,7 +70,6 @@ export default class ActiveCallControl extends Pollable {
       connectivityMonitor,
       'connectivityMonitor',
     );
-    this._extensionFeatures = extensionFeatures;
     this._availabilityMonitor = availabilityMonitor;
     this._presence = ensureExist.call(this, presence, 'presence');
     this._tabManager = tabManager;
@@ -140,7 +135,6 @@ export default class ActiveCallControl extends Pollable {
       this._connectivityMonitor.ready &&
       this._presence.ready &&
       (!this._tabManager || this._tabManager.ready) &&
-      this._extensionFeatures.ready &&
       (!this._availabilityMonitor || this._availabilityMonitor.ready) &&
       this.pending
     );
@@ -156,7 +150,6 @@ export default class ActiveCallControl extends Pollable {
         (!!this._tabManager && !this._tabManager.ready) ||
         !this._connectivityMonitor.ready ||
         !this._presence.ready ||
-        !this._extensionFeatures.ready ||
         (!!this._availabilityMonitor && !this._availabilityMonitor.ready)) &&
       this.ready
     );
@@ -168,8 +161,12 @@ export default class ActiveCallControl extends Pollable {
     });
   }
 
-  get _hasPermission() {
-    return this._extensionFeatures.isRingOutEnabled;
+  // This should reflect on the app permissions setting in DWP
+  get hasPermission() {
+    return (
+      this._auth.token.scope?.indexOf('CallControl') > -1 ||
+      this._auth.token.scope?.indexOf('TelephonySession') > -1
+    );
   }
 
   _shouldFetch() {
@@ -226,7 +223,7 @@ export default class ActiveCallControl extends Pollable {
       this.store.dispatch({
         type: this.actionTypes.updateActiveSessions,
         timestamp: Date.now(),
-        sessionDatas: this._rcCallControl.sessions.map((s) => s.data),
+        sessionData: this._rcCallControl.sessions.map((s) => s.data),
       });
       this._rcCallControl.sessions.forEach((session) => {
         this._newSessionHandler(session);
@@ -270,7 +267,7 @@ export default class ActiveCallControl extends Pollable {
     this.store.dispatch({
       type: this.actionTypes.updateActiveSessions,
       timestamp: Date.now(),
-      sessionDatas: this._rcCallControl.sessions.map((s) => s.data),
+      sessionData: this._rcCallControl.sessions.map((s) => s.data),
     });
   };
 

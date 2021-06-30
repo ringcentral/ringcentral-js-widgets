@@ -1,5 +1,5 @@
-import { Module } from 'ringcentral-integration/lib/di';
-import { Analytics as BaseAnalytics } from 'ringcentral-integration/modules/AnalyticsV2';
+import { Module } from '@ringcentral-integration/commons/lib/di';
+import { Analytics as BaseAnalytics } from '@ringcentral-integration/commons/modules/AnalyticsV2';
 import { Deps } from './EvAnalytics.interface';
 
 @Module({

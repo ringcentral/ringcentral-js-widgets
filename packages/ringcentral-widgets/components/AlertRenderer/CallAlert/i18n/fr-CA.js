@@ -1,4 +1,4 @@
-import callErrors from 'ringcentral-integration/modules/Call/callErrors';
+import callErrors from '@ringcentral-integration/commons/modules/Call/callErrors';
 export default {
   [callErrors.noToNumber]: "Veuillez entrer un numéro de téléphone valide.",
   [callErrors.noAreaCode]: "Veuillez configurer l'{areaCodeLink} pour utiliser des numéros de téléphone locaux à 7 chiffres.",

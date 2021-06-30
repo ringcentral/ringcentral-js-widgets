@@ -3,12 +3,12 @@ import {
   RcTimePickerSize,
   RcCheckboxProps,
 } from '@ringcentral/juno';
-import { RcVMeetingModel } from 'ringcentral-integration/interfaces/Rcv.model';
-import { RcvDelegator } from 'ringcentral-integration/modules/RcVideoV2/RcVideo.interface';
+import { RcVMeetingModel } from '@ringcentral-integration/commons/interfaces/Rcv.model';
+import { RcvDelegator } from '@ringcentral-integration/commons/modules/RcVideoV2/RcVideo.interface';
 import {
   RcMMeetingModel,
   MeetingDelegator,
-} from 'ringcentral-integration/modules/MeetingV2';
+} from '@ringcentral-integration/commons/modules/MeetingV2';
 
 export interface ScheduleButtonProps {
   currentLocale: string;

@@ -57,7 +57,6 @@ const sessionState = {
   telephonySession: {},
   to: 'testto',
   webphoneSessionConnected: false,
-  webphoneSession: {},
 };
 
 const getMockModule = () =>

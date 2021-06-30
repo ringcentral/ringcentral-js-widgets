@@ -1,24 +1,24 @@
 import GetMessageInfoResponse from 'ringcentral-client/build/definitions/GetMessageInfoResponse';
-import { Brand } from 'ringcentral-integration/modules/BrandV2';
-import { Locale } from 'ringcentral-integration/modules/LocaleV2';
-import { ConversationLogger } from 'ringcentral-integration/modules/ConversationLoggerV2';
+import { Brand } from '@ringcentral-integration/commons/modules/BrandV2';
+import { Locale } from '@ringcentral-integration/commons/modules/LocaleV2';
+import { ConversationLogger } from '@ringcentral-integration/commons/modules/ConversationLoggerV2';
 import {
   DateTimeFormat,
   FormatDateTimeOptions,
-} from 'ringcentral-integration/modules/DateTimeFormatV2';
-import { RegionSettings } from 'ringcentral-integration/modules/RegionSettingsV2';
+} from '@ringcentral-integration/commons/modules/DateTimeFormatV2';
+import { RegionSettings } from '@ringcentral-integration/commons/modules/RegionSettingsV2';
 import {
   Conversations,
   CurrentConversation,
-} from 'ringcentral-integration/modules/ConversationsV2';
-import { RateLimiter } from 'ringcentral-integration/modules/RateLimiterV2';
-import { ConnectivityMonitor } from 'ringcentral-integration/modules/ConnectivityMonitorV2';
-import { MessageStore } from 'ringcentral-integration/modules/MessageStoreV2';
-import { ContactMatcher } from 'ringcentral-integration/modules/ContactMatcherV2';
-import { Correspondent } from 'ringcentral-integration/lib/messageHelper';
-import { Message } from 'ringcentral-integration/interfaces/MessageStore.model';
-import { Attachment } from 'ringcentral-integration/modules/MessageSenderV2';
-import { Entity } from 'ringcentral-integration/interfaces/Entity.interface';
+} from '@ringcentral-integration/commons/modules/ConversationsV2';
+import { RateLimiter } from '@ringcentral-integration/commons/modules/RateLimiterV2';
+import { ConnectivityMonitor } from '@ringcentral-integration/commons/modules/ConnectivityMonitorV2';
+import { MessageStore } from '@ringcentral-integration/commons/modules/MessageStoreV2';
+import { ContactMatcher } from '@ringcentral-integration/commons/modules/ContactMatcherV2';
+import { Correspondent } from '@ringcentral-integration/commons/lib/messageHelper';
+import { Message } from '@ringcentral-integration/commons/interfaces/MessageStore.model';
+import { Attachment } from '@ringcentral-integration/commons/modules/MessageSenderV2';
+import { Entity } from '@ringcentral-integration/commons/interfaces/Entity.interface';
 import { RouterInteraction } from '../RouterInteraction';
 
 export interface ConversationUIOptions {

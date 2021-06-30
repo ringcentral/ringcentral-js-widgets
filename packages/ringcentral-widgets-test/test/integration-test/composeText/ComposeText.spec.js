@@ -1,11 +1,11 @@
-import sleep from 'ringcentral-integration/lib/sleep';
-import * as mock from 'ringcentral-integration/integration-test/mock';
+import sleep from '@ringcentral-integration/commons/lib/sleep';
+import * as mock from '@ringcentral-integration/commons/integration-test/mock';
 
-import NavigationBar from 'ringcentral-widgets/components/NavigationBar';
-import ComposeTextPanel from 'ringcentral-widgets/components/ComposeTextPanel';
-import DropdownSelect from 'ringcentral-widgets/components/DropdownSelect';
-import ConversationPanel from 'ringcentral-widgets/components/ConversationPanel';
-import { Message } from 'ringcentral-widgets/components/ConversationMessageList';
+import NavigationBar from '@ringcentral-integration/widgets/components/NavigationBar';
+import ComposeTextPanel from '@ringcentral-integration/widgets/components/ComposeTextPanel';
+import DropdownSelect from '@ringcentral-integration/widgets/components/DropdownSelect';
+import ConversationPanel from '@ringcentral-integration/widgets/components/ConversationPanel';
+import { Message } from '@ringcentral-integration/widgets/components/ConversationMessageList';
 
 import { getWrapper, timeout } from '../shared';
 

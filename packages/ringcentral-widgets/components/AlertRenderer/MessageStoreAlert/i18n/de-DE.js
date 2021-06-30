@@ -1,4 +1,4 @@
-import messageStoreErrors from 'ringcentral-integration/modules/MessageStore/errors';
+import messageStoreErrors from '@ringcentral-integration/commons/modules/MessageStore/errors';
 export default {
   [messageStoreErrors.deleteFailed]: "Die Voicemail kann aufgrund eines internen Serverfehlers nicht gelöscht werden."
 };

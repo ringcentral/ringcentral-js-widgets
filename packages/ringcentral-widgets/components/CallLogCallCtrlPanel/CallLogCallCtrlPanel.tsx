@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from 'react';
 
-import CallLogCallCtrlComponent from '../../components/CallLogCallCtrlComponent';
+import CallLogCallCtrlComponent from '../CallLogCallCtrlComponent';
+import { CallLogCallCtrlPanelProps } from './CallLogCallCtrlPanel.interface';
 
 export type CurrentSession = {
   isOnMute: boolean;
@@ -11,38 +12,7 @@ export type CurrentSession = {
   sessionId: string;
 };
 
-export interface CallLogCallCtrlProps {
-  currentLocale?: string;
-  currentSession?: CurrentSession;
-  telephonySessionId?: string;
-  isWide?: boolean;
-  isCurrentDeviceCall?: boolean;
-  disableLinks?: boolean;
-  transferRef?: React.RefObject<HTMLSpanElement>;
-  isOnTransfer?: boolean;
-  mute: (telephonySessionId: string) => any;
-  unmute: (telephonySessionId: string) => any;
-  hangUp: (telephonySessionId: string) => any;
-  reject: (telephonySessionId: string) => any;
-  onHold: (telephonySessionId: string) => any;
-  onUnHold: (telephonySessionId: string) => any;
-  onTransfer: (telephonySessionId: string) => any;
-  startRecord: (telephonySessionId: string) => any;
-  stopRecord: (telephonySessionId: string) => any;
-  sendDTMF: (dtmfValue: string, telephonySessionId: string) => void;
-  forward: (phoneNumber: string, telephonySessionId: string) => any;
-  answer: (telephonySessionId: string) => any;
-  forwardingNumbers: [];
-  ignore: (telephonySessionId: string) => void;
-  answerAndHold: (telephonySessionId: string) => void;
-  answerAndEnd: (telephonySessionId: string) => void;
-  otherActiveCalls: boolean;
-  dialpadToggleTrack: (open: boolean) => void;
-  clickForwardTrack: () => void;
-  realOutboundCallStatus?: string;
-}
-
-export const CallLogCallCtrl: FunctionComponent<CallLogCallCtrlProps> = (
+const CallLogCallCtrlPanel: FunctionComponent<CallLogCallCtrlPanelProps> = (
   props,
 ) => {
   const {
@@ -110,7 +80,7 @@ export const CallLogCallCtrl: FunctionComponent<CallLogCallCtrlProps> = (
   );
 };
 
-CallLogCallCtrl.defaultProps = {
+CallLogCallCtrlPanel.defaultProps = {
   currentLocale: 'en-US',
   currentSession: undefined,
   telephonySessionId: '',
@@ -120,3 +90,5 @@ CallLogCallCtrl.defaultProps = {
   isOnTransfer: false,
   realOutboundCallStatus: '',
 };
+
+export { CallLogCallCtrlPanel };

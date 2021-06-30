@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { withPhone } from 'ringcentral-widgets/lib/phoneContext';
-import Environment from 'ringcentral-widgets/components/Environment';
+import { withPhone } from '@ringcentral-integration/widgets/lib/phoneContext';
+import Environment from '@ringcentral-integration/widgets/components/Environment';
 
 import styles from './styles.scss';
 

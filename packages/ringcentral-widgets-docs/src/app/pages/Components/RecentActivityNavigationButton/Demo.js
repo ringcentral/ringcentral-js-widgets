@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import RecentActivityNavigationButton from 'ringcentral-widgets/components/RecentActivityNavigationButton';
+import RecentActivityNavigationButton from '@ringcentral-integration/widgets/components/RecentActivityNavigationButton';
 
 const props = {};
 props.icon = <span>Node</span>;

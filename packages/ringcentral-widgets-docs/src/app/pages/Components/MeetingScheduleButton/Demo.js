@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import MeetingScheduleButton from 'ringcentral-widgets/components/MeetingScheduleButton';
+import MeetingScheduleButton from '@ringcentral-integration/widgets/components/MeetingScheduleButton';
 
 const props = {};
 props.onClick = () => alert('clicked');

@@ -1,7 +1,7 @@
 import { contains } from 'ramda';
 import React from 'react';
 import PropTypes from 'prop-types';
-import conferenceCallErrors from 'ringcentral-integration/modules/ConferenceCall/conferenceCallErrors';
+import conferenceCallErrors from '@ringcentral-integration/commons/modules/ConferenceCall/conferenceCallErrors';
 import i18n from './i18n';
 
 export default function ConferenceAlert(props) {

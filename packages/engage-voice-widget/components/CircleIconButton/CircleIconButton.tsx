@@ -4,7 +4,7 @@ import React, { FunctionComponent } from 'react';
 import {
   Tooltip,
   TooltipProps,
-} from 'ringcentral-widgets/components/Rcui/Tooltip';
+} from '@ringcentral-integration/widgets/components/Rcui/Tooltip';
 
 import styles from './styles.scss';
 

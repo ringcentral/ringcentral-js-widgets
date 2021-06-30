@@ -1,5 +1,5 @@
-import messageSenderMessages from 'ringcentral-integration/modules/MessageSender/messageSenderMessages';
-import messageSenderMessagesV2 from 'ringcentral-integration/modules/MessageSenderV2/messageSenderMessages';
+import messageSenderMessages from '@ringcentral-integration/commons/modules/MessageSender/messageSenderMessages';
+import messageSenderMessagesV2 from '@ringcentral-integration/commons/modules/MessageSenderV2/messageSenderMessages';
 export default {
   [messageSenderMessages.sendSuccess]: "Enviado com êxito.",
   [messageSenderMessages.sendError]: "Ocorreu um erro ao enviar a mensagem.",

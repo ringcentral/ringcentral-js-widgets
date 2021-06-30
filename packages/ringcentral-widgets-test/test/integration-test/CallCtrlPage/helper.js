@@ -1,4 +1,4 @@
-import * as mock from 'ringcentral-integration/integration-test/mock';
+import * as mock from '@ringcentral-integration/commons/integration-test/mock';
 
 import getConferenceCallBody from './data/getConferenceCall';
 import deviceBody from './data/device';

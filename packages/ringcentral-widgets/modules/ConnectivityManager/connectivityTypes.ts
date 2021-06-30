@@ -11,5 +11,3 @@ export const connectivityTypes = ObjectMap.prefixKeys(
   ],
   'connectivityTypes',
 );
-
-export default connectivityTypes;

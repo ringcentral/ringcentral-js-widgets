@@ -103,7 +103,7 @@ async function preRelease() {
   console.log('version:', version);
   if (version) {
     packageInfo.version = version;
-    packageInfo.name = 'ringcentral-widgets';
+    packageInfo.name = '@ringcentral-integration/widgets';
   }
   await fs.writeFile(
     path.resolve(RELEASE_PATH, 'package.json'),

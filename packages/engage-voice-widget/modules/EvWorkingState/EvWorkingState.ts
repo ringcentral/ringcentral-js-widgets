@@ -5,7 +5,7 @@ import {
   state,
   storage,
 } from '@ringcentral-integration/core';
-import { Module } from 'ringcentral-integration/lib/di';
+import { Module } from '@ringcentral-integration/commons/lib/di';
 
 import {
   agentStateTypes,

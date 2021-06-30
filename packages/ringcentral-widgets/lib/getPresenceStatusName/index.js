@@ -1,4 +1,4 @@
-import DndStatus from 'ringcentral-integration/modules/Presence/dndStatus';
+import DndStatus from '@ringcentral-integration/commons/modules/Presence/dndStatus';
 import i18n from './i18n';
 
 export function getPresenceStatusName(

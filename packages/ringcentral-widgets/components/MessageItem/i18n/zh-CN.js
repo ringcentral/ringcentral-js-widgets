@@ -1,4 +1,4 @@
-import messageTypes from 'ringcentral-integration/enums/messageTypes';
+import messageTypes from '@ringcentral-integration/commons/enums/messageTypes';
 export default {
   addLog: "记录",
   editLog: "编辑记录",

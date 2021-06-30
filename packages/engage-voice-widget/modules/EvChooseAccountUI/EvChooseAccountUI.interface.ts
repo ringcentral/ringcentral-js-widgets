@@ -1,6 +1,6 @@
-import Locale from 'ringcentral-integration/modules/Locale';
-import { Block } from 'ringcentral-widgets/modules/Block';
-import RouterInteraction from 'ringcentral-widgets/modules/RouterInteraction';
+import Locale from '@ringcentral-integration/commons/modules/Locale';
+import { Block } from '@ringcentral-integration/widgets/modules/Block';
+import RouterInteraction from '@ringcentral-integration/widgets/modules/RouterInteraction';
 
 import { EvClient } from '../../lib/EvClient';
 import { EvAuth } from '../EvAuth';

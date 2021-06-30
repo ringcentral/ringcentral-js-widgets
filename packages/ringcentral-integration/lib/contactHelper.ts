@@ -184,6 +184,7 @@ export function getSearchForPhoneNumbers({
         }
         result.push({
           id: `${contact.id}${phoneNumber}`,
+          contactId: contact.id,
           name: contact.name || `${contact.firstName} ${contact.lastName}`,
           type: contact.type,
           phoneNumber,

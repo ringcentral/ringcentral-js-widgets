@@ -1,1 +1,1 @@
-import 'ringcentral-widgets/lib/oAuthRedirect';
+import '@ringcentral-integration/widgets/lib/oAuthRedirect';

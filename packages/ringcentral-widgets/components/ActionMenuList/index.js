@@ -1,8 +1,8 @@
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import messageTypes from 'ringcentral-integration/enums/messageTypes';
-import { extensionTypes } from 'ringcentral-integration/enums/extensionTypes';
+import messageTypes from '@ringcentral-integration/commons/enums/messageTypes';
+import { extensionTypes } from '@ringcentral-integration/commons/enums/extensionTypes';
 
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import DeleteMessageIcon from '../../assets/images/DeleteMessageIcon.svg';

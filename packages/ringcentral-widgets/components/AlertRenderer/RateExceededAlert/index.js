@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import errorMessages from 'ringcentral-integration/modules/RateLimiter/errorMessages';
+import errorMessages from '@ringcentral-integration/commons/modules/RateLimiter/errorMessages';
 import FormattedMessage from '../../FormattedMessage';
 import i18n from './i18n';
 

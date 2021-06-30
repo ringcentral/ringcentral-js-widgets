@@ -128,7 +128,7 @@ export function getCallQueueName({
 
 export function normalizeSession(session?: WebphoneSession): NormalizedSession {
   if (!session) {
-    return {};
+    return session;
   }
   const toUserName = session.request?.to?.displayName;
   const fromUserName = session.request?.from?.displayName;

@@ -1,9 +1,9 @@
-import * as mock from 'ringcentral-integration/integration-test/mock';
-import messageSyncBody from 'ringcentral-integration/integration-test/mock/data/messageSync.json';
-import ConversationsPanel from 'ringcentral-widgets/components/ConversationsPanel';
-import MessageItem from 'ringcentral-widgets/components/MessageItem';
-import NavigationBar from 'ringcentral-widgets/components/NavigationBar';
-import { SearchInput } from 'ringcentral-widgets/components/SearchInput';
+import * as mock from '@ringcentral-integration/commons/integration-test/mock';
+import messageSyncBody from '@ringcentral-integration/commons/integration-test/mock/data/messageSync.json';
+import ConversationsPanel from '@ringcentral-integration/widgets/components/ConversationsPanel';
+import MessageItem from '@ringcentral-integration/widgets/components/MessageItem';
+import NavigationBar from '@ringcentral-integration/widgets/components/NavigationBar';
+import { SearchInput } from '@ringcentral-integration/widgets/components/SearchInput';
 import { getWrapper, tearDownWrapper, timeout } from '../shared';
 import { mockPubnub } from './helper.js';
 

@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import SlideoutBar from 'ringcentral-widgets/components/SlideoutBar';
+import SlideoutBar from '@ringcentral-integration/widgets/components/SlideoutBar';
 
 const props = {};
 props.offset = 0;

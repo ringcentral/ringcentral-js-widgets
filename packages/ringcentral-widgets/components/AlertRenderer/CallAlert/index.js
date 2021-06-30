@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import callErrors from 'ringcentral-integration/modules/Call/callErrors';
+import callErrors from '@ringcentral-integration/commons/modules/Call/callErrors';
 import FormattedMessage from '../../FormattedMessage';
 
 import styles from './styles.scss';

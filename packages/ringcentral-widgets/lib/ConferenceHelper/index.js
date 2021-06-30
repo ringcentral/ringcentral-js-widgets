@@ -1,6 +1,6 @@
 import formatMessage from 'format-message';
 import { reduce, map } from 'ramda';
-import formatNumber from 'ringcentral-integration/lib/formatNumber';
+import formatNumber from '@ringcentral-integration/commons/lib/formatNumber';
 import countryNames from '../countryNames';
 
 import i18n from './i18n';

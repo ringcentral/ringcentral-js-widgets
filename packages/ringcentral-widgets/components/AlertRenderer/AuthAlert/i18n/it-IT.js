@@ -1,4 +1,4 @@
-import authMessages from 'ringcentral-integration/modules/Auth/authMessages';
+import authMessages from '@ringcentral-integration/commons/modules/Auth/authMessages';
 export default {
   [authMessages.internalError]: "Accesso non riuscito a causa di errori interni. Riprova più tardi.",
   [authMessages.accessDenied]: "Accesso negato. Contatta il supporto.",

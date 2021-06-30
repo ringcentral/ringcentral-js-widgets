@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import ActiveCallDialPad from 'ringcentral-widgets/components/ActiveCallDialPad';
+import ActiveCallDialPad from '@ringcentral-integration/widgets/components/ActiveCallDialPad';
 
 const props = {};
 props.onChange = () => null;

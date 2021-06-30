@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import ToField from 'ringcentral-widgets/components/ToField';
+import ToField from '@ringcentral-integration/widgets/components/ToField';
 
 const props = {};
 props.label = 'To:';

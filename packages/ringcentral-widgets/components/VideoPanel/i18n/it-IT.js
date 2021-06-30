@@ -1,4 +1,4 @@
-import { ASSISTED_USERS_MYSELF } from 'ringcentral-integration/modules/RcVideo/constants';
+import { ASSISTED_USERS_MYSELF } from '@ringcentral-integration/commons/modules/RcVideo/constants';
 export default {
   topic: "Titolo della riunione",
   date: "Data",

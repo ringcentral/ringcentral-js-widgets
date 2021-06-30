@@ -1,6 +1,6 @@
-import { phoneTypes } from 'ringcentral-integration/enums/phoneTypes';
-import { IContact } from 'ringcentral-integration/interfaces/Contact.model';
-import { isSearchHitContact } from 'ringcentral-integration/lib/contactHelper';
+import { phoneTypes } from '@ringcentral-integration/commons/enums/phoneTypes';
+import { IContact } from '@ringcentral-integration/commons/interfaces/Contact.model';
+import { isSearchHitContact } from '@ringcentral-integration/commons/lib/contactHelper';
 
 const contact: IContact = {
   id: '0123',

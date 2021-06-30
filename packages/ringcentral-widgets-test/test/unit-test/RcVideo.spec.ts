@@ -1,4 +1,4 @@
-import { RcVideo } from 'ringcentral-integration/modules/RcVideo/RcVideo';
+import { RcVideo } from '@ringcentral-integration/commons/modules/RcVideo/RcVideo';
 
 const mockSaveSinglePreference = jest.fn();
 const mockUpdatePreference = jest.fn();

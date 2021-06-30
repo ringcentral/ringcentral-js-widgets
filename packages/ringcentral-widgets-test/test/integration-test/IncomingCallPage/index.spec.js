@@ -1,7 +1,7 @@
-import CircleButton from 'ringcentral-widgets/components/CircleButton';
-import ActiveCallPad from 'ringcentral-widgets/components/ActiveCallPad';
-import IncomingCallPad from 'ringcentral-widgets/components/IncomingCallPad';
-import ActiveCallButton from 'ringcentral-widgets/components/ActiveCallButton';
+import CircleButton from '@ringcentral-integration/widgets/components/CircleButton';
+import ActiveCallPad from '@ringcentral-integration/widgets/components/ActiveCallPad';
+import IncomingCallPad from '@ringcentral-integration/widgets/components/IncomingCallPad';
+import ActiveCallButton from '@ringcentral-integration/widgets/components/ActiveCallButton';
 import { initPhoneWrapper, timeout } from '../shared';
 import { getInboundCall } from '../../support/callHelper';
 

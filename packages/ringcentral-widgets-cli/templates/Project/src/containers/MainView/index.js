@@ -1,13 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { withPhone } from 'ringcentral-widgets/lib/phoneContext';
+import { withPhone } from '@ringcentral-integration/widgets/lib/phoneContext';
 
-import TabNavigationView from 'ringcentral-widgets/components/TabNavigationView';
+import TabNavigationView from '@ringcentral-integration/widgets/components/TabNavigationView';
 
-import SettingsIcon from 'ringcentral-widgets/assets/images/Settings.svg';
+import SettingsIcon from '@ringcentral-integration/widgets/assets/images/Settings.svg';
 
-import SettingsHoverIcon from 'ringcentral-widgets/assets/images/SettingsHover.svg';
+import SettingsHoverIcon from '@ringcentral-integration/widgets/assets/images/SettingsHover.svg';
 
 const TABS = [
   {

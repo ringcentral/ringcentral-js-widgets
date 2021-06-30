@@ -1,9 +1,9 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import { SearchInput } from 'ringcentral-widgets/components/SearchInput';
-import { SpinnerOverlay } from 'ringcentral-widgets/components/SpinnerOverlay';
-import debounce from 'ringcentral-integration/lib/debounce';
+import { SearchInput } from '@ringcentral-integration/widgets/components/SearchInput';
+import { SpinnerOverlay } from '@ringcentral-integration/widgets/components/SpinnerOverlay';
+import debounce from '@ringcentral-integration/commons/lib/debounce';
 
 import GlipGroupList from '../GlipGroupList';
 import GlipTeamCreationModal from '../GlipTeamCreation';

@@ -2,7 +2,7 @@ import { contains } from 'ramda';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import debounce from 'ringcentral-integration/lib/debounce';
+import debounce from '@ringcentral-integration/commons/lib/debounce';
 import Panel from '../Panel';
 import { SearchInput } from '../SearchInput';
 import { SpinnerOverlay } from '../SpinnerOverlay';

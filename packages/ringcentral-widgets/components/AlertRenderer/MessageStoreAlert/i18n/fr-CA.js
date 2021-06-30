@@ -1,4 +1,4 @@
-import messageStoreErrors from 'ringcentral-integration/modules/MessageStore/errors';
+import messageStoreErrors from '@ringcentral-integration/commons/modules/MessageStore/errors';
 export default {
   [messageStoreErrors.deleteFailed]: "Impossible de supprimer la messagerie vocale en raison d'une erreur interne du serveur."
 };

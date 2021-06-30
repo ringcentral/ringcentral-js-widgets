@@ -2,7 +2,7 @@ import DataFetcher from '../../lib/DataFetcher';
 import { Module } from '../../lib/di';
 import { selector } from '../../lib/selector';
 import loginStatus from '../Auth/loginStatus';
-import { permissionsMessages } from '../RolesAndPermissions/permissionsMessages';
+import { permissionsMessages } from '../../enums/permissionsMessages';
 
 /**
  * @class

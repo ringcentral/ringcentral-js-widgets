@@ -31,8 +31,15 @@ const base = {
       },
       {
         test: /\.woff|\.woff2|.eot|\.ttf/,
-        use:
-          'url-loader?limit=15000&publicPath=./&name=fonts/[name]_[hash].[ext]',
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 15000,
+              name: 'fonts/[name]_[hash].[ext]',
+            },
+          },
+        ],
       },
       {
         test: /\.svg/,
@@ -83,7 +90,7 @@ const base = {
       },
       {
         test: /\.ogg$/,
-        use: 'file-loader?publicPath=./&name=audio/[name]_[hash].[ext]',
+        use: 'file-loader?name=audio/[name]_[hash].[ext]',
       },
     ],
   },

@@ -98,11 +98,11 @@ const config = [
     ...base,
     resolve: {
       alias: {
-        'ringcentral-integration': path.resolve(
+        '@ringcentral-integration/commons': path.resolve(
           __dirname,
           '../packages/ringcentral-integration',
         ),
-        'ringcentral-widgets': path.resolve(
+        '@ringcentral-integration/widgets': path.resolve(
           __dirname,
           '../packages/ringcentral-widgets',
         ),

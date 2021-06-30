@@ -17,7 +17,7 @@ import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
 import { trackEvents } from '../Analytics';
 import callingModes from '../CallingSettings/callingModes';
-import { permissionsMessages } from '../RolesAndPermissions/permissionsMessages';
+import { permissionsMessages } from '../../enums/permissionsMessages';
 import sessionStatusEnum from '../Webphone/sessionStatus';
 import { isConferenceSession, isRecording } from '../Webphone/webphoneHelper';
 import {

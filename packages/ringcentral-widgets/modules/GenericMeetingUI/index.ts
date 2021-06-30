@@ -1,7 +1,7 @@
-import { Module } from 'ringcentral-integration/lib/di';
-import { RcVMeetingModel } from 'ringcentral-integration/interfaces/Rcv.model';
-import { RcMMeetingModel } from 'ringcentral-integration/modules/MeetingV2';
-import { GenericMeeting } from 'ringcentral-integration/modules/GenericMeetingV2';
+import { Module } from '@ringcentral-integration/commons/lib/di';
+import { RcVMeetingModel } from '@ringcentral-integration/commons/interfaces/Rcv.model';
+import { RcMMeetingModel } from '@ringcentral-integration/commons/modules/MeetingV2';
+import { GenericMeeting } from '@ringcentral-integration/commons/modules/GenericMeetingV2';
 
 import RcUIModule from '../../lib/RcUIModule';
 

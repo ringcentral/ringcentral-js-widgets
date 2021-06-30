@@ -437,15 +437,7 @@ class CallingSettings extends RcModuleV2<Deps> {
     if (this._deps.webphone && isWebPhoneEnabled) {
       callWithOptions.push(callingOptions.browser);
     }
-    // rc&att brand support call with RingCentral App
-    const brandReg = /rc|att/;
-    if (
-      this._deps.brand &&
-      (brandReg.test(this._deps.brand.code) ||
-        (this._deps.brand.brandConfig &&
-          brandReg.test(this._deps.brand.brandConfig.brandCode))) &&
-      this._showCallWithJupiter
-    ) {
+    if (this._deps.brand && this._showCallWithJupiter) {
       callWithOptions.push(callingOptions.jupiter);
     }
 

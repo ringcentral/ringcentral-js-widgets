@@ -1,6 +1,6 @@
-import { Locale } from 'ringcentral-integration/modules/LocaleV2';
-import { Webphone } from 'ringcentral-integration/modules/WebphoneV2';
-import { NormalizedSession } from 'ringcentral-integration/interfaces/Webphone.interface';
+import { Locale } from '@ringcentral-integration/commons/modules/LocaleV2';
+import { Webphone } from '@ringcentral-integration/commons/modules/WebphoneV2';
+import { NormalizedSession } from '@ringcentral-integration/commons/interfaces/Webphone.interface';
 
 export interface CallBadgeUIOptions {
   //

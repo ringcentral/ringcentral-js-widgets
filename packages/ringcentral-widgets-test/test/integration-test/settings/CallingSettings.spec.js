@@ -1,7 +1,7 @@
-import { CallingSettingsPanel } from 'ringcentral-widgets/components/CallingSettingsPanel';
-import LinkLine from 'ringcentral-widgets/components/LinkLine';
-import NavigationBar from 'ringcentral-widgets/components/NavigationBar';
-import SettingsPanel from 'ringcentral-widgets/components/SettingsPanel';
+import { CallingSettingsPanel } from '@ringcentral-integration/widgets/components/CallingSettingsPanel';
+import LinkLine from '@ringcentral-integration/widgets/components/LinkLine';
+import NavigationBar from '@ringcentral-integration/widgets/components/NavigationBar';
+import SettingsPanel from '@ringcentral-integration/widgets/components/SettingsPanel';
 
 import { getWrapper } from '../shared';
 

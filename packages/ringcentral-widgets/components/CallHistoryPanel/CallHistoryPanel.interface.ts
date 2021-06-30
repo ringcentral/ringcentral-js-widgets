@@ -1,4 +1,4 @@
-import { Call } from 'ringcentral-integration/interfaces/Call.interface';
+import { Call } from '@ringcentral-integration/commons/interfaces/Call.interface';
 import { SvgSymbol } from '@ringcentral/juno';
 
 export interface CallLog extends Call {

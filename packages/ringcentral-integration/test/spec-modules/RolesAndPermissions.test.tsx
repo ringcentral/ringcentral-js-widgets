@@ -11,7 +11,7 @@ import {
 } from '@ringcentral-integration/test-utils';
 
 import { RolesAndPermissions } from '../../modules/RolesAndPermissionsV2';
-import { permissionsMessages } from '../../modules/RolesAndPermissions/permissionsMessages';
+import { permissionsMessages } from '../../enums/permissionsMessages';
 import { loginStatus } from '../../modules/AuthV2';
 import { mockModuleGenerator } from '../lib/mockModule';
 

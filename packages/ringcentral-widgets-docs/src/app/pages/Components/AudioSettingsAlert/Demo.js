@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import AudioSettingsAlert from 'ringcentral-widgets/components/AlertRenderer/AudioSettingsAlert';
+import AudioSettingsAlert from '@ringcentral-integration/widgets/components/AlertRenderer/AudioSettingsAlert';
 
 const props = {};
 props.application = 'test string';

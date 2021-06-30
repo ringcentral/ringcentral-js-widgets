@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Modal from 'ringcentral-widgets/components/Modal';
-import { SearchInput } from 'ringcentral-widgets/components/SearchInput';
-import TextInput from 'ringcentral-widgets/components/TextInput';
+import Modal from '@ringcentral-integration/widgets/components/Modal';
+import { SearchInput } from '@ringcentral-integration/widgets/components/SearchInput';
+import TextInput from '@ringcentral-integration/widgets/components/TextInput';
 
 import styles from './styles.scss';
 
