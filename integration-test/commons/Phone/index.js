@@ -64,7 +64,7 @@ var _AvailabilityMonitor = _interopRequireDefault(require("../../../modules/Avai
 
 var _BlockedNumber = _interopRequireDefault(require("../../../modules/BlockedNumber"));
 
-var _Brand = _interopRequireDefault(require("../../../modules/Brand"));
+var _BrandV = require("../../../modules/BrandV2");
 
 var _Call = _interopRequireDefault(require("../../../modules/Call"));
 
@@ -196,7 +196,7 @@ var BasePhone = (_dec2 = (0, _di.ModuleFactory)({
     useClass: _Alert["default"]
   }, {
     provide: 'Brand',
-    useClass: _Brand["default"]
+    useClass: _BrandV.Brand
   }, {
     provide: 'Softphone',
     useClass: _Softphone["default"]
@@ -427,11 +427,8 @@ function createPhone(_ref) {
       brandConfig = _ref.brandConfig;
   var Phone = (_dec = (0, _di.ModuleFactory)({
     providers: [{
-      provide: 'ModuleOptions',
-      useValue: {
-        prefix: prefix
-      },
-      spread: true
+      provide: 'Prefix',
+      useValue: prefix
     }, {
       provide: 'SdkConfig',
       useValue: _objectSpread(_objectSpread({}, apiConfig), {}, {
@@ -439,17 +436,7 @@ function createPhone(_ref) {
         clearCacheOnRefreshError: false
       })
     }, {
-      provide: 'EnvironmentOptions',
-      useValue: {
-        sdkConfig: _objectSpread(_objectSpread({}, apiConfig), {}, {
-          cachePrefix: 'sdk-rc',
-          clearCacheOnRefreshError: false
-        })
-      },
-      spread: true
-    }, {
-      provide: 'BrandOptions',
-      spread: true,
+      provide: 'BrandConfig',
       useValue: brandConfig
     }, {
       provide: 'WebphoneOptions',

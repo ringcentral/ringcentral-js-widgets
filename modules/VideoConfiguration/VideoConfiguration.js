@@ -256,9 +256,7 @@ var VideoConfiguration = (_dec = (0, _di.Module)({
   }, {
     key: "_hasPermission",
     get: function get() {
-      var _this$_deps$extension, _this$_deps$extension2, _this$_deps$extension3;
-
-      return (_this$_deps$extension = (_this$_deps$extension2 = this._deps.extensionFeatures.features) === null || _this$_deps$extension2 === void 0 ? void 0 : (_this$_deps$extension3 = _this$_deps$extension2.Meetings) === null || _this$_deps$extension3 === void 0 ? void 0 : _this$_deps$extension3.available) !== null && _this$_deps$extension !== void 0 ? _this$_deps$extension : false;
+      return this._deps.extensionFeatures.hasMeetingsPermission;
     }
   }]);
 

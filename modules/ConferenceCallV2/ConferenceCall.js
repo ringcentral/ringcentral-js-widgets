@@ -79,7 +79,7 @@ var _Analytics = require("../Analytics");
 
 var _callingModes = _interopRequireDefault(require("../CallingSettings/callingModes"));
 
-var _permissionsMessages = require("../RolesAndPermissions/permissionsMessages");
+var _permissionsMessages = require("../../enums/permissionsMessages");
 
 var _sessionStatus = _interopRequireDefault(require("../Webphone/sessionStatus"));
 

@@ -240,9 +240,7 @@ _dec = (0, _di.Module)({
   }, {
     key: "_hasPermission",
     get: function get() {
-      var _this$_extensionFeatu, _this$_extensionFeatu2;
-
-      return !!((_this$_extensionFeatu = this._extensionFeatures.features) === null || _this$_extensionFeatu === void 0 ? void 0 : (_this$_extensionFeatu2 = _this$_extensionFeatu.Meetings) === null || _this$_extensionFeatu2 === void 0 ? void 0 : _this$_extensionFeatu2.available);
+      return this._extensionFeatures.hasMeetingsPermission;
     }
   }, {
     key: "_name",

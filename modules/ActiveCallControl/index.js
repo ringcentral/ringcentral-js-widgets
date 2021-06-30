@@ -55,29 +55,29 @@ require("core-js/modules/es6.date.now");
 
 var _ringcentralCallControl = require("ringcentral-call-control");
 
-var _selector = require("../../lib/selector");
-
-var _di = require("../../lib/di");
-
-var _Pollable2 = _interopRequireDefault(require("../../lib/Pollable"));
-
 var _moduleStatuses = _interopRequireDefault(require("../../enums/moduleStatuses"));
 
 var _subscriptionFilters = _interopRequireDefault(require("../../enums/subscriptionFilters"));
 
-var _callErrors = _interopRequireDefault(require("../Call/callErrors"));
+var _di = require("../../lib/di");
 
 var _ensureExist = _interopRequireDefault(require("../../lib/ensureExist"));
 
+var _Pollable2 = _interopRequireDefault(require("../../lib/Pollable"));
+
+var _selector = require("../../lib/selector");
+
+var _callErrors = _interopRequireDefault(require("../Call/callErrors"));
+
 var _actionTypes = require("./actionTypes");
+
+var _callControlError = _interopRequireDefault(require("./callControlError"));
 
 var _getActiveCallControlReducer = _interopRequireDefault(require("./getActiveCallControlReducer"));
 
 var _getDataReducer = _interopRequireDefault(require("./getDataReducer"));
 
 var _helpers = require("./helpers");
-
-var _callControlError = _interopRequireDefault(require("./callControlError"));
 
 var _dec, _class, _class2, _descriptor, _descriptor2, _descriptor3;
 
@@ -130,7 +130,7 @@ var telephonySessionsEndPoint = /\/telephony\/sessions$/;
 var storageKey = 'activeCallControl';
 var subscribeEvent = _subscriptionFilters["default"].telephonySessions;
 var ActiveCallControl = (_dec = (0, _di.Module)({
-  deps: ['Client', 'Auth', 'Subscription', 'ConnectivityMonitor', 'ExtensionFeatures', 'Presence', 'Alert', 'NumberValidate', 'AccountInfo', 'ExtensionInfo', {
+  deps: ['Client', 'Auth', 'Subscription', 'ConnectivityMonitor', 'Presence', 'Alert', 'NumberValidate', 'AccountInfo', 'ExtensionInfo', {
     dep: 'TabManager',
     optional: true
   }, {
@@ -160,7 +160,6 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
         storage = _ref.storage,
         subscription = _ref.subscription,
         connectivityMonitor = _ref.connectivityMonitor,
-        extensionFeatures = _ref.extensionFeatures,
         availabilityMonitor = _ref.availabilityMonitor,
         tabManager = _ref.tabManager,
         presence = _ref.presence,
@@ -172,7 +171,7 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
         numberValidate = _ref.numberValidate,
         accountInfo = _ref.accountInfo,
         extensionInfo = _ref.extensionInfo,
-        options = _objectWithoutProperties(_ref, ["client", "auth", "ttl", "timeToRetry", "storage", "subscription", "connectivityMonitor", "extensionFeatures", "availabilityMonitor", "tabManager", "presence", "polling", "disableCache", "alert", "numberValidate", "accountInfo", "extensionInfo"]);
+        options = _objectWithoutProperties(_ref, ["client", "auth", "ttl", "timeToRetry", "storage", "subscription", "connectivityMonitor", "availabilityMonitor", "tabManager", "presence", "polling", "disableCache", "alert", "numberValidate", "accountInfo", "extensionInfo"]);
 
     _classCallCheck(this, ActiveCallControl);
 
@@ -184,7 +183,7 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
       _this.store.dispatch({
         type: _this.actionTypes.updateActiveSessions,
         timestamp: Date.now(),
-        sessionDatas: _this._rcCallControl.sessions.map(function (s) {
+        sessionData: _this._rcCallControl.sessions.map(function (s) {
           return s.data;
         })
       });
@@ -204,7 +203,6 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
 
     _this._subscription = _ensureExist["default"].call(_assertThisInitialized(_this), subscription, 'subscription');
     _this._connectivityMonitor = _ensureExist["default"].call(_assertThisInitialized(_this), connectivityMonitor, 'connectivityMonitor');
-    _this._extensionFeatures = extensionFeatures;
     _this._availabilityMonitor = availabilityMonitor;
     _this._presence = _ensureExist["default"].call(_assertThisInitialized(_this), presence, 'presence');
     _this._tabManager = tabManager;
@@ -302,12 +300,12 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
   }, {
     key: "_shouldInit",
     value: function _shouldInit() {
-      return this._auth.loggedIn && this._accountInfo.ready && this._extensionInfo.ready && (!this._storage || this._storage.ready) && this._subscription.ready && this._connectivityMonitor.ready && this._presence.ready && (!this._tabManager || this._tabManager.ready) && this._extensionFeatures.ready && (!this._availabilityMonitor || this._availabilityMonitor.ready) && this.pending;
+      return this._auth.loggedIn && this._accountInfo.ready && this._extensionInfo.ready && (!this._storage || this._storage.ready) && this._subscription.ready && this._connectivityMonitor.ready && this._presence.ready && (!this._tabManager || this._tabManager.ready) && (!this._availabilityMonitor || this._availabilityMonitor.ready) && this.pending;
     }
   }, {
     key: "_shouldReset",
     value: function _shouldReset() {
-      return (!this._auth.loggedIn || !this._accountInfo.ready || !this._extensionInfo.ready || !!this._storage && !this._storage.ready || !this._subscription.ready || !!this._tabManager && !this._tabManager.ready || !this._connectivityMonitor.ready || !this._presence.ready || !this._extensionFeatures.ready || !!this._availabilityMonitor && !this._availabilityMonitor.ready) && this.ready;
+      return (!this._auth.loggedIn || !this._accountInfo.ready || !this._extensionInfo.ready || !!this._storage && !this._storage.ready || !this._subscription.ready || !!this._tabManager && !this._tabManager.ready || !this._connectivityMonitor.ready || !this._presence.ready || !!this._availabilityMonitor && !this._availabilityMonitor.ready) && this.ready;
     }
   }, {
     key: "_resetModuleStatus",
@@ -315,7 +313,8 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
       this.store.dispatch({
         type: this.actionTypes.resetSuccess
       });
-    }
+    } // This should reflect on the app permissions setting in DWP
+
   }, {
     key: "_shouldFetch",
     value: function _shouldFetch() {
@@ -443,7 +442,7 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
                 this.store.dispatch({
                   type: this.actionTypes.updateActiveSessions,
                   timestamp: Date.now(),
-                  sessionDatas: this._rcCallControl.sessions.map(function (s) {
+                  sessionData: this._rcCallControl.sessions.map(function (s) {
                     return s.data;
                   })
                 });
@@ -1500,9 +1499,11 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
       return forward;
     }()
   }, {
-    key: "_hasPermission",
+    key: "hasPermission",
     get: function get() {
-      return this._extensionFeatures.isRingOutEnabled;
+      var _this$_auth$token$sco, _this$_auth$token$sco2;
+
+      return ((_this$_auth$token$sco = this._auth.token.scope) === null || _this$_auth$token$sco === void 0 ? void 0 : _this$_auth$token$sco.indexOf('CallControl')) > -1 || ((_this$_auth$token$sco2 = this._auth.token.scope) === null || _this$_auth$token$sco2 === void 0 ? void 0 : _this$_auth$token$sco2.indexOf('TelephonySession')) > -1;
     }
   }, {
     key: "data",

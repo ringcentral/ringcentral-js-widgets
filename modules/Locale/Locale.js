@@ -73,6 +73,8 @@ var _redux = require("redux");
 
 var _i18n = _interopRequireWildcard(require("@ringcentral-integration/i18n"));
 
+var _formatLocale = _interopRequireDefault(require("@ringcentral-integration/i18n/lib/formatLocale"));
+
 var _RcModule2 = _interopRequireDefault(require("../../lib/RcModule"));
 
 var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
@@ -90,8 +92,6 @@ var _detectBrowserLocale = _interopRequireDefault(require("../../lib/detectBrows
 var _moduleActionTypes = require("../../enums/moduleActionTypes");
 
 var _proxyActionTypes = require("../../enums/proxyActionTypes");
-
-var _formatLocale = _interopRequireDefault(require("@ringcentral-integration/i18n/lib/formatLocale"));
 
 var _dec, _class, _class2;
 
@@ -175,15 +175,9 @@ _dec = (0, _di.Module)({
     var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
     var brand = _ref.brand,
-        _ref$defaultLocale = _ref.defaultLocale,
-        defaultLocale = _ref$defaultLocale === void 0 ? _i18n.DEFAULT_LOCALE : _ref$defaultLocale,
-        _ref$detectBrowser = _ref.detectBrowser,
-        detectBrowser = _ref$detectBrowser === void 0 ? true : _ref$detectBrowser,
-        _ref$polling = _ref.polling,
-        polling = _ref$polling === void 0 ? false : _ref$polling,
-        _ref$pollingInterval = _ref.pollingInterval,
-        pollingInterval = _ref$pollingInterval === void 0 ? 2000 : _ref$pollingInterval,
-        options = _objectWithoutProperties(_ref, ["brand", "defaultLocale", "detectBrowser", "polling", "pollingInterval"]);
+        _ref$localeOptions = _ref.localeOptions,
+        localeOptions = _ref$localeOptions === void 0 ? {} : _ref$localeOptions,
+        options = _objectWithoutProperties(_ref, ["brand", "localeOptions"]);
 
     _classCallCheck(this, Locale);
 
@@ -193,6 +187,14 @@ _dec = (0, _di.Module)({
     _this._polling = void 0;
     _this._pollingInterval = void 0;
     _this._transport = void 0;
+    var _localeOptions$defaul = localeOptions.defaultLocale,
+        defaultLocale = _localeOptions$defaul === void 0 ? _i18n.DEFAULT_LOCALE : _localeOptions$defaul,
+        _localeOptions$detect = localeOptions.detectBrowser,
+        detectBrowser = _localeOptions$detect === void 0 ? true : _localeOptions$detect,
+        _localeOptions$pollin = localeOptions.polling,
+        polling = _localeOptions$pollin === void 0 ? false : _localeOptions$pollin,
+        _localeOptions$pollin2 = localeOptions.pollingInterval,
+        pollingInterval = _localeOptions$pollin2 === void 0 ? 2000 : _localeOptions$pollin2;
     _this._brand = brand;
     _this._defaultLocale = defaultLocale;
     _this._detectBrowser = detectBrowser;

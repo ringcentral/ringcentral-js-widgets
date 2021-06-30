@@ -151,9 +151,7 @@ function isRecording(session) {
 }
 
 function isForwardedToVoiceMail(session) {
-  // TODO: fix this for call control js
-  // return session.status === PartyStatusCode.voicemail;
-  return session.status === 'Voicemail';
+  return session.status === _Session.PartyStatusCode.voicemail;
 }
 
 function isOnSetupStage(session) {

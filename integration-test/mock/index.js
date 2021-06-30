@@ -298,7 +298,7 @@ function authentication() {
       expires_in: 3600,
       refresh_token: 'REFRESH_TOKEN',
       refresh_token_expires_in: 60480,
-      scope: 'SMS RCM Foo Boo',
+      scope: 'SMS RCM Foo Boo CallControl TelephonySessions',
       expireTime: new Date().getTime() + 3600000,
       owner_id: '23231231"',
       endpoint_id: '3213213131'
@@ -410,9 +410,17 @@ function removeFromConference(id, partyId) {
 
 function extensionList() {
   var mockResponse = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var extraParams = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  var isEmptyRes = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+  var query = ''; // eslint-disable-next-line guard-for-in
+
+  for (var key in extraParams) {
+    query = query.concat("".concat(key, "=").concat(extraParams[key]));
+  }
+
   mockApi({
-    url: "begin:".concat(mockServer, "/restapi/v1.0/account/~/extension?"),
-    body: _objectSpread(_objectSpread({}, _extension["default"]), mockResponse)
+    url: "begin:".concat(mockServer, "/restapi/v1.0/account/~/extension?").concat(query),
+    body: isEmptyRes ? {} : _objectSpread(_objectSpread({}, _extension["default"]), mockResponse)
   });
 }
 
@@ -620,7 +628,8 @@ function delegators(mockResponse) {
   mockApi({
     method: 'GET',
     url: "".concat(mockServer, "/rcvideo/v1/accounts/~/extensions/~/delegators"),
-    body: mockResponse || []
+    body: mockResponse || [],
+    isOnce: false
   });
 }
 
@@ -1029,7 +1038,7 @@ function mockForLogin() {
   }
 
   device(params.deviceData);
-  extensionList(params.extensionListData);
+  extensionList(params.extensionListData, params.extensionListQuery, params.isExtensionListEmptyRes);
   companyContactList(params.extensionsListData); // accountPhoneNumber(params.accountPhoneNumberData);
 
   blockedNumber(params.blockedNumberData);
@@ -1087,7 +1096,7 @@ function mockForLogin() {
   lockedSettings(params.lockedSettingsData);
   features(params.featuresData);
   assistedUsers(params.mockAssistedUsers);
-  delegators();
+  delegators(params.mockDelegators);
   videoPersonalSettings();
 }
 //# sourceMappingURL=index.js.map

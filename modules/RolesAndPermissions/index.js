@@ -59,17 +59,17 @@ require("regenerator-runtime/runtime");
 
 require("core-js/modules/es6.array.for-each");
 
-var _di = require("../../lib/di");
-
-var _selector = require("../../lib/selector");
+var _permissionsMessages = _interopRequireDefault(require("../../enums/permissionsMessages"));
 
 var _DataFetcher2 = _interopRequireDefault(require("../../lib/DataFetcher"));
 
-var _permissionsMessages = _interopRequireDefault(require("./permissionsMessages"));
-
-var _loginStatus = _interopRequireDefault(require("../Auth/loginStatus"));
+var _di = require("../../lib/di");
 
 var _ensureExist = _interopRequireDefault(require("../../lib/ensureExist"));
+
+var _selector = require("../../lib/selector");
+
+var _loginStatus = _interopRequireDefault(require("../Auth/loginStatus"));
 
 var _dec, _class, _class2, _descriptor;
 

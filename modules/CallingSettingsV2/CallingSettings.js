@@ -746,12 +746,9 @@ var CallingSettings = (_dec = (0, _di.Module)({
 
       if (this._deps.webphone && isWebPhoneEnabled) {
         callWithOptions.push(_callingOptions.callingOptions.browser);
-      } // rc&att brand support call with RingCentral App
+      }
 
-
-      var brandReg = /rc|att/;
-
-      if (this._deps.brand && (brandReg.test(this._deps.brand.code) || this._deps.brand.brandConfig && brandReg.test(this._deps.brand.brandConfig.brandCode)) && this._showCallWithJupiter) {
+      if (this._deps.brand && this._showCallWithJupiter) {
         callWithOptions.push(_callingOptions.callingOptions.jupiter);
       }
 

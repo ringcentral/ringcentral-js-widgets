@@ -296,6 +296,13 @@ var ExtensionFeatures = (_dec = (0, _di.Module)({
 
       return (_this$features$PagesS = (_this$features12 = this.features) === null || _this$features12 === void 0 ? void 0 : (_this$features12$Page = _this$features12.PagesSending) === null || _this$features12$Page === void 0 ? void 0 : _this$features12$Page.available) !== null && _this$features$PagesS !== void 0 ? _this$features$PagesS : false;
     }
+  }, {
+    key: "hasMeetingsPermission",
+    get: function get() {
+      var _this$features$Meetin, _this$features13, _this$features13$Meet;
+
+      return (_this$features$Meetin = (_this$features13 = this.features) === null || _this$features13 === void 0 ? void 0 : (_this$features13$Meet = _this$features13.Meetings) === null || _this$features13$Meet === void 0 ? void 0 : _this$features13$Meet.available) !== null && _this$features$Meetin !== void 0 ? _this$features$Meetin : false;
+    }
   }]);
 
   return ExtensionFeatures;

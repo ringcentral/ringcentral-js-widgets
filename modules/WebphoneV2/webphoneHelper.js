@@ -190,7 +190,7 @@ function normalizeSession(session) {
   var _session$request, _session$request$to, _session$request2, _session$request2$fro, _session$request3, _session$request3$to, _session$request3$to$, _session$request4, _session$request4$fro, _session$request4$fro2;
 
   if (!session) {
-    return {};
+    return session;
   }
 
   var toUserName = (_session$request = session.request) === null || _session$request === void 0 ? void 0 : (_session$request$to = _session$request.to) === null || _session$request$to === void 0 ? void 0 : _session$request$to.displayName;

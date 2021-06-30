@@ -113,8 +113,9 @@ var Environment = (
  * @description Environment module manages which api server the app calls.
  */
 _dec = (0, _di.Module)({
-  deps: ['Client', 'GlobalStorage', {
-    dep: 'EnvironmentOptions'
+  deps: ['Client', 'GlobalStorage', 'SdkConfig', {
+    dep: 'EnvironmentOptions',
+    optional: true
   }]
 }), _dec(_class = (_class2 = /*#__PURE__*/function (_RcModule) {
   _inherits(Environment, _RcModule);
@@ -126,17 +127,20 @@ _dec = (0, _di.Module)({
    * @param {Object} params - params object
    * @param {Client} params.client - client module instance
    * @param {GlobalStorage} params.globalStorage - globalStorage module instance
-   * @param {String} params.defaultRecordingHost - default recording host uri
+   * @param {String} params.environmentOptions - default recording host uri
    * @param {Object} params.sdkConfig - sdk config
    */
   function Environment(_ref) {
+    var _environmentOptions$d;
+
     var _this;
 
     var client = _ref.client,
         globalStorage = _ref.globalStorage,
-        defaultRecordingHost = _ref.defaultRecordingHost,
+        _ref$environmentOptio = _ref.environmentOptions,
+        environmentOptions = _ref$environmentOptio === void 0 ? {} : _ref$environmentOptio,
         sdkConfig = _ref.sdkConfig,
-        options = _objectWithoutProperties(_ref, ["client", "globalStorage", "defaultRecordingHost", "sdkConfig"]);
+        options = _objectWithoutProperties(_ref, ["client", "globalStorage", "environmentOptions", "sdkConfig"]);
 
     _classCallCheck(this, Environment);
 
@@ -150,7 +154,7 @@ _dec = (0, _di.Module)({
     _this._serverStorageKey = 'environmentServer';
     _this._recordingHostStoragekey = 'environmentRecordingHost';
     _this._enabledStorageKey = 'environmentEnabled';
-    _this._defaultRecordingHost = defaultRecordingHost || 'https://s3.ap-northeast-2.amazonaws.com/fetch-call-recording/test/index.html';
+    _this._defaultRecordingHost = (_environmentOptions$d = environmentOptions.defaultRecordingHost) !== null && _environmentOptions$d !== void 0 ? _environmentOptions$d : 'https://s3.ap-northeast-2.amazonaws.com/fetch-call-recording/test/index.html';
 
     _this._globalStorage.registerReducer({
       key: _this._serverStorageKey,

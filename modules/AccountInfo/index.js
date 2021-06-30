@@ -55,7 +55,7 @@ var _selector = require("../../lib/selector");
 
 var _loginStatus = _interopRequireDefault(require("../Auth/loginStatus"));
 
-var _permissionsMessages = require("../RolesAndPermissions/permissionsMessages");
+var _permissionsMessages = require("../../enums/permissionsMessages");
 
 var _dec, _class, _class2, _descriptor, _descriptor2, _descriptor3;
 

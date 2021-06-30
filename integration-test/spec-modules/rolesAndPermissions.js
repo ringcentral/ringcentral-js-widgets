@@ -47,7 +47,7 @@ var _ClientHistoryRequest = _interopRequireDefault(require("../utils/ClientHisto
 
 var mock = _interopRequireWildcard(require("../mock"));
 
-var _permissionsMessages = _interopRequireDefault(require("../../modules/RolesAndPermissions/permissionsMessages"));
+var _permissionsMessages = require("../../enums/permissionsMessages");
 
 var _this = void 0;
 
@@ -196,7 +196,7 @@ var _default = function _default(auth, client, rolesAndPermissions, account, ale
 
             case 7:
               expect(auth.loggedIn).equal(false);
-              expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _permissionsMessages["default"].insufficientPrivilege)).to.not.equal(undefined);
+              expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _permissionsMessages.permissionsMessages.insufficientPrivilege)).to.not.equal(undefined);
 
             case 9:
             case "end":

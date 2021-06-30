@@ -800,12 +800,9 @@ var CallingSettings = (_dec = (0, _di.Module)({
 
       if (_this3._webphone && webphoneEnabled) {
         callWithOptions.push(_callingOptions["default"].browser);
-      } // rc&att brand support call with RingCentral App
+      }
 
-
-      var brandReg = /rc|att/;
-
-      if (_this3._brand && (brandReg.test(_this3._brand.code) || _this3._brand.brandConfig && brandReg.test(_this3._brand.brandConfig.brandCode)) && _this3._showCallWithJupiter) {
+      if (_this3._brand && _this3._showCallWithJupiter) {
         callWithOptions.push(_callingOptions["default"].jupiter);
       }
 

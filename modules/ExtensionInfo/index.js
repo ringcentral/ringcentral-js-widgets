@@ -55,17 +55,17 @@ var _jsonMask = _interopRequireDefault(require("json-mask"));
 
 var _ramda = require("ramda");
 
-var _di = require("../../lib/di");
-
-var _selector = require("../../lib/selector");
-
-var _DataFetcher2 = _interopRequireDefault(require("../../lib/DataFetcher"));
-
-var _subscriptionHints = _interopRequireDefault(require("../../enums/subscriptionHints"));
+var _permissionsMessages = require("../../enums/permissionsMessages");
 
 var _subscriptionFilters = _interopRequireDefault(require("../../enums/subscriptionFilters"));
 
-var _permissionsMessages = _interopRequireDefault(require("../RolesAndPermissions/permissionsMessages"));
+var _subscriptionHints = _interopRequireDefault(require("../../enums/subscriptionHints"));
+
+var _DataFetcher2 = _interopRequireDefault(require("../../lib/DataFetcher"));
+
+var _di = require("../../lib/di");
+
+var _selector = require("../../lib/selector");
 
 var _dec, _class, _class2, _descriptor, _descriptor2, _descriptor3;
 
@@ -248,7 +248,7 @@ var ExtensionInfo = (_dec = (0, _di.Module)({
                 case 2:
                   if (_this._alert) {
                     _this._alert.danger({
-                      message: _permissionsMessages["default"].insufficientPrivilege,
+                      message: _permissionsMessages.permissionsMessages.insufficientPrivilege,
                       ttl: 0
                     });
                   }

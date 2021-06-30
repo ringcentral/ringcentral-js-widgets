@@ -61,6 +61,8 @@ var Brand = (_dec = (0, _di.Module)({
   var _super = _createSuper(Brand);
 
   function Brand(deps) {
+    var _this$_deps$brandConf;
+
     var _this;
 
     _classCallCheck(this, Brand);
@@ -69,7 +71,7 @@ var Brand = (_dec = (0, _di.Module)({
       deps: deps
     });
     _this._prefix = null;
-    _this._prefix = "".concat(_this._deps.brandConfig.brandCode, "-").concat((0, _brandHelper.camelcase)(_this._deps.brandConfig.application));
+    _this._prefix = "".concat(_this._deps.brandConfig.brandCode, "-").concat((0, _brandHelper.camelcase)((_this$_deps$brandConf = _this._deps.brandConfig.application) !== null && _this$_deps$brandConf !== void 0 ? _this$_deps$brandConf : ''));
     return _this;
   }
 
@@ -98,16 +100,16 @@ var Brand = (_dec = (0, _di.Module)({
   }, {
     key: "fullName",
     get: function get() {
-      var _this$_deps$brandConf;
+      var _this$_deps$brandConf2;
 
-      return (_this$_deps$brandConf = this._deps.brandConfig.fullName) !== null && _this$_deps$brandConf !== void 0 ? _this$_deps$brandConf : this._deps.brandConfig.name;
+      return (_this$_deps$brandConf2 = this._deps.brandConfig.fullName) !== null && _this$_deps$brandConf2 !== void 0 ? _this$_deps$brandConf2 : this._deps.brandConfig.name;
     }
   }, {
     key: "shortName",
     get: function get() {
-      var _this$_deps$brandConf2;
+      var _this$_deps$brandConf3;
 
-      return (_this$_deps$brandConf2 = this._deps.brandConfig.shortName) !== null && _this$_deps$brandConf2 !== void 0 ? _this$_deps$brandConf2 : this._deps.brandConfig.name;
+      return (_this$_deps$brandConf3 = this._deps.brandConfig.shortName) !== null && _this$_deps$brandConf3 !== void 0 ? _this$_deps$brandConf3 : this._deps.brandConfig.name;
     }
   }, {
     key: "application",

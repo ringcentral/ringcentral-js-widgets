@@ -107,11 +107,11 @@ function getSessionsReducer(types) {
 
     var _ref4 = arguments.length > 1 ? arguments[1] : undefined,
         type = _ref4.type,
-        sessionDatas = _ref4.sessionDatas;
+        sessionData = _ref4.sessionData;
 
     switch (type) {
       case types.updateActiveSessions:
-        return sessionDatas;
+        return sessionData;
 
       case types.resetSuccess:
         return [];

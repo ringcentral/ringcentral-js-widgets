@@ -85,7 +85,7 @@ var _selector = require("../../lib/selector");
 
 var _callingModes = _interopRequireDefault(require("../CallingSettings/callingModes"));
 
-var _permissionsMessages = _interopRequireDefault(require("../RolesAndPermissions/permissionsMessages"));
+var _permissionsMessages = require("../../enums/permissionsMessages");
 
 var _webphoneHelper = require("../Webphone/webphoneHelper");
 
@@ -696,7 +696,7 @@ var ConferenceCall = (_dec = (0, _di.Module)({
 
                 if (!propagate) {
                   this._alert.danger({
-                    message: _permissionsMessages["default"].insufficientPrivilege,
+                    message: _permissionsMessages.permissionsMessages.insufficientPrivilege,
                     ttl: 0
                   });
                 }
@@ -1211,7 +1211,7 @@ var ConferenceCall = (_dec = (0, _di.Module)({
     value: function _checkPermission() {
       if (!this.hasPermission) {
         this._alert.danger({
-          message: _permissionsMessages["default"].insufficientPrivilege,
+          message: _permissionsMessages.permissionsMessages.insufficientPrivilege,
           ttl: 0
         });
 
