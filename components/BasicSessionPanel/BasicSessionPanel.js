@@ -39,9 +39,9 @@ var _juno = require("@ringcentral/juno");
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _AnimationPanel = require("ringcentral-widgets/components/AnimationPanel");
+var _AnimationPanel = require("@ringcentral-integration/widgets/components/AnimationPanel");
 
-var _CustomArrowButton = require("ringcentral-widgets/components/Rcui/CustomArrowButton");
+var _CustomArrowButton = require("@ringcentral-integration/widgets/components/Rcui/CustomArrowButton");
 
 var _InboundQueuesPanel = require("../InboundQueuesPanel");
 

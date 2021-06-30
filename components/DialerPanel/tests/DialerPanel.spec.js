@@ -14,11 +14,11 @@ require("core-js/modules/es6.object.to-string");
 
 var _testUtils = require("@ringcentral-integration/test-utils/lib/test-utils");
 
+var _juno = require("@ringcentral/juno");
+
 var _react = _interopRequireDefault(require("react"));
 
 var _testUtils2 = require("react-dom/test-utils");
-
-var _RecipientsInput = require("ringcentral-widgets/components/Rcui/RecipientsInput");
 
 var _DialerPanel = require("../DialerPanel");
 
@@ -79,7 +79,7 @@ describe('<DialerPanel />', function () {
         toNumber: toNumber,
         dialout: dialout
       });
-      var recipientsInput = wrapper.find(_RecipientsInput.RecipientsInput).at(0);
+      var recipientsInput = wrapper.find(_juno.RcDialTextField).at(0);
       var callButton = getCallButton();
       expect(recipientsInput.prop('value')).toBe(toNumber);
       expect(callButton.prop('color')).toBe('success.b03');
@@ -100,7 +100,7 @@ describe('<DialerPanel />', function () {
               toNumber: toNumber,
               setToNumber: setToNumber
             });
-            recipientsInput = wrapper.find(_RecipientsInput.RecipientsInput).at(0);
+            recipientsInput = wrapper.find(_juno.RcDialTextField).at(0);
             eventObj = {
               target: {
                 value: '1243'
@@ -218,30 +218,45 @@ describe('<DialerPanel />', function () {
     manualDialSettings.simulate('click');
     expect(goToManualDialSettings).toBeCalled();
   });
+});
+describe('<DialerPanel />', function () {
   it("User can use digit virtual keyboard to input numbers, and press zero for 1 second will typing '+'", /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
-    var toNumber, setToNumber, dialPad, digitButtons, typingIcons, buttonZero;
+    var toNumber, setToNumber, _render, container, typingIcons, button;
+
     return regeneratorRuntime.wrap(function _callee7$(_context7) {
       while (1) {
         switch (_context7.prev = _context7.next) {
           case 0:
-            jest.useFakeTimers();
             toNumber = '1234';
             setToNumber = jest.fn(function () {});
-            wrapper = (0, _createDialerPanel.createDialerPanel)({
+            _render = (0, _testUtils.render)( /*#__PURE__*/_react["default"].createElement(_DialerPanel.DialerPanel, {
+              currentLocale: "en-US",
+              dialout: function dialout() {},
               toNumber: toNumber,
-              setToNumber: setToNumber
-            });
-            dialPad = wrapper.find('DialPad').at(0);
-            digitButtons = dialPad.find('button');
+              size: "small",
+              dialButtonDisabled: false,
+              hasDialer: true,
+              setToNumber: setToNumber,
+              goToManualDialSettings: function goToManualDialSettings() {},
+              dialoutStatus: "idle",
+              hangup: function hangup() {}
+            })), container = _render.container;
             typingIcons = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '*', '0', '#'];
-            digitButtons.forEach(function (button, i) {
-              button.simulate('mousedown');
-              button.simulate('mouseup');
+            typingIcons.forEach(function (key, i) {
+              var button = container.querySelector("[data-dial-button=\"".concat(key, "\"]"));
+
+              _testUtils.fireEvent.mouseDown(button);
+
+              _testUtils.fireEvent.mouseUp(button);
+
               expect(setToNumber).toBeCalledWith("".concat(toNumber).concat(typingIcons[i]));
             });
-            buttonZero = digitButtons.at(10);
-            buttonZero.simulate('mousedown');
-            _context7.next = 12;
+            jest.useFakeTimers();
+            button = container.querySelector("[data-dial-button=\"0\"]");
+
+            _testUtils.fireEvent.mouseDown(button);
+
+            _context7.next = 10;
             return (0, _testUtils2.act)( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
               return regeneratorRuntime.wrap(function _callee6$(_context6) {
                 while (1) {
@@ -257,21 +272,20 @@ describe('<DialerPanel />', function () {
               }, _callee6);
             })));
 
-          case 12:
-            buttonZero.simulate('mouseup');
+          case 10:
+            _testUtils.fireEvent.mouseUp(button);
+
             expect(setToNumber).toBeCalledWith('1234+');
 
-          case 14:
+          case 12:
           case "end":
             return _context7.stop();
         }
       }
     }, _callee7);
   })));
-});
-describe('<DialerPanel />', function () {
   it('Click Delete Button', /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8() {
-    var toNumber, setToNumber, _render, container, deleteButton;
+    var toNumber, setToNumber, _render2, container, deleteButton;
 
     return regeneratorRuntime.wrap(function _callee8$(_context8) {
       while (1) {
@@ -279,7 +293,7 @@ describe('<DialerPanel />', function () {
           case 0:
             toNumber = '6508652493';
             setToNumber = jest.fn(function () {});
-            _render = (0, _testUtils.render)( /*#__PURE__*/_react["default"].createElement(_DialerPanel.DialerPanel, {
+            _render2 = (0, _testUtils.render)( /*#__PURE__*/_react["default"].createElement(_DialerPanel.DialerPanel, {
               currentLocale: "en-US",
               dialout: function dialout() {},
               toNumber: toNumber,
@@ -290,7 +304,7 @@ describe('<DialerPanel />', function () {
               goToManualDialSettings: function goToManualDialSettings() {},
               dialoutStatus: "idle",
               hangup: function hangup() {}
-            })), container = _render.container;
+            })), container = _render2.container;
             deleteButton = container.querySelector('button');
 
             _testUtils.fireEvent.mouseDown(deleteButton);
@@ -307,7 +321,7 @@ describe('<DialerPanel />', function () {
     }, _callee8);
   })));
   it('Long press Delete Button', /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10() {
-    var toNumber, setToNumber, _render2, container, deleteButton;
+    var toNumber, setToNumber, _render3, container, deleteButton;
 
     return regeneratorRuntime.wrap(function _callee10$(_context10) {
       while (1) {
@@ -316,7 +330,7 @@ describe('<DialerPanel />', function () {
             jest.useFakeTimers();
             toNumber = '6508652493';
             setToNumber = jest.fn(function () {});
-            _render2 = (0, _testUtils.render)( /*#__PURE__*/_react["default"].createElement(_DialerPanel.DialerPanel, {
+            _render3 = (0, _testUtils.render)( /*#__PURE__*/_react["default"].createElement(_DialerPanel.DialerPanel, {
               currentLocale: "en-US",
               dialout: function dialout() {},
               toNumber: toNumber,
@@ -327,7 +341,7 @@ describe('<DialerPanel />', function () {
               goToManualDialSettings: function goToManualDialSettings() {},
               dialoutStatus: "idle",
               hangup: function hangup() {}
-            })), container = _render2.container;
+            })), container = _render3.container;
             deleteButton = container.querySelector('button');
 
             _testUtils.fireEvent.mouseDown(deleteButton);

@@ -59,9 +59,9 @@ var _phoneNumber = require("@ringcentral-integration/phone-number");
 
 var _i18nIsoCountries = require("i18n-iso-countries");
 
-var _di = require("ringcentral-integration/lib/di");
+var _di = require("@ringcentral-integration/commons/lib/di");
 
-var _callErrors = _interopRequireDefault(require("ringcentral-integration/modules/Call/callErrors"));
+var _callErrors = _interopRequireDefault(require("@ringcentral-integration/commons/modules/Call/callErrors"));
 
 var _enums = require("../../enums");
 

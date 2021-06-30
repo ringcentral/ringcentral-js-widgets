@@ -25,7 +25,7 @@ exports.EditLogSection = void 0;
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _CallLogFields = _interopRequireDefault(require("ringcentral-widgets/components/CallLogFields"));
+var _CallLogFields = _interopRequireDefault(require("@ringcentral-integration/widgets/components/CallLogFields"));
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 

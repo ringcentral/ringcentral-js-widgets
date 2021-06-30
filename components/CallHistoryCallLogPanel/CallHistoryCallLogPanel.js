@@ -35,9 +35,9 @@ var _classnames = _interopRequireDefault(require("classnames"));
 
 var _juno = require("@ringcentral/juno");
 
-var _BasicCallInfo = require("ringcentral-widgets/components/BasicCallInfo");
+var _BasicCallInfo = require("@ringcentral-integration/widgets/components/BasicCallInfo");
 
-var _CallLogPanel = _interopRequireDefault(require("ringcentral-widgets/components/CallLogPanel"));
+var _CallLogPanel = _interopRequireDefault(require("@ringcentral-integration/widgets/components/CallLogPanel"));
 
 var _EvActivityCallUI = require("../../interfaces/EvActivityCallUI.interface");
 

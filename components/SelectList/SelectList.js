@@ -23,7 +23,7 @@ require("core-js/modules/es6.object.keys");
 
 var _react = _interopRequireDefault(require("react"));
 
-var _SelectListV = require("ringcentral-widgets/components/SelectListV2");
+var _SelectListV = require("@ringcentral-integration/widgets/components/SelectListV2");
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 

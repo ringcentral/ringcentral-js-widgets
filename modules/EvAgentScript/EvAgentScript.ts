@@ -7,9 +7,9 @@ import {
 } from '@ringcentral-integration/core';
 import { EventEmitter } from 'events';
 import { clone, reduce } from 'ramda';
-import { debounce } from 'ringcentral-integration/lib/debounce-throttle';
-import { Module } from 'ringcentral-integration/lib/di';
-import { SingleTabBroadcastChannel } from 'ringcentral-integration/lib/SingleTabBroadcastChannel';
+import { debounce } from '@ringcentral-integration/commons/lib/debounce-throttle';
+import { Module } from '@ringcentral-integration/commons/lib/di';
+import { SingleTabBroadcastChannel } from '@ringcentral-integration/commons/lib/SingleTabBroadcastChannel';
 import {
   agentScriptEvents,
   EV_AGENT_SCRIPT_BROADCAST_KEY,

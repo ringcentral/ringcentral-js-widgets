@@ -1,5 +1,5 @@
 import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
-import { trackEvents as defaultTrackEvents } from 'ringcentral-integration/modules/Analytics';
+import { trackEvents as defaultTrackEvents } from '@ringcentral-integration/commons/modules/Analytics';
 
 export const trackEvents = ObjectMap.fromObject({
   ...defaultTrackEvents,

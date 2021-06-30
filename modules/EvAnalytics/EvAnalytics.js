@@ -19,9 +19,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.EvAnalytics = void 0;
 
-var _di = require("ringcentral-integration/lib/di");
+var _di = require("@ringcentral-integration/commons/lib/di");
 
-var _AnalyticsV = require("ringcentral-integration/modules/AnalyticsV2");
+var _AnalyticsV = require("@ringcentral-integration/commons/modules/AnalyticsV2");
 
 var _dec, _class;
 

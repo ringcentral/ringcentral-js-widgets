@@ -41,7 +41,7 @@ require("core-js/modules/es6.date.now");
 
 var _core = require("@ringcentral-integration/core");
 
-var _di = require("ringcentral-integration/lib/di");
+var _di = require("@ringcentral-integration/commons/lib/di");
 
 var _enums = require("../../enums");
 
@@ -217,6 +217,11 @@ var EvActiveCallControl = (_dec = (0, _di.Module)({
 
       return stopRecord;
     }()
+  }, {
+    key: "onKeypadClick",
+    value: function onKeypadClick(value) {
+      this._deps.evClient.sipSendDTMF(value);
+    }
   }, {
     key: "pauseRecord",
     value: function () {

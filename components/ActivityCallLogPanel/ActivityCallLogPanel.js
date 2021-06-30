@@ -49,9 +49,9 @@ var _classnames = _interopRequireDefault(require("classnames"));
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _BasicCallInfo = require("ringcentral-widgets/components/BasicCallInfo");
+var _BasicCallInfo = require("@ringcentral-integration/widgets/components/BasicCallInfo");
 
-var _CallLogPanel = _interopRequireDefault(require("ringcentral-widgets/components/CallLogPanel"));
+var _CallLogPanel = _interopRequireDefault(require("@ringcentral-integration/widgets/components/CallLogPanel"));
 
 var _enums = require("../../enums");
 
@@ -60,6 +60,8 @@ var _EvSmallCallControl = require("../EvSmallCallControl");
 var _i18n = _interopRequireDefault(require("./i18n"));
 
 var _IvrInfo = require("./IvrInfo");
+
+var _KeypadCollapse = require("./KeypadCollapse");
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
@@ -139,7 +141,11 @@ var ActivityCallLogPanel = function ActivityCallLogPanel(_ref) {
       onRestartTimer = _ref.onRestartTimer,
       onStopRecord = _ref.onStopRecord,
       disablePauseRecord = _ref.disablePauseRecord,
-      rest = _objectWithoutProperties(_ref, ["currentLocale", "currentLog", "basicInfo", "isInbound", "disposeCall", "status", "saveStatus", "goToRequeueCallPage", "goToTransferCallPage", "onMute", "onUnmute", "onHangup", "onReject", "onHold", "onUnHold", "isOnMute", "isOnHold", "smallCallControlSize", "isInComingCall", "currentCallControlPermission", "disableDispose", "disableTransfer", "disableInternalTransfer", "disableHold", "disableHangup", "disableMute", "disableActive", "isOnActive", "onActive", "isWide", "showMuteButton", "ivrAlertData", "agentScriptData", "onCopySuccess", "scrollTo", "referenceFieldOptions", "showRecordCall", "recordPauseCount", "disableRecordControl", "isRecording", "onResumeRecord", "timeStamp", "onRecord", "onPauseRecord", "onRestartTimer", "onStopRecord", "disablePauseRecord"]);
+      isKeypadOpen = _ref.isKeypadOpen,
+      keypadValue = _ref.keypadValue,
+      setKeypadIsOpen = _ref.setKeypadIsOpen,
+      setKeypadValue = _ref.setKeypadValue,
+      rest = _objectWithoutProperties(_ref, ["currentLocale", "currentLog", "basicInfo", "isInbound", "disposeCall", "status", "saveStatus", "goToRequeueCallPage", "goToTransferCallPage", "onMute", "onUnmute", "onHangup", "onReject", "onHold", "onUnHold", "isOnMute", "isOnHold", "smallCallControlSize", "isInComingCall", "currentCallControlPermission", "disableDispose", "disableTransfer", "disableInternalTransfer", "disableHold", "disableHangup", "disableMute", "disableActive", "isOnActive", "onActive", "isWide", "showMuteButton", "ivrAlertData", "agentScriptData", "onCopySuccess", "scrollTo", "referenceFieldOptions", "showRecordCall", "recordPauseCount", "disableRecordControl", "isRecording", "onResumeRecord", "timeStamp", "onRecord", "onPauseRecord", "onRestartTimer", "onStopRecord", "disablePauseRecord", "isKeypadOpen", "keypadValue", "setKeypadIsOpen", "setKeypadValue"]);
 
   var transferRef = (0, _react.useRef)(null);
   var rootRef = (0, _react.useRef)(null);
@@ -219,6 +225,15 @@ var ActivityCallLogPanel = function ActivityCallLogPanel(_ref) {
         color: "neutral.f01",
         symbol: _icon.Transcription,
         onClick: agentScriptData.onClick
+      }));
+    },
+    renderKeypadPanel: function renderKeypadPanel() {
+      return !isCallEnd && /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement(_KeypadCollapse.KeypadCollapse, {
+        isKeypadOpen: isKeypadOpen,
+        currentLocale: currentLocale,
+        setKeypadIsOpen: setKeypadIsOpen,
+        keypadValue: keypadValue,
+        setKeypadValue: setKeypadValue
       }));
     },
     renderCallLogCallControl: function renderCallLogCallControl() {

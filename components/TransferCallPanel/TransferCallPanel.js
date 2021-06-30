@@ -31,7 +31,7 @@ var _Dialer = _interopRequireDefault(require("@ringcentral/juno/icon/Dialer"));
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _CustomArrowButton = require("ringcentral-widgets/components/Rcui/CustomArrowButton");
+var _CustomArrowButton = require("@ringcentral-integration/widgets/components/Rcui/CustomArrowButton");
 
 var _PickList = require("../PickList");
 

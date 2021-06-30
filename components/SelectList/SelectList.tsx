@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react';
 import {
   SelectListV2,
   SelectListV2Props,
-} from 'ringcentral-widgets/components/SelectListV2';
+} from '@ringcentral-integration/widgets/components/SelectListV2';
 
 import styles from './styles.scss';
 

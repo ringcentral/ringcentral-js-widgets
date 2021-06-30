@@ -57,11 +57,11 @@ var _events = require("events");
 
 var _ramda = require("ramda");
 
-var _debounceThrottle = require("ringcentral-integration/lib/debounce-throttle");
+var _debounceThrottle = require("@ringcentral-integration/commons/lib/debounce-throttle");
 
-var _di = require("ringcentral-integration/lib/di");
+var _di = require("@ringcentral-integration/commons/lib/di");
 
-var _SingleTabBroadcastChannel = require("ringcentral-integration/lib/SingleTabBroadcastChannel");
+var _SingleTabBroadcastChannel = require("@ringcentral-integration/commons/lib/SingleTabBroadcastChannel");
 
 var _enums = require("../../enums");
 

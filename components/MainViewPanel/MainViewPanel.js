@@ -43,9 +43,9 @@ var _classnames = _interopRequireDefault(require("classnames"));
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _Tooltip = require("ringcentral-widgets/components/Rcui/Tooltip");
+var _Tooltip = require("@ringcentral-integration/widgets/components/Rcui/Tooltip");
 
-var _TabNavigationView = _interopRequireDefault(require("ringcentral-widgets/components/TabNavigationView"));
+var _TabNavigationView = _interopRequireDefault(require("@ringcentral-integration/widgets/components/TabNavigationView"));
 
 var _iconPvcConnecting = _interopRequireDefault(require("../../assets/icons/icon-pvc-connecting.svg"));
 

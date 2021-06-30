@@ -7,8 +7,8 @@ import {
   track,
   watch,
 } from '@ringcentral-integration/core';
-import { Module } from 'ringcentral-integration/lib/di';
-import callErrors from 'ringcentral-integration/modules/Call/callErrors';
+import { Module } from '@ringcentral-integration/commons/lib/di';
+import callErrors from '@ringcentral-integration/commons/modules/Call/callErrors';
 
 import { messageTypes } from '../../enums';
 import {

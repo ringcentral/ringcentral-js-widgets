@@ -21,11 +21,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.EvStorage = void 0;
 
-var _di = require("ringcentral-integration/lib/di");
+var _di = require("@ringcentral-integration/commons/lib/di");
 
-var _StorageV = require("ringcentral-integration/modules/StorageV2");
+var _StorageV = require("@ringcentral-integration/commons/modules/StorageV2");
 
-var _loginStatus = _interopRequireDefault(require("ringcentral-integration/modules/Auth/loginStatus"));
+var _loginStatus = _interopRequireDefault(require("@ringcentral-integration/commons/modules/Auth/loginStatus"));
 
 var _loginStatus2 = require("../../enums/loginStatus");
 

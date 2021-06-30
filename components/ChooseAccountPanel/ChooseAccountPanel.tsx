@@ -1,6 +1,6 @@
 import { RcTypography } from '@ringcentral/juno';
 import React, { FunctionComponent } from 'react';
-import { CustomArrowButton } from 'ringcentral-widgets/components/Rcui/CustomArrowButton';
+import { CustomArrowButton } from '@ringcentral-integration/widgets/components/Rcui/CustomArrowButton';
 
 import {
   EvChooseAccountUIFunctions,

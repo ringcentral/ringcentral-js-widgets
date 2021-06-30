@@ -37,7 +37,7 @@ require("core-js/modules/es6.array.find");
 
 var _core = require("@ringcentral-integration/core");
 
-var _di = require("ringcentral-integration/lib/di");
+var _di = require("@ringcentral-integration/commons/lib/di");
 
 var _dec, _class, _class2, _descriptor, _descriptor2;
 

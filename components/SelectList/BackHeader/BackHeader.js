@@ -11,7 +11,7 @@ require("core-js/modules/es6.object.assign");
 
 var _react = _interopRequireDefault(require("react"));
 
-var _BackHeaderV = _interopRequireDefault(require("ringcentral-widgets/components/BackHeaderV2"));
+var _BackHeaderV = _interopRequireDefault(require("@ringcentral-integration/widgets/components/BackHeaderV2"));
 
 var _styles = _interopRequireDefault(require("../styles.scss"));
 

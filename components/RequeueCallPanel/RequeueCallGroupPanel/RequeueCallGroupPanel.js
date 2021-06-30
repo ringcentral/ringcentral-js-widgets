@@ -9,7 +9,7 @@ exports.RequeueCallGroupPanel = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
-var _CustomArrowButton = require("ringcentral-widgets/components/Rcui/CustomArrowButton");
+var _CustomArrowButton = require("@ringcentral-integration/widgets/components/Rcui/CustomArrowButton");
 
 var _SelectList = require("../../SelectList");
 

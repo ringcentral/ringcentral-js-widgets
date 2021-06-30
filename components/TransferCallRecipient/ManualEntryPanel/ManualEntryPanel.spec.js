@@ -106,7 +106,7 @@ describe('<ManualEntryPanel />', function () {
         value: userInput
       }
     };
-    wrapper.find('RecipientsInput').at(0).find('input').simulate('change', eventObj);
+    wrapper.find('RcDialTextField').at(0).find('input').simulate('change', eventObj);
     wrapper.find('[data-sign="nextButton"]').at(0).find('button').simulate('click');
     expect(changeRecipientNumber).toBeCalledWith(userInput);
   });

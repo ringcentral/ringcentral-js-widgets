@@ -45,7 +45,7 @@ var _juno = require("@ringcentral/juno");
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _sleep = _interopRequireDefault(require("ringcentral-integration/lib/sleep"));
+var _sleep = _interopRequireDefault(require("@ringcentral-integration/commons/lib/sleep"));
 
 var _i18n = _interopRequireDefault(require("../i18n"));
 

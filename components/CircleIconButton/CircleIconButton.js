@@ -13,7 +13,7 @@ var _classnames = _interopRequireDefault(require("classnames"));
 
 var _react = _interopRequireDefault(require("react"));
 
-var _Tooltip = require("ringcentral-widgets/components/Rcui/Tooltip");
+var _Tooltip = require("@ringcentral-integration/widgets/components/Rcui/Tooltip");
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 

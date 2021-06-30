@@ -39,9 +39,9 @@ require("core-js/modules/es6.array.map");
 
 var _core = require("@ringcentral-integration/core");
 
-var _di = require("ringcentral-integration/lib/di");
+var _di = require("@ringcentral-integration/commons/lib/di");
 
-var _callDirections = require("ringcentral-integration/enums/callDirections");
+var _callDirections = require("@ringcentral-integration/commons/enums/callDirections");
 
 var _directTransferNotificationTypes = require("../../enums/directTransferNotificationTypes");
 

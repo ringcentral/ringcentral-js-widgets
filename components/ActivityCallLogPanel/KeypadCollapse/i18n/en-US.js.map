@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/ActivityCallLogPanel/KeypadCollapse/i18n/en-US.ts"],"names":["close","keypad"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,KAAK,EAAE,OADM;AAEbC,EAAAA,MAAM,EAAE;AAFK,C","sourcesContent":["export default {\n  close: 'Close',\n  keypad: 'Keypad',\n};\n"],"file":"en-US.js"}

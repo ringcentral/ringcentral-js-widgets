@@ -23,7 +23,7 @@ var _core = require("@ringcentral-integration/core");
 
 var _events = require("events");
 
-var _di = require("ringcentral-integration/lib/di");
+var _di = require("@ringcentral-integration/commons/lib/di");
 
 var _dec, _class;
 

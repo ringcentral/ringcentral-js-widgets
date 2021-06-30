@@ -1,7 +1,7 @@
 import {
   connectModule as baseConnectModule,
   connectModuleProps,
-} from 'ringcentral-widgets/lib/phoneContext';
+} from '@ringcentral-integration/widgets/lib/phoneContext';
 
 import { EvPhone } from '../interfaces';
 

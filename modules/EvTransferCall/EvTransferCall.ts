@@ -7,8 +7,8 @@ import {
 } from '@ringcentral-integration/core';
 import { format, formatTypes } from '@ringcentral-integration/phone-number';
 import { alpha3ToAlpha2 } from 'i18n-iso-countries';
-import { Module } from 'ringcentral-integration/lib/di';
-import callErrors from 'ringcentral-integration/modules/Call/callErrors';
+import { Module } from '@ringcentral-integration/commons/lib/di';
+import callErrors from '@ringcentral-integration/commons/modules/Call/callErrors';
 
 import {
   DirectTransferNotificationTypes,

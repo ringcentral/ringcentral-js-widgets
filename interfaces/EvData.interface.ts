@@ -1,4 +1,4 @@
-import { SalesforceEntityType } from 'ringcentral-widgets/components/CallLogPanel';
+import { SalesforceEntityType } from '@ringcentral-integration/widgets/components/CallLogPanel';
 
 import {
   EvAddSessionNotification,

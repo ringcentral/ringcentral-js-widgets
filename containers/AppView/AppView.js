@@ -11,9 +11,9 @@ var _react = _interopRequireDefault(require("react"));
 
 var _reactRedux = require("react-redux");
 
-var _Environment = _interopRequireDefault(require("ringcentral-widgets/components/Environment"));
+var _Environment = _interopRequireDefault(require("@ringcentral-integration/widgets/components/Environment"));
 
-var _withPhone = _interopRequireDefault(require("ringcentral-widgets/lib/withPhone"));
+var _withPhone = _interopRequireDefault(require("@ringcentral-integration/widgets/lib/withPhone"));
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 

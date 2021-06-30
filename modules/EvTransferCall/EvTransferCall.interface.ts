@@ -1,6 +1,6 @@
-import Alert from 'ringcentral-integration/modules/Alert';
-import Locale from 'ringcentral-integration/modules/Locale';
-import { ModalUI } from 'ringcentral-widgets/modules/ModalUIV2';
+import Alert from '@ringcentral-integration/commons/modules/Alert';
+import Locale from '@ringcentral-integration/commons/modules/Locale';
+import { ModalUI } from '@ringcentral-integration/widgets/modules/ModalUIV2';
 
 import { DirectTransferTypes } from '../../enums/directTransferTypes';
 import {

@@ -1,4 +1,4 @@
-import { Mapping } from 'ringcentral-widgets/typings';
+import { Mapping } from '@ringcentral-integration/widgets/typings';
 
 import { EvCallData } from '../../interfaces/EvData.interface';
 import { EvClient } from '../../lib/EvClient';

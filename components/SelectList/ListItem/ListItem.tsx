@@ -3,7 +3,7 @@ import React, { FunctionComponent } from 'react';
 import {
   ListItem as BaseListItem,
   ListItemProps,
-} from 'ringcentral-widgets/components/SelectListV2';
+} from '@ringcentral-integration/widgets/components/SelectListV2';
 
 import styles from './styles.scss';
 

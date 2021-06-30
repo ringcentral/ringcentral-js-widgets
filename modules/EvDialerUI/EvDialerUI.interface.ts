@@ -1,6 +1,6 @@
-import Locale from 'ringcentral-integration/modules/Locale';
+import Locale from '@ringcentral-integration/commons/modules/Locale';
 
-import RouterInteraction from 'ringcentral-widgets/modules/RouterInteraction';
+import RouterInteraction from '@ringcentral-integration/widgets/modules/RouterInteraction';
 
 import { EvEnvironment } from '../../interfaces/Environment.interface';
 import { EvClient } from '../../lib/EvClient';

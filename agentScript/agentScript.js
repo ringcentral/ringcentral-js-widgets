@@ -12,7 +12,7 @@ require("regenerator-runtime/runtime");
 
 var _events = require("events");
 
-var _SingleTabBroadcastChannel = require("ringcentral-integration/lib/SingleTabBroadcastChannel");
+var _SingleTabBroadcastChannel = require("@ringcentral-integration/commons/lib/SingleTabBroadcastChannel");
 
 var _enums = require("../enums");
 

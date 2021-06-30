@@ -47,11 +47,11 @@ var _events = require("events");
 
 var _formatMessage = _interopRequireDefault(require("format-message"));
 
-var _di = require("ringcentral-integration/lib/di");
+var _di = require("@ringcentral-integration/commons/lib/di");
 
-var _raceTimeout = require("ringcentral-integration/lib/raceTimeout");
+var _raceTimeout = require("@ringcentral-integration/commons/lib/raceTimeout");
 
-var _sleep = _interopRequireDefault(require("ringcentral-integration/lib/sleep"));
+var _sleep = _interopRequireDefault(require("@ringcentral-integration/commons/lib/sleep"));
 
 var _enums = require("../../enums");
 

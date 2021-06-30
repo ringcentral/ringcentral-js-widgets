@@ -1,6 +1,6 @@
-import Alert from 'ringcentral-integration/modules/Alert';
-import { Beforeunload } from 'ringcentral-widgets/modules/Beforeunload';
-import { Mapping } from 'ringcentral-widgets/typings';
+import Alert from '@ringcentral-integration/commons/modules/Alert';
+import { Beforeunload } from '@ringcentral-integration/widgets/modules/Beforeunload';
+import { Mapping } from '@ringcentral-integration/widgets/typings';
 
 import { DialoutStatusesType } from '../../enums';
 import { EvCallData } from '../../interfaces/EvData.interface';

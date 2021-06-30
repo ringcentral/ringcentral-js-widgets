@@ -53,9 +53,9 @@ require("core-js/modules/es6.number.is-nan");
 
 var _core = require("@ringcentral-integration/core");
 
-var _di = require("ringcentral-integration/lib/di");
+var _di = require("@ringcentral-integration/commons/lib/di");
 
-var _callErrors = _interopRequireDefault(require("ringcentral-integration/modules/Call/callErrors"));
+var _callErrors = _interopRequireDefault(require("@ringcentral-integration/commons/modules/Call/callErrors"));
 
 var _enums = require("../../enums");
 

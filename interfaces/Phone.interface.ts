@@ -1,6 +1,6 @@
 import { RcModulePhoneType } from '@ringcentral-integration/core';
-import { BasePhone } from 'ringcentral-integration/interfaces/BasePhone.interface';
-import LoginUI from 'ringcentral-widgets/modules/LoginUI';
+import { BasePhone } from '@ringcentral-integration/commons/interfaces/BasePhone.interface';
+import LoginUI from '@ringcentral-integration/widgets/modules/LoginUI';
 
 import { EvClient } from '../lib/EvClient';
 import { EvActiveCallControl } from '../modules/EvActiveCallControl';

@@ -1,11 +1,11 @@
 import {
-  render,
   fireEvent,
+  render,
 } from '@ringcentral-integration/test-utils/lib/test-utils';
+import { RcDialPad, RcDialTextField } from '@ringcentral/juno';
 import { ReactWrapper } from 'enzyme';
 import React from 'react';
 import { act } from 'react-dom/test-utils';
-import { RecipientsInput } from 'ringcentral-widgets/components/Rcui/RecipientsInput';
 
 import { DialoutStatusesType } from '../../../enums/dialoutStatus';
 import { DialerPanel } from '../DialerPanel';
@@ -39,7 +39,7 @@ describe('<DialerPanel />', () => {
     it(`Default state of dialpad(${desc}): Call Button be highlighted and can be clicked to dialout`, () => {
       const dialout = jest.fn(() => {});
       wrapper = createDialerPanel({ toNumber, dialout });
-      const recipientsInput = wrapper.find(RecipientsInput).at(0);
+      const recipientsInput = wrapper.find(RcDialTextField).at(0);
       const callButton = getCallButton();
       expect(recipientsInput.prop('value')).toBe(toNumber);
       expect(callButton.prop('color')).toBe('success.b03');
@@ -53,7 +53,7 @@ describe('<DialerPanel />', () => {
     const toNumber = '';
     const setToNumber = jest.fn(() => {});
     wrapper = createDialerPanel({ toNumber, setToNumber });
-    const recipientsInput = wrapper.find(RecipientsInput).at(0);
+    const recipientsInput = wrapper.find(RcDialTextField).at(0);
     const eventObj = { target: { value: '1243' } };
     recipientsInput.find('input').at(0).simulate('change', eventObj);
     expect(setToNumber).toBeCalledWith('1243');
@@ -113,14 +113,26 @@ describe('<DialerPanel />', () => {
     manualDialSettings.simulate('click');
     expect(goToManualDialSettings).toBeCalled();
   });
+});
 
+describe('<DialerPanel />', () => {
   it("User can use digit virtual keyboard to input numbers, and press zero for 1 second will typing '+'", async () => {
-    jest.useFakeTimers();
     const toNumber = '1234';
     const setToNumber = jest.fn(() => {});
-    wrapper = createDialerPanel({ toNumber, setToNumber });
-    const dialPad = wrapper.find('DialPad').at(0);
-    const digitButtons = dialPad.find('button');
+    const { container } = render(
+      <DialerPanel
+        currentLocale="en-US"
+        dialout={() => {}}
+        toNumber={toNumber}
+        size="small"
+        dialButtonDisabled={false}
+        hasDialer
+        setToNumber={setToNumber}
+        goToManualDialSettings={() => {}}
+        dialoutStatus="idle"
+        hangup={() => {}}
+      />,
+    );
 
     const typingIcons = [
       '1',
@@ -137,25 +149,23 @@ describe('<DialerPanel />', () => {
       '#',
     ];
 
-    digitButtons.forEach((button, i) => {
-      button.simulate('mousedown');
-      button.simulate('mouseup');
+    typingIcons.forEach((key, i) => {
+      const button = container.querySelector(`[data-dial-button="${key}"]`);
+      fireEvent.mouseDown(button);
+      fireEvent.mouseUp(button);
       expect(setToNumber).toBeCalledWith(`${toNumber}${typingIcons[i]}`);
     });
 
-    const buttonZero = digitButtons.at(10);
-
-    buttonZero.simulate('mousedown');
+    jest.useFakeTimers();
+    const button = container.querySelector(`[data-dial-button="0"]`);
+    fireEvent.mouseDown(button);
     await act(async () => {
       jest.advanceTimersByTime(1100);
     });
-    buttonZero.simulate('mouseup');
+    fireEvent.mouseUp(button);
 
     expect(setToNumber).toBeCalledWith('1234+');
   });
-});
-
-describe('<DialerPanel />', () => {
   it('Click Delete Button', async () => {
     const toNumber = '6508652493';
     const setToNumber = jest.fn(() => {});

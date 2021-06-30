@@ -1,10 +1,10 @@
 import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
-import { BasicCallInfoProps } from 'ringcentral-widgets/components/BasicCallInfo';
-import { CallLogFieldsProps } from 'ringcentral-widgets/components/CallLogFields';
+import { BasicCallInfoProps } from '@ringcentral-integration/widgets/components/BasicCallInfo';
+import { CallLogFieldsProps } from '@ringcentral-integration/widgets/components/CallLogFields';
 import {
   CallLogPanelProps,
   CallStatus,
-} from 'ringcentral-widgets/components/CallLogPanel';
+} from '@ringcentral-integration/widgets/components/CallLogPanel';
 
 import { EvSmallCallControlProps } from '../components/EvSmallCallControl';
 import { EvTransferType } from '../enums';
@@ -47,6 +47,8 @@ export type EvActivityCallUIProps = {
   status: CallStatus;
   disableDispose: boolean;
   saveStatus: SaveStatus | CallLogMethods;
+  isKeypadOpen?: boolean;
+  keypadValue?: string;
   smallCallControlSize: 'medium' | 'small';
   currentCallControlPermission: {
     allowHangupCall?: boolean;
@@ -85,6 +87,8 @@ export type EvActivityCallUIFunctions = {
   goToRequeueCallPage(): void;
   goToTransferCallPage(type: EvTransferType): void;
   onCopySuccess: (name: string) => void;
+  setKeypadIsOpen: (status: boolean) => void;
+  setKeypadValue: (value: string) => void;
 } & Pick<CallLogPanelProps, 'goBack' | 'onUpdateCallLog' | 'onSaveCallLog'> &
   Pick<
     EvSmallCallControlProps,

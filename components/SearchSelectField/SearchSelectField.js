@@ -45,9 +45,9 @@ var _juno = require("@ringcentral/juno");
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _CallLogFields = require("ringcentral-widgets/components/CallLogFields");
+var _CallLogFields = require("@ringcentral-integration/widgets/components/CallLogFields");
 
-var _SelectList = require("ringcentral-widgets/components/SelectList");
+var _SelectList = require("@ringcentral-integration/widgets/components/SelectList");
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 

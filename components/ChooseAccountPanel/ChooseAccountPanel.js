@@ -13,7 +13,7 @@ var _juno = require("@ringcentral/juno");
 
 var _react = _interopRequireDefault(require("react"));
 
-var _CustomArrowButton = require("ringcentral-widgets/components/Rcui/CustomArrowButton");
+var _CustomArrowButton = require("@ringcentral-integration/widgets/components/Rcui/CustomArrowButton");
 
 var _EvLoginHeader = require("../EvLoginHeader");
 

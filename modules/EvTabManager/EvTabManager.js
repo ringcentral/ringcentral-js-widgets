@@ -41,9 +41,9 @@ require("regenerator-runtime/runtime");
 
 var _core = require("@ringcentral-integration/core");
 
-var _di = require("ringcentral-integration/lib/di");
+var _di = require("@ringcentral-integration/commons/lib/di");
 
-var _TabManagerV = require("ringcentral-integration/modules/TabManagerV2");
+var _TabManagerV = require("@ringcentral-integration/commons/modules/TabManagerV2");
 
 var _events = require("events");
 

@@ -47,9 +47,9 @@ var _classnames = _interopRequireDefault(require("classnames"));
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _Tooltip = require("ringcentral-widgets/components/Rcui/Tooltip");
+var _Tooltip = require("@ringcentral-integration/widgets/components/Rcui/Tooltip");
 
-var _toolTipDelayTime = require("ringcentral-widgets/lib/toolTipDelayTime");
+var _toolTipDelayTime = require("@ringcentral-integration/widgets/lib/toolTipDelayTime");
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 

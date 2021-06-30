@@ -6,10 +6,10 @@ import {
 } from '@ringcentral-integration/core';
 import { EventEmitter } from 'events';
 import formatMessage from 'format-message';
-import { Module } from 'ringcentral-integration/lib/di';
-import { raceTimeout } from 'ringcentral-integration/lib/raceTimeout';
-import sleep from 'ringcentral-integration/lib/sleep';
-import { CustomRenderer } from 'ringcentral-widgets/modules/ModalUIV2/ModalUI.interface';
+import { Module } from '@ringcentral-integration/commons/lib/di';
+import { raceTimeout } from '@ringcentral-integration/commons/lib/raceTimeout';
+import sleep from '@ringcentral-integration/commons/lib/sleep';
+import { CustomRenderer } from '@ringcentral-integration/widgets/modules/ModalUIV2/ModalUI.interface';
 
 import {
   dialoutStatuses,

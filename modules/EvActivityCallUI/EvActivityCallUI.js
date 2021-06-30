@@ -53,11 +53,13 @@ require("core-js/modules/es6.array.index-of");
 
 require("regenerator-runtime/runtime");
 
+require("core-js/modules/es6.regexp.match");
+
 var _core = require("@ringcentral-integration/core");
 
 var _ramda = require("ramda");
 
-var _di = require("ringcentral-integration/lib/di");
+var _di = require("@ringcentral-integration/commons/lib/di");
 
 var _enums = require("../../enums");
 
@@ -65,7 +67,7 @@ var _EvActivityCallUI = require("../../interfaces/EvActivityCallUI.interface");
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
-var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _dec10, _dec11, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5;
+var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _dec10, _dec11, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -174,6 +176,10 @@ var EvActivityCallUI = (_dec = (0, _di.Module)({
 
     _initializerDefineProperty(_this, "scrollTo", _descriptor5, _assertThisInitialized(_this));
 
+    _initializerDefineProperty(_this, "isKeypadOpen", _descriptor6, _assertThisInitialized(_this));
+
+    _initializerDefineProperty(_this, "keypadValue", _descriptor7, _assertThisInitialized(_this));
+
     _this.goToActivityCallPage = function () {
       var id = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _this.callId;
 
@@ -190,9 +196,33 @@ var EvActivityCallUI = (_dec = (0, _di.Module)({
   }
 
   _createClass(EvActivityCallUI, [{
+    key: "setKeypadValue",
+    value: function setKeypadValue(value) {
+      this.keypadValue = value;
+
+      try {
+        this._deps.activeCallControl.onKeypadClick(value.match(/.$/).pop());
+      } catch (error) {
+        console.error(error === null || error === void 0 ? void 0 : error.message);
+      }
+    }
+  }, {
+    key: "setKeypadIsOpen",
+    value: function setKeypadIsOpen(status) {
+      this.isKeypadOpen = status;
+    }
+  }, {
+    key: "resetKeypadStatus",
+    value: function resetKeypadStatus() {
+      this.keypadValue = '';
+      this.isKeypadOpen = false;
+    }
+  }, {
     key: "onInitOnce",
     value: function onInitOnce() {
       var _this2 = this;
+
+      this.resetKeypadStatus();
 
       this._deps.evCallMonitor.onCallRinging(function () {
         _this2._stopWatching = (0, _core.watch)(_this2, function () {
@@ -404,12 +434,18 @@ var EvActivityCallUI = (_dec = (0, _di.Module)({
       };
       this.disabled = {};
       this.saveStatus = _EvActivityCallUI.saveStatus.submit;
+      this.resetKeypadStatus();
     }
   }, {
     key: "onStateChange",
     value: function onStateChange() {
       if (this.ready && this.tabManagerEnabled && this._deps.tabManager.ready) {
-        this._checkTabManagerEvent();
+        this._checkTabManagerEvent(); // * when call end reset keypad status
+
+
+        if (this.callStatus === 'callEnd') {
+          this.resetKeypadStatus();
+        }
       }
     }
   }, {
@@ -748,7 +784,9 @@ var EvActivityCallUI = (_dec = (0, _di.Module)({
         disablePauseRecord: this.disableLinks || !this.currentCallControlPermission.allowPauseRecord,
         agentScriptData: this.agentScriptData,
         recordPauseCount: (_this$agentRecording = this.agentRecording) === null || _this$agentRecording === void 0 ? void 0 : _this$agentRecording.pause,
-        timeStamp: this._deps.activeCallControl.timeStamp
+        timeStamp: this._deps.activeCallControl.timeStamp,
+        isKeypadOpen: this.isKeypadOpen,
+        keypadValue: this.keypadValue
       };
     }
   }, {
@@ -795,6 +833,12 @@ var EvActivityCallUI = (_dec = (0, _di.Module)({
         },
         onResumeRecord: function onResumeRecord() {
           return _this5.onResumeRecord();
+        },
+        setKeypadIsOpen: function setKeypadIsOpen(status) {
+          return _this5.setKeypadIsOpen(status);
+        },
+        setKeypadValue: function setKeypadValue(value) {
+          return _this5.setKeypadValue(value);
         },
         onUpdateCallLog: function onUpdateCallLog(data, id) {
           return _this5.onUpdateCallLog(data, id);
@@ -1173,6 +1217,20 @@ var EvActivityCallUI = (_dec = (0, _di.Module)({
   initializer: function initializer() {
     return null;
   }
-}), _applyDecoratedDescriptor(_class2.prototype, "currentCallControlPermission", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "currentCallControlPermission"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "dispositionPickList", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "dispositionPickList"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "activityCallLog", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "activityCallLog"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "callStatus", [_dec5], Object.getOwnPropertyDescriptor(_class2.prototype, "callStatus"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "currentEvMainCall", [_dec6], Object.getOwnPropertyDescriptor(_class2.prototype, "currentEvMainCall"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "callList", [_dec7], Object.getOwnPropertyDescriptor(_class2.prototype, "callList"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "isMultipleCalls", [_dec8], Object.getOwnPropertyDescriptor(_class2.prototype, "isMultipleCalls"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "isOnHold", [_dec9], Object.getOwnPropertyDescriptor(_class2.prototype, "isOnHold"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "agentScriptData", [_dec10], Object.getOwnPropertyDescriptor(_class2.prototype, "agentScriptData"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "ivrAlertData", [_dec11], Object.getOwnPropertyDescriptor(_class2.prototype, "ivrAlertData"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "changeSavingStatus", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "changeSavingStatus"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "changeFormStatus", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "changeFormStatus"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setScrollTo", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setScrollTo"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "reset", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "reset"), _class2.prototype)), _class2)) || _class);
+}), _descriptor6 = _applyDecoratedDescriptor(_class2.prototype, "isKeypadOpen", [_core.storage, _core.state], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: function initializer() {
+    return false;
+  }
+}), _descriptor7 = _applyDecoratedDescriptor(_class2.prototype, "keypadValue", [_core.storage, _core.state], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: function initializer() {
+    return '';
+  }
+}), _applyDecoratedDescriptor(_class2.prototype, "setKeypadValue", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setKeypadValue"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setKeypadIsOpen", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setKeypadIsOpen"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "resetKeypadStatus", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "resetKeypadStatus"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "currentCallControlPermission", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "currentCallControlPermission"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "dispositionPickList", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "dispositionPickList"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "activityCallLog", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "activityCallLog"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "callStatus", [_dec5], Object.getOwnPropertyDescriptor(_class2.prototype, "callStatus"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "currentEvMainCall", [_dec6], Object.getOwnPropertyDescriptor(_class2.prototype, "currentEvMainCall"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "callList", [_dec7], Object.getOwnPropertyDescriptor(_class2.prototype, "callList"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "isMultipleCalls", [_dec8], Object.getOwnPropertyDescriptor(_class2.prototype, "isMultipleCalls"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "isOnHold", [_dec9], Object.getOwnPropertyDescriptor(_class2.prototype, "isOnHold"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "agentScriptData", [_dec10], Object.getOwnPropertyDescriptor(_class2.prototype, "agentScriptData"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "ivrAlertData", [_dec11], Object.getOwnPropertyDescriptor(_class2.prototype, "ivrAlertData"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "changeSavingStatus", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "changeSavingStatus"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "changeFormStatus", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "changeFormStatus"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setScrollTo", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setScrollTo"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "reset", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "reset"), _class2.prototype)), _class2)) || _class);
 exports.EvActivityCallUI = EvActivityCallUI;
 //# sourceMappingURL=EvActivityCallUI.js.map

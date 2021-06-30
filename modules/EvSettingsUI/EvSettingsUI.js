@@ -51,7 +51,7 @@ var _core = require("@ringcentral-integration/core");
 
 var _moment = _interopRequireDefault(require("moment"));
 
-var _di = require("ringcentral-integration/lib/di");
+var _di = require("@ringcentral-integration/commons/lib/di");
 
 var _FormatPhoneNumber = require("../../lib/FormatPhoneNumber");
 
@@ -161,7 +161,8 @@ var EvSettingsUI = (_dec = (0, _di.Module)({
     get: function get() {
       var _this2 = this,
           _this$_deps$evAuth$in,
-          _this$_deps$evAuth$in2;
+          _this$_deps$evAuth$in2,
+          _LOGIN_TYPE;
 
       var _this$_deps$evAuth$ag = this._deps.evAuth.agentSettings,
           loginDTS = _this$_deps$evAuth$ag.loginDTS,
@@ -187,8 +188,8 @@ var EvSettingsUI = (_dec = (0, _di.Module)({
 
       var profileName = (_this$_deps$evAuth$in = (_this$_deps$evAuth$in2 = this._deps.evAuth.inboundSettings.skillProfile) === null || _this$_deps$evAuth$in2 === void 0 ? void 0 : _this$_deps$evAuth$in2.profileName) !== null && _this$_deps$evAuth$in !== void 0 ? _this$_deps$evAuth$in : getLocalString('noneSkillProfile');
       return [{
-        label: getLocalString(LOGIN_TYPE[type]),
-        value: formatedPhoneNumber
+        label: getLocalString((_LOGIN_TYPE = LOGIN_TYPE[type]) !== null && _LOGIN_TYPE !== void 0 ? _LOGIN_TYPE : 'integratedPhone'),
+        value: LOGIN_TYPE[type] ? formatedPhoneNumber : dialDest
       }, {
         label: getLocalString('loginStyle'),
         value: loginType
