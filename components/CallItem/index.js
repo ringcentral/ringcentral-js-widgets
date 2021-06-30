@@ -63,17 +63,17 @@ var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
-var _callDirections = _interopRequireDefault(require("ringcentral-integration/enums/callDirections"));
+var _callDirections = _interopRequireDefault(require("@ringcentral-integration/commons/enums/callDirections"));
 
-var _messageTypes = _interopRequireDefault(require("ringcentral-integration/enums/messageTypes"));
+var _messageTypes = _interopRequireDefault(require("@ringcentral-integration/commons/enums/messageTypes"));
 
-var _messageDirection = _interopRequireDefault(require("ringcentral-integration/enums/messageDirection"));
+var _messageDirection = _interopRequireDefault(require("@ringcentral-integration/commons/enums/messageDirection"));
 
-var _callLogHelpers = require("ringcentral-integration/lib/callLogHelpers");
+var _callLogHelpers = require("@ringcentral-integration/commons/lib/callLogHelpers");
 
-var _parseNumber = _interopRequireDefault(require("ringcentral-integration/lib/parseNumber"));
+var _parseNumber = _interopRequireDefault(require("@ringcentral-integration/commons/lib/parseNumber"));
 
-var _formatNumber = _interopRequireDefault(require("ringcentral-integration/lib/formatNumber"));
+var _formatNumber = _interopRequireDefault(require("@ringcentral-integration/commons/lib/formatNumber"));
 
 var _DynamicsFont = _interopRequireDefault(require("../../assets/DynamicsFont/DynamicsFont.scss"));
 

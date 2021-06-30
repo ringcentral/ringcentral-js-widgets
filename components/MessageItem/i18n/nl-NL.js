@@ -7,7 +7,7 @@ exports["default"] = void 0;
 
 require("core-js/modules/es6.object.define-property");
 
-var _messageTypes = _interopRequireDefault(require("ringcentral-integration/enums/messageTypes"));
+var _messageTypes = _interopRequireDefault(require("@ringcentral-integration/commons/enums/messageTypes"));
 
 var _addLog$editLog$viewD;
 

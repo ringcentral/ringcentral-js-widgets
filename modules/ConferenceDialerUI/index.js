@@ -59,9 +59,9 @@ require("core-js/modules/es6.object.to-string");
 
 require("regenerator-runtime/runtime");
 
-var _di = require("ringcentral-integration/lib/di");
+var _di = require("@ringcentral-integration/commons/lib/di");
 
-var _proxify = _interopRequireDefault(require("ringcentral-integration/lib/proxy/proxify"));
+var _proxify = _interopRequireDefault(require("@ringcentral-integration/commons/lib/proxy/proxify"));
 
 var _ObjectMap = require("@ringcentral-integration/core/lib/ObjectMap");
 

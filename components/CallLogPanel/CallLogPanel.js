@@ -130,7 +130,8 @@ var CallLogPanel = /*#__PURE__*/function (_Component) {
       var _this$props = this.props,
           currentLog = _this$props.currentLog,
           renderEditLogSection = _this$props.renderEditLogSection,
-          editSection = _this$props.classes.editSection;
+          editSection = _this$props.classes.editSection,
+          renderKeypadPanel = _this$props.renderKeypadPanel;
       if (!currentLog) return null;
       var showSpinner = this.props.showSpinner;
 
@@ -143,7 +144,7 @@ var CallLogPanel = /*#__PURE__*/function (_Component) {
       return /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, this.renderLogNotification(), this.renderLogBasicInfo(), /*#__PURE__*/_react["default"].createElement("div", {
         ref: this.editSectionRef,
         className: (0, _classnames["default"])(_styles["default"].editSection, editSection)
-      }, renderEditLogSection && this.getEditLogSection()), this.getCallControlButtons());
+      }, renderEditLogSection && this.getEditLogSection()), renderKeypadPanel && renderKeypadPanel(), this.getCallControlButtons());
     }
   }, {
     key: "getCallControlButtons",
@@ -186,7 +187,8 @@ var CallLogPanel = /*#__PURE__*/function (_Component) {
           showFoundFromServer = _this$props3.showFoundFromServer,
           appName = _this$props3.appName,
           isSearching = _this$props3.isSearching,
-          startAdornmentRender = _this$props3.startAdornmentRender;
+          startAdornmentRender = _this$props3.startAdornmentRender,
+          objectTypeIconsMap = _this$props3.objectTypeIconsMap;
       return renderEditLogSection({
         currentLocale: currentLocale,
         onSaveCallLog: onSaveCallLog,
@@ -200,7 +202,8 @@ var CallLogPanel = /*#__PURE__*/function (_Component) {
         appName: appName,
         isSearching: isSearching,
         editSectionScrollBy: this.editSectionScrollBy,
-        startAdornmentRender: startAdornmentRender
+        startAdornmentRender: startAdornmentRender,
+        objectTypeIconsMap: objectTypeIconsMap
       });
     }
   }, {
@@ -375,8 +378,7 @@ var CallLogPanel = /*#__PURE__*/function (_Component) {
           isInTransferPage = _this$props7.isInTransferPage,
           isWide = _this$props7.isWide,
           children = _this$props7.children;
-      if (!currentIdentify || isInTransferPage) return null; // console.log(this.props.currentLog);
-
+      if (!currentIdentify || isInTransferPage) return null;
       return /*#__PURE__*/_react["default"].createElement("div", {
         ref: rootRef,
         className: (0, _classnames["default"])(_styles["default"].root, !isWide ? _styles["default"].classic : null, root)

@@ -1,41 +1,18 @@
 "use strict";
 
-require("core-js/modules/web.dom.iterable");
-
-require("core-js/modules/es6.array.iterator");
-
-require("core-js/modules/es6.object.to-string");
-
-require("core-js/modules/es6.object.keys");
-
-require("core-js/modules/es6.array.for-each");
-
 require("core-js/modules/es6.object.define-property");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var _exportNames = {};
-exports["default"] = void 0;
+exports.CallLogCallCtrlContainer = void 0;
 
-var _CallLogCallCtrlContainer = _interopRequireDefault(require("./CallLogCallCtrlContainer"));
+var _phoneContext = require("../../lib/phoneContext");
 
-var _CallLogCallCtrl = require("./CallLogCallCtrl");
+var _CallLogCallCtrlPanel = require("../../components/CallLogCallCtrlPanel");
 
-Object.keys(_CallLogCallCtrl).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
-  if (key in exports && exports[key] === _CallLogCallCtrl[key]) return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function get() {
-      return _CallLogCallCtrl[key];
-    }
-  });
-});
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-var _default = _CallLogCallCtrlContainer["default"];
-exports["default"] = _default;
+var CallLogCallCtrlContainer = (0, _phoneContext.connectModule)(function (phone) {
+  return phone.callLogCallCtrlUI;
+})(_CallLogCallCtrlPanel.CallLogCallCtrlPanel);
+exports.CallLogCallCtrlContainer = CallLogCallCtrlContainer;
 //# sourceMappingURL=index.js.map

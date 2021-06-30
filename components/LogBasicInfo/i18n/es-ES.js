@@ -7,11 +7,11 @@ exports["default"] = void 0;
 
 require("core-js/modules/es6.object.define-property");
 
-var _callResults = _interopRequireDefault(require("ringcentral-integration/enums/callResults"));
+var _callResults = _interopRequireDefault(require("@ringcentral-integration/commons/enums/callResults"));
 
-var _telephonyStatus = _interopRequireDefault(require("ringcentral-integration/enums/telephonyStatus"));
+var _telephonyStatus = _interopRequireDefault(require("@ringcentral-integration/commons/enums/telephonyStatus"));
 
-var _callDirections = _interopRequireDefault(require("ringcentral-integration/enums/callDirections"));
+var _callDirections = _interopRequireDefault(require("@ringcentral-integration/commons/enums/callDirections"));
 
 var _callDirections$inbou;
 

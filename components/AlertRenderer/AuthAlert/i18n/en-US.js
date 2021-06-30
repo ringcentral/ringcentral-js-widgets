@@ -7,7 +7,7 @@ exports["default"] = void 0;
 
 require("core-js/modules/es6.object.define-property");
 
-var _authMessages = _interopRequireDefault(require("ringcentral-integration/modules/Auth/authMessages"));
+var _authMessages = _interopRequireDefault(require("@ringcentral-integration/commons/modules/Auth/authMessages"));
 
 var _authMessages$interna;
 

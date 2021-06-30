@@ -41,7 +41,7 @@ var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
-var _callLogHelpers = require("ringcentral-integration/lib/callLogHelpers");
+var _callLogHelpers = require("@ringcentral-integration/commons/lib/callLogHelpers");
 
 var _SpinnerOverlay = require("../SpinnerOverlay");
 

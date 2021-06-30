@@ -27,7 +27,7 @@ var _react = _interopRequireWildcard(require("react"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
-var _callDirections = require("ringcentral-integration/enums/callDirections");
+var _callDirections = require("@ringcentral-integration/commons/enums/callDirections");
 
 var _juno = require("@ringcentral/juno");
 

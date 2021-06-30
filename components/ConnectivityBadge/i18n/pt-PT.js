@@ -7,15 +7,13 @@ exports["default"] = void 0;
 
 require("core-js/modules/es6.object.define-property");
 
-var _connectivityTypes = _interopRequireDefault(require("../../../modules/ConnectivityManager/connectivityTypes"));
+var _ConnectivityManager = require("../../../modules/ConnectivityManager");
 
 var _connectivityTypes$we;
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-var _default = (_connectivityTypes$we = {}, _defineProperty(_connectivityTypes$we, _connectivityTypes["default"].webphoneUnavailable, "Telefone da web indisponível"), _defineProperty(_connectivityTypes$we, _connectivityTypes["default"].offline, "Offline"), _defineProperty(_connectivityTypes$we, _connectivityTypes["default"].voipOnly, "Apenas VoIP"), _defineProperty(_connectivityTypes$we, _connectivityTypes["default"].survival, "Modo limitado"), _defineProperty(_connectivityTypes$we, _connectivityTypes["default"].connecting, "A ligar"), _connectivityTypes$we); // @key: @#@"[connectivityTypes.webphoneUnavailable]"@#@ @source: @#@"Web Phone Unavailable"@#@
+var _default = (_connectivityTypes$we = {}, _defineProperty(_connectivityTypes$we, _ConnectivityManager.connectivityTypes.webphoneUnavailable, 'Telefone da web indisponível'), _defineProperty(_connectivityTypes$we, _ConnectivityManager.connectivityTypes.offline, 'Offline'), _defineProperty(_connectivityTypes$we, _ConnectivityManager.connectivityTypes.voipOnly, 'Apenas VoIP'), _defineProperty(_connectivityTypes$we, _ConnectivityManager.connectivityTypes.survival, 'Modo limitado'), _defineProperty(_connectivityTypes$we, _ConnectivityManager.connectivityTypes.connecting, 'A ligar'), _connectivityTypes$we); // @key: @#@"[connectivityTypes.webphoneUnavailable]"@#@ @source: @#@"Web Phone Unavailable"@#@
 // @key: @#@"[connectivityTypes.offline]"@#@ @source: @#@"Offline"@#@
 // @key: @#@"[connectivityTypes.voipOnly]"@#@ @source: @#@"VoIP Only"@#@
 // @key: @#@"[connectivityTypes.survival]"@#@ @source: @#@"Limited Mode"@#@

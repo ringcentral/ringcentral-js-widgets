@@ -14,7 +14,7 @@ var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
-var _dndStatus = _interopRequireDefault(require("ringcentral-integration/modules/Presence/dndStatus"));
+var _dndStatus = _interopRequireDefault(require("@ringcentral-integration/commons/modules/Presence/dndStatus"));
 
 var _PresenceStatusIcon = _interopRequireDefault(require("../PresenceStatusIcon"));
 

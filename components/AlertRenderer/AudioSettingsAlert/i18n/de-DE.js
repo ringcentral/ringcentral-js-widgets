@@ -7,7 +7,7 @@ exports["default"] = void 0;
 
 require("core-js/modules/es6.object.define-property");
 
-var _audioSettingsErrors = _interopRequireDefault(require("ringcentral-integration/modules/AudioSettings/audioSettingsErrors"));
+var _audioSettingsErrors = _interopRequireDefault(require("@ringcentral-integration/commons/modules/AudioSettings/audioSettingsErrors"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 

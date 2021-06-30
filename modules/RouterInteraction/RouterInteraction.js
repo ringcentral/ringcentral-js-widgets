@@ -51,13 +51,13 @@ var _reactRouter = require("react-router");
 
 var _reactRouterRedux = require("react-router-redux");
 
-var _moduleStatuses = _interopRequireDefault(require("ringcentral-integration/enums/moduleStatuses"));
+var _moduleStatuses = _interopRequireDefault(require("@ringcentral-integration/commons/enums/moduleStatuses"));
 
-var _di = require("ringcentral-integration/lib/di");
+var _di = require("@ringcentral-integration/commons/lib/di");
 
-var _proxify = _interopRequireDefault(require("ringcentral-integration/lib/proxy/proxify"));
+var _proxify = _interopRequireDefault(require("@ringcentral-integration/commons/lib/proxy/proxify"));
 
-var _RcModule2 = _interopRequireDefault(require("ringcentral-integration/lib/RcModule"));
+var _RcModule2 = _interopRequireDefault(require("@ringcentral-integration/commons/lib/RcModule"));
 
 var _dec, _class, _class2;
 

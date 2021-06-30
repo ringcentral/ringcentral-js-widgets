@@ -37,9 +37,9 @@ var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _classnames2 = _interopRequireDefault(require("classnames"));
 
-var _sessionStatus = _interopRequireDefault(require("ringcentral-integration/modules/Webphone/sessionStatus"));
+var _sessionStatus = _interopRequireDefault(require("@ringcentral-integration/commons/modules/Webphone/sessionStatus"));
 
-var _calleeTypes = _interopRequireDefault(require("ringcentral-integration/enums/calleeTypes"));
+var _calleeTypes = _interopRequireDefault(require("@ringcentral-integration/commons/enums/calleeTypes"));
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 

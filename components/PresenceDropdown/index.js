@@ -31,9 +31,9 @@ require("core-js/modules/es6.object.set-prototype-of");
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _presenceStatus = require("ringcentral-integration/enums/presenceStatus.enum");
+var _presenceStatus = require("@ringcentral-integration/commons/enums/presenceStatus.enum");
 
-var _dndStatus = _interopRequireDefault(require("ringcentral-integration/modules/Presence/dndStatus"));
+var _dndStatus = _interopRequireDefault(require("@ringcentral-integration/commons/modules/Presence/dndStatus"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 

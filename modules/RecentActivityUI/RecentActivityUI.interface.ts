@@ -1,14 +1,14 @@
-import { RecentMessages } from 'ringcentral-integration/modules/RecentMessagesV2';
-import { RecentCalls } from 'ringcentral-integration/modules/RecentCallsV2';
-import { Locale } from 'ringcentral-integration/modules/LocaleV2';
-import { NormalizedSession } from 'ringcentral-integration/interfaces/Webphone.interface';
-import { Entity } from 'ringcentral-integration/interfaces/Entity.interface';
+import { RecentMessages } from '@ringcentral-integration/commons/modules/RecentMessagesV2';
+import { RecentCalls } from '@ringcentral-integration/commons/modules/RecentCallsV2';
+import { Locale } from '@ringcentral-integration/commons/modules/LocaleV2';
+import { NormalizedSession } from '@ringcentral-integration/commons/interfaces/Webphone.interface';
+import { Entity } from '@ringcentral-integration/commons/interfaces/Entity.interface';
 import {
   DateTimeFormat,
   FormatDateTimeOptions,
-} from 'ringcentral-integration/modules/DateTimeFormatV2';
-import { ContactMatcher } from 'ringcentral-integration/modules/ContactMatcherV2';
-import { HistoryCall } from 'ringcentral-integration/modules/CallHistoryV2';
+} from '@ringcentral-integration/commons/modules/DateTimeFormatV2';
+import { ContactMatcher } from '@ringcentral-integration/commons/modules/ContactMatcherV2';
+import { HistoryCall } from '@ringcentral-integration/commons/modules/CallHistoryV2';
 import { Tab } from './getTabs';
 
 export interface RecentActivityUIOptions {

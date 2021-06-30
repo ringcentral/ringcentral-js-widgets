@@ -3,8 +3,8 @@ import {
   UIFunctions,
   UIProps,
 } from '@ringcentral-integration/core';
-import Module from 'ringcentral-integration/lib/di/decorators/module';
-import formatNumber from 'ringcentral-integration/lib/formatNumber';
+import Module from '@ringcentral-integration/commons/lib/di/decorators/module';
+import formatNumber from '@ringcentral-integration/commons/lib/formatNumber';
 import {
   ComposeTextPanelProps,
   ComposeTextUIComponentProps,

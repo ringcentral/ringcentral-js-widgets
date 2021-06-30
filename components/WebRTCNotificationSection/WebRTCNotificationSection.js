@@ -41,7 +41,7 @@ var _classnames2 = _interopRequireDefault(require("classnames"));
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _callDirections = _interopRequireDefault(require("ringcentral-integration/enums/callDirections"));
+var _callDirections = _interopRequireDefault(require("@ringcentral-integration/commons/enums/callDirections"));
 
 var _Ignore = _interopRequireDefault(require("@ringcentral/juno/icon/Ignore"));
 

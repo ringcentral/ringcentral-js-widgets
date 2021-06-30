@@ -67,9 +67,9 @@ var _ramda = require("ramda");
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _meetingHelper = require("ringcentral-integration/helpers/meetingHelper");
+var _meetingHelper = require("@ringcentral-integration/commons/helpers/meetingHelper");
 
-var _Meeting = require("ringcentral-integration/modules/Meeting");
+var _Meeting = require("@ringcentral-integration/commons/modules/Meeting");
 
 var _LockBorder = _interopRequireDefault(require("@ringcentral/juno/icon/LockBorder"));
 

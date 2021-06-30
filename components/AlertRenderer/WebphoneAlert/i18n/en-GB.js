@@ -7,9 +7,9 @@ exports["default"] = void 0;
 
 require("core-js/modules/es6.object.define-property");
 
-var _webphoneErrors = _interopRequireDefault(require("ringcentral-integration/modules/Webphone/webphoneErrors"));
+var _webphoneErrors = _interopRequireDefault(require("@ringcentral-integration/commons/modules/Webphone/webphoneErrors"));
 
-var _webphoneMessages = _interopRequireDefault(require("ringcentral-integration/modules/Webphone/webphoneMessages"));
+var _webphoneMessages = _interopRequireDefault(require("@ringcentral-integration/commons/modules/Webphone/webphoneMessages"));
 
 var _webphoneErrors$conne;
 

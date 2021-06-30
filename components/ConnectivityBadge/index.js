@@ -13,7 +13,7 @@ var _classnames = _interopRequireDefault(require("classnames"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _connectivityTypes = _interopRequireDefault(require("../../modules/ConnectivityManager/connectivityTypes"));
+var _ConnectivityManager = require("../../modules/ConnectivityManager");
 
 var _Badge = _interopRequireDefault(require("../Badge"));
 
@@ -37,15 +37,15 @@ var ConnectivityBadge = function ConnectivityBadge(_ref) {
       webphoneConnecting = _ref.webphoneConnecting,
       hasLimitedStatusError = _ref.hasLimitedStatusError;
   if (!mode) return null;
-  var isWebphoneConnecting = mode === _connectivityTypes["default"].webphoneUnavailable && webphoneConnecting;
-  var hasRetryButton = mode === _connectivityTypes["default"].webphoneUnavailable || hasLimitedStatusError;
+  var isWebphoneConnecting = mode === _ConnectivityManager.connectivityTypes.webphoneUnavailable && webphoneConnecting;
+  var hasRetryButton = mode === _ConnectivityManager.connectivityTypes.webphoneUnavailable || hasLimitedStatusError;
   var view = null;
 
   if (isWebphoneConnecting) {
     view = /*#__PURE__*/_react["default"].createElement(_Badge["default"], {
       className: (0, _classnames["default"])(className, _styles["default"].badge, _styles["default"].loading),
       name: _i18n["default"].getString(mode, currentLocale)
-    }, _i18n["default"].getString(_connectivityTypes["default"].connecting, currentLocale), /*#__PURE__*/_react["default"].createElement(_OvalLoading["default"], {
+    }, _i18n["default"].getString(_ConnectivityManager.connectivityTypes.connecting, currentLocale), /*#__PURE__*/_react["default"].createElement(_OvalLoading["default"], {
       width: 12,
       height: 12
     }));

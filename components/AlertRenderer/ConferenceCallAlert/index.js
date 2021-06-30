@@ -13,7 +13,7 @@ var _react = _interopRequireDefault(require("react"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _conferenceCallErrors = _interopRequireDefault(require("ringcentral-integration/modules/ConferenceCall/conferenceCallErrors"));
+var _conferenceCallErrors = _interopRequireDefault(require("@ringcentral-integration/commons/modules/ConferenceCall/conferenceCallErrors"));
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 

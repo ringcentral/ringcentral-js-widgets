@@ -4,25 +4,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
 require("core-js/modules/es7.symbol.async-iterator");
 
-require("core-js/modules/es6.object.define-properties");
-
-require("core-js/modules/es7.object.get-own-property-descriptors");
-
-require("core-js/modules/es6.array.for-each");
-
-require("core-js/modules/es6.array.filter");
-
 require("core-js/modules/es6.symbol");
-
-require("core-js/modules/es6.array.index-of");
-
-require("core-js/modules/web.dom.iterable");
-
-require("core-js/modules/es6.array.iterator");
-
-require("core-js/modules/es6.object.to-string");
-
-require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.object.define-property");
 
@@ -39,25 +21,15 @@ exports.CallingSettingsUI = void 0;
 
 require("core-js/modules/es6.function.name");
 
-var _di = require("ringcentral-integration/lib/di");
+var _di = require("@ringcentral-integration/commons/lib/di");
 
-var _callingOptions = _interopRequireDefault(require("ringcentral-integration/modules/CallingSettings/callingOptions"));
+var _core = require("@ringcentral-integration/core");
 
-var _RcUIModule2 = _interopRequireDefault(require("../../lib/RcUIModule"));
+var _callingOptions = _interopRequireDefault(require("@ringcentral-integration/commons/modules/CallingSettings/callingOptions"));
 
 var _dec, _class;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
-
-function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -81,109 +53,85 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 var CallingSettingsUI = (_dec = (0, _di.Module)({
   name: 'CallingSettingsUI',
-  deps: ['CallingSettings', 'Brand', 'Locale', {
+  deps: ['CallingSettings', 'Brand', 'Locale', 'RouterInteraction', {
     dep: 'Webphone',
     optional: true
-  }, 'RouterInteraction', {
+  }, {
     dep: 'CallingSettingsUIOptions',
     optional: true
   }]
-}), _dec(_class = /*#__PURE__*/function (_RcUIModule) {
-  _inherits(CallingSettingsUI, _RcUIModule);
+}), _dec(_class = /*#__PURE__*/function (_RcUIModuleV) {
+  _inherits(CallingSettingsUI, _RcUIModuleV);
 
   var _super = _createSuper(CallingSettingsUI);
 
-  function CallingSettingsUI(_ref) {
-    var _this;
-
-    var callingSettings = _ref.callingSettings,
-        brand = _ref.brand,
-        locale = _ref.locale,
-        webphone = _ref.webphone,
-        routerInteraction = _ref.routerInteraction,
-        _ref$locationSearchab = _ref.locationSearchable,
-        locationSearchable = _ref$locationSearchab === void 0 ? true : _ref$locationSearchab,
-        _ref$ringtoneSettings = _ref.ringtoneSettings,
-        ringtoneSettings = _ref$ringtoneSettings === void 0 ? false : _ref$ringtoneSettings,
-        options = _objectWithoutProperties(_ref, ["callingSettings", "brand", "locale", "webphone", "routerInteraction", "locationSearchable", "ringtoneSettings"]);
-
+  function CallingSettingsUI(deps) {
     _classCallCheck(this, CallingSettingsUI);
 
-    _this = _super.call(this, _objectSpread({}, options));
-    _this._callingSettings = void 0;
-    _this._brand = void 0;
-    _this._locale = void 0;
-    _this._webphone = void 0;
-    _this._routerInteraction = void 0;
-    _this._locationSearchable = void 0;
-    _this._ringtoneSettings = void 0;
-    _this._callingSettings = callingSettings;
-    _this._brand = brand;
-    _this._locale = locale;
-    _this._webphone = webphone;
-    _this._routerInteraction = routerInteraction;
-    _this._locationSearchable = locationSearchable;
-    _this._ringtoneSettings = ringtoneSettings;
-    return _this;
+    return _super.call(this, {
+      deps: deps
+    });
   }
 
   _createClass(CallingSettingsUI, [{
     key: "getUIProps",
     value: function getUIProps() {
-      var _this$_webphone, _this$_webphone2, _this$_webphone3, _this$_webphone4, _this$_webphone5, _this$_webphone6, _this$_webphone7, _this$_webphone8;
+      var _this$_deps$webphone, _this$_deps$webphone2, _this$_deps$webphone3, _this$_deps$webphone4, _this$_deps$webphone5, _this$_deps$webphone6, _this$_deps$webphone7, _this$_deps$webphone8;
 
       return {
-        brandCode: this._brand.code,
-        brandName: this._brand.name,
-        currentLocale: this._locale.currentLocale,
-        callWithOptions: this._callingSettings.callWithOptions,
-        callWith: this._callingSettings.callWith,
-        myLocation: this._callingSettings.myLocation,
-        ringoutPrompt: this._callingSettings.ringoutPrompt,
-        defaultRingoutPrompt: this._callingSettings.defaultRingoutPrompt,
-        availableNumbersWithLabel: this._callingSettings.availableNumbersWithLabel,
-        disabled: !!(this._webphone && this._webphone.sessions.length > 0),
+        brandCode: this._deps.brand.code,
+        brandName: this._deps.brand.name,
+        shortBrandName: this._deps.brand.shortName,
+        fullBrandName: this._deps.brand.fullName,
+        currentLocale: this._deps.locale.currentLocale,
+        callWithOptions: this._deps.callingSettings.callWithOptions,
+        callWith: this._deps.callingSettings.callWith,
+        myLocation: this._deps.callingSettings.myLocation,
+        ringoutPrompt: this._deps.callingSettings.ringoutPrompt,
+        defaultRingoutPrompt: this._deps.callingSettings.defaultRingoutPrompt,
+        availableNumbersWithLabel: this._deps.callingSettings.availableNumbersWithLabel,
+        disabled: !!(this._deps.webphone && this._deps.webphone.sessions.length > 0),
         showSpinner: this.showSpinner,
         locationSearchable: this.locationSearchable,
-        showRingToneSettings: this._ringtoneSettings && this._callingSettings.isChangeRingToneAllowed,
-        incomingAudioFile: (_this$_webphone = this._webphone) === null || _this$_webphone === void 0 ? void 0 : _this$_webphone.incomingAudioFile,
-        incomingAudio: (_this$_webphone2 = this._webphone) === null || _this$_webphone2 === void 0 ? void 0 : _this$_webphone2.incomingAudio,
-        outgoingAudioFile: (_this$_webphone3 = this._webphone) === null || _this$_webphone3 === void 0 ? void 0 : _this$_webphone3.outgoingAudioFile,
-        outgoingAudio: (_this$_webphone4 = this._webphone) === null || _this$_webphone4 === void 0 ? void 0 : _this$_webphone4.outgoingAudio,
-        defaultIncomingAudioFile: (_this$_webphone5 = this._webphone) === null || _this$_webphone5 === void 0 ? void 0 : _this$_webphone5.defaultIncomingAudioFile,
-        defaultIncomingAudio: (_this$_webphone6 = this._webphone) === null || _this$_webphone6 === void 0 ? void 0 : _this$_webphone6.defaultIncomingAudio,
-        defaultOutgoingAudioFile: (_this$_webphone7 = this._webphone) === null || _this$_webphone7 === void 0 ? void 0 : _this$_webphone7.outgoingAudioFile,
-        defaultOutgoingAudio: (_this$_webphone8 = this._webphone) === null || _this$_webphone8 === void 0 ? void 0 : _this$_webphone8.outgoingAudio
+        showRingToneSettings: this.ringtoneSettings && this._deps.callingSettings.isChangeRingToneAllowed,
+        incomingAudioFile: (_this$_deps$webphone = this._deps.webphone) === null || _this$_deps$webphone === void 0 ? void 0 : _this$_deps$webphone.incomingAudioFile,
+        incomingAudio: (_this$_deps$webphone2 = this._deps.webphone) === null || _this$_deps$webphone2 === void 0 ? void 0 : _this$_deps$webphone2.incomingAudio,
+        outgoingAudioFile: (_this$_deps$webphone3 = this._deps.webphone) === null || _this$_deps$webphone3 === void 0 ? void 0 : _this$_deps$webphone3.outgoingAudioFile,
+        outgoingAudio: (_this$_deps$webphone4 = this._deps.webphone) === null || _this$_deps$webphone4 === void 0 ? void 0 : _this$_deps$webphone4.outgoingAudio,
+        defaultIncomingAudioFile: (_this$_deps$webphone5 = this._deps.webphone) === null || _this$_deps$webphone5 === void 0 ? void 0 : _this$_deps$webphone5.defaultIncomingAudioFile,
+        defaultIncomingAudio: (_this$_deps$webphone6 = this._deps.webphone) === null || _this$_deps$webphone6 === void 0 ? void 0 : _this$_deps$webphone6.defaultIncomingAudio,
+        defaultOutgoingAudioFile: (_this$_deps$webphone7 = this._deps.webphone) === null || _this$_deps$webphone7 === void 0 ? void 0 : _this$_deps$webphone7.outgoingAudioFile,
+        defaultOutgoingAudio: (_this$_deps$webphone8 = this._deps.webphone) === null || _this$_deps$webphone8 === void 0 ? void 0 : _this$_deps$webphone8.outgoingAudio
       };
     }
   }, {
     key: "getUIFunctions",
     value: function getUIFunctions() {
-      var _this2 = this;
+      var _this = this;
 
       return {
         onBackButtonClick: function onBackButtonClick() {
-          return _this2._routerInteraction.goBack();
+          return _this._deps.routerInteraction.goBack();
         },
-        onSave: function onSave(_ref2) {
-          var callWith = _ref2.callWith,
-              myLocation = _ref2.myLocation,
-              ringoutPrompt = _ref2.ringoutPrompt,
-              isCustomLocation = _ref2.isCustomLocation,
-              incomingAudio = _ref2.incomingAudio,
-              incomingAudioFile = _ref2.incomingAudioFile,
-              outgoingAudio = _ref2.outgoingAudio,
-              outgoingAudioFile = _ref2.outgoingAudioFile;
+        onSave: function onSave(_ref) {
+          var callWith = _ref.callWith,
+              myLocation = _ref.myLocation,
+              ringoutPrompt = _ref.ringoutPrompt,
+              isCustomLocation = _ref.isCustomLocation,
+              incomingAudio = _ref.incomingAudio,
+              incomingAudioFile = _ref.incomingAudioFile,
+              outgoingAudio = _ref.outgoingAudio,
+              outgoingAudioFile = _ref.outgoingAudioFile;
 
-          _this2._callingSettings.setData({
+          _this._deps.callingSettings.setData({
             callWith: callWith,
             myLocation: myLocation,
             ringoutPrompt: ringoutPrompt,
             isCustomLocation: isCustomLocation
           }, true);
 
-          if (_this2._webphone && callWith === _callingOptions["default"].browser) {
-            _this2._webphone.setRingtone({
+          if (_this._deps.webphone && callWith === _callingOptions["default"].browser) {
+            _this._deps.webphone.setRingtone({
               incomingAudio: incomingAudio,
               incomingAudioFile: incomingAudioFile,
               outgoingAudio: outgoingAudio,
@@ -196,16 +144,25 @@ var CallingSettingsUI = (_dec = (0, _di.Module)({
   }, {
     key: "showSpinner",
     get: function get() {
-      return !(this._callingSettings.ready && this._brand.ready && this._locale.ready && (!this._webphone || this._webphone.ready) && this._routerInteraction.ready);
+      return !(this._deps.callingSettings.ready && this._deps.brand.ready && this._deps.locale.ready && (!this._deps.webphone || this._deps.webphone.ready) && this._deps.routerInteraction.ready);
     }
   }, {
     key: "locationSearchable",
     get: function get() {
-      return !!this._locationSearchable;
+      var _this$_deps$callingSe, _this$_deps$callingSe2;
+
+      return !!((_this$_deps$callingSe = (_this$_deps$callingSe2 = this._deps.callingSettingsUIOptions) === null || _this$_deps$callingSe2 === void 0 ? void 0 : _this$_deps$callingSe2.locationSearchable) !== null && _this$_deps$callingSe !== void 0 ? _this$_deps$callingSe : true);
+    }
+  }, {
+    key: "ringtoneSettings",
+    get: function get() {
+      var _this$_deps$callingSe3, _this$_deps$callingSe4;
+
+      return !!((_this$_deps$callingSe3 = (_this$_deps$callingSe4 = this._deps.callingSettingsUIOptions) === null || _this$_deps$callingSe4 === void 0 ? void 0 : _this$_deps$callingSe4.ringtoneSettings) !== null && _this$_deps$callingSe3 !== void 0 ? _this$_deps$callingSe3 : false);
     }
   }]);
 
   return CallingSettingsUI;
-}(_RcUIModule2["default"])) || _class);
+}(_core.RcUIModuleV2)) || _class);
 exports.CallingSettingsUI = CallingSettingsUI;
 //# sourceMappingURL=CallingSettingsUI.js.map

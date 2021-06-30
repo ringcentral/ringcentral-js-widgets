@@ -11,7 +11,7 @@ var _react = _interopRequireDefault(require("react"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _messages = _interopRequireDefault(require("ringcentral-integration/modules/Conference/messages"));
+var _messages = _interopRequireDefault(require("@ringcentral-integration/commons/modules/Conference/messages"));
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 

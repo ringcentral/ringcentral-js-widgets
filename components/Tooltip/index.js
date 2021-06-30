@@ -49,7 +49,7 @@ var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
-var _is_type = require("ringcentral-integration/lib/di/utils/is_type");
+var _is_type = require("@ringcentral-integration/commons/lib/di/utils/is_type");
 
 var _ObjectMap = require("@ringcentral-integration/core/lib/ObjectMap");
 

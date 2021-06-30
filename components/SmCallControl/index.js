@@ -13,9 +13,9 @@ var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
-var _telephonyStatus = _interopRequireDefault(require("ringcentral-integration/enums/telephonyStatus"));
+var _telephonyStatus = _interopRequireDefault(require("@ringcentral-integration/commons/enums/telephonyStatus"));
 
-var _callDirections = _interopRequireDefault(require("ringcentral-integration/enums/callDirections"));
+var _callDirections = _interopRequireDefault(require("@ringcentral-integration/commons/enums/callDirections"));
 
 var _CircleButton = _interopRequireDefault(require("../CircleButton"));
 

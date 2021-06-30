@@ -39,9 +39,9 @@ exports.LoginUI = void 0;
 
 var _core = require("@ringcentral-integration/core");
 
-var _module = _interopRequireDefault(require("ringcentral-integration/lib/di/decorators/module"));
+var _module = _interopRequireDefault(require("@ringcentral-integration/commons/lib/di/decorators/module"));
 
-var _loginStatus = _interopRequireDefault(require("ringcentral-integration/modules/Auth/loginStatus"));
+var _loginStatus = _interopRequireDefault(require("@ringcentral-integration/commons/modules/Auth/loginStatus"));
 
 var _dec, _class;
 

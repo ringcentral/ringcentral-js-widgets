@@ -1,4 +1,4 @@
-import Module from 'ringcentral-integration/lib/di/decorators/module';
+import Module from '@ringcentral-integration/commons/lib/di/decorators/module';
 import RcUIModule from '../../lib/RcUIModule';
 
 @Module({

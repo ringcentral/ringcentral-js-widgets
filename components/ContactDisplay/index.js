@@ -37,9 +37,9 @@ var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
-var _formatNumber = _interopRequireDefault(require("ringcentral-integration/lib/formatNumber"));
+var _formatNumber = _interopRequireDefault(require("@ringcentral-integration/commons/lib/formatNumber"));
 
-var _phoneSources = require("ringcentral-integration/enums/phoneSources");
+var _phoneSources = require("@ringcentral-integration/commons/enums/phoneSources");
 
 var _formatMessage = _interopRequireDefault(require("format-message"));
 

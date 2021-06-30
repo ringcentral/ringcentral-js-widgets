@@ -45,7 +45,7 @@ var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
-var _isBlank = _interopRequireDefault(require("ringcentral-integration/lib/isBlank"));
+var _isBlank = _interopRequireDefault(require("@ringcentral-integration/commons/lib/isBlank"));
 
 var _RecipientsInput = _interopRequireDefault(require("../RecipientsInput"));
 

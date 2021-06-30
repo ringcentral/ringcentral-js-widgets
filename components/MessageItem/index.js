@@ -61,15 +61,15 @@ var _classnames = _interopRequireDefault(require("classnames"));
 
 var _formatMessage = _interopRequireDefault(require("format-message"));
 
-var _messageTypes = _interopRequireDefault(require("ringcentral-integration/enums/messageTypes"));
+var _messageTypes = _interopRequireDefault(require("@ringcentral-integration/commons/enums/messageTypes"));
 
-var _extensionTypes = require("ringcentral-integration/enums/extensionTypes");
+var _extensionTypes = require("@ringcentral-integration/commons/enums/extensionTypes");
 
-var _messageDirection = _interopRequireDefault(require("ringcentral-integration/enums/messageDirection"));
+var _messageDirection = _interopRequireDefault(require("@ringcentral-integration/commons/enums/messageDirection"));
 
-var _parseNumber = _interopRequireDefault(require("ringcentral-integration/lib/parseNumber"));
+var _parseNumber = _interopRequireDefault(require("@ringcentral-integration/commons/lib/parseNumber"));
 
-var _messageHelper = require("ringcentral-integration/lib/messageHelper");
+var _messageHelper = require("@ringcentral-integration/commons/lib/messageHelper");
 
 var _formatDuration = _interopRequireDefault(require("../../lib/formatDuration"));
 

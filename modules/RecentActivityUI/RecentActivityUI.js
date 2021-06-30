@@ -21,9 +21,9 @@ exports.RecentActivityUI = void 0;
 
 var _core = require("@ringcentral-integration/core");
 
-var _callDirections = _interopRequireDefault(require("ringcentral-integration/enums/callDirections"));
+var _callDirections = _interopRequireDefault(require("@ringcentral-integration/commons/enums/callDirections"));
 
-var _di = require("ringcentral-integration/lib/di");
+var _di = require("@ringcentral-integration/commons/lib/di");
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 

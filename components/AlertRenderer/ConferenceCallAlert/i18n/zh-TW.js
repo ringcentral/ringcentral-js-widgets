@@ -7,7 +7,7 @@ exports["default"] = void 0;
 
 require("core-js/modules/es6.object.define-property");
 
-var _conferenceCallErrors2 = _interopRequireDefault(require("ringcentral-integration/modules/ConferenceCall/conferenceCallErrors"));
+var _conferenceCallErrors2 = _interopRequireDefault(require("@ringcentral-integration/commons/modules/ConferenceCall/conferenceCallErrors"));
 
 var _conferenceCallErrors;
 

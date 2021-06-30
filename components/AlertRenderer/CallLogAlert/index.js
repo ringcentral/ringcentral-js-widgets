@@ -9,7 +9,7 @@ exports["default"] = CallLogAlert;
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _callLogMessages = _interopRequireDefault(require("ringcentral-integration/enums/callLogMessages"));
+var _callLogMessages = _interopRequireDefault(require("@ringcentral-integration/commons/enums/callLogMessages"));
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 

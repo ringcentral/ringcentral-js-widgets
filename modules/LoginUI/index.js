@@ -19,9 +19,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 
-var _module = _interopRequireDefault(require("ringcentral-integration/lib/di/decorators/module"));
+var _module = _interopRequireDefault(require("@ringcentral-integration/commons/lib/di/decorators/module"));
 
-var _loginStatus = _interopRequireDefault(require("ringcentral-integration/modules/Auth/loginStatus"));
+var _loginStatus = _interopRequireDefault(require("@ringcentral-integration/commons/modules/Auth/loginStatus"));
 
 var _RcUIModule2 = _interopRequireDefault(require("../../lib/RcUIModule"));
 

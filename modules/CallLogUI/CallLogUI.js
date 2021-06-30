@@ -43,13 +43,13 @@ var _core = require("@ringcentral-integration/core");
 
 var _react = _interopRequireDefault(require("react"));
 
-var _di = require("ringcentral-integration/lib/di");
+var _di = require("@ringcentral-integration/commons/lib/di");
 
-var _formatNumber = _interopRequireDefault(require("ringcentral-integration/lib/formatNumber"));
+var _formatNumber = _interopRequireDefault(require("@ringcentral-integration/commons/lib/formatNumber"));
 
-var _callingOptions = require("ringcentral-integration/modules/CallingSettingsV2/callingOptions");
+var _callingOptions = require("@ringcentral-integration/commons/modules/CallingSettingsV2/callingOptions");
 
-var _CallLogCallCtrlContainer = _interopRequireDefault(require("../../containers/CallLogCallCtrlContainer"));
+var _CallLogCallCtrlContainer = require("../../containers/CallLogCallCtrlContainer");
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
@@ -88,7 +88,7 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 var CallLogCallControlRenderer = function CallLogCallControlRenderer(currentLocale, telephonySessionId, isWide, isCurrentDeviceCall) {
-  return /*#__PURE__*/_react["default"].createElement(_CallLogCallCtrlContainer["default"], {
+  return /*#__PURE__*/_react["default"].createElement(_CallLogCallCtrlContainer.CallLogCallCtrlContainer, {
     currentLocale: currentLocale,
     telephonySessionId: telephonySessionId,
     isCurrentDeviceCall: isCurrentDeviceCall,

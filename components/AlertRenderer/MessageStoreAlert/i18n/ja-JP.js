@@ -7,7 +7,7 @@ exports["default"] = void 0;
 
 require("core-js/modules/es6.object.define-property");
 
-var _errors = _interopRequireDefault(require("ringcentral-integration/modules/MessageStore/errors"));
+var _errors = _interopRequireDefault(require("@ringcentral-integration/commons/modules/MessageStore/errors"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 

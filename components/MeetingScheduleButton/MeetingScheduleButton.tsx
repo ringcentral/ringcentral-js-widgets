@@ -1,6 +1,6 @@
 import React from 'react';
 import classnames from 'classnames';
-import { RcMMeetingModel } from 'ringcentral-integration/modules/MeetingV2';
+import { RcMMeetingModel } from '@ringcentral-integration/commons/modules/MeetingV2';
 
 import { RcCheckbox, RcButton } from '@ringcentral/juno';
 import styles from './styles.scss';

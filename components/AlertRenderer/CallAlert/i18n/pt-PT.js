@@ -7,7 +7,7 @@ exports["default"] = void 0;
 
 require("core-js/modules/es6.object.define-property");
 
-var _callErrors = _interopRequireDefault(require("ringcentral-integration/modules/Call/callErrors"));
+var _callErrors = _interopRequireDefault(require("@ringcentral-integration/commons/modules/Call/callErrors"));
 
 var _callErrors$noToNumbe;
 

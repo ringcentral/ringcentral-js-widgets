@@ -7,7 +7,7 @@ exports["default"] = void 0;
 
 require("core-js/modules/es6.object.define-property");
 
-var _messages = _interopRequireDefault(require("ringcentral-integration/modules/Conference/messages"));
+var _messages = _interopRequireDefault(require("@ringcentral-integration/commons/modules/Conference/messages"));
 
 var _messages$requireAddi;
 

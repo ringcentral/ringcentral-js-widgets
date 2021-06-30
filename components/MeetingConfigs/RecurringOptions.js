@@ -27,7 +27,7 @@ require("core-js/modules/es6.object.define-property");
 
 require("react-widgets/dist/css/react-widgets.css");
 
-var _Meeting = require("ringcentral-integration/modules/Meeting");
+var _Meeting = require("@ringcentral-integration/commons/modules/Meeting");
 
 var _react = _interopRequireDefault(require("react"));
 

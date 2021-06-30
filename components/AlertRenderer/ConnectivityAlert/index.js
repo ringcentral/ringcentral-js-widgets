@@ -11,7 +11,7 @@ var _react = _interopRequireDefault(require("react"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _connectivityTypes = _interopRequireDefault(require("../../../modules/ConnectivityManager/connectivityTypes"));
+var _ConnectivityManager = require("../../../modules/ConnectivityManager");
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
@@ -32,6 +32,6 @@ ConnectivityAlert.propTypes = {
 
 ConnectivityAlert.handleMessage = function (_ref2) {
   var message = _ref2.message;
-  return message === _connectivityTypes["default"].networkLoss || message === _connectivityTypes["default"].offline || message === _connectivityTypes["default"].serverUnavailable || message === _connectivityTypes["default"].voipOnly || message === _connectivityTypes["default"].survival || message === _connectivityTypes["default"].webphoneUnavailable;
+  return message === _ConnectivityManager.connectivityTypes.networkLoss || message === _ConnectivityManager.connectivityTypes.offline || message === _ConnectivityManager.connectivityTypes.serverUnavailable || message === _ConnectivityManager.connectivityTypes.voipOnly || message === _ConnectivityManager.connectivityTypes.survival || message === _ConnectivityManager.connectivityTypes.webphoneUnavailable;
 };
 //# sourceMappingURL=index.js.map

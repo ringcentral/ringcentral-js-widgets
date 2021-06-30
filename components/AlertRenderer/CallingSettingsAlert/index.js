@@ -11,7 +11,7 @@ var _react = _interopRequireDefault(require("react"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _callingSettingsMessages = _interopRequireDefault(require("ringcentral-integration/modules/CallingSettings/callingSettingsMessages"));
+var _callingSettingsMessages = _interopRequireDefault(require("@ringcentral-integration/commons/modules/CallingSettings/callingSettingsMessages"));
 
 var _CallingSettingsPanel = require("../../CallingSettingsPanel");
 

@@ -1,5 +1,5 @@
-import { Entity } from 'ringcentral-integration/interfaces/Entity.interface';
-import { ActiveSession } from 'ringcentral-integration/modules/ActiveCallControlV2';
+import { Entity } from '@ringcentral-integration/commons/interfaces/Entity.interface';
+import { ActiveSession } from '@ringcentral-integration/commons/modules/ActiveCallControlV2';
 
 export interface SimpleCallControlPanelProps {
   currentLocale: string;

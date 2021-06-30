@@ -13,7 +13,7 @@ var _react = _interopRequireDefault(require("react"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _callErrors = _interopRequireDefault(require("ringcentral-integration/modules/Call/callErrors"));
+var _callErrors = _interopRequireDefault(require("@ringcentral-integration/commons/modules/Call/callErrors"));
 
 var _FormattedMessage = _interopRequireDefault(require("../../FormattedMessage"));
 

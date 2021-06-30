@@ -47,9 +47,9 @@ var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
-var _recordStatus = require("ringcentral-integration/modules/Webphone/recordStatus");
+var _recordStatus = require("@ringcentral-integration/commons/modules/Webphone/recordStatus");
 
-var _is_type = require("ringcentral-integration/lib/di/utils/is_type");
+var _is_type = require("@ringcentral-integration/commons/lib/di/utils/is_type");
 
 var _CircleButton = _interopRequireDefault(require("../CircleButton"));
 

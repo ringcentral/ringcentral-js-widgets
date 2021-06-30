@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import classnames from 'classnames';
-import { callDirection } from 'ringcentral-integration/enums/callDirections';
+import { callDirection } from '@ringcentral-integration/commons/enums/callDirections';
 import { CallLog, CallLogMenu } from '../CallHistoryPanel.interface';
 
 import { CallIcon } from '../CallIcon';

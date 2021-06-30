@@ -39,7 +39,7 @@ var _react = _interopRequireWildcard(require("react"));
 
 var _reactWidgetsMoment = _interopRequireDefault(require("react-widgets-moment"));
 
-var _Meeting = require("ringcentral-integration/modules/Meeting");
+var _Meeting = require("@ringcentral-integration/commons/modules/Meeting");
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 

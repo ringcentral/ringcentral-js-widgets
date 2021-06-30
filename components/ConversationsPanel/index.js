@@ -37,7 +37,7 @@ var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
-var _messageTypes = _interopRequireDefault(require("ringcentral-integration/enums/messageTypes"));
+var _messageTypes = _interopRequireDefault(require("@ringcentral-integration/commons/enums/messageTypes"));
 
 var _Header = require("../Header");
 

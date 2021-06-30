@@ -69,7 +69,7 @@ var _classnames = _interopRequireDefault(require("classnames"));
 
 var _formatMessage = _interopRequireDefault(require("format-message"));
 
-var _formatNumber = _interopRequireDefault(require("ringcentral-integration/lib/formatNumber"));
+var _formatNumber = _interopRequireDefault(require("@ringcentral-integration/commons/lib/formatNumber"));
 
 var _Switch = _interopRequireDefault(require("../Switch"));
 

@@ -41,7 +41,7 @@ require("core-js/modules/es6.function.name");
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _sleep = _interopRequireDefault(require("ringcentral-integration/lib/sleep"));
+var _sleep = _interopRequireDefault(require("@ringcentral-integration/commons/lib/sleep"));
 
 var _isSafari = _interopRequireDefault(require("../../lib/isSafari"));
 

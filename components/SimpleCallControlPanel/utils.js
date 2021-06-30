@@ -19,7 +19,7 @@ require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.keys");
 
-var _callDirections = _interopRequireDefault(require("ringcentral-integration/enums/callDirections"));
+var _callDirections = _interopRequireDefault(require("@ringcentral-integration/commons/enums/callDirections"));
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 

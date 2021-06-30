@@ -7,7 +7,7 @@ exports["default"] = void 0;
 
 require("core-js/modules/es6.object.define-property");
 
-var _callingSettingsMessages = _interopRequireDefault(require("ringcentral-integration/modules/CallingSettings/callingSettingsMessages"));
+var _callingSettingsMessages = _interopRequireDefault(require("@ringcentral-integration/commons/modules/CallingSettings/callingSettingsMessages"));
 
 var _callingSettingsMessa;
 

@@ -13,7 +13,7 @@ var _react = _interopRequireDefault(require("react"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _permissionsMessages = require("ringcentral-integration/modules/RolesAndPermissions/permissionsMessages");
+var _permissionsMessages = require("@ringcentral-integration/commons/enums/permissionsMessages");
 
 var _FormattedMessage = _interopRequireDefault(require("../../FormattedMessage"));
 

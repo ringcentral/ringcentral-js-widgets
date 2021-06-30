@@ -4,23 +4,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
 require("core-js/modules/es7.symbol.async-iterator");
 
-require("core-js/modules/es6.object.define-properties");
-
-require("core-js/modules/es7.object.get-own-property-descriptors");
-
-require("core-js/modules/es6.array.for-each");
-
 require("core-js/modules/es6.symbol");
-
-require("core-js/modules/es6.array.index-of");
-
-require("core-js/modules/web.dom.iterable");
-
-require("core-js/modules/es6.array.iterator");
-
-require("core-js/modules/es6.object.to-string");
-
-require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.object.define-property");
 
@@ -33,31 +17,21 @@ require("core-js/modules/es6.object.set-prototype-of");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = void 0;
+exports.CallLogCallCtrlUI = void 0;
 
 require("core-js/modules/es6.function.bind");
 
 require("core-js/modules/es6.array.filter");
 
-var _di = require("ringcentral-integration/lib/di");
+var _di = require("@ringcentral-integration/commons/lib/di");
 
-var _callingModes = _interopRequireDefault(require("ringcentral-integration/modules/CallingSettings/callingModes"));
+var _callingModes = _interopRequireDefault(require("@ringcentral-integration/commons/modules/CallingSettings/callingModes"));
 
-var _RcUIModule2 = _interopRequireDefault(require("../../lib/RcUIModule"));
+var _core = require("@ringcentral-integration/core");
 
 var _dec, _class;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
-
-function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -82,74 +56,53 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 var CallLogCallCtrlUI = (_dec = (0, _di.Module)({
   name: 'CallLogCallCtrlUI',
   deps: ['ActiveCallControl', 'ConnectivityMonitor', 'RateLimiter', 'RouterInteraction', 'CallingSettings', 'ForwardingNumber', 'CallMonitor']
-}), _dec(_class = /*#__PURE__*/function (_RcUIModule) {
-  _inherits(CallLogCallCtrlUI, _RcUIModule);
+}), _dec(_class = /*#__PURE__*/function (_RcUIModuleV) {
+  _inherits(CallLogCallCtrlUI, _RcUIModuleV);
 
   var _super = _createSuper(CallLogCallCtrlUI);
 
-  function CallLogCallCtrlUI(_ref) {
+  function CallLogCallCtrlUI(deps) {
     var _this;
-
-    var activeCallControl = _ref.activeCallControl,
-        connectivityMonitor = _ref.connectivityMonitor,
-        rateLimiter = _ref.rateLimiter,
-        routerInteraction = _ref.routerInteraction,
-        callingSettings = _ref.callingSettings,
-        forwardingNumber = _ref.forwardingNumber,
-        callMonitor = _ref.callMonitor,
-        options = _objectWithoutProperties(_ref, ["activeCallControl", "connectivityMonitor", "rateLimiter", "routerInteraction", "callingSettings", "forwardingNumber", "callMonitor"]);
 
     _classCallCheck(this, CallLogCallCtrlUI);
 
-    _this = _super.call(this, _objectSpread({}, options));
-    _this._activeCallControl = void 0;
-    _this._connectivityMonitor = void 0;
-    _this._rateLimiter = void 0;
-    _this._routerInteraction = void 0;
-    _this._callingSettings = void 0;
-    _this._forwardingNumber = void 0;
-    _this._callMonitor = void 0;
+    _this = _super.call(this, {
+      deps: deps
+    });
 
-    _this.onTransfer = function (telephonySessionId) {
-      _this._activeCallControl.clickTransferTrack();
+    _this._onTransfer = function (telephonySessionId) {
+      _this._deps.activeCallControl.clickTransferTrack();
 
-      return _this._routerInteraction.push("/transfer/".concat(telephonySessionId, "/active"));
+      return _this._deps.routerInteraction.push("/transfer/".concat(telephonySessionId, "/active"));
     };
 
-    _this._activeCallControl = activeCallControl;
-    _this._connectivityMonitor = connectivityMonitor;
-    _this._rateLimiter = rateLimiter;
-    _this._routerInteraction = routerInteraction;
-    _this._callingSettings = callingSettings;
-    _this._forwardingNumber = forwardingNumber;
-    _this._callMonitor = callMonitor;
     return _this;
   }
 
   _createClass(CallLogCallCtrlUI, [{
     key: "getUIProps",
-    value: function getUIProps(_ref2) {
-      var _this$_activeCallCont, _this$_activeCallCont2, _this$_activeCallCont3;
+    value: function getUIProps(_ref) {
+      var _this$_deps$activeCal, _this$_deps$activeCal2, _this$_deps$activeCal3;
 
-      var telephonySessionId = _ref2.telephonySessionId;
-      var isWebphone = this._callingSettings.callingMode === _callingModes["default"].webphone;
+      var telephonySessionId = _ref.telephonySessionId;
+      var isWebphone = this._deps.callingSettings.callingMode === _callingModes["default"].webphone;
 
-      var currentSession = this._activeCallControl.getActiveSession(telephonySessionId); // we can get real callee call status from telephony session
+      var currentSession = this._deps.activeCallControl.getActiveSession(telephonySessionId); // we can get real callee call status from telephony session
 
 
-      var realOutboundCallStatus = (_this$_activeCallCont = this._activeCallControl) === null || _this$_activeCallCont === void 0 ? void 0 : (_this$_activeCallCont2 = _this$_activeCallCont.getRcCallSession(telephonySessionId)) === null || _this$_activeCallCont2 === void 0 ? void 0 : (_this$_activeCallCont3 = _this$_activeCallCont2.otherParties[0]) === null || _this$_activeCallCont3 === void 0 ? void 0 : _this$_activeCallCont3['status']['code'];
-      var _this$_callMonitor = this._callMonitor,
-          activeOnHoldCalls = _this$_callMonitor.activeOnHoldCalls,
-          activeCurrentCalls = _this$_callMonitor.activeCurrentCalls;
+      var realOutboundCallStatus = (_this$_deps$activeCal = this._deps.activeCallControl) === null || _this$_deps$activeCal === void 0 ? void 0 : (_this$_deps$activeCal2 = _this$_deps$activeCal.getRcCallSession(telephonySessionId)) === null || _this$_deps$activeCal2 === void 0 ? void 0 : (_this$_deps$activeCal3 = _this$_deps$activeCal2.otherParties[0]) === null || _this$_deps$activeCal3 === void 0 ? void 0 : _this$_deps$activeCal3.status.code;
+      var _this$_deps$callMonit = this._deps.callMonitor,
+          activeOnHoldCalls = _this$_deps$callMonit.activeOnHoldCalls,
+          activeCurrentCalls = _this$_deps$callMonit.activeCurrentCalls;
       var otherActiveCalls = currentSession && !!activeOnHoldCalls.concat(activeCurrentCalls).filter(function (call) {
         return call.sessionId !== currentSession.sessionId;
       }).length;
       return {
         isWebphone: isWebphone,
         currentSession: currentSession,
-        disableLinks: !this._connectivityMonitor.connectivity || this._rateLimiter.throttling,
+        disableLinks: !this._deps.connectivityMonitor.connectivity || this._deps.rateLimiter.throttling,
         telephonySessionId: telephonySessionId,
-        forwardingNumbers: this._forwardingNumber.forwardingNumbers,
+        forwardingNumbers: this._deps.forwardingNumber.forwardingNumbers,
         otherActiveCalls: otherActiveCalls,
         realOutboundCallStatus: realOutboundCallStatus
       };
@@ -160,42 +113,42 @@ var CallLogCallCtrlUI = (_dec = (0, _di.Module)({
       var _this2 = this;
 
       return {
-        mute: this._activeCallControl.mute.bind(this._activeCallControl),
-        unmute: this._activeCallControl.unmute.bind(this._activeCallControl),
-        hangUp: this._activeCallControl.hangUp.bind(this._activeCallControl),
-        reject: this._activeCallControl.reject.bind(this._activeCallControl),
-        onHold: this._activeCallControl.hold.bind(this._activeCallControl),
-        onUnHold: this._activeCallControl.unhold.bind(this._activeCallControl),
-        startRecord: this._activeCallControl.startRecord.bind(this._activeCallControl),
-        stopRecord: this._activeCallControl.stopRecord.bind(this._activeCallControl),
-        onTransfer: this.onTransfer,
+        mute: this._deps.activeCallControl.mute.bind(this._deps.activeCallControl),
+        unmute: this._deps.activeCallControl.unmute.bind(this._deps.activeCallControl),
+        hangUp: this._deps.activeCallControl.hangUp.bind(this._deps.activeCallControl),
+        reject: this._deps.activeCallControl.reject.bind(this._deps.activeCallControl),
+        onHold: this._deps.activeCallControl.hold.bind(this._deps.activeCallControl),
+        onUnHold: this._deps.activeCallControl.unhold.bind(this._deps.activeCallControl),
+        startRecord: this._deps.activeCallControl.startRecord.bind(this._deps.activeCallControl),
+        stopRecord: this._deps.activeCallControl.stopRecord.bind(this._deps.activeCallControl),
+        onTransfer: this._onTransfer,
         sendDTMF: function sendDTMF(dtmfValue, telephonySessionId) {
-          return _this2._activeCallControl.sendDTMF(dtmfValue, telephonySessionId);
+          return _this2._deps.activeCallControl.sendDTMF(dtmfValue, telephonySessionId);
         },
-        answer: this._activeCallControl.answer.bind(this._activeCallControl),
+        answer: this._deps.activeCallControl.answer.bind(this._deps.activeCallControl),
         forward: function forward(phoneNumber, telephonySessionId) {
           if (phoneNumber === 'custom') {
-            _this2._routerInteraction.push("/forward/".concat(telephonySessionId));
+            _this2._deps.routerInteraction.push("/forward/".concat(telephonySessionId));
           } else {
-            _this2._activeCallControl.forward.call(_this2._activeCallControl, phoneNumber, telephonySessionId);
+            _this2._deps.activeCallControl.forward.call(_this2._deps.activeCallControl, phoneNumber, telephonySessionId);
           }
         },
-        ignore: this._activeCallControl.ignore.bind(this._activeCallControl),
-        answerAndHold: this._activeCallControl.answerAndHold.bind(this._activeCallControl),
-        answerAndEnd: this._activeCallControl.answerAndEnd.bind(this._activeCallControl),
+        ignore: this._deps.activeCallControl.ignore.bind(this._deps.activeCallControl),
+        answerAndHold: this._deps.activeCallControl.answerAndHold.bind(this._deps.activeCallControl),
+        answerAndEnd: this._deps.activeCallControl.answerAndEnd.bind(this._deps.activeCallControl),
         dialpadToggleTrack: function dialpadToggleTrack(open) {
           if (open) {
-            _this2._activeCallControl.dialpadOpenTrack();
+            _this2._deps.activeCallControl.dialpadOpenTrack();
           } else {
-            _this2._activeCallControl.dialpadCloseTrack();
+            _this2._deps.activeCallControl.dialpadCloseTrack();
           }
         },
-        clickForwardTrack: this._activeCallControl.clickForwardTrack.bind(this._activeCallControl)
+        clickForwardTrack: this._deps.activeCallControl.clickForwardTrack.bind(this._deps.activeCallControl)
       };
     }
   }]);
 
   return CallLogCallCtrlUI;
-}(_RcUIModule2["default"])) || _class);
-exports["default"] = CallLogCallCtrlUI;
+}(_core.RcUIModuleV2)) || _class);
+exports.CallLogCallCtrlUI = CallLogCallCtrlUI;
 //# sourceMappingURL=CallLogCallCtrlUI.js.map

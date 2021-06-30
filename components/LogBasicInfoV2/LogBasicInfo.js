@@ -13,15 +13,15 @@ var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _react = _interopRequireDefault(require("react"));
 
-var _callDirections = _interopRequireDefault(require("ringcentral-integration/enums/callDirections"));
+var _callDirections = _interopRequireDefault(require("@ringcentral-integration/commons/enums/callDirections"));
 
-var _callResults = _interopRequireDefault(require("ringcentral-integration/enums/callResults"));
+var _callResults = _interopRequireDefault(require("@ringcentral-integration/commons/enums/callResults"));
 
-var _telephonyStatus = _interopRequireDefault(require("ringcentral-integration/enums/telephonyStatus"));
+var _telephonyStatus = _interopRequireDefault(require("@ringcentral-integration/commons/enums/telephonyStatus"));
 
-var _recordStatus = _interopRequireDefault(require("ringcentral-integration/modules/Webphone/recordStatus"));
+var _recordStatus = _interopRequireDefault(require("@ringcentral-integration/commons/modules/Webphone/recordStatus"));
 
-var _callLogHelpers = require("ringcentral-integration/lib/callLogHelpers");
+var _callLogHelpers = require("@ringcentral-integration/commons/lib/callLogHelpers");
 
 var _DynamicsFont = _interopRequireDefault(require("../../assets/DynamicsFont/DynamicsFont.scss"));
 

@@ -10,7 +10,7 @@ exports["default"] = getAuthReducer;
 
 var _redux = require("redux");
 
-var _getModuleStatusReducer = _interopRequireDefault(require("ringcentral-integration/lib/getModuleStatusReducer"));
+var _getModuleStatusReducer = _interopRequireDefault(require("@ringcentral-integration/commons/lib/getModuleStatusReducer"));
 
 var _getOAuthBaseReducer = require("../../lib/OAuthBase/getOAuthBaseReducer");
 

@@ -1,8 +1,8 @@
-import { AudioSettings } from 'ringcentral-integration/modules/AudioSettingsV2';
-import { CallMonitor } from 'ringcentral-integration/modules/CallMonitorV2';
-import { Webphone } from 'ringcentral-integration/modules/WebphoneV2';
-import { CallingSettings } from 'ringcentral-integration/modules/CallingSettingsV2';
-import { Locale } from 'ringcentral-integration/modules/LocaleV2';
+import { AudioSettings } from '@ringcentral-integration/commons/modules/AudioSettingsV2';
+import { CallMonitor } from '@ringcentral-integration/commons/modules/CallMonitorV2';
+import { Webphone } from '@ringcentral-integration/commons/modules/WebphoneV2';
+import { CallingSettings } from '@ringcentral-integration/commons/modules/CallingSettingsV2';
+import { Locale } from '@ringcentral-integration/commons/modules/LocaleV2';
 import { RouterInteraction } from '../RouterInteraction';
 
 export interface AudioSettingsUIOptions {

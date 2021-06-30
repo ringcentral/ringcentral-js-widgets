@@ -30,7 +30,7 @@ require("core-js/modules/es6.object.define-property");
 
 var _redux = require("redux");
 
-var _getModuleStatusReducer = _interopRequireDefault(require("ringcentral-integration/lib/getModuleStatusReducer"));
+var _getModuleStatusReducer = _interopRequireDefault(require("@ringcentral-integration/commons/lib/getModuleStatusReducer"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 

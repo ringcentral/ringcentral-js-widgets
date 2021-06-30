@@ -43,15 +43,15 @@ var _formatMessage = _interopRequireDefault(require("format-message"));
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _telephonySessionStatus = require("ringcentral-integration/enums/telephonySessionStatus");
+var _telephonySessionStatus = require("@ringcentral-integration/commons/enums/telephonySessionStatus");
 
-var _callLogHelpers = require("ringcentral-integration/lib/callLogHelpers");
+var _callLogHelpers = require("@ringcentral-integration/commons/lib/callLogHelpers");
 
-var _helpers = require("ringcentral-integration/modules/ActiveCallControlV2/helpers");
+var _helpers = require("@ringcentral-integration/commons/modules/ActiveCallControlV2/helpers");
 
-var _sessionStatus = _interopRequireDefault(require("ringcentral-integration/modules/Webphone/sessionStatus"));
+var _sessionStatus = _interopRequireDefault(require("@ringcentral-integration/commons/modules/Webphone/sessionStatus"));
 
-var _webphoneHelper = require("ringcentral-integration/modules/Webphone/webphoneHelper");
+var _webphoneHelper = require("@ringcentral-integration/commons/modules/Webphone/webphoneHelper");
 
 var _Answer = _interopRequireDefault(require("../../assets/images/Answer.svg"));
 

@@ -23,7 +23,7 @@ var _react = _interopRequireDefault(require("react"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _debounce = _interopRequireDefault(require("ringcentral-integration/lib/debounce"));
+var _debounce = _interopRequireDefault(require("@ringcentral-integration/commons/lib/debounce"));
 
 var _Header = require("../Header");
 

@@ -308,7 +308,7 @@ function _preRelease() {
 
             if (version) {
               packageInfo.version = version;
-              packageInfo.name = 'ringcentral-widgets';
+              packageInfo.name = '@ringcentral-integration/widgets';
             }
 
             _context9.next = 14;

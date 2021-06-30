@@ -23,7 +23,7 @@ var _classnames = _interopRequireDefault(require("classnames"));
 
 var _ramda = require("ramda");
 
-var _phoneTypeHelper = require("ringcentral-integration/lib/phoneTypeHelper");
+var _phoneTypeHelper = require("@ringcentral-integration/commons/lib/phoneTypeHelper");
 
 var _DynamicsFont = _interopRequireDefault(require("../../../assets/DynamicsFont/DynamicsFont.scss"));
 

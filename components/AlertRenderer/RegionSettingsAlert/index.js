@@ -13,7 +13,7 @@ var _react = _interopRequireDefault(require("react"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _regionSettingsMessages = _interopRequireDefault(require("ringcentral-integration/modules/RegionSettings/regionSettingsMessages"));
+var _regionSettingsMessages = _interopRequireDefault(require("@ringcentral-integration/commons/modules/RegionSettings/regionSettingsMessages"));
 
 var _FormattedMessage = _interopRequireDefault(require("../../FormattedMessage"));
 

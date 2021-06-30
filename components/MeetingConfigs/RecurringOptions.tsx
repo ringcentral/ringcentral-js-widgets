@@ -1,6 +1,6 @@
 import 'react-widgets/dist/css/react-widgets.css';
 
-import { MeetingType } from 'ringcentral-integration/modules/Meeting';
+import { MeetingType } from '@ringcentral-integration/commons/modules/Meeting';
 import React, { FunctionComponent } from 'react';
 
 import MeetingSection from '../MeetingSection';

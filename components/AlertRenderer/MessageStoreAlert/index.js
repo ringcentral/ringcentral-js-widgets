@@ -11,7 +11,7 @@ var _react = _interopRequireDefault(require("react"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _errors = _interopRequireDefault(require("ringcentral-integration/modules/MessageStore/errors"));
+var _errors = _interopRequireDefault(require("@ringcentral-integration/commons/modules/MessageStore/errors"));
 
 var _FormattedMessage = _interopRequireDefault(require("../../FormattedMessage"));
 

@@ -11,7 +11,7 @@ var _react = _interopRequireDefault(require("react"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _permissionsMessages = _interopRequireDefault(require("ringcentral-integration/modules/RolesAndPermissions/permissionsMessages"));
+var _permissionsMessages = require("@ringcentral-integration/commons/enums/permissionsMessages");
 
 var _FormattedMessage = _interopRequireDefault(require("../../FormattedMessage"));
 
@@ -27,7 +27,7 @@ function RolesAndPermissionsAlert(_ref) {
   var msg;
 
   switch (message) {
-    case _permissionsMessages["default"].invalidTier:
+    case _permissionsMessages.permissionsMessages.invalidTier:
       msg = /*#__PURE__*/_react["default"].createElement(_FormattedMessage["default"], {
         message: _i18n["default"].getString(message, currentLocale),
         values: {
@@ -59,6 +59,6 @@ RolesAndPermissionsAlert.defaultProps = {
 
 RolesAndPermissionsAlert.handleMessage = function (_ref2) {
   var message = _ref2.message;
-  return message === _permissionsMessages["default"].invalidTier || message === _permissionsMessages["default"].insufficientPrivilege;
+  return message === _permissionsMessages.permissionsMessages.invalidTier || message === _permissionsMessages.permissionsMessages.insufficientPrivilege;
 };
 //# sourceMappingURL=index.js.map

@@ -7,7 +7,7 @@ exports["default"] = void 0;
 
 require("core-js/modules/es6.object.define-property");
 
-var _callLogMessages = _interopRequireDefault(require("ringcentral-integration/enums/callLogMessages"));
+var _callLogMessages = _interopRequireDefault(require("@ringcentral-integration/commons/enums/callLogMessages"));
 
 var _callLogMessages$logC;
 

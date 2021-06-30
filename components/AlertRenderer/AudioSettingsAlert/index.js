@@ -11,7 +11,7 @@ var _react = _interopRequireDefault(require("react"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _audioSettingsErrors = _interopRequireDefault(require("ringcentral-integration/modules/AudioSettings/audioSettingsErrors"));
+var _audioSettingsErrors = _interopRequireDefault(require("@ringcentral-integration/commons/modules/AudioSettings/audioSettingsErrors"));
 
 var _FormattedMessage = _interopRequireDefault(require("../../FormattedMessage"));
 

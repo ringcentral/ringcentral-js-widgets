@@ -21,9 +21,9 @@ exports.AudioSettingsUI = void 0;
 
 var _core = require("@ringcentral-integration/core");
 
-var _di = require("ringcentral-integration/lib/di");
+var _di = require("@ringcentral-integration/commons/lib/di");
 
-var _callingOptions = _interopRequireDefault(require("ringcentral-integration/modules/CallingSettings/callingOptions"));
+var _callingOptions = _interopRequireDefault(require("@ringcentral-integration/commons/modules/CallingSettings/callingOptions"));
 
 var _dec, _class;
 

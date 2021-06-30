@@ -5,7 +5,7 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.CallLogCallCtrl = void 0;
+exports.CallLogCallCtrlPanel = void 0;
 
 require("core-js/modules/es6.promise");
 
@@ -15,7 +15,7 @@ require("regenerator-runtime/runtime");
 
 var _react = _interopRequireDefault(require("react"));
 
-var _CallLogCallCtrlComponent = _interopRequireDefault(require("../../components/CallLogCallCtrlComponent"));
+var _CallLogCallCtrlComponent = _interopRequireDefault(require("../CallLogCallCtrlComponent"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -23,7 +23,7 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-var CallLogCallCtrl = function CallLogCallCtrl(props) {
+var CallLogCallCtrlPanel = function CallLogCallCtrlPanel(props) {
   var currentLocale = props.currentLocale,
       telephonySessionId = props.telephonySessionId,
       disableLinks = props.disableLinks,
@@ -281,8 +281,8 @@ var CallLogCallCtrl = function CallLogCallCtrl(props) {
   });
 };
 
-exports.CallLogCallCtrl = CallLogCallCtrl;
-CallLogCallCtrl.defaultProps = {
+exports.CallLogCallCtrlPanel = CallLogCallCtrlPanel;
+CallLogCallCtrlPanel.defaultProps = {
   currentLocale: 'en-US',
   currentSession: undefined,
   telephonySessionId: '',
@@ -292,4 +292,4 @@ CallLogCallCtrl.defaultProps = {
   isOnTransfer: false,
   realOutboundCallStatus: ''
 };
-//# sourceMappingURL=CallLogCallCtrl.js.map
+//# sourceMappingURL=CallLogCallCtrlPanel.js.map

@@ -15,9 +15,9 @@ var _react = _interopRequireDefault(require("react"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _messageSenderMessages = _interopRequireDefault(require("ringcentral-integration/modules/MessageSender/messageSenderMessages"));
+var _messageSenderMessages = _interopRequireDefault(require("@ringcentral-integration/commons/modules/MessageSender/messageSenderMessages"));
 
-var _messageSenderMessages2 = _interopRequireDefault(require("ringcentral-integration/modules/MessageSenderV2/messageSenderMessages"));
+var _messageSenderMessages2 = _interopRequireDefault(require("@ringcentral-integration/commons/modules/MessageSenderV2/messageSenderMessages"));
 
 var _FormattedMessage = _interopRequireDefault(require("../../FormattedMessage"));
 

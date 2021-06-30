@@ -1,7 +1,7 @@
-import { Module } from 'ringcentral-integration/lib/di';
-import Brand from 'ringcentral-integration/modules/Brand';
-import { RcVideo } from 'ringcentral-integration/modules/RcVideo';
-import { RcVMeetingModel } from 'ringcentral-integration/interfaces/Rcv.model';
+import { Module } from '@ringcentral-integration/commons/lib/di';
+import { Brand } from '@ringcentral-integration/commons/modules/BrandV2';
+import { RcVideo } from '@ringcentral-integration/commons/modules/RcVideo';
+import { RcVMeetingModel } from '@ringcentral-integration/commons/interfaces/Rcv.model';
 
 import RcUIModule from '../../lib/RcUIModule';
 

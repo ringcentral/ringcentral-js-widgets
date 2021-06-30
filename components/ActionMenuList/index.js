@@ -39,9 +39,9 @@ var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _messageTypes = _interopRequireDefault(require("ringcentral-integration/enums/messageTypes"));
+var _messageTypes = _interopRequireDefault(require("@ringcentral-integration/commons/enums/messageTypes"));
 
-var _extensionTypes = require("ringcentral-integration/enums/extensionTypes");
+var _extensionTypes = require("@ringcentral-integration/commons/enums/extensionTypes");
 
 var _DynamicsFont = _interopRequireDefault(require("../../assets/DynamicsFont/DynamicsFont.scss"));
 

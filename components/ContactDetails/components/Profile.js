@@ -13,7 +13,7 @@ var _react = _interopRequireDefault(require("react"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
-var _extensionStatusTypes = require("ringcentral-integration/enums/extensionStatusTypes");
+var _extensionStatusTypes = require("@ringcentral-integration/commons/enums/extensionStatusTypes");
 
 var _Avatar = require("./Avatar");
 

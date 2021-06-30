@@ -55,7 +55,7 @@ var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
-var _debounce = _interopRequireDefault(require("ringcentral-integration/lib/debounce"));
+var _debounce = _interopRequireDefault(require("@ringcentral-integration/commons/lib/debounce"));
 
 var _Panel = _interopRequireDefault(require("../Panel"));
 

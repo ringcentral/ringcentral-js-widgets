@@ -39,7 +39,7 @@ var _react = _interopRequireWildcard(require("react"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _calleeTypes = _interopRequireDefault(require("ringcentral-integration/enums/calleeTypes"));
+var _calleeTypes = _interopRequireDefault(require("@ringcentral-integration/commons/enums/calleeTypes"));
 
 var _BackButton = _interopRequireDefault(require("../BackButton"));
 

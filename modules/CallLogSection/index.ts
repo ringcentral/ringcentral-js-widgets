@@ -8,11 +8,11 @@ import {
   pick,
   useWith,
 } from 'ramda';
-import { Module } from 'ringcentral-integration/lib/di';
-import ensureExist from 'ringcentral-integration/lib/ensureExist';
-import RcModule from 'ringcentral-integration/lib/RcModule';
-import { selector } from 'ringcentral-integration/lib/selector';
-import { proxify } from 'ringcentral-integration/lib/proxy/proxify';
+import { Module } from '@ringcentral-integration/commons/lib/di';
+import ensureExist from '@ringcentral-integration/commons/lib/ensureExist';
+import RcModule from '@ringcentral-integration/commons/lib/RcModule';
+import { selector } from '@ringcentral-integration/commons/lib/selector';
+import { proxify } from '@ringcentral-integration/commons/lib/proxy/proxify';
 
 import { Mapping } from '../../typings';
 import actionTypes from './actionTypes';

@@ -7,11 +7,11 @@ exports["default"] = void 0;
 
 require("core-js/modules/es6.object.define-property");
 
-var _presenceStatus = require("ringcentral-integration/enums/presenceStatus.enum");
+var _presenceStatus = require("@ringcentral-integration/commons/enums/presenceStatus.enum");
 
-var _dndStatus = _interopRequireDefault(require("ringcentral-integration/modules/Presence/dndStatus"));
+var _dndStatus = _interopRequireDefault(require("@ringcentral-integration/commons/modules/Presence/dndStatus"));
 
-var _phoneTypes = require("ringcentral-integration/enums/phoneTypes");
+var _phoneTypes = require("@ringcentral-integration/commons/enums/phoneTypes");
 
 var _phoneTypes$extension;
 

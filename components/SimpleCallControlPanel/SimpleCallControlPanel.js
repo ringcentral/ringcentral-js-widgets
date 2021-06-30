@@ -39,7 +39,7 @@ require("core-js/modules/es6.array.find-index");
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _formatNumber = _interopRequireDefault(require("ringcentral-integration/lib/formatNumber"));
+var _formatNumber = _interopRequireDefault(require("@ringcentral-integration/commons/lib/formatNumber"));
 
 var _CallCtrlPanel = _interopRequireDefault(require("../CallCtrlPanel"));
 

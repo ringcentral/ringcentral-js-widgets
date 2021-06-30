@@ -1,3 +1,4 @@
+import { ReactNode, MutableRefObject } from 'react';
 import { RingtoneBaseProps } from '../Ringtone/Ringtone.interface';
 
 export interface SaveFunctionProps {
@@ -11,9 +12,11 @@ export interface SaveFunctionProps {
   outgoingAudioFile?: string;
 }
 
-export interface CallingSettingsUIProps extends RingtoneBaseProps {
+export interface CallingSettingsProps extends RingtoneBaseProps {
   brandCode: string;
   brandName: string;
+  shortBrandName: string;
+  fullBrandName: string;
   availableNumbersWithLabel: { label: string; value: string }[];
   callWith: string;
   callWithOptions: string[];
@@ -23,23 +26,34 @@ export interface CallingSettingsUIProps extends RingtoneBaseProps {
   locationSearchable?: boolean;
   myLocation: string;
   ringoutPrompt: boolean;
+  onSave: (options: SaveFunctionProps) => void;
 }
-
-export interface CallingSettingsUIFunctions {
+export interface CallingSettingsPanelProps extends CallingSettingsProps {
+  showSpinner?: boolean;
+  className?: string;
+  onBackButtonClick: () => void;
   onSave: (options: SaveFunctionProps) => void;
 }
 
-export interface CallingSettingsProps
-  extends CallingSettingsUIProps,
-    CallingSettingsUIFunctions {}
-export interface CallingSettingsPanelUIProps extends CallingSettingsUIProps {
-  showSpinner?: boolean;
-  className?: string;
+export interface GetOptionNameProps {
+  brandCode: string;
+  brandName: string;
+  shortBrandName: string;
+  fullBrandName: string;
+  currentLocale?: string;
 }
-export interface CallingSettingsPanelUIFunctions
-  extends CallingSettingsUIFunctions {
-  onBackButtonClick: () => void;
+
+export interface GetCallingOptionProps extends GetOptionNameProps {
+  callingOption: string;
 }
-export interface CallingSettingsPanelProps
-  extends CallingSettingsPanelUIProps,
-    CallingSettingsPanelUIFunctions {}
+
+export interface CallWithProps extends GetOptionNameProps {
+  callWithOptions: string[];
+  disabled: boolean;
+  callWith: string;
+  onCallWithChange: (newCallWith: string) => void;
+}
+export interface TooltipProps extends GetOptionNameProps {
+  callWith: string;
+  tooltipContainerRef: MutableRefObject<ReactNode>;
+}

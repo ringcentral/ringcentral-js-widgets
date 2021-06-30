@@ -7,9 +7,9 @@ exports["default"] = void 0;
 
 require("core-js/modules/es6.object.define-property");
 
-var _messageSenderMessages = _interopRequireDefault(require("ringcentral-integration/modules/MessageSender/messageSenderMessages"));
+var _messageSenderMessages = _interopRequireDefault(require("@ringcentral-integration/commons/modules/MessageSender/messageSenderMessages"));
 
-var _messageSenderMessages2 = _interopRequireDefault(require("ringcentral-integration/modules/MessageSenderV2/messageSenderMessages"));
+var _messageSenderMessages2 = _interopRequireDefault(require("@ringcentral-integration/commons/modules/MessageSenderV2/messageSenderMessages"));
 
 var _messageSenderMessage;
 

@@ -49,15 +49,15 @@ require("regenerator-runtime/runtime");
 
 var _ramda = require("ramda");
 
-var _di = require("ringcentral-integration/lib/di");
+var _di = require("@ringcentral-integration/commons/lib/di");
 
-var _ensureExist = _interopRequireDefault(require("ringcentral-integration/lib/ensureExist"));
+var _ensureExist = _interopRequireDefault(require("@ringcentral-integration/commons/lib/ensureExist"));
 
-var _RcModule2 = _interopRequireDefault(require("ringcentral-integration/lib/RcModule"));
+var _RcModule2 = _interopRequireDefault(require("@ringcentral-integration/commons/lib/RcModule"));
 
-var _selector = require("ringcentral-integration/lib/selector");
+var _selector = require("@ringcentral-integration/commons/lib/selector");
 
-var _proxify = require("ringcentral-integration/lib/proxy/proxify");
+var _proxify = require("@ringcentral-integration/commons/lib/proxy/proxify");
 
 var _actionTypes = _interopRequireDefault(require("./actionTypes"));
 

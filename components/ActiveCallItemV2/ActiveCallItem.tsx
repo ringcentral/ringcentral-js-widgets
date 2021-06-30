@@ -1,14 +1,14 @@
 import classnames from 'classnames';
 import formatMessage from 'format-message';
 import React, { Component, FunctionComponent } from 'react';
-import { telephonySessionStatus } from 'ringcentral-integration/enums/telephonySessionStatus';
+import { telephonySessionStatus } from '@ringcentral-integration/commons/enums/telephonySessionStatus';
 import {
   isInbound,
   isRinging,
-} from 'ringcentral-integration/lib/callLogHelpers';
-import { isHolding as isTelephonySessionOnHold } from 'ringcentral-integration/modules/ActiveCallControlV2/helpers';
-import sessionStatus from 'ringcentral-integration/modules/Webphone/sessionStatus';
-import { isOnHold } from 'ringcentral-integration/modules/Webphone/webphoneHelper';
+} from '@ringcentral-integration/commons/lib/callLogHelpers';
+import { isHolding as isTelephonySessionOnHold } from '@ringcentral-integration/commons/modules/ActiveCallControlV2/helpers';
+import sessionStatus from '@ringcentral-integration/commons/modules/Webphone/sessionStatus';
+import { isOnHold } from '@ringcentral-integration/commons/modules/Webphone/webphoneHelper';
 
 import AnswerIcon from '../../assets/images/Answer.svg';
 import EndIcon from '../../assets/images/End.svg';

@@ -33,9 +33,9 @@ require("regenerator-runtime/runtime");
 
 var _core = require("@ringcentral-integration/core");
 
-var _di = require("ringcentral-integration/lib/di");
+var _di = require("@ringcentral-integration/commons/lib/di");
 
-var _formatNumber = _interopRequireDefault(require("ringcentral-integration/lib/formatNumber"));
+var _formatNumber = _interopRequireDefault(require("@ringcentral-integration/commons/lib/formatNumber"));
 
 var _dec, _class;
 

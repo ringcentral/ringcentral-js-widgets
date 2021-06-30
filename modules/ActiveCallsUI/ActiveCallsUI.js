@@ -49,19 +49,19 @@ var _react = _interopRequireDefault(require("react"));
 
 var _core = require("@ringcentral-integration/core");
 
-var _di = require("ringcentral-integration/lib/di");
+var _di = require("@ringcentral-integration/commons/lib/di");
 
-var _formatNumber = _interopRequireDefault(require("ringcentral-integration/lib/formatNumber"));
+var _formatNumber = _interopRequireDefault(require("@ringcentral-integration/commons/lib/formatNumber"));
 
-var _callDirections = _interopRequireDefault(require("ringcentral-integration/enums/callDirections"));
+var _callDirections = _interopRequireDefault(require("@ringcentral-integration/commons/enums/callDirections"));
 
-var _callLogHelpers = require("ringcentral-integration/lib/callLogHelpers");
+var _callLogHelpers = require("@ringcentral-integration/commons/lib/callLogHelpers");
 
-var _callingModes = _interopRequireDefault(require("ringcentral-integration/modules/CallingSettings/callingModes"));
+var _callingModes = _interopRequireDefault(require("@ringcentral-integration/commons/modules/CallingSettings/callingModes"));
 
-var _webphoneHelper = require("ringcentral-integration/modules/Webphone/webphoneHelper");
+var _webphoneHelper = require("@ringcentral-integration/commons/modules/Webphone/webphoneHelper");
 
-var _helpers = require("ringcentral-integration/modules/ActiveCallControlV2/helpers");
+var _helpers = require("@ringcentral-integration/commons/modules/ActiveCallControlV2/helpers");
 
 var _ActiveCallItemV = require("../../components/ActiveCallItemV2");
 

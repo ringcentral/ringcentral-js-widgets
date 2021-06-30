@@ -43,7 +43,7 @@ exports["default"] = void 0;
 
 require("core-js/modules/es6.function.name");
 
-var _di = require("ringcentral-integration/lib/di");
+var _di = require("@ringcentral-integration/commons/lib/di");
 
 var _ramda = require("ramda");
 

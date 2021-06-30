@@ -77,9 +77,9 @@ function _objectWithoutProperties(source, excluded) { if (source == null) return
 
 function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 
-var throttledTime = 1000;
+var throttledTime = 1000; // FunctionComponent<RecipientsInputProps>
 
-var RecipientsInput = function RecipientsInput(_ref) {
+var RecipientsInput = /*#__PURE__*/(0, _react.forwardRef)(function (_ref, ref) {
   var placeholder = _ref.placeholder,
       value = _ref.value,
       currentLocale = _ref.currentLocale,
@@ -90,7 +90,8 @@ var RecipientsInput = function RecipientsInput(_ref) {
       deleteIconProps = _ref.deleteIconProps,
       rest = _objectWithoutProperties(_ref, ["placeholder", "value", "currentLocale", "onChange", "onDelete", "onClear", "className", "deleteIconProps"]);
 
-  var inputRef = (0, _react.useRef)();
+  var defaultRef = (0, _react.useRef)();
+  var inputRef = ref || defaultRef;
 
   var _useState = (0, _react.useState)(null),
       _useState2 = _slicedToArray(_useState, 2),
@@ -172,7 +173,6 @@ var RecipientsInput = function RecipientsInput(_ref) {
     },
     autoComplete: "off"
   }, rest)));
-};
-
+});
 exports.RecipientsInput = RecipientsInput;
 //# sourceMappingURL=RecipientsInput.js.map

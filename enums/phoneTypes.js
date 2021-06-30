@@ -16,7 +16,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _phoneTypes = require("ringcentral-integration/enums/phoneTypes");
+var _phoneTypes = require("@ringcentral-integration/commons/enums/phoneTypes");
 
 Object.keys(_phoneTypes).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;

@@ -27,11 +27,11 @@ require("regenerator-runtime/runtime");
 
 require("core-js/modules/es6.function.name");
 
-var _di = require("ringcentral-integration/lib/di");
+var _di = require("@ringcentral-integration/commons/lib/di");
 
-var _formatNumber = _interopRequireDefault(require("ringcentral-integration/lib/formatNumber"));
+var _formatNumber = _interopRequireDefault(require("@ringcentral-integration/commons/lib/formatNumber"));
 
-var _loginStatus = _interopRequireDefault(require("ringcentral-integration/modules/Auth/loginStatus"));
+var _loginStatus = _interopRequireDefault(require("@ringcentral-integration/commons/modules/Auth/loginStatus"));
 
 var _RcUIModule2 = _interopRequireDefault(require("../../lib/RcUIModule"));
 

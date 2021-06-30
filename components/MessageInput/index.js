@@ -49,7 +49,7 @@ var _Close = _interopRequireDefault(require("@ringcentral/juno/icon/Close"));
 
 var _juno = require("@ringcentral/juno");
 
-var _debounce = require("ringcentral-integration/lib/debounce-throttle/debounce");
+var _debounce = require("@ringcentral-integration/commons/lib/debounce-throttle/debounce");
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 

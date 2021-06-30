@@ -43,7 +43,7 @@ require("regenerator-runtime/runtime");
 
 require("core-js/modules/es6.function.name");
 
-var _di = require("ringcentral-integration/lib/di");
+var _di = require("@ringcentral-integration/commons/lib/di");
 
 var _RcUIModule2 = _interopRequireDefault(require("../../lib/RcUIModule"));
 

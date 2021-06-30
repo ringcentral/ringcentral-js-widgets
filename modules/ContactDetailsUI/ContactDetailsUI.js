@@ -49,17 +49,17 @@ require("regenerator-runtime/runtime");
 
 var _core = require("@ringcentral-integration/core");
 
-var _di = require("ringcentral-integration/lib/di");
+var _di = require("@ringcentral-integration/commons/lib/di");
 
-var _background = _interopRequireDefault(require("ringcentral-integration/lib/background"));
+var _background = _interopRequireDefault(require("@ringcentral-integration/commons/lib/background"));
 
-var _proxify = _interopRequireDefault(require("ringcentral-integration/lib/proxy/proxify"));
+var _proxify = _interopRequireDefault(require("@ringcentral-integration/commons/lib/proxy/proxify"));
 
 var _phoneNumber = require("@ringcentral-integration/phone-number");
 
-var _phoneTypes = require("ringcentral-integration/enums/phoneTypes");
+var _phoneTypes = require("@ringcentral-integration/commons/enums/phoneTypes");
 
-var _formatNumber2 = require("ringcentral-integration/lib/formatNumber");
+var _formatNumber2 = require("@ringcentral-integration/commons/lib/formatNumber");
 
 var _trackEvents = require("./trackEvents");
 

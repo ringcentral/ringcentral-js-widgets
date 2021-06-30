@@ -67,7 +67,7 @@ var _ramda = require("ramda");
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _sleep = _interopRequireDefault(require("ringcentral-integration/lib/sleep"));
+var _sleep = _interopRequireDefault(require("@ringcentral-integration/commons/lib/sleep"));
 
 var _AlertDisplay = _interopRequireDefault(require("../AlertDisplay"));
 

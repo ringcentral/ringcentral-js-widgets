@@ -35,7 +35,7 @@ var _react = _interopRequireWildcard(require("react"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _errorMessages = _interopRequireDefault(require("ringcentral-integration/modules/RateLimiter/errorMessages"));
+var _errorMessages = _interopRequireDefault(require("@ringcentral-integration/commons/modules/RateLimiter/errorMessages"));
 
 var _FormattedMessage = _interopRequireDefault(require("../../FormattedMessage"));
 

@@ -3,9 +3,9 @@ import {
   UIProps,
   UIFunctions,
 } from '@ringcentral-integration/core';
-import { Module } from 'ringcentral-integration/lib/di';
-import callDirections from 'ringcentral-integration/enums/callDirections';
-import { Entity } from 'ringcentral-integration/interfaces/Entity.interface';
+import { Module } from '@ringcentral-integration/commons/lib/di';
+import callDirections from '@ringcentral-integration/commons/enums/callDirections';
+import { Entity } from '@ringcentral-integration/commons/interfaces/Entity.interface';
 import {
   SimpleCallControlContainerProps,
   Deps,

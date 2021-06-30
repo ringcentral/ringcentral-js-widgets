@@ -4,7 +4,7 @@ import {
   RcModuleV2,
   state,
 } from '@ringcentral-integration/core';
-import { Module } from 'ringcentral-integration/lib/di';
+import { Module } from '@ringcentral-integration/commons/lib/di';
 import * as uuid from 'uuid';
 
 import { BlockItem, DepsModules, IBlock } from './Block.interface';

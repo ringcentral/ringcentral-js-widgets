@@ -61,9 +61,9 @@ var _ramda = require("ramda");
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _meetingHelper = require("ringcentral-integration/helpers/meetingHelper");
+var _meetingHelper = require("@ringcentral-integration/commons/helpers/meetingHelper");
 
-var _RcVideo = require("ringcentral-integration/modules/RcVideo");
+var _RcVideo = require("@ringcentral-integration/commons/modules/RcVideo");
 
 var _MeetingCalendarHelper = require("../../lib/MeetingCalendarHelper");
 
@@ -260,7 +260,7 @@ var VideoConfig = function VideoConfig(props) {
   return /*#__PURE__*/_react["default"].createElement("div", {
     ref: configRef,
     className: _styles["default"].videoConfig,
-    "data-sign": "videoConfigPanel"
+    "data-sign": "videoConfigsPanel"
   }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].meetingContent
   }, showSpinnerInConfigPanel ? /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay.SpinnerOverlay, null) : null, /*#__PURE__*/_react["default"].createElement("div", {

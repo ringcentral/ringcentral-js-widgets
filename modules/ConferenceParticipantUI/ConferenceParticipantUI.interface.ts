@@ -1,11 +1,11 @@
-import { Locale } from 'ringcentral-integration/modules/LocaleV2';
+import { Locale } from '@ringcentral-integration/commons/modules/LocaleV2';
 import {
   ConferenceCall,
   Party,
   PartyState,
-} from 'ringcentral-integration/modules/ConferenceCallV2';
-import { Webphone } from 'ringcentral-integration/modules/WebphoneV2';
-import { RegionSettings } from 'ringcentral-integration/modules/RegionSettingsV2';
+} from '@ringcentral-integration/commons/modules/ConferenceCallV2';
+import { Webphone } from '@ringcentral-integration/commons/modules/WebphoneV2';
+import { RegionSettings } from '@ringcentral-integration/commons/modules/RegionSettingsV2';
 import { RouterInteraction } from '../RouterInteraction';
 
 export interface ConferenceParticipantUIOptions {

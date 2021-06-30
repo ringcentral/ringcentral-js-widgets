@@ -19,7 +19,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 
-var _di = require("ringcentral-integration/lib/di");
+var _di = require("@ringcentral-integration/commons/lib/di");
 
 var _RcUIModule2 = _interopRequireDefault(require("../../lib/RcUIModule"));
 

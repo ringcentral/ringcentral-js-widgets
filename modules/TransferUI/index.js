@@ -41,9 +41,9 @@ require("core-js/modules/es6.regexp.replace");
 
 require("core-js/modules/es6.array.find");
 
-var _module = _interopRequireDefault(require("ringcentral-integration/lib/di/decorators/module"));
+var _module = _interopRequireDefault(require("@ringcentral-integration/commons/lib/di/decorators/module"));
 
-var _formatNumber = _interopRequireDefault(require("ringcentral-integration/lib/formatNumber"));
+var _formatNumber = _interopRequireDefault(require("@ringcentral-integration/commons/lib/formatNumber"));
 
 var _RcUIModule2 = _interopRequireDefault(require("../../lib/RcUIModule"));
 

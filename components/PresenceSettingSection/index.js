@@ -35,9 +35,9 @@ var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
-var _presenceStatus = require("ringcentral-integration/enums/presenceStatus.enum");
+var _presenceStatus = require("@ringcentral-integration/commons/enums/presenceStatus.enum");
 
-var _dndStatus = _interopRequireDefault(require("ringcentral-integration/modules/Presence/dndStatus"));
+var _dndStatus = _interopRequireDefault(require("@ringcentral-integration/commons/modules/Presence/dndStatus"));
 
 var _IconLine = _interopRequireDefault(require("../IconLine"));
 

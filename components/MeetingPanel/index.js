@@ -17,7 +17,7 @@ require("react-widgets/dist/css/react-widgets.css");
 
 var _react = _interopRequireDefault(require("react"));
 
-var _sleep = _interopRequireDefault(require("ringcentral-integration/lib/sleep"));
+var _sleep = _interopRequireDefault(require("@ringcentral-integration/commons/lib/sleep"));
 
 var _isSafari = _interopRequireDefault(require("../../lib/isSafari"));
 

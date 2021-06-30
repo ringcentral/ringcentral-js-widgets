@@ -33,7 +33,7 @@ var _react = _interopRequireWildcard(require("react"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _sleep = _interopRequireDefault(require("ringcentral-integration/lib/sleep"));
+var _sleep = _interopRequireDefault(require("@ringcentral-integration/commons/lib/sleep"));
 
 var _ConferenceParticipantPanel = _interopRequireDefault(require("../ConferenceParticipantPanel"));
 

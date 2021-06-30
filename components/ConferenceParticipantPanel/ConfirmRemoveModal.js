@@ -11,7 +11,7 @@ var _react = _interopRequireDefault(require("react"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _calleeTypes = _interopRequireDefault(require("ringcentral-integration/enums/calleeTypes"));
+var _calleeTypes = _interopRequireDefault(require("@ringcentral-integration/commons/enums/calleeTypes"));
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 

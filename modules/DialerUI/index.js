@@ -59,17 +59,17 @@ require("core-js/modules/es6.string.trim");
 
 require("regenerator-runtime/runtime");
 
-var _di = require("ringcentral-integration/lib/di");
+var _di = require("@ringcentral-integration/commons/lib/di");
 
-var _proxify = _interopRequireDefault(require("ringcentral-integration/lib/proxy/proxify"));
+var _proxify = _interopRequireDefault(require("@ringcentral-integration/commons/lib/proxy/proxify"));
 
-var _callErrors = _interopRequireDefault(require("ringcentral-integration/modules/Call/callErrors"));
+var _callErrors = _interopRequireDefault(require("@ringcentral-integration/commons/modules/Call/callErrors"));
 
 var _ObjectMap = require("@ringcentral-integration/core/lib/ObjectMap");
 
-var _formatNumber = _interopRequireDefault(require("ringcentral-integration/lib/formatNumber"));
+var _formatNumber = _interopRequireDefault(require("@ringcentral-integration/commons/lib/formatNumber"));
 
-var _selector = require("ringcentral-integration/lib/selector");
+var _selector = require("@ringcentral-integration/commons/lib/selector");
 
 var _RcUIModule2 = _interopRequireDefault(require("../../lib/RcUIModule"));
 

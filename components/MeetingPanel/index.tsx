@@ -1,7 +1,7 @@
 import 'react-widgets/dist/css/react-widgets.css';
 
 import React from 'react';
-import sleep from 'ringcentral-integration/lib/sleep';
+import sleep from '@ringcentral-integration/commons/lib/sleep';
 import isSafari from '../../lib/isSafari';
 
 import MeetingConfig from '../MeetingConfigs';

@@ -47,11 +47,11 @@ var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _callDirections = _interopRequireDefault(require("ringcentral-integration/enums/callDirections"));
+var _callDirections = _interopRequireDefault(require("@ringcentral-integration/commons/enums/callDirections"));
 
-var _telephonyStatus = _interopRequireDefault(require("ringcentral-integration/enums/telephonyStatus"));
+var _telephonyStatus = _interopRequireDefault(require("@ringcentral-integration/commons/enums/telephonyStatus"));
 
-var _recordStatus = _interopRequireDefault(require("ringcentral-integration/modules/Webphone/recordStatus"));
+var _recordStatus = _interopRequireDefault(require("@ringcentral-integration/commons/modules/Webphone/recordStatus"));
 
 var _TransferCall = _interopRequireDefault(require("@ringcentral/juno/icon/TransferCall"));
 
@@ -61,7 +61,7 @@ var _Ignore = _interopRequireDefault(require("@ringcentral/juno/icon/Ignore"));
 
 var _Voicemail = _interopRequireDefault(require("@ringcentral/juno/icon/Voicemail"));
 
-var _telephonySessionStatus = require("ringcentral-integration/enums/telephonySessionStatus");
+var _telephonySessionStatus = require("@ringcentral-integration/commons/enums/telephonySessionStatus");
 
 var _Forward_white = _interopRequireDefault(require("../../assets/images/Forward_white.svg"));
 

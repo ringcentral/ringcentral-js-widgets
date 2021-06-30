@@ -13,7 +13,7 @@ var _ramda = require("ramda");
 
 var _react = _interopRequireDefault(require("react"));
 
-var _authMessages = _interopRequireDefault(require("ringcentral-integration/modules/Auth/authMessages"));
+var _authMessages = _interopRequireDefault(require("@ringcentral-integration/commons/modules/Auth/authMessages"));
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 

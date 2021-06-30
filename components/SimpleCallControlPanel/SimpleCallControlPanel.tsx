@@ -5,7 +5,7 @@ import React, {
   FunctionComponent,
   useRef,
 } from 'react';
-import formatNumber from 'ringcentral-integration/lib/formatNumber';
+import formatNumber from '@ringcentral-integration/commons/lib/formatNumber';
 
 import CallCtrlPanel from '../CallCtrlPanel';
 import callCtrlLayouts from '../../enums/callCtrlLayouts';

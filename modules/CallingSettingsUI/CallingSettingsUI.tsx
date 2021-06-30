@@ -1,10 +1,12 @@
-import { Module } from 'ringcentral-integration/lib/di';
-import callingOptions from 'ringcentral-integration/modules/CallingSettings/callingOptions';
+import { Module } from '@ringcentral-integration/commons/lib/di';
 import {
-  CallingSettingsPanelUIProps,
-  CallingSettingsPanelUIFunctions,
-} from '../../components/CallingSettingsPanel/CallingSettingsPenal.interface';
-import RcUIModule from '../../lib/RcUIModule';
+  RcUIModuleV2,
+  UIProps,
+  UIFunctions,
+} from '@ringcentral-integration/core';
+import callingOptions from '@ringcentral-integration/commons/modules/CallingSettings/callingOptions';
+import { CallingSettingsPanelProps } from '../../components/CallingSettingsPanel/CallingSettingsPenal.interface';
+import { Deps } from './CallingSettingsUI.interface';
 
 @Module({
   name: 'CallingSettingsUI',
@@ -12,85 +14,70 @@ import RcUIModule from '../../lib/RcUIModule';
     'CallingSettings',
     'Brand',
     'Locale',
-    { dep: 'Webphone', optional: true },
     'RouterInteraction',
+    { dep: 'Webphone', optional: true },
     { dep: 'CallingSettingsUIOptions', optional: true },
   ],
 })
-export class CallingSettingsUI extends RcUIModule {
-  _callingSettings: any;
-  _brand: any;
-  _locale: any;
-  _webphone: any;
-  _routerInteraction: any;
-  _locationSearchable: boolean;
-  _ringtoneSettings: boolean;
-
-  constructor({
-    callingSettings,
-    brand,
-    locale,
-    webphone,
-    routerInteraction,
-    locationSearchable = true,
-    ringtoneSettings = false,
-    ...options
-  }) {
-    super({ ...options });
-    this._callingSettings = callingSettings;
-    this._brand = brand;
-    this._locale = locale;
-    this._webphone = webphone;
-    this._routerInteraction = routerInteraction;
-    this._locationSearchable = locationSearchable;
-    this._ringtoneSettings = ringtoneSettings;
+class CallingSettingsUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
+  constructor(deps: T) {
+    super({ deps });
   }
 
   get showSpinner() {
     return !(
-      this._callingSettings.ready &&
-      this._brand.ready &&
-      this._locale.ready &&
-      (!this._webphone || this._webphone.ready) &&
-      this._routerInteraction.ready
+      this._deps.callingSettings.ready &&
+      this._deps.brand.ready &&
+      this._deps.locale.ready &&
+      (!this._deps.webphone || this._deps.webphone.ready) &&
+      this._deps.routerInteraction.ready
     );
   }
 
   get locationSearchable() {
-    return !!this._locationSearchable;
+    return !!(this._deps.callingSettingsUIOptions?.locationSearchable ?? true);
   }
 
-  getUIProps(): CallingSettingsPanelUIProps {
+  get ringtoneSettings() {
+    return !!(this._deps.callingSettingsUIOptions?.ringtoneSettings ?? false);
+  }
+
+  getUIProps(): UIProps<CallingSettingsPanelProps> {
     return {
-      brandCode: this._brand.code,
-      brandName: this._brand.name,
-      currentLocale: this._locale.currentLocale,
-      callWithOptions: this._callingSettings.callWithOptions,
-      callWith: this._callingSettings.callWith,
-      myLocation: this._callingSettings.myLocation,
-      ringoutPrompt: this._callingSettings.ringoutPrompt,
-      defaultRingoutPrompt: this._callingSettings.defaultRingoutPrompt,
-      availableNumbersWithLabel: this._callingSettings
+      brandCode: this._deps.brand.code,
+      brandName: this._deps.brand.name,
+      shortBrandName: this._deps.brand.shortName,
+      fullBrandName: this._deps.brand.fullName,
+      currentLocale: this._deps.locale.currentLocale,
+      callWithOptions: this._deps.callingSettings.callWithOptions,
+      callWith: this._deps.callingSettings.callWith,
+      myLocation: this._deps.callingSettings.myLocation,
+      ringoutPrompt: this._deps.callingSettings.ringoutPrompt,
+      defaultRingoutPrompt: this._deps.callingSettings.defaultRingoutPrompt,
+      availableNumbersWithLabel: this._deps.callingSettings
         .availableNumbersWithLabel,
-      disabled: !!(this._webphone && this._webphone.sessions.length > 0),
+      disabled: !!(
+        this._deps.webphone && this._deps.webphone.sessions.length > 0
+      ),
       showSpinner: this.showSpinner,
       locationSearchable: this.locationSearchable,
       showRingToneSettings:
-        this._ringtoneSettings && this._callingSettings.isChangeRingToneAllowed,
-      incomingAudioFile: this._webphone?.incomingAudioFile,
-      incomingAudio: this._webphone?.incomingAudio,
-      outgoingAudioFile: this._webphone?.outgoingAudioFile,
-      outgoingAudio: this._webphone?.outgoingAudio,
-      defaultIncomingAudioFile: this._webphone?.defaultIncomingAudioFile,
-      defaultIncomingAudio: this._webphone?.defaultIncomingAudio,
-      defaultOutgoingAudioFile: this._webphone?.outgoingAudioFile,
-      defaultOutgoingAudio: this._webphone?.outgoingAudio,
+        this.ringtoneSettings &&
+        this._deps.callingSettings.isChangeRingToneAllowed,
+      incomingAudioFile: this._deps.webphone?.incomingAudioFile,
+      incomingAudio: this._deps.webphone?.incomingAudio,
+      outgoingAudioFile: this._deps.webphone?.outgoingAudioFile,
+      outgoingAudio: this._deps.webphone?.outgoingAudio,
+      defaultIncomingAudioFile: this._deps.webphone?.defaultIncomingAudioFile,
+      defaultIncomingAudio: this._deps.webphone?.defaultIncomingAudio,
+      defaultOutgoingAudioFile: this._deps.webphone?.outgoingAudioFile,
+      defaultOutgoingAudio: this._deps.webphone?.outgoingAudio,
     };
   }
 
-  getUIFunctions(): CallingSettingsPanelUIFunctions {
+  getUIFunctions(): UIFunctions<CallingSettingsPanelProps> {
     return {
-      onBackButtonClick: () => this._routerInteraction.goBack(),
+      onBackButtonClick: () => this._deps.routerInteraction.goBack(),
       onSave: ({
         callWith,
         myLocation,
@@ -101,7 +88,7 @@ export class CallingSettingsUI extends RcUIModule {
         outgoingAudio,
         outgoingAudioFile,
       }) => {
-        this._callingSettings.setData(
+        this._deps.callingSettings.setData(
           {
             callWith,
             myLocation,
@@ -110,8 +97,8 @@ export class CallingSettingsUI extends RcUIModule {
           },
           true,
         );
-        if (this._webphone && callWith === callingOptions.browser) {
-          this._webphone.setRingtone({
+        if (this._deps.webphone && callWith === callingOptions.browser) {
+          this._deps.webphone.setRingtone({
             incomingAudio,
             incomingAudioFile,
             outgoingAudio,
@@ -122,3 +109,5 @@ export class CallingSettingsUI extends RcUIModule {
     };
   }
 }
+
+export { CallingSettingsUI };

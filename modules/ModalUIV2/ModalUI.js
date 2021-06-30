@@ -59,11 +59,11 @@ var _core = require("@ringcentral-integration/core");
 
 var _ramda = require("ramda");
 
-var _background = _interopRequireDefault(require("ringcentral-integration/lib/background"));
+var _background = _interopRequireDefault(require("@ringcentral-integration/commons/lib/background"));
 
-var _di = require("ringcentral-integration/lib/di");
+var _di = require("@ringcentral-integration/commons/lib/di");
 
-var _proxify = _interopRequireDefault(require("ringcentral-integration/lib/proxy/proxify"));
+var _proxify = _interopRequireDefault(require("@ringcentral-integration/commons/lib/proxy/proxify"));
 
 var _uuid = require("uuid");
 

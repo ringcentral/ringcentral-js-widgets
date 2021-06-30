@@ -7,7 +7,7 @@ exports["default"] = void 0;
 
 require("core-js/modules/es6.object.define-property");
 
-var _regionSettingsMessages = _interopRequireDefault(require("ringcentral-integration/modules/RegionSettings/regionSettingsMessages"));
+var _regionSettingsMessages = _interopRequireDefault(require("@ringcentral-integration/commons/modules/RegionSettings/regionSettingsMessages"));
 
 var _region$regionSetting;
 

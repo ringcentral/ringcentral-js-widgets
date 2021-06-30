@@ -7,7 +7,7 @@ exports["default"] = void 0;
 
 require("core-js/modules/es6.object.define-property");
 
-var _Meeting = require("ringcentral-integration/modules/Meeting");
+var _Meeting = require("@ringcentral-integration/commons/modules/Meeting");
 
 var _date$time$hours$minu;
 

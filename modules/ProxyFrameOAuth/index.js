@@ -53,13 +53,13 @@ require("core-js/modules/es6.array.index-of");
 
 require("regenerator-runtime/runtime");
 
-var _background = _interopRequireDefault(require("ringcentral-integration/lib/background"));
+var _background = _interopRequireDefault(require("@ringcentral-integration/commons/lib/background"));
 
-var _proxify = _interopRequireDefault(require("ringcentral-integration/lib/proxy/proxify"));
+var _proxify = _interopRequireDefault(require("@ringcentral-integration/commons/lib/proxy/proxify"));
 
-var _di = require("ringcentral-integration/lib/di");
+var _di = require("@ringcentral-integration/commons/lib/di");
 
-var _ensureExist = _interopRequireDefault(require("ringcentral-integration/lib/ensureExist"));
+var _ensureExist = _interopRequireDefault(require("@ringcentral-integration/commons/lib/ensureExist"));
 
 var _url = _interopRequireDefault(require("url"));
 

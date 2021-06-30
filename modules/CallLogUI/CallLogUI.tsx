@@ -1,9 +1,9 @@
 import { RcModuleOptions, RcUIModuleV2 } from '@ringcentral-integration/core';
 import React from 'react';
-import { Module } from 'ringcentral-integration/lib/di';
-import formatNumber from 'ringcentral-integration/lib/formatNumber';
-import { callingOptions } from 'ringcentral-integration/modules/CallingSettingsV2/callingOptions';
-import CallLogCallCtrlContainer from '../../containers/CallLogCallCtrlContainer';
+import { Module } from '@ringcentral-integration/commons/lib/di';
+import formatNumber from '@ringcentral-integration/commons/lib/formatNumber';
+import { callingOptions } from '@ringcentral-integration/commons/modules/CallingSettingsV2/callingOptions';
+import { CallLogCallCtrlContainer } from '../../containers/CallLogCallCtrlContainer';
 import {
   CallLogUIFunctions,
   CallLogUIInterface,

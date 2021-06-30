@@ -41,13 +41,13 @@ var _react = _interopRequireWildcard(require("react"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _sleep = _interopRequireDefault(require("ringcentral-integration/lib/sleep"));
+var _sleep = _interopRequireDefault(require("@ringcentral-integration/commons/lib/sleep"));
 
-var _calleeTypes = _interopRequireDefault(require("ringcentral-integration/enums/calleeTypes"));
+var _calleeTypes = _interopRequireDefault(require("@ringcentral-integration/commons/enums/calleeTypes"));
 
-var _callDirections = _interopRequireDefault(require("ringcentral-integration/enums/callDirections"));
+var _callDirections = _interopRequireDefault(require("@ringcentral-integration/commons/enums/callDirections"));
 
-var _sessionStatus = _interopRequireDefault(require("ringcentral-integration/modules/Webphone/sessionStatus"));
+var _sessionStatus = _interopRequireDefault(require("@ringcentral-integration/commons/modules/Webphone/sessionStatus"));
 
 var _callCtrlLayouts = _interopRequireDefault(require("../../enums/callCtrlLayouts"));
 

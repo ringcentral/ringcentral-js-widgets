@@ -7,7 +7,7 @@ exports["default"] = void 0;
 
 require("core-js/modules/es6.object.define-property");
 
-var _constants = require("ringcentral-integration/modules/RcVideo/constants");
+var _constants = require("@ringcentral-integration/commons/modules/RcVideo/constants");
 
 var _topic$date$startTime;
 

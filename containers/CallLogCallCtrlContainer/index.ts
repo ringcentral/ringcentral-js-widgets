@@ -1,4 +1,6 @@
-import CallLogCallCtrlContainer from './CallLogCallCtrlContainer';
+import { connectModule } from '../../lib/phoneContext';
+import { CallLogCallCtrlPanel } from '../../components/CallLogCallCtrlPanel';
 
-export * from './CallLogCallCtrl';
-export default CallLogCallCtrlContainer;
+export const CallLogCallCtrlContainer = connectModule(
+  (phone) => phone.callLogCallCtrlUI,
+)(CallLogCallCtrlPanel);

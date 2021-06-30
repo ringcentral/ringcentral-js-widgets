@@ -65,13 +65,13 @@ require("core-js/modules/es6.array.map");
 
 var _core = require("@ringcentral-integration/core");
 
-var _di = require("ringcentral-integration/lib/di");
+var _di = require("@ringcentral-integration/commons/lib/di");
 
-var _proxify = _interopRequireDefault(require("ringcentral-integration/lib/proxy/proxify"));
+var _proxify = _interopRequireDefault(require("@ringcentral-integration/commons/lib/proxy/proxify"));
 
-var _debounceThrottle = require("ringcentral-integration/lib/debounce-throttle");
+var _debounceThrottle = require("@ringcentral-integration/commons/lib/debounce-throttle");
 
-var _contactHelper = require("ringcentral-integration/lib/contactHelper");
+var _contactHelper = require("@ringcentral-integration/commons/lib/contactHelper");
 
 var _dec, _dec2, _dec3, _dec4, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5;
 

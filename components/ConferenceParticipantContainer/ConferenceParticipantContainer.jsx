@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import sleep from 'ringcentral-integration/lib/sleep';
+import sleep from '@ringcentral-integration/commons/lib/sleep';
 import ConferenceParticipantPanel from '../ConferenceParticipantPanel';
 
 // TODO: refactor ConferenceParticipantContainer and ConferenceParticipantPanel with Juno

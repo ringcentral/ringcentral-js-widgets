@@ -1,9 +1,9 @@
-import { RcmInvitationInfo } from 'ringcentral-integration/modules/Meeting';
-import { MeetingTypeV } from 'ringcentral-integration/helpers/meetingHelper.interface';
+import { RcmInvitationInfo } from '@ringcentral-integration/commons/modules/Meeting';
+import { MeetingTypeV } from '@ringcentral-integration/commons/helpers/meetingHelper.interface';
 import {
   RcvInvitationInfo,
   RcVDialInNumberObj,
-} from 'ringcentral-integration/interfaces/Rcv.model';
+} from '@ringcentral-integration/commons/interfaces/Rcv.model';
 
 interface RcmMeeting {
   id: string;
