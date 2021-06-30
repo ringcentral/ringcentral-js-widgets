@@ -17,7 +17,7 @@ var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
-var _status = _interopRequireDefault(require("ringcentral-integration/modules/GlipPosts/status"));
+var _status = _interopRequireDefault(require("@ringcentral-integration/commons/modules/GlipPosts/status"));
 
 var _default_avatar = _interopRequireDefault(require("../../assets/images/default_avatar.png"));
 

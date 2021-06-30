@@ -17,7 +17,7 @@ require("regenerator-runtime/runtime");
 
 var _reactRedux = require("react-redux");
 
-var _withPhone = _interopRequireDefault(require("ringcentral-widgets/lib/withPhone"));
+var _withPhone = _interopRequireDefault(require("@ringcentral-integration/widgets/lib/withPhone"));
 
 var _GlipGroupsPanel = _interopRequireDefault(require("../../components/GlipGroupsPanel"));
 

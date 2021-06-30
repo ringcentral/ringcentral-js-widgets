@@ -35,11 +35,11 @@ var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
-var _SearchInput = require("ringcentral-widgets/components/SearchInput");
+var _SearchInput = require("@ringcentral-integration/widgets/components/SearchInput");
 
-var _SpinnerOverlay = require("ringcentral-widgets/components/SpinnerOverlay");
+var _SpinnerOverlay = require("@ringcentral-integration/widgets/components/SpinnerOverlay");
 
-var _debounce = _interopRequireDefault(require("ringcentral-integration/lib/debounce"));
+var _debounce = _interopRequireDefault(require("@ringcentral-integration/commons/lib/debounce"));
 
 var _GlipGroupList = _interopRequireDefault(require("../GlipGroupList"));
 

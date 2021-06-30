@@ -47,11 +47,11 @@ var _react = _interopRequireWildcard(require("react"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _Modal = _interopRequireDefault(require("ringcentral-widgets/components/Modal"));
+var _Modal = _interopRequireDefault(require("@ringcentral-integration/widgets/components/Modal"));
 
-var _SearchInput = require("ringcentral-widgets/components/SearchInput");
+var _SearchInput = require("@ringcentral-integration/widgets/components/SearchInput");
 
-var _TextInput = _interopRequireDefault(require("ringcentral-widgets/components/TextInput"));
+var _TextInput = _interopRequireDefault(require("@ringcentral-integration/widgets/components/TextInput"));
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 

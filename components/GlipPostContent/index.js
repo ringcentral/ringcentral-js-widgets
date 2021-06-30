@@ -19,7 +19,7 @@ var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
-var _Download = _interopRequireDefault(require("ringcentral-widgets/assets/images/Download.svg"));
+var _Download = _interopRequireDefault(require("@ringcentral-integration/widgets/assets/images/Download.svg"));
 
 var _isPicture = _interopRequireDefault(require("../../lib/isPicture"));
 

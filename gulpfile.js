@@ -293,7 +293,7 @@ function _generatePackage() {
 
             if (version) {
               packageInfo.version = version;
-              packageInfo.name = 'ringcentral-widgets';
+              packageInfo.name = '@ringcentral-integration/glip-widgets';
             }
 
             _context3.next = 14;

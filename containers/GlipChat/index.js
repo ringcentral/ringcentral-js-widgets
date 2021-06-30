@@ -23,7 +23,7 @@ var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _reactRedux = require("react-redux");
 
-var _withPhone = _interopRequireDefault(require("ringcentral-widgets/lib/withPhone"));
+var _withPhone = _interopRequireDefault(require("@ringcentral-integration/widgets/lib/withPhone"));
 
 var _GlipChatPanel = _interopRequireDefault(require("../../components/GlipChatPanel"));
 
