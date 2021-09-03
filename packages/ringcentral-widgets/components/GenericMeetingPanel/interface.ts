@@ -3,12 +3,12 @@ import {
   RcTimePickerSize,
   RcCheckboxProps,
 } from '@ringcentral/juno';
-import { RcVMeetingModel } from '@ringcentral-integration/commons/interfaces/Rcv.model';
-import { RcvDelegator } from '@ringcentral-integration/commons/modules/RcVideoV2/RcVideo.interface';
 import {
-  RcMMeetingModel,
-  MeetingDelegator,
-} from '@ringcentral-integration/commons/modules/MeetingV2';
+  RcvDelegator,
+  AUTH_USER,
+} from '@ringcentral-integration/commons/modules/RcVideoV2';
+import { RcVMeetingModel } from '@ringcentral-integration/commons/interfaces/Rcv.model';
+import { RcMMeetingModel } from '@ringcentral-integration/commons/modules/MeetingV2';
 
 export interface ScheduleButtonProps {
   currentLocale: string;
@@ -43,7 +43,6 @@ export interface CommonProps {
   init: () => any;
   schedule?: (meeting: any, opener: any) => any;
   showPmiAlert?: boolean;
-  enableWaitingRoom?: boolean;
   enablePersonalMeeting?: boolean;
   hasSettingsChanged?: boolean;
   personalMeetingId: string;
@@ -56,11 +55,28 @@ export interface VideoPanelProps extends CommonProps {
   updateMeetingSettings: (meeting: RcVMeetingModel | any) => void;
   updateHasSettingsChanged: (isChanged: boolean) => void;
   validatePasswordSettings: (password: string, isSecret: boolean) => boolean;
+  e2eeInteractFunc: (e2eeValue: boolean) => void;
   datePickerSize?: RcDatePickerSize;
   timePickerSize?: RcTimePickerSize;
   checkboxSize?: RcCheckboxProps['size'];
   showRcvAdminLock?: boolean;
   delegators?: RcvDelegator[];
+  joinBeforeHostLabel: string;
+  authUserTypeValue: AUTH_USER;
+  isJoinBeforeHostDisabled: boolean;
+  isAuthenticatedCanJoinDisabled: boolean;
+  isWaitingRoomDisabled: boolean;
+  isRequirePasswordDisabled: boolean;
+  isWaitingRoomNotCoworkerDisabled: boolean;
+  isWaitingRoomGuestDisabled: boolean;
+  isWaitingRoomAllDisabled: boolean;
+  isAuthUserTypeDisabled: boolean;
+  isSignedInUsersDisabled: boolean;
+  isSignedInCoWorkersDisabled: boolean;
+  showWaitingRoom?: boolean;
+  showE2EE?: boolean;
+  isE2EEDisabled?: boolean;
+  isPersonalMeetingDisabled?: boolean;
 }
 
 export interface MeetingPanelProps extends CommonProps {

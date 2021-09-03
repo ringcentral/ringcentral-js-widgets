@@ -7,11 +7,11 @@ import {
 import { SDK } from '@ringcentral/sdk';
 import { SDKConfig } from '../../lib/createSdkConfig';
 import { Module } from '../../lib/di';
-import proxify from '../../lib/proxy/proxify';
+import { proxify } from '../../lib/proxy/proxify';
 import { Deps, SetDataOptions } from './Environment.interface';
 
 const DEFAULT_RECORDING_HOST =
-  'https://s3.ap-northeast-2.amazonaws.com/fetch-call-recording/test/index.html';
+  'https://apps.ringcentral.com/integrations/recording/index.html';
 
 @Module({
   name: 'Environment',

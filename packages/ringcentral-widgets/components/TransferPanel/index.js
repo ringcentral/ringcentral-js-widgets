@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
-import WarmTransferIcon from '@ringcentral/juno/icon/Askfirst';
+import { Askfirst } from '@ringcentral/juno/icon';
 
 import DialPad from '../DialPad';
 import RecipientsInput from '../RecipientsInput';
@@ -60,7 +60,7 @@ export default class TransferPanel extends PureComponent {
     this.load();
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (this.props.session && !nextProps.session) {
       this.props.onCallEnd();
     }
@@ -95,8 +95,8 @@ export default class TransferPanel extends PureComponent {
   };
 
   onWarmTransfer = () => {
-    this.props.onWarmTransfer(this._getTransferNumber(), this.props.sessionId)
-  }
+    this.props.onWarmTransfer(this._getTransferNumber(), this.props.sessionId);
+  };
 
   onToNumberChange = (toNumber) => {
     this.setState({
@@ -163,7 +163,7 @@ export default class TransferPanel extends PureComponent {
             dataSign="warnTransferBtn"
             className={isOnTransfer ? styles.disabled : undefined}
             onClick={this.onWarmTransfer}
-            icon={WarmTransferIcon}
+            icon={Askfirst}
             disabled={isOnTransfer || controlBusy}
             title={i18n.getString('warmTransfer', currentLocale)}
           />

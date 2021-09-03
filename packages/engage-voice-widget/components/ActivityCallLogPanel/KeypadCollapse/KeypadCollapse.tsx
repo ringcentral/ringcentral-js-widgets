@@ -5,7 +5,6 @@ import {
   RcDialerPadSounds,
   RcDialPad,
   RcDialTextField,
-  RcFade,
   RcIconButton,
   RcPaper,
   RcTooltip,

@@ -6,11 +6,11 @@ import { ensureLogin } from '@ringcentral-integration/commons/integration-test/u
 import SimulateWindowObject from '@ringcentral-integration/commons/integration-test/utils/SimulateWindowObject';
 import ClientHistoryRequest from '@ringcentral-integration/commons/integration-test/utils/ClientHistoryRequest';
 import { waitUntilEqual } from '@ringcentral-integration/commons/integration-test/utils/WaitUtil';
-
 import { createPhone } from '@ringcentral-integration/widgets-demo/dev-server/Phone';
-import brandConfig from '@ringcentral-integration/widgets-demo/dev-server/brandConfig';
+import { defaultBrandConfig as brandConfig } from '@ringcentral-integration/commons/modules/Brand';
 import version from '@ringcentral-integration/widgets-demo/dev-server/version';
 import prefix from '@ringcentral-integration/widgets-demo/dev-server/prefix';
+import ConfigData from '@ringcentral-integration/commons/modules/DynamicConfig/ConfigData.json';
 
 jest.setTimeout(30 * 1000);
 
@@ -42,7 +42,7 @@ export const getInstance = async ({
     version,
     clientService,
   });
-
+  phone.dynamicConfig._source._props.fetchFunction = async () => ConfigData;
   const store = createStore(phone.reducer);
   phone.setStore(store);
   // mock.mockClient(phone.client);
@@ -76,6 +76,6 @@ export const getInstance = async ({
     }
   }
   return {
-    phone
+    phone,
   };
 };

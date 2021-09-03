@@ -1,3 +1,4 @@
+import { Storage } from '../StorageV2';
 import { RingCentralExtensions } from '../RingCentralExtensions';
 
 export interface WebSocketSubscriptionOptions {
@@ -5,6 +6,7 @@ export interface WebSocketSubscriptionOptions {
 }
 
 export interface Deps {
+  storage: Storage;
   ringCentralExtensions: RingCentralExtensions;
   webSocketSubscriptionOptions?: WebSocketSubscriptionOptions;
 }

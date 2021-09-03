@@ -9,6 +9,7 @@ import callingModes from '../CallingSettings/callingModes';
 import { ExtensionInfo } from '../ExtensionInfoV2';
 import { AnalyticsActionTypes, analyticsActionTypes } from './actionTypes';
 import getAnalyticsReducer from './getAnalyticsReducer';
+import { AnalyticsEventExtendedProps } from '../AnalyticsEventExtendedProps';
 
 export interface TrackProps {
   appName: string;
@@ -105,17 +106,6 @@ export function track(tagName: string) {
   };
 }
 
-export function replace(
-  prototype: any,
-  property: string,
-  descriptor: TypedPropertyDescriptor<TrackImpl>,
-) {
-  const existActionIndex = TRACK_LIST.findIndex(
-    (item) => property === item.funcName,
-  );
-  existActionIndex !== -1 && TRACK_LIST.splice(existActionIndex, 1);
-}
-
 export const DEFAULT_TAG_NAME = 'default';
 export const tracking = track(DEFAULT_TAG_NAME);
 
@@ -134,7 +124,6 @@ export const tracking = track(DEFAULT_TAG_NAME);
     { dep: 'CallingSettings', optional: true },
     { dep: 'AccountInfo', optional: true },
     { dep: 'ExtensionInfo', optional: true },
-    { dep: 'ExtensionFeatures', optional: true },
     { dep: 'CallHistory', optional: true },
     { dep: 'CallMonitor', optional: true },
     { dep: 'Conference', optional: true },
@@ -151,6 +140,8 @@ export const tracking = track(DEFAULT_TAG_NAME);
     { dep: 'CallLogSection', optional: true },
     { dep: 'ActiveCallControl', optional: true },
     { dep: 'DialerUI', optional: true },
+    { dep: 'TierChecker', optional: true },
+    { dep: 'AnalyticsEventExtendedProps', optional: true },
   ],
 })
 export class Analytics extends RcModule<
@@ -158,6 +149,7 @@ export class Analytics extends RcModule<
   AnalyticsActionTypes
 > {
   // TODO: add state interface
+  // AnalyticsOptions
   private _analyticsKey: string;
   private _pendoApiKey: string;
   private _appName: string;
@@ -170,7 +162,6 @@ export class Analytics extends RcModule<
   protected _callingSettings: any;
   protected _accountInfo: any;
   protected _extensionInfo: ExtensionInfo;
-  protected _extensionFeatures: any;
   protected _callHistory: any;
   protected _callMonitor: any;
   protected _conference: any;
@@ -184,6 +175,8 @@ export class Analytics extends RcModule<
   protected _locale: any;
   protected _meeting: any;
   protected _rcVideo: any;
+  protected _tierChecker: any;
+  protected _analyticsEventExtendedProps?: AnalyticsEventExtendedProps;
   private _dialerUI: any;
 
   private _segment: any;
@@ -203,7 +196,7 @@ export class Analytics extends RcModule<
   private _env: string;
 
   constructor({
-    // config
+    // AnalyticsOptions
     analyticsKey,
     pendoApiKey,
     appName,
@@ -216,7 +209,6 @@ export class Analytics extends RcModule<
     callingSettings,
     accountInfo,
     extensionInfo,
-    extensionFeatures,
     callHistory,
     callMonitor,
     conference,
@@ -231,6 +223,8 @@ export class Analytics extends RcModule<
     meeting,
     rcVideo,
     dialerUI,
+    tierChecker,
+    analyticsEventExtendedProps,
     // settinigs
     useLog = false,
     lingerThreshold = 1000,
@@ -260,7 +254,6 @@ export class Analytics extends RcModule<
     this._callingSettings = callingSettings;
     this._accountInfo = accountInfo;
     this._extensionInfo = extensionInfo;
-    this._extensionFeatures = extensionFeatures;
     this._callHistory = callHistory;
     this._callMonitor = callMonitor;
     this._conference = conference;
@@ -277,6 +270,8 @@ export class Analytics extends RcModule<
     this._callLogSection = callLogSection;
     this._activeCallControl = activeCallControl;
     this._dialerUI = dialerUI;
+    this._tierChecker = tierChecker;
+    this._analyticsEventExtendedProps = analyticsEventExtendedProps;
 
     // init
     this._reducer = getAnalyticsReducer(this.actionTypes);
@@ -369,22 +364,30 @@ export class Analytics extends RcModule<
     if (!this.analytics) {
       return;
     }
+
     const trackProps: TrackProps = {
       ...this.trackProps,
       ...properties,
+      ...this._analyticsEventExtendedProps?.extendedProps.get(event),
     };
+
     this.analytics.track(event, trackProps, {
       integrations: {
         All: true,
         Mixpanel: true,
       },
     });
+
     if (this._useLog) {
       this._logs.push({
         timeStamp: new Date().toISOString(),
         event,
         trackProps,
       });
+    }
+
+    if (this._enablePendo && this._pendo?.isReady?.()) {
+      this._pendo.track(`${trackProps.appName}-${event}`, trackProps);
     }
   }
 
@@ -496,7 +499,7 @@ export class Analytics extends RcModule<
         accountId: this._accountInfo.id,
         servicePlanId: this._accountInfo.servicePlan.id,
         edition: this._accountInfo.servicePlan.edition,
-        CRMEnabled: this._extensionFeatures?.isCRMEnabled,
+        CRMEnabled: this._tierChecker?.isCRMEnabled,
       });
     }
   }

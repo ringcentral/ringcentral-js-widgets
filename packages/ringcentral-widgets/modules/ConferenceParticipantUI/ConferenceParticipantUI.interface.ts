@@ -1,4 +1,4 @@
-import { Locale } from '@ringcentral-integration/commons/modules/LocaleV2';
+import { Locale } from '@ringcentral-integration/commons/modules/Locale';
 import {
   ConferenceCall,
   Party,

@@ -1,7 +1,7 @@
 import { RcVMeetingModel } from '../../interfaces/Rcv.model';
 import { Meeting, MeetingDelegator, RcMMeetingModel } from '../MeetingV2';
 import { ExtensionInfo } from '../ExtensionInfoV2';
-import { Brand } from '../BrandV2';
+import { Brand } from '../Brand';
 import { RcVideo } from '../RcVideoV2';
 import {
   VideoConfiguration,
@@ -52,6 +52,7 @@ export type Maybe<T> = T | undefined;
 export type Either<T1, T2> = T1 | T2;
 
 export type RCMeetingResponse = {
+  id?: string;
   topic: string;
   meetingType: any;
   allowJoinBeforeHost: any;
@@ -84,6 +85,13 @@ export type RCVideoResponse = {
   allowJoinBeforeHost: boolean;
   muteAudio: boolean;
   muteVideo: boolean;
+  startTime?: string;
+  duration?: number;
+  links?: { joinUri: string };
+  isMeetingSecret?: boolean;
+  e2ee?: boolean;
+  meetingPassword?: string;
+  meetingPasswordPSTN?: string;
 };
 
 export type RCMeeting = {
@@ -181,6 +189,7 @@ export interface IGenericMeeting {
 export type ScheduledCallback = (result: MeetingData, opener: Window) => any;
 
 export interface GenericMeetingOptions {
+  enableCache: boolean;
   //
 }
 

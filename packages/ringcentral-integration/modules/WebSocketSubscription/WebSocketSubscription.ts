@@ -1,7 +1,9 @@
 import Subscription from '@rc-ex/ws/lib/subscription';
+import { SubscriptionInfo } from '@rc-ex/core/lib/definitions';
 import {
   RcModuleV2,
   state,
+  storage,
   action,
   watch,
 } from '@ringcentral-integration/core';
@@ -17,6 +19,7 @@ const DEFAULT_REFRESH_DELAY = 2 * 1000;
 
 @Module({
   deps: [
+    'Storage',
     'RingCentralExtensions',
     { dep: 'WebSocketSubscriptionOptions', optional: true },
   ],
@@ -27,6 +30,8 @@ export class WebSocketSubscription extends RcModuleV2<Deps> {
   constructor(deps: Deps) {
     super({
       deps,
+      enableCache: true,
+      storageKey: 'WebSocketSubscription',
     });
   }
 
@@ -75,7 +80,18 @@ export class WebSocketSubscription extends RcModuleV2<Deps> {
       (message) => {
         this._notifyMessage(message);
       },
+      this.cachedSubscriptionInfo,
     );
+    this._cacheSubscriptionInfo(this._wsSubscription.subscriptionInfo);
+  }
+
+  @storage
+  @state
+  cachedSubscriptionInfo: SubscriptionInfo = null;
+
+  @action
+  private _cacheSubscriptionInfo(subscriptionInfo: SubscriptionInfo) {
+    this.cachedSubscriptionInfo = subscriptionInfo;
   }
 
   private async _refreshSubscription() {

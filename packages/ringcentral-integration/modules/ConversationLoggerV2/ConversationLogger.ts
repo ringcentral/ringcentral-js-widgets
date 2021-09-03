@@ -36,12 +36,12 @@ import {
     'DateTimeFormat',
     'ExtensionInfo',
     'MessageStore',
-    'ExtensionFeatures',
+    'AppFeatures',
     'ConversationLoggerOptions',
     { dep: 'TabManager', optional: true },
   ],
 })
-export class ConversationLogger<T = any> extends LoggerBase<Deps & T> {
+export class ConversationLogger<T extends Deps = Deps> extends LoggerBase<T> {
   _logFunction = this._deps.conversationLoggerOptions.logFunction;
 
   _readyCheckFunction = this._deps.conversationLoggerOptions.readyCheckFunction;
@@ -69,7 +69,7 @@ export class ConversationLogger<T = any> extends LoggerBase<Deps & T> {
 
   protected _lastAutoLog: boolean = null;
 
-  constructor(deps: Deps) {
+  constructor(deps: Deps & T) {
     super(deps, {
       enableCache: true,
       storageKey: 'ConversationLogger',
@@ -360,10 +360,7 @@ export class ConversationLogger<T = any> extends LoggerBase<Deps & T> {
   }
 
   get available() {
-    return !!(
-      this._deps.extensionFeatures.features?.SMSReceiving?.available ||
-      this._deps.extensionFeatures.features?.PagesReceiving?.available
-    );
+    return this._deps.appFeatures.hasReadTextPermission;
   }
 
   @proxify

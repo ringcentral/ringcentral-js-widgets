@@ -11,9 +11,9 @@ import {
   DataFetcherV2ConsumerBaseDeps,
   DataSourceBaseProps,
 } from '../DataFetcherV2';
-import { ExtensionFeatures } from '../ExtensionFeatures';
+import { AppFeatures } from '../AppFeatures';
 import { Subscription } from '../SubscriptionV2';
-import { TabManager } from '../TabManagerV2';
+import { TabManager } from '../TabManager';
 
 export interface MessageStoreOptions extends DataSourceBaseProps {
   daySpan?: number;
@@ -28,7 +28,7 @@ export interface Deps extends DataFetcherV2ConsumerBaseDeps {
   client: any;
   subscription: Subscription;
   connectivityMonitor: ConnectivityMonitor;
-  extensionFeatures: ExtensionFeatures;
+  appFeatures: AppFeatures;
   tabManager?: TabManager;
   availabilityMonitor?: AvailabilityMonitor;
   messageStoreOptions?: MessageStoreOptions;

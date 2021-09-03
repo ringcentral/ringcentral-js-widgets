@@ -19,6 +19,8 @@ export default {
   muteAudio: "Silenciar el audio para los participantes",
   turnOffCamera: "Desactivar la cámara para los participantes",
   requirePassword: "Solicitar contraseña",
+  useE2ee: "Usar cifrado de extremo a extremo",
+  e2eeTooltip: "Las reuniones con cifrado de extremo a extremo son las más privadas, sin embargo, habrá características que no estén disponibles como unirse por teléfono, subtitulado y grabación.",
   setPassword: "Establecer contraseña *",
   setPasswordNotSymbol: "Establecer contraseña",
   passwordEmptyError: "Se requiere la contraseña de la reunión",
@@ -31,7 +33,8 @@ export default {
   signedInCoWorkers: "Compañeros de trabajo con la sesión iniciada",
   limitScreenSharing: "Solo el organizador y los moderadores pueden compartir la pantalla",
   lockTooltip: "El administrador de la empresa gestiona esta opción.",
-  pmiSettingAlert: "Esta configuración se aplicará a todas las reuniones creadas con el PMI."
+  pmiSettingAlert: "Esta configuración se aplicará a todas las reuniones creadas con el PMI.",
+  today: "Hoy"
 };
 
 // @key: @#@"topic"@#@ @source: @#@"Meeting title"@#@
@@ -53,6 +56,8 @@ export default {
 // @key: @#@"muteAudio"@#@ @source: @#@"Mute audio for participants"@#@
 // @key: @#@"turnOffCamera"@#@ @source: @#@"Turn off camera for participants"@#@
 // @key: @#@"requirePassword"@#@ @source: @#@"Require password"@#@
+// @key: @#@"useE2ee"@#@ @source: @#@"Use end-to-end encryption"@#@
+// @key: @#@"e2eeTooltip"@#@ @source: @#@"End-to-end encrypted meetings are the most private, but features like joining by phone, closed captions, and recording aren't available."@#@
 // @key: @#@"setPassword"@#@ @source: @#@"Set password *"@#@
 // @key: @#@"setPasswordNotSymbol"@#@ @source: @#@"Set password"@#@
 // @key: @#@"passwordEmptyError"@#@ @source: @#@"Meeting password required"@#@
@@ -66,3 +71,4 @@ export default {
 // @key: @#@"limitScreenSharing"@#@ @source: @#@"Only host & moderators can share screen"@#@
 // @key: @#@"lockTooltip"@#@ @source: @#@"This setting is managed by your company admin"@#@
 // @key: @#@"pmiSettingAlert"@#@ @source: @#@"These settings will apply to all meetings created with PMI"@#@
+// @key: @#@"today"@#@ @source: @#@"Today"@#@

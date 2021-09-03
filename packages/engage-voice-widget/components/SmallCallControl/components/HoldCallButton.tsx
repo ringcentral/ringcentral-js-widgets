@@ -1,10 +1,11 @@
-import React, { FunctionComponent } from 'react';
 import { RcIconButton } from '@ringcentral/juno';
 import { Hold } from '@ringcentral/juno/icon';
+import React, { FunctionComponent } from 'react';
 
 import { getCircleIconButtonTitle } from '../help';
 import i18n from '../i18n';
 import { CallButtonsProps } from './CallButtons.interface';
+import { getIconColor } from './getIconColor';
 
 export type HoldCallButtonProps = CallButtonsProps & {
   isOnHold: boolean;
@@ -27,10 +28,10 @@ export const HoldCallButton: FunctionComponent<HoldCallButtonProps> = ({
     isOnHold,
   });
 
-  let color = disableHold ? 'icon.disabled' : 'icon.dark';
-  if (isOnHold) {
-    color = 'icon.primary';
-  }
+  const color = getIconColor({
+    active: isOnHold,
+    disable: disableHold,
+  });
 
   return (
     <RcIconButton

@@ -16,7 +16,7 @@ import ConnectivityBadgeContainer from '@ringcentral-integration/widgets/contain
 import MainView from '../MainView';
 import AppView from '../AppView';
 
-export default function App({ phone, hostingUrl }) {
+const App = ({ phone, hostingUrl }) => {
   return (
     <PhoneProvider phone={phone}>
       <Provider store={phone.store}>
@@ -66,9 +66,11 @@ export default function App({ phone, hostingUrl }) {
       </Provider>
     </PhoneProvider>
   );
-}
+};
 
 App.propTypes = {
   phone: PropTypes.object.isRequired,
   hostingUrl: PropTypes.string.isRequired,
 };
+
+export default App;

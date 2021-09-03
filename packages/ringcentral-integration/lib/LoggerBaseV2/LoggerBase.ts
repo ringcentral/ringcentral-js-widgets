@@ -8,7 +8,7 @@ import { proxify } from '../proxy/proxify';
 import { defaultIdentityFunction, convertListToMap } from './loggerBaseHelper';
 import { Deps, LogOptions, Options } from './LoggerBase.interface';
 
-export abstract class LoggerBase<T = any> extends RcModuleV2<Deps & T> {
+export abstract class LoggerBase<T extends Deps = Deps> extends RcModuleV2<T> {
   protected _identityFunction: (
     ...args: any
   ) => string = defaultIdentityFunction;
@@ -19,7 +19,7 @@ export abstract class LoggerBase<T = any> extends RcModuleV2<Deps & T> {
 
   protected _logPromises = new Map<string, Promise<void>>();
 
-  constructor(deps: Deps & T, options: Options) {
+  constructor(deps: T, options: Options) {
     super({
       deps,
       ...options,

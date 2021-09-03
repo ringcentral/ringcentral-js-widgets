@@ -1,6 +1,6 @@
 import { Alert } from '../AlertV2';
 import { Auth } from '../AuthV2';
-import { ExtensionFeatures } from '../ExtensionFeatures';
+import { AppFeatures } from '../AppFeatures';
 import { Storage } from '../StorageV2';
 
 export interface AudioSettingsData {
@@ -20,6 +20,6 @@ export interface Deps {
   auth: Auth;
   alert: Alert;
   storage: Storage;
-  extensionFeatures: ExtensionFeatures;
+  appFeatures: AppFeatures;
   audioSettingsOptions?: AudioSettingsOptions;
 }

@@ -1,0 +1,91 @@
+@import '~@ringcentral-integration/widgets/lib/commonStyles/full-size';
+@import '~@ringcentral-integration/widgets/lib/commonStyles/no-select';
+@import '~@ringcentral-integration/widgets/lib/commonStyles/fonts';
+
+$header-height: 36px;
+
+body {
+  @include primary-font;
+}
+
+.root {
+  @include full-size;
+  padding-bottom: 0px;
+}
+
+.header {
+  @include no-select;
+  position: relative;
+  height: $header-height;
+  line-height: $header-height;
+  text-align: center;
+  background-color: #fff;
+  border-bottom: 1px solid #e8e9ed;
+  z-index: 2;
+  box-sizing: border-box;
+}
+
+.centerStyle {
+  top: 50%;
+  position: absolute;
+}
+
+.presence {
+  @extend .centerStyle;
+  left: 20px;
+  height: 14px;
+  width: 14px;
+  border-radius: 8px;
+  margin-top: -7px;
+  display: none;
+  cursor: pointer;
+}
+
+.Offline {
+  display: block;
+  background: #cdcdcd;
+}
+
+.Busy {
+  display: block;
+  background: #f95b5c;
+}
+
+.Available {
+  display: block;
+  background-color: #32ae31;
+}
+
+.presenceBar {
+  display: none;
+  position: absolute;
+  width: 8px;
+  height: 2px;
+  border-radius: 1.5px;
+  background-color: #ffffff;
+  transform-origin: 50% 50%;
+  transform: translate(3px, 6px);
+}
+
+.DoNotAcceptAnyCalls {
+  display: block;
+  background: #f95b5c;
+  .presenceBar {
+    display: block;
+  }
+}
+
+.logo {
+  @extend .centerStyle;
+  left: 50%;
+  width: $header-logo-width;
+  height: $header-logo-height;
+  margin-left: -($header-logo-width / 2);
+  margin-top: -($header-logo-height / 2);
+}
+
+.container {
+  position: relative;
+  height: calc(100% - #{$header-height});
+  z-index: 1;
+}

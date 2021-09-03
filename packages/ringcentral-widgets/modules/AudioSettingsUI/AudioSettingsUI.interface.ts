@@ -2,7 +2,7 @@ import { AudioSettings } from '@ringcentral-integration/commons/modules/AudioSet
 import { CallMonitor } from '@ringcentral-integration/commons/modules/CallMonitorV2';
 import { Webphone } from '@ringcentral-integration/commons/modules/WebphoneV2';
 import { CallingSettings } from '@ringcentral-integration/commons/modules/CallingSettingsV2';
-import { Locale } from '@ringcentral-integration/commons/modules/LocaleV2';
+import { Locale } from '@ringcentral-integration/commons/modules/Locale';
 import { RouterInteraction } from '../RouterInteraction';
 
 export interface AudioSettingsUIOptions {

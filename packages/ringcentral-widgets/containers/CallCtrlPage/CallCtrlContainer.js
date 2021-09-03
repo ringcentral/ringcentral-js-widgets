@@ -140,7 +140,7 @@ class CallCtrlContainer extends Component {
     return this.props.getInitialLayout(nextProps);
   }
 
-  componentWillReceiveProps(nextProps, nextState) {
+  UNSAFE_componentWillReceiveProps(nextProps, nextState) {
     this._updateMergingPairToSessionId(nextProps, nextState);
 
     let layout = this.state.layout;
@@ -234,9 +234,6 @@ class CallCtrlContainer extends Component {
       return null;
     }
 
-    const phoneNumber =
-      session.direction === callDirections.outbound ? session.to : session.from;
-
     let fallbackUserName;
     if (
       session.direction === callDirections.inbound &&
@@ -256,7 +253,7 @@ class CallCtrlContainer extends Component {
       <CallCtrlPanel
         currentLocale={this.props.currentLocale}
         formatPhone={this.props.formatPhone}
-        phoneNumber={phoneNumber}
+        phoneNumber={this.props.phoneNumber}
         sessionId={session.id}
         callStatus={session.callStatus}
         startTime={session.startTime}
@@ -333,6 +330,9 @@ CallCtrlContainer.propTypes = {
     from: PropTypes.string,
     contactMatch: PropTypes.object,
     warmTransferSessionId: PropTypes.string,
+    callStatus: PropTypes.string,
+    isOnTransfer: PropTypes.bool,
+    callQueueName: PropTypes.string,
   }).isRequired,
   currentLocale: PropTypes.string.isRequired,
   onMute: PropTypes.func.isRequired,
@@ -364,26 +364,22 @@ CallCtrlContainer.propTypes = {
   sourceIcons: PropTypes.object,
   phoneTypeRenderer: PropTypes.func,
   phoneSourceNameRenderer: PropTypes.func,
-  layout: PropTypes.string,
   showSpinner: PropTypes.bool,
   conferenceCallParties: PropTypes.array,
   conferenceCallEquipped: PropTypes.bool,
   hasConferenceCall: PropTypes.bool,
   lastCallInfo: PropTypes.object,
-  conferenceCallId: PropTypes.string,
   gotoParticipantsCtrl: PropTypes.func,
-  loadConference: PropTypes.func,
   getInitialLayout: PropTypes.func,
   closeMergingPair: PropTypes.func,
-  isWebRTC: PropTypes.bool,
-  disableLinks: PropTypes.bool,
-  isConferenceCallOverload: PropTypes.bool,
   afterHideMergeConfirm: PropTypes.func,
   afterConfirmMerge: PropTypes.func,
   afterOnMerge: PropTypes.func,
   disableFlip: PropTypes.bool,
   showCallQueueName: PropTypes.bool,
   onCompleteTransfer: PropTypes.func,
+  phoneNumber: PropTypes.string.isRequired,
+  showPark: PropTypes.bool,
 };
 
 CallCtrlContainer.defaultProps = {
@@ -402,21 +398,16 @@ CallCtrlContainer.defaultProps = {
   hasConferenceCall: false,
   conferenceCallParties: undefined,
   lastCallInfo: { calleeType: calleeTypes.unknown },
-  conferenceCallId: null,
   gotoParticipantsCtrl: (i) => i,
-  loadConference: (i) => i,
   getInitialLayout: () => callCtrlLayouts.normalCtrl,
-  layout: callCtrlLayouts.normalCtrl,
   closeMergingPair: null,
-  isWebRTC: false,
-  disableLinks: false,
-  isConferenceCallOverload: false,
   afterHideMergeConfirm: () => null,
   afterConfirmMerge: () => null,
   afterOnMerge: () => null,
   disableFlip: false,
   showCallQueueName: false,
   onCompleteTransfer: () => null,
+  showPark: false,
 };
 
 export default CallCtrlContainer;

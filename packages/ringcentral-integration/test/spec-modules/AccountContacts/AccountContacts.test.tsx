@@ -1,3 +1,4 @@
+import { ContactResource } from '@rc-ex/core/definitions';
 import {
   autorun,
   title,
@@ -5,10 +6,13 @@ import {
   Given,
   When,
   Then,
+  And,
   Step,
 } from '@ringcentral-integration/test-utils';
+import { phoneTypes } from '../../../enums/phoneTypes';
 
 import { AccountContacts } from '../../../modules/AccountContactsV2';
+import { CompanyContacts } from '../../../modules/CompanyContactsV2';
 import { mockModuleGenerator } from '../../lib/mockModule';
 
 const getMockModule = () =>
@@ -53,6 +57,41 @@ const getMockModule = () =>
       },
     },
   });
+
+const rawContactsHaveMobileContactPhoneNumbers: ContactResource[] = [
+  {
+    id: '867284004',
+    type: 'User',
+    status: 'Enabled',
+    firstName: 'Abdul',
+    lastName: 'Bernhard',
+    jobTitle: 'Sr. Developer',
+    email: 'AbdulB@rcmtorcv.onmicrosoft.com',
+    extensionNumber: '176',
+    account: {
+      id: '864984004',
+    },
+    phoneNumbers: [
+      {
+        phoneNumber: '+12077751826',
+        type: 'VoiceFax',
+        formattedPhoneNumber: '+1 (207) 7751826',
+        usageType: 'DirectNumber',
+        primary: true,
+      },
+      {
+        phoneNumber: '+13015927271',
+        formattedPhoneNumber: '+1 (301) 5927271',
+        usageType: 'MobileNumber',
+      },
+      {
+        phoneNumber: '+13015927272',
+        formattedPhoneNumber: '+1 (301) 5927272',
+        usageType: 'ContactNumber',
+      },
+    ],
+  },
+];
 
 @autorun(test)
 @title('Check fetch image Success in AccountContacts')
@@ -152,6 +191,74 @@ export class CheckBatchFetchPresenceSuccess extends Step {
             expect(Object.keys(context.mockModule.presences)).toEqual([
               '42',
               '3927794004',
+            ]);
+          }}
+        />
+      </Scenario>
+    );
+  }
+}
+
+@autorun(test)
+@title('Check mobile and contact phone numbers are included in AccountContacts')
+export class CheckMobileContactPhoneNumbersSuccess extends Step {
+  run() {
+    return (
+      <Scenario desc="Check mobileContactPhoneNumbersSuccess">
+        <Given desc="Create an AccountContacts instance" />
+        <And
+          desc="company contacts return contacts that has direct, mobile and contact phone numbers"
+          action={(_: any, context: any) => {
+            context.instance = mockModuleGenerator(
+              new AccountContacts({
+                client: {} as any,
+                extensionInfo: {} as any,
+                companyContacts: {
+                  filteredContacts: rawContactsHaveMobileContactPhoneNumbers,
+                } as CompanyContacts,
+                accountContactsOptions: {} as any,
+              }),
+            );
+          }}
+        />
+        <Then
+          desc="check 'contacts[0]'.phoneNumbers should be as expected"
+          action={(_: any, context: any) => {
+            const phoneNumbers = context.instance.contacts[0]
+              .phoneNumbers as AccountContacts['contacts'][0]['phoneNumbers'];
+
+            // should have direct, and contact, mobile phone numbers
+            const expectedPhoneTypes: string[] = [
+              phoneTypes.direct,
+              phoneTypes.contact,
+              phoneTypes.mobile,
+            ];
+
+            expect(
+              phoneNumbers.filter((phone) =>
+                expectedPhoneTypes.includes(phone.phoneType),
+              ),
+            ).toEqual([
+              {
+                formattedPhoneNumber: '+1 (207) 7751826',
+                phoneNumber: '+12077751826',
+                phoneType: 'direct',
+                primary: true,
+                type: 'VoiceFax',
+                usageType: 'DirectNumber',
+              },
+              {
+                formattedPhoneNumber: '+1 (301) 5927271',
+                phoneNumber: '+13015927271',
+                phoneType: 'mobile',
+                usageType: 'MobileNumber',
+              },
+              {
+                formattedPhoneNumber: '+1 (301) 5927272',
+                phoneNumber: '+13015927272',
+                phoneType: 'contact',
+                usageType: 'ContactNumber',
+              },
             ]);
           }}
         />

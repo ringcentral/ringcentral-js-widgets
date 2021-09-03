@@ -48,7 +48,7 @@ class MockAuth extends MockModule {
   }
 }
 
-class MockRolesAndPermissions extends MockModule {}
+class MockAppFeatures extends MockModule {}
 
 class MockMessageStore extends MockModule {}
 
@@ -152,7 +152,7 @@ export class FetchConversationsSuccessfully extends Step {
               client: new MockClient() as any,
               messageSender: new MockMessageSender() as any,
               messageStore: new MockMessageStore() as any,
-              rolesAndPermissions: new MockRolesAndPermissions() as any,
+              appFeatures: new MockAppFeatures() as any,
               extensionInfo: new MockExtensionInfo() as any,
               regionSettings: {} as any,
               contactMatcher: new MockContactMatcher() as any,
@@ -207,7 +207,7 @@ export class FetchMessagesSuccessfully extends Step {
               client: new MockClient() as any,
               messageSender: new MockMessageSender() as any,
               messageStore: new MockMessageStore() as any,
-              rolesAndPermissions: new MockRolesAndPermissions() as any,
+              appFeatures: new MockAppFeatures() as any,
               extensionInfo: new MockExtensionInfo() as any,
               regionSettings: {} as any,
               contactMatcher: new MockContactMatcher() as any,

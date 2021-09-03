@@ -3,12 +3,13 @@ import CoreExtension from '@rc-ex/core';
 import DebugExtension from '@rc-ex/debug';
 import RcSdkExtension from '@rc-ex/rcsdk';
 import WebSocketExtension, { Events } from '@rc-ex/ws';
+import { Wsc } from '@rc-ex/ws/lib/types';
 
 import {
   RcModuleV2,
   state,
   action,
-  watch,
+  storage,
 } from '@ringcentral-integration/core';
 import WebSocket from 'isomorphic-ws';
 import { proxify } from '../../lib/proxy/proxify';
@@ -22,14 +23,15 @@ import { Deps } from './RingCentralExtensions.interface';
 @Module({
   name: 'RingCentralExtensions',
   deps: [
+    'Auth',
     'Client',
+    'Storage',
     { dep: 'SleepDetector', optional: true },
     { dep: 'RingCentralExtensionsOptions', optional: true },
   ],
 })
 export class RingCentralExtensions extends RcModuleV2<Deps> {
   // infra
-  private _sdk: SDK;
   private _core: CoreExtension;
   private _webSocketExtension: WebSocketExtension;
   // refs
@@ -38,6 +40,8 @@ export class RingCentralExtensions extends RcModuleV2<Deps> {
   constructor(deps: Deps) {
     super({
       deps,
+      enableCache: true,
+      storageKey: 'RingCentralExtensions',
     });
   }
 
@@ -53,14 +57,15 @@ export class RingCentralExtensions extends RcModuleV2<Deps> {
     }
 
     // install RcSdkExtension
-    this._sdk = this._deps.client.service;
-    const rcSdkExtension = new RcSdkExtension({ rcSdk: this._sdk });
+    const rcSdkExtension = new RcSdkExtension({ rcSdk: this.sdk });
     await this._core.installExtension(rcSdkExtension);
 
     // install WebSocketExtension
-    this._webSocketExtension = new WebSocketExtension(
-      this._deps.ringCentralExtensionsOptions?.webSocketOptions,
-    );
+    const wsOptions = this._deps.ringCentralExtensionsOptions?.webSocketOptions;
+    this._webSocketExtension = new WebSocketExtension({
+      ...wsOptions,
+      wscToken: wsOptions?.wscToken ?? this.cachedWsc?.token,
+    });
     try {
       await this._core.installExtension(this._webSocketExtension);
     } catch (ex) {
@@ -70,34 +75,6 @@ export class RingCentralExtensions extends RcModuleV2<Deps> {
     }
   }
 
-  private _onSignedIn = () => {
-    this._setLoggedIn(true);
-  };
-
-  private _onSignedOff = () => {
-    this._setLoggedIn(false);
-  };
-
-  private _bindPlatformEvents() {
-    const platform = this._sdk.platform();
-    platform.addListener(platform.events.loginSuccess, this._onSignedIn);
-    platform.addListener(platform.events.loginError, this._onSignedOff);
-    platform.addListener(platform.events.logoutSuccess, this._onSignedOff);
-    platform.addListener(platform.events.logoutError, this._onSignedOff);
-    platform.addListener(platform.events.refreshSuccess, this._onSignedIn);
-    platform.addListener(platform.events.refreshError, this._onSignedOff);
-  }
-
-  private _unbindPlatformEvents() {
-    const platform = this._sdk.platform();
-    platform.removeListener(platform.events.loginSuccess, this._onSignedIn);
-    platform.removeListener(platform.events.loginError, this._onSignedOff);
-    platform.removeListener(platform.events.logoutSuccess, this._onSignedOff);
-    platform.removeListener(platform.events.logoutError, this._onSignedOff);
-    platform.removeListener(platform.events.refreshSuccess, this._onSignedIn);
-    platform.removeListener(platform.events.refreshError, this._onSignedOff);
-  }
-
   async onInitOnce() {
     await this._setupInfra();
 
@@ -105,8 +82,19 @@ export class RingCentralExtensions extends RcModuleV2<Deps> {
     this._exposeConnectionEvents();
     this._webSocketExtension.eventEmitter.addListener(
       Events.newWebSocketObject,
-      () => {
+      async (ws) => {
+        // for mock WebSocket used
+        if (ws._onCreated) {
+          await ws._onCreated();
+        }
+        // expose events
         this._exposeConnectionEvents();
+      },
+    );
+    this._webSocketExtension.eventEmitter.addListener(
+      Events.newWsc,
+      (wsc: Wsc) => {
+        this._cacheWsc(wsc);
       },
     );
     if (this._webSocketExtension.options.autoRecover) {
@@ -134,44 +122,23 @@ export class RingCentralExtensions extends RcModuleV2<Deps> {
       },
     );
 
-    watch(
-      this,
-      () => this.isLoggedIn,
-      () => {
-        if (!this.ready) {
-          return;
-        }
-        try {
-          if (this.isLoggedIn) {
-            this.recoverWebSocketConnection();
-          } else {
-            this.revokeWebSocketConnection();
-          }
-        } catch (ex) {
-          console.error('[RingCentralExtensions]', ex);
-        }
-      },
-    );
-  }
-
-  async onInit() {
-    this._bindPlatformEvents();
-    const platform = this._sdk.platform();
-    const loggedIn = await platform.loggedIn();
-    this._setLoggedIn(loggedIn);
-  }
-
-  async onReset() {
-    this._unbindPlatformEvents();
+    // hook auth events
+    this._deps.auth.addAfterLoggedInHandler(() => {
+      this.recoverWebSocketConnection();
+    });
+    this._deps.auth.addBeforeLogoutHandler(() => {
+      this.revokeWebSocketConnection();
+    });
   }
 
   @action
-  private _setLoggedIn(loggedIn: boolean) {
-    this.isLoggedIn = loggedIn;
+  private _cacheWsc(wsc: Wsc) {
+    this.cachedWsc = wsc;
   }
 
+  @storage
   @state
-  isLoggedIn: boolean = false;
+  cachedWsc: Wsc = null;
 
   @proxify
   async recoverWebSocketConnection() {
@@ -211,9 +178,13 @@ export class RingCentralExtensions extends RcModuleV2<Deps> {
     this._syncWebSocketReadyState();
   };
 
-  @action
   private _syncWebSocketReadyState() {
     const readyState = this._webSocketExtension.ws?.readyState;
+    this._setWebSocketReadyState(readyState);
+  }
+
+  @action
+  _setWebSocketReadyState(readyState: WebSocketExtension['ws']['readyState']) {
     switch (readyState) {
       case WebSocket.CONNECTING:
         this.webSocketReadyState = webSocketReadyStates.connecting;
@@ -244,7 +215,7 @@ export class RingCentralExtensions extends RcModuleV2<Deps> {
   }
 
   get sdk(): SDK {
-    return this._sdk;
+    return this._deps.client.service;
   }
 
   get core(): CoreExtension {

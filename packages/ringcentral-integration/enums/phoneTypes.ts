@@ -11,6 +11,7 @@ export const phoneTypes = ObjectMap.fromKeys([
   'phone',
   'unknown',
   'company',
+  'contact',
   'direct',
   'fax',
   'other',

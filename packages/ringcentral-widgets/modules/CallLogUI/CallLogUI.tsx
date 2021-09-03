@@ -37,14 +37,14 @@ const CallLogCallControlRenderer = (
     'CallLogSection',
     'RouterInteraction',
     'ActiveCallControl',
-    'ExtensionFeatures',
+    'AppFeatures',
     'ConnectivityMonitor',
     'CallingSettings',
     'ForwardingNumber',
     { dep: 'CallLogUIOptions', optional: true },
   ],
 })
-export abstract class CallLogUIBase<T = {}>
+export abstract class CallLogUIBase<T extends Deps = Deps>
   extends RcUIModuleV2<Deps & T>
   implements CallLogUIInterface {
   constructor({ deps, ...options }: RcModuleOptions<Deps & T>) {
@@ -64,7 +64,7 @@ export abstract class CallLogUIBase<T = {}>
       callLogSection,
       routerInteraction,
       activeCallControl,
-      extensionFeatures,
+      appFeatures,
       connectivityMonitor,
       callingSettings,
       forwardingNumber,
@@ -80,7 +80,7 @@ export abstract class CallLogUIBase<T = {}>
         locale.ready &&
         regionSettings.ready &&
         dateTimeFormat.ready &&
-        extensionFeatures.ready &&
+        appFeatures.ready &&
         (!callLogger || callLogger.ready)
       ),
       isInTransferPage,

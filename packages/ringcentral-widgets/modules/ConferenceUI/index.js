@@ -1,7 +1,7 @@
 import { Module } from '@ringcentral-integration/commons/lib/di';
-import { reduce, map } from 'ramda';
-import RcUIModule from '../../lib/RcUIModule';
+import { map, reduce } from 'ramda';
 import countryNames from '../../lib/countryNames';
+import RcUIModule from '../../lib/RcUIModule';
 
 @Module({
   name: 'ConferenceUI',
@@ -10,7 +10,7 @@ import countryNames from '../../lib/countryNames';
     'RegionSettings',
     'Locale',
     'ComposeText',
-    'ExtensionFeatures',
+    'AppFeatures',
     'Brand',
     'Alert',
     'RouterInteraction',
@@ -23,7 +23,7 @@ export default class ConferenceUI extends RcUIModule {
     regionSettings,
     locale,
     composeText,
-    extensionFeatures,
+    appFeatures,
     brand,
     alert,
     routerInteraction,
@@ -37,7 +37,7 @@ export default class ConferenceUI extends RcUIModule {
     this._regionSettings = regionSettings;
     this._locale = locale;
     this._composeText = composeText;
-    this._extensionFeatures = extensionFeatures;
+    this._appFeatures = appFeatures;
     this._brand = brand;
     this._alert = alert;
     this._routerInteraction = routerInteraction;
@@ -87,10 +87,7 @@ export default class ConferenceUI extends RcUIModule {
       participantCode,
       allowJoinBeforeHost,
       additionalNumbers: this._conference.additionalNumbers,
-      disableTxtBtn: !(
-        this._extensionFeatures.hasOutboundSMSPermission ||
-        this._extensionFeatures.hasInternalSMSPermission
-      ),
+      disableTxtBtn: !this._appFeatures.hasComposeTextPermission,
       countryCode: this._regionSettings.countryCode,
       areaCode: this._regionSettings.areaCode,
       currentLocale: this._locale.currentLocale,

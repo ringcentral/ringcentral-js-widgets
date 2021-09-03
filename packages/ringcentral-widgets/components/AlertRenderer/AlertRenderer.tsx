@@ -14,7 +14,7 @@ import MessageSenderAlert from './MessageSenderAlert';
 import MessageStoreAlert from './MessageStoreAlert';
 import RateExceededAlert from './RateExceededAlert';
 import RegionSettingsAlert from './RegionSettingsAlert';
-import RolesAndPermissionsAlert from './RolesAndPermissionsAlert';
+import PermissionsAlert from './PermissionsAlert';
 import WebphoneAlert from './WebphoneAlert';
 
 export function AlertRenderer(
@@ -54,6 +54,8 @@ export function AlertRenderer(
           {...props}
           brandCode={brand.code}
           brandName={brand.name}
+          shortBrandName={brand.shortName}
+          fullBrandName={brand.fullName}
           onCallingSettingsLinkClick={onCallingSettingsLinkClick}
         />
       );
@@ -101,9 +103,9 @@ export function AlertRenderer(
     if (MeetingAlert.handleMessage(message)) {
       return (props) => <MeetingAlert {...props} application={brand.appName} />;
     }
-    if (RolesAndPermissionsAlert.handleMessage(message)) {
+    if (PermissionsAlert.handleMessage(message)) {
       return (props) => (
-        <RolesAndPermissionsAlert
+        <PermissionsAlert
           {...props}
           brand={brand.fullName}
           application={brand.appName}

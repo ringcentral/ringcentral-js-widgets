@@ -12,17 +12,17 @@ import { getMeetingProvider } from './service';
  */
 
 @Module({
-  deps: ['Client', 'ExtensionFeatures'],
+  deps: ['Client', 'AppFeatures'],
 })
 export default class MeetingProvider extends DataFetcher {
-  constructor({ extensionFeatures, ...options }) {
+  constructor({ appFeatures, ...options }) {
     super({
       ...options,
       subscriptionFilters: [subscriptionFilters.extensionInfo],
       subscriptionHandler: async (message) => {
         await this._subscriptionHandleFn(message);
       },
-      readyCheckFn: () => this._extensionFeatures.ready,
+      readyCheckFn: () => this._appFeatures.ready,
       async fetchFunction() {
         const data = await getMeetingProvider(this._client);
         return data;
@@ -30,7 +30,7 @@ export default class MeetingProvider extends DataFetcher {
       disableCache: true,
       cleanOnReset: true,
     });
-    this._extensionFeatures = extensionFeatures;
+    this._appFeatures = appFeatures;
   }
 
   async _subscriptionHandleFn(message) {
@@ -64,7 +64,7 @@ export default class MeetingProvider extends DataFetcher {
   }
 
   get _hasPermission() {
-    return this._extensionFeatures.hasMeetingsPermission;
+    return this._appFeatures.hasMeetingsPermission;
   }
 
   get _name() {

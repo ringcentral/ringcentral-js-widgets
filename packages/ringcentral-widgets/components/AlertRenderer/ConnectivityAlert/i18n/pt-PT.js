@@ -1,15 +1,10 @@
 import { connectivityTypes } from '../../../../modules/ConnectivityManager';
 export default {
-  [connectivityTypes.networkLoss]:
-    'Lamentamos, mas ocorreu um erro. Verifique a ligação de rede e tente novamente.',
-  [connectivityTypes.offline]:
-    'Não é possível ligar ao servidor. Tente novamente mais tarde.',
-  [connectivityTypes.serverUnavailable]:
-    'Lamentamos, mas ocorreu um erro do nosso lado. Tente novamente mais tarde.',
-  [connectivityTypes.voipOnly]:
-    'Lamentamos, mas ocorreu um erro do nosso lado que estamos a tentar solucionar. Pode continuar a efetuar chamadas mas, de momento, outras funções estão limitadas.',
-  [connectivityTypes.survival]:
-    'Lamentamos, mas ocorreu um erro do nosso lado que estamos a tentar solucionar. Algumas funcionalidades podem ter acesso limitado. A aplicação irá recuperar automaticamente assim que estiver disponível.',
+  [connectivityTypes.networkLoss]: "Lamentamos, mas ocorreu um erro. Verifique a ligação de rede e tente novamente.",
+  [connectivityTypes.offline]: "Não é possível ligar ao servidor. Tente novamente mais tarde.",
+  [connectivityTypes.serverUnavailable]: "Lamentamos, mas ocorreu um erro do nosso lado. Tente novamente mais tarde.",
+  [connectivityTypes.voipOnly]: "Lamentamos, mas ocorreu um erro do nosso lado que estamos a tentar solucionar. Pode continuar a efetuar chamadas mas, de momento, outras funções estão limitadas.",
+  [connectivityTypes.survival]: "Lamentamos, mas ocorreu um erro do nosso lado que estamos a tentar solucionar. Algumas funcionalidades podem ter acesso limitado. A aplicação irá recuperar automaticamente assim que estiver disponível."
 };
 
 // @key: @#@"[connectivityTypes.networkLoss]"@#@ @source: @#@"Sorry, something went wrong, check your network connection and try again."@#@

@@ -1,4 +1,5 @@
 module.exports = {
+  testEnvironment: 'jsdom',
   transform: {
     'loadLocale\\.(j|t)s$': '<rootDir>/test/__mocks__/loadLocale.ts',
     '^.+\\.(j|t)sx?$':

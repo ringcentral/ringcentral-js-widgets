@@ -9,6 +9,7 @@ export const actionTypes = ObjectMap.prefixKeys(
     'saveSuccess',
     'saveError',
     'cleanUp',
+    'syncing',
     'showLogSection',
     'closeLogSection',
     'showLogNotification',

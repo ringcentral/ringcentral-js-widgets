@@ -55,6 +55,7 @@ export interface RcVideoAPI {
   isOnlyAuthUserJoin: boolean;
   isOnlyCoworkersJoin: boolean;
   allowScreenSharing: boolean;
+  e2ee?: boolean;
   waitingRoomMode?: RcvWaitingRoomModeProps;
 }
 
@@ -107,6 +108,7 @@ type RcVSettingValue =
   | RcvWaitingRoomType;
 
 export type RcVSettingId =
+  | 'e2ee'
   | 'join_before_host'
   // | 'join_video_off'
   // | 'join_audio_mute'
@@ -129,6 +131,7 @@ export interface RcVPreferencesGET {
   join_before_host?: boolean;
   // join_video_off?: boolean;
   // join_audio_mute?: boolean;
+  e2ee?: boolean;
   password_scheduled?: boolean;
   password_instant?: boolean;
   guest_join?: boolean;
@@ -148,6 +151,7 @@ export interface RcVPreferencesAPIResult {
 }
 
 export type RcVSettingKey =
+  | 'e2ee'
   | 'allowJoinBeforeHost'
   // | 'muteVideo'
   // | 'muteAudio'

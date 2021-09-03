@@ -8,7 +8,8 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "bin": {
-    "test-cli": "bin/index.js"
+    "test-cli": "bin/index.js",
+    "run-test": "bin/run-test.js"
   },
   "repository": {
     "type": "git",
@@ -22,19 +23,21 @@
   "license": "MIT",
   "dependencies": {
     "@ringcentral-integration/babel-settings": "*",
-    "@ringcentral/juno": "^1.8.5-beta.5034-128a9f16",
+    "@ringcentral/juno": "^1.11.2",
     "@testing-library/react": "^11.2.6",
     "babel-jest": "^27.0.1",
     "babel-preset-crius": "^1.0.0-alpha.2",
     "cross-env": "^5.1.3",
     "enzyme": "^3.7.0",
-    "enzyme-adapter-react-16": "^1.6.0",
+    "execa": "^5.0.0",
+    "@wojtekmaj/enzyme-adapter-react-17": "^0.6.3",
     "enzyme-to-json": "^3.3.4",
+    "fs-extra": "^9.0.1",
     "identity-obj-proxy": "3.0.0",
     "jest": "^27.0.1",
     "jest-circus": "^27.0.1",
     "jest-junit": "^6.3.0",
-    "react": "^16.14.0",
+    "react": "^17.0.2",
     "@ringcentral-integration/crius": "*"
   }
 }

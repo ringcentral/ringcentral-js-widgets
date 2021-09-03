@@ -6,16 +6,12 @@ import getRegionSettingsReducer, {
   getAreaCodeReducer,
 } from './getRegionSettingsReducer';
 import moduleStatuses from '../../enums/moduleStatuses';
-import regionSettingsMessages from '../RegionSettings/regionSettingsMessages';
+import regionSettingsMessages from './regionSettingsMessages';
 import actionTypes from './actionTypes';
 import validateAreaCode from '../../lib/validateAreaCode';
 import proxify from '../../lib/proxy/proxify';
 import { selector } from '../../lib/selector';
 
-/**
- * @class
- * @description Region settings managing module
- */
 @Module({
   deps: [
     'Brand',
@@ -196,7 +192,7 @@ export default class RegionSettings extends RcModule {
     });
   }
 
-  get showReginSetting() {
+  get showRegionSetting() {
     if (this.availableCountries.length > 1) {
       return true;
     }

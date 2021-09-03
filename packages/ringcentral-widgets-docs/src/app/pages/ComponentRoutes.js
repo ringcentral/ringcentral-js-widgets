@@ -110,7 +110,7 @@ import RegionSettingsAlertPage from './Components/RegionSettingsAlert';
 import RegionSettingsPanelPage from './Components/RegionSettingsPanel';
 import RemoveButtonPage from './Components/RemoveButton';
 import ReplyWithMessagePage from './Components/ReplyWithMessage';
-import RolesAndPermissionsAlertPage from './Components/RolesAndPermissionsAlert';
+import PermissionsAlertPage from './Components/PermissionsAlert';
 import SaveButtonPage from './Components/SaveButton';
 import SearchInputPage from './Components/SearchInput';
 import SelectPage from './Components/Select';
@@ -350,8 +350,8 @@ const Routes = () => (
       component={ReplyWithMessagePage}
     />
     <Route
-      path="/components/RolesAndPermissionsAlert"
-      component={RolesAndPermissionsAlertPage}
+      path="/components/PermissionsAlert"
+      component={PermissionsAlertPage}
     />
     <Route path="/components/SaveButton" component={SaveButtonPage} />
     <Route path="/components/SearchInput" component={SearchInputPage} />

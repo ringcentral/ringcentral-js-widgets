@@ -1,7 +1,7 @@
-import { ObjectMapValue } from '@ringcentral-integration/core/lib/ObjectMap';
 import messageTypes from '@ringcentral-integration/commons/enums/messageTypes';
 import { Entity } from '@ringcentral-integration/commons/interfaces/Entity.interface';
-import { Brand } from '@ringcentral-integration/commons/modules/BrandV2';
+import { AppFeatures } from '@ringcentral-integration/commons/modules/AppFeatures';
+import { Brand } from '@ringcentral-integration/commons/modules/Brand';
 import { Call } from '@ringcentral-integration/commons/modules/CallV2';
 import { ComposeText } from '@ringcentral-integration/commons/modules/ComposeTextV2';
 import { ConnectivityMonitor } from '@ringcentral-integration/commons/modules/ConnectivityMonitorV2';
@@ -17,12 +17,12 @@ import {
   DateTimeFormat,
   FormatDateTimeOptions,
 } from '@ringcentral-integration/commons/modules/DateTimeFormatV2';
-import { ExtensionFeatures } from '@ringcentral-integration/commons/modules/ExtensionFeatures';
 import { ExtensionInfo } from '@ringcentral-integration/commons/modules/ExtensionInfoV2';
-import { Locale } from '@ringcentral-integration/commons/modules/LocaleV2';
+import { Locale } from '@ringcentral-integration/commons/modules/Locale';
 import { MessageStore } from '@ringcentral-integration/commons/modules/MessageStoreV2';
 import { RateLimiter } from '@ringcentral-integration/commons/modules/RateLimiterV2';
 import { RegionSettings } from '@ringcentral-integration/commons/modules/RegionSettingsV2';
+import { ObjectMapValue } from '@ringcentral-integration/core/lib/ObjectMap';
 import { ContactDetailsUI } from '../ContactDetailsUI';
 import { RouterInteraction } from '../RouterInteraction';
 
@@ -31,13 +31,13 @@ export interface ConversationsUIOptions {
 }
 
 export interface Deps {
+  appFeatures: AppFeatures;
   brand: Brand;
   locale: Locale;
   conversations: Conversations;
   contactMatcher: ContactMatcher;
   dateTimeFormat: DateTimeFormat;
   regionSettings: RegionSettings;
-  extensionFeatures: ExtensionFeatures;
   call: Call;
   conversationLogger: ConversationLogger;
   connectivityMonitor: ConnectivityMonitor;
@@ -181,4 +181,7 @@ export interface ConversationsPanelProps {
     conversation: CurrentConversation;
   }) => Promise<void> | void;
   contactPlaceholder?: string;
+  dropdownClassName?: string;
+  renderContactList?: (entity: { name: string; labelType: string }) => any;
+  enableCDC: boolean;
 }

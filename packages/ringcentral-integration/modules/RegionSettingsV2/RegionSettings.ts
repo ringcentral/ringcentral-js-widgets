@@ -69,9 +69,6 @@ export class RegionSettings extends RcModuleV2<Deps> {
   }
 
   onInitOnce() {
-    if (!this._deps.tabManager || this._deps.tabManager.active) {
-      this.checkRegionSettings();
-    }
     watch(
       this,
       () => this.availableCountries,
@@ -84,6 +81,12 @@ export class RegionSettings extends RcModuleV2<Deps> {
         }
       },
     );
+  }
+
+  onInit() {
+    if (!this._deps.tabManager || this._deps.tabManager.active) {
+      this.checkRegionSettings();
+    }
   }
 
   @computed((that: RegionSettings) => [
@@ -163,7 +166,7 @@ export class RegionSettings extends RcModuleV2<Deps> {
   }
 
   @computed(({ availableCountries }: RegionSettings) => [availableCountries])
-  get showReginSetting() {
+  get showRegionSetting() {
     if (this.availableCountries.length > 1) {
       return true;
     }
@@ -177,7 +180,10 @@ export class RegionSettings extends RcModuleV2<Deps> {
     return false;
   }
 
-  @computed(({ availableCountries }: RegionSettings) => [availableCountries])
+  @computed(({ availableCountries, countryCode }: RegionSettings) => [
+    availableCountries,
+    countryCode,
+  ])
   get homeCountryId() {
     const homeCountry = this.availableCountries.find(
       (country) => country.isoCode === this.countryCode,

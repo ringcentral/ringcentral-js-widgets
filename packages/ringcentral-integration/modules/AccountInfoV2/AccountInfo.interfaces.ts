@@ -5,12 +5,14 @@ import {
   DataSourceBaseProps,
 } from '../DataFetcherV2';
 import { ExtensionFeatures } from '../ExtensionFeatures';
+import { TierChecker } from '../TierChecker';
 
 export interface Deps extends DataFetcherV2ConsumerBaseDeps {
   alert: Alert;
   auth: Auth;
   client: any;
   extensionFeatures: ExtensionFeatures;
+  tierChecker: TierChecker;
   accountInfoOptions?: AccountInfoOptions;
 }
 

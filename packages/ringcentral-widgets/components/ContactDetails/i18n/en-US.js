@@ -6,6 +6,7 @@ export default {
   [phoneTypes.extension]: 'Ext.',
   [phoneTypes.direct]: 'Direct',
   [phoneTypes.mobile]: 'Mobile',
+  [phoneTypes.contact]: 'Contact phone',
   [phoneTypes.home]: 'Home',
   [phoneTypes.business]: 'Business',
   [phoneTypes.fax]: 'Fax',
@@ -21,5 +22,5 @@ export default {
   notActivated: 'Inactive',
   company: 'Company',
   jobTitle: 'Title',
-  site: 'Site'
+  site: 'Site',
 };

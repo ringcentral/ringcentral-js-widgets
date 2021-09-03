@@ -3,6 +3,7 @@ export {
   RCV_PREFERENCES_IDS,
   RCV_PREFERENCES_KEYS,
   RCV_WAITING_ROOM_API_KEYS,
+  RCV_E2EE_API_KEYS,
   RcVideoTypes,
   meetingProviderTypes,
   RCV_WAITING_ROOM_MODE,
@@ -22,4 +23,4 @@ export {
   transformSettingLocks,
   getLockedPreferences,
   patchWaitingRoomRelated,
-} from '../RcVideoV2/videoHelper';
+} from '../RcVideoV2';

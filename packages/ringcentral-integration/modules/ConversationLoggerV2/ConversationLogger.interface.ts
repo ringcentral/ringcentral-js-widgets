@@ -6,11 +6,11 @@ import { Auth } from '../AuthV2';
 import { ContactMatcher } from '../ContactMatcherV2';
 import { ConversationMatcher } from '../ConversationMatcherV2';
 import { DateTimeFormat, FormatDateTimeOptions } from '../DateTimeFormatV2';
-import { ExtensionFeatures } from '../ExtensionFeatures';
+import { AppFeatures } from '../AppFeatures';
 import { ExtensionInfo } from '../ExtensionInfoV2';
 import { MessageStore } from '../MessageStoreV2';
 import { Storage } from '../StorageV2';
-import { TabManager } from '../TabManagerV2';
+import { TabManager } from '../TabManager';
 
 export interface ConversationLoggerOptions {
   isLoggedContact?: (
@@ -33,7 +33,7 @@ export interface Deps {
   dateTimeFormat: DateTimeFormat;
   extensionInfo: ExtensionInfo;
   messageStore: MessageStore;
-  extensionFeatures: ExtensionFeatures;
+  appFeatures: AppFeatures;
   tabManager?: TabManager;
   conversationLoggerOptions: ConversationLoggerOptions;
 }

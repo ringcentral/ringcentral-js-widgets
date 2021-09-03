@@ -1,7 +1,7 @@
 import { Alert } from '../AlertV2';
 import { Auth } from '../AuthV2';
 import { ContactSearch } from '../ContactSearchV2';
-import { ExtensionFeatures } from '../ExtensionFeatures';
+import { AppFeatures } from '../AppFeatures';
 import { MessageSender } from '../MessageSenderV2';
 import { NumberValidate } from '../NumberValidateV2';
 import { Storage } from '../StorageV2';
@@ -16,7 +16,7 @@ export interface Deps {
   storage: Storage;
   messageSender: MessageSender;
   numberValidate: NumberValidate;
-  extensionFeatures: ExtensionFeatures;
+  appFeatures: AppFeatures;
   contactSearch?: ContactSearch;
   composeTextOptions?: ComposeTextOptions;
   routerInteraction?: RouterInteraction;

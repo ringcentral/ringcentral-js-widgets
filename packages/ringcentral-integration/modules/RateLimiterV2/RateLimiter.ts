@@ -47,6 +47,10 @@ export class RateLimiter extends RcModuleV2<Deps> {
   @state
   timestamp: number = null;
 
+  @globalStorage
+  @state
+  rateLimitAlertId: string = null;
+
   @action
   startThrottle(timestamp: number) {
     this.timestamp = timestamp;
@@ -97,7 +101,7 @@ export class RateLimiter extends RcModuleV2<Deps> {
       return;
     }
 
-    this._deps.alert.warning({
+    this.rateLimitAlertId = this._deps.alert.warning({
       message: errorMessages.rateLimitReached,
       ttl: this.ttl,
       allowDuplicates: false,

@@ -51,7 +51,7 @@ export default class Environment extends RcModule {
     this._enabledStorageKey = 'environmentEnabled';
     this._defaultRecordingHost =
       environmentOptions.defaultRecordingHost ??
-      'https://s3.ap-northeast-2.amazonaws.com/fetch-call-recording/test/index.html';
+      'https://apps.ringcentral.com/integrations/recording/index.html';
     this._globalStorage.registerReducer({
       key: this._serverStorageKey,
       reducer: getServerReducer({

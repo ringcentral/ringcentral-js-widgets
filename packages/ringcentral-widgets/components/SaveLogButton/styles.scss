@@ -6,9 +6,8 @@
   padding: 0 4px !important;
   min-width: 0 !important;
   margin-right: 14px !important;
-}
-
-.classic {
-  padding: 0 !important;
-  margin-right: 6px !important;
+  &.classic {
+    padding: 0 !important;
+    margin-right: 6px !important;
+  }
 }

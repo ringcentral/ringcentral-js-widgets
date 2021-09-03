@@ -5,6 +5,7 @@ import { Mic, MicOff } from '@ringcentral/juno/icon';
 import { getCircleIconButtonTitle } from '../help';
 import i18n from '../i18n';
 import { CallButtonsProps } from './CallButtons.interface';
+import { getIconColor } from './getIconColor';
 
 export type MuteCallButtonProps = CallButtonsProps & {
   isOnMute: boolean;
@@ -26,10 +27,10 @@ export const MuteCallButton: FunctionComponent<MuteCallButtonProps> = ({
     isOnMute,
   });
 
-  let color = disableMute ? 'icon.disabled' : 'icon.dark';
-  if (isOnMute) {
-    color = 'icon.primary';
-  }
+  const color = getIconColor({
+    active: isOnMute,
+    disable: disableMute,
+  });
 
   return (
     <RcIconButton

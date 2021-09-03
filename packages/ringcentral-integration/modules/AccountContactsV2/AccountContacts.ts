@@ -18,7 +18,11 @@ import {
 } from '../../lib/contactHelper';
 import { Module } from '../../lib/di';
 import isBlank from '../../lib/isBlank';
-import proxify from '../../lib/proxy/proxify';
+import {
+  convertUsageTypeToPhoneType,
+  isSupportedPhoneNumber,
+} from '../../lib/phoneTypeHelper';
+import { proxify } from '../../lib/proxy/proxify';
 import {
   Contact,
   Deps,
@@ -31,15 +35,16 @@ import {
 
 const MaximumBatchGetPresence = 30;
 const DEFAULT_TTL = 30 * 60 * 1000; // 30 mins
-const DEFAULT_PRESENCETTL = 10 * 60 * 1000; // 10 mins
-const DEFAULT_AVATARTTL = 2 * 60 * 60 * 1000; // 2 hour
-const DEFAULT_AVATARQUERYINTERVAL = 2 * 1000; // 2 seconds
+const DEFAULT_PRESENCE_TTL = 10 * 60 * 1000; // 10 mins
+const DEFAULT_AVATAR_TTL = 2 * 60 * 60 * 1000; // 2 hour
+const DEFAULT_AVATAR_QUERY_INTERVAL = 2 * 1000; // 2 seconds
 
 @Module({
   name: 'AccountContacts',
   deps: [
     'Client',
     'ExtensionInfo',
+    'AppFeatures',
     { dep: 'CompanyContacts' },
     { dep: 'AccountContactsOptions', optional: true },
   ],
@@ -72,6 +77,7 @@ export class AccountContacts extends RcModuleV2<Deps> implements ContactSource {
     ttl: number;
   }) {
     const data: ProfileImages = {};
+    // TODO: refactor without side effect.
     Object.keys(this.profileImages).forEach((key) => {
       if (Date.now() - this.profileImages[key].timestamp < ttl) {
         data[key] = this.profileImages[key];
@@ -95,6 +101,7 @@ export class AccountContacts extends RcModuleV2<Deps> implements ContactSource {
     ttl: number;
   }) {
     const data: Presences = {};
+    // TODO: refactor without side effect.
     Object.keys(this.presences).forEach((key) => {
       if (Date.now() - this.presences[key].timestamp < ttl) {
         data[key] = this.presences[key];
@@ -111,6 +118,7 @@ export class AccountContacts extends RcModuleV2<Deps> implements ContactSource {
 
   @action
   onReset() {
+    // TODO: refactor without side effect.
     Object.keys(this.profileImages).forEach((key) => {
       URL.revokeObjectURL(this.profileImages[key].imageUrl);
     });
@@ -123,25 +131,25 @@ export class AccountContacts extends RcModuleV2<Deps> implements ContactSource {
   }
 
   get _avatarTtl() {
-    return this._deps.accountContactsOptions?.avatarTtl ?? DEFAULT_AVATARTTL;
+    return this._deps.accountContactsOptions?.avatarTtl ?? DEFAULT_AVATAR_TTL;
   }
 
   get _presenceTtl() {
     return (
-      this._deps.accountContactsOptions?.presenceTtl ?? DEFAULT_PRESENCETTL
+      this._deps.accountContactsOptions?.presenceTtl ?? DEFAULT_PRESENCE_TTL
     );
   }
 
   get _avatarQueryInterval() {
     return (
       this._deps.accountContactsOptions?.avatarQueryInterval ??
-      DEFAULT_AVATARQUERYINTERVAL
+      DEFAULT_AVATAR_QUERY_INTERVAL
     );
   }
 
   get isCDCEnabled() {
     // TODO: default to true when cdc feature is ready for production.
-    return this._deps.accountContactsOptions?.enableCDC ?? false;
+    return this._deps.appFeatures?.isCDCEnabled;
   }
 
   _shouldInit() {
@@ -385,6 +393,7 @@ export class AccountContacts extends RcModuleV2<Deps> implements ContactSource {
     _deps.companyContacts.filteredContacts,
     profileImages,
     presences,
+    _deps.accountContactsOptions,
   ])
   get directoryContacts(): DirectoryContacts {
     return reduce(
@@ -415,12 +424,11 @@ export class AccountContacts extends RcModuleV2<Deps> implements ContactSource {
 
           if (item.phoneNumbers && item.phoneNumbers.length > 0) {
             item.phoneNumbers.forEach((phone) => {
-              if (phone.type) {
+              isSupportedPhoneNumber(phone) &&
                 contact.phoneNumbers.push({
                   ...phone,
-                  phoneType: phoneTypes.direct,
+                  phoneType: convertUsageTypeToPhoneType(phone?.usageType),
                 });
-              }
             });
           }
           result.all.push(contact);

@@ -87,6 +87,7 @@ const App = ({ phone, icon }) => {
                 >
                   <AlertContainer />
                   <RecentActivityContainer
+                    entry="Incoming Call"
                     getSession={() => phone.webphone.ringSession || {}}
                     navigateTo={(path) => {
                       phone.webphone.toggleMinimized(
@@ -175,6 +176,7 @@ const App = ({ phone, icon }) => {
                     showPark
                   >
                     <RecentActivityContainer
+                      entry="Call Control"
                       getSession={() => phone.webphone.activeSession || {}}
                       navigateTo={(path) => {
                         phone.routerInteraction.push(path);
@@ -283,6 +285,7 @@ const App = ({ phone, icon }) => {
                   component={(routerProps) => (
                     <ContactDetailsPage params={routerProps.params}>
                       <RecentActivityContainer
+                        entry="Contact Details"
                         navigateTo={(path) => {
                           phone.routerInteraction.push(path);
                         }}

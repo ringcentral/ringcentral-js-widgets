@@ -302,8 +302,8 @@ export class Call extends RcModuleV2<Deps> {
     isConference,
   }: {
     toNumber: string;
-    fromNumber: string;
-    isConference: boolean;
+    fromNumber?: string;
+    isConference?: boolean;
   }) {
     const isWebphone =
       this._deps.callingSettings.callingMode === callingModes.webphone;

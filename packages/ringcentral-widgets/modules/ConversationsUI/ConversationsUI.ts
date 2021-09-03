@@ -1,13 +1,13 @@
+import { Module } from '@ringcentral-integration/commons/lib/di';
 import {
   RcUIModuleV2,
   UIFunctions,
   UIProps,
 } from '@ringcentral-integration/core';
-import { Module } from '@ringcentral-integration/commons/lib/di';
 import {
-  Deps,
   ConversationsContainerProps,
   ConversationsPanelProps,
+  Deps,
 } from './ConversationsUI.interface';
 
 @Module({
@@ -18,7 +18,7 @@ import {
     'Conversations',
     'DateTimeFormat',
     'RegionSettings',
-    'ExtensionFeatures',
+    'AppFeatures',
     'Call',
     'ConnectivityMonitor',
     'RateLimiter',
@@ -54,7 +54,7 @@ export class ConversationsUI<T> extends RcUIModuleV2<Deps & T> {
       contactMatcher,
       dateTimeFormat,
       regionSettings,
-      extensionFeatures,
+      appFeatures,
       call,
       conversationLogger,
       connectivityMonitor,
@@ -84,9 +84,9 @@ export class ConversationsUI<T> extends RcUIModuleV2<Deps & T> {
         connectivityManager.isWebphoneInitializing ||
         rateLimiter.throttling,
       disableClickToDial: !(call && call.isIdle),
-      outboundSmsPermission: extensionFeatures.hasOutboundSMSPermission,
-      internalSmsPermission: extensionFeatures.hasInternalSMSPermission,
-      composeTextPermission: extensionFeatures.hasComposeTextPermission,
+      outboundSmsPermission: appFeatures.hasOutboundSMSPermission,
+      internalSmsPermission: appFeatures.hasInternalSMSPermission,
+      composeTextPermission: appFeatures.hasComposeTextPermission,
       loggingMap: conversationLogger && conversationLogger.loggingMap,
       showSpinner: !(
         locale.ready &&
@@ -94,7 +94,7 @@ export class ConversationsUI<T> extends RcUIModuleV2<Deps & T> {
         (!contactMatcher || contactMatcher.ready) &&
         dateTimeFormat.ready &&
         regionSettings.ready &&
-        extensionFeatures.ready &&
+        appFeatures.ready &&
         connectivityMonitor.ready &&
         rateLimiter.ready &&
         (!call || call.ready) &&
@@ -106,10 +106,11 @@ export class ConversationsUI<T> extends RcUIModuleV2<Deps & T> {
       textUnreadCounts: messageStore.textUnreadCounts,
       voiceUnreadCounts: messageStore.voiceUnreadCounts,
       faxUnreadCounts: messageStore.faxUnreadCounts,
-      readTextPermission: extensionFeatures.hasReadTextPermission,
-      readVoicemailPermission: extensionFeatures.hasVoicemailPermission,
-      readFaxPermission: extensionFeatures.hasReadFaxPermission,
+      readTextPermission: appFeatures.hasReadTextPermission,
+      readVoicemailPermission: appFeatures.hasVoicemailPermission,
+      readFaxPermission: appFeatures.hasReadFaxPermission,
       loadingNextPage: conversations.loadingOldConversations,
+      enableCDC: appFeatures.isCDCEnabled,
     };
   }
 
@@ -137,7 +138,7 @@ export class ConversationsUI<T> extends RcUIModuleV2<Deps & T> {
       contactDetailsUI,
       composeText,
       contactSearch,
-      extensionFeatures,
+      appFeatures,
     } = this._deps;
 
     return {
@@ -166,7 +167,7 @@ export class ConversationsUI<T> extends RcUIModuleV2<Deps & T> {
           }
         : undefined,
       onClickToDial:
-        dialerUI && extensionFeatures.isCallingEnabled
+        dialerUI && appFeatures.isCallingEnabled
           ? (recipient) => {
               if (call.isIdle) {
                 routerInteraction.push(dialerRoute);
@@ -176,7 +177,7 @@ export class ConversationsUI<T> extends RcUIModuleV2<Deps & T> {
               }
             }
           : undefined,
-      onClickToSms: extensionFeatures.hasComposeTextPermission
+      onClickToSms: appFeatures.hasComposeTextPermission
         ? (contact, isDummyContact = false) => {
             if (routerInteraction) {
               routerInteraction.push(composeTextRoute);

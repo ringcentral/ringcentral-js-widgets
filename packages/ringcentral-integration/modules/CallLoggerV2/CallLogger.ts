@@ -48,7 +48,7 @@ const DEFAULT_OPACITY = 20;
     { dep: 'TabManager', optional: true },
   ],
 })
-export class CallLogger<T = any> extends LoggerBase<Deps & T> {
+export class CallLogger<T extends Deps = Deps> extends LoggerBase<T> {
   protected _customMatcherHooks: Hook[] = [];
 
   protected _identityFunction = callIdentityFunction;
@@ -57,7 +57,7 @@ export class CallLogger<T = any> extends LoggerBase<Deps & T> {
 
   _readyCheckFunction = this._deps.callLoggerOptions.readyCheckFunction;
 
-  constructor(deps: Deps) {
+  constructor(deps: T) {
     super(deps, {
       enableCache: true,
       storageKey: 'CallLogger',
@@ -111,6 +111,7 @@ export class CallLogger<T = any> extends LoggerBase<Deps & T> {
     return isActive;
   }
 
+  @proxify
   async _shouldLogNewCall(call: Call) {
     const isActive = await this._ensureActive();
     return isActive && this.autoLog && (this.logOnRinging || !isRinging(call));
@@ -136,6 +137,7 @@ export class CallLogger<T = any> extends LoggerBase<Deps & T> {
     });
   }
 
+  @proxify
   async _autoLogCall({
     call,
     fromEntity,
@@ -178,6 +180,7 @@ export class CallLogger<T = any> extends LoggerBase<Deps & T> {
     this._customMatcherHooks.push(hook);
   }
 
+  @proxify
   async _onNewCall(call: Call, triggerType: CallLoggerTriggerType) {
     if (await this._shouldLogNewCall(call)) {
       // RCINT-3857 check activity in case instance was reloaded when call is still active
@@ -230,6 +233,7 @@ export class CallLogger<T = any> extends LoggerBase<Deps & T> {
     }
   }
 
+  @proxify
   async _shouldLogUpdatedCall(call: HistoryCall | ActiveCall) {
     const isActive = await this._ensureActive();
     if (isActive && (this.logOnRinging || !isRinging(call))) {
@@ -242,6 +246,7 @@ export class CallLogger<T = any> extends LoggerBase<Deps & T> {
     return false;
   }
 
+  @proxify
   async _onCallUpdated<T extends keyof UpdatedCallMap>(
     call: UpdatedCall<T>,
     triggerType: T,
@@ -251,6 +256,7 @@ export class CallLogger<T = any> extends LoggerBase<Deps & T> {
     }
   }
 
+  @proxify
   async _onCallAnswered(call: ActiveCall) {}
 
   onInitOnce() {

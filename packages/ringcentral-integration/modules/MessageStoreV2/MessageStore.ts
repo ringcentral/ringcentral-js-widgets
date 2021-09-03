@@ -53,7 +53,7 @@ const UPDATE_MESSAGE_ONCE_COUNT = 20; // Number of messages to be updated in one
     'DataFetcherV2',
     'Subscription',
     'ConnectivityMonitor',
-    'ExtensionFeatures',
+    'AppFeatures',
     { dep: 'AvailabilityMonitor', optional: true },
     { dep: 'TabManager', optional: true },
     { dep: 'MessageStoreOptions', optional: true },
@@ -105,7 +105,7 @@ export class MessageStore extends DataFetcherV2Consumer<
       pollingInterval,
       cleanOnReset: true,
       permissionCheckFunction: () => this._hasPermission,
-      readyCheckFunction: () => this._deps.extensionFeatures.ready,
+      readyCheckFunction: () => this._deps.appFeatures.ready,
       fetchFunction: async () => this._syncData(),
     });
     this._deps.dataFetcherV2.register(this._source);
@@ -840,7 +840,7 @@ export class MessageStore extends DataFetcherV2Consumer<
   }
 
   get _hasPermission() {
-    return this._deps.extensionFeatures.hasReadMessagesPermission;
+    return this._deps.appFeatures.hasReadMessagesPermission;
   }
 
   @computed((that: MessageStore) => [
@@ -901,13 +901,13 @@ export class MessageStore extends DataFetcherV2Consumer<
   ])
   get unreadCounts() {
     let unreadCounts = 0;
-    if (this._deps.extensionFeatures.hasReadTextPermission) {
+    if (this._deps.appFeatures.hasReadTextPermission) {
       unreadCounts += this.textUnreadCounts;
     }
-    if (this._deps.extensionFeatures.hasVoicemailPermission) {
+    if (this._deps.appFeatures.hasVoicemailPermission) {
       unreadCounts += this.voiceUnreadCounts;
     }
-    if (this._deps.extensionFeatures.hasReadFaxPermission) {
+    if (this._deps.appFeatures.hasReadFaxPermission) {
       unreadCounts += this.faxUnreadCounts;
     }
     return unreadCounts;

@@ -6,13 +6,12 @@ import { ensureLogin } from '@ringcentral-integration/commons/integration-test/u
 import SimulateWindowObject from '@ringcentral-integration/commons/integration-test/utils/SimulateWindowObject';
 import ClientHistoryRequest from '@ringcentral-integration/commons/integration-test/utils/ClientHistoryRequest';
 import { waitUntilEqual } from '@ringcentral-integration/commons/integration-test/utils/WaitUtil';
-
 import { createPhone } from '@ringcentral-integration/widgets-demo/dev-server/Phone';
 import App from '@ringcentral-integration/widgets-demo/dev-server/containers/App';
-import brandConfig from '@ringcentral-integration/widgets-demo/dev-server/brandConfig';
 import version from '@ringcentral-integration/widgets-demo/dev-server/version';
 import prefix from '@ringcentral-integration/widgets-demo/dev-server/prefix';
-import { subscriptionStatus } from '@ringcentral-integration/commons/modules/Subscription/subscriptionStatus';
+import ConfigData from '@ringcentral-integration/commons/modules/DynamicConfig/ConfigData.json';
+import { brandConfig } from '@ringcentral-integration/widgets-demo/dev-server/brandConfig';
 
 export const timeout = (ms) =>
   new Promise((resolve) => setTimeout(() => resolve(true), ms));
@@ -46,7 +45,7 @@ const getPhone = async ({
     subscriptionRegisterDelay: 10,
     enableDiscovery: false,
   });
-
+  phone.dynamicConfig._source._props.fetchFunction = async () => ConfigData;
   const store = createStore(phone.reducer);
   phone.setStore(store);
   // mock.mockClient(phone.client);

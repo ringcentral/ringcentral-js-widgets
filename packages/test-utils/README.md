@@ -24,6 +24,17 @@ Run the following command to start `jest.retryTimes(3)` by default on CI:
 cross-env NODE_ENV=ci yarn jest
 ```
 
+## Run test with CLI
+
+```sh
+cd example-project-dir
+yarn run-test
+```
+
+You can use it with any jest cli parameter. For example, `yarn run-test --coverage`.
+
+> If the run-test command does not exist, just run `npm link @ringcentral-integration/test-utils` in repo root directory.
+
 ## APIs
 
 - `mount(Component, props)`

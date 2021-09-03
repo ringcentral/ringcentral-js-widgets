@@ -1,6 +1,6 @@
 import { ActivityMatcher } from '@ringcentral-integration/commons/modules/ActivityMatcherV2';
 import { ContactMatcher } from '@ringcentral-integration/commons/modules/ContactMatcherV2';
-import { Locale } from '@ringcentral-integration/commons/modules/LocaleV2';
+import { Locale } from '@ringcentral-integration/commons/modules/Locale';
 import { EvAgentSession } from '../EvAgentSession';
 import { EvCallMonitor } from '../EvCallMonitor';
 import { EvSubscription } from '../EvSubscription';

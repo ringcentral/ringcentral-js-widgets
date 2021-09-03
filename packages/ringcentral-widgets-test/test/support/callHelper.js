@@ -3,7 +3,8 @@ import subscriptionBody from '@ringcentral-integration/commons/integration-test/
 import { isConferenceSession } from '@ringcentral-integration/commons/modules/Webphone/webphoneHelper';
 import telephonyStatuses from '@ringcentral-integration/commons/enums/telephonyStatus';
 import * as mock from '@ringcentral-integration/commons/integration-test/mock';
-import { getLastPubnub } from '../__mocks__/pubnub';
+import MockedPubNub, { getLastPubnub } from '../__mocks__/pubnub';
+import MockedWebphone from '../__mocks__/ringcentral-web-phone';
 import Session, { CONFERENCE_SESSION_ID } from './session';
 import { timeout } from '../integration-test/shared';
 
@@ -219,4 +220,30 @@ export function mockActiveCalls(
   }, mockOtherDeivce);
 }
 
-export { CONFERENCE_SESSION_ID };
+async function mockPubnub(data) {
+  const pubnub = MockedPubNub.getLastPubnub();
+  const encrypted = pubnub._realPubnub.encrypt(
+    JSON.stringify({
+      ...data,
+      timestamp: new Date().toISOString(),
+    }),
+    subscriptionBody.deliveryMode.encryptionKey,
+    {
+      encryptKey: false,
+      keyEncoding: 'base64',
+      keyLength: 128,
+      mode: 'ecb',
+    },
+  );
+  pubnub.mockMessage(encrypted);
+  await timeout(2000);
+}
+
+async function mockWebphone(eventName, webSession) {
+  const webphone = MockedWebphone.getLastWebphone() || new MockedWebphone();
+  webphone.userAgent.trigger(eventName, webSession);
+
+  await timeout(1000);
+}
+
+export { CONFERENCE_SESSION_ID, mockPubnub, mockWebphone };

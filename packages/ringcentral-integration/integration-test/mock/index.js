@@ -1,4 +1,6 @@
 import { SDK } from '@ringcentral/sdk';
+import WebSocket from 'isomorphic-ws';
+import JestWebSocketMock from 'jest-websocket-mock';
 import fetchMock from 'fetch-mock';
 import { RCV_PREFERENCES_IDS } from '../../modules/RcVideo/videoHelper';
 import accountBody from './data/accountInfo.json';
@@ -49,7 +51,15 @@ import meetingPreferenceBody from './data/videoPreference.json';
 import featuresBody from './data/features.json';
 import videoPersonalSettingsBody from './data/videoPersonalSettings.json';
 import rcvMeetingSettingsBody from './data/rcvMeetingSettings.json';
+import wsTokenBody from './data/ws/wstoken.json';
+import wsHeartbeatResponse from './data/ws/heartbeatResponse.json';
+import wsConnectionDetailsBody from './data/ws/connectionDetails.json';
+import wsSubscriptionResponse from './data/ws/subscriptionResponse.json';
+import discoveryInitialBody from './data/discoveryInitial.json';
+import discoveryExternalBody from './data/discoveryExternal.json';
+import generateCodeBody from './data/generateCode.json';
 
+export const mockWsServer = 'ws://whatever';
 export const mockServer = 'http://whatever';
 export function createSDK(options = {}) {
   const opts = {
@@ -59,7 +69,10 @@ export function createSDK(options = {}) {
     Request: fetchMock.constructor.Request,
     Response: fetchMock.constructor.Response,
     Headers: fetchMock.constructor.Headers,
-    fetch: fetchMock.fetchMock.bind(fetchMock),
+    fetch: (url, opts) =>
+      url instanceof fetchMock.constructor.Request
+        ? fetchMock.fetchMock(url.url, url) // fetchMock doesn't fully support `Request` type
+        : fetchMock.fetchMock(url, opts),
     refreshDelayMs: 1,
     redirectUri: 'http://foo',
     cachePrefix: 'sdkPrefix',
@@ -112,6 +125,74 @@ export function mockApi({
       times: isOnce ? 1 : 20,
     },
   );
+}
+
+function startWebSocketMockServer() {
+  // mock WebSocket server
+  const server = new JestWebSocketMock(mockWsServer);
+  server.on('connection', (socket) => {
+    // type: ConnectionDetails
+    socket.send(JSON.stringify(wsConnectionDetailsBody));
+    socket.on('message', (message) => {
+      const [meta, body] = JSON.parse(message);
+      // type: Heartbeat
+      if (meta.type === 'Heartbeat') {
+        socket.send(
+          JSON.stringify([
+            {
+              ...wsHeartbeatResponse[0],
+              ...meta,
+            },
+            body,
+          ]),
+        );
+      }
+      // type: ClientRequest
+      else if (meta.type === 'ClientRequest') {
+        switch (meta.path) {
+          case '/restapi/v1.0/subscription':
+            socket.send(JSON.stringify(wsSubscriptionResponse));
+            break;
+          // TODO: mock more path here
+          default:
+            console.warn(
+              `[WebSocketMockServer] Unmatched ${meta.method || 'GET'} to ${
+                meta.path
+              }`,
+            );
+            break;
+        }
+      }
+    });
+  });
+
+  // hook WebSocket
+  WebSocket.prototype._onCreated = async () => {
+    await server.connected;
+  };
+  const originalSend = WebSocket.prototype.send;
+  WebSocket.prototype.send = async function newSend(...args) {
+    await server.connected;
+    originalSend.call(this, ...args);
+    await server.nextMessage;
+  };
+}
+
+let wsMockServerStarted = false;
+export function wstoken() {
+  if (!wsMockServerStarted) {
+    startWebSocketMockServer();
+    wsMockServerStarted = true;
+  }
+  mockApi({
+    method: 'POST',
+    path: '/restapi/oauth/wstoken',
+    body: {
+      ...wsTokenBody,
+      uri: mockWsServer,
+    },
+    isOnce: false,
+  });
 }
 
 export function authentication() {
@@ -211,9 +292,9 @@ export function dialingPlan(mockResponse = {}) {
   });
 }
 
-export function extensionInfo(mockResponse = {}) {
+export function extensionInfo(mockResponse = {}, extId = '~') {
   mockApi({
-    path: '/restapi/v1.0/account/~/extension/~',
+    path: `/restapi/v1.0/account/~/extension/${extId}`,
     body: {
       ...extensionBody,
       ...mockResponse,
@@ -259,6 +340,7 @@ export function extensionList(
           ...extensionListBody,
           ...mockResponse,
         },
+    isOnce: false,
   });
 }
 
@@ -744,31 +826,40 @@ export function meetingInfo(
   });
 }
 
-export function videoPreference(useExtensionId = false) {
+export function videoPreference(extensionId = '~', mockResponse?: any[]) {
   const query = `id=${RCV_PREFERENCES_IDS.join('&id=')}`;
-  const extensionId = useExtensionId ? extensionBody.id : '~';
   mockApi({
     method: 'GET',
-    url: `${mockServer}/rcvideo/v1/account/${extensionId}/extension/${extensionId}/preferences?${query}`,
-    body: meetingPreferenceBody,
+    url: `${mockServer}/rcvideo/v1/account/${accountBody.id}/extension/${extensionId}/preferences?${query}`,
+    body: mockResponse || meetingPreferenceBody,
     isOnce: false,
   });
 }
 
-export function videoPersonalSettings() {
+export function videoPersonalSettings(
+  extensionId: number = extensionBody.id,
+  mockResponse = {},
+) {
   mockApi({
     method: 'GET',
-    url: `${mockServer}/rcvideo/v1/bridges?default=true&accountId=${accountBody.id}&extensionId=${extensionBody.id}`,
-    body: videoPersonalSettingsBody,
+    url: `${mockServer}/rcvideo/v1/bridges?default=true&accountId=${accountBody.id}&extensionId=${extensionId}`,
+    body: { ...videoPersonalSettingsBody, ...mockResponse },
     isOnce: false,
   });
 }
 
-export function getRcvMeetingInfo(shortId) {
+export function getRcvMeetingInfo(
+  shortId,
+  extensionId = extensionBody.id,
+  mockResponse = {},
+) {
   mockApi({
     method: 'GET',
-    url: `${mockServer}/rcvideo/v1/bridges?shortId=${shortId}&accountId=${accountBody.id}&extensionId=${extensionBody.id}`,
-    body: rcvMeetingSettingsBody,
+    url: `${mockServer}/rcvideo/v1/bridges?shortId=${shortId}&accountId=${accountBody.id}&extensionId=${extensionId}`,
+    body: {
+      ...rcvMeetingSettingsBody,
+      ...mockResponse,
+    },
     isOnce: false,
   });
 }
@@ -782,7 +873,7 @@ export function patchRcvMeeting(meetingId, mockResponse = {}) {
   });
 }
 
-export function postRcvBridges(mockResponse = {}) {
+export function postRcvBridges(mockResponse = {}, isOnce = false) {
   mockApi({
     method: 'POST',
     url: `${mockServer}/rcvideo/v1/bridges`,
@@ -790,7 +881,7 @@ export function postRcvBridges(mockResponse = {}) {
       ...postRcvBridgesBody,
       ...mockResponse,
     },
-    isOnce: false,
+    isOnce,
   });
 }
 
@@ -867,7 +958,7 @@ export function callerId(mockResponse = {}, isOnce = false) {
   });
 }
 
-export function features(mockResponse = {}, isOnce = false) {
+export function features(mockResponse = {}) {
   mockApi({
     method: 'GET',
     url: new RegExp(
@@ -904,9 +995,40 @@ export function dialInNumbers(mockResponse = {}) {
   });
 }
 
+export function discoveryInitial(mockResponse = {}) {
+  mockApi({
+    path: `/.well-known/entry-points/initial`,
+    body: {
+      ...discoveryInitialBody,
+      ...mockResponse,
+    },
+  });
+}
+
+export function discoveryExternal(mockResponse = {}) {
+  mockApi({
+    path: `/.well-known/entry-points/external`,
+    body: {
+      ...discoveryExternalBody,
+      ...mockResponse,
+    },
+  });
+}
+
+export function generateCode(mockResponse = {}) {
+  mockApi({
+    method: 'POST',
+    url: `${mockServer}/restapi/v1.0/interop/generate-code`,
+    body: {
+      ...generateCodeBody,
+      ...mockResponse,
+    },
+  });
+}
+
 export function mockForLogin({
   mockAuthzProfile = true,
-  mockMeetingInvitation = true,
+  mockMeetingInvitation = true, // TODO: remove it if uesless
   mockExtensionInfo = true,
   mockForwardingNumber = true,
   mockMessageSync = true,
@@ -918,8 +1040,10 @@ export function mockForLogin({
   mockMessageSyncOnce = false,
   mockVideoConfiguration = true,
   mockUserSetting = true,
+  mockGenerateCode = false,
   ...params
 } = {}) {
+  wstoken();
   authentication();
   logout();
   tokenRefresh();
@@ -986,4 +1110,7 @@ export function mockForLogin({
   assistedUsers(params.mockAssistedUsers);
   delegators(params.mockDelegators);
   videoPersonalSettings();
+  if (mockGenerateCode) {
+    generateCode();
+  }
 }

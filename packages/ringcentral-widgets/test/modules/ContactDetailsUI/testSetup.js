@@ -2,7 +2,7 @@ export const phone = {
   routerInteraction: null,
   contactSearch: null,
   contacts: null,
-  rolesAndPermissions: null,
+  appFeatures: {},
   rateLimiter: null,
   regionSettings: null,
   connectivityManager: null,
@@ -10,9 +10,9 @@ export const phone = {
   dialerUI: null,
   composeText: null,
   brand: null,
-  locale: null,
+  locale: {},
   callingSettings: null,
-  extensionInfo: null,
+  extensionInfo: {},
 };
 
 export const defaultPropsParams = {

@@ -8,6 +8,7 @@ export default {
   [phoneTypes.unknown]: "電話タイプが不明",
   [phoneTypes.company]: "会社の代表番号",
   [phoneTypes.direct]: "ダイレクトナンバー",
+  [phoneTypes.contact]: "電話で連絡",
   [phoneTypes.fax]: "FAX",
   [phoneTypes.other]: "その他"
 };
@@ -20,5 +21,6 @@ export default {
 // @key: @#@"[phoneTypes.unknown]"@#@ @source: @#@"Unknown Phone Type"@#@
 // @key: @#@"[phoneTypes.company]"@#@ @source: @#@"Company Number"@#@
 // @key: @#@"[phoneTypes.direct]"@#@ @source: @#@"Direct Number"@#@
+// @key: @#@"[phoneTypes.contact]"@#@ @source: @#@"Contact Phone"@#@
 // @key: @#@"[phoneTypes.fax]"@#@ @source: @#@"Fax"@#@
 // @key: @#@"[phoneTypes.other]"@#@ @source: @#@"Other"@#@

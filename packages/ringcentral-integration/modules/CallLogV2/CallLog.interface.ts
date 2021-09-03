@@ -7,9 +7,9 @@ import { Auth } from '../AuthV2';
 import { ExtensionPhoneNumber } from '../ExtensionPhoneNumberV2';
 import { ExtensionInfo } from '../ExtensionInfoV2';
 import { Subscription } from '../SubscriptionV2';
-import { TabManager } from '../TabManagerV2';
+import { TabManager } from '../TabManager';
 import { Storage } from '../StorageV2';
-import { ExtensionFeatures } from '../ExtensionFeatures';
+import { AppFeatures } from '../AppFeatures';
 
 export interface CallLogOptions {
   /**
@@ -49,6 +49,10 @@ export interface CallLogOptions {
    * list record count pre page, default 250.
    */
   listRecordCount?: number;
+  /**
+   * disable handling the deleted call log.
+   */
+  enableDeleted?: boolean;
 }
 
 export interface Deps {
@@ -57,7 +61,7 @@ export interface Deps {
   extensionPhoneNumber: ExtensionPhoneNumber;
   extensionInfo: ExtensionInfo;
   subscription: Subscription;
-  extensionFeatures: ExtensionFeatures;
+  appFeatures: AppFeatures;
   tabManager?: TabManager;
   storage?: Storage;
   callLogOptions?: CallLogOptions;
@@ -93,7 +97,8 @@ export type UserCallLogResponseData = Pick<
 };
 
 export interface CallLogData {
-  list: CallLogRecords;
+  list: string[];
+  map: Record<string, CallLogRecord>;
   token: string;
   timestamp: number;
 }

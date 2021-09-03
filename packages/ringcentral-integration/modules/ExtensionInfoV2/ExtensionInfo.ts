@@ -111,25 +111,6 @@ export class ExtensionInfo extends DataFetcherV2Consumer<
     return this.data ?? {};
   }
 
-  @computed(({ info }: ExtensionInfo) => [info.serviceFeatures])
-  get serviceFeatures() {
-    console.warn('ExtensionInfo.serviceFeatures is deprecated.');
-    return reduce(
-      (acc, { featureName, enabled, reason }) => {
-        acc[featureName] = {
-          featureName,
-          enabled,
-        };
-        if (!enabled) {
-          acc[featureName].reason = reason;
-        }
-        return acc;
-      },
-      {} as Record<string, RemappedServiceInfo>,
-      this.info.serviceFeatures ?? [],
-    );
-  }
-
   get id() {
     return this.info.id;
   }

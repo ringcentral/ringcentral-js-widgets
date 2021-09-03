@@ -40,6 +40,7 @@ export type SelectListProps = {
   appName?: string;
   autoClose?: boolean;
   onBackClick: () => void;
+  multiple?: boolean;
 } & Pick<
   ListViewProps,
   | 'options'
@@ -79,6 +80,7 @@ export const SelectList: FunctionComponent<SelectListProps> = (props) => {
     onSelectViewVisible,
     foundFromServerTitle,
     secondaryRenderFunction,
+    multiple,
   } = props;
   const [open, setOpen] = useState(false);
 
@@ -107,6 +109,7 @@ export const SelectList: FunctionComponent<SelectListProps> = (props) => {
       valueFunction={valueFunction}
       onSelect={(elm) => scrollCheck(elm, type)}
       startAdornment={startAdornment}
+      multiple={multiple}
     />
   );
 

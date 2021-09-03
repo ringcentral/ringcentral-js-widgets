@@ -14,6 +14,7 @@ import { Deps } from './AccountInfo.interfaces';
     'Alert',
     'ExtensionFeatures',
     'DataFetcherV2',
+    { dep: 'TierChecker', optional: true },
     { dep: 'AccountInfoOptions', optional: true },
   ],
 })
@@ -61,7 +62,7 @@ export class AccountInfo extends DataFetcherV2Consumer<
       accountId: that.id,
       servicePlanId: that.servicePlan.id,
       edition: that.servicePlan.edition,
-      CRMEnabled: that._deps.extensionFeatures.isCRMEnabled,
+      CRMEnabled: that._deps.tierChecker?.isCRMEnabled,
     });
   })
   onInitSuccess() {}

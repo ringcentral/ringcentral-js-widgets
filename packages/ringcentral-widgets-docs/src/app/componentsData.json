@@ -14339,7 +14339,7 @@
   },
   {
     "description": "",
-    "displayName": "RolesAndPermissionsAlert",
+    "displayName": "PermissionsAlert",
     "methods": [],
     "props": {
       "message": {
@@ -14381,7 +14381,7 @@
         "description": ""
       }
     },
-    "name": "RolesAndPermissionsAlert"
+    "name": "PermissionsAlert"
   },
   {
     "description": "",

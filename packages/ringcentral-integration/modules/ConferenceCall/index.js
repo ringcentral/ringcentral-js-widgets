@@ -1,23 +1,21 @@
-import { find } from 'ramda';
 import { EventEmitter } from 'events';
-import { Module } from '../../lib/di';
-import RcModule from '../../lib/RcModule';
-import proxify from '../../lib/proxy/proxify';
-import ensureExist from '../../lib/ensureExist';
-import calleeTypes from '../../enums/calleeTypes';
+import { find } from 'ramda';
 import callDirections from '../../enums/callDirections';
-import { selector } from '../../lib/selector';
-
-import callingModes from '../CallingSettings/callingModes';
+import calleeTypes from '../../enums/calleeTypes';
 import { permissionsMessages } from '../../enums/permissionsMessages';
-import { isConferenceSession, isRecording } from '../Webphone/webphoneHelper';
+import { Module } from '../../lib/di';
+import ensureExist from '../../lib/ensureExist';
+import proxify from '../../lib/proxy/proxify';
+import RcModule from '../../lib/RcModule';
+import { selector } from '../../lib/selector';
+import callingModes from '../CallingSettings/callingModes';
 import sessionStatusEnum from '../Webphone/sessionStatus';
-
+import { isConferenceSession, isRecording } from '../Webphone/webphoneHelper';
 import actionTypes from './actionTypes';
-import conferenceRole from './conferenceRole';
-import partyStatusCode from './partyStatusCode';
 import conferenceCallErrors from './conferenceCallErrors';
+import conferenceRole from './conferenceRole';
 import getConferenceCallReducer from './getConferenceCallReducer';
+import partyStatusCode from './partyStatusCode';
 
 const DEFAULT_TIMEOUT = 30000; // time out for conferencing session being accepted.
 const DEFAULT_TTL = 5000; // timer to update the conference information
@@ -47,7 +45,7 @@ function ascendSortParties(parties) {
     'ConnectivityMonitor',
     'Client',
     'Webphone',
-    'ExtensionFeatures',
+    'AppFeatures',
     {
       dep: 'ContactMatcher',
       optional: true,
@@ -79,7 +77,7 @@ export default class ConferenceCall extends RcModule {
     call,
     callingSettings,
     client,
-    extensionFeatures,
+    appFeatures,
     contactMatcher,
     webphone,
     availabilityMonitor,
@@ -109,7 +107,7 @@ export default class ConferenceCall extends RcModule {
     this._webphone = webphone;
     this._connectivityMonitor = connectivityMonitor;
     this._contactMatcher = contactMatcher;
-    this._extensionFeatures = extensionFeatures;
+    this._appFeatures = appFeatures;
     // we need the constructed actions
     this._reducer = getConferenceCallReducer(this.actionTypes);
     this._ttl = DEFAULT_TTL;
@@ -679,7 +677,7 @@ export default class ConferenceCall extends RcModule {
       this._alert.ready &&
       this._callingSettings.ready &&
       this._call.ready &&
-      this._extensionFeatures.ready &&
+      this._appFeatures.ready &&
       this._connectivityMonitor.ready &&
       (!this._availabilityMonitor || this._availabilityMonitor.ready) &&
       this.pending
@@ -693,7 +691,7 @@ export default class ConferenceCall extends RcModule {
         !this._alert.ready ||
         !this._callingSettings.ready ||
         !this._call.ready ||
-        !this._extensionFeatures.ready ||
+        !this._appFeatures.ready ||
         !this._connectivityMonitor.ready ||
         (!!this._availabilityMonitor && !this._availabilityMonitor.ready)) &&
       this.ready
@@ -701,10 +699,7 @@ export default class ConferenceCall extends RcModule {
   }
 
   get hasPermission() {
-    return (
-      this._extensionFeatures.isRingOutEnabled &&
-      this._extensionFeatures.isWebPhoneEnabled
-    );
+    return this._appFeatures.hasConferenceCall;
   }
 
   _checkPermission() {

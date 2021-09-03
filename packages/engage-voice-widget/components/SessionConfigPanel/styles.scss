@@ -13,11 +13,7 @@
   }
 
   .goBackBg {
-    background: rc-palette(
-      bg,
-      primaryLightest
-        /* !!!This token not exist! CONFIRM with Designer which one should use */
-    );
+    background: rc-palette('neutral', 'b03');
   }
 
   .hideGoBack {

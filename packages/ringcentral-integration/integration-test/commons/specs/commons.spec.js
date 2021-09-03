@@ -1,30 +1,24 @@
-import getTestPhone from '../TestPhoneFactory';
+import runAccountInfoTests from '../../spec-modules/accountInfo';
+import runAvailabilityMonitorTests from '../../spec-modules/availabilityMonitor';
+import runBlockedNumberTests from '../../spec-modules/blockedNumber';
+import runCallingSettingsTests from '../../spec-modules/callingSettings';
+import runComposeTextTests from '../../spec-modules/composeText';
+import runConferenceCallTests from '../../spec-modules/conferenceCall';
+import runDialingPlanTests from '../../spec-modules/dialingPlan';
+import runExtensionInfoTests from '../../spec-modules/extensionInfo';
+import runExtensionPhoneNumberTests from '../../spec-modules/extensionPhoneNumber';
+import runForwardingNumberTests from '../../spec-modules/forwardingNumber';
+import runNumValidInCallTests from '../../spec-modules/numValidInCall';
+import runPresenceTests from '../../spec-modules/presence';
+import runRateLimiterTests from '../../spec-modules/rateLimiter';
+// import runCallLogTests from '../../spec-modules/callLog';
+import runRegionSettingTests from '../../spec-modules/regionSetting';
 import {
   defaultAccount,
-  callLogAccount,
-  multiNoneUSCADialingPlanAccount,
-  onlyOneNoneUSCADialingPlanAccount,
-  onlyOneUSCADialingPlanAccount,
   multiDialingPlanIncludingUSCAAccount,
   smsAccount,
 } from '../config/testAccount';
-
-// import runCallLogTests from '../../spec-modules/callLog';
-import runRegionSettingTests from '../../spec-modules/regionSetting';
-import runNumValidInCallTests from '../../spec-modules/numValidInCall';
-import runCallingSettingsTests from '../../spec-modules/callingSettings';
-import runComposeTextTests from '../../spec-modules/composeText';
-import runRateLimiterTests from '../../spec-modules/rateLimiter';
-import runBlockedNumberTests from '../../spec-modules/blockedNumber';
-import runForwardingNumberTests from '../../spec-modules/forwardingNumber';
-import runExtensionInfoTests from '../../spec-modules/extensionInfo';
-import runAccountInfoTests from '../../spec-modules/accountInfo';
-import runDialingPlanTests from '../../spec-modules/dialingPlan';
-import runRolesAndPermissionsTests from '../../spec-modules/rolesAndPermissions';
-import runExtensionPhoneNumberTests from '../../spec-modules/extensionPhoneNumber';
-import runPresenceTests from '../../spec-modules/presence';
-import runConferenceCallTests from '../../spec-modules/conferenceCall';
-import runAvailabilityMonitorTests from '../../spec-modules/availabilityMonitor';
+import getTestPhone from '../TestPhoneFactory';
 
 let phone = getTestPhone();
 runNumValidInCallTests(
@@ -118,15 +112,6 @@ runDialingPlanTests(
   phone.client,
   phone.dialingPlan,
   defaultAccount,
-);
-
-phone = getTestPhone();
-runRolesAndPermissionsTests(
-  phone.auth,
-  phone.client,
-  phone.rolesAndPermissions,
-  defaultAccount,
-  phone.alert,
 );
 
 phone = getTestPhone();

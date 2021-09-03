@@ -19,6 +19,10 @@ export interface CallLog {
   logName?: string;
   customLogFields?: FieldItemOption[];
   disableSaveLog?: boolean;
+  foundFromServerEntities?: {
+    name: SfEntity[];
+    relatedTo: SfEntity[];
+  };
 }
 
 export interface Call {
@@ -124,6 +128,8 @@ export interface Task {
   calldisposition?: string;
   calldurationinseconds?: number;
   recording_information__c?: string;
+  isEdited?: boolean;
+  isLogged?: boolean;
 }
 
 export interface NavigateToEntities {

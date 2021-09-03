@@ -1,13 +1,13 @@
 import { ComponentType } from 'react';
-import { Brand } from '@ringcentral-integration/commons/modules/BrandV2';
-import { Locale } from '@ringcentral-integration/commons/modules/LocaleV2';
+import { Brand } from '@ringcentral-integration/commons/modules/Brand';
+import { Locale } from '@ringcentral-integration/commons/modules/Locale';
 import { CallMonitor } from '@ringcentral-integration/commons/modules/CallMonitorV2';
 import { RateLimiter } from '@ringcentral-integration/commons/modules/RateLimiterV2';
 import { ContactSearch } from '@ringcentral-integration/commons/modules/ContactSearchV2';
 import { RegionSettings } from '@ringcentral-integration/commons/modules/RegionSettingsV2';
 import { ContactMatcher } from '@ringcentral-integration/commons/modules/ContactMatcherV2';
 import { CallingSettings } from '@ringcentral-integration/commons/modules/CallingSettingsV2';
-import { ExtensionFeatures } from '@ringcentral-integration/commons/modules/ExtensionFeatures';
+import { AppFeatures } from '@ringcentral-integration/commons/modules/AppFeatures';
 import { ConnectivityMonitor } from '@ringcentral-integration/commons/modules/ConnectivityMonitorV2';
 import {
   SwitchCallActiveCallParams,
@@ -51,7 +51,7 @@ export interface Deps {
   contactMatcher: ContactMatcher;
   callingSettings: CallingSettings;
   routerInteraction: RouterInteraction;
-  extensionFeatures: ExtensionFeatures;
+  appFeatures: AppFeatures;
   connectivityMonitor: ConnectivityMonitor;
   modalUI?: ModalUI;
   webphone?: Webphone;
@@ -195,4 +195,5 @@ export interface ActiveCallsPanelProps {
   newCallIcon?: boolean;
   useCallControl: boolean;
   clickSwitchTrack: () => void;
+  isWide: boolean;
 }

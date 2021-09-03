@@ -10,6 +10,11 @@ import {
 } from '@ringcentral-integration/widgets/lib/MeetingCalendarHelper';
 import { RcvMainParams } from '@ringcentral-integration/widgets/lib/MeetingCalendarHelper/index.interface';
 import { getDefaultVideoSettings } from '@ringcentral-integration/commons/modules/RcVideoV2';
+import {
+  getRcmUriRegExp,
+  getRcvUriRegExp,
+} from '@ringcentral-integration/commons/modules/DynamicConfig';
+import ConfigData from '@ringcentral-integration/commons/modules/DynamicConfig/ConfigData.json';
 
 describe.each`
   meetingId           | expected
@@ -142,12 +147,14 @@ describe('formatTextToHtml', () => {
   test('all tabs replace with space', () => {
     const defaultMeetingSettings = getDefaultVideoSettings({
       topic: 'rcv meeting topic',
-      startTime: new Date(),
       accountId: '111',
       extensionId: '222',
     });
     const mockMeetingInfo = {
-      meeting: defaultMeetingSettings,
+      meeting: {
+        ...defaultMeetingSettings,
+        startTime: new Date(),
+      },
       extensionInfo: {
         name: 'SystemNew',
       },
@@ -170,6 +177,57 @@ describe('formatTextToHtml', () => {
   });
 });
 
+describe.each`
+  brand      | rcvTeleconference                                           | expected
+  ${'rc'}    | ${'https://v.ringcentral.com/teleconference/'}              | ${'https://v.ringcentral.com/teleconference/'}
+  ${'bt'}    | ${'https://video.cloudwork.bt.com/teleconference'}          | ${'https://video.cloudwork.bt.com/teleconference'}
+  ${'telus'} | ${'https://video.businessconnect.telus.com/teleconference'} | ${'https://video.businessconnect.telus.com/teleconference'}
+  ${'att'}   | ${'https://meetings.officeathand.att.com/teleconference'}   | ${'https://meetings.officeathand.att.com/teleconference'}
+`(
+  '$brand rcv International numbers should be rcvTeleconference:',
+  ({
+    brand,
+    rcvTeleconference,
+    expected,
+  }: {
+    brand: string;
+    rcvTeleconference: string;
+    expected: string;
+  }) => {
+    test(`returns ${expected}`, () => {
+      const defaultMeetingSettings = getDefaultVideoSettings({
+        topic: 'rcv meeting topic',
+        accountId: '111',
+        extensionId: '222',
+      });
+      const mockMeetingInfo = {
+        meeting: {
+          ...defaultMeetingSettings,
+          startTime: new Date(),
+        },
+        extensionInfo: {
+          name: 'SystemNew',
+        },
+        dialInNumber: '123456',
+      };
+      const invitation = getRcvEventTpl(
+        mockMeetingInfo,
+        {
+          id: '1210',
+          code: brand,
+          name: 'RingCentral',
+          brandConfig: {
+            teleconference: '123',
+          },
+          rcvTeleconference,
+        },
+        'en-US',
+      );
+      expect(invitation).toMatch(new RegExp(expected, 'g'));
+    });
+  },
+);
+
 describe('getMeetingId', () => {
   describe.each`
     meetingLink                                                  | meetingId
@@ -187,7 +245,11 @@ describe('getMeetingId', () => {
       meetingId: string;
     }) => {
       test(meetingLink, () => {
-        expect(getMeetingId(meetingLink)).toEqual(meetingId);
+        const rcvUriRegExp = getRcvUriRegExp(ConfigData.meetingUriReg.rcv);
+        const rcmUriRegExp = getRcmUriRegExp(ConfigData.meetingUriReg.rcm);
+        expect(getMeetingId(meetingLink, rcvUriRegExp, rcmUriRegExp)).toEqual(
+          meetingId,
+        );
       });
     },
   );
@@ -203,7 +265,11 @@ describe('stripMeetingLinks', () => {
     'Links of $text should be stripped -> $result',
     ({ text, result }: { text: string; result: string }) => {
       test(text, () => {
-        expect(stripMeetingLinks(text)).toEqual(result);
+        const rcvUriRegExp = getRcvUriRegExp(ConfigData.meetingUriReg.rcv);
+        const rcmUriRegExp = getRcmUriRegExp(ConfigData.meetingUriReg.rcm);
+        expect(stripMeetingLinks(text, rcvUriRegExp, rcmUriRegExp)).toEqual(
+          result,
+        );
       });
     },
   );

@@ -8,6 +8,7 @@ export default {
   [phoneTypes.unknown]: "알 수 없는 전화 유형",
   [phoneTypes.company]: "회사 번호",
   [phoneTypes.direct]: "직통 번호",
+  [phoneTypes.contact]: "연락처 전화번호",
   [phoneTypes.fax]: "팩스",
   [phoneTypes.other]: "기타"
 };
@@ -20,5 +21,6 @@ export default {
 // @key: @#@"[phoneTypes.unknown]"@#@ @source: @#@"Unknown Phone Type"@#@
 // @key: @#@"[phoneTypes.company]"@#@ @source: @#@"Company Number"@#@
 // @key: @#@"[phoneTypes.direct]"@#@ @source: @#@"Direct Number"@#@
+// @key: @#@"[phoneTypes.contact]"@#@ @source: @#@"Contact Phone"@#@
 // @key: @#@"[phoneTypes.fax]"@#@ @source: @#@"Fax"@#@
 // @key: @#@"[phoneTypes.other]"@#@ @source: @#@"Other"@#@

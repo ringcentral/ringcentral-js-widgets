@@ -1,24 +1,25 @@
-import GetMessageInfoResponse from 'ringcentral-client/build/definitions/GetMessageInfoResponse';
-import { Brand } from '@ringcentral-integration/commons/modules/BrandV2';
-import { Locale } from '@ringcentral-integration/commons/modules/LocaleV2';
+import { Entity } from '@ringcentral-integration/commons/interfaces/Entity.interface';
+import { Message } from '@ringcentral-integration/commons/interfaces/MessageStore.model';
+import { Correspondent } from '@ringcentral-integration/commons/lib/messageHelper';
+import { Brand } from '@ringcentral-integration/commons/modules/Brand';
+import { ConnectivityMonitor } from '@ringcentral-integration/commons/modules/ConnectivityMonitorV2';
+import { ContactMatcher } from '@ringcentral-integration/commons/modules/ContactMatcherV2';
 import { ConversationLogger } from '@ringcentral-integration/commons/modules/ConversationLoggerV2';
-import {
-  DateTimeFormat,
-  FormatDateTimeOptions,
-} from '@ringcentral-integration/commons/modules/DateTimeFormatV2';
-import { RegionSettings } from '@ringcentral-integration/commons/modules/RegionSettingsV2';
 import {
   Conversations,
   CurrentConversation,
 } from '@ringcentral-integration/commons/modules/ConversationsV2';
-import { RateLimiter } from '@ringcentral-integration/commons/modules/RateLimiterV2';
-import { ConnectivityMonitor } from '@ringcentral-integration/commons/modules/ConnectivityMonitorV2';
-import { MessageStore } from '@ringcentral-integration/commons/modules/MessageStoreV2';
-import { ContactMatcher } from '@ringcentral-integration/commons/modules/ContactMatcherV2';
-import { Correspondent } from '@ringcentral-integration/commons/lib/messageHelper';
-import { Message } from '@ringcentral-integration/commons/interfaces/MessageStore.model';
+import {
+  DateTimeFormat,
+  FormatDateTimeOptions,
+} from '@ringcentral-integration/commons/modules/DateTimeFormatV2';
+import { Locale } from '@ringcentral-integration/commons/modules/Locale';
 import { Attachment } from '@ringcentral-integration/commons/modules/MessageSenderV2';
-import { Entity } from '@ringcentral-integration/commons/interfaces/Entity.interface';
+import { MessageStore } from '@ringcentral-integration/commons/modules/MessageStoreV2';
+import { RateLimiter } from '@ringcentral-integration/commons/modules/RateLimiterV2';
+import { RegionSettings } from '@ringcentral-integration/commons/modules/RegionSettingsV2';
+import GetMessageInfoResponse from 'ringcentral-client/build/definitions/GetMessageInfoResponse';
+import { AppFeatures } from '@ringcentral-integration/commons/modules/AppFeatures/AppFeatures';
 import { RouterInteraction } from '../RouterInteraction';
 
 export interface ConversationUIOptions {
@@ -26,6 +27,7 @@ export interface ConversationUIOptions {
 }
 
 export interface Deps {
+  appFeatures: AppFeatures;
   brand: Brand;
   locale: Locale;
   conversationLogger: ConversationLogger;
@@ -101,6 +103,7 @@ export interface ConversationPanelProps {
   inputExpandable: boolean;
   shouldLogSelectRecord?: boolean;
   contactPlaceholder?: string;
+  dropdownClassName?: string;
   replyToReceivers: (
     text: string,
     attachments?: Attachment[],
@@ -125,4 +128,6 @@ export interface ConversationPanelProps {
   ): React.ReactElement;
   onSelectContact?(options: OnSelectContactOptions): Promise<void> | void;
   restrictSendMessage?(...args: any): boolean;
+  renderContactList?: (entity: { name: string; labelType: string }) => any;
+  enableCDC: boolean;
 }

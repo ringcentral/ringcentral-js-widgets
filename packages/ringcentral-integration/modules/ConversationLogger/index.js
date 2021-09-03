@@ -31,7 +31,7 @@ export function conversationLogIdentityFunction(conversation) {
     'DateTimeFormat',
     'ExtensionInfo',
     'MessageStore',
-    'ExtensionFeatures',
+    'AppFeatures',
     { dep: 'ConversationLoggerOptions', optional: false },
   ],
 })
@@ -43,7 +43,7 @@ export default class ConversationLogger extends LoggerBase {
     dateTimeFormat,
     extensionInfo,
     messageStore,
-    extensionFeatures,
+    appFeatures,
     storage,
     tabManager,
     isLoggedContact = () => false,
@@ -80,7 +80,7 @@ export default class ConversationLogger extends LoggerBase {
       'extensionInfo',
     );
     this._messageStore = ensureExist.call(this, messageStore, 'messageStore');
-    this._extensionFeatures = extensionFeatures;
+    this._appFeatures = appFeatures;
     this._storage = ensureExist.call(this, storage, 'storage');
     this._tabManager = tabManager;
     this._isLoggedContact = isLoggedContact;
@@ -117,7 +117,7 @@ export default class ConversationLogger extends LoggerBase {
       this._dateTimeFormat.ready &&
       this._extensionInfo.ready &&
       this._messageStore.ready &&
-      this._extensionFeatures.ready &&
+      this._appFeatures.ready &&
       this._storage.ready &&
       (!this._tabManager || this._tabManager.ready) &&
       this._readyCheckFunction()
@@ -132,7 +132,7 @@ export default class ConversationLogger extends LoggerBase {
         !this._dateTimeFormat.ready ||
         !this._extensionInfo.ready ||
         !this._messageStore.ready ||
-        !this._extensionFeatures.ready ||
+        !this._appFeatures.ready ||
         !this._storage.ready ||
         (this._tabManager && !this._tabManager.ready) ||
         !this._readyCheckFunction())
@@ -366,10 +366,7 @@ export default class ConversationLogger extends LoggerBase {
   }
 
   get available() {
-    return !!(
-      this.extensionFeatures.features?.SMSReceiving?.available ||
-      this.extensionFeatures.features?.PagesReceiving?.available
-    );
+    return this._appFeatures.hasReadTextPermission;
   }
 
   get autoLog() {

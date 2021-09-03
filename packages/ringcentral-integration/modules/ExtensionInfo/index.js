@@ -36,30 +36,23 @@ const DEFAULT_COUNTRY = {
 const extensionRegExp = /.*\/extension\/\d+$/;
 
 function extractData(info) {
-  const serviceFeatures = {};
-  info.serviceFeatures.forEach((f) => {
-    serviceFeatures[f.featureName] = {
-      enabled: f.enabled,
-    };
-    if (!f.enabled) {
-      serviceFeatures[f.featureName].reason = f.reason;
-    }
-  });
-  const output = mask(info, DEFAULT_MASK);
-  output.serviceFeatures = serviceFeatures;
-  return output;
+  return mask(info, DEFAULT_MASK);
 }
 
 const DEFAULT_TTL = 30 * 60 * 1000; // half hour update
 const DEFAULT_TIME_TO_RETRY = 62 * 1000;
 
+// serviceFeatures is deprecated from platform api
+
 /**
  * @class
  * @description Extension info module
+ * @deprecated Please use V2
  */
 @Module({
   deps: [
     'Client',
+    'ExtensionFeatures',
     { dep: 'Alert', optional: true },
     { dep: 'ExtensionInfoOptions', optional: true },
   ],
@@ -73,6 +66,7 @@ export default class ExtensionInfo extends DataFetcher {
    */
   constructor({
     client,
+    extensionFeatures,
     ttl = DEFAULT_TTL,
     timeToRetry = DEFAULT_TIME_TO_RETRY,
     polling = true,
@@ -105,6 +99,7 @@ export default class ExtensionInfo extends DataFetcher {
       ...options,
     });
     this._alert = alert;
+    this._extensionFeatures = extensionFeatures;
     this._extensionInfoOptions = extensionInfoOptions;
   }
 
@@ -137,9 +132,6 @@ export default class ExtensionInfo extends DataFetcher {
   @selector
   info = [() => this.data, (data) => data || {}];
 
-  @selector
-  serviceFeatures = [() => this.info, (info) => info.serviceFeatures || {}];
-
   get id() {
     return this.info.id;
   }
@@ -166,7 +158,8 @@ export default class ExtensionInfo extends DataFetcher {
       if (!this.isMultipleSiteEnabled) {
         return null;
       }
-      const isEnabled = path(['SiteCodes', 'enabled'], this.serviceFeatures);
+      const isEnabled = !!this._extensionFeatures.features?.SiteCodes
+        ?.available;
       if (!isEnabled) {
         return null;
       }

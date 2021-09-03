@@ -289,6 +289,17 @@ export function removeDuplicateSelfCalls(calls: ActiveCall[]) {
   return resultCalls;
 }
 
+export function getPhoneNumber(call: Call = {}) {
+  if (isEmpty(call)) {
+    return null;
+  }
+  const { to = {}, from = {} } = call;
+  if (isOutbound(call)) {
+    return to.phoneNumber || to.extensionNumber;
+  }
+  return from.phoneNumber || from.extensionNumber;
+}
+
 // Get phone number and matches.
 export function getPhoneNumberMatches(call: Call = {}) {
   const {

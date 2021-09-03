@@ -1,6 +1,6 @@
 import Alert from '@ringcentral-integration/commons/modules/Alert';
 import ConnectivityMonitor from '@ringcentral-integration/commons/modules/ConnectivityMonitor';
-import Locale from '@ringcentral-integration/commons/modules/Locale';
+import { Locale } from '@ringcentral-integration/commons/modules/Locale';
 import RateLimiter from '@ringcentral-integration/commons/modules/RateLimiter';
 import RouterInteraction from '@ringcentral-integration/widgets/modules/RouterInteraction';
 import { EvTabManager } from '../EvTabManager';

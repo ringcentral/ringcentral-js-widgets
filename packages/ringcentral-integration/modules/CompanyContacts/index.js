@@ -242,7 +242,7 @@ export default class CompanyContacts extends DataFetcher {
   ];
 
   get _hasPermission() {
-    return this._extensionFeatures.features?.ReadExtensions.available ?? false;
+    return this._extensionFeatures.features?.ReadExtensions?.available ?? false;
   }
 
   get allowSettings() {

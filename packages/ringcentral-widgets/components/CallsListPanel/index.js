@@ -234,7 +234,7 @@ export default class CallsListPanel extends React.PureComponent {
     });
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (
       this.hasCalls(this.props) &&
       !this.hasCalls(nextProps) &&
@@ -408,6 +408,7 @@ export default class CallsListPanel extends React.PureComponent {
       children,
       adaptive,
       showChooseEntityModal,
+      enableCDC,
     } = this.props;
 
     const { contentWidth, contentHeight } = this.state;
@@ -456,6 +457,7 @@ export default class CallsListPanel extends React.PureComponent {
         externalHasEntity={externalHasEntity}
         readTextPermission={isShowMessageIcon}
         showChooseEntityModal={showChooseEntityModal}
+        enableCDC={enableCDC}
       />
     ) : (
       <CallList
@@ -494,6 +496,7 @@ export default class CallsListPanel extends React.PureComponent {
         externalViewEntity={externalViewEntity}
         externalHasEntity={externalHasEntity}
         readTextPermission={isShowMessageIcon}
+        enableCDC={enableCDC}
       />
     );
 
@@ -686,6 +689,7 @@ CallsListPanel.propTypes = {
   onlyHistory: PropTypes.bool,
   adaptive: PropTypes.bool,
   showChooseEntityModal: PropTypes.bool,
+  enableCDC: PropTypes.bool,
 };
 
 CallsListPanel.defaultProps = {
@@ -748,4 +752,5 @@ CallsListPanel.defaultProps = {
   children: null,
   onlyHistory: false,
   showChooseEntityModal: true,
+  enableCDC: false,
 };

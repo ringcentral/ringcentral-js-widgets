@@ -42,7 +42,7 @@ export class CleanOnReset extends Step {
             context.instance = new Presence({
               auth: {} as any,
               client: {} as any,
-              rolesAndPermissions: {} as any,
+              extensionFeatures: {} as any,
               connectivityMonitor: {} as any,
               subscription: {} as any,
               dataFetcherV2: {

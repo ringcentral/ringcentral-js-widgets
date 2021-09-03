@@ -30,6 +30,7 @@ const subscribeEvent = subscriptionFilters.telephonySessions;
     'NumberValidate',
     'AccountInfo',
     'ExtensionInfo',
+    'AppFeatures',
     { dep: 'TabManager', optional: true },
     { dep: 'Storage', optional: true },
     { dep: 'ActiveCallControlOptions', optional: true },
@@ -54,6 +55,7 @@ export default class ActiveCallControl extends Pollable {
     numberValidate,
     accountInfo,
     extensionInfo,
+    appFeatures,
     ...options
   }) {
     super({
@@ -84,6 +86,7 @@ export default class ActiveCallControl extends Pollable {
     this._numberValidate = numberValidate;
     this._accountInfo = accountInfo;
     this._extensionInfo = extensionInfo;
+    this._appFeatures = appFeatures;
     this._rcCallControl = null;
 
     if (this._storage) {
@@ -118,7 +121,7 @@ export default class ActiveCallControl extends Pollable {
       });
     } else if (this._shouldReset()) {
       this._resetModuleStatus();
-    } else if (this.ready && this._hasPermission) {
+    } else if (this.ready && this.hasPermission) {
       this._subscriptionHandler();
       this._checkConnectivity();
       this._checkTabActive();
@@ -163,10 +166,7 @@ export default class ActiveCallControl extends Pollable {
 
   // This should reflect on the app permissions setting in DWP
   get hasPermission() {
-    return (
-      this._auth.token.scope?.indexOf('CallControl') > -1 ||
-      this._auth.token.scope?.indexOf('TelephonySession') > -1
-    );
+    return this._appFeatures.hasCallControl;
   }
 
   _shouldFetch() {
@@ -235,7 +235,7 @@ export default class ActiveCallControl extends Pollable {
   }
 
   async _init() {
-    if (!this._hasPermission) return;
+    if (!this.hasPermission) return;
     this._subscription.subscribe([subscribeEvent]);
     this._rcCallControl = new RingCentralCallControl({
       sdk: this._client.service,

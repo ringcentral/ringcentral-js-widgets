@@ -15,6 +15,7 @@ import { deprecatedCallingOptions } from './deprecatedCallingOptions';
 import { mapOptionToMode } from './mapOptionToMode';
 
 const LOCATION_NUMBER_ORDER = ['Other', 'Main'];
+export const BLOCKED_ID_VALUE = 'anonymous';
 /**
  * @class
  * @description Call setting managing module
@@ -28,10 +29,12 @@ const LOCATION_NUMBER_ORDER = ['Other', 'Main'];
     'ExtensionInfo',
     'ExtensionDevice',
     'ForwardingNumber',
+    'AppFeatures',
     'ExtensionFeatures',
     'ExtensionPhoneNumber',
     { dep: 'CallerId', optional: true },
     { dep: 'Webphone', optional: true },
+    { dep: 'Softphone', optional: true },
     { dep: 'TabManager', optional: true },
     { dep: 'CallingSettingsOptions', optional: true },
   ],
@@ -43,6 +46,7 @@ class CallingSettings extends RcModuleV2<Deps> {
   _otherPhoneNumbers: string[];
   _webphoneEnabled: boolean;
   initRingoutPrompt?: boolean;
+  _blockedIdDisabled: boolean;
   _showCallWithJupiter?: boolean;
   _emergencyCallAvailable?: boolean;
   _availableNumbers: string[];
@@ -148,10 +152,11 @@ class CallingSettings extends RcModuleV2<Deps> {
 
   async onStateChange() {
     if (!this._shouldReset() && !this._shouldInit() && this._shouldValidate()) {
-      this._ringoutEnabled = this._deps.extensionFeatures.isRingOutEnabled;
-      this._webphoneEnabled = this._deps.extensionFeatures.isWebPhoneEnabled;
+      this._ringoutEnabled = this._deps.appFeatures.isRingOutEnabled;
+      this._webphoneEnabled = this._deps.appFeatures.isWebPhoneEnabled;
       this._myPhoneNumbers = this.myPhoneNumbers;
       this._otherPhoneNumbers = this.otherPhoneNumbers;
+      this._blockedIdDisabled = this.isBlockedIdDisabled;
       await this._validateSettings();
     }
   }
@@ -159,11 +164,11 @@ class CallingSettings extends RcModuleV2<Deps> {
   _shouldValidate() {
     return (
       this.ready &&
-      (this._ringoutEnabled !== this._deps.extensionFeatures.isRingOutEnabled ||
-        this._webphoneEnabled !==
-          this._deps.extensionFeatures.isWebPhoneEnabled ||
+      (this._ringoutEnabled !== this._deps.appFeatures.isRingOutEnabled ||
+        this._webphoneEnabled !== this._deps.appFeatures.isWebPhoneEnabled ||
         this._myPhoneNumbers !== this.myPhoneNumbers ||
-        this._otherPhoneNumbers !== this.otherPhoneNumbers)
+        this._otherPhoneNumbers !== this.otherPhoneNumbers ||
+        this._blockedIdDisabled !== this.isBlockedIdDisabled)
     );
   }
 
@@ -175,14 +180,7 @@ class CallingSettings extends RcModuleV2<Deps> {
     this.resetSuccess();
   }
 
-  async _init() {
-    if (!this._deps.extensionFeatures.isCallingEnabled) return;
-
-    this._myPhoneNumbers = this.myPhoneNumbers;
-    this._otherPhoneNumbers = this.otherPhoneNumbers;
-    this._availableNumbers = this.availableNumbers;
-    this._ringoutEnabled = this._deps.extensionFeatures.isRingOutEnabled;
-    this._webphoneEnabled = this._deps.extensionFeatures.isWebPhoneEnabled;
+  _handleFirstTimeLogin() {
     if (!this.timestamp) {
       // first time login
       const defaultCallWith = this.callWithOptions && this.callWithOptions[0];
@@ -194,6 +192,20 @@ class CallingSettings extends RcModuleV2<Deps> {
         this._onFirstLogin();
       }
     }
+  }
+
+  async _init() {
+    if (!this._deps.appFeatures.isCallingEnabled) return;
+
+    this._myPhoneNumbers = this.myPhoneNumbers;
+    this._otherPhoneNumbers = this.otherPhoneNumbers;
+    this._availableNumbers = this.availableNumbers;
+    this._ringoutEnabled = this._deps.appFeatures.isRingOutEnabled;
+    this._webphoneEnabled = this._deps.appFeatures.isWebPhoneEnabled;
+    this._blockedIdDisabled = this.isBlockedIdDisabled;
+
+    this._handleFirstTimeLogin();
+
     if (
       this.callWith === deprecatedCallingOptions.myphone ||
       this.callWith === deprecatedCallingOptions.otherphone ||
@@ -222,13 +234,17 @@ class CallingSettings extends RcModuleV2<Deps> {
   @proxify
   async _validateSettings() {
     if (this._hasWebphonePermissionRemoved()) {
-      await this._setSoftPhoneToCallWith();
+      if (this._deps.appFeatures.isSoftphoneEnabled) {
+        await this._setSoftPhoneToCallWith();
+      }
       this._deps.alert.danger({
         message: callingSettingsMessages.webphonePermissionRemoved,
         ttl: 0,
       });
     } else if (this._hasPermissionChanged()) {
-      await this._setSoftPhoneToCallWith();
+      if (this._deps.appFeatures.isSoftphoneEnabled) {
+        await this._setSoftPhoneToCallWith();
+      }
       this._deps.alert.danger({
         message: callingSettingsMessages.permissionChanged,
         ttl: 0,
@@ -243,6 +259,10 @@ class CallingSettings extends RcModuleV2<Deps> {
         message: callingSettingsMessages.phoneNumberChanged,
         ttl: 0,
       });
+    }
+
+    if (this.isBlockedIdDisabled && this.fromNumber === BLOCKED_ID_VALUE) {
+      this._initFromNumber();
     }
   }
 
@@ -313,11 +333,17 @@ class CallingSettings extends RcModuleV2<Deps> {
   @proxify
   async _initFromNumber() {
     const fromNumber = this.fromNumber;
-    if (!fromNumber) {
+    if (
+      !fromNumber ||
+      (fromNumber === BLOCKED_ID_VALUE && this.isBlockedIdDisabled)
+    ) {
       let defaultCallerId = this.fromNumbers[0];
       if (this._deps.callerId?.ringOut) {
-        if (this._deps.callerId.ringOut.type === 'Blocked') {
-          defaultCallerId = { phoneNumber: 'anonymous' };
+        if (
+          this._deps.callerId.ringOut.type === 'Blocked' &&
+          !this.isBlockedIdDisabled
+        ) {
+          defaultCallerId = { phoneNumber: BLOCKED_ID_VALUE };
         } else if (this._deps.callerId.ringOut.type === 'PhoneNumber') {
           const defaultPhoneNumber = this._deps.callerId?.ringOut.phoneInfo
             ?.phoneNumber;
@@ -418,31 +444,40 @@ class CallingSettings extends RcModuleV2<Deps> {
   }
 
   @computed((that: CallingSettings) => [
-    that._deps.extensionFeatures.isRingOutEnabled,
-    that._deps.extensionFeatures.isWebPhoneEnabled,
+    that._deps.appFeatures.isRingOutEnabled,
+    that._deps.appFeatures.isWebPhoneEnabled,
     that.otherPhoneNumbers.length,
     that._deps.extensionPhoneNumber.numbers.length,
   ])
   get callWithOptions() {
-    const {
-      isRingOutEnabled,
-      isWebPhoneEnabled,
-    } = this._deps.extensionFeatures;
+    const { isRingOutEnabled, isWebPhoneEnabled } = this._deps.appFeatures;
     const hasExtensionPhoneNumber =
       this._deps.extensionPhoneNumber.numbers.length > 0;
-    if (!hasExtensionPhoneNumber) {
+    if (!hasExtensionPhoneNumber && this._deps.appFeatures.isSoftphoneEnabled) {
       return [callingOptions.softphone];
+    }
+    if (
+      !hasExtensionPhoneNumber &&
+      !this._deps.appFeatures.isSoftphoneEnabled
+    ) {
+      return [];
     }
     const callWithOptions = [];
     if (this._deps.webphone && isWebPhoneEnabled) {
       callWithOptions.push(callingOptions.browser);
     }
-    if (this._deps.brand && this._showCallWithJupiter) {
+    if (
+      this._deps.brand &&
+      this._showCallWithJupiter &&
+      this._deps.appFeatures.isRingCentralAppEnabled
+    ) {
       callWithOptions.push(callingOptions.jupiter);
     }
 
-    callWithOptions.push(callingOptions.softphone);
-    if (isRingOutEnabled) {
+    if (this._deps.appFeatures.isSoftphoneEnabled) {
+      callWithOptions.push(callingOptions.softphone);
+    }
+    if (isRingOutEnabled && this._deps.appFeatures.isRingOutEnabled) {
       callWithOptions.push(callingOptions.ringout);
     }
     return callWithOptions;
@@ -512,6 +547,18 @@ class CallingSettings extends RcModuleV2<Deps> {
       this._deps.webphone &&
       (this._deps.storage.driver === 'INDEXEDDB' ||
         this._deps.storage.driver === 'WEBSQL')
+    );
+  }
+
+  get jupiterAppName() {
+    return this._deps.softphone?.jupiterAppName;
+  }
+
+  /* India go */
+  get isBlockedIdDisabled() {
+    return (
+      this._deps.extensionFeatures.features?.BlockingCallerId?.available ===
+      false
     );
   }
 }

@@ -1,4 +1,5 @@
-import { Brand } from '@ringcentral-integration/commons/modules/BrandV2';
+import { AppFeatures } from '@ringcentral-integration/commons/modules/AppFeatures';
+import { Brand } from '@ringcentral-integration/commons/modules/Brand';
 import {
   ComposeText,
   ToNumber,
@@ -7,18 +8,17 @@ import { ConnectivityMonitor } from '@ringcentral-integration/commons/modules/Co
 import {
   ContactSearch,
   Entities,
-} from '../../../ringcentral-integration/modules/ContactSearchV2';
-import { Conversations } from '../../../ringcentral-integration/modules/ConversationsV2';
-import { ExtensionFeatures } from '../../../ringcentral-integration/modules/ExtensionFeatures';
-import { Locale } from '../../../ringcentral-integration/modules/LocaleV2';
+} from '@ringcentral-integration/commons/modules/ContactSearchV2';
+import { Conversations } from '@ringcentral-integration/commons/modules/ConversationsV2';
+import { Locale } from '@ringcentral-integration/commons/modules/Locale';
 import {
   Attachment,
   MessageSender,
   SenderNumber,
-} from '../../../ringcentral-integration/modules/MessageSenderV2';
-import { MessageStore } from '../../../ringcentral-integration/modules/MessageStoreV2';
-import { RateLimiter } from '../../../ringcentral-integration/modules/RateLimiterV2';
-import { RegionSettings } from '../../../ringcentral-integration/modules/RegionSettingsV2';
+} from '@ringcentral-integration/commons/modules/MessageSenderV2';
+import { MessageStore } from '@ringcentral-integration/commons/modules/MessageStoreV2';
+import { RateLimiter } from '@ringcentral-integration/commons/modules/RateLimiterV2';
+import { RegionSettings } from '@ringcentral-integration/commons/modules/RegionSettingsV2';
 import { RouterInteraction } from '../RouterInteraction';
 
 export interface Deps {
@@ -32,7 +32,7 @@ export interface Deps {
   messageStore: MessageStore;
   rateLimiter: RateLimiter;
   regionSettings: RegionSettings;
-  extensionFeatures: ExtensionFeatures;
+  appFeatures: AppFeatures;
   routerInteraction: RouterInteraction;
 }
 // TODO: Move to and align with ComposeTextPanel when refactoring ComposeTextPanel to TypeScript

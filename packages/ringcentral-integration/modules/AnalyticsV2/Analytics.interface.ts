@@ -1,7 +1,8 @@
-import { BrandConfig } from '../BrandV2';
+import { BrandConfig } from '../Brand';
 import { AccountInfo } from '../AccountInfoV2';
 import { ExtensionInfo } from '../ExtensionInfoV2';
-import { Locale } from '../LocaleV2';
+import { Locale } from '../Locale';
+import { AnalyticsEventExtendedProps } from '../AnalyticsEventExtendedProps';
 
 interface RouterInteraction {
   currentPath: string;
@@ -20,6 +21,7 @@ export interface Deps {
   extensionInfo?: ExtensionInfo;
   locale?: Locale;
   routerInteraction?: RouterInteraction;
+  analyticsEventExtendedProps?: AnalyticsEventExtendedProps;
 }
 
 export interface AnalyticsOptions {

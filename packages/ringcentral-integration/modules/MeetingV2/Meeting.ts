@@ -404,7 +404,7 @@ export class Meeting extends RcModuleV2<Deps> implements IMeeting {
       if (target) {
         return [
           trackEvents.clickMeetingSchedulePage,
-          { router: target.router },
+          { router: target.router, 'Meeting Type': 'RCM' },
         ];
       }
     };

@@ -83,7 +83,7 @@ $hour-minute-space: 12px;
 
 label.labelPlacementStartRoot {
   margin: 0;
-  padding: 0 ($content-padding/2 - $checkbox-right-margin) 0 $content-padding;
+  padding: 0 ($content-padding - $checkbox-right-margin * 2) 0 $content-padding;
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
@@ -128,6 +128,13 @@ label.labelPlacementEndRoot {
   input {
     @extend .normalFontSize;
   }
+
+  input::-ms-clear {
+    display: none;
+  }
+  input::-o-clear {
+    display: none;
+  }
 }
 
 .subPrefixPadding {
@@ -160,7 +167,7 @@ label.labelPlacementEndRoot {
 }
 
 .checkboxSeparate {
-  margin: -4px 0 -4px 10px;
+  margin: -2px 0 -2px 10px;
 }
 
 .iconCombine {
@@ -186,7 +193,7 @@ $win-scroll-bar-width: 17px;
 }
 
 .lockButton {
-  color: #6c7489; // need to migrate using juno token "$color-icon-default"
+  color: rc-palette('neutral', 'f04');
   padding-top: 2px;
 }
 
@@ -204,4 +211,12 @@ $win-scroll-bar-width: 17px;
 
 .gutterTop {
   padding-top: 16px;
+}
+
+.flexVertical {
+  display: flex;
+  align-items: center;
+  & > span {
+    margin-left: 4px;
+  }
 }

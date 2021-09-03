@@ -15,6 +15,7 @@ import {
 import mapOptionToMode from './mapOptionToMode';
 
 const LOCATION_NUMBER_ORDER = ['Other', 'Main'];
+const BLOCKED_ID_VALUE = 'anonymous';
 /**
  * @class
  * @description Call setting managing module
@@ -27,8 +28,9 @@ const LOCATION_NUMBER_ORDER = ['Other', 'Main'];
     'ExtensionPhoneNumber',
     'ForwardingNumber',
     'Storage',
-    'ExtensionFeatures',
+    'AppFeatures',
     'ExtensionDevice',
+    'ExtensionFeatures',
     { dep: 'CallerId', optional: true },
     { dep: 'TabManager', optional: true },
     { dep: 'Webphone', optional: true },
@@ -43,11 +45,12 @@ export default class CallingSettings extends RcModule {
     extensionPhoneNumber,
     forwardingNumber,
     storage,
-    extensionFeatures,
+    appFeatures,
     tabManager,
     onFirstLogin,
     webphone,
     callerId,
+    extensionFeatures,
     emergencyCallAvailable = false,
     defaultRingoutPrompt,
     showCallWithJupiter = true,
@@ -64,7 +67,7 @@ export default class CallingSettings extends RcModule {
     this._extensionPhoneNumber = extensionPhoneNumber;
     this._forwardingNumber = forwardingNumber;
     this._storage = storage;
-    this._extensionFeatures = extensionFeatures;
+    this._appFeatures = appFeatures;
     this._tabManager = tabManager;
     this._webphone = webphone;
     this._callerId = callerId;
@@ -72,6 +75,7 @@ export default class CallingSettings extends RcModule {
     this._emergencyCallAvailable = emergencyCallAvailable;
     this._extensionDevice = extensionDevice;
     this._onFirstLogin = onFirstLogin;
+    this._extensionFeatures = extensionFeatures;
     this.initRingoutPrompt = defaultRingoutPrompt;
 
     this._storage.registerReducer({
@@ -99,10 +103,11 @@ export default class CallingSettings extends RcModule {
     } else if (this._shouldReset()) {
       this._reset();
     } else if (this._shouldValidate()) {
-      this._ringoutEnabled = this._extensionFeatures.isRingOutEnabled;
-      this._webphoneEnabled = this._extensionFeatures.isWebPhoneEnabled;
+      this._ringoutEnabled = this._appFeatures.isRingOutEnabled;
+      this._webphoneEnabled = this._appFeatures.isWebPhoneEnabled;
       this._myPhoneNumbers = this.myPhoneNumbers;
       this._otherPhoneNumbers = this.otherPhoneNumbers;
+      this._blockedIdDisabled = this.isBlockedIdDisabled;
       await this._validateSettings();
     }
   }
@@ -114,7 +119,7 @@ export default class CallingSettings extends RcModule {
       this._extensionPhoneNumber.ready &&
       this._forwardingNumber.ready &&
       (!this._callerId || this._callerId.ready) &&
-      this._extensionFeatures.ready &&
+      this._appFeatures.ready &&
       this._extensionDevice.ready &&
       this.pending
     );
@@ -127,7 +132,7 @@ export default class CallingSettings extends RcModule {
         !this._extensionInfo.ready ||
         !this._extensionPhoneNumber.ready ||
         !this._forwardingNumber.ready ||
-        !this._extensionFeatures.ready ||
+        !this._appFeatures.ready ||
         (this._callerId && !this._callerId.ready) ||
         !this._extensionDevice.ready)
     );
@@ -136,20 +141,22 @@ export default class CallingSettings extends RcModule {
   _shouldValidate() {
     return (
       this.ready &&
-      (this._ringoutEnabled !== this._extensionFeatures.isRingOutEnabled ||
-        this._webphoneEnabled !== this._extensionFeatures.isWebPhoneEnabled ||
+      (this._ringoutEnabled !== this._appFeatures.isRingOutEnabled ||
+        this._webphoneEnabled !== this._appFeatures.isWebPhoneEnabled ||
         this._myPhoneNumbers !== this.myPhoneNumbers ||
-        this._otherPhoneNumbers !== this.otherPhoneNumbers)
+        this._otherPhoneNumbers !== this.otherPhoneNumbers ||
+        this._blockedIdDisabled !== this.isBlockedIdDisabled)
     );
   }
 
   async _init() {
-    if (!this._extensionFeatures.isCallingEnabled) return;
+    if (!this._appFeatures.isCallingEnabled) return;
     this._myPhoneNumbers = this.myPhoneNumbers;
     this._otherPhoneNumbers = this.otherPhoneNumbers;
     this._availableNumbers = this.availableNumbers;
-    this._ringoutEnabled = this._extensionFeatures.isRingOutEnabled;
-    this._webphoneEnabled = this._extensionFeatures.isWebPhoneEnabled;
+    this._ringoutEnabled = this._appFeatures.isRingOutEnabled;
+    this._webphoneEnabled = this._appFeatures.isWebPhoneEnabled;
+    this._blockedIdDisabled = this.isBlockedIdDisabled;
     if (!this.timestamp) {
       // first time login
       const defaultCallWith = this.callWithOptions && this.callWithOptions[0];
@@ -190,11 +197,17 @@ export default class CallingSettings extends RcModule {
   @proxify
   async _initFromNumber() {
     const fromNumber = this.fromNumber;
-    if (!fromNumber) {
+    if (
+      !fromNumber ||
+      (fromNumber === BLOCKED_ID_VALUE && this.isBlockedIdDisabled)
+    ) {
       let defaultCallerId = this.fromNumbers[0];
       if (this._callerId?.ringOut) {
-        if (this._callerId.ringOut.type === 'Blocked') {
-          defaultCallerId = { phoneNumber: 'anonymous' };
+        if (
+          this._callerId.ringOut.type === 'Blocked' &&
+          !this.isBlockedIdDisabled
+        ) {
+          defaultCallerId = { phoneNumber: BLOCKED_ID_VALUE };
         } else if (this._callerId.ringOut.type === 'PhoneNumber') {
           const defaultPhoneNumber = this._callerId?.ringOut.phoneInfo
             ?.phoneNumber;
@@ -252,6 +265,10 @@ export default class CallingSettings extends RcModule {
         message: callingSettingsMessages.phoneNumberChanged,
         ttl: 0,
       });
+    }
+
+    if (this.isBlockedIdDisabled && this.fromNumber === BLOCKED_ID_VALUE) {
+      this._initFromNumber();
     }
   }
 
@@ -371,8 +388,8 @@ export default class CallingSettings extends RcModule {
 
   @selector
   callWithOptions = [
-    () => this._extensionFeatures.isRingOutEnabled,
-    () => this._extensionFeatures.isWebPhoneEnabled,
+    () => this._appFeatures.isRingOutEnabled,
+    () => this._appFeatures.isWebPhoneEnabled,
     () => this.otherPhoneNumbers.length > 0,
     () => this._extensionPhoneNumber.numbers.length > 0,
     (
@@ -528,6 +545,13 @@ export default class CallingSettings extends RcModule {
       this._webphone &&
       (this._storage.driver === 'INDEXEDDB' ||
         this._storage.driver === 'WEBSQL')
+    );
+  }
+
+  /* India go */
+  get isBlockedIdDisabled() {
+    return (
+      this._extensionFeatures.features?.BlockingCallerId?.available === false
     );
   }
 }

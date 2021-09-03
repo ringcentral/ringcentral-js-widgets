@@ -4,11 +4,11 @@ import Client from 'ringcentral-client';
 import { MeetingTypeV } from '../../helpers/meetingHelper.interface';
 import { Alert } from '../AlertV2';
 import AvailabilityMonitor from '../AvailabilityMonitor';
-import { Brand } from '../BrandV2';
+import { Brand } from '../Brand';
 import { ExtensionInfo as ExtensionInfoV2 } from '../ExtensionInfoV2';
 import { VideoConfiguration } from '../VideoConfiguration';
 import { Storage } from '../StorageV2';
-import { Locale } from '../LocaleV2';
+import { Locale } from '../Locale';
 
 export interface MeetingScheduleResource {
   startTime?: number | string;
@@ -210,7 +210,7 @@ export interface ExternalUserInfo {
   usePmiForInstantMeetings: boolean;
 }
 
-interface ServiceInfo {
+export interface ServiceInfo {
   uri: string;
   supportUri: string;
   intlDialInNumbersUri: string;

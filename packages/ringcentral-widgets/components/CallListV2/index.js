@@ -97,6 +97,7 @@ export default class CallListV2 extends React.PureComponent {
       currentSiteCode,
       isMultipleSiteEnabled,
       showChooseEntityModal,
+      enableCDC,
     } = this.props;
 
     let content;
@@ -156,6 +157,7 @@ export default class CallListV2 extends React.PureComponent {
           // disable animation when rendered with react-virtualized
           withAnimation={false}
           showChooseEntityModal={showChooseEntityModal}
+          enableCDC={enableCDC}
         />
       );
     }
@@ -240,6 +242,7 @@ CallListV2.propTypes = {
   rowHeight: PropTypes.number,
   extendedRowHeight: PropTypes.number,
   showChooseEntityModal: PropTypes.bool,
+  enableCDC: PropTypes.bool,
 };
 
 CallListV2.defaultProps = {
@@ -279,4 +282,5 @@ CallListV2.defaultProps = {
   rowHeight: 65,
   extendedRowHeight: 130,
   showChooseEntityModal: true,
+  enableCDC: false,
 };

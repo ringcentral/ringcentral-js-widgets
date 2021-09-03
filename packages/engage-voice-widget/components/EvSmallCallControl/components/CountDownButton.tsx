@@ -11,11 +11,7 @@ type CountDownProps = {
 export const CountDown: FunctionComponent<CountDownProps> = ({ data }) => {
   const count = data > 99 ? '99+' : data;
   return (
-    <RcText
-      color="text.negative"
-      variant="subheading1"
-      data-sign="CountDownText"
-    >
+    <RcText color="danger.f02" variant="subheading1" data-sign="CountDownText">
       {count}
     </RcText>
   );

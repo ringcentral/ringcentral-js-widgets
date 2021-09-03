@@ -186,6 +186,12 @@
     "canModifyAccess": true
   },
   {
+    "id" : "e2ee",
+    "value" : false,
+    "readOnly" : false,
+    "canModifyAccess" : true
+  },
+  {
     "id": "controls",
     "value": "always",
     "readOnly": false,

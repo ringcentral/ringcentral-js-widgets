@@ -1,5 +1,6 @@
 import Session from '../support/session';
 
+const webphoneCache = [];
 class Transport {
   constructor() {
     this._events = {};
@@ -60,7 +61,8 @@ class UserAgent {
     const sessionId = `${toNumber}-${Math.round(
       Math.random() * 1000000000,
     ).toString()}`;
-    const session = new Session({
+    const session = new Session(
+      {
         id: sessionId,
         direction: 'Outbound',
         to: toNumber,
@@ -88,6 +90,8 @@ class UserAgent {
     this._events = {};
   }
 
+  removeListener() {}
+
   get audioHelper() {
     return {
       setVolume() {},
@@ -107,12 +111,20 @@ class UserAgent {
   }
 }
 
-export default class RingCentralWebphone {
+class RingCentralWebphone {
   constructor() {
     this._userAgent = new UserAgent();
+
+    webphoneCache.push(this);
   }
 
   get userAgent() {
     return this._userAgent;
   }
 }
+
+RingCentralWebphone.getLastWebphone = function getLastWebphone() {
+  return webphoneCache[webphoneCache.length - 1];
+};
+
+export default RingCentralWebphone;

@@ -1,9 +1,9 @@
-import { Module } from '../../lib/di';
-import { selector } from '../../lib/selector';
-import DataFetcher from '../../lib/DataFetcher';
-import sleep from '../../lib/sleep';
-import fetchList from '../../lib/fetchList';
 import subscriptionFilters from '../../enums/subscriptionFilters';
+import DataFetcher from '../../lib/DataFetcher';
+import { Module } from '../../lib/di';
+import fetchList from '../../lib/fetchList';
+import { selector } from '../../lib/selector';
+import sleep from '../../lib/sleep';
 import { getDataReducer } from './getActiveCallsReducer';
 
 const presenceRegExp = /\/presence\?detailedTelephonyState=true/;
@@ -18,7 +18,7 @@ const DEFAULT_TTL = 5 * 60 * 1000;
 @Module({
   deps: [
     'Client',
-    'ExtensionFeatures',
+    'AppFeatures',
     { dep: 'TabManager', optional: true },
     { dep: 'ActiveCallsOptions', optional: true },
   ],
@@ -32,7 +32,7 @@ export default class ActiveCalls extends DataFetcher {
    */
   constructor({
     client,
-    extensionFeatures,
+    appFeatures,
     tabManager, // do not pass tabManager to DataFetcher as data is not shared in localStorage
     fetchDelay = FETCH_DELAY,
     ttl = DEFAULT_TTL,
@@ -62,7 +62,7 @@ export default class ActiveCalls extends DataFetcher {
       'ActiveCalls module is deprecated, please use Presence module with detailed mode',
     );
     this._fetchDelay = fetchDelay;
-    this._extensionFeatures = extensionFeatures;
+    this._appFeatures = appFeatures;
   }
 
   get _name() {
@@ -70,13 +70,11 @@ export default class ActiveCalls extends DataFetcher {
   }
 
   _shouldInit() {
-    return super._shouldInit() && this._extensionFeatures.ready;
+    return super._shouldInit() && this._appFeatures.ready;
   }
 
   get _hasPermission() {
-    return (
-      this._extensionFeatures.features?.ReadExtensionCallLog?.available ?? false
-    );
+    return this._appFeatures.hasReadExtensionCallLog;
   }
 
   @selector

@@ -9,13 +9,15 @@ import FormattedMessage from '../../FormattedMessage';
 
 import i18n from './i18n';
 
-function CallingSettingsAlert({
+const CallingSettingsAlert = ({
   message: { message },
   currentLocale,
   brandCode,
   brandName,
+  shortBrandName,
+  fullBrandName,
   onCallingSettingsLinkClick,
-}) {
+}) => {
   switch (message) {
     case callingSettingsMessages.saveSuccess:
     case callingSettingsMessages.saveSuccessWithSoftphone:
@@ -24,9 +26,21 @@ function CallingSettingsAlert({
     case callingSettingsMessages.saveSuccessWithJupiter: {
       let appName = brandName;
       if (message === callingSettingsMessages.saveSuccessWithJupiter) {
-        appName = getJupiterAppName(brandCode, brandName, currentLocale);
+        appName = getJupiterAppName({
+          brandCode,
+          brandName,
+          currentLocale,
+          shortBrandName,
+          fullBrandName,
+        });
       } else if (message === callingSettingsMessages.saveSuccessWithSoftphone) {
-        appName = getSoftphoneAppName(brandCode, brandName, currentLocale);
+        appName = getSoftphoneAppName({
+          brandCode,
+          brandName,
+          currentLocale,
+          shortBrandName,
+          fullBrandName,
+        });
       }
       return (
         <FormattedMessage
@@ -59,7 +73,7 @@ function CallingSettingsAlert({
     default:
       return null;
   }
-}
+};
 CallingSettingsAlert.propTypes = {
   message: PropTypes.shape({
     message: PropTypes.string.isRequired,
@@ -67,6 +81,8 @@ CallingSettingsAlert.propTypes = {
   currentLocale: PropTypes.string.isRequired,
   brandCode: PropTypes.string.isRequired,
   brandName: PropTypes.string.isRequired,
+  shortBrandName: PropTypes.string,
+  fullBrandName: PropTypes.string,
   onCallingSettingsLinkClick: PropTypes.func,
 };
 CallingSettingsAlert.defaultProps = {

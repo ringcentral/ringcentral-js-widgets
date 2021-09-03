@@ -19,6 +19,8 @@ export default {
   muteAudio: "참가자의 오디오 음소거",
   turnOffCamera: "참가자의 카메라 끄기",
   requirePassword: "비밀번호가 필요함",
+  useE2ee: "E2EE(End-to-End Encryption) 사용",
+  e2eeTooltip: "E2EE(End-to-End Encryption) 모임이 가장 사생활이 보장되지만 전화로 참여, 자막, 녹음과 같은 기능은 사용할 수 없습니다.",
   setPassword: "비밀번호 설정 *",
   setPasswordNotSymbol: "비밀번호 설정",
   passwordEmptyError: "모임 비밀번호 필요",
@@ -31,7 +33,8 @@ export default {
   signedInCoWorkers: "로그인한 동료",
   limitScreenSharing: "호스트 및 중재자만 화면을 공유할 수 있습니다.",
   lockTooltip: "이 설정은 회사 관리자가 관리합니다.",
-  pmiSettingAlert: "이 설정은 PMI로 생성된 모든 모임에 적용됩니다."
+  pmiSettingAlert: "이 설정은 PMI로 생성된 모든 모임에 적용됩니다.",
+  today: "오늘"
 };
 
 // @key: @#@"topic"@#@ @source: @#@"Meeting title"@#@
@@ -53,6 +56,8 @@ export default {
 // @key: @#@"muteAudio"@#@ @source: @#@"Mute audio for participants"@#@
 // @key: @#@"turnOffCamera"@#@ @source: @#@"Turn off camera for participants"@#@
 // @key: @#@"requirePassword"@#@ @source: @#@"Require password"@#@
+// @key: @#@"useE2ee"@#@ @source: @#@"Use end-to-end encryption"@#@
+// @key: @#@"e2eeTooltip"@#@ @source: @#@"End-to-end encrypted meetings are the most private, but features like joining by phone, closed captions, and recording aren't available."@#@
 // @key: @#@"setPassword"@#@ @source: @#@"Set password *"@#@
 // @key: @#@"setPasswordNotSymbol"@#@ @source: @#@"Set password"@#@
 // @key: @#@"passwordEmptyError"@#@ @source: @#@"Meeting password required"@#@
@@ -66,3 +71,4 @@ export default {
 // @key: @#@"limitScreenSharing"@#@ @source: @#@"Only host & moderators can share screen"@#@
 // @key: @#@"lockTooltip"@#@ @source: @#@"This setting is managed by your company admin"@#@
 // @key: @#@"pmiSettingAlert"@#@ @source: @#@"These settings will apply to all meetings created with PMI"@#@
+// @key: @#@"today"@#@ @source: @#@"Today"@#@

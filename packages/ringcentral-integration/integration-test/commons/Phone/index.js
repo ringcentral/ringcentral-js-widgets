@@ -8,11 +8,12 @@ import AccountInfo from '../../../modules/AccountInfo';
 import ActiveCallControl from '../../../modules/ActiveCallControl';
 import AddressBook from '../../../modules/AddressBook';
 import Alert from '../../../modules/Alert';
+import { AppFeatures } from '../../../modules/AppFeatures';
 import AudioSettings from '../../../modules/AudioSettings';
 import Auth from '../../../modules/Auth';
 import AvailabilityMonitor from '../../../modules/AvailabilityMonitor';
 import BlockedNumber from '../../../modules/BlockedNumber';
-import { Brand } from '../../../modules/BrandV2';
+import { Brand } from '../../../modules/Brand';
 import Call from '../../../modules/Call';
 import CallHistory from '../../../modules/CallHistory';
 import CallingSettings from '../../../modules/CallingSettings';
@@ -31,11 +32,12 @@ import DateTimeFormat from '../../../modules/DateTimeFormat';
 import DialingPlan from '../../../modules/DialingPlan';
 import Environment from '../../../modules/Environment';
 import ExtensionDevice from '../../../modules/ExtensionDevice';
+import { ExtensionFeatures } from '../../../modules/ExtensionFeatures';
 import ExtensionInfo from '../../../modules/ExtensionInfo';
 import ExtensionPhoneNumber from '../../../modules/ExtensionPhoneNumber';
 import ForwardingNumber from '../../../modules/ForwardingNumber';
 import GlobalStorage from '../../../modules/GlobalStorage';
-import Locale from '../../../modules/Locale';
+import { Locale } from '../../../modules/Locale';
 import LocaleSettings from '../../../modules/LocaleSettings';
 import Meeting from '../../../modules/Meeting';
 import MessageSender from '../../../modules/MessageSender';
@@ -48,11 +50,10 @@ import RecentCalls from '../../../modules/RecentCalls';
 import RecentMessages from '../../../modules/RecentMessages';
 import RegionSettings from '../../../modules/RegionSettings';
 import Ringout from '../../../modules/Ringout';
-import RolesAndPermissions from '../../../modules/RolesAndPermissions';
 import Softphone from '../../../modules/Softphone';
 import Storage from '../../../modules/Storage';
 import Subscription from '../../../modules/Subscription';
-import TabManager from '../../../modules/TabManager';
+import { TabManager } from '../../../modules/TabManager';
 import UserGuide from '../../../modules/UserGuide';
 import Webphone from '../../../modules/Webphone';
 
@@ -82,7 +83,8 @@ import Webphone from '../../../modules/Webphone';
     { provide: 'AccountInfo', useClass: AccountInfo },
     { provide: 'ExtensionDevice', useClass: ExtensionDevice },
     { provide: 'ExtensionInfo', useClass: ExtensionInfo },
-    { provide: 'RolesAndPermissions', useClass: RolesAndPermissions },
+    { provide: 'ExtensionFeatures', useClass: ExtensionFeatures },
+    { provide: 'AppFeatures', useClass: AppFeatures },
     { provide: 'DialingPlan', useClass: DialingPlan },
     { provide: 'ExtensionPhoneNumber', useClass: ExtensionPhoneNumber },
     { provide: 'ForwardingNumber', useClass: ForwardingNumber },

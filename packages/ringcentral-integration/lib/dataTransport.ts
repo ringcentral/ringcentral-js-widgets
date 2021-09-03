@@ -3,6 +3,9 @@ import { Transport } from 'data-transport';
 
 export * from 'data-transport';
 
+/**
+ * `@listen` decorator, that will auto binding event with `data-transport`
+ */
 const listen = (
   target: any,
   key: string,
@@ -31,6 +34,32 @@ const listen = (
   };
 };
 
+/**
+ * bind current class listenable,
+ * that your class `@listen` work
+ *
+ * @example
+ *
+  ```ts
+
+  class Adapter implements ToInternal, ToExternal {
+
+    transport?: Transport<ToInternal, ToExternal>;
+
+    constructor(){
+      this.transport = createTransport('IFrameMain', {
+        iframe: this.appIFrame,
+      });
+      bindListeners(this, this.transport);
+    }
+
+    @listen
+    async fetchIsMatchCaseId(caseId: string): Promise<string> {
+      return this.visualforceRequest('fetchIsMatchCaseId', caseId);
+    }
+  }
+ * ```
+ */
 const bindListeners = (instance: object, transport: Transport<any, any>) => {
   forEachObjIndexed(
     (func, name) => {

@@ -5,6 +5,7 @@ export default {
   [phoneTypes.extension]: "分机号",
   [phoneTypes.direct]: "直拨",
   [phoneTypes.mobile]: "移动",
+  [phoneTypes.contact]: "联系电话",
   [phoneTypes.home]: "家庭",
   [phoneTypes.business]: "商务",
   [phoneTypes.fax]: "传真",
@@ -26,6 +27,7 @@ export default {
 // @key: @#@"[phoneTypes.extension]"@#@ @source: @#@"Ext."@#@
 // @key: @#@"[phoneTypes.direct]"@#@ @source: @#@"Direct"@#@
 // @key: @#@"[phoneTypes.mobile]"@#@ @source: @#@"Mobile"@#@
+// @key: @#@"[phoneTypes.contact]"@#@ @source: @#@"Contact phone"@#@
 // @key: @#@"[phoneTypes.home]"@#@ @source: @#@"Home"@#@
 // @key: @#@"[phoneTypes.business]"@#@ @source: @#@"Business"@#@
 // @key: @#@"[phoneTypes.fax]"@#@ @source: @#@"Fax"@#@

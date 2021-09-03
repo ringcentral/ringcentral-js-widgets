@@ -1,6 +1,6 @@
 import Alert from '@ringcentral-integration/commons/modules/Alert';
 import { Auth as RcAuth } from '@ringcentral-integration/commons/modules/AuthV2';
-import Locale from '@ringcentral-integration/commons/modules/Locale';
+import { Locale } from '@ringcentral-integration/commons/modules/Locale';
 import { Block } from '@ringcentral-integration/widgets/modules/Block';
 import RouterInteraction from '@ringcentral-integration/widgets/modules/RouterInteraction';
 

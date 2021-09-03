@@ -9,6 +9,7 @@ export default {
   [phoneTypes.unknown]: 'Unknown Phone Type',
   [phoneTypes.company]: 'Company Number',
   [phoneTypes.direct]: 'Direct Number',
+  [phoneTypes.contact]: 'Contact Phone',
   [phoneTypes.fax]: 'Fax',
   [phoneTypes.other]: 'Other',
 };

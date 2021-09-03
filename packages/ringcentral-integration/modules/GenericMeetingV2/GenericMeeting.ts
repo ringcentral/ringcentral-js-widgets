@@ -1,18 +1,23 @@
+import { action, RcModuleV2, state } from '@ringcentral-integration/core';
 import { EventEmitter } from 'events';
-import { RcModuleV2, action, state } from '@ringcentral-integration/core';
-import { Module } from '../../lib/di';
-import proxify from '../../lib/proxy/proxify';
+
+import { RcVideoAPI, RcVMeetingModel } from '../../interfaces/Rcv.model';
 import background from '../../lib/background';
+import { Module } from '../../lib/di';
+import { proxify } from '../../lib/proxy/proxify';
+import {
+  Meeting,
+  RcMMeetingModel,
+  ScheduleMeetingResponse,
+} from '../MeetingV2';
+import { generateRandomPassword, RcVideo, RcVideoResponse } from '../RcVideoV2';
 import {
   Deps,
   MeetingEvents,
-  ScheduleModel,
   ScheduledCallback,
+  ScheduleModel,
 } from './GenericMeeting.interface';
-import { RcVideoAPI, RcVMeetingModel } from '../../interfaces/Rcv.model';
 import { genericMeetingStatus } from './genericMeetingStatus';
-import { Meeting, RcMMeetingModel } from '../MeetingV2';
-import { generateRandomPassword, RcVideo } from '../RcVideoV2';
 
 @Module({
   name: 'GenericMeeting',
@@ -31,6 +36,8 @@ export class GenericMeeting<T = {}> extends RcModuleV2<Deps & T> {
   constructor(deps: Deps & T) {
     super({
       deps,
+      enableCache: deps.genericMeetingOptions?.enableCache ?? false,
+      storageKey: 'genericMeeting',
     });
   }
 
@@ -97,7 +104,7 @@ export class GenericMeeting<T = {}> extends RcModuleV2<Deps & T> {
     config?: { isAlertSuccess?: boolean },
     opener?: Window,
   ) {
-    let result;
+    let result: ScheduleMeetingResponse | RcVideoResponse;
     if (this.isRCM) {
       result = await this._deps.meeting.schedule(
         meeting as RcMMeetingModel,
@@ -304,7 +311,7 @@ export class GenericMeeting<T = {}> extends RcModuleV2<Deps & T> {
   }
 
   get enableServiceWebSettings(): boolean {
-    return !!this._meetingModule.enableServiceWebSettings;
+    return !!(this._meetingModule as Meeting).enableServiceWebSettings;
   }
 
   get enablePersonalMeeting() {
@@ -314,6 +321,13 @@ export class GenericMeeting<T = {}> extends RcModuleV2<Deps & T> {
   get enableWaitingRoom() {
     if (this.isRCV) {
       return this._deps.rcVideo.enableWaitingRoom;
+    }
+    return false;
+  }
+
+  get enableE2EE() {
+    if (this.isRCV) {
+      return this._deps.rcVideo.enableE2EE;
     }
     return false;
   }

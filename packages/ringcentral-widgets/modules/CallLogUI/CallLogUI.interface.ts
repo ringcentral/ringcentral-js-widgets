@@ -1,14 +1,15 @@
 import { ActiveCallControl } from '@ringcentral-integration/commons/modules/ActiveCallControlV2';
+import { AppFeatures } from '@ringcentral-integration/commons/modules/AppFeatures';
 import { CallingSettings } from '@ringcentral-integration/commons/modules/CallingSettingsV2';
 import CallLogger from '@ringcentral-integration/commons/modules/CallLogger';
 import ConnectivityMonitor from '@ringcentral-integration/commons/modules/ConnectivityMonitor';
 import DateTimeFormat from '@ringcentral-integration/commons/modules/DateTimeFormat';
 import { ForwardingNumber } from '@ringcentral-integration/commons/modules/ForwardingNumberV2';
-import Locale from '@ringcentral-integration/commons/modules/Locale';
+import { Locale } from '@ringcentral-integration/commons/modules/Locale';
 import RateLimiter from '@ringcentral-integration/commons/modules/RateLimiter';
 import RegionSettings from '@ringcentral-integration/commons/modules/RegionSettings';
-import { ExtensionFeatures } from '../../../ringcentral-integration/modules/ExtensionFeatures';
 import { CallLogPanelProps } from '../../components/CallLogPanel';
+import { CallLogSection as CallLogSectionV2 } from '../CallLogSectionV2';
 import CallLogSection from '../CallLogSection';
 import { RouterInteraction } from '../RouterInteraction';
 
@@ -24,10 +25,10 @@ export interface Deps {
   rateLimiter: RateLimiter;
   regionSettings: RegionSettings;
   dateTimeFormat: DateTimeFormat;
-  callLogSection: CallLogSection;
+  callLogSection: CallLogSection | CallLogSectionV2;
   routerInteraction: RouterInteraction;
   activeCallControl: ActiveCallControl;
-  extensionFeatures: ExtensionFeatures;
+  appFeatures: AppFeatures;
   connectivityMonitor: ConnectivityMonitor;
   callingSettings: CallingSettings;
   forwardingNumber: ForwardingNumber;

@@ -15,8 +15,11 @@ import { Deps } from './DialingPlan.interface';
     { dep: 'DialingPlanOptions', optional: true },
   ],
 })
-export class DialingPlan extends DataFetcherV2Consumer<Deps, CountryInfo[]> {
-  constructor(deps: Deps) {
+export class DialingPlan<T extends Deps = Deps> extends DataFetcherV2Consumer<
+  T,
+  CountryInfo[]
+> {
+  constructor(deps: T) {
     super({
       deps,
     });
@@ -26,17 +29,9 @@ export class DialingPlan extends DataFetcherV2Consumer<Deps, CountryInfo[]> {
       key: 'dialingPlan',
       polling,
       cleanOnReset: true,
-      fetchFunction: async () =>
-        fetchList(async (params: any) => {
-          const response = await this._deps.client.service
-            .platform()
-            .get('/restapi/v1.0/account/~/dialing-plan', params);
-          return response.json();
-        }),
-      readyCheckFunction: () => this._deps.extensionFeatures.ready,
-      permissionCheckFunction: () =>
-        this._deps.extensionFeatures.features?.ReadCompanyInfo?.available ??
-        false,
+      fetchFunction: () => this.fetchFunction(),
+      readyCheckFunction: () => this.readyCheckFunction(),
+      permissionCheckFunction: () => this.permissionCheckFunction(),
     });
     this._deps.dataFetcherV2.register(this._source);
   }
@@ -44,5 +39,24 @@ export class DialingPlan extends DataFetcherV2Consumer<Deps, CountryInfo[]> {
   @computed(({ data }: DialingPlan) => [data])
   get plans() {
     return this.data ?? [];
+  }
+
+  fetchFunction() {
+    return fetchList(async (params: any) => {
+      const response = await this._deps.client.service
+        .platform()
+        .get('/restapi/v1.0/account/~/dialing-plan', params);
+      return response.json();
+    });
+  }
+
+  readyCheckFunction() {
+    return this._deps.extensionFeatures.ready;
+  }
+
+  permissionCheckFunction() {
+    return (
+      this._deps.extensionFeatures.features?.ReadCompanyInfo?.available ?? false
+    );
   }
 }

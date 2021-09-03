@@ -1,5 +1,5 @@
 import { PhoneNumberInfoNumberParser } from '@rc-ex/core/definitions';
-import { Brand } from '../BrandV2';
+import { Brand } from '../Brand';
 import { RegionSettings } from '../RegionSettingsV2';
 import { AccountInfo } from '../AccountInfoV2';
 import { CompanyContacts } from '../CompanyContactsV2';

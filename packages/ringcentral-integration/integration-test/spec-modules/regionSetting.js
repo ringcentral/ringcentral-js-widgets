@@ -12,6 +12,7 @@ export default (auth, client, regionSettings, account) => {
     let isLoginSuccess;
     const clientHistoryRequest = new ClientHistoryRequest(new Map(), client);
 
+    // eslint-disable-next-line no-undef
     before(async () => {
       mock.mockForLogin();
       isLoginSuccess = await ensureLogin(auth, account);
@@ -31,7 +32,7 @@ export default (auth, client, regionSettings, account) => {
       expect(regionSettings.countryCode).to.equal(
         extensionInfoData.regionalSettings.homeCountry.isoCode,
       );
-      expect(regionSettings.showReginSetting).to.equal(true);
+      expect(regionSettings.showRegionSetting).to.equal(true);
     });
 
     it('Record fetched from SDK should be the same as RawData', () => {

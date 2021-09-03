@@ -21,7 +21,7 @@ const DEFAULT_FETCH_DELAY = 5 * 1000;
   deps: [
     'Client',
     'DataFetcherV2',
-    'ExtensionFeatures',
+    'AppFeatures',
     'Subscription',
     { dep: 'TabManager', optional: true },
     { dep: 'VideoConfigurationOptions', optional: true },
@@ -52,7 +52,7 @@ export class VideoConfiguration extends DataFetcherV2Consumer<
         return response.json();
       },
       readyCheckFunction: () =>
-        this._deps.extensionFeatures.ready && this._deps.subscription.ready,
+        this._deps.appFeatures.ready && this._deps.subscription.ready,
       permissionCheckFunction: () => this._hasPermission,
     });
     this._deps.dataFetcherV2.register(this._source);
@@ -120,6 +120,6 @@ export class VideoConfiguration extends DataFetcherV2Consumer<
   }
 
   get _hasPermission() {
-    return this._deps.extensionFeatures.hasMeetingsPermission;
+    return this._deps.appFeatures.hasMeetingsPermission;
   }
 }

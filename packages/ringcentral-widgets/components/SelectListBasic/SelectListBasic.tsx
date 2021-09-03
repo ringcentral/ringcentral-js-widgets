@@ -1,5 +1,5 @@
 import { RcIcon, RcTextField } from '@ringcentral/juno';
-import searchSvg from '@ringcentral/juno/icon/Search';
+import { Search } from '@ringcentral/juno/icon';
 import classNames from 'classnames';
 import formatMessage from 'format-message';
 import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
@@ -181,7 +181,7 @@ const SelectListBasic: FunctionComponent<SelectListBasicProps> = ({
                   InputProps={{
                     startAdornment: (
                       <RcIcon
-                        symbol={searchSvg}
+                        symbol={Search}
                         color="neutral.f04"
                         size="small"
                       />

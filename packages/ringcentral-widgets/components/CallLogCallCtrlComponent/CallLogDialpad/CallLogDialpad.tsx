@@ -18,21 +18,31 @@ const CallLogDialpad: React.FunctionComponent<CallLogDialpadProps> = ({
   isWide,
 }) => {
   const [value, setValue] = React.useState('');
-  let audio: any;
+  const audioRef = React.useRef<HTMLAudioElement>(null);
   React.useEffect(() => {
     if (typeof document !== 'undefined' && document.createElement) {
-      audio = document.createElement('audio');
+      audioRef.current = document.createElement('audio');
     }
-  });
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.remove();
+        audioRef.current = null;
+      }
+    };
+  }, []);
 
   const playAudio = (value: DtmfValue) => {
-    if (audio && audio.canPlayType('audio/ogg') !== '' && audios[value]) {
-      if (!audio.paused) {
-        audio.pause();
+    if (
+      audioRef.current &&
+      audioRef.current.canPlayType('audio/ogg') !== '' &&
+      audios[value]
+    ) {
+      if (!audioRef.current.paused) {
+        audioRef.current.pause();
       }
-      audio.src = audios[value];
-      audio.currentTime = 0;
-      audio.play();
+      audioRef.current.src = audios[value];
+      audioRef.current.currentTime = 0;
+      audioRef.current.play();
     }
   };
 

@@ -54,7 +54,10 @@ export default class RecentActivityView extends PureComponent {
     if (showSpinner) return <SpinnerOverlay />;
     const props = {
       currentPath: this.state.currentTab,
-      goTo: this.onTabChanged,
+      goTo: (tabName) => {
+        this.props.trackClickTab?.(tabName);
+        this.onTabChanged(tabName);
+      },
       tabs: this.props.tabs,
     };
     return (
@@ -75,4 +78,9 @@ RecentActivityView.propTypes = {
   currentContact: PropTypes.object.isRequired,
   tabs: PropTypes.array.isRequired,
   defaultTab: PropTypes.string.isRequired,
+  trackClickTab: PropTypes.func,
+};
+
+RecentActivityView.defaultProps = {
+  trackClickTab: undefined,
 };

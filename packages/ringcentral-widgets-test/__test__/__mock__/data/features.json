@@ -1,0 +1,1030 @@
+{
+  "records" : [ {
+    "id" : "CallScreening",
+    "available" : true
+  }, {
+    "id" : "EditCallScreening",
+    "available" : true
+  }, {
+    "id" : "SimultaneousRingingMode",
+    "available" : true
+  }, {
+    "id" : "EditSimultaneousRingingMode",
+    "available" : true
+  }, {
+    "id" : "RingGroups",
+    "available" : true
+  }, {
+    "id" : "EditRingGroups",
+    "available" : true
+  }, {
+    "id" : "ExternalForwarding",
+    "available" : true
+  }, {
+    "id" : "EditExternalForwarding",
+    "available" : true
+  }, {
+    "id" : "CallFlip",
+    "available" : true
+  }, {
+    "id" : "EditCallFlip",
+    "available" : true
+  }, {
+    "id" : "CallSwitch",
+    "available" : true
+  }, {
+    "id" : "InboundCnam",
+    "available" : false,
+    "reason" : {
+      "code" : "ServicePlanLimitation",
+      "message" : "The feature is unavailable for the current service plan"
+    }
+  }, {
+    "id" : "AutoInboundCallRecording",
+    "available" : false,
+    "reason" : {
+      "code" : "AccountLimitation",
+      "message" : "The feature is turned off for the current account"
+    }
+  }, {
+    "id" : "EditAutoInboundCallRecording",
+    "available" : true
+  }, {
+    "id" : "AutoOutboundCallRecording",
+    "available" : false,
+    "reason" : {
+      "code" : "AccountLimitation",
+      "message" : "The feature is turned off for the current account"
+    }
+  }, {
+    "id" : "AutoOutboundCallRecordingSetup",
+    "available" : true
+  }, {
+    "id" : "AutoCallRecordingMute",
+    "available" : false,
+    "reason" : {
+      "code" : "AccountLimitation",
+      "message" : "The feature is turned off for the current account"
+    }
+  }, {
+    "id" : "OnDemandCallRecording",
+    "available" : true
+  }, {
+    "id" : "EditOnDemandCallRecording",
+    "available" : true
+  }, {
+    "id" : "RingOut",
+    "available" : true
+  }, {
+    "id" : "RingMe",
+    "available" : true
+  }, {
+    "id" : "EditRingMe",
+    "available" : true
+  }, {
+    "id" : "CallMonitoring",
+    "available" : true
+  }, {
+    "id" : "EditCallMonitoringGroups",
+    "available" : true
+  }, {
+    "id" : "BLF",
+    "available" : true
+  }, {
+    "id" : "EditBlfSettings",
+    "available" : true,
+    "params" : [ {
+      "name" : "limitMax",
+      "value" : "100"
+    } ]
+  }, {
+    "id" : "BLFPickup",
+    "available" : true
+  }, {
+    "id" : "EditBlfVisibility",
+    "available" : true
+  }, {
+    "id" : "EditBlfPickupPermissions",
+    "available" : true
+  }, {
+    "id" : "CallAssistance",
+    "available" : true
+  }, {
+    "id" : "CallDelegation",
+    "available" : true
+  }, {
+    "id" : "FaxSending",
+    "available" : true
+  }, {
+    "id" : "EditFaxSettings",
+    "available" : true
+  }, {
+    "id" : "FaxReceiving",
+    "available" : true
+  }, {
+    "id" : "VoicemailToText",
+    "available" : true
+  }, {
+    "id" : "EditVoicemailToText",
+    "available" : true
+  }, {
+    "id" : "HardPhones",
+    "available" : true
+  }, {
+    "id" : "EditHardPhones",
+    "available" : true
+  }, {
+    "id" : "SoftPhones",
+    "available" : true
+  }, {
+    "id" : "EditSoftPhones",
+    "available" : true
+  }, {
+    "id" : "RCPhoneDesktop",
+    "available" : true
+  }, {
+    "id" : "RCPhoneMobile",
+    "available" : true
+  }, {
+    "id" : "RCAppDesktop",
+    "available" : true,
+    "params" : [ {
+      "name" : "primaryApp",
+      "value" : "New"
+    }, {
+      "name" : "legacyAppAccess",
+      "value" : "true"
+    } ]
+  }, {
+    "id" : "RCAppMobile",
+    "available" : true
+  }, {
+    "id" : "Glip",
+    "available" : true,
+    "params" : [ {
+      "name" : "tabPosition",
+      "value" : "First"
+    } ]
+  }, {
+    "id" : "RCIntegrationApps",
+    "available" : true
+  }, {
+    "id" : "ThirdPartyApps",
+    "available" : true
+  }, {
+    "id" : "CommonPhone",
+    "available" : true
+  }, {
+    "id" : "HardPhoneRequired",
+    "available" : false,
+    "reason" : {
+      "code" : "ExtensionLimitation",
+      "message" : "The feature is not available for the current extension"
+    }
+  }, {
+    "id" : "Conferencing",
+    "available" : true
+  }, {
+    "id" : "EditConferencing",
+    "available" : true
+  }, {
+    "id" : "Meetings",
+    "available" : true
+  }, {
+    "id" : "EditMeetings",
+    "available" : true
+  }, {
+    "id" : "UserGroupManagement",
+    "available" : true
+  }, {
+    "id" : "EditUserGroupManager",
+    "available" : true
+  }, {
+    "id" : "EditUserGroups",
+    "available" : true
+  }, {
+    "id" : "DevPortalAccess",
+    "available" : true
+  }, {
+    "id" : "EditServiceStatusNotifications",
+    "available" : true
+  }, {
+    "id" : "Archiver",
+    "available" : true
+  }, {
+    "id" : "BlockedMessageForwarding",
+    "available" : false,
+    "reason" : {
+      "code" : "AccountLimitation",
+      "message" : "The feature is turned off for the current account"
+    }
+  }, {
+    "id" : "EncryptionAtRest",
+    "available" : false,
+    "reason" : {
+      "code" : "AccountLimitation",
+      "message" : "The feature is turned off for the current account"
+    }
+  }, {
+    "id" : "Calendar",
+    "available" : true
+  }, {
+    "id" : "CallerIdControl",
+    "available" : false,
+    "reason" : {
+      "code" : "AccountLimitation",
+      "message" : "The feature is turned off for the current account"
+    }
+  }, {
+    "id" : "CallForwarding",
+    "available" : true
+  }, {
+    "id" : "CallPark",
+    "available" : true
+  }, {
+    "id" : "CallParkLocations",
+    "available" : true
+  }, {
+    "id" : "DND",
+    "available" : true
+  }, {
+    "id" : "DynamicConferencing",
+    "available" : false,
+    "reason" : {
+      "code" : "AccountLimitation",
+      "message" : "The feature is turned off for the current account"
+    }
+  }, {
+    "id" : "SoftPhoneAutoLocationUpdate",
+    "available" : false,
+    "reason" : {
+      "code" : "ServicePlanLimitation",
+      "message" : "The feature is unavailable for the current service plan"
+    }
+  }, {
+    "id" : "HardPhoneAutoLocationUpdate",
+    "available" : false,
+    "reason" : {
+      "code" : "ServicePlanLimitation",
+      "message" : "The feature is unavailable for the current service plan"
+    }
+  }, {
+    "id" : "EmergencyCalling",
+    "available" : true
+  }, {
+    "id" : "ExternalDirectoryIntegration",
+    "available" : false,
+    "reason" : {
+      "code" : "ServicePlanLimitation",
+      "message" : "The feature is unavailable for the current service plan"
+    }
+  }, {
+    "id" : "FreeSoftPhones",
+    "available" : true,
+    "params" : [ {
+      "name" : "limitMax",
+      "value" : "1"
+    } ]
+  }, {
+    "id" : "HDVoice",
+    "available" : true
+  }, {
+    "id" : "HipaaCompliance",
+    "available" : false,
+    "reason" : {
+      "code" : "ServicePlanLimitation",
+      "message" : "The feature is unavailable for the current service plan"
+    }
+  }, {
+    "id" : "Intercom",
+    "available" : true
+  }, {
+    "id" : "InternationalCalling",
+    "available" : true
+  }, {
+    "id" : "MMSSending",
+    "available" : true
+  }, {
+    "id" : "EmergencyVoipCallingOnMobile",
+    "available" : false,
+    "reason" : {
+      "code" : "AccountLimitation",
+      "message" : "The feature is turned off for the current account"
+    }
+  }, {
+    "id" : "PagesSending",
+    "available" : true
+  }, {
+    "id" : "PagesReceiving",
+    "available" : true
+  }, {
+    "id" : "Paging",
+    "available" : true
+  }, {
+    "id" : "SalesForce",
+    "available" : true
+  }, {
+    "id" : "SharedLines",
+    "available" : true
+  }, {
+    "id" : "SingleExtensionUI",
+    "available" : false,
+    "reason" : {
+      "code" : "AccountLimitation",
+      "message" : "The feature is turned off for the current account"
+    }
+  }, {
+    "id" : "SiteCodes",
+    "available" : false,
+    "reason" : {
+      "code" : "AccountLimitation",
+      "message" : "The feature is turned off for the current account"
+    }
+  }, {
+    "id" : "SMSSending",
+    "available" : true
+  }, {
+    "id" : "SMSReceiving",
+    "available" : true
+  }, {
+    "id" : "UserManagement",
+    "available" : true
+  }, {
+    "id" : "Voicemail",
+    "available" : true
+  }, {
+    "id" : "VoipCalling",
+    "available" : true
+  }, {
+    "id" : "WebPhone",
+    "available" : true
+  }, {
+    "id" : "SoftPhoneUpdate",
+    "available" : true
+  }, {
+    "id" : "CallQualitySurvey",
+    "available" : false,
+    "reason" : {
+      "code" : "AccountLimitation",
+      "message" : "The feature is turned off for the current account"
+    }
+  }, {
+    "id" : "LinkedSoftphoneLines",
+    "available" : false,
+    "reason" : {
+      "code" : "ServicePlanLimitation",
+      "message" : "The feature is unavailable for the current service plan"
+    }
+  }, {
+    "id" : "PromoMessage",
+    "available" : true
+  }, {
+    "id" : "InternationalSMS",
+    "available" : true
+  }, {
+    "id" : "VoipCallingOnMobile",
+    "available" : true
+  }, {
+    "id" : "ConferencingNumber",
+    "available" : true
+  }, {
+    "id" : "EditSoftPhoneAutoLocationUpdate",
+    "available" : false,
+    "reason" : {
+      "code" : "ServicePlanLimitation",
+      "message" : "The feature is unavailable for the current service plan"
+    }
+  }, {
+    "id" : "EditHardPhoneAutoLocationUpdate",
+    "available" : false,
+    "reason" : {
+      "code" : "ServicePlanLimitation",
+      "message" : "The feature is unavailable for the current service plan"
+    }
+  }, {
+    "id" : "MaskedNumbers",
+    "available" : false,
+    "reason" : {
+      "code" : "AccountLimitation",
+      "message" : "The feature is turned off for the current account"
+    }
+  }, {
+    "id" : "AccountAdministration",
+    "available" : true
+  }, {
+    "id" : "EditAccountFederation",
+    "available" : false,
+    "reason" : {
+      "code" : "AccountLimitation",
+      "message" : "The feature is turned off for the current account"
+    }
+  }, {
+    "id" : "EditServiceWebAppearance",
+    "available" : true
+  }, {
+    "id" : "EditCompanyInfo",
+    "available" : true
+  }, {
+    "id" : "ReadCompanyInfo",
+    "available" : true
+  }, {
+    "id" : "MultipleAccountAccess",
+    "available" : false,
+    "reason" : {
+      "code" : "AccountLimitation",
+      "message" : "The feature is turned off for the current account"
+    }
+  }, {
+    "id" : "AccountValidation",
+    "available" : true
+  }, {
+    "id" : "EditSites",
+    "available" : true
+  }, {
+    "id" : "DeviceStatusReports",
+    "available" : true
+  }, {
+    "id" : "DeviceStatusReportAlerts",
+    "available" : true
+  }, {
+    "id" : "EditLiveReports",
+    "available" : false,
+    "reason" : {
+      "code" : "AccountLimitation",
+      "message" : "The feature is turned off for the current account"
+    }
+  }, {
+    "id" : "ReadLiveReports",
+    "available" : false,
+    "reason" : {
+      "code" : "AccountLimitation",
+      "message" : "The feature is turned off for the current account"
+    }
+  }, {
+    "id" : "ReadExtensionGrants",
+    "available" : true
+  }, {
+    "id" : "MeetingsAnalytics",
+    "available" : true
+  }, {
+    "id" : "EditAssignedRoles",
+    "available" : true
+  }, {
+    "id" : "MeetingsDashboard",
+    "available" : true
+  }, {
+    "id" : "PerformanceReports",
+    "available" : true
+  }, {
+    "id" : "ReadAssignedRoles",
+    "available" : true
+  }, {
+    "id" : "CompanyNumbersReports",
+    "available" : true
+  }, {
+    "id" : "EditReportSettings",
+    "available" : true
+  }, {
+    "id" : "QoSReports",
+    "available" : true
+  }, {
+    "id" : "QoSReportsAlerts",
+    "available" : true
+  }, {
+    "id" : "UsageReports",
+    "available" : true
+  }, {
+    "id" : "ReadBillingInfo",
+    "available" : true
+  }, {
+    "id" : "CallCenterInterconnectLicenses",
+    "available" : false,
+    "reason" : {
+      "code" : "AccountLimitation",
+      "message" : "The feature is turned off for the current account"
+    }
+  }, {
+    "id" : "CloudConnectLicenses",
+    "available" : false,
+    "reason" : {
+      "code" : "AccountLimitation",
+      "message" : "The feature is turned off for the current account"
+    }
+  }, {
+    "id" : "CostCenterManagement",
+    "available" : false,
+    "reason" : {
+      "code" : "AccountLimitation",
+      "message" : "The feature is turned off for the current account"
+    }
+  }, {
+    "id" : "ReadAccountPhoneNumbers",
+    "available" : true
+  }, {
+    "id" : "EditDeviceOrders",
+    "available" : true
+  }, {
+    "id" : "EditInternationalDestinations",
+    "available" : true
+  }, {
+    "id" : "LiveReportsLicenses",
+    "available" : true
+  }, {
+    "id" : "MeetingsLicenses",
+    "available" : true
+  }, {
+    "id" : "EditPaymentMethod",
+    "available" : true
+  }, {
+    "id" : "ReadPaymentMethod",
+    "available" : true
+  }, {
+    "id" : "ProductPurchase",
+    "available" : true
+  }, {
+    "id" : "EditServicePlan",
+    "available" : false,
+    "reason" : {
+      "code" : "AccountLimitation",
+      "message" : "The feature is turned off for the current account"
+    }
+  }, {
+    "id" : "EditExtensionGrants",
+    "available" : true
+  }, {
+    "id" : "ReadServicePlan",
+    "available" : true
+  }, {
+    "id" : "ReadUsageInfo",
+    "available" : true
+  }, {
+    "id" : "EditAccountDevices",
+    "available" : true
+  }, {
+    "id" : "ReadAccountDevices",
+    "available" : true
+  }, {
+    "id" : "EditExtensionDevices",
+    "available" : true
+  }, {
+    "id" : "ReadExtensionDevices",
+    "available" : true
+  }, {
+    "id" : "EditAccountPhoneNumbers",
+    "available" : true
+  }, {
+    "id" : "AddRemovePhoneNumbers",
+    "available" : true
+  }, {
+    "id" : "ReadExtensionPhoneNumbers",
+    "available" : true
+  }, {
+    "id" : "EditDirectoryAssistance",
+    "available" : false,
+    "reason" : {
+      "code" : "ServicePlanLimitation",
+      "message" : "The feature is unavailable for the current service plan"
+    }
+  }, {
+    "id" : "EditGroups",
+    "available" : true
+  }, {
+    "id" : "EditOutboundCallPrefix",
+    "available" : false,
+    "reason" : {
+      "code" : "AccountLimitation",
+      "message" : "The feature is turned off for the current account"
+    }
+  }, {
+    "id" : "EditUsers",
+    "available" : true
+  }, {
+    "id" : "EditRoles",
+    "available" : true
+  }, {
+    "id" : "ReadRoles",
+    "available" : true
+  }, {
+    "id" : "EditTemplates",
+    "available" : true
+  }, {
+    "id" : "ApplyTemplates",
+    "available" : true
+  }, {
+    "id" : "ReadTemplates",
+    "available" : true
+  }, {
+    "id" : "ReadExtensions",
+    "available" : true
+  }, {
+    "id" : "EditExtensionInfo",
+    "available" : true
+  }, {
+    "id" : "ReadExtensionInfo",
+    "available" : true
+  }, {
+    "id" : "EditUserHours",
+    "available" : true
+  }, {
+    "id" : "EditCredentials",
+    "available" : true
+  }, {
+    "id" : "EditMessageAndNotificationSettings",
+    "available" : true
+  }, {
+    "id" : "ReadMessageAndNotificationSettings",
+    "available" : true
+  }, {
+    "id" : "ReadOutboundCallerId",
+    "available" : true
+  }, {
+    "id" : "EditExtensionPhonesAndNumbers",
+    "available" : true
+  }, {
+    "id" : "EditPersonalContacts",
+    "available" : true
+  }, {
+    "id" : "ReadPersonalContacts",
+    "available" : true
+  }, {
+    "id" : "DomesticCalling",
+    "available" : true
+  }, {
+    "id" : "InternalCalling",
+    "available" : true,
+    "params" : [ {
+      "name" : "extensionNumberLengthMax",
+      "value" : "5"
+    } ]
+  }, {
+    "id" : "EditAutoReceptionist",
+    "available" : true
+  }, {
+    "id" : "EditAdvancedIVR",
+    "available" : false,
+    "reason" : {
+      "code" : "ServicePlanLimitation",
+      "message" : "The feature is unavailable for the current service plan"
+    }
+  }, {
+    "id" : "EditAccountAnsweringRules",
+    "available" : true
+  }, {
+    "id" : "EditExtensionPhoneNumbers",
+    "available" : true
+  }, {
+    "id" : "EditOutboundCallerId",
+    "available" : true
+  }, {
+    "id" : "ReadAccountAnsweringRules",
+    "available" : true
+  }, {
+    "id" : "EditAccountGreetings",
+    "available" : true
+  }, {
+    "id" : "ReadAccountGreetings",
+    "available" : true
+  }, {
+    "id" : "EditCallScreeningAndGreetings",
+    "available" : true
+  }, {
+    "id" : "ReadCallScreeningAndGreetings",
+    "available" : true
+  }, {
+    "id" : "EditExtensionAnsweringRules",
+    "available" : true
+  }, {
+    "id" : "ReadExtensionAnsweringRules",
+    "available" : true
+  }, {
+    "id" : "EditIncomingCallInfo",
+    "available" : true
+  }, {
+    "id" : "CallTransfer",
+    "available" : true
+  }, {
+    "id" : "Hold",
+    "available" : true
+  }, {
+    "id" : "EditIntercom",
+    "available" : true
+  }, {
+    "id" : "EditBlockedNumbers",
+    "available" : true
+  }, {
+    "id" : "ReadBlockedNumbers",
+    "available" : true
+  }, {
+    "id" : "ReadAccountCallRecordings",
+    "available" : true
+  }, {
+    "id" : "ReadExtensionCallRecordings",
+    "available" : true
+  }, {
+    "id" : "ReadAccountCallLog",
+    "available" : true
+  }, {
+    "id" : "EditAccountCallLogDelivery",
+    "available" : true
+  }, {
+    "id" : "EditAccountCallLog",
+    "available" : true
+  }, {
+    "id" : "EditSiteCallLog",
+    "available" : true
+  }, {
+    "id" : "ReadSiteCallLog",
+    "available" : true
+  }, {
+    "id" : "ReadExtensionCallLog",
+    "available" : true
+  }, {
+    "id" : "EditExtensionCallLog",
+    "available" : true
+  }, {
+    "id" : "ReadBlfSettings",
+    "available" : true
+  }, {
+    "id" : "EditExtensionCallLogDelivery",
+    "available" : true
+  }, {
+    "id" : "HUD",
+    "available" : true,
+    "params" : [ {
+      "name" : "limitMax",
+      "value" : "100"
+    } ]
+  }, {
+    "id" : "EditPresenceStatus",
+    "available" : true
+  }, {
+    "id" : "ReadPresenceStatus",
+    "available" : true
+  }, {
+    "id" : "EditCallDelegation",
+    "available" : true
+  }, {
+    "id" : "ReadMessages",
+    "available" : true
+  }, {
+    "id" : "EditMessages",
+    "available" : true
+  }, {
+    "id" : "ReadFaxSettings",
+    "available" : true
+  }, {
+    "id" : "VoicemailBroadcasting",
+    "available" : false,
+    "reason" : {
+      "code" : "ServicePlanLimitation",
+      "message" : "The feature is unavailable for the current service plan"
+    }
+  }, {
+    "id" : "GlipAdministration",
+    "available" : false,
+    "reason" : {
+      "code" : "AccountLimitation",
+      "message" : "The feature is turned off for the current account"
+    }
+  }, {
+    "id" : "BotInstall",
+    "available" : true
+  }, {
+    "id" : "BotUninstall",
+    "available" : true
+  }, {
+    "id" : "Rooms",
+    "available" : true
+  }, {
+    "id" : "EditRooms",
+    "available" : true
+  }, {
+    "id" : "MeetingsReports",
+    "available" : true
+  }, {
+    "id" : "EditWebinars",
+    "available" : true
+  }, {
+    "id" : "AuditTrail",
+    "available" : true
+  }, {
+    "id" : "MeetingsPersonalRecordings",
+    "available" : true
+  }, {
+    "id" : "Sites",
+    "available" : false,
+    "reason" : {
+      "code" : "AccountLimitation",
+      "message" : "The feature is turned off for the current account"
+    }
+  }, {
+    "id" : "ExpressUserActivation",
+    "available" : false,
+    "reason" : {
+      "code" : "AccountLimitation",
+      "message" : "The feature is turned off for the current account"
+    }
+  }, {
+    "id" : "SecurityQuestion",
+    "available" : false,
+    "reason" : {
+      "code" : "AccountLimitation",
+      "message" : "The feature is turned off for the current account"
+    }
+  }, {
+    "id" : "ServiceWebAccess",
+    "available" : true
+  }, {
+    "id" : "MeetingsCompanyRecordings",
+    "available" : true
+  }, {
+    "id" : "ReassignPhoneNumbers",
+    "available" : true
+  }, {
+    "id" : "JoinLeaveCallQueue",
+    "available" : true
+  }, {
+    "id" : "ReadCallQueueManagers",
+    "available" : true
+  }, {
+    "id" : "EditCallQueueManagers",
+    "available" : false,
+    "reason" : {
+      "code" : "ExtensionTypeLimitation",
+      "message" : "The feature is not available for the current extension type"
+    }
+  }, {
+    "id" : "EditCallQueueMembers",
+    "available" : true
+  }, {
+    "id" : "AddRemoveDevices",
+    "available" : true
+  }, {
+    "id" : "EditRoomConnector",
+    "available" : true
+  }, {
+    "id" : "FederatedAccount",
+    "available" : false,
+    "reason" : {
+      "code" : "AccountLimitation",
+      "message" : "The feature is turned off for the current account"
+    }
+  }, {
+    "id" : "OutboundCallPrefix",
+    "available" : false,
+    "reason" : {
+      "code" : "AccountLimitation",
+      "message" : "The feature is turned off for the current account"
+    }
+  }, {
+    "id" : "LearningManagementSystem",
+    "available" : true
+  }, {
+    "id" : "ReadEmergencyLocations",
+    "available" : false,
+    "reason" : {
+      "code" : "ServicePlanLimitation",
+      "message" : "The feature is unavailable for the current service plan"
+    }
+  }, {
+    "id" : "EditEmergencyLocations",
+    "available" : false,
+    "reason" : {
+      "code" : "ServicePlanLimitation",
+      "message" : "The feature is unavailable for the current service plan"
+    }
+  }, {
+    "id" : "ReadExtensionEmergencyLocations",
+    "available" : false,
+    "reason" : {
+      "code" : "ServicePlanLimitation",
+      "message" : "The feature is unavailable for the current service plan"
+    }
+  }, {
+    "id" : "EmergencyLocations",
+    "available" : false,
+    "reason" : {
+      "code" : "ServicePlanLimitation",
+      "message" : "The feature is unavailable for the current service plan"
+    }
+  }, {
+    "id" : "CallQueuePresence",
+    "available" : true
+  }, {
+    "id" : "EditCallQueuePresence",
+    "available" : true
+  }, {
+    "id" : "EditEnhancedCallQueueSettings",
+    "available" : true
+  }, {
+    "id" : "EditCallQueueRoutingOptions",
+    "available" : true
+  }, {
+    "id" : "EditCallQueueExtensionRouting",
+    "available" : true
+  }, {
+    "id" : "EditEmailNotificationAppearance",
+    "available" : true
+  }, {
+    "id" : "ReadEmailNotificationAppearance",
+    "available" : true
+  }, {
+    "id" : "EditMeetingsProvider",
+    "available" : true
+  }, {
+    "id" : "EmergencyCallNotification",
+    "available" : true
+  }, {
+    "id" : "RCMeetingApps",
+    "available" : true
+  }, {
+    "id" : "SunsetRcm",
+    "available" : false,
+    "reason" : {
+      "code" : "AccountLimitation",
+      "message" : "The feature is turned off for the current account"
+    }
+  }, {
+    "id" : "MigratedFromRcmToRcv",
+    "available" : false,
+    "reason" : {
+      "code" : "AccountLimitation",
+      "message" : "The feature is turned off for the current account"
+    }
+  }, {
+    "id" : "FreeUserInvitation",
+    "available" : false,
+    "reason" : {
+      "code" : "ServicePlanLimitation",
+      "message" : "The feature is unavailable for the current service plan"
+    }
+  }, {
+    "id" : "IMS",
+    "available" : false,
+    "reason" : {
+      "code" : "ServicePlanLimitation",
+      "message" : "The feature is unavailable for the current service plan"
+    }
+  }, {
+    "id" : "LicensesAndInventory",
+    "available" : true
+  }, {
+    "id" : "NewCallQueueService",
+    "available" : true
+  }, {
+    "id" : "Policies",
+    "available" : false,
+    "reason" : {
+      "code" : "ServicePlanLimitation",
+      "message" : "The feature is unavailable for the current service plan"
+    }
+  }, {
+    "id" : "ViralFreePhoenixPromotion",
+    "available" : false,
+    "reason" : {
+      "code" : "ServicePlanLimitation",
+      "message" : "The feature is unavailable for the current service plan"
+    }
+  }, {
+    "id" : "BYOC",
+    "available" : false,
+    "reason" : {
+      "code" : "AccountLimitation",
+      "message" : "The feature is turned off for the current account"
+    }
+  }, {
+    "id" : "GroupCallPickup",
+    "available" : false,
+    "reason" : {
+      "code" : "AccountLimitation",
+      "message" : "The feature is turned off for the current account"
+    }
+  }, {
+    "id" : "SharedVoicemail",
+    "available" : false,
+    "reason" : {
+      "code" : "AccountLimitation",
+      "message" : "The feature is turned off for the current account"
+    }
+  }, {
+    "id" : "RoomConnectorBeta",
+    "available" : true
+  }, {
+    "id" : "ClosedCaptions",
+    "available" : true
+  }, {
+    "id" : "ShowPhoneIconForVirtualExtensions",
+    "available" : false,
+    "reason" : {
+      "code" : "AccountLimitation",
+      "message" : "The feature is turned off for the current account"
+    }
+  }, {
+    "id": "MeetingsEncryption",
+    "available": false,
+    "reason": {
+      "code": "AccountLimitation",
+      "message": "The feature is turned off for the current account"
+    }
+  } ]
+}

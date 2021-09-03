@@ -29,6 +29,7 @@ export const LoginStatusChangeEvent = 'loginStatusChange';
     'Alert',
     'Locale',
     { dep: 'TabManager', optional: true },
+    { dep: 'RateLimiter', optional: true },
     { dep: 'Environment', optional: true },
     { dep: 'AuthOptions', optional: true },
   ],
@@ -402,7 +403,10 @@ class Auth extends RcModuleV2<Deps> {
   async logout({ dismissAllAlert = true } = {}) {
     this.setBeforeLogout();
     if (dismissAllAlert) {
-      this._deps.alert.dismissAll();
+      // fix bug [https://jira.ringcentral.com/browse/RCINT-17381]
+      this._deps.alert.dismissAllExpectSpecified({
+        specifiedAlertIds: [this._deps.rateLimiter?.rateLimitAlertId],
+      });
     }
     const handlers = [...this._beforeLogoutHandlers];
     try {

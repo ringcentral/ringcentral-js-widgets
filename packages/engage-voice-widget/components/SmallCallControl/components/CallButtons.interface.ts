@@ -1,6 +1,6 @@
-import { CircleIconButtonProps } from '../../CircleIconButton';
+import { RcIconButtonProps } from '@ringcentral/juno';
 
 export type CallButtonsProps = {
   currentLocale?: string;
   dataSign?: string;
-} & Pick<CircleIconButtonProps, 'size' | 'placement' | 'className'>;
+} & RcIconButtonProps;

@@ -83,6 +83,8 @@ export class CallMonitor extends RcModuleV2<Deps> {
     this._deps.callMonitorOptions?.useTelephonySession ?? false;
 
   protected _normalizedCalls: NormalizedCalls = null;
+  private _enableContactMatchWhenNewCall: boolean =
+    this._deps.callMonitorOptions?.enableContactMatchWhenNewCall ?? true;
 
   constructor(deps: Deps) {
     super({
@@ -90,7 +92,7 @@ export class CallMonitor extends RcModuleV2<Deps> {
       enableCache: true,
       storageKey: 'CallMonitor',
     });
-    if (this._deps.contactMatcher) {
+    if (this._deps.contactMatcher && this._enableContactMatchWhenNewCall) {
       this._deps.contactMatcher.addQuerySource({
         getQueriesFn: () => this.uniqueNumbers,
         readyCheckFn: () =>
@@ -157,7 +159,11 @@ export class CallMonitor extends RcModuleV2<Deps> {
           uniqueNumbers,
           lastProcessedNumbers || [],
         );
-        if (this._deps.contactMatcher && this._deps.contactMatcher.ready) {
+        if (
+          this._deps.contactMatcher &&
+          this._deps.contactMatcher.ready &&
+          this._enableContactMatchWhenNewCall
+        ) {
           this._deps.contactMatcher.match({
             queries: newNumbers,
             ignoreQueue: true,
@@ -441,6 +447,7 @@ export class CallMonitor extends RcModuleV2<Deps> {
 
   @computed((that: CallMonitor) => [
     that._deps.activeCallControl?.sessions,
+    that._deps.activeCallControl?.currentDeviceCallsMap,
     that._deps.accountInfo.countryCode,
     that._deps.presence.calls,
   ])
@@ -448,7 +455,8 @@ export class CallMonitor extends RcModuleV2<Deps> {
     // TODO match cached calls when there are conference merging calls, refer to `normalizedCallsFromPresence` function
     if (!this._deps.activeCallControl?.sessions) return [];
     const combinedCalls = [...this._deps.activeCallControl?.sessions]; // clone
-
+    const currentDeviceCallsMap = this._deps.activeCallControl
+      .currentDeviceCallsMap;
     // mapping and sort
     this._normalizedCalls = sort(
       (l, r) => sortByLastActiveTimeDesc(l.webphoneSession, r.webphoneSession),
@@ -471,7 +479,6 @@ export class CallMonitor extends RcModuleV2<Deps> {
           telephonySessionId,
           sessionId,
           startTime,
-          webphoneSession,
         } = callItem;
         let { activeCallId: id } = callItem;
         // find id from presence call one time, due to telephony session event not push call id back
@@ -513,7 +520,7 @@ export class CallMonitor extends RcModuleV2<Deps> {
           },
           startTime,
           sessionId,
-          webphoneSession,
+          webphoneSession: currentDeviceCallsMap[telephonySessionId],
           telephonyStatus,
         };
       }, combinedCalls).filter((x) => !!x),

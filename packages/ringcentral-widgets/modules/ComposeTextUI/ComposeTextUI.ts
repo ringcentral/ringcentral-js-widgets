@@ -1,10 +1,10 @@
+import Module from '@ringcentral-integration/commons/lib/di/decorators/module';
+import formatNumber from '@ringcentral-integration/commons/lib/formatNumber';
 import {
   RcUIModuleV2,
   UIFunctions,
   UIProps,
 } from '@ringcentral-integration/core';
-import Module from '@ringcentral-integration/commons/lib/di/decorators/module';
-import formatNumber from '@ringcentral-integration/commons/lib/formatNumber';
 import {
   ComposeTextPanelProps,
   ComposeTextUIComponentProps,
@@ -28,7 +28,7 @@ import {
     'MessageStore',
     'RateLimiter',
     'RegionSettings',
-    'ExtensionFeatures',
+    'AppFeatures',
     'RouterInteraction',
   ],
 })
@@ -49,7 +49,7 @@ export class ComposeTextUI extends RcUIModuleV2<Deps> {
       messageSender,
       connectivityMonitor,
       rateLimiter,
-      extensionFeatures,
+      appFeatures,
       contactSearch,
     } = this._deps;
     const isContentEmpty =
@@ -70,13 +70,13 @@ export class ComposeTextUI extends RcUIModuleV2<Deps> {
       typingToNumber: composeText.typingToNumber,
       toNumbers: composeText.toNumbers,
       messageText: composeText.messageText,
-      outboundSMS: extensionFeatures.hasOutboundSMSPermission,
+      outboundSMS: appFeatures.hasOutboundSMSPermission,
       searchContactList: contactSearch.sortedResult,
       showSpinner: !(
         composeText.ready &&
         locale.ready &&
         messageSender.ready &&
-        extensionFeatures.ready &&
+        appFeatures.ready &&
         contactSearch.ready
       ),
       inputExpandable,

@@ -17,7 +17,7 @@ export const Wrapper = styled.div<{ open?: boolean }>`
   position: relative;
   width: 100%;
   height: ${({ open }) => (open ? '0' : '32px')};
-  z-index: ${zIndex('popup')};
+  z-index: ${zIndex('drawer')};
 `;
 
 export const Backdrop = styled.div<{ open?: boolean }>`
@@ -26,7 +26,7 @@ export const Backdrop = styled.div<{ open?: boolean }>`
   top: ${({ open }) => (open ? `calc(-100vh - 64px)` : '0')};
   right: 0;
   bottom: 0;
-  background: ${setOpacity(palette2('bg', 'transparentDark'), '72')};
+  background: ${setOpacity(palette2('neutral', 'b05'), '72')};
 `;
 
 export const StyledCollapse = styled(RcCollapse)<{ open?: boolean }>`

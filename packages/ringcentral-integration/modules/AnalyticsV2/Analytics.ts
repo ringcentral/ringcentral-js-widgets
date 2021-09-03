@@ -24,9 +24,10 @@ import { trackRouters } from './analyticsRouters';
     { dep: 'ExtensionInfo', optional: true },
     { dep: 'RouterInteraction', optional: true },
     { dep: 'Locale', optional: true },
+    { dep: 'AnalyticsEventExtendedProps', optional: true },
   ],
 })
-export class Analytics<T = {}> extends RcModuleV2<Deps & T> {
+export class Analytics<T extends Deps> extends RcModuleV2<T> {
   protected _useLog = this._deps.analyticsOptions.useLog ?? false;
 
   protected _lingerThreshold =
@@ -53,7 +54,7 @@ export class Analytics<T = {}> extends RcModuleV2<Deps & T> {
 
   private _env = this._deps.analyticsOptions.env ?? 'dev';
 
-  constructor(deps: Deps & T) {
+  constructor(deps: T) {
     super({
       deps,
     });
@@ -169,7 +170,7 @@ export class Analytics<T = {}> extends RcModuleV2<Deps & T> {
         companyName: this._deps.extensionInfo?.info?.contact?.company,
         appName: this._deps.brandConfig.appName,
         appVersion: this._deps.analyticsOptions.appVersion,
-        appBrand: this._deps.brandConfig.brandCode,
+        appBrand: this._deps.brandConfig.code,
         plaBrand: this._deps.accountInfo?.serviceInfo?.brand?.name,
         countryCode: this._deps.accountInfo?.countryCode,
       },
@@ -187,10 +188,13 @@ export class Analytics<T = {}> extends RcModuleV2<Deps & T> {
     if (!this.analytics) {
       return;
     }
+
     const trackProps: TrackProps = {
       ...this.trackProps,
       ...properties,
+      ...this._deps.analyticsEventExtendedProps?.extendedProps.get(event),
     };
+
     this.analytics.track(event, trackProps, {
       integrations: {
         All: true,
@@ -198,12 +202,17 @@ export class Analytics<T = {}> extends RcModuleV2<Deps & T> {
         Pendo: this._enablePendo,
       },
     });
+
     if (this._useLog) {
       this._logs.push({
         timeStamp: new Date().toISOString(),
         event,
         trackProps,
       });
+    }
+
+    if (this._enablePendo && this._pendo?.isReady?.()) {
+      this._pendo.track(`${trackProps.appName}-${event}`, trackProps);
     }
   }
 
@@ -222,7 +231,7 @@ export class Analytics<T = {}> extends RcModuleV2<Deps & T> {
       router,
       appName: this._deps.brandConfig.appName,
       appVersion: this._deps.analyticsOptions.appVersion,
-      brand: this._deps.brandConfig.brandCode,
+      brand: this._deps.brandConfig.code,
     };
     this.track(`Navigation: Click/${eventPostfix}`, trackProps);
   }
@@ -232,7 +241,7 @@ export class Analytics<T = {}> extends RcModuleV2<Deps & T> {
       router,
       appName: this._deps.brandConfig.appName,
       appVersion: this._deps.analyticsOptions.appVersion,
-      brand: this._deps.brandConfig.brandCode,
+      brand: this._deps.brandConfig.code,
     };
     this.track(`Navigation: View/${eventPostfix}`, trackProps);
   }
@@ -265,7 +274,7 @@ export class Analytics<T = {}> extends RcModuleV2<Deps & T> {
     return {
       appName: this._deps.brandConfig.appName,
       appVersion: this._deps.analyticsOptions.appVersion,
-      brand: this._deps.brandConfig.brandCode,
+      brand: this._deps.brandConfig.code,
       'App Language': this._deps.locale?.currentLocale || '',
       'Browser Language': this._deps.locale?.browserLocale || '',
       'Extension Type': this._deps.extensionInfo?.info.type || '',

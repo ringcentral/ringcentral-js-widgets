@@ -6,7 +6,7 @@ import { Webphone } from '../WebphoneV2';
 import { Call } from '../CallV2';
 import ConferenceCall from '../ConferenceCall';
 import { ActivityMatcher } from '../ActivityMatcherV2';
-import { TabManager } from '../TabManagerV2';
+import { TabManager } from '../TabManager';
 import { ActiveCallControl } from '../ActiveCallControlV2';
 import { Call as ICall } from '../../interfaces/Call.interface';
 
@@ -17,6 +17,7 @@ export interface CallMonitorOptions {
    * Use telephony session, default `false`
    */
   useTelephonySession?: boolean;
+  enableContactMatchWhenNewCall?: boolean;
 }
 
 export interface Deps {

@@ -13,15 +13,20 @@ import {
   sortByStartTime,
   getPhoneNumberMatches,
 } from '../../lib/callLogHelpers';
-import normalizeNumber from '../../lib/normalizeNumber';
-import proxify from '../../lib/proxy/proxify';
+import { normalizeNumber } from '../../lib/normalizeNumber';
+import { proxify } from '../../lib/proxy/proxify';
 import debounce from '../../lib/debounce';
-import { Deps, EndedCall, HistoryCall } from './CallHistory.interface';
-import { addNumbersFromCall } from './callHistoryHelper';
+import { Deps, HistoryCall } from './CallHistory.interface';
+import {
+  addNumbersFromCall,
+  pickFullPhoneNumber,
+  pickPhoneOrExtensionNumber,
+} from './callHistoryHelper';
 import { Call } from '../../interfaces/Call.interface';
 import { ActiveCall } from '../../interfaces/Presence.model';
 import { trackEvents } from '../Analytics';
 import { callingModes } from '../CallingSettingsV2';
+import { Entity } from '../../interfaces/Entity.interface';
 
 const DEFAULT_CLEAN_TIME = 24 * 60 * 60 * 1000; // 1 day
 
@@ -38,23 +43,27 @@ const DEFAULT_CLEAN_TIME = 24 * 60 * 60 * 1000; // 1 day
     { dep: 'CallHistoryOptions', optional: true },
   ],
 })
-export class CallHistory extends RcModuleV2<Deps> {
+export class CallHistory<T extends Deps = Deps> extends RcModuleV2<T> {
   private _debouncedSearch = debounce(this.callsSearch, 230, false);
 
-  constructor(deps: Deps) {
+  constructor(deps: T) {
     super({
       deps,
       storageKey: 'CallHistory',
       enableCache: deps.callHistoryOptions?.enableCache ?? true,
     });
-    this._deps.contactMatcher?.addQuerySource({
-      getQueriesFn: () => this.uniqueNumbers,
-      readyCheckFn: () =>
-        (!this._deps.callMonitor || this._deps.callMonitor.ready) &&
-        (!this._deps.tabManager || this._deps.tabManager.ready) &&
-        this._deps.callLog.ready &&
-        this._deps.accountInfo.ready,
-    });
+    const enableContactMatchInCallHistory =
+      this._deps.callHistoryOptions?.enableContactMatchInCallHistory ?? true;
+    if (enableContactMatchInCallHistory && this._deps.contactMatcher) {
+      this._deps.contactMatcher.addQuerySource({
+        getQueriesFn: () => this.uniqueNumbers,
+        readyCheckFn: () =>
+          (!this._deps.callMonitor || this._deps.callMonitor.ready) &&
+          (!this._deps.tabManager || this._deps.tabManager.ready) &&
+          this._deps.callLog.ready &&
+          this._deps.accountInfo.ready,
+      });
+    }
     this._deps.activityMatcher?.addQuerySource({
       getQueriesFn: () => this.sessionIds,
       readyCheckFn: () =>
@@ -66,7 +75,7 @@ export class CallHistory extends RcModuleV2<Deps> {
 
   @storage
   @state
-  endedCalls: EndedCall[] = [];
+  endedCalls: Call[] = [];
 
   @state
   searchInput = '';
@@ -85,7 +94,7 @@ export class CallHistory extends RcModuleV2<Deps> {
   }
 
   @action
-  setEndedCalls(endedCalls: EndedCall[], timestamp: number) {
+  setEndedCalls(endedCalls: Call[], timestamp: number) {
     forEach((call) => {
       const callWithDuration = {
         ...call,
@@ -105,7 +114,7 @@ export class CallHistory extends RcModuleV2<Deps> {
   }
 
   @action
-  removeEndedCalls(endedCalls: EndedCall[]) {
+  removeEndedCalls(endedCalls: Pick<Call, 'telephonySessionId'>[]) {
     this.endedCalls = this.endedCalls.filter(
       (call) =>
         !(
@@ -117,6 +126,24 @@ export class CallHistory extends RcModuleV2<Deps> {
           Date.now() - call.startTime > DEFAULT_CLEAN_TIME
         ),
     );
+  }
+
+  @action
+  removeAllEndedCalls() {
+    this.endedCalls = [];
+    this.markedList = [];
+    this.markRemoved();
+  }
+
+  // The call logs which has been removed from remote
+  // The marked telephonySessionId should not been added to ended calls afterwards.
+  @storage
+  @state
+  markedList: Pick<Call, 'telephonySessionId'>[] = [];
+
+  @action
+  markRemoved() {
+    this.markedList = this.markedList.concat(this._deps.callMonitor.calls);
   }
 
   onInitOnce() {
@@ -168,7 +195,13 @@ export class CallHistory extends RcModuleV2<Deps> {
               !this._deps.callLog.calls.find(
                 (currentCall) =>
                   call.telephonySessionId === currentCall.telephonySessionId,
-              ),
+              ) &&
+              // if delete all during active call
+              !this.markedList.find((currentCall) => {
+                const flag =
+                  call.telephonySessionId === currentCall.telephonySessionId;
+                return flag;
+              }),
           );
           if (endedCalls.length) {
             this._addEndedCalls(endedCalls);
@@ -200,11 +233,11 @@ export class CallHistory extends RcModuleV2<Deps> {
   }
 
   _addEndedCalls(endedCalls: Call[]) {
-    const disconnectedCalls: EndedCall[] = endedCalls.map((call) => ({
-      ...call,
-      result: 'Disconnected',
-    }));
-    this.setEndedCalls(disconnectedCalls, Date.now());
+    endedCalls.forEach((call) => {
+      // TODO: refactor with immutable data update
+      call.result = 'Disconnected';
+    });
+    this.setEndedCalls(endedCalls, Date.now());
     this._deps.callLog.sync();
   }
 
@@ -264,6 +297,34 @@ export class CallHistory extends RcModuleV2<Deps> {
       .sort(sortByStartTime);
   }
 
+  get enableFullPhoneNumberMatch() {
+    return this._deps.callHistoryOptions?.enableFullPhoneNumberMatch ?? false;
+  }
+
+  /**
+   * Allow sub class to have different find matches logic.
+   * @param contactMapping
+   * @param call
+   * @returns
+   */
+  findMatches(contactMapping: Record<string, Entity[]>, call: Call) {
+    const pickNumber = this.enableFullPhoneNumberMatch
+      ? pickFullPhoneNumber
+      : pickPhoneOrExtensionNumber;
+
+    const fromNumber =
+      call.from && pickNumber(call.from.phoneNumber, call.from.extensionNumber);
+    const toNumber =
+      call.to && pickNumber(call.to.phoneNumber, call.to.extensionNumber);
+
+    const fromMatches = (fromNumber && contactMapping[fromNumber]) || [];
+    const toMatches = (toNumber && contactMapping[toNumber]) || [];
+    return {
+      fromMatches,
+      toMatches,
+    };
+  }
+
   @computed((that: CallHistory) => [
     that.normalizedCalls,
     that.endedCalls,
@@ -278,14 +339,9 @@ export class CallHistory extends RcModuleV2<Deps> {
     const telephonySessionIds: Record<string, boolean> = {};
     const calls = this.normalizedCalls.map((call) => {
       telephonySessionIds[call.telephonySessionId] = true;
-      const fromNumber =
-        call.from && (call.from.phoneNumber || call.from.extensionNumber);
-      const toNumber =
-        call.to && (call.to.phoneNumber || call.to.extensionNumber);
       const fromName = call.from.name || call.from.phoneNumber;
       const toName = call.to.name || call.to.phoneNumber;
-      const fromMatches = (fromNumber && contactMapping[fromNumber]) || [];
-      const toMatches = (toNumber && contactMapping[toNumber]) || [];
+      const { fromMatches, toMatches } = this.findMatches(contactMapping, call);
       const activityMatches = activityMapping[call.sessionId] || [];
       const matched = callMatched[call.sessionId];
       return {
@@ -379,8 +435,12 @@ export class CallHistory extends RcModuleV2<Deps> {
   get uniqueNumbers() {
     const output: string[] = [];
     const numberMap: Record<string, boolean> = {};
-    this.normalizedCalls.forEach(addNumbersFromCall(output, numberMap));
-    this.endedCalls.forEach(addNumbersFromCall(output, numberMap));
+    this.normalizedCalls.forEach(
+      addNumbersFromCall(output, numberMap, this.enableFullPhoneNumberMatch),
+    );
+    this.endedCalls.forEach(
+      addNumbersFromCall(output, numberMap, this.enableFullPhoneNumberMatch),
+    );
     return output;
   }
 

@@ -1,7 +1,7 @@
 import { phoneTypes } from '@ringcentral-integration/commons/enums/phoneTypes';
 import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 import { ContactDetailsUI } from '../../../modules/ContactDetailsUI/ContactDetailsUI';
-import { phone } from './testUtils';
+import { phone, defaultPropsParams } from './testSetup';
 
 test("if composeText's dependency is not exist, then should return false", () => {
   /**
@@ -12,16 +12,16 @@ test("if composeText's dependency is not exist, then should return false", () =>
   let { canTextButtonShow } = new ContactDetailsUI({
     ...phone,
     composeText: {},
-    rolesAndPermissions: { permissions: { OutboundSMS: true } },
-  }).getUIFunctions();
+    appFeatures: { hasOutboundSMSPermission: true },
+  }).getUIFunctions(defaultPropsParams);
 
   expect(canTextButtonShow(phoneType)).toBeTruthy();
 
   canTextButtonShow = new ContactDetailsUI({
     ...phone,
     composeText: null,
-    rolesAndPermissions: { permissions: { OutboundSMS: true } },
-  }).getUIFunctions().canTextButtonShow;
+    appFeatures: { hasOutboundSMSPermission: true },
+  }).getUIFunctions(defaultPropsParams).canTextButtonShow;
 
   expect(canTextButtonShow(phoneType)).toBeFalsy();
 });
@@ -32,7 +32,7 @@ test('if the phoneType is fax, then should return false', () => {
   const { canTextButtonShow } = new ContactDetailsUI({
     ...phone,
     composeText: {}, // not null
-  }).getUIFunctions();
+  }).getUIFunctions(defaultPropsParams);
 
   expect(canTextButtonShow(phoneType)).toBeFalsy();
 });
@@ -50,8 +50,8 @@ describe('Given phoneType is extension, the result is in proportion to the Inter
       const { canTextButtonShow } = new ContactDetailsUI({
         ...phone,
         composeText: {}, // not null
-        rolesAndPermissions: { permissions: { InternalSMS } },
-      }).getUIFunctions();
+        appFeatures: { hasInternalSMSPermission: InternalSMS },
+      }).getUIFunctions(defaultPropsParams);
 
       expect(canTextButtonShow(phoneType)).toBe(expected);
     },
@@ -74,8 +74,8 @@ describe('Given the phoneType is neither fax nor extension, then result is in pr
         const { canTextButtonShow } = new ContactDetailsUI({
           ...phone,
           composeText: {}, // not null
-          rolesAndPermissions: { permissions: { OutboundSMS } },
-        }).getUIFunctions();
+          appFeatures: { hasOutboundSMSPermission: OutboundSMS },
+        }).getUIFunctions(defaultPropsParams);
 
         expect(canTextButtonShow(phoneType)).toBe(expected);
       }, phoneTypeEnum);

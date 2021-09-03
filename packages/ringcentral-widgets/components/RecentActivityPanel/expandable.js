@@ -1,7 +1,8 @@
 import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 
 export default function expandable({ styles = {}, className = null }) {
-  return (WrappedComponent) =>
+  return (WrappedComponent) => {
     class Expandable extends PureComponent {
       constructor(props) {
         super(props);
@@ -13,14 +14,16 @@ export default function expandable({ styles = {}, className = null }) {
       togglePanel = (event) => {
         // In case it's fired twice
         event.stopPropagation();
+        this.props.trackClickToggle?.(!this.state.expanded);
         this.setState((prevState) => ({ expanded: !prevState.expanded }));
       };
 
       render() {
         const { expanded } = this.state;
-        const _styles = Object.assign({}, styles, {
+        const _styles = {
+          ...styles,
           height: expanded ? styles.height : styles.offset,
-        });
+        };
         return (
           <div style={_styles} className={className}>
             <WrappedComponent
@@ -31,5 +34,15 @@ export default function expandable({ styles = {}, className = null }) {
           </div>
         );
       }
+    }
+
+    Expandable.propTypes = {
+      trackClickToggle: PropTypes.func,
     };
+
+    Expandable.defaultProps = {
+      trackClickToggle: undefined,
+    };
+    return Expandable;
+  };
 }

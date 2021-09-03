@@ -2,7 +2,7 @@ import {
   DateTimeFormatter,
   DateTimeFormatterParams,
 } from '../../lib/getIntlDateTimeFormatter';
-import { Locale } from '../LocaleV2';
+import { Locale } from '../Locale';
 
 interface NameOptions {
   name?: string;

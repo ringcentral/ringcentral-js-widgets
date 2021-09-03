@@ -10,7 +10,7 @@ import { Alert } from '../AlertV2';
 import { Auth } from '../AuthV2';
 import { ContactMatcher } from '../ContactMatcherV2';
 import { ConversationLogger } from '../ConversationLoggerV2';
-import { ExtensionFeatures } from '../ExtensionFeatures';
+import { AppFeatures } from '../AppFeatures';
 import { ExtensionInfo } from '../ExtensionInfoV2';
 import { Attachment, MessageSender } from '../MessageSenderV2';
 import { MessageStore } from '../MessageStoreV2';
@@ -22,7 +22,7 @@ export interface Deps {
   client: RingCentralClient;
   contactMatcher?: ContactMatcher;
   conversationLogger?: ConversationLogger;
-  extensionFeatures: ExtensionFeatures;
+  appFeatures: AppFeatures;
   extensionInfo: ExtensionInfo;
   messageSender: MessageSender;
   messageStore: MessageStore;

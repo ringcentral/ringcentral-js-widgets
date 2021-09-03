@@ -1,5 +1,5 @@
 import { RcButton, RcCircularProgress, RcIcon } from '@ringcentral/juno';
-import CheckSvg from '@ringcentral/juno/icon/Check';
+import { Check } from '@ringcentral/juno/icon';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -23,7 +23,7 @@ const SaveLogButton = ({
   const getContent = (buttonContent) => (
     <span>
       {buttonContent === 'saved' && (
-        <RcIcon color="interactive.f01" symbol={CheckSvg} size="small" />
+        <RcIcon color="interactive.f01" symbol={Check} size="small" />
       )}
       {buttonContent === 'saving' && <RcCircularProgress size={20} />}
       {buttonContent === 'save' && i18n.getString('save', currentLocale)}

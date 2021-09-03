@@ -8,6 +8,7 @@ export default {
   [phoneTypes.unknown]: "未知的電話類型",
   [phoneTypes.company]: "公司號碼",
   [phoneTypes.direct]: "直撥號碼",
+  [phoneTypes.contact]: "連絡人電話",
   [phoneTypes.fax]: "傳真",
   [phoneTypes.other]: "其他"
 };
@@ -20,5 +21,6 @@ export default {
 // @key: @#@"[phoneTypes.unknown]"@#@ @source: @#@"Unknown Phone Type"@#@
 // @key: @#@"[phoneTypes.company]"@#@ @source: @#@"Company Number"@#@
 // @key: @#@"[phoneTypes.direct]"@#@ @source: @#@"Direct Number"@#@
+// @key: @#@"[phoneTypes.contact]"@#@ @source: @#@"Contact Phone"@#@
 // @key: @#@"[phoneTypes.fax]"@#@ @source: @#@"Fax"@#@
 // @key: @#@"[phoneTypes.other]"@#@ @source: @#@"Other"@#@

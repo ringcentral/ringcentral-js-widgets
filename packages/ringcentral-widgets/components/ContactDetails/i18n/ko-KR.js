@@ -5,6 +5,7 @@ export default {
   [phoneTypes.extension]: "내선",
   [phoneTypes.direct]: "직통",
   [phoneTypes.mobile]: "모바일",
+  [phoneTypes.contact]: "연락처 전화번호",
   [phoneTypes.home]: "홈",
   [phoneTypes.business]: "비즈니스",
   [phoneTypes.fax]: "팩스",
@@ -26,6 +27,7 @@ export default {
 // @key: @#@"[phoneTypes.extension]"@#@ @source: @#@"Ext."@#@
 // @key: @#@"[phoneTypes.direct]"@#@ @source: @#@"Direct"@#@
 // @key: @#@"[phoneTypes.mobile]"@#@ @source: @#@"Mobile"@#@
+// @key: @#@"[phoneTypes.contact]"@#@ @source: @#@"Contact phone"@#@
 // @key: @#@"[phoneTypes.home]"@#@ @source: @#@"Home"@#@
 // @key: @#@"[phoneTypes.business]"@#@ @source: @#@"Business"@#@
 // @key: @#@"[phoneTypes.fax]"@#@ @source: @#@"Fax"@#@

@@ -67,7 +67,7 @@ There are three kind of modules:
 All needed common modules which are provided by `@ringcentral-integration/commons` can be listed here. And also other modules composed by you.
 ```javascript
 import { Alert } from '@ringcentral-integration/commons/modules/AlertV2';
-import { Brand } from '@ringcentral-integration/commons/modules/BrandV2';
+import { Brand } from '@ringcentral-integration/commons/modules/Brand';
 
 // import other libs
 // other variables initialized here
@@ -433,48 +433,6 @@ This decorator can be used on any kind modules, no matter it's root module or no
 
 ## Dependency Injection
 Please refer to [Dependency Injection](docs/dependency-injection.md) for more details.
-
-## Modules
----
-
-- [x] AccountInfo
-- [x] AddressBook
-- [x] Alert
-- [x] Auth
-- [x] BlockedNumber
-- [x] Brand
-- [x] Call
-- [x] CallingSettings
-- [x] CompanyContacts
-- [x] ComposeText
-- [x] ConnectivityMonitor
-- [x] Contacts
-- [x] ContactSearch
-- [x] Conversation
-- [x] Presence
-- [x] DialingPlan
-- [x] Environment
-- [x] ExtensionDevice
-- [x] ExtensionInfo
-- [x] ExtensionPhoneNumber
-- [x] GlobalStorage
-- [x] Locale
-- [x] Messages
-- [x] MessageSender
-- [x] MessageStore
-- [x] NumberValidate
-- [x] RateLimiter
-- [x] RecentCalls
-- [x] RecentMessages
-- [x] RegionSettings
-- [x] Ringout
-- [x] RolesAndPermissions
-- [x] Softphone
-- [x] Storage
-- [x] Subscription
-- [x] TabManager
-- [x] Webphone
-- more...
 
 ## Contribution
 ---

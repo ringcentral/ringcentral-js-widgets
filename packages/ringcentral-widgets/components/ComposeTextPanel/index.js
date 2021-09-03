@@ -103,7 +103,7 @@ class ComposeTextPanel extends Component {
         <MessageInput
           value={this.props.messageText}
           onChange={this.props.updateMessageText}
-          disabled={this.props.sendButtonDisabled}
+          sendButtonDisabled={this.props.sendButtonDisabled}
           currentLocale={this.props.currentLocale}
           onSend={this.props.send}
           inputExpandable={this.props.inputExpandable}

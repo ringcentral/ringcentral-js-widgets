@@ -18,7 +18,7 @@ beforeEach(async () => {
   wrapper.update();
   panel = wrapper.find(ConversationsPanel).first();
   const phone = wrapper.props().phone;
-  Object.defineProperty(phone.extensionFeatures, 'hasReadFaxPermission', {
+  Object.defineProperty(phone.appFeatures, 'hasReadFaxPermission', {
     value: true,
   });
   // Object.defineProperty(phone.tabManager, 'active', {

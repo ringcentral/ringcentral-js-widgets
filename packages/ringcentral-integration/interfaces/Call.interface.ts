@@ -1,6 +1,14 @@
 import { Entity } from './Entity.interface';
 import { ActiveCall } from './Presence.model';
 import { NormalizedSession } from './Webphone.interface';
+import { CallResultsValue } from '../enums/callResults';
+
+export interface CallerInfo {
+  phoneNumber?: string;
+  extensionId?: string; // for 1. call data from CallLog
+  extensionNumber?: string;
+  name?: string; // for data from CallLog
+}
 
 export interface NormalizedCall {
   id?: string;
@@ -14,20 +22,13 @@ export interface NormalizedCall {
   telephonySessionId?: string;
   toName?: string;
   fromName?: string;
-  from?: {
-    phoneNumber?: string;
-    extensionId?: string; // for 1. call data from CallLog
-    extensionNumber?: string;
-  };
-  to?: {
-    phoneNumber?: string;
-    extensionId?: string; // for 1. call data from CallLog
-    extensionNumber?: string;
-  };
+  from?: CallerInfo;
+  to?: CallerInfo;
   startTime?: number;
   sessionId?: string;
   webphoneSession?: NormalizedSession;
   telephonyStatus?: ActiveCall['telephonyStatus'];
+  duration?: number;
 }
 
 export type NormalizedCalls = NormalizedCall[];
@@ -37,4 +38,5 @@ export interface Call extends NormalizedCall {
   toMatches?: Entity[];
   activityMatches?: string[];
   toNumberEntity?: string;
+  result?: CallResultsValue;
 }

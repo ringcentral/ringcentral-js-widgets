@@ -19,6 +19,8 @@ export default {
   muteAudio: "Activer le mode discrétion pour les participants",
   turnOffCamera: "Désactiver la caméra des participants",
   requirePassword: "Exiger un mot de passe",
+  useE2ee: "Utiliser le chiffrement de bout en bout",
+  e2eeTooltip: "Les réunions chiffrées de bout en bout sont les réunions les plus confidentielles, mais des fonctionnalités comme la participation par téléphone, les sous-titres codés et l’enregistrement ne sont pas disponibles.",
   setPassword: "Définir le mot de passe *",
   setPasswordNotSymbol: "Définir le mot de passe",
   passwordEmptyError: "Mot de passe de réunion requis",
@@ -31,7 +33,8 @@ export default {
   signedInCoWorkers: "Collègues connectés",
   limitScreenSharing: "Seuls l'animateur et les modérateurs peuvent partager leur écran",
   lockTooltip: "Ces paramètres sont gérés par votre administrateur",
-  pmiSettingAlert: "Ces paramètres s'appliqueront à toutes les réunions créées avec le même PMI"
+  pmiSettingAlert: "Ces paramètres s'appliqueront à toutes les réunions créées avec le même PMI",
+  today: "Aujourd'hui"
 };
 
 // @key: @#@"topic"@#@ @source: @#@"Meeting title"@#@
@@ -53,6 +56,8 @@ export default {
 // @key: @#@"muteAudio"@#@ @source: @#@"Mute audio for participants"@#@
 // @key: @#@"turnOffCamera"@#@ @source: @#@"Turn off camera for participants"@#@
 // @key: @#@"requirePassword"@#@ @source: @#@"Require password"@#@
+// @key: @#@"useE2ee"@#@ @source: @#@"Use end-to-end encryption"@#@
+// @key: @#@"e2eeTooltip"@#@ @source: @#@"End-to-end encrypted meetings are the most private, but features like joining by phone, closed captions, and recording aren't available."@#@
 // @key: @#@"setPassword"@#@ @source: @#@"Set password *"@#@
 // @key: @#@"setPasswordNotSymbol"@#@ @source: @#@"Set password"@#@
 // @key: @#@"passwordEmptyError"@#@ @source: @#@"Meeting password required"@#@
@@ -66,3 +71,4 @@ export default {
 // @key: @#@"limitScreenSharing"@#@ @source: @#@"Only host & moderators can share screen"@#@
 // @key: @#@"lockTooltip"@#@ @source: @#@"This setting is managed by your company admin"@#@
 // @key: @#@"pmiSettingAlert"@#@ @source: @#@"These settings will apply to all meetings created with PMI"@#@
+// @key: @#@"today"@#@ @source: @#@"Today"@#@

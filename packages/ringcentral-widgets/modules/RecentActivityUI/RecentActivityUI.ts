@@ -2,11 +2,14 @@ import {
   RcUIModuleV2,
   UIFunctions,
   UIProps,
+  track,
 } from '@ringcentral-integration/core';
 import callDirections from '@ringcentral-integration/commons/enums/callDirections';
 import { Module } from '@ringcentral-integration/commons/lib/di';
+import { trackEvents } from '@ringcentral-integration/commons/modules/Analytics';
+import { proxify } from '@ringcentral-integration/commons/lib/proxy/proxify';
 import i18n from './i18n';
-import { getTabs, GetTabsOptions } from './getTabs';
+import { getTabs, GetTabsOptions, trackTabsMap } from './getTabs';
 import {
   Deps,
   RecentActivityContainerProps,
@@ -33,6 +36,27 @@ export class RecentActivityUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
 
   getTabs(options: GetTabsOptions) {
     return getTabs(options);
+  }
+
+  @track((_: RecentActivityUI, entry: string) => [
+    trackEvents.clickRecentActivity,
+    { Entry: entry },
+  ])
+  @proxify
+  async trackClickToggle(entry: string) {
+    //
+  }
+
+  @track(
+    (
+      _: RecentActivityUI,
+      tabName: keyof typeof trackTabsMap,
+      entry: string,
+    ) => [trackTabsMap[tabName], { Entry: entry }],
+  )
+  @proxify
+  async trackClickTab(tabName: string, entry: string) {
+    //
   }
 
   getUIProps({
@@ -99,7 +123,16 @@ export class RecentActivityUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
     };
   }
 
-  getUIFunctions(): UIFunctions<RecentActivityPanelProps> {
-    return {};
+  getUIFunctions({
+    entry,
+  }: RecentActivityContainerProps): UIFunctions<RecentActivityPanelProps> {
+    return {
+      trackClickToggle: (expanded) => {
+        if (expanded) {
+          this.trackClickToggle(entry);
+        }
+      },
+      trackClickTab: (tabName) => this.trackClickTab(tabName, entry),
+    };
   }
 }

@@ -8,13 +8,15 @@ import { Session } from 'ringcentral-call/lib/Session';
 import { WebPhoneSession } from 'ringcentral-web-phone/lib/session';
 import { RouterInteraction } from '../../../ringcentral-widgets/modules/RouterInteraction';
 import { TelephonyStatus } from '../../enums/telephonyStatus';
+import { NormalizedSession } from '../../interfaces/Webphone.interface';
 import { RingCentralClient } from '../../lib/RingCentralClient';
 import AccountInfo from '../AccountInfo';
 import Alert from '../Alert';
+import { AppFeatures } from '../AppFeatures';
 import AudioSettings from '../AudioSettings';
 import Auth from '../Auth';
 import AvailabilityMonitor from '../AvailabilityMonitor';
-import { Brand } from '../BrandV2';
+import { Brand } from '../Brand';
 import ConnectivityMonitor from '../ConnectivityMonitor';
 import ExtensionInfo from '../ExtensionInfo';
 import NumberValidate from '../NumberValidate';
@@ -22,7 +24,7 @@ import { Presence } from '../PresenceV2';
 import RegionSettings from '../RegionSettings';
 import Storage from '../Storage';
 import Subscription from '../Subscription';
-import TabManager from '../TabManager';
+import { TabManager } from '../TabManager';
 import Webphone from '../Webphone';
 
 export interface ActiveCallControlOptions {
@@ -38,6 +40,7 @@ export interface Deps {
   prefix: string;
   accountInfo: AccountInfo;
   alert: Alert;
+  appFeatures: AppFeatures;
   audioSettings: AudioSettings;
   auth: Auth;
   availabilityMonitor?: AvailabilityMonitor;
@@ -94,7 +97,6 @@ export interface ActiveSession {
 
 export interface ActiveCallControlSessionData extends SessionData {
   party: Party;
-  webphoneSessionConnected: boolean;
   telephonySessionId: string;
   telephonySession?: any;
   sessionId: string;
@@ -106,8 +108,10 @@ export interface ActiveCallControlSessionData extends SessionData {
   from: any;
   to: any;
   startTime: number;
-  webphoneSession: any;
-  webphoneSessionId: string;
+}
+
+export interface ICurrentDeviceCallsMap {
+  [telephonySessionId: string]: NormalizedSession;
 }
 
 export { Session, WebPhoneSession };

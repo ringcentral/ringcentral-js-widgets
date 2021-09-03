@@ -2,9 +2,9 @@ import {
   DataFetcherV2ConsumerBaseDeps,
   DataSourceBaseProps,
 } from '../DataFetcherV2';
-import { ExtensionFeatures } from '../ExtensionFeatures';
+import { AppFeatures } from '../AppFeatures';
 import { Subscription } from '../SubscriptionV2';
-import { TabManager } from '../TabManagerV2';
+import { TabManager } from '../TabManager';
 
 export interface VideoConfigurationOptions extends DataSourceBaseProps {
   fetchDelay?: number;
@@ -12,7 +12,7 @@ export interface VideoConfigurationOptions extends DataSourceBaseProps {
 
 export interface Deps extends DataFetcherV2ConsumerBaseDeps {
   client: any;
-  extensionFeatures: ExtensionFeatures;
+  appFeatures: AppFeatures;
   subscription: Subscription;
   tabManager: TabManager;
   videoConfigurationOptions?: VideoConfigurationOptions;
