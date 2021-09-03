@@ -61,3 +61,5 @@ alias.json
 
 */**/gh-pages
 */**/junit.xml
+
+*/**/html-report
