@@ -9,7 +9,7 @@ import {
 } from '@ringcentral-integration/test-utils';
 import { createStore } from 'redux';
 import { RcModuleV2, state, action } from '@ringcentral-integration/core';
-import Locale from '../../modules/Locale';
+import { Locale } from '../../modules/Locale';
 import { Module, ModuleFactory } from '../../lib/di';
 import sleep from '../../lib/sleep';
 import RcModule from '../../lib/RcModule';

@@ -160,6 +160,9 @@ export default class ConversationsPanel extends Component {
       showChooseEntityModal,
       shouldLogSelectRecord,
       onSelectContact,
+      renderContactList,
+      dropdownClassName,
+      enableCDC,
     } = this.props;
     if (showSpinner) {
       return <SpinnerOverlay />;
@@ -233,6 +236,9 @@ export default class ConversationsPanel extends Component {
             showChooseEntityModal={showChooseEntityModal}
             shouldLogSelectRecord={shouldLogSelectRecord}
             onSelectContact={onSelectContact}
+            renderContactList={renderContactList}
+            dropdownClassName={dropdownClassName}
+            enableCDC={enableCDC}
           />
         ) : (
           !loadingNextPage &&
@@ -336,6 +342,9 @@ ConversationsPanel.propTypes = {
   showChooseEntityModal: PropTypes.bool,
   shouldLogSelectRecord: PropTypes.bool,
   onSelectContact: PropTypes.func,
+  renderContactList: PropTypes.func,
+  dropdownClassName: PropTypes.string,
+  enableCDC: PropTypes.bool,
 };
 
 ConversationsPanel.defaultProps = {
@@ -384,4 +393,7 @@ ConversationsPanel.defaultProps = {
   showChooseEntityModal: true,
   shouldLogSelectRecord: false,
   onSelectContact: undefined,
+  renderContactList: undefined,
+  dropdownClassName: null,
+  enableCDC: false,
 };

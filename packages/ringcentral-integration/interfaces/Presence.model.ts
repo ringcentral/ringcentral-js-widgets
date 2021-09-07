@@ -27,6 +27,7 @@ export type ActiveCall = Pick<
   result?: UserCallLogRecord['result'];
   // normalize StartTime in CallLog/Presence/ActiveCalls
   startTime?: number;
+  duration?: number;
 };
 
 export interface PresenceInfoModel {

@@ -210,7 +210,7 @@ export default class AddressBook extends Pollable {
 
   get _hasPermission() {
     return (
-      this._extensionFeatures.features?.ReadPersonalContacts.available ?? false
+      this._extensionFeatures.features?.ReadPersonalContacts?.available ?? false
     );
   }
 

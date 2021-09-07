@@ -11,7 +11,7 @@ interface RcmMeeting {
   topic: string;
   meetingType: MeetingTypeV;
   schedule?: {
-    startTime: Date;
+    startTime: Date | string;
     durationInMinutes: number;
     timeZone: {
       id: string;
@@ -23,12 +23,13 @@ interface RcmMeeting {
 interface RcvMeeting {
   id: string;
   name: string;
-  startTime: Date;
+  startTime: Date | string;
   duration: number;
   joinUri: string;
   shortId: string;
   links: { joinUri: string };
   isMeetingSecret: boolean;
+  e2ee: boolean;
   meetingPassword: string;
   meetingPasswordPSTN: string;
 }
@@ -47,22 +48,25 @@ export interface CommonBrand {
   code: string;
   name: string;
   rcvProductName?: string;
+  rcvE2EESupportUrl?: string;
   brandConfig: {
     teleconference: string;
   };
+  rcvTeleconference: string;
 }
 
 export interface RcmMainParams {
   meeting: RcmMeeting;
   serviceInfo: RcmServiceInfo;
   extensionInfo: CommonExtensionInfo;
-  invitationInfo: RcmInvitationInfo;
+  invitationInfo?: RcmInvitationInfo;
 }
 
 export interface RcvMainParams {
   meeting: RcvMeeting;
   extensionInfo: CommonExtensionInfo;
   dialInNumber: string | RcVDialInNumberObj[];
+  hasRoomConnectorBeta: boolean;
   /**
    * provide this as the alternative invitation result, e.g. from rcv api
    */
@@ -77,8 +81,14 @@ export interface TplResult {
   };
 }
 
+export interface ParcelledLink {
+  uri: string;
+  text: string;
+}
+
 export interface FormatToHtmlOptions {
-  links?: string[];
+  links?: Array<ParcelledLink | string>;
+  uselessSentences?: Array<RegExp | string>;
   searchLinks?: boolean;
   newLine?: string;
   indentation?: string;

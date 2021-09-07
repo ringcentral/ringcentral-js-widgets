@@ -3,7 +3,7 @@ import {
   Deps as StorageBaseDeps,
 } from '../../lib/StorageBaseV2';
 import { Auth } from '../AuthV2';
-import { TabManager } from '../TabManagerV2';
+import { TabManager } from '../TabManager';
 
 export interface StorageOptions extends IStorageBaseOptions {
   /**

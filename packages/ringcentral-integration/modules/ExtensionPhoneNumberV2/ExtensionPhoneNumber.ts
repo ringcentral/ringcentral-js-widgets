@@ -46,7 +46,7 @@ export class ExtensionPhoneNumber extends DataFetcherV2Consumer<
         !!(this._deps.extensionFeatures.ready && this._deps.subscription.ready),
       permissionCheckFunction: () =>
         this._deps.extensionFeatures.features?.ReadExtensionPhoneNumbers
-          .available ?? false,
+          ?.available ?? false,
     });
     this._deps.dataFetcherV2.register(this._source);
   }

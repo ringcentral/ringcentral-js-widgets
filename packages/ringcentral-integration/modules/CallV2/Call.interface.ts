@@ -1,7 +1,7 @@
 import { ActiveCallControl } from '../ActiveCallControlV2';
 import { Alert } from '../AlertV2';
 import { AvailabilityMonitor } from '../AvailabilityMonitorV2';
-import { Brand } from '../BrandV2';
+import { Brand } from '../Brand';
 import { CallingSettings } from '../CallingSettingsV2';
 import { ExtensionFeatures } from '../ExtensionFeatures';
 import { NumberValidate } from '../NumberValidateV2';
@@ -13,7 +13,7 @@ import { Webphone } from '../WebphoneV2';
 
 export interface ToNumberMatched {
   entityId: string;
-  startTime: string;
+  startTime: string | number;
 }
 
 export interface CallOptions {

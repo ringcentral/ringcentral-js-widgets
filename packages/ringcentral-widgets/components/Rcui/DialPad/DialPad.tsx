@@ -9,6 +9,7 @@ type DialPadProps = {
   dataSign?: string;
 } & RcDialPadProps;
 
+/** @deprecated use juno RcDialPad directly */
 export const DialPad: FunctionComponent<DialPadProps> = ({
   className,
   dataSign,

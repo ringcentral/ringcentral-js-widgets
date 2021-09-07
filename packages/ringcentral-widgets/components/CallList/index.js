@@ -45,6 +45,7 @@ export default class CallList extends PureComponent {
       externalViewEntity,
       externalHasEntity,
       readTextPermission,
+      enableCDC,
     } = this.props;
 
     if (calls && calls.length) {
@@ -92,6 +93,7 @@ export default class CallList extends PureComponent {
               externalViewEntity={externalViewEntity}
               externalHasEntity={externalHasEntity}
               readTextPermission={readTextPermission}
+              enableCDC={enableCDC}
             />
           ))}
         </div>
@@ -145,6 +147,7 @@ CallList.propTypes = {
   externalViewEntity: PropTypes.func,
   externalHasEntity: PropTypes.func,
   readTextPermission: PropTypes.bool,
+  enableCDC: PropTypes.bool,
 };
 
 CallList.defaultProps = {
@@ -181,4 +184,5 @@ CallList.defaultProps = {
   externalViewEntity: undefined,
   externalHasEntity: undefined,
   readTextPermission: true,
+  enableCDC: false,
 };

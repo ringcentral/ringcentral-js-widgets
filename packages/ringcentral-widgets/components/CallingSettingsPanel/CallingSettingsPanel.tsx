@@ -45,7 +45,9 @@ export function getJupiterAppName({
   brandName,
   shortBrandName,
   fullBrandName,
+  jupiterAppName,
 }: GetOptionNameProps): string {
+  if (jupiterAppName) return jupiterAppName;
   switch (brandCode) {
     case 'att':
       return fullBrandName;
@@ -79,6 +81,7 @@ export function getCallingOptionName({
   shortBrandName,
   fullBrandName,
   currentLocale,
+  jupiterAppName,
 }: GetCallingOptionProps) {
   if (callingOption === callingOptions.softphone) {
     return getSoftphoneAppName({
@@ -94,6 +97,7 @@ export function getCallingOptionName({
       brandName,
       shortBrandName,
       fullBrandName,
+      jupiterAppName,
     });
   }
   if (callingOption === callingOptions.ringout) {
@@ -111,6 +115,7 @@ const Tooltip: FunctionComponent<TooltipProps> = ({
   tooltipContainerRef,
   shortBrandName,
   fullBrandName,
+  jupiterAppName,
 }) => {
   const keys = [`${callWith}Tooltip`];
   if (
@@ -127,6 +132,7 @@ const Tooltip: FunctionComponent<TooltipProps> = ({
     currentLocale,
     shortBrandName,
     fullBrandName,
+    jupiterAppName,
   });
   const overlay = (
     <div>
@@ -165,6 +171,7 @@ const CallWithSettings: FunctionComponent<CallWithProps> = ({
   currentLocale,
   disabled,
   onCallWithChange,
+  jupiterAppName,
 }) => {
   const tooltipContainerRef = useRef(null);
 
@@ -176,6 +183,7 @@ const CallWithSettings: FunctionComponent<CallWithProps> = ({
       currentLocale,
       shortBrandName,
       fullBrandName,
+      jupiterAppName,
     });
     return optionName;
   };
@@ -194,6 +202,7 @@ const CallWithSettings: FunctionComponent<CallWithProps> = ({
               tooltipContainerRef,
               shortBrandName,
               fullBrandName,
+              jupiterAppName,
             }}
           />
         </span>
@@ -326,6 +335,7 @@ const CallingSettings: FunctionComponent<CallingSettingsProps> = ({
   defaultOutgoingAudioFile,
   shortBrandName,
   fullBrandName,
+  jupiterAppName,
 }) => {
   const [callWithState, setCallWithState] = useState(callWith);
   const [ringoutPromptState, setRingoutPromptState] = useState(ringoutPrompt);
@@ -363,6 +373,7 @@ const CallingSettings: FunctionComponent<CallingSettingsProps> = ({
           brandCode,
           brandName,
           callWith: callWithState,
+          jupiterAppName,
           callWithOptions,
           currentLocale,
           disabled,

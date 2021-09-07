@@ -49,7 +49,7 @@ describe('fax messages', () => {
     test('when have no fax permission should not show fax sub tab', async () => {
       wrapper = await getWrapper();
       phone = wrapper.props().phone;
-      Object.defineProperty(phone.extensionFeatures, 'hasReadFaxPermission', {
+      Object.defineProperty(phone.appFeatures, 'hasReadFaxPermission', {
         value: false,
       });
       wrapper.setProps({ phone });
@@ -67,7 +67,7 @@ describe('fax messages', () => {
     test('when have fax permission should show fax sub tab', async () => {
       wrapper = await getWrapper();
       phone = wrapper.props().phone;
-      Object.defineProperty(phone.extensionFeatures, 'hasReadFexPermission', {
+      Object.defineProperty(phone.appFeatures, 'hasReadFexPermission', {
         value: true,
       });
       wrapper.setProps({ phone });
@@ -538,7 +538,7 @@ describe('fax messages', () => {
       // Object.defineProperty(phone.tabManager, 'active', {
       //   value: true,
       // });
-      Object.defineProperty(phone.extensionFeatures, 'hasReadFaxPermission', {
+      Object.defineProperty(phone.appFeatures, 'hasReadFaxPermission', {
         value: true,
       });
       await ensureLogin(phone.auth, {

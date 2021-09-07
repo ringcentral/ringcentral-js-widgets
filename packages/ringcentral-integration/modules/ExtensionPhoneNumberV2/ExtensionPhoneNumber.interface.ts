@@ -4,7 +4,7 @@ import {
 } from '../DataFetcherV2';
 import { ExtensionFeatures } from '../ExtensionFeatures';
 import { Subscription } from '../SubscriptionV2';
-import { TabManager } from '../TabManagerV2';
+import { TabManager } from '../TabManager';
 
 export interface ExtensionPhoneNumberOptions extends DataSourceBaseProps {}
 

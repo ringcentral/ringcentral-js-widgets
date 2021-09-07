@@ -1,15 +1,10 @@
 import { connectivityTypes } from '../../../../modules/ConnectivityManager';
 export default {
-  [connectivityTypes.networkLoss]:
-    "Une erreur s'est produite. Vérifiez votre connexion réseau et réessayez.",
-  [connectivityTypes.offline]:
-    'Impossible de se connecter au serveur. Veuillez réessayer plus tard.',
-  [connectivityTypes.serverUnavailable]:
-    "Désolé, une erreur s'est produite de notre côté. Réessayez plus tard.",
-  [connectivityTypes.voipOnly]:
-    "Désolé, une erreur s'est produite de notre côté mais nous travaillons dur pour la corriger. Vous pouvez toujours effectuer des appels, mais d'autres fonctions sont actuellement limitées.",
-  [connectivityTypes.survival]:
-    "Désolé, une erreur s'est produite de notre côté mais nous travaillons dur pour la corriger. Vous aurez peut-être un accès limité à certaines fonctionnalités. L'application sera automatiquement récupérée dès qu'elle sera disponible.",
+  [connectivityTypes.networkLoss]: "Une erreur s'est produite. Vérifiez votre connexion réseau et réessayez.",
+  [connectivityTypes.offline]: "Impossible de se connecter au serveur. Veuillez réessayer plus tard.",
+  [connectivityTypes.serverUnavailable]: "Désolé, une erreur s'est produite de notre côté. Réessayez plus tard.",
+  [connectivityTypes.voipOnly]: "Désolé, une erreur s'est produite de notre côté mais nous travaillons dur pour la corriger. Vous pouvez toujours effectuer des appels, mais d'autres fonctions sont actuellement limitées.",
+  [connectivityTypes.survival]: "Désolé, une erreur s'est produite de notre côté mais nous travaillons dur pour la corriger. Vous aurez peut-être un accès limité à certaines fonctionnalités. L'application sera automatiquement récupérée dès qu'elle sera disponible."
 };
 
 // @key: @#@"[connectivityTypes.networkLoss]"@#@ @source: @#@"Sorry, something went wrong, check your network connection and try again."@#@

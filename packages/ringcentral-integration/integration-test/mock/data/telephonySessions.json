@@ -1,0 +1,49 @@
+{
+  "uuid": "837270960869181944",
+  "event": "/restapi/v1.0/account/400144452008/extension/400144455008/telephony/sessions",
+  "timestamp": "2018-06-05T00:14:50.181Z",
+  "subscriptionId": "5c37f936-fa66-4b4b-95af-1e94b51a748d",
+  "ownerId": "400144455008",
+  "body": {
+    "sequence": 5,
+    "sessionId": "402936341008",
+    "telephonySessionId": "Y3MxNjk2MTIzOTcyNzM2NDU2OEAxMC4yOC4yMC4xMDk",
+    "serverId": "10.62.25.111.TAM",
+    "eventTime": "2018-06-05T00:14:50.147Z",
+    "accountId": "400144452008",
+    "parties": [
+      {
+        "extensionId": "400144455008",
+        "id": "cs171841903434018384-2",
+        "direction": "Inbound",
+        "to": {
+          "phoneNumber": "+16501234567",
+          "name": "Tom Sawyer",
+          "extensionId": "400144455008"
+        },
+        "from": {
+          "phoneNumber": "+17322764403",
+          "name": "TheCat Jerry",
+          "extensionId": "400144457008"
+        },
+        "status": {
+          "code": "Proceeding",
+          "mobilePickupData": {
+            "ccMailboxes": ["400144455008"],
+            "to": "#19008@sip-mesdevams.lab.nordigy.ru:5060",
+            "sid": "402936472080",
+            "srvLvl": "-149699523",
+            "srvLvlExt": "390"
+          }
+        },
+        "missedCall": false,
+        "standAlone": false,
+        "muted": false
+      }
+    ],
+    "origin": {
+      "type": "Call"
+    },
+    "extensionId": "400144455008"
+  }
+}

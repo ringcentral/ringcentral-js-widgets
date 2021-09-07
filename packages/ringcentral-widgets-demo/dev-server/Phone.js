@@ -1,5 +1,3 @@
-import { SDK } from '@ringcentral/sdk';
-import { hashHistory } from 'react-router';
 import callDirections from '@ringcentral-integration/commons/enums/callDirections';
 import { ModuleFactory } from '@ringcentral-integration/commons/lib/di';
 import { LocalForageStorage } from '@ringcentral-integration/commons/lib/LocalForageStorage';
@@ -14,11 +12,12 @@ import { ActiveCalls } from '@ringcentral-integration/commons/modules/ActiveCall
 import { AddressBook } from '@ringcentral-integration/commons/modules/AddressBookV2';
 import { Alert } from '@ringcentral-integration/commons/modules/AlertV2';
 import { Analytics } from '@ringcentral-integration/commons/modules/AnalyticsV2';
+import { AppFeatures } from '@ringcentral-integration/commons/modules/AppFeatures';
 import { AudioSettings } from '@ringcentral-integration/commons/modules/AudioSettingsV2';
 import { Auth } from '@ringcentral-integration/commons/modules/AuthV2';
 import { AvailabilityMonitor } from '@ringcentral-integration/commons/modules/AvailabilityMonitorV2';
 import { BlockedNumber } from '@ringcentral-integration/commons/modules/BlockedNumberV2';
-import { Brand } from '@ringcentral-integration/commons/modules/BrandV2';
+import { Brand } from '@ringcentral-integration/commons/modules/Brand';
 import { CallerId } from '@ringcentral-integration/commons/modules/CallerIdV2';
 import { CallHistory } from '@ringcentral-integration/commons/modules/CallHistoryV2';
 import { CallingSettings } from '@ringcentral-integration/commons/modules/CallingSettingsV2';
@@ -39,6 +38,7 @@ import { Conversations } from '@ringcentral-integration/commons/modules/Conversa
 import { DataFetcherV2 } from '@ringcentral-integration/commons/modules/DataFetcherV2';
 import { DateTimeFormat } from '@ringcentral-integration/commons/modules/DateTimeFormatV2';
 import { DialingPlan } from '@ringcentral-integration/commons/modules/DialingPlanV2';
+import { DynamicConfig } from '@ringcentral-integration/commons/modules/DynamicConfig';
 import { Environment } from '@ringcentral-integration/commons/modules/EnvironmentV2';
 import { ExtensionDevice } from '@ringcentral-integration/commons/modules/ExtensionDeviceV2';
 import { ExtensionFeatures } from '@ringcentral-integration/commons/modules/ExtensionFeatures';
@@ -47,8 +47,8 @@ import { ExtensionPhoneNumber } from '@ringcentral-integration/commons/modules/E
 import { Feedback } from '@ringcentral-integration/commons/modules/FeedbackV2';
 import { ForwardingNumber } from '@ringcentral-integration/commons/modules/ForwardingNumberV2';
 import { GlobalStorage } from '@ringcentral-integration/commons/modules/GlobalStorageV2';
+import { Locale } from '@ringcentral-integration/commons/modules/Locale';
 import { LocaleSettings } from '@ringcentral-integration/commons/modules/LocaleSettingsV2';
-import { Locale } from '@ringcentral-integration/commons/modules/LocaleV2';
 import Meeting from '@ringcentral-integration/commons/modules/Meeting';
 import { MessageSender } from '@ringcentral-integration/commons/modules/MessageSenderV2';
 import { MessageStore } from '@ringcentral-integration/commons/modules/MessageStoreV2';
@@ -67,7 +67,8 @@ import softphoneStatus from '@ringcentral-integration/commons/modules/Softphone/
 import { Softphone } from '@ringcentral-integration/commons/modules/SoftphoneV2';
 import { Storage } from '@ringcentral-integration/commons/modules/StorageV2';
 import { Subscription } from '@ringcentral-integration/commons/modules/SubscriptionV2';
-import { TabManager } from '@ringcentral-integration/commons/modules/TabManagerV2';
+import { TabManager } from '@ringcentral-integration/commons/modules/TabManager';
+import { TierChecker } from '@ringcentral-integration/commons/modules/TierChecker';
 import { UserGuide } from '@ringcentral-integration/commons/modules/UserGuideV2';
 import { VideoConfiguration } from '@ringcentral-integration/commons/modules/VideoConfiguration';
 import { Webphone } from '@ringcentral-integration/commons/modules/WebphoneV2';
@@ -103,10 +104,12 @@ import OAuth from '@ringcentral-integration/widgets/modules/OAuth';
 import { RecentActivityUI } from '@ringcentral-integration/widgets/modules/RecentActivityUI';
 import RegionSettingsUI from '@ringcentral-integration/widgets/modules/RegionSettingsUI';
 import RouterInteraction from '@ringcentral-integration/widgets/modules/RouterInteraction';
-import SettingsUI from '@ringcentral-integration/widgets/modules/SettingsUI';
+import { SettingsUI } from '@ringcentral-integration/widgets/modules/SettingsUI';
 import { SimpleCallControlUI } from '@ringcentral-integration/widgets/modules/SimpleCallControlUI';
 import TransferUI from '@ringcentral-integration/widgets/modules/TransferUI';
 import UserGuideUI from '@ringcentral-integration/widgets/modules/UserGuideUI';
+import { SDK } from '@ringcentral/sdk';
+import { hashHistory } from 'react-router';
 import url from 'url';
 
 const history =
@@ -117,9 +120,16 @@ const history =
     : hashHistory;
 @ModuleFactory({
   providers: [
+    {
+      provide: 'FeatureConfiguration',
+      useValue: {
+        CDC: true,
+      },
+    },
     { provide: 'Alert', useClass: Alert },
     { provide: 'ActiveCalls', useClass: ActiveCalls },
     { provide: 'AlertUI', useClass: AlertUI },
+    { provide: 'AppFeatures', useClass: AppFeatures },
     { provide: 'RegionSettingsUI', useClass: RegionSettingsUI },
     { provide: 'ConferenceParticipantUI', useClass: ConferenceParticipantUI },
     { provide: 'Brand', useClass: Brand },
@@ -223,12 +233,26 @@ const history =
     { provide: 'UserGuide', useClass: UserGuide },
     { provide: 'ActiveCallControl', useClass: ActiveCallControl },
     { provide: 'BlockedNumber', useClass: BlockedNumber },
+    { provide: 'DynamicConfig', useClass: DynamicConfig },
+    {
+      provide: 'DynamicConfigOptions',
+      useValue: {
+        // host a local server
+        // configUrl: 'http://localhost:8082/ringcentral-widgets-demo/rc.js',
+      },
+    },
     {
       // for StorageV2
       provide: 'StorageOptions',
       useValue: {
         StorageProvider: LocalForageStorage, // IndexedDB
         disableInactiveTabsWrite: true,
+      },
+    },
+    {
+      provide: 'SoftphoneOptions',
+      useValue: {
+        useBrandedJupiter: true,
       },
     },
     {
@@ -281,7 +305,6 @@ const history =
         avatarTtl: 5 * 60 * 1000,
         presenceTtl: 5 * 60 * 1000,
         needCheckStatus: false,
-        enableCDC: true,
       },
     },
     {
@@ -304,6 +327,7 @@ const history =
       },
     },
     { provide: 'AuthOptions', useValue: { usePKCE: true } },
+    { provide: 'CRMCheck', useClass: TierChecker },
   ],
 })
 export default class BasePhone extends RcModule {
@@ -514,7 +538,7 @@ export default class BasePhone extends RcModule {
   }
 
   initialize() {
-    const { extensionFeatures } = this;
+    const { appFeatures } = this;
     this.store.subscribe(() => {
       if (this.auth.ready) {
         if (this.routerInteraction.currentPath !== '/' && !this.auth.loggedIn) {
@@ -522,22 +546,21 @@ export default class BasePhone extends RcModule {
         } else if (
           this.routerInteraction.currentPath === '/' &&
           this.auth.loggedIn &&
-          extensionFeatures.ready
+          appFeatures.ready
         ) {
           // Determine default tab
-          const showDialPad = extensionFeatures.isCallingEnabled;
+          const showDialPad = appFeatures.isCallingEnabled;
           const showCalls =
-            extensionFeatures.isCallingEnabled &&
+            appFeatures.isCallingEnabled &&
             this.callingSettings.ready &&
             this.callingSettings.callWith !== callingOptions.browser;
-          const showHistory = !!extensionFeatures.features?.ReadExtensionCallLog
+          const showHistory = !!appFeatures.features?.ReadExtensionCallLog
             ?.available;
-          const showContact = extensionFeatures.isCallingEnabled;
-          const showComposeText = extensionFeatures.hasComposeTextPermission;
-          const showMessages = extensionFeatures.hasReadMessagesPermission;
-          const showConference = !!extensionFeatures.features?.Conferencing
-            ?.available;
-          const showMeeting = extensionFeatures.hasMeetingsPermission;
+          const showContact = appFeatures.isCallingEnabled;
+          const showComposeText = appFeatures.hasComposeTextPermission;
+          const showMessages = appFeatures.hasReadMessagesPermission;
+          const showConference = appFeatures.hasConferencing;
+          const showMeeting = appFeatures.hasMeetingsPermission;
           if (showDialPad) {
             this.routerInteraction.push('/dialer');
           } else if (showCalls) {
@@ -605,13 +628,6 @@ export function createPhone({
           clientSecret: apiConfig.clientSecret || apiConfig.appSecret,
           redirectUri: url.resolve(window.location.href, './redirect.html'),
         },
-      },
-      {
-        provide: 'OAuthOptions',
-        useValue: {
-          useDiscovery: enableDiscovery,
-        },
-        spread: true,
       },
       {
         provide: 'BrandConfig',

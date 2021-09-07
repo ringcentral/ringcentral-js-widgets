@@ -1,32 +1,28 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import classnames from 'classnames';
-import formatMessage from 'format-message';
-import messageTypes from '@ringcentral-integration/commons/enums/messageTypes';
 import { extensionTypes } from '@ringcentral-integration/commons/enums/extensionTypes';
 import messageDirection from '@ringcentral-integration/commons/enums/messageDirection';
-import parseNumber from '@ringcentral-integration/commons/lib/parseNumber';
+import messageTypes from '@ringcentral-integration/commons/enums/messageTypes';
 import {
-  messageIsTextMessage,
   messageIsFax,
+  messageIsTextMessage,
 } from '@ringcentral-integration/commons/lib/messageHelper';
-
-import formatDuration from '../../lib/formatDuration';
-
-import ContactDisplay from '../ContactDisplay';
-import ActionMenuList from '../ActionMenuList';
-import VoicemailPlayer from '../VoicemailPlayer';
-import SlideMenu from '../SlideMenu';
-
-import VoicemailIcon from '../../assets/images/VoicemailIcon.svg';
+import parseNumber from '@ringcentral-integration/commons/lib/parseNumber';
+import classnames from 'classnames';
+import formatMessage from 'format-message';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+import ComposeTextIcon from '../../assets/images/ComposeText.svg';
 import FaxInboundIcon from '../../assets/images/FaxInbound.svg';
 import FaxOutboundIcon from '../../assets/images/FaxOutbound.svg';
-
-import ComposeTextIcon from '../../assets/images/ComposeText.svg';
 import GroupConversationIcon from '../../assets/images/GroupConversation.svg';
-
-import styles from './styles.scss';
+import VoicemailIcon from '../../assets/images/VoicemailIcon.svg';
+import { checkShouldHidePhoneNumber } from '../../lib/checkShouldHidePhoneNumber';
+import formatDuration from '../../lib/formatDuration';
+import ActionMenuList from '../ActionMenuList';
+import ContactDisplay from '../ContactDisplay';
+import SlideMenu from '../SlideMenu';
+import VoicemailPlayer from '../VoicemailPlayer';
 import i18n from './i18n';
+import styles from './styles.scss';
 
 const ConversationIcon = ({ group, type, currentLocale, direction }) => {
   let title;
@@ -474,6 +470,9 @@ export default class MessageItem extends Component {
       renderExtraButton,
       onFaxDownload,
       showChooseEntityModal,
+      renderContactList,
+      dropdownClassName,
+      enableCDC,
     } = this.props;
     let disableLinks = parentDisableLinks;
     const isVoicemail = type === messageTypes.voiceMail;
@@ -486,6 +485,15 @@ export default class MessageItem extends Component {
     }
     const groupNumbers = this.getGroupPhoneNumbers();
     const phoneNumber = this.getPhoneNumber();
+    /**
+     * TODO:
+     * * Group message is supported for internal paging:
+     * * What is the requirement when a hidden contact is part of a group conversation?
+     * * Is it possible to ignore this edge case initially as group conversations are rare, especially when most people use glip now for internal conversations?
+     */
+    const shouldHideNumber =
+      enableCDC &&
+      checkShouldHidePhoneNumber(phoneNumber, correspondentMatches);
     const fallbackName = this.getFallbackContactName();
     const detail = this.getDetail();
     const disableClickToSms = this.getDisableClickToSms();
@@ -511,6 +519,7 @@ export default class MessageItem extends Component {
         })
       : null;
     const msgItem = `${type}MessageItem`;
+
     return (
       <div
         data-sign={msgItem}
@@ -554,7 +563,7 @@ export default class MessageItem extends Component {
               fallBackName={fallbackName}
               areaCode={areaCode}
               countryCode={countryCode}
-              phoneNumber={phoneNumber}
+              phoneNumber={shouldHideNumber ? null : phoneNumber}
               groupNumbers={groupNumbers}
               showGroupNumberName={showGroupNumberName}
               currentLocale={currentLocale}
@@ -568,6 +577,8 @@ export default class MessageItem extends Component {
               sourceIcons={sourceIcons}
               phoneTypeRenderer={phoneTypeRenderer}
               phoneSourceNameRenderer={phoneSourceNameRenderer}
+              dropdownRenderFunction={renderContactList}
+              dropdownClassName={dropdownClassName}
             />
             <div className={styles.detailsWithTime}>
               <div
@@ -585,81 +596,90 @@ export default class MessageItem extends Component {
           </div>
           {extraButton}
         </div>
-        <SlideMenu
-          extended={this.state.extended}
-          onToggle={this.toggleExtended}
-          extendIconClassName={styles.extendIcon}
-          className={styles.slideMenu}
-          minHeight={0}
-          maxHeight={slideMenuHeight}
-        >
-          <div
-            className={styles.playContainer}
-            onClick={this.preventEventPropogation}
+        {shouldHideNumber && !player ? null : (
+          <SlideMenu
+            extended={this.state.extended}
+            onToggle={this.toggleExtended}
+            extendIconClassName={styles.extendIcon}
+            className={styles.slideMenu}
+            minHeight={0}
+            maxHeight={slideMenuHeight}
           >
-            {player}
-          </div>
-          <ActionMenuList
-            className={styles.actionMenuList}
-            type={type}
-            currentLocale={currentLocale}
-            onLog={
-              isVoicemail || isFax || renderExtraButton
-                ? undefined
-                : onLogConversation && this.logConversation
-            }
-            onViewEntity={onViewContact && this.viewSelectedContact}
-            onCreateEntity={onCreateContact && this.createSelectedContact}
-            createEntityTypes={createEntityTypes}
-            hasEntity={
-              correspondents.length === 1 &&
-              !!correspondentMatches.length &&
-              (this.getSelectedContact()?.type ?? '') !== extensionTypes.ivrMenu
-            }
-            onClickToDial={
-              !isFax ? onClickToDial && this.clickToDial : undefined
-            }
-            onClickToSms={
-              isVoicemail ? onClickToSms && this.onClickToSms : undefined
-            }
-            disableClickToSms={disableClickToSms}
-            phoneNumber={phoneNumber}
-            disableLinks={disableLinks}
-            disableCallButton={disableCallButton}
-            disableClickToDial={disableClickToDial}
-            isLogging={isLogging || this.state.isLogging}
-            isLogged={conversationMatches.length > 0}
-            isCreating={this.state.isCreating}
-            addLogTitle={i18n.getString('addLog', currentLocale)}
-            editLogTitle={i18n.getString('editLog', currentLocale)}
-            callTitle={i18n.getString('call', currentLocale)}
-            textTitle={i18n.getString('text', currentLocale)}
-            createEntityTitle={i18n.getString('addEntity', currentLocale)}
-            viewEntityTitle={i18n.getString('viewDetails', currentLocale)}
-            stopPropagation={false}
-            onDelete={isVoicemail || isFax ? this.onDeleteMessage : undefined}
-            deleteTitle={i18n.getString('delete', currentLocale)}
-            marked={unreadCounts > 0}
-            onMark={
-              isVoicemail || (isFax && direction === messageDirection.inbound)
-                ? this.onMarkMessage
-                : undefined
-            }
-            onUnmark={
-              isVoicemail || (isFax && direction === messageDirection.inbound)
-                ? this.onUnmarkMessage
-                : undefined
-            }
-            onPreview={isFax ? this.onPreviewFax : undefined}
-            markTitle={i18n.getString('mark', currentLocale)}
-            unmarkTitle={i18n.getString('unmark', currentLocale)}
-            faxAttachment={faxAttachment}
-            previewTitle={i18n.getString('preview', currentLocale)}
-            downloadTitle={i18n.getString('download', currentLocale)}
-            onFaxDownload={onFaxDownload}
-            showChooseEntityModal={showChooseEntityModal}
-          />
-        </SlideMenu>
+            <div
+              className={styles.playContainer}
+              onClick={this.preventEventPropogation}
+            >
+              {player}
+            </div>
+            {shouldHideNumber ? null : (
+              <ActionMenuList
+                className={styles.actionMenuList}
+                type={type}
+                currentLocale={currentLocale}
+                onLog={
+                  isVoicemail || isFax || renderExtraButton
+                    ? undefined
+                    : onLogConversation && this.logConversation
+                }
+                onViewEntity={onViewContact && this.viewSelectedContact}
+                onCreateEntity={onCreateContact && this.createSelectedContact}
+                createEntityTypes={createEntityTypes}
+                hasEntity={
+                  correspondents.length === 1 &&
+                  !!correspondentMatches.length &&
+                  (this.getSelectedContact()?.type ?? '') !==
+                    extensionTypes.ivrMenu
+                }
+                onClickToDial={
+                  !isFax ? onClickToDial && this.clickToDial : undefined
+                }
+                onClickToSms={
+                  isVoicemail ? onClickToSms && this.onClickToSms : undefined
+                }
+                disableClickToSms={disableClickToSms}
+                phoneNumber={phoneNumber}
+                disableLinks={shouldHideNumber || disableLinks}
+                disableCallButton={disableCallButton}
+                disableClickToDial={disableClickToDial}
+                isLogging={isLogging || this.state.isLogging}
+                isLogged={conversationMatches.length > 0}
+                isCreating={this.state.isCreating}
+                addLogTitle={i18n.getString('addLog', currentLocale)}
+                editLogTitle={i18n.getString('editLog', currentLocale)}
+                callTitle={i18n.getString('call', currentLocale)}
+                textTitle={i18n.getString('text', currentLocale)}
+                createEntityTitle={i18n.getString('addEntity', currentLocale)}
+                viewEntityTitle={i18n.getString('viewDetails', currentLocale)}
+                stopPropagation={false}
+                onDelete={
+                  isVoicemail || isFax ? this.onDeleteMessage : undefined
+                }
+                deleteTitle={i18n.getString('delete', currentLocale)}
+                marked={unreadCounts > 0}
+                onMark={
+                  isVoicemail ||
+                  (isFax && direction === messageDirection.inbound)
+                    ? this.onMarkMessage
+                    : undefined
+                }
+                onUnmark={
+                  isVoicemail ||
+                  (isFax && direction === messageDirection.inbound)
+                    ? this.onUnmarkMessage
+                    : undefined
+                }
+                onPreview={isFax ? this.onPreviewFax : undefined}
+                markTitle={i18n.getString('mark', currentLocale)}
+                unmarkTitle={i18n.getString('unmark', currentLocale)}
+                faxAttachment={faxAttachment}
+                previewTitle={i18n.getString('preview', currentLocale)}
+                downloadTitle={i18n.getString('download', currentLocale)}
+                onFaxDownload={onFaxDownload}
+                showChooseEntityModal={showChooseEntityModal}
+              />
+            )}
+          </SlideMenu>
+        )}
       </div>
     );
   }
@@ -741,6 +761,9 @@ MessageItem.propTypes = {
   showChooseEntityModal: PropTypes.bool,
   shouldLogSelectRecord: PropTypes.bool,
   onSelectContact: PropTypes.func,
+  renderContactList: PropTypes.func,
+  dropdownClassName: PropTypes.string,
+  enableCDC: PropTypes.bool,
 };
 
 MessageItem.defaultProps = {
@@ -773,4 +796,7 @@ MessageItem.defaultProps = {
   showChooseEntityModal: true,
   shouldLogSelectRecord: false,
   onSelectContact: undefined,
+  renderContactList: undefined,
+  dropdownClassName: null,
+  enableCDC: false,
 };

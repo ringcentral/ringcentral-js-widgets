@@ -39,6 +39,7 @@ import {
   ActiveSession,
   Deps,
   ModuleMakeCallParams,
+  ICurrentDeviceCallsMap,
 } from './ActiveCallControl.interface';
 import {
   conflictError,
@@ -71,6 +72,7 @@ const subscribeEvent = subscriptionFilters.telephonySessions;
     'NumberValidate',
     'RegionSettings',
     'ConnectivityMonitor',
+    'AppFeatures',
     { dep: 'Prefix', optional: true },
     { dep: 'Storage', optional: true },
     { dep: 'Webphone', optional: true },
@@ -88,7 +90,6 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
   _enableCache: boolean;
   private _promise: Promise<void> = null;
   private _rcCall: RingCentralCall;
-  private _tabActive: boolean;
   private _connectivity: boolean;
   private _onCallEndFunc: () => void;
   private _timeoutId: ReturnType<typeof setTimeout> = null;
@@ -127,7 +128,6 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
     if (this.ready && this.hasPermission) {
       this._subscriptionHandler();
       this._checkConnectivity();
-      await this._checkTabActive();
     }
   }
 
@@ -163,14 +163,14 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
       const { telephoneSessionId }: { telephoneSessionId: string } = JSON.parse(
         e.newValue,
       );
-      const ids = this.sessions
+      const ids = this.rcCallSessions
         .filter(
-          (s: ActiveCallControlSessionData) =>
+          (s: Session) =>
             !isRinging(s) &&
             !!s.webphoneSession &&
             s.telephonySessionId !== telephoneSessionId,
         )
-        .map((s: ActiveCallControlSessionData) => s.telephonySessionId);
+        .map((s: Session) => s.telephonySessionId);
       const id = uuidV4();
       const data = { id, ids };
       if (ids.length) {
@@ -281,6 +281,9 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
   };
 
   @state
+  currentDeviceCallsMap: ICurrentDeviceCallsMap = {};
+
+  @state
   lastEndedSessionIds: string[] = [];
 
   // TODO conference call using
@@ -322,7 +325,6 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
     this._rcCall?._callControl?.on('new', (session: Session) =>
       this._onNewCall(session),
     );
-    this._tabActive = this._deps.tabManager?.active;
     if (this._shouldFetch()) {
       try {
         await this.fetchData();
@@ -505,17 +507,27 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
   @action
   _onCallAccepted(telephonySessionId: string) {
     if (this.ringSessionId === telephonySessionId) {
-      const ringSessions = this.sessions.filter((x) => isRinging(x));
-      this.data.ringSessionId = (ringSessions[0] && ringSessions[0].id) || null;
+      this.data.ringSessionId = this.ringSessions[0]?.id || null;
     }
   }
 
   @action
+  _onCallEnd(telephonySessionId: string) {
+    if (this.ringSessionId === telephonySessionId) {
+      this.data.ringSessionId = this.ringSessions[0]?.id || null;
+    }
+  }
+
   updateActiveSessions() {
     this.data.timestamp = Date.now();
+    const currentDeviceCallsMap: ICurrentDeviceCallsMap = {};
     const callControlSessions = (this._rcCall?.sessions || [])
       .filter((session: Session) => filterDisconnectedCalls(session))
       .map((session: Session) => {
+        currentDeviceCallsMap[
+          session.telephonySessionId
+        ] = normalizeWebphoneSession(session.webphoneSession);
+
         return {
           ...session.data,
           activeCallId: session.activeCallId,
@@ -531,11 +543,17 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
           telephonySessionId: session.telephonySessionId,
           telephonySession: normalizeTelephonySession(session.telephonySession),
           to: session.to,
-          webphoneSessionConnected: session.webphoneSessionConnected,
-          webphoneSession: normalizeWebphoneSession(session.webphoneSession),
-          webphoneSessionId: session.webphoneSession?.id,
         };
       });
+    this._updateActiveSessions(currentDeviceCallsMap, callControlSessions);
+  }
+
+  @action
+  _updateActiveSessions(
+    currentDeviceCallsMap: ICurrentDeviceCallsMap,
+    callControlSessions: ActiveCallControlSessionData[],
+  ) {
+    this.currentDeviceCallsMap = currentDeviceCallsMap;
     this.data.sessions = callControlSessions || [];
   }
 
@@ -609,21 +627,6 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
       this._connectivity = this._deps.connectivityMonitor.connectivity;
       if (this._connectivity) {
         this.fetchData();
-      }
-    }
-  }
-
-  async _checkTabActive() {
-    if (!this._deps.tabManager || !this._deps.storage || !this._enableCache) {
-      return;
-    }
-    if (this._tabActive !== this._deps.tabManager?.active) {
-      this._tabActive = this._deps.tabManager?.active;
-      if (this._deps.tabManager?.active && this._rcCall) {
-        await this._rcCall.restoreSessions(this.sessions);
-        this._rcCall.sessions.forEach((session: Session) => {
-          this._newSessionHandler(session);
-        });
       }
     }
   }
@@ -958,8 +961,9 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
       ]);
       if (!validatedResult.result) {
         validatedResult.errors.forEach(async (error) => {
-          const isHAError: boolean =
-            await this._deps.availabilityMonitor?.checkIfHAError(error);
+          const isHAError: boolean = await this._deps.availabilityMonitor?.checkIfHAError(
+            error,
+          );
           if (!isHAError) {
             // TODO: fix `callErrors` type
             this._deps.alert.warning({
@@ -1107,6 +1111,7 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
           (s: Session) => s.webphoneSession === webphoneSession,
         ) || {};
       this._setActiveSessionIdFromOnHoldCalls(telephonySessionId);
+      this._onCallEnd(telephonySessionId);
     });
     webphoneSession.on('accepted', () => {
       const { telephonySessionId } =
@@ -1117,11 +1122,11 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
         this._autoMergeWebphoneSessionsMap.delete(webphoneSession);
       } else {
         this.setActiveSessionId(telephonySessionId);
-        this._onCallAccepted(telephonySessionId);
         this._holdOtherCalls(telephonySessionId);
         this._addTrackToActiveSession();
       }
       this.updateActiveSessions();
+      this._onCallAccepted(telephonySessionId);
     });
   }
 
@@ -1427,10 +1432,7 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
 
   // This should reflect on the app permissions setting in DWP
   get hasPermission() {
-    return (
-      this._deps.auth.token.scope?.indexOf('CallControl') > -1 ||
-      this._deps.auth.token.scope?.indexOf('TelephonySession') > -1
-    );
+    return this._deps.appFeatures.hasCallControl;
   }
 
   get timeToRetry() {

@@ -1,8 +1,6 @@
 import { RcThemeProvider, RcThemeProviderProps } from '@ringcentral/juno';
 import React from 'react';
 
-import { brandThemeMapping } from './theme';
-
 export interface PhoneProviderProps<T = any> {
   phone: T;
   theme?: RcThemeProviderProps['theme'];
@@ -12,9 +10,13 @@ export const PhoneContext = React.createContext(null);
 
 export default PhoneContext;
 
+/**
+ * Init `UI module system provider` and `Juno theme provider`
+ * make sure you only have one `PhoneProvider` in your app
+ */
 export const PhoneProvider: React.FunctionComponent<PhoneProviderProps> = ({
   phone,
-  theme = brandThemeMapping.rcBlue,
+  theme,
   children,
 }) => {
   return (
@@ -24,6 +26,11 @@ export const PhoneProvider: React.FunctionComponent<PhoneProviderProps> = ({
   );
 };
 
+/**
+ * @deprecated please use UI module System
+ * bind phone provider
+ * @param Comp target component that you want to bind phone state
+ */
 export function withPhone(Comp: any) {
   // eslint-disable-next-line func-names
   return function (props: any) {

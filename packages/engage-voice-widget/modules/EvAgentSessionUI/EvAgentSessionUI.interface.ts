@@ -1,4 +1,4 @@
-import Locale from '@ringcentral-integration/commons/modules/Locale';
+import { Locale } from '@ringcentral-integration/commons/modules/Locale';
 import { ModalUI } from '@ringcentral-integration/widgets/modules/ModalUIV2';
 import { Block } from '@ringcentral-integration/widgets/modules/Block';
 import RouterInteraction from '@ringcentral-integration/widgets/modules/RouterInteraction';

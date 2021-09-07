@@ -4,6 +4,7 @@ import { Service, Action } from '../interface';
 import { storeKey, identifierKey, usm } from '../constant';
 import { getPatchesToggle } from '../createStore';
 import { getStagedState, setStagedState } from '../utils/index';
+import { checkPatches } from '../checkPatches';
 
 export const action = (
   target: object,
@@ -63,7 +64,7 @@ export const action = (
         }
 
         if (changed) {
-          this[storeKey].dispatch({
+          const action: Action = {
             type: this[identifierKey],
             method: key,
             params: args,
@@ -75,7 +76,18 @@ export const action = (
                   _inversePatches: inversePatches,
                 }
               : {}),
-          } as Action);
+          };
+          if (process.env.NODE_ENV === 'development') {
+            const requiredWarning = checkPatches(lastState, action);
+            if (requiredWarning) {
+              console.warn(
+                `The state update operation in the method '${this[
+                  identifierKey
+                ].toString()}.${key.toString()}'  is a replacement update operation. If there is a performance issue, be sure to use mutation updates to ensure the minimum set of update patches.`,
+              );
+            }
+          }
+          this[storeKey].dispatch(action);
         }
       } finally {
         setStagedState(undefined);

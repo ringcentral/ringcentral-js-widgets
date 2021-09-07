@@ -9,16 +9,13 @@ import {
   examples,
 } from '@ringcentral-integration/test-utils';
 
-import {
-  CallHistory,
-  EndedCall,
-  HistoryCall,
-} from '../../modules/CallHistoryV2';
+import { Call } from '../../interfaces/Call.interface';
+import { CallHistory, HistoryCall } from '../../modules/CallHistoryV2';
 import { mockModuleGenerator } from '../lib/mockModule';
 
 const getMockModule = () =>
   mockModuleGenerator({
-    endedCalls: [] as EndedCall[],
+    endedCalls: [] as Call[],
     searchInput: '',
     filteredCalls: [] as HistoryCall[],
   });

@@ -73,6 +73,7 @@ const ActiveCallList = ({
   newCallIcon,
   clickSwitchTrack,
   showMultipleMatch,
+  isWide,
 }) => {
   if (!calls.length) {
     return null;
@@ -155,6 +156,7 @@ const ActiveCallList = ({
             useCallDetailV2={useCallDetailV2}
             newCallIcon={newCallIcon}
             clickSwitchTrack={clickSwitchTrack}
+            isWide={isWide}
           />
         );
       })}
@@ -220,9 +222,11 @@ ActiveCallList.propTypes = {
   useCallDetailV2: PropTypes.bool,
   newCallIcon: PropTypes.bool,
   clickSwitchTrack: PropTypes.func,
+  isWide: PropTypes.bool,
 };
 
 ActiveCallList.defaultProps = {
+  isWide: true,
   className: undefined,
   brand: 'RingCentral',
   showContactDisplayPlaceholder: true,

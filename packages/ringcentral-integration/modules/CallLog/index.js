@@ -69,7 +69,7 @@ const presenceRegExp = /\/presence\?detailedTelephonyState=true/;
     'ExtensionPhoneNumber',
     'ExtensionInfo',
     'Subscription',
-    'ExtensionFeatures',
+    'AppFeatures',
     { dep: 'TabManager', optional: true },
     { dep: 'Storage', optional: true },
     { dep: 'CallLogOptions', optional: true },
@@ -83,7 +83,7 @@ export default class CallLog extends Pollable {
     extensionPhoneNumber,
     extensionInfo,
     subscription,
-    extensionFeatures,
+    appFeatures,
     tabManager,
     ttl = DEFAULT_TTL,
     refreshLock = DEFAULT_REFRESH_LOCK,
@@ -108,7 +108,7 @@ export default class CallLog extends Pollable {
     this._extensionPhoneNumber = extensionPhoneNumber;
     this._extensionInfo = extensionInfo;
     this._subscription = subscription;
-    this._extensionFeatures = extensionFeatures;
+    this._appFeatures = appFeatures;
     this._tabManager = tabManager;
     this._isLimitList = isLimitList;
     this._listRecordCount = listRecordCount;
@@ -167,7 +167,7 @@ export default class CallLog extends Pollable {
       (!this._extensionPhoneNumber || this._extensionPhoneNumber.ready) &&
       (!this._extensionInfo || this._extensionInfo.ready) &&
       (!this._tabManager || this._tabManager.ready) &&
-      this._extensionFeatures.ready &&
+      this._appFeatures.ready &&
       this.status === moduleStatuses.pending
     ) {
       this.store.dispatch({
@@ -182,7 +182,7 @@ export default class CallLog extends Pollable {
           type: this.actionTypes.clearToken,
         });
       }
-      if (this._extensionFeatures.features?.ReadExtensionCallLog?.available) {
+      if (this._appFeatures.hasReadExtensionCallLog) {
         await this._init();
       }
       this.store.dispatch({
@@ -195,7 +195,7 @@ export default class CallLog extends Pollable {
         (this._extensionInfo && !this._extensionInfo.ready) ||
         (this._subscription && !this._subscription.ready) ||
         (this._tabManager && !this._tabManager.ready) ||
-        !this._extensionFeatures.ready) &&
+        !this._appFeatures.ready) &&
       this.ready
     ) {
       this.store.dispatch({

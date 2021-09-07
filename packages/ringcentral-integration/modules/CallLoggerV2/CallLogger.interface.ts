@@ -3,7 +3,7 @@ import { CallHistory, HistoryCall } from '../CallHistoryV2';
 import { CallMonitor } from '../CallMonitorV2';
 import { ActivityMatcher } from '../ActivityMatcherV2';
 import { ContactMatcher } from '../ContactMatcherV2';
-import { TabManager } from '../TabManagerV2';
+import { TabManager } from '../TabManager';
 import { LogOptions as BaseLogOptions } from '../../lib/LoggerBaseV2';
 import { Entity } from '../../interfaces/Entity.interface';
 import { CallLoggerTriggerType } from '../../enums/callLoggerTriggerTypes';

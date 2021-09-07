@@ -31,7 +31,7 @@ import { Deps, ToNumber } from './ComposeText.interface';
     'Storage',
     'MessageSender',
     'NumberValidate',
-    'ExtensionFeatures',
+    'AppFeatures',
     { dep: 'ContactSearch', optional: true },
     { dep: 'ComposeTextOptions', optional: true },
     { dep: 'RouterInteraction', optional: true },
@@ -270,7 +270,7 @@ export class ComposeText<T = {}> extends RcModuleV2<Deps & T> {
   _validateIsOnlyPager(phoneNumber: string) {
     if (
       phoneNumber.length >= 7 &&
-      !this._deps.extensionFeatures.hasOutboundSMSPermission
+      !this._deps.appFeatures.hasOutboundSMSPermission
     ) {
       this._alertWarning(messageSenderMessages.noSMSPermission);
       return true;

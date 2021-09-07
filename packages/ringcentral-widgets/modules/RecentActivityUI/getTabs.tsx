@@ -8,6 +8,7 @@ import {
   RecentMessages,
 } from '@ringcentral-integration/commons/modules/RecentMessagesV2';
 import { RecentCalls } from '@ringcentral-integration/commons/modules/RecentCallsV2';
+import { trackEvents } from '@ringcentral-integration/commons/modules/Analytics';
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import RecentActivityMessages from '../../components/RecentActivityMessages';
 import RecentActivityCalls from '../../components/RecentActivityCalls';
@@ -24,6 +25,13 @@ export interface Tab {
   getData: () => void;
   cleanUp: () => void;
 }
+
+export const trackTabsMap = {
+  recentCalls: trackEvents.clickRecentActivityCall,
+  faxes: trackEvents.clickRecentActivityFaxes,
+  recentMessages: trackEvents.clickRecentActivitySms,
+  voicemails: trackEvents.clickRecentActivityVoicemails,
+};
 
 export interface GetTabsOptions {
   ready: boolean;

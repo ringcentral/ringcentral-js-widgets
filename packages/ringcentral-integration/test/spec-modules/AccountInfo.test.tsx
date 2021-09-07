@@ -67,7 +67,7 @@ export class CleanOnReset extends Step {
 
 @autorun(test)
 @title(
-  'Should logout if ReadCompanyInfo permission is missing: ReadCompanyInfo=${ReadCompanyInfo}',
+  'Should logout if ReadCompanyInfo feature is missing: ReadCompanyInfo=${ReadCompanyInfo}',
 )
 export class ReadCompanyInfo extends Step {
   @examples(`
@@ -76,7 +76,7 @@ export class ReadCompanyInfo extends Step {
     | false            |
   `)
   run() {
-    class MockRolesAndPermissions extends AccountInfo {
+    class MockAccountInfo extends AccountInfo {
       _mockReady = false;
       _mockData: any = null;
       get data() {
@@ -90,9 +90,9 @@ export class ReadCompanyInfo extends Step {
     return (
       <Scenario desc="ReadCompanyInfo=${ReadCompanyInfo}">
         <Given
-          desc="An RolesAndPermissions instance with ReadCompanyInfo=${ReadCompanyInfo}"
+          desc="An AccountInfo instance with ReadCompanyInfo=${ReadCompanyInfo}"
           action={(_: any, context: any) => {
-            context.instance = new MockRolesAndPermissions({
+            context.instance = new MockAccountInfo({
               auth: new MockAuth() as any,
               client: {} as any,
               extensionFeatures: {

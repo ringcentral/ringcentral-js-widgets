@@ -19,6 +19,8 @@ export default {
   muteAudio: "Mute audio for participants",
   turnOffCamera: "Turn off camera for participants",
   requirePassword: "Require password",
+  useE2ee: "Use end-to-end encryption",
+  e2eeTooltip: "End-to-end encrypted meetings are the most private, but features like joining by phone, closed captions and recording aren't available.",
   setPassword: "Set password *",
   setPasswordNotSymbol: "Set password",
   passwordEmptyError: "Meeting password required",
@@ -31,7 +33,8 @@ export default {
   signedInCoWorkers: "Signed in co-workers",
   limitScreenSharing: "Only host & moderators can share screen",
   lockTooltip: "This setting is managed by your company admin",
-  pmiSettingAlert: "These settings will apply to all meetings created with PMI"
+  pmiSettingAlert: "These settings will apply to all meetings created with PMI",
+  today: "Today"
 };
 
 // @key: @#@"topic"@#@ @source: @#@"Meeting title"@#@
@@ -53,6 +56,8 @@ export default {
 // @key: @#@"muteAudio"@#@ @source: @#@"Mute audio for participants"@#@
 // @key: @#@"turnOffCamera"@#@ @source: @#@"Turn off camera for participants"@#@
 // @key: @#@"requirePassword"@#@ @source: @#@"Require password"@#@
+// @key: @#@"useE2ee"@#@ @source: @#@"Use end-to-end encryption"@#@
+// @key: @#@"e2eeTooltip"@#@ @source: @#@"End-to-end encrypted meetings are the most private, but features like joining by phone, closed captions, and recording aren't available."@#@
 // @key: @#@"setPassword"@#@ @source: @#@"Set password *"@#@
 // @key: @#@"setPasswordNotSymbol"@#@ @source: @#@"Set password"@#@
 // @key: @#@"passwordEmptyError"@#@ @source: @#@"Meeting password required"@#@
@@ -66,3 +71,4 @@ export default {
 // @key: @#@"limitScreenSharing"@#@ @source: @#@"Only host & moderators can share screen"@#@
 // @key: @#@"lockTooltip"@#@ @source: @#@"This setting is managed by your company admin"@#@
 // @key: @#@"pmiSettingAlert"@#@ @source: @#@"These settings will apply to all meetings created with PMI"@#@
+// @key: @#@"today"@#@ @source: @#@"Today"@#@

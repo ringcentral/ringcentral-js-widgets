@@ -3,7 +3,6 @@ import {
   RcModuleV2,
   state,
   storage,
-  watch,
 } from '@ringcentral-integration/core';
 import { ObjectMapValue } from '@ringcentral-integration/core/lib/ObjectMap';
 import { ApiError } from '@ringcentral/sdk';
@@ -19,17 +18,14 @@ import {
   DebouncedFunction,
 } from '../../lib/debounce-throttle';
 import { Module } from '../../lib/di';
-import proxify from '../../lib/proxy/proxify';
+import { proxify } from '../../lib/proxy/proxify';
 import { normalizeEventFilter } from '../Subscription/normalizeEventFilter';
 import { subscriptionStatus } from '../Subscription/subscriptionStatus';
 import { Deps, MessageBase } from './Subscription.interface';
 
-const DEFAULT_TIME_TO_RETRY = 60 * 1000;
+const DEFAULT_TIME_TO_RETRY = 20 * 1000;
 const DEFAULT_REGISTER_DELAY = 2 * 1000;
-/**
- * 5 seconds
- */
-const DEFAULT_CREATE_DELAY = 5 * 1000;
+const SUBSCRIPTION_LOCK_KEY = 'subscription-creating-lock';
 
 @Module({
   name: 'Subscription',
@@ -38,7 +34,6 @@ const DEFAULT_CREATE_DELAY = 5 * 1000;
     'Client',
     'Storage',
     'SleepDetector',
-    { dep: 'TabManager', optional: true },
     { dep: 'SubscriptionOptions', optional: true },
   ],
 })
@@ -53,7 +48,9 @@ export class Subscription extends RcModuleV2<Deps> {
     Subscription['_register']
   >;
 
-  protected _retry: DebouncedFunction<Subscription['_createSubscription']>;
+  protected _retry: DebouncedFunction<
+    Subscription['_createSubscriptionWithLock']
+  >;
 
   constructor(deps: Deps) {
     super({
@@ -65,8 +62,9 @@ export class Subscription extends RcModuleV2<Deps> {
       fn: this._register,
       threshold: this._registerDelay,
     });
+
     this._retry = debounce({
-      fn: this._createSubscription,
+      fn: this._createSubscriptionWithLock,
       threshold: this._timeToRetry,
       maxThreshold: this._timeToRetry,
     });
@@ -117,41 +115,6 @@ export class Subscription extends RcModuleV2<Deps> {
     );
   }
 
-  onInitOnce() {
-    if (this._deps.tabManager) {
-      watch(
-        this,
-        () => this.cachedSubscription,
-        async () => {
-          if (this.ready && !this._deps.tabManager.active) {
-            this._createSubscription();
-          }
-        },
-      );
-      // When closing the current tab before successfully registering a subscription,
-      // app create a subscription and register the subscription at the default delay of 5s on the delayed registration time.
-      // And when registering a subscription request for more than 5s will accidentally trigger a subscription request in other tabs that were once active,
-      // but this is an edge case and only up to two tabs registering for subscriptions is not enough to trigger the subscription limit in server side.
-      const debouncedCreateSubscription = debounce({
-        fn: () => {
-          if (this._deps.tabManager.active) {
-            this._createSubscription();
-          }
-        },
-        threshold: DEFAULT_CREATE_DELAY + this._registerDelay,
-      });
-      watch(
-        this,
-        () => this._deps.tabManager.active,
-        () => {
-          if (!this.cachedSubscription && this._deps.tabManager.active) {
-            debouncedCreateSubscription();
-          }
-        },
-      );
-    }
-  }
-
   _shouldInit() {
     return super._shouldInit() && this._deps.auth.loggedIn;
   }
@@ -162,9 +125,14 @@ export class Subscription extends RcModuleV2<Deps> {
 
   _handleSleep = async () => {
     if (this.ready && this._subscription) {
-      // forcibly recreate subscription to ensure pubnub is alive
-      await this._removeSubscription();
-      this._createSubscription();
+      // to wait automatic renew finish
+      const renewPromise = this._subscription.automaticRenewing();
+      if (renewPromise) {
+        await renewPromise;
+      }
+      // this._subscription may be removed at renewError event
+      // forcibly reconnect pubnub to ensure pubnub is alive
+      await this._subscription?.resubscribeAtPubNub();
     }
   };
 
@@ -197,6 +165,7 @@ export class Subscription extends RcModuleV2<Deps> {
     this._debouncedRegister.cancel();
     if (this._subscription) {
       this._subscription.reset();
+      this._subscription.removeAllListeners();
       this._subscription = null;
     }
   }
@@ -227,6 +196,7 @@ export class Subscription extends RcModuleV2<Deps> {
   protected _onRenewError(error: ApiError | Error) {
     if (this._subscription) {
       this._subscription.reset();
+      this._subscription.removeAllListeners();
       this._subscription = null;
     }
     this._setStates({
@@ -276,6 +246,7 @@ export class Subscription extends RcModuleV2<Deps> {
           this._subscription = new Subscriptions({ sdk }).createSubscription();
         }
       }
+      // TODO: fix Subscription limit issue about multiple create Subscription issue when multi-tab login.
       this._subscription.on(
         this._subscription.events.notification,
         (message: MessageBase) => this._onNotification(message),
@@ -305,6 +276,16 @@ export class Subscription extends RcModuleV2<Deps> {
       if (error.message !== 'cancelled') {
         throw error;
       }
+    }
+  }
+
+  protected async _createSubscriptionWithLock() {
+    if (!navigator?.locks?.request) {
+      await this._createSubscription();
+    } else {
+      await navigator.locks.request(SUBSCRIPTION_LOCK_KEY, () =>
+        this._createSubscription(),
+      );
     }
   }
 
@@ -340,6 +321,7 @@ export class Subscription extends RcModuleV2<Deps> {
       }
       if (this._subscription) {
         this._subscription.reset();
+        this._subscription.removeAllListeners();
         this._subscription = null;
       }
       this._setStates({
@@ -354,11 +336,8 @@ export class Subscription extends RcModuleV2<Deps> {
       const oldFiltersCount = this._subscription?.eventFilters().length ?? 0;
       // use [].concat for potential compatibility issue
       this._addFilters([].concat(events));
-      if (
-        oldFiltersCount !== this.filters.length &&
-        (!this._deps.tabManager || this._deps.tabManager.active)
-      ) {
-        await this._createSubscription();
+      if (oldFiltersCount !== this.filters.length) {
+        await this._createSubscriptionWithLock();
       }
     }
   }

@@ -14,6 +14,7 @@ const getMockModule = () =>
   mockModuleGenerator({
     data: {
       list: [],
+      map: {},
       token: null,
       timestamp: null,
     } as CallLogData,
@@ -31,6 +32,7 @@ export class ResetData extends Step {
             const instance = new CallLog({} as any);
             expect(instance.data).toEqual({
               list: [],
+              map: {},
               token: null,
               timestamp: null,
             });
@@ -49,6 +51,7 @@ export class ResetData extends Step {
           action={(_: any, context: any) => {
             expect(context.mockModule.data).toEqual({
               list: [],
+              map: {},
               token: null,
               timestamp: null,
             });
@@ -71,6 +74,7 @@ export class ClearToken extends Step {
             const instance = new CallLog({} as any);
             expect(instance.data).toEqual({
               list: [],
+              map: {},
               token: null,
               timestamp: null,
             });
@@ -116,6 +120,7 @@ export class FilterExpiredCalls extends Step {
             const instance = new CallLog({} as any);
             expect(instance.data).toEqual({
               list: [],
+              map: {},
               token: null,
               timestamp: null,
             });
@@ -128,14 +133,21 @@ export class FilterExpiredCalls extends Step {
             context.mockModule = getMockModule();
             context.mockCalls = [
               {
+                id: '1',
                 startTime: 0,
               },
               {
+                id: '2',
                 startTime: Date.now(),
               },
             ];
             context.mockModule.data = {
-              list: context.mockCalls,
+              list: context.mockCalls.map((item: { id: string }) => item.id),
+              map: context.mockCalls.reduce(
+                (map: Record<string, any>, item: any) =>
+                  Object.assign(map, { [item.id]: item }),
+                {},
+              ),
               token: 'mockToken',
               timestamp: 0,
             };
@@ -146,7 +158,10 @@ export class FilterExpiredCalls extends Step {
           desc="Check value should be expected"
           action={(_: any, context: any) => {
             expect(context.mockModule.data).toEqual({
-              list: [context.mockCalls[1]],
+              list: [context.mockCalls[1].id],
+              map: {
+                [context.mockCalls[1].id]: context.mockCalls[1],
+              },
               token: 'mockToken',
               timestamp: 0,
             });
@@ -169,6 +184,7 @@ export class SyncSuccess extends Step {
             const instance = new CallLog({} as any);
             expect(instance.data).toEqual({
               list: [],
+              map: {},
               token: null,
               timestamp: null,
             });
@@ -205,17 +221,18 @@ export class SyncSuccess extends Step {
               },
             ];
             context.mockModule.data = {
-              list: [
-                {
+              list: ['0', '2'],
+              map: {
+                '0': {
                   id: '0',
                   startTime: 0,
                 },
-                {
+                '2': {
                   id: '2',
                   startTime: Date.now(),
                   result: 'Call connected',
                 },
-              ],
+              },
               token: 'mockToken',
               timestamp: 0,
             };
@@ -233,10 +250,17 @@ export class SyncSuccess extends Step {
           action={(_: any, context: any) => {
             expect(context.mockModule.data).toEqual({
               list: [
-                context.mockSupplementRecords[0],
-                context.mockRecords[1],
-                context.mockSupplementRecords[1],
+                context.mockSupplementRecords[0].id,
+                context.mockRecords[1].id,
+                context.mockSupplementRecords[1].id,
               ],
+              map: {
+                [context.mockSupplementRecords[0].id]:
+                  context.mockSupplementRecords[0],
+                [context.mockRecords[1].id]: context.mockRecords[1],
+                [context.mockSupplementRecords[1].id]:
+                  context.mockSupplementRecords[1],
+              },
               timestamp: 1,
               token: 'mockToken1',
             });

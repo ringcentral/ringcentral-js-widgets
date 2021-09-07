@@ -7,15 +7,24 @@ export interface TransportData<T = any> {
   data: T;
 }
 
-export interface TransportEvent {
+export interface TransportEvent<T = any> {
   key: string;
   /**
    * Make the data need promise with TransportResponseData type,
    * to make the method must be return with response
    */
   func: (
-    data: TransportData,
+    data: TransportData<T>,
   ) => Promise<TransportResponseData> | TransportResponseData;
+}
+
+export interface TransportPushEvent<T = any> {
+  key: string;
+  /**
+   * Make the data need promise with TransportResponseData type,
+   * to make the method must be return with response
+   */
+  func: (data: TransportData<T>) => any;
 }
 
 export interface FetchOption<T = any> {
@@ -38,4 +47,5 @@ export interface Transport {
   request(payload: TransportRequestData): Promise<undefined>;
   response(responseData: TransportResponseData): TransportResponseData;
   addListeners: any;
+  send(payload: TransportRequestData): any;
 }

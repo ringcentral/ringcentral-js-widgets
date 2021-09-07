@@ -29,7 +29,9 @@ function setup({
 
 export const CheckPauseRecordingTooltip: StepFunction<any> = () => {
   const { container } = setup({ disablePauseRecord: false });
-  const node = container.querySelector('[data-sign="PauseRecording"]');
+  const node = container.querySelector<HTMLButtonElement>(
+    '[data-sign="PauseRecording"]',
+  );
   expect(node).toBeTruthy;
   expect(node.title).toBe('Pause recording');
 };

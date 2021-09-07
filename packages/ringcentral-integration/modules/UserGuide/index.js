@@ -19,19 +19,12 @@ const SUPPORTED_LOCALES = {
     'Locale',
     'Storage',
     'Webphone',
-    'ExtensionFeatures',
+    'AppFeatures',
     { dep: 'UserGuideOptions', optional: true },
   ],
 })
 export default class UserGuide extends RcModule {
-  constructor({
-    auth,
-    locale,
-    storage,
-    webphone,
-    extensionFeatures,
-    ...options
-  }) {
+  constructor({ auth, locale, storage, webphone, appFeatures, ...options }) {
     super({
       actionTypes,
       ...options,
@@ -40,7 +33,7 @@ export default class UserGuide extends RcModule {
     this._locale = locale;
     this._storage = storage;
     this._webphone = webphone;
-    this._extensionFeatures = extensionFeatures;
+    this._appFeatures = appFeatures;
     this._reducer = getUserGuideReducer(this.actionTypes);
 
     this._context = options.context;
@@ -63,7 +56,7 @@ export default class UserGuide extends RcModule {
       this._auth.ready &&
       this._locale.ready &&
       this._storage.ready &&
-      this._extensionFeatures.ready &&
+      this._appFeatures.ready &&
       this._auth.loggedIn
     ) {
       this.store.dispatch({
@@ -76,7 +69,7 @@ export default class UserGuide extends RcModule {
       (!this._auth.ready ||
         !this._locale.ready ||
         !this._storage.ready ||
-        !this._extensionFeatures.ready)
+        !this._appFeatures.ready)
     ) {
       this.store.dispatch({
         type: this.actionTypes.resetSuccess,
@@ -178,8 +171,8 @@ export default class UserGuide extends RcModule {
 
   get hasPermission() {
     return (
-      this._extensionFeatures.isCallingEnabled ||
-      this._extensionFeatures.hasReadMessagePermission
+      this._appFeatures.isCallingEnabled ||
+      this._appFeatures.hasReadMessagePermission
     );
   }
 

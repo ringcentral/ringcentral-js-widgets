@@ -1,12 +1,13 @@
-import {
-  RcUIModuleV2,
-  UIProps,
-  UIFunctions,
-} from '@ringcentral-integration/core';
-import { Module } from '@ringcentral-integration/commons/lib/di';
-import formatNumber from '@ringcentral-integration/commons/lib/formatNumber';
 import callDirections from '@ringcentral-integration/commons/enums/callDirections';
 import { NormalizedSession } from '@ringcentral-integration/commons/interfaces/Webphone.interface';
+import { Module } from '@ringcentral-integration/commons/lib/di';
+import formatNumber from '@ringcentral-integration/commons/lib/formatNumber';
+import {
+  RcUIModuleV2,
+  UIFunctions,
+  UIProps,
+} from '@ringcentral-integration/core';
+import { checkShouldHidePhoneNumber } from '../../lib/checkShouldHidePhoneNumber';
 import {
   Deps,
   IncomingCallContainerProps,
@@ -23,6 +24,7 @@ import {
     'ForwardingNumber',
     'Brand',
     'ExtensionInfo',
+    'AppFeatures',
     { dep: 'ConferenceCall', optional: true },
     { dep: 'ContactMatcher', optional: true },
     { dep: 'IncomingCallUIOptions', optional: true },
@@ -60,6 +62,17 @@ class IncomingCallUI extends RcUIModuleV2<Deps> {
       currentSession.direction === callDirections.outbound
         ? toMatches
         : fromMatches;
+    let phoneNumber =
+      currentSession.direction === callDirections.outbound
+        ? currentSession.to
+        : currentSession.from;
+
+    if (
+      this._deps.appFeatures.isCDCEnabled &&
+      checkShouldHidePhoneNumber(phoneNumber, nameMatches)
+    ) {
+      phoneNumber = null;
+    }
     return {
       sourceIcons,
       brand: brand.fullName,
@@ -73,6 +86,7 @@ class IncomingCallUI extends RcUIModuleV2<Deps> {
       showContactDisplayPlaceholder,
       searchContactList: contactSearch.sortedResult,
       showCallQueueName,
+      phoneNumber,
     };
   }
 

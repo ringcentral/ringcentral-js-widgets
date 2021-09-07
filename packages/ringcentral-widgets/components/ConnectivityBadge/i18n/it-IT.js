@@ -1,10 +1,10 @@
 import { connectivityTypes } from '../../../modules/ConnectivityManager';
 export default {
-  [connectivityTypes.webphoneUnavailable]: 'Telefono web non disponibile',
-  [connectivityTypes.offline]: 'Offline',
-  [connectivityTypes.voipOnly]: 'Solo VoIP',
-  [connectivityTypes.survival]: 'Modalità limitata',
-  [connectivityTypes.connecting]: 'Connessione',
+  [connectivityTypes.webphoneUnavailable]: "Telefono web non disponibile",
+  [connectivityTypes.offline]: "Offline",
+  [connectivityTypes.voipOnly]: "Solo VoIP",
+  [connectivityTypes.survival]: "Modalità limitata",
+  [connectivityTypes.connecting]: "Connessione"
 };
 
 // @key: @#@"[connectivityTypes.webphoneUnavailable]"@#@ @source: @#@"Web Phone Unavailable"@#@

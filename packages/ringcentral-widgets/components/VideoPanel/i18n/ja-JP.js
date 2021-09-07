@@ -19,6 +19,8 @@ export default {
   muteAudio: "参加者のオーディオをミュートする",
   turnOffCamera: "参加者のカメラをオフにする",
   requirePassword: "パスワードを必須にする",
+  useE2ee: "エンドツーエンドの暗号化を使用",
+  e2eeTooltip: "エンドツーエンドで暗号化された会議は最もプライベートが守られる環境ですが、電話での参加、字幕、レコーディングなどの機能は使用できません。",
   setPassword: "パスワードを設定*",
   setPasswordNotSymbol: "パスワードを設定",
   passwordEmptyError: "会議パスワードが必要です",
@@ -31,7 +33,8 @@ export default {
   signedInCoWorkers: "サインイン済みの同僚",
   limitScreenSharing: "ホストとモデレータのみが画面を共有可能にする",
   lockTooltip: "この設定は会社の管理者により管理されています",
-  pmiSettingAlert: "これらの設定はPMIを使って作成された会議すべてに適用されます"
+  pmiSettingAlert: "これらの設定はPMIを使って作成された会議すべてに適用されます",
+  today: "今日"
 };
 
 // @key: @#@"topic"@#@ @source: @#@"Meeting title"@#@
@@ -53,6 +56,8 @@ export default {
 // @key: @#@"muteAudio"@#@ @source: @#@"Mute audio for participants"@#@
 // @key: @#@"turnOffCamera"@#@ @source: @#@"Turn off camera for participants"@#@
 // @key: @#@"requirePassword"@#@ @source: @#@"Require password"@#@
+// @key: @#@"useE2ee"@#@ @source: @#@"Use end-to-end encryption"@#@
+// @key: @#@"e2eeTooltip"@#@ @source: @#@"End-to-end encrypted meetings are the most private, but features like joining by phone, closed captions, and recording aren't available."@#@
 // @key: @#@"setPassword"@#@ @source: @#@"Set password *"@#@
 // @key: @#@"setPasswordNotSymbol"@#@ @source: @#@"Set password"@#@
 // @key: @#@"passwordEmptyError"@#@ @source: @#@"Meeting password required"@#@
@@ -66,3 +71,4 @@ export default {
 // @key: @#@"limitScreenSharing"@#@ @source: @#@"Only host & moderators can share screen"@#@
 // @key: @#@"lockTooltip"@#@ @source: @#@"This setting is managed by your company admin"@#@
 // @key: @#@"pmiSettingAlert"@#@ @source: @#@"These settings will apply to all meetings created with PMI"@#@
+// @key: @#@"today"@#@ @source: @#@"Today"@#@

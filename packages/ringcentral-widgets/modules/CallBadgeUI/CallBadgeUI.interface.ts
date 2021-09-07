@@ -1,4 +1,4 @@
-import { Locale } from '@ringcentral-integration/commons/modules/LocaleV2';
+import { Locale } from '@ringcentral-integration/commons/modules/Locale';
 import { Webphone } from '@ringcentral-integration/commons/modules/WebphoneV2';
 import { NormalizedSession } from '@ringcentral-integration/commons/interfaces/Webphone.interface';
 

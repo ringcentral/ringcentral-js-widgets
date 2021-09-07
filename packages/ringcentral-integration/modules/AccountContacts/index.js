@@ -14,15 +14,19 @@ import {
   getFindPhoneNumber,
 } from '../../lib/contactHelper';
 import proxify from '../../lib/proxy/proxify';
+import {
+  convertUsageTypeToPhoneType,
+  isSupportedPhoneNumber,
+} from '../../lib/phoneTypeHelper';
 import { selector } from '../../lib/selector';
 import { actionTypes } from './actionTypes';
 import getReducer from './getReducer';
 
 const MaximumBatchGetPresence = 30;
 const DEFAULT_TTL = 30 * 60 * 1000; // 30 mins
-const DEFAULT_PRESENCETTL = 10 * 60 * 1000; // 10 mins
-const DEFAULT_AVATARTTL = 2 * 60 * 60 * 1000; // 2 hour
-const DEFAULT_AVATARQUERYINTERVAL = 2 * 1000; // 2 seconds
+const DEFAULT_PRESENCE_TTL = 10 * 60 * 1000; // 10 mins
+const DEFAULT_AVATAR_TTL = 2 * 60 * 60 * 1000; // 2 hour
+const DEFAULT_AVATAR_QUERY_INTERVAL = 2 * 1000; // 2 seconds
 
 /**
  * @class
@@ -54,9 +58,9 @@ export default class AccountContacts extends RcModule {
     companyContacts,
     extensionInfo,
     ttl = DEFAULT_TTL,
-    avatarTtl = DEFAULT_AVATARTTL,
-    presenceTtl = DEFAULT_PRESENCETTL,
-    avatarQueryInterval = DEFAULT_AVATARQUERYINTERVAL,
+    avatarTtl = DEFAULT_AVATAR_TTL,
+    presenceTtl = DEFAULT_PRESENCE_TTL,
+    avatarQueryInterval = DEFAULT_AVATAR_QUERY_INTERVAL,
     ...options
   }) {
     super({
@@ -365,12 +369,11 @@ export default class AccountContacts extends RcModule {
           }
           if (item.phoneNumbers && item.phoneNumbers.length > 0) {
             item.phoneNumbers.forEach((phone) => {
-              if (phone.type) {
+              isSupportedPhoneNumber(phone) &&
                 contact.phoneNumbers.push({
                   ...phone,
-                  phoneType: phoneTypes.direct,
+                  phoneType: convertUsageTypeToPhoneType(phone?.usageType),
                 });
-              }
             });
           }
           result.push(contact);

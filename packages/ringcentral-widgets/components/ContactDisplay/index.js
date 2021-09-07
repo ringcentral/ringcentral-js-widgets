@@ -117,6 +117,8 @@ const ContactDisplay = ({
   contactName,
   isOnConferenceCall,
   iconClassName,
+  dropdownRenderFunction,
+  dropdownClassName,
 }) => {
   let contentEl;
   phoneNumber = formatNumber({
@@ -224,14 +226,17 @@ const ContactDisplay = ({
         disabled={disabled || isLogging}
         options={options}
         placeholder={selectPlaceholder}
-        renderFunction={(entity) =>
-          ContactDisplayItem({
-            entityName: entity.name,
-            entityType: entity.entityType,
-            brand,
-            currentLocale,
-            sourceIcons,
-          })
+        dropdownClassName={dropdownClassName}
+        renderFunction={
+          dropdownRenderFunction ||
+          ((entity) =>
+            ContactDisplayItem({
+              entityName: entity.name,
+              entityType: entity.entityType,
+              brand,
+              currentLocale,
+              sourceIcons,
+            }))
         }
         renderValue={(value) =>
           displayFormatter({
@@ -297,6 +302,8 @@ ContactDisplay.propTypes = {
   showGroupNumberName: PropTypes.bool,
   contactName: PropTypes.any,
   iconClassName: PropTypes.string,
+  dropdownRenderFunction: PropTypes.func,
+  dropdownClassName: PropTypes.string,
 };
 
 ContactDisplay.defaultProps = {
@@ -324,6 +331,8 @@ ContactDisplay.defaultProps = {
   showGroupNumberName: false,
   contactName: undefined,
   iconClassName: null,
+  dropdownRenderFunction: undefined,
+  dropdownClassName: null,
 };
 
 export default ContactDisplay;

@@ -10,7 +10,7 @@ import { CallingSettings } from '../CallingSettingsV2';
 import { Call } from '../CallV2';
 import { ConnectivityMonitor } from '../ConnectivityMonitorV2';
 import { ContactMatcher } from '../ContactMatcherV2';
-import { ExtensionFeatures } from '../ExtensionFeatures';
+import { AppFeatures } from '../AppFeatures';
 import { sessionStatus, Webphone } from '../WebphoneV2';
 
 interface ConferenceCallOptions {
@@ -28,7 +28,7 @@ export interface Deps extends ConferenceCallOptions {
   client: any;
   connectivityMonitor: ConnectivityMonitor;
   contactMatcher?: ContactMatcher;
-  extensionFeatures: ExtensionFeatures;
+  appFeatures: AppFeatures;
   webphone?: Webphone;
   conferenceCallOptions?: ConferenceCallOptions;
 }

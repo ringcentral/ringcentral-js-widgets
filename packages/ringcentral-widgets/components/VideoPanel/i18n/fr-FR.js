@@ -19,6 +19,8 @@ export default {
   muteAudio: "Activer le mode silencieux pour les participants",
   turnOffCamera: "Désactiver la caméra pour les participants",
   requirePassword: "Exiger un mot de passe",
+  useE2ee: "Utiliser le chiffrement de bout en bout",
+  e2eeTooltip: "Les réunions chiffrées de bout en bout sont les réunions les plus privées possibles, mais les fonctionnalités comme Rejoindre via téléphone, les sous-titres et l’enregistrement ne sont pas disponibles.",
   setPassword: "Définir un mot de passe *",
   setPasswordNotSymbol: "Définir un mot de passe",
   passwordEmptyError: "Mot de passe de la réunion requis",
@@ -31,7 +33,8 @@ export default {
   signedInCoWorkers: "Collaborateurs connectés",
   limitScreenSharing: "Seuls l'hôte et les modérateurs peuvent partager l'écran",
   lockTooltip: "Ce paramètre est géré par l'administrateur de votre entreprise",
-  pmiSettingAlert: "Ces paramètres s'appliquent à toutes les réunions créées avec les paramètres PMI"
+  pmiSettingAlert: "Ces paramètres s'appliquent à toutes les réunions créées avec les paramètres PMI",
+  today: "Aujourd'hui"
 };
 
 // @key: @#@"topic"@#@ @source: @#@"Meeting title"@#@
@@ -53,6 +56,8 @@ export default {
 // @key: @#@"muteAudio"@#@ @source: @#@"Mute audio for participants"@#@
 // @key: @#@"turnOffCamera"@#@ @source: @#@"Turn off camera for participants"@#@
 // @key: @#@"requirePassword"@#@ @source: @#@"Require password"@#@
+// @key: @#@"useE2ee"@#@ @source: @#@"Use end-to-end encryption"@#@
+// @key: @#@"e2eeTooltip"@#@ @source: @#@"End-to-end encrypted meetings are the most private, but features like joining by phone, closed captions, and recording aren't available."@#@
 // @key: @#@"setPassword"@#@ @source: @#@"Set password *"@#@
 // @key: @#@"setPasswordNotSymbol"@#@ @source: @#@"Set password"@#@
 // @key: @#@"passwordEmptyError"@#@ @source: @#@"Meeting password required"@#@
@@ -66,3 +71,4 @@ export default {
 // @key: @#@"limitScreenSharing"@#@ @source: @#@"Only host & moderators can share screen"@#@
 // @key: @#@"lockTooltip"@#@ @source: @#@"This setting is managed by your company admin"@#@
 // @key: @#@"pmiSettingAlert"@#@ @source: @#@"These settings will apply to all meetings created with PMI"@#@
+// @key: @#@"today"@#@ @source: @#@"Today"@#@

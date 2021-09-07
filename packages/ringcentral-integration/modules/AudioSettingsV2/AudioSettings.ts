@@ -37,7 +37,7 @@ polyfillGetUserMedia();
     'Auth',
     'Alert',
     'Storage',
-    'ExtensionFeatures',
+    'AppFeatures',
     { dep: 'AudioSettingsOptions', optional: true },
   ],
 })
@@ -178,7 +178,7 @@ export class AudioSettings extends RcModuleV2<Deps> {
       if (
         this.ready &&
         this._deps.auth.loggedIn &&
-        this._deps.extensionFeatures.isWebPhoneEnabled &&
+        this._deps.appFeatures.isWebPhoneEnabled &&
         !this.userMedia
       ) {
         // Make sure it only prompts once

@@ -5,6 +5,10 @@ export class PostMessageTransporter extends BasicTransporter {
     window.addEventListener('message', receiveMessage, useCapture);
   };
 
+  dispose = (receiveMessage: any) => {
+    window.removeEventListener('message', receiveMessage);
+  };
+
   createEmitter = (sendTarget: Window) => {
     // Always specify an exact target origin, not *,
     // when you use postMessage to send data to other windows.

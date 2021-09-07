@@ -116,6 +116,7 @@ ConversationList.propTypes = {
   loadNextPage: PropTypes.func,
   loadingNextPage: PropTypes.bool,
   renderExtraButton: PropTypes.func,
+  enableCDC: PropTypes.bool,
 };
 ConversationList.defaultProps = {
   currentSiteCode: '',
@@ -135,4 +136,5 @@ ConversationList.defaultProps = {
   loadingNextPage: false,
   typeFilter: undefined,
   renderExtraButton: undefined,
+  enableCDC: false,
 };

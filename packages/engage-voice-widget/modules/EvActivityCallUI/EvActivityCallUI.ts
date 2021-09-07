@@ -721,9 +721,11 @@ class EvActivityCallUI<T = {}>
       this._deps.alert.danger({
         message: logTypesEventFailure,
         ttl: 0,
+        payload: e?.error?.status === false ? e?.error?.message : undefined,
       });
       this.changeSavingStatus(initSaveStatus);
-      throw e;
+      console.error(e);
+      throw new Error(`Failed to save log.`);
     }
   }
 

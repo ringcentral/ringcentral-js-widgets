@@ -1,17 +1,21 @@
-import classnames from 'classnames';
-import React, { FunctionComponent, useState, useEffect } from 'react';
 import callDirections from '@ringcentral-integration/commons/enums/callDirections';
-import IgnoreIcon from '@ringcentral/juno/icon/Ignore';
-import VoicemailIcon from '@ringcentral/juno/icon/Voicemail';
-import { RcPopover, RcMenuList, RcMenuItem } from '@ringcentral/juno';
+import { RcMenuItem, RcMenuList, RcPopover, styled } from '@ringcentral/juno';
+import { Ignore, Voicemail } from '@ringcentral/juno/icon';
+import classnames from 'classnames';
+import React, { FunctionComponent, useEffect, useState } from 'react';
+
+import AnswerIcon from '../../assets/images/Answer.svg';
+import EndAnswerIcon from '../../assets/images/EndAnswer.svg';
 import ForwardIcon from '../../assets/images/Forward_white.svg';
 import HoldAnswerIcon from '../../assets/images/HoldAnswer.svg';
-import EndAnswerIcon from '../../assets/images/EndAnswer.svg';
-import AnswerIcon from '../../assets/images/Answer.svg';
-import { WebRTCNotificationProps } from './WebRTCNotificationSection.interface';
 import CircleButton from '../CircleButton';
-import styles from './styles.scss';
 import i18n from './i18n';
+import styles from './styles.scss';
+import { WebRTCNotificationProps } from './WebRTCNotificationSection.interface';
+
+const ForwardActiveList = styled.div`
+  max-width: 170px;
+`;
 
 export const WebRTCNotificationSection: FunctionComponent<WebRTCNotificationProps> = ({
   call,
@@ -75,7 +79,7 @@ export const WebRTCNotificationSection: FunctionComponent<WebRTCNotificationProp
               <li className={styles.callButton}>
                 <CircleButton
                   dataSign="ignore"
-                  icon={IgnoreIcon}
+                  icon={Ignore}
                   iconWidth={250}
                   iconHeight={250}
                   iconX={125}
@@ -108,7 +112,7 @@ export const WebRTCNotificationSection: FunctionComponent<WebRTCNotificationProp
                 <li className={classnames(styles.callButton, styles.voicemail)}>
                   <CircleButton
                     dataSign="toVoiceMail"
-                    icon={VoicemailIcon}
+                    icon={Voicemail}
                     className={classnames(styles.button, styles.hangup)}
                     showBorder={false}
                     iconWidth={250}
@@ -171,7 +175,7 @@ export const WebRTCNotificationSection: FunctionComponent<WebRTCNotificationProp
                 <li className={styles.callButton}>
                   <CircleButton
                     dataSign="toVoiceMail"
-                    icon={VoicemailIcon}
+                    icon={Voicemail}
                     className={classnames(styles.button, styles.hangup)}
                     showBorder={false}
                     iconWidth={250}
@@ -223,6 +227,7 @@ export const WebRTCNotificationSection: FunctionComponent<WebRTCNotificationProp
     const forward = (e: React.MouseEvent<HTMLElement>) => {
       e.stopPropagation();
       handleClose();
+      // TODO: check that type, should switch to getAttribute
       const selectedValue = e.currentTarget.attributes['data-value'].value;
       onForward(selectedValue, call?.telephonySessionId);
     };
@@ -256,15 +261,10 @@ export const WebRTCNotificationSection: FunctionComponent<WebRTCNotificationProp
         onClose={() => handleClose()}
         classes={{ paper: styles.forwardPopover }}
       >
-        <div data-sign="forwardActiveList">
+        <ForwardActiveList data-sign="forwardActiveList">
           <RcMenuList>
             {forwardList.map(({ text, subText, onClick, key }) => (
-              <RcMenuItem
-                key={key}
-                onClick={onClick}
-                maxWidth={170}
-                data-value={key}
-              >
+              <RcMenuItem key={key} onClick={onClick} data-value={key}>
                 <div className={styles.moreActionItem} data-sign={key}>
                   {text && <span className={styles.actionText}>{text}</span>}
                   {subText && (
@@ -274,7 +274,7 @@ export const WebRTCNotificationSection: FunctionComponent<WebRTCNotificationProp
               </RcMenuItem>
             ))}
           </RcMenuList>
-        </div>
+        </ForwardActiveList>
       </RcPopover>
     );
   };

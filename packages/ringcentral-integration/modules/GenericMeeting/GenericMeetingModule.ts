@@ -3,9 +3,9 @@ import RcModule from '../../lib/RcModule';
 import { Module } from '../../lib/di';
 import Meeting from '../Meeting';
 import { RcMMeetingModel } from '../MeetingV2';
-import { Brand } from '../BrandV2';
+import { Brand } from '../Brand';
 import ExtensionInfo from '../ExtensionInfo';
-import proxify from '../../lib/proxy/proxify';
+import { proxify } from '../../lib/proxy/proxify';
 import background from '../../lib/background';
 
 import {
@@ -345,6 +345,12 @@ export class GenericMeeting extends RcModule implements IGenericMeeting {
   get enableWaitingRoom(): boolean {
     if (this.isRCV) {
       return this._rcVideo.enableWaitingRoom;
+    }
+    return false;
+  }
+  get enableE2EE(): boolean {
+    if (this.isRCV) {
+      return this._rcVideo.enableE2EE;
     }
     return false;
   }

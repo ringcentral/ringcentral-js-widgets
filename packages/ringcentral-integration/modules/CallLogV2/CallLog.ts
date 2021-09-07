@@ -40,7 +40,7 @@ import {
 } from './helper';
 
 const DEFAULT_TTL = 5 * 60 * 1000;
-// Lock fetching on app refresh if lst fetch happened less than this timespan
+// Lock fetching on app refresh if lst fetch happened less than this time span
 const DEFAULT_REFRESH_LOCK = 3 * 60 * 1000;
 const DEFAULT_TOKEN_EXPIRES_IN = 60 * 60 * 1000;
 const DEFAULT_DAY_SPAN = 7;
@@ -59,7 +59,7 @@ const presenceRegExp = /\/presence\?detailedTelephonyState=true/;
     'ExtensionPhoneNumber',
     'ExtensionInfo',
     'Subscription',
-    'ExtensionFeatures',
+    'AppFeatures',
     { dep: 'TabManager', optional: true },
     { dep: 'Storage', optional: true },
     { dep: 'CallLogOptions', optional: true },
@@ -84,6 +84,7 @@ export class CallLog extends RcModuleV2<Deps> {
   @state
   data: CallLogData = {
     list: [],
+    map: {},
     token: null,
     timestamp: null,
   };
@@ -92,6 +93,7 @@ export class CallLog extends RcModuleV2<Deps> {
   resetData() {
     this.data = {
       list: [],
+      map: {},
       token: null,
       timestamp: null,
     };
@@ -106,9 +108,16 @@ export class CallLog extends RcModuleV2<Deps> {
   @action
   filterExpiredCalls(daySpan: number) {
     const cutOffTime = getDateFrom(daySpan).getTime();
-    this.data.list = this.data.list.filter(
-      (call) => call.startTime > cutOffTime,
-    );
+    const newList: string[] = [];
+    this.data.list.forEach((id) => {
+      const call = this.data.map[id];
+      if (call.startTime > cutOffTime) {
+        newList.push(id);
+      } else {
+        delete this.data.map[id];
+      }
+    });
+    this.data.list = newList;
   }
 
   @action
@@ -121,28 +130,32 @@ export class CallLog extends RcModuleV2<Deps> {
   }: SyncSuccessOptions) {
     this.data.timestamp = timestamp;
     this.data.token = syncToken;
-    const indexMap: Record<string, number> = {};
-    const newState: CallLogList = [];
+    const newState: string[] = [];
     const cutOffTime = getDateFrom(daySpan).getTime();
     // filter old calls
-    this.data.list.forEach((call) => {
+    this.data.list.forEach((id) => {
+      const call = this.data.map[id];
       if (call.startTime > cutOffTime) {
-        indexMap[call.id] = newState.length;
-        newState.push(call);
+        newState.push(id);
+      } else {
+        delete this.data.map[id];
       }
     });
     processRecords(records, supplementRecords).forEach((call) => {
       if (call.startTime > cutOffTime) {
-        if (indexMap[call.id] > -1) {
-          // replace the current data with new data
-          newState[indexMap[call.id]] = call;
-        } else {
-          indexMap[call.id] = newState.length;
-          newState.push(call);
+        if (!this.data.map[call.id]) {
+          newState.push(call.id);
+        }
+        this.data.map[call.id] = call;
+        if (this._enableDeleted && call.deleted) {
+          const index = newState.indexOf(call.id);
+          if (index > -1) {
+            newState.splice(index, 1);
+          }
+          delete this.data.map[call.id];
         }
       }
     });
-    newState.sort(sortByStartTime);
     this.data.list = newState;
   }
 
@@ -180,6 +193,10 @@ export class CallLog extends RcModuleV2<Deps> {
     return this._deps.callLogOptions?.listRecordCount ?? LIST_RECORD_COUNT;
   }
 
+  protected get _enableDeleted() {
+    return this._deps.callLogOptions?.enableDeleted ?? false;
+  }
+
   _shouldInit() {
     return !!(super._shouldInit() && this._deps.auth.loggedIn);
   }
@@ -192,6 +209,13 @@ export class CallLog extends RcModuleV2<Deps> {
   }
 
   async onInit() {
+    /**
+     * old call log data structure migration
+     */
+    if (typeof this.data.list[0] === 'object') {
+      this.resetData();
+    }
+
     this.filterExpiredCalls(this._daySpan);
     if (
       this.token &&
@@ -199,9 +223,7 @@ export class CallLog extends RcModuleV2<Deps> {
     ) {
       this.clearToken();
     }
-    if (
-      this._deps.extensionFeatures.features?.ReadExtensionCallLog?.available
-    ) {
+    if (this._deps.appFeatures.hasReadExtensionCallLog) {
       await this._init();
     }
   }
@@ -325,8 +347,16 @@ export class CallLog extends RcModuleV2<Deps> {
     return calls;
   }
 
+  @computed(({ data }: CallLog) => [data.list, data.map])
   get list() {
-    return this.data.list;
+    /**
+     * old call log data structure migration
+     */
+    if (typeof this.data.list[0] === 'object') {
+      return [];
+    }
+
+    return this.data.list.map((id) => this.data.map[id]).sort(sortByStartTime);
   }
 
   get token() {
@@ -383,6 +413,7 @@ export class CallLog extends RcModuleV2<Deps> {
         .list({
           syncType: syncTypes.iSync,
           syncToken: this.token,
+          showDeleted: this._enableDeleted,
         });
       if (ownerId !== this._deps.auth.ownerId) throw Error('request aborted');
       this.syncSuccess({
@@ -422,6 +453,9 @@ export class CallLog extends RcModuleV2<Deps> {
         });
       }
       if (ownerId !== this._deps.auth.ownerId) throw Error('request aborted');
+      if (this._enableDeleted) {
+        this.resetData();
+      }
       this.syncSuccess({
         records,
         supplementRecords,

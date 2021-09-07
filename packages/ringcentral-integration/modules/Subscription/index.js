@@ -12,7 +12,7 @@ import getSubscriptionReducer, {
 } from './getSubscriptionReducer';
 import { normalizeEventFilter } from './normalizeEventFilter';
 
-const DEFAULT_TIME_TO_RETRY = 60 * 1000;
+const DEFAULT_TIME_TO_RETRY = 20 * 1000;
 
 /**
  * @class
@@ -133,8 +133,16 @@ export default class Subscription extends RcModule {
       // need to make sure time diff is more than 1 min
       if (this.ready && this._subscription && Date.now() - t > 75 * 1000) {
         console.log('==== Sleep Detected ====');
-        await this.remove();
-        await this._subscribe();
+        // to wait automatic renew finish
+        const renewPromise = this._subscription.automaticRenewing();
+        if (renewPromise) {
+          await renewPromise;
+        }
+        // this._subscription may be removed at renewError event
+        if (this._subscription) {
+          // forcibly reconnect pubnub to ensure pubnub is alive
+          await this._subscription.resubscribeAtPubNub();
+        }
       }
       this._detectSleep();
     }, 20 * 1000);
@@ -179,6 +187,7 @@ export default class Subscription extends RcModule {
     this._subscription.on(this._subscription.events.renewError, (error) => {
       if (this._subscription) {
         this._subscription.reset();
+        this._subscription.removeAllListeners();
         this._subscription = null;
       }
       this.store.dispatch({
@@ -303,6 +312,7 @@ export default class Subscription extends RcModule {
       if (this._subscription) {
         // check again in case subscription object was removed while waiting
         this._subscription.reset();
+        this._subscription.removeAllListeners();
         this._subscription = null;
       }
       this._removePromise = null;
@@ -332,6 +342,7 @@ export default class Subscription extends RcModule {
         }
       } else {
         this._subscription.reset();
+        this._subscription.removeAllListeners();
         this._subscription = null;
       }
     }

@@ -94,7 +94,7 @@ const DEFAULT_DAY_SPAN = 90;
     'MessageSender',
     'ExtensionInfo',
     'MessageStore',
-    'ExtensionFeatures',
+    'AppFeatures',
     { dep: 'RegionSettings', optional: true },
     { dep: 'ContactMatcher', optional: true },
     { dep: 'ConversationLogger', optional: true },
@@ -109,7 +109,7 @@ export default class Conversations extends RcModule {
     messageSender,
     extensionInfo,
     messageStore,
-    extensionFeatures,
+    appFeatures,
     contactMatcher,
     conversationLogger,
     regionSettings,
@@ -137,7 +137,7 @@ export default class Conversations extends RcModule {
       'extensionInfo',
     );
     this._messageStore = ensureExist.call(this, messageStore, 'messageStore');
-    this._extensionFeatures = extensionFeatures;
+    this._appFeatures = appFeatures;
     this._contactMatcher = contactMatcher;
     this._conversationLogger = conversationLogger;
     this._regionSettings = regionSettings;
@@ -213,7 +213,7 @@ export default class Conversations extends RcModule {
       this._extensionInfo.ready &&
       this._messageSender.ready &&
       this._messageStore.ready &&
-      this._extensionFeatures.ready &&
+      this._appFeatures.ready &&
       (!this._contactMatcher || this._contactMatcher.ready) &&
       (!this._conversationLogger || this._conversationLogger.ready) &&
       this.pending
@@ -225,7 +225,7 @@ export default class Conversations extends RcModule {
       (!this._auth.loggedIn ||
         !this._extensionInfo.ready ||
         !this._messageSender.ready ||
-        !this._extensionFeatures.ready ||
+        !this._appFeatures.ready ||
         !this._messageStore.ready ||
         (this._contactMatcher && !this._contactMatcher.ready) ||
         (this._conversationLogger && !this._conversationLogger.ready)) &&
@@ -620,11 +620,11 @@ export default class Conversations extends RcModule {
         default:
           return allConversations.filter(
             (conversation) =>
-              (this._extensionFeatures.hasReadMessagesPermission ||
+              (this._appFeatures.hasReadMessagesPermission ||
                 !messageIsTextMessage(conversation)) &&
-              (this._extensionFeatures.hasVoicemailPermission ||
+              (this._appFeatures.hasVoicemailPermission ||
                 !messageIsVoicemail(conversation)) &&
-              (this._extensionFeatures.hasReadFaxPermission ||
+              (this._appFeatures.hasReadFaxPermission ||
                 !messageIsFax(conversation)),
           );
       }
@@ -946,7 +946,7 @@ export default class Conversations extends RcModule {
   }
 
   get _hasPermission() {
-    return this._extensionFeatures.hasReadMessagesPermission;
+    return this._appFeatures.hasReadMessagesPermission;
   }
 
   get correspondentMatch() {

@@ -8,7 +8,7 @@ import {
   Step,
 } from '@ringcentral-integration/test-utils';
 
-import { Locale } from '../../modules/LocaleV2';
+import { Locale } from '../../modules/Locale';
 import { mockModuleGenerator } from '../lib/mockModule';
 
 const getMockModule = () =>
@@ -30,7 +30,7 @@ class CheckLocaleState extends Step {
             const instance = new Locale({} as any);
             expect(instance.locale).toBe(null);
             expect(instance.debugMode).toBe(false);
-            expect(instance._defaultLocale).toBe('en-US');
+            expect(instance.defaultLocale).toBe('en-US');
             expect(instance._detectBrowser).toBe(true);
             expect(instance._polling).toBe(false);
             expect(instance._pollingInterval).toBe(2000);

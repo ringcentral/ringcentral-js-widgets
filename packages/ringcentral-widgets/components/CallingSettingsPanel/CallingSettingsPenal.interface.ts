@@ -27,6 +27,7 @@ export interface CallingSettingsProps extends RingtoneBaseProps {
   myLocation: string;
   ringoutPrompt: boolean;
   onSave: (options: SaveFunctionProps) => void;
+  jupiterAppName?: string;
 }
 export interface CallingSettingsPanelProps extends CallingSettingsProps {
   showSpinner?: boolean;
@@ -41,6 +42,7 @@ export interface GetOptionNameProps {
   shortBrandName: string;
   fullBrandName: string;
   currentLocale?: string;
+  jupiterAppName?: string;
 }
 
 export interface GetCallingOptionProps extends GetOptionNameProps {

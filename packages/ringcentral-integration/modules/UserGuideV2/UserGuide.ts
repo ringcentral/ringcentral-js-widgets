@@ -30,7 +30,7 @@ const SUPPORTED_LOCALES = {
     'Locale',
     'Storage',
     'Webphone',
-    'ExtensionFeatures',
+    'AppFeatures',
     { dep: 'UserGuideOptions', optional: true },
   ],
 })
@@ -92,7 +92,7 @@ export class UserGuide extends RcModuleV2<Deps> {
       this._deps.auth.ready &&
       this._deps.locale.ready &&
       this._deps.storage.ready &&
-      this._deps.extensionFeatures.ready &&
+      this._deps.appFeatures.ready &&
       this._deps.auth.loggedIn
     );
   }
@@ -103,7 +103,7 @@ export class UserGuide extends RcModuleV2<Deps> {
       (!this._deps.auth.ready ||
         !this._deps.locale.ready ||
         !this._deps.storage.ready ||
-        !this._deps.extensionFeatures.ready)
+        !this._deps.appFeatures.ready)
     );
   }
 
@@ -202,8 +202,8 @@ export class UserGuide extends RcModuleV2<Deps> {
     // the user guide is not applicable to them. So we should not show the user guide for
     // these extensions.
     return (
-      this._deps.extensionFeatures.isCallingEnabled ||
-      this._deps.extensionFeatures.hasReadMessagesPermission
+      this._deps.appFeatures.isCallingEnabled ||
+      this._deps.appFeatures.hasReadMessagesPermission
     );
   }
 

@@ -60,12 +60,6 @@
     // "emitDecoratorMetadata": true,         /* Enables experimental support for emitting type metadata for decorators. */
 
     "resolveJsonModule": true,
-    /* Custom Options */
-    "plugins": [],
-    "baseUrl": "./",
-    "paths": {
-      "ringcentral-widgets/*": ["./ringcentral-widgets/*"]
-    }
   },
   "exclude": ["node_modules"]
 }

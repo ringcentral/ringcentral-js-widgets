@@ -1,4 +1,4 @@
-import Locale from '@ringcentral-integration/commons/modules/Locale';
+import { Locale } from '@ringcentral-integration/commons/modules/Locale';
 import { ActiveCallControl } from '@ringcentral-integration/commons/modules/ActiveCallControlV2';
 import RouterInteraction from '../RouterInteraction';
 

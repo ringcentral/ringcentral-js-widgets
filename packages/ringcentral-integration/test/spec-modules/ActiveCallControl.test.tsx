@@ -36,7 +36,6 @@ const mockSession = {
   status: 'testStatus',
   telephonySessionId: 'testTelephonySessionId',
   to: 'testto',
-  webphoneSessionConnected: false,
 };
 
 const sessionState = {
@@ -56,7 +55,6 @@ const sessionState = {
   telephonySessionId: 'testTelephonySessionId',
   telephonySession: {},
   to: 'testto',
-  webphoneSessionConnected: false,
 };
 
 const getMockModule = () =>
@@ -70,6 +68,7 @@ const getMockModule = () =>
     _rcCall: {
       sessions: [mockSession],
     },
+    _updateActiveSessions: ActiveCallControl.prototype._updateActiveSessions,
   });
 
 @autorun(test)

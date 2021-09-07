@@ -16,6 +16,7 @@ export type ListViewProps = {
   | 'valueFunction'
   | 'onChange'
   | 'value'
+  | 'multiple'
 >;
 
 export const ListView: FunctionComponent<ListViewProps> = ({

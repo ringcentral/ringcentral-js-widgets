@@ -3,7 +3,7 @@ export default {
   date: "Fecha",
   time: "Hora",
   hours: "{howMany} h",
-  minutes: "{howMany} min",
+  minutes: "{howMany} min",
   today: "Hoy",
   duration: "Duración",
   topic: "Título de la reunión",

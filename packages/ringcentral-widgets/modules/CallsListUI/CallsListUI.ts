@@ -1,8 +1,8 @@
-import { RcUIModuleV2 } from '@ringcentral-integration/core';
 import { Module } from '@ringcentral-integration/commons/lib/di';
 import formatNumber from '@ringcentral-integration/commons/lib/formatNumber';
 import { FormatDateTimeOptions } from '@ringcentral-integration/commons/modules/DateTimeFormatV2';
-import { ToNumber } from '../../../ringcentral-integration/modules/ComposeTextV2';
+import { RcUIModuleV2 } from '@ringcentral-integration/core';
+import { ToNumber } from '@ringcentral-integration/commons/modules/ComposeTextV2';
 import { RouteParams } from '../ContactDetailsUI';
 import {
   CallsListUIFunctions,
@@ -23,7 +23,6 @@ export const FILTER_THRESHOLD: number = 500;
     'CallMonitor',
     'Locale',
     'RegionSettings',
-    'ExtensionFeatures',
     'CallHistory',
     'ConnectivityMonitor',
     'RateLimiter',
@@ -34,6 +33,7 @@ export const FILTER_THRESHOLD: number = 500;
     'ContactSearch',
     'RouterInteraction',
     'ContactDetailsUI',
+    'AppFeatures',
     { dep: 'DialerUI', optional: true },
     { dep: 'DialerUI', optional: true },
     { dep: 'CallLogger', optional: true },
@@ -57,7 +57,7 @@ export class CallsListUI extends RcUIModuleV2<Deps> {
       callMonitor,
       locale,
       regionSettings,
-      extensionFeatures,
+      appFeatures,
       callHistory,
       connectivityMonitor,
       rateLimiter,
@@ -76,8 +76,8 @@ export class CallsListUI extends RcUIModuleV2<Deps> {
       otherDeviceCalls: callMonitor.otherDeviceCalls,
       areaCode: regionSettings.areaCode,
       countryCode: regionSettings.countryCode,
-      outboundSmsPermission: extensionFeatures.hasOutboundSMSPermission,
-      internalSmsPermission: extensionFeatures.hasInternalSMSPermission,
+      outboundSmsPermission: appFeatures.hasOutboundSMSPermission,
+      internalSmsPermission: appFeatures.hasInternalSMSPermission,
       brand: brand.fullName,
       showContactDisplayPlaceholder,
       autoLog: !!(callLogger && callLogger.autoLog),
@@ -92,12 +92,13 @@ export class CallsListUI extends RcUIModuleV2<Deps> {
         regionSettings.ready &&
         dateTimeFormat.ready &&
         connectivityMonitor.ready &&
-        extensionFeatures.ready &&
+        appFeatures.ready &&
         (!call || call.ready) &&
         (!composeText || composeText.ready) &&
         (!callLogger || callLogger.ready)
       ),
-      readTextPermission: extensionFeatures.hasReadTextPermission,
+      readTextPermission: appFeatures.hasReadTextPermission,
+      enableCDC: appFeatures.isCDCEnabled,
     };
   }
 

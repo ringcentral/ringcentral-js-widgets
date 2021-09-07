@@ -7,12 +7,13 @@ import {
   LastCallInfo,
 } from '@ringcentral-integration/commons/modules/ConferenceCallV2';
 import { Webphone } from '@ringcentral-integration/commons/modules/WebphoneV2';
-import callDirections from '../../../ringcentral-integration/enums/callDirections';
-import { NormalizedSession } from '../../../ringcentral-integration/interfaces/Webphone.interface';
-import { formatNumber } from '../../../ringcentral-integration/lib/formatNumber';
-import callingModes from '../../../ringcentral-integration/modules/CallingSettings/callingModes';
-import { sessionStatus } from '../../../ringcentral-integration/modules/Webphone/sessionStatus';
+import callDirections from '@ringcentral-integration/commons/enums/callDirections';
+import { NormalizedSession } from '@ringcentral-integration/commons/interfaces/Webphone.interface';
+import { formatNumber } from '@ringcentral-integration/commons/lib/formatNumber';
+import callingModes from '@ringcentral-integration/commons/modules/CallingSettings/callingModes';
+import { sessionStatus } from '@ringcentral-integration/commons/modules/Webphone/sessionStatus';
 import callCtrlLayouts from '../../enums/callCtrlLayouts';
+import { checkShouldHidePhoneNumber } from '../../lib/checkShouldHidePhoneNumber';
 import {
   CallControlComponentProps,
   Deps,
@@ -32,6 +33,7 @@ import {
     'ForwardingNumber',
     'CallMonitor',
     'ExtensionInfo',
+    'AppFeatures',
     { dep: 'ConferenceCall', optional: true },
     { dep: 'RouterInteraction', optional: true },
   ],
@@ -123,9 +125,22 @@ export class CallControlUI extends RcUIModuleV2<Deps> {
       connectivityManager.isOfflineMode || connectivityManager.isVoipOnlyMode
     );
 
+    let phoneNumber =
+      currentSession.direction === callDirections.outbound
+        ? currentSession.to
+        : currentSession.from;
+
+    if (
+      this._deps.appFeatures.isCDCEnabled &&
+      checkShouldHidePhoneNumber(phoneNumber, nameMatches)
+    ) {
+      phoneNumber = null;
+    }
+
     return {
       brand: brand.fullName,
       nameMatches,
+      phoneNumber,
       currentLocale: locale.currentLocale,
       session: currentSession,
       areaCode: regionSettings.areaCode,

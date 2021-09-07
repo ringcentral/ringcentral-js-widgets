@@ -38,4 +38,9 @@ export const DialPadWrapper = styled.div`
   [sf-classic] & {
     width: 90%;
   }
+
+  button > span {
+    width: 100%;
+    height: 100%;
+  }
 `;

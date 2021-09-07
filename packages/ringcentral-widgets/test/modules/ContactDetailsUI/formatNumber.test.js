@@ -4,7 +4,7 @@ import {
   parseIncompletePhoneNumber as mockParseIncompletePhoneNumber,
 } from '@ringcentral-integration/phone-number';
 import { ContactDetailsUI } from '../../../modules/ContactDetailsUI/ContactDetailsUI';
-import { phone } from './testUtils';
+import { phone, defaultPropsParams } from './testSetup';
 
 jest.mock('@ringcentral-integration/phone-number', () => ({
   isE164: jest.fn(),
@@ -24,7 +24,6 @@ const formattedNumber = '+12058711434';
 const defaultProps = {
   ...phone,
   regionSettings: { countryCode: '' },
-  extensionInfo: null,
 };
 
 afterEach(() => {
@@ -39,7 +38,7 @@ test("if phoneNumber's format is E164, it should return formattedNumber", () => 
   mockParseIncompletePhoneNumber.mockReturnValueOnce(cleanNumber);
 
   const result = new ContactDetailsUI(defaultProps)
-    .getUIFunctions()
+    .getUIFunctions(defaultPropsParams)
     .formatNumber(phoneNumber);
 
   expect(result).toBe(formattedNumber);
@@ -50,7 +49,9 @@ test("if phoneNumber isn't an E164 nor an extension, it should keep the number i
   mockIsE164.mockReturnValueOnce(false);
   const instance = new ContactDetailsUI(defaultProps);
   expect(mockFormatNumber).not.toBeCalled();
-  const result = instance.getUIFunctions().formatNumber(phoneNumber);
+  const result = instance
+    .getUIFunctions(defaultPropsParams)
+    .formatNumber(phoneNumber);
   expect(result).toBe(phoneNumber);
 });
 
@@ -58,7 +59,9 @@ test('if phoneNumber is an extension, it should keep the number intact', () => {
   const phoneNumber = '24705';
   mockIsE164.mockReturnValueOnce(false);
   const instance = new ContactDetailsUI(defaultProps);
-  const result = instance.getUIFunctions().formatNumber(phoneNumber);
+  const result = instance
+    .getUIFunctions(defaultPropsParams)
+    .formatNumber(phoneNumber);
   expect(mockFormatNumber).not.toBeCalled();
   expect(mockParseIncompletePhoneNumber).toBeCalledWith(phoneNumber);
   expect(result).toBe(phoneNumber);
@@ -75,7 +78,9 @@ describe('multiple site feature(just for extension)', () => {
         site: null,
       },
     });
-    const result = instance.getUIFunctions().formatNumber(phoneNumber);
+    const result = instance
+      .getUIFunctions(defaultPropsParams)
+      .formatNumber(phoneNumber);
     expect(mockFormatNumber).not.toBeCalled();
     expect(mockParseIncompletePhoneNumber).toBeCalledWith(phoneNumber);
     expect(result).toBe(phoneNumber);
@@ -90,7 +95,9 @@ describe('multiple site feature(just for extension)', () => {
         isMultipleSiteEnabled: false,
       },
     });
-    const result = instance.getUIFunctions().formatNumber(phoneNumber);
+    const result = instance
+      .getUIFunctions(defaultPropsParams)
+      .formatNumber(phoneNumber);
     expect(mockFormatNumber).not.toBeCalled();
     expect(mockParseIncompletePhoneNumber).toBeCalledWith(phoneNumber);
     expect(result).toBe(phoneNumber);
@@ -116,7 +123,9 @@ describe('multiple site feature(just for extension)', () => {
             },
           },
         });
-        const result = instance.getUIFunctions().formatNumber(extension);
+        const result = instance
+          .getUIFunctions(defaultPropsParams)
+          .formatNumber(extension);
         expect(result).toBe(expected);
       },
     );

@@ -17,6 +17,7 @@ import {
 @Module({
   name: 'ConversationUI',
   deps: [
+    'AppFeatures',
     'Brand',
     'Locale',
     'DateTimeFormat',
@@ -32,7 +33,7 @@ import {
   ],
 })
 export class ConversationUI<T> extends RcUIModuleV2<Deps & T> {
-  constructor(deps: Deps) {
+  constructor(deps: Deps & T) {
     super({
       deps,
     });
@@ -56,6 +57,7 @@ export class ConversationUI<T> extends RcUIModuleV2<Deps & T> {
       conversations,
       rateLimiter,
       connectivityMonitor,
+      appFeatures,
     } = this._deps;
     const disableLinks =
       rateLimiter.throttling || !connectivityMonitor.connectivity;
@@ -97,6 +99,7 @@ export class ConversationUI<T> extends RcUIModuleV2<Deps & T> {
       perPage,
       loadingNextPage: conversations.loadingOldMessages,
       inputExpandable,
+      enableCDC: appFeatures.isCDCEnabled,
     };
   }
 

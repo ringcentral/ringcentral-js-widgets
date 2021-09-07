@@ -1,15 +1,10 @@
 import { connectivityTypes } from '../../../../modules/ConnectivityManager';
 export default {
-  [connectivityTypes.networkLoss]:
-    'Leider ist ein Fehler aufgetreten. Überprüfen Sie Ihre Netzwerkverbindung und versuchen Sie es erneut.',
-  [connectivityTypes.offline]:
-    'Verbindung zum Server nicht möglich. Bitte versuchen Sie es später erneut.',
-  [connectivityTypes.serverUnavailable]:
-    'Leider ist auf unserer Seite ein Fehler aufgetreten. Versuchen Sie es später erneut.',
-  [connectivityTypes.voipOnly]:
-    'Leider ist auf unserer Seite ein Fehler aufgetreten, aber wir arbeiten hart daran, das Problem zu beheben. Sie können weiterhin Anrufe tätigen, aber andere Funktionen sind derzeit eingeschränkt.',
-  [connectivityTypes.survival]:
-    'Leider ist auf unserer Seite ein Fehler aufgetreten, aber wir arbeiten hart daran, das Problem zu beheben. Möglicherweise haben Sie auf bestimmte Funktionen nur eingeschränkten Zugriff. Die App wird automatisch wiederhergestellt, sobald sie verfügbar ist.',
+  [connectivityTypes.networkLoss]: "Leider ist ein Fehler aufgetreten. Überprüfen Sie Ihre Netzwerkverbindung und versuchen Sie es erneut.",
+  [connectivityTypes.offline]: "Verbindung zum Server nicht möglich. Bitte versuchen Sie es später erneut.",
+  [connectivityTypes.serverUnavailable]: "Leider ist auf unserer Seite ein Fehler aufgetreten. Versuchen Sie es später erneut.",
+  [connectivityTypes.voipOnly]: "Leider ist auf unserer Seite ein Fehler aufgetreten, aber wir arbeiten hart daran, das Problem zu beheben. Sie können weiterhin Anrufe tätigen, aber andere Funktionen sind derzeit eingeschränkt.",
+  [connectivityTypes.survival]: "Leider ist auf unserer Seite ein Fehler aufgetreten, aber wir arbeiten hart daran, das Problem zu beheben. Möglicherweise haben Sie auf bestimmte Funktionen nur eingeschränkten Zugriff. Die App wird automatisch wiederhergestellt, sobald sie verfügbar ist."
 };
 
 // @key: @#@"[connectivityTypes.networkLoss]"@#@ @source: @#@"Sorry, something went wrong, check your network connection and try again."@#@

@@ -3,10 +3,10 @@ import ReactDOM from 'react-dom';
 import { createStore } from 'redux';
 import { ClientTransport } from '@ringcentral-integration/commons/lib/ChromeTransport';
 import getProxyClient from '@ringcentral-integration/commons/lib/proxy/getProxyClient';
+import { defaultBrandConfig as brandConfig } from '@ringcentral-integration/commons/modules/Brand';
 import Phone from '../dev-server/Phone';
 import App from '../dev-server/containers/App';
 import apiConfig from '../dev-server/api-config';
-import brandConfig from '../dev-server/brandConfig';
 import version from '../dev-server/version';
 import prefix from '../dev-server/prefix';
 

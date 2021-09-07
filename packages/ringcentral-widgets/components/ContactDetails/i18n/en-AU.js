@@ -5,6 +5,7 @@ export default {
   [phoneTypes.extension]: "Ext.",
   [phoneTypes.direct]: "Direct",
   [phoneTypes.mobile]: "Mobile",
+  [phoneTypes.contact]: "Contact phone",
   [phoneTypes.home]: "Home",
   [phoneTypes.business]: "Business",
   [phoneTypes.fax]: "Fax",
@@ -26,6 +27,7 @@ export default {
 // @key: @#@"[phoneTypes.extension]"@#@ @source: @#@"Ext."@#@
 // @key: @#@"[phoneTypes.direct]"@#@ @source: @#@"Direct"@#@
 // @key: @#@"[phoneTypes.mobile]"@#@ @source: @#@"Mobile"@#@
+// @key: @#@"[phoneTypes.contact]"@#@ @source: @#@"Contact phone"@#@
 // @key: @#@"[phoneTypes.home]"@#@ @source: @#@"Home"@#@
 // @key: @#@"[phoneTypes.business]"@#@ @source: @#@"Business"@#@
 // @key: @#@"[phoneTypes.fax]"@#@ @source: @#@"Fax"@#@

@@ -1,6 +1,6 @@
 import { Auth } from '../AuthV2';
-import { ExtensionFeatures } from '../ExtensionFeatures';
-import { Locale } from '../LocaleV2';
+import { AppFeatures } from '../AppFeatures';
+import { Locale } from '../Locale';
 import { Storage } from '../StorageV2';
 import { Webphone } from '../WebphoneV2';
 
@@ -14,7 +14,7 @@ export interface Deps {
   locale: Locale;
   storage: Storage;
   webphone: Webphone;
-  extensionFeatures: ExtensionFeatures;
+  appFeatures: AppFeatures;
   userGuideOptions?: UserGuideOptions;
 }
 

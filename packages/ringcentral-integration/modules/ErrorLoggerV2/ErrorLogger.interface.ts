@@ -1,5 +1,5 @@
 import { Auth } from '../AuthV2';
-import { BrandConfig } from '../BrandV2';
+import { BrandConfig } from '../Brand';
 
 export interface SentryConfig {
   endpoint: string;

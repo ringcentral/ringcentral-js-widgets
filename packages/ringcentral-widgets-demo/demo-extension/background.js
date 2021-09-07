@@ -3,10 +3,10 @@ import ReactDOM from 'react-dom';
 import { createStore } from 'redux';
 import { ServerTransport } from '@ringcentral-integration/commons/lib/ChromeTransport';
 import getProxyServer from '@ringcentral-integration/commons/lib/proxy/getProxyServer';
+import { defaultBrandConfig as brandConfig } from '@ringcentral-integration/commons/modules/Brand';
 import Phone from '../dev-server/Phone';
 import App from '../dev-server/containers/App';
 import apiConfig from '../dev-server/api-config';
-import brandConfig from '../dev-server/brandConfig';
 import version from '../dev-server/version';
 import prefix from '../dev-server/prefix';
 
@@ -34,6 +34,7 @@ window.addEventListener('load', () => {
   );
 });
 
+// eslint-disable-next-line no-undef
 chrome.browserAction.onClicked.addListener((tab) => {
   window.open('/client.html');
 });

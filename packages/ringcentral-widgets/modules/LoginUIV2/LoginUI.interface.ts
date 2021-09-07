@@ -1,6 +1,6 @@
 import { Auth } from '@ringcentral-integration/commons/modules/AuthV2';
 import ConnectivityMonitor from '@ringcentral-integration/commons/modules/ConnectivityMonitor';
-import Locale from '@ringcentral-integration/commons/modules/Locale';
+import { Locale } from '@ringcentral-integration/commons/modules/Locale';
 import RateLimiter from '@ringcentral-integration/commons/modules/RateLimiter';
 
 import OAuth from '../OAuth';

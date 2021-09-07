@@ -779,16 +779,21 @@ class EvIntegratedSoftphone
             this._sendTabManager(
               tabManagerEvents.NOTIFY_ACTIVE_TAB_CALL_ACTIVE,
             );
-            // eslint-disable-next-line no-alert
-            alert(
-              i18n.getString('activeCallTip', this._deps.locale.currentLocale),
-            );
-            reject(null);
+            if (
+              // eslint-disable-next-line no-alert
+              window.confirm(
+                i18n.getString(
+                  'activeCallTip',
+                  this._deps.locale.currentLocale,
+                ),
+              )
+            ) {
+              resolve(null);
+            }
           },
         },
       );
     }
-
     this._deps.evClient.sipAnswer();
   }
 

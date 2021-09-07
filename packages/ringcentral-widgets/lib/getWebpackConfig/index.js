@@ -5,6 +5,9 @@ import autoprefixer from 'autoprefixer';
 import path from 'path';
 import webpack from 'webpack';
 
+/**
+ * @deprecated
+ */
 function getBaseConfig({
   cacheDirectory = false,
   hashPrefix = '',

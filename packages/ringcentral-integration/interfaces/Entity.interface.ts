@@ -9,6 +9,9 @@ export interface Entity {
   type: string;
   phone?: string;
   phoneNumber?: string;
-  phoneNumbers?: { phoneNumber: string; phoneType: string }[];
+  phoneNumbers?: { phoneNumber: string; phoneType: string; hidden?: boolean }[];
   profileImageUrl?: string;
+  jobTitle?: string;
+  email?: string;
+  hidden?: boolean;
 }

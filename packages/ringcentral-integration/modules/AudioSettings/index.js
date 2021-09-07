@@ -34,10 +34,10 @@ polyfillGetUserMedia();
  * @description AudioSettings module.
  */
 @Module({
-  deps: ['Auth', 'Alert', 'Storage', 'ExtensionFeatures'],
+  deps: ['Auth', 'Alert', 'Storage', 'AppFeatures'],
 })
 export default class AudioSettings extends RcModule {
-  constructor({ auth, alert, storage, extensionFeatures, ...options }) {
+  constructor({ auth, alert, storage, appFeatures, ...options }) {
     super({
       ...options,
       actionTypes,
@@ -45,7 +45,7 @@ export default class AudioSettings extends RcModule {
     this._storage = ensureExist.call(this, storage, 'storage');
     this._auth = ensureExist.call(this, auth, 'auth');
     this._alert = ensureExist.call(this, alert, 'alert');
-    this._extensionFeatures = extensionFeatures;
+    this._appFeatures = appFeatures;
     this._storageKey = 'audioSettings';
     this._storage.registerReducer({
       key: this._storageKey,
@@ -63,7 +63,7 @@ export default class AudioSettings extends RcModule {
       if (
         this.ready &&
         this._auth.loggedIn &&
-        this._extensionFeatures.isWebPhoneEnabled &&
+        this._appFeatures.isWebPhoneEnabled &&
         !this.userMedia
       ) {
         // Make sure it only prompts once
@@ -99,16 +99,14 @@ export default class AudioSettings extends RcModule {
       this.pending &&
       this._storage.ready &&
       this._auth.ready &&
-      this._extensionFeatures.ready
+      this._appFeatures.ready
     );
   }
 
   _shouldReset() {
     return !!(
       this.ready &&
-      (!this._auth.ready ||
-        !this._storage.ready ||
-        !this._extensionFeatures.ready)
+      (!this._auth.ready || !this._storage.ready || !this._appFeatures.ready)
     );
   }
 

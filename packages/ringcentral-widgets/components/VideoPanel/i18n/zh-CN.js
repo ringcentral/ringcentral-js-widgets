@@ -19,6 +19,8 @@ export default {
   muteAudio: "参与者音频静音",
   turnOffCamera: "关闭参与者的摄像头",
   requirePassword: "需要输入密码",
+  useE2ee: "使用端到端加密",
+  e2eeTooltip: "端到端加密会议的私密性最强，但无法使用通过电话加入、隐藏式字幕和录制等功能。",
   setPassword: "设置密码 *",
   setPasswordNotSymbol: "设置密码",
   passwordEmptyError: "会议密码为必填项",
@@ -31,7 +33,8 @@ export default {
   signedInCoWorkers: "已登录的同事",
   limitScreenSharing: "只有主持人和管理员可以共享屏幕",
   lockTooltip: "此设置由公司管理员管理",
-  pmiSettingAlert: "这些设置将应用到使用 PMI 创建的所有会议"
+  pmiSettingAlert: "这些设置将应用到使用 PMI 创建的所有会议",
+  today: "今天"
 };
 
 // @key: @#@"topic"@#@ @source: @#@"Meeting title"@#@
@@ -53,6 +56,8 @@ export default {
 // @key: @#@"muteAudio"@#@ @source: @#@"Mute audio for participants"@#@
 // @key: @#@"turnOffCamera"@#@ @source: @#@"Turn off camera for participants"@#@
 // @key: @#@"requirePassword"@#@ @source: @#@"Require password"@#@
+// @key: @#@"useE2ee"@#@ @source: @#@"Use end-to-end encryption"@#@
+// @key: @#@"e2eeTooltip"@#@ @source: @#@"End-to-end encrypted meetings are the most private, but features like joining by phone, closed captions, and recording aren't available."@#@
 // @key: @#@"setPassword"@#@ @source: @#@"Set password *"@#@
 // @key: @#@"setPasswordNotSymbol"@#@ @source: @#@"Set password"@#@
 // @key: @#@"passwordEmptyError"@#@ @source: @#@"Meeting password required"@#@
@@ -66,3 +71,4 @@ export default {
 // @key: @#@"limitScreenSharing"@#@ @source: @#@"Only host & moderators can share screen"@#@
 // @key: @#@"lockTooltip"@#@ @source: @#@"This setting is managed by your company admin"@#@
 // @key: @#@"pmiSettingAlert"@#@ @source: @#@"These settings will apply to all meetings created with PMI"@#@
+// @key: @#@"today"@#@ @source: @#@"Today"@#@

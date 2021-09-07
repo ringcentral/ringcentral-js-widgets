@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import RolesAndPermissionsAlert from '@ringcentral-integration/widgets/components/AlertRenderer/RolesAndPermissionsAlert';
+import PermissionsAlert from '@ringcentral-integration/widgets/components/AlertRenderer/PermissionsAlert';
 
 const props = {};
 props.message = {
@@ -11,9 +11,7 @@ props.application = 'test string';
 props.currentLocale = 'en-US';
 
 /**
- * A example of `RolesAndPermissionsAlert`
+ * A example of `PermissionsAlert`
  */
-const RolesAndPermissionsAlertDemo = () => (
-  <RolesAndPermissionsAlert {...props} />
-);
-export default RolesAndPermissionsAlertDemo;
+const PermissionsAlertDemo = () => <PermissionsAlert {...props} />;
+export default PermissionsAlertDemo;

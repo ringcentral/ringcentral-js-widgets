@@ -2,39 +2,44 @@ import { combineReducers } from 'redux';
 
 function getCallsMappingReducer(types) {
   return (state = {}, { type, identify }) => {
+    const originalState = state[identify];
     switch (type) {
       case types.update:
-        if (state[identify] && state[identify].isEdited) {
-          return state;
-        }
         return {
           ...state,
           [identify]: {
-            ...state[identify],
+            ...originalState,
+            latestUpdateTime: Date.now(),
             isEdited: true,
           },
         };
       case types.saving:
+      case types.syncing:
         return {
           ...state,
           [identify]: {
-            ...state[identify],
+            ...originalState,
+            latestSaveTime: Date.now(),
           },
         };
       case types.saveSuccess:
         return {
           ...state,
           [identify]: {
-            ...state[identify],
-            isEdited: false,
+            ...originalState,
             isSucceed: true,
+            isEdited: !!(
+              originalState?.latestUpdateTime &&
+              originalState?.latestSaveTime &&
+              originalState?.latestSaveTime < originalState?.latestUpdateTime
+            ),
           },
         };
       case types.saveError:
         return {
           ...state,
           [identify]: {
-            ...state[identify],
+            ...originalState,
             isEdited: true,
             isSucceed: false,
           },

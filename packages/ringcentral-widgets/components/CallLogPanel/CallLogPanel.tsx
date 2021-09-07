@@ -121,6 +121,7 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
         <div
           ref={callLogCallControlRef}
           className={classnames(styles.callControlRoot, callLogCallControl)}
+          data-sign="smallCallControl"
         >
           {renderCallLogCallControl &&
             renderCallLogCallControl(
@@ -330,6 +331,7 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
       isInTransferPage,
       isWide,
       children,
+      getRenderLogButton,
     } = this.props;
     if (!currentIdentify || isInTransferPage) return null;
 
@@ -347,7 +349,7 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
             currentLocale={currentLocale}
             backIcon={backIcon}
             isWide={isWide}
-            rightIcon={this.genSaveLogButtonV2()}
+            rightIcon={getRenderLogButton?.() || this.genSaveLogButtonV2()}
             title={i18n.getString(headerTitle, currentLocale)}
             className={classnames(styles.header, backHeader)}
             onBackClick={() => this.goBack()}

@@ -25,6 +25,7 @@ const ACTIVE_CALL_PATH = '/calls/active';
     'Storage',
     'Webphone',
     'CallMonitor',
+    { dep: 'ActiveCallControl', optional: true },
     { dep: 'UserGuide', optional: true },
     { dep: 'QuickAccess', optional: true },
   ],
@@ -46,6 +47,7 @@ export default class AdapterModuleCore extends AdapterModuleCoreBase {
     messageTransport = new IframeMessageTransport({
       targetWindow: window.parent,
     }),
+    activeCallControl,
     ...options
   }: {
     prefix?: string,
@@ -62,6 +64,7 @@ export default class AdapterModuleCore extends AdapterModuleCoreBase {
     quickAccess?: any,
     messageTransport?: any,
     storage?: any,
+    activeCallControl?: any,
   }) {
     super({
       prefix,
@@ -80,6 +83,7 @@ export default class AdapterModuleCore extends AdapterModuleCoreBase {
     this._callMonitor = callMonitor;
     this._userGuide = userGuide;
     this._quickAccess = quickAccess;
+    this._activeCallControl = activeCallControl;
   }
 
   _pushOtherStateChanges() {
@@ -100,7 +104,12 @@ export default class AdapterModuleCore extends AdapterModuleCoreBase {
     if (!this._callingSettings) return;
     const { callingMode } = this._callingSettings;
     if (callingMode === callingModes.webphone) {
-      this._pushWebRTCRingingState(forcePush);
+      // TODO: should change to use ActiveCallControl module when introduce ActiveCallControl module into other project
+      if (this._activeCallControl) {
+        this._pushActiveCallRingingState(forcePush);
+      } else {
+        this._pushWebphoneRingingState(forcePush);
+      }
       this._pushCallStartTime(forcePush);
       this._pushIncomingCallPage(forcePush);
     } else {
@@ -108,7 +117,37 @@ export default class AdapterModuleCore extends AdapterModuleCoreBase {
     }
   }
 
-  _pushWebRTCRingingState(forcePush) {
+  _pushActiveCallRingingState(forcePush) {
+    if (
+      this._activeCallControl.ringSessions.length > 0 &&
+      this._activeCallControl.ringSessionId &&
+      (this._activeCallControl.ringSessionId !== this._ringSessionId ||
+        forcePush)
+    ) {
+      this._ringSessionId = this._activeCallControl.ringSessionId;
+      this._postMessage({
+        type: this._messageTypes.pushRingState,
+        ringing: true,
+      });
+    }
+    // Check if ringing is over
+    if (this._ringSessionId) {
+      if (this._activeCallControl.ringSessions.length === 0) {
+        this._postMessage({
+          type: this._messageTypes.pushRingState,
+          ringing: false,
+        });
+        this._ringSessionId = null;
+      }
+    } else {
+      this._postMessage({
+        type: this._messageTypes.pushRingState,
+        ringing: false,
+      });
+    }
+  }
+
+  _pushWebphoneRingingState(forcePush) {
     const webphone = this._webphone;
     if (!webphone) {
       throw new Error(
@@ -132,14 +171,14 @@ export default class AdapterModuleCore extends AdapterModuleCoreBase {
           session.callStatus === 'webphone-session-connecting' &&
           session.direction === 'Inbound',
       );
-      if (ringingSessions.length <= 0) {
+      if (ringingSessions.length === 0) {
         this._postMessage({
           type: this._messageTypes.pushRingState,
           ringing: false,
         });
         this._ringSessionId = null;
       }
-    } else if (!this._ringSessionId) {
+    } else {
       this._postMessage({
         type: this._messageTypes.pushRingState,
         ringing: false,

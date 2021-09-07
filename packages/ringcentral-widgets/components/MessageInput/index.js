@@ -17,6 +17,7 @@ export default class MessageInput extends Component {
     value: PropTypes.string.isRequired,
     currentLocale: PropTypes.string.isRequired,
     disabled: PropTypes.bool,
+    sendButtonDisabled: PropTypes.bool,
     minHeight: PropTypes.number,
     maxHeight: PropTypes.number,
     maxLength: PropTypes.number,
@@ -32,12 +33,13 @@ export default class MessageInput extends Component {
 
   static defaultProps = {
     disabled: false,
+    sendButtonDisabled: false,
     onSend: undefined,
     onChange: undefined,
     onHeightChange: undefined,
     minHeight: 63,
     maxHeight: 300,
-    maxLength: 5000,
+    maxLength: 1000,
     inputExpandable: true,
     supportAttachment: false,
     attachments: [],
@@ -55,7 +57,7 @@ export default class MessageInput extends Component {
     this._fileInputRef = React.createRef();
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (
       nextProps.value !== this.state.value &&
       // ignore value changes from props for 300ms after typing
@@ -183,6 +185,7 @@ export default class MessageInput extends Component {
     const {
       currentLocale,
       disabled,
+      sendButtonDisabled,
       maxLength,
       supportAttachment,
       attachments,
@@ -203,6 +206,7 @@ export default class MessageInput extends Component {
             size="small"
             symbol={attachmentSvg}
             onClick={this.onAttachmentIconClick}
+            disabled={disabled}
           />
           <input
             type="file"
@@ -210,6 +214,7 @@ export default class MessageInput extends Component {
             style={{ display: 'none' }}
             ref={this._fileInputRef}
             onChange={this.onSelectAttachment}
+            disabled={disabled}
           />
         </div>
         <div className={styles.textField}>
@@ -226,6 +231,7 @@ export default class MessageInput extends Component {
             style={{
               height: inputHeight,
             }}
+            disabled={disabled}
           />
         </div>
         <div className={styles.submitField}>
@@ -235,7 +241,7 @@ export default class MessageInput extends Component {
             value={i18n.getString('send', currentLocale)}
             onClick={this.onSend}
             className={styles.sendButton}
-            disabled={disabled}
+            disabled={disabled || sendButtonDisabled}
           />
         </div>
         <div className={styles.attachments}>
@@ -251,6 +257,7 @@ export default class MessageInput extends Component {
                   <RcIconButton
                     size="small"
                     symbol={removeSvg}
+                    disabled={disabled}
                     onClick={() => {
                       removeAttachment(attachment);
                     }}

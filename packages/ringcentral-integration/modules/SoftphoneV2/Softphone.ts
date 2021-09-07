@@ -1,16 +1,15 @@
-import bowser from 'bowser';
 import {
   action,
-  identifierKey,
-  noReadyModulesKey,
+  computed,
   RcModuleV2,
   state,
 } from '@ringcentral-integration/core';
-import sleep from '../../lib/sleep';
+import bowser from 'bowser';
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
+import sleep from '../../lib/sleep';
 import callingModes from '../CallingSettings/callingModes';
-import { Deps, CallHandlerContext, CallUriInfo } from './Softphone.interface';
+import { CallHandlerContext, CallUriInfo, Deps } from './Softphone.interface';
 import { softphoneStatus } from './softphoneStatus';
 
 /**
@@ -22,18 +21,24 @@ import { softphoneStatus } from './softphoneStatus';
   deps: [
     'Brand',
     { dep: 'ContactMatcher', optional: true },
+    { dep: 'AccountInfo', optional: true },
+    { dep: 'DynamicConfig', optional: true },
     { dep: 'SoftphoneOptions', optional: true },
   ],
 })
-export class Softphone extends RcModuleV2<Deps> {
+export class Softphone<T extends Deps = Deps> extends RcModuleV2<T> {
   protected _callHandler: (context: CallHandlerContext) => any;
   protected _extensionMode: boolean;
+  protected _useBrandedJupiter: boolean;
 
-  constructor(deps: Deps) {
+  constructor(deps: T) {
     super({
       deps,
     });
+    this._ignoreModuleReadiness(deps.contactMatcher);
     this._extensionMode = this._deps.softphoneOptions?.extensionMode ?? false;
+    this._useBrandedJupiter =
+      this._deps.softphoneOptions?.useBrandedJupiter ?? false;
     this._callHandler = this._deps.softphoneOptions?.callHandler;
   }
 
@@ -62,61 +67,46 @@ export class Softphone extends RcModuleV2<Deps> {
   }
 
   get spartanProtocol() {
-    switch (this._deps.brand.code) {
-      case 'att':
-        return 'attvr20://';
-      case 'bt':
-        return 'rcbtmobile://';
-      case 'telus':
-        return 'rctelus://';
-      default:
-        return 'rcmobile://';
+    return this.brandConfig.spartanProtocol;
+  }
+
+  @computed((that: Softphone) => [
+    that._deps.brand.brandConfig,
+    that._deps.accountInfo?.serviceInfo,
+    that._deps.dynamicConfig?.data,
+  ])
+  get callWithJupiterConfig() {
+    const brandId = this._deps.accountInfo?.serviceInfo.brand?.id;
+    if (this._useBrandedJupiter && brandId) {
+      const brandConfigs =
+        this._deps.dynamicConfig?.data.callWithJupiter ??
+        this.brandConfig.callWithJupiter;
+      if (brandConfigs) {
+        return brandConfigs[brandId] ?? brandConfigs.default;
+      }
     }
+    return this.brandConfig.callWithJupiter.default;
   }
 
-  // TODO: move `ContactMatcher` deps to `Call`
-  _shouldInit() {
-    const areAllReady =
-      this[noReadyModulesKey].filter(
-        (module) => module && module[identifierKey] !== 'contactMatcher',
-      ).length === 0;
-    return areAllReady && this.pending;
-  }
-
-  _shouldReset() {
-    const areNotReady =
-      this[noReadyModulesKey].filter(
-        (module) => module && module[identifierKey] !== 'contactMatcher',
-      ).length > 0;
-    return areNotReady && this.ready;
+  get brandConfig() {
+    return this._deps.brand.brandConfig;
   }
 
   // currently we only have RingCentral App(rc brand)'s & AT&T universal link
   get jupiterUniversalLink() {
-    switch (this._deps.brand.code) {
-      case 'att':
-        return 'https://app.officeathand.att.com/';
-      case 'bt':
-        return 'http://app.cloudwork.bt.com/';
-      case 'telus':
-        return 'https://app.businessconnect.telus.com/';
-      default:
-        return 'https://app.ringcentral.com/';
-    }
+    return this.callWithJupiterConfig.link;
+  }
+
+  @computed(({ callWithJupiterConfig }: Softphone) => [callWithJupiterConfig])
+  get jupiterAppName() {
+    return this.callWithJupiterConfig?.name
+      ? `${this.callWithJupiterConfig?.name} App`
+      : null;
   }
 
   // currently we don't have Bt brand uri scheme
   get jupiterProtocol() {
-    switch (this._deps.brand.code) {
-      case 'att':
-        return 'officeathand://';
-      case 'bt':
-        return 'com.bt.cloudwork.app://';
-      case 'telus':
-        return 'rctelus://';
-      default:
-        return 'rcapp://';
-    }
+    return this.callWithJupiterConfig.protocol;
   }
 
   getMakeCallUri(phoneNumber: string, callingMode: string): CallUriInfo {
@@ -146,7 +136,7 @@ export class Softphone extends RcModuleV2<Deps> {
     // rc brand use scheme, partner brand use universal link
     return (
       this._deps.softphoneOptions?.useJupiterUniversalLink ??
-      this._deps.brand.code !== 'rc'
+      this.brandConfig.allowJupiterUniversalLink
     );
   }
 

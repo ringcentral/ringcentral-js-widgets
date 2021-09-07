@@ -101,8 +101,9 @@ export class Webphone extends WebphoneBase {
 
     this._reconnectAfterSessionEnd = null;
     this._disconnectInactiveAfterSessionEnd = false;
-
-    if (this._deps.contactMatcher) {
+    const enableContactMatchWhenNewCall =
+      this._deps.webphoneOptions?.enableContactMatchWhenNewCall ?? true;
+    if (enableContactMatchWhenNewCall && this._deps.contactMatcher) {
       this._deps.contactMatcher.addQuerySource({
         getQueriesFn: () => this.sessionPhoneNumbers,
         readyCheckFn: () => this.ready,

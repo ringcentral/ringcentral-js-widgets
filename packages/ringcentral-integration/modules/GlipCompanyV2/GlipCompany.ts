@@ -27,7 +27,7 @@ export class GlipCompany extends DataFetcherV2Consumer<Deps, GlipCompanyType> {
       },
       readyCheckFunction: () => this._deps.extensionFeatures.ready,
       permissionCheckFunction: () =>
-        this._deps.extensionFeatures.features?.Glip.available ?? false,
+        this._deps.extensionFeatures.features?.Glip?.available ?? false,
     });
     this._deps.dataFetcherV2.register(this._source);
   }

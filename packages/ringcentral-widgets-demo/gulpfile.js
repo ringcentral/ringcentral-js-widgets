@@ -4,7 +4,7 @@ import fs from 'fs-extra';
 import webpack from 'webpack';
 import WebpackDevServer from 'webpack-dev-server';
 import yargs from 'yargs';
-import devServerConfig from './dev-server/webpack.config';
+import { devServerConfig, port } from './dev-server/webpack.config';
 import demoExtensionConfig from './demo-extension/webpack.config';
 
 const {
@@ -25,8 +25,8 @@ export function devServer() {
       colors: true,
     },
   });
-  server.listen(devServerConfig.port);
-  console.log(`server listening to ${devServerConfig.port}...`);
+  server.listen(port);
+  console.log(`server listening to ${port}...`);
 }
 
 export function demoExtensionClean() {

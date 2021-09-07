@@ -61,7 +61,7 @@ class MockAuth extends MockModule {
   }
 }
 
-class MockRolesAndPermissions extends MockModule {}
+class MockAppFeatures extends MockModule {}
 
 class MockContactSearch extends MockModule {
   get searchResult() {
@@ -96,7 +96,7 @@ export class SendSMSSuccessfully extends Step {
               storage: new MockStorage() as any,
               messageSender: new MockMessageSender() as any,
               numberValidate: new MockNumberValidate() as any,
-              rolesAndPermissions: new MockRolesAndPermissions() as any,
+              appFeatures: new MockAppFeatures() as any,
               contactSearch: new MockContactSearch() as any,
               composeTextOptions: {} as any,
             });

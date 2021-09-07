@@ -170,20 +170,47 @@ export class Alert extends RcModuleV2<Deps> {
    * Dismiss the messages/message
    */
   @proxify
-  @action
-  dismiss(ids: string | string[]) {
-    const _ids = [].concat(ids);
-    this.messages = this.messages.filter(
-      (item) => _ids.indexOf(item.id) === -1,
-    );
+  async dismiss(ids: string | string[]) {
+    this._dismiss(ids);
   }
 
   /**
    * Dismiss all messages.
    */
   @proxify
+  async dismissAll() {
+    this._dismissAll();
+  }
+
+  /**
+   * Dismiss all other messages expect some specified message.
+   */
   @action
-  dismissAll() {
+  dismissAllExpectSpecified({
+    specifiedAlertIds,
+  }: {
+    specifiedAlertIds: string[];
+  }) {
+    const messages: AlertItem[] = [];
+    specifiedAlertIds.forEach((specifiedAlertId) => {
+      const message = this.messages.find(
+        (item) => item.id === specifiedAlertId,
+      );
+      if (message) messages.push(message);
+    });
+    this.messages = messages;
+  }
+
+  @action
+  _dismiss(ids: string | string[]) {
+    const _ids = [].concat(ids);
+    this.messages = this.messages.filter(
+      (item) => _ids.indexOf(item.id) === -1,
+    );
+  }
+
+  @action
+  _dismissAll() {
     this.messages = [];
   }
 }

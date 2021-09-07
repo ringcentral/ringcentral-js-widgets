@@ -1,5 +1,4 @@
 const webpack = require('webpack');
-const fs = require('fs');
 const path = require('path');
 const dotenv = require('dotenv');
 const autoprefixer = require('autoprefixer');
@@ -85,7 +84,7 @@ const config = {
       },
       {
         test: /\.png|\.jpg|\.gif|\.svg/,
-        exclude: /ringcentral-integration\/widgets(\/|\\)assets(\/|\\)images(\/|\\).+\.svg/,
+        exclude: /ringcentral-integration(\/|\\)widgets(\/|\\)assets(\/|\\)images(\/|\\).+\.svg/,
         use:
           'url-loader?limit=20000&publicPath=./&name=images/[name]_[hash].[ext]',
       },
@@ -107,7 +106,7 @@ const config = {
           {
             loader: 'postcss-loader',
             options: {
-              plugins: function() {
+              plugins() {
                 return [autoprefixer];
               },
             },

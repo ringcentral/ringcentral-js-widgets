@@ -1,27 +1,27 @@
 import { combineReducers, ReducersMapObject } from 'redux';
 import {
-  state,
   action,
-  subscribe,
+  Action,
+  applyPatches,
   computed,
   createStore,
+  enableES5,
+  enablePatches,
+  getStagedState,
+  identifierKey,
+  Service,
+  setAutoFreeze,
+  setPatchesToggle,
+  state,
+  stateKey,
+  Store,
+  storeKey,
+  subscribe,
+  Subscription,
+  subscriptionsKey,
+  usm as usmAction,
   watch,
   watchEffect,
-  Service,
-  storeKey,
-  identifierKey,
-  Action,
-  stateKey,
-  getStagedState,
-  enablePatches,
-  setPatchesToggle,
-  subscriptionsKey,
-  Subscription,
-  Store,
-  setAutoFreeze,
-  applyPatches,
-  usm as usmAction,
-  enableES5,
 } from '../usm-redux';
 
 setAutoFreeze(false);
@@ -37,7 +37,7 @@ export const enum ModuleStatus {
 
 export const onceKey: unique symbol = Symbol('once');
 export const onInitOnceKey: unique symbol = Symbol('onInitOnce');
-export const noReadyModulesKey: unique symbol = Symbol('noReadyModules');
+export const notReadyModulesKey: unique symbol = Symbol('notReadyModules');
 export const checkStatusChangeKey: unique symbol = Symbol('checkStatusChange');
 export const enableCacheKey: unique symbol = Symbol('enableCache');
 export const enableGlobalCacheKey: unique symbol = Symbol('enableGlobalCache');
@@ -49,6 +49,9 @@ export const globalStorageStateKey: unique symbol = Symbol(
 export const spawnReducersKey: unique symbol = Symbol('spawnReducers');
 export const spawnStorageReducersKey: unique symbol = Symbol(
   'spawnStorageReducers',
+);
+export const ignoreReadyModulesKey: unique symbol = Symbol(
+  'ignoreReadyModules',
 );
 
 export interface RcModuleOptions<T> {
@@ -80,6 +83,12 @@ abstract class RcModuleV2<T = {}> {
   private [enableCacheKey]: boolean;
 
   private [enableGlobalCacheKey]: boolean;
+
+  /**
+   * background/client transport for browser extension
+   */
+  protected _transport?: any; // TODO: add transport type
+  private [ignoreReadyModulesKey] = new Set<RcModuleV2>();
 
   protected initializeProxy?(): Promise<void> | void;
   /**
@@ -176,21 +185,28 @@ abstract class RcModuleV2<T = {}> {
     }
   }
 
-  private get [noReadyModulesKey]() {
+  protected _ignoreModuleReadiness(dep: RcModuleV2) {
+    this[ignoreReadyModulesKey].add(dep);
+  }
+
+  private get [notReadyModulesKey]() {
     const modules = Object.values(this._deps || {}).filter(
       // In order to be compatible with RcModuleV1
       (module: RcModuleV2) => module && typeof module.ready !== 'undefined',
     );
-    return modules.filter((module: RcModuleV2) => !module.ready);
+    return modules.filter(
+      (module: RcModuleV2) =>
+        !module.ready && !this[ignoreReadyModulesKey].has(module),
+    );
   }
 
   _shouldInit() {
-    const areAllReady = this[noReadyModulesKey].length === 0;
+    const areAllReady = this[notReadyModulesKey].length === 0;
     return areAllReady && this.pending;
   }
 
   _shouldReset() {
-    const areNotReady = this[noReadyModulesKey].length > 0;
+    const areNotReady = this[notReadyModulesKey].length > 0;
     return areNotReady && this.ready;
   }
 

@@ -1,6 +1,4 @@
 /* eslint-disable react/prop-types */
-import React from 'react';
-import { connect } from 'react-redux';
 import callingOptions from '@ringcentral-integration/commons/modules/CallingSettings/callingOptions';
 import HistoryIcon from '@ringcentral-integration/widgets/assets/images/CallHistory.svg';
 import HistoryHoverIcon from '@ringcentral-integration/widgets/assets/images/CallHistoryHover.svg';
@@ -27,6 +25,8 @@ import SettingsNavIcon from '@ringcentral-integration/widgets/assets/images/Sett
 import TabNavigationView from '@ringcentral-integration/widgets/components/TabNavigationView';
 import hasActiveCalls from '@ringcentral-integration/widgets/lib/hasActiveCalls';
 import { withPhone } from '@ringcentral-integration/widgets/lib/phoneContext';
+import React from 'react';
+import { connect } from 'react-redux';
 import i18n from './i18n';
 
 function getTabs({
@@ -152,7 +152,7 @@ function mapToProps(
     phone: {
       locale,
       messageStore,
-      extensionFeatures,
+      appFeatures,
       routerInteraction,
       callingSettings,
       conference,
@@ -161,28 +161,21 @@ function mapToProps(
   },
 ) {
   const unreadCounts = messageStore.unreadCounts || 0;
-  const showDialPad =
-    extensionFeatures.ready && extensionFeatures.isCallingEnabled;
+  const showDialPad = appFeatures.ready && appFeatures.isCallingEnabled;
   const showCalls =
-    extensionFeatures.ready &&
-    extensionFeatures.isCallingEnabled &&
+    appFeatures.ready &&
+    appFeatures.isCallingEnabled &&
     callingSettings.ready &&
     callingSettings.callWith !== callingOptions.browser;
-  const showHistory =
-    extensionFeatures.ready &&
-    !!extensionFeatures.features?.ReadExtensionCallLog?.available;
+  const showHistory = appFeatures.ready && appFeatures.hasReadExtensionCallLog;
   const showContact =
-    extensionFeatures.ready &&
-    (extensionFeatures.isCallingEnabled ||
-      extensionFeatures.hasReadMessagesPermission);
+    appFeatures.ready &&
+    (appFeatures.isCallingEnabled || appFeatures.hasReadMessagesPermission);
   const showMessages =
-    extensionFeatures.ready && extensionFeatures.hasReadMessagesPermission;
+    appFeatures.ready && appFeatures.hasReadMessagesPermission;
   const showConference =
-    extensionFeatures.ready &&
-    conference.data &&
-    !!extensionFeatures.features?.Conferencing?.available;
-  const showMeeting =
-    extensionFeatures.ready && extensionFeatures.hasMeetingsPermission;
+    appFeatures.ready && conference.data && appFeatures.hasConferencing;
+  const showMeeting = appFeatures.ready && appFeatures.hasMeetingsPermission;
   const currentLocale = locale.currentLocale;
   const conferenceCallEquipped = !!conferenceCall;
   const tabs = getTabs({

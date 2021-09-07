@@ -249,4 +249,27 @@ export default class Alert extends RcModule<
       type: this.actionTypes.dismissAll,
     });
   }
+
+  /**
+   * @function
+   * @description  Dismiss all other messages expect some specified message.
+   */
+  @proxify
+  dismissAllExpectSpecified({
+    specifiedAlertIds,
+  }: {
+    specifiedAlertIds: string[];
+  }) {
+    const messagesId: string[] = [];
+    specifiedAlertIds.forEach((specifiedAlertId) => {
+      const message = this.messages.find(
+        (item: string) => item === specifiedAlertId,
+      );
+      if (message) messagesId.push(message);
+    });
+    this.store.dispatch({
+      type: this.actionTypes.dismiss,
+      ids: messagesId,
+    });
+  }
 }

@@ -68,10 +68,7 @@ export class FieldItem extends Component<FieldItemProps, {}> {
       showFoundFromServer,
       disabled,
     } = this.props;
-    const {
-      task,
-      currentLogCall: { phoneNumber },
-    } = currentLog;
+    const { task, currentLogCall: { phoneNumber } = {} } = currentLog;
     const referenceFieldOption = referenceFieldOptions[value];
     if (!referenceFieldOption) {
       console.warn(
@@ -81,6 +78,7 @@ export class FieldItem extends Component<FieldItemProps, {}> {
     }
     const {
       getLabel,
+      getSelectedOptionLabel,
       getType,
       getValue: _getValue,
       onChange,
@@ -97,6 +95,7 @@ export class FieldItem extends Component<FieldItemProps, {}> {
       foundFromServerEntityGetter,
       onBackClick,
       backHeaderClassName,
+      multiple,
     } = referenceFieldOption;
     const matchedEntities = matchedEntitiesGetter(currentLog);
     if (onlyShowInMultipleMatches && matchedEntities.length <= 1) {
@@ -132,7 +131,14 @@ export class FieldItem extends Component<FieldItemProps, {}> {
       : undefined;
 
     const currentValue =
-      getLabel(currentOption, matchedEntities.length, currentLog) || '';
+      (getSelectedOptionLabel &&
+        getSelectedOptionLabel(
+          currentOption,
+          matchedEntities.length,
+          currentLog,
+        )) ||
+      getLabel(currentOption, matchedEntities.length, currentLog) ||
+      '';
 
     return (
       <FullSelectField
@@ -169,6 +175,7 @@ export class FieldItem extends Component<FieldItemProps, {}> {
           helperText: disableReason,
           value: currentValue,
         }}
+        multiple={multiple}
       />
     );
   };
@@ -193,7 +200,15 @@ export class FieldItem extends Component<FieldItemProps, {}> {
 
   private renderTextArea = () => {
     const {
-      fieldOption: { label, value, error, helperText, required, onChange },
+      fieldOption: {
+        label,
+        value,
+        error,
+        helperText,
+        required,
+        onChange,
+        disabled,
+      },
       onSave,
     } = this.props;
     return (
@@ -205,6 +220,7 @@ export class FieldItem extends Component<FieldItemProps, {}> {
         placeholder={label}
         data-sign={value}
         multiline
+        disabled={disabled}
         value={this.currentValue || ''}
         onChange={(text: any) => {
           this._updateValue(value, text, onSave);
@@ -285,22 +301,27 @@ export class FieldItem extends Component<FieldItemProps, {}> {
       let value: string = item as any;
       let label = item !== null ? (item as any) : appDefaultValue;
       let disabled = false;
+      let title;
 
       if (item instanceof Object) {
         value = item.value;
         label = item.label;
         disabled = item.disabled;
+        title = item?.title;
       }
+
       return {
         label,
         value,
         disabled,
+        title,
       };
     });
 
     return (
       <SelectField
         data-sign={fieldValue}
+        labelClassName={styles.selectLabel}
         disabled={propsDisabled}
         placeholder={placeholder}
         fullWidth
@@ -493,7 +514,9 @@ export class FieldItem extends Component<FieldItemProps, {}> {
       return (
         <div
           ref={this.fieldItemRef}
+          // TODO: replace it with new-Data-sign
           data-sign="callLogField"
+          new-data-sign={`${value}-field`}
           className={styles.row}
         >
           {this.fieldsRenderMap[type]()}

@@ -1,7 +1,6 @@
 import { Auth } from '../AuthV2';
 import { SleepDetector } from '../SleepDetectorV2';
 import { Storage } from '../StorageV2';
-import { TabManager } from '../TabManagerV2';
 
 /**
  * Extracted from @rc-ex
@@ -45,6 +44,5 @@ export interface Deps {
   client: any;
   storage: Storage;
   sleepDetector: SleepDetector;
-  tabManager?: TabManager;
   subscriptionOptions?: SubscriptionOptions;
 }

@@ -103,6 +103,67 @@ class Auth extends RcModuleV2<Deps> {
 
 `@action` is used to decorate a method that changes the state of the module (Executing it will dispatch a Redux action), and it does **NOT** support asynchronous methods.
 
+
+- The @action decorated method should have **no side effects**.
+
+```ts
+class ContactsList extends RcModuleV2<Deps> {
+  constructor(deps: Deps) {
+    super({
+      deps,
+    });
+  }
+
+  @state
+  contacts: Contact[] = [];
+
+  @action
+  addContacts(contacts: Contact[]) { // ❌ bad practice
+    contacts.forEach(() => {
+        // fetch avatar
+    })
+    // ....
+  }
+
+  onInitOnce() {  // ✅ good practice
+    watch(
+      this,
+      () => this.contacts,
+      () => {
+        // fetch avatar
+      }
+    )
+  }
+}
+```
+
+- The state operations in the methods decorated by @action should be **mutation updates* as possible to ensure patch minimization.
+
+```ts
+class ContactsList extends RcModuleV2<Deps> {
+  constructor(deps: Deps) {
+    super({
+      deps,
+    });
+  }
+
+  @state
+  contacts: Contact[] = [];
+
+  @action
+  addContact(contact: Contact) {
+    // ❌ bad practice
+    this.contacts = [...this.contacts, contact];
+  }
+
+  @action
+  addContact(contact: Contact) {
+    // ✅ good practice
+    this.contacts.push(contact);
+  }
+}
+```
+
 #### computed
 
 Use `@computed(callback)`, you should make sure that the return value of its callback function is an `Array` of dependency collections.

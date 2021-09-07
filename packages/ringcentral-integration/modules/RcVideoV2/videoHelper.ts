@@ -1,4 +1,4 @@
-import { map, pick } from 'ramda';
+import { map, omit, pick } from 'ramda';
 import formatMessage from 'format-message';
 import i18n from './i18n';
 import {
@@ -17,8 +17,12 @@ import {
 } from '../../interfaces/Rcv.model';
 import {
   RCV_WAITING_ROOM_MODE,
+  RCV_WAITING_ROOM_API_KEYS,
   RCV_WAITING_ROOM_MODE_REVERSE,
+  RCV_PASSWORD_REGEX,
+  RCV_E2EE_API_KEYS,
 } from './constants';
+import { TopicProps } from './RcVideo.interface';
 
 /* TODO: this meetingProviderTypes is only used for calender-addon
  * if you want to use meetingProviderTypes
@@ -34,8 +38,6 @@ const RcVideoTypes: RcVideoTypesProps = {
   call: 1, // instant meeting
 };
 
-const RCV_PASSWORD_REGEX = /^[A-Za-z0-9]{1,10}$/;
-const RCV_WAITING_ROOM_API_KEYS = 'waitingRoomMode';
 const RCV_CREATE_API_KEYS: Array<keyof RcVideoAPI> = [
   'name',
   'type',
@@ -53,9 +55,11 @@ const RCV_CREATE_API_KEYS: Array<keyof RcVideoAPI> = [
   'isOnlyCoworkersJoin',
   'allowScreenSharing',
   RCV_WAITING_ROOM_API_KEYS,
+  RCV_E2EE_API_KEYS,
 ];
 
 const RCV_PREFERENCES_IDS: Array<RcVSettingId> = [
+  'e2ee',
   'join_before_host',
   // 'join_video_off',
   // 'join_audio_mute',
@@ -67,6 +71,7 @@ const RCV_PREFERENCES_IDS: Array<RcVSettingId> = [
   'waiting_room_guests_only',
   'waiting_room',
 ];
+
 const RCV_PREFERENCES_KEYS: Array<RcVSettingKey> = [
   'allowJoinBeforeHost',
   // 'muteVideo',
@@ -76,7 +81,24 @@ const RCV_PREFERENCES_KEYS: Array<RcVSettingKey> = [
   'isOnlyCoworkersJoin',
   'allowScreenSharing',
   RCV_WAITING_ROOM_API_KEYS,
+  RCV_E2EE_API_KEYS,
 ];
+
+const RCV_E2EE_RELATED_KEYS: Array<RcVSettingKey> = [
+  'allowJoinBeforeHost',
+  'isMeetingSecret',
+  'isOnlyAuthUserJoin',
+  'isOnlyCoworkersJoin',
+  RCV_WAITING_ROOM_API_KEYS,
+];
+
+const RCV_E2EE_DEFAULT_SECURITY_OPTIONS: Partial<RcVideoAPI> = {
+  allowJoinBeforeHost: false,
+  isMeetingSecret: true,
+  isOnlyAuthUserJoin: true,
+  isOnlyCoworkersJoin: false,
+  waitingRoomMode: RCV_WAITING_ROOM_MODE.notcoworker,
+} as const;
 
 /* RCINT-14566
  * Exclude characters that are hard to visually differentiate ["0", "o", "O", "I", "l"]
@@ -145,12 +167,10 @@ function getVideoSettings(data: RcVideoAPI): RcvGSuiteMeetingModel {
 
 function getDefaultVideoSettings({
   topic,
-  startTime,
   accountId,
   extensionId,
 }: {
   topic: string;
-  startTime: Date;
   accountId: string;
   extensionId: string;
 }): RcVMeetingModel {
@@ -161,6 +181,7 @@ function getDefaultVideoSettings({
     name: topic,
     type: RcVideoTypes.meeting,
     expiresIn: 31536000,
+    e2ee: false,
     allowJoinBeforeHost: false,
     muteAudio: false,
     muteVideo: false,
@@ -179,9 +200,10 @@ function getDefaultVideoSettings({
       isOnlyCoworkersJoin: false,
       allowScreenSharing: false,
       waitingRoomMode: false,
+      e2ee: false,
     },
     // ui fields
-    startTime,
+    startTime: new Date(),
     duration: 60,
     saveAsDefault: false,
     isMeetingPasswordValid: false,
@@ -189,27 +211,55 @@ function getDefaultVideoSettings({
   };
 }
 
-function getTopic(
-  extensionName: string,
-  brandName: string,
-  currentLocale: string,
-) {
-  if (brandName === 'RingCentral') {
-    return formatMessage(i18n.getString('videoMeeting', currentLocale), {
-      extensionName,
-    });
+function getTopic({
+  extensionName,
+  brandName,
+  shortName,
+  fullName,
+  brandCode,
+  currentLocale,
+}: TopicProps) {
+  switch (brandCode) {
+    case 'telus':
+      return formatMessage(i18n.getString('TelusVideoMeeting', currentLocale), {
+        extensionName,
+      });
+    case 'att':
+      return formatMessage(
+        i18n.getString('videoMeetingWithBrand', currentLocale),
+        {
+          extensionName,
+          brandName: fullName,
+        },
+      );
+    case 'bt':
+      brandName = shortName;
+    // eslint-disable-next-line
+    default:
+      return formatMessage(i18n.getString('videoMeeting', currentLocale), {
+        extensionName,
+        brandName,
+      });
   }
-  return formatMessage(i18n.getString('videoMeetingWithBrand', currentLocale), {
-    extensionName,
-    brandName,
-  });
 }
 
 /**
  * Remove client side properties before sending to RCV API
  */
-function pruneMeetingObject(meeting: RcVMeetingModel): RcVideoAPI {
-  return pick(RCV_CREATE_API_KEYS, meeting);
+function pruneMeetingObject(
+  meeting: RcVMeetingModel,
+  omitArr: Array<{
+    condition: boolean;
+    key: keyof RcVideoAPI;
+  }>,
+): RcVideoAPI {
+  let meetingDetail = pick(RCV_CREATE_API_KEYS, meeting);
+  omitArr.forEach(({ condition, key }) => {
+    if (!condition) {
+      meetingDetail = omit([key], meetingDetail) as RcVideoAPI;
+    }
+  });
+  return meetingDetail;
 }
 
 function transformPreferences(
@@ -220,6 +270,7 @@ function transformPreferences(
     allowJoinBeforeHost: preferences.join_before_host,
     // muteVideo: preferences.join_video_off,
     // muteAudio: preferences.join_audio_mute,
+    e2ee: preferences.e2ee,
     isMeetingSecret: isInstantMeeting
       ? preferences.password_instant
       : preferences.password_scheduled,
@@ -242,6 +293,7 @@ function transformSettingLocks(
     allowJoinBeforeHost: settingLocks.join_before_host,
     // muteVideo: settingLocks.join_video_off,
     // muteAudio: settingLocks.join_audio_mute,
+    e2ee: settingLocks.e2ee,
     isMeetingSecret: isInstantMeeting
       ? settingLocks.password_instant
       : settingLocks.password_scheduled,
@@ -268,6 +320,7 @@ function reversePreferences(
     waiting_room: !!preferences.waitingRoomMode,
     waiting_room_guests_only:
       RCV_WAITING_ROOM_MODE_REVERSE[preferences.waitingRoomMode],
+    e2ee: preferences.e2ee,
   };
   if (isInstantMeeting) {
     result.password_instant = preferences.isMeetingSecret;
@@ -406,13 +459,12 @@ function formatPremiumNumbers(
 // TODO: will remove this when google app script could support export seperately
 // export together because google app script not fully support export
 export {
-  RCV_PASSWORD_REGEX,
   RCV_PREFERENCES_IDS,
   RCV_PREFERENCES_KEYS,
-  RCV_WAITING_ROOM_API_KEYS,
+  RCV_E2EE_RELATED_KEYS,
   RcVideoTypes,
   meetingProviderTypes,
-  RCV_WAITING_ROOM_MODE,
+  RCV_E2EE_DEFAULT_SECURITY_OPTIONS,
   assignObject,
   getDefaultChars,
   validateRandomPassword,

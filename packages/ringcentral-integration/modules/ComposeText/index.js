@@ -20,7 +20,7 @@ import proxify from '../../lib/proxy/proxify';
     'Storage',
     'MessageSender',
     'NumberValidate',
-    'ExtensionFeatures',
+    'AppFeatures',
     // { dep: 'Conversations', optional: true },
     { dep: 'RouterInteraction', optional: true },
     { dep: 'ContactSearch', optional: true },
@@ -45,7 +45,7 @@ export default class ComposeText extends RcModule {
     messageSender,
     numberValidate,
     contactSearch,
-    extensionFeatures,
+    appFeatures,
     conversations,
     routerInteraction,
     ...options
@@ -58,7 +58,7 @@ export default class ComposeText extends RcModule {
     this._alert = alert;
     this._auth = auth;
     this._storage = storage;
-    this._extensionFeatures = extensionFeatures;
+    this._appFeatures = appFeatures;
     this._storageKey = 'composeText';
     this._reducer = getComposeTextReducer(this.actionTypes);
     this._cacheReducer = getCacheReducer(this.actionTypes);
@@ -187,7 +187,7 @@ export default class ComposeText extends RcModule {
   _validateIsOnlyPager(phoneNumber) {
     if (
       phoneNumber.length >= 7 &&
-      !this._extensionFeatures.hasOutboundSMSPermission
+      !this._appFeatures.hasOutboundSMSPermission
     ) {
       this._alertWarning(messageSenderMessages.noSMSPermission);
       return true;

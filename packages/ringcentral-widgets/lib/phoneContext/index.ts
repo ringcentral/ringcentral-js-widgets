@@ -5,4 +5,3 @@ export { connectModule };
 export * from './connectModule';
 export default phoneContext;
 export * from './phoneContext';
-export * from './theme';

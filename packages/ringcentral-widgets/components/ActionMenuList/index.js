@@ -213,6 +213,7 @@ export const PreviewButton = ({ title, onClick, disabled, className }) => {
       className={classnames(styles.button, styles.svgBtn, className)}
       onClick={onClick}
       disabled={disabled}
+      dataSign={title}
     >
       <span title={title}>
         <PreviewIcon
@@ -518,6 +519,7 @@ export default class ActionMenuList extends Component {
     const downloadButton =
       faxAttachment && faxAttachment.uri ? (
         <div
+          data-sign="download"
           className={classnames(
             styles.button,
             styles.svgBtn,

@@ -68,7 +68,7 @@ function getSyncParams({
     'Auth',
     'Subscription',
     'ConnectivityMonitor',
-    'ExtensionFeatures',
+    'AppFeatures',
     { dep: 'AvailabilityMonitor', optional: true },
     { dep: 'TabManager', optional: true },
     { dep: 'Storage', optional: true },
@@ -83,7 +83,7 @@ export default class MessageStore extends Pollable {
     subscription,
     storage,
     tabManager,
-    extensionFeatures,
+    appFeatures,
     connectivityMonitor,
     availabilityMonitor,
     ttl = DEFAULT_TTL,
@@ -106,7 +106,7 @@ export default class MessageStore extends Pollable {
     this._alert = ensureExist.call(this, alert, 'alert');
     this._client = ensureExist.call(this, client, 'client');
     this._subscription = ensureExist.call(this, subscription, 'subscription');
-    this._extensionFeatures = extensionFeatures;
+    this._appFeatures = appFeatures;
 
     if (!disableCache) {
       this._storage = storage;
@@ -187,7 +187,7 @@ export default class MessageStore extends Pollable {
       (!this._tabManager || this._tabManager.ready) &&
       (!this._connectivityMonitor || this._connectivityMonitor.ready) &&
       this._subscription.ready &&
-      this._extensionFeatures.ready &&
+      this._appFeatures.ready &&
       (!this._availabilityMonitor || this._availabilityMonitor.ready) &&
       this.pending
     );
@@ -199,7 +199,7 @@ export default class MessageStore extends Pollable {
         (this._storage && !this._storage.ready) ||
         !this._subscription.ready ||
         (!!this._connectivityMonitor && !this._connectivityMonitor.ready) ||
-        !this._extensionFeatures.ready ||
+        !this._appFeatures.ready ||
         (this._tabManager && !this._tabManager.ready) ||
         (this._availabilityMonitor && !this._availabilityMonitor.ready)) &&
       this.ready
@@ -843,7 +843,7 @@ export default class MessageStore extends Pollable {
   }
 
   get _hasPermission() {
-    return this._extensionFeatures.hasReadMessagesPermission;
+    return this._appFeatures.hasReadMessagesPermission;
   }
 
   @selector
@@ -913,13 +913,13 @@ export default class MessageStore extends Pollable {
     () => this.faxUnreadCounts,
     (voiceUnreadCounts, textUnreadCounts, faxUnreadCounts) => {
       let unreadCounts = 0;
-      if (this._extensionFeatures.hasReadTextPermission) {
+      if (this._appFeatures.hasReadTextPermission) {
         unreadCounts += textUnreadCounts;
       }
-      if (this._extensionFeatures.hasVoicemailPermission) {
+      if (this._appFeatures.hasVoicemailPermission) {
         unreadCounts += voiceUnreadCounts;
       }
-      if (this._extensionFeatures.hasReadFaxPermission) {
+      if (this._appFeatures.hasReadFaxPermission) {
         unreadCounts += faxUnreadCounts;
       }
       return unreadCounts;

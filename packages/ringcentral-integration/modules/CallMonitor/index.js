@@ -569,10 +569,17 @@ export default class CallMonitor extends RcModule {
   @selector
   normalizedCallsFromTelephonySessions = [
     () => this._activeCallControl?.sessions,
+    () => this._activeCallControl?.currentDeviceCallsMap,
     () => this._accountInfo.countryCode,
     () => this._activeCallControl?.cachedSessions,
     () => this._presence.calls,
-    (telephonySessions, countryCode, cachedSessions, presenceCalls) => {
+    (
+      telephonySessions,
+      currentDeviceCallsMap,
+      countryCode,
+      cachedSessions,
+      presenceCalls,
+    ) => {
       // TODO match cached calls when there are conference merging calls, refer to `normalizedCallsFromPresence` function
       if (!telephonySessions) return [];
       const combinedCalls = [...telephonySessions]; // clone
@@ -604,7 +611,6 @@ export default class CallMonitor extends RcModule {
             telephonySessionId,
             sessionId,
             startTime,
-            webphoneSession: originalWebphoneSession,
           } = currentRcCallSession;
           let { _activeCallId: id } = currentRcCallSession;
           // find id from presence call one time, due to telephony session event not push call id back
@@ -623,9 +629,6 @@ export default class CallMonitor extends RcModule {
             phoneNumber: to?.phoneNumber,
             countryCode,
           });
-          const webphoneSession = originalWebphoneSession
-            ? normalizeWebphoneSession(originalWebphoneSession)
-            : null;
           const toName = to?.name;
           const fromName = from?.name;
           const partyId = party?.id;
@@ -652,7 +655,7 @@ export default class CallMonitor extends RcModule {
             },
             startTime,
             sessionId,
-            webphoneSession,
+            webphoneSession: currentDeviceCallsMap[telephonySessionId],
             telephonyStatus,
           };
         }, combinedCalls).filter((x) => !!x),

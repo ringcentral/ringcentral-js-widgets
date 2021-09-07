@@ -13,6 +13,8 @@ const LinkLine = ({
   hrefClassName,
   iconClassName,
   tooltip,
+  pendoSignName,
+  ...rest
 }) => {
   return (
     <a
@@ -23,6 +25,8 @@ const LinkLine = ({
       title={tooltip}
       className={classnames(styles.link, hrefClassName)}
       style={hideUnderline ? { textDecoration: 'none' } : {}}
+      data-pendo={pendoSignName || undefined}
+      {...rest}
     >
       <IconLine
         className={className}
@@ -50,6 +54,7 @@ LinkLine.propTypes = {
   iconClassName: PropTypes.string,
   onClick: PropTypes.func.isRequired,
   tooltip: PropTypes.string,
+  pendoSignName: PropTypes.string,
 };
 LinkLine.defaultProps = {
   children: undefined,
@@ -58,5 +63,6 @@ LinkLine.defaultProps = {
   hrefClassName: undefined,
   iconClassName: undefined,
   tooltip: undefined,
+  pendoSignName: undefined,
 };
 export default LinkLine;

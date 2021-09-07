@@ -45,6 +45,7 @@ const DialerPanel = ({
   withTabs,
   inConference,
   isLastInputFromDialpad,
+  showAnonymous,
   useV2,
 }) => {
   const inputEl = useRef(null);
@@ -112,6 +113,7 @@ const DialerPanel = ({
       {showFromField ? (
         <div className={styles.inputField}>
           <FromField
+            showAnonymous={showAnonymous}
             fromNumber={fromNumber}
             fromNumbers={fromNumbers}
             onChange={changeFromNumber}
@@ -217,6 +219,7 @@ DialerPanel.propTypes = {
   inConference: PropTypes.bool,
   isLastInputFromDialpad: PropTypes.bool,
   useV2: PropTypes.bool,
+  showAnonymous: PropTypes.bool,
 };
 
 DialerPanel.defaultProps = {
@@ -246,6 +249,7 @@ DialerPanel.defaultProps = {
   inConference: false,
   isLastInputFromDialpad: false,
   useV2: false,
+  showAnonymous: true,
 };
 
 export default DialerPanel;

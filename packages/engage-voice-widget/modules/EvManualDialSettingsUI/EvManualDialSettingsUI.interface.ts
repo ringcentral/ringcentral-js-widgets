@@ -1,5 +1,5 @@
 import { FunctionComponent } from 'react';
-import Locale from '@ringcentral-integration/commons/modules/Locale';
+import { Locale } from '@ringcentral-integration/commons/modules/Locale';
 import RouterInteraction from '@ringcentral-integration/widgets/modules/RouterInteraction';
 
 import { EvAuth } from '../EvAuth';

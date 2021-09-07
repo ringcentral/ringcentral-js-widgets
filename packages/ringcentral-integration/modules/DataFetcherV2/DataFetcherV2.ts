@@ -79,8 +79,8 @@ export class DataFetcherV2 extends RcModuleV2<Deps> {
   isFetching: Record<string, boolean> = {};
 
   @action
-  protected _setFetching(source: DataSource<any>, isFetching: boolean) {
-    this.isFetching[source.key] = isFetching;
+  protected _setFetching(key: string, isFetching: boolean) {
+    this.isFetching[key] = isFetching;
   }
 
   getFetching<T>(source: DataSource<T>) {
@@ -89,32 +89,33 @@ export class DataFetcherV2 extends RcModuleV2<Deps> {
 
   @action
   protected _setData<T>(
-    source: DataSource<T>,
+    key: string,
+    disableCache: boolean,
     data: T,
     timestamp = Date.now(),
   ): void {
-    if (source.disableCache) {
-      this.data[source.key] = data;
-      this.timestamps[source.key] = timestamp;
+    if (disableCache) {
+      this.data[key] = data;
+      this.timestamps[key] = timestamp;
     } else {
-      this.storageData.cachedData[source.key] = data;
-      this.storageData.cachedTimestamps[source.key] = timestamp;
+      this.storageData.cachedData[key] = data;
+      this.storageData.cachedTimestamps[key] = timestamp;
     }
   }
 
   updateData<T>(source: DataSource<T>, data: T, timestamp: number): void {
-    this._setData(source, data, timestamp);
+    this._setData(source.key, source.disableCache, data, timestamp);
   }
 
   @proxify
   protected async _fetchData<T>(source: DataSource<T>): Promise<void> {
-    this._setFetching(source, true);
+    this._setFetching(source.key, true);
     const { ownerId } = this._deps.auth;
     try {
       const data = await source.fetchFunction();
       if (this._deps.auth.ownerId === ownerId) {
-        this._setData(source, data, Date.now());
-        this._setFetching(source, false);
+        this._setData(source.key, source.disableCache, data, Date.now());
+        this._setFetching(source.key, false);
         if (source.polling) {
           this._startPolling(source);
         }
@@ -123,7 +124,7 @@ export class DataFetcherV2 extends RcModuleV2<Deps> {
     } catch (error) {
       if (this._deps.auth.ownerId === ownerId) {
         this._promises.delete(source.key);
-        this._setFetching(source, false);
+        this._setFetching(source.key, false);
         if (source.polling) {
           this._startPolling(source, source.timeToRetry);
         } else {
@@ -235,7 +236,7 @@ export class DataFetcherV2 extends RcModuleV2<Deps> {
     source: DataSource<T>,
   ): Promise<void> {
     if (this.getSourceStatus(source) === sourceStatus.pending) {
-      this._setSourceStatus(source, sourceStatus.initializing);
+      this._setSourceStatus(source.key, sourceStatus.initializing);
       if (this._shouldFetch(source)) {
         try {
           await this.fetchData(source);
@@ -250,16 +251,13 @@ export class DataFetcherV2 extends RcModuleV2<Deps> {
       return;
     }
     if (this.getData(source) !== null && this.getTimestamp(source) !== null) {
-      this._setSourceStatus(source, sourceStatus.ready);
+      this._setSourceStatus(source.key, sourceStatus.ready);
     }
   }
 
   @action
-  protected _setSourceStatus<T>(
-    source: DataSource<T>,
-    status: SourceStatusType,
-  ) {
-    this.sourceStatus[source.key] = status;
+  protected _setSourceStatus(key: string, status: SourceStatusType) {
+    this.sourceStatus[key] = status;
   }
 
   getSourceStatus<T>(source: DataSource<T>) {
@@ -270,7 +268,7 @@ export class DataFetcherV2 extends RcModuleV2<Deps> {
     if (this.ready) {
       forEach((source) => {
         if (!this.getSourceStatus(source)) {
-          this._setSourceStatus(source, sourceStatus.pending);
+          this._setSourceStatus(source.key, sourceStatus.pending);
         }
         const status = this.getSourceStatus(source);
         const readyCheck = this.ready && source.readyCheckFunction();
@@ -282,8 +280,8 @@ export class DataFetcherV2 extends RcModuleV2<Deps> {
           ) {
             // if user has no permission to fetch data, bypass the initialization process
             if (!permissionCheck) {
-              this._setSourceStatus(source, sourceStatus.ready);
-              this._setData(source, null, 0);
+              this._setSourceStatus(source.key, sourceStatus.ready);
+              this._setData(source.key, source.disableCache, null, 0);
             } else {
               this._tryInitializeSource(source);
             }
@@ -295,7 +293,7 @@ export class DataFetcherV2 extends RcModuleV2<Deps> {
             ) {
               // no permission but has data, set data to null
               // use 0 for timestamp so we know this is on purpose
-              this._setData(source, null, 0);
+              this._setData(source.key, source.disableCache, null, 0);
             } else if (
               permissionCheck &&
               this.getData(source) === null &&
@@ -308,9 +306,9 @@ export class DataFetcherV2 extends RcModuleV2<Deps> {
             }
           }
         } else if (status === sourceStatus.ready) {
-          this._setSourceStatus(source, sourceStatus.pending);
+          this._setSourceStatus(source.key, sourceStatus.pending);
           if (source.cleanOnReset) {
-            this._setData(source, null, null);
+            this._setData(source.key, source.disableCache, null, null);
           }
         }
       }, Array.from(this._sources));
@@ -379,16 +377,16 @@ export class DataFetcherV2 extends RcModuleV2<Deps> {
       // clear all pending requests
       this._promises.delete(source.key);
       // reset isFetching
-      this._setFetching(source, false);
+      this._setFetching(source.key, false);
       if (this.getSourceStatus(source) !== sourceStatus.pending) {
-        this._setSourceStatus(source, sourceStatus.pending);
+        this._setSourceStatus(source.key, sourceStatus.pending);
       }
       if (
         source.cleanOnReset &&
         this.getData(source) !== null &&
         this.getTimestamp(source) !== null
       ) {
-        this._setData(source, null, null);
+        this._setData(source.key, source.disableCache, null, null);
       }
     }, Array.from(this._sources));
   }

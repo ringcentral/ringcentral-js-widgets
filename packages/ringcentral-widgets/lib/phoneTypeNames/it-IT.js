@@ -8,6 +8,7 @@ export default {
   [phoneTypes.unknown]: "Tipo di telefono sconosciuto",
   [phoneTypes.company]: "Numero aziendale",
   [phoneTypes.direct]: "Numero diretto",
+  [phoneTypes.contact]: "Telefono di contatto",
   [phoneTypes.fax]: "Fax",
   [phoneTypes.other]: "Altro"
 };
@@ -20,5 +21,6 @@ export default {
 // @key: @#@"[phoneTypes.unknown]"@#@ @source: @#@"Unknown Phone Type"@#@
 // @key: @#@"[phoneTypes.company]"@#@ @source: @#@"Company Number"@#@
 // @key: @#@"[phoneTypes.direct]"@#@ @source: @#@"Direct Number"@#@
+// @key: @#@"[phoneTypes.contact]"@#@ @source: @#@"Contact Phone"@#@
 // @key: @#@"[phoneTypes.fax]"@#@ @source: @#@"Fax"@#@
 // @key: @#@"[phoneTypes.other]"@#@ @source: @#@"Other"@#@

@@ -27,6 +27,18 @@ export const mount: <T>(
   );
 };
 
+export const remount = <T,>(
+  rerender: ReRender,
+  Component: ComponentType<T>,
+  props: T,
+) => {
+  return rerender(
+    <RcThemeProvider>
+      <Component {...props} />
+    </RcThemeProvider>,
+  );
+};
+
 function _pageRender(
   page: any,
   sourceProps: any,

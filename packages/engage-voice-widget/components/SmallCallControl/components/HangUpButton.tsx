@@ -28,6 +28,7 @@ export const HangUpButton: FunctionComponent<HangUpButtonProps> = ({
   const { endTitle } = getCircleIconButtonTitle({
     isInComingCall,
   });
+
   return (
     <RcIconButton
       symbol={HandUp}

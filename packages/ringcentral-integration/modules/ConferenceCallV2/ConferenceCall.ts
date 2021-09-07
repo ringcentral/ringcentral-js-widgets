@@ -51,7 +51,7 @@ import {
     'CallingSettings',
     'ConnectivityMonitor',
     'Client',
-    'ExtensionFeatures',
+    'AppFeatures',
     { dep: 'ContactMatcher', optional: true },
     { dep: 'Webphone', optional: true },
     { dep: 'AvailabilityMonitor', optional: true },
@@ -624,10 +624,7 @@ export class ConferenceCall extends RcModuleV2<Deps> {
   }
 
   get hasPermission() {
-    return (
-      this._deps.extensionFeatures.isRingOutEnabled &&
-      this._deps.extensionFeatures.isWebPhoneEnabled
-    );
+    return this._deps.appFeatures.hasConferenceCall;
   }
 
   private _checkPermission() {

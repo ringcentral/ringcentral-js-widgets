@@ -24,7 +24,7 @@ const DEFAULT_MASK =
     'Client',
     'Storage',
     'RegionSettings',
-    'ExtensionFeatures',
+    'AppFeatures',
     'ExtensionInfo',
     'Locale',
     { dep: 'AvailabilityMonitor', optional: true },
@@ -43,7 +43,7 @@ export default class Conference extends DataFetcher {
     client,
     regionSettings,
     storage,
-    extensionFeatures,
+    appFeatures,
     availabilityMonitor,
     showSaveAsDefault = false,
     extensionInfo,
@@ -62,7 +62,7 @@ export default class Conference extends DataFetcher {
     this._additionalNumbersStorageKey = 'conferenceAdditionalNumbers';
     this._savedStorageKey = 'conferenceSaveCurrentSettings';
     this._regionSettings = regionSettings;
-    this._extensionFeatures = extensionFeatures;
+    this._appFeatures = appFeatures;
     this._availabilityMonitor = availabilityMonitor;
     this._lastCountryCode = null;
     this._showSaveAsDefault = showSaveAsDefault;
@@ -123,7 +123,7 @@ export default class Conference extends DataFetcher {
   _shouldInit() {
     return (
       super._shouldInit() &&
-      this._extensionFeatures.ready &&
+      this._appFeatures.ready &&
       this._alert.ready &&
       (!this._availabilityMonitor || this._availabilityMonitor.ready) &&
       this._extensionInfo.ready &&
@@ -235,7 +235,7 @@ export default class Conference extends DataFetcher {
   }
 
   get _hasPermission() {
-    return !!this._extensionFeatures.features.Conferencing?.available;
+    return this._appFeatures.hasConferencing;
   }
 
   get showSaveAsDefault() {

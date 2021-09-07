@@ -24,7 +24,7 @@ export const SelectField: FunctionComponent<SelectFieldProps> = ({
           value={!item.value ? undefined : `${item.value}`}
           data-sign={`option${i}`}
           disabled={item.disabled}
-          title={item.title}
+          title={item.label}
         >
           <span className={labelClassName}>{item.label}</span>
         </RcMenuItem>

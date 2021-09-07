@@ -185,6 +185,7 @@ export default class ActiveCallsPanel extends Component {
       useCallDetailV2,
       newCallIcon,
       clickSwitchTrack,
+      isWide,
     } = this.props;
 
     return (
@@ -247,6 +248,7 @@ export default class ActiveCallsPanel extends Component {
         useCallDetailV2={useCallDetailV2}
         newCallIcon={newCallIcon}
         clickSwitchTrack={clickSwitchTrack}
+        isWide={isWide}
       />
     );
   }
@@ -401,9 +403,11 @@ ActiveCallsPanel.propTypes = {
   useCallDetailV2: PropTypes.bool,
   newCallIcon: PropTypes.bool,
   clickSwitchTrack: PropTypes.func,
+  isWide: PropTypes.bool,
 };
 
 ActiveCallsPanel.defaultProps = {
+  isWide: true,
   className: undefined,
   brand: 'RingCentral',
   showContactDisplayPlaceholder: true,

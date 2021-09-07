@@ -22,7 +22,6 @@ export default class OAuth extends OAuthBase {
     redirectUri = './redirect.html',
     restrictSameOriginRedirectUri = true,
     routerInteraction,
-    useDiscovery,
     client,
     ...options
   }) {
@@ -41,7 +40,6 @@ export default class OAuth extends OAuthBase {
     this._isInElectron = isElectron();
     this._restrictSameOriginRedirectUri = restrictSameOriginRedirectUri;
     this._uuid = uuid.v4();
-    this._useDiscovery = useDiscovery;
   }
 
   initialize() {
@@ -130,7 +128,7 @@ export default class OAuth extends OAuthBase {
   @proxify
   async openOAuthPage() {
     if (this.oAuthReady) {
-      if (this._useDiscovery) {
+      if (this._client.service.platform().discovery()) {
         await this._client.service.platform().loginUrlWithDiscovery();
       }
       this._loginWindow = popWindow(this.oAuthUri, 'rc-oauth', 600, 600);
@@ -142,7 +140,7 @@ export default class OAuth extends OAuthBase {
 
   @proxify
   async openOAuthPageInOtherRouter() {
-    if (this._useDiscovery) {
+    if (this._client.service.platform().discovery()) {
       await this._client.service.platform().loginUrlWithDiscovery();
     }
     this._loginWindow = popWindow(this.oAuthUri, 'rc-oauth', 600, 600);

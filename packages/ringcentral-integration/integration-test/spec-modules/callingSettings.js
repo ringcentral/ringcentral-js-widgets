@@ -1,12 +1,15 @@
 import callingOptions from '../../modules/CallingSettings/callingOptions';
 import callingModes from '../../modules/CallingSettings/callingModes';
-import callingSettingsMessages from '../..//modules/CallingSettings/callingSettingsMessages';
+import callingSettingsMessages from '../../modules/CallingSettings/callingSettingsMessages';
 import loginStatus from '../../modules/Auth/loginStatus';
 import { containsErrorMessage, ensureLogin } from '../utils/HelpUtil';
 import { waitUntilEqual } from '../utils/WaitUtil';
 import * as mock from '../mock';
 import authzProfileBody from '../mock/data/authzProfile';
 import extensionInfoBody from '../mock/data/extensionInfo';
+
+// TODO: refactor and combine with new IT solutions
+/* global before */
 
 export default (
   auth,
@@ -160,7 +163,7 @@ export default (
             ).to.not.equal(undefined);
           });
         });
-        describe('Should Not Prompt Alerts when withPrompt Equals False', function() {
+        describe('Should Not Prompt Alerts when withPrompt Equals False', function () {
           it('Should Not Prompt Alert when Calling Option is Softphone', async () => {
             callingSettings.setData(
               {
@@ -290,7 +293,7 @@ export default (
             expect(myPhoneNumbers).to.include(number);
           });
         });
-        //TODO: Add test cases for Other Phone Numbers
+        // TODO: Add test cases for Other Phone Numbers
       });
     });
 
@@ -312,14 +315,15 @@ export default (
     it('Should only include softphone when ReadUserForwardingFlipNumbers is false', async () => {
       mock.restore();
       mock.mockForLogin({ mockExtensionInfo: false });
-      mock.extensionInfo({
-        serviceFeatures: extensionInfoBody.serviceFeatures
-          .filter((p) => p.featureName !== 'WebPhone')
-          .concat({
-            featureName: 'WebPhone',
-            enabled: false,
-          }),
-      });
+      // TODO: refactor to use extensionFeatures, and understand how that's related to "ReadUserForwardingFlipNumbers"
+      // mock.extensionInfo({
+      //   serviceFeatures: extensionInfoBody.serviceFeatures
+      //     .filter((p) => p.featureName !== 'WebPhone')
+      //     .concat({
+      //       featureName: 'WebPhone',
+      //       enabled: false,
+      //     }),
+      // });
       await ensureLogin(auth, account);
       expect(callingSettings.callWithOptions).to.deep.equals([
         callingOptions.softphone,

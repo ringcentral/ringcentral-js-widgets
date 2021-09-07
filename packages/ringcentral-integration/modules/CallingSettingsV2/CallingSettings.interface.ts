@@ -1,28 +1,32 @@
 import { Alert } from '../AlertV2';
-import { Brand } from '../BrandV2';
+import { Brand } from '../Brand';
 import { CallerId } from '../CallerIdV2';
 import { ExtensionDevice } from '../ExtensionDeviceV2';
-import { ExtensionFeatures } from '../ExtensionFeatures';
+import { AppFeatures } from '../AppFeatures';
 import { ExtensionInfo } from '../ExtensionInfoV2';
 import { ExtensionPhoneNumber } from '../ExtensionPhoneNumberV2';
 import { ForwardingNumber } from '../ForwardingNumberV2';
 import { Storage } from '../StorageV2';
-import { TabManager } from '../TabManagerV2';
+import { TabManager } from '../TabManager';
 import { Webphone } from '../WebphoneV2';
+import { Softphone } from '../SoftphoneV2';
+import { ExtensionFeatures } from '../ExtensionFeatures';
 
 export interface Deps {
   alert: Alert;
   brand: Brand;
   callerId?: CallerId;
   extensionDevice?: ExtensionDevice;
-  extensionFeatures: ExtensionFeatures;
+  appFeatures: AppFeatures;
   extensionInfo: ExtensionInfo;
   extensionPhoneNumber: ExtensionPhoneNumber;
   forwardingNumber: ForwardingNumber;
   storage: Storage;
   tabManager?: TabManager;
   webphone?: Webphone;
+  softphone?: Softphone;
   callingSettingsOptions?: CallingSettingsOptions;
+  extensionFeatures: ExtensionFeatures;
 }
 
 export interface CallingSettingsOptions {

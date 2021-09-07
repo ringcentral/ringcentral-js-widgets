@@ -1,27 +1,27 @@
 /* eslint-disable react/destructuring-assignment */
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import classnames from 'classnames';
 import callDirections from '@ringcentral-integration/commons/enums/callDirections';
-import messageTypes from '@ringcentral-integration/commons/enums/messageTypes';
 import messageDirection from '@ringcentral-integration/commons/enums/messageDirection';
+import messageTypes from '@ringcentral-integration/commons/enums/messageTypes';
 import {
   isInbound,
-  isRinging,
   isMissed,
+  isRinging,
 } from '@ringcentral-integration/commons/lib/callLogHelpers';
-import parseNumber from '@ringcentral-integration/commons/lib/parseNumber';
 import formatNumber from '@ringcentral-integration/commons/lib/formatNumber';
+import parseNumber from '@ringcentral-integration/commons/lib/parseNumber';
+import classnames from 'classnames';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+import { checkShouldHidePhoneNumber } from '../../lib/checkShouldHidePhoneNumber';
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
-import DurationCounter from '../DurationCounter';
-import ContactDisplay from '../ContactDisplay';
-import formatDuration from '../../lib/formatDuration';
-import ActionMenu from '../ActionMenu';
 import FaxInboundIcon from '../../assets/images/FaxInbound.svg';
 import FaxOutboundIcon from '../../assets/images/FaxOutbound.svg';
-import styles from './styles.scss';
-
+import formatDuration from '../../lib/formatDuration';
+import ActionMenu from '../ActionMenu';
+import ContactDisplay from '../ContactDisplay';
+import DurationCounter from '../DurationCounter';
 import i18n from './i18n';
+import styles from './styles.scss';
 
 const callIconMap = {
   [callDirections.inbound]: dynamicsFont.inbound,
@@ -386,9 +386,12 @@ export default class CallItem extends Component {
       readTextPermission,
       withAnimation,
       showChooseEntityModal,
+      enableCDC,
     } = this.props;
     const phoneNumber = this.getPhoneNumber();
     const contactMatches = this.getContactMatches();
+    const shouldHideNumber =
+      enableCDC && checkShouldHidePhoneNumber(phoneNumber, contactMatches);
     const fallbackContactName = this.getFallbackContactName();
     const ringing = isRinging(this.props.call);
     const missed = isInbound(this.props.call) && isMissed(this.props.call);
@@ -399,10 +402,12 @@ export default class CallItem extends Component {
     });
     const isExtension =
       !parsedInfo.hasPlus && parsedInfo.number && parsedInfo.number.length <= 6;
-    const disableClickToSms = !(
-      onClickToSms &&
-      (isExtension ? internalSmsPermission : outboundSmsPermission)
-    );
+    const disableClickToSms =
+      shouldHideNumber ||
+      !(
+        onClickToSms &&
+        (isExtension ? internalSmsPermission : outboundSmsPermission)
+      );
 
     let durationEl = null;
     if (typeof duration === 'undefined') {
@@ -475,7 +480,7 @@ export default class CallItem extends Component {
               enableContactFallback={enableContactFallback}
               areaCode={areaCode}
               countryCode={countryCode}
-              phoneNumber={phoneNumber}
+              phoneNumber={shouldHideNumber ? null : phoneNumber}
               currentLocale={currentLocale}
               stopPropagation={false}
               showType={false}
@@ -490,43 +495,45 @@ export default class CallItem extends Component {
           </div>
           {extraButton}
         </div>
-        <ActionMenu
-          extended={menuExtended}
-          onToggle={this.toggleExtended}
-          currentLocale={currentLocale}
-          onLog={onLogCall && this.logCall}
-          onViewEntity={onViewContact && this.viewSelectedContact}
-          onCreateEntity={onCreateContact && this.createSelectedContact}
-          createEntityTypes={createEntityTypes}
-          hasEntity={!!contactMatches.length}
-          selectedMatchContactType={selectedMatchContactType}
-          onClickToDial={onClickToDial && this.clickToDial}
-          onClickToSms={
-            readTextPermission
-              ? () => this.clickToSms({ countryCode, areaCode })
-              : undefined
-          }
-          phoneNumber={phoneNumber}
-          disableLinks={disableLinks}
-          disableCallButton={disableCallButton}
-          disableClickToDial={disableClickToDial}
-          isLogging={isLogging || this.state.isLogging}
-          isLogged={activityMatches.length > 0}
-          isCreating={this.state.isCreating}
-          addLogTitle={i18n.getString('addLog', currentLocale)}
-          editLogTitle={i18n.getString('editLog', currentLocale)}
-          textTitle={i18n.getString('text', currentLocale)}
-          callTitle={i18n.getString('call', currentLocale)}
-          createEntityTitle={i18n.getString('addEntity', currentLocale)}
-          viewEntityTitle={i18n.getString('viewDetails', currentLocale)}
-          externalViewEntity={externalViewEntity && this.externalViewEntity}
-          externalHasEntity={
-            externalHasEntity && externalHasEntity(this.props.call)
-          }
-          disableClickToSms={disableClickToSms}
-          withAnimation={withAnimation}
-          showChooseEntityModal={showChooseEntityModal}
-        />
+        {shouldHideNumber ? null : (
+          <ActionMenu
+            extended={menuExtended}
+            onToggle={this.toggleExtended}
+            currentLocale={currentLocale}
+            onLog={onLogCall && this.logCall}
+            onViewEntity={onViewContact && this.viewSelectedContact}
+            onCreateEntity={onCreateContact && this.createSelectedContact}
+            createEntityTypes={createEntityTypes}
+            hasEntity={!!contactMatches.length}
+            selectedMatchContactType={selectedMatchContactType}
+            onClickToDial={onClickToDial && this.clickToDial}
+            onClickToSms={
+              readTextPermission
+                ? () => this.clickToSms({ countryCode, areaCode })
+                : undefined
+            }
+            phoneNumber={phoneNumber}
+            disableLinks={shouldHideNumber || disableLinks}
+            disableCallButton={disableCallButton}
+            disableClickToDial={disableClickToDial}
+            isLogging={isLogging || this.state.isLogging}
+            isLogged={activityMatches.length > 0}
+            isCreating={this.state.isCreating}
+            addLogTitle={i18n.getString('addLog', currentLocale)}
+            editLogTitle={i18n.getString('editLog', currentLocale)}
+            textTitle={i18n.getString('text', currentLocale)}
+            callTitle={i18n.getString('call', currentLocale)}
+            createEntityTitle={i18n.getString('addEntity', currentLocale)}
+            viewEntityTitle={i18n.getString('viewDetails', currentLocale)}
+            externalViewEntity={externalViewEntity && this.externalViewEntity}
+            externalHasEntity={
+              externalHasEntity && externalHasEntity(this.props.call)
+            }
+            disableClickToSms={disableClickToSms}
+            withAnimation={withAnimation}
+            showChooseEntityModal={showChooseEntityModal}
+          />
+        )}
       </div>
     );
   }
@@ -595,6 +602,7 @@ CallItem.propTypes = {
   currentSiteCode: PropTypes.string,
   isMultipleSiteEnabled: PropTypes.bool,
   showChooseEntityModal: PropTypes.bool,
+  enableCDC: PropTypes.bool,
 };
 
 CallItem.defaultProps = {
@@ -630,4 +638,5 @@ CallItem.defaultProps = {
   onSizeChanged: undefined,
   withAnimation: true,
   showChooseEntityModal: true,
+  enableCDC: false,
 };

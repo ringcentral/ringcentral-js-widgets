@@ -8,17 +8,14 @@ import Demo from './Demo';
 // eslint-disable-next-line
 import demoCode from '!raw-loader!./Demo';
 // eslint-disable-next-line
-import componentCode from '!raw-loader!@ringcentral-integration/widgets/components/AlertRenderer/RolesAndPermissionsAlert';
+import componentCode from '!raw-loader!@ringcentral-integration/widgets/components/AlertRenderer/PermissionsAlert';
 
-const RolesAndPermissionsAlertPage = () => {
+const PermissionsAlertPage = () => {
   const info = parse(componentCode);
   return (
     <div>
-      <ComponentHeader
-        name="RolesAndPermissionsAlert"
-        description={info.description}
-      />
-      <CodeExample code={demoCode} title="RolesAndPermissionsAlert Example">
+      <ComponentHeader name="PermissionsAlert" description={info.description} />
+      <CodeExample code={demoCode} title="PermissionsAlert Example">
         <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />
@@ -26,4 +23,4 @@ const RolesAndPermissionsAlertPage = () => {
   );
 };
 
-export default RolesAndPermissionsAlertPage;
+export default PermissionsAlertPage;

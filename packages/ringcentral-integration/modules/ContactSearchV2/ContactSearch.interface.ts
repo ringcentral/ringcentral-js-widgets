@@ -1,6 +1,6 @@
 import { Auth } from '../AuthV2';
 import { Storage } from '../StorageV2';
-import { TabManager } from '../TabManagerV2';
+import { TabManager } from '../TabManager';
 
 export interface ContactSearchState {
   entities: Entities;

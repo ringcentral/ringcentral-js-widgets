@@ -1,41 +1,39 @@
-import { find, filter } from 'ramda';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 import { EventEmitter } from 'events';
+import { filter, find } from 'ramda';
 import RingCentralWebphone from 'ringcentral-web-phone';
 import defaultIncomingAudio from 'ringcentral-web-phone/audio/incoming.ogg';
 import defaultOutgoingAudio from 'ringcentral-web-phone/audio/outgoing.ogg';
-import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
-
-import { Module } from '../../lib/di';
-import RcModule from '../../lib/RcModule';
-import sleep from '../../lib/sleep';
-import moduleStatuses from '../../enums/moduleStatuses';
-import connectionStatus from './connectionStatus';
-
-import sessionStatus from './sessionStatus';
-import recordStatus from './recordStatus';
-import actionTypes from './actionTypes';
 import callDirections from '../../enums/callDirections';
-import webphoneErrors from './webphoneErrors';
-import webphoneMessages from './webphoneMessages';
-import callErrors from '../Call/callErrors';
+import moduleStatuses from '../../enums/moduleStatuses';
+import { Module } from '../../lib/di';
 import ensureExist from '../../lib/ensureExist';
 import proxify from '../../lib/proxy/proxify';
+import RcModule from '../../lib/RcModule';
 import { selector } from '../../lib/selector';
+import sleep from '../../lib/sleep';
 import validateNumbers from '../../lib/validateNumbers';
-
+import { SipInstanceManager } from '../../lib/SipInstanceManager';
+import callErrors from '../Call/callErrors';
+import actionTypes from './actionTypes';
+import connectionStatus from './connectionStatus';
+import getWebphoneReducer, {
+  DEFAULT_AUDIO,
+  getWebphoneStorageReducer,
+} from './getWebphoneReducer';
+import recordStatus from './recordStatus';
+import sessionStatus from './sessionStatus';
+import webphoneErrors from './webphoneErrors';
 import {
+  extractHeadersData,
   isBrowserSupport,
   isChrome,
   isEnableMidLinesInSDP,
-  normalizeSession,
-  isRing,
   isOnHold,
-  extractHeadersData,
+  isRing,
+  normalizeSession,
 } from './webphoneHelper';
-import getWebphoneReducer, {
-  getWebphoneStorageReducer,
-  DEFAULT_AUDIO,
-} from './getWebphoneReducer';
+import webphoneMessages from './webphoneMessages';
 
 const AUTO_RETRIES_DELAY = [
   0,
@@ -94,6 +92,7 @@ const registerErrors = [
     'Client',
     'NumberValidate',
     'ExtensionFeatures',
+    'AppFeatures',
     'Brand',
     'RegionSettings',
     'AudioSettings',
@@ -113,6 +112,7 @@ export default class Webphone extends RcModule {
     auth,
     client,
     storage,
+    appFeatures,
     extensionFeatures,
     webphoneLogLevel = 1,
     contactMatcher,
@@ -154,6 +154,7 @@ export default class Webphone extends RcModule {
     this._auth = ensureExist.call(this, auth, 'auth');
     this._client = ensureExist.call(this, client, 'client');
     this._extensionFeatures = extensionFeatures;
+    this._appFeatures = appFeatures;
     this._numberValidate = ensureExist.call(
       this,
       numberValidate,
@@ -220,6 +221,7 @@ export default class Webphone extends RcModule {
     this._connectTimeout = null;
     this._isFirstRegister = true;
     this._stopWebphoneUserAgentPromise = null;
+    this._sipInstanceId = null;
 
     if (this._contactMatcher) {
       this._contactMatcher.addQuerySource({
@@ -227,6 +229,10 @@ export default class Webphone extends RcModule {
         readyCheckFn: () => this.ready,
       });
     }
+    this._sipInstanceManager = new SipInstanceManager(
+      `${prefix}-webphone-inactive-sip-instance`,
+    );
+    this._removedWebphoneAtBeforeUnload = false;
   }
 
   _prepareVideoElement() {
@@ -263,13 +269,46 @@ export default class Webphone extends RcModule {
       } else {
         this._prepareVideoElement();
       }
-      window.addEventListener('unload', () => {
+      window.addEventListener('beforeunload', () => {
+        if (!this._webphone) {
+          return;
+        }
+        if (this.sessions.length > 0) {
+          return;
+        }
+        this._removedWebphoneAtBeforeUnload = true;
+        // disconnect webphone at beforeunload if there are not active sessions
         this._disconnect();
+        // set timeout to reconnect web phone is before unload cancel
+        setTimeout(() => {
+          this._removedWebphoneAtBeforeUnload = false;
+          this.connect({
+            force: true,
+            skipConnectDelay: true,
+            skipDLCheck: true,
+          });
+        }, 4000);
+      });
+      window.addEventListener('unload', () => {
+        // mark current instance id as inactive, so app can reuse it after refresh
+        if (this._sipInstanceId) {
+          this._sipInstanceManager.setInstanceInactive(
+            this._sipInstanceId,
+            this._auth.endpointId,
+          );
+          this._sipInstanceId = null;
+        }
+        // disconnect if web phone is not disconnected at beforeunload
+        if (!this._removedWebphoneAtBeforeUnload) {
+          this._disconnect();
+        }
         this._removeCurrentInstanceFromActiveWebphone();
       });
     }
     this.store.subscribe(() => this._onStateChange());
     this._auth.addBeforeLogoutHandler(async () => {
+      this._sipInstanceId = null;
+      this._disconnect();
       await this._disconnect();
     });
     this._createOtherWebphoneInstanceListener();
@@ -330,7 +369,7 @@ export default class Webphone extends RcModule {
   _shouldInit() {
     return (
       this._auth.loggedIn &&
-      this._extensionFeatures.ready &&
+      this._appFeatures.ready &&
       this._numberValidate.ready &&
       this._audioSettings.ready &&
       this._storage.ready &&
@@ -342,7 +381,7 @@ export default class Webphone extends RcModule {
   _shouldReset() {
     return (
       (!this._auth.loggedIn ||
-        !this._extensionFeatures.ready ||
+        !this._appFeatures.ready ||
         !this._numberValidate.ready ||
         (!!this._tabManager && !this._tabManager.ready) ||
         !this._audioSettings.ready) &&
@@ -400,6 +439,8 @@ export default class Webphone extends RcModule {
       if (this._webphone.userAgent.transport.__clearSwitchBackTimer) {
         this._webphone.userAgent.transport.__clearSwitchBackTimer();
       }
+      // clean audio instances at web phone sdk
+      this._webphone.userAgent.audioHelper.loadAudio({});
     } catch (e) {
       console.error(e);
       // ignore clean listener error
@@ -424,6 +465,11 @@ export default class Webphone extends RcModule {
 
   async _createWebphone(provisionData) {
     await this._removeWebphone();
+    if (!this._sipInstanceId) {
+      this._sipInstanceId = this._sipInstanceManager.getInstanceId(
+        this._auth.endpointId,
+      );
+    }
     this._webphone = new RingCentralWebphone(provisionData, {
       appKey: this._appKey,
       appName: this._appName,
@@ -439,6 +485,7 @@ export default class Webphone extends RcModule {
       },
       enableQos: isChrome(),
       enableMidLinesInSDP: isEnableMidLinesInSDP(),
+      instanceId: this._sipInstanceId, // reuse sip instance id to avoid 603 issue at reconnection
       ...this._webphoneSDKOptions,
     });
     this.loadAudio();
@@ -751,6 +798,10 @@ export default class Webphone extends RcModule {
   }
 
   async _onConnectError({ errorCode, statusCode, ttl }) {
+    if (statusCode === 403 && this._sipInstanceId) {
+      // recreate sip instance id if server send 403
+      this._sipInstanceId = null;
+    }
     if (
       this.connectRetryCounts > 2 ||
       this.reconnecting ||
@@ -808,9 +859,6 @@ export default class Webphone extends RcModule {
     this.store.dispatch({
       type: this.actionTypes.registered,
       device: provisionData.device,
-    });
-    this._alert.info({
-      message: webphoneErrors.connected,
     });
     this._hideRegisterErrorAlert();
     this._setCurrentInstanceAsActiveWebphone();
@@ -903,12 +951,16 @@ export default class Webphone extends RcModule {
     }
   }
 
-  _onTabActive() {
+  async _onTabActive() {
     if (!this._disconnectOnInactive) {
       return;
     }
     if (this.connected) {
       this._setCurrentInstanceAsActiveWebphone();
+      return;
+    }
+    await sleep(500);
+    if (!this._tabManager.active) {
       return;
     }
     if (this.inactive) {
@@ -993,6 +1045,7 @@ export default class Webphone extends RcModule {
 
   @proxify
   async disconnect() {
+    this._sipInstanceId = null;
     await this._disconnect();
   }
 
@@ -2153,7 +2206,7 @@ export default class Webphone extends RcModule {
   }
 
   get enabled() {
-    return this._extensionFeatures.isWebPhoneEnabled;
+    return this._appFeatures.isWebPhoneEnabled;
   }
 
   get connectionStatus() {

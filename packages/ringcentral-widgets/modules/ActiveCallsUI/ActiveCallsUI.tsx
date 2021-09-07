@@ -1,23 +1,23 @@
-import React from 'react';
+import callDirections from '@ringcentral-integration/commons/enums/callDirections';
+import { isRingingInboundCall } from '@ringcentral-integration/commons/lib/callLogHelpers';
+import { Module } from '@ringcentral-integration/commons/lib/di';
+import formatNumber from '@ringcentral-integration/commons/lib/formatNumber';
+import { ActiveSession } from '@ringcentral-integration/commons/modules/ActiveCallControlV2';
+import { isHolding } from '@ringcentral-integration/commons/modules/ActiveCallControlV2/helpers';
+import callingModes from '@ringcentral-integration/commons/modules/CallingSettings/callingModes';
+import { isOnHold } from '@ringcentral-integration/commons/modules/Webphone/webphoneHelper';
+import { SwitchCallActiveCallParams } from '@ringcentral-integration/commons/modules/WebphoneV2';
 import {
   RcUIModuleV2,
   UIFunctions,
   UIProps,
 } from '@ringcentral-integration/core';
-import { Module } from '@ringcentral-integration/commons/lib/di';
-import formatNumber from '@ringcentral-integration/commons/lib/formatNumber';
-import callDirections from '@ringcentral-integration/commons/enums/callDirections';
-import { isRingingInboundCall } from '@ringcentral-integration/commons/lib/callLogHelpers';
-import callingModes from '@ringcentral-integration/commons/modules/CallingSettings/callingModes';
-import { isOnHold } from '@ringcentral-integration/commons/modules/Webphone/webphoneHelper';
-import { isHolding } from '@ringcentral-integration/commons/modules/ActiveCallControlV2/helpers';
-import { ActiveSession } from '@ringcentral-integration/commons/modules/ActiveCallControlV2';
-import { SwitchCallActiveCallParams } from '@ringcentral-integration/commons/modules/WebphoneV2';
+import React from 'react';
 import { ModalContent } from '../../components/ActiveCallItemV2';
 import {
-  Deps,
   ActiveCallsContainerProps,
   ActiveCallsPanelProps,
+  Deps,
 } from './ActiveCallsUI.interface';
 
 const ModalContentRendererID = 'ActiveCallsUI.ModalContentRenderer';
@@ -33,7 +33,7 @@ const ModalContentRendererID = 'ActiveCallsUI.ModalContentRenderer';
     'ContactMatcher',
     'CallingSettings',
     'RouterInteraction',
-    'ExtensionFeatures',
+    'AppFeatures',
     'ConnectivityMonitor',
     { dep: 'ModalUI', optional: true },
     { dep: 'Webphone', optional: true },
@@ -77,10 +77,8 @@ export class ActiveCallsUI<T = {}> extends RcUIModuleV2<Deps & T> {
       otherDeviceCalls: this._deps.callMonitor.otherDeviceCalls,
       areaCode: this._deps.regionSettings.areaCode,
       countryCode: this._deps.regionSettings.countryCode,
-      outboundSmsPermission: !!this._deps.extensionFeatures.features?.SMSSending
-        ?.available,
-      internalSmsPermission: !!this._deps.extensionFeatures.features
-        ?.PagesSending?.available,
+      outboundSmsPermission: this._deps.appFeatures.hasOutboundSMSPermission,
+      internalSmsPermission: this._deps.appFeatures.hasInternalSMSPermission,
       showSpinner: !!this._deps.conferenceCall?.isMerging,
       brand: this._deps.brand.fullName,
       showContactDisplayPlaceholder,
@@ -100,6 +98,7 @@ export class ActiveCallsUI<T = {}> extends RcUIModuleV2<Deps & T> {
         this._deps.rateLimiter.throttling ||
         controlBusy,
       useCallControl,
+      isWide: this.isWide,
     };
   }
 
@@ -343,5 +342,9 @@ export class ActiveCallsUI<T = {}> extends RcUIModuleV2<Deps & T> {
         this._deps.activeCallControl?.clickSwitchTrack?.();
       },
     };
+  }
+
+  get isWide() {
+    return true;
   }
 }

@@ -99,7 +99,9 @@ export function conflictError({
   );
 }
 
-export function isRinging(telephonySession: ActiveCallControlSessionData) {
+export function isRinging(
+  telephonySession: ActiveCallControlSessionData | Session,
+) {
   return (
     telephonySession &&
     (telephonySession.status === PartyStatusCode.proceeding ||

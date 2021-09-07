@@ -1,16 +1,15 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { RcAlert } from '@ringcentral/juno';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
-
-import { SpinnerOverlay } from '../SpinnerOverlay';
+import { checkShouldHidePhoneNumber } from '../../lib/checkShouldHidePhoneNumber';
+import ContactDisplay from '../ContactDisplay';
 import ConversationMessageList from '../ConversationMessageList';
 import LogButton from '../LogButton';
-import ContactDisplay from '../ContactDisplay';
 import MessageInput from '../MessageInput';
-
-import styles from './styles.scss';
+import { SpinnerOverlay } from '../SpinnerOverlay';
 import i18n from './i18n';
+import styles from './styles.scss';
 
 class ConversationPanel extends Component {
   constructor(props) {
@@ -248,6 +247,10 @@ class ConversationPanel extends Component {
     } = this.props.conversation;
     const groupNumbers = this.getGroupPhoneNumbers();
     const phoneNumber = this.getPhoneNumber();
+    // TODO: Confirm on group messages similar to MessageItem
+    const shouldHideNumber =
+      this.props.enableCDC &&
+      checkShouldHidePhoneNumber(phoneNumber, correspondentMatches);
     const fallbackName = this.getFallbackContactName();
     const extraButton = this.props.renderExtraButton
       ? this.props.renderExtraButton(this.props.conversation, {
@@ -281,7 +284,7 @@ class ConversationPanel extends Component {
             fallBackName={fallbackName}
             areaCode={this.props.areaCode}
             countryCode={this.props.countryCode}
-            phoneNumber={phoneNumber}
+            phoneNumber={shouldHideNumber ? null : phoneNumber}
             groupNumbers={groupNumbers}
             showType={false}
             currentLocale={this.props.currentLocale}
@@ -292,6 +295,8 @@ class ConversationPanel extends Component {
             phoneTypeRenderer={this.props.phoneTypeRenderer}
             phoneSourceNameRenderer={this.props.phoneSourceNameRenderer}
             showGroupNumberName={this.props.showGroupNumberName}
+            dropdownRenderFunction={this.props.renderContactList}
+            dropdownClassName={this.props.dropdownClassName}
           />
           <a
             onClick={() => this.props.goBack()}
@@ -320,7 +325,8 @@ class ConversationPanel extends Component {
           <MessageInput
             value={this.props.messageText}
             onChange={this.props.updateMessageText}
-            disabled={this.props.sendButtonDisabled}
+            disabled={shouldHideNumber}
+            sendButtonDisabled={this.props.sendButtonDisabled}
             currentLocale={this.props.currentLocale}
             onSend={this.onSend}
             onHeightChange={this.onInputHeightChange}
@@ -391,6 +397,9 @@ ConversationPanel.propTypes = {
   restrictSendMessage: PropTypes.func,
   shouldLogSelectRecord: PropTypes.bool,
   onSelectContact: PropTypes.func,
+  renderContactList: PropTypes.func,
+  dropdownClassName: PropTypes.string,
+  enableCDC: PropTypes.bool,
 };
 ConversationPanel.defaultProps = {
   disableLinks: false,
@@ -419,6 +428,9 @@ ConversationPanel.defaultProps = {
   restrictSendMessage: undefined,
   shouldLogSelectRecord: false,
   onSelectContact: undefined,
+  renderContactList: undefined,
+  dropdownClassName: null,
+  enableCDC: false,
 };
 
 export default ConversationPanel;

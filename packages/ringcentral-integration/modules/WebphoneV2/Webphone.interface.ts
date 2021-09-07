@@ -2,16 +2,17 @@ import { WebPhoneOptions } from 'ringcentral-web-phone';
 import { NormalizedSession } from '../../interfaces/Webphone.interface';
 import { RingCentralClient } from '../../lib/RingCentralClient';
 import { Alert } from '../AlertV2';
+import { AppFeatures } from '../AppFeatures';
 import { AudioSettings } from '../AudioSettingsV2';
 import { Auth } from '../AuthV2';
 import { AvailabilityMonitor } from '../AvailabilityMonitorV2';
-import { Brand } from '../BrandV2';
+import { Brand } from '../Brand';
 import { ContactMatcher } from '../ContactMatcherV2';
 import { ExtensionFeatures } from '../ExtensionFeatures';
 import { NumberValidate } from '../NumberValidateV2';
 import { RegionSettings } from '../RegionSettingsV2';
 import { Storage } from '../StorageV2';
-import { TabManager } from '../TabManagerV2';
+import { TabManager } from '../TabManager';
 
 export interface Deps {
   prefix: string;
@@ -20,6 +21,7 @@ export interface Deps {
   client: RingCentralClient;
   numberValidate: NumberValidate;
   extensionFeatures: ExtensionFeatures;
+  appFeatures: AppFeatures;
   brand: Brand;
   regionSettings: RegionSettings;
   audioSettings: AudioSettings;
@@ -58,6 +60,7 @@ export interface WebphoneOptions {
   permissionCheck?: boolean;
   disconnectOnInactive?: boolean;
   connectDelay?: number;
+  enableContactMatchWhenNewCall?: boolean;
 }
 
 export interface SwitchCallActiveCallParams {

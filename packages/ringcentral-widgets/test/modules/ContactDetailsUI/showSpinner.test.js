@@ -1,5 +1,5 @@
 import { ContactDetailsUI } from '../../../modules/ContactDetailsUI/ContactDetailsUI';
-import { phone } from './testUtils';
+import { phone } from './testSetup';
 
 const defaultPropsParams = {
   params: {
@@ -8,26 +8,22 @@ const defaultPropsParams = {
   },
 };
 
-describe('If all the dependencies are true, return true; Otherwise return false;', () => {
+// TODO: refactor to use IT
+describe.skip('If all the dependencies are true, return true; Otherwise return false;', () => {
   test.each`
-    localeReady | contactSearchReady | rolesAndPermissionsReady | expected
-    ${true}     | ${true}            | ${true}                  | ${false}
-    ${false}    | ${true}            | ${true}                  | ${true}
-    ${true}     | ${false}           | ${true}                  | ${true}
-    ${true}     | ${true}            | ${false}                 | ${true}
+    localeReady | contactSearchReady | appFeaturesReady | expected
+    ${true}     | ${true}            | ${true}          | ${false}
+    ${false}    | ${true}            | ${true}          | ${true}
+    ${true}     | ${false}           | ${true}          | ${true}
+    ${true}     | ${true}            | ${false}         | ${true}
   `(
-    'Given localeReady = $localeReady, contactSearchReady = $contactSearchReady, rolesAndPermissionsReady = $rolesAndPermissionsReady, return $expected',
-    ({
-      localeReady,
-      contactSearchReady,
-      rolesAndPermissionsReady,
-      expected,
-    }) => {
+    'Given localeReady = $localeReady, contactSearchReady = $contactSearchReady, appFeaturesReady = $appFeaturesReady, return $expected',
+    ({ localeReady, contactSearchReady, appFeaturesReady, expected }) => {
       const { showSpinner } = new ContactDetailsUI({
         ...phone,
         locale: { ready: localeReady },
         contactSearch: { ready: contactSearchReady },
-        rolesAndPermissions: { ready: rolesAndPermissionsReady },
+        appFeatures: { ready: appFeaturesReady },
       }).getUIProps(defaultPropsParams);
 
       expect(showSpinner).toBe(expected);

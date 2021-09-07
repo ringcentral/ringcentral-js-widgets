@@ -212,6 +212,7 @@ export class InfoFallBack extends Step {
           desc="An extensionInfo instance with null data"
           action={(_: any, context: any) => {
             context.instance = new ExtensionInfo({
+              extensionFeatures: {} as any,
               auth: {} as any,
               client: {} as any,
               subscription: {} as any,
@@ -237,73 +238,6 @@ export class InfoFallBack extends Step {
             expect(context.instance.data).toBe(null);
             expect(context.instance.info).toEqual({});
             expect(context.instance.info).toBe(context.instance.info);
-          }}
-        />
-      </Scenario>
-    );
-  }
-}
-
-@autorun(test)
-@title('extensionInfo.serviceFeatures remapping')
-export class ServiceFeaturesRemapping extends Step {
-  run() {
-    return (
-      <Scenario desc="extensionInfo.serviceFeatures remapping">
-        <Given
-          desc="An extensionInfo instance with data"
-          action={(_: any, context: any) => {
-            class ExtensionInfoWithMockStore extends ExtensionInfo {
-              _mockData = {
-                serviceFeatures: [
-                  {
-                    featureName: 'foo',
-                    enabled: true,
-                  },
-                  {
-                    featureName: 'bar',
-                    enabled: false,
-                    reason: 'tango',
-                  },
-                ],
-              };
-
-              get data() {
-                return this._mockData as any;
-              }
-            }
-            context.instance = new ExtensionInfoWithMockStore({
-              auth: {} as any,
-              client: {} as any,
-              subscription: {} as any,
-              alert: {} as any,
-              dataFetcherV2: {
-                register() {},
-              } as any,
-            });
-
-            Object.assign(
-              context.instance,
-              mockModuleGenerator({
-                extensionInfo: {},
-              }),
-            );
-          }}
-        />
-        <Then
-          desc="extensionInfo.serviceFeatures should be a remapped object"
-          action={(_: any, context: any) => {
-            expect(context.instance.serviceFeatures).toEqual({
-              foo: {
-                featureName: 'foo',
-                enabled: true,
-              },
-              bar: {
-                featureName: 'bar',
-                enabled: false,
-                reason: 'tango',
-              },
-            });
           }}
         />
       </Scenario>

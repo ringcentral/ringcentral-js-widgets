@@ -1,5 +1,5 @@
 import { ContactDetailsUI } from '../../../modules/ContactDetailsUI/ContactDetailsUI';
-import { phone, defaultPropsParams } from './testUtils';
+import { phone, defaultPropsParams } from './testSetup';
 
 describe('If all dependencies = false, return false; Otherwise return true ', () => {
   test.each`

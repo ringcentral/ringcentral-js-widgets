@@ -9,6 +9,7 @@ export interface LinkLineItemProps extends onLinkLineItemClick {
   customTitle?: string;
   currentLocale: string;
   show?: boolean;
+  pendoSignName?: string;
 }
 
 export const LinkLineItem: FunctionComponent<LinkLineItemProps> = ({
@@ -17,12 +18,19 @@ export const LinkLineItem: FunctionComponent<LinkLineItemProps> = ({
   customTitle,
   currentLocale,
   onClick,
+  pendoSignName,
+  ...rest
 }) => {
   if (!show) {
     return null;
   }
   return (
-    <LinkLine hideUnderline onClick={onClick}>
+    <LinkLine
+      hideUnderline
+      onClick={onClick}
+      pendoSignName={pendoSignName}
+      {...rest}
+    >
       {customTitle || i18n.getString(name, currentLocale)}
     </LinkLine>
   );

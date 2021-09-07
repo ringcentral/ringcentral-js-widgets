@@ -122,7 +122,7 @@ export const DEFAULT_DAY_SPAN = 90;
     'MessageSender',
     'ExtensionInfo',
     'MessageStore',
-    'ExtensionFeatures',
+    'AppFeatures',
     'RegionSettings',
     { dep: 'ContactMatcher', optional: true },
     { dep: 'ConversationLogger', optional: true },
@@ -230,9 +230,7 @@ export class Conversations extends RcModuleV2<Deps> {
     records: GetMessageInfoResponse[],
     isIncreaseCurrentPage: boolean,
   ) {
-    this.oldConversations = this.oldConversations.concat(
-      records.map(normalizeRecord),
-    );
+    this.oldConversations.push(...records.map(normalizeRecord));
     this.fetchConversationsStatus = conversationsStatus.idle;
     if (isIncreaseCurrentPage) {
       this.currentPage += 1;
@@ -276,7 +274,7 @@ export class Conversations extends RcModuleV2<Deps> {
 
   @action
   _fetchOldMessagesSuccess(records: GetMessageInfoResponse[]) {
-    this.oldMessages = this.oldMessages.concat(records.map(normalizeRecord));
+    this.oldMessages.push(...records.map(normalizeRecord));
     this.fetchMessagesStatus = conversationsStatus.idle;
   }
 
@@ -818,11 +816,11 @@ export class Conversations extends RcModuleV2<Deps> {
       default:
         return allConversations.filter(
           (conversation) =>
-            (this._deps.extensionFeatures.hasReadTextPermission ||
+            (this._deps.appFeatures.hasReadTextPermission ||
               !messageIsTextMessage(conversation)) &&
-            (this._deps.extensionFeatures.hasVoicemailPermission ||
+            (this._deps.appFeatures.hasVoicemailPermission ||
               !messageIsVoicemail(conversation)) &&
-            (this._deps.extensionFeatures.hasReadFaxPermission ||
+            (this._deps.appFeatures.hasReadFaxPermission ||
               !messageIsFax(conversation)),
         );
     }
@@ -1145,7 +1143,7 @@ export class Conversations extends RcModuleV2<Deps> {
   }
 
   get _hasPermission() {
-    return this._deps.extensionFeatures.hasReadMessagesPermission;
+    return this._deps.appFeatures.hasReadMessagesPermission;
   }
 
   addEntities(entities: CorrespondentMatch[]) {

@@ -19,7 +19,7 @@ export class ErrorLogger extends RcModuleV2<Deps> {
       deps,
     });
     const appName = this._deps.brandConfig.appName;
-    const appBrand = this._deps.brandConfig.brandCode;
+    const appBrand = this._deps.brandConfig.code;
     const { appVersion, environment, sentryConfig } =
       this._deps.errorLoggerOptions ?? {};
     if (sentryConfig?.endpoint) {

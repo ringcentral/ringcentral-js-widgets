@@ -91,6 +91,13 @@ class ActiveCallDialPad extends Component {
     };
   }
 
+  componentWillUnmount() {
+    if (this.audio) {
+      this.audio.remove();
+      this.audio = null;
+    }
+  }
+
   render() {
     return (
       <div data-sign="activeCallDialPad" className={styles.root}>

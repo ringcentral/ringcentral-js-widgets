@@ -66,6 +66,7 @@ export interface ActiveCallControlButtonsProps {
   webphoneHold?: (webphoneSessionId: string, telephonySessionId: string) => any;
   isConnecting?: boolean;
   clickSwitchTrack?: () => any;
+  isWide?: boolean;
 }
 
 interface Call {
@@ -159,6 +160,7 @@ export interface ActiveCallItemProps {
   useCallDetailV2?: boolean;
   showIgnoreBtn?: boolean;
   clickSwitchTrack?: () => any;
+  isWide?: boolean;
 }
 
 export interface ActiveCallItemState {

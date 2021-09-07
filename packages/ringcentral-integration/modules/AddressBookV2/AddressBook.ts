@@ -46,8 +46,8 @@ export class AddressBook
       polling,
       cleanOnReset: true,
       permissionCheckFunction: () =>
-        this._deps.extensionFeatures.features?.ReadPersonalContacts.available ??
-        false,
+        this._deps.extensionFeatures.features?.ReadPersonalContacts
+          ?.available ?? false,
       readyCheckFunction: () => this._deps.extensionFeatures.ready,
       fetchFunction: async () => this._sync(),
     });

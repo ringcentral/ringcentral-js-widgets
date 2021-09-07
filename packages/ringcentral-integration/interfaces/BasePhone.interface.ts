@@ -9,26 +9,29 @@ import { ModalUI } from '../../ringcentral-widgets/modules/ModalUIV2';
 import OAuth from '../../ringcentral-widgets/modules/ProxyFrameOAuth';
 import RegionSettingsUI from '../../ringcentral-widgets/modules/RegionSettingsUI';
 import RouterInteraction from '../../ringcentral-widgets/modules/RouterInteraction';
-import SettingsUI from '../../ringcentral-widgets/modules/SettingsUI';
+import { SettingsUI } from '../../ringcentral-widgets/modules/SettingsUI';
 import AccountInfo from '../modules/AccountInfo';
 import Alert from '../modules/Alert';
 import Auth from '../modules/Auth';
 import AvailabilityMonitor from '../modules/AvailabilityMonitor';
-import { Brand } from '../modules/BrandV2';
-import CallMonitor from '../modules/CallMonitor';
+import { Brand } from '../modules/Brand';
+import { CallMonitor } from '../modules/CallMonitorV2';
 import ConnectivityMonitor from '../modules/ConnectivityMonitor';
-import DateTimeFormat from '../modules/DateTimeFormat';
+import { DateTimeFormat } from '../modules/DateTimeFormatV2';
 import DialingPlan from '../modules/DialingPlan';
 import Environment from '../modules/Environment';
 import ExtensionInfo from '../modules/ExtensionInfo';
 import GlobalStorage from '../modules/GlobalStorage';
-import Locale from '../modules/Locale';
+import { Locale } from '../modules/Locale';
 import RateLimiter from '../modules/RateLimiter';
 import RegionSettings from '../modules/RegionSettings';
-import RolesAndPermissions from '../modules/RolesAndPermissions';
+import { ExtensionFeatures } from '../modules/ExtensionFeatures';
+import { AppFeatures } from '../modules/AppFeatures';
 import { Storage } from '../modules/StorageV2';
 import Subscription from '../modules/Subscription';
-import TabManager from '../modules/TabManager';
+import { TabManager } from '../modules/TabManager';
+import { Call } from '../modules/CallV2';
+import { Presence } from '../modules/PresenceV2';
 
 export interface BasePhone {
   alert: Alert;
@@ -43,7 +46,8 @@ export interface BasePhone {
   environment: Environment;
   globalStorage: GlobalStorage;
   locale: Locale;
-  rolesAndPermissions: RolesAndPermissions;
+  extensionFeatures: ExtensionFeatures;
+  appFeatures: AppFeatures;
   regionSettings: RegionSettings;
   rateLimiter: RateLimiter;
   subscription: Subscription;
@@ -62,4 +66,6 @@ export interface BasePhone {
   blockUI: BlockUI;
   tabManager?: TabManager;
   beforeunload: Beforeunload;
+  call: Call;
+  presence: Presence;
 }

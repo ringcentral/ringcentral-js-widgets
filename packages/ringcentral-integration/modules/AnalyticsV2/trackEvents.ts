@@ -80,4 +80,9 @@ export const trackEvents = ObjectMap.fromObject({
   clickParticipantAreaCallControl: 'Click Participant Area (Call Control)',
   clickHangupCallsOnHold: 'Click Hangup (Calls OnHold)',
   clickMeetingSchedulePage: 'Meeting: Click Schedule/Meeting schedule page',
+  clickRecentActivity: 'Recent Activity',
+  clickRecentActivityCall: 'Recent Activity: Call',
+  clickRecentActivitySms: 'Recent Activity: SMS',
+  clickRecentActivityFaxes: 'Recent Activity: Faxes',
+  clickRecentActivityVoicemails: 'Recent Activity: Voicemails',
 } as const);

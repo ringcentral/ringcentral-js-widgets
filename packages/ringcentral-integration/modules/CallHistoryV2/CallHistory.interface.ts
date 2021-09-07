@@ -1,11 +1,11 @@
 import { AccountInfo } from '../AccountInfoV2';
 import { CallLog } from '../CallLogV2';
 import { CallMonitor } from '../CallMonitorV2';
-import { Locale } from '../LocaleV2';
+import { Locale } from '../Locale';
 import { Storage } from '../StorageV2';
 import { ActivityMatcher } from '../ActivityMatcherV2';
 import { ContactMatcher } from '../ContactMatcherV2';
-import { TabManager } from '../TabManagerV2';
+import { TabManager } from '../TabManager';
 import { Call } from '../../interfaces/Call.interface';
 import { ActiveCall } from '../../interfaces/Presence.model';
 import { Entity } from '../../interfaces/Entity.interface';
@@ -14,7 +14,13 @@ export interface CallHistoryOptions {
   /**
    * enable cache, default true.
    */
-  enableCache: boolean;
+  enableCache?: boolean;
+
+  /**
+   * set if enable the contact match with full phone numbers (phone number + extension), default is false
+   */
+  enableFullPhoneNumberMatch?: boolean;
+  enableContactMatchInCallHistory?: boolean;
 }
 
 export interface Deps {
@@ -29,10 +35,6 @@ export interface Deps {
   callHistoryOptions?: CallHistoryOptions;
 }
 
-export interface EndedCall extends Call {
-  result: 'Disconnected';
-}
-
 interface CallItem extends ActiveCall {
   fromMatches: Entity[];
   toMatches: Entity[];
@@ -40,4 +42,4 @@ interface CallItem extends ActiveCall {
   toNumberEntity?: string;
 }
 
-export type HistoryCall = EndedCall | CallItem;
+export type HistoryCall = Call | CallItem;

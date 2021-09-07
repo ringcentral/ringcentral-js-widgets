@@ -29,7 +29,9 @@ function setup({
 
 export const CheckCountDownButtonTooltip: StepFunction<any> = () => {
   const { container } = setup({});
-  const node = container.querySelector('[data-sign="CountDown"]');
+  const node = container.querySelector<HTMLButtonElement>(
+    '[data-sign="CountDown"]',
+  );
   expect(node).toBeTruthy;
   expect(node.title).toBe('Restart timer');
 };

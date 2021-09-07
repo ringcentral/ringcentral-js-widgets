@@ -15,6 +15,10 @@ type MessageTransportListener<T = any, K = {}> = (params: {
   payload: MessageTransportPayload<T, K>;
 }) => any;
 
+type MessagePushTransportListener<T = any, K = {}> = (
+  payload: MessageTransportPayload<T, K>,
+) => any;
+
 export type MessageTransportPayload<T = any, K = {}> = {
   requestType: string;
   data?: T;
@@ -125,12 +129,18 @@ export default class MessageTransport extends TransportBase {
     }
   };
 
+  dispose = () => {
+    if (this._transporter instanceof PostMessageTransporter) {
+      this._transporter.dispose(this._onMessage);
+    }
+  };
+
   addListeners<T = any, K = {}>({
     push,
     response,
     request,
   }: {
-    push?: MessageTransportListener<T, K>;
+    push?: MessagePushTransportListener<T, K>;
     response?: MessageTransportListener<T, K>;
     request?: MessageTransportListener<T, K>;
   }) {

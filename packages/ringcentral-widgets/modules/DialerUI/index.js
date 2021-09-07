@@ -258,6 +258,13 @@ export default class DialerUI extends RcUIModule {
     );
   }
 
+  get isShowAnonymous() {
+    return (
+      this._extensionFeatures.ready &&
+      this._extensionFeatures.features?.BlockingCallerId?.available
+    );
+  }
+
   getUIProps() {
     return {
       currentLocale: this._locale.currentLocale,
@@ -280,6 +287,7 @@ export default class DialerUI extends RcUIModule {
       isLastInputFromDialpad: this.isLastInputFromDialpad,
       disableFromField: this.disableFromField,
       useV2: this._useV2,
+      showAnonymous: this.isShowAnonymous,
     };
   }
 

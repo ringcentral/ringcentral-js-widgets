@@ -1,6 +1,8 @@
 @import '../commonStyles/no-select';
 @import '../commonStyles/colors';
 
+$header-height: 36px;
+
 .centerStyle {
   top: 50%;
   position: absolute;
@@ -14,8 +16,9 @@
   display: block;
   visibility: visible;
   bottom: 0;
-  background-color: #f3f3f3;
-  transition: visibility 0.2s 0s linear, opacity 0.2s 0s linear, transform 0.1s 0s ease-in-out;
+  background-color: #fff;
+  transition: visibility 0.2s 0s linear, opacity 0.2s 0s linear,
+    transform 0.1s 0s ease-in-out;
   z-index: 99999;
   box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.18);
   overflow: hidden;
@@ -54,18 +57,21 @@
 .header {
   @include no-select;
   position: relative;
-  height: 35px;
-  line-height: 35px;
-  min-width: 165px;
+  height: $header-height;
+  line-height: $header-height;
+  min-width: 134px;
   text-align: center;
   cursor: move;
   z-index: 11;
   overflow: hidden;
   font-family: Helvetica;
   font-weight: normal;
+  border-bottom: 1px solid #e8e9ed;
+  box-sizing: border-box;
 }
 
 .minimized.header {
+  border-bottom: none;
   cursor: ew-resize;
 }
 
@@ -73,10 +79,10 @@
   @include no-select;
   @extend .centerStyle;
   left: 50%;
-  height: 16px;
-  width: 100px;
+  height: 18px;
+  width: 84px;
   margin-top: -8px;
-  margin-left: -50px;
+  margin-left: -32px;
   display: none;
 }
 .logo.visible {
@@ -117,13 +123,13 @@
 }
 
 .selected {
-  color: #066FAC;
+  color: #066fac;
 }
 
 .line {
   position: relative;
   width: 160px;
-  min-width: 165px;
+  min-width: 134px;
   left: 5px;
   padding: 0;
   min-height: 30px;
@@ -136,9 +142,9 @@
   border-bottom-width: 0px;
   border-color: #eeeeee;
   border-radius: 4px;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-size: 14px;
-  color: #2F2F2F;
+  color: #2f2f2f;
   .horizontal {
     display: inline-flex;
   }
@@ -204,21 +210,19 @@
   @extend .centerStyle;
   height: 20px;
   width: 20px;
-  margin-top: -12px;
+  margin-top: -10px;
   border-radius: 3px;
   cursor: pointer;
   border-style: solid;
   border-width: 1px;
   border-color: transparent;
 }
-.button:hover {
-  border-color: #cccccc;
-}
+
 .toggle {
-  right: 40px;
+  right: 44px;
 }
 .minimized .toggle {
-  right: 3px;
+  right: -18px;
 }
 
 .minimizeIcon {
@@ -252,7 +256,8 @@
   margin: 2px;
   width: 14px;
   height: 14px;
-  :first-child, :last-child {
+  :first-child,
+  :last-child {
     position: absolute;
     height: 2px;
     width: 100%;
@@ -283,7 +288,8 @@
   0% {
     box-shadow: inset 0 0 7px -10px $primary-color;
   }
-  40%, 50% {
+  40%,
+  50% {
     box-shadow: inset 0 0 7px 0px $primary-color;
   }
   100% {
@@ -345,7 +351,9 @@
   font-size: 12px;
   white-space: nowrap;
 }
-.duration.visible, .ringingCalls.visible, .onHoldCalls.visible {
+.duration.visible,
+.ringingCalls.visible,
+.onHoldCalls.visible {
   top: 50%;
 }
 .duration {
@@ -357,7 +365,8 @@
 .duration.center {
   margin-left: -16px;
 }
-.ringingCalls, .onHoldCalls {
+.ringingCalls,
+.onHoldCalls {
   @include callInfo;
   width: 100px;
   margin-left: -100px;
@@ -365,7 +374,8 @@
   overflow: hidden;
   text-align: center;
 }
-.ringingCalls.center, .onHoldCalls.center {
+.ringingCalls.center,
+.onHoldCalls.center {
   margin-left: -50px;
 }
 

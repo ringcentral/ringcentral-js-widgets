@@ -1,16 +1,12 @@
 import formatMessage from 'format-message';
 import { RcVDialInNumberObj } from '@ringcentral-integration/commons/interfaces/Rcv.model';
 
-import {
-  MEETING_URI_REGEXP,
-  rcvAttTeleconference,
-  rcvTeleconference,
-} from './config';
 import { formatMeetingId } from './formatMeetingId';
 import i18n from './i18n';
 import {
   CommonBrand,
   FormatToHtmlOptions,
+  ParcelledLink,
   RcmMainParams,
   RcvMainParams,
   TplResult,
@@ -111,6 +107,7 @@ function formatTextToHtml(
 ): string {
   const {
     links = [],
+    uselessSentences = [],
     searchLinks = false,
     newLine = htmlNewLine,
     indentation = htmlIndentation,
@@ -123,16 +120,30 @@ function formatTextToHtml(
     .map((line) => {
       return line
         .replace(/\t/g, tabIndentation) // replace all Tab with 4 indentations
-        .replace(/^\s*/, ($0) => indentation.repeat($0.length)); // replace leading whtespaces with indentations
+        .replace(/^\s*/, ($0) => indentation.repeat($0.length)); // replace leading white spaces with indentations
     })
     .join(newLine);
 
-  links.forEach((uri) => {
-    if (uri) {
-      htmlContent = htmlContent.replace(
-        uri,
-        `<a target="_blank" href="${uri}">${uri}</a>`,
-      );
+  uselessSentences.forEach((sentence) => {
+    if (sentence) {
+      htmlContent = htmlContent.replace(sentence, '');
+    }
+  });
+
+  links.forEach((link) => {
+    if (link) {
+      const isPlantLink = typeof link === 'string';
+      const uri = isPlantLink ? (link as string) : (link as ParcelledLink).uri;
+      const text = isPlantLink
+        ? (link as string)
+        : (link as ParcelledLink).text;
+
+      if (uri && text) {
+        htmlContent = htmlContent.replace(
+          uri,
+          `<a target="_blank" href="${uri}">${text}</a>`,
+        );
+      }
     }
   });
 
@@ -220,10 +231,11 @@ function getBaseRcvTpl(
   brand: CommonBrand,
   currentLocale: string,
   enableRcvConnector = false,
+  enableE2EE = false,
 ): TplResult {
   const joinUri = meeting.joinUri;
   const isATT = brand.code === 'att';
-  const teleconference = isATT ? rcvAttTeleconference : rcvTeleconference;
+  const teleconference = brand.rcvTeleconference;
 
   if (invitationInfo?.body) {
     return {
@@ -236,15 +248,49 @@ function getBaseRcvTpl(
   }
 
   const accountName = extensionInfo.name;
-  const { meetingPassword, meetingPasswordPSTN, isMeetingSecret } = meeting;
+  const {
+    meetingPassword,
+    meetingPasswordPSTN,
+    isMeetingSecret,
+    e2ee,
+  } = meeting;
   let productName;
   const meetingContent: Array<string> = [];
   const showMeetingPasswordPSTN = !!(isMeetingSecret && meetingPasswordPSTN);
 
-  if (brand.name === 'RingCentral') {
+  if (enableE2EE && e2ee) {
+    meetingContent.push(
+      i18n.getString('rcvE2EEInviteMeetingContent', currentLocale),
+    );
+    return {
+      formattedMsg: formatMessage(meetingContent.join(''), {
+        accountName,
+        brandName: i18n.getString(brand.name),
+        rcvProductName: i18n.getString(brand.rcvProductName),
+        joinUri,
+        e2EESupportLinkText: formatMessage(
+          i18n.getString('e2EESupportLinkText', currentLocale),
+          {
+            brandName: i18n.getString(brand.name),
+          },
+        ),
+        rcvE2EESupportUrl: brand.rcvE2EESupportUrl,
+      }),
+      links: {
+        joinUri,
+        teleconference,
+      },
+    };
+  }
+
+  if (brand.code === 'rc') {
     productName = 'RingCentral Video';
     meetingContent.push(
       i18n.getString('rcvRCBrandInviteMeetingContent', currentLocale),
+    );
+  } else if (brand.code === 'telus') {
+    meetingContent.push(
+      i18n.getString('rcvTelusInviteMeetingContent', currentLocale),
     );
   } else {
     productName = brand.name;
@@ -320,12 +366,14 @@ function getRcvEventTpl(
   brand: CommonBrand,
   currentLocale: string,
   enableRcvConnector = false,
+  enableE2EE = false,
 ): string {
   const tplResult = getBaseRcvTpl(
     mainInfo,
     brand,
     currentLocale,
     enableRcvConnector,
+    enableE2EE,
   );
   return tplResult.formattedMsg;
 }
@@ -335,21 +383,47 @@ function getRcvHtmlEventTpl(
   brand: CommonBrand,
   currentLocale: string,
   enableRcvConnector = false,
+  enableE2EE = false,
 ): string {
   const tplResult = getBaseRcvTpl(
     mainInfo,
     brand,
     currentLocale,
     enableRcvConnector,
+    enableE2EE,
   );
+
+  const links: [string, string, ParcelledLink] = [
+    tplResult.links.joinUri,
+    tplResult.links.teleconference,
+    {
+      uri: brand.rcvE2EESupportUrl,
+      text: formatMessage(
+        i18n.getString('e2EESupportLinkText', currentLocale),
+        {
+          brandName: i18n.getString(brand.name),
+        },
+      ),
+    },
+  ];
+
   return formatTextToHtml(tplResult.formattedMsg, {
-    links: [tplResult.links.joinUri, tplResult.links.teleconference],
+    uselessSentences: [
+      `${formatMessage(i18n.getString('e2EESupportLinkText', currentLocale), {
+        brandName: i18n.getString(brand.name),
+      })}<br>`,
+    ],
+    links,
   });
 }
 
-function getMeetingId(meetingUri: string): string {
+function getMeetingId(
+  meetingUri: string,
+  rcvUriRegExp: RegExp,
+  rcmUriRegExp: RegExp,
+): string {
   if (meetingUri) {
-    const regs = [MEETING_URI_REGEXP.RCM, MEETING_URI_REGEXP.RCV];
+    const regs = [rcmUriRegExp, rcvUriRegExp];
     for (let i = 0; i < regs.length; i += 1) {
       const matches = regs[i].exec(meetingUri);
       if (matches && matches.length > 0) {
@@ -368,9 +442,13 @@ function getMeetingId(meetingUri: string): string {
   return null;
 }
 
-function stripMeetingLinks(text: string): string {
+function stripMeetingLinks(
+  text: string,
+  rcvUriRegExp: RegExp,
+  rcmUriRegExp: RegExp,
+): string {
   let result = text;
-  [MEETING_URI_REGEXP.RCM, MEETING_URI_REGEXP.RCV].forEach((reg) => {
+  [rcmUriRegExp, rcvUriRegExp].forEach((reg) => {
     while (reg.test(result)) {
       result = result.replace(reg, '');
     }
@@ -379,11 +457,13 @@ function stripMeetingLinks(text: string): string {
 }
 
 function meetingLinkContains(
+  rcvUriRegExp: RegExp,
+  rcmUriRegExp: RegExp,
   text?: string,
 ): { hasRCM: boolean; hasRCV: boolean } {
   return {
-    hasRCM: MEETING_URI_REGEXP.RCM.test(text ?? ''),
-    hasRCV: MEETING_URI_REGEXP.RCV.test(text ?? ''),
+    hasRCM: rcmUriRegExp.test(text ?? ''),
+    hasRCV: rcvUriRegExp.test(text ?? ''),
   };
 }
 

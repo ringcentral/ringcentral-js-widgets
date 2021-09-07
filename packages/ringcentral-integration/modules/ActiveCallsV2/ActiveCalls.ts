@@ -21,7 +21,7 @@ const DEFAULT_TTL = 5 * 60 * 1000;
   name: 'ActiveCalls',
   deps: [
     'Client',
-    'ExtensionFeatures',
+    'AppFeatures',
     'DataFetcherV2',
     'Subscription',
     { dep: 'TabManager', optional: true },
@@ -50,10 +50,9 @@ export class ActiveCalls extends DataFetcherV2Consumer<
           this._deps.client.account().extension().activeCalls().list(params),
         ),
       readyCheckFunction: () =>
-        !!(this._deps.extensionFeatures.ready && this._deps.subscription.ready),
+        !!(this._deps.appFeatures.ready && this._deps.subscription.ready),
       permissionCheckFunction: () =>
-        this._deps.extensionFeatures.features?.ReadExtensionCallLog
-          ?.available ?? false,
+        this._deps.appFeatures.hasReadExtensionCallLog,
     });
     this._deps.dataFetcherV2.register(this._source);
     this._debouncedFetchData = debounce({

@@ -9,7 +9,7 @@ import {
 import { ExtensionFeatures } from '../ExtensionFeatures';
 import { dndStatus } from '../Presence/dndStatus';
 import { Subscription } from '../SubscriptionV2';
-import { TabManager } from '../TabManagerV2';
+import { TabManager } from '../TabManager';
 
 export interface Deps extends DataFetcherV2ConsumerBaseDeps {
   auth: Auth;

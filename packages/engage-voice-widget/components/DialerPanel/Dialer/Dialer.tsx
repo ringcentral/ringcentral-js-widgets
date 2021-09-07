@@ -55,7 +55,11 @@ export const Dialer: FunctionComponent<DialerProps> = ({
           />
         </TextFieldWrapper>
         <DialPadWrapper>
-          <RcDialPad data-sign="DialPad" sounds={RcDialerPadSounds} />
+          <RcDialPad
+            data-sign="DialPad"
+            sounds={RcDialerPadSounds}
+            getDialPadButtonProps={(v) => ({ 'data-dial-button': `${v}` })}
+          />
         </DialPadWrapper>
         {children}
       </DialerWrapper>
