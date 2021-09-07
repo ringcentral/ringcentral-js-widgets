@@ -188,6 +188,14 @@ var ActiveCallDialPad = /*#__PURE__*/function (_Component) {
   }
 
   _createClass(ActiveCallDialPad, [{
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+      if (this.audio) {
+        this.audio.remove();
+        this.audio = null;
+      }
+    }
+  }, {
     key: "render",
     value: function render() {
       return /*#__PURE__*/_react["default"].createElement("div", {

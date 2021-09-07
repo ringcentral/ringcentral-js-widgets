@@ -35,7 +35,7 @@ var _classnames = _interopRequireDefault(require("classnames"));
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _audios = _interopRequireDefault(require("./audios"));
+var _audios = require("./audios");
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
@@ -66,6 +66,7 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 var ALTERNATIVE_TIMEOUT = 1000;
+var player = null;
 
 var DialButton = /*#__PURE__*/function (_Component) {
   _inherits(DialButton, _Component);
@@ -90,19 +91,16 @@ var DialButton = /*#__PURE__*/function (_Component) {
     _this.audio = void 0;
 
     _this.onMouseDown = function (e) {
+      var _this$props$btn;
+
       e.preventDefault();
 
-      if (_this.audio && _this.audio.canPlayType('audio/ogg') !== '') {
-        _this.audio.volume = _this.props.volume;
-        _this.audio.muted = _this.props.muted;
-        _this.audio.currentTime = 0; // on Edge, audio.play() could only use at the first time
-        // so we reset the src of the audio when using audio.play()
-
-        if (_this.isEdge) {
-          _this.audio.src = _audios["default"][_this.props.btn.value];
-        }
-
-        _this.audio.play();
+      if (player && player.canPlayType('audio/ogg') !== '' && _audios.audios[(_this$props$btn = _this.props.btn) === null || _this$props$btn === void 0 ? void 0 : _this$props$btn.value]) {
+        player.volume = _this.props.volume;
+        player.muted = _this.props.muted;
+        player.src = _audios.audios[_this.props.btn.value];
+        player.currentTime = 0;
+        player.play();
       }
 
       if (typeof _this.props.onPress === 'function') {
@@ -161,9 +159,8 @@ var DialButton = /*#__PURE__*/function (_Component) {
       }
     };
 
-    if (typeof document !== 'undefined' && document.createElement && _audios["default"][props.btn.value]) {
-      _this.audio = document.createElement('audio');
-      _this.audio.src = _audios["default"][props.btn.value];
+    if (typeof document !== 'undefined' && document.createElement && !player) {
+      player = document.createElement('audio');
     }
 
     return _this;

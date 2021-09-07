@@ -37,6 +37,7 @@ $dialpad-height-classic: $input-height + $input-margin-bottom-classic +
   }
 }
 .root {
+  width: 100%;
   box-sizing: border-box;
   position: fixed;
   bottom: 60px;

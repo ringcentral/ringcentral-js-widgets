@@ -80,23 +80,30 @@ var CallLogDialpad = function CallLogDialpad(_ref) {
       value = _React$useState2[0],
       setValue = _React$useState2[1];
 
-  var audio;
+  var audioRef = _react["default"].useRef(null);
 
   _react["default"].useEffect(function () {
     if (typeof document !== 'undefined' && document.createElement) {
-      audio = document.createElement('audio');
+      audioRef.current = document.createElement('audio');
     }
-  });
+
+    return function () {
+      if (audioRef.current) {
+        audioRef.current.remove();
+        audioRef.current = null;
+      }
+    };
+  }, []);
 
   var playAudio = function playAudio(value) {
-    if (audio && audio.canPlayType('audio/ogg') !== '' && _audios["default"][value]) {
-      if (!audio.paused) {
-        audio.pause();
+    if (audioRef.current && audioRef.current.canPlayType('audio/ogg') !== '' && _audios["default"][value]) {
+      if (!audioRef.current.paused) {
+        audioRef.current.pause();
       }
 
-      audio.src = _audios["default"][value];
-      audio.currentTime = 0;
-      audio.play();
+      audioRef.current.src = _audios["default"][value];
+      audioRef.current.currentTime = 0;
+      audioRef.current.play();
     }
   };
 

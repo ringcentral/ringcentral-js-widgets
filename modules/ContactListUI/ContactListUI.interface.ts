@@ -1,5 +1,5 @@
 import { Auth } from '@ringcentral-integration/commons/modules/AuthV2';
-import { Locale } from '@ringcentral-integration/commons/modules/LocaleV2';
+import { Locale } from '@ringcentral-integration/commons/modules/Locale';
 import { ExtensionInfo } from '@ringcentral-integration/commons/modules/ExtensionInfoV2';
 import {
   IContact,

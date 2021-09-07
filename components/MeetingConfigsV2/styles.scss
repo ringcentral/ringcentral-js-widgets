@@ -1,5 +1,6 @@
-@import '@ringcentral-integration/widgets/lib/commonStyles/fonts';
-@import '@ringcentral-integration/widgets/lib/commonStyles/variable';
+@import '~@ringcentral-integration/widgets/lib/commonStyles/fonts';
+@import '~@ringcentral-integration/widgets/lib/commonStyles/variable';
+@import '~@ringcentral/juno/scss/theming';
 
 $panel-side-padding: 20px;
 $checkbox-ripple-width: 20px;
@@ -112,14 +113,14 @@ div.videoConfig div.accordion div.accordionDetails {
   display: flex;
   align-items: flex-start;
   & > span[class*='RcCheckbox'] {
-    margin-top: -4px;
-    margin-bottom: -4px;
+    margin-top: -2px;
+    margin-bottom: -2px;
   }
 }
 div.accordion div.toggleGroup label.labelPlacementStart {
   @extend .labelPlacement;
   padding: 0
-    ($panel-side-padding - $checkbox-ripple-width/2 - $checkbox-right-margin) 0
+    ($panel-side-padding - $checkbox-ripple-width/2) 0
     $panel-side-padding;
 }
 
@@ -268,6 +269,6 @@ div.accordion div.toggleGroup label.labelPlacementEnd {
 }
 
 .lockButton {
-  color: #6c7489; // need to migrate using juno token "$color-icon-default"
+  color: rc-palette('neutral', 'f04');
   padding-top: 2px;
 }

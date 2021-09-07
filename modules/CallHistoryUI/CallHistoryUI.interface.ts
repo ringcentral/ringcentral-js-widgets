@@ -1,4 +1,4 @@
-import { Brand } from '@ringcentral-integration/commons/modules/BrandV2';
+import { Brand } from '@ringcentral-integration/commons/modules/Brand';
 import { CallHistory } from '@ringcentral-integration/commons/modules/CallHistoryV2';
 import { CallLogger } from '@ringcentral-integration/commons/modules/CallLoggerV2';
 import { Call } from '@ringcentral-integration/commons/modules/CallV2';
@@ -7,9 +7,9 @@ import { ConnectivityMonitor } from '@ringcentral-integration/commons/modules/Co
 import { ContactMatcher } from '@ringcentral-integration/commons/modules/ContactMatcherV2';
 import { ContactSearch } from '@ringcentral-integration/commons/modules/ContactSearchV2';
 import { DateTimeFormat } from '@ringcentral-integration/commons/modules/DateTimeFormatV2';
-import { ExtensionFeatures } from '@ringcentral-integration/commons/modules/ExtensionFeatures';
+import { AppFeatures } from '@ringcentral-integration/commons/modules/AppFeatures';
 import { ExtensionInfo } from '@ringcentral-integration/commons/modules/ExtensionInfoV2';
-import { Locale } from '@ringcentral-integration/commons/modules/LocaleV2';
+import { Locale } from '@ringcentral-integration/commons/modules/Locale';
 import { RateLimiter } from '@ringcentral-integration/commons/modules/RateLimiterV2';
 import { RegionSettings } from '@ringcentral-integration/commons/modules/RegionSettingsV2';
 import {
@@ -30,7 +30,7 @@ export interface Deps {
   connectivityMonitor: ConnectivityMonitor;
   connectivityManager: ConnectivityManager;
   rateLimiter: RateLimiter;
-  extensionFeatures: ExtensionFeatures;
+  appFeatures: AppFeatures;
   contactMatcher: ContactMatcher;
   routerInteraction: RouterInteraction;
   contactSearch: ContactSearch;

@@ -41,7 +41,7 @@ var _RateExceededAlert = _interopRequireDefault(require("./RateExceededAlert"));
 
 var _RegionSettingsAlert = _interopRequireDefault(require("./RegionSettingsAlert"));
 
-var _RolesAndPermissionsAlert = _interopRequireDefault(require("./RolesAndPermissionsAlert"));
+var _PermissionsAlert = _interopRequireDefault(require("./PermissionsAlert"));
 
 var _WebphoneAlert = _interopRequireDefault(require("./WebphoneAlert"));
 
@@ -90,6 +90,8 @@ routerInteraction) {
         return /*#__PURE__*/_react["default"].createElement(_CallingSettingsAlert["default"], _extends({}, props, {
           brandCode: brand.code,
           brandName: brand.name,
+          shortBrandName: brand.shortName,
+          fullBrandName: brand.fullName,
           onCallingSettingsLinkClick: onCallingSettingsLinkClick
         }));
       };
@@ -145,9 +147,9 @@ routerInteraction) {
       };
     }
 
-    if (_RolesAndPermissionsAlert["default"].handleMessage(message)) {
+    if (_PermissionsAlert["default"].handleMessage(message)) {
       return function (props) {
-        return /*#__PURE__*/_react["default"].createElement(_RolesAndPermissionsAlert["default"], _extends({}, props, {
+        return /*#__PURE__*/_react["default"].createElement(_PermissionsAlert["default"], _extends({}, props, {
           brand: brand.fullName,
           application: brand.appName
         }));

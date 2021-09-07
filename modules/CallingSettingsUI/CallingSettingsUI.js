@@ -101,7 +101,8 @@ var CallingSettingsUI = (_dec = (0, _di.Module)({
         defaultIncomingAudioFile: (_this$_deps$webphone5 = this._deps.webphone) === null || _this$_deps$webphone5 === void 0 ? void 0 : _this$_deps$webphone5.defaultIncomingAudioFile,
         defaultIncomingAudio: (_this$_deps$webphone6 = this._deps.webphone) === null || _this$_deps$webphone6 === void 0 ? void 0 : _this$_deps$webphone6.defaultIncomingAudio,
         defaultOutgoingAudioFile: (_this$_deps$webphone7 = this._deps.webphone) === null || _this$_deps$webphone7 === void 0 ? void 0 : _this$_deps$webphone7.outgoingAudioFile,
-        defaultOutgoingAudio: (_this$_deps$webphone8 = this._deps.webphone) === null || _this$_deps$webphone8 === void 0 ? void 0 : _this$_deps$webphone8.outgoingAudio
+        defaultOutgoingAudio: (_this$_deps$webphone8 = this._deps.webphone) === null || _this$_deps$webphone8 === void 0 ? void 0 : _this$_deps$webphone8.outgoingAudio,
+        jupiterAppName: this._deps.callingSettings.jupiterAppName
       };
     }
   }, {

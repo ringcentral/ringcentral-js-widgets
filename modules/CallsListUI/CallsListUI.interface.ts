@@ -1,5 +1,6 @@
 import { Call as ICall } from '@ringcentral-integration/commons/interfaces/Call.interface';
-import { Brand } from '@ringcentral-integration/commons/modules/BrandV2';
+import { AppFeatures } from '@ringcentral-integration/commons/modules/AppFeatures';
+import { Brand } from '@ringcentral-integration/commons/modules/Brand';
 import {
   CallHistory,
   HistoryCall,
@@ -19,11 +20,10 @@ import {
   FormatDateTimeOptions,
 } from '@ringcentral-integration/commons/modules/DateTimeFormatV2';
 import { ExtensionInfo } from '@ringcentral-integration/commons/modules/ExtensionInfoV2';
-import { Locale } from '@ringcentral-integration/commons/modules/LocaleV2';
+import { Locale } from '@ringcentral-integration/commons/modules/Locale';
 import { RateLimiter } from '@ringcentral-integration/commons/modules/RateLimiterV2';
 import { RegionSettings } from '@ringcentral-integration/commons/modules/RegionSettingsV2';
 import { Webphone } from '@ringcentral-integration/commons/modules/WebphoneV2';
-import { ExtensionFeatures } from '../../../ringcentral-integration/modules/ExtensionFeatures';
 import { ContactDetailsUI, RouteParams } from '../ContactDetailsUI';
 import { RouterInteraction } from '../RouterInteraction';
 
@@ -33,7 +33,7 @@ export interface Deps {
   callMonitor: CallMonitor;
   locale: Locale;
   regionSettings: RegionSettings;
-  extensionFeatures: ExtensionFeatures;
+  appFeatures: AppFeatures;
   callHistory: CallHistory;
   connectivityMonitor: ConnectivityMonitor;
   rateLimiter: RateLimiter;
@@ -82,6 +82,7 @@ export interface CallsListUIProps {
   loggingMap: Record<string, boolean>;
   showSpinner: boolean;
   readTextPermission: boolean;
+  enableCDC: boolean;
 }
 
 export interface OnCreateContactOptions {

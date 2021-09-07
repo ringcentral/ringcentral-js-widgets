@@ -183,7 +183,9 @@ var ContactDisplay = function ContactDisplay(_ref3) {
       showGroupNumberName = _ref3.showGroupNumberName,
       contactName = _ref3.contactName,
       isOnConferenceCall = _ref3.isOnConferenceCall,
-      iconClassName = _ref3.iconClassName;
+      iconClassName = _ref3.iconClassName,
+      dropdownRenderFunction = _ref3.dropdownRenderFunction,
+      dropdownClassName = _ref3.dropdownClassName;
   var contentEl;
   phoneNumber = (0, _formatNumber["default"])({
     phoneNumber: phoneNumber,
@@ -278,7 +280,8 @@ var ContactDisplay = function ContactDisplay(_ref3) {
       disabled: disabled || isLogging,
       options: options,
       placeholder: selectPlaceholder,
-      renderFunction: function renderFunction(entity) {
+      dropdownClassName: dropdownClassName,
+      renderFunction: dropdownRenderFunction || function (entity) {
         return ContactDisplayItem({
           entityName: entity.name,
           entityType: entity.entityType,
@@ -350,7 +353,9 @@ ContactDisplay.propTypes = {
   phoneSourceNameRenderer: _propTypes["default"].func,
   showGroupNumberName: _propTypes["default"].bool,
   contactName: _propTypes["default"].any,
-  iconClassName: _propTypes["default"].string
+  iconClassName: _propTypes["default"].string,
+  dropdownRenderFunction: _propTypes["default"].func,
+  dropdownClassName: _propTypes["default"].string
 };
 ContactDisplay.defaultProps = {
   currentSiteCode: '',
@@ -376,7 +381,9 @@ ContactDisplay.defaultProps = {
   phoneSourceNameRenderer: undefined,
   showGroupNumberName: false,
   contactName: undefined,
-  iconClassName: null
+  iconClassName: null,
+  dropdownRenderFunction: undefined,
+  dropdownClassName: null
 };
 var _default = ContactDisplay;
 exports["default"] = _default;

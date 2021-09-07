@@ -238,23 +238,21 @@ var ModalUI = (_dec = (0, _di.Module)({
                 this._setLoading(id, true);
 
                 handler = this._handlerRegister.get(id).get(onConfirm);
-                _context2.t0 = handler;
 
-                if (!_context2.t0) {
-                  _context2.next = 8;
+                if (!handler) {
+                  _context2.next = 16;
                   break;
                 }
 
+                _context2.prev = 3;
                 _context2.next = 6;
                 return handler();
 
               case 6:
-                _context2.t1 = _context2.sent;
-                _context2.t0 = _context2.t1 === false;
+                _context2.t0 = _context2.sent;
 
-              case 8:
-                if (!_context2.t0) {
-                  _context2.next = 11;
+                if (!(_context2.t0 === false)) {
+                  _context2.next = 10;
                   break;
                 }
 
@@ -262,19 +260,33 @@ var ModalUI = (_dec = (0, _di.Module)({
 
                 return _context2.abrupt("return");
 
-              case 11:
+              case 10:
+                _context2.next = 16;
+                break;
+
+              case 12:
+                _context2.prev = 12;
+                _context2.t1 = _context2["catch"](3);
+
+                // if handler has unhandled error, at least remove the loading state so the modal could
+                // still be closed by the user if cancel button is provided.
+                this._setLoading(id, false);
+
+                throw _context2.t1;
+
+              case 16:
                 this._promises.get(id).resolve(true);
 
                 this._promises["delete"](id);
 
                 this.close(id);
 
-              case 14:
+              case 19:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2, this);
+        }, _callee2, this, [[3, 12]]);
       }));
 
       function _onConfirm(_x3, _x4) {
@@ -286,14 +298,15 @@ var ModalUI = (_dec = (0, _di.Module)({
   }, {
     key: "_onExited",
     value: function () {
-      var _onExited2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(id) {
-        var _this$_promises$get;
+      var _onExited2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(id, onExited) {
+        var _this$_promises$get, _this$_handlerRegiste3;
 
         return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
                 (_this$_promises$get = this._promises.get(id)) === null || _this$_promises$get === void 0 ? void 0 : _this$_promises$get.resolve(false);
+                (_this$_handlerRegiste3 = this._handlerRegister.get(id).get(onExited)) === null || _this$_handlerRegiste3 === void 0 ? void 0 : _this$_handlerRegiste3();
 
                 this._promises["delete"](id);
 
@@ -301,7 +314,7 @@ var ModalUI = (_dec = (0, _di.Module)({
 
                 this._handlerRegister["delete"](id);
 
-              case 4:
+              case 5:
               case "end":
                 return _context3.stop();
             }
@@ -309,7 +322,7 @@ var ModalUI = (_dec = (0, _di.Module)({
         }, _callee3, this);
       }));
 
-      function _onExited(_x5) {
+      function _onExited(_x5, _x6) {
         return _onExited2.apply(this, arguments);
       }
 
@@ -319,13 +332,13 @@ var ModalUI = (_dec = (0, _di.Module)({
     key: "_onCancel",
     value: function () {
       var _onCancel2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(id, onCancel) {
-        var _this$_handlerRegiste3;
+        var _this$_handlerRegiste4;
 
         return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                (_this$_handlerRegiste3 = this._handlerRegister.get(id).get(onCancel)) === null || _this$_handlerRegiste3 === void 0 ? void 0 : _this$_handlerRegiste3();
+                (_this$_handlerRegiste4 = this._handlerRegister.get(id).get(onCancel)) === null || _this$_handlerRegiste4 === void 0 ? void 0 : _this$_handlerRegiste4();
                 this.close(id);
 
               case 2:
@@ -336,7 +349,7 @@ var ModalUI = (_dec = (0, _di.Module)({
         }, _callee4, this);
       }));
 
-      function _onCancel(_x6, _x7) {
+      function _onCancel(_x7, _x8) {
         return _onCancel2.apply(this, arguments);
       }
 
@@ -501,11 +514,13 @@ var ModalUI = (_dec = (0, _di.Module)({
   }, {
     key: "open",
     value: function open(_ref3, usePromise) {
-      var _ref3$disableBackdrop = _ref3.disableBackdropClick,
+      var _ref3$autoDisableBack = _ref3.autoDisableBackdropClick,
+          autoDisableBackdropClick = _ref3$autoDisableBack === void 0 ? true : _ref3$autoDisableBack,
+          _ref3$disableBackdrop = _ref3.disableBackdropClick,
           disableBackdropClick = _ref3$disableBackdrop === void 0 ? true : _ref3$disableBackdrop,
           _ref3$fullScreen = _ref3.fullScreen,
           fullScreen = _ref3$fullScreen === void 0 ? false : _ref3$fullScreen,
-          props = _objectWithoutProperties(_ref3, ["disableBackdropClick", "fullScreen"]);
+          props = _objectWithoutProperties(_ref3, ["autoDisableBackdropClick", "disableBackdropClick", "fullScreen"]);
 
       var id = (0, _uuid.v4)();
 
@@ -513,6 +528,7 @@ var ModalUI = (_dec = (0, _di.Module)({
 
       var dehydratedState = this._getDehydratedState(_objectSpread(_objectSpread({}, props), {}, {
         id: id,
+        autoDisableBackdropClick: autoDisableBackdropClick,
         disableBackdropClick: disableBackdropClick,
         fullScreen: fullScreen,
         open: true
@@ -632,6 +648,7 @@ var ModalUI = (_dec = (0, _di.Module)({
         var id = _ref4.id,
             _onConfirm3 = _ref4.onConfirm,
             onCancel = _ref4.onCancel,
+            _onExited3 = _ref4.onExited,
             title = _ref4.title,
             content = _ref4.content,
             footer = _ref4.footer,
@@ -645,16 +662,23 @@ var ModalUI = (_dec = (0, _di.Module)({
             footerProps = _ref4$footerProps === void 0 ? {} : _ref4$footerProps,
             variant = _ref4.variant,
             handlerIDs = _ref4.handlerIDs,
+            autoDisableBackdropClick = _ref4.autoDisableBackdropClick,
+            disableBackdropClick = _ref4.disableBackdropClick,
+            loading = _ref4.loading,
+            loadingOverlay = _ref4.loadingOverlay,
             useLoadingOverlay = _ref4.useLoadingOverlay,
-            rest = _objectWithoutProperties(_ref4, ["id", "onConfirm", "onCancel", "title", "content", "footer", "confirmButtonText", "cancelButtonText", "titleProps", "contentProps", "footerProps", "variant", "handlerIDs", "useLoadingOverlay"]);
+            rest = _objectWithoutProperties(_ref4, ["id", "onConfirm", "onCancel", "onExited", "title", "content", "footer", "confirmButtonText", "cancelButtonText", "titleProps", "contentProps", "footerProps", "variant", "handlerIDs", "autoDisableBackdropClick", "disableBackdropClick", "loading", "loadingOverlay", "useLoadingOverlay"]);
 
         var uiProps = _objectSpread(_objectSpread({}, rest), {}, {
           key: id,
+          loading: loading,
+          loadingOverlay: loadingOverlay,
+          disableBackdropClick: autoDisableBackdropClick && (loading || loadingOverlay) || disableBackdropClick,
           onConfirm: function onConfirm() {
             return _this4._onConfirm(id, _onConfirm3);
           },
           onExited: function onExited() {
-            return _this4._onExited(id);
+            return _this4._onExited(id, _onExited3);
           }
         });
 

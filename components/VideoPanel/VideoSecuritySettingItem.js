@@ -5,7 +5,7 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.VideoSecuritySettingsItem = void 0;
+exports.VideoSecuritySettingItem = void 0;
 
 require("core-js/modules/es7.array.includes");
 
@@ -15,7 +15,7 @@ var _react = _interopRequireDefault(require("react"));
 
 var _juno = require("@ringcentral/juno");
 
-var _LockBorder = _interopRequireDefault(require("@ringcentral/juno/icon/LockBorder"));
+var _icon = require("@ringcentral/juno/icon");
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
@@ -36,15 +36,17 @@ function generateLockIcon(isLock, currentLocale, hasScrollBar) {
   }, /*#__PURE__*/_react["default"].createElement(_juno.RcIcon, {
     size: "small",
     className: _styles["default"].lockButton,
-    symbol: _LockBorder["default"]
+    symbol: _icon.LockBorder
   })) : null;
 }
 
-var VideoSecuritySettingsItem = function VideoSecuritySettingsItem(_ref) {
+var VideoSecuritySettingItem = function VideoSecuritySettingItem(_ref) {
   var dataSign = _ref.dataSign,
       label = _ref.label,
       _ref$isLock = _ref.isLock,
       isLock = _ref$isLock === void 0 ? false : _ref$isLock,
+      _ref$isDisabled = _ref.isDisabled,
+      isDisabled = _ref$isDisabled === void 0 ? false : _ref$isDisabled,
       currentLocale = _ref.currentLocale,
       children = _ref.children,
       _ref$hasScrollBar = _ref.hasScrollBar,
@@ -52,7 +54,7 @@ var VideoSecuritySettingsItem = function VideoSecuritySettingsItem(_ref) {
       labelPlacement = _ref.labelPlacement;
   return /*#__PURE__*/_react["default"].createElement(_juno.RcFormControlLabel, {
     "data-sign": dataSign,
-    disabled: isLock,
+    disabled: isLock || isDisabled,
     control: /*#__PURE__*/_react["default"].createElement("span", {
       className: labelPlacement === 'start' ? _styles["default"].iconCombine : _styles["default"].checkboxSeparate
     }, labelPlacement === 'start' && generateLockIcon(isLock, currentLocale, hasScrollBar), children),
@@ -65,5 +67,5 @@ var VideoSecuritySettingsItem = function VideoSecuritySettingsItem(_ref) {
   });
 };
 
-exports.VideoSecuritySettingsItem = VideoSecuritySettingsItem;
+exports.VideoSecuritySettingItem = VideoSecuritySettingItem;
 //# sourceMappingURL=VideoSecuritySettingItem.js.map

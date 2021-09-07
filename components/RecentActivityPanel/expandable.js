@@ -4,6 +4,20 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
 require("core-js/modules/es7.symbol.async-iterator");
 
+require("core-js/modules/es6.string.iterator");
+
+require("core-js/modules/es6.weak-map");
+
+require("core-js/modules/es6.object.assign");
+
+require("core-js/modules/es6.object.define-properties");
+
+require("core-js/modules/es7.object.get-own-property-descriptors");
+
+require("core-js/modules/es6.array.for-each");
+
+require("core-js/modules/es6.array.filter");
+
 require("core-js/modules/es6.symbol");
 
 require("core-js/modules/web.dom.iterable");
@@ -12,9 +26,7 @@ require("core-js/modules/es6.array.iterator");
 
 require("core-js/modules/es6.object.to-string");
 
-require("core-js/modules/es6.string.iterator");
-
-require("core-js/modules/es6.weak-map");
+require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.object.define-property");
 
@@ -29,15 +41,23 @@ exports["default"] = expandable;
 
 require("core-js/modules/es6.object.set-prototype-of");
 
-require("core-js/modules/es6.object.assign");
-
 var _react = _interopRequireWildcard(require("react"));
+
+var _propTypes = _interopRequireDefault(require("prop-types"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -65,7 +85,7 @@ function expandable(_ref) {
       _ref$className = _ref.className,
       className = _ref$className === void 0 ? null : _ref$className;
   return function (WrappedComponent) {
-    return /*#__PURE__*/function (_PureComponent) {
+    var Expandable = /*#__PURE__*/function (_PureComponent) {
       _inherits(Expandable, _PureComponent);
 
       var _super = _createSuper(Expandable);
@@ -78,8 +98,11 @@ function expandable(_ref) {
         _this = _super.call(this, props);
 
         _this.togglePanel = function (event) {
+          var _this$props$trackClic, _this$props;
+
           // In case it's fired twice
           event.stopPropagation();
+          (_this$props$trackClic = (_this$props = _this.props).trackClickToggle) === null || _this$props$trackClic === void 0 ? void 0 : _this$props$trackClic.call(_this$props, !_this.state.expanded);
 
           _this.setState(function (prevState) {
             return {
@@ -99,7 +122,7 @@ function expandable(_ref) {
         value: function render() {
           var expanded = this.state.expanded;
 
-          var _styles = Object.assign({}, styles, {
+          var _styles = _objectSpread(_objectSpread({}, styles), {}, {
             height: expanded ? styles.height : styles.offset
           });
 
@@ -115,6 +138,14 @@ function expandable(_ref) {
 
       return Expandable;
     }(_react.PureComponent);
+
+    Expandable.propTypes = {
+      trackClickToggle: _propTypes["default"].func
+    };
+    Expandable.defaultProps = {
+      trackClickToggle: undefined
+    };
+    return Expandable;
   };
 }
 //# sourceMappingURL=expandable.js.map

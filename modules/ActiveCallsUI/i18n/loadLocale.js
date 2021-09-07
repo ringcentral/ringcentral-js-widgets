@@ -15,8 +15,7 @@ function loadLocale(locale) {
   return new Promise(function (resolve) {
     switch (locale) {
       default:
-        resolve({});
-        break;
+        return resolve({});
     }
   });
 }

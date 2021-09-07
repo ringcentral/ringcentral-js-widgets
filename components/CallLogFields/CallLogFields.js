@@ -120,10 +120,12 @@ var CallLogFields = /*#__PURE__*/function (_Component) {
       var _this$props = _this.props,
           _this$props$currentLo = _this$props.currentLog,
           customLogFields = _this$props$currentLo.customLogFields,
-          isAutoSave = _this$props$currentLo.currentLogCall.isAutoSave,
+          _this$props$currentLo2 = _this$props$currentLo.currentLogCall;
+      _this$props$currentLo2 = _this$props$currentLo2 === void 0 ? {} : _this$props$currentLo2;
+      var isAutoSave = _this$props$currentLo2.isAutoSave,
           call = _this$props$currentLo.call,
-          _this$props$currentLo2 = _this$props$currentLo.task,
-          task = _this$props$currentLo2 === void 0 ? {} : _this$props$currentLo2,
+          _this$props$currentLo3 = _this$props$currentLo.task,
+          task = _this$props$currentLo3 === void 0 ? {} : _this$props$currentLo3,
           refs = _this$props.refs,
           onSaveCallLog = _this$props.onSaveCallLog;
 

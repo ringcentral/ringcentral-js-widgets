@@ -48,7 +48,7 @@ var SelectField = function SelectField(_ref) {
       value: !item.value ? undefined : "".concat(item.value),
       "data-sign": "option".concat(i),
       disabled: item.disabled,
-      title: item.title
+      title: item.label
     }, /*#__PURE__*/_react["default"].createElement("span", {
       className: labelClassName
     }, item.label));

@@ -89,7 +89,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 var ConversationUI = (_dec = (0, _di.Module)({
   name: 'ConversationUI',
-  deps: ['Brand', 'Locale', 'DateTimeFormat', 'RegionSettings', 'Conversations', 'RateLimiter', 'ConnectivityMonitor', 'MessageStore', 'RouterInteraction', {
+  deps: ['AppFeatures', 'Brand', 'Locale', 'DateTimeFormat', 'RegionSettings', 'Conversations', 'RateLimiter', 'ConnectivityMonitor', 'MessageStore', 'RouterInteraction', {
     dep: 'ConversationLogger',
     optional: true
   }, {
@@ -134,7 +134,8 @@ var ConversationUI = (_dec = (0, _di.Module)({
           regionSettings = _this$_deps.regionSettings,
           conversations = _this$_deps.conversations,
           rateLimiter = _this$_deps.rateLimiter,
-          connectivityMonitor = _this$_deps.connectivityMonitor;
+          connectivityMonitor = _this$_deps.connectivityMonitor,
+          appFeatures = _this$_deps.appFeatures;
       var disableLinks = rateLimiter.throttling || !connectivityMonitor.connectivity;
       var showSpinner = !(dateTimeFormat.ready && (!contactMatcher || contactMatcher.ready) && regionSettings.ready && conversations.ready && rateLimiter.ready && connectivityMonitor.ready && (!conversationLogger || conversationLogger.ready));
       var currentConversation = conversations.currentConversation;
@@ -159,7 +160,8 @@ var ConversationUI = (_dec = (0, _di.Module)({
         autoLog: !!(conversationLogger === null || conversationLogger === void 0 ? void 0 : conversationLogger.autoLog),
         perPage: perPage,
         loadingNextPage: conversations.loadingOldMessages,
-        inputExpandable: inputExpandable
+        inputExpandable: inputExpandable,
+        enableCDC: appFeatures.isCDCEnabled
       };
     }
   }, {

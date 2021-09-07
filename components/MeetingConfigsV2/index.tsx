@@ -1,4 +1,6 @@
 import {
+  styled,
+  spacing,
   RcAlert,
   RcCheckbox,
   RcDatePicker,
@@ -14,7 +16,6 @@ import {
   RcTypography,
 } from '@ringcentral/juno';
 import classnames from 'classnames';
-import { reduce } from 'ramda';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {
   generateRandomPassword,
@@ -31,17 +32,19 @@ import {
   RcMMeetingModel,
 } from '@ringcentral-integration/commons/modules/MeetingV2';
 import lockSvg from '@ringcentral/juno/icon/LockBorder';
-import formatMessage from 'format-message';
 
 import { formatMeetingId } from '../../lib/MeetingCalendarHelper';
+import {
+  getMinutesList,
+  getHoursList,
+  HOUR_SCALE,
+  MINUTE_SCALE,
+} from '../../lib/MeetingHelper';
 import { SpinnerOverlay } from '../SpinnerOverlay';
 import { ExtendedTooltip as MeetingOptionLocked } from './ExtendedTooltip';
 import i18n from './i18n';
 import styles from './styles.scss';
 import { VideoSettingGroup } from './VideoSettingGroup';
-
-export const MINUTE_SCALE: number = 4;
-export const HOUR_SCALE: number = 13;
 
 export interface MeetingConfigsProps {
   disabled: boolean;
@@ -72,43 +75,6 @@ export interface MeetingConfigsProps {
   checkboxSize?: RcCheckboxProps['size'];
   recurringMeetingPosition?: 'middle' | 'bottom';
   defaultTopic: string;
-}
-export function getMinutesList(MINUTE_SCALE: number, currentLocale: string) {
-  return reduce(
-    (result) => {
-      const index = result.length;
-      const value = (60 / MINUTE_SCALE) * index;
-      const text = formatMessage(i18n.getString('minutes', currentLocale), {
-        howMany: `${value}0`.slice(0, 2),
-      });
-      return result.concat({
-        value,
-        text,
-      });
-    },
-    [],
-    new Array(MINUTE_SCALE),
-  );
-}
-
-export function getHoursList(HOUR_SCALE: number, currentLocale: string) {
-  if (HOUR_SCALE > 23) {
-    throw new Error('HOUR_SCALE must be less than 23.');
-  }
-  return reduce(
-    (result) => {
-      const value = result.length;
-      const text = formatMessage(i18n.getString('hours', currentLocale), {
-        howMany: `0${value}0`.slice(-3, -1),
-      });
-      return result.concat({
-        value,
-        text,
-      });
-    },
-    [],
-    new Array(HOUR_SCALE),
-  );
 }
 
 function getHelperTextForPasswordField(
@@ -193,6 +159,13 @@ const MeetingOptionLabel: React.FunctionComponent<{
     </div>
   );
 };
+
+const PanelRoot = styled.div`
+  ${RcCheckbox} {
+    padding: ${spacing(2)};
+  }
+`;
+
 export const MeetingConfigs: React.FunctionComponent<MeetingConfigsProps> = ({
   updateMeetingSettings,
   disabled,
@@ -305,7 +278,7 @@ export const MeetingConfigs: React.FunctionComponent<MeetingConfigsProps> = ({
   const minutesList = getMinutesList(MINUTE_SCALE, currentLocale);
 
   return (
-    <div
+    <PanelRoot
       ref={configRef}
       className={styles.videoConfig}
       data-sign="meetingConfigsPanel"
@@ -868,7 +841,7 @@ export const MeetingConfigs: React.FunctionComponent<MeetingConfigsProps> = ({
           </VideoSettingGroup>
         </div>
       </div>
-    </div>
+    </PanelRoot>
   );
 };
 

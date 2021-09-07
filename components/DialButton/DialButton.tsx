@@ -1,10 +1,10 @@
 import classnames from 'classnames';
 import React, { Component } from 'react';
-
-import audios from './audios';
+import { audios } from './audios';
 import styles from './styles.scss';
 
 const ALTERNATIVE_TIMEOUT = 1000;
+let player: HTMLAudioElement = null;
 
 interface DialButtonProps {
   btn: {
@@ -46,32 +46,27 @@ export default class DialButton extends Component<
 
   audio: HTMLAudioElement;
 
-  constructor(props: DialButtonProps, ...args) {
+  constructor(props: DialButtonProps, ...args: any[]) {
     super(props, ...args);
 
-    if (
-      typeof document !== 'undefined' &&
-      document.createElement &&
-      audios[props.btn.value]
-    ) {
-      this.audio = document.createElement('audio');
-      this.audio.src = audios[props.btn.value];
+    if (typeof document !== 'undefined' && document.createElement && !player) {
+      player = document.createElement('audio');
     }
   }
 
   onMouseDown = (e) => {
     e.preventDefault();
 
-    if (this.audio && this.audio.canPlayType('audio/ogg') !== '') {
-      this.audio.volume = this.props.volume;
-      this.audio.muted = this.props.muted;
-      this.audio.currentTime = 0;
-      // on Edge, audio.play() could only use at the first time
-      // so we reset the src of the audio when using audio.play()
-      if (this.isEdge) {
-        this.audio.src = audios[this.props.btn.value];
-      }
-      this.audio.play();
+    if (
+      player &&
+      player.canPlayType('audio/ogg') !== '' &&
+      audios[this.props.btn?.value]
+    ) {
+      player.volume = this.props.volume;
+      player.muted = this.props.muted;
+      player.src = audios[this.props.btn.value];
+      player.currentTime = 0;
+      player.play();
     }
     if (typeof this.props.onPress === 'function') {
       this.props.onPress(this.props.btn.value);

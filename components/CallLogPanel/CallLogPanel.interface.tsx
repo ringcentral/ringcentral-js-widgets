@@ -34,6 +34,8 @@ export interface CallLogPanelProps extends CallLogPanelConfig {
   onHangup: (...args: any[]) => any;
   renderKeypadPanel: (...args: any[]) => any;
   renderSaveLogButton: (...args: any[]) => JSX.Element;
+  getRenderLogButton?: () => JSX.Element;
+  buttonStatus: { buttonDisabled: boolean; buttonContent: string };
 
   additionalInfo?: object;
   onUpdateCallLog?: (data: { task }, id: string) => any;

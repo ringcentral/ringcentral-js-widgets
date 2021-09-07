@@ -169,11 +169,19 @@ var RecentActivityView = /*#__PURE__*/function (_PureComponent) {
   }, {
     key: "render",
     value: function render() {
+      var _this2 = this;
+
       var showSpinner = this.props.showSpinner;
       if (showSpinner) return /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay.SpinnerOverlay, null);
       var props = {
         currentPath: this.state.currentTab,
-        goTo: this.onTabChanged,
+        goTo: function goTo(tabName) {
+          var _this2$props$trackCli, _this2$props;
+
+          (_this2$props$trackCli = (_this2$props = _this2.props).trackClickTab) === null || _this2$props$trackCli === void 0 ? void 0 : _this2$props$trackCli.call(_this2$props, tabName);
+
+          _this2.onTabChanged(tabName);
+        },
         tabs: this.props.tabs
       };
       return /*#__PURE__*/_react["default"].createElement("div", {
@@ -195,6 +203,10 @@ RecentActivityView.propTypes = {
   showSpinner: _propTypes["default"].bool.isRequired,
   currentContact: _propTypes["default"].object.isRequired,
   tabs: _propTypes["default"].array.isRequired,
-  defaultTab: _propTypes["default"].string.isRequired
+  defaultTab: _propTypes["default"].string.isRequired,
+  trackClickTab: _propTypes["default"].func
+};
+RecentActivityView.defaultProps = {
+  trackClickTab: undefined
 };
 //# sourceMappingURL=index.js.map

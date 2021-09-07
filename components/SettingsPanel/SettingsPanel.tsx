@@ -227,6 +227,7 @@ const SettingsPanel: FunctionComponent<SettingsPanelProps> = ({
       {additional}
       <LinkLineItem
         name="feedback"
+        pendoSignName="Feedback"
         show={showFeedback}
         currentLocale={currentLocale}
         onClick={onFeedbackSettingsLinkClick}

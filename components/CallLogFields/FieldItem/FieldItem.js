@@ -180,7 +180,9 @@ var FieldItem = /*#__PURE__*/function (_Component) {
           showFoundFromServer = _this$props2.showFoundFromServer,
           disabled = _this$props2.disabled;
       var task = currentLog.task,
-          phoneNumber = currentLog.currentLogCall.phoneNumber;
+          _currentLog$currentLo = currentLog.currentLogCall;
+      _currentLog$currentLo = _currentLog$currentLo === void 0 ? {} : _currentLog$currentLo;
+      var phoneNumber = _currentLog$currentLo.phoneNumber;
       var referenceFieldOption = referenceFieldOptions[value];
 
       if (!referenceFieldOption) {
@@ -189,6 +191,7 @@ var FieldItem = /*#__PURE__*/function (_Component) {
       }
 
       var getLabel = referenceFieldOption.getLabel,
+          getSelectedOptionLabel = referenceFieldOption.getSelectedOptionLabel,
           getType = referenceFieldOption.getType,
           _getValue = referenceFieldOption.getValue,
           onChange = referenceFieldOption.onChange,
@@ -209,7 +212,8 @@ var FieldItem = /*#__PURE__*/function (_Component) {
           _searchOptionFinder = referenceFieldOption.searchOptionFinder,
           foundFromServerEntityGetter = referenceFieldOption.foundFromServerEntityGetter,
           onBackClick = referenceFieldOption.onBackClick,
-          backHeaderClassName = referenceFieldOption.backHeaderClassName;
+          backHeaderClassName = referenceFieldOption.backHeaderClassName,
+          multiple = referenceFieldOption.multiple;
       var matchedEntities = matchedEntitiesGetter(currentLog);
 
       if (onlyShowInMultipleMatches && matchedEntities.length <= 1) {
@@ -226,7 +230,7 @@ var FieldItem = /*#__PURE__*/function (_Component) {
       var disabledReference = currentDisabled || shouldDisable(task) || disabled;
       var title = metadata.title || label;
       var rightIcon = rightIconRender ? rightIconRender(phoneNumber) : undefined;
-      var currentValue = getLabel(currentOption, matchedEntities.length, currentLog) || '';
+      var currentValue = getSelectedOptionLabel && getSelectedOptionLabel(currentOption, matchedEntities.length, currentLog) || getLabel(currentOption, matchedEntities.length, currentLog) || '';
       return /*#__PURE__*/_react["default"].createElement(_FullSelectField.FullSelectField, _extends({}, _this.props, {
         backHeaderClassName: backHeaderClassName,
         onBackClick: onBackClick,
@@ -282,7 +286,8 @@ var FieldItem = /*#__PURE__*/function (_Component) {
         TextFieldProps: {
           helperText: disableReason,
           value: currentValue
-        }
+        },
+        multiple: multiple
       }));
     };
 
@@ -318,6 +323,7 @@ var FieldItem = /*#__PURE__*/function (_Component) {
           helperText = _this$props4$fieldOpt.helperText,
           required = _this$props4$fieldOpt.required,
           _onChange = _this$props4$fieldOpt.onChange,
+          disabled = _this$props4$fieldOpt.disabled,
           onSave = _this$props4.onSave;
       return /*#__PURE__*/_react["default"].createElement(_LogFieldsInput.LogFieldsInput, {
         label: label,
@@ -327,6 +333,7 @@ var FieldItem = /*#__PURE__*/function (_Component) {
         placeholder: label,
         "data-sign": value,
         multiline: true,
+        disabled: disabled,
         value: _this.currentValue || '',
         onChange: function onChange(text) {
           _this._updateValue(value, text, onSave);
@@ -425,21 +432,25 @@ var FieldItem = /*#__PURE__*/function (_Component) {
         var value = item;
         var label = item !== null ? item : appDefaultValue;
         var disabled = false;
+        var title;
 
         if (item instanceof Object) {
           value = item.value;
           label = item.label;
           disabled = item.disabled;
+          title = item === null || item === void 0 ? void 0 : item.title;
         }
 
         return {
           label: label,
           value: value,
-          disabled: disabled
+          disabled: disabled,
+          title: title
         };
       });
       return /*#__PURE__*/_react["default"].createElement(_SelectField.SelectField, {
         "data-sign": fieldValue,
+        labelClassName: _styles["default"].selectLabel,
         disabled: propsDisabled,
         placeholder: placeholder,
         fullWidth: true,
@@ -685,8 +696,10 @@ var FieldItem = /*#__PURE__*/function (_Component) {
         }
 
         return /*#__PURE__*/_react["default"].createElement("div", {
-          ref: this.fieldItemRef,
+          ref: this.fieldItemRef // TODO: replace it with new-Data-sign
+          ,
           "data-sign": "callLogField",
+          "new-data-sign": "".concat(value, "-field"),
           className: _styles["default"].row
         }, this.fieldsRenderMap[type]());
       }

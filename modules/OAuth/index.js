@@ -138,9 +138,8 @@ var OAuth = (_dec = (0, _di.Module)({
         _ref$restrictSameOrig = _ref.restrictSameOriginRedirectUri,
         restrictSameOriginRedirectUri = _ref$restrictSameOrig === void 0 ? true : _ref$restrictSameOrig,
         routerInteraction = _ref.routerInteraction,
-        useDiscovery = _ref.useDiscovery,
         client = _ref.client,
-        options = _objectWithoutProperties(_ref, ["loginPath", "redirectUri", "restrictSameOriginRedirectUri", "routerInteraction", "useDiscovery", "client"]);
+        options = _objectWithoutProperties(_ref, ["loginPath", "redirectUri", "restrictSameOriginRedirectUri", "routerInteraction", "client"]);
 
     _classCallCheck(this, OAuth);
 
@@ -155,7 +154,6 @@ var OAuth = (_dec = (0, _di.Module)({
     _this._isInElectron = (0, _isElectron.isElectron)();
     _this._restrictSameOriginRedirectUri = restrictSameOriginRedirectUri;
     _this._uuid = uuid.v4();
-    _this._useDiscovery = useDiscovery;
     return _this;
   }
 
@@ -296,7 +294,7 @@ var OAuth = (_dec = (0, _di.Module)({
                   break;
                 }
 
-                if (!this._useDiscovery) {
+                if (!this._client.service.platform().discovery()) {
                   _context3.next = 4;
                   break;
                 }
@@ -333,7 +331,7 @@ var OAuth = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                if (!this._useDiscovery) {
+                if (!this._client.service.platform().discovery()) {
                   _context4.next = 3;
                   break;
                 }

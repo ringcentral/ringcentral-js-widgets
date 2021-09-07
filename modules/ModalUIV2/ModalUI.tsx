@@ -102,9 +102,20 @@ export class ModalUI extends RcUIModuleV2<Deps> {
     this._setLoading(id, true);
     const handler = this._handlerRegister.get(id).get(onConfirm);
 
-    if (handler && (await handler()) === false) {
-      this._setLoading(id, false);
-      return;
+    if (handler) {
+      // even though we add extra error handling here, handlers are expected to handle all its errors
+      // this is only a best-effort attempt to not let a modal block usage if the handler threw error
+      try {
+        if ((await handler()) === false) {
+          this._setLoading(id, false);
+          return;
+        }
+      } catch (err) {
+        // if handler has unhandled error, at least remove the loading state so the modal could
+        // still be closed by the user if cancel button is provided.
+        this._setLoading(id, false);
+        throw err;
+      }
     }
 
     this._promises.get(id).resolve(true);
@@ -113,8 +124,9 @@ export class ModalUI extends RcUIModuleV2<Deps> {
   }
 
   @proxify
-  private async _onExited(id: string) {
+  private async _onExited(id: string, onExited?: string) {
     this._promises.get(id)?.resolve(false);
+    this._handlerRegister.get(id).get(onExited)?.();
     this._promises.delete(id);
     this._removeModal(id);
     this._handlerRegister.delete(id);
@@ -272,7 +284,12 @@ export class ModalUI extends RcUIModuleV2<Deps> {
   public open(props: ModalOptions, usePromise: true): Promise<boolean>;
   @background
   open(
-    { disableBackdropClick = true, fullScreen = false, ...props }: ModalOptions,
+    {
+      autoDisableBackdropClick = true,
+      disableBackdropClick = true,
+      fullScreen = false,
+      ...props
+    }: ModalOptions,
     usePromise?: boolean,
   ) {
     const id = v4();
@@ -280,6 +297,7 @@ export class ModalUI extends RcUIModuleV2<Deps> {
     const dehydratedState = this._getDehydratedState({
       ...props,
       id,
+      autoDisableBackdropClick,
       disableBackdropClick,
       fullScreen,
       open: true,
@@ -386,6 +404,7 @@ export class ModalUI extends RcUIModuleV2<Deps> {
         id,
         onConfirm,
         onCancel,
+        onExited,
         title,
         content,
         footer,
@@ -396,6 +415,10 @@ export class ModalUI extends RcUIModuleV2<Deps> {
         footerProps = {},
         variant,
         handlerIDs,
+        autoDisableBackdropClick,
+        disableBackdropClick,
+        loading,
+        loadingOverlay,
         // * just pick this field out of rest
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         useLoadingOverlay,
@@ -404,8 +427,13 @@ export class ModalUI extends RcUIModuleV2<Deps> {
         const uiProps: ModalProps = {
           ...rest,
           key: id,
+          loading,
+          loadingOverlay,
+          disableBackdropClick:
+            (autoDisableBackdropClick && (loading || loadingOverlay)) ||
+            disableBackdropClick,
           onConfirm: () => this._onConfirm(id, onConfirm),
-          onExited: () => this._onExited(id),
+          onExited: () => this._onExited(id, onExited),
         };
 
         if (onCancel || cancelButtonText) {

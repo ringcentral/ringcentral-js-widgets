@@ -44,7 +44,6 @@ const GenericMeetingPanel: React.ComponentType<GenericMeetingPanelProps> = (
     showSaveAsDefault,
     disableSaveAsDefault,
     updateMeetingSettings,
-    validatePasswordSettings,
     isRCM,
     isRCV,
     datePickerSize,
@@ -59,18 +58,34 @@ const GenericMeetingPanel: React.ComponentType<GenericMeetingPanelProps> = (
     showRcvAdminLock,
     showPmiAlert,
     enablePersonalMeeting,
-    enableWaitingRoom,
+    showWaitingRoom,
+    showE2EE,
+    isE2EEDisabled,
     personalMeetingId,
     switchUsePersonalMeetingId,
     updateHasSettingsChanged,
+    e2eeInteractFunc,
     showScheduleOnBehalf,
     delegators,
+    joinBeforeHostLabel,
+    authUserTypeValue,
+    isJoinBeforeHostDisabled,
+    isAuthenticatedCanJoinDisabled,
+    isRequirePasswordDisabled,
+    isWaitingRoomDisabled,
+    isWaitingRoomNotCoworkerDisabled,
+    isWaitingRoomGuestDisabled,
+    isWaitingRoomAllDisabled,
+    isAuthUserTypeDisabled,
+    isSignedInUsersDisabled,
+    isSignedInCoWorkersDisabled,
     updateScheduleFor,
     labelPlacement,
     showSpinnerInConfigPanel,
     enableServiceWebSettings,
     recurringMeetingPosition,
     defaultTopic,
+    isPersonalMeetingDisabled,
   } = props;
 
   if (showSpinner) {
@@ -143,14 +158,14 @@ const GenericMeetingPanel: React.ComponentType<GenericMeetingPanelProps> = (
       {isRCV && (
         <VideoConfig
           disabled={configDisabled}
+          isPersonalMeetingDisabled={isPersonalMeetingDisabled}
           currentLocale={currentLocale}
           labelPlacement={labelPlacement}
           meeting={meeting as RcVMeetingModel}
+          e2eeInteractFunc={e2eeInteractFunc}
           updateScheduleFor={updateScheduleFor}
           updateMeetingSettings={updateMeetingSettings}
-          validatePasswordSettings={validatePasswordSettings}
           recipientsSection={recipientsSection}
-          showTopic={showTopic}
           showWhen={showWhen}
           showDuration={showDuration}
           init={init}
@@ -159,7 +174,15 @@ const GenericMeetingPanel: React.ComponentType<GenericMeetingPanelProps> = (
           checkboxSize={checkboxSize}
           showRcvAdminLock={showRcvAdminLock}
           showPmiAlert={showPmiAlert}
-          enableWaitingRoom={enableWaitingRoom}
+          showWaitingRoom={showWaitingRoom}
+          showE2EE={showE2EE}
+          isE2EEDisabled={isE2EEDisabled}
+          isWaitingRoomNotCoworkerDisabled={isWaitingRoomNotCoworkerDisabled}
+          isWaitingRoomGuestDisabled={isWaitingRoomGuestDisabled}
+          isWaitingRoomAllDisabled={isWaitingRoomAllDisabled}
+          isAuthUserTypeDisabled={isAuthUserTypeDisabled}
+          isSignedInUsersDisabled={isSignedInUsersDisabled}
+          isSignedInCoWorkersDisabled={isSignedInCoWorkersDisabled}
           enablePersonalMeeting={enablePersonalMeeting}
           personalMeetingId={personalMeetingId}
           switchUsePersonalMeetingId={switchUsePersonalMeetingId}
@@ -167,6 +190,12 @@ const GenericMeetingPanel: React.ComponentType<GenericMeetingPanelProps> = (
           showScheduleOnBehalf={showScheduleOnBehalf}
           showSpinnerInConfigPanel={showSpinnerInConfigPanel}
           delegators={delegators}
+          joinBeforeHostLabel={joinBeforeHostLabel}
+          authUserTypeValue={authUserTypeValue}
+          isJoinBeforeHostDisabled={isJoinBeforeHostDisabled}
+          isAuthenticatedCanJoinDisabled={isAuthenticatedCanJoinDisabled}
+          isWaitingRoomDisabled={isWaitingRoomDisabled}
+          isRequirePasswordDisabled={isRequirePasswordDisabled}
         >
           {showTopic && (
             <Topic
@@ -232,7 +261,15 @@ GenericMeetingPanel.defaultProps = {
   scheduleButton: undefined,
   showRcvAdminLock: false,
   showPmiAlert: false,
-  enableWaitingRoom: false,
+  showWaitingRoom: false,
+  showE2EE: false,
+  isE2EEDisabled: false,
+  isWaitingRoomNotCoworkerDisabled: false,
+  isWaitingRoomGuestDisabled: false,
+  isWaitingRoomAllDisabled: false,
+  isAuthUserTypeDisabled: false,
+  isSignedInUsersDisabled: false,
+  isSignedInCoWorkersDisabled: false,
   enablePersonalMeeting: false,
   showSaveAsDefault: true,
   disableSaveAsDefault: false,

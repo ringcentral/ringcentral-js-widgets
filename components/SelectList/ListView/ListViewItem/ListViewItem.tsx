@@ -1,8 +1,10 @@
-import { RcListItem, RcListItemText } from '@ringcentral/juno';
-import classnames from 'classnames';
+import {
+  RcListItem,
+  RcListItemText,
+  RcFormControlLabel,
+  RcCheckbox,
+} from '@ringcentral/juno';
 import React, { FunctionComponent, useEffect, useRef } from 'react';
-
-import styles from './styles.scss';
 
 type OptionData = {
   type?: string;
@@ -21,6 +23,7 @@ export interface ListViewItemProps {
   renderFunction: (option: OptionData) => React.ReactNode;
   secondaryRenderFunction?: (option: OptionData) => any;
   onSelect: (elm?: HTMLDivElement) => any;
+  multiple?: boolean;
 }
 
 export const ListViewItem: FunctionComponent<ListViewItemProps> = ({
@@ -34,11 +37,14 @@ export const ListViewItem: FunctionComponent<ListViewItemProps> = ({
   onChange,
   index,
   onSelect,
+  multiple,
 }) => {
   const selectElm = useRef<HTMLDivElement>();
   const currentValue = valueFunction(value);
   const thisValue = valueFunction(option);
-  const isSelected = thisValue === currentValue;
+  const isSelected = multiple
+    ? !!currentValue?.includes(thisValue)
+    : thisValue === currentValue;
   const { type } = option;
   useEffect(() => {
     if (isSelected) {
@@ -65,14 +71,18 @@ export const ListViewItem: FunctionComponent<ListViewItemProps> = ({
     <div ref={selectElm}>
       <RcListItem
         button
-        size="small"
+        size="medium"
         singleLine
-        onClick={() => onChange(isSelected ? {} : option)}
+        onClick={
+          multiple
+            ? () => onChange({ ...option, isSelected: !isSelected })
+            : () => onChange(isSelected ? {} : option)
+        }
         data-sign={`match${index}`}
-        className={classnames(styles.listItem)}
         selected={isSelected}
       >
         {startAdornment && startAdornment(type)}
+        {multiple && <RcCheckbox checked={isSelected} />}
         <RcListItemText
           primary={getFilterResult(option)}
           secondary={secondaryRenderFunction(option)}
@@ -87,4 +97,5 @@ ListViewItem.defaultProps = {
   onChange() {},
   startAdornment() {},
   secondaryRenderFunction() {},
+  multiple: false,
 };

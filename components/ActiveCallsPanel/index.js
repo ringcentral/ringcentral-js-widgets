@@ -229,7 +229,8 @@ var ActiveCallsPanel = /*#__PURE__*/function (_Component) {
           showHoldAnswerBtn = _this$props2.showHoldAnswerBtn,
           useCallDetailV2 = _this$props2.useCallDetailV2,
           newCallIcon = _this$props2.newCallIcon,
-          clickSwitchTrack = _this$props2.clickSwitchTrack;
+          clickSwitchTrack = _this$props2.clickSwitchTrack,
+          isWide = _this$props2.isWide;
       return /*#__PURE__*/_react["default"].createElement(_ActiveCallList["default"], {
         title: title,
         calls: calls,
@@ -289,7 +290,8 @@ var ActiveCallsPanel = /*#__PURE__*/function (_Component) {
         showHoldAnswerBtn: showHoldAnswerBtn,
         useCallDetailV2: useCallDetailV2,
         newCallIcon: newCallIcon,
-        clickSwitchTrack: clickSwitchTrack
+        clickSwitchTrack: clickSwitchTrack,
+        isWide: isWide
       });
     }
   }, {
@@ -421,9 +423,11 @@ ActiveCallsPanel.propTypes = {
   showHoldAnswerBtn: _propTypes["default"].bool,
   useCallDetailV2: _propTypes["default"].bool,
   newCallIcon: _propTypes["default"].bool,
-  clickSwitchTrack: _propTypes["default"].func
+  clickSwitchTrack: _propTypes["default"].func,
+  isWide: _propTypes["default"].bool
 };
 ActiveCallsPanel.defaultProps = {
+  isWide: true,
   className: undefined,
   brand: 'RingCentral',
   showContactDisplayPlaceholder: true,

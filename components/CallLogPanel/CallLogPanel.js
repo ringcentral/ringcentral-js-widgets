@@ -165,7 +165,8 @@ var CallLogPanel = /*#__PURE__*/function (_Component) {
       if (showSmallCallControl) {
         return /*#__PURE__*/_react["default"].createElement("div", {
           ref: callLogCallControlRef,
-          className: (0, _classnames["default"])(_styles["default"].callControlRoot, callLogCallControl)
+          className: (0, _classnames["default"])(_styles["default"].callControlRoot, callLogCallControl),
+          "data-sign": "smallCallControl"
         }, renderCallLogCallControl && renderCallLogCallControl(telephonySessionId, isWide, isCurrentDeviceCall));
       }
 
@@ -377,7 +378,8 @@ var CallLogPanel = /*#__PURE__*/function (_Component) {
           headerTitle = _this$props7.headerTitle,
           isInTransferPage = _this$props7.isInTransferPage,
           isWide = _this$props7.isWide,
-          children = _this$props7.children;
+          children = _this$props7.children,
+          getRenderLogButton = _this$props7.getRenderLogButton;
       if (!currentIdentify || isInTransferPage) return null;
       return /*#__PURE__*/_react["default"].createElement("div", {
         ref: rootRef,
@@ -386,7 +388,7 @@ var CallLogPanel = /*#__PURE__*/function (_Component) {
         currentLocale: currentLocale,
         backIcon: backIcon,
         isWide: isWide,
-        rightIcon: this.genSaveLogButtonV2(),
+        rightIcon: (getRenderLogButton === null || getRenderLogButton === void 0 ? void 0 : getRenderLogButton()) || this.genSaveLogButtonV2(),
         title: _i18n["default"].getString(headerTitle, currentLocale),
         className: (0, _classnames["default"])(_styles["default"].header, backHeader),
         onBackClick: function onBackClick() {

@@ -43,7 +43,7 @@ require("core-js/modules/es6.object.to-string");
 
 var _juno = require("@ringcentral/juno");
 
-var _Deletenumber = _interopRequireDefault(require("@ringcentral/juno/icon/Deletenumber"));
+var _icon = require("@ringcentral/juno/icon");
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
@@ -77,7 +77,8 @@ function _objectWithoutProperties(source, excluded) { if (source == null) return
 
 function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 
-var throttledTime = 1000; // FunctionComponent<RecipientsInputProps>
+var throttledTime = 1000;
+/** @deprecated use juno RcDialTextField directly */
 
 var RecipientsInput = /*#__PURE__*/(0, _react.forwardRef)(function (_ref, ref) {
   var placeholder = _ref.placeholder,
@@ -90,8 +91,8 @@ var RecipientsInput = /*#__PURE__*/(0, _react.forwardRef)(function (_ref, ref) {
       deleteIconProps = _ref.deleteIconProps,
       rest = _objectWithoutProperties(_ref, ["placeholder", "value", "currentLocale", "onChange", "onDelete", "onClear", "className", "deleteIconProps"]);
 
-  var defaultRef = (0, _react.useRef)();
-  var inputRef = ref || defaultRef;
+  var innerRef = (0, _react.useRef)();
+  var inputRef = (0, _juno.useForkRef)(ref, innerRef);
 
   var _useState = (0, _react.useState)(null),
       _useState2 = _slicedToArray(_useState, 2),
@@ -122,7 +123,7 @@ var RecipientsInput = /*#__PURE__*/(0, _react.forwardRef)(function (_ref, ref) {
     onDelete();
   });
   (0, _react.useEffect)(function () {
-    inputRef.current.focus(); // eslint-disable-next-line react-hooks/exhaustive-deps
+    innerRef.current.focus(); // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
   return /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])(className, _styles["default"].inputRoot)
@@ -160,7 +161,7 @@ var RecipientsInput = /*#__PURE__*/(0, _react.forwardRef)(function (_ref, ref) {
       },
       endAdornment: haveDeleteButton && /*#__PURE__*/_react["default"].createElement(_juno.RcIconButton, _extends({
         color: "neutral.f03",
-        symbol: _Deletenumber["default"],
+        symbol: _icon.Deletenumber,
         "data-sign": "deleteButton",
         title: "delete"
       }, (0, _juno.combineProps)({

@@ -21,7 +21,7 @@ import i18n from './i18n';
     'ConnectivityMonitor',
     'RateLimiter',
     'DateTimeFormat',
-    'ExtensionFeatures',
+    'AppFeatures',
     { dep: 'CallLogger', optional: true },
     { dep: 'Call', optional: true },
     { dep: 'ComposeText', optional: true },
@@ -58,7 +58,7 @@ export class CallHistoryUI extends RcUIModuleV2<Deps> {
       callLogger,
       dateTimeFormat,
       composeText,
-      extensionFeatures,
+      appFeatures,
     } = this._deps;
     return {
       enableContactFallback,
@@ -80,8 +80,8 @@ export class CallHistoryUI extends RcUIModuleV2<Deps> {
         connectivityManager.isWebphoneInitializing ||
         rateLimiter.throttling,
       disableClickToDial: !(call && call.isIdle),
-      outboundSmsPermission: extensionFeatures.hasOutboundSMSPermission,
-      internalSmsPermission: extensionFeatures.hasInternalSMSPermission,
+      outboundSmsPermission: appFeatures.hasOutboundSMSPermission,
+      internalSmsPermission: appFeatures.hasInternalSMSPermission,
       loggingMap: callLogger && callLogger.loggingMap,
       showSpinner: !(
         callHistory.ready &&
@@ -89,7 +89,7 @@ export class CallHistoryUI extends RcUIModuleV2<Deps> {
         regionSettings.ready &&
         dateTimeFormat.ready &&
         connectivityMonitor.ready &&
-        extensionFeatures.ready &&
+        appFeatures.ready &&
         (!call || call.ready) &&
         (!composeText || composeText.ready) &&
         (!callLogger || callLogger.ready)
@@ -120,7 +120,7 @@ export class CallHistoryUI extends RcUIModuleV2<Deps> {
       routerInteraction,
       contactSearch,
       callHistory,
-      extensionFeatures,
+      appFeatures,
     } = this._deps;
     return {
       dateTimeFormatter,
@@ -149,7 +149,7 @@ export class CallHistoryUI extends RcUIModuleV2<Deps> {
           }
         : undefined,
       onClickToDial:
-        dialerUI && extensionFeatures.isCallingEnabled
+        dialerUI && appFeatures.isCallingEnabled
           ? (recipient: any) => {
               if (call.isIdle) {
                 routerInteraction.push(dialerRoute);

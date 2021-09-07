@@ -201,7 +201,8 @@ ConversationList.propTypes = {
   typeFilter: _propTypes["default"].string,
   loadNextPage: _propTypes["default"].func,
   loadingNextPage: _propTypes["default"].bool,
-  renderExtraButton: _propTypes["default"].func
+  renderExtraButton: _propTypes["default"].func,
+  enableCDC: _propTypes["default"].bool
 };
 ConversationList.defaultProps = {
   currentSiteCode: '',
@@ -220,6 +221,7 @@ ConversationList.defaultProps = {
   loadNextPage: undefined,
   loadingNextPage: false,
   typeFilter: undefined,
-  renderExtraButton: undefined
+  renderExtraButton: undefined,
+  enableCDC: false
 };
 //# sourceMappingURL=index.js.map

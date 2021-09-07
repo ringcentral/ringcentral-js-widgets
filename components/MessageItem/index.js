@@ -53,53 +53,55 @@ require("core-js/modules/es6.array.find-index");
 
 require("core-js/modules/es6.function.bind");
 
-var _react = _interopRequireWildcard(require("react"));
+var _extensionTypes = require("@ringcentral-integration/commons/enums/extensionTypes");
 
-var _propTypes = _interopRequireDefault(require("prop-types"));
+var _messageDirection = _interopRequireDefault(require("@ringcentral-integration/commons/enums/messageDirection"));
+
+var _messageTypes = _interopRequireDefault(require("@ringcentral-integration/commons/enums/messageTypes"));
+
+var _messageHelper = require("@ringcentral-integration/commons/lib/messageHelper");
+
+var _parseNumber = _interopRequireDefault(require("@ringcentral-integration/commons/lib/parseNumber"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
 var _formatMessage = _interopRequireDefault(require("format-message"));
 
-var _messageTypes = _interopRequireDefault(require("@ringcentral-integration/commons/enums/messageTypes"));
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _extensionTypes = require("@ringcentral-integration/commons/enums/extensionTypes");
+var _react = _interopRequireWildcard(require("react"));
 
-var _messageDirection = _interopRequireDefault(require("@ringcentral-integration/commons/enums/messageDirection"));
-
-var _parseNumber = _interopRequireDefault(require("@ringcentral-integration/commons/lib/parseNumber"));
-
-var _messageHelper = require("@ringcentral-integration/commons/lib/messageHelper");
-
-var _formatDuration = _interopRequireDefault(require("../../lib/formatDuration"));
-
-var _ContactDisplay = _interopRequireDefault(require("../ContactDisplay"));
-
-var _ActionMenuList = _interopRequireDefault(require("../ActionMenuList"));
-
-var _VoicemailPlayer = _interopRequireDefault(require("../VoicemailPlayer"));
-
-var _SlideMenu = _interopRequireDefault(require("../SlideMenu"));
-
-var _VoicemailIcon = _interopRequireDefault(require("../../assets/images/VoicemailIcon.svg"));
+var _ComposeText = _interopRequireDefault(require("../../assets/images/ComposeText.svg"));
 
 var _FaxInbound = _interopRequireDefault(require("../../assets/images/FaxInbound.svg"));
 
 var _FaxOutbound = _interopRequireDefault(require("../../assets/images/FaxOutbound.svg"));
 
-var _ComposeText = _interopRequireDefault(require("../../assets/images/ComposeText.svg"));
-
 var _GroupConversation = _interopRequireDefault(require("../../assets/images/GroupConversation.svg"));
 
-var _styles = _interopRequireDefault(require("./styles.scss"));
+var _VoicemailIcon = _interopRequireDefault(require("../../assets/images/VoicemailIcon.svg"));
+
+var _checkShouldHidePhoneNumber = require("../../lib/checkShouldHidePhoneNumber");
+
+var _formatDuration = _interopRequireDefault(require("../../lib/formatDuration"));
+
+var _ActionMenuList = _interopRequireDefault(require("../ActionMenuList"));
+
+var _ContactDisplay = _interopRequireDefault(require("../ContactDisplay"));
+
+var _SlideMenu = _interopRequireDefault(require("../SlideMenu"));
+
+var _VoicemailPlayer = _interopRequireDefault(require("../VoicemailPlayer"));
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -653,7 +655,10 @@ var MessageItem = /*#__PURE__*/function (_Component) {
           showGroupNumberName = _this$props4.showGroupNumberName,
           renderExtraButton = _this$props4.renderExtraButton,
           onFaxDownload = _this$props4.onFaxDownload,
-          showChooseEntityModal = _this$props4.showChooseEntityModal;
+          showChooseEntityModal = _this$props4.showChooseEntityModal,
+          renderContactList = _this$props4.renderContactList,
+          dropdownClassName = _this$props4.dropdownClassName,
+          enableCDC = _this$props4.enableCDC;
       var disableLinks = parentDisableLinks;
       var isVoicemail = type === _messageTypes["default"].voiceMail;
       var isFax = type === _messageTypes["default"].fax;
@@ -668,6 +673,14 @@ var MessageItem = /*#__PURE__*/function (_Component) {
 
       var groupNumbers = this.getGroupPhoneNumbers();
       var phoneNumber = this.getPhoneNumber();
+      /**
+       * TODO:
+       * * Group message is supported for internal paging:
+       * * What is the requirement when a hidden contact is part of a group conversation?
+       * * Is it possible to ignore this edge case initially as group conversations are rare, especially when most people use glip now for internal conversations?
+       */
+
+      var shouldHideNumber = enableCDC && (0, _checkShouldHidePhoneNumber.checkShouldHidePhoneNumber)(phoneNumber, correspondentMatches);
       var fallbackName = this.getFallbackContactName();
       var detail = this.getDetail();
       var disableClickToSms = this.getDisableClickToSms();
@@ -723,7 +736,7 @@ var MessageItem = /*#__PURE__*/function (_Component) {
         fallBackName: fallbackName,
         areaCode: areaCode,
         countryCode: countryCode,
-        phoneNumber: phoneNumber,
+        phoneNumber: shouldHideNumber ? null : phoneNumber,
         groupNumbers: groupNumbers,
         showGroupNumberName: showGroupNumberName,
         currentLocale: currentLocale,
@@ -736,7 +749,9 @@ var MessageItem = /*#__PURE__*/function (_Component) {
         placeholder: contactPlaceholder,
         sourceIcons: sourceIcons,
         phoneTypeRenderer: phoneTypeRenderer,
-        phoneSourceNameRenderer: phoneSourceNameRenderer
+        phoneSourceNameRenderer: phoneSourceNameRenderer,
+        dropdownRenderFunction: renderContactList,
+        dropdownClassName: dropdownClassName
       }), /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].detailsWithTime
       }, /*#__PURE__*/_react["default"].createElement("div", {
@@ -748,7 +763,7 @@ var MessageItem = /*#__PURE__*/function (_Component) {
       }, "|"), /*#__PURE__*/_react["default"].createElement("div", {
         "data-sign": "msgCreateTime",
         className: _styles["default"].creationTime
-      }, this.dateTimeFormatter(creationTime)))), extraButton), /*#__PURE__*/_react["default"].createElement(_SlideMenu["default"], {
+      }, this.dateTimeFormatter(creationTime)))), extraButton), shouldHideNumber && !player ? null : /*#__PURE__*/_react["default"].createElement(_SlideMenu["default"], {
         extended: this.state.extended,
         onToggle: this.toggleExtended,
         extendIconClassName: _styles["default"].extendIcon,
@@ -758,7 +773,7 @@ var MessageItem = /*#__PURE__*/function (_Component) {
       }, /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].playContainer,
         onClick: this.preventEventPropogation
-      }, player), /*#__PURE__*/_react["default"].createElement(_ActionMenuList["default"], {
+      }, player), shouldHideNumber ? null : /*#__PURE__*/_react["default"].createElement(_ActionMenuList["default"], {
         className: _styles["default"].actionMenuList,
         type: type,
         currentLocale: currentLocale,
@@ -771,7 +786,7 @@ var MessageItem = /*#__PURE__*/function (_Component) {
         onClickToSms: isVoicemail ? onClickToSms && this.onClickToSms : undefined,
         disableClickToSms: disableClickToSms,
         phoneNumber: phoneNumber,
-        disableLinks: disableLinks,
+        disableLinks: shouldHideNumber || disableLinks,
         disableCallButton: disableCallButton,
         disableClickToDial: disableClickToDial,
         isLogging: isLogging || this.state.isLogging,
@@ -874,7 +889,10 @@ MessageItem.propTypes = {
   onFaxDownload: _propTypes["default"].func,
   showChooseEntityModal: _propTypes["default"].bool,
   shouldLogSelectRecord: _propTypes["default"].bool,
-  onSelectContact: _propTypes["default"].func
+  onSelectContact: _propTypes["default"].func,
+  renderContactList: _propTypes["default"].func,
+  dropdownClassName: _propTypes["default"].string,
+  enableCDC: _propTypes["default"].bool
 };
 MessageItem.defaultProps = {
   currentSiteCode: '',
@@ -905,6 +923,9 @@ MessageItem.defaultProps = {
   onFaxDownload: undefined,
   showChooseEntityModal: true,
   shouldLogSelectRecord: false,
-  onSelectContact: undefined
+  onSelectContact: undefined,
+  renderContactList: undefined,
+  dropdownClassName: null,
+  enableCDC: false
 };
 //# sourceMappingURL=index.js.map

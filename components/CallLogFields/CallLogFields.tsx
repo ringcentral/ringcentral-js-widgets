@@ -29,7 +29,7 @@ export default class CallLogFields extends Component<CallLogFieldsProps, {}> {
     const {
       currentLog: {
         customLogFields,
-        currentLogCall: { isAutoSave },
+        currentLogCall: { isAutoSave } = {},
         call,
         task = {} as Task,
       },

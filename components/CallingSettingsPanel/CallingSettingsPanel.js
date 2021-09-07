@@ -130,7 +130,9 @@ function getJupiterAppName(_ref) {
   var brandCode = _ref.brandCode,
       brandName = _ref.brandName,
       shortBrandName = _ref.shortBrandName,
-      fullBrandName = _ref.fullBrandName;
+      fullBrandName = _ref.fullBrandName,
+      jupiterAppName = _ref.jupiterAppName;
+  if (jupiterAppName) return jupiterAppName;
 
   switch (brandCode) {
     case 'att':
@@ -168,7 +170,8 @@ function getCallingOptionName(_ref3) {
       brandName = _ref3.brandName,
       shortBrandName = _ref3.shortBrandName,
       fullBrandName = _ref3.fullBrandName,
-      currentLocale = _ref3.currentLocale;
+      currentLocale = _ref3.currentLocale,
+      jupiterAppName = _ref3.jupiterAppName;
 
   if (callingOption === _callingOptions["default"].softphone) {
     return getSoftphoneAppName({
@@ -184,7 +187,8 @@ function getCallingOptionName(_ref3) {
       brandCode: brandCode,
       brandName: brandName,
       shortBrandName: shortBrandName,
-      fullBrandName: fullBrandName
+      fullBrandName: fullBrandName,
+      jupiterAppName: jupiterAppName
     });
   }
 
@@ -203,7 +207,8 @@ var Tooltip = function Tooltip(_ref4) {
       currentLocale = _ref4.currentLocale,
       tooltipContainerRef = _ref4.tooltipContainerRef,
       shortBrandName = _ref4.shortBrandName,
-      fullBrandName = _ref4.fullBrandName;
+      fullBrandName = _ref4.fullBrandName,
+      jupiterAppName = _ref4.jupiterAppName;
   var keys = ["".concat(callWith, "Tooltip")];
 
   if (callWith !== _callingOptions["default"].browser && callWith !== _callingOptions["default"].softphone && callWith !== _callingOptions["default"].jupiter) {
@@ -216,7 +221,8 @@ var Tooltip = function Tooltip(_ref4) {
     brandName: brandName,
     currentLocale: currentLocale,
     shortBrandName: shortBrandName,
-    fullBrandName: fullBrandName
+    fullBrandName: fullBrandName,
+    jupiterAppName: jupiterAppName
   });
 
   var overlay = /*#__PURE__*/_react["default"].createElement("div", null, keys.map(function (key) {
@@ -256,7 +262,8 @@ var CallWithSettings = function CallWithSettings(_ref5) {
       callWithOptions = _ref5.callWithOptions,
       currentLocale = _ref5.currentLocale,
       disabled = _ref5.disabled,
-      onCallWithChange = _ref5.onCallWithChange;
+      onCallWithChange = _ref5.onCallWithChange,
+      jupiterAppName = _ref5.jupiterAppName;
   var tooltipContainerRef = (0, _react.useRef)(null);
 
   var optionRenderer = function optionRenderer(option) {
@@ -266,7 +273,8 @@ var CallWithSettings = function CallWithSettings(_ref5) {
       brandName: brandName,
       currentLocale: currentLocale,
       shortBrandName: shortBrandName,
-      fullBrandName: fullBrandName
+      fullBrandName: fullBrandName,
+      jupiterAppName: jupiterAppName
     });
     return optionName;
   };
@@ -279,7 +287,8 @@ var CallWithSettings = function CallWithSettings(_ref5) {
       currentLocale: currentLocale,
       tooltipContainerRef: tooltipContainerRef,
       shortBrandName: shortBrandName,
-      fullBrandName: fullBrandName
+      fullBrandName: fullBrandName,
+      jupiterAppName: jupiterAppName
     }))
   }, /*#__PURE__*/_react["default"].createElement(_DropdownSelect["default"], {
     dataSign: "callingSetting",
@@ -376,7 +385,8 @@ var CallingSettings = function CallingSettings(_ref7) {
       defaultOutgoingAudio = _ref7.defaultOutgoingAudio,
       defaultOutgoingAudioFile = _ref7.defaultOutgoingAudioFile,
       shortBrandName = _ref7.shortBrandName,
-      fullBrandName = _ref7.fullBrandName;
+      fullBrandName = _ref7.fullBrandName,
+      jupiterAppName = _ref7.jupiterAppName;
 
   var _useState = (0, _react.useState)(callWith),
       _useState2 = _slicedToArray(_useState, 2),
@@ -426,6 +436,7 @@ var CallingSettings = function CallingSettings(_ref7) {
     brandCode: brandCode,
     brandName: brandName,
     callWith: callWithState,
+    jupiterAppName: jupiterAppName,
     callWithOptions: callWithOptions,
     currentLocale: currentLocale,
     disabled: disabled,

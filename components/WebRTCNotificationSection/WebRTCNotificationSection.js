@@ -22,46 +22,48 @@ require("core-js/modules/es6.date.to-string");
 
 require("core-js/modules/es6.object.to-string");
 
-require("core-js/modules/es6.array.slice");
-
 require("core-js/modules/es7.symbol.async-iterator");
 
 require("core-js/modules/es6.symbol");
+
+require("core-js/modules/es6.array.is-array");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.WebRTCNotificationSection = void 0;
 
-require("core-js/modules/es6.array.is-array");
+require("core-js/modules/es6.object.define-properties");
+
+require("core-js/modules/es6.object.freeze");
+
+require("core-js/modules/es6.array.slice");
 
 require("core-js/modules/es6.array.map");
+
+var _callDirections = _interopRequireDefault(require("@ringcentral-integration/commons/enums/callDirections"));
+
+var _juno = require("@ringcentral/juno");
+
+var _icon = require("@ringcentral/juno/icon");
 
 var _classnames2 = _interopRequireDefault(require("classnames"));
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _callDirections = _interopRequireDefault(require("@ringcentral-integration/commons/enums/callDirections"));
+var _Answer = _interopRequireDefault(require("../../assets/images/Answer.svg"));
 
-var _Ignore = _interopRequireDefault(require("@ringcentral/juno/icon/Ignore"));
-
-var _Voicemail = _interopRequireDefault(require("@ringcentral/juno/icon/Voicemail"));
-
-var _juno = require("@ringcentral/juno");
+var _EndAnswer = _interopRequireDefault(require("../../assets/images/EndAnswer.svg"));
 
 var _Forward_white = _interopRequireDefault(require("../../assets/images/Forward_white.svg"));
 
 var _HoldAnswer = _interopRequireDefault(require("../../assets/images/HoldAnswer.svg"));
 
-var _EndAnswer = _interopRequireDefault(require("../../assets/images/EndAnswer.svg"));
-
-var _Answer = _interopRequireDefault(require("../../assets/images/Answer.svg"));
-
 var _CircleButton = _interopRequireDefault(require("../CircleButton"));
 
-var _styles = _interopRequireDefault(require("./styles.scss"));
-
 var _i18n = _interopRequireDefault(require("./i18n"));
+
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
@@ -82,6 +84,20 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function _iterableToArrayLimit(arr, i) { var _i = arr && (typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]); if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+function _templateObject() {
+  var data = _taggedTemplateLiteral(["\n  max-width: 170px;\n"]);
+
+  _templateObject = function _templateObject() {
+    return data;
+  };
+
+  return data;
+}
+
+function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+var ForwardActiveList = _juno.styled.div(_templateObject());
 
 var WebRTCNotificationSection = function WebRTCNotificationSection(_ref) {
   var call = _ref.call,
@@ -148,7 +164,7 @@ var WebRTCNotificationSection = function WebRTCNotificationSection(_ref) {
       className: _styles["default"].callButton
     }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
       dataSign: "ignore",
-      icon: _Ignore["default"],
+      icon: _icon.Ignore,
       iconWidth: 250,
       iconHeight: 250,
       iconX: 125,
@@ -174,7 +190,7 @@ var WebRTCNotificationSection = function WebRTCNotificationSection(_ref) {
       className: (0, _classnames2["default"])(_styles["default"].callButton, _styles["default"].voicemail)
     }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
       dataSign: "toVoiceMail",
-      icon: _Voicemail["default"],
+      icon: _icon.Voicemail,
       className: (0, _classnames2["default"])(_styles["default"].button, _styles["default"].hangup),
       showBorder: false,
       iconWidth: 250,
@@ -223,7 +239,7 @@ var WebRTCNotificationSection = function WebRTCNotificationSection(_ref) {
       className: _styles["default"].callButton
     }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
       dataSign: "toVoiceMail",
-      icon: _Voicemail["default"],
+      icon: _icon.Voicemail,
       className: (0, _classnames2["default"])(_styles["default"].button, _styles["default"].hangup),
       showBorder: false,
       iconWidth: 250,
@@ -263,7 +279,8 @@ var WebRTCNotificationSection = function WebRTCNotificationSection(_ref) {
 
     var forward = function forward(e) {
       e.stopPropagation();
-      handleClose();
+      handleClose(); // TODO: check that type, should switch to getAttribute
+
       var selectedValue = e.currentTarget.attributes['data-value'].value;
       onForward(selectedValue, call === null || call === void 0 ? void 0 : call.telephonySessionId);
     };
@@ -300,7 +317,7 @@ var WebRTCNotificationSection = function WebRTCNotificationSection(_ref) {
       classes: {
         paper: _styles["default"].forwardPopover
       }
-    }, /*#__PURE__*/_react["default"].createElement("div", {
+    }, /*#__PURE__*/_react["default"].createElement(ForwardActiveList, {
       "data-sign": "forwardActiveList"
     }, /*#__PURE__*/_react["default"].createElement(_juno.RcMenuList, null, forwardList.map(function (_ref2) {
       var text = _ref2.text,
@@ -310,7 +327,6 @@ var WebRTCNotificationSection = function WebRTCNotificationSection(_ref) {
       return /*#__PURE__*/_react["default"].createElement(_juno.RcMenuItem, {
         key: key,
         onClick: onClick,
-        maxWidth: 170,
         "data-value": key
       }, /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].moreActionItem,

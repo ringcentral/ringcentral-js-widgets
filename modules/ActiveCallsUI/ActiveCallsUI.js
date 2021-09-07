@@ -45,23 +45,23 @@ require("core-js/modules/es6.array.find");
 
 require("regenerator-runtime/runtime");
 
-var _react = _interopRequireDefault(require("react"));
+var _callDirections = _interopRequireDefault(require("@ringcentral-integration/commons/enums/callDirections"));
 
-var _core = require("@ringcentral-integration/core");
+var _callLogHelpers = require("@ringcentral-integration/commons/lib/callLogHelpers");
 
 var _di = require("@ringcentral-integration/commons/lib/di");
 
 var _formatNumber = _interopRequireDefault(require("@ringcentral-integration/commons/lib/formatNumber"));
 
-var _callDirections = _interopRequireDefault(require("@ringcentral-integration/commons/enums/callDirections"));
-
-var _callLogHelpers = require("@ringcentral-integration/commons/lib/callLogHelpers");
+var _helpers = require("@ringcentral-integration/commons/modules/ActiveCallControlV2/helpers");
 
 var _callingModes = _interopRequireDefault(require("@ringcentral-integration/commons/modules/CallingSettings/callingModes"));
 
 var _webphoneHelper = require("@ringcentral-integration/commons/modules/Webphone/webphoneHelper");
 
-var _helpers = require("@ringcentral-integration/commons/modules/ActiveCallControlV2/helpers");
+var _core = require("@ringcentral-integration/core");
+
+var _react = _interopRequireDefault(require("react"));
 
 var _ActiveCallItemV = require("../../components/ActiveCallItemV2");
 
@@ -102,7 +102,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 var ModalContentRendererID = 'ActiveCallsUI.ModalContentRenderer';
 var ActiveCallsUI = (_dec = (0, _di.Module)({
   name: 'ActiveCallsUI',
-  deps: ['Brand', 'Locale', 'CallMonitor', 'RateLimiter', 'ContactSearch', 'RegionSettings', 'ContactMatcher', 'CallingSettings', 'RouterInteraction', 'ExtensionFeatures', 'ConnectivityMonitor', {
+  deps: ['Brand', 'Locale', 'CallMonitor', 'RateLimiter', 'ContactSearch', 'RegionSettings', 'ContactMatcher', 'CallingSettings', 'RouterInteraction', 'AppFeatures', 'ConnectivityMonitor', {
     dep: 'ModalUI',
     optional: true
   }, {
@@ -153,7 +153,7 @@ var ActiveCallsUI = (_dec = (0, _di.Module)({
   _createClass(ActiveCallsUI, [{
     key: "getUIProps",
     value: function getUIProps(_ref2) {
-      var _this$_deps$activeCal, _this$_deps$extension, _this$_deps$extension2, _this$_deps$extension3, _this$_deps$extension4, _this$_deps$conferenc, _this$_deps$webphone, _this$_deps$callLogge;
+      var _this$_deps$activeCal, _this$_deps$conferenc, _this$_deps$webphone, _this$_deps$callLogge;
 
       var _ref2$showContactDisp = _ref2.showContactDisplayPlaceholder,
           showContactDisplayPlaceholder = _ref2$showContactDisp === void 0 ? false : _ref2$showContactDisp,
@@ -177,8 +177,8 @@ var ActiveCallsUI = (_dec = (0, _di.Module)({
         otherDeviceCalls: this._deps.callMonitor.otherDeviceCalls,
         areaCode: this._deps.regionSettings.areaCode,
         countryCode: this._deps.regionSettings.countryCode,
-        outboundSmsPermission: !!((_this$_deps$extension = this._deps.extensionFeatures.features) === null || _this$_deps$extension === void 0 ? void 0 : (_this$_deps$extension2 = _this$_deps$extension.SMSSending) === null || _this$_deps$extension2 === void 0 ? void 0 : _this$_deps$extension2.available),
-        internalSmsPermission: !!((_this$_deps$extension3 = this._deps.extensionFeatures.features) === null || _this$_deps$extension3 === void 0 ? void 0 : (_this$_deps$extension4 = _this$_deps$extension3.PagesSending) === null || _this$_deps$extension4 === void 0 ? void 0 : _this$_deps$extension4.available),
+        outboundSmsPermission: this._deps.appFeatures.hasOutboundSMSPermission,
+        internalSmsPermission: this._deps.appFeatures.hasInternalSMSPermission,
         showSpinner: !!((_this$_deps$conferenc = this._deps.conferenceCall) === null || _this$_deps$conferenc === void 0 ? void 0 : _this$_deps$conferenc.isMerging),
         brand: this._deps.brand.fullName,
         showContactDisplayPlaceholder: showContactDisplayPlaceholder,
@@ -191,7 +191,8 @@ var ActiveCallsUI = (_dec = (0, _di.Module)({
         conferenceCallParties: this._deps.conferenceCall ? this._deps.conferenceCall.partyProfiles : null,
         useV2: useV2,
         disableLinks: !this._deps.connectivityMonitor.connectivity || this._deps.rateLimiter.throttling || controlBusy,
-        useCallControl: useCallControl
+        useCallControl: useCallControl,
+        isWide: this.isWide
       };
     }
   }, {
@@ -680,6 +681,11 @@ var ActiveCallsUI = (_dec = (0, _di.Module)({
           (_this2$_deps$activeCa4 = _this2._deps.activeCallControl) === null || _this2$_deps$activeCa4 === void 0 ? void 0 : (_this2$_deps$activeCa5 = _this2$_deps$activeCa4.clickSwitchTrack) === null || _this2$_deps$activeCa5 === void 0 ? void 0 : _this2$_deps$activeCa5.call(_this2$_deps$activeCa4);
         }
       };
+    }
+  }, {
+    key: "isWide",
+    get: function get() {
+      return true;
     }
   }]);
 

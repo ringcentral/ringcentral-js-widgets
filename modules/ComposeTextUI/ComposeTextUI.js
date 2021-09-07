@@ -39,11 +39,11 @@ require("core-js/modules/es6.array.map");
 
 require("regenerator-runtime/runtime");
 
-var _core = require("@ringcentral-integration/core");
-
 var _module = _interopRequireDefault(require("@ringcentral-integration/commons/lib/di/decorators/module"));
 
 var _formatNumber = _interopRequireDefault(require("@ringcentral-integration/commons/lib/formatNumber"));
+
+var _core = require("@ringcentral-integration/core");
 
 var _dec, _class;
 
@@ -78,7 +78,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
  */
 var ComposeTextUI = (_dec = (0, _module["default"])({
   name: 'ComposeTextUI',
-  deps: ['Brand', 'ComposeText', 'ConnectivityMonitor', 'ContactSearch', 'Conversations', 'Locale', 'MessageSender', 'MessageStore', 'RateLimiter', 'RegionSettings', 'ExtensionFeatures', 'RouterInteraction']
+  deps: ['Brand', 'ComposeText', 'ConnectivityMonitor', 'ContactSearch', 'Conversations', 'Locale', 'MessageSender', 'MessageStore', 'RateLimiter', 'RegionSettings', 'AppFeatures', 'RouterInteraction']
 }), _dec(_class = /*#__PURE__*/function (_RcUIModuleV) {
   _inherits(ComposeTextUI, _RcUIModuleV);
 
@@ -104,7 +104,7 @@ var ComposeTextUI = (_dec = (0, _module["default"])({
           messageSender = _this$_deps.messageSender,
           connectivityMonitor = _this$_deps.connectivityMonitor,
           rateLimiter = _this$_deps.rateLimiter,
-          extensionFeatures = _this$_deps.extensionFeatures,
+          appFeatures = _this$_deps.appFeatures,
           contactSearch = _this$_deps.contactSearch;
       var isContentEmpty = composeText.messageText.length === 0 && (!composeText.attachments || composeText.attachments.length === 0);
       return {
@@ -116,9 +116,9 @@ var ComposeTextUI = (_dec = (0, _module["default"])({
         typingToNumber: composeText.typingToNumber,
         toNumbers: composeText.toNumbers,
         messageText: composeText.messageText,
-        outboundSMS: extensionFeatures.hasOutboundSMSPermission,
+        outboundSMS: appFeatures.hasOutboundSMSPermission,
         searchContactList: contactSearch.sortedResult,
-        showSpinner: !(composeText.ready && locale.ready && messageSender.ready && extensionFeatures.ready && contactSearch.ready),
+        showSpinner: !(composeText.ready && locale.ready && messageSender.ready && appFeatures.ready && contactSearch.ready),
         inputExpandable: inputExpandable,
         attachments: composeText.attachments,
         supportAttachment: supportAttachment

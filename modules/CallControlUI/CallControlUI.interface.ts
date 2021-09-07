@@ -1,5 +1,7 @@
-import { ReactNode } from 'react';
-import { Brand } from '@ringcentral-integration/commons/modules/BrandV2';
+import callDirections from '@ringcentral-integration/commons/enums/callDirections';
+import calleeTypes from '@ringcentral-integration/commons/enums/calleeTypes';
+import { NormalizedSession } from '@ringcentral-integration/commons/interfaces/Webphone.interface';
+import { Brand } from '@ringcentral-integration/commons/modules/Brand';
 import { CallingSettings } from '@ringcentral-integration/commons/modules/CallingSettingsV2';
 import { CallMonitor } from '@ringcentral-integration/commons/modules/CallMonitorV2';
 import { ConferenceCall } from '@ringcentral-integration/commons/modules/ConferenceCallV2';
@@ -7,12 +9,11 @@ import { ContactMatcher } from '@ringcentral-integration/commons/modules/Contact
 import { ContactSearch } from '@ringcentral-integration/commons/modules/ContactSearchV2';
 import { ExtensionInfo } from '@ringcentral-integration/commons/modules/ExtensionInfoV2';
 import { ForwardingNumber } from '@ringcentral-integration/commons/modules/ForwardingNumberV2';
-import { Locale } from '@ringcentral-integration/commons/modules/LocaleV2';
+import { Locale } from '@ringcentral-integration/commons/modules/Locale';
 import { RegionSettings } from '@ringcentral-integration/commons/modules/RegionSettingsV2';
 import { Webphone } from '@ringcentral-integration/commons/modules/WebphoneV2';
-import callDirections from '../../../ringcentral-integration/enums/callDirections';
-import calleeTypes from '../../../ringcentral-integration/enums/calleeTypes';
-import { NormalizedSession } from '../../../ringcentral-integration/interfaces/Webphone.interface';
+import { ReactNode } from 'react';
+import { AppFeatures } from '@ringcentral-integration/commons/modules/AppFeatures/AppFeatures';
 import { ConnectivityManager } from '../ConnectivityManager';
 import { RouterInteraction } from '../RouterInteraction';
 
@@ -32,6 +33,7 @@ export interface CallControlComponentProps {
 }
 
 export interface Deps {
+  appFeatures: AppFeatures;
   webphone: Webphone;
   locale: Locale;
   contactMatcher: ContactMatcher;

@@ -237,7 +237,10 @@ var ConversationsPanel = /*#__PURE__*/function (_Component) {
           isMultipleSiteEnabled = _this$props.isMultipleSiteEnabled,
           showChooseEntityModal = _this$props.showChooseEntityModal,
           shouldLogSelectRecord = _this$props.shouldLogSelectRecord,
-          onSelectContact = _this$props.onSelectContact;
+          onSelectContact = _this$props.onSelectContact,
+          renderContactList = _this$props.renderContactList,
+          dropdownClassName = _this$props.dropdownClassName,
+          enableCDC = _this$props.enableCDC;
 
       if (showSpinner) {
         return /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay.SpinnerOverlay, null);
@@ -301,7 +304,10 @@ var ConversationsPanel = /*#__PURE__*/function (_Component) {
         onFaxDownload: onFaxDownload,
         showChooseEntityModal: showChooseEntityModal,
         shouldLogSelectRecord: shouldLogSelectRecord,
-        onSelectContact: onSelectContact
+        onSelectContact: onSelectContact,
+        renderContactList: renderContactList,
+        dropdownClassName: dropdownClassName,
+        enableCDC: enableCDC
       }) : !loadingNextPage && (renderNoMessage && renderNoMessage() || /*#__PURE__*/_react["default"].createElement(_NoMessage["default"], {
         placeholder: placeholder
       })));
@@ -401,7 +407,10 @@ ConversationsPanel.propTypes = {
   onFaxDownload: _propTypes["default"].func,
   showChooseEntityModal: _propTypes["default"].bool,
   shouldLogSelectRecord: _propTypes["default"].bool,
-  onSelectContact: _propTypes["default"].func
+  onSelectContact: _propTypes["default"].func,
+  renderContactList: _propTypes["default"].func,
+  dropdownClassName: _propTypes["default"].string,
+  enableCDC: _propTypes["default"].bool
 };
 ConversationsPanel.defaultProps = {
   currentSiteCode: '',
@@ -448,6 +457,9 @@ ConversationsPanel.defaultProps = {
   onFaxDownload: undefined,
   showChooseEntityModal: true,
   shouldLogSelectRecord: false,
-  onSelectContact: undefined
+  onSelectContact: undefined,
+  renderContactList: undefined,
+  dropdownClassName: null,
+  enableCDC: false
 };
 //# sourceMappingURL=index.js.map

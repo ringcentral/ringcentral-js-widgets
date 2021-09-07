@@ -177,8 +177,8 @@ var MessageInput = /*#__PURE__*/function (_Component) {
   }
 
   _createClass(MessageInput, [{
-    key: "componentWillReceiveProps",
-    value: function componentWillReceiveProps(nextProps) {
+    key: "UNSAFE_componentWillReceiveProps",
+    value: function UNSAFE_componentWillReceiveProps(nextProps) {
       var _this3 = this;
 
       if (nextProps.value !== this.state.value && // ignore value changes from props for 300ms after typing
@@ -255,6 +255,7 @@ var MessageInput = /*#__PURE__*/function (_Component) {
       var _this$props2 = this.props,
           currentLocale = _this$props2.currentLocale,
           disabled = _this$props2.disabled,
+          sendButtonDisabled = _this$props2.sendButtonDisabled,
           maxLength = _this$props2.maxLength,
           supportAttachment = _this$props2.supportAttachment,
           attachments = _this$props2.attachments,
@@ -271,7 +272,8 @@ var MessageInput = /*#__PURE__*/function (_Component) {
         variant: "round",
         size: "small",
         symbol: _Attachment["default"],
-        onClick: this.onAttachmentIconClick
+        onClick: this.onAttachmentIconClick,
+        disabled: disabled
       }), /*#__PURE__*/_react["default"].createElement("input", {
         type: "file",
         accept: "image/tiff,image/gif,image/jpeg,image/bmp,image/png,image/svg+xml,text/vcard,application/rtf,video/mpeg,audio/mpeg,video/mp4,application/zip",
@@ -279,7 +281,8 @@ var MessageInput = /*#__PURE__*/function (_Component) {
           display: 'none'
         },
         ref: this._fileInputRef,
-        onChange: this.onSelectAttachment
+        onChange: this.onSelectAttachment,
+        disabled: disabled
       })), /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].textField
       }, /*#__PURE__*/_react["default"].createElement("textarea", {
@@ -294,7 +297,8 @@ var MessageInput = /*#__PURE__*/function (_Component) {
         onKeyPressCapture: this.onKeyDown,
         style: {
           height: inputHeight
-        }
+        },
+        disabled: disabled
       })), /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].submitField
       }, /*#__PURE__*/_react["default"].createElement("input", {
@@ -303,7 +307,7 @@ var MessageInput = /*#__PURE__*/function (_Component) {
         value: _i18n["default"].getString('send', currentLocale),
         onClick: this.onSend,
         className: _styles["default"].sendButton,
-        disabled: disabled
+        disabled: disabled || sendButtonDisabled
       })), /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].attachments
       }, attachments.map(function (attachment) {
@@ -316,6 +320,7 @@ var MessageInput = /*#__PURE__*/function (_Component) {
         }, /*#__PURE__*/_react["default"].createElement(_juno.RcIconButton, {
           size: "small",
           symbol: _Close["default"],
+          disabled: disabled,
           onClick: function onClick() {
             removeAttachment(attachment);
           }
@@ -332,6 +337,7 @@ MessageInput.propTypes = {
   value: _propTypes["default"].string.isRequired,
   currentLocale: _propTypes["default"].string.isRequired,
   disabled: _propTypes["default"].bool,
+  sendButtonDisabled: _propTypes["default"].bool,
   minHeight: _propTypes["default"].number,
   maxHeight: _propTypes["default"].number,
   maxLength: _propTypes["default"].number,
@@ -346,12 +352,13 @@ MessageInput.propTypes = {
 };
 MessageInput.defaultProps = {
   disabled: false,
+  sendButtonDisabled: false,
   onSend: undefined,
   onChange: undefined,
   onHeightChange: undefined,
   minHeight: 63,
   maxHeight: 300,
-  maxLength: 5000,
+  maxLength: 1000,
   inputExpandable: true,
   supportAttachment: false,
   attachments: [],

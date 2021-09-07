@@ -98,7 +98,7 @@ var CallLogCallControlRenderer = function CallLogCallControlRenderer(currentLoca
 
 var CallLogUIBase = (_dec = (0, _di.Module)({
   name: 'CallLogUI',
-  deps: ['Locale', 'CallLogger', 'RateLimiter', 'RegionSettings', 'DateTimeFormat', 'CallLogSection', 'RouterInteraction', 'ActiveCallControl', 'ExtensionFeatures', 'ConnectivityMonitor', 'CallingSettings', 'ForwardingNumber', {
+  deps: ['Locale', 'CallLogger', 'RateLimiter', 'RegionSettings', 'DateTimeFormat', 'CallLogSection', 'RouterInteraction', 'ActiveCallControl', 'AppFeatures', 'ConnectivityMonitor', 'CallingSettings', 'ForwardingNumber', {
     dep: 'CallLogUIOptions',
     optional: true
   }]
@@ -130,7 +130,7 @@ var CallLogUIBase = (_dec = (0, _di.Module)({
           callLogSection = _this$_deps.callLogSection,
           routerInteraction = _this$_deps.routerInteraction,
           activeCallControl = _this$_deps.activeCallControl,
-          extensionFeatures = _this$_deps.extensionFeatures,
+          appFeatures = _this$_deps.appFeatures,
           connectivityMonitor = _this$_deps.connectivityMonitor,
           callingSettings = _this$_deps.callingSettings,
           forwardingNumber = _this$_deps.forwardingNumber;
@@ -140,7 +140,7 @@ var CallLogUIBase = (_dec = (0, _di.Module)({
       return {
         currentLocale: locale.currentLocale,
         header: true,
-        showSpinner: !(locale.ready && regionSettings.ready && dateTimeFormat.ready && extensionFeatures.ready && (!callLogger || callLogger.ready)),
+        showSpinner: !(locale.ready && regionSettings.ready && dateTimeFormat.ready && appFeatures.ready && (!callLogger || callLogger.ready)),
         isInTransferPage: isInTransferPage,
         disableLinks: !connectivityMonitor.connectivity || rateLimiter.throttling,
         currentIdentify: currentIdentify,

@@ -9,9 +9,9 @@ exports.getLastCallInfoFromWebphoneSession = getLastCallInfoFromWebphoneSession;
 
 require("core-js/modules/es6.function.name");
 
-var _callDirections = _interopRequireDefault(require("../../../ringcentral-integration/enums/callDirections"));
+var _callDirections = _interopRequireDefault(require("@ringcentral-integration/commons/enums/callDirections"));
 
-var _calleeTypes = _interopRequireDefault(require("../../../ringcentral-integration/enums/calleeTypes"));
+var _calleeTypes = _interopRequireDefault(require("@ringcentral-integration/commons/enums/calleeTypes"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 

@@ -29,11 +29,11 @@ require("core-js/modules/es6.function.name");
 
 require("regenerator-runtime/runtime");
 
-var _core = require("@ringcentral-integration/core");
-
 var _di = require("@ringcentral-integration/commons/lib/di");
 
 var _formatNumber = _interopRequireDefault(require("@ringcentral-integration/commons/lib/formatNumber"));
+
+var _core = require("@ringcentral-integration/core");
 
 var _dec, _class;
 
@@ -67,7 +67,7 @@ var FILTER_THRESHOLD = 500;
 exports.FILTER_THRESHOLD = FILTER_THRESHOLD;
 var CallsListUI = (_dec = (0, _di.Module)({
   name: 'CallsListUI',
-  deps: ['Brand', 'CallMonitor', 'Locale', 'RegionSettings', 'ExtensionFeatures', 'CallHistory', 'ConnectivityMonitor', 'RateLimiter', 'DateTimeFormat', 'Call', 'ExtensionInfo', 'ContactMatcher', 'ContactSearch', 'RouterInteraction', 'ContactDetailsUI', {
+  deps: ['Brand', 'CallMonitor', 'Locale', 'RegionSettings', 'CallHistory', 'ConnectivityMonitor', 'RateLimiter', 'DateTimeFormat', 'Call', 'ExtensionInfo', 'ContactMatcher', 'ContactSearch', 'RouterInteraction', 'ContactDetailsUI', 'AppFeatures', {
     dep: 'DialerUI',
     optional: true
   }, {
@@ -114,7 +114,7 @@ var CallsListUI = (_dec = (0, _di.Module)({
           callMonitor = _this$_deps.callMonitor,
           locale = _this$_deps.locale,
           regionSettings = _this$_deps.regionSettings,
-          extensionFeatures = _this$_deps.extensionFeatures,
+          appFeatures = _this$_deps.appFeatures,
           callHistory = _this$_deps.callHistory,
           connectivityMonitor = _this$_deps.connectivityMonitor,
           rateLimiter = _this$_deps.rateLimiter,
@@ -132,8 +132,8 @@ var CallsListUI = (_dec = (0, _di.Module)({
         otherDeviceCalls: callMonitor.otherDeviceCalls,
         areaCode: regionSettings.areaCode,
         countryCode: regionSettings.countryCode,
-        outboundSmsPermission: extensionFeatures.hasOutboundSMSPermission,
-        internalSmsPermission: extensionFeatures.hasInternalSMSPermission,
+        outboundSmsPermission: appFeatures.hasOutboundSMSPermission,
+        internalSmsPermission: appFeatures.hasInternalSMSPermission,
         brand: brand.fullName,
         showContactDisplayPlaceholder: showContactDisplayPlaceholder,
         autoLog: !!(callLogger && callLogger.autoLog),
@@ -142,8 +142,9 @@ var CallsListUI = (_dec = (0, _di.Module)({
         disableLinks: !connectivityMonitor.connectivity || rateLimiter.throttling,
         disableClickToDial: !(call && call.isIdle),
         loggingMap: callLogger && callLogger.loggingMap,
-        showSpinner: !(callHistory.ready && locale.ready && regionSettings.ready && dateTimeFormat.ready && connectivityMonitor.ready && extensionFeatures.ready && (!call || call.ready) && (!composeText || composeText.ready) && (!callLogger || callLogger.ready)),
-        readTextPermission: extensionFeatures.hasReadTextPermission
+        showSpinner: !(callHistory.ready && locale.ready && regionSettings.ready && dateTimeFormat.ready && connectivityMonitor.ready && appFeatures.ready && (!call || call.ready) && (!composeText || composeText.ready) && (!callLogger || callLogger.ready)),
+        readTextPermission: appFeatures.hasReadTextPermission,
+        enableCDC: appFeatures.isCDCEnabled
       };
     }
   }, {

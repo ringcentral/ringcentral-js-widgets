@@ -569,21 +569,27 @@ var ActiveCallItem = /*#__PURE__*/function (_Component) {
     };
 
     _this.onClickSwitchBtn = function () {
-      var contactName = typeof _this.props.renderContactName === 'function' ? _this.props.renderContactName(_this.props.call) : undefined; // !refactor
+      var _this$props = _this.props,
+          renderContactName = _this$props.renderContactName,
+          call = _this$props.call,
+          modalConfirm = _this$props.modalConfirm,
+          isWide = _this$props.isWide,
+          currentLocale = _this$props.currentLocale,
+          webphoneSwitchCall = _this$props.webphoneSwitchCall;
+      var contactName = typeof renderContactName === 'function' ? renderContactName(call) : undefined; // !refactor
       // TODO: Consider refactoring modalConfirm out of UI components!!!!!!!!!!!!!!
 
-      _this.modalId = _this.props.modalConfirm({
-        size: 'small',
-        title: _i18n["default"].getString('callSwitch', _this.props.currentLocale),
+      _this.modalId = modalConfirm({
+        size: isWide ? 'small' : 'xsmall',
+        title: _i18n["default"].getString('callSwitch', currentLocale),
         className: _styles["default"].switchDialog,
         contentProps: {
           contactName: contactName || _this.getPhoneNumber()
         },
-        confirmButtonText: _i18n["default"].getString('comfirmOKButton', _this.props.currentLocale),
-        cancelButtonText: _i18n["default"].getString('comfirmCancelButton', _this.props.currentLocale),
+        confirmButtonText: _i18n["default"].getString('comfirmOKButton', currentLocale),
+        cancelButtonText: _i18n["default"].getString('comfirmCancelButton', currentLocale),
         onConfirm: function onConfirm() {
-          _this.props.webphoneSwitchCall(_this.props.call);
-
+          webphoneSwitchCall(call);
           _this.modalId = null;
         },
         onCancel: function onCancel() {
@@ -665,15 +671,15 @@ var ActiveCallItem = /*#__PURE__*/function (_Component) {
   }, {
     key: "getCallInfo",
     value: function getCallInfo() {
-      var _this$props = this.props,
-          _this$props$call = _this$props.call,
-          telephonyStatus = _this$props$call.telephonyStatus,
-          startTime = _this$props$call.startTime,
-          offset = _this$props$call.offset,
-          disableLinks = _this$props.disableLinks,
-          currentLocale = _this$props.currentLocale,
-          showCallDetail = _this$props.showCallDetail,
-          useCallDetailV2 = _this$props.useCallDetailV2;
+      var _this$props2 = this.props,
+          _this$props2$call = _this$props2.call,
+          telephonyStatus = _this$props2$call.telephonyStatus,
+          startTime = _this$props2$call.startTime,
+          offset = _this$props2$call.offset,
+          disableLinks = _this$props2.disableLinks,
+          currentLocale = _this$props2.currentLocale,
+          showCallDetail = _this$props2.showCallDetail,
+          useCallDetailV2 = _this$props2.useCallDetailV2;
 
       if (!showCallDetail) {
         return null;
@@ -725,52 +731,52 @@ var ActiveCallItem = /*#__PURE__*/function (_Component) {
     value: function render() {
       var _telephonySession$oth, _classnames11, _classnames12;
 
-      var _this$props2 = this.props,
-          _this$props2$call = _this$props2.call,
-          direction = _this$props2$call.direction,
-          webphoneSession = _this$props2$call.webphoneSession,
-          telephonySessionId = _this$props2$call.telephonySessionId,
-          telephonySession = _this$props2$call.telephonySession,
-          disableLinks = _this$props2.disableLinks,
-          currentLocale = _this$props2.currentLocale,
-          areaCode = _this$props2.areaCode,
-          countryCode = _this$props2.countryCode,
-          enableContactFallback = _this$props2.enableContactFallback,
-          isLogging = _this$props2.isLogging,
-          brand = _this$props2.brand,
-          showContactDisplayPlaceholder = _this$props2.showContactDisplayPlaceholder,
-          webphoneHangup = _this$props2.webphoneHangup,
-          webphoneResume = _this$props2.webphoneResume,
-          sourceIcons = _this$props2.sourceIcons,
-          phoneTypeRenderer = _this$props2.phoneTypeRenderer,
-          phoneSourceNameRenderer = _this$props2.phoneSourceNameRenderer,
-          renderContactName = _this$props2.renderContactName,
-          renderExtraButton = _this$props2.renderExtraButton,
-          contactDisplayStyle = _this$props2.contactDisplayStyle,
-          isOnConferenceCall = _this$props2.isOnConferenceCall,
-          webphoneHold = _this$props2.webphoneHold,
-          onClick = _this$props2.onClick,
-          showMergeCall = _this$props2.showMergeCall,
-          showHold = _this$props2.showHold,
-          showAvatar = _this$props2.showAvatar,
-          disableMerge = _this$props2.disableMerge,
-          onMergeCall = _this$props2.onMergeCall,
-          showCallDetail = _this$props2.showCallDetail,
-          webphoneAnswer = _this$props2.webphoneAnswer,
-          ringoutHangup = _this$props2.ringoutHangup,
-          ringoutTransfer = _this$props2.ringoutTransfer,
-          ringoutReject = _this$props2.ringoutReject,
-          showRingoutCallControl = _this$props2.showRingoutCallControl,
-          showSwitchCall = _this$props2.showSwitchCall,
-          showTransferCall = _this$props2.showTransferCall,
-          showHoldOnOtherDevice = _this$props2.showHoldOnOtherDevice,
-          showMultipleMatch = _this$props2.showMultipleMatch,
-          isOnHold = _this$props2.isOnHold,
-          newCallIcon = _this$props2.newCallIcon,
-          webphoneIgnore = _this$props2.webphoneIgnore,
-          showHoldAnswerBtn = _this$props2.showHoldAnswerBtn,
-          showIgnoreBtn = _this$props2.showIgnoreBtn,
-          clickSwitchTrack = _this$props2.clickSwitchTrack;
+      var _this$props3 = this.props,
+          _this$props3$call = _this$props3.call,
+          direction = _this$props3$call.direction,
+          webphoneSession = _this$props3$call.webphoneSession,
+          telephonySessionId = _this$props3$call.telephonySessionId,
+          telephonySession = _this$props3$call.telephonySession,
+          disableLinks = _this$props3.disableLinks,
+          currentLocale = _this$props3.currentLocale,
+          areaCode = _this$props3.areaCode,
+          countryCode = _this$props3.countryCode,
+          enableContactFallback = _this$props3.enableContactFallback,
+          isLogging = _this$props3.isLogging,
+          brand = _this$props3.brand,
+          showContactDisplayPlaceholder = _this$props3.showContactDisplayPlaceholder,
+          webphoneHangup = _this$props3.webphoneHangup,
+          webphoneResume = _this$props3.webphoneResume,
+          sourceIcons = _this$props3.sourceIcons,
+          phoneTypeRenderer = _this$props3.phoneTypeRenderer,
+          phoneSourceNameRenderer = _this$props3.phoneSourceNameRenderer,
+          renderContactName = _this$props3.renderContactName,
+          renderExtraButton = _this$props3.renderExtraButton,
+          contactDisplayStyle = _this$props3.contactDisplayStyle,
+          isOnConferenceCall = _this$props3.isOnConferenceCall,
+          webphoneHold = _this$props3.webphoneHold,
+          onClick = _this$props3.onClick,
+          showMergeCall = _this$props3.showMergeCall,
+          showHold = _this$props3.showHold,
+          showAvatar = _this$props3.showAvatar,
+          disableMerge = _this$props3.disableMerge,
+          onMergeCall = _this$props3.onMergeCall,
+          showCallDetail = _this$props3.showCallDetail,
+          webphoneAnswer = _this$props3.webphoneAnswer,
+          ringoutHangup = _this$props3.ringoutHangup,
+          ringoutTransfer = _this$props3.ringoutTransfer,
+          ringoutReject = _this$props3.ringoutReject,
+          showRingoutCallControl = _this$props3.showRingoutCallControl,
+          showSwitchCall = _this$props3.showSwitchCall,
+          showTransferCall = _this$props3.showTransferCall,
+          showHoldOnOtherDevice = _this$props3.showHoldOnOtherDevice,
+          showMultipleMatch = _this$props3.showMultipleMatch,
+          isOnHold = _this$props3.isOnHold,
+          newCallIcon = _this$props3.newCallIcon,
+          webphoneIgnore = _this$props3.webphoneIgnore,
+          showHoldAnswerBtn = _this$props3.showHoldAnswerBtn,
+          showIgnoreBtn = _this$props3.showIgnoreBtn,
+          clickSwitchTrack = _this$props3.clickSwitchTrack;
       var _this$state = this.state,
           avatarUrl = _this$state.avatarUrl,
           extraNum = _this$state.extraNum;

@@ -86,7 +86,8 @@ var ActiveCallList = function ActiveCallList(_ref) {
       useCallDetailV2 = _ref.useCallDetailV2,
       newCallIcon = _ref.newCallIcon,
       clickSwitchTrack = _ref.clickSwitchTrack,
-      showMultipleMatch = _ref.showMultipleMatch;
+      showMultipleMatch = _ref.showMultipleMatch,
+      isWide = _ref.isWide;
 
   if (!calls.length) {
     return null;
@@ -166,7 +167,8 @@ var ActiveCallList = function ActiveCallList(_ref) {
       showHoldAnswerBtn: showHoldAnswerBtn,
       useCallDetailV2: useCallDetailV2,
       newCallIcon: newCallIcon,
-      clickSwitchTrack: clickSwitchTrack
+      clickSwitchTrack: clickSwitchTrack,
+      isWide: isWide
     });
   }));
 };
@@ -228,9 +230,11 @@ ActiveCallList.propTypes = {
   showHoldAnswerBtn: _propTypes["default"].bool,
   useCallDetailV2: _propTypes["default"].bool,
   newCallIcon: _propTypes["default"].bool,
-  clickSwitchTrack: _propTypes["default"].func
+  clickSwitchTrack: _propTypes["default"].func,
+  isWide: _propTypes["default"].bool
 };
 ActiveCallList.defaultProps = {
+  isWide: true,
   className: undefined,
   brand: 'RingCentral',
   showContactDisplayPlaceholder: true,

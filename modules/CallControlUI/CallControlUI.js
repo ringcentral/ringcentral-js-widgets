@@ -41,15 +41,17 @@ var _ramda = require("ramda");
 
 var _di = require("@ringcentral-integration/commons/lib/di");
 
-var _callDirections = _interopRequireDefault(require("../../../ringcentral-integration/enums/callDirections"));
+var _callDirections = _interopRequireDefault(require("@ringcentral-integration/commons/enums/callDirections"));
 
-var _formatNumber = require("../../../ringcentral-integration/lib/formatNumber");
+var _formatNumber = require("@ringcentral-integration/commons/lib/formatNumber");
 
-var _callingModes = _interopRequireDefault(require("../../../ringcentral-integration/modules/CallingSettings/callingModes"));
+var _callingModes = _interopRequireDefault(require("@ringcentral-integration/commons/modules/CallingSettings/callingModes"));
 
-var _sessionStatus = require("../../../ringcentral-integration/modules/Webphone/sessionStatus");
+var _sessionStatus = require("@ringcentral-integration/commons/modules/Webphone/sessionStatus");
 
 var _callCtrlLayouts = _interopRequireDefault(require("../../enums/callCtrlLayouts"));
+
+var _checkShouldHidePhoneNumber = require("../../lib/checkShouldHidePhoneNumber");
 
 var _CallControlUI = require("./CallControlUI.interface");
 
@@ -83,7 +85,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 var CallControlUI = (_dec = (0, _di.Module)({
   name: 'CallControlUI',
-  deps: ['Webphone', 'Locale', 'ContactMatcher', 'RegionSettings', 'Brand', 'ContactSearch', 'CallingSettings', 'ConnectivityManager', 'ForwardingNumber', 'CallMonitor', 'ExtensionInfo', {
+  deps: ['Webphone', 'Locale', 'ContactMatcher', 'RegionSettings', 'Brand', 'ContactSearch', 'CallingSettings', 'ConnectivityManager', 'ForwardingNumber', 'CallMonitor', 'ExtensionInfo', 'AppFeatures', {
     dep: 'ConferenceCall',
     optional: true
   }, {
@@ -198,9 +200,16 @@ var CallControlUI = (_dec = (0, _di.Module)({
       }
 
       var disableLinks = !!(connectivityManager.isOfflineMode || connectivityManager.isVoipOnlyMode);
+      var phoneNumber = currentSession.direction === _callDirections["default"].outbound ? currentSession.to : currentSession.from;
+
+      if (this._deps.appFeatures.isCDCEnabled && (0, _checkShouldHidePhoneNumber.checkShouldHidePhoneNumber)(phoneNumber, nameMatches)) {
+        phoneNumber = null;
+      }
+
       return {
         brand: brand.fullName,
         nameMatches: nameMatches,
+        phoneNumber: phoneNumber,
         currentLocale: locale.currentLocale,
         session: currentSession,
         areaCode: regionSettings.areaCode,

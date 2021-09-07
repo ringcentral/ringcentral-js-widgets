@@ -1,5 +1,5 @@
 import { RcIcon, RcTextField } from '@ringcentral/juno';
-import searchSvg from '@ringcentral/juno/icon/Search';
+import { Search } from '@ringcentral/juno/icon';
 import classNames from 'classnames';
 import React, { FunctionComponent, useContext, useState } from 'react';
 
@@ -54,7 +54,7 @@ export const SearchPanel: FunctionComponent<SearchPanelProps> = ({
           value={filter}
           InputProps={{
             startAdornment: (
-              <RcIcon symbol={searchSvg} size="small" color="neutral.f04" />
+              <RcIcon symbol={Search} size="small" color="neutral.f04" />
             ),
           }}
           data-sign="searchBar"

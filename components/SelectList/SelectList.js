@@ -93,7 +93,8 @@ var SelectList = function SelectList(props) {
       backHeaderClassName = props.backHeaderClassName,
       onSelectViewVisible = props.onSelectViewVisible,
       foundFromServerTitle = props.foundFromServerTitle,
-      secondaryRenderFunction = props.secondaryRenderFunction;
+      secondaryRenderFunction = props.secondaryRenderFunction,
+      multiple = props.multiple;
 
   var _useState = (0, _react.useState)(false),
       _useState2 = _slicedToArray(_useState, 2),
@@ -128,7 +129,8 @@ var SelectList = function SelectList(props) {
       onSelect: function onSelect(elm) {
         return scrollCheck(elm, type);
       },
-      startAdornment: startAdornment
+      startAdornment: startAdornment,
+      multiple: multiple
     });
   };
 

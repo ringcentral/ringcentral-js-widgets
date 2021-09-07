@@ -69,7 +69,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
  */
 var CallHistoryUI = (_dec = (0, _di.Module)({
   name: 'CallHistoryUI',
-  deps: ['Locale', 'Brand', 'CallHistory', 'RegionSettings', 'ConnectivityMonitor', 'RateLimiter', 'DateTimeFormat', 'ExtensionFeatures', {
+  deps: ['Locale', 'Brand', 'CallHistory', 'RegionSettings', 'ConnectivityMonitor', 'RateLimiter', 'DateTimeFormat', 'AppFeatures', {
     dep: 'CallLogger',
     optional: true
   }, {
@@ -123,7 +123,7 @@ var CallHistoryUI = (_dec = (0, _di.Module)({
           callLogger = _this$_deps.callLogger,
           dateTimeFormat = _this$_deps.dateTimeFormat,
           composeText = _this$_deps.composeText,
-          extensionFeatures = _this$_deps.extensionFeatures;
+          appFeatures = _this$_deps.appFeatures;
       return {
         enableContactFallback: enableContactFallback,
         brand: brand.fullName,
@@ -137,10 +137,10 @@ var CallHistoryUI = (_dec = (0, _di.Module)({
         disableLinks: connectivityManager.isOfflineMode || connectivityManager.isVoipOnlyMode || rateLimiter.throttling,
         disableCallButton: connectivityManager.isOfflineMode || connectivityManager.isWebphoneUnavailableMode || connectivityManager.isWebphoneInitializing || rateLimiter.throttling,
         disableClickToDial: !(call && call.isIdle),
-        outboundSmsPermission: extensionFeatures.hasOutboundSMSPermission,
-        internalSmsPermission: extensionFeatures.hasInternalSMSPermission,
+        outboundSmsPermission: appFeatures.hasOutboundSMSPermission,
+        internalSmsPermission: appFeatures.hasInternalSMSPermission,
         loggingMap: callLogger && callLogger.loggingMap,
-        showSpinner: !(callHistory.ready && locale.ready && regionSettings.ready && dateTimeFormat.ready && connectivityMonitor.ready && extensionFeatures.ready && (!call || call.ready) && (!composeText || composeText.ready) && (!callLogger || callLogger.ready)),
+        showSpinner: !(callHistory.ready && locale.ready && regionSettings.ready && dateTimeFormat.ready && connectivityMonitor.ready && appFeatures.ready && (!call || call.ready) && (!composeText || composeText.ready) && (!callLogger || callLogger.ready)),
         autoLog: !!(callLogger && callLogger.autoLog),
         useNewList: useNewList
       };
@@ -174,7 +174,7 @@ var CallHistoryUI = (_dec = (0, _di.Module)({
           routerInteraction = _this$_deps2.routerInteraction,
           contactSearch = _this$_deps2.contactSearch,
           callHistory = _this$_deps2.callHistory,
-          extensionFeatures = _this$_deps2.extensionFeatures;
+          appFeatures = _this$_deps2.appFeatures;
       return {
         dateTimeFormatter: dateTimeFormatter,
         onViewContact: onViewContact || function (_ref3) {
@@ -237,7 +237,7 @@ var CallHistoryUI = (_dec = (0, _di.Module)({
             return _ref5.apply(this, arguments);
           };
         }() : undefined,
-        onClickToDial: dialerUI && extensionFeatures.isCallingEnabled ? function (recipient) {
+        onClickToDial: dialerUI && appFeatures.isCallingEnabled ? function (recipient) {
           if (call.isIdle) {
             routerInteraction.push(dialerRoute);
             dialerUI.call({

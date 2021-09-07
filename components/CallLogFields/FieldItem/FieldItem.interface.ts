@@ -4,6 +4,7 @@ export type PickListOption = {
   label: string;
   value: any;
   disabled?: boolean;
+  title?: string;
 };
 
 export type FieldItemType =
@@ -21,6 +22,7 @@ export type FieldItemType =
 
 export type FieldItemOption = {
   label: string;
+  title?: string;
   type: FieldItemType;
   /** value key for task, that will get currentLog.task[value] to set this field value */
   value: string;
@@ -35,6 +37,7 @@ export type FieldItemOption = {
   onlyShowInMultipleMatches?: boolean;
   showOtherSection?: boolean;
   onChange?: (value?: any) => any;
+  multiple?: boolean;
 } & Pick<RcTextFieldProps, 'helperText' | 'error' | 'disabled' | 'placeholder'>;
 
 export type FieldsMap = { [p in FieldItemType]: () => JSX.Element };

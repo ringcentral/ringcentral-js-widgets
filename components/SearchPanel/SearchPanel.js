@@ -39,7 +39,7 @@ require("core-js/modules/es6.array.filter");
 
 var _juno = require("@ringcentral/juno");
 
-var _Search = _interopRequireDefault(require("@ringcentral/juno/icon/Search"));
+var _icon = require("@ringcentral/juno/icon");
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
@@ -108,7 +108,7 @@ var SearchPanel = function SearchPanel(_ref) {
     value: filter,
     InputProps: {
       startAdornment: /*#__PURE__*/_react["default"].createElement(_juno.RcIcon, {
-        symbol: _Search["default"],
+        symbol: _icon.Search,
         size: "small",
         color: "neutral.f04"
       })

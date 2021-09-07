@@ -23,6 +23,12 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = exports.SpinnerOverlay = void 0;
 
+require("core-js/modules/es6.object.define-properties");
+
+require("core-js/modules/es6.object.freeze");
+
+require("core-js/modules/es6.array.slice");
+
 var _classnames = _interopRequireDefault(require("classnames"));
 
 var _react = _interopRequireWildcard(require("react"));
@@ -37,23 +43,42 @@ function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && 
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
+function _templateObject() {
+  var data = _taggedTemplateLiteral(["\n  position: absolute;\n  top: ", ";\n  left: 50%;\n  width: 40px;\n  height: 40px;\n  transform: translate(-50%, -50%);\n\n  @media only screen and (max-width: 50px) {\n    width: 30px;\n    height: 30px;\n  }\n"]);
+
+  _templateObject = function _templateObject() {
+    return data;
+  };
+
+  return data;
+}
+
+function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
 var JunoSpinnerWrapper = function JunoSpinnerWrapper() {
   return /*#__PURE__*/_react["default"].createElement(_juno.RcCircularProgress, {
     size: 43
   });
 };
 
+var StyledContainer = _juno.styled.div(_templateObject(), function (props) {
+  return props.top;
+});
+
 var SpinnerOverlay = /*#__PURE__*/(0, _react.memo)(function (_ref) {
   var className = _ref.className,
       SpinnerComponent = _ref.custom,
-      classes = _ref.classes;
+      classes = _ref.classes,
+      _ref$top = _ref.top,
+      top = _ref$top === void 0 ? '40%' : _ref$top;
   return /*#__PURE__*/_react["default"].createElement("div", {
     "data-sign": "spinnerOverlay",
     className: (0, _classnames["default"])(_styles["default"].root, className, classes.root)
   }, /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])(_styles["default"].mask, classes.mask)
-  }), /*#__PURE__*/_react["default"].createElement("div", {
-    className: (0, _classnames["default"])(_styles["default"].container, classes.container)
+  }), /*#__PURE__*/_react["default"].createElement(StyledContainer, {
+    className: classes.container,
+    top: top
   }, /*#__PURE__*/_react["default"].createElement(SpinnerComponent, null)));
 });
 exports.SpinnerOverlay = SpinnerOverlay;
@@ -62,6 +87,7 @@ exports["default"] = _default;
 SpinnerOverlay.defaultProps = {
   className: undefined,
   custom: JunoSpinnerWrapper,
-  classes: {}
+  classes: {},
+  top: '40%'
 };
 //# sourceMappingURL=SpinnerOverlay.js.map

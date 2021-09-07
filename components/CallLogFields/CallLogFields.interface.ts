@@ -29,7 +29,12 @@ export type CallLogFieldsProps = {
 
 export interface FieldOption {
   getLabel: (item: any, length?: number, currentLog?: CallLog) => string;
-  getType: (item: any) => string;
+  getSelectedOptionLabel?: (
+    item: any,
+    length?: number,
+    currentLog?: CallLog,
+  ) => string;
+  getType?: (item: any) => string;
   onChange: (item: any) => any;
   metadata?: FieldMetadata;
   currentOptionFinder: (task: Task) => (item: any) => boolean;
@@ -45,6 +50,7 @@ export interface FieldOption {
   disableReason?: ReactNode | string;
   getValue?: (item: any) => any;
   foundFromServerEntityGetter?: (currentLog: CallLog) => any[];
+  multiple?: boolean;
 }
 
 export interface FieldMetadata {

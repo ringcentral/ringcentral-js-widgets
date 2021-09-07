@@ -181,6 +181,7 @@ var SettingsPanel = function SettingsPanel(_ref) {
     clickToDialTitle: clickToDialTitle
   }), additional, /*#__PURE__*/_react["default"].createElement(_LinkLineItem.LinkLineItem, {
     name: "feedback",
+    pendoSignName: "Feedback",
     show: showFeedback,
     currentLocale: currentLocale,
     onClick: onFeedbackSettingsLinkClick

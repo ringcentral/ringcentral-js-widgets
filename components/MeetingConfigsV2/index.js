@@ -20,8 +20,6 @@ require("core-js/modules/es7.symbol.async-iterator");
 
 require("core-js/modules/es6.array.is-array");
 
-require("core-js/modules/es6.object.define-properties");
-
 require("core-js/modules/es7.object.get-own-property-descriptors");
 
 require("core-js/modules/es6.array.for-each");
@@ -38,18 +36,20 @@ require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.keys");
 
-require("core-js/modules/es6.object.define-property");
+require("core-js/modules/es6.object.define-properties");
 
-require("core-js/modules/es6.array.reduce");
+require("core-js/modules/es6.object.freeze");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getMinutesList = getMinutesList;
-exports.getHoursList = getHoursList;
-exports.MeetingConfigs = exports.HOUR_SCALE = exports.MINUTE_SCALE = void 0;
+exports.MeetingConfigs = void 0;
+
+require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.function.name");
+
+require("core-js/modules/es6.array.slice");
 
 require("core-js/modules/es6.array.map");
 
@@ -57,13 +57,9 @@ require("regenerator-runtime/runtime");
 
 require("core-js/modules/es6.regexp.split");
 
-require("core-js/modules/es6.array.slice");
-
 var _juno = require("@ringcentral/juno");
 
 var _classnames4 = _interopRequireDefault(require("classnames"));
-
-var _ramda = require("ramda");
 
 var _react = _interopRequireWildcard(require("react"));
 
@@ -73,9 +69,9 @@ var _Meeting = require("@ringcentral-integration/commons/modules/Meeting");
 
 var _LockBorder = _interopRequireDefault(require("@ringcentral/juno/icon/LockBorder"));
 
-var _formatMessage = _interopRequireDefault(require("format-message"));
-
 var _MeetingCalendarHelper = require("../../lib/MeetingCalendarHelper");
+
+var _MeetingHelper = require("../../lib/MeetingHelper");
 
 var _SpinnerOverlay = require("../SpinnerOverlay");
 
@@ -115,43 +111,19 @@ function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (O
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
+function _templateObject() {
+  var data = _taggedTemplateLiteral(["\n  ", " {\n    padding: ", ";\n  }\n"]);
+
+  _templateObject = function _templateObject() {
+    return data;
+  };
+
+  return data;
+}
+
+function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-var MINUTE_SCALE = 4;
-exports.MINUTE_SCALE = MINUTE_SCALE;
-var HOUR_SCALE = 13;
-exports.HOUR_SCALE = HOUR_SCALE;
-
-function getMinutesList(MINUTE_SCALE, currentLocale) {
-  return (0, _ramda.reduce)(function (result) {
-    var index = result.length;
-    var value = 60 / MINUTE_SCALE * index;
-    var text = (0, _formatMessage["default"])(_i18n["default"].getString('minutes', currentLocale), {
-      howMany: "".concat(value, "0").slice(0, 2)
-    });
-    return result.concat({
-      value: value,
-      text: text
-    });
-  }, [], new Array(MINUTE_SCALE));
-}
-
-function getHoursList(HOUR_SCALE, currentLocale) {
-  if (HOUR_SCALE > 23) {
-    throw new Error('HOUR_SCALE must be less than 23.');
-  }
-
-  return (0, _ramda.reduce)(function (result) {
-    var value = result.length;
-    var text = (0, _formatMessage["default"])(_i18n["default"].getString('hours', currentLocale), {
-      howMany: "0".concat(value, "0").slice(-3, -1)
-    });
-    return result.concat({
-      value: value,
-      text: text
-    });
-  }, [], new Array(HOUR_SCALE));
-}
 
 function getHelperTextForPasswordField(meeting, currentLocale, isPasswordFocus) {
   if (!meeting.password) {
@@ -211,6 +183,8 @@ var MeetingOptionLabel = function MeetingOptionLabel(_ref) {
     symbol: _LockBorder["default"]
   }))) : null);
 };
+
+var PanelRoot = _juno.styled.div(_templateObject(), _juno.RcCheckbox, (0, _juno.spacing)(2));
 
 var MeetingConfigs = function MeetingConfigs(_ref2) {
   var _meeting$telephonyUse, _meeting$settingLock, _meeting$settingLock2, _meeting$settingLock3, _meeting$settingLock4, _meeting$settingLock5, _meeting$settingLock6, _meeting$settingLock7, _meeting$settingLock8;
@@ -349,9 +323,9 @@ var MeetingConfigs = function MeetingConfigs(_ref2) {
   var startTime = (0, _react.useMemo)(function () {
     return new Date(meeting.schedule.startTime);
   }, [meeting.schedule.startTime]);
-  var hoursList = getHoursList(HOUR_SCALE, currentLocale);
-  var minutesList = getMinutesList(MINUTE_SCALE, currentLocale);
-  return /*#__PURE__*/_react["default"].createElement("div", {
+  var hoursList = (0, _MeetingHelper.getHoursList)(_MeetingHelper.HOUR_SCALE, currentLocale);
+  var minutesList = (0, _MeetingHelper.getMinutesList)(_MeetingHelper.MINUTE_SCALE, currentLocale);
+  return /*#__PURE__*/_react["default"].createElement(PanelRoot, {
     ref: configRef,
     className: _styles["default"].videoConfig,
     "data-sign": "meetingConfigsPanel"

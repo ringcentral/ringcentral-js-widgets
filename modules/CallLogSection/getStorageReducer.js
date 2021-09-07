@@ -46,6 +46,8 @@ require("core-js/modules/es6.string.iterator");
 
 require("core-js/modules/es6.array.from");
 
+require("core-js/modules/es6.date.now");
+
 var _redux = require("redux");
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
@@ -74,27 +76,29 @@ function getCallsMappingReducer(types) {
         type = _ref.type,
         identify = _ref.identify;
 
+    var originalState = state[identify];
+
     switch (type) {
       case types.update:
-        if (state[identify] && state[identify].isEdited) {
-          return state;
-        }
-
-        return _objectSpread(_objectSpread({}, state), {}, _defineProperty({}, identify, _objectSpread(_objectSpread({}, state[identify]), {}, {
+        return _objectSpread(_objectSpread({}, state), {}, _defineProperty({}, identify, _objectSpread(_objectSpread({}, originalState), {}, {
+          latestUpdateTime: Date.now(),
           isEdited: true
         })));
 
       case types.saving:
-        return _objectSpread(_objectSpread({}, state), {}, _defineProperty({}, identify, _objectSpread({}, state[identify])));
+      case types.syncing:
+        return _objectSpread(_objectSpread({}, state), {}, _defineProperty({}, identify, _objectSpread(_objectSpread({}, originalState), {}, {
+          latestSaveTime: Date.now()
+        })));
 
       case types.saveSuccess:
-        return _objectSpread(_objectSpread({}, state), {}, _defineProperty({}, identify, _objectSpread(_objectSpread({}, state[identify]), {}, {
-          isEdited: false,
-          isSucceed: true
+        return _objectSpread(_objectSpread({}, state), {}, _defineProperty({}, identify, _objectSpread(_objectSpread({}, originalState), {}, {
+          isSucceed: true,
+          isEdited: !!((originalState === null || originalState === void 0 ? void 0 : originalState.latestUpdateTime) && (originalState === null || originalState === void 0 ? void 0 : originalState.latestSaveTime) && (originalState === null || originalState === void 0 ? void 0 : originalState.latestSaveTime) < (originalState === null || originalState === void 0 ? void 0 : originalState.latestUpdateTime))
         })));
 
       case types.saveError:
-        return _objectSpread(_objectSpread({}, state), {}, _defineProperty({}, identify, _objectSpread(_objectSpread({}, state[identify]), {}, {
+        return _objectSpread(_objectSpread({}, state), {}, _defineProperty({}, identify, _objectSpread(_objectSpread({}, originalState), {}, {
           isEdited: true,
           isSucceed: false
         })));

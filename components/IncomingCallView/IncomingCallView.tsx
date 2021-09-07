@@ -106,8 +106,6 @@ class IncomingCallView extends Component {
     if (session.minimized) {
       return null;
     }
-    const phoneNumber =
-      session.direction === callDirections.outbound ? session.to : session.from;
     let fallbackUserName;
     if (
       session.direction === callDirections.inbound &&
@@ -124,7 +122,7 @@ class IncomingCallView extends Component {
         nameMatches={this.props.nameMatches}
         fallBackName={fallbackUserName}
         callQueueName={showCallQueueName ? session.callQueueName : null}
-        phoneNumber={phoneNumber}
+        phoneNumber={this.props.phoneNumber}
         answer={this.answer}
         reject={this.reject}
         replyWithMessage={this.replyWithMessage}

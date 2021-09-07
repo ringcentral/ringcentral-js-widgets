@@ -5,11 +5,13 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getTabs = void 0;
+exports.getTabs = exports.trackTabsMap = void 0;
 
 require("core-js/modules/es6.array.filter");
 
 var _react = _interopRequireDefault(require("react"));
+
+var _Analytics = require("@ringcentral-integration/commons/modules/Analytics");
 
 var _DynamicsFont = _interopRequireDefault(require("../../assets/DynamicsFont/DynamicsFont.scss"));
 
@@ -24,6 +26,14 @@ var _Fax = _interopRequireDefault(require("../../assets/images/Fax.svg"));
 var _i18n = _interopRequireDefault(require("./i18n"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+var trackTabsMap = {
+  recentCalls: _Analytics.trackEvents.clickRecentActivityCall,
+  faxes: _Analytics.trackEvents.clickRecentActivityFaxes,
+  recentMessages: _Analytics.trackEvents.clickRecentActivitySms,
+  voicemails: _Analytics.trackEvents.clickRecentActivityVoicemails
+};
+exports.trackTabsMap = trackTabsMap;
 
 var getTabs = function getTabs(_ref) {
   var ready = _ref.ready,

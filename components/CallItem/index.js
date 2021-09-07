@@ -57,49 +57,51 @@ require("regenerator-runtime/runtime");
 
 require("core-js/modules/es6.function.bind");
 
-var _react = _interopRequireWildcard(require("react"));
-
-var _propTypes = _interopRequireDefault(require("prop-types"));
-
-var _classnames = _interopRequireDefault(require("classnames"));
-
 var _callDirections = _interopRequireDefault(require("@ringcentral-integration/commons/enums/callDirections"));
-
-var _messageTypes = _interopRequireDefault(require("@ringcentral-integration/commons/enums/messageTypes"));
 
 var _messageDirection = _interopRequireDefault(require("@ringcentral-integration/commons/enums/messageDirection"));
 
-var _callLogHelpers = require("@ringcentral-integration/commons/lib/callLogHelpers");
+var _messageTypes = _interopRequireDefault(require("@ringcentral-integration/commons/enums/messageTypes"));
 
-var _parseNumber = _interopRequireDefault(require("@ringcentral-integration/commons/lib/parseNumber"));
+var _callLogHelpers = require("@ringcentral-integration/commons/lib/callLogHelpers");
 
 var _formatNumber = _interopRequireDefault(require("@ringcentral-integration/commons/lib/formatNumber"));
 
+var _parseNumber = _interopRequireDefault(require("@ringcentral-integration/commons/lib/parseNumber"));
+
+var _classnames = _interopRequireDefault(require("classnames"));
+
+var _propTypes = _interopRequireDefault(require("prop-types"));
+
+var _react = _interopRequireWildcard(require("react"));
+
+var _checkShouldHidePhoneNumber = require("../../lib/checkShouldHidePhoneNumber");
+
 var _DynamicsFont = _interopRequireDefault(require("../../assets/DynamicsFont/DynamicsFont.scss"));
-
-var _DurationCounter = _interopRequireDefault(require("../DurationCounter"));
-
-var _ContactDisplay = _interopRequireDefault(require("../ContactDisplay"));
-
-var _formatDuration = _interopRequireDefault(require("../../lib/formatDuration"));
-
-var _ActionMenu = _interopRequireDefault(require("../ActionMenu"));
 
 var _FaxInbound = _interopRequireDefault(require("../../assets/images/FaxInbound.svg"));
 
 var _FaxOutbound = _interopRequireDefault(require("../../assets/images/FaxOutbound.svg"));
 
-var _styles = _interopRequireDefault(require("./styles.scss"));
+var _formatDuration = _interopRequireDefault(require("../../lib/formatDuration"));
+
+var _ActionMenu = _interopRequireDefault(require("../ActionMenu"));
+
+var _ContactDisplay = _interopRequireDefault(require("../ContactDisplay"));
+
+var _DurationCounter = _interopRequireDefault(require("../DurationCounter"));
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
-var _callIconMap;
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+var _callIconMap;
 
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -601,9 +603,11 @@ var CallItem = /*#__PURE__*/function (_Component) {
           externalHasEntity = _this$props5.externalHasEntity,
           readTextPermission = _this$props5.readTextPermission,
           withAnimation = _this$props5.withAnimation,
-          showChooseEntityModal = _this$props5.showChooseEntityModal;
+          showChooseEntityModal = _this$props5.showChooseEntityModal,
+          enableCDC = _this$props5.enableCDC;
       var phoneNumber = this.getPhoneNumber();
       var contactMatches = this.getContactMatches();
+      var shouldHideNumber = enableCDC && (0, _checkShouldHidePhoneNumber.checkShouldHidePhoneNumber)(phoneNumber, contactMatches);
       var fallbackContactName = this.getFallbackContactName();
       var ringing = (0, _callLogHelpers.isRinging)(this.props.call);
       var missed = (0, _callLogHelpers.isInbound)(this.props.call) && (0, _callLogHelpers.isMissed)(this.props.call);
@@ -613,7 +617,7 @@ var CallItem = /*#__PURE__*/function (_Component) {
         areaCode: areaCode
       });
       var isExtension = !parsedInfo.hasPlus && parsedInfo.number && parsedInfo.number.length <= 6;
-      var disableClickToSms = !(onClickToSms && (isExtension ? internalSmsPermission : outboundSmsPermission));
+      var disableClickToSms = shouldHideNumber || !(onClickToSms && (isExtension ? internalSmsPermission : outboundSmsPermission));
       var durationEl = null;
 
       if (typeof duration === 'undefined') {
@@ -681,7 +685,7 @@ var CallItem = /*#__PURE__*/function (_Component) {
         enableContactFallback: enableContactFallback,
         areaCode: areaCode,
         countryCode: countryCode,
-        phoneNumber: phoneNumber,
+        phoneNumber: shouldHideNumber ? null : phoneNumber,
         currentLocale: currentLocale,
         stopPropagation: false,
         showType: false,
@@ -690,7 +694,7 @@ var CallItem = /*#__PURE__*/function (_Component) {
         isMultipleSiteEnabled: isMultipleSiteEnabled
       }), /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].details
-      }, durationEl, " | ".concat(dateEl).concat(statusEl))), extraButton), /*#__PURE__*/_react["default"].createElement(_ActionMenu["default"], {
+      }, durationEl, " | ".concat(dateEl).concat(statusEl))), extraButton), shouldHideNumber ? null : /*#__PURE__*/_react["default"].createElement(_ActionMenu["default"], {
         extended: menuExtended,
         onToggle: this.toggleExtended,
         currentLocale: currentLocale,
@@ -708,7 +712,7 @@ var CallItem = /*#__PURE__*/function (_Component) {
           });
         } : undefined,
         phoneNumber: phoneNumber,
-        disableLinks: disableLinks,
+        disableLinks: shouldHideNumber || disableLinks,
         disableCallButton: disableCallButton,
         disableClickToDial: disableClickToDial,
         isLogging: isLogging || this.state.isLogging,
@@ -795,7 +799,8 @@ CallItem.propTypes = {
   withAnimation: _propTypes["default"].bool,
   currentSiteCode: _propTypes["default"].string,
   isMultipleSiteEnabled: _propTypes["default"].bool,
-  showChooseEntityModal: _propTypes["default"].bool
+  showChooseEntityModal: _propTypes["default"].bool,
+  enableCDC: _propTypes["default"].bool
 };
 CallItem.defaultProps = {
   currentSiteCode: '',
@@ -831,6 +836,7 @@ CallItem.defaultProps = {
   readTextPermission: true,
   onSizeChanged: undefined,
   withAnimation: true,
-  showChooseEntityModal: true
+  showChooseEntityModal: true,
+  enableCDC: false
 };
 //# sourceMappingURL=index.js.map

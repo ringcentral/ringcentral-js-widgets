@@ -47,9 +47,9 @@ var _di = require("@ringcentral-integration/commons/lib/di");
 
 var _ramda = require("ramda");
 
-var _RcUIModule2 = _interopRequireDefault(require("../../lib/RcUIModule"));
-
 var _countryNames = _interopRequireDefault(require("../../lib/countryNames"));
+
+var _RcUIModule2 = _interopRequireDefault(require("../../lib/RcUIModule"));
 
 var _dec, _class;
 
@@ -87,7 +87,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 var ConferenceUI = (_dec = (0, _di.Module)({
   name: 'ConferenceUI',
-  deps: ['Conference', 'RegionSettings', 'Locale', 'ComposeText', 'ExtensionFeatures', 'Brand', 'Alert', 'RouterInteraction', 'Call']
+  deps: ['Conference', 'RegionSettings', 'Locale', 'ComposeText', 'AppFeatures', 'Brand', 'Alert', 'RouterInteraction', 'Call']
 }), _dec(_class = /*#__PURE__*/function (_RcUIModule) {
   _inherits(ConferenceUI, _RcUIModule);
 
@@ -100,12 +100,12 @@ var ConferenceUI = (_dec = (0, _di.Module)({
         regionSettings = _ref.regionSettings,
         locale = _ref.locale,
         composeText = _ref.composeText,
-        extensionFeatures = _ref.extensionFeatures,
+        appFeatures = _ref.appFeatures,
         brand = _ref.brand,
         alert = _ref.alert,
         routerInteraction = _ref.routerInteraction,
         call = _ref.call,
-        options = _objectWithoutProperties(_ref, ["conference", "regionSettings", "locale", "composeText", "extensionFeatures", "brand", "alert", "routerInteraction", "call"]);
+        options = _objectWithoutProperties(_ref, ["conference", "regionSettings", "locale", "composeText", "appFeatures", "brand", "alert", "routerInteraction", "call"]);
 
     _classCallCheck(this, ConferenceUI);
 
@@ -114,7 +114,7 @@ var ConferenceUI = (_dec = (0, _di.Module)({
     _this._regionSettings = regionSettings;
     _this._locale = locale;
     _this._composeText = composeText;
-    _this._extensionFeatures = extensionFeatures;
+    _this._appFeatures = appFeatures;
     _this._brand = brand;
     _this._alert = alert;
     _this._routerInteraction = routerInteraction;
@@ -166,7 +166,7 @@ var ConferenceUI = (_dec = (0, _di.Module)({
         participantCode: participantCode,
         allowJoinBeforeHost: allowJoinBeforeHost,
         additionalNumbers: this._conference.additionalNumbers,
-        disableTxtBtn: !(this._extensionFeatures.hasOutboundSMSPermission || this._extensionFeatures.hasInternalSMSPermission),
+        disableTxtBtn: !this._appFeatures.hasComposeTextPermission,
         countryCode: this._regionSettings.countryCode,
         areaCode: this._regionSettings.areaCode,
         currentLocale: this._locale.currentLocale,

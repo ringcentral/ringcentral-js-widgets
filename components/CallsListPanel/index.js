@@ -297,8 +297,8 @@ var CallsListPanel = /*#__PURE__*/function (_React$PureComponent) {
       });
     }
   }, {
-    key: "componentWillReceiveProps",
-    value: function componentWillReceiveProps(nextProps) {
+    key: "UNSAFE_componentWillReceiveProps",
+    value: function UNSAFE_componentWillReceiveProps(nextProps) {
       if (this.hasCalls(this.props) && !this.hasCalls(nextProps) && typeof this.props.onCallsEmpty === 'function') {
         this.props.onCallsEmpty();
       }
@@ -444,7 +444,8 @@ var CallsListPanel = /*#__PURE__*/function (_React$PureComponent) {
           readTextPermission = _this$props2.readTextPermission,
           children = _this$props2.children,
           adaptive = _this$props2.adaptive,
-          showChooseEntityModal = _this$props2.showChooseEntityModal;
+          showChooseEntityModal = _this$props2.showChooseEntityModal,
+          enableCDC = _this$props2.enableCDC;
       var _this$state = this.state,
           contentWidth = _this$state.contentWidth,
           contentHeight = _this$state.contentHeight;
@@ -492,7 +493,8 @@ var CallsListPanel = /*#__PURE__*/function (_React$PureComponent) {
         externalViewEntity: externalViewEntity,
         externalHasEntity: externalHasEntity,
         readTextPermission: isShowMessageIcon,
-        showChooseEntityModal: showChooseEntityModal
+        showChooseEntityModal: showChooseEntityModal,
+        enableCDC: enableCDC
       }) : /*#__PURE__*/_react["default"].createElement(_CallList["default"], {
         brand: brand,
         currentLocale: currentLocale,
@@ -528,7 +530,8 @@ var CallsListPanel = /*#__PURE__*/function (_React$PureComponent) {
         contactDisplayStyle: contactDisplayStyle,
         externalViewEntity: externalViewEntity,
         externalHasEntity: externalHasEntity,
-        readTextPermission: isShowMessageIcon
+        readTextPermission: isShowMessageIcon,
+        enableCDC: enableCDC
       });
       var search = onSearchInputChange ? /*#__PURE__*/_react["default"].createElement("div", {
         className: (0, _classnames["default"])(_styles["default"].searchContainer)
@@ -675,7 +678,8 @@ CallsListPanel.propTypes = {
   children: _propTypes["default"].node,
   onlyHistory: _propTypes["default"].bool,
   adaptive: _propTypes["default"].bool,
-  showChooseEntityModal: _propTypes["default"].bool
+  showChooseEntityModal: _propTypes["default"].bool,
+  enableCDC: _propTypes["default"].bool
 };
 CallsListPanel.defaultProps = {
   adaptive: false,
@@ -736,6 +740,7 @@ CallsListPanel.defaultProps = {
   readTextPermission: true,
   children: null,
   onlyHistory: false,
-  showChooseEntityModal: true
+  showChooseEntityModal: true,
+  enableCDC: false
 };
 //# sourceMappingURL=index.js.map

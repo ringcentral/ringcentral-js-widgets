@@ -41,33 +41,35 @@ require("core-js/modules/es6.array.find-index");
 
 require("core-js/modules/es6.function.bind");
 
-var _react = _interopRequireWildcard(require("react"));
+var _juno = require("@ringcentral/juno");
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _juno = require("@ringcentral/juno");
+var _react = _interopRequireWildcard(require("react"));
 
 var _DynamicsFont = _interopRequireDefault(require("../../assets/DynamicsFont/DynamicsFont.scss"));
 
-var _SpinnerOverlay = require("../SpinnerOverlay");
+var _checkShouldHidePhoneNumber = require("../../lib/checkShouldHidePhoneNumber");
+
+var _ContactDisplay = _interopRequireDefault(require("../ContactDisplay"));
 
 var _ConversationMessageList = _interopRequireDefault(require("../ConversationMessageList"));
 
 var _LogButton = _interopRequireDefault(require("../LogButton"));
 
-var _ContactDisplay = _interopRequireDefault(require("../ContactDisplay"));
-
 var _MessageInput = _interopRequireDefault(require("../MessageInput"));
 
-var _styles = _interopRequireDefault(require("./styles.scss"));
+var _SpinnerOverlay = require("../SpinnerOverlay");
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -389,7 +391,9 @@ var ConversationPanel = /*#__PURE__*/function (_Component) {
           conversationMatches = _this$props$conversat7.conversationMatches,
           correspondentMatches = _this$props$conversat7.correspondentMatches;
       var groupNumbers = this.getGroupPhoneNumbers();
-      var phoneNumber = this.getPhoneNumber();
+      var phoneNumber = this.getPhoneNumber(); // TODO: Confirm on group messages similar to MessageItem
+
+      var shouldHideNumber = this.props.enableCDC && (0, _checkShouldHidePhoneNumber.checkShouldHidePhoneNumber)(phoneNumber, correspondentMatches);
       var fallbackName = this.getFallbackContactName();
       var extraButton = this.props.renderExtraButton ? this.props.renderExtraButton(this.props.conversation, {
         logConversation: this.logConversation,
@@ -420,7 +424,7 @@ var ConversationPanel = /*#__PURE__*/function (_Component) {
         fallBackName: fallbackName,
         areaCode: this.props.areaCode,
         countryCode: this.props.countryCode,
-        phoneNumber: phoneNumber,
+        phoneNumber: shouldHideNumber ? null : phoneNumber,
         groupNumbers: groupNumbers,
         showType: false,
         currentLocale: this.props.currentLocale,
@@ -430,7 +434,9 @@ var ConversationPanel = /*#__PURE__*/function (_Component) {
         sourceIcons: this.props.sourceIcons,
         phoneTypeRenderer: this.props.phoneTypeRenderer,
         phoneSourceNameRenderer: this.props.phoneSourceNameRenderer,
-        showGroupNumberName: this.props.showGroupNumberName
+        showGroupNumberName: this.props.showGroupNumberName,
+        dropdownRenderFunction: this.props.renderContactList,
+        dropdownClassName: this.props.dropdownClassName
       }), /*#__PURE__*/_react["default"].createElement("a", {
         onClick: function onClick() {
           return _this2.props.goBack();
@@ -452,7 +458,8 @@ var ConversationPanel = /*#__PURE__*/function (_Component) {
       }, _i18n["default"].getString('dncAlert', this.props.currentLocale)) : /*#__PURE__*/_react["default"].createElement(_MessageInput["default"], {
         value: this.props.messageText,
         onChange: this.props.updateMessageText,
-        disabled: this.props.sendButtonDisabled,
+        disabled: shouldHideNumber,
+        sendButtonDisabled: this.props.sendButtonDisabled,
         currentLocale: this.props.currentLocale,
         onSend: this.onSend,
         onHeightChange: this.onInputHeightChange,
@@ -518,7 +525,10 @@ ConversationPanel.propTypes = {
   onAttachmentDownload: _propTypes["default"].func,
   restrictSendMessage: _propTypes["default"].func,
   shouldLogSelectRecord: _propTypes["default"].bool,
-  onSelectContact: _propTypes["default"].func
+  onSelectContact: _propTypes["default"].func,
+  renderContactList: _propTypes["default"].func,
+  dropdownClassName: _propTypes["default"].string,
+  enableCDC: _propTypes["default"].bool
 };
 ConversationPanel.defaultProps = {
   disableLinks: false,
@@ -554,7 +564,10 @@ ConversationPanel.defaultProps = {
   onAttachmentDownload: undefined,
   restrictSendMessage: undefined,
   shouldLogSelectRecord: false,
-  onSelectContact: undefined
+  onSelectContact: undefined,
+  renderContactList: undefined,
+  dropdownClassName: null,
+  enableCDC: false
 };
 var _default = ConversationPanel;
 exports["default"] = _default;

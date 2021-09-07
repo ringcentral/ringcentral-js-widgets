@@ -141,10 +141,8 @@ var BasicCallInfo = function BasicCallInfo(_ref) {
     className: _styles["default"].panel
   }, /*#__PURE__*/_react["default"].createElement("header", null, /*#__PURE__*/_react["default"].createElement(_juno.RcIconButton, {
     variant: "round",
-    size: "small"
-    /* !!!This token not exist! CONFIRM with Designer which one should use */
-    ,
-    color: "grey.700",
+    size: "small",
+    color: "neutral.f04",
     symbol: _ChevronLeft["default"],
     "data-sign": "backButton",
     onClick: toggleOpen

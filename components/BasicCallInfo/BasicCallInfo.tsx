@@ -94,8 +94,7 @@ export const BasicCallInfo: FunctionComponent<BasicCallInfoProps> = ({
             <RcIconButton
               variant="round"
               size="small"
-              /* !!!This token not exist! CONFIRM with Designer which one should use */
-              color="grey.700"
+              color="neutral.f04"
               symbol={chevronLeftSvg}
               data-sign="backButton"
               onClick={toggleOpen}

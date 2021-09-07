@@ -296,8 +296,8 @@ var CallCtrlContainer = /*#__PURE__*/function (_Component) {
       return this.props.getInitialLayout(nextProps);
     }
   }, {
-    key: "componentWillReceiveProps",
-    value: function componentWillReceiveProps(nextProps, nextState) {
+    key: "UNSAFE_componentWillReceiveProps",
+    value: function UNSAFE_componentWillReceiveProps(nextProps, nextState) {
       this._updateMergingPairToSessionId(nextProps, nextState);
 
       var layout = this.state.layout;
@@ -399,7 +399,6 @@ var CallCtrlContainer = /*#__PURE__*/function (_Component) {
         return null;
       }
 
-      var phoneNumber = session.direction === _callDirections["default"].outbound ? session.to : session.from;
       var fallbackUserName;
 
       if (session.direction === _callDirections["default"].inbound && session.from === 'anonymous') {
@@ -414,7 +413,7 @@ var CallCtrlContainer = /*#__PURE__*/function (_Component) {
       return /*#__PURE__*/_react["default"].createElement(_CallCtrlPanel["default"], {
         currentLocale: this.props.currentLocale,
         formatPhone: this.props.formatPhone,
-        phoneNumber: phoneNumber,
+        phoneNumber: this.props.phoneNumber,
         sessionId: session.id,
         callStatus: session.callStatus,
         startTime: session.startTime,
@@ -496,7 +495,10 @@ CallCtrlContainer.propTypes = {
     to: _propTypes["default"].string,
     from: _propTypes["default"].string,
     contactMatch: _propTypes["default"].object,
-    warmTransferSessionId: _propTypes["default"].string
+    warmTransferSessionId: _propTypes["default"].string,
+    callStatus: _propTypes["default"].string,
+    isOnTransfer: _propTypes["default"].bool,
+    callQueueName: _propTypes["default"].string
   }).isRequired,
   currentLocale: _propTypes["default"].string.isRequired,
   onMute: _propTypes["default"].func.isRequired,
@@ -528,26 +530,22 @@ CallCtrlContainer.propTypes = {
   sourceIcons: _propTypes["default"].object,
   phoneTypeRenderer: _propTypes["default"].func,
   phoneSourceNameRenderer: _propTypes["default"].func,
-  layout: _propTypes["default"].string,
   showSpinner: _propTypes["default"].bool,
   conferenceCallParties: _propTypes["default"].array,
   conferenceCallEquipped: _propTypes["default"].bool,
   hasConferenceCall: _propTypes["default"].bool,
   lastCallInfo: _propTypes["default"].object,
-  conferenceCallId: _propTypes["default"].string,
   gotoParticipantsCtrl: _propTypes["default"].func,
-  loadConference: _propTypes["default"].func,
   getInitialLayout: _propTypes["default"].func,
   closeMergingPair: _propTypes["default"].func,
-  isWebRTC: _propTypes["default"].bool,
-  disableLinks: _propTypes["default"].bool,
-  isConferenceCallOverload: _propTypes["default"].bool,
   afterHideMergeConfirm: _propTypes["default"].func,
   afterConfirmMerge: _propTypes["default"].func,
   afterOnMerge: _propTypes["default"].func,
   disableFlip: _propTypes["default"].bool,
   showCallQueueName: _propTypes["default"].bool,
-  onCompleteTransfer: _propTypes["default"].func
+  onCompleteTransfer: _propTypes["default"].func,
+  phoneNumber: _propTypes["default"].string.isRequired,
+  showPark: _propTypes["default"].bool
 };
 CallCtrlContainer.defaultProps = {
   children: undefined,
@@ -567,21 +565,13 @@ CallCtrlContainer.defaultProps = {
   lastCallInfo: {
     calleeType: _calleeTypes["default"].unknown
   },
-  conferenceCallId: null,
   gotoParticipantsCtrl: function gotoParticipantsCtrl(i) {
-    return i;
-  },
-  loadConference: function loadConference(i) {
     return i;
   },
   getInitialLayout: function getInitialLayout() {
     return _callCtrlLayouts["default"].normalCtrl;
   },
-  layout: _callCtrlLayouts["default"].normalCtrl,
   closeMergingPair: null,
-  isWebRTC: false,
-  disableLinks: false,
-  isConferenceCallOverload: false,
   afterHideMergeConfirm: function afterHideMergeConfirm() {
     return null;
   },
@@ -595,7 +585,8 @@ CallCtrlContainer.defaultProps = {
   showCallQueueName: false,
   onCompleteTransfer: function onCompleteTransfer() {
     return null;
-  }
+  },
+  showPark: false
 };
 var _default = CallCtrlContainer;
 exports["default"] = _default;

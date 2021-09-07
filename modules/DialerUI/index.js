@@ -570,7 +570,8 @@ var DialerUI = (_dec = (0, _di.Module)({
         dialButtonMuted: this._audioSettings ? this._audioSettings.dialButtonMuted : false,
         isLastInputFromDialpad: this.isLastInputFromDialpad,
         disableFromField: this.disableFromField,
-        useV2: this._useV2
+        useV2: this._useV2,
+        showAnonymous: this.isShowAnonymous
       };
     }
   }, {
@@ -649,6 +650,13 @@ var DialerUI = (_dec = (0, _di.Module)({
       var _this$_extensionFeatu, _this$_extensionFeatu2;
 
       return this._extensionFeatures.ready && !((_this$_extensionFeatu = this._extensionFeatures.features) === null || _this$_extensionFeatu === void 0 ? void 0 : (_this$_extensionFeatu2 = _this$_extensionFeatu.EditOutboundCallerId) === null || _this$_extensionFeatu2 === void 0 ? void 0 : _this$_extensionFeatu2.available);
+    }
+  }, {
+    key: "isShowAnonymous",
+    get: function get() {
+      var _this$_extensionFeatu3, _this$_extensionFeatu4;
+
+      return this._extensionFeatures.ready && ((_this$_extensionFeatu3 = this._extensionFeatures.features) === null || _this$_extensionFeatu3 === void 0 ? void 0 : (_this$_extensionFeatu4 = _this$_extensionFeatu3.BlockingCallerId) === null || _this$_extensionFeatu4 === void 0 ? void 0 : _this$_extensionFeatu4.available);
     }
   }]);
 

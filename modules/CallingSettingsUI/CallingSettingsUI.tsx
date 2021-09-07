@@ -72,6 +72,7 @@ class CallingSettingsUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
       defaultIncomingAudio: this._deps.webphone?.defaultIncomingAudio,
       defaultOutgoingAudioFile: this._deps.webphone?.outgoingAudioFile,
       defaultOutgoingAudio: this._deps.webphone?.outgoingAudio,
+      jupiterAppName: this._deps.callingSettings.jupiterAppName,
     };
   }
 

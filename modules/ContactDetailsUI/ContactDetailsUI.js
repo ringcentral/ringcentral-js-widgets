@@ -109,7 +109,7 @@ var DEFAULT_DIALER_ROUTE = '/dialer';
 var DEFAULT_COMPOSE_TEXT_ROUTE = '/composeText';
 var ContactDetailsUI = (_dec = (0, _di.Module)({
   name: 'ContactDetailsUI',
-  deps: ['Locale', 'RouterInteraction', 'ContactSearch', 'Contacts', 'ExtensionInfo', 'ExtensionFeatures', 'RateLimiter', 'RegionSettings', 'ConnectivityManager', 'Call', 'DialerUI', 'ComposeText', {
+  deps: ['Locale', 'RouterInteraction', 'ContactSearch', 'Contacts', 'ExtensionInfo', 'AppFeatures', 'RateLimiter', 'RegionSettings', 'ConnectivityManager', 'Call', 'DialerUI', 'ComposeText', {
     dep: 'ContactDetailsUIOptions',
     optional: true
   }]
@@ -346,7 +346,7 @@ var ContactDetailsUI = (_dec = (0, _di.Module)({
         isMultipleSiteEnabled: (_this$_deps$extension = this._deps.extensionInfo.isMultipleSiteEnabled) !== null && _this$_deps$extension !== void 0 ? _this$_deps$extension : false,
         isCallButtonDisabled: !!(((_this$_deps$connectiv = this._deps.connectivityManager) === null || _this$_deps$connectiv === void 0 ? void 0 : _this$_deps$connectiv.isOfflineMode) || ((_this$_deps$connectiv2 = this._deps.connectivityManager) === null || _this$_deps$connectiv2 === void 0 ? void 0 : _this$_deps$connectiv2.isWebphoneUnavailableMode) || ((_this$_deps$connectiv3 = this._deps.connectivityManager) === null || _this$_deps$connectiv3 === void 0 ? void 0 : _this$_deps$connectiv3.isWebphoneInitializing) || ((_this$_deps$rateLimit = this._deps.rateLimiter) === null || _this$_deps$rateLimit === void 0 ? void 0 : _this$_deps$rateLimit.throttling)),
         disableLinks: !!(((_this$_deps$connectiv4 = this._deps.connectivityManager) === null || _this$_deps$connectiv4 === void 0 ? void 0 : _this$_deps$connectiv4.isOfflineMode) || ((_this$_deps$connectiv5 = this._deps.connectivityManager) === null || _this$_deps$connectiv5 === void 0 ? void 0 : _this$_deps$connectiv5.isVoipOnlyMode) || ((_this$_deps$rateLimit2 = this._deps.rateLimiter) === null || _this$_deps$rateLimit2 === void 0 ? void 0 : _this$_deps$rateLimit2.throttling)),
-        showSpinner: !(this.currentContactReadyState === _contactReadyStates.contactReadyStates.loaded && this._deps.locale.ready && this._deps.contactSearch.ready && this._deps.extensionFeatures.ready)
+        showSpinner: !(this.currentContactReadyState === _contactReadyStates.contactReadyStates.loaded && this._deps.locale.ready && this._deps.contactSearch.ready && this._deps.appFeatures.ready)
       };
     }
   }, {
@@ -401,14 +401,14 @@ var ContactDetailsUI = (_dec = (0, _di.Module)({
           return phoneNumber;
         },
         canTextButtonShow: function canTextButtonShow(phoneType) {
-          var outboundSmsPermission = _this2._deps.extensionFeatures.hasOutboundSMSPermission;
-          var internalSmsPermission = _this2._deps.extensionFeatures.hasInternalSMSPermission; // guess this statement is to avoid exception
+          var outboundSmsPermission = _this2._deps.appFeatures.hasOutboundSMSPermission;
+          var internalSmsPermission = _this2._deps.appFeatures.hasInternalSMSPermission; // guess this statement is to avoid exception
 
           var isClickToTextEnabled = !!_this2._deps.composeText;
           return isClickToTextEnabled && phoneType !== _phoneTypes.phoneTypes.fax && (phoneType === _phoneTypes.phoneTypes.extension ? internalSmsPermission : outboundSmsPermission);
         },
         canCallButtonShow: function canCallButtonShow(phoneType) {
-          var isClickToDialEnabled = !!(_this2._deps.dialerUI && _this2._deps.extensionFeatures.isCallingEnabled);
+          var isClickToDialEnabled = !!(_this2._deps.dialerUI && _this2._deps.appFeatures.isCallingEnabled);
           return isClickToDialEnabled && phoneType !== _phoneTypes.phoneTypes.fax;
         },
         onBackClick: function onBackClick() {

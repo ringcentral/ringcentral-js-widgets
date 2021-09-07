@@ -47,7 +47,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToAr
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-var actionTypes = _ObjectMap.ObjectMap.prefixKeys([].concat(_toConsumableArray(_ObjectMap.ObjectMap.keys(_moduleActionTypes.moduleActionTypes)), ['update', 'saving', 'saveSuccess', 'saveError', 'cleanUp', 'showLogSection', 'closeLogSection', 'showLogNotification', 'closeLogNotification', 'expandNotification', 'shrinkNotification']), 'callLogSection');
+var actionTypes = _ObjectMap.ObjectMap.prefixKeys([].concat(_toConsumableArray(_ObjectMap.ObjectMap.keys(_moduleActionTypes.moduleActionTypes)), ['update', 'saving', 'saveSuccess', 'saveError', 'cleanUp', 'syncing', 'showLogSection', 'closeLogSection', 'showLogNotification', 'closeLogNotification', 'expandNotification', 'shrinkNotification']), 'callLogSection');
 
 exports.actionTypes = actionTypes;
 var _default = actionTypes;

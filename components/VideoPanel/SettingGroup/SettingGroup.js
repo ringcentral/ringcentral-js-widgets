@@ -11,13 +11,7 @@ var _react = _interopRequireDefault(require("react"));
 
 var _juno = require("@ringcentral/juno");
 
-var _Accordion = require("@ringcentral/juno/components/Accordion");
-
-var _AccordionDetails = require("@ringcentral/juno/components/Accordion/AccordionDetails");
-
-var _AccordionSummary = require("@ringcentral/juno/components/Accordion/AccordionSummary");
-
-var _ArrowDown = _interopRequireDefault(require("@ringcentral/juno/icon/ArrowDown2"));
+var _icon = require("@ringcentral/juno/icon");
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
@@ -30,20 +24,20 @@ var SettingGroup = function SettingGroup(_ref) {
       _ref$defaultExpanded = _ref.defaultExpanded,
       defaultExpanded = _ref$defaultExpanded === void 0 ? true : _ref$defaultExpanded,
       children = _ref.children;
-  return /*#__PURE__*/_react["default"].createElement(_Accordion.RcAccordion, {
+  return /*#__PURE__*/_react["default"].createElement(_juno.RcAccordion, {
     classes: {
       root: _styles["default"].accordion
     },
     defaultExpanded: defaultExpanded,
     disabled: !expandable
-  }, /*#__PURE__*/_react["default"].createElement(_AccordionSummary.RcAccordionSummary, {
+  }, /*#__PURE__*/_react["default"].createElement(_juno.RcAccordionSummary, {
     classes: {
       root: _styles["default"].accordionSummary,
       disabled: expandable ? null : _styles["default"].accordionSummaryDisabled
     },
-    expandIcon: expandable ? _ArrowDown["default"] : undefined,
+    expandIcon: expandable ? _icon.ArrowDown2 : undefined,
     "data-sign": "".concat(dataSign, "Summary")
-  }, summary), /*#__PURE__*/_react["default"].createElement(_AccordionDetails.RcAccordionDetails, {
+  }, summary), /*#__PURE__*/_react["default"].createElement(_juno.RcAccordionDetails, {
     classes: {
       root: _styles["default"].accordionDetails
     },

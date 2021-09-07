@@ -286,7 +286,8 @@ var PreviewButton = function PreviewButton(_ref6) {
   return /*#__PURE__*/_react["default"].createElement(_Button.Button, {
     className: (0, _classnames["default"])(_styles["default"].button, _styles["default"].svgBtn, className),
     onClick: onClick,
-    disabled: disabled
+    disabled: disabled,
+    dataSign: title
   }, /*#__PURE__*/_react["default"].createElement("span", {
     title: title
   }, /*#__PURE__*/_react["default"].createElement(_Preview["default"], {
@@ -600,6 +601,7 @@ var ActionMenuList = /*#__PURE__*/function (_Component) {
         disabled: disableLinks
       }) : null;
       var downloadButton = faxAttachment && faxAttachment.uri ? /*#__PURE__*/_react["default"].createElement("div", {
+        "data-sign": "download",
         className: (0, _classnames["default"])(_styles["default"].button, _styles["default"].svgBtn, _styles["default"].svgFillIcon, disableLinks ? _styles["default"].disabled : null)
       }, /*#__PURE__*/_react["default"].createElement("a", {
         target: "_blank",

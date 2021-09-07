@@ -6,15 +6,11 @@ import {
   RcTextField,
   RcTextFieldProps,
   useEventCallback,
+  useForkRef,
 } from '@ringcentral/juno';
-import deletenumberSvg from '@ringcentral/juno/icon/Deletenumber';
+import { Deletenumber } from '@ringcentral/juno/icon';
 import classNames from 'classnames';
-import React, {
-  forwardRef,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import React, { forwardRef, useEffect, useRef, useState } from 'react';
 
 import i18n from './i18n';
 import styles from './styles.scss';
@@ -35,7 +31,8 @@ export type RecipientsInputProps = {
 } & Omit<RcTextFieldProps, 'onChange'>;
 
 const throttledTime = 1000;
-// FunctionComponent<RecipientsInputProps>
+
+/** @deprecated use juno RcDialTextField directly */
 export const RecipientsInput = forwardRef<
   HTMLInputElement,
   RecipientsInputProps
@@ -54,8 +51,9 @@ export const RecipientsInput = forwardRef<
     },
     ref,
   ) => {
-    const defaultRef = useRef<HTMLInputElement>();
-    const inputRef = ref || defaultRef;
+    const innerRef = useRef<HTMLInputElement>();
+
+    const inputRef = useForkRef(ref, innerRef);
     const [mouseDownTime, setMouseDownTime] = useState<number>(null);
     const [timer, setTimer] = useState(null);
 
@@ -83,7 +81,7 @@ export const RecipientsInput = forwardRef<
     });
 
     useEffect(() => {
-      inputRef.current.focus();
+      innerRef.current!.focus();
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [value]);
 
@@ -116,7 +114,7 @@ export const RecipientsInput = forwardRef<
             endAdornment: haveDeleteButton && (
               <RcIconButton
                 color="neutral.f03"
-                symbol={deletenumberSvg}
+                symbol={Deletenumber}
                 data-sign="deleteButton"
                 title="delete"
                 {...combineProps(

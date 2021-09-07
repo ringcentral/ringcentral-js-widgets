@@ -19,13 +19,15 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.IncomingCallUI = void 0;
 
-var _core = require("@ringcentral-integration/core");
+var _callDirections = _interopRequireDefault(require("@ringcentral-integration/commons/enums/callDirections"));
 
 var _di = require("@ringcentral-integration/commons/lib/di");
 
 var _formatNumber = _interopRequireDefault(require("@ringcentral-integration/commons/lib/formatNumber"));
 
-var _callDirections = _interopRequireDefault(require("@ringcentral-integration/commons/enums/callDirections"));
+var _core = require("@ringcentral-integration/core");
+
+var _checkShouldHidePhoneNumber = require("../../lib/checkShouldHidePhoneNumber");
 
 var _dec, _class;
 
@@ -53,7 +55,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 var IncomingCallUI = (_dec = (0, _di.Module)({
   name: 'IncomingCallUI',
-  deps: ['Webphone', 'Locale', 'ContactSearch', 'RegionSettings', 'ForwardingNumber', 'Brand', 'ExtensionInfo', {
+  deps: ['Webphone', 'Locale', 'ContactSearch', 'RegionSettings', 'ForwardingNumber', 'Brand', 'ExtensionInfo', 'AppFeatures', {
     dep: 'ConferenceCall',
     optional: true
   }, {
@@ -96,6 +98,12 @@ var IncomingCallUI = (_dec = (0, _di.Module)({
       var fromMatches = contactMapping && contactMapping[currentSession.from] || [];
       var toMatches = contactMapping && contactMapping[currentSession.to] || [];
       var nameMatches = currentSession.direction === _callDirections["default"].outbound ? toMatches : fromMatches;
+      var phoneNumber = currentSession.direction === _callDirections["default"].outbound ? currentSession.to : currentSession.from;
+
+      if (this._deps.appFeatures.isCDCEnabled && (0, _checkShouldHidePhoneNumber.checkShouldHidePhoneNumber)(phoneNumber, nameMatches)) {
+        phoneNumber = null;
+      }
+
       return {
         sourceIcons: sourceIcons,
         brand: brand.fullName,
@@ -108,7 +116,8 @@ var IncomingCallUI = (_dec = (0, _di.Module)({
         forwardingNumbers: forwardingNumber.forwardingNumbers,
         showContactDisplayPlaceholder: showContactDisplayPlaceholder,
         searchContactList: contactSearch.sortedResult,
-        showCallQueueName: showCallQueueName
+        showCallQueueName: showCallQueueName,
+        phoneNumber: phoneNumber
       };
     }
   }, {

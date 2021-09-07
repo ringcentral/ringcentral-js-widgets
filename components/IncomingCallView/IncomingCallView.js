@@ -259,7 +259,6 @@ var IncomingCallView = /*#__PURE__*/function (_Component) {
         return null;
       }
 
-      var phoneNumber = session.direction === _callDirections["default"].outbound ? session.to : session.from;
       var fallbackUserName;
 
       if (session.direction === _callDirections["default"].inbound && session.from === 'anonymous') {
@@ -275,7 +274,7 @@ var IncomingCallView = /*#__PURE__*/function (_Component) {
         nameMatches: this.props.nameMatches,
         fallBackName: fallbackUserName,
         callQueueName: showCallQueueName ? session.callQueueName : null,
-        phoneNumber: phoneNumber,
+        phoneNumber: this.props.phoneNumber,
         answer: this.answer,
         reject: this.reject,
         replyWithMessage: this.replyWithMessage,

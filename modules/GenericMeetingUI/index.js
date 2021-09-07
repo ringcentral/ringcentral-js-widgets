@@ -4,8 +4,6 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
 require("core-js/modules/es7.symbol.async-iterator");
 
-require("core-js/modules/es6.promise");
-
 require("core-js/modules/es6.object.define-properties");
 
 require("core-js/modules/es7.object.get-own-property-descriptors");
@@ -18,14 +16,6 @@ require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.array.index-of");
 
-require("core-js/modules/web.dom.iterable");
-
-require("core-js/modules/es6.array.iterator");
-
-require("core-js/modules/es6.object.to-string");
-
-require("core-js/modules/es6.object.keys");
-
 require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.object.create");
@@ -34,24 +24,32 @@ require("core-js/modules/es6.reflect.construct");
 
 require("core-js/modules/es6.object.set-prototype-of");
 
+require("core-js/modules/es6.array.find");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 
-require("regenerator-runtime/runtime");
+require("core-js/modules/web.dom.iterable");
+
+require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.object.to-string");
+
+require("core-js/modules/es6.object.keys");
+
+var _ramda = require("ramda");
 
 var _di = require("@ringcentral-integration/commons/lib/di");
+
+var _RcVideoV = require("@ringcentral-integration/commons/modules/RcVideoV2");
 
 var _RcUIModule2 = _interopRequireDefault(require("../../lib/RcUIModule"));
 
 var _dec, _class;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
@@ -85,7 +83,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 var GenericMeetingUI = (_dec = (0, _di.Module)({
   name: 'GenericMeetingUI',
-  deps: ['GenericMeeting', 'Locale', 'RateLimiter', 'ConnectivityMonitor']
+  deps: ['GenericMeeting', 'AppFeatures', 'Locale', 'RateLimiter', 'ConnectivityMonitor']
 }), _dec(_class = /*#__PURE__*/function (_RcUIModule) {
   _inherits(GenericMeetingUI, _RcUIModule);
 
@@ -98,16 +96,19 @@ var GenericMeetingUI = (_dec = (0, _di.Module)({
         locale = _ref.locale,
         rateLimiter = _ref.rateLimiter,
         connectivityMonitor = _ref.connectivityMonitor,
-        options = _objectWithoutProperties(_ref, ["genericMeeting", "locale", "rateLimiter", "connectivityMonitor"]);
+        appFeatures = _ref.appFeatures,
+        options = _objectWithoutProperties(_ref, ["genericMeeting", "locale", "rateLimiter", "connectivityMonitor", "appFeatures"]);
 
     _classCallCheck(this, GenericMeetingUI);
 
     _this = _super.call(this, _objectSpread({}, options));
     _this._genericMeeting = void 0;
+    _this._appFeatures = void 0;
     _this._locale = void 0;
     _this._rateLimiter = void 0;
     _this._connectivityMonitor = void 0;
     _this._genericMeeting = genericMeeting;
+    _this._appFeatures = appFeatures;
     _this._locale = locale;
     _this._rateLimiter = rateLimiter;
     _this._connectivityMonitor = connectivityMonitor;
@@ -117,6 +118,8 @@ var GenericMeetingUI = (_dec = (0, _di.Module)({
   _createClass(GenericMeetingUI, [{
     key: "getUIProps",
     value: function getUIProps(_ref2) {
+      var _settingLock, _meeting$settingLock, _settingLock2, _settingLock3, _settingLock4;
+
       var useRcmV2 = _ref2.useRcmV2,
           disabled = _ref2.disabled,
           showTopic = _ref2.showTopic,
@@ -130,28 +133,62 @@ var GenericMeetingUI = (_dec = (0, _di.Module)({
           timePickerSize = _ref2.timePickerSize,
           recurringMeetingPosition = _ref2.recurringMeetingPosition,
           _ref2$showRcvAdminLoc = _ref2.showRcvAdminLock,
-          showRcvAdminLock = _ref2$showRcvAdminLoc === void 0 ? false : _ref2$showRcvAdminLoc;
-      var invalidPassowrd = this._genericMeeting.ready && this._genericMeeting.meeting && (this._genericMeeting.isRCV || this._genericMeeting.isRCM) && !this._genericMeeting.validatePasswordSettings(this._genericMeeting.isRCV ? this._genericMeeting.meeting.meetingPassword : this._genericMeeting.meeting.password, this._genericMeeting.isRCV ? this._genericMeeting.meeting.isMeetingSecret : this._genericMeeting.meeting._requireMeetingPassword);
+          showRcvAdminLock = _ref2$showRcvAdminLoc === void 0 ? false : _ref2$showRcvAdminLoc,
+          _ref2$configDisabled = _ref2.configDisabled,
+          configDisabled = _ref2$configDisabled === void 0 ? false : _ref2$configDisabled;
+      var isRCM = this._genericMeeting.isRCM;
+      var isRCV = this._genericMeeting.isRCV;
       var meeting = this._genericMeeting.ready && this._genericMeeting.meeting || {};
       var delegators = this._genericMeeting.ready && this._genericMeeting.delegators || [];
+      var isDelegator = false;
+
+      if (isRCV) {
+        var user = (0, _ramda.find)(function (item) {
+          return item.extensionId === meeting.extensionId;
+        }, delegators);
+        isDelegator = user && !user.isLoginUser;
+      }
+
+      var enableWaitingRoom = this._genericMeeting.ready && this._genericMeeting.enableWaitingRoom;
+      var isAllOptionDisabled = !!(disabled || !meeting.isMeetingPasswordValid || this._genericMeeting.ready && this._genericMeeting.isScheduling || this._connectivityMonitor && !this._connectivityMonitor.connectivity || this._rateLimiter && this._rateLimiter.throttling);
+      var showE2EE = this._genericMeeting.ready && this._genericMeeting.enableE2EE;
+      /** for rcv part * */
+
+      var _ref3 = meeting,
+          settingLock = _ref3.settingLock,
+          e2ee = _ref3.e2ee,
+          isOnlyCoworkersJoin = _ref3.isOnlyCoworkersJoin; // when e2ee is on, waiting room&auth can join&require password&jbh will be disabled and turn on.
+
+      var isE2eeRelatedOptionsDisabled = showE2EE && e2ee;
+      var isE2EEDisabled = showE2EE && (this._appFeatures.ready && !this._appFeatures.hasVideoE2EE || settingLock.e2ee || (0, _ramda.any)(function (key) {
+        return settingLock[key] && meeting[key] === _RcVideoV.DISABLE_E2EE_WHEN_RELATED_OPTION_MATCH[key];
+      })(Object.keys(_RcVideoV.DISABLE_E2EE_WHEN_RELATED_OPTION_MATCH)) || configDisabled);
+      var authUserTypeValue = isOnlyCoworkersJoin ? _RcVideoV.AUTH_USER_TYPE.SIGNED_IN_CO_WORKERS : _RcVideoV.AUTH_USER_TYPE.SIGNED_IN_USERS;
+      /** for rcv part * */
+
       return {
+        isRCV: isRCV,
+        isRCM: isRCM,
         meeting: meeting,
         useRcmV2: useRcmV2,
+        showWhen: showWhen,
+        showTopic: showTopic,
         delegators: delegators,
+        showDuration: showDuration,
+        openNewWindow: openNewWindow,
+        scheduleButton: scheduleButton,
         labelPlacement: labelPlacement,
         datePickerSize: datePickerSize,
         timePickerSize: timePickerSize,
-        recurringMeetingPosition: recurringMeetingPosition,
         showRcvAdminLock: showRcvAdminLock,
+        recurringMeetingPosition: recurringMeetingPosition,
+        showE2EE: showE2EE,
+        isE2EEDisabled: isE2EEDisabled,
         currentLocale: this._locale.currentLocale,
-        disabled: !!(disabled || invalidPassowrd || this._genericMeeting.ready && this._genericMeeting.isScheduling || this._connectivityMonitor && !this._connectivityMonitor.connectivity || this._rateLimiter && this._rateLimiter.throttling),
-        configDisabled: false,
-        showTopic: showTopic,
-        showWhen: showWhen,
-        showDuration: showDuration,
+        disabled: isAllOptionDisabled,
+        configDisabled: configDisabled,
         showScheduleOnBehalf: !!(delegators && delegators.length > 0),
         showRecurringMeeting: !meeting.usePersonalMeetingId && showRecurringMeeting,
-        openNewWindow: openNewWindow,
         showSaveAsDefault: this._genericMeeting.ready && this._genericMeeting.showSaveAsDefault,
         // Need to add this back when we back to this ticket
         // https://jira.ringcentral.com/browse/RCINT-15031
@@ -159,25 +196,41 @@ var GenericMeetingUI = (_dec = (0, _di.Module)({
         //   this._genericMeeting.ready &&
         //   !this._genericMeeting.isPreferencesChanged,
         disableSaveAsDefault: false,
-        isRCM: this._genericMeeting.isRCM,
-        isRCV: this._genericMeeting.isRCV,
-        scheduleButton: scheduleButton,
         enableServiceWebSettings: this._genericMeeting.ready && this._genericMeeting.enableServiceWebSettings,
         enablePersonalMeeting: this._genericMeeting.ready && this._genericMeeting.enablePersonalMeeting,
-        enableWaitingRoom: this._genericMeeting.ready && this._genericMeeting.enableWaitingRoom,
+        showWaitingRoom: enableWaitingRoom,
+        // RCV AuthCanJoin
+        authUserTypeValue: authUserTypeValue,
         personalMeetingId: this._genericMeeting.ready && this._genericMeeting.personalMeetingId,
-        showSpinner: !!(!this._locale.ready || !this._genericMeeting.ready || !this._genericMeeting.isRCM && !this._genericMeeting.isRCV || !this._genericMeeting.meeting || this._connectivityMonitor && !this._connectivityMonitor.ready || this._rateLimiter && !this._rateLimiter.ready),
+        showSpinner: !!(!this._locale.ready || !this._genericMeeting.ready || !isRCM && !isRCV || !this._genericMeeting.meeting || this._connectivityMonitor && !this._connectivityMonitor.ready || this._rateLimiter && !this._rateLimiter.ready),
         showSpinnerInConfigPanel: this._genericMeeting.isUpdating,
         hasSettingsChanged: this._genericMeeting.hasSettingsChanged,
-        defaultTopic: this._genericMeeting.ready ? this._genericMeeting.defaultTopic : ''
+        defaultSetting: this._genericMeeting.defaultSetting,
+        defaultTopic: this._genericMeeting.ready ? this._genericMeeting.defaultTopic : '',
+        isPersonalMeetingDisabled: showE2EE && meeting.e2ee || configDisabled,
+
+        /* RCV JBH */
+        joinBeforeHostLabel: isDelegator ? _RcVideoV.JBH_LABEL.JOIN_AFTER_HOST : _RcVideoV.JBH_LABEL.JOIN_AFTER_ME,
+
+        /* RCV option */
+        isRequirePasswordDisabled: isE2eeRelatedOptionsDisabled || configDisabled || showRcvAdminLock && ((_settingLock = meeting.settingLock) === null || _settingLock === void 0 ? void 0 : _settingLock.isMeetingSecret),
+        isJoinBeforeHostDisabled: isE2eeRelatedOptionsDisabled || configDisabled || showRcvAdminLock && ((_meeting$settingLock = meeting.settingLock) === null || _meeting$settingLock === void 0 ? void 0 : _meeting$settingLock.allowJoinBeforeHost) || enableWaitingRoom && meeting.waitingRoomMode === _RcVideoV.RCV_WAITING_ROOM_MODE.all,
+        isWaitingRoomDisabled: isE2eeRelatedOptionsDisabled || configDisabled || showRcvAdminLock && ((_settingLock2 = meeting.settingLock) === null || _settingLock2 === void 0 ? void 0 : _settingLock2.waitingRoomMode),
+        isWaitingRoomNotCoworkerDisabled: meeting.isOnlyCoworkersJoin,
+        isWaitingRoomGuestDisabled: meeting.isOnlyAuthUserJoin || showE2EE && meeting.e2ee,
+        isWaitingRoomAllDisabled: false,
+        isAuthenticatedCanJoinDisabled: isE2eeRelatedOptionsDisabled || configDisabled || showRcvAdminLock && ((_settingLock3 = meeting.settingLock) === null || _settingLock3 === void 0 ? void 0 : _settingLock3.isOnlyAuthUserJoin),
+        isAuthUserTypeDisabled: disabled || configDisabled || showRcvAdminLock && ((_settingLock4 = meeting.settingLock) === null || _settingLock4 === void 0 ? void 0 : _settingLock4.isOnlyCoworkersJoin),
+        isSignedInUsersDisabled: false,
+        isSignedInCoWorkersDisabled: false
       };
     }
   }, {
     key: "getUIFunctions",
-    value: function getUIFunctions(props) {
+    value: function getUIFunctions(_ref4) {
       var _this2 = this;
 
-      var _schedule = props.schedule;
+      var _schedule = _ref4.schedule;
       return {
         switchUsePersonalMeetingId: function switchUsePersonalMeetingId(usePersonalMeetingId) {
           return _this2._genericMeeting.switchUsePersonalMeetingId(usePersonalMeetingId);
@@ -195,43 +248,36 @@ var GenericMeetingUI = (_dec = (0, _di.Module)({
         validatePasswordSettings: function validatePasswordSettings(password, isSecret) {
           return _this2._genericMeeting.validatePasswordSettings(password, isSecret);
         },
-        schedule: function () {
-          var _schedule2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(meetingInfo, opener) {
-            return regeneratorRuntime.wrap(function _callee$(_context) {
-              while (1) {
-                switch (_context.prev = _context.next) {
-                  case 0:
-                    if (!_schedule) {
-                      _context.next = 4;
-                      break;
-                    }
-
-                    _context.next = 3;
-                    return _schedule(meetingInfo, opener);
-
-                  case 3:
-                    return _context.abrupt("return");
-
-                  case 4:
-                    _context.next = 6;
-                    return _this2._genericMeeting.schedule(meetingInfo, {}, opener);
-
-                  case 6:
-                  case "end":
-                    return _context.stop();
-                }
-              }
-            }, _callee);
-          }));
-
-          function schedule(_x, _x2) {
-            return _schedule2.apply(this, arguments);
+        schedule: function schedule(meetingInfo, opener) {
+          if (_schedule) {
+            return _schedule(meetingInfo, opener);
           }
 
-          return schedule;
-        }(),
+          return _this2._genericMeeting.schedule(meetingInfo, {}, opener);
+        },
         init: function init() {
           return _this2._genericMeeting.init();
+        },
+        // TODO: Moving to RcVideo updateMeetingSettings would be better
+        e2eeInteractFunc: function e2eeInteractFunc(e2eeValue) {
+          if (!e2eeValue) {
+            _this2._genericMeeting.updateMeetingSettings({
+              e2ee: e2eeValue
+            }); // when user turn on e2ee option in pmi meeting, should switch to non-pmi meeting
+
+          } else if (_this2._genericMeeting.meeting.usePersonalMeetingId) {
+            _this2._genericMeeting.switchUsePersonalMeetingId(false);
+
+            _this2._genericMeeting.updateMeetingSettings(_objectSpread({
+              e2ee: true
+            }, _RcVideoV.RCV_E2EE_DEFAULT_SECURITY_OPTIONS));
+          } else {
+            _this2._genericMeeting.updateMeetingSettings(_objectSpread({
+              e2ee: e2eeValue
+            }, _RcVideoV.RCV_E2EE_DEFAULT_SECURITY_OPTIONS));
+          }
+
+          _this2._genericMeeting.updateHasSettingsChanged(true);
         }
       };
     }

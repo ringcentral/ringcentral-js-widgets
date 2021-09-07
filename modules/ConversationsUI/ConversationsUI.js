@@ -47,9 +47,9 @@ require("core-js/modules/es6.function.name");
 
 require("regenerator-runtime/runtime");
 
-var _core = require("@ringcentral-integration/core");
-
 var _di = require("@ringcentral-integration/commons/lib/di");
+
+var _core = require("@ringcentral-integration/core");
 
 var _dec, _class;
 
@@ -89,7 +89,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 var ConversationsUI = (_dec = (0, _di.Module)({
   name: 'ConversationsUI',
-  deps: ['Brand', 'Locale', 'Conversations', 'DateTimeFormat', 'RegionSettings', 'ExtensionFeatures', 'Call', 'ConnectivityMonitor', 'RateLimiter', 'MessageStore', 'ConnectivityManager', 'ExtensionInfo', 'RouterInteraction', 'ComposeText', 'ContactSearch', {
+  deps: ['Brand', 'Locale', 'Conversations', 'DateTimeFormat', 'RegionSettings', 'AppFeatures', 'Call', 'ConnectivityMonitor', 'RateLimiter', 'MessageStore', 'ConnectivityManager', 'ExtensionInfo', 'RouterInteraction', 'ComposeText', 'ContactSearch', {
     dep: 'DialerUI',
     optional: true
   }, {
@@ -136,7 +136,7 @@ var ConversationsUI = (_dec = (0, _di.Module)({
           contactMatcher = _this$_deps.contactMatcher,
           dateTimeFormat = _this$_deps.dateTimeFormat,
           regionSettings = _this$_deps.regionSettings,
-          extensionFeatures = _this$_deps.extensionFeatures,
+          appFeatures = _this$_deps.appFeatures,
           call = _this$_deps.call,
           conversationLogger = _this$_deps.conversationLogger,
           connectivityMonitor = _this$_deps.connectivityMonitor,
@@ -158,21 +158,22 @@ var ConversationsUI = (_dec = (0, _di.Module)({
         disableLinks: connectivityManager.isOfflineMode || connectivityManager.isVoipOnlyMode || rateLimiter.throttling,
         disableCallButton: connectivityManager.isOfflineMode || connectivityManager.isWebphoneUnavailableMode || connectivityManager.isWebphoneInitializing || rateLimiter.throttling,
         disableClickToDial: !(call && call.isIdle),
-        outboundSmsPermission: extensionFeatures.hasOutboundSMSPermission,
-        internalSmsPermission: extensionFeatures.hasInternalSMSPermission,
-        composeTextPermission: extensionFeatures.hasComposeTextPermission,
+        outboundSmsPermission: appFeatures.hasOutboundSMSPermission,
+        internalSmsPermission: appFeatures.hasInternalSMSPermission,
+        composeTextPermission: appFeatures.hasComposeTextPermission,
         loggingMap: conversationLogger && conversationLogger.loggingMap,
-        showSpinner: !(locale.ready && conversations.ready && (!contactMatcher || contactMatcher.ready) && dateTimeFormat.ready && regionSettings.ready && extensionFeatures.ready && connectivityMonitor.ready && rateLimiter.ready && (!call || call.ready) && (!conversationLogger || conversationLogger.ready)),
+        showSpinner: !(locale.ready && conversations.ready && (!contactMatcher || contactMatcher.ready) && dateTimeFormat.ready && regionSettings.ready && appFeatures.ready && connectivityMonitor.ready && rateLimiter.ready && (!call || call.ready) && (!conversationLogger || conversationLogger.ready)),
         searchInput: conversations.searchInput,
         autoLog: !!(conversationLogger && conversationLogger.autoLog),
         typeFilter: conversations.typeFilter,
         textUnreadCounts: messageStore.textUnreadCounts,
         voiceUnreadCounts: messageStore.voiceUnreadCounts,
         faxUnreadCounts: messageStore.faxUnreadCounts,
-        readTextPermission: extensionFeatures.hasReadTextPermission,
-        readVoicemailPermission: extensionFeatures.hasVoicemailPermission,
-        readFaxPermission: extensionFeatures.hasReadFaxPermission,
-        loadingNextPage: conversations.loadingOldConversations
+        readTextPermission: appFeatures.hasReadTextPermission,
+        readVoicemailPermission: appFeatures.hasVoicemailPermission,
+        readFaxPermission: appFeatures.hasReadFaxPermission,
+        loadingNextPage: conversations.loadingOldConversations,
+        enableCDC: appFeatures.isCDCEnabled
       };
     }
   }, {
@@ -204,7 +205,7 @@ var ConversationsUI = (_dec = (0, _di.Module)({
           contactDetailsUI = _this$_deps2.contactDetailsUI,
           composeText = _this$_deps2.composeText,
           contactSearch = _this$_deps2.contactSearch,
-          extensionFeatures = _this$_deps2.extensionFeatures;
+          appFeatures = _this$_deps2.appFeatures;
       return {
         dateTimeFormatter: dateTimeFormatter !== null && dateTimeFormatter !== void 0 ? dateTimeFormatter : function () {
           return dateTimeFormat.formatDateTime.apply(dateTimeFormat, arguments);
@@ -269,7 +270,7 @@ var ConversationsUI = (_dec = (0, _di.Module)({
             return _ref5.apply(this, arguments);
           };
         }() : undefined,
-        onClickToDial: dialerUI && extensionFeatures.isCallingEnabled ? function (recipient) {
+        onClickToDial: dialerUI && appFeatures.isCallingEnabled ? function (recipient) {
           if (call.isIdle) {
             routerInteraction.push(dialerRoute); // for track router
 
@@ -281,7 +282,7 @@ var ConversationsUI = (_dec = (0, _di.Module)({
             });
           }
         } : undefined,
-        onClickToSms: extensionFeatures.hasComposeTextPermission ? function (contact) {
+        onClickToSms: appFeatures.hasComposeTextPermission ? function (contact) {
           var isDummyContact = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 
           if (routerInteraction) {

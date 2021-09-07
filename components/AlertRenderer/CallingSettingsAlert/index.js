@@ -21,11 +21,13 @@ var _i18n = _interopRequireDefault(require("./i18n"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function CallingSettingsAlert(_ref) {
+var CallingSettingsAlert = function CallingSettingsAlert(_ref) {
   var message = _ref.message.message,
       currentLocale = _ref.currentLocale,
       brandCode = _ref.brandCode,
       brandName = _ref.brandName,
+      shortBrandName = _ref.shortBrandName,
+      fullBrandName = _ref.fullBrandName,
       onCallingSettingsLinkClick = _ref.onCallingSettingsLinkClick;
 
   switch (message) {
@@ -38,9 +40,21 @@ function CallingSettingsAlert(_ref) {
         var appName = brandName;
 
         if (message === _callingSettingsMessages["default"].saveSuccessWithJupiter) {
-          appName = (0, _CallingSettingsPanel.getJupiterAppName)(brandCode, brandName, currentLocale);
+          appName = (0, _CallingSettingsPanel.getJupiterAppName)({
+            brandCode: brandCode,
+            brandName: brandName,
+            currentLocale: currentLocale,
+            shortBrandName: shortBrandName,
+            fullBrandName: fullBrandName
+          });
         } else if (message === _callingSettingsMessages["default"].saveSuccessWithSoftphone) {
-          appName = (0, _CallingSettingsPanel.getSoftphoneAppName)(brandCode, brandName, currentLocale);
+          appName = (0, _CallingSettingsPanel.getSoftphoneAppName)({
+            brandCode: brandCode,
+            brandName: brandName,
+            currentLocale: currentLocale,
+            shortBrandName: shortBrandName,
+            fullBrandName: fullBrandName
+          });
         }
 
         return /*#__PURE__*/_react["default"].createElement(_FormattedMessage["default"], {
@@ -71,7 +85,7 @@ function CallingSettingsAlert(_ref) {
     default:
       return null;
   }
-}
+};
 
 CallingSettingsAlert.propTypes = {
   message: _propTypes["default"].shape({
@@ -80,6 +94,8 @@ CallingSettingsAlert.propTypes = {
   currentLocale: _propTypes["default"].string.isRequired,
   brandCode: _propTypes["default"].string.isRequired,
   brandName: _propTypes["default"].string.isRequired,
+  shortBrandName: _propTypes["default"].string,
+  fullBrandName: _propTypes["default"].string,
   onCallingSettingsLinkClick: _propTypes["default"].func
 };
 CallingSettingsAlert.defaultProps = {

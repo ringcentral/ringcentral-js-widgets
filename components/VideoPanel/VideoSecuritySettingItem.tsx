@@ -1,6 +1,6 @@
 import React, { FC, ReactNode } from 'react';
 import { RcFormControlLabel, RcTooltip, RcIcon } from '@ringcentral/juno';
-import lockSvg from '@ringcentral/juno/icon/LockBorder';
+import { LockBorder } from '@ringcentral/juno/icon';
 import i18n from './i18n';
 import styles from './styles.scss';
 
@@ -21,15 +21,16 @@ function generateLockIcon(
       data-sign="lockButtonTooltip"
       title={i18n.getString('lockTooltip', currentLocale)}
     >
-      <RcIcon size="small" className={styles.lockButton} symbol={lockSvg} />
+      <RcIcon size="small" className={styles.lockButton} symbol={LockBorder} />
     </RcTooltip>
   ) : null;
 }
 
-interface VideoSecuritySettingsItemProps {
+interface VideoSecuritySettingItemProps {
   dataSign: string;
   label: string | React.ReactNode;
   isLock?: boolean;
+  isDisabled?: boolean;
   currentLocale: string;
   children: ReactNode;
   hasScrollBar: boolean;
@@ -37,10 +38,11 @@ interface VideoSecuritySettingsItemProps {
   classes?: {};
 }
 
-export const VideoSecuritySettingsItem: FC<VideoSecuritySettingsItemProps> = ({
+export const VideoSecuritySettingItem: FC<VideoSecuritySettingItemProps> = ({
   dataSign,
   label,
   isLock = false,
+  isDisabled = false,
   currentLocale,
   children,
   hasScrollBar = false,
@@ -49,7 +51,7 @@ export const VideoSecuritySettingsItem: FC<VideoSecuritySettingsItemProps> = ({
   return (
     <RcFormControlLabel
       data-sign={dataSign}
-      disabled={isLock}
+      disabled={isLock || isDisabled}
       control={
         <span
           className={

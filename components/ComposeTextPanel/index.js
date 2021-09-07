@@ -216,7 +216,7 @@ var ComposeTextPanel = /*#__PURE__*/function (_Component) {
       })), /*#__PURE__*/_react["default"].createElement(_MessageInput["default"], {
         value: this.props.messageText,
         onChange: this.props.updateMessageText,
-        disabled: this.props.sendButtonDisabled,
+        sendButtonDisabled: this.props.sendButtonDisabled,
         currentLocale: this.props.currentLocale,
         onSend: this.props.send,
         inputExpandable: this.props.inputExpandable,

@@ -1,5 +1,5 @@
 import { RcBaseProps } from '@ringcentral/juno';
-import { Locale } from '@ringcentral-integration/commons/modules/LocaleV2';
+import { Locale } from '@ringcentral-integration/commons/modules/Locale';
 
 import { ModalProps } from '../../components/ModalV2/interface';
 
@@ -46,6 +46,8 @@ export type ModalOptions = RcBaseProps<
   variant?: 'alert' | 'confirm' | 'info';
   /** auto show loading when `confirm button` click, if that `onConfirm` is promise */
   useLoadingOverlay?: boolean;
+  /** auto disableBackdropClick handling when loading, only works when disableBackdropClick is set to false */
+  autoDisableBackdropClick?: boolean;
 };
 
 export type ConfirmModalOptions = RcBaseProps<ModalOptions, 'variant'>;
@@ -62,7 +64,7 @@ export type InfoModalOptions = RcBaseProps<
 
 export type DehydratedModalState = RcBaseProps<
   ModalOptions,
-  'onCancel' | 'onConfirm'
+  'onCancel' | 'onConfirm' | 'onExited'
 > & {
   /** current open state */
   open: boolean;
@@ -70,8 +72,10 @@ export type DehydratedModalState = RcBaseProps<
   id: string;
   /** onConfirm function id */
   onConfirm?: string;
-  /** cancel function id */
+  /** onCancel function id */
   onCancel?: string;
+  /** onExited function id */
+  onExited?: string;
   /** this modal handler ids */
   handlerIDs: string[];
 };

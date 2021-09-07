@@ -35,7 +35,7 @@ var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
-var _Askfirst = _interopRequireDefault(require("@ringcentral/juno/icon/Askfirst"));
+var _icon = require("@ringcentral/juno/icon");
 
 var _DialPad = _interopRequireDefault(require("../DialPad"));
 
@@ -156,8 +156,8 @@ var TransferPanel = /*#__PURE__*/function (_PureComponent) {
       this.load();
     }
   }, {
-    key: "componentWillReceiveProps",
-    value: function componentWillReceiveProps(nextProps) {
+    key: "UNSAFE_componentWillReceiveProps",
+    value: function UNSAFE_componentWillReceiveProps(nextProps) {
       if (this.props.session && !nextProps.session) {
         this.props.onCallEnd();
       }
@@ -215,7 +215,7 @@ var TransferPanel = /*#__PURE__*/function (_PureComponent) {
           dataSign: "warnTransferBtn",
           className: isOnTransfer ? _styles["default"].disabled : undefined,
           onClick: this.onWarmTransfer,
-          icon: _Askfirst["default"],
+          icon: _icon.Askfirst,
           disabled: isOnTransfer || controlBusy,
           title: _i18n["default"].getString('warmTransfer', currentLocale)
         }));

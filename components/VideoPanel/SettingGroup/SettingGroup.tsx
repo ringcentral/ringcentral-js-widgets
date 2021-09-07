@@ -1,10 +1,12 @@
 import React from 'react';
-import { RcIconButton, RcFormGroup } from '@ringcentral/juno';
+import {
+  RcAccordion,
+  RcAccordionDetails,
+  RcAccordionSummary,
+  RcFormGroup,
+} from '@ringcentral/juno';
 
-import { RcAccordion } from '@ringcentral/juno/components/Accordion';
-import { RcAccordionDetails } from '@ringcentral/juno/components/Accordion/AccordionDetails';
-import { RcAccordionSummary } from '@ringcentral/juno/components/Accordion/AccordionSummary';
-import arrowDownSvg from '@ringcentral/juno/icon/ArrowDown2';
+import { ArrowDown2 } from '@ringcentral/juno/icon';
 import styles from './styles.scss';
 
 interface SettingGroupProps {
@@ -34,7 +36,7 @@ export const SettingGroup: React.FunctionComponent<SettingGroupProps> = ({
           root: styles.accordionSummary,
           disabled: expandable ? null : styles.accordionSummaryDisabled,
         }}
-        expandIcon={expandable ? arrowDownSvg : undefined}
+        expandIcon={expandable ? ArrowDown2 : undefined}
         data-sign={`${dataSign}Summary`}
       >
         {summary}

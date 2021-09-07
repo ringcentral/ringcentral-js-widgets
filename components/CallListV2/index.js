@@ -134,7 +134,8 @@ var CallListV2 = /*#__PURE__*/function (_React$PureComponent) {
           readTextPermission = _this$props.readTextPermission,
           currentSiteCode = _this$props.currentSiteCode,
           isMultipleSiteEnabled = _this$props.isMultipleSiteEnabled,
-          showChooseEntityModal = _this$props.showChooseEntityModal;
+          showChooseEntityModal = _this$props.showChooseEntityModal,
+          enableCDC = _this$props.enableCDC;
       var content;
 
       if (index >= calls.length) {
@@ -192,7 +193,8 @@ var CallListV2 = /*#__PURE__*/function (_React$PureComponent) {
           onSizeChanged: _this._onSizeChanged // disable animation when rendered with react-virtualized
           ,
           withAnimation: false,
-          showChooseEntityModal: showChooseEntityModal
+          showChooseEntityModal: showChooseEntityModal,
+          enableCDC: enableCDC
         });
       }
 
@@ -305,7 +307,8 @@ CallListV2.propTypes = {
   readTextPermission: _propTypes["default"].bool,
   rowHeight: _propTypes["default"].number,
   extendedRowHeight: _propTypes["default"].number,
-  showChooseEntityModal: _propTypes["default"].bool
+  showChooseEntityModal: _propTypes["default"].bool,
+  enableCDC: _propTypes["default"].bool
 };
 CallListV2.defaultProps = {
   currentSiteCode: '',
@@ -343,6 +346,7 @@ CallListV2.defaultProps = {
   readTextPermission: true,
   rowHeight: 65,
   extendedRowHeight: 130,
-  showChooseEntityModal: true
+  showChooseEntityModal: true,
+  enableCDC: false
 };
 //# sourceMappingURL=index.js.map

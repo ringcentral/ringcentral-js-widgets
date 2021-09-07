@@ -87,6 +87,7 @@ var DialerPanel = function DialerPanel(_ref) {
       withTabs = _ref.withTabs,
       inConference = _ref.inConference,
       isLastInputFromDialpad = _ref.isLastInputFromDialpad,
+      showAnonymous = _ref.showAnonymous,
       useV2 = _ref.useV2;
   var inputEl = (0, _react.useRef)(null);
   (0, _react.useEffect)(function () {
@@ -140,6 +141,7 @@ var DialerPanel = function DialerPanel(_ref) {
   }, input, showFromField ? /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].inputField
   }, /*#__PURE__*/_react["default"].createElement(_FromField["default"], {
+    showAnonymous: showAnonymous,
     fromNumber: fromNumber,
     fromNumbers: fromNumbers,
     onChange: changeFromNumber,
@@ -222,7 +224,8 @@ DialerPanel.propTypes = {
   withTabs: _propTypes["default"].bool,
   inConference: _propTypes["default"].bool,
   isLastInputFromDialpad: _propTypes["default"].bool,
-  useV2: _propTypes["default"].bool
+  useV2: _propTypes["default"].bool,
+  showAnonymous: _propTypes["default"].bool
 };
 DialerPanel.defaultProps = {
   className: null,
@@ -256,7 +259,8 @@ DialerPanel.defaultProps = {
   withTabs: false,
   inConference: false,
   isLastInputFromDialpad: false,
-  useV2: false
+  useV2: false,
+  showAnonymous: true
 };
 var _default = DialerPanel;
 exports["default"] = _default;

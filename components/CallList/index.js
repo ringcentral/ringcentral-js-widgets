@@ -118,7 +118,8 @@ var CallList = /*#__PURE__*/function (_PureComponent) {
           contactDisplayStyle = _this$props.contactDisplayStyle,
           externalViewEntity = _this$props.externalViewEntity,
           externalHasEntity = _this$props.externalHasEntity,
-          readTextPermission = _this$props.readTextPermission;
+          readTextPermission = _this$props.readTextPermission,
+          enableCDC = _this$props.enableCDC;
 
       if (calls && calls.length) {
         return /*#__PURE__*/_react["default"].createElement("div", {
@@ -164,7 +165,8 @@ var CallList = /*#__PURE__*/function (_PureComponent) {
             contactDisplayStyle: contactDisplayStyle,
             externalViewEntity: externalViewEntity,
             externalHasEntity: externalHasEntity,
-            readTextPermission: readTextPermission
+            readTextPermission: readTextPermission,
+            enableCDC: enableCDC
           });
         }));
       }
@@ -221,7 +223,8 @@ CallList.propTypes = {
   contactDisplayStyle: _propTypes["default"].string,
   externalViewEntity: _propTypes["default"].func,
   externalHasEntity: _propTypes["default"].func,
-  readTextPermission: _propTypes["default"].bool
+  readTextPermission: _propTypes["default"].bool,
+  enableCDC: _propTypes["default"].bool
 };
 CallList.defaultProps = {
   currentSiteCode: '',
@@ -256,6 +259,7 @@ CallList.defaultProps = {
   contactDisplayStyle: undefined,
   externalViewEntity: undefined,
   externalHasEntity: undefined,
-  readTextPermission: true
+  readTextPermission: true,
+  enableCDC: false
 };
 //# sourceMappingURL=index.js.map
