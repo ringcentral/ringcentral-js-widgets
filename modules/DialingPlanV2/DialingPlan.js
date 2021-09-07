@@ -120,60 +120,14 @@ var DialingPlan = (_dec = (0, _di.Module)({
       key: 'dialingPlan',
       polling: polling,
       cleanOnReset: true,
-      fetchFunction: function () {
-        var _fetchFunction = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
-          return regeneratorRuntime.wrap(function _callee2$(_context2) {
-            while (1) {
-              switch (_context2.prev = _context2.next) {
-                case 0:
-                  return _context2.abrupt("return", (0, _fetchList["default"])( /*#__PURE__*/function () {
-                    var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(params) {
-                      var response;
-                      return regeneratorRuntime.wrap(function _callee$(_context) {
-                        while (1) {
-                          switch (_context.prev = _context.next) {
-                            case 0:
-                              _context.next = 2;
-                              return _this._deps.client.service.platform().get('/restapi/v1.0/account/~/dialing-plan', params);
-
-                            case 2:
-                              response = _context.sent;
-                              return _context.abrupt("return", response.json());
-
-                            case 4:
-                            case "end":
-                              return _context.stop();
-                          }
-                        }
-                      }, _callee);
-                    }));
-
-                    return function (_x) {
-                      return _ref3.apply(this, arguments);
-                    };
-                  }()));
-
-                case 1:
-                case "end":
-                  return _context2.stop();
-              }
-            }
-          }, _callee2);
-        }));
-
-        function fetchFunction() {
-          return _fetchFunction.apply(this, arguments);
-        }
-
-        return fetchFunction;
-      }(),
+      fetchFunction: function fetchFunction() {
+        return _this.fetchFunction();
+      },
       readyCheckFunction: function readyCheckFunction() {
-        return _this._deps.extensionFeatures.ready;
+        return _this.readyCheckFunction();
       },
       permissionCheckFunction: function permissionCheckFunction() {
-        var _this$_deps$extension, _this$_deps$extension2, _this$_deps$extension3;
-
-        return (_this$_deps$extension = (_this$_deps$extension2 = _this._deps.extensionFeatures.features) === null || _this$_deps$extension2 === void 0 ? void 0 : (_this$_deps$extension3 = _this$_deps$extension2.ReadCompanyInfo) === null || _this$_deps$extension3 === void 0 ? void 0 : _this$_deps$extension3.available) !== null && _this$_deps$extension !== void 0 ? _this$_deps$extension : false;
+        return _this.permissionCheckFunction();
       }
     }));
 
@@ -183,6 +137,50 @@ var DialingPlan = (_dec = (0, _di.Module)({
   }
 
   _createClass(DialingPlan, [{
+    key: "fetchFunction",
+    value: function fetchFunction() {
+      var _this2 = this;
+
+      return (0, _fetchList["default"])( /*#__PURE__*/function () {
+        var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(params) {
+          var response;
+          return regeneratorRuntime.wrap(function _callee$(_context) {
+            while (1) {
+              switch (_context.prev = _context.next) {
+                case 0:
+                  _context.next = 2;
+                  return _this2._deps.client.service.platform().get('/restapi/v1.0/account/~/dialing-plan', params);
+
+                case 2:
+                  response = _context.sent;
+                  return _context.abrupt("return", response.json());
+
+                case 4:
+                case "end":
+                  return _context.stop();
+              }
+            }
+          }, _callee);
+        }));
+
+        return function (_x) {
+          return _ref3.apply(this, arguments);
+        };
+      }());
+    }
+  }, {
+    key: "readyCheckFunction",
+    value: function readyCheckFunction() {
+      return this._deps.extensionFeatures.ready;
+    }
+  }, {
+    key: "permissionCheckFunction",
+    value: function permissionCheckFunction() {
+      var _this$_deps$extension, _this$_deps$extension2, _this$_deps$extension3;
+
+      return (_this$_deps$extension = (_this$_deps$extension2 = this._deps.extensionFeatures.features) === null || _this$_deps$extension2 === void 0 ? void 0 : (_this$_deps$extension3 = _this$_deps$extension2.ReadCompanyInfo) === null || _this$_deps$extension3 === void 0 ? void 0 : _this$_deps$extension3.available) !== null && _this$_deps$extension !== void 0 ? _this$_deps$extension : false;
+    }
+  }, {
     key: "plans",
     get: function get() {
       var _this$data;

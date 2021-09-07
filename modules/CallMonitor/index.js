@@ -777,14 +777,18 @@ _dec = (0, _di.Module)({
 
       return (_this7$_activeCallCon = _this7._activeCallControl) === null || _this7$_activeCallCon === void 0 ? void 0 : _this7$_activeCallCon.sessions;
     }, function () {
-      return _this7._accountInfo.countryCode;
-    }, function () {
       var _this7$_activeCallCon2;
 
-      return (_this7$_activeCallCon2 = _this7._activeCallControl) === null || _this7$_activeCallCon2 === void 0 ? void 0 : _this7$_activeCallCon2.cachedSessions;
+      return (_this7$_activeCallCon2 = _this7._activeCallControl) === null || _this7$_activeCallCon2 === void 0 ? void 0 : _this7$_activeCallCon2.currentDeviceCallsMap;
+    }, function () {
+      return _this7._accountInfo.countryCode;
+    }, function () {
+      var _this7$_activeCallCon3;
+
+      return (_this7$_activeCallCon3 = _this7._activeCallControl) === null || _this7$_activeCallCon3 === void 0 ? void 0 : _this7$_activeCallCon3.cachedSessions;
     }, function () {
       return _this7._presence.calls;
-    }, function (telephonySessions, countryCode, cachedSessions, presenceCalls) {
+    }, function (telephonySessions, currentDeviceCallsMap, countryCode, cachedSessions, presenceCalls) {
       // TODO match cached calls when there are conference merging calls, refer to `normalizedCallsFromPresence` function
       if (!telephonySessions) return [];
 
@@ -795,9 +799,9 @@ _dec = (0, _di.Module)({
       _this7._normalizedCalls = (0, _ramda.sort)(function (l, r) {
         return (0, _webphoneHelper.sortByLastActiveTimeDesc)(l.webphoneSession, r.webphoneSession);
       }, (0, _ramda.map)(function (callItem) {
-        var _this7$_activeCallCon3;
+        var _this7$_activeCallCon4;
 
-        var currentRcCallSession = (_this7$_activeCallCon3 = _this7._activeCallControl.rcCallSessions) === null || _this7$_activeCallCon3 === void 0 ? void 0 : _this7$_activeCallCon3.find(function (x) {
+        var currentRcCallSession = (_this7$_activeCallCon4 = _this7._activeCallControl.rcCallSessions) === null || _this7$_activeCallCon4 === void 0 ? void 0 : _this7$_activeCallCon4.find(function (x) {
           return x.id === callItem.id;
         }); // sessionId arrives when telephony session event push and it's a required
         // reference https://github.com/ringcentral/ringcentral-call-js/blob/master/src/Session.ts
@@ -812,8 +816,7 @@ _dec = (0, _di.Module)({
             party = currentRcCallSession.party,
             telephonySessionId = currentRcCallSession.telephonySessionId,
             sessionId = currentRcCallSession.sessionId,
-            startTime = currentRcCallSession.startTime,
-            originalWebphoneSession = currentRcCallSession.webphoneSession;
+            startTime = currentRcCallSession.startTime;
         var id = currentRcCallSession._activeCallId; // find id from presence call one time, due to telephony session event not push call id back
         // with ringout call
 
@@ -832,7 +835,6 @@ _dec = (0, _di.Module)({
           phoneNumber: to === null || to === void 0 ? void 0 : to.phoneNumber,
           countryCode: countryCode
         });
-        var webphoneSession = originalWebphoneSession ? (0, _webphoneHelper.normalizeSession)(originalWebphoneSession) : null;
         var toName = to === null || to === void 0 ? void 0 : to.name;
         var fromName = from === null || from === void 0 ? void 0 : from.name;
         var partyId = party === null || party === void 0 ? void 0 : party.id;
@@ -856,7 +858,7 @@ _dec = (0, _di.Module)({
           },
           startTime: startTime,
           sessionId: sessionId,
-          webphoneSession: webphoneSession,
+          webphoneSession: currentDeviceCallsMap[telephonySessionId],
           telephonyStatus: telephonyStatus
         };
       }, combinedCalls).filter(function (x) {

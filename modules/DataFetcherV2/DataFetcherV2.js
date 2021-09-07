@@ -152,8 +152,8 @@ var DataFetcherV2 = (_dec = (0, _di.Module)({
     }
   }, {
     key: "_setFetching",
-    value: function _setFetching(source, isFetching) {
-      this.isFetching[source.key] = isFetching;
+    value: function _setFetching(key, isFetching) {
+      this.isFetching[key] = isFetching;
     }
   }, {
     key: "getFetching",
@@ -162,21 +162,21 @@ var DataFetcherV2 = (_dec = (0, _di.Module)({
     }
   }, {
     key: "_setData",
-    value: function _setData(source, data) {
-      var timestamp = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : Date.now();
+    value: function _setData(key, disableCache, data) {
+      var timestamp = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : Date.now();
 
-      if (source.disableCache) {
-        this.data[source.key] = data;
-        this.timestamps[source.key] = timestamp;
+      if (disableCache) {
+        this.data[key] = data;
+        this.timestamps[key] = timestamp;
       } else {
-        this.storageData.cachedData[source.key] = data;
-        this.storageData.cachedTimestamps[source.key] = timestamp;
+        this.storageData.cachedData[key] = data;
+        this.storageData.cachedTimestamps[key] = timestamp;
       }
     }
   }, {
     key: "updateData",
     value: function updateData(source, data, timestamp) {
-      this._setData(source, data, timestamp);
+      this._setData(source.key, source.disableCache, data, timestamp);
     }
   }, {
     key: "_fetchData",
@@ -187,7 +187,7 @@ var DataFetcherV2 = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                this._setFetching(source, true);
+                this._setFetching(source.key, true);
 
                 ownerId = this._deps.auth.ownerId;
                 _context.prev = 2;
@@ -198,9 +198,9 @@ var DataFetcherV2 = (_dec = (0, _di.Module)({
                 data = _context.sent;
 
                 if (this._deps.auth.ownerId === ownerId) {
-                  this._setData(source, data, Date.now());
+                  this._setData(source.key, source.disableCache, data, Date.now());
 
-                  this._setFetching(source, false);
+                  this._setFetching(source.key, false);
 
                   if (source.polling) {
                     this._startPolling(source);
@@ -223,7 +223,7 @@ var DataFetcherV2 = (_dec = (0, _di.Module)({
 
                 this._promises["delete"](source.key);
 
-                this._setFetching(source, false);
+                this._setFetching(source.key, false);
 
                 if (source.polling) {
                   this._startPolling(source, source.timeToRetry);
@@ -368,7 +368,7 @@ var DataFetcherV2 = (_dec = (0, _di.Module)({
                   break;
                 }
 
-                this._setSourceStatus(source, _sourceStatus.sourceStatus.initializing);
+                this._setSourceStatus(source.key, _sourceStatus.sourceStatus.initializing);
 
                 if (!this._shouldFetch(source)) {
                   _context3.next = 13;
@@ -405,7 +405,7 @@ var DataFetcherV2 = (_dec = (0, _di.Module)({
 
               case 15:
                 if (this.getData(source) !== null && this.getTimestamp(source) !== null) {
-                  this._setSourceStatus(source, _sourceStatus.sourceStatus.ready);
+                  this._setSourceStatus(source.key, _sourceStatus.sourceStatus.ready);
                 }
 
               case 16:
@@ -424,8 +424,8 @@ var DataFetcherV2 = (_dec = (0, _di.Module)({
     }()
   }, {
     key: "_setSourceStatus",
-    value: function _setSourceStatus(source, status) {
-      this.sourceStatus[source.key] = status;
+    value: function _setSourceStatus(key, status) {
+      this.sourceStatus[key] = status;
     }
   }, {
     key: "getSourceStatus",
@@ -440,7 +440,7 @@ var DataFetcherV2 = (_dec = (0, _di.Module)({
       if (this.ready) {
         (0, _ramda.forEach)(function (source) {
           if (!_this4.getSourceStatus(source)) {
-            _this4._setSourceStatus(source, _sourceStatus.sourceStatus.pending);
+            _this4._setSourceStatus(source.key, _sourceStatus.sourceStatus.pending);
           }
 
           var status = _this4.getSourceStatus(source);
@@ -452,9 +452,9 @@ var DataFetcherV2 = (_dec = (0, _di.Module)({
             if (status === _sourceStatus.sourceStatus.pending || status === _sourceStatus.sourceStatus.initializing) {
               // if user has no permission to fetch data, bypass the initialization process
               if (!permissionCheck) {
-                _this4._setSourceStatus(source, _sourceStatus.sourceStatus.ready);
+                _this4._setSourceStatus(source.key, _sourceStatus.sourceStatus.ready);
 
-                _this4._setData(source, null, 0);
+                _this4._setData(source.key, source.disableCache, null, 0);
               } else {
                 _this4._tryInitializeSource(source);
               }
@@ -462,7 +462,7 @@ var DataFetcherV2 = (_dec = (0, _di.Module)({
               if (!permissionCheck && _this4.getData(source) !== null && _this4.getTimestamp(source) !== null) {
                 // no permission but has data, set data to null
                 // use 0 for timestamp so we know this is on purpose
-                _this4._setData(source, null, 0);
+                _this4._setData(source.key, source.disableCache, null, 0);
               } else if (permissionCheck && _this4.getData(source) === null && _this4.getTimestamp(source) === 0 && !_this4._promises.get(source.key)) {
                 // if the data set to null due to permission before
                 // but now there is permission, then fetch data
@@ -470,10 +470,10 @@ var DataFetcherV2 = (_dec = (0, _di.Module)({
               }
             }
           } else if (status === _sourceStatus.sourceStatus.ready) {
-            _this4._setSourceStatus(source, _sourceStatus.sourceStatus.pending);
+            _this4._setSourceStatus(source.key, _sourceStatus.sourceStatus.pending);
 
             if (source.cleanOnReset) {
-              _this4._setData(source, null, null);
+              _this4._setData(source.key, source.disableCache, null, null);
             }
           }
         }, Array.from(this._sources));
@@ -556,14 +556,14 @@ var DataFetcherV2 = (_dec = (0, _di.Module)({
         _this7._promises["delete"](source.key); // reset isFetching
 
 
-        _this7._setFetching(source, false);
+        _this7._setFetching(source.key, false);
 
         if (_this7.getSourceStatus(source) !== _sourceStatus.sourceStatus.pending) {
-          _this7._setSourceStatus(source, _sourceStatus.sourceStatus.pending);
+          _this7._setSourceStatus(source.key, _sourceStatus.sourceStatus.pending);
         }
 
         if (source.cleanOnReset && _this7.getData(source) !== null && _this7.getTimestamp(source) !== null) {
-          _this7._setData(source, null, null);
+          _this7._setData(source.key, source.disableCache, null, null);
         }
       }, Array.from(this._sources));
     }

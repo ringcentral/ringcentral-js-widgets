@@ -149,7 +149,7 @@ function _initializerWarningHelper(descriptor, context) { throw new Error('Decor
 
 var ConversationLogger = (_dec = (0, _di.Module)({
   name: 'ConversationLogger',
-  deps: ['Auth', 'Storage', 'ContactMatcher', 'ConversationMatcher', 'DateTimeFormat', 'ExtensionInfo', 'MessageStore', 'ExtensionFeatures', 'ConversationLoggerOptions', {
+  deps: ['Auth', 'Storage', 'ContactMatcher', 'ConversationMatcher', 'DateTimeFormat', 'ExtensionInfo', 'MessageStore', 'AppFeatures', 'ConversationLoggerOptions', {
     dep: 'TabManager',
     optional: true
   }]
@@ -635,9 +635,7 @@ var ConversationLogger = (_dec = (0, _di.Module)({
   }, {
     key: "available",
     get: function get() {
-      var _this$_deps$extension, _this$_deps$extension2, _this$_deps$extension3, _this$_deps$extension4;
-
-      return !!(((_this$_deps$extension = this._deps.extensionFeatures.features) === null || _this$_deps$extension === void 0 ? void 0 : (_this$_deps$extension2 = _this$_deps$extension.SMSReceiving) === null || _this$_deps$extension2 === void 0 ? void 0 : _this$_deps$extension2.available) || ((_this$_deps$extension3 = this._deps.extensionFeatures.features) === null || _this$_deps$extension3 === void 0 ? void 0 : (_this$_deps$extension4 = _this$_deps$extension3.PagesReceiving) === null || _this$_deps$extension4 === void 0 ? void 0 : _this$_deps$extension4.available));
+      return this._deps.appFeatures.hasReadTextPermission;
     }
   }, {
     key: "conversationLogMap",

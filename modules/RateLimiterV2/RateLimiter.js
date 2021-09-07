@@ -51,7 +51,7 @@ var _errorMessages = require("./errorMessages");
 
 var _proxify = require("../../lib/proxy/proxify");
 
-var _dec, _class, _class2, _descriptor;
+var _dec, _class, _class2, _descriptor, _descriptor2;
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -115,6 +115,8 @@ var RateLimiter = (_dec = (0, _di.Module)({
     _this._throttleDuration = DEFAULT_THROTTLE_DURATION;
 
     _initializerDefineProperty(_this, "timestamp", _descriptor, _assertThisInitialized(_this));
+
+    _initializerDefineProperty(_this, "rateLimitAlertId", _descriptor2, _assertThisInitialized(_this));
 
     _this._beforeRequestHandler = function () {
       if (_this.throttling) {
@@ -212,7 +214,7 @@ var RateLimiter = (_dec = (0, _di.Module)({
                 return _context.abrupt("return");
 
               case 2:
-                this._deps.alert.warning({
+                this.rateLimitAlertId = this._deps.alert.warning({
                   message: _errorMessages.errorMessages.rateLimitReached,
                   ttl: this.ttl,
                   allowDuplicates: false
@@ -283,6 +285,13 @@ var RateLimiter = (_dec = (0, _di.Module)({
 
   return RateLimiter;
 }(_core.RcModuleV2), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "timestamp", [_core.globalStorage, _core.state], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: function initializer() {
+    return null;
+  }
+}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, "rateLimitAlertId", [_core.globalStorage, _core.state], {
   configurable: true,
   enumerable: true,
   writable: true,

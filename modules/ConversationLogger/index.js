@@ -172,7 +172,7 @@ var ConversationLogger = (_dec = (0, _di.Module)({
   deps: ['Auth', 'Storage', {
     dep: 'TabManager',
     optional: true
-  }, 'ContactMatcher', 'ConversationMatcher', 'DateTimeFormat', 'ExtensionInfo', 'MessageStore', 'ExtensionFeatures', {
+  }, 'ContactMatcher', 'ConversationMatcher', 'DateTimeFormat', 'ExtensionInfo', 'MessageStore', 'AppFeatures', {
     dep: 'ConversationLoggerOptions',
     optional: false
   }]
@@ -190,7 +190,7 @@ var ConversationLogger = (_dec = (0, _di.Module)({
         dateTimeFormat = _ref2.dateTimeFormat,
         extensionInfo = _ref2.extensionInfo,
         messageStore = _ref2.messageStore,
-        extensionFeatures = _ref2.extensionFeatures,
+        appFeatures = _ref2.appFeatures,
         storage = _ref2.storage,
         tabManager = _ref2.tabManager,
         _ref2$isLoggedContact = _ref2.isLoggedContact,
@@ -204,7 +204,7 @@ var ConversationLogger = (_dec = (0, _di.Module)({
       return dateTimeFormat.formatDateTime.apply(dateTimeFormat, arguments);
     } : _ref2$formatDateTime,
         accordWithLogRequirement = _ref2.accordWithLogRequirement,
-        options = _objectWithoutProperties(_ref2, ["auth", "contactMatcher", "conversationMatcher", "dateTimeFormat", "extensionInfo", "messageStore", "extensionFeatures", "storage", "tabManager", "isLoggedContact", "isAutoUpdate", "formatDateTime", "accordWithLogRequirement"]);
+        options = _objectWithoutProperties(_ref2, ["auth", "contactMatcher", "conversationMatcher", "dateTimeFormat", "extensionInfo", "messageStore", "appFeatures", "storage", "tabManager", "isLoggedContact", "isAutoUpdate", "formatDateTime", "accordWithLogRequirement"]);
 
     _classCallCheck(this, ConversationLogger);
 
@@ -226,7 +226,7 @@ var ConversationLogger = (_dec = (0, _di.Module)({
     _this._dateTimeFormat = _ensureExist["default"].call(_assertThisInitialized(_this), dateTimeFormat, 'dateTimeFormat');
     _this._extensionInfo = _ensureExist["default"].call(_assertThisInitialized(_this), extensionInfo, 'extensionInfo');
     _this._messageStore = _ensureExist["default"].call(_assertThisInitialized(_this), messageStore, 'messageStore');
-    _this._extensionFeatures = extensionFeatures;
+    _this._appFeatures = appFeatures;
     _this._storage = _ensureExist["default"].call(_assertThisInitialized(_this), storage, 'storage');
     _this._tabManager = tabManager;
     _this._isLoggedContact = isLoggedContact;
@@ -270,12 +270,12 @@ var ConversationLogger = (_dec = (0, _di.Module)({
   _createClass(ConversationLogger, [{
     key: "_shouldInit",
     value: function _shouldInit() {
-      return this.pending && this._contactMatcher.ready && this._conversationMatcher.ready && this._dateTimeFormat.ready && this._extensionInfo.ready && this._messageStore.ready && this._extensionFeatures.ready && this._storage.ready && (!this._tabManager || this._tabManager.ready) && this._readyCheckFunction();
+      return this.pending && this._contactMatcher.ready && this._conversationMatcher.ready && this._dateTimeFormat.ready && this._extensionInfo.ready && this._messageStore.ready && this._appFeatures.ready && this._storage.ready && (!this._tabManager || this._tabManager.ready) && this._readyCheckFunction();
     }
   }, {
     key: "_shouldReset",
     value: function _shouldReset() {
-      return this.ready && (!this._contactMatcher.ready || !this._conversationMatcher.ready || !this._dateTimeFormat.ready || !this._extensionInfo.ready || !this._messageStore.ready || !this._extensionFeatures.ready || !this._storage.ready || this._tabManager && !this._tabManager.ready || !this._readyCheckFunction());
+      return this.ready && (!this._contactMatcher.ready || !this._conversationMatcher.ready || !this._dateTimeFormat.ready || !this._extensionInfo.ready || !this._messageStore.ready || !this._appFeatures.ready || !this._storage.ready || this._tabManager && !this._tabManager.ready || !this._readyCheckFunction());
     }
   }, {
     key: "_onReset",
@@ -678,9 +678,7 @@ var ConversationLogger = (_dec = (0, _di.Module)({
   }, {
     key: "available",
     get: function get() {
-      var _this$extensionFeatur, _this$extensionFeatur2, _this$extensionFeatur3, _this$extensionFeatur4;
-
-      return !!(((_this$extensionFeatur = this.extensionFeatures.features) === null || _this$extensionFeatur === void 0 ? void 0 : (_this$extensionFeatur2 = _this$extensionFeatur.SMSReceiving) === null || _this$extensionFeatur2 === void 0 ? void 0 : _this$extensionFeatur2.available) || ((_this$extensionFeatur3 = this.extensionFeatures.features) === null || _this$extensionFeatur3 === void 0 ? void 0 : (_this$extensionFeatur4 = _this$extensionFeatur3.PagesReceiving) === null || _this$extensionFeatur4 === void 0 ? void 0 : _this$extensionFeatur4.available));
+      return this._appFeatures.hasReadTextPermission;
     }
   }, {
     key: "autoLog",

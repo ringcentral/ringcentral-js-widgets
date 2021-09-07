@@ -47,17 +47,17 @@ exports["default"] = void 0;
 
 require("regenerator-runtime/runtime");
 
-var _di = require("../../lib/di");
-
-var _selector = require("../../lib/selector");
+var _subscriptionFilters = _interopRequireDefault(require("../../enums/subscriptionFilters"));
 
 var _DataFetcher2 = _interopRequireDefault(require("../../lib/DataFetcher"));
 
-var _sleep = _interopRequireDefault(require("../../lib/sleep"));
+var _di = require("../../lib/di");
 
 var _fetchList = _interopRequireDefault(require("../../lib/fetchList"));
 
-var _subscriptionFilters = _interopRequireDefault(require("../../enums/subscriptionFilters"));
+var _selector = require("../../lib/selector");
+
+var _sleep = _interopRequireDefault(require("../../lib/sleep"));
 
 var _getActiveCallsReducer = require("./getActiveCallsReducer");
 
@@ -119,7 +119,7 @@ var DEFAULT_TTL = 5 * 60 * 1000;
  */
 
 var ActiveCalls = (_dec = (0, _di.Module)({
-  deps: ['Client', 'ExtensionFeatures', {
+  deps: ['Client', 'AppFeatures', {
     dep: 'TabManager',
     optional: true
   }, {
@@ -141,13 +141,13 @@ var ActiveCalls = (_dec = (0, _di.Module)({
     var _this;
 
     var client = _ref.client,
-        extensionFeatures = _ref.extensionFeatures,
+        appFeatures = _ref.appFeatures,
         tabManager = _ref.tabManager,
         _ref$fetchDelay = _ref.fetchDelay,
         fetchDelay = _ref$fetchDelay === void 0 ? FETCH_DELAY : _ref$fetchDelay,
         _ref$ttl = _ref.ttl,
         ttl = _ref$ttl === void 0 ? DEFAULT_TTL : _ref$ttl,
-        options = _objectWithoutProperties(_ref, ["client", "extensionFeatures", "tabManager", "fetchDelay", "ttl"]);
+        options = _objectWithoutProperties(_ref, ["client", "appFeatures", "tabManager", "fetchDelay", "ttl"]);
 
     _classCallCheck(this, ActiveCalls);
 
@@ -225,14 +225,14 @@ var ActiveCalls = (_dec = (0, _di.Module)({
 
     console.warn('ActiveCalls module is deprecated, please use Presence module with detailed mode');
     _this._fetchDelay = fetchDelay;
-    _this._extensionFeatures = extensionFeatures;
+    _this._appFeatures = appFeatures;
     return _this;
   }
 
   _createClass(ActiveCalls, [{
     key: "_shouldInit",
     value: function _shouldInit() {
-      return _get(_getPrototypeOf(ActiveCalls.prototype), "_shouldInit", this).call(this) && this._extensionFeatures.ready;
+      return _get(_getPrototypeOf(ActiveCalls.prototype), "_shouldInit", this).call(this) && this._appFeatures.ready;
     }
   }, {
     key: "_name",
@@ -242,9 +242,7 @@ var ActiveCalls = (_dec = (0, _di.Module)({
   }, {
     key: "_hasPermission",
     get: function get() {
-      var _this$_extensionFeatu, _this$_extensionFeatu2, _this$_extensionFeatu3;
-
-      return (_this$_extensionFeatu = (_this$_extensionFeatu2 = this._extensionFeatures.features) === null || _this$_extensionFeatu2 === void 0 ? void 0 : (_this$_extensionFeatu3 = _this$_extensionFeatu2.ReadExtensionCallLog) === null || _this$_extensionFeatu3 === void 0 ? void 0 : _this$_extensionFeatu3.available) !== null && _this$_extensionFeatu !== void 0 ? _this$_extensionFeatu : false;
+      return this._appFeatures.hasReadExtensionCallLog;
     }
   }]);
 

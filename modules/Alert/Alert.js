@@ -36,12 +36,14 @@ require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.keys");
 
-require("core-js/modules/es6.array.for-each");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+
+require("core-js/modules/es6.array.find");
+
+require("core-js/modules/es6.array.for-each");
 
 require("core-js/modules/es6.array.filter");
 
@@ -325,6 +327,30 @@ _dec = (0, _di.Module)({
         type: this.actionTypes.dismissAll
       });
     }
+    /**
+     * @function
+     * @description  Dismiss all other messages expect some specified message.
+     */
+
+  }, {
+    key: "dismissAllExpectSpecified",
+    value: function dismissAllExpectSpecified(_ref3) {
+      var _this2 = this;
+
+      var specifiedAlertIds = _ref3.specifiedAlertIds;
+      var messagesId = [];
+      specifiedAlertIds.forEach(function (specifiedAlertId) {
+        var message = _this2.messages.find(function (item) {
+          return item === specifiedAlertId;
+        });
+
+        if (message) messagesId.push(message);
+      });
+      this.store.dispatch({
+        type: this.actionTypes.dismiss,
+        ids: messagesId
+      });
+    }
   }, {
     key: "_actionTypes",
     get: function get() {
@@ -354,6 +380,6 @@ _dec = (0, _di.Module)({
   }]);
 
   return Alert;
-}(_RcModule2["default"]), (_applyDecoratedDescriptor(_class2.prototype, "alert", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "alert"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "dismiss", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "dismiss"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "dismissAll", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "dismissAll"), _class2.prototype)), _class2)) || _class);
+}(_RcModule2["default"]), (_applyDecoratedDescriptor(_class2.prototype, "alert", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "alert"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "dismiss", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "dismiss"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "dismissAll", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "dismissAll"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "dismissAllExpectSpecified", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "dismissAllExpectSpecified"), _class2.prototype)), _class2)) || _class);
 exports["default"] = Alert;
 //# sourceMappingURL=Alert.js.map

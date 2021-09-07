@@ -63,7 +63,8 @@ var _default = function _default(auth, client, regionSettings, account) {
             _this.timeout(20000);
 
             mock.mockClient(client);
-            clientHistoryRequest = new _ClientHistoryRequest["default"](new Map(), client);
+            clientHistoryRequest = new _ClientHistoryRequest["default"](new Map(), client); // eslint-disable-next-line no-undef
+
             before( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
               return regeneratorRuntime.wrap(function _callee$(_context) {
                 while (1) {
@@ -102,7 +103,7 @@ var _default = function _default(auth, client, regionSettings, account) {
                     case 3:
                       expect(regionSettings.availableCountries).to.have.length.above(0);
                       expect(regionSettings.countryCode).to.equal(_extensionInfo["default"].regionalSettings.homeCountry.isoCode);
-                      expect(regionSettings.showReginSetting).to.equal(true);
+                      expect(regionSettings.showRegionSetting).to.equal(true);
 
                     case 6:
                     case "end":

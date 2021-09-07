@@ -4,8 +4,6 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
 require("core-js/modules/es7.symbol.async-iterator");
 
-require("core-js/modules/es6.promise");
-
 require("core-js/modules/es6.object.define-properties");
 
 require("core-js/modules/es7.object.get-own-property-descriptors");
@@ -13,6 +11,8 @@ require("core-js/modules/es7.object.get-own-property-descriptors");
 require("core-js/modules/es6.array.filter");
 
 require("core-js/modules/es6.symbol");
+
+require("core-js/modules/es6.promise");
 
 require("core-js/modules/es6.object.create");
 
@@ -39,39 +39,33 @@ require("core-js/modules/es6.array.for-each");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = void 0;
+exports["default"] = exports.TabManager = void 0;
 
 require("regenerator-runtime/runtime");
 
-require("core-js/modules/es6.object.assign");
+var _core = require("@ringcentral-integration/core");
 
-var _moduleStatuses = _interopRequireDefault(require("../../enums/moduleStatuses"));
+var _redux = require("redux");
 
 var _di = require("../../lib/di");
 
-var _RcModule2 = _interopRequireDefault(require("../../lib/RcModule"));
+var _proxify = require("../../lib/proxy/proxify");
 
 var _Tabbie = require("../../lib/Tabbie");
 
-var _actionTypes = _interopRequireDefault(require("./actionTypes"));
-
-var _getTabManagerReducer = _interopRequireDefault(require("./getTabManagerReducer"));
-
-var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
-
-var _dec, _class, _class2;
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+var _dec, _class, _class2, _descriptor, _descriptor2, _descriptor3;
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -95,155 +89,139 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
 
-var TabManager = (
-/**
- * @class
- * @description To handle data between different tabs
- */
-_dec = (0, _di.Module)(), _dec(_class = (_class2 = /*#__PURE__*/function (_RcModule) {
-  _inherits(TabManager, _RcModule);
+function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and runs after the decorators transform.'); }
+
+var TabManager = (_dec = (0, _di.Module)({
+  name: 'TabManager',
+  deps: [{
+    dep: 'TabManagerOptions',
+    optional: true
+  }, 'Prefix']
+}), _dec(_class = (_class2 = /*#__PURE__*/function (_RcModuleV) {
+  _inherits(TabManager, _RcModuleV);
 
   var _super = _createSuper(TabManager);
 
-  _createClass(TabManager, [{
-    key: "enable",
-    get: function get() {
-      return this._tabbie.enabled;
-    }
-  }, {
-    key: "status",
-    get: function get() {
-      return this.state.status;
-    }
-  }, {
-    key: "ready",
-    get: function get() {
-      return this.state.status === _moduleStatuses["default"].ready;
-    }
-  }, {
-    key: "active",
-    get: function get() {
-      return this.state.active;
-    }
-  }, {
-    key: "id",
-    get: function get() {
-      return this._tabbie.id;
-    }
-  }, {
-    key: "hasMultipleTabs",
-    get: function get() {
-      return this._tabbie.hasMultipleTabs;
-    }
-  }, {
-    key: "event",
-    get: function get() {
-      return this.state.event;
-    }
-  }, {
-    key: "tabs",
-    get: function get() {
-      return this._tabbie.tabs;
-    }
-  }, {
-    key: "isFirstTab",
-    get: function get() {
-      return this._tabbie.isFirstTab;
-    }
-  }]);
+  function TabManager(deps) {
+    var _deps$tabManagerOptio, _deps$tabManagerOptio2;
 
-  function TabManager(_ref) {
     var _this;
-
-    var options = Object.assign({}, _ref);
 
     _classCallCheck(this, TabManager);
 
-    _this = _super.call(this, _objectSpread(_objectSpread({}, options), {}, {
-      actionTypes: _actionTypes["default"]
-    }));
-    _this._tabbie = void 0;
-    _this._tabbie = new _Tabbie.Tabbie({
-      prefix: _this.prefix
+    _this = _super.call(this, {
+      deps: deps,
+      enableGlobalCache: (_deps$tabManagerOptio = (_deps$tabManagerOptio2 = deps.tabManagerOptions) === null || _deps$tabManagerOptio2 === void 0 ? void 0 : _deps$tabManagerOptio2.enableCache) !== null && _deps$tabManagerOptio !== void 0 ? _deps$tabManagerOptio : false
     });
-    _this._reducer = (0, _getTabManagerReducer["default"])(_this.actionTypes);
+    _this.tabbie = void 0;
+
+    _initializerDefineProperty(_this, "id", _descriptor, _assertThisInitialized(_this));
+
+    _initializerDefineProperty(_this, "active", _descriptor2, _assertThisInitialized(_this));
+
+    _initializerDefineProperty(_this, "event", _descriptor3, _assertThisInitialized(_this));
+
+    _this._eventReducer = function () {
+      var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+      var action = arguments.length > 1 ? arguments[1] : undefined;
+
+      if (action._usm === _core.usmAction) {
+        var _this$_getStateV = _this._getStateV2(action._state, _this[_core.identifierKey]),
+            event = _this$_getStateV.event;
+
+        if (event && // It needs to match the exact modification event about `@action _setEvent()` in this module for Redux state.
+        // And it is a one-time state in Redux store.
+        action.method === '_setEvent' && action.type === _this[_core.identifierKey]) return event;
+      }
+
+      return null;
+    };
+
+    _this.tabbie = new _Tabbie.Tabbie({
+      prefix: _this._deps.prefix
+    });
     return _this;
   }
 
   _createClass(TabManager, [{
-    key: "initialize",
+    key: "_setId",
+    value: function _setId(id) {
+      this.id = id;
+    }
+    /**
+     * Default to true. If tabbie cannot be enabled due to env, the runtime
+     * should assume active.
+     */
+
+  }, {
+    key: "_setActive",
+    value: function _setActive(active) {
+      this.active = active;
+    }
+  }, {
+    key: "_setEvent",
+    value: function _setEvent(event, args) {
+      this.event = {
+        name: event,
+        args: args
+      };
+    }
+  }, {
+    key: "onInitOnce",
     value: function () {
-      var _initialize = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+      var _onInitOnce = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
         var _this2 = this;
 
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                _context2.t0 = this.store;
-                _context2.t1 = this.actionTypes.initSuccess;
-                _context2.next = 4;
-                return this._tabbie.checkIsMain();
+                this._setId(this.tabbie.id);
 
-              case 4:
-                _context2.t2 = _context2.sent;
-                _context2.t3 = {
-                  type: _context2.t1,
-                  active: _context2.t2
-                };
-
-                _context2.t0.dispatch.call(_context2.t0, _context2.t3);
-
-                if (this._tabbie.enabled) {
-                  this._tabbie.on(this._tabbie.events.mainTabIdChanged, /*#__PURE__*/function () {
-                    var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(mainTabId) {
-                      return regeneratorRuntime.wrap(function _callee$(_context) {
-                        while (1) {
-                          switch (_context.prev = _context.next) {
-                            case 0:
-                              _context.t0 = _this2.store;
-                              _context.t1 = _this2.actionTypes.mainTabIdChanged;
-                              _context.t2 = mainTabId;
-                              _context.next = 5;
-                              return _this2._tabbie.checkIsMain();
-
-                            case 5:
-                              _context.t3 = _context.sent;
-                              _context.t4 = {
-                                type: _context.t1,
-                                mainTabId: _context.t2,
-                                active: _context.t3
-                              };
-
-                              _context.t0.dispatch.call(_context.t0, _context.t4);
-
-                            case 8:
-                            case "end":
-                              return _context.stop();
-                          }
-                        }
-                      }, _callee);
-                    }));
-
-                    return function (_x) {
-                      return _ref2.apply(this, arguments);
-                    };
-                  }());
-
-                  this._tabbie.on(this._tabbie.events.event, function (event) {
-                    for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-                      args[_key - 1] = arguments[_key];
-                    }
-
-                    _this2.store.dispatch({
-                      type: _this2.actionTypes.event,
-                      event: event,
-                      args: args
-                    });
-                  });
+                if (!this.tabbie.enabled) {
+                  _context2.next = 9;
+                  break;
                 }
 
-              case 8:
+                _context2.t0 = this;
+                _context2.next = 5;
+                return this.tabbie.checkIsMain();
+
+              case 5:
+                _context2.t1 = _context2.sent;
+
+                _context2.t0._setActive.call(_context2.t0, _context2.t1);
+
+                this.tabbie.on(this.tabbie.events.mainTabIdChanged, /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+                  return regeneratorRuntime.wrap(function _callee$(_context) {
+                    while (1) {
+                      switch (_context.prev = _context.next) {
+                        case 0:
+                          _context.t0 = _this2;
+                          _context.next = 3;
+                          return _this2.tabbie.checkIsMain();
+
+                        case 3:
+                          _context.t1 = _context.sent;
+
+                          _context.t0._setActive.call(_context.t0, _context.t1);
+
+                        case 5:
+                        case "end":
+                          return _context.stop();
+                      }
+                    }
+                  }, _callee);
+                })));
+                this.tabbie.on(this.tabbie.events.event, function (event) {
+                  for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+                    args[_key - 1] = arguments[_key];
+                  }
+
+                  _this2._setEvent(event, args);
+                });
+
+              case 9:
               case "end":
                 return _context2.stop();
             }
@@ -251,17 +229,17 @@ _dec = (0, _di.Module)(), _dec(_class = (_class2 = /*#__PURE__*/function (_RcMod
         }, _callee2, this);
       }));
 
-      function initialize() {
-        return _initialize.apply(this, arguments);
+      function onInitOnce() {
+        return _onInitOnce.apply(this, arguments);
       }
 
-      return initialize;
+      return onInitOnce;
     }()
   }, {
     key: "send",
     value: function () {
       var _send = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(event) {
-        var _this$_tabbie;
+        var _this$tabbie;
 
         var _len2,
             args,
@@ -276,7 +254,7 @@ _dec = (0, _di.Module)(), _dec(_class = (_class2 = /*#__PURE__*/function (_RcMod
                   args[_key2 - 1] = _args3[_key2];
                 }
 
-                (_this$_tabbie = this._tabbie).send.apply(_this$_tabbie, [event].concat(args));
+                (_this$tabbie = this.tabbie).send.apply(_this$tabbie, [event].concat(args));
 
               case 2:
               case "end":
@@ -286,7 +264,7 @@ _dec = (0, _di.Module)(), _dec(_class = (_class2 = /*#__PURE__*/function (_RcMod
         }, _callee3, this);
       }));
 
-      function send(_x2) {
+      function send(_x) {
         return _send.apply(this, arguments);
       }
 
@@ -300,7 +278,7 @@ _dec = (0, _di.Module)(), _dec(_class = (_class2 = /*#__PURE__*/function (_RcMod
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                return _context4.abrupt("return", this._tabbie.checkIsMain());
+                return _context4.abrupt("return", this.tabbie.checkIsMain());
 
               case 1:
               case "end":
@@ -316,11 +294,6 @@ _dec = (0, _di.Module)(), _dec(_class = (_class2 = /*#__PURE__*/function (_RcMod
 
       return checkIsMain;
     }()
-    /**
-     * check tab alive state by tabId
-     * @param id tabId you want to check
-     */
-
   }, {
     key: "checkTabAliveById",
     value: function () {
@@ -329,7 +302,7 @@ _dec = (0, _di.Module)(), _dec(_class = (_class2 = /*#__PURE__*/function (_RcMod
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
-                return _context5.abrupt("return", this._tabbie.checkTabAliveById(id));
+                return _context5.abrupt("return", this.tabbie.checkTabAliveById(id));
 
               case 1:
               case "end":
@@ -339,15 +312,82 @@ _dec = (0, _di.Module)(), _dec(_class = (_class2 = /*#__PURE__*/function (_RcMod
         }, _callee5, this);
       }));
 
-      function checkTabAliveById(_x3) {
+      function checkTabAliveById(_x2) {
         return _checkTabAliveById.apply(this, arguments);
       }
 
       return checkTabAliveById;
     }()
+  }, {
+    key: "reducer",
+    get: function get() {
+      if (this._reducers) return (0, _redux.combineReducers)(_objectSpread(_objectSpread({}, this._reducers), {}, {
+        event: this._eventReducer
+      }));
+
+      this[_core.spawnStorageReducersKey]();
+
+      this[_core.spawnReducersKey]();
+
+      return (0, _redux.combineReducers)(_objectSpread(_objectSpread({}, this._reducers), {}, {
+        event: this._eventReducer
+      }));
+    }
+  }, {
+    key: "hasMultipleTabs",
+    get: function get() {
+      var _this$tabbie$hasMulti, _this$tabbie2;
+
+      return (_this$tabbie$hasMulti = (_this$tabbie2 = this.tabbie) === null || _this$tabbie2 === void 0 ? void 0 : _this$tabbie2.hasMultipleTabs) !== null && _this$tabbie$hasMulti !== void 0 ? _this$tabbie$hasMulti : false;
+    }
+  }, {
+    key: "tabs",
+    get: function get() {
+      var _this$tabbie$tabs, _this$tabbie3;
+
+      return (_this$tabbie$tabs = (_this$tabbie3 = this.tabbie) === null || _this$tabbie3 === void 0 ? void 0 : _this$tabbie3.tabs) !== null && _this$tabbie$tabs !== void 0 ? _this$tabbie$tabs : [];
+    }
+  }, {
+    key: "isFirstTab",
+    get: function get() {
+      var _this$tabbie$isFirstT, _this$tabbie4;
+
+      return (_this$tabbie$isFirstT = (_this$tabbie4 = this.tabbie) === null || _this$tabbie4 === void 0 ? void 0 : _this$tabbie4.isFirstTab) !== null && _this$tabbie$isFirstT !== void 0 ? _this$tabbie$isFirstT : true;
+    }
+  }, {
+    key: "enable",
+    get: function get() {
+      var _this$tabbie5;
+
+      return (_this$tabbie5 = this.tabbie) === null || _this$tabbie5 === void 0 ? void 0 : _this$tabbie5.enabled;
+    }
   }]);
 
   return TabManager;
-}(_RcModule2["default"]), (_applyDecoratedDescriptor(_class2.prototype, "send", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "send"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "checkIsMain", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "checkIsMain"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "checkTabAliveById", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "checkTabAliveById"), _class2.prototype)), _class2)) || _class);
-exports["default"] = TabManager;
+}(_core.RcModuleV2), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "id", [_core.state], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: function initializer() {
+    return null;
+  }
+}), _applyDecoratedDescriptor(_class2.prototype, "_setId", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setId"), _class2.prototype), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, "active", [_core.state], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: function initializer() {
+    return true;
+  }
+}), _applyDecoratedDescriptor(_class2.prototype, "_setActive", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setActive"), _class2.prototype), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, "event", [_core.state], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: function initializer() {
+    return null;
+  }
+}), _applyDecoratedDescriptor(_class2.prototype, "_setEvent", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setEvent"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "send", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "send"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "checkIsMain", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "checkIsMain"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "checkTabAliveById", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "checkTabAliveById"), _class2.prototype)), _class2)) || _class); // For backward compatibility
+
+exports.TabManager = TabManager;
+var _default = TabManager;
+exports["default"] = _default;
 //# sourceMappingURL=TabManager.js.map

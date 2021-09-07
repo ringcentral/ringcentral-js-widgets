@@ -151,7 +151,7 @@ function _initializerWarningHelper(descriptor, context) { throw new Error('Decor
 
 var ConferenceCall = (_dec = (0, _di.Module)({
   name: 'ConferenceCall',
-  deps: ['Auth', 'Alert', 'Call', 'CallingSettings', 'ConnectivityMonitor', 'Client', 'ExtensionFeatures', {
+  deps: ['Auth', 'Alert', 'Call', 'CallingSettings', 'ConnectivityMonitor', 'Client', 'AppFeatures', {
     dep: 'ContactMatcher',
     optional: true
   }, {
@@ -1680,7 +1680,7 @@ var ConferenceCall = (_dec = (0, _di.Module)({
   }, {
     key: "hasPermission",
     get: function get() {
-      return this._deps.extensionFeatures.isRingOutEnabled && this._deps.extensionFeatures.isWebPhoneEnabled;
+      return this._deps.appFeatures.hasConferenceCall;
     }
   }, {
     key: "lastCallInfo",

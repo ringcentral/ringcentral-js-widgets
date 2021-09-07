@@ -63,7 +63,7 @@ var _getRegionSettingsReducer = _interopRequireWildcard(require("./getRegionSett
 
 var _moduleStatuses = _interopRequireDefault(require("../../enums/moduleStatuses"));
 
-var _regionSettingsMessages = _interopRequireDefault(require("../RegionSettings/regionSettingsMessages"));
+var _regionSettingsMessages = _interopRequireDefault(require("./regionSettingsMessages"));
 
 var _actionTypes = _interopRequireDefault(require("./actionTypes"));
 
@@ -121,12 +121,7 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
 
 function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and runs after the decorators transform.'); }
 
-var RegionSettings = (
-/**
- * @class
- * @description Region settings managing module
- */
-_dec = (0, _di.Module)({
+var RegionSettings = (_dec = (0, _di.Module)({
   deps: ['Brand', 'Alert', 'DialingPlan', 'ExtensionInfo', 'Storage', {
     dep: 'TabManager',
     optional: true
@@ -392,7 +387,7 @@ _dec = (0, _di.Module)({
       return this.state.status === _moduleStatuses["default"].ready;
     }
   }, {
-    key: "showReginSetting",
+    key: "showRegionSetting",
     get: function get() {
       if (this.availableCountries.length > 1) {
         return true;

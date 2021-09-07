@@ -105,6 +105,9 @@ var Analytics = (_dec = (0, _di.Module)({
   }, {
     dep: 'Locale',
     optional: true
+  }, {
+    dep: 'AnalyticsEventExtendedProps',
+    optional: true
   }]
 }), _dec(_class = /*#__PURE__*/function (_RcModuleV) {
   _inherits(Analytics, _RcModuleV);
@@ -281,7 +284,7 @@ var Analytics = (_dec = (0, _di.Module)({
           companyName: (_this$_deps$extension4 = this._deps.extensionInfo) === null || _this$_deps$extension4 === void 0 ? void 0 : (_this$_deps$extension5 = _this$_deps$extension4.info) === null || _this$_deps$extension5 === void 0 ? void 0 : (_this$_deps$extension6 = _this$_deps$extension5.contact) === null || _this$_deps$extension6 === void 0 ? void 0 : _this$_deps$extension6.company,
           appName: this._deps.brandConfig.appName,
           appVersion: this._deps.analyticsOptions.appVersion,
-          appBrand: this._deps.brandConfig.brandCode,
+          appBrand: this._deps.brandConfig.code,
           plaBrand: (_this$_deps$accountIn = this._deps.accountInfo) === null || _this$_deps$accountIn === void 0 ? void 0 : (_this$_deps$accountIn2 = _this$_deps$accountIn.serviceInfo) === null || _this$_deps$accountIn2 === void 0 ? void 0 : (_this$_deps$accountIn3 = _this$_deps$accountIn2.brand) === null || _this$_deps$accountIn3 === void 0 ? void 0 : _this$_deps$accountIn3.name,
           countryCode: (_this$_deps$accountIn4 = this._deps.accountInfo) === null || _this$_deps$accountIn4 === void 0 ? void 0 : _this$_deps$accountIn4.countryCode
         }),
@@ -294,13 +297,15 @@ var Analytics = (_dec = (0, _di.Module)({
   }, {
     key: "track",
     value: function track(event) {
+      var _this$_deps$analytics7, _this$_pendo, _this$_pendo$isReady;
+
       var properties = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
       if (!this.analytics) {
         return;
       }
 
-      var trackProps = _objectSpread(_objectSpread({}, this.trackProps), properties);
+      var trackProps = _objectSpread(_objectSpread(_objectSpread({}, this.trackProps), properties), (_this$_deps$analytics7 = this._deps.analyticsEventExtendedProps) === null || _this$_deps$analytics7 === void 0 ? void 0 : _this$_deps$analytics7.extendedProps.get(event));
 
       this.analytics.track(event, trackProps, {
         integrations: {
@@ -316,6 +321,10 @@ var Analytics = (_dec = (0, _di.Module)({
           event: event,
           trackProps: trackProps
         });
+      }
+
+      if (this._enablePendo && ((_this$_pendo = this._pendo) === null || _this$_pendo === void 0 ? void 0 : (_this$_pendo$isReady = _this$_pendo.isReady) === null || _this$_pendo$isReady === void 0 ? void 0 : _this$_pendo$isReady.call(_this$_pendo))) {
+        this._pendo.track("".concat(trackProps.appName, "-").concat(event), trackProps);
       }
     }
   }, {
@@ -339,7 +348,7 @@ var Analytics = (_dec = (0, _di.Module)({
         router: router,
         appName: this._deps.brandConfig.appName,
         appVersion: this._deps.analyticsOptions.appVersion,
-        brand: this._deps.brandConfig.brandCode
+        brand: this._deps.brandConfig.code
       };
       this.track("Navigation: Click/".concat(eventPostfix), trackProps);
     }
@@ -352,7 +361,7 @@ var Analytics = (_dec = (0, _di.Module)({
         router: router,
         appName: this._deps.brandConfig.appName,
         appVersion: this._deps.analyticsOptions.appVersion,
-        brand: this._deps.brandConfig.brandCode
+        brand: this._deps.brandConfig.code
       };
       this.track("Navigation: View/".concat(eventPostfix), trackProps);
     }
@@ -396,7 +405,7 @@ var Analytics = (_dec = (0, _di.Module)({
       return {
         appName: this._deps.brandConfig.appName,
         appVersion: this._deps.analyticsOptions.appVersion,
-        brand: this._deps.brandConfig.brandCode,
+        brand: this._deps.brandConfig.code,
         'App Language': ((_this$_deps$locale = this._deps.locale) === null || _this$_deps$locale === void 0 ? void 0 : _this$_deps$locale.currentLocale) || '',
         'Browser Language': ((_this$_deps$locale2 = this._deps.locale) === null || _this$_deps$locale2 === void 0 ? void 0 : _this$_deps$locale2.browserLocale) || '',
         'Extension Type': ((_this$_deps$extension7 = this._deps.extensionInfo) === null || _this$_deps$extension7 === void 0 ? void 0 : _this$_deps$extension7.info.type) || ''

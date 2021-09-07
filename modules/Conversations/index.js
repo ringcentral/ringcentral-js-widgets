@@ -192,7 +192,7 @@ function getUniqueNumbers(conversations) {
 var DEFAULT_PER_PAGE = 20;
 var DEFAULT_DAY_SPAN = 90;
 var Conversations = (_dec = (0, _di.Module)({
-  deps: ['Alert', 'Auth', 'Client', 'MessageSender', 'ExtensionInfo', 'MessageStore', 'ExtensionFeatures', {
+  deps: ['Alert', 'Auth', 'Client', 'MessageSender', 'ExtensionInfo', 'MessageStore', 'AppFeatures', {
     dep: 'RegionSettings',
     optional: true
   }, {
@@ -219,7 +219,7 @@ var Conversations = (_dec = (0, _di.Module)({
         messageSender = _ref.messageSender,
         extensionInfo = _ref.extensionInfo,
         messageStore = _ref.messageStore,
-        extensionFeatures = _ref.extensionFeatures,
+        appFeatures = _ref.appFeatures,
         contactMatcher = _ref.contactMatcher,
         conversationLogger = _ref.conversationLogger,
         regionSettings = _ref.regionSettings,
@@ -231,7 +231,7 @@ var Conversations = (_dec = (0, _di.Module)({
         enableLoadOldMessages = _ref$enableLoadOldMes === void 0 ? false : _ref$enableLoadOldMes,
         _ref$showMMSAttachmen = _ref.showMMSAttachment,
         showMMSAttachment = _ref$showMMSAttachmen === void 0 ? false : _ref$showMMSAttachmen,
-        options = _objectWithoutProperties(_ref, ["alert", "auth", "client", "messageSender", "extensionInfo", "messageStore", "extensionFeatures", "contactMatcher", "conversationLogger", "regionSettings", "perPage", "daySpan", "enableLoadOldMessages", "showMMSAttachment"]);
+        options = _objectWithoutProperties(_ref, ["alert", "auth", "client", "messageSender", "extensionInfo", "messageStore", "appFeatures", "contactMatcher", "conversationLogger", "regionSettings", "perPage", "daySpan", "enableLoadOldMessages", "showMMSAttachment"]);
 
     _classCallCheck(this, Conversations);
 
@@ -267,7 +267,7 @@ var Conversations = (_dec = (0, _di.Module)({
     _this._messageSender = _ensureExist["default"].call(_assertThisInitialized(_this), messageSender, 'messageSender');
     _this._extensionInfo = _ensureExist["default"].call(_assertThisInitialized(_this), extensionInfo, 'extensionInfo');
     _this._messageStore = _ensureExist["default"].call(_assertThisInitialized(_this), messageStore, 'messageStore');
-    _this._extensionFeatures = extensionFeatures;
+    _this._appFeatures = appFeatures;
     _this._contactMatcher = contactMatcher;
     _this._conversationLogger = conversationLogger;
     _this._regionSettings = regionSettings;
@@ -343,12 +343,12 @@ var Conversations = (_dec = (0, _di.Module)({
   }, {
     key: "_shouldInit",
     value: function _shouldInit() {
-      return this._auth.loggedIn && this._extensionInfo.ready && this._messageSender.ready && this._messageStore.ready && this._extensionFeatures.ready && (!this._contactMatcher || this._contactMatcher.ready) && (!this._conversationLogger || this._conversationLogger.ready) && this.pending;
+      return this._auth.loggedIn && this._extensionInfo.ready && this._messageSender.ready && this._messageStore.ready && this._appFeatures.ready && (!this._contactMatcher || this._contactMatcher.ready) && (!this._conversationLogger || this._conversationLogger.ready) && this.pending;
     }
   }, {
     key: "_shouldReset",
     value: function _shouldReset() {
-      return (!this._auth.loggedIn || !this._extensionInfo.ready || !this._messageSender.ready || !this._extensionFeatures.ready || !this._messageStore.ready || this._contactMatcher && !this._contactMatcher.ready || this._conversationLogger && !this._conversationLogger.ready) && this.ready;
+      return (!this._auth.loggedIn || !this._extensionInfo.ready || !this._messageSender.ready || !this._appFeatures.ready || !this._messageStore.ready || this._contactMatcher && !this._contactMatcher.ready || this._conversationLogger && !this._conversationLogger.ready) && this.ready;
     }
   }, {
     key: "_init",
@@ -1188,7 +1188,7 @@ var Conversations = (_dec = (0, _di.Module)({
   }, {
     key: "_hasPermission",
     get: function get() {
-      return this._extensionFeatures.hasReadMessagesPermission;
+      return this._appFeatures.hasReadMessagesPermission;
     }
   }, {
     key: "correspondentMatch",
@@ -1299,7 +1299,7 @@ var Conversations = (_dec = (0, _di.Module)({
 
         default:
           return allConversations.filter(function (conversation) {
-            return (_this8._extensionFeatures.hasReadMessagesPermission || !(0, _messageHelper.messageIsTextMessage)(conversation)) && (_this8._extensionFeatures.hasVoicemailPermission || !(0, _messageHelper.messageIsVoicemail)(conversation)) && (_this8._extensionFeatures.hasReadFaxPermission || !(0, _messageHelper.messageIsFax)(conversation));
+            return (_this8._appFeatures.hasReadMessagesPermission || !(0, _messageHelper.messageIsTextMessage)(conversation)) && (_this8._appFeatures.hasVoicemailPermission || !(0, _messageHelper.messageIsVoicemail)(conversation)) && (_this8._appFeatures.hasReadFaxPermission || !(0, _messageHelper.messageIsFax)(conversation));
           });
       }
     }];

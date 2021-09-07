@@ -8,6 +8,8 @@ require("core-js/modules/es6.string.iterator");
 
 require("core-js/modules/es6.weak-map");
 
+require("core-js/modules/es6.promise");
+
 require("core-js/modules/es6.object.define-properties");
 
 require("core-js/modules/es7.object.get-own-property-descriptors");
@@ -41,6 +43,8 @@ exports.Alert = void 0;
 
 require("core-js/modules/es6.array.index-of");
 
+require("regenerator-runtime/runtime");
+
 require("core-js/modules/es6.object.assign");
 
 require("core-js/modules/es6.array.for-each");
@@ -70,6 +74,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
 
@@ -301,20 +309,88 @@ var Alert = (_dec = (0, _di.Module)({
 
   }, {
     key: "dismiss",
-    value: function dismiss(ids) {
-      var _ids = [].concat(ids);
+    value: function () {
+      var _dismiss2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(ids) {
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                this._dismiss(ids);
 
-      this.messages = this.messages.filter(function (item) {
-        return _ids.indexOf(item.id) === -1;
-      });
-    }
+              case 1:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function dismiss(_x) {
+        return _dismiss2.apply(this, arguments);
+      }
+
+      return dismiss;
+    }()
     /**
      * Dismiss all messages.
      */
 
   }, {
     key: "dismissAll",
-    value: function dismissAll() {
+    value: function () {
+      var _dismissAll2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                this._dismissAll();
+
+              case 1:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function dismissAll() {
+        return _dismissAll2.apply(this, arguments);
+      }
+
+      return dismissAll;
+    }()
+    /**
+     * Dismiss all other messages expect some specified message.
+     */
+
+  }, {
+    key: "dismissAllExpectSpecified",
+    value: function dismissAllExpectSpecified(_ref5) {
+      var _this3 = this;
+
+      var specifiedAlertIds = _ref5.specifiedAlertIds;
+      var messages = [];
+      specifiedAlertIds.forEach(function (specifiedAlertId) {
+        var message = _this3.messages.find(function (item) {
+          return item.id === specifiedAlertId;
+        });
+
+        if (message) messages.push(message);
+      });
+      this.messages = messages;
+    }
+  }, {
+    key: "_dismiss",
+    value: function _dismiss(ids) {
+      var _ids = [].concat(ids);
+
+      this.messages = this.messages.filter(function (item) {
+        return _ids.indexOf(item.id) === -1;
+      });
+    }
+  }, {
+    key: "_dismissAll",
+    value: function _dismissAll() {
       this.messages = [];
     }
   }]);
@@ -327,6 +403,6 @@ var Alert = (_dec = (0, _di.Module)({
   initializer: function initializer() {
     return [];
   }
-}), _applyDecoratedDescriptor(_class2.prototype, "_alert", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_alert"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "alert", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "alert"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "update", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "update"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "dismiss", [_proxify["default"], _core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "dismiss"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "dismissAll", [_proxify["default"], _core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "dismissAll"), _class2.prototype)), _class2)) || _class);
+}), _applyDecoratedDescriptor(_class2.prototype, "_alert", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_alert"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "alert", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "alert"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "update", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "update"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "dismiss", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "dismiss"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "dismissAll", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "dismissAll"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "dismissAllExpectSpecified", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "dismissAllExpectSpecified"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_dismiss", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_dismiss"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_dismissAll", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_dismissAll"), _class2.prototype)), _class2)) || _class);
 exports.Alert = Alert;
 //# sourceMappingURL=Alert.js.map

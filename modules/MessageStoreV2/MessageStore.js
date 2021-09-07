@@ -175,7 +175,7 @@ var UPDATE_MESSAGE_ONCE_COUNT = 20; // Number of messages to be updated in one t
 
 var MessageStore = (_dec = (0, _di.Module)({
   name: 'MessageStore',
-  deps: ['Alert', 'Auth', 'Client', 'DataFetcherV2', 'Subscription', 'ConnectivityMonitor', 'ExtensionFeatures', {
+  deps: ['Alert', 'Auth', 'Client', 'DataFetcherV2', 'Subscription', 'ConnectivityMonitor', 'AppFeatures', {
     dep: 'AvailabilityMonitor',
     optional: true
   }, {
@@ -290,7 +290,7 @@ var MessageStore = (_dec = (0, _di.Module)({
         return _this._hasPermission;
       },
       readyCheckFunction: function readyCheckFunction() {
-        return _this._deps.extensionFeatures.ready;
+        return _this._deps.appFeatures.ready;
       },
       fetchFunction: function () {
         var _fetchFunction = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
@@ -1690,7 +1690,7 @@ var MessageStore = (_dec = (0, _di.Module)({
   }, {
     key: "_hasPermission",
     get: function get() {
-      return this._deps.extensionFeatures.hasReadMessagesPermission;
+      return this._deps.appFeatures.hasReadMessagesPermission;
     }
   }, {
     key: "allConversations",
@@ -1756,15 +1756,15 @@ var MessageStore = (_dec = (0, _di.Module)({
     get: function get() {
       var unreadCounts = 0;
 
-      if (this._deps.extensionFeatures.hasReadTextPermission) {
+      if (this._deps.appFeatures.hasReadTextPermission) {
         unreadCounts += this.textUnreadCounts;
       }
 
-      if (this._deps.extensionFeatures.hasVoicemailPermission) {
+      if (this._deps.appFeatures.hasVoicemailPermission) {
         unreadCounts += this.voiceUnreadCounts;
       }
 
-      if (this._deps.extensionFeatures.hasReadFaxPermission) {
+      if (this._deps.appFeatures.hasReadFaxPermission) {
         unreadCounts += this.faxUnreadCounts;
       }
 

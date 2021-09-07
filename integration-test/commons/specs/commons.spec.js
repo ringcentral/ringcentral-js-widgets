@@ -20,39 +20,37 @@ require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.object.define-property");
 
-var _TestPhoneFactory = _interopRequireDefault(require("../TestPhoneFactory"));
+var _accountInfo = _interopRequireDefault(require("../../spec-modules/accountInfo"));
 
-var _testAccount = require("../config/testAccount");
+var _availabilityMonitor = _interopRequireDefault(require("../../spec-modules/availabilityMonitor"));
 
-var _regionSetting = _interopRequireDefault(require("../../spec-modules/regionSetting"));
-
-var _numValidInCall = _interopRequireDefault(require("../../spec-modules/numValidInCall"));
+var _blockedNumber = _interopRequireDefault(require("../../spec-modules/blockedNumber"));
 
 var _callingSettings = _interopRequireDefault(require("../../spec-modules/callingSettings"));
 
 var _composeText = _interopRequireDefault(require("../../spec-modules/composeText"));
 
-var _rateLimiter = _interopRequireDefault(require("../../spec-modules/rateLimiter"));
-
-var _blockedNumber = _interopRequireDefault(require("../../spec-modules/blockedNumber"));
-
-var _forwardingNumber = _interopRequireDefault(require("../../spec-modules/forwardingNumber"));
-
-var _extensionInfo = _interopRequireDefault(require("../../spec-modules/extensionInfo"));
-
-var _accountInfo = _interopRequireDefault(require("../../spec-modules/accountInfo"));
+var _conferenceCall = _interopRequireDefault(require("../../spec-modules/conferenceCall"));
 
 var _dialingPlan = _interopRequireDefault(require("../../spec-modules/dialingPlan"));
 
-var _rolesAndPermissions = _interopRequireDefault(require("../../spec-modules/rolesAndPermissions"));
+var _extensionInfo = _interopRequireDefault(require("../../spec-modules/extensionInfo"));
 
 var _extensionPhoneNumber = _interopRequireDefault(require("../../spec-modules/extensionPhoneNumber"));
 
+var _forwardingNumber = _interopRequireDefault(require("../../spec-modules/forwardingNumber"));
+
+var _numValidInCall = _interopRequireDefault(require("../../spec-modules/numValidInCall"));
+
 var _presence = _interopRequireDefault(require("../../spec-modules/presence"));
 
-var _conferenceCall = _interopRequireDefault(require("../../spec-modules/conferenceCall"));
+var _rateLimiter = _interopRequireDefault(require("../../spec-modules/rateLimiter"));
 
-var _availabilityMonitor = _interopRequireDefault(require("../../spec-modules/availabilityMonitor"));
+var _regionSetting = _interopRequireDefault(require("../../spec-modules/regionSetting"));
+
+var _testAccount = require("../config/testAccount");
+
+var _TestPhoneFactory = _interopRequireDefault(require("../TestPhoneFactory"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -84,8 +82,6 @@ phone = (0, _TestPhoneFactory["default"])();
 (0, _accountInfo["default"])(phone.auth, phone.client, phone.accountInfo, _testAccount.defaultAccount, phone.alert);
 phone = (0, _TestPhoneFactory["default"])();
 (0, _dialingPlan["default"])(phone.auth, phone.client, phone.dialingPlan, _testAccount.defaultAccount);
-phone = (0, _TestPhoneFactory["default"])();
-(0, _rolesAndPermissions["default"])(phone.auth, phone.client, phone.rolesAndPermissions, _testAccount.defaultAccount, phone.alert);
 phone = (0, _TestPhoneFactory["default"])();
 (0, _extensionPhoneNumber["default"])(phone.auth, phone.client, phone.extensionPhoneNumber, _testAccount.defaultAccount);
 phone = (0, _TestPhoneFactory["default"])();

@@ -25,5 +25,6 @@
   "allowScreenSharing" : false,
   "isOnlyAuthUserJoin" : false,
   "isOnlyCoworkersJoin" : false,
+  "e2ee" : false,
   "waitingRoomMode" : 0
 }

@@ -18,24 +18,33 @@ Object.defineProperty(exports, "__esModule", {
 var _exportNames = {};
 exports["default"] = void 0;
 
-var _Locale = _interopRequireDefault(require("./Locale"));
+var _Locale = require("./Locale");
 
-var _reducers = require("./reducers");
-
-Object.keys(_reducers).forEach(function (key) {
+Object.keys(_Locale).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
-  if (key in exports && exports[key] === _reducers[key]) return;
+  if (key in exports && exports[key] === _Locale[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {
-      return _reducers[key];
+      return _Locale[key];
     }
   });
 });
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+var _Locale2 = require("./Locale.interface");
 
-var _default = _Locale["default"];
+Object.keys(_Locale2).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
+  if (key in exports && exports[key] === _Locale2[key]) return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _Locale2[key];
+    }
+  });
+});
+var _default = _Locale.Locale;
 exports["default"] = _default;
 //# sourceMappingURL=index.js.map

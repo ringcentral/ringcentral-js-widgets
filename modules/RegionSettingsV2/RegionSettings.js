@@ -102,8 +102,9 @@ var RegionSettings = (_dec = (0, _di.Module)({
   var availableCountries = _ref.availableCountries;
   return [availableCountries];
 }), _dec4 = (0, _core.computed)(function (_ref2) {
-  var availableCountries = _ref2.availableCountries;
-  return [availableCountries];
+  var availableCountries = _ref2.availableCountries,
+      countryCode = _ref2.countryCode;
+  return [availableCountries, countryCode];
 }), _dec(_class = (_class2 = /*#__PURE__*/function (_RcModuleV) {
   _inherits(RegionSettings, _RcModuleV);
 
@@ -153,10 +154,6 @@ var RegionSettings = (_dec = (0, _di.Module)({
     value: function onInitOnce() {
       var _this2 = this;
 
-      if (!this._deps.tabManager || this._deps.tabManager.active) {
-        this.checkRegionSettings();
-      }
-
       (0, _core.watch)(this, function () {
         return _this2.availableCountries;
       }, function () {
@@ -164,6 +161,13 @@ var RegionSettings = (_dec = (0, _di.Module)({
           _this2.checkRegionSettings();
         }
       });
+    }
+  }, {
+    key: "onInit",
+    value: function onInit() {
+      if (!this._deps.tabManager || this._deps.tabManager.active) {
+        this.checkRegionSettings();
+      }
     }
   }, {
     key: "_alertSettingsChanged",
@@ -306,7 +310,7 @@ var RegionSettings = (_dec = (0, _di.Module)({
       return country ? [country] : [];
     }
   }, {
-    key: "showReginSetting",
+    key: "showRegionSetting",
     get: function get() {
       if (this.availableCountries.length > 1) {
         return true;
@@ -342,6 +346,6 @@ var RegionSettings = (_dec = (0, _di.Module)({
       areaCode: ''
     };
   }
-}), _applyDecoratedDescriptor(_class2.prototype, "_setData", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setData"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "availableCountries", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "availableCountries"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "checkRegionSettings", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "checkRegionSettings"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setData", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "setData"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "showReginSetting", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "showReginSetting"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "homeCountryId", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "homeCountryId"), _class2.prototype)), _class2)) || _class);
+}), _applyDecoratedDescriptor(_class2.prototype, "_setData", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setData"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "availableCountries", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "availableCountries"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "checkRegionSettings", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "checkRegionSettings"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setData", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "setData"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "showRegionSetting", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "showRegionSetting"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "homeCountryId", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "homeCountryId"), _class2.prototype)), _class2)) || _class);
 exports.RegionSettings = RegionSettings;
 //# sourceMappingURL=RegionSettings.js.map

@@ -49,11 +49,9 @@ var _sdk = require("@ringcentral/sdk");
 
 var _di = require("../../lib/di");
 
-var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
+var _proxify = require("../../lib/proxy/proxify");
 
 var _dec, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4;
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -91,7 +89,7 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
 
 function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and runs after the decorators transform.'); }
 
-var DEFAULT_RECORDING_HOST = 'https://s3.ap-northeast-2.amazonaws.com/fetch-call-recording/test/index.html';
+var DEFAULT_RECORDING_HOST = 'https://apps.ringcentral.com/integrations/recording/index.html';
 var Environment = (_dec = (0, _di.Module)({
   name: 'Environment',
   deps: ['Client', 'GlobalStorage', 'SdkConfig', {
@@ -249,6 +247,6 @@ var Environment = (_dec = (0, _di.Module)({
   initializer: function initializer() {
     return 0;
   }
-}), _applyDecoratedDescriptor(_class2.prototype, "setEnvData", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setEnvData"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setData", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "setData"), _class2.prototype)), _class2)) || _class);
+}), _applyDecoratedDescriptor(_class2.prototype, "setEnvData", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setEnvData"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setData", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "setData"), _class2.prototype)), _class2)) || _class);
 exports.Environment = Environment;
 //# sourceMappingURL=Environment.js.map

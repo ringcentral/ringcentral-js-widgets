@@ -41,17 +41,17 @@ require("core-js/modules/es6.array.map");
 
 require("core-js/modules/es6.array.index-of");
 
+require("core-js/modules/es6.promise");
+
+require("core-js/modules/es6.array.for-each");
+
 require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
 
-require("core-js/modules/es6.object.keys");
-
-require("core-js/modules/es6.promise");
-
 require("core-js/modules/es6.object.to-string");
 
-require("core-js/modules/es6.array.for-each");
+require("core-js/modules/es6.object.keys");
 
 require("regenerator-runtime/runtime");
 
@@ -72,6 +72,8 @@ var _proxify = require("../../lib/proxy/proxify");
 var _sleep = _interopRequireDefault(require("../../lib/sleep"));
 
 var _Analytics = require("../Analytics");
+
+var _SipInstanceManager = require("../../lib/SipInstanceManager");
 
 var _connectionStatus = require("./connectionStatus");
 
@@ -137,7 +139,7 @@ var registerErrors = [_webphoneErrors.webphoneErrors.sipProvisionError, _webphon
 
 var WebphoneBase = (_dec = (0, _di.Module)({
   name: 'Webphone',
-  deps: ['Auth', 'Alert', 'Client', 'NumberValidate', 'ExtensionFeatures', 'Brand', 'RegionSettings', 'AudioSettings', 'Storage', {
+  deps: ['Auth', 'Alert', 'Client', 'NumberValidate', 'AppFeatures', 'ExtensionFeatures', 'Brand', 'RegionSettings', 'AudioSettings', 'Storage', {
     dep: 'AvailabilityMonitor',
     optional: true
   }, {
@@ -181,15 +183,19 @@ var WebphoneBase = (_dec = (0, _di.Module)({
     _this._reconnectDelays = AUTO_RETRIES_DELAY;
     _this._disconnectOnInactive = void 0;
     _this._activeWebphoneKey = void 0;
+    _this._webphoneInstanceKey = void 0;
     _this._webphone = void 0;
+    _this._sipInstanceManager = void 0;
     _this._remoteVideo = void 0;
     _this._localVideo = void 0;
+    _this._sipInstanceId = void 0;
     _this._connectTimeout = void 0;
     _this._isFirstRegister = void 0;
     _this._reconnectAfterSessionEnd = void 0;
     _this._disconnectInactiveAfterSessionEnd = void 0;
     _this._eventEmitter = void 0;
     _this._stopWebphoneUserAgentPromise = null;
+    _this._removedWebphoneAtBeforeUnload = void 0;
 
     _initializerDefineProperty(_this, "videoElementPrepared", _descriptor, _assertThisInitialized(_this));
 
@@ -215,6 +221,8 @@ var WebphoneBase = (_dec = (0, _di.Module)({
     _this._connectTimeout = null;
     _this._isFirstRegister = true;
     _this._eventEmitter = new _events.EventEmitter();
+    _this._sipInstanceManager = new _SipInstanceManager.SipInstanceManager("".concat(deps.prefix, "-webphone-inactive-sip-instance"));
+    _this._removedWebphoneAtBeforeUnload = false;
     return _this;
   }
 
@@ -388,8 +396,42 @@ var WebphoneBase = (_dec = (0, _di.Module)({
                     this._prepareVideoElement();
                   }
 
+                  window.addEventListener('beforeunload', function () {
+                    if (!_this2._webphone) {
+                      return;
+                    }
+
+                    if (Object.keys(_this2.originalSessions).length > 0) {
+                      return;
+                    }
+
+                    _this2._removedWebphoneAtBeforeUnload = true; // disconnect webphone at beforeunload if there are not active sessions
+
+                    _this2._disconnect(); // set timeout to reconnect web phone is before unload cancel
+
+
+                    setTimeout(function () {
+                      _this2._removedWebphoneAtBeforeUnload = false;
+
+                      _this2.connect({
+                        force: true,
+                        skipConnectDelay: true,
+                        skipDLCheck: true
+                      });
+                    }, 4000);
+                  });
                   window.addEventListener('unload', function () {
-                    _this2._disconnect();
+                    // mark current instance id as inactive, so app can reuse it after refresh
+                    if (_this2._sipInstanceId) {
+                      _this2._sipInstanceManager.setInstanceInactive(_this2._sipInstanceId, _this2._deps.auth.endpointId);
+
+                      _this2._sipInstanceId = null;
+                    } // disconnect if web phone is not disconnected at beforeunload
+
+
+                    if (!_this2._removedWebphoneAtBeforeUnload) {
+                      _this2._disconnect();
+                    }
 
                     _this2._removeCurrentInstanceFromActiveWebphone();
                   });
@@ -424,10 +466,11 @@ var WebphoneBase = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                _context2.next = 2;
+                _this3._sipInstanceId = null;
+                _context2.next = 3;
                 return _this3._disconnect();
 
-              case 2:
+              case 3:
               case "end":
                 return _context2.stop();
             }
@@ -471,12 +514,12 @@ var WebphoneBase = (_dec = (0, _di.Module)({
   }, {
     key: "_shouldInit",
     value: function _shouldInit() {
-      return this._deps.auth.loggedIn && this._deps.extensionFeatures.ready && this._deps.numberValidate.ready && this._deps.audioSettings.ready && this._deps.storage.ready && (!this._deps.tabManager || this._deps.tabManager.ready) && this.pending;
+      return this._deps.auth.loggedIn && this._deps.appFeatures.ready && this._deps.extensionFeatures.ready && this._deps.numberValidate.ready && this._deps.audioSettings.ready && this._deps.storage.ready && (!this._deps.tabManager || this._deps.tabManager.ready) && this.pending;
     }
   }, {
     key: "_shouldReset",
     value: function _shouldReset() {
-      return (!this._deps.auth.loggedIn || !this._deps.extensionFeatures.ready || !this._deps.numberValidate.ready || !!this._deps.tabManager && !this._deps.tabManager.ready || !this._deps.audioSettings.ready) && this.ready;
+      return (!this._deps.auth.loggedIn || !this._deps.appFeatures.ready || !this._deps.extensionFeatures.ready || !this._deps.numberValidate.ready || !!this._deps.tabManager && !this._deps.tabManager.ready || !this._deps.audioSettings.ready) && this.ready;
     }
   }, {
     key: "_sipProvision",
@@ -603,7 +646,10 @@ var WebphoneBase = (_dec = (0, _di.Module)({
 
                   if (this._webphone.userAgent.transport.__clearSwitchBackTimer) {
                     this._webphone.userAgent.transport.__clearSwitchBackTimer();
-                  }
+                  } // clean audio instances at web phone sdk
+
+
+                  this._webphone.userAgent.audioHelper.loadAudio({});
                 } catch (e) {
                   console.error(e); // ignore clean listener error
                 }
@@ -657,6 +703,10 @@ var WebphoneBase = (_dec = (0, _di.Module)({
                 return this._removeWebphone();
 
               case 2:
+                if (!this._sipInstanceId) {
+                  this._sipInstanceId = this._sipInstanceManager.getInstanceId(this._deps.auth.endpointId);
+                }
+
                 this._webphone = new _ringcentralWebPhone["default"](provisionData, _objectSpread({
                   appKey: this._deps.webphoneOptions.appKey,
                   appName: this._deps.webphoneOptions.appName,
@@ -673,7 +723,8 @@ var WebphoneBase = (_dec = (0, _di.Module)({
                     local: this._localVideo
                   },
                   enableQos: (0, _webphoneHelper.isChrome)(),
-                  enableMidLinesInSDP: (0, _webphoneHelper.isEnableMidLinesInSDP)()
+                  enableMidLinesInSDP: (0, _webphoneHelper.isEnableMidLinesInSDP)(),
+                  instanceId: this._sipInstanceId
                 }, (_this$_deps$webphoneO2 = this._deps.webphoneOptions.webphoneSDKOptions) !== null && _this$_deps$webphoneO2 !== void 0 ? _this$_deps$webphoneO2 : {}));
                 this.loadAudio();
 
@@ -848,7 +899,7 @@ var WebphoneBase = (_dec = (0, _di.Module)({
                   };
                 });
 
-              case 15:
+              case 16:
               case "end":
                 return _context6.stop();
             }
@@ -1192,8 +1243,13 @@ var WebphoneBase = (_dec = (0, _di.Module)({
               case 0:
                 errorCode = _ref4.errorCode, statusCode = _ref4.statusCode, ttl = _ref4.ttl;
 
+                if (statusCode === 403 && this._sipInstanceId) {
+                  // recreate sip instance id if server send 403
+                  this._sipInstanceId = null;
+                }
+
                 if (!(this.connectRetryCounts > 2 || this.reconnecting || this.connected || this.connectError)) {
-                  _context10.next = 11;
+                  _context10.next = 12;
                   break;
                 }
 
@@ -1212,18 +1268,18 @@ var WebphoneBase = (_dec = (0, _di.Module)({
                 // sleep before next reconnect for slient reconnect in background
 
 
-                _context10.next = 7;
+                _context10.next = 8;
                 return (0, _sleep["default"])(this._getConnectTimeoutTtl());
 
-              case 7:
+              case 8:
                 if (this.connectError) {
-                  _context10.next = 9;
+                  _context10.next = 10;
                   break;
                 }
 
                 return _context10.abrupt("return");
 
-              case 9:
+              case 10:
                 this.connect({
                   skipConnectDelay: true,
                   force: true,
@@ -1231,7 +1287,7 @@ var WebphoneBase = (_dec = (0, _di.Module)({
                 });
                 return _context10.abrupt("return");
 
-              case 11:
+              case 12:
                 this._setStateOnConnectFailed(errorCode, statusCode);
 
                 if (this.connectRetryCounts === 1) {
@@ -1254,7 +1310,7 @@ var WebphoneBase = (_dec = (0, _di.Module)({
                   skipTimeout: false
                 });
 
-              case 14:
+              case 15:
               case "end":
                 return _context10.stop();
             }
@@ -1272,10 +1328,6 @@ var WebphoneBase = (_dec = (0, _di.Module)({
     key: "_onWebphoneRegistered",
     value: function _onWebphoneRegistered(provisionData) {
       this._setStateOnRegistered(provisionData.device);
-
-      this._deps.alert.info({
-        message: _webphoneErrors.webphoneErrors.connected
-      });
 
       this._hideRegisterErrorAlert();
 
@@ -1403,25 +1455,64 @@ var WebphoneBase = (_dec = (0, _di.Module)({
     }
   }, {
     key: "_onTabActive",
-    value: function _onTabActive() {
-      if (!this._disconnectOnInactive) {
-        return;
+    value: function () {
+      var _onTabActive2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee12() {
+        return regeneratorRuntime.wrap(function _callee12$(_context12) {
+          while (1) {
+            switch (_context12.prev = _context12.next) {
+              case 0:
+                if (this._disconnectOnInactive) {
+                  _context12.next = 2;
+                  break;
+                }
+
+                return _context12.abrupt("return");
+
+              case 2:
+                if (!this.connected) {
+                  _context12.next = 5;
+                  break;
+                }
+
+                this._setCurrentInstanceAsActiveWebphone();
+
+                return _context12.abrupt("return");
+
+              case 5:
+                _context12.next = 7;
+                return (0, _sleep["default"])(500);
+
+              case 7:
+                if (this._deps.tabManager.active) {
+                  _context12.next = 9;
+                  break;
+                }
+
+                return _context12.abrupt("return");
+
+              case 9:
+                if (this.inactive) {
+                  this.connect({
+                    skipDLCheck: true,
+                    force: true,
+                    skipTabActiveCheck: true
+                  });
+                }
+
+              case 10:
+              case "end":
+                return _context12.stop();
+            }
+          }
+        }, _callee12, this);
+      }));
+
+      function _onTabActive() {
+        return _onTabActive2.apply(this, arguments);
       }
 
-      if (this.connected) {
-        this._setCurrentInstanceAsActiveWebphone();
-
-        return;
-      }
-
-      if (this.inactive) {
-        this.connect({
-          skipDLCheck: true,
-          force: true,
-          skipTabActiveCheck: true
-        });
-      }
-    }
+      return _onTabActive;
+    }()
   }, {
     key: "_hideConnectingAlert",
     value: function _hideConnectingAlert() {
@@ -1442,11 +1533,11 @@ var WebphoneBase = (_dec = (0, _di.Module)({
   }, {
     key: "_hideConnectFailedAlert",
     value: function () {
-      var _hideConnectFailedAlert2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee12() {
+      var _hideConnectFailedAlert2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee13() {
         var alertIds;
-        return regeneratorRuntime.wrap(function _callee12$(_context12) {
+        return regeneratorRuntime.wrap(function _callee13$(_context13) {
           while (1) {
-            switch (_context12.prev = _context12.next) {
+            switch (_context13.prev = _context13.next) {
               case 0:
                 alertIds = this._deps.alert.messages.filter(function (m) {
                   for (var i = 0, len = registerErrors.length; i < len; i += 1) {
@@ -1464,10 +1555,10 @@ var WebphoneBase = (_dec = (0, _di.Module)({
 
               case 2:
               case "end":
-                return _context12.stop();
+                return _context13.stop();
             }
           }
-        }, _callee12, this);
+        }, _callee13, this);
       }));
 
       function _hideConnectFailedAlert() {
@@ -1496,17 +1587,17 @@ var WebphoneBase = (_dec = (0, _di.Module)({
   }, {
     key: "_disconnect",
     value: function () {
-      var _disconnect2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee13() {
-        return regeneratorRuntime.wrap(function _callee13$(_context13) {
+      var _disconnect2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee14() {
+        return regeneratorRuntime.wrap(function _callee14$(_context14) {
           while (1) {
-            switch (_context13.prev = _context13.next) {
+            switch (_context14.prev = _context14.next) {
               case 0:
                 if (!(this.disconnected || this.disconnecting)) {
-                  _context13.next = 2;
+                  _context14.next = 2;
                   break;
                 }
 
-                return _context13.abrupt("return");
+                return _context14.abrupt("return");
 
               case 2:
                 if (this._connectTimeout) {
@@ -1516,11 +1607,11 @@ var WebphoneBase = (_dec = (0, _di.Module)({
                 this._setStoreOnDisconnect();
 
                 if (!this._webphone) {
-                  _context13.next = 7;
+                  _context14.next = 7;
                   break;
                 }
 
-                _context13.next = 7;
+                _context14.next = 7;
                 return this._removeWebphone();
 
               case 7:
@@ -1528,10 +1619,10 @@ var WebphoneBase = (_dec = (0, _di.Module)({
 
               case 8:
               case "end":
-                return _context13.stop();
+                return _context14.stop();
             }
           }
-        }, _callee13, this);
+        }, _callee14, this);
       }));
 
       function _disconnect() {
@@ -1543,20 +1634,21 @@ var WebphoneBase = (_dec = (0, _di.Module)({
   }, {
     key: "disconnect",
     value: function () {
-      var _disconnect3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee14() {
-        return regeneratorRuntime.wrap(function _callee14$(_context14) {
+      var _disconnect3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee15() {
+        return regeneratorRuntime.wrap(function _callee15$(_context15) {
           while (1) {
-            switch (_context14.prev = _context14.next) {
+            switch (_context15.prev = _context15.next) {
               case 0:
-                _context14.next = 2;
+                this._sipInstanceId = null;
+                _context15.next = 3;
                 return this._disconnect();
 
-              case 2:
+              case 3:
               case "end":
-                return _context14.stop();
+                return _context15.stop();
             }
           }
-        }, _callee14, this);
+        }, _callee15, this);
       }));
 
       function disconnect() {
@@ -1573,17 +1665,17 @@ var WebphoneBase = (_dec = (0, _di.Module)({
   }, {
     key: "showAlert",
     value: function () {
-      var _showAlert = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee15() {
-        return regeneratorRuntime.wrap(function _callee15$(_context15) {
+      var _showAlert = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee16() {
+        return regeneratorRuntime.wrap(function _callee16$(_context16) {
           while (1) {
-            switch (_context15.prev = _context15.next) {
+            switch (_context16.prev = _context16.next) {
               case 0:
                 if (this.errorCode) {
-                  _context15.next = 2;
+                  _context16.next = 2;
                   break;
                 }
 
-                return _context15.abrupt("return");
+                return _context16.abrupt("return");
 
               case 2:
                 this._deps.alert.danger({
@@ -1596,10 +1688,10 @@ var WebphoneBase = (_dec = (0, _di.Module)({
 
               case 3:
               case "end":
-                return _context15.stop();
+                return _context16.stop();
             }
           }
-        }, _callee15, this);
+        }, _callee16, this);
       }));
 
       function showAlert() {
@@ -1621,11 +1713,11 @@ var WebphoneBase = (_dec = (0, _di.Module)({
   }, {
     key: "setOutgoingAudio",
     value: function () {
-      var _setOutgoingAudio = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee16(_ref5) {
+      var _setOutgoingAudio = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee17(_ref5) {
         var fileName, dataUrl;
-        return regeneratorRuntime.wrap(function _callee16$(_context16) {
+        return regeneratorRuntime.wrap(function _callee17$(_context17) {
           while (1) {
-            switch (_context16.prev = _context16.next) {
+            switch (_context17.prev = _context17.next) {
               case 0:
                 fileName = _ref5.fileName, dataUrl = _ref5.dataUrl;
 
@@ -1636,10 +1728,10 @@ var WebphoneBase = (_dec = (0, _di.Module)({
 
               case 3:
               case "end":
-                return _context16.stop();
+                return _context17.stop();
             }
           }
-        }, _callee16, this);
+        }, _callee17, this);
       }));
 
       function setOutgoingAudio(_x3) {
@@ -1651,10 +1743,10 @@ var WebphoneBase = (_dec = (0, _di.Module)({
   }, {
     key: "resetOutgoingAudio",
     value: function () {
-      var _resetOutgoingAudio2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee17() {
-        return regeneratorRuntime.wrap(function _callee17$(_context17) {
+      var _resetOutgoingAudio2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee18() {
+        return regeneratorRuntime.wrap(function _callee18$(_context18) {
           while (1) {
-            switch (_context17.prev = _context17.next) {
+            switch (_context18.prev = _context18.next) {
               case 0:
                 this._resetOutgoingAudio();
 
@@ -1662,10 +1754,10 @@ var WebphoneBase = (_dec = (0, _di.Module)({
 
               case 2:
               case "end":
-                return _context17.stop();
+                return _context18.stop();
             }
           }
-        }, _callee17, this);
+        }, _callee18, this);
       }));
 
       function resetOutgoingAudio() {
@@ -1677,11 +1769,11 @@ var WebphoneBase = (_dec = (0, _di.Module)({
   }, {
     key: "setIncomingAudio",
     value: function () {
-      var _setIncomingAudio = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee18(_ref6) {
+      var _setIncomingAudio = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee19(_ref6) {
         var fileName, dataUrl;
-        return regeneratorRuntime.wrap(function _callee18$(_context18) {
+        return regeneratorRuntime.wrap(function _callee19$(_context19) {
           while (1) {
-            switch (_context18.prev = _context18.next) {
+            switch (_context19.prev = _context19.next) {
               case 0:
                 fileName = _ref6.fileName, dataUrl = _ref6.dataUrl;
 
@@ -1692,10 +1784,10 @@ var WebphoneBase = (_dec = (0, _di.Module)({
 
               case 3:
               case "end":
-                return _context18.stop();
+                return _context19.stop();
             }
           }
-        }, _callee18, this);
+        }, _callee19, this);
       }));
 
       function setIncomingAudio(_x4) {
@@ -1707,10 +1799,10 @@ var WebphoneBase = (_dec = (0, _di.Module)({
   }, {
     key: "resetIncomingAudio",
     value: function () {
-      var _resetIncomingAudio2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee19() {
-        return regeneratorRuntime.wrap(function _callee19$(_context19) {
+      var _resetIncomingAudio2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee20() {
+        return regeneratorRuntime.wrap(function _callee20$(_context20) {
           while (1) {
-            switch (_context19.prev = _context19.next) {
+            switch (_context20.prev = _context20.next) {
               case 0:
                 this._resetIncomingAudio();
 
@@ -1718,10 +1810,10 @@ var WebphoneBase = (_dec = (0, _di.Module)({
 
               case 2:
               case "end":
-                return _context19.stop();
+                return _context20.stop();
             }
           }
-        }, _callee19, this);
+        }, _callee20, this);
       }));
 
       function resetIncomingAudio() {
@@ -1733,11 +1825,11 @@ var WebphoneBase = (_dec = (0, _di.Module)({
   }, {
     key: "setRingtone",
     value: function () {
-      var _setRingtone = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee20(_ref7) {
+      var _setRingtone = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee21(_ref7) {
         var incomingAudio, incomingAudioFile, outgoingAudio, outgoingAudioFile, isIncomingDefault, isOutgoingDefault;
-        return regeneratorRuntime.wrap(function _callee20$(_context20) {
+        return regeneratorRuntime.wrap(function _callee21$(_context21) {
           while (1) {
-            switch (_context20.prev = _context20.next) {
+            switch (_context21.prev = _context21.next) {
               case 0:
                 incomingAudio = _ref7.incomingAudio, incomingAudioFile = _ref7.incomingAudioFile, outgoingAudio = _ref7.outgoingAudio, outgoingAudioFile = _ref7.outgoingAudioFile;
                 isIncomingDefault = incomingAudioFile === DEFAULT_AUDIO && incomingAudio === _incoming["default"];
@@ -1749,10 +1841,10 @@ var WebphoneBase = (_dec = (0, _di.Module)({
 
               case 5:
               case "end":
-                return _context20.stop();
+                return _context21.stop();
             }
           }
-        }, _callee20, this);
+        }, _callee21, this);
       }));
 
       function setRingtone(_x5) {
@@ -1814,7 +1906,7 @@ var WebphoneBase = (_dec = (0, _di.Module)({
   }, {
     key: "enabled",
     get: function get() {
-      return this._deps.extensionFeatures.isWebPhoneEnabled;
+      return this._deps.appFeatures.isWebPhoneEnabled;
     }
   }, {
     key: "disconnecting",

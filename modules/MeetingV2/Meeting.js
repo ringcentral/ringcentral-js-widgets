@@ -201,7 +201,8 @@ var Meeting = (_dec = (0, _di.Module)({
 
     if (target) {
       return [_Analytics.trackEvents.clickMeetingSchedulePage, {
-        router: target.router
+        router: target.router,
+        'Meeting Type': 'RCM'
       }];
     }
   };

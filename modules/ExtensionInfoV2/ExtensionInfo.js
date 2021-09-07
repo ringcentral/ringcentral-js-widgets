@@ -24,6 +24,8 @@ require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.array.slice");
 
+require("core-js/modules/es6.array.reduce");
+
 require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
@@ -33,8 +35,6 @@ require("core-js/modules/es6.object.to-string");
 require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.for-each");
-
-require("core-js/modules/es6.array.reduce");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -51,8 +51,6 @@ require("regenerator-runtime/runtime");
 
 var _core = require("@ringcentral-integration/core");
 
-var _ramda = require("ramda");
-
 var _subscriptionFilters = require("../../enums/subscriptionFilters");
 
 var _subscriptionHints = require("../../enums/subscriptionHints");
@@ -63,7 +61,7 @@ var _DataFetcherV = require("../DataFetcherV2");
 
 var _permissionsMessages = require("../../enums/permissionsMessages");
 
-var _dec, _dec2, _dec3, _dec4, _class, _class2;
+var _dec, _dec2, _dec3, _class, _class2;
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -120,9 +118,6 @@ var ExtensionInfo = (_dec = (0, _di.Module)({
   return [data];
 }), _dec3 = (0, _core.computed)(function (_ref2) {
   var info = _ref2.info;
-  return [info.serviceFeatures];
-}), _dec4 = (0, _core.computed)(function (_ref3) {
-  var info = _ref3.info;
   return [info];
 }), _dec(_class = (_class2 = /*#__PURE__*/function (_DataFetcherV2Consume) {
   _inherits(ExtensionInfo, _DataFetcherV2Consume);
@@ -250,28 +245,6 @@ var ExtensionInfo = (_dec = (0, _di.Module)({
       return (_this$data = this.data) !== null && _this$data !== void 0 ? _this$data : {};
     }
   }, {
-    key: "serviceFeatures",
-    get: function get() {
-      var _this$info$serviceFea;
-
-      console.warn('ExtensionInfo.serviceFeatures is deprecated.');
-      return (0, _ramda.reduce)(function (acc, _ref4) {
-        var featureName = _ref4.featureName,
-            enabled = _ref4.enabled,
-            reason = _ref4.reason;
-        acc[featureName] = {
-          featureName: featureName,
-          enabled: enabled
-        };
-
-        if (!enabled) {
-          acc[featureName].reason = reason;
-        }
-
-        return acc;
-      }, {}, (_this$info$serviceFea = this.info.serviceFeatures) !== null && _this$info$serviceFea !== void 0 ? _this$info$serviceFea : []);
-    }
-  }, {
     key: "id",
     get: function get() {
       return this.info.id;
@@ -323,6 +296,6 @@ var ExtensionInfo = (_dec = (0, _di.Module)({
   }]);
 
   return ExtensionInfo;
-}(_DataFetcherV.DataFetcherV2Consumer), (_applyDecoratedDescriptor(_class2.prototype, "info", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "info"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "serviceFeatures", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "serviceFeatures"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "site", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "site"), _class2.prototype)), _class2)) || _class);
+}(_DataFetcherV.DataFetcherV2Consumer), (_applyDecoratedDescriptor(_class2.prototype, "info", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "info"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "site", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "site"), _class2.prototype)), _class2)) || _class);
 exports.ExtensionInfo = ExtensionInfo;
 //# sourceMappingURL=ExtensionInfo.js.map

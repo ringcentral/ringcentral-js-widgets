@@ -761,9 +761,9 @@ var AddressBook = (_dec = (0, _di.Module)({
   }, {
     key: "_hasPermission",
     get: function get() {
-      var _this$_extensionFeatu, _this$_extensionFeatu2;
+      var _this$_extensionFeatu, _this$_extensionFeatu2, _this$_extensionFeatu3;
 
-      return (_this$_extensionFeatu = (_this$_extensionFeatu2 = this._extensionFeatures.features) === null || _this$_extensionFeatu2 === void 0 ? void 0 : _this$_extensionFeatu2.ReadPersonalContacts.available) !== null && _this$_extensionFeatu !== void 0 ? _this$_extensionFeatu : false;
+      return (_this$_extensionFeatu = (_this$_extensionFeatu2 = this._extensionFeatures.features) === null || _this$_extensionFeatu2 === void 0 ? void 0 : (_this$_extensionFeatu3 = _this$_extensionFeatu2.ReadPersonalContacts) === null || _this$_extensionFeatu3 === void 0 ? void 0 : _this$_extensionFeatu3.available) !== null && _this$_extensionFeatu !== void 0 ? _this$_extensionFeatu : false;
     }
   }, {
     key: "status",

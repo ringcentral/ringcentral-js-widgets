@@ -118,7 +118,7 @@ var DEFAULT_MASK = 'phoneNumber,hostCode,participantCode,phoneNumbers(country(ca
  */
 
 var Conference = (_dec = (0, _di.Module)({
-  deps: ['Alert', 'Client', 'Storage', 'RegionSettings', 'ExtensionFeatures', 'ExtensionInfo', 'Locale', {
+  deps: ['Alert', 'Client', 'Storage', 'RegionSettings', 'AppFeatures', 'ExtensionInfo', 'Locale', {
     dep: 'AvailabilityMonitor',
     optional: true
   }, {
@@ -143,13 +143,13 @@ var Conference = (_dec = (0, _di.Module)({
         client = _ref.client,
         regionSettings = _ref.regionSettings,
         storage = _ref.storage,
-        extensionFeatures = _ref.extensionFeatures,
+        appFeatures = _ref.appFeatures,
         availabilityMonitor = _ref.availabilityMonitor,
         _ref$showSaveAsDefaul = _ref.showSaveAsDefault,
         showSaveAsDefault = _ref$showSaveAsDefaul === void 0 ? false : _ref$showSaveAsDefaul,
         extensionInfo = _ref.extensionInfo,
         locale = _ref.locale,
-        options = _objectWithoutProperties(_ref, ["alert", "client", "regionSettings", "storage", "extensionFeatures", "availabilityMonitor", "showSaveAsDefault", "extensionInfo", "locale"]);
+        options = _objectWithoutProperties(_ref, ["alert", "client", "regionSettings", "storage", "appFeatures", "availabilityMonitor", "showSaveAsDefault", "extensionInfo", "locale"]);
 
     _classCallCheck(this, Conference);
 
@@ -191,7 +191,7 @@ var Conference = (_dec = (0, _di.Module)({
     _this._additionalNumbersStorageKey = 'conferenceAdditionalNumbers';
     _this._savedStorageKey = 'conferenceSaveCurrentSettings';
     _this._regionSettings = regionSettings;
-    _this._extensionFeatures = extensionFeatures;
+    _this._appFeatures = appFeatures;
     _this._availabilityMonitor = availabilityMonitor;
     _this._lastCountryCode = null;
     _this._showSaveAsDefault = showSaveAsDefault;
@@ -263,7 +263,7 @@ var Conference = (_dec = (0, _di.Module)({
   }, {
     key: "_shouldInit",
     value: function _shouldInit() {
-      return _get(_getPrototypeOf(Conference.prototype), "_shouldInit", this).call(this) && this._extensionFeatures.ready && this._alert.ready && (!this._availabilityMonitor || this._availabilityMonitor.ready) && this._extensionInfo.ready && this._locale.ready && this._regionSettings.ready;
+      return _get(_getPrototypeOf(Conference.prototype), "_shouldInit", this).call(this) && this._appFeatures.ready && this._alert.ready && (!this._availabilityMonitor || this._availabilityMonitor.ready) && this._extensionInfo.ready && this._locale.ready && this._regionSettings.ready;
     }
   }, {
     key: "updateEnableJoinBeforeHost",
@@ -426,9 +426,7 @@ var Conference = (_dec = (0, _di.Module)({
   }, {
     key: "_hasPermission",
     get: function get() {
-      var _this$_extensionFeatu;
-
-      return !!((_this$_extensionFeatu = this._extensionFeatures.features.Conferencing) === null || _this$_extensionFeatu === void 0 ? void 0 : _this$_extensionFeatu.available);
+      return this._appFeatures.hasConferencing;
     }
   }, {
     key: "showSaveAsDefault",

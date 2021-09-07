@@ -18,8 +18,6 @@ require("core-js/modules/es6.object.define-properties");
 
 require("core-js/modules/es7.object.get-own-property-descriptors");
 
-require("core-js/modules/es6.array.for-each");
-
 require("core-js/modules/es6.array.filter");
 
 require("core-js/modules/es6.object.define-property");
@@ -49,13 +47,7 @@ exports.getLockedPreferences = getLockedPreferences;
 exports.patchWaitingRoomRelated = patchWaitingRoomRelated;
 exports.formatMainPhoneNumber = formatMainPhoneNumber;
 exports.formatPremiumNumbers = formatPremiumNumbers;
-Object.defineProperty(exports, "RCV_WAITING_ROOM_MODE", {
-  enumerable: true,
-  get: function get() {
-    return _constants.RCV_WAITING_ROOM_MODE;
-  }
-});
-exports.meetingProviderTypes = exports.RcVideoTypes = exports.RCV_WAITING_ROOM_API_KEYS = exports.RCV_PREFERENCES_KEYS = exports.RCV_PREFERENCES_IDS = exports.RCV_PASSWORD_REGEX = void 0;
+exports.RCV_E2EE_DEFAULT_SECURITY_OPTIONS = exports.meetingProviderTypes = exports.RcVideoTypes = exports.RCV_E2EE_RELATED_KEYS = exports.RCV_PREFERENCES_KEYS = exports.RCV_PREFERENCES_IDS = void 0;
 
 require("core-js/modules/es6.array.index-of");
 
@@ -72,6 +64,8 @@ require("core-js/modules/es6.array.iterator");
 require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.keys");
+
+require("core-js/modules/es6.array.for-each");
 
 require("core-js/modules/es6.function.name");
 
@@ -123,23 +117,29 @@ var RcVideoTypes = {
 
 };
 exports.RcVideoTypes = RcVideoTypes;
-var RCV_PASSWORD_REGEX = /^[A-Za-z0-9]{1,10}$/;
-exports.RCV_PASSWORD_REGEX = RCV_PASSWORD_REGEX;
-var RCV_WAITING_ROOM_API_KEYS = 'waitingRoomMode';
-exports.RCV_WAITING_ROOM_API_KEYS = RCV_WAITING_ROOM_API_KEYS;
-var RCV_CREATE_API_KEYS = ['name', 'type', 'startTime', 'expiresIn', 'duration', 'accountId', 'extensionId', 'allowJoinBeforeHost', 'muteAudio', 'muteVideo', 'isMeetingSecret', 'meetingPassword', 'isOnlyAuthUserJoin', 'isOnlyCoworkersJoin', 'allowScreenSharing', RCV_WAITING_ROOM_API_KEYS];
-var RCV_PREFERENCES_IDS = ['join_before_host', // 'join_video_off',
+var RCV_CREATE_API_KEYS = ['name', 'type', 'startTime', 'expiresIn', 'duration', 'accountId', 'extensionId', 'allowJoinBeforeHost', 'muteAudio', 'muteVideo', 'isMeetingSecret', 'meetingPassword', 'isOnlyAuthUserJoin', 'isOnlyCoworkersJoin', 'allowScreenSharing', _constants.RCV_WAITING_ROOM_API_KEYS, _constants.RCV_E2EE_API_KEYS];
+var RCV_PREFERENCES_IDS = ['e2ee', 'join_before_host', // 'join_video_off',
 // 'join_audio_mute',
 'password_scheduled', 'password_instant', 'guest_join', 'join_authenticated_from_account_only', 'screen_sharing_host_only', 'waiting_room_guests_only', 'waiting_room'];
 exports.RCV_PREFERENCES_IDS = RCV_PREFERENCES_IDS;
 var RCV_PREFERENCES_KEYS = ['allowJoinBeforeHost', // 'muteVideo',
 // 'muteAudio',
-'isMeetingSecret', 'isOnlyAuthUserJoin', 'isOnlyCoworkersJoin', 'allowScreenSharing', RCV_WAITING_ROOM_API_KEYS];
+'isMeetingSecret', 'isOnlyAuthUserJoin', 'isOnlyCoworkersJoin', 'allowScreenSharing', _constants.RCV_WAITING_ROOM_API_KEYS, _constants.RCV_E2EE_API_KEYS];
+exports.RCV_PREFERENCES_KEYS = RCV_PREFERENCES_KEYS;
+var RCV_E2EE_RELATED_KEYS = ['allowJoinBeforeHost', 'isMeetingSecret', 'isOnlyAuthUserJoin', 'isOnlyCoworkersJoin', _constants.RCV_WAITING_ROOM_API_KEYS];
+exports.RCV_E2EE_RELATED_KEYS = RCV_E2EE_RELATED_KEYS;
+var RCV_E2EE_DEFAULT_SECURITY_OPTIONS = {
+  allowJoinBeforeHost: false,
+  isMeetingSecret: true,
+  isOnlyAuthUserJoin: true,
+  isOnlyCoworkersJoin: false,
+  waitingRoomMode: _constants.RCV_WAITING_ROOM_MODE.notcoworker
+};
 /* RCINT-14566
  * Exclude characters that are hard to visually differentiate ["0", "o", "O", "I", "l"]
  */
 
-exports.RCV_PREFERENCES_KEYS = RCV_PREFERENCES_KEYS;
+exports.RCV_E2EE_DEFAULT_SECURITY_OPTIONS = RCV_E2EE_DEFAULT_SECURITY_OPTIONS;
 
 function getDefaultChars() {
   var DEFAULT_PASSWORD_CHARSET = 'abcdefghijkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ123456789';
@@ -172,7 +172,7 @@ function validatePasswordSettings(meetingPassword, isMeetingSecret) {
     return true;
   }
 
-  if (meetingPassword && RCV_PASSWORD_REGEX.test(meetingPassword)) {
+  if (meetingPassword && _constants.RCV_PASSWORD_REGEX.test(meetingPassword)) {
     return true;
   }
 
@@ -206,7 +206,6 @@ function getVideoSettings(data) {
 
 function getDefaultVideoSettings(_ref) {
   var topic = _ref.topic,
-      startTime = _ref.startTime,
       accountId = _ref.accountId,
       extensionId = _ref.extensionId;
   return {
@@ -216,6 +215,7 @@ function getDefaultVideoSettings(_ref) {
     name: topic,
     type: RcVideoTypes.meeting,
     expiresIn: 31536000,
+    e2ee: false,
     allowJoinBeforeHost: false,
     muteAudio: false,
     muteVideo: false,
@@ -233,10 +233,11 @@ function getDefaultVideoSettings(_ref) {
       isOnlyAuthUserJoin: false,
       isOnlyCoworkersJoin: false,
       allowScreenSharing: false,
-      waitingRoomMode: false
+      waitingRoomMode: false,
+      e2ee: false
     },
     // ui fields
-    startTime: startTime,
+    startTime: new Date(),
     duration: 60,
     saveAsDefault: false,
     isMeetingPasswordValid: false,
@@ -244,25 +245,53 @@ function getDefaultVideoSettings(_ref) {
   };
 }
 
-function getTopic(extensionName, brandName, currentLocale) {
-  if (brandName === 'RingCentral') {
-    return (0, _formatMessage["default"])(_i18n["default"].getString('videoMeeting', currentLocale), {
-      extensionName: extensionName
-    });
-  }
+function getTopic(_ref2) {
+  var extensionName = _ref2.extensionName,
+      brandName = _ref2.brandName,
+      shortName = _ref2.shortName,
+      fullName = _ref2.fullName,
+      brandCode = _ref2.brandCode,
+      currentLocale = _ref2.currentLocale;
 
-  return (0, _formatMessage["default"])(_i18n["default"].getString('videoMeetingWithBrand', currentLocale), {
-    extensionName: extensionName,
-    brandName: brandName
-  });
+  switch (brandCode) {
+    case 'telus':
+      return (0, _formatMessage["default"])(_i18n["default"].getString('TelusVideoMeeting', currentLocale), {
+        extensionName: extensionName
+      });
+
+    case 'att':
+      return (0, _formatMessage["default"])(_i18n["default"].getString('videoMeetingWithBrand', currentLocale), {
+        extensionName: extensionName,
+        brandName: fullName
+      });
+
+    case 'bt':
+      brandName = shortName;
+    // eslint-disable-next-line
+
+    default:
+      return (0, _formatMessage["default"])(_i18n["default"].getString('videoMeeting', currentLocale), {
+        extensionName: extensionName,
+        brandName: brandName
+      });
+  }
 }
 /**
  * Remove client side properties before sending to RCV API
  */
 
 
-function pruneMeetingObject(meeting) {
-  return (0, _ramda.pick)(RCV_CREATE_API_KEYS, meeting);
+function pruneMeetingObject(meeting, omitArr) {
+  var meetingDetail = (0, _ramda.pick)(RCV_CREATE_API_KEYS, meeting);
+  omitArr.forEach(function (_ref3) {
+    var condition = _ref3.condition,
+        key = _ref3.key;
+
+    if (!condition) {
+      meetingDetail = (0, _ramda.omit)([key], meetingDetail);
+    }
+  });
+  return meetingDetail;
 }
 
 function transformPreferences(preferences) {
@@ -271,6 +300,7 @@ function transformPreferences(preferences) {
     allowJoinBeforeHost: preferences.join_before_host,
     // muteVideo: preferences.join_video_off,
     // muteAudio: preferences.join_audio_mute,
+    e2ee: preferences.e2ee,
     isMeetingSecret: isInstantMeeting ? preferences.password_instant : preferences.password_scheduled,
     isOnlyAuthUserJoin: preferences.guest_join,
     isOnlyCoworkersJoin: preferences.guest_join ? preferences.join_authenticated_from_account_only === 'only_co_workers' : false,
@@ -285,6 +315,7 @@ function transformSettingLocks(settingLocks) {
     allowJoinBeforeHost: settingLocks.join_before_host,
     // muteVideo: settingLocks.join_video_off,
     // muteAudio: settingLocks.join_audio_mute,
+    e2ee: settingLocks.e2ee,
     isMeetingSecret: isInstantMeeting ? settingLocks.password_instant : settingLocks.password_scheduled,
     isOnlyAuthUserJoin: settingLocks.guest_join,
     isOnlyCoworkersJoin: settingLocks.join_authenticated_from_account_only,
@@ -303,7 +334,8 @@ function reversePreferences(preferences) {
     join_authenticated_from_account_only: preferences.isOnlyCoworkersJoin ? 'only_co_workers' : 'anyone_signed_into_rc',
     screen_sharing_host_only: preferences.allowScreenSharing ? 'all' : 'host',
     waiting_room: !!preferences.waitingRoomMode,
-    waiting_room_guests_only: _constants.RCV_WAITING_ROOM_MODE_REVERSE[preferences.waitingRoomMode]
+    waiting_room_guests_only: _constants.RCV_WAITING_ROOM_MODE_REVERSE[preferences.waitingRoomMode],
+    e2ee: preferences.e2ee
   };
 
   if (isInstantMeeting) {
@@ -370,8 +402,8 @@ function getAvaliableWaitingRoomOpions(isOnlyCoworkersJoin) {
   return isOnlyCoworkersJoin ? [_constants.RCV_WAITING_ROOM_MODE.off, _constants.RCV_WAITING_ROOM_MODE.all] : [_constants.RCV_WAITING_ROOM_MODE.off, _constants.RCV_WAITING_ROOM_MODE.all, _constants.RCV_WAITING_ROOM_MODE.notcoworker];
 }
 
-function patchWaitingRoomRelated(settings, _ref2) {
-  var waitingRoomMode = _ref2.waitingRoomMode;
+function patchWaitingRoomRelated(settings, _ref4) {
+  var waitingRoomMode = _ref4.waitingRoomMode;
   var isUpdatingMode = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
   var processedSettings = {};
 

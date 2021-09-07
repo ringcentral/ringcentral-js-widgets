@@ -1,12 +1,10 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-require("core-js/modules/es7.symbol.async-iterator");
-
 require("core-js/modules/es6.object.define-properties");
 
 require("core-js/modules/es7.object.get-own-property-descriptors");
+
+require("core-js/modules/es7.symbol.async-iterator");
 
 require("core-js/modules/es6.symbol");
 
@@ -37,21 +35,21 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.CallLog = void 0;
 
+require("core-js/modules/es6.array.sort");
+
 require("core-js/modules/es6.array.slice");
 
-require("core-js/modules/es6.array.index-of");
-
-require("core-js/modules/es6.array.map");
+require("core-js/modules/es6.array.filter");
 
 require("core-js/modules/es6.date.now");
 
 require("regenerator-runtime/runtime");
 
-require("core-js/modules/es6.array.sort");
+require("core-js/modules/es6.array.index-of");
 
 require("core-js/modules/es6.array.for-each");
 
-require("core-js/modules/es6.array.filter");
+require("core-js/modules/es6.array.map");
 
 var _core = require("@ringcentral-integration/core");
 
@@ -77,7 +75,7 @@ var _sleep = _interopRequireDefault(require("../../lib/sleep"));
 
 var _helper = require("./helper");
 
-var _dec, _dec2, _class, _class2, _descriptor;
+var _dec, _dec2, _dec3, _class, _class2, _descriptor;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -86,6 +84,8 @@ function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (O
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -121,7 +121,7 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
 
 function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and runs after the decorators transform.'); }
 
-var DEFAULT_TTL = 5 * 60 * 1000; // Lock fetching on app refresh if lst fetch happened less than this timespan
+var DEFAULT_TTL = 5 * 60 * 1000; // Lock fetching on app refresh if lst fetch happened less than this time span
 
 var DEFAULT_REFRESH_LOCK = 3 * 60 * 1000;
 var DEFAULT_TOKEN_EXPIRES_IN = 60 * 60 * 1000;
@@ -134,7 +134,7 @@ var SYNC_DELAY = 30 * 1000; // to not use $ at the end, presence with sipData ha
 var presenceRegExp = /\/presence\?detailedTelephonyState=true/;
 var CallLog = (_dec = (0, _di.Module)({
   name: 'CallLog',
-  deps: ['Auth', 'Client', 'ExtensionPhoneNumber', 'ExtensionInfo', 'Subscription', 'ExtensionFeatures', {
+  deps: ['Auth', 'Client', 'ExtensionPhoneNumber', 'ExtensionInfo', 'Subscription', 'AppFeatures', {
     dep: 'TabManager',
     optional: true
   }, {
@@ -147,6 +147,9 @@ var CallLog = (_dec = (0, _di.Module)({
 }), _dec2 = (0, _core.computed)(function (_ref) {
   var list = _ref.list;
   return [list];
+}), _dec3 = (0, _core.computed)(function (_ref2) {
+  var data = _ref2.data;
+  return [data.list, data.map];
 }), _dec(_class = (_class2 = /*#__PURE__*/function (_RcModuleV) {
   _inherits(CallLog, _RcModuleV);
 
@@ -178,6 +181,7 @@ var CallLog = (_dec = (0, _di.Module)({
     value: function resetData() {
       this.data = {
         list: [],
+        map: {},
         token: null,
         timestamp: null
       };
@@ -191,45 +195,66 @@ var CallLog = (_dec = (0, _di.Module)({
   }, {
     key: "filterExpiredCalls",
     value: function filterExpiredCalls(daySpan) {
+      var _this2 = this;
+
       var cutOffTime = (0, _getDateFrom["default"])(daySpan).getTime();
-      this.data.list = this.data.list.filter(function (call) {
-        return call.startTime > cutOffTime;
+      var newList = [];
+      this.data.list.forEach(function (id) {
+        var call = _this2.data.map[id];
+
+        if (call.startTime > cutOffTime) {
+          newList.push(id);
+        } else {
+          delete _this2.data.map[id];
+        }
       });
+      this.data.list = newList;
     }
   }, {
     key: "syncSuccess",
-    value: function syncSuccess(_ref2) {
-      var timestamp = _ref2.timestamp,
-          syncToken = _ref2.syncToken,
-          _ref2$records = _ref2.records,
-          records = _ref2$records === void 0 ? [] : _ref2$records,
-          _ref2$supplementRecor = _ref2.supplementRecords,
-          supplementRecords = _ref2$supplementRecor === void 0 ? [] : _ref2$supplementRecor,
-          daySpan = _ref2.daySpan;
+    value: function syncSuccess(_ref3) {
+      var _this3 = this;
+
+      var timestamp = _ref3.timestamp,
+          syncToken = _ref3.syncToken,
+          _ref3$records = _ref3.records,
+          records = _ref3$records === void 0 ? [] : _ref3$records,
+          _ref3$supplementRecor = _ref3.supplementRecords,
+          supplementRecords = _ref3$supplementRecor === void 0 ? [] : _ref3$supplementRecor,
+          daySpan = _ref3.daySpan;
       this.data.timestamp = timestamp;
       this.data.token = syncToken;
-      var indexMap = {};
       var newState = [];
       var cutOffTime = (0, _getDateFrom["default"])(daySpan).getTime(); // filter old calls
 
-      this.data.list.forEach(function (call) {
+      this.data.list.forEach(function (id) {
+        var call = _this3.data.map[id];
+
         if (call.startTime > cutOffTime) {
-          indexMap[call.id] = newState.length;
-          newState.push(call);
+          newState.push(id);
+        } else {
+          delete _this3.data.map[id];
         }
       });
       (0, _helper.processRecords)(records, supplementRecords).forEach(function (call) {
         if (call.startTime > cutOffTime) {
-          if (indexMap[call.id] > -1) {
-            // replace the current data with new data
-            newState[indexMap[call.id]] = call;
-          } else {
-            indexMap[call.id] = newState.length;
-            newState.push(call);
+          if (!_this3.data.map[call.id]) {
+            newState.push(call.id);
+          }
+
+          _this3.data.map[call.id] = call;
+
+          if (_this3._enableDeleted && call.deleted) {
+            var index = newState.indexOf(call.id);
+
+            if (index > -1) {
+              newState.splice(index, 1);
+            }
+
+            delete _this3.data.map[call.id];
           }
         }
       });
-      newState.sort(_callLogHelpers.sortByStartTime);
       this.data.list = newState;
     }
   }, {
@@ -246,27 +271,32 @@ var CallLog = (_dec = (0, _di.Module)({
     key: "onInit",
     value: function () {
       var _onInit = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-        var _this$_deps$extension, _this$_deps$extension2;
-
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
+                /**
+                 * old call log data structure migration
+                 */
+                if (_typeof(this.data.list[0]) === 'object') {
+                  this.resetData();
+                }
+
                 this.filterExpiredCalls(this._daySpan);
 
                 if (this.token && (!this.timestamp || Date.now() - this.timestamp > this._tokenExpiresIn)) {
                   this.clearToken();
                 }
 
-                if (!((_this$_deps$extension = this._deps.extensionFeatures.features) === null || _this$_deps$extension === void 0 ? void 0 : (_this$_deps$extension2 = _this$_deps$extension.ReadExtensionCallLog) === null || _this$_deps$extension2 === void 0 ? void 0 : _this$_deps$extension2.available)) {
-                  _context.next = 5;
+                if (!this._deps.appFeatures.hasReadExtensionCallLog) {
+                  _context.next = 6;
                   break;
                 }
 
-                _context.next = 5;
+                _context.next = 6;
                 return this._init();
 
-              case 5:
+              case 6:
               case "end":
                 return _context.stop();
             }
@@ -291,29 +321,29 @@ var CallLog = (_dec = (0, _di.Module)({
   }, {
     key: "onInitOnce",
     value: function onInitOnce() {
-      var _this2 = this;
+      var _this4 = this;
 
       (0, _core.watch)(this, function () {
-        return _this2._deps.subscription.message;
+        return _this4._deps.subscription.message;
       }, /*#__PURE__*/function () {
-        var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(message) {
+        var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(message) {
           var ownerId;
           return regeneratorRuntime.wrap(function _callee2$(_context2) {
             while (1) {
               switch (_context2.prev = _context2.next) {
                 case 0:
-                  if (!(_this2.ready && _this2._deps.subscription.ready && presenceRegExp.test(message.event) && message.body && message.body.activeCalls && (0, _callLogHelpers.hasEndedCalls)(message.body.activeCalls))) {
+                  if (!(_this4.ready && _this4._deps.subscription.ready && presenceRegExp.test(message.event) && message.body && message.body.activeCalls && (0, _callLogHelpers.hasEndedCalls)(message.body.activeCalls))) {
                     _context2.next = 5;
                     break;
                   }
 
-                  ownerId = _this2._deps.auth.ownerId;
+                  ownerId = _this4._deps.auth.ownerId;
                   _context2.next = 4;
                   return (0, _sleep["default"])(SYNC_DELAY);
 
                 case 4:
-                  if (ownerId === _this2._deps.auth.ownerId && (!_this2._deps.storage || !_this2._deps.tabManager || _this2._deps.tabManager.active)) {
-                    _this2.sync();
+                  if (ownerId === _this4._deps.auth.ownerId && (!_this4._deps.storage || !_this4._deps.tabManager || _this4._deps.tabManager.active)) {
+                    _this4.sync();
                   }
 
                 case 5:
@@ -325,7 +355,7 @@ var CallLog = (_dec = (0, _di.Module)({
         }));
 
         return function (_x) {
-          return _ref3.apply(this, arguments);
+          return _ref4.apply(this, arguments);
         };
       }());
     }
@@ -385,20 +415,20 @@ var CallLog = (_dec = (0, _di.Module)({
   }, {
     key: "_fetch",
     value: function () {
-      var _fetch2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(_ref4) {
-        var _this3 = this;
+      var _fetch2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(_ref5) {
+        var _this5 = this;
 
         var dateFrom, dateTo, perPageParam;
         return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                dateFrom = _ref4.dateFrom, dateTo = _ref4.dateTo;
+                dateFrom = _ref5.dateFrom, dateTo = _ref5.dateTo;
                 perPageParam = this._isLimitList ? {
                   perPage: this._listRecordCount
                 } : {};
                 return _context4.abrupt("return", (0, _fetchList["default"])(function (params) {
-                  return _this3._deps.client.account().extension().callLog().list(_objectSpread(_objectSpread({}, params), {}, {
+                  return _this5._deps.client.account().extension().callLog().list(_objectSpread(_objectSpread({}, params), {}, {
                     dateFrom: dateFrom,
                     dateTo: dateTo
                   }, perPageParam));
@@ -432,7 +462,8 @@ var CallLog = (_dec = (0, _di.Module)({
                 _context5.next = 4;
                 return this._deps.client.account().extension().callLogSync().list({
                   syncType: _syncTypes.syncTypes.iSync,
-                  syncToken: this.token
+                  syncToken: this.token,
+                  showDeleted: this._enableDeleted
                 });
 
               case 4:
@@ -533,6 +564,10 @@ var CallLog = (_dec = (0, _di.Module)({
                 throw Error('request aborted');
 
               case 15:
+                if (this._enableDeleted) {
+                  this.resetData();
+                }
+
                 this.syncSuccess({
                   records: records,
                   supplementRecords: supplementRecords,
@@ -540,26 +575,26 @@ var CallLog = (_dec = (0, _di.Module)({
                   syncToken: syncToken,
                   daySpan: this._daySpan
                 });
-                _context6.next = 22;
+                _context6.next = 23;
                 break;
 
-              case 18:
-                _context6.prev = 18;
+              case 19:
+                _context6.prev = 19;
                 _context6.t0 = _context6["catch"](1);
 
                 if (!(ownerId === this._deps.auth.ownerId)) {
-                  _context6.next = 22;
+                  _context6.next = 23;
                   break;
                 }
 
                 throw _context6.t0;
 
-              case 22:
+              case 23:
               case "end":
                 return _context6.stop();
             }
           }
-        }, _callee6, this, [[1, 18]]);
+        }, _callee6, this, [[1, 19]]);
       }));
 
       function _fSync() {
@@ -649,7 +684,7 @@ var CallLog = (_dec = (0, _di.Module)({
     key: "sync",
     value: function () {
       var _sync3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10() {
-        var _this4 = this;
+        var _this6 = this;
 
         var syncType,
             _args10 = arguments;
@@ -679,10 +714,10 @@ var CallLog = (_dec = (0, _di.Module)({
                       switch (_context9.prev = _context9.next) {
                         case 0:
                           _context9.next = 2;
-                          return _this4._promise;
+                          return _this6._promise;
 
                         case 2:
-                          _this4._promise = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8() {
+                          _this6._promise = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8() {
                             return regeneratorRuntime.wrap(function _callee8$(_context8) {
                               while (1) {
                                 switch (_context8.prev = _context8.next) {
@@ -691,7 +726,7 @@ var CallLog = (_dec = (0, _di.Module)({
                                     return (0, _sleep["default"])(300);
 
                                   case 2:
-                                    return _context8.abrupt("return", _this4._sync(syncType));
+                                    return _context8.abrupt("return", _this6._sync(syncType));
 
                                   case 3:
                                   case "end":
@@ -700,8 +735,8 @@ var CallLog = (_dec = (0, _di.Module)({
                               }
                             }, _callee8);
                           }))();
-                          _this4._queueSync = null;
-                          return _context9.abrupt("return", _this4._promise);
+                          _this6._queueSync = null;
+                          return _context9.abrupt("return", _this6._promise);
 
                         case 5:
                         case "end":
@@ -742,46 +777,46 @@ var CallLog = (_dec = (0, _di.Module)({
   }, {
     key: "_startPolling",
     value: function _startPolling() {
-      var _this5 = this;
+      var _this7 = this;
 
       var t = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.timestamp + this.pollingInterval + 10 - Date.now();
 
       this._clearTimeout();
 
       this._timeoutId = setTimeout(function () {
-        _this5._timeoutId = null;
+        _this7._timeoutId = null;
 
-        if (!_this5._deps.tabManager || _this5._deps.tabManager.active) {
-          if (!_this5.timestamp || Date.now() - _this5.timestamp > _this5.ttl) {
-            _this5.fetchData();
+        if (!_this7._deps.tabManager || _this7._deps.tabManager.active) {
+          if (!_this7.timestamp || Date.now() - _this7.timestamp > _this7.ttl) {
+            _this7.fetchData();
           } else {
-            _this5._startPolling();
+            _this7._startPolling();
           }
-        } else if (_this5.timestamp && Date.now() - _this5.timestamp < _this5.ttl) {
-          _this5._startPolling();
+        } else if (_this7.timestamp && Date.now() - _this7.timestamp < _this7.ttl) {
+          _this7._startPolling();
         } else {
-          _this5._startPolling(_this5.timeToRetry);
+          _this7._startPolling(_this7.timeToRetry);
         }
       }, t);
     }
   }, {
     key: "_retry",
     value: function _retry() {
-      var _this6 = this;
+      var _this8 = this;
 
       var t = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.timeToRetry;
 
       this._clearTimeout();
 
       this._timeoutId = setTimeout(function () {
-        _this6._timeoutId = null;
+        _this8._timeoutId = null;
 
-        if (!_this6.timestamp || Date.now() - _this6.timestamp > _this6.ttl) {
-          if (!_this6._deps.tabManager || _this6._deps.tabManager.active) {
-            _this6.fetchData();
+        if (!_this8.timestamp || Date.now() - _this8.timestamp > _this8.ttl) {
+          if (!_this8._deps.tabManager || _this8._deps.tabManager.active) {
+            _this8.fetchData();
           } else {
             // continue retry checks in case tab becomes main tab
-            _this6._retry();
+            _this8._retry();
           }
         }
       }, t);
@@ -843,9 +878,16 @@ var CallLog = (_dec = (0, _di.Module)({
       return (_this$_deps$callLogOp15 = (_this$_deps$callLogOp16 = this._deps.callLogOptions) === null || _this$_deps$callLogOp16 === void 0 ? void 0 : _this$_deps$callLogOp16.listRecordCount) !== null && _this$_deps$callLogOp15 !== void 0 ? _this$_deps$callLogOp15 : LIST_RECORD_COUNT;
     }
   }, {
+    key: "_enableDeleted",
+    get: function get() {
+      var _this$_deps$callLogOp17, _this$_deps$callLogOp18;
+
+      return (_this$_deps$callLogOp17 = (_this$_deps$callLogOp18 = this._deps.callLogOptions) === null || _this$_deps$callLogOp18 === void 0 ? void 0 : _this$_deps$callLogOp18.enableDeleted) !== null && _this$_deps$callLogOp17 !== void 0 ? _this$_deps$callLogOp17 : false;
+    }
+  }, {
     key: "calls",
     get: function get() {
-      var _this7 = this;
+      var _this9 = this;
 
       // TODO: make sure removeDuplicateIntermediateCalls is necessary here
       var calls = (0, _callLogHelpers.removeInboundRingOutLegs)((0, _callLogHelpers.removeDuplicateIntermediateCalls)( // https://developers.ringcentral.com/api-reference/Call-Log/readUserCallLog
@@ -871,8 +913,8 @@ var CallLog = (_dec = (0, _di.Module)({
         // But user use company plus extension number, call log sync will response only one leg.
         // And the results about `to` and `from` in platform APIs call log sync response is opposite.
         // This is a temporary solution.
-        var isOutBoundCompanyNumber = call.from && call.from.phoneNumber && _this7.mainCompanyNumbers.indexOf(call.from.phoneNumber) > -1;
-        var isOutBoundFromSelfExtNumber = call.from && call.from.extensionNumber && call.from.extensionNumber === _this7._deps.extensionInfo.info.extensionNumber;
+        var isOutBoundCompanyNumber = call.from && call.from.phoneNumber && _this9.mainCompanyNumbers.indexOf(call.from.phoneNumber) > -1;
+        var isOutBoundFromSelfExtNumber = call.from && call.from.extensionNumber && call.from.extensionNumber === _this9._deps.extensionInfo.info.extensionNumber;
 
         if ((0, _callLogHelpers.isOutbound)(call) && (call.action === _callActions.callActions.ringOutWeb || call.action === _callActions.callActions.ringOutPC || call.action === _callActions.callActions.ringOutMobile) && !isOutBoundCompanyNumber && !isOutBoundFromSelfExtNumber) {
           return _objectSpread(_objectSpread({}, call), {}, {
@@ -893,7 +935,18 @@ var CallLog = (_dec = (0, _di.Module)({
   }, {
     key: "list",
     get: function get() {
-      return this.data.list;
+      var _this10 = this;
+
+      /**
+       * old call log data structure migration
+       */
+      if (_typeof(this.data.list[0]) === 'object') {
+        return [];
+      }
+
+      return this.data.list.map(function (id) {
+        return _this10.data.map[id];
+      }).sort(_callLogHelpers.sortByStartTime);
     }
   }, {
     key: "token",
@@ -923,11 +976,11 @@ var CallLog = (_dec = (0, _di.Module)({
   }, {
     key: "mainCompanyNumbers",
     get: function get() {
-      return this._deps.extensionPhoneNumber.numbers.filter(function (_ref7) {
-        var usageType = _ref7.usageType;
+      return this._deps.extensionPhoneNumber.numbers.filter(function (_ref8) {
+        var usageType = _ref8.usageType;
         return usageType === 'MainCompanyNumber';
-      }).map(function (_ref8) {
-        var phoneNumber = _ref8.phoneNumber;
+      }).map(function (_ref9) {
+        var phoneNumber = _ref9.phoneNumber;
         return phoneNumber;
       });
     }
@@ -946,10 +999,11 @@ var CallLog = (_dec = (0, _di.Module)({
   initializer: function initializer() {
     return {
       list: [],
+      map: {},
       token: null,
       timestamp: null
     };
   }
-}), _applyDecoratedDescriptor(_class2.prototype, "resetData", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "resetData"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "clearToken", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "clearToken"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "filterExpiredCalls", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "filterExpiredCalls"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "syncSuccess", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "syncSuccess"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "calls", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "calls"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_fetch", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "_fetch"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_iSync", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "_iSync"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_fSync", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "_fSync"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_sync", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "_sync"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "sync", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "sync"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "fetchData", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "fetchData"), _class2.prototype)), _class2)) || _class);
+}), _applyDecoratedDescriptor(_class2.prototype, "resetData", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "resetData"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "clearToken", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "clearToken"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "filterExpiredCalls", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "filterExpiredCalls"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "syncSuccess", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "syncSuccess"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "calls", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "calls"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "list", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "list"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_fetch", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "_fetch"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_iSync", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "_iSync"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_fSync", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "_fSync"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_sync", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "_sync"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "sync", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "sync"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "fetchData", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "fetchData"), _class2.prototype)), _class2)) || _class);
 exports.CallLog = CallLog;
 //# sourceMappingURL=CallLog.js.map

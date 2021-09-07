@@ -39,21 +39,21 @@ require("core-js/modules/es6.function.name");
 
 require("regenerator-runtime/runtime");
 
+var _core = require("@ringcentral-integration/core");
+
 var _events = require("events");
 
-var _core = require("@ringcentral-integration/core");
+var _background = _interopRequireDefault(require("../../lib/background"));
 
 var _di = require("../../lib/di");
 
-var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
+var _proxify = require("../../lib/proxy/proxify");
 
-var _background = _interopRequireDefault(require("../../lib/background"));
+var _RcVideoV = require("../RcVideoV2");
 
 var _GenericMeeting = require("./GenericMeeting.interface");
 
 var _genericMeetingStatus = require("./genericMeetingStatus");
-
-var _RcVideoV = require("../RcVideoV2");
 
 var _dec, _class, _class2, _descriptor;
 
@@ -101,12 +101,16 @@ var GenericMeeting = (_dec = (0, _di.Module)({
   var _super = _createSuper(GenericMeeting);
 
   function GenericMeeting(deps) {
+    var _deps$genericMeetingO, _deps$genericMeetingO2;
+
     var _this;
 
     _classCallCheck(this, GenericMeeting);
 
     _this = _super.call(this, {
-      deps: deps
+      deps: deps,
+      enableCache: (_deps$genericMeetingO = (_deps$genericMeetingO2 = deps.genericMeetingOptions) === null || _deps$genericMeetingO2 === void 0 ? void 0 : _deps$genericMeetingO2.enableCache) !== null && _deps$genericMeetingO !== void 0 ? _deps$genericMeetingO : false,
+      storageKey: 'genericMeeting'
     });
     _this._eventEmitter = new _events.EventEmitter();
 
@@ -653,6 +657,15 @@ var GenericMeeting = (_dec = (0, _di.Module)({
       return false;
     }
   }, {
+    key: "enableE2EE",
+    get: function get() {
+      if (this.isRCV) {
+        return this._deps.rcVideo.enableE2EE;
+      }
+
+      return false;
+    }
+  }, {
     key: "personalMeeting",
     get: function get() {
       return this._meetingModule.personalMeeting;
@@ -702,6 +715,6 @@ var GenericMeeting = (_dec = (0, _di.Module)({
   initializer: function initializer() {
     return null;
   }
-}), _applyDecoratedDescriptor(_class2.prototype, "setUpdatingStatus", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setUpdatingStatus"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "init", [_background["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "init"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "reload", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "reload"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "switchUsePersonalMeetingId", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "switchUsePersonalMeetingId"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateScheduleFor", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "updateScheduleFor"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateMeetingSettings", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "updateMeetingSettings"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "schedule", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "schedule"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "startMeeting", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "startMeeting"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getMeeting", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "getMeeting"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getMeetingServiceInfo", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "getMeetingServiceInfo"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateMeeting", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "updateMeeting"), _class2.prototype)), _class2)) || _class);
+}), _applyDecoratedDescriptor(_class2.prototype, "setUpdatingStatus", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setUpdatingStatus"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "init", [_background["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "init"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "reload", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "reload"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "switchUsePersonalMeetingId", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "switchUsePersonalMeetingId"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateScheduleFor", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "updateScheduleFor"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateMeetingSettings", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "updateMeetingSettings"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "schedule", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "schedule"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "startMeeting", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "startMeeting"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getMeeting", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "getMeeting"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getMeetingServiceInfo", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "getMeetingServiceInfo"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateMeeting", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "updateMeeting"), _class2.prototype)), _class2)) || _class);
 exports.GenericMeeting = GenericMeeting;
 //# sourceMappingURL=GenericMeeting.js.map

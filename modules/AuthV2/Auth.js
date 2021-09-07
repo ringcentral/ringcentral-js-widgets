@@ -141,6 +141,9 @@ var Auth = (_dec = (0, _di.Module)({
     dep: 'TabManager',
     optional: true
   }, {
+    dep: 'RateLimiter',
+    optional: true
+  }, {
     dep: 'Environment',
     optional: true
   }, {
@@ -774,6 +777,7 @@ var Auth = (_dec = (0, _di.Module)({
         var _ref7,
             _ref7$dismissAllAlert,
             dismissAllAlert,
+            _this$_deps$rateLimit,
             handlers,
             _iterator2,
             _step2,
@@ -789,7 +793,10 @@ var Auth = (_dec = (0, _di.Module)({
                 this.setBeforeLogout();
 
                 if (dismissAllAlert) {
-                  this._deps.alert.dismissAll();
+                  // fix bug [https://jira.ringcentral.com/browse/RCINT-17381]
+                  this._deps.alert.dismissAllExpectSpecified({
+                    specifiedAlertIds: [(_this$_deps$rateLimit = this._deps.rateLimiter) === null || _this$_deps$rateLimit === void 0 ? void 0 : _this$_deps$rateLimit.rateLimitAlertId]
+                  });
                 }
 
                 handlers = _toConsumableArray(this._beforeLogoutHandlers);

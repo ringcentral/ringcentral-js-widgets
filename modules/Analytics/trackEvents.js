@@ -87,7 +87,12 @@ var trackEvents = _ObjectMap.ObjectMap.fromObject({
   clickHangupParticipantList: 'Click Hangup (Participant List)',
   clickParticipantAreaCallControl: 'Click Participant Area (Call Control)',
   clickHangupCallsOnHold: 'Click Hangup (Calls OnHold)',
-  clickMeetingSchedulePage: 'Meeting: Click Schedule/Meeting schedule page'
+  clickMeetingSchedulePage: 'Meeting: Click Schedule/Meeting schedule page',
+  clickRecentActivity: 'Recent Activity',
+  clickRecentActivityCall: 'Recent Activity: Call',
+  clickRecentActivitySms: 'Recent Activity: SMS',
+  clickRecentActivityFaxes: 'Recent Activity: Faxes',
+  clickRecentActivityVoicemails: 'Recent Activity: Voicemails'
 });
 
 exports.trackEvents = trackEvents;

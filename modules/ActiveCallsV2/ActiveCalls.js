@@ -104,7 +104,7 @@ var DEFAULT_FETCH_DELAY = 1000;
 var DEFAULT_TTL = 5 * 60 * 1000;
 var ActiveCalls = (_dec = (0, _di.Module)({
   name: 'ActiveCalls',
-  deps: ['Client', 'ExtensionFeatures', 'DataFetcherV2', 'Subscription', {
+  deps: ['Client', 'AppFeatures', 'DataFetcherV2', 'Subscription', {
     dep: 'TabManager',
     optional: true
   }, {
@@ -163,12 +163,10 @@ var ActiveCalls = (_dec = (0, _di.Module)({
         return fetchFunction;
       }(),
       readyCheckFunction: function readyCheckFunction() {
-        return !!(_this._deps.extensionFeatures.ready && _this._deps.subscription.ready);
+        return !!(_this._deps.appFeatures.ready && _this._deps.subscription.ready);
       },
       permissionCheckFunction: function permissionCheckFunction() {
-        var _this$_deps$extension, _this$_deps$extension2, _this$_deps$extension3;
-
-        return (_this$_deps$extension = (_this$_deps$extension2 = _this._deps.extensionFeatures.features) === null || _this$_deps$extension2 === void 0 ? void 0 : (_this$_deps$extension3 = _this$_deps$extension2.ReadExtensionCallLog) === null || _this$_deps$extension3 === void 0 ? void 0 : _this$_deps$extension3.available) !== null && _this$_deps$extension !== void 0 ? _this$_deps$extension : false;
+        return _this._deps.appFeatures.hasReadExtensionCallLog;
       }
     }));
 

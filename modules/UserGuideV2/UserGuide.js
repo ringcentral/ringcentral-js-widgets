@@ -95,7 +95,7 @@ var SUPPORTED_LOCALES = {
 };
 var UserGuide = (_dec = (0, _di.Module)({
   name: 'UserGuide',
-  deps: ['Auth', 'Locale', 'Storage', 'Webphone', 'ExtensionFeatures', {
+  deps: ['Auth', 'Locale', 'Storage', 'Webphone', 'AppFeatures', {
     dep: 'UserGuideOptions',
     optional: true
   }]
@@ -183,12 +183,12 @@ var UserGuide = (_dec = (0, _di.Module)({
   }, {
     key: "_shouldInit",
     value: function _shouldInit() {
-      return !!(this.pending && this._deps.auth.ready && this._deps.locale.ready && this._deps.storage.ready && this._deps.extensionFeatures.ready && this._deps.auth.loggedIn);
+      return !!(this.pending && this._deps.auth.ready && this._deps.locale.ready && this._deps.storage.ready && this._deps.appFeatures.ready && this._deps.auth.loggedIn);
     }
   }, {
     key: "_shouldReset",
     value: function _shouldReset() {
-      return !!(this.ready && (!this._deps.auth.ready || !this._deps.locale.ready || !this._deps.storage.ready || !this._deps.extensionFeatures.ready));
+      return !!(this.ready && (!this._deps.auth.ready || !this._deps.locale.ready || !this._deps.storage.ready || !this._deps.appFeatures.ready));
     }
   }, {
     key: "onInitOnce",
@@ -477,7 +477,7 @@ var UserGuide = (_dec = (0, _di.Module)({
       // For extensions without calling or read message permissions, most of the content in
       // the user guide is not applicable to them. So we should not show the user guide for
       // these extensions.
-      return this._deps.extensionFeatures.isCallingEnabled || this._deps.extensionFeatures.hasReadMessagesPermission;
+      return this._deps.appFeatures.isCallingEnabled || this._deps.appFeatures.hasReadMessagesPermission;
     }
   }, {
     key: "guides",

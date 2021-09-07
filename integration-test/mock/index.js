@@ -2,6 +2,24 @@
 
 require("core-js/modules/es6.array.index-of");
 
+require("core-js/modules/es6.promise");
+
+require("core-js/modules/es6.string.iterator");
+
+require("core-js/modules/es6.array.from");
+
+require("core-js/modules/es6.function.name");
+
+require("core-js/modules/es6.regexp.to-string");
+
+require("core-js/modules/es6.date.to-string");
+
+require("core-js/modules/es6.array.slice");
+
+require("core-js/modules/es7.symbol.async-iterator");
+
+require("core-js/modules/es6.array.is-array");
+
 require("core-js/modules/es6.object.define-properties");
 
 require("core-js/modules/es7.object.get-own-property-descriptors");
@@ -25,6 +43,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.createSDK = createSDK;
 exports.mockApi = mockApi;
+exports.wstoken = wstoken;
 exports.authentication = authentication;
 exports.logout = logout;
 exports.tokenRefresh = tokenRefresh;
@@ -90,8 +109,11 @@ exports.callerId = callerId;
 exports.features = features;
 exports.timezone = timezone;
 exports.dialInNumbers = dialInNumbers;
+exports.discoveryInitial = discoveryInitial;
+exports.discoveryExternal = discoveryExternal;
+exports.generateCode = generateCode;
 exports.mockForLogin = mockForLogin;
-exports.mockServer = void 0;
+exports.mockServer = exports.mockWsServer = void 0;
 
 require("core-js/modules/es6.object.define-property");
 
@@ -101,9 +123,15 @@ require("core-js/modules/es6.date.now");
 
 require("core-js/modules/es6.date.to-iso-string");
 
+require("regenerator-runtime/runtime");
+
 require("core-js/modules/es6.function.bind");
 
 var _sdk = require("@ringcentral/sdk");
+
+var _isomorphicWs = _interopRequireDefault(require("isomorphic-ws"));
+
+var _jestWebsocketMock = _interopRequireDefault(require("jest-websocket-mock"));
 
 var _fetchMock = _interopRequireDefault(require("fetch-mock"));
 
@@ -205,11 +233,41 @@ var _videoPersonalSettings = _interopRequireDefault(require("./data/videoPersona
 
 var _rcvMeetingSettings = _interopRequireDefault(require("./data/rcvMeetingSettings.json"));
 
+var _wstoken = _interopRequireDefault(require("./data/ws/wstoken.json"));
+
+var _heartbeatResponse = _interopRequireDefault(require("./data/ws/heartbeatResponse.json"));
+
+var _connectionDetails = _interopRequireDefault(require("./data/ws/connectionDetails.json"));
+
+var _subscriptionResponse = _interopRequireDefault(require("./data/ws/subscriptionResponse.json"));
+
+var _discoveryInitial = _interopRequireDefault(require("./data/discoveryInitial.json"));
+
+var _discoveryExternal = _interopRequireDefault(require("./data/discoveryExternal.json"));
+
+var _generateCode = _interopRequireDefault(require("./data/generateCode.json"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
 
 function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr && (typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]); if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
@@ -217,6 +275,8 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+var mockWsServer = 'ws://whatever';
+exports.mockWsServer = mockWsServer;
 var mockServer = 'http://whatever';
 exports.mockServer = mockServer;
 
@@ -230,7 +290,10 @@ function createSDK() {
     Request: _fetchMock["default"].constructor.Request,
     Response: _fetchMock["default"].constructor.Response,
     Headers: _fetchMock["default"].constructor.Headers,
-    fetch: _fetchMock["default"].fetchMock.bind(_fetchMock["default"]),
+    fetch: function fetch(url, opts) {
+      return url instanceof _fetchMock["default"].constructor.Request ? _fetchMock["default"].fetchMock(url.url, url) // fetchMock doesn't fully support `Request` type
+      : _fetchMock["default"].fetchMock(url, opts);
+    },
     refreshDelayMs: 1,
     redirectUri: 'http://foo',
     cachePrefix: 'sdkPrefix',
@@ -285,6 +348,111 @@ function mockApi(_ref) {
   }, {
     method: method,
     times: isOnce ? 1 : 20
+  });
+}
+
+function startWebSocketMockServer() {
+  // mock WebSocket server
+  var server = new _jestWebsocketMock["default"](mockWsServer);
+  server.on('connection', function (socket) {
+    // type: ConnectionDetails
+    socket.send(JSON.stringify(_connectionDetails["default"]));
+    socket.on('message', function (message) {
+      var _JSON$parse = JSON.parse(message),
+          _JSON$parse2 = _slicedToArray(_JSON$parse, 2),
+          meta = _JSON$parse2[0],
+          body = _JSON$parse2[1]; // type: Heartbeat
+
+
+      if (meta.type === 'Heartbeat') {
+        socket.send(JSON.stringify([_objectSpread(_objectSpread({}, _heartbeatResponse["default"][0]), meta), body]));
+      } // type: ClientRequest
+      else if (meta.type === 'ClientRequest') {
+          switch (meta.path) {
+            case '/restapi/v1.0/subscription':
+              socket.send(JSON.stringify(_subscriptionResponse["default"]));
+              break;
+            // TODO: mock more path here
+
+            default:
+              console.warn("[WebSocketMockServer] Unmatched ".concat(meta.method || 'GET', " to ").concat(meta.path));
+              break;
+          }
+        }
+    });
+  }); // hook WebSocket
+
+  _isomorphicWs["default"].prototype._onCreated = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+    return regeneratorRuntime.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            _context.next = 2;
+            return server.connected;
+
+          case 2:
+          case "end":
+            return _context.stop();
+        }
+      }
+    }, _callee);
+  }));
+  var originalSend = _isomorphicWs["default"].prototype.send;
+
+  _isomorphicWs["default"].prototype.send = /*#__PURE__*/function () {
+    var _newSend = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+      var _len,
+          args,
+          _key,
+          _args2 = arguments;
+
+      return regeneratorRuntime.wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              _context2.next = 2;
+              return server.connected;
+
+            case 2:
+              for (_len = _args2.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+                args[_key] = _args2[_key];
+              }
+
+              originalSend.call.apply(originalSend, [this].concat(args));
+              _context2.next = 6;
+              return server.nextMessage;
+
+            case 6:
+            case "end":
+              return _context2.stop();
+          }
+        }
+      }, _callee2, this);
+    }));
+
+    function newSend() {
+      return _newSend.apply(this, arguments);
+    }
+
+    return newSend;
+  }();
+}
+
+var wsMockServerStarted = false;
+
+function wstoken() {
+  if (!wsMockServerStarted) {
+    startWebSocketMockServer();
+    wsMockServerStarted = true;
+  }
+
+  mockApi({
+    method: 'POST',
+    path: '/restapi/oauth/wstoken',
+    body: _objectSpread(_objectSpread({}, _wstoken["default"]), {}, {
+      uri: mockWsServer
+    }),
+    isOnce: false
   });
 }
 
@@ -384,8 +552,9 @@ function dialingPlan() {
 
 function extensionInfo() {
   var mockResponse = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var extId = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '~';
   mockApi({
-    path: '/restapi/v1.0/account/~/extension/~',
+    path: "/restapi/v1.0/account/~/extension/".concat(extId),
     body: _objectSpread(_objectSpread({}, _extensionInfo["default"]), mockResponse),
     isOnce: false
   });
@@ -420,7 +589,8 @@ function extensionList() {
 
   mockApi({
     url: "begin:".concat(mockServer, "/restapi/v1.0/account/~/extension?").concat(query),
-    body: isEmptyRes ? {} : _objectSpread(_objectSpread({}, _extension["default"]), mockResponse)
+    body: isEmptyRes ? {} : _objectSpread(_objectSpread({}, _extension["default"]), mockResponse),
+    isOnce: false
   });
 }
 
@@ -740,13 +910,13 @@ function reset() {
   _fetchMock["default"].reset();
 }
 
-function mockForbidden(_ref2) {
-  var _ref2$method = _ref2.method,
-      method = _ref2$method === void 0 ? 'GET' : _ref2$method,
-      path = _ref2.path,
-      url = _ref2.url,
-      _ref2$body = _ref2.body,
-      body = _ref2$body === void 0 ? '' : _ref2$body;
+function mockForbidden(_ref3) {
+  var _ref3$method = _ref3.method,
+      method = _ref3$method === void 0 ? 'GET' : _ref3$method,
+      path = _ref3.path,
+      url = _ref3.url,
+      _ref3$body = _ref3.body,
+      body = _ref3$body === void 0 ? '' : _ref3$body;
   mockApi({
     method: method,
     path: path,
@@ -756,12 +926,12 @@ function mockForbidden(_ref2) {
   });
 }
 
-function mockLimited(_ref3) {
-  var _ref3$method = _ref3.method,
-      method = _ref3$method === void 0 ? 'GET' : _ref3$method,
-      path = _ref3.path,
-      url = _ref3.url,
-      headers = _ref3.headers;
+function mockLimited(_ref4) {
+  var _ref4$method = _ref4.method,
+      method = _ref4$method === void 0 ? 'GET' : _ref4$method,
+      path = _ref4.path,
+      url = _ref4.url,
+      headers = _ref4.headers;
   mockApi({
     method: method,
     path: path,
@@ -848,31 +1018,35 @@ function meetingInfo() {
 }
 
 function videoPreference() {
-  var useExtensionId = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+  var extensionId = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '~';
+  var mockResponse = arguments.length > 1 ? arguments[1] : undefined;
   var query = "id=".concat(_videoHelper.RCV_PREFERENCES_IDS.join('&id='));
-  var extensionId = useExtensionId ? _extensionInfo["default"].id : '~';
   mockApi({
     method: 'GET',
-    url: "".concat(mockServer, "/rcvideo/v1/account/").concat(extensionId, "/extension/").concat(extensionId, "/preferences?").concat(query),
-    body: _videoPreference["default"],
+    url: "".concat(mockServer, "/rcvideo/v1/account/").concat(_accountInfo["default"].id, "/extension/").concat(extensionId, "/preferences?").concat(query),
+    body: mockResponse || _videoPreference["default"],
     isOnce: false
   });
 }
 
 function videoPersonalSettings() {
+  var extensionId = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _extensionInfo["default"].id;
+  var mockResponse = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
   mockApi({
     method: 'GET',
-    url: "".concat(mockServer, "/rcvideo/v1/bridges?default=true&accountId=").concat(_accountInfo["default"].id, "&extensionId=").concat(_extensionInfo["default"].id),
-    body: _videoPersonalSettings["default"],
+    url: "".concat(mockServer, "/rcvideo/v1/bridges?default=true&accountId=").concat(_accountInfo["default"].id, "&extensionId=").concat(extensionId),
+    body: _objectSpread(_objectSpread({}, _videoPersonalSettings["default"]), mockResponse),
     isOnce: false
   });
 }
 
 function getRcvMeetingInfo(shortId) {
+  var extensionId = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _extensionInfo["default"].id;
+  var mockResponse = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
   mockApi({
     method: 'GET',
-    url: "".concat(mockServer, "/rcvideo/v1/bridges?shortId=").concat(shortId, "&accountId=").concat(_accountInfo["default"].id, "&extensionId=").concat(_extensionInfo["default"].id),
-    body: _rcvMeetingSettings["default"],
+    url: "".concat(mockServer, "/rcvideo/v1/bridges?shortId=").concat(shortId, "&accountId=").concat(_accountInfo["default"].id, "&extensionId=").concat(extensionId),
+    body: _objectSpread(_objectSpread({}, _rcvMeetingSettings["default"]), mockResponse),
     isOnce: false
   });
 }
@@ -889,11 +1063,12 @@ function patchRcvMeeting(meetingId) {
 
 function postRcvBridges() {
   var mockResponse = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var isOnce = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
   mockApi({
     method: 'POST',
     url: "".concat(mockServer, "/rcvideo/v1/bridges"),
     body: _objectSpread(_objectSpread({}, _postRcvBridges["default"]), mockResponse),
-    isOnce: false
+    isOnce: isOnce
   });
 }
 
@@ -961,7 +1136,6 @@ function callerId() {
 
 function features() {
   var mockResponse = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  var isOnce = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
   mockApi({
     method: 'GET',
     url: new RegExp("".concat(mockServer, "/restapi/v1.0/account/~/extension/~/features")),
@@ -989,37 +1163,65 @@ function dialInNumbers() {
   });
 }
 
+function discoveryInitial() {
+  var mockResponse = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  mockApi({
+    path: "/.well-known/entry-points/initial",
+    body: _objectSpread(_objectSpread({}, _discoveryInitial["default"]), mockResponse)
+  });
+}
+
+function discoveryExternal() {
+  var mockResponse = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  mockApi({
+    path: "/.well-known/entry-points/external",
+    body: _objectSpread(_objectSpread({}, _discoveryExternal["default"]), mockResponse)
+  });
+}
+
+function generateCode() {
+  var mockResponse = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  mockApi({
+    method: 'POST',
+    url: "".concat(mockServer, "/restapi/v1.0/interop/generate-code"),
+    body: _objectSpread(_objectSpread({}, _generateCode["default"]), mockResponse)
+  });
+}
+
 function mockForLogin() {
-  var _ref4 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var _ref5 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
-  var _ref4$mockAuthzProfil = _ref4.mockAuthzProfile,
-      mockAuthzProfile = _ref4$mockAuthzProfil === void 0 ? true : _ref4$mockAuthzProfil,
-      _ref4$mockMeetingInvi = _ref4.mockMeetingInvitation,
-      mockMeetingInvitation = _ref4$mockMeetingInvi === void 0 ? true : _ref4$mockMeetingInvi,
-      _ref4$mockExtensionIn = _ref4.mockExtensionInfo,
-      mockExtensionInfo = _ref4$mockExtensionIn === void 0 ? true : _ref4$mockExtensionIn,
-      _ref4$mockForwardingN = _ref4.mockForwardingNumber,
-      mockForwardingNumber = _ref4$mockForwardingN === void 0 ? true : _ref4$mockForwardingN,
-      _ref4$mockMessageSync = _ref4.mockMessageSync,
-      mockMessageSync = _ref4$mockMessageSync === void 0 ? true : _ref4$mockMessageSync,
-      _ref4$mockConferencin = _ref4.mockConferencing,
-      mockConferencing = _ref4$mockConferencin === void 0 ? true : _ref4$mockConferencin,
-      _ref4$mockActiveCalls = _ref4.mockActiveCalls,
-      mockActiveCalls = _ref4$mockActiveCalls === void 0 ? true : _ref4$mockActiveCalls,
-      _ref4$mockUpdateConfe = _ref4.mockUpdateConference,
-      mockUpdateConference = _ref4$mockUpdateConfe === void 0 ? true : _ref4$mockUpdateConfe,
-      _ref4$mockNumberParse = _ref4.mockNumberParser,
-      mockNumberParser = _ref4$mockNumberParse === void 0 ? true : _ref4$mockNumberParse,
-      _ref4$mockRecentActiv = _ref4.mockRecentActivity,
-      mockRecentActivity = _ref4$mockRecentActiv === void 0 ? true : _ref4$mockRecentActiv,
-      _ref4$mockMessageSync2 = _ref4.mockMessageSyncOnce,
-      mockMessageSyncOnce = _ref4$mockMessageSync2 === void 0 ? false : _ref4$mockMessageSync2,
-      _ref4$mockVideoConfig = _ref4.mockVideoConfiguration,
-      mockVideoConfiguration = _ref4$mockVideoConfig === void 0 ? true : _ref4$mockVideoConfig,
-      _ref4$mockUserSetting = _ref4.mockUserSetting,
-      mockUserSetting = _ref4$mockUserSetting === void 0 ? true : _ref4$mockUserSetting,
-      params = _objectWithoutProperties(_ref4, ["mockAuthzProfile", "mockMeetingInvitation", "mockExtensionInfo", "mockForwardingNumber", "mockMessageSync", "mockConferencing", "mockActiveCalls", "mockUpdateConference", "mockNumberParser", "mockRecentActivity", "mockMessageSyncOnce", "mockVideoConfiguration", "mockUserSetting"]);
+  var _ref5$mockAuthzProfil = _ref5.mockAuthzProfile,
+      mockAuthzProfile = _ref5$mockAuthzProfil === void 0 ? true : _ref5$mockAuthzProfil,
+      _ref5$mockMeetingInvi = _ref5.mockMeetingInvitation,
+      mockMeetingInvitation = _ref5$mockMeetingInvi === void 0 ? true : _ref5$mockMeetingInvi,
+      _ref5$mockExtensionIn = _ref5.mockExtensionInfo,
+      mockExtensionInfo = _ref5$mockExtensionIn === void 0 ? true : _ref5$mockExtensionIn,
+      _ref5$mockForwardingN = _ref5.mockForwardingNumber,
+      mockForwardingNumber = _ref5$mockForwardingN === void 0 ? true : _ref5$mockForwardingN,
+      _ref5$mockMessageSync = _ref5.mockMessageSync,
+      mockMessageSync = _ref5$mockMessageSync === void 0 ? true : _ref5$mockMessageSync,
+      _ref5$mockConferencin = _ref5.mockConferencing,
+      mockConferencing = _ref5$mockConferencin === void 0 ? true : _ref5$mockConferencin,
+      _ref5$mockActiveCalls = _ref5.mockActiveCalls,
+      mockActiveCalls = _ref5$mockActiveCalls === void 0 ? true : _ref5$mockActiveCalls,
+      _ref5$mockUpdateConfe = _ref5.mockUpdateConference,
+      mockUpdateConference = _ref5$mockUpdateConfe === void 0 ? true : _ref5$mockUpdateConfe,
+      _ref5$mockNumberParse = _ref5.mockNumberParser,
+      mockNumberParser = _ref5$mockNumberParse === void 0 ? true : _ref5$mockNumberParse,
+      _ref5$mockRecentActiv = _ref5.mockRecentActivity,
+      mockRecentActivity = _ref5$mockRecentActiv === void 0 ? true : _ref5$mockRecentActiv,
+      _ref5$mockMessageSync2 = _ref5.mockMessageSyncOnce,
+      mockMessageSyncOnce = _ref5$mockMessageSync2 === void 0 ? false : _ref5$mockMessageSync2,
+      _ref5$mockVideoConfig = _ref5.mockVideoConfiguration,
+      mockVideoConfiguration = _ref5$mockVideoConfig === void 0 ? true : _ref5$mockVideoConfig,
+      _ref5$mockUserSetting = _ref5.mockUserSetting,
+      mockUserSetting = _ref5$mockUserSetting === void 0 ? true : _ref5$mockUserSetting,
+      _ref5$mockGenerateCod = _ref5.mockGenerateCode,
+      mockGenerateCode = _ref5$mockGenerateCod === void 0 ? false : _ref5$mockGenerateCod,
+      params = _objectWithoutProperties(_ref5, ["mockAuthzProfile", "mockMeetingInvitation", "mockExtensionInfo", "mockForwardingNumber", "mockMessageSync", "mockConferencing", "mockActiveCalls", "mockUpdateConference", "mockNumberParser", "mockRecentActivity", "mockMessageSyncOnce", "mockVideoConfiguration", "mockUserSetting", "mockGenerateCode"]);
 
+  wstoken();
   authentication();
   logout();
   tokenRefresh();
@@ -1098,5 +1300,9 @@ function mockForLogin() {
   assistedUsers(params.mockAssistedUsers);
   delegators(params.mockDelegators);
   videoPersonalSettings();
+
+  if (mockGenerateCode) {
+    generateCode();
+  }
 }
 //# sourceMappingURL=index.js.map

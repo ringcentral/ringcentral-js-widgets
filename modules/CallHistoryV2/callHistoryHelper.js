@@ -5,27 +5,65 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.addNumbersFromCall = exports.addIfNotExist = void 0;
+exports.addNumbersFromCall = exports.pickFullPhoneNumber = exports.pickPhoneOrExtensionNumber = exports.addIfNotExist = void 0;
+var RC_EXTENSION_DELIMITER = '*';
 
 var addIfNotExist = function addIfNotExist(number, output, numberMap) {
   if (!numberMap[number]) {
     output.push(number);
     numberMap[number] = true;
   }
-};
+}; // NOTE:
+// business logic for commons for now
+// return phone number only.
+
 
 exports.addIfNotExist = addIfNotExist;
 
+var pickPhoneNumber = function pickPhoneNumber(phoneNumber) {
+  return phoneNumber;
+};
+
+var pickPhoneOrExtensionNumber = function pickPhoneOrExtensionNumber(phoneNumber, extension) {
+  return phoneNumber || extension;
+};
+
+exports.pickPhoneOrExtensionNumber = pickPhoneOrExtensionNumber;
+
+var formatExt = function formatExt(num) {
+  return "".concat(RC_EXTENSION_DELIMITER).concat(num);
+};
+
+var pickFullPhoneNumber = function pickFullPhoneNumber(phoneNumber, extensionNumber) {
+  var number = phoneNumber;
+
+  if (phoneNumber && extensionNumber) {
+    number = "".concat(phoneNumber).concat(formatExt(extensionNumber));
+  } else if (extensionNumber) {
+    number = extensionNumber;
+  }
+
+  return number;
+};
+
+exports.pickFullPhoneNumber = pickFullPhoneNumber;
+
 var addNumbersFromCall = function addNumbersFromCall(output, numberMap) {
+  var pickingFullNumber = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
   return function (call) {
+    var pickNumber = pickingFullNumber ? pickFullPhoneNumber : pickPhoneNumber;
+
     if (call.from && call.from.phoneNumber) {
-      addIfNotExist(call.from.phoneNumber, output, numberMap);
+      var number = pickNumber(call.from.phoneNumber, call.from.extensionNumber);
+      addIfNotExist(number, output, numberMap);
     } else if (call.from && call.from.extensionNumber) {
       addIfNotExist(call.from.extensionNumber, output, numberMap);
     }
 
     if (call.to && call.to.phoneNumber) {
-      addIfNotExist(call.to.phoneNumber, output, numberMap);
+      var _number = pickNumber(call.to.phoneNumber, call.to.extensionNumber);
+
+      addIfNotExist(_number, output, numberMap);
     } else if (call.to && call.to.extensionNumber) {
       addIfNotExist(call.to.extensionNumber, output, numberMap);
     }

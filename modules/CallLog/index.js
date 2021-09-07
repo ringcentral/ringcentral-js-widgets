@@ -177,7 +177,7 @@ var presenceRegExp = /\/presence\?detailedTelephonyState=true/;
  */
 
 var CallLog = (_dec = (0, _di.Module)({
-  deps: ['Auth', 'Client', 'ExtensionPhoneNumber', 'ExtensionInfo', 'Subscription', 'ExtensionFeatures', {
+  deps: ['Auth', 'Client', 'ExtensionPhoneNumber', 'ExtensionInfo', 'Subscription', 'AppFeatures', {
     dep: 'TabManager',
     optional: true
   }, {
@@ -201,7 +201,7 @@ var CallLog = (_dec = (0, _di.Module)({
         extensionPhoneNumber = _ref.extensionPhoneNumber,
         extensionInfo = _ref.extensionInfo,
         subscription = _ref.subscription,
-        extensionFeatures = _ref.extensionFeatures,
+        appFeatures = _ref.appFeatures,
         tabManager = _ref.tabManager,
         _ref$ttl = _ref.ttl,
         ttl = _ref$ttl === void 0 ? DEFAULT_TTL : _ref$ttl,
@@ -221,7 +221,7 @@ var CallLog = (_dec = (0, _di.Module)({
         isLimitList = _ref$isLimitList === void 0 ? false : _ref$isLimitList,
         _ref$listRecordCount = _ref.listRecordCount,
         listRecordCount = _ref$listRecordCount === void 0 ? LIST_RECORD_COUNT : _ref$listRecordCount,
-        options = _objectWithoutProperties(_ref, ["auth", "client", "storage", "extensionPhoneNumber", "extensionInfo", "subscription", "extensionFeatures", "tabManager", "ttl", "refreshLock", "tokenExpiresIn", "timeToRetry", "daySpan", "polling", "disableCache", "isLimitList", "listRecordCount"]);
+        options = _objectWithoutProperties(_ref, ["auth", "client", "storage", "extensionPhoneNumber", "extensionInfo", "subscription", "appFeatures", "tabManager", "ttl", "refreshLock", "tokenExpiresIn", "timeToRetry", "daySpan", "polling", "disableCache", "isLimitList", "listRecordCount"]);
 
     _classCallCheck(this, CallLog);
 
@@ -264,13 +264,11 @@ var CallLog = (_dec = (0, _di.Module)({
     }();
 
     _this._onStateChange = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
-      var _this$_extensionFeatu, _this$_extensionFeatu2;
-
       return regeneratorRuntime.wrap(function _callee2$(_context2) {
         while (1) {
           switch (_context2.prev = _context2.next) {
             case 0:
-              if (!(_this._auth.loggedIn && (!_this._storage || _this._storage.ready) && (!_this._subscription || _this._subscription.ready) && (!_this._extensionPhoneNumber || _this._extensionPhoneNumber.ready) && (!_this._extensionInfo || _this._extensionInfo.ready) && (!_this._tabManager || _this._tabManager.ready) && _this._extensionFeatures.ready && _this.status === _moduleStatuses["default"].pending)) {
+              if (!(_this._auth.loggedIn && (!_this._storage || _this._storage.ready) && (!_this._subscription || _this._subscription.ready) && (!_this._extensionPhoneNumber || _this._extensionPhoneNumber.ready) && (!_this._extensionInfo || _this._extensionInfo.ready) && (!_this._tabManager || _this._tabManager.ready) && _this._appFeatures.ready && _this.status === _moduleStatuses["default"].pending)) {
                 _context2.next = 9;
                 break;
               }
@@ -286,7 +284,7 @@ var CallLog = (_dec = (0, _di.Module)({
                 });
               }
 
-              if (!((_this$_extensionFeatu = _this._extensionFeatures.features) === null || _this$_extensionFeatu === void 0 ? void 0 : (_this$_extensionFeatu2 = _this$_extensionFeatu.ReadExtensionCallLog) === null || _this$_extensionFeatu2 === void 0 ? void 0 : _this$_extensionFeatu2.available)) {
+              if (!_this._appFeatures.hasReadExtensionCallLog) {
                 _context2.next = 6;
                 break;
               }
@@ -303,7 +301,7 @@ var CallLog = (_dec = (0, _di.Module)({
               break;
 
             case 9:
-              if ((!_this._auth.loggedIn || !!_this._storage && !_this._storage.ready || _this._extensionPhoneNumber && !_this._extensionPhoneNumber.ready || _this._extensionInfo && !_this._extensionInfo.ready || _this._subscription && !_this._subscription.ready || _this._tabManager && !_this._tabManager.ready || !_this._extensionFeatures.ready) && _this.ready) {
+              if ((!_this._auth.loggedIn || !!_this._storage && !_this._storage.ready || _this._extensionPhoneNumber && !_this._extensionPhoneNumber.ready || _this._extensionInfo && !_this._extensionInfo.ready || _this._subscription && !_this._subscription.ready || _this._tabManager && !_this._tabManager.ready || !_this._appFeatures.ready) && _this.ready) {
                 _this.store.dispatch({
                   type: _this.actionTypes.reset
                 });
@@ -341,7 +339,7 @@ var CallLog = (_dec = (0, _di.Module)({
     _this._extensionPhoneNumber = extensionPhoneNumber;
     _this._extensionInfo = extensionInfo;
     _this._subscription = subscription;
-    _this._extensionFeatures = extensionFeatures;
+    _this._appFeatures = appFeatures;
     _this._tabManager = tabManager;
     _this._isLimitList = isLimitList;
     _this._listRecordCount = listRecordCount;

@@ -130,7 +130,7 @@ var telephonySessionsEndPoint = /\/telephony\/sessions$/;
 var storageKey = 'activeCallControl';
 var subscribeEvent = _subscriptionFilters["default"].telephonySessions;
 var ActiveCallControl = (_dec = (0, _di.Module)({
-  deps: ['Client', 'Auth', 'Subscription', 'ConnectivityMonitor', 'Presence', 'Alert', 'NumberValidate', 'AccountInfo', 'ExtensionInfo', {
+  deps: ['Client', 'Auth', 'Subscription', 'ConnectivityMonitor', 'Presence', 'Alert', 'NumberValidate', 'AccountInfo', 'ExtensionInfo', 'AppFeatures', {
     dep: 'TabManager',
     optional: true
   }, {
@@ -171,7 +171,8 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
         numberValidate = _ref.numberValidate,
         accountInfo = _ref.accountInfo,
         extensionInfo = _ref.extensionInfo,
-        options = _objectWithoutProperties(_ref, ["client", "auth", "ttl", "timeToRetry", "storage", "subscription", "connectivityMonitor", "availabilityMonitor", "tabManager", "presence", "polling", "disableCache", "alert", "numberValidate", "accountInfo", "extensionInfo"]);
+        appFeatures = _ref.appFeatures,
+        options = _objectWithoutProperties(_ref, ["client", "auth", "ttl", "timeToRetry", "storage", "subscription", "connectivityMonitor", "availabilityMonitor", "tabManager", "presence", "polling", "disableCache", "alert", "numberValidate", "accountInfo", "extensionInfo", "appFeatures"]);
 
     _classCallCheck(this, ActiveCallControl);
 
@@ -217,6 +218,7 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
     _this._numberValidate = numberValidate;
     _this._accountInfo = accountInfo;
     _this._extensionInfo = extensionInfo;
+    _this._appFeatures = appFeatures;
     _this._rcCallControl = null;
 
     if (_this._storage) {
@@ -275,7 +277,7 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
               case 8:
                 if (this._shouldReset()) {
                   this._resetModuleStatus();
-                } else if (this.ready && this._hasPermission) {
+                } else if (this.ready && this.hasPermission) {
                   this._subscriptionHandler();
 
                   this._checkConnectivity();
@@ -484,7 +486,7 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
-                if (this._hasPermission) {
+                if (this.hasPermission) {
                   _context5.next = 2;
                   break;
                 }
@@ -1501,9 +1503,7 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
   }, {
     key: "hasPermission",
     get: function get() {
-      var _this$_auth$token$sco, _this$_auth$token$sco2;
-
-      return ((_this$_auth$token$sco = this._auth.token.scope) === null || _this$_auth$token$sco === void 0 ? void 0 : _this$_auth$token$sco.indexOf('CallControl')) > -1 || ((_this$_auth$token$sco2 = this._auth.token.scope) === null || _this$_auth$token$sco2 === void 0 ? void 0 : _this$_auth$token$sco2.indexOf('TelephonySession')) > -1;
+      return this._appFeatures.hasCallControl;
     }
   }, {
     key: "data",

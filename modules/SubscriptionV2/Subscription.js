@@ -65,7 +65,7 @@ var _debounceThrottle = require("../../lib/debounce-throttle");
 
 var _di = require("../../lib/di");
 
-var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
+var _proxify = require("../../lib/proxy/proxify");
 
 var _normalizeEventFilter = require("../Subscription/normalizeEventFilter");
 
@@ -121,19 +121,12 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
 
 function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and runs after the decorators transform.'); }
 
-var DEFAULT_TIME_TO_RETRY = 60 * 1000;
+var DEFAULT_TIME_TO_RETRY = 20 * 1000;
 var DEFAULT_REGISTER_DELAY = 2 * 1000;
-/**
- * 5 seconds
- */
-
-var DEFAULT_CREATE_DELAY = 5 * 1000;
+var SUBSCRIPTION_LOCK_KEY = 'subscription-creating-lock';
 var Subscription = (_dec = (0, _di.Module)({
   name: 'Subscription',
   deps: ['Auth', 'Client', 'Storage', 'SleepDetector', {
-    dep: 'TabManager',
-    optional: true
-  }, {
     dep: 'SubscriptionOptions',
     optional: true
   }]
@@ -166,22 +159,33 @@ var Subscription = (_dec = (0, _di.Module)({
     _initializerDefineProperty(_this, "subscriptionStatus", _descriptor4, _assertThisInitialized(_this));
 
     _this._handleSleep = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+      var _this$_subscription, renewPromise;
+
       return regeneratorRuntime.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
               if (!(_this.ready && _this._subscription)) {
-                _context.next = 4;
+                _context.next = 7;
                 break;
               }
 
-              _context.next = 3;
-              return _this._removeSubscription();
+              // to wait automatic renew finish
+              renewPromise = _this._subscription.automaticRenewing();
 
-            case 3:
-              _this._createSubscription();
+              if (!renewPromise) {
+                _context.next = 5;
+                break;
+              }
 
-            case 4:
+              _context.next = 5;
+              return renewPromise;
+
+            case 5:
+              _context.next = 7;
+              return (_this$_subscription = _this._subscription) === null || _this$_subscription === void 0 ? void 0 : _this$_subscription.resubscribeAtPubNub();
+
+            case 7:
             case "end":
               return _context.stop();
           }
@@ -213,7 +217,7 @@ var Subscription = (_dec = (0, _di.Module)({
       threshold: _this._registerDelay
     });
     _this._retry = (0, _debounceThrottle.debounce)({
-      fn: _this._createSubscription,
+      fn: _this._createSubscriptionWithLock,
       threshold: _this._timeToRetry,
       maxThreshold: _this._timeToRetry
     });
@@ -244,51 +248,6 @@ var Subscription = (_dec = (0, _di.Module)({
       this.cachedSubscription = cachedSubscription;
     }
   }, {
-    key: "onInitOnce",
-    value: function onInitOnce() {
-      var _this2 = this;
-
-      if (this._deps.tabManager) {
-        (0, _core.watch)(this, function () {
-          return _this2.cachedSubscription;
-        }, /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
-          return regeneratorRuntime.wrap(function _callee3$(_context3) {
-            while (1) {
-              switch (_context3.prev = _context3.next) {
-                case 0:
-                  if (_this2.ready && !_this2._deps.tabManager.active) {
-                    _this2._createSubscription();
-                  }
-
-                case 1:
-                case "end":
-                  return _context3.stop();
-              }
-            }
-          }, _callee3);
-        }))); // When closing the current tab before successfully registering a subscription,
-        // app create a subscription and register the subscription at the default delay of 5s on the delayed registration time.
-        // And when registering a subscription request for more than 5s will accidentally trigger a subscription request in other tabs that were once active,
-        // but this is an edge case and only up to two tabs registering for subscriptions is not enough to trigger the subscription limit in server side.
-
-        var debouncedCreateSubscription = (0, _debounceThrottle.debounce)({
-          fn: function fn() {
-            if (_this2._deps.tabManager.active) {
-              _this2._createSubscription();
-            }
-          },
-          threshold: DEFAULT_CREATE_DELAY + this._registerDelay
-        });
-        (0, _core.watch)(this, function () {
-          return _this2._deps.tabManager.active;
-        }, function () {
-          if (!_this2.cachedSubscription && _this2._deps.tabManager.active) {
-            debouncedCreateSubscription();
-          }
-        });
-      }
-    }
-  }, {
     key: "_shouldInit",
     value: function _shouldInit() {
       return _get(_getPrototypeOf(Subscription.prototype), "_shouldInit", this).call(this) && this._deps.auth.loggedIn;
@@ -308,10 +267,10 @@ var Subscription = (_dec = (0, _di.Module)({
   }, {
     key: "onReset",
     value: function () {
-      var _onReset = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
-        return regeneratorRuntime.wrap(function _callee4$(_context4) {
+      var _onReset = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context3.prev = _context3.next) {
               case 0:
                 this._setStates({
                   filters: [],
@@ -330,15 +289,17 @@ var Subscription = (_dec = (0, _di.Module)({
                 if (this._subscription) {
                   this._subscription.reset();
 
+                  this._subscription.removeAllListeners();
+
                   this._subscription = null;
                 }
 
               case 6:
               case "end":
-                return _context4.stop();
+                return _context3.stop();
             }
           }
-        }, _callee4, this);
+        }, _callee3, this);
       }));
 
       function onReset() {
@@ -378,6 +339,8 @@ var Subscription = (_dec = (0, _di.Module)({
     value: function _onRenewError(error) {
       if (this._subscription) {
         this._subscription.reset();
+
+        this._subscription.removeAllListeners();
 
         this._subscription = null;
       }
@@ -426,13 +389,13 @@ var Subscription = (_dec = (0, _di.Module)({
   }, {
     key: "_createSubscription",
     value: function () {
-      var _createSubscription2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
-        var _this3 = this;
+      var _createSubscription2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
+        var _this2 = this;
 
         var sdk;
-        return regeneratorRuntime.wrap(function _callee5$(_context5) {
+        return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
-            switch (_context5.prev = _context5.next) {
+            switch (_context4.prev = _context4.next) {
               case 0:
                 if (this.ready && !this._subscription) {
                   sdk = this._deps.client.service;
@@ -448,62 +411,63 @@ var Subscription = (_dec = (0, _di.Module)({
                         sdk: sdk
                       }).createSubscription();
                     }
-                  }
+                  } // TODO: fix Subscription limit issue about multiple create Subscription issue when multi-tab login.
+
 
                   this._subscription.on(this._subscription.events.notification, function (message) {
-                    return _this3._onNotification(message);
+                    return _this2._onNotification(message);
                   });
 
                   this._subscription.on(this._subscription.events.removeSuccess, function () {
-                    return _this3._onRemoveSuccess();
+                    return _this2._onRemoveSuccess();
                   });
 
                   this._subscription.on(this._subscription.events.removeError, function (error) {
-                    return _this3._onRemoveError(error);
+                    return _this2._onRemoveError(error);
                   });
 
                   this._subscription.on(this._subscription.events.renewSuccess, function () {
-                    return _this3._onRenewSuccess();
+                    return _this2._onRenewSuccess();
                   });
 
                   this._subscription.on(this._subscription.events.renewError, function (error) {
-                    return _this3._onRenewError(error);
+                    return _this2._onRenewError(error);
                   });
 
                   this._subscription.on(this._subscription.events.subscribeSuccess, function () {
-                    return _this3._onSubscribeSuccess();
+                    return _this2._onSubscribeSuccess();
                   });
 
                   this._subscription.on(this._subscription.events.subscribeError, function (error) {
-                    return _this3._onSubscribeError(error);
+                    return _this2._onSubscribeError(error);
                   });
                 }
 
-                _context5.prev = 1;
-                _context5.next = 4;
+                _context4.prev = 1;
+                _context4.next = 4;
                 return this._debouncedRegister();
 
               case 4:
-                _context5.next = 10;
+                _context4.next = 10;
                 break;
 
               case 6:
-                _context5.prev = 6;
-                _context5.t0 = _context5["catch"](1);
+                _context4.prev = 6;
+                _context4.t0 = _context4["catch"](1);
 
-                if (!(_context5.t0.message !== 'cancelled')) {
-                  _context5.next = 10;
+                if (!(_context4.t0.message !== 'cancelled')) {
+                  _context4.next = 10;
                   break;
                 }
 
-                throw _context5.t0;
+                throw _context4.t0;
 
               case 10:
               case "end":
-                return _context5.stop();
+                return _context4.stop();
             }
           }
-        }, _callee5, this, [[1, 6]]);
+        }, _callee4, this, [[1, 6]]);
       }));
 
       function _createSubscription() {
@@ -511,6 +475,50 @@ var Subscription = (_dec = (0, _di.Module)({
       }
 
       return _createSubscription;
+    }()
+  }, {
+    key: "_createSubscriptionWithLock",
+    value: function () {
+      var _createSubscriptionWithLock2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
+        var _navigator,
+            _navigator$locks,
+            _this3 = this;
+
+        return regeneratorRuntime.wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                if ((_navigator = navigator) === null || _navigator === void 0 ? void 0 : (_navigator$locks = _navigator.locks) === null || _navigator$locks === void 0 ? void 0 : _navigator$locks.request) {
+                  _context5.next = 5;
+                  break;
+                }
+
+                _context5.next = 3;
+                return this._createSubscription();
+
+              case 3:
+                _context5.next = 7;
+                break;
+
+              case 5:
+                _context5.next = 7;
+                return navigator.locks.request(SUBSCRIPTION_LOCK_KEY, function () {
+                  return _this3._createSubscription();
+                });
+
+              case 7:
+              case "end":
+                return _context5.stop();
+            }
+          }
+        }, _callee5, this);
+      }));
+
+      function _createSubscriptionWithLock() {
+        return _createSubscriptionWithLock2.apply(this, arguments);
+      }
+
+      return _createSubscriptionWithLock;
     }()
   }, {
     key: "_shouldUpdateSubscription",
@@ -586,6 +594,8 @@ var Subscription = (_dec = (0, _di.Module)({
                 if (this._subscription) {
                   this._subscription.reset();
 
+                  this._subscription.removeAllListeners();
+
                   this._subscription = null;
                 }
 
@@ -613,7 +623,7 @@ var Subscription = (_dec = (0, _di.Module)({
       var _subscribe = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8() {
         var events,
             _this$_subscription$e,
-            _this$_subscription,
+            _this$_subscription2,
             oldFiltersCount,
             _args8 = arguments;
 
@@ -628,17 +638,17 @@ var Subscription = (_dec = (0, _di.Module)({
                   break;
                 }
 
-                oldFiltersCount = (_this$_subscription$e = (_this$_subscription = this._subscription) === null || _this$_subscription === void 0 ? void 0 : _this$_subscription.eventFilters().length) !== null && _this$_subscription$e !== void 0 ? _this$_subscription$e : 0; // use [].concat for potential compatibility issue
+                oldFiltersCount = (_this$_subscription$e = (_this$_subscription2 = this._subscription) === null || _this$_subscription2 === void 0 ? void 0 : _this$_subscription2.eventFilters().length) !== null && _this$_subscription$e !== void 0 ? _this$_subscription$e : 0; // use [].concat for potential compatibility issue
 
                 this._addFilters([].concat(events));
 
-                if (!(oldFiltersCount !== this.filters.length && (!this._deps.tabManager || this._deps.tabManager.active))) {
+                if (!(oldFiltersCount !== this.filters.length)) {
                   _context8.next = 7;
                   break;
                 }
 
                 _context8.next = 7;
-                return this._createSubscription();
+                return this._createSubscriptionWithLock();
 
               case 7:
               case "end":
@@ -699,6 +709,6 @@ var Subscription = (_dec = (0, _di.Module)({
   initializer: function initializer() {
     return _subscriptionStatus.subscriptionStatus.notSubscribed;
   }
-}), _applyDecoratedDescriptor(_class2.prototype, "_setStates", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setStates"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "subscribe", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "subscribe"), _class2.prototype)), _class2)) || _class);
+}), _applyDecoratedDescriptor(_class2.prototype, "_setStates", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setStates"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "subscribe", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "subscribe"), _class2.prototype)), _class2)) || _class);
 exports.Subscription = Subscription;
 //# sourceMappingURL=Subscription.js.map

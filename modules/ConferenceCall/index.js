@@ -65,41 +65,41 @@ require("core-js/modules/es6.array.filter");
 
 require("core-js/modules/es6.array.sort");
 
-var _ramda = require("ramda");
-
 var _events = require("events");
 
-var _di = require("../../lib/di");
+var _ramda = require("ramda");
 
-var _RcModule2 = _interopRequireDefault(require("../../lib/RcModule"));
-
-var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
-
-var _ensureExist = _interopRequireDefault(require("../../lib/ensureExist"));
+var _callDirections = _interopRequireDefault(require("../../enums/callDirections"));
 
 var _calleeTypes = _interopRequireDefault(require("../../enums/calleeTypes"));
 
-var _callDirections = _interopRequireDefault(require("../../enums/callDirections"));
+var _permissionsMessages = require("../../enums/permissionsMessages");
+
+var _di = require("../../lib/di");
+
+var _ensureExist = _interopRequireDefault(require("../../lib/ensureExist"));
+
+var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
+
+var _RcModule2 = _interopRequireDefault(require("../../lib/RcModule"));
 
 var _selector = require("../../lib/selector");
 
 var _callingModes = _interopRequireDefault(require("../CallingSettings/callingModes"));
 
-var _permissionsMessages = require("../../enums/permissionsMessages");
+var _sessionStatus = _interopRequireDefault(require("../Webphone/sessionStatus"));
 
 var _webphoneHelper = require("../Webphone/webphoneHelper");
 
-var _sessionStatus = _interopRequireDefault(require("../Webphone/sessionStatus"));
-
 var _actionTypes = _interopRequireDefault(require("./actionTypes"));
-
-var _conferenceRole = _interopRequireDefault(require("./conferenceRole"));
-
-var _partyStatusCode = _interopRequireDefault(require("./partyStatusCode"));
 
 var _conferenceCallErrors = _interopRequireDefault(require("./conferenceCallErrors"));
 
+var _conferenceRole = _interopRequireDefault(require("./conferenceRole"));
+
 var _getConferenceCallReducer = _interopRequireDefault(require("./getConferenceCallReducer"));
+
+var _partyStatusCode = _interopRequireDefault(require("./partyStatusCode"));
 
 var _dec, _class, _class2, _descriptor, _descriptor2;
 
@@ -185,7 +185,7 @@ function ascendSortParties(parties) {
 
 
 var ConferenceCall = (_dec = (0, _di.Module)({
-  deps: ['Auth', 'Alert', 'Call', 'CallingSettings', 'ConnectivityMonitor', 'Client', 'Webphone', 'ExtensionFeatures', {
+  deps: ['Auth', 'Alert', 'Call', 'CallingSettings', 'ConnectivityMonitor', 'Client', 'Webphone', 'AppFeatures', {
     dep: 'ContactMatcher',
     optional: true
   }, {
@@ -217,7 +217,7 @@ var ConferenceCall = (_dec = (0, _di.Module)({
         call = _ref.call,
         callingSettings = _ref.callingSettings,
         client = _ref.client,
-        extensionFeatures = _ref.extensionFeatures,
+        appFeatures = _ref.appFeatures,
         contactMatcher = _ref.contactMatcher,
         webphone = _ref.webphone,
         availabilityMonitor = _ref.availabilityMonitor,
@@ -228,7 +228,7 @@ var ConferenceCall = (_dec = (0, _di.Module)({
         capacity = _ref$capacity === void 0 ? MAXIMUM_CAPACITY : _ref$capacity,
         _ref$timeout = _ref.timeout,
         timeout = _ref$timeout === void 0 ? DEFAULT_TIMEOUT : _ref$timeout,
-        options = _objectWithoutProperties(_ref, ["auth", "alert", "call", "callingSettings", "client", "extensionFeatures", "contactMatcher", "webphone", "availabilityMonitor", "connectivityMonitor", "pulling", "capacity", "timeout"]);
+        options = _objectWithoutProperties(_ref, ["auth", "alert", "call", "callingSettings", "client", "appFeatures", "contactMatcher", "webphone", "availabilityMonitor", "connectivityMonitor", "pulling", "capacity", "timeout"]);
 
     _classCallCheck(this, ConferenceCall);
 
@@ -251,7 +251,7 @@ var ConferenceCall = (_dec = (0, _di.Module)({
     _this._webphone = webphone;
     _this._connectivityMonitor = connectivityMonitor;
     _this._contactMatcher = contactMatcher;
-    _this._extensionFeatures = extensionFeatures; // we need the constructed actions
+    _this._appFeatures = appFeatures; // we need the constructed actions
 
     _this._reducer = (0, _getConferenceCallReducer["default"])(_this.actionTypes);
     _this._ttl = DEFAULT_TTL;
@@ -1199,12 +1199,12 @@ var ConferenceCall = (_dec = (0, _di.Module)({
   }, {
     key: "_shouldInit",
     value: function _shouldInit() {
-      return this._auth.loggedIn && this._auth.ready && this._alert.ready && this._callingSettings.ready && this._call.ready && this._extensionFeatures.ready && this._connectivityMonitor.ready && (!this._availabilityMonitor || this._availabilityMonitor.ready) && this.pending;
+      return this._auth.loggedIn && this._auth.ready && this._alert.ready && this._callingSettings.ready && this._call.ready && this._appFeatures.ready && this._connectivityMonitor.ready && (!this._availabilityMonitor || this._availabilityMonitor.ready) && this.pending;
     }
   }, {
     key: "_shouldReset",
     value: function _shouldReset() {
-      return (!this._auth.loggedIn || !this._auth.ready || !this._alert.ready || !this._callingSettings.ready || !this._call.ready || !this._extensionFeatures.ready || !this._connectivityMonitor.ready || !!this._availabilityMonitor && !this._availabilityMonitor.ready) && this.ready;
+      return (!this._auth.loggedIn || !this._auth.ready || !this._alert.ready || !this._callingSettings.ready || !this._call.ready || !this._appFeatures.ready || !this._connectivityMonitor.ready || !!this._availabilityMonitor && !this._availabilityMonitor.ready) && this.ready;
     }
   }, {
     key: "_checkPermission",
@@ -1701,7 +1701,7 @@ var ConferenceCall = (_dec = (0, _di.Module)({
   }, {
     key: "hasPermission",
     get: function get() {
-      return this._extensionFeatures.isRingOutEnabled && this._extensionFeatures.isWebPhoneEnabled;
+      return this._appFeatures.hasConferenceCall;
     }
   }, {
     key: "status",

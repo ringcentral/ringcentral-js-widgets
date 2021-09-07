@@ -14,11 +14,11 @@ require("core-js/modules/es6.string.iterator");
 
 require("core-js/modules/es6.array.from");
 
-require("core-js/modules/es6.array.is-array");
-
 require("core-js/modules/es7.symbol.async-iterator");
 
 require("core-js/modules/es6.symbol");
+
+require("core-js/modules/es6.array.is-array");
 
 require("core-js/modules/es6.reflect.get");
 
@@ -103,6 +103,8 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -114,8 +116,6 @@ function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symb
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
 
@@ -211,7 +211,7 @@ var DEFAULT_DAY_SPAN = 90;
 exports.DEFAULT_DAY_SPAN = DEFAULT_DAY_SPAN;
 var Conversations = (_dec = (0, _di.Module)({
   name: 'Conversations',
-  deps: ['Alert', 'Auth', 'Client', 'MessageSender', 'ExtensionInfo', 'MessageStore', 'ExtensionFeatures', 'RegionSettings', {
+  deps: ['Alert', 'Auth', 'Client', 'MessageSender', 'ExtensionInfo', 'MessageStore', 'AppFeatures', 'RegionSettings', {
     dep: 'ContactMatcher',
     optional: true
   }, {
@@ -363,7 +363,10 @@ var Conversations = (_dec = (0, _di.Module)({
   }, {
     key: "_fetchOldConversationsSuccess",
     value: function _fetchOldConversationsSuccess(records, isIncreaseCurrentPage) {
-      this.oldConversations = this.oldConversations.concat(records.map(_messageHelper.normalizeRecord));
+      var _this$oldConversation;
+
+      (_this$oldConversation = this.oldConversations).push.apply(_this$oldConversation, _toConsumableArray(records.map(_messageHelper.normalizeRecord)));
+
       this.fetchConversationsStatus = _conversationsStatus.conversationsStatus.idle;
 
       if (isIncreaseCurrentPage) {
@@ -406,7 +409,10 @@ var Conversations = (_dec = (0, _di.Module)({
   }, {
     key: "_fetchOldMessagesSuccess",
     value: function _fetchOldMessagesSuccess(records) {
-      this.oldMessages = this.oldMessages.concat(records.map(_messageHelper.normalizeRecord));
+      var _this$oldMessages;
+
+      (_this$oldMessages = this.oldMessages).push.apply(_this$oldMessages, _toConsumableArray(records.map(_messageHelper.normalizeRecord)));
+
       this.fetchMessagesStatus = _conversationsStatus.conversationsStatus.idle;
     }
   }, {
@@ -1426,7 +1432,7 @@ var Conversations = (_dec = (0, _di.Module)({
 
         default:
           return allConversations.filter(function (conversation) {
-            return (_this4._deps.extensionFeatures.hasReadTextPermission || !(0, _messageHelper.messageIsTextMessage)(conversation)) && (_this4._deps.extensionFeatures.hasVoicemailPermission || !(0, _messageHelper.messageIsVoicemail)(conversation)) && (_this4._deps.extensionFeatures.hasReadFaxPermission || !(0, _messageHelper.messageIsFax)(conversation));
+            return (_this4._deps.appFeatures.hasReadTextPermission || !(0, _messageHelper.messageIsTextMessage)(conversation)) && (_this4._deps.appFeatures.hasVoicemailPermission || !(0, _messageHelper.messageIsVoicemail)(conversation)) && (_this4._deps.appFeatures.hasReadFaxPermission || !(0, _messageHelper.messageIsFax)(conversation));
           });
       }
     }
@@ -1679,7 +1685,7 @@ var Conversations = (_dec = (0, _di.Module)({
   }, {
     key: "_hasPermission",
     get: function get() {
-      return this._deps.extensionFeatures.hasReadMessagesPermission;
+      return this._deps.appFeatures.hasReadMessagesPermission;
     }
   }]);
 

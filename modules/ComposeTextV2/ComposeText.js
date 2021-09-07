@@ -113,7 +113,7 @@ function _initializerWarningHelper(descriptor, context) { throw new Error('Decor
  */
 var ComposeText = (_dec = (0, _di.Module)({
   name: 'ComposeText',
-  deps: ['Alert', 'Auth', 'Storage', 'MessageSender', 'NumberValidate', 'ExtensionFeatures', {
+  deps: ['Alert', 'Auth', 'Storage', 'MessageSender', 'NumberValidate', 'AppFeatures', {
     dep: 'ContactSearch',
     optional: true
   }, {
@@ -402,7 +402,7 @@ var ComposeText = (_dec = (0, _di.Module)({
   }, {
     key: "_validateIsOnlyPager",
     value: function _validateIsOnlyPager(phoneNumber) {
-      if (phoneNumber.length >= 7 && !this._deps.extensionFeatures.hasOutboundSMSPermission) {
+      if (phoneNumber.length >= 7 && !this._deps.appFeatures.hasOutboundSMSPermission) {
         this._alertWarning(_MessageSenderV.messageSenderMessages.noSMSPermission);
 
         return true;

@@ -36,6 +36,8 @@ require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.keys");
 
+require("core-js/modules/es6.array.for-each");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -49,11 +51,7 @@ require("core-js/modules/es6.string.includes");
 
 require("regenerator-runtime/runtime");
 
-require("core-js/modules/es6.array.for-each");
-
 var _jsonMask = _interopRequireDefault(require("json-mask"));
-
-var _ramda = require("ramda");
 
 var _permissionsMessages = require("../../enums/permissionsMessages");
 
@@ -67,7 +65,7 @@ var _di = require("../../lib/di");
 
 var _selector = require("../../lib/selector");
 
-var _dec, _class, _class2, _descriptor, _descriptor2, _descriptor3;
+var _dec, _class, _class2, _descriptor, _descriptor2;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -120,31 +118,21 @@ var DEFAULT_COUNTRY = {
 var extensionRegExp = /.*\/extension\/\d+$/;
 
 function extractData(info) {
-  var serviceFeatures = {};
-  info.serviceFeatures.forEach(function (f) {
-    serviceFeatures[f.featureName] = {
-      enabled: f.enabled
-    };
-
-    if (!f.enabled) {
-      serviceFeatures[f.featureName].reason = f.reason;
-    }
-  });
-  var output = (0, _jsonMask["default"])(info, DEFAULT_MASK);
-  output.serviceFeatures = serviceFeatures;
-  return output;
+  return (0, _jsonMask["default"])(info, DEFAULT_MASK);
 }
 
 var DEFAULT_TTL = 30 * 60 * 1000; // half hour update
 
-var DEFAULT_TIME_TO_RETRY = 62 * 1000;
+var DEFAULT_TIME_TO_RETRY = 62 * 1000; // serviceFeatures is deprecated from platform api
+
 /**
  * @class
  * @description Extension info module
+ * @deprecated Please use V2
  */
 
 var ExtensionInfo = (_dec = (0, _di.Module)({
-  deps: ['Client', {
+  deps: ['Client', 'ExtensionFeatures', {
     dep: 'Alert',
     optional: true
   }, {
@@ -166,6 +154,7 @@ var ExtensionInfo = (_dec = (0, _di.Module)({
     var _this;
 
     var client = _ref.client,
+        extensionFeatures = _ref.extensionFeatures,
         _ref$ttl = _ref.ttl,
         ttl = _ref$ttl === void 0 ? DEFAULT_TTL : _ref$ttl,
         _ref$timeToRetry = _ref.timeToRetry,
@@ -174,7 +163,7 @@ var ExtensionInfo = (_dec = (0, _di.Module)({
         polling = _ref$polling === void 0 ? true : _ref$polling,
         alert = _ref.alert,
         extensionInfoOptions = _ref.extensionInfoOptions,
-        options = _objectWithoutProperties(_ref, ["client", "ttl", "timeToRetry", "polling", "alert", "extensionInfoOptions"]);
+        options = _objectWithoutProperties(_ref, ["client", "extensionFeatures", "ttl", "timeToRetry", "polling", "alert", "extensionInfoOptions"]);
 
     _classCallCheck(this, ExtensionInfo);
 
@@ -273,11 +262,10 @@ var ExtensionInfo = (_dec = (0, _di.Module)({
 
     _initializerDefineProperty(_this, "info", _descriptor, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "serviceFeatures", _descriptor2, _assertThisInitialized(_this));
-
-    _initializerDefineProperty(_this, "site", _descriptor3, _assertThisInitialized(_this));
+    _initializerDefineProperty(_this, "site", _descriptor2, _assertThisInitialized(_this));
 
     _this._alert = alert;
+    _this._extensionFeatures = extensionFeatures;
     _this._extensionInfoOptions = extensionInfoOptions;
     return _this;
   }
@@ -365,7 +353,7 @@ var ExtensionInfo = (_dec = (0, _di.Module)({
       return data || {};
     }];
   }
-}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, "serviceFeatures", [_selector.selector], {
+}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, "site", [_selector.selector], {
   configurable: true,
   enumerable: true,
   writable: true,
@@ -375,24 +363,13 @@ var ExtensionInfo = (_dec = (0, _di.Module)({
     return [function () {
       return _this3.info;
     }, function (info) {
-      return info.serviceFeatures || {};
-    }];
-  }
-}), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, "site", [_selector.selector], {
-  configurable: true,
-  enumerable: true,
-  writable: true,
-  initializer: function initializer() {
-    var _this4 = this;
+      var _this3$_extensionFeat, _this3$_extensionFeat2;
 
-    return [function () {
-      return _this4.info;
-    }, function (info) {
-      if (!_this4.isMultipleSiteEnabled) {
+      if (!_this3.isMultipleSiteEnabled) {
         return null;
       }
 
-      var isEnabled = (0, _ramda.path)(['SiteCodes', 'enabled'], _this4.serviceFeatures);
+      var isEnabled = !!((_this3$_extensionFeat = _this3._extensionFeatures.features) === null || _this3$_extensionFeat === void 0 ? void 0 : (_this3$_extensionFeat2 = _this3$_extensionFeat.SiteCodes) === null || _this3$_extensionFeat2 === void 0 ? void 0 : _this3$_extensionFeat2.available);
 
       if (!isEnabled) {
         return null;

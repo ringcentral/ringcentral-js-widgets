@@ -212,7 +212,7 @@ function getSyncParams(_ref) {
 
 
 var MessageStore = (_dec = (0, _di.Module)({
-  deps: ['Alert', 'Client', 'Auth', 'Subscription', 'ConnectivityMonitor', 'ExtensionFeatures', {
+  deps: ['Alert', 'Client', 'Auth', 'Subscription', 'ConnectivityMonitor', 'AppFeatures', {
     dep: 'AvailabilityMonitor',
     optional: true
   }, {
@@ -239,7 +239,7 @@ var MessageStore = (_dec = (0, _di.Module)({
         subscription = _ref2.subscription,
         storage = _ref2.storage,
         tabManager = _ref2.tabManager,
-        extensionFeatures = _ref2.extensionFeatures,
+        appFeatures = _ref2.appFeatures,
         connectivityMonitor = _ref2.connectivityMonitor,
         availabilityMonitor = _ref2.availabilityMonitor,
         _ref2$ttl = _ref2.ttl,
@@ -260,7 +260,7 @@ var MessageStore = (_dec = (0, _di.Module)({
         conversationLoadLength = _ref2$conversationLoa === void 0 ? DEFAULT_CONVERSATION_LOAD_LENGTH : _ref2$conversationLoa,
         _ref2$messagesFilter = _ref2.messagesFilter,
         messagesFilter = _ref2$messagesFilter === void 0 ? DEFAULT_MESSAGES_FILTER : _ref2$messagesFilter,
-        options = _objectWithoutProperties(_ref2, ["auth", "alert", "client", "subscription", "storage", "tabManager", "extensionFeatures", "connectivityMonitor", "availabilityMonitor", "ttl", "refreshLock", "polling", "disableCache", "timeToRetry", "daySpan", "conversationsLoadLength", "conversationLoadLength", "messagesFilter"]);
+        options = _objectWithoutProperties(_ref2, ["auth", "alert", "client", "subscription", "storage", "tabManager", "appFeatures", "connectivityMonitor", "availabilityMonitor", "ttl", "refreshLock", "polling", "disableCache", "timeToRetry", "daySpan", "conversationsLoadLength", "conversationLoadLength", "messagesFilter"]);
 
     _classCallCheck(this, MessageStore);
 
@@ -289,7 +289,7 @@ var MessageStore = (_dec = (0, _di.Module)({
     _this._alert = _ensureExist["default"].call(_assertThisInitialized(_this), alert, 'alert');
     _this._client = _ensureExist["default"].call(_assertThisInitialized(_this), client, 'client');
     _this._subscription = _ensureExist["default"].call(_assertThisInitialized(_this), subscription, 'subscription');
-    _this._extensionFeatures = extensionFeatures;
+    _this._appFeatures = appFeatures;
 
     if (!disableCache) {
       _this._storage = storage;
@@ -405,12 +405,12 @@ var MessageStore = (_dec = (0, _di.Module)({
   }, {
     key: "_shouldInit",
     value: function _shouldInit() {
-      return !!(this._auth.loggedIn && (!this._storage || this._storage.ready) && (!this._tabManager || this._tabManager.ready) && (!this._connectivityMonitor || this._connectivityMonitor.ready) && this._subscription.ready && this._extensionFeatures.ready && (!this._availabilityMonitor || this._availabilityMonitor.ready) && this.pending);
+      return !!(this._auth.loggedIn && (!this._storage || this._storage.ready) && (!this._tabManager || this._tabManager.ready) && (!this._connectivityMonitor || this._connectivityMonitor.ready) && this._subscription.ready && this._appFeatures.ready && (!this._availabilityMonitor || this._availabilityMonitor.ready) && this.pending);
     }
   }, {
     key: "_shouldReset",
     value: function _shouldReset() {
-      return !!((!this._auth.loggedIn || this._storage && !this._storage.ready || !this._subscription.ready || !!this._connectivityMonitor && !this._connectivityMonitor.ready || !this._extensionFeatures.ready || this._tabManager && !this._tabManager.ready || this._availabilityMonitor && !this._availabilityMonitor.ready) && this.ready);
+      return !!((!this._auth.loggedIn || this._storage && !this._storage.ready || !this._subscription.ready || !!this._connectivityMonitor && !this._connectivityMonitor.ready || !this._appFeatures.ready || this._tabManager && !this._tabManager.ready || this._availabilityMonitor && !this._availabilityMonitor.ready) && this.ready);
     }
   }, {
     key: "_isDataReady",
@@ -1702,7 +1702,7 @@ var MessageStore = (_dec = (0, _di.Module)({
   }, {
     key: "_hasPermission",
     get: function get() {
-      return this._extensionFeatures.hasReadMessagesPermission;
+      return this._appFeatures.hasReadMessagesPermission;
     }
   }]);
 
@@ -1835,15 +1835,15 @@ var MessageStore = (_dec = (0, _di.Module)({
     }, function (voiceUnreadCounts, textUnreadCounts, faxUnreadCounts) {
       var unreadCounts = 0;
 
-      if (_this13._extensionFeatures.hasReadTextPermission) {
+      if (_this13._appFeatures.hasReadTextPermission) {
         unreadCounts += textUnreadCounts;
       }
 
-      if (_this13._extensionFeatures.hasVoicemailPermission) {
+      if (_this13._appFeatures.hasVoicemailPermission) {
         unreadCounts += voiceUnreadCounts;
       }
 
-      if (_this13._extensionFeatures.hasReadFaxPermission) {
+      if (_this13._appFeatures.hasReadFaxPermission) {
         unreadCounts += faxUnreadCounts;
       }
 

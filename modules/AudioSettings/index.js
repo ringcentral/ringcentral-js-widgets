@@ -136,7 +136,7 @@ polyfillGetUserMedia();
  */
 
 var AudioSettings = (_dec = (0, _di.Module)({
-  deps: ['Auth', 'Alert', 'Storage', 'ExtensionFeatures']
+  deps: ['Auth', 'Alert', 'Storage', 'AppFeatures']
 }), _dec(_class = (_class2 = /*#__PURE__*/function (_RcModule) {
   _inherits(AudioSettings, _RcModule);
 
@@ -148,8 +148,8 @@ var AudioSettings = (_dec = (0, _di.Module)({
     var auth = _ref.auth,
         alert = _ref.alert,
         storage = _ref.storage,
-        extensionFeatures = _ref.extensionFeatures,
-        options = _objectWithoutProperties(_ref, ["auth", "alert", "storage", "extensionFeatures"]);
+        appFeatures = _ref.appFeatures,
+        options = _objectWithoutProperties(_ref, ["auth", "alert", "storage", "appFeatures"]);
 
     _classCallCheck(this, AudioSettings);
 
@@ -164,7 +164,7 @@ var AudioSettings = (_dec = (0, _di.Module)({
     _this._storage = _ensureExist["default"].call(_assertThisInitialized(_this), storage, 'storage');
     _this._auth = _ensureExist["default"].call(_assertThisInitialized(_this), auth, 'auth');
     _this._alert = _ensureExist["default"].call(_assertThisInitialized(_this), alert, 'alert');
-    _this._extensionFeatures = extensionFeatures;
+    _this._appFeatures = appFeatures;
     _this._storageKey = 'audioSettings';
 
     _this._storage.registerReducer({
@@ -187,7 +187,7 @@ var AudioSettings = (_dec = (0, _di.Module)({
       }
 
       this.store.subscribe(function () {
-        if (_this2.ready && _this2._auth.loggedIn && _this2._extensionFeatures.isWebPhoneEnabled && !_this2.userMedia) {
+        if (_this2.ready && _this2._auth.loggedIn && _this2._appFeatures.isWebPhoneEnabled && !_this2.userMedia) {
           // Make sure it only prompts once
           if (_this2.hasAutoPrompted) return;
 
@@ -241,12 +241,12 @@ var AudioSettings = (_dec = (0, _di.Module)({
   }, {
     key: "_shouldInit",
     value: function _shouldInit() {
-      return !!(this.pending && this._storage.ready && this._auth.ready && this._extensionFeatures.ready);
+      return !!(this.pending && this._storage.ready && this._auth.ready && this._appFeatures.ready);
     }
   }, {
     key: "_shouldReset",
     value: function _shouldReset() {
-      return !!(this.ready && (!this._auth.ready || !this._storage.ready || !this._extensionFeatures.ready));
+      return !!(this.ready && (!this._auth.ready || !this._storage.ready || !this._appFeatures.ready));
     }
   }, {
     key: "_onStateChange",

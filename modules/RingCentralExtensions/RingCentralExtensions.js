@@ -4,11 +4,17 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
 require("core-js/modules/es7.symbol.async-iterator");
 
-require("core-js/modules/es6.symbol");
-
 require("core-js/modules/es6.string.iterator");
 
 require("core-js/modules/es6.weak-map");
+
+require("core-js/modules/es6.object.define-properties");
+
+require("core-js/modules/es7.object.get-own-property-descriptors");
+
+require("core-js/modules/es6.array.filter");
+
+require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.promise");
 
@@ -67,6 +73,12 @@ function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && 
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
@@ -99,7 +111,7 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
 
 var RingCentralExtensions = (_dec = (0, _di.Module)({
   name: 'RingCentralExtensions',
-  deps: ['Client', {
+  deps: ['Auth', 'Client', 'Storage', {
     dep: 'SleepDetector',
     optional: true
   }, {
@@ -119,22 +131,15 @@ var RingCentralExtensions = (_dec = (0, _di.Module)({
     _classCallCheck(this, RingCentralExtensions);
 
     _this = _super.call(this, {
-      deps: deps
+      deps: deps,
+      enableCache: true,
+      storageKey: 'RingCentralExtensions'
     });
-    _this._sdk = void 0;
     _this._core = void 0;
     _this._webSocketExtension = void 0;
     _this._currentWs = void 0;
 
-    _this._onSignedIn = function () {
-      _this._setLoggedIn(true);
-    };
-
-    _this._onSignedOff = function () {
-      _this._setLoggedIn(false);
-    };
-
-    _initializerDefineProperty(_this, "isLoggedIn", _descriptor, _assertThisInitialized(_this));
+    _initializerDefineProperty(_this, "cachedWsc", _descriptor, _assertThisInitialized(_this));
 
     _this._syncWsStatusHandler = function () {
       _this._syncWebSocketReadyState();
@@ -149,9 +154,9 @@ var RingCentralExtensions = (_dec = (0, _di.Module)({
     key: "_setupInfra",
     value: function () {
       var _setupInfra2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-        var _this$_deps$ringCentr2;
+        var _this$_deps$ringCentr2, _wsOptions$wscToken, _this$cachedWsc;
 
-        var _this$_deps$ringCentr, debugExtension, rcSdkExtension;
+        var _this$_deps$ringCentr, debugExtension, rcSdkExtension, wsOptions;
 
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
@@ -170,16 +175,18 @@ var RingCentralExtensions = (_dec = (0, _di.Module)({
 
               case 5:
                 // install RcSdkExtension
-                this._sdk = this._deps.client.service;
                 rcSdkExtension = new _rcsdk["default"]({
-                  rcSdk: this._sdk
+                  rcSdk: this.sdk
                 });
-                _context.next = 9;
+                _context.next = 8;
                 return this._core.installExtension(rcSdkExtension);
 
-              case 9:
+              case 8:
                 // install WebSocketExtension
-                this._webSocketExtension = new _ws["default"]((_this$_deps$ringCentr2 = this._deps.ringCentralExtensionsOptions) === null || _this$_deps$ringCentr2 === void 0 ? void 0 : _this$_deps$ringCentr2.webSocketOptions);
+                wsOptions = (_this$_deps$ringCentr2 = this._deps.ringCentralExtensionsOptions) === null || _this$_deps$ringCentr2 === void 0 ? void 0 : _this$_deps$ringCentr2.webSocketOptions;
+                this._webSocketExtension = new _ws["default"](_objectSpread(_objectSpread({}, wsOptions), {}, {
+                  wscToken: (_wsOptions$wscToken = wsOptions === null || wsOptions === void 0 ? void 0 : wsOptions.wscToken) !== null && _wsOptions$wscToken !== void 0 ? _wsOptions$wscToken : (_this$cachedWsc = this.cachedWsc) === null || _this$cachedWsc === void 0 ? void 0 : _this$cachedWsc.token
+                }));
                 _context.prev = 10;
                 _context.next = 13;
                 return this._core.installExtension(this._webSocketExtension);
@@ -210,49 +217,56 @@ var RingCentralExtensions = (_dec = (0, _di.Module)({
       return _setupInfra;
     }()
   }, {
-    key: "_bindPlatformEvents",
-    value: function _bindPlatformEvents() {
-      var platform = this._sdk.platform();
-
-      platform.addListener(platform.events.loginSuccess, this._onSignedIn);
-      platform.addListener(platform.events.loginError, this._onSignedOff);
-      platform.addListener(platform.events.logoutSuccess, this._onSignedOff);
-      platform.addListener(platform.events.logoutError, this._onSignedOff);
-      platform.addListener(platform.events.refreshSuccess, this._onSignedIn);
-      platform.addListener(platform.events.refreshError, this._onSignedOff);
-    }
-  }, {
-    key: "_unbindPlatformEvents",
-    value: function _unbindPlatformEvents() {
-      var platform = this._sdk.platform();
-
-      platform.removeListener(platform.events.loginSuccess, this._onSignedIn);
-      platform.removeListener(platform.events.loginError, this._onSignedOff);
-      platform.removeListener(platform.events.logoutSuccess, this._onSignedOff);
-      platform.removeListener(platform.events.logoutError, this._onSignedOff);
-      platform.removeListener(platform.events.refreshSuccess, this._onSignedIn);
-      platform.removeListener(platform.events.refreshError, this._onSignedOff);
-    }
-  }, {
     key: "onInitOnce",
     value: function () {
-      var _onInitOnce = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
+      var _onInitOnce = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
         var _this2 = this,
             _this$_deps$sleepDete;
 
-        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+        return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context4.prev = _context4.next) {
               case 0:
-                _context3.next = 2;
+                _context4.next = 2;
                 return this._setupInfra();
 
               case 2:
                 // expose WebSocket events
                 this._exposeConnectionEvents();
 
-                this._webSocketExtension.eventEmitter.addListener(_ws.Events.newWebSocketObject, function () {
-                  _this2._exposeConnectionEvents();
+                this._webSocketExtension.eventEmitter.addListener(_ws.Events.newWebSocketObject, /*#__PURE__*/function () {
+                  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(ws) {
+                    return regeneratorRuntime.wrap(function _callee2$(_context2) {
+                      while (1) {
+                        switch (_context2.prev = _context2.next) {
+                          case 0:
+                            if (!ws._onCreated) {
+                              _context2.next = 3;
+                              break;
+                            }
+
+                            _context2.next = 3;
+                            return ws._onCreated();
+
+                          case 3:
+                            // expose events
+                            _this2._exposeConnectionEvents();
+
+                          case 4:
+                          case "end":
+                            return _context2.stop();
+                        }
+                      }
+                    }, _callee2);
+                  }));
+
+                  return function (_x) {
+                    return _ref.apply(this, arguments);
+                  };
+                }());
+
+                this._webSocketExtension.eventEmitter.addListener(_ws.Events.newWsc, function (wsc) {
+                  _this2._cacheWsc(wsc);
                 });
 
                 if (this._webSocketExtension.options.autoRecover) {
@@ -266,50 +280,41 @@ var RingCentralExtensions = (_dec = (0, _di.Module)({
                 } // register SleepDetector
 
 
-                (_this$_deps$sleepDete = this._deps.sleepDetector) === null || _this$_deps$sleepDete === void 0 ? void 0 : _this$_deps$sleepDete.on(this._deps.sleepDetector.events.detected, /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
-                  return regeneratorRuntime.wrap(function _callee2$(_context2) {
+                (_this$_deps$sleepDete = this._deps.sleepDetector) === null || _this$_deps$sleepDete === void 0 ? void 0 : _this$_deps$sleepDete.on(this._deps.sleepDetector.events.detected, /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
+                  return regeneratorRuntime.wrap(function _callee3$(_context3) {
                     while (1) {
-                      switch (_context2.prev = _context2.next) {
+                      switch (_context3.prev = _context3.next) {
                         case 0:
                           if (!_this2.ready) {
-                            _context2.next = 3;
+                            _context3.next = 3;
                             break;
                           }
 
-                          _context2.next = 3;
+                          _context3.next = 3;
                           return _this2.recoverWebSocketConnection();
 
                         case 3:
                         case "end":
-                          return _context2.stop();
+                          return _context3.stop();
                       }
                     }
-                  }, _callee2);
-                })));
-                (0, _core2.watch)(this, function () {
-                  return _this2.isLoggedIn;
-                }, function () {
-                  if (!_this2.ready) {
-                    return;
-                  }
+                  }, _callee3);
+                }))); // hook auth events
 
-                  try {
-                    if (_this2.isLoggedIn) {
-                      _this2.recoverWebSocketConnection();
-                    } else {
-                      _this2.revokeWebSocketConnection();
-                    }
-                  } catch (ex) {
-                    console.error('[RingCentralExtensions]', ex);
-                  }
+                this._deps.auth.addAfterLoggedInHandler(function () {
+                  _this2.recoverWebSocketConnection();
                 });
 
-              case 7:
+                this._deps.auth.addBeforeLogoutHandler(function () {
+                  _this2.revokeWebSocketConnection();
+                });
+
+              case 9:
               case "end":
-                return _context3.stop();
+                return _context4.stop();
             }
           }
-        }, _callee3, this);
+        }, _callee4, this);
       }));
 
       function onInitOnce() {
@@ -319,86 +324,28 @@ var RingCentralExtensions = (_dec = (0, _di.Module)({
       return onInitOnce;
     }()
   }, {
-    key: "onInit",
-    value: function () {
-      var _onInit = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
-        var platform, loggedIn;
-        return regeneratorRuntime.wrap(function _callee4$(_context4) {
-          while (1) {
-            switch (_context4.prev = _context4.next) {
-              case 0:
-                this._bindPlatformEvents();
-
-                platform = this._sdk.platform();
-                _context4.next = 4;
-                return platform.loggedIn();
-
-              case 4:
-                loggedIn = _context4.sent;
-
-                this._setLoggedIn(loggedIn);
-
-              case 6:
-              case "end":
-                return _context4.stop();
-            }
-          }
-        }, _callee4, this);
-      }));
-
-      function onInit() {
-        return _onInit.apply(this, arguments);
-      }
-
-      return onInit;
-    }()
-  }, {
-    key: "onReset",
-    value: function () {
-      var _onReset = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
-        return regeneratorRuntime.wrap(function _callee5$(_context5) {
-          while (1) {
-            switch (_context5.prev = _context5.next) {
-              case 0:
-                this._unbindPlatformEvents();
-
-              case 1:
-              case "end":
-                return _context5.stop();
-            }
-          }
-        }, _callee5, this);
-      }));
-
-      function onReset() {
-        return _onReset.apply(this, arguments);
-      }
-
-      return onReset;
-    }()
-  }, {
-    key: "_setLoggedIn",
-    value: function _setLoggedIn(loggedIn) {
-      this.isLoggedIn = loggedIn;
+    key: "_cacheWsc",
+    value: function _cacheWsc(wsc) {
+      this.cachedWsc = wsc;
     }
   }, {
     key: "recoverWebSocketConnection",
     value: function () {
-      var _recoverWebSocketConnection = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
-        return regeneratorRuntime.wrap(function _callee6$(_context6) {
+      var _recoverWebSocketConnection = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
+        return regeneratorRuntime.wrap(function _callee5$(_context5) {
           while (1) {
-            switch (_context6.prev = _context6.next) {
+            switch (_context5.prev = _context5.next) {
               case 0:
                 if (!(this.webSocketReadyState === _webSocketReadyStates.webSocketReadyStates.connecting)) {
-                  _context6.next = 3;
+                  _context5.next = 3;
                   break;
                 }
 
                 console.log('[RingCentralExtensions] > recoverWebSocketConnection > already connecting');
-                return _context6.abrupt("return");
+                return _context5.abrupt("return");
 
               case 3:
-                _context6.next = 5;
+                _context5.next = 5;
                 return this._webSocketExtension.recover();
 
               case 5:
@@ -406,10 +353,10 @@ var RingCentralExtensions = (_dec = (0, _di.Module)({
 
               case 6:
               case "end":
-                return _context6.stop();
+                return _context5.stop();
             }
           }
-        }, _callee6, this);
+        }, _callee5, this);
       }));
 
       function recoverWebSocketConnection() {
@@ -421,12 +368,12 @@ var RingCentralExtensions = (_dec = (0, _di.Module)({
   }, {
     key: "revokeWebSocketConnection",
     value: function () {
-      var _revokeWebSocketConnection = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
-        return regeneratorRuntime.wrap(function _callee7$(_context7) {
+      var _revokeWebSocketConnection = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
+        return regeneratorRuntime.wrap(function _callee6$(_context6) {
           while (1) {
-            switch (_context7.prev = _context7.next) {
+            switch (_context6.prev = _context6.next) {
               case 0:
-                _context7.next = 2;
+                _context6.next = 2;
                 return this._webSocketExtension.revoke();
 
               case 2:
@@ -434,10 +381,10 @@ var RingCentralExtensions = (_dec = (0, _di.Module)({
 
               case 3:
               case "end":
-                return _context7.stop();
+                return _context6.stop();
             }
           }
-        }, _callee7, this);
+        }, _callee6, this);
       }));
 
       function revokeWebSocketConnection() {
@@ -478,6 +425,11 @@ var RingCentralExtensions = (_dec = (0, _di.Module)({
 
       var readyState = (_this$_webSocketExten = this._webSocketExtension.ws) === null || _this$_webSocketExten === void 0 ? void 0 : _this$_webSocketExten.readyState;
 
+      this._setWebSocketReadyState(readyState);
+    }
+  }, {
+    key: "_setWebSocketReadyState",
+    value: function _setWebSocketReadyState(readyState) {
       switch (readyState) {
         case _isomorphicWs["default"].CONNECTING:
           this.webSocketReadyState = _webSocketReadyStates.webSocketReadyStates.connecting;
@@ -512,7 +464,7 @@ var RingCentralExtensions = (_dec = (0, _di.Module)({
   }, {
     key: "sdk",
     get: function get() {
-      return this._sdk;
+      return this._deps.client.service;
     }
   }, {
     key: "core",
@@ -527,14 +479,14 @@ var RingCentralExtensions = (_dec = (0, _di.Module)({
   }]);
 
   return RingCentralExtensions;
-}(_core2.RcModuleV2), (_applyDecoratedDescriptor(_class2.prototype, "_setLoggedIn", [_core2.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setLoggedIn"), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, "isLoggedIn", [_core2.state], {
+}(_core2.RcModuleV2), (_applyDecoratedDescriptor(_class2.prototype, "_cacheWsc", [_core2.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_cacheWsc"), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, "cachedWsc", [_core2.storage, _core2.state], {
   configurable: true,
   enumerable: true,
   writable: true,
   initializer: function initializer() {
-    return false;
+    return null;
   }
-}), _applyDecoratedDescriptor(_class2.prototype, "recoverWebSocketConnection", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "recoverWebSocketConnection"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "revokeWebSocketConnection", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "revokeWebSocketConnection"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_syncWebSocketReadyState", [_core2.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_syncWebSocketReadyState"), _class2.prototype), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, "webSocketReadyState", [_core2.state], {
+}), _applyDecoratedDescriptor(_class2.prototype, "recoverWebSocketConnection", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "recoverWebSocketConnection"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "revokeWebSocketConnection", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "revokeWebSocketConnection"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_setWebSocketReadyState", [_core2.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setWebSocketReadyState"), _class2.prototype), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, "webSocketReadyState", [_core2.state], {
   configurable: true,
   enumerable: true,
   writable: true,

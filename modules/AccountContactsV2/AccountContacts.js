@@ -77,7 +77,9 @@ var _di = require("../../lib/di");
 
 var _isBlank = _interopRequireDefault(require("../../lib/isBlank"));
 
-var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
+var _phoneTypeHelper = require("../../lib/phoneTypeHelper");
+
+var _proxify = require("../../lib/proxy/proxify");
 
 var _dec, _dec2, _dec3, _class, _class2, _descriptor, _descriptor2;
 
@@ -134,15 +136,15 @@ function _initializerWarningHelper(descriptor, context) { throw new Error('Decor
 var MaximumBatchGetPresence = 30;
 var DEFAULT_TTL = 30 * 60 * 1000; // 30 mins
 
-var DEFAULT_PRESENCETTL = 10 * 60 * 1000; // 10 mins
+var DEFAULT_PRESENCE_TTL = 10 * 60 * 1000; // 10 mins
 
-var DEFAULT_AVATARTTL = 2 * 60 * 60 * 1000; // 2 hour
+var DEFAULT_AVATAR_TTL = 2 * 60 * 60 * 1000; // 2 hour
 
-var DEFAULT_AVATARQUERYINTERVAL = 2 * 1000; // 2 seconds
+var DEFAULT_AVATAR_QUERY_INTERVAL = 2 * 1000; // 2 seconds
 
 var AccountContacts = (_dec = (0, _di.Module)({
   name: 'AccountContacts',
-  deps: ['Client', 'ExtensionInfo', {
+  deps: ['Client', 'ExtensionInfo', 'AppFeatures', {
     dep: 'CompanyContacts'
   }, {
     dep: 'AccountContactsOptions',
@@ -152,7 +154,7 @@ var AccountContacts = (_dec = (0, _di.Module)({
   var _deps = _ref._deps,
       presences = _ref.presences,
       profileImages = _ref.profileImages;
-  return [_deps.companyContacts.filteredContacts, profileImages, presences];
+  return [_deps.companyContacts.filteredContacts, profileImages, presences, _deps.accountContactsOptions];
 }), _dec3 = (0, _core.computed)(function (that) {
   return [that._deps.companyContacts.filteredContacts];
 }), _dec(_class = (_class2 = /*#__PURE__*/function (_RcModuleV) {
@@ -186,7 +188,8 @@ var AccountContacts = (_dec = (0, _di.Module)({
       var imageId = _ref2.imageId,
           imageUrl = _ref2.imageUrl,
           ttl = _ref2.ttl;
-      var data = {};
+      var data = {}; // TODO: refactor without side effect.
+
       Object.keys(this.profileImages).forEach(function (key) {
         if (Date.now() - _this2.profileImages[key].timestamp < ttl) {
           data[key] = _this2.profileImages[key];
@@ -208,7 +211,8 @@ var AccountContacts = (_dec = (0, _di.Module)({
       var _ref3$presenceMap = _ref3.presenceMap,
           presenceMap = _ref3$presenceMap === void 0 ? {} : _ref3$presenceMap,
           ttl = _ref3.ttl;
-      var data = {};
+      var data = {}; // TODO: refactor without side effect.
+
       Object.keys(this.presences).forEach(function (key) {
         if (Date.now() - _this3.presences[key].timestamp < ttl) {
           data[key] = _this3.presences[key];
@@ -227,6 +231,7 @@ var AccountContacts = (_dec = (0, _di.Module)({
     value: function onReset() {
       var _this4 = this;
 
+      // TODO: refactor without side effect.
       Object.keys(this.profileImages).forEach(function (key) {
         URL.revokeObjectURL(_this4.profileImages[key].imageUrl);
       });
@@ -623,29 +628,29 @@ var AccountContacts = (_dec = (0, _di.Module)({
     get: function get() {
       var _this$_deps$accountCo3, _this$_deps$accountCo4;
 
-      return (_this$_deps$accountCo3 = (_this$_deps$accountCo4 = this._deps.accountContactsOptions) === null || _this$_deps$accountCo4 === void 0 ? void 0 : _this$_deps$accountCo4.avatarTtl) !== null && _this$_deps$accountCo3 !== void 0 ? _this$_deps$accountCo3 : DEFAULT_AVATARTTL;
+      return (_this$_deps$accountCo3 = (_this$_deps$accountCo4 = this._deps.accountContactsOptions) === null || _this$_deps$accountCo4 === void 0 ? void 0 : _this$_deps$accountCo4.avatarTtl) !== null && _this$_deps$accountCo3 !== void 0 ? _this$_deps$accountCo3 : DEFAULT_AVATAR_TTL;
     }
   }, {
     key: "_presenceTtl",
     get: function get() {
       var _this$_deps$accountCo5, _this$_deps$accountCo6;
 
-      return (_this$_deps$accountCo5 = (_this$_deps$accountCo6 = this._deps.accountContactsOptions) === null || _this$_deps$accountCo6 === void 0 ? void 0 : _this$_deps$accountCo6.presenceTtl) !== null && _this$_deps$accountCo5 !== void 0 ? _this$_deps$accountCo5 : DEFAULT_PRESENCETTL;
+      return (_this$_deps$accountCo5 = (_this$_deps$accountCo6 = this._deps.accountContactsOptions) === null || _this$_deps$accountCo6 === void 0 ? void 0 : _this$_deps$accountCo6.presenceTtl) !== null && _this$_deps$accountCo5 !== void 0 ? _this$_deps$accountCo5 : DEFAULT_PRESENCE_TTL;
     }
   }, {
     key: "_avatarQueryInterval",
     get: function get() {
       var _this$_deps$accountCo7, _this$_deps$accountCo8;
 
-      return (_this$_deps$accountCo7 = (_this$_deps$accountCo8 = this._deps.accountContactsOptions) === null || _this$_deps$accountCo8 === void 0 ? void 0 : _this$_deps$accountCo8.avatarQueryInterval) !== null && _this$_deps$accountCo7 !== void 0 ? _this$_deps$accountCo7 : DEFAULT_AVATARQUERYINTERVAL;
+      return (_this$_deps$accountCo7 = (_this$_deps$accountCo8 = this._deps.accountContactsOptions) === null || _this$_deps$accountCo8 === void 0 ? void 0 : _this$_deps$accountCo8.avatarQueryInterval) !== null && _this$_deps$accountCo7 !== void 0 ? _this$_deps$accountCo7 : DEFAULT_AVATAR_QUERY_INTERVAL;
     }
   }, {
     key: "isCDCEnabled",
     get: function get() {
-      var _this$_deps$accountCo9, _this$_deps$accountCo10;
+      var _this$_deps$appFeatur;
 
       // TODO: default to true when cdc feature is ready for production.
-      return (_this$_deps$accountCo9 = (_this$_deps$accountCo10 = this._deps.accountContactsOptions) === null || _this$_deps$accountCo10 === void 0 ? void 0 : _this$_deps$accountCo10.enableCDC) !== null && _this$_deps$accountCo9 !== void 0 ? _this$_deps$accountCo9 : false;
+      return (_this$_deps$appFeatur = this._deps.appFeatures) === null || _this$_deps$appFeatur === void 0 ? void 0 : _this$_deps$appFeatur.isCDCEnabled;
     }
   }, {
     key: "sourceName",
@@ -680,11 +685,9 @@ var AccountContacts = (_dec = (0, _di.Module)({
 
           if (item.phoneNumbers && item.phoneNumbers.length > 0) {
             item.phoneNumbers.forEach(function (phone) {
-              if (phone.type) {
-                contact.phoneNumbers.push(_objectSpread(_objectSpread({}, phone), {}, {
-                  phoneType: _phoneTypes.phoneTypes.direct
-                }));
-              }
+              (0, _phoneTypeHelper.isSupportedPhoneNumber)(phone) && contact.phoneNumbers.push(_objectSpread(_objectSpread({}, phone), {}, {
+                phoneType: (0, _phoneTypeHelper.convertUsageTypeToPhoneType)(phone === null || phone === void 0 ? void 0 : phone.usageType)
+              }));
             });
           }
 
@@ -744,6 +747,6 @@ var AccountContacts = (_dec = (0, _di.Module)({
   initializer: function initializer() {
     return {};
   }
-}), _applyDecoratedDescriptor(_class2.prototype, "fetchImageSuccess", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "fetchImageSuccess"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "batchFetchPresenceSuccess", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "batchFetchPresenceSuccess"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "onReset", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "onReset"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getProfileImage", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "getProfileImage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getPresence", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "getPresence"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "directoryContacts", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "directoryContacts"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "rawContacts", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "rawContacts"), _class2.prototype)), _class2)) || _class);
+}), _applyDecoratedDescriptor(_class2.prototype, "fetchImageSuccess", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "fetchImageSuccess"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "batchFetchPresenceSuccess", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "batchFetchPresenceSuccess"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "onReset", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "onReset"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getProfileImage", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "getProfileImage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getPresence", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "getPresence"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "directoryContacts", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "directoryContacts"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "rawContacts", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "rawContacts"), _class2.prototype)), _class2)) || _class);
 exports.AccountContacts = AccountContacts;
 //# sourceMappingURL=AccountContacts.js.map

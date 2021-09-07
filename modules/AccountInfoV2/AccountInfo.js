@@ -90,19 +90,22 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
 var AccountInfo = (_dec = (0, _di.Module)({
   name: 'AccountInfo',
   deps: ['Auth', 'Client', 'Alert', 'ExtensionFeatures', 'DataFetcherV2', {
+    dep: 'TierChecker',
+    optional: true
+  }, {
     dep: 'AccountInfoOptions',
     optional: true
   }]
 }), _dec2 = (0, _core.track)(function (that) {
   return function (analytics) {
-    var _analytics$identify, _that$_deps$auth;
+    var _analytics$identify, _that$_deps$auth, _that$_deps$tierCheck;
 
     (_analytics$identify = analytics.identify) === null || _analytics$identify === void 0 ? void 0 : _analytics$identify.call(analytics, {
       userId: (_that$_deps$auth = that._deps.auth) === null || _that$_deps$auth === void 0 ? void 0 : _that$_deps$auth.ownerId,
       accountId: that.id,
       servicePlanId: that.servicePlan.id,
       edition: that.servicePlan.edition,
-      CRMEnabled: that._deps.extensionFeatures.isCRMEnabled
+      CRMEnabled: (_that$_deps$tierCheck = that._deps.tierChecker) === null || _that$_deps$tierCheck === void 0 ? void 0 : _that$_deps$tierCheck.isCRMEnabled
     });
   };
 }), _dec3 = (0, _core.computed)(function (_ref) {

@@ -116,7 +116,7 @@ function polyfillGetUserMedia() {
 polyfillGetUserMedia();
 var AudioSettings = (_dec = (0, _di.Module)({
   name: 'AudioSettings',
-  deps: ['Auth', 'Alert', 'Storage', 'ExtensionFeatures', {
+  deps: ['Auth', 'Alert', 'Storage', 'AppFeatures', {
     dep: 'AudioSettingsOptions',
     optional: true
   }]
@@ -264,7 +264,7 @@ var AudioSettings = (_dec = (0, _di.Module)({
       }
 
       this.parentModule.store.subscribe(function () {
-        if (_this3.ready && _this3._deps.auth.loggedIn && _this3._deps.extensionFeatures.isWebPhoneEnabled && !_this3.userMedia) {
+        if (_this3.ready && _this3._deps.auth.loggedIn && _this3._deps.appFeatures.isWebPhoneEnabled && !_this3.userMedia) {
           // Make sure it only prompts once
           if (_this3.hasAutoPrompted) return;
 

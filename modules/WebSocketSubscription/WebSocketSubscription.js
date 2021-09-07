@@ -61,7 +61,7 @@ var _webSocketReadyStates = require("../RingCentralExtensions/webSocketReadyStat
 
 var _normalizeEventFilter = require("./normalizeEventFilter");
 
-var _dec, _class, _class2, _descriptor, _descriptor2;
+var _dec, _class, _class2, _descriptor, _descriptor2, _descriptor3;
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -89,13 +89,13 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
-function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and runs after the decorators transform.'); }
-
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
+
+function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and runs after the decorators transform.'); }
 
 var DEFAULT_REFRESH_DELAY = 2 * 1000;
 var WebSocketSubscription = (_dec = (0, _di.Module)({
-  deps: ['RingCentralExtensions', {
+  deps: ['Storage', 'RingCentralExtensions', {
     dep: 'WebSocketSubscriptionOptions',
     optional: true
   }]
@@ -110,17 +110,22 @@ var WebSocketSubscription = (_dec = (0, _di.Module)({
     _classCallCheck(this, WebSocketSubscription);
 
     _this = _super.call(this, {
-      deps: deps
+      deps: deps,
+      enableCache: true,
+      storageKey: 'WebSocketSubscription'
     });
     _this._wsSubscription = void 0;
+
+    _initializerDefineProperty(_this, "cachedSubscriptionInfo", _descriptor, _assertThisInitialized(_this));
+
     _this._debouncedUpdateSubscription = (0, _debounceThrottle.debounce)({
       fn: _this._updateSubscription,
       threshold: _this._refreshDelay
     });
 
-    _initializerDefineProperty(_this, "filters", _descriptor, _assertThisInitialized(_this));
+    _initializerDefineProperty(_this, "filters", _descriptor2, _assertThisInitialized(_this));
 
-    _initializerDefineProperty(_this, "message", _descriptor2, _assertThisInitialized(_this));
+    _initializerDefineProperty(_this, "message", _descriptor3, _assertThisInitialized(_this));
 
     return _this;
   }
@@ -229,12 +234,14 @@ var WebSocketSubscription = (_dec = (0, _di.Module)({
                 _context3.next = 4;
                 return this._deps.ringCentralExtensions.webSocketExtension.subscribe(this.filters, function (message) {
                   _this3._notifyMessage(message);
-                });
+                }, this.cachedSubscriptionInfo);
 
               case 4:
                 this._wsSubscription = _context3.sent;
 
-              case 5:
+                this._cacheSubscriptionInfo(this._wsSubscription.subscriptionInfo);
+
+              case 6:
               case "end":
                 return _context3.stop();
             }
@@ -248,6 +255,11 @@ var WebSocketSubscription = (_dec = (0, _di.Module)({
 
       return _createSubscription;
     }()
+  }, {
+    key: "_cacheSubscriptionInfo",
+    value: function _cacheSubscriptionInfo(subscriptionInfo) {
+      this.cachedSubscriptionInfo = subscriptionInfo;
+    }
   }, {
     key: "_refreshSubscription",
     value: function () {
@@ -505,14 +517,21 @@ var WebSocketSubscription = (_dec = (0, _di.Module)({
   }]);
 
   return WebSocketSubscription;
-}(_core.RcModuleV2), (_applyDecoratedDescriptor(_class2.prototype, "subscribe", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "subscribe"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "unsubscribe", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "unsubscribe"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_addFilters", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_addFilters"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_removeFilters", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_removeFilters"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_notifyMessage", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_notifyMessage"), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, "filters", [_core.state], {
+}(_core.RcModuleV2), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "cachedSubscriptionInfo", [_core.storage, _core.state], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: function initializer() {
+    return null;
+  }
+}), _applyDecoratedDescriptor(_class2.prototype, "_cacheSubscriptionInfo", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_cacheSubscriptionInfo"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "subscribe", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "subscribe"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "unsubscribe", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "unsubscribe"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_addFilters", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_addFilters"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_removeFilters", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_removeFilters"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_notifyMessage", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_notifyMessage"), _class2.prototype), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, "filters", [_core.state], {
   configurable: true,
   enumerable: true,
   writable: true,
   initializer: function initializer() {
     return [];
   }
-}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, "message", [_core.state], {
+}), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, "message", [_core.state], {
   configurable: true,
   enumerable: true,
   writable: true,

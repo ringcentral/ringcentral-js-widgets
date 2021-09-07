@@ -1,0 +1,28 @@
+{
+  "version" : "1.0.0",
+  "retryCount" : 3,
+  "retryInterval" : 3,
+  "discoveryApi" : {
+    "defaultExternalUri" : "https://api-rcapps-xmnup.secure.lab.nordigy.ru/.well-known/entry-points/external"
+  },
+  "authApi" : {
+    "authorizationUri" : "https://api-rcapps-xmnup.secure.lab.nordigy.ru/restapi/oauth/authorize",
+    "oidcDiscoveryUri" : "https://api-rcapps-xmnup.secure.lab.nordigy.ru/.well-known/openid-configuration",
+    "defaultTokenUri" : "https://api-rcapps-xmnup.secure.lab.nordigy.ru/restapi/oauth/token"
+  },
+  "coreApi" : {
+    "baseUri" : "https://api-rcapps-xmnup.secure.lab.nordigy.ru"
+  },
+  "rcm" : {
+    "baseWebUri" : "https://rcm.rcdev.ringcentral.com",
+    "sdkDomain" : "rcdev.dev.meetzoom.us"
+  },
+  "rcv" : {
+    "baseWebUri" : "https://xmnup-rxe-1-v.lab.nordigy.ru",
+    "baseApiUri" : "https://xmnup-rxe-1-api.lab.nordigy.ru",
+    "pubnubOrigin" : "ringcentral.pubnubapi.com"
+  },
+  "edc" : {
+    "baseUri" : "https://edcs.devtest.ringcentral.com"
+  }
+}

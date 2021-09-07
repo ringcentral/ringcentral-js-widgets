@@ -177,9 +177,9 @@ var CallMonitor = (_dec = (0, _di.Module)({
 
   return [that._deps.presence.calls, that._deps.accountInfo.countryCode, (_that$_deps$webphone = that._deps.webphone) === null || _that$_deps$webphone === void 0 ? void 0 : _that$_deps$webphone.sessions, (_that$_deps$webphone2 = that._deps.webphone) === null || _that$_deps$webphone2 === void 0 ? void 0 : _that$_deps$webphone2.cachedSessions];
 }), _dec20 = (0, _core.computed)(function (that) {
-  var _that$_deps$activeCal;
+  var _that$_deps$activeCal, _that$_deps$activeCal2;
 
-  return [(_that$_deps$activeCal = that._deps.activeCallControl) === null || _that$_deps$activeCal === void 0 ? void 0 : _that$_deps$activeCal.sessions, that._deps.accountInfo.countryCode, that._deps.presence.calls];
+  return [(_that$_deps$activeCal = that._deps.activeCallControl) === null || _that$_deps$activeCal === void 0 ? void 0 : _that$_deps$activeCal.sessions, (_that$_deps$activeCal2 = that._deps.activeCallControl) === null || _that$_deps$activeCal2 === void 0 ? void 0 : _that$_deps$activeCal2.currentDeviceCallsMap, that._deps.accountInfo.countryCode, that._deps.presence.calls];
 }), _dec21 = (0, _core.computed)(function (that) {
   var _that$_deps$conferenc3;
 
@@ -195,9 +195,9 @@ var CallMonitor = (_dec = (0, _di.Module)({
 }), _dec26 = (0, _core.computed)(function (that) {
   return [that._activeCurrentCalls, that._activeOnHoldCalls];
 }), _dec27 = (0, _core.computed)(function (that) {
-  var _that$_deps$webphone3, _that$_deps$activeCal2;
+  var _that$_deps$webphone3, _that$_deps$activeCal3;
 
-  return [that.calls, (_that$_deps$webphone3 = that._deps.webphone) === null || _that$_deps$webphone3 === void 0 ? void 0 : _that$_deps$webphone3.lastEndedSessions, that.useTelephonySession, (_that$_deps$activeCal2 = that._deps.activeCallControl) === null || _that$_deps$activeCal2 === void 0 ? void 0 : _that$_deps$activeCal2.lastEndedSessionIds];
+  return [that.calls, (_that$_deps$webphone3 = that._deps.webphone) === null || _that$_deps$webphone3 === void 0 ? void 0 : _that$_deps$webphone3.lastEndedSessions, that.useTelephonySession, (_that$_deps$activeCal3 = that._deps.activeCallControl) === null || _that$_deps$activeCal3 === void 0 ? void 0 : _that$_deps$activeCal3.lastEndedSessionIds];
 }), _dec28 = (0, _core.computed)(function (that) {
   return [that.normalizedCalls];
 }), _dec29 = (0, _core.computed)(function (that) {
@@ -214,7 +214,7 @@ var CallMonitor = (_dec = (0, _di.Module)({
   var _super = _createSuper(CallMonitor);
 
   function CallMonitor(deps) {
-    var _this$_deps$callMonit, _this$_deps$callMonit2;
+    var _this$_deps$callMonit, _this$_deps$callMonit2, _this$_deps$callMonit3, _this$_deps$callMonit4;
 
     var _this;
 
@@ -228,10 +228,11 @@ var CallMonitor = (_dec = (0, _di.Module)({
     _this._eventEmitter = new _events.EventEmitter();
     _this._useTelephonySession = (_this$_deps$callMonit = (_this$_deps$callMonit2 = _this._deps.callMonitorOptions) === null || _this$_deps$callMonit2 === void 0 ? void 0 : _this$_deps$callMonit2.useTelephonySession) !== null && _this$_deps$callMonit !== void 0 ? _this$_deps$callMonit : false;
     _this._normalizedCalls = null;
+    _this._enableContactMatchWhenNewCall = (_this$_deps$callMonit3 = (_this$_deps$callMonit4 = _this._deps.callMonitorOptions) === null || _this$_deps$callMonit4 === void 0 ? void 0 : _this$_deps$callMonit4.enableContactMatchWhenNewCall) !== null && _this$_deps$callMonit3 !== void 0 ? _this$_deps$callMonit3 : true;
 
     _initializerDefineProperty(_this, "callMatched", _descriptor, _assertThisInitialized(_this));
 
-    if (_this._deps.contactMatcher) {
+    if (_this._deps.contactMatcher && _this._enableContactMatchWhenNewCall) {
       _this._deps.contactMatcher.addQuerySource({
         getQueriesFn: function getQueriesFn() {
           return _this.uniqueNumbers;
@@ -309,7 +310,7 @@ var CallMonitor = (_dec = (0, _di.Module)({
         if (!_this2.ready || !((_this2$_deps$tabManag = _this2._deps.tabManager) === null || _this2$_deps$tabManag === void 0 ? void 0 : _this2$_deps$tabManag.active)) return;
         var newNumbers = (0, _ramda.difference)(uniqueNumbers, lastProcessedNumbers || []);
 
-        if (_this2._deps.contactMatcher && _this2._deps.contactMatcher.ready) {
+        if (_this2._deps.contactMatcher && _this2._deps.contactMatcher.ready && _this2._enableContactMatchWhenNewCall) {
           _this2._deps.contactMatcher.match({
             queries: newNumbers,
             ignoreQueue: true
@@ -598,8 +599,9 @@ var CallMonitor = (_dec = (0, _di.Module)({
       if (!((_this$_deps$activeCal = this._deps.activeCallControl) === null || _this$_deps$activeCal === void 0 ? void 0 : _this$_deps$activeCal.sessions)) return [];
 
       var combinedCalls = _toConsumableArray((_this$_deps$activeCal2 = this._deps.activeCallControl) === null || _this$_deps$activeCal2 === void 0 ? void 0 : _this$_deps$activeCal2.sessions); // clone
-      // mapping and sort
 
+
+      var currentDeviceCallsMap = this._deps.activeCallControl.currentDeviceCallsMap; // mapping and sort
 
       this._normalizedCalls = (0, _ramda.sort)(function (l, r) {
         return (0, _webphoneHelper.sortByLastActiveTimeDesc)(l.webphoneSession, r.webphoneSession);
@@ -616,8 +618,7 @@ var CallMonitor = (_dec = (0, _di.Module)({
             party = callItem.party,
             telephonySessionId = callItem.telephonySessionId,
             sessionId = callItem.sessionId,
-            startTime = callItem.startTime,
-            webphoneSession = callItem.webphoneSession;
+            startTime = callItem.startTime;
         var id = callItem.activeCallId; // find id from presence call one time, due to telephony session event not push call id back
         // with ringout call
 
@@ -659,7 +660,7 @@ var CallMonitor = (_dec = (0, _di.Module)({
           },
           startTime: startTime,
           sessionId: sessionId,
-          webphoneSession: webphoneSession,
+          webphoneSession: currentDeviceCallsMap[telephonySessionId],
           telephonyStatus: telephonyStatus
         };
       }, combinedCalls).filter(function (x) {

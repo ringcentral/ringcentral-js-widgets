@@ -35,25 +35,27 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Softphone = void 0;
 
+require("core-js/modules/es6.function.name");
+
+require("core-js/modules/es6.string.link");
+
 require("regenerator-runtime/runtime");
-
-require("core-js/modules/es6.array.filter");
-
-var _bowser = _interopRequireDefault(require("bowser"));
 
 var _core = require("@ringcentral-integration/core");
 
-var _sleep = _interopRequireDefault(require("../../lib/sleep"));
+var _bowser = _interopRequireDefault(require("bowser"));
 
 var _di = require("../../lib/di");
 
 var _proxify = require("../../lib/proxy/proxify");
 
+var _sleep = _interopRequireDefault(require("../../lib/sleep"));
+
 var _callingModes = _interopRequireDefault(require("../CallingSettings/callingModes"));
 
 var _softphoneStatus = require("./softphoneStatus");
 
-var _dec, _class, _class2, _descriptor, _descriptor2;
+var _dec, _dec2, _dec3, _class, _class2, _descriptor, _descriptor2;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -97,16 +99,29 @@ var Softphone = (_dec = (0, _di.Module)({
     dep: 'ContactMatcher',
     optional: true
   }, {
+    dep: 'AccountInfo',
+    optional: true
+  }, {
+    dep: 'DynamicConfig',
+    optional: true
+  }, {
     dep: 'SoftphoneOptions',
     optional: true
   }]
+}), _dec2 = (0, _core.computed)(function (that) {
+  var _that$_deps$accountIn, _that$_deps$dynamicCo;
+
+  return [that._deps.brand.brandConfig, (_that$_deps$accountIn = that._deps.accountInfo) === null || _that$_deps$accountIn === void 0 ? void 0 : _that$_deps$accountIn.serviceInfo, (_that$_deps$dynamicCo = that._deps.dynamicConfig) === null || _that$_deps$dynamicCo === void 0 ? void 0 : _that$_deps$dynamicCo.data];
+}), _dec3 = (0, _core.computed)(function (_ref) {
+  var callWithJupiterConfig = _ref.callWithJupiterConfig;
+  return [callWithJupiterConfig];
 }), _dec(_class = (_class2 = /*#__PURE__*/function (_RcModuleV) {
   _inherits(Softphone, _RcModuleV);
 
   var _super = _createSuper(Softphone);
 
   function Softphone(deps) {
-    var _this$_deps$softphone, _this$_deps$softphone2, _this$_deps$softphone3;
+    var _this$_deps$softphone, _this$_deps$softphone2, _this$_deps$softphone3, _this$_deps$softphone4, _this$_deps$softphone5;
 
     var _this;
 
@@ -117,13 +132,17 @@ var Softphone = (_dec = (0, _di.Module)({
     });
     _this._callHandler = void 0;
     _this._extensionMode = void 0;
+    _this._useBrandedJupiter = void 0;
 
     _initializerDefineProperty(_this, "connectingPhoneNumber", _descriptor, _assertThisInitialized(_this));
 
     _initializerDefineProperty(_this, "softphoneStatus", _descriptor2, _assertThisInitialized(_this));
 
+    _this._ignoreModuleReadiness(deps.contactMatcher);
+
     _this._extensionMode = (_this$_deps$softphone = (_this$_deps$softphone2 = _this._deps.softphoneOptions) === null || _this$_deps$softphone2 === void 0 ? void 0 : _this$_deps$softphone2.extensionMode) !== null && _this$_deps$softphone !== void 0 ? _this$_deps$softphone : false;
-    _this._callHandler = (_this$_deps$softphone3 = _this._deps.softphoneOptions) === null || _this$_deps$softphone3 === void 0 ? void 0 : _this$_deps$softphone3.callHandler;
+    _this._useBrandedJupiter = (_this$_deps$softphone3 = (_this$_deps$softphone4 = _this._deps.softphoneOptions) === null || _this$_deps$softphone4 === void 0 ? void 0 : _this$_deps$softphone4.useBrandedJupiter) !== null && _this$_deps$softphone3 !== void 0 ? _this$_deps$softphone3 : false;
+    _this._callHandler = (_this$_deps$softphone5 = _this._deps.softphoneOptions) === null || _this$_deps$softphone5 === void 0 ? void 0 : _this$_deps$softphone5.callHandler;
     return _this;
   }
 
@@ -144,24 +163,6 @@ var Softphone = (_dec = (0, _di.Module)({
     value: function detectPlatform() {
       return _bowser["default"].parse(window.navigator && window.navigator.userAgent || 'unknown').platform.type;
     }
-  }, {
-    key: "_shouldInit",
-    // TODO: move `ContactMatcher` deps to `Call`
-    value: function _shouldInit() {
-      var areAllReady = this[_core.noReadyModulesKey].filter(function (module) {
-        return module && module[_core.identifierKey] !== 'contactMatcher';
-      }).length === 0;
-      return areAllReady && this.pending;
-    }
-  }, {
-    key: "_shouldReset",
-    value: function _shouldReset() {
-      var areNotReady = this[_core.noReadyModulesKey].filter(function (module) {
-        return module && module[_core.identifierKey] !== 'contactMatcher';
-      }).length > 0;
-      return areNotReady && this.ready;
-    } // currently we only have RingCentral App(rc brand)'s & AT&T universal link
-
   }, {
     key: "getMakeCallUri",
     value: function getMakeCallUri(phoneNumber, callingMode) {
@@ -292,62 +293,60 @@ var Softphone = (_dec = (0, _di.Module)({
   }, {
     key: "spartanProtocol",
     get: function get() {
-      switch (this._deps.brand.code) {
-        case 'att':
-          return 'attvr20://';
-
-        case 'bt':
-          return 'rcbtmobile://';
-
-        case 'telus':
-          return 'rctelus://';
-
-        default:
-          return 'rcmobile://';
-      }
+      return this.brandConfig.spartanProtocol;
     }
+  }, {
+    key: "callWithJupiterConfig",
+    get: function get() {
+      var _this$_deps$accountIn, _this$_deps$accountIn2;
+
+      var brandId = (_this$_deps$accountIn = this._deps.accountInfo) === null || _this$_deps$accountIn === void 0 ? void 0 : (_this$_deps$accountIn2 = _this$_deps$accountIn.serviceInfo.brand) === null || _this$_deps$accountIn2 === void 0 ? void 0 : _this$_deps$accountIn2.id;
+
+      if (this._useBrandedJupiter && brandId) {
+        var _this$_deps$dynamicCo, _this$_deps$dynamicCo2;
+
+        var brandConfigs = (_this$_deps$dynamicCo = (_this$_deps$dynamicCo2 = this._deps.dynamicConfig) === null || _this$_deps$dynamicCo2 === void 0 ? void 0 : _this$_deps$dynamicCo2.data.callWithJupiter) !== null && _this$_deps$dynamicCo !== void 0 ? _this$_deps$dynamicCo : this.brandConfig.callWithJupiter;
+
+        if (brandConfigs) {
+          var _brandConfigs$brandId;
+
+          return (_brandConfigs$brandId = brandConfigs[brandId]) !== null && _brandConfigs$brandId !== void 0 ? _brandConfigs$brandId : brandConfigs["default"];
+        }
+      }
+
+      return this.brandConfig.callWithJupiter["default"];
+    }
+  }, {
+    key: "brandConfig",
+    get: function get() {
+      return this._deps.brand.brandConfig;
+    } // currently we only have RingCentral App(rc brand)'s & AT&T universal link
+
   }, {
     key: "jupiterUniversalLink",
     get: function get() {
-      switch (this._deps.brand.code) {
-        case 'att':
-          return 'https://app.officeathand.att.com/';
+      return this.callWithJupiterConfig.link;
+    }
+  }, {
+    key: "jupiterAppName",
+    get: function get() {
+      var _this$callWithJupiter, _this$callWithJupiter2;
 
-        case 'bt':
-          return 'http://app.cloudwork.bt.com/';
-
-        case 'telus':
-          return 'https://app.businessconnect.telus.com/';
-
-        default:
-          return 'https://app.ringcentral.com/';
-      }
+      return ((_this$callWithJupiter = this.callWithJupiterConfig) === null || _this$callWithJupiter === void 0 ? void 0 : _this$callWithJupiter.name) ? "".concat((_this$callWithJupiter2 = this.callWithJupiterConfig) === null || _this$callWithJupiter2 === void 0 ? void 0 : _this$callWithJupiter2.name, " App") : null;
     } // currently we don't have Bt brand uri scheme
 
   }, {
     key: "jupiterProtocol",
     get: function get() {
-      switch (this._deps.brand.code) {
-        case 'att':
-          return 'officeathand://';
-
-        case 'bt':
-          return 'com.bt.cloudwork.app://';
-
-        case 'telus':
-          return 'rctelus://';
-
-        default:
-          return 'rcapp://';
-      }
+      return this.callWithJupiterConfig.protocol;
     }
   }, {
     key: "useJupiterUniversalLink",
     get: function get() {
-      var _this$_deps$softphone4, _this$_deps$softphone5;
+      var _this$_deps$softphone6, _this$_deps$softphone7;
 
       // rc brand use scheme, partner brand use universal link
-      return (_this$_deps$softphone4 = (_this$_deps$softphone5 = this._deps.softphoneOptions) === null || _this$_deps$softphone5 === void 0 ? void 0 : _this$_deps$softphone5.useJupiterUniversalLink) !== null && _this$_deps$softphone4 !== void 0 ? _this$_deps$softphone4 : this._deps.brand.code !== 'rc';
+      return (_this$_deps$softphone6 = (_this$_deps$softphone7 = this._deps.softphoneOptions) === null || _this$_deps$softphone7 === void 0 ? void 0 : _this$_deps$softphone7.useJupiterUniversalLink) !== null && _this$_deps$softphone6 !== void 0 ? _this$_deps$softphone6 : this.brandConfig.allowJupiterUniversalLink;
     }
   }]);
 
@@ -366,6 +365,6 @@ var Softphone = (_dec = (0, _di.Module)({
   initializer: function initializer() {
     return _softphoneStatus.softphoneStatus.idle;
   }
-}), _applyDecoratedDescriptor(_class2.prototype, "startToConnect", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "startToConnect"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "connectComplete", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "connectComplete"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "makeCall", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "makeCall"), _class2.prototype)), _class2)) || _class);
+}), _applyDecoratedDescriptor(_class2.prototype, "startToConnect", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "startToConnect"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "connectComplete", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "connectComplete"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "callWithJupiterConfig", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "callWithJupiterConfig"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "jupiterAppName", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "jupiterAppName"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "makeCall", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "makeCall"), _class2.prototype)), _class2)) || _class);
 exports.Softphone = Softphone;
 //# sourceMappingURL=Softphone.js.map

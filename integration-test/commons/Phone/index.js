@@ -56,6 +56,8 @@ var _AddressBook = _interopRequireDefault(require("../../../modules/AddressBook"
 
 var _Alert = _interopRequireDefault(require("../../../modules/Alert"));
 
+var _AppFeatures = require("../../../modules/AppFeatures");
+
 var _AudioSettings = _interopRequireDefault(require("../../../modules/AudioSettings"));
 
 var _Auth = _interopRequireDefault(require("../../../modules/Auth"));
@@ -64,7 +66,7 @@ var _AvailabilityMonitor = _interopRequireDefault(require("../../../modules/Avai
 
 var _BlockedNumber = _interopRequireDefault(require("../../../modules/BlockedNumber"));
 
-var _BrandV = require("../../../modules/BrandV2");
+var _Brand = require("../../../modules/Brand");
 
 var _Call = _interopRequireDefault(require("../../../modules/Call"));
 
@@ -102,6 +104,8 @@ var _Environment = _interopRequireDefault(require("../../../modules/Environment"
 
 var _ExtensionDevice = _interopRequireDefault(require("../../../modules/ExtensionDevice"));
 
+var _ExtensionFeatures = require("../../../modules/ExtensionFeatures");
+
 var _ExtensionInfo = _interopRequireDefault(require("../../../modules/ExtensionInfo"));
 
 var _ExtensionPhoneNumber = _interopRequireDefault(require("../../../modules/ExtensionPhoneNumber"));
@@ -110,7 +114,7 @@ var _ForwardingNumber = _interopRequireDefault(require("../../../modules/Forward
 
 var _GlobalStorage = _interopRequireDefault(require("../../../modules/GlobalStorage"));
 
-var _Locale = _interopRequireDefault(require("../../../modules/Locale"));
+var _Locale = require("../../../modules/Locale");
 
 var _LocaleSettings = _interopRequireDefault(require("../../../modules/LocaleSettings"));
 
@@ -136,15 +140,13 @@ var _RegionSettings = _interopRequireDefault(require("../../../modules/RegionSet
 
 var _Ringout = _interopRequireDefault(require("../../../modules/Ringout"));
 
-var _RolesAndPermissions = _interopRequireDefault(require("../../../modules/RolesAndPermissions"));
-
 var _Softphone = _interopRequireDefault(require("../../../modules/Softphone"));
 
 var _Storage = _interopRequireDefault(require("../../../modules/Storage"));
 
 var _Subscription = _interopRequireDefault(require("../../../modules/Subscription"));
 
-var _TabManager = _interopRequireDefault(require("../../../modules/TabManager"));
+var _TabManager = require("../../../modules/TabManager");
 
 var _UserGuide = _interopRequireDefault(require("../../../modules/UserGuide"));
 
@@ -196,19 +198,19 @@ var BasePhone = (_dec2 = (0, _di.ModuleFactory)({
     useClass: _Alert["default"]
   }, {
     provide: 'Brand',
-    useClass: _BrandV.Brand
+    useClass: _Brand.Brand
   }, {
     provide: 'Softphone',
     useClass: _Softphone["default"]
   }, {
     provide: 'Locale',
-    useClass: _Locale["default"]
+    useClass: _Locale.Locale
   }, {
     provide: 'DateTimeFormat',
     useClass: _DateTimeFormat["default"]
   }, {
     provide: 'TabManager',
-    useClass: _TabManager["default"]
+    useClass: _TabManager.TabManager
   }, {
     provide: 'GlobalStorage',
     useClass: _GlobalStorage["default"]
@@ -249,8 +251,11 @@ var BasePhone = (_dec2 = (0, _di.ModuleFactory)({
     provide: 'ExtensionInfo',
     useClass: _ExtensionInfo["default"]
   }, {
-    provide: 'RolesAndPermissions',
-    useClass: _RolesAndPermissions["default"]
+    provide: 'ExtensionFeatures',
+    useClass: _ExtensionFeatures.ExtensionFeatures
+  }, {
+    provide: 'AppFeatures',
+    useClass: _AppFeatures.AppFeatures
   }, {
     provide: 'DialingPlan',
     useClass: _DialingPlan["default"]

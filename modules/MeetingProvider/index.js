@@ -104,7 +104,7 @@ var MeetingProvider = (
  * MeetingProviderV2 is renamed to VideoConfigurations.
  */
 _dec = (0, _di.Module)({
-  deps: ['Client', 'ExtensionFeatures']
+  deps: ['Client', 'AppFeatures']
 }), _dec(_class = /*#__PURE__*/function (_DataFetcher) {
   _inherits(MeetingProvider, _DataFetcher);
 
@@ -113,8 +113,8 @@ _dec = (0, _di.Module)({
   function MeetingProvider(_ref) {
     var _this;
 
-    var extensionFeatures = _ref.extensionFeatures,
-        options = _objectWithoutProperties(_ref, ["extensionFeatures"]);
+    var appFeatures = _ref.appFeatures,
+        options = _objectWithoutProperties(_ref, ["appFeatures"]);
 
     _classCallCheck(this, MeetingProvider);
 
@@ -144,7 +144,7 @@ _dec = (0, _di.Module)({
         return subscriptionHandler;
       }(),
       readyCheckFn: function readyCheckFn() {
-        return _this._extensionFeatures.ready;
+        return _this._appFeatures.ready;
       },
       fetchFunction: function fetchFunction() {
         var _this2 = this;
@@ -173,7 +173,7 @@ _dec = (0, _di.Module)({
       disableCache: true,
       cleanOnReset: true
     }));
-    _this._extensionFeatures = extensionFeatures;
+    _this._appFeatures = appFeatures;
     return _this;
   }
 
@@ -240,7 +240,7 @@ _dec = (0, _di.Module)({
   }, {
     key: "_hasPermission",
     get: function get() {
-      return this._extensionFeatures.hasMeetingsPermission;
+      return this._appFeatures.hasMeetingsPermission;
     }
   }, {
     key: "_name",

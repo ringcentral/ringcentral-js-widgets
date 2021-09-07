@@ -113,7 +113,7 @@ var ComposeText = (
  * @description Compose text managing module
  */
 _dec = (0, _di.Module)({
-  deps: ['Alert', 'Auth', 'Storage', 'MessageSender', 'NumberValidate', 'ExtensionFeatures', // { dep: 'Conversations', optional: true },
+  deps: ['Alert', 'Auth', 'Storage', 'MessageSender', 'NumberValidate', 'AppFeatures', // { dep: 'Conversations', optional: true },
   {
     dep: 'RouterInteraction',
     optional: true
@@ -148,10 +148,10 @@ _dec = (0, _di.Module)({
         messageSender = _ref.messageSender,
         numberValidate = _ref.numberValidate,
         contactSearch = _ref.contactSearch,
-        extensionFeatures = _ref.extensionFeatures,
+        appFeatures = _ref.appFeatures,
         conversations = _ref.conversations,
         routerInteraction = _ref.routerInteraction,
-        options = _objectWithoutProperties(_ref, ["alert", "auth", "storage", "messageSender", "numberValidate", "contactSearch", "extensionFeatures", "conversations", "routerInteraction"]);
+        options = _objectWithoutProperties(_ref, ["alert", "auth", "storage", "messageSender", "numberValidate", "contactSearch", "appFeatures", "conversations", "routerInteraction"]);
 
     _classCallCheck(this, ComposeText);
 
@@ -161,7 +161,7 @@ _dec = (0, _di.Module)({
     _this._alert = alert;
     _this._auth = auth;
     _this._storage = storage;
-    _this._extensionFeatures = extensionFeatures;
+    _this._appFeatures = appFeatures;
     _this._storageKey = 'composeText';
     _this._reducer = (0, _getComposeTextReducer["default"])(_this.actionTypes);
     _this._cacheReducer = (0, _getCacheReducer["default"])(_this.actionTypes);
@@ -309,7 +309,7 @@ _dec = (0, _di.Module)({
   }, {
     key: "_validateIsOnlyPager",
     value: function _validateIsOnlyPager(phoneNumber) {
-      if (phoneNumber.length >= 7 && !this._extensionFeatures.hasOutboundSMSPermission) {
+      if (phoneNumber.length >= 7 && !this._appFeatures.hasOutboundSMSPermission) {
         this._alertWarning(_messageSenderMessages.messageSenderMessages.noSMSPermission);
 
         return true;

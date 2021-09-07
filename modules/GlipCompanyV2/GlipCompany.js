@@ -141,9 +141,9 @@ var GlipCompany = (_dec = (0, _di.Module)({
         return _this._deps.extensionFeatures.ready;
       },
       permissionCheckFunction: function permissionCheckFunction() {
-        var _this$_deps$extension, _this$_deps$extension2;
+        var _this$_deps$extension, _this$_deps$extension2, _this$_deps$extension3;
 
-        return (_this$_deps$extension = (_this$_deps$extension2 = _this._deps.extensionFeatures.features) === null || _this$_deps$extension2 === void 0 ? void 0 : _this$_deps$extension2.Glip.available) !== null && _this$_deps$extension !== void 0 ? _this$_deps$extension : false;
+        return (_this$_deps$extension = (_this$_deps$extension2 = _this._deps.extensionFeatures.features) === null || _this$_deps$extension2 === void 0 ? void 0 : (_this$_deps$extension3 = _this$_deps$extension2.Glip) === null || _this$_deps$extension3 === void 0 ? void 0 : _this$_deps$extension3.available) !== null && _this$_deps$extension !== void 0 ? _this$_deps$extension : false;
       }
     }));
 

@@ -152,6 +152,9 @@ function _initializerWarningHelper(descriptor, context) { throw new Error('Decor
 var RcVideo = (_dec = (0, _di.Module)({
   name: 'RcVideo',
   deps: ['Alert', 'Client', 'Brand', 'Storage', 'AccountInfo', 'ExtensionInfo', 'VideoConfiguration', 'Locale', {
+    dep: 'DynamicConfig',
+    optional: true
+  }, {
     dep: 'AvailabilityMonitor',
     optional: true
   }, {
@@ -165,7 +168,8 @@ var RcVideo = (_dec = (0, _di.Module)({
 
     if (target) {
       return [_Analytics.trackEvents.clickMeetingSchedulePage, {
-        router: target.router
+        router: target.router,
+        'Meeting Type': 'RCV'
       }];
     }
   };
@@ -214,7 +218,7 @@ var RcVideo = (_dec = (0, _di.Module)({
   var _super = _createSuper(RcVideo);
 
   function RcVideo(deps) {
-    var _this$_deps$rcVideoOp, _this$_deps$rcVideoOp2, _this$_deps$rcVideoOp3, _this$_deps$rcVideoOp4, _this$_deps$rcVideoOp5, _this$_deps$rcVideoOp6, _this$_deps$rcVideoOp7, _this$_deps$rcVideoOp8, _this$_deps$rcVideoOp9, _this$_deps$rcVideoOp10, _this$_deps$rcVideoOp11, _this$_deps$rcVideoOp12, _this$_deps$rcVideoOp13, _this$_deps$rcVideoOp14, _this$_deps$rcVideoOp15, _this$_deps$rcVideoOp16, _this$_deps$locale$cu, _this$_deps$locale;
+    var _this$_deps$rcVideoOp, _this$_deps$rcVideoOp2, _this$_deps$rcVideoOp3, _this$_deps$rcVideoOp4, _this$_deps$rcVideoOp5, _this$_deps$rcVideoOp6, _this$_deps$rcVideoOp7, _this$_deps$rcVideoOp8, _this$_deps$rcVideoOp9, _this$_deps$rcVideoOp10, _this$_deps$rcVideoOp11, _this$_deps$rcVideoOp12, _this$_deps$rcVideoOp13, _this$_deps$rcVideoOp14, _this$_deps$rcVideoOp15, _this$_deps$rcVideoOp16, _this$_deps$rcVideoOp17, _this$_deps$rcVideoOp18, _this$_deps$locale$cu, _this$_deps$locale;
 
     var _this;
 
@@ -227,6 +231,7 @@ var RcVideo = (_dec = (0, _di.Module)({
     });
     _this._showSaveAsDefault = void 0;
     _this._isInstantMeeting = void 0;
+    _this._enableE2EE = void 0;
     _this._enableWaitingRoom = void 0;
     _this._enablePersonalMeeting = void 0;
     _this._enableScheduleOnBehalf = void 0;
@@ -259,11 +264,12 @@ var RcVideo = (_dec = (0, _di.Module)({
     _this._enableInvitationApi = (_this$_deps$rcVideoOp = (_this$_deps$rcVideoOp2 = _this._deps.rcVideoOptions) === null || _this$_deps$rcVideoOp2 === void 0 ? void 0 : _this$_deps$rcVideoOp2.enableInvitationApi) !== null && _this$_deps$rcVideoOp !== void 0 ? _this$_deps$rcVideoOp : false;
     _this._showSaveAsDefault = (_this$_deps$rcVideoOp3 = (_this$_deps$rcVideoOp4 = _this._deps.rcVideoOptions) === null || _this$_deps$rcVideoOp4 === void 0 ? void 0 : _this$_deps$rcVideoOp4.showSaveAsDefault) !== null && _this$_deps$rcVideoOp3 !== void 0 ? _this$_deps$rcVideoOp3 : false;
     _this._isInstantMeeting = (_this$_deps$rcVideoOp5 = (_this$_deps$rcVideoOp6 = _this._deps.rcVideoOptions) === null || _this$_deps$rcVideoOp6 === void 0 ? void 0 : _this$_deps$rcVideoOp6.isInstantMeeting) !== null && _this$_deps$rcVideoOp5 !== void 0 ? _this$_deps$rcVideoOp5 : false;
-    _this._enableWaitingRoom = (_this$_deps$rcVideoOp7 = (_this$_deps$rcVideoOp8 = _this._deps.rcVideoOptions) === null || _this$_deps$rcVideoOp8 === void 0 ? void 0 : _this$_deps$rcVideoOp8.enableWaitingRoom) !== null && _this$_deps$rcVideoOp7 !== void 0 ? _this$_deps$rcVideoOp7 : false;
-    _this._enablePersonalMeeting = (_this$_deps$rcVideoOp9 = (_this$_deps$rcVideoOp10 = _this._deps.rcVideoOptions) === null || _this$_deps$rcVideoOp10 === void 0 ? void 0 : _this$_deps$rcVideoOp10.enablePersonalMeeting) !== null && _this$_deps$rcVideoOp9 !== void 0 ? _this$_deps$rcVideoOp9 : false;
-    _this._enableScheduleOnBehalf = (_this$_deps$rcVideoOp11 = (_this$_deps$rcVideoOp12 = _this._deps.rcVideoOptions) === null || _this$_deps$rcVideoOp12 === void 0 ? void 0 : _this$_deps$rcVideoOp12.enableScheduleOnBehalf) !== null && _this$_deps$rcVideoOp11 !== void 0 ? _this$_deps$rcVideoOp11 : false;
-    _this._enableHostCountryDialinNumbers = (_this$_deps$rcVideoOp13 = (_this$_deps$rcVideoOp14 = _this._deps.rcVideoOptions) === null || _this$_deps$rcVideoOp14 === void 0 ? void 0 : _this$_deps$rcVideoOp14.enableHostCountryDialinNumbers) !== null && _this$_deps$rcVideoOp13 !== void 0 ? _this$_deps$rcVideoOp13 : false;
-    _this._enableReloadAfterSchedule = (_this$_deps$rcVideoOp15 = (_this$_deps$rcVideoOp16 = _this._deps.rcVideoOptions) === null || _this$_deps$rcVideoOp16 === void 0 ? void 0 : _this$_deps$rcVideoOp16.enableReloadAfterSchedule) !== null && _this$_deps$rcVideoOp15 !== void 0 ? _this$_deps$rcVideoOp15 : true;
+    _this._enableE2EE = (_this$_deps$rcVideoOp7 = (_this$_deps$rcVideoOp8 = _this._deps.rcVideoOptions) === null || _this$_deps$rcVideoOp8 === void 0 ? void 0 : _this$_deps$rcVideoOp8.enableE2EE) !== null && _this$_deps$rcVideoOp7 !== void 0 ? _this$_deps$rcVideoOp7 : false;
+    _this._enableWaitingRoom = (_this$_deps$rcVideoOp9 = (_this$_deps$rcVideoOp10 = _this._deps.rcVideoOptions) === null || _this$_deps$rcVideoOp10 === void 0 ? void 0 : _this$_deps$rcVideoOp10.enableWaitingRoom) !== null && _this$_deps$rcVideoOp9 !== void 0 ? _this$_deps$rcVideoOp9 : false;
+    _this._enablePersonalMeeting = (_this$_deps$rcVideoOp11 = (_this$_deps$rcVideoOp12 = _this._deps.rcVideoOptions) === null || _this$_deps$rcVideoOp12 === void 0 ? void 0 : _this$_deps$rcVideoOp12.enablePersonalMeeting) !== null && _this$_deps$rcVideoOp11 !== void 0 ? _this$_deps$rcVideoOp11 : false;
+    _this._enableScheduleOnBehalf = (_this$_deps$rcVideoOp13 = (_this$_deps$rcVideoOp14 = _this._deps.rcVideoOptions) === null || _this$_deps$rcVideoOp14 === void 0 ? void 0 : _this$_deps$rcVideoOp14.enableScheduleOnBehalf) !== null && _this$_deps$rcVideoOp13 !== void 0 ? _this$_deps$rcVideoOp13 : false;
+    _this._enableHostCountryDialinNumbers = (_this$_deps$rcVideoOp15 = (_this$_deps$rcVideoOp16 = _this._deps.rcVideoOptions) === null || _this$_deps$rcVideoOp16 === void 0 ? void 0 : _this$_deps$rcVideoOp16.enableHostCountryDialinNumbers) !== null && _this$_deps$rcVideoOp15 !== void 0 ? _this$_deps$rcVideoOp15 : false;
+    _this._enableReloadAfterSchedule = (_this$_deps$rcVideoOp17 = (_this$_deps$rcVideoOp18 = _this._deps.rcVideoOptions) === null || _this$_deps$rcVideoOp18 === void 0 ? void 0 : _this$_deps$rcVideoOp18.enableReloadAfterSchedule) !== null && _this$_deps$rcVideoOp17 !== void 0 ? _this$_deps$rcVideoOp17 : true;
     _this._currentLocale = (_this$_deps$locale$cu = (_this$_deps$locale = _this._deps.locale) === null || _this$_deps$locale === void 0 ? void 0 : _this$_deps$locale.currentLocale) !== null && _this$_deps$locale$cu !== void 0 ? _this$_deps$locale$cu : _i18n.DEFAULT_LOCALE;
     return _this;
   }
@@ -740,6 +746,7 @@ var RcVideo = (_dec = (0, _di.Module)({
           allowScreenSharing = meeting.allowScreenSharing,
           muteAudio = meeting.muteAudio,
           muteVideo = meeting.muteVideo,
+          e2ee = meeting.e2ee,
           isMeetingSecret = meeting.isMeetingSecret,
           notShowAgain = meeting.notShowAgain,
           waitingRoomMode = meeting.waitingRoomMode;
@@ -751,7 +758,8 @@ var RcVideo = (_dec = (0, _di.Module)({
         muteAudio: muteAudio,
         muteVideo: muteVideo,
         isMeetingSecret: isMeetingSecret,
-        waitingRoomMode: waitingRoomMode
+        waitingRoomMode: waitingRoomMode,
+        e2ee: e2ee
       };
 
       if (notShowAgain) {
@@ -792,41 +800,42 @@ var RcVideo = (_dec = (0, _di.Module)({
 
                 this._updateVideoStatus(_videoStatus.videoStatus.creating);
 
-                meetingDetail = (0, _videoHelper.pruneMeetingObject)(meeting);
-
                 if (this._showSaveAsDefault && meeting.saveAsDefault) {
                   this.saveAsDefaultSetting(meeting);
                 }
 
-                if (!this.enableWaitingRoom) {
-                  meetingDetail = (0, _ramda.omit)([_videoHelper.RCV_WAITING_ROOM_API_KEYS], meetingDetail);
-                }
-
-                _context11.next = 8;
+                meetingDetail = (0, _videoHelper.pruneMeetingObject)(meeting, [{
+                  condition: this.enableWaitingRoom,
+                  key: _constants.RCV_WAITING_ROOM_API_KEYS
+                }, {
+                  condition: this.enableE2EE && !meeting.usePersonalMeetingId,
+                  key: _constants.RCV_E2EE_API_KEYS
+                }]);
+                _context11.next = 7;
                 return this._deps.client.service.platform().post('/rcvideo/v1/bridges', meetingDetail);
 
-              case 8:
+              case 7:
                 result = _context11.sent;
-                _context11.next = 11;
+                _context11.next = 10;
                 return result.json();
 
-              case 11:
+              case 10:
                 newMeeting = _context11.sent;
                 this.updateMeetingSettings(_objectSpread(_objectSpread({}, meeting), {}, {
                   saveAsDefault: false
                 })); // After Create
 
-                _context11.next = 15;
+                _context11.next = 14;
                 return this._getDialinNumbers();
 
-              case 15:
+              case 14:
                 dialInNumber = _context11.sent;
-                _context11.next = 18;
+                _context11.next = 17;
                 return this.getExtensionInfo(this.currentUser.extensionId);
 
-              case 18:
+              case 17:
                 extensionInfo = _context11.sent;
-                _context11.next = 21;
+                _context11.next = 20;
                 return this.getMeetingInvitation({
                   hostName: extensionInfo.name,
                   meetingName: newMeeting.name,
@@ -839,27 +848,27 @@ var RcVideo = (_dec = (0, _di.Module)({
                   premiumNumbers: (0, _videoHelper.formatPremiumNumbers)(dialInNumber)
                 });
 
-              case 21:
+              case 20:
                 invitationInfo = _context11.sent;
 
                 if (!meeting.saveAsDefault) {
-                  _context11.next = 25;
+                  _context11.next = 24;
                   break;
                 }
 
-                _context11.next = 25;
+                _context11.next = 24;
                 return this.savePreferencesChanges(meeting);
 
-              case 25:
+              case 24:
                 if (!this._enableReloadAfterSchedule) {
-                  _context11.next = 28;
+                  _context11.next = 27;
                   break;
                 }
 
-                _context11.next = 28;
+                _context11.next = 27;
                 return this._initMeeting(Number(this.currentUser.extensionId));
 
-              case 28:
+              case 27:
                 if (isAlertSuccess) {
                   setTimeout(function () {
                     _this2._deps.alert.success({
@@ -880,8 +889,8 @@ var RcVideo = (_dec = (0, _di.Module)({
                 };
                 return _context11.abrupt("return", _objectSpread(_objectSpread({}, meetingResponse), meeting));
 
-              case 35:
-                _context11.prev = 35;
+              case 34:
+                _context11.prev = 34;
                 _context11.t0 = _context11["catch"](1);
                 console.log('failed to create rcv:', _context11.t0);
 
@@ -891,12 +900,12 @@ var RcVideo = (_dec = (0, _di.Module)({
 
                 return _context11.abrupt("return", null);
 
-              case 41:
+              case 40:
               case "end":
                 return _context11.stop();
             }
           }
-        }, _callee11, this, [[1, 35]]);
+        }, _callee11, this, [[1, 34]]);
       }));
 
       function createMeetingDirectly(_x4) {
@@ -1377,45 +1386,42 @@ var RcVideo = (_dec = (0, _di.Module)({
 
                 this._updateVideoStatus(_videoStatus.videoStatus.updating);
 
-                meetingDetail = (0, _videoHelper.pruneMeetingObject)(meeting);
-
                 if (this._showSaveAsDefault && meeting.saveAsDefault) {
                   this.saveAsDefaultSetting(meeting);
                 }
 
-                if (!this.enableWaitingRoom) {
-                  meetingDetail = (0, _ramda.omit)([_videoHelper.RCV_WAITING_ROOM_API_KEYS], meetingDetail);
-                }
-
-                if (this._showSaveAsDefault && meeting.saveAsDefault) {
-                  this.saveAsDefaultSetting(meeting);
-                }
-
-                _context21.next = 9;
+                meetingDetail = (0, _videoHelper.pruneMeetingObject)(meeting, [{
+                  condition: this.enableWaitingRoom,
+                  key: _constants.RCV_WAITING_ROOM_API_KEYS
+                }, {
+                  condition: this.enableE2EE && !meeting.usePersonalMeetingId,
+                  key: _constants.RCV_E2EE_API_KEYS
+                }]);
+                _context21.next = 7;
                 return this._deps.client.service.platform().send({
                   method: 'PATCH',
                   url: "/rcvideo/v1/bridges/".concat(meeting.id),
                   body: meetingDetail
                 });
 
-              case 9:
+              case 7:
                 meetingResult = _context21.sent;
-                _context21.next = 12;
+                _context21.next = 10;
                 return meetingResult.json();
 
-              case 12:
+              case 10:
                 newMeeting = _context21.sent;
-                _context21.next = 15;
+                _context21.next = 13;
                 return this._getDialinNumbers();
 
-              case 15:
+              case 13:
                 dialInNumber = _context21.sent;
-                _context21.next = 18;
+                _context21.next = 16;
                 return this.getExtensionInfo(this.currentUser.extensionId);
 
-              case 18:
+              case 16:
                 extensionInfo = _context21.sent;
-                _context21.next = 21;
+                _context21.next = 19;
                 return this.getMeetingInvitation({
                   hostName: extensionInfo.name,
                   meetingName: newMeeting.name,
@@ -1428,18 +1434,18 @@ var RcVideo = (_dec = (0, _di.Module)({
                   premiumNumbers: (0, _videoHelper.formatPremiumNumbers)(dialInNumber)
                 });
 
-              case 21:
+              case 19:
                 invitationInfo = _context21.sent;
 
                 if (!meeting.saveAsDefault) {
-                  _context21.next = 25;
+                  _context21.next = 23;
                   break;
                 }
 
-                _context21.next = 25;
+                _context21.next = 23;
                 return this.savePreferencesChanges(meeting, true);
 
-              case 25:
+              case 23:
                 if (isAlertSuccess) {
                   setTimeout(function () {
                     _this5._deps.alert.success({
@@ -1452,21 +1458,20 @@ var RcVideo = (_dec = (0, _di.Module)({
 
                 this._updateHasSettingsChanged(false);
 
+                if (this.personalMeeting && newMeeting.id === this.personalMeeting.id) {
+                  this._savePersonalMeeting(newMeeting);
+                }
+
                 meetingResponse = {
                   invitationInfo: invitationInfo,
                   extensionInfo: extensionInfo,
                   dialInNumber: dialInNumber,
                   meeting: _objectSpread(_objectSpread({}, meeting), newMeeting)
                 };
-
-                if (this.personalMeeting && newMeeting.id === this.personalMeeting.id) {
-                  this._savePersonalMeeting(newMeeting);
-                }
-
                 return _context21.abrupt("return", meetingResponse);
 
-              case 33:
-                _context21.prev = 33;
+              case 31:
+                _context21.prev = 31;
                 _context21.t0 = _context21["catch"](1);
 
                 this._updateVideoStatus(_videoStatus.videoStatus.idle);
@@ -1475,12 +1480,12 @@ var RcVideo = (_dec = (0, _di.Module)({
 
                 return _context21.abrupt("return", null);
 
-              case 38:
+              case 36:
               case "end":
                 return _context21.stop();
             }
           }
-        }, _callee21, this, [[1, 33]]);
+        }, _callee21, this, [[1, 31]]);
       }));
 
       function updateMeeting(_x13, _x14) {
@@ -1502,6 +1507,8 @@ var RcVideo = (_dec = (0, _di.Module)({
     key: "updateMeetingSettings",
     value: function () {
       var _updateMeetingSettings2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee22(meeting) {
+        var _processedMeeting$mee, _processedMeeting$isM;
+
         var patch,
             processedMeeting,
             _args22 = arguments;
@@ -1513,10 +1520,12 @@ var RcVideo = (_dec = (0, _di.Module)({
                 processedMeeting = meeting;
 
                 if (this.enableWaitingRoom) {
-                  processedMeeting = _objectSpread(_objectSpread({}, meeting), (0, _videoHelper.patchWaitingRoomRelated)(_objectSpread(_objectSpread({}, this.meeting), meeting), this.transformedPreferences, true));
+                  processedMeeting = _objectSpread(_objectSpread({}, processedMeeting), (0, _videoHelper.patchWaitingRoomRelated)(_objectSpread(_objectSpread({}, this.meeting), processedMeeting), this.transformedPreferences, true));
                 }
 
-                this._updateMeetingSettings(processedMeeting, patch);
+                this._updateMeetingSettings(_objectSpread(_objectSpread({}, processedMeeting), {}, {
+                  isMeetingPasswordValid: this.validatePasswordSettings((_processedMeeting$mee = processedMeeting.meetingPassword) !== null && _processedMeeting$mee !== void 0 ? _processedMeeting$mee : this.meeting.meetingPassword, (_processedMeeting$isM = processedMeeting.isMeetingSecret) !== null && _processedMeeting$isM !== void 0 ? _processedMeeting$isM : this.meeting.isMeetingSecret)
+                }), patch);
 
                 this._comparePreferences();
 
@@ -1655,11 +1664,6 @@ var RcVideo = (_dec = (0, _di.Module)({
       return _errorHandle;
     }()
   }, {
-    key: "enableScheduleOnBehalf",
-    get: function get() {
-      return this._enableScheduleOnBehalf;
-    }
-  }, {
     key: "personalMeeting",
     get: function get() {
       return this._enablePersonalMeeting ? this.personalVideo : null;
@@ -1722,6 +1726,16 @@ var RcVideo = (_dec = (0, _di.Module)({
       return this._enableWaitingRoom;
     }
   }, {
+    key: "enableE2EE",
+    get: function get() {
+      return this._enableE2EE;
+    }
+  }, {
+    key: "enableScheduleOnBehalf",
+    get: function get() {
+      return this._enableScheduleOnBehalf;
+    }
+  }, {
     key: "isInstantMeeting",
     get: function get() {
       return this._isInstantMeeting;
@@ -1750,6 +1764,7 @@ var RcVideo = (_dec = (0, _di.Module)({
 
       var processedSettings = _objectSpread(_objectSpread(_objectSpread(_objectSpread({}, this.initialVideoSetting), this.personalMeeting), (0, _videoHelper.getLockedPreferences)(this.transformedSettingLocks, this.transformedPreferences)), {}, {
         meetingPassword: this.personalMeeting.meetingPassword || (0, _videoHelper.generateRandomPassword)(10),
+        startTime: new Date((0, _meetingHelper.getInitializedStartTime)()),
         isMeetingPasswordValid: true,
         // assume personal meeting password is valid
         id: this.personalMeeting.id,
@@ -1769,6 +1784,7 @@ var RcVideo = (_dec = (0, _di.Module)({
       var savedSetting = this._showSaveAsDefault ? this.savedDefaultVideoSetting : null;
       return _objectSpread(_objectSpread(_objectSpread(_objectSpread({}, this.initialVideoSetting), savedSetting), this.transformedPreferences), {}, {
         meetingPassword: (0, _videoHelper.generateRandomPassword)(10),
+        startTime: new Date((0, _meetingHelper.getInitializedStartTime)()),
         isMeetingPasswordValid: true,
         // generated random password is valid
         id: null,
@@ -1779,10 +1795,8 @@ var RcVideo = (_dec = (0, _di.Module)({
   }, {
     key: "initialVideoSetting",
     get: function get() {
-      var startTime = (0, _meetingHelper.getInitializedStartTime)();
       return (0, _videoHelper.getDefaultVideoSettings)({
         topic: this.defaultTopic,
-        startTime: new Date(startTime),
         accountId: this.currentUser.accountId,
         extensionId: this.currentUser.extensionId
       });
@@ -1800,7 +1814,14 @@ var RcVideo = (_dec = (0, _di.Module)({
         extensionName = (_this$currentUser2 = this.currentUser) === null || _this$currentUser2 === void 0 ? void 0 : _this$currentUser2.name;
       }
 
-      return (0, _videoHelper.getTopic)(extensionName, this.brandName, this.currentLocale);
+      return (0, _videoHelper.getTopic)({
+        extensionName: extensionName,
+        brandName: this.brandName,
+        shortName: this._deps.brand.shortName,
+        fullName: this._deps.brand.fullName,
+        brandCode: this._deps.brand.code,
+        currentLocale: this.currentLocale
+      });
     }
   }, {
     key: "loginUser",
@@ -1817,6 +1838,13 @@ var RcVideo = (_dec = (0, _di.Module)({
     key: "currentUser",
     get: function get() {
       return this.delegator || this.loginUser;
+    }
+  }, {
+    key: "uriRegExp",
+    get: function get() {
+      var _this$_deps$dynamicCo;
+
+      return (_this$_deps$dynamicCo = this._deps.dynamicConfig) === null || _this$_deps$dynamicCo === void 0 ? void 0 : _this$_deps$dynamicCo.rcvUriRegExp;
     }
   }]);
 

@@ -89,7 +89,7 @@ var ErrorLogger = (_dec = (0, _di.Module)({
     });
     _this._sentryInitialized = false;
     var appName = _this._deps.brandConfig.appName;
-    var appBrand = _this._deps.brandConfig.brandCode;
+    var appBrand = _this._deps.brandConfig.code;
 
     var _ref = (_this$_deps$errorLogg = _this._deps.errorLoggerOptions) !== null && _this$_deps$errorLogg !== void 0 ? _this$_deps$errorLogg : {},
         appVersion = _ref.appVersion,

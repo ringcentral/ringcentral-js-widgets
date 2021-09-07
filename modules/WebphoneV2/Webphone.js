@@ -188,7 +188,7 @@ var Webphone = (_dec = (0, _di.Module)({
   var _super = _createSuper(Webphone);
 
   function Webphone(deps) {
-    var _this$_deps$webphoneO, _this$_deps$webphoneO2, _deps$webphoneOptions, _deps$webphoneOptions3, _deps$webphoneOptions5, _deps$webphoneOptions7, _deps$webphoneOptions9, _deps$webphoneOptions11, _deps$webphoneOptions13, _deps$webphoneOptions15;
+    var _this$_deps$webphoneO, _this$_deps$webphoneO2, _deps$webphoneOptions, _deps$webphoneOptions3, _deps$webphoneOptions5, _deps$webphoneOptions7, _deps$webphoneOptions9, _deps$webphoneOptions11, _deps$webphoneOptions13, _deps$webphoneOptions15, _this$_deps$webphoneO3, _this$_deps$webphoneO4;
 
     var _this;
 
@@ -259,8 +259,9 @@ var Webphone = (_dec = (0, _di.Module)({
 
     _this._reconnectAfterSessionEnd = null;
     _this._disconnectInactiveAfterSessionEnd = false;
+    var enableContactMatchWhenNewCall = (_this$_deps$webphoneO3 = (_this$_deps$webphoneO4 = _this._deps.webphoneOptions) === null || _this$_deps$webphoneO4 === void 0 ? void 0 : _this$_deps$webphoneO4.enableContactMatchWhenNewCall) !== null && _this$_deps$webphoneO3 !== void 0 ? _this$_deps$webphoneO3 : true;
 
-    if (_this._deps.contactMatcher) {
+    if (enableContactMatchWhenNewCall && _this._deps.contactMatcher) {
       _this._deps.contactMatcher.addQuerySource({
         getQueriesFn: function getQueriesFn() {
           return _this.sessionPhoneNumbers;

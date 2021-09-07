@@ -94,7 +94,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 var DEFAULT_FETCH_DELAY = 5 * 1000;
 var VideoConfiguration = (_dec = (0, _di.Module)({
   name: 'VideoConfiguration',
-  deps: ['Client', 'DataFetcherV2', 'ExtensionFeatures', 'Subscription', {
+  deps: ['Client', 'DataFetcherV2', 'AppFeatures', 'Subscription', {
     dep: 'TabManager',
     optional: true
   }, {
@@ -149,7 +149,7 @@ var VideoConfiguration = (_dec = (0, _di.Module)({
         return fetchFunction;
       }(),
       readyCheckFunction: function readyCheckFunction() {
-        return _this._deps.extensionFeatures.ready && _this._deps.subscription.ready;
+        return _this._deps.appFeatures.ready && _this._deps.subscription.ready;
       },
       permissionCheckFunction: function permissionCheckFunction() {
         return _this._hasPermission;
@@ -256,7 +256,7 @@ var VideoConfiguration = (_dec = (0, _di.Module)({
   }, {
     key: "_hasPermission",
     get: function get() {
-      return this._deps.extensionFeatures.hasMeetingsPermission;
+      return this._deps.appFeatures.hasMeetingsPermission;
     }
   }]);
 

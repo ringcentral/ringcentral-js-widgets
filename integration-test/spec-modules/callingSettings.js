@@ -37,7 +37,7 @@ var _callingOptions = _interopRequireDefault(require("../../modules/CallingSetti
 
 var _callingModes = _interopRequireDefault(require("../../modules/CallingSettings/callingModes"));
 
-var _callingSettingsMessages = _interopRequireDefault(require("../..//modules/CallingSettings/callingSettingsMessages"));
+var _callingSettingsMessages = _interopRequireDefault(require("../../modules/CallingSettings/callingSettingsMessages"));
 
 var _loginStatus = _interopRequireDefault(require("../../modules/Auth/loginStatus"));
 
@@ -48,8 +48,6 @@ var _WaitUtil = require("../utils/WaitUtil");
 var mock = _interopRequireWildcard(require("../mock"));
 
 var _authzProfile = _interopRequireDefault(require("../mock/data/authzProfile"));
-
-var _extensionInfo = _interopRequireDefault(require("../mock/data/extensionInfo"));
 
 var _this = void 0;
 
@@ -63,6 +61,9 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+// TODO: refactor and combine with new IT solutions
+
+/* global before */
 var _default = function _default(auth, client, alert, account, callingSettings, extensionPhoneNumber, extensionInfo) {
   describe('Calling Settings', /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee22() {
     var isLoginSuccess;
@@ -463,7 +464,7 @@ var _default = function _default(auth, client, alert, account, callingSettings, 
                               }
                             }
                           }, _callee18);
-                        }))); //TODO: Add test cases for Other Phone Numbers
+                        }))); // TODO: Add test cases for Other Phone Numbers
                       });
 
                     case 8:
@@ -509,22 +510,23 @@ var _default = function _default(auth, client, alert, account, callingSettings, 
                       mock.restore();
                       mock.mockForLogin({
                         mockExtensionInfo: false
-                      });
-                      mock.extensionInfo({
-                        serviceFeatures: _extensionInfo["default"].serviceFeatures.filter(function (p) {
-                          return p.featureName !== 'WebPhone';
-                        }).concat({
-                          featureName: 'WebPhone',
-                          enabled: false
-                        })
-                      });
-                      _context21.next = 5;
+                      }); // TODO: refactor to use extensionFeatures, and understand how that's related to "ReadUserForwardingFlipNumbers"
+                      // mock.extensionInfo({
+                      //   serviceFeatures: extensionInfoBody.serviceFeatures
+                      //     .filter((p) => p.featureName !== 'WebPhone')
+                      //     .concat({
+                      //       featureName: 'WebPhone',
+                      //       enabled: false,
+                      //     }),
+                      // });
+
+                      _context21.next = 4;
                       return (0, _HelpUtil.ensureLogin)(auth, account);
 
-                    case 5:
+                    case 4:
                       expect(callingSettings.callWithOptions).to.deep.equals([_callingOptions["default"].softphone, _callingOptions["default"].myphone, _callingOptions["default"].otherphone, _callingOptions["default"].customphone]);
 
-                    case 6:
+                    case 5:
                     case "end":
                       return _context21.stop();
                   }

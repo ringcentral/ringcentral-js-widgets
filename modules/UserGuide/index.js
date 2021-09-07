@@ -117,7 +117,7 @@ var SUPPORTED_LOCALES = {
   'fr-CA': 'fr-CA'
 };
 var UserGuide = (_dec = (0, _di.Module)({
-  deps: ['Auth', 'Locale', 'Storage', 'Webphone', 'ExtensionFeatures', {
+  deps: ['Auth', 'Locale', 'Storage', 'Webphone', 'AppFeatures', {
     dep: 'UserGuideOptions',
     optional: true
   }]
@@ -133,8 +133,8 @@ var UserGuide = (_dec = (0, _di.Module)({
         locale = _ref.locale,
         storage = _ref.storage,
         webphone = _ref.webphone,
-        extensionFeatures = _ref.extensionFeatures,
-        options = _objectWithoutProperties(_ref, ["auth", "locale", "storage", "webphone", "extensionFeatures"]);
+        appFeatures = _ref.appFeatures,
+        options = _objectWithoutProperties(_ref, ["auth", "locale", "storage", "webphone", "appFeatures"]);
 
     _classCallCheck(this, UserGuide);
 
@@ -145,7 +145,7 @@ var UserGuide = (_dec = (0, _di.Module)({
     _this._locale = locale;
     _this._storage = storage;
     _this._webphone = webphone;
-    _this._extensionFeatures = extensionFeatures;
+    _this._appFeatures = appFeatures;
     _this._reducer = (0, _getUserGuideReducer["default"])(_this.actionTypes);
     _this._context = options.context;
     _this._storageKey = 'userGuide';
@@ -176,7 +176,7 @@ var UserGuide = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                if (!(this.pending && this._auth.ready && this._locale.ready && this._storage.ready && this._extensionFeatures.ready && this._auth.loggedIn)) {
+                if (!(this.pending && this._auth.ready && this._locale.ready && this._storage.ready && this._appFeatures.ready && this._auth.loggedIn)) {
                   _context.next = 8;
                   break;
                 }
@@ -196,7 +196,7 @@ var UserGuide = (_dec = (0, _di.Module)({
                 break;
 
               case 8:
-                if (this.ready && (!this._auth.ready || !this._locale.ready || !this._storage.ready || !this._extensionFeatures.ready)) {
+                if (this.ready && (!this._auth.ready || !this._locale.ready || !this._storage.ready || !this._appFeatures.ready)) {
                   this.store.dispatch({
                     type: this.actionTypes.resetSuccess
                   });
@@ -481,7 +481,7 @@ var UserGuide = (_dec = (0, _di.Module)({
   }, {
     key: "hasPermission",
     get: function get() {
-      return this._extensionFeatures.isCallingEnabled || this._extensionFeatures.hasReadMessagePermission;
+      return this._appFeatures.isCallingEnabled || this._appFeatures.hasReadMessagePermission;
     }
   }, {
     key: "guides",

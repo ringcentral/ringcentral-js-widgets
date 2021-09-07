@@ -2,7 +2,19 @@
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
+require("core-js/modules/es6.string.iterator");
+
+require("core-js/modules/es6.array.from");
+
+require("core-js/modules/es6.function.name");
+
+require("core-js/modules/es6.regexp.to-string");
+
+require("core-js/modules/es6.date.to-string");
+
 require("core-js/modules/es7.symbol.async-iterator");
+
+require("core-js/modules/es6.array.is-array");
 
 require("core-js/modules/es6.promise");
 
@@ -51,15 +63,33 @@ var _core = require("@ringcentral-integration/core");
 
 var _ramda = require("ramda");
 
+var _permissionsMessages = require("../../enums/permissionsMessages");
+
 var _subscriptionFilters = require("../../enums/subscriptionFilters");
 
 var _subscriptionHints = require("../../enums/subscriptionHints");
 
 var _di = require("../../lib/di");
 
+var _loginStatus = _interopRequireDefault(require("../Auth/loginStatus"));
+
 var _DataFetcherV = require("../DataFetcherV2");
 
 var _dec, _dec2, _class, _class2;
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr && (typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]); if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -95,7 +125,7 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
 
 var ExtensionFeatures = (_dec = (0, _di.Module)({
   name: 'ExtensionFeatures',
-  deps: ['Client', 'DataFetcherV2', {
+  deps: ['Auth', 'Alert', 'Client', 'DataFetcherV2', {
     dep: 'Subscription',
     optional: true
   }, {
@@ -123,7 +153,7 @@ var ExtensionFeatures = (_dec = (0, _di.Module)({
     _this = _super.call(this, {
       deps: deps
     });
-    _this._stopWatching = null;
+    _this._stopWatchingSubscription = null;
 
     _this._handleSubscription = function (message) {
       var _this$_deps$tabManage, _this$_deps$tabManage2, _message$body;
@@ -140,24 +170,49 @@ var ExtensionFeatures = (_dec = (0, _di.Module)({
       cleanOnReset: true,
       fetchFunction: function () {
         var _fetchFunction = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-          var response;
+          var response, _error$response;
+
           return regeneratorRuntime.wrap(function _callee$(_context) {
             while (1) {
               switch (_context.prev = _context.next) {
                 case 0:
-                  _context.next = 2;
+                  _context.prev = 0;
+                  _context.next = 3;
                   return _this._deps.client.service.platform().get('/restapi/v1.0/account/~/extension/~/features');
 
-                case 2:
+                case 3:
                   response = _context.sent;
                   return _context.abrupt("return", response.json());
 
-                case 4:
+                case 7:
+                  _context.prev = 7;
+                  _context.t0 = _context["catch"](0);
+
+                  if (!(((_error$response = _context.t0.response) === null || _error$response === void 0 ? void 0 : _error$response.status) === 403)) {
+                    _context.next = 14;
+                    break;
+                  }
+
+                  _context.next = 12;
+                  return _this._deps.auth.logout();
+
+                case 12:
+                  _this._deps.alert.danger({
+                    message: _permissionsMessages.permissionsMessages.insufficientPrivilege,
+                    ttl: 0
+                  });
+
+                  return _context.abrupt("return", {});
+
+                case 14:
+                  throw _context.t0;
+
+                case 15:
                 case "end":
                   return _context.stop();
               }
             }
-          }, _callee);
+          }, _callee, null, [[0, 7]]);
         }));
 
         function fetchFunction() {
@@ -179,25 +234,75 @@ var ExtensionFeatures = (_dec = (0, _di.Module)({
   }
 
   _createClass(ExtensionFeatures, [{
+    key: "onInitOnce",
+    value: function onInitOnce() {
+      var _this2 = this;
+
+      (0, _core.watchEffect)(this, function () {
+        var _this2$features, _this2$features$ReadE;
+
+        return [_this2.ready, !!_this2.data, !!((_this2$features = _this2.features) === null || _this2$features === void 0 ? void 0 : (_this2$features$ReadE = _this2$features.ReadExtensionInfo) === null || _this2$features$ReadE === void 0 ? void 0 : _this2$features$ReadE.available), _this2._deps.auth.loginStatus === _loginStatus["default"].loggedIn];
+      }, /*#__PURE__*/function () {
+        var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(_ref2) {
+          var _ref4, ready, hasData, readExtensionInfo, loggedIn;
+
+          return regeneratorRuntime.wrap(function _callee2$(_context2) {
+            while (1) {
+              switch (_context2.prev = _context2.next) {
+                case 0:
+                  _ref4 = _slicedToArray(_ref2, 4), ready = _ref4[0], hasData = _ref4[1], readExtensionInfo = _ref4[2], loggedIn = _ref4[3];
+
+                  if (!(ready && loggedIn && !readExtensionInfo)) {
+                    _context2.next = 5;
+                    break;
+                  }
+
+                  _context2.next = 4;
+                  return _this2._deps.auth.logout();
+
+                case 4:
+                  if (hasData) {
+                    // only show alert if featuresList was successfully fetched,
+                    // but the user has no ReadExtensionInfo feature
+                    _this2._deps.alert.danger({
+                      message: _permissionsMessages.permissionsMessages.insufficientPrivilege,
+                      ttl: 0
+                    });
+                  }
+
+                case 5:
+                case "end":
+                  return _context2.stop();
+              }
+            }
+          }, _callee2);
+        }));
+
+        return function (_x) {
+          return _ref3.apply(this, arguments);
+        };
+      }());
+    }
+  }, {
     key: "onInit",
     value: function onInit() {
-      var _this2 = this;
+      var _this3 = this;
 
       if (this._deps.subscription) {
         this._deps.subscription.subscribe([_subscriptionFilters.subscriptionFilters.extensionInfo]);
 
-        this._stopWatching = (0, _core.watch)(this, function () {
-          return _this2._deps.subscription.message;
+        this._stopWatchingSubscription = (0, _core.watch)(this, function () {
+          return _this3._deps.subscription.message;
         }, this._handleSubscription);
       }
     }
   }, {
     key: "onReset",
     value: function onReset() {
-      var _this$_stopWatching;
+      var _this$_stopWatchingSu;
 
-      (_this$_stopWatching = this._stopWatching) === null || _this$_stopWatching === void 0 ? void 0 : _this$_stopWatching.call(this);
-      this._stopWatching = null;
+      (_this$_stopWatchingSu = this._stopWatchingSubscription) === null || _this$_stopWatchingSu === void 0 ? void 0 : _this$_stopWatchingSu.call(this);
+      this._stopWatchingSubscription = null;
     }
   }, {
     key: "features",
@@ -208,100 +313,6 @@ var ExtensionFeatures = (_dec = (0, _di.Module)({
         features[item.id] = item;
         return features;
       }, {}, (_this$data$records = (_this$data = this.data) === null || _this$data === void 0 ? void 0 : _this$data.records) !== null && _this$data$records !== void 0 ? _this$data$records : []);
-    }
-  }, {
-    key: "CRMFlag",
-    get: function get() {
-      var _this$_deps$extension, _this$_deps$extension2;
-
-      return (_this$_deps$extension = (_this$_deps$extension2 = this._deps.extensionFeaturesOptions) === null || _this$_deps$extension2 === void 0 ? void 0 : _this$_deps$extension2.CRMFlag) !== null && _this$_deps$extension !== void 0 ? _this$_deps$extension : 'SalesForce';
-    }
-  }, {
-    key: "isCRMEnabled",
-    get: function get() {
-      var _this$features$this$C, _this$features, _this$features$this$C2;
-
-      return (_this$features$this$C = (_this$features = this.features) === null || _this$features === void 0 ? void 0 : (_this$features$this$C2 = _this$features[this.CRMFlag]) === null || _this$features$this$C2 === void 0 ? void 0 : _this$features$this$C2.available) !== null && _this$features$this$C !== void 0 ? _this$features$this$C : false;
-    }
-  }, {
-    key: "isRingOutEnabled",
-    get: function get() {
-      var _this$features$RingOu, _this$features2, _this$features2$RingO;
-
-      return (_this$features$RingOu = (_this$features2 = this.features) === null || _this$features2 === void 0 ? void 0 : (_this$features2$RingO = _this$features2.RingOut) === null || _this$features2$RingO === void 0 ? void 0 : _this$features2$RingO.available) !== null && _this$features$RingOu !== void 0 ? _this$features$RingOu : false;
-    }
-  }, {
-    key: "isWebPhoneEnabled",
-    get: function get() {
-      var _this$features$WebPho, _this$features3, _this$features3$WebPh;
-
-      return (_this$features$WebPho = (_this$features3 = this.features) === null || _this$features3 === void 0 ? void 0 : (_this$features3$WebPh = _this$features3.WebPhone) === null || _this$features3$WebPh === void 0 ? void 0 : _this$features3$WebPh.available) !== null && _this$features$WebPho !== void 0 ? _this$features$WebPho : false;
-    }
-  }, {
-    key: "isCallingEnabled",
-    get: function get() {
-      return this.isRingOutEnabled || this.isWebPhoneEnabled;
-    }
-  }, {
-    key: "hasComposeTextPermission",
-    get: function get() {
-      var _this$features4, _this$features4$Pages, _this$features5, _this$features5$SMSSe;
-
-      return !!(((_this$features4 = this.features) === null || _this$features4 === void 0 ? void 0 : (_this$features4$Pages = _this$features4.PagesSending) === null || _this$features4$Pages === void 0 ? void 0 : _this$features4$Pages.available) || ((_this$features5 = this.features) === null || _this$features5 === void 0 ? void 0 : (_this$features5$SMSSe = _this$features5.SMSSending) === null || _this$features5$SMSSe === void 0 ? void 0 : _this$features5$SMSSe.available));
-    }
-  }, {
-    key: "hasReadMessagesPermission",
-    get: function get() {
-      return this.hasReadTextPermission || this.hasVoicemailPermission || this.hasReadFaxPermission;
-    }
-  }, {
-    key: "hasReadTextPermission",
-    get: function get() {
-      var _this$features6, _this$features6$Pages, _this$features7, _this$features7$SMSRe;
-
-      return !!(((_this$features6 = this.features) === null || _this$features6 === void 0 ? void 0 : (_this$features6$Pages = _this$features6.PagesReceiving) === null || _this$features6$Pages === void 0 ? void 0 : _this$features6$Pages.available) || ((_this$features7 = this.features) === null || _this$features7 === void 0 ? void 0 : (_this$features7$SMSRe = _this$features7.SMSReceiving) === null || _this$features7$SMSRe === void 0 ? void 0 : _this$features7$SMSRe.available));
-    }
-  }, {
-    key: "hasVoicemailPermission",
-    get: function get() {
-      var _this$features$Voicem, _this$features8, _this$features8$Voice;
-
-      return (_this$features$Voicem = (_this$features8 = this.features) === null || _this$features8 === void 0 ? void 0 : (_this$features8$Voice = _this$features8.Voicemail) === null || _this$features8$Voice === void 0 ? void 0 : _this$features8$Voice.available) !== null && _this$features$Voicem !== void 0 ? _this$features$Voicem : false;
-    }
-  }, {
-    key: "hasReadFaxPermission",
-    get: function get() {
-      var _this$features$FaxRec, _this$features9, _this$features9$FaxRe;
-
-      return (_this$features$FaxRec = (_this$features9 = this.features) === null || _this$features9 === void 0 ? void 0 : (_this$features9$FaxRe = _this$features9.FaxReceiving) === null || _this$features9$FaxRe === void 0 ? void 0 : _this$features9$FaxRe.available) !== null && _this$features$FaxRec !== void 0 ? _this$features$FaxRec : false;
-    }
-  }, {
-    key: "hasRoomConnectorBeta",
-    get: function get() {
-      var _this$features$RoomCo, _this$features10, _this$features10$Room;
-
-      return (_this$features$RoomCo = (_this$features10 = this.features) === null || _this$features10 === void 0 ? void 0 : (_this$features10$Room = _this$features10.RoomConnectorBeta) === null || _this$features10$Room === void 0 ? void 0 : _this$features10$Room.available) !== null && _this$features$RoomCo !== void 0 ? _this$features$RoomCo : false;
-    }
-  }, {
-    key: "hasOutboundSMSPermission",
-    get: function get() {
-      var _this$features$SMSSen, _this$features11, _this$features11$SMSS;
-
-      return (_this$features$SMSSen = (_this$features11 = this.features) === null || _this$features11 === void 0 ? void 0 : (_this$features11$SMSS = _this$features11.SMSSending) === null || _this$features11$SMSS === void 0 ? void 0 : _this$features11$SMSS.available) !== null && _this$features$SMSSen !== void 0 ? _this$features$SMSSen : false;
-    }
-  }, {
-    key: "hasInternalSMSPermission",
-    get: function get() {
-      var _this$features$PagesS, _this$features12, _this$features12$Page;
-
-      return (_this$features$PagesS = (_this$features12 = this.features) === null || _this$features12 === void 0 ? void 0 : (_this$features12$Page = _this$features12.PagesSending) === null || _this$features12$Page === void 0 ? void 0 : _this$features12$Page.available) !== null && _this$features$PagesS !== void 0 ? _this$features$PagesS : false;
-    }
-  }, {
-    key: "hasMeetingsPermission",
-    get: function get() {
-      var _this$features$Meetin, _this$features13, _this$features13$Meet;
-
-      return (_this$features$Meetin = (_this$features13 = this.features) === null || _this$features13 === void 0 ? void 0 : (_this$features13$Meet = _this$features13.Meetings) === null || _this$features13$Meet === void 0 ? void 0 : _this$features13$Meet.available) !== null && _this$features$Meetin !== void 0 ? _this$features$Meetin : false;
     }
   }]);
 

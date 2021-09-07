@@ -1,0 +1,1 @@
+{"version":3,"sources":["modules/Brand/createBrandConfig.ts"],"names":["createBrandConfig","config"],"mappings":";;;;;;;;;AAEO,SAASA,iBAAT,CAAkDC,MAAlD,EAAgE;AACrE,SAAOA,MAAP;AACD","sourcesContent":["import { BrandConfig } from './Brand.interface';\n\nexport function createBrandConfig<T extends BrandConfig>(config: T): T {\n  return config;\n}\n"],"file":"createBrandConfig.js"}

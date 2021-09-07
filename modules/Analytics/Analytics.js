@@ -4,8 +4,6 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
 require("core-js/modules/es7.symbol.async-iterator");
 
-require("core-js/modules/es6.regexp.replace");
-
 require("core-js/modules/es6.promise");
 
 require("core-js/modules/es6.object.create");
@@ -32,7 +30,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.track = track;
-exports.replace = replace;
 exports.Analytics = exports.tracking = exports.DEFAULT_TAG_NAME = void 0;
 
 require("core-js/modules/es6.object.keys");
@@ -62,8 +59,6 @@ require("regenerator-runtime/runtime");
 require("core-js/modules/es6.date.to-iso-string");
 
 require("core-js/modules/es6.function.name");
-
-require("core-js/modules/es6.array.find-index");
 
 var _moduleStatuses = _interopRequireDefault(require("../../enums/moduleStatuses"));
 
@@ -149,13 +144,6 @@ function track(tagName) {
   };
 }
 
-function replace(prototype, property, descriptor) {
-  var existActionIndex = TRACK_LIST.findIndex(function (item) {
-    return property === item.funcName;
-  });
-  existActionIndex !== -1 && TRACK_LIST.splice(existActionIndex, 1);
-}
-
 var DEFAULT_TAG_NAME = 'default';
 exports.DEFAULT_TAG_NAME = DEFAULT_TAG_NAME;
 var tracking = track(DEFAULT_TAG_NAME); // TODO: refactoring the module against `https://docs.google.com/spreadsheets/d/1xufV6-C-RJR6OJgwFYHYzNQwhIdN4BXXCo8ABs7RT-8/edit#gid=1480480736`
@@ -188,9 +176,6 @@ var Analytics = (_dec = (0, _di.Module)({
     optional: true
   }, {
     dep: 'ExtensionInfo',
-    optional: true
-  }, {
-    dep: 'ExtensionFeatures',
     optional: true
   }, {
     dep: 'CallHistory',
@@ -240,6 +225,12 @@ var Analytics = (_dec = (0, _di.Module)({
   }, {
     dep: 'DialerUI',
     optional: true
+  }, {
+    dep: 'TierChecker',
+    optional: true
+  }, {
+    dep: 'AnalyticsEventExtendedProps',
+    optional: true
   }]
 }), _dec(_class = (_class2 = /*#__PURE__*/function (_RcModule) {
   _inherits(Analytics, _RcModule);
@@ -247,6 +238,7 @@ var Analytics = (_dec = (0, _di.Module)({
   var _super = _createSuper(Analytics);
 
   // TODO: add state interface
+  // AnalyticsOptions
   function Analytics(_ref) {
     var _this;
 
@@ -261,7 +253,6 @@ var Analytics = (_dec = (0, _di.Module)({
         callingSettings = _ref.callingSettings,
         accountInfo = _ref.accountInfo,
         extensionInfo = _ref.extensionInfo,
-        extensionFeatures = _ref.extensionFeatures,
         callHistory = _ref.callHistory,
         callMonitor = _ref.callMonitor,
         conference = _ref.conference,
@@ -276,6 +267,8 @@ var Analytics = (_dec = (0, _di.Module)({
         meeting = _ref.meeting,
         rcVideo = _ref.rcVideo,
         dialerUI = _ref.dialerUI,
+        tierChecker = _ref.tierChecker,
+        analyticsEventExtendedProps = _ref.analyticsEventExtendedProps,
         _ref$useLog = _ref.useLog,
         useLog = _ref$useLog === void 0 ? false : _ref$useLog,
         _ref$lingerThreshold = _ref.lingerThreshold,
@@ -286,7 +279,7 @@ var Analytics = (_dec = (0, _di.Module)({
         enablePendo = _ref$enablePendo === void 0 ? false : _ref$enablePendo,
         _ref$env = _ref.env,
         env = _ref$env === void 0 ? 'dev' : _ref$env,
-        options = _objectWithoutProperties(_ref, ["analyticsKey", "pendoApiKey", "appName", "appVersion", "brandCode", "adapter", "auth", "call", "callingSettings", "accountInfo", "extensionInfo", "extensionFeatures", "callHistory", "callMonitor", "conference", "conferenceCall", "contactDetailsUI", "messageSender", "messageStore", "routerInteraction", "userGuide", "webphone", "locale", "meeting", "rcVideo", "dialerUI", "useLog", "lingerThreshold", "callLogSection", "activeCallControl", "enablePendo", "env"]);
+        options = _objectWithoutProperties(_ref, ["analyticsKey", "pendoApiKey", "appName", "appVersion", "brandCode", "adapter", "auth", "call", "callingSettings", "accountInfo", "extensionInfo", "callHistory", "callMonitor", "conference", "conferenceCall", "contactDetailsUI", "messageSender", "messageStore", "routerInteraction", "userGuide", "webphone", "locale", "meeting", "rcVideo", "dialerUI", "tierChecker", "analyticsEventExtendedProps", "useLog", "lingerThreshold", "callLogSection", "activeCallControl", "enablePendo", "env"]);
 
     _classCallCheck(this, Analytics);
 
@@ -306,7 +299,6 @@ var Analytics = (_dec = (0, _di.Module)({
     _this._callingSettings = void 0;
     _this._accountInfo = void 0;
     _this._extensionInfo = void 0;
-    _this._extensionFeatures = void 0;
     _this._callHistory = void 0;
     _this._callMonitor = void 0;
     _this._conference = void 0;
@@ -320,6 +312,8 @@ var Analytics = (_dec = (0, _di.Module)({
     _this._locale = void 0;
     _this._meeting = void 0;
     _this._rcVideo = void 0;
+    _this._tierChecker = void 0;
+    _this._analyticsEventExtendedProps = void 0;
     _this._dialerUI = void 0;
     _this._segment = void 0;
     _this._pendo = void 0;
@@ -347,7 +341,6 @@ var Analytics = (_dec = (0, _di.Module)({
     _this._callingSettings = callingSettings;
     _this._accountInfo = accountInfo;
     _this._extensionInfo = extensionInfo;
-    _this._extensionFeatures = extensionFeatures;
     _this._callHistory = callHistory;
     _this._callMonitor = callMonitor;
     _this._conference = conference;
@@ -363,7 +356,9 @@ var Analytics = (_dec = (0, _di.Module)({
     _this._rcVideo = rcVideo;
     _this._callLogSection = callLogSection;
     _this._activeCallControl = activeCallControl;
-    _this._dialerUI = dialerUI; // init
+    _this._dialerUI = dialerUI;
+    _this._tierChecker = tierChecker;
+    _this._analyticsEventExtendedProps = analyticsEventExtendedProps; // init
 
     _this._reducer = (0, _getAnalyticsReducer["default"])(_this.actionTypes);
     _this._segment = (0, _Analytics.Segment)();
@@ -476,13 +471,15 @@ var Analytics = (_dec = (0, _di.Module)({
   }, {
     key: "track",
     value: function track(event) {
+      var _this$_analyticsEvent, _this$_pendo, _this$_pendo$isReady;
+
       var properties = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
       if (!this.analytics) {
         return;
       }
 
-      var trackProps = _objectSpread(_objectSpread({}, this.trackProps), properties);
+      var trackProps = _objectSpread(_objectSpread(_objectSpread({}, this.trackProps), properties), (_this$_analyticsEvent = this._analyticsEventExtendedProps) === null || _this$_analyticsEvent === void 0 ? void 0 : _this$_analyticsEvent.extendedProps.get(event));
 
       this.analytics.track(event, trackProps, {
         integrations: {
@@ -497,6 +494,10 @@ var Analytics = (_dec = (0, _di.Module)({
           event: event,
           trackProps: trackProps
         });
+      }
+
+      if (this._enablePendo && ((_this$_pendo = this._pendo) === null || _this$_pendo === void 0 ? void 0 : (_this$_pendo$isReady = _this$_pendo.isReady) === null || _this$_pendo$isReady === void 0 ? void 0 : _this$_pendo$isReady.call(_this$_pendo))) {
+        this._pendo.track("".concat(trackProps.appName, "-").concat(event), trackProps);
       }
     }
   }, {
@@ -673,14 +674,14 @@ var Analytics = (_dec = (0, _di.Module)({
       var _this$_accountInfo3;
 
       if (((_this$_accountInfo3 = this._accountInfo) === null || _this$_accountInfo3 === void 0 ? void 0 : _this$_accountInfo3.actionTypes.initSuccess) === action.type) {
-        var _this$_auth3, _this$_extensionFeatu;
+        var _this$_auth3, _this$_tierChecker;
 
         this._identify({
           userId: (_this$_auth3 = this._auth) === null || _this$_auth3 === void 0 ? void 0 : _this$_auth3.ownerId,
           accountId: this._accountInfo.id,
           servicePlanId: this._accountInfo.servicePlan.id,
           edition: this._accountInfo.servicePlan.edition,
-          CRMEnabled: (_this$_extensionFeatu = this._extensionFeatures) === null || _this$_extensionFeatu === void 0 ? void 0 : _this$_extensionFeatu.isCRMEnabled
+          CRMEnabled: (_this$_tierChecker = this._tierChecker) === null || _this$_tierChecker === void 0 ? void 0 : _this$_tierChecker.isCRMEnabled
         });
       }
     }

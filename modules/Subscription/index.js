@@ -119,7 +119,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
 
-var DEFAULT_TIME_TO_RETRY = 60 * 1000;
+var DEFAULT_TIME_TO_RETRY = 20 * 1000;
 /**
  * @class
  * @description Subscription module to subscibe notification
@@ -249,27 +249,41 @@ var Subscription = (_dec = (0, _di.Module)({
 
       var t = Date.now();
       this._sleepTimeout = setTimeout( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
+        var renewPromise;
         return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
                 if (!(_this3.ready && _this3._subscription && Date.now() - t > 75 * 1000)) {
+                  _context3.next = 9;
+                  break;
+                }
+
+                console.log('==== Sleep Detected ===='); // to wait automatic renew finish
+
+                renewPromise = _this3._subscription.automaticRenewing();
+
+                if (!renewPromise) {
                   _context3.next = 6;
                   break;
                 }
 
-                console.log('==== Sleep Detected ====');
-                _context3.next = 4;
-                return _this3.remove();
-
-              case 4:
                 _context3.next = 6;
-                return _this3._subscribe();
+                return renewPromise;
 
               case 6:
+                if (!_this3._subscription) {
+                  _context3.next = 9;
+                  break;
+                }
+
+                _context3.next = 9;
+                return _this3._subscription.resubscribeAtPubNub();
+
+              case 9:
                 _this3._detectSleep();
 
-              case 7:
+              case 10:
               case "end":
                 return _context3.stop();
             }
@@ -328,6 +342,8 @@ var Subscription = (_dec = (0, _di.Module)({
       this._subscription.on(this._subscription.events.renewError, function (error) {
         if (_this4._subscription) {
           _this4._subscription.reset();
+
+          _this4._subscription.removeAllListeners();
 
           _this4._subscription = null;
         }
@@ -582,6 +598,8 @@ var Subscription = (_dec = (0, _di.Module)({
                   // check again in case subscription object was removed while waiting
                   this._subscription.reset();
 
+                  this._subscription.removeAllListeners();
+
                   this._subscription = null;
                 }
 
@@ -646,7 +664,7 @@ var Subscription = (_dec = (0, _di.Module)({
                 this._stopRetry();
 
                 if (!this._subscription) {
-                  _context10.next = 16;
+                  _context10.next = 17;
                   break;
                 }
 
@@ -668,21 +686,23 @@ var Subscription = (_dec = (0, _di.Module)({
                 _context10.t0 = _context10["catch"](5);
 
               case 12:
-                _context10.next = 16;
+                _context10.next = 17;
                 break;
 
               case 14:
                 this._subscription.reset();
 
+                this._subscription.removeAllListeners();
+
                 this._subscription = null;
 
-              case 16:
+              case 17:
                 this._resetPromise = null;
                 this.store.dispatch({
                   type: this.actionTypes.resetSuccess
                 });
 
-              case 18:
+              case 19:
               case "end":
                 return _context10.stop();
             }

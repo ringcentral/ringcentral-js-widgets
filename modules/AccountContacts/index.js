@@ -77,6 +77,8 @@ var _contactHelper = require("../../lib/contactHelper");
 
 var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
 
+var _phoneTypeHelper = require("../../lib/phoneTypeHelper");
+
 var _selector = require("../../lib/selector");
 
 var _actionTypes = require("./actionTypes");
@@ -130,11 +132,11 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
 var MaximumBatchGetPresence = 30;
 var DEFAULT_TTL = 30 * 60 * 1000; // 30 mins
 
-var DEFAULT_PRESENCETTL = 10 * 60 * 1000; // 10 mins
+var DEFAULT_PRESENCE_TTL = 10 * 60 * 1000; // 10 mins
 
-var DEFAULT_AVATARTTL = 2 * 60 * 60 * 1000; // 2 hour
+var DEFAULT_AVATAR_TTL = 2 * 60 * 60 * 1000; // 2 hour
 
-var DEFAULT_AVATARQUERYINTERVAL = 2 * 1000; // 2 seconds
+var DEFAULT_AVATAR_QUERY_INTERVAL = 2 * 1000; // 2 seconds
 
 /**
  * @class
@@ -176,11 +178,11 @@ var AccountContacts = (_dec = (0, _di.Module)({
         _ref$ttl = _ref.ttl,
         ttl = _ref$ttl === void 0 ? DEFAULT_TTL : _ref$ttl,
         _ref$avatarTtl = _ref.avatarTtl,
-        avatarTtl = _ref$avatarTtl === void 0 ? DEFAULT_AVATARTTL : _ref$avatarTtl,
+        avatarTtl = _ref$avatarTtl === void 0 ? DEFAULT_AVATAR_TTL : _ref$avatarTtl,
         _ref$presenceTtl = _ref.presenceTtl,
-        presenceTtl = _ref$presenceTtl === void 0 ? DEFAULT_PRESENCETTL : _ref$presenceTtl,
+        presenceTtl = _ref$presenceTtl === void 0 ? DEFAULT_PRESENCE_TTL : _ref$presenceTtl,
         _ref$avatarQueryInter = _ref.avatarQueryInterval,
-        avatarQueryInterval = _ref$avatarQueryInter === void 0 ? DEFAULT_AVATARQUERYINTERVAL : _ref$avatarQueryInter,
+        avatarQueryInterval = _ref$avatarQueryInter === void 0 ? DEFAULT_AVATAR_QUERY_INTERVAL : _ref$avatarQueryInter,
         options = _objectWithoutProperties(_ref, ["client", "companyContacts", "extensionInfo", "ttl", "avatarTtl", "presenceTtl", "avatarQueryInterval"]);
 
     _classCallCheck(this, AccountContacts);
@@ -684,11 +686,9 @@ var AccountContacts = (_dec = (0, _di.Module)({
 
         if (item.phoneNumbers && item.phoneNumbers.length > 0) {
           item.phoneNumbers.forEach(function (phone) {
-            if (phone.type) {
-              contact.phoneNumbers.push(_objectSpread(_objectSpread({}, phone), {}, {
-                phoneType: _phoneTypes.phoneTypes.direct
-              }));
-            }
+            (0, _phoneTypeHelper.isSupportedPhoneNumber)(phone) && contact.phoneNumbers.push(_objectSpread(_objectSpread({}, phone), {}, {
+              phoneType: (0, _phoneTypeHelper.convertUsageTypeToPhoneType)(phone === null || phone === void 0 ? void 0 : phone.usageType)
+            }));
           });
         }
 

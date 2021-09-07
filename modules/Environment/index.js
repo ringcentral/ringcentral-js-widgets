@@ -154,7 +154,7 @@ _dec = (0, _di.Module)({
     _this._serverStorageKey = 'environmentServer';
     _this._recordingHostStoragekey = 'environmentRecordingHost';
     _this._enabledStorageKey = 'environmentEnabled';
-    _this._defaultRecordingHost = (_environmentOptions$d = environmentOptions.defaultRecordingHost) !== null && _environmentOptions$d !== void 0 ? _environmentOptions$d : 'https://s3.ap-northeast-2.amazonaws.com/fetch-call-recording/test/index.html';
+    _this._defaultRecordingHost = (_environmentOptions$d = environmentOptions.defaultRecordingHost) !== null && _environmentOptions$d !== void 0 ? _environmentOptions$d : 'https://apps.ringcentral.com/integrations/recording/index.html';
 
     _this._globalStorage.registerReducer({
       key: _this._serverStorageKey,

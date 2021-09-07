@@ -49,6 +49,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.CallHistory = void 0;
 
+require("core-js/modules/es6.array.map");
+
 require("core-js/modules/es6.array.index-of");
 
 require("core-js/modules/es6.function.name");
@@ -60,8 +62,6 @@ require("core-js/modules/es6.array.sort");
 require("core-js/modules/es6.string.trim");
 
 require("regenerator-runtime/runtime");
-
-require("core-js/modules/es6.array.map");
 
 require("core-js/modules/es6.array.for-each");
 
@@ -79,9 +79,9 @@ var _di = require("../../lib/di");
 
 var _callLogHelpers = require("../../lib/callLogHelpers");
 
-var _normalizeNumber = _interopRequireDefault(require("../../lib/normalizeNumber"));
+var _normalizeNumber = require("../../lib/normalizeNumber");
 
-var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
+var _proxify = require("../../lib/proxy/proxify");
 
 var _debounce = _interopRequireDefault(require("../../lib/debounce"));
 
@@ -91,7 +91,7 @@ var _Analytics = require("../Analytics");
 
 var _CallingSettingsV = require("../CallingSettingsV2");
 
-var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _class, _class2, _descriptor, _descriptor2, _descriptor3;
+var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -189,7 +189,7 @@ var CallHistory = (_dec = (0, _di.Module)({
   var _super = _createSuper(CallHistory);
 
   function CallHistory(deps) {
-    var _deps$callHistoryOpti, _deps$callHistoryOpti2, _this$_deps$contactMa, _this$_deps$activityM;
+    var _deps$callHistoryOpti, _deps$callHistoryOpti2, _this$_deps$callHisto, _this$_deps$callHisto2, _this$_deps$activityM;
 
     var _this;
 
@@ -208,14 +208,21 @@ var CallHistory = (_dec = (0, _di.Module)({
 
     _initializerDefineProperty(_this, "filteredCalls", _descriptor3, _assertThisInitialized(_this));
 
-    (_this$_deps$contactMa = _this._deps.contactMatcher) === null || _this$_deps$contactMa === void 0 ? void 0 : _this$_deps$contactMa.addQuerySource({
-      getQueriesFn: function getQueriesFn() {
-        return _this.uniqueNumbers;
-      },
-      readyCheckFn: function readyCheckFn() {
-        return (!_this._deps.callMonitor || _this._deps.callMonitor.ready) && (!_this._deps.tabManager || _this._deps.tabManager.ready) && _this._deps.callLog.ready && _this._deps.accountInfo.ready;
-      }
-    });
+    _initializerDefineProperty(_this, "markedList", _descriptor4, _assertThisInitialized(_this));
+
+    var enableContactMatchInCallHistory = (_this$_deps$callHisto = (_this$_deps$callHisto2 = _this._deps.callHistoryOptions) === null || _this$_deps$callHisto2 === void 0 ? void 0 : _this$_deps$callHisto2.enableContactMatchInCallHistory) !== null && _this$_deps$callHisto !== void 0 ? _this$_deps$callHisto : true;
+
+    if (enableContactMatchInCallHistory && _this._deps.contactMatcher) {
+      _this._deps.contactMatcher.addQuerySource({
+        getQueriesFn: function getQueriesFn() {
+          return _this.uniqueNumbers;
+        },
+        readyCheckFn: function readyCheckFn() {
+          return (!_this._deps.callMonitor || _this._deps.callMonitor.ready) && (!_this._deps.tabManager || _this._deps.tabManager.ready) && _this._deps.callLog.ready && _this._deps.accountInfo.ready;
+        }
+      });
+    }
+
     (_this$_deps$activityM = _this._deps.activityMatcher) === null || _this$_deps$activityM === void 0 ? void 0 : _this$_deps$activityM.addQuerySource({
       getQueriesFn: function getQueriesFn() {
         return _this.sessionIds;
@@ -273,6 +280,20 @@ var CallHistory = (_dec = (0, _di.Module)({
       });
     }
   }, {
+    key: "removeAllEndedCalls",
+    value: function removeAllEndedCalls() {
+      this.endedCalls = [];
+      this.markedList = [];
+      this.markRemoved();
+    } // The call logs which has been removed from remote
+    // The marked telephonySessionId should not been added to ended calls afterwards.
+
+  }, {
+    key: "markRemoved",
+    value: function markRemoved() {
+      this.markedList = this.markedList.concat(this._deps.callMonitor.calls);
+    }
+  }, {
     key: "onInitOnce",
     value: function onInitOnce() {
       var _this3 = this;
@@ -307,6 +328,10 @@ var CallHistory = (_dec = (0, _di.Module)({
           }) && // if the call's callLog has been fetch, skip
           !_this3._deps.callLog.calls.find(function (currentCall) {
             return call.telephonySessionId === currentCall.telephonySessionId;
+          }) && // if delete all during active call
+          !_this3.markedList.find(function (currentCall) {
+            var flag = call.telephonySessionId === currentCall.telephonySessionId;
+            return flag;
           });
         });
 
@@ -341,12 +366,11 @@ var CallHistory = (_dec = (0, _di.Module)({
   }, {
     key: "_addEndedCalls",
     value: function _addEndedCalls(endedCalls) {
-      var disconnectedCalls = endedCalls.map(function (call) {
-        return _objectSpread(_objectSpread({}, call), {}, {
-          result: 'Disconnected'
-        });
+      endedCalls.forEach(function (call) {
+        // TODO: refactor with immutable data update
+        call.result = 'Disconnected';
       });
-      this.setEndedCalls(disconnectedCalls, Date.now());
+      this.setEndedCalls(endedCalls, Date.now());
 
       this._deps.callLog.sync();
     } // TODO: move to UI module
@@ -420,6 +444,26 @@ var CallHistory = (_dec = (0, _di.Module)({
 
       return updateSearchInput;
     }()
+  }, {
+    key: "findMatches",
+
+    /**
+     * Allow sub class to have different find matches logic.
+     * @param contactMapping
+     * @param call
+     * @returns
+     */
+    value: function findMatches(contactMapping, call) {
+      var pickNumber = this.enableFullPhoneNumberMatch ? _callHistoryHelper.pickFullPhoneNumber : _callHistoryHelper.pickPhoneOrExtensionNumber;
+      var fromNumber = call.from && pickNumber(call.from.phoneNumber, call.from.extensionNumber);
+      var toNumber = call.to && pickNumber(call.to.phoneNumber, call.to.extensionNumber);
+      var fromMatches = fromNumber && contactMapping[fromNumber] || [];
+      var toMatches = toNumber && contactMapping[toNumber] || [];
+      return {
+        fromMatches: fromMatches,
+        toMatches: toMatches
+      };
+    }
   }, {
     key: "debouncedSearch",
     value: function () {
@@ -522,7 +566,7 @@ var CallHistory = (_dec = (0, _di.Module)({
         var callFrom = _objectSpread({}, call.from);
 
         if (callFrom.phoneNumber) {
-          callFrom.phoneNumber = (0, _normalizeNumber["default"])({
+          callFrom.phoneNumber = (0, _normalizeNumber.normalizeNumber)({
             phoneNumber: callFrom.phoneNumber,
             countryCode: _this4._deps.accountInfo.countryCode
           });
@@ -531,7 +575,7 @@ var CallHistory = (_dec = (0, _di.Module)({
         var callTo = _objectSpread({}, call.to);
 
         if (callTo.phoneNumber) {
-          callTo.phoneNumber = (0, _normalizeNumber["default"])({
+          callTo.phoneNumber = (0, _normalizeNumber.normalizeNumber)({
             phoneNumber: callTo.phoneNumber,
             countryCode: _this4._deps.accountInfo.countryCode
           });
@@ -544,22 +588,36 @@ var CallHistory = (_dec = (0, _di.Module)({
       }).sort(_callLogHelpers.sortByStartTime);
     }
   }, {
+    key: "enableFullPhoneNumberMatch",
+    get: function get() {
+      var _this$_deps$callHisto3, _this$_deps$callHisto4;
+
+      return (_this$_deps$callHisto3 = (_this$_deps$callHisto4 = this._deps.callHistoryOptions) === null || _this$_deps$callHisto4 === void 0 ? void 0 : _this$_deps$callHisto4.enableFullPhoneNumberMatch) !== null && _this$_deps$callHisto3 !== void 0 ? _this$_deps$callHisto3 : false;
+    }
+  }, {
     key: "calls",
     get: function get() {
-      var _this$_deps$contactMa2, _this$_deps$contactMa3, _this$_deps$activityM2, _this$_deps$activityM3, _this$_deps$callMonit, _this$_deps$callMonit2;
+      var _this$_deps$contactMa,
+          _this$_deps$contactMa2,
+          _this$_deps$activityM2,
+          _this$_deps$activityM3,
+          _this$_deps$callMonit,
+          _this$_deps$callMonit2,
+          _this5 = this;
 
-      var contactMapping = (_this$_deps$contactMa2 = (_this$_deps$contactMa3 = this._deps.contactMatcher) === null || _this$_deps$contactMa3 === void 0 ? void 0 : _this$_deps$contactMa3.dataMapping) !== null && _this$_deps$contactMa2 !== void 0 ? _this$_deps$contactMa2 : {};
+      var contactMapping = (_this$_deps$contactMa = (_this$_deps$contactMa2 = this._deps.contactMatcher) === null || _this$_deps$contactMa2 === void 0 ? void 0 : _this$_deps$contactMa2.dataMapping) !== null && _this$_deps$contactMa !== void 0 ? _this$_deps$contactMa : {};
       var activityMapping = (_this$_deps$activityM2 = (_this$_deps$activityM3 = this._deps.activityMatcher) === null || _this$_deps$activityM3 === void 0 ? void 0 : _this$_deps$activityM3.dataMapping) !== null && _this$_deps$activityM2 !== void 0 ? _this$_deps$activityM2 : {};
       var callMatched = (_this$_deps$callMonit = (_this$_deps$callMonit2 = this._deps.callMonitor) === null || _this$_deps$callMonit2 === void 0 ? void 0 : _this$_deps$callMonit2.callMatched) !== null && _this$_deps$callMonit !== void 0 ? _this$_deps$callMonit : {};
       var telephonySessionIds = {};
       var calls = this.normalizedCalls.map(function (call) {
         telephonySessionIds[call.telephonySessionId] = true;
-        var fromNumber = call.from && (call.from.phoneNumber || call.from.extensionNumber);
-        var toNumber = call.to && (call.to.phoneNumber || call.to.extensionNumber);
         var fromName = call.from.name || call.from.phoneNumber;
         var toName = call.to.name || call.to.phoneNumber;
-        var fromMatches = fromNumber && contactMapping[fromNumber] || [];
-        var toMatches = toNumber && contactMapping[toNumber] || [];
+
+        var _this5$findMatches = _this5.findMatches(contactMapping, call),
+            fromMatches = _this5$findMatches.fromMatches,
+            toMatches = _this5$findMatches.toMatches;
+
         var activityMatches = activityMapping[call.sessionId] || [];
         var matched = callMatched[call.sessionId];
         return _objectSpread(_objectSpread({}, call), {}, {
@@ -591,14 +649,14 @@ var CallHistory = (_dec = (0, _di.Module)({
     key: "latestCalls",
     get: function get() {
       var _this$_deps$activityM4,
-          _this5 = this;
+          _this6 = this;
 
       if ((_this$_deps$activityM4 = this._deps.activityMatcher) === null || _this$_deps$activityM4 === void 0 ? void 0 : _this$_deps$activityM4.dataMapping) {
         var newCalls = this.filterCalls.map(function (call) {
-          var _this5$_deps$activity;
+          var _this6$_deps$activity;
 
           return _objectSpread(_objectSpread({}, call), {}, {
-            activityMatches: ((_this5$_deps$activity = _this5._deps.activityMatcher) === null || _this5$_deps$activity === void 0 ? void 0 : _this5$_deps$activity.dataMapping[call.sessionId]) || []
+            activityMatches: ((_this6$_deps$activity = _this6._deps.activityMatcher) === null || _this6$_deps$activity === void 0 ? void 0 : _this6$_deps$activity.dataMapping[call.sessionId]) || []
           });
         });
         return newCalls;
@@ -611,8 +669,8 @@ var CallHistory = (_dec = (0, _di.Module)({
     get: function get() {
       var output = [];
       var numberMap = {};
-      this.normalizedCalls.forEach((0, _callHistoryHelper.addNumbersFromCall)(output, numberMap));
-      this.endedCalls.forEach((0, _callHistoryHelper.addNumbersFromCall)(output, numberMap));
+      this.normalizedCalls.forEach((0, _callHistoryHelper.addNumbersFromCall)(output, numberMap, this.enableFullPhoneNumberMatch));
+      this.endedCalls.forEach((0, _callHistoryHelper.addNumbersFromCall)(output, numberMap, this.enableFullPhoneNumberMatch));
       return output;
     }
   }, {
@@ -672,6 +730,13 @@ var CallHistory = (_dec = (0, _di.Module)({
   initializer: function initializer() {
     return [];
   }
-}), _applyDecoratedDescriptor(_class2.prototype, "filterSuccess", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "filterSuccess"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setSearchInput", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setSearchInput"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setEndedCalls", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setEndedCalls"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "removeEndedCalls", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "removeEndedCalls"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "onClickToSMS", [_proxify["default"], _dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "onClickToSMS"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "onClickToCall", [_proxify["default"], _dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "onClickToCall"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateSearchInput", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "updateSearchInput"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "normalizedCalls", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "normalizedCalls"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "calls", [_dec5], Object.getOwnPropertyDescriptor(_class2.prototype, "calls"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "debouncedSearch", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "debouncedSearch"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "callsSearch", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "callsSearch"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "latestCalls", [_dec6], Object.getOwnPropertyDescriptor(_class2.prototype, "latestCalls"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "uniqueNumbers", [_dec7], Object.getOwnPropertyDescriptor(_class2.prototype, "uniqueNumbers"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "sessionIds", [_dec8], Object.getOwnPropertyDescriptor(_class2.prototype, "sessionIds"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "filterCalls", [_dec9], Object.getOwnPropertyDescriptor(_class2.prototype, "filterCalls"), _class2.prototype)), _class2)) || _class);
+}), _applyDecoratedDescriptor(_class2.prototype, "filterSuccess", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "filterSuccess"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setSearchInput", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setSearchInput"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setEndedCalls", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setEndedCalls"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "removeEndedCalls", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "removeEndedCalls"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "removeAllEndedCalls", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "removeAllEndedCalls"), _class2.prototype), _descriptor4 = _applyDecoratedDescriptor(_class2.prototype, "markedList", [_core.storage, _core.state], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: function initializer() {
+    return [];
+  }
+}), _applyDecoratedDescriptor(_class2.prototype, "markRemoved", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "markRemoved"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "onClickToSMS", [_proxify.proxify, _dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "onClickToSMS"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "onClickToCall", [_proxify.proxify, _dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "onClickToCall"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateSearchInput", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "updateSearchInput"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "normalizedCalls", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "normalizedCalls"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "calls", [_dec5], Object.getOwnPropertyDescriptor(_class2.prototype, "calls"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "debouncedSearch", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "debouncedSearch"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "callsSearch", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "callsSearch"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "latestCalls", [_dec6], Object.getOwnPropertyDescriptor(_class2.prototype, "latestCalls"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "uniqueNumbers", [_dec7], Object.getOwnPropertyDescriptor(_class2.prototype, "uniqueNumbers"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "sessionIds", [_dec8], Object.getOwnPropertyDescriptor(_class2.prototype, "sessionIds"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "filterCalls", [_dec9], Object.getOwnPropertyDescriptor(_class2.prototype, "filterCalls"), _class2.prototype)), _class2)) || _class);
 exports.CallHistory = CallHistory;
 //# sourceMappingURL=CallHistory.js.map

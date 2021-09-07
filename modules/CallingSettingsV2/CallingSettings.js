@@ -31,7 +31,7 @@ require("core-js/modules/es6.object.keys");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.CallingSettings = void 0;
+exports.CallingSettings = exports.BLOCKED_ID_VALUE = void 0;
 
 require("core-js/modules/es6.array.filter");
 
@@ -100,18 +100,23 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
 function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and runs after the decorators transform.'); }
 
 var LOCATION_NUMBER_ORDER = ['Other', 'Main'];
+var BLOCKED_ID_VALUE = 'anonymous';
 /**
  * @class
  * @description Call setting managing module
  */
 
+exports.BLOCKED_ID_VALUE = BLOCKED_ID_VALUE;
 var CallingSettings = (_dec = (0, _di.Module)({
   name: 'CallingSettings',
-  deps: ['Alert', 'Brand', 'Storage', 'ExtensionInfo', 'ExtensionDevice', 'ForwardingNumber', 'ExtensionFeatures', 'ExtensionPhoneNumber', {
+  deps: ['Alert', 'Brand', 'Storage', 'ExtensionInfo', 'ExtensionDevice', 'ForwardingNumber', 'AppFeatures', 'ExtensionFeatures', 'ExtensionPhoneNumber', {
     dep: 'CallerId',
     optional: true
   }, {
     dep: 'Webphone',
+    optional: true
+  }, {
+    dep: 'Softphone',
     optional: true
   }, {
     dep: 'TabManager',
@@ -125,7 +130,7 @@ var CallingSettings = (_dec = (0, _di.Module)({
 }), _dec3 = (0, _core.computed)(function (that) {
   return [that._deps.forwardingNumber.flipNumbers, that._deps.extensionPhoneNumber.callerIdNumbers, that._deps.extensionPhoneNumber.directNumbers];
 }), _dec4 = (0, _core.computed)(function (that) {
-  return [that._deps.extensionFeatures.isRingOutEnabled, that._deps.extensionFeatures.isWebPhoneEnabled, that.otherPhoneNumbers.length, that._deps.extensionPhoneNumber.numbers.length];
+  return [that._deps.appFeatures.isRingOutEnabled, that._deps.appFeatures.isWebPhoneEnabled, that.otherPhoneNumbers.length, that._deps.extensionPhoneNumber.numbers.length];
 }), _dec5 = (0, _core.computed)(function (that) {
   return [that._deps.extensionPhoneNumber.callerIdNumbers];
 }), _dec6 = (0, _core.computed)(function (that) {
@@ -155,6 +160,7 @@ var CallingSettings = (_dec = (0, _di.Module)({
     _this._otherPhoneNumbers = void 0;
     _this._webphoneEnabled = void 0;
     _this.initRingoutPrompt = void 0;
+    _this._blockedIdDisabled = void 0;
     _this._showCallWithJupiter = void 0;
     _this._emergencyCallAvailable = void 0;
     _this._availableNumbers = void 0;
@@ -241,18 +247,19 @@ var CallingSettings = (_dec = (0, _di.Module)({
             switch (_context2.prev = _context2.next) {
               case 0:
                 if (!(!this._shouldReset() && !this._shouldInit() && this._shouldValidate())) {
-                  _context2.next = 7;
+                  _context2.next = 8;
                   break;
                 }
 
-                this._ringoutEnabled = this._deps.extensionFeatures.isRingOutEnabled;
-                this._webphoneEnabled = this._deps.extensionFeatures.isWebPhoneEnabled;
+                this._ringoutEnabled = this._deps.appFeatures.isRingOutEnabled;
+                this._webphoneEnabled = this._deps.appFeatures.isWebPhoneEnabled;
                 this._myPhoneNumbers = this.myPhoneNumbers;
                 this._otherPhoneNumbers = this.otherPhoneNumbers;
-                _context2.next = 7;
+                this._blockedIdDisabled = this.isBlockedIdDisabled;
+                _context2.next = 8;
                 return this._validateSettings();
 
-              case 7:
+              case 8:
               case "end":
                 return _context2.stop();
             }
@@ -269,7 +276,7 @@ var CallingSettings = (_dec = (0, _di.Module)({
   }, {
     key: "_shouldValidate",
     value: function _shouldValidate() {
-      return this.ready && (this._ringoutEnabled !== this._deps.extensionFeatures.isRingOutEnabled || this._webphoneEnabled !== this._deps.extensionFeatures.isWebPhoneEnabled || this._myPhoneNumbers !== this.myPhoneNumbers || this._otherPhoneNumbers !== this.otherPhoneNumbers);
+      return this.ready && (this._ringoutEnabled !== this._deps.appFeatures.isRingOutEnabled || this._webphoneEnabled !== this._deps.appFeatures.isWebPhoneEnabled || this._myPhoneNumbers !== this.myPhoneNumbers || this._otherPhoneNumbers !== this.otherPhoneNumbers || this._blockedIdDisabled !== this.isBlockedIdDisabled);
     }
   }, {
     key: "onInit",
@@ -302,15 +309,34 @@ var CallingSettings = (_dec = (0, _di.Module)({
       this.resetSuccess();
     }
   }, {
+    key: "_handleFirstTimeLogin",
+    value: function _handleFirstTimeLogin() {
+      if (!this.timestamp) {
+        // first time login
+        var defaultCallWith = this.callWithOptions && this.callWithOptions[0];
+        this.setDataAction({
+          callWith: defaultCallWith,
+          timestamp: Date.now()
+        });
+
+        if (!this._emergencyCallAvailable) {
+          this._warningEmergencyCallingNotAvailable();
+        }
+
+        if (typeof this._onFirstLogin === 'function') {
+          this._onFirstLogin();
+        }
+      }
+    }
+  }, {
     key: "_init",
     value: function () {
       var _init2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
-        var defaultCallWith;
         return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                if (this._deps.extensionFeatures.isCallingEnabled) {
+                if (this._deps.appFeatures.isCallingEnabled) {
                   _context4.next = 2;
                   break;
                 }
@@ -321,25 +347,11 @@ var CallingSettings = (_dec = (0, _di.Module)({
                 this._myPhoneNumbers = this.myPhoneNumbers;
                 this._otherPhoneNumbers = this.otherPhoneNumbers;
                 this._availableNumbers = this.availableNumbers;
-                this._ringoutEnabled = this._deps.extensionFeatures.isRingOutEnabled;
-                this._webphoneEnabled = this._deps.extensionFeatures.isWebPhoneEnabled;
+                this._ringoutEnabled = this._deps.appFeatures.isRingOutEnabled;
+                this._webphoneEnabled = this._deps.appFeatures.isWebPhoneEnabled;
+                this._blockedIdDisabled = this.isBlockedIdDisabled;
 
-                if (!this.timestamp) {
-                  // first time login
-                  defaultCallWith = this.callWithOptions && this.callWithOptions[0];
-                  this.setDataAction({
-                    callWith: defaultCallWith,
-                    timestamp: Date.now()
-                  });
-
-                  if (!this._emergencyCallAvailable) {
-                    this._warningEmergencyCallingNotAvailable();
-                  }
-
-                  if (typeof this._onFirstLogin === 'function') {
-                    this._onFirstLogin();
-                  }
-                }
+                this._handleFirstTimeLogin();
 
                 if (this.callWith === _deprecatedCallingOptions.deprecatedCallingOptions.myphone || this.callWith === _deprecatedCallingOptions.deprecatedCallingOptions.otherphone || this.callWith === _deprecatedCallingOptions.deprecatedCallingOptions.customphone) {
                   this.setDataAction({
@@ -348,14 +360,14 @@ var CallingSettings = (_dec = (0, _di.Module)({
                   });
                 }
 
-                _context4.next = 11;
+                _context4.next = 12;
                 return this._validateSettings();
 
-              case 11:
-                _context4.next = 13;
+              case 12:
+                _context4.next = 14;
                 return this._initFromNumber();
 
-              case 13:
+              case 14:
               case "end":
                 return _context4.stop();
             }
@@ -407,41 +419,51 @@ var CallingSettings = (_dec = (0, _di.Module)({
             switch (_context6.prev = _context6.next) {
               case 0:
                 if (!this._hasWebphonePermissionRemoved()) {
-                  _context6.next = 6;
+                  _context6.next = 7;
                   break;
                 }
 
-                _context6.next = 3;
+                if (!this._deps.appFeatures.isSoftphoneEnabled) {
+                  _context6.next = 4;
+                  break;
+                }
+
+                _context6.next = 4;
                 return this._setSoftPhoneToCallWith();
 
-              case 3:
+              case 4:
                 this._deps.alert.danger({
                   message: _callingSettingsMessages.callingSettingsMessages.webphonePermissionRemoved,
                   ttl: 0
                 });
 
-                _context6.next = 13;
+                _context6.next = 15;
                 break;
 
-              case 6:
+              case 7:
                 if (!this._hasPermissionChanged()) {
-                  _context6.next = 12;
+                  _context6.next = 14;
                   break;
                 }
 
-                _context6.next = 9;
+                if (!this._deps.appFeatures.isSoftphoneEnabled) {
+                  _context6.next = 11;
+                  break;
+                }
+
+                _context6.next = 11;
                 return this._setSoftPhoneToCallWith();
 
-              case 9:
+              case 11:
                 this._deps.alert.danger({
                   message: _callingSettingsMessages.callingSettingsMessages.permissionChanged,
                   ttl: 0
                 });
 
-                _context6.next = 13;
+                _context6.next = 15;
                 break;
 
-              case 12:
+              case 14:
                 if (this._hasPhoneNumberChanged()) {
                   this.setDataAction({
                     callWith: _callingOptions.callingOptions.ringout,
@@ -455,7 +477,12 @@ var CallingSettings = (_dec = (0, _di.Module)({
                   });
                 }
 
-              case 13:
+              case 15:
+                if (this.isBlockedIdDisabled && this.fromNumber === BLOCKED_ID_VALUE) {
+                  this._initFromNumber();
+                }
+
+              case 16:
               case "end":
                 return _context6.stop();
             }
@@ -567,7 +594,7 @@ var CallingSettings = (_dec = (0, _di.Module)({
               case 0:
                 fromNumber = this.fromNumber;
 
-                if (fromNumber) {
+                if (!(!fromNumber || fromNumber === BLOCKED_ID_VALUE && this.isBlockedIdDisabled)) {
                   _context8.next = 6;
                   break;
                 }
@@ -575,9 +602,9 @@ var CallingSettings = (_dec = (0, _di.Module)({
                 defaultCallerId = this.fromNumbers[0];
 
                 if ((_this$_deps$callerId = this._deps.callerId) === null || _this$_deps$callerId === void 0 ? void 0 : _this$_deps$callerId.ringOut) {
-                  if (this._deps.callerId.ringOut.type === 'Blocked') {
+                  if (this._deps.callerId.ringOut.type === 'Blocked' && !this.isBlockedIdDisabled) {
                     defaultCallerId = {
-                      phoneNumber: 'anonymous'
+                      phoneNumber: BLOCKED_ID_VALUE
                     };
                   } else if (this._deps.callerId.ringOut.type === 'PhoneNumber') {
                     defaultPhoneNumber = (_this$_deps$callerId2 = this._deps.callerId) === null || _this$_deps$callerId2 === void 0 ? void 0 : (_this$_deps$callerId3 = _this$_deps$callerId2.ringOut.phoneInfo) === null || _this$_deps$callerId3 === void 0 ? void 0 : _this$_deps$callerId3.phoneNumber;
@@ -733,13 +760,17 @@ var CallingSettings = (_dec = (0, _di.Module)({
   }, {
     key: "callWithOptions",
     get: function get() {
-      var _this$_deps$extension3 = this._deps.extensionFeatures,
-          isRingOutEnabled = _this$_deps$extension3.isRingOutEnabled,
-          isWebPhoneEnabled = _this$_deps$extension3.isWebPhoneEnabled;
+      var _this$_deps$appFeatur = this._deps.appFeatures,
+          isRingOutEnabled = _this$_deps$appFeatur.isRingOutEnabled,
+          isWebPhoneEnabled = _this$_deps$appFeatur.isWebPhoneEnabled;
       var hasExtensionPhoneNumber = this._deps.extensionPhoneNumber.numbers.length > 0;
 
-      if (!hasExtensionPhoneNumber) {
+      if (!hasExtensionPhoneNumber && this._deps.appFeatures.isSoftphoneEnabled) {
         return [_callingOptions.callingOptions.softphone];
+      }
+
+      if (!hasExtensionPhoneNumber && !this._deps.appFeatures.isSoftphoneEnabled) {
+        return [];
       }
 
       var callWithOptions = [];
@@ -748,13 +779,15 @@ var CallingSettings = (_dec = (0, _di.Module)({
         callWithOptions.push(_callingOptions.callingOptions.browser);
       }
 
-      if (this._deps.brand && this._showCallWithJupiter) {
+      if (this._deps.brand && this._showCallWithJupiter && this._deps.appFeatures.isRingCentralAppEnabled) {
         callWithOptions.push(_callingOptions.callingOptions.jupiter);
       }
 
-      callWithOptions.push(_callingOptions.callingOptions.softphone);
+      if (this._deps.appFeatures.isSoftphoneEnabled) {
+        callWithOptions.push(_callingOptions.callingOptions.softphone);
+      }
 
-      if (isRingOutEnabled) {
+      if (isRingOutEnabled && this._deps.appFeatures.isRingOutEnabled) {
         callWithOptions.push(_callingOptions.callingOptions.ringout);
       }
 
@@ -825,6 +858,22 @@ var CallingSettings = (_dec = (0, _di.Module)({
     key: "isChangeRingToneAllowed",
     get: function get() {
       return this._deps.webphone && (this._deps.storage.driver === 'INDEXEDDB' || this._deps.storage.driver === 'WEBSQL');
+    }
+  }, {
+    key: "jupiterAppName",
+    get: function get() {
+      var _this$_deps$softphone;
+
+      return (_this$_deps$softphone = this._deps.softphone) === null || _this$_deps$softphone === void 0 ? void 0 : _this$_deps$softphone.jupiterAppName;
+    }
+    /* India go */
+
+  }, {
+    key: "isBlockedIdDisabled",
+    get: function get() {
+      var _this$_deps$extension3, _this$_deps$extension4;
+
+      return ((_this$_deps$extension3 = this._deps.extensionFeatures.features) === null || _this$_deps$extension3 === void 0 ? void 0 : (_this$_deps$extension4 = _this$_deps$extension3.BlockingCallerId) === null || _this$_deps$extension4 === void 0 ? void 0 : _this$_deps$extension4.available) === false;
     }
   }]);
 
