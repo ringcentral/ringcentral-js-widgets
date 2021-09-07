@@ -30,7 +30,7 @@ const dialoutStatusMapping: Record<
 const LinkSizeMapping: Record<RcLinkSize, RcTypographyVariant> = {
   small: 'caption1',
   medium: 'body1',
-  large: 'headline',
+  large: 'headline1',
 };
 
 export type DialerPanelProps = EvDialerUIProps & EvDialerUIFunctions;

@@ -61,7 +61,7 @@ export type EvActivityCallUIProps = {
   disableInternalTransfer: boolean;
   showMuteButton: boolean;
   ivrAlertData: EvIvrData[];
-  agentScriptData: EvAgentScriptData;
+  agentScriptData?: EvAgentScriptData;
   referenceFieldOptions?: CallLogFieldsProps['referenceFieldOptions'];
   recordPauseCount: number;
   timeStamp: number;

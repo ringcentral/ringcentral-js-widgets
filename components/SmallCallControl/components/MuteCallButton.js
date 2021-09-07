@@ -17,6 +17,8 @@ var _help = require("../help");
 
 var _i18n = _interopRequireDefault(require("../i18n"));
 
+var _getIconColor = require("./getIconColor");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var MuteCallButton = function MuteCallButton(_ref) {
@@ -34,12 +36,10 @@ var MuteCallButton = function MuteCallButton(_ref) {
   }),
       muteTitle = _getCircleIconButtonT.muteTitle;
 
-  var color = disableMute ? 'icon.disabled' : 'icon.dark';
-
-  if (isOnMute) {
-    color = 'icon.primary';
-  }
-
+  var color = (0, _getIconColor.getIconColor)({
+    active: isOnMute,
+    disable: disableMute
+  });
   return /*#__PURE__*/_react["default"].createElement(_juno.RcIconButton, {
     "data-sign": dataSign,
     symbol: isOnMute ? _icon.MicOff : _icon.Mic,

@@ -51,7 +51,7 @@ var dialoutStatusMapping = {
 var LinkSizeMapping = {
   small: 'caption1',
   medium: 'body1',
-  large: 'headline'
+  large: 'headline1'
 };
 var DialButton = (0, _juno.styled)(_juno.RcIconButton)(_templateObject());
 

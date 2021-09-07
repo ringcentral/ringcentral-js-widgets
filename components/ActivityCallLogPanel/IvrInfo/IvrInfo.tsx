@@ -1,7 +1,7 @@
 import { RcAccordion } from '@ringcentral/juno/components/Accordion';
 import { RcAccordionDetails } from '@ringcentral/juno/components/Accordion/AccordionDetails';
 import { RcAccordionSummary } from '@ringcentral/juno/components/Accordion/AccordionSummary';
-import arrowDownSvg from '@ringcentral/juno/icon/ArrowDown2';
+import { ArrowDown2 } from '@ringcentral/juno/icon';
 import classNames from 'classnames';
 import React, { FunctionComponent, useEffect, useState } from 'react';
 
@@ -54,7 +54,7 @@ export const IvrInfo: FunctionComponent<IvrInfoProps> = ({
             IconButtonProps={{
               size: 'small',
             }}
-            expandIcon={arrowDownSvg}
+            expandIcon={ArrowDown2}
           >
             <span
               className={classNames(

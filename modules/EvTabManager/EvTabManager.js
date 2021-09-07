@@ -43,7 +43,7 @@ var _core = require("@ringcentral-integration/core");
 
 var _di = require("@ringcentral-integration/commons/lib/di");
 
-var _TabManagerV = require("@ringcentral-integration/commons/modules/TabManagerV2");
+var _TabManager2 = require("@ringcentral-integration/commons/modules/TabManager");
 
 var _events = require("events");
 
@@ -182,7 +182,7 @@ var EvTabManager = (_dec = (0, _di.Module)({
   }]);
 
   return EvTabManager;
-}(_TabManagerV.TabManager), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "mainTabId", [_core.globalStorage, _core.state], {
+}(_TabManager2.TabManager), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "mainTabId", [_core.globalStorage, _core.state], {
   configurable: true,
   enumerable: true,
   writable: true,

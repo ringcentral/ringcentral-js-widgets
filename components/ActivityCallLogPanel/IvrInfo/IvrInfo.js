@@ -43,7 +43,7 @@ var _AccordionDetails = require("@ringcentral/juno/components/Accordion/Accordio
 
 var _AccordionSummary = require("@ringcentral/juno/components/Accordion/AccordionSummary");
 
-var _ArrowDown = _interopRequireDefault(require("@ringcentral/juno/icon/ArrowDown2"));
+var _icon = require("@ringcentral/juno/icon");
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
@@ -107,7 +107,7 @@ var IvrInfo = function IvrInfo(_ref) {
     IconButtonProps: {
       size: 'small'
     },
-    expandIcon: _ArrowDown["default"]
+    expandIcon: _icon.ArrowDown2
   }, /*#__PURE__*/_react["default"].createElement("span", {
     className: (0, _classnames["default"])(_styles["default"].ivrMainSubject, agentScriptData && _styles["default"].summaryAgentScriptIconWidth)
   }, ivrAlertData[0].subject || ''), ivrAlertData.length > 1 ? /*#__PURE__*/_react["default"].createElement("span", {

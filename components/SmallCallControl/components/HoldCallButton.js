@@ -7,15 +7,17 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.HoldCallButton = void 0;
 
-var _react = _interopRequireDefault(require("react"));
-
 var _juno = require("@ringcentral/juno");
 
 var _icon = require("@ringcentral/juno/icon");
 
+var _react = _interopRequireDefault(require("react"));
+
 var _help = require("../help");
 
 var _i18n = _interopRequireDefault(require("../i18n"));
+
+var _getIconColor = require("./getIconColor");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -34,12 +36,10 @@ var HoldCallButton = function HoldCallButton(_ref) {
   }),
       holdTitle = _getCircleIconButtonT.holdTitle;
 
-  var color = disableHold ? 'icon.disabled' : 'icon.dark';
-
-  if (isOnHold) {
-    color = 'icon.primary';
-  }
-
+  var color = (0, _getIconColor.getIconColor)({
+    active: isOnHold,
+    disable: disableHold
+  });
   return /*#__PURE__*/_react["default"].createElement(_juno.RcIconButton, {
     symbol: _icon.Hold,
     "data-icon": "hold",

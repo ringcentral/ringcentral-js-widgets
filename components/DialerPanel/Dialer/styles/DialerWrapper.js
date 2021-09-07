@@ -18,7 +18,7 @@ var _juno = require("@ringcentral/juno");
 var _scss = require("../../../../scss");
 
 function _templateObject3() {
-  var data = _taggedTemplateLiteral(["\n  width: 75%;\n  margin: 10px auto 6px;\n\n  [sf-classic] & {\n    width: 90%;\n  }\n"]);
+  var data = _taggedTemplateLiteral(["\n  width: 75%;\n  margin: 10px auto 6px;\n\n  [sf-classic] & {\n    width: 90%;\n  }\n\n  button > span {\n    width: 100%;\n    height: 100%;\n  }\n"]);
 
   _templateObject3 = function _templateObject3() {
     return data;

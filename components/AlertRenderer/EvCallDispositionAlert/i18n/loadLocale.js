@@ -18,23 +18,20 @@ function loadLocale(locale) {
       case 'en-US':
         {
           if (typeof require.ensure === 'function') {
-            require.ensure(['./en-US'], function (require) {
+            return require.ensure(['./en-US'], function (require) {
               var data = require('./en-US');
 
-              resolve(data.__esModule === true ? data["default"] : data);
+              return resolve(data.__esModule === true ? data["default"] : data);
             }, 'en-US');
           } else {
             var data = require('./en-US');
 
-            resolve(data.__esModule === true ? data["default"] : data);
+            return resolve(data.__esModule === true ? data["default"] : data);
           }
-
-          break;
         }
 
       default:
-        resolve({});
-        break;
+        return resolve({});
     }
   });
 }

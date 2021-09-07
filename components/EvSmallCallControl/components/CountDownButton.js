@@ -75,7 +75,7 @@ var CountDown = function CountDown(_ref) {
   var data = _ref.data;
   var count = data > 99 ? '99+' : data;
   return /*#__PURE__*/_react["default"].createElement(_juno.RcText, {
-    color: "text.negative",
+    color: "danger.f02",
     variant: "subheading1",
     "data-sign": "CountDownText"
   }, count);

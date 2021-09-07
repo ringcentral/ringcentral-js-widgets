@@ -15,6 +15,8 @@ var _icon = require("@ringcentral/juno/icon");
 
 var _i18n = _interopRequireDefault(require("../i18n"));
 
+var _getIconColor = require("./getIconColor");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var TransferCallButton = function TransferCallButton(_ref) {
@@ -25,6 +27,10 @@ var TransferCallButton = function TransferCallButton(_ref) {
       size = _ref.size,
       className = _ref.className,
       dataSign = _ref.dataSign;
+  var color = (0, _getIconColor.getIconColor)({
+    active: false,
+    disable: disableTransfer
+  });
   return /*#__PURE__*/_react["default"].createElement(_juno.RcIconButton, {
     ref: transferRef,
     size: size,
@@ -34,7 +40,7 @@ var TransferCallButton = function TransferCallButton(_ref) {
     "data-sign": dataSign,
     "data-icon": "transfer-call",
     title: _i18n["default"].getString('transfer', currentLocale),
-    color: disableTransfer ? 'icon.disabled' : 'icon.dark',
+    color: color,
     className: className,
     shouldPersistBg: disableTransfer
   });

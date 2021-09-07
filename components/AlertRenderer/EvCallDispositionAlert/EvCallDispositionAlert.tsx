@@ -16,10 +16,12 @@ interface HandleMessage {
 }
 
 export default function EvCallDispositionAlert({
-  message: { message },
+  message: { message, payload },
   currentLocale,
 }: EvCallDispositionAlertProps) {
-  return i18n.getString(message, currentLocale);
+  return typeof payload === 'string'
+    ? payload
+    : i18n.getString(message, currentLocale);
 }
 
 EvCallDispositionAlert.handleMessage = ({ message }: HandleMessage): boolean =>

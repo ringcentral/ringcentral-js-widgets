@@ -4,6 +4,7 @@ import { TransferCall } from '@ringcentral/juno/icon';
 
 import i18n from '../i18n';
 import { CallButtonsProps } from './CallButtons.interface';
+import { getIconColor } from './getIconColor';
 
 export type TransferCallButtonProps = CallButtonsProps & {
   isOnTransfer?: boolean;
@@ -21,6 +22,11 @@ export const TransferCallButton: FunctionComponent<TransferCallButtonProps> = ({
   className,
   dataSign,
 }) => {
+  const color = getIconColor({
+    active: false,
+    disable: disableTransfer,
+  });
+
   return (
     <RcIconButton
       ref={transferRef}
@@ -31,7 +37,7 @@ export const TransferCallButton: FunctionComponent<TransferCallButtonProps> = ({
       data-sign={dataSign}
       data-icon="transfer-call"
       title={i18n.getString('transfer', currentLocale)}
-      color={disableTransfer ? 'icon.disabled' : 'icon.dark'}
+      color={color}
       className={className}
       shouldPersistBg={disableTransfer}
     />

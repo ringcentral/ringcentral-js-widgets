@@ -1,5 +1,5 @@
 import { RcIcon } from '@ringcentral/juno';
-import checkSvg from '@ringcentral/juno/icon/Check';
+import { Check } from '@ringcentral/juno/icon';
 import React from 'react';
 
 import { EvActivityCallUIProps } from '../../../interfaces';
@@ -11,11 +11,12 @@ export function getButtonText(
 ) {
   switch (status) {
     case 'saved':
-      return <RcIcon symbol={checkSvg} />;
+      return <RcIcon symbol={Check} />;
     case 'saving':
       return null;
     case 'create':
       return i18n.getString('create', currentLocale);
+    // TODO: should check type
     case 'update':
       return i18n.getString('update', currentLocale);
     case 'submit':

@@ -9,7 +9,7 @@ exports.getButtonText = getButtonText;
 
 var _juno = require("@ringcentral/juno");
 
-var _Check = _interopRequireDefault(require("@ringcentral/juno/icon/Check"));
+var _icon = require("@ringcentral/juno/icon");
 
 var _react = _interopRequireDefault(require("react"));
 
@@ -21,7 +21,7 @@ function getButtonText(status, currentLocale) {
   switch (status) {
     case 'saved':
       return /*#__PURE__*/_react["default"].createElement(_juno.RcIcon, {
-        symbol: _Check["default"]
+        symbol: _icon.Check
       });
 
     case 'saving':
@@ -29,6 +29,7 @@ function getButtonText(status, currentLocale) {
 
     case 'create':
       return _i18n["default"].getString('create', currentLocale);
+    // TODO: should check type
 
     case 'update':
       return _i18n["default"].getString('update', currentLocale);

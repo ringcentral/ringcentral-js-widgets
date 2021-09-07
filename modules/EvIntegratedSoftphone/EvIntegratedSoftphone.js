@@ -1168,12 +1168,12 @@ var EvIntegratedSoftphone = (_dec = (0, _di.Module)({
                 }), {
                   timeout: 2000,
                   onTimeout: function onTimeout(resolve, reject) {
-                    _this7._sendTabManager(_enums.tabManagerEvents.NOTIFY_ACTIVE_TAB_CALL_ACTIVE); // eslint-disable-next-line no-alert
+                    _this7._sendTabManager(_enums.tabManagerEvents.NOTIFY_ACTIVE_TAB_CALL_ACTIVE);
 
-
-                    // eslint-disable-next-line no-alert
-                    alert(_i18n["default"].getString('activeCallTip', _this7._deps.locale.currentLocale));
-                    reject(null);
+                    if ( // eslint-disable-next-line no-alert
+                    window.confirm(_i18n["default"].getString('activeCallTip', _this7._deps.locale.currentLocale))) {
+                      resolve(null);
+                    }
                   }
                 });
 

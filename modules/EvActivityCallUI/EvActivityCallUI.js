@@ -615,7 +615,7 @@ var EvActivityCallUI = (_dec = (0, _di.Module)({
     key: "_submitData",
     value: function () {
       var _submitData2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(id) {
-        var saveFields, _this$getPageRole2, tabManagerEventSuccess, _this$getPageRole3, logTypesEventFailure, initSaveStatus;
+        var saveFields, _this$getPageRole2, tabManagerEventSuccess, _e$error, _e$error2, _this$getPageRole3, logTypesEventFailure, initSaveStatus;
 
         return regeneratorRuntime.wrap(function _callee6$(_context6) {
           while (1) {
@@ -652,7 +652,7 @@ var EvActivityCallUI = (_dec = (0, _di.Module)({
 
                 this._dispositionSuccess();
 
-                _context6.next = 19;
+                _context6.next = 20;
                 break;
 
               case 13:
@@ -662,13 +662,15 @@ var EvActivityCallUI = (_dec = (0, _di.Module)({
 
                 this._deps.alert.danger({
                   message: logTypesEventFailure,
-                  ttl: 0
+                  ttl: 0,
+                  payload: (_context6.t0 === null || _context6.t0 === void 0 ? void 0 : (_e$error = _context6.t0.error) === null || _e$error === void 0 ? void 0 : _e$error.status) === false ? _context6.t0 === null || _context6.t0 === void 0 ? void 0 : (_e$error2 = _context6.t0.error) === null || _e$error2 === void 0 ? void 0 : _e$error2.message : undefined
                 });
 
                 this.changeSavingStatus(initSaveStatus);
-                throw _context6.t0;
+                console.error(_context6.t0);
+                throw new Error("Failed to save log.");
 
-              case 19:
+              case 20:
               case "end":
                 return _context6.stop();
             }

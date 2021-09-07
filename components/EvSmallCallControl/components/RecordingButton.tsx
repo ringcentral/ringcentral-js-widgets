@@ -1,4 +1,4 @@
-import { RcIconButton, RcTooltip } from '@ringcentral/juno';
+import { RcIconButton } from '@ringcentral/juno';
 import React, { FunctionComponent } from 'react';
 import RecordingSvg from '../../../assets/icons/icon-recording.svg';
 import styles from './styles.scss';

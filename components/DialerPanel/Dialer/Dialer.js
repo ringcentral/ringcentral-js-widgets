@@ -46,7 +46,12 @@ var Dialer = function Dialer(_ref) {
     }
   })), /*#__PURE__*/_react["default"].createElement(_styles.DialPadWrapper, null, /*#__PURE__*/_react["default"].createElement(_juno.RcDialPad, {
     "data-sign": "DialPad",
-    sounds: _juno.RcDialerPadSounds
+    sounds: _juno.RcDialerPadSounds,
+    getDialPadButtonProps: function getDialPadButtonProps(v) {
+      return {
+        'data-dial-button': "".concat(v)
+      };
+    }
   })), children));
 };
 

@@ -414,7 +414,6 @@ describe('<ActivityCallLogPanel />', function () {
     });
     expect(wrapper.find('ActiveCallButton')).toHaveLength(1);
     expect(getControlButton('HangUpButton').isExist).toBe(false);
-    expect(wrapper.find('ActiveCallButton').find('button').hasClass('buttonActive')).toBe(true);
     wrapper.find('ActiveCallButton').find('button').simulate('click');
     expect(onActive).toBeCalled();
   });

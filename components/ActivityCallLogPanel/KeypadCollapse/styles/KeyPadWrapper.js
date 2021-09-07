@@ -92,14 +92,14 @@ function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(
 var Wrapper = _juno.styled.div(_templateObject(), function (_ref) {
   var open = _ref.open;
   return open ? '0' : '32px';
-}, (0, _juno.zIndex)('popup'));
+}, (0, _juno.zIndex)('drawer'));
 
 exports.Wrapper = Wrapper;
 
 var Backdrop = _juno.styled.div(_templateObject2(), function (_ref2) {
   var open = _ref2.open;
   return open ? "calc(-100vh - 64px)" : '0';
-}, (0, _juno.setOpacity)((0, _juno.palette2)('bg', 'transparentDark'), '72'));
+}, (0, _juno.setOpacity)((0, _juno.palette2)('neutral', 'b05'), '72'));
 
 exports.Backdrop = Backdrop;
 var StyledCollapse = (0, _juno.styled)(_juno.RcCollapse)(_templateObject3(), function (_ref3) {

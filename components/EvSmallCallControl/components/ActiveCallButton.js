@@ -7,11 +7,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.ActiveCallButton = void 0;
 
+var _juno = require("@ringcentral/juno");
+
 var _ActiveCall = _interopRequireDefault(require("@ringcentral/juno/icon/ActiveCall"));
 
 var _react = _interopRequireDefault(require("react"));
-
-var _CircleIconButton = require("../../CircleIconButton");
 
 var _i18n = _interopRequireDefault(require("../i18n"));
 
@@ -23,14 +23,14 @@ var ActiveCallButton = function ActiveCallButton(_ref) {
       onActive = _ref.onActive,
       size = _ref.size,
       dataSign = _ref.dataSign;
-  return /*#__PURE__*/_react["default"].createElement(_CircleIconButton.CircleIconButton, {
-    dataSign: dataSign,
+  return /*#__PURE__*/_react["default"].createElement(_juno.RcIconButton, {
+    "data-sign": dataSign,
+    color: "interactive.b02",
     symbol: _ActiveCall["default"],
-    title: _i18n["default"].getString('activeCall', currentLocale),
-    onClick: onActive,
-    disabled: disableActive,
     size: size,
-    active: true
+    disabled: disableActive,
+    onClick: onActive,
+    title: _i18n["default"].getString('activeCall', currentLocale)
   });
 };
 
