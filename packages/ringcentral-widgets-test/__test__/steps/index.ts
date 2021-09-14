@@ -24,6 +24,9 @@ export class Step<P = {}, C = {}> extends BaseStep<P, C & Context> {
     get phone() {
       return global.instance.phone;
     },
+    get app() {
+      return global.instance.app;
+    },
     payload: {
       //
     },

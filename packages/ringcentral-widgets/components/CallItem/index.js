@@ -13,6 +13,7 @@ import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { checkShouldHidePhoneNumber } from '../../lib/checkShouldHidePhoneNumber';
+import { checkShouldHideContactUser } from '../../lib/checkShouldHideContactUser';
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import FaxInboundIcon from '../../assets/images/FaxInbound.svg';
 import FaxOutboundIcon from '../../assets/images/FaxOutbound.svg';
@@ -392,6 +393,8 @@ export default class CallItem extends Component {
     const contactMatches = this.getContactMatches();
     const shouldHideNumber =
       enableCDC && checkShouldHidePhoneNumber(phoneNumber, contactMatches);
+    const isContactMatchesHidden =
+      enableCDC && checkShouldHideContactUser(contactMatches);
     const fallbackContactName = this.getFallbackContactName();
     const ringing = isRinging(this.props.call);
     const missed = isInbound(this.props.call) && isMissed(this.props.call);
@@ -402,12 +405,10 @@ export default class CallItem extends Component {
     });
     const isExtension =
       !parsedInfo.hasPlus && parsedInfo.number && parsedInfo.number.length <= 6;
-    const disableClickToSms =
-      shouldHideNumber ||
-      !(
-        onClickToSms &&
-        (isExtension ? internalSmsPermission : outboundSmsPermission)
-      );
+    const disableClickToSms = !(
+      onClickToSms &&
+      (isExtension ? internalSmsPermission : outboundSmsPermission)
+    );
 
     let durationEl = null;
     if (typeof duration === 'undefined') {
@@ -495,45 +496,44 @@ export default class CallItem extends Component {
           </div>
           {extraButton}
         </div>
-        {shouldHideNumber ? null : (
-          <ActionMenu
-            extended={menuExtended}
-            onToggle={this.toggleExtended}
-            currentLocale={currentLocale}
-            onLog={onLogCall && this.logCall}
-            onViewEntity={onViewContact && this.viewSelectedContact}
-            onCreateEntity={onCreateContact && this.createSelectedContact}
-            createEntityTypes={createEntityTypes}
-            hasEntity={!!contactMatches.length}
-            selectedMatchContactType={selectedMatchContactType}
-            onClickToDial={onClickToDial && this.clickToDial}
-            onClickToSms={
-              readTextPermission
-                ? () => this.clickToSms({ countryCode, areaCode })
-                : undefined
-            }
-            phoneNumber={phoneNumber}
-            disableLinks={shouldHideNumber || disableLinks}
-            disableCallButton={disableCallButton}
-            disableClickToDial={disableClickToDial}
-            isLogging={isLogging || this.state.isLogging}
-            isLogged={activityMatches.length > 0}
-            isCreating={this.state.isCreating}
-            addLogTitle={i18n.getString('addLog', currentLocale)}
-            editLogTitle={i18n.getString('editLog', currentLocale)}
-            textTitle={i18n.getString('text', currentLocale)}
-            callTitle={i18n.getString('call', currentLocale)}
-            createEntityTitle={i18n.getString('addEntity', currentLocale)}
-            viewEntityTitle={i18n.getString('viewDetails', currentLocale)}
-            externalViewEntity={externalViewEntity && this.externalViewEntity}
-            externalHasEntity={
-              externalHasEntity && externalHasEntity(this.props.call)
-            }
-            disableClickToSms={disableClickToSms}
-            withAnimation={withAnimation}
-            showChooseEntityModal={showChooseEntityModal}
-          />
-        )}
+        <ActionMenu
+          extended={menuExtended}
+          onToggle={this.toggleExtended}
+          currentLocale={currentLocale}
+          onLog={onLogCall && this.logCall}
+          onViewEntity={onViewContact && this.viewSelectedContact}
+          onCreateEntity={onCreateContact && this.createSelectedContact}
+          createEntityTypes={createEntityTypes}
+          hasEntity={!!contactMatches.length}
+          selectedMatchContactType={selectedMatchContactType}
+          onClickToDial={onClickToDial && this.clickToDial}
+          onClickToSms={
+            readTextPermission
+              ? () => this.clickToSms({ countryCode, areaCode })
+              : undefined
+          }
+          phoneNumber={phoneNumber}
+          disableLinks={disableLinks}
+          shouldHideEntityButton={isContactMatchesHidden}
+          disableCallButton={disableCallButton}
+          disableClickToDial={disableClickToDial}
+          isLogging={isLogging || this.state.isLogging}
+          isLogged={activityMatches.length > 0}
+          isCreating={this.state.isCreating}
+          addLogTitle={i18n.getString('addLog', currentLocale)}
+          editLogTitle={i18n.getString('editLog', currentLocale)}
+          textTitle={i18n.getString('text', currentLocale)}
+          callTitle={i18n.getString('call', currentLocale)}
+          createEntityTitle={i18n.getString('addEntity', currentLocale)}
+          viewEntityTitle={i18n.getString('viewDetails', currentLocale)}
+          externalViewEntity={externalViewEntity && this.externalViewEntity}
+          externalHasEntity={
+            externalHasEntity && externalHasEntity(this.props.call)
+          }
+          disableClickToSms={disableClickToSms}
+          withAnimation={withAnimation}
+          showChooseEntityModal={showChooseEntityModal}
+        />
       </div>
     );
   }

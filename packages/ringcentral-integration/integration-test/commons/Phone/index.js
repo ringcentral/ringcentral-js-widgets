@@ -50,7 +50,7 @@ import RecentCalls from '../../../modules/RecentCalls';
 import RecentMessages from '../../../modules/RecentMessages';
 import RegionSettings from '../../../modules/RegionSettings';
 import Ringout from '../../../modules/Ringout';
-import Softphone from '../../../modules/Softphone';
+import { Softphone } from '../../../modules/Softphone';
 import Storage from '../../../modules/Storage';
 import Subscription from '../../../modules/Subscription';
 import { TabManager } from '../../../modules/TabManager';

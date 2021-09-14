@@ -10,6 +10,9 @@ const outputPath = path.resolve(__dirname, 'src/www');
 const config = {
   mode: 'development',
   entry: './src/app/index.js',
+  node: {
+    fs: 'empty',
+  },
   devServer: {
     contentBase: 'src/www',
     hot: true,

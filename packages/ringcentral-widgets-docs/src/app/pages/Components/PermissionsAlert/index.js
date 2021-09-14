@@ -1,5 +1,5 @@
 import React from 'react';
-import { parse } from 'react-docgen';
+import { parse, resolver } from 'react-docgen';
 import CodeExample from '../../../components/CodeExample';
 import ComponentHeader from '../../../components/ComponentHeader';
 import PropTypeDescription from '../../../components/PropTypeDescription';
@@ -11,7 +11,8 @@ import demoCode from '!raw-loader!./Demo';
 import componentCode from '!raw-loader!@ringcentral-integration/widgets/components/AlertRenderer/PermissionsAlert';
 
 const PermissionsAlertPage = () => {
-  const info = parse(componentCode);
+  const info = parse(componentCode, resolver.findAllComponentDefinitions);
+  console.log(info);
   return (
     <div>
       <ComponentHeader name="PermissionsAlert" description={info.description} />

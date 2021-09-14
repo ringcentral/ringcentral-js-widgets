@@ -257,7 +257,7 @@ export class CallLogSection<T extends Deps = Deps> extends RcModuleV2<T> {
         if (!result) {
           throw new Error('Result is empty');
         }
-        await this._handleSuccess(identify, ...args);
+        this._handleSuccess(identify, { ...args, result });
         return result;
       } catch (e) {
         await this._handleError(identify, ...args);
@@ -348,14 +348,14 @@ export class CallLogSection<T extends Deps = Deps> extends RcModuleV2<T> {
 
   @proxify
   async viewTask(call: Call) {
-    await this._deps.callLogTasks.fetchAndUpdateTask(call);
     this.showLogSection(call.sessionId);
+    await this._deps.callLogTasks.fetchAndUpdateTask(call);
   }
 
   @proxify
   async onNewCall(call: Call) {
-    await this._deps.callLogTasks.fetchAndUpdateTask(call);
     this.handleLogSection(call.sessionId);
+    await this._deps.callLogTasks.fetchAndUpdateTask(call);
   }
 
   @computed((that: CallLogSection) => [

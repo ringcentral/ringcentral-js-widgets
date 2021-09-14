@@ -793,8 +793,8 @@ export class RcVideo extends RcModuleV2<Deps> implements IMeeting {
       {
         ...processedMeeting,
         isMeetingPasswordValid: this.validatePasswordSettings(
-          processedMeeting.meetingPassword ?? this.meeting.meetingPassword,
-          processedMeeting.isMeetingSecret ?? this.meeting.isMeetingSecret,
+          processedMeeting.meetingPassword ?? this.meeting?.meetingPassword,
+          processedMeeting.isMeetingSecret ?? this.meeting?.isMeetingSecret,
         ),
       },
       patch,

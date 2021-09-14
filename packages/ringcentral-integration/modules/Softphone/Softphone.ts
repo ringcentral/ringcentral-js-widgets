@@ -99,9 +99,7 @@ export class Softphone<T extends Deps = Deps> extends RcModuleV2<T> {
 
   @computed(({ callWithJupiterConfig }: Softphone) => [callWithJupiterConfig])
   get jupiterAppName() {
-    return this.callWithJupiterConfig?.name
-      ? `${this.callWithJupiterConfig?.name} App`
-      : null;
+    return this.callWithJupiterConfig?.name ?? null;
   }
 
   // currently we don't have Bt brand uri scheme

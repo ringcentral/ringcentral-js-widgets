@@ -99,6 +99,7 @@ export default class CallsPanel extends React.PureComponent {
       useNewList,
       currentSiteCode,
       isMultipleSiteEnabled,
+      enableCDC,
     } = this.props;
 
     const { contentWidth, contentHeight } = this.state;
@@ -139,6 +140,7 @@ export default class CallsPanel extends React.PureComponent {
         width={contentWidth}
         height={contentHeight}
         useNewList={useNewList}
+        enableCDC={enableCDC}
       />
     ) : (
       <CallList
@@ -222,6 +224,7 @@ CallsPanel.propTypes = {
   phoneTypeRenderer: PropTypes.func,
   phoneSourceNameRenderer: PropTypes.func,
   useNewList: PropTypes.bool,
+  enableCDC: PropTypes.bool,
 };
 
 CallsPanel.defaultProps = {
@@ -252,4 +255,5 @@ CallsPanel.defaultProps = {
   phoneTypeRenderer: undefined,
   phoneSourceNameRenderer: undefined,
   useNewList: false,
+  enableCDC: false,
 };

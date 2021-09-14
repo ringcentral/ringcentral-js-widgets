@@ -63,3 +63,5 @@ alias.json
 */**/junit.xml
 
 */**/html-report
+*/**/jest_html_reporters.html
+*/**/junit-report

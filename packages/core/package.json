@@ -7,7 +7,7 @@
     "lib": "lib"
   },
   "scripts": {
-    "test": "cross-env NODE_ENV=ci yarn jest",
+    "test": "NODE_ENV=ci yarn run-test",
     "build": "yarn gulp build",
     "gulp": "gulp --require @ringcentral-integration/babel-settings/lib/register.js",
     "release": "yarn gulp release"
@@ -35,5 +35,8 @@
     "immer": "^9.0.2",
     "ramda": "^0.27.0",
     "redux": "^4.0.5"
+  },
+  "ci": {
+    "core": "**"
   }
 }

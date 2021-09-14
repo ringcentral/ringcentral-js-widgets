@@ -375,7 +375,7 @@ export const VideoConfig: React.FunctionComponent<VideoConfigProps> = (
               >
                 <RcCheckbox
                   data-sign="usePersonalMeetingId"
-                  disabled={disabled || (showE2EE && meeting.e2ee)}
+                  disabled={isPersonalMeetingDisabled || disabled}
                   size={checkboxSize}
                   checked={meeting.usePersonalMeetingId}
                   onChange={(ev, checked) => {
@@ -466,7 +466,7 @@ export const VideoConfig: React.FunctionComponent<VideoConfigProps> = (
               <RcCheckbox
                 data-sign="e2ee"
                 checked={meeting.e2ee}
-                disabled={isE2EEDisabled}
+                disabled={isE2EEDisabled || disabled}
                 size={checkboxSize}
                 onChange={(ev, value) => {
                   e2eeInteractFunc(value);

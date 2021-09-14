@@ -40,7 +40,7 @@
 }
 .textAreaField {
   width: 100%;
-  
+
   .label {
     width: 100%;
     display: inline-block;
@@ -63,7 +63,7 @@
       box-sizing: border-box;
       border: 0;
       font-size: 12px;
-      color: $lightblack;
+      color: $night;
       resize: none;
 
       &:focus {
@@ -79,7 +79,7 @@
   box-shadow: 0 -1px 4px 0 rgba(0, 0, 0, 0.1);
   margin-top: 4px;
   .sendButton {
-    @include big-submit-button;  
+    @include big-submit-button;
     width: 100%;
   }
 }

@@ -814,8 +814,8 @@ export class RcVideo extends RcModule<Record<string, any>, RcVideoActionTypes> {
       meeting: {
         ...processedMeeting,
         isMeetingPasswordValid: this.validatePasswordSettings(
-          processedMeeting.meetingPassword ?? this.meeting.meetingPassword,
-          processedMeeting.isMeetingSecret ?? this.meeting.isMeetingSecret,
+          processedMeeting.meetingPassword ?? this.meeting?.meetingPassword,
+          processedMeeting.isMeetingSecret ?? this.meeting?.isMeetingSecret,
         ),
       },
       patch,

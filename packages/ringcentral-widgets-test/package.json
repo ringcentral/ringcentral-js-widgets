@@ -12,9 +12,9 @@
   },
   "scripts": {
     "test:crius:dev": "jest --config=crius.config.js",
-    "test:crius": "cross-env NODE_ENV=ci jest --config=crius.config.js",
+    "test:crius": "NODE_ENV=ci jest --config=crius.config.js",
     "debug": "node --inspect ./node_modules/.bin/jest -i",
-    "test": "yarn test:jest && yarn test:crius",
+    "test": "NODE_ENV=ci yarn run-test",
     "test:jest": "jest",
     "test:watch": "yarn test -- --watch",
     "test:coverage": "yarn test --coverage",
@@ -102,6 +102,6 @@
     "react-test-renderer": "^17.0.2"
   },
   "ci": {
-    "ringcentral-js-widgets": "**"
+    "ringcentral-widgets-test": "**"
   }
 }

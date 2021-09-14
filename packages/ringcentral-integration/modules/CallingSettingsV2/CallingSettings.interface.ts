@@ -9,7 +9,7 @@ import { ForwardingNumber } from '../ForwardingNumberV2';
 import { Storage } from '../StorageV2';
 import { TabManager } from '../TabManager';
 import { Webphone } from '../WebphoneV2';
-import { Softphone } from '../SoftphoneV2';
+import { Softphone } from '../Softphone';
 import { ExtensionFeatures } from '../ExtensionFeatures';
 
 export interface Deps {

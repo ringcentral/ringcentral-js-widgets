@@ -7,12 +7,12 @@
   padding: 15px 20px;
   min-height: 30px;
   box-sizing: border-box;
-  background-color: $line-background-color;
+  background-color: $snow;
   border-style: solid;
   border-width: 0;
   border-top-width: 1px;
   border-bottom-width: 0px;
-  border-color: $border-color;
+  border-color: $gray;
   @include primary-font
 }
 

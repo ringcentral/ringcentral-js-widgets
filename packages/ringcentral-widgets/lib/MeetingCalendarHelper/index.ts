@@ -331,7 +331,6 @@ function getBaseRcvTpl(
   }
 
   const shortId = meeting.shortId;
-  const meetingId = meeting.id;
 
   const formattedMsg = formatMessage(meetingContent.join(''), {
     accountName,
@@ -339,8 +338,8 @@ function getBaseRcvTpl(
     joinUri,
     passwordTpl,
     meetingPasswordPSTN,
-    meetingId,
-    pinNumber: formatMeetingId(meeting.shortId),
+    meetingId: shortId,
+    pinNumber: formatMeetingId(shortId),
     teleconference,
     productName,
     dialNumber: formatDialInNumber(dialInNumber),

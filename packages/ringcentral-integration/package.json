@@ -5,7 +5,7 @@
   "main": "build/rc-phone.js",
   "scripts": {
     "test": "yarn quick-test && yarn test:crius",
-    "test:crius": "cross-env NODE_ENV=ci yarn jest",
+    "test:crius": "NODE_ENV=ci yarn run-test",
     "test-no-cache": "jest --no-cache --verbose",
     "quick-test": "yarn gulp quickTest",
     "unit-test": "mocha --compilers js:@ringcentral-integration/babel-settings/lib/register",
@@ -106,6 +106,6 @@
     "yards": "^0.1.4"
   },
   "ci": {
-    "ringcentral-js-widgets": "**"
+    "ringcentral-integration": "**"
   }
 }

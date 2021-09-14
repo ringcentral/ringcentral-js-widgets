@@ -9,8 +9,8 @@ export default {
   rcvInviteMeetingContentCountryDial: "\n\nUm toque para entrar apenas com áudio a partir de um smartphone:\n    {smartphones}\n\nOu marque:\n    {dialNumber}\n    Código de acesso/ID da reunião: {pinNumber} ",
   rcvTeleconference: "\n\nNúmeros internacionais disponíveis: {teleconference} ",
   rcvSipHeader: "\n\nEntre através de SIP:",
-  rcvSipContentWithPwd: "\n    {meetingId}.{meetingPasswordPSTN}@rcv.com\n    Palavra-passe SIP: {meetingPasswordPSTN}",
-  rcvSipContentNoPwd: "\n    {meetingId}@rcv.com",
+  rcvSipContentWithPwd: "\n    {meetingId}.{meetingPasswordPSTN}@sip.rcv.com\n    Palavra-passe SIP: {meetingPasswordPSTN}",
+  rcvSipContentNoPwd: "\n    {meetingId}@sip.rcv.com",
   doNotModify: "===== Não modificar este texto =====",
   password: "\n\nPalavra-passe",
   passwordPstn: "\n\nPalavra-passe de marcação:",
@@ -27,8 +27,8 @@ export default {
 // @key: @#@"rcvInviteMeetingContentCountryDial"@#@ @source: @#@"\n\nOne tap to join audio only from a smartphone:\n    {smartphones}\n\nOr dial:\n    {dialNumber}\n    Access Code / Meeting ID: {pinNumber} "@#@
 // @key: @#@"rcvTeleconference"@#@ @source: @#@"\n\nInternational numbers available: {teleconference} "@#@
 // @key: @#@"rcvSipHeader"@#@ @source: @#@"\n\nJoin by SIP:"@#@
-// @key: @#@"rcvSipContentWithPwd"@#@ @source: @#@"\n    {meetingId}.{meetingPasswordPSTN}@rcv.com\n    SIP password: {meetingPasswordPSTN}\n"@#@
-// @key: @#@"rcvSipContentNoPwd"@#@ @source: @#@"\n    {meetingId}@rcv.com\n"@#@
+// @key: @#@"rcvSipContentWithPwd"@#@ @source: @#@"\n    {meetingId}.{meetingPasswordPSTN}@sip.rcv.com\n    SIP password: {meetingPasswordPSTN}\n"@#@
+// @key: @#@"rcvSipContentNoPwd"@#@ @source: @#@"\n    {meetingId}@sip.rcv.com\n"@#@
 // @key: @#@"doNotModify"@#@ @source: @#@"===== Do not modify this text ====="@#@
 // @key: @#@"password"@#@ @source: @#@"\n\nPassword"@#@
 // @key: @#@"passwordPstn"@#@ @source: @#@"\n\nDial-in password:"@#@

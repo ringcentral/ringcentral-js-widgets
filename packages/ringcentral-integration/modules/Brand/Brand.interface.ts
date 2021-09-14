@@ -1,3 +1,5 @@
+import type { RcThemeSwitcherProviderProps } from '@ringcentral/juno';
+
 export interface CallWithJupiterConfig {
   /**
    * Branded Jupiter call  link
@@ -12,6 +14,55 @@ export interface CallWithJupiterConfig {
    */
   name: string;
 }
+
+/**
+ * css module variables
+ *
+ * ! should not add new variables more, use Juno token please
+ */
+export type CssModuleVariable = {
+  rcBlue?: string;
+  bigRed?: string;
+  darkRed?: string;
+  tomato?: string;
+  orange?: string;
+  leaf?: string;
+  dark?: string;
+  night?: string;
+  ash?: string;
+  coin?: string;
+  smoke?: string;
+  silver?: string;
+  egg?: string;
+  snow?: string;
+  rcOrange?: string;
+  darkergray?: string;
+  darkgray?: string;
+  gray?: string;
+  bggray?: string;
+  lightergray?: string;
+  lightgray?: string;
+  greyLight?: string;
+  missed?: string;
+  active?: string;
+  primaryColor?: string;
+  primaryColorHighlight?: string;
+  primaryColorHighlightSolid?: string;
+  linePanelBackgroundColor?: string;
+  callBtnColor?: string;
+  extensionBackgroundColor?: string;
+  smsBubbleBackgroundColor?: string;
+  brandFontColor?: string;
+  brandFontColorHighlight?: string;
+  jupiterBackgroundColor?: string;
+
+  // project related
+  c2dArrowColor?: string;
+  addMeetingBtnColor?: string;
+  addMeetingBtnTextColor?: string;
+  headerLogoWidth?: string;
+  headerLogoHeight?: string;
+};
 
 export interface BrandConfig {
   /**
@@ -101,13 +152,24 @@ export interface BrandConfig {
    */
   allowRegionSetting?: boolean;
   /**
-   * spartanProtocol
+   * spartan Protocol
    */
-  spartanProtocol: string;
+  spartanProtocol?: string;
   /**
    * Allow JupiterUniversalLink
    */
-  allowJupiterUniversalLink: boolean;
+  allowJupiterUniversalLink?: boolean;
+  /**
+   * theme for `RcThemeProvider`
+   */
+  theme?: RcThemeSwitcherProviderProps & {
+    /**
+     * variable for css module
+     *
+     * * make sure you need update that, all token should always get from Juno theme, prevent to use that
+     */
+    variable?: CssModuleVariable;
+  };
 }
 
 export interface Deps<T extends BrandConfig = BrandConfig> {

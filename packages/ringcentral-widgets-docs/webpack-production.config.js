@@ -11,6 +11,9 @@ const outputPath = path.resolve(__dirname, 'gh-pages');
 const config = {
   mode: 'production',
   entry: './src/app/index.js',
+  node: {
+    fs: 'empty',
+  },
   output: {
     path: outputPath,
     filename: 'index.js',

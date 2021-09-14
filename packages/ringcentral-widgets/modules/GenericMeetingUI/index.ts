@@ -122,8 +122,7 @@ export default class GenericMeetingUI extends RcUIModule {
           Object.keys(
             DISABLE_E2EE_WHEN_RELATED_OPTION_MATCH,
           ) as DisableE2eeWhenRelatedOptionMatch[],
-        ) ||
-        configDisabled);
+        ));
 
     const authUserTypeValue = isOnlyCoworkersJoin
       ? AUTH_USER_TYPE.SIGNED_IN_CO_WORKERS
@@ -186,8 +185,7 @@ export default class GenericMeetingUI extends RcUIModule {
       defaultTopic: this._genericMeeting.ready
         ? this._genericMeeting.defaultTopic
         : '',
-      isPersonalMeetingDisabled:
-        (showE2EE && (meeting as RcVMeetingModel).e2ee) || configDisabled,
+      isPersonalMeetingDisabled: showE2EE && (meeting as RcVMeetingModel).e2ee,
       /* RCV JBH */
       joinBeforeHostLabel: isDelegator
         ? JBH_LABEL.JOIN_AFTER_HOST

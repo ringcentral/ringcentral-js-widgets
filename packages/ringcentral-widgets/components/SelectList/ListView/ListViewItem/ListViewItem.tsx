@@ -82,10 +82,16 @@ export const ListViewItem: FunctionComponent<ListViewItemProps> = ({
         selected={isSelected}
       >
         {startAdornment && startAdornment(type)}
-        {multiple && <RcCheckbox checked={isSelected} />}
+        {multiple && (
+          <RcCheckbox
+            checked={isSelected}
+            data-sign={isSelected ? 'selected' : 'unselected'}
+          />
+        )}
         <RcListItemText
           primary={getFilterResult(option)}
           secondary={secondaryRenderFunction(option)}
+          data-sign="matchedItemText"
         />
       </RcListItem>
     </div>

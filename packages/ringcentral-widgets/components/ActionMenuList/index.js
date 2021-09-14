@@ -312,7 +312,7 @@ export default class ActionMenuList extends Component {
     this.onCloseDeleteModal();
   };
 
-  preventEventPropogation = (e) => {
+  preventEventPropagating = (e) => {
     if (e.target !== e.currentTarget) {
       e.stopPropagation();
     }
@@ -376,7 +376,9 @@ export default class ActionMenuList extends Component {
       disableClickToSms,
       selectedMatchContactType,
       showChooseEntityModal,
+      shouldHideEntityButton,
     } = this.props;
+
     const { deleteModalVisible, disableDelete } = this.state;
     const logButton = onLog ? (
       <LogButton
@@ -393,7 +395,9 @@ export default class ActionMenuList extends Component {
     const isIvrContact = selectedMatchContactType === extensionTypes.ivrMenu;
 
     let entityButton;
-    if (externalViewEntity) {
+    if (shouldHideEntityButton) {
+      entityButton = null;
+    } else if (externalViewEntity) {
       if (externalHasEntity) {
         entityButton = (
           <EntityButton
@@ -542,7 +546,7 @@ export default class ActionMenuList extends Component {
     return (
       <div
         className={classnames(styles.root, className)}
-        onClick={this.preventEventPropogation}
+        onClick={this.preventEventPropagating}
       >
         {clickToDialButton}
         {clickToSmsButton}
@@ -601,6 +605,7 @@ ActionMenuList.propTypes = {
   onFaxDownload: PropTypes.func,
   selectedMatchContactType: PropTypes.string,
   showChooseEntityModal: PropTypes.bool,
+  shouldHideEntityButton: PropTypes.bool,
 };
 ActionMenuList.defaultProps = {
   className: undefined,
@@ -641,4 +646,5 @@ ActionMenuList.defaultProps = {
   onFaxDownload: undefined,
   selectedMatchContactType: '',
   showChooseEntityModal: true,
+  shouldHideEntityButton: false,
 };
