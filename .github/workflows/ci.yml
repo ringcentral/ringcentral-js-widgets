@@ -18,14 +18,67 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: yarn
-      - run: yarn workspace @ringcentral-integration/phone-number test
-      - run: yarn workspace @ringcentral-integration/i18n test
-      - run: yarn workspace @ringcentral-integration/locale-loader test
-      - run: yarn workspace @ringcentral-integration/core test
-      - run: yarn workspace @ringcentral-integration/commons test
-      - run: yarn workspace @ringcentral-integration/widgets test
-      - run: yarn workspace ringcentral-widgets-test test:jest
-
+      - run: yarn workspace @ringcentral-integration/phone-number test --coverage
+      - name: Phone Number Coveralls
+        uses: coverallsapp/github-action@1.1.3
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path-to-lcov: ./packages/phone-number/coverage/lcov.info
+          flag-name: phone-number
+          parallel: true
+      - run: yarn workspace @ringcentral-integration/i18n test --coverage
+      - name: I18n Coveralls
+        uses: coverallsapp/github-action@1.1.3
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path-to-lcov: ./packages/i18n/coverage/lcov.info
+          flag-name: i18n
+          parallel: true
+      - run: yarn workspace @ringcentral-integration/locale-loader test --coverage
+      - name: locale-loader Coveralls
+        uses: coverallsapp/github-action@1.1.3
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path-to-lcov: ./packages/locale-loader/coverage/lcov.info
+          flag-name: locale-loader
+          parallel: true
+      - run: yarn workspace @ringcentral-integration/core test --coverage
+      - name: Core Coveralls
+        uses: coverallsapp/github-action@1.1.3
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path-to-lcov: ./packages/core/coverage/lcov.info
+          flag-name: core
+          parallel: true
+      - run: yarn workspace @ringcentral-integration/commons test --coverage
+      - name: Commons Coveralls
+        uses: coverallsapp/github-action@1.1.3
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path-to-lcov: ./packages/ringcentral-integration/coverage/lcov.info
+          flag-name: commons
+          parallel: true
+      - run: yarn workspace @ringcentral-integration/widgets test --coverage
+      - name: Widgets Coveralls
+        uses: coverallsapp/github-action@1.1.3
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path-to-lcov: ./packages/ringcentral-widgets/coverage/lcov.info
+          flag-name: widgets
+          parallel: true
+      - run: yarn workspace ringcentral-widgets-test test --coverage
+      - name: Widgets Integration Coveralls
+        uses: coverallsapp/github-action@1.1.3
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path-to-lcov: ./packages/ringcentral-widgets-test/coverage/lcov.info
+          flag-name: widgets-integration
+          parallel: true
+      - name: Coveralls
+        uses: coverallsapp/github-action@1.1.3
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          parallel-finished: true
   branch-release:
     needs: tests
     if: ${{ github.ref == 'refs/heads/master' && github.event_name == 'push' }}
