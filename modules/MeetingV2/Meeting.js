@@ -1877,7 +1877,8 @@ var Meeting = (_dec = (0, _di.Module)({
     }()
   }, {
     key: "formatPersonalMeeting",
-    value: function formatPersonalMeeting(meetingInfo, shortId) {
+    value: function formatPersonalMeeting(meetingInfo, shortId // TODO: do we need this param `shortId`?
+    ) {
       var settings = _objectSpread(_objectSpread(_objectSpread({}, this.initialMeetingSetting), meetingInfo), {}, {
         shortId: shortId || meetingInfo.id,
         usePersonalMeetingId: true

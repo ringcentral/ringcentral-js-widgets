@@ -140,7 +140,7 @@ var _RegionSettings = _interopRequireDefault(require("../../../modules/RegionSet
 
 var _Ringout = _interopRequireDefault(require("../../../modules/Ringout"));
 
-var _Softphone = _interopRequireDefault(require("../../../modules/Softphone"));
+var _Softphone = require("../../../modules/Softphone");
 
 var _Storage = _interopRequireDefault(require("../../../modules/Storage"));
 
@@ -201,7 +201,7 @@ var BasePhone = (_dec2 = (0, _di.ModuleFactory)({
     useClass: _Brand.Brand
   }, {
     provide: 'Softphone',
-    useClass: _Softphone["default"]
+    useClass: _Softphone.Softphone
   }, {
     provide: 'Locale',
     useClass: _Locale.Locale

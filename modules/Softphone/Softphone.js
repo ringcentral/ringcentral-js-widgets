@@ -332,7 +332,7 @@ var Softphone = (_dec = (0, _di.Module)({
     get: function get() {
       var _this$callWithJupiter, _this$callWithJupiter2;
 
-      return ((_this$callWithJupiter = this.callWithJupiterConfig) === null || _this$callWithJupiter === void 0 ? void 0 : _this$callWithJupiter.name) ? "".concat((_this$callWithJupiter2 = this.callWithJupiterConfig) === null || _this$callWithJupiter2 === void 0 ? void 0 : _this$callWithJupiter2.name, " App") : null;
+      return (_this$callWithJupiter = (_this$callWithJupiter2 = this.callWithJupiterConfig) === null || _this$callWithJupiter2 === void 0 ? void 0 : _this$callWithJupiter2.name) !== null && _this$callWithJupiter !== void 0 ? _this$callWithJupiter : null;
     } // currently we don't have Bt brand uri scheme
 
   }, {

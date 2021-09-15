@@ -1596,7 +1596,7 @@ var RcVideo = (_dec = (0, _di.Module)({
   }, {
     key: "updateMeetingSettings",
     value: function updateMeetingSettings(meeting) {
-      var _processedMeeting$mee, _processedMeeting$isM;
+      var _processedMeeting$mee, _this$meeting, _processedMeeting$isM, _this$meeting2;
 
       var patch = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
       var processedMeeting = meeting;
@@ -1608,7 +1608,7 @@ var RcVideo = (_dec = (0, _di.Module)({
       this.store.dispatch({
         type: this.actionTypes.updateMeetingSettings,
         meeting: _objectSpread(_objectSpread({}, processedMeeting), {}, {
-          isMeetingPasswordValid: this.validatePasswordSettings((_processedMeeting$mee = processedMeeting.meetingPassword) !== null && _processedMeeting$mee !== void 0 ? _processedMeeting$mee : this.meeting.meetingPassword, (_processedMeeting$isM = processedMeeting.isMeetingSecret) !== null && _processedMeeting$isM !== void 0 ? _processedMeeting$isM : this.meeting.isMeetingSecret)
+          isMeetingPasswordValid: this.validatePasswordSettings((_processedMeeting$mee = processedMeeting.meetingPassword) !== null && _processedMeeting$mee !== void 0 ? _processedMeeting$mee : (_this$meeting = this.meeting) === null || _this$meeting === void 0 ? void 0 : _this$meeting.meetingPassword, (_processedMeeting$isM = processedMeeting.isMeetingSecret) !== null && _processedMeeting$isM !== void 0 ? _processedMeeting$isM : (_this$meeting2 = this.meeting) === null || _this$meeting2 === void 0 ? void 0 : _this$meeting2.isMeetingSecret)
         }),
         patch: patch
       });

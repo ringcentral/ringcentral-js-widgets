@@ -368,17 +368,17 @@ function startWebSocketMockServer() {
         socket.send(JSON.stringify([_objectSpread(_objectSpread({}, _heartbeatResponse["default"][0]), meta), body]));
       } // type: ClientRequest
       else if (meta.type === 'ClientRequest') {
-          switch (meta.path) {
-            case '/restapi/v1.0/subscription':
-              socket.send(JSON.stringify(_subscriptionResponse["default"]));
-              break;
-            // TODO: mock more path here
+        switch (meta.path) {
+          case '/restapi/v1.0/subscription':
+            socket.send(JSON.stringify(_subscriptionResponse["default"]));
+            break;
+          // TODO: mock more path here
 
-            default:
-              console.warn("[WebSocketMockServer] Unmatched ".concat(meta.method || 'GET', " to ").concat(meta.path));
-              break;
-          }
+          default:
+            console.warn("[WebSocketMockServer] Unmatched ".concat(meta.method || 'GET', " to ").concat(meta.path));
+            break;
         }
+      }
     });
   }); // hook WebSocket
 

@@ -93,6 +93,6 @@
     "yards": "^0.1.4"
   },
   "ci": {
-    "ringcentral-js-widgets": "**"
+    "ringcentral-integration": "**"
   }
 }
