@@ -30,6 +30,6 @@
     "xml-js": "^1.6.2"
   },
   "ci": {
-    "ringcentral-js-widgets": "**"
+    "locale-loader": "**"
   }
 }
